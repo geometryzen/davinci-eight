@@ -163,12 +163,12 @@ define(["require", "exports", '../core/Color', '../core', '../checks/mustBeNumbe
             }
             return this;
         };
-        ColorFacet.prototype.setUniforms = function (visitor, canvasId) {
+        ColorFacet.prototype.setUniforms = function (visitor) {
             if (this.uColorName) {
-                visitor.vector3(this.uColorName, this.color.coords, canvasId);
+                visitor.vector3(this.uColorName, this.color.coords);
             }
             if (this.uAlphaName) {
-                visitor.uniform1f(this.uAlphaName, this.a, canvasId);
+                visitor.uniform1f(this.uAlphaName, this.a);
             }
         };
         ColorFacet.PROP_RGB = 'rgb';

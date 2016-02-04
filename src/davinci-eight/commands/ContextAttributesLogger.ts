@@ -29,7 +29,7 @@ export default class ContextAttributesLogger extends Shareable implements IConte
         console.log("preserveDrawingBuffer => " + attributes.preserveDrawingBuffer)
         console.log("stencil               => " + attributes.stencil)
     }
-    contextLost(canvasId: number): void {
+    contextLost(): void {
         // Do nothing.
     }
     destructor(): void {

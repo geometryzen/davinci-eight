@@ -35,7 +35,7 @@ export default class WebGLDisable extends Shareable implements IContextCommand, 
         manager.gl.disable(glCapability(this._capability, manager.gl))
     }
 
-    contextLost(canvasId: number): void {
+    contextLost(): void {
         // do nothing
     }
 

@@ -37,12 +37,12 @@ define(["require", "exports", '../checks/mustBeArray', '../checks/mustBeString',
             mustBeArray_1.default('value', value);
             return this;
         };
-        ReflectionFacetE2.prototype.setUniforms = function (visitor, canvasId) {
+        ReflectionFacetE2.prototype.setUniforms = function (visitor) {
             if (this._normal.modified) {
                 this.matrix.reflection(this._normal);
                 this._normal.modified = false;
             }
-            visitor.mat2(this.name, this.matrix, false, canvasId);
+            visitor.mat2(this.name, this.matrix, false);
         };
         return ReflectionFacetE2;
     })(Shareable_1.default);

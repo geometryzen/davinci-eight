@@ -33,7 +33,7 @@ define(["require", "exports", '../checks/mustBeNumber', '../utils/Shareable'], f
             mustBeNumber_1.default('alpha', this.alpha);
             manager.gl.clearColor(this.red, this.green, this.blue, this.alpha);
         };
-        WebGLClearColor.prototype.contextLost = function (canvasId) {
+        WebGLClearColor.prototype.contextLost = function () {
         };
         return WebGLClearColor;
     })(Shareable_1.default);

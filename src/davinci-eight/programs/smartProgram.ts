@@ -37,11 +37,11 @@ export default function smartProgram(monitors: IContextMonitor[], attributes: { 
         get uuid() {
             return innerProgram.uuid;
         },
-        attributes(canvasId: number) {
-            return innerProgram.attributes(canvasId);
+        attributes() {
+            return innerProgram.attributes();
         },
-        uniforms(canvasId: number) {
-            return innerProgram.uniforms(canvasId);
+        uniforms() {
+            return innerProgram.uniforms();
         },
         get vertexShader() {
             return innerProgram.vertexShader;
@@ -61,56 +61,56 @@ export default function smartProgram(monitors: IContextMonitor[], attributes: { 
         contextGain(manager: IContextProvider) {
             return innerProgram.contextGain(manager);
         },
-        contextLost(canvasId: number) {
-            return innerProgram.contextLost(canvasId);
+        contextLost() {
+            return innerProgram.contextLost();
         },
-        use(canvasId: number) {
-            return innerProgram.use(canvasId);
+        use() {
+            return innerProgram.use();
         },
-        enableAttrib(name: string, canvasId: number) {
-            return innerProgram.enableAttrib(name, canvasId);
+        enableAttrib(name: string) {
+            return innerProgram.enableAttrib(name);
         },
-        disableAttrib(name: string, canvasId: number) {
-            return innerProgram.disableAttrib(name, canvasId);
+        disableAttrib(name: string) {
+            return innerProgram.disableAttrib(name);
         },
-        uniform1f(name: string, x: number, canvasId: number) {
-            return innerProgram.uniform1f(name, x, canvasId);
+        uniform1f(name: string, x: number) {
+            return innerProgram.uniform1f(name, x);
         },
-        uniform2f(name: string, x: number, y: number, canvasId: number) {
-            return innerProgram.uniform2f(name, x, y, canvasId);
+        uniform2f(name: string, x: number, y: number) {
+            return innerProgram.uniform2f(name, x, y);
         },
-        uniform3f(name: string, x: number, y: number, z: number, canvasId: number) {
-            return innerProgram.uniform3f(name, x, y, z, canvasId);
+        uniform3f(name: string, x: number, y: number, z: number) {
+            return innerProgram.uniform3f(name, x, y, z);
         },
-        uniform4f(name: string, x: number, y: number, z: number, w: number, canvasId: number) {
-            return innerProgram.uniform4f(name, x, y, z, w, canvasId);
+        uniform4f(name: string, x: number, y: number, z: number, w: number) {
+            return innerProgram.uniform4f(name, x, y, z, w);
         },
-        mat2(name: string, matrix: Mat2R, transpose: boolean, canvasId: number) {
-            return innerProgram.mat2(name, matrix, transpose, canvasId);
+        mat2(name: string, matrix: Mat2R, transpose: boolean) {
+            return innerProgram.mat2(name, matrix, transpose);
         },
-        mat3(name: string, matrix: Mat3R, transpose: boolean, canvasId: number) {
-            return innerProgram.mat3(name, matrix, transpose, canvasId);
+        mat3(name: string, matrix: Mat3R, transpose: boolean) {
+            return innerProgram.mat3(name, matrix, transpose);
         },
-        mat4(name: string, matrix: Mat4R, transpose: boolean, canvasId: number) {
-            return innerProgram.mat4(name, matrix, transpose, canvasId);
+        mat4(name: string, matrix: Mat4R, transpose: boolean) {
+            return innerProgram.mat4(name, matrix, transpose);
         },
-        vec2(name: string, vector: VectorE2, canvasId: number) {
-            return innerProgram.vec2(name, vector, canvasId);
+        vec2(name: string, vector: VectorE2) {
+            return innerProgram.vec2(name, vector);
         },
-        vec3(name: string, vector: VectorE3, canvasId: number) {
-            return innerProgram.vec3(name, vector, canvasId);
+        vec3(name: string, vector: VectorE3) {
+            return innerProgram.vec3(name, vector);
         },
-        vec4(name: string, vector: VectorE4, canvasId: number) {
-            return innerProgram.vec4(name, vector, canvasId);
+        vec4(name: string, vector: VectorE4) {
+            return innerProgram.vec4(name, vector);
         },
-        vector2(name: string, data: number[], canvasId: number): void {
-            return innerProgram.vector2(name, data, canvasId);
+        vector2(name: string, data: number[]): void {
+            return innerProgram.vector2(name, data);
         },
-        vector3(name: string, data: number[], canvasId: number): void {
-            return innerProgram.vector3(name, data, canvasId);
+        vector3(name: string, data: number[]): void {
+            return innerProgram.vector3(name, data);
         },
-        vector4(name: string, data: number[], canvasId: number): void {
-            return innerProgram.vector4(name, data, canvasId);
+        vector4(name: string, data: number[]): void {
+            return innerProgram.vector4(name, data);
         }
     }
 

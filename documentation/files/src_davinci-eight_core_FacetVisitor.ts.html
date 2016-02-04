@@ -269,20 +269,18 @@ interface FacetVisitor {
      * @method uniform1f
      * @param name {string}
      * @param x {number}
-     * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    uniform1f(name: string, x: number, canvasId: number): void;
+    uniform1f(name: string, x: number): void;
 
     /**
      * @method uniform2f
      * @param name {string}
      * @param x {number}
      * @param y {number}
-     * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    uniform2f(name: string, x: number, y: number, canvasId: number): void;
+    uniform2f(name: string, x: number, y: number): void;
 
     /**
      * @method uniform3f
@@ -290,10 +288,9 @@ interface FacetVisitor {
      * @param x {number}
      * @param y {number}
      * @param z {number}
-     * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    uniform3f(name: string, x: number, y: number, z: number, canvasId: number): void;
+    uniform3f(name: string, x: number, y: number, z: number): void;
 
     /**
      * @method uniform3f
@@ -302,94 +299,84 @@ interface FacetVisitor {
      * @param y {number}
      * @param z {number}
      * @param w {number}
-     * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    uniform4f(name: string, x: number, y: number, z: number, w: number, canvasId: number): void;
+    uniform4f(name: string, x: number, y: number, z: number, w: number): void;
 
     /**
      * @method mat2
      * @param name {string}
      * @param matrix {Mat2R}
      * @param [transpose = false] {boolean}
-     * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    mat2(name: string, matrix: Mat2R, transpose: boolean, canvasId: number): void;
+    mat2(name: string, matrix: Mat2R, transpose: boolean): void;
 
     /**
      * @method mat3
      * @param name {string}
      * @param matrix {Mat3R}
      * @param [transpose = false] {boolean}
-     * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    mat3(name: string, matrix: Mat3R, transpose: boolean, canvasId: number): void;
+    mat3(name: string, matrix: Mat3R, transpose: boolean): void;
 
     /**
      * @method mat4
      * @param name {string}
      * @param matrix {Mat4R}
      * @param [transpose = false] {boolean}
-     * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    mat4(name: string, matrix: Mat4R, transpose: boolean, canvasId: number): void;
+    mat4(name: string, matrix: Mat4R, transpose: boolean): void;
 
     /**
      * @method vec2
      * @param name {string}
      * @param vector {VectorE2}
-     * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    vec2(name: string, vector: VectorE2, canvasId: number): void;
+    vec2(name: string, vector: VectorE2): void;
 
     /**
      * @method vec3
      * @param name {string}
      * @param vector {VectorE3}
-     * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    vec3(name: string, vector: VectorE3, canvasId: number): void;
+    vec3(name: string, vector: VectorE3): void;
 
     /**
      * @method vec4
      * @param name {string}
      * @param vector {VectorE4}
-     * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    vec4(name: string, vector: VectorE4, canvasId: number): void;
+    vec4(name: string, vector: VectorE4): void;
 
     /**
      * @method vector2
      * @param name {string}
      * @param data {number[]}
-     * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    vector2(name: string, data: number[], canvasId: number): void;
+    vector2(name: string, data: number[]): void;
 
     /**
      * @method vector3
      * @param name {string}
      * @param data {number[]}
-     * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    vector3(name: string, data: number[], canvasId: number): void;
+    vector3(name: string, data: number[]): void;
 
     /**
      * @method vector4
      * @param name {string}
      * @param data {number[]}
-     * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    vector4(name: string, data: number[], canvasId: number): void;
+    vector4(name: string, data: number[]): void;
 }
 
 export default FacetVisitor;

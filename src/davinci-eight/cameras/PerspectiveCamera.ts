@@ -80,13 +80,12 @@ export default class PerspectiveCamera extends Shareable implements Perspective,
     /**
      * @method setUniforms
      * @param visitor {FacetVisitor}
-     * @param [canvasId] {number}
      * @return {void}
      */
-    setUniforms(visitor: FacetVisitor, canvasId: number): void {
+    setUniforms(visitor: FacetVisitor): void {
         this.inner.setNear(this.near);
         this.inner.setFar(this.far);
-        this.inner.setUniforms(visitor, canvasId);
+        this.inner.setUniforms(visitor);
     }
 
     /**
@@ -109,19 +108,17 @@ export default class PerspectiveCamera extends Shareable implements Perspective,
 
     /**
      * @method contextLost
-     * @param [canvasId] {number}
      * @return {void}
      */
-    contextLost(canvasId: number): void {
+    contextLost(): void {
         // Do nothing.
     }
 
     /**
      * @method draw
-     * @param [canvasId] {number}
      * @return {void}
      */
-    draw(canvasId: number): void {
+    draw(): void {
         // Do nothing.
     }
 

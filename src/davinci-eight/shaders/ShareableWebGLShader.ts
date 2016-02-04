@@ -28,7 +28,7 @@ export default class ShareableWebGLShader extends Shareable implements IShader {
     contextGain(manager: IContextProvider): void {
 
     }
-    contextLost(canvasId: number): void {
+    contextLost(): void {
 
     }
 }

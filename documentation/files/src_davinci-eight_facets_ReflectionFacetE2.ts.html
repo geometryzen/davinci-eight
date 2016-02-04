@@ -342,15 +342,14 @@ export default class ReflectionFacetE2 extends Shareable implements Facet {
     /**
      * @method setUniforms
      * @param visitor {FacetVisitor}
-     * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    setUniforms(visitor: FacetVisitor, canvasId: number): void {
+    setUniforms(visitor: FacetVisitor): void {
         if (this._normal.modified) {
             this.matrix.reflection(this._normal)
             this._normal.modified = false
         }
-        visitor.mat2(this.name, this.matrix, false, canvasId)
+        visitor.mat2(this.name, this.matrix, false)
     }
 }
 

@@ -103,9 +103,9 @@ define(["require", "exports", 'davinci-eight/cameras/createView', 'davinci-eight
                 far.x = value;
                 updateProjectionMatrix();
             },
-            setUniforms: function (visitor, canvasId) {
-                visitor.mat4(projectionMatrixName, projectionMatrix, false, canvasId);
-                base.setUniforms(visitor, canvasId);
+            setUniforms: function (visitor) {
+                visitor.mat4(projectionMatrixName, projectionMatrix, false);
+                base.setUniforms(visitor);
             }
         };
         return self;

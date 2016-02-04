@@ -20,9 +20,8 @@ import VectorE2 from '../math/VectorE2';
 import VectorE3 from '../math/VectorE3';
 import VectorE4 from '../math/VectorE4';
 
-function consoleWarnDroppedUniform(clazz: string, suffix: string, name: string, canvasId: number) {
+function consoleWarnDroppedUniform(clazz: string, suffix: string, name: string) {
     console.warn(clazz + " dropped uniform" + suffix + " " + name)
-    console.warn("`typeof canvasId` is " + typeof canvasId)
 }
 
 /**
@@ -126,18 +125,17 @@ export default class GraphicsProgram extends Shareable implements IGraphicsProgr
     /**
      * Makes the WebGLProgram associated with the specified canvas the current program for WebGL.
      * @method use
-     * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    use(canvasId: number): void {
+    use(): void {
         if (this.inner) {
-            return this.inner.use(canvasId)
+            return this.inner.use()
         }
         else {
             let async = false
             this.makeReady(async)
             if (this.inner) {
-                return this.inner.use(canvasId)
+                return this.inner.use()
             }
             else {
                 if (core.verbose) {
@@ -150,21 +148,20 @@ export default class GraphicsProgram extends Shareable implements IGraphicsProgr
     /**
      * Returns a map of GLSL attribute name to <code>AttribLocation</code>.
      * @method attributes
-     * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {{[name: string]: AttribLocation}}
      */
-    attributes(canvasId: number): { [name: string]: AttribLocation } {
+    attributes(): { [name: string]: AttribLocation } {
         // FIXME: Why is this called?
         // FIXME: The map should be protected but that is slow
         // FIXME Clear need for performant solution.
         if (this.inner) {
-            return this.inner.attributes(canvasId)
+            return this.inner.attributes()
         }
         else {
             let async = false
             this.makeReady(async)
             if (this.inner) {
-                return this.inner.attributes(canvasId)
+                return this.inner.attributes()
             }
             else {
                 return void 0
@@ -174,18 +171,17 @@ export default class GraphicsProgram extends Shareable implements IGraphicsProgr
 
     /**
      * @method uniforms
-     * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {{[name: string]: UniformLocation}}
      */
-    uniforms(canvasId: number): { [name: string]: UniformLocation } {
+    uniforms(): { [name: string]: UniformLocation } {
         if (this.inner) {
-            return this.inner.uniforms(canvasId)
+            return this.inner.uniforms()
         }
         else {
             let async = false
             this.makeReady(async)
             if (this.inner) {
-                return this.inner.uniforms(canvasId)
+                return this.inner.uniforms()
             }
             else {
                 return void 0
@@ -196,18 +192,17 @@ export default class GraphicsProgram extends Shareable implements IGraphicsProgr
     /**
      * @method enableAttrib
      * @param name {string}
-     * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    enableAttrib(name: string, canvasId: number): void {
+    enableAttrib(name: string): void {
         if (this.inner) {
-            return this.inner.enableAttrib(name, canvasId)
+            return this.inner.enableAttrib(name)
         }
         else {
             let async = false
             this.makeReady(async)
             if (this.inner) {
-                return this.inner.enableAttrib(name, canvasId)
+                return this.inner.enableAttrib(name)
             }
             else {
                 console.warn(this.type + " enableAttrib()")
@@ -218,18 +213,17 @@ export default class GraphicsProgram extends Shareable implements IGraphicsProgr
     /**
      * @method disableAttrib
      * @param name {string}
-     * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    disableAttrib(name: string, canvasId: number) {
+    disableAttrib(name: string) {
         if (this.inner) {
-            return this.inner.disableAttrib(name, canvasId)
+            return this.inner.disableAttrib(name)
         }
         else {
             let async = false
             this.makeReady(async)
             if (this.inner) {
-                return this.inner.disableAttrib(name, canvasId)
+                return this.inner.disableAttrib(name)
             }
             else {
                 console.warn(this.type + " disableAttrib()")
@@ -252,9 +246,9 @@ export default class GraphicsProgram extends Shareable implements IGraphicsProgr
         }
     }
 
-    contextLost(canvasId: number) {
+    contextLost() {
         if (this.inner) {
-            this.inner.contextLost(canvasId)
+            this.inner.contextLost()
         }
     }
 
@@ -264,7 +258,6 @@ export default class GraphicsProgram extends Shareable implements IGraphicsProgr
      * @protected
      */
     protected createGraphicsProgram(): IGraphicsProgram {
-        // FIXME Since we get contextGain by canvas, expect canvasId to be an argument?
         throw new Error("GraphicsProgram createGraphicsProgram method is virtual and should be implemented by " + this.type)
     }
 
@@ -272,23 +265,22 @@ export default class GraphicsProgram extends Shareable implements IGraphicsProgr
      * @method uniform1f
      * @param name {string}
      * @param x {number}
-     * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    uniform1f(name: string, x: number, canvasId: number): void {
+    uniform1f(name: string, x: number): void {
         if (this.inner) {
-            this.inner.uniform1f(name, x, canvasId)
+            this.inner.uniform1f(name, x)
         }
         else {
             let async = false
             let readyPending = this.readyPending
             this.makeReady(async)
             if (this.inner) {
-                this.inner.uniform1f(name, x, canvasId)
+                this.inner.uniform1f(name, x)
             }
             else {
                 if (!readyPending) {
-                    consoleWarnDroppedUniform(this.type, '1f', name, canvasId)
+                    consoleWarnDroppedUniform(this.type, '1f', name)
                 }
             }
         }
@@ -299,23 +291,22 @@ export default class GraphicsProgram extends Shareable implements IGraphicsProgr
      * @param name {string}
      * @param x {number}
      * @param y {number}
-     * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    uniform2f(name: string, x: number, y: number, canvasId: number): void {
+    uniform2f(name: string, x: number, y: number): void {
         if (this.inner) {
-            this.inner.uniform2f(name, x, y, canvasId)
+            this.inner.uniform2f(name, x, y)
         }
         else {
             let async = false
             let readyPending = this.readyPending
             this.makeReady(async)
             if (this.inner) {
-                this.inner.uniform2f(name, x, y, canvasId)
+                this.inner.uniform2f(name, x, y)
             }
             else {
                 if (!readyPending) {
-                    consoleWarnDroppedUniform(this.type, '2f', name, canvasId)
+                    consoleWarnDroppedUniform(this.type, '2f', name)
                 }
             }
         }
@@ -327,23 +318,22 @@ export default class GraphicsProgram extends Shareable implements IGraphicsProgr
      * @param x {number}
      * @param y {number}
      * @param z {number}
-     * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    uniform3f(name: string, x: number, y: number, z: number, canvasId: number): void {
+    uniform3f(name: string, x: number, y: number, z: number): void {
         if (this.inner) {
-            this.inner.uniform3f(name, x, y, z, canvasId)
+            this.inner.uniform3f(name, x, y, z)
         }
         else {
             let async = false
             let readyPending = this.readyPending
             this.makeReady(async)
             if (this.inner) {
-                this.inner.uniform3f(name, x, y, z, canvasId)
+                this.inner.uniform3f(name, x, y, z)
             }
             else {
                 if (!readyPending) {
-                    consoleWarnDroppedUniform(this.type, '3f', name, canvasId)
+                    consoleWarnDroppedUniform(this.type, '3f', name)
                 }
             }
         }
@@ -356,23 +346,22 @@ export default class GraphicsProgram extends Shareable implements IGraphicsProgr
      * @param y {number}
      * @param z {number}
      * @param w {number}
-     * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    uniform4f(name: string, x: number, y: number, z: number, w: number, canvasId: number): void {
+    uniform4f(name: string, x: number, y: number, z: number, w: number): void {
         if (this.inner) {
-            this.inner.uniform4f(name, x, y, z, w, canvasId)
+            this.inner.uniform4f(name, x, y, z, w)
         }
         else {
             let async = false
             let readyPending = this.readyPending
             this.makeReady(async)
             if (this.inner) {
-                this.inner.uniform4f(name, x, y, z, w, canvasId)
+                this.inner.uniform4f(name, x, y, z, w)
             }
             else {
                 if (!readyPending) {
-                    consoleWarnDroppedUniform(this.type, '4f', name, canvasId)
+                    consoleWarnDroppedUniform(this.type, '4f', name)
                 }
             }
         }
@@ -383,23 +372,22 @@ export default class GraphicsProgram extends Shareable implements IGraphicsProgr
      * @param name {string}
      * @param matrix {Mat2R}
      * @param [transpose] {boolean}
-     * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    mat2(name: string, matrix: Mat2R, transpose: boolean, canvasId: number): void {
+    mat2(name: string, matrix: Mat2R, transpose: boolean): void {
         if (this.inner) {
-            this.inner.mat2(name, matrix, transpose, canvasId)
+            this.inner.mat2(name, matrix, transpose)
         }
         else {
             let async = false
             let readyPending = this.readyPending
             this.makeReady(async)
             if (this.inner) {
-                this.inner.mat2(name, matrix, transpose, canvasId)
+                this.inner.mat2(name, matrix, transpose)
             }
             else {
                 if (!readyPending) {
-                    consoleWarnDroppedUniform(this.type, 'Mat2R', name, canvasId)
+                    consoleWarnDroppedUniform(this.type, 'Mat2R', name)
                 }
             }
         }
@@ -410,23 +398,22 @@ export default class GraphicsProgram extends Shareable implements IGraphicsProgr
      * @param name {string}
      * @param matrix {Mat3R}
      * @param [transpose] {boolean}
-     * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    mat3(name: string, matrix: Mat3R, transpose: boolean, canvasId: number): void {
+    mat3(name: string, matrix: Mat3R, transpose: boolean): void {
         if (this.inner) {
-            this.inner.mat3(name, matrix, transpose, canvasId)
+            this.inner.mat3(name, matrix, transpose)
         }
         else {
             let async = false
             let readyPending = this.readyPending
             this.makeReady(async)
             if (this.inner) {
-                this.inner.mat3(name, matrix, transpose, canvasId)
+                this.inner.mat3(name, matrix, transpose)
             }
             else {
                 if (!readyPending) {
-                    consoleWarnDroppedUniform(this.type, 'Mat3R', name, canvasId)
+                    consoleWarnDroppedUniform(this.type, 'Mat3R', name)
                 }
             }
         }
@@ -437,24 +424,23 @@ export default class GraphicsProgram extends Shareable implements IGraphicsProgr
      * @param name {string}
      * @param matrix {Mat4R}
      * @param [transpose] {boolean}
-     * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    mat4(name: string, matrix: Mat4R, transpose: boolean, canvasId: number): void {
+    mat4(name: string, matrix: Mat4R, transpose: boolean): void {
         if (this.inner) {
-            this.inner.mat4(name, matrix, transpose, canvasId)
+            this.inner.mat4(name, matrix, transpose)
         }
         else {
             let async = false
             let readyPending = this.readyPending
             this.makeReady(async)
             if (this.inner) {
-                this.inner.mat4(name, matrix, transpose, canvasId)
+                this.inner.mat4(name, matrix, transpose)
             }
             else {
                 if (!readyPending) {
                     if (core.verbose) {
-                        consoleWarnDroppedUniform(this.type, 'Mat4R', name, canvasId)
+                        consoleWarnDroppedUniform(this.type, 'Mat4R', name)
                     }
                 }
             }
@@ -465,23 +451,22 @@ export default class GraphicsProgram extends Shareable implements IGraphicsProgr
      * @method vec2
      * @param name {string}
      * @param vector {VectorE2}
-     * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    vec2(name: string, vector: VectorE2, canvasId: number): void {
+    vec2(name: string, vector: VectorE2): void {
         if (this.inner) {
-            this.inner.vec2(name, vector, canvasId)
+            this.inner.vec2(name, vector)
         }
         else {
             let async = false
             let readyPending = this.readyPending
             this.makeReady(async)
             if (this.inner) {
-                this.inner.vec2(name, vector, canvasId)
+                this.inner.vec2(name, vector)
             }
             else {
                 if (!readyPending) {
-                    consoleWarnDroppedUniform(this.type, 'VectorE2', name, canvasId)
+                    consoleWarnDroppedUniform(this.type, 'VectorE2', name)
                 }
             }
         }
@@ -491,23 +476,22 @@ export default class GraphicsProgram extends Shareable implements IGraphicsProgr
      * @method vec3
      * @param name {string}
      * @param vector {VectorE3}
-     * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    vec3(name: string, vector: VectorE3, canvasId: number): void {
+    vec3(name: string, vector: VectorE3): void {
         if (this.inner) {
-            this.inner.vec3(name, vector, canvasId)
+            this.inner.vec3(name, vector)
         }
         else {
             let async = false
             let readyPending = this.readyPending
             this.makeReady(async)
             if (this.inner) {
-                this.inner.vec3(name, vector, canvasId)
+                this.inner.vec3(name, vector)
             }
             else {
                 if (!readyPending) {
-                    consoleWarnDroppedUniform(this.type, 'VectorE3', name, canvasId)
+                    consoleWarnDroppedUniform(this.type, 'VectorE3', name)
                 }
             }
         }
@@ -517,23 +501,22 @@ export default class GraphicsProgram extends Shareable implements IGraphicsProgr
      * @method vec4
      * @param name {string}
      * @param vector {VectorE4}
-     * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    vec4(name: string, vector: VectorE4, canvasId: number): void {
+    vec4(name: string, vector: VectorE4): void {
         if (this.inner) {
-            this.inner.vec4(name, vector, canvasId)
+            this.inner.vec4(name, vector)
         }
         else {
             let async = false
             let readyPending = this.readyPending
             this.makeReady(async)
             if (this.inner) {
-                this.inner.vec4(name, vector, canvasId)
+                this.inner.vec4(name, vector)
             }
             else {
                 if (!readyPending) {
-                    consoleWarnDroppedUniform(this.type, 'VectorE4', name, canvasId)
+                    consoleWarnDroppedUniform(this.type, 'VectorE4', name)
                 }
             }
         }
@@ -543,23 +526,22 @@ export default class GraphicsProgram extends Shareable implements IGraphicsProgr
      * @method vector2
      * @param name {string}
      * @param data {number[]}
-     * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    vector2(name: string, data: number[], canvasId: number): void {
+    vector2(name: string, data: number[]): void {
         if (this.inner) {
-            this.inner.vector2(name, data, canvasId)
+            this.inner.vector2(name, data)
         }
         else {
             let async = false
             let readyPending = this.readyPending
             this.makeReady(async)
             if (this.inner) {
-                this.inner.vector2(name, data, canvasId)
+                this.inner.vector2(name, data)
             }
             else {
                 if (!readyPending) {
-                    consoleWarnDroppedUniform(this.type, 'vector2', name, canvasId)
+                    consoleWarnDroppedUniform(this.type, 'vector2', name)
                 }
             }
         }
@@ -569,23 +551,22 @@ export default class GraphicsProgram extends Shareable implements IGraphicsProgr
      * @method vector3
      * @param name {string}
      * @param data {number[]}
-     * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    vector3(name: string, data: number[], canvasId: number): void {
+    vector3(name: string, data: number[]): void {
         if (this.inner) {
-            this.inner.vector3(name, data, canvasId)
+            this.inner.vector3(name, data)
         }
         else {
             let async = false
             let readyPending = this.readyPending
             this.makeReady(async)
             if (this.inner) {
-                this.inner.vector3(name, data, canvasId)
+                this.inner.vector3(name, data)
             }
             else {
                 if (!readyPending) {
-                    consoleWarnDroppedUniform(this.type, 'vector3', name, canvasId)
+                    consoleWarnDroppedUniform(this.type, 'vector3', name)
                 }
             }
         }
@@ -595,23 +576,22 @@ export default class GraphicsProgram extends Shareable implements IGraphicsProgr
      * @method vector4
      * @param name {string}
      * @param data {number[]}
-     * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    vector4(name: string, data: number[], canvasId: number): void {
+    vector4(name: string, data: number[]): void {
         if (this.inner) {
-            this.inner.vector4(name, data, canvasId)
+            this.inner.vector4(name, data)
         }
         else {
             let async = false
             let readyPending = this.readyPending
             this.makeReady(async)
             if (this.inner) {
-                this.inner.vector4(name, data, canvasId)
+                this.inner.vector4(name, data)
             }
             else {
                 if (!readyPending) {
-                    consoleWarnDroppedUniform(this.type, 'vector4', name, canvasId)
+                    consoleWarnDroppedUniform(this.type, 'vector4', name)
                 }
             }
         }

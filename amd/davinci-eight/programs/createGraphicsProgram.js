@@ -1,8 +1,5 @@
-define(["require", "exports", '../scene/MonitorList', '../collections/NumberIUnknownMap', '../utils/uuid4', '../utils/refChange', '../programs/SimpleWebGLProgram'], function (require, exports, MonitorList_1, NumberIUnknownMap_1, uuid4_1, refChange_1, SimpleWebGLProgram_1) {
+define(["require", "exports", '../scene/MonitorList', '../utils/uuid4', '../utils/refChange', '../programs/SimpleWebGLProgram'], function (require, exports, MonitorList_1, uuid4_1, refChange_1, SimpleWebGLProgram_1) {
     var LOGGING_NAME_IMATERIAL = 'IGraphicsProgram';
-    function missingWebGLRenderingContext(method, canvasId) {
-        console.warn(LOGGING_NAME_IMATERIAL + " " + method + " missing WebGLRenderingContext for canvasId => " + canvasId + ". Did you specify the correct canvasId");
-    }
     function createGraphicsProgram(monitors, vertexShader, fragmentShader, attribs) {
         MonitorList_1.default.verify('monitors', monitors, function () { return "createGraphicsProgram"; });
         if (typeof vertexShader !== 'string') {
@@ -12,7 +9,7 @@ define(["require", "exports", '../scene/MonitorList', '../collections/NumberIUnk
             throw new Error("fragmentShader argument must be a string.");
         }
         var refCount = 1;
-        var programsByCanvasId = new NumberIUnknownMap_1.default();
+        var program;
         var uuid = uuid4_1.default().generate();
         var self = {
             get vertexShader() {
@@ -21,14 +18,12 @@ define(["require", "exports", '../scene/MonitorList', '../collections/NumberIUnk
             get fragmentShader() {
                 return fragmentShader;
             },
-            attributes: function (canvasId) {
-                var program = programsByCanvasId.getWeakRef(canvasId);
+            attributes: function () {
                 if (program) {
                     return program.attributes;
                 }
             },
-            uniforms: function (canvasId) {
-                var program = programsByCanvasId.getWeakRef(canvasId);
+            uniforms: function () {
                 if (program) {
                     return program.uniforms;
                 }
@@ -43,49 +38,49 @@ define(["require", "exports", '../scene/MonitorList', '../collections/NumberIUnk
                 refCount--;
                 if (refCount === 0) {
                     MonitorList_1.default.removeContextListener(self, monitors);
-                    programsByCanvasId.release();
+                    if (program) {
+                        program.release();
+                    }
                 }
                 return refCount;
             },
             contextFree: function (manager) {
-                var program = programsByCanvasId.getWeakRef(manager.canvasId);
                 if (program) {
                     program.contextFree(manager);
-                    programsByCanvasId.remove(manager.canvasId);
+                    program = void 0;
                 }
             },
             contextGain: function (manager) {
-                var canvasId = manager.canvasId;
-                if (!programsByCanvasId.exists(canvasId)) {
-                    var sprog = new SimpleWebGLProgram_1.default(manager, vertexShader, fragmentShader, attribs);
-                    programsByCanvasId.putWeakRef(canvasId, sprog);
-                    sprog.contextGain(manager);
+                if (!program) {
+                    program = new SimpleWebGLProgram_1.default(manager, vertexShader, fragmentShader, attribs);
                 }
-                else {
-                    programsByCanvasId.getWeakRef(canvasId).contextGain(manager);
-                }
+                program.contextGain(manager);
             },
-            contextLost: function (canvasId) {
-                var program = programsByCanvasId.getWeakRef(canvasId);
+            contextLost: function () {
                 if (program) {
-                    program.contextLost(canvasId);
-                    programsByCanvasId.remove(canvasId);
+                    program.contextLost();
+                    program = void 0;
                 }
             },
             get uuid() {
                 return uuid;
             },
-            use: function (canvasId) {
-                var program = programsByCanvasId.getWeakRef(canvasId);
+            use: function () {
                 if (program) {
                     program.use();
                 }
-                else {
-                    missingWebGLRenderingContext("use(canvasId => " + canvasId + ")", canvasId);
+            },
+            enableAttrib: function (name) {
+                if (program) {
+                    var attribLoc = program.attributes[name];
+                    if (attribLoc) {
+                        attribLoc.enable();
+                    }
+                    else {
+                    }
                 }
             },
-            enableAttrib: function (name, canvasId) {
-                var program = programsByCanvasId.getWeakRef(canvasId);
+            disableAttrib: function (name) {
                 if (program) {
                     var attribLoc = program.attributes[name];
                     if (attribLoc) {
@@ -95,37 +90,17 @@ define(["require", "exports", '../scene/MonitorList', '../collections/NumberIUnk
                     }
                 }
                 else {
-                    missingWebGLRenderingContext("enableAttrib(name => " + name + ", canvasId => " + canvasId + ")", canvasId);
                 }
             },
-            disableAttrib: function (name, canvasId) {
-                var program = programsByCanvasId.getWeakRef(canvasId);
-                if (program) {
-                    var attribLoc = program.attributes[name];
-                    if (attribLoc) {
-                        attribLoc.enable();
-                    }
-                    else {
-                    }
-                }
-                else {
-                }
-            },
-            uniform1f: function (name, x, canvasId) {
-                var program = programsByCanvasId.getWeakRef(canvasId);
+            uniform1f: function (name, x) {
                 if (program) {
                     var uniformLoc = program.uniforms[name];
                     if (uniformLoc) {
                         uniformLoc.uniform1f(x);
                     }
-                    else {
-                    }
-                }
-                else {
                 }
             },
-            uniform2f: function (name, x, y, canvasId) {
-                var program = programsByCanvasId.getWeakRef(canvasId);
+            uniform2f: function (name, x, y) {
                 if (program) {
                     var uniformLoc = program.uniforms[name];
                     if (uniformLoc) {
@@ -133,8 +108,7 @@ define(["require", "exports", '../scene/MonitorList', '../collections/NumberIUnk
                     }
                 }
             },
-            uniform3f: function (name, x, y, z, canvasId) {
-                var program = programsByCanvasId.getWeakRef(canvasId);
+            uniform3f: function (name, x, y, z) {
                 if (program) {
                     var uniformLoc = program.uniforms[name];
                     if (uniformLoc) {
@@ -142,8 +116,7 @@ define(["require", "exports", '../scene/MonitorList', '../collections/NumberIUnk
                     }
                 }
             },
-            uniform4f: function (name, x, y, z, w, canvasId) {
-                var program = programsByCanvasId.getWeakRef(canvasId);
+            uniform4f: function (name, x, y, z, w) {
                 if (program) {
                     var uniformLoc = program.uniforms[name];
                     if (uniformLoc) {
@@ -151,8 +124,7 @@ define(["require", "exports", '../scene/MonitorList', '../collections/NumberIUnk
                     }
                 }
             },
-            mat2: function (name, matrix, transpose, canvasId) {
-                var program = programsByCanvasId.getWeakRef(canvasId);
+            mat2: function (name, matrix, transpose) {
                 if (program) {
                     var uniformLoc = program.uniforms[name];
                     if (uniformLoc) {
@@ -160,8 +132,7 @@ define(["require", "exports", '../scene/MonitorList', '../collections/NumberIUnk
                     }
                 }
             },
-            mat3: function (name, matrix, transpose, canvasId) {
-                var program = programsByCanvasId.getWeakRef(canvasId);
+            mat3: function (name, matrix, transpose) {
                 if (program) {
                     var uniformLoc = program.uniforms[name];
                     if (uniformLoc) {
@@ -169,8 +140,7 @@ define(["require", "exports", '../scene/MonitorList', '../collections/NumberIUnk
                     }
                 }
             },
-            mat4: function (name, matrix, transpose, canvasId) {
-                var program = programsByCanvasId.getWeakRef(canvasId);
+            mat4: function (name, matrix, transpose) {
                 if (program) {
                     var uniformLoc = program.uniforms[name];
                     if (uniformLoc) {
@@ -178,8 +148,7 @@ define(["require", "exports", '../scene/MonitorList', '../collections/NumberIUnk
                     }
                 }
             },
-            vec2: function (name, vector, canvasId) {
-                var program = programsByCanvasId.getWeakRef(canvasId);
+            vec2: function (name, vector) {
                 if (program) {
                     var uniformLoc = program.uniforms[name];
                     if (uniformLoc) {
@@ -187,8 +156,7 @@ define(["require", "exports", '../scene/MonitorList', '../collections/NumberIUnk
                     }
                 }
             },
-            vec3: function (name, vector, canvasId) {
-                var program = programsByCanvasId.getWeakRef(canvasId);
+            vec3: function (name, vector) {
                 if (program) {
                     var uniformLoc = program.uniforms[name];
                     if (uniformLoc) {
@@ -196,8 +164,7 @@ define(["require", "exports", '../scene/MonitorList', '../collections/NumberIUnk
                     }
                 }
             },
-            vec4: function (name, vector, canvasId) {
-                var program = programsByCanvasId.getWeakRef(canvasId);
+            vec4: function (name, vector) {
                 if (program) {
                     var uniformLoc = program.uniforms[name];
                     if (uniformLoc) {
@@ -205,8 +172,7 @@ define(["require", "exports", '../scene/MonitorList', '../collections/NumberIUnk
                     }
                 }
             },
-            vector2: function (name, data, canvasId) {
-                var program = programsByCanvasId.getWeakRef(canvasId);
+            vector2: function (name, data) {
                 if (program) {
                     var uniformLoc = program.uniforms[name];
                     if (uniformLoc) {
@@ -214,8 +180,7 @@ define(["require", "exports", '../scene/MonitorList', '../collections/NumberIUnk
                     }
                 }
             },
-            vector3: function (name, data, canvasId) {
-                var program = programsByCanvasId.getWeakRef(canvasId);
+            vector3: function (name, data) {
                 if (program) {
                     var uniformLoc = program.uniforms[name];
                     if (uniformLoc) {
@@ -223,8 +188,7 @@ define(["require", "exports", '../scene/MonitorList', '../collections/NumberIUnk
                     }
                 }
             },
-            vector4: function (name, data, canvasId) {
-                var program = programsByCanvasId.getWeakRef(canvasId);
+            vector4: function (name, data) {
                 if (program) {
                     var uniformLoc = program.uniforms[name];
                     if (uniformLoc) {

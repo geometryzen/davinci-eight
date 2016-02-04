@@ -24,8 +24,8 @@ define(["require", "exports", '../checks/mustBeObject', '../checks/mustBeString'
         Vector3Facet.prototype.setProperty = function (name, value) {
             return this;
         };
-        Vector3Facet.prototype.setUniforms = function (visitor, canvasId) {
-            visitor.vec3(this._name, this._vector, canvasId);
+        Vector3Facet.prototype.setUniforms = function (visitor) {
+            visitor.vec3(this._name, this._vector);
         };
         return Vector3Facet;
     })(Shareable_1.default);

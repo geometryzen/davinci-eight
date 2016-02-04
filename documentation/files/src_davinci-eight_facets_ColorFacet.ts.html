@@ -562,15 +562,14 @@ export default class ColorFacet extends Shareable implements Facet, IAnimationTa
     /**
      * @method setUniforms
      * @param visitor {FacetVisitor}
-     * @param [canvasId] {number}
      * @return {void}
      */
-    setUniforms(visitor: FacetVisitor, canvasId: number): void {
+    setUniforms(visitor: FacetVisitor): void {
         if (this.uColorName) {
-            visitor.vector3(this.uColorName, this.color.coords, canvasId)
+            visitor.vector3(this.uColorName, this.color.coords)
         }
         if (this.uAlphaName) {
-            visitor.uniform1f(this.uAlphaName, this.a, canvasId)
+            visitor.uniform1f(this.uAlphaName, this.a)
         }
     }
 }

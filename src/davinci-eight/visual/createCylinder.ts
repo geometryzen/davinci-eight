@@ -105,8 +105,8 @@ export default function(): Cylinder {
         setFacet(name: string, facet: Facet): void {
             drawable.setFacet(name, facet);
         },
-        setUniforms(canvasId: number): void {
-            drawable.setUniforms(canvasId);
+        setUniforms(): void {
+            drawable.setUniforms();
         },
         addRef(): number {
             return drawable.addRef();
@@ -124,8 +124,8 @@ export default function(): Cylinder {
         contextGain(manager: IContextProvider): void {
             return drawable.contextGain(manager);
         },
-        contextLost(canvasId: number): void {
-            return drawable.contextLost(canvasId);
+        contextLost(): void {
+            return drawable.contextLost();
         }
     };
 

@@ -108,13 +108,13 @@ define(["require", "exports", '../cameras/createView', '../math/Mat4R', '../core
                 }
                 return self;
             },
-            setUniforms: function (visitor, canvasId) {
+            setUniforms: function (visitor) {
                 if (matrixNeedsUpdate) {
                     perspectiveMatrix_1.default(fov.x, aspect.x, near.x, far.x, projectionMatrix);
                     matrixNeedsUpdate = false;
                 }
-                visitor.mat4(projectionMatrixName, projectionMatrix, false, canvasId);
-                base.setUniforms(visitor, canvasId);
+                visitor.mat4(projectionMatrixName, projectionMatrix, false);
+                base.setUniforms(visitor);
             }
         };
         return self;

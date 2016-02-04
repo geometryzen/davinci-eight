@@ -42,7 +42,7 @@ export default class PointSizeFacet extends Shareable implements Facet {
         mustBeArray('value', value, contextBuilder);
         return this;
     }
-    setUniforms(visitor: FacetVisitor, canvasId: number): void {
-        visitor.uniform1f(GraphicsProgramSymbols.UNIFORM_POINT_SIZE, this.pointSize, canvasId)
+    setUniforms(visitor: FacetVisitor): void {
+        visitor.uniform1f(GraphicsProgramSymbols.UNIFORM_POINT_SIZE, this.pointSize)
     }
 }

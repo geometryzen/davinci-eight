@@ -1,4 +1,3 @@
-import ContextUnique from '../core/ContextUnique';
 import IContextConsumer from '../core/IContextConsumer';
 import IUnknown from '../core/IUnknown';
 
@@ -8,7 +7,7 @@ import IUnknown from '../core/IUnknown';
  * @extends ContextUnique
  * @extends IUnknown
  */
-interface IContextMonitor extends ContextUnique, IUnknown {
+interface IContextMonitor extends IUnknown {
     /**
      *
      */

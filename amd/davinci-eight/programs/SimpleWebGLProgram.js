@@ -21,12 +21,11 @@ define(["require", "exports", '../core/AttribLocation', '../programs/makeWebGLPr
         }
         SimpleWebGLProgram.prototype.destructor = function () {
             var context = this.context;
-            var canvasId = context.canvasId;
             if (this.program) {
                 var gl = context.gl;
                 if (gl) {
                     if (gl.isContextLost()) {
-                        this.contextLost(canvasId);
+                        this.contextLost();
                     }
                     else {
                         this.contextFree(context);
@@ -39,6 +38,7 @@ define(["require", "exports", '../core/AttribLocation', '../programs/makeWebGLPr
             context.removeContextListener(this);
             this.context.release();
             this.context = void 0;
+            _super.prototype.destructor.call(this);
         };
         SimpleWebGLProgram.prototype.contextGain = function (manager) {
             var context = this.context;

@@ -376,9 +376,9 @@ export default function createFrustum(viewMatrixName: string, projectionMatrixNa
             far.x = value;
             updateProjectionMatrix();
         },
-        setUniforms(visitor: FacetVisitor, canvasId: number) {
-            visitor.mat4(projectionMatrixName, projectionMatrix, false, canvasId);
-            base.setUniforms(visitor, canvasId);
+        setUniforms(visitor: FacetVisitor) {
+            visitor.mat4(projectionMatrixName, projectionMatrix, false);
+            base.setUniforms(visitor);
         }
     };
 

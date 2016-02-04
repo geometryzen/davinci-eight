@@ -7414,14 +7414,14 @@ define('davinci-eight/cameras/createView',["require", "exports", '../math/Euclid
                 up.direction();
                 return self;
             },
-            setUniforms: function (visitor, canvasId) {
+            setUniforms: function (visitor) {
                 if (eye.modified || look.modified || up.modified) {
                     viewMatrix_1.default(eye, look, up, viewMatrix);
                     eye.modified = false;
                     look.modified = false;
                     up.modified = false;
                 }
-                visitor.mat4(viewMatrixName, viewMatrix, false, canvasId);
+                visitor.mat4(viewMatrixName, viewMatrix, false);
             }
         };
         return self;
@@ -7775,9 +7775,9 @@ define('davinci-eight/cameras/createFrustum',["require", "exports", 'davinci-eig
                 far.x = value;
                 updateProjectionMatrix();
             },
-            setUniforms: function (visitor, canvasId) {
-                visitor.mat4(projectionMatrixName, projectionMatrix, false, canvasId);
-                base.setUniforms(visitor, canvasId);
+            setUniforms: function (visitor) {
+                visitor.mat4(projectionMatrixName, projectionMatrix, false);
+                base.setUniforms(visitor);
             }
         };
         return self;
@@ -7960,13 +7960,13 @@ define('davinci-eight/cameras/createPerspective',["require", "exports", '../came
                 }
                 return self;
             },
-            setUniforms: function (visitor, canvasId) {
+            setUniforms: function (visitor) {
                 if (matrixNeedsUpdate) {
                     perspectiveMatrix_1.default(fov.x, aspect.x, near.x, far.x, projectionMatrix);
                     matrixNeedsUpdate = false;
                 }
-                visitor.mat4(projectionMatrixName, projectionMatrix, false, canvasId);
-                base.setUniforms(visitor, canvasId);
+                visitor.mat4(projectionMatrixName, projectionMatrix, false);
+                base.setUniforms(visitor);
             }
         };
         return self;
@@ -7997,18 +7997,18 @@ define('davinci-eight/cameras/PerspectiveCamera',["require", "exports", '../came
         }
         PerspectiveCamera.prototype.destructor = function () {
         };
-        PerspectiveCamera.prototype.setUniforms = function (visitor, canvasId) {
+        PerspectiveCamera.prototype.setUniforms = function (visitor) {
             this.inner.setNear(this.near);
             this.inner.setFar(this.far);
-            this.inner.setUniforms(visitor, canvasId);
+            this.inner.setUniforms(visitor);
         };
         PerspectiveCamera.prototype.contextFree = function (manager) {
         };
         PerspectiveCamera.prototype.contextGain = function (manager) {
         };
-        PerspectiveCamera.prototype.contextLost = function (canvasId) {
+        PerspectiveCamera.prototype.contextLost = function () {
         };
-        PerspectiveCamera.prototype.draw = function (canvasId) {
+        PerspectiveCamera.prototype.draw = function () {
         };
         PerspectiveCamera.prototype.getProperty = function (name) {
             mustBeString_1.default('name', name);
@@ -8206,7 +8206,7 @@ define('davinci-eight/commands/WebGLBlendFunc',["require", "exports", '../comman
         WebGLBlendFunc.prototype.contextGain = function (manager) {
             this.execute(manager.gl);
         };
-        WebGLBlendFunc.prototype.contextLost = function (canvasId) {
+        WebGLBlendFunc.prototype.contextLost = function () {
         };
         WebGLBlendFunc.prototype.execute = function (gl) {
             gl.blendFunc(factor(this.sfactor, gl), factor(this.dfactor, gl));
@@ -8257,7 +8257,7 @@ define('davinci-eight/commands/WebGLClearColor',["require", "exports", '../check
             mustBeNumber_1.default('alpha', this.alpha);
             manager.gl.clearColor(this.red, this.green, this.blue, this.alpha);
         };
-        WebGLClearColor.prototype.contextLost = function (canvasId) {
+        WebGLClearColor.prototype.contextLost = function () {
         };
         return WebGLClearColor;
     })(Shareable_1.default);
@@ -8319,7 +8319,7 @@ define('davinci-eight/commands/WebGLDisable',["require", "exports", '../commands
         WebGLDisable.prototype.contextGain = function (manager) {
             manager.gl.disable(glCapability_1.default(this._capability, manager.gl));
         };
-        WebGLDisable.prototype.contextLost = function (canvasId) {
+        WebGLDisable.prototype.contextLost = function () {
         };
         WebGLDisable.prototype.destructor = function () {
             this._capability = void 0;
@@ -8348,7 +8348,7 @@ define('davinci-eight/commands/WebGLEnable',["require", "exports", '../commands/
         WebGLEnable.prototype.contextGain = function (manager) {
             manager.gl.enable(glCapability_1.default(this._capability, manager.gl));
         };
-        WebGLEnable.prototype.contextLost = function (canvasId) {
+        WebGLEnable.prototype.contextLost = function () {
         };
         WebGLEnable.prototype.destructor = function () {
             this._capability = void 0;
@@ -12378,17 +12378,17 @@ define('davinci-eight/scene/Drawable',["require", "exports", '../i18n/readOnly',
             this._facets = void 0;
             _super.prototype.destructor.call(this);
         };
-        Drawable.prototype.draw = function (canvasId) {
+        Drawable.prototype.draw = function () {
             var program = this._graphicsProgram;
-            program.use(canvasId);
-            this.setUniforms(canvasId);
-            this._graphicsBuffers.draw(program, canvasId);
+            program.use();
+            this.setUniforms();
+            this._graphicsBuffers.draw(program);
         };
-        Drawable.prototype.setUniforms = function (canvasId) {
+        Drawable.prototype.setUniforms = function () {
             var _this = this;
             var facets = this._facets;
             facets.forEach(function (name, facet) {
-                facet.setUniforms(_this._graphicsProgram, canvasId);
+                facet.setUniforms(_this._graphicsProgram);
             });
         };
         Drawable.prototype.contextFree = function (manager) {
@@ -12399,9 +12399,9 @@ define('davinci-eight/scene/Drawable',["require", "exports", '../i18n/readOnly',
             this._graphicsBuffers.contextGain(manager);
             this._graphicsProgram.contextGain(manager);
         };
-        Drawable.prototype.contextLost = function (canvasId) {
-            this._graphicsBuffers.contextLost(canvasId);
-            this._graphicsProgram.contextLost(canvasId);
+        Drawable.prototype.contextLost = function () {
+            this._graphicsBuffers.contextLost();
+            this._graphicsProgram.contextLost();
         };
         Drawable.prototype.getFacet = function (name) {
             return this._facets.get(name);
@@ -12566,81 +12566,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/collections/NumberIUnknownMap',["require", "exports", '../utils/Shareable'], function (require, exports, Shareable_1) {
-    var LOGGING_NAME = 'NumberIUnknownMap';
-    var NumberIUnknownMap = (function (_super) {
-        __extends(NumberIUnknownMap, _super);
-        function NumberIUnknownMap() {
-            _super.call(this, LOGGING_NAME);
-            this._elements = {};
-        }
-        NumberIUnknownMap.prototype.destructor = function () {
-            this.forEach(function (key, value) {
-                if (value) {
-                    value.release();
-                }
-            });
-            this._elements = void 0;
-        };
-        NumberIUnknownMap.prototype.exists = function (key) {
-            var element = this._elements[key];
-            return element ? true : false;
-        };
-        NumberIUnknownMap.prototype.get = function (key) {
-            var element = this.getWeakRef(key);
-            if (element) {
-                element.addRef();
-            }
-            return element;
-        };
-        NumberIUnknownMap.prototype.getWeakRef = function (index) {
-            return this._elements[index];
-        };
-        NumberIUnknownMap.prototype.put = function (key, value) {
-            if (value) {
-                value.addRef();
-            }
-            this.putWeakRef(key, value);
-        };
-        NumberIUnknownMap.prototype.putWeakRef = function (key, value) {
-            var elements = this._elements;
-            var existing = elements[key];
-            if (existing) {
-                existing.release();
-            }
-            elements[key] = value;
-        };
-        NumberIUnknownMap.prototype.forEach = function (callback) {
-            var keys = this.keys;
-            for (var i = 0, iLength = keys.length; i < iLength; i++) {
-                var key = keys[i];
-                var value = this._elements[key];
-                callback(key, value);
-            }
-        };
-        Object.defineProperty(NumberIUnknownMap.prototype, "keys", {
-            get: function () {
-                return Object.keys(this._elements).map(function (keyString) { return parseFloat(keyString); });
-            },
-            enumerable: true,
-            configurable: true
-        });
-        NumberIUnknownMap.prototype.remove = function (key) {
-            this.put(key, void 0);
-            delete this._elements[key];
-        };
-        return NumberIUnknownMap;
-    })(Shareable_1.default);
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = NumberIUnknownMap;
-});
-
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-define('davinci-eight/scene/Scene',["require", "exports", '../core', '../collections/IUnknownArray', '../scene/MonitorList', '../checks/mustBeArray', '../checks/mustBeFunction', '../checks/mustBeNumber', '../checks/mustBeObject', '../checks/mustBeString', '../collections/NumberIUnknownMap', '../utils/Shareable'], function (require, exports, core_1, IUnknownArray_1, MonitorList_1, mustBeArray_1, mustBeFunction_1, mustBeNumber_1, mustBeObject_1, mustBeString_1, NumberIUnknownMap_1, Shareable_1) {
+define('davinci-eight/scene/Scene',["require", "exports", '../core', '../collections/IUnknownArray', '../scene/MonitorList', '../checks/mustBeArray', '../checks/mustBeFunction', '../checks/mustBeObject', '../checks/mustBeString', '../utils/Shareable'], function (require, exports, core_1, IUnknownArray_1, MonitorList_1, mustBeArray_1, mustBeFunction_1, mustBeObject_1, mustBeString_1, Shareable_1) {
     var LOGGING_NAME = 'Scene';
     function ctorContext() {
         return LOGGING_NAME + " constructor";
@@ -12650,7 +12576,6 @@ define('davinci-eight/scene/Scene',["require", "exports", '../core', '../collect
         function Scene(monitors) {
             if (monitors === void 0) { monitors = []; }
             _super.call(this, LOGGING_NAME);
-            this._canvasIdToManager = new NumberIUnknownMap_1.default();
             mustBeArray_1.default('monitors', monitors);
             MonitorList_1.default.verify('monitors', monitors, ctorContext);
             this.monitors = new MonitorList_1.default(monitors);
@@ -12661,7 +12586,6 @@ define('davinci-eight/scene/Scene',["require", "exports", '../core', '../collect
         Scene.prototype.destructor = function () {
             this.monitors.removeContextListener(this);
             this.monitors.release();
-            this._canvasIdToManager.release();
             this._drawables.release();
             _super.prototype.destructor.call(this);
         };
@@ -12675,30 +12599,27 @@ define('davinci-eight/scene/Scene',["require", "exports", '../core', '../collect
         };
         Scene.prototype.add = function (drawable) {
             mustBeObject_1.default('drawable', drawable);
-            this._canvasIdToManager.forEach(function (id, manager) {
-                drawable.contextGain(manager);
-            });
             this._drawables.push(drawable);
         };
         Scene.prototype.containsDrawable = function (drawable) {
             mustBeObject_1.default('drawable', drawable);
             return this._drawables.indexOf(drawable) >= 0;
         };
-        Scene.prototype.draw = function (ambients, canvasId) {
+        Scene.prototype.draw = function (ambients) {
             for (var i = 0; i < this._drawables.length; i++) {
                 var drawable = this._drawables.getWeakRef(i);
                 var graphicsProgram = drawable.graphicsProgram;
-                graphicsProgram.use(canvasId);
+                graphicsProgram.use();
                 if (ambients) {
                     var aLength = ambients.length;
                     for (var a = 0; a < aLength; a++) {
                         var ambient = ambients[a];
-                        ambient.setUniforms(graphicsProgram, canvasId);
+                        ambient.setUniforms(graphicsProgram);
                     }
                 }
-                drawable.setUniforms(canvasId);
+                drawable.setUniforms();
                 var buffers = drawable.graphicsBuffers;
-                buffers.draw(graphicsProgram, canvasId);
+                buffers.draw(graphicsProgram);
                 buffers.release();
                 graphicsProgram.release();
             }
@@ -12737,25 +12658,17 @@ define('davinci-eight/scene/Scene',["require", "exports", '../core', '../collect
                 var drawable = this._drawables.getWeakRef(i);
                 drawable.contextFree(manager);
             }
-            this._canvasIdToManager.remove(manager.canvasId);
         };
         Scene.prototype.contextGain = function (manager) {
-            if (!this._canvasIdToManager.exists(manager.canvasId)) {
-                this._canvasIdToManager.put(manager.canvasId, manager);
-            }
             for (var i = 0; i < this._drawables.length; i++) {
                 var drawable = this._drawables.getWeakRef(i);
                 drawable.contextGain(manager);
             }
         };
-        Scene.prototype.contextLost = function (canvasId) {
-            mustBeNumber_1.default('canvasId', canvasId);
-            if (this._canvasIdToManager.exists(canvasId)) {
-                this._canvasIdToManager.remove(canvasId);
-            }
+        Scene.prototype.contextLost = function () {
             for (var i = 0; i < this._drawables.length; i++) {
                 var drawable = this._drawables.getWeakRef(i);
-                drawable.contextLost(canvasId);
+                drawable.contextLost();
             }
         };
         return Scene;
@@ -12822,15 +12735,10 @@ define('davinci-eight/core/BufferResource',["require", "exports", '../checks/isD
             }
         };
         BufferResource.prototype.contextGain = function (manager) {
-            if (this.manager.canvasId === manager.canvasId) {
-                if (!this._buffer) {
-                    this._buffer = manager.gl.createBuffer();
-                }
-                else {
-                }
+            if (!this._buffer) {
+                this._buffer = manager.gl.createBuffer();
             }
             else {
-                console.warn("BufferResource ignoring contextGain for canvasId " + manager.canvasId);
             }
         };
         BufferResource.prototype.contextLost = function () {
@@ -12884,17 +12792,6 @@ define('davinci-eight/renderers/initWebGL',["require", "exports", '../checks/isD
     }
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = initWebGL;
-});
-
-define('davinci-eight/utils/randumbInteger',["require", "exports"], function (require, exports) {
-    function randumbInteger() {
-        var r = Math.random();
-        var s = r * 1000000;
-        var i = Math.round(s);
-        return i;
-    }
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = randumbInteger;
 });
 
 define('davinci-eight/resources/TextureResource',["require", "exports", '../checks/expectArg', '../utils/refChange', '../utils/uuid4'], function (require, exports, expectArg_1, refChange_1, uuid4_1) {
@@ -12972,7 +12869,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/scene/WebGLRenderer',["require", "exports", '../core/BufferResource', '../commands/Capability', '../core/DrawMode', '../core', '../checks/expectArg', '../collections/IUnknownArray', '../renderers/initWebGL', '../checks/isDefined', '../checks/isUndefined', '../checks/mustBeArray', '../checks/mustBeDefined', '../checks/mustBeInteger', '../checks/mustBeNumber', '../checks/mustBeObject', '../checks/mustBeString', '../utils/randumbInteger', '../i18n/readOnly', '../utils/Shareable', '../collections/StringIUnknownMap', '../resources/TextureResource', '../commands/WebGLClearColor', '../commands/WebGLEnable', '../commands/WebGLDisable'], function (require, exports, BufferResource_1, Capability_1, DrawMode_1, core_1, expectArg_1, IUnknownArray_1, initWebGL_1, isDefined_1, isUndefined_1, mustBeArray_1, mustBeDefined_1, mustBeInteger_1, mustBeNumber_1, mustBeObject_1, mustBeString_1, randumbInteger_1, readOnly_1, Shareable_1, StringIUnknownMap_1, TextureResource_1, WebGLClearColor_1, WebGLEnable_1, WebGLDisable_1) {
+define('davinci-eight/scene/WebGLRenderer',["require", "exports", '../core/BufferResource', '../commands/Capability', '../core/DrawMode', '../core', '../checks/expectArg', '../collections/IUnknownArray', '../renderers/initWebGL', '../checks/isDefined', '../checks/isUndefined', '../checks/mustBeArray', '../checks/mustBeDefined', '../checks/mustBeInteger', '../checks/mustBeNumber', '../checks/mustBeObject', '../checks/mustBeString', '../i18n/readOnly', '../utils/Shareable', '../collections/StringIUnknownMap', '../resources/TextureResource', '../commands/WebGLClearColor', '../commands/WebGLEnable', '../commands/WebGLDisable'], function (require, exports, BufferResource_1, Capability_1, DrawMode_1, core_1, expectArg_1, IUnknownArray_1, initWebGL_1, isDefined_1, isUndefined_1, mustBeArray_1, mustBeDefined_1, mustBeInteger_1, mustBeNumber_1, mustBeObject_1, mustBeString_1, readOnly_1, Shareable_1, StringIUnknownMap_1, TextureResource_1, WebGLClearColor_1, WebGLEnable_1, WebGLDisable_1) {
     function isBufferUsage(usage) {
         mustBeNumber_1.default('usage', usage);
         switch (usage) {
@@ -13112,8 +13009,8 @@ define('davinci-eight/scene/WebGLRenderer',["require", "exports", '../core/Buffe
             return aName;
         }
     }
-    function bindProgramAttribLocations(program, block, aNameToKeyName, canvasId) {
-        var attribLocations = program.attributes(canvasId);
+    function bindProgramAttribLocations(program, block, aNameToKeyName) {
+        var attribLocations = program.attributes();
         if (attribLocations) {
             var aNames = Object.keys(attribLocations);
             for (var i = 0, iLength = aNames.length; i < iLength; i++) {
@@ -13140,8 +13037,8 @@ define('davinci-eight/scene/WebGLRenderer',["require", "exports", '../core/Buffe
             console.warn("program.attributes is falsey.");
         }
     }
-    function unbindProgramAttribLocations(program, canvasId) {
-        var attribLocations = program.attributes(canvasId);
+    function unbindProgramAttribLocations(program) {
+        var attribLocations = program.attributes();
         if (attribLocations) {
             var aNames = Object.keys(attribLocations);
             for (var i = 0, iLength = aNames.length; i < iLength; i++) {
@@ -13154,9 +13051,8 @@ define('davinci-eight/scene/WebGLRenderer',["require", "exports", '../core/Buffe
     }
     var BufferGeometry = (function (_super) {
         __extends(BufferGeometry, _super);
-        function BufferGeometry(canvasId, gl, blocks) {
+        function BufferGeometry(gl, blocks) {
             _super.call(this, 'BufferGeometry');
-            this.canvasId = canvasId;
             this._blocks = blocks;
             this._blocks.addRef();
             this.gl = gl;
@@ -13178,7 +13074,7 @@ define('davinci-eight/scene/WebGLRenderer',["require", "exports", '../core/Buffe
                         this._program = program;
                         this._program.addRef();
                         block.bind();
-                        bindProgramAttribLocations(this._program, block, aNameToKeyName, this.canvasId);
+                        bindProgramAttribLocations(this._program, block, aNameToKeyName);
                     }
                     else {
                         mustBeObject_1.default('program', program);
@@ -13203,7 +13099,7 @@ define('davinci-eight/scene/WebGLRenderer',["require", "exports", '../core/Buffe
                 var block = this._blocks.getWeakRef(this.uuid);
                 if (block) {
                     block.unbind();
-                    unbindProgramAttribLocations(this._program, this.canvasId);
+                    unbindProgramAttribLocations(this._program);
                 }
                 else {
                     throw new Error(messageUnrecognizedMesh(this.uuid));
@@ -13230,7 +13126,7 @@ define('davinci-eight/scene/WebGLRenderer',["require", "exports", '../core/Buffe
                     event.preventDefault();
                     _this._gl = void 0;
                     _this._users.forEach(function (user) {
-                        user.contextLost(_this._canvasId);
+                        user.contextLost();
                     });
                 }
             };
@@ -13266,22 +13162,12 @@ define('davinci-eight/scene/WebGLRenderer',["require", "exports", '../core/Buffe
         Object.defineProperty(WebGLRenderer.prototype, "canvas", {
             get: function () {
                 if (!this._canvas) {
-                    this.start(document.createElement('canvas'), randumbInteger_1.default());
+                    this.start(document.createElement('canvas'));
                 }
                 return this._canvas;
             },
             set: function (canvas) {
                 throw new Error(readOnly_1.default('canvas').message);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(WebGLRenderer.prototype, "canvasId", {
-            get: function () {
-                return this._canvasId;
-            },
-            set: function (unused) {
-                throw new Error(readOnly_1.default('canvasId').message);
             },
             enumerable: true,
             configurable: true
@@ -13311,9 +13197,9 @@ define('davinci-eight/scene/WebGLRenderer',["require", "exports", '../core/Buffe
                 command.contextGain(manager);
             });
         };
-        WebGLRenderer.prototype.contextLost = function (canvasId) {
+        WebGLRenderer.prototype.contextLost = function () {
             this._commands.forEach(function (command) {
-                command.contextLost(canvasId);
+                command.contextLost();
             });
         };
         WebGLRenderer.prototype.createArrayBuffer = function () {
@@ -13336,7 +13222,7 @@ define('davinci-eight/scene/WebGLRenderer',["require", "exports", '../core/Buffe
                 }
                 return void 0;
             }
-            var mesh = new BufferGeometry(this._canvasId, this._gl, this._blocks);
+            var mesh = new BufferGeometry(this._gl, this._blocks);
             var indexBuffer = this.createElementArrayBuffer();
             indexBuffer.bind();
             if (isDefined_1.default(this._gl)) {
@@ -13414,14 +13300,14 @@ define('davinci-eight/scene/WebGLRenderer',["require", "exports", '../core/Buffe
             var gl = this._gl;
             if (gl) {
                 gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-                return drawList.draw(ambients, this._canvasId);
+                return drawList.draw(ambients);
             }
         };
         WebGLRenderer.prototype.viewport = function (x, y, width, height) {
             this._gl.viewport(x, y, width, height);
             return this;
         };
-        WebGLRenderer.prototype.start = function (canvas, canvasId) {
+        WebGLRenderer.prototype.start = function (canvas) {
             if (!(canvas instanceof HTMLCanvasElement)) {
                 console.warn("canvas must be an HTMLCanvasElement to start the context.");
                 return this;
@@ -13430,10 +13316,8 @@ define('davinci-eight/scene/WebGLRenderer',["require", "exports", '../core/Buffe
             var alreadyStarted = isDefined_1.default(this._canvas);
             if (!alreadyStarted) {
                 this._canvas = canvas;
-                this._canvasId = canvasId;
             }
             else {
-                mustBeInteger_1.default('_canvasId', this._canvasId);
                 if (core_1.default.verbose) {
                     console.warn(this._type + " Ignoring start() because already started.");
                 }
@@ -13456,7 +13340,6 @@ define('davinci-eight/scene/WebGLRenderer',["require", "exports", '../core/Buffe
                     this._gl = void 0;
                 }
                 this._canvas = void 0;
-                this._canvasId = void 0;
             }
             return this;
         };
@@ -13471,7 +13354,7 @@ define('davinci-eight/scene/WebGLRenderer',["require", "exports", '../core/Buffe
         };
         WebGLRenderer.prototype.emitContextGain = function (consumer) {
             if (this._gl.isContextLost()) {
-                consumer.contextLost(this._canvasId);
+                consumer.contextLost();
             }
             else {
                 consumer.contextGain(this);
@@ -13488,7 +13371,7 @@ define('davinci-eight/scene/WebGLRenderer',["require", "exports", '../core/Buffe
         };
         WebGLRenderer.prototype.emitContextFree = function (consumer) {
             if (this._gl.isContextLost()) {
-                consumer.contextLost(this._canvasId);
+                consumer.contextLost();
             }
             else {
                 consumer.contextFree(this);
@@ -15766,12 +15649,11 @@ define('davinci-eight/programs/SimpleWebGLProgram',["require", "exports", '../co
         }
         SimpleWebGLProgram.prototype.destructor = function () {
             var context = this.context;
-            var canvasId = context.canvasId;
             if (this.program) {
                 var gl = context.gl;
                 if (gl) {
                     if (gl.isContextLost()) {
-                        this.contextLost(canvasId);
+                        this.contextLost();
                     }
                     else {
                         this.contextFree(context);
@@ -15784,6 +15666,7 @@ define('davinci-eight/programs/SimpleWebGLProgram',["require", "exports", '../co
             context.removeContextListener(this);
             this.context.release();
             this.context = void 0;
+            _super.prototype.destructor.call(this);
         };
         SimpleWebGLProgram.prototype.contextGain = function (manager) {
             var context = this.context;
@@ -15869,11 +15752,8 @@ define('davinci-eight/programs/SimpleWebGLProgram',["require", "exports", '../co
     exports.default = SimpleWebGLProgram;
 });
 
-define('davinci-eight/programs/createGraphicsProgram',["require", "exports", '../scene/MonitorList', '../collections/NumberIUnknownMap', '../utils/uuid4', '../utils/refChange', '../programs/SimpleWebGLProgram'], function (require, exports, MonitorList_1, NumberIUnknownMap_1, uuid4_1, refChange_1, SimpleWebGLProgram_1) {
+define('davinci-eight/programs/createGraphicsProgram',["require", "exports", '../scene/MonitorList', '../utils/uuid4', '../utils/refChange', '../programs/SimpleWebGLProgram'], function (require, exports, MonitorList_1, uuid4_1, refChange_1, SimpleWebGLProgram_1) {
     var LOGGING_NAME_IMATERIAL = 'IGraphicsProgram';
-    function missingWebGLRenderingContext(method, canvasId) {
-        console.warn(LOGGING_NAME_IMATERIAL + " " + method + " missing WebGLRenderingContext for canvasId => " + canvasId + ". Did you specify the correct canvasId");
-    }
     function createGraphicsProgram(monitors, vertexShader, fragmentShader, attribs) {
         MonitorList_1.default.verify('monitors', monitors, function () { return "createGraphicsProgram"; });
         if (typeof vertexShader !== 'string') {
@@ -15883,7 +15763,7 @@ define('davinci-eight/programs/createGraphicsProgram',["require", "exports", '..
             throw new Error("fragmentShader argument must be a string.");
         }
         var refCount = 1;
-        var programsByCanvasId = new NumberIUnknownMap_1.default();
+        var program;
         var uuid = uuid4_1.default().generate();
         var self = {
             get vertexShader() {
@@ -15892,14 +15772,12 @@ define('davinci-eight/programs/createGraphicsProgram',["require", "exports", '..
             get fragmentShader() {
                 return fragmentShader;
             },
-            attributes: function (canvasId) {
-                var program = programsByCanvasId.getWeakRef(canvasId);
+            attributes: function () {
                 if (program) {
                     return program.attributes;
                 }
             },
-            uniforms: function (canvasId) {
-                var program = programsByCanvasId.getWeakRef(canvasId);
+            uniforms: function () {
                 if (program) {
                     return program.uniforms;
                 }
@@ -15914,49 +15792,49 @@ define('davinci-eight/programs/createGraphicsProgram',["require", "exports", '..
                 refCount--;
                 if (refCount === 0) {
                     MonitorList_1.default.removeContextListener(self, monitors);
-                    programsByCanvasId.release();
+                    if (program) {
+                        program.release();
+                    }
                 }
                 return refCount;
             },
             contextFree: function (manager) {
-                var program = programsByCanvasId.getWeakRef(manager.canvasId);
                 if (program) {
                     program.contextFree(manager);
-                    programsByCanvasId.remove(manager.canvasId);
+                    program = void 0;
                 }
             },
             contextGain: function (manager) {
-                var canvasId = manager.canvasId;
-                if (!programsByCanvasId.exists(canvasId)) {
-                    var sprog = new SimpleWebGLProgram_1.default(manager, vertexShader, fragmentShader, attribs);
-                    programsByCanvasId.putWeakRef(canvasId, sprog);
-                    sprog.contextGain(manager);
+                if (!program) {
+                    program = new SimpleWebGLProgram_1.default(manager, vertexShader, fragmentShader, attribs);
                 }
-                else {
-                    programsByCanvasId.getWeakRef(canvasId).contextGain(manager);
-                }
+                program.contextGain(manager);
             },
-            contextLost: function (canvasId) {
-                var program = programsByCanvasId.getWeakRef(canvasId);
+            contextLost: function () {
                 if (program) {
-                    program.contextLost(canvasId);
-                    programsByCanvasId.remove(canvasId);
+                    program.contextLost();
+                    program = void 0;
                 }
             },
             get uuid() {
                 return uuid;
             },
-            use: function (canvasId) {
-                var program = programsByCanvasId.getWeakRef(canvasId);
+            use: function () {
                 if (program) {
                     program.use();
                 }
-                else {
-                    missingWebGLRenderingContext("use(canvasId => " + canvasId + ")", canvasId);
+            },
+            enableAttrib: function (name) {
+                if (program) {
+                    var attribLoc = program.attributes[name];
+                    if (attribLoc) {
+                        attribLoc.enable();
+                    }
+                    else {
+                    }
                 }
             },
-            enableAttrib: function (name, canvasId) {
-                var program = programsByCanvasId.getWeakRef(canvasId);
+            disableAttrib: function (name) {
                 if (program) {
                     var attribLoc = program.attributes[name];
                     if (attribLoc) {
@@ -15966,37 +15844,17 @@ define('davinci-eight/programs/createGraphicsProgram',["require", "exports", '..
                     }
                 }
                 else {
-                    missingWebGLRenderingContext("enableAttrib(name => " + name + ", canvasId => " + canvasId + ")", canvasId);
                 }
             },
-            disableAttrib: function (name, canvasId) {
-                var program = programsByCanvasId.getWeakRef(canvasId);
-                if (program) {
-                    var attribLoc = program.attributes[name];
-                    if (attribLoc) {
-                        attribLoc.enable();
-                    }
-                    else {
-                    }
-                }
-                else {
-                }
-            },
-            uniform1f: function (name, x, canvasId) {
-                var program = programsByCanvasId.getWeakRef(canvasId);
+            uniform1f: function (name, x) {
                 if (program) {
                     var uniformLoc = program.uniforms[name];
                     if (uniformLoc) {
                         uniformLoc.uniform1f(x);
                     }
-                    else {
-                    }
-                }
-                else {
                 }
             },
-            uniform2f: function (name, x, y, canvasId) {
-                var program = programsByCanvasId.getWeakRef(canvasId);
+            uniform2f: function (name, x, y) {
                 if (program) {
                     var uniformLoc = program.uniforms[name];
                     if (uniformLoc) {
@@ -16004,8 +15862,7 @@ define('davinci-eight/programs/createGraphicsProgram',["require", "exports", '..
                     }
                 }
             },
-            uniform3f: function (name, x, y, z, canvasId) {
-                var program = programsByCanvasId.getWeakRef(canvasId);
+            uniform3f: function (name, x, y, z) {
                 if (program) {
                     var uniformLoc = program.uniforms[name];
                     if (uniformLoc) {
@@ -16013,8 +15870,7 @@ define('davinci-eight/programs/createGraphicsProgram',["require", "exports", '..
                     }
                 }
             },
-            uniform4f: function (name, x, y, z, w, canvasId) {
-                var program = programsByCanvasId.getWeakRef(canvasId);
+            uniform4f: function (name, x, y, z, w) {
                 if (program) {
                     var uniformLoc = program.uniforms[name];
                     if (uniformLoc) {
@@ -16022,8 +15878,7 @@ define('davinci-eight/programs/createGraphicsProgram',["require", "exports", '..
                     }
                 }
             },
-            mat2: function (name, matrix, transpose, canvasId) {
-                var program = programsByCanvasId.getWeakRef(canvasId);
+            mat2: function (name, matrix, transpose) {
                 if (program) {
                     var uniformLoc = program.uniforms[name];
                     if (uniformLoc) {
@@ -16031,8 +15886,7 @@ define('davinci-eight/programs/createGraphicsProgram',["require", "exports", '..
                     }
                 }
             },
-            mat3: function (name, matrix, transpose, canvasId) {
-                var program = programsByCanvasId.getWeakRef(canvasId);
+            mat3: function (name, matrix, transpose) {
                 if (program) {
                     var uniformLoc = program.uniforms[name];
                     if (uniformLoc) {
@@ -16040,8 +15894,7 @@ define('davinci-eight/programs/createGraphicsProgram',["require", "exports", '..
                     }
                 }
             },
-            mat4: function (name, matrix, transpose, canvasId) {
-                var program = programsByCanvasId.getWeakRef(canvasId);
+            mat4: function (name, matrix, transpose) {
                 if (program) {
                     var uniformLoc = program.uniforms[name];
                     if (uniformLoc) {
@@ -16049,8 +15902,7 @@ define('davinci-eight/programs/createGraphicsProgram',["require", "exports", '..
                     }
                 }
             },
-            vec2: function (name, vector, canvasId) {
-                var program = programsByCanvasId.getWeakRef(canvasId);
+            vec2: function (name, vector) {
                 if (program) {
                     var uniformLoc = program.uniforms[name];
                     if (uniformLoc) {
@@ -16058,8 +15910,7 @@ define('davinci-eight/programs/createGraphicsProgram',["require", "exports", '..
                     }
                 }
             },
-            vec3: function (name, vector, canvasId) {
-                var program = programsByCanvasId.getWeakRef(canvasId);
+            vec3: function (name, vector) {
                 if (program) {
                     var uniformLoc = program.uniforms[name];
                     if (uniformLoc) {
@@ -16067,8 +15918,7 @@ define('davinci-eight/programs/createGraphicsProgram',["require", "exports", '..
                     }
                 }
             },
-            vec4: function (name, vector, canvasId) {
-                var program = programsByCanvasId.getWeakRef(canvasId);
+            vec4: function (name, vector) {
                 if (program) {
                     var uniformLoc = program.uniforms[name];
                     if (uniformLoc) {
@@ -16076,8 +15926,7 @@ define('davinci-eight/programs/createGraphicsProgram',["require", "exports", '..
                     }
                 }
             },
-            vector2: function (name, data, canvasId) {
-                var program = programsByCanvasId.getWeakRef(canvasId);
+            vector2: function (name, data) {
                 if (program) {
                     var uniformLoc = program.uniforms[name];
                     if (uniformLoc) {
@@ -16085,8 +15934,7 @@ define('davinci-eight/programs/createGraphicsProgram',["require", "exports", '..
                     }
                 }
             },
-            vector3: function (name, data, canvasId) {
-                var program = programsByCanvasId.getWeakRef(canvasId);
+            vector3: function (name, data) {
                 if (program) {
                     var uniformLoc = program.uniforms[name];
                     if (uniformLoc) {
@@ -16094,8 +15942,7 @@ define('davinci-eight/programs/createGraphicsProgram',["require", "exports", '..
                     }
                 }
             },
-            vector4: function (name, data, canvasId) {
-                var program = programsByCanvasId.getWeakRef(canvasId);
+            vector4: function (name, data) {
                 if (program) {
                     var uniformLoc = program.uniforms[name];
                     if (uniformLoc) {
@@ -16416,11 +16263,11 @@ define('davinci-eight/programs/smartProgram',["require", "exports", '../scene/Mo
             get uuid() {
                 return innerProgram.uuid;
             },
-            attributes: function (canvasId) {
-                return innerProgram.attributes(canvasId);
+            attributes: function () {
+                return innerProgram.attributes();
             },
-            uniforms: function (canvasId) {
-                return innerProgram.uniforms(canvasId);
+            uniforms: function () {
+                return innerProgram.uniforms();
             },
             get vertexShader() {
                 return innerProgram.vertexShader;
@@ -16440,56 +16287,56 @@ define('davinci-eight/programs/smartProgram',["require", "exports", '../scene/Mo
             contextGain: function (manager) {
                 return innerProgram.contextGain(manager);
             },
-            contextLost: function (canvasId) {
-                return innerProgram.contextLost(canvasId);
+            contextLost: function () {
+                return innerProgram.contextLost();
             },
-            use: function (canvasId) {
-                return innerProgram.use(canvasId);
+            use: function () {
+                return innerProgram.use();
             },
-            enableAttrib: function (name, canvasId) {
-                return innerProgram.enableAttrib(name, canvasId);
+            enableAttrib: function (name) {
+                return innerProgram.enableAttrib(name);
             },
-            disableAttrib: function (name, canvasId) {
-                return innerProgram.disableAttrib(name, canvasId);
+            disableAttrib: function (name) {
+                return innerProgram.disableAttrib(name);
             },
-            uniform1f: function (name, x, canvasId) {
-                return innerProgram.uniform1f(name, x, canvasId);
+            uniform1f: function (name, x) {
+                return innerProgram.uniform1f(name, x);
             },
-            uniform2f: function (name, x, y, canvasId) {
-                return innerProgram.uniform2f(name, x, y, canvasId);
+            uniform2f: function (name, x, y) {
+                return innerProgram.uniform2f(name, x, y);
             },
-            uniform3f: function (name, x, y, z, canvasId) {
-                return innerProgram.uniform3f(name, x, y, z, canvasId);
+            uniform3f: function (name, x, y, z) {
+                return innerProgram.uniform3f(name, x, y, z);
             },
-            uniform4f: function (name, x, y, z, w, canvasId) {
-                return innerProgram.uniform4f(name, x, y, z, w, canvasId);
+            uniform4f: function (name, x, y, z, w) {
+                return innerProgram.uniform4f(name, x, y, z, w);
             },
-            mat2: function (name, matrix, transpose, canvasId) {
-                return innerProgram.mat2(name, matrix, transpose, canvasId);
+            mat2: function (name, matrix, transpose) {
+                return innerProgram.mat2(name, matrix, transpose);
             },
-            mat3: function (name, matrix, transpose, canvasId) {
-                return innerProgram.mat3(name, matrix, transpose, canvasId);
+            mat3: function (name, matrix, transpose) {
+                return innerProgram.mat3(name, matrix, transpose);
             },
-            mat4: function (name, matrix, transpose, canvasId) {
-                return innerProgram.mat4(name, matrix, transpose, canvasId);
+            mat4: function (name, matrix, transpose) {
+                return innerProgram.mat4(name, matrix, transpose);
             },
-            vec2: function (name, vector, canvasId) {
-                return innerProgram.vec2(name, vector, canvasId);
+            vec2: function (name, vector) {
+                return innerProgram.vec2(name, vector);
             },
-            vec3: function (name, vector, canvasId) {
-                return innerProgram.vec3(name, vector, canvasId);
+            vec3: function (name, vector) {
+                return innerProgram.vec3(name, vector);
             },
-            vec4: function (name, vector, canvasId) {
-                return innerProgram.vec4(name, vector, canvasId);
+            vec4: function (name, vector) {
+                return innerProgram.vec4(name, vector);
             },
-            vector2: function (name, data, canvasId) {
-                return innerProgram.vector2(name, data, canvasId);
+            vector2: function (name, data) {
+                return innerProgram.vector2(name, data);
             },
-            vector3: function (name, data, canvasId) {
-                return innerProgram.vector3(name, data, canvasId);
+            vector3: function (name, data) {
+                return innerProgram.vector3(name, data);
             },
-            vector4: function (name, data, canvasId) {
-                return innerProgram.vector4(name, data, canvasId);
+            vector4: function (name, data) {
+                return innerProgram.vector4(name, data);
             }
         };
         return self;
@@ -16528,9 +16375,8 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 define('davinci-eight/materials/GraphicsProgram',["require", "exports", '../core', '../checks/isDefined', '../checks/isUndefined', '../scene/MonitorList', '../checks/mustBeString', '../utils/Shareable'], function (require, exports, core_1, isDefined_1, isUndefined_1, MonitorList_1, mustBeString_1, Shareable_1) {
-    function consoleWarnDroppedUniform(clazz, suffix, name, canvasId) {
+    function consoleWarnDroppedUniform(clazz, suffix, name) {
         console.warn(clazz + " dropped uniform" + suffix + " " + name);
-        console.warn("`typeof canvasId` is " + typeof canvasId);
     }
     var GraphicsProgram = (function (_super) {
         __extends(GraphicsProgram, _super);
@@ -16585,15 +16431,15 @@ define('davinci-eight/materials/GraphicsProgram',["require", "exports", '../core
             enumerable: true,
             configurable: true
         });
-        GraphicsProgram.prototype.use = function (canvasId) {
+        GraphicsProgram.prototype.use = function () {
             if (this.inner) {
-                return this.inner.use(canvasId);
+                return this.inner.use();
             }
             else {
                 var async = false;
                 this.makeReady(async);
                 if (this.inner) {
-                    return this.inner.use(canvasId);
+                    return this.inner.use();
                 }
                 else {
                     if (core_1.default.verbose) {
@@ -16602,60 +16448,60 @@ define('davinci-eight/materials/GraphicsProgram',["require", "exports", '../core
                 }
             }
         };
-        GraphicsProgram.prototype.attributes = function (canvasId) {
+        GraphicsProgram.prototype.attributes = function () {
             if (this.inner) {
-                return this.inner.attributes(canvasId);
+                return this.inner.attributes();
             }
             else {
                 var async = false;
                 this.makeReady(async);
                 if (this.inner) {
-                    return this.inner.attributes(canvasId);
+                    return this.inner.attributes();
                 }
                 else {
                     return void 0;
                 }
             }
         };
-        GraphicsProgram.prototype.uniforms = function (canvasId) {
+        GraphicsProgram.prototype.uniforms = function () {
             if (this.inner) {
-                return this.inner.uniforms(canvasId);
+                return this.inner.uniforms();
             }
             else {
                 var async = false;
                 this.makeReady(async);
                 if (this.inner) {
-                    return this.inner.uniforms(canvasId);
+                    return this.inner.uniforms();
                 }
                 else {
                     return void 0;
                 }
             }
         };
-        GraphicsProgram.prototype.enableAttrib = function (name, canvasId) {
+        GraphicsProgram.prototype.enableAttrib = function (name) {
             if (this.inner) {
-                return this.inner.enableAttrib(name, canvasId);
+                return this.inner.enableAttrib(name);
             }
             else {
                 var async = false;
                 this.makeReady(async);
                 if (this.inner) {
-                    return this.inner.enableAttrib(name, canvasId);
+                    return this.inner.enableAttrib(name);
                 }
                 else {
                     console.warn(this.type + " enableAttrib()");
                 }
             }
         };
-        GraphicsProgram.prototype.disableAttrib = function (name, canvasId) {
+        GraphicsProgram.prototype.disableAttrib = function (name) {
             if (this.inner) {
-                return this.inner.disableAttrib(name, canvasId);
+                return this.inner.disableAttrib(name);
             }
             else {
                 var async = false;
                 this.makeReady(async);
                 if (this.inner) {
-                    return this.inner.disableAttrib(name, canvasId);
+                    return this.inner.disableAttrib(name);
                 }
                 else {
                     console.warn(this.type + " disableAttrib()");
@@ -16675,246 +16521,246 @@ define('davinci-eight/materials/GraphicsProgram',["require", "exports", '../core
                 this.inner.contextGain(manager);
             }
         };
-        GraphicsProgram.prototype.contextLost = function (canvasId) {
+        GraphicsProgram.prototype.contextLost = function () {
             if (this.inner) {
-                this.inner.contextLost(canvasId);
+                this.inner.contextLost();
             }
         };
         GraphicsProgram.prototype.createGraphicsProgram = function () {
             throw new Error("GraphicsProgram createGraphicsProgram method is virtual and should be implemented by " + this.type);
         };
-        GraphicsProgram.prototype.uniform1f = function (name, x, canvasId) {
+        GraphicsProgram.prototype.uniform1f = function (name, x) {
             if (this.inner) {
-                this.inner.uniform1f(name, x, canvasId);
+                this.inner.uniform1f(name, x);
             }
             else {
                 var async = false;
                 var readyPending = this.readyPending;
                 this.makeReady(async);
                 if (this.inner) {
-                    this.inner.uniform1f(name, x, canvasId);
+                    this.inner.uniform1f(name, x);
                 }
                 else {
                     if (!readyPending) {
-                        consoleWarnDroppedUniform(this.type, '1f', name, canvasId);
+                        consoleWarnDroppedUniform(this.type, '1f', name);
                     }
                 }
             }
         };
-        GraphicsProgram.prototype.uniform2f = function (name, x, y, canvasId) {
+        GraphicsProgram.prototype.uniform2f = function (name, x, y) {
             if (this.inner) {
-                this.inner.uniform2f(name, x, y, canvasId);
+                this.inner.uniform2f(name, x, y);
             }
             else {
                 var async = false;
                 var readyPending = this.readyPending;
                 this.makeReady(async);
                 if (this.inner) {
-                    this.inner.uniform2f(name, x, y, canvasId);
+                    this.inner.uniform2f(name, x, y);
                 }
                 else {
                     if (!readyPending) {
-                        consoleWarnDroppedUniform(this.type, '2f', name, canvasId);
+                        consoleWarnDroppedUniform(this.type, '2f', name);
                     }
                 }
             }
         };
-        GraphicsProgram.prototype.uniform3f = function (name, x, y, z, canvasId) {
+        GraphicsProgram.prototype.uniform3f = function (name, x, y, z) {
             if (this.inner) {
-                this.inner.uniform3f(name, x, y, z, canvasId);
+                this.inner.uniform3f(name, x, y, z);
             }
             else {
                 var async = false;
                 var readyPending = this.readyPending;
                 this.makeReady(async);
                 if (this.inner) {
-                    this.inner.uniform3f(name, x, y, z, canvasId);
+                    this.inner.uniform3f(name, x, y, z);
                 }
                 else {
                     if (!readyPending) {
-                        consoleWarnDroppedUniform(this.type, '3f', name, canvasId);
+                        consoleWarnDroppedUniform(this.type, '3f', name);
                     }
                 }
             }
         };
-        GraphicsProgram.prototype.uniform4f = function (name, x, y, z, w, canvasId) {
+        GraphicsProgram.prototype.uniform4f = function (name, x, y, z, w) {
             if (this.inner) {
-                this.inner.uniform4f(name, x, y, z, w, canvasId);
+                this.inner.uniform4f(name, x, y, z, w);
             }
             else {
                 var async = false;
                 var readyPending = this.readyPending;
                 this.makeReady(async);
                 if (this.inner) {
-                    this.inner.uniform4f(name, x, y, z, w, canvasId);
+                    this.inner.uniform4f(name, x, y, z, w);
                 }
                 else {
                     if (!readyPending) {
-                        consoleWarnDroppedUniform(this.type, '4f', name, canvasId);
+                        consoleWarnDroppedUniform(this.type, '4f', name);
                     }
                 }
             }
         };
-        GraphicsProgram.prototype.mat2 = function (name, matrix, transpose, canvasId) {
+        GraphicsProgram.prototype.mat2 = function (name, matrix, transpose) {
             if (this.inner) {
-                this.inner.mat2(name, matrix, transpose, canvasId);
+                this.inner.mat2(name, matrix, transpose);
             }
             else {
                 var async = false;
                 var readyPending = this.readyPending;
                 this.makeReady(async);
                 if (this.inner) {
-                    this.inner.mat2(name, matrix, transpose, canvasId);
+                    this.inner.mat2(name, matrix, transpose);
                 }
                 else {
                     if (!readyPending) {
-                        consoleWarnDroppedUniform(this.type, 'Mat2R', name, canvasId);
+                        consoleWarnDroppedUniform(this.type, 'Mat2R', name);
                     }
                 }
             }
         };
-        GraphicsProgram.prototype.mat3 = function (name, matrix, transpose, canvasId) {
+        GraphicsProgram.prototype.mat3 = function (name, matrix, transpose) {
             if (this.inner) {
-                this.inner.mat3(name, matrix, transpose, canvasId);
+                this.inner.mat3(name, matrix, transpose);
             }
             else {
                 var async = false;
                 var readyPending = this.readyPending;
                 this.makeReady(async);
                 if (this.inner) {
-                    this.inner.mat3(name, matrix, transpose, canvasId);
+                    this.inner.mat3(name, matrix, transpose);
                 }
                 else {
                     if (!readyPending) {
-                        consoleWarnDroppedUniform(this.type, 'Mat3R', name, canvasId);
+                        consoleWarnDroppedUniform(this.type, 'Mat3R', name);
                     }
                 }
             }
         };
-        GraphicsProgram.prototype.mat4 = function (name, matrix, transpose, canvasId) {
+        GraphicsProgram.prototype.mat4 = function (name, matrix, transpose) {
             if (this.inner) {
-                this.inner.mat4(name, matrix, transpose, canvasId);
+                this.inner.mat4(name, matrix, transpose);
             }
             else {
                 var async = false;
                 var readyPending = this.readyPending;
                 this.makeReady(async);
                 if (this.inner) {
-                    this.inner.mat4(name, matrix, transpose, canvasId);
+                    this.inner.mat4(name, matrix, transpose);
                 }
                 else {
                     if (!readyPending) {
                         if (core_1.default.verbose) {
-                            consoleWarnDroppedUniform(this.type, 'Mat4R', name, canvasId);
+                            consoleWarnDroppedUniform(this.type, 'Mat4R', name);
                         }
                     }
                 }
             }
         };
-        GraphicsProgram.prototype.vec2 = function (name, vector, canvasId) {
+        GraphicsProgram.prototype.vec2 = function (name, vector) {
             if (this.inner) {
-                this.inner.vec2(name, vector, canvasId);
+                this.inner.vec2(name, vector);
             }
             else {
                 var async = false;
                 var readyPending = this.readyPending;
                 this.makeReady(async);
                 if (this.inner) {
-                    this.inner.vec2(name, vector, canvasId);
+                    this.inner.vec2(name, vector);
                 }
                 else {
                     if (!readyPending) {
-                        consoleWarnDroppedUniform(this.type, 'VectorE2', name, canvasId);
+                        consoleWarnDroppedUniform(this.type, 'VectorE2', name);
                     }
                 }
             }
         };
-        GraphicsProgram.prototype.vec3 = function (name, vector, canvasId) {
+        GraphicsProgram.prototype.vec3 = function (name, vector) {
             if (this.inner) {
-                this.inner.vec3(name, vector, canvasId);
+                this.inner.vec3(name, vector);
             }
             else {
                 var async = false;
                 var readyPending = this.readyPending;
                 this.makeReady(async);
                 if (this.inner) {
-                    this.inner.vec3(name, vector, canvasId);
+                    this.inner.vec3(name, vector);
                 }
                 else {
                     if (!readyPending) {
-                        consoleWarnDroppedUniform(this.type, 'VectorE3', name, canvasId);
+                        consoleWarnDroppedUniform(this.type, 'VectorE3', name);
                     }
                 }
             }
         };
-        GraphicsProgram.prototype.vec4 = function (name, vector, canvasId) {
+        GraphicsProgram.prototype.vec4 = function (name, vector) {
             if (this.inner) {
-                this.inner.vec4(name, vector, canvasId);
+                this.inner.vec4(name, vector);
             }
             else {
                 var async = false;
                 var readyPending = this.readyPending;
                 this.makeReady(async);
                 if (this.inner) {
-                    this.inner.vec4(name, vector, canvasId);
+                    this.inner.vec4(name, vector);
                 }
                 else {
                     if (!readyPending) {
-                        consoleWarnDroppedUniform(this.type, 'VectorE4', name, canvasId);
+                        consoleWarnDroppedUniform(this.type, 'VectorE4', name);
                     }
                 }
             }
         };
-        GraphicsProgram.prototype.vector2 = function (name, data, canvasId) {
+        GraphicsProgram.prototype.vector2 = function (name, data) {
             if (this.inner) {
-                this.inner.vector2(name, data, canvasId);
+                this.inner.vector2(name, data);
             }
             else {
                 var async = false;
                 var readyPending = this.readyPending;
                 this.makeReady(async);
                 if (this.inner) {
-                    this.inner.vector2(name, data, canvasId);
+                    this.inner.vector2(name, data);
                 }
                 else {
                     if (!readyPending) {
-                        consoleWarnDroppedUniform(this.type, 'vector2', name, canvasId);
+                        consoleWarnDroppedUniform(this.type, 'vector2', name);
                     }
                 }
             }
         };
-        GraphicsProgram.prototype.vector3 = function (name, data, canvasId) {
+        GraphicsProgram.prototype.vector3 = function (name, data) {
             if (this.inner) {
-                this.inner.vector3(name, data, canvasId);
+                this.inner.vector3(name, data);
             }
             else {
                 var async = false;
                 var readyPending = this.readyPending;
                 this.makeReady(async);
                 if (this.inner) {
-                    this.inner.vector3(name, data, canvasId);
+                    this.inner.vector3(name, data);
                 }
                 else {
                     if (!readyPending) {
-                        consoleWarnDroppedUniform(this.type, 'vector3', name, canvasId);
+                        consoleWarnDroppedUniform(this.type, 'vector3', name);
                     }
                 }
             }
         };
-        GraphicsProgram.prototype.vector4 = function (name, data, canvasId) {
+        GraphicsProgram.prototype.vector4 = function (name, data) {
             if (this.inner) {
-                this.inner.vector4(name, data, canvasId);
+                this.inner.vector4(name, data);
             }
             else {
                 var async = false;
                 var readyPending = this.readyPending;
                 this.makeReady(async);
                 if (this.inner) {
-                    this.inner.vector4(name, data, canvasId);
+                    this.inner.vector4(name, data);
                 }
                 else {
                     if (!readyPending) {
-                        consoleWarnDroppedUniform(this.type, 'vector4', name, canvasId);
+                        consoleWarnDroppedUniform(this.type, 'vector4', name);
                     }
                 }
             }
@@ -17793,9 +17639,9 @@ define('davinci-eight/facets/AmbientLight',["require", "exports", '../core/Color
             mustBeArray_1.default('value', value, contextBuilder);
             return this;
         };
-        AmbientLight.prototype.setUniforms = function (visitor, canvasId) {
+        AmbientLight.prototype.setUniforms = function (visitor) {
             var coords = [this.color.r, this.color.g, this.color.b];
-            visitor.vector3(GraphicsProgramSymbols_1.default.UNIFORM_AMBIENT_LIGHT, coords, canvasId);
+            visitor.vector3(GraphicsProgramSymbols_1.default.UNIFORM_AMBIENT_LIGHT, coords);
         };
         return AmbientLight;
     })(Shareable_1.default);
@@ -17968,12 +17814,12 @@ define('davinci-eight/facets/ColorFacet',["require", "exports", '../core/Color',
             }
             return this;
         };
-        ColorFacet.prototype.setUniforms = function (visitor, canvasId) {
+        ColorFacet.prototype.setUniforms = function (visitor) {
             if (this.uColorName) {
-                visitor.vector3(this.uColorName, this.color.coords, canvasId);
+                visitor.vector3(this.uColorName, this.color.coords);
             }
             if (this.uAlphaName) {
-                visitor.uniform1f(this.uAlphaName, this.a, canvasId);
+                visitor.uniform1f(this.uAlphaName, this.a);
             }
         };
         ColorFacet.PROP_RGB = 'rgb';
@@ -18059,10 +17905,10 @@ define('davinci-eight/facets/DirectionalLight',["require", "exports", '../core/C
             this.direction.copy(direction).direction();
             return this;
         };
-        DirectionalLight.prototype.setUniforms = function (visitor, canvasId) {
-            visitor.vector3(GraphicsProgramSymbols_1.default.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION, this.direction.coords, canvasId);
+        DirectionalLight.prototype.setUniforms = function (visitor) {
+            visitor.vector3(GraphicsProgramSymbols_1.default.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION, this.direction.coords);
             var coords = [this.color.r, this.color.g, this.color.b];
-            visitor.vector3(GraphicsProgramSymbols_1.default.UNIFORM_DIRECTIONAL_LIGHT_COLOR, coords, canvasId);
+            visitor.vector3(GraphicsProgramSymbols_1.default.UNIFORM_DIRECTIONAL_LIGHT_COLOR, coords);
         };
         DirectionalLight.PROP_COLOR = 'color';
         DirectionalLight.PROP_DIRECTION = 'direction';
@@ -18093,7 +17939,7 @@ define('davinci-eight/facets/EulerFacet',["require", "exports", '../i18n/readOnl
         EulerFacet.prototype.setProperty = function (name, value) {
             return this;
         };
-        EulerFacet.prototype.setUniforms = function (visitor, canvasId) {
+        EulerFacet.prototype.setUniforms = function (visitor) {
             console.warn("EulerFacet.setUniforms");
         };
         Object.defineProperty(EulerFacet.prototype, "rotation", {
@@ -18239,7 +18085,7 @@ define('davinci-eight/facets/ModelFacet',["require", "exports", '../math/Mat3R',
             enumerable: true,
             configurable: true
         });
-        ModelFacet.prototype.setUniforms = function (visitor, canvasId) {
+        ModelFacet.prototype.setUniforms = function (visitor) {
             if (this.X.modified) {
                 this.matT.translation(this.X);
                 this.X.modified = false;
@@ -18254,8 +18100,8 @@ define('davinci-eight/facets/ModelFacet',["require", "exports", '../math/Mat3R',
             }
             this.matM.copy(this.matT).mul(this.matR).mul(this.matS);
             this.matN.normalFromMat4R(this.matM);
-            visitor.mat4(GraphicsProgramSymbols_1.default.UNIFORM_MODEL_MATRIX, this.matM, false, canvasId);
-            visitor.mat3(GraphicsProgramSymbols_1.default.UNIFORM_NORMAL_MATRIX, this.matN, false, canvasId);
+            visitor.mat4(GraphicsProgramSymbols_1.default.UNIFORM_MODEL_MATRIX, this.matM, false);
+            visitor.mat3(GraphicsProgramSymbols_1.default.UNIFORM_NORMAL_MATRIX, this.matN, false);
         };
         ModelFacet.prototype.setProperty = function (name, data) {
             mustBeString_1.default('name', name);
@@ -18306,8 +18152,8 @@ define('davinci-eight/facets/PointSizeFacet',["require", "exports", '../checks/m
             mustBeArray_1.default('value', value, contextBuilder);
             return this;
         };
-        PointSizeFacet.prototype.setUniforms = function (visitor, canvasId) {
-            visitor.uniform1f(GraphicsProgramSymbols_1.default.UNIFORM_POINT_SIZE, this.pointSize, canvasId);
+        PointSizeFacet.prototype.setUniforms = function (visitor) {
+            visitor.uniform1f(GraphicsProgramSymbols_1.default.UNIFORM_POINT_SIZE, this.pointSize);
         };
         return PointSizeFacet;
     })(Shareable_1.default);
@@ -18354,12 +18200,12 @@ define('davinci-eight/facets/ReflectionFacetE2',["require", "exports", '../check
             mustBeArray_1.default('value', value);
             return this;
         };
-        ReflectionFacetE2.prototype.setUniforms = function (visitor, canvasId) {
+        ReflectionFacetE2.prototype.setUniforms = function (visitor) {
             if (this._normal.modified) {
                 this.matrix.reflection(this._normal);
                 this._normal.modified = false;
             }
-            visitor.mat2(this.name, this.matrix, false, canvasId);
+            visitor.mat2(this.name, this.matrix, false);
         };
         return ReflectionFacetE2;
     })(Shareable_1.default);
@@ -18406,12 +18252,12 @@ define('davinci-eight/facets/ReflectionFacetE3',["require", "exports", '../math/
             mustBeArray_1.default('value', value);
             return this;
         };
-        ReflectionFacetE3.prototype.setUniforms = function (visitor, canvasId) {
+        ReflectionFacetE3.prototype.setUniforms = function (visitor) {
             if (this._normal.modified) {
                 this.matrix.reflection(this._normal);
                 this._normal.modified = false;
             }
-            visitor.mat4(this.name, this.matrix, false, canvasId);
+            visitor.mat4(this.name, this.matrix, false);
         };
         return ReflectionFacetE3;
     })(Shareable_1.default);
@@ -18445,8 +18291,8 @@ define('davinci-eight/facets/Vector3Facet',["require", "exports", '../checks/mus
         Vector3Facet.prototype.setProperty = function (name, value) {
             return this;
         };
-        Vector3Facet.prototype.setUniforms = function (visitor, canvasId) {
-            visitor.vec3(this._name, this._vector, canvasId);
+        Vector3Facet.prototype.setUniforms = function (visitor) {
+            visitor.vec3(this._name, this._vector);
         };
         return Vector3Facet;
     })(Shareable_1.default);
@@ -18547,29 +18393,29 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/resources/GraphicsBuffers',["require", "exports", '../collections/IUnknownArray', '../collections/NumberIUnknownMap', '../utils/Shareable'], function (require, exports, IUnknownArray_1, NumberIUnknownMap_1, Shareable_1) {
+define('davinci-eight/resources/GraphicsBuffers',["require", "exports", '../collections/IUnknownArray', '../utils/Shareable'], function (require, exports, IUnknownArray_1, Shareable_1) {
     var GraphicsBuffers = (function (_super) {
         __extends(GraphicsBuffers, _super);
         function GraphicsBuffers(primitives) {
             _super.call(this, 'GraphicsBuffers');
             this.primitives = primitives;
-            this.buffersByCanvasId = new NumberIUnknownMap_1.default();
         }
         GraphicsBuffers.prototype.destructor = function () {
             this.primitives = void 0;
-            this.buffersByCanvasId.release();
-            this.buffersByCanvasId = void 0;
+            if (this.buffers) {
+                this.buffers.release();
+            }
             _super.prototype.destructor.call(this);
         };
         GraphicsBuffers.prototype.contextFree = function (manager) {
-            if (this.buffersByCanvasId.exists(manager.canvasId)) {
-                this.buffersByCanvasId.remove(manager.canvasId);
+            if (this.buffers) {
+                this.buffers.release();
             }
         };
         GraphicsBuffers.prototype.contextGain = function (manager) {
-            if (!this.buffersByCanvasId.exists(manager.canvasId)) {
-                this.buffersByCanvasId.putWeakRef(manager.canvasId, new IUnknownArray_1.default([]));
-                var buffers = this.buffersByCanvasId.getWeakRef(manager.canvasId);
+            if (!this.buffers) {
+                this.buffers = new IUnknownArray_1.default([]);
+                var buffers = this.buffers;
                 var iLength = this.primitives.length;
                 for (var i = 0; i < iLength; i++) {
                     var primitive = this.primitives[i];
@@ -18577,17 +18423,14 @@ define('davinci-eight/resources/GraphicsBuffers',["require", "exports", '../coll
                 }
             }
         };
-        GraphicsBuffers.prototype.contextLost = function (canvasId) {
-            if (this.buffersByCanvasId.exists(canvasId)) {
-                this.buffersByCanvasId.remove(canvasId);
-            }
+        GraphicsBuffers.prototype.contextLost = function () {
+            this.buffers = void 0;
         };
-        GraphicsBuffers.prototype.draw = function (program, canvasId) {
-            var buffers = this.buffersByCanvasId.getWeakRef(canvasId);
-            if (buffers) {
-                var iLength = buffers.length;
+        GraphicsBuffers.prototype.draw = function (program) {
+            if (this.buffers) {
+                var iLength = this.buffers.length;
                 for (var i = 0; i < iLength; i++) {
-                    var buffer = buffers.getWeakRef(i);
+                    var buffer = this.buffers.getWeakRef(i);
                     buffer.bind(program);
                     buffer.draw();
                     buffer.unbind();
@@ -18615,6 +18458,80 @@ define('davinci-eight/utils/getCanvasElementById',["require", "exports", '../che
     }
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = getCanvasElementById;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/collections/NumberIUnknownMap',["require", "exports", '../utils/Shareable'], function (require, exports, Shareable_1) {
+    var LOGGING_NAME = 'NumberIUnknownMap';
+    var NumberIUnknownMap = (function (_super) {
+        __extends(NumberIUnknownMap, _super);
+        function NumberIUnknownMap() {
+            _super.call(this, LOGGING_NAME);
+            this._elements = {};
+        }
+        NumberIUnknownMap.prototype.destructor = function () {
+            this.forEach(function (key, value) {
+                if (value) {
+                    value.release();
+                }
+            });
+            this._elements = void 0;
+        };
+        NumberIUnknownMap.prototype.exists = function (key) {
+            var element = this._elements[key];
+            return element ? true : false;
+        };
+        NumberIUnknownMap.prototype.get = function (key) {
+            var element = this.getWeakRef(key);
+            if (element) {
+                element.addRef();
+            }
+            return element;
+        };
+        NumberIUnknownMap.prototype.getWeakRef = function (index) {
+            return this._elements[index];
+        };
+        NumberIUnknownMap.prototype.put = function (key, value) {
+            if (value) {
+                value.addRef();
+            }
+            this.putWeakRef(key, value);
+        };
+        NumberIUnknownMap.prototype.putWeakRef = function (key, value) {
+            var elements = this._elements;
+            var existing = elements[key];
+            if (existing) {
+                existing.release();
+            }
+            elements[key] = value;
+        };
+        NumberIUnknownMap.prototype.forEach = function (callback) {
+            var keys = this.keys;
+            for (var i = 0, iLength = keys.length; i < iLength; i++) {
+                var key = keys[i];
+                var value = this._elements[key];
+                callback(key, value);
+            }
+        };
+        Object.defineProperty(NumberIUnknownMap.prototype, "keys", {
+            get: function () {
+                return Object.keys(this._elements).map(function (keyString) { return parseFloat(keyString); });
+            },
+            enumerable: true,
+            configurable: true
+        });
+        NumberIUnknownMap.prototype.remove = function (key) {
+            this.put(key, void 0);
+            delete this._elements[key];
+        };
+        return NumberIUnknownMap;
+    })(Shareable_1.default);
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = NumberIUnknownMap;
 });
 
 define('davinci-eight/utils/animation',["require", "exports", '../checks/expectArg'], function (require, exports, expectArg_1) {
@@ -18891,8 +18808,8 @@ define('davinci-eight/visual/createArrow',["require", "exports", '../facets/Colo
             setFacet: function (name, facet) {
                 drawable.setFacet(name, facet);
             },
-            setUniforms: function (canvasId) {
-                drawable.setUniforms(canvasId);
+            setUniforms: function () {
+                drawable.setUniforms();
             },
             addRef: function () {
                 return drawable.addRef();
@@ -18906,8 +18823,8 @@ define('davinci-eight/visual/createArrow',["require", "exports", '../facets/Colo
             contextGain: function (manager) {
                 return drawable.contextGain(manager);
             },
-            contextLost: function (canvasId) {
-                return drawable.contextLost(canvasId);
+            contextLost: function () {
+                return drawable.contextLost();
             }
         };
         return arrow;
@@ -19029,8 +18946,8 @@ define('davinci-eight/visual/createBox',["require", "exports", '../facets/ColorF
             setFacet: function (name, facet) {
                 drawable.setFacet(name, facet);
             },
-            setUniforms: function (canvasId) {
-                drawable.setUniforms(canvasId);
+            setUniforms: function () {
+                drawable.setUniforms();
             },
             addRef: function () {
                 return drawable.addRef();
@@ -19044,8 +18961,8 @@ define('davinci-eight/visual/createBox',["require", "exports", '../facets/ColorF
             contextGain: function (manager) {
                 return drawable.contextGain(manager);
             },
-            contextLost: function (canvasId) {
-                return drawable.contextLost(canvasId);
+            contextLost: function () {
+                return drawable.contextLost();
             }
         };
         return box;
@@ -19143,8 +19060,8 @@ define('davinci-eight/visual/createCylinder',["require", "exports", '../facets/C
             setFacet: function (name, facet) {
                 drawable.setFacet(name, facet);
             },
-            setUniforms: function (canvasId) {
-                drawable.setUniforms(canvasId);
+            setUniforms: function () {
+                drawable.setUniforms();
             },
             addRef: function () {
                 return drawable.addRef();
@@ -19162,8 +19079,8 @@ define('davinci-eight/visual/createCylinder',["require", "exports", '../facets/C
             contextGain: function (manager) {
                 return drawable.contextGain(manager);
             },
-            contextLost: function (canvasId) {
-                return drawable.contextLost(canvasId);
+            contextLost: function () {
+                return drawable.contextLost();
             }
         };
         return cylinder;
@@ -19263,8 +19180,8 @@ define('davinci-eight/visual/createSphere',["require", "exports", '../facets/Col
             setFacet: function (name, facet) {
                 drawable.setFacet(name, facet);
             },
-            setUniforms: function (canvasId) {
-                drawable.setUniforms(canvasId);
+            setUniforms: function () {
+                drawable.setUniforms();
             },
             addRef: function () {
                 return drawable.addRef();
@@ -19278,8 +19195,8 @@ define('davinci-eight/visual/createSphere',["require", "exports", '../facets/Col
             contextGain: function (manager) {
                 return drawable.contextGain(manager);
             },
-            contextLost: function (canvasId) {
-                return drawable.contextLost(canvasId);
+            contextLost: function () {
+                return drawable.contextLost();
             }
         };
         return sphere;

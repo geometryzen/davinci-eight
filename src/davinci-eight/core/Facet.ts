@@ -12,10 +12,9 @@ interface Facet extends IAnimationTarget, IUnknown {
     /**
      * @method setUniforms
      * @param visitor {FacetVisitor}
-     * @param canvasId {number}
      * @return {void}
      */
-    setUniforms(visitor: FacetVisitor, canvasId: number): void
+    setUniforms(visitor: FacetVisitor): void
 
     /**
      * @method setProperty

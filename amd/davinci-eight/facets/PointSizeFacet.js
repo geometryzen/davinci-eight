@@ -26,8 +26,8 @@ define(["require", "exports", '../checks/mustBeArray', '../checks/mustBeInteger'
             mustBeArray_1.default('value', value, contextBuilder);
             return this;
         };
-        PointSizeFacet.prototype.setUniforms = function (visitor, canvasId) {
-            visitor.uniform1f(GraphicsProgramSymbols_1.default.UNIFORM_POINT_SIZE, this.pointSize, canvasId);
+        PointSizeFacet.prototype.setUniforms = function (visitor) {
+            visitor.uniform1f(GraphicsProgramSymbols_1.default.UNIFORM_POINT_SIZE, this.pointSize);
         };
         return PointSizeFacet;
     })(Shareable_1.default);

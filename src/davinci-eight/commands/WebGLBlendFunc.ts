@@ -65,7 +65,7 @@ export default class WebGLBlendFunc extends Shareable implements IContextCommand
         this.execute(manager.gl)
     }
 
-    contextLost(canvasId: number): void {
+    contextLost(): void {
         // do nothing
     }
 

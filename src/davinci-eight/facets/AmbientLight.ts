@@ -67,11 +67,10 @@ export default class AmbientLight extends Shareable implements Facet {
     /**
      * @method setUniforms
      * @param visitor {FacetVisitor}
-     * @param [canvasId] {number}
      * @return {void}
      */
-    setUniforms(visitor: FacetVisitor, canvasId: number): void {
+    setUniforms(visitor: FacetVisitor): void {
         var coords = [this.color.r, this.color.g, this.color.b]
-        visitor.vector3(GraphicsProgramSymbols.UNIFORM_AMBIENT_LIGHT, coords, canvasId)
+        visitor.vector3(GraphicsProgramSymbols.UNIFORM_AMBIENT_LIGHT, coords)
     }
 }

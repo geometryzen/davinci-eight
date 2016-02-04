@@ -29,9 +29,9 @@ define(["require", "exports", '../core/Color', '../checks/mustBeArray', '../chec
             mustBeArray_1.default('value', value, contextBuilder);
             return this;
         };
-        AmbientLight.prototype.setUniforms = function (visitor, canvasId) {
+        AmbientLight.prototype.setUniforms = function (visitor) {
             var coords = [this.color.r, this.color.g, this.color.b];
-            visitor.vector3(GraphicsProgramSymbols_1.default.UNIFORM_AMBIENT_LIGHT, coords, canvasId);
+            visitor.vector3(GraphicsProgramSymbols_1.default.UNIFORM_AMBIENT_LIGHT, coords);
         };
         return AmbientLight;
     })(Shareable_1.default);

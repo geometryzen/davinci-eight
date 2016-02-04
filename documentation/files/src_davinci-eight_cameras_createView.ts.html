@@ -345,7 +345,7 @@ export default function createView(options?: { viewMatrixName?: string }): View 
             up.direction()
             return self
         },
-        setUniforms(visitor: FacetVisitor, canvasId: number) {
+        setUniforms(visitor: FacetVisitor) {
             if (eye.modified || look.modified || up.modified) {
                 // TODO: view matrix would be better.
                 computeViewMatrix(eye, look, up, viewMatrix)
@@ -353,7 +353,7 @@ export default function createView(options?: { viewMatrixName?: string }): View 
                 look.modified = false
                 up.modified = false
             }
-            visitor.mat4(viewMatrixName, viewMatrix, false, canvasId)
+            visitor.mat4(viewMatrixName, viewMatrix, false)
         }
     }
 

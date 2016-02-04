@@ -61,16 +61,11 @@ export default class BufferResource extends Shareable implements IBuffer {
     }
 
     contextGain(manager: IContextProvider): void {
-        if (this.manager.canvasId === manager.canvasId) {
-            if (!this._buffer) {
-                this._buffer = manager.gl.createBuffer()
-            }
-            else {
-                // It's a duplicate, ignore the call.
-            }
+        if (!this._buffer) {
+            this._buffer = manager.gl.createBuffer()
         }
         else {
-            console.warn("BufferResource ignoring contextGain for canvasId " + manager.canvasId);
+            // It's a duplicate, ignore the call.
         }
     }
 

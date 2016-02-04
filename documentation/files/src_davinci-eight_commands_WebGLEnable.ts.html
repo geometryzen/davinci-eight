@@ -289,7 +289,7 @@ export default class WebGLEnable extends Shareable implements IContextCommand, I
         manager.gl.enable(glCapability(this._capability, manager.gl))
     }
 
-    contextLost(canvasId: number): void {
+    contextLost(): void {
         // do nothing
     }
 

@@ -5,10 +5,9 @@ interface ContextController {
     /**
      * @method start
      * @param canvas {HTMLCanvasElement}
-     * @param canvasId {number}
      * @return {void}
      */
-    start(canvas: HTMLCanvasElement, canvasId: number): void
+    start(canvas: HTMLCanvasElement): void
     /**
      * @method stop
      * @return {void}

@@ -11,11 +11,11 @@ define(["require", "exports", '../scene/MonitorList', '../programs/fragmentShade
             get uuid() {
                 return innerProgram.uuid;
             },
-            attributes: function (canvasId) {
-                return innerProgram.attributes(canvasId);
+            attributes: function () {
+                return innerProgram.attributes();
             },
-            uniforms: function (canvasId) {
-                return innerProgram.uniforms(canvasId);
+            uniforms: function () {
+                return innerProgram.uniforms();
             },
             get vertexShader() {
                 return innerProgram.vertexShader;
@@ -35,56 +35,56 @@ define(["require", "exports", '../scene/MonitorList', '../programs/fragmentShade
             contextGain: function (manager) {
                 return innerProgram.contextGain(manager);
             },
-            contextLost: function (canvasId) {
-                return innerProgram.contextLost(canvasId);
+            contextLost: function () {
+                return innerProgram.contextLost();
             },
-            use: function (canvasId) {
-                return innerProgram.use(canvasId);
+            use: function () {
+                return innerProgram.use();
             },
-            enableAttrib: function (name, canvasId) {
-                return innerProgram.enableAttrib(name, canvasId);
+            enableAttrib: function (name) {
+                return innerProgram.enableAttrib(name);
             },
-            disableAttrib: function (name, canvasId) {
-                return innerProgram.disableAttrib(name, canvasId);
+            disableAttrib: function (name) {
+                return innerProgram.disableAttrib(name);
             },
-            uniform1f: function (name, x, canvasId) {
-                return innerProgram.uniform1f(name, x, canvasId);
+            uniform1f: function (name, x) {
+                return innerProgram.uniform1f(name, x);
             },
-            uniform2f: function (name, x, y, canvasId) {
-                return innerProgram.uniform2f(name, x, y, canvasId);
+            uniform2f: function (name, x, y) {
+                return innerProgram.uniform2f(name, x, y);
             },
-            uniform3f: function (name, x, y, z, canvasId) {
-                return innerProgram.uniform3f(name, x, y, z, canvasId);
+            uniform3f: function (name, x, y, z) {
+                return innerProgram.uniform3f(name, x, y, z);
             },
-            uniform4f: function (name, x, y, z, w, canvasId) {
-                return innerProgram.uniform4f(name, x, y, z, w, canvasId);
+            uniform4f: function (name, x, y, z, w) {
+                return innerProgram.uniform4f(name, x, y, z, w);
             },
-            mat2: function (name, matrix, transpose, canvasId) {
-                return innerProgram.mat2(name, matrix, transpose, canvasId);
+            mat2: function (name, matrix, transpose) {
+                return innerProgram.mat2(name, matrix, transpose);
             },
-            mat3: function (name, matrix, transpose, canvasId) {
-                return innerProgram.mat3(name, matrix, transpose, canvasId);
+            mat3: function (name, matrix, transpose) {
+                return innerProgram.mat3(name, matrix, transpose);
             },
-            mat4: function (name, matrix, transpose, canvasId) {
-                return innerProgram.mat4(name, matrix, transpose, canvasId);
+            mat4: function (name, matrix, transpose) {
+                return innerProgram.mat4(name, matrix, transpose);
             },
-            vec2: function (name, vector, canvasId) {
-                return innerProgram.vec2(name, vector, canvasId);
+            vec2: function (name, vector) {
+                return innerProgram.vec2(name, vector);
             },
-            vec3: function (name, vector, canvasId) {
-                return innerProgram.vec3(name, vector, canvasId);
+            vec3: function (name, vector) {
+                return innerProgram.vec3(name, vector);
             },
-            vec4: function (name, vector, canvasId) {
-                return innerProgram.vec4(name, vector, canvasId);
+            vec4: function (name, vector) {
+                return innerProgram.vec4(name, vector);
             },
-            vector2: function (name, data, canvasId) {
-                return innerProgram.vector2(name, data, canvasId);
+            vector2: function (name, data) {
+                return innerProgram.vector2(name, data);
             },
-            vector3: function (name, data, canvasId) {
-                return innerProgram.vector3(name, data, canvasId);
+            vector3: function (name, data) {
+                return innerProgram.vector3(name, data);
             },
-            vector4: function (name, data, canvasId) {
-                return innerProgram.vector4(name, data, canvasId);
+            vector4: function (name, data) {
+                return innerProgram.vector4(name, data);
             }
         };
         return self;

@@ -77,9 +77,9 @@ export default class ModelFacet extends ModelE3 implements Facet, IAnimationTarg
     /**
      * @method setUniforms
      * @param visitor {FacetVisitor}
-     * @param canvasId {number}
+     * @return {void}
      */
-    setUniforms(visitor: FacetVisitor, canvasId: number) {
+    setUniforms(visitor: FacetVisitor): void {
         if (this.X.modified) {
             this.matT.translation(this.X)
             this.X.modified = false
@@ -96,8 +96,8 @@ export default class ModelFacet extends ModelE3 implements Facet, IAnimationTarg
 
         this.matN.normalFromMat4R(this.matM)
 
-        visitor.mat4(GraphicsProgramSymbols.UNIFORM_MODEL_MATRIX, this.matM, false, canvasId)
-        visitor.mat3(GraphicsProgramSymbols.UNIFORM_NORMAL_MATRIX, this.matN, false, canvasId)
+        visitor.mat4(GraphicsProgramSymbols.UNIFORM_MODEL_MATRIX, this.matM, false)
+        visitor.mat3(GraphicsProgramSymbols.UNIFORM_NORMAL_MATRIX, this.matN, false)
     }
 
     /**

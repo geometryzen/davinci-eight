@@ -37,12 +37,12 @@ define(["require", "exports", '../math/CartesianE3', '../checks/mustBeArray', '.
             mustBeArray_1.default('value', value);
             return this;
         };
-        ReflectionFacetE3.prototype.setUniforms = function (visitor, canvasId) {
+        ReflectionFacetE3.prototype.setUniforms = function (visitor) {
             if (this._normal.modified) {
                 this.matrix.reflection(this._normal);
                 this._normal.modified = false;
             }
-            visitor.mat4(this.name, this.matrix, false, canvasId);
+            visitor.mat4(this.name, this.matrix, false);
         };
         return ReflectionFacetE3;
     })(Shareable_1.default);

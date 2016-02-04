@@ -20,18 +20,18 @@ define(["require", "exports", '../cameras/createPerspective', '../i18n/readOnly'
         }
         PerspectiveCamera.prototype.destructor = function () {
         };
-        PerspectiveCamera.prototype.setUniforms = function (visitor, canvasId) {
+        PerspectiveCamera.prototype.setUniforms = function (visitor) {
             this.inner.setNear(this.near);
             this.inner.setFar(this.far);
-            this.inner.setUniforms(visitor, canvasId);
+            this.inner.setUniforms(visitor);
         };
         PerspectiveCamera.prototype.contextFree = function (manager) {
         };
         PerspectiveCamera.prototype.contextGain = function (manager) {
         };
-        PerspectiveCamera.prototype.contextLost = function (canvasId) {
+        PerspectiveCamera.prototype.contextLost = function () {
         };
-        PerspectiveCamera.prototype.draw = function (canvasId) {
+        PerspectiveCamera.prototype.draw = function () {
         };
         PerspectiveCamera.prototype.getProperty = function (name) {
             mustBeString_1.default('name', name);

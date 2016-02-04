@@ -56,7 +56,7 @@ export default class WebGLClearColor extends Shareable implements IContextComman
         manager.gl.clearColor(this.red, this.green, this.blue, this.alpha)
     }
 
-    contextLost(canvasId: number): void {
+    contextLost(): void {
         // Do nothing;
     }
 }

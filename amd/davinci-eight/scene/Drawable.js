@@ -23,17 +23,17 @@ define(["require", "exports", '../i18n/readOnly', '../utils/Shareable', '../coll
             this._facets = void 0;
             _super.prototype.destructor.call(this);
         };
-        Drawable.prototype.draw = function (canvasId) {
+        Drawable.prototype.draw = function () {
             var program = this._graphicsProgram;
-            program.use(canvasId);
-            this.setUniforms(canvasId);
-            this._graphicsBuffers.draw(program, canvasId);
+            program.use();
+            this.setUniforms();
+            this._graphicsBuffers.draw(program);
         };
-        Drawable.prototype.setUniforms = function (canvasId) {
+        Drawable.prototype.setUniforms = function () {
             var _this = this;
             var facets = this._facets;
             facets.forEach(function (name, facet) {
-                facet.setUniforms(_this._graphicsProgram, canvasId);
+                facet.setUniforms(_this._graphicsProgram);
             });
         };
         Drawable.prototype.contextFree = function (manager) {
@@ -44,9 +44,9 @@ define(["require", "exports", '../i18n/readOnly', '../utils/Shareable', '../coll
             this._graphicsBuffers.contextGain(manager);
             this._graphicsProgram.contextGain(manager);
         };
-        Drawable.prototype.contextLost = function (canvasId) {
-            this._graphicsBuffers.contextLost(canvasId);
-            this._graphicsProgram.contextLost(canvasId);
+        Drawable.prototype.contextLost = function () {
+            this._graphicsBuffers.contextLost();
+            this._graphicsProgram.contextLost();
         };
         Drawable.prototype.getFacet = function (name) {
             return this._facets.get(name);

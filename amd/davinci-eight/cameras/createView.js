@@ -67,14 +67,14 @@ define(["require", "exports", '../math/Euclidean3', '../math/R3', '../math/Mat4R
                 up.direction();
                 return self;
             },
-            setUniforms: function (visitor, canvasId) {
+            setUniforms: function (visitor) {
                 if (eye.modified || look.modified || up.modified) {
                     viewMatrix_1.default(eye, look, up, viewMatrix);
                     eye.modified = false;
                     look.modified = false;
                     up.modified = false;
                 }
-                visitor.mat4(viewMatrixName, viewMatrix, false, canvasId);
+                visitor.mat4(viewMatrixName, viewMatrix, false);
             }
         };
         return self;

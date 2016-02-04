@@ -46,7 +46,7 @@ define(["require", "exports", '../commands/BlendFactor', '../utils/Shareable'], 
         WebGLBlendFunc.prototype.contextGain = function (manager) {
             this.execute(manager.gl);
         };
-        WebGLBlendFunc.prototype.contextLost = function (canvasId) {
+        WebGLBlendFunc.prototype.contextLost = function () {
         };
         WebGLBlendFunc.prototype.execute = function (gl) {
             gl.blendFunc(factor(this.sfactor, gl), factor(this.dfactor, gl));

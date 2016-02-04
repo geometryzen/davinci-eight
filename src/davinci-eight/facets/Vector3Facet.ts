@@ -47,7 +47,7 @@ export default class Vector3Facet extends Shareable implements Facet {
     }
 
 
-    setUniforms(visitor: FacetVisitor, canvasId: number): void {
-        visitor.vec3(this._name, this._vector, canvasId)
+    setUniforms(visitor: FacetVisitor): void {
+        visitor.vec3(this._name, this._vector)
     }
 }

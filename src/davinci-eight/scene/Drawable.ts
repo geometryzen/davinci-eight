@@ -73,31 +73,29 @@ export default class Drawable extends Shareable implements IDrawable {
 
     /**
      * @method draw
-     * @param canvasId {number}
      * @return {void}
      */
-    draw(canvasId: number): void {
+    draw(): void {
         // Using the private member ensures that we don't accidentally addRef.
         const program = this._graphicsProgram
 
-        program.use(canvasId)
+        program.use()
 
-        this.setUniforms(canvasId);
+        this.setUniforms();
 
-        this._graphicsBuffers.draw(program, canvasId)
+        this._graphicsBuffers.draw(program)
     }
 
     /**
      * @method setUniforms
-     * @param canvasId {number}
      * @return {void}
      */
-    setUniforms(canvasId: number): void {
+    setUniforms(): void {
 
         const facets: StringIUnknownMap<Facet> = this._facets
         // TODO: Faster iteration of facets without using a callback.
         facets.forEach((name: string, facet: Facet) => {
-            facet.setUniforms(this._graphicsProgram, canvasId)
+            facet.setUniforms(this._graphicsProgram)
         })
 
     }
@@ -112,9 +110,9 @@ export default class Drawable extends Shareable implements IDrawable {
         this._graphicsProgram.contextGain(manager)
     }
 
-    contextLost(canvasId: number): void {
-        this._graphicsBuffers.contextLost(canvasId)
-        this._graphicsProgram.contextLost(canvasId)
+    contextLost(): void {
+        this._graphicsBuffers.contextLost()
+        this._graphicsProgram.contextLost()
     }
 
     /**

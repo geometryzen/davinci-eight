@@ -116,9 +116,8 @@ declare module EIGHT {
          * to properly dispose of any cached resources. In the case of shared objects, this
          * method may be called multiple times for what is logically the same context. In such
          * cases the dependent must be idempotent and respond only to the first request.
-         * canvasId: Determines the context for which resources are being freed.
          */
-        contextFree(canvasId: number): void;
+        contextFree(): void;
         /**
          * Called to inform the dependent of a new WebGL rendering context.
          * The implementation should ignore the notification if it has already
@@ -131,9 +130,8 @@ declare module EIGHT {
          * The dependent must assume that any cached context is invalid.
          * The dependent must not try to use and cached context to free resources.
          * The dependent should reset its state to that for which there is no context.
-         * canvasId: Determines the context for which resources are being lost.
          */
-        contextLost(canvasId: number): void;
+        contextLost(): void;
     }
 
     /**
@@ -2538,19 +2536,19 @@ declare module EIGHT {
      *
      */
     interface FacetVisitor {
-        uniform1f(name: string, x: number, canvasId: number): void;
-        uniform2f(name: string, x: number, y: number, canvasId: number): void;
-        uniform3f(name: string, x: number, y: number, z: number, canvasId: number): void;
-        uniform4f(name: string, x: number, y: number, z: number, w: number, canvasId: number): void;
-        mat2(name: string, matrix: Mat2R, transpose: boolean, canvasId: number): void;
-        mat3(name: string, matrix: Mat3R, transpose: boolean, canvasId: number): void;
-        mat4(name: string, matrix: Mat4R, transpose: boolean, canvasId: number): void;
-        vec2(name: string, vector: VectorE2, canvasId: number): void;
-        vec3(name: string, vector: VectorE3, canvasId: number): void;
-        vec4(name: string, vector: VectorE4, canvasId: number): void;
-        vector2(name: string, coords: number[], canvasId: number): void;
-        vector3(name: string, coords: number[], canvasId: number): void;
-        vector4(name: string, coords: number[], canvasId: number): void;
+        uniform1f(name: string, x: number): void;
+        uniform2f(name: string, x: number, y: number): void;
+        uniform3f(name: string, x: number, y: number, z: number): void;
+        uniform4f(name: string, x: number, y: number, z: number, w: number): void;
+        mat2(name: string, matrix: Mat2R, transpose: boolean): void;
+        mat3(name: string, matrix: Mat3R, transpose: boolean): void;
+        mat4(name: string, matrix: Mat4R, transpose: boolean): void;
+        vec2(name: string, vector: VectorE2): void;
+        vec3(name: string, vector: VectorE3): void;
+        vec4(name: string, vector: VectorE4): void;
+        vector2(name: string, coords: number[]): void;
+        vector3(name: string, coords: number[]): void;
+        vector4(name: string, coords: number[]): void;
     }
 
     /**
@@ -2558,7 +2556,7 @@ declare module EIGHT {
      */
     interface Facet extends IAnimationTarget {
         setProperty(name: string, value: number[]): Facet;
-        setUniforms(visitor: FacetVisitor, canvasId: number): void;
+        setUniforms(visitor: FacetVisitor): void;
     }
 
     /**
@@ -2799,12 +2797,9 @@ declare module EIGHT {
      */
     interface IGraphicsBuffers extends IResource {
         /**
-         * @method draw
-         * @param program {IGraphicsProgram}
-         * @param canvasId {number}
-         * @return {void}
+         *
          */
-        draw(program: IGraphicsProgram, canvasId: number): void;
+        draw(program: IGraphicsProgram): void;
     }
 
     /**
@@ -2814,11 +2809,11 @@ declare module EIGHT {
         programId: string;
         vertexShader: string;
         fragmentShader: string;
-        use(canvasId: number): void;
-        attributes(canvasId: number): { [name: string]: AttribLocation };
-        uniforms(canvasId: number): { [name: string]: UniformLocation };
-        enableAttrib(name: string, canvasId: number): void;
-        disableAttrib(name: string, canvasId: number): void;
+        use(): void;
+        attributes(): { [name: string]: AttribLocation };
+        uniforms(): { [name: string]: UniformLocation };
+        enableAttrib(name: string): void;
+        disableAttrib(name: string): void;
     }
 
     /**
@@ -2942,7 +2937,7 @@ declare module EIGHT {
     /**
      *
      */
-    interface IContextProvider extends ContextUnique, IUnknown {
+    interface IContextProvider extends IUnknown {
         createArrayBuffer(): IBuffer;
         createElementArrayBuffer(): IBuffer;
         createBufferGeometry(primitive: Primitive, usage?: number): IBufferGeometry;
@@ -2955,10 +2950,9 @@ declare module EIGHT {
     /**
      * Constructs and returns a IContextProvider.
      * canvas: The HTML5 Canvas to be used for WebGL rendering.
-     * canvasId: The optional user-defined integer identifier for the canvas. Default is zero (0).
      * attributes: Optional attributes for initializing the context.
      */
-    function webgl(canvas: HTMLCanvasElement, canvasId: number, attributes?: WebGLContextAttributes): IContextProvider;
+    function webgl(canvas: HTMLCanvasElement, attributes?: WebGLContextAttributes): IContextProvider;
 
     /**
      * A set of <em>state variables</em> for graphics modeling in Euclidean 2D space.
@@ -3006,7 +3000,7 @@ declare module EIGHT {
         decRef(): ModelFacet;
         getProperty(name: string): number[];
         setProperty(name: string, value: number[]): ModelFacet;
-        setUniforms(visitor: FacetVisitor, canvasId: number): void;
+        setUniforms(visitor: FacetVisitor): void;
     }
 
     /**
@@ -3125,18 +3119,8 @@ declare module EIGHT {
     /**
      *
      */
-    interface ContextUnique {
-        /**
-         * The user-assigned unique identifier of a canvas.
-         */
-        canvasId: number;
-    }
-
-    /**
-     *
-     */
     interface ContextController {
-        start(canvas: HTMLCanvasElement, canvasId: number): void
+        start(canvas: HTMLCanvasElement): void
         stop(): void;
         // TODO: kill
         // kill(): void;
@@ -3161,9 +3145,9 @@ declare module EIGHT {
         name: string;
 
         /**
-         * canvasId: Identifies the canvas on which to draw.
+         *
          */
-        draw(canvasId: number): void;
+        draw(): void;
 
         /**
          *
@@ -3183,7 +3167,7 @@ declare module EIGHT {
 
         add(drawable: IDrawable): void;
 
-        draw(ambients: Facet[], canvasId: number): void;
+        draw(ambients: Facet[]): void;
 
         /**
          * Gets a drawable that matches the specified test.
@@ -3202,7 +3186,7 @@ declare module EIGHT {
 
         remove(drawable: IDrawable): void;
 
-        traverse(callback: (drawable: IDrawable) => void, canvasId: number): void;
+        traverse(callback: (drawable: IDrawable) => void): void;
     }
 
     /**
@@ -3213,17 +3197,17 @@ declare module EIGHT {
         add(drawable: IDrawable): void
         addRef(): number
         attachTo(monitor: IContextMonitor): void
-        contextFree(canvasId: number): void
+        contextFree(): void
         contextGain(manager: IContextProvider): void
-        contextLost(canvasId: number): void
+        contextLost(): void
         detachFrom(monitor: IContextMonitor): void
-        draw(ambients: Facet[], canvasId: number): void
+        draw(ambients: Facet[]): void
         findOne(match: (drawable: IDrawable) => boolean): IDrawable
         getDrawableByName(name: string): IDrawable
         getDrawablesByName(name: string): IUnknownArray<IDrawable>
         release(): number
         remove(drawable: IDrawable): void
-        traverse(callback: (drawable: IDrawable) => void, canvasId: number): void
+        traverse(callback: (drawable: IDrawable) => void): void
     }
 
     /**
@@ -3279,10 +3263,10 @@ declare module EIGHT {
          */
         constructor(fov?: number, aspect?: number, near?: number, far?: number);
         addRef(): number;
-        contextFree(canvasId: number): void;
+        contextFree(): void;
         contextGain(manager: IContextProvider): void;
-        contextLost(canvasId: number): void;
-        draw(canvasId: number): void;
+        contextLost(): void;
+        draw(): void;
         /**
          *
          */
@@ -3295,11 +3279,9 @@ declare module EIGHT {
         setNear(near: number): PerspectiveCamera
         setUp(up: VectorE3): PerspectiveCamera
         /**
-         * sets the uniform values from this instance into the WebGLProgram(s) defined by the arguments.
-         * visitor.: The visitor which is receiving the uniform values.
-         * canvasId: The identifier of the canvas.
+         *
          */
-        setUniforms(visitor: FacetVisitor, canvasId: number): void
+        setUniforms(visitor: FacetVisitor): void
         release(): number
     }
 
@@ -3356,11 +3338,6 @@ declare module EIGHT {
         /**
          *
          */
-        canvasId: number;
-
-        /**
-         *
-         */
         commands: IUnknownArray<IContextCommand>;
 
         /**
@@ -3388,7 +3365,7 @@ declare module EIGHT {
         /**
          *
          */
-        contextFree(canvasId: number): void;
+        contextFree(): void;
 
         /**
          *
@@ -3398,7 +3375,7 @@ declare module EIGHT {
         /**
          *
          */
-        contextLost(canvasId: number): void;
+        contextLost(): void;
 
         /**
          *
@@ -3447,10 +3424,8 @@ declare module EIGHT {
 
         /**
          * Initializes the WebGL context for the specified <code>canvas</code>.
-         * @param canvas The HTML canvas element.
-         * @param canvasId An optional user-defined alias for the canvas when using multi-canvas.
          */
-        start(canvas: HTMLCanvasElement, canvasId: number): WebGLRenderer;
+        start(canvas: HTMLCanvasElement): WebGLRenderer;
 
         /**
          * Terminates the <code>WebGLRenderingContext</code> for the underlying canvas.
@@ -3732,37 +3707,37 @@ declare module EIGHT {
         vertexShader: string;
         fragmentShader: string;
         addRef(): number;
-        attributes(canvasId: number): { [name: string]: AttribLocation };
-        contextFree(canvasId: number): void;
+        attributes(): { [name: string]: AttribLocation };
+        contextFree(): void;
         contextGain(manager: IContextProvider): void;
-        contextLost(canvasId: number): void;
+        contextLost(): void;
         constructor(name: string, monitors?: IContextMonitor[]);
-        disableAttrib(name: string, canvasId: number): void;
-        enableAttrib(name: string, canvasId: number): void;
+        disableAttrib(name: string): void;
+        enableAttrib(name: string): void;
         release(): number;
-        uniform1f(name: string, x: number, canvasId: number): void;
-        uniform2f(name: string, x: number, y: number, canvasId: number): void;
-        uniform3f(name: string, x: number, y: number, z: number, canvasId: number): void;
-        uniform4f(name: string, x: number, y: number, z: number, w: number, canvasId: number): void;
-        mat2(name: string, matrix: Mat2R, transpose: boolean, canvasId: number): void;
-        mat3(name: string, matrix: Mat3R, transpose: boolean, canvasId: number): void;
-        mat4(name: string, matrix: Mat4R, transpose: boolean, canvasId: number): void;
-        uniforms(canvasId: number): { [name: string]: UniformLocation };
-        vec2(name: string, vector: VectorE2, canvasId: number): void;
-        vec3(name: string, vector: VectorE3, canvasId: number): void;
-        vec4(name: string, vector: VectorE4, canvasId: number): void;
-        use(canvasId: number): void;
-        vector2(name: string, coords: number[], canvasId: number): void;
-        vector3(name: string, coords: number[], canvasId: number): void;
-        vector4(name: string, coords: number[], canvasId: number): void;
+        uniform1f(name: string, x: number): void;
+        uniform2f(name: string, x: number, y: number): void;
+        uniform3f(name: string, x: number, y: number, z: number): void;
+        uniform4f(name: string, x: number, y: number, z: number, w: number): void;
+        mat2(name: string, matrix: Mat2R, transpose: boolean): void;
+        mat3(name: string, matrix: Mat3R, transpose: boolean): void;
+        mat4(name: string, matrix: Mat4R, transpose: boolean): void;
+        uniforms(): { [name: string]: UniformLocation };
+        vec2(name: string, vector: VectorE2): void;
+        vec3(name: string, vector: VectorE3): void;
+        vec4(name: string, vector: VectorE4): void;
+        use(): void;
+        vector2(name: string, coords: number[]): void;
+        vector3(name: string, coords: number[]): void;
+        vector4(name: string, coords: number[]): void;
     }
 
     class GraphicsBuffers extends Shareable implements IGraphicsBuffers {
         constructor(primitives: Primitive[]);
-        contextFree(canvasId: number): void;
+        contextFree(): void;
         contextGain(manager: IContextProvider): void;
-        contextLost(canvasId: number): void;
-        draw(program: IGraphicsProgram, canvasId: number): void;
+        contextLost(): void;
+        draw(program: IGraphicsProgram): void;
     }
 
     /**
@@ -3789,13 +3764,12 @@ declare module EIGHT {
 
         constructor(graphicsBuffers: IGraphicsBuffers, graphicsProgram: IGraphicsProgram);
         /**
-         * Draws the primitives using the graphics program to the specified canvas.
-         * <code>canvasId</code> is optional and may be omitted when using a single canvas.
+         *
          */
-        draw(canvasId: number): void;
-        contextFree(canvasId: number): void;
+        draw(): void;
+        contextFree(): void;
         contextGain(manager: IContextProvider): void;
-        contextLost(canvasId: number): void;
+        contextLost(): void;
 
         /**
          * Gets a facet of this drawable object by name.
@@ -3912,7 +3886,7 @@ declare module EIGHT {
     class AbstractFacet extends Shareable implements Facet {
         getProperty(name: string): number[];
         setProperty(name: string, value: number[]): Facet;
-        setUniforms(visitor: FacetVisitor, canvasId: number): void;
+        setUniforms(visitor: FacetVisitor): void;
     }
 
     class AmbientLight extends AbstractFacet {
@@ -4012,10 +3986,9 @@ declare module EIGHT {
         setProperty(name: string, value: Array<number>): ReflectionFacetE2;
 
         /**
-         * @param visitor
-         * @param canvasId
+         *
          */
-        setUniforms(visitor: FacetVisitor, canvasId: number): void;
+        setUniforms(visitor: FacetVisitor): void;
     }
 
     /**
@@ -4045,10 +4018,9 @@ declare module EIGHT {
         setProperty(name: string, value: Array<number>): ReflectionFacetE3;
 
         /**
-         * @param visitor
-         * @param canvasId
+         *
          */
-        setUniforms(visitor: FacetVisitor, canvasId: number): void;
+        setUniforms(visitor: FacetVisitor): void;
     }
 
     // commands
@@ -4128,17 +4100,17 @@ declare module EIGHT {
         dfactor: BlendFactor;
         constructor(sfactor: BlendFactor, dfactor: BlendFactor);
         /**
-         * canvasId
+         *
          */
-        contextFree(canvasId: number): void;
+        contextFree(): void;
         /**
          * manager
          */
         contextGain(manager: IContextProvider): void;
         /**
-         * canvasId
+         *
          */
-        contextLost(canvasId: number): void;
+        contextLost(): void;
     }
 
     /**
@@ -4151,17 +4123,17 @@ declare module EIGHT {
         alpha: number;
         constructor(red?: number, green?: number, blue?: number, alpha?: number);
         /**
-         * canvasId
+         *
          */
-        contextFree(canvasId: number): void;
+        contextFree(): void;
         /**
          * manager
          */
         contextGain(manager: IContextProvider): void;
         /**
-         * canvasId
+         *
          */
-        contextLost(canvasId: number): void;
+        contextLost(): void;
     }
 
     /**
@@ -4205,7 +4177,7 @@ declare module EIGHT {
         /**
          *
          */
-        contextFree(canvasId: number): void;
+        contextFree(): void;
         /**
          *
          */
@@ -4213,7 +4185,7 @@ declare module EIGHT {
         /**
          *
          */
-        contextLost(canvasId: number): void;
+        contextLost(): void;
     }
 
     /**
@@ -4227,7 +4199,7 @@ declare module EIGHT {
         /**
          *
          */
-        contextFree(canvasId: number): void;
+        contextFree(): void;
         /**
          *
          */
@@ -4235,7 +4207,7 @@ declare module EIGHT {
         /**
          *
          */
-        contextLost(canvasId: number): void;
+        contextLost(): void;
     }
 
     ///////////////////////////////////////////////////////////////////////////////

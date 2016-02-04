@@ -38,24 +38,21 @@ interface IGraphicsProgram extends IResource, FacetVisitor {
     /**
      * Makes the Program the current program for WebGL.
      * @method use
-     * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    use(canvasId: number): void;
+    use(): void;
 
     /**
      * @method attributes
-     * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {{ [name: string]: AttribLocation }}
      */
-    attributes(canvasId: number): { [name: string]: AttribLocation };
+    attributes(): { [name: string]: AttribLocation };
 
     /**
      * @method uniforms
-     * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {{ [name: string]: UniformLocation }}
      */
-    uniforms(canvasId: number): { [name: string]: UniformLocation };
+    uniforms(): { [name: string]: UniformLocation };
 
     /**
      * <p>
@@ -63,12 +60,11 @@ interface IGraphicsProgram extends IResource, FacetVisitor {
      * </p>
      * @method enableAttrib
      * @param name {string} The name of the attribute to enable.
-     * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      * @beta
      */
     // FIXME: Can we move to the attribute index?
-    enableAttrib(name: string, canvasId: number): void;
+    enableAttrib(name: string): void;
 
     /**
      * <p>
@@ -76,12 +72,11 @@ interface IGraphicsProgram extends IResource, FacetVisitor {
      * </p>
      * @method disableAttrib
      * @param name {string} The name of the attribute disable.
-     * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      * @beta
      */
     // FIXME: Can we move to the attribute index?
-    disableAttrib(name: string, canvasId: number): void;
+    disableAttrib(name: string): void;
 }
 
 export default IGraphicsProgram;

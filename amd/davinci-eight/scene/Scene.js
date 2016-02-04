@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../core', '../collections/IUnknownArray', '../scene/MonitorList', '../checks/mustBeArray', '../checks/mustBeFunction', '../checks/mustBeNumber', '../checks/mustBeObject', '../checks/mustBeString', '../collections/NumberIUnknownMap', '../utils/Shareable'], function (require, exports, core_1, IUnknownArray_1, MonitorList_1, mustBeArray_1, mustBeFunction_1, mustBeNumber_1, mustBeObject_1, mustBeString_1, NumberIUnknownMap_1, Shareable_1) {
+define(["require", "exports", '../core', '../collections/IUnknownArray', '../scene/MonitorList', '../checks/mustBeArray', '../checks/mustBeFunction', '../checks/mustBeObject', '../checks/mustBeString', '../utils/Shareable'], function (require, exports, core_1, IUnknownArray_1, MonitorList_1, mustBeArray_1, mustBeFunction_1, mustBeObject_1, mustBeString_1, Shareable_1) {
     var LOGGING_NAME = 'Scene';
     function ctorContext() {
         return LOGGING_NAME + " constructor";
@@ -13,7 +13,6 @@ define(["require", "exports", '../core', '../collections/IUnknownArray', '../sce
         function Scene(monitors) {
             if (monitors === void 0) { monitors = []; }
             _super.call(this, LOGGING_NAME);
-            this._canvasIdToManager = new NumberIUnknownMap_1.default();
             mustBeArray_1.default('monitors', monitors);
             MonitorList_1.default.verify('monitors', monitors, ctorContext);
             this.monitors = new MonitorList_1.default(monitors);
@@ -24,7 +23,6 @@ define(["require", "exports", '../core', '../collections/IUnknownArray', '../sce
         Scene.prototype.destructor = function () {
             this.monitors.removeContextListener(this);
             this.monitors.release();
-            this._canvasIdToManager.release();
             this._drawables.release();
             _super.prototype.destructor.call(this);
         };
@@ -38,30 +36,27 @@ define(["require", "exports", '../core', '../collections/IUnknownArray', '../sce
         };
         Scene.prototype.add = function (drawable) {
             mustBeObject_1.default('drawable', drawable);
-            this._canvasIdToManager.forEach(function (id, manager) {
-                drawable.contextGain(manager);
-            });
             this._drawables.push(drawable);
         };
         Scene.prototype.containsDrawable = function (drawable) {
             mustBeObject_1.default('drawable', drawable);
             return this._drawables.indexOf(drawable) >= 0;
         };
-        Scene.prototype.draw = function (ambients, canvasId) {
+        Scene.prototype.draw = function (ambients) {
             for (var i = 0; i < this._drawables.length; i++) {
                 var drawable = this._drawables.getWeakRef(i);
                 var graphicsProgram = drawable.graphicsProgram;
-                graphicsProgram.use(canvasId);
+                graphicsProgram.use();
                 if (ambients) {
                     var aLength = ambients.length;
                     for (var a = 0; a < aLength; a++) {
                         var ambient = ambients[a];
-                        ambient.setUniforms(graphicsProgram, canvasId);
+                        ambient.setUniforms(graphicsProgram);
                     }
                 }
-                drawable.setUniforms(canvasId);
+                drawable.setUniforms();
                 var buffers = drawable.graphicsBuffers;
-                buffers.draw(graphicsProgram, canvasId);
+                buffers.draw(graphicsProgram);
                 buffers.release();
                 graphicsProgram.release();
             }
@@ -100,25 +95,17 @@ define(["require", "exports", '../core', '../collections/IUnknownArray', '../sce
                 var drawable = this._drawables.getWeakRef(i);
                 drawable.contextFree(manager);
             }
-            this._canvasIdToManager.remove(manager.canvasId);
         };
         Scene.prototype.contextGain = function (manager) {
-            if (!this._canvasIdToManager.exists(manager.canvasId)) {
-                this._canvasIdToManager.put(manager.canvasId, manager);
-            }
             for (var i = 0; i < this._drawables.length; i++) {
                 var drawable = this._drawables.getWeakRef(i);
                 drawable.contextGain(manager);
             }
         };
-        Scene.prototype.contextLost = function (canvasId) {
-            mustBeNumber_1.default('canvasId', canvasId);
-            if (this._canvasIdToManager.exists(canvasId)) {
-                this._canvasIdToManager.remove(canvasId);
-            }
+        Scene.prototype.contextLost = function () {
             for (var i = 0; i < this._drawables.length; i++) {
                 var drawable = this._drawables.getWeakRef(i);
-                drawable.contextLost(canvasId);
+                drawable.contextLost();
             }
         };
         return Scene;

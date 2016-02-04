@@ -37,12 +37,9 @@ interface IContextConsumer extends IUnknown {
      * The dependent must not try to use and cached context to free resources.
      * The dependent should reset its state to that for which there is no context.
      * @method contextLost
-     * @param [canvasId] {number} Determines the context for which resources are being lost.
-     *
-     * The canvasId is provided, rather than the manager, to remind implementors
-     * that resources have been lost and cannot be freed by the application.
+     * @return {void}
      */
-    contextLost(canvasId: number): void;
+    contextLost(): void;
 }
 
 export default IContextConsumer;

@@ -344,15 +344,14 @@ export default class SimpleWebGLProgram extends Shareable implements IContextCon
      * @protected
      */
     protected destructor(): void {
-        let context = this.context
-        let canvasId = context.canvasId
+        const context = this.context
         // If the program has been allocated, find out what to do with it.
         // (we may have been disconnected from listening)
         if (this.program) {
             let gl = context.gl
             if (gl) {
                 if (gl.isContextLost()) {
-                    this.contextLost(canvasId)
+                    this.contextLost()
                 }
                 else {
                     this.contextFree(context)
@@ -365,6 +364,7 @@ export default class SimpleWebGLProgram extends Shareable implements IContextCon
         context.removeContextListener(this)
         this.context.release()
         this.context = void 0
+        super.destructor()
     }
 
     contextGain(manager: IContextProvider): void {

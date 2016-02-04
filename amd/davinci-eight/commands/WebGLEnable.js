@@ -15,7 +15,7 @@ define(["require", "exports", '../commands/glCapability', '../checks/mustBeNumbe
         WebGLEnable.prototype.contextGain = function (manager) {
             manager.gl.enable(glCapability_1.default(this._capability, manager.gl));
         };
-        WebGLEnable.prototype.contextLost = function (canvasId) {
+        WebGLEnable.prototype.contextLost = function () {
         };
         WebGLEnable.prototype.destructor = function () {
             this._capability = void 0;

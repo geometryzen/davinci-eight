@@ -5,10 +5,9 @@ interface IGraphicsBuffers extends IResource {
     /**
      * @method draw
      * @param program {IGraphicsProgram}
-     * @param canvasId {number}
      * @return {void}
      */
-    draw(program: IGraphicsProgram, canvasId: number): void;
+    draw(program: IGraphicsProgram): void;
 }
 
 export default IGraphicsBuffers;

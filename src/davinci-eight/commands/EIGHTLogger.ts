@@ -35,7 +35,7 @@ export default class EIGHTLogger extends Shareable implements IContextCommand {
     contextGain(manager: IContextProvider): void {
         console.log(core.NAMESPACE + " " + core.VERSION + " (" + core.GITHUB + ") " + core.LAST_MODIFIED);
     }
-    contextLost(canvasId: number): void {
+    contextLost(): void {
         // Do nothing.
     }
     /**

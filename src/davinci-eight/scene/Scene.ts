@@ -10,10 +10,8 @@ import IGraphicsProgram from '../core/IGraphicsProgram';
 import MonitorList from '../scene/MonitorList';
 import mustBeArray from '../checks/mustBeArray';
 import mustBeFunction from '../checks/mustBeFunction';
-import mustBeNumber from '../checks/mustBeNumber';
 import mustBeObject from '../checks/mustBeObject';
 import mustBeString from '../checks/mustBeString';
-import NumberIUnknownMap from '../collections/NumberIUnknownMap';
 import Shareable from '../utils/Shareable';
 
 const LOGGING_NAME = 'Scene';
@@ -29,7 +27,6 @@ function ctorContext(): string {
 export default class Scene extends Shareable implements IDrawList {
 
     private _drawables: IUnknownArray<IDrawable>;
-    private _canvasIdToManager = new NumberIUnknownMap<IContextProvider>();
     private monitors: MonitorList;
 
     // FIXME: Do I need the collection, or can I be fooled into thinking there is one monitor?
@@ -44,13 +41,13 @@ export default class Scene extends Shareable implements IDrawList {
      * @param [monitors = []] {Array&lt;IContextMonitor&gt;}
      */
     constructor(monitors: IContextMonitor[] = []) {
-        super(LOGGING_NAME);
-        mustBeArray('monitors', monitors);
-        MonitorList.verify('monitors', monitors, ctorContext);
-        this.monitors = new MonitorList(monitors);
-        this.monitors.addContextListener(this);
-        this.monitors.synchronize(this);
-        this._drawables = new IUnknownArray<IDrawable>();
+        super(LOGGING_NAME)
+        mustBeArray('monitors', monitors)
+        MonitorList.verify('monitors', monitors, ctorContext)
+        this.monitors = new MonitorList(monitors)
+        this.monitors.addContextListener(this)
+        this.monitors.synchronize(this)
+        this._drawables = new IUnknownArray<IDrawable>()
     }
 
     /**
@@ -59,21 +56,20 @@ export default class Scene extends Shareable implements IDrawList {
      * @protected
      */
     protected destructor(): void {
-        this.monitors.removeContextListener(this);
-        this.monitors.release();
-        this._canvasIdToManager.release();
-        this._drawables.release();
-        super.destructor();
+        this.monitors.removeContextListener(this)
+        this.monitors.release()
+        this._drawables.release()
+        super.destructor()
     }
 
     public attachTo(monitor: IContextMonitor) {
-        this.monitors.add(monitor);
-        monitor.addContextListener(this);
+        this.monitors.add(monitor)
+        monitor.addContextListener(this)
     }
 
     public detachFrom(monitor: IContextMonitor) {
-        monitor.removeContextListener(this);
-        this.monitors.remove(monitor);
+        monitor.removeContextListener(this)
+        this.monitors.remove(monitor)
     }
 
     /**
@@ -89,11 +85,6 @@ export default class Scene extends Shareable implements IDrawList {
      */
     add(drawable: IDrawable): void {
         mustBeObject('drawable', drawable);
-        // If we have canvasIdToManager provide them to the drawable before asking for the program.
-        // FIXME: Do we have to be careful about whether the manager has a context?
-        this._canvasIdToManager.forEach(function(id, manager) {
-            drawable.contextGain(manager)
-        });
         this._drawables.push(drawable)
     }
 
@@ -113,11 +104,10 @@ export default class Scene extends Shareable implements IDrawList {
      * </p>
      * @method draw
      * @param ambients {Facet[]}
-     * @param [canvasId] {number}
      * @return {void}
      * @beta
      */
-    draw(ambients: Facet[], canvasId: number): void {
+    draw(ambients: Facet[]): void {
 
         for (let i = 0; i < this._drawables.length; i++) {
 
@@ -125,20 +115,20 @@ export default class Scene extends Shareable implements IDrawList {
 
             const graphicsProgram: IGraphicsProgram = drawable.graphicsProgram
 
-            graphicsProgram.use(canvasId)
+            graphicsProgram.use()
 
             if (ambients) {
                 const aLength = ambients.length;
                 for (let a = 0; a < aLength; a++) {
                     const ambient = ambients[a]
-                    ambient.setUniforms(graphicsProgram, canvasId);
+                    ambient.setUniforms(graphicsProgram);
                 }
             }
 
-            drawable.setUniforms(canvasId);
+            drawable.setUniforms();
 
             const buffers: IGraphicsBuffers = drawable.graphicsBuffers;
-            buffers.draw(graphicsProgram, canvasId)
+            buffers.draw(graphicsProgram)
             buffers.release()
 
             graphicsProgram.release()
@@ -212,27 +202,19 @@ export default class Scene extends Shareable implements IDrawList {
             const drawable = this._drawables.getWeakRef(i);
             drawable.contextFree(manager);
         }
-        this._canvasIdToManager.remove(manager.canvasId);
     }
 
     contextGain(manager: IContextProvider): void {
-        if (!this._canvasIdToManager.exists(manager.canvasId)) {
-            this._canvasIdToManager.put(manager.canvasId, manager)
-        }
         for (let i = 0; i < this._drawables.length; i++) {
             const drawable = this._drawables.getWeakRef(i);
             drawable.contextGain(manager);
         }
     }
 
-    contextLost(canvasId: number): void {
-        mustBeNumber('canvasId', canvasId);
-        if (this._canvasIdToManager.exists(canvasId)) {
-            this._canvasIdToManager.remove(canvasId)
-        }
+    contextLost(): void {
         for (let i = 0; i < this._drawables.length; i++) {
             const drawable = this._drawables.getWeakRef(i);
-            drawable.contextLost(canvasId);
+            drawable.contextLost();
         }
     }
 }

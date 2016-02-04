@@ -36,15 +36,10 @@ define(["require", "exports", '../checks/isDefined', '../checks/mustBeBoolean', 
             }
         };
         BufferResource.prototype.contextGain = function (manager) {
-            if (this.manager.canvasId === manager.canvasId) {
-                if (!this._buffer) {
-                    this._buffer = manager.gl.createBuffer();
-                }
-                else {
-                }
+            if (!this._buffer) {
+                this._buffer = manager.gl.createBuffer();
             }
             else {
-                console.warn("BufferResource ignoring contextGain for canvasId " + manager.canvasId);
             }
         };
         BufferResource.prototype.contextLost = function () {

@@ -27,7 +27,6 @@ import mustBeNumber from '../checks/mustBeNumber';
 import mustBeObject from '../checks/mustBeObject';
 import mustBeString from '../checks/mustBeString';
 import Primitive from '../geometries/Primitive';
-import randumbInteger from '../utils/randumbInteger';
 import readOnly from '../i18n/readOnly';
 import Shareable from '../utils/Shareable';
 import StringIUnknownMap from '../collections/StringIUnknownMap';
@@ -245,7 +244,7 @@ function attribKey(aName: string, aNameToKeyName?: { [aName: string]: string }):
 /**
  *
  */
-function bindProgramAttribLocations(program: IGraphicsProgram, block: ElementsBlock, aNameToKeyName: { [name: string]: string }, canvasId: number) {
+function bindProgramAttribLocations(program: IGraphicsProgram, block: ElementsBlock, aNameToKeyName: { [name: string]: string }) {
     // FIXME: This is where we get the IGraphicsProgram attributes property.
     // FIXME: Can we invert this?
     // What are we offering to the program:
@@ -253,7 +252,7 @@ function bindProgramAttribLocations(program: IGraphicsProgram, block: ElementsBl
     // Offer a NumberIUnknownList<IAttributePointer> which we have prepared up front
     // in order to get the name -> index correct.
     // Then attribute setting should go much faster
-    const attribLocations = program.attributes(canvasId)
+    const attribLocations = program.attributes()
     if (attribLocations) {
         const aNames = Object.keys(attribLocations)
         for (var i = 0, iLength = aNames.length; i < iLength; i++) {
@@ -288,9 +287,9 @@ function bindProgramAttribLocations(program: IGraphicsProgram, block: ElementsBl
     }
 }
 
-function unbindProgramAttribLocations(program: IGraphicsProgram, canvasId: number) {
+function unbindProgramAttribLocations(program: IGraphicsProgram) {
     // FIXME: Not sure if this suggests a disableAll() or something more symmetric.
-    let attribLocations = program.attributes(canvasId)
+    let attribLocations = program.attributes()
     if (attribLocations) {
         let aNames = Object.keys(attribLocations)
         for (var i = 0, iLength = aNames.length; i < iLength; i++) {
@@ -306,13 +305,11 @@ function unbindProgramAttribLocations(program: IGraphicsProgram, canvasId: numbe
  * Implementation of IBufferGeometry coupled to the 'blocks' implementation.
  */
 class BufferGeometry extends Shareable implements IBufferGeometry {
-    private canvasId: number;
     private _program: IGraphicsProgram;
     private _blocks: StringIUnknownMap<ElementsBlock>;
     private gl: WebGLRenderingContext;
-    constructor(canvasId: number, gl: WebGLRenderingContext, blocks: StringIUnknownMap<ElementsBlock>) {
+    constructor(gl: WebGLRenderingContext, blocks: StringIUnknownMap<ElementsBlock>) {
         super('BufferGeometry')
-        this.canvasId = canvasId
         this._blocks = blocks
         this._blocks.addRef()
         this.gl = gl
@@ -336,7 +333,7 @@ class BufferGeometry extends Shareable implements IBufferGeometry {
                     this._program.addRef()
                     block.bind()
                     // FIXME: Make this a part of the block bind method?
-                    bindProgramAttribLocations(this._program, block, aNameToKeyName, this.canvasId)
+                    bindProgramAttribLocations(this._program, block, aNameToKeyName)
                 }
                 else {
                     mustBeObject('program', program)
@@ -364,7 +361,7 @@ class BufferGeometry extends Shareable implements IBufferGeometry {
             if (block) {
                 block.unbind()
                 // FIXME: Make this a part of the block unbind method?
-                unbindProgramAttribLocations(this._program, this.canvasId)
+                unbindProgramAttribLocations(this._program)
             }
             else {
                 throw new Error(messageUnrecognizedMesh(this.uuid));
@@ -404,13 +401,6 @@ export default class WebGLRenderer extends Shareable implements ContextControlle
      */
     private _canvas: HTMLCanvasElement;
 
-    /**
-     * @property _canvasId
-     * @type number
-     * @private
-     */
-    private _canvasId: number;
-
     private _attributes: WebGLContextAttributes;
 
     // Remark: We only hold weak references to users so that the lifetime of resource
@@ -443,7 +433,7 @@ export default class WebGLRenderer extends Shareable implements ContextControlle
                 event.preventDefault()
                 this._gl = void 0
                 this._users.forEach((user: IContextConsumer) => {
-                    user.contextLost(this._canvasId)
+                    user.contextLost()
                 })
             }
         }
@@ -496,24 +486,12 @@ export default class WebGLRenderer extends Shareable implements ContextControlle
      */
     get canvas(): HTMLCanvasElement {
         if (!this._canvas) {
-            this.start(document.createElement('canvas'), randumbInteger());
+            this.start(document.createElement('canvas'));
         }
         return this._canvas;
     }
     set canvas(canvas: HTMLCanvasElement) {
         throw new Error(readOnly('canvas').message)
-    }
-
-    /**
-     * @property canvasId
-     * @type {number}
-     * @readOnly
-     */
-    get canvasId(): number {
-        return this._canvasId;
-    }
-    set canvasId(unused) {
-        throw new Error(readOnly('canvasId').message)
     }
 
     /**
@@ -560,9 +538,9 @@ export default class WebGLRenderer extends Shareable implements ContextControlle
         })
     }
 
-    contextLost(canvasId: number) {
+    contextLost() {
         this._commands.forEach(function(command: IContextCommand) {
-            command.contextLost(canvasId)
+            command.contextLost()
         })
     }
 
@@ -600,7 +578,7 @@ export default class WebGLRenderer extends Shareable implements ContextControlle
             return void 0
         }
 
-        const mesh: IBufferGeometry = new BufferGeometry(this._canvasId, this._gl, this._blocks)
+        const mesh: IBufferGeometry = new BufferGeometry(this._gl, this._blocks)
 
         const indexBuffer: IBuffer = this.createElementArrayBuffer()
         indexBuffer.bind();
@@ -732,7 +710,7 @@ export default class WebGLRenderer extends Shareable implements ContextControlle
         const gl = this._gl;
         if (gl) {
             gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-            return drawList.draw(ambients, this._canvasId);
+            return drawList.draw(ambients);
         }
     }
 
@@ -755,11 +733,10 @@ export default class WebGLRenderer extends Shareable implements ContextControlle
      * Initializes the WebGL context for the specified <code>canvas</code>.
      * @method start
      * @param canvas {HTMLCanvasElement} The HTML canvas element.
-     * @param [canvasId] {number} An optional user-defined alias for the canvas when using multi-canvas.
      * @return {WebGLRenderer}
      * @chainable
      */
-    start(canvas: HTMLCanvasElement, canvasId: number): WebGLRenderer {
+    start(canvas: HTMLCanvasElement): WebGLRenderer {
         if (!(canvas instanceof HTMLCanvasElement)) {
             console.warn("canvas must be an HTMLCanvasElement to start the context.")
             return this
@@ -769,11 +746,8 @@ export default class WebGLRenderer extends Shareable implements ContextControlle
         if (!alreadyStarted) {
             // cache the arguments
             this._canvas = canvas
-            this._canvasId = canvasId
         }
         else {
-            // We'll assert that if we have a canvas element then we should have a canvas id.
-            mustBeInteger('_canvasId', this._canvasId);
             // We'll just be idempotent and ignore the call because we've already been started.
             // To use the canvas might conflict with one we have dynamically created.
             if (core.verbose) {
@@ -806,7 +780,6 @@ export default class WebGLRenderer extends Shareable implements ContextControlle
                 this._gl = void 0;
             }
             this._canvas = void 0;
-            this._canvasId = void 0;
         }
         return this
     }
@@ -822,7 +795,7 @@ export default class WebGLRenderer extends Shareable implements ContextControlle
 
     private emitContextGain(consumer: IContextConsumer): void {
         if (this._gl.isContextLost()) {
-            consumer.contextLost(this._canvasId);
+            consumer.contextLost();
         }
         else {
             consumer.contextGain(this);
@@ -840,7 +813,7 @@ export default class WebGLRenderer extends Shareable implements ContextControlle
 
     private emitContextFree(consumer: IContextConsumer): void {
         if (this._gl.isContextLost()) {
-            consumer.contextLost(this._canvasId);
+            consumer.contextLost();
         }
         else {
             consumer.contextFree(this);
@@ -858,7 +831,6 @@ export default class WebGLRenderer extends Shareable implements ContextControlle
         }
         else {
             // FIXME: Broken symmetry.
-            // user.contextFree(_canvasId)
         }
     }
 }

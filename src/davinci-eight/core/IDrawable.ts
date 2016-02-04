@@ -27,7 +27,7 @@ interface IDrawable extends IResource {
      */
     graphicsProgram: IGraphicsProgram;
 
-    setUniforms(canvasId: number);
+    setUniforms();
 
     /**
      * User assigned name of the drawable object.
@@ -37,13 +37,6 @@ interface IDrawable extends IResource {
      * @optional
      */
     name: string;
-
-    /**
-     * @method draw
-     * @param canvasId {number} Determines which canvas the IDrawable should draw to.
-     * @return {void}
-     */
-    // draw(canvasId: number): void;
 
     /**
      * @method getFacet
