@@ -95,16 +95,14 @@ define(["require", "exports", '../core', '../collections/IUnknownArray', '../sce
             mustBeObject_1.default('drawable', drawable);
             throw new Error("TODO");
         };
-        Scene.prototype.contextFree = function (canvasId) {
-            mustBeNumber_1.default('canvasId', canvasId);
+        Scene.prototype.contextFree = function (manager) {
             for (var i = 0; i < this._drawables.length; i++) {
                 var drawable = this._drawables.getWeakRef(i);
-                drawable.contextFree(canvasId);
+                drawable.contextFree(manager);
             }
-            this._canvasIdToManager.remove(canvasId);
+            this._canvasIdToManager.remove(manager.canvasId);
         };
         Scene.prototype.contextGain = function (manager) {
-            mustBeObject_1.default('manager', manager);
             if (!this._canvasIdToManager.exists(manager.canvasId)) {
                 this._canvasIdToManager.put(manager.canvasId, manager);
             }

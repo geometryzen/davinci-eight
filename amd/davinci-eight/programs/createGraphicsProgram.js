@@ -47,11 +47,11 @@ define(["require", "exports", '../scene/MonitorList', '../collections/NumberIUnk
                 }
                 return refCount;
             },
-            contextFree: function (canvasId) {
-                var program = programsByCanvasId.getWeakRef(canvasId);
+            contextFree: function (manager) {
+                var program = programsByCanvasId.getWeakRef(manager.canvasId);
                 if (program) {
-                    program.contextFree(canvasId);
-                    programsByCanvasId.remove(canvasId);
+                    program.contextFree(manager);
+                    programsByCanvasId.remove(manager.canvasId);
                 }
             },
             contextGain: function (manager) {

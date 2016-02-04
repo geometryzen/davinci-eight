@@ -29,7 +29,7 @@ define(["require", "exports", '../core/AttribLocation', '../programs/makeWebGLPr
                         this.contextLost(canvasId);
                     }
                     else {
-                        this.contextFree(canvasId);
+                        this.contextFree(context);
                     }
                 }
                 else {
@@ -40,7 +40,7 @@ define(["require", "exports", '../core/AttribLocation', '../programs/makeWebGLPr
             this.context.release();
             this.context = void 0;
         };
-        SimpleWebGLProgram.prototype.contextGain = function (unused) {
+        SimpleWebGLProgram.prototype.contextGain = function (manager) {
             var context = this.context;
             var gl = context.gl;
             if (!this.program) {
@@ -89,7 +89,7 @@ define(["require", "exports", '../core/AttribLocation', '../programs/makeWebGLPr
                 }
             }
         };
-        SimpleWebGLProgram.prototype.contextFree = function (unused) {
+        SimpleWebGLProgram.prototype.contextFree = function (manager) {
             if (this.program) {
                 var gl = this.context.gl;
                 if (gl) {

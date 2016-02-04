@@ -80,11 +80,11 @@ export default function createGraphicsProgram(monitors: IContextMonitor[], verte
             }
             return refCount
         },
-        contextFree(canvasId: number) {
-            const program = programsByCanvasId.getWeakRef(canvasId)
+        contextFree(manager: IContextProvider) {
+            const program = programsByCanvasId.getWeakRef(manager.canvasId)
             if (program) {
-                program.contextFree(canvasId)
-                programsByCanvasId.remove(canvasId)
+                program.contextFree(manager)
+                programsByCanvasId.remove(manager.canvasId)
             }
         },
         contextGain(manager: IContextProvider): void {

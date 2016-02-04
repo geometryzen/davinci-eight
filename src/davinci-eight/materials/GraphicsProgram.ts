@@ -237,22 +237,12 @@ export default class GraphicsProgram extends Shareable implements IGraphicsProgr
         }
     }
 
-    /**
-     * @method contextFree
-     * @param [canvasId] {number} Determines which WebGLProgram to use.
-     * @return {void}
-     */
-    contextFree(canvasId: number): void {
+    contextFree(manager: IContextProvider): void {
         if (this.inner) {
-            this.inner.contextFree(canvasId)
+            this.inner.contextFree(manager)
         }
     }
 
-    /**
-     * @method contextGain
-     * @param manager {IContextProvider}
-     * @return {void}
-     */
     contextGain(manager: IContextProvider) {
         if (isUndefined(this.inner)) {
             this.inner = this.createGraphicsProgram()
@@ -262,11 +252,6 @@ export default class GraphicsProgram extends Shareable implements IGraphicsProgr
         }
     }
 
-    /**
-     * @method contextLost
-     * @param [canvasId] {number} Determines which WebGLProgram to use.
-     * @return {void}
-     */
     contextLost(canvasId: number) {
         if (this.inner) {
             this.inner.contextLost(canvasId)

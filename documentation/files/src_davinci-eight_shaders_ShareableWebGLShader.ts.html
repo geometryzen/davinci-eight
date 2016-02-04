@@ -276,7 +276,7 @@ export default class ShareableWebGLShader extends Shareable implements IShader {
         this.monitor = void 0
         super.destructor()
     }
-    contextFree(canvasId: number): void {
+    contextFree(manager: IContextProvider): void {
 
     }
     contextGain(manager: IContextProvider): void {

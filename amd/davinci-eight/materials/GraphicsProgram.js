@@ -138,9 +138,9 @@ define(["require", "exports", '../core', '../checks/isDefined', '../checks/isUnd
                 }
             }
         };
-        GraphicsProgram.prototype.contextFree = function (canvasId) {
+        GraphicsProgram.prototype.contextFree = function (manager) {
             if (this.inner) {
-                this.inner.contextFree(canvasId);
+                this.inner.contextFree(manager);
             }
         };
         GraphicsProgram.prototype.contextGain = function (manager) {

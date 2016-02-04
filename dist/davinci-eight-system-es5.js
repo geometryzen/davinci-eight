@@ -1535,7 +1535,7 @@ System.register("davinci-eight/cameras/PerspectiveCamera.js", ["../cameras/creat
           this.inner.setFar(this.far);
           this.inner.setUniforms(visitor, canvasId);
         };
-        PerspectiveCamera.prototype.contextFree = function(canvasId) {};
+        PerspectiveCamera.prototype.contextFree = function(manager) {};
         PerspectiveCamera.prototype.contextGain = function(manager) {};
         PerspectiveCamera.prototype.contextLost = function(canvasId) {};
         PerspectiveCamera.prototype.draw = function(canvasId) {};
@@ -1903,7 +1903,7 @@ System.register("davinci-eight/commands/WebGLBlendFunc.js", ["../commands/BlendF
           this.sfactor = mustBeFactor('sfactor', sfactor);
           this.dfactor = mustBeFactor('dfactor', dfactor);
         }
-        WebGLBlendFunc.prototype.contextFree = function(canvasId) {};
+        WebGLBlendFunc.prototype.contextFree = function(manager) {};
         WebGLBlendFunc.prototype.contextGain = function(manager) {
           this.execute(manager.gl);
         };
@@ -1914,6 +1914,7 @@ System.register("davinci-eight/commands/WebGLBlendFunc.js", ["../commands/BlendF
         WebGLBlendFunc.prototype.destructor = function() {
           this.sfactor = void 0;
           this.dfactor = void 0;
+          _super.prototype.destructor.call(this);
         };
         return WebGLBlendFunc;
       })(Shareable_1.default);
@@ -2460,16 +2461,14 @@ System.register("davinci-eight/scene/Scene.js", ["../core", "../collections/IUnk
           mustBeObject_1.default('drawable', drawable);
           throw new Error("TODO");
         };
-        Scene.prototype.contextFree = function(canvasId) {
-          mustBeNumber_1.default('canvasId', canvasId);
+        Scene.prototype.contextFree = function(manager) {
           for (var i = 0; i < this._drawables.length; i++) {
             var drawable = this._drawables.getWeakRef(i);
-            drawable.contextFree(canvasId);
+            drawable.contextFree(manager);
           }
-          this._canvasIdToManager.remove(canvasId);
+          this._canvasIdToManager.remove(manager.canvasId);
         };
         Scene.prototype.contextGain = function(manager) {
-          mustBeObject_1.default('manager', manager);
           if (!this._canvasIdToManager.exists(manager.canvasId)) {
             this._canvasIdToManager.put(manager.canvasId, manager);
           }
@@ -2533,13 +2532,13 @@ System.register("davinci-eight/core/BufferResource.js", ["../checks/isDefined", 
           manager.synchronize(this);
         }
         BufferResource.prototype.destructor = function() {
-          this.contextFree(this.manager.canvasId);
+          this.contextFree(this.manager);
           this.manager.removeContextListener(this);
           this.manager = void 0;
           this._isElements = void 0;
           _super.prototype.destructor.call(this);
         };
-        BufferResource.prototype.contextFree = function(canvasId) {
+        BufferResource.prototype.contextFree = function(manager) {
           if (this._buffer) {
             var gl = this.manager.gl;
             if (isDefined_1.default(gl)) {
@@ -2734,7 +2733,7 @@ System.register("davinci-eight/commands/WebGLClearColor.js", ["../checks/mustBeN
           this.alpha = void 0;
           _super.prototype.destructor.call(this);
         };
-        WebGLClearColor.prototype.contextFree = function(canvasId) {};
+        WebGLClearColor.prototype.contextFree = function(manager) {};
         WebGLClearColor.prototype.contextGain = function(manager) {
           mustBeNumber_1.default('red', this.red);
           mustBeNumber_1.default('green', this.green);
@@ -2779,7 +2778,7 @@ System.register("davinci-eight/commands/WebGLEnable.js", ["../commands/glCapabil
           _super.call(this, 'WebGLEnable');
           this._capability = mustBeNumber_1.default('capability', capability);
         }
-        WebGLEnable.prototype.contextFree = function(canvasId) {};
+        WebGLEnable.prototype.contextFree = function(manager) {};
         WebGLEnable.prototype.contextGain = function(manager) {
           manager.gl.enable(glCapability_1.default(this._capability, manager.gl));
         };
@@ -2885,7 +2884,7 @@ System.register("davinci-eight/commands/WebGLDisable.js", ["../commands/glCapabi
           _super.call(this, 'WebGLDisable');
           this._capability = mustBeNumber_1.default('capability', capability);
         }
-        WebGLDisable.prototype.contextFree = function(canvasId) {};
+        WebGLDisable.prototype.contextFree = function(manager) {};
         WebGLDisable.prototype.contextGain = function(manager) {
           manager.gl.disable(glCapability_1.default(this._capability, manager.gl));
         };
@@ -3309,9 +3308,9 @@ System.register("davinci-eight/scene/WebGLRenderer.js", ["../core/BufferResource
           this._commands.pushWeakRef(new WebGLClearColor_1.default(red, green, blue, alpha));
           return this;
         };
-        WebGLRenderer.prototype.contextFree = function(canvasId) {
+        WebGLRenderer.prototype.contextFree = function(manager) {
           this._commands.forEach(function(command) {
-            command.contextFree(canvasId);
+            command.contextFree(manager);
           });
         };
         WebGLRenderer.prototype.contextGain = function(manager) {
@@ -3493,7 +3492,7 @@ System.register("davinci-eight/scene/WebGLRenderer.js", ["../core/BufferResource
           if (this._gl.isContextLost()) {
             consumer.contextLost(this._canvasId);
           } else {
-            consumer.contextFree(this._canvasId);
+            consumer.contextFree(this);
           }
         };
         WebGLRenderer.prototype.synchronize = function(consumer) {
@@ -5178,8 +5177,8 @@ System.register("davinci-eight/programs/smartProgram.js", ["../scene/MonitorList
       release: function() {
         return innerProgram.release();
       },
-      contextFree: function(canvasId) {
-        return innerProgram.contextFree(canvasId);
+      contextFree: function(manager) {
+        return innerProgram.contextFree(manager);
       },
       contextGain: function(manager) {
         return innerProgram.contextGain(manager);
@@ -7436,8 +7435,8 @@ System.register("davinci-eight/visual/createArrow.js", ["../facets/ColorFacet", 
       release: function() {
         return drawable.release();
       },
-      contextFree: function(canvasId) {
-        return drawable.contextFree(canvasId);
+      contextFree: function(manager) {
+        return drawable.contextFree(manager);
       },
       contextGain: function(manager) {
         return drawable.contextGain(manager);
@@ -7596,8 +7595,8 @@ System.register("davinci-eight/visual/createBox.js", ["../facets/ColorFacet", ".
       release: function() {
         return drawable.release();
       },
-      contextFree: function(canvasId) {
-        return drawable.contextFree(canvasId);
+      contextFree: function(manager) {
+        return drawable.contextFree(manager);
       },
       contextGain: function(manager) {
         return drawable.contextGain(manager);
@@ -7663,7 +7662,7 @@ System.register("davinci-eight/visual/createCylinder.js", ["../facets/ColorFacet
       model.release();
     };
     axis.on('change', axisHandler);
-    var arrow = {
+    var cylinder = {
       get color() {
         var facet = drawable.getFacet(COLOR_FACET_NAME);
         var color = facet.color;
@@ -7738,8 +7737,8 @@ System.register("davinci-eight/visual/createCylinder.js", ["../facets/ColorFacet
         }
         return refCount;
       },
-      contextFree: function(canvasId) {
-        return drawable.contextFree(canvasId);
+      contextFree: function(manager) {
+        return drawable.contextFree(manager);
       },
       contextGain: function(manager) {
         return drawable.contextGain(manager);
@@ -7748,7 +7747,7 @@ System.register("davinci-eight/visual/createCylinder.js", ["../facets/ColorFacet
         return drawable.contextLost(canvasId);
       }
     };
-    return arrow;
+    return cylinder;
   }
   exports_1("default", default_1);
   return {
@@ -8340,9 +8339,9 @@ System.register("davinci-eight/scene/Drawable.js", ["../i18n/readOnly", "../util
             facet.setUniforms(_this._graphicsProgram, canvasId);
           });
         };
-        Drawable.prototype.contextFree = function(canvasId) {
-          this._graphicsBuffers.contextFree(canvasId);
-          this._graphicsProgram.contextFree(canvasId);
+        Drawable.prototype.contextFree = function(manager) {
+          this._graphicsBuffers.contextFree(manager);
+          this._graphicsProgram.contextFree(manager);
         };
         Drawable.prototype.contextGain = function(manager) {
           this._graphicsBuffers.contextGain(manager);
@@ -9715,9 +9714,9 @@ System.register("davinci-eight/resources/GraphicsBuffers.js", ["../collections/I
           this.buffersByCanvasId = void 0;
           _super.prototype.destructor.call(this);
         };
-        GraphicsBuffers.prototype.contextFree = function(canvasId) {
-          if (this.buffersByCanvasId.exists(canvasId)) {
-            this.buffersByCanvasId.remove(canvasId);
+        GraphicsBuffers.prototype.contextFree = function(manager) {
+          if (this.buffersByCanvasId.exists(manager.canvasId)) {
+            this.buffersByCanvasId.remove(manager.canvasId);
           }
         };
         GraphicsBuffers.prototype.contextGain = function(manager) {
@@ -10190,7 +10189,7 @@ System.register("davinci-eight/programs/SimpleWebGLProgram.js", ["../core/Attrib
               if (gl.isContextLost()) {
                 this.contextLost(canvasId);
               } else {
-                this.contextFree(canvasId);
+                this.contextFree(context);
               }
             } else {
               console.warn("memory leak: WebGLProgram has not been deleted because WebGLRenderingContext is not available anymore.");
@@ -10200,7 +10199,7 @@ System.register("davinci-eight/programs/SimpleWebGLProgram.js", ["../core/Attrib
           this.context.release();
           this.context = void 0;
         };
-        SimpleWebGLProgram.prototype.contextGain = function(unused) {
+        SimpleWebGLProgram.prototype.contextGain = function(manager) {
           var context = this.context;
           var gl = context.gl;
           if (!this.program) {
@@ -10249,7 +10248,7 @@ System.register("davinci-eight/programs/SimpleWebGLProgram.js", ["../core/Attrib
             }
           }
         };
-        SimpleWebGLProgram.prototype.contextFree = function(unused) {
+        SimpleWebGLProgram.prototype.contextFree = function(manager) {
           if (this.program) {
             var gl = this.context.gl;
             if (gl) {
@@ -10338,11 +10337,11 @@ System.register("davinci-eight/programs/createGraphicsProgram.js", ["../scene/Mo
         }
         return refCount;
       },
-      contextFree: function(canvasId) {
-        var program = programsByCanvasId.getWeakRef(canvasId);
+      contextFree: function(manager) {
+        var program = programsByCanvasId.getWeakRef(manager.canvasId);
         if (program) {
-          program.contextFree(canvasId);
-          programsByCanvasId.remove(canvasId);
+          program.contextFree(manager);
+          programsByCanvasId.remove(manager.canvasId);
         }
       },
       contextGain: function(manager) {
@@ -11144,9 +11143,9 @@ System.register("davinci-eight/materials/GraphicsProgram.js", ["../core", "../ch
             }
           }
         };
-        GraphicsProgram.prototype.contextFree = function(canvasId) {
+        GraphicsProgram.prototype.contextFree = function(manager) {
           if (this.inner) {
-            this.inner.contextFree(canvasId);
+            this.inner.contextFree(manager);
           }
         };
         GraphicsProgram.prototype.contextGain = function(manager) {
@@ -18233,8 +18232,8 @@ System.register("davinci-eight/visual/createSphere.js", ["../facets/ColorFacet",
       release: function() {
         return drawable.release();
       },
-      contextFree: function(canvasId) {
-        return drawable.contextFree(canvasId);
+      contextFree: function(manager) {
+        return drawable.contextFree(manager);
       },
       contextGain: function(manager) {
         return drawable.contextGain(manager);

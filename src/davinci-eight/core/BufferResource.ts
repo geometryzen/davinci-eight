@@ -37,19 +37,14 @@ export default class BufferResource extends Shareable implements IBuffer {
      * @protected
      */
     protected destructor(): void {
-        this.contextFree(this.manager.canvasId)
+        this.contextFree(this.manager)
         this.manager.removeContextListener(this)
         this.manager = void 0
         this._isElements = void 0
         super.destructor();
     }
 
-    /**
-     * @method contextFree
-     * @param canvasId {number}
-     * @return {void}
-     */
-    contextFree(canvasId: number): void {
+    contextFree(manager: IContextProvider): void {
         if (this._buffer) {
             var gl = this.manager.gl
             if (isDefined(gl)) {
@@ -65,11 +60,6 @@ export default class BufferResource extends Shareable implements IBuffer {
         }
     }
 
-    /**
-     * @method contextGain
-     * @param manager {IContextProvider}
-     * @return {void}
-     */
     contextGain(manager: IContextProvider): void {
         if (this.manager.canvasId === manager.canvasId) {
             if (!this._buffer) {
@@ -84,10 +74,6 @@ export default class BufferResource extends Shareable implements IBuffer {
         }
     }
 
-    /**
-     * @method contextLost
-     * @return {void}
-     */
     contextLost(): void {
         this._buffer = void 0
     }

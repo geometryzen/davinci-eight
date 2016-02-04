@@ -10,7 +10,7 @@ define(["require", "exports", '../commands/glCapability', '../checks/mustBeNumbe
             _super.call(this, 'WebGLEnable');
             this._capability = mustBeNumber_1.default('capability', capability);
         }
-        WebGLEnable.prototype.contextFree = function (canvasId) {
+        WebGLEnable.prototype.contextFree = function (manager) {
         };
         WebGLEnable.prototype.contextGain = function (manager) {
             manager.gl.enable(glCapability_1.default(this._capability, manager.gl));

@@ -105,9 +105,6 @@ export default function(axis: VectorE3): Sphere {
         setFacet(name: string, facet: Facet): void {
             drawable.setFacet(name, facet);
         },
-        //  draw(canvasId: number): void {
-        //    return drawable.draw(canvasId);
-        //  },
         setUniforms(canvasId: number): void {
             drawable.setUniforms(canvasId);
         },
@@ -117,8 +114,8 @@ export default function(axis: VectorE3): Sphere {
         release(): number {
             return drawable.release();
         },
-        contextFree(canvasId: number): void {
-            return drawable.contextFree(canvasId);
+        contextFree(manager: IContextProvider): void {
+            return drawable.contextFree(manager);
         },
         contextGain(manager: IContextProvider): void {
             return drawable.contextGain(manager);

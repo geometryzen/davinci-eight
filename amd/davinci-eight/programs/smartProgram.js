@@ -29,8 +29,8 @@ define(["require", "exports", '../scene/MonitorList', '../programs/fragmentShade
             release: function () {
                 return innerProgram.release();
             },
-            contextFree: function (canvasId) {
-                return innerProgram.contextFree(canvasId);
+            contextFree: function (manager) {
+                return innerProgram.contextFree(manager);
             },
             contextGain: function (manager) {
                 return innerProgram.contextGain(manager);

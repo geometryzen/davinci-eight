@@ -6140,10 +6140,9 @@
             "name": "contextFree",
             "params": [
                 {
-                    "name": "canvasId",
+                    "name": "manager",
                     "description": "",
-                    "type": "Number",
-                    "optional": true
+                    "type": "IContextProvider"
                 }
             ],
             "return": {
@@ -7255,63 +7254,7 @@
         },
         {
             "file": "src/davinci-eight/commands/WebGLBlendFunc.ts",
-            "line": 59,
-            "itemtype": "method",
-            "name": "contextFree",
-            "params": [
-                {
-                    "name": "canvasId",
-                    "description": "",
-                    "type": "Number",
-                    "optional": true
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "WebGLBlendFunc"
-        },
-        {
-            "file": "src/davinci-eight/commands/WebGLBlendFunc.ts",
-            "line": 67,
-            "itemtype": "method",
-            "name": "contextGain",
-            "params": [
-                {
-                    "name": "manager",
-                    "description": "",
-                    "type": "IContextProvider"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "WebGLBlendFunc"
-        },
-        {
-            "file": "src/davinci-eight/commands/WebGLBlendFunc.ts",
-            "line": 75,
-            "itemtype": "method",
-            "name": "contextLost",
-            "params": [
-                {
-                    "name": "canvasId",
-                    "description": "",
-                    "type": "Number",
-                    "optional": true
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "WebGLBlendFunc"
-        },
-        {
-            "file": "src/davinci-eight/commands/WebGLBlendFunc.ts",
-            "line": 86,
+            "line": 76,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -7332,118 +7275,8 @@
             "class": "WebGLClearColor"
         },
         {
-            "file": "src/davinci-eight/commands/WebGLClearColor.ts",
-            "line": 47,
-            "itemtype": "method",
-            "name": "contextFree",
-            "params": [
-                {
-                    "name": "canvasId",
-                    "description": "",
-                    "type": "Number"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "WebGLClearColor"
-        },
-        {
-            "file": "src/davinci-eight/commands/WebGLClearColor.ts",
-            "line": 56,
-            "itemtype": "method",
-            "name": "contextGain",
-            "params": [
-                {
-                    "name": "manager",
-                    "description": "",
-                    "type": "IContextProvider"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "WebGLClearColor"
-        },
-        {
-            "file": "src/davinci-eight/commands/WebGLClearColor.ts",
-            "line": 69,
-            "itemtype": "method",
-            "name": "contextLost",
-            "params": [
-                {
-                    "name": "canvasId",
-                    "description": "",
-                    "type": "Number"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "WebGLClearColor"
-        },
-        {
             "file": "src/davinci-eight/commands/WebGLDisable.ts",
-            "line": 30,
-            "itemtype": "method",
-            "name": "contextFree",
-            "params": [
-                {
-                    "name": "canvasId",
-                    "description": "",
-                    "type": "Number",
-                    "optional": true
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "WebGLDisable"
-        },
-        {
-            "file": "src/davinci-eight/commands/WebGLDisable.ts",
-            "line": 39,
-            "itemtype": "method",
-            "name": "contextGain",
-            "params": [
-                {
-                    "name": "manager",
-                    "description": "",
-                    "type": "IContextProvider"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "WebGLDisable"
-        },
-        {
-            "file": "src/davinci-eight/commands/WebGLDisable.ts",
-            "line": 48,
-            "itemtype": "method",
-            "name": "contextLost",
-            "params": [
-                {
-                    "name": "canvasId",
-                    "description": "",
-                    "type": "Number",
-                    "optional": true
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "WebGLDisable"
-        },
-        {
-            "file": "src/davinci-eight/commands/WebGLDisable.ts",
-            "line": 57,
+            "line": 42,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -7456,63 +7289,7 @@
         },
         {
             "file": "src/davinci-eight/commands/WebGLEnable.ts",
-            "line": 29,
-            "itemtype": "method",
-            "name": "contextFree",
-            "params": [
-                {
-                    "name": "canvasId",
-                    "description": "",
-                    "type": "Number",
-                    "optional": true
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "WebGLEnable"
-        },
-        {
-            "file": "src/davinci-eight/commands/WebGLEnable.ts",
-            "line": 37,
-            "itemtype": "method",
-            "name": "contextGain",
-            "params": [
-                {
-                    "name": "manager",
-                    "description": "",
-                    "type": "IContextProvider"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "WebGLEnable"
-        },
-        {
-            "file": "src/davinci-eight/commands/WebGLEnable.ts",
-            "line": 46,
-            "itemtype": "method",
-            "name": "contextLost",
-            "params": [
-                {
-                    "name": "canvasId",
-                    "description": "",
-                    "type": "Number",
-                    "optional": true
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "WebGLEnable"
-        },
-        {
-            "file": "src/davinci-eight/commands/WebGLEnable.ts",
-            "line": 55,
+            "line": 42,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -7720,54 +7497,7 @@
         },
         {
             "file": "src/davinci-eight/core/BufferResource.ts",
-            "line": 47,
-            "itemtype": "method",
-            "name": "contextFree",
-            "params": [
-                {
-                    "name": "canvasId",
-                    "description": "",
-                    "type": "Number"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "BufferResource"
-        },
-        {
-            "file": "src/davinci-eight/core/BufferResource.ts",
-            "line": 68,
-            "itemtype": "method",
-            "name": "contextGain",
-            "params": [
-                {
-                    "name": "manager",
-                    "description": "",
-                    "type": "IContextProvider"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "BufferResource"
-        },
-        {
-            "file": "src/davinci-eight/core/BufferResource.ts",
-            "line": 87,
-            "itemtype": "method",
-            "name": "contextLost",
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "BufferResource"
-        },
-        {
-            "file": "src/davinci-eight/core/BufferResource.ts",
-            "line": 95,
+            "line": 81,
             "itemtype": "method",
             "name": "bind",
             "return": {
@@ -7778,7 +7508,7 @@
         },
         {
             "file": "src/davinci-eight/core/BufferResource.ts",
-            "line": 110,
+            "line": 96,
             "itemtype": "method",
             "name": "unbind",
             "return": {
@@ -9016,24 +8746,8 @@
             "name": "contextFree",
             "params": [
                 {
-                    "name": "canvasId",
-                    "description": "Determines the context for which resources are being freed.",
-                    "type": "Number",
-                    "optional": true
-                }
-            ],
-            "class": "IContextConsumer"
-        },
-        {
-            "file": "src/davinci-eight/core/IContextConsumer.ts",
-            "line": 26,
-            "description": "Called to inform the dependent of a new WebGL rendering context.\nThe implementation should ignore the notification if it has already\nreceived the same context.",
-            "itemtype": "method",
-            "name": "contextGain",
-            "params": [
-                {
                     "name": "manager",
-                    "description": "If there's something strange in your neighborhood.",
+                    "description": "",
                     "type": "IContextProvider"
                 }
             ],
@@ -9041,7 +8755,22 @@
         },
         {
             "file": "src/davinci-eight/core/IContextConsumer.ts",
-            "line": 35,
+            "line": 25,
+            "description": "Called to inform the dependent of a new WebGL rendering context.\nThe implementation should ignore the notification if it has already\nreceived the same context.",
+            "itemtype": "method",
+            "name": "contextGain",
+            "params": [
+                {
+                    "name": "manager",
+                    "description": "",
+                    "type": "IContextProvider"
+                }
+            ],
+            "class": "IContextConsumer"
+        },
+        {
+            "file": "src/davinci-eight/core/IContextConsumer.ts",
+            "line": 34,
             "description": "Called to inform the dependent of a loss of WebGL rendering context.\nThe dependent must assume that any cached context is invalid.\nThe dependent must not try to use and cached context to free resources.\nThe dependent should reset its state to that for which there is no context.",
             "itemtype": "method",
             "name": "contextLost",
@@ -13512,66 +13241,7 @@
         },
         {
             "file": "src/davinci-eight/materials/GraphicsProgram.ts",
-            "line": 240,
-            "itemtype": "method",
-            "name": "contextFree",
-            "params": [
-                {
-                    "name": "canvasId",
-                    "description": "Determines which WebGLProgram to use.",
-                    "type": "Number",
-                    "optional": true
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "GraphicsProgram",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/materials/GraphicsProgram.ts",
-            "line": 251,
-            "itemtype": "method",
-            "name": "contextGain",
-            "params": [
-                {
-                    "name": "manager",
-                    "description": "",
-                    "type": "IContextProvider"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "GraphicsProgram",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/materials/GraphicsProgram.ts",
-            "line": 265,
-            "itemtype": "method",
-            "name": "contextLost",
-            "params": [
-                {
-                    "name": "canvasId",
-                    "description": "Determines which WebGLProgram to use.",
-                    "type": "Number",
-                    "optional": true
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "GraphicsProgram",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/materials/GraphicsProgram.ts",
-            "line": 276,
+            "line": 261,
             "itemtype": "method",
             "name": "createGraphicsProgram",
             "return": {
@@ -13585,7 +13255,7 @@
         },
         {
             "file": "src/davinci-eight/materials/GraphicsProgram.ts",
-            "line": 286,
+            "line": 271,
             "itemtype": "method",
             "name": "uniform1f",
             "params": [
@@ -13615,7 +13285,7 @@
         },
         {
             "file": "src/davinci-eight/materials/GraphicsProgram.ts",
-            "line": 312,
+            "line": 297,
             "itemtype": "method",
             "name": "uniform2f",
             "params": [
@@ -13650,7 +13320,7 @@
         },
         {
             "file": "src/davinci-eight/materials/GraphicsProgram.ts",
-            "line": 339,
+            "line": 324,
             "itemtype": "method",
             "name": "uniform3f",
             "params": [
@@ -13690,7 +13360,7 @@
         },
         {
             "file": "src/davinci-eight/materials/GraphicsProgram.ts",
-            "line": 367,
+            "line": 352,
             "itemtype": "method",
             "name": "uniform4f",
             "params": [
@@ -13735,7 +13405,7 @@
         },
         {
             "file": "src/davinci-eight/materials/GraphicsProgram.ts",
-            "line": 396,
+            "line": 381,
             "itemtype": "method",
             "name": "mat2",
             "params": [
@@ -13771,7 +13441,7 @@
         },
         {
             "file": "src/davinci-eight/materials/GraphicsProgram.ts",
-            "line": 423,
+            "line": 408,
             "itemtype": "method",
             "name": "mat3",
             "params": [
@@ -13807,7 +13477,7 @@
         },
         {
             "file": "src/davinci-eight/materials/GraphicsProgram.ts",
-            "line": 450,
+            "line": 435,
             "itemtype": "method",
             "name": "mat4",
             "params": [
@@ -13843,7 +13513,7 @@
         },
         {
             "file": "src/davinci-eight/materials/GraphicsProgram.ts",
-            "line": 479,
+            "line": 464,
             "itemtype": "method",
             "name": "vec2",
             "params": [
@@ -13873,7 +13543,7 @@
         },
         {
             "file": "src/davinci-eight/materials/GraphicsProgram.ts",
-            "line": 505,
+            "line": 490,
             "itemtype": "method",
             "name": "vec3",
             "params": [
@@ -13903,7 +13573,7 @@
         },
         {
             "file": "src/davinci-eight/materials/GraphicsProgram.ts",
-            "line": 531,
+            "line": 516,
             "itemtype": "method",
             "name": "vec4",
             "params": [
@@ -13933,7 +13603,7 @@
         },
         {
             "file": "src/davinci-eight/materials/GraphicsProgram.ts",
-            "line": 557,
+            "line": 542,
             "itemtype": "method",
             "name": "vector2",
             "params": [
@@ -13963,7 +13633,7 @@
         },
         {
             "file": "src/davinci-eight/materials/GraphicsProgram.ts",
-            "line": 583,
+            "line": 568,
             "itemtype": "method",
             "name": "vector3",
             "params": [
@@ -13993,7 +13663,7 @@
         },
         {
             "file": "src/davinci-eight/materials/GraphicsProgram.ts",
-            "line": 609,
+            "line": 594,
             "itemtype": "method",
             "name": "vector4",
             "params": [
@@ -14023,7 +13693,7 @@
         },
         {
             "file": "src/davinci-eight/materials/GraphicsProgram.ts",
-            "line": 635,
+            "line": 620,
             "description": "Returns the generated shader vertex code as a string.",
             "itemtype": "property",
             "name": "vertexShader",
@@ -27750,65 +27420,7 @@
         },
         {
             "file": "src/davinci-eight/programs/SimpleWebGLProgram.ts",
-            "line": 116,
-            "itemtype": "method",
-            "name": "contextGain",
-            "params": [
-                {
-                    "name": "context",
-                    "description": "",
-                    "type": "IContextProvider"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "SimpleWebGLProgram",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/programs/SimpleWebGLProgram.ts",
-            "line": 158,
-            "itemtype": "method",
-            "name": "contextLost",
-            "params": [
-                {
-                    "name": "canvasId",
-                    "description": "",
-                    "type": "Number",
-                    "optional": true
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "SimpleWebGLProgram",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/programs/SimpleWebGLProgram.ts",
-            "line": 177,
-            "itemtype": "method",
-            "name": "contextFree",
-            "params": [
-                {
-                    "name": "canvasId",
-                    "description": "number",
-                    "optional": true
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "SimpleWebGLProgram",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/programs/SimpleWebGLProgram.ts",
-            "line": 210,
+            "line": 195,
             "itemtype": "method",
             "name": "use",
             "return": {
@@ -28276,60 +27888,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Drawable.ts",
-            "line": 105,
-            "itemtype": "method",
-            "name": "contextFree",
-            "params": [
-                {
-                    "name": "canvasId",
-                    "description": "",
-                    "type": "Number"
-                }
-            ],
-            "class": "Drawable",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/scene/Drawable.ts",
-            "line": 114,
-            "itemtype": "method",
-            "name": "contextGain",
-            "params": [
-                {
-                    "name": "manager",
-                    "description": "",
-                    "type": "IContextProvider"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "Drawable",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/scene/Drawable.ts",
-            "line": 124,
-            "itemtype": "method",
-            "name": "contextLost",
-            "params": [
-                {
-                    "name": "canvasId",
-                    "description": "",
-                    "type": "Number"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "Drawable",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/scene/Drawable.ts",
-            "line": 134,
+            "line": 120,
             "itemtype": "method",
             "name": "getFacet",
             "params": [
@@ -28348,7 +27907,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Drawable.ts",
-            "line": 143,
+            "line": 129,
             "itemtype": "method",
             "name": "setFacet",
             "params": [
@@ -28372,7 +27931,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Drawable.ts",
-            "line": 153,
+            "line": 139,
             "description": "Provides a reference counted reference to the graphics buffers property.",
             "itemtype": "property",
             "name": "graphicsBuffers",
@@ -28383,7 +27942,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Drawable.ts",
-            "line": 167,
+            "line": 153,
             "description": "Provides a reference counted reference to the graphics program property.",
             "itemtype": "property",
             "name": "graphicsProgram",
@@ -28700,63 +28259,6 @@
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/scene/Scene.ts",
-            "line": 210,
-            "itemtype": "method",
-            "name": "contextFree",
-            "params": [
-                {
-                    "name": "canvasId",
-                    "description": "",
-                    "type": "Number"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "Scene",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/scene/Scene.ts",
-            "line": 224,
-            "itemtype": "method",
-            "name": "contextGain",
-            "params": [
-                {
-                    "name": "manager",
-                    "description": "",
-                    "type": "IContextProvider"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "Scene",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/scene/Scene.ts",
-            "line": 240,
-            "itemtype": "method",
-            "name": "contextLost",
-            "params": [
-                {
-                    "name": "canvasId",
-                    "description": "",
-                    "type": "Number"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "Scene",
-            "module": "EIGHT"
-        },
-        {
             "file": "src/davinci-eight/scene/WebGLRenderer.ts",
             "line": 61,
             "description": "Renders geometric primitives indexed by element array data.",
@@ -29013,66 +28515,7 @@
         },
         {
             "file": "src/davinci-eight/scene/WebGLRenderer.ts",
-            "line": 550,
-            "itemtype": "method",
-            "name": "contextFree",
-            "params": [
-                {
-                    "name": "canvasId",
-                    "description": "",
-                    "type": "Number",
-                    "optional": true
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "WebGLRenderer",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/scene/WebGLRenderer.ts",
-            "line": 562,
-            "itemtype": "method",
-            "name": "contextGain",
-            "params": [
-                {
-                    "name": "manager",
-                    "description": "",
-                    "type": "IContextProvider"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "WebGLRenderer",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/scene/WebGLRenderer.ts",
-            "line": 573,
-            "itemtype": "method",
-            "name": "contextLost",
-            "params": [
-                {
-                    "name": "canvasId",
-                    "description": "",
-                    "type": "Number",
-                    "optional": true
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "WebGLRenderer",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/scene/WebGLRenderer.ts",
-            "line": 584,
+            "line": 569,
             "itemtype": "method",
             "name": "createArrayBuffer",
             "return": {
@@ -29084,7 +28527,7 @@
         },
         {
             "file": "src/davinci-eight/scene/WebGLRenderer.ts",
-            "line": 592,
+            "line": 577,
             "itemtype": "method",
             "name": "createBufferGeometry",
             "params": [
@@ -29109,7 +28552,7 @@
         },
         {
             "file": "src/davinci-eight/scene/WebGLRenderer.ts",
-            "line": 659,
+            "line": 644,
             "itemtype": "method",
             "name": "createElementArrayBuffer",
             "return": {
@@ -29121,7 +28564,7 @@
         },
         {
             "file": "src/davinci-eight/scene/WebGLRenderer.ts",
-            "line": 667,
+            "line": 652,
             "itemtype": "method",
             "name": "createTextureCubeMap",
             "return": {
@@ -29133,7 +28576,7 @@
         },
         {
             "file": "src/davinci-eight/scene/WebGLRenderer.ts",
-            "line": 676,
+            "line": 661,
             "itemtype": "method",
             "name": "createTexture2D",
             "return": {
@@ -29145,7 +28588,7 @@
         },
         {
             "file": "src/davinci-eight/scene/WebGLRenderer.ts",
-            "line": 685,
+            "line": 670,
             "description": "Turns off specific WebGL capabilities for this context.",
             "itemtype": "method",
             "name": "disable",
@@ -29166,7 +28609,7 @@
         },
         {
             "file": "src/davinci-eight/scene/WebGLRenderer.ts",
-            "line": 697,
+            "line": 682,
             "description": "Turns on specific WebGL capabilities for this context.",
             "itemtype": "method",
             "name": "enable",
@@ -29187,7 +28630,7 @@
         },
         {
             "file": "src/davinci-eight/scene/WebGLRenderer.ts",
-            "line": 709,
+            "line": 694,
             "itemtype": "property",
             "name": "gl",
             "type": "{WebGLRenderingContext}",
@@ -29197,7 +28640,7 @@
         },
         {
             "file": "src/davinci-eight/scene/WebGLRenderer.ts",
-            "line": 727,
+            "line": 712,
             "itemtype": "method",
             "name": "removeContextListener",
             "params": [
@@ -29216,7 +28659,7 @@
         },
         {
             "file": "src/davinci-eight/scene/WebGLRenderer.ts",
-            "line": 740,
+            "line": 725,
             "itemtype": "method",
             "name": "render",
             "params": [
@@ -29240,7 +28683,7 @@
         },
         {
             "file": "src/davinci-eight/scene/WebGLRenderer.ts",
-            "line": 754,
+            "line": 739,
             "description": "Defines what part of the canvas will be used in rendering the drawing buffer.",
             "itemtype": "method",
             "name": "viewport",
@@ -29276,7 +28719,7 @@
         },
         {
             "file": "src/davinci-eight/scene/WebGLRenderer.ts",
-            "line": 769,
+            "line": 754,
             "description": "Initializes the WebGL context for the specified <code>canvas</code>.",
             "itemtype": "method",
             "name": "start",
@@ -29303,7 +28746,7 @@
         },
         {
             "file": "src/davinci-eight/scene/WebGLRenderer.ts",
-            "line": 810,
+            "line": 795,
             "itemtype": "method",
             "name": "stop",
             "return": {
@@ -29316,7 +28759,7 @@
         },
         {
             "file": "src/davinci-eight/scene/WebGLRenderer.ts",
-            "line": 865,
+            "line": 850,
             "itemtype": "method",
             "name": "synchronize",
             "params": [

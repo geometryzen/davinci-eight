@@ -307,9 +307,9 @@ export default class GraphicsBuffers extends Shareable implements IGraphicsBuffe
      * @method contextFree
      * @param canvasId {number}
      */
-    contextFree(canvasId: number): void {
-        if (this.buffersByCanvasId.exists(canvasId)) {
-            this.buffersByCanvasId.remove(canvasId);
+    contextFree(manager: IContextProvider): void {
+        if (this.buffersByCanvasId.exists(manager.canvasId)) {
+            this.buffersByCanvasId.remove(manager.canvasId);
         }
     }
 

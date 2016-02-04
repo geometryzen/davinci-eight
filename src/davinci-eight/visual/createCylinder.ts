@@ -41,7 +41,7 @@ export default function(): Cylinder {
 
     axis.on('change', axisHandler);
 
-    const arrow: Cylinder = {
+    const cylinder: Cylinder = {
         get color() {
             const facet = <ColorFacet>drawable.getFacet(COLOR_FACET_NAME);
             const color = facet.color;
@@ -105,9 +105,6 @@ export default function(): Cylinder {
         setFacet(name: string, facet: Facet): void {
             drawable.setFacet(name, facet);
         },
-        //  draw(canvasId: number): void {
-        //    return drawable.draw(canvasId);
-        //  },
         setUniforms(canvasId: number): void {
             drawable.setUniforms(canvasId);
         },
@@ -121,8 +118,8 @@ export default function(): Cylinder {
             }
             return refCount;
         },
-        contextFree(canvasId: number): void {
-            return drawable.contextFree(canvasId);
+        contextFree(manager: IContextProvider): void {
+            return drawable.contextFree(manager);
         },
         contextGain(manager: IContextProvider): void {
             return drawable.contextGain(manager);
@@ -132,5 +129,5 @@ export default function(): Cylinder {
         }
     };
 
-    return arrow;
+    return cylinder;
 }

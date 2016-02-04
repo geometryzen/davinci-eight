@@ -278,7 +278,7 @@ export default class EIGHTLogger extends Shareable implements IContextCommand {
     constructor() {
         super(QUALIFIED_NAME);
     }
-    contextFree(canvasId: number): void {
+    contextFree(manager: IContextProvider): void {
         // Do nothing.
     }
     /**

@@ -207,27 +207,15 @@ export default class Scene extends Shareable implements IDrawList {
         throw new Error("TODO")
     }
 
-    /**
-     * @method contextFree
-     * @param canvasId {number}
-     * @return {void}
-     */
-    contextFree(canvasId: number): void {
-        mustBeNumber('canvasId', canvasId);
+    contextFree(manager: IContextProvider): void {
         for (let i = 0; i < this._drawables.length; i++) {
             const drawable = this._drawables.getWeakRef(i);
-            drawable.contextFree(canvasId);
+            drawable.contextFree(manager);
         }
-        this._canvasIdToManager.remove(canvasId);
+        this._canvasIdToManager.remove(manager.canvasId);
     }
 
-    /**
-     * @method contextGain
-     * @param manager {IContextProvider}
-     * @return {void}
-     */
     contextGain(manager: IContextProvider): void {
-        mustBeObject('manager', manager);
         if (!this._canvasIdToManager.exists(manager.canvasId)) {
             this._canvasIdToManager.put(manager.canvasId, manager)
         }
@@ -237,11 +225,6 @@ export default class Scene extends Shareable implements IDrawList {
         }
     }
 
-    /**
-     * @method contextLost
-     * @param canvasId {number}
-     * @return {void}
-     */
     contextLost(canvasId: number): void {
         mustBeNumber('canvasId', canvasId);
         if (this._canvasIdToManager.exists(canvasId)) {

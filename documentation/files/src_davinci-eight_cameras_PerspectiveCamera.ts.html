@@ -345,10 +345,10 @@ export default class PerspectiveCamera extends Shareable implements Perspective,
 
     /**
      * @method contextFree
-     * @param [canvasId] {number}
+     * @param manager {IContextProvider}
      * @return {void}
      */
-    contextFree(canvasId: number): void {
+    contextFree(manager: IContextProvider): void {
         // Do nothing
     }
 

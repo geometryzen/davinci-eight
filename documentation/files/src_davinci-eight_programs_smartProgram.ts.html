@@ -309,8 +309,8 @@ export default function smartProgram(monitors: IContextMonitor[], attributes: { 
         release() {
             return innerProgram.release();
         },
-        contextFree(canvasId: number) {
-            return innerProgram.contextFree(canvasId);
+        contextFree(manager: IContextProvider) {
+            return innerProgram.contextFree(manager);
         },
         contextGain(manager: IContextProvider) {
             return innerProgram.contextGain(manager);

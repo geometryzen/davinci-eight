@@ -8002,7 +8002,7 @@ define('davinci-eight/cameras/PerspectiveCamera',["require", "exports", '../came
             this.inner.setFar(this.far);
             this.inner.setUniforms(visitor, canvasId);
         };
-        PerspectiveCamera.prototype.contextFree = function (canvasId) {
+        PerspectiveCamera.prototype.contextFree = function (manager) {
         };
         PerspectiveCamera.prototype.contextGain = function (manager) {
         };
@@ -8201,7 +8201,7 @@ define('davinci-eight/commands/WebGLBlendFunc',["require", "exports", '../comman
             this.sfactor = mustBeFactor('sfactor', sfactor);
             this.dfactor = mustBeFactor('dfactor', dfactor);
         }
-        WebGLBlendFunc.prototype.contextFree = function (canvasId) {
+        WebGLBlendFunc.prototype.contextFree = function (manager) {
         };
         WebGLBlendFunc.prototype.contextGain = function (manager) {
             this.execute(manager.gl);
@@ -8214,6 +8214,7 @@ define('davinci-eight/commands/WebGLBlendFunc',["require", "exports", '../comman
         WebGLBlendFunc.prototype.destructor = function () {
             this.sfactor = void 0;
             this.dfactor = void 0;
+            _super.prototype.destructor.call(this);
         };
         return WebGLBlendFunc;
     })(Shareable_1.default);
@@ -8247,7 +8248,7 @@ define('davinci-eight/commands/WebGLClearColor',["require", "exports", '../check
             this.alpha = void 0;
             _super.prototype.destructor.call(this);
         };
-        WebGLClearColor.prototype.contextFree = function (canvasId) {
+        WebGLClearColor.prototype.contextFree = function (manager) {
         };
         WebGLClearColor.prototype.contextGain = function (manager) {
             mustBeNumber_1.default('red', this.red);
@@ -8313,7 +8314,7 @@ define('davinci-eight/commands/WebGLDisable',["require", "exports", '../commands
             _super.call(this, 'WebGLDisable');
             this._capability = mustBeNumber_1.default('capability', capability);
         }
-        WebGLDisable.prototype.contextFree = function (canvasId) {
+        WebGLDisable.prototype.contextFree = function (manager) {
         };
         WebGLDisable.prototype.contextGain = function (manager) {
             manager.gl.disable(glCapability_1.default(this._capability, manager.gl));
@@ -8342,7 +8343,7 @@ define('davinci-eight/commands/WebGLEnable',["require", "exports", '../commands/
             _super.call(this, 'WebGLEnable');
             this._capability = mustBeNumber_1.default('capability', capability);
         }
-        WebGLEnable.prototype.contextFree = function (canvasId) {
+        WebGLEnable.prototype.contextFree = function (manager) {
         };
         WebGLEnable.prototype.contextGain = function (manager) {
             manager.gl.enable(glCapability_1.default(this._capability, manager.gl));
@@ -12390,9 +12391,9 @@ define('davinci-eight/scene/Drawable',["require", "exports", '../i18n/readOnly',
                 facet.setUniforms(_this._graphicsProgram, canvasId);
             });
         };
-        Drawable.prototype.contextFree = function (canvasId) {
-            this._graphicsBuffers.contextFree(canvasId);
-            this._graphicsProgram.contextFree(canvasId);
+        Drawable.prototype.contextFree = function (manager) {
+            this._graphicsBuffers.contextFree(manager);
+            this._graphicsProgram.contextFree(manager);
         };
         Drawable.prototype.contextGain = function (manager) {
             this._graphicsBuffers.contextGain(manager);
@@ -12731,16 +12732,14 @@ define('davinci-eight/scene/Scene',["require", "exports", '../core', '../collect
             mustBeObject_1.default('drawable', drawable);
             throw new Error("TODO");
         };
-        Scene.prototype.contextFree = function (canvasId) {
-            mustBeNumber_1.default('canvasId', canvasId);
+        Scene.prototype.contextFree = function (manager) {
             for (var i = 0; i < this._drawables.length; i++) {
                 var drawable = this._drawables.getWeakRef(i);
-                drawable.contextFree(canvasId);
+                drawable.contextFree(manager);
             }
-            this._canvasIdToManager.remove(canvasId);
+            this._canvasIdToManager.remove(manager.canvasId);
         };
         Scene.prototype.contextGain = function (manager) {
-            mustBeObject_1.default('manager', manager);
             if (!this._canvasIdToManager.exists(manager.canvasId)) {
                 this._canvasIdToManager.put(manager.canvasId, manager);
             }
@@ -12802,13 +12801,13 @@ define('davinci-eight/core/BufferResource',["require", "exports", '../checks/isD
             manager.synchronize(this);
         }
         BufferResource.prototype.destructor = function () {
-            this.contextFree(this.manager.canvasId);
+            this.contextFree(this.manager);
             this.manager.removeContextListener(this);
             this.manager = void 0;
             this._isElements = void 0;
             _super.prototype.destructor.call(this);
         };
-        BufferResource.prototype.contextFree = function (canvasId) {
+        BufferResource.prototype.contextFree = function (manager) {
             if (this._buffer) {
                 var gl = this.manager.gl;
                 if (isDefined_1.default(gl)) {
@@ -13302,9 +13301,9 @@ define('davinci-eight/scene/WebGLRenderer',["require", "exports", '../core/Buffe
             this._commands.pushWeakRef(new WebGLClearColor_1.default(red, green, blue, alpha));
             return this;
         };
-        WebGLRenderer.prototype.contextFree = function (canvasId) {
+        WebGLRenderer.prototype.contextFree = function (manager) {
             this._commands.forEach(function (command) {
-                command.contextFree(canvasId);
+                command.contextFree(manager);
             });
         };
         WebGLRenderer.prototype.contextGain = function (manager) {
@@ -13492,7 +13491,7 @@ define('davinci-eight/scene/WebGLRenderer',["require", "exports", '../core/Buffe
                 consumer.contextLost(this._canvasId);
             }
             else {
-                consumer.contextFree(this._canvasId);
+                consumer.contextFree(this);
             }
         };
         WebGLRenderer.prototype.synchronize = function (consumer) {
@@ -15775,7 +15774,7 @@ define('davinci-eight/programs/SimpleWebGLProgram',["require", "exports", '../co
                         this.contextLost(canvasId);
                     }
                     else {
-                        this.contextFree(canvasId);
+                        this.contextFree(context);
                     }
                 }
                 else {
@@ -15786,7 +15785,7 @@ define('davinci-eight/programs/SimpleWebGLProgram',["require", "exports", '../co
             this.context.release();
             this.context = void 0;
         };
-        SimpleWebGLProgram.prototype.contextGain = function (unused) {
+        SimpleWebGLProgram.prototype.contextGain = function (manager) {
             var context = this.context;
             var gl = context.gl;
             if (!this.program) {
@@ -15835,7 +15834,7 @@ define('davinci-eight/programs/SimpleWebGLProgram',["require", "exports", '../co
                 }
             }
         };
-        SimpleWebGLProgram.prototype.contextFree = function (unused) {
+        SimpleWebGLProgram.prototype.contextFree = function (manager) {
             if (this.program) {
                 var gl = this.context.gl;
                 if (gl) {
@@ -15919,11 +15918,11 @@ define('davinci-eight/programs/createGraphicsProgram',["require", "exports", '..
                 }
                 return refCount;
             },
-            contextFree: function (canvasId) {
-                var program = programsByCanvasId.getWeakRef(canvasId);
+            contextFree: function (manager) {
+                var program = programsByCanvasId.getWeakRef(manager.canvasId);
                 if (program) {
-                    program.contextFree(canvasId);
-                    programsByCanvasId.remove(canvasId);
+                    program.contextFree(manager);
+                    programsByCanvasId.remove(manager.canvasId);
                 }
             },
             contextGain: function (manager) {
@@ -16435,8 +16434,8 @@ define('davinci-eight/programs/smartProgram',["require", "exports", '../scene/Mo
             release: function () {
                 return innerProgram.release();
             },
-            contextFree: function (canvasId) {
-                return innerProgram.contextFree(canvasId);
+            contextFree: function (manager) {
+                return innerProgram.contextFree(manager);
             },
             contextGain: function (manager) {
                 return innerProgram.contextGain(manager);
@@ -16663,9 +16662,9 @@ define('davinci-eight/materials/GraphicsProgram',["require", "exports", '../core
                 }
             }
         };
-        GraphicsProgram.prototype.contextFree = function (canvasId) {
+        GraphicsProgram.prototype.contextFree = function (manager) {
             if (this.inner) {
-                this.inner.contextFree(canvasId);
+                this.inner.contextFree(manager);
             }
         };
         GraphicsProgram.prototype.contextGain = function (manager) {
@@ -18562,9 +18561,9 @@ define('davinci-eight/resources/GraphicsBuffers',["require", "exports", '../coll
             this.buffersByCanvasId = void 0;
             _super.prototype.destructor.call(this);
         };
-        GraphicsBuffers.prototype.contextFree = function (canvasId) {
-            if (this.buffersByCanvasId.exists(canvasId)) {
-                this.buffersByCanvasId.remove(canvasId);
+        GraphicsBuffers.prototype.contextFree = function (manager) {
+            if (this.buffersByCanvasId.exists(manager.canvasId)) {
+                this.buffersByCanvasId.remove(manager.canvasId);
             }
         };
         GraphicsBuffers.prototype.contextGain = function (manager) {
@@ -18901,8 +18900,8 @@ define('davinci-eight/visual/createArrow',["require", "exports", '../facets/Colo
             release: function () {
                 return drawable.release();
             },
-            contextFree: function (canvasId) {
-                return drawable.contextFree(canvasId);
+            contextFree: function (manager) {
+                return drawable.contextFree(manager);
             },
             contextGain: function (manager) {
                 return drawable.contextGain(manager);
@@ -19039,8 +19038,8 @@ define('davinci-eight/visual/createBox',["require", "exports", '../facets/ColorF
             release: function () {
                 return drawable.release();
             },
-            contextFree: function (canvasId) {
-                return drawable.contextFree(canvasId);
+            contextFree: function (manager) {
+                return drawable.contextFree(manager);
             },
             contextGain: function (manager) {
                 return drawable.contextGain(manager);
@@ -19082,7 +19081,7 @@ define('davinci-eight/visual/createCylinder',["require", "exports", '../facets/C
             model.release();
         };
         axis.on('change', axisHandler);
-        var arrow = {
+        var cylinder = {
             get color() {
                 var facet = drawable.getFacet(COLOR_FACET_NAME);
                 var color = facet.color;
@@ -19157,8 +19156,8 @@ define('davinci-eight/visual/createCylinder',["require", "exports", '../facets/C
                 }
                 return refCount;
             },
-            contextFree: function (canvasId) {
-                return drawable.contextFree(canvasId);
+            contextFree: function (manager) {
+                return drawable.contextFree(manager);
             },
             contextGain: function (manager) {
                 return drawable.contextGain(manager);
@@ -19167,7 +19166,7 @@ define('davinci-eight/visual/createCylinder',["require", "exports", '../facets/C
                 return drawable.contextLost(canvasId);
             }
         };
-        return arrow;
+        return cylinder;
     }
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = default_1;
@@ -19273,8 +19272,8 @@ define('davinci-eight/visual/createSphere',["require", "exports", '../facets/Col
             release: function () {
                 return drawable.release();
             },
-            contextFree: function (canvasId) {
-                return drawable.contextFree(canvasId);
+            contextFree: function (manager) {
+                return drawable.contextFree(manager);
             },
             contextGain: function (manager) {
                 return drawable.contextGain(manager);

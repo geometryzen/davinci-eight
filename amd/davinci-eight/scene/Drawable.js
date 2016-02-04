@@ -36,9 +36,9 @@ define(["require", "exports", '../i18n/readOnly', '../utils/Shareable', '../coll
                 facet.setUniforms(_this._graphicsProgram, canvasId);
             });
         };
-        Drawable.prototype.contextFree = function (canvasId) {
-            this._graphicsBuffers.contextFree(canvasId);
-            this._graphicsProgram.contextFree(canvasId);
+        Drawable.prototype.contextFree = function (manager) {
+            this._graphicsBuffers.contextFree(manager);
+            this._graphicsProgram.contextFree(manager);
         };
         Drawable.prototype.contextGain = function (manager) {
             this._graphicsBuffers.contextGain(manager);

@@ -24,7 +24,7 @@ define(["require", "exports", '../checks/mustBeNumber', '../utils/Shareable'], f
             this.alpha = void 0;
             _super.prototype.destructor.call(this);
         };
-        WebGLClearColor.prototype.contextFree = function (canvasId) {
+        WebGLClearColor.prototype.contextFree = function (manager) {
         };
         WebGLClearColor.prototype.contextGain = function (manager) {
             mustBeNumber_1.default('red', this.red);

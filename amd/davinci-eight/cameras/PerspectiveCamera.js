@@ -25,7 +25,7 @@ define(["require", "exports", '../cameras/createPerspective', '../i18n/readOnly'
             this.inner.setFar(this.far);
             this.inner.setUniforms(visitor, canvasId);
         };
-        PerspectiveCamera.prototype.contextFree = function (canvasId) {
+        PerspectiveCamera.prototype.contextFree = function (manager) {
         };
         PerspectiveCamera.prototype.contextGain = function (manager) {
         };

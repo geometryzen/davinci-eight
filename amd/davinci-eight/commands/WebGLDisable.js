@@ -10,7 +10,7 @@ define(["require", "exports", '../commands/glCapability', '../checks/mustBeNumbe
             _super.call(this, 'WebGLDisable');
             this._capability = mustBeNumber_1.default('capability', capability);
         }
-        WebGLDisable.prototype.contextFree = function (canvasId) {
+        WebGLDisable.prototype.contextFree = function (manager) {
         };
         WebGLDisable.prototype.contextGain = function (manager) {
             manager.gl.disable(glCapability_1.default(this._capability, manager.gl));

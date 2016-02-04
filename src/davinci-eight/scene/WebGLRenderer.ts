@@ -547,34 +547,19 @@ export default class WebGLRenderer extends Shareable implements ContextControlle
         return this
     }
 
-    /**
-     * @method contextFree
-     * @param [canvasId] {number}
-     * @return {void}
-     */
-    contextFree(canvasId: number): void {
+    contextFree(manager: IContextProvider): void {
         // FIXME: Am I really listening?
         this._commands.forEach(function(command: IContextCommand) {
-            command.contextFree(canvasId)
+            command.contextFree(manager)
         })
     }
 
-    /**
-     * @method contextGain
-     * @param manager {IContextProvider}
-     * @return {void}
-     */
     contextGain(manager: IContextProvider): void {
         this._commands.forEach(function(command: IContextCommand) {
             command.contextGain(manager)
         })
     }
 
-    /**
-     * @method contextLost
-     * @param [canvasId] {number}
-     * @return {void}
-     */
     contextLost(canvasId: number) {
         this._commands.forEach(function(command: IContextCommand) {
             command.contextLost(canvasId)
@@ -858,7 +843,7 @@ export default class WebGLRenderer extends Shareable implements ContextControlle
             consumer.contextLost(this._canvasId);
         }
         else {
-            consumer.contextFree(this._canvasId);
+            consumer.contextFree(this);
         }
     }
 

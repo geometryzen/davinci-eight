@@ -56,33 +56,23 @@ export default class WebGLBlendFunc extends Shareable implements IContextCommand
         this.sfactor = mustBeFactor('sfactor', sfactor)
         this.dfactor = mustBeFactor('dfactor', dfactor)
     }
-    /**
-     * @method contextFree
-     * @param [canvasId] {number}
-     * @return {void}
-     */
-    contextFree(canvasId: number): void {
+
+    contextFree(manager: IContextProvider): void {
         // do nothing
     }
-    /**
-     * @method contextGain
-     * @param manager {IContextProvider}
-     * @return {void}
-     */
+
     contextGain(manager: IContextProvider): void {
         this.execute(manager.gl)
     }
-    /**
-     * @method contextLost
-     * @param [canvasId] {number}
-     * @return {void}
-     */
+
     contextLost(canvasId: number): void {
         // do nothing
     }
+
     private execute(gl: WebGLRenderingContext): void {
         gl.blendFunc(factor(this.sfactor, gl), factor(this.dfactor, gl))
     }
+
     /**
      * @method destructor
      * @return {void}
@@ -90,5 +80,6 @@ export default class WebGLBlendFunc extends Shareable implements IContextCommand
     destructor(): void {
         this.sfactor = void 0
         this.dfactor = void 0
+        super.destructor()
     }
 }

@@ -101,7 +101,7 @@ export default class SimpleWebGLProgram extends Shareable implements IContextCon
                     this.contextLost(canvasId)
                 }
                 else {
-                    this.contextFree(canvasId)
+                    this.contextFree(context)
                 }
             }
             else {
@@ -113,12 +113,7 @@ export default class SimpleWebGLProgram extends Shareable implements IContextCon
         this.context = void 0
     }
 
-    /**
-     * @method contextGain
-     * @param context {IContextProvider}
-     * @return {void}
-     */
-    contextGain(unused: IContextProvider): void {
+    contextGain(manager: IContextProvider): void {
         let context = this.context
         let gl = context.gl
         if (!this.program) {
@@ -155,11 +150,6 @@ export default class SimpleWebGLProgram extends Shareable implements IContextCon
         }
     }
 
-    /**
-     * @method contextLost
-     * @param [canvasId] {number}
-     * @return {void}
-     */
     contextLost(unused?: number): void {
         this.program = void 0
         for (var aName in this.attributes) {
@@ -174,12 +164,7 @@ export default class SimpleWebGLProgram extends Shareable implements IContextCon
         }
     }
 
-    /**
-     * @method contextFree
-     * @param [canvasId] number
-     * @return {void} 
-     */
-    contextFree(unused?: number): void {
+    contextFree(manager: IContextProvider): void {
         if (this.program) {
             let gl = this.context.gl
             if (gl) {

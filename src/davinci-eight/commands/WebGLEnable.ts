@@ -26,28 +26,15 @@ export default class WebGLEnable extends Shareable implements IContextCommand, I
         super('WebGLEnable')
         this._capability = mustBeNumber('capability', capability)
     }
-    /**
-     * @method contextFree
-     * @param [canvasId] {number}
-     * @return {void}
-     */
-    contextFree(canvasId: number): void {
+
+    contextFree(manager: IContextProvider): void {
         // do nothing
     }
-    /**
-     * @method contextGain
-     * @param manager {IContextProvider}
-     * @return {void}
-     */
+
     contextGain(manager: IContextProvider): void {
         manager.gl.enable(glCapability(this._capability, manager.gl))
     }
 
-    /**
-     * @method contextLost
-     * @param [canvasId] {number}
-     * @return {void}
-     */
     contextLost(canvasId: number): void {
         // do nothing
     }

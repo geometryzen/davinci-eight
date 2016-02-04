@@ -41,7 +41,7 @@ define(["require", "exports", '../commands/BlendFactor', '../utils/Shareable'], 
             this.sfactor = mustBeFactor('sfactor', sfactor);
             this.dfactor = mustBeFactor('dfactor', dfactor);
         }
-        WebGLBlendFunc.prototype.contextFree = function (canvasId) {
+        WebGLBlendFunc.prototype.contextFree = function (manager) {
         };
         WebGLBlendFunc.prototype.contextGain = function (manager) {
             this.execute(manager.gl);
@@ -54,6 +54,7 @@ define(["require", "exports", '../commands/BlendFactor', '../utils/Shareable'], 
         WebGLBlendFunc.prototype.destructor = function () {
             this.sfactor = void 0;
             this.dfactor = void 0;
+            _super.prototype.destructor.call(this);
         };
         return WebGLBlendFunc;
     })(Shareable_1.default);

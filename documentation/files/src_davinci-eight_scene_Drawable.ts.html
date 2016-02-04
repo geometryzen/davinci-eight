@@ -356,30 +356,16 @@ export default class Drawable extends Shareable implements IDrawable {
 
     }
 
-    /**
-     * @method contextFree
-     * @param canvasId {number}
-     */
-    contextFree(canvasId: number): void {
-        this._graphicsBuffers.contextFree(canvasId)
-        this._graphicsProgram.contextFree(canvasId)
+    contextFree(manager: IContextProvider): void {
+        this._graphicsBuffers.contextFree(manager)
+        this._graphicsProgram.contextFree(manager)
     }
 
-    /**
-     * @method contextGain
-     * @param manager {IContextProvider}
-     * @return {void}
-     */
     contextGain(manager: IContextProvider): void {
         this._graphicsBuffers.contextGain(manager)
         this._graphicsProgram.contextGain(manager)
     }
 
-    /**
-     * @method contextLost
-     * @param canvasId {number}
-     * @return {void}
-     */
     contextLost(canvasId: number): void {
         this._graphicsBuffers.contextLost(canvasId)
         this._graphicsProgram.contextLost(canvasId)

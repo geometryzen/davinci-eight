@@ -15,13 +15,13 @@ define(["require", "exports", '../checks/isDefined', '../checks/mustBeBoolean', 
             manager.synchronize(this);
         }
         BufferResource.prototype.destructor = function () {
-            this.contextFree(this.manager.canvasId);
+            this.contextFree(this.manager);
             this.manager.removeContextListener(this);
             this.manager = void 0;
             this._isElements = void 0;
             _super.prototype.destructor.call(this);
         };
-        BufferResource.prototype.contextFree = function (canvasId) {
+        BufferResource.prototype.contextFree = function (manager) {
             if (this._buffer) {
                 var gl = this.manager.gl;
                 if (isDefined_1.default(gl)) {
