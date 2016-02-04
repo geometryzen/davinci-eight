@@ -5471,7 +5471,7 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/scene/Scene.ts",
-            "line": 250,
+            "line": 36,
             "extends": "Shareable",
             "description": "<p>\nA <code>Scene</code> is a collection of drawable instances arranged in some order.\nThe precise order is implementation defined.\nThe collection may be traversed for general processing using callback/visitor functions.\n</p>",
             "is_constructor": 1,
@@ -28531,35 +28531,6 @@
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/scene/IDrawList.ts",
-            "line": 68,
-            "itemtype": "method",
-            "name": "traverse",
-            "params": [
-                {
-                    "name": "callback",
-                    "description": "",
-                    "type": "(drawable: IDrawable) => void"
-                },
-                {
-                    "name": "canvasId",
-                    "description": "",
-                    "type": "Number"
-                },
-                {
-                    "name": "prolog",
-                    "description": "",
-                    "type": "(material: IGraphicsProgram => void)"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "IDrawList",
-            "module": "EIGHT"
-        },
-        {
             "file": "src/davinci-eight/scene/MonitorList.ts",
             "line": 19,
             "description": "Implementation Only.",
@@ -28575,42 +28546,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Scene.ts",
-            "line": 26,
-            "description": "A grouping of IDrawable, by IGraphicsProgram.",
-            "class": "Scene",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/scene/Scene.ts",
-            "line": 43,
-            "description": "Provides a way to push out the IGraphicsProgram without bumping the reference count.",
-            "class": "Scene",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/scene/Scene.ts",
-            "line": 67,
-            "description": "In order to be able to optimize the drawing of a single frame,\nwe take over the process from the drawable objects themselves.",
-            "class": "Scene",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/scene/Scene.ts",
-            "line": 117,
-            "description": "Should look like a set of IDrawable Groups. Maybe like a Scene!",
-            "class": "Scene",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/scene/Scene.ts",
-            "line": 121,
-            "description": "Mapping from programId to DrawableGroup ~ (IGraphicsProgram, IDrawable[])",
-            "class": "Scene",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/scene/Scene.ts",
-            "line": 269,
+            "line": 56,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -28624,7 +28560,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Scene.ts",
-            "line": 292,
+            "line": 79,
             "description": "<p>\nAdds the <code>drawable</code> to this <code>Scene</code>.\n</p>",
             "itemtype": "method",
             "name": "add",
@@ -28644,7 +28580,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Scene.ts",
-            "line": 313,
+            "line": 100,
             "itemtype": "method",
             "name": "containsDrawable",
             "params": [
@@ -28663,7 +28599,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Scene.ts",
-            "line": 323,
+            "line": 110,
             "description": "<p>\nTraverses the collection of drawables, drawing each one.\n</p>",
             "itemtype": "method",
             "name": "draw",
@@ -28690,7 +28626,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Scene.ts",
-            "line": 341,
+            "line": 148,
             "itemtype": "method",
             "name": "findOne",
             "params": [
@@ -28709,7 +28645,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Scene.ts",
-            "line": 351,
+            "line": 168,
             "itemtype": "method",
             "name": "getDrawableByName",
             "params": [
@@ -28728,7 +28664,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Scene.ts",
-            "line": 363,
+            "line": 180,
             "description": "Gets a collection of drawable elements by name.",
             "itemtype": "method",
             "name": "getDrawablesByName",
@@ -28745,7 +28681,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Scene.ts",
-            "line": 386,
+            "line": 193,
             "description": "<p>\nRemoves the <code>drawable</code> from this <code>Scene</code>.\n</p>",
             "itemtype": "method",
             "name": "remove",
@@ -28765,37 +28701,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Scene.ts",
-            "line": 403,
-            "description": "<p>\nTraverses the collection of drawables, calling the specified callback arguments.\n</p>",
-            "itemtype": "method",
-            "name": "traverse",
-            "params": [
-                {
-                    "name": "callback",
-                    "description": "Callback function for each drawable.",
-                    "type": "(drawable: IDrawable) => void"
-                },
-                {
-                    "name": "canvasId",
-                    "description": "Identifies the canvas.",
-                    "type": "Number"
-                },
-                {
-                    "name": "prolog",
-                    "description": "Callback function for each material.",
-                    "type": "(material: IGraphicsProgram) => void"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "Scene",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/scene/Scene.ts",
-            "line": 421,
+            "line": 210,
             "itemtype": "method",
             "name": "contextFree",
             "params": [
@@ -28814,7 +28720,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Scene.ts",
-            "line": 439,
+            "line": 224,
             "itemtype": "method",
             "name": "contextGain",
             "params": [
@@ -28833,7 +28739,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Scene.ts",
-            "line": 461,
+            "line": 240,
             "itemtype": "method",
             "name": "contextLost",
             "params": [
@@ -30052,7 +29958,7 @@
         },
         {
             "message": "unknown tag: rerurn",
-            "line": " src/davinci-eight/scene/Scene.ts:363"
+            "line": " src/davinci-eight/scene/Scene.ts:180"
         },
         {
             "message": "Missing item type\nEssentially constructs the IUnknownArray without incrementing the\nreference count of the elements, and without creating zombies.",
@@ -30913,26 +30819,6 @@
         {
             "message": "Missing item type\nNotice that the list of monitors is effectively optional.\nMonitors can be added and removed later.",
             "line": " src/davinci-eight/scene/MonitorList.ts:24"
-        },
-        {
-            "message": "Missing item type\nA grouping of IDrawable, by IGraphicsProgram.",
-            "line": " src/davinci-eight/scene/Scene.ts:26"
-        },
-        {
-            "message": "Missing item type\nProvides a way to push out the IGraphicsProgram without bumping the reference count.",
-            "line": " src/davinci-eight/scene/Scene.ts:43"
-        },
-        {
-            "message": "Missing item type\nIn order to be able to optimize the drawing of a single frame,\nwe take over the process from the drawable objects themselves.",
-            "line": " src/davinci-eight/scene/Scene.ts:67"
-        },
-        {
-            "message": "Missing item type\nShould look like a set of IDrawable Groups. Maybe like a Scene!",
-            "line": " src/davinci-eight/scene/Scene.ts:117"
-        },
-        {
-            "message": "Missing item type\nMapping from programId to DrawableGroup ~ (IGraphicsProgram, IDrawable[])",
-            "line": " src/davinci-eight/scene/Scene.ts:121"
         },
         {
             "message": "Missing item type\nRenders geometric primitives indexed by element array data.",

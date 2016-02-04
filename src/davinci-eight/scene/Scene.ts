@@ -15,7 +15,6 @@ import mustBeObject from '../checks/mustBeObject';
 import mustBeString from '../checks/mustBeString';
 import NumberIUnknownMap from '../collections/NumberIUnknownMap';
 import Shareable from '../utils/Shareable';
-import StringIUnknownMap from '../collections/StringIUnknownMap';
 
 const LOGGING_NAME = 'Scene';
 
@@ -24,225 +23,12 @@ function ctorContext(): string {
 }
 
 /**
- * A grouping of IDrawable, by IGraphicsProgram.
- */
-class DrawableGroup extends Shareable {
-    private _program: IGraphicsProgram;
-    private _drawables: IUnknownArray<IDrawable>;
-    constructor(program: IGraphicsProgram) {
-        super('DrawableGroup');
-        this._program = program;
-        this._program.addRef();
-        this._drawables = new IUnknownArray<IDrawable>();
-    }
-    protected destructor(): void {
-        this._program.release();
-        this._drawables.release();
-        super.destructor();
-    }
-    /**
-     * Provides a way to push out the IGraphicsProgram without bumping the reference count.
-     */
-    acceptProgram(visitor: (program: IGraphicsProgram) => void) {
-        visitor(this._program);
-    }
-    get length() {
-        return this._drawables.length;
-    }
-    containsDrawable(drawable: IDrawable) {
-        return this._drawables.indexOf(drawable) >= 0;
-    }
-    push(drawable: IDrawable) {
-        this._drawables.push(drawable);
-    }
-    remove(drawable: IDrawable): void {
-        let drawables = this._drawables
-        let index = drawables.indexOf(drawable)
-        if (index >= 0) {
-            // We don't actually need the returned element so release it.
-            drawables.splice(index, 1).release()
-        }
-    }
-
-    /**
-     * In order to be able to optimize the drawing of a single frame,
-     * we take over the process from the drawable objects themselves.
-     */
-    draw(ambients: Facet[], canvasId: number): void {
-
-        const graphicsProgram = this._program
-
-        graphicsProgram.use(canvasId)
-
-        if (ambients) {
-            const aLength = ambients.length;
-            for (let a = 0; a < aLength; a++) {
-                const ambient = ambients[a]
-                ambient.setUniforms(graphicsProgram, canvasId);
-            }
-        }
-
-        const drawables = this._drawables
-        const iLength = drawables.length;
-        for (let i = 0; i < iLength; i++) {
-            const drawable = drawables.getWeakRef(i)
-
-            drawable.setUniforms(canvasId);
-
-            const buffers: IGraphicsBuffers = drawable.graphicsBuffers;
-            /// FIXME: Break out this method call?
-            buffers.draw(graphicsProgram, canvasId)
-            buffers.release()
-        }
-    }
-
-    findOne(match: (drawable: IDrawable) => boolean): IDrawable {
-        const drawables = this._drawables;
-        for (let i = 0, iLength = drawables.length; i < iLength; i++) {
-            const candidate = drawables.get(i);
-            if (match(candidate)) {
-                return candidate;
-            }
-            else {
-                candidate.release();
-            }
-        }
-        return void 0;
-    }
-    traverseDrawables(callback: (drawable: IDrawable) => void) {
-        this._drawables.forEach(callback);
-    }
-}
-
-/**
- * Should look like a set of IDrawable Groups. Maybe like a Scene!
- */
-class DrawableGroups extends Shareable {
-    /**
-     * Mapping from programId to DrawableGroup ~ (IGraphicsProgram, IDrawable[])
-     */
-    private _groups = new StringIUnknownMap<DrawableGroup>();
-    constructor() {
-        super('DrawableGroups')
-    }
-    protected destructor(): void {
-        this._groups.release()
-        super.destructor()
-    }
-    add(drawable: IDrawable) {
-        // Now let's see if we can get a program...
-        const program: IGraphicsProgram = drawable.graphicsProgram;
-        if (program) {
-            try {
-                let programId: string = program.uuid
-                let group = this._groups.get(programId)
-                if (!group) {
-                    group = new DrawableGroup(program)
-                    this._groups.put(programId, group)
-                }
-                if (!group.containsDrawable(drawable)) {
-                    group.push(drawable)
-                }
-                group.release()
-            }
-            finally {
-                program.release()
-            }
-        }
-        else {
-            // Thing won't actually be kept in list of drawables because
-            // it does not have a program. Do we need to track it elsewhere?
-        }
-    }
-    containsDrawable(drawable: IDrawable): boolean {
-        const graphicsProgram = drawable.graphicsProgram;
-        if (graphicsProgram) {
-            try {
-                var group = this._groups.getWeakRef(graphicsProgram.uuid)
-                if (group) {
-                    return group.containsDrawable(drawable)
-                }
-                else {
-                    return false
-                }
-            }
-            finally {
-                graphicsProgram.release()
-            }
-        }
-        else {
-            return false
-        }
-    }
-    findOne(match: (drawable: IDrawable) => boolean): IDrawable {
-        const groupIds = this._groups.keys;
-        for (let i = 0, iLength = groupIds.length; i < iLength; i++) {
-            const groupId = groupIds[i];
-            const group = this._groups.getWeakRef(groupId);
-            const found = group.findOne(match);
-            if (found) {
-                return found;
-            }
-        }
-        return void 0;
-    }
-    remove(drawable: IDrawable) {
-        const material: IGraphicsProgram = drawable.graphicsProgram;
-        if (material) {
-            try {
-                let programId: string = material.uuid
-                if (this._groups.exists(programId)) {
-                    let group: DrawableGroup = this._groups.get(programId)
-                    try {
-                        group.remove(drawable);
-                        if (group.length === 0) {
-                            this._groups.remove(programId).release()
-                        }
-                    }
-                    finally {
-                        group.release()
-                    }
-                }
-                else {
-                    // Do nothing.
-                }
-            }
-            finally {
-                material.release()
-            }
-        }
-    }
-    draw(ambients: Facet[], canvasId: number) {
-        const drawGroups: StringIUnknownMap<DrawableGroup> = this._groups;
-        const materialKeys = drawGroups.keys;
-        const materialsLength = materialKeys.length;
-        for (let i = 0; i < materialsLength; i++) {
-            const materialKey = materialKeys[i];
-            const drawGroup = drawGroups.getWeakRef(materialKey);
-            drawGroup.draw(ambients, canvasId);
-        }
-    }
-    // FIXME: Rename to traverse
-    traverseDrawables(callback: (drawable: IDrawable) => void, callback2: (program: IGraphicsProgram) => void) {
-        this._groups.forEach(function(groupId, group) {
-            group.acceptProgram(callback2);
-            group.traverseDrawables(callback);
-        });
-    }
-    traversePrograms(callback: (program: IGraphicsProgram) => void) {
-        this._groups.forEach(function(groupId, group) {
-            group.acceptProgram(callback);
-        });
-    }
-}
-
-/**
  * @class Scene
  * @extends Shareable
  */
 export default class Scene extends Shareable implements IDrawList {
 
-    private _drawableGroups = new DrawableGroups();
+    private _drawables: IUnknownArray<IDrawable>;
     private _canvasIdToManager = new NumberIUnknownMap<IContextProvider>();
     private monitors: MonitorList;
 
@@ -264,6 +50,7 @@ export default class Scene extends Shareable implements IDrawList {
         this.monitors = new MonitorList(monitors);
         this.monitors.addContextListener(this);
         this.monitors.synchronize(this);
+        this._drawables = new IUnknownArray<IDrawable>();
     }
 
     /**
@@ -275,7 +62,7 @@ export default class Scene extends Shareable implements IDrawList {
         this.monitors.removeContextListener(this);
         this.monitors.release();
         this._canvasIdToManager.release();
-        this._drawableGroups.release();
+        this._drawables.release();
         super.destructor();
     }
 
@@ -307,7 +94,7 @@ export default class Scene extends Shareable implements IDrawList {
         this._canvasIdToManager.forEach(function(id, manager) {
             drawable.contextGain(manager)
         });
-        this._drawableGroups.add(drawable)
+        this._drawables.push(drawable)
     }
 
     /**
@@ -317,7 +104,7 @@ export default class Scene extends Shareable implements IDrawList {
      */
     containsDrawable(drawable: IDrawable): boolean {
         mustBeObject('drawable', drawable);
-        return this._drawableGroups.containsDrawable(drawable)
+        return this._drawables.indexOf(drawable) >= 0
     }
 
     /**
@@ -331,11 +118,31 @@ export default class Scene extends Shareable implements IDrawList {
      * @beta
      */
     draw(ambients: Facet[], canvasId: number): void {
-        if (!core.fastPath) {
-            mustBeArray('ambients', ambients);
-            mustBeNumber('canvasId', canvasId);
+
+        for (let i = 0; i < this._drawables.length; i++) {
+
+            const drawable = this._drawables.getWeakRef(i);
+
+            const graphicsProgram: IGraphicsProgram = drawable.graphicsProgram
+
+            graphicsProgram.use(canvasId)
+
+            if (ambients) {
+                const aLength = ambients.length;
+                for (let a = 0; a < aLength; a++) {
+                    const ambient = ambients[a]
+                    ambient.setUniforms(graphicsProgram, canvasId);
+                }
+            }
+
+            drawable.setUniforms(canvasId);
+
+            const buffers: IGraphicsBuffers = drawable.graphicsBuffers;
+            buffers.draw(graphicsProgram, canvasId)
+            buffers.release()
+
+            graphicsProgram.release()
         }
-        this._drawableGroups.draw(ambients, canvasId)
     }
 
     /**
@@ -345,7 +152,17 @@ export default class Scene extends Shareable implements IDrawList {
      */
     findOne(match: (drawable: IDrawable) => boolean): IDrawable {
         mustBeFunction('match', match);
-        return this._drawableGroups.findOne(match);
+        const drawables = this._drawables;
+        for (let i = 0, iLength = drawables.length; i < iLength; i++) {
+            const candidate = drawables.get(i);
+            if (match(candidate)) {
+                return candidate;
+            }
+            else {
+                candidate.release();
+            }
+        }
+        return void 0;
     }
 
     /**
@@ -357,7 +174,7 @@ export default class Scene extends Shareable implements IDrawList {
         if (!core.fastPath) {
             mustBeString('name', name);
         }
-        return this._drawableGroups.findOne(function(drawable) { return drawable.name === name; });
+        return this.findOne(function(drawable) { return drawable.name === name; });
     }
 
     /**
@@ -369,17 +186,7 @@ export default class Scene extends Shareable implements IDrawList {
      */
     getDrawablesByName(name: string): IUnknownArray<IDrawable> {
         mustBeString('name', name);
-        var result = new IUnknownArray<IDrawable>()
-        this._drawableGroups.traverseDrawables(
-            function(candidate: IDrawable) {
-                if (candidate.name === name) {
-                    result.push(candidate)
-                }
-            },
-            function(program: IGraphicsProgram) {
-                // Do nothing.
-            }
-        )
+        const result = new IUnknownArray<IDrawable>()
         return result;
     }
 
@@ -397,25 +204,7 @@ export default class Scene extends Shareable implements IDrawList {
      */
     remove(drawable: IDrawable): void {
         mustBeObject('drawable', drawable);
-        this._drawableGroups.remove(drawable);
-    }
-
-    /**
-     * <p>
-     * Traverses the collection of drawables, calling the specified callback arguments.
-     * </p>
-     *
-     * @method traverse
-     * @param callback {(drawable: IDrawable) => void} Callback function for each drawable.
-     * @param canvasId {number} Identifies the canvas.
-     * @param prolog {(material: IGraphicsProgram) => void} Callback function for each material. 
-     * @return {void}
-     */
-    traverse(callback: (drawable: IDrawable) => void, canvasId: number, prolog: (material: IGraphicsProgram) => void): void {
-        mustBeFunction('callback', callback);
-        mustBeNumber('canvasId', canvasId);
-        // FIXME: canvasId is not used.
-        this._drawableGroups.traverseDrawables(callback, prolog);
+        throw new Error("TODO")
     }
 
     /**
@@ -425,14 +214,10 @@ export default class Scene extends Shareable implements IDrawList {
      */
     contextFree(canvasId: number): void {
         mustBeNumber('canvasId', canvasId);
-        this._drawableGroups.traverseDrawables(
-            function(drawable) {
-                drawable.contextFree(canvasId)
-            },
-            function(program) {
-                program.contextFree(canvasId)
-            }
-        )
+        for (let i = 0; i < this._drawables.length; i++) {
+            const drawable = this._drawables.getWeakRef(i);
+            drawable.contextFree(canvasId);
+        }
         this._canvasIdToManager.remove(canvasId);
     }
 
@@ -444,17 +229,11 @@ export default class Scene extends Shareable implements IDrawList {
     contextGain(manager: IContextProvider): void {
         mustBeObject('manager', manager);
         if (!this._canvasIdToManager.exists(manager.canvasId)) {
-            // Cache the manager.
             this._canvasIdToManager.put(manager.canvasId, manager)
-            // Broadcast to drawables and materials.
-            this._drawableGroups.traverseDrawables(
-                function(drawable) {
-                    drawable.contextGain(manager)
-                },
-                function(material) {
-                    material.contextGain(manager)
-                }
-            )
+        }
+        for (let i = 0; i < this._drawables.length; i++) {
+            const drawable = this._drawables.getWeakRef(i);
+            drawable.contextGain(manager);
         }
     }
 
@@ -466,15 +245,11 @@ export default class Scene extends Shareable implements IDrawList {
     contextLost(canvasId: number): void {
         mustBeNumber('canvasId', canvasId);
         if (this._canvasIdToManager.exists(canvasId)) {
-            this._drawableGroups.traverseDrawables(
-                function(drawable) {
-                    drawable.contextLost(canvasId)
-                },
-                function(material) {
-                    material.contextLost(canvasId)
-                }
-            )
             this._canvasIdToManager.remove(canvasId)
+        }
+        for (let i = 0; i < this._drawables.length; i++) {
+            const drawable = this._drawables.getWeakRef(i);
+            drawable.contextLost(canvasId);
         }
     }
 }

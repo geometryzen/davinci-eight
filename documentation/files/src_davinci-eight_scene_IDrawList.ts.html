@@ -318,15 +318,6 @@ interface IDrawList extends IContextConsumer {
      * @param drawable {IDrawable}
      */
     remove(drawable: IDrawable): void;
-
-    /**
-     * @method traverse
-     * @param callback {(drawable: IDrawable) =&gt; void}
-     * @param canvasId {number}
-     * @param prolog {(material: IGraphicsProgram =&gt; void)}
-     * @return {void}
-     */
-    traverse(callback: (drawable: IDrawable) =&gt; void, canvasId: number, prolog: (material: IGraphicsProgram) =&gt; void): void;
 }
 
 export default IDrawList;
