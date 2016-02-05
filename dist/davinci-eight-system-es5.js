@@ -2321,7 +2321,7 @@ System.register("davinci-eight/topologies/LineTopology.js", ["../topologies/Topo
   };
 });
 
-System.register("davinci-eight/scene/Scene.js", ["../core", "../collections/IUnknownArray", "../scene/MonitorList", "../checks/mustBeArray", "../checks/mustBeFunction", "../checks/mustBeObject", "../checks/mustBeString", "../utils/Shareable"], function(exports_1) {
+System.register("davinci-eight/scene/Scene.js", ["../core", "../collections/IUnknownArray", "../checks/mustBeFunction", "../checks/mustBeObject", "../checks/mustBeString", "../utils/Shareable"], function(exports_1) {
   var __extends = (this && this.__extends) || function(d, b) {
     for (var p in b)
       if (b.hasOwnProperty(p))
@@ -2333,26 +2333,16 @@ System.register("davinci-eight/scene/Scene.js", ["../core", "../collections/IUnk
   };
   var core_1,
       IUnknownArray_1,
-      MonitorList_1,
-      mustBeArray_1,
       mustBeFunction_1,
       mustBeObject_1,
       mustBeString_1,
       Shareable_1;
-  var LOGGING_NAME,
-      Scene;
-  function ctorContext() {
-    return LOGGING_NAME + " constructor";
-  }
+  var Scene;
   return {
     setters: [function(core_1_1) {
       core_1 = core_1_1;
     }, function(IUnknownArray_1_1) {
       IUnknownArray_1 = IUnknownArray_1_1;
-    }, function(MonitorList_1_1) {
-      MonitorList_1 = MonitorList_1_1;
-    }, function(mustBeArray_1_1) {
-      mustBeArray_1 = mustBeArray_1_1;
     }, function(mustBeFunction_1_1) {
       mustBeFunction_1 = mustBeFunction_1_1;
     }, function(mustBeObject_1_1) {
@@ -2363,34 +2353,30 @@ System.register("davinci-eight/scene/Scene.js", ["../core", "../collections/IUnk
       Shareable_1 = Shareable_1_1;
     }],
     execute: function() {
-      LOGGING_NAME = 'Scene';
       Scene = (function(_super) {
         __extends(Scene, _super);
-        function Scene(monitors) {
-          if (monitors === void 0) {
-            monitors = [];
-          }
-          _super.call(this, LOGGING_NAME);
-          mustBeArray_1.default('monitors', monitors);
-          MonitorList_1.default.verify('monitors', monitors, ctorContext);
-          this.monitors = new MonitorList_1.default(monitors);
-          this.monitors.addContextListener(this);
-          this.monitors.synchronize(this);
+        function Scene() {
+          _super.call(this, 'Scene');
           this._drawables = new IUnknownArray_1.default();
         }
         Scene.prototype.destructor = function() {
-          this.monitors.removeContextListener(this);
-          this.monitors.release();
+          if (this._monitor) {
+            console.warn(this._type + ".destructor but still using monitor!");
+          }
           this._drawables.release();
           _super.prototype.destructor.call(this);
         };
         Scene.prototype.attachTo = function(monitor) {
-          this.monitors.add(monitor);
+          monitor.addRef();
           monitor.addContextListener(this);
+          this._monitor = monitor;
         };
-        Scene.prototype.detachFrom = function(monitor) {
-          monitor.removeContextListener(this);
-          this.monitors.remove(monitor);
+        Scene.prototype.detachFrom = function(unused) {
+          if (this._monitor) {
+            this._monitor.removeContextListener(this);
+            this._monitor.release();
+            this._monitor = void 0;
+          }
         };
         Scene.prototype.add = function(drawable) {
           mustBeObject_1.default('drawable', drawable);
@@ -3089,6 +3075,9 @@ System.register("davinci-eight/scene/WebGLRenderer.js", ["../core/BufferResource
             this._attributes.addRef();
             return this._attributes;
           },
+          set: function(unused) {
+            throw new Error(readOnly_1.default('attributes').message);
+          },
           enumerable: true,
           configurable: true
         });
@@ -3118,6 +3107,9 @@ System.register("davinci-eight/scene/WebGLRenderer.js", ["../core/BufferResource
           get: function() {
             this._buffer.addRef();
             return this._buffer;
+          },
+          set: function(unused) {
+            throw new Error(readOnly_1.default('buffer').message);
           },
           enumerable: true,
           configurable: true
@@ -9744,12 +9736,14 @@ System.register("davinci-eight/resources/GraphicsBuffers.js", ["../collections/I
           this.primitives = void 0;
           if (this.buffers) {
             this.buffers.release();
+            this.buffers = void 0;
           }
           _super.prototype.destructor.call(this);
         };
         GraphicsBuffers.prototype.contextFree = function(manager) {
           if (this.buffers) {
             this.buffers.release();
+            this.buffers = void 0;
           }
         };
         GraphicsBuffers.prototype.contextGain = function(manager) {
@@ -9764,7 +9758,10 @@ System.register("davinci-eight/resources/GraphicsBuffers.js", ["../collections/I
           }
         };
         GraphicsBuffers.prototype.contextLost = function() {
-          this.buffers = void 0;
+          if (this.buffers) {
+            this.buffers.release();
+            this.buffers = void 0;
+          }
         };
         GraphicsBuffers.prototype.draw = function(program) {
           if (this.buffers) {
@@ -10269,6 +10266,7 @@ System.register("davinci-eight/programs/createGraphicsProgram.js", ["../scene/Mo
           MonitorList_1.default.removeContextListener(self, monitors);
           if (program) {
             program.release();
+            program = void 0;
           }
         }
         return refCount;
@@ -10276,6 +10274,7 @@ System.register("davinci-eight/programs/createGraphicsProgram.js", ["../scene/Mo
       contextFree: function(manager) {
         if (program) {
           program.contextFree(manager);
+          program.release();
           program = void 0;
         }
       },
@@ -10288,6 +10287,7 @@ System.register("davinci-eight/programs/createGraphicsProgram.js", ["../scene/Mo
       contextLost: function() {
         if (program) {
           program.contextLost();
+          program.release();
           program = void 0;
         }
       },
@@ -10640,7 +10640,7 @@ System.register("davinci-eight/utils/refChange.js", [], function(exports_1) {
     return console.warn(prefix(message));
   }
   function error(message) {
-    return console.warn(prefix(message));
+    return console.error(prefix(message));
   }
   function garbageCollect() {
     var uuids = Object.keys(statistics);
@@ -10717,6 +10717,8 @@ System.register("davinci-eight/utils/refChange.js", [], function(exports_1) {
         element.refCount += change;
         if (element.refCount === 0) {
           element.zombie = true;
+        } else if (element.refCount < 0) {
+          error("refCount < 0 for " + name);
         }
       } else {
         error(change + " on " + uuid + " @ " + name);

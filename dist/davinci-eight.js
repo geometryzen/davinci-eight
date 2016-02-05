@@ -522,7 +522,7 @@ define('davinci-eight/utils/refChange',["require", "exports"], function (require
         return console.warn(prefix(message));
     }
     function error(message) {
-        return console.warn(prefix(message));
+        return console.error(prefix(message));
     }
     function garbageCollect() {
         var uuids = Object.keys(statistics);
@@ -597,6 +597,9 @@ define('davinci-eight/utils/refChange',["require", "exports"], function (require
                 element.refCount += change;
                 if (element.refCount === 0) {
                     element.zombie = true;
+                }
+                else if (element.refCount < 0) {
+                    error("refCount < 0 for " + name);
                 }
             }
             else {
@@ -12437,110 +12440,6 @@ define('davinci-eight/scene/Drawable',["require", "exports", '../i18n/readOnly',
     exports.default = Drawable;
 });
 
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-define('davinci-eight/scene/MonitorList',["require", "exports", '../utils/Shareable', '../checks/mustSatisfy', '../checks/isInteger'], function (require, exports, Shareable_1, mustSatisfy_1, isInteger_1) {
-    function beInstanceOfContextMonitors() {
-        return "be an instance of MonitorList";
-    }
-    function beContextMonitorArray() {
-        return "be IContextMonitor[]";
-    }
-    function identity(monitor) {
-        return monitor;
-    }
-    var MonitorList = (function (_super) {
-        __extends(MonitorList, _super);
-        function MonitorList(monitors) {
-            if (monitors === void 0) { monitors = []; }
-            _super.call(this, 'MonitorList');
-            this.monitors = monitors.map(identity);
-            this.monitors.forEach(function (monitor) {
-                monitor.addRef();
-            });
-        }
-        MonitorList.prototype.destructor = function () {
-            this.monitors.forEach(function (monitor) {
-                monitor.release();
-            });
-            _super.prototype.destructor.call(this);
-        };
-        MonitorList.prototype.addContextListener = function (user) {
-            this.monitors.forEach(function (monitor) {
-                monitor.addContextListener(user);
-            });
-        };
-        MonitorList.prototype.add = function (monitor) {
-            monitor.addRef();
-            this.monitors.push(monitor);
-        };
-        MonitorList.prototype.remove = function (monitor) {
-            var index = this.monitors.indexOf(monitor);
-            this.monitors[index].release();
-            this.monitors.splice(index, 1);
-        };
-        MonitorList.prototype.removeContextListener = function (user) {
-            this.monitors.forEach(function (monitor) {
-                monitor.removeContextListener(user);
-            });
-        };
-        MonitorList.prototype.synchronize = function (user) {
-            this.monitors.forEach(function (monitor) {
-                monitor.synchronize(user);
-            });
-        };
-        MonitorList.prototype.toArray = function () {
-            return this.monitors.map(identity);
-        };
-        MonitorList.copy = function (monitors) {
-            return new MonitorList(monitors);
-        };
-        MonitorList.isInstanceOf = function (candidate) {
-            return candidate instanceof MonitorList;
-        };
-        MonitorList.assertInstance = function (name, candidate, contextBuilder) {
-            if (MonitorList.isInstanceOf(candidate)) {
-                return candidate;
-            }
-            else {
-                mustSatisfy_1.default(name, false, beInstanceOfContextMonitors, contextBuilder);
-                throw new Error();
-            }
-        };
-        MonitorList.verify = function (name, monitors, contextBuilder) {
-            mustSatisfy_1.default(name, isInteger_1.default(monitors['length']), beContextMonitorArray, contextBuilder);
-            var monitorsLength = monitors.length;
-            for (var i = 0; i < monitorsLength; i++) {
-            }
-            return monitors;
-        };
-        MonitorList.addContextListener = function (user, monitors) {
-            MonitorList.verify('monitors', monitors, function () { return 'MonitorList.addContextListener'; });
-            monitors.forEach(function (monitor) {
-                monitor.addContextListener(user);
-            });
-        };
-        MonitorList.removeContextListener = function (user, monitors) {
-            MonitorList.verify('monitors', monitors, function () { return 'MonitorList.removeContextListener'; });
-            monitors.forEach(function (monitor) {
-                monitor.removeContextListener(user);
-            });
-        };
-        MonitorList.synchronize = function (user, monitors) {
-            MonitorList.verify('monitors', monitors, function () { return 'MonitorList.removeContextListener'; });
-            monitors.forEach(function (monitor) {
-                monitor.synchronize(user);
-            });
-        };
-        return MonitorList;
-    })(Shareable_1.default);
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = MonitorList;
-});
-
 define('davinci-eight/checks/isFunction',["require", "exports"], function (require, exports) {
     function isFunction(x) {
         return (typeof x === 'function');
@@ -12566,36 +12465,31 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/scene/Scene',["require", "exports", '../core', '../collections/IUnknownArray', '../scene/MonitorList', '../checks/mustBeArray', '../checks/mustBeFunction', '../checks/mustBeObject', '../checks/mustBeString', '../utils/Shareable'], function (require, exports, core_1, IUnknownArray_1, MonitorList_1, mustBeArray_1, mustBeFunction_1, mustBeObject_1, mustBeString_1, Shareable_1) {
-    var LOGGING_NAME = 'Scene';
-    function ctorContext() {
-        return LOGGING_NAME + " constructor";
-    }
+define('davinci-eight/scene/Scene',["require", "exports", '../core', '../collections/IUnknownArray', '../checks/mustBeFunction', '../checks/mustBeObject', '../checks/mustBeString', '../utils/Shareable'], function (require, exports, core_1, IUnknownArray_1, mustBeFunction_1, mustBeObject_1, mustBeString_1, Shareable_1) {
     var Scene = (function (_super) {
         __extends(Scene, _super);
-        function Scene(monitors) {
-            if (monitors === void 0) { monitors = []; }
-            _super.call(this, LOGGING_NAME);
-            mustBeArray_1.default('monitors', monitors);
-            MonitorList_1.default.verify('monitors', monitors, ctorContext);
-            this.monitors = new MonitorList_1.default(monitors);
-            this.monitors.addContextListener(this);
-            this.monitors.synchronize(this);
+        function Scene() {
+            _super.call(this, 'Scene');
             this._drawables = new IUnknownArray_1.default();
         }
         Scene.prototype.destructor = function () {
-            this.monitors.removeContextListener(this);
-            this.monitors.release();
+            if (this._monitor) {
+                console.warn(this._type + ".destructor but still using monitor!");
+            }
             this._drawables.release();
             _super.prototype.destructor.call(this);
         };
         Scene.prototype.attachTo = function (monitor) {
-            this.monitors.add(monitor);
+            monitor.addRef();
             monitor.addContextListener(this);
+            this._monitor = monitor;
         };
-        Scene.prototype.detachFrom = function (monitor) {
-            monitor.removeContextListener(this);
-            this.monitors.remove(monitor);
+        Scene.prototype.detachFrom = function (unused) {
+            if (this._monitor) {
+                this._monitor.removeContextListener(this);
+                this._monitor.release();
+                this._monitor = void 0;
+            }
         };
         Scene.prototype.add = function (drawable) {
             mustBeObject_1.default('drawable', drawable);
@@ -12961,6 +12855,9 @@ define('davinci-eight/scene/WebGLRenderer',["require", "exports", '../core/Buffe
                 this._attributes.addRef();
                 return this._attributes;
             },
+            set: function (unused) {
+                throw new Error(readOnly_1.default('attributes').message);
+            },
             enumerable: true,
             configurable: true
         });
@@ -12990,6 +12887,9 @@ define('davinci-eight/scene/WebGLRenderer',["require", "exports", '../core/Buffe
             get: function () {
                 this._buffer.addRef();
                 return this._buffer;
+            },
+            set: function (unused) {
+                throw new Error(readOnly_1.default('buffer').message);
             },
             enumerable: true,
             configurable: true
@@ -15573,6 +15473,110 @@ define('davinci-eight/geometries/VortexSimplexGeometry',["require", "exports", '
     exports.default = VortexSimplexGeometry;
 });
 
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/scene/MonitorList',["require", "exports", '../utils/Shareable', '../checks/mustSatisfy', '../checks/isInteger'], function (require, exports, Shareable_1, mustSatisfy_1, isInteger_1) {
+    function beInstanceOfContextMonitors() {
+        return "be an instance of MonitorList";
+    }
+    function beContextMonitorArray() {
+        return "be IContextMonitor[]";
+    }
+    function identity(monitor) {
+        return monitor;
+    }
+    var MonitorList = (function (_super) {
+        __extends(MonitorList, _super);
+        function MonitorList(monitors) {
+            if (monitors === void 0) { monitors = []; }
+            _super.call(this, 'MonitorList');
+            this.monitors = monitors.map(identity);
+            this.monitors.forEach(function (monitor) {
+                monitor.addRef();
+            });
+        }
+        MonitorList.prototype.destructor = function () {
+            this.monitors.forEach(function (monitor) {
+                monitor.release();
+            });
+            _super.prototype.destructor.call(this);
+        };
+        MonitorList.prototype.addContextListener = function (user) {
+            this.monitors.forEach(function (monitor) {
+                monitor.addContextListener(user);
+            });
+        };
+        MonitorList.prototype.add = function (monitor) {
+            monitor.addRef();
+            this.monitors.push(monitor);
+        };
+        MonitorList.prototype.remove = function (monitor) {
+            var index = this.monitors.indexOf(monitor);
+            this.monitors[index].release();
+            this.monitors.splice(index, 1);
+        };
+        MonitorList.prototype.removeContextListener = function (user) {
+            this.monitors.forEach(function (monitor) {
+                monitor.removeContextListener(user);
+            });
+        };
+        MonitorList.prototype.synchronize = function (user) {
+            this.monitors.forEach(function (monitor) {
+                monitor.synchronize(user);
+            });
+        };
+        MonitorList.prototype.toArray = function () {
+            return this.monitors.map(identity);
+        };
+        MonitorList.copy = function (monitors) {
+            return new MonitorList(monitors);
+        };
+        MonitorList.isInstanceOf = function (candidate) {
+            return candidate instanceof MonitorList;
+        };
+        MonitorList.assertInstance = function (name, candidate, contextBuilder) {
+            if (MonitorList.isInstanceOf(candidate)) {
+                return candidate;
+            }
+            else {
+                mustSatisfy_1.default(name, false, beInstanceOfContextMonitors, contextBuilder);
+                throw new Error();
+            }
+        };
+        MonitorList.verify = function (name, monitors, contextBuilder) {
+            mustSatisfy_1.default(name, isInteger_1.default(monitors['length']), beContextMonitorArray, contextBuilder);
+            var monitorsLength = monitors.length;
+            for (var i = 0; i < monitorsLength; i++) {
+            }
+            return monitors;
+        };
+        MonitorList.addContextListener = function (user, monitors) {
+            MonitorList.verify('monitors', monitors, function () { return 'MonitorList.addContextListener'; });
+            monitors.forEach(function (monitor) {
+                monitor.addContextListener(user);
+            });
+        };
+        MonitorList.removeContextListener = function (user, monitors) {
+            MonitorList.verify('monitors', monitors, function () { return 'MonitorList.removeContextListener'; });
+            monitors.forEach(function (monitor) {
+                monitor.removeContextListener(user);
+            });
+        };
+        MonitorList.synchronize = function (user, monitors) {
+            MonitorList.verify('monitors', monitors, function () { return 'MonitorList.removeContextListener'; });
+            monitors.forEach(function (monitor) {
+                monitor.synchronize(user);
+            });
+        };
+        return MonitorList;
+    })(Shareable_1.default);
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = MonitorList;
+});
+
 define('davinci-eight/programs/makeWebGLShader',["require", "exports"], function (require, exports) {
     function makeWebGLShader(gl, source, type) {
         var shader = gl.createShader(type);
@@ -15794,6 +15798,7 @@ define('davinci-eight/programs/createGraphicsProgram',["require", "exports", '..
                     MonitorList_1.default.removeContextListener(self, monitors);
                     if (program) {
                         program.release();
+                        program = void 0;
                     }
                 }
                 return refCount;
@@ -15801,6 +15806,7 @@ define('davinci-eight/programs/createGraphicsProgram',["require", "exports", '..
             contextFree: function (manager) {
                 if (program) {
                     program.contextFree(manager);
+                    program.release();
                     program = void 0;
                 }
             },
@@ -15813,6 +15819,7 @@ define('davinci-eight/programs/createGraphicsProgram',["require", "exports", '..
             contextLost: function () {
                 if (program) {
                     program.contextLost();
+                    program.release();
                     program = void 0;
                 }
             },
@@ -18404,12 +18411,14 @@ define('davinci-eight/resources/GraphicsBuffers',["require", "exports", '../coll
             this.primitives = void 0;
             if (this.buffers) {
                 this.buffers.release();
+                this.buffers = void 0;
             }
             _super.prototype.destructor.call(this);
         };
         GraphicsBuffers.prototype.contextFree = function (manager) {
             if (this.buffers) {
                 this.buffers.release();
+                this.buffers = void 0;
             }
         };
         GraphicsBuffers.prototype.contextGain = function (manager) {
@@ -18424,7 +18433,10 @@ define('davinci-eight/resources/GraphicsBuffers',["require", "exports", '../coll
             }
         };
         GraphicsBuffers.prototype.contextLost = function () {
-            this.buffers = void 0;
+            if (this.buffers) {
+                this.buffers.release();
+                this.buffers = void 0;
+            }
         };
         GraphicsBuffers.prototype.draw = function (program) {
             if (this.buffers) {

@@ -67,6 +67,7 @@ export default function createGraphicsProgram(monitors: IContextMonitor[], verte
                 MonitorList.removeContextListener(self, monitors)
                 if (program) {
                     program.release()
+                    program = void 0
                 }
             }
             return refCount
@@ -74,6 +75,7 @@ export default function createGraphicsProgram(monitors: IContextMonitor[], verte
         contextFree(manager: IContextProvider) {
             if (program) {
                 program.contextFree(manager)
+                program.release()
                 program = void 0
             }
         },
@@ -86,6 +88,7 @@ export default function createGraphicsProgram(monitors: IContextMonitor[], verte
         contextLost() {
             if (program) {
                 program.contextLost()
+                program.release()
                 program = void 0
             }
         },

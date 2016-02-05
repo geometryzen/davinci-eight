@@ -5457,7 +5457,7 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/scene/Scene.ts",
-            "line": 33,
+            "line": 25,
             "extends": "Shareable",
             "description": "<p>\nA <code>Scene</code> is a collection of drawable instances arranged in some order.\nThe precise order is implementation defined.\nThe collection may be traversed for general processing using callback/visitor functions.\n</p>",
             "is_constructor": 1,
@@ -5482,7 +5482,7 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/scene/WebGLRenderer.ts",
-            "line": 417,
+            "line": 421,
             "extends": "Shareable",
             "is_constructor": 1,
             "params": [
@@ -27337,7 +27337,7 @@
         },
         {
             "file": "src/davinci-eight/resources/GraphicsBuffers.ts",
-            "line": 51,
+            "line": 52,
             "itemtype": "method",
             "name": "contextFree",
             "params": [],
@@ -27346,7 +27346,7 @@
         },
         {
             "file": "src/davinci-eight/resources/GraphicsBuffers.ts",
-            "line": 61,
+            "line": 63,
             "itemtype": "method",
             "name": "contextGain",
             "params": [
@@ -27365,7 +27365,7 @@
         },
         {
             "file": "src/davinci-eight/resources/GraphicsBuffers.ts",
-            "line": 78,
+            "line": 80,
             "itemtype": "method",
             "name": "contextLost",
             "return": {
@@ -27377,7 +27377,7 @@
         },
         {
             "file": "src/davinci-eight/resources/GraphicsBuffers.ts",
-            "line": 86,
+            "line": 91,
             "itemtype": "method",
             "name": "draw",
             "params": [
@@ -27711,7 +27711,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Scene.ts",
-            "line": 53,
+            "line": 40,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -27725,7 +27725,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Scene.ts",
-            "line": 75,
+            "line": 67,
             "description": "<p>\nAdds the <code>drawable</code> to this <code>Scene</code>.\n</p>",
             "itemtype": "method",
             "name": "add",
@@ -27745,7 +27745,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Scene.ts",
-            "line": 91,
+            "line": 83,
             "itemtype": "method",
             "name": "containsDrawable",
             "params": [
@@ -27764,7 +27764,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Scene.ts",
-            "line": 101,
+            "line": 93,
             "description": "<p>\nTraverses the collection of drawables, drawing each one.\n</p>",
             "itemtype": "method",
             "name": "draw",
@@ -27785,7 +27785,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Scene.ts",
-            "line": 138,
+            "line": 130,
             "itemtype": "method",
             "name": "findOne",
             "params": [
@@ -27804,7 +27804,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Scene.ts",
-            "line": 158,
+            "line": 150,
             "itemtype": "method",
             "name": "getDrawableByName",
             "params": [
@@ -27823,7 +27823,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Scene.ts",
-            "line": 170,
+            "line": 162,
             "description": "Gets a collection of drawable elements by name.",
             "itemtype": "method",
             "name": "getDrawablesByName",
@@ -27840,7 +27840,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Scene.ts",
-            "line": 183,
+            "line": 175,
             "description": "<p>\nRemoves the <code>drawable</code> from this <code>Scene</code>.\n</p>",
             "itemtype": "method",
             "name": "remove",
@@ -27948,34 +27948,34 @@
         },
         {
             "file": "src/davinci-eight/scene/WebGLRenderer.ts",
-            "line": 192,
+            "line": 194,
             "description": "Keeps track of the buffer and metadata associated with an 'attribute' variable.",
             "class": "WebGLRenderer",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/scene/WebGLRenderer.ts",
-            "line": 196,
+            "line": 198,
             "description": "The buffer is a shared resource",
             "class": "WebGLRenderer",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/scene/WebGLRenderer.ts",
-            "line": 244,
+            "line": 248,
             "class": "WebGLRenderer",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/scene/WebGLRenderer.ts",
-            "line": 304,
+            "line": 308,
             "description": "Implementation of IBufferGeometry coupled to the 'blocks' implementation.",
             "class": "WebGLRenderer",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/scene/WebGLRenderer.ts",
-            "line": 383,
+            "line": 387,
             "itemtype": "property",
             "name": "_gl",
             "type": "WebGLRenderingContext",
@@ -27986,7 +27986,7 @@
         },
         {
             "file": "src/davinci-eight/scene/WebGLRenderer.ts",
-            "line": 390,
+            "line": 394,
             "itemtype": "property",
             "name": "_blocks",
             "type": "StringIUnknownMap",
@@ -27997,7 +27997,7 @@
         },
         {
             "file": "src/davinci-eight/scene/WebGLRenderer.ts",
-            "line": 397,
+            "line": 401,
             "itemtype": "property",
             "name": "_canvas",
             "type": "HTMLCanvasElement",
@@ -28008,7 +28008,7 @@
         },
         {
             "file": "src/davinci-eight/scene/WebGLRenderer.ts",
-            "line": 452,
+            "line": 456,
             "itemtype": "method",
             "name": "destructor!~YUIDOC_LINE~!return",
             "type": "Void",
@@ -28019,7 +28019,7 @@
         },
         {
             "file": "src/davinci-eight/scene/WebGLRenderer.ts",
-            "line": 467,
+            "line": 471,
             "itemtype": "method",
             "name": "addContextListener",
             "params": [
@@ -28038,7 +28038,7 @@
         },
         {
             "file": "src/davinci-eight/scene/WebGLRenderer.ts",
-            "line": 483,
+            "line": 487,
             "itemtype": "property",
             "name": "canvas",
             "type": "{HTMLCanvasElement}",
@@ -28047,7 +28047,7 @@
         },
         {
             "file": "src/davinci-eight/scene/WebGLRenderer.ts",
-            "line": 497,
+            "line": 501,
             "itemtype": "property",
             "name": "commands",
             "type": "{IUnknownArray}",
@@ -28058,7 +28058,7 @@
         },
         {
             "file": "src/davinci-eight/scene/WebGLRenderer.ts",
-            "line": 511,
+            "line": 515,
             "description": "<p>\nSpecifies color values to use by the <code>clear</code> method to clear the color buffer.\n<p>",
             "itemtype": "method",
             "name": "clearColor",
@@ -28094,7 +28094,7 @@
         },
         {
             "file": "src/davinci-eight/scene/WebGLRenderer.ts",
-            "line": 547,
+            "line": 551,
             "itemtype": "method",
             "name": "createArrayBuffer",
             "return": {
@@ -28106,7 +28106,7 @@
         },
         {
             "file": "src/davinci-eight/scene/WebGLRenderer.ts",
-            "line": 555,
+            "line": 559,
             "itemtype": "method",
             "name": "createBufferGeometry",
             "params": [
@@ -28131,7 +28131,7 @@
         },
         {
             "file": "src/davinci-eight/scene/WebGLRenderer.ts",
-            "line": 622,
+            "line": 626,
             "itemtype": "method",
             "name": "createElementArrayBuffer",
             "return": {
@@ -28143,7 +28143,7 @@
         },
         {
             "file": "src/davinci-eight/scene/WebGLRenderer.ts",
-            "line": 630,
+            "line": 634,
             "itemtype": "method",
             "name": "createTextureCubeMap",
             "return": {
@@ -28155,7 +28155,7 @@
         },
         {
             "file": "src/davinci-eight/scene/WebGLRenderer.ts",
-            "line": 639,
+            "line": 643,
             "itemtype": "method",
             "name": "createTexture2D",
             "return": {
@@ -28167,7 +28167,7 @@
         },
         {
             "file": "src/davinci-eight/scene/WebGLRenderer.ts",
-            "line": 648,
+            "line": 652,
             "description": "Turns off specific WebGL capabilities for this context.",
             "itemtype": "method",
             "name": "disable",
@@ -28188,7 +28188,7 @@
         },
         {
             "file": "src/davinci-eight/scene/WebGLRenderer.ts",
-            "line": 660,
+            "line": 664,
             "description": "Turns on specific WebGL capabilities for this context.",
             "itemtype": "method",
             "name": "enable",
@@ -28209,7 +28209,7 @@
         },
         {
             "file": "src/davinci-eight/scene/WebGLRenderer.ts",
-            "line": 672,
+            "line": 676,
             "itemtype": "property",
             "name": "gl",
             "type": "{WebGLRenderingContext}",
@@ -28219,7 +28219,7 @@
         },
         {
             "file": "src/davinci-eight/scene/WebGLRenderer.ts",
-            "line": 690,
+            "line": 694,
             "itemtype": "method",
             "name": "removeContextListener",
             "params": [
@@ -28238,7 +28238,7 @@
         },
         {
             "file": "src/davinci-eight/scene/WebGLRenderer.ts",
-            "line": 703,
+            "line": 707,
             "itemtype": "method",
             "name": "render",
             "params": [
@@ -28262,7 +28262,7 @@
         },
         {
             "file": "src/davinci-eight/scene/WebGLRenderer.ts",
-            "line": 717,
+            "line": 721,
             "description": "Defines what part of the canvas will be used in rendering the drawing buffer.",
             "itemtype": "method",
             "name": "viewport",
@@ -28298,7 +28298,7 @@
         },
         {
             "file": "src/davinci-eight/scene/WebGLRenderer.ts",
-            "line": 732,
+            "line": 736,
             "description": "Initializes the WebGL context for the specified <code>canvas</code>.",
             "itemtype": "method",
             "name": "start",
@@ -28319,7 +28319,7 @@
         },
         {
             "file": "src/davinci-eight/scene/WebGLRenderer.ts",
-            "line": 769,
+            "line": 773,
             "itemtype": "method",
             "name": "stop",
             "return": {
@@ -28332,7 +28332,7 @@
         },
         {
             "file": "src/davinci-eight/scene/WebGLRenderer.ts",
-            "line": 823,
+            "line": 827,
             "itemtype": "method",
             "name": "synchronize",
             "params": [
@@ -28967,11 +28967,11 @@
         },
         {
             "message": "param name/type/descript missing",
-            "line": " src/davinci-eight/resources/GraphicsBuffers.ts:51"
+            "line": " src/davinci-eight/resources/GraphicsBuffers.ts:52"
         },
         {
             "message": "unknown tag: rerurn",
-            "line": " src/davinci-eight/scene/Scene.ts:170"
+            "line": " src/davinci-eight/scene/Scene.ts:162"
         },
         {
             "message": "Missing item type\nEssentially constructs the IUnknownArray without incrementing the\nreference count of the elements, and without creating zombies.",
@@ -29875,19 +29875,19 @@
         },
         {
             "message": "Missing item type\nKeeps track of the buffer and metadata associated with an 'attribute' variable.",
-            "line": " src/davinci-eight/scene/WebGLRenderer.ts:192"
+            "line": " src/davinci-eight/scene/WebGLRenderer.ts:194"
         },
         {
             "message": "Missing item type\nThe buffer is a shared resource",
-            "line": " src/davinci-eight/scene/WebGLRenderer.ts:196"
+            "line": " src/davinci-eight/scene/WebGLRenderer.ts:198"
         },
         {
             "message": "Missing item type",
-            "line": " src/davinci-eight/scene/WebGLRenderer.ts:244"
+            "line": " src/davinci-eight/scene/WebGLRenderer.ts:248"
         },
         {
             "message": "Missing item type\nImplementation of IBufferGeometry coupled to the 'blocks' implementation.",
-            "line": " src/davinci-eight/scene/WebGLRenderer.ts:304"
+            "line": " src/davinci-eight/scene/WebGLRenderer.ts:308"
         },
         {
             "message": "Missing item type\nUnder Construction\nIntentionally Undocumented",

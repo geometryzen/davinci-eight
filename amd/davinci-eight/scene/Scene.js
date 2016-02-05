@@ -3,36 +3,31 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../core', '../collections/IUnknownArray', '../scene/MonitorList', '../checks/mustBeArray', '../checks/mustBeFunction', '../checks/mustBeObject', '../checks/mustBeString', '../utils/Shareable'], function (require, exports, core_1, IUnknownArray_1, MonitorList_1, mustBeArray_1, mustBeFunction_1, mustBeObject_1, mustBeString_1, Shareable_1) {
-    var LOGGING_NAME = 'Scene';
-    function ctorContext() {
-        return LOGGING_NAME + " constructor";
-    }
+define(["require", "exports", '../core', '../collections/IUnknownArray', '../checks/mustBeFunction', '../checks/mustBeObject', '../checks/mustBeString', '../utils/Shareable'], function (require, exports, core_1, IUnknownArray_1, mustBeFunction_1, mustBeObject_1, mustBeString_1, Shareable_1) {
     var Scene = (function (_super) {
         __extends(Scene, _super);
-        function Scene(monitors) {
-            if (monitors === void 0) { monitors = []; }
-            _super.call(this, LOGGING_NAME);
-            mustBeArray_1.default('monitors', monitors);
-            MonitorList_1.default.verify('monitors', monitors, ctorContext);
-            this.monitors = new MonitorList_1.default(monitors);
-            this.monitors.addContextListener(this);
-            this.monitors.synchronize(this);
+        function Scene() {
+            _super.call(this, 'Scene');
             this._drawables = new IUnknownArray_1.default();
         }
         Scene.prototype.destructor = function () {
-            this.monitors.removeContextListener(this);
-            this.monitors.release();
+            if (this._monitor) {
+                console.warn(this._type + ".destructor but still using monitor!");
+            }
             this._drawables.release();
             _super.prototype.destructor.call(this);
         };
         Scene.prototype.attachTo = function (monitor) {
-            this.monitors.add(monitor);
+            monitor.addRef();
             monitor.addContextListener(this);
+            this._monitor = monitor;
         };
-        Scene.prototype.detachFrom = function (monitor) {
-            monitor.removeContextListener(this);
-            this.monitors.remove(monitor);
+        Scene.prototype.detachFrom = function (unused) {
+            if (this._monitor) {
+                this._monitor.removeContextListener(this);
+                this._monitor.release();
+                this._monitor = void 0;
+            }
         };
         Scene.prototype.add = function (drawable) {
             mustBeObject_1.default('drawable', drawable);

@@ -182,10 +182,12 @@ class ElementsBlock extends Shareable {
         this._indexBuffer.unbind()
     }
 
-    // FIXME: Can we hide _attributes and avoid the addRef too?
     get attributes(): StringIUnknownMap<ElementsBlockAttrib> {
         this._attributes.addRef()
         return this._attributes
+    }
+    set attributes(unused) {
+        throw new Error(readOnly('attributes').message)
     }
 }
 
@@ -219,10 +221,12 @@ class ElementsBlockAttrib extends Shareable {
         this.offset = void 0;
         super.destructor();
     }
-    // FIXME: can we hide _buffer and avoid the addRef at the same time?
     get buffer() {
         this._buffer.addRef();
         return this._buffer;
+    }
+    set buffer(unused) {
+        throw new Error(readOnly('buffer').message)
     }
 }
 

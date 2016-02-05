@@ -43,7 +43,8 @@ export default class GraphicsBuffers extends Shareable implements IGraphicsBuffe
     protected destructor(): void {
         this.primitives = void 0;
         if (this.buffers) {
-            this.buffers.release();
+            this.buffers.release()
+            this.buffers = void 0
         }
         super.destructor();
     }
@@ -54,7 +55,8 @@ export default class GraphicsBuffers extends Shareable implements IGraphicsBuffe
      */
     contextFree(manager: IContextProvider): void {
         if (this.buffers) {
-            this.buffers.release();
+            this.buffers.release()
+            this.buffers = void 0
         }
     }
 
@@ -80,7 +82,10 @@ export default class GraphicsBuffers extends Shareable implements IGraphicsBuffe
      * @return {void}
      */
     contextLost(): void {
-        this.buffers = void 0;
+        if (this.buffers) {
+            this.buffers.release()
+            this.buffers = void 0
+        }
     }
 
     /**

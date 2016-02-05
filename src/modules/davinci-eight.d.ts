@@ -3193,7 +3193,7 @@ declare module EIGHT {
      *
      */
     class Scene implements IDrawList {
-        constructor(monitors?: IContextMonitor[])
+        constructor()
         add(drawable: IDrawable): void
         addRef(): number
         attachTo(monitor: IContextMonitor): void

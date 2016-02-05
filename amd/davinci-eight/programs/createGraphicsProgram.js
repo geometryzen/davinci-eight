@@ -40,6 +40,7 @@ define(["require", "exports", '../scene/MonitorList', '../utils/uuid4', '../util
                     MonitorList_1.default.removeContextListener(self, monitors);
                     if (program) {
                         program.release();
+                        program = void 0;
                     }
                 }
                 return refCount;
@@ -47,6 +48,7 @@ define(["require", "exports", '../scene/MonitorList', '../utils/uuid4', '../util
             contextFree: function (manager) {
                 if (program) {
                     program.contextFree(manager);
+                    program.release();
                     program = void 0;
                 }
             },
@@ -59,6 +61,7 @@ define(["require", "exports", '../scene/MonitorList', '../utils/uuid4', '../util
             contextLost: function () {
                 if (program) {
                     program.contextLost();
+                    program.release();
                     program = void 0;
                 }
             },

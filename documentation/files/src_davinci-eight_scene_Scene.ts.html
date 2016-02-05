@@ -261,18 +261,10 @@ import IDrawList from &#x27;../scene/IDrawList&#x27;;
 import IUnknownArray from &#x27;../collections/IUnknownArray&#x27;;
 import IGraphicsBuffers from &#x27;../core/IGraphicsBuffers&#x27;;
 import IGraphicsProgram from &#x27;../core/IGraphicsProgram&#x27;;
-import MonitorList from &#x27;../scene/MonitorList&#x27;;
-import mustBeArray from &#x27;../checks/mustBeArray&#x27;;
 import mustBeFunction from &#x27;../checks/mustBeFunction&#x27;;
 import mustBeObject from &#x27;../checks/mustBeObject&#x27;;
 import mustBeString from &#x27;../checks/mustBeString&#x27;;
 import Shareable from &#x27;../utils/Shareable&#x27;;
-
-const LOGGING_NAME = &#x27;Scene&#x27;;
-
-function ctorContext(): string {
-    return LOGGING_NAME + &quot; constructor&quot;;
-}
 
 /**
  * @class Scene
@@ -281,7 +273,7 @@ function ctorContext(): string {
 export default class Scene extends Shareable implements IDrawList {
 
     private _drawables: IUnknownArray&lt;IDrawable&gt;;
-    private monitors: MonitorList;
+    private _monitor: IContextMonitor;
 
     // FIXME: Do I need the collection, or can I be fooled into thinking there is one monitor?
     /**
@@ -294,13 +286,8 @@ export default class Scene extends Shareable implements IDrawList {
      * @constructor
      * @param [monitors = []] {Array&amp;lt;IContextMonitor&amp;gt;}
      */
-    constructor(monitors: IContextMonitor[] = []) {
-        super(LOGGING_NAME)
-        mustBeArray(&#x27;monitors&#x27;, monitors)
-        MonitorList.verify(&#x27;monitors&#x27;, monitors, ctorContext)
-        this.monitors = new MonitorList(monitors)
-        this.monitors.addContextListener(this)
-        this.monitors.synchronize(this)
+    constructor() {
+        super(&#x27;Scene&#x27;)
         this._drawables = new IUnknownArray&lt;IDrawable&gt;()
     }
 
@@ -310,20 +297,25 @@ export default class Scene extends Shareable implements IDrawList {
      * @protected
      */
     protected destructor(): void {
-        this.monitors.removeContextListener(this)
-        this.monitors.release()
+        if (this._monitor) {
+            console.warn(&#x60;${this._type}.destructor but still using monitor!&#x60;)
+        }
         this._drawables.release()
         super.destructor()
     }
 
     public attachTo(monitor: IContextMonitor) {
-        this.monitors.add(monitor)
+        monitor.addRef()
         monitor.addContextListener(this)
+        this._monitor = monitor;
     }
 
-    public detachFrom(monitor: IContextMonitor) {
-        monitor.removeContextListener(this)
-        this.monitors.remove(monitor)
+    public detachFrom(unused: IContextMonitor) {
+        if (this._monitor) {
+            this._monitor.removeContextListener(this)
+            this._monitor.release()
+            this._monitor = void 0;
+        }
     }
 
     /**

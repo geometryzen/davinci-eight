@@ -21,7 +21,7 @@ function warn(message: string) {
 }
 
 function error(message: string) {
-    return console.warn(prefix(message));
+    return console.error(prefix(message));
 }
 
 function garbageCollect() {
@@ -101,6 +101,9 @@ export default function refChange(uuid: string, name?: string, change: number = 
             element.refCount += change;
             if (element.refCount === 0) {
                 element.zombie = true;
+            }
+            else if (element.refCount < 0) {
+                error(`refCount < 0 for ${name}`);
             }
         }
         else {

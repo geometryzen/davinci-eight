@@ -14,7 +14,7 @@ define(["require", "exports"], function (require, exports) {
         return console.warn(prefix(message));
     }
     function error(message) {
-        return console.warn(prefix(message));
+        return console.error(prefix(message));
     }
     function garbageCollect() {
         var uuids = Object.keys(statistics);
@@ -89,6 +89,9 @@ define(["require", "exports"], function (require, exports) {
                 element.refCount += change;
                 if (element.refCount === 0) {
                     element.zombie = true;
+                }
+                else if (element.refCount < 0) {
+                    error("refCount < 0 for " + name);
                 }
             }
             else {
