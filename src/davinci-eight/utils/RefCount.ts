@@ -1,5 +1,5 @@
-import expectArg from '../checks/expectArg';
 import IUnknown from '../core/IUnknown';
+import mustBeFunction from '../checks/mustBeFunction';
 
 /**
  * @class RefCount
@@ -14,7 +14,7 @@ export default class RefCount implements IUnknown {
      * @param callback {() => void}
      */
     constructor(callback: () => void) {
-        expectArg('callback', callback).toBeFunction();
+        mustBeFunction('callback', callback);
         this._callback = callback;
     }
 

@@ -258,7 +258,6 @@ import DrawMode from &#x27;../core/DrawMode&#x27;;
 import Facet from &#x27;../core/Facet&#x27;;
 import core from &#x27;../core&#x27;;
 import ContextController from &#x27;../core/ContextController&#x27;;
-import expectArg from &#x27;../checks/expectArg&#x27;;
 import IContextProvider from &#x27;../core/IContextProvider&#x27;;
 import IContextMonitor from &#x27;../core/IContextMonitor&#x27;;
 import IContextConsumer from &#x27;../core/IContextConsumer&#x27;;
@@ -280,6 +279,7 @@ import mustBeInteger from &#x27;../checks/mustBeInteger&#x27;;
 import mustBeNumber from &#x27;../checks/mustBeNumber&#x27;;
 import mustBeObject from &#x27;../checks/mustBeObject&#x27;;
 import mustBeString from &#x27;../checks/mustBeString&#x27;;
+import mustSatisfy from &#x27;../checks/mustSatisfy&#x27;;
 import Primitive from &#x27;../geometries/Primitive&#x27;;
 import readOnly from &#x27;../i18n/readOnly&#x27;;
 import Shareable from &#x27;../utils/Shareable&#x27;;
@@ -590,7 +590,6 @@ class BufferGeometry extends Shareable implements IBufferGeometry {
                     this._program = program
                     this._program.addRef()
                     block.bind()
-                    // FIXME: Make this a part of the block bind method?
                     bindProgramAttribLocations(this._program, block, aNameToKeyName)
                 }
                 else {
@@ -822,7 +821,7 @@ export default class WebGLRenderer extends Shareable implements ContextControlle
         mustBeArray(&#x27;primitive.indices&#x27;, primitive.indices);
         mustBeObject(&#x27;primitive.attributes&#x27;, primitive.attributes);
         if (isDefined(usage)) {
-            expectArg(&#x27;usage&#x27;, usage).toSatisfy(isBufferUsage(usage), &quot;usage must be on of STATIC_DRAW, ...&quot;)
+            mustSatisfy(&#x27;usage&#x27;, isBufferUsage(usage), () =&gt; { return &#x60;${this._type}.createBufferGeometry&#x60; })
         }
         else {
             usage = isDefined(this._gl) ? this._gl.STATIC_DRAW : void 0

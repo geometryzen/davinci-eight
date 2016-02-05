@@ -120,6 +120,7 @@ module.exports = function(grunt) {
 
     tslint: {
       src: [
+        "src/davinci-eight/cameras/**/*.ts",
         "src/davinci-eight/cameras/Perspective.ts",
         "src/davinci-eight/cameras/PerspectiveCamera.ts",
         "src/davinci-eight/cameras/View.ts",
@@ -131,9 +132,11 @@ module.exports = function(grunt) {
         "src/davinci-eight/cameras/perspectiveMatrix.ts",
         "src/davinci-eight/cameras/viewArray.ts",
         "src/davinci-eight/cameras/viewMatrix.ts",
+        "src/davinci-eight/checks/**/*.ts",
         "src/davinci-eight/checks/mustBeArray.ts",
         "src/davinci-eight/checks/mustBeNumber.ts",
         "src/davinci-eight/checks/mustBeString.ts",
+        "src/davinci-eight/collections/**/*.ts",
         "src/davinci-eight/collections/IUnknownArray.ts",
         "src/davinci-eight/collections/NumberIUnknownMap.ts",
         "src/davinci-eight/collections/StringIUnknownMap.ts",

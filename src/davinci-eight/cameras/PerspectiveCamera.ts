@@ -136,7 +136,7 @@ export default class PerspectiveCamera extends Shareable implements Perspective,
             }
             break;
             default: {
-                // FIXME
+                // TODO
             }
         }
     }
@@ -158,7 +158,7 @@ export default class PerspectiveCamera extends Shareable implements Perspective,
             }
             break;
             default: {
-                // FIXME
+                // TODO
             }
         }
         return this;

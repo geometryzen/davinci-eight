@@ -3,7 +3,6 @@ import VectorE3 from '../math/VectorE3';
 
 /**
  * @class Frustum
- * @extends Camera
  */
 interface Frustum extends View {
     /**

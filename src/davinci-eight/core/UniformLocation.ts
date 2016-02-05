@@ -1,4 +1,5 @@
-import expectArg from '../checks/expectArg';
+import mustBeObject from '../checks/mustBeObject';
+import mustBeString from '../checks/mustBeString';
 import Mat2R from '../math/Mat2R';
 import Mat3R from '../math/Mat3R';
 import Mat4R from '../math/Mat4R';
@@ -25,8 +26,8 @@ export default class UniformLocation implements IContextProgramConsumer {
      * @param name {string} The name of the uniform variable, as it appears in the GLSL shader code.
      */
     constructor(manager: IContextProvider, name: string) {
-        expectArg('manager', manager).toBeObject().value;
-        this._name = expectArg('name', name).toBeString().value;
+        mustBeObject('manager', manager);
+        this._name = mustBeString('name', name);
     }
 
     /**

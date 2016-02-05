@@ -252,7 +252,8 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import expectArg from &#x27;../checks/expectArg&#x27;;
+import mustBeObject from &#x27;../checks/mustBeObject&#x27;;
+import mustBeString from &#x27;../checks/mustBeString&#x27;;
 import Mat2R from &#x27;../math/Mat2R&#x27;;
 import Mat3R from &#x27;../math/Mat3R&#x27;;
 import Mat4R from &#x27;../math/Mat4R&#x27;;
@@ -279,8 +280,8 @@ export default class UniformLocation implements IContextProgramConsumer {
      * @param name {string} The name of the uniform variable, as it appears in the GLSL shader code.
      */
     constructor(manager: IContextProvider, name: string) {
-        expectArg(&#x27;manager&#x27;, manager).toBeObject().value;
-        this._name = expectArg(&#x27;name&#x27;, name).toBeString().value;
+        mustBeObject(&#x27;manager&#x27;, manager);
+        this._name = mustBeString(&#x27;name&#x27;, name);
     }
 
     /**

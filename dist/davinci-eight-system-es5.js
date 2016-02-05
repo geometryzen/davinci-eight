@@ -2849,7 +2849,7 @@ System.register("davinci-eight/commands/WebGLDisable.js", ["../commands/glCapabi
   };
 });
 
-System.register("davinci-eight/scene/WebGLRenderer.js", ["../core/BufferResource", "../commands/Capability", "../core/DrawMode", "../core", "../checks/expectArg", "../collections/IUnknownArray", "../renderers/initWebGL", "../checks/isDefined", "../checks/isUndefined", "../checks/mustBeArray", "../checks/mustBeDefined", "../checks/mustBeInteger", "../checks/mustBeNumber", "../checks/mustBeObject", "../checks/mustBeString", "../i18n/readOnly", "../utils/Shareable", "../collections/StringIUnknownMap", "../resources/TextureResource", "../commands/WebGLClearColor", "../commands/WebGLEnable", "../commands/WebGLDisable"], function(exports_1) {
+System.register("davinci-eight/scene/WebGLRenderer.js", ["../core/BufferResource", "../commands/Capability", "../core/DrawMode", "../core", "../collections/IUnknownArray", "../renderers/initWebGL", "../checks/isDefined", "../checks/isUndefined", "../checks/mustBeArray", "../checks/mustBeDefined", "../checks/mustBeInteger", "../checks/mustBeNumber", "../checks/mustBeObject", "../checks/mustBeString", "../checks/mustSatisfy", "../i18n/readOnly", "../utils/Shareable", "../collections/StringIUnknownMap", "../resources/TextureResource", "../commands/WebGLClearColor", "../commands/WebGLEnable", "../commands/WebGLDisable"], function(exports_1) {
   var __extends = (this && this.__extends) || function(d, b) {
     for (var p in b)
       if (b.hasOwnProperty(p))
@@ -2863,7 +2863,6 @@ System.register("davinci-eight/scene/WebGLRenderer.js", ["../core/BufferResource
       Capability_1,
       DrawMode_1,
       core_1,
-      expectArg_1,
       IUnknownArray_1,
       initWebGL_1,
       isDefined_1,
@@ -2874,6 +2873,7 @@ System.register("davinci-eight/scene/WebGLRenderer.js", ["../core/BufferResource
       mustBeNumber_1,
       mustBeObject_1,
       mustBeString_1,
+      mustSatisfy_1,
       readOnly_1,
       Shareable_1,
       StringIUnknownMap_1,
@@ -2967,8 +2967,6 @@ System.register("davinci-eight/scene/WebGLRenderer.js", ["../core/BufferResource
       DrawMode_1 = DrawMode_1_1;
     }, function(core_1_1) {
       core_1 = core_1_1;
-    }, function(expectArg_1_1) {
-      expectArg_1 = expectArg_1_1;
     }, function(IUnknownArray_1_1) {
       IUnknownArray_1 = IUnknownArray_1_1;
     }, function(initWebGL_1_1) {
@@ -2989,6 +2987,8 @@ System.register("davinci-eight/scene/WebGLRenderer.js", ["../core/BufferResource
       mustBeObject_1 = mustBeObject_1_1;
     }, function(mustBeString_1_1) {
       mustBeString_1 = mustBeString_1_1;
+    }, function(mustSatisfy_1_1) {
+      mustSatisfy_1 = mustSatisfy_1_1;
     }, function(readOnly_1_1) {
       readOnly_1 = readOnly_1_1;
     }, function(Shareable_1_1) {
@@ -3268,12 +3268,15 @@ System.register("davinci-eight/scene/WebGLRenderer.js", ["../core/BufferResource
           return new BufferResource_1.default(this, false);
         };
         WebGLRenderer.prototype.createBufferGeometry = function(primitive, usage) {
+          var _this = this;
           mustBeObject_1.default('primitive', primitive);
           mustBeInteger_1.default('primitive.mode', primitive.mode);
           mustBeArray_1.default('primitive.indices', primitive.indices);
           mustBeObject_1.default('primitive.attributes', primitive.attributes);
           if (isDefined_1.default(usage)) {
-            expectArg_1.default('usage', usage).toSatisfy(isBufferUsage(usage), "usage must be on of STATIC_DRAW, ...");
+            mustSatisfy_1.default('usage', isBufferUsage(usage), function() {
+              return _this._type + ".createBufferGeometry";
+            });
           } else {
             usage = isDefined_1.default(this._gl) ? this._gl.STATIC_DRAW : void 0;
           }
@@ -9970,18 +9973,21 @@ System.register("davinci-eight/programs/makeWebGLProgram.js", ["../programs/make
   };
 });
 
-System.register("davinci-eight/core/UniformLocation.js", ["../checks/expectArg"], function(exports_1) {
-  var expectArg_1;
+System.register("davinci-eight/core/UniformLocation.js", ["../checks/mustBeObject", "../checks/mustBeString"], function(exports_1) {
+  var mustBeObject_1,
+      mustBeString_1;
   var UniformLocation;
   return {
-    setters: [function(expectArg_1_1) {
-      expectArg_1 = expectArg_1_1;
+    setters: [function(mustBeObject_1_1) {
+      mustBeObject_1 = mustBeObject_1_1;
+    }, function(mustBeString_1_1) {
+      mustBeString_1 = mustBeString_1_1;
     }],
     execute: function() {
       UniformLocation = (function() {
         function UniformLocation(manager, name) {
-          expectArg_1.default('manager', manager).toBeObject().value;
-          this._name = expectArg_1.default('name', name).toBeString().value;
+          mustBeObject_1.default('manager', manager);
+          this._name = mustBeString_1.default('name', name);
         }
         UniformLocation.prototype.contextFree = function() {
           this.contextLost();
@@ -11307,20 +11313,23 @@ System.register("davinci-eight/materials/GraphicsProgram.js", ["../core", "../ch
   };
 });
 
-System.register("davinci-eight/core/getAttribVarName.js", ["../checks/isDefined", "../checks/expectArg"], function(exports_1) {
+System.register("davinci-eight/core/getAttribVarName.js", ["../checks/isDefined", "../checks/mustBeObject", "../checks/mustBeString"], function(exports_1) {
   var isDefined_1,
-      expectArg_1;
+      mustBeObject_1,
+      mustBeString_1;
   function getAttribVarName(attribute, varName) {
-    expectArg_1.default('attribute', attribute).toBeObject();
-    expectArg_1.default('varName', varName).toBeString();
-    return isDefined_1.default(attribute.name) ? expectArg_1.default('attribute.name', attribute.name).toBeString().value : varName;
+    mustBeObject_1.default('attribute', attribute);
+    mustBeString_1.default('varName', varName);
+    return isDefined_1.default(attribute.name) ? mustBeString_1.default('attribute.name', attribute.name) : varName;
   }
   exports_1("default", getAttribVarName);
   return {
     setters: [function(isDefined_1_1) {
       isDefined_1 = isDefined_1_1;
-    }, function(expectArg_1_1) {
-      expectArg_1 = expectArg_1_1;
+    }, function(mustBeObject_1_1) {
+      mustBeObject_1 = mustBeObject_1_1;
+    }, function(mustBeString_1_1) {
+      mustBeString_1 = mustBeString_1_1;
     }],
     execute: function() {}
   };

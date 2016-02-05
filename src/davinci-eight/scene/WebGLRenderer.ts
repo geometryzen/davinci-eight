@@ -4,7 +4,6 @@ import DrawMode from '../core/DrawMode';
 import Facet from '../core/Facet';
 import core from '../core';
 import ContextController from '../core/ContextController';
-import expectArg from '../checks/expectArg';
 import IContextProvider from '../core/IContextProvider';
 import IContextMonitor from '../core/IContextMonitor';
 import IContextConsumer from '../core/IContextConsumer';
@@ -26,6 +25,7 @@ import mustBeInteger from '../checks/mustBeInteger';
 import mustBeNumber from '../checks/mustBeNumber';
 import mustBeObject from '../checks/mustBeObject';
 import mustBeString from '../checks/mustBeString';
+import mustSatisfy from '../checks/mustSatisfy';
 import Primitive from '../geometries/Primitive';
 import readOnly from '../i18n/readOnly';
 import Shareable from '../utils/Shareable';
@@ -336,7 +336,6 @@ class BufferGeometry extends Shareable implements IBufferGeometry {
                     this._program = program
                     this._program.addRef()
                     block.bind()
-                    // FIXME: Make this a part of the block bind method?
                     bindProgramAttribLocations(this._program, block, aNameToKeyName)
                 }
                 else {
@@ -568,7 +567,7 @@ export default class WebGLRenderer extends Shareable implements ContextControlle
         mustBeArray('primitive.indices', primitive.indices);
         mustBeObject('primitive.attributes', primitive.attributes);
         if (isDefined(usage)) {
-            expectArg('usage', usage).toSatisfy(isBufferUsage(usage), "usage must be on of STATIC_DRAW, ...")
+            mustSatisfy('usage', isBufferUsage(usage), () => { return `${this._type}.createBufferGeometry` })
         }
         else {
             usage = isDefined(this._gl) ? this._gl.STATIC_DRAW : void 0

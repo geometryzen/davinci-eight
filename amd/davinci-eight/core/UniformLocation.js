@@ -1,8 +1,8 @@
-define(["require", "exports", '../checks/expectArg'], function (require, exports, expectArg_1) {
+define(["require", "exports", '../checks/mustBeObject', '../checks/mustBeString'], function (require, exports, mustBeObject_1, mustBeString_1) {
     var UniformLocation = (function () {
         function UniformLocation(manager, name) {
-            expectArg_1.default('manager', manager).toBeObject().value;
-            this._name = expectArg_1.default('name', name).toBeString().value;
+            mustBeObject_1.default('manager', manager);
+            this._name = mustBeString_1.default('name', name);
         }
         UniformLocation.prototype.contextFree = function () {
             this.contextLost();

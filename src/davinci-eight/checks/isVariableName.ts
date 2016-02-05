@@ -1,7 +1,3 @@
-function isGlslStartChar(ch: string) {
-    return true;
-}
-
 export default function isVariableName(name: string): boolean {
     if (typeof name === 'string') {
         if (name.length > 0) {

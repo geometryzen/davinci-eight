@@ -253,15 +253,16 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 import isDefined from &#x27;../checks/isDefined&#x27;;
-import expectArg from &#x27;../checks/expectArg&#x27;;
+import mustBeObject from &#x27;../checks/mustBeObject&#x27;;
+import mustBeString from &#x27;../checks/mustBeString&#x27;;
 
 /**
  * Policy for how an attribute variable name is determined.
  */
 export default function getAttribVarName(attribute: { name?: string }, varName: string) {
-    expectArg(&#x27;attribute&#x27;, attribute).toBeObject();
-    expectArg(&#x27;varName&#x27;, varName).toBeString();
-    return isDefined(attribute.name) ? expectArg(&#x27;attribute.name&#x27;, attribute.name).toBeString().value : varName;
+    mustBeObject(&#x27;attribute&#x27;, attribute);
+    mustBeString(&#x27;varName&#x27;, varName);
+    return isDefined(attribute.name) ? mustBeString(&#x27;attribute.name&#x27;, attribute.name) : varName;
 }
 
     </pre>

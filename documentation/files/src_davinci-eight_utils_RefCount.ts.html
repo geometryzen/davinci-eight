@@ -252,8 +252,8 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import expectArg from &#x27;../checks/expectArg&#x27;;
 import IUnknown from &#x27;../core/IUnknown&#x27;;
+import mustBeFunction from &#x27;../checks/mustBeFunction&#x27;;
 
 /**
  * @class RefCount
@@ -268,7 +268,7 @@ export default class RefCount implements IUnknown {
      * @param callback {() =&gt; void}
      */
     constructor(callback: () =&gt; void) {
-        expectArg(&#x27;callback&#x27;, callback).toBeFunction();
+        mustBeFunction(&#x27;callback&#x27;, callback);
         this._callback = callback;
     }
 

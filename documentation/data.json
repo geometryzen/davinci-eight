@@ -2250,8 +2250,7 @@
             "extension_for": [],
             "module": "EIGHT",
             "file": "src/davinci-eight/cameras/Frustum.ts",
-            "line": 4,
-            "extends": "Camera"
+            "line": 4
         },
         "Perspective": {
             "name": "Perspective",
@@ -2964,7 +2963,7 @@
             "extension_for": [],
             "module": "EIGHT",
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 21,
+            "line": 22,
             "description": "Utility class for managing a shader uniform variable.",
             "is_constructor": 1,
             "params": [
@@ -5482,7 +5481,7 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/scene/WebGLRenderer.ts",
-            "line": 421,
+            "line": 420,
             "extends": "Shareable",
             "is_constructor": 1,
             "params": [
@@ -5815,7 +5814,7 @@
     "classitems": [
         {
             "file": "src/davinci-eight/cameras/Frustum.ts",
-            "line": 9,
+            "line": 8,
             "itemtype": "property",
             "name": "left",
             "type": "number",
@@ -5823,7 +5822,7 @@
         },
         {
             "file": "src/davinci-eight/cameras/Frustum.ts",
-            "line": 14,
+            "line": 13,
             "itemtype": "property",
             "name": "right",
             "type": "number",
@@ -5831,7 +5830,7 @@
         },
         {
             "file": "src/davinci-eight/cameras/Frustum.ts",
-            "line": 19,
+            "line": 18,
             "itemtype": "property",
             "name": "bottom",
             "type": "number",
@@ -5839,7 +5838,7 @@
         },
         {
             "file": "src/davinci-eight/cameras/Frustum.ts",
-            "line": 24,
+            "line": 23,
             "itemtype": "property",
             "name": "top",
             "type": "number",
@@ -5847,7 +5846,7 @@
         },
         {
             "file": "src/davinci-eight/cameras/Frustum.ts",
-            "line": 29,
+            "line": 28,
             "itemtype": "property",
             "name": "near",
             "type": "number",
@@ -5855,7 +5854,7 @@
         },
         {
             "file": "src/davinci-eight/cameras/Frustum.ts",
-            "line": 34,
+            "line": 33,
             "itemtype": "property",
             "name": "far",
             "type": "number",
@@ -5863,7 +5862,7 @@
         },
         {
             "file": "src/davinci-eight/cameras/Frustum.ts",
-            "line": 39,
+            "line": 38,
             "description": "Convenience method for setting the eye property allowing chainable method calls.",
             "itemtype": "method",
             "name": "setEye",
@@ -5878,7 +5877,7 @@
         },
         {
             "file": "src/davinci-eight/cameras/Frustum.ts",
-            "line": 45,
+            "line": 44,
             "description": "Convenience method for setting the look property allowing chainable method calls.",
             "itemtype": "method",
             "name": "setLook",
@@ -5893,7 +5892,7 @@
         },
         {
             "file": "src/davinci-eight/cameras/Frustum.ts",
-            "line": 51,
+            "line": 50,
             "description": "Convenience method for setting the up property allowing chainable method calls.",
             "itemtype": "method",
             "name": "setUp",
@@ -9067,14 +9066,14 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 32,
+            "line": 33,
             "itemtype": "method",
             "name": "contextFree",
             "class": "UniformLocation"
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 39,
+            "line": 40,
             "itemtype": "method",
             "name": "contextGain",
             "params": [
@@ -9093,14 +9092,14 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 53,
+            "line": 54,
             "itemtype": "method",
             "name": "contextLost",
             "class": "UniformLocation"
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 62,
+            "line": 63,
             "description": "Calls <code>uniform1f</code> on the underlying <code>WebGLUniformLocation</code>.",
             "itemtype": "method",
             "name": "vec1",
@@ -9120,7 +9119,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 74,
+            "line": 75,
             "description": "Calls <code>uniform2f</code> on the underlying <code>WebGLUniformLocation</code>.",
             "itemtype": "method",
             "name": "vec2",
@@ -9140,7 +9139,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 86,
+            "line": 87,
             "description": "Calls <code>uniform3f</code> on the underlying <code>WebGLUniformLocation</code>.",
             "itemtype": "method",
             "name": "vec3",
@@ -9160,7 +9159,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 98,
+            "line": 99,
             "description": "Calls <code>uniform4f</code> on the underlying <code>WebGLUniformLocation</code>.",
             "itemtype": "method",
             "name": "vec4",
@@ -9180,7 +9179,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 110,
+            "line": 111,
             "itemtype": "method",
             "name": "uniform1f",
             "params": [
@@ -9194,7 +9193,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 118,
+            "line": 119,
             "itemtype": "method",
             "name": "uniform2f",
             "params": [
@@ -9213,7 +9212,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 127,
+            "line": 128,
             "itemtype": "method",
             "name": "uniform3f",
             "params": [
@@ -9237,7 +9236,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 137,
+            "line": 138,
             "itemtype": "method",
             "name": "uniform4f",
             "params": [
@@ -9266,7 +9265,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 148,
+            "line": 149,
             "description": "Sets a uniform location of type <code>mat2</code> in the <code>WebGLProgram</code>.",
             "itemtype": "method",
             "name": "mat2",
@@ -9293,7 +9292,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 161,
+            "line": 162,
             "description": "Sets a uniform location of type <code>mat3</code> in the <code>WebGLProgram</code>.",
             "itemtype": "method",
             "name": "mat3",
@@ -9320,7 +9319,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 174,
+            "line": 175,
             "description": "Sets a uniform location of type <code>mat4</code> in the <code>WebGLProgram</code>.",
             "itemtype": "method",
             "name": "mat4",
@@ -9347,7 +9346,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 187,
+            "line": 188,
             "itemtype": "method",
             "name": "vector2",
             "params": [
@@ -9361,7 +9360,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 195,
+            "line": 196,
             "itemtype": "method",
             "name": "vector3",
             "params": [
@@ -9375,7 +9374,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 203,
+            "line": 204,
             "itemtype": "method",
             "name": "vector4",
             "params": [
@@ -9389,7 +9388,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 211,
+            "line": 212,
             "itemtype": "method",
             "name": "toString",
             "class": "UniformLocation"
@@ -9415,7 +9414,7 @@
         },
         {
             "file": "src/davinci-eight/core/getAttribVarName.ts",
-            "line": 4,
+            "line": 5,
             "description": "Policy for how an attribute variable name is determined.",
             "class": "CurvePath"
         },
@@ -27975,7 +27974,7 @@
         },
         {
             "file": "src/davinci-eight/scene/WebGLRenderer.ts",
-            "line": 387,
+            "line": 386,
             "itemtype": "property",
             "name": "_gl",
             "type": "WebGLRenderingContext",
@@ -27986,7 +27985,7 @@
         },
         {
             "file": "src/davinci-eight/scene/WebGLRenderer.ts",
-            "line": 394,
+            "line": 393,
             "itemtype": "property",
             "name": "_blocks",
             "type": "StringIUnknownMap",
@@ -27997,7 +27996,7 @@
         },
         {
             "file": "src/davinci-eight/scene/WebGLRenderer.ts",
-            "line": 401,
+            "line": 400,
             "itemtype": "property",
             "name": "_canvas",
             "type": "HTMLCanvasElement",
@@ -28008,7 +28007,7 @@
         },
         {
             "file": "src/davinci-eight/scene/WebGLRenderer.ts",
-            "line": 456,
+            "line": 455,
             "itemtype": "method",
             "name": "destructor!~YUIDOC_LINE~!return",
             "type": "Void",
@@ -28019,7 +28018,7 @@
         },
         {
             "file": "src/davinci-eight/scene/WebGLRenderer.ts",
-            "line": 471,
+            "line": 470,
             "itemtype": "method",
             "name": "addContextListener",
             "params": [
@@ -28038,7 +28037,7 @@
         },
         {
             "file": "src/davinci-eight/scene/WebGLRenderer.ts",
-            "line": 487,
+            "line": 486,
             "itemtype": "property",
             "name": "canvas",
             "type": "{HTMLCanvasElement}",
@@ -28047,7 +28046,7 @@
         },
         {
             "file": "src/davinci-eight/scene/WebGLRenderer.ts",
-            "line": 501,
+            "line": 500,
             "itemtype": "property",
             "name": "commands",
             "type": "{IUnknownArray}",
@@ -28058,7 +28057,7 @@
         },
         {
             "file": "src/davinci-eight/scene/WebGLRenderer.ts",
-            "line": 515,
+            "line": 514,
             "description": "<p>\nSpecifies color values to use by the <code>clear</code> method to clear the color buffer.\n<p>",
             "itemtype": "method",
             "name": "clearColor",
@@ -28094,7 +28093,7 @@
         },
         {
             "file": "src/davinci-eight/scene/WebGLRenderer.ts",
-            "line": 551,
+            "line": 550,
             "itemtype": "method",
             "name": "createArrayBuffer",
             "return": {
@@ -28106,7 +28105,7 @@
         },
         {
             "file": "src/davinci-eight/scene/WebGLRenderer.ts",
-            "line": 559,
+            "line": 558,
             "itemtype": "method",
             "name": "createBufferGeometry",
             "params": [
@@ -28131,7 +28130,7 @@
         },
         {
             "file": "src/davinci-eight/scene/WebGLRenderer.ts",
-            "line": 626,
+            "line": 625,
             "itemtype": "method",
             "name": "createElementArrayBuffer",
             "return": {
@@ -28143,7 +28142,7 @@
         },
         {
             "file": "src/davinci-eight/scene/WebGLRenderer.ts",
-            "line": 634,
+            "line": 633,
             "itemtype": "method",
             "name": "createTextureCubeMap",
             "return": {
@@ -28155,7 +28154,7 @@
         },
         {
             "file": "src/davinci-eight/scene/WebGLRenderer.ts",
-            "line": 643,
+            "line": 642,
             "itemtype": "method",
             "name": "createTexture2D",
             "return": {
@@ -28167,7 +28166,7 @@
         },
         {
             "file": "src/davinci-eight/scene/WebGLRenderer.ts",
-            "line": 652,
+            "line": 651,
             "description": "Turns off specific WebGL capabilities for this context.",
             "itemtype": "method",
             "name": "disable",
@@ -28188,7 +28187,7 @@
         },
         {
             "file": "src/davinci-eight/scene/WebGLRenderer.ts",
-            "line": 664,
+            "line": 663,
             "description": "Turns on specific WebGL capabilities for this context.",
             "itemtype": "method",
             "name": "enable",
@@ -28209,7 +28208,7 @@
         },
         {
             "file": "src/davinci-eight/scene/WebGLRenderer.ts",
-            "line": 676,
+            "line": 675,
             "itemtype": "property",
             "name": "gl",
             "type": "{WebGLRenderingContext}",
@@ -28219,7 +28218,7 @@
         },
         {
             "file": "src/davinci-eight/scene/WebGLRenderer.ts",
-            "line": 694,
+            "line": 693,
             "itemtype": "method",
             "name": "removeContextListener",
             "params": [
@@ -28238,7 +28237,7 @@
         },
         {
             "file": "src/davinci-eight/scene/WebGLRenderer.ts",
-            "line": 707,
+            "line": 706,
             "itemtype": "method",
             "name": "render",
             "params": [
@@ -28262,7 +28261,7 @@
         },
         {
             "file": "src/davinci-eight/scene/WebGLRenderer.ts",
-            "line": 721,
+            "line": 720,
             "description": "Defines what part of the canvas will be used in rendering the drawing buffer.",
             "itemtype": "method",
             "name": "viewport",
@@ -28298,7 +28297,7 @@
         },
         {
             "file": "src/davinci-eight/scene/WebGLRenderer.ts",
-            "line": 736,
+            "line": 735,
             "description": "Initializes the WebGL context for the specified <code>canvas</code>.",
             "itemtype": "method",
             "name": "start",
@@ -28319,7 +28318,7 @@
         },
         {
             "file": "src/davinci-eight/scene/WebGLRenderer.ts",
-            "line": 773,
+            "line": 772,
             "itemtype": "method",
             "name": "stop",
             "return": {
@@ -28332,7 +28331,7 @@
         },
         {
             "file": "src/davinci-eight/scene/WebGLRenderer.ts",
-            "line": 827,
+            "line": 826,
             "itemtype": "method",
             "name": "synchronize",
             "params": [
@@ -29007,7 +29006,7 @@
         },
         {
             "message": "Missing item type\nPolicy for how an attribute variable name is determined.",
-            "line": " src/davinci-eight/core/getAttribVarName.ts:4"
+            "line": " src/davinci-eight/core/getAttribVarName.ts:5"
         },
         {
             "message": "Missing item type\nPolicy for how a uniform variable name is determined.",

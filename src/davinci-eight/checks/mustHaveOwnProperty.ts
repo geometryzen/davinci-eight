@@ -1,5 +1,4 @@
 import isDefined from '../checks/isDefined';
-import isInteger from '../checks/isInteger';
 import mustBeDefined from '../checks/mustBeDefined';
 import mustSatisfy from '../checks/mustSatisfy';
 
