@@ -1,5 +1,5 @@
 import IUnknown from '../core/IUnknown';
-import Shareable from '../utils/Shareable';
+import Shareable from '../core/Shareable';
 
 /**
  * Essentially constructs the IUnknownArray without incrementing the
@@ -59,6 +59,19 @@ export default class IUnknownArray<T extends IUnknown> extends Shareable {
         // Don't set the userName property to undefined so that we can report zombie calls.
         super.destructor()
     }
+
+    findOne(match: (composite: T) => boolean): T {
+        const elements = this._elements;
+        for (let i = 0, iLength = elements.length; i < iLength; i++) {
+            const candidate = elements[i];
+            if (match(candidate)) {
+                candidate.addRef()
+                return candidate
+            }
+        }
+        return void 0;
+    }
+
     /**
      * Gets the element at the specified index, incrementing the reference count.
      * @method get

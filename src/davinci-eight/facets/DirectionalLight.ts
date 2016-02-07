@@ -4,7 +4,7 @@ import Facet from '../core/Facet';
 import FacetVisitor from '../core/FacetVisitor';
 import mustBeObject from '../checks/mustBeObject';
 import mustBeString from '../checks/mustBeString';
-import Shareable from '../utils/Shareable';
+import Shareable from '../core/Shareable';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
 import R3 from '../math/R3';
 import VectorE3 from '../math/VectorE3';

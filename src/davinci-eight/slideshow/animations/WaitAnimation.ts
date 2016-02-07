@@ -1,6 +1,6 @@
 import IAnimation from '../../slideshow/IAnimation';
 import IAnimationTarget from '../../slideshow/IAnimationTarget';
-import Shareable from '../../utils/Shareable';
+import Shareable from '../../core/Shareable';
 
 /**
  * @class WaitAnimation

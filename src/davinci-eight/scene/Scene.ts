@@ -1,30 +1,93 @@
 import core from '../core';
 import Facet from '../core/Facet';
 import IContextProvider from '../core/IContextProvider';
-import IContextMonitor from '../core/IContextMonitor';
-import IDrawable from '../core/IDrawable';
-import IDrawList from '../scene/IDrawList';
+import Composite from './Composite';
+import IDrawList from './IDrawList';
 import IUnknownArray from '../collections/IUnknownArray';
-import IGraphicsBuffers from '../core/IGraphicsBuffers';
-import IGraphicsProgram from '../core/IGraphicsProgram';
 import mustBeFunction from '../checks/mustBeFunction';
 import mustBeObject from '../checks/mustBeObject';
 import mustBeString from '../checks/mustBeString';
-import Shareable from '../utils/Shareable';
+import PrimitiveBuffer from './PrimitiveBuffer';
+import Shareable from '../core/Shareable';
+import ShareableContextListener from '../core/ShareableContextListener';
+
+/**
+ * The parts of a scene are the smallest components that
+ * are heuristically sorted in order to optimize rendering.
+ */
+class ScenePart extends Shareable {
+    private _buffer: PrimitiveBuffer;
+
+    /**
+     * Keep track of the 'parent' composite.
+     */
+    private _composite: Composite;
+
+    /**
+     *
+     */
+    constructor(buffer: PrimitiveBuffer, composite: Composite) {
+        super('ScenePart')
+        this._buffer = buffer
+        this._buffer.addRef()
+        this._composite = composite
+        this._composite.addRef()
+    }
+    protected destructor(): void {
+        this._buffer.release()
+        this._composite.release()
+        this._buffer = void 0;
+        this._composite = void 0
+        super.destructor()
+    }
+    draw(ambients: Facet[]) {
+
+        const program = this._composite.program;
+
+        program.use()
+
+        if (ambients) {
+            const aLength = ambients.length;
+            for (let a = 0; a < aLength; a++) {
+                const ambient = ambients[a]
+                ambient.setUniforms(program);
+            }
+        }
+
+        this._composite.setUniforms();
+
+        this._buffer.draw(program)
+        program.release()
+
+    }
+}
+
+function partsFromComposite(composite: Composite): IUnknownArray<ScenePart> {
+    mustBeObject('composite', composite)
+    const parts = new IUnknownArray<ScenePart>();
+    const buffers = composite.buffers
+    const iLen = buffers.length
+    for (let i = 0; i < iLen; i++) {
+        const scenePart = new ScenePart(buffers.getWeakRef(i), composite)
+        parts.pushWeakRef(scenePart)
+    }
+    buffers.release();
+    return parts;
+}
 
 /**
  * @class Scene
  * @extends Shareable
  */
-export default class Scene extends Shareable implements IDrawList {
+export default class Scene extends ShareableContextListener implements IDrawList {
 
-    private _drawables: IUnknownArray<IDrawable>;
-    private _monitor: IContextMonitor;
+    private _composites: IUnknownArray<Composite>;
+    private _parts: IUnknownArray<ScenePart>;
 
     // FIXME: Do I need the collection, or can I be fooled into thinking there is one monitor?
     /**
      * <p>
-     * A <code>Scene</code> is a collection of drawable instances arranged in some order.
+     * A <code>Scene</code> is a collection of composite instances arranged in some order.
      * The precise order is implementation defined.
      * The collection may be traversed for general processing using callback/visitor functions.
      * </p>
@@ -34,7 +97,8 @@ export default class Scene extends Shareable implements IDrawList {
      */
     constructor() {
         super('Scene')
-        this._drawables = new IUnknownArray<IDrawable>()
+        this._composites = new IUnknownArray<Composite>()
+        this._parts = new IUnknownArray<ScenePart>()
     }
 
     /**
@@ -43,56 +107,50 @@ export default class Scene extends Shareable implements IDrawList {
      * @protected
      */
     protected destructor(): void {
-        if (this._monitor) {
-            console.warn(`${this._type}.destructor but still using monitor!`)
-        }
-        this._drawables.release()
+        this._composites.release()
+        this._parts.release()
         super.destructor()
-    }
-
-    public attachTo(monitor: IContextMonitor) {
-        monitor.addRef()
-        monitor.addContextListener(this)
-        this._monitor = monitor;
-    }
-
-    public detachFrom(unused: IContextMonitor) {
-        if (this._monitor) {
-            this._monitor.removeContextListener(this)
-            this._monitor.release()
-            this._monitor = void 0;
-        }
     }
 
     /**
      * <p>
-     * Adds the <code>drawable</code> to this <code>Scene</code>.
+     * Adds the <code>composite</code> to this <code>Scene</code>.
      * </p>
      * @method add
-     * @param drawable {IDrawable}
+     * @param composite {Composite}
      * @return {Void}
      * <p>
      * This method returns <code>undefined</code>.
      * </p>
      */
-    add(drawable: IDrawable): void {
-        mustBeObject('drawable', drawable);
-        this._drawables.push(drawable)
+    add(composite: Composite): void {
+        mustBeObject('composite', composite);
+        this._composites.push(composite)
+
+        // TODO: Control the ordering for optimization.
+        const drawParts = partsFromComposite(composite)
+        const iLen = drawParts.length;
+        for (let i = 0; i < iLen; i++) {
+            const part = drawParts.get(i)
+            this._parts.push(part)
+            part.release()
+        }
+        drawParts.release();
     }
 
     /**
      * @method containsDrawable
-     * @param drawable {IDrawable}
+     * @param composite {Composite}
      * @return {boolean}
      */
-    containsDrawable(drawable: IDrawable): boolean {
-        mustBeObject('drawable', drawable);
-        return this._drawables.indexOf(drawable) >= 0
+    containsDrawable(composite: Composite): boolean {
+        mustBeObject('composite', composite);
+        return this._composites.indexOf(composite) >= 0
     }
 
     /**
      * <p>
-     * Traverses the collection of drawables, drawing each one.
+     * Traverses the collection of scene parts drawing each one.
      * </p>
      * @method draw
      * @param ambients {Facet[]}
@@ -100,113 +158,83 @@ export default class Scene extends Shareable implements IDrawList {
      * @beta
      */
     draw(ambients: Facet[]): void {
-
-        for (let i = 0; i < this._drawables.length; i++) {
-
-            const drawable = this._drawables.getWeakRef(i);
-
-            const graphicsProgram: IGraphicsProgram = drawable.graphicsProgram
-
-            graphicsProgram.use()
-
-            if (ambients) {
-                const aLength = ambients.length;
-                for (let a = 0; a < aLength; a++) {
-                    const ambient = ambients[a]
-                    ambient.setUniforms(graphicsProgram);
-                }
-            }
-
-            drawable.setUniforms();
-
-            const buffers: IGraphicsBuffers = drawable.graphicsBuffers;
-            buffers.draw(graphicsProgram)
-            buffers.release()
-
-            graphicsProgram.release()
+        const parts = this._parts;
+        const iLen = parts.length;
+        for (let i = 0; i < iLen; i++) {
+            parts.getWeakRef(i).draw(ambients)
         }
     }
 
     /**
      * @method findOne
-     * @param match {(drawable: IDrawable) => boolean}
-     * @return {IDrawable}
+     * @param match {(composite: Composite) => boolean}
+     * @return {Composite}
      */
-    findOne(match: (drawable: IDrawable) => boolean): IDrawable {
+    findOne(match: (composite: Composite) => boolean): Composite {
         mustBeFunction('match', match);
-        const drawables = this._drawables;
-        for (let i = 0, iLength = drawables.length; i < iLength; i++) {
-            const candidate = drawables.get(i);
-            if (match(candidate)) {
-                return candidate;
-            }
-            else {
-                candidate.release();
-            }
-        }
-        return void 0;
+        return this._composites.findOne(match)
     }
 
     /**
      * @method getDrawableByName
      * @param name {string}
-     * @return {IDrawable}
+     * @return {Composite}
      */
-    getDrawableByName(name: string): IDrawable {
+    getDrawableByName(name: string): Composite {
         if (!core.fastPath) {
             mustBeString('name', name);
         }
-        return this.findOne(function(drawable) { return drawable.name === name; });
+        return this.findOne(function(composite) { return composite.name === name; });
     }
 
     /**
-     * Gets a collection of drawable elements by name.
+     * Gets a collection of composite elements by name.
      *
      * @method getDrawablesByName
      * @param name {string}
      * @rerurn {IUnknownArray}
      */
-    getDrawablesByName(name: string): IUnknownArray<IDrawable> {
+    getDrawablesByName(name: string): IUnknownArray<Composite> {
         mustBeString('name', name);
-        const result = new IUnknownArray<IDrawable>()
+        const result = new IUnknownArray<Composite>()
         return result;
     }
 
     /**
      * <p>
-     * Removes the <code>drawable</code> from this <code>Scene</code>.
+     * Removes the <code>composite</code> from this <code>Scene</code>.
      * </p>
      *
      * @method remove
-     * @param drawable {IDrawable}
+     * @param composite {Composite}
      * @return {void}
      * <p>
      * This method returns <code>undefined</code>.
      * </p>
      */
-    remove(drawable: IDrawable): void {
-        mustBeObject('drawable', drawable);
+    remove(composite: Composite): void {
+        mustBeObject('composite', composite);
         throw new Error("TODO")
     }
 
     contextFree(manager: IContextProvider): void {
-        for (let i = 0; i < this._drawables.length; i++) {
-            const drawable = this._drawables.getWeakRef(i);
-            drawable.contextFree(manager);
+        for (let i = 0; i < this._composites.length; i++) {
+            const composite = this._composites.getWeakRef(i);
+            composite.contextFree(manager);
         }
     }
 
     contextGain(manager: IContextProvider): void {
-        for (let i = 0; i < this._drawables.length; i++) {
-            const drawable = this._drawables.getWeakRef(i);
-            drawable.contextGain(manager);
+        for (let i = 0; i < this._composites.length; i++) {
+            const composite = this._composites.getWeakRef(i);
+            composite.contextGain(manager);
         }
     }
 
     contextLost(): void {
-        for (let i = 0; i < this._drawables.length; i++) {
-            const drawable = this._drawables.getWeakRef(i);
-            drawable.contextLost();
+        for (let i = 0; i < this._composites.length; i++) {
+            const composite = this._composites.getWeakRef(i);
+            composite.contextLost();
         }
     }
 }

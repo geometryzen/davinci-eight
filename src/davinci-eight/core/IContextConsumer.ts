@@ -1,5 +1,5 @@
-import IContextProvider from '../core/IContextProvider';
-import IUnknown from '../core/IUnknown';
+import IContextProvider from './IContextProvider';
+import IUnknown from './IUnknown';
 
 /**
  * This interface standardizes the concept of an implementation being dependent upon
@@ -12,11 +12,11 @@ import IUnknown from '../core/IUnknown';
 interface IContextConsumer extends IUnknown {
 
     /**
-     * Called to request the dependent to free any WebGL resources acquired and owned.
-     * The dependent may assume that its cached context is still valid in order
+     * Called to request the consumer to free any WebGL resources acquired and owned.
+     * The consumer may assume that its cached context is still valid in order
      * to properly dispose of any cached resources. In the case of shared objects, this
      * method may be called multiple times for what is logically the same context. In such
-     * cases the dependent must be idempotent and respond only to the first request.
+     * cases the consumer must be idempotent and respond only to the first request.
      * @method contextFree
      * @param manager {IContextProvider}
      */

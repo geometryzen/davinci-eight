@@ -1,4 +1,4 @@
-import ColorRGB from '../core/ColorRGB';
+import ColorRGB from './ColorRGB';
 /**
  * @class ColorRGBA
  * @extends ColorRGB

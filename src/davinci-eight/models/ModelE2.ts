@@ -4,7 +4,7 @@ import G2 from '../math/G2';
 import R2 from '../math/R2';
 import SpinG2 from '../math/SpinG2';
 import readOnly from '../i18n/readOnly';
-import Shareable from '../utils/Shareable';
+import Shareable from '../core/Shareable';
 
 /**
  * @class ModelE2
@@ -50,7 +50,7 @@ export default class ModelE2 extends Shareable implements IAnimationTarget {
      * A collection of properties for Rigid Body Modeling.
      * </p>
      * <p>
-     * ModelE2 implements Facet required for manipulating a drawable object.
+     * ModelE2 implements Facet required for manipulating a composite object.
      * </p>
      * <p>
      * Constructs a ModelE2 at the origin and with unity attitude.

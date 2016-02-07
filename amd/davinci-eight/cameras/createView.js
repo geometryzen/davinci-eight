@@ -18,12 +18,6 @@ define(["require", "exports", '../math/Euclidean3', '../math/R3', '../math/Mat4R
                 refCount--;
                 return refCount;
             },
-            get uuid() {
-                return "";
-            },
-            getProperty: function (name) {
-                return void 0;
-            },
             setProperty: function (name, value) {
                 return self;
             },

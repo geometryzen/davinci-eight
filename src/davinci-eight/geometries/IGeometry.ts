@@ -1,4 +1,4 @@
-import Primitive from '../geometries/Primitive';
+import Primitive from '../core/Primitive';
 
 interface IGeometry<T> {
     setPosition(position: { x: number, y: number, z: number }): T

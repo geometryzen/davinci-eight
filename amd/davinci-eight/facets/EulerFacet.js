@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../i18n/readOnly', '../utils/Shareable', '../math/R3'], function (require, exports, readOnly_1, Shareable_1, R3_1) {
+define(["require", "exports", '../i18n/readOnly', '../core/Shareable', '../math/R3'], function (require, exports, readOnly_1, Shareable_1, R3_1) {
     var EulerFacet = (function (_super) {
         __extends(EulerFacet, _super);
         function EulerFacet() {

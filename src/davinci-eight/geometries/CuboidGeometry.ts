@@ -5,7 +5,7 @@ import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
 import IGeometry from '../geometries/IGeometry';
 import mustBeBoolean from '../checks/mustBeBoolean';
 import mustBeNumber from '../checks/mustBeNumber';
-import Primitive from '../geometries/Primitive';
+import Primitive from '../core/Primitive';
 import R3 from '../math/R3';
 import R2 from '../math/R2';
 import VectorE3 from '../math/VectorE3';

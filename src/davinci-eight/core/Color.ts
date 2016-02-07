@@ -1,8 +1,8 @@
 import clamp from '../math/clamp';
 import mustBeArray from '../checks/mustBeArray';
 import mustBeNumber from '../checks/mustBeNumber';
-import principalAngle from '../core/principalAngle';
-import ColorRGB from '../core/ColorRGB';
+import principalAngle from './principalAngle';
+import ColorRGB from './ColorRGB';
 import VectorN from '../math/VectorN';
 
 let pow = Math.pow

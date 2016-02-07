@@ -1,41 +1,26 @@
 import getAttribVarName from '../core/getAttribVarName';
-import getUniformVarName from '../core/getUniformVarName';
 import glslAttribType from '../programs/glslAttribType';
-import GraphicsProgram from '../materials/GraphicsProgram';
-import IContextMonitor from '../core/IContextMonitor';
 import mustBeInteger from '../checks/mustBeInteger';
 import mustBeString from '../checks/mustBeString';
-import Primitive from '../geometries/Primitive';
+import Primitive from '../core/Primitive';
 import SmartGraphicsProgram from '../materials/SmartGraphicsProgram';
-import UniformMetaInfo from '../core/UniformMetaInfo';
 import vColorRequired from '../programs/vColorRequired';
 import vLightRequired from '../programs/vLightRequired';
+import fragmentShader from '../programs/fragmentShader';
+import vertexShader from '../programs/vertexShader';
 
 function computeAttribParams(values: { [key: string]: { size: number, name?: string } }) {
     const result: { [key: string]: { glslType: string, name?: string } } = {}
-    let keys = Object.keys(values)
-    let keysLength = keys.length
+    const keys = Object.keys(values)
+    const keysLength = keys.length
     for (let i = 0; i < keysLength; i++) {
-        let key = keys[i]
-        let attribute = values[key]
-        let size = mustBeInteger('size', attribute.size)
-        let varName = getAttribVarName(attribute, key)
+        const key = keys[i]
+        const attribute = values[key]
+        const size = mustBeInteger('size', attribute.size)
+        const varName = getAttribVarName(attribute, key)
         result[varName] = { glslType: glslAttribType(key, size) }
     }
     return result
-}
-
-function updateUniformMeta(uniforms: { [key: string]: UniformMetaInfo }[]) {
-    uniforms.forEach(function(values) {
-        let keys = Object.keys(values)
-        let keysLength = keys.length
-        for (var i = 0; i < keysLength; i++) {
-            let key = keys[i]
-            let uniform = values[key]
-            let varName = getUniformVarName(uniform, key)
-            this.uParams[varName] = { glslType: uniform.glslType }
-        }
-    })
 }
 
 /**
@@ -115,16 +100,29 @@ export default class GraphicsProgramBuilder {
      * one for each context supplied. The generated program is compiled and linked
      * for each context in response to context gain and loss events.
      * @method build
-     * @param [monitors] {IContextMonitor[]}
-     * @return {GraphicsProgram}
+     * @return {SmartGraphicsProgram}
      */
-    public build(monitors?: IContextMonitor[]): GraphicsProgram {
+    public build(): SmartGraphicsProgram {
         // FIXME: Push this calculation down into the functions.
         // Then the data structures are based on size.
         // uniforms based on numeric type?
         const aParams = computeAttribParams(this.aMeta)
         const vColor = vColorRequired(aParams, this.uParams)
         const vLight = vLightRequired(aParams, this.uParams)
-        return new SmartGraphicsProgram(aParams, this.uParams, vColor, vLight, monitors)
+        return new SmartGraphicsProgram(aParams, this.uParams, vColor, vLight)
+    }
+
+    public vertexShader(): string {
+        const aParams = computeAttribParams(this.aMeta)
+        const vColor = vColorRequired(aParams, this.uParams)
+        const vLight = vLightRequired(aParams, this.uParams)
+        return vertexShader(aParams, this.uParams, vColor, vLight)
+    }
+
+    public fragmentShader(): string {
+        const aParams = computeAttribParams(this.aMeta)
+        const vColor = vColorRequired(aParams, this.uParams)
+        const vLight = vLightRequired(aParams, this.uParams)
+        return fragmentShader(aParams, this.uParams, vColor, vLight)
     }
 }

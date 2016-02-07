@@ -3,108 +3,125 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../core', '../collections/IUnknownArray', '../checks/mustBeFunction', '../checks/mustBeObject', '../checks/mustBeString', '../utils/Shareable'], function (require, exports, core_1, IUnknownArray_1, mustBeFunction_1, mustBeObject_1, mustBeString_1, Shareable_1) {
+define(["require", "exports", '../core', '../collections/IUnknownArray', '../checks/mustBeFunction', '../checks/mustBeObject', '../checks/mustBeString', '../core/Shareable', '../core/ShareableContextListener'], function (require, exports, core_1, IUnknownArray_1, mustBeFunction_1, mustBeObject_1, mustBeString_1, Shareable_1, ShareableContextListener_1) {
+    var ScenePart = (function (_super) {
+        __extends(ScenePart, _super);
+        function ScenePart(buffer, composite) {
+            _super.call(this, 'ScenePart');
+            this._buffer = buffer;
+            this._buffer.addRef();
+            this._composite = composite;
+            this._composite.addRef();
+        }
+        ScenePart.prototype.destructor = function () {
+            this._buffer.release();
+            this._composite.release();
+            this._buffer = void 0;
+            this._composite = void 0;
+            _super.prototype.destructor.call(this);
+        };
+        ScenePart.prototype.draw = function (ambients) {
+            var program = this._composite.program;
+            program.use();
+            if (ambients) {
+                var aLength = ambients.length;
+                for (var a = 0; a < aLength; a++) {
+                    var ambient = ambients[a];
+                    ambient.setUniforms(program);
+                }
+            }
+            this._composite.setUniforms();
+            this._buffer.draw(program);
+            program.release();
+        };
+        return ScenePart;
+    })(Shareable_1.default);
+    function partsFromComposite(composite) {
+        mustBeObject_1.default('composite', composite);
+        var parts = new IUnknownArray_1.default();
+        var buffers = composite.buffers;
+        var iLen = buffers.length;
+        for (var i = 0; i < iLen; i++) {
+            var scenePart = new ScenePart(buffers.getWeakRef(i), composite);
+            parts.pushWeakRef(scenePart);
+        }
+        buffers.release();
+        return parts;
+    }
     var Scene = (function (_super) {
         __extends(Scene, _super);
         function Scene() {
             _super.call(this, 'Scene');
-            this._drawables = new IUnknownArray_1.default();
+            this._composites = new IUnknownArray_1.default();
+            this._parts = new IUnknownArray_1.default();
         }
         Scene.prototype.destructor = function () {
-            if (this._monitor) {
-                console.warn(this._type + ".destructor but still using monitor!");
-            }
-            this._drawables.release();
+            this._composites.release();
+            this._parts.release();
             _super.prototype.destructor.call(this);
         };
-        Scene.prototype.attachTo = function (monitor) {
-            monitor.addRef();
-            monitor.addContextListener(this);
-            this._monitor = monitor;
-        };
-        Scene.prototype.detachFrom = function (unused) {
-            if (this._monitor) {
-                this._monitor.removeContextListener(this);
-                this._monitor.release();
-                this._monitor = void 0;
+        Scene.prototype.add = function (composite) {
+            mustBeObject_1.default('composite', composite);
+            this._composites.push(composite);
+            var drawParts = partsFromComposite(composite);
+            var iLen = drawParts.length;
+            for (var i = 0; i < iLen; i++) {
+                var part = drawParts.get(i);
+                this._parts.push(part);
+                part.release();
             }
+            drawParts.release();
         };
-        Scene.prototype.add = function (drawable) {
-            mustBeObject_1.default('drawable', drawable);
-            this._drawables.push(drawable);
-        };
-        Scene.prototype.containsDrawable = function (drawable) {
-            mustBeObject_1.default('drawable', drawable);
-            return this._drawables.indexOf(drawable) >= 0;
+        Scene.prototype.containsDrawable = function (composite) {
+            mustBeObject_1.default('composite', composite);
+            return this._composites.indexOf(composite) >= 0;
         };
         Scene.prototype.draw = function (ambients) {
-            for (var i = 0; i < this._drawables.length; i++) {
-                var drawable = this._drawables.getWeakRef(i);
-                var graphicsProgram = drawable.graphicsProgram;
-                graphicsProgram.use();
-                if (ambients) {
-                    var aLength = ambients.length;
-                    for (var a = 0; a < aLength; a++) {
-                        var ambient = ambients[a];
-                        ambient.setUniforms(graphicsProgram);
-                    }
-                }
-                drawable.setUniforms();
-                var buffers = drawable.graphicsBuffers;
-                buffers.draw(graphicsProgram);
-                buffers.release();
-                graphicsProgram.release();
+            var parts = this._parts;
+            var iLen = parts.length;
+            for (var i = 0; i < iLen; i++) {
+                parts.getWeakRef(i).draw(ambients);
             }
         };
         Scene.prototype.findOne = function (match) {
             mustBeFunction_1.default('match', match);
-            var drawables = this._drawables;
-            for (var i = 0, iLength = drawables.length; i < iLength; i++) {
-                var candidate = drawables.get(i);
-                if (match(candidate)) {
-                    return candidate;
-                }
-                else {
-                    candidate.release();
-                }
-            }
-            return void 0;
+            return this._composites.findOne(match);
         };
         Scene.prototype.getDrawableByName = function (name) {
             if (!core_1.default.fastPath) {
                 mustBeString_1.default('name', name);
             }
-            return this.findOne(function (drawable) { return drawable.name === name; });
+            return this.findOne(function (composite) { return composite.name === name; });
         };
         Scene.prototype.getDrawablesByName = function (name) {
             mustBeString_1.default('name', name);
             var result = new IUnknownArray_1.default();
             return result;
         };
-        Scene.prototype.remove = function (drawable) {
-            mustBeObject_1.default('drawable', drawable);
+        Scene.prototype.remove = function (composite) {
+            mustBeObject_1.default('composite', composite);
             throw new Error("TODO");
         };
         Scene.prototype.contextFree = function (manager) {
-            for (var i = 0; i < this._drawables.length; i++) {
-                var drawable = this._drawables.getWeakRef(i);
-                drawable.contextFree(manager);
+            for (var i = 0; i < this._composites.length; i++) {
+                var composite = this._composites.getWeakRef(i);
+                composite.contextFree(manager);
             }
         };
         Scene.prototype.contextGain = function (manager) {
-            for (var i = 0; i < this._drawables.length; i++) {
-                var drawable = this._drawables.getWeakRef(i);
-                drawable.contextGain(manager);
+            for (var i = 0; i < this._composites.length; i++) {
+                var composite = this._composites.getWeakRef(i);
+                composite.contextGain(manager);
             }
         };
         Scene.prototype.contextLost = function () {
-            for (var i = 0; i < this._drawables.length; i++) {
-                var drawable = this._drawables.getWeakRef(i);
-                drawable.contextLost();
+            for (var i = 0; i < this._composites.length; i++) {
+                var composite = this._composites.getWeakRef(i);
+                composite.contextLost();
             }
         };
         return Scene;
-    })(Shareable_1.default);
+    })(ShareableContextListener_1.default);
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = Scene;
 });

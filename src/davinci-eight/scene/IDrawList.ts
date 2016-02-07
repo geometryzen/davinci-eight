@@ -1,6 +1,6 @@
-import IContextConsumer from '../core/IContextConsumer';
-import IDrawable from '../core/IDrawable';
-import IGraphicsProgram from '../core/IGraphicsProgram';
+import IContextListener from '../core/IContextListener';
+import Composite from './Composite';
+import ShareableWebGLProgram from '../core/ShareableWebGLProgram';
 import IUnknown from '../core/IUnknown';
 import IUnknownArray from '../collections/IUnknownArray';
 import Facet from '../core/Facet';
@@ -9,21 +9,21 @@ import Facet from '../core/Facet';
  * @class IDrawList
  * @extends IContextConsumer
  */
-interface IDrawList extends IContextConsumer {
+interface IDrawList extends IContextListener {
 
     /**
      * @method add
-     * @param drawable {IDrawable}
+     * @param composit {Composite}
      * @return {void}
      */
-    add(drawable: IDrawable): void;
+    add(composite: Composite): void;
 
     /**
      * @method containsDrawable
-     * @param drawable {IDrawable}
+     * @param composite {Composite}
      * @return {boolean}
      */
-    containsDrawable(drawable: IDrawable): boolean;
+    containsDrawable(composite: Composite): boolean;
 
     /**
      * @method draw
@@ -33,36 +33,36 @@ interface IDrawList extends IContextConsumer {
     draw(ambients: Facet[]): void;
 
     /**
-     * Finds a drawable that matches the specified match test.
+     * Finds a composite that matches the specified match test.
      *
      * @method findOne
-     * @param match {(drawable: ID) => boolean}
-     * @return {IDrawable}
+     * @param match {(composite: ID) => boolean}
+     * @return {Composite}
      */
-    findOne(match: (drawable: IDrawable) => boolean): IDrawable;
+    findOne(match: (composite: Composite) => boolean): Composite;
 
     /**
-     * Gets any drawable that has the specified name.
+     * Gets any composite that has the specified name.
      *
      * @method getDrawableByName
      * @param name {string}
-     * @return {IDrawable}
+     * @return {Composite}
      */
-    getDrawableByName(name: string): IDrawable;
+    getDrawableByName(name: string): Composite;
 
     /**
-     * Gets a collection of drawable elements by name.
+     * Gets a collection of composite elements by name.
      * @method getDrawablesByName
      * @param name {string}
      * @return {IUnknownArray}
      */
-    getDrawablesByName(name: string): IUnknownArray<IDrawable>;
+    getDrawablesByName(name: string): IUnknownArray<Composite>;
 
     /**
      * @method remove
-     * @param drawable {IDrawable}
+     * @param composite {Composite}
      */
-    remove(drawable: IDrawable): void;
+    remove(composite: Composite): void;
 }
 
 export default IDrawList;

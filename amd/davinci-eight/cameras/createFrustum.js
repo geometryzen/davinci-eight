@@ -1,4 +1,4 @@
-define(["require", "exports", 'davinci-eight/cameras/createView', 'davinci-eight/math/Mat4R', '../math/R1'], function (require, exports, createView_1, Mat4R_1, R1_1) {
+define(["require", "exports", './createView', '../math/Mat4R', '../math/R1'], function (require, exports, createView_1, Mat4R_1, R1_1) {
     function createFrustum(viewMatrixName, projectionMatrixName) {
         var refCount = 1;
         var base = createView_1.default(viewMatrixName);
@@ -21,12 +21,6 @@ define(["require", "exports", 'davinci-eight/cameras/createView', 'davinci-eight
             release: function () {
                 refCount--;
                 return refCount;
-            },
-            get uuid() {
-                return "";
-            },
-            getProperty: function (name) {
-                return void 0;
             },
             setProperty: function (name, value) {
                 return this;

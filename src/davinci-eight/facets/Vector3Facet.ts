@@ -2,7 +2,7 @@ import Facet from '../core/Facet';
 import FacetVisitor from '../core/FacetVisitor';
 import mustBeObject from '../checks/mustBeObject';
 import mustBeString from '../checks/mustBeString';
-import Shareable from '../utils/Shareable';
+import Shareable from '../core/Shareable';
 import R3 from '../math/R3';
 
 var LOGGING_NAME = 'Vector3Facet'

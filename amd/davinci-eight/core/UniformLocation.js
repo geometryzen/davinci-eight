@@ -1,7 +1,6 @@
-define(["require", "exports", '../checks/mustBeObject', '../checks/mustBeString'], function (require, exports, mustBeObject_1, mustBeString_1) {
+define(["require", "exports", '../checks/mustBeString'], function (require, exports, mustBeString_1) {
     var UniformLocation = (function () {
-        function UniformLocation(manager, name) {
-            mustBeObject_1.default('manager', manager);
+        function UniformLocation(name) {
             this._name = mustBeString_1.default('name', name);
         }
         UniformLocation.prototype.contextFree = function () {

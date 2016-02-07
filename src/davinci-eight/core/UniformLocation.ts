@@ -1,10 +1,8 @@
-import mustBeObject from '../checks/mustBeObject';
 import mustBeString from '../checks/mustBeString';
 import Mat2R from '../math/Mat2R';
 import Mat3R from '../math/Mat3R';
 import Mat4R from '../math/Mat4R';
-import IContextProgramConsumer from '../core/IContextProgramConsumer';
-import IContextProvider from '../core/IContextProvider';
+import IContextProgramConsumer from './IContextProgramConsumer';
 import VectorE1 from '../math/VectorE1';
 import VectorE2 from '../math/VectorE2';
 import VectorE3 from '../math/VectorE3';
@@ -19,14 +17,13 @@ export default class UniformLocation implements IContextProgramConsumer {
     private _location: WebGLUniformLocation;
     private _name: string;
     private _program: WebGLProgram;
+
     /**
      * @class UniformLocation
      * @constructor
-     * @param manager {IContextProvider} Unused. May be used later e.g. for mirroring.
      * @param name {string} The name of the uniform variable, as it appears in the GLSL shader code.
      */
-    constructor(manager: IContextProvider, name: string) {
-        mustBeObject('manager', manager);
+    constructor(name: string) {
         this._name = mustBeString('name', name);
     }
 

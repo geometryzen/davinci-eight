@@ -1,6 +1,6 @@
 import readOnly from '../i18n/readOnly';
 import Facet from '../core/Facet';
-import Shareable from '../utils/Shareable';
+import Shareable from '../core/Shareable';
 import FacetVisitor from '../core/FacetVisitor';
 import R3 from '../math/R3';
 

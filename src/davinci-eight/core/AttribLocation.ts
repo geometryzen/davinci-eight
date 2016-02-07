@@ -1,6 +1,4 @@
 import IContextProgramConsumer from  '../core/IContextProgramConsumer';
-import IContextProvider from  '../core/IContextProvider';
-import mustBeObject from  '../checks/mustBeObject';
 import mustBeString from  '../checks/mustBeString';
 import readOnly from  '../i18n/readOnly';
 
@@ -46,11 +44,9 @@ export default class AttribLocation implements IContextProgramConsumer {
      * there will be improved integrity and context loss management.
      * @class AttribLocation
      * @constructor
-     * @param manager {IContextProvider} Unused. May be used later e.g. for mirroring.
      * @param name {string} The name of the variable as it appears in the GLSL program.
      */
-    constructor(manager: IContextProvider, name: string) {
-        mustBeObject('manager', manager)
+    constructor(name: string) {
         this._name = mustBeString('name', name)
     }
 

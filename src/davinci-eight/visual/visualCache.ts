@@ -1,9 +1,8 @@
 import ArrowGeometry from '../geometries/ArrowGeometry';
 import CuboidGeometry from '../geometries/CuboidGeometry';
 import CylinderSimplexGeometry from '../geometries/CylinderSimplexGeometry';
-import GraphicsBuffers from '../resources/GraphicsBuffers';
-import IGraphicsBuffers from '../core/IGraphicsBuffers';
-import IGraphicsProgram from '../core/IGraphicsProgram';
+import GraphicsBuffers from '../scene/GraphicsBuffers';
+import ShareableWebGLProgram from '../core/ShareableWebGLProgram';
 import MeshLambertMaterial from '../materials/MeshLambertMaterial';
 import G3 from '../math/G3';
 import SphereGeometry from '../geometries/SphereGeometry';
@@ -58,19 +57,19 @@ class VisualCache {
         }
         return this.buffersMap[key];
     }
-    arrow(): IGraphicsBuffers {
+    arrow(): GraphicsBuffers {
         return this.ensureBuffers('arrow', arrow);
     }
-    box(): IGraphicsBuffers {
+    box(): GraphicsBuffers {
         return this.ensureBuffers('box', box);
     }
-    cylinder(): IGraphicsBuffers {
+    cylinder(): GraphicsBuffers {
         return this.ensureBuffers('cylinder', cylinder);
     }
-    sphere(): IGraphicsBuffers {
+    sphere(): GraphicsBuffers {
         return this.ensureBuffers('sphere', sphere);
     }
-    program(): IGraphicsProgram {
+    program(): ShareableWebGLProgram {
         if (this._program) {
             if (this._program.isZombie()) {
                 this._program = new MeshLambertMaterial();

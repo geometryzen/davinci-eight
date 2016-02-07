@@ -1,5 +1,5 @@
 import IKeyboardHandler from '../devices/IKeyboardHandler';
-import Shareable from '../utils/Shareable';
+import Shareable from '../core/Shareable';
 
 function makeKeyDownHandler(keyboard: Keyboard, handler: IKeyboardHandler) {
     return function(event: KeyboardEvent) {

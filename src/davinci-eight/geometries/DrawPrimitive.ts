@@ -1,9 +1,9 @@
-import Attribute from '../geometries/Attribute';
+import Attribute from '../core/Attribute';
 import DrawMode from '../core/DrawMode';
 import mustBeArray from '../checks/mustBeArray';
 import mustBeInteger from '../checks/mustBeInteger';
 import mustBeObject from '../checks/mustBeObject';
-import Primitive from '../geometries/Primitive';
+import Primitive from '../core/Primitive';
 
 /**
  * @class DrawPrimitive

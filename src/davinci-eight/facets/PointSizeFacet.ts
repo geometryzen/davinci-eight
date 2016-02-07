@@ -3,7 +3,7 @@ import FacetVisitor from '../core/FacetVisitor';
 import mustBeArray from '../checks/mustBeArray';
 import mustBeInteger from '../checks/mustBeInteger';
 import mustBeString from '../checks/mustBeString';
-import Shareable from '../utils/Shareable';
+import Shareable from '../core/Shareable';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
 
 const LOGGING_NAME = 'PointSizeFacet'

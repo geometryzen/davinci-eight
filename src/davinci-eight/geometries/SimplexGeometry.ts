@@ -8,7 +8,7 @@ import Simplex from '../geometries/Simplex';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
 import simplicesToDrawPrimitive from '../geometries/simplicesToDrawPrimitive';
 import simplicesToGeometryMeta from '../geometries/simplicesToGeometryMeta';
-import Primitive from '../geometries/Primitive';
+import Primitive from '../core/Primitive';
 import R1 from '../math/R1';
 import R3 from '../math/R3';
 import R2 from '../math/R2';

@@ -1,4 +1,4 @@
-import IContextConsumer from '../core/IContextConsumer';
+import IContextConsumer from './IContextConsumer';
 
 interface IContextCommand extends IContextConsumer {
 }

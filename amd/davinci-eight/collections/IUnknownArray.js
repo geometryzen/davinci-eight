@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../utils/Shareable'], function (require, exports, Shareable_1) {
+define(["require", "exports", '../core/Shareable'], function (require, exports, Shareable_1) {
     function transferOwnership(data) {
         if (data) {
             var result = new IUnknownArray(data);
@@ -35,6 +35,17 @@ define(["require", "exports", '../utils/Shareable'], function (require, exports,
             }
             this._elements = void 0;
             _super.prototype.destructor.call(this);
+        };
+        IUnknownArray.prototype.findOne = function (match) {
+            var elements = this._elements;
+            for (var i = 0, iLength = elements.length; i < iLength; i++) {
+                var candidate = elements[i];
+                if (match(candidate)) {
+                    candidate.addRef();
+                    return candidate;
+                }
+            }
+            return void 0;
         };
         IUnknownArray.prototype.get = function (index) {
             var element = this.getWeakRef(index);

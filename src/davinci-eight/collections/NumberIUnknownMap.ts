@@ -1,5 +1,5 @@
 import IUnknown from '../core/IUnknown';
-import Shareable from '../utils/Shareable';
+import Shareable from '../core/Shareable';
 
 // FIXME: Maybe use a dynamic flag implying JIT keys, otherwise recompute as we go along.
 

@@ -19,7 +19,7 @@
   "files": [
     "src/davinci-eight.ts",
     "src/davinci-eight/utils/EventEmitter.ts",
-    "src/davinci-eight/shaders/ShareableWebGLShader.ts",
+    "src/davinci-eight/core/ShareableWebGLShader.ts",
     "src/davinci-eight/math/Euclidean3.spec.ts",
     "typings/jasmine/jasmine.d.ts"
   ]

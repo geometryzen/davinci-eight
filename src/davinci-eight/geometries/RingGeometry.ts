@@ -3,7 +3,7 @@ import GridTopology from '../topologies/GridTopology';
 import IAxialGeometry from '../geometries/IAxialGeometry';
 import AxialGeometry from '../geometries/AxialGeometry';
 import mustBeBoolean from '../checks/mustBeBoolean';
-import Primitive from '../geometries/Primitive';
+import Primitive from '../core/Primitive';
 import R1 from '../math/R1';
 import R2 from '../math/R2';
 import G3 from '../math/G3';

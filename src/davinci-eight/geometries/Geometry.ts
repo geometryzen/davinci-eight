@@ -2,7 +2,7 @@ import CartesianE3 from '../math/CartesianE3';
 import IGeometry from '../geometries/IGeometry';
 import mustBeBoolean from '../checks/mustBeBoolean';
 import mustBeObject from '../checks/mustBeObject';
-import Primitive from '../geometries/Primitive';
+import Primitive from '../core/Primitive';
 import VectorE3 from '../math/VectorE3';
 
 /**

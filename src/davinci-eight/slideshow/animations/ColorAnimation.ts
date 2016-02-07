@@ -1,7 +1,7 @@
 import ColorRGBA from '../../core/ColorRGBA';
 import IAnimation from '../../slideshow/IAnimation';
 import IAnimationTarget from '../../slideshow/IAnimationTarget';
-import Shareable from '../../utils/Shareable';
+import Shareable from '../../core/Shareable';
 import Color from '../../core/Color';
 
 function loop(n: number, callback: (i: number) => void) {

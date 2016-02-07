@@ -5,7 +5,7 @@ import mustBeString from '../checks/mustBeString';
 import R2 from '../math/R2';
 import Mat2R from '../math/Mat2R';
 import readOnly from '../i18n/readOnly';
-import Shareable from '../utils/Shareable';
+import Shareable from '../core/Shareable';
 
 /**
  * @class ReflectionFacetE2

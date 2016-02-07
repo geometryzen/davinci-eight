@@ -1,9 +1,9 @@
 import FacetVisitor from '../core/FacetVisitor';
-import Frustum from 'davinci-eight/cameras/Frustum';
-import View from 'davinci-eight/cameras/View';
-import createView from 'davinci-eight/cameras/createView';
-import Mat4R from 'davinci-eight/math/Mat4R';
-import VectorE3 from 'davinci-eight/math/VectorE3';
+import Frustum from './Frustum';
+import View from './View';
+import createView from './createView';
+import Mat4R from '../math/Mat4R';
+import VectorE3 from '../math/VectorE3';
 import R1 from '../math/R1';
 import R3 from '../math/R3';
 
@@ -39,12 +39,6 @@ export default function createFrustum(viewMatrixName: string, projectionMatrixNa
         release(): number {
             refCount--
             return refCount;
-        },
-        get uuid(): string {
-            return ""
-        },
-        getProperty(name: string): number[] {
-            return void 0
         },
         setProperty(name: string, value: number[]): Frustum {
             return this;

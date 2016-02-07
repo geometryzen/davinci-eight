@@ -1,5 +1,5 @@
 import IUnknown from '../core/IUnknown';
-import Shareable from '../utils/Shareable';
+import Shareable from '../core/Shareable';
 
 /**
  * @class StringIUnknownMap

@@ -4,7 +4,7 @@ import G3 from '../math/G3';
 import R3 from '../math/R3';
 import SpinG3 from '../math/SpinG3';
 import readOnly from '../i18n/readOnly';
-import Shareable from '../utils/Shareable';
+import Shareable from '../core/Shareable';
 
 /**
  * @class ModelE3
@@ -62,7 +62,7 @@ export default class ModelE3 extends Shareable implements IAnimationTarget {
      * A collection of properties for Rigid Body Modeling.
      * </p>
      * <p>
-     * ModelE3 implements Facet required for manipulating a drawable object.
+     * ModelE3 implements Facet required for manipulating a composite object.
      * </p>
      * <p>
      * Constructs a ModelE3 at the origin and with unity attitude.

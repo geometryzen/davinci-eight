@@ -6,7 +6,7 @@ import IUnknownArray from '../collections/IUnknownArray';
 import mustBeDefined from '../checks/mustBeDefined';
 import mustBeString from '../checks/mustBeString';
 import NumberIUnknownMap from '../collections/NumberIUnknownMap';
-import Shareable from '../utils/Shareable';
+import Shareable from '../core/Shareable';
 import StringIUnknownMap from '../collections/StringIUnknownMap';
 
 /**

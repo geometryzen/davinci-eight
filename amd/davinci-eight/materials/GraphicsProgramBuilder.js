@@ -1,4 +1,4 @@
-define(["require", "exports", '../core/getAttribVarName', '../core/getUniformVarName', '../programs/glslAttribType', '../checks/mustBeInteger', '../checks/mustBeString', '../materials/SmartGraphicsProgram', '../programs/vColorRequired', '../programs/vLightRequired'], function (require, exports, getAttribVarName_1, getUniformVarName_1, glslAttribType_1, mustBeInteger_1, mustBeString_1, SmartGraphicsProgram_1, vColorRequired_1, vLightRequired_1) {
+define(["require", "exports", '../core/getAttribVarName', '../programs/glslAttribType', '../checks/mustBeInteger', '../checks/mustBeString', '../materials/SmartGraphicsProgram', '../programs/vColorRequired', '../programs/vLightRequired', '../programs/fragmentShader', '../programs/vertexShader'], function (require, exports, getAttribVarName_1, glslAttribType_1, mustBeInteger_1, mustBeString_1, SmartGraphicsProgram_1, vColorRequired_1, vLightRequired_1, fragmentShader_1, vertexShader_1) {
     function computeAttribParams(values) {
         var result = {};
         var keys = Object.keys(values);
@@ -11,18 +11,6 @@ define(["require", "exports", '../core/getAttribVarName', '../core/getUniformVar
             result[varName] = { glslType: glslAttribType_1.default(key, size) };
         }
         return result;
-    }
-    function updateUniformMeta(uniforms) {
-        uniforms.forEach(function (values) {
-            var keys = Object.keys(values);
-            var keysLength = keys.length;
-            for (var i = 0; i < keysLength; i++) {
-                var key = keys[i];
-                var uniform = values[key];
-                var varName = getUniformVarName_1.default(uniform, key);
-                this.uParams[varName] = { glslType: uniform.glslType };
-            }
-        });
     }
     var GraphicsProgramBuilder = (function () {
         function GraphicsProgramBuilder(primitive) {
@@ -50,11 +38,23 @@ define(["require", "exports", '../core/getAttribVarName', '../core/getUniformVar
             this.uParams[name] = { glslType: type };
             return this;
         };
-        GraphicsProgramBuilder.prototype.build = function (monitors) {
+        GraphicsProgramBuilder.prototype.build = function () {
             var aParams = computeAttribParams(this.aMeta);
             var vColor = vColorRequired_1.default(aParams, this.uParams);
             var vLight = vLightRequired_1.default(aParams, this.uParams);
-            return new SmartGraphicsProgram_1.default(aParams, this.uParams, vColor, vLight, monitors);
+            return new SmartGraphicsProgram_1.default(aParams, this.uParams, vColor, vLight);
+        };
+        GraphicsProgramBuilder.prototype.vertexShader = function () {
+            var aParams = computeAttribParams(this.aMeta);
+            var vColor = vColorRequired_1.default(aParams, this.uParams);
+            var vLight = vLightRequired_1.default(aParams, this.uParams);
+            return vertexShader_1.default(aParams, this.uParams, vColor, vLight);
+        };
+        GraphicsProgramBuilder.prototype.fragmentShader = function () {
+            var aParams = computeAttribParams(this.aMeta);
+            var vColor = vColorRequired_1.default(aParams, this.uParams);
+            var vLight = vLightRequired_1.default(aParams, this.uParams);
+            return fragmentShader_1.default(aParams, this.uParams, vColor, vLight);
         };
         return GraphicsProgramBuilder;
     })();

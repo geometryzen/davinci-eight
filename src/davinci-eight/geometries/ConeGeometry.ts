@@ -4,7 +4,7 @@ import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
 import GridTopology from '../topologies/GridTopology';
 import IAxialGeometry from '../geometries/IAxialGeometry';
 import mustBeBoolean from '../checks/mustBeBoolean';
-import Primitive from '../geometries/Primitive';
+import Primitive from '../core/Primitive';
 import R2 from '../math/R2';
 import R3 from '../math/R3';
 

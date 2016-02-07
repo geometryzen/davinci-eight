@@ -1,7 +1,7 @@
 import VectorE3 from '../../math/VectorE3';
 import IAnimation from '../../slideshow/IAnimation';
 import IAnimationTarget from '../../slideshow/IAnimationTarget';
-import Shareable from '../../utils/Shareable';
+import Shareable from '../../core/Shareable';
 import R3 from '../../math/R3';
 
 function loop(n: number, callback: (i: number) => void) {

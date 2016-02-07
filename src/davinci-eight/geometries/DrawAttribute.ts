@@ -1,4 +1,4 @@
-import Attribute from '../geometries/Attribute';
+import Attribute from '../core/Attribute';
 import mustBeArray from '../checks/mustBeArray';
 import mustBeInteger from '../checks/mustBeInteger';
 

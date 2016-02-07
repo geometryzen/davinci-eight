@@ -19,12 +19,6 @@ define(["require", "exports", '../cameras/createView', '../math/Mat4R', '../core
                 refCount--;
                 return refCount;
             },
-            get uuid() {
-                return "";
-            },
-            getProperty: function (name) {
-                return void 0;
-            },
             setProperty: function (name, value) {
                 return self;
             },

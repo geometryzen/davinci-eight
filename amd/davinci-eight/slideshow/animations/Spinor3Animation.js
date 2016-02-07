@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../../utils/Shareable', '../../math/SpinG3'], function (require, exports, Shareable_1, SpinG3_1) {
+define(["require", "exports", '../../core/Shareable', '../../math/SpinG3'], function (require, exports, Shareable_1, SpinG3_1) {
     function loop(n, callback) {
         for (var i = 0; i < n; ++i) {
             callback(i);

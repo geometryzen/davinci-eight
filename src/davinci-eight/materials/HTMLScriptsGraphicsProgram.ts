@@ -1,37 +1,36 @@
-import IContextProvider from '../core/IContextProvider';
-import IContextMonitor from '../core/IContextMonitor';
-import IGraphicsProgram from '../core/IGraphicsProgram';
-import GraphicsProgram from '../materials/GraphicsProgram';
-import MonitorList from '../scene/MonitorList';
-import mustSatisfy from '../checks/mustSatisfy';
-import programFromScripts from '../programs/programFromScripts';
+import mustBeObject from '../checks/mustBeObject';
+import mustBeString from '../checks/mustBeString';
+import ShareableWebGLProgram from '../core/ShareableWebGLProgram';
+
+function $(id: string, dom: Document): HTMLElement {
+    const element = dom.getElementById(mustBeString('id', id))
+    if (element) {
+        return element;
+    }
+    else {
+        throw new Error(id + " is not a valid DOM element identifier.");
+    }
+}
+
+function vertexShader(scriptIds: string[], dom: Document): string {
+    const vsId = scriptIds[0]
+    mustBeString('vsId', vsId)
+    mustBeObject('dom', dom)
+    return $(vsId, dom).textContent;
+}
+
+function fragmentShader(scriptIds: string[], dom: Document): string {
+    const fsId = scriptIds[1]
+    mustBeString('fsId', fsId)
+    mustBeObject('dom', dom)
+    return $(fsId, dom).textContent;
+}
 
 /**
  * @class HTMLScriptsGraphicsProgram
  * @extends GraphicsProgram
  */
-export default class HTMLScriptsGraphicsProgram extends GraphicsProgram {
-
-    /**
-     * The identifiers of the HTML &lt;script&gt; tags containing the shader code.
-     * @property scriptIds
-     * @type {Array&lt;string&gt;}
-     */
-    public scriptIds: string[];
-
-    /**
-     * @property dom
-     * @type {Document}
-     */
-    public dom: Document;
-
-    /**
-     * An ordered list of names of program attributes implicitly specifying the index bindings.
-     * @property attributeBindings
-     * @type {Array&lt;string&gt;}
-     */
-    public attributeBindings: string[] = [];
-
+export default class HTMLScriptsGraphicsProgram extends ShareableWebGLProgram {
     /**
      * @class HTMLScriptsGraphicsProgram
      * @constructor
@@ -39,22 +38,7 @@ export default class HTMLScriptsGraphicsProgram extends GraphicsProgram {
      * @param scriptIds {string[]}
      * @param dom {Document}
      */
-    constructor(scriptIds: string[] = [], dom: Document = document, monitors?: IContextMonitor[]) {
-        super('HTMLScriptsGraphicsProgram', monitors);
-        // For now, we limit the implementation to only a vertex shader and a fragment shader.
-        mustSatisfy('scriptIds', scriptIds.length === 2, () => { return "scriptIds must be [vsId, fsId]"; });
-        this.scriptIds = scriptIds.map(function(scriptId) { return scriptId });
-        this.dom = dom;
-    }
-
-    /**
-     * @method createGraphicsProgram
-     * @return {IGraphicsProgram}
-     * @protected
-     */
-    protected createGraphicsProgram(): IGraphicsProgram {
-        let vsId = this.scriptIds[0]
-        let fsId = this.scriptIds[1]
-        return programFromScripts(this.monitors, vsId, fsId, this.dom, this.attributeBindings)
+    constructor(scriptIds: string[] = [], dom: Document = document) {
+        super(vertexShader(scriptIds, dom), fragmentShader(scriptIds, dom));
     }
 }

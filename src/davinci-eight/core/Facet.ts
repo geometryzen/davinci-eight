@@ -1,14 +1,11 @@
-import IAnimationTarget from '../slideshow/IAnimationTarget';
-import FacetVisitor from '../core/FacetVisitor';
-import IUnknown from '../core/IUnknown';
+import FacetVisitor from './FacetVisitor';
+import IUnknown from './IUnknown';
 
 /**
  * @class Facet
- * @extends IAnimationTarget
  * @extends IUnknown
  */
-// FIXME: Does not need to extend IAnimationTarget
-interface Facet extends IAnimationTarget, IUnknown {
+interface Facet extends IUnknown {
     /**
      * @method setUniforms
      * @param visitor {FacetVisitor}
@@ -20,7 +17,7 @@ interface Facet extends IAnimationTarget, IUnknown {
      * @method setProperty
      * @param name {string}
      * @param value {number[]}
-     * @return {IAnimationTarget}
+     * @return {Facet}
      * @chainable
      */
     setProperty(name: string, value: number[]): Facet;

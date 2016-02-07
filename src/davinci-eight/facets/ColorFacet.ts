@@ -1,12 +1,11 @@
 import Color from '../core/Color';
 import core from '../core';
 import mustBeNumber from '../checks/mustBeNumber';
-import Shareable from '../utils/Shareable';
+import Shareable from '../core/Shareable';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
 import Facet from '../core/Facet';
 import FacetVisitor from '../core/FacetVisitor';
 import IAnimationTarget from '../slideshow/IAnimationTarget';
-import IUnknownExt from '../core/IUnknownExt';
 
 const COORD_R = 0
 const COORD_G = 1
@@ -39,7 +38,7 @@ function checkPropertyName(name: string): void {
 /**
  * @class ColorFacet
  */
-export default class ColorFacet extends Shareable implements Facet, IAnimationTarget, IUnknownExt<ColorFacet> {
+export default class ColorFacet extends Shareable implements Facet, IAnimationTarget {
     /**
      * property PROP_RGB
      * @type {string}
@@ -129,16 +128,6 @@ export default class ColorFacet extends Shareable implements Facet, IAnimationTa
     protected destructor(): void {
         this.color = void 0
         super.destructor()
-    }
-
-    incRef(): ColorFacet {
-        this.addRef()
-        return this
-    }
-
-    decRef(): ColorFacet {
-        this.release()
-        return this
     }
 
     /**

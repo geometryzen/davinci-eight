@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../core/Color', '../core', '../checks/mustBeNumber', '../utils/Shareable', '../core/GraphicsProgramSymbols'], function (require, exports, Color_1, core_1, mustBeNumber_1, Shareable_1, GraphicsProgramSymbols_1) {
+define(["require", "exports", '../core/Color', '../core', '../checks/mustBeNumber', '../core/Shareable', '../core/GraphicsProgramSymbols'], function (require, exports, Color_1, core_1, mustBeNumber_1, Shareable_1, GraphicsProgramSymbols_1) {
     var COORD_R = 0;
     var COORD_G = 1;
     var COORD_B = 2;
@@ -42,14 +42,6 @@ define(["require", "exports", '../core/Color', '../core', '../checks/mustBeNumbe
         ColorFacet.prototype.destructor = function () {
             this.color = void 0;
             _super.prototype.destructor.call(this);
-        };
-        ColorFacet.prototype.incRef = function () {
-            this.addRef();
-            return this;
-        };
-        ColorFacet.prototype.decRef = function () {
-            this.release();
-            return this;
         };
         Object.defineProperty(ColorFacet.prototype, "r", {
             get: function () {

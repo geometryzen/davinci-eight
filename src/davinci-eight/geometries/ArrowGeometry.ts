@@ -4,7 +4,7 @@ import CylinderGeometry from '../geometries/CylinderGeometry';
 import AxialGeometry from '../geometries/AxialGeometry';
 import IAxialGeometry from '../geometries/IAxialGeometry';
 import mustBeBoolean from '../checks/mustBeBoolean';
-import Primitive from '../geometries/Primitive';
+import Primitive from '../core/Primitive';
 import RingGeometry from '../geometries/RingGeometry';
 import R3 from '../math/R3';
 

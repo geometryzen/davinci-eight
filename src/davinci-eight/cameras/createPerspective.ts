@@ -46,12 +46,6 @@ export default function createPerspective(options?: { fov?: number; aspect?: num
             refCount--
             return refCount;
         },
-        get uuid(): string {
-            return ""
-        },
-        getProperty(name: string): number[] {
-            return void 0
-        },
         setProperty(name: string, value: number[]): Perspective {
             return self;
         },

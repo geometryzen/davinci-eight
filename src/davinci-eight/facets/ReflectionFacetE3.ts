@@ -6,7 +6,7 @@ import mustBeString from '../checks/mustBeString';
 import R3 from '../math/R3';
 import Mat4R from '../math/Mat4R';
 import readOnly from '../i18n/readOnly';
-import Shareable from '../utils/Shareable';
+import Shareable from '../core/Shareable';
 
 /**
  * @class ReflectionFacetE3

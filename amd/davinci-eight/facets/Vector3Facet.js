@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../checks/mustBeObject', '../checks/mustBeString', '../utils/Shareable'], function (require, exports, mustBeObject_1, mustBeString_1, Shareable_1) {
+define(["require", "exports", '../checks/mustBeObject', '../checks/mustBeString', '../core/Shareable'], function (require, exports, mustBeObject_1, mustBeString_1, Shareable_1) {
     var LOGGING_NAME = 'Vector3Facet';
     function contextBuilder() {
         return LOGGING_NAME;

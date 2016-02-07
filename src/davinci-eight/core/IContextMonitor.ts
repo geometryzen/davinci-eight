@@ -4,7 +4,6 @@ import IUnknown from '../core/IUnknown';
 // FIXME: Merge into IContextProvider
 /**
  * @class IContextMonitor
- * @extends ContextUnique
  * @extends IUnknown
  */
 interface IContextMonitor extends IUnknown {

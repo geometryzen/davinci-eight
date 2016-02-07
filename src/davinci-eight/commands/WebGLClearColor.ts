@@ -1,7 +1,7 @@
 import IContextProvider from '../core/IContextProvider';
 import IContextCommand from '../core/IContextCommand';
 import mustBeNumber from '../checks/mustBeNumber';
-import Shareable from '../utils/Shareable';
+import Shareable from '../core/Shareable';
 
 /**
  * <p>

@@ -4,7 +4,7 @@ import ISlide from '../slideshow/ISlide';
 
 import ISlideCommand from '../slideshow/ISlideCommand';
 import IUnknownArray from '../collections/IUnknownArray';
-import Shareable from '../utils/Shareable';
+import Shareable from '../core/Shareable';
 
 import ColorRGB from '../core/ColorRGB';
 import ColorAnimation from '../slideshow/animations/ColorAnimation';

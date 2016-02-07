@@ -6,7 +6,7 @@ import ISlideCommand from '../slideshow/ISlideCommand';
 import IUnknown from '../core/IUnknown';
 import IUnknownArray from '../collections/IUnknownArray';
 import mustBeNumber from '../checks/mustBeNumber';
-import Shareable from '../utils/Shareable';
+import Shareable from '../core/Shareable';
 import SlideCommands from '../slideshow/SlideCommands';
 import StringIUnknownMap from '../collections/StringIUnknownMap';
 import WaitAnimation from '../slideshow/animations/WaitAnimation';

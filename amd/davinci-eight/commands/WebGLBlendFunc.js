@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../commands/BlendFactor', '../utils/Shareable'], function (require, exports, BlendFactor_1, Shareable_1) {
+define(["require", "exports", '../commands/BlendFactor', '../core/Shareable'], function (require, exports, BlendFactor_1, Shareable_1) {
     var factors = [
         BlendFactor_1.default.DST_ALPHA,
         BlendFactor_1.default.DST_COLOR,

@@ -2,7 +2,7 @@ import mustSatisfy from '../checks/mustSatisfy';
 import isDefined from '../checks/isDefined';
 
 function beDefined() {
-    return "not be be `undefined`"
+    return "not be 'undefined'"
 }
 
 export default function mustBeDefined(name: string, value: any, contextBuilder?: () => string): any {

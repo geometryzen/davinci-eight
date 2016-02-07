@@ -1,6 +1,6 @@
 import IContextCommand from '../core/IContextCommand';
 import IContextProvider from '../core/IContextProvider';
-import Shareable from '../utils/Shareable';
+import Shareable from '../core/Shareable';
 
 let QUALIFIED_NAME = 'EIGHT.VersionLogger'
 

@@ -7,7 +7,7 @@ import mustBeBoolean from '../checks/mustBeBoolean';
 import mustBeNumber from '../checks/mustBeNumber';
 import R1 from '../math/R1';
 import SpinG3 from '../math/SpinG3';
-import Primitive from '../geometries/Primitive';
+import Primitive from '../core/Primitive';
 import R2 from '../math/R2';
 import R3 from '../math/R3';
 

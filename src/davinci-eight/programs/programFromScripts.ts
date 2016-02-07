@@ -1,31 +1,23 @@
-import createGraphicsProgram from '../programs/createGraphicsProgram';
-import IGraphicsProgram from '../core/IGraphicsProgram';
-import IContextMonitor from '../core/IContextMonitor';
-import MonitorList from '../scene/MonitorList';
 import mustBeObject from '../checks/mustBeObject';
 import mustBeString from '../checks/mustBeString';
-
-// FIXME: Lists of scripts, using the type to distinguish vertex/fragment?
+import ShareableWebGLProgram from '../core/ShareableWebGLProgram';
 
 /**
- * Helper function for creating a <code>IGraphicsProgram</code> from HTML script element content.
+ * Helper function for creating a <code>ShareableWebGLProgram</code> from HTML script element content.
  * Parameters:
- * monitors
  * vsId The vertex shader script element identifier.
  * fsId The fragment shader script element identifier.
- * domDocument The DOM document containing the script elements.
+ * dom The DOM document containing the script elements.
  * [attribs = []] The attribute indices (implied by order of the name in the array).
  */
-export default function programFromScripts(monitors: IContextMonitor[], vsId: string, fsId: string, domDocument: Document, attribs: string[] = []): IGraphicsProgram {
-    MonitorList.verify('monitors', monitors, () => { return "programFromScripts"; })
+export default function programFromScripts(vsId: string, fsId: string, dom: Document, attribs: string[] = []): ShareableWebGLProgram {
     mustBeString('vsId', vsId)
     mustBeString('fsId', fsId)
-    // We have used a special  
-    mustBeObject('domDocument', domDocument)
+    mustBeObject('dom', dom)
 
-    // shortcut function for getElementById, capturing the domDocument parameter value (argument value).
+    // shortcut function for getElementById, capturing the dom parameter value (argument value).
     function $(id: string): HTMLElement {
-        let element = domDocument.getElementById(mustBeString('id', id))
+        let element = dom.getElementById(mustBeString('id', id))
         if (element) {
             return element;
         }
@@ -34,7 +26,7 @@ export default function programFromScripts(monitors: IContextMonitor[], vsId: st
         }
     }
 
-    let vertexShader: string = $(vsId).textContent;
-    let fragmentShader: string = $(fsId).textContent;
-    return createGraphicsProgram(monitors, vertexShader, fragmentShader, attribs);
+    const vertexShader: string = $(vsId).textContent;
+    const fragmentShader: string = $(fsId).textContent;
+    return new ShareableWebGLProgram(vertexShader, fragmentShader, attribs);
 }

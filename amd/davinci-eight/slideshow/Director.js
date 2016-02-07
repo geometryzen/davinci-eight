@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../slideshow/Slide', '../collections/IUnknownArray', '../utils/Shareable'], function (require, exports, Slide_1, IUnknownArray_1, Shareable_1) {
+define(["require", "exports", '../slideshow/Slide', '../collections/IUnknownArray', '../core/Shareable'], function (require, exports, Slide_1, IUnknownArray_1, Shareable_1) {
     var Director = (function (_super) {
         __extends(Director, _super);
         function Director() {

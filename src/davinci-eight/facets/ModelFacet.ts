@@ -1,7 +1,6 @@
 import Facet from '../core/Facet';
 import FacetVisitor from '../core/FacetVisitor';
 import IAnimationTarget from '../slideshow/IAnimationTarget';
-import IUnknownExt from '../core/IUnknownExt';
 import Mat3R from '../math/Mat3R';
 import Mat4R from '../math/Mat4R';
 import ModelE3 from '../models/ModelE3';
@@ -14,11 +13,10 @@ import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
 /**
  * @class ModelFacet
  */
-export default class ModelFacet extends ModelE3 implements Facet, IAnimationTarget, IUnknownExt<ModelFacet> {
-    // FIXME: Make this scale so that we can be geometric?
+export default class ModelFacet extends ModelE3 implements Facet, IAnimationTarget {
+
     public static PROP_SCALEXYZ = 'scaleXYZ';
 
-    // FIXME: I don't like this non-geometric scaling.
     private _scaleXYZ: R3 = new R3([1, 1, 1]);
     private matM = Mat4R.one();
     private matN = Mat3R.one();
@@ -30,11 +28,11 @@ export default class ModelFacet extends ModelE3 implements Facet, IAnimationTarg
      * A collection of properties governing GLSL uniforms for Rigid Body Modeling.
      * </p>
      * <p>
-     * In Physics, the drawable object may represent a rigid body.
-     * In Computer Graphics, the drawable object is a collection of drawing primitives.
+     * In Physics, the composite object may represent a rigid body.
+     * In Computer Graphics, the composite object is a collection of drawing primitives.
      * </p>
      * <p>
-     * ModelFacet implements Facet required for manipulating a drawable object.
+     * ModelFacet implements Facet required for manipulating a composite object.
      * </p>
      * <p>
      * Constructs a ModelFacet at the origin and with unity attitude.
@@ -112,25 +110,5 @@ export default class ModelFacet extends ModelE3 implements Facet, IAnimationTarg
         mustBeArray('data', data);
         super.setProperty(name, data);
         return this;
-    }
-
-    /**
-     * @method incRef
-     * @return {ModelFacet}
-     * @chainable
-     */
-    incRef(): ModelFacet {
-        this.addRef()
-        return this
-    }
-
-    /**
-     * @method decRef
-     * @return {ModelFacet}
-     * @chainable
-     */
-    decRef(): ModelFacet {
-        this.release()
-        return this
     }
 }

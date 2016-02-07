@@ -48,9 +48,9 @@ import Curve from 'davinci-eight/curves/Curve';
 // devices
 import Keyboard from 'davinci-eight/devices/Keyboard';
 // geometries
-import Attribute from 'davinci-eight/geometries/Attribute';
+import Attribute from 'davinci-eight/core/Attribute';
 import DrawAttribute from 'davinci-eight/geometries/DrawAttribute';
-import Primitive from 'davinci-eight/geometries/Primitive';
+import Primitive from 'davinci-eight/core/Primitive';
 import DrawPrimitive from 'davinci-eight/geometries/DrawPrimitive';
 import Simplex from 'davinci-eight/geometries/Simplex';
 import Vertex from 'davinci-eight/geometries/Vertex';
@@ -71,7 +71,7 @@ import MeshTopology from 'davinci-eight/topologies/MeshTopology';
 import GridTopology from 'davinci-eight/topologies/GridTopology';
 // scene
 import IDrawList from 'davinci-eight/scene/IDrawList';
-import Drawable from 'davinci-eight/scene/Drawable';
+import Composite from 'davinci-eight/scene/Composite';
 import Scene from 'davinci-eight/scene/Scene';
 import WebGLRenderer from 'davinci-eight/scene/WebGLRenderer';
 // geometries
@@ -104,12 +104,10 @@ import TextSimplexGeometry from 'davinci-eight/geometries/TextSimplexGeometry';
 import VortexSimplexGeometry from 'davinci-eight/geometries/VortexSimplexGeometry';
 import arc3 from 'davinci-eight/geometries/arc3';
 // programs
-import createGraphicsProgram from 'davinci-eight/programs/createGraphicsProgram';
 import smartProgram from 'davinci-eight/programs/smartProgram';
 import programFromScripts from 'davinci-eight/programs/programFromScripts';
 
 // materials
-import GraphicsProgram from 'davinci-eight/materials/GraphicsProgram';
 import HTMLScriptsGraphicsProgram from 'davinci-eight/materials/HTMLScriptsGraphicsProgram';
 import LineMaterial from 'davinci-eight/materials/LineMaterial';
 import MeshMaterial from 'davinci-eight/materials/MeshMaterial';
@@ -171,13 +169,11 @@ import ModelE2 from 'davinci-eight/models/ModelE2';
 import ModelE3 from 'davinci-eight/models/ModelE3';
 
 // programs
-import IGraphicsBuffers from 'davinci-eight/core/IGraphicsBuffers';
-import IGraphicsProgram from 'davinci-eight/core/IGraphicsProgram';
-import GraphicsBuffers from 'davinci-eight/resources/GraphicsBuffers';
+import ShareableWebGLProgram from 'davinci-eight/core/ShareableWebGLProgram';
+import GraphicsBuffers from 'davinci-eight/scene/GraphicsBuffers';
 
-// renderers
-import IContextRenderer from 'davinci-eight/renderers/IContextRenderer';
-import initWebGL from 'davinci-eight/renderers/initWebGL';
+// scene
+import initWebGL from 'davinci-eight/scene/initWebGL';
 
 // utils
 import Framerate from 'davinci-eight/utils/Framerate';
@@ -185,19 +181,16 @@ import getCanvasElementById from 'davinci-eight/utils/getCanvasElementById';
 import IUnknownArray from 'davinci-eight/collections/IUnknownArray';
 import loadImageTexture from 'davinci-eight/utils/loadImageTexture';
 import NumberIUnknownMap from 'davinci-eight/collections/NumberIUnknownMap';
-import refChange from 'davinci-eight/utils/refChange';
-import Shareable from 'davinci-eight/utils/Shareable';
+import refChange from 'davinci-eight/core/refChange';
+import Shareable from 'davinci-eight/core/Shareable';
 import StringIUnknownMap from 'davinci-eight/collections/StringIUnknownMap';
 import WindowAnimationRunner from 'davinci-eight/utils/WindowAnimationRunner';
 import animation from 'davinci-eight/utils/animation';
 
 // visual
-import arrow from 'davinci-eight/visual/createArrow';
-import box from 'davinci-eight/visual/createBox';
-import cylinder from 'davinci-eight/visual/createCylinder';
-import sphere from 'davinci-eight/visual/createSphere';
 import vector from 'davinci-eight/visual/vector';
-
+import RigidBody from 'davinci-eight/visual/RigidBody';
+import Ball from 'davinci-eight/visual/Ball';
 /**
  * @module EIGHT
  */
@@ -257,7 +250,6 @@ var eight = {
     // TODO: Arrange in alphabetical order in order to assess width of API.
     // materials
     get HTMLScriptsGraphicsProgram() { return HTMLScriptsGraphicsProgram },
-    get GraphicsProgram() { return GraphicsProgram },
     get LineMaterial() { return LineMaterial },
     get MeshMaterial() { return MeshMaterial },
     get MeshLambertMaterial() { return MeshLambertMaterial },
@@ -287,7 +279,7 @@ var eight = {
     get perspectiveMatrix() { return perspectiveMatrix },
     get viewMatrix() { return viewMatrix },
     get Scene() { return Scene },
-    get Drawable() { return Drawable },
+    get Composite() { return Composite },
     get PerspectiveCamera() { return PerspectiveCamera },
     get getCanvasElementById() { return getCanvasElementById },
     get WebGLRenderer() { return WebGLRenderer },
@@ -295,9 +287,6 @@ var eight = {
     get DrawMode() { return DrawMode },
     get AttribLocation() { return AttribLocation },
     get UniformLocation() { return UniformLocation },
-    get createGraphicsProgram() {
-        return createGraphicsProgram
-    },
     get smartProgram() {
         return smartProgram
     },
@@ -392,10 +381,8 @@ var eight = {
     get sinh() { return mathcore.sinh },
     get sqrt() { return mathcore.sqrt },
     // visual
-    get arrow() { return arrow },
-    get box() { return box },
-    get cylinder() { return cylinder },
-    get sphere() { return sphere },
+    get RigidBody() { return RigidBody },
+    get Ball() { return Ball },
     get vector() { return vector }
 }
 export default eight;

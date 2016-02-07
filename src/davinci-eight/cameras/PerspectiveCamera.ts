@@ -1,12 +1,12 @@
 import IContextProvider from '../core/IContextProvider';
-import IGraphicsProgram from '../core/IGraphicsProgram';
+import ShareableWebGLProgram from '../core/ShareableWebGLProgram';
 import createPerspective from '../cameras/createPerspective';
 import readOnly from '../i18n/readOnly';
 import mustBeObject from '../checks/mustBeObject';
 import mustBeNumber from '../checks/mustBeNumber';
 import mustBeString from '../checks/mustBeString';
 import Perspective from '../cameras/Perspective';
-import Shareable from '../utils/Shareable';
+import Shareable from '../core/Shareable';
 import Facet from '../core/Facet';
 import FacetVisitor from '../core/FacetVisitor';
 import R3 from '../math/R3';
@@ -29,9 +29,9 @@ export default class PerspectiveCamera extends Shareable implements Perspective,
 
     /**
      * @property material
-     * @type {IGraphicsProgram}
+     * @type {ShareableWebGLProgram}
      */
-    public material: IGraphicsProgram;
+    public material: ShareableWebGLProgram;
 
     /**
      * @property name

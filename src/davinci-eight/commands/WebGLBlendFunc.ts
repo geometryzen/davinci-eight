@@ -1,7 +1,7 @@
 import BlendFactor from '../commands/BlendFactor';
 import IContextProvider from '../core/IContextProvider';
 import IContextCommand from '../core/IContextCommand';
-import Shareable from '../utils/Shareable';
+import Shareable from '../core/Shareable';
 
 var factors = [
     BlendFactor.DST_ALPHA,

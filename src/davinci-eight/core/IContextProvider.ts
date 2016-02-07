@@ -1,10 +1,9 @@
-import IContextConsumer from '../core/IContextConsumer';
-import IContextMonitor from '../core/IContextMonitor';
-import IBuffer from '../core/IBuffer';
-import IBufferGeometry from '../geometries/IBufferGeometry';
-import ITexture2D from '../core/ITexture2D';
-import ITextureCubeMap from '../core/ITextureCubeMap';
-import Primitive from '../geometries/Primitive';
+import IContextConsumer from './IContextConsumer';
+import IContextMonitor from './IContextMonitor';
+import ShareableWebGLBuffer from './ShareableWebGLBuffer';
+import ShareableWebGLTexture from './ShareableWebGLTexture';
+import IBufferGeometry from './IBufferGeometry';
+import Primitive from './Primitive';
 
 /**
  * @class IContextProvider
@@ -35,9 +34,9 @@ interface IContextProvider extends IContextMonitor {
 
     /**
      * @method createArrayBuffer
-     * @return {IBuffer}
+     * @return {ShareableWebGLBuffer}
      */
-    createArrayBuffer(): IBuffer;
+    createArrayBuffer(): ShareableWebGLBuffer;
 
     /**
      * @method createBufferGeometry
@@ -49,21 +48,21 @@ interface IContextProvider extends IContextMonitor {
 
     /**
      * @method createElementArrayBuffer
-     * @return {IBuffer}
+     * @return {ShareableWebGLBuffer}
      */
-    createElementArrayBuffer(): IBuffer;
+    createElementArrayBuffer(): ShareableWebGLBuffer;
 
     /**
      * @method createTexture2D
-     * @return {ITexture2D}
+     * @return {ShareableWebGLTexture}
      */
-    createTexture2D(): ITexture2D;
+    createTexture2D(): ShareableWebGLTexture;
 
     /**
      * @method createTextureCubeMap
-     * @return {ITextureCubeMap}
+     * @return {ShareableWebGLTexture}
      */
-    createTextureCubeMap(): ITextureCubeMap;
+    createTextureCubeMap(): ShareableWebGLTexture;
 
     /**
      * @method removeContextListener

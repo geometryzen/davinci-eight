@@ -1,4 +1,4 @@
-import Attribute from '../geometries/Attribute';
+import Attribute from '../core/Attribute';
 import copyToArray from '../collections/copyToArray';
 import dataFromVectorN from '../geometries/dataFromVectorN';
 import DrawAttribute from '../geometries/DrawAttribute';
@@ -8,7 +8,7 @@ import simplicesToGeometryMeta from '../geometries/simplicesToGeometryMeta';
 import computeUniqueVertices from '../geometries/computeUniqueVertices';
 import expectArg from '../checks/expectArg';
 import GeometryMeta from '../geometries/GeometryMeta';
-import Primitive from '../geometries/Primitive';
+import Primitive from '../core/Primitive';
 import Simplex from '../geometries/Simplex';
 import VectorN from '../math/VectorN';
 import Vertex from '../geometries/Vertex';

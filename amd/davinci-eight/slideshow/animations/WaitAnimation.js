@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../../utils/Shareable'], function (require, exports, Shareable_1) {
+define(["require", "exports", '../../core/Shareable'], function (require, exports, Shareable_1) {
     var WaitAnimation = (function (_super) {
         __extends(WaitAnimation, _super);
         function WaitAnimation(duration) {

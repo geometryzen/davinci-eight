@@ -1,4 +1,3 @@
-import BufferResource from '../core/BufferResource';
 import Capability from '../commands/Capability';
 import DrawMode from '../core/DrawMode';
 import Facet from '../core/Facet';
@@ -7,16 +6,13 @@ import ContextController from '../core/ContextController';
 import IContextProvider from '../core/IContextProvider';
 import IContextMonitor from '../core/IContextMonitor';
 import IContextConsumer from '../core/IContextConsumer';
-import IContextRenderer from '../renderers/IContextRenderer';
-import IBuffer from '../core/IBuffer';
+import ShareableWebGLBuffer from '../core/ShareableWebGLBuffer';
 import IContextCommand from '../core/IContextCommand';
-import IBufferGeometry from '../geometries/IBufferGeometry';
+import IBufferGeometry from '../core/IBufferGeometry';
 import IDrawList from '../scene/IDrawList';
-import IGraphicsProgram from '../core/IGraphicsProgram';
-import ITexture2D from '../core/ITexture2D';
-import ITextureCubeMap from '../core/ITextureCubeMap';
+import ShareableWebGLProgram from '../core/ShareableWebGLProgram';
 import IUnknownArray from '../collections/IUnknownArray';
-import initWebGL from '../renderers/initWebGL';
+import initWebGL from './initWebGL';
 import isDefined from '../checks/isDefined';
 import isUndefined from '../checks/isUndefined';
 import mustBeArray from '../checks/mustBeArray';
@@ -26,11 +22,11 @@ import mustBeNumber from '../checks/mustBeNumber';
 import mustBeObject from '../checks/mustBeObject';
 import mustBeString from '../checks/mustBeString';
 import mustSatisfy from '../checks/mustSatisfy';
-import Primitive from '../geometries/Primitive';
+import Primitive from '../core/Primitive';
 import readOnly from '../i18n/readOnly';
-import Shareable from '../utils/Shareable';
+import Shareable from '../core/Shareable';
 import StringIUnknownMap from '../collections/StringIUnknownMap';
-import TextureResource from '../resources/TextureResource';
+import ShareableWebGLTexture from '../core/ShareableWebGLTexture';
 import WebGLClearColor from '../commands/WebGLClearColor';
 import WebGLEnable from '../commands/WebGLEnable';
 import WebGLDisable from '../commands/WebGLDisable';
@@ -133,7 +129,7 @@ class DrawElementsCommand {
 /**
  * A tuple containing (indexBuffer, attributes, drawCommand).
  */
-class ElementsBlock extends Shareable {
+class ElementsBlock extends Shareable implements IContextConsumer {
 
     /**
      * Mapping from attribute name to a data structure describing and containing a buffer.
@@ -144,7 +140,7 @@ class ElementsBlock extends Shareable {
      * The buffer containing element indices used in the drawElements command.
      * We keep the index buffer private to avoid unnecessary addRef() and release() calls.
      */
-    private _indexBuffer: IBuffer;
+    private _indexBuffer: ShareableWebGLBuffer;
 
     /**
      * An executable command. May be a call to drawElements or drawArrays.
@@ -154,7 +150,7 @@ class ElementsBlock extends Shareable {
     /**
      *
      */
-    constructor(indexBuffer: IBuffer, attributes: StringIUnknownMap<ElementsBlockAttrib>, drawCommand: DrawElementsCommand) {
+    constructor(indexBuffer: ShareableWebGLBuffer, attributes: StringIUnknownMap<ElementsBlockAttrib>, drawCommand: DrawElementsCommand) {
         super('ElementsBlock')
         this._indexBuffer = indexBuffer
         this._indexBuffer.addRef()
@@ -169,6 +165,27 @@ class ElementsBlock extends Shareable {
         this._indexBuffer.release()
         this._indexBuffer = void 0
         super.destructor()
+    }
+
+    contextFree(context: IContextProvider): void {
+        this._indexBuffer.contextFree(context)
+        this._attributes.forEach((key, attribute) => {
+            attribute.contextFree(context)
+        })
+    }
+
+    contextGain(context: IContextProvider): void {
+        this._indexBuffer.contextGain(context)
+        this._attributes.forEach((key, attribute) => {
+            attribute.contextGain(context)
+        })
+    }
+
+    contextLost(): void {
+        this._indexBuffer.contextLost()
+        this._attributes.forEach((key, attribute) => {
+            attribute.contextLost()
+        })
     }
 
     /**
@@ -194,16 +211,16 @@ class ElementsBlock extends Shareable {
 /**
  * Keeps track of the buffer and metadata associated with an 'attribute' variable.
  */
-class ElementsBlockAttrib extends Shareable {
+class ElementsBlockAttrib extends Shareable implements IContextConsumer {
     /**
      * The buffer is a shared resource
      */
-    private _buffer: IBuffer;
+    private _buffer: ShareableWebGLBuffer;
     public size: number;
     public normalized: boolean;
     public stride: number;
     public offset: number;
-    constructor(buffer: IBuffer, size: number, normalized: boolean, stride: number, offset: number) {
+    constructor(buffer: ShareableWebGLBuffer, size: number, normalized: boolean, stride: number, offset: number) {
         super('ElementsBlockAttrib')
         this._buffer = buffer;
         this._buffer.addRef();
@@ -221,6 +238,19 @@ class ElementsBlockAttrib extends Shareable {
         this.offset = void 0;
         super.destructor();
     }
+
+    contextFree(context: IContextProvider): void {
+        this._buffer.contextFree(context)
+    }
+
+    contextGain(context: IContextProvider): void {
+        this._buffer.contextGain(context)
+    }
+
+    contextLost(): void {
+        this._buffer.contextLost()
+    }
+
     get buffer() {
         this._buffer.addRef();
         return this._buffer;
@@ -237,7 +267,7 @@ function messageUnrecognizedMesh(uuid: string): string {
 
 function attribKey(aName: string, aNameToKeyName?: { [aName: string]: string }): string {
     if (aNameToKeyName) {
-        let key = aNameToKeyName[aName];
+        const key = aNameToKeyName[aName];
         return key ? key : aName;
     }
     else {
@@ -248,15 +278,15 @@ function attribKey(aName: string, aNameToKeyName?: { [aName: string]: string }):
 /**
  *
  */
-function bindProgramAttribLocations(program: IGraphicsProgram, block: ElementsBlock, aNameToKeyName: { [name: string]: string }) {
-    // FIXME: This is where we get the IGraphicsProgram attributes property.
+function bindProgramAttribLocations(program: ShareableWebGLProgram, block: ElementsBlock, aNameToKeyName: { [name: string]: string }) {
+    // FIXME: This is where we get the ShareableWebGLProgram attributes property.
     // FIXME: Can we invert this?
     // What are we offering to the program:
     // block.attributes (reference counted)
     // Offer a NumberIUnknownList<IAttributePointer> which we have prepared up front
     // in order to get the name -> index correct.
     // Then attribute setting should go much faster
-    const attribLocations = program.attributes()
+    const attribLocations = program.attributes
     if (attribLocations) {
         const aNames = Object.keys(attribLocations)
         for (var i = 0, iLength = aNames.length; i < iLength; i++) {
@@ -264,7 +294,7 @@ function bindProgramAttribLocations(program: IGraphicsProgram, block: ElementsBl
             const key: string = attribKey(aName, aNameToKeyName)
             // FIXME: Can we delegate this to the block to prevent addRef and release?
             const attributes = block.attributes
-            const attribute = attributes.getWeakRef(key)
+            const attribute: ElementsBlockAttrib = attributes.getWeakRef(key)
             if (attribute) {
                 // Associate the attribute buffer with the attribute location.
                 // FIXME Would be nice to be able to get a weak reference to the buffer.
@@ -291,9 +321,9 @@ function bindProgramAttribLocations(program: IGraphicsProgram, block: ElementsBl
     }
 }
 
-function unbindProgramAttribLocations(program: IGraphicsProgram) {
+function unbindProgramAttribLocations(program: ShareableWebGLProgram) {
     // FIXME: Not sure if this suggests a disableAll() or something more symmetric.
-    let attribLocations = program.attributes()
+    let attribLocations = program.attributes
     if (attribLocations) {
         let aNames = Object.keys(attribLocations)
         for (var i = 0, iLength = aNames.length; i < iLength; i++) {
@@ -309,7 +339,7 @@ function unbindProgramAttribLocations(program: IGraphicsProgram) {
  * Implementation of IBufferGeometry coupled to the 'blocks' implementation.
  */
 class BufferGeometry extends Shareable implements IBufferGeometry {
-    private _program: IGraphicsProgram;
+    private _program: ShareableWebGLProgram;
     private _blocks: StringIUnknownMap<ElementsBlock>;
     private gl: WebGLRenderingContext;
     constructor(gl: WebGLRenderingContext, blocks: StringIUnknownMap<ElementsBlock>) {
@@ -319,13 +349,12 @@ class BufferGeometry extends Shareable implements IBufferGeometry {
         this.gl = gl
     }
     protected destructor(): void {
-        // FIXME: Check status of GraphicsProgram?
         this._blocks.release()
         this._blocks = void 0
         this.gl = void 0
         super.destructor()
     }
-    bind(program: IGraphicsProgram, aNameToKeyName?: { [name: string]: string }): void {
+    bind(program: ShareableWebGLProgram, aNameToKeyName?: { [name: string]: string }): void {
         if (this._program !== program) {
             if (this._program) {
                 this.unbind()
@@ -381,7 +410,7 @@ class BufferGeometry extends Shareable implements IBufferGeometry {
  * @class WebGLRenderer
  * @extends Shareable
  */
-export default class WebGLRenderer extends Shareable implements ContextController, IContextProvider, IContextMonitor, IContextRenderer {
+export default class WebGLRenderer extends Shareable implements ContextController, IContextProvider, IContextMonitor {
 
     /**
      * @property _gl
@@ -549,10 +578,10 @@ export default class WebGLRenderer extends Shareable implements ContextControlle
 
     /**
      * @method createArrayBuffer
-     * @return {IBuffer}
+     * @return {ShareableWebGLBuffer}
      */
-    createArrayBuffer(): IBuffer {
-        return new BufferResource(this, false);
+    createArrayBuffer(): ShareableWebGLBuffer {
+        return new ShareableWebGLBuffer(false)
     }
 
     /**
@@ -583,7 +612,9 @@ export default class WebGLRenderer extends Shareable implements ContextControlle
 
         const mesh: IBufferGeometry = new BufferGeometry(this._gl, this._blocks)
 
-        const indexBuffer: IBuffer = this.createElementArrayBuffer()
+        // TODO: In this use case, the ShareableWebGLBuffer isn't expected to recover it data.
+        const indexBuffer: ShareableWebGLBuffer = new ShareableWebGLBuffer(true);
+        this.synchronize(indexBuffer)
         indexBuffer.bind();
         if (isDefined(this._gl)) {
             this._gl.bufferData(this._gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(primitive.indices), usage);
@@ -598,7 +629,8 @@ export default class WebGLRenderer extends Shareable implements ContextControlle
         let namesLength = names.length
         for (var i = 0; i < namesLength; i++) {
             let name = names[i]
-            let buffer: IBuffer = this.createArrayBuffer()
+            const buffer: ShareableWebGLBuffer = new ShareableWebGLBuffer(false)
+            this.synchronize(buffer)
             buffer.bind()
             let vertexAttrib = primitive.attributes[name]
             let data: number[] = vertexAttrib.values
@@ -624,28 +656,26 @@ export default class WebGLRenderer extends Shareable implements ContextControlle
 
     /**
      * @method createElementArrayBuffer
-     * @return {IBuffer}
+     * @return {ShareableWebGLBuffer}
      */
-    createElementArrayBuffer(): IBuffer {
-        return new BufferResource(this, true);
+    createElementArrayBuffer(): ShareableWebGLBuffer {
+        return new ShareableWebGLBuffer(true)
     }
 
     /**
      * @method createTextureCubeMap
-     * @return {ITextureCubeMap}
+     * @return {ShareableWebGLTexture}
      */
-    createTextureCubeMap(): ITextureCubeMap {
-        // FIXME: Why is first argument an array?
-        return new TextureResource([this], mustBeContext(this._gl, 'createTextureCubeMap()').TEXTURE_CUBE_MAP);
+    createTextureCubeMap(): ShareableWebGLTexture {
+        return new ShareableWebGLTexture(mustBeContext(this._gl, 'createTextureCubeMap()').TEXTURE_CUBE_MAP);
     }
 
     /**
      * @method createTexture2D
      * @return {ITexture2D}
      */
-    createTexture2D(): ITexture2D {
-        // FIXME: Why is first argument an array?
-        return new TextureResource([this], mustBeContext(this._gl, 'createTexture2D()').TEXTURE_2D);
+    createTexture2D(): ShareableWebGLTexture {
+        return new ShareableWebGLTexture(mustBeContext(this._gl, 'createTexture2D()').TEXTURE_2D);
     }
 
     /**
@@ -682,7 +712,6 @@ export default class WebGLRenderer extends Shareable implements ContextControlle
             return this._gl;
         }
         else {
-            console.warn("property gl: WebGLRenderingContext is not defined. Either gl has been lost or start() not called.");
             return void 0;
         }
     }
@@ -699,7 +728,18 @@ export default class WebGLRenderer extends Shareable implements ContextControlle
         mustBeObject('user', user)
         const index = this._users.indexOf(user)
         if (index >= 0) {
-            /*const removals: IContextConsumer[] =*/ this._users.splice(index, 1)
+            this._users.splice(index, 1)
+        }
+    }
+
+    /**
+     * @method prolog
+     * @return {void}
+     */
+    prolog(): void {
+        const gl = this._gl;
+        if (gl) {
+            gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
         }
     }
 
@@ -712,7 +752,6 @@ export default class WebGLRenderer extends Shareable implements ContextControlle
     render(drawList: IDrawList, ambients: Facet[]): void {
         const gl = this._gl;
         if (gl) {
-            gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
             return drawList.draw(ambients);
         }
     }
@@ -788,6 +827,9 @@ export default class WebGLRenderer extends Shareable implements ContextControlle
     }
 
     private emitStartEvent() {
+        this._blocks.forEach((key, block) => {
+            this.emitContextGain(block)
+        })
         this._users.forEach((user: IContextConsumer) => {
             this.emitContextGain(user)
         })
@@ -806,6 +848,9 @@ export default class WebGLRenderer extends Shareable implements ContextControlle
     }
 
     private emitStopEvent() {
+        this._blocks.forEach((key, block) => {
+            this.emitContextFree(block)
+        })
         this._users.forEach((user: IContextConsumer) => {
             this.emitContextFree(user)
         })
