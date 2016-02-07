@@ -56,6 +56,7 @@ define(["require", "exports", '../core', '../collections/IUnknownArray', '../che
             this._parts = new IUnknownArray_1.default();
         }
         Scene.prototype.destructor = function () {
+            this.detachFromMonitor();
             this._composites.release();
             this._parts.release();
             _super.prototype.destructor.call(this);
@@ -102,23 +103,26 @@ define(["require", "exports", '../core', '../collections/IUnknownArray', '../che
             mustBeObject_1.default('composite', composite);
             throw new Error("TODO");
         };
-        Scene.prototype.contextFree = function (manager) {
+        Scene.prototype.contextFree = function (context) {
             for (var i = 0; i < this._composites.length; i++) {
                 var composite = this._composites.getWeakRef(i);
-                composite.contextFree(manager);
+                composite.contextFree(context);
             }
+            _super.prototype.contextFree.call(this, context);
         };
-        Scene.prototype.contextGain = function (manager) {
+        Scene.prototype.contextGain = function (context) {
             for (var i = 0; i < this._composites.length; i++) {
                 var composite = this._composites.getWeakRef(i);
-                composite.contextGain(manager);
+                composite.contextGain(context);
             }
+            _super.prototype.contextGain.call(this, context);
         };
         Scene.prototype.contextLost = function () {
             for (var i = 0; i < this._composites.length; i++) {
                 var composite = this._composites.getWeakRef(i);
                 composite.contextLost();
             }
+            _super.prototype.contextLost.call(this);
         };
         return Scene;
     })(ShareableContextListener_1.default);

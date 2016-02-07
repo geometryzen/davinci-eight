@@ -439,10 +439,10 @@ define('davinci-eight/core',["require", "exports"], function (require, exports) 
             this.fastPath = false;
             this.strict = false;
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-            this.LAST_MODIFIED = '2016-02-03';
+            this.LAST_MODIFIED = '2016-02-06';
             this.NAMESPACE = 'EIGHT';
             this.verbose = false;
-            this.VERSION = '2.176.0';
+            this.VERSION = '2.177.0';
             this.logging = {};
         }
         return Eight;
@@ -12378,9 +12378,6 @@ define('davinci-eight/core/ShareableContextListener',["require", "exports", './c
         }
         ShareableContextListener.prototype.destructor = function () {
             this.detachFromMonitor();
-            if (this._context) {
-                cleanUp_1.default(this._context, this);
-            }
             _super.prototype.destructor.call(this);
         };
         ShareableContextListener.prototype.attachToMonitor = function (monitor) {
@@ -12388,6 +12385,7 @@ define('davinci-eight/core/ShareableContextListener',["require", "exports", './c
                 monitor.addRef();
                 this._monitor = monitor;
                 monitor.addContextListener(this);
+                monitor.synchronize(this);
             }
             else {
                 this.detachFromMonitor();
@@ -12395,6 +12393,9 @@ define('davinci-eight/core/ShareableContextListener',["require", "exports", './c
             }
         };
         ShareableContextListener.prototype.detachFromMonitor = function () {
+            if (this._context) {
+                cleanUp_1.default(this._context, this);
+            }
             if (this._monitor) {
                 this._monitor.removeContextListener(this);
                 this._monitor.release();
@@ -12607,6 +12608,7 @@ define('davinci-eight/scene/Scene',["require", "exports", '../core', '../collect
             this._parts = new IUnknownArray_1.default();
         }
         Scene.prototype.destructor = function () {
+            this.detachFromMonitor();
             this._composites.release();
             this._parts.release();
             _super.prototype.destructor.call(this);
@@ -12653,23 +12655,26 @@ define('davinci-eight/scene/Scene',["require", "exports", '../core', '../collect
             mustBeObject_1.default('composite', composite);
             throw new Error("TODO");
         };
-        Scene.prototype.contextFree = function (manager) {
+        Scene.prototype.contextFree = function (context) {
             for (var i = 0; i < this._composites.length; i++) {
                 var composite = this._composites.getWeakRef(i);
-                composite.contextFree(manager);
+                composite.contextFree(context);
             }
+            _super.prototype.contextFree.call(this, context);
         };
-        Scene.prototype.contextGain = function (manager) {
+        Scene.prototype.contextGain = function (context) {
             for (var i = 0; i < this._composites.length; i++) {
                 var composite = this._composites.getWeakRef(i);
-                composite.contextGain(manager);
+                composite.contextGain(context);
             }
+            _super.prototype.contextGain.call(this, context);
         };
         Scene.prototype.contextLost = function () {
             for (var i = 0; i < this._composites.length; i++) {
                 var composite = this._composites.getWeakRef(i);
                 composite.contextLost();
             }
+            _super.prototype.contextLost.call(this);
         };
         return Scene;
     })(ShareableContextListener_1.default);

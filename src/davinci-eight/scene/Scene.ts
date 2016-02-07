@@ -40,6 +40,7 @@ class ScenePart extends Shareable {
         this._composite = void 0
         super.destructor()
     }
+
     draw(ambients: Facet[]) {
 
         const program = this._composite.program;
@@ -107,6 +108,7 @@ export default class Scene extends ShareableContextListener implements IDrawList
      * @protected
      */
     protected destructor(): void {
+        this.detachFromMonitor()
         this._composites.release()
         this._parts.release()
         super.destructor()
@@ -217,18 +219,20 @@ export default class Scene extends ShareableContextListener implements IDrawList
         throw new Error("TODO")
     }
 
-    contextFree(manager: IContextProvider): void {
+    contextFree(context: IContextProvider): void {
         for (let i = 0; i < this._composites.length; i++) {
             const composite = this._composites.getWeakRef(i);
-            composite.contextFree(manager);
+            composite.contextFree(context);
         }
+        super.contextFree(context)
     }
 
-    contextGain(manager: IContextProvider): void {
+    contextGain(context: IContextProvider): void {
         for (let i = 0; i < this._composites.length; i++) {
             const composite = this._composites.getWeakRef(i);
-            composite.contextGain(manager);
+            composite.contextGain(context);
         }
+        super.contextGain(context)
     }
 
     contextLost(): void {
@@ -236,5 +240,6 @@ export default class Scene extends ShareableContextListener implements IDrawList
             const composite = this._composites.getWeakRef(i);
             composite.contextLost();
         }
+        super.contextLost()
     }
 }

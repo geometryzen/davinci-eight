@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.176.0</em>
+            <em>API Docs for: 2.177.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -274,9 +274,6 @@ export default class ShareableContextListener extends Shareable implements ICont
      */
     protected destructor(): void {
         this.detachFromMonitor()
-        if (this._context) {
-          cleanUp(this._context, this)
-        }
         super.destructor()
     }
 
@@ -292,6 +289,7 @@ export default class ShareableContextListener extends Shareable implements ICont
             monitor.addRef()
             this._monitor = monitor
             monitor.addContextListener(this)
+            monitor.synchronize(this)
         }
         else {
             this.detachFromMonitor()
@@ -306,6 +304,9 @@ export default class ShareableContextListener extends Shareable implements ICont
      * @return {void}
      */
     detachFromMonitor(): void {
+        if (this._context) {
+            cleanUp(this._context, this)
+        }
         if (this._monitor) {
             this._monitor.removeContextListener(this)
             this._monitor.release()

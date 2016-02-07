@@ -86,6 +86,7 @@ export default class ShareableWebGLProgram extends ShareableContextListener {
      * @protected
      */
     protected destructor(): void {
+//      this.detachFromMonitor()
         super.destructor()
         mustBeUndefined(this._type, this._program)
     }

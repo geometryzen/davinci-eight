@@ -2,7 +2,7 @@
     "project": {
         "name": "davinci-eight",
         "description": "WebGL library for mathematical physics using Geometric Algebra",
-        "version": "2.176.0",
+        "version": "2.177.0",
         "url": "",
         "logo": "../assets/logo.png"
     },
@@ -5139,7 +5139,7 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/scene/Scene.ts",
-            "line": 88,
+            "line": 89,
             "extends": "Shareable",
             "description": "<p>\nA <code>Scene</code> is a collection of composite instances arranged in some order.\nThe precise order is implementation defined.\nThe collection may be traversed for general processing using callback/visitor functions.\n</p>",
             "is_constructor": 1,
@@ -8587,7 +8587,7 @@
         },
         {
             "file": "src/davinci-eight/core/ShareableContextListener.ts",
-            "line": 37,
+            "line": 34,
             "description": "Instructs the consumer to subscribe to context events.",
             "itemtype": "method",
             "name": "attachToMonitor",
@@ -8606,7 +8606,7 @@
         },
         {
             "file": "src/davinci-eight/core/ShareableContextListener.ts",
-            "line": 56,
+            "line": 54,
             "description": "Instructs the consumer to unsubscribe from context events.",
             "itemtype": "method",
             "name": "detachFromMonitor",
@@ -8733,7 +8733,7 @@
         },
         {
             "file": "src/davinci-eight/core/ShareableWebGLProgram.ts",
-            "line": 176,
+            "line": 177,
             "itemtype": "method",
             "name": "use",
             "return": {
@@ -8744,7 +8744,7 @@
         },
         {
             "file": "src/davinci-eight/core/ShareableWebGLProgram.ts",
-            "line": 190,
+            "line": 191,
             "itemtype": "property",
             "name": "vertexShader",
             "type": "string",
@@ -8752,7 +8752,7 @@
         },
         {
             "file": "src/davinci-eight/core/ShareableWebGLProgram.ts",
-            "line": 201,
+            "line": 202,
             "itemtype": "property",
             "name": "fragmentShader",
             "type": "string",
@@ -8760,7 +8760,7 @@
         },
         {
             "file": "src/davinci-eight/core/ShareableWebGLProgram.ts",
-            "line": 212,
+            "line": 213,
             "itemtype": "method",
             "name": "enableAttrib",
             "params": [
@@ -8778,7 +8778,7 @@
         },
         {
             "file": "src/davinci-eight/core/ShareableWebGLProgram.ts",
-            "line": 224,
+            "line": 225,
             "itemtype": "method",
             "name": "disableAttrib",
             "params": [
@@ -8796,7 +8796,7 @@
         },
         {
             "file": "src/davinci-eight/core/ShareableWebGLProgram.ts",
-            "line": 236,
+            "line": 237,
             "itemtype": "method",
             "name": "uniform1f",
             "params": [
@@ -8819,7 +8819,7 @@
         },
         {
             "file": "src/davinci-eight/core/ShareableWebGLProgram.ts",
-            "line": 249,
+            "line": 250,
             "itemtype": "method",
             "name": "uniform2f",
             "params": [
@@ -8847,7 +8847,7 @@
         },
         {
             "file": "src/davinci-eight/core/ShareableWebGLProgram.ts",
-            "line": 263,
+            "line": 264,
             "itemtype": "method",
             "name": "uniform3f",
             "params": [
@@ -8880,7 +8880,7 @@
         },
         {
             "file": "src/davinci-eight/core/ShareableWebGLProgram.ts",
-            "line": 278,
+            "line": 279,
             "itemtype": "method",
             "name": "uniform4f",
             "params": [
@@ -26434,7 +26434,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Scene.ts",
-            "line": 104,
+            "line": 105,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -26448,7 +26448,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Scene.ts",
-            "line": 115,
+            "line": 117,
             "description": "<p>\nAdds the <code>composite</code> to this <code>Scene</code>.\n</p>",
             "itemtype": "method",
             "name": "add",
@@ -26468,7 +26468,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Scene.ts",
-            "line": 141,
+            "line": 143,
             "itemtype": "method",
             "name": "containsDrawable",
             "params": [
@@ -26487,7 +26487,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Scene.ts",
-            "line": 151,
+            "line": 153,
             "description": "<p>\nTraverses the collection of scene parts drawing each one.\n</p>",
             "itemtype": "method",
             "name": "draw",
@@ -26508,7 +26508,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Scene.ts",
-            "line": 168,
+            "line": 170,
             "itemtype": "method",
             "name": "findOne",
             "params": [
@@ -26527,7 +26527,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Scene.ts",
-            "line": 178,
+            "line": 180,
             "itemtype": "method",
             "name": "getDrawableByName",
             "params": [
@@ -26546,7 +26546,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Scene.ts",
-            "line": 190,
+            "line": 192,
             "description": "Gets a collection of composite elements by name.",
             "itemtype": "method",
             "name": "getDrawablesByName",
@@ -26563,7 +26563,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Scene.ts",
-            "line": 203,
+            "line": 205,
             "description": "<p>\nRemoves the <code>composite</code> from this <code>Scene</code>.\n</p>",
             "itemtype": "method",
             "name": "remove",
@@ -27624,7 +27624,7 @@
         },
         {
             "message": "unknown tag: rerurn",
-            "line": " src/davinci-eight/scene/Scene.ts:190"
+            "line": " src/davinci-eight/scene/Scene.ts:192"
         },
         {
             "message": "Missing item type\nEssentially constructs the IUnknownArray without incrementing the\nreference count of the elements, and without creating zombies.",

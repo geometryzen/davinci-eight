@@ -28,9 +28,6 @@ export default class ShareableContextListener extends Shareable implements ICont
      */
     protected destructor(): void {
         this.detachFromMonitor()
-        if (this._context) {
-          cleanUp(this._context, this)
-        }
         super.destructor()
     }
 
@@ -46,6 +43,7 @@ export default class ShareableContextListener extends Shareable implements ICont
             monitor.addRef()
             this._monitor = monitor
             monitor.addContextListener(this)
+            monitor.synchronize(this)
         }
         else {
             this.detachFromMonitor()
@@ -60,6 +58,9 @@ export default class ShareableContextListener extends Shareable implements ICont
      * @return {void}
      */
     detachFromMonitor(): void {
+        if (this._context) {
+            cleanUp(this._context, this)
+        }
         if (this._monitor) {
             this._monitor.removeContextListener(this)
             this._monitor.release()
