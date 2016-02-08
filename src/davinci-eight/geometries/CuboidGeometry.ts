@@ -1,8 +1,8 @@
 import Euclidean3 from '../math/Euclidean3';
 import GridTopology from '../topologies/GridTopology';
-import Geometry from '../geometries/Geometry';
+import PrimitivesBuilder from '../geometries/PrimitivesBuilder';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
-import IGeometry from '../geometries/IGeometry';
+import IPrimitivesBuilder from '../geometries/IPrimitivesBuilder';
 import mustBeBoolean from '../checks/mustBeBoolean';
 import mustBeNumber from '../checks/mustBeNumber';
 import Primitive from '../core/Primitive';
@@ -36,7 +36,7 @@ function side(basis: R3[], uSegments: number, vSegments: number): GridTopology {
 /**
  * @class CuboidGeometry
  */
-export default class CuboidGeometry extends Geometry implements IGeometry<CuboidGeometry> {
+export default class CuboidGeometry extends PrimitivesBuilder implements IPrimitivesBuilder<CuboidGeometry> {
     public iSegments: number = 1;
     public jSegments: number = 1;
     public kSegments: number = 1;

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src/davinci-eight/core/ShareableWebGLProgram.ts - davinci-eight</title>
+    <title>src/davinci-eight/geometries/PrimitivesBuilder.ts - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.177.0</em>
+            <em>API Docs for: 2.178.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -40,7 +40,6 @@
                             <ul id="api-classes" class="apis classes">
                                 <li><a href="../classes/AbstractMatrix.html">AbstractMatrix</a></li>
                                 <li><a href="../classes/AmbientLight.html">AmbientLight</a></li>
-                                <li><a href="../classes/Arrow.html">Arrow</a></li>
                                 <li><a href="../classes/ArrowGeometry.html">ArrowGeometry</a></li>
                                 <li><a href="../classes/AttribLocation.html">AttribLocation</a></li>
                                 <li><a href="../classes/AttribMetaInfo.html">AttribMetaInfo</a></li>
@@ -49,7 +48,7 @@
                                 <li><a href="../classes/AxialSimplexGeometry.html">AxialSimplexGeometry</a></li>
                                 <li><a href="../classes/BarnSimplexGeometry.html">BarnSimplexGeometry</a></li>
                                 <li><a href="../classes/BlendFactor.html">BlendFactor</a></li>
-                                <li><a href="../classes/Box.html">Box</a></li>
+                                <li><a href="../classes/BoxGeometry.html">BoxGeometry</a></li>
                                 <li><a href="../classes/Capability.html">Capability</a></li>
                                 <li><a href="../classes/CartesianE3.html">CartesianE3</a></li>
                                 <li><a href="../classes/CC.html">CC</a></li>
@@ -57,7 +56,6 @@
                                 <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
                                 <li><a href="../classes/ColorRGB.html">ColorRGB</a></li>
                                 <li><a href="../classes/ColorRGBA.html">ColorRGBA</a></li>
-                                <li><a href="../classes/Composite.html">Composite</a></li>
                                 <li><a href="../classes/ConeGeometry.html">ConeGeometry</a></li>
                                 <li><a href="../classes/ConeSimplexGeometry.html">ConeSimplexGeometry</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
@@ -66,7 +64,6 @@
                                 <li><a href="../classes/CuboidGeometry.html">CuboidGeometry</a></li>
                                 <li><a href="../classes/CuboidSimplexGeometry.html">CuboidSimplexGeometry</a></li>
                                 <li><a href="../classes/CurvePath.html">CurvePath</a></li>
-                                <li><a href="../classes/Cylinder.html">Cylinder</a></li>
                                 <li><a href="../classes/CylinderGeometry.html">CylinderGeometry</a></li>
                                 <li><a href="../classes/CylinderSimplexGeometry.html">CylinderSimplexGeometry</a></li>
                                 <li><a href="../classes/Dimensions.html">Dimensions</a></li>
@@ -94,7 +91,6 @@
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
                                 <li><a href="../classes/GeometryMeta.html">GeometryMeta</a></li>
                                 <li><a href="../classes/Glyph.html">Glyph</a></li>
-                                <li><a href="../classes/GraphicsBuffers.html">GraphicsBuffers</a></li>
                                 <li><a href="../classes/GraphicsProgramBuilder.html">GraphicsProgramBuilder</a></li>
                                 <li><a href="../classes/GraphicsProgramSymbols.html">GraphicsProgramSymbols</a></li>
                                 <li><a href="../classes/GridSimplexGeometry.html">GridSimplexGeometry</a></li>
@@ -119,6 +115,8 @@
                                 <li><a href="../classes/Mat2R.html">Mat2R</a></li>
                                 <li><a href="../classes/Mat3R.html">Mat3R</a></li>
                                 <li><a href="../classes/Mat4R.html">Mat4R</a></li>
+                                <li><a href="../classes/Material.html">Material</a></li>
+                                <li><a href="../classes/Mesh.html">Mesh</a></li>
                                 <li><a href="../classes/MeshLambertMaterial.html">MeshLambertMaterial</a></li>
                                 <li><a href="../classes/MeshMaterial.html">MeshMaterial</a></li>
                                 <li><a href="../classes/MeshTopology.html">MeshTopology</a></li>
@@ -142,6 +140,7 @@
                                 <li><a href="../classes/Primitive.html">Primitive</a></li>
                                 <li><a href="../classes/PrimitiveBuffer.html">PrimitiveBuffer</a></li>
                                 <li><a href="../classes/PrimitiveBuffer;.html">PrimitiveBuffer;</a></li>
+                                <li><a href="../classes/PrimitivesBuilder.html">PrimitivesBuilder</a></li>
                                 <li><a href="../classes/Pseudo.html">Pseudo</a></li>
                                 <li><a href="../classes/QQ.html">QQ</a></li>
                                 <li><a href="../classes/R1.html">R1</a></li>
@@ -151,6 +150,7 @@
                                 <li><a href="../classes/ReflectionFacetE2.html">ReflectionFacetE2</a></li>
                                 <li><a href="../classes/ReflectionFacetE3.html">ReflectionFacetE3</a></li>
                                 <li><a href="../classes/RevolutionSimplexGeometry.html">RevolutionSimplexGeometry</a></li>
+                                <li><a href="../classes/RigidBody.html">RigidBody</a></li>
                                 <li><a href="../classes/RingGeometry.html">RingGeometry</a></li>
                                 <li><a href="../classes/RingSimplexGeometry.html">RingSimplexGeometry</a></li>
                                 <li><a href="../classes/Scalar.html">Scalar</a></li>
@@ -159,7 +159,6 @@
                                 <li><a href="../classes/Shareable.html">Shareable</a></li>
                                 <li><a href="../classes/ShareableContextListener.html">ShareableContextListener</a></li>
                                 <li><a href="../classes/ShareableWebGLBuffer.html">ShareableWebGLBuffer</a></li>
-                                <li><a href="../classes/ShareableWebGLProgram.html">ShareableWebGLProgram</a></li>
                                 <li><a href="../classes/ShareableWebGLTexture.html">ShareableWebGLTexture</a></li>
                                 <li><a href="../classes/Simplex.html">Simplex</a></li>
                                 <li><a href="../classes/Simplex1Geometry.html">Simplex1Geometry</a></li>
@@ -167,7 +166,6 @@
                                 <li><a href="../classes/SliceSimplexGeometry.html">SliceSimplexGeometry</a></li>
                                 <li><a href="../classes/Slide.html">Slide</a></li>
                                 <li><a href="../classes/SmartGraphicsProgram.html">SmartGraphicsProgram</a></li>
-                                <li><a href="../classes/Sphere.html">Sphere</a></li>
                                 <li><a href="../classes/SphereGeometry.html">SphereGeometry</a></li>
                                 <li><a href="../classes/SpinG2.html">SpinG2</a></li>
                                 <li><a href="../classes/SpinG3.html">SpinG3</a></li>
@@ -240,356 +238,88 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: src/davinci-eight/core/ShareableWebGLProgram.ts</h1>
+<h1 class="file-heading">File: src/davinci-eight/geometries/PrimitivesBuilder.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import AttribLocation from &#x27;./AttribLocation&#x27;;
-import IContextProvider from &#x27;./IContextProvider&#x27;;
-import makeWebGLProgram from &#x27;./makeWebGLProgram&#x27;;
-import Mat2R from &#x27;../math/Mat2R&#x27;;
-import Mat3R from &#x27;../math/Mat3R&#x27;;
-import Mat4R from &#x27;../math/Mat4R&#x27;;
-import mustBeArray from &#x27;../checks/mustBeArray&#x27;;
+import CartesianE3 from &#x27;../math/CartesianE3&#x27;;
+import IPrimitivesBuilder from &#x27;../geometries/IPrimitivesBuilder&#x27;;
+import mustBeBoolean from &#x27;../checks/mustBeBoolean&#x27;;
 import mustBeObject from &#x27;../checks/mustBeObject&#x27;;
-import mustBeString from &#x27;../checks/mustBeString&#x27;;
-import mustBeUndefined from &#x27;../checks/mustBeUndefined&#x27;;
-import readOnly from &#x27;../i18n/readOnly&#x27;;
-import ShareableContextListener from &#x27;./ShareableContextListener&#x27;;
-import UniformLocation from &#x27;./UniformLocation&#x27;;
-import VectorE2 from &#x27;../math/VectorE2&#x27;;
+import Primitive from &#x27;../core/Primitive&#x27;;
 import VectorE3 from &#x27;../math/VectorE3&#x27;;
-import VectorE4 from &#x27;../math/VectorE4&#x27;;
 
 /**
- * @class ShareableWebGLProgram
- * @extends Shareable
+ * @class PrimitivesBuilder
  */
-export default class ShareableWebGLProgram extends ShareableContextListener {
+export default class PrimitivesBuilder implements IPrimitivesBuilder&lt;PrimitivesBuilder&gt; {
 
     /**
-     * @property _vertexShader
-     * @type {string}
+     * @property _position
+     * @type {CartesianE3}
      * @private
      */
-    private _vertexShader: string;
+    private _position = CartesianE3.zero;
 
     /**
-     * @property fragmentShader
-     * @type {string}
-     * @private
+     * @property useTextureCoords
+     * @type {boolean}
      */
-    private _fragmentShader: string;
+    public useTextureCoords: boolean = false;
 
     /**
-     * @property attribs
-     * @type {Array&amp;lt;string&amp;gt;}
-     * @private
-     */
-    private attribs: string[];
-
-    /**
-     * @property program
-     * @type {WebGLProgram}
-     * @private
-     */
-    private _program: WebGLProgram;
-
-    /**
-     * @property attributes
-     * @type {{[name: string]: AttribLocation}}
-     */
-    public attributes: { [name: string]: AttribLocation } = {};
-
-    /**
-     * @property uniforms
-     * @type {{[name: string]: UniformLocation}}
-     */
-    public uniforms: { [name: string]: UniformLocation } = {};
-
-    /**
-     * This class is &lt;em&gt;simple&lt;/em&gt; because it assumes exactly
-     * one vertex shader and one fragment shader.
-     * This class assumes that it will only be supporting a single WebGL rendering context.
-     * The existence of the context in the constructor enables it to enforce this invariant.
-     * @class ShareableWebGLProgram
+     * @class PrimitivesBuilder
      * @constructor
-     * @param context {IContextProvider} The context that this program will work with.
-     * @param vertexShader {string} The vertex shader source code.
-     * @param fragmentShader {string} The fragment shader source code.
-     * @param [attribs] {Array&amp;lt;string&amp;gt;} The attribute ordering.
      */
-    constructor(vertexShader: string, fragmentShader: string, attribs: string[] = []) {
-        super(&#x27;ShareableWebGLProgram&#x27;)
-        this._vertexShader = mustBeString(&#x27;vertexShader&#x27;, vertexShader)
-        this._fragmentShader = mustBeString(&#x27;fragmentShader&#x27;, fragmentShader)
-        this.attribs = mustBeArray(&#x27;attribs&#x27;, attribs)
+    constructor() {
+      // Do nothing.
     }
 
     /**
-     * @method destructor
-     * @return {void}
-     * @protected
+     * &lt;p&gt;
+     * The local &#x60;position&#x60; property used for geometry generation.
+     * &lt;/p&gt;
+     * @property position
+     * @type {CartesianE3}
      */
-    protected destructor(): void {
-//      this.detachFromMonitor()
-        super.destructor()
-        mustBeUndefined(this._type, this._program)
+    get position(): CartesianE3 {
+        return this._position
     }
-
-    contextGain(context: IContextProvider): void {
-        mustBeObject(&#x27;context&#x27;, context)
-        const gl = context.gl
-        if (!this._program) {
-            this._program = makeWebGLProgram(gl, this._vertexShader, this._fragmentShader, this.attribs)
-            const program = this._program
-            const attributes = this.attributes
-            const uniforms = this.uniforms
-            const activeAttributes: number = gl.getProgramParameter(program, gl.ACTIVE_ATTRIBUTES)
-            for (let a = 0; a &lt; activeAttributes; a++) {
-                const activeAttribInfo: WebGLActiveInfo = gl.getActiveAttrib(program, a)
-                const name: string = activeAttribInfo.name
-                if (!attributes[name]) {
-                    attributes[name] = new AttribLocation(name)
-                }
-            }
-            const activeUniforms: number = gl.getProgramParameter(program, gl.ACTIVE_UNIFORMS)
-            for (let u = 0; u &lt; activeUniforms; u++) {
-                const activeUniformInfo: WebGLActiveInfo = gl.getActiveUniform(program, u)
-                const name: string = activeUniformInfo.name
-                if (!uniforms[name]) {
-                    uniforms[name] = new UniformLocation(name)
-                }
-            }
-            for (let aName in attributes) {
-                if (attributes.hasOwnProperty(aName)) {
-                    attributes[aName].contextGain(gl, program);
-                }
-            }
-            for (let uName in uniforms) {
-                if (uniforms.hasOwnProperty(uName)) {
-                    uniforms[uName].contextGain(gl, program);
-                }
-            }
-        }
-        super.contextGain(context)
-    }
-
-    contextLost(): void {
-        this._program = void 0
-        for (var aName in this.attributes) {
-            if (this.attributes.hasOwnProperty(aName)) {
-                this.attributes[aName].contextLost();
-            }
-        }
-        for (var uName in this.uniforms) {
-            if (this.uniforms.hasOwnProperty(uName)) {
-                this.uniforms[uName].contextLost();
-            }
-        }
-        super.contextLost()
-    }
-
-    contextFree(context: IContextProvider): void {
-        mustBeObject(&#x27;context&#x27;, context)
-        if (this._program) {
-            const gl = context.gl
-            if (gl) {
-                if (!gl.isContextLost()) {
-                    gl.deleteProgram(this._program)
-                }
-                else {
-                    // WebGL has lost the context, effectively cleaning up everything.
-                }
-            }
-            else {
-                console.warn(&quot;memory leak: WebGLProgram has not been deleted because WebGLRenderingContext is not available anymore.&quot;)
-            }
-            this._program = void 0
-        }
-        for (var aName in this.attributes) {
-            if (this.attributes.hasOwnProperty(aName)) {
-                this.attributes[aName].contextFree();
-            }
-        }
-        for (var uName in this.uniforms) {
-            if (this.uniforms.hasOwnProperty(uName)) {
-                this.uniforms[uName].contextFree();
-            }
-        }
-        super.contextFree(context)
+    set position(position: CartesianE3) {
+        this.setPosition(position)
     }
 
     /**
-     * @method use
-     * @return {void}
+     * @method enableTextureCoords
+     * @param enable {boolean}
+     * @return {PrimitivesBuilder}
+     * @chainable
      */
-    use(): void {
-        const gl = this.gl
-        if (gl) {
-            gl.useProgram(this._program)
-        }
-        else {
-            console.warn(&#x60;${this._type}.use() missing WebGL rendering context.&#x60;)
-        }
+    enableTextureCoords(enable: boolean): PrimitivesBuilder {
+        mustBeBoolean(&#x27;enable&#x27;, enable)
+        this.useTextureCoords = enable
+        return this
     }
 
     /**
-     * @property vertexShader
-     * @type string
+     * @method setPosition
+     * @param position {VectorE3}
+     * @return PrimitivesBuilder
+     * @chainable
      */
-    get vertexShader(): string {
-        return this._vertexShader;
-    }
-    set vertexShader(unused) {
-        throw new Error(readOnly(&#x27;vertexShader&#x27;).message)
+    setPosition(position: VectorE3): PrimitivesBuilder {
+        mustBeObject(&#x27;position&#x27;, position)
+        this._position = CartesianE3.fromVectorE3(position)
+        return this
     }
 
     /**
-     * @property fragmentShader
-     * @type string
+     * @method toPrimitives
+     * @return {Primitive[]}
      */
-    get fragmentShader(): string {
-        return this._fragmentShader;
-    }
-    set fragmentShader(unused) {
-        throw new Error(readOnly(&#x27;fragmentShader&#x27;).message)
-    }
-
-    /**
-     * @method enableAttrib
-     * @param name {string}
-     * @return {void}
-     */
-    enableAttrib(name: string): void {
-        const attribLoc = this.attributes[name]
-        if (attribLoc) {
-            attribLoc.enable()
-        }
-    }
-
-    /**
-     * @method disableAttrib
-     * @param name {string}
-     * @return {void}
-     */
-    disableAttrib(name: string): void {
-        const attribLoc = this.attributes[name]
-        if (attribLoc) {
-            attribLoc.disable()
-        }
-    }
-
-    /**
-     * @method uniform1f
-     * @param name {string}
-     * @param x {number}
-     * @return {void}
-     */
-    uniform1f(name: string, x: number): void {
-        const uniformLoc = this.uniforms[name]
-        if (uniformLoc) {
-            uniformLoc.uniform1f(x)
-        }
-    }
-
-    /**
-     * @method uniform2f
-     * @param name {string}
-     * @param x {number}
-     * @param y {number}
-     * @return {void}
-     */
-    uniform2f(name: string, x: number, y: number): void {
-        const uniformLoc = this.uniforms[name]
-        if (uniformLoc) {
-            uniformLoc.uniform2f(x, y)
-        }
-    }
-
-    /**
-     * @method uniform3f
-     * @param name {string}
-     * @param x {number}
-     * @param y {number}
-     * @param z {number}
-     * @return {void}
-     */
-    uniform3f(name: string, x: number, y: number, z: number): void {
-        const uniformLoc = this.uniforms[name]
-        if (uniformLoc) {
-            uniformLoc.uniform3f(x, y, z)
-        }
-    }
-
-    /**
-     * @method uniform4f
-     * @param name {string}
-     * @param x {number}
-     * @param y {number}
-     * @param z {number}
-     * @param w {number}
-     * @return {void}
-     */
-    uniform4f(name: string, x: number, y: number, z: number, w: number): void {
-        const uniformLoc = this.uniforms[name]
-        if (uniformLoc) {
-            uniformLoc.uniform4f(x, y, z, w)
-        }
-    }
-    mat2(name: string, matrix: Mat2R, transpose: boolean) {
-        const uniformLoc = this.uniforms[name]
-        if (uniformLoc) {
-            uniformLoc.mat2(matrix, transpose)
-        }
-    }
-    mat3(name: string, matrix: Mat3R, transpose: boolean) {
-        const uniformLoc = this.uniforms[name]
-        if (uniformLoc) {
-            uniformLoc.mat3(matrix, transpose)
-        }
-    }
-    mat4(name: string, matrix: Mat4R, transpose: boolean) {
-        const uniformLoc = this.uniforms[name]
-        if (uniformLoc) {
-            uniformLoc.mat4(matrix, transpose)
-        }
-    }
-    vec2(name: string, vector: VectorE2) {
-        const uniformLoc = this.uniforms[name]
-        if (uniformLoc) {
-            uniformLoc.vec2(vector)
-        }
-    }
-    vec3(name: string, vector: VectorE3) {
-        const uniformLoc = this.uniforms[name]
-        if (uniformLoc) {
-            uniformLoc.vec3(vector)
-        }
-    }
-    vec4(name: string, vector: VectorE4) {
-        const uniformLoc = this.uniforms[name]
-        if (uniformLoc) {
-            uniformLoc.vec4(vector)
-        }
-    }
-    vector2(name: string, data: number[]): void {
-        const uniformLoc = this.uniforms[name]
-        if (uniformLoc) {
-            uniformLoc.vector2(data)
-        }
-    }
-    vector3(name: string, data: number[]): void {
-        const uniformLoc = this.uniforms[name]
-        if (uniformLoc) {
-            uniformLoc.vector3(data)
-        }
-    }
-    vector4(name: string, data: number[]): void {
-        const uniformLoc = this.uniforms[name]
-        if (uniformLoc) {
-            uniformLoc.vector4(data)
-        }
+    toPrimitives(): Primitive[] {
+        console.warn(&quot;toPrimitives() must be implemented by derived classes.&quot;)
+        return []
     }
 }
 

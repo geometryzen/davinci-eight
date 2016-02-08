@@ -1,9 +1,23 @@
-import VisualComponent from './VisualComponent';
+import mustBeNumber from '../checks/mustBeNumber';
+import visualCache from './visualCache';
+import RigidBody from './RigidBody'
 
-/**
- * @class Arrow
- */
-interface Arrow extends VisualComponent {
+export default class Arrow extends RigidBody {
+    constructor() {
+        super(visualCache.arrow(), visualCache.program(), 'Arrow')
+        this._buffers.release()
+        this._program.release()
+    }
+    protected destructor(): void {
+        super.destructor()
+    }
+    get length() {
+        return this.getScaleY()
+    }
+    set length(length: number) {
+        mustBeNumber('length', length)
+        this.setScaleX(length)
+        this.setScaleY(length)
+        this.setScaleZ(length)
+    }
 }
-
-export default Arrow;

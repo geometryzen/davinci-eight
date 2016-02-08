@@ -1,6 +1,6 @@
 import CartesianE3 from '../math/CartesianE3';
 import Euclidean3 from '../math/Euclidean3';
-import Geometry from '../geometries/Geometry';
+import PrimitivesBuilder from '../geometries/PrimitivesBuilder';
 import IAxialGeometry from '../geometries/IAxialGeometry';
 import mustBeNumber from '../checks/mustBeNumber';
 import mustBeObject from '../checks/mustBeObject';
@@ -10,7 +10,7 @@ import VectorE3 from '../math/VectorE3';
 /**
  * @class AxialGeometry
  */
-export default class AxialGeometry extends Geometry implements IAxialGeometry<AxialGeometry> {
+export default class AxialGeometry extends PrimitivesBuilder implements IAxialGeometry<AxialGeometry> {
     /**
      * @property _axis
      * @type {CartesianE3}

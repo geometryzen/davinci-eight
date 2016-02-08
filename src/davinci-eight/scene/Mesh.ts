@@ -1,30 +1,31 @@
 import IContextProvider from '../core/IContextProvider';
-import GraphicsBuffers from './GraphicsBuffers';
-import ShareableWebGLProgram from '../core/ShareableWebGLProgram';
+import mustBeBoolean from '../checks/mustBeBoolean'
+import Geometry from './Geometry';
+import Material from '../core/Material';
 import readOnly from '../i18n/readOnly';
 import ShareableContextListener from '../core/ShareableContextListener';
 import StringIUnknownMap from '../collections/StringIUnknownMap';
 import Facet from '../core/Facet';
 
 /**
- * @class Composite
+ * @class Mesh
  * @extends Shareable
  */
-export default class Composite extends ShareableContextListener {
+export default class Mesh extends ShareableContextListener {
 
     /**
      * @property _buffers
-     * @type {GraphicsBuffers}
+     * @type {Geometry}
      * @private
      */
-    private _buffers: GraphicsBuffers;
+    protected _buffers: Geometry;
 
     /**
      * @property _program
-     * @type {ShareableWebGLProgram}
+     * @type {Material}
      * @private
      */
-    private _program: ShareableWebGLProgram;
+    protected _program: Material;
 
     /**
      * @property name
@@ -32,6 +33,8 @@ export default class Composite extends ShareableContextListener {
      * @optional
      */
     public name: string;
+
+    private _visible = true;
 
     /**
      * @property facets
@@ -41,13 +44,13 @@ export default class Composite extends ShareableContextListener {
     private _facets: StringIUnknownMap<Facet>;
 
     /**
-     * @class Composite
+     * @class Mesh
      * @constructor
-     * @param buffers {GraphicsBuffers}
-     * @param program {ShareableWebGLProgram}
-     * @param type {string}
+     * @param buffers {Geometry}
+     * @param program {Material}
+     * @param [type = 'Mesh'] {string}
      */
-    constructor(buffers: GraphicsBuffers, program: ShareableWebGLProgram, type: string) {
+    constructor(buffers: Geometry, program: Material, type = 'Mesh') {
         super(type)
         this._buffers = buffers;
         this._buffers.addRef();
@@ -88,24 +91,25 @@ export default class Composite extends ShareableContextListener {
     }
 
     draw(ambients: Facet[]): void {
+        if (this._visible) {
+            const program = this._program;
 
-        const program = this._program;
+            program.use();
 
-        program.use();
+            const iL = ambients.length;
+            for (let i = 0; i < iL; i++) {
+                const ambient = ambients[i]
+                ambient.setUniforms(program)
+            }
 
-        const iL = ambients.length;
-        for (let i = 0; i < iL; i++) {
-            const ambient = ambients[i]
-            ambient.setUniforms(program)
-        }
+            this.setUniforms();
 
-        this.setUniforms();
-
-        const buffers = this._buffers;
-        const jL = buffers.length;
-        for (let j = 0; j < jL; j++) {
-            const buffer = buffers.getWeakRef(j)
-            buffer.draw(program)
+            const buffers = this._buffers;
+            const jL = buffers.length;
+            for (let j = 0; j < jL; j++) {
+                const buffer = buffers.getWeakRef(j)
+                buffer.draw(program)
+            }
         }
     }
 
@@ -145,29 +149,41 @@ export default class Composite extends ShareableContextListener {
 
     /**
      * Provides a reference counted reference to the graphics buffers property.
-     * @property buffers
-     * @type {GraphicsBuffers}
+     * @property geometry
+     * @type {Geometry}
      * @readOnly
      */
-    get buffers(): GraphicsBuffers {
+    get geometry(): Geometry {
         this._buffers.addRef()
         return this._buffers
     }
-    set buffers(unused) {
-        throw new Error(readOnly('buffers').message)
+    set geometry(unused) {
+        throw new Error(readOnly('geometry').message)
     }
 
     /**
      * Provides a reference counted reference to the graphics program property.
-     * @property program
-     * @type {ShareableWebGLProgram}
+     * @property material
+     * @type {Material}
      * @readOnly
      */
-    get program(): ShareableWebGLProgram {
+    get material(): Material {
         this._program.addRef()
         return this._program
     }
-    set program(unused) {
-        throw new Error(readOnly('program').message)
+    set material(unused) {
+        throw new Error(readOnly('material').message)
+    }
+
+    /**
+     * @property visible
+     * @type boolean
+     */
+    get visible(): boolean {
+        return this._visible
+    }
+    set visible(visible: boolean) {
+        mustBeBoolean('visible', visible, () => { return this._type })
+        this._visible = visible
     }
 }

@@ -1,5 +1,5 @@
 import IContextProvider from '../core/IContextProvider';
-import ShareableWebGLProgram from '../core/ShareableWebGLProgram';
+import Material from '../core/Material';
 import createPerspective from '../cameras/createPerspective';
 import readOnly from '../i18n/readOnly';
 import mustBeObject from '../checks/mustBeObject';
@@ -29,9 +29,9 @@ export default class PerspectiveCamera extends Shareable implements Perspective,
 
     /**
      * @property material
-     * @type {ShareableWebGLProgram}
+     * @type {Material}
      */
-    public material: ShareableWebGLProgram;
+    public material: Material;
 
     /**
      * @property name
@@ -196,6 +196,19 @@ export default class PerspectiveCamera extends Shareable implements Perspective,
     }
     set eye(eye: R3) {
         this.inner.eye.copy(eye);
+    }
+
+    /**
+     * The position of the camera.
+     * @property position
+     * @type {R3}
+     * @readOnly
+     */
+    get position(): R3 {
+        return this.inner.eye;
+    }
+    set position(position: R3) {
+        this.inner.eye.copy(position);
     }
 
     /**

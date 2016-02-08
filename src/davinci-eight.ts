@@ -71,7 +71,7 @@ import MeshTopology from 'davinci-eight/topologies/MeshTopology';
 import GridTopology from 'davinci-eight/topologies/GridTopology';
 // scene
 import IDrawList from 'davinci-eight/scene/IDrawList';
-import Composite from 'davinci-eight/scene/Composite';
+import Mesh from 'davinci-eight/scene/Mesh';
 import Scene from 'davinci-eight/scene/Scene';
 import WebGLRenderer from 'davinci-eight/scene/WebGLRenderer';
 // geometries
@@ -79,6 +79,7 @@ import AxialSimplexGeometry from 'davinci-eight/geometries/AxialSimplexGeometry'
 import ArrowGeometry from 'davinci-eight/geometries/ArrowGeometry';
 import ArrowSimplexGeometry from 'davinci-eight/geometries/ArrowSimplexGeometry';
 import BarnSimplexGeometry from 'davinci-eight/geometries/BarnSimplexGeometry';
+import BoxGeometry from 'davinci-eight/geometries/BoxGeometry';
 import ConeGeometry from 'davinci-eight/geometries/ConeGeometry';
 import ConeSimplexGeometry from 'davinci-eight/geometries/ConeSimplexGeometry';
 import CuboidGeometry from 'davinci-eight/geometries/CuboidGeometry';
@@ -169,8 +170,8 @@ import ModelE2 from 'davinci-eight/models/ModelE2';
 import ModelE3 from 'davinci-eight/models/ModelE3';
 
 // programs
-import ShareableWebGLProgram from 'davinci-eight/core/ShareableWebGLProgram';
-import GraphicsBuffers from 'davinci-eight/scene/GraphicsBuffers';
+import Material from 'davinci-eight/core/Material';
+import Geometry from 'davinci-eight/scene/Geometry';
 
 // scene
 import initWebGL from 'davinci-eight/scene/initWebGL';
@@ -188,9 +189,13 @@ import WindowAnimationRunner from 'davinci-eight/utils/WindowAnimationRunner';
 import animation from 'davinci-eight/utils/animation';
 
 // visual
-import vector from 'davinci-eight/visual/vector';
-import RigidBody from 'davinci-eight/visual/RigidBody';
+import Arrow from 'davinci-eight/visual/Arrow';
 import Ball from 'davinci-eight/visual/Ball';
+import Box from 'davinci-eight/visual/Box';
+import RigidBody from 'davinci-eight/visual/RigidBody';
+import Rod from 'davinci-eight/visual/Rod';
+import vector from 'davinci-eight/visual/vector';
+
 /**
  * @module EIGHT
  */
@@ -279,7 +284,7 @@ var eight = {
     get perspectiveMatrix() { return perspectiveMatrix },
     get viewMatrix() { return viewMatrix },
     get Scene() { return Scene },
-    get Composite() { return Composite },
+    get Mesh() { return Mesh },
     get PerspectiveCamera() { return PerspectiveCamera },
     get getCanvasElementById() { return getCanvasElementById },
     get WebGLRenderer() { return WebGLRenderer },
@@ -294,6 +299,7 @@ var eight = {
     get AxialSimplexGeometry() { return AxialSimplexGeometry },
     get ArrowGeometry() { return ArrowGeometry },
     get BarnSimplexGeometry() { return BarnSimplexGeometry },
+    get BoxGeometry() { return BoxGeometry },
     get ConeGeometry() { return ConeGeometry },
     get ConeSimplexGeometry() { return ConeSimplexGeometry },
     get CuboidGeometry() { return CuboidGeometry },
@@ -351,7 +357,7 @@ var eight = {
     get simplicesToDrawPrimitive() { return simplicesToDrawPrimitive },
 
     get GraphicsProgramSymbols() { return GraphicsProgramSymbols },
-    get GraphicsBuffers() { return GraphicsBuffers },
+    get Geometry() { return Geometry },
     // programs
     get programFromScripts() { return programFromScripts },
     get DrawAttribute() { return DrawAttribute },
@@ -381,8 +387,11 @@ var eight = {
     get sinh() { return mathcore.sinh },
     get sqrt() { return mathcore.sqrt },
     // visual
-    get RigidBody() { return RigidBody },
+    get Arrow() { return Arrow },
     get Ball() { return Ball },
+    get Box() { return Box },
+    get RigidBody() { return RigidBody },
+    get Rod() { return Rod },
     get vector() { return vector }
 }
 export default eight;

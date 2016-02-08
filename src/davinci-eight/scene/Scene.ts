@@ -1,7 +1,7 @@
 import core from '../core';
 import Facet from '../core/Facet';
 import IContextProvider from '../core/IContextProvider';
-import Composite from './Composite';
+import Mesh from './Mesh';
 import IDrawList from './IDrawList';
 import IUnknownArray from '../collections/IUnknownArray';
 import mustBeFunction from '../checks/mustBeFunction';
@@ -21,12 +21,12 @@ class ScenePart extends Shareable {
     /**
      * Keep track of the 'parent' composite.
      */
-    private _composite: Composite;
+    private _composite: Mesh;
 
     /**
      *
      */
-    constructor(buffer: PrimitiveBuffer, composite: Composite) {
+    constructor(buffer: PrimitiveBuffer, composite: Mesh) {
         super('ScenePart')
         this._buffer = buffer
         this._buffer.addRef()
@@ -42,31 +42,31 @@ class ScenePart extends Shareable {
     }
 
     draw(ambients: Facet[]) {
+        if (this._composite.visible) {
+            const program = this._composite.material;
 
-        const program = this._composite.program;
+            program.use()
 
-        program.use()
-
-        if (ambients) {
-            const aLength = ambients.length;
-            for (let a = 0; a < aLength; a++) {
-                const ambient = ambients[a]
-                ambient.setUniforms(program);
+            if (ambients) {
+                const aLength = ambients.length;
+                for (let a = 0; a < aLength; a++) {
+                    const ambient = ambients[a]
+                    ambient.setUniforms(program);
+                }
             }
+
+            this._composite.setUniforms();
+
+            this._buffer.draw(program)
+            program.release()
         }
-
-        this._composite.setUniforms();
-
-        this._buffer.draw(program)
-        program.release()
-
     }
 }
 
-function partsFromComposite(composite: Composite): IUnknownArray<ScenePart> {
+function partsFromComposite(composite: Mesh): IUnknownArray<ScenePart> {
     mustBeObject('composite', composite)
     const parts = new IUnknownArray<ScenePart>();
-    const buffers = composite.buffers
+    const buffers = composite.geometry
     const iLen = buffers.length
     for (let i = 0; i < iLen; i++) {
         const scenePart = new ScenePart(buffers.getWeakRef(i), composite)
@@ -82,7 +82,7 @@ function partsFromComposite(composite: Composite): IUnknownArray<ScenePart> {
  */
 export default class Scene extends ShareableContextListener implements IDrawList {
 
-    private _composites: IUnknownArray<Composite>;
+    private _composites: IUnknownArray<Mesh>;
     private _parts: IUnknownArray<ScenePart>;
 
     // FIXME: Do I need the collection, or can I be fooled into thinking there is one monitor?
@@ -98,7 +98,7 @@ export default class Scene extends ShareableContextListener implements IDrawList
      */
     constructor() {
         super('Scene')
-        this._composites = new IUnknownArray<Composite>()
+        this._composites = new IUnknownArray<Mesh>()
         this._parts = new IUnknownArray<ScenePart>()
     }
 
@@ -116,21 +116,21 @@ export default class Scene extends ShareableContextListener implements IDrawList
 
     /**
      * <p>
-     * Adds the <code>composite</code> to this <code>Scene</code>.
+     * Adds the <code>mesh</code> to this <code>Scene</code>.
      * </p>
      * @method add
-     * @param composite {Composite}
+     * @param mesh {Mesh}
      * @return {Void}
      * <p>
      * This method returns <code>undefined</code>.
      * </p>
      */
-    add(composite: Composite): void {
-        mustBeObject('composite', composite);
-        this._composites.push(composite)
+    add(mesh: Mesh): void {
+        mustBeObject('mesh', mesh);
+        this._composites.push(mesh)
 
         // TODO: Control the ordering for optimization.
-        const drawParts = partsFromComposite(composite)
+        const drawParts = partsFromComposite(mesh)
         const iLen = drawParts.length;
         for (let i = 0; i < iLen; i++) {
             const part = drawParts.get(i)
@@ -142,12 +142,12 @@ export default class Scene extends ShareableContextListener implements IDrawList
 
     /**
      * @method containsDrawable
-     * @param composite {Composite}
+     * @param mesh {Mesh}
      * @return {boolean}
      */
-    containsDrawable(composite: Composite): boolean {
-        mustBeObject('composite', composite);
-        return this._composites.indexOf(composite) >= 0
+    containsDrawable(mesh: Mesh): boolean {
+        mustBeObject('mesh', mesh);
+        return this._composites.indexOf(mesh) >= 0
     }
 
     /**
@@ -169,10 +169,10 @@ export default class Scene extends ShareableContextListener implements IDrawList
 
     /**
      * @method findOne
-     * @param match {(composite: Composite) => boolean}
-     * @return {Composite}
+     * @param match {(mesh: Mesh) => boolean}
+     * @return {Mesh}
      */
-    findOne(match: (composite: Composite) => boolean): Composite {
+    findOne(match: (mesh: Mesh) => boolean): Mesh {
         mustBeFunction('match', match);
         return this._composites.findOne(match)
     }
@@ -180,65 +180,65 @@ export default class Scene extends ShareableContextListener implements IDrawList
     /**
      * @method getDrawableByName
      * @param name {string}
-     * @return {Composite}
+     * @return {Mesh}
      */
-    getDrawableByName(name: string): Composite {
+    getDrawableByName(name: string): Mesh {
         if (!core.fastPath) {
             mustBeString('name', name);
         }
-        return this.findOne(function(composite) { return composite.name === name; });
+        return this.findOne(function(mesh) { return mesh.name === name; });
     }
 
     /**
-     * Gets a collection of composite elements by name.
+     * Gets a collection of mesh elements by name.
      *
      * @method getDrawablesByName
      * @param name {string}
      * @rerurn {IUnknownArray}
      */
-    getDrawablesByName(name: string): IUnknownArray<Composite> {
+    getDrawablesByName(name: string): IUnknownArray<Mesh> {
         mustBeString('name', name);
-        const result = new IUnknownArray<Composite>()
+        const result = new IUnknownArray<Mesh>()
         return result;
     }
 
     /**
      * <p>
-     * Removes the <code>composite</code> from this <code>Scene</code>.
+     * Removes the <code>mesh</code> from this <code>Scene</code>.
      * </p>
      *
      * @method remove
-     * @param composite {Composite}
+     * @param mesh {Mesh}
      * @return {void}
      * <p>
      * This method returns <code>undefined</code>.
      * </p>
      */
-    remove(composite: Composite): void {
-        mustBeObject('composite', composite);
+    remove(mesh: Mesh): void {
+        mustBeObject('mesh', mesh);
         throw new Error("TODO")
     }
 
     contextFree(context: IContextProvider): void {
         for (let i = 0; i < this._composites.length; i++) {
-            const composite = this._composites.getWeakRef(i);
-            composite.contextFree(context);
+            const mesh = this._composites.getWeakRef(i);
+            mesh.contextFree(context);
         }
         super.contextFree(context)
     }
 
     contextGain(context: IContextProvider): void {
         for (let i = 0; i < this._composites.length; i++) {
-            const composite = this._composites.getWeakRef(i);
-            composite.contextGain(context);
+            const mesh = this._composites.getWeakRef(i);
+            mesh.contextGain(context);
         }
         super.contextGain(context)
     }
 
     contextLost(): void {
         for (let i = 0; i < this._composites.length; i++) {
-            const composite = this._composites.getWeakRef(i);
-            composite.contextLost();
+            const mesh = this._composites.getWeakRef(i);
+            mesh.contextLost();
         }
         super.contextLost()
     }

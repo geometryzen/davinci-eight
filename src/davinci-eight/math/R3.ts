@@ -466,7 +466,7 @@ export default class R3 extends VectorN<number> implements ColumnVector<Mat3R, R
      * @param {number}
      * @deprecated
      */
-    // FIXME: This is used by Cone and Cylinder Simplex Geometry
+    // FIXME: This is used by Cone and Cylinder Simplex PrimitivesBuilder
     setY(y: number): R3 {
         this.y = y;
         return this;

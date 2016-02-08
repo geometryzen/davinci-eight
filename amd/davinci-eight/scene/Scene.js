@@ -21,25 +21,27 @@ define(["require", "exports", '../core', '../collections/IUnknownArray', '../che
             _super.prototype.destructor.call(this);
         };
         ScenePart.prototype.draw = function (ambients) {
-            var program = this._composite.program;
-            program.use();
-            if (ambients) {
-                var aLength = ambients.length;
-                for (var a = 0; a < aLength; a++) {
-                    var ambient = ambients[a];
-                    ambient.setUniforms(program);
+            if (this._composite.visible) {
+                var program = this._composite.material;
+                program.use();
+                if (ambients) {
+                    var aLength = ambients.length;
+                    for (var a = 0; a < aLength; a++) {
+                        var ambient = ambients[a];
+                        ambient.setUniforms(program);
+                    }
                 }
+                this._composite.setUniforms();
+                this._buffer.draw(program);
+                program.release();
             }
-            this._composite.setUniforms();
-            this._buffer.draw(program);
-            program.release();
         };
         return ScenePart;
     })(Shareable_1.default);
     function partsFromComposite(composite) {
         mustBeObject_1.default('composite', composite);
         var parts = new IUnknownArray_1.default();
-        var buffers = composite.buffers;
+        var buffers = composite.geometry;
         var iLen = buffers.length;
         for (var i = 0; i < iLen; i++) {
             var scenePart = new ScenePart(buffers.getWeakRef(i), composite);
@@ -61,10 +63,10 @@ define(["require", "exports", '../core', '../collections/IUnknownArray', '../che
             this._parts.release();
             _super.prototype.destructor.call(this);
         };
-        Scene.prototype.add = function (composite) {
-            mustBeObject_1.default('composite', composite);
-            this._composites.push(composite);
-            var drawParts = partsFromComposite(composite);
+        Scene.prototype.add = function (mesh) {
+            mustBeObject_1.default('mesh', mesh);
+            this._composites.push(mesh);
+            var drawParts = partsFromComposite(mesh);
             var iLen = drawParts.length;
             for (var i = 0; i < iLen; i++) {
                 var part = drawParts.get(i);
@@ -73,9 +75,9 @@ define(["require", "exports", '../core', '../collections/IUnknownArray', '../che
             }
             drawParts.release();
         };
-        Scene.prototype.containsDrawable = function (composite) {
-            mustBeObject_1.default('composite', composite);
-            return this._composites.indexOf(composite) >= 0;
+        Scene.prototype.containsDrawable = function (mesh) {
+            mustBeObject_1.default('mesh', mesh);
+            return this._composites.indexOf(mesh) >= 0;
         };
         Scene.prototype.draw = function (ambients) {
             var parts = this._parts;
@@ -92,35 +94,35 @@ define(["require", "exports", '../core', '../collections/IUnknownArray', '../che
             if (!core_1.default.fastPath) {
                 mustBeString_1.default('name', name);
             }
-            return this.findOne(function (composite) { return composite.name === name; });
+            return this.findOne(function (mesh) { return mesh.name === name; });
         };
         Scene.prototype.getDrawablesByName = function (name) {
             mustBeString_1.default('name', name);
             var result = new IUnknownArray_1.default();
             return result;
         };
-        Scene.prototype.remove = function (composite) {
-            mustBeObject_1.default('composite', composite);
+        Scene.prototype.remove = function (mesh) {
+            mustBeObject_1.default('mesh', mesh);
             throw new Error("TODO");
         };
         Scene.prototype.contextFree = function (context) {
             for (var i = 0; i < this._composites.length; i++) {
-                var composite = this._composites.getWeakRef(i);
-                composite.contextFree(context);
+                var mesh = this._composites.getWeakRef(i);
+                mesh.contextFree(context);
             }
             _super.prototype.contextFree.call(this, context);
         };
         Scene.prototype.contextGain = function (context) {
             for (var i = 0; i < this._composites.length; i++) {
-                var composite = this._composites.getWeakRef(i);
-                composite.contextGain(context);
+                var mesh = this._composites.getWeakRef(i);
+                mesh.contextGain(context);
             }
             _super.prototype.contextGain.call(this, context);
         };
         Scene.prototype.contextLost = function () {
             for (var i = 0; i < this._composites.length; i++) {
-                var composite = this._composites.getWeakRef(i);
-                composite.contextLost();
+                var mesh = this._composites.getWeakRef(i);
+                mesh.contextLost();
             }
             _super.prototype.contextLost.call(this);
         };

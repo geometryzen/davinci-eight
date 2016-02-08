@@ -1,6 +1,6 @@
 {
   "name": "davinci-eight",
-  "version": "2.177.0",
+  "version": "2.178.0",
   "description": "WebGL library for mathematical physics using Geometric Algebra",
   "author":
   {
@@ -29,12 +29,11 @@
   },
   "devDependencies":
   {
-    "jasmine": "~2.3.4",
+    "jasmine": "~2.4.1",
     "almond": "~0.3.1",
     "r.js": "~2.1.22",
     "requirejs": "~2.1.22",
-    "jscover": "http://github.com/tntim96/JSCover.git",
-    "stats.js": "latest"
+    "jscover": "http://github.com/tntim96/JSCover.git"
   },
   "ignore":
   [

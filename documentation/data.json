@@ -2,7 +2,7 @@
     "project": {
         "name": "davinci-eight",
         "description": "WebGL library for mathematical physics using Geometric Algebra",
-        "version": "2.177.0",
+        "version": "2.178.0",
         "url": "",
         "logo": "../assets/logo.png"
     },
@@ -327,6 +327,15 @@
             "fors": {},
             "namespaces": {}
         },
+        "src/davinci-eight/core/Material.ts": {
+            "name": "src/davinci-eight/core/Material.ts",
+            "modules": {},
+            "classes": {
+                "Material": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "src/davinci-eight/core/Primitive.ts": {
             "name": "src/davinci-eight/core/Primitive.ts",
             "modules": {},
@@ -359,15 +368,6 @@
             "modules": {},
             "classes": {
                 "ShareableWebGLBuffer": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
-        "src/davinci-eight/core/ShareableWebGLProgram.ts": {
-            "name": "src/davinci-eight/core/ShareableWebGLProgram.ts",
-            "modules": {},
-            "classes": {
-                "ShareableWebGLProgram": 1
             },
             "fors": {},
             "namespaces": {}
@@ -601,6 +601,15 @@
             "fors": {},
             "namespaces": {}
         },
+        "src/davinci-eight/geometries/BoxGeometry.ts": {
+            "name": "src/davinci-eight/geometries/BoxGeometry.ts",
+            "modules": {},
+            "classes": {
+                "BoxGeometry": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "src/davinci-eight/geometries/ConeGeometry.ts": {
             "name": "src/davinci-eight/geometries/ConeGeometry.ts",
             "modules": {},
@@ -700,15 +709,6 @@
             "fors": {},
             "namespaces": {}
         },
-        "src/davinci-eight/geometries/Geometry.ts": {
-            "name": "src/davinci-eight/geometries/Geometry.ts",
-            "modules": {},
-            "classes": {
-                "Geometry": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
         "src/davinci-eight/geometries/GeometryMeta.ts": {
             "name": "src/davinci-eight/geometries/GeometryMeta.ts",
             "modules": {},
@@ -803,6 +803,15 @@
             "modules": {},
             "classes": {
                 "PolyhedronSimplexGeometry": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/geometries/PrimitivesBuilder.ts": {
+            "name": "src/davinci-eight/geometries/PrimitivesBuilder.ts",
+            "modules": {},
+            "classes": {
+                "PrimitivesBuilder": 1
             },
             "fors": {},
             "namespaces": {}
@@ -1681,20 +1690,11 @@
             "fors": {},
             "namespaces": {}
         },
-        "src/davinci-eight/scene/Composite.ts": {
-            "name": "src/davinci-eight/scene/Composite.ts",
+        "src/davinci-eight/scene/Geometry.ts": {
+            "name": "src/davinci-eight/scene/Geometry.ts",
             "modules": {},
             "classes": {
-                "Composite": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
-        "src/davinci-eight/scene/GraphicsBuffers.ts": {
-            "name": "src/davinci-eight/scene/GraphicsBuffers.ts",
-            "modules": {},
-            "classes": {
-                "GraphicsBuffers": 1
+                "Geometry": 1
             },
             "fors": {},
             "namespaces": {}
@@ -1704,6 +1704,15 @@
             "modules": {},
             "classes": {
                 "IDrawList": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/scene/Mesh.ts": {
+            "name": "src/davinci-eight/scene/Mesh.ts",
+            "modules": {},
+            "classes": {
+                "Mesh": 1
             },
             "fors": {},
             "namespaces": {}
@@ -1865,46 +1874,12 @@
             "fors": {},
             "namespaces": {}
         },
-        "src/davinci-eight/visual/Arrow.ts": {
-            "name": "src/davinci-eight/visual/Arrow.ts",
+        "src/davinci-eight/visual/RigidBody.ts": {
+            "name": "src/davinci-eight/visual/RigidBody.ts",
             "modules": {},
             "classes": {
-                "Arrow": 1
+                "RigidBody": 1
             },
-            "fors": {},
-            "namespaces": {}
-        },
-        "src/davinci-eight/visual/Box.ts": {
-            "name": "src/davinci-eight/visual/Box.ts",
-            "modules": {},
-            "classes": {
-                "Box": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
-        "src/davinci-eight/visual/Cylinder.ts": {
-            "name": "src/davinci-eight/visual/Cylinder.ts",
-            "modules": {},
-            "classes": {
-                "Cylinder": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
-        "src/davinci-eight/visual/Sphere.ts": {
-            "name": "src/davinci-eight/visual/Sphere.ts",
-            "modules": {},
-            "classes": {
-                "Sphere": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
-        "src/davinci-eight/visual/VisualComponent.ts": {
-            "name": "src/davinci-eight/visual/VisualComponent.ts",
-            "modules": {},
-            "classes": {},
             "fors": {},
             "namespaces": {}
         },
@@ -1958,11 +1933,11 @@
                 "IContextMonitor": 1,
                 "IContextProvider": 1,
                 "IUnknown": 1,
+                "Material": 1,
                 "Primitive": 1,
                 "Shareable": 1,
                 "ShareableContextListener": 1,
                 "ShareableWebGLBuffer": 1,
-                "ShareableWebGLProgram": 1,
                 "ShareableWebGLTexture": 1,
                 "UniformLocation": 1,
                 "UniformMetaInfo": 1,
@@ -1982,6 +1957,7 @@
                 "AxialGeometry": 1,
                 "AxialSimplexGeometry": 1,
                 "BarnSimplexGeometry": 1,
+                "BoxGeometry": 1,
                 "ConeGeometry": 1,
                 "ConeSimplexGeometry": 1,
                 "CuboidGeometry": 1,
@@ -1993,7 +1969,6 @@
                 "DrawPrimitive": 1,
                 "ExtrudeSimplexGeometry": 1,
                 "FontFace": 1,
-                "Geometry": 1,
                 "GeometryMeta": 1,
                 "Glyph": 1,
                 "GridSimplexGeometry": 1,
@@ -2005,6 +1980,7 @@
                 "PathArgs": 1,
                 "PathKind": 1,
                 "PolyhedronSimplexGeometry": 1,
+                "PrimitivesBuilder": 1,
                 "RevolutionSimplexGeometry": 1,
                 "RingGeometry": 1,
                 "RingSimplexGeometry": 1,
@@ -2064,9 +2040,9 @@
                 "VectorN<T>": 1,
                 "ModelE2": 1,
                 "ModelE3": 1,
-                "Composite": 1,
-                "GraphicsBuffers": 1,
+                "Geometry": 1,
                 "IDrawList": 1,
+                "Mesh": 1,
                 "PrimitiveBuffer;": 1,
                 "PrimitiveBuffer": 1,
                 "Scene": 1,
@@ -2083,15 +2059,12 @@
                 "Topology": 1,
                 "EventEmitter": 1,
                 "WindowAnimationRunner": 1,
-                "Arrow": 1,
-                "Box": 1,
-                "Cylinder": 1,
-                "Sphere": 1
+                "RigidBody": 1
             },
             "fors": {},
             "namespaces": {},
-            "file": "src/davinci-eight/visual/Sphere.ts",
-            "line": 3
+            "file": "src/davinci-eight/visual/RigidBody.ts",
+            "line": 22
         },
         "geometries": {
             "name": "geometries",
@@ -2685,6 +2658,44 @@
             "description": "<p>\nEnables clients to manage the existence of an object through the addRef and release methods.\n</p>",
             "since": "2.75.0"
         },
+        "Material": {
+            "name": "Material",
+            "shortname": "Material",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "file": "src/davinci-eight/core/Material.ts",
+            "line": 64,
+            "extends": "Shareable",
+            "description": "This class is <em>simple</em> because it assumes exactly\none vertex shader and one fragment shader.\nThis class assumes that it will only be supporting a single WebGL rendering context.\nThe existence of the context in the constructor enables it to enforce this invariant.",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "context",
+                    "description": "The context that this program will work with.",
+                    "type": "IContextProvider"
+                },
+                {
+                    "name": "vertexShader",
+                    "description": "The vertex shader source code.",
+                    "type": "String"
+                },
+                {
+                    "name": "fragmentShader",
+                    "description": "The fragment shader source code.",
+                    "type": "String"
+                },
+                {
+                    "name": "attribs",
+                    "description": "The attribute ordering.",
+                    "type": "Array&lt;string&gt;",
+                    "optional": true
+                }
+            ]
+        },
         "Primitive": {
             "name": "Primitive",
             "shortname": "Primitive",
@@ -2763,44 +2774,6 @@
                     "name": "isElements",
                     "description": "",
                     "type": "Boolean"
-                }
-            ]
-        },
-        "ShareableWebGLProgram": {
-            "name": "ShareableWebGLProgram",
-            "shortname": "ShareableWebGLProgram",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "EIGHT",
-            "file": "src/davinci-eight/core/ShareableWebGLProgram.ts",
-            "line": 64,
-            "extends": "Shareable",
-            "description": "This class is <em>simple</em> because it assumes exactly\none vertex shader and one fragment shader.\nThis class assumes that it will only be supporting a single WebGL rendering context.\nThe existence of the context in the constructor enables it to enforce this invariant.",
-            "is_constructor": 1,
-            "params": [
-                {
-                    "name": "context",
-                    "description": "The context that this program will work with.",
-                    "type": "IContextProvider"
-                },
-                {
-                    "name": "vertexShader",
-                    "description": "The vertex shader source code.",
-                    "type": "String"
-                },
-                {
-                    "name": "fragmentShader",
-                    "description": "The fragment shader source code.",
-                    "type": "String"
-                },
-                {
-                    "name": "attribs",
-                    "description": "The attribute ordering.",
-                    "type": "Array&lt;string&gt;",
-                    "optional": true
                 }
             ]
         },
@@ -3168,6 +3141,39 @@
             "description": "A barn similar to that described in \"Computer Graphics using OpenGL\", by Hill and Kelly.",
             "is_constructor": 1
         },
+        "BoxGeometry": {
+            "name": "BoxGeometry",
+            "shortname": "BoxGeometry",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/geometries/BoxGeometry.ts",
+            "line": 24,
+            "description": "A convenience class for creating a cuboid.",
+            "extends": "Geometry",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "width",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "height",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "depth",
+                    "description": "",
+                    "type": "Number"
+                }
+            ]
+        },
         "ConeGeometry": {
             "name": "ConeGeometry",
             "shortname": "ConeGeometry",
@@ -3527,20 +3533,6 @@
             "line": 17,
             "is_constructor": 1
         },
-        "Geometry": {
-            "name": "Geometry",
-            "shortname": "Geometry",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "EIGHT",
-            "namespace": "",
-            "file": "src/davinci-eight/geometries/Geometry.ts",
-            "line": 23,
-            "is_constructor": 1
-        },
         "GeometryMeta": {
             "name": "GeometryMeta",
             "shortname": "GeometryMeta",
@@ -3754,6 +3746,20 @@
             "extends": "SimplexGeometry",
             "is_constructor": 1
         },
+        "PrimitivesBuilder": {
+            "name": "PrimitivesBuilder",
+            "shortname": "PrimitivesBuilder",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/geometries/PrimitivesBuilder.ts",
+            "line": 26,
+            "is_constructor": 1
+        },
         "RevolutionSimplexGeometry": {
             "name": "RevolutionSimplexGeometry",
             "shortname": "RevolutionSimplexGeometry",
@@ -3906,7 +3912,7 @@
             "namespace": "",
             "file": "src/davinci-eight/geometries/SimplexGeometry.ts",
             "line": 73,
-            "extends": "Geometry",
+            "extends": "PrimitivesBuilder",
             "description": "<p>\nA list of simplices (data) with information about dimensionality and vertex properties (meta). \nThis class should be used as an abstract base or concrete class when constructing\ngeometries that are to be manipulated in JavaScript (as opposed to GLSL shaders).\n</p>",
             "is_constructor": 1
         },
@@ -4158,7 +4164,7 @@
             "namespace": "",
             "file": "src/davinci-eight/materials/MeshLambertMaterial.ts",
             "line": 46,
-            "extends": "ShareableWebGLProgram",
+            "extends": "Material",
             "is_constructor": 1
         },
         "MeshMaterial": {
@@ -4204,7 +4210,7 @@
             "file": "src/davinci-eight/materials/SmartGraphicsProgram.ts",
             "line": 15,
             "description": "<p>\nSmartGraphicsProgram constructs a vertex shader and a fragment shader.\nThe shader codes are configured by specifying attributes, uniforms and varyings.\nThe default configuration is produces minimal shaders.\n<p>",
-            "extends": "ShareableWebGLProgram",
+            "extends": "Material",
             "is_constructor": 1,
             "params": [
                 {
@@ -5024,9 +5030,9 @@
                 }
             ]
         },
-        "Composite": {
-            "name": "Composite",
-            "shortname": "Composite",
+        "Geometry": {
+            "name": "Geometry",
+            "shortname": "Geometry",
             "classitems": [],
             "plugins": [],
             "extensions": [],
@@ -5034,39 +5040,7 @@
             "extension_for": [],
             "module": "EIGHT",
             "namespace": "",
-            "file": "src/davinci-eight/scene/Composite.ts",
-            "line": 43,
-            "extends": "Shareable",
-            "is_constructor": 1,
-            "params": [
-                {
-                    "name": "buffers",
-                    "description": "",
-                    "type": "GraphicsBuffers"
-                },
-                {
-                    "name": "program",
-                    "description": "",
-                    "type": "ShareableWebGLProgram"
-                },
-                {
-                    "name": "type",
-                    "description": "",
-                    "type": "String"
-                }
-            ]
-        },
-        "GraphicsBuffers": {
-            "name": "GraphicsBuffers",
-            "shortname": "GraphicsBuffers",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "EIGHT",
-            "namespace": "",
-            "file": "src/davinci-eight/scene/GraphicsBuffers.ts",
+            "file": "src/davinci-eight/scene/Geometry.ts",
             "line": 22,
             "description": "A collection of PrimitiveBuffer(s) with functions\nthat reflect the dependency on the WebGL context events.",
             "extends": "Shareable",
@@ -5090,8 +5064,42 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/scene/IDrawList.ts",
-            "line": 8,
+            "line": 6,
             "extends": "IContextConsumer"
+        },
+        "Mesh": {
+            "name": "Mesh",
+            "shortname": "Mesh",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/scene/Mesh.ts",
+            "line": 46,
+            "extends": "Shareable",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "buffers",
+                    "description": "",
+                    "type": "Geometry"
+                },
+                {
+                    "name": "program",
+                    "description": "",
+                    "type": "Material"
+                },
+                {
+                    "name": "type ",
+                    "description": "",
+                    "type": "String",
+                    "optional": true,
+                    "optdefault": " 'Mesh'"
+                }
+            ]
         },
         "PrimitiveBuffer;": {
             "name": "PrimitiveBuffer;",
@@ -5396,9 +5404,9 @@
             "file": "src/davinci-eight/utils/WindowAnimationRunner.ts",
             "line": 1
         },
-        "Arrow": {
-            "name": "Arrow",
-            "shortname": "Arrow",
+        "RigidBody": {
+            "name": "RigidBody",
+            "shortname": "RigidBody",
             "classitems": [],
             "plugins": [],
             "extensions": [],
@@ -5406,47 +5414,28 @@
             "extension_for": [],
             "module": "EIGHT",
             "namespace": "",
-            "file": "src/davinci-eight/visual/Arrow.ts",
-            "line": 3
-        },
-        "Box": {
-            "name": "Box",
-            "shortname": "Box",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "EIGHT",
-            "namespace": "",
-            "file": "src/davinci-eight/visual/Box.ts",
-            "line": 3
-        },
-        "Cylinder": {
-            "name": "Cylinder",
-            "shortname": "Cylinder",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "EIGHT",
-            "namespace": "",
-            "file": "src/davinci-eight/visual/Cylinder.ts",
-            "line": 4
-        },
-        "Sphere": {
-            "name": "Sphere",
-            "shortname": "Sphere",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "EIGHT",
-            "namespace": "",
-            "file": "src/davinci-eight/visual/Sphere.ts",
-            "line": 3
+            "file": "src/davinci-eight/visual/RigidBody.ts",
+            "line": 22,
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "buffers",
+                    "description": "",
+                    "type": "Geometry"
+                },
+                {
+                    "name": "program",
+                    "description": "",
+                    "type": "Material"
+                },
+                {
+                    "name": "type ",
+                    "description": "",
+                    "type": "String",
+                    "optional": true,
+                    "optdefault": " 'RigidBody'"
+                }
+            ]
         }
     },
     "elements": {},
@@ -5698,7 +5687,7 @@
             "line": 30,
             "itemtype": "property",
             "name": "material",
-            "type": "{ShareableWebGLProgram}",
+            "type": "{Material}",
             "class": "PerspectiveCamera"
         },
         {
@@ -5893,6 +5882,16 @@
         {
             "file": "src/davinci-eight/cameras/PerspectiveCamera.ts",
             "line": 201,
+            "description": "The position of the camera.",
+            "itemtype": "property",
+            "name": "position",
+            "type": "{R3}",
+            "readonly": "",
+            "class": "PerspectiveCamera"
+        },
+        {
+            "file": "src/davinci-eight/cameras/PerspectiveCamera.ts",
+            "line": 214,
             "itemtype": "method",
             "name": "setEye",
             "params": [
@@ -5911,7 +5910,7 @@
         },
         {
             "file": "src/davinci-eight/cameras/PerspectiveCamera.ts",
-            "line": 212,
+            "line": 225,
             "description": "The field of view is the (planar) angle (magnitude) in the camera horizontal plane that encloses object that can be seen.\nMeasured in radians.",
             "itemtype": "property",
             "name": "fov",
@@ -5921,7 +5920,7 @@
         },
         {
             "file": "src/davinci-eight/cameras/PerspectiveCamera.ts",
-            "line": 226,
+            "line": 239,
             "itemtype": "method",
             "name": "setFov",
             "params": [
@@ -5940,7 +5939,7 @@
         },
         {
             "file": "src/davinci-eight/cameras/PerspectiveCamera.ts",
-            "line": 246,
+            "line": 259,
             "description": "The distance to the near plane.",
             "itemtype": "property",
             "name": "near",
@@ -5950,7 +5949,7 @@
         },
         {
             "file": "src/davinci-eight/cameras/PerspectiveCamera.ts",
-            "line": 259,
+            "line": 272,
             "itemtype": "method",
             "name": "setNear",
             "params": [
@@ -8190,7 +8189,7 @@
                 {
                     "name": "program",
                     "description": "",
-                    "type": "ShareableWebGLProgram"
+                    "type": "Material"
                 },
                 {
                     "name": "aNameToKeyName",
@@ -8504,6 +8503,260 @@
             "class": "IUnknown"
         },
         {
+            "file": "src/davinci-eight/core/Material.ts",
+            "line": 24,
+            "itemtype": "property",
+            "name": "_vertexShader",
+            "type": "{string}",
+            "access": "private",
+            "tagname": "",
+            "class": "Material"
+        },
+        {
+            "file": "src/davinci-eight/core/Material.ts",
+            "line": 31,
+            "itemtype": "property",
+            "name": "fragmentShader",
+            "type": "{string}",
+            "access": "private",
+            "tagname": "",
+            "class": "Material"
+        },
+        {
+            "file": "src/davinci-eight/core/Material.ts",
+            "line": 38,
+            "itemtype": "property",
+            "name": "attribs",
+            "type": "{Array&lt;string&gt;}",
+            "access": "private",
+            "tagname": "",
+            "class": "Material"
+        },
+        {
+            "file": "src/davinci-eight/core/Material.ts",
+            "line": 45,
+            "itemtype": "property",
+            "name": "program",
+            "type": "{WebGLProgram}",
+            "access": "private",
+            "tagname": "",
+            "class": "Material"
+        },
+        {
+            "file": "src/davinci-eight/core/Material.ts",
+            "line": 52,
+            "itemtype": "property",
+            "name": "attributes",
+            "type": "{{[name: string]: AttribLocation}}",
+            "class": "Material"
+        },
+        {
+            "file": "src/davinci-eight/core/Material.ts",
+            "line": 58,
+            "itemtype": "property",
+            "name": "uniforms",
+            "type": "{{[name: string]: UniformLocation}}",
+            "class": "Material"
+        },
+        {
+            "file": "src/davinci-eight/core/Material.ts",
+            "line": 83,
+            "itemtype": "method",
+            "name": "destructor",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "access": "protected",
+            "tagname": "",
+            "class": "Material"
+        },
+        {
+            "file": "src/davinci-eight/core/Material.ts",
+            "line": 177,
+            "itemtype": "method",
+            "name": "use",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "Material"
+        },
+        {
+            "file": "src/davinci-eight/core/Material.ts",
+            "line": 191,
+            "itemtype": "property",
+            "name": "vertexShader",
+            "type": "string",
+            "class": "Material"
+        },
+        {
+            "file": "src/davinci-eight/core/Material.ts",
+            "line": 202,
+            "itemtype": "property",
+            "name": "fragmentShader",
+            "type": "string",
+            "class": "Material"
+        },
+        {
+            "file": "src/davinci-eight/core/Material.ts",
+            "line": 213,
+            "itemtype": "method",
+            "name": "enableAttrib",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "Material"
+        },
+        {
+            "file": "src/davinci-eight/core/Material.ts",
+            "line": 225,
+            "itemtype": "method",
+            "name": "disableAttrib",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "Material"
+        },
+        {
+            "file": "src/davinci-eight/core/Material.ts",
+            "line": 237,
+            "itemtype": "method",
+            "name": "uniform1f",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "x",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "Material"
+        },
+        {
+            "file": "src/davinci-eight/core/Material.ts",
+            "line": 250,
+            "itemtype": "method",
+            "name": "uniform2f",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "x",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "y",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "Material"
+        },
+        {
+            "file": "src/davinci-eight/core/Material.ts",
+            "line": 264,
+            "itemtype": "method",
+            "name": "uniform3f",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "x",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "y",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "z",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "Material"
+        },
+        {
+            "file": "src/davinci-eight/core/Material.ts",
+            "line": 279,
+            "itemtype": "method",
+            "name": "uniform4f",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "x",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "y",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "z",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "w",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "Material"
+        },
+        {
             "file": "src/davinci-eight/core/Primitive.ts",
             "line": 8,
             "itemtype": "property",
@@ -8661,260 +8914,6 @@
                 "type": "Void"
             },
             "class": "ShareableWebGLBuffer"
-        },
-        {
-            "file": "src/davinci-eight/core/ShareableWebGLProgram.ts",
-            "line": 24,
-            "itemtype": "property",
-            "name": "_vertexShader",
-            "type": "{string}",
-            "access": "private",
-            "tagname": "",
-            "class": "ShareableWebGLProgram"
-        },
-        {
-            "file": "src/davinci-eight/core/ShareableWebGLProgram.ts",
-            "line": 31,
-            "itemtype": "property",
-            "name": "fragmentShader",
-            "type": "{string}",
-            "access": "private",
-            "tagname": "",
-            "class": "ShareableWebGLProgram"
-        },
-        {
-            "file": "src/davinci-eight/core/ShareableWebGLProgram.ts",
-            "line": 38,
-            "itemtype": "property",
-            "name": "attribs",
-            "type": "{Array&lt;string&gt;}",
-            "access": "private",
-            "tagname": "",
-            "class": "ShareableWebGLProgram"
-        },
-        {
-            "file": "src/davinci-eight/core/ShareableWebGLProgram.ts",
-            "line": 45,
-            "itemtype": "property",
-            "name": "program",
-            "type": "{WebGLProgram}",
-            "access": "private",
-            "tagname": "",
-            "class": "ShareableWebGLProgram"
-        },
-        {
-            "file": "src/davinci-eight/core/ShareableWebGLProgram.ts",
-            "line": 52,
-            "itemtype": "property",
-            "name": "attributes",
-            "type": "{{[name: string]: AttribLocation}}",
-            "class": "ShareableWebGLProgram"
-        },
-        {
-            "file": "src/davinci-eight/core/ShareableWebGLProgram.ts",
-            "line": 58,
-            "itemtype": "property",
-            "name": "uniforms",
-            "type": "{{[name: string]: UniformLocation}}",
-            "class": "ShareableWebGLProgram"
-        },
-        {
-            "file": "src/davinci-eight/core/ShareableWebGLProgram.ts",
-            "line": 83,
-            "itemtype": "method",
-            "name": "destructor",
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "access": "protected",
-            "tagname": "",
-            "class": "ShareableWebGLProgram"
-        },
-        {
-            "file": "src/davinci-eight/core/ShareableWebGLProgram.ts",
-            "line": 177,
-            "itemtype": "method",
-            "name": "use",
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "ShareableWebGLProgram"
-        },
-        {
-            "file": "src/davinci-eight/core/ShareableWebGLProgram.ts",
-            "line": 191,
-            "itemtype": "property",
-            "name": "vertexShader",
-            "type": "string",
-            "class": "ShareableWebGLProgram"
-        },
-        {
-            "file": "src/davinci-eight/core/ShareableWebGLProgram.ts",
-            "line": 202,
-            "itemtype": "property",
-            "name": "fragmentShader",
-            "type": "string",
-            "class": "ShareableWebGLProgram"
-        },
-        {
-            "file": "src/davinci-eight/core/ShareableWebGLProgram.ts",
-            "line": 213,
-            "itemtype": "method",
-            "name": "enableAttrib",
-            "params": [
-                {
-                    "name": "name",
-                    "description": "",
-                    "type": "String"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "ShareableWebGLProgram"
-        },
-        {
-            "file": "src/davinci-eight/core/ShareableWebGLProgram.ts",
-            "line": 225,
-            "itemtype": "method",
-            "name": "disableAttrib",
-            "params": [
-                {
-                    "name": "name",
-                    "description": "",
-                    "type": "String"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "ShareableWebGLProgram"
-        },
-        {
-            "file": "src/davinci-eight/core/ShareableWebGLProgram.ts",
-            "line": 237,
-            "itemtype": "method",
-            "name": "uniform1f",
-            "params": [
-                {
-                    "name": "name",
-                    "description": "",
-                    "type": "String"
-                },
-                {
-                    "name": "x",
-                    "description": "",
-                    "type": "Number"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "ShareableWebGLProgram"
-        },
-        {
-            "file": "src/davinci-eight/core/ShareableWebGLProgram.ts",
-            "line": 250,
-            "itemtype": "method",
-            "name": "uniform2f",
-            "params": [
-                {
-                    "name": "name",
-                    "description": "",
-                    "type": "String"
-                },
-                {
-                    "name": "x",
-                    "description": "",
-                    "type": "Number"
-                },
-                {
-                    "name": "y",
-                    "description": "",
-                    "type": "Number"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "ShareableWebGLProgram"
-        },
-        {
-            "file": "src/davinci-eight/core/ShareableWebGLProgram.ts",
-            "line": 264,
-            "itemtype": "method",
-            "name": "uniform3f",
-            "params": [
-                {
-                    "name": "name",
-                    "description": "",
-                    "type": "String"
-                },
-                {
-                    "name": "x",
-                    "description": "",
-                    "type": "Number"
-                },
-                {
-                    "name": "y",
-                    "description": "",
-                    "type": "Number"
-                },
-                {
-                    "name": "z",
-                    "description": "",
-                    "type": "Number"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "ShareableWebGLProgram"
-        },
-        {
-            "file": "src/davinci-eight/core/ShareableWebGLProgram.ts",
-            "line": 279,
-            "itemtype": "method",
-            "name": "uniform4f",
-            "params": [
-                {
-                    "name": "name",
-                    "description": "",
-                    "type": "String"
-                },
-                {
-                    "name": "x",
-                    "description": "",
-                    "type": "Number"
-                },
-                {
-                    "name": "y",
-                    "description": "",
-                    "type": "Number"
-                },
-                {
-                    "name": "z",
-                    "description": "",
-                    "type": "Number"
-                },
-                {
-                    "name": "w",
-                    "description": "",
-                    "type": "Number"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "ShareableWebGLProgram"
         },
         {
             "file": "src/davinci-eight/core/ShareableWebGLShader.ts",
@@ -10961,87 +10960,6 @@
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/geometries/Geometry.ts",
-            "line": 12,
-            "itemtype": "property",
-            "name": "_position",
-            "type": "{CartesianE3}",
-            "access": "private",
-            "tagname": "",
-            "class": "Geometry",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/geometries/Geometry.ts",
-            "line": 18,
-            "itemtype": "property",
-            "name": "useTextureCoords",
-            "type": "{boolean}",
-            "class": "Geometry",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/geometries/Geometry.ts",
-            "line": 29,
-            "description": "<p>\nThe local `position` property used for geometry generation.\n</p>",
-            "itemtype": "property",
-            "name": "position",
-            "type": "{CartesianE3}",
-            "class": "Geometry",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/geometries/Geometry.ts",
-            "line": 42,
-            "itemtype": "method",
-            "name": "enableTextureCoords",
-            "params": [
-                {
-                    "name": "enable",
-                    "description": "",
-                    "type": "Boolean"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Geometry"
-            },
-            "chainable": 1,
-            "class": "Geometry",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/geometries/Geometry.ts",
-            "line": 54,
-            "itemtype": "method",
-            "name": "setPosition",
-            "params": [
-                {
-                    "name": "position",
-                    "description": "",
-                    "type": "VectorE3"
-                }
-            ],
-            "return": {
-                "description": "Geometry"
-            },
-            "chainable": 1,
-            "class": "Geometry",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/geometries/Geometry.ts",
-            "line": 66,
-            "itemtype": "method",
-            "name": "toPrimitives",
-            "return": {
-                "description": "",
-                "type": "Primitive[]"
-            },
-            "class": "Geometry",
-            "module": "EIGHT"
-        },
-        {
             "file": "src/davinci-eight/geometries/GeometryMeta.ts",
             "line": 5,
             "description": "The dimesionality of the simplices, assumed to be homogenous.",
@@ -11366,6 +11284,87 @@
             "line": 20,
             "description": "Modifies the incoming point by projecting it onto the unit sphere.\nAdd the point to the array of points\nSets a hidden `index` property to the index in `points`\nComputes the texture coordinates and sticks them in the hidden `uv` property as a R2.\nOK!",
             "class": "PolyhedronSimplexGeometry",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/PrimitivesBuilder.ts",
+            "line": 13,
+            "itemtype": "property",
+            "name": "_position",
+            "type": "{CartesianE3}",
+            "access": "private",
+            "tagname": "",
+            "class": "PrimitivesBuilder",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/PrimitivesBuilder.ts",
+            "line": 20,
+            "itemtype": "property",
+            "name": "useTextureCoords",
+            "type": "{boolean}",
+            "class": "PrimitivesBuilder",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/PrimitivesBuilder.ts",
+            "line": 34,
+            "description": "<p>\nThe local `position` property used for geometry generation.\n</p>",
+            "itemtype": "property",
+            "name": "position",
+            "type": "{CartesianE3}",
+            "class": "PrimitivesBuilder",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/PrimitivesBuilder.ts",
+            "line": 48,
+            "itemtype": "method",
+            "name": "enableTextureCoords",
+            "params": [
+                {
+                    "name": "enable",
+                    "description": "",
+                    "type": "Boolean"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "PrimitivesBuilder"
+            },
+            "chainable": 1,
+            "class": "PrimitivesBuilder",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/PrimitivesBuilder.ts",
+            "line": 60,
+            "itemtype": "method",
+            "name": "setPosition",
+            "params": [
+                {
+                    "name": "position",
+                    "description": "",
+                    "type": "VectorE3"
+                }
+            ],
+            "return": {
+                "description": "PrimitivesBuilder"
+            },
+            "chainable": 1,
+            "class": "PrimitivesBuilder",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/PrimitivesBuilder.ts",
+            "line": 72,
+            "itemtype": "method",
+            "name": "toPrimitives",
+            "return": {
+                "description": "",
+                "type": "Primitive[]"
+            },
+            "class": "PrimitivesBuilder",
             "module": "EIGHT"
         },
         {
@@ -26011,181 +26010,47 @@
             "file": "src/davinci-eight/programs/fragmentShader.ts",
             "line": 6,
             "description": "Generates a fragment shader",
-            "class": "Composite",
+            "class": "Geometry",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/programs/makeWebGLShader.ts",
             "line": 1,
-            "class": "Composite",
+            "class": "Geometry",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/programs/programFromScripts.ts",
             "line": 5,
-            "description": "Helper function for creating a <code>ShareableWebGLProgram</code> from HTML script element content.\nParameters:\nvsId The vertex shader script element identifier.\nfsId The fragment shader script element identifier.\ndom The DOM document containing the script elements.\n[attribs = []] The attribute indices (implied by order of the name in the array).",
-            "class": "Composite",
+            "description": "Helper function for creating a <code>Material</code> from HTML script element content.\nParameters:\nvsId The vertex shader script element identifier.\nfsId The fragment shader script element identifier.\ndom The DOM document containing the script elements.\n[attribs = []] The attribute indices (implied by order of the name in the array).",
+            "class": "Geometry",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/programs/smartProgram.ts",
             "line": 11,
-            "class": "Composite",
+            "class": "Geometry",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/programs/vertexShader.ts",
             "line": 24,
             "description": "Generates a vertex shader.",
-            "class": "Composite",
+            "class": "Geometry",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/scene/Composite.ts",
-            "line": 15,
-            "itemtype": "property",
-            "name": "_buffers",
-            "type": "{GraphicsBuffers}",
-            "access": "private",
-            "tagname": "",
-            "class": "Composite",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/scene/Composite.ts",
-            "line": 22,
-            "itemtype": "property",
-            "name": "_program",
-            "type": "{ShareableWebGLProgram}",
-            "access": "private",
-            "tagname": "",
-            "class": "Composite",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/scene/Composite.ts",
-            "line": 29,
-            "itemtype": "property",
-            "name": "name",
-            "type": "{string}",
-            "optional": 1,
-            "class": "Composite",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/scene/Composite.ts",
-            "line": 36,
-            "itemtype": "property",
-            "name": "facets",
-            "type": "{StringIUnknownMap&lt;Facet&gt;}",
-            "access": "private",
-            "tagname": "",
-            "class": "Composite",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/scene/Composite.ts",
-            "line": 59,
-            "itemtype": "method",
-            "name": "destructor",
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "access": "protected",
-            "tagname": "",
-            "class": "Composite",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/scene/Composite.ts",
-            "line": 74,
-            "itemtype": "method",
-            "name": "setUniforms",
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "Composite",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/scene/Composite.ts",
-            "line": 127,
-            "itemtype": "method",
-            "name": "getFacet",
-            "params": [
-                {
-                    "name": "name",
-                    "description": "",
-                    "type": "String"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Facet"
-            },
-            "class": "Composite",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/scene/Composite.ts",
-            "line": 136,
-            "itemtype": "method",
-            "name": "setFacet",
-            "params": [
-                {
-                    "name": "name",
-                    "description": "",
-                    "type": "String"
-                },
-                {
-                    "name": "facet",
-                    "description": "",
-                    "type": "Facet"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "Composite",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/scene/Composite.ts",
-            "line": 146,
-            "description": "Provides a reference counted reference to the graphics buffers property.",
-            "itemtype": "property",
-            "name": "buffers",
-            "type": "{GraphicsBuffers}",
-            "readonly": "",
-            "class": "Composite",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/scene/Composite.ts",
-            "line": 160,
-            "description": "Provides a reference counted reference to the graphics program property.",
-            "itemtype": "property",
-            "name": "program",
-            "type": "{ShareableWebGLProgram}",
-            "readonly": "",
-            "class": "Composite",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/scene/GraphicsBuffers.ts",
+            "file": "src/davinci-eight/scene/Geometry.ts",
             "line": 16,
             "itemtype": "property",
             "name": "buffers",
             "access": "private",
             "tagname": "",
-            "class": "GraphicsBuffers",
+            "class": "Geometry",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/scene/GraphicsBuffers.ts",
+            "file": "src/davinci-eight/scene/Geometry.ts",
             "line": 36,
             "itemtype": "method",
             "name": "destructor",
@@ -26195,20 +26060,20 @@
             },
             "access": "protected",
             "tagname": "",
-            "class": "GraphicsBuffers",
+            "class": "Geometry",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/scene/GraphicsBuffers.ts",
+            "file": "src/davinci-eight/scene/Geometry.ts",
             "line": 62,
             "itemtype": "method",
             "name": "contextFree",
             "params": [],
-            "class": "GraphicsBuffers",
+            "class": "Geometry",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/scene/GraphicsBuffers.ts",
+            "file": "src/davinci-eight/scene/Geometry.ts",
             "line": 72,
             "itemtype": "method",
             "name": "contextGain",
@@ -26223,11 +26088,11 @@
                 "description": "",
                 "type": "Void"
             },
-            "class": "GraphicsBuffers",
+            "class": "Geometry",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/scene/GraphicsBuffers.ts",
+            "file": "src/davinci-eight/scene/Geometry.ts",
             "line": 83,
             "itemtype": "method",
             "name": "contextLost",
@@ -26235,19 +26100,19 @@
                 "description": "",
                 "type": "Void"
             },
-            "class": "GraphicsBuffers",
+            "class": "Geometry",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/scene/IDrawList.ts",
-            "line": 14,
+            "line": 12,
             "itemtype": "method",
             "name": "add",
             "params": [
                 {
                     "name": "composit",
                     "description": "",
-                    "type": "Composite"
+                    "type": "Mesh"
                 }
             ],
             "return": {
@@ -26259,14 +26124,14 @@
         },
         {
             "file": "src/davinci-eight/scene/IDrawList.ts",
-            "line": 21,
+            "line": 19,
             "itemtype": "method",
             "name": "containsDrawable",
             "params": [
                 {
                     "name": "composite",
                     "description": "",
-                    "type": "Composite"
+                    "type": "Mesh"
                 }
             ],
             "return": {
@@ -26278,7 +26143,7 @@
         },
         {
             "file": "src/davinci-eight/scene/IDrawList.ts",
-            "line": 28,
+            "line": 26,
             "itemtype": "method",
             "name": "draw",
             "params": [
@@ -26297,7 +26162,7 @@
         },
         {
             "file": "src/davinci-eight/scene/IDrawList.ts",
-            "line": 35,
+            "line": 33,
             "description": "Finds a composite that matches the specified match test.",
             "itemtype": "method",
             "name": "findOne",
@@ -26310,14 +26175,14 @@
             ],
             "return": {
                 "description": "",
-                "type": "Composite"
+                "type": "Mesh"
             },
             "class": "IDrawList",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/scene/IDrawList.ts",
-            "line": 44,
+            "line": 42,
             "description": "Gets any composite that has the specified name.",
             "itemtype": "method",
             "name": "getDrawableByName",
@@ -26330,14 +26195,14 @@
             ],
             "return": {
                 "description": "",
-                "type": "Composite"
+                "type": "Mesh"
             },
             "class": "IDrawList",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/scene/IDrawList.ts",
-            "line": 53,
+            "line": 51,
             "description": "Gets a collection of composite elements by name.",
             "itemtype": "method",
             "name": "getDrawablesByName",
@@ -26357,17 +26222,160 @@
         },
         {
             "file": "src/davinci-eight/scene/IDrawList.ts",
-            "line": 61,
+            "line": 59,
             "itemtype": "method",
             "name": "remove",
             "params": [
                 {
                     "name": "composite",
                     "description": "",
-                    "type": "Composite"
+                    "type": "Mesh"
                 }
             ],
             "class": "IDrawList",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/scene/Mesh.ts",
+            "line": 16,
+            "itemtype": "property",
+            "name": "_buffers",
+            "type": "{Geometry}",
+            "access": "private",
+            "tagname": "",
+            "class": "Mesh",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/scene/Mesh.ts",
+            "line": 23,
+            "itemtype": "property",
+            "name": "_program",
+            "type": "{Material}",
+            "access": "private",
+            "tagname": "",
+            "class": "Mesh",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/scene/Mesh.ts",
+            "line": 30,
+            "itemtype": "property",
+            "name": "name",
+            "type": "{string}",
+            "optional": 1,
+            "class": "Mesh",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/scene/Mesh.ts",
+            "line": 39,
+            "itemtype": "property",
+            "name": "facets",
+            "type": "{StringIUnknownMap&lt;Facet&gt;}",
+            "access": "private",
+            "tagname": "",
+            "class": "Mesh",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/scene/Mesh.ts",
+            "line": 62,
+            "itemtype": "method",
+            "name": "destructor",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "access": "protected",
+            "tagname": "",
+            "class": "Mesh",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/scene/Mesh.ts",
+            "line": 77,
+            "itemtype": "method",
+            "name": "setUniforms",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "Mesh",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/scene/Mesh.ts",
+            "line": 131,
+            "itemtype": "method",
+            "name": "getFacet",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Facet"
+            },
+            "class": "Mesh",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/scene/Mesh.ts",
+            "line": 140,
+            "itemtype": "method",
+            "name": "setFacet",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "facet",
+                    "description": "",
+                    "type": "Facet"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "Mesh",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/scene/Mesh.ts",
+            "line": 150,
+            "description": "Provides a reference counted reference to the graphics buffers property.",
+            "itemtype": "property",
+            "name": "geometry",
+            "type": "{Geometry}",
+            "readonly": "",
+            "class": "Mesh",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/scene/Mesh.ts",
+            "line": 164,
+            "description": "Provides a reference counted reference to the graphics program property.",
+            "itemtype": "property",
+            "name": "material",
+            "type": "{Material}",
+            "readonly": "",
+            "class": "Mesh",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/scene/Mesh.ts",
+            "line": 178,
+            "itemtype": "property",
+            "name": "visible",
+            "type": "boolean",
+            "class": "Mesh",
             "module": "EIGHT"
         },
         {
@@ -26395,14 +26403,14 @@
         },
         {
             "file": "src/davinci-eight/scene/PrimitiveBuffer.ts",
-            "line": 64,
+            "line": 69,
             "itemtype": "method",
             "name": "draw",
             "params": [
                 {
                     "name": "program",
                     "description": "",
-                    "type": "ShareableWebGLProgram"
+                    "type": "Material"
                 }
             ],
             "return": {
@@ -26449,14 +26457,14 @@
         {
             "file": "src/davinci-eight/scene/Scene.ts",
             "line": 117,
-            "description": "<p>\nAdds the <code>composite</code> to this <code>Scene</code>.\n</p>",
+            "description": "<p>\nAdds the <code>mesh</code> to this <code>Scene</code>.\n</p>",
             "itemtype": "method",
             "name": "add",
             "params": [
                 {
-                    "name": "composite",
+                    "name": "mesh",
                     "description": "",
-                    "type": "Composite"
+                    "type": "Mesh"
                 }
             ],
             "return": {
@@ -26473,9 +26481,9 @@
             "name": "containsDrawable",
             "params": [
                 {
-                    "name": "composite",
+                    "name": "mesh",
                     "description": "",
-                    "type": "Composite"
+                    "type": "Mesh"
                 }
             ],
             "return": {
@@ -26515,12 +26523,12 @@
                 {
                     "name": "match",
                     "description": "",
-                    "type": "(composite: Composite) => boolean"
+                    "type": "(mesh: Mesh) => boolean"
                 }
             ],
             "return": {
                 "description": "",
-                "type": "Composite"
+                "type": "Mesh"
             },
             "class": "Scene",
             "module": "EIGHT"
@@ -26539,7 +26547,7 @@
             ],
             "return": {
                 "description": "",
-                "type": "Composite"
+                "type": "Mesh"
             },
             "class": "Scene",
             "module": "EIGHT"
@@ -26547,7 +26555,7 @@
         {
             "file": "src/davinci-eight/scene/Scene.ts",
             "line": 192,
-            "description": "Gets a collection of composite elements by name.",
+            "description": "Gets a collection of mesh elements by name.",
             "itemtype": "method",
             "name": "getDrawablesByName",
             "params": [
@@ -26564,14 +26572,14 @@
         {
             "file": "src/davinci-eight/scene/Scene.ts",
             "line": 205,
-            "description": "<p>\nRemoves the <code>composite</code> from this <code>Scene</code>.\n</p>",
+            "description": "<p>\nRemoves the <code>mesh</code> from this <code>Scene</code>.\n</p>",
             "itemtype": "method",
             "name": "remove",
             "params": [
                 {
-                    "name": "composite",
+                    "name": "mesh",
                     "description": "",
-                    "type": "Composite"
+                    "type": "Mesh"
                 }
             ],
             "return": {
@@ -27033,7 +27041,7 @@
         },
         {
             "file": "src/davinci-eight/scene/WebGLRenderer.ts",
-            "line": 774,
+            "line": 780,
             "description": "Initializes the WebGL context for the specified <code>canvas</code>.",
             "itemtype": "method",
             "name": "start",
@@ -27054,7 +27062,7 @@
         },
         {
             "file": "src/davinci-eight/scene/WebGLRenderer.ts",
-            "line": 811,
+            "line": 817,
             "itemtype": "method",
             "name": "stop",
             "return": {
@@ -27067,7 +27075,7 @@
         },
         {
             "file": "src/davinci-eight/scene/WebGLRenderer.ts",
-            "line": 871,
+            "line": 877,
             "itemtype": "method",
             "name": "synchronize",
             "params": [
@@ -27523,67 +27531,203 @@
             "file": "src/davinci-eight/utils/animation.ts",
             "line": 19,
             "description": "Creates an object implementing a stopwatch API that makes callbacks to user-supplied functions.\nclass WindowAnimationRunner\nconstructor\nparam animate The `animate` function is called for each animation frame.\nparam options.setUp The `setUp` function is called synchronously each time the start() method is called.\nparam options.tearDown The `tearDown` function is called asynchronously each time the animation is stopped.\nparam options.terminate The `terminate` function is called to determine whether the animation should stop.\nparam options.window {Window} The window in which the animation will run. Defaults to the global window.",
-            "class": "Arrow",
+            "class": "RigidBody",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/utils/getCanvasElementById.ts",
             "line": 4,
             "description": "Convenience function for &lt;HTMLCanvasElement&gt;document.getElementById(elementId).",
-            "class": "Arrow",
+            "class": "RigidBody",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/visual/Box.ts",
-            "line": 7,
-            "itemtype": "property",
-            "name": "width",
-            "type": "number",
-            "class": "Box",
+            "file": "src/davinci-eight/visual/RigidBody.ts",
+            "line": 41,
+            "itemtype": "method",
+            "name": "destructor",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "access": "protected",
+            "tagname": "",
+            "class": "RigidBody",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/visual/Box.ts",
-            "line": 13,
-            "itemtype": "property",
-            "name": "height",
-            "type": "number",
-            "class": "Box",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/visual/Box.ts",
-            "line": 19,
-            "itemtype": "property",
-            "name": "depth",
-            "type": "number",
-            "class": "Box",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/visual/Cylinder.ts",
-            "line": 9,
-            "description": "The axis, a unit vector.",
+            "file": "src/davinci-eight/visual/RigidBody.ts",
+            "line": 50,
+            "description": "Axis (vector)",
             "itemtype": "property",
             "name": "axis",
             "type": "G3",
-            "class": "Cylinder",
+            "class": "RigidBody",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/visual/Sphere.ts",
-            "line": 7,
+            "file": "src/davinci-eight/visual/RigidBody.ts",
+            "line": 67,
+            "description": "Color",
             "itemtype": "property",
-            "name": "radius",
-            "type": "number",
-            "class": "Sphere",
+            "name": "color",
+            "type": "Color",
+            "class": "RigidBody",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/visual/VisualComponent.ts",
-            "line": 5,
-            "description": "Intentionally undocumented.\nThese are the common properties of a visual component.",
-            "class": "",
+            "file": "src/davinci-eight/visual/RigidBody.ts",
+            "line": 85,
+            "description": "Mass",
+            "itemtype": "property",
+            "name": "m",
+            "type": "G3",
+            "class": "RigidBody",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/visual/RigidBody.ts",
+            "line": 99,
+            "description": "Momentum",
+            "itemtype": "property",
+            "name": "P",
+            "type": "G3",
+            "class": "RigidBody",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/visual/RigidBody.ts",
+            "line": 112,
+            "description": "Attitude (spinor)",
+            "itemtype": "property",
+            "name": "R",
+            "type": "G3",
+            "class": "RigidBody",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/visual/RigidBody.ts",
+            "line": 125,
+            "description": "Position (vector)",
+            "itemtype": "property",
+            "name": "X",
+            "type": "G3",
+            "class": "RigidBody",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/visual/RigidBody.ts",
+            "line": 139,
+            "itemtype": "method",
+            "name": "getScaleX",
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "access": "protected",
+            "tagname": "",
+            "class": "RigidBody",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/visual/RigidBody.ts",
+            "line": 148,
+            "itemtype": "method",
+            "name": "setScaleX",
+            "params": [
+                {
+                    "name": "x",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "access": "protected",
+            "tagname": "",
+            "class": "RigidBody",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/visual/RigidBody.ts",
+            "line": 158,
+            "itemtype": "method",
+            "name": "getScaleY",
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "access": "protected",
+            "tagname": "",
+            "class": "RigidBody",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/visual/RigidBody.ts",
+            "line": 167,
+            "itemtype": "method",
+            "name": "setScaleY",
+            "params": [
+                {
+                    "name": "y",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "access": "protected",
+            "tagname": "",
+            "class": "RigidBody",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/visual/RigidBody.ts",
+            "line": 177,
+            "itemtype": "method",
+            "name": "getScaleZ",
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "access": "protected",
+            "tagname": "",
+            "class": "RigidBody",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/visual/RigidBody.ts",
+            "line": 186,
+            "itemtype": "method",
+            "name": "setScaleZ",
+            "params": [
+                {
+                    "name": "z",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "access": "protected",
+            "tagname": "",
+            "class": "RigidBody",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/visual/RigidBody.ts",
+            "line": 196,
+            "description": "Helper method for accessing the model.\nThe underscore notation should suggest that a release call is not required.",
+            "itemtype": "method",
+            "name": "_model",
+            "type": "Modelfacet",
+            "class": "RigidBody",
             "module": "EIGHT"
         },
         {
@@ -27616,7 +27760,7 @@
         },
         {
             "message": "param name/type/descript missing",
-            "line": " src/davinci-eight/scene/GraphicsBuffers.ts:62"
+            "line": " src/davinci-eight/scene/Geometry.ts:62"
         },
         {
             "message": "unknown tag: proprty",
@@ -28411,7 +28555,7 @@
             "line": " src/davinci-eight/programs/makeWebGLShader.ts:1"
         },
         {
-            "message": "Missing item type\nHelper function for creating a <code>ShareableWebGLProgram</code> from HTML script element content.\nParameters:\nvsId The vertex shader script element identifier.\nfsId The fragment shader script element identifier.\ndom The DOM document containing the script elements.\n[attribs = []] The attribute indices (implied by order of the name in the array).",
+            "message": "Missing item type\nHelper function for creating a <code>Material</code> from HTML script element content.\nParameters:\nvsId The vertex shader script element identifier.\nfsId The fragment shader script element identifier.\ndom The DOM document containing the script elements.\n[attribs = []] The attribute indices (implied by order of the name in the array).",
             "line": " src/davinci-eight/programs/programFromScripts.ts:5"
         },
         {
@@ -28557,10 +28701,6 @@
         {
             "message": "Missing item type\nConvenience function for &lt;HTMLCanvasElement&gt;document.getElementById(elementId).",
             "line": " src/davinci-eight/utils/getCanvasElementById.ts:4"
-        },
-        {
-            "message": "Missing item type\nIntentionally undocumented.\nThese are the common properties of a visual component.",
-            "line": " src/davinci-eight/visual/VisualComponent.ts:5"
         },
         {
             "message": "Missing item type",

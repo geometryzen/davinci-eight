@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../math/CartesianE3', '../geometries/Geometry', '../checks/mustBeNumber', '../checks/mustBeObject', '../math/R3'], function (require, exports, CartesianE3_1, Geometry_1, mustBeNumber_1, mustBeObject_1, R3_1) {
+define(["require", "exports", '../math/CartesianE3', '../geometries/PrimitivesBuilder', '../checks/mustBeNumber', '../checks/mustBeObject', '../math/R3'], function (require, exports, CartesianE3_1, PrimitivesBuilder_1, mustBeNumber_1, mustBeObject_1, R3_1) {
     var AxialGeometry = (function (_super) {
         __extends(AxialGeometry, _super);
         function AxialGeometry(axis, sliceStart) {
@@ -67,7 +67,7 @@ define(["require", "exports", '../math/CartesianE3', '../geometries/Geometry', '
             return this;
         };
         return AxialGeometry;
-    })(Geometry_1.default);
+    })(PrimitivesBuilder_1.default);
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = AxialGeometry;
 });

@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../materials/GraphicsProgramBuilder', '../core/GraphicsProgramSymbols', '../core/ShareableWebGLProgram'], function (require, exports, GraphicsProgramBuilder_1, GraphicsProgramSymbols_1, ShareableWebGLProgram_1) {
+define(["require", "exports", '../materials/GraphicsProgramBuilder', '../core/GraphicsProgramSymbols', '../core/Material'], function (require, exports, GraphicsProgramBuilder_1, GraphicsProgramSymbols_1, Material_1) {
     function vertexShader() {
         var gpb = new GraphicsProgramBuilder_1.default();
         gpb.attribute(GraphicsProgramSymbols_1.default.ATTRIBUTE_POSITION, 3);
@@ -30,7 +30,7 @@ define(["require", "exports", '../materials/GraphicsProgramBuilder', '../core/Gr
             _super.call(this, vertexShader(), fragmentShader());
         }
         return LineMaterial;
-    })(ShareableWebGLProgram_1.default);
+    })(Material_1.default);
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = LineMaterial;
 });

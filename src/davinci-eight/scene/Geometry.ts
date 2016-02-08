@@ -8,10 +8,10 @@ import Shareable from '../core/Shareable';
 /**
  * A collection of PrimitiveBuffer(s) with functions
  * that reflect the dependency on the WebGL context events.
- * @class GraphicsBuffers
+ * @class Geometry
  * @extends Shareable
  */
-export default class GraphicsBuffers extends Shareable {
+export default class Geometry extends Shareable {
 
     /**
      * @property buffers
@@ -20,12 +20,12 @@ export default class GraphicsBuffers extends Shareable {
     private buffers: IUnknownArray<PrimitiveBuffer>;
 
     /**
-     * @class GraphicsBuffers
+     * @class Geometry
      * @constructor
      * @param primitives {Primitive[]}
      */
     constructor(primitives: Primitive[]) {
-        super('GraphicsBuffers');
+        super('Geometry');
         this.buffers = new IUnknownArray<PrimitiveBuffer>()
         const iLen = primitives.length
         for (let i = 0; i < iLen; i++) {

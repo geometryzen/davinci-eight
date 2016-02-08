@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../checks/mustBeObject', '../checks/mustBeString', '../core/ShareableWebGLProgram'], function (require, exports, mustBeObject_1, mustBeString_1, ShareableWebGLProgram_1) {
+define(["require", "exports", '../checks/mustBeObject', '../checks/mustBeString', '../core/Material'], function (require, exports, mustBeObject_1, mustBeString_1, Material_1) {
     function $(id, dom) {
         var element = dom.getElementById(mustBeString_1.default('id', id));
         if (element) {
@@ -33,7 +33,7 @@ define(["require", "exports", '../checks/mustBeObject', '../checks/mustBeString'
             _super.call(this, vertexShader(scriptIds, dom), fragmentShader(scriptIds, dom));
         }
         return HTMLScriptsGraphicsProgram;
-    })(ShareableWebGLProgram_1.default);
+    })(Material_1.default);
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = HTMLScriptsGraphicsProgram;
 });

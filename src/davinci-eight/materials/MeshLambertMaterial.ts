@@ -1,6 +1,6 @@
 import GraphicsProgramBuilder from '../materials/GraphicsProgramBuilder';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
-import ShareableWebGLProgram from '../core/ShareableWebGLProgram';
+import Material from '../core/Material';
 
 function vertexShader(): string {
     const smb = new GraphicsProgramBuilder()
@@ -40,9 +40,9 @@ function fragmentShader(): string {
 
 /**
  * @class MeshLambertMaterial
- * @extends ShareableWebGLProgram
+ * @extends Material
  */
-export default class MeshLambertMaterial extends ShareableWebGLProgram {
+export default class MeshLambertMaterial extends Material {
     /**
      * 
      * @class MeshLambertMaterial

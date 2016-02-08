@@ -1,6 +1,6 @@
 import GraphicsProgramBuilder from '../materials/GraphicsProgramBuilder';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
-import ShareableWebGLProgram from '../core/ShareableWebGLProgram';
+import Material from '../core/Material';
 
 function vertexShader(): string {
     const gpb = new GraphicsProgramBuilder();
@@ -34,7 +34,7 @@ function fragmentShader(): string {
  * @class LineMaterial
  * @extends GraphicsProgram
  */
-export default class LineMaterial extends ShareableWebGLProgram {
+export default class LineMaterial extends Material {
     /**
      * @class LineMaterial
      * @constructor

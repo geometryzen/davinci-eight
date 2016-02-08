@@ -1,7 +1,7 @@
 import IBufferGeometry from '../core/IBufferGeometry'
 import IContextConsumer from '../core/IContextConsumer'
 import IContextProvider from '../core/IContextProvider'
-import ShareableWebGLProgram from '../core/ShareableWebGLProgram'
+import Material from '../core/Material'
 import Primitive from '../core/Primitive'
 import Shareable from '../core/Shareable'
 
@@ -39,21 +39,26 @@ export default class PrimitiveBuffer extends Shareable implements IContextConsum
         super('PrimitiveBuffer')
         this._dataSource = dataSource;
     }
+
     protected destructor(): void {
         this.dropBuffer()
         super.destructor()
     }
+
     public contextFree(manager: IContextProvider): void {
         this.dropBuffer()
     }
+
     public contextGain(manager: IContextProvider): void {
         if (!this._dataBuffer) {
             this._dataBuffer = manager.createBufferGeometry(this._dataSource)
         }
     }
+
     public contextLost(): void {
         this.dropBuffer()
     }
+
     private dropBuffer(): void {
         if (this._dataBuffer) {
             this._dataBuffer.release();
@@ -63,12 +68,14 @@ export default class PrimitiveBuffer extends Shareable implements IContextConsum
 
     /**
      * @method draw
-     * @param program {ShareableWebGLProgram}
+     * @param program {Material}
      * @return {void}
      */
-    draw(program: ShareableWebGLProgram): void {
-        this._dataBuffer.bind(program/*, aNameToKeyName*/) // FIXME: Why not part of the API?
-        this._dataBuffer.draw()
-        this._dataBuffer.unbind()
+    draw(program: Material): void {
+        if (this._dataBuffer) {
+            this._dataBuffer.bind(program/*, aNameToKeyName*/) // FIXME: Why not part of the API?
+            this._dataBuffer.draw()
+            this._dataBuffer.unbind()
+        }
     }
 }

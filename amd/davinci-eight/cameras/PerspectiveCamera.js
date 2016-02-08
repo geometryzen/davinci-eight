@@ -82,6 +82,16 @@ define(["require", "exports", '../cameras/createPerspective', '../i18n/readOnly'
             enumerable: true,
             configurable: true
         });
+        Object.defineProperty(PerspectiveCamera.prototype, "position", {
+            get: function () {
+                return this.inner.eye;
+            },
+            set: function (position) {
+                this.inner.eye.copy(position);
+            },
+            enumerable: true,
+            configurable: true
+        });
         PerspectiveCamera.prototype.setEye = function (eye) {
             this.inner.setEye(eye);
             return this;

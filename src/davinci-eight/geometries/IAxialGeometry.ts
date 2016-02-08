@@ -1,7 +1,7 @@
 import VectorE3 from '../math/VectorE3';
-import IGeometry from '../geometries/IGeometry';
+import IPrimitivesBuilder from '../geometries/IPrimitivesBuilder';
 
-interface IAxialGeometry<T> extends IGeometry<T> {
+interface IAxialGeometry<T> extends IPrimitivesBuilder<T> {
     setAxis(axis: VectorE3): T
 }
 

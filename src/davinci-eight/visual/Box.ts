@@ -1,26 +1,35 @@
-import VisualComponent from './VisualComponent';
+import mustBeNumber from '../checks/mustBeNumber';
+import visualCache from './visualCache';
+import RigidBody from './RigidBody'
 
-/**
- * @class Box
- */
-interface Box extends VisualComponent {
-    /**
-     * @property width
-     * @type number
-     */
-    width: number;
-
-    /**
-     * @property height
-     * @type number
-     */
-    height: number;
-
-    /**
-     * @property depth
-     * @type number
-     */
-    depth: number;
+export default class Box extends RigidBody {
+    constructor() {
+        super(visualCache.cuboid(), visualCache.program(), 'Box')
+        this._buffers.release()
+        this._program.release()
+    }
+    protected destructor(): void {
+        super.destructor()
+    }
+    get width(): number {
+        return this.getScaleX()
+    }
+    set width(width: number) {
+        mustBeNumber('width', width)
+        this.setScaleX(width)
+    }
+    get height(): number {
+        return this.getScaleY()
+    }
+    set height(height: number) {
+        mustBeNumber('height', height)
+        this.setScaleY(height)
+    }
+    get depth(): number {
+        return this.getScaleZ()
+    }
+    set depth(depth: number) {
+        mustBeNumber('depth', depth)
+        this.setScaleZ(depth)
+    }
 }
-
-export default Box;

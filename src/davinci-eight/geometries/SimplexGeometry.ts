@@ -1,9 +1,9 @@
 import Euclidean3 from '../math/Euclidean3';
 import GeometryMeta from '../geometries/GeometryMeta';
-import IGeometry from '../geometries/IGeometry';
+import IPrimitivesBuilder from '../geometries/IPrimitivesBuilder';
 import mustBeBoolean from '../checks/mustBeBoolean';
 import mustBeInteger from '../checks/mustBeInteger';
-import Geometry from '../geometries/Geometry';
+import PrimitivesBuilder from '../geometries/PrimitivesBuilder';
 import Simplex from '../geometries/Simplex';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
 import simplicesToDrawPrimitive from '../geometries/simplicesToDrawPrimitive';
@@ -16,9 +16,9 @@ import VectorE3 from '../math/VectorE3';
 
 /**
  * @class SimplexGeometry
- * @extends Geometry
+ * @extends PrimitivesBuilder
  */
-export default class SimplexGeometry extends Geometry implements IGeometry<SimplexGeometry> {
+export default class SimplexGeometry extends PrimitivesBuilder implements IPrimitivesBuilder<SimplexGeometry> {
     /**
      * The geometry as a list of simplices.
      * A simplex, in the context of WebGL, will usually represent a triangle, line or point.

@@ -1,16 +1,16 @@
 import mustBeObject from '../checks/mustBeObject';
 import mustBeString from '../checks/mustBeString';
-import ShareableWebGLProgram from '../core/ShareableWebGLProgram';
+import Material from '../core/Material';
 
 /**
- * Helper function for creating a <code>ShareableWebGLProgram</code> from HTML script element content.
+ * Helper function for creating a <code>Material</code> from HTML script element content.
  * Parameters:
  * vsId The vertex shader script element identifier.
  * fsId The fragment shader script element identifier.
  * dom The DOM document containing the script elements.
  * [attribs = []] The attribute indices (implied by order of the name in the array).
  */
-export default function programFromScripts(vsId: string, fsId: string, dom: Document, attribs: string[] = []): ShareableWebGLProgram {
+export default function programFromScripts(vsId: string, fsId: string, dom: Document, attribs: string[] = []): Material {
     mustBeString('vsId', vsId)
     mustBeString('fsId', fsId)
     mustBeObject('dom', dom)
@@ -28,5 +28,5 @@ export default function programFromScripts(vsId: string, fsId: string, dom: Docu
 
     const vertexShader: string = $(vsId).textContent;
     const fragmentShader: string = $(fsId).textContent;
-    return new ShareableWebGLProgram(vertexShader, fragmentShader, attribs);
+    return new Material(vertexShader, fragmentShader, attribs);
 }

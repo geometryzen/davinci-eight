@@ -1,6 +1,6 @@
 import mustBeObject from '../checks/mustBeObject';
 import mustBeString from '../checks/mustBeString';
-import ShareableWebGLProgram from '../core/ShareableWebGLProgram';
+import Material from '../core/Material';
 
 function $(id: string, dom: Document): HTMLElement {
     const element = dom.getElementById(mustBeString('id', id))
@@ -30,7 +30,7 @@ function fragmentShader(scriptIds: string[], dom: Document): string {
  * @class HTMLScriptsGraphicsProgram
  * @extends GraphicsProgram
  */
-export default class HTMLScriptsGraphicsProgram extends ShareableWebGLProgram {
+export default class HTMLScriptsGraphicsProgram extends Material {
     /**
      * @class HTMLScriptsGraphicsProgram
      * @constructor

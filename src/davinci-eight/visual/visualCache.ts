@@ -1,8 +1,8 @@
 import ArrowGeometry from '../geometries/ArrowGeometry';
 import CuboidGeometry from '../geometries/CuboidGeometry';
 import CylinderSimplexGeometry from '../geometries/CylinderSimplexGeometry';
-import GraphicsBuffers from '../scene/GraphicsBuffers';
-import ShareableWebGLProgram from '../core/ShareableWebGLProgram';
+import Geometry from '../scene/Geometry';
+import Material from '../core/Material';
 import MeshLambertMaterial from '../materials/MeshLambertMaterial';
 import G3 from '../math/G3';
 import SphereGeometry from '../geometries/SphereGeometry';
@@ -10,30 +10,30 @@ import SphereGeometry from '../geometries/SphereGeometry';
 function arrow() {
     const geometry = new ArrowGeometry(G3.e2);
     const primitives = geometry.toPrimitives();
-    return new GraphicsBuffers(primitives);
+    return new Geometry(primitives);
 }
 
-function box() {
+function cuboid() {
     const geometry = new CuboidGeometry();
     const primitives = geometry.toPrimitives();
-    return new GraphicsBuffers(primitives);
+    return new Geometry(primitives);
 }
 
 function cylinder() {
     const geometry = new CylinderSimplexGeometry();
     const primitives = geometry.toPrimitives();
-    return new GraphicsBuffers(primitives);
+    return new Geometry(primitives);
 }
 
 function sphere() {
     const geometry = new SphereGeometry(1, G3.e2);
     const primitives = geometry.toPrimitives();
-    return new GraphicsBuffers(primitives);
+    return new Geometry(primitives);
 }
 
 class VisualCache {
     // Intentionally use only weak references.
-    private buffersMap: { [key: string]: GraphicsBuffers } = {}
+    private buffersMap: { [key: string]: Geometry } = {}
     private _program: MeshLambertMaterial;
 
     constructor() {
@@ -48,7 +48,7 @@ class VisualCache {
             return true;
         }
     }
-    private ensureBuffers(key: string, factory: () => GraphicsBuffers): GraphicsBuffers {
+    private ensureBuffers(key: string, factory: () => Geometry): Geometry {
         if (this.isZombieOrMissing(key)) {
             this.buffersMap[key] = factory();
         }
@@ -57,19 +57,19 @@ class VisualCache {
         }
         return this.buffersMap[key];
     }
-    arrow(): GraphicsBuffers {
+    arrow(): Geometry {
         return this.ensureBuffers('arrow', arrow);
     }
-    box(): GraphicsBuffers {
-        return this.ensureBuffers('box', box);
+    cuboid(): Geometry {
+        return this.ensureBuffers('cuboid', cuboid);
     }
-    cylinder(): GraphicsBuffers {
+    cylinder(): Geometry {
         return this.ensureBuffers('cylinder', cylinder);
     }
-    sphere(): GraphicsBuffers {
+    sphere(): Geometry {
         return this.ensureBuffers('sphere', sphere);
     }
-    program(): ShareableWebGLProgram {
+    program(): Material {
         if (this._program) {
             if (this._program.isZombie()) {
                 this._program = new MeshLambertMaterial();

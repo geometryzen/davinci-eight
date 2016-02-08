@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../math/Euclidean3', '../topologies/GridTopology', '../geometries/Geometry', '../core/GraphicsProgramSymbols', '../checks/mustBeNumber', '../math/R3', '../math/R2'], function (require, exports, Euclidean3_1, GridTopology_1, Geometry_1, GraphicsProgramSymbols_1, mustBeNumber_1, R3_1, R2_1) {
+define(["require", "exports", '../math/Euclidean3', '../topologies/GridTopology', '../geometries/PrimitivesBuilder', '../core/GraphicsProgramSymbols', '../checks/mustBeNumber', '../math/R3', '../math/R2'], function (require, exports, Euclidean3_1, GridTopology_1, PrimitivesBuilder_1, GraphicsProgramSymbols_1, mustBeNumber_1, R3_1, R2_1) {
     function side(basis, uSegments, vSegments) {
         var normal = R3_1.default.copy(basis[0]).cross(basis[1]).direction();
         var aNeg = R3_1.default.copy(basis[0]).scale(-0.5);
@@ -93,7 +93,7 @@ define(["require", "exports", '../math/Euclidean3', '../topologies/GridTopology'
             return this;
         };
         return CuboidGeometry;
-    })(Geometry_1.default);
+    })(PrimitivesBuilder_1.default);
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = CuboidGeometry;
 });

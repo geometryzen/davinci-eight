@@ -1,4 +1,4 @@
-import ShareableWebGLProgram from './ShareableWebGLProgram';
+import Material from './Material';
 import IUnknown from './IUnknown';
 
 /**
@@ -15,11 +15,11 @@ interface IBufferGeometry extends IUnknown {
 
     /**
      * @method bind
-     * @param program {ShareableWebGLProgram}
+     * @param program {Material}
      * @param aNameToKeyName
      * @return {void}
      */
-    bind(program: ShareableWebGLProgram, aNameToKeyName?: { [name: string]: string }): void;
+    bind(program: Material, aNameToKeyName?: { [name: string]: string }): void;
 
     /**
      * @method draw

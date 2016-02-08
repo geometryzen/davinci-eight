@@ -1,7 +1,5 @@
 import IContextListener from '../core/IContextListener';
-import Composite from './Composite';
-import ShareableWebGLProgram from '../core/ShareableWebGLProgram';
-import IUnknown from '../core/IUnknown';
+import Mesh from './Mesh';
 import IUnknownArray from '../collections/IUnknownArray';
 import Facet from '../core/Facet';
 
@@ -13,17 +11,17 @@ interface IDrawList extends IContextListener {
 
     /**
      * @method add
-     * @param composit {Composite}
+     * @param composit {Mesh}
      * @return {void}
      */
-    add(composite: Composite): void;
+    add(composite: Mesh): void;
 
     /**
      * @method containsDrawable
-     * @param composite {Composite}
+     * @param composite {Mesh}
      * @return {boolean}
      */
-    containsDrawable(composite: Composite): boolean;
+    containsDrawable(composite: Mesh): boolean;
 
     /**
      * @method draw
@@ -37,18 +35,18 @@ interface IDrawList extends IContextListener {
      *
      * @method findOne
      * @param match {(composite: ID) => boolean}
-     * @return {Composite}
+     * @return {Mesh}
      */
-    findOne(match: (composite: Composite) => boolean): Composite;
+    findOne(match: (composite: Mesh) => boolean): Mesh;
 
     /**
      * Gets any composite that has the specified name.
      *
      * @method getDrawableByName
      * @param name {string}
-     * @return {Composite}
+     * @return {Mesh}
      */
-    getDrawableByName(name: string): Composite;
+    getDrawableByName(name: string): Mesh;
 
     /**
      * Gets a collection of composite elements by name.
@@ -56,13 +54,13 @@ interface IDrawList extends IContextListener {
      * @param name {string}
      * @return {IUnknownArray}
      */
-    getDrawablesByName(name: string): IUnknownArray<Composite>;
+    getDrawablesByName(name: string): IUnknownArray<Mesh>;
 
     /**
      * @method remove
-     * @param composite {Composite}
+     * @param composite {Mesh}
      */
-    remove(composite: Composite): void;
+    remove(composite: Mesh): void;
 }
 
 export default IDrawList;

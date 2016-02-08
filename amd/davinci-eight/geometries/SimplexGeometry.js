@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../math/Euclidean3', '../checks/mustBeBoolean', '../checks/mustBeInteger', '../geometries/Geometry', '../geometries/Simplex', '../core/GraphicsProgramSymbols', '../geometries/simplicesToDrawPrimitive', '../geometries/simplicesToGeometryMeta', '../math/R1', '../math/R3'], function (require, exports, Euclidean3_1, mustBeBoolean_1, mustBeInteger_1, Geometry_1, Simplex_1, GraphicsProgramSymbols_1, simplicesToDrawPrimitive_1, simplicesToGeometryMeta_1, R1_1, R3_1) {
+define(["require", "exports", '../math/Euclidean3', '../checks/mustBeBoolean', '../checks/mustBeInteger', '../geometries/PrimitivesBuilder', '../geometries/Simplex', '../core/GraphicsProgramSymbols', '../geometries/simplicesToDrawPrimitive', '../geometries/simplicesToGeometryMeta', '../math/R1', '../math/R3'], function (require, exports, Euclidean3_1, mustBeBoolean_1, mustBeInteger_1, PrimitivesBuilder_1, Simplex_1, GraphicsProgramSymbols_1, simplicesToDrawPrimitive_1, simplicesToGeometryMeta_1, R1_1, R3_1) {
     var SimplexGeometry = (function (_super) {
         __extends(SimplexGeometry, _super);
         function SimplexGeometry() {
@@ -120,7 +120,7 @@ define(["require", "exports", '../math/Euclidean3', '../checks/mustBeBoolean', '
             return this;
         };
         return SimplexGeometry;
-    })(Geometry_1.default);
+    })(PrimitivesBuilder_1.default);
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = SimplexGeometry;
 });

@@ -16,10 +16,10 @@ import VectorE3 from '../math/VectorE3';
 import VectorE4 from '../math/VectorE4';
 
 /**
- * @class ShareableWebGLProgram
+ * @class Material
  * @extends Shareable
  */
-export default class ShareableWebGLProgram extends ShareableContextListener {
+export default class Material extends ShareableContextListener {
 
     /**
      * @property _vertexShader
@@ -66,7 +66,7 @@ export default class ShareableWebGLProgram extends ShareableContextListener {
      * one vertex shader and one fragment shader.
      * This class assumes that it will only be supporting a single WebGL rendering context.
      * The existence of the context in the constructor enables it to enforce this invariant.
-     * @class ShareableWebGLProgram
+     * @class Material
      * @constructor
      * @param context {IContextProvider} The context that this program will work with.
      * @param vertexShader {string} The vertex shader source code.
@@ -74,7 +74,7 @@ export default class ShareableWebGLProgram extends ShareableContextListener {
      * @param [attribs] {Array&lt;string&gt;} The attribute ordering.
      */
     constructor(vertexShader: string, fragmentShader: string, attribs: string[] = []) {
-        super('ShareableWebGLProgram')
+        super('Material')
         this._vertexShader = mustBeString('vertexShader', vertexShader)
         this._fragmentShader = mustBeString('fragmentShader', fragmentShader)
         this.attribs = mustBeArray('attribs', attribs)

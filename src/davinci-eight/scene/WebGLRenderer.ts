@@ -10,7 +10,7 @@ import ShareableWebGLBuffer from '../core/ShareableWebGLBuffer';
 import IContextCommand from '../core/IContextCommand';
 import IBufferGeometry from '../core/IBufferGeometry';
 import IDrawList from '../scene/IDrawList';
-import ShareableWebGLProgram from '../core/ShareableWebGLProgram';
+import Material from '../core/Material';
 import IUnknownArray from '../collections/IUnknownArray';
 import initWebGL from './initWebGL';
 import isDefined from '../checks/isDefined';
@@ -278,8 +278,8 @@ function attribKey(aName: string, aNameToKeyName?: { [aName: string]: string }):
 /**
  *
  */
-function bindProgramAttribLocations(program: ShareableWebGLProgram, block: ElementsBlock, aNameToKeyName: { [name: string]: string }) {
-    // FIXME: This is where we get the ShareableWebGLProgram attributes property.
+function bindProgramAttribLocations(program: Material, block: ElementsBlock, aNameToKeyName: { [name: string]: string }) {
+    // FIXME: This is where we get the Material attributes property.
     // FIXME: Can we invert this?
     // What are we offering to the program:
     // block.attributes (reference counted)
@@ -321,7 +321,7 @@ function bindProgramAttribLocations(program: ShareableWebGLProgram, block: Eleme
     }
 }
 
-function unbindProgramAttribLocations(program: ShareableWebGLProgram) {
+function unbindProgramAttribLocations(program: Material) {
     // FIXME: Not sure if this suggests a disableAll() or something more symmetric.
     let attribLocations = program.attributes
     if (attribLocations) {
@@ -339,7 +339,7 @@ function unbindProgramAttribLocations(program: ShareableWebGLProgram) {
  * Implementation of IBufferGeometry coupled to the 'blocks' implementation.
  */
 class BufferGeometry extends Shareable implements IBufferGeometry {
-    private _program: ShareableWebGLProgram;
+    private _program: Material;
     private _blocks: StringIUnknownMap<ElementsBlock>;
     private gl: WebGLRenderingContext;
     constructor(gl: WebGLRenderingContext, blocks: StringIUnknownMap<ElementsBlock>) {
@@ -354,7 +354,7 @@ class BufferGeometry extends Shareable implements IBufferGeometry {
         this.gl = void 0
         super.destructor()
     }
-    bind(program: ShareableWebGLProgram, aNameToKeyName?: { [name: string]: string }): void {
+    bind(program: Material, aNameToKeyName?: { [name: string]: string }): void {
         if (this._program !== program) {
             if (this._program) {
                 this.unbind()
@@ -767,7 +767,13 @@ export default class WebGLRenderer extends Shareable implements ContextControlle
      * @chainable
      */
     viewport(x: number, y: number, width: number, height: number): WebGLRenderer {
-        this._gl.viewport(x, y, width, height)
+        const gl = this._gl;
+        if (gl) {
+            this._gl.viewport(x, y, width, height)
+        }
+        else {
+            console.warn(`${this._type}.viewport() ignored because no context.`)
+        }
         return this
     }
 

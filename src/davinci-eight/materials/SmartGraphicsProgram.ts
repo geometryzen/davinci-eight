@@ -1,5 +1,5 @@
 import fragmentShader from '../programs/fragmentShader';
-import ShareableWebGLProgram from '../core/ShareableWebGLProgram';
+import Material from '../core/Material';
 import vertexShader from '../programs/vertexShader';
 
 /**
@@ -9,9 +9,9 @@ import vertexShader from '../programs/vertexShader';
  * The default configuration is produces minimal shaders.
  * <p> 
  * @class SmartGraphicsProgram
- * @extends ShareableWebGLProgram
+ * @extends Material
  */
-export default class SmartGraphicsProgram extends ShareableWebGLProgram {
+export default class SmartGraphicsProgram extends Material {
     /**
      * @class SmartGraphicsProgram
      * @constructor

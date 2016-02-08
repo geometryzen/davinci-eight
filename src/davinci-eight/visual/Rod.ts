@@ -2,9 +2,9 @@ import mustBeNumber from '../checks/mustBeNumber';
 import visualCache from './visualCache';
 import RigidBody from './RigidBody'
 
-export default class Ball extends RigidBody {
+export default class Rod extends RigidBody {
     constructor() {
-        super(visualCache.sphere(), visualCache.program(), 'Ball')
+        super(visualCache.cylinder(), visualCache.program(), 'Rod')
         this._buffers.release()
         this._program.release()
     }
@@ -17,7 +17,13 @@ export default class Ball extends RigidBody {
     set radius(radius: number) {
         mustBeNumber('radius', radius)
         this.setScaleX(radius)
-        this.setScaleY(radius)
         this.setScaleZ(radius)
+    }
+    get length() {
+        return this.getScaleY();
+    }
+    set length(length: number) {
+        mustBeNumber('length', length)
+        this.setScaleY(length)
     }
 }
