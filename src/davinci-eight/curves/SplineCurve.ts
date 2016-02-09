@@ -1,19 +1,6 @@
 import Curve from '../curves/Curve';
 import Euclidean3 from '../math/Euclidean3';
 
-// Catmull-Rom
-/*
-function interpolate(p0, p1, p2, p3, t) {
-
-    var v0 = (p2 - p0) * 0.5;
-    var v1 = (p3 - p1) * 0.5;
-    var t2 = t * t;
-    var t3 = t * t2;
-    return (2 * p1 - 2 * p2 + v0 + v1) * t3 + (- 3 * p1 + 3 * p2 - 2 * v0 - v1) * t2 + v0 * t + p1;
-
-}
-*/
-
 function interpolate(p0: Euclidean3, p1: Euclidean3, p2: Euclidean3, p3: Euclidean3, t: number): Euclidean3 {
     var v20 = p2.sub(p0)
     var v12 = p1.sub(p2)
@@ -31,24 +18,12 @@ function interpolate(p0: Euclidean3, p1: Euclidean3, p2: Euclidean3, p3: Euclide
 
 }
 
-/**
- * @class SplineCurve
- */
 export default class SplineCurve extends Curve {
     points: Euclidean3[]
-    /**
-     * @class SplineCurve
-     * @constructor
-     */
     constructor(points: Euclidean3[] = []) {
         super()
         this.points = points
     }
-    /**
-     * @method getPoint
-     * @param t {number}
-     * @return {Euclidean3}
-     */
     getPoint(t: number): Euclidean3 {
 
         var points = this.points;
@@ -64,5 +39,4 @@ export default class SplineCurve extends Curve {
 
         return interpolate(point0, point1, point2, point3, weight);
     }
-
 }

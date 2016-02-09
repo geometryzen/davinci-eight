@@ -1,10 +1,5 @@
 import PolyhedronBuilder from '../geometries/PolyhedronBuilder';
 
-/**
- * @module EIGHT
- * @submodule geometries
- */
-
 var t = (1 + Math.sqrt(5)) / 2;
 
 var vertices = [
@@ -20,17 +15,7 @@ var indices = [
     4, 9, 5, 2, 4, 11, 6, 2, 10, 8, 6, 7, 9, 8, 1
 ];
 
-/**
- * @class IcosahedronSimplexGeometry
- * @extends PolyhedronBuilder
- */
 export default class IcosahedronSimplexGeometry extends PolyhedronBuilder {
-    /**
-     * @class OcosahedronGeometry
-     * @constructor
-     * @param [radius] {number}
-     * @param [detail] {number}
-     */
     constructor(radius?: number, detail?: number) {
         super(vertices, indices, radius, detail)
     }

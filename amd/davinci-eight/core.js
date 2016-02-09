@@ -7,7 +7,7 @@ define(["require", "exports"], function (require, exports) {
             this.LAST_MODIFIED = '2016-02-09';
             this.NAMESPACE = 'EIGHT';
             this.verbose = false;
-            this.VERSION = '2.179.0';
+            this.VERSION = '2.180.0';
             this.logging = {};
         }
         return Eight;

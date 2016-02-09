@@ -1,10 +1,5 @@
 import PolyhedronBuilder from '../geometries/PolyhedronBuilder';
 
-/**
- * @module EIGHT
- * @submodule geometries
- */
-
 var t = (1 + Math.sqrt(5)) / 2;
 var r = 1 / t;
 
@@ -44,17 +39,7 @@ var indices = [
     1, 12, 14, 1, 14, 5, 1, 5, 9
 ];
 
-/**
- * @class DodecahedronSimplexGeometry
- * @extends PolyhedronBuilder
- */
 export default class DodecahedronSimplexGeometry extends PolyhedronBuilder {
-    /**
-     * @class DodecahedronSimplexGeometry
-     * @constructor
-     * @param [radius] {number}
-     * @param [detail] {number}
-     */
     constructor(radius?: number, detail?: number) {
         super(vertices, indices, radius, detail);
     }

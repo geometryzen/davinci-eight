@@ -3,31 +3,10 @@ import SpinG3 from '../math/SpinG3';
 import R2 from '../math/R2';
 import R3 from '../math/R3';
 
-/**
- * @module EIGHT
- * @submodule geometries
- */
-
-/**
- * @class RevolutionSimplexPrimitivesBuilder
- */
 export default class RevolutionSimplexPrimitivesBuilder extends SimplexPrimitivesBuilder {
-    /**
-     * @class RevolutionSimplexPrimitivesBuilder
-     * @constructor
-     */
     constructor() {
         super()
     }
-    /**
-     * @method revolve
-     * @param points {R3[]}
-     * @param generator {SpinG3}
-     * @param segments {number}
-     * @param phiStart {number}
-     * @param phiLength {number}
-     * @param attitude {SpinG3}
-     */
     protected revolve(
         points: R3[],
         generator: SpinG3,

@@ -69,10 +69,6 @@ function triangleStripForGrid(uSegments: number, vSegments: number, elements?: n
     return elements
 }
 
-/**
- * @class GridTopology
- * @extends MeshTopology
- */
 export default class GridTopology extends MeshTopology {
     private _uSegments: number;
     private _vSegments: number;
@@ -106,19 +102,6 @@ export default class GridTopology extends MeshTopology {
     set vLength(unused: number) {
         throw new Error(readOnly('vLength').message)
     }
-    /**
-     * <p>
-     * Provides access to each vertex so that attributes may be set.
-     * The indices 
-     * </p>
-     * @method vertex
-     * @param uIndex {number} The zero-based `horizontal` index.
-     * @param vIndex {number} The zero-based 'vertical` index.
-     * @return {Vertex} The vertex corresponding to the specified coordinates.
-     * @example
-         var topo = new EIGHT.GridTopology(1, 1)
-         topo.vertex(uIndex, vIndex).attributes('aPosition') = new R3([i - 0.5, j - 0.5, 0])
-     */
     vertex(uIndex: number, vIndex: number): Vertex {
         mustBeInteger('uIndex', uIndex)
         mustBeInteger('vIndex', vIndex)

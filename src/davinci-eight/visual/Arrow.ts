@@ -15,20 +15,6 @@ import RigidBody from './RigidBody'
 export default class Arrow extends RigidBody {
 
     /**
-     * Provides a graphical representation of a vector.
-     *
-     * @example
-     * 
-     *     const arrow = new EIGHT.Arrow()
-     *
-     * In most cases, an Arrow will be used to represent a vector by placing the arrow
-     * at a field or particle location using the position property. The tail of the
-     * arrow is generally considered to be the position of the arrow.
-     *
-     *     arrow.X = particle.X
-     *
-     * The axis of the arrow
-     *
      * @class Arrow
      * @constructor
      * @extends RigidBody

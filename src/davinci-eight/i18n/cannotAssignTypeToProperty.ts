@@ -1,8 +1,6 @@
 import LocalizableMessage from '../i18n/LocalizableMessage';
 import mustBeString from '../checks/mustBeString';
-/**
- *
- */
+
 export default function cannotAssignTypeToProperty(type: string, name: string): LocalizableMessage {
     mustBeString('type', type);
     mustBeString('name', name);

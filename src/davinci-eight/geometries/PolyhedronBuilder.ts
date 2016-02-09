@@ -6,11 +6,6 @@ import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
 import R2 from '../math/R2';
 import R3 from '../math/R3';
 
-/**
- * @module EIGHT
- * @submodule geometries
- */
-
 // Angle around the Y axis, counter-clockwise when looking from above.
 function azimuth(vector: VectorE3): number {
     return Math.atan2(vector.z, -vector.x);
@@ -46,16 +41,7 @@ function correctUV(uv: R2, vector: VectorE3, azimuth: number): R2 {
     return uv.clone();
 }
 
-/**
- * @class PolyhedronBuilder
- * @extends SimplexPrimitivesBuilder
- */
 export default class PolyhedronBuilder extends SimplexPrimitivesBuilder {
-    /**
-     * @class PolyhedronBuilder
-     * @constructor
-     * 
-     */
     constructor(vertices: number[], indices: number[], radius = 1, detail = 0) {
         super();
 

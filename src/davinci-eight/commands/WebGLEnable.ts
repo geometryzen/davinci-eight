@@ -2,7 +2,6 @@ import Capability from '../commands/Capability';
 import glCapability from '../commands/glCapability';
 import IContextConsumer from '../core/IContextConsumer';
 import IContextProvider from '../core/IContextProvider';
-import IContextCommand from '../core/IContextCommand';
 import mustBeNumber from '../checks/mustBeNumber';
 import Shareable from '../core/Shareable';
 
@@ -12,10 +11,9 @@ import Shareable from '../core/Shareable';
  * <p> 
  * @class WebGLEnable
  * @extends Shareable
- * @implements IContextCommand
  * @implements IContextConsumer
  */
-export default class WebGLEnable extends Shareable implements IContextCommand, IContextConsumer {
+export default class WebGLEnable extends Shareable implements IContextConsumer {
     private _capability: Capability;
     /**
      * @class WebGLEnable

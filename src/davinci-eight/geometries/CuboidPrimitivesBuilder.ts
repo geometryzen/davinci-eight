@@ -9,11 +9,6 @@ import R3 from '../math/R3';
 import R2 from '../math/R2';
 import VectorE3 from '../math/VectorE3';
 
-/**
- * @module EIGHT
- * @submodule geometries
- */
-
 function side(basis: R3[], uSegments: number, vSegments: number): GridTopology {
     var normal = R3.copy(basis[0]).cross(basis[1]).direction()
     var aNeg = R3.copy(basis[0]).scale(-0.5)
@@ -37,9 +32,6 @@ function side(basis: R3[], uSegments: number, vSegments: number): GridTopology {
     return side
 }
 
-/**
- * @class CuboidPrimitivesBuilder
- */
 export default class CuboidPrimitivesBuilder extends PrimitivesBuilder implements IPrimitivesBuilder<CuboidPrimitivesBuilder> {
     public iSegments: number = 1;
     public jSegments: number = 1;

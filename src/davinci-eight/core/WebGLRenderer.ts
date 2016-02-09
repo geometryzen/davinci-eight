@@ -7,9 +7,7 @@ import IContextProvider from './IContextProvider';
 import IContextMonitor from './IContextMonitor';
 import IContextConsumer from './IContextConsumer';
 import ShareableWebGLBuffer from './ShareableWebGLBuffer';
-import IContextCommand from './IContextCommand';
 import IBufferGeometry from './IBufferGeometry';
-import IDrawList from './IDrawList';
 import Material from './Material';
 import IUnknownArray from '../collections/IUnknownArray';
 import initWebGL from './initWebGL';
@@ -24,6 +22,7 @@ import mustBeString from '../checks/mustBeString';
 import mustSatisfy from '../checks/mustSatisfy';
 import Primitive from './Primitive';
 import readOnly from '../i18n/readOnly';
+import Scene from './Scene';
 import Shareable from './Shareable';
 import StringIUnknownMap from '../collections/StringIUnknownMap';
 import ShareableWebGLTexture from './ShareableWebGLTexture';
@@ -422,7 +421,7 @@ export default class WebGLRenderer extends Shareable implements ContextControlle
     private _webGLContextLost: (event: Event) => any;
     private _webGLContextRestored: (event: Event) => any;
 
-    private _commands = new IUnknownArray<IContextCommand>([])
+    private _commands = new IUnknownArray<IContextConsumer>([])
 
     /**
      * @class WebGLRenderer
@@ -510,7 +509,7 @@ export default class WebGLRenderer extends Shareable implements ContextControlle
      * @beta
      * @readOnly
      */
-    get commands(): IUnknownArray<IContextCommand> {
+    get commands(): IUnknownArray<IContextConsumer> {
         this._commands.addRef();
         return this._commands;
     }
@@ -537,19 +536,19 @@ export default class WebGLRenderer extends Shareable implements ContextControlle
 
     contextFree(manager: IContextProvider): void {
         // FIXME: Am I really listening?
-        this._commands.forEach(function(command: IContextCommand) {
+        this._commands.forEach(function(command: IContextConsumer) {
             command.contextFree(manager)
         })
     }
 
     contextGain(manager: IContextProvider): void {
-        this._commands.forEach(function(command: IContextCommand) {
+        this._commands.forEach(function(command: IContextConsumer) {
             command.contextGain(manager)
         })
     }
 
     contextLost() {
-        this._commands.forEach(function(command: IContextCommand) {
+        this._commands.forEach(function(command: IContextConsumer) {
             command.contextLost()
         })
     }
@@ -723,14 +722,14 @@ export default class WebGLRenderer extends Shareable implements ContextControlle
 
     /**
      * @method render
-     * @param drawList {IDrawList}
+     * @param scene {Scene}
      * @param ambients {Facet[]}
      * @return {void}
      */
-    render(drawList: IDrawList, ambients: Facet[]): void {
+    render(scene: Scene, ambients: Facet[]): void {
         const gl = this._gl;
         if (gl) {
-            return drawList.draw(ambients);
+            return scene.draw(ambients);
         }
     }
 

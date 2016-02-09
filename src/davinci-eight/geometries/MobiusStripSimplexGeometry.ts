@@ -1,11 +1,6 @@
 import GridSimplexGeometry from '../geometries/GridSimplexGeometry';
 import R3 from '../math/R3';
 
-/**
- * @module EIGHT
- * @submodule geometries
- */
-
 let cos = Math.cos;
 let sin = Math.sin;
 let pi = Math.PI;
@@ -30,9 +25,6 @@ function mobius(u: number, v: number): R3 {
     return point;
 }
 
-/**
- * http://virtualmathmuseum.org/Surface/moebius_strip/moebius_strip.html
- */
 export default class MobiusStripSimplexGeometry extends GridSimplexGeometry {
     constructor(uSegments: number, vSegments: number) {
         super(mobius, uSegments, vSegments);

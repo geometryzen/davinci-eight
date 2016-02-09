@@ -1,18 +1,8 @@
-/**
- * @class EventEmitter
- */
 export default class EventEmitter<T> {
-  /**
-   * The name of the event is the key to the map.
-   */
+
   private _eventRegistry: { [name: string]: ((eventName: string, key: string, value: number, source: T) => any)[] };
   private owner: T;
 
-  /**
-   * @class EventEmitter
-   * @constructor
-   * @param owner
-   */
   constructor(owner: T) {
     this.owner = owner;
   }
@@ -44,12 +34,6 @@ export default class EventEmitter<T> {
     }
   }
 
-  /**
-   * @property emit
-   * @param eventName {string}
-   * @param key {string}
-   * @param value {number}
-   */
   public emit(eventName: string, key: string, value: number): any {
     if (this._eventRegistry) {
       const listeners = this._eventRegistry[eventName];

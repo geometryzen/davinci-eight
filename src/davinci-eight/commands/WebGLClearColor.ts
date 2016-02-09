@@ -1,5 +1,4 @@
 import IContextProvider from '../core/IContextProvider';
-import IContextCommand from '../core/IContextCommand';
 import mustBeNumber from '../checks/mustBeNumber';
 import Shareable from '../core/Shareable';
 
@@ -10,7 +9,7 @@ import Shareable from '../core/Shareable';
  * @class WebGLClearColor
  * @extends Shareable
  */
-export default class WebGLClearColor extends Shareable implements IContextCommand {
+export default class WebGLClearColor extends Shareable {
     public red: number;
     public green: number;
     public blue: number;

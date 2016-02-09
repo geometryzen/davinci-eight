@@ -7,24 +7,10 @@ import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
 import triangle from '../geometries/triangle';
 import G3 from '../math/G3';
 
-/**
- * @module EIGHT
- * @submodule geometries
- */
-
-/**
- * @class BarnSimplexPrimitivesBuilder
- */
 export default class BarnSimplexPrimitivesBuilder extends SimplexPrimitivesBuilder {
-    // FIXME: decouple from Euclidean3
     public a: G3 = G3.fromVector(Euclidean3.e1);
     public b: G3 = G3.fromVector(Euclidean3.e2);
     public c: G3 = G3.fromVector(Euclidean3.e3);
-    /**
-     * A barn similar to that described in "Computer Graphics using OpenGL", by Hill and Kelly.
-     * @class BarnSimplexPrimitivesBuilder
-     * @constructor
-     */
     constructor() {
         super()
         this.regenerate();

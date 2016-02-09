@@ -6,20 +6,12 @@ import SpinG3 from '../math/SpinG3';
 import R2 from '../math/R2';
 import R3 from '../math/R3';
 
-/**
- * @module EIGHT
- * @submodule geometries
- */
-
 function perpendicular(to: VectorE3): Euclidean3 {
     var random = new R3([Math.random(), Math.random(), Math.random()])
     random.cross(to).direction()
     return new Euclidean3(0, random.x, random.y, random.z, 0, 0, 0, 0)
 }
 
-/**
- * @class VortexSimplexGeometry
- */
 export default class VortexSimplexGeometry extends SimplexPrimitivesBuilder {
 
     public radius: number = 1;
@@ -30,10 +22,6 @@ export default class VortexSimplexGeometry extends SimplexPrimitivesBuilder {
     public arrowSegments: number = 8;
     public radialSegments: number = 12;
     public generator: SpinG3 = SpinG3.dual(R3.e3);
-    /**
-     * @class VortexSimplexGeometry
-     * @constructor
-     */
     constructor() {
         super()
         this.setModified(true)
@@ -42,19 +30,10 @@ export default class VortexSimplexGeometry extends SimplexPrimitivesBuilder {
     public isModified(): boolean {
         return this.generator.modified
     }
-    /**
-     * @method setModified
-     * @param modified {boolean}
-     * @return {VortexSimplexGeometry}
-     */
     public setModified(modified: boolean): VortexSimplexGeometry {
         this.generator.modified = modified
         return this
     }
-    /**
-     * @method regenerate
-     * @return {void}
-     */
     regenerate(): void {
 
         this.data = []
@@ -156,4 +135,3 @@ export default class VortexSimplexGeometry extends SimplexPrimitivesBuilder {
         this.setModified(false)
     }
 }
-

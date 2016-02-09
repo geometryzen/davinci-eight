@@ -1,35 +1,26 @@
-import ArrowPrimitivesBuilder from '../geometries/ArrowPrimitivesBuilder';
-import CuboidPrimitivesBuilder from '../geometries/CuboidPrimitivesBuilder';
-import CylinderSimplexGeometry from '../geometries/CylinderSimplexGeometry';
+import ArrowGeometry from '../geometries/ArrowGeometry';
+import CuboidGeometry from '../geometries/CuboidGeometry';
+import CylinderGeometry from '../geometries/CylinderGeometry';
 import Geometry from '../core/Geometry';
 import Material from '../core/Material';
 import MeshMaterial from '../materials/MeshMaterial';
-import G3 from '../math/G3';
 import SphereGeometry from '../geometries/SphereGeometry';
 import TetrahedronGeometry from '../geometries/TetrahedronGeometry';
 
 function arrow() {
-    const geometry = new ArrowPrimitivesBuilder(G3.e2);
-    const primitives = geometry.toPrimitives();
-    return new Geometry(primitives);
+    return new ArrowGeometry()
 }
 
 function cuboid() {
-    const geometry = new CuboidPrimitivesBuilder();
-    const primitives = geometry.toPrimitives();
-    return new Geometry(primitives);
+  return new CuboidGeometry(1, 1, 1)
 }
 
 function cylinder() {
-    const geometry = new CylinderSimplexGeometry();
-    const primitives = geometry.toPrimitives();
-    return new Geometry(primitives);
+    return new CylinderGeometry();
 }
 
 function sphere() {
-    const geometry = new SphereGeometry(1, G3.e2);
-    const primitives = geometry.toPrimitives();
-    return new Geometry(primitives);
+    return new SphereGeometry()
 }
 
 function tetrahedron() {

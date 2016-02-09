@@ -1,4 +1,3 @@
-import IContextCommand from '../core/IContextCommand';
 import IContextProvider from '../core/IContextProvider';
 import Shareable from '../core/Shareable';
 
@@ -10,9 +9,8 @@ var QUALIFIED_NAME = 'EIGHT.ContextAttributesLogger'
  * <p> 
  * @class ContextAttributesLogger
  * @extends Shareable
- * @implements IContextCommand
  */
-export default class ContextAttributesLogger extends Shareable implements IContextCommand {
+export default class ContextAttributesLogger extends Shareable {
     constructor() {
         super(QUALIFIED_NAME)
     }

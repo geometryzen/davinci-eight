@@ -2,19 +2,11 @@ import Curve from '../curves/Curve';
 import Euclidean3 from '../math/Euclidean3';
 import LineCurve from '../curves/LineCurve';
 
-/**
- * @class CurvePath
- * @extends Curve
- */
 export default class CurvePath extends Curve {
     public curves: Curve[];
     // bends;
     autoClose: boolean;
     cacheLengths: number[]
-    /**
-     * @class CurvePath
-     * @constructor
-     */
     constructor() {
         super()
         this.curves = [];
@@ -22,11 +14,6 @@ export default class CurvePath extends Curve {
 
         this.autoClose = false; // Automatically closes the path
     }
-    /**
-     * @method add
-     * @param curve {Curve}
-     * @return {number}
-     */
     add(curve: Curve): number {
         return this.curves.push(curve)
     }
@@ -46,6 +33,7 @@ export default class CurvePath extends Curve {
             this.curves.push(new LineCurve(endPoint, startPoint));
         }
     }
+
     // To get accurate point with reference to
     // entire path distance at time t,
     // following has to be done:

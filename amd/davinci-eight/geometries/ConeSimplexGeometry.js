@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../math/Euclidean3', '../geometries/SliceSimplexGeometry', '../math/R2', '../math/R3'], function (require, exports, Euclidean3_1, SliceSimplexGeometry_1, R2_1, R3_1) {
+define(["require", "exports", '../math/Euclidean3', '../geometries/SliceSimplexPrimitivesBuilder', '../math/R2', '../math/R3'], function (require, exports, Euclidean3_1, SliceSimplexPrimitivesBuilder_1, R2_1, R3_1) {
     var ConeSimplexGeometry = (function (_super) {
         __extends(ConeSimplexGeometry, _super);
         function ConeSimplexGeometry(radius, height, axis, radiusTop, openTop, openBottom, thetaStart) {
@@ -118,7 +118,7 @@ define(["require", "exports", '../math/Euclidean3', '../geometries/SliceSimplexG
             }
         };
         return ConeSimplexGeometry;
-    })(SliceSimplexGeometry_1.default);
+    })(SliceSimplexPrimitivesBuilder_1.default);
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = ConeSimplexGeometry;
 });

@@ -271,6 +271,7 @@ Make your changes to the TypeScript files in the _src_ directory. Do not edit th
 * 2.174.0: 2016-02-03 G3.neg
 * 2.177.0: 2016-02-06 cleanup
 * 2.179.0: 2016-02-09 materials
+* 2.180.0: 2016-02-09 cleanup
 
 ## License
 Copyright (c) 2014-2016 David Holmes

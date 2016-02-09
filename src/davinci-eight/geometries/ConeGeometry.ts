@@ -7,63 +7,21 @@ import Primitive from '../core/Primitive';
 import R2 from '../math/R2';
 import R3 from '../math/R3';
 
-/**
- * @module EIGHT
- * @submodule geometries
- */
-
-/**
- * @class ConeGeometry
- */
 export default class ConeGeometry extends AxialPrimitivesBuilder implements IAxialGeometry<ConeGeometry> {
-    /**
-     * @property radius
-     * @type {number}
-     */
     public radius: number = 1;
-    /**
-     * @property height
-     * @type {number}
-     */
     public height: number = 1;
-    /**
-     * @property thetaSegments
-     * @type {number}
-     */
     public thetaSegments = 16;
-    /**
-     * @class ConeGeometry
-     * @constructor
-     * @param axis {VectorE3} The <code>axis</code> property. This will be normalized to unity. 
-     * @param sliceStart {VectorE3} A direction, orthogonal to <code>axis</code>.
-     */
     constructor(axis: VectorE3, sliceStart: VectorE3) {
         super(axis, sliceStart)
     }
-    /**
-     * @method setAxis
-     * @param axis {VectorE3}
-     * @return {ConeGeometry}
-     * @chainable
-     */
     public setAxis(axis: VectorE3): ConeGeometry {
         super.setAxis(axis)
         return this
     }
-    /**
-     * @method setPosition
-     * @param position {VectorE3}
-     * @return {ConeGeometry}
-     * @chainable
-     */
     public setPosition(position: VectorE3): ConeGeometry {
         super.setPosition(position)
         return this
     }
-    /**
-     * @method tPrimitives
-     * @return {Primitive[]}
-     */
     public toPrimitives(): Primitive[] {
         var topo = new GridTopology(this.thetaSegments, 1)
         var uLength = topo.uLength

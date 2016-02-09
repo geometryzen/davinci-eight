@@ -7,22 +7,7 @@ import R3 from '../math/R3';
 import mustBeFunction from '../checks/mustBeFunction';
 import mustBeInteger from '../checks/mustBeInteger';
 
-/**
- * @module EIGHT
- * @submodule geometries
- */
-
-/**
- * @class GridSimplexGeometry
- */
 export default class GridSimplexGeometry extends SimplexPrimitivesBuilder {
-    /**
-     * @class GridSimplexGeometry
-     * @constructor
-     * @param parametricFunction {(u: number, v: number) => VectorE3}
-     * @param uSegments {number}
-     * @param vSegments {number}
-     */
     constructor(parametricFunction: (u: number, v: number) => VectorE3, uSegments: number, vSegments: number) {
         super();
         mustBeFunction('parametricFunction', parametricFunction)

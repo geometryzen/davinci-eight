@@ -1,11 +1,6 @@
 import GridSimplexGeometry from '../geometries/GridSimplexGeometry';
 import R3 from '../math/R3';
 
-/**
- * @module EIGHT
- * @submodule geometries
- */
-
 let cos = Math.cos;
 let sin = Math.sin;
 let pi = Math.PI;
@@ -28,19 +23,7 @@ function klein(u: number, v: number): R3 {
     return point.scale(0.1);
 }
 
-/**
- * By connecting the edge of a Mobius Strip we get a Klein Bottle.
- * http://virtualmathmuseum.org/Surface/klein_bottle/klein_bottle.html
- * @class KleinBottleSimplexGeometry
- * @extends GridSimplexGeometry
- */
 export default class KleinBottleSimplexGeometry extends GridSimplexGeometry {
-    /**
-     * @class KleinBottleSimplexGeometry
-     * @constructor
-     * @param uSegments {number}
-     * @param vSegments {number}
-     */
     constructor(uSegments: number, vSegments: number) {
         super(klein, uSegments, vSegments);
     }

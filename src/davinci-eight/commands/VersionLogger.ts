@@ -1,4 +1,3 @@
-import IContextCommand from '../core/IContextCommand';
 import IContextProvider from '../core/IContextProvider';
 import Shareable from '../core/Shareable';
 
@@ -7,9 +6,8 @@ let QUALIFIED_NAME = 'EIGHT.VersionLogger'
 /**
  * @class VersionLogger
  * @extends Shareable
- * @implements IContextCommand
  */
-export default class VersionLogger extends Shareable implements IContextCommand {
+export default class VersionLogger extends Shareable {
     /**
      * <p>
      * Displays details about the WegGL version to the console.

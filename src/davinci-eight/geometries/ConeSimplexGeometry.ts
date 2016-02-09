@@ -1,35 +1,16 @@
 import Euclidean3 from '../math/Euclidean3';
-import SliceSimplexGeometry from '../geometries/SliceSimplexGeometry';
+import SliceSimplexPrimitivesBuilder from '../geometries/SliceSimplexPrimitivesBuilder';
 import R2 from '../math/R2';
 import VectorE3 from '../math/VectorE3';
 import R3 from '../math/R3';
 
-/**
- * @module EIGHT
- * @submodule geometries
- */
-
-/**
- * @class ConeSimplexGeometry
- * @extends SliceSimplexGeometry
- */
-export default class ConeSimplexGeometry extends SliceSimplexGeometry {
+export default class ConeSimplexGeometry extends SliceSimplexPrimitivesBuilder {
     public radiusTop: number;
     public radius: number;
     public height: number;
     public openTop: boolean;
     public openBottom: boolean;
     public thetaStart: number;
-    /**
-     * @class ConeSimplexGeometry
-     * @constructor
-     * @param [radiusTop = 0.5] {number}
-     * @param [radius = 0.5] {number}
-     * @param [height = 1] {number}
-     * @param [openTop = false] {boolean}
-     * @param [openBottom = false] {boolean}
-     * @param [thetaStart = 0] {number}
-     */
     constructor(
         radius = 0.5,
         height = 1,

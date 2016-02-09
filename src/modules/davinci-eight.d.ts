@@ -112,14 +112,13 @@ declare module EIGHT {
          * method may be called multiple times for what is logically the same context. In such
          * cases the dependent must be idempotent and respond only to the first request.
          */
-        contextFree(manager: IContextProvider): void;
+        contextFree(context: IContextProvider): void;
         /**
          * Called to inform the dependent of a new WebGL rendering context.
          * The implementation should ignore the notification if it has already
          * received the same context.
-         * manager: If there's something strange in your neighborhood.
          */
-        contextGain(manager: IContextProvider): void;
+        contextGain(context: IContextProvider): void;
         /**
          * Called to inform the dependent of a loss of WebGL rendering context.
          * The dependent must assume that any cached context is invalid.
@@ -249,60 +248,6 @@ declare module EIGHT {
     }
 
     /**
-     * A simplex is the generalization of a triangle or tetrahedron to arbitrary dimensions.
-     * A k-simplex is the convex hull of its k + 1 vertices.
-     */
-    class Simplex {
-        vertices: Vertex[];
-        /**
-         * k: The initial number of vertices in the simplex is k + 1.
-         */
-        constructor(k: number);
-        /**
-         * An empty set can be consired to be a -1 simplex (algebraic topology).
-         */
-        static EMPTY: number;
-        /**
-         * A single point may be considered a 0-simplex.
-         */
-        static POINT: number;
-        /**
-         * A line segment may be considered a 1-simplex.
-         */
-        static LINE: number;
-        /**
-         * A 2-simplex is a triangle.
-         */
-        static TRIANGLE: number;
-        /**
-         * A 3-simplex is a tetrahedron.
-         */
-        static TETRAHEDRON: number;
-        /**
-         * A 4-simplex is a 5-cell.
-         */
-        static FIVE_CELL: number;
-        static computeFaceNormals(simplex: Simplex, name: string);
-        static indices(simplex: Simplex): number[];
-        /**
-         * Applies the boundary operation the specified number of times.
-         * times: The number of times to apply the boundary operation.
-         * triangles are converted into three lines.
-         * lines are converted into two points.
-         * points are converted into the empty geometry.
-         */
-        static boundary(geometry: Simplex[], n?: number): Simplex[];
-        /**
-         * Applies the subdivide operation the specified number of times.
-         * times: The number of times to apply the subdivide operation.
-         * The subdivide operation computes the midpoint of all pairs of vertices
-         * and then uses the original points and midpoints to create new simplices
-         * that span the original simplex. 
-         */
-        static subdivide(simplices: Simplex[], times?: number): Simplex[];
-    }
-
-    /**
      *
      */
     class Vertex {
@@ -319,70 +264,6 @@ declare module EIGHT {
     }
 
     /**
-     * Computes the mapping from attribute name to size.
-     * Reports inconsistencies in the geometry by throwing exceptions.
-     * When used with toDrawPrimitive(), allows names and sizes to be mapped.
-     */
-    function simplicesToGeometryMeta(geometry: Simplex[]): GeometryMeta;
-
-    /**
-     *
-     */
-    function computeFaceNormals(simplex: Simplex, positionName?: string, normalName?: string): void;
-
-    /**
-     * Creates a cube of the specified side length.
-     *
-     *    6------ 5
-     *   /|      /|
-     *  1-------0 |
-     *  | |     | |
-     *  | 7-----|-4
-     *  |/      |/
-     *  2-------3
-     *
-     * The triangle simplices are:
-     * 1-2-0, 3-0-2, ...
-     */
-    function cube(size?: number): Simplex[];
-
-    /**
-     *
-     *  b-------a
-     *  |       | 
-     *  |       |
-     *  |       |
-     *  c-------d
-     *
-     * The quadrilateral is split into two triangles: b-c-a and d-a-c, like a "Z".
-     * The zeroth vertex for each triangle is opposite the other triangle.
-     */
-    function quadrilateral(a: VectorN<number>, b: VectorN<number>, c: VectorN<number>, d: VectorN<number>, attributes?: { [name: string]: VectorN<number>[] }, triangles?: Simplex[]): Simplex[];
-
-    /**
-     *
-     *  b-------a
-     *  |       | 
-     *  |       |
-     *  |       |
-     *  c-------d
-     *
-     * The square is split into two triangles: b-c-a and d-a-c, like a "Z".
-     * The zeroth vertex for each triangle is opposite the other triangle.
-     */
-    function square(size?: number): Simplex[];
-
-    /**
-     *
-     */
-    function triangle(a: VectorN<number>, b: VectorN<number>, c: VectorN<number>, attributes?: { [name: string]: VectorN<number>[] }, triangles?: Simplex[]): Simplex[];
-
-    /**
-     * geometry to Primitive conversion.
-     */
-    function simplicesToDrawPrimitive(simplices: Simplex[], geometryMeta?: GeometryMeta): Primitive;
-
-    /**
      *
      */
     interface IContextProgramConsumer {
@@ -396,7 +277,6 @@ declare module EIGHT {
      */
     class AttribLocation implements IContextProgramConsumer {
         index: number;
-        constructor(name: string, size: number, type: number);
         contextFree(): void;
         contextGain(gl: WebGLRenderingContext, program: WebGLProgram): void;
         contextLost(): void;
@@ -409,10 +289,6 @@ declare module EIGHT {
      * Utility class for managing a shader uniform variable.
      */
     class UniformLocation implements IContextProgramConsumer {
-        /**
-         *
-         */
-        constructor(manager: IContextProvider, name: string);
         contextFree(): void;
         contextGain(gl: WebGLRenderingContext, program: WebGLProgram): void;
         contextLost(): void;
@@ -477,14 +353,6 @@ declare module EIGHT {
      */
     interface ITextureCubeMap extends ITexture {
 
-    }
-
-    /**
-     *
-     */
-    interface Mutable<T> {
-        coords: T;
-        callback: () => T;
     }
 
     /**
@@ -780,23 +648,7 @@ declare module EIGHT {
     /**
      *
      */
-    interface MutableMatrix<T> {
-        /**
-         * @property elements
-         * @type T
-         */
-        elements: T;
-        /**
-         * @property callback
-         * @type () => T
-         */
-        callback: () => T;
-    }
-
-    /**
-     *
-     */
-    class AbstractMatrix implements MutableMatrix<Float32Array> {
+    class AbstractMatrix {
         elements: Float32Array;
         dimensions: number;
         callback: () => Float32Array;
@@ -1789,6 +1641,7 @@ declare module EIGHT {
     interface GeometricE3 extends Pseudo, Scalar, SpinorE3, VectorE3 {
 
     }
+
     /**
      * A mutable multivector in 3D with a Euclidean metric.
      */
@@ -2535,199 +2388,9 @@ declare module EIGHT {
     /**
      * A provider of a collection of 'uniform' variables for use in a WebGL program.
      */
-    interface Facet extends IAnimationTarget {
+    interface Facet {
         setProperty(name: string, value: number[]): Facet;
         setUniforms(visitor: FacetVisitor): void;
-    }
-
-    /**
-     * Provides the uniform for the model to view coordinates transformation.
-     */
-    interface View extends Facet {
-        /**
-         * The position of the view reference point, VRP.
-         */
-        eye: R3;
-        /**
-         * A special point in the world coordinates that defines the viewplane normal, VPN or n.
-         * n = eye - look, normalized to unity.
-         */
-        look: VectorE3;
-        /**
-         * A unit vector used to determine the view horizontal direction, u.
-         * u = cross(up, n), and
-         * v = cross(n, u).
-         */
-        up: R3;
-        /**
-         * Convenience method for setting the eye property allowing chainable method calls.
-         */
-        setEye(eye: VectorE3): View;
-        /**
-         * Convenience method for setting the look property allowing chainable method calls.
-         */
-        setLook(look: VectorE3): View;
-        /**
-         * Convenience method for setting the up property allowing chainable method calls.
-         */
-        setUp(up: VectorE3): View;
-    }
-
-    /**
-     *
-     */
-    interface Frustum extends View {
-        left: number;
-        right: number;
-        bottom: number;
-        top: number;
-        near: number;
-        far: number;
-        /**
-         * Convenience method for setting the eye property allowing chainable method calls.
-         */
-        setEye(eye: VectorE3): Frustum;
-        /**
-         * Convenience method for setting the look property allowing chainable method calls.
-         */
-        setLook(look: VectorE3): Frustum;
-        /**
-         * Convenience method for setting the up property allowing chainable method calls.
-         */
-        setUp(up: VectorE3): Frustum;
-    }
-
-    /**
-     * A transformation from the 3D world coordinates or view volume to the canonical view volume.
-     * The canonical view volume is the cube that extends from -1 to +1
-     * in all Cartesian directions. 
-     */
-    interface Perspective extends View {
-        /**
-         * field of view angle in the view volume vertical plane, measured in radians.
-         */
-        fov: number;
-        /**
-         * ratio of width divided by height of the view volume.
-         */
-        aspect: number;
-        /**
-         * distance to the near plane of the view volume from the view reference point.
-         */
-        near: number;
-        /**
-         * distance to the far plane of the view volume from the view reference point.
-         */
-        far: number;
-        /**
-         * Convenience method for setting the fov property allowing chainable method calls.
-         */
-        setFov(fov: number): Perspective;
-        /**
-         * Convenience method for setting the aspect property allowing chainable method calls.
-         */
-        setAspect(aspect: number): Perspective;
-        /**
-         * Convenience method for setting the near property allowing chainable method calls.
-         */
-        setNear(near: number): Perspective;
-        /**
-         * Convenience method for setting the far property allowing chainable method calls.
-         */
-        setFar(far: number): Perspective;
-        /**
-         * Convenience method for setting the eye property allowing chainable method calls.
-         */
-        setEye(eye: VectorE3): Perspective;
-        /**
-         * Convenience method for setting the look property allowing chainable method calls.
-         */
-        setLook(look: VectorE3): Perspective;
-        /**
-         * Convenience method for setting the up property allowing chainable method calls.
-         */
-        setUp(up: VectorE3): Perspective;
-    }
-
-    /**
-     *
-     */
-    interface IPrimitivesBuilder<T> {
-        setPosition(position: VectorE3): T
-        toPrimitives(): Primitive[];
-    }
-    /**
-     *
-     */
-    interface IAxialGeometry<T> extends IPrimitivesBuilder<T> {
-        setAxis(axis: VectorE3): T
-    }
-    /**
-     * A geometry holds a list of simplices.
-     */
-    class SimplexPrimitivesBuilder extends PrimitivesBuilder {
-        /**
-         * The geometry as a list of simplices. These may be triangles, lines or points.
-         */
-        data: Simplex[];
-        /**
-         * Summary information on the simplices such as dimensionality and sizes for attributes.
-         * This same data structure may be used to map vertex attribute names to program names.
-         */
-        meta: GeometryMeta;
-        /**
-         * The dimesionality of the simplices to be generated.
-         */
-        k: number;
-        /**
-         *
-         */
-        curvedSegments: number;
-        /**
-         *
-         */
-        flatSegments: number;
-        /**
-         *
-         */
-        orientationColors: boolean;
-        /**
-         *
-         */
-        constructor();
-        regenerate(): void;
-        isModified(): boolean;
-        setModified(modified: boolean): SimplexPrimitivesBuilder;
-        setPosition(position: VectorE3): SimplexPrimitivesBuilder;
-        /**
-         * Applies the boundary operation to the geometry.
-         * Under the boundary operation, each k-simplex becomes several simplices of dimension k - 1.
-         * For example, the following mappings hold:
-         * Tetrahedron   =>  4 Triangles.
-         * Triangle      =>  3 Line Segments.
-         * Line Segment  =>  2 Points.
-         * Point         =>  1 Empty Simplex.
-         * Empty Simplex =>  Empty set.
-         *
-         * The initial mapping step in computing the boundary operation produces the type Simplex[][].
-         * This is reduced, by concatenating elements, back to the type Simplex[].
-         * 
-         * times: The number of times to apply the boundary operation. Default is one (1).
-         */
-        boundary(times?: number): SimplexPrimitivesBuilder;
-        /**
-         * Updates the `meta` property by scanning the vertices.
-         */
-        check(): SimplexPrimitivesBuilder;
-        /**
-         * Subdivides the simplices of the geometry to produce finer detail.
-         * times: The number of times to subdivide. Default is one (1).
-         */
-        subdivide(times?: number): SimplexPrimitivesBuilder;
-        /**
-         * Computes and returns the primitives used to draw in WebGL.
-         */
-        toPrimitives(): Primitive[];
     }
 
     /**
@@ -2786,49 +2449,6 @@ declare module EIGHT {
     /**
      *
      */
-    interface WindowAnimationRunner {
-        start(): void;
-        stop(): void;
-        reset(): void;
-        lap(): void;
-        time: number;
-        isRunning: boolean;
-        isPaused: boolean;
-    }
-
-    /**
-     * Creates and returns a Frustum.
-     */
-    function createFrustum(left?: number, right?: number, bottom?: number, top?: number, near?: number, far?: number): Frustum;
-
-    /**
-     * Computes a frustum matrix.
-     */
-    function frustumMatrix(left: number, right: number, bottom: number, top: number, near: number, far: number, matrix?: Float32Array): Float32Array;
-
-    /**
-     * Creates and returns a Perspective.
-     */
-    function createPerspective(options?: { fov?: number; aspect?: number; near?: number; far?: number; projectionMatrixName?: string; viewMatrixName?: string }): Perspective;
-
-    /**
-     * Computes a perspective matrix.
-     */
-    function perspectiveMatrix(fov: number, aspect: number, near: number, far: number, matrix?: Mat4R): Mat4R;
-
-    /**
-     * Creates and returns a View.
-     */
-    function createView(): View;
-
-    /**
-     * Computes a view matrix.
-     */
-    function viewMatrix(eye: VectorE3, look: VectorE3, up: VectorE3, matrix?: Mat4R): Mat4R;
-
-    /**
-     *
-     */
     interface AttribMetaInfo {
         /**
          * The type keyword as it appears in the GLSL shader program.
@@ -2849,33 +2469,6 @@ declare module EIGHT {
          */
         glslType: string;
     }
-
-    /**
-     * Constructs a program by introspecting a geometry.
-     * attributes
-     * uniformsList
-     * bindings Used for setting indices.
-     */
-    function smartProgram(attributes: { [name: string]: AttribMetaInfo }, uniforms: { [name: string]: UniformMetaInfo }, bindings?: string[]): Material;
-
-    /**
-     *
-     */
-    class Curve {
-        constructor();
-    }
-
-    /**
-     * Constructs and returns a WindowAnimationRunner.
-     */
-    function animation(
-        animate: { (time: number): void; },
-        options?: {
-            setUp?: () => void;
-            tearDown?: { (animateException): void; };
-            terminate?: (time: number) => boolean;
-            window?: Window
-        }): WindowAnimationRunner;
 
     /**
      *
@@ -2909,16 +2502,9 @@ declare module EIGHT {
     }
 
     /**
-     * Constructs and returns a IContextProvider.
-     * canvas: The HTML5 Canvas to be used for WebGL rendering.
-     * attributes: Optional attributes for initializing the context.
-     */
-    function webgl(canvas: HTMLCanvasElement, attributes?: WebGLContextAttributes): IContextProvider;
-
-    /**
      * A set of <em>state variables</em> for graphics modeling in Euclidean 2D space.
      */
-    class ModelE2 extends Shareable implements IAnimationTarget {
+    class ModelE2 extends Shareable {
         /**
          * The <em>position</em>, a vector. Initialized to <em>0</em>
          */
@@ -2940,7 +2526,7 @@ declare module EIGHT {
     /**
      * A collection of properties governing GLSL uniforms for Computer Graphics Modeling.
      */
-    class ModelFacet extends Shareable implements Facet, IAnimationTarget {
+    class ModelFacet extends Shareable {
         /**
          * The position, a vector.
          */
@@ -2963,40 +2549,6 @@ declare module EIGHT {
         setProperty(name: string, value: number[]): ModelFacet;
         setUniforms(visitor: FacetVisitor): void;
     }
-
-    /**
-     * The publish date of the latest version of the library.
-     */
-    var LAST_MODIFIED: string;
-
-    /**
-     * May be set to 'true' after initializing to ensure that rendering
-     * is not encumbered by assertions and the like.
-     */
-    var fastPath: boolean;
-
-    /**
-     * Deterimies whether the library strictly inforces invariants.
-     * This may have a performance penalty.
-     */
-    var strict: boolean;
-
-    /**
-     * Determines whether the library provides verbose logging comments.
-     * These can be useful for understanding how the library works and for debugging.
-     */
-    var verbose: boolean;
-
-    /**
-     * The version string of the davinci-eight module.
-     */
-    var VERSION: string;
-
-    /**
-     * Convenience function for document.getElementById(elementId), followed
-     * be casting to HTMLCanvasElement.
-     */
-    function getCanvasElementById(elementId: string, document?: Document): HTMLCanvasElement;
 
     /**
      * Record reference count changes and debug reference counts.
@@ -3073,8 +2625,6 @@ declare module EIGHT {
         static VARYING_LIGHT: string;
     }
   
-    ////////////////////////////////////////////////////////
-    // scene
     ///////////////////////////////////////////////////////
 
     /**
@@ -3083,64 +2633,33 @@ declare module EIGHT {
     interface ContextController {
         start(canvas: HTMLCanvasElement): void
         stop(): void;
-        // TODO: kill
-        // kill(): void;
     }
 
     /**
      *
      */
-    interface IDrawList extends IContextConsumer, IUnknown {
-
-        add(mesh: Mesh): void;
-
-        draw(ambients: Facet[]): void;
-
-        /**
-         * Gets a mesh that matches the specified test.
-         */
-        findOne(match: (mesh: Mesh) => boolean): Mesh;
-
-        /**
-         * Gets a mesh element with the specified name.
-         */
-        findOneByName(name: string): Mesh;
-
-        /**
-         * Gets a collection of mesh elements by name.
-         */
-        findByName(name: string): IUnknownArray<Mesh>;
-
-        remove(mesh: Mesh): void;
-
-        traverse(callback: (mesh: Mesh) => void): void;
-    }
-
-    /**
-     *
-     */
-    class Scene implements IDrawList {
+    class Scene {
         constructor()
         add(mesh: Mesh): void
         addRef(): number
-        subscribe(monitor: IContextMonitor): void
-        contextFree(manager: IContextProvider): void
-        contextGain(manager: IContextProvider): void
+        contextFree(context: IContextProvider): void
+        contextGain(context: IContextProvider): void
         contextLost(): void
-        unsubscribe(): void
         draw(ambients: Facet[]): void
         findOne(match: (mesh: Mesh) => boolean): Mesh
         findOneByName(name: string): Mesh
         findByName(name: string): IUnknownArray<Mesh>
         release(): number
         remove(mesh: Mesh): void
+        subscribe(monitor: IContextMonitor): void
         traverse(callback: (mesh: Mesh) => void): void
+        unsubscribe(): void
     }
 
     /**
      *
      */
-    class PerspectiveCamera extends AbstractFacet implements Perspective {
+    class PerspectiveCamera extends AbstractFacet {
         /**
          * The aspect ratio of the viewport, i.e., width / height.
          */
@@ -3232,7 +2751,7 @@ declare module EIGHT {
         /**
          *
          */
-        commands: IUnknownArray<IContextCommand>;
+        commands: IUnknownArray<IContextConsumer>;
 
         /**
          * @param gl The underlying <code>WebGLRenderingContext</code>.
@@ -3314,7 +2833,7 @@ declare module EIGHT {
         /**
          *
          */
-        render(drawList: IDrawList, ambients: Facet[]): void;
+        render(scene: Scene, ambients: Facet[]): void;
 
         /**
          *
@@ -3346,259 +2865,32 @@ declare module EIGHT {
         viewport(x: number, y: number, width: number, height: number): WebGLRenderer;
     }
 
-    class PrimitivesBuilder {
-        /**
-         * The local <code>position</code> property used for geometry generation.
-         /*
-        position: CartesianE3;
-        /**
-         *
-         */
-        useTextureCoords: boolean;
-        /**
-         *
-         */
-        constructor();
-        enableTextureCoords(enable: boolean): PrimitivesBuilder;
-        setPosition(position: VectorE3): PrimitivesBuilder;
-        toPrimitives(): Primitive[];
+    class Geometry extends Shareable implements IGraphicsBuffers {
+        constructor(primitives: Primitive[]);
+        contextFree(manager: IContextProvider): void;
+        contextGain(manager: IContextProvider): void;
+        contextLost(): void;
+        draw(material: Material): void;
     }
 
-    class AxialPrimitivesBuilder extends PrimitivesBuilder {
-        axis: CartesianE3;
-        sliceAngle: number;
-        sliceStart: VectorE3;
-        constructor(axis: VectorE3);
-    }
-
-    class AxialSimplexPrimitivesBuilder extends SimplexPrimitivesBuilder {
-        axis: R3;
-        constructor(axis: VectorE3)
-    }
-
-    class SliceSimplexGeometry extends AxialSimplexPrimitivesBuilder {
-        constructor(axis: VectorE3)
-    }
-
-    class ArrowPrimitivesBuilder extends AxialPrimitivesBuilder implements IPrimitivesBuilder<ArrowPrimitivesBuilder> {
-        /**
-         *
-         */
-        heightCone: number;
-        /**
-         *
-         */
-        radiusCone: number;
-        /**
-         *
-         */
-        radiusShaft: number;
-        /**
-         *
-         */
-        thetaSegments: number;
-        /**
-         *
-         */
-        constructor(axis: VectorE3, sliceStart?: VectorE3);
-        setPosition(position: VectorE3): ArrowPrimitivesBuilder;
-        toPrimitives(): Primitive[];
-    }
-
-    class VortexSimplexGeometry extends SimplexPrimitivesBuilder {
-        generator: SpinG3;
-        constructor()
-    }
-    /**
-     *
-     */
-    class RingBuilder extends AxialPrimitivesBuilder implements IAxialGeometry<RingBuilder> {
-        innerRadius: number;
-        outerRadius: number;
-        constructor();
-        setAxis(axis: VectorE3): RingBuilder
-        setPosition(position: VectorE3): RingBuilder
-        toPrimitives(): Primitive[];
-    }
-    /**
-     *
-     */
-    class RingSimplexGeometry extends SliceSimplexGeometry {
-        innerRadius: number;
-        outerRadius: number;
-        axis: R3;
-        start: R3;
-        radialSegments: number;
-        thetaSegments: number;
-        constructor(innerRadius?: number, outerRadius?: number, axis?: VectorE3, start?: VectorE3);
-    }
-
-    /**
-     *
-     */
-    class BarnSimplexPrimitivesBuilder extends SimplexPrimitivesBuilder {
-        a: R3;
-        b: R3;
-        c: R3;
-        k: number;
+    class ArrowGeometry extends Geometry {
         constructor();
     }
 
-    class BoxGeometry extends Geometry {
+    class CuboidGeometry extends Geometry {
         constructor(width: number, height: number, depth: number);
     }
 
-    /**
-     *
-     */
-    class ConeGeometry extends AxialPrimitivesBuilder implements IPrimitivesBuilder<ConeGeometry> {
-        radius: number;
-        height: number;
-        constructor(axis: VectorE3);
-        setPosition(position: VectorE3): ConeGeometry;
-        toPrimitives(): Primitive[];
-    }
-
-    /**
-     *
-     */
-    class ConeSimplexGeometry extends SliceSimplexGeometry {
-        radiusTop: number;
-        radius: number;
-        height: number;
-        openTop: boolean;
-        openBottom: boolean;
-        thetaStart: number;
-        thetaLength: number;
-        constructor(
-            radius: number,
-            height: number,
-            axis: VectorE3,
-            radiusTop?: number,
-            openTop?: boolean,
-            openBottom?: boolean,
-            thetaStart?: number,
-            thetaLength?: number);
-    }
-    /**
-     *
-     */
-    class CuboidPrimitivesBuilder extends PrimitivesBuilder implements IPrimitivesBuilder<CuboidPrimitivesBuilder> {
-        /**
-         * `width` sets the magnitude of the `a` vector parameter.
-         */
-        width: number;
-        /**
-         * `height` sets the magnitude of the `b` vector parameter.
-         */
-        height: number;
-        /**
-         * `depth` sets the magnitude of the `a` vector parameter.
-         */
-        depth: number;
+    class CylinderGeometry extends Geometry {
         constructor();
-        setPosition(position: VectorE3): CuboidPrimitivesBuilder;
-        toPrimitives(): Primitive[];
-    }
-    /**
-     *
-     */
-    class CuboidSimplexPrimitivesBuilder extends SimplexPrimitivesBuilder {
-        a: R3;
-        b: R3;
-        c: R3;
-        k: number;
-        constructor(a?: VectorE3, b?: VectorE3, c?: VectorE3, k?: number, subdivide?: number, boundary?: number);
     }
 
-    class CylinderSimplexGeometry extends SliceSimplexGeometry {
-        radius: number;
-        height: number;
-        start: R3;
-        openTop: boolean;
-        openBottom: boolean;
-        constructor(
-            radius?: number,
-            height?: number,
-            axis?: VectorE3,
-            start?: VectorE3,
-            openTop?: boolean,
-            openBottom?: boolean
-        )
-    }
-
-    class CylinderGeometry extends AxialPrimitivesBuilder implements IPrimitivesBuilder<CylinderGeometry> {
-        radius: number;
-        height: number;
-        constructor(axis: VectorE3);
-        setPosition(position: VectorE3): CylinderGeometry
-        toPrimitives(): Primitive[];
-    }
-
-    class DodecahedronSimplexGeometry extends PolyhedronBuilder {
-        constructor(radius?: number, detail?: number);
-    }
-
-    class OctahedronSimplexGeometry extends PolyhedronBuilder {
-        constructor(radius?: number, detail?: number);
-    }
-
-    class IcosahedronSimplexGeometry extends PolyhedronBuilder {
-        constructor(radius?: number, detail?: number);
-    }
-
-    class PolyhedronBuilder extends SimplexPrimitivesBuilder {
-        constructor(vertices: number[], indices: number[], radius?: number, detail?: number);
-    }
-
-    class RevolutionSimplexPrimitivesBuilder extends SimplexPrimitivesBuilder {
-        constructor(points: R3[], generator: SpinG3, segments: number, phiStart: number, phiLength: number, attitude: SpinG3)
-    }
-
-    class Simplex1Geometry extends SimplexPrimitivesBuilder {
-        head: R3;
-        tail: R3;
+    class SphereGeometry extends Geometry {
         constructor();
-        calculate(): void;
-    }
-
-    /**
-     *
-     */
-    class SphereGeometry extends SliceSimplexGeometry implements IAxialGeometry<SphereGeometry> {
-        radius: number;
-        phiLength: number;
-        phiStart: R3;
-        thetaLength: number;
-        thetaStart: number;
-        constructor(
-            radius?: number,
-            axis?: VectorE3,
-            phiStart?: VectorE3,
-            phiLength?: number,
-            thetaStart?: number,
-            thetaLength?: number);
-        setAxis(axis: VectorE3): SphereGeometry;
-        setPosition(position: VectorE3): SphereGeometry;
-    }
-
-    /**
-     *
-     */
-    class GridSimplexGeometry extends SimplexPrimitivesBuilder {
-        constructor(parametricFunction: (u: number, v: number) => VectorE3, uSegments: number, vSegments: number)
     }
 
     class TetrahedronGeometry extends Geometry {
         constructor(radius?: number)
-    }
-
-    class KleinBottleSimplexGeometry extends GridSimplexGeometry {
-        constructor(uSegments: number, vSegments: number)
-    }
-
-    class MobiusStripSimplexGeometry extends GridSimplexGeometry {
-        constructor(uSegments: number, vSegments: number)
     }
 
     /**
@@ -3635,13 +2927,6 @@ declare module EIGHT {
         vector4(name: string, coords: number[]): void;
     }
 
-    class Geometry extends Shareable implements IGraphicsBuffers {
-        constructor(primitives: Primitive[]);
-        contextFree(manager: IContextProvider): void;
-        contextGain(manager: IContextProvider): void;
-        contextLost(): void;
-        draw(material: Material): void;
-    }
 
     /**
      * A collection of primitives, a single graphics program, and some facets.
@@ -3686,6 +2971,10 @@ declare module EIGHT {
         unsubscribe(): void;
 
         setUniforms(): void;
+
+        /**
+         *
+         */
         draw(ambients: Facet[]): void;
 
         contextFree(manager: IContextProvider): void;
@@ -3736,43 +3025,6 @@ declare module EIGHT {
      */
     class MeshMaterial extends Material {
         constructor();
-    }
-
-    /**
-     * Utility for generating a <code>Material</code> based upon supplied
-     * hints such as the attribute and uniform parameters.
-     */
-    class GraphicsProgramBuilder {
-        /**
-         * Constructs the <code>GraphicsProgramBuilder</code>.
-         * The lifecycle for using this generator is
-         * <ol>
-         * <li>Create an instance of the <code>GraphicsProgramBuilder.</code></li>
-         * <li>Make calls to the <code>attribute</code> and/or <code>uniform</code> methods in any order.</li>
-         * <li>Call the <code>build</code> method to create the <code>Material</code>.</li>
-         * </ol>
-         * The same builder instance may be reused to create other programs.
-         */
-        constructor();
-
-        /**
-         * Declares that the material should have an `attribute`
-         * with the specified name and size.
-         */
-        public attribute(name: string, size: number): GraphicsProgramBuilder;
-
-        /**
-         * Declares that the material should have a `uniform` with the specified name and type.
-         * The <code>type</code> parameter is the GLSL type. e.g. 'float', 'vec3', 'mat2'
-         */
-        public uniform(name: string, type: string): GraphicsProgramBuilder;
-
-        /**
-         * Creates a Material. This may contain multiple <code>WebGLProgram</code>(s),
-         * one for each context supplied. The generated program is compiled and linked
-         * for each context in response to context gain and loss events.
-         */
-        build(contexts?: IContextMonitor[]): Material;
     }
 
     class AbstractFacet extends Shareable implements Facet {
@@ -3838,11 +3090,6 @@ declare module EIGHT {
     class PointSizeFacet extends AbstractFacet {
         pointSize: number
         constructor(pointSize?: number);
-    }
-
-    class EulerFacet extends AbstractFacet {
-        rotation: R3;
-        constructor()
     }
 
     /**
@@ -3915,10 +3162,6 @@ declare module EIGHT {
         setUniforms(visitor: FacetVisitor): void;
     }
 
-    // commands
-    interface IContextCommand extends IContextConsumer {
-    }
-
     /**
      * The enumerated blending factors for use with <code>WebGLBlendFunc</code>.
      * Assuming destination with RGBA values of (R<sub>d</sub>, G<sub>d</sub>, B<sub>d</sub>, A<sub>d</sub>),
@@ -3987,7 +3230,7 @@ declare module EIGHT {
     /**
      * `blendFunc(sfactor: number, dfactor: number): void`
      */
-    class WebGLBlendFunc extends Shareable implements IContextCommand {
+    class WebGLBlendFunc extends Shareable {
         sfactor: BlendFactor;
         dfactor: BlendFactor;
         constructor(sfactor: BlendFactor, dfactor: BlendFactor);
@@ -4011,7 +3254,7 @@ declare module EIGHT {
     /**
      * `clearColor(red: number, green: number, blue: number, alpha: number): void`
      */
-    class WebGLClearColor extends Shareable implements IContextCommand {
+    class WebGLClearColor extends Shareable {
         red: number;
         green: number;
         blue: number;
@@ -4064,7 +3307,7 @@ declare module EIGHT {
     /**
      * `disable(capability: number): void`
      */
-    class WebGLDisable extends Shareable implements IContextCommand {
+    class WebGLDisable extends Shareable {
         /**
          *
          */
@@ -4086,7 +3329,7 @@ declare module EIGHT {
     /**
      * `enable(capability: number): void`
      */
-    class WebGLEnable extends Shareable implements IContextCommand {
+    class WebGLEnable extends Shareable {
         /**
          *
          */
@@ -4107,182 +3350,6 @@ declare module EIGHT {
 
     ///////////////////////////////////////////////////////////////////////////////
 
-    interface IAnimationTarget extends IUnknown {
-        uuid: string;
-        getProperty(name: string): number[];
-        setProperty(name: string, value: number[]): IAnimationTarget;
-    }
-
-    interface IAnimation extends IUnknown {
-        apply(target: IAnimationTarget, propName: string, now: number, offset?: number): void;
-        skip(target: IAnimationTarget, propName: string): void;
-        hurry(factor: number): void;
-        extra(now: number): number;
-        done(target: IAnimationTarget, propName: string): boolean;
-        undo(target: IAnimationTarget, propName: string): void;
-    }
-
-    interface IDirector {
-
-        addFacet(facet: IAnimationTarget, facetName: string): void;
-        getFacet(facetName: string): IAnimationTarget;
-        removeFacet(facetName: string): void;
-    }
-
-    interface ISlide {
-        pushAnimation(target: IAnimationTarget, propName: string, animation: IAnimation): void;
-        popAnimation(target: IAnimationTarget, propName: string): IAnimation;
-    }
-
-    interface ISlideCommand extends IUnknown {
-        redo(slide: ISlide, director: IDirector): void;
-        undo(slide: ISlide, director: IDirector): void;
-    }
-
-    class AbstractSlideCommand extends Shareable implements ISlideCommand {
-        redo(slide: ISlide, director: IDirector): void;
-        undo(slide: ISlide, director: IDirector): void;
-    }
-
-    class SlideCommands extends AbstractSlideCommand {
-        constructor(userName: string);
-        pushWeakRef(command: ISlideCommand): number;
-    }
-
-    class Slide extends Shareable implements ISlide {
-        prolog: SlideCommands;
-        epilog: SlideCommands;
-        constructor();
-        pushAnimation(target: IAnimationTarget, propName: string, animation: IAnimation): void
-        popAnimation(target: IAnimationTarget, propName: string): IAnimation
-    }
-
-    class Director extends Shareable implements IDirector {
-        slides: IUnknownArray<Slide>;
-
-        constructor();
-
-        addFacet(facet: IAnimationTarget, facetName: string): void;
-        getFacet(facetName: string): IAnimationTarget
-        removeFacet(facetName: string): void;
-
-        createSlide(): Slide;
-        pushSlide(slide: Slide): number;
-        popSlide(): Slide;
-
-        canForward(): boolean;
-        forward(instant?: boolean, delay?: number): void;
-        canBackward(): boolean;
-        backward(instant?: boolean, delay?: number): void;
-        advance(interval: number): void;
-    }
-
-    class DirectorKeyboardHandler extends Shareable implements IKeyboardHandler {
-        constructor(director: Director);
-        keyDown(event: KeyboardEvent): void;
-        keyUp(event: KeyboardEvent): void;
-    }
-
-    class ColorAnimation extends Shareable implements IAnimation {
-        constructor(value: ColorRGB, duration?: number, callback?: () => void, ease?: string);
-        apply(target: IAnimationTarget, propName: string, now: number, offset?: number);
-        hurry(factor: number): void;
-        skip(target: IAnimationTarget, propName: string): void;
-        extra(now: number): number;
-        done(target: IAnimationTarget, propName: string): boolean;
-        undo(target: IAnimationTarget, propName: string): void;
-    }
-
-    class WaitAnimation extends Shareable implements IAnimation {
-        start: number;
-        duration: number;
-        fraction: number;
-        constructor(duration: number);
-        apply(target: IAnimationTarget, propName: string, now: number, offset: number): void;
-        skip(): void;
-        hurry(factor: number): void;
-        extra(now: number): number;
-        done(target: IAnimationTarget, propName: string): boolean;
-        undo(target: IAnimationTarget, propName: string): void;
-    }
-
-    class Vector2Animation extends Shareable implements IAnimation {
-        constructor(value: VectorE2, duration?: number, callback?: () => void, ease?: string);
-        apply(target: IAnimationTarget, propName: string, now: number, offset?: number);
-        hurry(factor: number): void;
-        skip(target: IAnimationTarget, propName: string): void;
-        extra(now: number): number;
-        done(target: IAnimationTarget, propName: string): boolean;
-        undo(target: IAnimationTarget, propName: string): void;
-    }
-
-    class Vector3Animation extends Shareable implements IAnimation {
-        constructor(value: VectorE3, duration?: number, callback?: () => void, ease?: string);
-        apply(target: IAnimationTarget, propName: string, now: number, offset?: number);
-        hurry(factor: number): void;
-        skip(target: IAnimationTarget, propName: string): void;
-        extra(now: number): number;
-        done(target: IAnimationTarget, propName: string): boolean;
-        undo(target: IAnimationTarget, propName: string): void;
-    }
-
-    class Spinor2Animation extends Shareable implements IAnimation {
-        constructor(value: SpinorE2, duration?: number, callback?: () => void, ease?: string);
-        apply(target: IAnimationTarget, propName: string, now: number, offset?: number);
-        hurry(factor: number): void;
-        skip(target: IAnimationTarget, propName: string): void;
-        extra(now: number): number;
-        done(target: IAnimationTarget, propName: string): boolean;
-        undo(target: IAnimationTarget, propName: string): void;
-    }
-
-    class Spinor3Animation extends Shareable implements IAnimation {
-        constructor(value: SpinorE3, duration?: number, callback?: () => void, ease?: string);
-        apply(target: IAnimationTarget, propName: string, now: number, offset?: number);
-        hurry(factor: number): void;
-        skip(target: IAnimationTarget, propName: string): void;
-        extra(now: number): number;
-        done(target: IAnimationTarget, propName: string): boolean;
-        undo(target: IAnimationTarget, propName: string): void;
-    }
-    ///////////////////////////////////////////////////////////////////////////////
-    class Topology {
-        constructor(numVertices: number);
-        toDrawPrimitive(): Primitive;
-    }
-
-    class PointTopology extends Topology {
-        constructor(numVertices: number);
-    }
-
-    class LineTopology extends Topology {
-        constructor(numVertices: number);
-    }
-
-    class MeshTopology extends Topology {
-        constructor(numVertices: number);
-    }
-
-    class GridTopology extends MeshTopology {
-        uLength: number;
-        uSegments: number;
-        vLength: number;
-        vSegments: number;
-        constructor(uSegments: number, vSegments: number);
-        vertex(uIndex: number, vIndex: number): Vertex;
-    }
-    ///////////////////////////////////////////////////////////////////////////////
-    interface IKeyboardHandler extends IUnknown {
-        keyDown(event: KeyboardEvent): void;
-        keyUp(event: KeyboardEvent): void;
-    }
-
-    class Keyboard extends Shareable {
-        constructor(handler: IKeyboardHandler, document?: Document);
-        attach(handler: IKeyboardHandler, document?: Document, useCapture?: boolean): void;
-        detach(): void;
-    }
-    ///////////////////////////////////////////////////////////////////////////////
     class RigidBody extends Mesh {
 
         /**
@@ -4326,19 +3393,19 @@ declare module EIGHT {
         length: number;
     }
 
-    class Ball extends RigidBody {
+    class Sphere extends RigidBody {
         constructor()
         radius: number;
     }
 
-    class Box extends RigidBody {
+    class Cuboid extends RigidBody {
         constructor()
         width: number;
         height: number;
         depth: number;
     }
 
-    class Rod extends RigidBody {
+    class Cylinder extends RigidBody {
         constructor()
         radius: number;
         length: number;
@@ -4380,46 +3447,13 @@ declare module EIGHT {
         draw(ambients: Facet[]): void;
     }
 
-    function vector(x: number, y: number, z: number): G3;
     ///////////////////////////////////////////////////////////////////////////////
-    /**
-     * The universal cosine function, cos.
-     * Returns the cosine of the argument.
-     * If the argument is an object with a cos method, calls the method.
-     * Otherwise calls Math.cos(x).
-     */
     function cos<T>(x: T): T;
     function cosh<T>(x: T): T;
-
-    /**
-     * <p>
-     * Returns e (the base of natural logarithms) raised to a power.
-     * </p>
-     * <p>
-     * The <em>exponential function</em> of a multivector A is denoted by exp A or e<sup>A</sup>
-     * and defined by
-     * </p>
-     * <p>
-     * exp A = e<sup>A</sup> = Σ<sub>k=0</sub> A<sup>k</sup> / k!
-     * </p>
-     * <p>
-     * = 1 + A / 1! + A<sup>2</sup> / 2! + ...
-     * </p>
-     */
     function exp<T>(x: T): T;
-
-    /**
-     * Returns the natural logarithm (base e) of a number.
-     */
     function log<T>(x: T): T;
     function norm<T>(x: T): T;
     function quad<T>(x: T): T;
-    /**
-     * The universal sine function, sin.
-     * Returns the sine of the argument.
-     * If the argument is an object with a sin method, calls the method.
-     * Otherwise calls Math.sin(x).
-     */
     function sin<T>(x: T): T;
     function sinh<T>(x: T): T;
     function sqrt<T>(x: T): T;

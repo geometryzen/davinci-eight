@@ -7,63 +7,21 @@ import R2 from '../math/R2';
 import G3 from '../math/G3';
 import VectorE3 from '../math/VectorE3';
 
-/**
- * @module EIGHT
- * @submodule geometries
- */
-
-/**
- * @class RingBuilder
- */
 export default class RingBuilder extends AxialPrimitivesBuilder implements IAxialGeometry<RingBuilder> {
-    /**
-     * @property innerRadius
-     * @type {number}
-     */
     public innerRadius: number = 0;
-    /**
-     * @property outerRadius
-     * @type {number}
-     */
     public outerRadius: number = 1;
-    /**
-     * @property thetaSegments
-     * @type {number}
-     */
     public thetaSegments = 16;
-    /**
-     * @class RingBuilder
-     * @constructor
-     * @param axis {VectorE3} The <code>axis</code> property. This will be normalized to unity. 
-     * @param sliceStart {VectorE3} A direction, orthogonal to <code>axis</code>.
-     */
     constructor(axis: VectorE3, sliceStart: VectorE3) {
         super(axis, sliceStart)
     }
-    /**
-     * @method setAxis
-     * @param axis
-     * @return {RingBuilder}
-     * @chainable
-     */
     public setAxis(axis: VectorE3): RingBuilder {
         super.setAxis(axis)
         return this
     }
-    /**
-     * @method setPosition
-     * @param position {VectorE3}
-     * @return {RingBuilder}
-     * @chainable
-     */
     public setPosition(position: VectorE3): RingBuilder {
         super.setPosition(position)
         return this
     }
-    /**
-     * @method toPrimitives
-     * @return {Primitive[]}
-     */
     toPrimitives(): Primitive[] {
         let uSegments = this.thetaSegments
         let vSegments = 1
@@ -90,12 +48,6 @@ export default class RingBuilder extends AxialPrimitivesBuilder implements IAxia
         }
         return [topo.toDrawPrimitive()]
     }
-    /**
-     * @method enableTextureCoords
-     * @param enable {boolean}
-     * @return {RingBuilder}
-     * @chainable
-     */
     enableTextureCoords(enable: boolean): RingBuilder {
         super.enableTextureCoords(enable)
         return this

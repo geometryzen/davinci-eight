@@ -11,9 +11,6 @@ import SlideCommands from '../slideshow/SlideCommands';
 import StringIUnknownMap from '../collections/StringIUnknownMap';
 import WaitAnimation from '../slideshow/animations/WaitAnimation';
 
-/**
- * @class Slide
- */
 export default class Slide extends Shareable implements ISlide {
     public prolog: SlideCommands;
     public epilog: SlideCommands;
@@ -29,10 +26,6 @@ export default class Slide extends Shareable implements ISlide {
      * The time standard for this Slide.
      */
     private now = 0;
-    /**
-     * @class Slide
-     * @constructor
-     */
     constructor() {
         super('Slide')
         this.prolog = new SlideCommands()

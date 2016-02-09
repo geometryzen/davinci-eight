@@ -120,13 +120,13 @@ module.exports = function(grunt) {
 
     tslint: {
       src: [
+        "src/davinci-eight/davinci-eight.ts",
         "src/davinci-eight/checks/**/*.ts",
         "src/davinci-eight/collections/**/*.ts",
         "src/davinci-eight/commands/**/*.ts",
         "src/davinci-eight/core/**/*.ts",
         "src/davinci-eight/facets/**/*.ts",
         "src/davinci-eight/geometries/**/*.ts",
-//      "src/davinci-eight/glsl/**/*.ts",
         "src/davinci-eight/materials/**/*.ts",
         "src/davinci-eight/math/**/*.ts",
         "src/davinci-eight/visual/**/*.ts",

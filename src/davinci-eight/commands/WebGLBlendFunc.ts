@@ -1,9 +1,8 @@
 import BlendFactor from '../commands/BlendFactor';
 import IContextProvider from '../core/IContextProvider';
-import IContextCommand from '../core/IContextCommand';
 import Shareable from '../core/Shareable';
 
-var factors = [
+const factors = [
     BlendFactor.DST_ALPHA,
     BlendFactor.DST_COLOR,
     BlendFactor.ONE,
@@ -39,10 +38,8 @@ function factor(factor: BlendFactor, gl: WebGLRenderingContext): number {
 /**
  * @class WebGLBlendFunc
  * @extends Shareable
- * @implements IContextCommand
- * @implements IContextConsumer
  */
-export default class WebGLBlendFunc extends Shareable implements IContextCommand {
+export default class WebGLBlendFunc extends Shareable {
     public sfactor: BlendFactor;
     public dfactor: BlendFactor;
     /**

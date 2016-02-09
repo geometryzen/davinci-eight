@@ -1,5 +1,4 @@
 import core from '../core';
-import IContextCommand from '../core/IContextCommand';
 import IContextProvider from '../core/IContextProvider';
 import Shareable from '../core/Shareable';
 
@@ -11,9 +10,8 @@ var QUALIFIED_NAME = 'EIGHT.Logger'
  * <p> 
  * @class EIGHTLogger
  * @extends Shareable
- * @implements IContextCommand
  */
-export default class EIGHTLogger extends Shareable implements IContextCommand {
+export default class EIGHTLogger extends Shareable {
     /**
      * <p>
      * Initializes <b>the</b> `type` property to 'EIGHTLogger'.

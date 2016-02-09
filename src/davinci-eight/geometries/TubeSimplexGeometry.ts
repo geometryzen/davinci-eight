@@ -1,16 +1,3 @@
-/**
- * @author WestLangley / https://github.com/WestLangley
- * @author zz85 / https://github.com/zz85
- * @author miningold / https://github.com/miningold
- * @author jonobr1 / https://github.com/jonobr1
- *
- * Modified from the TorusKnotGeometry by @oosmoxiecode
- *
- * Creates a tube which extrudes along a 3d spline
- *
- * Uses parallel transport frames as described in
- * http://www.cs.indiana.edu/pub/techreports/TR425.pdf
- */
 import clamp = require('../math/clamp');
 import Curve = require('../curves/Curve');
 import Face3 = require('../core/Face3');
@@ -18,11 +5,6 @@ import SimplexPrimitivesBuilder = require('../geometries/SimplexPrimitivesBuilde
 import Mat4R = require('../math/Mat4R');
 import R2 = require('../math/R2');
 import R3 = require('../math/R3');
-
-/**
- * @module EIGHT
- * @submodule geometries
- */
 
 class TubeSimplexGeometry extends SimplexPrimitivesBuilder {
   public static NoTaper = function (u: number): number {return 1;};

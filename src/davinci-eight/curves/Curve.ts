@@ -1,35 +1,14 @@
 import Euclidean3 from '../math/Euclidean3';
-/**
- * @author zz85 / http://www.lab4games.net/zz85/blog
- * Extensible curve object
- *
- * This following classes subclasses Curve:
- *
- * LineCurve
- * QuadraticBezierCurve
- * CubicBezierCurve
- * SplineCurve
- * ArcCurve
- * EllipseCurve
- * ClosedSplineCurve
- *
- */
+
 export default class Curve {
     private cacheArcLengths: number[];
     private needsUpdate: boolean;
     private __arcLengthDivisions: number;
     constructor() {
     }
-    /**
-     * Virtual base class method to overwrite and implement in subclasses
-     * t belongs to [0, 1]
-     */
     getPoint(t: number): Euclidean3 {
         throw new Error("Curve.getPoint() not implemented!");
     }
-    /**
-     * Get point at relative position in curve according to arc length
-     */
     getPointAt(u: number): Euclidean3 {
         var t = this.getUtoTmapping(u);
         return this.getPoint(t);
@@ -96,7 +75,6 @@ export default class Curve {
         return cache; // { sums: cache, sum:sum }; Sum is in the last element.
 
     }
-
     updateArcLengths() {
         this.needsUpdate = true;
         this.getLengths();

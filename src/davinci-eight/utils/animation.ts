@@ -16,16 +16,6 @@ function defaultTerminate(time: number): boolean {
     return false;
 }
 
-/**
- * Creates an object implementing a stopwatch API that makes callbacks to user-supplied functions.
- * class WindowAnimationRunner
- * constructor
- * param animate The `animate` function is called for each animation frame.
- * param options.setUp The `setUp` function is called synchronously each time the start() method is called.
- * param options.tearDown The `tearDown` function is called asynchronously each time the animation is stopped.
- * param options.terminate The `terminate` function is called to determine whether the animation should stop.
- * param options.window {Window} The window in which the animation will run. Defaults to the global window. 
- */
 export default function animation(
     animate: (time: number) => void,
     options?: {

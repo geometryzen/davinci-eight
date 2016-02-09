@@ -4,11 +4,6 @@ import SpinG3 from '../math/SpinG3';
 import R3 from '../math/R3';
 import VectorE3 from '../math/VectorE3';
 
-/**
- * @module EIGHT
- * @submodule geometries
- */
-
 function signum(x: number): number {
     return x >= 0 ? +1 : -1;
 }
@@ -46,12 +41,6 @@ function nearest(direction: R3): R3 {
     return R3.copy(direction)
 }
 
-/**
- * Intentionally undocumented.
- *
- * This doesn't work because of the difficulty of constructing normals.
- * With more information, RevolutionSimplexPrimitivesBuilder might do the job.
- */
 export default class ArrowSimplexPrimitivesBuilder extends RevolutionSimplexPrimitivesBuilder {
     public lengthCone: number = 0.20;
     public radiusCone: number = 0.08;

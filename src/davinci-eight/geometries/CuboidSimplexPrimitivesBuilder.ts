@@ -8,60 +8,11 @@ import R1 from '../math/R1';
 import R3 from '../math/R3';
 import VectorE3 from '../math/VectorE3';
 
-/**
- * @module EIGHT
- * @submodule geometries
- */
-
-/**
- * @class CuboidSimplexPrimitivesBuilder
- * @extends SimplexPrimitivesBuilder
- */
 export default class CuboidSimplexPrimitivesBuilder extends SimplexPrimitivesBuilder {
-    /**
-     * Parameter is private so that we can detect assignments.
-     * @property _a
-     * @type {CartesianE3}
-     * @private
-     */
     private _a: CartesianE3;
-    /**
-     * Parameter is private so that we can detect assignments.
-     * @property _b
-     * @type {CartesianE3}
-     * @private
-     */
     private _b: CartesianE3;
-    /**
-     * Parameter is private so that we can detect assignments.
-     * @property _c
-     * @type {CartesianE3}
-     * @private
-     */
     private _c: CartesianE3;
-    /**
-     * Used to mark the parameters of this object dirty when they are possibly shared.
-     * @property _isModified
-     * @type {boolean}
-     * @private
-     */
     private _isModified: boolean = true;
-    /**
-     * <p>
-     * The <code>CuboidSimplexPrimitivesBuilder</code> generates simplices representing a cuboid, or more precisely a parallelepiped.
-     * The parallelepiped is parameterized by the three vectors <b>a</b>, <b>b</b>, and <b>c</b>.
-     * The property <code>k</code> represents the dimensionality of the vertices.
-     * The default settings create a unit cube centered at the origin.
-     * </p>
-     * @class CuboidSimplexPrimitivesBuilder
-     * @constructor
-     * @param [a = e1] {VectorE3}
-     * @param [b = e2] {VectorE3}
-     * @param [c = e3] {VectorE3}
-     * @param [k = Simplex.TRIANGLE] {number}
-     * @param [subdivide = 0] {number = 0}
-     * @param [boundary = 0] {number}
-     */
     constructor(a: VectorE3 = CartesianE3.e1, b: VectorE3 = CartesianE3.e2, c: VectorE3 = CartesianE3.e3, k = Simplex.TRIANGLE, subdivide = 0, boundary = 0) {
         super()
         this._a = CartesianE3.fromVectorE3(a)
@@ -72,15 +23,6 @@ export default class CuboidSimplexPrimitivesBuilder extends SimplexPrimitivesBui
         this.boundary(boundary)
         this.regenerate();
     }
-    /**
-     * <p>
-     * A vector parameterizing the shape of the cuboid.
-     * Defaults to the standard basis vector e1.
-     * Assignment is by reference making it possible for parameters to be shared references.
-     * </p>
-     * @property a
-     * @type {CartesianE3}
-     */
     public get a(): CartesianE3 {
         return this._a
     }
@@ -88,15 +30,6 @@ export default class CuboidSimplexPrimitivesBuilder extends SimplexPrimitivesBui
         this._a = a
         this._isModified = true
     }
-    /**
-     * <p>
-     * A vector parameterizing the shape of the cuboid.
-     * Defaults to the standard basis vector e2.
-     * Assignment is by reference making it possible for parameters to be shared references.
-     * </p>
-     * @property b
-     * @type {CartesianE3}
-     */
     public get b(): CartesianE3 {
         return this._b
     }
@@ -104,15 +37,6 @@ export default class CuboidSimplexPrimitivesBuilder extends SimplexPrimitivesBui
         this._b = b
         this._isModified = true
     }
-    /**
-     * <p>
-     * A vector parameterizing the shape of the cuboid.
-     * Defaults to the standard basis vector e3.
-     * Assignment is by reference making it possible for parameters to be shared references.
-     * </p>
-     * @property c
-     * @type {CartesianE3}
-     */
     public get c(): CartesianE3 {
         return this._c
     }
@@ -123,22 +47,11 @@ export default class CuboidSimplexPrimitivesBuilder extends SimplexPrimitivesBui
     public isModified() {
         return this._isModified || super.isModified()
     }
-    /**
-     * @method setModified
-     * @param modified {boolean} The value that the modification state will be set to.
-     * @return {CuboidSimplexPrimitivesBuilder} `this` instance.
-     */
     public setModified(modified: boolean): CuboidSimplexPrimitivesBuilder {
         this._isModified = modified
         super.setModified(modified)
         return this
     }
-
-    /**
-     * regenerate the geometry based upon the current parameters.
-     * @method regenerate
-     * @return {void}
-     */
     public regenerate(): void {
         this.setModified(false)
 

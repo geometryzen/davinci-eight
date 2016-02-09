@@ -34,35 +34,10 @@ function attributes(elements: number[], vertices: Vertex[]): { [name: string]: A
     return attribs
 }
 
-/**
- * @class Topology
- */
 export default class Topology {
-    /**
-     * @property mode
-     * @type {DrawMode}
-     * @private
-     */
     private mode: DrawMode;
-    /**
-     * @property elements
-     * @type {number[]}
-     * @protected
-     */
     protected elements: number[];
-    /**
-     * @property vertices
-     * @type {Vertex[]}
-     * @protected
-     */
     protected vertices: Vertex[];
-    /**
-     * Abstract base class for all geometric primitive types
-     * @class Topology
-     * @constructor
-     * @param mode {DrawMode}
-     * @param numVertices {number}
-     */
     constructor(mode: DrawMode, numVertices: number) {
         this.mode = mustBeInteger('mode', mode)
         mustBeInteger('numVertices', numVertices)
@@ -71,13 +46,6 @@ export default class Topology {
             this.vertices.push(new Vertex())
         }
     }
-    /**
-     * Creates the elements in a format required for WebGL.
-     * This may involve creating some redundancy in order to get WebGL efficiency.
-     * Thus, we should regard the topology as normalized
-     * @method toDrawPrimitive
-     * @return {Primitive}
-     */
     public toDrawPrimitive(): Primitive {
         return new DrawPrimitive(this.mode, this.elements, attributes(this.elements, this.vertices))
     }

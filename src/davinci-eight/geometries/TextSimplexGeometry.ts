@@ -3,11 +3,6 @@ import FontFace from '../geometries/FontFace';
 // import ExtrudeSimplexGeometry from '../geometries/ExtrudeSimplexGeometry')
 import SimplexPrimitivesBuilder from '../geometries/SimplexPrimitivesBuilder';
 
-/**
- * @module EIGHT
- * @submodule geometries
- */
-
 /*
 function futzParameters(parameters: { amount?: number; bevelEnabled?: boolean, bevelSize?: number, bevelThickness?: number; height?: number }) {
 
@@ -23,9 +18,6 @@ function futzParameters(parameters: { amount?: number; bevelEnabled?: boolean, b
 }
 */
 
-/**
- * Intentionally undocumented
- */
 export default class TextSimplexGeometry extends /*Extrude*/SimplexPrimitivesBuilder {
     constructor(text: string, face: FontFace, parameters: { amount?: number; bevelEnabled?: boolean, bevelSize?: number, bevelThickness?: number; height?: number }) {
         super()

@@ -1,7 +1,6 @@
 import Facet from '../core/Facet';
 import IContextProvider from '../core/IContextProvider';
 import Mesh from './Mesh';
-import IDrawList from './IDrawList';
 import IUnknownArray from '../collections/IUnknownArray';
 import mustBeObject from '../checks/mustBeObject';
 import PrimitiveBuffer from './PrimitiveBuffer';
@@ -93,7 +92,7 @@ function partsFromMesh(mesh: Mesh): IUnknownArray<ScenePart> {
  * @class Scene
  * @extends Shareable
  */
-export default class Scene extends ShareableContextListener implements IDrawList {
+export default class Scene extends ShareableContextListener {
 
     private _meshes: IUnknownArray<Mesh>;
     private _parts: IUnknownArray<ScenePart>;

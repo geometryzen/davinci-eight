@@ -1,10 +1,5 @@
 import Attribute from '../core/Attribute';
 
-/**
- * @module EIGHT
- * @submodule geometries
- */
-
 function isVectorN(values: number[]): boolean {
     return true
 }
@@ -32,32 +27,9 @@ function checkSize(size: number, values: number[]): number {
     return size
 }
 
-/**
- * @class DrawAttribute
- */
 export default class DrawAttribute implements Attribute {
-    /**
-     * The values of the attribute.
-     * @property values
-     * @type {number[]}
-     */
     public values: number[];
-
-    /**
-     * The chunking size of the attribute.
-     * The chunking size is invariant given the values and is used to describe the vertex attribute pointer.
-     * @property size
-     * @type {number}
-     */
     public size: number;
-
-    /**
-     * A convenience class for constructing and validating attribute values used for drawing.
-     * @class DrawAttribute
-     * @constructor
-     * @param values {number[]}
-     * @param size {number}
-     */
     constructor(values: number[], size: number) {
         // mustBeArray('values', values)
         // mustBeInteger('size', size)

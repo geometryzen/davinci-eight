@@ -9,31 +9,10 @@ import NumberIUnknownMap from '../collections/NumberIUnknownMap';
 import Shareable from '../core/Shareable';
 import StringIUnknownMap from '../collections/StringIUnknownMap';
 
-/**
- * @class Director
- */
 export default class Director extends Shareable implements IDirector {
-    /**
-     * [0, slides.length] represents on a slide
-     * A value equal to -1 represents just before the first slide.
-     * A value equal to slides.length represents just after the last slide. 
-     * @property step
-     * @type {number}
-     */
     private step: number;
-    /**
-     * @property slides
-     * @type {IUnknownArray}
-     */
     public slides: IUnknownArray<Slide>;
-    /**
-     * (name: string) => IAnimationTarget
-     */
     private facets: { [name: string]: IAnimationTarget };
-    /**
-     * @class Director
-     * @constructor
-     */
     constructor() {
         super('Director')
         this.step = -1 // Position before the first slide.
@@ -56,11 +35,6 @@ export default class Director extends Shareable implements IDirector {
         delete this.facets[facetName]
         return facet
     }
-    /**
-     * Creates a new Slide.
-     * @method createSlide
-     * @return {Slide}
-     */
     createSlide(): Slide {
         return new Slide()
     }

@@ -9,24 +9,11 @@ import PathKind from '../geometries/PathKind';
 import QuadraticBezierCurve from '../curves/QuadraticBezierCurve';
 import Shape from '../geometries/Shape';
 
-/**
- * @module EIGHT
- * @submodule geometries
- */
-
-/**
- * @class Path
- */
 export default class Path extends CurvePath {
 
     public actions: PathAction[];
     private useSpacedPoints: boolean;
 
-    /**
-     * <code>Path</code> is a utility for buiding a <em>path</em> of points.
-     * @class Path
-     * @constructor
-     */
     constructor(points?: Euclidean3[]) {
         super()
         this.actions = []
@@ -35,10 +22,6 @@ export default class Path extends CurvePath {
         }
     }
 
-    /**
-     * @method fromPoints
-     * @return {void}
-     */
     fromPoints(points: Euclidean3[]): void {
         if (points.length > 0) {
             this.moveTo(points[0]);
@@ -48,12 +31,6 @@ export default class Path extends CurvePath {
         }
     }
 
-    /**
-     * @method getSpacedPoints
-     * @param [divisions = 40] {number}
-     * @param closedPath [boolean]
-     * @return {Euclidean3[]}
-     */
     getSpacedPoints(divisions = 40, closedPath?: boolean): Euclidean3[] {
         var points: Euclidean3[] = []
         for (var i = 0; i < divisions; i++) {
@@ -67,12 +44,6 @@ export default class Path extends CurvePath {
         return points
     }
 
-    /**
-     * @method getPoints
-     * @param [divisiions = 12] {number}
-     * @param closedPath [boolean]
-     * @return {Euclidean3[]}
-     */
     getPoints(divisions?: number, closedPath?: boolean): Euclidean3[] {
 
         if (this.useSpacedPoints) {
@@ -253,20 +224,10 @@ export default class Path extends CurvePath {
         throw new Error("TODO Path.execute")
     }
 
-    /**
-     * @method moveTo
-     * @param point {Euclidean3}
-     * @return {void}
-     */
     moveTo(point: Euclidean3): void {
         this.actions.push({ action: PathKind.MOVE_TO, data: { endPoint: point } })
     }
 
-    /**
-     * @method lineTo
-     * @param point {Euclidean3}
-     * @return {void}
-     */
     lineTo(point: Euclidean3) {
         var prevArgs: PathArgs = this.actions[this.actions.length - 1].data;
         var beginPoint: Euclidean3 = prevArgs.endPoint;
@@ -275,12 +236,6 @@ export default class Path extends CurvePath {
         this.actions.push({ action: PathKind.LINE_TO, data: { endPoint: point } });
     }
 
-    /**
-     * @method quadraticCurveTo
-     * @param controlPoint {Euclidean3}
-     * @param endPoint {Euclidean3}
-     * @return {void}
-     */
     quadraticCurveTo(controlPoint: Euclidean3, point: Euclidean3): void {
         var prevArgs: PathArgs = this.actions[this.actions.length - 1].data;
         var beginPoint = prevArgs.endPoint;
@@ -289,13 +244,6 @@ export default class Path extends CurvePath {
         this.actions.push({ action: PathKind.QUADRATIC_CURVE_TO, data: { controlBegin: controlPoint, endPoint: point } });
     }
 
-    /**
-     * @method bezierCurveTo
-     * @param controlBegin {Euclidean3}
-     * @param controlEnd {Euclidean3}
-     * @param endPoint {Euclidean3}
-     * @return {void}
-     */
     bezierCurveTo(controlBegin: Euclidean3, controlEnd: Euclidean3, point: Euclidean3): void {
         var prevArgs: PathArgs = this.actions[this.actions.length - 1].data;
         var beginPoint = prevArgs.endPoint;
@@ -303,6 +251,7 @@ export default class Path extends CurvePath {
         this.curves.push(curve);
         this.actions.push({ action: PathKind.BEZIER_CURVE_TO, data: { controlBegin: controlBegin, controlEnd: controlEnd, endPoint: point } });
     }
+
     //
     // Breaks path into shapes
     //

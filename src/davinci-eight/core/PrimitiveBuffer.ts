@@ -13,7 +13,9 @@ import Shareable from '../core/Shareable'
 /**
  * A buffer for drawing a single primitive
  * that can endure context loss and gain events.
- * @class PrimitiveBuffer;
+ *
+ * @class PrimitiveBuffer
+ * @extends Shareable
  */
 export default class PrimitiveBuffer extends Shareable implements IContextConsumer {
 

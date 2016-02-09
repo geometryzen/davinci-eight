@@ -1,22 +1,7 @@
 import Shape = require('../geometries/Shape')
 import SimplexPrimitivesBuilder = require('../geometries/SimplexPrimitivesBuilder')
 
-/**
- * @module EIGHT
- * @submodule geometries
- */
-
-/**
- * @class ExtrudeSimplexGeometry
- */
 class ExtrudeSimplexGeometry extends SimplexPrimitivesBuilder {
-    /**
-     * @class ExtrudeSimplexGeometry
-     * @constructor
-     * @param shapes: [Shape[]=[]]
-     * @param options
-     * @param type [string='ExtrudeSimplexGeometry']
-     */
     constructor(shapes: Shape[] = [], options: {}, type = 'ExtrudeSimplexGeometry') {
         super(type)
 
@@ -25,11 +10,6 @@ class ExtrudeSimplexGeometry extends SimplexPrimitivesBuilder {
         // this.computeFaceNormals();
 
     }
-    /**
-     * @method destructor
-     * @return {void}
-     * @protected
-     */
     protected destructor(): void {
         super.destructor()
     }

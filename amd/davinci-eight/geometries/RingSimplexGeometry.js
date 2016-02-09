@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../geometries/arc3', '../geometries/Simplex', '../geometries/SliceSimplexGeometry', '../math/SpinG3', '../core/GraphicsProgramSymbols', '../math/R2', '../math/R3'], function (require, exports, arc3_1, Simplex_1, SliceSimplexGeometry_1, SpinG3_1, GraphicsProgramSymbols_1, R2_1, R3_1) {
+define(["require", "exports", '../geometries/arc3', '../geometries/Simplex', '../geometries/SliceSimplexPrimitivesBuilder', '../math/SpinG3', '../core/GraphicsProgramSymbols', '../math/R2', '../math/R3'], function (require, exports, arc3_1, Simplex_1, SliceSimplexPrimitivesBuilder_1, SpinG3_1, GraphicsProgramSymbols_1, R2_1, R3_1) {
     function computeVertices(a, b, axis, start, angle, generator, radialSegments, thetaSegments, vertices, uvs) {
         var perp = R3_1.default.copy(axis).cross(start);
         var radius = b;
@@ -131,7 +131,7 @@ define(["require", "exports", '../geometries/arc3', '../geometries/Simplex', '..
             return this;
         };
         return RingSimplexGeometry;
-    })(SliceSimplexGeometry_1.default);
+    })(SliceSimplexPrimitivesBuilder_1.default);
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = RingSimplexGeometry;
 });

@@ -3,21 +3,9 @@ import Simplex from '../geometries/Simplex';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
 import R3 from '../math/R3';
 
-/**
- * @module EIGHT
- * @submodule geometries
- */
-
-/**
- * @class Simplex1Geometry
- */
 export default class Simplex1Geometry extends SimplexPrimitivesBuilder {
     public head: R3 = new R3([1, 0, 0]);
     public tail: R3 = new R3([0, 1, 0]);
-    /**
-     * @class Simplex1Geometry
-     * @constructor
-     */
     constructor() {
         super()
         this.calculate();

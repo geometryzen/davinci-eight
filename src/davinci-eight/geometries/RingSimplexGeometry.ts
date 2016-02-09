@@ -2,7 +2,7 @@ import arc3 from '../geometries/arc3';
 import CartesianE3 from '../math/CartesianE3';
 import SimplexPrimitivesBuilder from '../geometries/SimplexPrimitivesBuilder';
 import Simplex from '../geometries/Simplex';
-import SliceSimplexGeometry from '../geometries/SliceSimplexGeometry';
+import SliceSimplexPrimitivesBuilder from '../geometries/SliceSimplexPrimitivesBuilder';
 import SpinG3 from '../math/SpinG3';
 import SpinorE3 from '../math/SpinorE3';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
@@ -10,18 +10,6 @@ import R2 from '../math/R2';
 import R3 from '../math/R3';
 import VectorE3 from '../math/VectorE3';
 
-/**
- * @module EIGHT
- * @submodule geometries
- */
-
-// TODO: If the Ring is closed (angle = 2 * PI) then we get some redundancy at the join.
-// TODO: If the innerRadius is zero then the quadrilaterals have degenerate triangles.
-// TODO: May be more efficient to calculate points for the outer circle then scale them inwards.
-
-/**
- * 
- */
 function computeVertices(a: number, b: number, axis: CartesianE3, start: VectorE3, angle: number, generator: SpinorE3, radialSegments: number, thetaSegments: number, vertices: R3[], uvs: R2[]) {
     /**
      * `t` is the vector perpendicular to s in the plane of the ring.
@@ -47,10 +35,6 @@ function computeVertices(a: number, b: number, axis: CartesianE3, start: VectorE
     }
 }
 
-/**
- * Our traversal will generate the following mapping into the vertices and uvs arrays.
- * This is standard for two looping variables.
- */
 function vertexIndex(i: number, j: number, thetaSegments: number): number {
     return i * (thetaSegments + 1) + j
 }
@@ -134,55 +118,17 @@ function makeEmpty(vertices: R3[], radialSegments: number, thetaSegments: number
     }
 }
 
-/**
- * @class RingSimplexGeometry
- * @extends SliceSimplexGeometry
- */
-export default class RingSimplexGeometry extends SliceSimplexGeometry {
-    /**
-     * The outer radius.
-     * @property a
-     * @type {number}
-     */
+export default class RingSimplexGeometry extends SliceSimplexPrimitivesBuilder {
     public a: number;
-    /**
-     * The inner radius.
-     * @property b
-     * @type {number}
-     */
     public b: number;
-    /**
-     * <p>
-     * Creates an annulus with a single hole.
-     * </p>
-     * <p>
-     * Sets the <code>sliceAngle</code> property to <code>2 * Math.PI</p>.
-     * </p>
-     * @class RingSimplexGeometry
-     * @constructor
-     * @param [a = 1] {number} The outer radius
-     * @param [b = 0] {number} The inner radius
-     * @param [axis] {VectorE3} The <code>axis</code> property.
-     * @param [sliceStart] {VectorE3} The <code>sliceStart</code> property.
-     * @param [sliceAngle] {number} The <code>sliceAngle</code> property.
-     */
     constructor(a = 1, b = 0, axis?: VectorE3, sliceStart?: VectorE3, sliceAngle?: number) {
         super(axis, sliceStart, sliceAngle)
         this.a = a
         this.b = b
     }
-
-    /**
-     * @method isModified
-     * @return {boolean}
-     */
     public isModified(): boolean {
         return super.isModified();
     }
-    /**
-     * @method regenerate
-     * @return {void}
-     */
     public regenerate(): void {
         this.data = []
 
@@ -218,12 +164,6 @@ export default class RingSimplexGeometry extends SliceSimplexGeometry {
 
         this.setModified(false)
     }
-    /**
-     * @method setModified
-     * @param modified {boolean}
-     * @return {RingSimplexGeometry}
-     * @chainable
-     */
     public setModified(modified: boolean): RingSimplexGeometry {
         super.setModified(modified)
         return this;
