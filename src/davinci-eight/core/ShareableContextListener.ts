@@ -6,6 +6,8 @@ import readOnly from '../i18n/readOnly';
 import Shareable from './Shareable';
 
 /**
+ * @module EIGHT
+ * @submodule core
  * @class ShareableContextListener
  * @extends Shareable
  */
@@ -27,18 +29,18 @@ export default class ShareableContextListener extends Shareable implements ICont
      * @return {void}
      */
     protected destructor(): void {
-        this.detachFromMonitor()
+        this.unsubscribe()
         super.destructor()
     }
 
     /**
      * Instructs the consumer to subscribe to context events.
      *
-     * @method attachToMonitor
+     * @method subscribe
      * @param monitor {IContextMonitor}
      * @return {void}
      */
-    attachToMonitor(monitor: IContextMonitor): void {
+    subscribe(monitor: IContextMonitor): void {
         if (!this._monitor) {
             monitor.addRef()
             this._monitor = monitor
@@ -46,18 +48,18 @@ export default class ShareableContextListener extends Shareable implements ICont
             monitor.synchronize(this)
         }
         else {
-            this.detachFromMonitor()
-            this.attachToMonitor(monitor)
+            this.unsubscribe()
+            this.subscribe(monitor)
         }
     }
 
     /**
      * Instructs the consumer to unsubscribe from context events.
      *
-     * @method detachFromMonitor
+     * @method unsubscribe
      * @return {void}
      */
-    detachFromMonitor(): void {
+    unsubscribe(): void {
         if (this._context) {
             cleanUp(this._context, this)
         }

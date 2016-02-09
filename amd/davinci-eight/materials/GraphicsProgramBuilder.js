@@ -1,4 +1,4 @@
-define(["require", "exports", '../core/getAttribVarName', '../programs/glslAttribType', '../checks/mustBeInteger', '../checks/mustBeString', '../materials/SmartGraphicsProgram', '../programs/vColorRequired', '../programs/vLightRequired', '../programs/fragmentShader', '../programs/vertexShader'], function (require, exports, getAttribVarName_1, glslAttribType_1, mustBeInteger_1, mustBeString_1, SmartGraphicsProgram_1, vColorRequired_1, vLightRequired_1, fragmentShader_1, vertexShader_1) {
+define(["require", "exports", '../core/getAttribVarName', './glslAttribType', '../checks/mustBeInteger', '../checks/mustBeString', '../materials/SmartGraphicsProgram', './vColorRequired', './vLightRequired', './fragmentShader', './vertexShader'], function (require, exports, getAttribVarName_1, glslAttribType_1, mustBeInteger_1, mustBeString_1, SmartGraphicsProgram_1, vColorRequired_1, vLightRequired_1, fragmentShader_1, vertexShader_1) {
     function computeAttribParams(values) {
         var result = {};
         var keys = Object.keys(values);

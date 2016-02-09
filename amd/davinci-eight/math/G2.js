@@ -16,14 +16,6 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/d
     var cos = Math.cos;
     var sin = Math.sin;
     var sqrt = Math.sqrt;
-    var LEFTWARDS_ARROW = "←";
-    var RIGHTWARDS_ARROW = "→";
-    var UPWARDS_ARROW = "↑";
-    var DOWNWARDS_ARROW = "↓";
-    var BULLSEYE = "◎";
-    var CLOCKWISE_OPEN_CIRCLE_ARROW = "↻";
-    var ANTICLOCKWISE_OPEN_CIRCLE_ARROW = "↺";
-    var ARROW_LABELS = ["1", [LEFTWARDS_ARROW, RIGHTWARDS_ARROW], [DOWNWARDS_ARROW, UPWARDS_ARROW], [CLOCKWISE_OPEN_CIRCLE_ARROW, ANTICLOCKWISE_OPEN_CIRCLE_ARROW]];
     var STANDARD_LABELS = ["1", "e1", "e2", "I"];
     function coordinates(m) {
         return [m.α, m.x, m.y, m.β];

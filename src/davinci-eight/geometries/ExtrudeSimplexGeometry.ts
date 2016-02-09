@@ -1,10 +1,15 @@
 import Shape = require('../geometries/Shape')
-import SimplexGeometry = require('../geometries/SimplexGeometry')
+import SimplexPrimitivesBuilder = require('../geometries/SimplexPrimitivesBuilder')
+
+/**
+ * @module EIGHT
+ * @submodule geometries
+ */
 
 /**
  * @class ExtrudeSimplexGeometry
  */
-class ExtrudeSimplexGeometry extends SimplexGeometry {
+class ExtrudeSimplexGeometry extends SimplexPrimitivesBuilder {
     /**
      * @class ExtrudeSimplexGeometry
      * @constructor
@@ -12,7 +17,7 @@ class ExtrudeSimplexGeometry extends SimplexGeometry {
      * @param options
      * @param type [string='ExtrudeSimplexGeometry']
      */
-    constructor(shapes: Shape[] = [], options: {}, type: string = 'ExtrudeSimplexGeometry') {
+    constructor(shapes: Shape[] = [], options: {}, type = 'ExtrudeSimplexGeometry') {
         super(type)
 
         this.addShapeList(shapes, options);
@@ -161,14 +166,14 @@ class ExtrudeSimplexGeometry extends SimplexGeometry {
         function getBevelVec(inPt, inPrev, inNext) {
 
             var EPSILON = 0.0000000001;
-    
+
             // computes for inPt the corresponding point inPt' on a new contour
             //   shiftet by 1 unit (length of normalized vector) to the left
             // if we walk along contour clockwise, this new contour is outside the old one
             //
             // inPt' is the intersection of the two lines parallel to the two
             //  adjacent edges of inPt at a distance of 1 unit on the left side.
-    
+
             var v_trans_x, v_trans_y, shrink_by = 1;    // resulting translation vector for inPt
 
             // good reading for geometry algorithms (here: line-line intersection)
@@ -178,36 +183,36 @@ class ExtrudeSimplexGeometry extends SimplexGeometry {
             var v_next_x = inNext.x - inPt.x, v_next_y = inNext.y - inPt.y;
 
             var v_prev_lensq = (v_prev_x * v_prev_x + v_prev_y * v_prev_y);
-    
+
             // check for colinear edges
             var colinear0 = (v_prev_x * v_next_y - v_prev_y * v_next_x);
 
             if (Math.abs(colinear0) > EPSILON) {    // not colinear
-      
+
                 // length of vectors for normalizing
-  
+
                 var v_prev_len = Math.sqrt(v_prev_lensq);
                 var v_next_len = Math.sqrt(v_next_x * v_next_x + v_next_y * v_next_y);
-      
+
                 // shift adjacent points by unit vectors to the left
-  
+
                 var ptPrevShift_x = (inPrev.x - v_prev_y / v_prev_len);
                 var ptPrevShift_y = (inPrev.y + v_prev_x / v_prev_len);
 
                 var ptNextShift_x = (inNext.x - v_next_y / v_next_len);
                 var ptNextShift_y = (inNext.y + v_next_x / v_next_len);
-  
+
                 // scaling factor for v_prev to intersection point
-  
+
                 var sf = ((ptNextShift_x - ptPrevShift_x) * v_next_y -
                     (ptNextShift_y - ptPrevShift_y) * v_next_x) /
                     (v_prev_x * v_next_y - v_prev_y * v_next_x);
-  
+
                 // vector from inPt to intersection point
-  
+
                 v_trans_x = (ptPrevShift_x + v_prev_x * sf - inPt.x);
                 v_trans_y = (ptPrevShift_y + v_prev_y * sf - inPt.y);
-  
+
                 // Don't normalize!, otherwise sharp corners become ugly
                 //  but prevent crazy spikes
                 var v_trans_lensq = (v_trans_x * v_trans_x + v_trans_y * v_trans_y)
@@ -226,7 +231,7 @@ class ExtrudeSimplexGeometry extends SimplexGeometry {
                     if (v_prev_x < - EPSILON) {
                         if (v_next_x < - EPSILON) { direction_eq = true; }
                     } else {
-                        if (Math.sign(v_prev_y) == Math.sign(v_next_y)) { direction_eq = true; }
+                        if (Math.sign(v_prev_y) === Math.sign(v_next_y)) { direction_eq = true; }
                     }
                 }
 
@@ -285,14 +290,14 @@ class ExtrudeSimplexGeometry extends SimplexGeometry {
         // Loop bevelSegments, 1 for the front, 1 for the back
 
         for (b = 0; b < bevelSegments; b++) {
-            //for ( b = bevelSegments; b > 0; b -- ) {
+            // for ( b = bevelSegments; b > 0; b -- ) {
 
             t = b / bevelSegments;
             z = bevelThickness * (1 - t);
 
-            //z = bevelThickness * t;
+            // z = bevelThickness * t;
             bs = bevelSize * (Math.sin(t * Math.PI / 2)); // curved
-            //bs = bevelSize * t ; // linear
+            // bs = bevelSize * t ; // linear
 
             // contract shape
 
@@ -385,12 +390,12 @@ class ExtrudeSimplexGeometry extends SimplexGeometry {
 
         // Add bevel segments planes
 
-        //for ( b = 1; b <= bevelSegments; b ++ ) {
+        // for ( b = 1; b <= bevelSegments; b ++ ) {
         for (b = bevelSegments - 1; b >= 0; b--) {
 
             t = b / bevelSegments;
             z = bevelThickness * (1 - t);
-            //bs = bevelSize * ( 1-Math.sin ( ( 1 - t ) * Math.PI/2 ) );
+            // bs = bevelSize * ( 1-Math.sin ( ( 1 - t ) * Math.PI/2 ) );
             bs = bevelSize * Math.sin(t * Math.PI / 2);
 
             // contract shape
@@ -506,7 +511,6 @@ class ExtrudeSimplexGeometry extends SimplexGeometry {
                 ahole = holes[h];
                 sidewalls(ahole, layeroffset);
 
-                //, true
                 layeroffset += ahole.length;
 
             }

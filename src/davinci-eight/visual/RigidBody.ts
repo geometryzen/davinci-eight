@@ -1,33 +1,65 @@
-import Mesh from '../scene/Mesh'
+import Mesh from '../core/Mesh'
 import ColorFacet from '../facets/ColorFacet';
 import Color from '../core/Color';
 import G3 from '../math/G3';
 import ModelFacet from '../facets/ModelFacet';
 import mustBeObject from '../checks/mustBeObject';
 import readOnly from '../i18n/readOnly';
-import Geometry from '../scene/Geometry';
+import Geometry from '../core/Geometry';
 import Material from '../core/Material';
+
+/**
+ * Convenient abstractions for Physics modeling.
+ *
+ * @module EIGHT
+ * @submodule visual
+ */
 
 const COLOR_FACET_NAME = 'color';
 const MODEL_FACET_NAME = 'model';
 
 /**
  * @class RigidBody
+ * @extends Mesh
  */
 export default class RigidBody extends Mesh {
+
+    /**
+     * @property _mass
+     * @type G3
+     * @default zero
+     * @private
+     */
     private _mass = G3.zero.clone()
+
+    /**
+     * @property _momentum
+     * @type G3
+     * @default zero
+     * @private
+     */
     private _momentum = G3.zero.clone()
+
+    /**
+     * @property _axis
+     * @type G3
+     * @default zero
+     * @private
+     */
     private _axis = G3.zero.clone()
 
     /**
+     * Provides descriptive variables for translational and rotational motion.
+     * This class is intended to be used as a base for bodies in the __visual__ module.
+     *
      * @class RigidBody
      * @constructor
-     * @param buffers {Geometry}
-     * @param program {Material}
+     * @param geometry {Geometry}
+     * @param material {Material}
      * @param [type = 'RigidBody'] {string}
      */
-    constructor(buffers: Geometry, program: Material, type = 'RigidBody') {
-        super(buffers, program, type)
+    constructor(geometry: Geometry, material: Material, type = 'RigidBody') {
+        super(geometry, material, type)
 
         const modelFacet = new ModelFacet()
         this.setFacet(MODEL_FACET_NAME, modelFacet)
@@ -49,6 +81,8 @@ export default class RigidBody extends Mesh {
 
     /**
      * Axis (vector)
+     * This property is computed from the attitude spinor assuming a reference axis of e2.
+     * The axis property may be updated by assignment, but not through mutation.
      *
      * @property axis
      * @type G3
@@ -125,6 +159,23 @@ export default class RigidBody extends Mesh {
     /**
      * Position (vector)
      *
+     * The property getter returns a reference to a variable that is used to determine
+     * the location. Consequently, mutation of the returned variable affects the location
+     * of the body.
+     *
+     * @example
+     *     const position = rigidBody.X
+     *
+     * Changing the position variable will affect the rigidBody.
+     *
+     * The property setter copies the right hand side of the assignment into the X property.
+     *
+     * @example
+     *     const position = new G3()
+     *     rigidBody.X = position
+     *
+     * Changing the position variable has no effect on the rigidBody.
+     *
      * @property X
      * @type G3
      */
@@ -197,8 +248,10 @@ export default class RigidBody extends Mesh {
      * Helper method for accessing the model.
      * The underscore notation should suggest that a release call is not required.
      *
-     * @method _model
-     * @type Modelfacet
+     * @property _model
+     * @type ModelFacet
+     * @readOnly
+     * @private
      */
     private get _model(): ModelFacet {
         const model = <ModelFacet>this.getFacet(MODEL_FACET_NAME)

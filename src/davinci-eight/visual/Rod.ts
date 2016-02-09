@@ -2,6 +2,15 @@ import mustBeNumber from '../checks/mustBeNumber';
 import visualCache from './visualCache';
 import RigidBody from './RigidBody'
 
+/**
+ * @module EIGHT
+ * @submodule visual
+ */
+
+/**
+ * @class Rod
+ * @extends RigidBody
+ */
 export default class Rod extends RigidBody {
     constructor() {
         super(visualCache.cylinder(), visualCache.program(), 'Rod')

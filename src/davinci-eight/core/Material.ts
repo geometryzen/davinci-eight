@@ -5,7 +5,6 @@ import Mat2R from '../math/Mat2R';
 import Mat3R from '../math/Mat3R';
 import Mat4R from '../math/Mat4R';
 import mustBeArray from '../checks/mustBeArray';
-import mustBeObject from '../checks/mustBeObject';
 import mustBeString from '../checks/mustBeString';
 import mustBeUndefined from '../checks/mustBeUndefined';
 import readOnly from '../i18n/readOnly';
@@ -16,68 +15,67 @@ import VectorE3 from '../math/VectorE3';
 import VectorE4 from '../math/VectorE4';
 
 /**
+ * @module EIGHT
+ * @submodule core
  * @class Material
- * @extends Shareable
+ * @extends ShareableContextListener
  */
 export default class Material extends ShareableContextListener {
 
     /**
      * @property _vertexShader
-     * @type {string}
+     * @type string
      * @private
      */
-    private _vertexShader: string;
+    private _vertexShader: string
 
     /**
-     * @property fragmentShader
-     * @type {string}
+     * @property _fragmentShader
+     * @type string
      * @private
      */
-    private _fragmentShader: string;
+    private _fragmentShader: string
 
     /**
-     * @property attribs
-     * @type {Array&lt;string&gt;}
+     * @property _attribs
+     * @type string[]
      * @private
      */
-    private attribs: string[];
+    private _attribs: string[]
 
     /**
-     * @property program
-     * @type {WebGLProgram}
+     * @property _program
+     * @type WebGLProgram
      * @private
      */
-    private _program: WebGLProgram;
+    private _program: WebGLProgram
 
     /**
-     * @property attributes
-     * @type {{[name: string]: AttribLocation}}
+     * @property _attributes
+     * @type {[name: string]: AttribLocation}
+     * @private
      */
-    public attributes: { [name: string]: AttribLocation } = {};
+    private _attributes: { [name: string]: AttribLocation } = {}
 
     /**
-     * @property uniforms
+     * @property _uniforms
      * @type {{[name: string]: UniformLocation}}
+     * @private
      */
-    public uniforms: { [name: string]: UniformLocation } = {};
+    private _uniforms: { [name: string]: UniformLocation } = {}
 
     /**
-     * This class is <em>simple</em> because it assumes exactly
-     * one vertex shader and one fragment shader.
-     * This class assumes that it will only be supporting a single WebGL rendering context.
-     * The existence of the context in the constructor enables it to enforce this invariant.
      * @class Material
      * @constructor
-     * @param context {IContextProvider} The context that this program will work with.
      * @param vertexShader {string} The vertex shader source code.
      * @param fragmentShader {string} The fragment shader source code.
-     * @param [attribs] {Array&lt;string&gt;} The attribute ordering.
+     * @param [attribs = []] {string[]} The attribute ordering.
      */
     constructor(vertexShader: string, fragmentShader: string, attribs: string[] = []) {
         super('Material')
         this._vertexShader = mustBeString('vertexShader', vertexShader)
         this._fragmentShader = mustBeString('fragmentShader', fragmentShader)
-        this.attribs = mustBeArray('attribs', attribs)
+        this._attribs = mustBeArray('attribs', attribs)
     }
 
     /**
@@ -86,66 +84,73 @@ export default class Material extends ShareableContextListener {
      * @protected
      */
     protected destructor(): void {
-//      this.detachFromMonitor()
         super.destructor()
         mustBeUndefined(this._type, this._program)
     }
 
+    /**
+     * @method contextGain
+     * @param context {IContextProvider}
+     * @return {void}
+     */
     contextGain(context: IContextProvider): void {
-        mustBeObject('context', context)
         const gl = context.gl
         if (!this._program) {
-            this._program = makeWebGLProgram(gl, this._vertexShader, this._fragmentShader, this.attribs)
-            const program = this._program
-            const attributes = this.attributes
-            const uniforms = this.uniforms
-            const activeAttributes: number = gl.getProgramParameter(program, gl.ACTIVE_ATTRIBUTES)
-            for (let a = 0; a < activeAttributes; a++) {
-                const activeAttribInfo: WebGLActiveInfo = gl.getActiveAttrib(program, a)
-                const name: string = activeAttribInfo.name
-                if (!attributes[name]) {
-                    attributes[name] = new AttribLocation(name)
+            this._program = makeWebGLProgram(gl, this._vertexShader, this._fragmentShader, this._attribs)
+            this._attributes = {}
+            this._uniforms = {}
+
+            const aLen: number = gl.getProgramParameter(this._program, gl.ACTIVE_ATTRIBUTES)
+            for (let a = 0; a < aLen; a++) {
+                const attribInfo: WebGLActiveInfo = gl.getActiveAttrib(this._program, a)
+                this._attributes[attribInfo.name] = new AttribLocation(attribInfo)
+            }
+
+            const uLen: number = gl.getProgramParameter(this._program, gl.ACTIVE_UNIFORMS)
+            for (let u = 0; u < uLen; u++) {
+                const uniformInfo: WebGLActiveInfo = gl.getActiveUniform(this._program, u)
+                this._uniforms[uniformInfo.name] = new UniformLocation(uniformInfo)
+            }
+
+            for (let aName in this._attributes) {
+                if (this._attributes.hasOwnProperty(aName)) {
+                    this._attributes[aName].contextGain(gl, this._program);
                 }
             }
-            const activeUniforms: number = gl.getProgramParameter(program, gl.ACTIVE_UNIFORMS)
-            for (let u = 0; u < activeUniforms; u++) {
-                const activeUniformInfo: WebGLActiveInfo = gl.getActiveUniform(program, u)
-                const name: string = activeUniformInfo.name
-                if (!uniforms[name]) {
-                    uniforms[name] = new UniformLocation(name)
-                }
-            }
-            for (let aName in attributes) {
-                if (attributes.hasOwnProperty(aName)) {
-                    attributes[aName].contextGain(gl, program);
-                }
-            }
-            for (let uName in uniforms) {
-                if (uniforms.hasOwnProperty(uName)) {
-                    uniforms[uName].contextGain(gl, program);
+            for (let uName in this._uniforms) {
+                if (this._uniforms.hasOwnProperty(uName)) {
+                    this._uniforms[uName].contextGain(gl, this._program);
                 }
             }
         }
         super.contextGain(context)
     }
 
+    /**
+     * @method contextLost
+     * @return {void}
+     */
     contextLost(): void {
         this._program = void 0
-        for (var aName in this.attributes) {
-            if (this.attributes.hasOwnProperty(aName)) {
-                this.attributes[aName].contextLost();
+        for (var aName in this._attributes) {
+            if (this._attributes.hasOwnProperty(aName)) {
+                this._attributes[aName].contextLost()
             }
         }
-        for (var uName in this.uniforms) {
-            if (this.uniforms.hasOwnProperty(uName)) {
-                this.uniforms[uName].contextLost();
+        for (var uName in this._uniforms) {
+            if (this._uniforms.hasOwnProperty(uName)) {
+                this._uniforms[uName].contextLost()
             }
         }
         super.contextLost()
     }
 
+    /**
+     * @method contextFree
+     * @param context {IContextProvider}
+     * @return {void}
+     */
     contextFree(context: IContextProvider): void {
-        mustBeObject('context', context)
         if (this._program) {
             const gl = context.gl
             if (gl) {
@@ -161,14 +166,14 @@ export default class Material extends ShareableContextListener {
             }
             this._program = void 0
         }
-        for (var aName in this.attributes) {
-            if (this.attributes.hasOwnProperty(aName)) {
-                this.attributes[aName].contextFree();
+        for (let aName in this._attributes) {
+            if (this._attributes.hasOwnProperty(aName)) {
+                this._attributes[aName].contextFree()
             }
         }
-        for (var uName in this.uniforms) {
-            if (this.uniforms.hasOwnProperty(uName)) {
-                this.uniforms[uName].contextFree();
+        for (let uName in this._uniforms) {
+            if (this._uniforms.hasOwnProperty(uName)) {
+                this._uniforms[uName].contextFree()
             }
         }
         super.contextFree(context)
@@ -191,9 +196,10 @@ export default class Material extends ShareableContextListener {
     /**
      * @property vertexShader
      * @type string
+     * @readOnly
      */
     get vertexShader(): string {
-        return this._vertexShader;
+        return this._vertexShader
     }
     set vertexShader(unused) {
         throw new Error(readOnly('vertexShader').message)
@@ -202,12 +208,31 @@ export default class Material extends ShareableContextListener {
     /**
      * @property fragmentShader
      * @type string
+     * @readOnly
      */
     get fragmentShader(): string {
-        return this._fragmentShader;
+        return this._fragmentShader
     }
     set fragmentShader(unused) {
         throw new Error(readOnly('fragmentShader').message)
+    }
+
+    /**
+     * @property attributeNames
+     * @type string[]
+     * @readOnly
+     */
+    get attributeNames(): string[] {
+        const attributes = this._attributes
+        if (attributes) {
+            return Object.keys(attributes)
+        }
+        else {
+            return void 0
+        }
+    }
+    set attributeNames(unused) {
+        throw new Error(readOnly('attributeNames').message)
     }
 
     /**
@@ -216,7 +241,7 @@ export default class Material extends ShareableContextListener {
      * @return {void}
      */
     enableAttrib(name: string): void {
-        const attribLoc = this.attributes[name]
+        const attribLoc = this._attributes[name]
         if (attribLoc) {
             attribLoc.enable()
         }
@@ -228,10 +253,39 @@ export default class Material extends ShareableContextListener {
      * @return {void}
      */
     disableAttrib(name: string): void {
-        const attribLoc = this.attributes[name]
+        const attribLoc = this._attributes[name]
         if (attribLoc) {
             attribLoc.disable()
         }
+    }
+
+    /**
+     * @method disableAttribs
+     * @return {void}
+     */
+    disableAttribs(): void {
+        const attribLocations = this._attributes
+        if (attribLocations) {
+            // TODO: Store loactions as a plain array in order to avoid temporaries (aNames)
+            const aNames = Object.keys(attribLocations)
+            for (var i = 0, iLength = aNames.length; i < iLength; i++) {
+                attribLocations[aNames[i]].disable()
+            }
+        }
+    }
+
+    /**
+     * @method vertexPointer
+     * @param name {string}
+     * @param size {number}
+     * @param normalized {boolean}
+     * @param stride {number}
+     * @param offset {number}
+     * @return {void}
+     */
+    vertexPointer(name: string, size: number, normalized: boolean, stride: number, offset: number): void {
+        const attributeLocation = this._attributes[name]
+        attributeLocation.vertexPointer(size, normalized, stride, offset)
     }
 
     /**
@@ -241,7 +295,7 @@ export default class Material extends ShareableContextListener {
      * @return {void}
      */
     uniform1f(name: string, x: number): void {
-        const uniformLoc = this.uniforms[name]
+        const uniformLoc = this._uniforms[name]
         if (uniformLoc) {
             uniformLoc.uniform1f(x)
         }
@@ -255,7 +309,7 @@ export default class Material extends ShareableContextListener {
      * @return {void}
      */
     uniform2f(name: string, x: number, y: number): void {
-        const uniformLoc = this.uniforms[name]
+        const uniformLoc = this._uniforms[name]
         if (uniformLoc) {
             uniformLoc.uniform2f(x, y)
         }
@@ -270,7 +324,7 @@ export default class Material extends ShareableContextListener {
      * @return {void}
      */
     uniform3f(name: string, x: number, y: number, z: number): void {
-        const uniformLoc = this.uniforms[name]
+        const uniformLoc = this._uniforms[name]
         if (uniformLoc) {
             uniformLoc.uniform3f(x, y, z)
         }
@@ -286,61 +340,127 @@ export default class Material extends ShareableContextListener {
      * @return {void}
      */
     uniform4f(name: string, x: number, y: number, z: number, w: number): void {
-        const uniformLoc = this.uniforms[name]
+        const uniformLoc = this._uniforms[name]
         if (uniformLoc) {
             uniformLoc.uniform4f(x, y, z, w)
         }
     }
-    mat2(name: string, matrix: Mat2R, transpose: boolean) {
-        const uniformLoc = this.uniforms[name]
+
+    /**
+     * @method mat2
+     * @param name {string}
+     * @param matrix {Mat2R}
+     * @param transpose {boolean}
+     * @return {void}
+     */
+    mat2(name: string, matrix: Mat2R, transpose: boolean): void {
+        const uniformLoc = this._uniforms[name]
         if (uniformLoc) {
             uniformLoc.mat2(matrix, transpose)
         }
     }
+
+    /**
+     * @method mat3
+     * @param name {string}
+     * @param matrix {Mat3R}
+     * @param transpose {boolean}
+     * @return {void}
+     */
     mat3(name: string, matrix: Mat3R, transpose: boolean) {
-        const uniformLoc = this.uniforms[name]
+        const uniformLoc = this._uniforms[name]
         if (uniformLoc) {
             uniformLoc.mat3(matrix, transpose)
         }
     }
+
+    /**
+     * @method mat4
+     * @param name {string}
+     * @param matrix {Mat4R}
+     * @param transpose {boolean}
+     * @return {void}
+     */
     mat4(name: string, matrix: Mat4R, transpose: boolean) {
-        const uniformLoc = this.uniforms[name]
+        const uniformLoc = this._uniforms[name]
         if (uniformLoc) {
             uniformLoc.mat4(matrix, transpose)
         }
     }
+
+    /**
+     * @method vec2
+     * @param name {string}
+     * @param vector {VectorE2}
+     * @return {void}
+     */
     vec2(name: string, vector: VectorE2) {
-        const uniformLoc = this.uniforms[name]
+        const uniformLoc = this._uniforms[name]
         if (uniformLoc) {
             uniformLoc.vec2(vector)
         }
     }
+
+    /**
+     * @method vec3
+     * @param name {string}
+     * @param vector {VectorE3}
+     * @return {void}
+     */
     vec3(name: string, vector: VectorE3) {
-        const uniformLoc = this.uniforms[name]
+        const uniformLoc = this._uniforms[name]
         if (uniformLoc) {
             uniformLoc.vec3(vector)
         }
     }
+
+    /**
+     * @method vec4
+     * @param name {string}
+     * @param vector {VectorE4}
+     * @return {void}
+     */
     vec4(name: string, vector: VectorE4) {
-        const uniformLoc = this.uniforms[name]
+        const uniformLoc = this._uniforms[name]
         if (uniformLoc) {
             uniformLoc.vec4(vector)
         }
     }
+
+    /**
+     * @method vector2
+     * @param name {string}
+     * @param data {number[]}
+     * @return {void}
+     */
     vector2(name: string, data: number[]): void {
-        const uniformLoc = this.uniforms[name]
+        const uniformLoc = this._uniforms[name]
         if (uniformLoc) {
             uniformLoc.vector2(data)
         }
     }
+
+    /**
+     * @method vector3
+     * @param name {string}
+     * @param data {number[]}
+     * @return {void}
+     */
     vector3(name: string, data: number[]): void {
-        const uniformLoc = this.uniforms[name]
+        const uniformLoc = this._uniforms[name]
         if (uniformLoc) {
             uniformLoc.vector3(data)
         }
     }
+
+    /**
+     * @method vector4
+     * @param name {string}
+     * @param data {number[]}
+     * @return {void}
+     */
     vector4(name: string, data: number[]): void {
-        const uniformLoc = this.uniforms[name]
+        const uniformLoc = this._uniforms[name]
         if (uniformLoc) {
             uniformLoc.vector4(data)
         }

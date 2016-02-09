@@ -7,6 +7,11 @@ import SpinorE2 from '../math/SpinorE2';
 import VectorN from '../math/VectorN';
 import VectorE2 from '../math/VectorE2';
 
+/**
+ * @module EIGHT
+ * @submodule math
+ */
+
 const sqrt = Math.sqrt;
 
 const COORD_X = 0;

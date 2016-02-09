@@ -1,3 +1,9 @@
+
+/**
+ * @module EIGHT
+ * @submodule geometries
+ */
+
 /**
  * @class PathKind
  */

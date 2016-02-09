@@ -1,9 +1,13 @@
 import expectArg from '../checks/expectArg';
 import isInteger from '../checks/isInteger';
-import isNumber from '../checks/isNumber';
 import Vertex from '../geometries/Vertex';
 import VertexAttributeMap from '../geometries/VertexAttributeMap';
 import VectorN from '../math/VectorN';
+
+/**
+ * @module EIGHT
+ * @submodule geometries
+ */
 
 function checkIntegerArg(name: string, n: number, min: number, max: number): number {
     if (isInteger(n) && n >= min && n <= max) {
@@ -20,10 +24,6 @@ function checkCountArg(count: number) {
 
 function concatReduce(a: Simplex[], b: Simplex[]): Simplex[] {
     return a.concat(b);
-}
-
-function expectArgVectorN(name: string, vector: VectorN<number>): VectorN<number> {
-    return expectArg(name, vector).toSatisfy(vector instanceof VectorN, name + ' must be a VectorN').value;
 }
 
 function lerp(a: number[], b: number[], alpha: number, data: number[] = []): number[] {
@@ -153,20 +153,20 @@ export default class Simplex {
      * @private
      */
     private static boundaryMap(simplex: Simplex): Simplex[] {
-        let vertices = simplex.vertices;
-        let k = simplex.k;
+        const vertices = simplex.vertices;
+        const k = simplex.k;
         if (k === Simplex.TRIANGLE) {
             var line01 = new Simplex(k - 1);
-            line01.vertices[0].attributes = simplex.vertices[0].attributes;
-            line01.vertices[1].attributes = simplex.vertices[1].attributes;
+            line01.vertices[0].attributes = vertices[0].attributes;
+            line01.vertices[1].attributes = vertices[1].attributes;
 
             var line12 = new Simplex(k - 1);
-            line12.vertices[0].attributes = simplex.vertices[1].attributes;
-            line12.vertices[1].attributes = simplex.vertices[2].attributes;
+            line12.vertices[0].attributes = vertices[1].attributes;
+            line12.vertices[1].attributes = vertices[2].attributes;
 
             var line20 = new Simplex(k - 1);
-            line20.vertices[0].attributes = simplex.vertices[2].attributes;
-            line20.vertices[1].attributes = simplex.vertices[0].attributes;
+            line20.vertices[0].attributes = vertices[2].attributes;
+            line20.vertices[1].attributes = vertices[0].attributes;
             return [line01, line12, line20];
         }
         else if (k === Simplex.LINE) {
@@ -260,7 +260,7 @@ export default class Simplex {
      * @param count {number}
      * @return {Simplex[]}
      */
-    public static boundary(simplices: Simplex[], count: number = 1): Simplex[] {
+    public static boundary(simplices: Simplex[], count = 1): Simplex[] {
         checkCountArg(count);
         for (var i = 0; i < count; i++) {
             simplices = simplices.map(Simplex.boundaryMap).reduce(concatReduce, []);
@@ -274,7 +274,7 @@ export default class Simplex {
      * @param count {number}
      * @return {Simplex[]}
      */
-    public static subdivide(simplices: Simplex[], count: number = 1): Simplex[] {
+    public static subdivide(simplices: Simplex[], count = 1): Simplex[] {
         checkCountArg(count);
         for (var i = 0; i < count; i++) {
             simplices = simplices.map(Simplex.subdivideMap).reduce(concatReduce, []);

@@ -9,7 +9,6 @@ import lcoE2 from '../math/lcoE2';
 import rcoE2 from '../math/rcoE2';
 import ImmutableMeasure from '../math/ImmutableMeasure';
 import mulE2 from '../math/mulE2';
-import mulG2 from '../math/mulG2';
 import mustBeInteger from '../checks/mustBeInteger';
 import mustBeNumber from '../checks/mustBeNumber';
 import readOnly from '../i18n/readOnly';
@@ -20,10 +19,15 @@ import TrigMethods from '../math/TrigMethods';
 import Unit from '../math/Unit';
 import VectorE2 from '../math/VectorE2';
 
-let exp = Math.exp
-let cos = Math.cos
-let sin = Math.sin
-let sqrt = Math.sqrt
+/**
+ * @module EIGHT
+ * @submodule math
+ */
+
+const exp = Math.exp
+const cos = Math.cos
+const sin = Math.sin
+const sqrt = Math.sqrt
 
 function assertArgEuclidean2(name: string, arg: Euclidean2): Euclidean2 {
     if (arg instanceof Euclidean2) {
@@ -89,41 +93,6 @@ function add11(a00: number, a01: number, a10: number, a11: number, b00: number, 
     b10 = +b10;
     b11 = +b11;
     return +(a11 + b11);
-}
-
-function addE2(a0: number, a1: number, a2: number, a3: number, b0: number, b1: number, b2: number, b3: number, index: number): number {
-    a0 = +a0;
-    a1 = +a1;
-    a2 = +a2;
-    a3 = +a3;
-    b0 = +b0;
-    b1 = +b1;
-    b2 = +b2;
-    b3 = +b3;
-    index = index | 0;
-    var x = 0.0;
-    switch (~(~index)) {
-        case 0: {
-            x = +(a0 + b0);
-        }
-            break;
-        case 1: {
-            x = +(a1 + b1);
-        }
-            break;
-        case 2: {
-            x = +(a2 + b2);
-        }
-            break;
-        case 3: {
-            x = +(a3 + b3);
-        }
-            break;
-        default: {
-            throw new Error("index must be in the range [0..3]");
-        }
-    }
-    return +x;
 }
 
 function subE2(a0: number, a1: number, a2: number, a3: number, b0: number, b1: number, b2: number, b3: number, index: number): number {
@@ -519,22 +488,6 @@ export default class Euclidean2 implements ImmutableMeasure<Euclidean2>, Geometr
             var w: number = other;
             return new Euclidean2(w, 0, 0, 0, undefined).div(this);
         }
-    }
-
-    private static scp(a: number[], b: number[]): number[] {
-        var a0 = a[0];
-        var a1 = a[1];
-        var a2 = a[2];
-        var a3 = a[3];
-        var b0 = b[0];
-        var b1 = b[1];
-        var b2 = b[2];
-        var b3 = b[3];
-        var x0 = a0 * b0 + a1 * b1 + a2 * b2 - a3 * b3;
-        var x1 = 0;
-        var x2 = 0;
-        var x3 = 0;
-        return [x0, x1, x2, x3];
     }
 
     scp(rhs: Euclidean2): Euclidean2 {

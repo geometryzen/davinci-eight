@@ -2,6 +2,15 @@ import mustBeNumber from '../checks/mustBeNumber';
 import visualCache from './visualCache';
 import RigidBody from './RigidBody'
 
+/**
+ * @module EIGHT
+ * @submodule visual
+ */
+
+/**
+ * @class Box
+ * @extends RigidBody
+ */
 export default class Box extends RigidBody {
     constructor() {
         super(visualCache.cuboid(), visualCache.program(), 'Box')

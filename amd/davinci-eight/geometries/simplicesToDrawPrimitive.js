@@ -82,18 +82,26 @@ define(["require", "exports", '../collections/copyToArray', '../geometries/dataF
             attributes[output.name] = new DrawAttribute_1.default(data, output.dimensions);
         }
         switch (geometryMeta.k) {
-            case Simplex_1.default.TRIANGLE: {
-                return new DrawPrimitive_1.default(DrawMode_1.default.TRIANGLES, indices, attributes);
-            }
-            case Simplex_1.default.LINE: {
-                return new DrawPrimitive_1.default(DrawMode_1.default.LINES, indices, attributes);
-            }
-            case Simplex_1.default.POINT: {
-                return new DrawPrimitive_1.default(DrawMode_1.default.POINTS, indices, attributes);
-            }
-            case Simplex_1.default.EMPTY: {
-                return new DrawPrimitive_1.default(DrawMode_1.default.POINTS, indices, attributes);
-            }
+            case Simplex_1.default.TRIANGLE:
+                {
+                    return new DrawPrimitive_1.default(DrawMode_1.default.TRIANGLES, indices, attributes);
+                }
+                break;
+            case Simplex_1.default.LINE:
+                {
+                    return new DrawPrimitive_1.default(DrawMode_1.default.LINES, indices, attributes);
+                }
+                break;
+            case Simplex_1.default.POINT:
+                {
+                    return new DrawPrimitive_1.default(DrawMode_1.default.POINTS, indices, attributes);
+                }
+                break;
+            case Simplex_1.default.EMPTY:
+                {
+                    return new DrawPrimitive_1.default(DrawMode_1.default.POINTS, indices, attributes);
+                }
+                break;
             default: {
                 throw new Error("k => " + geometryMeta.k);
             }

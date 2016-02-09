@@ -6,6 +6,11 @@ import mustBeObject from '../checks/mustBeObject';
 import Primitive from '../core/Primitive';
 
 /**
+ * @module EIGHT
+ * @submodule geometries
+ */
+
+/**
  * @class DrawPrimitive
  */
 export default class DrawPrimitive implements Primitive {

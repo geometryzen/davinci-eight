@@ -2,6 +2,11 @@ import Material from './Material';
 import IUnknown from './IUnknown';
 
 /**
+ * @module EIGHT
+ * @submodule core
+ */
+
+/**
  * @class IBufferGeometry
  * @extends IUnkown
  */

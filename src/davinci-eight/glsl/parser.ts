@@ -1,6 +1,7 @@
-/// <reference path='./Node.d.ts'/>
-import full_parse_expr = require('./expr');
-import Scope = require('./Scope');
+import Node from './Node'
+import full_parse_expr from './expr'
+import Scope from './Scope'
+import Token from './Token'
 
 // singleton!
 var Advance = {};
@@ -83,7 +84,7 @@ let stmt_type = [
   , 'quantifier'
 ]
 
-function parser(): (data: Token) => GLSL.Node {
+export default function parser(): (data: Token) => Node {
 
   function reader(data: Token) {
     if (data === null) {
@@ -962,13 +963,13 @@ function parser(): (data: Token) => GLSL.Node {
   var ended = false;
   var depth = 0;
   var state: any = [];  // FIXME
-  var nodes: GLSL.Node[] = [];
+  var nodes: Node[] = [];
   var tokens = [];
   var whitespace: Token[] = [];
   var errored = false;
   var program;
   var token: Token;
-  var node: GLSL.Node;
+  var node: Node;
 
   // setup state
   state.shift = special_shift
@@ -1031,5 +1032,3 @@ function is_precision(token: {data:string}): boolean {
          token.data === 'mediump' ||
          token.data === 'lowp'
 }
-
-export = parser;

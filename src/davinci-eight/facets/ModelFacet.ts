@@ -3,12 +3,17 @@ import FacetVisitor from '../core/FacetVisitor';
 import IAnimationTarget from '../slideshow/IAnimationTarget';
 import Mat3R from '../math/Mat3R';
 import Mat4R from '../math/Mat4R';
-import ModelE3 from '../models/ModelE3';
+import ModelE3 from './ModelE3';
 import mustBeArray from '../checks/mustBeArray';
 import mustBeString from '../checks/mustBeString';
 import R3 from '../math/R3';
 import readOnly from '../i18n/readOnly';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
+
+/**
+ * @module EIGHT
+ * @submodule facets
+ */
 
 /**
  * @class ModelFacet

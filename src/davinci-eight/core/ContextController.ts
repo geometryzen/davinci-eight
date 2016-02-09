@@ -1,4 +1,9 @@
 /**
+ * @module EIGHT
+ * @submodule core
+ */
+
+/**
  * @class ContextController
  */
 interface ContextController {

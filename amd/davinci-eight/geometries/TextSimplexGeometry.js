@@ -3,25 +3,14 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../geometries/generateTextShapes', '../geometries/SimplexGeometry'], function (require, exports, generateTextShapes_1, SimplexGeometry_1) {
-    function futzParameters(parameters) {
-        parameters.amount = parameters.height !== undefined ? parameters.height : 50;
-        if (parameters.bevelThickness === undefined)
-            parameters.bevelThickness = 10;
-        if (parameters.bevelSize === undefined)
-            parameters.bevelSize = 8;
-        if (parameters.bevelEnabled === undefined)
-            parameters.bevelEnabled = false;
-        return parameters;
-    }
+define(["require", "exports", '../geometries/SimplexPrimitivesBuilder'], function (require, exports, SimplexPrimitivesBuilder_1) {
     var TextSimplexGeometry = (function (_super) {
         __extends(TextSimplexGeometry, _super);
         function TextSimplexGeometry(text, face, parameters) {
             _super.call(this);
-            var shapes = generateTextShapes_1.default(text, face, parameters);
         }
         return TextSimplexGeometry;
-    })(SimplexGeometry_1.default);
+    })(SimplexPrimitivesBuilder_1.default);
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = TextSimplexGeometry;
 });

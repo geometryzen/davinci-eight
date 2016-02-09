@@ -12,11 +12,16 @@ import rotorFromDirections from '../math/rotorFromDirections';
 import TrigMethods from '../math/TrigMethods';
 import VectorE3 from '../math/VectorE3';
 
-let cos = Math.cos
-let sin = Math.sin
-let exp = Math.exp
+/**
+ * @module EIGHT
+ * @submodule math
+ */
 
-var EPS = 0.000001;
+const cos = Math.cos
+const sin = Math.sin
+const exp = Math.exp
+
+const EPS = 0.000001;
 
 // This class is for reference only and will remain undocumented and internal.
 // Notice that it is mutable, betraying a usage with animation loops.
@@ -27,7 +32,7 @@ export default class HH implements MutableGeometricElement3D<HH, HH, HH, VectorE
     private y: number;
     private z: number;
     public t: number;
-    constructor(t: number = 1, v: VectorE3 = Euclidean3.zero) {
+    constructor(t = 1, v: VectorE3 = Euclidean3.zero) {
         this.t = mustBeNumber('t', t)
         mustBeObject('v', v)
         this.x = mustBeNumber('v.x', v.x)
@@ -38,7 +43,7 @@ export default class HH implements MutableGeometricElement3D<HH, HH, HH, VectorE
         return new Euclidean3(0, this.x, this.y, this.z, 0, 0, 0, 0)
     }
 
-    add(q: HH, α: number = 1): HH {
+    add(q: HH, α = 1): HH {
         mustBeObject('q', q)
         mustBeNumber('α', α)
         this.t += q.t * α
@@ -415,7 +420,7 @@ export default class HH implements MutableGeometricElement3D<HH, HH, HH, VectorE
     scp2(a: HH, b: HH): HH {
         return this
     }
-    sub(q: HH, α: number = 1) {
+    sub(q: HH, α = 1) {
         this.x -= q.x * α
         this.y -= q.y * α
         this.z -= q.z * α
@@ -468,14 +473,14 @@ export default class HH implements MutableGeometricElement3D<HH, HH, HH, VectorE
     equals(quaternion: HH) {
         return (quaternion.x === this.x) && (quaternion.y === this.y) && (quaternion.z === this.z) && (quaternion.t === this.t);
     }
-    fromArray(array: number[], offset: number = 0): HH {
+    fromArray(array: number[], offset = 0): HH {
         this.x = array[offset];
         this.y = array[offset + 1];
         this.z = array[offset + 2];
         this.t = array[offset + 3];
         return this;
     }
-    toArray(array: number[] = [], offset: number = 0): number[] {
+    toArray(array: number[] = [], offset = 0): number[] {
         array[offset] = this.x;
         array[offset + 1] = this.y;
         array[offset + 2] = this.z;

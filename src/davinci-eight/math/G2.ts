@@ -14,11 +14,8 @@ import mulE2 from '../math/mulE2';
 import mustBeInteger from '../checks/mustBeInteger';
 import mustBeNumber from '../checks/mustBeNumber';
 import mustBeObject from '../checks/mustBeObject';
-import mustBeString from '../checks/mustBeString';
 import MutableGeometricElement from '../math/MutableGeometricElement';
-import quadSpinor from '../math/quadSpinorE2';
 import quadVector from '../math/quadVectorE2';
-import readOnly from '../i18n/readOnly';
 import rcoE2 from '../math/rcoE2';
 import rotorFromDirections from '../math/rotorFromDirections';
 import scpE2 from '../math/scpE2';
@@ -28,38 +25,37 @@ import Unit from '../math/Unit';
 import VectorE2 from '../math/VectorE2';
 import VectorN from '../math/VectorN';
 import wedgeXY from '../math/wedgeXY';
-import wedgeYZ from '../math/wedgeYZ';
-import wedgeZX from '../math/wedgeZX';
+
+/**
+ * @module EIGHT
+ * @submodule math
+ */
 
 // GraphicsProgramSymbols constants for the coordinate indices into the data array.
-let COORD_W = 0
-let COORD_X = 1
-let COORD_Y = 2
-let COORD_XY = 3
+const COORD_W = 0
+const COORD_X = 1
+const COORD_Y = 2
+const COORD_XY = 3
 
-let PI = Math.PI
-let abs = Math.abs
-let atan2 = Math.atan2
-let exp = Math.exp
-let log = Math.log
-let cos = Math.cos
-let sin = Math.sin
-let sqrt = Math.sqrt
+const PI = Math.PI
+const abs = Math.abs
+const atan2 = Math.atan2
+const exp = Math.exp
+const log = Math.log
+const cos = Math.cos
+const sin = Math.sin
+const sqrt = Math.sqrt
 
-//let ANTICLOCKWISE_GAPPED_CIRCLE = "⟲"
-//let ANTICLOCKWISE_CLOSED_CIRCLE = "⥀"
-//let CLOCKWISE_GAPPED_CIRCLE = "⟳"
+// const LEFTWARDS_ARROW = "←"
+// const RIGHTWARDS_ARROW = "→"
+// const UPWARDS_ARROW = "↑"
+// const DOWNWARDS_ARROW = "↓"
+// const BULLSEYE = "◎"
+// const CLOCKWISE_OPEN_CIRCLE_ARROW = "↻"
+// const ANTICLOCKWISE_OPEN_CIRCLE_ARROW = "↺"
 
-let LEFTWARDS_ARROW = "←"
-let RIGHTWARDS_ARROW = "→"
-let UPWARDS_ARROW = "↑"
-let DOWNWARDS_ARROW = "↓"
-let BULLSEYE = "◎"
-let CLOCKWISE_OPEN_CIRCLE_ARROW = "↻"
-let ANTICLOCKWISE_OPEN_CIRCLE_ARROW = "↺"
-
-let ARROW_LABELS = ["1", [LEFTWARDS_ARROW, RIGHTWARDS_ARROW], [DOWNWARDS_ARROW, UPWARDS_ARROW], [CLOCKWISE_OPEN_CIRCLE_ARROW, ANTICLOCKWISE_OPEN_CIRCLE_ARROW]]
-let STANDARD_LABELS = ["1", "e1", "e2", "I"]
+// const ARROW_LABELS = ["1", [LEFTWARDS_ARROW, RIGHTWARDS_ARROW], [DOWNWARDS_ARROW, UPWARDS_ARROW], [CLOCKWISE_OPEN_CIRCLE_ARROW, ANTICLOCKWISE_OPEN_CIRCLE_ARROW]]
+const STANDARD_LABELS = ["1", "e1", "e2", "I"]
 
 /**
  * Coordinates corresponding to basis labels.
@@ -200,7 +196,7 @@ export default class G2 extends VectorN<number> implements GeometricE2, Measure<
      * @return {G2} <code>this</code>
      * @chainable
      */
-    add(M: GeometricE2, α: number = 1): G2 {
+    add(M: GeometricE2, α = 1): G2 {
         mustBeObject('M', M)
         mustBeNumber('α', α)
         this.α += M.α * α
@@ -270,7 +266,7 @@ export default class G2 extends VectorN<number> implements GeometricE2, Measure<
      * @return {G2} <code>this</code>
      * @chainable
      */
-    addVector(v: VectorE2, α: number = 1): G2 {
+    addVector(v: VectorE2, α = 1): G2 {
         mustBeObject('v', v)
         mustBeNumber('α', α)
         this.x += v.x * α
@@ -575,7 +571,6 @@ export default class G2 extends VectorN<number> implements GeometricE2, Measure<
      * @chainable
      */
     inv(): G2 {
-        
         // FIXME: TODO
         this.conj()
         // this.divByScalar(this.squaredNorm());
@@ -764,13 +759,13 @@ export default class G2 extends VectorN<number> implements GeometricE2, Measure<
     }
 
     /**
-    * <p>
-    * <code>this ⟼ sqrt(this * conj(this))</code>
-    * </p>
-    * @method norm
-    * @return {G2} <code>this</code>
-    * @chainable
-    */
+     * <p>
+     * <code>this ⟼ sqrt(this * conj(this))</code>
+     * </p>
+     * @method norm
+     * @return {G2} <code>this</code>
+     * @chainable
+     */
     norm(): G2 {
         this.α = this.magnitudeSansUnits()
         this.x = 0
@@ -1111,7 +1106,7 @@ export default class G2 extends VectorN<number> implements GeometricE2, Measure<
      * @return {G2} <code>this</code>
      * @chainable
      */
-    sub(M: GeometricE2, α: number = 1): G2 {
+    sub(M: GeometricE2, α = 1): G2 {
         mustBeObject('M', M)
         mustBeNumber('α', α)
         this.α -= M.α * α
@@ -1696,14 +1691,14 @@ export default class G2 extends VectorN<number> implements GeometricE2, Measure<
     }
 
     /**
-    * @method lerp
-    * @param A {GeometricE2}
-    * @param B {GeometricE2}
-    * @param α {number}
-    * @return {G2} <code>A + α * (B - A)</code>
-    * @static
-    * @chainable
-    */
+     * @method lerp
+     * @param A {GeometricE2}
+     * @param B {GeometricE2}
+     * @param α {number}
+     * @return {G2} <code>A + α * (B - A)</code>
+     * @static
+     * @chainable
+     */
     static lerp(A: GeometricE2, B: GeometricE2, α: number): G2 {
         return G2.copy(A).lerp(B, α)
         // return G2.copy(B).sub(A).scale(α).add(A)

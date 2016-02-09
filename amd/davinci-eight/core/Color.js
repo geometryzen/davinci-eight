@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../math/clamp', '../checks/mustBeArray', '../checks/mustBeNumber', './principalAngle', '../math/VectorN'], function (require, exports, clamp_1, mustBeArray_1, mustBeNumber_1, principalAngle_1, VectorN_1) {
+define(["require", "exports", '../math/clamp', '../checks/mustBeArray', '../checks/mustBeGE', '../checks/mustBeLE', '../checks/mustBeNumber', './principalAngle', '../math/VectorN'], function (require, exports, clamp_1, mustBeArray_1, mustBeGE_1, mustBeLE_1, mustBeNumber_1, principalAngle_1, VectorN_1) {
     var pow = Math.pow;
     var COORD_R = 0;
     var COORD_G = 1;
@@ -12,6 +12,12 @@ define(["require", "exports", '../math/clamp', '../checks/mustBeArray', '../chec
         __extends(Color, _super);
         function Color(r, g, b) {
             _super.call(this, [r, g, b], false, 3);
+            mustBeGE_1.default('r', r, 0);
+            mustBeLE_1.default('r', r, 1);
+            mustBeGE_1.default('g', g, 0);
+            mustBeLE_1.default('g', g, 1);
+            mustBeGE_1.default('b', b, 0);
+            mustBeLE_1.default('b', b, 1);
         }
         Object.defineProperty(Color.prototype, "r", {
             get: function () {

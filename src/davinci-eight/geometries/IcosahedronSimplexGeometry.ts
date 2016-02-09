@@ -1,4 +1,9 @@
-import PolyhedronSimplexGeometry from '../geometries/PolyhedronSimplexGeometry';
+import PolyhedronBuilder from '../geometries/PolyhedronBuilder';
+
+/**
+ * @module EIGHT
+ * @submodule geometries
+ */
 
 var t = (1 + Math.sqrt(5)) / 2;
 
@@ -17,9 +22,9 @@ var indices = [
 
 /**
  * @class IcosahedronSimplexGeometry
- * @extends PolyhedronSimplexGeometry
+ * @extends PolyhedronBuilder
  */
-export default class IcosahedronSimplexGeometry extends PolyhedronSimplexGeometry {
+export default class IcosahedronSimplexGeometry extends PolyhedronBuilder {
     /**
      * @class OcosahedronGeometry
      * @constructor

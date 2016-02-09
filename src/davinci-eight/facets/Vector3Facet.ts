@@ -5,6 +5,11 @@ import mustBeString from '../checks/mustBeString';
 import Shareable from '../core/Shareable';
 import R3 from '../math/R3';
 
+/**
+ * @module EIGHT
+ * @submodule facets
+ */
+
 var LOGGING_NAME = 'Vector3Facet'
 
 function contextBuilder() {

@@ -191,6 +191,11 @@ function div(lhs: Unit, rhs: Unit): Unit {
 }
 
 /**
+ * @module EIGHT
+ * @submodule math
+ */
+
+/**
  * @class Unit
  */
 export default class Unit implements DivisionRingOperators<Unit>, LinearElement<Unit, Unit, Unit, Unit> {

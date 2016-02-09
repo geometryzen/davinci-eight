@@ -119,16 +119,20 @@ export default function simplicesToDrawPrimitive(simplices: Simplex[], geometryM
         case Simplex.TRIANGLE: {
             return new DrawPrimitive(DrawMode.TRIANGLES, indices, attributes)
         }
+        break;
         case Simplex.LINE: {
             return new DrawPrimitive(DrawMode.LINES, indices, attributes)
         }
+        break;
         case Simplex.POINT: {
             return new DrawPrimitive(DrawMode.POINTS, indices, attributes)
         }
+        break;
         case Simplex.EMPTY: {
             // It should be possible to no-op render an EMPTY simplex.
             return new DrawPrimitive(DrawMode.POINTS, indices, attributes)
         }
+        break;
         default: {
             throw new Error("k => " + geometryMeta.k)
         }

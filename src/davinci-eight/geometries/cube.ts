@@ -5,10 +5,6 @@ import R2 from '../math/R2';
 import R3 from '../math/R3';
 import VectorN from '../math/VectorN';
 
-function vector3(data: number[]): VectorN<number> {
-    return new R3([]);
-}
-
 /**
  * cube as Simplex[]
  *
@@ -20,7 +16,7 @@ function vector3(data: number[]): VectorN<number> {
  *  |/      |/
  *  v2------v3
  */
-export default function cube(size: number = 1): Simplex[] {
+export default function cube(size = 1): Simplex[] {
 
     let s = size / 2;
 

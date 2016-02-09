@@ -1,19 +1,14 @@
 import DivisionRingOperators from '../math/DivisionRingOperators';
-import mustBeObject from '../checks/mustBeObject';
 import QQ from '../math/QQ';
 
-var R0 = QQ.ZERO;
-var R1 = QQ.ONE;
-var M1 = QQ.MINUS_ONE;
+/**
+ * @module EIGHT
+ * @submodule math
+ */
 
-function assertArgDimensions(name: string, arg: Dimensions): Dimensions {
-    if (arg instanceof Dimensions) {
-        return arg;
-    }
-    else {
-        throw new Error("Argument '" + arg + "' must be a Dimensions");
-    }
-}
+const R0 = QQ.ZERO;
+const R1 = QQ.ONE;
+const M1 = QQ.MINUS_ONE;
 
 function assertArgRational(name: string, arg: QQ): QQ {
     if (arg instanceof QQ) {

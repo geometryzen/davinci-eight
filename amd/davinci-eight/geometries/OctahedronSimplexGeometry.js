@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../geometries/PolyhedronSimplexGeometry'], function (require, exports, PolyhedronSimplexGeometry_1) {
+define(["require", "exports", '../geometries/PolyhedronBuilder'], function (require, exports, PolyhedronBuilder_1) {
     var vertices = [
         1, 0, 0, -1, 0, 0, 0, 1, 0, 0, -1, 0, 0, 0, 1, 0, 0, -1
     ];
@@ -16,7 +16,7 @@ define(["require", "exports", '../geometries/PolyhedronSimplexGeometry'], functi
             _super.call(this, vertices, indices, radius, detail);
         }
         return OctahedronSimplexGeometry;
-    })(PolyhedronSimplexGeometry_1.default);
+    })(PolyhedronBuilder_1.default);
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = OctahedronSimplexGeometry;
 });

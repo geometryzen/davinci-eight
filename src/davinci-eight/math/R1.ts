@@ -5,6 +5,11 @@ import VectorE0 from '../math/VectorE0';
 import VectorE1 from '../math/VectorE1';
 import VectorN from '../math/VectorN';
 
+/**
+ * @module EIGHT
+ * @submodule math
+ */
+
 let exp = Math.exp
 let log = Math.log
 let sqrt = Math.sqrt

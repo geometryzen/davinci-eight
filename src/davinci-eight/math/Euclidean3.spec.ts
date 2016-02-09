@@ -77,24 +77,24 @@ describe("Euclidean3", function() {
         Euclidean3.BASIS_LABELS = Euclidean3.BASIS_LABELS_GEOMETRIC
         var a = new Euclidean3(1, 2, 3, 4, 5, 6, 7, 8);
         expect(a.toString()).toBe("1+2*→+3*↑+4*⊙+5*↺+6*⬙+7*⊶+8*☐");
-        var a = new Euclidean3(-1, -2, -3, -4, -5, -6, -7, -8);
-        expect(a.toString()).toBe("-1+2*←+3*↓+4*⊗+5*↻+6*⬘+7*⊷+8*■");
+        var b = new Euclidean3(-1, -2, -3, -4, -5, -6, -7, -8);
+        expect(b.toString()).toBe("-1+2*←+3*↓+4*⊗+5*↻+6*⬘+7*⊷+8*■");
     });
 
     it('Should implement toString(), STANDARD', function() {
         Euclidean3.BASIS_LABELS = Euclidean3.BASIS_LABELS_STANDARD
         var a = new Euclidean3(1, 2, 3, 4, 5, 6, 7, 8);
         expect(a.toString()).toBe("1+2*e1+3*e2+4*e3+5*e12+6*e23+7*e31+8*I");
-        var a = new Euclidean3(-1, -2, -3, -4, -5, -6, -7, -8);
-        expect(a.toString()).toBe("-1-2*e1-3*e2-4*e3-5*e12-6*e23-7*e31-8*I");
+        var b = new Euclidean3(-1, -2, -3, -4, -5, -6, -7, -8);
+        expect(b.toString()).toBe("-1-2*e1-3*e2-4*e3-5*e12-6*e23-7*e31-8*I");
     });
 
     it('Should implement toString(), HAMILTON', function() {
         Euclidean3.BASIS_LABELS = Euclidean3.BASIS_LABELS_HAMILTON
         var a = new Euclidean3(1, 2, 3, 4, 5, 6, 7, 8);
         expect(a.toString()).toBe("1+2*i+3*j+4*k+5*ij+6*jk+7*ki+8*ijk");
-        var a = new Euclidean3(-1, -2, -3, -4, -5, -6, -7, -8);
-        expect(a.toString()).toBe("-1-2*i-3*j-4*k-5*ij-6*jk-7*ki-8*ijk");
+        var b = new Euclidean3(-1, -2, -3, -4, -5, -6, -7, -8);
+        expect(b.toString()).toBe("-1-2*i-3*j-4*k-5*ij-6*jk-7*ki-8*ijk");
     });
 
     it('Should implement add function', function() {
@@ -131,13 +131,13 @@ describe("Euclidean3", function() {
 
     it('div Euclidean3', function() {
         var u = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0)
-        var i = new Euclidean3(0, 1, 0, 0, 0, 0, 0, 0)
-        var j = new Euclidean3(0, 0, 1, 0, 0, 0, 0, 0)
-        var k = new Euclidean3(0, 0, 0, 1, 0, 0, 0, 0)
-        var ij = new Euclidean3(0, 0, 0, 0, 1, 0, 0, 0)
-        var jk = new Euclidean3(0, 0, 0, 0, 0, 1, 0, 0)
-        var ki = new Euclidean3(0, 0, 0, 0, 0, 0, 1, 0)
-        var I = new Euclidean3(0, 0, 0, 0, 0, 0, 0, 1)
+        // var i = new Euclidean3(0, 1, 0, 0, 0, 0, 0, 0)
+        // var j = new Euclidean3(0, 0, 1, 0, 0, 0, 0, 0)
+        // var k = new Euclidean3(0, 0, 0, 1, 0, 0, 0, 0)
+        // var ij = new Euclidean3(0, 0, 0, 0, 1, 0, 0, 0)
+        // var jk = new Euclidean3(0, 0, 0, 0, 0, 1, 0, 0)
+        // var ki = new Euclidean3(0, 0, 0, 0, 0, 0, 1, 0)
+        // var I = new Euclidean3(0, 0, 0, 0, 0, 0, 0, 1)
 
         expect(u.div(u).w).toBe(1);
         expect(u.div(u).x).toBe(0);

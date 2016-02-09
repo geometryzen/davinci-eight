@@ -1,4 +1,7 @@
-/// <reference path='./Symbol.d.ts'/>
+import Symbol from './Symbol'
+
 interface LeftDenotation {
-  (left: Symbol): Symbol;
+    (left: Symbol): Symbol
 }
+
+export default LeftDenotation

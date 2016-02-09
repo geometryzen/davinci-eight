@@ -1,4 +1,4 @@
-class Declaration {
+export default class Declaration {
   public kind: string;
   public modifiers: string[];
   public type: string;
@@ -10,4 +10,3 @@ class Declaration {
     this.name = name;
   }
 }
-export = Declaration;

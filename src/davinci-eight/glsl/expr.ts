@@ -1,3 +1,7 @@
+import LeftDenotation from './LeftDenotation'
+import NullDenotation from './NullDenotation'
+import Symbol from './Symbol'
+import Token from './Token'
 //
 // See javascript.crockford.com/tdop/tdop.html
 //
@@ -203,7 +207,7 @@ assignment('^=')
 assignment('>>=')
 assignment('<<=')
 
-function expr(incoming_state, incoming_tokens?: Token[]): void {
+export default function expr(incoming_state, incoming_tokens?: Token[]): void {
 
   function emit(node) {
     state.unshift(node, false)
@@ -319,5 +323,3 @@ function advance(id?): Token {
   // It also may be effing up the type safety.
   return token = output
 }
-
-export = expr;

@@ -8,25 +8,30 @@ import SpinorE2 from '../math/SpinorE2';
 import TrigMethods from '../math/TrigMethods';
 import Unit from '../math/Unit';
 
-let atan2 = Math.atan2
-let cos = Math.cos
-let cosh = mathcore.Math.cosh
-let exp = Math.exp
-let log = Math.log
-let sin = Math.sin
-let sinh = mathcore.Math.sinh
-let sqrt = Math.sqrt
+/**
+ * @module EIGHT
+ * @submodule math
+ */
+
+const atan2 = Math.atan2
+const cos = Math.cos
+const cosh = mathcore.Math.cosh
+const exp = Math.exp
+const log = Math.log
+const sin = Math.sin
+const sinh = mathcore.Math.sinh
+const sqrt = Math.sqrt
 
 function mul(a: CC, b: CC): CC {
-    let x = a.α * b.α - a.β * b.β
-    let y = a.α * b.β + a.β * b.α
+    const x = a.α * b.α - a.β * b.β
+    const y = a.α * b.β + a.β * b.α
     return new CC(x, y, Unit.mul(a.uom, b.uom))
 }
 
 function divide(a: CC, b: CC): CC {
-    let q = b.α * b.α + b.β * b.β
-    let x = (a.α * b.α + a.β * b.β) / q
-    let y = (a.β * b.α - a.α * b.β) / q
+    const q = b.α * b.α + b.β * b.β
+    const x = (a.α * b.α + a.β * b.β) / q
+    const y = (a.β * b.α - a.α * b.β) / q
     return new CC(x, y, Unit.div(a.uom, b.uom))
 }
 
@@ -432,8 +437,6 @@ export default class CC implements Measure<CC>, GeometricOperators<CC>, TrigMeth
      * @return {CC}
      */
     quad(): CC {
-        var x = this.x;
-        var y = this.y;
         return new CC(this.squaredNorm(), 0, Unit.mul(this.uom, this.uom));
     }
 

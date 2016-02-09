@@ -1,13 +1,15 @@
 import VectorE3 from '../math/VectorE3';
 import Euclidean3 from '../math/Euclidean3';
-import SimplexGeometry from '../geometries/SimplexGeometry';
+import SimplexPrimitivesBuilder from '../geometries/SimplexPrimitivesBuilder';
 import mustBeInteger from '../checks/mustBeInteger';
-import mustBeString from '../checks/mustBeString';
-import Simplex from '../geometries/Simplex';
 import SpinG3 from '../math/SpinG3';
-import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
 import R2 from '../math/R2';
 import R3 from '../math/R3';
+
+/**
+ * @module EIGHT
+ * @submodule geometries
+ */
 
 function perpendicular(to: VectorE3): Euclidean3 {
     var random = new R3([Math.random(), Math.random(), Math.random()])
@@ -18,7 +20,7 @@ function perpendicular(to: VectorE3): Euclidean3 {
 /**
  * @class VortexSimplexGeometry
  */
-export default class VortexSimplexGeometry extends SimplexGeometry {
+export default class VortexSimplexGeometry extends SimplexPrimitivesBuilder {
 
     public radius: number = 1;
     public radiusCone: number = 0.08;
@@ -57,7 +59,7 @@ export default class VortexSimplexGeometry extends SimplexGeometry {
 
         this.data = []
 
-        var radius = this.radius
+        // var radius = this.radius
         var radiusCone = this.radiusCone
         var radiusShaft = this.radiusShaft
         var radialSegments = this.radialSegments

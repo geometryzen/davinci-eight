@@ -1,5 +1,6 @@
-/// <reference path='NodeEventHandler.d.ts'/>
-class DefaultNodeEventHandler implements GLSL.NodeEventHandler {
+import NodeEventHandler from './NodeEventHandler'
+
+export default class DefaultNodeEventHandler implements NodeEventHandler {
   constructor() {
 
   }
@@ -44,4 +45,3 @@ class DefaultNodeEventHandler implements GLSL.NodeEventHandler {
   builtin(name: string): void {
   }
 }
-export = DefaultNodeEventHandler;

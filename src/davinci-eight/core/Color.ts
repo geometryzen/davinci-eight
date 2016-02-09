@@ -1,15 +1,22 @@
 import clamp from '../math/clamp';
 import mustBeArray from '../checks/mustBeArray';
+import mustBeGE from '../checks/mustBeGE';
+import mustBeLE from '../checks/mustBeLE';
 import mustBeNumber from '../checks/mustBeNumber';
 import principalAngle from './principalAngle';
 import ColorRGB from './ColorRGB';
 import VectorN from '../math/VectorN';
 
-let pow = Math.pow
+/**
+ * @module EIGHT
+ * @submodule core
+ */
 
-let COORD_R = 0
-let COORD_G = 1
-let COORD_B = 2
+const pow = Math.pow
+
+const COORD_R = 0
+const COORD_G = 1
+const COORD_B = 2
 
 /**
  * <p>
@@ -79,11 +86,21 @@ export default class Color extends VectorN<number> implements ColorRGB {
     /**
      * @class Color
      * @constructor
-     * @param data {number[]}
-     * @param areYouSure {boolean}
+     * @param r {number}
+     * @param g {number}
+     * @param b {number}
      */
     constructor(r: number, g: number, b: number) {
         super([r, g, b], false, 3)
+
+        mustBeGE('r', r, 0)
+        mustBeLE('r', r, 1)
+
+        mustBeGE('g', g, 0)
+        mustBeLE('g', g, 1)
+
+        mustBeGE('b', b, 0)
+        mustBeLE('b', b, 1)
     }
 
     /**

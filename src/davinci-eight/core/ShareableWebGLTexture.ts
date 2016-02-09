@@ -3,6 +3,8 @@ import mustBeUndefined from '../checks/mustBeUndefined';
 import ShareableContextListener from './ShareableContextListener';
 
 /**
+ * @module EIGHT
+ * @submodule core
  * @class ShareableWebGLTexture
  * @extends ShareableContextListener
  */

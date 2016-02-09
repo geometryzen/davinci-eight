@@ -373,11 +373,6 @@ declare module EIGHT {
     function square(size?: number): Simplex[];
 
     /**
-     * The tetrahedron is composed of four triangles: abc, bdc, cda, dba.
-     */
-    function tetrahedron(a: VectorN<number>, b: VectorN<number>, c: VectorN<number>, d: VectorN<number>, attributes?: { [name: string]: VectorN<number>[] }, triangles?: Simplex[]): Simplex[];
-
-    /**
      *
      */
     function triangle(a: VectorN<number>, b: VectorN<number>, c: VectorN<number>, attributes?: { [name: string]: VectorN<number>[] }, triangles?: Simplex[]): Simplex[];
@@ -1847,6 +1842,19 @@ declare module EIGHT {
 
         /**
          * <p>
+         * <code>this ⟼ a + b</code>
+         * </p>
+         * @param a
+         * @param b
+         */
+        add2(a: GeometricE3, b: GeometricE3): G3;
+
+        addPseudo(β: number): G3;
+
+        addScalar(α: number): G3;
+
+        /**
+         * <p>
          * <code>this ⟼ this + v * α</code>
          * </p>
          * @param v
@@ -1854,14 +1862,7 @@ declare module EIGHT {
          */
         addVector(v: VectorE3, α?: number): G3;
 
-        /**
-         * <p>
-         * <code>this ⟼ a + b</code>
-         * </p>
-         * @param a
-         * @param b
-         */
-        add2(a: GeometricE3, b: GeometricE3): G3;
+        align(m: GeometricE3): G3;
 
         /**
          * The bivector whose area (magnitude) is θ/2, where θ is the radian measure. 
@@ -1883,17 +1884,20 @@ declare module EIGHT {
 
         /**
          * <p>
-         * <code>this ⟼ copy(v)</code>
+         * <code>this ⟼ copy(M)</code>
          * </p>
-         * @param M
          */
         copy(M: GeometricE3): G3;
+
+        /**
+         * this ⟼ copy(α)
+         */
+        copyScalar(α: number): G3;
 
         /**
          * <p>
          * <code>this ⟼ copy(spinor)</code>
          * </p>
-         * @param spinor
          */
         copySpinor(spinor: SpinorE3): G3;
 
@@ -1901,7 +1905,6 @@ declare module EIGHT {
          * <p>
          * <code>this ⟼ copyVector(vector)</code>
          * </p>
-         * @param vector
          */
         copyVector(vector: VectorE3): G3;
 
@@ -1910,7 +1913,6 @@ declare module EIGHT {
          * <p>
          * <code>this ⟼ this / m</code>
          * </p>
-         * @param m
          */
         div(m: GeometricE3): G3;
 
@@ -1918,7 +1920,6 @@ declare module EIGHT {
          * <p>
          * <code>this ⟼ this / α</code>
          * </p>
-         * @param α
          */
         divByScalar(α: number): G3;
 
@@ -2664,7 +2665,7 @@ declare module EIGHT {
     /**
      * A geometry holds a list of simplices.
      */
-    class SimplexGeometry extends PrimitivesBuilder {
+    class SimplexPrimitivesBuilder extends PrimitivesBuilder {
         /**
          * The geometry as a list of simplices. These may be triangles, lines or points.
          */
@@ -2696,8 +2697,8 @@ declare module EIGHT {
         constructor();
         regenerate(): void;
         isModified(): boolean;
-        setModified(modified: boolean): SimplexGeometry;
-        setPosition(position: VectorE3): SimplexGeometry;
+        setModified(modified: boolean): SimplexPrimitivesBuilder;
+        setPosition(position: VectorE3): SimplexPrimitivesBuilder;
         /**
          * Applies the boundary operation to the geometry.
          * Under the boundary operation, each k-simplex becomes several simplices of dimension k - 1.
@@ -2713,16 +2714,16 @@ declare module EIGHT {
          * 
          * times: The number of times to apply the boundary operation. Default is one (1).
          */
-        boundary(times?: number): SimplexGeometry;
+        boundary(times?: number): SimplexPrimitivesBuilder;
         /**
          * Updates the `meta` property by scanning the vertices.
          */
-        check(): SimplexGeometry;
+        check(): SimplexPrimitivesBuilder;
         /**
          * Subdivides the simplices of the geometry to produce finer detail.
          * times: The number of times to subdivide. Default is one (1).
          */
-        subdivide(times?: number): SimplexGeometry;
+        subdivide(times?: number): SimplexPrimitivesBuilder;
         /**
          * Computes and returns the primitives used to draw in WebGL.
          */
@@ -2780,20 +2781,6 @@ declare module EIGHT {
          *
          */
         draw(program: Material): void;
-    }
-
-    /**
-     * A collection of WebGLProgram(s), one for each canvas in which the program is used.
-     */
-    interface Material extends IContextConsumer, FacetVisitor {
-        programId: string;
-        vertexShader: string;
-        fragmentShader: string;
-        use(): void;
-        attributes(): { [name: string]: AttribLocation };
-        uniforms(): { [name: string]: UniformLocation };
-        enableAttrib(name: string): void;
-        disableAttrib(name: string): void;
     }
 
     /**
@@ -3117,12 +3104,12 @@ declare module EIGHT {
         /**
          * Gets a mesh element with the specified name.
          */
-        getDrawableByName(name: string): Mesh;
+        findOneByName(name: string): Mesh;
 
         /**
          * Gets a collection of mesh elements by name.
          */
-        getDrawablesByName(name: string): IUnknownArray<Mesh>;
+        findByName(name: string): IUnknownArray<Mesh>;
 
         remove(mesh: Mesh): void;
 
@@ -3136,15 +3123,15 @@ declare module EIGHT {
         constructor()
         add(mesh: Mesh): void
         addRef(): number
-        attachToMonitor(monitor: IContextMonitor): void
+        subscribe(monitor: IContextMonitor): void
         contextFree(manager: IContextProvider): void
         contextGain(manager: IContextProvider): void
         contextLost(): void
-        detachFromMonitor(): void
+        unsubscribe(): void
         draw(ambients: Facet[]): void
         findOne(match: (mesh: Mesh) => boolean): Mesh
-        getDrawableByName(name: string): Mesh
-        getDrawablesByName(name: string): IUnknownArray<Mesh>
+        findOneByName(name: string): Mesh
+        findByName(name: string): IUnknownArray<Mesh>
         release(): number
         remove(mesh: Mesh): void
         traverse(callback: (mesh: Mesh) => void): void
@@ -3377,23 +3364,23 @@ declare module EIGHT {
         toPrimitives(): Primitive[];
     }
 
-    class AxialGeometry extends PrimitivesBuilder {
+    class AxialPrimitivesBuilder extends PrimitivesBuilder {
         axis: CartesianE3;
         sliceAngle: number;
         sliceStart: VectorE3;
         constructor(axis: VectorE3);
     }
 
-    class AxialSimplexGeometry extends SimplexGeometry {
+    class AxialSimplexPrimitivesBuilder extends SimplexPrimitivesBuilder {
         axis: R3;
         constructor(axis: VectorE3)
     }
 
-    class SliceSimplexGeometry extends AxialSimplexGeometry {
+    class SliceSimplexGeometry extends AxialSimplexPrimitivesBuilder {
         constructor(axis: VectorE3)
     }
 
-    class ArrowGeometry extends AxialGeometry implements IPrimitivesBuilder<ArrowGeometry> {
+    class ArrowPrimitivesBuilder extends AxialPrimitivesBuilder implements IPrimitivesBuilder<ArrowPrimitivesBuilder> {
         /**
          *
          */
@@ -3414,23 +3401,23 @@ declare module EIGHT {
          *
          */
         constructor(axis: VectorE3, sliceStart?: VectorE3);
-        setPosition(position: VectorE3): ArrowGeometry;
+        setPosition(position: VectorE3): ArrowPrimitivesBuilder;
         toPrimitives(): Primitive[];
     }
 
-    class VortexSimplexGeometry extends SimplexGeometry {
+    class VortexSimplexGeometry extends SimplexPrimitivesBuilder {
         generator: SpinG3;
         constructor()
     }
     /**
      *
      */
-    class RingGeometry extends AxialGeometry implements IAxialGeometry<RingGeometry> {
+    class RingBuilder extends AxialPrimitivesBuilder implements IAxialGeometry<RingBuilder> {
         innerRadius: number;
         outerRadius: number;
         constructor();
-        setAxis(axis: VectorE3): RingGeometry
-        setPosition(position: VectorE3): RingGeometry
+        setAxis(axis: VectorE3): RingBuilder
+        setPosition(position: VectorE3): RingBuilder
         toPrimitives(): Primitive[];
     }
     /**
@@ -3449,7 +3436,7 @@ declare module EIGHT {
     /**
      *
      */
-    class BarnSimplexGeometry extends SimplexGeometry {
+    class BarnSimplexPrimitivesBuilder extends SimplexPrimitivesBuilder {
         a: R3;
         b: R3;
         c: R3;
@@ -3458,13 +3445,13 @@ declare module EIGHT {
     }
 
     class BoxGeometry extends Geometry {
-      constructor(width: number, height: number, depth: number);
+        constructor(width: number, height: number, depth: number);
     }
 
     /**
      *
      */
-    class ConeGeometry extends AxialGeometry implements IPrimitivesBuilder<ConeGeometry> {
+    class ConeGeometry extends AxialPrimitivesBuilder implements IPrimitivesBuilder<ConeGeometry> {
         radius: number;
         height: number;
         constructor(axis: VectorE3);
@@ -3496,7 +3483,7 @@ declare module EIGHT {
     /**
      *
      */
-    class CuboidGeometry extends PrimitivesBuilder implements IPrimitivesBuilder<CuboidGeometry> {
+    class CuboidPrimitivesBuilder extends PrimitivesBuilder implements IPrimitivesBuilder<CuboidPrimitivesBuilder> {
         /**
          * `width` sets the magnitude of the `a` vector parameter.
          */
@@ -3510,13 +3497,13 @@ declare module EIGHT {
          */
         depth: number;
         constructor();
-        setPosition(position: VectorE3): CuboidGeometry;
+        setPosition(position: VectorE3): CuboidPrimitivesBuilder;
         toPrimitives(): Primitive[];
     }
     /**
      *
      */
-    class CuboidSimplexGeometry extends SimplexGeometry {
+    class CuboidSimplexPrimitivesBuilder extends SimplexPrimitivesBuilder {
         a: R3;
         b: R3;
         c: R3;
@@ -3540,7 +3527,7 @@ declare module EIGHT {
         )
     }
 
-    class CylinderGeometry extends AxialGeometry implements IPrimitivesBuilder<CylinderGeometry> {
+    class CylinderGeometry extends AxialPrimitivesBuilder implements IPrimitivesBuilder<CylinderGeometry> {
         radius: number;
         height: number;
         constructor(axis: VectorE3);
@@ -3548,27 +3535,27 @@ declare module EIGHT {
         toPrimitives(): Primitive[];
     }
 
-    class DodecahedronSimplexGeometry extends PolyhedronSimplexGeometry {
+    class DodecahedronSimplexGeometry extends PolyhedronBuilder {
         constructor(radius?: number, detail?: number);
     }
 
-    class OctahedronSimplexGeometry extends PolyhedronSimplexGeometry {
+    class OctahedronSimplexGeometry extends PolyhedronBuilder {
         constructor(radius?: number, detail?: number);
     }
 
-    class IcosahedronSimplexGeometry extends PolyhedronSimplexGeometry {
+    class IcosahedronSimplexGeometry extends PolyhedronBuilder {
         constructor(radius?: number, detail?: number);
     }
 
-    class PolyhedronSimplexGeometry extends SimplexGeometry {
+    class PolyhedronBuilder extends SimplexPrimitivesBuilder {
         constructor(vertices: number[], indices: number[], radius?: number, detail?: number);
     }
 
-    class RevolutionSimplexGeometry extends SimplexGeometry {
+    class RevolutionSimplexPrimitivesBuilder extends SimplexPrimitivesBuilder {
         constructor(points: R3[], generator: SpinG3, segments: number, phiStart: number, phiLength: number, attitude: SpinG3)
     }
 
-    class Simplex1Geometry extends SimplexGeometry {
+    class Simplex1Geometry extends SimplexPrimitivesBuilder {
         head: R3;
         tail: R3;
         constructor();
@@ -3598,12 +3585,12 @@ declare module EIGHT {
     /**
      *
      */
-    class GridSimplexGeometry extends SimplexGeometry {
+    class GridSimplexGeometry extends SimplexPrimitivesBuilder {
         constructor(parametricFunction: (u: number, v: number) => VectorE3, uSegments: number, vSegments: number)
     }
 
-    class TetrahedronSimplexGeometry extends PolyhedronSimplexGeometry {
-        constructor(radius?: number, detail?: number)
+    class TetrahedronGeometry extends Geometry {
+        constructor(radius?: number)
     }
 
     class KleinBottleSimplexGeometry extends GridSimplexGeometry {
@@ -3617,7 +3604,7 @@ declare module EIGHT {
     /**
      *
      */
-    class GraphicsProgram implements Material {
+    class Material {
         program: WebGLProgram;
         programId: string;
         vertexShader: string;
@@ -3653,7 +3640,7 @@ declare module EIGHT {
         contextFree(manager: IContextProvider): void;
         contextGain(manager: IContextProvider): void;
         contextLost(): void;
-        draw(program: Material): void;
+        draw(material: Material): void;
     }
 
     /**
@@ -3661,7 +3648,7 @@ declare module EIGHT {
      * The primitives provide attribute arguments to the graphics program.
      * The facets provide uniform arguments to the graphics program. 
      */
-    class Mesh extends Shareable implements Mesh {
+    class Mesh extends Shareable {
 
         /**
          *
@@ -3691,12 +3678,12 @@ declare module EIGHT {
         /**
          *
          */
-        attachToMonitor(monitor: IContextMonitor): void;
+        subscribe(monitor: IContextMonitor): void;
 
         /**
          *
          */
-        detachFromMonitor(): void;
+        unsubscribe(): void;
 
         setUniforms(): void;
         draw(ambients: Facet[]): void;
@@ -3719,69 +3706,40 @@ declare module EIGHT {
     }
 
     /**
-     * A <code>GraphicsProgram</code> based upon scripts in a DOM.
+     * A <code>Material</code> based upon scripts in a DOM.
      */
-    class HTMLScriptsGraphicsProgram extends GraphicsProgram {
+    class HTMLScriptsMaterial extends Material {
         /**
-         * Constructs a <code>GraphicsProgram</code> using scripts in a Document Object Model (DOM).
+         * Constructs a <code>Material</code> using scripts in a Document Object Model (DOM).
          * scriptIds: The id properties of the script elements. Defaults to [].
          * dom:       The document object model. Defaults to document.
-         * [monitors]:  The contexts that this material must support.
          */
-        constructor(scriptIds?: string[], dom?: Document, monitors?: IContextMonitor[]);
+        constructor(scriptIds?: string[], dom?: Document);
     }
 
     /**
      *
      */
-    interface PointMaterialParameters {
-
+    class PointMaterial extends Material {
+        constructor();
     }
 
     /**
      *
      */
-    class PointMaterial extends GraphicsProgram {
-        constructor(parameters?: PointMaterialParameters, monitors?: IContextMonitor[]);
+    class LineMaterial extends Material {
+        constructor();
     }
 
     /**
      *
      */
-    interface LineMaterialParameters {
-
+    class MeshMaterial extends Material {
+        constructor();
     }
 
     /**
-     *
-     */
-    class LineMaterial extends GraphicsProgram {
-        constructor(parameters?: LineMaterialParameters, monitors?: IContextMonitor[]);
-    }
-
-    /**
-     *
-     */
-    interface MeshMaterialParameters {
-
-    }
-
-    /**
-     *
-     */
-    class MeshMaterial extends GraphicsProgram {
-        constructor(parameters?: MeshMaterialParameters, monitors?: IContextMonitor[]);
-    }
-
-    /**
-     *
-     */
-    class MeshLambertMaterial extends GraphicsProgram {
-        constructor(contexts?: IContextMonitor[]);
-    }
-
-    /**
-     * Utility for generating a <code>GraphicsProgram</code> based upon supplied
+     * Utility for generating a <code>Material</code> based upon supplied
      * hints such as the attribute and uniform parameters.
      */
     class GraphicsProgramBuilder {
@@ -3791,7 +3749,7 @@ declare module EIGHT {
          * <ol>
          * <li>Create an instance of the <code>GraphicsProgramBuilder.</code></li>
          * <li>Make calls to the <code>attribute</code> and/or <code>uniform</code> methods in any order.</li>
-         * <li>Call the <code>build</code> method to create the <code>GraphicsProgram</code>.</li>
+         * <li>Call the <code>build</code> method to create the <code>Material</code>.</li>
          * </ol>
          * The same builder instance may be reused to create other programs.
          */
@@ -3810,11 +3768,11 @@ declare module EIGHT {
         public uniform(name: string, type: string): GraphicsProgramBuilder;
 
         /**
-         * Creates a GraphicsProgram. This may contain multiple <code>WebGLProgram</code>(s),
+         * Creates a Material. This may contain multiple <code>WebGLProgram</code>(s),
          * one for each context supplied. The generated program is compiled and linked
          * for each context in response to context gain and loss events.
          */
-        build(contexts?: IContextMonitor[]): GraphicsProgram;
+        build(contexts?: IContextMonitor[]): Material;
     }
 
     class AbstractFacet extends Shareable implements Facet {
@@ -3865,9 +3823,9 @@ declare module EIGHT {
         /**
          * Constructs a <code>DirectionalLight</code>.
          * @param direction The initial direction.
-         * @param color The initial color. Defaults to white.
+         * @param color The initial color.
          */
-        constructor(direction: VectorE3, color?: ColorRGB);
+        constructor(direction: VectorE3, color: ColorRGB);
         /**
          * Sets the <code>direction</code> property by copying a vector.
          * The direction is normalized to be a unit vector.
@@ -4384,6 +4342,42 @@ declare module EIGHT {
         constructor()
         radius: number;
         length: number;
+    }
+
+    class Tetrahedron extends RigidBody {
+        constructor()
+        radius: number;
+    }
+
+    class Trail {
+
+        /**
+         *
+         */
+        maxLength: number
+
+        /**
+         *
+         */
+        spacing: number
+
+        /**
+         * Constructs a trail for the specified rigidBody.
+         * The maximum number of trail points defaults to 10.
+         */
+        constructor(rigidBody: RigidBody, maxLength?: number);
+
+        /**
+         * Records the graphics model variables.
+         */
+        snapshot(): void;
+
+        /**
+         * @method draw
+         * @param ambients {Facet[]}
+         * @return {void}
+         */
+        draw(ambients: Facet[]): void;
     }
 
     function vector(x: number, y: number, z: number): G3;

@@ -5,6 +5,11 @@ import FacetVisitor from '../core/FacetVisitor';
 import R3 from '../math/R3';
 
 /**
+ * @module EIGHT
+ * @submodule facets
+ */
+
+/**
  * @class EulerFacet
  */
 export default class EulerFacet extends Shareable implements Facet {

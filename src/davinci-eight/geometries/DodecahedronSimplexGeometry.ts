@@ -1,4 +1,9 @@
-import PolyhedronSimplexGeometry from '../geometries/PolyhedronSimplexGeometry';
+import PolyhedronBuilder from '../geometries/PolyhedronBuilder';
+
+/**
+ * @module EIGHT
+ * @submodule geometries
+ */
 
 var t = (1 + Math.sqrt(5)) / 2;
 var r = 1 / t;
@@ -41,9 +46,9 @@ var indices = [
 
 /**
  * @class DodecahedronSimplexGeometry
- * @extends PolyhedronSimplexGeometry
+ * @extends PolyhedronBuilder
  */
-export default class DodecahedronSimplexGeometry extends PolyhedronSimplexGeometry {
+export default class DodecahedronSimplexGeometry extends PolyhedronBuilder {
     /**
      * @class DodecahedronSimplexGeometry
      * @constructor

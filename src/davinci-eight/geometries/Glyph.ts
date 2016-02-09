@@ -1,3 +1,9 @@
+
+/**
+ * @module EIGHT
+ * @submodule geometries
+ */
+
 /**
  * @class Glyph
  */
@@ -14,5 +20,6 @@ export default class Glyph {
      * @constructor
      */
     constructor() {
+      // Do nothing.
     }
 }

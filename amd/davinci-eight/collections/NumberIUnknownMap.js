@@ -4,11 +4,10 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 define(["require", "exports", '../core/Shareable'], function (require, exports, Shareable_1) {
-    var LOGGING_NAME = 'NumberIUnknownMap';
     var NumberIUnknownMap = (function (_super) {
         __extends(NumberIUnknownMap, _super);
         function NumberIUnknownMap() {
-            _super.call(this, LOGGING_NAME);
+            _super.call(this, 'NumberIUnknownMap');
             this._elements = {};
         }
         NumberIUnknownMap.prototype.destructor = function () {

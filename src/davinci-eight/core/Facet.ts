@@ -2,6 +2,11 @@ import FacetVisitor from './FacetVisitor';
 import IUnknown from './IUnknown';
 
 /**
+ * @module EIGHT
+ * @submodule core
+ */
+
+/**
  * @class Facet
  * @extends IUnknown
  */

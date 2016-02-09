@@ -1,5 +1,4 @@
 import dotVectorCartesianE3 from '../math/dotVectorCartesianE3';
-import copyToArray from '../collections/copyToArray';
 import dotVector from '../math/dotVectorE3';
 import MutableGeometricElement3D from '../math/MutableGeometricElement3D';
 import mustBeInteger from '../checks/mustBeInteger';
@@ -9,38 +8,40 @@ import Mutable from '../math/Mutable';
 import quadSpinor from '../math/quadSpinorE3';
 import quadVector from '../math/quadVectorE3';
 import rotorFromDirections from '../math/rotorFromDirections';
-import scpG3 from '../math/scpG3';
 import SpinorE3 from '../math/SpinorE3';
-import TrigMethods from '../math/TrigMethods';
 import VectorE3 from '../math/VectorE3';
 import VectorN from '../math/VectorN';
 import wedgeXY from '../math/wedgeXY';
 import wedgeYZ from '../math/wedgeYZ';
 import wedgeZX from '../math/wedgeZX';
 
+/**
+ * @module EIGHT
+ * @submodule math
+ */
+
 // GraphicsProgramSymbols constants for the coordinate indices into the coords array.
-let COORD_YZ = 0
-let COORD_ZX = 1
-let COORD_XY = 2
-let COORD_SCALAR = 3
+const COORD_YZ = 0
+const COORD_ZX = 1
+const COORD_XY = 2
+const COORD_SCALAR = 3
 
 function one(): number[] {
-    let coords = [0, 0, 0, 0]
+    const coords = [0, 0, 0, 0]
     coords[COORD_SCALAR] = 1
     return coords
 }
 
-let exp = Math.exp
-let cos = Math.cos
-let sin = Math.sin
-let sqrt = Math.sqrt
+const exp = Math.exp
+const cos = Math.cos
+const sin = Math.sin
+const sqrt = Math.sqrt
 
 /**
  * @class SpinG3
  * @extends VectorN<number>
  */
-export default class SpinG3 extends VectorN<number> implements SpinorE3, Mutable<number[]>, MutableGeometricElement3D<SpinorE3, SpinG3, SpinG3, VectorE3>
-{
+export default class SpinG3 extends VectorN<number> implements SpinorE3, Mutable<number[]>, MutableGeometricElement3D<SpinorE3, SpinG3, SpinG3, VectorE3> {
     /**
      * Constructs a <code>SpinG3</code> from a <code>number[]</code>.
      * For a <em>geometric</em> implementation, use the static methods.
@@ -113,7 +114,7 @@ export default class SpinG3 extends VectorN<number> implements SpinorE3, Mutable
      * @return {SpinG3} <code>this</code>
      * @chainable
      */
-    add(spinor: SpinorE3, α: number = 1): SpinG3 {
+    add(spinor: SpinorE3, α = 1): SpinG3 {
         mustBeObject('spinor', spinor)
         mustBeNumber('α', α)
         this.yz += spinor.yz * α
@@ -503,13 +504,13 @@ export default class SpinG3 extends VectorN<number> implements SpinorE3, Mutable
     }
 
     /**
-    * <p>
-    * <code>this ⟼ sqrt(this * conj(this))</code>
-    * </p>
-    * @method norm
-    * @return {SpinG3} <code>this</code>
-    * @chainable
-    */
+     * <p>
+     * <code>this ⟼ sqrt(this * conj(this))</code>
+     * </p>
+     * @method norm
+     * @return {SpinG3} <code>this</code>
+     * @chainable
+     */
     norm(): SpinG3 {
         let norm = this.magnitudeSansUnits();
         return this.zero().addScalar(norm);
@@ -669,7 +670,7 @@ export default class SpinG3 extends VectorN<number> implements SpinorE3, Mutable
         this.α = cos(φ)
         return this
     }
-  
+
     /**
      * <p>
      * <code>this = ⟼ exp(- B * θ / 2)</code>
@@ -735,7 +736,7 @@ export default class SpinG3 extends VectorN<number> implements SpinorE3, Mutable
      * @return {SpinG3} <code>this</code>
      * @chainable
      */
-    sub(s: SpinorE3, α: number = 1): SpinG3 {
+    sub(s: SpinorE3, α = 1): SpinG3 {
         mustBeObject('s', s)
         mustBeNumber('α', α)
         this.yz -= s.yz * α

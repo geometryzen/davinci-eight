@@ -60,16 +60,29 @@ export default class IUnknownArray<T extends IUnknown> extends Shareable {
         super.destructor()
     }
 
-    findOne(match: (composite: T) => boolean): T {
-        const elements = this._elements;
+    find(match: (element: T) => boolean): IUnknownArray<T> {
+        const result = new IUnknownArray<T>()
+        const elements = this._elements
+        const iLen = elements.length
+        for (let i = 0; i < iLen; i++) {
+            const candidate = elements[i]
+            if (match(candidate)) {
+                result.push(candidate)
+            }
+        }
+        return result
+    }
+
+    findOne(match: (element: T) => boolean): T {
+        const elements = this._elements
         for (let i = 0, iLength = elements.length; i < iLength; i++) {
-            const candidate = elements[i];
+            const candidate = elements[i]
             if (match(candidate)) {
                 candidate.addRef()
                 return candidate
             }
         }
-        return void 0;
+        return void 0
     }
 
     /**

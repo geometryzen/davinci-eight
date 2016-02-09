@@ -12,7 +12,6 @@ define(["require", "exports", '../math/dotVectorCartesianE2', '../math/dotVector
         coords[COORD_XY] = 0;
         return coords;
     }
-    var PI = Math.PI;
     var abs = Math.abs;
     var atan2 = Math.atan2;
     var exp = Math.exp;

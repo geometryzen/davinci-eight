@@ -14,18 +14,23 @@
 import clamp = require('../math/clamp');
 import Curve = require('../curves/Curve');
 import Face3 = require('../core/Face3');
-import SimplexGeometry = require('../geometries/SimplexGeometry');
+import SimplexPrimitivesBuilder = require('../geometries/SimplexPrimitivesBuilder');
 import Mat4R = require('../math/Mat4R');
 import R2 = require('../math/R2');
 import R3 = require('../math/R3');
 
-class TubeSimplexGeometry extends SimplexGeometry {
+/**
+ * @module EIGHT
+ * @submodule geometries
+ */
+
+class TubeSimplexGeometry extends SimplexPrimitivesBuilder {
   public static NoTaper = function (u: number): number {return 1;};
   public static SinusoidalTaper = function (u: number): number {return Math.sin(Math.PI * u);};
   public tangents: R3[];
   public normals: R3[];
   public binormals: R3[];
-  constructor(path: Curve, segments?: number, radius?: number, radialSegments?: number, closed?: boolean, taper?: (u: number)=>number) {
+  constructor(path: Curve, segments?: number, radius?: number, radialSegments?: number, closed?: boolean, taper?: (u: number) => number) {
     super();
     segments = segments || 64;
     radius = radius || 0.05;
@@ -159,7 +164,7 @@ class FrenetFrames {
     var numpoints: number = segments + 1;
     var theta: number;
     let epsilon = 0.0001;
-    let epsilonSquared = 0.0001 * 0.0001;
+    // let epsilonSquared = 0.0001 * 0.0001;
     var smallest: number;
 
     // TODO: The folloowing should be a R3

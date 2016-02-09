@@ -4,6 +4,11 @@ import SpinorE4 from '../math/SpinorE4';
 import VectorN from '../math/VectorN';
 
 /**
+ * @module EIGHT
+ * @submodule math
+ */
+
+/**
  * @class R4
  */
 export default class R4 extends VectorN<number> implements VectorE4, MutableLinearElement<VectorE4, R4, SpinorE4, VectorE4> {

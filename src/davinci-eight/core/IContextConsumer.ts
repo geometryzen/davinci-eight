@@ -2,10 +2,16 @@ import IContextProvider from './IContextProvider';
 import IUnknown from './IUnknown';
 
 /**
+ * @module EIGHT
+ * @submodule core
+ */
+
+/**
  * This interface standardizes the concept of an implementation being dependent upon
  * a WebGL rendering context. The notification methods for context gain, loss, and free
  * allow the implementation to participate in the dynamic and volatile environment
  * whereupon a browser may reset its WebGL rendering contexts.
+ *
  * @class IContextConsumer
  * @extends IUnknown
  */

@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../geometries/AxialSimplexGeometry', '../checks/isDefined', '../checks/mustBeNumber', '../math/R3'], function (require, exports, AxialSimplexGeometry_1, isDefined_1, mustBeNumber_1, R3_1) {
+define(["require", "exports", '../geometries/AxialSimplexPrimitivesBuilder', '../checks/isDefined', '../checks/mustBeNumber', '../math/R3'], function (require, exports, AxialSimplexPrimitivesBuilder_1, isDefined_1, mustBeNumber_1, R3_1) {
     function perpendicular(axis) {
         return R3_1.default.random().cross(axis).direction();
     }
@@ -23,7 +23,7 @@ define(["require", "exports", '../geometries/AxialSimplexGeometry', '../checks/i
             this.sliceAngle = mustBeNumber_1.default('sliceAngle', sliceAngle);
         }
         return SliceSimplexGeometry;
-    })(AxialSimplexGeometry_1.default);
+    })(AxialSimplexPrimitivesBuilder_1.default);
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = SliceSimplexGeometry;
 });

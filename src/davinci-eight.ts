@@ -9,17 +9,6 @@ import Vector3Animation from 'davinci-eight/slideshow/animations/Vector3Animatio
 import Spinor2Animation from 'davinci-eight/slideshow/animations/Spinor2Animation';
 import Spinor3Animation from 'davinci-eight/slideshow/animations/Spinor3Animation';
 
-// cameras
-import createFrustum from 'davinci-eight/cameras/createFrustum';
-import createPerspective from 'davinci-eight/cameras/createPerspective';
-import createView from 'davinci-eight/cameras/createView';
-import Frustum from 'davinci-eight/cameras/Frustum';
-import Perspective from 'davinci-eight/cameras/Perspective';
-import View from 'davinci-eight/cameras/View';
-import frustumMatrix from 'davinci-eight/cameras/frustumMatrix';
-import PerspectiveCamera from 'davinci-eight/cameras/PerspectiveCamera';
-import perspectiveMatrix from 'davinci-eight/cameras/perspectiveMatrix';
-import viewMatrix from 'davinci-eight/cameras/viewMatrix';
 // commands
 import BlendFactor from 'davinci-eight/commands/BlendFactor';
 import WebGLBlendFunc from 'davinci-eight/commands/WebGLBlendFunc';
@@ -43,6 +32,14 @@ import Facet from 'davinci-eight/core/Facet';
 import FacetVisitor from 'davinci-eight/core/FacetVisitor';
 import UniformLocation from 'davinci-eight/core/UniformLocation';
 import UniformMetaInfo from 'davinci-eight/core/UniformMetaInfo';
+// core extensions
+import IDrawList from 'davinci-eight/core/IDrawList';
+import Mesh from 'davinci-eight/core/Mesh';
+import Scene from 'davinci-eight/core/Scene';
+import WebGLRenderer from 'davinci-eight/core/WebGLRenderer';
+import Material from 'davinci-eight/core/Material';
+import Geometry from 'davinci-eight/core/Geometry';
+import initWebGL from 'davinci-eight/core/initWebGL';
 // curves
 import Curve from 'davinci-eight/curves/Curve';
 // devices
@@ -60,7 +57,6 @@ import computeFaceNormals from 'davinci-eight/geometries/computeFaceNormals';
 import cube from 'davinci-eight/geometries/cube';
 import quadrilateral from 'davinci-eight/geometries/quadrilateral';
 import square from 'davinci-eight/geometries/square';
-import tetrahedron from 'davinci-eight/geometries/tetrahedron';
 import simplicesToDrawPrimitive from 'davinci-eight/geometries/simplicesToDrawPrimitive';
 import triangle from 'davinci-eight/geometries/triangle';
 // topologies
@@ -69,21 +65,16 @@ import PointTopology from 'davinci-eight/topologies/PointTopology';
 import LineTopology from 'davinci-eight/topologies/LineTopology';
 import MeshTopology from 'davinci-eight/topologies/MeshTopology';
 import GridTopology from 'davinci-eight/topologies/GridTopology';
-// scene
-import IDrawList from 'davinci-eight/scene/IDrawList';
-import Mesh from 'davinci-eight/scene/Mesh';
-import Scene from 'davinci-eight/scene/Scene';
-import WebGLRenderer from 'davinci-eight/scene/WebGLRenderer';
 // geometries
-import AxialSimplexGeometry from 'davinci-eight/geometries/AxialSimplexGeometry';
-import ArrowGeometry from 'davinci-eight/geometries/ArrowGeometry';
-import ArrowSimplexGeometry from 'davinci-eight/geometries/ArrowSimplexGeometry';
-import BarnSimplexGeometry from 'davinci-eight/geometries/BarnSimplexGeometry';
+import AxialSimplexPrimitivesBuilder from 'davinci-eight/geometries/AxialSimplexPrimitivesBuilder';
+import ArrowPrimitivesBuilder from 'davinci-eight/geometries/ArrowPrimitivesBuilder';
+import ArrowSimplexPrimitivesBuilder from 'davinci-eight/geometries/ArrowSimplexPrimitivesBuilder';
+import BarnSimplexPrimitivesBuilder from 'davinci-eight/geometries/BarnSimplexPrimitivesBuilder';
 import BoxGeometry from 'davinci-eight/geometries/BoxGeometry';
 import ConeGeometry from 'davinci-eight/geometries/ConeGeometry';
 import ConeSimplexGeometry from 'davinci-eight/geometries/ConeSimplexGeometry';
-import CuboidGeometry from 'davinci-eight/geometries/CuboidGeometry';
-import CuboidSimplexGeometry from 'davinci-eight/geometries/CuboidSimplexGeometry';
+import CuboidPrimitivesBuilder from 'davinci-eight/geometries/CuboidPrimitivesBuilder';
+import CuboidSimplexPrimitivesBuilder from 'davinci-eight/geometries/CuboidSimplexPrimitivesBuilder';
 import CylinderGeometry from 'davinci-eight/geometries/CylinderGeometry';
 import CylinderSimplexGeometry from 'davinci-eight/geometries/CylinderSimplexGeometry';
 import DodecahedronSimplexGeometry from 'davinci-eight/geometries/DodecahedronSimplexGeometry';
@@ -94,27 +85,25 @@ import MobiusStripSimplexGeometry from 'davinci-eight/geometries/MobiusStripSimp
 import OctahedronSimplexGeometry from 'davinci-eight/geometries/OctahedronSimplexGeometry';
 import SliceSimplexGeometry from 'davinci-eight/geometries/SliceSimplexGeometry';
 import GridSimplexGeometry from 'davinci-eight/geometries/GridSimplexGeometry';
-import PolyhedronSimplexGeometry from 'davinci-eight/geometries/PolyhedronSimplexGeometry';
-import RevolutionSimplexGeometry from 'davinci-eight/geometries/RevolutionSimplexGeometry';
-import RingGeometry from 'davinci-eight/geometries/RingGeometry';
+import PolyhedronBuilder from 'davinci-eight/geometries/PolyhedronBuilder';
+import RevolutionSimplexPrimitivesBuilder from 'davinci-eight/geometries/RevolutionSimplexPrimitivesBuilder';
+import RingBuilder from 'davinci-eight/geometries/RingBuilder';
 import RingSimplexGeometry from 'davinci-eight/geometries/RingSimplexGeometry';
 import SphereGeometry from 'davinci-eight/geometries/SphereGeometry';
-import TetrahedronSimplexGeometry from 'davinci-eight/geometries/TetrahedronSimplexGeometry';
+import TetrahedronGeometry from 'davinci-eight/geometries/TetrahedronGeometry';
 import TextSimplexGeometry from 'davinci-eight/geometries/TextSimplexGeometry';
 //import TubeSimplexGeometry          from 'davinci-eight/geometries/TubeSimplexGeometry';
 import VortexSimplexGeometry from 'davinci-eight/geometries/VortexSimplexGeometry';
 import arc3 from 'davinci-eight/geometries/arc3';
-// programs
-import smartProgram from 'davinci-eight/programs/smartProgram';
-import programFromScripts from 'davinci-eight/programs/programFromScripts';
 
 // materials
-import HTMLScriptsGraphicsProgram from 'davinci-eight/materials/HTMLScriptsGraphicsProgram';
+import HTMLScriptsMaterial from 'davinci-eight/materials/HTMLScriptsMaterial';
 import LineMaterial from 'davinci-eight/materials/LineMaterial';
 import MeshMaterial from 'davinci-eight/materials/MeshMaterial';
-import MeshLambertMaterial from 'davinci-eight/materials/MeshLambertMaterial';
 import PointMaterial from 'davinci-eight/materials/PointMaterial';
 import GraphicsProgramBuilder from 'davinci-eight/materials/GraphicsProgramBuilder';
+import smartProgram from 'davinci-eight/materials/smartProgram';
+import programFromScripts from 'davinci-eight/materials/programFromScripts';
 // math
 import AbstractMatrix from 'davinci-eight/math/AbstractMatrix';
 import CartesianE3 from 'davinci-eight/math/CartesianE3';
@@ -164,17 +153,20 @@ import PointSizeFacet from 'davinci-eight/facets/PointSizeFacet';
 import ReflectionFacetE2 from 'davinci-eight/facets/ReflectionFacetE2';
 import ReflectionFacetE3 from 'davinci-eight/facets/ReflectionFacetE3';
 import Vector3Facet from 'davinci-eight/facets/Vector3Facet';
+import createFrustum from 'davinci-eight/facets/createFrustum';
+import createPerspective from 'davinci-eight/facets/createPerspective';
+import createView from 'davinci-eight/facets/createView';
+import Frustum from 'davinci-eight/facets/Frustum';
+import Perspective from 'davinci-eight/facets/Perspective';
+import View from 'davinci-eight/facets/View';
+import frustumMatrix from 'davinci-eight/facets/frustumMatrix';
+import PerspectiveCamera from 'davinci-eight/facets/PerspectiveCamera';
+import perspectiveMatrix from 'davinci-eight/facets/perspectiveMatrix';
+import viewMatrix from 'davinci-eight/facets/viewMatrix';
 
 // models
-import ModelE2 from 'davinci-eight/models/ModelE2';
-import ModelE3 from 'davinci-eight/models/ModelE3';
-
-// programs
-import Material from 'davinci-eight/core/Material';
-import Geometry from 'davinci-eight/scene/Geometry';
-
-// scene
-import initWebGL from 'davinci-eight/scene/initWebGL';
+import ModelE2 from 'davinci-eight/facets/ModelE2';
+import ModelE3 from 'davinci-eight/facets/ModelE3';
 
 // utils
 import Framerate from 'davinci-eight/utils/Framerate';
@@ -194,7 +186,18 @@ import Ball from 'davinci-eight/visual/Ball';
 import Box from 'davinci-eight/visual/Box';
 import RigidBody from 'davinci-eight/visual/RigidBody';
 import Rod from 'davinci-eight/visual/Rod';
+import Tetrahedron from 'davinci-eight/visual/Tetrahedron';
+import Trail from 'davinci-eight/visual/Trail';
 import vector from 'davinci-eight/visual/vector';
+
+// glsl
+import tokenizeString from 'davinci-eight/glsl/tokenizeString';
+import parse from 'davinci-eight/glsl/parse';
+import DebugNodeEventHandler from 'davinci-eight/glsl/DebugNodeEventHandler';
+import Declaration from 'davinci-eight/glsl/Declaration';
+import DefaultNodeEventHandler from 'davinci-eight/glsl/DefaultNodeEventHandler';
+import NodeWalker from 'davinci-eight/glsl/NodeWalker';
+import ProgramArgs from 'davinci-eight/glsl/ProgramArgs';
 
 /**
  * @module EIGHT
@@ -254,10 +257,9 @@ var eight = {
 
     // TODO: Arrange in alphabetical order in order to assess width of API.
     // materials
-    get HTMLScriptsGraphicsProgram() { return HTMLScriptsGraphicsProgram },
+    get HTMLScriptsMaterial() { return HTMLScriptsMaterial },
     get LineMaterial() { return LineMaterial },
     get MeshMaterial() { return MeshMaterial },
-    get MeshLambertMaterial() { return MeshLambertMaterial },
     get PointMaterial() { return PointMaterial },
     get GraphicsProgramBuilder() { return GraphicsProgramBuilder },
     //commands
@@ -296,14 +298,14 @@ var eight = {
         return smartProgram
     },
     get Color() { return Color },
-    get AxialSimplexGeometry() { return AxialSimplexGeometry },
-    get ArrowGeometry() { return ArrowGeometry },
-    get BarnSimplexGeometry() { return BarnSimplexGeometry },
+    get AxialSimplexPrimitivesBuilder() { return AxialSimplexPrimitivesBuilder },
+    get ArrowPrimitivesBuilder() { return ArrowPrimitivesBuilder },
+    get BarnSimplexPrimitivesBuilder() { return BarnSimplexPrimitivesBuilder },
     get BoxGeometry() { return BoxGeometry },
     get ConeGeometry() { return ConeGeometry },
     get ConeSimplexGeometry() { return ConeSimplexGeometry },
-    get CuboidGeometry() { return CuboidGeometry },
-    get CuboidSimplexGeometry() { return CuboidSimplexGeometry },
+    get CuboidPrimitivesBuilder() { return CuboidPrimitivesBuilder },
+    get CuboidSimplexPrimitivesBuilder() { return CuboidSimplexPrimitivesBuilder },
     get CylinderGeometry() { return CylinderGeometry },
     get CylinderSimplexGeometry() { return CylinderSimplexGeometry },
     get DodecahedronSimplexGeometry() { return DodecahedronSimplexGeometry },
@@ -313,13 +315,13 @@ var eight = {
     get MobiusStripSimplexGeometry() { return MobiusStripSimplexGeometry },
     get OctahedronSimplexGeometry() { return OctahedronSimplexGeometry },
     get GridSimplexGeometry() { return GridSimplexGeometry },
-    get PolyhedronSimplexGeometry() { return PolyhedronSimplexGeometry },
-    get RevolutionSimplexGeometry() { return RevolutionSimplexGeometry },
-    get RingGeometry() { return RingGeometry },
+    get PolyhedronBuilder() { return PolyhedronBuilder },
+    get RevolutionSimplexPrimitivesBuilder() { return RevolutionSimplexPrimitivesBuilder },
+    get RingBuilder() { return RingBuilder },
     get RingSimplexGeometry() { return RingSimplexGeometry },
     get SliceSimplexGeometry() { return SliceSimplexGeometry },
     get SphereGeometry() { return SphereGeometry },
-    get TetrahedronSimplexGeometry() { return TetrahedronSimplexGeometry },
+    get TetrahedronGeometry() { return TetrahedronGeometry },
     // get TextSimplexGeometry() { return TextSimplexGeometry },
     get VortexSimplexGeometry() { return VortexSimplexGeometry },
     get Topology() { return Topology },
@@ -352,7 +354,6 @@ var eight = {
     get cube() { return cube },
     get quadrilateral() { return quadrilateral },
     get square() { return square },
-    get tetrahedron() { return tetrahedron },
     get triangle() { return triangle },
     get simplicesToDrawPrimitive() { return simplicesToDrawPrimitive },
 
@@ -392,6 +393,8 @@ var eight = {
     get Box() { return Box },
     get RigidBody() { return RigidBody },
     get Rod() { return Rod },
+    get Tetrahedron() { return Tetrahedron },
+    get Trail() { return Trail },
     get vector() { return vector }
 }
 export default eight;

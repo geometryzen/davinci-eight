@@ -1,6 +1,11 @@
 import GridSimplexGeometry from '../geometries/GridSimplexGeometry';
 import R3 from '../math/R3';
 
+/**
+ * @module EIGHT
+ * @submodule geometries
+ */
+
 let cos = Math.cos;
 let sin = Math.sin;
 let pi = Math.PI;

@@ -1,5 +1,6 @@
-/// <reference path='NodeEventHandler.d.ts'/>
-class DebugNodeEventHandler implements GLSL.NodeEventHandler {
+import NodeEventHandler from './NodeEventHandler'
+
+export default class DebugNodeEventHandler implements NodeEventHandler {
   constructor() {
 
   }
@@ -64,4 +65,3 @@ class DebugNodeEventHandler implements GLSL.NodeEventHandler {
     console.log("builtin: " + name);
   }
 }
-export = DebugNodeEventHandler;

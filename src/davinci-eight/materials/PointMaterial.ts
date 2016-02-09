@@ -2,7 +2,12 @@ import GraphicsProgramBuilder from '../materials/GraphicsProgramBuilder';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
 import Material from '../core/Material';
 
-function vertexShader(): string {
+/**
+ * @module EIGHT
+ * @submodule materials
+ */
+
+function builder() {
     const gpb = new GraphicsProgramBuilder();
 
     gpb.attribute(GraphicsProgramSymbols.ATTRIBUTE_POSITION, 3);
@@ -13,26 +18,20 @@ function vertexShader(): string {
     gpb.uniform(GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX, 'mat4');
     gpb.uniform(GraphicsProgramSymbols.UNIFORM_POINT_SIZE, 'float');
 
-    return gpb.vertexShader();
+    return gpb
+}
+
+function vertexShader(): string {
+    return builder().vertexShader();
 }
 
 function fragmentShader(): string {
-    const gpb = new GraphicsProgramBuilder();
-
-    gpb.attribute(GraphicsProgramSymbols.ATTRIBUTE_POSITION, 3);
-
-    gpb.uniform(GraphicsProgramSymbols.UNIFORM_COLOR, 'vec3');
-    gpb.uniform(GraphicsProgramSymbols.UNIFORM_MODEL_MATRIX, 'mat4');
-    gpb.uniform(GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX, 'mat4');
-    gpb.uniform(GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX, 'mat4');
-    gpb.uniform(GraphicsProgramSymbols.UNIFORM_POINT_SIZE, 'float');
-
-    return gpb.fragmentShader();
+    return builder().fragmentShader();
 }
 
 /**
  * @class PointMaterial
- * @extends GraphicsProgram
+ * @extends Material
  */
 export default class PointMaterial extends Material {
     /**

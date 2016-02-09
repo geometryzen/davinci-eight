@@ -1,7 +1,7 @@
-define(["require", "exports", '../checks/mustBeString', '../i18n/readOnly'], function (require, exports, mustBeString_1, readOnly_1) {
+define(["require", "exports", '../i18n/readOnly'], function (require, exports, readOnly_1) {
     var AttribLocation = (function () {
-        function AttribLocation(name) {
-            this._name = mustBeString_1.default('name', name);
+        function AttribLocation(info) {
+            this._name = info.name;
         }
         Object.defineProperty(AttribLocation.prototype, "index", {
             get: function () {

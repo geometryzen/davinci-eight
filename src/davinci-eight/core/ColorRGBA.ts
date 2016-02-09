@@ -1,4 +1,10 @@
 import ColorRGB from './ColorRGB';
+
+/**
+ * @module EIGHT
+ * @submodule core
+ */
+
 /**
  * @class ColorRGBA
  * @extends ColorRGB

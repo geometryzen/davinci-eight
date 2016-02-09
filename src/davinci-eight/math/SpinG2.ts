@@ -1,5 +1,4 @@
 import dotVectorCartesian from '../math/dotVectorCartesianE2';
-import copyToArray from '../collections/copyToArray';
 import dotVector from '../math/dotVectorE2';
 import isDefined from '../checks/isDefined';
 import Measure from '../math/Measure';
@@ -12,40 +11,40 @@ import quadSpinor from '../math/quadSpinorE2';
 import quadVector from '../math/quadVectorE2';
 import rotorFromDirections from '../math/rotorFromDirections';
 import SpinorE2 from '../math/SpinorE2';
-import TrigMethods from '../math/TrigMethods';
 import Unit from '../math/Unit';
 import VectorE2 from '../math/VectorE2';
 import VectorN from '../math/VectorN';
 import wedgeXY from '../math/wedgeXY';
-import wedgeYZ from '../math/wedgeYZ';
-import wedgeZX from '../math/wedgeZX';
+
+/**
+ * @module EIGHT
+ * @submodule math
+ */
 
 // GraphicsProgramSymbols constants for the coordinate indices into the coords array.
-let COORD_XY = 0
-let COORD_ALPHA = 1
+const COORD_XY = 0
+const COORD_ALPHA = 1
 
 function one(): number[] {
-    let coords = [0, 0]
+    const coords = [0, 0]
     coords[COORD_ALPHA] = 1
     coords[COORD_XY] = 0
     return coords
 }
 
-let PI = Math.PI
-let abs = Math.abs
-let atan2 = Math.atan2
-let exp = Math.exp
-let log = Math.log
-let cos = Math.cos
-let sin = Math.sin
-let sqrt = Math.sqrt
+const abs = Math.abs
+const atan2 = Math.atan2
+const exp = Math.exp
+const log = Math.log
+const cos = Math.cos
+const sin = Math.sin
+const sqrt = Math.sqrt
 
 /**
  * @class SpinG2
  * @extends VectorN<number>
  */
-export default class SpinG2 extends VectorN<number> implements SpinorE2, Measure<SpinG2>, Mutable<number[]>, MutableGeometricElement<SpinorE2, SpinG2, SpinG2, VectorE2>
-{
+export default class SpinG2 extends VectorN<number> implements SpinorE2, Measure<SpinG2>, Mutable<number[]>, MutableGeometricElement<SpinorE2, SpinG2, SpinG2, VectorE2> {
     /**
      * The optional unit of measure.
      * @property uom
@@ -102,7 +101,7 @@ export default class SpinG2 extends VectorN<number> implements SpinorE2, Measure
      * @return {SpinG2} <code>this</code>
      * @chainable
      */
-    add(spinor: SpinorE2, α: number = 1): SpinG2 {
+    add(spinor: SpinorE2, α = 1): SpinG2 {
         mustBeObject('spinor', spinor)
         mustBeNumber('α', α)
         this.xy += spinor.xy * α
@@ -449,17 +448,18 @@ export default class SpinG2 extends VectorN<number> implements SpinorE2, Measure
     }
 
     /**
-    * <p>
-    * <code>this ⟼ sqrt(this * conj(this))</code>
-    * </p>
-    * @method norm
-    * @return {SpinG2} <code>this</code>
-    * @chainable
-    */
+     * <p>
+     * <code>this ⟼ sqrt(this * conj(this))</code>
+     * </p>
+     * @method norm
+     * @return {SpinG2} <code>this</code>
+     * @chainable
+     */
     norm(): SpinG2 {
         const norm = this.magnitudeSansUnits();
         return this.zero().addScalar(norm);
     }
+
     /**
      * <p>
      * <code>this ⟼ this / magnitude(this)</code>
@@ -474,7 +474,6 @@ export default class SpinG2 extends VectorN<number> implements SpinorE2, Measure
         this.α = this.α / modulus;
         return this;
     }
-
 
     /**
      * Sets this spinor to the identity element for multiplication, <b>1</b>.
@@ -492,13 +491,13 @@ export default class SpinG2 extends VectorN<number> implements SpinorE2, Measure
     }
 
     /**
-    * <p>
-    * <code>this ⟼ this * conj(this)</code>
-    * </p>
-    * @method quad
-    * @return {SpinG2} <code>this</code>
-    * @chainable
-    */
+     * <p>
+     * <code>this ⟼ this * conj(this)</code>
+     * </p>
+     * @method quad
+     * @return {SpinG2} <code>this</code>
+     * @chainable
+     */
     quad(): SpinG2 {
         return this.squaredNorm();
     }
@@ -549,6 +548,7 @@ export default class SpinG2 extends VectorN<number> implements SpinorE2, Measure
         this.xy *= - 1;
         return this;
     }
+
     /**
      * Sets this Spinor to the value of its reflection in the plane orthogonal to n.
      * The geometric formula for bivector reflection is B' = n * B * n.
@@ -567,6 +567,7 @@ export default class SpinG2 extends VectorN<number> implements SpinorE2, Measure
         this.xy = - nn * β
         return this;
     }
+
     /**
      * <p>
      * <code>this = ⟼ rotor * this * rev(rotor)</code>
@@ -580,6 +581,7 @@ export default class SpinG2 extends VectorN<number> implements SpinorE2, Measure
         console.warn("SpinG2.rotate is not implemented")
         return this;
     }
+
     /**
      * <p>
      * Sets this multivector to a rotation from vector <code>a</code> to vector <code>b</code>.
@@ -663,7 +665,7 @@ export default class SpinG2 extends VectorN<number> implements SpinorE2, Measure
      * @return {SpinG2} <code>this</code>
      * @chainable
      */
-    sub(s: SpinorE2, α: number = 1): SpinG2 {
+    sub(s: SpinorE2, α = 1): SpinG2 {
         mustBeObject('s', s)
         mustBeNumber('α', α)
         this.xy -= s.xy * α

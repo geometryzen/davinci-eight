@@ -1,5 +1,9 @@
-import Curve from '../curves/Curve';
 import Path from '../geometries/Path';
+
+/**
+ * @module EIGHT
+ * @submodule geometries
+ */
 
 /**
  * @class Shape

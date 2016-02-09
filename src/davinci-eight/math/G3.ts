@@ -1,27 +1,35 @@
-import dotVector from '../math/dotVectorE3';
-import Euclidean3 from '../math/Euclidean3';
+import dotVector from './dotVectorE3';
+import Euclidean3 from './Euclidean3';
 import EventEmitter from '../utils/EventEmitter';
-import extG3 from '../math/extG3';
-import GeometricE3 from '../math/GeometricE3';
-import lcoG3 from '../math/lcoG3';
-import GeometricOperators from '../math/GeometricOperators';
-import mulG3 from '../math/mulG3';
+import extG3 from './extG3';
+import GeometricE3 from './GeometricE3';
+import lcoG3 from './lcoG3';
+import GeometricOperators from './GeometricOperators';
+import isScalarG3 from './isScalarG3';
+import mulG3 from './mulG3';
 import mustBeInteger from '../checks/mustBeInteger';
 import mustBeString from '../checks/mustBeString';
-import MutableGeometricElement3D from '../math/MutableGeometricElement3D';
-import quadVector from '../math/quadVectorE3';
-import rcoG3 from '../math/rcoG3';
+import MutableGeometricElement3D from './MutableGeometricElement3D';
+import quadVector from './quadVectorE3';
+import rcoG3 from './rcoG3';
 import readOnly from '../i18n/readOnly';
-import rotorFromDirections from '../math/rotorFromDirections';
-import scpG3 from '../math/scpG3';
-import SpinorE3 from '../math/SpinorE3';
-import squaredNormG3 from '../math/squaredNormG3';
-import stringFromCoordinates from '../math/stringFromCoordinates';
-import VectorE3 from '../math/VectorE3';
-import VectorN from '../math/VectorN';
-import wedgeXY from '../math/wedgeXY';
-import wedgeYZ from '../math/wedgeYZ';
-import wedgeZX from '../math/wedgeZX';
+import rotorFromDirections from './rotorFromDirections';
+import scpG3 from './scpG3';
+import SpinorE3 from './SpinorE3';
+import squaredNormG3 from './squaredNormG3';
+import stringFromCoordinates from './stringFromCoordinates';
+import VectorE3 from './VectorE3';
+import VectorN from './VectorN';
+import wedgeXY from './wedgeXY';
+import wedgeYZ from './wedgeYZ';
+import wedgeZX from './wedgeZX';
+
+/**
+ * Geometric Algebra and Mathematical abstractions.
+ *
+ * @module EIGHT
+ * @submodule math
+ */
 
 // GraphicsProgramSymbols constants for the coordinate indices into the data array.
 const COORD_W = 0
@@ -110,12 +118,12 @@ function makeConstantE3(label: string, α: number, x: number, y: number, z: numb
     return that
 }
 
-let zero = makeConstantE3('0', 0, 0, 0, 0, 0, 0, 0, 0);
-let one = makeConstantE3('1', 1, 0, 0, 0, 0, 0, 0, 0);
-let e1 = makeConstantE3('e1', 0, 1, 0, 0, 0, 0, 0, 0);
-let e2 = makeConstantE3('e2', 0, 0, 1, 0, 0, 0, 0, 0);
-let e3 = makeConstantE3('e2', 0, 0, 0, 1, 0, 0, 0, 0);
-let I = makeConstantE3('I', 0, 0, 0, 0, 0, 0, 0, 1);
+const zero = makeConstantE3('0', 0, 0, 0, 0, 0, 0, 0, 0);
+const one = makeConstantE3('1', 1, 0, 0, 0, 0, 0, 0, 0);
+const e1 = makeConstantE3('e1', 0, 1, 0, 0, 0, 0, 0, 0);
+const e2 = makeConstantE3('e2', 0, 0, 1, 0, 0, 0, 0, 0);
+const e3 = makeConstantE3('e2', 0, 0, 0, 1, 0, 0, 0, 0);
+const I = makeConstantE3('I', 0, 0, 0, 0, 0, 0, 0, 1);
 
 /**
  * @class G3
@@ -458,7 +466,9 @@ export default class G3 extends VectorN<number> implements GeometricE3, MutableG
 
     /**
      * Sets this multivector to the value of the scalar, <code>α</code>.
+     *
      * @method copyScalar
+     * @param α {number}
      * @return {G3}
      * @chainable
      */
@@ -511,8 +521,16 @@ export default class G3 extends VectorN<number> implements GeometricE3, MutableG
      * @chainable
      */
     div(m: GeometricE3): G3 {
-        return this.div2(this, m)
+        // TODO: Generalize
+        if (isScalarG3(m)) {
+            return this.divByScalar(m.α)
+        }
+        else {
+            throw new Error("division with arbitrary multivectors is not supported")
+        }
+        // return this.div2(this, m)
     }
+
     /**
      * <p>
      * <code>this ⟼ this / α</code>
@@ -1573,6 +1591,7 @@ export default class G3 extends VectorN<number> implements GeometricE3, MutableG
      * @property zero
      * @type {G3}
      * @readOnly
+     * @final
      * @static
      */
     static get zero(): G3 { return G3.copy(zero); };

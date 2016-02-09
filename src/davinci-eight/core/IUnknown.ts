@@ -1,9 +1,7 @@
 /**
- * <p>
- * Enables clients to manage the existence of an object through the addRef and release methods.
- * </p>
+ * @module EIGHT
+ * @submodule core
  * @class IUnknown
- * @since 2.75.0
  */
 interface IUnknown {
     /**

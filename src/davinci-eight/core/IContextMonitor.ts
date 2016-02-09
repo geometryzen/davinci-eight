@@ -1,8 +1,9 @@
 import IContextConsumer from '../core/IContextConsumer';
 import IUnknown from '../core/IUnknown';
 
-// FIXME: Merge into IContextProvider
 /**
+ * @module EIGHT
+ * @submodule core
  * @class IContextMonitor
  * @extends IUnknown
  */

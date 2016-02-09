@@ -1,14 +1,12 @@
-/// <reference path='./Token.d.ts'/>
-import tokenize = require('./tokenize');
+import Token from './Token'
+import tokenize from './tokenize'
 
-function tokenizeString(str: string): Token[] {
-  var generator = tokenize();
-  var tokens: Token[] = [];
+export default function(str: string): Token[] {
+  const generator = tokenize()
+  let tokens: Token[] = []
 
   tokens = tokens.concat(generator(str))
   tokens = tokens.concat(generator(null))
 
-  return tokens;
+  return tokens
 }
-
-export = tokenizeString;

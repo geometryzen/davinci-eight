@@ -1,7 +1,6 @@
 import dataLength from '../geometries/dataLength';
 import expectArg from '../checks/expectArg';
 import isDefined from '../checks/isDefined';
-//import isInteger from '../checks/isInteger');
 import GeometryMeta from '../geometries/GeometryMeta';
 import Simplex from '../geometries/Simplex';
 import Vertex from '../geometries/Vertex';
@@ -20,7 +19,6 @@ function stringify(thing: any, space: any): string {
         }
         return value;
     }, space);
-    cache = null; // Enable garbage collection  
 }
 
 /**

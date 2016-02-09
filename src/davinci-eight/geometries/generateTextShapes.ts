@@ -17,7 +17,7 @@ function drawText(text: string, face: FontFace, size: number, divs: number): { p
     for (var i = 0; i < length; i++) {
 
         var path = new Path();
-        var char = chars[i]
+        // var char = chars[i]
         var ret = extractGlyphPoints(chars[i], face, scale, offset, path, divs);
         offset += ret.offset;
 
@@ -127,7 +127,7 @@ function extractGlyphPoints(c: string, face: FontFace, scale: number, offset: nu
 
                     cpx = <number>outline[i++] * scaleX + offset;
                     cpy = <number>outline[i++] * scaleY;
-                    var point = Euclidean3.fromCartesian(0, cpx, cpy, 0, 0, 0, 0, 0, void 0)
+                    point = Euclidean3.fromCartesian(0, cpx, cpy, 0, 0, 0, 0, 0, void 0)
 
                     cpx1 = <number>outline[i++] * scaleX + offset;
                     cpy1 = <number>outline[i++] * scaleY;
@@ -165,18 +165,18 @@ export default function generateTextShapes(text: string, face: FontFace, paramet
     var size = parameters.size !== undefined ? parameters.size : 100;
     var curveSegments = parameters.curveSegments !== undefined ? parameters.curveSegments : 4;
 
-    var font = parameters.font !== undefined ? parameters.font : 'helvetiker';
-    var weight = parameters.weight !== undefined ? parameters.weight : 'normal';
-    var style = parameters.style !== undefined ? parameters.style : 'normal';
+    // var font = parameters.font !== undefined ? parameters.font : 'helvetiker';
+    // var weight = parameters.weight !== undefined ? parameters.weight : 'normal';
+    // var style = parameters.style !== undefined ? parameters.style : 'normal';
 
     // TODO: What are these not being used?
-    //FontUtils.face = font;
-    //FontUtils.weight = weight;
-    //FontUtils.style = style;
+    // FontUtils.face = font;
+    // FontUtils.weight = weight;
+    // FontUtils.style = style;
 
     // Get a Font data json object
 
-    var data/*: { paths: Path<R2>[]; offset: number }*/ = drawText(text, face, size, curveSegments);
+    var data /* : { paths: Path<R2>[]; offset: number } */ = drawText(text, face, size, curveSegments);
 
     var paths = data.paths;
     var shapes: Shape[] = [];

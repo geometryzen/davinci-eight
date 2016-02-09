@@ -1,6 +1,6 @@
 import arc3 from '../geometries/arc3';
 import CartesianE3 from '../math/CartesianE3';
-import SimplexGeometry from '../geometries/SimplexGeometry';
+import SimplexPrimitivesBuilder from '../geometries/SimplexPrimitivesBuilder';
 import IAxialGeometry from '../geometries/IAxialGeometry';
 import mustBeNumber from '../checks/mustBeNumber';
 import R1 from '../math/R1';
@@ -8,10 +8,14 @@ import Simplex from '../geometries/Simplex';
 import SliceSimplexGeometry from '../geometries/SliceSimplexGeometry';
 import SpinG3 from '../math/SpinG3';
 import SpinorE3 from '../math/SpinorE3';
-import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
 import R2 from '../math/R2';
 import R3 from '../math/R3';
 import VectorE3 from '../math/VectorE3';
+
+/**
+ * @module EIGHT
+ * @submodule geometries
+ */
 
 function computeVertices(radius: number, axis: CartesianE3, phiStart: R3, phiLength: number, thetaStart: number, thetaLength: number, heightSegments: number, widthSegments: number, points: R3[], uvs: R2[]) {
 
@@ -56,7 +60,7 @@ function vertexIndex(qIndex: number, n: number, innerSegments: number) {
     }
 }
 
-function makeTriangles(points: R3[], uvs: R2[], radius: number, heightSegments: number, widthSegments: number, geometry: SimplexGeometry) {
+function makeTriangles(points: R3[], uvs: R2[], radius: number, heightSegments: number, widthSegments: number, geometry: SimplexPrimitivesBuilder) {
     for (var i = 0; i < heightSegments; i++) {
         for (var j = 0; j < widthSegments; j++) {
             let qIndex = quadIndex(i, j, widthSegments)
@@ -97,7 +101,7 @@ function makeTriangles(points: R3[], uvs: R2[], radius: number, heightSegments: 
     }
 }
 
-function makeLineSegments(points: R3[], uvs: R2[], radius: number, heightSegments: number, widthSegments: number, geometry: SimplexGeometry) {
+function makeLineSegments(points: R3[], uvs: R2[], radius: number, heightSegments: number, widthSegments: number, geometry: SimplexPrimitivesBuilder) {
     for (var i = 0; i < heightSegments; i++) {
         for (var j = 0; j < widthSegments; j++) {
             let qIndex = quadIndex(i, j, widthSegments)
@@ -138,7 +142,7 @@ function makeLineSegments(points: R3[], uvs: R2[], radius: number, heightSegment
     }
 }
 
-function makePoints(points: R3[], uvs: R2[], radius: number, heightSegments: number, widthSegments: number, geometry: SimplexGeometry) {
+function makePoints(points: R3[], uvs: R2[], radius: number, heightSegments: number, widthSegments: number, geometry: SimplexPrimitivesBuilder) {
     for (var i = 0; i < heightSegments; i++) {
         for (var j = 0; j < widthSegments; j++) {
             let qIndex = quadIndex(i, j, widthSegments)
@@ -213,12 +217,12 @@ export default class SphereGeometry extends SliceSimplexGeometry implements IAxi
      * @param [thetaLength = Math.PI] {number}
      */
     constructor(
-        radius: number = 1,
+        radius = 1,
         axis: VectorE3,
         phiStart?: VectorE3,
-        phiLength: number = 2 * Math.PI,
-        thetaStart: number = 0,
-        thetaLength: number = Math.PI
+        phiLength = 2 * Math.PI,
+        thetaStart = 0,
+        thetaLength = Math.PI
     ) {
         super(axis, phiStart, phiLength)
         this._radius = new R1([radius])

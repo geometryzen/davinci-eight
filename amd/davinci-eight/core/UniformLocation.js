@@ -1,7 +1,7 @@
-define(["require", "exports", '../checks/mustBeString'], function (require, exports, mustBeString_1) {
+define(["require", "exports"], function (require, exports) {
     var UniformLocation = (function () {
-        function UniformLocation(name) {
-            this._name = mustBeString_1.default('name', name);
+        function UniformLocation(info) {
+            this._name = info.name;
         }
         UniformLocation.prototype.contextFree = function () {
             this.contextLost();

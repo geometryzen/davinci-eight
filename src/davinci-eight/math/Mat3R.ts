@@ -12,6 +12,11 @@ import VectorE2 from '../math/VectorE2';
 import VectorE3 from '../math/VectorE3';
 
 /**
+ * @module EIGHT
+ * @submodule math
+ */
+
+/**
  * @class Mat3R
  * @extends AbstractMatrix
  */

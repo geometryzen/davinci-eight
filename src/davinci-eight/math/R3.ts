@@ -14,6 +14,11 @@ import wedgeXY from '../math/wedgeXY';
 import wedgeYZ from '../math/wedgeYZ';
 import wedgeZX from '../math/wedgeZX';
 
+/**
+ * @module EIGHT
+ * @submodule math
+ */
+
 const sqrt = Math.sqrt
 
 const COORD_X = 0

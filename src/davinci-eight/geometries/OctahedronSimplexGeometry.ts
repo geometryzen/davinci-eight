@@ -1,4 +1,9 @@
-import PolyhedronSimplexGeometry from '../geometries/PolyhedronSimplexGeometry';
+import PolyhedronBuilder from '../geometries/PolyhedronBuilder';
+
+/**
+ * @module EIGHT
+ * @submodule geometries
+ */
 
 var vertices = [
     1, 0, 0, - 1, 0, 0, 0, 1, 0, 0, - 1, 0, 0, 0, 1, 0, 0, - 1
@@ -10,9 +15,9 @@ var indices = [
 
 /**
  * @class OctahedronSimplexGeometry
- * @extends PolyhedronSimplexGeometry
+ * @extends PolyhedronBuilder
  */
-export default class OctahedronSimplexGeometry extends PolyhedronSimplexGeometry {
+export default class OctahedronSimplexGeometry extends PolyhedronBuilder {
     /**
      * @class OctahedronSimplexGeometry
      * @constructor

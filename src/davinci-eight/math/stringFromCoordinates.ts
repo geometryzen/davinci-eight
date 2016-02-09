@@ -1,7 +1,5 @@
-import isArray from '../checks/isArray';
 import isDefined from '../checks/isDefined';
 import mustBeArray from '../checks/mustBeArray';
-import mustBeNumber from '../checks/mustBeNumber';
 
 function isLabelOne(label: (string | string[])): boolean {
     if (typeof label === 'string') {
@@ -34,6 +32,7 @@ function appendLabel(coord: number, label: (string | string[]), sb: string[]): v
             sb.push(labels[0])
         }
         else if (labels.length === 0) {
+          // Do nothing.
         }
         else {
             throw new Error("Unexpected basis label array length: " + labels.length)

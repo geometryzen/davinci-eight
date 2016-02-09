@@ -1,4 +1,4 @@
-class Scope {
+export default class Scope {
   private state;
   private scopes: Scope[];
   private current;
@@ -28,5 +28,3 @@ class Scope {
     return null
   }
 }
-
-export = Scope;

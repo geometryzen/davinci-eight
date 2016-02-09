@@ -1,12 +1,8 @@
 import IUnknown from '../core/IUnknown';
 import Shareable from '../core/Shareable';
 
-// FIXME: Maybe use a dynamic flag implying JIT keys, otherwise recompute as we go along.
-
-let LOGGING_NAME = 'NumberIUnknownMap';
-
 /**
- * @class NumberIUnknownMap&lt;V extends IUnknown&gt;
+ * @class NumberIUnknownMap
  * @extends Shareable
  */
 export default class NumberIUnknownMap<V extends IUnknown> extends Shareable implements IUnknown {
@@ -18,11 +14,11 @@ export default class NumberIUnknownMap<V extends IUnknown> extends Shareable imp
     private _elements: { [key: number]: V } = {};
 
     /**
-     * @class NumberIUnknownMap&lt;V extends IUnknown&gt;
+     * @class NumberIUnknownMap
      * @constructor
      */
     constructor() {
-        super(LOGGING_NAME)
+        super('NumberIUnknownMap')
     }
 
     /**

@@ -2,6 +2,8 @@ import Attribute from './Attribute';
 import DrawMode from './DrawMode';
 
 /**
+ * @module EIGHT
+ * @submodule core
  * @class Primitive
  */
 interface Primitive {

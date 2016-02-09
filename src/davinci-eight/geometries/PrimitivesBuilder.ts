@@ -6,6 +6,13 @@ import Primitive from '../core/Primitive';
 import VectorE3 from '../math/VectorE3';
 
 /**
+ * Utilities for the construction of WebGL primitives.
+ *
+ * @module EIGHT
+ * @submodule geometries
+ */
+
+/**
  * @class PrimitivesBuilder
  */
 export default class PrimitivesBuilder implements IPrimitivesBuilder<PrimitivesBuilder> {

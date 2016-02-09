@@ -23,9 +23,14 @@ function verbotenPop(): string {
 }
 
 /**
- * @class VectorN<T>
+ * @class VectorN
  */
 export default class VectorN<T> implements Mutable<T[]> {
+    /**
+     * @property _size
+     * @type number
+     * @private
+     */
     private _size: number;
     private _data: T[];
     private _callback: () => T[];
@@ -34,8 +39,9 @@ export default class VectorN<T> implements Mutable<T[]> {
      * @type {boolean}
      */
     public modified: boolean;
+
     /**
-     * @class VectorN<T>
+     * @class VectorN
      * @constructor
      * @param data {T[]}
      * @param modified [boolean = false]
@@ -73,6 +79,7 @@ export default class VectorN<T> implements Mutable<T[]> {
         this._callback = void 0;
         this.modified = true;
     }
+
     /**
      * @property callback
      * @type {() => T[]}
@@ -85,6 +92,7 @@ export default class VectorN<T> implements Mutable<T[]> {
         this._data = void 0;
         this.modified = true;
     }
+
     /**
      * @property length
      * @type {number}
@@ -93,13 +101,15 @@ export default class VectorN<T> implements Mutable<T[]> {
     get length(): number {
         return this.coords.length;
     }
+
     /**
      * @method clone
-     * @return {VectorN<T>}
+     * @return {VectorN}
      */
     clone(): VectorN<T> {
         return new VectorN<T>(this._data, this.modified, this._size);
     }
+
     /**
      * @method getComponent
      * @param index {number}
@@ -108,6 +118,7 @@ export default class VectorN<T> implements Mutable<T[]> {
     getComponent(index: number): T {
         return this.coords[index];
     }
+
     /**
      * @method pop
      * @return {T}
@@ -120,6 +131,7 @@ export default class VectorN<T> implements Mutable<T[]> {
             throw new Error(verbotenPop());
         }
     }
+
     /**
      * @method push
      * @param value {T}
@@ -152,6 +164,7 @@ export default class VectorN<T> implements Mutable<T[]> {
             this.modified = true;
         }
     }
+
     /**
      * @method toArray
      * @param [array = []] {T[]}
@@ -166,6 +179,7 @@ export default class VectorN<T> implements Mutable<T[]> {
         }
         return array;
     }
+
     /**
      * @method toLocaleString
      * @return {string}
@@ -173,6 +187,7 @@ export default class VectorN<T> implements Mutable<T[]> {
     toLocaleString(): string {
         return this.coords.toLocaleString();
     }
+
     /**
      * @method toString
      * @return {string}

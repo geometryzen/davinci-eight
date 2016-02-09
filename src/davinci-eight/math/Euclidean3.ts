@@ -28,9 +28,14 @@ import BASIS_LABELS_G3_HAMILTON from '../math/BASIS_LABELS_G3_HAMILTON';
 import BASIS_LABELS_G3_STANDARD from '../math/BASIS_LABELS_G3_STANDARD';
 import BASIS_LABELS_G3_STANDARD_HTML from '../math/BASIS_LABELS_G3_STANDARD_HTML';
 
-let cos = Math.cos;
-let sin = Math.sin;
-let sqrt = Math.sqrt;
+/**
+ * @module EIGHT
+ * @submodule math
+ */
+
+const cos = Math.cos;
+const sin = Math.sin;
+const sqrt = Math.sqrt;
 
 function assertArgEuclidean3(name: string, arg: Euclidean3): Euclidean3 {
     if (arg instanceof Euclidean3) {

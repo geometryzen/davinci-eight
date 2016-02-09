@@ -1,4 +1,9 @@
 /**
+ * @module EIGHT
+ * @submodule core
+ */
+
+/**
  * @class AttribMetaInfo
  */
 interface AttribMetaInfo {

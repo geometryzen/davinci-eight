@@ -9,6 +9,11 @@ import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
 import R3 from '../math/R3';
 import VectorE3 from '../math/VectorE3';
 
+/**
+ * @module EIGHT
+ * @submodule facets
+ */
+
 const LOGGING_NAME = 'DirectionalLight'
 
 function contextBuilder() {
@@ -56,9 +61,9 @@ export default class DirectionalLight extends Shareable implements Facet {
      * @class DirectionalLight
      * @constructor
      * @param direction {VectorE3}
-     * @param color [ColorRGB = Color.white]
+     * @param color {ColorRGB}
      */
-    constructor(direction: VectorE3, color: ColorRGB = Color.white) {
+    constructor(direction: VectorE3, color: ColorRGB) {
         super('DirectionalLight')
         mustBeObject('direction', direction)
         mustBeObject('color', color)

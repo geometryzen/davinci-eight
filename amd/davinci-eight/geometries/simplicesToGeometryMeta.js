@@ -10,7 +10,6 @@ define(["require", "exports", '../geometries/dataLength', '../checks/expectArg',
             }
             return value;
         }, space);
-        cache = null;
     }
     function simplicesToGeometryMeta(geometry) {
         var kValueOfSimplex = void 0;

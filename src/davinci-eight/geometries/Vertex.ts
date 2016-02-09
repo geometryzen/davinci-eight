@@ -1,6 +1,10 @@
-import Simplex from '../geometries/Simplex';
 import VectorN from '../math/VectorN';
 import VertexAttributeMap from '../geometries/VertexAttributeMap';
+
+/**
+ * @module EIGHT
+ * @submodule geometries
+ */
 
 function stringVectorN(name: string, vector: VectorN<number>): string {
     if (vector) {
@@ -28,6 +32,7 @@ export default class Vertex {
      */
     public index: number;
     constructor() {
+      // Do nothing.
     }
     toString(): string {
         return stringifyVertex(this);

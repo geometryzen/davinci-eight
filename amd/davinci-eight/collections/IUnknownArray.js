@@ -36,6 +36,18 @@ define(["require", "exports", '../core/Shareable'], function (require, exports, 
             this._elements = void 0;
             _super.prototype.destructor.call(this);
         };
+        IUnknownArray.prototype.find = function (match) {
+            var result = new IUnknownArray();
+            var elements = this._elements;
+            var iLen = elements.length;
+            for (var i = 0; i < iLen; i++) {
+                var candidate = elements[i];
+                if (match(candidate)) {
+                    result.push(candidate);
+                }
+            }
+            return result;
+        };
         IUnknownArray.prototype.findOne = function (match) {
             var elements = this._elements;
             for (var i = 0, iLength = elements.length; i < iLength; i++) {

@@ -1,15 +1,15 @@
-import mustBeString from '../checks/mustBeString';
+import IContextProgramConsumer from './IContextProgramConsumer';
 import Mat2R from '../math/Mat2R';
 import Mat3R from '../math/Mat3R';
 import Mat4R from '../math/Mat4R';
-import IContextProgramConsumer from './IContextProgramConsumer';
 import VectorE1 from '../math/VectorE1';
 import VectorE2 from '../math/VectorE2';
 import VectorE3 from '../math/VectorE3';
 import VectorE4 from '../math/VectorE4';
 
 /**
- * Utility class for managing a shader uniform variable.
+ * @module EIGHT
+ * @submodule core
  * @class UniformLocation
  */
 export default class UniformLocation implements IContextProgramConsumer {
@@ -21,16 +21,17 @@ export default class UniformLocation implements IContextProgramConsumer {
     /**
      * @class UniformLocation
      * @constructor
-     * @param name {string} The name of the uniform variable, as it appears in the GLSL shader code.
+     * @param info {WebGLActiveInfo}
      */
-    constructor(name: string) {
-        this._name = mustBeString('name', name);
+    constructor(info: WebGLActiveInfo) {
+        this._name = info.name
     }
 
     /**
      * @method contextFree
+     * @return {void}
      */
-    contextFree() {
+    contextFree(): void {
         this.contextLost();
     }
 
@@ -38,20 +39,20 @@ export default class UniformLocation implements IContextProgramConsumer {
      * @method contextGain
      * @param context {WebGLRenderingContext}
      * @param program {WebGLProgram}
+     * @return {void}
      */
-    contextGain(context: WebGLRenderingContext, program: WebGLProgram) {
+    contextGain(context: WebGLRenderingContext, program: WebGLProgram): void {
         this.contextLost();
         this._context = context;
-        // FIXME: Uniform locations are created for a specific program,
-        // which means that locations cannot be shared.
         this._location = context.getUniformLocation(program, this._name);
         this._program = program;
     }
 
     /**
      * @method contextLost
+     * @return {void}
      */
-    contextLost() {
+    contextLost(): void {
         this._context = void 0;
         this._location = void 0;
         this._program = void 0;

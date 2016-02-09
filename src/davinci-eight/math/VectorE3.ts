@@ -1,5 +1,3 @@
-import Vector from '../math/Vector';
-
 /**
  * @class VectorE3
  */

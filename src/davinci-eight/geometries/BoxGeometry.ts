@@ -1,13 +1,18 @@
-import Geometry from '../scene/Geometry';
+import Geometry from '../core/Geometry';
 import Primitive from '../core/Primitive';
 import mustBeNumber from '../checks/mustBeNumber';
-import CuboidGeometry from './CuboidGeometry';
+import CuboidPrimitivesBuilder from './CuboidPrimitivesBuilder';
+
+/**
+ * @module EIGHT
+ * @submodule geometries
+ */
 
 function primitives(width: number, height: number, depth: number): Primitive[] {
     mustBeNumber('width', width)
     mustBeNumber('height', height)
     mustBeNumber('depth', depth)
-    const builder = new CuboidGeometry()
+    const builder = new CuboidPrimitivesBuilder()
     builder.width = width
     builder.height = height
     builder.depth = depth

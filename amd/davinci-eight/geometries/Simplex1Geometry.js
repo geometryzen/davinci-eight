@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../geometries/SimplexGeometry', '../geometries/Simplex', '../core/GraphicsProgramSymbols', '../math/R3'], function (require, exports, SimplexGeometry_1, Simplex_1, GraphicsProgramSymbols_1, R3_1) {
+define(["require", "exports", '../geometries/SimplexPrimitivesBuilder', '../geometries/Simplex', '../core/GraphicsProgramSymbols', '../math/R3'], function (require, exports, SimplexPrimitivesBuilder_1, Simplex_1, GraphicsProgramSymbols_1, R3_1) {
     var Simplex1Geometry = (function (_super) {
         __extends(Simplex1Geometry, _super);
         function Simplex1Geometry() {
@@ -27,7 +27,7 @@ define(["require", "exports", '../geometries/SimplexGeometry', '../geometries/Si
             this.check();
         };
         return Simplex1Geometry;
-    })(SimplexGeometry_1.default);
+    })(SimplexPrimitivesBuilder_1.default);
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = Simplex1Geometry;
 });

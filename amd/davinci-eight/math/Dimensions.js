@@ -2,14 +2,6 @@ define(["require", "exports", '../math/QQ'], function (require, exports, QQ_1) {
     var R0 = QQ_1.default.ZERO;
     var R1 = QQ_1.default.ONE;
     var M1 = QQ_1.default.MINUS_ONE;
-    function assertArgDimensions(name, arg) {
-        if (arg instanceof Dimensions) {
-            return arg;
-        }
-        else {
-            throw new Error("Argument '" + arg + "' must be a Dimensions");
-        }
-    }
     function assertArgRational(name, arg) {
         if (arg instanceof QQ_1.default) {
             return arg;

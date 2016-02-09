@@ -49,8 +49,7 @@ function quad(x: number): number {
     return x * x
 }
 
-var mathcore =
-    {
+var mathcore = {
         acos: makeUnaryUniversalFunction('acos', acos),
         asin: makeUnaryUniversalFunction('asin', asin),
         atan: makeUnaryUniversalFunction('atan', atan),

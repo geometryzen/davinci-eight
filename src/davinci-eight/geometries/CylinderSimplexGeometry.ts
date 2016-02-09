@@ -6,6 +6,11 @@ import SpinorE3 from '../math/SpinorE3';
 import R2 from '../math/R2';
 import R3 from '../math/R3';
 
+/**
+ * @module EIGHT
+ * @submodule geometries
+ */
+
 // TODO: The caps don't have radial segments.
 
 function computeVertices(radius: number, height: number, axis: VectorE3, start: VectorE3, angle: number, generator: SpinorE3, heightSegments: number, thetaSegments: number, points: R3[], vertices: number[][], uvs: R2[][]) {

@@ -6,6 +6,11 @@ import mustBeString from '../checks/mustBeString';
 import Shareable from '../core/Shareable';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
 
+/**
+ * @module EIGHT
+ * @submodule facets
+ */
+
 const LOGGING_NAME = 'PointSizeFacet'
 
 function contextBuilder() {

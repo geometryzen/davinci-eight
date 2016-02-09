@@ -1,17 +1,21 @@
-import AxialGeometry from '../geometries/AxialGeometry';
+import AxialPrimitivesBuilder from '../geometries/AxialPrimitivesBuilder';
 import VectorE3 from '../math/VectorE3';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
 import GridTopology from '../topologies/GridTopology';
 import IAxialGeometry from '../geometries/IAxialGeometry';
-import mustBeBoolean from '../checks/mustBeBoolean';
 import Primitive from '../core/Primitive';
 import R2 from '../math/R2';
 import R3 from '../math/R3';
 
 /**
+ * @module EIGHT
+ * @submodule geometries
+ */
+
+/**
  * @class ConeGeometry
  */
-export default class ConeGeometry extends AxialGeometry implements IAxialGeometry<ConeGeometry> {
+export default class ConeGeometry extends AxialPrimitivesBuilder implements IAxialGeometry<ConeGeometry> {
     /**
      * @property radius
      * @type {number}

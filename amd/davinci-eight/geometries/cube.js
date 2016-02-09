@@ -1,7 +1,4 @@
 define(["require", "exports", '../geometries/quadrilateral', '../core/GraphicsProgramSymbols', '../math/R2', '../math/R3'], function (require, exports, quadrilateral_1, GraphicsProgramSymbols_1, R2_1, R3_1) {
-    function vector3(data) {
-        return new R3_1.default([]);
-    }
     function cube(size) {
         if (size === void 0) { size = 1; }
         var s = size / 2;

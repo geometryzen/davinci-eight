@@ -1,5 +1,5 @@
-var literals = [
-// current
+const literals = [
+    // current
     'precision'
     , 'highp'
     , 'mediump'
@@ -46,7 +46,7 @@ var literals = [
     , 'sampler2DShadow'
     , 'struct'
 
-// future
+    // future
     , 'asm'
     , 'class'
     , 'union'
@@ -92,4 +92,4 @@ var literals = [
     , 'using'
 ];
 
-export = literals;
+export default literals;

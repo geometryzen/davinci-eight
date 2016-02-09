@@ -1,8 +1,14 @@
 import FontFace from '../geometries/FontFace';
-import generateTextShapes from '../geometries/generateTextShapes';
+// import generateTextShapes from '../geometries/generateTextShapes';
 // import ExtrudeSimplexGeometry from '../geometries/ExtrudeSimplexGeometry')
-import SimplexGeometry from '../geometries/SimplexGeometry';
+import SimplexPrimitivesBuilder from '../geometries/SimplexPrimitivesBuilder';
 
+/**
+ * @module EIGHT
+ * @submodule geometries
+ */
+
+/*
 function futzParameters(parameters: { amount?: number; bevelEnabled?: boolean, bevelSize?: number, bevelThickness?: number; height?: number }) {
 
     parameters.amount = parameters.height !== undefined ? parameters.height : 50
@@ -15,14 +21,15 @@ function futzParameters(parameters: { amount?: number; bevelEnabled?: boolean, b
 
     return parameters
 }
+*/
 
 /**
  * Intentionally undocumented
  */
-export default class TextSimplexGeometry extends /*Extrude*/SimplexGeometry {
+export default class TextSimplexGeometry extends /*Extrude*/SimplexPrimitivesBuilder {
     constructor(text: string, face: FontFace, parameters: { amount?: number; bevelEnabled?: boolean, bevelSize?: number, bevelThickness?: number; height?: number }) {
         super()
-        var shapes = generateTextShapes(text, face, parameters)
+        // var shapes = generateTextShapes(text, face, parameters)
         //    super(generateTextShapes(text, parameters), parameters, 'TextSimplexGeometry')
     }
 }

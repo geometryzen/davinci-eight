@@ -4,8 +4,9 @@ import mustBeUndefined from '../checks/mustBeUndefined';
 import ShareableContextListener from './ShareableContextListener';
 
 /**
- * Under Construction
- * Intentionally Undocumented
+ * @module EIGHT
+ * @submodule core
+ * @class ShareableWebGLShader
  */
 export default class ShareableWebGLShader extends ShareableContextListener {
     private _source: string;

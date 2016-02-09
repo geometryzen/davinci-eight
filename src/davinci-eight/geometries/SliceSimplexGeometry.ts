@@ -1,8 +1,13 @@
-import AxialSimplexGeometry from '../geometries/AxialSimplexGeometry';
+import AxialSimplexPrimitivesBuilder from '../geometries/AxialSimplexPrimitivesBuilder';
 import VectorE3 from '../math/VectorE3';
 import isDefined from '../checks/isDefined';
 import mustBeNumber from '../checks/mustBeNumber';
 import R3 from '../math/R3';
+
+/**
+ * @module EIGHT
+ * @submodule geometries
+ */
 
 function perpendicular(axis: VectorE3) {
     return R3.random().cross(axis).direction()
@@ -10,9 +15,9 @@ function perpendicular(axis: VectorE3) {
 
 /**
  * @class SliceSimplexGeometry
- * @extends AxialSimplexGeometry
+ * @extends AxialSimplexPrimitivesBuilder
  */
-export default class SliceSimplexGeometry extends AxialSimplexGeometry {
+export default class SliceSimplexGeometry extends AxialSimplexPrimitivesBuilder {
     /**
      * <p>
      * The angle of the slice, measured in radians.
@@ -34,10 +39,10 @@ export default class SliceSimplexGeometry extends AxialSimplexGeometry {
      * Calls the base class constructor.
      * </p>
      * <p>
-     * Provides the <code>axis</code> to the <code>AxialSimplexGeometry</code> base class.
+     * Provides the <code>axis</code> to the <code>AxialSimplexPrimitivesBuilder</code> base class.
      * </p>
      * <p>
-     * Provides the <code>type</code> to the <code>AxialSimplexGeometry</code> base class.
+     * Provides the <code>type</code> to the <code>AxialSimplexPrimitivesBuilder</code> base class.
      * </p>
      * @class SliceSimplexGeometry
      * @constructor

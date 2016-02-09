@@ -7,6 +7,11 @@ import Facet from '../core/Facet';
 import FacetVisitor from '../core/FacetVisitor';
 import IAnimationTarget from '../slideshow/IAnimationTarget';
 
+/**
+ * @module EIGHT
+ * @submodule facets
+ */
+
 const COORD_R = 0
 const COORD_G = 1
 const COORD_B = 2

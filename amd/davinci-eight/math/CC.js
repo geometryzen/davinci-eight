@@ -248,8 +248,6 @@ define(["require", "exports", '../math/mathcore', '../checks/mustBeInteger', '..
             return new CC(this.magnitude(), 0, this.uom);
         };
         CC.prototype.quad = function () {
-            var x = this.x;
-            var y = this.y;
             return new CC(this.squaredNorm(), 0, Unit_1.default.mul(this.uom, this.uom));
         };
         CC.prototype.squaredNorm = function () {

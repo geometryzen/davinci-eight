@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../programs/fragmentShader', '../core/Material', '../programs/vertexShader'], function (require, exports, fragmentShader_1, Material_1, vertexShader_1) {
+define(["require", "exports", './fragmentShader', '../core/Material', './vertexShader'], function (require, exports, fragmentShader_1, Material_1, vertexShader_1) {
     var SmartGraphicsProgram = (function (_super) {
         __extends(SmartGraphicsProgram, _super);
         function SmartGraphicsProgram(aParams, uParams, vColor, vLight) {

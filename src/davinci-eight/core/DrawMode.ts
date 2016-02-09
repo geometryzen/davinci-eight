@@ -1,4 +1,9 @@
 /**
+ * @module EIGHT
+ * @submodule core
+ */
+
+/**
  * The enumerated modes of drawing WebGL primitives.
  * @class DrawMode
  */

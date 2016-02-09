@@ -1,20 +1,22 @@
-import AxialGeometry from '../geometries/AxialGeometry';
+import AxialPrimitivesBuilder from '../geometries/AxialPrimitivesBuilder';
 import VectorE3 from '../math/VectorE3';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
 import GridTopology from '../topologies/GridTopology';
 import IAxialGeometry from '../geometries/IAxialGeometry';
-import mustBeBoolean from '../checks/mustBeBoolean';
-import mustBeNumber from '../checks/mustBeNumber';
-import R1 from '../math/R1';
 import SpinG3 from '../math/SpinG3';
 import Primitive from '../core/Primitive';
 import R2 from '../math/R2';
 import R3 from '../math/R3';
 
 /**
+ * @module EIGHT
+ * @submodule geometries
+ */
+
+/**
  * @class CylinderGeometry
  */
-export default class CylinderGeometry extends AxialGeometry implements IAxialGeometry<CylinderGeometry> {
+export default class CylinderGeometry extends AxialPrimitivesBuilder implements IAxialGeometry<CylinderGeometry> {
     /**
      * @property radius
      * @type {number}

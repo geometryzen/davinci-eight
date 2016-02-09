@@ -1,8 +1,9 @@
-/// <reference path='Node.d.ts'/>
-import tokenizeString = require('../glsl/tokenizeString');
-import parser = require('../glsl/parser');
+import Node from './Node'
+import Token from './Token'
+import tokenizeString from './tokenizeString'
+import parser from './parser'
 
-function parse(code: string): GLSL.Node {
+export default function(code: string): Node {
   var tokens: Token[] = tokenizeString(code);
   var reader = parser();
   for (var i = 0; i < tokens.length;i++) {
@@ -11,5 +12,3 @@ function parse(code: string): GLSL.Node {
   var ast = reader(null);
   return ast;
 }
-
-export = parse;

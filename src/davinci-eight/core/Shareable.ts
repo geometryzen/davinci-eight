@@ -5,6 +5,8 @@ import IUnknown from '../core/IUnknown';
 import uuid4 from './uuid4';
 
 /**
+ * @module EIGHT
+ * @submodule core
  * @class Shareable
  */
 export default class Shareable implements IUnknown {

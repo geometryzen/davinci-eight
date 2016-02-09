@@ -1,6 +1,9 @@
 import Attribute from '../core/Attribute';
-import mustBeArray from '../checks/mustBeArray';
-import mustBeInteger from '../checks/mustBeInteger';
+
+/**
+ * @module EIGHT
+ * @submodule geometries
+ */
 
 function isVectorN(values: number[]): boolean {
     return true

@@ -1,7 +1,6 @@
 import arc3 from '../geometries/arc3';
 import CartesianE3 from '../math/CartesianE3';
-import SimplexGeometry from '../geometries/SimplexGeometry';
-import mustBeNumber from '../checks/mustBeNumber';
+import SimplexPrimitivesBuilder from '../geometries/SimplexPrimitivesBuilder';
 import Simplex from '../geometries/Simplex';
 import SliceSimplexGeometry from '../geometries/SliceSimplexGeometry';
 import SpinG3 from '../math/SpinG3';
@@ -10,6 +9,11 @@ import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
 import R2 from '../math/R2';
 import R3 from '../math/R3';
 import VectorE3 from '../math/VectorE3';
+
+/**
+ * @module EIGHT
+ * @submodule geometries
+ */
 
 // TODO: If the Ring is closed (angle = 2 * PI) then we get some redundancy at the join.
 // TODO: If the innerRadius is zero then the quadrilaterals have degenerate triangles.
@@ -51,7 +55,7 @@ function vertexIndex(i: number, j: number, thetaSegments: number): number {
     return i * (thetaSegments + 1) + j
 }
 
-function makeTriangles(vertices: R3[], uvs: R2[], axis: CartesianE3, radialSegments: number, thetaSegments: number, geometry: SimplexGeometry) {
+function makeTriangles(vertices: R3[], uvs: R2[], axis: CartesianE3, radialSegments: number, thetaSegments: number, geometry: SimplexPrimitivesBuilder) {
     for (var i = 0; i < radialSegments; i++) {
         // Our traversal has resulted in the following formula for the index
         // into the vertices or uvs array
@@ -86,18 +90,18 @@ function makeTriangles(vertices: R3[], uvs: R2[], axis: CartesianE3, radialSegme
 function makeLineSegments(vertices: R3[], radialSegments: number, thetaSegments: number, data: Simplex[]) {
     for (let i = 0; i < radialSegments; i++) {
         for (let j = 0; j < thetaSegments; j++) {
-            var simplex = new Simplex(Simplex.LINE)
+            let simplex = new Simplex(Simplex.LINE)
             simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = vertices[vertexIndex(i, j, thetaSegments)]
             simplex.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = vertices[vertexIndex(i, j + 1, thetaSegments)]
             data.push(simplex)
 
-            var simplex = new Simplex(Simplex.LINE)
+            simplex = new Simplex(Simplex.LINE)
             simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = vertices[vertexIndex(i, j, thetaSegments)]
             simplex.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = vertices[vertexIndex(i + 1, j, thetaSegments)]
             data.push(simplex)
         }
         // TODO: We probably don't need these lines when the thing is closed 
-        var simplex = new Simplex(Simplex.LINE)
+        const simplex = new Simplex(Simplex.LINE)
         simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = vertices[vertexIndex(i, thetaSegments, thetaSegments)]
         simplex.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = vertices[vertexIndex(i + 1, thetaSegments, thetaSegments)]
         data.push(simplex)
@@ -162,7 +166,7 @@ export default class RingSimplexGeometry extends SliceSimplexGeometry {
      * @param [sliceStart] {VectorE3} The <code>sliceStart</code> property.
      * @param [sliceAngle] {number} The <code>sliceAngle</code> property.
      */
-    constructor(a: number = 1, b: number = 0, axis?: VectorE3, sliceStart?: VectorE3, sliceAngle?: number) {
+    constructor(a = 1, b = 0, axis?: VectorE3, sliceStart?: VectorE3, sliceAngle?: number) {
         super(axis, sliceStart, sliceAngle)
         this.a = a
         this.b = b

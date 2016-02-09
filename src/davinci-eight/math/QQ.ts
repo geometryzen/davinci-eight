@@ -1,7 +1,11 @@
 import DivisionRingOperators from '../math/DivisionRingOperators';
-import isInteger from '../checks/isInteger';
 import mustBeInteger from '../checks/mustBeInteger';
 import readOnly from '../i18n/readOnly';
+
+/**
+ * @module EIGHT
+ * @submodule math
+ */
 
 /**
  * @class QQ

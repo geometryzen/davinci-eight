@@ -1,5 +1,4 @@
 import Euclidean1Coords from '../math/Euclidean1Coords';
-import LinearElement from '../math/LinearElement';
 import ImmutableMeasure from '../math/ImmutableMeasure';
 import mustBeInteger from '../checks/mustBeInteger';
 import readOnly from '../i18n/readOnly';

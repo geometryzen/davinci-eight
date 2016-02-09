@@ -1,17 +1,14 @@
 export default function uuid4() {
+
     const maxFromBits = function(bits: number): number {
         return Math.pow(2, bits);
     };
 
-    const limitUI04 = maxFromBits(4);
     const limitUI06 = maxFromBits(6);
     const limitUI08 = maxFromBits(8);
     const limitUI12 = maxFromBits(12);
-    const limitUI14 = maxFromBits(14);
     const limitUI16 = maxFromBits(16);
     const limitUI32 = maxFromBits(32);
-    const limitUI40 = maxFromBits(40);
-    const limitUI48 = maxFromBits(48);
 
     const getRandomInt = function(min: number, max: number) {
         return Math.floor(Math.random() * (max - min + 1)) + min;

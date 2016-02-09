@@ -3,5 +3,6 @@ export default class Euler {
     public y: number;
     public z: number;
     constructor() {
+        // Do nothing.
     }
 }

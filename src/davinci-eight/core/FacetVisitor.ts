@@ -6,6 +6,11 @@ import Mat3R from '../math/Mat3R';
 import Mat4R from '../math/Mat4R';
 
 /**
+ * @module EIGHT
+ * @submodule core
+ */
+
+/**
  * @class FacetVisitor
  * @beta
  */

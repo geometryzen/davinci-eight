@@ -6,6 +6,8 @@ import IBufferGeometry from './IBufferGeometry';
 import Primitive from './Primitive';
 
 /**
+ * @module EIGHT
+ * @submodule core
  * @class IContextProvider
  * @extends IContextMonitor
  */

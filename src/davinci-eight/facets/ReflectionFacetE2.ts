@@ -8,6 +8,11 @@ import readOnly from '../i18n/readOnly';
 import Shareable from '../core/Shareable';
 
 /**
+ * @module EIGHT
+ * @submodule facets
+ */
+
+/**
  * @class ReflectionFacetE2
  * @extends Shareable
  */

@@ -270,6 +270,7 @@ Make your changes to the TypeScript files in the _src_ directory. Do not edit th
 * 2.169.0: 2015-12-03 Primitive
 * 2.174.0: 2016-02-03 G3.neg
 * 2.177.0: 2016-02-06 cleanup
+* 2.179.0: 2016-02-09 materials
 
 ## License
 Copyright (c) 2014-2016 David Holmes

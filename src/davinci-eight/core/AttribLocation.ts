@@ -1,8 +1,9 @@
 import IContextProgramConsumer from  '../core/IContextProgramConsumer';
-import mustBeString from  '../checks/mustBeString';
 import readOnly from  '../i18n/readOnly';
 
 /**
+ * @module EIGHT
+ * @submodule core
  * @class AttribLocation
  */
 export default class AttribLocation implements IContextProgramConsumer {
@@ -36,18 +37,12 @@ export default class AttribLocation implements IContextProgramConsumer {
     private _context: WebGLRenderingContext;
 
     /**
-     * Utility class for managing a shader attribute variable.
-     * Convenience class that assists in the lifecycle management of an atrribute used in a vertex shader.
-     * In particular, this class manages buffer allocation, location caching, and data binding.
-     * While this class may be created directly by the user, it is preferable
-     * to use the AttribLocation instances managed by the Program because
-     * there will be improved integrity and context loss management.
      * @class AttribLocation
      * @constructor
-     * @param name {string} The name of the variable as it appears in the GLSL program.
+     * @param info {WebGLActiveInfo}
      */
-    constructor(name: string) {
-        this._name = mustBeString('name', name)
+    constructor(info: WebGLActiveInfo) {
+        this._name = info.name
     }
 
     /**
@@ -67,6 +62,7 @@ export default class AttribLocation implements IContextProgramConsumer {
     /**
      * Notifies this <code>AttribLocation</code> of a browser free WebGL context event.
      * This <code>AttribLocation</code> responds by setting its cached index and context to undefined.
+     *
      * @method contextFree
      * @return {void}
      */

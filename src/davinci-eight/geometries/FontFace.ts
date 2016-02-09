@@ -1,6 +1,11 @@
 import Glyph from '../geometries/Glyph';
 
 /**
+ * @module EIGHT
+ * @submodule geometries
+ */
+
+/**
  * @class FontFace
  */
 export default class FontFace {
@@ -19,5 +24,6 @@ export default class FontFace {
      * @constructor
      */
     constructor() {
+      // Do nothing.
     }
 }

@@ -11,9 +11,6 @@ define(["require", "exports", '../checks/expectArg', '../checks/isInteger', '../
     function concatReduce(a, b) {
         return a.concat(b);
     }
-    function expectArgVectorN(name, vector) {
-        return expectArg_1.default(name, vector).toSatisfy(vector instanceof VectorN_1.default, name + ' must be a VectorN').value;
-    }
     function lerp(a, b, alpha, data) {
         if (data === void 0) { data = []; }
         expectArg_1.default('b', b).toSatisfy(a.length === b.length, "a must be the same length as b");
@@ -64,14 +61,14 @@ define(["require", "exports", '../checks/expectArg', '../checks/isInteger', '../
             var k = simplex.k;
             if (k === Simplex.TRIANGLE) {
                 var line01 = new Simplex(k - 1);
-                line01.vertices[0].attributes = simplex.vertices[0].attributes;
-                line01.vertices[1].attributes = simplex.vertices[1].attributes;
+                line01.vertices[0].attributes = vertices[0].attributes;
+                line01.vertices[1].attributes = vertices[1].attributes;
                 var line12 = new Simplex(k - 1);
-                line12.vertices[0].attributes = simplex.vertices[1].attributes;
-                line12.vertices[1].attributes = simplex.vertices[2].attributes;
+                line12.vertices[0].attributes = vertices[1].attributes;
+                line12.vertices[1].attributes = vertices[2].attributes;
                 var line20 = new Simplex(k - 1);
-                line20.vertices[0].attributes = simplex.vertices[2].attributes;
-                line20.vertices[1].attributes = simplex.vertices[0].attributes;
+                line20.vertices[0].attributes = vertices[2].attributes;
+                line20.vertices[1].attributes = vertices[0].attributes;
                 return [line01, line12, line20];
             }
             else if (k === Simplex.LINE) {

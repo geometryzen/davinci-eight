@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../math/Euclidean3', '../geometries/SimplexGeometry', '../checks/mustBeInteger', '../math/SpinG3', '../math/R2', '../math/R3'], function (require, exports, Euclidean3_1, SimplexGeometry_1, mustBeInteger_1, SpinG3_1, R2_1, R3_1) {
+define(["require", "exports", '../math/Euclidean3', '../geometries/SimplexPrimitivesBuilder', '../checks/mustBeInteger', '../math/SpinG3', '../math/R2', '../math/R3'], function (require, exports, Euclidean3_1, SimplexPrimitivesBuilder_1, mustBeInteger_1, SpinG3_1, R2_1, R3_1) {
     function perpendicular(to) {
         var random = new R3_1.default([Math.random(), Math.random(), Math.random()]);
         random.cross(to).direction();
@@ -32,7 +32,6 @@ define(["require", "exports", '../math/Euclidean3', '../geometries/SimplexGeomet
         };
         VortexSimplexGeometry.prototype.regenerate = function () {
             this.data = [];
-            var radius = this.radius;
             var radiusCone = this.radiusCone;
             var radiusShaft = this.radiusShaft;
             var radialSegments = this.radialSegments;
@@ -101,7 +100,7 @@ define(["require", "exports", '../math/Euclidean3', '../geometries/SimplexGeomet
             this.setModified(false);
         };
         return VortexSimplexGeometry;
-    })(SimplexGeometry_1.default);
+    })(SimplexPrimitivesBuilder_1.default);
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = VortexSimplexGeometry;
 });

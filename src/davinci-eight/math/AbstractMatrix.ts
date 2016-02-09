@@ -5,6 +5,8 @@ import expectArg from '../checks/expectArg';
 import readOnly from '../i18n/readOnly';
 
 /**
+ * @module EIGHT
+ * @submodule math
  * @class AbstractMatrix
  */
 export default class AbstractMatrix<T extends { elements: Float32Array }> implements MutableMatrix<Float32Array> {

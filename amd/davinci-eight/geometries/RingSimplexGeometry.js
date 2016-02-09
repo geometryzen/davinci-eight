@@ -41,19 +41,19 @@ define(["require", "exports", '../geometries/arc3', '../geometries/Simplex', '..
     function makeLineSegments(vertices, radialSegments, thetaSegments, data) {
         for (var i = 0; i < radialSegments; i++) {
             for (var j = 0; j < thetaSegments; j++) {
-                var simplex = new Simplex_1.default(Simplex_1.default.LINE);
-                simplex.vertices[0].attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_POSITION] = vertices[vertexIndex(i, j, thetaSegments)];
-                simplex.vertices[1].attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_POSITION] = vertices[vertexIndex(i, j + 1, thetaSegments)];
-                data.push(simplex);
-                var simplex = new Simplex_1.default(Simplex_1.default.LINE);
-                simplex.vertices[0].attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_POSITION] = vertices[vertexIndex(i, j, thetaSegments)];
-                simplex.vertices[1].attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_POSITION] = vertices[vertexIndex(i + 1, j, thetaSegments)];
-                data.push(simplex);
+                var simplex_1 = new Simplex_1.default(Simplex_1.default.LINE);
+                simplex_1.vertices[0].attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_POSITION] = vertices[vertexIndex(i, j, thetaSegments)];
+                simplex_1.vertices[1].attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_POSITION] = vertices[vertexIndex(i, j + 1, thetaSegments)];
+                data.push(simplex_1);
+                simplex_1 = new Simplex_1.default(Simplex_1.default.LINE);
+                simplex_1.vertices[0].attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_POSITION] = vertices[vertexIndex(i, j, thetaSegments)];
+                simplex_1.vertices[1].attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_POSITION] = vertices[vertexIndex(i + 1, j, thetaSegments)];
+                data.push(simplex_1);
             }
-            var simplex = new Simplex_1.default(Simplex_1.default.LINE);
-            simplex.vertices[0].attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_POSITION] = vertices[vertexIndex(i, thetaSegments, thetaSegments)];
-            simplex.vertices[1].attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_POSITION] = vertices[vertexIndex(i + 1, thetaSegments, thetaSegments)];
-            data.push(simplex);
+            var simplex_2 = new Simplex_1.default(Simplex_1.default.LINE);
+            simplex_2.vertices[0].attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_POSITION] = vertices[vertexIndex(i, thetaSegments, thetaSegments)];
+            simplex_2.vertices[1].attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_POSITION] = vertices[vertexIndex(i + 1, thetaSegments, thetaSegments)];
+            data.push(simplex_2);
         }
         for (var j = 0; j < thetaSegments; j++) {
             var simplex = new Simplex_1.default(Simplex_1.default.LINE);

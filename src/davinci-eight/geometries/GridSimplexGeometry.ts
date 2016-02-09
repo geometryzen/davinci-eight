@@ -1,18 +1,21 @@
-import VectorE2 from '../math/VectorE2';
 import VectorE3 from '../math/VectorE3';
 import Simplex from '../geometries/Simplex';
-import SimplexGeometry from '../geometries/SimplexGeometry';
+import SimplexPrimitivesBuilder from '../geometries/SimplexPrimitivesBuilder';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
 import R2 from '../math/R2';
 import R3 from '../math/R3';
-import expectArg from '../checks/expectArg';
 import mustBeFunction from '../checks/mustBeFunction';
 import mustBeInteger from '../checks/mustBeInteger';
 
 /**
+ * @module EIGHT
+ * @submodule geometries
+ */
+
+/**
  * @class GridSimplexGeometry
  */
-export default class GridSimplexGeometry extends SimplexGeometry {
+export default class GridSimplexGeometry extends SimplexPrimitivesBuilder {
     /**
      * @class GridSimplexGeometry
      * @constructor
@@ -72,7 +75,7 @@ export default class GridSimplexGeometry extends SimplexGeometry {
                 uvc = new R2([(j + 1) / uSegments, (i + 1) / vSegments]);
                 uvd = new R2([j / uSegments, (i + 1) / vSegments]);
 
-                var simplex = new Simplex(Simplex.TRIANGLE)
+                let simplex = new Simplex(Simplex.TRIANGLE)
                 simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = points[a]
                 simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORDS] = uva
                 simplex.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = points[b]
@@ -81,7 +84,7 @@ export default class GridSimplexGeometry extends SimplexGeometry {
                 simplex.vertices[2].attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORDS] = uvd
                 this.data.push(simplex)
 
-                var simplex = new Simplex(Simplex.TRIANGLE)
+                simplex = new Simplex(Simplex.TRIANGLE)
                 simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = points[b]
                 simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORDS] = uvb
                 simplex.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = points[c]

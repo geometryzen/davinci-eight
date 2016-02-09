@@ -1,5 +1,4 @@
 import CubicBezierCurve from '../curves/CubicBezierCurve';
-import Curve from '../curves/Curve';
 import CurvePath from '../curves/CurvePath';
 import Euclidean3 from '../math/Euclidean3';
 import isClockWise from '../geometries/isClockWise';
@@ -9,7 +8,11 @@ import PathArgs from '../geometries/PathArgs';
 import PathKind from '../geometries/PathKind';
 import QuadraticBezierCurve from '../curves/QuadraticBezierCurve';
 import Shape from '../geometries/Shape';
-import SplineCurve from '../curves/SplineCurve';
+
+/**
+ * @module EIGHT
+ * @submodule geometries
+ */
 
 /**
  * @class Path
@@ -51,7 +54,7 @@ export default class Path extends CurvePath {
      * @param closedPath [boolean]
      * @return {Euclidean3[]}
      */
-    getSpacedPoints(divisions: number = 40, closedPath?: boolean): Euclidean3[] {
+    getSpacedPoints(divisions = 40, closedPath?: boolean): Euclidean3[] {
         var points: Euclidean3[] = []
         for (var i = 0; i < divisions; i++) {
             points.push(this.getPoint(i / divisions))
@@ -327,14 +330,14 @@ export default class Path extends CurvePath {
                 let kind: string = action.action; // FIXME => kind
 
                 if (kind === PathKind.MOVE_TO) {
-                    if (lastPath.actions.length != 0) {
+                    if (lastPath.actions.length !== 0) {
                         subPaths.push(lastPath);
                         lastPath = new Path();
                     }
                 }
                 lastPath.execute(kind, args)
             }
-            if (lastPath.actions.length != 0) {
+            if (lastPath.actions.length !== 0) {
                 subPaths.push(lastPath);
             }
             return subPaths;
@@ -382,17 +385,17 @@ export default class Path extends CurvePath {
                     }
                     if ((inPt.y < edgeLowPt.y) || (inPt.y > edgeHighPt.y)) continue;
 
-                    if (inPt.y == edgeLowPt.y) {
-                        if (inPt.x == edgeLowPt.x) return true;    // inPt is on contour ?
+                    if (inPt.y === edgeLowPt.y) {
+                        if (inPt.x === edgeLowPt.x) return true;    // inPt is on contour ?
                         // continue;        // no intersection or edgeLowPt => doesn't count !!!
                     } else {
                         var perpEdge = edgeDy * (inPt.x - edgeLowPt.x) - edgeDx * (inPt.y - edgeLowPt.y);
-                        if (perpEdge == 0) return true;    // inPt is on contour ?
+                        if (perpEdge === 0) return true;    // inPt is on contour ?
                         if (perpEdge < 0) continue;
                         inside = !inside;    // true intersection left of inPt
                     }
                 } else {    // parallel or colinear
-                    if (inPt.y != edgeLowPt.y) continue;      // parallel
+                    if (inPt.y !== edgeLowPt.y) continue;      // parallel
                     // egde lies on the same horizontal line as inPt
                     if (((edgeHighPt.x <= inPt.x) && (inPt.x <= edgeLowPt.x)) ||
                         ((edgeLowPt.x <= inPt.x) && (inPt.x <= edgeHighPt.x))) return true;  // inPt: Euclidean3 on contour !
@@ -405,7 +408,7 @@ export default class Path extends CurvePath {
 
 
         var subPaths = extractSubpaths(this.actions);
-        if (subPaths.length == 0) return [];
+        if (subPaths.length === 0) return [];
 
         if (noHoles === true) return toShapesNoHoles(subPaths);
 
@@ -415,7 +418,7 @@ export default class Path extends CurvePath {
         var tmpShape: Shape;
         var shapes: Shape[] = [];
 
-        if (subPaths.length == 1) {
+        if (subPaths.length === 1) {
 
             tmpPath = subPaths[0];
             tmpShape = new Shape();
@@ -482,7 +485,7 @@ export default class Path extends CurvePath {
                     var hole_unassigned = true;
                     for (var s2Idx = 0; s2Idx < newShapes.length; s2Idx++) {
                         if (isPointInsidePolygon(ho.p, newShapes[s2Idx].p)) {
-                            if (sIdx != s2Idx) toChange.push({ froms: sIdx, tos: s2Idx, hole: hIdx });
+                            if (sIdx !== s2Idx) toChange.push({ froms: sIdx, tos: s2Idx, hole: hIdx });
                             if (hole_unassigned) {
                                 hole_unassigned = false;
                                 betterShapeHoles[s2Idx].push(ho);

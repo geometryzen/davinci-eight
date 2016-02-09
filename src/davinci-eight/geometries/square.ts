@@ -13,7 +13,7 @@ import VectorN from '../math/VectorN';
 //  |       |
 //  c-------d
 //
-export default function square(size: number = 1): Simplex[] {
+export default function square(size = 1): Simplex[] {
 
     let s = size / 2;
 

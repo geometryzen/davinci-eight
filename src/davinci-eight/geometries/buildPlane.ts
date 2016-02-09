@@ -24,7 +24,7 @@ function buildPlane(
   var iy: number;
   let gridX = widthSegments;
   let gridY = heightSegments;
-  
+
   let width_half = width / 2;
   let height_half = height / 2;
 
@@ -87,7 +87,7 @@ function buildPlane(
       var uvd = new R2([( ix + 1 ) / gridX, 1 - iy / gridY]);
 
       var face = new Simplex(Simplex.TRIANGLE);
-      
+
       face.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = points[a + offset];
       face.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = normal;
       face.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORDS] = uva;

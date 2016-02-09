@@ -1,7 +1,7 @@
-/// <reference path='./Token.d.ts'/>
-import literals = require('./literals');
-import operators = require('./operators');
-import builtins = require('./builtins');
+import Token from './Token'
+import literals from './literals'
+import operators from './operators'
+import builtins from './builtins'
 
 let NORMAL = 999;          // <-- never emitted
 let TOKEN = 9999;          // <-- never emitted
@@ -34,7 +34,7 @@ let map: string[] = [
   , 'integer'
 ]
 
-function tokenize() {
+export default function tokenize() {
 
   function token(data: string): void {
     if (data.length) {
@@ -289,19 +289,19 @@ function tokenize() {
   }
 
   function decimal() {
-    if(c === 'f') {
+    if (c === 'f') {
       content.push(c)
       last = c
       i += 1
     }
 
-    if(/[eE]/.test(c)) {
+    if (/[eE]/.test(c)) {
       content.push(c)
       last = c
       return i + 1
     }
 
-    if(/[^\d]/.test(c)) {
+    if (/[^\d]/.test(c)) {
       token(content.join(''))
       mode = NORMAL
       return i
@@ -314,9 +314,9 @@ function tokenize() {
   function readtoken() {
     if(/[^\d\w_]/.test(c)) {
       var contentstr = content.join('')
-      if(literals.indexOf(contentstr) > -1) {
+      if (literals.indexOf(contentstr) > -1) {
         mode = KEYWORD
-      } else if(builtins.indexOf(contentstr) > -1) {
+      } else if (builtins.indexOf(contentstr) > -1) {
         mode = BUILTIN
       } else {
         mode = IDENT
@@ -355,5 +355,3 @@ function tokenize() {
     return end()
   }
 }
-
-export = tokenize;

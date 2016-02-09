@@ -1,8 +1,8 @@
-/// <reference path='NodeEventHandler.d.ts'/>
-import DebugNodeEventHandler = require('./DebugNodeEventHandler');
-import DefaultNodeEventHandler = require('./DefaultNodeEventHandler');
-import Declaration = require('./Declaration');
-class ProgramArgs extends DefaultNodeEventHandler {
+import DebugNodeEventHandler from './DebugNodeEventHandler'
+import DefaultNodeEventHandler from './DefaultNodeEventHandler'
+import Declaration from './Declaration'
+
+export default class ProgramArgs extends DefaultNodeEventHandler {
   public attributes: Declaration[] = [];
   public constants: Declaration[] = [];
   public uniforms: Declaration[] = [];
@@ -27,4 +27,3 @@ class ProgramArgs extends DefaultNodeEventHandler {
     }
   }
 }
-export = ProgramArgs;

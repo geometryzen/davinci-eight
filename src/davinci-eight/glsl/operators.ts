@@ -1,4 +1,4 @@
-var operators = [
+const operators = [
     '<<='
     , '>>='
     , '++'
@@ -46,4 +46,4 @@ var operators = [
     , '}'
 ];
 
-export = operators;
+export default operators;
