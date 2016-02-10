@@ -1644,26 +1644,26 @@ define('davinci-eight/core/ShareableContextListener',["require", "exports", './c
             this.unsubscribe();
             _super.prototype.destructor.call(this);
         };
-        ShareableContextListener.prototype.subscribe = function (monitor) {
-            if (!this._monitor) {
-                monitor.addRef();
-                this._monitor = monitor;
-                monitor.addContextListener(this);
-                monitor.synchronize(this);
+        ShareableContextListener.prototype.subscribe = function (renderer) {
+            if (!this._renderer) {
+                renderer.addRef();
+                this._renderer = renderer;
+                renderer.addContextListener(this);
+                renderer.synchronize(this);
             }
             else {
                 this.unsubscribe();
-                this.subscribe(monitor);
+                this.subscribe(renderer);
             }
         };
         ShareableContextListener.prototype.unsubscribe = function () {
             if (this._context) {
                 cleanUp_1.default(this._context, this);
             }
-            if (this._monitor) {
-                this._monitor.removeContextListener(this);
-                this._monitor.release();
-                this._monitor = void 0;
+            if (this._renderer) {
+                this._renderer.removeContextListener(this);
+                this._renderer.release();
+                this._renderer = void 0;
             }
         };
         ShareableContextListener.prototype.contextFree = function (context) {
@@ -2287,60 +2287,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/core/ShareableWebGLTexture',["require", "exports", '../checks/mustBeUndefined', './ShareableContextListener'], function (require, exports, mustBeUndefined_1, ShareableContextListener_1) {
-    var ShareableWebGLTexture = (function (_super) {
-        __extends(ShareableWebGLTexture, _super);
-        function ShareableWebGLTexture(target) {
-            _super.call(this, 'ShareableWebGLTexture');
-            this._target = target;
-        }
-        ShareableWebGLTexture.prototype.destructor = function () {
-            _super.prototype.destructor.call(this);
-            mustBeUndefined_1.default(this._type, this._texture);
-        };
-        ShareableWebGLTexture.prototype.contextFree = function (context) {
-            if (this._texture) {
-                this.gl.deleteTexture(this._texture);
-                this._texture = void 0;
-            }
-            _super.prototype.contextFree.call(this, context);
-        };
-        ShareableWebGLTexture.prototype.contextGain = function (context) {
-            this._texture = context.gl.createTexture();
-            _super.prototype.contextGain.call(this, context);
-        };
-        ShareableWebGLTexture.prototype.contextLost = function () {
-            this._texture = void 0;
-            _super.prototype.contextLost.call(this);
-        };
-        ShareableWebGLTexture.prototype.bind = function () {
-            if (this.gl) {
-                this.gl.bindTexture(this._target, this._texture);
-            }
-            else {
-                console.warn(this._type + ".bind() missing WebGL rendering context.");
-            }
-        };
-        ShareableWebGLTexture.prototype.unbind = function () {
-            if (this.gl) {
-                this.gl.bindTexture(this._target, null);
-            }
-            else {
-                console.warn(this._type + ".unbind() missing WebGL rendering context.");
-            }
-        };
-        return ShareableWebGLTexture;
-    })(ShareableContextListener_1.default);
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = ShareableWebGLTexture;
-});
-
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-define('davinci-eight/core/WebGLRenderer',["require", "exports", '../commands/Capability', './DrawMode', '../core', './ShareableWebGLBuffer', '../collections/IUnknownArray', './initWebGL', '../checks/isDefined', '../checks/isUndefined', '../checks/mustBeArray', '../checks/mustBeDefined', '../checks/mustBeInteger', '../checks/mustBeNumber', '../checks/mustBeObject', '../checks/mustBeString', '../checks/mustSatisfy', '../i18n/readOnly', './Shareable', '../collections/StringIUnknownMap', './ShareableWebGLTexture', '../commands/WebGLClearColor', '../commands/WebGLEnable', '../commands/WebGLDisable'], function (require, exports, Capability_1, DrawMode_1, core_1, ShareableWebGLBuffer_1, IUnknownArray_1, initWebGL_1, isDefined_1, isUndefined_1, mustBeArray_1, mustBeDefined_1, mustBeInteger_1, mustBeNumber_1, mustBeObject_1, mustBeString_1, mustSatisfy_1, readOnly_1, Shareable_1, StringIUnknownMap_1, ShareableWebGLTexture_1, WebGLClearColor_1, WebGLEnable_1, WebGLDisable_1) {
+define('davinci-eight/core/WebGLRenderer',["require", "exports", '../commands/Capability', './DrawMode', '../core', './ShareableWebGLBuffer', '../collections/IUnknownArray', './initWebGL', '../checks/isDefined', '../checks/isUndefined', '../checks/mustBeArray', '../checks/mustBeDefined', '../checks/mustBeInteger', '../checks/mustBeNumber', '../checks/mustBeObject', '../checks/mustBeString', '../checks/mustSatisfy', '../i18n/readOnly', './Shareable', '../collections/StringIUnknownMap', '../commands/WebGLClearColor', '../commands/WebGLEnable', '../commands/WebGLDisable'], function (require, exports, Capability_1, DrawMode_1, core_1, ShareableWebGLBuffer_1, IUnknownArray_1, initWebGL_1, isDefined_1, isUndefined_1, mustBeArray_1, mustBeDefined_1, mustBeInteger_1, mustBeNumber_1, mustBeObject_1, mustBeString_1, mustSatisfy_1, readOnly_1, Shareable_1, StringIUnknownMap_1, WebGLClearColor_1, WebGLEnable_1, WebGLDisable_1) {
     function isBufferUsage(usage) {
         mustBeNumber_1.default('usage', usage);
         switch (usage) {
@@ -2352,14 +2299,6 @@ define('davinci-eight/core/WebGLRenderer',["require", "exports", '../commands/Ca
             default: {
                 return false;
             }
-        }
-    }
-    function mustBeContext(gl, method) {
-        if (gl) {
-            return gl;
-        }
-        else {
-            throw new Error(method + ": gl: WebGLRenderingContext is not defined. Either gl has been lost or start() not called.");
         }
     }
     var DrawElementsCommand = (function () {
@@ -2539,21 +2478,21 @@ define('davinci-eight/core/WebGLRenderer',["require", "exports", '../commands/Ca
             console.warn("material.attributes is falsey.");
         }
     }
-    var BufferGeometry = (function (_super) {
-        __extends(BufferGeometry, _super);
-        function BufferGeometry(gl, blocks) {
-            _super.call(this, 'BufferGeometry');
+    var PrimitiveBuffersImpl = (function (_super) {
+        __extends(PrimitiveBuffersImpl, _super);
+        function PrimitiveBuffersImpl(gl, blocks) {
+            _super.call(this, 'PrimitiveBuffers');
             this._blocks = blocks;
             this._blocks.addRef();
             this.gl = gl;
         }
-        BufferGeometry.prototype.destructor = function () {
+        PrimitiveBuffersImpl.prototype.destructor = function () {
             this._blocks.release();
             this._blocks = void 0;
             this.gl = void 0;
             _super.prototype.destructor.call(this);
         };
-        BufferGeometry.prototype.bind = function (program, aNameToKeyName) {
+        PrimitiveBuffersImpl.prototype.bind = function (program, aNameToKeyName) {
             if (this._program !== program) {
                 if (this._program) {
                     this.unbind();
@@ -2575,7 +2514,7 @@ define('davinci-eight/core/WebGLRenderer',["require", "exports", '../commands/Ca
                 }
             }
         };
-        BufferGeometry.prototype.draw = function () {
+        PrimitiveBuffersImpl.prototype.draw = function () {
             var block = this._blocks.getWeakRef(this.uuid);
             if (block) {
                 block.drawCommand.execute(this.gl);
@@ -2584,7 +2523,7 @@ define('davinci-eight/core/WebGLRenderer',["require", "exports", '../commands/Ca
                 throw new Error(messageUnrecognizedMesh(this.uuid));
             }
         };
-        BufferGeometry.prototype.unbind = function () {
+        PrimitiveBuffersImpl.prototype.unbind = function () {
             if (this._program) {
                 var block = this._blocks.getWeakRef(this.uuid);
                 if (block) {
@@ -2598,18 +2537,121 @@ define('davinci-eight/core/WebGLRenderer',["require", "exports", '../commands/Ca
                 this._program = void 0;
             }
         };
-        return BufferGeometry;
+        return PrimitiveBuffersImpl;
+    })(Shareable_1.default);
+    var WebGLContextProvider = (function (_super) {
+        __extends(WebGLContextProvider, _super);
+        function WebGLContextProvider(renderer) {
+            _super.call(this, 'WebGLContextProvider');
+            this._blocks = new StringIUnknownMap_1.default();
+            this._renderer = renderer;
+        }
+        WebGLContextProvider.prototype.destructor = function () {
+            this._blocks.release();
+            _super.prototype.destructor.call(this);
+        };
+        Object.defineProperty(WebGLContextProvider.prototype, "gl", {
+            get: function () {
+                return this._renderer.gl;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        WebGLContextProvider.prototype.createPrimitiveBuffers = function (primitive, usage) {
+            var _this = this;
+            mustBeObject_1.default('primitive', primitive);
+            mustBeInteger_1.default('primitive.mode', primitive.mode);
+            mustBeArray_1.default('primitive.indices', primitive.indices);
+            mustBeObject_1.default('primitive.attributes', primitive.attributes);
+            var gl = this._renderer.gl;
+            if (isDefined_1.default(usage)) {
+                mustSatisfy_1.default('usage', isBufferUsage(usage), function () { return _this._type + ".createPrimitiveBuffers"; });
+            }
+            else {
+                usage = isDefined_1.default(gl) ? gl.STATIC_DRAW : void 0;
+            }
+            if (isUndefined_1.default(gl)) {
+                if (core_1.default.verbose) {
+                    console.warn("Impossible to create a buffer geometry without a WebGL context.");
+                }
+                return void 0;
+            }
+            var mesh = new PrimitiveBuffersImpl(gl, this._blocks);
+            var indexBuffer = new ShareableWebGLBuffer_1.default(true);
+            this._renderer.synchronize(indexBuffer);
+            indexBuffer.bind();
+            if (isDefined_1.default(gl)) {
+                gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(primitive.indices), usage);
+            }
+            else {
+                console.warn("Unable to bufferData to ELEMENT_ARRAY_BUFFER, WebGL context is undefined.");
+            }
+            indexBuffer.unbind();
+            var attributes = new StringIUnknownMap_1.default();
+            var names = Object.keys(primitive.attributes);
+            var namesLength = names.length;
+            for (var i = 0; i < namesLength; i++) {
+                var name_1 = names[i];
+                var buffer = new ShareableWebGLBuffer_1.default(false);
+                this._renderer.synchronize(buffer);
+                buffer.bind();
+                var vertexAttrib = primitive.attributes[name_1];
+                var data = vertexAttrib.values;
+                gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(data), usage);
+                var attribute = new ElementsBlockAttrib(buffer, vertexAttrib.size, false, 0, 0);
+                attributes.put(name_1, attribute);
+                attribute.release();
+                buffer.unbind();
+                buffer.release();
+            }
+            var drawCommand = new DrawElementsCommand(primitive.mode, primitive.indices.length, gl.UNSIGNED_SHORT, 0);
+            var block = new ElementsBlock(indexBuffer, attributes, drawCommand);
+            this._blocks.put(mesh.uuid, block);
+            block.release();
+            attributes.release();
+            indexBuffer.release();
+            return mesh;
+        };
+        WebGLContextProvider.prototype.emitStartEvent = function () {
+            var _this = this;
+            this._blocks.forEach(function (key, block) {
+                _this.emitContextGain(block);
+            });
+        };
+        WebGLContextProvider.prototype.emitContextGain = function (consumer) {
+            if (this._renderer.gl.isContextLost()) {
+                consumer.contextLost();
+            }
+            else {
+                consumer.contextGain(this);
+            }
+        };
+        WebGLContextProvider.prototype.emitStopEvent = function () {
+            var _this = this;
+            this._blocks.forEach(function (key, block) {
+                _this.emitContextFree(block);
+            });
+        };
+        WebGLContextProvider.prototype.emitContextFree = function (consumer) {
+            if (this._renderer.gl.isContextLost()) {
+                consumer.contextLost();
+            }
+            else {
+                consumer.contextFree(this);
+            }
+        };
+        return WebGLContextProvider;
     })(Shareable_1.default);
     var WebGLRenderer = (function (_super) {
         __extends(WebGLRenderer, _super);
         function WebGLRenderer(attributes) {
             var _this = this;
             _super.call(this, 'WebGLRenderer');
-            this._blocks = new StringIUnknownMap_1.default();
             this._users = [];
             this._commands = new IUnknownArray_1.default([]);
             console.log(core_1.default.NAMESPACE + " " + this._type + " " + core_1.default.VERSION);
             this._attributes = attributes;
+            this._contextProvider = new WebGLContextProvider(this);
             this.enable(Capability_1.default.DEPTH_TEST);
             this._webGLContextLost = function (event) {
                 if (isDefined_1.default(_this._canvas)) {
@@ -2625,14 +2667,14 @@ define('davinci-eight/core/WebGLRenderer',["require", "exports", '../commands/Ca
                     event.preventDefault();
                     _this._gl = initWebGL_1.default(_this._canvas, attributes);
                     _this._users.forEach(function (user) {
-                        user.contextGain(_this);
+                        user.contextGain(_this._contextProvider);
                     });
                 }
             };
         }
         WebGLRenderer.prototype.destructor = function () {
             this.stop();
-            this._blocks.release();
+            this._contextProvider.release();
             while (this._users.length > 0) {
                 this._users.pop();
             }
@@ -2676,87 +2718,6 @@ define('davinci-eight/core/WebGLRenderer',["require", "exports", '../commands/Ca
         WebGLRenderer.prototype.clearColor = function (red, green, blue, alpha) {
             this._commands.pushWeakRef(new WebGLClearColor_1.default(red, green, blue, alpha));
             return this;
-        };
-        WebGLRenderer.prototype.contextFree = function (manager) {
-            this._commands.forEach(function (command) {
-                command.contextFree(manager);
-            });
-        };
-        WebGLRenderer.prototype.contextGain = function (manager) {
-            this._commands.forEach(function (command) {
-                command.contextGain(manager);
-            });
-        };
-        WebGLRenderer.prototype.contextLost = function () {
-            this._commands.forEach(function (command) {
-                command.contextLost();
-            });
-        };
-        WebGLRenderer.prototype.createArrayBuffer = function () {
-            return new ShareableWebGLBuffer_1.default(false);
-        };
-        WebGLRenderer.prototype.createBufferGeometry = function (primitive, usage) {
-            var _this = this;
-            mustBeObject_1.default('primitive', primitive);
-            mustBeInteger_1.default('primitive.mode', primitive.mode);
-            mustBeArray_1.default('primitive.indices', primitive.indices);
-            mustBeObject_1.default('primitive.attributes', primitive.attributes);
-            if (isDefined_1.default(usage)) {
-                mustSatisfy_1.default('usage', isBufferUsage(usage), function () { return _this._type + ".createBufferGeometry"; });
-            }
-            else {
-                usage = isDefined_1.default(this._gl) ? this._gl.STATIC_DRAW : void 0;
-            }
-            if (isUndefined_1.default(this._gl)) {
-                if (core_1.default.verbose) {
-                    console.warn("Impossible to create a buffer geometry without a WebGL context.");
-                }
-                return void 0;
-            }
-            var mesh = new BufferGeometry(this._gl, this._blocks);
-            var indexBuffer = new ShareableWebGLBuffer_1.default(true);
-            this.synchronize(indexBuffer);
-            indexBuffer.bind();
-            if (isDefined_1.default(this._gl)) {
-                this._gl.bufferData(this._gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(primitive.indices), usage);
-            }
-            else {
-                console.warn("Unable to bufferData to ELEMENT_ARRAY_BUFFER, WebGL context is undefined.");
-            }
-            indexBuffer.unbind();
-            var attributes = new StringIUnknownMap_1.default();
-            var names = Object.keys(primitive.attributes);
-            var namesLength = names.length;
-            for (var i = 0; i < namesLength; i++) {
-                var name_1 = names[i];
-                var buffer = new ShareableWebGLBuffer_1.default(false);
-                this.synchronize(buffer);
-                buffer.bind();
-                var vertexAttrib = primitive.attributes[name_1];
-                var data = vertexAttrib.values;
-                this._gl.bufferData(this._gl.ARRAY_BUFFER, new Float32Array(data), usage);
-                var attribute = new ElementsBlockAttrib(buffer, vertexAttrib.size, false, 0, 0);
-                attributes.put(name_1, attribute);
-                attribute.release();
-                buffer.unbind();
-                buffer.release();
-            }
-            var drawCommand = new DrawElementsCommand(primitive.mode, primitive.indices.length, this._gl.UNSIGNED_SHORT, 0);
-            var block = new ElementsBlock(indexBuffer, attributes, drawCommand);
-            this._blocks.put(mesh.uuid, block);
-            block.release();
-            attributes.release();
-            indexBuffer.release();
-            return mesh;
-        };
-        WebGLRenderer.prototype.createElementArrayBuffer = function () {
-            return new ShareableWebGLBuffer_1.default(true);
-        };
-        WebGLRenderer.prototype.createTextureCubeMap = function () {
-            return new ShareableWebGLTexture_1.default(mustBeContext(this._gl, 'createTextureCubeMap()').TEXTURE_CUBE_MAP);
-        };
-        WebGLRenderer.prototype.createTexture2D = function () {
-            return new ShareableWebGLTexture_1.default(mustBeContext(this._gl, 'createTexture2D()').TEXTURE_2D);
         };
         WebGLRenderer.prototype.disable = function (capability) {
             this._commands.pushWeakRef(new WebGLDisable_1.default(capability));
@@ -2848,9 +2809,7 @@ define('davinci-eight/core/WebGLRenderer',["require", "exports", '../commands/Ca
         };
         WebGLRenderer.prototype.emitStartEvent = function () {
             var _this = this;
-            this._blocks.forEach(function (key, block) {
-                _this.emitContextGain(block);
-            });
+            this._contextProvider.emitStartEvent();
             this._users.forEach(function (user) {
                 _this.emitContextGain(user);
             });
@@ -2863,14 +2822,12 @@ define('davinci-eight/core/WebGLRenderer',["require", "exports", '../commands/Ca
                 consumer.contextLost();
             }
             else {
-                consumer.contextGain(this);
+                consumer.contextGain(this._contextProvider);
             }
         };
         WebGLRenderer.prototype.emitStopEvent = function () {
             var _this = this;
-            this._blocks.forEach(function (key, block) {
-                _this.emitContextFree(block);
-            });
+            this._contextProvider.emitStopEvent();
             this._users.forEach(function (user) {
                 _this.emitContextFree(user);
             });
@@ -2883,7 +2840,7 @@ define('davinci-eight/core/WebGLRenderer',["require", "exports", '../commands/Ca
                 consumer.contextLost();
             }
             else {
-                consumer.contextFree(this);
+                consumer.contextFree(this._contextProvider);
             }
         };
         WebGLRenderer.prototype.synchronize = function (consumer) {
@@ -3016,7 +2973,7 @@ define('davinci-eight/core/GeometryPrimitive',["require", "exports", '../i18n/no
         };
         GeometryPrimitive.prototype.contextGain = function (context) {
             if (!this._dataBuffer) {
-                this._dataBuffer = context.createBufferGeometry(this._dataSource);
+                this._dataBuffer = context.createPrimitiveBuffers(this._dataSource);
             }
             _super.prototype.contextGain.call(this, context);
         };

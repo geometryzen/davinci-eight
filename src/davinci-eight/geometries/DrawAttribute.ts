@@ -27,6 +27,9 @@ function checkSize(size: number, values: number[]): number {
     return size
 }
 
+/**
+ * A convenience class for implementing the Attribute interface.
+ */
 export default class DrawAttribute implements Attribute {
     public values: number[];
     public size: number;

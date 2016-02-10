@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src/davinci-eight/core/IBufferGeometry.ts - davinci-eight</title>
+    <title>src/davinci-eight/geometries/DrawAttribute.ts - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -53,7 +53,6 @@
                                 <li><a href="../classes/ColorRGB.html">ColorRGB</a></li>
                                 <li><a href="../classes/ColorRGBA.html">ColorRGBA</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
-                                <li><a href="../classes/ContextController.html">ContextController</a></li>
                                 <li><a href="../classes/createView.html">createView</a></li>
                                 <li><a href="../classes/Cuboid.html">Cuboid</a></li>
                                 <li><a href="../classes/CuboidGeometry.html">CuboidGeometry</a></li>
@@ -79,10 +78,8 @@
                                 <li><a href="../classes/GeometryPrimitive.html">GeometryPrimitive</a></li>
                                 <li><a href="../classes/GraphicsProgramSymbols.html">GraphicsProgramSymbols</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
-                                <li><a href="../classes/IBufferGeometry.html">IBufferGeometry</a></li>
                                 <li><a href="../classes/IContextConsumer.html">IContextConsumer</a></li>
                                 <li><a href="../classes/IContextListener.html">IContextListener</a></li>
-                                <li><a href="../classes/IContextMonitor.html">IContextMonitor</a></li>
                                 <li><a href="../classes/IContextProgramConsumer.html">IContextProgramConsumer</a></li>
                                 <li><a href="../classes/IContextProvider.html">IContextProvider</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
@@ -104,6 +101,7 @@
                                 <li><a href="../classes/PointMaterial.html">PointMaterial</a></li>
                                 <li><a href="../classes/PointSizeFacet.html">PointSizeFacet</a></li>
                                 <li><a href="../classes/Primitive.html">Primitive</a></li>
+                                <li><a href="../classes/PrimitiveBuffers.html">PrimitiveBuffers</a></li>
                                 <li><a href="../classes/Pseudo.html">Pseudo</a></li>
                                 <li><a href="../classes/QQ.html">QQ</a></li>
                                 <li><a href="../classes/R1.html">R1</a></li>
@@ -194,52 +192,52 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: src/davinci-eight/core/IBufferGeometry.ts</h1>
+<h1 class="file-heading">File: src/davinci-eight/geometries/DrawAttribute.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import Material from &#x27;./Material&#x27;;
-import IUnknown from &#x27;./IUnknown&#x27;;
+import Attribute from &#x27;../core/Attribute&#x27;;
 
-/**
- * @module EIGHT
- * @submodule core
- */
-
-/**
- * @class IBufferGeometry
- * @extends IUnkown
- */
-interface IBufferGeometry extends IUnknown {
-
-    /**
-     * @property uuid
-     * @type {string}
-     */
-    uuid: string;
-
-    /**
-     * @method bind
-     * @param program {Material}
-     * @param aNameToKeyName
-     * @return {void}
-     */
-    bind(program: Material, aNameToKeyName?: { [name: string]: string }): void;
-
-    /**
-     * @method draw
-     * @return {void}
-     */
-    draw(): void;
-
-    /**
-     * @method unbind
-     * @return {void}
-     */
-    unbind(): void;
+function isVectorN(values: number[]): boolean {
+    return true
 }
 
-export default IBufferGeometry;
+function checkValues(values: number[]): number[] {
+    if (!isVectorN(values)) {
+        throw new Error(&quot;values must be a number[]&quot;)
+    }
+    return values
+}
+
+function isExactMultipleOf(numer: number, denom: number): boolean {
+    return numer % denom === 0
+}
+
+function checkSize(size: number, values: number[]): number {
+    if (typeof size === &#x27;number&#x27;) {
+        if (!isExactMultipleOf(values.length, size)) {
+            throw new Error(&quot;values.length must be an exact multiple of size&quot;)
+        }
+    }
+    else {
+        throw new Error(&quot;size must be a number&quot;)
+    }
+    return size
+}
+
+/**
+ * A convenience class for implementing the Attribute interface.
+ */
+export default class DrawAttribute implements Attribute {
+    public values: number[];
+    public size: number;
+    constructor(values: number[], size: number) {
+        // mustBeArray(&#x27;values&#x27;, values)
+        // mustBeInteger(&#x27;size&#x27;, size)
+        this.values = checkValues(values)
+        this.size = checkSize(size, values)
+    }
+}
 
     </pre>
 </div>

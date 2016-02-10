@@ -109,7 +109,6 @@ export default class Scene extends ShareableContextListener {
      * </p>
      * @class Scene
      * @constructor
-     * @param [monitors = []] {Array&lt;IContextMonitor&gt;}
      */
     constructor() {
         super('Scene')

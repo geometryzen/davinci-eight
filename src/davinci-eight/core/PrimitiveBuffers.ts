@@ -7,10 +7,10 @@ import IUnknown from './IUnknown';
  */
 
 /**
- * @class IBufferGeometry
- * @extends IUnkown
+ * @class PrimitiveBuffers
+ * @extends IUnknown
  */
-interface IBufferGeometry extends IUnknown {
+interface PrimitiveBuffers extends IUnknown {
 
     /**
      * @property uuid
@@ -20,11 +20,10 @@ interface IBufferGeometry extends IUnknown {
 
     /**
      * @method bind
-     * @param program {Material}
-     * @param aNameToKeyName
+     * @param material {Material}
      * @return {void}
      */
-    bind(program: Material, aNameToKeyName?: { [name: string]: string }): void;
+    bind(material: Material): void;
 
     /**
      * @method draw
@@ -39,4 +38,4 @@ interface IBufferGeometry extends IUnknown {
     unbind(): void;
 }
 
-export default IBufferGeometry;
+export default PrimitiveBuffers;

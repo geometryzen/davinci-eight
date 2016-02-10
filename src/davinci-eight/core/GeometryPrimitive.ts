@@ -1,4 +1,4 @@
-import IBufferGeometry from '../core/IBufferGeometry'
+import PrimitiveBuffers from '../core/PrimitiveBuffers'
 import IContextProvider from '../core/IContextProvider'
 import notSupported from '../i18n/notSupported';
 import Material from '../core/Material'
@@ -34,10 +34,10 @@ export default class GeometryPrimitive extends ShareableContextListener implemen
      * The primitive buffer associated with the source that may
      * come and go according to context loss and gain events.
      * @proprty dataBuffer
-     * @type IBufferGeometry
+     * @type PrimitiveBuffers
      * @private
      */
-    private _dataBuffer: IBufferGeometry;
+    private _dataBuffer: PrimitiveBuffers;
 
     /**
      * @class GeometryPrimitive
@@ -79,7 +79,7 @@ export default class GeometryPrimitive extends ShareableContextListener implemen
 
     public contextGain(context: IContextProvider): void {
         if (!this._dataBuffer) {
-            this._dataBuffer = context.createBufferGeometry(this._dataSource)
+            this._dataBuffer = context.createPrimitiveBuffers(this._dataSource)
         }
         super.contextGain(context)
     }

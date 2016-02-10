@@ -2,12 +2,10 @@ import Capability from '../commands/Capability';
 import DrawMode from './DrawMode';
 import Facet from './Facet';
 import core from '../core';
-import ContextController from './ContextController';
 import IContextProvider from './IContextProvider';
-import IContextMonitor from './IContextMonitor';
 import IContextConsumer from './IContextConsumer';
 import ShareableWebGLBuffer from './ShareableWebGLBuffer';
-import IBufferGeometry from './IBufferGeometry';
+import PrimitiveBuffers from './PrimitiveBuffers';
 import Material from './Material';
 import IUnknownArray from '../collections/IUnknownArray';
 import initWebGL from './initWebGL';
@@ -25,7 +23,6 @@ import readOnly from '../i18n/readOnly';
 import Scene from './Scene';
 import Shareable from './Shareable';
 import StringIUnknownMap from '../collections/StringIUnknownMap';
-import ShareableWebGLTexture from './ShareableWebGLTexture';
 import WebGLClearColor from '../commands/WebGLClearColor';
 import WebGLEnable from '../commands/WebGLEnable';
 import WebGLDisable from '../commands/WebGLDisable';
@@ -47,15 +44,6 @@ function isBufferUsage(usage: number): boolean {
         default: {
             return false;
         }
-    }
-}
-
-function mustBeContext(gl: WebGLRenderingContext, method: string): WebGLRenderingContext {
-    if (gl) {
-        return gl;
-    }
-    else {
-        throw new Error(method + ": gl: WebGLRenderingContext is not defined. Either gl has been lost or start() not called.");
     }
 }
 
@@ -314,14 +302,14 @@ function bindProgramAttribLocations(material: Material, block: ElementsBlock, aN
 }
 
 /**
- * Implementation of IBufferGeometry coupled to the 'blocks' implementation.
+ * Implementation of PrimitiveBuffers coupled to the 'blocks' implementation.
  */
-class BufferGeometry extends Shareable implements IBufferGeometry {
+class PrimitiveBuffersImpl extends Shareable implements PrimitiveBuffers {
     private _program: Material;
     private _blocks: StringIUnknownMap<ElementsBlock>;
     private gl: WebGLRenderingContext;
     constructor(gl: WebGLRenderingContext, blocks: StringIUnknownMap<ElementsBlock>) {
-        super('BufferGeometry')
+        super('PrimitiveBuffers')
         this._blocks = blocks
         this._blocks.addRef()
         this.gl = gl
@@ -383,18 +371,8 @@ class BufferGeometry extends Shareable implements IBufferGeometry {
     }
 }
 
-/**
- * @class WebGLRenderer
- * @extends Shareable
- */
-export default class WebGLRenderer extends Shareable implements ContextController, IContextProvider, IContextMonitor {
-
-    /**
-     * @property _gl
-     * @type WebGLRenderingContext
-     * @private
-     */
-    private _gl: WebGLRenderingContext;
+class WebGLContextProvider extends Shareable implements IContextProvider {
+    private _renderer: WebGLRenderer
 
     /**
      * @property _blocks
@@ -402,6 +380,125 @@ export default class WebGLRenderer extends Shareable implements ContextControlle
      * @private
      */
     private _blocks = new StringIUnknownMap<ElementsBlock>();
+
+    constructor(renderer: WebGLRenderer) {
+        super('WebGLContextProvider')
+        this._renderer = renderer
+    }
+    protected destructor(): void {
+        this._blocks.release();
+        super.destructor()
+    }
+    get gl() {
+        return this._renderer.gl;
+    }
+    createPrimitiveBuffers(primitive: Primitive, usage?: number): PrimitiveBuffers {
+        mustBeObject('primitive', primitive);
+        mustBeInteger('primitive.mode', primitive.mode);
+        mustBeArray('primitive.indices', primitive.indices);
+        mustBeObject('primitive.attributes', primitive.attributes);
+        const gl = this._renderer.gl;
+        if (isDefined(usage)) {
+            mustSatisfy('usage', isBufferUsage(usage), () => { return `${this._type}.createPrimitiveBuffers` })
+        }
+        else {
+            usage = isDefined(gl) ? gl.STATIC_DRAW : void 0
+        }
+        // It's going to get pretty hopeless without a WebGL context.
+        // If that's the case, let's just return undefined now before we start allocating useless stuff.
+        if (isUndefined(gl)) {
+            if (core.verbose) {
+                console.warn("Impossible to create a buffer geometry without a WebGL context.")
+            }
+            return void 0
+        }
+
+        const mesh: PrimitiveBuffers = new PrimitiveBuffersImpl(gl, this._blocks)
+
+        // TODO: In this use case, the ShareableWebGLBuffer isn't expected to recover it data.
+        const indexBuffer: ShareableWebGLBuffer = new ShareableWebGLBuffer(true);
+        this._renderer.synchronize(indexBuffer)
+        indexBuffer.bind();
+        if (isDefined(gl)) {
+            gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(primitive.indices), usage);
+        }
+        else {
+            console.warn("Unable to bufferData to ELEMENT_ARRAY_BUFFER, WebGL context is undefined.")
+        }
+        indexBuffer.unbind();
+
+        let attributes = new StringIUnknownMap<ElementsBlockAttrib>()
+        let names = Object.keys(primitive.attributes)
+        let namesLength = names.length
+        for (var i = 0; i < namesLength; i++) {
+            let name = names[i]
+            const buffer: ShareableWebGLBuffer = new ShareableWebGLBuffer(false)
+            this._renderer.synchronize(buffer)
+            buffer.bind()
+            let vertexAttrib = primitive.attributes[name]
+            let data: number[] = vertexAttrib.values
+            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(data), usage)
+            // TODO: stride = 0 and offset = 0
+            let attribute = new ElementsBlockAttrib(buffer, vertexAttrib.size, false, 0, 0)
+            attributes.put(name, attribute)
+            attribute.release()
+            buffer.unbind()
+            buffer.release()
+        }
+        // Use UNSIGNED_BYTE  if ELEMENT_ARRAY_BUFFER is a Uint8Array.
+        // Use UNSIGNED_SHORT if ELEMENT_ARRAY_BUFFER is a Uint16Array.
+        // TODO: Notice that the offset is zero. How do we reuse a buffer.
+        let drawCommand = new DrawElementsCommand(primitive.mode, primitive.indices.length, gl.UNSIGNED_SHORT, 0)
+        const block = new ElementsBlock(indexBuffer, attributes, drawCommand)
+        this._blocks.put(mesh.uuid, block)
+        block.release()
+        attributes.release()
+        indexBuffer.release()
+        return mesh
+    }
+
+    public emitStartEvent() {
+        this._blocks.forEach((key, block) => {
+            this.emitContextGain(block)
+        })
+    }
+    private emitContextGain(consumer: IContextConsumer): void {
+        if (this._renderer.gl.isContextLost()) {
+            consumer.contextLost();
+        }
+        else {
+            consumer.contextGain(this);
+        }
+    }
+
+    public emitStopEvent() {
+        this._blocks.forEach((key, block) => {
+            this.emitContextFree(block)
+        })
+    }
+
+    private emitContextFree(consumer: IContextConsumer): void {
+        if (this._renderer.gl.isContextLost()) {
+            consumer.contextLost();
+        }
+        else {
+            consumer.contextFree(this);
+        }
+    }
+}
+
+/**
+ * @class WebGLRenderer
+ * @extends Shareable
+ */
+export default class WebGLRenderer extends Shareable {
+
+    /**
+     * @property _gl
+     * @type WebGLRenderingContext
+     * @private
+     */
+    private _gl: WebGLRenderingContext;
 
     /**
      * @property _canvas
@@ -423,6 +520,8 @@ export default class WebGLRenderer extends Shareable implements ContextControlle
 
     private _commands = new IUnknownArray<IContextConsumer>([])
 
+    private _contextProvider: WebGLContextProvider;
+
     /**
      * @class WebGLRenderer
      * @constructor
@@ -433,6 +532,8 @@ export default class WebGLRenderer extends Shareable implements ContextControlle
         console.log(`${core.NAMESPACE} ${this._type} ${core.VERSION}`);
         // FIXME: This seems out of place.
         this._attributes = attributes;
+
+        this._contextProvider = new WebGLContextProvider(this)
 
         // For convenience.
         this.enable(Capability.DEPTH_TEST);
@@ -452,7 +553,7 @@ export default class WebGLRenderer extends Shareable implements ContextControlle
                 event.preventDefault()
                 this._gl = initWebGL(this._canvas, attributes)
                 this._users.forEach((user: IContextConsumer) => {
-                    user.contextGain(this)
+                    user.contextGain(this._contextProvider)
                 })
             }
         }
@@ -465,7 +566,7 @@ export default class WebGLRenderer extends Shareable implements ContextControlle
      */
     protected destructor(): void {
         this.stop();
-        this._blocks.release();
+        this._contextProvider.release()
         while (this._users.length > 0) {
             this._users.pop();
         }
@@ -532,127 +633,6 @@ export default class WebGLRenderer extends Shareable implements ContextControlle
     clearColor(red: number, green: number, blue: number, alpha: number): WebGLRenderer {
         this._commands.pushWeakRef(new WebGLClearColor(red, green, blue, alpha))
         return this
-    }
-
-    contextFree(manager: IContextProvider): void {
-        // FIXME: Am I really listening?
-        this._commands.forEach(function(command: IContextConsumer) {
-            command.contextFree(manager)
-        })
-    }
-
-    contextGain(manager: IContextProvider): void {
-        this._commands.forEach(function(command: IContextConsumer) {
-            command.contextGain(manager)
-        })
-    }
-
-    contextLost() {
-        this._commands.forEach(function(command: IContextConsumer) {
-            command.contextLost()
-        })
-    }
-
-    /**
-     * @method createArrayBuffer
-     * @return {ShareableWebGLBuffer}
-     */
-    createArrayBuffer(): ShareableWebGLBuffer {
-        return new ShareableWebGLBuffer(false)
-    }
-
-    /**
-     * @method createBufferGeometry
-     * @param primitive {Primitive}
-     * @param [usage] {number}
-     * @return {IBufferGeometry}
-     */
-    createBufferGeometry(primitive: Primitive, usage?: number): IBufferGeometry {
-        mustBeObject('primitive', primitive);
-        mustBeInteger('primitive.mode', primitive.mode);
-        mustBeArray('primitive.indices', primitive.indices);
-        mustBeObject('primitive.attributes', primitive.attributes);
-        if (isDefined(usage)) {
-            mustSatisfy('usage', isBufferUsage(usage), () => { return `${this._type}.createBufferGeometry` })
-        }
-        else {
-            usage = isDefined(this._gl) ? this._gl.STATIC_DRAW : void 0
-        }
-        // It's going to get pretty hopeless without a WebGL context.
-        // If that's the case, let's just return undefined now before we start allocating useless stuff.
-        if (isUndefined(this._gl)) {
-            if (core.verbose) {
-                console.warn("Impossible to create a buffer geometry without a WebGL context.")
-            }
-            return void 0
-        }
-
-        const mesh: IBufferGeometry = new BufferGeometry(this._gl, this._blocks)
-
-        // TODO: In this use case, the ShareableWebGLBuffer isn't expected to recover it data.
-        const indexBuffer: ShareableWebGLBuffer = new ShareableWebGLBuffer(true);
-        this.synchronize(indexBuffer)
-        indexBuffer.bind();
-        if (isDefined(this._gl)) {
-            this._gl.bufferData(this._gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(primitive.indices), usage);
-        }
-        else {
-            console.warn("Unable to bufferData to ELEMENT_ARRAY_BUFFER, WebGL context is undefined.")
-        }
-        indexBuffer.unbind();
-
-        let attributes = new StringIUnknownMap<ElementsBlockAttrib>()
-        let names = Object.keys(primitive.attributes)
-        let namesLength = names.length
-        for (var i = 0; i < namesLength; i++) {
-            let name = names[i]
-            const buffer: ShareableWebGLBuffer = new ShareableWebGLBuffer(false)
-            this.synchronize(buffer)
-            buffer.bind()
-            let vertexAttrib = primitive.attributes[name]
-            let data: number[] = vertexAttrib.values
-            this._gl.bufferData(this._gl.ARRAY_BUFFER, new Float32Array(data), usage)
-            // TODO: stride = 0 and offset = 0
-            let attribute = new ElementsBlockAttrib(buffer, vertexAttrib.size, false, 0, 0)
-            attributes.put(name, attribute)
-            attribute.release()
-            buffer.unbind()
-            buffer.release()
-        }
-        // Use UNSIGNED_BYTE  if ELEMENT_ARRAY_BUFFER is a Uint8Array.
-        // Use UNSIGNED_SHORT if ELEMENT_ARRAY_BUFFER is a Uint16Array.
-        // TODO: Notice that the offset is zero. How do we reuse a buffer.
-        let drawCommand = new DrawElementsCommand(primitive.mode, primitive.indices.length, this._gl.UNSIGNED_SHORT, 0)
-        const block = new ElementsBlock(indexBuffer, attributes, drawCommand)
-        this._blocks.put(mesh.uuid, block)
-        block.release()
-        attributes.release()
-        indexBuffer.release()
-        return mesh
-    }
-
-    /**
-     * @method createElementArrayBuffer
-     * @return {ShareableWebGLBuffer}
-     */
-    createElementArrayBuffer(): ShareableWebGLBuffer {
-        return new ShareableWebGLBuffer(true)
-    }
-
-    /**
-     * @method createTextureCubeMap
-     * @return {ShareableWebGLTexture}
-     */
-    createTextureCubeMap(): ShareableWebGLTexture {
-        return new ShareableWebGLTexture(mustBeContext(this._gl, 'createTextureCubeMap()').TEXTURE_CUBE_MAP);
-    }
-
-    /**
-     * @method createTexture2D
-     * @return {ITexture2D}
-     */
-    createTexture2D(): ShareableWebGLTexture {
-        return new ShareableWebGLTexture(mustBeContext(this._gl, 'createTexture2D()').TEXTURE_2D);
     }
 
     /**
@@ -810,9 +790,9 @@ export default class WebGLRenderer extends Shareable implements ContextControlle
     }
 
     private emitStartEvent() {
-        this._blocks.forEach((key, block) => {
-            this.emitContextGain(block)
-        })
+
+        this._contextProvider.emitStartEvent()
+
         this._users.forEach((user: IContextConsumer) => {
             this.emitContextGain(user)
         })
@@ -826,14 +806,12 @@ export default class WebGLRenderer extends Shareable implements ContextControlle
             consumer.contextLost();
         }
         else {
-            consumer.contextGain(this);
+            consumer.contextGain(this._contextProvider);
         }
     }
 
     private emitStopEvent() {
-        this._blocks.forEach((key, block) => {
-            this.emitContextFree(block)
-        })
+        this._contextProvider.emitStopEvent()
         this._users.forEach((user: IContextConsumer) => {
             this.emitContextFree(user)
         })
@@ -847,7 +825,7 @@ export default class WebGLRenderer extends Shareable implements ContextControlle
             consumer.contextLost();
         }
         else {
-            consumer.contextFree(this);
+            consumer.contextFree(this._contextProvider);
         }
     }
 

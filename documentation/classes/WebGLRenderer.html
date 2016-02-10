@@ -53,7 +53,6 @@
                                 <li><a href="../classes/ColorRGB.html">ColorRGB</a></li>
                                 <li><a href="../classes/ColorRGBA.html">ColorRGBA</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
-                                <li><a href="../classes/ContextController.html">ContextController</a></li>
                                 <li><a href="../classes/createView.html">createView</a></li>
                                 <li><a href="../classes/Cuboid.html">Cuboid</a></li>
                                 <li><a href="../classes/CuboidGeometry.html">CuboidGeometry</a></li>
@@ -79,10 +78,8 @@
                                 <li><a href="../classes/GeometryPrimitive.html">GeometryPrimitive</a></li>
                                 <li><a href="../classes/GraphicsProgramSymbols.html">GraphicsProgramSymbols</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
-                                <li><a href="../classes/IBufferGeometry.html">IBufferGeometry</a></li>
                                 <li><a href="../classes/IContextConsumer.html">IContextConsumer</a></li>
                                 <li><a href="../classes/IContextListener.html">IContextListener</a></li>
-                                <li><a href="../classes/IContextMonitor.html">IContextMonitor</a></li>
                                 <li><a href="../classes/IContextProgramConsumer.html">IContextProgramConsumer</a></li>
                                 <li><a href="../classes/IContextProvider.html">IContextProvider</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
@@ -104,6 +101,7 @@
                                 <li><a href="../classes/PointMaterial.html">PointMaterial</a></li>
                                 <li><a href="../classes/PointSizeFacet.html">PointSizeFacet</a></li>
                                 <li><a href="../classes/Primitive.html">Primitive</a></li>
+                                <li><a href="../classes/PrimitiveBuffers.html">PrimitiveBuffers</a></li>
                                 <li><a href="../classes/Pseudo.html">Pseudo</a></li>
                                 <li><a href="../classes/QQ.html">QQ</a></li>
                                 <li><a href="../classes/R1.html">R1</a></li>
@@ -202,7 +200,7 @@
         </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_core_WebGLRenderer.ts.html#l426"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;WebGLRenderer.ts:426</code></a>
+            Defined in: <a href="../files/src_davinci-eight_core_WebGLRenderer.ts.html#l525"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;WebGLRenderer.ts:525</code></a>
         </div>
 
             Module: <a href="../modules/core.html">core</a><br>
@@ -238,7 +236,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_WebGLRenderer.ts.html#l426"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;WebGLRenderer.ts:426</code></a>
+        <a href="../files/src_davinci-eight_core_WebGLRenderer.ts.html#l525"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;WebGLRenderer.ts:525</code></a>
         </p>
 
 
@@ -299,26 +297,6 @@
                             </li>
                             <li class="index-item method">
                                 <a href="#method_clearColor">clearColor</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_createArrayBuffer">createArrayBuffer</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_createBufferGeometry">createBufferGeometry</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_createElementArrayBuffer">createElementArrayBuffer</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_createTexture2D">createTexture2D</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_createTextureCubeMap">createTextureCubeMap</a>
 
                             </li>
                             <li class="index-item method protected inherited">
@@ -437,7 +415,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_WebGLRenderer.ts.html#l476"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;WebGLRenderer.ts:476</code></a>
+        <a href="../files/src_davinci-eight_core_WebGLRenderer.ts.html#l577"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;WebGLRenderer.ts:577</code></a>
         </p>
 
 
@@ -556,7 +534,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_WebGLRenderer.ts.html#l520"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;WebGLRenderer.ts:520</code></a>
+        <a href="../files/src_davinci-eight_core_WebGLRenderer.ts.html#l621"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;WebGLRenderer.ts:621</code></a>
         </p>
 
 
@@ -621,242 +599,6 @@ Specifies color values to use by the <code>clear</code> method to clear the colo
 
             <div class="returns-description">
                         <span class="type"><a href="../classes/WebGLRenderer.html" class="crosslink">WebGLRenderer</a></span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_createArrayBuffer" class="method item">
-    <h3 class="name"><code>createArrayBuffer</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/ShareableWebGLBuffer.html" class="crosslink">ShareableWebGLBuffer</a></span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_core_WebGLRenderer.ts.html#l556"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;WebGLRenderer.ts:556</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/ShareableWebGLBuffer.html" class="crosslink">ShareableWebGLBuffer</a></span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_createBufferGeometry" class="method item">
-    <h3 class="name"><code>createBufferGeometry</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>primitive</code>
-                </li>
-                <li class="arg">
-                        <code class="optional">[usage]</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/IBufferGeometry.html" class="crosslink">IBufferGeometry</a></span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_core_WebGLRenderer.ts.html#l564"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;WebGLRenderer.ts:564</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">primitive</code>
-                        <span class="type"><a href="../classes/Primitive.html" class="crosslink">Primitive</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name optional">[usage]</code>
-                        <span class="type">Number</span>
-                        <span class="flag optional" title="This parameter is optional.">optional</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/IBufferGeometry.html" class="crosslink">IBufferGeometry</a></span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_createElementArrayBuffer" class="method item">
-    <h3 class="name"><code>createElementArrayBuffer</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/ShareableWebGLBuffer.html" class="crosslink">ShareableWebGLBuffer</a></span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_core_WebGLRenderer.ts.html#l634"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;WebGLRenderer.ts:634</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/ShareableWebGLBuffer.html" class="crosslink">ShareableWebGLBuffer</a></span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_createTexture2D" class="method item">
-    <h3 class="name"><code>createTexture2D</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type">ITexture2D</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_core_WebGLRenderer.ts.html#l650"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;WebGLRenderer.ts:650</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">ITexture2D</span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_createTextureCubeMap" class="method item">
-    <h3 class="name"><code>createTextureCubeMap</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/ShareableWebGLTexture.html" class="crosslink">ShareableWebGLTexture</a></span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_core_WebGLRenderer.ts.html#l642"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;WebGLRenderer.ts:642</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/ShareableWebGLTexture.html" class="crosslink">ShareableWebGLTexture</a></span>:
             </div>
         </div>
 
@@ -927,7 +669,7 @@ Outputs a warning to the console that this method should be implemented by the d
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_WebGLRenderer.ts.html#l461"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;WebGLRenderer.ts:461</code></a>
+        <a href="../files/src_davinci-eight_core_WebGLRenderer.ts.html#l562"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;WebGLRenderer.ts:562</code></a>
         </p>
 
 
@@ -967,7 +709,7 @@ Outputs a warning to the console that this method should be implemented by the d
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_WebGLRenderer.ts.html#l658"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;WebGLRenderer.ts:658</code></a>
+        <a href="../files/src_davinci-eight_core_WebGLRenderer.ts.html#l638"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;WebGLRenderer.ts:638</code></a>
         </p>
 
 
@@ -1031,7 +773,7 @@ Outputs a warning to the console that this method should be implemented by the d
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_WebGLRenderer.ts.html#l670"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;WebGLRenderer.ts:670</code></a>
+        <a href="../files/src_davinci-eight_core_WebGLRenderer.ts.html#l650"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;WebGLRenderer.ts:650</code></a>
         </p>
 
 
@@ -1088,7 +830,7 @@ Outputs a warning to the console that this method should be implemented by the d
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_WebGLRenderer.ts.html#l712"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;WebGLRenderer.ts:712</code></a>
+        <a href="../files/src_davinci-eight_core_WebGLRenderer.ts.html#l692"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;WebGLRenderer.ts:692</code></a>
         </p>
 
 
@@ -1181,7 +923,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_WebGLRenderer.ts.html#l699"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;WebGLRenderer.ts:699</code></a>
+        <a href="../files/src_davinci-eight_core_WebGLRenderer.ts.html#l679"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;WebGLRenderer.ts:679</code></a>
         </p>
 
 
@@ -1246,7 +988,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_WebGLRenderer.ts.html#l723"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;WebGLRenderer.ts:723</code></a>
+        <a href="../files/src_davinci-eight_core_WebGLRenderer.ts.html#l703"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;WebGLRenderer.ts:703</code></a>
         </p>
 
 
@@ -1319,7 +1061,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_WebGLRenderer.ts.html#l757"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;WebGLRenderer.ts:757</code></a>
+        <a href="../files/src_davinci-eight_core_WebGLRenderer.ts.html#l737"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;WebGLRenderer.ts:737</code></a>
         </p>
 
 
@@ -1378,7 +1120,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_WebGLRenderer.ts.html#l794"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;WebGLRenderer.ts:794</code></a>
+        <a href="../files/src_davinci-eight_core_WebGLRenderer.ts.html#l774"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;WebGLRenderer.ts:774</code></a>
         </p>
 
 
@@ -1424,7 +1166,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_WebGLRenderer.ts.html#l854"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;WebGLRenderer.ts:854</code></a>
+        <a href="../files/src_davinci-eight_core_WebGLRenderer.ts.html#l832"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;WebGLRenderer.ts:832</code></a>
         </p>
 
 
@@ -1496,7 +1238,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_WebGLRenderer.ts.html#l736"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;WebGLRenderer.ts:736</code></a>
+        <a href="../files/src_davinci-eight_core_WebGLRenderer.ts.html#l716"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;WebGLRenderer.ts:716</code></a>
         </p>
 
 
@@ -1582,7 +1324,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_WebGLRenderer.ts.html#l399"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;WebGLRenderer.ts:399</code></a>
+        <a href="../files/src_davinci-eight_core_WebGLRenderer.ts.html#l377"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;WebGLRenderer.ts:377</code></a>
         </p>
 
 
@@ -1607,7 +1349,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_WebGLRenderer.ts.html#l406"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;WebGLRenderer.ts:406</code></a>
+        <a href="../files/src_davinci-eight_core_WebGLRenderer.ts.html#l503"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;WebGLRenderer.ts:503</code></a>
         </p>
 
 
@@ -1632,7 +1374,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_WebGLRenderer.ts.html#l392"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;WebGLRenderer.ts:392</code></a>
+        <a href="../files/src_davinci-eight_core_WebGLRenderer.ts.html#l496"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;WebGLRenderer.ts:496</code></a>
         </p>
 
 
@@ -1656,7 +1398,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_WebGLRenderer.ts.html#l492"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;WebGLRenderer.ts:492</code></a>
+        <a href="../files/src_davinci-eight_core_WebGLRenderer.ts.html#l593"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;WebGLRenderer.ts:593</code></a>
         </p>
 
 
@@ -1680,7 +1422,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_WebGLRenderer.ts.html#l506"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;WebGLRenderer.ts:506</code></a>
+        <a href="../files/src_davinci-eight_core_WebGLRenderer.ts.html#l607"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;WebGLRenderer.ts:607</code></a>
         </p>
 
 
@@ -1704,7 +1446,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_WebGLRenderer.ts.html#l682"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;WebGLRenderer.ts:682</code></a>
+        <a href="../files/src_davinci-eight_core_WebGLRenderer.ts.html#l662"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;WebGLRenderer.ts:662</code></a>
         </p>
 
 

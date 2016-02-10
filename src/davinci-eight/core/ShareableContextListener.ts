@@ -1,6 +1,6 @@
 import cleanUp from './cleanUp';
 import IContextListener from './IContextListener'
-import IContextMonitor from './IContextMonitor'
+import WebGLRenderer from './WebGLRenderer'
 import IContextProvider from './IContextProvider'
 import readOnly from '../i18n/readOnly';
 import Shareable from './Shareable';
@@ -12,7 +12,7 @@ import Shareable from './Shareable';
  * @extends Shareable
  */
 export default class ShareableContextListener extends Shareable implements IContextListener {
-    private _monitor: IContextMonitor
+    private _renderer: WebGLRenderer
     private _context: IContextProvider
 
     /**
@@ -37,19 +37,19 @@ export default class ShareableContextListener extends Shareable implements ICont
      * Instructs the consumer to subscribe to context events.
      *
      * @method subscribe
-     * @param monitor {IContextMonitor}
+     * @param renderer {WebGLRenderer}
      * @return {void}
      */
-    subscribe(monitor: IContextMonitor): void {
-        if (!this._monitor) {
-            monitor.addRef()
-            this._monitor = monitor
-            monitor.addContextListener(this)
-            monitor.synchronize(this)
+    subscribe(renderer: WebGLRenderer): void {
+        if (!this._renderer) {
+            renderer.addRef()
+            this._renderer = renderer
+            renderer.addContextListener(this)
+            renderer.synchronize(this)
         }
         else {
             this.unsubscribe()
-            this.subscribe(monitor)
+            this.subscribe(renderer)
         }
     }
 
@@ -63,10 +63,10 @@ export default class ShareableContextListener extends Shareable implements ICont
         if (this._context) {
             cleanUp(this._context, this)
         }
-        if (this._monitor) {
-            this._monitor.removeContextListener(this)
-            this._monitor.release()
-            this._monitor = void 0
+        if (this._renderer) {
+            this._renderer.removeContextListener(this)
+            this._renderer.release()
+            this._renderer = void 0
         }
     }
 

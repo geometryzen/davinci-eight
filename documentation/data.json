@@ -170,15 +170,6 @@
             "fors": {},
             "namespaces": {}
         },
-        "src/davinci-eight/core/ContextController.ts": {
-            "name": "src/davinci-eight/core/ContextController.ts",
-            "modules": {},
-            "classes": {
-                "ContextController": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
         "src/davinci-eight/core/DrawMode.ts": {
             "name": "src/davinci-eight/core/DrawMode.ts",
             "modules": {},
@@ -242,15 +233,6 @@
             "fors": {},
             "namespaces": {}
         },
-        "src/davinci-eight/core/IBufferGeometry.ts": {
-            "name": "src/davinci-eight/core/IBufferGeometry.ts",
-            "modules": {},
-            "classes": {
-                "IBufferGeometry": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
         "src/davinci-eight/core/IContextConsumer.ts": {
             "name": "src/davinci-eight/core/IContextConsumer.ts",
             "modules": {},
@@ -265,15 +247,6 @@
             "modules": {},
             "classes": {
                 "IContextListener": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
-        "src/davinci-eight/core/IContextMonitor.ts": {
-            "name": "src/davinci-eight/core/IContextMonitor.ts",
-            "modules": {},
-            "classes": {
-                "IContextMonitor": 1
             },
             "fors": {},
             "namespaces": {}
@@ -328,6 +301,15 @@
             "modules": {},
             "classes": {
                 "Primitive": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/core/PrimitiveBuffers.ts": {
+            "name": "src/davinci-eight/core/PrimitiveBuffers.ts",
+            "modules": {},
+            "classes": {
+                "PrimitiveBuffers": 1
             },
             "fors": {},
             "namespaces": {}
@@ -660,6 +642,27 @@
         },
         "src/davinci-eight/geometries/CylinderPrimitivesBuilder.ts": {
             "name": "src/davinci-eight/geometries/CylinderPrimitivesBuilder.ts",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/geometries/DrawAttribute.ts": {
+            "name": "src/davinci-eight/geometries/DrawAttribute.ts",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/geometries/DrawPrimitive.ts": {
+            "name": "src/davinci-eight/geometries/DrawPrimitive.ts",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/geometries/GeometryMeta.ts": {
+            "name": "src/davinci-eight/geometries/GeometryMeta.ts",
             "modules": {},
             "classes": {},
             "fors": {},
@@ -1520,7 +1523,6 @@
                 "Color": 1,
                 "ColorRGB": 1,
                 "ColorRGBA": 1,
-                "ContextController": 1,
                 "DrawMode": 1,
                 "Facet": 1,
                 "FacetVisitor": 1,
@@ -1528,16 +1530,15 @@
                 "GeometryContainer": 1,
                 "GeometryPrimitive": 1,
                 "GraphicsProgramSymbols": 1,
-                "IBufferGeometry": 1,
                 "IContextConsumer": 1,
                 "IContextListener": 1,
-                "IContextMonitor": 1,
                 "IContextProgramConsumer": 1,
                 "IContextProvider": 1,
                 "IUnknown": 1,
                 "Material": 1,
                 "Mesh": 1,
                 "Primitive": 1,
+                "PrimitiveBuffers": 1,
                 "Scene": 1,
                 "Shareable": 1,
                 "ShareableContextListener": 1,
@@ -1631,23 +1632,21 @@
                 "Color": 1,
                 "ColorRGB": 1,
                 "ColorRGBA": 1,
-                "ContextController": 1,
                 "DrawMode": 1,
                 "Facet": 1,
                 "FacetVisitor": 1,
                 "GeometryContainer": 1,
                 "GeometryPrimitive": 1,
                 "GraphicsProgramSymbols": 1,
-                "IBufferGeometry": 1,
                 "IContextConsumer": 1,
                 "IContextListener": 1,
-                "IContextMonitor": 1,
                 "IContextProgramConsumer": 1,
                 "IContextProvider": 1,
                 "IUnknown": 1,
                 "Material": 1,
                 "Mesh": 1,
                 "Primitive": 1,
+                "PrimitiveBuffers": 1,
                 "Scene": 1,
                 "Shareable": 1,
                 "ShareableContextListener": 1,
@@ -1664,7 +1663,7 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 426,
+            "line": 525,
             "extends": "IContextConsumer",
             "description": "Fundamental abstractions in the architecture."
         },
@@ -2137,20 +2136,6 @@
             "line": 8,
             "extends": "ColorRGB"
         },
-        "ContextController": {
-            "name": "ContextController",
-            "shortname": "ContextController",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "EIGHT",
-            "submodule": "core",
-            "namespace": "",
-            "file": "src/davinci-eight/core/ContextController.ts",
-            "line": 6
-        },
         "DrawMode": {
             "name": "DrawMode",
             "shortname": "DrawMode",
@@ -2264,21 +2249,6 @@
             "line": 6,
             "description": "<p>\nCanonical variable names, which also act as semantic identifiers for name overrides.\nThese names must be stable to avoid breaking custom vertex and fragment shaders.\n</p>"
         },
-        "IBufferGeometry": {
-            "name": "IBufferGeometry",
-            "shortname": "IBufferGeometry",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "EIGHT",
-            "submodule": "core",
-            "namespace": "",
-            "file": "src/davinci-eight/core/IBufferGeometry.ts",
-            "line": 9,
-            "extends": "IUnkown"
-        },
         "IContextConsumer": {
             "name": "IContextConsumer",
             "shortname": "IContextConsumer",
@@ -2309,20 +2279,6 @@
             "file": "src/davinci-eight/core/IContextListener.ts",
             "line": 4
         },
-        "IContextMonitor": {
-            "name": "IContextMonitor",
-            "shortname": "IContextMonitor",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "EIGHT",
-            "submodule": "core",
-            "namespace": "",
-            "file": "src/davinci-eight/core/IContextMonitor.ts",
-            "line": 4
-        },
         "IContextProgramConsumer": {
             "name": "IContextProgramConsumer",
             "shortname": "IContextProgramConsumer",
@@ -2349,7 +2305,7 @@
             "submodule": "core",
             "namespace": "",
             "file": "src/davinci-eight/core/IContextProvider.ts",
-            "line": 8
+            "line": 5
         },
         "IUnknown": {
             "name": "IUnknown",
@@ -2448,6 +2404,21 @@
             "file": "src/davinci-eight/core/Primitive.ts",
             "line": 4
         },
+        "PrimitiveBuffers": {
+            "name": "PrimitiveBuffers",
+            "shortname": "PrimitiveBuffers",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "submodule": "core",
+            "namespace": "",
+            "file": "src/davinci-eight/core/PrimitiveBuffers.ts",
+            "line": 9,
+            "extends": "IUnknown"
+        },
         "Scene": {
             "name": "Scene",
             "shortname": "Scene",
@@ -2463,16 +2434,7 @@
             "line": 104,
             "extends": "Shareable",
             "description": "<p>\nA <code>Scene</code> is a collection of mesh instances arranged in some order.\nThe precise order is implementation defined.\nThe collection may be traversed for general processing using callback/visitor functions.\n</p>",
-            "is_constructor": 1,
-            "params": [
-                {
-                    "name": "monitors ",
-                    "description": "",
-                    "type": "Array&lt;IContextMonitor&gt;",
-                    "optional": true,
-                    "optdefault": " []"
-                }
-            ]
+            "is_constructor": 1
         },
         "Shareable": {
             "name": "Shareable",
@@ -2623,7 +2585,7 @@
             "submodule": "core",
             "namespace": "",
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 426,
+            "line": 525,
             "extends": "Shareable",
             "is_constructor": 1,
             "params": [
@@ -5493,39 +5455,6 @@
             "submodule": "core"
         },
         {
-            "file": "src/davinci-eight/core/ContextController.ts",
-            "line": 10,
-            "itemtype": "method",
-            "name": "start",
-            "params": [
-                {
-                    "name": "canvas",
-                    "description": "",
-                    "type": "HTMLCanvasElement"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "ContextController",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/ContextController.ts",
-            "line": 16,
-            "itemtype": "method",
-            "name": "stop",
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "ContextController",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
             "file": "src/davinci-eight/core/DrawMode.ts",
             "line": 11,
             "itemtype": "property",
@@ -6190,7 +6119,7 @@
             "line": 33,
             "description": "The primitive buffer associated with the source that may\ncome and go according to context loss and gain events.",
             "proprty": "dataBuffer",
-            "type": "IBufferGeometry",
+            "type": "PrimitiveBuffers",
             "access": "private",
             "tagname": "",
             "class": "GeometryPrimitive",
@@ -6470,66 +6399,6 @@
             "submodule": "core"
         },
         {
-            "file": "src/davinci-eight/core/IBufferGeometry.ts",
-            "line": 15,
-            "itemtype": "property",
-            "name": "uuid",
-            "type": "{string}",
-            "class": "IBufferGeometry",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/IBufferGeometry.ts",
-            "line": 21,
-            "itemtype": "method",
-            "name": "bind",
-            "params": [
-                {
-                    "name": "program",
-                    "description": "",
-                    "type": "Material"
-                },
-                {
-                    "name": "aNameToKeyName",
-                    "description": ""
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "IBufferGeometry",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/IBufferGeometry.ts",
-            "line": 29,
-            "itemtype": "method",
-            "name": "draw",
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "IBufferGeometry",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/IBufferGeometry.ts",
-            "line": 35,
-            "itemtype": "method",
-            "name": "unbind",
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "IBufferGeometry",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
             "file": "src/davinci-eight/core/IContextConsumer.ts",
             "line": 20,
             "description": "Called to request the consumer to free any WebGL resources acquired and owned.\nThe consumer may assume that its cached context is still valid in order\nto properly dispose of any cached resources. In the case of shared objects, this\nmethod may be called multiple times for what is logically the same context. In such\ncases the consumer must be idempotent and respond only to the first request.",
@@ -6585,9 +6454,9 @@
             "name": "subscribe",
             "params": [
                 {
-                    "name": "monitor",
+                    "name": "renderer",
                     "description": "",
-                    "type": "IContextMonitor"
+                    "type": "WebGLRenderer"
                 }
             ],
             "return": {
@@ -6613,66 +6482,8 @@
             "submodule": "core"
         },
         {
-            "file": "src/davinci-eight/core/IContextMonitor.ts",
-            "line": 11,
-            "class": "IContextMonitor",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/IContextMonitor.ts",
-            "line": 16,
-            "itemtype": "method",
-            "name": "removeContextListener",
-            "params": [
-                {
-                    "name": "user",
-                    "description": "",
-                    "type": "IContextConsumer"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "IContextMonitor",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/IContextMonitor.ts",
-            "line": 23,
-            "itemtype": "method",
-            "name": "synchronize",
-            "params": [
-                {
-                    "name": "user",
-                    "description": "",
-                    "type": "IContextConsumer"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "IContextMonitor",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
             "file": "src/davinci-eight/core/IContextProvider.ts",
-            "line": 16,
-            "itemtype": "property",
-            "name": "canvas",
-            "type": "{HTMLCanvasElement}",
-            "readonly": "",
-            "class": "IContextProvider",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/IContextProvider.ts",
-            "line": 23,
+            "line": 12,
             "itemtype": "property",
             "name": "gl",
             "type": "{WebGLRenderingContext}",
@@ -6683,42 +6494,9 @@
         },
         {
             "file": "src/davinci-eight/core/IContextProvider.ts",
-            "line": 30,
+            "line": 19,
             "itemtype": "method",
-            "name": "addContextListener",
-            "params": [
-                {
-                    "name": "user",
-                    "description": "",
-                    "type": "IContextConsumer"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "IContextProvider",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/IContextProvider.ts",
-            "line": 37,
-            "itemtype": "method",
-            "name": "createArrayBuffer",
-            "return": {
-                "description": "",
-                "type": "ShareableWebGLBuffer"
-            },
-            "class": "IContextProvider",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/IContextProvider.ts",
-            "line": 43,
-            "itemtype": "method",
-            "name": "createBufferGeometry",
+            "name": "createPrimitiveBuffers",
             "params": [
                 {
                     "name": "primitive",
@@ -6734,86 +6512,7 @@
             ],
             "return": {
                 "description": "",
-                "type": "IBufferGeometry"
-            },
-            "class": "IContextProvider",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/IContextProvider.ts",
-            "line": 51,
-            "itemtype": "method",
-            "name": "createElementArrayBuffer",
-            "return": {
-                "description": "",
-                "type": "ShareableWebGLBuffer"
-            },
-            "class": "IContextProvider",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/IContextProvider.ts",
-            "line": 57,
-            "itemtype": "method",
-            "name": "createTexture2D",
-            "return": {
-                "description": "",
-                "type": "ShareableWebGLTexture"
-            },
-            "class": "IContextProvider",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/IContextProvider.ts",
-            "line": 63,
-            "itemtype": "method",
-            "name": "createTextureCubeMap",
-            "return": {
-                "description": "",
-                "type": "ShareableWebGLTexture"
-            },
-            "class": "IContextProvider",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/IContextProvider.ts",
-            "line": 69,
-            "itemtype": "method",
-            "name": "removeContextListener",
-            "params": [
-                {
-                    "name": "user",
-                    "description": "",
-                    "type": "IContextConsumer"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "IContextProvider",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/IContextProvider.ts",
-            "line": 76,
-            "itemtype": "method",
-            "name": "synchronize",
-            "params": [
-                {
-                    "name": "user",
-                    "description": "",
-                    "type": "IContextConsumer"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
+                "type": "PrimitiveBuffers"
             },
             "class": "IContextProvider",
             "module": "EIGHT",
@@ -7766,6 +7465,62 @@
             "submodule": "core"
         },
         {
+            "file": "src/davinci-eight/core/PrimitiveBuffers.ts",
+            "line": 15,
+            "itemtype": "property",
+            "name": "uuid",
+            "type": "{string}",
+            "class": "PrimitiveBuffers",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/PrimitiveBuffers.ts",
+            "line": 21,
+            "itemtype": "method",
+            "name": "bind",
+            "params": [
+                {
+                    "name": "material",
+                    "description": "",
+                    "type": "Material"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "PrimitiveBuffers",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/PrimitiveBuffers.ts",
+            "line": 28,
+            "itemtype": "method",
+            "name": "draw",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "PrimitiveBuffers",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/PrimitiveBuffers.ts",
+            "line": 34,
+            "itemtype": "method",
+            "name": "unbind",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "PrimitiveBuffers",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
             "file": "src/davinci-eight/core/Scene.ts",
             "line": 15,
             "description": "The parts of a scene are the smallest components that\nare heuristically sorted in order to optimize rendering.",
@@ -7811,7 +7566,7 @@
         },
         {
             "file": "src/davinci-eight/core/Scene.ts",
-            "line": 120,
+            "line": 119,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -7826,7 +7581,7 @@
         },
         {
             "file": "src/davinci-eight/core/Scene.ts",
-            "line": 132,
+            "line": 131,
             "description": "<p>\nAdds the <code>mesh</code> to this <code>Scene</code>.\n</p>",
             "itemtype": "method",
             "name": "add",
@@ -7847,7 +7602,7 @@
         },
         {
             "file": "src/davinci-eight/core/Scene.ts",
-            "line": 158,
+            "line": 157,
             "itemtype": "method",
             "name": "contains",
             "params": [
@@ -7867,7 +7622,7 @@
         },
         {
             "file": "src/davinci-eight/core/Scene.ts",
-            "line": 168,
+            "line": 167,
             "description": "<p>\nTraverses the collection of scene parts drawing each one.\n</p>",
             "itemtype": "method",
             "name": "draw",
@@ -7889,7 +7644,7 @@
         },
         {
             "file": "src/davinci-eight/core/Scene.ts",
-            "line": 185,
+            "line": 184,
             "itemtype": "method",
             "name": "find",
             "params": [
@@ -7909,7 +7664,7 @@
         },
         {
             "file": "src/davinci-eight/core/Scene.ts",
-            "line": 194,
+            "line": 193,
             "itemtype": "method",
             "name": "findOne",
             "params": [
@@ -7929,7 +7684,7 @@
         },
         {
             "file": "src/davinci-eight/core/Scene.ts",
-            "line": 203,
+            "line": 202,
             "itemtype": "method",
             "name": "findOneByName",
             "params": [
@@ -7949,7 +7704,7 @@
         },
         {
             "file": "src/davinci-eight/core/Scene.ts",
-            "line": 212,
+            "line": 211,
             "itemtype": "method",
             "name": "findByName",
             "params": [
@@ -7969,7 +7724,7 @@
         },
         {
             "file": "src/davinci-eight/core/Scene.ts",
-            "line": 221,
+            "line": 220,
             "description": "<p>\nRemoves the <code>mesh</code> from this <code>Scene</code>.\n</p>",
             "itemtype": "method",
             "name": "remove",
@@ -7990,7 +7745,7 @@
         },
         {
             "file": "src/davinci-eight/core/Scene.ts",
-            "line": 239,
+            "line": 238,
             "itemtype": "method",
             "name": "contextFree",
             "params": [
@@ -8010,7 +7765,7 @@
         },
         {
             "file": "src/davinci-eight/core/Scene.ts",
-            "line": 252,
+            "line": 251,
             "itemtype": "method",
             "name": "contextGain",
             "params": [
@@ -8030,7 +7785,7 @@
         },
         {
             "file": "src/davinci-eight/core/Scene.ts",
-            "line": 265,
+            "line": 264,
             "itemtype": "method",
             "name": "contextLost",
             "return": {
@@ -8117,9 +7872,9 @@
             "name": "subscribe",
             "params": [
                 {
-                    "name": "monitor",
+                    "name": "renderer",
                     "description": "",
-                    "type": "IContextMonitor"
+                    "type": "WebGLRenderer"
                 }
             ],
             "return": {
@@ -8618,7 +8373,7 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 62,
+            "line": 50,
             "description": "Renders geometric primitives indexed by element array data.",
             "class": "WebGLRenderer",
             "module": "EIGHT",
@@ -8626,7 +8381,7 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 67,
+            "line": 55,
             "description": "Specifies the kind of primitives to render.",
             "class": "WebGLRenderer",
             "module": "EIGHT",
@@ -8634,7 +8389,7 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 72,
+            "line": 60,
             "description": "The number of elements to render.",
             "class": "WebGLRenderer",
             "module": "EIGHT",
@@ -8642,7 +8397,7 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 77,
+            "line": 65,
             "description": "The type of elements in the element array buffer. Usually a gl.UNSIGNED_SHORT.",
             "class": "WebGLRenderer",
             "module": "EIGHT",
@@ -8650,7 +8405,7 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 82,
+            "line": 70,
             "description": "Offset into the element array buffer. Must be a valid multiple of the size of type.",
             "class": "WebGLRenderer",
             "module": "EIGHT",
@@ -8658,14 +8413,14 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 87,
+            "line": 75,
             "class": "WebGLRenderer",
             "module": "EIGHT",
             "submodule": "core"
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 101,
+            "line": 89,
             "description": "Executes the drawElements command using the instance state.",
             "class": "WebGLRenderer",
             "module": "EIGHT",
@@ -8673,7 +8428,7 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 135,
+            "line": 123,
             "description": "A tuple containing (indexBuffer, attributes, drawCommand).",
             "class": "WebGLRenderer",
             "module": "EIGHT",
@@ -8681,7 +8436,7 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 140,
+            "line": 128,
             "description": "Mapping from attribute name to a data structure describing and containing a buffer.",
             "class": "WebGLRenderer",
             "module": "EIGHT",
@@ -8689,7 +8444,7 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 145,
+            "line": 133,
             "description": "The buffer containing element indices used in the drawElements command.\nWe keep the index buffer private to avoid unnecessary addRef() and release() calls.",
             "class": "WebGLRenderer",
             "module": "EIGHT",
@@ -8697,7 +8452,7 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 151,
+            "line": 139,
             "description": "An executable command. May be a call to drawElements or drawArrays.",
             "class": "WebGLRenderer",
             "module": "EIGHT",
@@ -8705,21 +8460,21 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 156,
+            "line": 144,
             "class": "WebGLRenderer",
             "module": "EIGHT",
             "submodule": "core"
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 197,
+            "line": 185,
             "class": "WebGLRenderer",
             "module": "EIGHT",
             "submodule": "core"
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 217,
+            "line": 205,
             "description": "Keeps track of the buffer and metadata associated with an 'attribute' variable.",
             "class": "WebGLRenderer",
             "module": "EIGHT",
@@ -8727,7 +8482,7 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 221,
+            "line": 209,
             "description": "The buffer is a shared resource",
             "class": "WebGLRenderer",
             "module": "EIGHT",
@@ -8735,34 +8490,22 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 284,
+            "line": 272,
             "class": "WebGLRenderer",
             "module": "EIGHT",
             "submodule": "core"
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 316,
-            "description": "Implementation of IBufferGeometry coupled to the 'blocks' implementation.",
+            "line": 304,
+            "description": "Implementation of PrimitiveBuffers coupled to the 'blocks' implementation.",
             "class": "WebGLRenderer",
             "module": "EIGHT",
             "submodule": "core"
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 392,
-            "itemtype": "property",
-            "name": "_gl",
-            "type": "WebGLRenderingContext",
-            "access": "private",
-            "tagname": "",
-            "class": "WebGLRenderer",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 399,
+            "line": 377,
             "itemtype": "property",
             "name": "_blocks",
             "type": "StringIUnknownMap",
@@ -8774,7 +8517,19 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 406,
+            "line": 496,
+            "itemtype": "property",
+            "name": "_gl",
+            "type": "WebGLRenderingContext",
+            "access": "private",
+            "tagname": "",
+            "class": "WebGLRenderer",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/WebGLRenderer.ts",
+            "line": 503,
             "itemtype": "property",
             "name": "_canvas",
             "type": "HTMLCanvasElement",
@@ -8786,7 +8541,7 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 461,
+            "line": 562,
             "itemtype": "method",
             "name": "destructor!~YUIDOC_LINE~!return",
             "type": "Void",
@@ -8798,7 +8553,7 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 476,
+            "line": 577,
             "itemtype": "method",
             "name": "addContextListener",
             "params": [
@@ -8818,7 +8573,7 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 492,
+            "line": 593,
             "itemtype": "property",
             "name": "canvas",
             "type": "{HTMLCanvasElement}",
@@ -8828,7 +8583,7 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 506,
+            "line": 607,
             "itemtype": "property",
             "name": "commands",
             "type": "{IUnknownArray}",
@@ -8840,7 +8595,7 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 520,
+            "line": 621,
             "description": "<p>\nSpecifies color values to use by the <code>clear</code> method to clear the color buffer.\n<p>",
             "itemtype": "method",
             "name": "clearColor",
@@ -8877,85 +8632,7 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 556,
-            "itemtype": "method",
-            "name": "createArrayBuffer",
-            "return": {
-                "description": "",
-                "type": "ShareableWebGLBuffer"
-            },
-            "class": "WebGLRenderer",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 564,
-            "itemtype": "method",
-            "name": "createBufferGeometry",
-            "params": [
-                {
-                    "name": "primitive",
-                    "description": "",
-                    "type": "Primitive"
-                },
-                {
-                    "name": "usage",
-                    "description": "",
-                    "type": "Number",
-                    "optional": true
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "IBufferGeometry"
-            },
-            "class": "WebGLRenderer",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 634,
-            "itemtype": "method",
-            "name": "createElementArrayBuffer",
-            "return": {
-                "description": "",
-                "type": "ShareableWebGLBuffer"
-            },
-            "class": "WebGLRenderer",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 642,
-            "itemtype": "method",
-            "name": "createTextureCubeMap",
-            "return": {
-                "description": "",
-                "type": "ShareableWebGLTexture"
-            },
-            "class": "WebGLRenderer",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 650,
-            "itemtype": "method",
-            "name": "createTexture2D",
-            "return": {
-                "description": "",
-                "type": "ITexture2D"
-            },
-            "class": "WebGLRenderer",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 658,
+            "line": 638,
             "description": "Turns off specific WebGL capabilities for this context.",
             "itemtype": "method",
             "name": "disable",
@@ -8977,7 +8654,7 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 670,
+            "line": 650,
             "description": "Turns on specific WebGL capabilities for this context.",
             "itemtype": "method",
             "name": "enable",
@@ -8999,7 +8676,7 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 682,
+            "line": 662,
             "itemtype": "property",
             "name": "gl",
             "type": "{WebGLRenderingContext}",
@@ -9010,7 +8687,7 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 699,
+            "line": 679,
             "itemtype": "method",
             "name": "removeContextListener",
             "params": [
@@ -9030,7 +8707,7 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 712,
+            "line": 692,
             "itemtype": "method",
             "name": "prolog",
             "return": {
@@ -9043,7 +8720,7 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 723,
+            "line": 703,
             "itemtype": "method",
             "name": "render",
             "params": [
@@ -9068,7 +8745,7 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 736,
+            "line": 716,
             "description": "Defines what part of the canvas will be used in rendering the drawing buffer.",
             "itemtype": "method",
             "name": "viewport",
@@ -9105,7 +8782,7 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 757,
+            "line": 737,
             "description": "Initializes the WebGL context for the specified <code>canvas</code>.",
             "itemtype": "method",
             "name": "start",
@@ -9127,7 +8804,7 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 794,
+            "line": 774,
             "itemtype": "method",
             "name": "stop",
             "return": {
@@ -9141,7 +8818,7 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 854,
+            "line": 832,
             "itemtype": "method",
             "name": "synchronize",
             "params": [
@@ -11125,6 +10802,26 @@
             "file": "src/davinci-eight/geometries/CylinderPrimitivesBuilder.ts",
             "line": 11,
             "description": "This implementation only builds the walls of the cylinder (by wrapping a grid)",
+            "class": "SphereGeometry",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/DrawAttribute.ts",
+            "line": 30,
+            "description": "A convenience class for implementing the Attribute interface.",
+            "class": "SphereGeometry",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/DrawPrimitive.ts",
+            "line": 8,
+            "description": "A convenience class for implementing the Primitive interface.",
+            "class": "SphereGeometry",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/GeometryMeta.ts",
+            "line": 1,
             "class": "SphereGeometry",
             "module": "EIGHT"
         },
@@ -25597,10 +25294,6 @@
             "line": " src/davinci-eight/core/GeometryPrimitive.ts:33"
         },
         {
-            "message": "Missing item type",
-            "line": " src/davinci-eight/core/IContextMonitor.ts:11"
-        },
-        {
             "message": "Missing item type\nThe parts of a scene are the smallest components that\nare heuristically sorted in order to optimize rendering.",
             "line": " src/davinci-eight/core/Scene.ts:15"
         },
@@ -25626,71 +25319,71 @@
         },
         {
             "message": "Missing item type\nRenders geometric primitives indexed by element array data.",
-            "line": " src/davinci-eight/core/WebGLRenderer.ts:62"
+            "line": " src/davinci-eight/core/WebGLRenderer.ts:50"
         },
         {
             "message": "Missing item type\nSpecifies the kind of primitives to render.",
-            "line": " src/davinci-eight/core/WebGLRenderer.ts:67"
+            "line": " src/davinci-eight/core/WebGLRenderer.ts:55"
         },
         {
             "message": "Missing item type\nThe number of elements to render.",
-            "line": " src/davinci-eight/core/WebGLRenderer.ts:72"
+            "line": " src/davinci-eight/core/WebGLRenderer.ts:60"
         },
         {
             "message": "Missing item type\nThe type of elements in the element array buffer. Usually a gl.UNSIGNED_SHORT.",
-            "line": " src/davinci-eight/core/WebGLRenderer.ts:77"
+            "line": " src/davinci-eight/core/WebGLRenderer.ts:65"
         },
         {
             "message": "Missing item type\nOffset into the element array buffer. Must be a valid multiple of the size of type.",
-            "line": " src/davinci-eight/core/WebGLRenderer.ts:82"
+            "line": " src/davinci-eight/core/WebGLRenderer.ts:70"
         },
         {
             "message": "Missing item type",
-            "line": " src/davinci-eight/core/WebGLRenderer.ts:87"
+            "line": " src/davinci-eight/core/WebGLRenderer.ts:75"
         },
         {
             "message": "Missing item type\nExecutes the drawElements command using the instance state.",
-            "line": " src/davinci-eight/core/WebGLRenderer.ts:101"
+            "line": " src/davinci-eight/core/WebGLRenderer.ts:89"
         },
         {
             "message": "Missing item type\nA tuple containing (indexBuffer, attributes, drawCommand).",
-            "line": " src/davinci-eight/core/WebGLRenderer.ts:135"
+            "line": " src/davinci-eight/core/WebGLRenderer.ts:123"
         },
         {
             "message": "Missing item type\nMapping from attribute name to a data structure describing and containing a buffer.",
-            "line": " src/davinci-eight/core/WebGLRenderer.ts:140"
+            "line": " src/davinci-eight/core/WebGLRenderer.ts:128"
         },
         {
             "message": "Missing item type\nThe buffer containing element indices used in the drawElements command.\nWe keep the index buffer private to avoid unnecessary addRef() and release() calls.",
-            "line": " src/davinci-eight/core/WebGLRenderer.ts:145"
+            "line": " src/davinci-eight/core/WebGLRenderer.ts:133"
         },
         {
             "message": "Missing item type\nAn executable command. May be a call to drawElements or drawArrays.",
-            "line": " src/davinci-eight/core/WebGLRenderer.ts:151"
+            "line": " src/davinci-eight/core/WebGLRenderer.ts:139"
         },
         {
             "message": "Missing item type",
-            "line": " src/davinci-eight/core/WebGLRenderer.ts:156"
+            "line": " src/davinci-eight/core/WebGLRenderer.ts:144"
         },
         {
             "message": "Missing item type",
-            "line": " src/davinci-eight/core/WebGLRenderer.ts:197"
+            "line": " src/davinci-eight/core/WebGLRenderer.ts:185"
         },
         {
             "message": "Missing item type\nKeeps track of the buffer and metadata associated with an 'attribute' variable.",
-            "line": " src/davinci-eight/core/WebGLRenderer.ts:217"
+            "line": " src/davinci-eight/core/WebGLRenderer.ts:205"
         },
         {
             "message": "Missing item type\nThe buffer is a shared resource",
-            "line": " src/davinci-eight/core/WebGLRenderer.ts:221"
+            "line": " src/davinci-eight/core/WebGLRenderer.ts:209"
         },
         {
             "message": "Missing item type",
-            "line": " src/davinci-eight/core/WebGLRenderer.ts:284"
+            "line": " src/davinci-eight/core/WebGLRenderer.ts:272"
         },
         {
-            "message": "Missing item type\nImplementation of IBufferGeometry coupled to the 'blocks' implementation.",
-            "line": " src/davinci-eight/core/WebGLRenderer.ts:316"
+            "message": "Missing item type\nImplementation of PrimitiveBuffers coupled to the 'blocks' implementation.",
+            "line": " src/davinci-eight/core/WebGLRenderer.ts:304"
         },
         {
             "message": "Missing item type\nPolicy for how an attribute variable name is determined.",
@@ -25803,6 +25496,18 @@
         {
             "message": "Missing item type\nThis implementation only builds the walls of the cylinder (by wrapping a grid)",
             "line": " src/davinci-eight/geometries/CylinderPrimitivesBuilder.ts:11"
+        },
+        {
+            "message": "Missing item type\nA convenience class for implementing the Attribute interface.",
+            "line": " src/davinci-eight/geometries/DrawAttribute.ts:30"
+        },
+        {
+            "message": "Missing item type\nA convenience class for implementing the Primitive interface.",
+            "line": " src/davinci-eight/geometries/DrawPrimitive.ts:8"
+        },
+        {
+            "message": "Missing item type",
+            "line": " src/davinci-eight/geometries/GeometryMeta.ts:1"
         },
         {
             "message": "Missing item type\nTemporary array of points.",

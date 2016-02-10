@@ -5,6 +5,9 @@ import mustBeInteger from '../checks/mustBeInteger';
 import mustBeObject from '../checks/mustBeObject';
 import Primitive from '../core/Primitive';
 
+/**
+ * A convenience class for implementing the Primitive interface.
+ */
 export default class DrawPrimitive implements Primitive {
     public mode: DrawMode;
     public indices: number[];
