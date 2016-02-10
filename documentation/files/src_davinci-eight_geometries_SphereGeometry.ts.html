@@ -75,7 +75,8 @@
                                 <li><a href="../classes/GeometricE2.html">GeometricE2</a></li>
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
-                                <li><a href="../classes/GeometryPart.html">GeometryPart</a></li>
+                                <li><a href="../classes/GeometryContainer.html">GeometryContainer</a></li>
+                                <li><a href="../classes/GeometryPrimitive.html">GeometryPrimitive</a></li>
                                 <li><a href="../classes/GraphicsProgramSymbols.html">GraphicsProgramSymbols</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
                                 <li><a href="../classes/IBufferGeometry.html">IBufferGeometry</a></li>
@@ -197,7 +198,8 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import Geometry from &#x27;../core/Geometry&#x27;
+import GeometryContainer from &#x27;../core/GeometryContainer&#x27;
+import GeometryPrimitive from &#x27;../core/GeometryPrimitive&#x27;
 import Primitive from &#x27;../core/Primitive&#x27;
 import SphereBuilder from &#x27;./SphereBuilder&#x27;
 import G3 from &#x27;../math/G3&#x27;
@@ -231,13 +233,21 @@ function primitives(options: { k?: number }): Primitive[] {
  * @class SphereGeometry
  * @extends Geometry
  */
-export default class SphereGeometry extends Geometry {
+export default class SphereGeometry extends GeometryContainer {
     /**
      * @class SphereGeometry
      * @constructor
      */
     constructor(options: { k?: number } = {}) {
-        super(primitives(options))
+        super()
+        const ps = primitives(options)
+        const iLen = ps.length
+        for (let i = 0; i &lt; iLen; i++) {
+            const p = ps[i]
+            const geometry = new GeometryPrimitive(p)
+            this.addPart(geometry)
+            geometry.release()
+        }
     }
 }
 

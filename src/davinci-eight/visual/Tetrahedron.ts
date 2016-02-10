@@ -20,8 +20,8 @@ export default class Tetrahedron extends RigidBody {
      */
     constructor(options: VisualOptions = {}) {
         super(visualCache.tetrahedron(options), visualCache.material(options), 'Tetrahedron')
-        this._buffers.release()
-        this._program.release()
+        this._geometry.release()
+        this._material.release()
     }
 
     /**

@@ -75,7 +75,8 @@
                                 <li><a href="../classes/GeometricE2.html">GeometricE2</a></li>
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
-                                <li><a href="../classes/GeometryPart.html">GeometryPart</a></li>
+                                <li><a href="../classes/GeometryContainer.html">GeometryContainer</a></li>
+                                <li><a href="../classes/GeometryPrimitive.html">GeometryPrimitive</a></li>
                                 <li><a href="../classes/GraphicsProgramSymbols.html">GraphicsProgramSymbols</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
                                 <li><a href="../classes/IBufferGeometry.html">IBufferGeometry</a></li>
@@ -197,7 +198,8 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import Geometry from &#x27;../core/Geometry&#x27;;
+import GeometryContainer from &#x27;../core/GeometryContainer&#x27;;
+import GeometryPrimitive from &#x27;../core/GeometryPrimitive&#x27;;
 import Primitive from &#x27;../core/Primitive&#x27;;
 import mustBeBoolean from &#x27;../checks/mustBeBoolean&#x27;;
 import mustBeNumber from &#x27;../checks/mustBeNumber&#x27;;
@@ -235,7 +237,7 @@ function primitives(width: number, height: number, depth: number, wireFrame: boo
  * @class CuboidGeometry
  * @extends Geometry
  */
-export default class CuboidGeometry extends Geometry {
+export default class CuboidGeometry extends GeometryContainer {
     /**
      * @class CuboidGeometry
      * @constructor
@@ -245,7 +247,15 @@ export default class CuboidGeometry extends Geometry {
      * @param wireFrame {boolean}
      */
     constructor(width: number, height: number, depth: number, wireFrame: boolean) {
-        super(primitives(width, height, depth, wireFrame))
+        super()
+        const ps = primitives(width, height, depth, wireFrame)
+        const iLen = ps.length
+        for (let i = 0; i &lt; iLen; i++) {
+            const dataSource = ps[i]
+            const geometry = new GeometryPrimitive(dataSource)
+            this.addPart(geometry)
+            geometry.release()
+        }
     }
 }
 

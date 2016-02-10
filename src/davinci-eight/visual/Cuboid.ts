@@ -15,8 +15,8 @@ import VisualOptions from './VisualOptions'
 export default class Cuboid extends RigidBody {
     constructor(options: VisualOptions = {}) {
         super(visualCache.cuboid(options), visualCache.material(options), 'Cuboid')
-        this._buffers.release()
-        this._program.release()
+        this._geometry.release()
+        this._material.release()
     }
     protected destructor(): void {
         super.destructor()

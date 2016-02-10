@@ -215,11 +215,20 @@
             "fors": {},
             "namespaces": {}
         },
-        "src/davinci-eight/core/GeometryPart.ts": {
-            "name": "src/davinci-eight/core/GeometryPart.ts",
+        "src/davinci-eight/core/GeometryContainer.ts": {
+            "name": "src/davinci-eight/core/GeometryContainer.ts",
             "modules": {},
             "classes": {
-                "GeometryPart": 1
+                "GeometryContainer": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/core/GeometryPrimitive.ts": {
+            "name": "src/davinci-eight/core/GeometryPrimitive.ts",
+            "modules": {},
+            "classes": {
+                "GeometryPrimitive": 1
             },
             "fors": {},
             "namespaces": {}
@@ -1516,7 +1525,8 @@
                 "Facet": 1,
                 "FacetVisitor": 1,
                 "Geometry": 1,
-                "GeometryPart": 1,
+                "GeometryContainer": 1,
+                "GeometryPrimitive": 1,
                 "GraphicsProgramSymbols": 1,
                 "IBufferGeometry": 1,
                 "IContextConsumer": 1,
@@ -1625,8 +1635,8 @@
                 "DrawMode": 1,
                 "Facet": 1,
                 "FacetVisitor": 1,
-                "Geometry": 1,
-                "GeometryPart": 1,
+                "GeometryContainer": 1,
+                "GeometryPrimitive": 1,
                 "GraphicsProgramSymbols": 1,
                 "IBufferGeometry": 1,
                 "IContextConsumer": 1,
@@ -1702,7 +1712,7 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/geometries/TetrahedronGeometry.ts",
-            "line": 32,
+            "line": 33,
             "description": "A convenience class for creating an arrow."
         },
         "materials": {
@@ -2194,24 +2204,13 @@
             "plugin_for": [],
             "extension_for": [],
             "module": "EIGHT",
-            "submodule": "core",
             "namespace": "",
             "file": "src/davinci-eight/core/Geometry.ts",
-            "line": 27,
-            "description": "A collection of GeometryPart(s) with functions\nthat reflect the dependency on the WebGL context events.",
-            "extends": "Shareable",
-            "is_constructor": 1,
-            "params": [
-                {
-                    "name": "primitives",
-                    "description": "",
-                    "type": "Primitive[]"
-                }
-            ]
+            "line": 4
         },
-        "GeometryPart": {
-            "name": "GeometryPart",
-            "shortname": "GeometryPart",
+        "GeometryContainer": {
+            "name": "GeometryContainer",
+            "shortname": "GeometryContainer",
             "classitems": [],
             "plugins": [],
             "extensions": [],
@@ -2220,8 +2219,25 @@
             "module": "EIGHT",
             "submodule": "core",
             "namespace": "",
-            "file": "src/davinci-eight/core/GeometryPart.ts",
-            "line": 39,
+            "file": "src/davinci-eight/core/GeometryContainer.ts",
+            "line": 27,
+            "description": "A collection of GeometryPrimitive(s) with functions\nthat reflect the dependency on the WebGL context events.",
+            "extends": "Shareable",
+            "is_constructor": 1
+        },
+        "GeometryPrimitive": {
+            "name": "GeometryPrimitive",
+            "shortname": "GeometryPrimitive",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "submodule": "core",
+            "namespace": "",
+            "file": "src/davinci-eight/core/GeometryPrimitive.ts",
+            "line": 42,
             "description": "A buffer for drawing a single primitive\nthat can endure context loss and gain events.",
             "extends": "Shareable",
             "is_constructor": 1,
@@ -2444,7 +2460,7 @@
             "submodule": "core",
             "namespace": "",
             "file": "src/davinci-eight/core/Scene.ts",
-            "line": 101,
+            "line": 104,
             "extends": "Shareable",
             "description": "<p>\nA <code>Scene</code> is a collection of mesh instances arranged in some order.\nThe precise order is implementation defined.\nThe collection may be traversed for general processing using callback/visitor functions.\n</p>",
             "is_constructor": 1,
@@ -2935,7 +2951,7 @@
             "submodule": "geometries",
             "namespace": "",
             "file": "src/davinci-eight/geometries/ArrowGeometry.ts",
-            "line": 23,
+            "line": 24,
             "description": "A convenience class for creating an arrow.",
             "extends": "Geometry",
             "is_constructor": 1
@@ -2952,7 +2968,7 @@
             "submodule": "geometries",
             "namespace": "",
             "file": "src/davinci-eight/geometries/CuboidGeometry.ts",
-            "line": 40,
+            "line": 41,
             "description": "A convenience class for creating a cuboid.",
             "extends": "Geometry",
             "is_constructor": 1,
@@ -3005,9 +3021,9 @@
             "submodule": "geometries",
             "namespace": "",
             "file": "src/davinci-eight/geometries/CylinderGeometry.ts",
-            "line": 36,
+            "line": 37,
             "description": "A convenience class for creating a cuboid.",
-            "extends": "Geometry",
+            "extends": "GeometryContainer",
             "is_constructor": 1
         },
         "SphereGeometry": {
@@ -3022,7 +3038,7 @@
             "submodule": "geometries",
             "namespace": "",
             "file": "src/davinci-eight/geometries/SphereGeometry.ts",
-            "line": 36,
+            "line": 37,
             "description": "A convenience class for creating a sphere.",
             "extends": "Geometry",
             "is_constructor": 1
@@ -3039,7 +3055,7 @@
             "submodule": "geometries",
             "namespace": "",
             "file": "src/davinci-eight/geometries/TetrahedronGeometry.ts",
-            "line": 32,
+            "line": 33,
             "description": "A convenience class for creating a tetrahedron geometry.",
             "extends": "Geometry",
             "is_constructor": 1,
@@ -6003,50 +6019,24 @@
         },
         {
             "file": "src/davinci-eight/core/Geometry.ts",
-            "line": 21,
+            "line": 8,
             "itemtype": "property",
-            "name": "buffers",
-            "access": "private",
-            "tagname": "",
+            "name": "partsLength",
+            "type": "number",
+            "readonly": "",
             "class": "Geometry",
-            "module": "EIGHT",
-            "submodule": "core"
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/core/Geometry.ts",
-            "line": 41,
+            "line": 15,
             "itemtype": "method",
-            "name": "destructor",
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "access": "protected",
-            "tagname": "",
-            "class": "Geometry",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/Geometry.ts",
-            "line": 67,
-            "itemtype": "method",
-            "name": "contextFree",
-            "params": [],
-            "class": "Geometry",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/Geometry.ts",
-            "line": 77,
-            "itemtype": "method",
-            "name": "contextGain",
+            "name": "addPart",
             "params": [
                 {
-                    "name": "manager",
+                    "name": "geometry",
                     "description": "",
-                    "type": "IContextProvider"
+                    "type": "Geometry"
                 }
             ],
             "return": {
@@ -6054,50 +6044,49 @@
                 "type": "Void"
             },
             "class": "Geometry",
-            "module": "EIGHT",
-            "submodule": "core"
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/core/Geometry.ts",
-            "line": 88,
+            "line": 22,
             "itemtype": "method",
-            "name": "contextLost",
+            "name": "removePart",
+            "params": [
+                {
+                    "name": "index",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
             "return": {
                 "description": "",
                 "type": "Void"
             },
             "class": "Geometry",
-            "module": "EIGHT",
-            "submodule": "core"
+            "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/core/GeometryPart.ts",
-            "line": 21,
-            "description": "The always available source of primitive data that\nallows us to recover from context loss events.",
-            "itemtype": "property",
-            "name": "dataSource",
-            "type": "Primitive",
-            "access": "private",
-            "tagname": "",
-            "class": "GeometryPart",
-            "module": "EIGHT",
-            "submodule": "core"
+            "file": "src/davinci-eight/core/Geometry.ts",
+            "line": 29,
+            "itemtype": "method",
+            "name": "getPart",
+            "params": [
+                {
+                    "name": "index",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Geometry"
+            },
+            "class": "Geometry",
+            "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/core/GeometryPart.ts",
-            "line": 30,
-            "description": "The primitive buffer associated with the source that may\ncome and go according to context loss and gain events.",
-            "proprty": "dataBuffer",
-            "type": "IBufferGeometry",
-            "access": "private",
-            "tagname": "",
-            "class": "GeometryPart",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/GeometryPart.ts",
-            "line": 77,
+            "file": "src/davinci-eight/core/Geometry.ts",
+            "line": 36,
             "itemtype": "method",
             "name": "draw",
             "params": [
@@ -6111,7 +6100,120 @@
                 "description": "",
                 "type": "Void"
             },
-            "class": "GeometryPart",
+            "class": "Geometry",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/core/GeometryContainer.ts",
+            "line": 21,
+            "itemtype": "property",
+            "name": "_parts",
+            "access": "private",
+            "tagname": "",
+            "class": "GeometryContainer",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/GeometryContainer.ts",
+            "line": 36,
+            "itemtype": "method",
+            "name": "destructor",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "access": "protected",
+            "tagname": "",
+            "class": "GeometryContainer",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/GeometryContainer.ts",
+            "line": 73,
+            "itemtype": "method",
+            "name": "contextFree",
+            "params": [],
+            "class": "GeometryContainer",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/GeometryContainer.ts",
+            "line": 83,
+            "itemtype": "method",
+            "name": "contextGain",
+            "params": [
+                {
+                    "name": "manager",
+                    "description": "",
+                    "type": "IContextProvider"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "GeometryContainer",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/GeometryContainer.ts",
+            "line": 94,
+            "itemtype": "method",
+            "name": "contextLost",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "GeometryContainer",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/GeometryPrimitive.ts",
+            "line": 24,
+            "description": "The always available source of primitive data that\nallows us to recover from context loss events.",
+            "itemtype": "property",
+            "name": "dataSource",
+            "type": "Primitive",
+            "access": "private",
+            "tagname": "",
+            "class": "GeometryPrimitive",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/GeometryPrimitive.ts",
+            "line": 33,
+            "description": "The primitive buffer associated with the source that may\ncome and go according to context loss and gain events.",
+            "proprty": "dataBuffer",
+            "type": "IBufferGeometry",
+            "access": "private",
+            "tagname": "",
+            "class": "GeometryPrimitive",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/GeometryPrimitive.ts",
+            "line": 99,
+            "itemtype": "method",
+            "name": "draw",
+            "params": [
+                {
+                    "name": "material",
+                    "description": "",
+                    "type": "Material"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "GeometryPrimitive",
             "module": "EIGHT",
             "submodule": "core"
         },
@@ -7398,7 +7500,7 @@
             "file": "src/davinci-eight/core/Mesh.ts",
             "line": 20,
             "itemtype": "property",
-            "name": "_buffers",
+            "name": "_geometry",
             "type": "{Geometry}",
             "access": "private",
             "tagname": "",
@@ -7410,7 +7512,7 @@
             "file": "src/davinci-eight/core/Mesh.ts",
             "line": 27,
             "itemtype": "property",
-            "name": "_program",
+            "name": "_material",
             "type": "{Material}",
             "access": "private",
             "tagname": "",
@@ -7502,7 +7604,7 @@
         },
         {
             "file": "src/davinci-eight/core/Mesh.ts",
-            "line": 128,
+            "line": 123,
             "itemtype": "method",
             "name": "contextFree",
             "params": [
@@ -7522,7 +7624,7 @@
         },
         {
             "file": "src/davinci-eight/core/Mesh.ts",
-            "line": 138,
+            "line": 133,
             "itemtype": "method",
             "name": "contextGain",
             "params": [
@@ -7542,7 +7644,7 @@
         },
         {
             "file": "src/davinci-eight/core/Mesh.ts",
-            "line": 148,
+            "line": 143,
             "itemtype": "method",
             "name": "contextLost",
             "return": {
@@ -7555,7 +7657,7 @@
         },
         {
             "file": "src/davinci-eight/core/Mesh.ts",
-            "line": 157,
+            "line": 152,
             "itemtype": "method",
             "name": "getFacet",
             "params": [
@@ -7575,7 +7677,7 @@
         },
         {
             "file": "src/davinci-eight/core/Mesh.ts",
-            "line": 166,
+            "line": 161,
             "itemtype": "method",
             "name": "setFacet",
             "params": [
@@ -7600,7 +7702,7 @@
         },
         {
             "file": "src/davinci-eight/core/Mesh.ts",
-            "line": 176,
+            "line": 171,
             "description": "Provides a reference counted reference to the graphics buffers property.",
             "itemtype": "property",
             "name": "geometry",
@@ -7612,7 +7714,7 @@
         },
         {
             "file": "src/davinci-eight/core/Mesh.ts",
-            "line": 190,
+            "line": 185,
             "description": "Provides a reference counted reference to the graphics program property.",
             "itemtype": "property",
             "name": "material",
@@ -7624,7 +7726,7 @@
         },
         {
             "file": "src/davinci-eight/core/Mesh.ts",
-            "line": 204,
+            "line": 199,
             "itemtype": "property",
             "name": "visible",
             "type": "boolean",
@@ -7709,7 +7811,7 @@
         },
         {
             "file": "src/davinci-eight/core/Scene.ts",
-            "line": 117,
+            "line": 120,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -7724,7 +7826,7 @@
         },
         {
             "file": "src/davinci-eight/core/Scene.ts",
-            "line": 129,
+            "line": 132,
             "description": "<p>\nAdds the <code>mesh</code> to this <code>Scene</code>.\n</p>",
             "itemtype": "method",
             "name": "add",
@@ -7745,7 +7847,7 @@
         },
         {
             "file": "src/davinci-eight/core/Scene.ts",
-            "line": 155,
+            "line": 158,
             "itemtype": "method",
             "name": "contains",
             "params": [
@@ -7765,7 +7867,7 @@
         },
         {
             "file": "src/davinci-eight/core/Scene.ts",
-            "line": 165,
+            "line": 168,
             "description": "<p>\nTraverses the collection of scene parts drawing each one.\n</p>",
             "itemtype": "method",
             "name": "draw",
@@ -7787,7 +7889,7 @@
         },
         {
             "file": "src/davinci-eight/core/Scene.ts",
-            "line": 182,
+            "line": 185,
             "itemtype": "method",
             "name": "find",
             "params": [
@@ -7807,7 +7909,7 @@
         },
         {
             "file": "src/davinci-eight/core/Scene.ts",
-            "line": 191,
+            "line": 194,
             "itemtype": "method",
             "name": "findOne",
             "params": [
@@ -7827,7 +7929,7 @@
         },
         {
             "file": "src/davinci-eight/core/Scene.ts",
-            "line": 200,
+            "line": 203,
             "itemtype": "method",
             "name": "findOneByName",
             "params": [
@@ -7847,7 +7949,7 @@
         },
         {
             "file": "src/davinci-eight/core/Scene.ts",
-            "line": 209,
+            "line": 212,
             "itemtype": "method",
             "name": "findByName",
             "params": [
@@ -7867,7 +7969,7 @@
         },
         {
             "file": "src/davinci-eight/core/Scene.ts",
-            "line": 218,
+            "line": 221,
             "description": "<p>\nRemoves the <code>mesh</code> from this <code>Scene</code>.\n</p>",
             "itemtype": "method",
             "name": "remove",
@@ -7888,7 +7990,7 @@
         },
         {
             "file": "src/davinci-eight/core/Scene.ts",
-            "line": 236,
+            "line": 239,
             "itemtype": "method",
             "name": "contextFree",
             "params": [
@@ -7908,7 +8010,7 @@
         },
         {
             "file": "src/davinci-eight/core/Scene.ts",
-            "line": 249,
+            "line": 252,
             "itemtype": "method",
             "name": "contextGain",
             "params": [
@@ -7928,7 +8030,7 @@
         },
         {
             "file": "src/davinci-eight/core/Scene.ts",
-            "line": 262,
+            "line": 265,
             "itemtype": "method",
             "name": "contextLost",
             "return": {
@@ -25452,11 +25554,11 @@
         },
         {
             "message": "param name/type/descript missing",
-            "line": " src/davinci-eight/core/Geometry.ts:67"
+            "line": " src/davinci-eight/core/GeometryContainer.ts:73"
         },
         {
             "message": "unknown tag: proprty",
-            "line": " src/davinci-eight/core/GeometryPart.ts:30"
+            "line": " src/davinci-eight/core/GeometryPrimitive.ts:33"
         },
         {
             "message": "replacing incorrect tag: function with method",
@@ -25492,7 +25594,7 @@
         },
         {
             "message": "Missing item type\nThe primitive buffer associated with the source that may\ncome and go according to context loss and gain events.",
-            "line": " src/davinci-eight/core/GeometryPart.ts:30"
+            "line": " src/davinci-eight/core/GeometryPrimitive.ts:33"
         },
         {
             "message": "Missing item type",

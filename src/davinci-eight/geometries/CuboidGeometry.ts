@@ -1,4 +1,5 @@
-import Geometry from '../core/Geometry';
+import GeometryContainer from '../core/GeometryContainer';
+import GeometryPrimitive from '../core/GeometryPrimitive';
 import Primitive from '../core/Primitive';
 import mustBeBoolean from '../checks/mustBeBoolean';
 import mustBeNumber from '../checks/mustBeNumber';
@@ -36,7 +37,7 @@ function primitives(width: number, height: number, depth: number, wireFrame: boo
  * @class CuboidGeometry
  * @extends Geometry
  */
-export default class CuboidGeometry extends Geometry {
+export default class CuboidGeometry extends GeometryContainer {
     /**
      * @class CuboidGeometry
      * @constructor
@@ -46,6 +47,14 @@ export default class CuboidGeometry extends Geometry {
      * @param wireFrame {boolean}
      */
     constructor(width: number, height: number, depth: number, wireFrame: boolean) {
-        super(primitives(width, height, depth, wireFrame))
+        super()
+        const ps = primitives(width, height, depth, wireFrame)
+        const iLen = ps.length
+        for (let i = 0; i < iLen; i++) {
+            const dataSource = ps[i]
+            const geometry = new GeometryPrimitive(dataSource)
+            this.addPart(geometry)
+            geometry.release()
+        }
     }
 }

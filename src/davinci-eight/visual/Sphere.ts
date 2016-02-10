@@ -20,8 +20,8 @@ export default class Sphere extends RigidBody {
      */
     constructor(options: VisualOptions = {}) {
         super(visualCache.sphere(options), visualCache.material(options), 'Sphere')
-        this._buffers.release()
-        this._program.release()
+        this._geometry.release()
+        this._material.release()
     }
 
     /**

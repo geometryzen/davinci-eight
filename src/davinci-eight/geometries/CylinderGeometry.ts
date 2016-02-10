@@ -1,5 +1,6 @@
 import CartesianE3 from '../math/CartesianE3'
-import Geometry from '../core/Geometry'
+import GeometryContainer from '../core/GeometryContainer'
+import GeometryPrimitive from '../core/GeometryPrimitive'
 import Primitive from '../core/Primitive'
 import CylinderBuilder from './CylinderBuilder'
 import CylinderPrimitivesBuilder from './CylinderPrimitivesBuilder'
@@ -30,14 +31,22 @@ function primitives(): Primitive[] {
  * A convenience class for creating a cuboid.
  *
  * @class CylinderGeometry
- * @extends Geometry
+ * @extends GeometryContainer
  */
-export default class CylinderGeometry extends Geometry {
+export default class CylinderGeometry extends GeometryContainer {
     /**
      * @class CylinderGeometry
      * @constructor
      */
     constructor() {
-        super(primitives())
+        super()
+        const ps = primitives()
+        const iLen = ps.length
+        for (let i = 0; i < iLen; i++) {
+            const dataSource = ps[i]
+            const geometry = new GeometryPrimitive(dataSource)
+            this.addPart(geometry)
+            geometry.release()
+        }
     }
 }

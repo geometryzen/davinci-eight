@@ -15,8 +15,8 @@ import VisualOptions from './VisualOptions'
 export default class Cylinder extends RigidBody {
     constructor(options: VisualOptions = {}) {
         super(visualCache.cylinder(options), visualCache.material(options), 'Cylinder')
-        this._buffers.release()
-        this._program.release()
+        this._geometry.release()
+        this._material.release()
     }
     protected destructor(): void {
         super.destructor()

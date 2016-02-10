@@ -75,7 +75,8 @@
                                 <li><a href="../classes/GeometricE2.html">GeometricE2</a></li>
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
-                                <li><a href="../classes/GeometryPart.html">GeometryPart</a></li>
+                                <li><a href="../classes/GeometryContainer.html">GeometryContainer</a></li>
+                                <li><a href="../classes/GeometryPrimitive.html">GeometryPrimitive</a></li>
                                 <li><a href="../classes/GraphicsProgramSymbols.html">GraphicsProgramSymbols</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
                                 <li><a href="../classes/IBufferGeometry.html">IBufferGeometry</a></li>
@@ -197,103 +198,53 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import IContextProvider from &#x27;../core/IContextProvider&#x27;;
-import IUnknownArray from &#x27;../collections/IUnknownArray&#x27;;
-import Primitive from &#x27;../core/Primitive&#x27;;
-import GeometryPart from &#x27;./GeometryPart&#x27;
-import readOnly from &#x27;../i18n/readOnly&#x27;;
-import Shareable from &#x27;../core/Shareable&#x27;;
+import IContextConsumer from &#x27;./IContextConsumer&#x27;
+import Material from &#x27;./Material&#x27;
 
 /**
- * @module EIGHT
- * @submodule core
- */
-
-/**
- * A collection of GeometryPart(s) with functions
- * that reflect the dependency on the WebGL context events.
  * @class Geometry
- * @extends Shareable
  */
-export default class Geometry extends Shareable {
-
+interface Geometry extends IContextConsumer {
     /**
-     * @property buffers
-     * @private
+     * @property partsLength
+     * @type number
+     * @readOnly
      */
-    private buffers: IUnknownArray&lt;GeometryPart&gt;;
+    partsLength: number
 
     /**
-     * @class Geometry
-     * @constructor
-     * @param primitives {Primitive[]}
-     */
-    constructor(primitives: Primitive[]) {
-        super(&#x27;Geometry&#x27;);
-        this.buffers = new IUnknownArray&lt;GeometryPart&gt;()
-        const iLen = primitives.length
-        for (let i = 0; i &lt; iLen; i++) {
-            const dataSource = primitives[i]
-            this.buffers.pushWeakRef(new GeometryPart(dataSource))
-        }
-    }
-    /**
-     * @method destructor
-     * @return {void}
-     * @protected
-     */
-    protected destructor(): void {
-        this.buffers.release()
-        this.buffers = void 0
-        super.destructor()
-    }
-
-    get length(): number {
-        return this.buffers.length;
-    }
-    set length(unused) {
-        throw new Error(readOnly(&#x27;length&#x27;).message)
-    }
-
-    get(index: number) {
-        return this.buffers.get(index)
-    }
-
-    getWeakRef(index: number) {
-        return this.buffers.getWeakRef(index)
-    }
-
-    /**
-     * @method contextFree
-     * @param 
-     */
-    contextFree(manager: IContextProvider): void {
-        this.buffers.forEach(function(buffer) {
-            buffer.contextFree(manager)
-        })
-    }
-
-    /**
-     * @method contextGain
-     * @param manager {IContextProvider}
+     * @method addPart
+     * @param geometry {Geometry}
      * @return {void}
      */
-    contextGain(manager: IContextProvider): void {
-        this.buffers.forEach(function(buffer) {
-            buffer.contextGain(manager)
-        })
-    }
+    addPart(geometry: Geometry): void
 
     /**
-     * @method contextLost
+     * @method removePart
+     * @param index {number}
      * @return {void}
      */
-    contextLost(): void {
-        this.buffers.forEach(function(buffer) {
-            buffer.contextLost()
-        })
-    }
+    removePart(index: number): void
+
+    /**
+     * @method getPart
+     * @param index {number}
+     * @return {Geometry}
+     */
+    getPart(index: number): Geometry
+
+    /**
+     * @method draw
+     * @param material {Material}
+     * @return {void}
+     */
+    draw(material: Material): void
+
+    // TODO: Move this to IUnknown
+    isZombie(): boolean
 }
+
+export default Geometry
 
     </pre>
 </div>

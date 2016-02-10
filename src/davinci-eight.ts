@@ -36,7 +36,8 @@ import Mesh from 'davinci-eight/core/Mesh';
 import Scene from 'davinci-eight/core/Scene';
 import WebGLRenderer from 'davinci-eight/core/WebGLRenderer';
 import Material from 'davinci-eight/core/Material';
-import Geometry from 'davinci-eight/core/Geometry';
+import GeometryContainer from 'davinci-eight/core/GeometryContainer';
+import GeometryPrimitive from 'davinci-eight/core/GeometryPrimitive';
 import initWebGL from 'davinci-eight/core/initWebGL';
 // curves
 import Curve from 'davinci-eight/curves/Curve';
@@ -298,7 +299,8 @@ var eight = {
     get Curve() { return Curve },
 
     get GraphicsProgramSymbols() { return GraphicsProgramSymbols },
-    get Geometry() { return Geometry },
+    get GeometryContainer() { return GeometryContainer },
+    get GeometryPrimitive() { return GeometryPrimitive },
     // programs
     get programFromScripts() { return programFromScripts },
     get DrawAttribute() { return DrawAttribute },

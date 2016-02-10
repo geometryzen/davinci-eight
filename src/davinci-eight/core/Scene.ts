@@ -3,7 +3,7 @@ import IContextProvider from '../core/IContextProvider';
 import Mesh from './Mesh';
 import IUnknownArray from '../collections/IUnknownArray';
 import mustBeObject from '../checks/mustBeObject';
-import GeometryPart from './GeometryPart';
+import Geometry from './Geometry';
 import Shareable from '../core/Shareable';
 import ShareableContextListener from '../core/ShareableContextListener';
 
@@ -21,7 +21,7 @@ class ScenePart extends Shareable {
     /**
      *
      */
-    private _buffer: GeometryPart;
+    private _geometry: Geometry;
 
     /**
      * Keep track of the 'parent' mesh.
@@ -31,10 +31,10 @@ class ScenePart extends Shareable {
     /**
      *
      */
-    constructor(buffer: GeometryPart, mesh: Mesh) {
+    constructor(geometry: Geometry, mesh: Mesh) {
         super('ScenePart')
-        this._buffer = buffer
-        this._buffer.addRef()
+        this._geometry = geometry
+        this._geometry.addRef()
         this._mesh = mesh
         this._mesh.addRef()
     }
@@ -43,9 +43,9 @@ class ScenePart extends Shareable {
      *
      */
     protected destructor(): void {
-        this._buffer.release()
+        this._geometry.release()
         this._mesh.release()
-        this._buffer = void 0;
+        this._geometry = void 0;
         this._mesh = void 0
         super.destructor()
     }
@@ -69,7 +69,7 @@ class ScenePart extends Shareable {
 
             this._mesh.setUniforms();
 
-            this._buffer.draw(material)
+            this._geometry.draw(material)
             material.release()
         }
     }
@@ -78,13 +78,16 @@ class ScenePart extends Shareable {
 function partsFromMesh(mesh: Mesh): IUnknownArray<ScenePart> {
     mustBeObject('mesh', mesh)
     const parts = new IUnknownArray<ScenePart>()
-    const buffers = mesh.geometry
-    const iLen = buffers.length
+    const geometry = mesh.geometry
+    const iLen = geometry.partsLength
     for (let i = 0; i < iLen; i++) {
-        const scenePart = new ScenePart(buffers.getWeakRef(i), mesh)
+        const geometryPart = geometry.getPart(i)
+        // FIXME: This needs to go down to the leaves.
+        const scenePart = new ScenePart(geometryPart, mesh)
+        geometryPart.release()
         parts.pushWeakRef(scenePart)
     }
-    buffers.release()
+    geometry.release()
     return parts
 }
 

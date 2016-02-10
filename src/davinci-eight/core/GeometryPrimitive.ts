@@ -1,8 +1,11 @@
 import IBufferGeometry from '../core/IBufferGeometry'
 import IContextProvider from '../core/IContextProvider'
+import notSupported from '../i18n/notSupported';
 import Material from '../core/Material'
-import Primitive from '../core/Primitive'
-import ShareableContextListener from '../core/ShareableContextListener'
+import Geometry from './Geometry'
+import Primitive from './Primitive'
+import readOnly from '../i18n/readOnly';
+import ShareableContextListener from './ShareableContextListener'
 
 /**
  * @module EIGHT
@@ -13,10 +16,10 @@ import ShareableContextListener from '../core/ShareableContextListener'
  * A buffer for drawing a single primitive
  * that can endure context loss and gain events.
  *
- * @class GeometryPart
+ * @class GeometryPrimitive
  * @extends Shareable
  */
-export default class GeometryPart extends ShareableContextListener {
+export default class GeometryPrimitive extends ShareableContextListener implements Geometry {
 
     /**
      * The always available source of primitive data that
@@ -37,17 +40,36 @@ export default class GeometryPart extends ShareableContextListener {
     private _dataBuffer: IBufferGeometry;
 
     /**
-     * @class GeometryPart
+     * @class GeometryPrimitive
      * @constructor
      * @param dataSource {Primitive}
      */
     constructor(dataSource: Primitive) {
-        super('GeometryPart')
+        super('GeometryPrimitive')
         this._dataSource = dataSource;
     }
 
     protected destructor(): void {
         super.destructor()
+    }
+
+    get partsLength(): number {
+        return 0
+    }
+    set partsLength(unused) {
+        throw new Error(readOnly('partsLength').message)
+    }
+
+    addPart(geometry: Geometry): void {
+        throw new Error(notSupported('addPart').message)
+    }
+
+    removePart(index: number): void {
+        throw new Error(notSupported('removePart').message)
+    }
+
+    getPart(index: number): Geometry {
+        throw new Error(notSupported('getPart').message)
     }
 
     public contextFree(context: IContextProvider): void {

@@ -18,18 +18,18 @@ import Facet from '../core/Facet';
 export default class Mesh extends ShareableContextListener {
 
     /**
-     * @property _buffers
+     * @property _geometry
      * @type {Geometry}
      * @private
      */
-    protected _buffers: Geometry;
+    protected _geometry: Geometry;
 
     /**
-     * @property _program
+     * @property _material
      * @type {Material}
      * @private
      */
-    protected _program: Material;
+    protected _material: Material;
 
     /**
      * @property name
@@ -60,10 +60,10 @@ export default class Mesh extends ShareableContextListener {
      */
     constructor(geometry: Geometry, material: Material, type = 'Mesh') {
         super(type)
-        this._buffers = geometry
-        this._buffers.addRef()
-        this._program = material
-        this._program.addRef()
+        this._geometry = geometry
+        this._geometry.addRef()
+        this._material = material
+        this._material.addRef()
         this._facets = {}
     }
 
@@ -73,10 +73,10 @@ export default class Mesh extends ShareableContextListener {
      * @protected
      */
     protected destructor(): void {
-        this._buffers.release()
-        this._buffers = void 0
-        this._program.release()
-        this._program = void 0
+        this._geometry.release()
+        this._geometry = void 0
+        this._material.release()
+        this._material = void 0
         super.destructor()
     }
 
@@ -85,7 +85,7 @@ export default class Mesh extends ShareableContextListener {
      * @return {void}
      */
     setUniforms(): void {
-        const program = this._program
+        const program = this._material
         const facets = this._facets
         // FIXME: Temporary object creation?
         const keys = Object.keys(facets)
@@ -104,24 +104,19 @@ export default class Mesh extends ShareableContextListener {
      */
     draw(ambients: Facet[]): void {
         if (this._visible) {
-            const program = this._program;
+            const material = this._material;
 
-            program.use();
+            material.use();
 
             const iL = ambients.length;
             for (let i = 0; i < iL; i++) {
                 const ambient = ambients[i]
-                ambient.setUniforms(program)
+                ambient.setUniforms(material)
             }
 
             this.setUniforms();
 
-            const buffers = this._buffers;
-            const jL = buffers.length;
-            for (let j = 0; j < jL; j++) {
-                const buffer = buffers.getWeakRef(j)
-                buffer.draw(program)
-            }
+            this._geometry.draw(material)
         }
     }
 
@@ -131,8 +126,8 @@ export default class Mesh extends ShareableContextListener {
      * @return {void}
      */
     contextFree(context: IContextProvider): void {
-        this._buffers.contextFree(context)
-        this._program.contextFree(context)
+        this._geometry.contextFree(context)
+        this._material.contextFree(context)
     }
 
     /**
@@ -141,8 +136,8 @@ export default class Mesh extends ShareableContextListener {
      * @return {void}
      */
     contextGain(context: IContextProvider): void {
-        this._buffers.contextGain(context)
-        this._program.contextGain(context)
+        this._geometry.contextGain(context)
+        this._material.contextGain(context)
     }
 
     /**
@@ -150,8 +145,8 @@ export default class Mesh extends ShareableContextListener {
      * @return {void}
      */
     contextLost(): void {
-        this._buffers.contextLost()
-        this._program.contextLost()
+        this._geometry.contextLost()
+        this._material.contextLost()
     }
 
     /**
@@ -180,8 +175,8 @@ export default class Mesh extends ShareableContextListener {
      * @readOnly
      */
     get geometry(): Geometry {
-        this._buffers.addRef()
-        return this._buffers
+        this._geometry.addRef()
+        return this._geometry
     }
     set geometry(unused) {
         throw new Error(readOnly('geometry').message)
@@ -194,8 +189,8 @@ export default class Mesh extends ShareableContextListener {
      * @readOnly
      */
     get material(): Material {
-        this._program.addRef()
-        return this._program
+        this._material.addRef()
+        return this._material
     }
     set material(unused) {
         throw new Error(readOnly('material').message)

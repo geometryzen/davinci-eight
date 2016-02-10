@@ -75,7 +75,8 @@
                                 <li><a href="../classes/GeometricE2.html">GeometricE2</a></li>
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
-                                <li><a href="../classes/GeometryPart.html">GeometryPart</a></li>
+                                <li><a href="../classes/GeometryContainer.html">GeometryContainer</a></li>
+                                <li><a href="../classes/GeometryPrimitive.html">GeometryPrimitive</a></li>
                                 <li><a href="../classes/GraphicsProgramSymbols.html">GraphicsProgramSymbols</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
                                 <li><a href="../classes/IBufferGeometry.html">IBufferGeometry</a></li>
@@ -202,7 +203,7 @@ import IContextProvider from &#x27;../core/IContextProvider&#x27;;
 import Mesh from &#x27;./Mesh&#x27;;
 import IUnknownArray from &#x27;../collections/IUnknownArray&#x27;;
 import mustBeObject from &#x27;../checks/mustBeObject&#x27;;
-import GeometryPart from &#x27;./GeometryPart&#x27;;
+import Geometry from &#x27;./Geometry&#x27;;
 import Shareable from &#x27;../core/Shareable&#x27;;
 import ShareableContextListener from &#x27;../core/ShareableContextListener&#x27;;
 
@@ -220,7 +221,7 @@ class ScenePart extends Shareable {
     /**
      *
      */
-    private _buffer: GeometryPart;
+    private _geometry: Geometry;
 
     /**
      * Keep track of the &#x27;parent&#x27; mesh.
@@ -230,10 +231,10 @@ class ScenePart extends Shareable {
     /**
      *
      */
-    constructor(buffer: GeometryPart, mesh: Mesh) {
+    constructor(geometry: Geometry, mesh: Mesh) {
         super(&#x27;ScenePart&#x27;)
-        this._buffer = buffer
-        this._buffer.addRef()
+        this._geometry = geometry
+        this._geometry.addRef()
         this._mesh = mesh
         this._mesh.addRef()
     }
@@ -242,9 +243,9 @@ class ScenePart extends Shareable {
      *
      */
     protected destructor(): void {
-        this._buffer.release()
+        this._geometry.release()
         this._mesh.release()
-        this._buffer = void 0;
+        this._geometry = void 0;
         this._mesh = void 0
         super.destructor()
     }
@@ -268,7 +269,7 @@ class ScenePart extends Shareable {
 
             this._mesh.setUniforms();
 
-            this._buffer.draw(material)
+            this._geometry.draw(material)
             material.release()
         }
     }
@@ -277,13 +278,16 @@ class ScenePart extends Shareable {
 function partsFromMesh(mesh: Mesh): IUnknownArray&lt;ScenePart&gt; {
     mustBeObject(&#x27;mesh&#x27;, mesh)
     const parts = new IUnknownArray&lt;ScenePart&gt;()
-    const buffers = mesh.geometry
-    const iLen = buffers.length
+    const geometry = mesh.geometry
+    const iLen = geometry.partsLength
     for (let i = 0; i &lt; iLen; i++) {
-        const scenePart = new ScenePart(buffers.getWeakRef(i), mesh)
+        const geometryPart = geometry.getPart(i)
+        // FIXME: This needs to go down to the leaves.
+        const scenePart = new ScenePart(geometryPart, mesh)
+        geometryPart.release()
         parts.pushWeakRef(scenePart)
     }
-    buffers.release()
+    geometry.release()
     return parts
 }
 

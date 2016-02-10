@@ -22,8 +22,8 @@ export default class Arrow extends RigidBody {
      */
     constructor(options: VisualOptions = {}) {
         super(visualCache.arrow(options), visualCache.material(options), 'Arrow')
-        this._buffers.release()
-        this._program.release()
+        this._geometry.release()
+        this._material.release()
     }
 
     /**

@@ -75,7 +75,8 @@
                                 <li><a href="../classes/GeometricE2.html">GeometricE2</a></li>
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
-                                <li><a href="../classes/GeometryPart.html">GeometryPart</a></li>
+                                <li><a href="../classes/GeometryContainer.html">GeometryContainer</a></li>
+                                <li><a href="../classes/GeometryPrimitive.html">GeometryPrimitive</a></li>
                                 <li><a href="../classes/GraphicsProgramSymbols.html">GraphicsProgramSymbols</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
                                 <li><a href="../classes/IBufferGeometry.html">IBufferGeometry</a></li>
@@ -198,7 +199,8 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 import CartesianE3 from &#x27;../math/CartesianE3&#x27;
-import Geometry from &#x27;../core/Geometry&#x27;
+import GeometryContainer from &#x27;../core/GeometryContainer&#x27;
+import GeometryPrimitive from &#x27;../core/GeometryPrimitive&#x27;
 import Primitive from &#x27;../core/Primitive&#x27;
 import CylinderBuilder from &#x27;./CylinderBuilder&#x27;
 import CylinderPrimitivesBuilder from &#x27;./CylinderPrimitivesBuilder&#x27;
@@ -229,15 +231,23 @@ function primitives(): Primitive[] {
  * A convenience class for creating a cuboid.
  *
  * @class CylinderGeometry
- * @extends Geometry
+ * @extends GeometryContainer
  */
-export default class CylinderGeometry extends Geometry {
+export default class CylinderGeometry extends GeometryContainer {
     /**
      * @class CylinderGeometry
      * @constructor
      */
     constructor() {
-        super(primitives())
+        super()
+        const ps = primitives()
+        const iLen = ps.length
+        for (let i = 0; i &lt; iLen; i++) {
+            const dataSource = ps[i]
+            const geometry = new GeometryPrimitive(dataSource)
+            this.addPart(geometry)
+            geometry.release()
+        }
     }
 }
 

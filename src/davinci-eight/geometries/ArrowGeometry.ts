@@ -1,4 +1,5 @@
-import Geometry from '../core/Geometry';
+import GeometryContainer from '../core/GeometryContainer';
+import GeometryPrimitive from '../core/GeometryPrimitive';
 import Primitive from '../core/Primitive';
 import ArrowBuilder from './ArrowBuilder';
 import G3 from '../math/G3';
@@ -19,12 +20,20 @@ function primitives(): Primitive[] {
  * @class ArrowGeometry
  * @extends Geometry
  */
-export default class ArrowGeometry extends Geometry {
+export default class ArrowGeometry extends GeometryContainer {
     /**
      * @class ArrowGeometry
      * @constructor
      */
     constructor() {
-        super(primitives())
+        super()
+        const ps = primitives()
+        const iLen = ps.length
+        for (let i = 0; i < iLen; i++) {
+            const dataSource = ps[i]
+            const geometry = new GeometryPrimitive(dataSource)
+            this.addPart(geometry)
+            geometry.release()
+        }
     }
 }

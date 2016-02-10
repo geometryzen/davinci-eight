@@ -1,4 +1,5 @@
-import Geometry from '../core/Geometry'
+import GeometryContainer from '../core/GeometryContainer'
+import GeometryPrimitive from '../core/GeometryPrimitive'
 import Primitive from '../core/Primitive'
 import SphereBuilder from './SphereBuilder'
 import G3 from '../math/G3'
@@ -32,12 +33,20 @@ function primitives(options: { k?: number }): Primitive[] {
  * @class SphereGeometry
  * @extends Geometry
  */
-export default class SphereGeometry extends Geometry {
+export default class SphereGeometry extends GeometryContainer {
     /**
      * @class SphereGeometry
      * @constructor
      */
     constructor(options: { k?: number } = {}) {
-        super(primitives(options))
+        super()
+        const ps = primitives(options)
+        const iLen = ps.length
+        for (let i = 0; i < iLen; i++) {
+            const p = ps[i]
+            const geometry = new GeometryPrimitive(p)
+            this.addPart(geometry)
+            geometry.release()
+        }
     }
 }

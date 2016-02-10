@@ -75,7 +75,8 @@
                                 <li><a href="../classes/GeometricE2.html">GeometricE2</a></li>
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
-                                <li><a href="../classes/GeometryPart.html">GeometryPart</a></li>
+                                <li><a href="../classes/GeometryContainer.html">GeometryContainer</a></li>
+                                <li><a href="../classes/GeometryPrimitive.html">GeometryPrimitive</a></li>
                                 <li><a href="../classes/GraphicsProgramSymbols.html">GraphicsProgramSymbols</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
                                 <li><a href="../classes/IBufferGeometry.html">IBufferGeometry</a></li>
@@ -340,15 +341,19 @@
 
                             </li>
                             <li class="index-item property private inherited">
-                                <a href="#property__buffers">_buffers</a>
-
-                            </li>
-                            <li class="index-item property private inherited">
                                 <a href="#property__facets">_facets</a>
 
                             </li>
                             <li class="index-item property private inherited">
+                                <a href="#property__geometry">_geometry</a>
+
+                            </li>
+                            <li class="index-item property private inherited">
                                 <a href="#property__mass">_mass</a>
+
+                            </li>
+                            <li class="index-item property private inherited">
+                                <a href="#property__material">_material</a>
 
                             </li>
                             <li class="index-item property private inherited">
@@ -357,10 +362,6 @@
                             </li>
                             <li class="index-item property private inherited">
                                 <a href="#property__momentum">_momentum</a>
-
-                            </li>
-                            <li class="index-item property private inherited">
-                                <a href="#property__program">_program</a>
 
                             </li>
                             <li class="index-item property private inherited">
@@ -495,7 +496,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Mesh.html#method_contextFree">Mesh</a>:
-        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l128"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:128</code></a>
+        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l123"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:123</code></a>
         </p>
 
 
@@ -557,7 +558,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Mesh.html#method_contextGain">Mesh</a>:
-        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l138"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:138</code></a>
+        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l133"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:133</code></a>
         </p>
 
 
@@ -613,7 +614,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Mesh.html#method_contextLost">Mesh</a>:
-        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l148"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:148</code></a>
+        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l143"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:143</code></a>
         </p>
 
 
@@ -765,7 +766,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Mesh.html#method_getFacet">Mesh</a>:
-        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l157"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:157</code></a>
+        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l152"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:152</code></a>
         </p>
 
 
@@ -1000,7 +1001,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Mesh.html#method_setFacet">Mesh</a>:
-        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l166"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:166</code></a>
+        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l161"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:161</code></a>
         </p>
 
 
@@ -1308,31 +1309,6 @@ Notifies this instance that something is dereferencing it.
 
 
 </div>
-<div id="property__buffers" class="property item private inherited">
-    <h3 class="name"><code>_buffers</code></h3>
-    <span class="type"><a href="../classes/Geometry.html" class="crosslink">Geometry</a></span>
-
-
-        <span class="flag private">private</span>
-
-
-
-    <div class="meta">
-                <p>Inherited from
-                <a href="../classes/Mesh.html#property__buffers">Mesh</a>:
-        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l20"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:20</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-
-</div>
 <div id="property__facets" class="property item private inherited">
     <h3 class="name"><code>_facets</code></h3>
     <span class="type">Unknown</span>
@@ -1346,6 +1322,31 @@ Notifies this instance that something is dereferencing it.
                 <p>Inherited from
                 <a href="../classes/Mesh.html#property__facets">Mesh</a>:
         <a href="../files/src_davinci-eight_core_Mesh.ts.html#l48"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:48</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property__geometry" class="property item private inherited">
+    <h3 class="name"><code>_geometry</code></h3>
+    <span class="type"><a href="../classes/Geometry.html" class="crosslink">Geometry</a></span>
+
+
+        <span class="flag private">private</span>
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/Mesh.html#property__geometry">Mesh</a>:
+        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l20"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:20</code></a>
         </p>
 
 
@@ -1381,6 +1382,31 @@ Notifies this instance that something is dereferencing it.
     </div>
 
         <p><strong>Default:</strong> zero</p>
+
+
+</div>
+<div id="property__material" class="property item private inherited">
+    <h3 class="name"><code>_material</code></h3>
+    <span class="type"><a href="../classes/Material.html" class="crosslink">Material</a></span>
+
+
+        <span class="flag private">private</span>
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/Mesh.html#property__material">Mesh</a>:
+        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l27"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:27</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
 
 
 </div>
@@ -1433,31 +1459,6 @@ Notifies this instance that something is dereferencing it.
     </div>
 
         <p><strong>Default:</strong> zero</p>
-
-
-</div>
-<div id="property__program" class="property item private inherited">
-    <h3 class="name"><code>_program</code></h3>
-    <span class="type"><a href="../classes/Material.html" class="crosslink">Material</a></span>
-
-
-        <span class="flag private">private</span>
-
-
-
-    <div class="meta">
-                <p>Inherited from
-                <a href="../classes/Mesh.html#property__program">Mesh</a>:
-        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l27"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:27</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
 
 
 </div>
@@ -1549,7 +1550,7 @@ The axis property may be updated by assignment, but not through mutation.</p>
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Mesh.html#property_geometry">Mesh</a>:
-        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l176"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:176</code></a>
+        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l171"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:171</code></a>
         </p>
 
 
@@ -1599,7 +1600,7 @@ The axis property may be updated by assignment, but not through mutation.</p>
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Mesh.html#property_material">Mesh</a>:
-        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l190"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:190</code></a>
+        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l185"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:185</code></a>
         </p>
 
 
@@ -1747,7 +1748,7 @@ The axis property may be updated by assignment, but not through mutation.</p>
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Mesh.html#property_visible">Mesh</a>:
-        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l204"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:204</code></a>
+        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l199"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:199</code></a>
         </p>
 
 

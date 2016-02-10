@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src/davinci-eight/core/GeometryPart.ts - davinci-eight</title>
+    <title>GeometryContainer - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -75,7 +75,8 @@
                                 <li><a href="../classes/GeometricE2.html">GeometricE2</a></li>
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
-                                <li><a href="../classes/GeometryPart.html">GeometryPart</a></li>
+                                <li><a href="../classes/GeometryContainer.html">GeometryContainer</a></li>
+                                <li><a href="../classes/GeometryPrimitive.html">GeometryPrimitive</a></li>
                                 <li><a href="../classes/GraphicsProgramSymbols.html">GraphicsProgramSymbols</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
                                 <li><a href="../classes/IBufferGeometry.html">IBufferGeometry</a></li>
@@ -193,101 +194,453 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: src/davinci-eight/core/GeometryPart.ts</h1>
+<h1>GeometryContainer Class</h1>
+<div class="box meta">
 
-<div class="file">
-    <pre class="code prettyprint linenums">
-import IBufferGeometry from &#x27;../core/IBufferGeometry&#x27;
-import IContextProvider from &#x27;../core/IContextProvider&#x27;
-import Material from &#x27;../core/Material&#x27;
-import Primitive from &#x27;../core/Primitive&#x27;
-import ShareableContextListener from &#x27;../core/ShareableContextListener&#x27;
+        <div class="extends">
+            Extends <a href="../classes/Shareable.html" class="crosslink">Shareable</a>
+        </div>
 
-/**
- * @module EIGHT
- * @submodule core
- */
+        <div class="foundat">
+            Defined in: <a href="../files/src_davinci-eight_core_GeometryContainer.ts.html#l27"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryContainer.ts:27</code></a>
+        </div>
 
-/**
- * A buffer for drawing a single primitive
- * that can endure context loss and gain events.
- *
- * @class GeometryPart
- * @extends Shareable
- */
-export default class GeometryPart extends ShareableContextListener {
+            Module: <a href="../modules/core.html">core</a><br>
+            Parent Module: <a href="../modules/EIGHT.html">EIGHT</a>
 
-    /**
-     * The always available source of primitive data that
-     * allows us to recover from context loss events.
-     * @property dataSource
-     * @type Primitive
-     * @private
-     */
-    private _dataSource: Primitive;
+</div>
 
-    /**
-     * The primitive buffer associated with the source that may
-     * come and go according to context loss and gain events.
-     * @proprty dataBuffer
-     * @type IBufferGeometry
-     * @private
-     */
-    private _dataBuffer: IBufferGeometry;
 
-    /**
-     * @class GeometryPart
-     * @constructor
-     * @param dataSource {Primitive}
-     */
-    constructor(dataSource: Primitive) {
-        super(&#x27;GeometryPart&#x27;)
-        this._dataSource = dataSource;
-    }
+<div class="box intro">
+    <p>A collection of GeometryPrimitive(s) with functions
+that reflect the dependency on the WebGL context events.</p>
 
-    protected destructor(): void {
-        super.destructor()
-    }
+</div>
 
-    public contextFree(context: IContextProvider): void {
-        this.dropBuffer()
-        super.contextFree(context)
-    }
+    <div class="constructor">
+        <h2>Constructor</h2>
+<div id="method_GeometryContainer" class="method item">
+    <h3 class="name"><code>GeometryContainer</code></h3>
 
-    public contextGain(context: IContextProvider): void {
-        if (!this._dataBuffer) {
-            this._dataBuffer = context.createBufferGeometry(this._dataSource)
-        }
-        super.contextGain(context)
-    }
+        <span class="paren">()</span>
 
-    public contextLost(): void {
-        this.dropBuffer()
-        super.contextLost()
-    }
 
-    private dropBuffer(): void {
-        if (this._dataBuffer) {
-            this._dataBuffer.release();
-            this._dataBuffer = void 0;
-        }
-    }
 
-    /**
-     * @method draw
-     * @param material {Material}
-     * @return {void}
-     */
-    draw(material: Material): void {
-        if (this._dataBuffer) {
-            this._dataBuffer.bind(material)
-            this._dataBuffer.draw()
-            this._dataBuffer.unbind()
-        }
-    }
-}
 
-    </pre>
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_core_GeometryContainer.ts.html#l27"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryContainer.ts:27</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+
+</div>
+    </div>
+
+<div id="classdocs" class="tabview">
+    <ul class="api-class-tabs">
+        <li class="api-class-tab index"><a href="#index">Index</a></li>
+
+            <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
+            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
+    </ul>
+
+    <div>
+        <div id="index" class="api-class-tabpanel index">
+            <h2 class="off-left">Item Index</h2>
+
+                <div class="index-section methods">
+                    <h3>Methods</h3>
+
+                    <ul class="index-list methods extends">
+                            <li class="index-item method inherited inherited">
+                                <a href="#method_addRef">addRef</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_contextFree">contextFree</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_contextGain">contextGain</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_contextLost">contextLost</a>
+
+                            </li>
+                            <li class="index-item method protected inherited">
+                                <a href="#method_destructor">destructor</a>
+
+                            </li>
+                            <li class="index-item method inherited inherited">
+                                <a href="#method_release">release</a>
+
+                            </li>
+                    </ul>
+                </div>
+
+                <div class="index-section properties">
+                    <h3>Properties</h3>
+
+                    <ul class="index-list properties extends">
+                            <li class="index-item property private">
+                                <a href="#property__parts">_parts</a>
+
+                            </li>
+                            <li class="index-item property inherited">
+                                <a href="#property_uuid">uuid</a>
+
+                            </li>
+                    </ul>
+                </div>
+
+
+        </div>
+
+            <div id="methods" class="api-class-tabpanel">
+                <h2 class="off-left">Methods</h2>
+
+<div id="method_addRef" class="method item inherited">
+    <h3 class="name"><code>addRef</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">Number</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+            <p>Inherited from
+            <a href="../classes/IUnknown.html#method_addRef">
+                IUnknown
+            </a>
+            but overwritten in
+        <a href="../files/src_davinci-eight_core_Shareable.ts.html#l34"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Shareable.ts:34</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>
+Notifies this instance that something is dereferencing it.
+</p>
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Number</span>:
+                    The new value of the reference count.
+            </div>
+        </div>
+
+
+</div>
+<div id="method_contextFree" class="method item">
+    <h3 class="name"><code>contextFree</code></h3>
+
+        <span class="paren">()</span>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_core_GeometryContainer.ts.html#l73"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryContainer.ts:73</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+
+</div>
+<div id="method_contextGain" class="method item">
+    <h3 class="name"><code>contextGain</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>manager</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_core_GeometryContainer.ts.html#l83"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryContainer.ts:83</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">manager</code>
+                        <span class="type"><a href="../classes/IContextProvider.html" class="crosslink">IContextProvider</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Void</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_contextLost" class="method item">
+    <h3 class="name"><code>contextLost</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_core_GeometryContainer.ts.html#l94"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryContainer.ts:94</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Void</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_destructor" class="method item protected">
+    <h3 class="name"><code>destructor</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+
+
+        <span class="flag protected">protected</span>
+
+
+
+
+
+    <div class="meta">
+            <p>Inherited from
+            <a href="../classes/Shareable.html#method_destructor">
+                Shareable
+            </a>
+            but overwritten in
+        <a href="../files/src_davinci-eight_core_GeometryContainer.ts.html#l36"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryContainer.ts:36</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Void</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_release" class="method item inherited">
+    <h3 class="name"><code>release</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">Number</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+            <p>Inherited from
+            <a href="../classes/IUnknown.html#method_release">
+                IUnknown
+            </a>
+            but overwritten in
+        <a href="../files/src_davinci-eight_core_Shareable.ts.html#l48"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Shareable.ts:48</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>
+Notifies this instance that something is dereferencing it.
+</p>
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Number</span>:
+                    The new value of the reference count.
+            </div>
+        </div>
+
+
+</div>
+            </div>
+
+            <div id="properties" class="api-class-tabpanel">
+                <h2 class="off-left">Properties</h2>
+
+<div id="property__parts" class="property item private">
+    <h3 class="name"><code>_parts</code></h3>
+    <span class="type">Unknown</span>
+
+
+        <span class="flag private">private</span>
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_core_GeometryContainer.ts.html#l21"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryContainer.ts:21</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_uuid" class="property item inherited">
+    <h3 class="name"><code>uuid</code></h3>
+    <span class="type">String</span>
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/Shareable.html#property_uuid">Shareable</a>:
+        <a href="../files/src_davinci-eight_core_Shareable.ts.html#l92"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Shareable.ts:92</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+            </div>
+
+
+    </div>
 </div>
                     </div>
                 </div>
