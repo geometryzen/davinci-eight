@@ -47,7 +47,6 @@
                                 <li><a href="../classes/Attribute.html">Attribute</a></li>
                                 <li><a href="../classes/BlendFactor.html">BlendFactor</a></li>
                                 <li><a href="../classes/Capability.html">Capability</a></li>
-                                <li><a href="../classes/CartesianE3.html">CartesianE3</a></li>
                                 <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
@@ -68,7 +67,6 @@
                                 <li><a href="../classes/Euclidean1.html">Euclidean1</a></li>
                                 <li><a href="../classes/Euclidean2.html">Euclidean2</a></li>
                                 <li><a href="../classes/Euclidean3.html">Euclidean3</a></li>
-                                <li><a href="../classes/EulerFacet.html">EulerFacet</a></li>
                                 <li><a href="../classes/Facet.html">Facet</a></li>
                                 <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
@@ -77,6 +75,7 @@
                                 <li><a href="../classes/GeometricE2.html">GeometricE2</a></li>
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
+                                <li><a href="../classes/GeometryPart.html">GeometryPart</a></li>
                                 <li><a href="../classes/GraphicsProgramSymbols.html">GraphicsProgramSymbols</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
                                 <li><a href="../classes/IBufferGeometry.html">IBufferGeometry</a></li>
@@ -104,7 +103,6 @@
                                 <li><a href="../classes/PointMaterial.html">PointMaterial</a></li>
                                 <li><a href="../classes/PointSizeFacet.html">PointSizeFacet</a></li>
                                 <li><a href="../classes/Primitive.html">Primitive</a></li>
-                                <li><a href="../classes/PrimitiveBuffer.html">PrimitiveBuffer</a></li>
                                 <li><a href="../classes/Pseudo.html">Pseudo</a></li>
                                 <li><a href="../classes/QQ.html">QQ</a></li>
                                 <li><a href="../classes/R1.html">R1</a></li>
@@ -199,15 +197,13 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import CartesianE3 from &#x27;../math/CartesianE3&#x27;;
 import Facet from &#x27;../core/Facet&#x27;;
 import FacetVisitor from &#x27;../core/FacetVisitor&#x27;;
 import mustBeArray from &#x27;../checks/mustBeArray&#x27;;
 import mustBeString from &#x27;../checks/mustBeString&#x27;;
-import R3 from &#x27;../math/R3&#x27;;
+import G3 from &#x27;../math/G3&#x27;;
 import Mat4R from &#x27;../math/Mat4R&#x27;;
 import readOnly from &#x27;../i18n/readOnly&#x27;;
-import Shareable from &#x27;../core/Shareable&#x27;;
 
 /**
  * @module EIGHT
@@ -216,16 +212,16 @@ import Shareable from &#x27;../core/Shareable&#x27;;
 
 /**
  * @class ReflectionFacetE3
- * @extends Shareable
  */
-export default class ReflectionFacetE3 extends Shareable implements Facet {
+export default class ReflectionFacetE3 implements Facet {
     /**
      * The vector perpendicular to the (hyper-)plane of reflection.
      * @property _normal
-     * @type {R3}
+     * @type {G3}
      * @private
      */
-    public _normal: R3;
+    public _normal: G3;
+
     /**
      * @property matrix
      * @type {Mat4R}
@@ -240,34 +236,22 @@ export default class ReflectionFacetE3 extends Shareable implements Facet {
      * @param name {string} The name of the uniform variable.
      */
     constructor(name: string) {
-        super(&#x27;ReflectionFacetE3&#x27;)
         this.name = mustBeString(&#x27;name&#x27;, name)
         // The mathematics of the reflection causes a zero vector to be the identity transformation.
-        this._normal = new R3().copy(CartesianE3.zero)
+        this._normal = G3.fromVector({ x: 0, y: 0, z: 0 })
         this._normal.modified = true
     }
 
     /**
      * @property normal
-     * @type R3
+     * @type G3
      * @readOnly
      */
-    get normal(): R3 {
+    get normal(): G3 {
         return this._normal
     }
     set normal(unused) {
         throw new Error(readOnly(&#x27;normal&#x27;).message)
-    }
-
-    /**
-     * @method destructor
-     * @return {void}
-     * @protected
-     */
-    protected destructor(): void {
-        this._normal = void 0
-        this.matrix = void 0
-        super.destructor()
     }
 
     /**

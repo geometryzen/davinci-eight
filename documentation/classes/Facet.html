@@ -47,7 +47,6 @@
                                 <li><a href="../classes/Attribute.html">Attribute</a></li>
                                 <li><a href="../classes/BlendFactor.html">BlendFactor</a></li>
                                 <li><a href="../classes/Capability.html">Capability</a></li>
-                                <li><a href="../classes/CartesianE3.html">CartesianE3</a></li>
                                 <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
@@ -68,7 +67,6 @@
                                 <li><a href="../classes/Euclidean1.html">Euclidean1</a></li>
                                 <li><a href="../classes/Euclidean2.html">Euclidean2</a></li>
                                 <li><a href="../classes/Euclidean3.html">Euclidean3</a></li>
-                                <li><a href="../classes/EulerFacet.html">EulerFacet</a></li>
                                 <li><a href="../classes/Facet.html">Facet</a></li>
                                 <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
@@ -77,6 +75,7 @@
                                 <li><a href="../classes/GeometricE2.html">GeometricE2</a></li>
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
+                                <li><a href="../classes/GeometryPart.html">GeometryPart</a></li>
                                 <li><a href="../classes/GraphicsProgramSymbols.html">GraphicsProgramSymbols</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
                                 <li><a href="../classes/IBufferGeometry.html">IBufferGeometry</a></li>
@@ -104,7 +103,6 @@
                                 <li><a href="../classes/PointMaterial.html">PointMaterial</a></li>
                                 <li><a href="../classes/PointSizeFacet.html">PointSizeFacet</a></li>
                                 <li><a href="../classes/Primitive.html">Primitive</a></li>
-                                <li><a href="../classes/PrimitiveBuffer.html">PrimitiveBuffer</a></li>
                                 <li><a href="../classes/Pseudo.html">Pseudo</a></li>
                                 <li><a href="../classes/QQ.html">QQ</a></li>
                                 <li><a href="../classes/R1.html">R1</a></li>
@@ -198,12 +196,9 @@
 <h1>Facet Class</h1>
 <div class="box meta">
 
-        <div class="extends">
-            Extends <a href="../classes/IUnknown.html" class="crosslink">IUnknown</a>
-        </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_core_Facet.ts.html#l9"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Facet.ts:9</code></a>
+            Defined in: <a href="../files/src_davinci-eight_core_Facet.ts.html#l8"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Facet.ts:8</code></a>
         </div>
 
             Module: <a href="../modules/core.html">core</a><br>
@@ -231,15 +226,7 @@
                 <div class="index-section methods">
                     <h3>Methods</h3>
 
-                    <ul class="index-list methods extends">
-                            <li class="index-item method inherited">
-                                <a href="#method_addRef">addRef</a>
-
-                            </li>
-                            <li class="index-item method inherited">
-                                <a href="#method_release">release</a>
-
-                            </li>
+                    <ul class="index-list methods">
                             <li class="index-item method">
                                 <a href="#method_setProperty">setProperty</a>
 
@@ -258,96 +245,6 @@
             <div id="methods" class="api-class-tabpanel">
                 <h2 class="off-left">Methods</h2>
 
-<div id="method_addRef" class="method item inherited">
-    <h3 class="name"><code>addRef</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type">Number</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>Inherited from
-                <a href="../classes/IUnknown.html#method_addRef">IUnknown</a>:
-        <a href="../files/src_davinci-eight_core_IUnknown.ts.html#l7"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IUnknown.ts:7</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-Increments the reference count of an IUnknown instance.
-</p>
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Number</span>:
-                    <p>
-The new reference count. This value is intended to be used only for test purposes.
-</p>
-            </div>
-        </div>
-
-
-</div>
-<div id="method_release" class="method item inherited">
-    <h3 class="name"><code>release</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type">Number</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>Inherited from
-                <a href="../classes/IUnknown.html#method_release">IUnknown</a>:
-        <a href="../files/src_davinci-eight_core_IUnknown.ts.html#l18"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IUnknown.ts:18</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-Decrements the reference count of an IUnknown instance.
-</p>
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Number</span>:
-                    <p>
-The new reference count. This value is intended to be used only for test purposes.
-</p>
-            </div>
-        </div>
-
-
-</div>
 <div id="method_setProperty" class="method item">
     <h3 class="name"><code>setProperty</code></h3>
 
@@ -376,7 +273,7 @@ The new reference count. This value is intended to be used only for test purpose
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Facet.ts.html#l21"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Facet.ts:21</code></a>
+        <a href="../files/src_davinci-eight_core_Facet.ts.html#l19"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Facet.ts:19</code></a>
         </p>
 
 
@@ -448,7 +345,7 @@ The new reference count. This value is intended to be used only for test purpose
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Facet.ts.html#l14"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Facet.ts:14</code></a>
+        <a href="../files/src_davinci-eight_core_Facet.ts.html#l12"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Facet.ts:12</code></a>
         </p>
 
 

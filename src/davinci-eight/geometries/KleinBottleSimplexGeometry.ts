@@ -1,4 +1,4 @@
-import GridSimplexGeometry from '../geometries/GridSimplexGeometry';
+import GridBuilder from '../geometries/GridBuilder';
 import R3 from '../math/R3';
 
 let cos = Math.cos;
@@ -23,7 +23,7 @@ function klein(u: number, v: number): R3 {
     return point.scale(0.1);
 }
 
-export default class KleinBottleSimplexGeometry extends GridSimplexGeometry {
+export default class KleinBottleSimplexGeometry extends GridBuilder {
     constructor(uSegments: number, vSegments: number) {
         super(klein, uSegments, vSegments);
     }

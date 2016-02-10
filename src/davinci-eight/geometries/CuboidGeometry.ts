@@ -1,22 +1,33 @@
 import Geometry from '../core/Geometry';
 import Primitive from '../core/Primitive';
+import mustBeBoolean from '../checks/mustBeBoolean';
 import mustBeNumber from '../checks/mustBeNumber';
 import CuboidPrimitivesBuilder from './CuboidPrimitivesBuilder';
+import CuboidSimplexPrimitivesBuilder from './CuboidSimplexPrimitivesBuilder';
+import G3 from '../math/G3'
+import Simplex from './Simplex'
 
 /**
  * @module EIGHT
  * @submodule geometries
  */
 
-function primitives(width: number, height: number, depth: number): Primitive[] {
+function primitives(width: number, height: number, depth: number, wireFrame: boolean): Primitive[] {
     mustBeNumber('width', width)
     mustBeNumber('height', height)
     mustBeNumber('depth', depth)
-    const builder = new CuboidPrimitivesBuilder()
-    builder.width = width
-    builder.height = height
-    builder.depth = depth
-    return builder.toPrimitives()
+    mustBeBoolean('wireFrame', wireFrame)
+    if (wireFrame) {
+        const builder = new CuboidSimplexPrimitivesBuilder(G3.e1, G3.e2, G3.e3, Simplex.LINE, 0, 1)
+        return builder.toPrimitives()
+    }
+    else {
+        const builder = new CuboidPrimitivesBuilder()
+        builder.width = width
+        builder.height = height
+        builder.depth = depth
+        return builder.toPrimitives()
+    }
 }
 
 /**
@@ -32,8 +43,9 @@ export default class CuboidGeometry extends Geometry {
      * @param width {number}
      * @param height {number}
      * @param depth {number}
+     * @param wireFrame {boolean}
      */
-    constructor(width: number, height: number, depth: number) {
-        super(primitives(width, height, depth))
+    constructor(width: number, height: number, depth: number, wireFrame: boolean) {
+        super(primitives(width, height, depth, wireFrame))
     }
 }

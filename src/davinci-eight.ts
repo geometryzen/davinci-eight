@@ -57,12 +57,6 @@ import quadrilateral from 'davinci-eight/geometries/quadrilateral';
 import square from 'davinci-eight/geometries/square';
 import simplicesToDrawPrimitive from 'davinci-eight/geometries/simplicesToDrawPrimitive';
 import triangle from 'davinci-eight/geometries/triangle';
-// topologies
-import Topology from 'davinci-eight/topologies/Topology';
-import PointTopology from 'davinci-eight/topologies/PointTopology';
-import LineTopology from 'davinci-eight/topologies/LineTopology';
-import MeshTopology from 'davinci-eight/topologies/MeshTopology';
-import GridTopology from 'davinci-eight/topologies/GridTopology';
 // geometries
 import ArrowGeometry from 'davinci-eight/geometries/ArrowGeometry';
 import CuboidGeometry from 'davinci-eight/geometries/CuboidGeometry';
@@ -87,7 +81,7 @@ import Simplex1Geometry from 'davinci-eight/geometries/Simplex1Geometry';
 import MobiusStripSimplexGeometry from 'davinci-eight/geometries/MobiusStripSimplexGeometry';
 import OctahedronSimplexGeometry from 'davinci-eight/geometries/OctahedronSimplexGeometry';
 import SliceSimplexPrimitivesBuilder from 'davinci-eight/geometries/SliceSimplexPrimitivesBuilder';
-import GridSimplexGeometry from 'davinci-eight/geometries/GridSimplexGeometry';
+import GridBuilder from 'davinci-eight/geometries/GridBuilder';
 import PolyhedronBuilder from 'davinci-eight/geometries/PolyhedronBuilder';
 import RevolutionSimplexPrimitivesBuilder from 'davinci-eight/geometries/RevolutionSimplexPrimitivesBuilder';
 import RingBuilder from 'davinci-eight/geometries/RingBuilder';
@@ -107,7 +101,6 @@ import smartProgram from 'davinci-eight/materials/smartProgram';
 import programFromScripts from 'davinci-eight/materials/programFromScripts';
 // math
 import AbstractMatrix from 'davinci-eight/math/AbstractMatrix';
-import CartesianE3 from 'davinci-eight/math/CartesianE3';
 import VectorE1 from 'davinci-eight/math/VectorE1';
 import VectorE2 from 'davinci-eight/math/VectorE2';
 import VectorE3 from 'davinci-eight/math/VectorE3';
@@ -148,7 +141,6 @@ import HH from 'davinci-eight/math/HH';
 import AmbientLight from 'davinci-eight/facets/AmbientLight';
 import ColorFacet from 'davinci-eight/facets/ColorFacet';
 import DirectionalLight from 'davinci-eight/facets/DirectionalLight';
-import EulerFacet from 'davinci-eight/facets/EulerFacet';
 import ModelFacet from 'davinci-eight/facets/ModelFacet';
 import PointSizeFacet from 'davinci-eight/facets/PointSizeFacet';
 import ReflectionFacetE2 from 'davinci-eight/facets/ReflectionFacetE2';
@@ -259,7 +251,6 @@ var eight = {
 
     get ModelE2() { return ModelE2 },
     get ModelE3() { return ModelE3 },
-    get EulerFacet() { return EulerFacet },
     get ModelFacet() { return ModelFacet },
 
     get Simplex() { return Simplex },

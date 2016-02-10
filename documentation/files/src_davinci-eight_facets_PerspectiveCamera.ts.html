@@ -47,7 +47,6 @@
                                 <li><a href="../classes/Attribute.html">Attribute</a></li>
                                 <li><a href="../classes/BlendFactor.html">BlendFactor</a></li>
                                 <li><a href="../classes/Capability.html">Capability</a></li>
-                                <li><a href="../classes/CartesianE3.html">CartesianE3</a></li>
                                 <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
@@ -68,7 +67,6 @@
                                 <li><a href="../classes/Euclidean1.html">Euclidean1</a></li>
                                 <li><a href="../classes/Euclidean2.html">Euclidean2</a></li>
                                 <li><a href="../classes/Euclidean3.html">Euclidean3</a></li>
-                                <li><a href="../classes/EulerFacet.html">EulerFacet</a></li>
                                 <li><a href="../classes/Facet.html">Facet</a></li>
                                 <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
@@ -77,6 +75,7 @@
                                 <li><a href="../classes/GeometricE2.html">GeometricE2</a></li>
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
+                                <li><a href="../classes/GeometryPart.html">GeometryPart</a></li>
                                 <li><a href="../classes/GraphicsProgramSymbols.html">GraphicsProgramSymbols</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
                                 <li><a href="../classes/IBufferGeometry.html">IBufferGeometry</a></li>
@@ -104,7 +103,6 @@
                                 <li><a href="../classes/PointMaterial.html">PointMaterial</a></li>
                                 <li><a href="../classes/PointSizeFacet.html">PointSizeFacet</a></li>
                                 <li><a href="../classes/Primitive.html">Primitive</a></li>
-                                <li><a href="../classes/PrimitiveBuffer.html">PrimitiveBuffer</a></li>
                                 <li><a href="../classes/Pseudo.html">Pseudo</a></li>
                                 <li><a href="../classes/QQ.html">QQ</a></li>
                                 <li><a href="../classes/R1.html">R1</a></li>
@@ -199,7 +197,6 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import IContextProvider from &#x27;../core/IContextProvider&#x27;;
 import Material from &#x27;../core/Material&#x27;;
 import createPerspective from &#x27;./createPerspective&#x27;;
 import readOnly from &#x27;../i18n/readOnly&#x27;;
@@ -209,7 +206,6 @@ import mustBeLE from &#x27;../checks/mustBeLE&#x27;;
 import mustBeNumber from &#x27;../checks/mustBeNumber&#x27;;
 import mustBeString from &#x27;../checks/mustBeString&#x27;;
 import Perspective from &#x27;./Perspective&#x27;;
-import Shareable from &#x27;../core/Shareable&#x27;;
 import Facet from &#x27;../core/Facet&#x27;;
 import FacetVisitor from &#x27;../core/FacetVisitor&#x27;;
 import R3 from &#x27;../math/R3&#x27;;
@@ -225,7 +221,7 @@ import VectorE3 from &#x27;../math/VectorE3&#x27;;
 /**
  * @class PerspectiveCamera
  */
-export default class PerspectiveCamera extends Shareable implements Perspective, Facet {
+export default class PerspectiveCamera implements Perspective, Facet {
     /**
      * The name of the property that designates the position.
      * @property PROP_POSITION
@@ -270,8 +266,6 @@ export default class PerspectiveCamera extends Shareable implements Perspective,
      *   camera.setFov(3.0 * e3)
      */
     constructor(fov = 45 * Math.PI / 180, aspect = 1, near = 0.1, far = 2000) {
-        super(&#x27;PerspectiveCamera&#x27;);
-
         mustBeNumber(&#x27;fov&#x27;, fov);
         mustBeGE(&#x27;fov&#x27;, fov, 0)
         mustBeLE(&#x27;fov&#x27;, fov, Math.PI)
@@ -289,15 +283,6 @@ export default class PerspectiveCamera extends Shareable implements Perspective,
     }
 
     /**
-     * @method destructor
-     * @return {void}
-     * @protected
-     */
-    protected destructor(): void {
-        // Do nothing.
-    }
-
-    /**
      * @method setUniforms
      * @param visitor {FacetVisitor}
      * @return {void}
@@ -306,40 +291,6 @@ export default class PerspectiveCamera extends Shareable implements Perspective,
         this.inner.setNear(this.near);
         this.inner.setFar(this.far);
         this.inner.setUniforms(visitor);
-    }
-
-    /**
-     * @method contextFree
-     * @param manager {IContextProvider}
-     * @return {void}
-     */
-    contextFree(manager: IContextProvider): void {
-        // Do nothing
-    }
-
-    /**
-     * @method contextGain
-     * @param manager {IContextProvider}
-     * @return {void}
-     */
-    contextGain(manager: IContextProvider): void {
-        // Do nothing
-    }
-
-    /**
-     * @method contextLost
-     * @return {void}
-     */
-    contextLost(): void {
-        // Do nothing.
-    }
-
-    /**
-     * @method draw
-     * @return {void}
-     */
-    draw(): void {
-        // Do nothing.
     }
 
     /**

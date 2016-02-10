@@ -2,38 +2,40 @@ import Attribute from '../core/Attribute';
 import DrawMode from '../core/DrawMode';
 import DrawAttribute from '../geometries/DrawAttribute';
 import DrawPrimitive from '../geometries/DrawPrimitive';
-import G3 from '../math/G3';
 import mustBeInteger from '../checks/mustBeInteger';
 import Primitive from '../core/Primitive';
-import Simplex from '../geometries/Simplex';
-import VectorN from '../math/VectorN';
 import Vertex from '../geometries/Vertex';
 import dataFromVectorN from '../geometries/dataFromVectorN';
 
 function attributes(elements: number[], vertices: Vertex[]): { [name: string]: Attribute } {
-    let attribs: { [name: string]: Attribute } = {}
+    const attribs: { [name: string]: Attribute } = {}
 
-    for (var vertexIndex = 0; vertexIndex < vertices.length; vertexIndex++) {
+    const iLen = vertices.length
+    for (let i = 0; i < iLen; i++) {
 
-        var vertex: Vertex = vertices[vertexIndex]
+        const vertex: Vertex = vertices[i]
 
-        var names: string[] = Object.keys(vertex.attributes)
-        for (var namesIndex = 0; namesIndex < names.length; namesIndex++) {
-            var name: string = names[namesIndex]
-            var data: number[] = dataFromVectorN(vertex.attributes[name])
-            var size = data.length
-            var attrib = attribs[name]
+        const names: string[] = Object.keys(vertex.attributes)
+        const jLen = names.length
+        for (let j = 0; j < jLen; j++) {
+            const name: string = names[j]
+            const data: number[] = dataFromVectorN(vertex.attributes[name])
+            const size = data.length
+            let attrib = attribs[name]
             if (!attrib) {
                 attrib = attribs[name] = new DrawAttribute([], size)
             }
-            for (var coordIndex = 0; coordIndex < size; coordIndex++) {
-                attrib.values.push(data[coordIndex])
+            for (let k = 0; k < size; k++) {
+                attrib.values.push(data[k])
             }
         }
     }
     return attribs
 }
 
+/**
+ * A representation of a primitive 
+ */
 export default class Topology {
     private mode: DrawMode;
     protected elements: number[];

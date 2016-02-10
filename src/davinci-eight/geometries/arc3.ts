@@ -8,10 +8,10 @@ import R3 from '../math/R3';
 
 /**
  * Computes a list of points corresponding to an arc centered on the origin.
- * param begin {VectorE3} The begin position.
- * param angle: {number} The angle of the rotation.
- * param generator {SpinorE3} The generator of the rotation.
- * param segments {number} The number of segments.
+ * begin {VectorE3} The begin position.
+ * angle: {number} The angle of the rotation.
+ * generator {SpinorE3} The generator of the rotation.
+ * segments {number} The number of segments.
  */
 export default function arc3(begin: VectorE3, angle: number, generator: SpinorE3, segments: number): R3[] {
     mustBeDefined('begin', begin)
@@ -22,21 +22,21 @@ export default function arc3(begin: VectorE3, angle: number, generator: SpinorE3
     /**
      * The return value is an array of points with length => segments + 1.
      */
-    var points: R3[] = []
+    const points: R3[] = []
 
     /**
      * Temporary point that we will advance for each segment.
      */
-    var point = R3.copy(begin)
+    const point = R3.copy(begin)
 
     /**
      * The rotor that advances us through one segment.
      */
-    var rotor = SpinG3.copy(generator).scale((-angle / 2) / segments).exp()
+    const rotor = SpinG3.copy(generator).scale((-angle / 2) / segments).exp()
 
     points.push(point.clone())
 
-    for (var i = 0; i < segments; i++) {
+    for (let i = 0; i < segments; i++) {
         point.rotate(rotor)
         points.push(point.clone())
     }

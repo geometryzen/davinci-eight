@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src/davinci-eight/math/CartesianE3.ts - davinci-eight</title>
+    <title>src/davinci-eight/geometries/Topology.ts - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -47,7 +47,6 @@
                                 <li><a href="../classes/Attribute.html">Attribute</a></li>
                                 <li><a href="../classes/BlendFactor.html">BlendFactor</a></li>
                                 <li><a href="../classes/Capability.html">Capability</a></li>
-                                <li><a href="../classes/CartesianE3.html">CartesianE3</a></li>
                                 <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
@@ -68,7 +67,6 @@
                                 <li><a href="../classes/Euclidean1.html">Euclidean1</a></li>
                                 <li><a href="../classes/Euclidean2.html">Euclidean2</a></li>
                                 <li><a href="../classes/Euclidean3.html">Euclidean3</a></li>
-                                <li><a href="../classes/EulerFacet.html">EulerFacet</a></li>
                                 <li><a href="../classes/Facet.html">Facet</a></li>
                                 <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
@@ -77,6 +75,7 @@
                                 <li><a href="../classes/GeometricE2.html">GeometricE2</a></li>
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
+                                <li><a href="../classes/GeometryPart.html">GeometryPart</a></li>
                                 <li><a href="../classes/GraphicsProgramSymbols.html">GraphicsProgramSymbols</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
                                 <li><a href="../classes/IBufferGeometry.html">IBufferGeometry</a></li>
@@ -104,7 +103,6 @@
                                 <li><a href="../classes/PointMaterial.html">PointMaterial</a></li>
                                 <li><a href="../classes/PointSizeFacet.html">PointSizeFacet</a></li>
                                 <li><a href="../classes/Primitive.html">Primitive</a></li>
-                                <li><a href="../classes/PrimitiveBuffer.html">PrimitiveBuffer</a></li>
                                 <li><a href="../classes/Pseudo.html">Pseudo</a></li>
                                 <li><a href="../classes/QQ.html">QQ</a></li>
                                 <li><a href="../classes/R1.html">R1</a></li>
@@ -195,125 +193,64 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: src/davinci-eight/math/CartesianE3.ts</h1>
+<h1 class="file-heading">File: src/davinci-eight/geometries/Topology.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import mustBeNumber from &#x27;../checks/mustBeNumber&#x27;;
-import readOnly from &#x27;../i18n/readOnly&#x27;;
-import VectorE3 from &#x27;../math/VectorE3&#x27;;
+import Attribute from &#x27;../core/Attribute&#x27;;
+import DrawMode from &#x27;../core/DrawMode&#x27;;
+import DrawAttribute from &#x27;../geometries/DrawAttribute&#x27;;
+import DrawPrimitive from &#x27;../geometries/DrawPrimitive&#x27;;
+import mustBeInteger from &#x27;../checks/mustBeInteger&#x27;;
+import Primitive from &#x27;../core/Primitive&#x27;;
+import Vertex from &#x27;../geometries/Vertex&#x27;;
+import dataFromVectorN from &#x27;../geometries/dataFromVectorN&#x27;;
 
-var zero: CartesianE3;
-var e1: CartesianE3;
-var e2: CartesianE3;
-var e3: CartesianE3;
+function attributes(elements: number[], vertices: Vertex[]): { [name: string]: Attribute } {
+    const attribs: { [name: string]: Attribute } = {}
 
-/**
- * @class CartesianE3
- */
-export default class CartesianE3 implements VectorE3 {
-    private coordinates: number[];
-    /**
-     * A lightweight immutable type representing Cartesian coordinates (in Euclidean space).
-     * @class CartesianE3
-     * @constructor
-     * @param x {number} The &lt;em&gt;x coordinate&lt;/em&gt;.
-     * @param y {number} The &lt;em&gt;y coordinate&lt;/em&gt;.
-     * @param z {number} The &lt;em&gt;z coordinate&lt;/em&gt;.
-     */
-    constructor(x: number, y: number, z: number, areYouSure: boolean) {
-        mustBeNumber(&#x27;x&#x27;, x)
-        mustBeNumber(&#x27;y&#x27;, y)
-        mustBeNumber(&#x27;z&#x27;, z)
-        this.coordinates = [x, y, z]
-        if (!areYouSure) {
-            console.warn(&quot;Try constructing CartesianE3 from geometric static methods.&quot;)
+    const iLen = vertices.length
+    for (let i = 0; i &lt; iLen; i++) {
+
+        const vertex: Vertex = vertices[i]
+
+        const names: string[] = Object.keys(vertex.attributes)
+        const jLen = names.length
+        for (let j = 0; j &lt; jLen; j++) {
+            const name: string = names[j]
+            const data: number[] = dataFromVectorN(vertex.attributes[name])
+            const size = data.length
+            let attrib = attribs[name]
+            if (!attrib) {
+                attrib = attribs[name] = new DrawAttribute([], size)
+            }
+            for (let k = 0; k &lt; size; k++) {
+                attrib.values.push(data[k])
+            }
         }
     }
-    get x(): number {
-        return this.coordinates[0]
-    }
-    set x(unused) {
-        throw new Error(readOnly(&#x27;x&#x27;).message)
-    }
-    get y(): number {
-        return this.coordinates[1]
-    }
-    set y(unused) {
-        throw new Error(readOnly(&#x27;y&#x27;).message)
-    }
-    get z(): number {
-        return this.coordinates[2]
-    }
-    set z(unused) {
-        throw new Error(readOnly(&#x27;z&#x27;).message)
-    }
-    magnitude(): number {
-        return Math.sqrt(this.squaredNorm())
-    }
-    squaredNorm(): number {
-        let x = this.x;
-        let y = this.y;
-        let z = this.z;
-        return x * x + y * y + z * z;
-    }
-
-    /**
-     * @property zero
-     * @type {CartesianE3}
-     * @static
-     */
-    static get zero(): CartesianE3 { return zero }
-
-    /**
-     * @property e1
-     * @type {CartesianE3}
-     * @static
-     */
-    static get e1(): CartesianE3 { return e1 }
-
-    /**
-     * @property e2
-     * @type {CartesianE3}
-     * @static
-     */
-    static get e2(): CartesianE3 { return e2 }
-
-    /**
-     * @property e3
-     * @type {CartesianE3}
-     * @static
-     */
-    static get e3(): CartesianE3 { return e3 }
-
-    /**
-     * @method fromVectorE3
-     * @param vector {VectorE3}
-     * @return {CartesianE3}
-     * @static
-     */
-    static fromVectorE3(vector: { x: number, y: number, z: number }): CartesianE3 {
-        return new CartesianE3(vector.x, vector.y, vector.z, true)
-    }
-    /**
-     * @method direction
-     * @param vector {VectorE3}
-     * @return {CartesianE3}
-     * @static
-     */
-    static direction(vector: { x: number, y: number, z: number }): CartesianE3 {
-        let x = vector.x;
-        let y = vector.y;
-        let z = vector.z;
-        let m = Math.sqrt(x * x + y * y + z * z)
-        return new CartesianE3(x / m, y / m, z / m, true)
-    }
+    return attribs
 }
 
-zero = new CartesianE3(0, 0, 0, true)
-e1 = new CartesianE3(1, 0, 0, true)
-e2 = new CartesianE3(0, 1, 0, true)
-e3 = new CartesianE3(0, 0, 1, true)
+/**
+ * A representation of a primitive 
+ */
+export default class Topology {
+    private mode: DrawMode;
+    protected elements: number[];
+    protected vertices: Vertex[];
+    constructor(mode: DrawMode, numVertices: number) {
+        this.mode = mustBeInteger(&#x27;mode&#x27;, mode)
+        mustBeInteger(&#x27;numVertices&#x27;, numVertices)
+        this.vertices = []
+        for (var i = 0; i &lt; numVertices; i++) {
+            this.vertices.push(new Vertex())
+        }
+    }
+    public toDrawPrimitive(): Primitive {
+        return new DrawPrimitive(this.mode, this.elements, attributes(this.elements, this.vertices))
+    }
+}
 
     </pre>
 </div>

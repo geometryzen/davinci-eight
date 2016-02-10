@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../geometries/AxialPrimitivesBuilder', '../core/GraphicsProgramSymbols', '../topologies/GridTopology', '../math/R2', '../math/R3'], function (require, exports, AxialPrimitivesBuilder_1, GraphicsProgramSymbols_1, GridTopology_1, R2_1, R3_1) {
+define(["require", "exports", './AxialPrimitivesBuilder', '../core/GraphicsProgramSymbols', './GridTopology', '../math/R2', '../math/R3'], function (require, exports, AxialPrimitivesBuilder_1, GraphicsProgramSymbols_1, GridTopology_1, R2_1, R3_1) {
     var ConeGeometry = (function (_super) {
         __extends(ConeGeometry, _super);
         function ConeGeometry(axis, sliceStart) {

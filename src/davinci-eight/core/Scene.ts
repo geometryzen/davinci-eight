@@ -3,7 +3,7 @@ import IContextProvider from '../core/IContextProvider';
 import Mesh from './Mesh';
 import IUnknownArray from '../collections/IUnknownArray';
 import mustBeObject from '../checks/mustBeObject';
-import PrimitiveBuffer from './PrimitiveBuffer';
+import GeometryPart from './GeometryPart';
 import Shareable from '../core/Shareable';
 import ShareableContextListener from '../core/ShareableContextListener';
 
@@ -21,7 +21,7 @@ class ScenePart extends Shareable {
     /**
      *
      */
-    private _buffer: PrimitiveBuffer;
+    private _buffer: GeometryPart;
 
     /**
      * Keep track of the 'parent' mesh.
@@ -31,7 +31,7 @@ class ScenePart extends Shareable {
     /**
      *
      */
-    constructor(buffer: PrimitiveBuffer, mesh: Mesh) {
+    constructor(buffer: GeometryPart, mesh: Mesh) {
         super('ScenePart')
         this._buffer = buffer
         this._buffer.addRef()

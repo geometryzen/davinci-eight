@@ -47,7 +47,6 @@
                                 <li><a href="../classes/Attribute.html">Attribute</a></li>
                                 <li><a href="../classes/BlendFactor.html">BlendFactor</a></li>
                                 <li><a href="../classes/Capability.html">Capability</a></li>
-                                <li><a href="../classes/CartesianE3.html">CartesianE3</a></li>
                                 <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
@@ -68,7 +67,6 @@
                                 <li><a href="../classes/Euclidean1.html">Euclidean1</a></li>
                                 <li><a href="../classes/Euclidean2.html">Euclidean2</a></li>
                                 <li><a href="../classes/Euclidean3.html">Euclidean3</a></li>
-                                <li><a href="../classes/EulerFacet.html">EulerFacet</a></li>
                                 <li><a href="../classes/Facet.html">Facet</a></li>
                                 <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
@@ -77,6 +75,7 @@
                                 <li><a href="../classes/GeometricE2.html">GeometricE2</a></li>
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
+                                <li><a href="../classes/GeometryPart.html">GeometryPart</a></li>
                                 <li><a href="../classes/GraphicsProgramSymbols.html">GraphicsProgramSymbols</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
                                 <li><a href="../classes/IBufferGeometry.html">IBufferGeometry</a></li>
@@ -104,7 +103,6 @@
                                 <li><a href="../classes/PointMaterial.html">PointMaterial</a></li>
                                 <li><a href="../classes/PointSizeFacet.html">PointSizeFacet</a></li>
                                 <li><a href="../classes/Primitive.html">Primitive</a></li>
-                                <li><a href="../classes/PrimitiveBuffer.html">PrimitiveBuffer</a></li>
                                 <li><a href="../classes/Pseudo.html">Pseudo</a></li>
                                 <li><a href="../classes/QQ.html">QQ</a></li>
                                 <li><a href="../classes/R1.html">R1</a></li>
@@ -204,7 +202,6 @@ import FacetVisitor from &#x27;../core/FacetVisitor&#x27;;
 import mustBeArray from &#x27;../checks/mustBeArray&#x27;;
 import mustBeInteger from &#x27;../checks/mustBeInteger&#x27;;
 import mustBeString from &#x27;../checks/mustBeString&#x27;;
-import Shareable from &#x27;../core/Shareable&#x27;;
 import GraphicsProgramSymbols from &#x27;../core/GraphicsProgramSymbols&#x27;;
 
 /**
@@ -221,7 +218,7 @@ function contextBuilder() {
 /**
  * @class PointSizeFacet
  */
-export default class PointSizeFacet extends Shareable implements Facet {
+export default class PointSizeFacet implements Facet {
     /**
      * @property pointSize
      * @type {number}
@@ -234,20 +231,19 @@ export default class PointSizeFacet extends Shareable implements Facet {
      * @param [pointSize = 2] {number}
      */
     constructor(pointSize = 2) {
-        super(&#x27;PointSizeFacet&#x27;)
         this.pointSize = mustBeInteger(&#x27;pointSize&#x27;, pointSize)
     }
-    protected destructor(): void {
-        super.destructor()
-    }
+
     getProperty(name: string): number[] {
         return void 0;
     }
+
     setProperty(name: string, value: number[]): PointSizeFacet {
         mustBeString(&#x27;name&#x27;, name, contextBuilder);
         mustBeArray(&#x27;value&#x27;, value, contextBuilder);
         return this;
     }
+
     setUniforms(visitor: FacetVisitor): void {
         visitor.uniform1f(GraphicsProgramSymbols.UNIFORM_POINT_SIZE, this.pointSize)
     }

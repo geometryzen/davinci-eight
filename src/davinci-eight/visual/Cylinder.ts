@@ -1,6 +1,7 @@
 import mustBeNumber from '../checks/mustBeNumber';
 import visualCache from './visualCache';
 import RigidBody from './RigidBody'
+import VisualOptions from './VisualOptions'
 
 /**
  * @module EIGHT
@@ -12,8 +13,8 @@ import RigidBody from './RigidBody'
  * @extends RigidBody
  */
 export default class Cylinder extends RigidBody {
-    constructor() {
-        super(visualCache.cylinder(), visualCache.program(), 'Cylinder')
+    constructor(options: VisualOptions = {}) {
+        super(visualCache.cylinder(options), visualCache.material(options), 'Cylinder')
         this._buffers.release()
         this._program.release()
     }

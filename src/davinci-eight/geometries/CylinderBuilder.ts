@@ -6,6 +6,9 @@ import SpinorE3 from '../math/SpinorE3';
 import R2 from '../math/R2';
 import R3 from '../math/R3';
 
+/**
+ *
+ */
 function computeVertices(radius: number, height: number, axis: VectorE3, start: VectorE3, angle: number, generator: SpinorE3, heightSegments: number, thetaSegments: number, points: R3[], vertices: number[][], uvs: R2[][]) {
 
     let begin = R3.copy(start).scale(radius)
@@ -56,12 +59,12 @@ export default class CylinderBuilder extends SliceSimplexPrimitivesBuilder {
     public height: number;
     public openTop: boolean;
     public openBottom: boolean;
-    constructor(radius = 1, height = 1, axis = R3.e2, openTop = false, openBottom = false) {
+    constructor(axis: VectorE3) {
         super(axis, void 0, void 0);
-        this.radius = radius;
-        this.height = height;
-        this.openTop = openTop;
-        this.openBottom = openBottom;
+        this.radius = 1;
+        this.height = 1;
+        this.openTop = false;
+        this.openBottom = false;
         this.setModified(true);
     }
     public regenerate(): void {
@@ -161,8 +164,6 @@ export default class CylinderBuilder extends SliceSimplexPrimitivesBuilder {
                 this.triangle([points[v1], points[v2], points[v3]], [n1, n2, n3], [uv1, uv2, uv3])
             }
         }
-        //    this.computeFaceNormals();
-        //    this.computeVertexNormals();
         this.setModified(false)
     }
 }

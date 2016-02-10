@@ -1,10 +1,7 @@
-import IAnimationTarget from '../slideshow/IAnimationTarget';
-import mustBeString from '../checks/mustBeString';
 import G3 from '../math/G3';
 import R3 from '../math/R3';
 import SpinG3 from '../math/SpinG3';
 import readOnly from '../i18n/readOnly';
-import Shareable from '../core/Shareable';
 
 /**
  * @module EIGHT
@@ -14,7 +11,7 @@ import Shareable from '../core/Shareable';
 /**
  * @class ModelE3
  */
-export default class ModelE3 extends Shareable implements IAnimationTarget {
+export default class ModelE3 {
     /**
      * The name of the property that designates the attitude.
      * @property PROP_ATTITUDE
@@ -74,23 +71,12 @@ export default class ModelE3 extends Shareable implements IAnimationTarget {
      * </p>
      * @class ModelE3
      * @constructor
-     * @param type [string = 'ModelE3'] The name used for reference counting.
      */
-    constructor(type = 'ModelE3') {
-        super(mustBeString('type', type))
+    constructor() {
         this._position.modified = true
         this._attitude.modified = true
     }
-    /**
-     * @method destructor
-     * @return {void}
-     * @protected
-     */
-    protected destructor(): void {
-        this._position = void 0
-        this._attitude = void 0
-        super.destructor()
-    }
+
     /**
      * <p>
      * The <em>attitude</em>, a unitary spinor.

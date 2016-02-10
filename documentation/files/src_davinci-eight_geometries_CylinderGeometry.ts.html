@@ -47,7 +47,6 @@
                                 <li><a href="../classes/Attribute.html">Attribute</a></li>
                                 <li><a href="../classes/BlendFactor.html">BlendFactor</a></li>
                                 <li><a href="../classes/Capability.html">Capability</a></li>
-                                <li><a href="../classes/CartesianE3.html">CartesianE3</a></li>
                                 <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
@@ -68,7 +67,6 @@
                                 <li><a href="../classes/Euclidean1.html">Euclidean1</a></li>
                                 <li><a href="../classes/Euclidean2.html">Euclidean2</a></li>
                                 <li><a href="../classes/Euclidean3.html">Euclidean3</a></li>
-                                <li><a href="../classes/EulerFacet.html">EulerFacet</a></li>
                                 <li><a href="../classes/Facet.html">Facet</a></li>
                                 <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
@@ -77,6 +75,7 @@
                                 <li><a href="../classes/GeometricE2.html">GeometricE2</a></li>
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
+                                <li><a href="../classes/GeometryPart.html">GeometryPart</a></li>
                                 <li><a href="../classes/GraphicsProgramSymbols.html">GraphicsProgramSymbols</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
                                 <li><a href="../classes/IBufferGeometry.html">IBufferGeometry</a></li>
@@ -104,7 +103,6 @@
                                 <li><a href="../classes/PointMaterial.html">PointMaterial</a></li>
                                 <li><a href="../classes/PointSizeFacet.html">PointSizeFacet</a></li>
                                 <li><a href="../classes/Primitive.html">Primitive</a></li>
-                                <li><a href="../classes/PrimitiveBuffer.html">PrimitiveBuffer</a></li>
                                 <li><a href="../classes/Pseudo.html">Pseudo</a></li>
                                 <li><a href="../classes/QQ.html">QQ</a></li>
                                 <li><a href="../classes/R1.html">R1</a></li>
@@ -199,9 +197,15 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import Geometry from &#x27;../core/Geometry&#x27;;
-import Primitive from &#x27;../core/Primitive&#x27;;
-import CylinderBuilder from &#x27;./CylinderBuilder&#x27;;
+import CartesianE3 from &#x27;../math/CartesianE3&#x27;
+import Geometry from &#x27;../core/Geometry&#x27;
+import Primitive from &#x27;../core/Primitive&#x27;
+import CylinderBuilder from &#x27;./CylinderBuilder&#x27;
+import CylinderPrimitivesBuilder from &#x27;./CylinderPrimitivesBuilder&#x27;
+
+const e1 = CartesianE3.fromVectorE3({ x: 1, y: 0, z: 0 })
+const e2 = CartesianE3.fromVectorE3({ x: 0, y: 1, z: 0 })
+// const e3 = CartesianE3.fromVectorE3({ x: 0, y: 0, z: 1 })
 
 /**
  * @module EIGHT
@@ -209,8 +213,16 @@ import CylinderBuilder from &#x27;./CylinderBuilder&#x27;;
  */
 
 function primitives(): Primitive[] {
-    const builder = new CylinderBuilder()
-    return builder.toPrimitives()
+    if (false) {
+        // This only builds the walls, but does use a TRIANGLE_STRIP
+        const builder = new CylinderPrimitivesBuilder(e2, e1)
+        return builder.toPrimitives()
+    }
+    else {
+        // Conventional cylinder.
+        const builder = new CylinderBuilder(e2)
+        return builder.toPrimitives()
+    }
 }
 
 /**

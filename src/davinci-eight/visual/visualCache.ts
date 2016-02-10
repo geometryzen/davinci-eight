@@ -3,86 +3,130 @@ import CuboidGeometry from '../geometries/CuboidGeometry';
 import CylinderGeometry from '../geometries/CylinderGeometry';
 import Geometry from '../core/Geometry';
 import Material from '../core/Material';
+import LineMaterial from '../materials/LineMaterial';
 import MeshMaterial from '../materials/MeshMaterial';
 import SphereGeometry from '../geometries/SphereGeometry';
 import TetrahedronGeometry from '../geometries/TetrahedronGeometry';
+import VisualOptions from './VisualOptions';
 
-function arrow() {
+function wireFrame(options: VisualOptions): boolean {
+  if (options.wireFrame) {
+    return true
+  }
+  else {
+    return false
+  }
+}
+
+function arrow(options: VisualOptions): Geometry {
     return new ArrowGeometry()
 }
 
-function cuboid() {
-  return new CuboidGeometry(1, 1, 1)
+function cuboid(options: VisualOptions): Geometry {
+  return new CuboidGeometry(1, 1, 1, wireFrame(options))
 }
 
-function cylinder() {
+function cylinder(options: VisualOptions): Geometry {
     return new CylinderGeometry();
 }
 
-function sphere() {
+function sphere(options: VisualOptions): Geometry {
     return new SphereGeometry()
 }
 
-function tetrahedron() {
+function tetrahedron(options: VisualOptions): Geometry {
     return  new TetrahedronGeometry();
+}
+
+function material(options: VisualOptions): Material {
+  if (wireFrame(options)) {
+    return new LineMaterial()
+  }
+  else {
+    return new MeshMaterial()
+  }
+}
+
+function geometryKey(kind: string, options: VisualOptions): string {
+  const copy: VisualOptions = {}
+  copy.wireFrame = wireFrame(options)
+  return `${kind}${JSON.stringify(copy)}`
+}
+
+function materialKey(options: VisualOptions): string {
+  // Make a copy so that:
+  // 1. We can safely stringify,
+  // 2. Filter only options that affect material caching,
+  // 3. Make choices explicit for debugging.
+  const copy: VisualOptions = {}
+  copy.wireFrame = wireFrame(options)
+  return `material${JSON.stringify(copy)}`
 }
 
 class VisualCache {
     // Intentionally use only weak references.
     // This class will be exposed as a Singleton so it won't be dropped.
     // Detect when instances are no longer in use using the isZombie method.
-    private buffersMap: { [key: string]: Geometry } = {}
-    private _program: MeshMaterial;
+    private geometryMap: { [key: string]: Geometry } = {}
+    private materialMap: { [key: string]: Material } = {}
 
     constructor() {
         // Do nothing yet.
     }
-    private isZombieOrMissing(key: string): boolean {
-        const buffers = this.buffersMap[key];
-        if (buffers) {
-            return buffers.isZombie();
+    private isZombieGeometryOrMissing(key: string): boolean {
+        const geometry = this.geometryMap[key];
+        if (geometry) {
+            return geometry.isZombie();
         }
         else {
             return true;
         }
     }
-    private ensureBuffers(key: string, factory: () => Geometry): Geometry {
-        if (this.isZombieOrMissing(key)) {
-            this.buffersMap[key] = factory();
+    private isZombieMaterialOrMissing(key: string): boolean {
+        const material = this.materialMap[key];
+        if (material) {
+            return material.isZombie();
         }
         else {
-            this.buffersMap[key].addRef();
+            return true;
         }
-        return this.buffersMap[key];
     }
-    arrow(): Geometry {
-        return this.ensureBuffers('arrow', arrow);
-    }
-    cuboid(): Geometry {
-        return this.ensureBuffers('cuboid', cuboid);
-    }
-    cylinder(): Geometry {
-        return this.ensureBuffers('cylinder', cylinder);
-    }
-    sphere(): Geometry {
-        return this.ensureBuffers('sphere', sphere);
-    }
-    tetrahedron(): Geometry {
-        return this.ensureBuffers('tetrahedron', tetrahedron);
-    }
-    program(): Material {
-        if (this._program) {
-            if (this._program.isZombie()) {
-                this._program = new MeshMaterial();
-            }
-            else {
-                this._program.addRef();
-            }
+    private ensureGeometry(key: string, factory: (options: VisualOptions) => Geometry, options: VisualOptions): Geometry {
+        if (this.isZombieGeometryOrMissing(key)) {
+            this.geometryMap[key] = factory(options);
         }
         else {
-            this._program = new MeshMaterial();
+            this.geometryMap[key].addRef();
         }
-        return this._program;
+        return this.geometryMap[key];
+    }
+    private ensureMaterial(key: string, factory: (options: VisualOptions) => Material, options: VisualOptions): Material {
+        if (this.isZombieMaterialOrMissing(key)) {
+            this.materialMap[key] = factory(options);
+        }
+        else {
+            this.materialMap[key].addRef();
+        }
+        return this.materialMap[key];
+    }
+    arrow(options: VisualOptions): Geometry {
+        return this.ensureGeometry('arrow', arrow ,options);
+    }
+    cuboid(options: VisualOptions): Geometry {
+        return this.ensureGeometry(geometryKey('cuboid', options), cuboid ,options);
+    }
+    cylinder(options: VisualOptions): Geometry {
+        return this.ensureGeometry('cylinder', cylinder ,options);
+    }
+    sphere(options: VisualOptions): Geometry {
+        return this.ensureGeometry('sphere', sphere ,options);
+    }
+    tetrahedron(options: VisualOptions): Geometry {
+        return this.ensureGeometry('tetrahedron', tetrahedron ,options);
+    }
+    material(options: VisualOptions): Material {
+        const key = materialKey(options)
+        return this.ensureMaterial(key, material ,options);
     }
 }
 

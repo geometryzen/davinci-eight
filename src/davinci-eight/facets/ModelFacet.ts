@@ -1,6 +1,5 @@
 import Facet from '../core/Facet';
 import FacetVisitor from '../core/FacetVisitor';
-import IAnimationTarget from '../slideshow/IAnimationTarget';
 import Mat3R from '../math/Mat3R';
 import Mat4R from '../math/Mat4R';
 import ModelE3 from './ModelE3';
@@ -18,7 +17,7 @@ import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
 /**
  * @class ModelFacet
  */
-export default class ModelFacet extends ModelE3 implements Facet, IAnimationTarget {
+export default class ModelFacet extends ModelE3 implements Facet {
 
     public static PROP_SCALEXYZ = 'scaleXYZ';
 
@@ -44,25 +43,10 @@ export default class ModelFacet extends ModelE3 implements Facet, IAnimationTarg
      * </p>
      * @class ModelFacet
      * @constructor
-     * @param [type = 'ModelFacet'] {string} The name used for reference counting.
      */
-    constructor(type = 'ModelFacet') {
-        super(mustBeString('type', type))
+    constructor() {
+        super()
         this._scaleXYZ.modified = true
-    }
-    /**
-     * @method destructor
-     * @return {void}
-     * @protected
-     */
-    protected destructor(): void {
-        this._scaleXYZ = void 0
-        this.matM = void 0
-        this.matN = void 0
-        this.matR = void 0
-        this.matS = void 0
-        this.matT = void 0
-        super.destructor()
     }
 
     /**

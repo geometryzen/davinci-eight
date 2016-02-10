@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src/davinci-eight/geometries/GridSimplexGeometry.ts - davinci-eight</title>
+    <title>src/davinci-eight/core/GeometryPart.ts - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -47,7 +47,6 @@
                                 <li><a href="../classes/Attribute.html">Attribute</a></li>
                                 <li><a href="../classes/BlendFactor.html">BlendFactor</a></li>
                                 <li><a href="../classes/Capability.html">Capability</a></li>
-                                <li><a href="../classes/CartesianE3.html">CartesianE3</a></li>
                                 <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
@@ -68,7 +67,6 @@
                                 <li><a href="../classes/Euclidean1.html">Euclidean1</a></li>
                                 <li><a href="../classes/Euclidean2.html">Euclidean2</a></li>
                                 <li><a href="../classes/Euclidean3.html">Euclidean3</a></li>
-                                <li><a href="../classes/EulerFacet.html">EulerFacet</a></li>
                                 <li><a href="../classes/Facet.html">Facet</a></li>
                                 <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
@@ -77,6 +75,7 @@
                                 <li><a href="../classes/GeometricE2.html">GeometricE2</a></li>
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
+                                <li><a href="../classes/GeometryPart.html">GeometryPart</a></li>
                                 <li><a href="../classes/GraphicsProgramSymbols.html">GraphicsProgramSymbols</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
                                 <li><a href="../classes/IBufferGeometry.html">IBufferGeometry</a></li>
@@ -104,7 +103,6 @@
                                 <li><a href="../classes/PointMaterial.html">PointMaterial</a></li>
                                 <li><a href="../classes/PointSizeFacet.html">PointSizeFacet</a></li>
                                 <li><a href="../classes/Primitive.html">Primitive</a></li>
-                                <li><a href="../classes/PrimitiveBuffer.html">PrimitiveBuffer</a></li>
                                 <li><a href="../classes/Pseudo.html">Pseudo</a></li>
                                 <li><a href="../classes/QQ.html">QQ</a></li>
                                 <li><a href="../classes/R1.html">R1</a></li>
@@ -195,94 +193,97 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: src/davinci-eight/geometries/GridSimplexGeometry.ts</h1>
+<h1 class="file-heading">File: src/davinci-eight/core/GeometryPart.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import VectorE3 from &#x27;../math/VectorE3&#x27;;
-import Simplex from &#x27;../geometries/Simplex&#x27;;
-import SimplexPrimitivesBuilder from &#x27;../geometries/SimplexPrimitivesBuilder&#x27;;
-import GraphicsProgramSymbols from &#x27;../core/GraphicsProgramSymbols&#x27;;
-import R2 from &#x27;../math/R2&#x27;;
-import R3 from &#x27;../math/R3&#x27;;
-import mustBeFunction from &#x27;../checks/mustBeFunction&#x27;;
-import mustBeInteger from &#x27;../checks/mustBeInteger&#x27;;
+import IBufferGeometry from &#x27;../core/IBufferGeometry&#x27;
+import IContextProvider from &#x27;../core/IContextProvider&#x27;
+import Material from &#x27;../core/Material&#x27;
+import Primitive from &#x27;../core/Primitive&#x27;
+import ShareableContextListener from &#x27;../core/ShareableContextListener&#x27;
 
-export default class GridSimplexGeometry extends SimplexPrimitivesBuilder {
-    constructor(parametricFunction: (u: number, v: number) =&gt; VectorE3, uSegments: number, vSegments: number) {
-        super();
-        mustBeFunction(&#x27;parametricFunction&#x27;, parametricFunction)
-        mustBeInteger(&#x27;uSegments&#x27;, uSegments)
-        mustBeInteger(&#x27;vSegments&#x27;, vSegments)
-        /**
-         * Temporary array of points.
-         */
-        let points: R3[] = [];
+/**
+ * @module EIGHT
+ * @submodule core
+ */
 
-        var i: number;
-        var j: number;
+/**
+ * A buffer for drawing a single primitive
+ * that can endure context loss and gain events.
+ *
+ * @class GeometryPart
+ * @extends Shareable
+ */
+export default class GeometryPart extends ShareableContextListener {
 
-        let sliceCount = uSegments + 1;
+    /**
+     * The always available source of primitive data that
+     * allows us to recover from context loss events.
+     * @property dataSource
+     * @type Primitive
+     * @private
+     */
+    private _dataSource: Primitive;
 
-        for (i = 0; i &lt;= vSegments; i++) {
+    /**
+     * The primitive buffer associated with the source that may
+     * come and go according to context loss and gain events.
+     * @proprty dataBuffer
+     * @type IBufferGeometry
+     * @private
+     */
+    private _dataBuffer: IBufferGeometry;
 
-            let v: number = i / vSegments;
+    /**
+     * @class GeometryPart
+     * @constructor
+     * @param dataSource {Primitive}
+     */
+    constructor(dataSource: Primitive) {
+        super(&#x27;GeometryPart&#x27;)
+        this._dataSource = dataSource;
+    }
 
-            for (j = 0; j &lt;= uSegments; j++) {
+    protected destructor(): void {
+        super.destructor()
+    }
 
-                let u: number = j / uSegments;
+    public contextFree(context: IContextProvider): void {
+        this.dropBuffer()
+        super.contextFree(context)
+    }
 
-                let point: VectorE3 = parametricFunction(u, v);
-                // Make a copy just in case the function is returning mutable references.
-                points.push(R3.copy(point));
-            }
+    public contextGain(context: IContextProvider): void {
+        if (!this._dataBuffer) {
+            this._dataBuffer = context.createBufferGeometry(this._dataSource)
         }
+        super.contextGain(context)
+    }
 
-        var a: number;
-        var b: number;
-        var c: number;
-        var d: number;
-        var uva: R2;
-        var uvb: R2;
-        var uvc: R2;
-        var uvd: R2;
+    public contextLost(): void {
+        this.dropBuffer()
+        super.contextLost()
+    }
 
-        for (i = 0; i &lt; vSegments; i++) {
-
-            for (j = 0; j &lt; uSegments; j++) {
-
-                a = i * sliceCount + j;
-                b = i * sliceCount + j + 1;
-                c = (i + 1) * sliceCount + j + 1;
-                d = (i + 1) * sliceCount + j;
-
-                uva = new R2([j / uSegments, i / vSegments]);
-                uvb = new R2([(j + 1) / uSegments, i / vSegments]);
-                uvc = new R2([(j + 1) / uSegments, (i + 1) / vSegments]);
-                uvd = new R2([j / uSegments, (i + 1) / vSegments]);
-
-                let simplex = new Simplex(Simplex.TRIANGLE)
-                simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = points[a]
-                simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORDS] = uva
-                simplex.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = points[b]
-                simplex.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORDS] = uvb
-                simplex.vertices[2].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = points[d]
-                simplex.vertices[2].attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORDS] = uvd
-                this.data.push(simplex)
-
-                simplex = new Simplex(Simplex.TRIANGLE)
-                simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = points[b]
-                simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORDS] = uvb
-                simplex.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = points[c]
-                simplex.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORDS] = uvc
-                simplex.vertices[2].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = points[d]
-                simplex.vertices[2].attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORDS] = uvd
-                this.data.push(simplex)
-            }
+    private dropBuffer(): void {
+        if (this._dataBuffer) {
+            this._dataBuffer.release();
+            this._dataBuffer = void 0;
         }
+    }
 
-        //    this.computeFaceNormals();
-        //    this.computeVertexNormals();
+    /**
+     * @method draw
+     * @param material {Material}
+     * @return {void}
+     */
+    draw(material: Material): void {
+        if (this._dataBuffer) {
+            this._dataBuffer.bind(material)
+            this._dataBuffer.draw()
+            this._dataBuffer.unbind()
+        }
     }
 }
 

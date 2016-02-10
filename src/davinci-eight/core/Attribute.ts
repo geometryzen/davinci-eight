@@ -26,19 +26,19 @@ interface Attribute {
      * Intentionally undocumented.
      * This functionality may be introduced in future.
      */
-    normalized?: boolean;
+    // normalized?: boolean;
 
     /**
      * Intentionally undocumented.
      * This functionality may be introduced in future.
      */
-    stride?: number;
+    // stride?: number;
 
     /**
      * Intentionally undocumented.
      * This functionality may be introduced in future.
      */
-    offset?: number;
+    // offset?: number;
 }
 
 export default Attribute;

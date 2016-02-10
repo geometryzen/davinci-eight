@@ -1,6 +1,6 @@
 import DrawMode from '../core/DrawMode';
 import isDefined from '../checks/isDefined';
-import MeshTopology from '../topologies/MeshTopology';
+import MeshTopology from './MeshTopology';
 import mustBeArray from '../checks/mustBeArray';
 import mustBeInteger from '../checks/mustBeInteger';
 import readOnly from '../i18n/readOnly';
@@ -26,23 +26,23 @@ function triangleStripForGrid(uSegments: number, vSegments: number, elements?: n
     // Make sure that we have somewhere valid to store the result.
     elements = isDefined(elements) ? mustBeArray('elements', elements) : []
 
-    let uLength = numPostsForFence(uSegments)
-    let lastVertex = uSegments + uLength * vSegments
+    const uLength = numPostsForFence(uSegments)
+    const lastVertex = uSegments + uLength * vSegments
     /**
      * The number of elements needed if we executed a strip per row.
      * Remark Notice the asymmetry. Could be a performance impact.
      */
-    var eSimple = 2 * uLength * vSegments
+    const eSimple = 2 * uLength * vSegments
     /**
      * Index for triangle strip array.
      */
-    var j = 0;
+    let j = 0;
     // FIXME: Loop 0 <= i < eSimple (Edsger W. Dijksta)
     // For this algorithm, imagine a little vertical loop containing two dots.
     // The uppermost dot we shall call the `top` and the lowermost the `bottom`.
     // Advancing i by two each time corresponds to advancing this loop one place to the right.
-    for (var i = 1; i <= eSimple; i += 2) {
-        let k = (i - 1) / 2 // etc
+    for (let i = 1; i <= eSimple; i += 2) {
+        // const k = (i - 1) / 2 // etc
         // top element
         elements[j] = (i - 1) / 2
         // bottom element

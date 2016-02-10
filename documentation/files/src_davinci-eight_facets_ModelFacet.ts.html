@@ -47,7 +47,6 @@
                                 <li><a href="../classes/Attribute.html">Attribute</a></li>
                                 <li><a href="../classes/BlendFactor.html">BlendFactor</a></li>
                                 <li><a href="../classes/Capability.html">Capability</a></li>
-                                <li><a href="../classes/CartesianE3.html">CartesianE3</a></li>
                                 <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
@@ -68,7 +67,6 @@
                                 <li><a href="../classes/Euclidean1.html">Euclidean1</a></li>
                                 <li><a href="../classes/Euclidean2.html">Euclidean2</a></li>
                                 <li><a href="../classes/Euclidean3.html">Euclidean3</a></li>
-                                <li><a href="../classes/EulerFacet.html">EulerFacet</a></li>
                                 <li><a href="../classes/Facet.html">Facet</a></li>
                                 <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
@@ -77,6 +75,7 @@
                                 <li><a href="../classes/GeometricE2.html">GeometricE2</a></li>
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
+                                <li><a href="../classes/GeometryPart.html">GeometryPart</a></li>
                                 <li><a href="../classes/GraphicsProgramSymbols.html">GraphicsProgramSymbols</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
                                 <li><a href="../classes/IBufferGeometry.html">IBufferGeometry</a></li>
@@ -104,7 +103,6 @@
                                 <li><a href="../classes/PointMaterial.html">PointMaterial</a></li>
                                 <li><a href="../classes/PointSizeFacet.html">PointSizeFacet</a></li>
                                 <li><a href="../classes/Primitive.html">Primitive</a></li>
-                                <li><a href="../classes/PrimitiveBuffer.html">PrimitiveBuffer</a></li>
                                 <li><a href="../classes/Pseudo.html">Pseudo</a></li>
                                 <li><a href="../classes/QQ.html">QQ</a></li>
                                 <li><a href="../classes/R1.html">R1</a></li>
@@ -201,7 +199,6 @@
     <pre class="code prettyprint linenums">
 import Facet from &#x27;../core/Facet&#x27;;
 import FacetVisitor from &#x27;../core/FacetVisitor&#x27;;
-import IAnimationTarget from &#x27;../slideshow/IAnimationTarget&#x27;;
 import Mat3R from &#x27;../math/Mat3R&#x27;;
 import Mat4R from &#x27;../math/Mat4R&#x27;;
 import ModelE3 from &#x27;./ModelE3&#x27;;
@@ -219,7 +216,7 @@ import GraphicsProgramSymbols from &#x27;../core/GraphicsProgramSymbols&#x27;;
 /**
  * @class ModelFacet
  */
-export default class ModelFacet extends ModelE3 implements Facet, IAnimationTarget {
+export default class ModelFacet extends ModelE3 implements Facet {
 
     public static PROP_SCALEXYZ = &#x27;scaleXYZ&#x27;;
 
@@ -245,25 +242,10 @@ export default class ModelFacet extends ModelE3 implements Facet, IAnimationTarg
      * &lt;/p&gt;
      * @class ModelFacet
      * @constructor
-     * @param [type = &#x27;ModelFacet&#x27;] {string} The name used for reference counting.
      */
-    constructor(type = &#x27;ModelFacet&#x27;) {
-        super(mustBeString(&#x27;type&#x27;, type))
+    constructor() {
+        super()
         this._scaleXYZ.modified = true
-    }
-    /**
-     * @method destructor
-     * @return {void}
-     * @protected
-     */
-    protected destructor(): void {
-        this._scaleXYZ = void 0
-        this.matM = void 0
-        this.matN = void 0
-        this.matR = void 0
-        this.matS = void 0
-        this.matT = void 0
-        super.destructor()
     }
 
     /**

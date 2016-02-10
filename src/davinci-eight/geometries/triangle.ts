@@ -10,7 +10,7 @@ export default function triangle(a: VectorN<number>, b: VectorN<number>, c: Vect
     expectArg('b', b).toSatisfy(a instanceof VectorN, "a must be a VectorN");
     expectArg('b', c).toSatisfy(a instanceof VectorN, "a must be a VectorN");
 
-    let simplex = new Simplex(Simplex.TRIANGLE);
+    const simplex = new Simplex(Simplex.TRIANGLE);
 
     simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = a;
     // simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_COLOR] = R3.e1

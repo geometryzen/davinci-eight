@@ -215,6 +215,15 @@
             "fors": {},
             "namespaces": {}
         },
+        "src/davinci-eight/core/GeometryPart.ts": {
+            "name": "src/davinci-eight/core/GeometryPart.ts",
+            "modules": {},
+            "classes": {
+                "GeometryPart": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "src/davinci-eight/core/GraphicsProgramSymbols.ts": {
             "name": "src/davinci-eight/core/GraphicsProgramSymbols.ts",
             "modules": {},
@@ -310,15 +319,6 @@
             "modules": {},
             "classes": {
                 "Primitive": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
-        "src/davinci-eight/core/PrimitiveBuffer.ts": {
-            "name": "src/davinci-eight/core/PrimitiveBuffer.ts",
-            "modules": {},
-            "classes": {
-                "PrimitiveBuffer": 1
             },
             "fors": {},
             "namespaces": {}
@@ -471,15 +471,6 @@
             "modules": {},
             "classes": {
                 "DirectionalLight": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
-        "src/davinci-eight/facets/EulerFacet.ts": {
-            "name": "src/davinci-eight/facets/EulerFacet.ts",
-            "modules": {},
-            "classes": {
-                "EulerFacet": 1
             },
             "fors": {},
             "namespaces": {}
@@ -658,8 +649,22 @@
             "fors": {},
             "namespaces": {}
         },
-        "src/davinci-eight/geometries/GridSimplexGeometry.ts": {
-            "name": "src/davinci-eight/geometries/GridSimplexGeometry.ts",
+        "src/davinci-eight/geometries/CylinderPrimitivesBuilder.ts": {
+            "name": "src/davinci-eight/geometries/CylinderPrimitivesBuilder.ts",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/geometries/GridBuilder.ts": {
+            "name": "src/davinci-eight/geometries/GridBuilder.ts",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/geometries/GridTopology.ts": {
+            "name": "src/davinci-eight/geometries/GridTopology.ts",
             "modules": {},
             "classes": {},
             "fors": {},
@@ -715,6 +720,20 @@
             "classes": {
                 "TetrahedronGeometry": 1
             },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/geometries/Topology.ts": {
+            "name": "src/davinci-eight/geometries/Topology.ts",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/geometries/VertexAttributeMap.ts": {
+            "name": "src/davinci-eight/geometries/VertexAttributeMap.ts",
+            "modules": {},
+            "classes": {},
             "fors": {},
             "namespaces": {}
         },
@@ -884,15 +903,6 @@
             "modules": {},
             "classes": {
                 "CC": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
-        "src/davinci-eight/math/CartesianE3.ts": {
-            "name": "src/davinci-eight/math/CartesianE3.ts",
-            "modules": {},
-            "classes": {
-                "CartesianE3": 1
             },
             "fors": {},
             "namespaces": {}
@@ -1397,13 +1407,6 @@
             "fors": {},
             "namespaces": {}
         },
-        "src/davinci-eight/topologies/GridTopology.ts": {
-            "name": "src/davinci-eight/topologies/GridTopology.ts",
-            "modules": {},
-            "classes": {},
-            "fors": {},
-            "namespaces": {}
-        },
         "src/davinci-eight/visual/Arrow.ts": {
             "name": "src/davinci-eight/visual/Arrow.ts",
             "modules": {
@@ -1513,6 +1516,7 @@
                 "Facet": 1,
                 "FacetVisitor": 1,
                 "Geometry": 1,
+                "GeometryPart": 1,
                 "GraphicsProgramSymbols": 1,
                 "IBufferGeometry": 1,
                 "IContextConsumer": 1,
@@ -1524,7 +1528,6 @@
                 "Material": 1,
                 "Mesh": 1,
                 "Primitive": 1,
-                "PrimitiveBuffer": 1,
                 "Scene": 1,
                 "Shareable": 1,
                 "ShareableContextListener": 1,
@@ -1537,7 +1540,6 @@
                 "AmbientLight": 1,
                 "ColorFacet": 1,
                 "DirectionalLight": 1,
-                "EulerFacet": 1,
                 "Frustum": 1,
                 "ModelE2": 1,
                 "ModelE3": 1,
@@ -1562,7 +1564,6 @@
                 "PointMaterial": 1,
                 "AbstractMatrix": 1,
                 "CC": 1,
-                "CartesianE3": 1,
                 "Dimensions": 1,
                 "Euclidean1": 1,
                 "Euclidean2": 1,
@@ -1625,6 +1626,7 @@
                 "Facet": 1,
                 "FacetVisitor": 1,
                 "Geometry": 1,
+                "GeometryPart": 1,
                 "GraphicsProgramSymbols": 1,
                 "IBufferGeometry": 1,
                 "IContextConsumer": 1,
@@ -1636,7 +1638,6 @@
                 "Material": 1,
                 "Mesh": 1,
                 "Primitive": 1,
-                "PrimitiveBuffer": 1,
                 "Scene": 1,
                 "Shareable": 1,
                 "ShareableContextListener": 1,
@@ -1665,7 +1666,6 @@
                 "AmbientLight": 1,
                 "ColorFacet": 1,
                 "DirectionalLight": 1,
-                "EulerFacet": 1,
                 "ModelE2": 1,
                 "ModelE3": 1,
                 "ModelFacet": 1,
@@ -2168,8 +2168,7 @@
             "submodule": "core",
             "namespace": "",
             "file": "src/davinci-eight/core/Facet.ts",
-            "line": 9,
-            "extends": "IUnknown"
+            "line": 8
         },
         "FacetVisitor": {
             "name": "FacetVisitor",
@@ -2199,7 +2198,7 @@
             "namespace": "",
             "file": "src/davinci-eight/core/Geometry.ts",
             "line": 27,
-            "description": "A collection of PrimitiveBuffer(s) with functions\nthat reflect the dependency on the WebGL context events.",
+            "description": "A collection of GeometryPart(s) with functions\nthat reflect the dependency on the WebGL context events.",
             "extends": "Shareable",
             "is_constructor": 1,
             "params": [
@@ -2207,6 +2206,30 @@
                     "name": "primitives",
                     "description": "",
                     "type": "Primitive[]"
+                }
+            ]
+        },
+        "GeometryPart": {
+            "name": "GeometryPart",
+            "shortname": "GeometryPart",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "submodule": "core",
+            "namespace": "",
+            "file": "src/davinci-eight/core/GeometryPart.ts",
+            "line": 39,
+            "description": "A buffer for drawing a single primitive\nthat can endure context loss and gain events.",
+            "extends": "Shareable",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "dataSource",
+                    "description": "",
+                    "type": "Primitive"
                 }
             ]
         },
@@ -2372,7 +2395,7 @@
             "submodule": "core",
             "namespace": "",
             "file": "src/davinci-eight/core/Mesh.ts",
-            "line": 56,
+            "line": 54,
             "extends": "Shareable",
             "is_constructor": 1,
             "params": [
@@ -2408,30 +2431,6 @@
             "namespace": "",
             "file": "src/davinci-eight/core/Primitive.ts",
             "line": 4
-        },
-        "PrimitiveBuffer": {
-            "name": "PrimitiveBuffer",
-            "shortname": "PrimitiveBuffer",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "EIGHT",
-            "submodule": "core",
-            "namespace": "",
-            "file": "src/davinci-eight/core/PrimitiveBuffer.ts",
-            "line": 40,
-            "description": "A buffer for drawing a single primitive\nthat can endure context loss and gain events.",
-            "extends": "Shareable",
-            "is_constructor": 1,
-            "params": [
-                {
-                    "name": "dataSource",
-                    "description": "",
-                    "type": "Primitive"
-                }
-            ]
         },
         "Scene": {
             "name": "Scene",
@@ -2632,8 +2631,7 @@
             "submodule": "facets",
             "namespace": "",
             "file": "src/davinci-eight/facets/AmbientLight.ts",
-            "line": 33,
-            "extends": "Shareable",
+            "line": 31,
             "description": "Constructs a white light in the -e3 direction.",
             "is_constructor": 1
         },
@@ -2649,7 +2647,7 @@
             "submodule": "facets",
             "namespace": "",
             "file": "src/davinci-eight/facets/ColorFacet.ts",
-            "line": 118,
+            "line": 116,
             "is_constructor": 1
         },
         "DirectionalLight": {
@@ -2664,8 +2662,7 @@
             "submodule": "facets",
             "namespace": "",
             "file": "src/davinci-eight/facets/DirectionalLight.ts",
-            "line": 60,
-            "extends": "Shareable",
+            "line": 58,
             "is_constructor": 1,
             "params": [
                 {
@@ -2679,21 +2676,6 @@
                     "type": "ColorRGB"
                 }
             ]
-        },
-        "EulerFacet": {
-            "name": "EulerFacet",
-            "shortname": "EulerFacet",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "EIGHT",
-            "submodule": "facets",
-            "namespace": "",
-            "file": "src/davinci-eight/facets/EulerFacet.ts",
-            "line": 17,
-            "is_constructor": 1
         },
         "Frustum": {
             "name": "Frustum",
@@ -2720,15 +2702,9 @@
             "submodule": "facets",
             "namespace": "",
             "file": "src/davinci-eight/facets/ModelE2.ts",
-            "line": 53,
+            "line": 50,
             "description": "<p>\nA collection of properties for Rigid Body Modeling.\n</p>\n<p>\nModelE2 implements Facet required for manipulating a composite object.\n</p>\n<p>\nConstructs a ModelE2 at the origin and with unity attitude.\n</p>",
-            "is_constructor": 1,
-            "params": [
-                {
-                    "name": "type",
-                    "description": "[string = 'ModelE2'] The name used for reference counting."
-                }
-            ]
+            "is_constructor": 1
         },
         "ModelE3": {
             "name": "ModelE3",
@@ -2742,15 +2718,9 @@
             "submodule": "facets",
             "namespace": "",
             "file": "src/davinci-eight/facets/ModelE3.ts",
-            "line": 65,
+            "line": 62,
             "description": "<p>\nA collection of properties for Rigid Body Modeling.\n</p>\n<p>\nModelE3 implements Facet required for manipulating a composite object.\n</p>\n<p>\nConstructs a ModelE3 at the origin and with unity attitude.\n</p>",
-            "is_constructor": 1,
-            "params": [
-                {
-                    "name": "type",
-                    "description": "[string = 'ModelE3'] The name used for reference counting."
-                }
-            ]
+            "is_constructor": 1
         },
         "ModelFacet": {
             "name": "ModelFacet",
@@ -2764,18 +2734,9 @@
             "submodule": "facets",
             "namespace": "",
             "file": "src/davinci-eight/facets/ModelFacet.ts",
-            "line": 31,
+            "line": 30,
             "description": "<p>\nA collection of properties governing GLSL uniforms for Rigid Body Modeling.\n</p>\n<p>\nIn Physics, the composite object may represent a rigid body.\nIn Computer Graphics, the composite object is a collection of drawing primitives.\n</p>\n<p>\nModelFacet implements Facet required for manipulating a composite object.\n</p>\n<p>\nConstructs a ModelFacet at the origin and with unity attitude.\n</p>",
-            "is_constructor": 1,
-            "params": [
-                {
-                    "name": "type ",
-                    "description": "The name used for reference counting.",
-                    "type": "String",
-                    "optional": true,
-                    "optdefault": " 'ModelFacet'"
-                }
-            ]
+            "is_constructor": 1
         },
         "Perspective": {
             "name": "Perspective",
@@ -2803,7 +2764,7 @@
             "submodule": "facets",
             "namespace": "",
             "file": "src/davinci-eight/facets/PerspectiveCamera.ts",
-            "line": 59,
+            "line": 57,
             "is_constructor": 1,
             "params": [
                 {
@@ -2851,7 +2812,7 @@
             "submodule": "facets",
             "namespace": "",
             "file": "src/davinci-eight/facets/PointSizeFacet.ts",
-            "line": 30,
+            "line": 29,
             "is_constructor": 1,
             "params": [
                 {
@@ -2875,8 +2836,7 @@
             "submodule": "facets",
             "namespace": "",
             "file": "src/davinci-eight/facets/ReflectionFacetE2.ts",
-            "line": 35,
-            "extends": "Shareable",
+            "line": 33,
             "is_constructor": 1,
             "params": [
                 {
@@ -2898,8 +2858,7 @@
             "submodule": "facets",
             "namespace": "",
             "file": "src/davinci-eight/facets/ReflectionFacetE3.ts",
-            "line": 36,
-            "extends": "Shareable",
+            "line": 34,
             "is_constructor": 1,
             "params": [
                 {
@@ -2921,7 +2880,7 @@
             "submodule": "facets",
             "namespace": "",
             "file": "src/davinci-eight/facets/Vector3Facet.ts",
-            "line": 25,
+            "line": 24,
             "is_constructor": 1,
             "params": [
                 {
@@ -2993,7 +2952,7 @@
             "submodule": "geometries",
             "namespace": "",
             "file": "src/davinci-eight/geometries/CuboidGeometry.ts",
-            "line": 29,
+            "line": 40,
             "description": "A convenience class for creating a cuboid.",
             "extends": "Geometry",
             "is_constructor": 1,
@@ -3012,6 +2971,11 @@
                     "name": "depth",
                     "description": "",
                     "type": "Number"
+                },
+                {
+                    "name": "wireFrame",
+                    "description": "",
+                    "type": "Boolean"
                 }
             ]
         },
@@ -3041,7 +3005,7 @@
             "submodule": "geometries",
             "namespace": "",
             "file": "src/davinci-eight/geometries/CylinderGeometry.ts",
-            "line": 22,
+            "line": 36,
             "description": "A convenience class for creating a cuboid.",
             "extends": "Geometry",
             "is_constructor": 1
@@ -3058,7 +3022,7 @@
             "submodule": "geometries",
             "namespace": "",
             "file": "src/davinci-eight/geometries/SphereGeometry.ts",
-            "line": 23,
+            "line": 36,
             "description": "A convenience class for creating a sphere.",
             "extends": "Geometry",
             "is_constructor": 1
@@ -3214,38 +3178,6 @@
                 {
                     "name": "β",
                     "description": "The <em>pseudoscalar</em> or <em>imaginary</em> part of the complex number."
-                }
-            ]
-        },
-        "CartesianE3": {
-            "name": "CartesianE3",
-            "shortname": "CartesianE3",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "EIGHT",
-            "namespace": "",
-            "file": "src/davinci-eight/math/CartesianE3.ts",
-            "line": 15,
-            "description": "A lightweight immutable type representing Cartesian coordinates (in Euclidean space).",
-            "is_constructor": 1,
-            "params": [
-                {
-                    "name": "x",
-                    "description": "The <em>x coordinate</em>.",
-                    "type": "Number"
-                },
-                {
-                    "name": "y",
-                    "description": "The <em>y coordinate</em>.",
-                    "type": "Number"
-                },
-                {
-                    "name": "z",
-                    "description": "The <em>z coordinate</em>.",
-                    "type": "Number"
                 }
             ]
         },
@@ -3935,7 +3867,7 @@
             "submodule": "visual",
             "namespace": "",
             "file": "src/davinci-eight/visual/Arrow.ts",
-            "line": 17,
+            "line": 18,
             "extends": "RigidBody",
             "is_constructor": 1
         },
@@ -3951,7 +3883,7 @@
             "submodule": "visual",
             "namespace": "",
             "file": "src/davinci-eight/visual/Cuboid.ts",
-            "line": 10,
+            "line": 11,
             "extends": "RigidBody"
         },
         "Cylinder": {
@@ -3966,7 +3898,7 @@
             "submodule": "visual",
             "namespace": "",
             "file": "src/davinci-eight/visual/Cylinder.ts",
-            "line": 10,
+            "line": 11,
             "extends": "RigidBody"
         },
         "RigidBody": {
@@ -4017,7 +3949,7 @@
             "submodule": "visual",
             "namespace": "",
             "file": "src/davinci-eight/visual/Sphere.ts",
-            "line": 16,
+            "line": 17,
             "extends": "RigidBody",
             "is_constructor": 1
         },
@@ -4033,7 +3965,7 @@
             "submodule": "visual",
             "namespace": "",
             "file": "src/davinci-eight/visual/Tetrahedron.ts",
-            "line": 16,
+            "line": 17,
             "extends": "RigidBody",
             "is_constructor": 1
         },
@@ -5649,7 +5581,7 @@
         },
         {
             "file": "src/davinci-eight/core/Facet.ts",
-            "line": 14,
+            "line": 12,
             "itemtype": "method",
             "name": "setUniforms",
             "params": [
@@ -5669,7 +5601,7 @@
         },
         {
             "file": "src/davinci-eight/core/Facet.ts",
-            "line": 21,
+            "line": 19,
             "itemtype": "method",
             "name": "setProperty",
             "params": [
@@ -6135,6 +6067,51 @@
                 "type": "Void"
             },
             "class": "Geometry",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/GeometryPart.ts",
+            "line": 21,
+            "description": "The always available source of primitive data that\nallows us to recover from context loss events.",
+            "itemtype": "property",
+            "name": "dataSource",
+            "type": "Primitive",
+            "access": "private",
+            "tagname": "",
+            "class": "GeometryPart",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/GeometryPart.ts",
+            "line": 30,
+            "description": "The primitive buffer associated with the source that may\ncome and go according to context loss and gain events.",
+            "proprty": "dataBuffer",
+            "type": "IBufferGeometry",
+            "access": "private",
+            "tagname": "",
+            "class": "GeometryPart",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/GeometryPart.ts",
+            "line": 77,
+            "itemtype": "method",
+            "name": "draw",
+            "params": [
+                {
+                    "name": "material",
+                    "description": "",
+                    "type": "Material"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "GeometryPart",
             "module": "EIGHT",
             "submodule": "core"
         },
@@ -7419,7 +7396,7 @@
         },
         {
             "file": "src/davinci-eight/core/Mesh.ts",
-            "line": 21,
+            "line": 20,
             "itemtype": "property",
             "name": "_buffers",
             "type": "{Geometry}",
@@ -7431,7 +7408,7 @@
         },
         {
             "file": "src/davinci-eight/core/Mesh.ts",
-            "line": 28,
+            "line": 27,
             "itemtype": "property",
             "name": "_program",
             "type": "{Material}",
@@ -7443,7 +7420,7 @@
         },
         {
             "file": "src/davinci-eight/core/Mesh.ts",
-            "line": 35,
+            "line": 34,
             "itemtype": "property",
             "name": "name",
             "type": "{string}",
@@ -7454,7 +7431,7 @@
         },
         {
             "file": "src/davinci-eight/core/Mesh.ts",
-            "line": 42,
+            "line": 41,
             "itemtype": "property",
             "name": "_visible",
             "type": "boolean",
@@ -7466,10 +7443,9 @@
         },
         {
             "file": "src/davinci-eight/core/Mesh.ts",
-            "line": 49,
+            "line": 48,
             "itemtype": "property",
-            "name": "facets",
-            "type": "{StringIUnknownMap&lt;Facet&gt;}",
+            "name": "_facets",
             "access": "private",
             "tagname": "",
             "class": "Mesh",
@@ -7478,7 +7454,7 @@
         },
         {
             "file": "src/davinci-eight/core/Mesh.ts",
-            "line": 72,
+            "line": 70,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -7493,7 +7469,7 @@
         },
         {
             "file": "src/davinci-eight/core/Mesh.ts",
-            "line": 87,
+            "line": 83,
             "itemtype": "method",
             "name": "setUniforms",
             "return": {
@@ -7506,7 +7482,7 @@
         },
         {
             "file": "src/davinci-eight/core/Mesh.ts",
-            "line": 103,
+            "line": 100,
             "itemtype": "method",
             "name": "draw",
             "params": [
@@ -7526,7 +7502,7 @@
         },
         {
             "file": "src/davinci-eight/core/Mesh.ts",
-            "line": 131,
+            "line": 128,
             "itemtype": "method",
             "name": "contextFree",
             "params": [
@@ -7546,7 +7522,7 @@
         },
         {
             "file": "src/davinci-eight/core/Mesh.ts",
-            "line": 141,
+            "line": 138,
             "itemtype": "method",
             "name": "contextGain",
             "params": [
@@ -7566,7 +7542,7 @@
         },
         {
             "file": "src/davinci-eight/core/Mesh.ts",
-            "line": 151,
+            "line": 148,
             "itemtype": "method",
             "name": "contextLost",
             "return": {
@@ -7579,7 +7555,7 @@
         },
         {
             "file": "src/davinci-eight/core/Mesh.ts",
-            "line": 160,
+            "line": 157,
             "itemtype": "method",
             "name": "getFacet",
             "params": [
@@ -7599,7 +7575,7 @@
         },
         {
             "file": "src/davinci-eight/core/Mesh.ts",
-            "line": 169,
+            "line": 166,
             "itemtype": "method",
             "name": "setFacet",
             "params": [
@@ -7624,7 +7600,7 @@
         },
         {
             "file": "src/davinci-eight/core/Mesh.ts",
-            "line": 179,
+            "line": 176,
             "description": "Provides a reference counted reference to the graphics buffers property.",
             "itemtype": "property",
             "name": "geometry",
@@ -7636,7 +7612,7 @@
         },
         {
             "file": "src/davinci-eight/core/Mesh.ts",
-            "line": 193,
+            "line": 190,
             "description": "Provides a reference counted reference to the graphics program property.",
             "itemtype": "property",
             "name": "material",
@@ -7648,7 +7624,7 @@
         },
         {
             "file": "src/davinci-eight/core/Mesh.ts",
-            "line": 207,
+            "line": 204,
             "itemtype": "property",
             "name": "visible",
             "type": "boolean",
@@ -7684,51 +7660,6 @@
             "name": "attributes",
             "type": "{{[name: string]: Attribute}}",
             "class": "Primitive",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/PrimitiveBuffer.ts",
-            "line": 22,
-            "description": "The always available source of primitive data that\nallows us to recover from context loss events.",
-            "itemtype": "property",
-            "name": "dataSource",
-            "type": "Primitive",
-            "access": "private",
-            "tagname": "",
-            "class": "PrimitiveBuffer",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/PrimitiveBuffer.ts",
-            "line": 31,
-            "description": "The primitive buffer associated with the source that may\ncome and go according to context loss and gain events.",
-            "proprty": "dataBuffer",
-            "type": "IBufferGeometry",
-            "access": "private",
-            "tagname": "",
-            "class": "PrimitiveBuffer",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/PrimitiveBuffer.ts",
-            "line": 76,
-            "itemtype": "method",
-            "name": "draw",
-            "params": [
-                {
-                    "name": "program",
-                    "description": "",
-                    "type": "Material"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "PrimitiveBuffer",
             "module": "EIGHT",
             "submodule": "core"
         },
@@ -9176,7 +9107,7 @@
         },
         {
             "file": "src/davinci-eight/facets/AmbientLight.ts",
-            "line": 28,
+            "line": 26,
             "itemtype": "property",
             "name": "color",
             "type": "{Color}",
@@ -9186,19 +9117,7 @@
         },
         {
             "file": "src/davinci-eight/facets/AmbientLight.ts",
-            "line": 47,
-            "itemtype": "method",
-            "name": "destructor",
-            "type": "{void}",
-            "access": "protected",
-            "tagname": "",
-            "class": "AmbientLight",
-            "module": "EIGHT",
-            "submodule": "facets"
-        },
-        {
-            "file": "src/davinci-eight/facets/AmbientLight.ts",
-            "line": 59,
+            "line": 49,
             "itemtype": "method",
             "name": "setProperty",
             "params": [
@@ -9224,7 +9143,7 @@
         },
         {
             "file": "src/davinci-eight/facets/AmbientLight.ts",
-            "line": 72,
+            "line": 62,
             "itemtype": "method",
             "name": "setUniforms",
             "params": [
@@ -9244,7 +9163,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ColorFacet.ts",
-            "line": 47,
+            "line": 45,
             "description": "property PROP_RGB",
             "type": "{string}",
             "static": 1,
@@ -9254,7 +9173,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ColorFacet.ts",
-            "line": 54,
+            "line": 52,
             "description": "property PROP_RGBA",
             "type": "{string}",
             "static": 1,
@@ -9264,7 +9183,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ColorFacet.ts",
-            "line": 61,
+            "line": 59,
             "description": "property PROP_RED",
             "type": "{string}",
             "static": 1,
@@ -9274,7 +9193,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ColorFacet.ts",
-            "line": 68,
+            "line": 66,
             "description": "property PROP_GREEN",
             "type": "{string}",
             "static": 1,
@@ -9284,7 +9203,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ColorFacet.ts",
-            "line": 75,
+            "line": 73,
             "description": "property PROP_BLUE",
             "type": "{string}",
             "static": 1,
@@ -9294,7 +9213,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ColorFacet.ts",
-            "line": 82,
+            "line": 80,
             "description": "property PROP_ALPHA",
             "type": "{string}",
             "static": 1,
@@ -9304,7 +9223,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ColorFacet.ts",
-            "line": 89,
+            "line": 87,
             "itemtype": "property",
             "name": "color",
             "type": "{Color}",
@@ -9316,7 +9235,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ColorFacet.ts",
-            "line": 96,
+            "line": 94,
             "itemtype": "property",
             "name": "a",
             "type": "{number}",
@@ -9328,7 +9247,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ColorFacet.ts",
-            "line": 103,
+            "line": 101,
             "description": "The name of the GLSL uniform variable that will be set.",
             "itemtype": "property",
             "name": "uAlphaName",
@@ -9340,7 +9259,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ColorFacet.ts",
-            "line": 111,
+            "line": 109,
             "itemtype": "property",
             "name": "uColorName",
             "type": "{string}",
@@ -9351,22 +9270,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ColorFacet.ts",
-            "line": 128,
-            "itemtype": "method",
-            "name": "destructor",
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "access": "protected",
-            "tagname": "",
-            "class": "ColorFacet",
-            "module": "EIGHT",
-            "submodule": "facets"
-        },
-        {
-            "file": "src/davinci-eight/facets/ColorFacet.ts",
-            "line": 138,
+            "line": 125,
             "description": "The red component of the color.",
             "itemtype": "property",
             "name": "r",
@@ -9377,7 +9281,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ColorFacet.ts",
-            "line": 151,
+            "line": 138,
             "description": "The green component of the color.",
             "itemtype": "property",
             "name": "g",
@@ -9388,7 +9292,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ColorFacet.ts",
-            "line": 164,
+            "line": 151,
             "description": "The blue component of the color.",
             "itemtype": "property",
             "name": "b",
@@ -9399,7 +9303,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ColorFacet.ts",
-            "line": 177,
+            "line": 164,
             "description": "The alpha component of the color.",
             "itemtype": "property",
             "name": "α",
@@ -9410,7 +9314,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ColorFacet.ts",
-            "line": 189,
+            "line": 176,
             "itemtype": "method",
             "name": "scaleRGB",
             "params": [
@@ -9431,7 +9335,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ColorFacet.ts",
-            "line": 202,
+            "line": 189,
             "itemtype": "method",
             "name": "scaleRGBA",
             "params": [
@@ -9452,7 +9356,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ColorFacet.ts",
-            "line": 216,
+            "line": 203,
             "itemtype": "method",
             "name": "setRGB",
             "params": [
@@ -9483,7 +9387,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ColorFacet.ts",
-            "line": 232,
+            "line": 219,
             "itemtype": "method",
             "name": "setRGBA",
             "params": [
@@ -9519,7 +9423,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ColorFacet.ts",
-            "line": 249,
+            "line": 236,
             "itemtype": "method",
             "name": "getProperty",
             "params": [
@@ -9539,7 +9443,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ColorFacet.ts",
-            "line": 275,
+            "line": 262,
             "itemtype": "method",
             "name": "setProperty",
             "params": [
@@ -9565,7 +9469,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ColorFacet.ts",
-            "line": 302,
+            "line": 289,
             "itemtype": "method",
             "name": "setUniforms",
             "params": [
@@ -9585,7 +9489,7 @@
         },
         {
             "file": "src/davinci-eight/facets/DirectionalLight.ts",
-            "line": 28,
+            "line": 26,
             "description": "The name of the property that designates the color.",
             "itemtype": "property",
             "name": "PROP_COLOR",
@@ -9599,7 +9503,7 @@
         },
         {
             "file": "src/davinci-eight/facets/DirectionalLight.ts",
-            "line": 38,
+            "line": 36,
             "description": "The name of the property that designates the direction.",
             "itemtype": "property",
             "name": "PROP_DIRECTION",
@@ -9613,7 +9517,7 @@
         },
         {
             "file": "src/davinci-eight/facets/DirectionalLight.ts",
-            "line": 48,
+            "line": 46,
             "itemtype": "property",
             "name": "direction",
             "type": "{R3}",
@@ -9623,7 +9527,7 @@
         },
         {
             "file": "src/davinci-eight/facets/DirectionalLight.ts",
-            "line": 54,
+            "line": 52,
             "itemtype": "property",
             "name": "color",
             "type": "{Color}",
@@ -9633,19 +9537,7 @@
         },
         {
             "file": "src/davinci-eight/facets/DirectionalLight.ts",
-            "line": 74,
-            "itemtype": "method",
-            "name": "destructor",
-            "type": "{void}",
-            "access": "protected",
-            "tagname": "",
-            "class": "DirectionalLight",
-            "module": "EIGHT",
-            "submodule": "facets"
-        },
-        {
-            "file": "src/davinci-eight/facets/DirectionalLight.ts",
-            "line": 83,
+            "line": 71,
             "itemtype": "method",
             "name": "getProperty",
             "params": [
@@ -9665,7 +9557,7 @@
         },
         {
             "file": "src/davinci-eight/facets/DirectionalLight.ts",
-            "line": 105,
+            "line": 93,
             "itemtype": "method",
             "name": "setProperty",
             "params": [
@@ -9690,7 +9582,7 @@
         },
         {
             "file": "src/davinci-eight/facets/DirectionalLight.ts",
-            "line": 130,
+            "line": 118,
             "itemtype": "method",
             "name": "setColor",
             "params": [
@@ -9711,7 +9603,7 @@
         },
         {
             "file": "src/davinci-eight/facets/DirectionalLight.ts",
-            "line": 142,
+            "line": 130,
             "itemtype": "method",
             "name": "setDirection",
             "params": [
@@ -9732,7 +9624,7 @@
         },
         {
             "file": "src/davinci-eight/facets/DirectionalLight.ts",
-            "line": 154,
+            "line": 142,
             "itemtype": "method",
             "name": "setUniforms",
             "params": [
@@ -9747,37 +9639,6 @@
                 "type": "Void"
             },
             "class": "DirectionalLight",
-            "module": "EIGHT",
-            "submodule": "facets"
-        },
-        {
-            "file": "src/davinci-eight/facets/EulerFacet.ts",
-            "line": 34,
-            "itemtype": "method",
-            "name": "setUniforms",
-            "params": [
-                {
-                    "name": "visitor",
-                    "description": "",
-                    "type": "FacetVisitor"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "EulerFacet",
-            "module": "EIGHT",
-            "submodule": "facets"
-        },
-        {
-            "file": "src/davinci-eight/facets/EulerFacet.ts",
-            "line": 42,
-            "itemtype": "property",
-            "name": "rotation",
-            "type": "{R3}",
-            "readonly": "",
-            "class": "EulerFacet",
             "module": "EIGHT",
             "submodule": "facets"
         },
@@ -9885,7 +9746,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ModelE2.ts",
-            "line": 18,
+            "line": 15,
             "description": "The name of the property that designates the attitude.",
             "itemtype": "property",
             "name": "PROP_ATTITUDE",
@@ -9899,7 +9760,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ModelE2.ts",
-            "line": 27,
+            "line": 24,
             "description": "The name of the property that designates the position.",
             "itemtype": "property",
             "name": "PROP_POSITION",
@@ -9913,7 +9774,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ModelE2.ts",
-            "line": 39,
+            "line": 36,
             "description": "Used for exchanging number[] data to achieve integrity and avoid lots of temporaries.",
             "itemtype": "property",
             "name": "_posCache",
@@ -9926,7 +9787,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ModelE2.ts",
-            "line": 46,
+            "line": 43,
             "description": "Used for exchanging number[] data to achieve integrity and avoid lots of temporaries.",
             "itemtype": "property",
             "name": "_attCache",
@@ -9939,22 +9800,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ModelE2.ts",
-            "line": 72,
-            "itemtype": "method",
-            "name": "destructor",
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "access": "protected",
-            "tagname": "",
-            "class": "ModelE2",
-            "module": "EIGHT",
-            "submodule": "facets"
-        },
-        {
-            "file": "src/davinci-eight/facets/ModelE2.ts",
-            "line": 81,
+            "line": 68,
             "description": "<p>\nThe <em>attitude</em>, a unitary spinor.\n</p>",
             "itemtype": "property",
             "name": "R",
@@ -9966,7 +9812,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ModelE2.ts",
-            "line": 95,
+            "line": 82,
             "description": "<p>\nThe <em>position</em>, a vector.\nThe vector <b>X</b> designates the center of mass of the body (Physics).\nThe vector <b>X</b> designates the displacement from the local origin (Computer Graphics).\n</p>",
             "itemtype": "property",
             "name": "X",
@@ -9978,7 +9824,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ModelE2.ts",
-            "line": 113,
+            "line": 100,
             "itemtype": "method",
             "name": "getProperty",
             "params": [
@@ -9998,7 +9844,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ModelE2.ts",
-            "line": 135,
+            "line": 122,
             "itemtype": "method",
             "name": "setProperty",
             "params": [
@@ -10024,7 +9870,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ModelE3.ts",
-            "line": 18,
+            "line": 15,
             "description": "The name of the property that designates the attitude.",
             "itemtype": "property",
             "name": "PROP_ATTITUDE",
@@ -10038,7 +9884,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ModelE3.ts",
-            "line": 27,
+            "line": 24,
             "description": "The name of the property that designates the position.",
             "itemtype": "property",
             "name": "PROP_POSITION",
@@ -10052,7 +9898,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ModelE3.ts",
-            "line": 37,
+            "line": 34,
             "itemtype": "property",
             "name": "_position",
             "type": "{G3}",
@@ -10064,7 +9910,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ModelE3.ts",
-            "line": 44,
+            "line": 41,
             "itemtype": "property",
             "name": "_attitude",
             "type": "{G3}",
@@ -10076,7 +9922,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ModelE3.ts",
-            "line": 51,
+            "line": 48,
             "description": "Used for exchanging number[] data to achieve integrity and avoid lots of temporaries.",
             "itemtype": "property",
             "name": "_posCache",
@@ -10089,7 +9935,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ModelE3.ts",
-            "line": 58,
+            "line": 55,
             "description": "Used for exchanging number[] data to achieve integrity and avoid lots of temporaries.",
             "itemtype": "property",
             "name": "_attCache",
@@ -10102,22 +9948,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ModelE3.ts",
-            "line": 84,
-            "itemtype": "method",
-            "name": "destructor",
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "access": "protected",
-            "tagname": "",
-            "class": "ModelE3",
-            "module": "EIGHT",
-            "submodule": "facets"
-        },
-        {
-            "file": "src/davinci-eight/facets/ModelE3.ts",
-            "line": 94,
+            "line": 80,
             "description": "<p>\nThe <em>attitude</em>, a unitary spinor.\n</p>",
             "itemtype": "property",
             "name": "R",
@@ -10129,7 +9960,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ModelE3.ts",
-            "line": 108,
+            "line": 94,
             "description": "<p>\nThe <em>position</em>, a vector.\nThe vector <b>X</b> designates the center of mass of the body (Physics).\nThe vector <b>X</b> designates the displacement from the local origin (Computer Graphics).\n</p>",
             "itemtype": "property",
             "name": "X",
@@ -10141,7 +9972,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ModelE3.ts",
-            "line": 126,
+            "line": 112,
             "itemtype": "method",
             "name": "getProperty",
             "params": [
@@ -10161,7 +9992,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ModelE3.ts",
-            "line": 148,
+            "line": 134,
             "itemtype": "method",
             "name": "setProperty",
             "params": [
@@ -10187,22 +10018,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ModelFacet.ts",
-            "line": 53,
-            "itemtype": "method",
-            "name": "destructor",
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "access": "protected",
-            "tagname": "",
-            "class": "ModelFacet",
-            "module": "EIGHT",
-            "submodule": "facets"
-        },
-        {
-            "file": "src/davinci-eight/facets/ModelFacet.ts",
-            "line": 68,
+            "line": 52,
             "itemtype": "property",
             "name": "scaleXYZ",
             "type": "R3",
@@ -10213,7 +10029,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ModelFacet.ts",
-            "line": 80,
+            "line": 64,
             "itemtype": "method",
             "name": "setUniforms",
             "params": [
@@ -10233,7 +10049,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ModelFacet.ts",
-            "line": 106,
+            "line": 90,
             "itemtype": "method",
             "name": "setProperty",
             "params": [
@@ -10407,7 +10223,7 @@
         },
         {
             "file": "src/davinci-eight/facets/PerspectiveCamera.ts",
-            "line": 28,
+            "line": 26,
             "description": "The name of the property that designates the position.",
             "itemtype": "property",
             "name": "PROP_POSITION",
@@ -10421,7 +10237,7 @@
         },
         {
             "file": "src/davinci-eight/facets/PerspectiveCamera.ts",
-            "line": 39,
+            "line": 37,
             "itemtype": "property",
             "name": "material",
             "type": "{Material}",
@@ -10431,7 +10247,7 @@
         },
         {
             "file": "src/davinci-eight/facets/PerspectiveCamera.ts",
-            "line": 45,
+            "line": 43,
             "itemtype": "property",
             "name": "name",
             "type": "{string}",
@@ -10442,7 +10258,7 @@
         },
         {
             "file": "src/davinci-eight/facets/PerspectiveCamera.ts",
-            "line": 52,
+            "line": 50,
             "itemtype": "property",
             "name": "inner",
             "type": "{Perspective}",
@@ -10454,22 +10270,7 @@
         },
         {
             "file": "src/davinci-eight/facets/PerspectiveCamera.ts",
-            "line": 90,
-            "itemtype": "method",
-            "name": "destructor",
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "access": "protected",
-            "tagname": "",
-            "class": "PerspectiveCamera",
-            "module": "EIGHT",
-            "submodule": "facets"
-        },
-        {
-            "file": "src/davinci-eight/facets/PerspectiveCamera.ts",
-            "line": 99,
+            "line": 86,
             "itemtype": "method",
             "name": "setUniforms",
             "params": [
@@ -10489,73 +10290,7 @@
         },
         {
             "file": "src/davinci-eight/facets/PerspectiveCamera.ts",
-            "line": 110,
-            "itemtype": "method",
-            "name": "contextFree",
-            "params": [
-                {
-                    "name": "manager",
-                    "description": "",
-                    "type": "IContextProvider"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "PerspectiveCamera",
-            "module": "EIGHT",
-            "submodule": "facets"
-        },
-        {
-            "file": "src/davinci-eight/facets/PerspectiveCamera.ts",
-            "line": 119,
-            "itemtype": "method",
-            "name": "contextGain",
-            "params": [
-                {
-                    "name": "manager",
-                    "description": "",
-                    "type": "IContextProvider"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "PerspectiveCamera",
-            "module": "EIGHT",
-            "submodule": "facets"
-        },
-        {
-            "file": "src/davinci-eight/facets/PerspectiveCamera.ts",
-            "line": 128,
-            "itemtype": "method",
-            "name": "contextLost",
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "PerspectiveCamera",
-            "module": "EIGHT",
-            "submodule": "facets"
-        },
-        {
-            "file": "src/davinci-eight/facets/PerspectiveCamera.ts",
-            "line": 136,
-            "itemtype": "method",
-            "name": "draw",
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "PerspectiveCamera",
-            "module": "EIGHT",
-            "submodule": "facets"
-        },
-        {
-            "file": "src/davinci-eight/facets/PerspectiveCamera.ts",
-            "line": 144,
+            "line": 97,
             "itemtype": "method",
             "name": "getProperty",
             "params": [
@@ -10575,7 +10310,7 @@
         },
         {
             "file": "src/davinci-eight/facets/PerspectiveCamera.ts",
-            "line": 163,
+            "line": 116,
             "itemtype": "method",
             "name": "setProperty",
             "params": [
@@ -10601,7 +10336,7 @@
         },
         {
             "file": "src/davinci-eight/facets/PerspectiveCamera.ts",
-            "line": 186,
+            "line": 139,
             "description": "The aspect ratio (width / height) of the camera viewport.",
             "itemtype": "property",
             "name": "aspect",
@@ -10613,7 +10348,7 @@
         },
         {
             "file": "src/davinci-eight/facets/PerspectiveCamera.ts",
-            "line": 196,
+            "line": 149,
             "itemtype": "method",
             "name": "setAspect",
             "params": [
@@ -10634,7 +10369,7 @@
         },
         {
             "file": "src/davinci-eight/facets/PerspectiveCamera.ts",
-            "line": 207,
+            "line": 160,
             "description": "The position of the camera.",
             "itemtype": "property",
             "name": "eye",
@@ -10646,7 +10381,7 @@
         },
         {
             "file": "src/davinci-eight/facets/PerspectiveCamera.ts",
-            "line": 220,
+            "line": 173,
             "description": "The position of the camera.",
             "itemtype": "property",
             "name": "position",
@@ -10658,7 +10393,7 @@
         },
         {
             "file": "src/davinci-eight/facets/PerspectiveCamera.ts",
-            "line": 233,
+            "line": 186,
             "itemtype": "method",
             "name": "setEye",
             "params": [
@@ -10679,7 +10414,7 @@
         },
         {
             "file": "src/davinci-eight/facets/PerspectiveCamera.ts",
-            "line": 244,
+            "line": 197,
             "description": "The field of view is the (planar) angle (magnitude) in the camera horizontal plane that encloses object that can be seen.\nMeasured in radians.",
             "itemtype": "property",
             "name": "fov",
@@ -10691,7 +10426,7 @@
         },
         {
             "file": "src/davinci-eight/facets/PerspectiveCamera.ts",
-            "line": 258,
+            "line": 211,
             "itemtype": "method",
             "name": "setFov",
             "params": [
@@ -10712,7 +10447,7 @@
         },
         {
             "file": "src/davinci-eight/facets/PerspectiveCamera.ts",
-            "line": 278,
+            "line": 231,
             "description": "The distance to the near plane.",
             "itemtype": "property",
             "name": "near",
@@ -10724,7 +10459,7 @@
         },
         {
             "file": "src/davinci-eight/facets/PerspectiveCamera.ts",
-            "line": 291,
+            "line": 244,
             "itemtype": "method",
             "name": "setNear",
             "params": [
@@ -10745,7 +10480,7 @@
         },
         {
             "file": "src/davinci-eight/facets/PointSizeFacet.ts",
-            "line": 24,
+            "line": 23,
             "itemtype": "property",
             "name": "pointSize",
             "type": "{number}",
@@ -10755,7 +10490,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ReflectionFacetE2.ts",
-            "line": 20,
+            "line": 18,
             "description": "The vector perpendicular to the (hyper-)plane of reflection.",
             "itemtype": "property",
             "name": "_normal",
@@ -10768,7 +10503,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ReflectionFacetE2.ts",
-            "line": 27,
+            "line": 25,
             "itemtype": "property",
             "name": "matrix",
             "type": "{Mat2R}",
@@ -10780,7 +10515,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ReflectionFacetE2.ts",
-            "line": 48,
+            "line": 45,
             "itemtype": "property",
             "name": "normal",
             "type": "R2",
@@ -10791,22 +10526,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ReflectionFacetE2.ts",
-            "line": 60,
-            "itemtype": "method",
-            "name": "destructor",
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "access": "protected",
-            "tagname": "",
-            "class": "ReflectionFacetE2",
-            "module": "EIGHT",
-            "submodule": "facets"
-        },
-        {
-            "file": "src/davinci-eight/facets/ReflectionFacetE2.ts",
-            "line": 71,
+            "line": 57,
             "itemtype": "method",
             "name": "getProperty",
             "params": [
@@ -10826,7 +10546,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ReflectionFacetE2.ts",
-            "line": 81,
+            "line": 67,
             "itemtype": "method",
             "name": "setProperty",
             "params": [
@@ -10851,7 +10571,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ReflectionFacetE2.ts",
-            "line": 93,
+            "line": 79,
             "itemtype": "method",
             "name": "setUniforms",
             "params": [
@@ -10871,11 +10591,11 @@
         },
         {
             "file": "src/davinci-eight/facets/ReflectionFacetE3.ts",
-            "line": 21,
+            "line": 18,
             "description": "The vector perpendicular to the (hyper-)plane of reflection.",
             "itemtype": "property",
             "name": "_normal",
-            "type": "{R3}",
+            "type": "{G3}",
             "access": "private",
             "tagname": "",
             "class": "ReflectionFacetE3",
@@ -10884,7 +10604,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ReflectionFacetE3.ts",
-            "line": 28,
+            "line": 26,
             "itemtype": "property",
             "name": "matrix",
             "type": "{Mat4R}",
@@ -10896,10 +10616,10 @@
         },
         {
             "file": "src/davinci-eight/facets/ReflectionFacetE3.ts",
-            "line": 49,
+            "line": 46,
             "itemtype": "property",
             "name": "normal",
-            "type": "R3",
+            "type": "G3",
             "readonly": "",
             "class": "ReflectionFacetE3",
             "module": "EIGHT",
@@ -10907,22 +10627,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ReflectionFacetE3.ts",
-            "line": 61,
-            "itemtype": "method",
-            "name": "destructor",
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "access": "protected",
-            "tagname": "",
-            "class": "ReflectionFacetE3",
-            "module": "EIGHT",
-            "submodule": "facets"
-        },
-        {
-            "file": "src/davinci-eight/facets/ReflectionFacetE3.ts",
-            "line": 72,
+            "line": 58,
             "itemtype": "method",
             "name": "getProperty",
             "params": [
@@ -10942,7 +10647,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ReflectionFacetE3.ts",
-            "line": 82,
+            "line": 68,
             "itemtype": "method",
             "name": "setProperty",
             "params": [
@@ -10967,7 +10672,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ReflectionFacetE3.ts",
-            "line": 94,
+            "line": 80,
             "itemtype": "method",
             "name": "setUniforms",
             "params": [
@@ -10987,7 +10692,7 @@
         },
         {
             "file": "src/davinci-eight/facets/Vector3Facet.ts",
-            "line": 43,
+            "line": 39,
             "itemtype": "method",
             "name": "setProperty",
             "params": [
@@ -11142,7 +10847,7 @@
         },
         {
             "file": "src/davinci-eight/facets/createView.ts",
-            "line": 49,
+            "line": 40,
             "itemtype": "method",
             "name": "setEye",
             "params": [
@@ -11261,57 +10966,84 @@
         },
         {
             "file": "src/davinci-eight/geometries/CylinderBuilder.ts",
-            "line": 14,
+            "line": 9,
+            "class": "CylinderGeometry",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/CylinderBuilder.ts",
+            "line": 17,
             "description": "A displacement in the direction of axis that we must move for each height step.",
             "class": "CylinderGeometry",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/geometries/CylinderBuilder.ts",
-            "line": 20,
+            "line": 23,
             "description": "The displacement to the current level.",
             "class": "CylinderGeometry",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/geometries/CylinderBuilder.ts",
-            "line": 26,
+            "line": 29,
             "description": "Interesting that the v coordinate is 1 at the base and 0 at the top!\nThis is because i originally went from top to bottom.",
             "class": "CylinderGeometry",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/geometries/CylinderBuilder.ts",
-            "line": 31,
+            "line": 34,
             "description": "arcPoints.length => thetaSegments + 1",
             "class": "CylinderGeometry",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/geometries/CylinderBuilder.ts",
-            "line": 35,
+            "line": 38,
             "description": "j < arcPoints.length => j <= thetaSegments",
             "class": "CylinderGeometry",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/geometries/CylinderBuilder.ts",
-            "line": 40,
+            "line": 43,
             "description": "u will vary from 0 to 1, because j goes from 0 to thetaSegments",
             "class": "CylinderGeometry",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/geometries/CylinderBuilder.ts",
-            "line": 101,
+            "line": 104,
             "description": "2-------3\n|       | \n|       |\n|       |\n1-------4",
             "class": "CylinderGeometry",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/geometries/GridSimplexGeometry.ts",
+            "file": "src/davinci-eight/geometries/CylinderPrimitivesBuilder.ts",
+            "line": 11,
+            "description": "This implementation only builds the walls of the cylinder (by wrapping a grid)",
+            "class": "SphereGeometry",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/GridBuilder.ts",
             "line": 16,
             "description": "Temporary array of points.",
+            "class": "SphereGeometry",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/GridTopology.ts",
+            "line": 31,
+            "description": "The number of elements needed if we executed a strip per row.\nRemark Notice the asymmetry. Could be a performance impact.",
+            "class": "SphereGeometry",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/GridTopology.ts",
+            "line": 36,
+            "description": "Index for triangle strip array.",
             "class": "SphereGeometry",
             "module": "EIGHT"
         },
@@ -11374,14 +11106,28 @@
         {
             "file": "src/davinci-eight/geometries/SphereBuilder.ts",
             "line": 29,
-            "description": "Displacement that we need to add to each arc point to get the\ndistance position parallel to the axis correct.",
+            "description": "Displacement that we need to add (in the axis direction) to each arc point to get the\ndistance position parallel to the axis correct.",
             "class": "SphereGeometry",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/Topology.ts",
+            "line": 36,
+            "description": "A representation of a primitive",
+            "class": "HTMLScriptsMaterial",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/VertexAttributeMap.ts",
+            "line": 3,
+            "description": "Using VectorN allows G2, G3, R1, R2, R3, R4, SpinG2, SpinG3.",
+            "class": "HTMLScriptsMaterial",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/geometries/arc3.ts",
             "line": 9,
-            "description": "Computes a list of points corresponding to an arc centered on the origin.\nparam begin {VectorE3} The begin position.\nparam angle: {number} The angle of the rotation.\nparam generator {SpinorE3} The generator of the rotation.\nparam segments {number} The number of segments.",
+            "description": "Computes a list of points corresponding to an arc centered on the origin.\nbegin {VectorE3} The begin position.\nangle: {number} The angle of the rotation.\ngenerator {SpinorE3} The generator of the rotation.\nsegments {number} The number of segments.",
             "class": "HTMLScriptsMaterial",
             "module": "EIGHT"
         },
@@ -12356,86 +12102,6 @@
             "class": "CC",
             "module": "EIGHT",
             "submodule": "math"
-        },
-        {
-            "file": "src/davinci-eight/math/CartesianE3.ts",
-            "line": 60,
-            "itemtype": "property",
-            "name": "zero",
-            "type": "{CartesianE3}",
-            "static": 1,
-            "class": "CartesianE3",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/CartesianE3.ts",
-            "line": 67,
-            "itemtype": "property",
-            "name": "e1",
-            "type": "{CartesianE3}",
-            "static": 1,
-            "class": "CartesianE3",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/CartesianE3.ts",
-            "line": 74,
-            "itemtype": "property",
-            "name": "e2",
-            "type": "{CartesianE3}",
-            "static": 1,
-            "class": "CartesianE3",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/CartesianE3.ts",
-            "line": 81,
-            "itemtype": "property",
-            "name": "e3",
-            "type": "{CartesianE3}",
-            "static": 1,
-            "class": "CartesianE3",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/CartesianE3.ts",
-            "line": 88,
-            "itemtype": "method",
-            "name": "fromVectorE3",
-            "params": [
-                {
-                    "name": "vector",
-                    "description": "",
-                    "type": "VectorE3"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "CartesianE3"
-            },
-            "static": 1,
-            "class": "CartesianE3",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/CartesianE3.ts",
-            "line": 97,
-            "itemtype": "method",
-            "name": "direction",
-            "params": [
-                {
-                    "name": "vector",
-                    "description": "",
-                    "type": "VectorE3"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "CartesianE3"
-            },
-            "static": 1,
-            "class": "CartesianE3",
-            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/Dimensions.ts",
@@ -25379,22 +25045,8 @@
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/topologies/GridTopology.ts",
-            "line": 31,
-            "description": "The number of elements needed if we executed a strip per row.\nRemark Notice the asymmetry. Could be a performance impact.",
-            "class": "Arrow",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/topologies/GridTopology.ts",
-            "line": 36,
-            "description": "Index for triangle strip array.",
-            "class": "Arrow",
-            "module": "EIGHT"
-        },
-        {
             "file": "src/davinci-eight/visual/Arrow.ts",
-            "line": 28,
+            "line": 29,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -25409,7 +25061,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Arrow.ts",
-            "line": 37,
+            "line": 38,
             "itemtype": "property",
             "name": "length",
             "type": "number",
@@ -25459,7 +25111,7 @@
         },
         {
             "file": "src/davinci-eight/visual/RigidBody.ts",
-            "line": 73,
+            "line": 71,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -25474,7 +25126,7 @@
         },
         {
             "file": "src/davinci-eight/visual/RigidBody.ts",
-            "line": 82,
+            "line": 80,
             "description": "Axis (vector)\nThis property is computed from the attitude spinor assuming a reference axis of e2.\nThe axis property may be updated by assignment, but not through mutation.",
             "itemtype": "property",
             "name": "axis",
@@ -25485,7 +25137,7 @@
         },
         {
             "file": "src/davinci-eight/visual/RigidBody.ts",
-            "line": 101,
+            "line": 99,
             "description": "Color",
             "itemtype": "property",
             "name": "color",
@@ -25496,7 +25148,7 @@
         },
         {
             "file": "src/davinci-eight/visual/RigidBody.ts",
-            "line": 119,
+            "line": 115,
             "description": "Mass",
             "itemtype": "property",
             "name": "m",
@@ -25507,7 +25159,7 @@
         },
         {
             "file": "src/davinci-eight/visual/RigidBody.ts",
-            "line": 133,
+            "line": 129,
             "description": "Momentum",
             "itemtype": "property",
             "name": "P",
@@ -25518,7 +25170,7 @@
         },
         {
             "file": "src/davinci-eight/visual/RigidBody.ts",
-            "line": 146,
+            "line": 142,
             "description": "Attitude (spinor)",
             "itemtype": "property",
             "name": "R",
@@ -25529,7 +25181,7 @@
         },
         {
             "file": "src/davinci-eight/visual/RigidBody.ts",
-            "line": 159,
+            "line": 155,
             "description": "Position (vector)\n\nThe property getter returns a reference to a variable that is used to determine\nthe location. Consequently, mutation of the returned variable affects the location\nof the body.",
             "example": [
                 "\n    const position = rigidBody.X\n\nChanging the position variable will affect the rigidBody.\n\nThe property setter copies the right hand side of the assignment into the X property.",
@@ -25544,7 +25196,7 @@
         },
         {
             "file": "src/davinci-eight/visual/RigidBody.ts",
-            "line": 190,
+            "line": 186,
             "itemtype": "method",
             "name": "getScaleX",
             "return": {
@@ -25559,7 +25211,7 @@
         },
         {
             "file": "src/davinci-eight/visual/RigidBody.ts",
-            "line": 199,
+            "line": 195,
             "itemtype": "method",
             "name": "setScaleX",
             "params": [
@@ -25581,7 +25233,7 @@
         },
         {
             "file": "src/davinci-eight/visual/RigidBody.ts",
-            "line": 209,
+            "line": 205,
             "itemtype": "method",
             "name": "getScaleY",
             "return": {
@@ -25596,7 +25248,7 @@
         },
         {
             "file": "src/davinci-eight/visual/RigidBody.ts",
-            "line": 218,
+            "line": 214,
             "itemtype": "method",
             "name": "setScaleY",
             "params": [
@@ -25618,7 +25270,7 @@
         },
         {
             "file": "src/davinci-eight/visual/RigidBody.ts",
-            "line": 228,
+            "line": 224,
             "itemtype": "method",
             "name": "getScaleZ",
             "return": {
@@ -25633,7 +25285,7 @@
         },
         {
             "file": "src/davinci-eight/visual/RigidBody.ts",
-            "line": 237,
+            "line": 233,
             "itemtype": "method",
             "name": "setScaleZ",
             "params": [
@@ -25655,8 +25307,8 @@
         },
         {
             "file": "src/davinci-eight/visual/RigidBody.ts",
-            "line": 247,
-            "description": "Helper method for accessing the model.\nThe underscore notation should suggest that a release call is not required.",
+            "line": 243,
+            "description": "Helper method for accessing the model.",
             "itemtype": "property",
             "name": "_model",
             "type": "ModelFacet",
@@ -25669,7 +25321,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Sphere.ts",
-            "line": 26,
+            "line": 27,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -25684,7 +25336,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Sphere.ts",
-            "line": 35,
+            "line": 36,
             "itemtype": "property",
             "name": "radius",
             "type": "number",
@@ -25695,7 +25347,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Tetrahedron.ts",
-            "line": 26,
+            "line": 27,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -25710,7 +25362,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Tetrahedron.ts",
-            "line": 35,
+            "line": 36,
             "itemtype": "property",
             "name": "radius",
             "type": "number",
@@ -25804,7 +25456,7 @@
         },
         {
             "message": "unknown tag: proprty",
-            "line": " src/davinci-eight/core/PrimitiveBuffer.ts:31"
+            "line": " src/davinci-eight/core/GeometryPart.ts:30"
         },
         {
             "message": "replacing incorrect tag: function with method",
@@ -25839,12 +25491,12 @@
             "line": " src/davinci-eight/core/Color.ts:249"
         },
         {
-            "message": "Missing item type",
-            "line": " src/davinci-eight/core/IContextMonitor.ts:11"
+            "message": "Missing item type\nThe primitive buffer associated with the source that may\ncome and go according to context loss and gain events.",
+            "line": " src/davinci-eight/core/GeometryPart.ts:30"
         },
         {
-            "message": "Missing item type\nThe primitive buffer associated with the source that may\ncome and go according to context loss and gain events.",
-            "line": " src/davinci-eight/core/PrimitiveBuffer.ts:31"
+            "message": "Missing item type",
+            "line": " src/davinci-eight/core/IContextMonitor.ts:11"
         },
         {
             "message": "Missing item type\nThe parts of a scene are the smallest components that\nare heuristically sorted in order to optimize rendering.",
@@ -25968,27 +25620,27 @@
         },
         {
             "message": "Missing item type\nproperty PROP_RGB",
-            "line": " src/davinci-eight/facets/ColorFacet.ts:47"
+            "line": " src/davinci-eight/facets/ColorFacet.ts:45"
         },
         {
             "message": "Missing item type\nproperty PROP_RGBA",
-            "line": " src/davinci-eight/facets/ColorFacet.ts:54"
+            "line": " src/davinci-eight/facets/ColorFacet.ts:52"
         },
         {
             "message": "Missing item type\nproperty PROP_RED",
-            "line": " src/davinci-eight/facets/ColorFacet.ts:61"
+            "line": " src/davinci-eight/facets/ColorFacet.ts:59"
         },
         {
             "message": "Missing item type\nproperty PROP_GREEN",
-            "line": " src/davinci-eight/facets/ColorFacet.ts:68"
+            "line": " src/davinci-eight/facets/ColorFacet.ts:66"
         },
         {
             "message": "Missing item type\nproperty PROP_BLUE",
-            "line": " src/davinci-eight/facets/ColorFacet.ts:75"
+            "line": " src/davinci-eight/facets/ColorFacet.ts:73"
         },
         {
             "message": "Missing item type\nproperty PROP_ALPHA",
-            "line": " src/davinci-eight/facets/ColorFacet.ts:82"
+            "line": " src/davinci-eight/facets/ColorFacet.ts:80"
         },
         {
             "message": "Missing item type\nThe opposite direction to the axis.",
@@ -26015,36 +25667,52 @@
             "line": " src/davinci-eight/geometries/ArrowBuilder.ts:69"
         },
         {
+            "message": "Missing item type",
+            "line": " src/davinci-eight/geometries/CylinderBuilder.ts:9"
+        },
+        {
             "message": "Missing item type\nA displacement in the direction of axis that we must move for each height step.",
-            "line": " src/davinci-eight/geometries/CylinderBuilder.ts:14"
+            "line": " src/davinci-eight/geometries/CylinderBuilder.ts:17"
         },
         {
             "message": "Missing item type\nThe displacement to the current level.",
-            "line": " src/davinci-eight/geometries/CylinderBuilder.ts:20"
+            "line": " src/davinci-eight/geometries/CylinderBuilder.ts:23"
         },
         {
             "message": "Missing item type\nInteresting that the v coordinate is 1 at the base and 0 at the top!\nThis is because i originally went from top to bottom.",
-            "line": " src/davinci-eight/geometries/CylinderBuilder.ts:26"
+            "line": " src/davinci-eight/geometries/CylinderBuilder.ts:29"
         },
         {
             "message": "Missing item type\narcPoints.length => thetaSegments + 1",
-            "line": " src/davinci-eight/geometries/CylinderBuilder.ts:31"
+            "line": " src/davinci-eight/geometries/CylinderBuilder.ts:34"
         },
         {
             "message": "Missing item type\nj < arcPoints.length => j <= thetaSegments",
-            "line": " src/davinci-eight/geometries/CylinderBuilder.ts:35"
+            "line": " src/davinci-eight/geometries/CylinderBuilder.ts:38"
         },
         {
             "message": "Missing item type\nu will vary from 0 to 1, because j goes from 0 to thetaSegments",
-            "line": " src/davinci-eight/geometries/CylinderBuilder.ts:40"
+            "line": " src/davinci-eight/geometries/CylinderBuilder.ts:43"
         },
         {
             "message": "Missing item type\n2-------3\n|       | \n|       |\n|       |\n1-------4",
-            "line": " src/davinci-eight/geometries/CylinderBuilder.ts:101"
+            "line": " src/davinci-eight/geometries/CylinderBuilder.ts:104"
+        },
+        {
+            "message": "Missing item type\nThis implementation only builds the walls of the cylinder (by wrapping a grid)",
+            "line": " src/davinci-eight/geometries/CylinderPrimitivesBuilder.ts:11"
         },
         {
             "message": "Missing item type\nTemporary array of points.",
-            "line": " src/davinci-eight/geometries/GridSimplexGeometry.ts:16"
+            "line": " src/davinci-eight/geometries/GridBuilder.ts:16"
+        },
+        {
+            "message": "Missing item type\nThe number of elements needed if we executed a strip per row.\nRemark Notice the asymmetry. Could be a performance impact.",
+            "line": " src/davinci-eight/geometries/GridTopology.ts:31"
+        },
+        {
+            "message": "Missing item type\nIndex for triangle strip array.",
+            "line": " src/davinci-eight/geometries/GridTopology.ts:36"
         },
         {
             "message": "Missing item type\nradius",
@@ -26079,11 +25747,19 @@
             "line": " src/davinci-eight/geometries/RingSimplexGeometry.ts:53"
         },
         {
-            "message": "Missing item type\nDisplacement that we need to add to each arc point to get the\ndistance position parallel to the axis correct.",
+            "message": "Missing item type\nDisplacement that we need to add (in the axis direction) to each arc point to get the\ndistance position parallel to the axis correct.",
             "line": " src/davinci-eight/geometries/SphereBuilder.ts:29"
         },
         {
-            "message": "Missing item type\nComputes a list of points corresponding to an arc centered on the origin.\nparam begin {VectorE3} The begin position.\nparam angle: {number} The angle of the rotation.\nparam generator {SpinorE3} The generator of the rotation.\nparam segments {number} The number of segments.",
+            "message": "Missing item type\nA representation of a primitive",
+            "line": " src/davinci-eight/geometries/Topology.ts:36"
+        },
+        {
+            "message": "Missing item type\nUsing VectorN allows G2, G3, R1, R2, R3, R4, SpinG2, SpinG3.",
+            "line": " src/davinci-eight/geometries/VertexAttributeMap.ts:3"
+        },
+        {
+            "message": "Missing item type\nComputes a list of points corresponding to an arc centered on the origin.\nbegin {VectorE3} The begin position.\nangle: {number} The angle of the rotation.\ngenerator {SpinorE3} The generator of the rotation.\nsegments {number} The number of segments.",
             "line": " src/davinci-eight/geometries/arc3.ts:9"
         },
         {
@@ -26673,14 +26349,6 @@
         {
             "message": "Missing item type\nA map from property name to a list of properties of the property value.\nIt should be possible to animate many properties of a target at once.\nHowever, a given property should only be animated in one way at a given time.\nFor these reasons, we structure the data as map from property name to a queue of animations.",
             "line": " src/davinci-eight/slideshow/Slide.ts:199"
-        },
-        {
-            "message": "Missing item type\nThe number of elements needed if we executed a strip per row.\nRemark Notice the asymmetry. Could be a performance impact.",
-            "line": " src/davinci-eight/topologies/GridTopology.ts:31"
-        },
-        {
-            "message": "Missing item type\nIndex for triangle strip array.",
-            "line": " src/davinci-eight/topologies/GridTopology.ts:36"
         },
         {
             "message": "Missing item type",

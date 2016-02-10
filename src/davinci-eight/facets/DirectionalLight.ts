@@ -4,7 +4,6 @@ import Facet from '../core/Facet';
 import FacetVisitor from '../core/FacetVisitor';
 import mustBeObject from '../checks/mustBeObject';
 import mustBeString from '../checks/mustBeString';
-import Shareable from '../core/Shareable';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
 import R3 from '../math/R3';
 import VectorE3 from '../math/VectorE3';
@@ -22,9 +21,8 @@ function contextBuilder() {
 
 /**
  * @class DirectionalLight
- * @extends Shareable
  */
-export default class DirectionalLight extends Shareable implements Facet {
+export default class DirectionalLight implements Facet {
     /**
      * The name of the property that designates the color.
      * @property PROP_COLOR
@@ -64,20 +62,10 @@ export default class DirectionalLight extends Shareable implements Facet {
      * @param color {ColorRGB}
      */
     constructor(direction: VectorE3, color: ColorRGB) {
-        super('DirectionalLight')
         mustBeObject('direction', direction)
         mustBeObject('color', color)
         this.direction = R3.copy(direction).direction()
         this.color = Color.fromColor(color)
-    }
-
-    /**
-     * @method destructor
-     * @type {void}
-     * @protected
-     */
-    protected destructor(): void {
-        super.destructor()
     }
 
     /**

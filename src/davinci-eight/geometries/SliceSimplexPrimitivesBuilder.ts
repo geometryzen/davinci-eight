@@ -14,7 +14,7 @@ export default class SliceSimplexPrimitivesBuilder extends AxialSimplexPrimitive
 
     public sliceStart: R3;
 
-    constructor(axis: VectorE3 = R3.e3, sliceStart?: VectorE3, sliceAngle: number = 2 * Math.PI) {
+    constructor(axis: VectorE3, sliceStart?: VectorE3, sliceAngle: number = 2 * Math.PI) {
         super(axis)
         if (isDefined(sliceStart)) {
             // TODO: Verify that sliceStart is orthogonal to axis.

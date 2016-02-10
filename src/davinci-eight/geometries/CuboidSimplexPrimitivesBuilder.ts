@@ -13,7 +13,7 @@ export default class CuboidSimplexPrimitivesBuilder extends SimplexPrimitivesBui
     private _b: CartesianE3;
     private _c: CartesianE3;
     private _isModified: boolean = true;
-    constructor(a: VectorE3 = CartesianE3.e1, b: VectorE3 = CartesianE3.e2, c: VectorE3 = CartesianE3.e3, k = Simplex.TRIANGLE, subdivide = 0, boundary = 0) {
+    constructor(a: VectorE3, b: VectorE3, c: VectorE3, k = Simplex.TRIANGLE, subdivide = 0, boundary = 0) {
         super()
         this._a = CartesianE3.fromVectorE3(a)
         this._b = CartesianE3.fromVectorE3(b)

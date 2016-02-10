@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../geometries/GridSimplexGeometry', '../math/R3'], function (require, exports, GridSimplexGeometry_1, R3_1) {
+define(["require", "exports", '../geometries/GridBuilder', '../math/R3'], function (require, exports, GridBuilder_1, R3_1) {
     var cos = Math.cos;
     var sin = Math.sin;
     var pi = Math.PI;
@@ -28,7 +28,7 @@ define(["require", "exports", '../geometries/GridSimplexGeometry', '../math/R3']
             _super.call(this, klein, uSegments, vSegments);
         }
         return KleinBottleSimplexGeometry;
-    })(GridSimplexGeometry_1.default);
+    })(GridBuilder_1.default);
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = KleinBottleSimplexGeometry;
 });

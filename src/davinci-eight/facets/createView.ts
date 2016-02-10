@@ -16,12 +16,11 @@ import computeViewMatrix from './viewMatrix';
  */
 export default function createView(options?: { viewMatrixName?: string }): View {
 
-    let refCount = 1
-    let eye: R3 = new R3()
-    let look: R3 = new R3()
-    let up: R3 = R3.copy(Euclidean3.e2)
-    let viewMatrix: Mat4R = Mat4R.one()
-    let viewMatrixName = isUndefined(options.viewMatrixName) ? GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX : options.viewMatrixName
+    const eye: R3 = new R3()
+    const look: R3 = new R3()
+    const up: R3 = R3.copy(Euclidean3.e2)
+    const viewMatrix: Mat4R = Mat4R.one()
+    const viewMatrixName = isUndefined(options.viewMatrixName) ? GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX : options.viewMatrixName
 
     // Force an update of the view matrix.
     eye.modified = true
@@ -29,14 +28,6 @@ export default function createView(options?: { viewMatrixName?: string }): View 
     up.modified = true
 
     const self: View = {
-        addRef(): number {
-            refCount++
-            return refCount
-        },
-        release(): number {
-            refCount--
-            return refCount
-        },
         setProperty(name: string, value: number[]): View {
             return self;
         },

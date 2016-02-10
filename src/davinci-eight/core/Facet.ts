@@ -1,5 +1,4 @@
 import FacetVisitor from './FacetVisitor';
-import IUnknown from './IUnknown';
 
 /**
  * @module EIGHT
@@ -8,9 +7,8 @@ import IUnknown from './IUnknown';
 
 /**
  * @class Facet
- * @extends IUnknown
  */
-interface Facet extends IUnknown {
+interface Facet {
     /**
      * @method setUniforms
      * @param visitor {FacetVisitor}

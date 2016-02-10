@@ -47,7 +47,6 @@
                                 <li><a href="../classes/Attribute.html">Attribute</a></li>
                                 <li><a href="../classes/BlendFactor.html">BlendFactor</a></li>
                                 <li><a href="../classes/Capability.html">Capability</a></li>
-                                <li><a href="../classes/CartesianE3.html">CartesianE3</a></li>
                                 <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
@@ -68,7 +67,6 @@
                                 <li><a href="../classes/Euclidean1.html">Euclidean1</a></li>
                                 <li><a href="../classes/Euclidean2.html">Euclidean2</a></li>
                                 <li><a href="../classes/Euclidean3.html">Euclidean3</a></li>
-                                <li><a href="../classes/EulerFacet.html">EulerFacet</a></li>
                                 <li><a href="../classes/Facet.html">Facet</a></li>
                                 <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
@@ -77,6 +75,7 @@
                                 <li><a href="../classes/GeometricE2.html">GeometricE2</a></li>
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
+                                <li><a href="../classes/GeometryPart.html">GeometryPart</a></li>
                                 <li><a href="../classes/GraphicsProgramSymbols.html">GraphicsProgramSymbols</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
                                 <li><a href="../classes/IBufferGeometry.html">IBufferGeometry</a></li>
@@ -104,7 +103,6 @@
                                 <li><a href="../classes/PointMaterial.html">PointMaterial</a></li>
                                 <li><a href="../classes/PointSizeFacet.html">PointSizeFacet</a></li>
                                 <li><a href="../classes/Primitive.html">Primitive</a></li>
-                                <li><a href="../classes/PrimitiveBuffer.html">PrimitiveBuffer</a></li>
                                 <li><a href="../classes/Pseudo.html">Pseudo</a></li>
                                 <li><a href="../classes/QQ.html">QQ</a></li>
                                 <li><a href="../classes/R1.html">R1</a></li>
@@ -198,12 +196,9 @@
 <h1>ReflectionFacetE2 Class</h1>
 <div class="box meta">
 
-        <div class="extends">
-            Extends <a href="../classes/Shareable.html" class="crosslink">Shareable</a>
-        </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_facets_ReflectionFacetE2.ts.html#l35"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ReflectionFacetE2.ts:35</code></a>
+            Defined in: <a href="../files/src_davinci-eight_facets_ReflectionFacetE2.ts.html#l33"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ReflectionFacetE2.ts:33</code></a>
         </div>
 
             Module: <a href="../modules/facets.html">facets</a><br>
@@ -239,7 +234,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_facets_ReflectionFacetE2.ts.html#l35"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ReflectionFacetE2.ts:35</code></a>
+        <a href="../files/src_davinci-eight_facets_ReflectionFacetE2.ts.html#l33"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ReflectionFacetE2.ts:33</code></a>
         </p>
 
 
@@ -288,21 +283,9 @@
                 <div class="index-section methods">
                     <h3>Methods</h3>
 
-                    <ul class="index-list methods extends">
-                            <li class="index-item method inherited inherited">
-                                <a href="#method_addRef">addRef</a>
-
-                            </li>
-                            <li class="index-item method protected inherited">
-                                <a href="#method_destructor">destructor</a>
-
-                            </li>
+                    <ul class="index-list methods">
                             <li class="index-item method">
                                 <a href="#method_getProperty">getProperty</a>
-
-                            </li>
-                            <li class="index-item method inherited inherited">
-                                <a href="#method_release">release</a>
 
                             </li>
                             <li class="index-item method">
@@ -319,7 +302,7 @@
                 <div class="index-section properties">
                     <h3>Properties</h3>
 
-                    <ul class="index-list properties extends">
+                    <ul class="index-list properties">
                             <li class="index-item property private">
                                 <a href="#property__normal">_normal</a>
 
@@ -332,10 +315,6 @@
                                 <a href="#property_normal">normal</a>
 
                             </li>
-                            <li class="index-item property inherited">
-                                <a href="#property_uuid">uuid</a>
-
-                            </li>
                     </ul>
                 </div>
 
@@ -345,97 +324,6 @@
             <div id="methods" class="api-class-tabpanel">
                 <h2 class="off-left">Methods</h2>
 
-<div id="method_addRef" class="method item inherited">
-    <h3 class="name"><code>addRef</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type">Number</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-            <p>Inherited from
-            <a href="../classes/IUnknown.html#method_addRef">
-                IUnknown
-            </a>
-            but overwritten in
-        <a href="../files/src_davinci-eight_core_Shareable.ts.html#l34"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Shareable.ts:34</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-Notifies this instance that something is dereferencing it.
-</p>
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Number</span>:
-                    <p>The new value of the reference count.</p>
-
-            </div>
-        </div>
-
-
-</div>
-<div id="method_destructor" class="method item protected">
-    <h3 class="name"><code>destructor</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type">Void</span>
-        </span>
-
-
-        <span class="flag protected">protected</span>
-
-
-
-
-
-    <div class="meta">
-            <p>Inherited from
-            <a href="../classes/Shareable.html#method_destructor">
-                Shareable
-            </a>
-            but overwritten in
-        <a href="../files/src_davinci-eight_facets_ReflectionFacetE2.ts.html#l60"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ReflectionFacetE2.ts:60</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Void</span>:
-            </div>
-        </div>
-
-
-</div>
 <div id="method_getProperty" class="method item">
     <h3 class="name"><code>getProperty</code></h3>
 
@@ -460,7 +348,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_facets_ReflectionFacetE2.ts.html#l71"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ReflectionFacetE2.ts:71</code></a>
+        <a href="../files/src_davinci-eight_facets_ReflectionFacetE2.ts.html#l57"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ReflectionFacetE2.ts:57</code></a>
         </p>
 
 
@@ -498,53 +386,6 @@ Notifies this instance that something is dereferencing it.
 
 
 </div>
-<div id="method_release" class="method item inherited">
-    <h3 class="name"><code>release</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type">Number</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-            <p>Inherited from
-            <a href="../classes/IUnknown.html#method_release">
-                IUnknown
-            </a>
-            but overwritten in
-        <a href="../files/src_davinci-eight_core_Shareable.ts.html#l48"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Shareable.ts:48</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-Notifies this instance that something is dereferencing it.
-</p>
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Number</span>:
-                    <p>The new value of the reference count.</p>
-
-            </div>
-        </div>
-
-
-</div>
 <div id="method_setProperty" class="method item">
     <h3 class="name"><code>setProperty</code></h3>
 
@@ -572,7 +413,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_facets_ReflectionFacetE2.ts.html#l81"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ReflectionFacetE2.ts:81</code></a>
+        <a href="../files/src_davinci-eight_facets_ReflectionFacetE2.ts.html#l67"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ReflectionFacetE2.ts:67</code></a>
         </p>
 
 
@@ -644,7 +485,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_facets_ReflectionFacetE2.ts.html#l93"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ReflectionFacetE2.ts:93</code></a>
+        <a href="../files/src_davinci-eight_facets_ReflectionFacetE2.ts.html#l79"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ReflectionFacetE2.ts:79</code></a>
         </p>
 
 
@@ -699,7 +540,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_facets_ReflectionFacetE2.ts.html#l20"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ReflectionFacetE2.ts:20</code></a>
+        <a href="../files/src_davinci-eight_facets_ReflectionFacetE2.ts.html#l18"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ReflectionFacetE2.ts:18</code></a>
         </p>
 
 
@@ -725,7 +566,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_facets_ReflectionFacetE2.ts.html#l27"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ReflectionFacetE2.ts:27</code></a>
+        <a href="../files/src_davinci-eight_facets_ReflectionFacetE2.ts.html#l25"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ReflectionFacetE2.ts:25</code></a>
         </p>
 
 
@@ -749,31 +590,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_facets_ReflectionFacetE2.ts.html#l48"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ReflectionFacetE2.ts:48</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-
-</div>
-<div id="property_uuid" class="property item inherited">
-    <h3 class="name"><code>uuid</code></h3>
-    <span class="type">String</span>
-
-
-
-
-
-    <div class="meta">
-                <p>Inherited from
-                <a href="../classes/Shareable.html#property_uuid">Shareable</a>:
-        <a href="../files/src_davinci-eight_core_Shareable.ts.html#l92"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Shareable.ts:92</code></a>
+        <a href="../files/src_davinci-eight_facets_ReflectionFacetE2.ts.html#l45"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ReflectionFacetE2.ts:45</code></a>
         </p>
 
 

@@ -4,7 +4,6 @@ import Geometry from './Geometry';
 import Material from '../core/Material';
 import readOnly from '../i18n/readOnly';
 import ShareableContextListener from '../core/ShareableContextListener';
-import StringIUnknownMap from '../collections/StringIUnknownMap';
 import Facet from '../core/Facet';
 
 /**
@@ -47,11 +46,10 @@ export default class Mesh extends ShareableContextListener {
     private _visible = true;
 
     /**
-     * @property facets
-     * @type {StringIUnknownMap&lt;Facet&gt;}
+     * @property _facets
      * @private
      */
-    private _facets: StringIUnknownMap<Facet>;
+    private _facets: { [name: string]: Facet };
 
     /**
      * @class Mesh
@@ -66,7 +64,7 @@ export default class Mesh extends ShareableContextListener {
         this._buffers.addRef()
         this._program = material
         this._program.addRef()
-        this._facets = new StringIUnknownMap<Facet>()
+        this._facets = {}
     }
 
     /**
@@ -79,8 +77,6 @@ export default class Mesh extends ShareableContextListener {
         this._buffers = void 0
         this._program.release()
         this._program = void 0
-        this._facets.release()
-        this._facets = void 0
         super.destructor()
     }
 
@@ -90,12 +86,13 @@ export default class Mesh extends ShareableContextListener {
      */
     setUniforms(): void {
         const program = this._program
-        const facets: StringIUnknownMap<Facet> = this._facets
-        const keys = facets.keys
+        const facets = this._facets
+        // FIXME: Temporary object creation?
+        const keys = Object.keys(facets)
         const keysLength = keys.length
         for (let i = 0; i < keysLength; i++) {
             const key = keys[i]
-            const facet = facets.getWeakRef(key)
+            const facet = facets[key]
             facet.setUniforms(program)
         }
     }
@@ -163,7 +160,7 @@ export default class Mesh extends ShareableContextListener {
      * @return {Facet}
      */
     getFacet(name: string): Facet {
-        return this._facets.get(name)
+        return this._facets[name]
     }
 
     /**
@@ -173,7 +170,7 @@ export default class Mesh extends ShareableContextListener {
      * @return {void}
      */
     setFacet(name: string, facet: Facet): void {
-        this._facets.put(name, facet)
+        this._facets[name] = facet
     }
 
     /**

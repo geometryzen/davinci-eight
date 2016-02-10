@@ -1,7 +1,7 @@
 import IContextProvider from '../core/IContextProvider';
 import IUnknownArray from '../collections/IUnknownArray';
 import Primitive from '../core/Primitive';
-import PrimitiveBuffer from './PrimitiveBuffer'
+import GeometryPart from './GeometryPart'
 import readOnly from '../i18n/readOnly';
 import Shareable from '../core/Shareable';
 
@@ -11,7 +11,7 @@ import Shareable from '../core/Shareable';
  */
 
 /**
- * A collection of PrimitiveBuffer(s) with functions
+ * A collection of GeometryPart(s) with functions
  * that reflect the dependency on the WebGL context events.
  * @class Geometry
  * @extends Shareable
@@ -22,7 +22,7 @@ export default class Geometry extends Shareable {
      * @property buffers
      * @private
      */
-    private buffers: IUnknownArray<PrimitiveBuffer>;
+    private buffers: IUnknownArray<GeometryPart>;
 
     /**
      * @class Geometry
@@ -31,11 +31,11 @@ export default class Geometry extends Shareable {
      */
     constructor(primitives: Primitive[]) {
         super('Geometry');
-        this.buffers = new IUnknownArray<PrimitiveBuffer>()
+        this.buffers = new IUnknownArray<GeometryPart>()
         const iLen = primitives.length
         for (let i = 0; i < iLen; i++) {
             const dataSource = primitives[i]
-            this.buffers.pushWeakRef(new PrimitiveBuffer(dataSource))
+            this.buffers.pushWeakRef(new GeometryPart(dataSource))
         }
     }
     /**

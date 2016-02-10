@@ -47,7 +47,6 @@
                                 <li><a href="../classes/Attribute.html">Attribute</a></li>
                                 <li><a href="../classes/BlendFactor.html">BlendFactor</a></li>
                                 <li><a href="../classes/Capability.html">Capability</a></li>
-                                <li><a href="../classes/CartesianE3.html">CartesianE3</a></li>
                                 <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
@@ -68,7 +67,6 @@
                                 <li><a href="../classes/Euclidean1.html">Euclidean1</a></li>
                                 <li><a href="../classes/Euclidean2.html">Euclidean2</a></li>
                                 <li><a href="../classes/Euclidean3.html">Euclidean3</a></li>
-                                <li><a href="../classes/EulerFacet.html">EulerFacet</a></li>
                                 <li><a href="../classes/Facet.html">Facet</a></li>
                                 <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
@@ -77,6 +75,7 @@
                                 <li><a href="../classes/GeometricE2.html">GeometricE2</a></li>
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
+                                <li><a href="../classes/GeometryPart.html">GeometryPart</a></li>
                                 <li><a href="../classes/GraphicsProgramSymbols.html">GraphicsProgramSymbols</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
                                 <li><a href="../classes/IBufferGeometry.html">IBufferGeometry</a></li>
@@ -104,7 +103,6 @@
                                 <li><a href="../classes/PointMaterial.html">PointMaterial</a></li>
                                 <li><a href="../classes/PointSizeFacet.html">PointSizeFacet</a></li>
                                 <li><a href="../classes/Primitive.html">Primitive</a></li>
-                                <li><a href="../classes/PrimitiveBuffer.html">PrimitiveBuffer</a></li>
                                 <li><a href="../classes/Pseudo.html">Pseudo</a></li>
                                 <li><a href="../classes/QQ.html">QQ</a></li>
                                 <li><a href="../classes/R1.html">R1</a></li>
@@ -209,10 +207,10 @@ import R3 from &#x27;../math/R3&#x27;;
 
 /**
  * Computes a list of points corresponding to an arc centered on the origin.
- * param begin {VectorE3} The begin position.
- * param angle: {number} The angle of the rotation.
- * param generator {SpinorE3} The generator of the rotation.
- * param segments {number} The number of segments.
+ * begin {VectorE3} The begin position.
+ * angle: {number} The angle of the rotation.
+ * generator {SpinorE3} The generator of the rotation.
+ * segments {number} The number of segments.
  */
 export default function arc3(begin: VectorE3, angle: number, generator: SpinorE3, segments: number): R3[] {
     mustBeDefined(&#x27;begin&#x27;, begin)
@@ -223,21 +221,21 @@ export default function arc3(begin: VectorE3, angle: number, generator: SpinorE3
     /**
      * The return value is an array of points with length =&gt; segments + 1.
      */
-    var points: R3[] = []
+    const points: R3[] = []
 
     /**
      * Temporary point that we will advance for each segment.
      */
-    var point = R3.copy(begin)
+    const point = R3.copy(begin)
 
     /**
      * The rotor that advances us through one segment.
      */
-    var rotor = SpinG3.copy(generator).scale((-angle / 2) / segments).exp()
+    const rotor = SpinG3.copy(generator).scale((-angle / 2) / segments).exp()
 
     points.push(point.clone())
 
-    for (var i = 0; i &lt; segments; i++) {
+    for (let i = 0; i &lt; segments; i++) {
         point.rotate(rotor)
         points.push(point.clone())
     }

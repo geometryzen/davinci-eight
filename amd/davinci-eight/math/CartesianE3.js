@@ -1,8 +1,4 @@
 define(["require", "exports", '../checks/mustBeNumber', '../i18n/readOnly'], function (require, exports, mustBeNumber_1, readOnly_1) {
-    var zero;
-    var e1;
-    var e2;
-    var e3;
     var CartesianE3 = (function () {
         function CartesianE3(x, y, z, areYouSure) {
             mustBeNumber_1.default('x', x);
@@ -52,26 +48,6 @@ define(["require", "exports", '../checks/mustBeNumber', '../i18n/readOnly'], fun
             var z = this.z;
             return x * x + y * y + z * z;
         };
-        Object.defineProperty(CartesianE3, "zero", {
-            get: function () { return zero; },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(CartesianE3, "e1", {
-            get: function () { return e1; },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(CartesianE3, "e2", {
-            get: function () { return e2; },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(CartesianE3, "e3", {
-            get: function () { return e3; },
-            enumerable: true,
-            configurable: true
-        });
         CartesianE3.fromVectorE3 = function (vector) {
             return new CartesianE3(vector.x, vector.y, vector.z, true);
         };
@@ -86,8 +62,4 @@ define(["require", "exports", '../checks/mustBeNumber', '../i18n/readOnly'], fun
     })();
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = CartesianE3;
-    zero = new CartesianE3(0, 0, 0, true);
-    e1 = new CartesianE3(1, 0, 0, true);
-    e2 = new CartesianE3(0, 1, 0, true);
-    e3 = new CartesianE3(0, 0, 1, true);
 });

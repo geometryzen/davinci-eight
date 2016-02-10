@@ -14,16 +14,15 @@ import R3 from '../math/R3';
  */
 export default function createFrustum(viewMatrixName: string, projectionMatrixName: string): Frustum {
 
-    let refCount = 1;
-    let base: View = createView(viewMatrixName);
-    let left: R1 = new R1();
-    let right: R1 = new R1();
-    let bottom: R1 = new R1();
-    let top: R1 = new R1();
-    let near: R1 = new R1();
-    let far: R1 = new R1();
+    const base: View = createView(viewMatrixName);
+    const left: R1 = new R1();
+    const right: R1 = new R1();
+    const bottom: R1 = new R1();
+    const top: R1 = new R1();
+    const near: R1 = new R1();
+    const far: R1 = new R1();
     // TODO: We should immediately create with a frustum static constructor?
-    let projectionMatrix: Mat4R = Mat4R.one();
+    const projectionMatrix: Mat4R = Mat4R.one();
 
     function updateProjectionMatrix() {
         projectionMatrix.frustum(left.x, right.x, bottom.x, top.x, near.x, far.x);
@@ -32,14 +31,6 @@ export default function createFrustum(viewMatrixName: string, projectionMatrixNa
     updateProjectionMatrix();
 
     var self: Frustum = {
-        addRef(): number {
-            refCount++
-            return refCount
-        },
-        release(): number {
-            refCount--
-            return refCount;
-        },
         setProperty(name: string, value: number[]): Frustum {
             return this;
         },

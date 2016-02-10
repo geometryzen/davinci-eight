@@ -1,11 +1,9 @@
 import Color from '../core/Color';
 import core from '../core';
 import mustBeNumber from '../checks/mustBeNumber';
-import Shareable from '../core/Shareable';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
 import Facet from '../core/Facet';
 import FacetVisitor from '../core/FacetVisitor';
-import IAnimationTarget from '../slideshow/IAnimationTarget';
 
 /**
  * @module EIGHT
@@ -43,7 +41,7 @@ function checkPropertyName(name: string): void {
 /**
  * @class ColorFacet
  */
-export default class ColorFacet extends Shareable implements Facet, IAnimationTarget {
+export default class ColorFacet implements Facet {
     /**
      * property PROP_RGB
      * @type {string}
@@ -120,19 +118,8 @@ export default class ColorFacet extends Shareable implements Facet, IAnimationTa
      * @constructor
      */
     constructor() {
-        super('ColorFacet')
         this.uColorName = GraphicsProgramSymbols.UNIFORM_COLOR
         this.uAlphaName = GraphicsProgramSymbols.UNIFORM_ALPHA
-    }
-
-    /**
-     * @method destructor
-     * @return {void}
-     * @protected
-     */
-    protected destructor(): void {
-        this.color = void 0
-        super.destructor()
     }
 
     /**

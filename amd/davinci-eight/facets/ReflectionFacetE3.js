@@ -1,16 +1,9 @@
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-define(["require", "exports", '../math/CartesianE3', '../checks/mustBeArray', '../checks/mustBeString', '../math/R3', '../math/Mat4R', '../i18n/readOnly', '../core/Shareable'], function (require, exports, CartesianE3_1, mustBeArray_1, mustBeString_1, R3_1, Mat4R_1, readOnly_1, Shareable_1) {
-    var ReflectionFacetE3 = (function (_super) {
-        __extends(ReflectionFacetE3, _super);
+define(["require", "exports", '../checks/mustBeArray', '../checks/mustBeString', '../math/G3', '../math/Mat4R', '../i18n/readOnly'], function (require, exports, mustBeArray_1, mustBeString_1, G3_1, Mat4R_1, readOnly_1) {
+    var ReflectionFacetE3 = (function () {
         function ReflectionFacetE3(name) {
-            _super.call(this, 'ReflectionFacetE3');
             this.matrix = Mat4R_1.default.one();
             this.name = mustBeString_1.default('name', name);
-            this._normal = new R3_1.default().copy(CartesianE3_1.default.zero);
+            this._normal = G3_1.default.fromVector({ x: 0, y: 0, z: 0 });
             this._normal.modified = true;
         }
         Object.defineProperty(ReflectionFacetE3.prototype, "normal", {
@@ -23,11 +16,6 @@ define(["require", "exports", '../math/CartesianE3', '../checks/mustBeArray', '.
             enumerable: true,
             configurable: true
         });
-        ReflectionFacetE3.prototype.destructor = function () {
-            this._normal = void 0;
-            this.matrix = void 0;
-            _super.prototype.destructor.call(this);
-        };
         ReflectionFacetE3.prototype.getProperty = function (name) {
             mustBeString_1.default('name', name);
             return void 0;
@@ -45,7 +33,7 @@ define(["require", "exports", '../math/CartesianE3', '../checks/mustBeArray', '.
             visitor.mat4(this.name, this.matrix, false);
         };
         return ReflectionFacetE3;
-    })(Shareable_1.default);
+    })();
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = ReflectionFacetE3;
 });

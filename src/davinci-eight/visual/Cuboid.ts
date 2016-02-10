@@ -1,6 +1,7 @@
 import mustBeNumber from '../checks/mustBeNumber';
 import visualCache from './visualCache';
 import RigidBody from './RigidBody'
+import VisualOptions from './VisualOptions'
 
 /**
  * @module EIGHT
@@ -12,8 +13,8 @@ import RigidBody from './RigidBody'
  * @extends RigidBody
  */
 export default class Cuboid extends RigidBody {
-    constructor() {
-        super(visualCache.cuboid(), visualCache.program(), 'Cuboid')
+    constructor(options: VisualOptions = {}) {
+        super(visualCache.cuboid(options), visualCache.material(options), 'Cuboid')
         this._buffers.release()
         this._program.release()
     }

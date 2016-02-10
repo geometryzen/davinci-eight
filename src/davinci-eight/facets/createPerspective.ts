@@ -26,26 +26,17 @@ import computePerspectiveMatrix from './perspectiveMatrix';
 export default function createPerspective(options?: { fov?: number; aspect?: number; near?: number; far?: number; projectionMatrixName?: string; viewMatrixName?: string; }): Perspective {
 
     options = options || {};
-    let fov: R1 = new R1([isUndefined(options.fov) ? 75 * Math.PI / 180 : options.fov]);
-    let aspect: R1 = new R1([isUndefined(options.aspect) ? 1 : options.aspect]);
-    let near: R1 = new R1([isUndefined(options.near) ? 0.1 : options.near]);
-    let far: R1 = new R1([mustBeNumber('options.far', isUndefined(options.far) ? 2000 : options.far)]);
-    let projectionMatrixName = isUndefined(options.projectionMatrixName) ? GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX : options.projectionMatrixName;
+    const fov: R1 = new R1([isUndefined(options.fov) ? 75 * Math.PI / 180 : options.fov]);
+    const aspect: R1 = new R1([isUndefined(options.aspect) ? 1 : options.aspect]);
+    const near: R1 = new R1([isUndefined(options.near) ? 0.1 : options.near]);
+    const far: R1 = new R1([mustBeNumber('options.far', isUndefined(options.far) ? 2000 : options.far)]);
+    const projectionMatrixName = isUndefined(options.projectionMatrixName) ? GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX : options.projectionMatrixName;
 
-    var refCount = 1
-    let base: View = createView(options)
-    let projectionMatrix: Mat4R = Mat4R.one()
+    const base: View = createView(options)
+    const projectionMatrix: Mat4R = Mat4R.one()
     var matrixNeedsUpdate = true
 
     const self: Perspective = {
-        addRef(): number {
-            refCount++
-            return refCount
-        },
-        release(): number {
-            refCount--
-            return refCount;
-        },
         setProperty(name: string, value: number[]): Perspective {
             return self;
         },

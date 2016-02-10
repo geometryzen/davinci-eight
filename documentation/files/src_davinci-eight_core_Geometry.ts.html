@@ -47,7 +47,6 @@
                                 <li><a href="../classes/Attribute.html">Attribute</a></li>
                                 <li><a href="../classes/BlendFactor.html">BlendFactor</a></li>
                                 <li><a href="../classes/Capability.html">Capability</a></li>
-                                <li><a href="../classes/CartesianE3.html">CartesianE3</a></li>
                                 <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
@@ -68,7 +67,6 @@
                                 <li><a href="../classes/Euclidean1.html">Euclidean1</a></li>
                                 <li><a href="../classes/Euclidean2.html">Euclidean2</a></li>
                                 <li><a href="../classes/Euclidean3.html">Euclidean3</a></li>
-                                <li><a href="../classes/EulerFacet.html">EulerFacet</a></li>
                                 <li><a href="../classes/Facet.html">Facet</a></li>
                                 <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
@@ -77,6 +75,7 @@
                                 <li><a href="../classes/GeometricE2.html">GeometricE2</a></li>
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
+                                <li><a href="../classes/GeometryPart.html">GeometryPart</a></li>
                                 <li><a href="../classes/GraphicsProgramSymbols.html">GraphicsProgramSymbols</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
                                 <li><a href="../classes/IBufferGeometry.html">IBufferGeometry</a></li>
@@ -104,7 +103,6 @@
                                 <li><a href="../classes/PointMaterial.html">PointMaterial</a></li>
                                 <li><a href="../classes/PointSizeFacet.html">PointSizeFacet</a></li>
                                 <li><a href="../classes/Primitive.html">Primitive</a></li>
-                                <li><a href="../classes/PrimitiveBuffer.html">PrimitiveBuffer</a></li>
                                 <li><a href="../classes/Pseudo.html">Pseudo</a></li>
                                 <li><a href="../classes/QQ.html">QQ</a></li>
                                 <li><a href="../classes/R1.html">R1</a></li>
@@ -202,7 +200,7 @@
 import IContextProvider from &#x27;../core/IContextProvider&#x27;;
 import IUnknownArray from &#x27;../collections/IUnknownArray&#x27;;
 import Primitive from &#x27;../core/Primitive&#x27;;
-import PrimitiveBuffer from &#x27;./PrimitiveBuffer&#x27;
+import GeometryPart from &#x27;./GeometryPart&#x27;
 import readOnly from &#x27;../i18n/readOnly&#x27;;
 import Shareable from &#x27;../core/Shareable&#x27;;
 
@@ -212,7 +210,7 @@ import Shareable from &#x27;../core/Shareable&#x27;;
  */
 
 /**
- * A collection of PrimitiveBuffer(s) with functions
+ * A collection of GeometryPart(s) with functions
  * that reflect the dependency on the WebGL context events.
  * @class Geometry
  * @extends Shareable
@@ -223,7 +221,7 @@ export default class Geometry extends Shareable {
      * @property buffers
      * @private
      */
-    private buffers: IUnknownArray&lt;PrimitiveBuffer&gt;;
+    private buffers: IUnknownArray&lt;GeometryPart&gt;;
 
     /**
      * @class Geometry
@@ -232,11 +230,11 @@ export default class Geometry extends Shareable {
      */
     constructor(primitives: Primitive[]) {
         super(&#x27;Geometry&#x27;);
-        this.buffers = new IUnknownArray&lt;PrimitiveBuffer&gt;()
+        this.buffers = new IUnknownArray&lt;GeometryPart&gt;()
         const iLen = primitives.length
         for (let i = 0; i &lt; iLen; i++) {
             const dataSource = primitives[i]
-            this.buffers.pushWeakRef(new PrimitiveBuffer(dataSource))
+            this.buffers.pushWeakRef(new GeometryPart(dataSource))
         }
     }
     /**

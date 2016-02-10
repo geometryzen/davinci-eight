@@ -14,29 +14,29 @@ import VectorE3 from '../math/VectorE3';
 
 function computeVertices(radius: number, axis: CartesianE3, phiStart: R3, phiLength: number, thetaStart: number, thetaLength: number, heightSegments: number, widthSegments: number, points: R3[], uvs: R2[]) {
 
-    let generator: SpinorE3 = SpinG3.dual(axis)
-    let iLength = heightSegments + 1
-    let jLength = widthSegments + 1
+    const generator: SpinorE3 = SpinG3.dual(axis)
+    const iLength = heightSegments + 1
+    const jLength = widthSegments + 1
 
-    for (var i = 0; i < iLength; i++) {
-        var v = i / heightSegments;
+    for (let i = 0; i < iLength; i++) {
+        const v = i / heightSegments;
 
-        let θ: number = thetaStart + v * thetaLength
-        let arcRadius = radius * Math.sin(θ)
-        let begin = R3.copy(phiStart).scale(arcRadius)
+        const θ: number = thetaStart + v * thetaLength
+        const arcRadius = radius * Math.sin(θ)
+        const begin = R3.copy(phiStart).scale(arcRadius)
 
-        let arcPoints: R3[] = arc3(begin, phiLength, generator, widthSegments)
+        const arcPoints: R3[] = arc3(begin, phiLength, generator, widthSegments)
         /**
-         * Displacement that we need to add to each arc point to get the
+         * Displacement that we need to add (in the axis direction) to each arc point to get the
          * distance position parallel to the axis correct.
          */
-        let cosθ = Math.cos(θ)
-        let displacement = radius * cosθ
+        const cosθ = Math.cos(θ)
+        const displacement = radius * cosθ
 
-        for (var j = 0; j < jLength; j++) {
-            var u = j / widthSegments;
-            var point = arcPoints[j].add(axis, displacement)
+        for (let j = 0; j < jLength; j++) {
+            const point = arcPoints[j].add(axis, displacement)
             points.push(point)
+            const u = j / widthSegments;
             uvs.push(new R2([u, 1 - v]))
         }
     }

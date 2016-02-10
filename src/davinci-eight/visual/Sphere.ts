@@ -1,6 +1,7 @@
 import mustBeNumber from '../checks/mustBeNumber';
 import visualCache from './visualCache';
 import RigidBody from './RigidBody'
+import VisualOptions from './VisualOptions'
 
 /**
  * @module EIGHT
@@ -17,8 +18,8 @@ export default class Sphere extends RigidBody {
      * @class Sphere
      * @constructor
      */
-    constructor() {
-        super(visualCache.sphere(), visualCache.program(), 'Sphere')
+    constructor(options: VisualOptions = {}) {
+        super(visualCache.sphere(options), visualCache.material(options), 'Sphere')
         this._buffers.release()
         this._program.release()
     }

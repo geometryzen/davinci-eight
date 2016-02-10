@@ -82,6 +82,12 @@ module.exports = function(grunt) {
         }
     },
 
+    karma: {
+      unit: {
+        configFile: 'karma.conf.js'
+      }
+    },
+
     ts: {
       amdES5 : {
         tsconfig: {
@@ -231,6 +237,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-yuidoc'); // enable the YUIDocs task.
   grunt.loadNpmTasks('grunt-complexity');
   grunt.loadNpmTasks('grunt-exec');
+  grunt.loadNpmTasks('grunt-karma');
   grunt.loadNpmTasks('grunt-ts');
   grunt.loadNpmTasks('grunt-tslint');
 

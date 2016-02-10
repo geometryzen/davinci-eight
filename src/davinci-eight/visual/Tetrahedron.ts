@@ -1,6 +1,7 @@
 import mustBeNumber from '../checks/mustBeNumber';
 import visualCache from './visualCache';
 import RigidBody from './RigidBody'
+import VisualOptions from './VisualOptions'
 
 /**
  * @module EIGHT
@@ -17,8 +18,8 @@ export default class Tetrahedron extends RigidBody {
      * @class Tetrahedron
      * @constructor
      */
-    constructor() {
-        super(visualCache.tetrahedron(), visualCache.program(), 'Tetrahedron')
+    constructor(options: VisualOptions = {}) {
+        super(visualCache.tetrahedron(options), visualCache.material(options), 'Tetrahedron')
         this._buffers.release()
         this._program.release()
     }

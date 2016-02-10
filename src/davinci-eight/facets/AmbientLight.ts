@@ -6,7 +6,6 @@ import mustBeArray from '../checks/mustBeArray';
 import mustBeNumber from '../checks/mustBeNumber';
 import mustBeObject from '../checks/mustBeObject';
 import mustBeString from '../checks/mustBeString';
-import Shareable from '../core/Shareable';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
 
 /**
@@ -22,9 +21,8 @@ function contextBuilder() {
 
 /**
  * @class AmbientLight
- * @extends Shareable
  */
-export default class AmbientLight extends Shareable implements Facet {
+export default class AmbientLight implements Facet {
     /**
      * @property color
      * @type {Color}
@@ -36,7 +34,6 @@ export default class AmbientLight extends Shareable implements Facet {
      * @constructor
      */
     constructor(color: ColorRGB) {
-        super('AmbientLight')
         mustBeObject('color', color)
         // FIXME: Need some kind of locking for constants
         this.color = Color.white.clone()
@@ -44,14 +41,7 @@ export default class AmbientLight extends Shareable implements Facet {
         this.color.g = mustBeNumber('color.g', color.g)
         this.color.b = mustBeNumber('color.b', color.b)
     }
-    /**
-     * @method destructor
-     * @type {void}
-     * @protected
-     */
-    protected destructor(): void {
-        super.destructor()
-    }
+
     getProperty(name: string): number[] {
         return void 0;
     }

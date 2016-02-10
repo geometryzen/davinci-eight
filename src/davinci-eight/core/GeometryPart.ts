@@ -1,9 +1,8 @@
 import IBufferGeometry from '../core/IBufferGeometry'
-import IContextConsumer from '../core/IContextConsumer'
 import IContextProvider from '../core/IContextProvider'
 import Material from '../core/Material'
 import Primitive from '../core/Primitive'
-import Shareable from '../core/Shareable'
+import ShareableContextListener from '../core/ShareableContextListener'
 
 /**
  * @module EIGHT
@@ -14,10 +13,10 @@ import Shareable from '../core/Shareable'
  * A buffer for drawing a single primitive
  * that can endure context loss and gain events.
  *
- * @class PrimitiveBuffer
+ * @class GeometryPart
  * @extends Shareable
  */
-export default class PrimitiveBuffer extends Shareable implements IContextConsumer {
+export default class GeometryPart extends ShareableContextListener {
 
     /**
      * The always available source of primitive data that
@@ -38,32 +37,34 @@ export default class PrimitiveBuffer extends Shareable implements IContextConsum
     private _dataBuffer: IBufferGeometry;
 
     /**
-     * @class PrimitiveBuffer
+     * @class GeometryPart
      * @constructor
      * @param dataSource {Primitive}
      */
     constructor(dataSource: Primitive) {
-        super('PrimitiveBuffer')
+        super('GeometryPart')
         this._dataSource = dataSource;
     }
 
     protected destructor(): void {
-        this.dropBuffer()
         super.destructor()
     }
 
-    public contextFree(manager: IContextProvider): void {
+    public contextFree(context: IContextProvider): void {
         this.dropBuffer()
+        super.contextFree(context)
     }
 
-    public contextGain(manager: IContextProvider): void {
+    public contextGain(context: IContextProvider): void {
         if (!this._dataBuffer) {
-            this._dataBuffer = manager.createBufferGeometry(this._dataSource)
+            this._dataBuffer = context.createBufferGeometry(this._dataSource)
         }
+        super.contextGain(context)
     }
 
     public contextLost(): void {
         this.dropBuffer()
+        super.contextLost()
     }
 
     private dropBuffer(): void {
@@ -75,12 +76,12 @@ export default class PrimitiveBuffer extends Shareable implements IContextConsum
 
     /**
      * @method draw
-     * @param program {Material}
+     * @param material {Material}
      * @return {void}
      */
-    draw(program: Material): void {
+    draw(material: Material): void {
         if (this._dataBuffer) {
-            this._dataBuffer.bind(program/*, aNameToKeyName*/) // FIXME: Why not part of the API?
+            this._dataBuffer.bind(material)
             this._dataBuffer.draw()
             this._dataBuffer.unbind()
         }

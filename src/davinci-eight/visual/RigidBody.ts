@@ -63,11 +63,9 @@ export default class RigidBody extends Mesh {
 
         const modelFacet = new ModelFacet()
         this.setFacet(MODEL_FACET_NAME, modelFacet)
-        modelFacet.release()
 
         const colorFacet = new ColorFacet()
         this.setFacet(COLOR_FACET_NAME, colorFacet)
-        colorFacet.release()
     }
 
     /**
@@ -107,13 +105,11 @@ export default class RigidBody extends Mesh {
     get color() {
         const facet = <ColorFacet>this.getFacet(COLOR_FACET_NAME)
         const color = facet.color
-        facet.release()
         return color
     }
     set color(color: Color) {
         const facet = <ColorFacet>this.getFacet(COLOR_FACET_NAME)
         facet.color.copy(color)
-        facet.release()
     }
 
     /**
@@ -246,7 +242,6 @@ export default class RigidBody extends Mesh {
 
     /**
      * Helper method for accessing the model.
-     * The underscore notation should suggest that a release call is not required.
      *
      * @property _model
      * @type ModelFacet
@@ -255,7 +250,6 @@ export default class RigidBody extends Mesh {
      */
     private get _model(): ModelFacet {
         const model = <ModelFacet>this.getFacet(MODEL_FACET_NAME)
-        model.release()
         return model
     }
     private set _model(unused: ModelFacet) {

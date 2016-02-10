@@ -2,6 +2,7 @@ import mustBeNumber from '../checks/mustBeNumber';
 import mustBeGE from '../checks/mustBeGE';
 import visualCache from './visualCache';
 import RigidBody from './RigidBody'
+import VisualOptions from './VisualOptions'
 
 /**
  * @module EIGHT
@@ -19,8 +20,8 @@ export default class Arrow extends RigidBody {
      * @constructor
      * @extends RigidBody
      */
-    constructor() {
-        super(visualCache.arrow(), visualCache.program(), 'Arrow')
+    constructor(options: VisualOptions = {}) {
+        super(visualCache.arrow(options), visualCache.material(options), 'Arrow')
         this._buffers.release()
         this._program.release()
     }

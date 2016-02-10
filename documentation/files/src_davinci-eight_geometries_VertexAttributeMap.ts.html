@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src/davinci-eight/facets/EulerFacet.ts - davinci-eight</title>
+    <title>src/davinci-eight/geometries/VertexAttributeMap.ts - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -47,7 +47,6 @@
                                 <li><a href="../classes/Attribute.html">Attribute</a></li>
                                 <li><a href="../classes/BlendFactor.html">BlendFactor</a></li>
                                 <li><a href="../classes/Capability.html">Capability</a></li>
-                                <li><a href="../classes/CartesianE3.html">CartesianE3</a></li>
                                 <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
@@ -68,7 +67,6 @@
                                 <li><a href="../classes/Euclidean1.html">Euclidean1</a></li>
                                 <li><a href="../classes/Euclidean2.html">Euclidean2</a></li>
                                 <li><a href="../classes/Euclidean3.html">Euclidean3</a></li>
-                                <li><a href="../classes/EulerFacet.html">EulerFacet</a></li>
                                 <li><a href="../classes/Facet.html">Facet</a></li>
                                 <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
@@ -77,6 +75,7 @@
                                 <li><a href="../classes/GeometricE2.html">GeometricE2</a></li>
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
+                                <li><a href="../classes/GeometryPart.html">GeometryPart</a></li>
                                 <li><a href="../classes/GraphicsProgramSymbols.html">GraphicsProgramSymbols</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
                                 <li><a href="../classes/IBufferGeometry.html">IBufferGeometry</a></li>
@@ -104,7 +103,6 @@
                                 <li><a href="../classes/PointMaterial.html">PointMaterial</a></li>
                                 <li><a href="../classes/PointSizeFacet.html">PointSizeFacet</a></li>
                                 <li><a href="../classes/Primitive.html">Primitive</a></li>
-                                <li><a href="../classes/PrimitiveBuffer.html">PrimitiveBuffer</a></li>
                                 <li><a href="../classes/Pseudo.html">Pseudo</a></li>
                                 <li><a href="../classes/QQ.html">QQ</a></li>
                                 <li><a href="../classes/R1.html">R1</a></li>
@@ -195,63 +193,20 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: src/davinci-eight/facets/EulerFacet.ts</h1>
+<h1 class="file-heading">File: src/davinci-eight/geometries/VertexAttributeMap.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import readOnly from &#x27;../i18n/readOnly&#x27;;
-import Facet from &#x27;../core/Facet&#x27;;
-import Shareable from &#x27;../core/Shareable&#x27;;
-import FacetVisitor from &#x27;../core/FacetVisitor&#x27;;
-import R3 from &#x27;../math/R3&#x27;;
+import VectorN from &#x27;../math/VectorN&#x27;
 
 /**
- * @module EIGHT
- * @submodule facets
+ * Using VectorN allows G2, G3, R1, R2, R3, R4, SpinG2, SpinG3.
  */
-
-/**
- * @class EulerFacet
- */
-export default class EulerFacet extends Shareable implements Facet {
-    private _rotation: R3;
-    /**
-     * @class EulerFacet
-     * @constructor
-     */
-    constructor() {
-        super(&#x27;EulerFacet&#x27;)
-        this._rotation = new R3();
-    }
-    protected destructor(): void {
-        super.destructor()
-    }
-    getProperty(name: string): number[] {
-        return void 0
-    }
-    setProperty(name: string, value: number[]): EulerFacet {
-      return this;
-    }
-    /**
-     * @method setUniforms
-     * @param visitor {FacetVisitor}
-     * @return {void}
-     */
-    setUniforms(visitor: FacetVisitor): void {
-        console.warn(&quot;EulerFacet.setUniforms&quot;);
-    }
-    /**
-     * @property rotation
-     * @type {R3}
-     * @readOnly
-     */
-    get rotation(): R3 {
-        return this._rotation;
-    }
-    set rotation(unused) {
-        throw new Error(readOnly(&#x27;rotation&#x27;).message);
-    }
+interface VertexAttributeMap {
+    [name: string]: VectorN&lt;number&gt;
 }
+
+export default VertexAttributeMap
 
     </pre>
 </div>

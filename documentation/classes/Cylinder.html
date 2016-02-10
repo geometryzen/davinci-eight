@@ -47,7 +47,6 @@
                                 <li><a href="../classes/Attribute.html">Attribute</a></li>
                                 <li><a href="../classes/BlendFactor.html">BlendFactor</a></li>
                                 <li><a href="../classes/Capability.html">Capability</a></li>
-                                <li><a href="../classes/CartesianE3.html">CartesianE3</a></li>
                                 <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
@@ -68,7 +67,6 @@
                                 <li><a href="../classes/Euclidean1.html">Euclidean1</a></li>
                                 <li><a href="../classes/Euclidean2.html">Euclidean2</a></li>
                                 <li><a href="../classes/Euclidean3.html">Euclidean3</a></li>
-                                <li><a href="../classes/EulerFacet.html">EulerFacet</a></li>
                                 <li><a href="../classes/Facet.html">Facet</a></li>
                                 <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
@@ -77,6 +75,7 @@
                                 <li><a href="../classes/GeometricE2.html">GeometricE2</a></li>
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
+                                <li><a href="../classes/GeometryPart.html">GeometryPart</a></li>
                                 <li><a href="../classes/GraphicsProgramSymbols.html">GraphicsProgramSymbols</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
                                 <li><a href="../classes/IBufferGeometry.html">IBufferGeometry</a></li>
@@ -104,7 +103,6 @@
                                 <li><a href="../classes/PointMaterial.html">PointMaterial</a></li>
                                 <li><a href="../classes/PointSizeFacet.html">PointSizeFacet</a></li>
                                 <li><a href="../classes/Primitive.html">Primitive</a></li>
-                                <li><a href="../classes/PrimitiveBuffer.html">PrimitiveBuffer</a></li>
                                 <li><a href="../classes/Pseudo.html">Pseudo</a></li>
                                 <li><a href="../classes/QQ.html">QQ</a></li>
                                 <li><a href="../classes/R1.html">R1</a></li>
@@ -203,7 +201,7 @@
         </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_visual_Cylinder.ts.html#l10"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Cylinder.ts:10</code></a>
+            Defined in: <a href="../files/src_davinci-eight_visual_Cylinder.ts.html#l11"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Cylinder.ts:11</code></a>
         </div>
 
             Module: <a href="../modules/visual.html">visual</a><br>
@@ -313,6 +311,10 @@
 
                             </li>
                             <li class="index-item property private inherited">
+                                <a href="#property__facets">_facets</a>
+
+                            </li>
+                            <li class="index-item property private inherited">
                                 <a href="#property__mass">_mass</a>
 
                             </li>
@@ -338,10 +340,6 @@
                             </li>
                             <li class="index-item property inherited">
                                 <a href="#property_color">color</a>
-
-                            </li>
-                            <li class="index-item property private inherited">
-                                <a href="#property_facets">facets</a>
 
                             </li>
                             <li class="index-item property inherited">
@@ -460,7 +458,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Mesh.html#method_contextFree">Mesh</a>:
-        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l131"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:131</code></a>
+        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l128"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:128</code></a>
         </p>
 
 
@@ -522,7 +520,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Mesh.html#method_contextGain">Mesh</a>:
-        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l141"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:141</code></a>
+        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l138"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:138</code></a>
         </p>
 
 
@@ -578,7 +576,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Mesh.html#method_contextLost">Mesh</a>:
-        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l151"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:151</code></a>
+        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l148"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:148</code></a>
         </p>
 
 
@@ -622,7 +620,7 @@ Notifies this instance that something is dereferencing it.
                 Shareable
             </a>
             but overwritten in
-        <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l73"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:73</code></a>
+        <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l71"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:71</code></a>
         </p>
 
 
@@ -668,7 +666,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Mesh.html#method_draw">Mesh</a>:
-        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l103"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:103</code></a>
+        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l100"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:100</code></a>
         </p>
 
 
@@ -730,7 +728,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Mesh.html#method_getFacet">Mesh</a>:
-        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l160"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:160</code></a>
+        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l157"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:157</code></a>
         </p>
 
 
@@ -787,7 +785,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/RigidBody.html#method_getScaleX">RigidBody</a>:
-        <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l190"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:190</code></a>
+        <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l186"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:186</code></a>
         </p>
 
 
@@ -828,7 +826,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/RigidBody.html#method_getScaleY">RigidBody</a>:
-        <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l209"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:209</code></a>
+        <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l205"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:205</code></a>
         </p>
 
 
@@ -869,7 +867,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/RigidBody.html#method_getScaleZ">RigidBody</a>:
-        <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l228"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:228</code></a>
+        <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l224"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:224</code></a>
         </p>
 
 
@@ -965,7 +963,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Mesh.html#method_setFacet">Mesh</a>:
-        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l169"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:169</code></a>
+        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l166"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:166</code></a>
         </p>
 
 
@@ -1038,7 +1036,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/RigidBody.html#method_setScaleX">RigidBody</a>:
-        <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l199"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:199</code></a>
+        <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l195"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:195</code></a>
         </p>
 
 
@@ -1101,7 +1099,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/RigidBody.html#method_setScaleY">RigidBody</a>:
-        <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l218"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:218</code></a>
+        <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l214"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:214</code></a>
         </p>
 
 
@@ -1164,7 +1162,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/RigidBody.html#method_setScaleZ">RigidBody</a>:
-        <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l237"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:237</code></a>
+        <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l233"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:233</code></a>
         </p>
 
 
@@ -1220,7 +1218,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Mesh.html#method_setUniforms">Mesh</a>:
-        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l87"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:87</code></a>
+        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l83"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:83</code></a>
         </p>
 
 
@@ -1285,7 +1283,32 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Mesh.html#property__buffers">Mesh</a>:
-        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l21"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:21</code></a>
+        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l20"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:20</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property__facets" class="property item private inherited">
+    <h3 class="name"><code>_facets</code></h3>
+    <span class="type">Unknown</span>
+
+
+        <span class="flag private">private</span>
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/Mesh.html#property__facets">Mesh</a>:
+        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l48"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:48</code></a>
         </p>
 
 
@@ -1336,7 +1359,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/RigidBody.html#property__model">RigidBody</a>:
-        <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l247"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:247</code></a>
+        <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l243"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:243</code></a>
         </p>
 
 
@@ -1344,7 +1367,6 @@ Notifies this instance that something is dereferencing it.
 
     <div class="description">
         Helper method for accessing the model.
-The underscore notation should suggest that a release call is not required.
     </div>
 
 
@@ -1388,7 +1410,7 @@ The underscore notation should suggest that a release call is not required.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Mesh.html#property__program">Mesh</a>:
-        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l28"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:28</code></a>
+        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l27"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:27</code></a>
         </p>
 
 
@@ -1413,7 +1435,7 @@ The underscore notation should suggest that a release call is not required.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Mesh.html#property__visible">Mesh</a>:
-        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l42"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:42</code></a>
+        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l41"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:41</code></a>
         </p>
 
 
@@ -1437,7 +1459,7 @@ The underscore notation should suggest that a release call is not required.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/RigidBody.html#property_axis">RigidBody</a>:
-        <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l82"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:82</code></a>
+        <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l80"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:80</code></a>
         </p>
 
 
@@ -1463,7 +1485,7 @@ The axis property may be updated by assignment, but not through mutation.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/RigidBody.html#property_color">RigidBody</a>:
-        <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l101"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:101</code></a>
+        <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l99"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:99</code></a>
         </p>
 
 
@@ -1471,31 +1493,6 @@ The axis property may be updated by assignment, but not through mutation.
 
     <div class="description">
         Color
-    </div>
-
-
-
-</div>
-<div id="property_facets" class="property item private inherited">
-    <h3 class="name"><code>facets</code></h3>
-    <span class="type">StringIUnknownMapFacet</span>
-
-
-        <span class="flag private">private</span>
-
-
-
-    <div class="meta">
-                <p>Inherited from
-                <a href="../classes/Mesh.html#property_facets">Mesh</a>:
-        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l49"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:49</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        
     </div>
 
 
@@ -1512,7 +1509,7 @@ The axis property may be updated by assignment, but not through mutation.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Mesh.html#property_geometry">Mesh</a>:
-        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l179"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:179</code></a>
+        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l176"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:176</code></a>
         </p>
 
 
@@ -1537,7 +1534,7 @@ The axis property may be updated by assignment, but not through mutation.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/RigidBody.html#property_m">RigidBody</a>:
-        <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l119"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:119</code></a>
+        <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l115"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:115</code></a>
         </p>
 
 
@@ -1561,7 +1558,7 @@ The axis property may be updated by assignment, but not through mutation.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Mesh.html#property_material">Mesh</a>:
-        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l193"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:193</code></a>
+        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l190"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:190</code></a>
         </p>
 
 
@@ -1586,7 +1583,7 @@ The axis property may be updated by assignment, but not through mutation.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Mesh.html#property_name">Mesh</a>:
-        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l35"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:35</code></a>
+        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l34"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:34</code></a>
         </p>
 
 
@@ -1610,7 +1607,7 @@ The axis property may be updated by assignment, but not through mutation.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/RigidBody.html#property_P">RigidBody</a>:
-        <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l133"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:133</code></a>
+        <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l129"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:129</code></a>
         </p>
 
 
@@ -1634,7 +1631,7 @@ The axis property may be updated by assignment, but not through mutation.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/RigidBody.html#property_R">RigidBody</a>:
-        <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l146"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:146</code></a>
+        <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l142"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:142</code></a>
         </p>
 
 
@@ -1682,7 +1679,7 @@ The axis property may be updated by assignment, but not through mutation.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Mesh.html#property_visible">Mesh</a>:
-        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l207"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:207</code></a>
+        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l204"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:204</code></a>
         </p>
 
 
@@ -1707,7 +1704,7 @@ The axis property may be updated by assignment, but not through mutation.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/RigidBody.html#property_X">RigidBody</a>:
-        <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l159"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:159</code></a>
+        <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l155"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:155</code></a>
         </p>
 
 

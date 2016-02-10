@@ -1,13 +1,16 @@
-import AxialPrimitivesBuilder from '../geometries/AxialPrimitivesBuilder';
+import AxialPrimitivesBuilder from './AxialPrimitivesBuilder';
 import VectorE3 from '../math/VectorE3';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
-import GridTopology from '../topologies/GridTopology';
-import IAxialGeometry from '../geometries/IAxialGeometry';
+import GridTopology from './GridTopology';
+import IAxialGeometry from './IAxialGeometry';
 import SpinG3 from '../math/SpinG3';
 import Primitive from '../core/Primitive';
 import R2 from '../math/R2';
 import R3 from '../math/R3';
 
+/**
+ * This implementation only builds the walls of the cylinder (by wrapping a grid)
+ */
 export default class CylinderPrimitivesBuilder extends AxialPrimitivesBuilder implements IAxialGeometry<CylinderPrimitivesBuilder> {
     public radius: number = 1;
     public height: number = 1;
@@ -24,20 +27,22 @@ export default class CylinderPrimitivesBuilder extends AxialPrimitivesBuilder im
         return this
     }
     toPrimitives(): Primitive[] {
-        let uSegments = this.thetaSegments
-        let vSegments = 1
-        let topo = new GridTopology(uSegments, vSegments)
-        let axis = this.axis
-        let generator = SpinG3.dual(axis)
+        const uSegments = this.thetaSegments
+        const vSegments = 1
+        const topo = new GridTopology(uSegments, vSegments)
+        const axis = this.axis
+        const generator = SpinG3.dual(axis)
 
         for (let uIndex = 0; uIndex < topo.uLength; uIndex++) {
-            let u = uIndex / uSegments
-            let rotor = generator.clone().scale(this.sliceAngle * u / 2).exp()
+            const u = uIndex / uSegments
+
+            const rotor = generator.clone().scale(this.sliceAngle * u / 2).exp()
+
             for (let vIndex = 0; vIndex < topo.vLength; vIndex++) {
-                let v = vIndex / vSegments
-                let normal = R3.copy(this.sliceStart).rotate(rotor)
-                let position = normal.clone().scale(this.radius).add(this.axis, v * this.height)
-                let vertex = topo.vertex(uIndex, vIndex)
+                const v = vIndex / vSegments
+                const normal = R3.copy(this.sliceStart).rotate(rotor)
+                const position = normal.clone().scale(this.radius).add(this.axis, v * this.height)
+                const vertex = topo.vertex(uIndex, vIndex)
                 vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = position.add(this.position)
                 vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = normal
                 if (this.useTextureCoords) {

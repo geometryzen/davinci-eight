@@ -5,7 +5,6 @@ import mustBeString from '../checks/mustBeString';
 import R2 from '../math/R2';
 import Mat2R from '../math/Mat2R';
 import readOnly from '../i18n/readOnly';
-import Shareable from '../core/Shareable';
 
 /**
  * @module EIGHT
@@ -14,9 +13,8 @@ import Shareable from '../core/Shareable';
 
 /**
  * @class ReflectionFacetE2
- * @extends Shareable
  */
-export default class ReflectionFacetE2 extends Shareable implements Facet {
+export default class ReflectionFacetE2 implements Facet {
     /**
      * The vector perpendicular to the (hyper-)plane of reflection.
      * @property _normal
@@ -38,7 +36,6 @@ export default class ReflectionFacetE2 extends Shareable implements Facet {
      * @param name {string} The name of the uniform variable.
      */
     constructor(name: string) {
-        super('ReflectionFacetE2')
         this.name = mustBeString('name', name)
         // The mathematics of the reflection causes a zero vector to be the identity transformation.
         this._normal = new R2().zero()
@@ -55,17 +52,6 @@ export default class ReflectionFacetE2 extends Shareable implements Facet {
     }
     set normal(unused) {
         throw new Error(readOnly('normal').message)
-    }
-
-    /**
-     * @method destructor
-     * @return {void}
-     * @protected
-     */
-    protected destructor(): void {
-        this._normal = void 0
-        this.matrix = void 0
-        super.destructor()
     }
 
     /**

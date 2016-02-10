@@ -1,5 +1,5 @@
 import DrawMode from '../core/DrawMode';
-import Topology from '../topologies/Topology';
+import Topology from './Topology';
 
 export default class MeshTopology extends Topology {
     constructor(mode: DrawMode, numVertices: number) {

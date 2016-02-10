@@ -10,19 +10,19 @@ import VectorN from '../math/VectorN';
  */
 export default function dataFromVectorN(source: VectorN<number>): number[] {
     if (source instanceof G3) {
-        let g3 = <G3>source
+        const g3 = <G3>source
         return [g3.x, g3.y, g3.z]
     }
     else if (source instanceof G2) {
-        let g2 = <G2>source
+        const g2 = <G2>source
         return [g2.x, g2.y]
     }
     else if (source instanceof R3) {
-        let v3 = <R3>source
+        const v3 = <R3>source
         return [v3.x, v3.y, v3.z]
     }
     else if (source instanceof R2) {
-        let v2 = <R2>source
+        const v2 = <R2>source
         return [v2.x, v2.y]
     }
     else {

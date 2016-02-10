@@ -1,7 +1,7 @@
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
-import GridTopology from '../topologies/GridTopology';
-import IAxialGeometry from '../geometries/IAxialGeometry';
-import AxialPrimitivesBuilder from '../geometries/AxialPrimitivesBuilder';
+import GridTopology from './GridTopology';
+import IAxialGeometry from './IAxialGeometry';
+import AxialPrimitivesBuilder from './AxialPrimitivesBuilder';
 import Primitive from '../core/Primitive';
 import R2 from '../math/R2';
 import G3 from '../math/G3';
@@ -23,22 +23,22 @@ export default class RingBuilder extends AxialPrimitivesBuilder implements IAxia
         return this
     }
     toPrimitives(): Primitive[] {
-        let uSegments = this.thetaSegments
-        let vSegments = 1
-        let topo = new GridTopology(uSegments, vSegments)
-        let a = this.outerRadius
-        let b = this.innerRadius
-        let axis = G3.fromVector(this.axis)
-        let start = G3.fromVector(this.sliceStart)
-        let generator = new G3().dual(axis)
+        const uSegments = this.thetaSegments
+        const vSegments = 1
+        const topo = new GridTopology(uSegments, vSegments)
+        const a = this.outerRadius
+        const b = this.innerRadius
+        const axis = G3.fromVector(this.axis)
+        const start = G3.fromVector(this.sliceStart)
+        const generator = new G3().dual(axis)
 
         for (let uIndex = 0; uIndex < topo.uLength; uIndex++) {
-            let u = uIndex / uSegments
-            let rotor = generator.clone().scale(this.sliceAngle * u / 2).exp()
+            const u = uIndex / uSegments
+            const rotor = generator.clone().scale(this.sliceAngle * u / 2).exp()
             for (let vIndex = 0; vIndex < topo.vLength; vIndex++) {
-                let v = vIndex / vSegments
-                let position = start.clone().rotate(rotor).scale(b + (a - b) * v)
-                let vertex = topo.vertex(uIndex, vIndex)
+                const v = vIndex / vSegments
+                const position = start.clone().rotate(rotor).scale(b + (a - b) * v)
+                const vertex = topo.vertex(uIndex, vIndex)
                 vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = position.addVector(this.position)
                 vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = axis
                 if (this.useTextureCoords) {

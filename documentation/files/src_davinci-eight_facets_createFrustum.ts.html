@@ -47,7 +47,6 @@
                                 <li><a href="../classes/Attribute.html">Attribute</a></li>
                                 <li><a href="../classes/BlendFactor.html">BlendFactor</a></li>
                                 <li><a href="../classes/Capability.html">Capability</a></li>
-                                <li><a href="../classes/CartesianE3.html">CartesianE3</a></li>
                                 <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
@@ -68,7 +67,6 @@
                                 <li><a href="../classes/Euclidean1.html">Euclidean1</a></li>
                                 <li><a href="../classes/Euclidean2.html">Euclidean2</a></li>
                                 <li><a href="../classes/Euclidean3.html">Euclidean3</a></li>
-                                <li><a href="../classes/EulerFacet.html">EulerFacet</a></li>
                                 <li><a href="../classes/Facet.html">Facet</a></li>
                                 <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
@@ -77,6 +75,7 @@
                                 <li><a href="../classes/GeometricE2.html">GeometricE2</a></li>
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
+                                <li><a href="../classes/GeometryPart.html">GeometryPart</a></li>
                                 <li><a href="../classes/GraphicsProgramSymbols.html">GraphicsProgramSymbols</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
                                 <li><a href="../classes/IBufferGeometry.html">IBufferGeometry</a></li>
@@ -104,7 +103,6 @@
                                 <li><a href="../classes/PointMaterial.html">PointMaterial</a></li>
                                 <li><a href="../classes/PointSizeFacet.html">PointSizeFacet</a></li>
                                 <li><a href="../classes/Primitive.html">Primitive</a></li>
-                                <li><a href="../classes/PrimitiveBuffer.html">PrimitiveBuffer</a></li>
                                 <li><a href="../classes/Pseudo.html">Pseudo</a></li>
                                 <li><a href="../classes/QQ.html">QQ</a></li>
                                 <li><a href="../classes/R1.html">R1</a></li>
@@ -215,16 +213,15 @@ import R3 from &#x27;../math/R3&#x27;;
  */
 export default function createFrustum(viewMatrixName: string, projectionMatrixName: string): Frustum {
 
-    let refCount = 1;
-    let base: View = createView(viewMatrixName);
-    let left: R1 = new R1();
-    let right: R1 = new R1();
-    let bottom: R1 = new R1();
-    let top: R1 = new R1();
-    let near: R1 = new R1();
-    let far: R1 = new R1();
+    const base: View = createView(viewMatrixName);
+    const left: R1 = new R1();
+    const right: R1 = new R1();
+    const bottom: R1 = new R1();
+    const top: R1 = new R1();
+    const near: R1 = new R1();
+    const far: R1 = new R1();
     // TODO: We should immediately create with a frustum static constructor?
-    let projectionMatrix: Mat4R = Mat4R.one();
+    const projectionMatrix: Mat4R = Mat4R.one();
 
     function updateProjectionMatrix() {
         projectionMatrix.frustum(left.x, right.x, bottom.x, top.x, near.x, far.x);
@@ -233,14 +230,6 @@ export default function createFrustum(viewMatrixName: string, projectionMatrixNa
     updateProjectionMatrix();
 
     var self: Frustum = {
-        addRef(): number {
-            refCount++
-            return refCount
-        },
-        release(): number {
-            refCount--
-            return refCount;
-        },
         setProperty(name: string, value: number[]): Frustum {
             return this;
         },

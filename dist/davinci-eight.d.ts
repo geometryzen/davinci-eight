@@ -31,7 +31,6 @@ declare module EIGHT {
          * Provides a safer way to maintain reference counts than a native array.
          */
         constructor(elements?: T[]);
-        destructor(): void;
         get(index: number): T;
         /**
          * Gets the element at the specified index without incrementing the reference count.
@@ -54,7 +53,6 @@ declare module EIGHT {
     class NumberIUnknownMap<V extends IUnknown> extends Shareable {
         keys: number[];
         constructor()
-        destructor(): void
         exists(key: number): boolean
         get(key: number): V
         getWeakRef(key: number): V
@@ -67,7 +65,6 @@ declare module EIGHT {
     class StringIUnknownMap<V extends IUnknown> extends Shareable {
         keys: string[];
         constructor()
-        destructor(): void
         exists(key: string): boolean
         forEach(callback: (key: string, value: V) => void)
         get(key: string): V
@@ -79,8 +76,6 @@ declare module EIGHT {
 
     /**
      * Convenience base class for classes requiring reference counting.
-     * 
-     * Derived classes should implement the method destructor(): void.
      */
     class Shareable implements IUnknown {
         /**
@@ -91,6 +86,10 @@ declare module EIGHT {
          * type: A human-readable name for the derived class type.
          */
         constructor(type: string);
+        /**
+         *
+         */
+        destructor(): void
         /**
          * Notifies this instance that something is referencing it.
          */
@@ -194,9 +193,6 @@ declare module EIGHT {
          * The number of values that are associated with a given vertex.
          */
         size: number;
-        normalized?: boolean;
-        stride?: number;
-        offset?: number;
     }
 
     /**
@@ -2279,27 +2275,6 @@ declare module EIGHT {
     /**
      *
      */
-    class CartesianE3 implements VectorE3 {
-        x: number;
-        y: number;
-        z: number;
-        /**
-         *
-         */
-        constructor()
-        magnitude(): number;
-        squaredNorm(): number;
-        static zero: CartesianE3;
-        static e1: CartesianE3;
-        static e2: CartesianE3;
-        static e3: CartesianE3;
-        static fromVector(vector: VectorE3);
-        static direction(vector: VectorE3);
-    }
-
-    /**
-     *
-     */
     class R3 extends VectorN<number> implements VectorE3 {
         x: number;
         y: number;
@@ -2708,11 +2683,6 @@ declare module EIGHT {
          * far...: The `far` property.
          */
         constructor(fov?: number, aspect?: number, near?: number, far?: number);
-        addRef(): number;
-        contextFree(manager: IContextProvider): void;
-        contextGain(manager: IContextProvider): void;
-        contextLost(): void;
-        draw(): void;
         /**
          *
          */
@@ -2728,7 +2698,6 @@ declare module EIGHT {
          *
          */
         setUniforms(visitor: FacetVisitor): void
-        release(): number
     }
 
     /**
@@ -3027,7 +2996,7 @@ declare module EIGHT {
         constructor();
     }
 
-    class AbstractFacet extends Shareable implements Facet {
+    class AbstractFacet implements Facet {
         getProperty(name: string): number[];
         setProperty(name: string, value: number[]): Facet;
         setUniforms(visitor: FacetVisitor): void;
@@ -3036,7 +3005,6 @@ declare module EIGHT {
     class AmbientLight extends AbstractFacet {
         color: Color;
         constructor(color: ColorRGB);
-        destructor(): void;
     }
 
     /**
@@ -3048,8 +3016,6 @@ declare module EIGHT {
         b: number;
         α: number
         constructor(name?: string);
-        incRef(): ColorFacet;
-        decRef(): ColorFacet;
         scaleRGB(α: number): ColorFacet;
         scaleRGBA(α: number): ColorFacet;
         setColorRGB(color: ColorRGB): ColorFacet;
@@ -3389,30 +3355,30 @@ declare module EIGHT {
     }
 
     class Arrow extends RigidBody {
-        constructor()
+        constructor(options?: { axis?: VectorE3; wireFrame?: boolean })
         length: number;
     }
 
     class Sphere extends RigidBody {
-        constructor()
+        constructor(options?: { axis?: VectorE3; wireFrame?: boolean })
         radius: number;
     }
 
     class Cuboid extends RigidBody {
-        constructor()
+        constructor(options?: { axis?: VectorE3; wireFrame?: boolean })
         width: number;
         height: number;
         depth: number;
     }
 
     class Cylinder extends RigidBody {
-        constructor()
+        constructor(options?: { axis?: VectorE3; wireFrame?: boolean })
         radius: number;
         length: number;
     }
 
     class Tetrahedron extends RigidBody {
-        constructor()
+        constructor(options?: { axis?: VectorE3; wireFrame?: boolean })
         radius: number;
     }
 

@@ -1,9 +1,4 @@
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-define(["require", "exports", '../core/Color', '../core', '../checks/mustBeNumber', '../core/Shareable', '../core/GraphicsProgramSymbols'], function (require, exports, Color_1, core_1, mustBeNumber_1, Shareable_1, GraphicsProgramSymbols_1) {
+define(["require", "exports", '../core/Color', '../core', '../checks/mustBeNumber', '../core/GraphicsProgramSymbols'], function (require, exports, Color_1, core_1, mustBeNumber_1, GraphicsProgramSymbols_1) {
     var COORD_R = 0;
     var COORD_G = 1;
     var COORD_B = 2;
@@ -30,19 +25,13 @@ define(["require", "exports", '../core/Color', '../core', '../checks/mustBeNumbe
             }
         }
     }
-    var ColorFacet = (function (_super) {
-        __extends(ColorFacet, _super);
+    var ColorFacet = (function () {
         function ColorFacet() {
-            _super.call(this, 'ColorFacet');
             this.color = Color_1.default.fromRGB(1, 1, 1);
             this.a = 1;
             this.uColorName = GraphicsProgramSymbols_1.default.UNIFORM_COLOR;
             this.uAlphaName = GraphicsProgramSymbols_1.default.UNIFORM_ALPHA;
         }
-        ColorFacet.prototype.destructor = function () {
-            this.color = void 0;
-            _super.prototype.destructor.call(this);
-        };
         Object.defineProperty(ColorFacet.prototype, "r", {
             get: function () {
                 return this.color.r;
@@ -170,7 +159,7 @@ define(["require", "exports", '../core/Color', '../core', '../checks/mustBeNumbe
         ColorFacet.PROP_BLUE = 'b';
         ColorFacet.PROP_ALPHA = 'a';
         return ColorFacet;
-    })(Shareable_1.default);
+    })();
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = ColorFacet;
 });
