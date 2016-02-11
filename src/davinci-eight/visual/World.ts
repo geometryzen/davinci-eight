@@ -54,6 +54,7 @@ export default class World extends Shareable {
         const arrow = new Arrow()
         arrow.color = Color.fromRGB(0.6, 0.6, 0.6)
         this.drawList.add(arrow)
+        arrow.release()
         return arrow
     }
     cuboid(options: { width?: number; height?: number; depth?: number } = {}): Cuboid {
@@ -63,6 +64,7 @@ export default class World extends Shareable {
         cuboid.depth = isDefined(options.depth) ? mustBeNumber('depth', options.depth) : 1
         cuboid.color = Color.green
         this.drawList.add(cuboid)
+        cuboid.release()
         return cuboid
     }
     cylinder(options: { radius?: number } = {}): Cylinder {
@@ -70,6 +72,7 @@ export default class World extends Shareable {
         cylinder.radius = isDefined(options.radius) ? mustBeNumber('radius', options.radius) : 0.5
         cylinder.color = Color.magenta
         this.drawList.add(cylinder)
+        cylinder.release()
         return cylinder
     }
     sphere(options: { radius?: number } = {}): Sphere {
@@ -77,6 +80,7 @@ export default class World extends Shareable {
         sphere.radius = isDefined(options.radius) ? mustBeNumber('radius', options.radius) : 0.5
         sphere.color = Color.blue
         this.drawList.add(sphere)
+        sphere.release()
         return sphere
     }
 }

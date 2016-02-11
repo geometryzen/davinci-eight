@@ -89,7 +89,7 @@ declare module EIGHT {
         /**
          *
          */
-        destructor(): void
+        protected destructor(): void
         /**
          * Notifies this instance that something is referencing it.
          */
@@ -3265,7 +3265,7 @@ declare module EIGHT {
         /**
          * Configures the trail left behind a moving rigid body.
          */
-        trail: {enabled: boolean; interval: number; retain: number};
+        trail: { enabled: boolean; interval: number; retain: number };
     }
 
     class Arrow extends RigidBody {
@@ -3342,7 +3342,16 @@ declare module EIGHT {
     /**
      *
      */
-    function bootstrap(canvasId: string, animate: (timestamp: number) => any, terminate: () => any, options?: { memcheck?: boolean }): World;
+    function bootstrap(
+        canvasId: string,
+        animate: (timestamp: number) => any,
+        options?: {
+            height?: number;
+            memcheck?: boolean;
+            onload?: () => any;
+            onunload?: () => any;
+            width?: number;
+        }): World;
 
     ///////////////////////////////////////////////////////////////////////////////
     function cos<T>(x: T): T;

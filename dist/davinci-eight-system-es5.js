@@ -17526,6 +17526,7 @@ System.register("davinci-eight/visual/World.js", ["./Arrow", "../core/Color", ".
           var arrow = new Arrow_1.default();
           arrow.color = Color_1.default.fromRGB(0.6, 0.6, 0.6);
           this.drawList.add(arrow);
+          arrow.release();
           return arrow;
         };
         World.prototype.cuboid = function(options) {
@@ -17538,6 +17539,7 @@ System.register("davinci-eight/visual/World.js", ["./Arrow", "../core/Color", ".
           cuboid.depth = isDefined_1.default(options.depth) ? mustBeNumber_1.default('depth', options.depth) : 1;
           cuboid.color = Color_1.default.green;
           this.drawList.add(cuboid);
+          cuboid.release();
           return cuboid;
         };
         World.prototype.cylinder = function(options) {
@@ -17548,6 +17550,7 @@ System.register("davinci-eight/visual/World.js", ["./Arrow", "../core/Color", ".
           cylinder.radius = isDefined_1.default(options.radius) ? mustBeNumber_1.default('radius', options.radius) : 0.5;
           cylinder.color = Color_1.default.magenta;
           this.drawList.add(cylinder);
+          cylinder.release();
           return cylinder;
         };
         World.prototype.sphere = function(options) {
@@ -17558,6 +17561,7 @@ System.register("davinci-eight/visual/World.js", ["./Arrow", "../core/Color", ".
           sphere.radius = isDefined_1.default(options.radius) ? mustBeNumber_1.default('radius', options.radius) : 0.5;
           sphere.color = Color_1.default.blue;
           this.drawList.add(sphere);
+          sphere.release();
           return sphere;
         };
         return World;
@@ -18462,10 +18466,10 @@ System.register("davinci-eight/core.js", [], function(exports_1) {
           this.fastPath = false;
           this.strict = false;
           this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-          this.LAST_MODIFIED = '2016-02-10';
+          this.LAST_MODIFIED = '2016-02-11';
           this.NAMESPACE = 'EIGHT';
           this.verbose = false;
-          this.VERSION = '2.181.0';
+          this.VERSION = '2.182.0';
           this.logging = {};
         }
         return Eight;
@@ -19508,22 +19512,28 @@ System.register("davinci-eight/core/WebGLRenderer.js", ["../commands/Capability"
   };
 });
 
-System.register("davinci-eight/visual/bootstrap.js", ["../checks/mustBeFunction", "../checks/mustBeString", "../core/refChange", "./DrawList", "./World", "../core/WebGLRenderer"], function(exports_1) {
-  var mustBeFunction_1,
+System.register("davinci-eight/visual/bootstrap.js", ["../checks/isDefined", "../checks/mustBeBoolean", "../checks/mustBeFunction", "../checks/mustBeNumber", "../checks/mustBeString", "../core/refChange", "./DrawList", "./World", "../core/WebGLRenderer"], function(exports_1) {
+  var isDefined_1,
+      mustBeBoolean_1,
+      mustBeFunction_1,
+      mustBeNumber_1,
       mustBeString_1,
       refChange_1,
       DrawList_1,
       World_1,
       WebGLRenderer_1;
-  function default_1(canvasId, animate, terminate, options) {
+  function default_1(canvasId, animate, options) {
     if (options === void 0) {
       options = {};
     }
     mustBeString_1.default('canvasId', canvasId);
     mustBeFunction_1.default('animate', animate);
-    mustBeFunction_1.default('terminate', terminate);
-    var memcheck = options.memcheck;
-    if (memcheck) {
+    options.height = isDefined_1.default(options.height) ? mustBeNumber_1.default('options.height', options.height) : void 0;
+    options.memcheck = isDefined_1.default(options.memcheck) ? mustBeBoolean_1.default('options.memcheck', options.memcheck) : false;
+    options.onload = isDefined_1.default(options.onload) ? mustBeFunction_1.default('options.onload', options.onload) : void 0;
+    options.onunload = isDefined_1.default(options.onunload) ? mustBeFunction_1.default('options.onunload', options.onunload) : void 0;
+    options.width = isDefined_1.default(options.width) ? mustBeNumber_1.default('options.width', options.width) : void 0;
+    if (options.memcheck) {
       refChange_1.default('start', 'bootstrap');
     }
     var visual = new WebGLRenderer_1.default();
@@ -19539,17 +19549,31 @@ System.register("davinci-eight/visual/bootstrap.js", ["../checks/mustBeFunction"
       drawList.draw(ambients);
     }
     window.onload = function() {
+      if (options.onload) {
+        options.onload();
+      }
       var canvas = document.getElementById(canvasId);
-      canvas.width = 600;
-      canvas.height = 600;
+      if (isDefined_1.default(options.height)) {
+        canvas.height = options.height;
+      } else {
+        canvas.height = 600;
+      }
+      if (isDefined_1.default(options.width)) {
+        canvas.width = options.width;
+      } else {
+        canvas.width = 600;
+      }
       visual.start(canvas);
       requestId = requestAnimationFrame(step);
     };
     window.onunload = function() {
-      terminate();
+      if (options.onunload) {
+        options.onunload();
+      }
+      world.release();
       drawList.release();
       visual.release();
-      if (memcheck) {
+      if (options.memcheck) {
         refChange_1.default('stop', 'onunload');
         refChange_1.default('dump', 'onunload');
       }
@@ -19558,8 +19582,14 @@ System.register("davinci-eight/visual/bootstrap.js", ["../checks/mustBeFunction"
   }
   exports_1("default", default_1);
   return {
-    setters: [function(mustBeFunction_1_1) {
+    setters: [function(isDefined_1_1) {
+      isDefined_1 = isDefined_1_1;
+    }, function(mustBeBoolean_1_1) {
+      mustBeBoolean_1 = mustBeBoolean_1_1;
+    }, function(mustBeFunction_1_1) {
       mustBeFunction_1 = mustBeFunction_1_1;
+    }, function(mustBeNumber_1_1) {
+      mustBeNumber_1 = mustBeNumber_1_1;
     }, function(mustBeString_1_1) {
       mustBeString_1 = mustBeString_1_1;
     }, function(refChange_1_1) {
