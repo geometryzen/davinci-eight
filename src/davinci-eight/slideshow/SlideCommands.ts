@@ -3,7 +3,7 @@ import IDirector from '../slideshow/IDirector';
 import ISlide from '../slideshow/ISlide';
 
 import ISlideCommand from '../slideshow/ISlideCommand';
-import IUnknownArray from '../collections/IUnknownArray';
+import ShareableArray from '../collections/ShareableArray';
 import Shareable from '../core/Shareable';
 
 import ColorRGB from '../core/ColorRGB';
@@ -16,10 +16,10 @@ import SpinorE3 from '../math/SpinorE3';
 import Spinor3Animation from '../slideshow/animations/Spinor3Animation';
 
 export default class SlideCommands extends Shareable implements ISlideCommand {
-    private commands: IUnknownArray<ISlideCommand>;
+    private commands: ShareableArray<ISlideCommand>;
     constructor() {
         super('SlideCommands')
-        this.commands = new IUnknownArray<ISlideCommand>()
+        this.commands = new ShareableArray<ISlideCommand>()
     }
     protected destructor(): void {
         this.commands.release()

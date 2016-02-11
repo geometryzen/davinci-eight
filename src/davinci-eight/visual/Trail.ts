@@ -1,8 +1,8 @@
 import G3 from '../math/G3';
 import Facet from '../core/Facet';
 import RigidBody from './RigidBody';
-import mustBeGE from '../checks/mustBeGE';
 import mustBeObject from '../checks/mustBeObject';
+import TrailConfig from './TrailConfig';
 
 /**
  * @module EIGHT
@@ -13,6 +13,7 @@ export default class Trail {
     private rigidBody: RigidBody
     private Xs: G3[] = []
     private Rs: G3[] = []
+    public config: TrailConfig = new TrailConfig();
 
     /**
      * @property counter
@@ -22,32 +23,17 @@ export default class Trail {
     private counter = 0
 
     /**
-     * @property maxLength
-     * @type number
-     */
-    maxLength: number
-
-    /**
-     * @property spacing
-     * @type number
-     * @default 60
-     */
-    spacing = 60
-
-    /**
      * Constructs a trail for the specified rigidBody.
      * The maximum number of trail points defaults to 10.
      *
      * @class Trail
      * @constructor
      * @param rigidBody {RigidBody}
-     * @param [maxLength = 10] {number}
+     * @param [retain = 10] {number}
      */
-    constructor(rigidBody: RigidBody, maxLength = 10) {
+    constructor(rigidBody: RigidBody) {
         mustBeObject('rigidBody', rigidBody)
-        mustBeGE('maxLength', maxLength, 0)
         this.rigidBody = rigidBody
-        this.maxLength = maxLength
     }
 
     /**
@@ -60,12 +46,12 @@ export default class Trail {
         // It would be much more efficient to allocate an array
         // of the right size and treat it as a circular buffer.
         // We could also reuse the G3 objects.
-        if (this.counter % this.spacing === 0) {
+        if (this.counter % this.config.interval === 0) {
             // We must clone because the properties are mutable.
             this.Xs.unshift(this.rigidBody.X.clone())
             this.Rs.unshift(this.rigidBody.R.clone())
         }
-        while (this.Xs.length > this.maxLength) {
+        while (this.Xs.length > this.config.retain) {
             this.Xs.pop()
             this.Rs.pop()
         }

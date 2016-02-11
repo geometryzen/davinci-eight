@@ -4,7 +4,7 @@ import IDirector from '../slideshow/IDirector';
 import ISlide from '../slideshow/ISlide';
 import ISlideCommand from '../slideshow/ISlideCommand';
 import IUnknown from '../core/IUnknown';
-import IUnknownArray from '../collections/IUnknownArray';
+import ShareableArray from '../collections/ShareableArray';
 import mustBeNumber from '../checks/mustBeNumber';
 import Shareable from '../core/Shareable';
 import SlideCommands from '../slideshow/SlideCommands';
@@ -133,12 +133,12 @@ export default class Slide extends Shareable implements ISlide {
 }
 
 class AnimationLane extends Shareable {
-    private completed: IUnknownArray<IAnimation>;
-    private remaining: IUnknownArray<IAnimation>;
+    private completed: ShareableArray<IAnimation>;
+    private remaining: ShareableArray<IAnimation>;
     constructor() {
         super('AnimationLane')
-        this.completed = new IUnknownArray<IAnimation>()
-        this.remaining = new IUnknownArray<IAnimation>()
+        this.completed = new ShareableArray<IAnimation>()
+        this.remaining = new ShareableArray<IAnimation>()
     }
     protected destructor(): void {
         this.completed.release()

@@ -3,12 +3,12 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../collections/IUnknownArray', '../core/Shareable'], function (require, exports, IUnknownArray_1, Shareable_1) {
+define(["require", "exports", '../collections/ShareableArray', '../core/Shareable'], function (require, exports, ShareableArray_1, Shareable_1) {
     var SlideCommands = (function (_super) {
         __extends(SlideCommands, _super);
         function SlideCommands() {
             _super.call(this, 'SlideCommands');
-            this.commands = new IUnknownArray_1.default();
+            this.commands = new ShareableArray_1.default();
         }
         SlideCommands.prototype.destructor = function () {
             this.commands.release();

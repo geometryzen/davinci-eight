@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.180.0</em>
+            <em>API Docs for: 2.181.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -83,7 +83,6 @@
                                 <li><a href="../classes/IContextProgramConsumer.html">IContextProgramConsumer</a></li>
                                 <li><a href="../classes/IContextProvider.html">IContextProvider</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
-                                <li><a href="../classes/IUnknownArray.html">IUnknownArray</a></li>
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
                                 <li><a href="../classes/Mat2R.html">Mat2R</a></li>
                                 <li><a href="../classes/Mat3R.html">Mat3R</a></li>
@@ -114,6 +113,7 @@
                                 <li><a href="../classes/Scalar.html">Scalar</a></li>
                                 <li><a href="../classes/Scene.html">Scene</a></li>
                                 <li><a href="../classes/Shareable.html">Shareable</a></li>
+                                <li><a href="../classes/ShareableArray.html">ShareableArray</a></li>
                                 <li><a href="../classes/ShareableContextListener.html">ShareableContextListener</a></li>
                                 <li><a href="../classes/ShareableWebGLBuffer.html">ShareableWebGLBuffer</a></li>
                                 <li><a href="../classes/ShareableWebGLShader.html">ShareableWebGLShader</a></li>
@@ -143,6 +143,7 @@
                                 <li><a href="../classes/VectorN.html">VectorN</a></li>
                                 <li><a href="../classes/VersionLogger.html">VersionLogger</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
+                                <li><a href="../classes/VisualBody.html">VisualBody</a></li>
                                 <li><a href="../classes/WebGLBlendFunc.html">WebGLBlendFunc</a></li>
                                 <li><a href="../classes/WebGLClearColor.html">WebGLClearColor</a></li>
                                 <li><a href="../classes/WebGLDisable.html">WebGLDisable</a></li>
@@ -198,7 +199,7 @@
     <pre class="code prettyprint linenums">
 import mustBeNumber from &#x27;../checks/mustBeNumber&#x27;;
 import visualCache from &#x27;./visualCache&#x27;;
-import RigidBody from &#x27;./RigidBody&#x27;
+import VisualBody from &#x27;./VisualBody&#x27;
 import VisualOptions from &#x27;./VisualOptions&#x27;
 
 /**
@@ -210,7 +211,7 @@ import VisualOptions from &#x27;./VisualOptions&#x27;
  * @class Cuboid
  * @extends RigidBody
  */
-export default class Cuboid extends RigidBody {
+export default class Cuboid extends VisualBody {
     constructor(options: VisualOptions = {}) {
         super(visualCache.cuboid(options), visualCache.material(options), &#x27;Cuboid&#x27;)
         this._geometry.release()

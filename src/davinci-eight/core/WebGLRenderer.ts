@@ -1,13 +1,12 @@
 import Capability from '../commands/Capability';
 import DrawMode from './DrawMode';
-import Facet from './Facet';
 import core from '../core';
 import IContextProvider from './IContextProvider';
 import IContextConsumer from './IContextConsumer';
 import ShareableWebGLBuffer from './ShareableWebGLBuffer';
 import PrimitiveBuffers from './PrimitiveBuffers';
 import Material from './Material';
-import IUnknownArray from '../collections/IUnknownArray';
+import ShareableArray from '../collections/ShareableArray';
 import initWebGL from './initWebGL';
 import isDefined from '../checks/isDefined';
 import isUndefined from '../checks/isUndefined';
@@ -20,7 +19,6 @@ import mustBeString from '../checks/mustBeString';
 import mustSatisfy from '../checks/mustSatisfy';
 import Primitive from './Primitive';
 import readOnly from '../i18n/readOnly';
-import Scene from './Scene';
 import Shareable from './Shareable';
 import StringIUnknownMap from '../collections/StringIUnknownMap';
 import WebGLClearColor from '../commands/WebGLClearColor';
@@ -512,13 +510,13 @@ export default class WebGLRenderer extends Shareable {
     // Remark: We only hold weak references to users so that the lifetime of resource
     // objects is not affected by the fact that they are listening for gl events.
     // Users should automatically add themselves upon construction and remove upon release.
-    // // FIXME: Really? Not IUnknownArray<IIContextConsumer> ?
+    // // FIXME: Really? Not ShareableArray<IIContextConsumer> ?
     private _users: IContextConsumer[] = [];
 
     private _webGLContextLost: (event: Event) => any;
     private _webGLContextRestored: (event: Event) => any;
 
-    private _commands = new IUnknownArray<IContextConsumer>([])
+    private _commands = new ShareableArray<IContextConsumer>([])
 
     private _contextProvider: WebGLContextProvider;
 
@@ -529,7 +527,7 @@ export default class WebGLRenderer extends Shareable {
      */
     constructor(attributes?: WebGLContextAttributes) {
         super('WebGLRenderer');
-        console.log(`${core.NAMESPACE} ${this._type} ${core.VERSION}`);
+        console.log(`${core.NAMESPACE} @ ${core.VERSION}`);
         // FIXME: This seems out of place.
         this._attributes = attributes;
 
@@ -606,11 +604,11 @@ export default class WebGLRenderer extends Shareable {
 
     /**
      * @property commands
-     * @type {IUnknownArray}
+     * @type {ShareableArray}
      * @beta
      * @readOnly
      */
-    get commands(): IUnknownArray<IContextConsumer> {
+    get commands(): ShareableArray<IContextConsumer> {
         this._commands.addRef();
         return this._commands;
     }
@@ -690,26 +688,13 @@ export default class WebGLRenderer extends Shareable {
     }
 
     /**
-     * @method prolog
+     * @method clear
      * @return {void}
      */
-    prolog(): void {
+    clear(): void {
         const gl = this._gl;
         if (gl) {
             gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-        }
-    }
-
-    /**
-     * @method render
-     * @param scene {Scene}
-     * @param ambients {Facet[]}
-     * @return {void}
-     */
-    render(scene: Scene, ambients: Facet[]): void {
-        const gl = this._gl;
-        if (gl) {
-            return scene.draw(ambients);
         }
     }
 

@@ -1,6 +1,6 @@
 import mustBeNumber from '../checks/mustBeNumber';
 import visualCache from './visualCache';
-import RigidBody from './RigidBody'
+import VisualBody from './VisualBody'
 import VisualOptions from './VisualOptions'
 
 /**
@@ -12,7 +12,7 @@ import VisualOptions from './VisualOptions'
  * @class Cuboid
  * @extends RigidBody
  */
-export default class Cuboid extends RigidBody {
+export default class Cuboid extends VisualBody {
     constructor(options: VisualOptions = {}) {
         super(visualCache.cuboid(options), visualCache.material(options), 'Cuboid')
         this._geometry.release()

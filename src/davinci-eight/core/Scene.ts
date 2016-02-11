@@ -1,7 +1,7 @@
 import Facet from '../core/Facet';
 import IContextProvider from '../core/IContextProvider';
 import Mesh from './Mesh';
-import IUnknownArray from '../collections/IUnknownArray';
+import ShareableArray from '../collections/ShareableArray';
 import mustBeObject from '../checks/mustBeObject';
 import Geometry from './Geometry';
 import Shareable from '../core/Shareable';
@@ -75,9 +75,9 @@ class ScenePart extends Shareable {
     }
 }
 
-function partsFromMesh(mesh: Mesh): IUnknownArray<ScenePart> {
+function partsFromMesh(mesh: Mesh): ShareableArray<ScenePart> {
     mustBeObject('mesh', mesh)
-    const parts = new IUnknownArray<ScenePart>()
+    const parts = new ShareableArray<ScenePart>()
     const geometry = mesh.geometry
     const iLen = geometry.partsLength
     for (let i = 0; i < iLen; i++) {
@@ -97,8 +97,8 @@ function partsFromMesh(mesh: Mesh): IUnknownArray<ScenePart> {
  */
 export default class Scene extends ShareableContextListener {
 
-    private _meshes: IUnknownArray<Mesh>;
-    private _parts: IUnknownArray<ScenePart>;
+    private _meshes: ShareableArray<Mesh>;
+    private _parts: ShareableArray<ScenePart>;
 
     // FIXME: Do I need the collection, or can I be fooled into thinking there is one monitor?
     /**
@@ -112,8 +112,8 @@ export default class Scene extends ShareableContextListener {
      */
     constructor() {
         super('Scene')
-        this._meshes = new IUnknownArray<Mesh>()
-        this._parts = new IUnknownArray<ScenePart>()
+        this._meshes = new ShareableArray<Mesh>()
+        this._parts = new ShareableArray<ScenePart>()
     }
 
     /**
@@ -184,9 +184,9 @@ export default class Scene extends ShareableContextListener {
     /**
      * @method find
      * @param match {(mesh: Mesh) => boolean}
-     * @return {IUnknownArray}
+     * @return {ShareableArray}
      */
-    find(match: (mesh: Mesh) => boolean): IUnknownArray<Mesh> {
+    find(match: (mesh: Mesh) => boolean): ShareableArray<Mesh> {
         return this._meshes.find(match)
     }
 
@@ -211,9 +211,9 @@ export default class Scene extends ShareableContextListener {
     /**
      * @method findByName
      * @param name {string}
-     * @return {IUnknownArray}
+     * @return {ShareableArray}
      */
-    findByName(name: string): IUnknownArray<Mesh> {
+    findByName(name: string): ShareableArray<Mesh> {
         return this.find(function(mesh) { return mesh.name === name })
     }
 

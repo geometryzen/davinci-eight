@@ -12,7 +12,7 @@ import Shareable from './Shareable';
  * @extends Shareable
  */
 export default class ShareableContextListener extends Shareable implements IContextListener {
-    private _renderer: WebGLRenderer
+    private _visual: WebGLRenderer
     private _context: IContextProvider
 
     /**
@@ -37,19 +37,19 @@ export default class ShareableContextListener extends Shareable implements ICont
      * Instructs the consumer to subscribe to context events.
      *
      * @method subscribe
-     * @param renderer {WebGLRenderer}
+     * @param visual {WebGLRenderer}
      * @return {void}
      */
-    subscribe(renderer: WebGLRenderer): void {
-        if (!this._renderer) {
-            renderer.addRef()
-            this._renderer = renderer
-            renderer.addContextListener(this)
-            renderer.synchronize(this)
+    subscribe(visual: WebGLRenderer): void {
+        if (!this._visual) {
+            visual.addRef()
+            this._visual = visual
+            visual.addContextListener(this)
+            visual.synchronize(this)
         }
         else {
             this.unsubscribe()
-            this.subscribe(renderer)
+            this.subscribe(visual)
         }
     }
 
@@ -63,10 +63,10 @@ export default class ShareableContextListener extends Shareable implements ICont
         if (this._context) {
             cleanUp(this._context, this)
         }
-        if (this._renderer) {
-            this._renderer.removeContextListener(this)
-            this._renderer.release()
-            this._renderer = void 0
+        if (this._visual) {
+            this._visual.removeContextListener(this)
+            this._visual.release()
+            this._visual = void 0
         }
     }
 

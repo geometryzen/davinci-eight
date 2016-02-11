@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.180.0</em>
+            <em>API Docs for: 2.181.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -83,7 +83,6 @@
                                 <li><a href="../classes/IContextProgramConsumer.html">IContextProgramConsumer</a></li>
                                 <li><a href="../classes/IContextProvider.html">IContextProvider</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
-                                <li><a href="../classes/IUnknownArray.html">IUnknownArray</a></li>
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
                                 <li><a href="../classes/Mat2R.html">Mat2R</a></li>
                                 <li><a href="../classes/Mat3R.html">Mat3R</a></li>
@@ -114,6 +113,7 @@
                                 <li><a href="../classes/Scalar.html">Scalar</a></li>
                                 <li><a href="../classes/Scene.html">Scene</a></li>
                                 <li><a href="../classes/Shareable.html">Shareable</a></li>
+                                <li><a href="../classes/ShareableArray.html">ShareableArray</a></li>
                                 <li><a href="../classes/ShareableContextListener.html">ShareableContextListener</a></li>
                                 <li><a href="../classes/ShareableWebGLBuffer.html">ShareableWebGLBuffer</a></li>
                                 <li><a href="../classes/ShareableWebGLShader.html">ShareableWebGLShader</a></li>
@@ -143,6 +143,7 @@
                                 <li><a href="../classes/VectorN.html">VectorN</a></li>
                                 <li><a href="../classes/VersionLogger.html">VersionLogger</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
+                                <li><a href="../classes/VisualBody.html">VisualBody</a></li>
                                 <li><a href="../classes/WebGLBlendFunc.html">WebGLBlendFunc</a></li>
                                 <li><a href="../classes/WebGLClearColor.html">WebGLClearColor</a></li>
                                 <li><a href="../classes/WebGLDisable.html">WebGLDisable</a></li>
@@ -199,8 +200,8 @@
 import G3 from &#x27;../math/G3&#x27;;
 import Facet from &#x27;../core/Facet&#x27;;
 import RigidBody from &#x27;./RigidBody&#x27;;
-import mustBeGE from &#x27;../checks/mustBeGE&#x27;;
 import mustBeObject from &#x27;../checks/mustBeObject&#x27;;
+import TrailConfig from &#x27;./TrailConfig&#x27;;
 
 /**
  * @module EIGHT
@@ -211,6 +212,7 @@ export default class Trail {
     private rigidBody: RigidBody
     private Xs: G3[] = []
     private Rs: G3[] = []
+    public config: TrailConfig = new TrailConfig();
 
     /**
      * @property counter
@@ -220,32 +222,17 @@ export default class Trail {
     private counter = 0
 
     /**
-     * @property maxLength
-     * @type number
-     */
-    maxLength: number
-
-    /**
-     * @property spacing
-     * @type number
-     * @default 60
-     */
-    spacing = 60
-
-    /**
      * Constructs a trail for the specified rigidBody.
      * The maximum number of trail points defaults to 10.
      *
      * @class Trail
      * @constructor
      * @param rigidBody {RigidBody}
-     * @param [maxLength = 10] {number}
+     * @param [retain = 10] {number}
      */
-    constructor(rigidBody: RigidBody, maxLength = 10) {
+    constructor(rigidBody: RigidBody) {
         mustBeObject(&#x27;rigidBody&#x27;, rigidBody)
-        mustBeGE(&#x27;maxLength&#x27;, maxLength, 0)
         this.rigidBody = rigidBody
-        this.maxLength = maxLength
     }
 
     /**
@@ -258,12 +245,12 @@ export default class Trail {
         // It would be much more efficient to allocate an array
         // of the right size and treat it as a circular buffer.
         // We could also reuse the G3 objects.
-        if (this.counter % this.spacing === 0) {
+        if (this.counter % this.config.interval === 0) {
             // We must clone because the properties are mutable.
             this.Xs.unshift(this.rigidBody.X.clone())
             this.Rs.unshift(this.rigidBody.R.clone())
         }
-        while (this.Xs.length &gt; this.maxLength) {
+        while (this.Xs.length &gt; this.config.retain) {
             this.Xs.pop()
             this.Rs.pop()
         }

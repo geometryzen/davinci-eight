@@ -163,7 +163,7 @@ import ModelE3 from 'davinci-eight/facets/ModelE3';
 // utils
 import Framerate from 'davinci-eight/utils/Framerate';
 import getCanvasElementById from 'davinci-eight/utils/getCanvasElementById';
-import IUnknownArray from 'davinci-eight/collections/IUnknownArray';
+import ShareableArray from 'davinci-eight/collections/ShareableArray';
 import loadImageTexture from 'davinci-eight/utils/loadImageTexture';
 import NumberIUnknownMap from 'davinci-eight/collections/NumberIUnknownMap';
 import refChange from 'davinci-eight/core/refChange';
@@ -181,6 +181,8 @@ import Cylinder from 'davinci-eight/visual/Cylinder';
 import Tetrahedron from 'davinci-eight/visual/Tetrahedron';
 import Trail from 'davinci-eight/visual/Trail';
 import vector from 'davinci-eight/visual/vector';
+import World from 'davinci-eight/visual/World';
+import bootstrap from 'davinci-eight/visual/bootstrap';
 
 // glsl
 import tokenizeString from 'davinci-eight/glsl/tokenizeString';
@@ -312,7 +314,7 @@ var eight = {
     get ReflectionFacetE3() { return ReflectionFacetE3 },
     get Vector3Facet() { return Vector3Facet },
     // utils
-    get IUnknownArray() { return IUnknownArray },
+    get ShareableArray() { return ShareableArray },
     get NumberIUnknownMap() { return NumberIUnknownMap },
     get refChange() { return refChange },
     get Shareable() { return Shareable },
@@ -334,6 +336,7 @@ var eight = {
     get RigidBody() { return RigidBody },
     get Cylinder() { return Cylinder },
     get Tetrahedron() { return Tetrahedron },
-    get Trail() { return Trail }
+    get Trail() { return Trail },
+    get bootstrap() { return bootstrap }
 }
 export default eight;

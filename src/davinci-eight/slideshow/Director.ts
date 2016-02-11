@@ -2,7 +2,7 @@ import Slide from '../slideshow/Slide';
 import IAnimationTarget from '../slideshow/IAnimationTarget';
 import isDefined from '../checks/isDefined';
 import IDirector from '../slideshow/IDirector';
-import IUnknownArray from '../collections/IUnknownArray';
+import ShareableArray from '../collections/ShareableArray';
 import mustBeDefined from '../checks/mustBeDefined';
 import mustBeString from '../checks/mustBeString';
 import NumberIUnknownMap from '../collections/NumberIUnknownMap';
@@ -11,12 +11,12 @@ import StringIUnknownMap from '../collections/StringIUnknownMap';
 
 export default class Director extends Shareable implements IDirector {
     private step: number;
-    public slides: IUnknownArray<Slide>;
+    public slides: ShareableArray<Slide>;
     private facets: { [name: string]: IAnimationTarget };
     constructor() {
         super('Director')
         this.step = -1 // Position before the first slide.
-        this.slides = new IUnknownArray<Slide>([])
+        this.slides = new ShareableArray<Slide>([])
         this.facets = {}
     }
     destructor(): void {

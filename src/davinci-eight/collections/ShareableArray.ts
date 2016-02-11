@@ -2,12 +2,12 @@ import IUnknown from '../core/IUnknown';
 import Shareable from '../core/Shareable';
 
 /**
- * Essentially constructs the IUnknownArray without incrementing the
+ * Essentially constructs the ShareableArray without incrementing the
  * reference count of the elements, and without creating zombies.
  */
-function transferOwnership<T extends IUnknown>(data: T[]): IUnknownArray<T> {
+function transferOwnership<T extends IUnknown>(data: T[]): ShareableArray<T> {
     if (data) {
-        var result = new IUnknownArray<T>(data)
+        var result = new ShareableArray<T>(data)
         // The result has now taken ownership of the elements, so we can release.
         for (var i = 0, iLength = data.length; i < iLength; i++) {
             var element = data[i]
@@ -23,10 +23,10 @@ function transferOwnership<T extends IUnknown>(data: T[]): IUnknownArray<T> {
 }
 
 /**
- * @class IUnknownArray
+ * @class ShareableArray
  * @extends Shareable
  */
-export default class IUnknownArray<T extends IUnknown> extends Shareable {
+export default class ShareableArray<T extends IUnknown> extends Shareable {
     /**
      * @property _elements
      * @type {T[]}
@@ -36,11 +36,11 @@ export default class IUnknownArray<T extends IUnknown> extends Shareable {
     /**
      * Collection class for maintaining an array of types derived from IUnknown.
      * Provides a safer way to maintain reference counts than a native array.
-     * @class IUnknownArray
+     * @class ShareableArray
      * @constructor
      */
     constructor(elements: T[] = []) {
-        super('IUnknownArray')
+        super('ShareableArray')
         this._elements = elements
         for (var i = 0, l = this._elements.length; i < l; i++) {
             this._elements[i].addRef()
@@ -60,8 +60,8 @@ export default class IUnknownArray<T extends IUnknown> extends Shareable {
         super.destructor()
     }
 
-    find(match: (element: T) => boolean): IUnknownArray<T> {
-        const result = new IUnknownArray<T>()
+    find(match: (element: T) => boolean): ShareableArray<T> {
+        const result = new ShareableArray<T>()
         const elements = this._elements
         const iLen = elements.length
         for (let i = 0; i < iLen; i++) {
@@ -125,7 +125,7 @@ export default class IUnknownArray<T extends IUnknown> extends Shareable {
             return this._elements.length;
         }
         else {
-            console.warn("IUnknownArray is now a zombie, length is undefined")
+            console.warn("ShareableArray is now a zombie, length is undefined")
             return void 0
         }
     }
@@ -136,8 +136,8 @@ export default class IUnknownArray<T extends IUnknown> extends Shareable {
      * @param [begin] {number}
      * @param [end] {number}
      */
-    slice(begin?: number, end?: number): IUnknownArray<T> {
-        return new IUnknownArray<T>(this._elements.slice(begin, end))
+    slice(begin?: number, end?: number): ShareableArray<T> {
+        return new ShareableArray<T>(this._elements.slice(begin, end))
     }
     /**
      * The splice() method changes the content of an array by removing existing elements and/or adding new elements.
@@ -146,7 +146,7 @@ export default class IUnknownArray<T extends IUnknown> extends Shareable {
      * @param deleteCount {number}
      * @return {IUnkownArray<T>}
      */
-    splice(index: number, deleteCount: number): IUnknownArray<T> {
+    splice(index: number, deleteCount: number): ShareableArray<T> {
         // The release burdon is on the caller now.
         return transferOwnership(this._elements.splice(index, deleteCount))
     }

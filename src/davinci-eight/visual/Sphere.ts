@@ -1,6 +1,6 @@
 import mustBeNumber from '../checks/mustBeNumber';
 import visualCache from './visualCache';
-import RigidBody from './RigidBody'
+import VisualBody from './VisualBody'
 import VisualOptions from './VisualOptions'
 
 /**
@@ -10,9 +10,9 @@ import VisualOptions from './VisualOptions'
 
 /**
  * @class Sphere
- * @extends RigidBody
+ * @extends VisualBody
  */
-export default class Sphere extends RigidBody {
+export default class Sphere extends VisualBody {
 
     /**
      * @class Sphere

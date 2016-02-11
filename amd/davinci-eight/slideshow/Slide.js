@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../collections/IUnknownArray', '../core/Shareable', '../slideshow/SlideCommands', '../collections/StringIUnknownMap'], function (require, exports, IUnknownArray_1, Shareable_1, SlideCommands_1, StringIUnknownMap_1) {
+define(["require", "exports", '../collections/ShareableArray', '../core/Shareable', '../slideshow/SlideCommands', '../collections/StringIUnknownMap'], function (require, exports, ShareableArray_1, Shareable_1, SlideCommands_1, StringIUnknownMap_1) {
     var Slide = (function (_super) {
         __extends(Slide, _super);
         function Slide() {
@@ -97,8 +97,8 @@ define(["require", "exports", '../collections/IUnknownArray', '../core/Shareable
         __extends(AnimationLane, _super);
         function AnimationLane() {
             _super.call(this, 'AnimationLane');
-            this.completed = new IUnknownArray_1.default();
-            this.remaining = new IUnknownArray_1.default();
+            this.completed = new ShareableArray_1.default();
+            this.remaining = new ShareableArray_1.default();
         }
         AnimationLane.prototype.destructor = function () {
             this.completed.release();

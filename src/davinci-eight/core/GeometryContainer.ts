@@ -1,5 +1,5 @@
 import IContextProvider from './IContextProvider';
-import IUnknownArray from '../collections/IUnknownArray';
+import ShareableArray from '../collections/ShareableArray';
 import Material from './Material'
 import Geometry from './Geometry'
 import readOnly from '../i18n/readOnly';
@@ -22,7 +22,7 @@ export default class GeometryContainer extends Shareable implements Geometry {
      * @property _parts
      * @private
      */
-    private _parts: IUnknownArray<Geometry>;
+    private _parts: ShareableArray<Geometry>;
 
     /**
      * @class GeometryContainer
@@ -30,7 +30,7 @@ export default class GeometryContainer extends Shareable implements Geometry {
      */
     constructor() {
         super('GeometryContainer');
-        this._parts = new IUnknownArray<Geometry>()
+        this._parts = new ShareableArray<Geometry>()
     }
 
     /**

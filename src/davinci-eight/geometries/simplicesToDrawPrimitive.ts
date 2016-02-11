@@ -129,7 +129,7 @@ export default function simplicesToDrawPrimitive(simplices: Simplex[], geometryM
         }
         break;
         case Simplex.EMPTY: {
-            // It should be possible to no-op render an EMPTY simplex.
+            // It should be possible to no-op an EMPTY simplex.
             return new DrawPrimitive(DrawMode.POINTS, indices, attributes)
         }
         break;

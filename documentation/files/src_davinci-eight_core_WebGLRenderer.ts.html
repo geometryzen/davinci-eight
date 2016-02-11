@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.180.0</em>
+            <em>API Docs for: 2.181.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -83,7 +83,6 @@
                                 <li><a href="../classes/IContextProgramConsumer.html">IContextProgramConsumer</a></li>
                                 <li><a href="../classes/IContextProvider.html">IContextProvider</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
-                                <li><a href="../classes/IUnknownArray.html">IUnknownArray</a></li>
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
                                 <li><a href="../classes/Mat2R.html">Mat2R</a></li>
                                 <li><a href="../classes/Mat3R.html">Mat3R</a></li>
@@ -114,6 +113,7 @@
                                 <li><a href="../classes/Scalar.html">Scalar</a></li>
                                 <li><a href="../classes/Scene.html">Scene</a></li>
                                 <li><a href="../classes/Shareable.html">Shareable</a></li>
+                                <li><a href="../classes/ShareableArray.html">ShareableArray</a></li>
                                 <li><a href="../classes/ShareableContextListener.html">ShareableContextListener</a></li>
                                 <li><a href="../classes/ShareableWebGLBuffer.html">ShareableWebGLBuffer</a></li>
                                 <li><a href="../classes/ShareableWebGLShader.html">ShareableWebGLShader</a></li>
@@ -143,6 +143,7 @@
                                 <li><a href="../classes/VectorN.html">VectorN</a></li>
                                 <li><a href="../classes/VersionLogger.html">VersionLogger</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
+                                <li><a href="../classes/VisualBody.html">VisualBody</a></li>
                                 <li><a href="../classes/WebGLBlendFunc.html">WebGLBlendFunc</a></li>
                                 <li><a href="../classes/WebGLClearColor.html">WebGLClearColor</a></li>
                                 <li><a href="../classes/WebGLDisable.html">WebGLDisable</a></li>
@@ -198,14 +199,13 @@
     <pre class="code prettyprint linenums">
 import Capability from &#x27;../commands/Capability&#x27;;
 import DrawMode from &#x27;./DrawMode&#x27;;
-import Facet from &#x27;./Facet&#x27;;
 import core from &#x27;../core&#x27;;
 import IContextProvider from &#x27;./IContextProvider&#x27;;
 import IContextConsumer from &#x27;./IContextConsumer&#x27;;
 import ShareableWebGLBuffer from &#x27;./ShareableWebGLBuffer&#x27;;
 import PrimitiveBuffers from &#x27;./PrimitiveBuffers&#x27;;
 import Material from &#x27;./Material&#x27;;
-import IUnknownArray from &#x27;../collections/IUnknownArray&#x27;;
+import ShareableArray from &#x27;../collections/ShareableArray&#x27;;
 import initWebGL from &#x27;./initWebGL&#x27;;
 import isDefined from &#x27;../checks/isDefined&#x27;;
 import isUndefined from &#x27;../checks/isUndefined&#x27;;
@@ -218,7 +218,6 @@ import mustBeString from &#x27;../checks/mustBeString&#x27;;
 import mustSatisfy from &#x27;../checks/mustSatisfy&#x27;;
 import Primitive from &#x27;./Primitive&#x27;;
 import readOnly from &#x27;../i18n/readOnly&#x27;;
-import Scene from &#x27;./Scene&#x27;;
 import Shareable from &#x27;./Shareable&#x27;;
 import StringIUnknownMap from &#x27;../collections/StringIUnknownMap&#x27;;
 import WebGLClearColor from &#x27;../commands/WebGLClearColor&#x27;;
@@ -710,13 +709,13 @@ export default class WebGLRenderer extends Shareable {
     // Remark: We only hold weak references to users so that the lifetime of resource
     // objects is not affected by the fact that they are listening for gl events.
     // Users should automatically add themselves upon construction and remove upon release.
-    // // FIXME: Really? Not IUnknownArray&lt;IIContextConsumer&gt; ?
+    // // FIXME: Really? Not ShareableArray&lt;IIContextConsumer&gt; ?
     private _users: IContextConsumer[] = [];
 
     private _webGLContextLost: (event: Event) =&gt; any;
     private _webGLContextRestored: (event: Event) =&gt; any;
 
-    private _commands = new IUnknownArray&lt;IContextConsumer&gt;([])
+    private _commands = new ShareableArray&lt;IContextConsumer&gt;([])
 
     private _contextProvider: WebGLContextProvider;
 
@@ -727,7 +726,7 @@ export default class WebGLRenderer extends Shareable {
      */
     constructor(attributes?: WebGLContextAttributes) {
         super(&#x27;WebGLRenderer&#x27;);
-        console.log(&#x60;${core.NAMESPACE} ${this._type} ${core.VERSION}&#x60;);
+        console.log(&#x60;${core.NAMESPACE} @ ${core.VERSION}&#x60;);
         // FIXME: This seems out of place.
         this._attributes = attributes;
 
@@ -804,11 +803,11 @@ export default class WebGLRenderer extends Shareable {
 
     /**
      * @property commands
-     * @type {IUnknownArray}
+     * @type {ShareableArray}
      * @beta
      * @readOnly
      */
-    get commands(): IUnknownArray&lt;IContextConsumer&gt; {
+    get commands(): ShareableArray&lt;IContextConsumer&gt; {
         this._commands.addRef();
         return this._commands;
     }
@@ -888,26 +887,13 @@ export default class WebGLRenderer extends Shareable {
     }
 
     /**
-     * @method prolog
+     * @method clear
      * @return {void}
      */
-    prolog(): void {
+    clear(): void {
         const gl = this._gl;
         if (gl) {
             gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-        }
-    }
-
-    /**
-     * @method render
-     * @param scene {Scene}
-     * @param ambients {Facet[]}
-     * @return {void}
-     */
-    render(scene: Scene, ambients: Facet[]): void {
-        const gl = this._gl;
-        if (gl) {
-            return scene.draw(ambients);
         }
     }
 
