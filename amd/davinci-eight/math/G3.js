@@ -413,9 +413,13 @@ define(["require", "exports", './dotVectorE3', './Euclidean3', '../utils/EventEm
         };
         G3.prototype.norm = function () {
             this.α = this.magnitudeSansUnits();
+            this.x = 0;
+            this.y = 0;
+            this.z = 0;
             this.yz = 0;
             this.zx = 0;
             this.xy = 0;
+            this.β = 0;
             return this;
         };
         G3.prototype.direction = function () {

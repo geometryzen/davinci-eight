@@ -11398,9 +11398,13 @@ System.register("davinci-eight/math/G3.js", ["./dotVectorE3", "./Euclidean3", ".
         };
         G3.prototype.norm = function() {
           this.α = this.magnitudeSansUnits();
+          this.x = 0;
+          this.y = 0;
+          this.z = 0;
           this.yz = 0;
           this.zx = 0;
           this.xy = 0;
+          this.β = 0;
           return this;
         };
         G3.prototype.direction = function() {
@@ -15065,8 +15069,22 @@ System.register("davinci-eight/math/Euclidean3.js", ["../math/addE3", "../geomet
           var m = Euclidean3.fromVectorE3(n);
           return m.mul(this).mul(m).scale(-1);
         };
-        Euclidean3.prototype.rotate = function(s) {
-          return this;
+        Euclidean3.prototype.rotate = function(R) {
+          var x = this.x;
+          var y = this.y;
+          var z = this.z;
+          var a = R.xy;
+          var b = R.yz;
+          var c = R.zx;
+          var α = R.α;
+          var ix = α * x - c * z + a * y;
+          var iy = α * y - a * x + b * z;
+          var iz = α * z - b * y + c * x;
+          var iα = b * x + c * y + a * z;
+          var xOut = ix * α + iα * b + iy * a - iz * c;
+          var yOut = iy * α + iα * c + iz * b - ix * a;
+          var zOut = iz * α + iα * a + ix * c - iy * b;
+          return Euclidean3.fromCartesian(this.α, xOut, yOut, zOut, 0, 0, 0, this.β, this.uom);
         };
         Euclidean3.prototype.sin = function() {
           Unit_1.default.assertDimensionless(this.uom);
@@ -17085,7 +17103,7 @@ System.register("davinci-eight/facets/ModelFacet.js", ["../math/Mat3R", "../math
   };
 });
 
-System.register("davinci-eight/visual/RigidBody.js", ["../core/Mesh", "../facets/ColorFacet", "../math/G3", "../facets/ModelFacet", "../checks/mustBeObject", "../i18n/readOnly"], function(exports_1) {
+System.register("davinci-eight/visual/RigidBody.js", ["../core/Mesh", "../facets/ColorFacet", "../math/Euclidean3", "../facets/ModelFacet", "../checks/mustBeObject", "../i18n/readOnly"], function(exports_1) {
   var __extends = (this && this.__extends) || function(d, b) {
     for (var p in b)
       if (b.hasOwnProperty(p))
@@ -17097,7 +17115,7 @@ System.register("davinci-eight/visual/RigidBody.js", ["../core/Mesh", "../facets
   };
   var Mesh_1,
       ColorFacet_1,
-      G3_1,
+      Euclidean3_1,
       ModelFacet_1,
       mustBeObject_1,
       readOnly_1;
@@ -17109,8 +17127,8 @@ System.register("davinci-eight/visual/RigidBody.js", ["../core/Mesh", "../facets
       Mesh_1 = Mesh_1_1;
     }, function(ColorFacet_1_1) {
       ColorFacet_1 = ColorFacet_1_1;
-    }, function(G3_1_1) {
-      G3_1 = G3_1_1;
+    }, function(Euclidean3_1_1) {
+      Euclidean3_1 = Euclidean3_1_1;
     }, function(ModelFacet_1_1) {
       ModelFacet_1 = ModelFacet_1_1;
     }, function(mustBeObject_1_1) {
@@ -17128,9 +17146,8 @@ System.register("davinci-eight/visual/RigidBody.js", ["../core/Mesh", "../facets
             type = 'RigidBody';
           }
           _super.call(this, geometry, material, type);
-          this._mass = G3_1.default.zero.clone();
-          this._momentum = G3_1.default.zero.clone();
-          this._axis = G3_1.default.zero.clone();
+          this._mass = Euclidean3_1.default.one;
+          this._momentum = Euclidean3_1.default.zero;
           var modelFacet = new ModelFacet_1.default();
           this.setFacet(MODEL_FACET_NAME, modelFacet);
           var colorFacet = new ColorFacet_1.default();
@@ -17141,13 +17158,11 @@ System.register("davinci-eight/visual/RigidBody.js", ["../core/Mesh", "../facets
         };
         Object.defineProperty(RigidBody.prototype, "axis", {
           get: function() {
-            this._axis.copy(G3_1.default.e2);
-            this._axis.rotate(this.R);
-            return this._axis.clone();
+            return Euclidean3_1.default.e2.rotate(this._model.R);
           },
           set: function(axis) {
             mustBeObject_1.default('axis', axis);
-            this.R.rotorFromDirections(axis, G3_1.default.e2);
+            this._model.R.rotorFromDirections(axis, Euclidean3_1.default.e2);
           },
           enumerable: true,
           configurable: true
@@ -17174,7 +17189,7 @@ System.register("davinci-eight/visual/RigidBody.js", ["../core/Mesh", "../facets
             mustBeObject_1.default('m', m, function() {
               return _this._type;
             });
-            this._mass.copy(m).grade(0);
+            this._mass = m;
           },
           enumerable: true,
           configurable: true
@@ -17184,14 +17199,14 @@ System.register("davinci-eight/visual/RigidBody.js", ["../core/Mesh", "../facets
             return this._momentum;
           },
           set: function(P) {
-            this._momentum.copyVector(P);
+            this._momentum = P;
           },
           enumerable: true,
           configurable: true
         });
         Object.defineProperty(RigidBody.prototype, "R", {
           get: function() {
-            return this._model.R;
+            return Euclidean3_1.default.copy(this._model.R);
           },
           set: function(R) {
             this._model.R.copySpinor(R);
@@ -17201,7 +17216,7 @@ System.register("davinci-eight/visual/RigidBody.js", ["../core/Mesh", "../facets
         });
         Object.defineProperty(RigidBody.prototype, "X", {
           get: function() {
-            return this._model.X;
+            return Euclidean3_1.default.copy(this._model.X);
           },
           set: function(X) {
             var _this = this;
@@ -17290,8 +17305,8 @@ System.register("davinci-eight/visual/Trail.js", ["../checks/mustBeObject", "./T
         }
         Trail.prototype.snapshot = function() {
           if (this.counter % this.config.interval === 0) {
-            this.Xs.unshift(this.rigidBody.X.clone());
-            this.Rs.unshift(this.rigidBody.R.clone());
+            this.Xs.unshift(this.rigidBody.X);
+            this.Rs.unshift(this.rigidBody.R);
           }
           while (this.Xs.length > this.config.retain) {
             this.Xs.pop();
@@ -17300,16 +17315,16 @@ System.register("davinci-eight/visual/Trail.js", ["../checks/mustBeObject", "./T
           this.counter++;
         };
         Trail.prototype.draw = function(ambients) {
-          var X = this.rigidBody.X.clone();
-          var R = this.rigidBody.R.clone();
+          var X = this.rigidBody.X;
+          var R = this.rigidBody.R;
           for (var i = 0,
               iLength = this.Xs.length; i < iLength; i++) {
-            this.rigidBody.X.copy(this.Xs[i]);
-            this.rigidBody.R.copy(this.Rs[i]);
+            this.rigidBody.X = this.Xs[i];
+            this.rigidBody.R = this.Rs[i];
             this.rigidBody.draw(ambients);
           }
-          this.rigidBody.X.copy(X);
-          this.rigidBody.R.copy(R);
+          this.rigidBody.X = X;
+          this.rigidBody.R = R;
         };
         return Trail;
       })();
@@ -18469,7 +18484,7 @@ System.register("davinci-eight/core.js", [], function(exports_1) {
           this.LAST_MODIFIED = '2016-02-11';
           this.NAMESPACE = 'EIGHT';
           this.verbose = false;
-          this.VERSION = '2.182.0';
+          this.VERSION = '2.183.0';
           this.logging = {};
         }
         return Eight;
@@ -19543,9 +19558,14 @@ System.register("davinci-eight/visual/bootstrap.js", ["../checks/isDefined", "..
     var world = new World_1.default(visual, drawList, ambients);
     var requestId;
     function step(timestamp) {
-      requestId = requestAnimationFrame(step);
+      requestId = window.requestAnimationFrame(step);
       visual.clear();
-      animate(timestamp);
+      try {
+        animate(timestamp);
+      } catch (e) {
+        window.cancelAnimationFrame(requestId);
+        console.warn(e);
+      }
       drawList.draw(ambients);
     }
     window.onload = function() {
@@ -19564,7 +19584,7 @@ System.register("davinci-eight/visual/bootstrap.js", ["../checks/isDefined", "..
         canvas.width = 600;
       }
       visual.start(canvas);
-      requestId = requestAnimationFrame(step);
+      requestId = window.requestAnimationFrame(step);
     };
     window.onunload = function() {
       if (options.onunload) {

@@ -1,7 +1,7 @@
 import Mesh from '../core/Mesh'
 import ColorFacet from '../facets/ColorFacet';
 import Color from '../core/Color';
-import G3 from '../math/G3';
+import Euclidean3 from '../math/Euclidean3';
 import ModelFacet from '../facets/ModelFacet';
 import mustBeObject from '../checks/mustBeObject';
 import readOnly from '../i18n/readOnly';
@@ -26,27 +26,19 @@ export default class RigidBody extends Mesh {
 
     /**
      * @property _mass
-     * @type G3
-     * @default zero
+     * @type Euclidean3
+     * @default one
      * @private
      */
-    private _mass = G3.zero.clone()
+    private _mass = Euclidean3.one
 
     /**
      * @property _momentum
-     * @type G3
+     * @type Euclidean3
      * @default zero
      * @private
      */
-    private _momentum = G3.zero.clone()
-
-    /**
-     * @property _axis
-     * @type G3
-     * @default zero
-     * @private
-     */
-    private _axis = G3.zero.clone()
+    private _momentum = Euclidean3.zero
 
     /**
      * Provides descriptive variables for translational and rotational motion.
@@ -83,17 +75,15 @@ export default class RigidBody extends Mesh {
      * The axis property may be updated by assignment, but not through mutation.
      *
      * @property axis
-     * @type G3
+     * @type Euclidean3
      */
-    get axis(): G3 {
+    get axis(): Euclidean3 {
         // The initial axis of the geometry is e2.
-        this._axis.copy(G3.e2)
-        this._axis.rotate(this.R)
-        return this._axis.clone()
+        return Euclidean3.e2.rotate(this._model.R)
     }
-    set axis(axis: G3) {
+    set axis(axis: Euclidean3) {
         mustBeObject('axis', axis)
-        this.R.rotorFromDirections(axis, G3.e2)
+        this._model.R.rotorFromDirections(axis, Euclidean3.e2)
     }
 
     /**
@@ -116,69 +106,52 @@ export default class RigidBody extends Mesh {
      * Mass
      *
      * @property m
-     * @type G3
+     * @type Euclidean3
      */
-    get m(): G3 {
+    get m(): Euclidean3 {
         return this._mass
     }
-    set m(m: G3) {
+    set m(m: Euclidean3) {
         mustBeObject('m', m, () => { return this._type })
-        this._mass.copy(m).grade(0)
+        this._mass = m
     }
 
     /**
      * Momentum
      *
      * @property P
-     * @type G3
+     * @type Euclidean3
      */
-    get P(): G3 {
+    get P(): Euclidean3 {
         return this._momentum
     }
-    set P(P: G3) {
-        this._momentum.copyVector(P)
+    set P(P: Euclidean3) {
+        this._momentum = P
     }
 
     /**
      * Attitude (spinor)
      *
      * @property R
-     * @type G3
+     * @type Euclidean3
      */
-    get R(): G3 {
-        return this._model.R
+    get R(): Euclidean3 {
+        return Euclidean3.copy(this._model.R)
     }
-    set R(R: G3) {
+    set R(R: Euclidean3) {
         this._model.R.copySpinor(R)
     }
 
     /**
      * Position (vector)
      *
-     * The property getter returns a reference to a variable that is used to determine
-     * the location. Consequently, mutation of the returned variable affects the location
-     * of the body.
-     *
-     * @example
-     *     const position = rigidBody.X
-     *
-     * Changing the position variable will affect the rigidBody.
-     *
-     * The property setter copies the right hand side of the assignment into the X property.
-     *
-     * @example
-     *     const position = new G3()
-     *     rigidBody.X = position
-     *
-     * Changing the position variable has no effect on the rigidBody.
-     *
      * @property X
-     * @type G3
+     * @type Euclidean3
      */
-    get X(): G3 {
-        return this._model.X
+    get X(): Euclidean3 {
+        return Euclidean3.copy(this._model.X)
     }
-    set X(X: G3) {
+    set X(X: Euclidean3) {
         mustBeObject('X', X, () => { return this._type })
         this._model.X.copyVector(X)
     }

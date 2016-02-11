@@ -45,9 +45,15 @@ export default function(
     let requestId: number;
 
     function step(timestamp: number) {
-        requestId = requestAnimationFrame(step)
+        requestId = window.requestAnimationFrame(step)
         visual.clear()
-        animate(timestamp)
+        try {
+            animate(timestamp)
+        }
+        catch (e) {
+            window.cancelAnimationFrame(requestId)
+            console.warn(e)
+        }
         drawList.draw(ambients)
     }
 
@@ -70,7 +76,7 @@ export default function(
         }
         visual.start(canvas)
 
-        requestId = requestAnimationFrame(step)
+        requestId = window.requestAnimationFrame(step)
     }
 
     window.onunload = function() {

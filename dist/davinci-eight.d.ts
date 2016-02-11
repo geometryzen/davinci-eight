@@ -3230,12 +3230,12 @@ declare module EIGHT {
         /**
          *
          */
-        axis: G3;
+        axis: Euclidean3;
 
         /**
          * Mass
          */
-        m: G3;
+        m: Euclidean3;
 
         /**
          * Color
@@ -3245,22 +3245,22 @@ declare module EIGHT {
         /**
          * Angular Momentum (bivector)
          */
-        L: G3;
+        L: Euclidean3;
 
         /**
          * Momentum
          */
-        P: G3;
+        P: Euclidean3;
 
         /**
          * Attitude (spinor)
          */
-        R: G3;
+        R: Euclidean3;
 
         /**
          * Position (vector)
          */
-        X: G3;
+        X: Euclidean3;
 
         /**
          * Configures the trail left behind a moving rigid body.

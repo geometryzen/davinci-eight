@@ -623,8 +623,22 @@ define(["require", "exports", '../math/addE3', '../geometries/b2', '../geometrie
             var m = Euclidean3.fromVectorE3(n);
             return m.mul(this).mul(m).scale(-1);
         };
-        Euclidean3.prototype.rotate = function (s) {
-            return this;
+        Euclidean3.prototype.rotate = function (R) {
+            var x = this.x;
+            var y = this.y;
+            var z = this.z;
+            var a = R.xy;
+            var b = R.yz;
+            var c = R.zx;
+            var α = R.α;
+            var ix = α * x - c * z + a * y;
+            var iy = α * y - a * x + b * z;
+            var iz = α * z - b * y + c * x;
+            var iα = b * x + c * y + a * z;
+            var xOut = ix * α + iα * b + iy * a - iz * c;
+            var yOut = iy * α + iα * c + iz * b - ix * a;
+            var zOut = iz * α + iα * a + ix * c - iy * b;
+            return Euclidean3.fromCartesian(this.α, xOut, yOut, zOut, 0, 0, 0, this.β, this.uom);
         };
         Euclidean3.prototype.sin = function () {
             Unit_1.default.assertDimensionless(this.uom);

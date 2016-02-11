@@ -1,4 +1,4 @@
-import G3 from '../math/G3';
+import Euclidean3 from '../math/Euclidean3';
 import Facet from '../core/Facet';
 import RigidBody from './RigidBody';
 import mustBeObject from '../checks/mustBeObject';
@@ -10,9 +10,32 @@ import TrailConfig from './TrailConfig';
  * @class Trail
  */
 export default class Trail {
+    /**
+     * @property rigidBody
+     * @type RigidBody
+     * @private
+     */
     private rigidBody: RigidBody
-    private Xs: G3[] = []
-    private Rs: G3[] = []
+
+    /**
+     * @property Xs
+     * @type {Euclidean3[]}
+     * @private
+     */
+    private Xs: Euclidean3[] = []
+
+    /**
+     * @property Rs
+     * @type {Euclidean3[]}
+     * @private
+     */
+    private Rs: Euclidean3[] = []
+
+    /**
+     * @property config
+     * @type TrailConfig
+     * @public
+     */
     public config: TrailConfig = new TrailConfig();
 
     /**
@@ -37,19 +60,15 @@ export default class Trail {
     }
 
     /**
-     * Records the RigidBody variables according to the __spacing__ property.
+     * Records the RigidBody variables according to the interval property.
      *
      * @method snapshot()
      * @return {void}
      */
     snapshot(): void {
-        // It would be much more efficient to allocate an array
-        // of the right size and treat it as a circular buffer.
-        // We could also reuse the G3 objects.
         if (this.counter % this.config.interval === 0) {
-            // We must clone because the properties are mutable.
-            this.Xs.unshift(this.rigidBody.X.clone())
-            this.Rs.unshift(this.rigidBody.R.clone())
+            this.Xs.unshift(this.rigidBody.X)
+            this.Rs.unshift(this.rigidBody.R)
         }
         while (this.Xs.length > this.config.retain) {
             this.Xs.pop()
@@ -65,15 +84,15 @@ export default class Trail {
      */
     draw(ambients: Facet[]): void {
         // Save the rigidBody position and attitude so that we can restore them later.
-        const X = this.rigidBody.X.clone()
-        const R = this.rigidBody.R.clone()
+        const X = this.rigidBody.X
+        const R = this.rigidBody.R
         for (let i = 0, iLength = this.Xs.length; i < iLength; i++) {
-            this.rigidBody.X.copy(this.Xs[i])
-            this.rigidBody.R.copy(this.Rs[i])
+            this.rigidBody.X = this.Xs[i]
+            this.rigidBody.R = this.Rs[i]
             this.rigidBody.draw(ambients)
         }
         // Restore the rigidBody position and attitude.
-        this.rigidBody.X.copy(X)
-        this.rigidBody.R.copy(R)
+        this.rigidBody.X = X
+        this.rigidBody.R = R
     }
 }

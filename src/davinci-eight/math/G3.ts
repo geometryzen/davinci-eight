@@ -807,11 +807,14 @@ export default class G3 extends VectorN<number> implements GeometricE3, MutableG
      * @chainable
      */
     norm(): G3 {
-        // FIXME: TODO
         this.α = this.magnitudeSansUnits()
+        this.x = 0
+        this.y = 0
+        this.z = 0
         this.yz = 0
         this.zx = 0
         this.xy = 0
+        this.β = 0
         return this
     }
 

@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.182.0</em>
+            <em>API Docs for: 2.183.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -197,7 +197,7 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import G3 from &#x27;../math/G3&#x27;;
+import Euclidean3 from &#x27;../math/Euclidean3&#x27;;
 import Facet from &#x27;../core/Facet&#x27;;
 import RigidBody from &#x27;./RigidBody&#x27;;
 import mustBeObject from &#x27;../checks/mustBeObject&#x27;;
@@ -209,9 +209,32 @@ import TrailConfig from &#x27;./TrailConfig&#x27;;
  * @class Trail
  */
 export default class Trail {
+    /**
+     * @property rigidBody
+     * @type RigidBody
+     * @private
+     */
     private rigidBody: RigidBody
-    private Xs: G3[] = []
-    private Rs: G3[] = []
+
+    /**
+     * @property Xs
+     * @type {Euclidean3[]}
+     * @private
+     */
+    private Xs: Euclidean3[] = []
+
+    /**
+     * @property Rs
+     * @type {Euclidean3[]}
+     * @private
+     */
+    private Rs: Euclidean3[] = []
+
+    /**
+     * @property config
+     * @type TrailConfig
+     * @public
+     */
     public config: TrailConfig = new TrailConfig();
 
     /**
@@ -236,19 +259,15 @@ export default class Trail {
     }
 
     /**
-     * Records the RigidBody variables according to the __spacing__ property.
+     * Records the RigidBody variables according to the interval property.
      *
      * @method snapshot()
      * @return {void}
      */
     snapshot(): void {
-        // It would be much more efficient to allocate an array
-        // of the right size and treat it as a circular buffer.
-        // We could also reuse the G3 objects.
         if (this.counter % this.config.interval === 0) {
-            // We must clone because the properties are mutable.
-            this.Xs.unshift(this.rigidBody.X.clone())
-            this.Rs.unshift(this.rigidBody.R.clone())
+            this.Xs.unshift(this.rigidBody.X)
+            this.Rs.unshift(this.rigidBody.R)
         }
         while (this.Xs.length &gt; this.config.retain) {
             this.Xs.pop()
@@ -264,16 +283,16 @@ export default class Trail {
      */
     draw(ambients: Facet[]): void {
         // Save the rigidBody position and attitude so that we can restore them later.
-        const X = this.rigidBody.X.clone()
-        const R = this.rigidBody.R.clone()
+        const X = this.rigidBody.X
+        const R = this.rigidBody.R
         for (let i = 0, iLength = this.Xs.length; i &lt; iLength; i++) {
-            this.rigidBody.X.copy(this.Xs[i])
-            this.rigidBody.R.copy(this.Rs[i])
+            this.rigidBody.X = this.Xs[i]
+            this.rigidBody.R = this.Rs[i]
             this.rigidBody.draw(ambients)
         }
         // Restore the rigidBody position and attitude.
-        this.rigidBody.X.copy(X)
-        this.rigidBody.R.copy(R)
+        this.rigidBody.X = X
+        this.rigidBody.R = R
     }
 }
 

@@ -1318,12 +1318,31 @@ export default class Euclidean3 implements ImmutableMeasure<Euclidean3>, Geometr
 
     /**
      * @method rotate
-     * @param s {SpinorE3}
+     * @param R {SpinorE3}
      * @return {Euclidean3}
      */
-    rotate(s: SpinorE3): Euclidean3 {
-        // TODO
-        return this;
+    rotate(R: SpinorE3): Euclidean3 {
+        // FIXME: This only rotates the vector components.
+        // The units may be suspect to if rotate is not clearly defined.
+        const x = this.x;
+        const y = this.y;
+        const z = this.z;
+
+        const a = R.xy;
+        const b = R.yz;
+        const c = R.zx;
+        const α = R.α
+
+        const ix = α * x - c * z + a * y;
+        const iy = α * y - a * x + b * z;
+        const iz = α * z - b * y + c * x;
+        const iα = b * x + c * y + a * z;
+
+        const xOut = ix * α + iα * b + iy * a - iz * c;
+        const yOut = iy * α + iα * c + iz * b - ix * a;
+        const zOut = iz * α + iα * a + ix * c - iy * b;
+
+        return Euclidean3.fromCartesian(this.α, xOut, yOut, zOut, 0, 0, 0, this.β, this.uom)
     }
 
     /**
