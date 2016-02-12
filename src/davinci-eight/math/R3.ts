@@ -133,6 +133,7 @@ export default class R3 extends VectorN<number> implements ColumnVector<Mat3R, R
      * @param b {VectorE3}
      * @return {R3} <code>this</code>
      * @chainable
+     * @deprecated Use copy(a).add(b) instead.
      */
     add2(a: VectorE3, b: VectorE3): R3 {
         this.x = a.x + b.x
@@ -518,6 +519,7 @@ export default class R3 extends VectorN<number> implements ColumnVector<Mat3R, R
      * @param b {VectorE3}
      * @return {R3} <code>this</code>
      * @chainable
+     * @deprecated Use copy(a).sub(b) instead.
      */
     sub2(a: VectorE3, b: VectorE3) {
         this.x = a.x - b.x

@@ -2340,6 +2340,344 @@ System.register("davinci-eight/visual/DrawList.js", ["../collections/ShareableAr
   };
 });
 
+System.register("davinci-eight/controls/MouseControls.js", ["../math/G2", "../core/Shareable"], function(exports_1) {
+  var __extends = (this && this.__extends) || function(d, b) {
+    for (var p in b)
+      if (b.hasOwnProperty(p))
+        d[p] = b[p];
+    function __() {
+      this.constructor = d;
+    }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+  };
+  var G2_1,
+      Shareable_1;
+  var MODE,
+      keys,
+      MouseControls;
+  return {
+    setters: [function(G2_1_1) {
+      G2_1 = G2_1_1;
+    }, function(Shareable_1_1) {
+      Shareable_1 = Shareable_1_1;
+    }],
+    execute: function() {
+      MODE = {
+        NONE: -1,
+        ROTATE: 0,
+        ZOOM: 1,
+        PAN: 2,
+        TOUCH_ROTATE: 3,
+        TOUCH_ZOOM_PAN: 4
+      };
+      keys = [65, 83, 68];
+      MouseControls = (function(_super) {
+        __extends(MouseControls, _super);
+        function MouseControls(type) {
+          var _this = this;
+          _super.call(this, type);
+          this.enabled = true;
+          this.noRotate = false;
+          this.noZoom = false;
+          this.noPan = false;
+          this.minDistance = 0;
+          this.maxDistance = Infinity;
+          this.mode = MODE.NONE;
+          this.prevMode = MODE.NONE;
+          this.moveCurr = new G2_1.default();
+          this.movePrev = new G2_1.default();
+          this.zoomStart = new G2_1.default();
+          this.zoomEnd = new G2_1.default();
+          this.panStart = new G2_1.default();
+          this.panEnd = new G2_1.default();
+          this.screenLoc = new G2_1.default();
+          this.circleExt = new G2_1.default();
+          this.screenExt = new G2_1.default();
+          this.mouseOnCircle = new G2_1.default();
+          this.mouseOnScreen = new G2_1.default();
+          this.mousedown = function(event) {
+            if (!_this.enabled) {
+              return;
+            }
+            event.preventDefault();
+            event.stopPropagation();
+            if (_this.mode === MODE.NONE) {
+              _this.mode = event.button;
+            }
+            if (_this.mode === MODE.ROTATE && !_this.noRotate) {
+              _this.updateMouseOnCircle(event);
+              _this.moveCurr.copy(_this.mouseOnCircle);
+              _this.movePrev.copy(_this.mouseOnCircle);
+            } else if (_this.mode === MODE.ZOOM && !_this.noZoom) {
+              _this.updateMouseOnScreen(event);
+              _this.zoomStart.copy(_this.mouseOnScreen);
+              _this.zoomEnd.copy(_this.mouseOnScreen);
+            } else if (_this.mode === MODE.PAN && !_this.noPan) {
+              _this.updateMouseOnScreen(event);
+              _this.panStart.copy(_this.mouseOnScreen);
+              _this.panEnd.copy(_this.mouseOnScreen);
+            }
+            document.addEventListener('mousemove', _this.mousemove, false);
+            document.addEventListener('mouseup', _this.mouseup, false);
+          };
+          this.mousemove = function(event) {
+            if (!_this.enabled) {
+              return;
+            }
+            event.preventDefault();
+            event.stopPropagation();
+            if (_this.mode === MODE.ROTATE && !_this.noRotate) {
+              _this.movePrev.copy(_this.moveCurr);
+              _this.updateMouseOnCircle(event);
+              _this.moveCurr.copy(_this.mouseOnCircle);
+            } else if (_this.mode === MODE.ZOOM && !_this.noZoom) {
+              _this.updateMouseOnScreen(event);
+              _this.zoomEnd.copy(_this.mouseOnScreen);
+            } else if (_this.mode === MODE.PAN && !_this.noPan) {
+              _this.updateMouseOnScreen(event);
+              _this.panEnd.copy(_this.mouseOnScreen);
+            }
+          };
+          this.mouseup = function(event) {
+            if (!_this.enabled) {
+              return;
+            }
+            event.preventDefault();
+            event.stopPropagation();
+            _this.mode = MODE.NONE;
+            document.removeEventListener('mousemove', _this.mousemove);
+            document.removeEventListener('mouseup', _this.mouseup);
+          };
+          this.mousewheel = function(event) {
+            if (!_this.enabled) {
+              return;
+            }
+            event.preventDefault();
+            event.stopPropagation();
+            var delta = 0;
+            if (event.wheelDelta) {
+              delta = event.wheelDelta / 40;
+            } else if (event.detail) {
+              delta = event.detail / 3;
+            }
+            _this.zoomStart.y += delta * 0.01;
+          };
+          this.keydown = function(event) {
+            if (!_this.enabled) {
+              return;
+            }
+            window.removeEventListener('keydown', _this.keydown, false);
+            _this.prevMode = _this.mode;
+            if (_this.mode !== MODE.NONE) {
+              return;
+            } else if (event.keyCode === keys[MODE.ROTATE] && !_this.noRotate) {
+              _this.mode = MODE.ROTATE;
+            } else if (event.keyCode === keys[MODE.ZOOM] && !_this.noRotate) {
+              _this.mode = MODE.ZOOM;
+            } else if (event.keyCode === keys[MODE.PAN] && !_this.noRotate) {
+              _this.mode = MODE.PAN;
+            }
+          };
+          this.keyup = function(event) {
+            if (!_this.enabled) {
+              return;
+            }
+            _this.mode = _this.prevMode;
+            window.addEventListener('keydown', _this.keydown, false);
+          };
+          this.contextmenu = function(event) {
+            event.preventDefault();
+          };
+        }
+        MouseControls.prototype.subscribe = function(domElement) {
+          if (this.domElement) {
+            this.unsubscribe();
+          }
+          this.domElement = domElement;
+          this.domElement.addEventListener('contextmenu', this.contextmenu, false);
+          this.domElement.addEventListener('mousedown', this.mousedown, false);
+          this.domElement.addEventListener('mousewheel', this.mousewheel, false);
+          this.domElement.addEventListener('DOMMouseScroll', this.mousewheel, false);
+          window.addEventListener('keydown', this.keydown, false);
+          window.addEventListener('keyup', this.keydown, false);
+          this.handleResize();
+        };
+        MouseControls.prototype.unsubscribe = function() {
+          if (this.domElement) {
+            this.domElement.removeEventListener('contextmenu', this.contextmenu, false);
+            this.domElement.removeEventListener('mousedown', this.mousedown, false);
+            this.domElement.removeEventListener('mousewheel', this.mousewheel, false);
+            this.domElement.removeEventListener('DOMMouseScroll', this.mousewheel, false);
+            this.domElement = void 0;
+            window.removeEventListener('keydown', this.keydown, false);
+            window.removeEventListener('keyup', this.keydown, false);
+          }
+        };
+        MouseControls.prototype.destructor = function() {
+          this.domElement.removeEventListener('contextmenu', this.contextmenu, false);
+          this.domElement.removeEventListener('mousedown', this.mousedown, false);
+          this.domElement.removeEventListener('mousewheel', this.mousewheel, false);
+          this.domElement.removeEventListener('DOMMouseScroll', this.mousewheel, false);
+          window.removeEventListener('keydown', this.keydown, false);
+          window.removeEventListener('keyup', this.keydown, false);
+          _super.prototype.destructor.call(this);
+        };
+        MouseControls.prototype.reset = function() {
+          this.mode = MODE.NONE;
+        };
+        MouseControls.prototype.updateMouseOnCircle = function(mouse) {
+          this.mouseOnCircle.x = mouse.pageX;
+          this.mouseOnCircle.y = -mouse.pageY;
+          this.mouseOnCircle.sub(this.screenLoc).scale(2).sub(this.circleExt).divByScalar(this.circleExt.x);
+        };
+        MouseControls.prototype.updateMouseOnScreen = function(mouse) {
+          this.mouseOnScreen.x = mouse.pageX;
+          this.mouseOnScreen.y = -mouse.pageY;
+          this.mouseOnScreen.sub(this.screenLoc);
+          this.mouseOnScreen.x /= this.circleExt.x;
+          this.mouseOnScreen.y /= this.circleExt.y;
+        };
+        MouseControls.prototype.handleResize = function() {
+          if (false) {} else {
+            var box = this.domElement.getBoundingClientRect();
+            var domElement = this.domElement.ownerDocument.documentElement;
+            this.screenLoc.x = box.left + window.pageXOffset - domElement.clientLeft;
+            this.screenLoc.y = -(box.top + window.pageYOffset - domElement.clientTop);
+            this.circleExt.x = box.width;
+            this.circleExt.y = -box.height;
+            this.screenExt.x = box.width;
+            this.screenExt.y = box.height;
+          }
+        };
+        return MouseControls;
+      })(Shareable_1.default);
+      exports_1("default", MouseControls);
+    }
+  };
+});
+
+System.register("davinci-eight/controls/TrackballControls.js", ["../math/G3", "./MouseControls", "../math/R2", "../math/R3"], function(exports_1) {
+  var __extends = (this && this.__extends) || function(d, b) {
+    for (var p in b)
+      if (b.hasOwnProperty(p))
+        d[p] = b[p];
+    function __() {
+      this.constructor = d;
+    }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+  };
+  var G3_1,
+      MouseControls_1,
+      R2_1,
+      R3_1;
+  var TrackballControls;
+  return {
+    setters: [function(G3_1_1) {
+      G3_1 = G3_1_1;
+    }, function(MouseControls_1_1) {
+      MouseControls_1 = MouseControls_1_1;
+    }, function(R2_1_1) {
+      R2_1 = R2_1_1;
+    }, function(R3_1_1) {
+      R3_1 = R3_1_1;
+    }],
+    execute: function() {
+      TrackballControls = (function(_super) {
+        __extends(TrackballControls, _super);
+        function TrackballControls(camera) {
+          _super.call(this, 'TrackballControls');
+          this.rotateSpeed = 1;
+          this.zoomSpeed = 1;
+          this.panSpeed = 1;
+          this.eye = new R3_1.default();
+          this.target = new G3_1.default();
+          this.moveDirection = new R3_1.default();
+          this.eyeDirection = new R3_1.default();
+          this.objectUpDirection = new R3_1.default();
+          this.objectSidewaysDirection = new R3_1.default();
+          this.axis = new R3_1.default();
+          this.rotor = new G3_1.default();
+          this.mouseChange = new R2_1.default();
+          this.pan = new R3_1.default();
+          this.objectUp = new R3_1.default();
+          this.camera = camera;
+          this.target0 = this.target.clone();
+          this.position0 = this.camera.position.clone();
+          this.up0 = this.camera.up.clone();
+          this.update();
+        }
+        TrackballControls.prototype.destructor = function() {
+          _super.prototype.destructor.call(this);
+        };
+        TrackballControls.prototype.reset = function() {
+          this.target.copy(this.target0);
+          this.camera.position.copy(this.position0);
+          this.camera.up.copy(this.up0);
+          this.eye.copy(this.camera.position).sub(this.target);
+          this.camera.look.copy(this.target);
+          _super.prototype.reset.call(this);
+        };
+        TrackballControls.prototype.update = function() {
+          this.eye.copy(this.camera.position).sub(this.target);
+          if (!this.noRotate) {
+            this.rotateCamera();
+          }
+          if (!this.noZoom) {
+            this.zoomCamera();
+          }
+          if (!this.noPan) {
+            this.panCamera();
+          }
+          this.camera.position.copy(this.target).add(this.eye);
+          this.checkDistances();
+          this.camera.look.copy(this.target);
+        };
+        TrackballControls.prototype.rotateCamera = function() {
+          this.moveDirection.setXYZ(this.moveCurr.x - this.movePrev.x, this.moveCurr.y - this.movePrev.y, 0);
+          var angle = this.moveDirection.magnitude();
+          if (angle) {
+            this.eye.copy(this.camera.position).sub(this.target);
+            this.eyeDirection.copy(this.eye).direction();
+            this.objectUpDirection.copy(this.camera.up).direction();
+            this.objectSidewaysDirection.copy(this.objectUpDirection).cross(this.eyeDirection);
+            this.objectUpDirection.scale(this.moveCurr.y - this.movePrev.y);
+            this.objectSidewaysDirection.scale(this.moveCurr.x - this.movePrev.x);
+            this.moveDirection.copy(this.objectUpDirection).add(this.objectSidewaysDirection).direction();
+            this.axis.copy(this.moveDirection).cross(this.eyeDirection);
+            angle *= this.rotateSpeed;
+            this.rotor.rotorFromAxisAngle(this.axis, angle);
+            this.eye.rotate(this.rotor);
+            this.camera.up.rotate(this.rotor);
+          }
+          this.movePrev.copy(this.moveCurr);
+        };
+        TrackballControls.prototype.zoomCamera = function() {
+          var factor = 1 + (this.zoomEnd.y - this.zoomStart.y) * this.zoomSpeed;
+          if (factor !== 1 && factor > 0) {
+            this.eye.scale(factor);
+            this.zoomStart.copy(this.zoomEnd);
+          }
+        };
+        TrackballControls.prototype.panCamera = function() {
+          this.mouseChange.copy(this.panEnd).sub(this.panStart);
+          if (this.mouseChange.squaredNorm()) {
+            this.mouseChange.scale(this.eye.magnitude() * this.panSpeed);
+            this.pan.copy(this.eye).cross(this.camera.up).direction().scale(this.mouseChange.x);
+            this.objectUp.copy(this.camera.up).direction().scale(this.mouseChange.y);
+            this.pan.add(this.objectUp);
+            this.camera.position.add(this.pan);
+            this.target.addVector(this.pan);
+            this.panStart.copy(this.panEnd);
+          }
+        };
+        TrackballControls.prototype.checkDistances = function() {};
+        return TrackballControls;
+      })(MouseControls_1.default);
+      exports_1("default", TrackballControls);
+    }
+  };
+});
+
 System.register("davinci-eight/visual/Arrow.js", ["../checks/mustBeNumber", "../checks/mustBeGE", "./visualCache", "./VisualBody"], function(exports_1) {
   var __extends = (this && this.__extends) || function(d, b) {
     for (var p in b)
@@ -17502,16 +17840,16 @@ System.register("davinci-eight/visual/World.js", ["./Arrow", "../core/Color", ".
     execute: function() {
       World = (function(_super) {
         __extends(World, _super);
-        function World(visual, drawList, ambients) {
+        function World(renderer, drawList, ambients) {
           _super.call(this, 'World');
           this._camera = new PerspectiveCamera_1.default(45 * Math.PI / 180, 1, 0.1, 1000);
-          visual.addRef();
-          this.visual = visual;
+          renderer.addRef();
+          this.renderer = renderer;
           drawList.addRef();
           this.drawList = drawList;
-          this.drawList.subscribe(visual);
+          this.drawList.subscribe(renderer);
           this.ambients = ambients;
-          this._camera.position.setXYZ(0, 1, 7);
+          this._camera.position.setXYZ(0, 0, 7);
           this._camera.look.setXYZ(0, 0, 0);
           this.ambients.push(this._camera);
           var dirLight = new DirectionalLight_1.default({
@@ -17524,7 +17862,7 @@ System.register("davinci-eight/visual/World.js", ["./Arrow", "../core/Color", ".
         World.prototype.destructor = function() {
           this.drawList.unsubscribe();
           this.drawList.release();
-          this.visual.release();
+          this.renderer.release();
           _super.prototype.destructor.call(this);
         };
         Object.defineProperty(World.prototype, "camera", {
@@ -17533,6 +17871,16 @@ System.register("davinci-eight/visual/World.js", ["./Arrow", "../core/Color", ".
           },
           set: function(unused) {
             throw new Error(readOnly_1.default('camera').message);
+          },
+          enumerable: true,
+          configurable: true
+        });
+        Object.defineProperty(World.prototype, "canvas", {
+          get: function() {
+            return this.renderer.canvas;
+          },
+          set: function(unused) {
+            throw new Error(readOnly_1.default('canvas').message);
           },
           enumerable: true,
           configurable: true
@@ -18481,10 +18829,10 @@ System.register("davinci-eight/core.js", [], function(exports_1) {
           this.fastPath = false;
           this.strict = false;
           this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-          this.LAST_MODIFIED = '2016-02-11';
+          this.LAST_MODIFIED = '2016-02-12';
           this.NAMESPACE = 'EIGHT';
           this.verbose = false;
-          this.VERSION = '2.183.0';
+          this.VERSION = '2.184.0';
           this.logging = {};
         }
         return Eight;
@@ -19527,7 +19875,7 @@ System.register("davinci-eight/core/WebGLRenderer.js", ["../commands/Capability"
   };
 });
 
-System.register("davinci-eight/visual/bootstrap.js", ["../checks/isDefined", "../checks/mustBeBoolean", "../checks/mustBeFunction", "../checks/mustBeNumber", "../checks/mustBeString", "../core/refChange", "./DrawList", "./World", "../core/WebGLRenderer"], function(exports_1) {
+System.register("davinci-eight/visual/bootstrap.js", ["../checks/isDefined", "../checks/mustBeBoolean", "../checks/mustBeFunction", "../checks/mustBeNumber", "../checks/mustBeString", "../core/refChange", "./DrawList", "../controls/TrackballControls", "./World", "../core/WebGLRenderer"], function(exports_1) {
   var isDefined_1,
       mustBeBoolean_1,
       mustBeFunction_1,
@@ -19535,6 +19883,7 @@ System.register("davinci-eight/visual/bootstrap.js", ["../checks/isDefined", "..
       mustBeString_1,
       refChange_1,
       DrawList_1,
+      TrackballControls_1,
       World_1,
       WebGLRenderer_1;
   function default_1(canvasId, animate, options) {
@@ -19551,15 +19900,17 @@ System.register("davinci-eight/visual/bootstrap.js", ["../checks/isDefined", "..
     if (options.memcheck) {
       refChange_1.default('start', 'bootstrap');
     }
-    var visual = new WebGLRenderer_1.default();
-    visual.clearColor(0.1, 0.1, 0.1, 1.0);
+    var renderer = new WebGLRenderer_1.default();
+    renderer.clearColor(0.1, 0.1, 0.1, 1.0);
     var drawList = new DrawList_1.default();
     var ambients = [];
-    var world = new World_1.default(visual, drawList, ambients);
+    var world = new World_1.default(renderer, drawList, ambients);
+    var controls = new TrackballControls_1.default(world.camera);
     var requestId;
     function step(timestamp) {
       requestId = window.requestAnimationFrame(step);
-      visual.clear();
+      renderer.clear();
+      controls.update();
       try {
         animate(timestamp);
       } catch (e) {
@@ -19569,9 +19920,6 @@ System.register("davinci-eight/visual/bootstrap.js", ["../checks/isDefined", "..
       drawList.draw(ambients);
     }
     window.onload = function() {
-      if (options.onload) {
-        options.onload();
-      }
       var canvas = document.getElementById(canvasId);
       if (isDefined_1.default(options.height)) {
         canvas.height = options.height;
@@ -19583,16 +19931,22 @@ System.register("davinci-eight/visual/bootstrap.js", ["../checks/isDefined", "..
       } else {
         canvas.width = 600;
       }
-      visual.start(canvas);
+      renderer.start(canvas);
+      controls.subscribe(world.canvas);
+      controls.rotateSpeed = 4;
+      if (options.onload) {
+        options.onload();
+      }
       requestId = window.requestAnimationFrame(step);
     };
     window.onunload = function() {
       if (options.onunload) {
         options.onunload();
       }
+      controls.release();
       world.release();
       drawList.release();
-      visual.release();
+      renderer.release();
       if (options.memcheck) {
         refChange_1.default('stop', 'onunload');
         refChange_1.default('dump', 'onunload');
@@ -19616,6 +19970,8 @@ System.register("davinci-eight/visual/bootstrap.js", ["../checks/isDefined", "..
       refChange_1 = refChange_1_1;
     }, function(DrawList_1_1) {
       DrawList_1 = DrawList_1_1;
+    }, function(TrackballControls_1_1) {
+      TrackballControls_1 = TrackballControls_1_1;
     }, function(World_1_1) {
       World_1 = World_1_1;
     }, function(WebGLRenderer_1_1) {
@@ -19625,13 +19981,14 @@ System.register("davinci-eight/visual/bootstrap.js", ["../checks/isDefined", "..
   };
 });
 
-System.register("davinci-eight.js", ["davinci-eight/commands/BlendFactor", "davinci-eight/commands/WebGLBlendFunc", "davinci-eight/commands/WebGLClearColor", "davinci-eight/commands/Capability", "davinci-eight/commands/WebGLDisable", "davinci-eight/commands/WebGLEnable", "davinci-eight/core/AttribLocation", "davinci-eight/core/Color", "davinci-eight/core", "davinci-eight/core/DrawMode", "davinci-eight/core/GraphicsProgramSymbols", "davinci-eight/core/UniformLocation", "davinci-eight/core/Mesh", "davinci-eight/core/Scene", "davinci-eight/core/WebGLRenderer", "davinci-eight/core/GeometryContainer", "davinci-eight/core/GeometryPrimitive", "davinci-eight/curves/Curve", "davinci-eight/geometries/DrawAttribute", "davinci-eight/geometries/DrawPrimitive", "davinci-eight/geometries/Simplex", "davinci-eight/geometries/Vertex", "davinci-eight/geometries/ArrowGeometry", "davinci-eight/geometries/CuboidGeometry", "davinci-eight/geometries/CylinderGeometry", "davinci-eight/geometries/SphereGeometry", "davinci-eight/geometries/TetrahedronGeometry", "davinci-eight/materials/HTMLScriptsMaterial", "davinci-eight/materials/LineMaterial", "davinci-eight/materials/MeshMaterial", "davinci-eight/materials/PointMaterial", "davinci-eight/materials/GraphicsProgramBuilder", "davinci-eight/materials/smartProgram", "davinci-eight/materials/programFromScripts", "davinci-eight/math/Dimensions", "davinci-eight/math/Euclidean2", "davinci-eight/math/Euclidean3", "davinci-eight/math/mathcore", "davinci-eight/math/R1", "davinci-eight/math/Mat2R", "davinci-eight/math/Mat3R", "davinci-eight/math/Mat4R", "davinci-eight/math/QQ", "davinci-eight/math/Unit", "davinci-eight/math/G2", "davinci-eight/math/G3", "davinci-eight/math/SpinG2", "davinci-eight/math/SpinG3", "davinci-eight/math/R2", "davinci-eight/math/R3", "davinci-eight/math/R4", "davinci-eight/math/VectorN", "davinci-eight/facets/AmbientLight", "davinci-eight/facets/ColorFacet", "davinci-eight/facets/DirectionalLight", "davinci-eight/facets/ModelFacet", "davinci-eight/facets/PointSizeFacet", "davinci-eight/facets/ReflectionFacetE2", "davinci-eight/facets/ReflectionFacetE3", "davinci-eight/facets/Vector3Facet", "davinci-eight/facets/frustumMatrix", "davinci-eight/facets/PerspectiveCamera", "davinci-eight/facets/perspectiveMatrix", "davinci-eight/facets/viewMatrix", "davinci-eight/facets/ModelE2", "davinci-eight/facets/ModelE3", "davinci-eight/utils/getCanvasElementById", "davinci-eight/collections/ShareableArray", "davinci-eight/collections/NumberIUnknownMap", "davinci-eight/core/refChange", "davinci-eight/core/Shareable", "davinci-eight/collections/StringIUnknownMap", "davinci-eight/utils/animation", "davinci-eight/visual/Arrow", "davinci-eight/visual/Sphere", "davinci-eight/visual/Cuboid", "davinci-eight/visual/RigidBody", "davinci-eight/visual/Cylinder", "davinci-eight/visual/Tetrahedron", "davinci-eight/visual/Trail", "davinci-eight/visual/bootstrap"], function(exports_1) {
+System.register("davinci-eight.js", ["davinci-eight/commands/BlendFactor", "davinci-eight/commands/WebGLBlendFunc", "davinci-eight/commands/WebGLClearColor", "davinci-eight/commands/Capability", "davinci-eight/commands/WebGLDisable", "davinci-eight/commands/WebGLEnable", "davinci-eight/controls/TrackballControls", "davinci-eight/core/AttribLocation", "davinci-eight/core/Color", "davinci-eight/core", "davinci-eight/core/DrawMode", "davinci-eight/core/GraphicsProgramSymbols", "davinci-eight/core/UniformLocation", "davinci-eight/core/Mesh", "davinci-eight/core/Scene", "davinci-eight/core/WebGLRenderer", "davinci-eight/core/GeometryContainer", "davinci-eight/core/GeometryPrimitive", "davinci-eight/curves/Curve", "davinci-eight/geometries/DrawAttribute", "davinci-eight/geometries/DrawPrimitive", "davinci-eight/geometries/Simplex", "davinci-eight/geometries/Vertex", "davinci-eight/geometries/ArrowGeometry", "davinci-eight/geometries/CuboidGeometry", "davinci-eight/geometries/CylinderGeometry", "davinci-eight/geometries/SphereGeometry", "davinci-eight/geometries/TetrahedronGeometry", "davinci-eight/materials/HTMLScriptsMaterial", "davinci-eight/materials/LineMaterial", "davinci-eight/materials/MeshMaterial", "davinci-eight/materials/PointMaterial", "davinci-eight/materials/GraphicsProgramBuilder", "davinci-eight/materials/smartProgram", "davinci-eight/materials/programFromScripts", "davinci-eight/math/Dimensions", "davinci-eight/math/Euclidean2", "davinci-eight/math/Euclidean3", "davinci-eight/math/mathcore", "davinci-eight/math/R1", "davinci-eight/math/Mat2R", "davinci-eight/math/Mat3R", "davinci-eight/math/Mat4R", "davinci-eight/math/QQ", "davinci-eight/math/Unit", "davinci-eight/math/G2", "davinci-eight/math/G3", "davinci-eight/math/SpinG2", "davinci-eight/math/SpinG3", "davinci-eight/math/R2", "davinci-eight/math/R3", "davinci-eight/math/R4", "davinci-eight/math/VectorN", "davinci-eight/facets/AmbientLight", "davinci-eight/facets/ColorFacet", "davinci-eight/facets/DirectionalLight", "davinci-eight/facets/ModelFacet", "davinci-eight/facets/PointSizeFacet", "davinci-eight/facets/ReflectionFacetE2", "davinci-eight/facets/ReflectionFacetE3", "davinci-eight/facets/Vector3Facet", "davinci-eight/facets/frustumMatrix", "davinci-eight/facets/PerspectiveCamera", "davinci-eight/facets/perspectiveMatrix", "davinci-eight/facets/viewMatrix", "davinci-eight/facets/ModelE2", "davinci-eight/facets/ModelE3", "davinci-eight/utils/getCanvasElementById", "davinci-eight/collections/ShareableArray", "davinci-eight/collections/NumberIUnknownMap", "davinci-eight/core/refChange", "davinci-eight/core/Shareable", "davinci-eight/collections/StringIUnknownMap", "davinci-eight/utils/animation", "davinci-eight/visual/Arrow", "davinci-eight/visual/Sphere", "davinci-eight/visual/Cuboid", "davinci-eight/visual/RigidBody", "davinci-eight/visual/Cylinder", "davinci-eight/visual/Tetrahedron", "davinci-eight/visual/Trail", "davinci-eight/visual/bootstrap"], function(exports_1) {
   var BlendFactor_1,
       WebGLBlendFunc_1,
       WebGLClearColor_1,
       Capability_1,
       WebGLDisable_1,
       WebGLEnable_1,
+      TrackballControls_1,
       AttribLocation_1,
       Color_1,
       core_1,
@@ -19721,6 +20078,8 @@ System.register("davinci-eight.js", ["davinci-eight/commands/BlendFactor", "davi
       WebGLDisable_1 = WebGLDisable_1_1;
     }, function(WebGLEnable_1_1) {
       WebGLEnable_1 = WebGLEnable_1_1;
+    }, function(TrackballControls_1_1) {
+      TrackballControls_1 = TrackballControls_1_1;
     }, function(AttribLocation_1_1) {
       AttribLocation_1 = AttribLocation_1_1;
     }, function(Color_1_1) {
@@ -19991,6 +20350,9 @@ System.register("davinci-eight.js", ["davinci-eight/commands/BlendFactor", "davi
         },
         get Color() {
           return Color_1.default;
+        },
+        get TrackballControls() {
+          return TrackballControls_1.default;
         },
         get ArrowGeometry() {
           return ArrowGeometry_1.default;

@@ -15,23 +15,23 @@ import WebGLRenderer from '../core/WebGLRenderer'
 
 export default class World extends Shareable {
     private drawList: DrawList
-    private visual: WebGLRenderer
+    private renderer: WebGLRenderer
     public ambients: Facet[];
     private _camera = new PerspectiveCamera(45 * Math.PI / 180, 1, 0.1, 1000)
-    constructor(visual: WebGLRenderer, drawList: DrawList, ambients: Facet[]) {
+    constructor(renderer: WebGLRenderer, drawList: DrawList, ambients: Facet[]) {
         super('World')
 
-        visual.addRef()
-        this.visual = visual
+        renderer.addRef()
+        this.renderer = renderer
 
         drawList.addRef()
         this.drawList = drawList
 
-        this.drawList.subscribe(visual)
+        this.drawList.subscribe(renderer)
 
         this.ambients = ambients;
 
-        this._camera.position.setXYZ(0, 1, 7)
+        this._camera.position.setXYZ(0, 0, 7)
         this._camera.look.setXYZ(0, 0, 0)
         this.ambients.push(this._camera)
 
@@ -41,7 +41,7 @@ export default class World extends Shareable {
     destructor(): void {
         this.drawList.unsubscribe()
         this.drawList.release()
-        this.visual.release()
+        this.renderer.release()
         super.destructor()
     }
     get camera(): PerspectiveCamera {
@@ -49,6 +49,12 @@ export default class World extends Shareable {
     }
     set camera(unused: PerspectiveCamera) {
         throw new Error(readOnly('camera').message)
+    }
+    get canvas(): HTMLCanvasElement {
+        return this.renderer.canvas
+    }
+    set canvas(unused: HTMLCanvasElement) {
+        throw new Error(readOnly('canvas').message)
     }
     arrow(): Arrow {
         const arrow = new Arrow()

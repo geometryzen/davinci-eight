@@ -2,7 +2,7 @@
     "project": {
         "name": "davinci-eight",
         "description": "WebGL library for mathematical physics using Geometric Algebra",
-        "version": "2.183.0",
+        "version": "2.184.0",
         "url": ""
     },
     "files": {
@@ -111,6 +111,33 @@
             "classes": {
                 "WebGLEnable": 1
             },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/controls/MouseControls.ts": {
+            "name": "src/davinci-eight/controls/MouseControls.ts",
+            "modules": {
+                "controls": 1
+            },
+            "classes": {
+                "MouseControls": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/controls/TrackballControls.ts": {
+            "name": "src/davinci-eight/controls/TrackballControls.ts",
+            "modules": {},
+            "classes": {
+                "TrackballControls": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/controls/scrolled.ts": {
+            "name": "src/davinci-eight/controls/scrolled.ts",
+            "modules": {},
+            "classes": {},
             "fors": {},
             "namespaces": {}
         },
@@ -1519,6 +1546,7 @@
         "EIGHT": {
             "name": "EIGHT",
             "submodules": {
+                "controls": 1,
                 "core": 1,
                 "facets": 1,
                 "geometries": 1,
@@ -1540,6 +1568,8 @@
                 "WebGLClearColor": 1,
                 "WebGLDisable": 1,
                 "WebGLEnable": 1,
+                "MouseControls": 1,
+                "TrackballControls": 1,
                 "AttribLocation": 1,
                 "AttribMetaInfo": 1,
                 "Attribute": 1,
@@ -1644,6 +1674,23 @@
             "namespaces": {},
             "file": "src/davinci-eight/visual/VisualBody.ts",
             "line": 30
+        },
+        "controls": {
+            "name": "controls",
+            "submodules": {},
+            "elements": {},
+            "classes": {
+                "MouseControls": 1,
+                "TrackballControls": 1
+            },
+            "fors": {},
+            "is_submodule": 1,
+            "namespaces": {},
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/controls/TrackballControls.ts",
+            "line": 65,
+            "extends": "Shareable"
         },
         "core": {
             "name": "core",
@@ -2043,6 +2090,49 @@
                     "name": "capability",
                     "description": "The capability to be enabled.",
                     "type": "Capability"
+                }
+            ]
+        },
+        "MouseControls": {
+            "name": "MouseControls",
+            "shortname": "MouseControls",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "submodule": "controls",
+            "namespace": "",
+            "file": "src/davinci-eight/controls/MouseControls.ts",
+            "line": 110,
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "type",
+                    "description": "",
+                    "type": "String"
+                }
+            ]
+        },
+        "TrackballControls": {
+            "name": "TrackballControls",
+            "shortname": "TrackballControls",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "submodule": "controls",
+            "namespace": "",
+            "file": "src/davinci-eight/controls/TrackballControls.ts",
+            "line": 65,
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "camera",
+                    "description": ""
                 }
             ]
         },
@@ -4841,6 +4931,428 @@
             "access": "protected",
             "tagname": "",
             "class": "WebGLEnable"
+        },
+        {
+            "file": "src/davinci-eight/controls/MouseControls.ts",
+            "line": 10,
+            "description": "The index into the keys array is ROTATE=0, ZOOM=1, PAN=2",
+            "class": "MouseControls"
+        },
+        {
+            "file": "src/davinci-eight/controls/MouseControls.ts",
+            "line": 23,
+            "itemtype": "property",
+            "name": "enabled",
+            "type": "boolean",
+            "class": "MouseControls",
+            "module": "EIGHT",
+            "submodule": "controls"
+        },
+        {
+            "file": "src/davinci-eight/controls/MouseControls.ts",
+            "line": 29,
+            "itemtype": "property",
+            "name": "noRotate",
+            "type": "boolean",
+            "default": "false",
+            "class": "MouseControls",
+            "module": "EIGHT",
+            "submodule": "controls"
+        },
+        {
+            "file": "src/davinci-eight/controls/MouseControls.ts",
+            "line": 36,
+            "itemtype": "property",
+            "name": "noZoom",
+            "type": "boolean",
+            "default": "false",
+            "class": "MouseControls",
+            "module": "EIGHT",
+            "submodule": "controls"
+        },
+        {
+            "file": "src/davinci-eight/controls/MouseControls.ts",
+            "line": 43,
+            "itemtype": "property",
+            "name": "noRotate",
+            "type": "boolean",
+            "default": "false",
+            "class": "MouseControls",
+            "module": "EIGHT",
+            "submodule": "controls"
+        },
+        {
+            "file": "src/davinci-eight/controls/MouseControls.ts",
+            "line": 50,
+            "itemtype": "property",
+            "name": "minDistance",
+            "type": "number",
+            "default": "0",
+            "class": "MouseControls",
+            "module": "EIGHT",
+            "submodule": "controls"
+        },
+        {
+            "file": "src/davinci-eight/controls/MouseControls.ts",
+            "line": 57,
+            "itemtype": "property",
+            "name": "maxDistance",
+            "type": "number",
+            "default": "Infinity",
+            "class": "MouseControls",
+            "module": "EIGHT",
+            "submodule": "controls"
+        },
+        {
+            "file": "src/davinci-eight/controls/MouseControls.ts",
+            "line": 66,
+            "description": "The mouse controls operate modally. You can only do one thing (rotate, zoom, or pan) at a time.",
+            "class": "MouseControls",
+            "module": "EIGHT",
+            "submodule": "controls"
+        },
+        {
+            "file": "src/davinci-eight/controls/MouseControls.ts",
+            "line": 70,
+            "description": "Using the keyboard allows us to change modes, so we keep this so that we can revert.",
+            "class": "MouseControls",
+            "module": "EIGHT",
+            "submodule": "controls"
+        },
+        {
+            "file": "src/davinci-eight/controls/MouseControls.ts",
+            "line": 82,
+            "description": "Initialized by calling handleResize",
+            "itemtype": "property",
+            "name": "screenLoc",
+            "type": "G2",
+            "access": "private",
+            "tagname": "",
+            "class": "MouseControls",
+            "module": "EIGHT",
+            "submodule": "controls"
+        },
+        {
+            "file": "src/davinci-eight/controls/MouseControls.ts",
+            "line": 90,
+            "description": "Think of this vector as running from the top left corner of the screen.",
+            "class": "MouseControls",
+            "module": "EIGHT",
+            "submodule": "controls"
+        },
+        {
+            "file": "src/davinci-eight/controls/MouseControls.ts",
+            "line": 94,
+            "description": "Think of this vector as running from the bottom left corner of the screen.",
+            "class": "MouseControls",
+            "module": "EIGHT",
+            "submodule": "controls"
+        },
+        {
+            "file": "src/davinci-eight/controls/MouseControls.ts",
+            "line": 117,
+            "class": "MouseControls",
+            "module": "EIGHT",
+            "submodule": "controls"
+        },
+        {
+            "file": "src/davinci-eight/controls/MouseControls.ts",
+            "line": 148,
+            "class": "MouseControls",
+            "module": "EIGHT",
+            "submodule": "controls"
+        },
+        {
+            "file": "src/davinci-eight/controls/MouseControls.ts",
+            "line": 172,
+            "class": "MouseControls",
+            "module": "EIGHT",
+            "submodule": "controls"
+        },
+        {
+            "file": "src/davinci-eight/controls/MouseControls.ts",
+            "line": 186,
+            "class": "MouseControls",
+            "module": "EIGHT",
+            "submodule": "controls"
+        },
+        {
+            "file": "src/davinci-eight/controls/MouseControls.ts",
+            "line": 206,
+            "class": "MouseControls",
+            "module": "EIGHT",
+            "submodule": "controls"
+        },
+        {
+            "file": "src/davinci-eight/controls/MouseControls.ts",
+            "line": 234,
+            "class": "MouseControls",
+            "module": "EIGHT",
+            "submodule": "controls"
+        },
+        {
+            "file": "src/davinci-eight/controls/MouseControls.ts",
+            "line": 245,
+            "class": "MouseControls",
+            "module": "EIGHT",
+            "submodule": "controls"
+        },
+        {
+            "file": "src/davinci-eight/controls/MouseControls.ts",
+            "line": 253,
+            "itemtype": "method",
+            "name": "subscribe",
+            "params": [
+                {
+                    "name": "domElement",
+                    "description": "",
+                    "type": "HTMLElement"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "MouseControls",
+            "module": "EIGHT",
+            "submodule": "controls"
+        },
+        {
+            "file": "src/davinci-eight/controls/MouseControls.ts",
+            "line": 273,
+            "itemtype": "method",
+            "name": "unsubscribe",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "MouseControls",
+            "module": "EIGHT",
+            "submodule": "controls"
+        },
+        {
+            "file": "src/davinci-eight/controls/MouseControls.ts",
+            "line": 289,
+            "itemtype": "method",
+            "name": "destructor",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "access": "protected",
+            "tagname": "",
+            "class": "MouseControls",
+            "module": "EIGHT",
+            "submodule": "controls"
+        },
+        {
+            "file": "src/davinci-eight/controls/MouseControls.ts",
+            "line": 308,
+            "description": "Computes coordinates in the range [-1,+1] in both e1 and e2 directions.\ne1 goes to the RIGHT\ne2 goes UP\nUpdates the mouseOnCircle property.",
+            "itemtype": "method",
+            "name": "updateMouseOnCircle",
+            "params": [
+                {
+                    "name": "mouse",
+                    "description": "",
+                    "type": "MouseCoordinates"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "MouseControls",
+            "module": "EIGHT",
+            "submodule": "controls"
+        },
+        {
+            "file": "src/davinci-eight/controls/MouseControls.ts",
+            "line": 325,
+            "description": "Computes coordinates in the range [0,1] in both e1 and e2 directions.\ne1 goes to the RIGHT\ne2 goes DOWN\nUpdates the mouseOnScreen property.",
+            "itemtype": "method",
+            "name": "updateMouseOnScreen",
+            "params": [
+                {
+                    "name": "mouse",
+                    "description": "",
+                    "type": "MouseCoordinates"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "MouseControls",
+            "module": "EIGHT",
+            "submodule": "controls"
+        },
+        {
+            "file": "src/davinci-eight/controls/MouseControls.ts",
+            "line": 344,
+            "description": "This must be called whenever the window is resized",
+            "itemtype": "method",
+            "name": "handleResize",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "MouseControls",
+            "module": "EIGHT",
+            "submodule": "controls"
+        },
+        {
+            "file": "src/davinci-eight/controls/TrackballControls.ts",
+            "line": 15,
+            "class": "TrackballControls",
+            "module": "EIGHT",
+            "submodule": "controls"
+        },
+        {
+            "file": "src/davinci-eight/controls/TrackballControls.ts",
+            "line": 20,
+            "class": "TrackballControls",
+            "module": "EIGHT",
+            "submodule": "controls"
+        },
+        {
+            "file": "src/davinci-eight/controls/TrackballControls.ts",
+            "line": 25,
+            "class": "TrackballControls",
+            "module": "EIGHT",
+            "submodule": "controls"
+        },
+        {
+            "file": "src/davinci-eight/controls/TrackballControls.ts",
+            "line": 30,
+            "description": "The camera object is what we will be moving.",
+            "class": "TrackballControls",
+            "module": "EIGHT",
+            "submodule": "controls"
+        },
+        {
+            "file": "src/davinci-eight/controls/TrackballControls.ts",
+            "line": 35,
+            "description": "The eye vector is the position of the camera relative to the target position vector.\nSo, camera.position = target + eye, or, eye = camera.position - target.",
+            "class": "TrackballControls",
+            "module": "EIGHT",
+            "submodule": "controls"
+        },
+        {
+            "file": "src/davinci-eight/controls/TrackballControls.ts",
+            "line": 41,
+            "description": "The position that we look at.",
+            "class": "TrackballControls",
+            "module": "EIGHT",
+            "submodule": "controls"
+        },
+        {
+            "file": "src/davinci-eight/controls/TrackballControls.ts",
+            "line": 46,
+            "description": "The initial position, look and up of the camera.\nWe cache these so that we can reset the camera.",
+            "class": "TrackballControls",
+            "module": "EIGHT",
+            "submodule": "controls"
+        },
+        {
+            "file": "src/davinci-eight/controls/TrackballControls.ts",
+            "line": 84,
+            "itemtype": "method",
+            "name": "destructor",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "access": "protected",
+            "tagname": "",
+            "class": "TrackballControls",
+            "module": "EIGHT",
+            "submodule": "controls"
+        },
+        {
+            "file": "src/davinci-eight/controls/TrackballControls.ts",
+            "line": 93,
+            "class": "TrackballControls",
+            "module": "EIGHT",
+            "submodule": "controls"
+        },
+        {
+            "file": "src/davinci-eight/controls/TrackballControls.ts",
+            "line": 106,
+            "description": "This should be called inside the animation frame to update the camera location.\nNotice that the movement of the mouse controls is decoupled from the effect.\nWe also want to avoid temporary object creation in this and called methods by recycling variables.",
+            "itemtype": "method",
+            "name": "update",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "TrackballControls",
+            "module": "EIGHT",
+            "submodule": "controls"
+        },
+        {
+            "file": "src/davinci-eight/controls/TrackballControls.ts",
+            "line": 134,
+            "itemtype": "method",
+            "name": "rotateCamera",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "TrackballControls",
+            "module": "EIGHT",
+            "submodule": "controls"
+        },
+        {
+            "file": "src/davinci-eight/controls/TrackballControls.ts",
+            "line": 180,
+            "itemtype": "method",
+            "name": "zoomCamera",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "TrackballControls",
+            "module": "EIGHT",
+            "submodule": "controls"
+        },
+        {
+            "file": "src/davinci-eight/controls/TrackballControls.ts",
+            "line": 193,
+            "itemtype": "method",
+            "name": "panCamera",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "TrackballControls",
+            "module": "EIGHT",
+            "submodule": "controls"
+        },
+        {
+            "file": "src/davinci-eight/controls/TrackballControls.ts",
+            "line": 211,
+            "description": "Restricts the position of the camera to certain distance range",
+            "class": "TrackballControls",
+            "module": "EIGHT",
+            "submodule": "controls"
+        },
+        {
+            "file": "src/davinci-eight/controls/scrolled.ts",
+            "line": 20,
+            "description": "A cross-browser compatible, geometric, implementation of scroolX and scrollY.\n\nSee https://developer.mozilla.org/en-US/docs/Web/API/Window/scrollX",
+            "class": "AttribLocation",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/core/AttribLocation.ts",
@@ -8643,7 +9155,7 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 605,
+            "line": 606,
             "itemtype": "property",
             "name": "commands",
             "type": "{ShareableArray}",
@@ -8655,7 +9167,7 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 619,
+            "line": 620,
             "description": "<p>\nSpecifies color values to use by the <code>clear</code> method to clear the color buffer.\n<p>",
             "itemtype": "method",
             "name": "clearColor",
@@ -8692,7 +9204,7 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 636,
+            "line": 637,
             "description": "Turns off specific WebGL capabilities for this context.",
             "itemtype": "method",
             "name": "disable",
@@ -8714,7 +9226,7 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 648,
+            "line": 649,
             "description": "Turns on specific WebGL capabilities for this context.",
             "itemtype": "method",
             "name": "enable",
@@ -8736,7 +9248,7 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 660,
+            "line": 661,
             "itemtype": "property",
             "name": "gl",
             "type": "{WebGLRenderingContext}",
@@ -8747,7 +9259,7 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 677,
+            "line": 678,
             "itemtype": "method",
             "name": "removeContextListener",
             "params": [
@@ -8767,7 +9279,7 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 690,
+            "line": 691,
             "itemtype": "method",
             "name": "clear",
             "return": {
@@ -8780,7 +9292,7 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 701,
+            "line": 702,
             "description": "Defines what part of the canvas will be used in rendering the drawing buffer.",
             "itemtype": "method",
             "name": "viewport",
@@ -8817,7 +9329,7 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 722,
+            "line": 723,
             "description": "Initializes the WebGL context for the specified <code>canvas</code>.",
             "itemtype": "method",
             "name": "start",
@@ -8839,7 +9351,7 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 759,
+            "line": 760,
             "itemtype": "method",
             "name": "stop",
             "return": {
@@ -8853,7 +9365,7 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 817,
+            "line": 818,
             "itemtype": "method",
             "name": "synchronize",
             "params": [
@@ -21334,13 +21846,15 @@
                 "type": "R3"
             },
             "chainable": 1,
+            "deprecated": true,
+            "deprecationMessage": "Use copy(a).add(b) instead.",
             "class": "R3",
             "module": "EIGHT",
             "submodule": "math"
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 144,
+            "line": 145,
             "description": "<p>\n<code>this ⟼ m * this<sup>T</sup></code>\n</p>",
             "itemtype": "method",
             "name": "applyMatrix",
@@ -21362,7 +21876,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 167,
+            "line": 168,
             "description": "Pre-multiplies the column vector corresponding to this vector by the matrix.\nThe result is applied to this vector.\nStrictly speaking, this method does not make much sense because the dimensions\nof the square matrix and column vector don't match.\nTODO: Used by TubeSimplexGeometry.",
             "itemtype": "method",
             "name": "applyMatrix4",
@@ -21383,7 +21897,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 190,
+            "line": 191,
             "description": "<p>\n<code>this ⟼ - n * this * n</code>\n</p>",
             "itemtype": "method",
             "name": "reflect",
@@ -21405,7 +21919,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 212,
+            "line": 213,
             "description": "<p>\n<code>this ⟼ R * this * rev(R)</code>\n</p>",
             "itemtype": "method",
             "name": "rotate",
@@ -21427,7 +21941,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 242,
+            "line": 243,
             "itemtype": "method",
             "name": "clone",
             "return": {
@@ -21440,7 +21954,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 250,
+            "line": 251,
             "description": "<p>\n<code>this ⟼ copy(v)</code>\n</p>",
             "itemtype": "method",
             "name": "copy",
@@ -21462,7 +21976,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 266,
+            "line": 267,
             "description": "Copies the coordinate values into this <code>R3</code>.",
             "itemtype": "method",
             "name": "copyCoordinates",
@@ -21484,7 +21998,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 281,
+            "line": 282,
             "description": "<p>\n<code>this ⟼ this ✕ v</code>\n</p>",
             "itemtype": "method",
             "name": "cross",
@@ -21506,7 +22020,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 293,
+            "line": 294,
             "description": "<p>\n<code>this ⟼ a ✕ b</code>\n</p>",
             "itemtype": "method",
             "name": "cross2",
@@ -21533,7 +22047,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 315,
+            "line": 316,
             "itemtype": "method",
             "name": "distanceTo",
             "params": [
@@ -21553,7 +22067,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 328,
+            "line": 329,
             "itemtype": "method",
             "name": "quadranceTo",
             "params": [
@@ -21573,7 +22087,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 344,
+            "line": 345,
             "description": "<p>\n<code>this ⟼ this / α</code>\n</p>",
             "itemtype": "method",
             "name": "divByScalar",
@@ -21595,7 +22109,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 367,
+            "line": 368,
             "itemtype": "method",
             "name": "dot",
             "params": [
@@ -21615,7 +22129,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 375,
+            "line": 376,
             "description": "Computes the <em>square root</em> of the <em>squared norm</em>.",
             "itemtype": "method",
             "name": "magnitude",
@@ -21629,7 +22143,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 383,
+            "line": 384,
             "itemtype": "method",
             "name": "neg",
             "return": {
@@ -21643,7 +22157,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 395,
+            "line": 396,
             "description": "<p>\n<code>this ⟼ this + α * (target - this)</code>\n</p>",
             "itemtype": "method",
             "name": "lerp",
@@ -21670,7 +22184,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 411,
+            "line": 412,
             "description": "<p>\n<code>this ⟼ a + α * (b - a)</code>\n</p>",
             "itemtype": "method",
             "name": "lerp2",
@@ -21702,7 +22216,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 426,
+            "line": 427,
             "description": "<p>\n<code>this ⟼ this / norm(this)</code>\n</p>",
             "itemtype": "method",
             "name": "direction",
@@ -21717,7 +22231,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 437,
+            "line": 438,
             "description": "<p>\n<code>this ⟼ this * α</code>\n</p>",
             "itemtype": "method",
             "name": "scale",
@@ -21734,7 +22248,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 450,
+            "line": 451,
             "description": "<p>\n<code>this ⟼ this</code>, with components modified.\n</p>",
             "itemtype": "method",
             "name": "set",
@@ -21767,7 +22281,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 469,
+            "line": 470,
             "itemtype": "method",
             "name": "setY",
             "params": [
@@ -21784,7 +22298,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 484,
+            "line": 485,
             "description": "Returns the (Euclidean) inner product of this vector with itself.",
             "itemtype": "method",
             "name": "squaredNorm",
@@ -21798,7 +22312,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 495,
+            "line": 496,
             "description": "<p>\n<code>this ⟼ this - v</code>\n</p>",
             "itemtype": "method",
             "name": "sub",
@@ -21827,7 +22341,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 512,
+            "line": 513,
             "description": "<p>\n<code>this ⟼ a - b</code>\n</p>",
             "itemtype": "method",
             "name": "sub2",
@@ -21848,13 +22362,15 @@
                 "type": "R3"
             },
             "chainable": 1,
+            "deprecated": true,
+            "deprecationMessage": "Use copy(a).sub(b) instead.",
             "class": "R3",
             "module": "EIGHT",
             "submodule": "math"
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 529,
+            "line": 531,
             "itemtype": "method",
             "name": "toExponential",
             "return": {
@@ -21867,7 +22383,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 538,
+            "line": 540,
             "itemtype": "method",
             "name": "toFixed",
             "params": [
@@ -21888,7 +22404,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 548,
+            "line": 550,
             "itemtype": "method",
             "name": "toString",
             "return": {
@@ -21901,7 +22417,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 557,
+            "line": 559,
             "description": "Sets this vector to the identity element for addition, <b>0</b>.",
             "itemtype": "method",
             "name": "zero",
@@ -21916,7 +22432,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 587,
+            "line": 589,
             "itemtype": "method",
             "name": "mul",
             "params": [
@@ -21938,7 +22454,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 602,
+            "line": 604,
             "itemtype": "method",
             "name": "rmul",
             "params": [
@@ -21960,7 +22476,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 625,
+            "line": 627,
             "itemtype": "method",
             "name": "copy",
             "params": [
@@ -21981,7 +22497,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 635,
+            "line": 637,
             "itemtype": "method",
             "name": "lerp",
             "params": [
@@ -22012,7 +22528,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 647,
+            "line": 649,
             "itemtype": "method",
             "name": "random",
             "return": {
@@ -25339,11 +25855,99 @@
         },
         {
             "message": "param name missing: {number}",
-            "line": " src/davinci-eight/math/R3.ts:469"
+            "line": " src/davinci-eight/math/R3.ts:470"
         },
         {
             "message": "Missing item type\nEssentially constructs the ShareableArray without incrementing the\nreference count of the elements, and without creating zombies.",
             "line": " src/davinci-eight/collections/ShareableArray.ts:4"
+        },
+        {
+            "message": "Missing item type\nThe index into the keys array is ROTATE=0, ZOOM=1, PAN=2",
+            "line": " src/davinci-eight/controls/MouseControls.ts:10"
+        },
+        {
+            "message": "Missing item type\nThe mouse controls operate modally. You can only do one thing (rotate, zoom, or pan) at a time.",
+            "line": " src/davinci-eight/controls/MouseControls.ts:66"
+        },
+        {
+            "message": "Missing item type\nUsing the keyboard allows us to change modes, so we keep this so that we can revert.",
+            "line": " src/davinci-eight/controls/MouseControls.ts:70"
+        },
+        {
+            "message": "Missing item type\nThink of this vector as running from the top left corner of the screen.",
+            "line": " src/davinci-eight/controls/MouseControls.ts:90"
+        },
+        {
+            "message": "Missing item type\nThink of this vector as running from the bottom left corner of the screen.",
+            "line": " src/davinci-eight/controls/MouseControls.ts:94"
+        },
+        {
+            "message": "Missing item type",
+            "line": " src/davinci-eight/controls/MouseControls.ts:117"
+        },
+        {
+            "message": "Missing item type",
+            "line": " src/davinci-eight/controls/MouseControls.ts:148"
+        },
+        {
+            "message": "Missing item type",
+            "line": " src/davinci-eight/controls/MouseControls.ts:172"
+        },
+        {
+            "message": "Missing item type",
+            "line": " src/davinci-eight/controls/MouseControls.ts:186"
+        },
+        {
+            "message": "Missing item type",
+            "line": " src/davinci-eight/controls/MouseControls.ts:206"
+        },
+        {
+            "message": "Missing item type",
+            "line": " src/davinci-eight/controls/MouseControls.ts:234"
+        },
+        {
+            "message": "Missing item type",
+            "line": " src/davinci-eight/controls/MouseControls.ts:245"
+        },
+        {
+            "message": "Missing item type",
+            "line": " src/davinci-eight/controls/TrackballControls.ts:15"
+        },
+        {
+            "message": "Missing item type",
+            "line": " src/davinci-eight/controls/TrackballControls.ts:20"
+        },
+        {
+            "message": "Missing item type",
+            "line": " src/davinci-eight/controls/TrackballControls.ts:25"
+        },
+        {
+            "message": "Missing item type\nThe camera object is what we will be moving.",
+            "line": " src/davinci-eight/controls/TrackballControls.ts:30"
+        },
+        {
+            "message": "Missing item type\nThe eye vector is the position of the camera relative to the target position vector.\nSo, camera.position = target + eye, or, eye = camera.position - target.",
+            "line": " src/davinci-eight/controls/TrackballControls.ts:35"
+        },
+        {
+            "message": "Missing item type\nThe position that we look at.",
+            "line": " src/davinci-eight/controls/TrackballControls.ts:41"
+        },
+        {
+            "message": "Missing item type\nThe initial position, look and up of the camera.\nWe cache these so that we can reset the camera.",
+            "line": " src/davinci-eight/controls/TrackballControls.ts:46"
+        },
+        {
+            "message": "Missing item type",
+            "line": " src/davinci-eight/controls/TrackballControls.ts:93"
+        },
+        {
+            "message": "Missing item type\nRestricts the position of the camera to certain distance range",
+            "line": " src/davinci-eight/controls/TrackballControls.ts:211"
+        },
+        {
+            "message": "Missing item type\nA cross-browser compatible, geometric, implementation of scroolX and scrollY.\n\nSee https://developer.mozilla.org/en-US/docs/Web/API/Window/scrollX",
+            "line": " src/davinci-eight/controls/scrolled.ts:20"
         },
         {
             "message": "Missing item type\nIntentionally undocumented.\nThis functionality may be introduced in future.",

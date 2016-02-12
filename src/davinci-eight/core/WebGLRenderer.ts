@@ -593,6 +593,7 @@ export default class WebGLRenderer extends Shareable {
      * @type {HTMLCanvasElement}
      */
     get canvas(): HTMLCanvasElement {
+        // FIXME: Retract this implicit starting behavior.
         if (!this._canvas) {
             this.start(document.createElement('canvas'));
         }

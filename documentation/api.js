@@ -55,6 +55,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "ModelE2",
         "ModelE3",
         "ModelFacet",
+        "MouseControls",
         "Mutable",
         "NumberIUnknownMap",
         "Perspective",
@@ -91,6 +92,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "StringIUnknownMap",
         "Tetrahedron",
         "TetrahedronGeometry",
+        "TrackballControls",
         "Trail",
         "UniformLocation",
         "UniformMetaInfo",
@@ -115,6 +117,7 @@ YUI.add("yuidoc-meta", function(Y) {
     ],
     "modules": [
         "EIGHT",
+        "controls",
         "core",
         "facets",
         "geometries",
@@ -123,6 +126,10 @@ YUI.add("yuidoc-meta", function(Y) {
         "visual"
     ],
     "allModules": [
+        {
+            "displayName": "controls",
+            "name": "controls"
+        },
         {
             "displayName": "core",
             "name": "core",

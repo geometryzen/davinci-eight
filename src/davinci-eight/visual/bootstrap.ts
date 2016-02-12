@@ -6,6 +6,7 @@ import mustBeNumber from '../checks/mustBeNumber'
 import mustBeString from '../checks/mustBeString'
 import refChange from '../core/refChange'
 import DrawList from './DrawList'
+import TrackballControls from '../controls/TrackballControls'
 import World from './World'
 import WebGLRenderer from '../core/WebGLRenderer'
 
@@ -33,20 +34,23 @@ export default function(
         refChange('start', 'bootstrap')
     }
 
-    const visual = new WebGLRenderer()
-    visual.clearColor(0.1, 0.1, 0.1, 1.0)
+    const renderer = new WebGLRenderer()
+    renderer.clearColor(0.1, 0.1, 0.1, 1.0)
 
     const drawList = new DrawList()
 
     const ambients: Facet[] = []
 
-    const world = new World(visual, drawList, ambients)
+    const world = new World(renderer, drawList, ambients)
+
+    const controls = new TrackballControls(world.camera)
 
     let requestId: number;
 
     function step(timestamp: number) {
         requestId = window.requestAnimationFrame(step)
-        visual.clear()
+        renderer.clear()
+        controls.update()
         try {
             animate(timestamp)
         }
@@ -58,9 +62,6 @@ export default function(
     }
 
     window.onload = function() {
-        if (options.onload) {
-            options.onload()
-        }
         const canvas = <HTMLCanvasElement>document.getElementById(canvasId)
         if (isDefined(options.height)) {
             canvas.height = options.height
@@ -74,7 +75,18 @@ export default function(
         else {
             canvas.width = 600
         }
-        visual.start(canvas)
+        renderer.start(canvas)
+
+        controls.subscribe(world.canvas)
+        controls.rotateSpeed = 4
+
+        // Don't call the user's onload function until we've initialized WebGL.
+        // We want to avoid the situation where get canvas implicitly creates a 
+        // new canvas element and initializes WebGL leading to two canvas elements.
+        // and creates a canvas. TODO: Such behavior is surprising and should be retracted.
+        if (options.onload) {
+            options.onload()
+        }
 
         requestId = window.requestAnimationFrame(step)
     }
@@ -85,9 +97,10 @@ export default function(
             options.onunload()
         }
 
+        controls.release()
         world.release()
         drawList.release()
-        visual.release()
+        renderer.release()
 
         if (options.memcheck) {
             refChange('stop', 'onunload')

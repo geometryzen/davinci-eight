@@ -16,6 +16,8 @@ import WebGLClearColor from 'davinci-eight/commands/WebGLClearColor';
 import Capability from 'davinci-eight/commands/Capability';
 import WebGLDisable from 'davinci-eight/commands/WebGLDisable';
 import WebGLEnable from 'davinci-eight/commands/WebGLEnable';
+// controls
+import TrackballControls from 'davinci-eight/controls/TrackballControls'
 // core
 import AttribLocation from 'davinci-eight/core/AttribLocation';
 import AttribMetaInfo from 'davinci-eight/core/AttribMetaInfo';
@@ -37,6 +39,7 @@ import Material from 'davinci-eight/core/Material';
 import GeometryContainer from 'davinci-eight/core/GeometryContainer';
 import GeometryPrimitive from 'davinci-eight/core/GeometryPrimitive';
 import initWebGL from 'davinci-eight/core/initWebGL';
+
 // curves
 import Curve from 'davinci-eight/curves/Curve';
 // devices
@@ -272,6 +275,8 @@ var eight = {
         return smartProgram
     },
     get Color() { return Color },
+
+    get TrackballControls() { return TrackballControls },
 
     get ArrowGeometry() { return ArrowGeometry },
     get CuboidGeometry() { return CuboidGeometry },

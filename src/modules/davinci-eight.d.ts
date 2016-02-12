@@ -3337,6 +3337,7 @@ declare module EIGHT {
         cylinder(options?: { radius?: number }): Cylinder;
         ambients: Facet[];
         camera: PerspectiveCamera;
+        canvas: HTMLCanvasElement;
     }
 
     /**
@@ -3353,6 +3354,18 @@ declare module EIGHT {
             width?: number;
         }): World;
 
+    ///////////////////////////////////////////////////////////////////////////////
+    class TrackballControls extends Shareable {
+      public rotateSpeed:  number
+      public zoomSpeed: number
+      public panSpeed: number
+      constructor(camera: PerspectiveCamera)
+      protected destructor(): void
+      public subscribe(domElement: HTMLElement): void
+      public unsubscribe()
+      public handleResize()
+      public update()
+    }
     ///////////////////////////////////////////////////////////////////////////////
     function cos<T>(x: T): T;
     function cosh<T>(x: T): T;
