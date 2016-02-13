@@ -3336,7 +3336,6 @@ declare module EIGHT {
         sphere(options?: { radius?: number }): Sphere;
         cylinder(options?: { radius?: number }): Cylinder;
         ambients: Facet[];
-        camera: PerspectiveCamera;
         canvas: HTMLCanvasElement;
     }
 

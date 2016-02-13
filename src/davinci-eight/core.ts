@@ -15,7 +15,7 @@ class Eight {
         this.LAST_MODIFIED = '2016-02-12';
         this.NAMESPACE = 'EIGHT';
         this.verbose = false;
-        this.VERSION = '2.184.0';
+        this.VERSION = '2.185.0';
         this.logging = {};
     }
 }

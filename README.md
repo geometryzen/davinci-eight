@@ -276,6 +276,7 @@ Make your changes to the TypeScript files in the _src_ directory. Do not edit th
 * 2.182.0: 2016-02-11 bootstrap
 * 2.183.0: 2016-02-11 rotate
 * 2.184.0: 2016-02-12 TrackballControls
+* 2.185.0: 2016-02-12 DirectionalLight
 
 ## License
 Copyright (c) 2014-2016 David Holmes

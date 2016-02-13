@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>VersionLogger - davinci-eight</title>
+    <title>World - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -197,7 +197,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1>VersionLogger Class</h1>
+<h1>World Class</h1>
 <div class="box meta">
 
         <div class="extends">
@@ -205,27 +205,23 @@
         </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_commands_VersionLogger.ts.html#l11"><code>src&#x2F;davinci-eight&#x2F;commands&#x2F;VersionLogger.ts:11</code></a>
+            Defined in: <a href="../files/src_davinci-eight_visual_World.ts.html#l30"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;World.ts:30</code></a>
         </div>
 
-            Module: <a href="../modules/EIGHT.html">EIGHT</a>
+            Module: <a href="../modules/visual.html">visual</a><br>
+            Parent Module: <a href="../modules/EIGHT.html">EIGHT</a>
 
 </div>
 
 
 <div class="box intro">
-    <p>
-Displays details about the WegGL version to the console.
-</p> 
-<p>
-Initializes the <code>type</code> property to <code>'VersionLogger'</code> for reference count tracking.
-</p>
+    
 </div>
 
     <div class="constructor">
         <h2>Constructor</h2>
-<div id="method_VersionLogger" class="method item">
-    <h3 class="name"><code>VersionLogger</code></h3>
+<div id="method_World" class="method item">
+    <h3 class="name"><code>World</code></h3>
 
         <span class="paren">()</span>
 
@@ -239,7 +235,7 @@ Initializes the <code>type</code> property to <code>'VersionLogger'</code> for r
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_commands_VersionLogger.ts.html#l11"><code>src&#x2F;davinci-eight&#x2F;commands&#x2F;VersionLogger.ts:11</code></a>
+        <a href="../files/src_davinci-eight_visual_World.ts.html#l30"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;World.ts:30</code></a>
         </p>
 
 
@@ -277,7 +273,15 @@ Initializes the <code>type</code> property to <code>'VersionLogger'</code> for r
 
                             </li>
                             <li class="index-item method">
-                                <a href="#method_contextGain">contextGain</a>
+                                <a href="#method_arrow">arrow</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_cuboid">cuboid</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_cylinder">cylinder</a>
 
                             </li>
                             <li class="index-item method protected inherited">
@@ -288,6 +292,10 @@ Initializes the <code>type</code> property to <code>'VersionLogger'</code> for r
                                 <a href="#method_release">release</a>
 
                             </li>
+                            <li class="index-item method">
+                                <a href="#method_sphere">sphere</a>
+
+                            </li>
                     </ul>
                 </div>
 
@@ -295,6 +303,18 @@ Initializes the <code>type</code> property to <code>'VersionLogger'</code> for r
                     <h3>Properties</h3>
 
                     <ul class="index-list properties extends">
+                            <li class="index-item property">
+                                <a href="#property_ambients">ambients</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_canvas">canvas</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_controls">controls</a>
+
+                            </li>
                             <li class="index-item property inherited">
                                 <a href="#property_uuid">uuid</a>
 
@@ -348,25 +368,20 @@ Notifies this instance that something is dereferencing it.
 
             <div class="returns-description">
                         <span class="type">Number</span>:
-                    The new value of the reference count.
+                    <p>The new value of the reference count.</p>
+
             </div>
         </div>
 
 
 </div>
-<div id="method_contextGain" class="method item">
-    <h3 class="name"><code>contextGain</code></h3>
+<div id="method_arrow" class="method item">
+    <h3 class="name"><code>arrow</code></h3>
 
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>manager</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
+        <span class="paren">()</span>
 
         <span class="returns-inline">
-            <span class="type">Void</span>
+            <span class="type"><a href="../classes/Arrow.html" class="crosslink">Arrow</a></span>
         </span>
 
 
@@ -378,7 +393,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_commands_VersionLogger.ts.html#l27"><code>src&#x2F;davinci-eight&#x2F;commands&#x2F;VersionLogger.ts:27</code></a>
+        <a href="../files/src_davinci-eight_visual_World.ts.html#l100"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;World.ts:100</code></a>
         </p>
 
 
@@ -386,33 +401,95 @@ Notifies this instance that something is dereferencing it.
     </div>
 
     <div class="description">
-        <p>
-Logs the WebGL <code>VERSION</code> parameter to the console.
-</p>
+        
     </div>
 
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">manager</code>
-                        <span class="type"><a href="../classes/IContextProvider.html" class="crosslink">IContextProvider</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
 
         <div class="returns">
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type">Void</span>:
+                        <span class="type"><a href="../classes/Arrow.html" class="crosslink">Arrow</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_cuboid" class="method item">
+    <h3 class="name"><code>cuboid</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Cuboid.html" class="crosslink">Cuboid</a></span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_visual_World.ts.html#l112"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;World.ts:112</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Cuboid.html" class="crosslink">Cuboid</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_cylinder" class="method item">
+    <h3 class="name"><code>cylinder</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Cylinder.html" class="crosslink">Cylinder</a></span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_visual_World.ts.html#l127"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;World.ts:127</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Cylinder.html" class="crosslink">Cylinder</a></span>:
             </div>
         </div>
 
@@ -440,7 +517,7 @@ Logs the WebGL <code>VERSION</code> parameter to the console.
                 Shareable
             </a>
             but overwritten in
-        <a href="../files/src_davinci-eight_commands_VersionLogger.ts.html#l42"><code>src&#x2F;davinci-eight&#x2F;commands&#x2F;VersionLogger.ts:42</code></a>
+        <a href="../files/src_davinci-eight_visual_World.ts.html#l51"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;World.ts:51</code></a>
         </p>
 
 
@@ -502,7 +579,48 @@ Notifies this instance that something is dereferencing it.
 
             <div class="returns-description">
                         <span class="type">Number</span>:
-                    The new value of the reference count.
+                    <p>The new value of the reference count.</p>
+
+            </div>
+        </div>
+
+
+</div>
+<div id="method_sphere" class="method item">
+    <h3 class="name"><code>sphere</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Sphere.html" class="crosslink">Sphere</a></span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_visual_World.ts.html#l140"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;World.ts:140</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Sphere.html" class="crosslink">Sphere</a></span>:
             </div>
         </div>
 
@@ -513,6 +631,78 @@ Notifies this instance that something is dereferencing it.
             <div id="properties" class="api-class-tabpanel">
                 <h2 class="off-left">Properties</h2>
 
+<div id="property_ambients" class="property item">
+    <h3 class="name"><code>ambients</code></h3>
+    <span class="type"><a href="../classes/Facet.html" class="crosslink">Facet[]</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_visual_World.ts.html#l64"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;World.ts:64</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_canvas" class="property item">
+    <h3 class="name"><code>canvas</code></h3>
+    <span class="type">HTMLCanvasElement</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_visual_World.ts.html#l76"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;World.ts:76</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_controls" class="property item">
+    <h3 class="name"><code>controls</code></h3>
+    <span class="type"><a href="../classes/TrackballControls.html" class="crosslink">TrackballControls</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_visual_World.ts.html#l88"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;World.ts:88</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
 <div id="property_uuid" class="property item inherited">
     <h3 class="name"><code>uuid</code></h3>
     <span class="type">String</span>

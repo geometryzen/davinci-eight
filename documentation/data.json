@@ -2,7 +2,7 @@
     "project": {
         "name": "davinci-eight",
         "description": "WebGL library for mathematical physics using Geometric Algebra",
-        "version": "2.184.0",
+        "version": "2.185.0",
         "url": ""
     },
     "files": {
@@ -1534,6 +1534,15 @@
             "fors": {},
             "namespaces": {}
         },
+        "src/davinci-eight/visual/World.ts": {
+            "name": "src/davinci-eight/visual/World.ts",
+            "modules": {},
+            "classes": {
+                "World": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "src/davinci-eight/core.ts": {
             "name": "src/davinci-eight/core.ts",
             "modules": {},
@@ -1668,11 +1677,12 @@
                 "Sphere": 1,
                 "Tetrahedron": 1,
                 "Trail": 1,
-                "VisualBody": 1
+                "VisualBody": 1,
+                "World": 1
             },
             "fors": {},
             "namespaces": {},
-            "file": "src/davinci-eight/visual/VisualBody.ts",
+            "file": "src/davinci-eight/visual/World.ts",
             "line": 30
         },
         "controls": {
@@ -1849,14 +1859,15 @@
                 "Sphere": 1,
                 "Tetrahedron": 1,
                 "Trail": 1,
-                "VisualBody": 1
+                "VisualBody": 1,
+                "World": 1
             },
             "fors": {},
             "is_submodule": 1,
             "namespaces": {},
             "module": "EIGHT",
             "namespace": "",
-            "file": "src/davinci-eight/visual/VisualBody.ts",
+            "file": "src/davinci-eight/visual/World.ts",
             "line": 30,
             "description": "Convenient abstractions for Physics modeling."
         }
@@ -4126,6 +4137,22 @@
                     "optdefault": " 'VisualBody'"
                 }
             ]
+        },
+        "World": {
+            "name": "World",
+            "shortname": "World",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "submodule": "visual",
+            "namespace": "",
+            "file": "src/davinci-eight/visual/World.ts",
+            "line": 30,
+            "extends": "Shareable",
+            "is_constructor": 1
         }
     },
     "elements": {},
@@ -25822,6 +25849,106 @@
             "access": "private",
             "tagname": "",
             "class": "VisualBody",
+            "module": "EIGHT",
+            "submodule": "visual"
+        },
+        {
+            "file": "src/davinci-eight/visual/World.ts",
+            "line": 51,
+            "itemtype": "method",
+            "name": "destructor",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "access": "protected",
+            "tagname": "",
+            "class": "World",
+            "module": "EIGHT",
+            "submodule": "visual"
+        },
+        {
+            "file": "src/davinci-eight/visual/World.ts",
+            "line": 64,
+            "itemtype": "property",
+            "name": "ambients",
+            "type": "Facet[]",
+            "readonly": "",
+            "class": "World",
+            "module": "EIGHT",
+            "submodule": "visual"
+        },
+        {
+            "file": "src/davinci-eight/visual/World.ts",
+            "line": 76,
+            "itemtype": "property",
+            "name": "canvas",
+            "type": "HTMLCanvasElement",
+            "readonly": "",
+            "class": "World",
+            "module": "EIGHT",
+            "submodule": "visual"
+        },
+        {
+            "file": "src/davinci-eight/visual/World.ts",
+            "line": 88,
+            "itemtype": "property",
+            "name": "controls",
+            "type": "TrackballControls",
+            "readonly": "",
+            "class": "World",
+            "module": "EIGHT",
+            "submodule": "visual"
+        },
+        {
+            "file": "src/davinci-eight/visual/World.ts",
+            "line": 100,
+            "itemtype": "method",
+            "name": "arrow",
+            "return": {
+                "description": "",
+                "type": "Arrow"
+            },
+            "class": "World",
+            "module": "EIGHT",
+            "submodule": "visual"
+        },
+        {
+            "file": "src/davinci-eight/visual/World.ts",
+            "line": 112,
+            "itemtype": "method",
+            "name": "cuboid",
+            "return": {
+                "description": "",
+                "type": "Cuboid"
+            },
+            "class": "World",
+            "module": "EIGHT",
+            "submodule": "visual"
+        },
+        {
+            "file": "src/davinci-eight/visual/World.ts",
+            "line": 127,
+            "itemtype": "method",
+            "name": "cylinder",
+            "return": {
+                "description": "",
+                "type": "Cylinder"
+            },
+            "class": "World",
+            "module": "EIGHT",
+            "submodule": "visual"
+        },
+        {
+            "file": "src/davinci-eight/visual/World.ts",
+            "line": 140,
+            "itemtype": "method",
+            "name": "sphere",
+            "return": {
+                "description": "",
+                "type": "Sphere"
+            },
+            "class": "World",
             "module": "EIGHT",
             "submodule": "visual"
         },

@@ -1,11 +1,15 @@
+import AmbientLight from '../facets/AmbientLight'
+import Color from '../core/Color'
+import DirectionalLight from '../facets/DirectionalLight'
 import Facet from '../core/Facet'
 import isDefined from '../checks/isDefined'
 import mustBeBoolean from '../checks/mustBeBoolean'
 import mustBeFunction from '../checks/mustBeFunction'
 import mustBeNumber from '../checks/mustBeNumber'
 import mustBeString from '../checks/mustBeString'
-import refChange from '../core/refChange'
 import DrawList from './DrawList'
+import PerspectiveCamera from '../facets/PerspectiveCamera'
+import refChange from '../core/refChange'
 import TrackballControls from '../controls/TrackballControls'
 import World from './World'
 import WebGLRenderer from '../core/WebGLRenderer'
@@ -41,16 +45,33 @@ export default function(
 
     const ambients: Facet[] = []
 
-    const world = new World(renderer, drawList, ambients)
+    const ambientLight = new AmbientLight(Color.fromRGB(0.3, 0.3, 0.3))
+    ambients.push(ambientLight)
 
-    const controls = new TrackballControls(world.camera)
+    const dirLight = new DirectionalLight({ x: 0, y: 0, z: -1 }, Color.white)
+    ambients.push(dirLight)
+
+    const camera = new PerspectiveCamera(45 * Math.PI / 180, 1, 0.1, 1000)
+    camera.position.setXYZ(0, 0, 7)
+    camera.look.setXYZ(0, 0, 0)
+    camera.up.setXYZ(0, 1, 0)
+    ambients.push(camera)
+
+    const controls = new TrackballControls(camera)
+
+    const world = new World(renderer, drawList, ambients, controls)
 
     let requestId: number;
 
     function step(timestamp: number) {
         requestId = window.requestAnimationFrame(step)
+
         renderer.clear()
+
         controls.update()
+
+        dirLight.direction.copy(camera.look).sub(camera.position)
+
         try {
             animate(timestamp)
         }

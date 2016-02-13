@@ -461,7 +461,7 @@ define('davinci-eight/core',["require", "exports"], function (require, exports) 
             this.LAST_MODIFIED = '2016-02-12';
             this.NAMESPACE = 'EIGHT';
             this.verbose = false;
-            this.VERSION = '2.184.0';
+            this.VERSION = '2.185.0';
             this.logging = {};
         }
         return Eight;
@@ -16982,36 +16982,33 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/visual/World',["require", "exports", './Arrow', '../core/Color', './Cuboid', './Cylinder', '../facets/DirectionalLight', '../checks/isDefined', '../checks/mustBeNumber', '../facets/PerspectiveCamera', '../i18n/readOnly', '../core/Shareable', './Sphere'], function (require, exports, Arrow_1, Color_1, Cuboid_1, Cylinder_1, DirectionalLight_1, isDefined_1, mustBeNumber_1, PerspectiveCamera_1, readOnly_1, Shareable_1, Sphere_1) {
+define('davinci-eight/visual/World',["require", "exports", './Arrow', '../core/Color', './Cuboid', './Cylinder', '../checks/isDefined', '../checks/mustBeNumber', '../i18n/readOnly', '../core/Shareable', './Sphere'], function (require, exports, Arrow_1, Color_1, Cuboid_1, Cylinder_1, isDefined_1, mustBeNumber_1, readOnly_1, Shareable_1, Sphere_1) {
     var World = (function (_super) {
         __extends(World, _super);
-        function World(renderer, drawList, ambients) {
+        function World(renderer, drawList, ambients, controls) {
             _super.call(this, 'World');
-            this._camera = new PerspectiveCamera_1.default(45 * Math.PI / 180, 1, 0.1, 1000);
             renderer.addRef();
             this.renderer = renderer;
             drawList.addRef();
             this.drawList = drawList;
             this.drawList.subscribe(renderer);
-            this.ambients = ambients;
-            this._camera.position.setXYZ(0, 0, 7);
-            this._camera.look.setXYZ(0, 0, 0);
-            this.ambients.push(this._camera);
-            var dirLight = new DirectionalLight_1.default({ x: 0, y: 0, z: -1 }, Color_1.default.white);
-            this.ambients.push(dirLight);
+            this._ambients = ambients;
+            controls.addRef();
+            this._controls = controls;
         }
         World.prototype.destructor = function () {
+            this.controls.release();
             this.drawList.unsubscribe();
             this.drawList.release();
             this.renderer.release();
             _super.prototype.destructor.call(this);
         };
-        Object.defineProperty(World.prototype, "camera", {
+        Object.defineProperty(World.prototype, "ambients", {
             get: function () {
-                return this._camera;
+                return this._ambients;
             },
             set: function (unused) {
-                throw new Error(readOnly_1.default('camera').message);
+                throw new Error(readOnly_1.default('ambients').message);
             },
             enumerable: true,
             configurable: true
@@ -17022,6 +17019,16 @@ define('davinci-eight/visual/World',["require", "exports", './Arrow', '../core/C
             },
             set: function (unused) {
                 throw new Error(readOnly_1.default('canvas').message);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(World.prototype, "controls", {
+            get: function () {
+                return this._controls;
+            },
+            set: function (unused) {
+                throw new Error(readOnly_1.default('controls').message);
             },
             enumerable: true,
             configurable: true
@@ -17068,7 +17075,7 @@ define('davinci-eight/visual/World',["require", "exports", './Arrow', '../core/C
     exports.default = World;
 });
 
-define('davinci-eight/visual/bootstrap',["require", "exports", '../checks/isDefined', '../checks/mustBeBoolean', '../checks/mustBeFunction', '../checks/mustBeNumber', '../checks/mustBeString', '../core/refChange', './DrawList', '../controls/TrackballControls', './World', '../core/WebGLRenderer'], function (require, exports, isDefined_1, mustBeBoolean_1, mustBeFunction_1, mustBeNumber_1, mustBeString_1, refChange_1, DrawList_1, TrackballControls_1, World_1, WebGLRenderer_1) {
+define('davinci-eight/visual/bootstrap',["require", "exports", '../facets/AmbientLight', '../core/Color', '../facets/DirectionalLight', '../checks/isDefined', '../checks/mustBeBoolean', '../checks/mustBeFunction', '../checks/mustBeNumber', '../checks/mustBeString', './DrawList', '../facets/PerspectiveCamera', '../core/refChange', '../controls/TrackballControls', './World', '../core/WebGLRenderer'], function (require, exports, AmbientLight_1, Color_1, DirectionalLight_1, isDefined_1, mustBeBoolean_1, mustBeFunction_1, mustBeNumber_1, mustBeString_1, DrawList_1, PerspectiveCamera_1, refChange_1, TrackballControls_1, World_1, WebGLRenderer_1) {
     function default_1(canvasId, animate, options) {
         if (options === void 0) { options = {}; }
         mustBeString_1.default('canvasId', canvasId);
@@ -17085,13 +17092,23 @@ define('davinci-eight/visual/bootstrap',["require", "exports", '../checks/isDefi
         renderer.clearColor(0.1, 0.1, 0.1, 1.0);
         var drawList = new DrawList_1.default();
         var ambients = [];
-        var world = new World_1.default(renderer, drawList, ambients);
-        var controls = new TrackballControls_1.default(world.camera);
+        var ambientLight = new AmbientLight_1.default(Color_1.default.fromRGB(0.3, 0.3, 0.3));
+        ambients.push(ambientLight);
+        var dirLight = new DirectionalLight_1.default({ x: 0, y: 0, z: -1 }, Color_1.default.white);
+        ambients.push(dirLight);
+        var camera = new PerspectiveCamera_1.default(45 * Math.PI / 180, 1, 0.1, 1000);
+        camera.position.setXYZ(0, 0, 7);
+        camera.look.setXYZ(0, 0, 0);
+        camera.up.setXYZ(0, 1, 0);
+        ambients.push(camera);
+        var controls = new TrackballControls_1.default(camera);
+        var world = new World_1.default(renderer, drawList, ambients, controls);
         var requestId;
         function step(timestamp) {
             requestId = window.requestAnimationFrame(step);
             renderer.clear();
             controls.update();
+            dirLight.direction.copy(camera.look).sub(camera.position);
             try {
                 animate(timestamp);
             }

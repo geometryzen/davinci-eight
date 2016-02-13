@@ -113,6 +113,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "WebGLDisable",
         "WebGLEnable",
         "WebGLRenderer",
+        "World",
         "createView"
     ],
     "modules": [

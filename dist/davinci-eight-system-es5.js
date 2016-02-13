@@ -847,61 +847,6 @@ System.register("davinci-eight/math/R4.js", ["../math/VectorN"], function(export
   };
 });
 
-System.register("davinci-eight/facets/AmbientLight.js", ["../core/Color", "../checks/mustBeArray", "../checks/mustBeNumber", "../checks/mustBeObject", "../checks/mustBeString", "../core/GraphicsProgramSymbols"], function(exports_1) {
-  var Color_1,
-      mustBeArray_1,
-      mustBeNumber_1,
-      mustBeObject_1,
-      mustBeString_1,
-      GraphicsProgramSymbols_1;
-  var LOGGING_NAME,
-      AmbientLight;
-  function contextBuilder() {
-    return LOGGING_NAME;
-  }
-  return {
-    setters: [function(Color_1_1) {
-      Color_1 = Color_1_1;
-    }, function(mustBeArray_1_1) {
-      mustBeArray_1 = mustBeArray_1_1;
-    }, function(mustBeNumber_1_1) {
-      mustBeNumber_1 = mustBeNumber_1_1;
-    }, function(mustBeObject_1_1) {
-      mustBeObject_1 = mustBeObject_1_1;
-    }, function(mustBeString_1_1) {
-      mustBeString_1 = mustBeString_1_1;
-    }, function(GraphicsProgramSymbols_1_1) {
-      GraphicsProgramSymbols_1 = GraphicsProgramSymbols_1_1;
-    }],
-    execute: function() {
-      LOGGING_NAME = 'AmbientLight';
-      AmbientLight = (function() {
-        function AmbientLight(color) {
-          mustBeObject_1.default('color', color);
-          this.color = Color_1.default.white.clone();
-          this.color.r = mustBeNumber_1.default('color.r', color.r);
-          this.color.g = mustBeNumber_1.default('color.g', color.g);
-          this.color.b = mustBeNumber_1.default('color.b', color.b);
-        }
-        AmbientLight.prototype.getProperty = function(name) {
-          return void 0;
-        };
-        AmbientLight.prototype.setProperty = function(name, value) {
-          mustBeString_1.default('name', name, contextBuilder);
-          mustBeArray_1.default('value', value, contextBuilder);
-          return this;
-        };
-        AmbientLight.prototype.setUniforms = function(visitor) {
-          var coords = [this.color.r, this.color.g, this.color.b];
-          visitor.vector3(GraphicsProgramSymbols_1.default.UNIFORM_AMBIENT_LIGHT, coords);
-        };
-        return AmbientLight;
-      })();
-      exports_1("default", AmbientLight);
-    }
-  };
-});
-
 System.register("davinci-eight/facets/PointSizeFacet.js", ["../checks/mustBeArray", "../checks/mustBeInteger", "../checks/mustBeString", "../core/GraphicsProgramSymbols"], function(exports_1) {
   var mustBeArray_1,
       mustBeInteger_1,
@@ -2237,6 +2182,157 @@ System.register("davinci-eight/visual/Tetrahedron.js", ["../checks/mustBeNumber"
   };
 });
 
+System.register("davinci-eight/facets/AmbientLight.js", ["../core/Color", "../checks/mustBeArray", "../checks/mustBeNumber", "../checks/mustBeObject", "../checks/mustBeString", "../core/GraphicsProgramSymbols"], function(exports_1) {
+  var Color_1,
+      mustBeArray_1,
+      mustBeNumber_1,
+      mustBeObject_1,
+      mustBeString_1,
+      GraphicsProgramSymbols_1;
+  var LOGGING_NAME,
+      AmbientLight;
+  function contextBuilder() {
+    return LOGGING_NAME;
+  }
+  return {
+    setters: [function(Color_1_1) {
+      Color_1 = Color_1_1;
+    }, function(mustBeArray_1_1) {
+      mustBeArray_1 = mustBeArray_1_1;
+    }, function(mustBeNumber_1_1) {
+      mustBeNumber_1 = mustBeNumber_1_1;
+    }, function(mustBeObject_1_1) {
+      mustBeObject_1 = mustBeObject_1_1;
+    }, function(mustBeString_1_1) {
+      mustBeString_1 = mustBeString_1_1;
+    }, function(GraphicsProgramSymbols_1_1) {
+      GraphicsProgramSymbols_1 = GraphicsProgramSymbols_1_1;
+    }],
+    execute: function() {
+      LOGGING_NAME = 'AmbientLight';
+      AmbientLight = (function() {
+        function AmbientLight(color) {
+          mustBeObject_1.default('color', color);
+          this.color = Color_1.default.white.clone();
+          this.color.r = mustBeNumber_1.default('color.r', color.r);
+          this.color.g = mustBeNumber_1.default('color.g', color.g);
+          this.color.b = mustBeNumber_1.default('color.b', color.b);
+        }
+        AmbientLight.prototype.getProperty = function(name) {
+          return void 0;
+        };
+        AmbientLight.prototype.setProperty = function(name, value) {
+          mustBeString_1.default('name', name, contextBuilder);
+          mustBeArray_1.default('value', value, contextBuilder);
+          return this;
+        };
+        AmbientLight.prototype.setUniforms = function(visitor) {
+          var coords = [this.color.r, this.color.g, this.color.b];
+          visitor.vector3(GraphicsProgramSymbols_1.default.UNIFORM_AMBIENT_LIGHT, coords);
+        };
+        return AmbientLight;
+      })();
+      exports_1("default", AmbientLight);
+    }
+  };
+});
+
+System.register("davinci-eight/facets/DirectionalLight.js", ["../core/Color", "../checks/mustBeObject", "../checks/mustBeString", "../core/GraphicsProgramSymbols", "../math/R3"], function(exports_1) {
+  var Color_1,
+      mustBeObject_1,
+      mustBeString_1,
+      GraphicsProgramSymbols_1,
+      R3_1;
+  var LOGGING_NAME,
+      DirectionalLight;
+  function contextBuilder() {
+    return LOGGING_NAME;
+  }
+  return {
+    setters: [function(Color_1_1) {
+      Color_1 = Color_1_1;
+    }, function(mustBeObject_1_1) {
+      mustBeObject_1 = mustBeObject_1_1;
+    }, function(mustBeString_1_1) {
+      mustBeString_1 = mustBeString_1_1;
+    }, function(GraphicsProgramSymbols_1_1) {
+      GraphicsProgramSymbols_1 = GraphicsProgramSymbols_1_1;
+    }, function(R3_1_1) {
+      R3_1 = R3_1_1;
+    }],
+    execute: function() {
+      LOGGING_NAME = 'DirectionalLight';
+      DirectionalLight = (function() {
+        function DirectionalLight(direction, color) {
+          mustBeObject_1.default('direction', direction);
+          mustBeObject_1.default('color', color);
+          this.direction = R3_1.default.copy(direction).direction();
+          this.color = Color_1.default.fromColor(color);
+        }
+        DirectionalLight.prototype.getProperty = function(name) {
+          mustBeString_1.default('name', name, contextBuilder);
+          switch (name) {
+            case DirectionalLight.PROP_COLOR:
+              {
+                return this.color.coords;
+              }
+              break;
+            case DirectionalLight.PROP_DIRECTION:
+              {
+                return this.direction.coords;
+              }
+              break;
+            default:
+              {
+                console.warn("unknown property: " + name);
+              }
+          }
+        };
+        DirectionalLight.prototype.setProperty = function(name, value) {
+          mustBeString_1.default('name', name, contextBuilder);
+          mustBeObject_1.default('value', value, contextBuilder);
+          switch (name) {
+            case DirectionalLight.PROP_COLOR:
+              {
+                this.color.coords = value;
+              }
+              break;
+            case DirectionalLight.PROP_DIRECTION:
+              {
+                this.direction.coords = value;
+              }
+              break;
+            default:
+              {
+                console.warn("unknown property: " + name);
+              }
+          }
+          return this;
+        };
+        DirectionalLight.prototype.setColor = function(color) {
+          mustBeObject_1.default('color', color);
+          this.color.copy(color);
+          return this;
+        };
+        DirectionalLight.prototype.setDirection = function(direction) {
+          mustBeObject_1.default('direction', direction);
+          this.direction.copy(direction).direction();
+          return this;
+        };
+        DirectionalLight.prototype.setUniforms = function(visitor) {
+          visitor.vector3(GraphicsProgramSymbols_1.default.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION, this.direction.coords);
+          var coords = [this.color.r, this.color.g, this.color.b];
+          visitor.vector3(GraphicsProgramSymbols_1.default.UNIFORM_DIRECTIONAL_LIGHT_COLOR, coords);
+        };
+        DirectionalLight.PROP_COLOR = 'color';
+        DirectionalLight.PROP_DIRECTION = 'direction';
+        return DirectionalLight;
+      })();
+      exports_1("default", DirectionalLight);
+    }
+  };
+});
+
 System.register("davinci-eight/checks/isFunction.js", [], function(exports_1) {
   function isFunction(x) {
     return (typeof x === 'function');
@@ -2336,642 +2432,6 @@ System.register("davinci-eight/visual/DrawList.js", ["../collections/ShareableAr
         return DrawList;
       })(ShareableContextListener_1.default);
       exports_1("default", DrawList);
-    }
-  };
-});
-
-System.register("davinci-eight/controls/MouseControls.js", ["../math/G2", "../core/Shareable"], function(exports_1) {
-  var __extends = (this && this.__extends) || function(d, b) {
-    for (var p in b)
-      if (b.hasOwnProperty(p))
-        d[p] = b[p];
-    function __() {
-      this.constructor = d;
-    }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-  };
-  var G2_1,
-      Shareable_1;
-  var MODE,
-      keys,
-      MouseControls;
-  return {
-    setters: [function(G2_1_1) {
-      G2_1 = G2_1_1;
-    }, function(Shareable_1_1) {
-      Shareable_1 = Shareable_1_1;
-    }],
-    execute: function() {
-      MODE = {
-        NONE: -1,
-        ROTATE: 0,
-        ZOOM: 1,
-        PAN: 2,
-        TOUCH_ROTATE: 3,
-        TOUCH_ZOOM_PAN: 4
-      };
-      keys = [65, 83, 68];
-      MouseControls = (function(_super) {
-        __extends(MouseControls, _super);
-        function MouseControls(type) {
-          var _this = this;
-          _super.call(this, type);
-          this.enabled = true;
-          this.noRotate = false;
-          this.noZoom = false;
-          this.noPan = false;
-          this.minDistance = 0;
-          this.maxDistance = Infinity;
-          this.mode = MODE.NONE;
-          this.prevMode = MODE.NONE;
-          this.moveCurr = new G2_1.default();
-          this.movePrev = new G2_1.default();
-          this.zoomStart = new G2_1.default();
-          this.zoomEnd = new G2_1.default();
-          this.panStart = new G2_1.default();
-          this.panEnd = new G2_1.default();
-          this.screenLoc = new G2_1.default();
-          this.circleExt = new G2_1.default();
-          this.screenExt = new G2_1.default();
-          this.mouseOnCircle = new G2_1.default();
-          this.mouseOnScreen = new G2_1.default();
-          this.mousedown = function(event) {
-            if (!_this.enabled) {
-              return;
-            }
-            event.preventDefault();
-            event.stopPropagation();
-            if (_this.mode === MODE.NONE) {
-              _this.mode = event.button;
-            }
-            if (_this.mode === MODE.ROTATE && !_this.noRotate) {
-              _this.updateMouseOnCircle(event);
-              _this.moveCurr.copy(_this.mouseOnCircle);
-              _this.movePrev.copy(_this.mouseOnCircle);
-            } else if (_this.mode === MODE.ZOOM && !_this.noZoom) {
-              _this.updateMouseOnScreen(event);
-              _this.zoomStart.copy(_this.mouseOnScreen);
-              _this.zoomEnd.copy(_this.mouseOnScreen);
-            } else if (_this.mode === MODE.PAN && !_this.noPan) {
-              _this.updateMouseOnScreen(event);
-              _this.panStart.copy(_this.mouseOnScreen);
-              _this.panEnd.copy(_this.mouseOnScreen);
-            }
-            document.addEventListener('mousemove', _this.mousemove, false);
-            document.addEventListener('mouseup', _this.mouseup, false);
-          };
-          this.mousemove = function(event) {
-            if (!_this.enabled) {
-              return;
-            }
-            event.preventDefault();
-            event.stopPropagation();
-            if (_this.mode === MODE.ROTATE && !_this.noRotate) {
-              _this.movePrev.copy(_this.moveCurr);
-              _this.updateMouseOnCircle(event);
-              _this.moveCurr.copy(_this.mouseOnCircle);
-            } else if (_this.mode === MODE.ZOOM && !_this.noZoom) {
-              _this.updateMouseOnScreen(event);
-              _this.zoomEnd.copy(_this.mouseOnScreen);
-            } else if (_this.mode === MODE.PAN && !_this.noPan) {
-              _this.updateMouseOnScreen(event);
-              _this.panEnd.copy(_this.mouseOnScreen);
-            }
-          };
-          this.mouseup = function(event) {
-            if (!_this.enabled) {
-              return;
-            }
-            event.preventDefault();
-            event.stopPropagation();
-            _this.mode = MODE.NONE;
-            document.removeEventListener('mousemove', _this.mousemove);
-            document.removeEventListener('mouseup', _this.mouseup);
-          };
-          this.mousewheel = function(event) {
-            if (!_this.enabled) {
-              return;
-            }
-            event.preventDefault();
-            event.stopPropagation();
-            var delta = 0;
-            if (event.wheelDelta) {
-              delta = event.wheelDelta / 40;
-            } else if (event.detail) {
-              delta = event.detail / 3;
-            }
-            _this.zoomStart.y += delta * 0.01;
-          };
-          this.keydown = function(event) {
-            if (!_this.enabled) {
-              return;
-            }
-            window.removeEventListener('keydown', _this.keydown, false);
-            _this.prevMode = _this.mode;
-            if (_this.mode !== MODE.NONE) {
-              return;
-            } else if (event.keyCode === keys[MODE.ROTATE] && !_this.noRotate) {
-              _this.mode = MODE.ROTATE;
-            } else if (event.keyCode === keys[MODE.ZOOM] && !_this.noRotate) {
-              _this.mode = MODE.ZOOM;
-            } else if (event.keyCode === keys[MODE.PAN] && !_this.noRotate) {
-              _this.mode = MODE.PAN;
-            }
-          };
-          this.keyup = function(event) {
-            if (!_this.enabled) {
-              return;
-            }
-            _this.mode = _this.prevMode;
-            window.addEventListener('keydown', _this.keydown, false);
-          };
-          this.contextmenu = function(event) {
-            event.preventDefault();
-          };
-        }
-        MouseControls.prototype.subscribe = function(domElement) {
-          if (this.domElement) {
-            this.unsubscribe();
-          }
-          this.domElement = domElement;
-          this.domElement.addEventListener('contextmenu', this.contextmenu, false);
-          this.domElement.addEventListener('mousedown', this.mousedown, false);
-          this.domElement.addEventListener('mousewheel', this.mousewheel, false);
-          this.domElement.addEventListener('DOMMouseScroll', this.mousewheel, false);
-          window.addEventListener('keydown', this.keydown, false);
-          window.addEventListener('keyup', this.keydown, false);
-          this.handleResize();
-        };
-        MouseControls.prototype.unsubscribe = function() {
-          if (this.domElement) {
-            this.domElement.removeEventListener('contextmenu', this.contextmenu, false);
-            this.domElement.removeEventListener('mousedown', this.mousedown, false);
-            this.domElement.removeEventListener('mousewheel', this.mousewheel, false);
-            this.domElement.removeEventListener('DOMMouseScroll', this.mousewheel, false);
-            this.domElement = void 0;
-            window.removeEventListener('keydown', this.keydown, false);
-            window.removeEventListener('keyup', this.keydown, false);
-          }
-        };
-        MouseControls.prototype.destructor = function() {
-          this.domElement.removeEventListener('contextmenu', this.contextmenu, false);
-          this.domElement.removeEventListener('mousedown', this.mousedown, false);
-          this.domElement.removeEventListener('mousewheel', this.mousewheel, false);
-          this.domElement.removeEventListener('DOMMouseScroll', this.mousewheel, false);
-          window.removeEventListener('keydown', this.keydown, false);
-          window.removeEventListener('keyup', this.keydown, false);
-          _super.prototype.destructor.call(this);
-        };
-        MouseControls.prototype.reset = function() {
-          this.mode = MODE.NONE;
-        };
-        MouseControls.prototype.updateMouseOnCircle = function(mouse) {
-          this.mouseOnCircle.x = mouse.pageX;
-          this.mouseOnCircle.y = -mouse.pageY;
-          this.mouseOnCircle.sub(this.screenLoc).scale(2).sub(this.circleExt).divByScalar(this.circleExt.x);
-        };
-        MouseControls.prototype.updateMouseOnScreen = function(mouse) {
-          this.mouseOnScreen.x = mouse.pageX;
-          this.mouseOnScreen.y = -mouse.pageY;
-          this.mouseOnScreen.sub(this.screenLoc);
-          this.mouseOnScreen.x /= this.circleExt.x;
-          this.mouseOnScreen.y /= this.circleExt.y;
-        };
-        MouseControls.prototype.handleResize = function() {
-          if (false) {} else {
-            var box = this.domElement.getBoundingClientRect();
-            var domElement = this.domElement.ownerDocument.documentElement;
-            this.screenLoc.x = box.left + window.pageXOffset - domElement.clientLeft;
-            this.screenLoc.y = -(box.top + window.pageYOffset - domElement.clientTop);
-            this.circleExt.x = box.width;
-            this.circleExt.y = -box.height;
-            this.screenExt.x = box.width;
-            this.screenExt.y = box.height;
-          }
-        };
-        return MouseControls;
-      })(Shareable_1.default);
-      exports_1("default", MouseControls);
-    }
-  };
-});
-
-System.register("davinci-eight/controls/TrackballControls.js", ["../math/G3", "./MouseControls", "../math/R2", "../math/R3"], function(exports_1) {
-  var __extends = (this && this.__extends) || function(d, b) {
-    for (var p in b)
-      if (b.hasOwnProperty(p))
-        d[p] = b[p];
-    function __() {
-      this.constructor = d;
-    }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-  };
-  var G3_1,
-      MouseControls_1,
-      R2_1,
-      R3_1;
-  var TrackballControls;
-  return {
-    setters: [function(G3_1_1) {
-      G3_1 = G3_1_1;
-    }, function(MouseControls_1_1) {
-      MouseControls_1 = MouseControls_1_1;
-    }, function(R2_1_1) {
-      R2_1 = R2_1_1;
-    }, function(R3_1_1) {
-      R3_1 = R3_1_1;
-    }],
-    execute: function() {
-      TrackballControls = (function(_super) {
-        __extends(TrackballControls, _super);
-        function TrackballControls(camera) {
-          _super.call(this, 'TrackballControls');
-          this.rotateSpeed = 1;
-          this.zoomSpeed = 1;
-          this.panSpeed = 1;
-          this.eye = new R3_1.default();
-          this.target = new G3_1.default();
-          this.moveDirection = new R3_1.default();
-          this.eyeDirection = new R3_1.default();
-          this.objectUpDirection = new R3_1.default();
-          this.objectSidewaysDirection = new R3_1.default();
-          this.axis = new R3_1.default();
-          this.rotor = new G3_1.default();
-          this.mouseChange = new R2_1.default();
-          this.pan = new R3_1.default();
-          this.objectUp = new R3_1.default();
-          this.camera = camera;
-          this.target0 = this.target.clone();
-          this.position0 = this.camera.position.clone();
-          this.up0 = this.camera.up.clone();
-          this.update();
-        }
-        TrackballControls.prototype.destructor = function() {
-          _super.prototype.destructor.call(this);
-        };
-        TrackballControls.prototype.reset = function() {
-          this.target.copy(this.target0);
-          this.camera.position.copy(this.position0);
-          this.camera.up.copy(this.up0);
-          this.eye.copy(this.camera.position).sub(this.target);
-          this.camera.look.copy(this.target);
-          _super.prototype.reset.call(this);
-        };
-        TrackballControls.prototype.update = function() {
-          this.eye.copy(this.camera.position).sub(this.target);
-          if (!this.noRotate) {
-            this.rotateCamera();
-          }
-          if (!this.noZoom) {
-            this.zoomCamera();
-          }
-          if (!this.noPan) {
-            this.panCamera();
-          }
-          this.camera.position.copy(this.target).add(this.eye);
-          this.checkDistances();
-          this.camera.look.copy(this.target);
-        };
-        TrackballControls.prototype.rotateCamera = function() {
-          this.moveDirection.setXYZ(this.moveCurr.x - this.movePrev.x, this.moveCurr.y - this.movePrev.y, 0);
-          var angle = this.moveDirection.magnitude();
-          if (angle) {
-            this.eye.copy(this.camera.position).sub(this.target);
-            this.eyeDirection.copy(this.eye).direction();
-            this.objectUpDirection.copy(this.camera.up).direction();
-            this.objectSidewaysDirection.copy(this.objectUpDirection).cross(this.eyeDirection);
-            this.objectUpDirection.scale(this.moveCurr.y - this.movePrev.y);
-            this.objectSidewaysDirection.scale(this.moveCurr.x - this.movePrev.x);
-            this.moveDirection.copy(this.objectUpDirection).add(this.objectSidewaysDirection).direction();
-            this.axis.copy(this.moveDirection).cross(this.eyeDirection);
-            angle *= this.rotateSpeed;
-            this.rotor.rotorFromAxisAngle(this.axis, angle);
-            this.eye.rotate(this.rotor);
-            this.camera.up.rotate(this.rotor);
-          }
-          this.movePrev.copy(this.moveCurr);
-        };
-        TrackballControls.prototype.zoomCamera = function() {
-          var factor = 1 + (this.zoomEnd.y - this.zoomStart.y) * this.zoomSpeed;
-          if (factor !== 1 && factor > 0) {
-            this.eye.scale(factor);
-            this.zoomStart.copy(this.zoomEnd);
-          }
-        };
-        TrackballControls.prototype.panCamera = function() {
-          this.mouseChange.copy(this.panEnd).sub(this.panStart);
-          if (this.mouseChange.squaredNorm()) {
-            this.mouseChange.scale(this.eye.magnitude() * this.panSpeed);
-            this.pan.copy(this.eye).cross(this.camera.up).direction().scale(this.mouseChange.x);
-            this.objectUp.copy(this.camera.up).direction().scale(this.mouseChange.y);
-            this.pan.add(this.objectUp);
-            this.camera.position.add(this.pan);
-            this.target.addVector(this.pan);
-            this.panStart.copy(this.panEnd);
-          }
-        };
-        TrackballControls.prototype.checkDistances = function() {};
-        return TrackballControls;
-      })(MouseControls_1.default);
-      exports_1("default", TrackballControls);
-    }
-  };
-});
-
-System.register("davinci-eight/visual/Arrow.js", ["../checks/mustBeNumber", "../checks/mustBeGE", "./visualCache", "./VisualBody"], function(exports_1) {
-  var __extends = (this && this.__extends) || function(d, b) {
-    for (var p in b)
-      if (b.hasOwnProperty(p))
-        d[p] = b[p];
-    function __() {
-      this.constructor = d;
-    }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-  };
-  var mustBeNumber_1,
-      mustBeGE_1,
-      visualCache_1,
-      VisualBody_1;
-  var Arrow;
-  return {
-    setters: [function(mustBeNumber_1_1) {
-      mustBeNumber_1 = mustBeNumber_1_1;
-    }, function(mustBeGE_1_1) {
-      mustBeGE_1 = mustBeGE_1_1;
-    }, function(visualCache_1_1) {
-      visualCache_1 = visualCache_1_1;
-    }, function(VisualBody_1_1) {
-      VisualBody_1 = VisualBody_1_1;
-    }],
-    execute: function() {
-      Arrow = (function(_super) {
-        __extends(Arrow, _super);
-        function Arrow(options) {
-          if (options === void 0) {
-            options = {};
-          }
-          _super.call(this, visualCache_1.default.arrow(options), visualCache_1.default.material(options), 'Arrow');
-          this._geometry.release();
-          this._material.release();
-        }
-        Arrow.prototype.destructor = function() {
-          _super.prototype.destructor.call(this);
-        };
-        Object.defineProperty(Arrow.prototype, "length", {
-          get: function() {
-            return this.getScaleY();
-          },
-          set: function(length) {
-            mustBeNumber_1.default('length', length);
-            mustBeGE_1.default('length', length, 0);
-            this.setScaleX(length);
-            this.setScaleY(length);
-            this.setScaleZ(length);
-          },
-          enumerable: true,
-          configurable: true
-        });
-        return Arrow;
-      })(VisualBody_1.default);
-      exports_1("default", Arrow);
-    }
-  };
-});
-
-System.register("davinci-eight/visual/Cuboid.js", ["../checks/mustBeNumber", "./visualCache", "./VisualBody"], function(exports_1) {
-  var __extends = (this && this.__extends) || function(d, b) {
-    for (var p in b)
-      if (b.hasOwnProperty(p))
-        d[p] = b[p];
-    function __() {
-      this.constructor = d;
-    }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-  };
-  var mustBeNumber_1,
-      visualCache_1,
-      VisualBody_1;
-  var Cuboid;
-  return {
-    setters: [function(mustBeNumber_1_1) {
-      mustBeNumber_1 = mustBeNumber_1_1;
-    }, function(visualCache_1_1) {
-      visualCache_1 = visualCache_1_1;
-    }, function(VisualBody_1_1) {
-      VisualBody_1 = VisualBody_1_1;
-    }],
-    execute: function() {
-      Cuboid = (function(_super) {
-        __extends(Cuboid, _super);
-        function Cuboid(options) {
-          if (options === void 0) {
-            options = {};
-          }
-          _super.call(this, visualCache_1.default.cuboid(options), visualCache_1.default.material(options), 'Cuboid');
-          this._geometry.release();
-          this._material.release();
-        }
-        Cuboid.prototype.destructor = function() {
-          _super.prototype.destructor.call(this);
-        };
-        Object.defineProperty(Cuboid.prototype, "width", {
-          get: function() {
-            return this.getScaleX();
-          },
-          set: function(width) {
-            mustBeNumber_1.default('width', width);
-            this.setScaleX(width);
-          },
-          enumerable: true,
-          configurable: true
-        });
-        Object.defineProperty(Cuboid.prototype, "height", {
-          get: function() {
-            return this.getScaleY();
-          },
-          set: function(height) {
-            mustBeNumber_1.default('height', height);
-            this.setScaleY(height);
-          },
-          enumerable: true,
-          configurable: true
-        });
-        Object.defineProperty(Cuboid.prototype, "depth", {
-          get: function() {
-            return this.getScaleZ();
-          },
-          set: function(depth) {
-            mustBeNumber_1.default('depth', depth);
-            this.setScaleZ(depth);
-          },
-          enumerable: true,
-          configurable: true
-        });
-        return Cuboid;
-      })(VisualBody_1.default);
-      exports_1("default", Cuboid);
-    }
-  };
-});
-
-System.register("davinci-eight/visual/Cylinder.js", ["../checks/mustBeNumber", "./visualCache", "./VisualBody"], function(exports_1) {
-  var __extends = (this && this.__extends) || function(d, b) {
-    for (var p in b)
-      if (b.hasOwnProperty(p))
-        d[p] = b[p];
-    function __() {
-      this.constructor = d;
-    }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-  };
-  var mustBeNumber_1,
-      visualCache_1,
-      VisualBody_1;
-  var Cylinder;
-  return {
-    setters: [function(mustBeNumber_1_1) {
-      mustBeNumber_1 = mustBeNumber_1_1;
-    }, function(visualCache_1_1) {
-      visualCache_1 = visualCache_1_1;
-    }, function(VisualBody_1_1) {
-      VisualBody_1 = VisualBody_1_1;
-    }],
-    execute: function() {
-      Cylinder = (function(_super) {
-        __extends(Cylinder, _super);
-        function Cylinder(options) {
-          if (options === void 0) {
-            options = {};
-          }
-          _super.call(this, visualCache_1.default.cylinder(options), visualCache_1.default.material(options), 'Cylinder');
-          this._geometry.release();
-          this._material.release();
-        }
-        Cylinder.prototype.destructor = function() {
-          _super.prototype.destructor.call(this);
-        };
-        Object.defineProperty(Cylinder.prototype, "radius", {
-          get: function() {
-            return this.getScaleX();
-          },
-          set: function(radius) {
-            mustBeNumber_1.default('radius', radius);
-            this.setScaleX(radius);
-            this.setScaleZ(radius);
-          },
-          enumerable: true,
-          configurable: true
-        });
-        Object.defineProperty(Cylinder.prototype, "length", {
-          get: function() {
-            return this.getScaleY();
-          },
-          set: function(length) {
-            mustBeNumber_1.default('length', length);
-            this.setScaleY(length);
-          },
-          enumerable: true,
-          configurable: true
-        });
-        return Cylinder;
-      })(VisualBody_1.default);
-      exports_1("default", Cylinder);
-    }
-  };
-});
-
-System.register("davinci-eight/facets/DirectionalLight.js", ["../core/Color", "../checks/mustBeObject", "../checks/mustBeString", "../core/GraphicsProgramSymbols", "../math/R3"], function(exports_1) {
-  var Color_1,
-      mustBeObject_1,
-      mustBeString_1,
-      GraphicsProgramSymbols_1,
-      R3_1;
-  var LOGGING_NAME,
-      DirectionalLight;
-  function contextBuilder() {
-    return LOGGING_NAME;
-  }
-  return {
-    setters: [function(Color_1_1) {
-      Color_1 = Color_1_1;
-    }, function(mustBeObject_1_1) {
-      mustBeObject_1 = mustBeObject_1_1;
-    }, function(mustBeString_1_1) {
-      mustBeString_1 = mustBeString_1_1;
-    }, function(GraphicsProgramSymbols_1_1) {
-      GraphicsProgramSymbols_1 = GraphicsProgramSymbols_1_1;
-    }, function(R3_1_1) {
-      R3_1 = R3_1_1;
-    }],
-    execute: function() {
-      LOGGING_NAME = 'DirectionalLight';
-      DirectionalLight = (function() {
-        function DirectionalLight(direction, color) {
-          mustBeObject_1.default('direction', direction);
-          mustBeObject_1.default('color', color);
-          this.direction = R3_1.default.copy(direction).direction();
-          this.color = Color_1.default.fromColor(color);
-        }
-        DirectionalLight.prototype.getProperty = function(name) {
-          mustBeString_1.default('name', name, contextBuilder);
-          switch (name) {
-            case DirectionalLight.PROP_COLOR:
-              {
-                return this.color.coords;
-              }
-              break;
-            case DirectionalLight.PROP_DIRECTION:
-              {
-                return this.direction.coords;
-              }
-              break;
-            default:
-              {
-                console.warn("unknown property: " + name);
-              }
-          }
-        };
-        DirectionalLight.prototype.setProperty = function(name, value) {
-          mustBeString_1.default('name', name, contextBuilder);
-          mustBeObject_1.default('value', value, contextBuilder);
-          switch (name) {
-            case DirectionalLight.PROP_COLOR:
-              {
-                this.color.coords = value;
-              }
-              break;
-            case DirectionalLight.PROP_DIRECTION:
-              {
-                this.direction.coords = value;
-              }
-              break;
-            default:
-              {
-                console.warn("unknown property: " + name);
-              }
-          }
-          return this;
-        };
-        DirectionalLight.prototype.setColor = function(color) {
-          mustBeObject_1.default('color', color);
-          this.color.copy(color);
-          return this;
-        };
-        DirectionalLight.prototype.setDirection = function(direction) {
-          mustBeObject_1.default('direction', direction);
-          this.direction.copy(direction).direction();
-          return this;
-        };
-        DirectionalLight.prototype.setUniforms = function(visitor) {
-          visitor.vector3(GraphicsProgramSymbols_1.default.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION, this.direction.coords);
-          var coords = [this.color.r, this.color.g, this.color.b];
-          visitor.vector3(GraphicsProgramSymbols_1.default.UNIFORM_DIRECTIONAL_LIGHT_COLOR, coords);
-        };
-        DirectionalLight.PROP_COLOR = 'color';
-        DirectionalLight.PROP_DIRECTION = 'direction';
-        return DirectionalLight;
-      })();
-      exports_1("default", DirectionalLight);
     }
   };
 });
@@ -3575,6 +3035,546 @@ System.register("davinci-eight/facets/PerspectiveCamera.js", ["./createPerspecti
         return PerspectiveCamera;
       })();
       exports_1("default", PerspectiveCamera);
+    }
+  };
+});
+
+System.register("davinci-eight/controls/MouseControls.js", ["../math/G2", "../core/Shareable"], function(exports_1) {
+  var __extends = (this && this.__extends) || function(d, b) {
+    for (var p in b)
+      if (b.hasOwnProperty(p))
+        d[p] = b[p];
+    function __() {
+      this.constructor = d;
+    }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+  };
+  var G2_1,
+      Shareable_1;
+  var MODE,
+      keys,
+      MouseControls;
+  return {
+    setters: [function(G2_1_1) {
+      G2_1 = G2_1_1;
+    }, function(Shareable_1_1) {
+      Shareable_1 = Shareable_1_1;
+    }],
+    execute: function() {
+      MODE = {
+        NONE: -1,
+        ROTATE: 0,
+        ZOOM: 1,
+        PAN: 2,
+        TOUCH_ROTATE: 3,
+        TOUCH_ZOOM_PAN: 4
+      };
+      keys = [65, 83, 68];
+      MouseControls = (function(_super) {
+        __extends(MouseControls, _super);
+        function MouseControls(type) {
+          var _this = this;
+          _super.call(this, type);
+          this.enabled = true;
+          this.noRotate = false;
+          this.noZoom = false;
+          this.noPan = false;
+          this.minDistance = 0;
+          this.maxDistance = Infinity;
+          this.mode = MODE.NONE;
+          this.prevMode = MODE.NONE;
+          this.moveCurr = new G2_1.default();
+          this.movePrev = new G2_1.default();
+          this.zoomStart = new G2_1.default();
+          this.zoomEnd = new G2_1.default();
+          this.panStart = new G2_1.default();
+          this.panEnd = new G2_1.default();
+          this.screenLoc = new G2_1.default();
+          this.circleExt = new G2_1.default();
+          this.screenExt = new G2_1.default();
+          this.mouseOnCircle = new G2_1.default();
+          this.mouseOnScreen = new G2_1.default();
+          this.mousedown = function(event) {
+            if (!_this.enabled) {
+              return;
+            }
+            event.preventDefault();
+            event.stopPropagation();
+            if (_this.mode === MODE.NONE) {
+              _this.mode = event.button;
+            }
+            if (_this.mode === MODE.ROTATE && !_this.noRotate) {
+              _this.updateMouseOnCircle(event);
+              _this.moveCurr.copy(_this.mouseOnCircle);
+              _this.movePrev.copy(_this.mouseOnCircle);
+            } else if (_this.mode === MODE.ZOOM && !_this.noZoom) {
+              _this.updateMouseOnScreen(event);
+              _this.zoomStart.copy(_this.mouseOnScreen);
+              _this.zoomEnd.copy(_this.mouseOnScreen);
+            } else if (_this.mode === MODE.PAN && !_this.noPan) {
+              _this.updateMouseOnScreen(event);
+              _this.panStart.copy(_this.mouseOnScreen);
+              _this.panEnd.copy(_this.mouseOnScreen);
+            }
+            document.addEventListener('mousemove', _this.mousemove, false);
+            document.addEventListener('mouseup', _this.mouseup, false);
+          };
+          this.mousemove = function(event) {
+            if (!_this.enabled) {
+              return;
+            }
+            event.preventDefault();
+            event.stopPropagation();
+            if (_this.mode === MODE.ROTATE && !_this.noRotate) {
+              _this.movePrev.copy(_this.moveCurr);
+              _this.updateMouseOnCircle(event);
+              _this.moveCurr.copy(_this.mouseOnCircle);
+            } else if (_this.mode === MODE.ZOOM && !_this.noZoom) {
+              _this.updateMouseOnScreen(event);
+              _this.zoomEnd.copy(_this.mouseOnScreen);
+            } else if (_this.mode === MODE.PAN && !_this.noPan) {
+              _this.updateMouseOnScreen(event);
+              _this.panEnd.copy(_this.mouseOnScreen);
+            }
+          };
+          this.mouseup = function(event) {
+            if (!_this.enabled) {
+              return;
+            }
+            event.preventDefault();
+            event.stopPropagation();
+            _this.mode = MODE.NONE;
+            document.removeEventListener('mousemove', _this.mousemove);
+            document.removeEventListener('mouseup', _this.mouseup);
+          };
+          this.mousewheel = function(event) {
+            if (!_this.enabled) {
+              return;
+            }
+            event.preventDefault();
+            event.stopPropagation();
+            var delta = 0;
+            if (event.wheelDelta) {
+              delta = event.wheelDelta / 40;
+            } else if (event.detail) {
+              delta = event.detail / 3;
+            }
+            _this.zoomStart.y += delta * 0.01;
+          };
+          this.keydown = function(event) {
+            if (!_this.enabled) {
+              return;
+            }
+            window.removeEventListener('keydown', _this.keydown, false);
+            _this.prevMode = _this.mode;
+            if (_this.mode !== MODE.NONE) {
+              return;
+            } else if (event.keyCode === keys[MODE.ROTATE] && !_this.noRotate) {
+              _this.mode = MODE.ROTATE;
+            } else if (event.keyCode === keys[MODE.ZOOM] && !_this.noRotate) {
+              _this.mode = MODE.ZOOM;
+            } else if (event.keyCode === keys[MODE.PAN] && !_this.noRotate) {
+              _this.mode = MODE.PAN;
+            }
+          };
+          this.keyup = function(event) {
+            if (!_this.enabled) {
+              return;
+            }
+            _this.mode = _this.prevMode;
+            window.addEventListener('keydown', _this.keydown, false);
+          };
+          this.contextmenu = function(event) {
+            event.preventDefault();
+          };
+        }
+        MouseControls.prototype.subscribe = function(domElement) {
+          if (this.domElement) {
+            this.unsubscribe();
+          }
+          this.domElement = domElement;
+          this.domElement.addEventListener('contextmenu', this.contextmenu, false);
+          this.domElement.addEventListener('mousedown', this.mousedown, false);
+          this.domElement.addEventListener('mousewheel', this.mousewheel, false);
+          this.domElement.addEventListener('DOMMouseScroll', this.mousewheel, false);
+          window.addEventListener('keydown', this.keydown, false);
+          window.addEventListener('keyup', this.keydown, false);
+          this.handleResize();
+        };
+        MouseControls.prototype.unsubscribe = function() {
+          if (this.domElement) {
+            this.domElement.removeEventListener('contextmenu', this.contextmenu, false);
+            this.domElement.removeEventListener('mousedown', this.mousedown, false);
+            this.domElement.removeEventListener('mousewheel', this.mousewheel, false);
+            this.domElement.removeEventListener('DOMMouseScroll', this.mousewheel, false);
+            this.domElement = void 0;
+            window.removeEventListener('keydown', this.keydown, false);
+            window.removeEventListener('keyup', this.keydown, false);
+          }
+        };
+        MouseControls.prototype.destructor = function() {
+          this.domElement.removeEventListener('contextmenu', this.contextmenu, false);
+          this.domElement.removeEventListener('mousedown', this.mousedown, false);
+          this.domElement.removeEventListener('mousewheel', this.mousewheel, false);
+          this.domElement.removeEventListener('DOMMouseScroll', this.mousewheel, false);
+          window.removeEventListener('keydown', this.keydown, false);
+          window.removeEventListener('keyup', this.keydown, false);
+          _super.prototype.destructor.call(this);
+        };
+        MouseControls.prototype.reset = function() {
+          this.mode = MODE.NONE;
+        };
+        MouseControls.prototype.updateMouseOnCircle = function(mouse) {
+          this.mouseOnCircle.x = mouse.pageX;
+          this.mouseOnCircle.y = -mouse.pageY;
+          this.mouseOnCircle.sub(this.screenLoc).scale(2).sub(this.circleExt).divByScalar(this.circleExt.x);
+        };
+        MouseControls.prototype.updateMouseOnScreen = function(mouse) {
+          this.mouseOnScreen.x = mouse.pageX;
+          this.mouseOnScreen.y = -mouse.pageY;
+          this.mouseOnScreen.sub(this.screenLoc);
+          this.mouseOnScreen.x /= this.circleExt.x;
+          this.mouseOnScreen.y /= this.circleExt.y;
+        };
+        MouseControls.prototype.handleResize = function() {
+          if (false) {} else {
+            var box = this.domElement.getBoundingClientRect();
+            var domElement = this.domElement.ownerDocument.documentElement;
+            this.screenLoc.x = box.left + window.pageXOffset - domElement.clientLeft;
+            this.screenLoc.y = -(box.top + window.pageYOffset - domElement.clientTop);
+            this.circleExt.x = box.width;
+            this.circleExt.y = -box.height;
+            this.screenExt.x = box.width;
+            this.screenExt.y = box.height;
+          }
+        };
+        return MouseControls;
+      })(Shareable_1.default);
+      exports_1("default", MouseControls);
+    }
+  };
+});
+
+System.register("davinci-eight/controls/TrackballControls.js", ["../math/G3", "./MouseControls", "../math/R2", "../math/R3"], function(exports_1) {
+  var __extends = (this && this.__extends) || function(d, b) {
+    for (var p in b)
+      if (b.hasOwnProperty(p))
+        d[p] = b[p];
+    function __() {
+      this.constructor = d;
+    }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+  };
+  var G3_1,
+      MouseControls_1,
+      R2_1,
+      R3_1;
+  var TrackballControls;
+  return {
+    setters: [function(G3_1_1) {
+      G3_1 = G3_1_1;
+    }, function(MouseControls_1_1) {
+      MouseControls_1 = MouseControls_1_1;
+    }, function(R2_1_1) {
+      R2_1 = R2_1_1;
+    }, function(R3_1_1) {
+      R3_1 = R3_1_1;
+    }],
+    execute: function() {
+      TrackballControls = (function(_super) {
+        __extends(TrackballControls, _super);
+        function TrackballControls(camera) {
+          _super.call(this, 'TrackballControls');
+          this.rotateSpeed = 1;
+          this.zoomSpeed = 1;
+          this.panSpeed = 1;
+          this.eye = new R3_1.default();
+          this.target = new G3_1.default();
+          this.moveDirection = new R3_1.default();
+          this.eyeDirection = new R3_1.default();
+          this.objectUpDirection = new R3_1.default();
+          this.objectSidewaysDirection = new R3_1.default();
+          this.axis = new R3_1.default();
+          this.rotor = new G3_1.default();
+          this.mouseChange = new R2_1.default();
+          this.pan = new R3_1.default();
+          this.objectUp = new R3_1.default();
+          this.camera = camera;
+          this.target0 = this.target.clone();
+          this.position0 = this.camera.position.clone();
+          this.up0 = this.camera.up.clone();
+          this.update();
+        }
+        TrackballControls.prototype.destructor = function() {
+          _super.prototype.destructor.call(this);
+        };
+        TrackballControls.prototype.reset = function() {
+          this.target.copy(this.target0);
+          this.camera.position.copy(this.position0);
+          this.camera.up.copy(this.up0);
+          this.eye.copy(this.camera.position).sub(this.target);
+          this.camera.look.copy(this.target);
+          _super.prototype.reset.call(this);
+        };
+        TrackballControls.prototype.update = function() {
+          this.eye.copy(this.camera.position).sub(this.target);
+          if (!this.noRotate) {
+            this.rotateCamera();
+          }
+          if (!this.noZoom) {
+            this.zoomCamera();
+          }
+          if (!this.noPan) {
+            this.panCamera();
+          }
+          this.camera.position.copy(this.target).add(this.eye);
+          this.checkDistances();
+          this.camera.look.copy(this.target);
+        };
+        TrackballControls.prototype.rotateCamera = function() {
+          this.moveDirection.setXYZ(this.moveCurr.x - this.movePrev.x, this.moveCurr.y - this.movePrev.y, 0);
+          var angle = this.moveDirection.magnitude();
+          if (angle) {
+            this.eye.copy(this.camera.position).sub(this.target);
+            this.eyeDirection.copy(this.eye).direction();
+            this.objectUpDirection.copy(this.camera.up).direction();
+            this.objectSidewaysDirection.copy(this.objectUpDirection).cross(this.eyeDirection);
+            this.objectUpDirection.scale(this.moveCurr.y - this.movePrev.y);
+            this.objectSidewaysDirection.scale(this.moveCurr.x - this.movePrev.x);
+            this.moveDirection.copy(this.objectUpDirection).add(this.objectSidewaysDirection).direction();
+            this.axis.copy(this.moveDirection).cross(this.eyeDirection);
+            angle *= this.rotateSpeed;
+            this.rotor.rotorFromAxisAngle(this.axis, angle);
+            this.eye.rotate(this.rotor);
+            this.camera.up.rotate(this.rotor);
+          }
+          this.movePrev.copy(this.moveCurr);
+        };
+        TrackballControls.prototype.zoomCamera = function() {
+          var factor = 1 + (this.zoomEnd.y - this.zoomStart.y) * this.zoomSpeed;
+          if (factor !== 1 && factor > 0) {
+            this.eye.scale(factor);
+            this.zoomStart.copy(this.zoomEnd);
+          }
+        };
+        TrackballControls.prototype.panCamera = function() {
+          this.mouseChange.copy(this.panEnd).sub(this.panStart);
+          if (this.mouseChange.squaredNorm()) {
+            this.mouseChange.scale(this.eye.magnitude() * this.panSpeed);
+            this.pan.copy(this.eye).cross(this.camera.up).direction().scale(this.mouseChange.x);
+            this.objectUp.copy(this.camera.up).direction().scale(this.mouseChange.y);
+            this.pan.add(this.objectUp);
+            this.camera.position.add(this.pan);
+            this.target.addVector(this.pan);
+            this.panStart.copy(this.panEnd);
+          }
+        };
+        TrackballControls.prototype.checkDistances = function() {};
+        return TrackballControls;
+      })(MouseControls_1.default);
+      exports_1("default", TrackballControls);
+    }
+  };
+});
+
+System.register("davinci-eight/visual/Arrow.js", ["../checks/mustBeNumber", "../checks/mustBeGE", "./visualCache", "./VisualBody"], function(exports_1) {
+  var __extends = (this && this.__extends) || function(d, b) {
+    for (var p in b)
+      if (b.hasOwnProperty(p))
+        d[p] = b[p];
+    function __() {
+      this.constructor = d;
+    }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+  };
+  var mustBeNumber_1,
+      mustBeGE_1,
+      visualCache_1,
+      VisualBody_1;
+  var Arrow;
+  return {
+    setters: [function(mustBeNumber_1_1) {
+      mustBeNumber_1 = mustBeNumber_1_1;
+    }, function(mustBeGE_1_1) {
+      mustBeGE_1 = mustBeGE_1_1;
+    }, function(visualCache_1_1) {
+      visualCache_1 = visualCache_1_1;
+    }, function(VisualBody_1_1) {
+      VisualBody_1 = VisualBody_1_1;
+    }],
+    execute: function() {
+      Arrow = (function(_super) {
+        __extends(Arrow, _super);
+        function Arrow(options) {
+          if (options === void 0) {
+            options = {};
+          }
+          _super.call(this, visualCache_1.default.arrow(options), visualCache_1.default.material(options), 'Arrow');
+          this._geometry.release();
+          this._material.release();
+        }
+        Arrow.prototype.destructor = function() {
+          _super.prototype.destructor.call(this);
+        };
+        Object.defineProperty(Arrow.prototype, "length", {
+          get: function() {
+            return this.getScaleY();
+          },
+          set: function(length) {
+            mustBeNumber_1.default('length', length);
+            mustBeGE_1.default('length', length, 0);
+            this.setScaleX(length);
+            this.setScaleY(length);
+            this.setScaleZ(length);
+          },
+          enumerable: true,
+          configurable: true
+        });
+        return Arrow;
+      })(VisualBody_1.default);
+      exports_1("default", Arrow);
+    }
+  };
+});
+
+System.register("davinci-eight/visual/Cuboid.js", ["../checks/mustBeNumber", "./visualCache", "./VisualBody"], function(exports_1) {
+  var __extends = (this && this.__extends) || function(d, b) {
+    for (var p in b)
+      if (b.hasOwnProperty(p))
+        d[p] = b[p];
+    function __() {
+      this.constructor = d;
+    }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+  };
+  var mustBeNumber_1,
+      visualCache_1,
+      VisualBody_1;
+  var Cuboid;
+  return {
+    setters: [function(mustBeNumber_1_1) {
+      mustBeNumber_1 = mustBeNumber_1_1;
+    }, function(visualCache_1_1) {
+      visualCache_1 = visualCache_1_1;
+    }, function(VisualBody_1_1) {
+      VisualBody_1 = VisualBody_1_1;
+    }],
+    execute: function() {
+      Cuboid = (function(_super) {
+        __extends(Cuboid, _super);
+        function Cuboid(options) {
+          if (options === void 0) {
+            options = {};
+          }
+          _super.call(this, visualCache_1.default.cuboid(options), visualCache_1.default.material(options), 'Cuboid');
+          this._geometry.release();
+          this._material.release();
+        }
+        Cuboid.prototype.destructor = function() {
+          _super.prototype.destructor.call(this);
+        };
+        Object.defineProperty(Cuboid.prototype, "width", {
+          get: function() {
+            return this.getScaleX();
+          },
+          set: function(width) {
+            mustBeNumber_1.default('width', width);
+            this.setScaleX(width);
+          },
+          enumerable: true,
+          configurable: true
+        });
+        Object.defineProperty(Cuboid.prototype, "height", {
+          get: function() {
+            return this.getScaleY();
+          },
+          set: function(height) {
+            mustBeNumber_1.default('height', height);
+            this.setScaleY(height);
+          },
+          enumerable: true,
+          configurable: true
+        });
+        Object.defineProperty(Cuboid.prototype, "depth", {
+          get: function() {
+            return this.getScaleZ();
+          },
+          set: function(depth) {
+            mustBeNumber_1.default('depth', depth);
+            this.setScaleZ(depth);
+          },
+          enumerable: true,
+          configurable: true
+        });
+        return Cuboid;
+      })(VisualBody_1.default);
+      exports_1("default", Cuboid);
+    }
+  };
+});
+
+System.register("davinci-eight/visual/Cylinder.js", ["../checks/mustBeNumber", "./visualCache", "./VisualBody"], function(exports_1) {
+  var __extends = (this && this.__extends) || function(d, b) {
+    for (var p in b)
+      if (b.hasOwnProperty(p))
+        d[p] = b[p];
+    function __() {
+      this.constructor = d;
+    }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+  };
+  var mustBeNumber_1,
+      visualCache_1,
+      VisualBody_1;
+  var Cylinder;
+  return {
+    setters: [function(mustBeNumber_1_1) {
+      mustBeNumber_1 = mustBeNumber_1_1;
+    }, function(visualCache_1_1) {
+      visualCache_1 = visualCache_1_1;
+    }, function(VisualBody_1_1) {
+      VisualBody_1 = VisualBody_1_1;
+    }],
+    execute: function() {
+      Cylinder = (function(_super) {
+        __extends(Cylinder, _super);
+        function Cylinder(options) {
+          if (options === void 0) {
+            options = {};
+          }
+          _super.call(this, visualCache_1.default.cylinder(options), visualCache_1.default.material(options), 'Cylinder');
+          this._geometry.release();
+          this._material.release();
+        }
+        Cylinder.prototype.destructor = function() {
+          _super.prototype.destructor.call(this);
+        };
+        Object.defineProperty(Cylinder.prototype, "radius", {
+          get: function() {
+            return this.getScaleX();
+          },
+          set: function(radius) {
+            mustBeNumber_1.default('radius', radius);
+            this.setScaleX(radius);
+            this.setScaleZ(radius);
+          },
+          enumerable: true,
+          configurable: true
+        });
+        Object.defineProperty(Cylinder.prototype, "length", {
+          get: function() {
+            return this.getScaleY();
+          },
+          set: function(length) {
+            mustBeNumber_1.default('length', length);
+            this.setScaleY(length);
+          },
+          enumerable: true,
+          configurable: true
+        });
+        return Cylinder;
+      })(VisualBody_1.default);
+      exports_1("default", Cylinder);
     }
   };
 });
@@ -17791,7 +17791,7 @@ System.register("davinci-eight/visual/Sphere.js", ["../checks/mustBeNumber", "./
   };
 });
 
-System.register("davinci-eight/visual/World.js", ["./Arrow", "../core/Color", "./Cuboid", "./Cylinder", "../facets/DirectionalLight", "../checks/isDefined", "../checks/mustBeNumber", "../facets/PerspectiveCamera", "../i18n/readOnly", "../core/Shareable", "./Sphere"], function(exports_1) {
+System.register("davinci-eight/visual/World.js", ["./Arrow", "../core/Color", "./Cuboid", "./Cylinder", "../checks/isDefined", "../checks/mustBeNumber", "../i18n/readOnly", "../core/Shareable", "./Sphere"], function(exports_1) {
   var __extends = (this && this.__extends) || function(d, b) {
     for (var p in b)
       if (b.hasOwnProperty(p))
@@ -17805,10 +17805,8 @@ System.register("davinci-eight/visual/World.js", ["./Arrow", "../core/Color", ".
       Color_1,
       Cuboid_1,
       Cylinder_1,
-      DirectionalLight_1,
       isDefined_1,
       mustBeNumber_1,
-      PerspectiveCamera_1,
       readOnly_1,
       Shareable_1,
       Sphere_1;
@@ -17822,14 +17820,10 @@ System.register("davinci-eight/visual/World.js", ["./Arrow", "../core/Color", ".
       Cuboid_1 = Cuboid_1_1;
     }, function(Cylinder_1_1) {
       Cylinder_1 = Cylinder_1_1;
-    }, function(DirectionalLight_1_1) {
-      DirectionalLight_1 = DirectionalLight_1_1;
     }, function(isDefined_1_1) {
       isDefined_1 = isDefined_1_1;
     }, function(mustBeNumber_1_1) {
       mustBeNumber_1 = mustBeNumber_1_1;
-    }, function(PerspectiveCamera_1_1) {
-      PerspectiveCamera_1 = PerspectiveCamera_1_1;
     }, function(readOnly_1_1) {
       readOnly_1 = readOnly_1_1;
     }, function(Shareable_1_1) {
@@ -17840,37 +17834,30 @@ System.register("davinci-eight/visual/World.js", ["./Arrow", "../core/Color", ".
     execute: function() {
       World = (function(_super) {
         __extends(World, _super);
-        function World(renderer, drawList, ambients) {
+        function World(renderer, drawList, ambients, controls) {
           _super.call(this, 'World');
-          this._camera = new PerspectiveCamera_1.default(45 * Math.PI / 180, 1, 0.1, 1000);
           renderer.addRef();
           this.renderer = renderer;
           drawList.addRef();
           this.drawList = drawList;
           this.drawList.subscribe(renderer);
-          this.ambients = ambients;
-          this._camera.position.setXYZ(0, 0, 7);
-          this._camera.look.setXYZ(0, 0, 0);
-          this.ambients.push(this._camera);
-          var dirLight = new DirectionalLight_1.default({
-            x: 0,
-            y: 0,
-            z: -1
-          }, Color_1.default.white);
-          this.ambients.push(dirLight);
+          this._ambients = ambients;
+          controls.addRef();
+          this._controls = controls;
         }
         World.prototype.destructor = function() {
+          this.controls.release();
           this.drawList.unsubscribe();
           this.drawList.release();
           this.renderer.release();
           _super.prototype.destructor.call(this);
         };
-        Object.defineProperty(World.prototype, "camera", {
+        Object.defineProperty(World.prototype, "ambients", {
           get: function() {
-            return this._camera;
+            return this._ambients;
           },
           set: function(unused) {
-            throw new Error(readOnly_1.default('camera').message);
+            throw new Error(readOnly_1.default('ambients').message);
           },
           enumerable: true,
           configurable: true
@@ -17881,6 +17868,16 @@ System.register("davinci-eight/visual/World.js", ["./Arrow", "../core/Color", ".
           },
           set: function(unused) {
             throw new Error(readOnly_1.default('canvas').message);
+          },
+          enumerable: true,
+          configurable: true
+        });
+        Object.defineProperty(World.prototype, "controls", {
+          get: function() {
+            return this._controls;
+          },
+          set: function(unused) {
+            throw new Error(readOnly_1.default('controls').message);
           },
           enumerable: true,
           configurable: true
@@ -18832,7 +18829,7 @@ System.register("davinci-eight/core.js", [], function(exports_1) {
           this.LAST_MODIFIED = '2016-02-12';
           this.NAMESPACE = 'EIGHT';
           this.verbose = false;
-          this.VERSION = '2.184.0';
+          this.VERSION = '2.185.0';
           this.logging = {};
         }
         return Eight;
@@ -19875,14 +19872,18 @@ System.register("davinci-eight/core/WebGLRenderer.js", ["../commands/Capability"
   };
 });
 
-System.register("davinci-eight/visual/bootstrap.js", ["../checks/isDefined", "../checks/mustBeBoolean", "../checks/mustBeFunction", "../checks/mustBeNumber", "../checks/mustBeString", "../core/refChange", "./DrawList", "../controls/TrackballControls", "./World", "../core/WebGLRenderer"], function(exports_1) {
-  var isDefined_1,
+System.register("davinci-eight/visual/bootstrap.js", ["../facets/AmbientLight", "../core/Color", "../facets/DirectionalLight", "../checks/isDefined", "../checks/mustBeBoolean", "../checks/mustBeFunction", "../checks/mustBeNumber", "../checks/mustBeString", "./DrawList", "../facets/PerspectiveCamera", "../core/refChange", "../controls/TrackballControls", "./World", "../core/WebGLRenderer"], function(exports_1) {
+  var AmbientLight_1,
+      Color_1,
+      DirectionalLight_1,
+      isDefined_1,
       mustBeBoolean_1,
       mustBeFunction_1,
       mustBeNumber_1,
       mustBeString_1,
-      refChange_1,
       DrawList_1,
+      PerspectiveCamera_1,
+      refChange_1,
       TrackballControls_1,
       World_1,
       WebGLRenderer_1;
@@ -19904,13 +19905,27 @@ System.register("davinci-eight/visual/bootstrap.js", ["../checks/isDefined", "..
     renderer.clearColor(0.1, 0.1, 0.1, 1.0);
     var drawList = new DrawList_1.default();
     var ambients = [];
-    var world = new World_1.default(renderer, drawList, ambients);
-    var controls = new TrackballControls_1.default(world.camera);
+    var ambientLight = new AmbientLight_1.default(Color_1.default.fromRGB(0.3, 0.3, 0.3));
+    ambients.push(ambientLight);
+    var dirLight = new DirectionalLight_1.default({
+      x: 0,
+      y: 0,
+      z: -1
+    }, Color_1.default.white);
+    ambients.push(dirLight);
+    var camera = new PerspectiveCamera_1.default(45 * Math.PI / 180, 1, 0.1, 1000);
+    camera.position.setXYZ(0, 0, 7);
+    camera.look.setXYZ(0, 0, 0);
+    camera.up.setXYZ(0, 1, 0);
+    ambients.push(camera);
+    var controls = new TrackballControls_1.default(camera);
+    var world = new World_1.default(renderer, drawList, ambients, controls);
     var requestId;
     function step(timestamp) {
       requestId = window.requestAnimationFrame(step);
       renderer.clear();
       controls.update();
+      dirLight.direction.copy(camera.look).sub(camera.position);
       try {
         animate(timestamp);
       } catch (e) {
@@ -19956,7 +19971,13 @@ System.register("davinci-eight/visual/bootstrap.js", ["../checks/isDefined", "..
   }
   exports_1("default", default_1);
   return {
-    setters: [function(isDefined_1_1) {
+    setters: [function(AmbientLight_1_1) {
+      AmbientLight_1 = AmbientLight_1_1;
+    }, function(Color_1_1) {
+      Color_1 = Color_1_1;
+    }, function(DirectionalLight_1_1) {
+      DirectionalLight_1 = DirectionalLight_1_1;
+    }, function(isDefined_1_1) {
       isDefined_1 = isDefined_1_1;
     }, function(mustBeBoolean_1_1) {
       mustBeBoolean_1 = mustBeBoolean_1_1;
@@ -19966,10 +19987,12 @@ System.register("davinci-eight/visual/bootstrap.js", ["../checks/isDefined", "..
       mustBeNumber_1 = mustBeNumber_1_1;
     }, function(mustBeString_1_1) {
       mustBeString_1 = mustBeString_1_1;
-    }, function(refChange_1_1) {
-      refChange_1 = refChange_1_1;
     }, function(DrawList_1_1) {
       DrawList_1 = DrawList_1_1;
+    }, function(PerspectiveCamera_1_1) {
+      PerspectiveCamera_1 = PerspectiveCamera_1_1;
+    }, function(refChange_1_1) {
+      refChange_1 = refChange_1_1;
     }, function(TrackballControls_1_1) {
       TrackballControls_1 = TrackballControls_1_1;
     }, function(World_1_1) {

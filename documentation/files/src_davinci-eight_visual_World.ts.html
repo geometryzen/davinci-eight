@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>VersionLogger - davinci-eight</title>
+    <title>src/davinci-eight/visual/World.ts - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -197,350 +197,164 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1>VersionLogger Class</h1>
-<div class="box meta">
-
-        <div class="extends">
-            Extends <a href="../classes/Shareable.html" class="crosslink">Shareable</a>
-        </div>
-
-        <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_commands_VersionLogger.ts.html#l11"><code>src&#x2F;davinci-eight&#x2F;commands&#x2F;VersionLogger.ts:11</code></a>
-        </div>
-
-            Module: <a href="../modules/EIGHT.html">EIGHT</a>
-
-</div>
-
-
-<div class="box intro">
-    <p>
-Displays details about the WegGL version to the console.
-</p> 
-<p>
-Initializes the <code>type</code> property to <code>'VersionLogger'</code> for reference count tracking.
-</p>
-</div>
-
-    <div class="constructor">
-        <h2>Constructor</h2>
-<div id="method_VersionLogger" class="method item">
-    <h3 class="name"><code>VersionLogger</code></h3>
-
-        <span class="paren">()</span>
-
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_commands_VersionLogger.ts.html#l11"><code>src&#x2F;davinci-eight&#x2F;commands&#x2F;VersionLogger.ts:11</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-
-
-</div>
-    </div>
-
-<div id="classdocs" class="tabview">
-    <ul class="api-class-tabs">
-        <li class="api-class-tab index"><a href="#index">Index</a></li>
-
-            <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
-            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
-    </ul>
-
-    <div>
-        <div id="index" class="api-class-tabpanel index">
-            <h2 class="off-left">Item Index</h2>
-
-                <div class="index-section methods">
-                    <h3>Methods</h3>
-
-                    <ul class="index-list methods extends">
-                            <li class="index-item method inherited inherited">
-                                <a href="#method_addRef">addRef</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_contextGain">contextGain</a>
-
-                            </li>
-                            <li class="index-item method protected inherited">
-                                <a href="#method_destructor">destructor</a>
-
-                            </li>
-                            <li class="index-item method inherited inherited">
-                                <a href="#method_release">release</a>
-
-                            </li>
-                    </ul>
-                </div>
-
-                <div class="index-section properties">
-                    <h3>Properties</h3>
-
-                    <ul class="index-list properties extends">
-                            <li class="index-item property inherited">
-                                <a href="#property_uuid">uuid</a>
-
-                            </li>
-                    </ul>
-                </div>
-
-
-        </div>
-
-            <div id="methods" class="api-class-tabpanel">
-                <h2 class="off-left">Methods</h2>
-
-<div id="method_addRef" class="method item inherited">
-    <h3 class="name"><code>addRef</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type">Number</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-            <p>Inherited from
-            <a href="../classes/IUnknown.html#method_addRef">
-                IUnknown
-            </a>
-            but overwritten in
-        <a href="../files/src_davinci-eight_core_Shareable.ts.html#l34"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Shareable.ts:34</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-Notifies this instance that something is dereferencing it.
-</p>
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Number</span>:
-                    The new value of the reference count.
-            </div>
-        </div>
-
-
-</div>
-<div id="method_contextGain" class="method item">
-    <h3 class="name"><code>contextGain</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>manager</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type">Void</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_commands_VersionLogger.ts.html#l27"><code>src&#x2F;davinci-eight&#x2F;commands&#x2F;VersionLogger.ts:27</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-Logs the WebGL <code>VERSION</code> parameter to the console.
-</p>
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">manager</code>
-                        <span class="type"><a href="../classes/IContextProvider.html" class="crosslink">IContextProvider</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Void</span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_destructor" class="method item protected">
-    <h3 class="name"><code>destructor</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type">Void</span>
-        </span>
-
-
-        <span class="flag protected">protected</span>
-
-
-
-
-
-    <div class="meta">
-            <p>Inherited from
-            <a href="../classes/Shareable.html#method_destructor">
-                Shareable
-            </a>
-            but overwritten in
-        <a href="../files/src_davinci-eight_commands_VersionLogger.ts.html#l42"><code>src&#x2F;davinci-eight&#x2F;commands&#x2F;VersionLogger.ts:42</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Void</span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_release" class="method item inherited">
-    <h3 class="name"><code>release</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type">Number</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-            <p>Inherited from
-            <a href="../classes/IUnknown.html#method_release">
-                IUnknown
-            </a>
-            but overwritten in
-        <a href="../files/src_davinci-eight_core_Shareable.ts.html#l48"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Shareable.ts:48</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-Notifies this instance that something is dereferencing it.
-</p>
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Number</span>:
-                    The new value of the reference count.
-            </div>
-        </div>
-
-
-</div>
-            </div>
-
-            <div id="properties" class="api-class-tabpanel">
-                <h2 class="off-left">Properties</h2>
-
-<div id="property_uuid" class="property item inherited">
-    <h3 class="name"><code>uuid</code></h3>
-    <span class="type">String</span>
-
-
-
-
-
-    <div class="meta">
-                <p>Inherited from
-                <a href="../classes/Shareable.html#property_uuid">Shareable</a>:
-        <a href="../files/src_davinci-eight_core_Shareable.ts.html#l92"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Shareable.ts:92</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-
-</div>
-            </div>
-
-
-    </div>
+<h1 class="file-heading">File: src/davinci-eight/visual/World.ts</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+import Arrow from &#x27;./Arrow&#x27;
+import Color from &#x27;../core/Color&#x27;
+import Cuboid from &#x27;./Cuboid&#x27;
+import Cylinder from &#x27;./Cylinder&#x27;
+import DrawList from &#x27;./DrawList&#x27;
+import Facet from &#x27;../core/Facet&#x27;
+import isDefined from &#x27;../checks/isDefined&#x27;
+import mustBeNumber from &#x27;../checks/mustBeNumber&#x27;
+import readOnly from &#x27;../i18n/readOnly&#x27;
+import Shareable from &#x27;../core/Shareable&#x27;
+import Sphere from &#x27;./Sphere&#x27;
+import TrackballControls from &#x27;../controls/TrackballControls&#x27;
+import WebGLRenderer from &#x27;../core/WebGLRenderer&#x27;
+
+/**
+ * @module EIGHT
+ * @submodule visual
+ */
+
+/**
+ * @class World
+ * @extends Shareable
+ */
+export default class World extends Shareable {
+    private drawList: DrawList
+    private renderer: WebGLRenderer
+    private _ambients: Facet[]
+    private _controls: TrackballControls
+
+    /**
+     * @class World
+     * @constructor
+     */
+    constructor(renderer: WebGLRenderer, drawList: DrawList, ambients: Facet[], controls: TrackballControls) {
+        super(&#x27;World&#x27;)
+
+        renderer.addRef()
+        this.renderer = renderer
+
+        drawList.addRef()
+        this.drawList = drawList
+
+        this.drawList.subscribe(renderer)
+
+        this._ambients = ambients
+
+        controls.addRef()
+        this._controls = controls
+    }
+
+    /**
+     * @method destructor
+     * @return {void}
+     * @protected
+     */
+    destructor(): void {
+        this.controls.release()
+        this.drawList.unsubscribe()
+        this.drawList.release()
+        this.renderer.release()
+        super.destructor()
+    }
+
+    /**
+     * @property ambients
+     * @type Facet[]
+     * @readOnly
+     */
+    get ambients(): Facet[] {
+        return this._ambients;
+    }
+    set ambients(unused: Facet[]) {
+        throw new Error(readOnly(&#x27;ambients&#x27;).message)
+    }
+
+    /**
+     * @property canvas
+     * @type HTMLCanvasElement
+     * @readOnly
+     */
+    get canvas(): HTMLCanvasElement {
+        return this.renderer.canvas
+    }
+    set canvas(unused: HTMLCanvasElement) {
+        throw new Error(readOnly(&#x27;canvas&#x27;).message)
+    }
+
+    /**
+     * @property controls
+     * @type TrackballControls
+     * @readOnly
+     */
+    get controls(): TrackballControls {
+        return this._controls;
+    }
+    set controls(unused: TrackballControls) {
+        throw new Error(readOnly(&#x27;controls&#x27;).message)
+    }
+
+    /**
+     * @method arrow
+     * @return {Arrow}
+     */
+    arrow(): Arrow {
+        const arrow = new Arrow()
+        arrow.color = Color.fromRGB(0.6, 0.6, 0.6)
+        this.drawList.add(arrow)
+        arrow.release()
+        return arrow
+    }
+
+    /**
+     * @method cuboid
+     * @return {Cuboid}
+     */
+    cuboid(options: { width?: number; height?: number; depth?: number } = {}): Cuboid {
+        const cuboid = new Cuboid()
+        cuboid.width = isDefined(options.width) ? mustBeNumber(&#x27;width&#x27;, options.width) : 1
+        cuboid.height = isDefined(options.height) ? mustBeNumber(&#x27;height&#x27;, options.height) : 1
+        cuboid.depth = isDefined(options.depth) ? mustBeNumber(&#x27;depth&#x27;, options.depth) : 1
+        cuboid.color = Color.green
+        this.drawList.add(cuboid)
+        cuboid.release()
+        return cuboid
+    }
+
+    /**
+     * @method cylinder
+     * @return {Cylinder}
+     */
+    cylinder(options: { radius?: number } = {}): Cylinder {
+        const cylinder = new Cylinder()
+        cylinder.radius = isDefined(options.radius) ? mustBeNumber(&#x27;radius&#x27;, options.radius) : 0.5
+        cylinder.color = Color.magenta
+        this.drawList.add(cylinder)
+        cylinder.release()
+        return cylinder
+    }
+
+    /**
+     * @method sphere
+     * @return {Sphere}
+     */
+    sphere(options: { radius?: number } = {}): Sphere {
+        const sphere = new Sphere()
+        sphere.radius = isDefined(options.radius) ? mustBeNumber(&#x27;radius&#x27;, options.radius) : 0.5
+        sphere.color = Color.blue
+        this.drawList.add(sphere)
+        sphere.release()
+        return sphere
+    }
+}
+
+    </pre>
 </div>
                     </div>
                 </div>

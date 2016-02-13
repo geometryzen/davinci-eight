@@ -2,23 +2,36 @@ import Arrow from './Arrow'
 import Color from '../core/Color'
 import Cuboid from './Cuboid'
 import Cylinder from './Cylinder'
-import DirectionalLight from '../facets/DirectionalLight'
+import DrawList from './DrawList'
 import Facet from '../core/Facet'
 import isDefined from '../checks/isDefined'
 import mustBeNumber from '../checks/mustBeNumber'
-import PerspectiveCamera from '../facets/PerspectiveCamera'
 import readOnly from '../i18n/readOnly'
 import Shareable from '../core/Shareable'
-import DrawList from './DrawList'
 import Sphere from './Sphere'
+import TrackballControls from '../controls/TrackballControls'
 import WebGLRenderer from '../core/WebGLRenderer'
 
+/**
+ * @module EIGHT
+ * @submodule visual
+ */
+
+/**
+ * @class World
+ * @extends Shareable
+ */
 export default class World extends Shareable {
     private drawList: DrawList
     private renderer: WebGLRenderer
-    public ambients: Facet[];
-    private _camera = new PerspectiveCamera(45 * Math.PI / 180, 1, 0.1, 1000)
-    constructor(renderer: WebGLRenderer, drawList: DrawList, ambients: Facet[]) {
+    private _ambients: Facet[]
+    private _controls: TrackballControls
+
+    /**
+     * @class World
+     * @constructor
+     */
+    constructor(renderer: WebGLRenderer, drawList: DrawList, ambients: Facet[], controls: TrackballControls) {
         super('World')
 
         renderer.addRef()
@@ -29,33 +42,65 @@ export default class World extends Shareable {
 
         this.drawList.subscribe(renderer)
 
-        this.ambients = ambients;
+        this._ambients = ambients
 
-        this._camera.position.setXYZ(0, 0, 7)
-        this._camera.look.setXYZ(0, 0, 0)
-        this.ambients.push(this._camera)
-
-        const dirLight = new DirectionalLight({ x: 0, y: 0, z: -1 }, Color.white)
-        this.ambients.push(dirLight)
+        controls.addRef()
+        this._controls = controls
     }
+
+    /**
+     * @method destructor
+     * @return {void}
+     * @protected
+     */
     destructor(): void {
+        this.controls.release()
         this.drawList.unsubscribe()
         this.drawList.release()
         this.renderer.release()
         super.destructor()
     }
-    get camera(): PerspectiveCamera {
-        return this._camera;
+
+    /**
+     * @property ambients
+     * @type Facet[]
+     * @readOnly
+     */
+    get ambients(): Facet[] {
+        return this._ambients;
     }
-    set camera(unused: PerspectiveCamera) {
-        throw new Error(readOnly('camera').message)
+    set ambients(unused: Facet[]) {
+        throw new Error(readOnly('ambients').message)
     }
+
+    /**
+     * @property canvas
+     * @type HTMLCanvasElement
+     * @readOnly
+     */
     get canvas(): HTMLCanvasElement {
         return this.renderer.canvas
     }
     set canvas(unused: HTMLCanvasElement) {
         throw new Error(readOnly('canvas').message)
     }
+
+    /**
+     * @property controls
+     * @type TrackballControls
+     * @readOnly
+     */
+    get controls(): TrackballControls {
+        return this._controls;
+    }
+    set controls(unused: TrackballControls) {
+        throw new Error(readOnly('controls').message)
+    }
+
+    /**
+     * @method arrow
+     * @return {Arrow}
+     */
     arrow(): Arrow {
         const arrow = new Arrow()
         arrow.color = Color.fromRGB(0.6, 0.6, 0.6)
@@ -63,6 +108,11 @@ export default class World extends Shareable {
         arrow.release()
         return arrow
     }
+
+    /**
+     * @method cuboid
+     * @return {Cuboid}
+     */
     cuboid(options: { width?: number; height?: number; depth?: number } = {}): Cuboid {
         const cuboid = new Cuboid()
         cuboid.width = isDefined(options.width) ? mustBeNumber('width', options.width) : 1
@@ -73,6 +123,11 @@ export default class World extends Shareable {
         cuboid.release()
         return cuboid
     }
+
+    /**
+     * @method cylinder
+     * @return {Cylinder}
+     */
     cylinder(options: { radius?: number } = {}): Cylinder {
         const cylinder = new Cylinder()
         cylinder.radius = isDefined(options.radius) ? mustBeNumber('radius', options.radius) : 0.5
@@ -81,6 +136,11 @@ export default class World extends Shareable {
         cylinder.release()
         return cylinder
     }
+
+    /**
+     * @method sphere
+     * @return {Sphere}
+     */
     sphere(options: { radius?: number } = {}): Sphere {
         const sphere = new Sphere()
         sphere.radius = isDefined(options.radius) ? mustBeNumber('radius', options.radius) : 0.5
