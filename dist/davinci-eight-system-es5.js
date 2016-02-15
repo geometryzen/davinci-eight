@@ -1391,6 +1391,18 @@ System.register("davinci-eight/math/SpinG2.js", ["../math/dotVectorCartesianE2",
           enumerable: true,
           configurable: true
         });
+        Object.defineProperty(SpinG2.prototype, "β", {
+          get: function() {
+            return this.coords[COORD_XY];
+          },
+          set: function(β) {
+            mustBeNumber_1.default('β', β);
+            this.modified = this.modified || this.β !== β;
+            this.coords[COORD_XY] = β;
+          },
+          enumerable: true,
+          configurable: true
+        });
         SpinG2.prototype.add = function(spinor, α) {
           if (α === void 0) {
             α = 1;
@@ -1706,202 +1718,6 @@ System.register("davinci-eight/math/SpinG2.js", ["../math/dotVectorCartesianE2",
         return SpinG2;
       })(VectorN_1.default);
       exports_1("default", SpinG2);
-    }
-  };
-});
-
-System.register("davinci-eight/math/R4.js", ["../math/VectorN"], function(exports_1) {
-  var __extends = (this && this.__extends) || function(d, b) {
-    for (var p in b)
-      if (b.hasOwnProperty(p))
-        d[p] = b[p];
-    function __() {
-      this.constructor = d;
-    }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-  };
-  var VectorN_1;
-  var R4;
-  return {
-    setters: [function(VectorN_1_1) {
-      VectorN_1 = VectorN_1_1;
-    }],
-    execute: function() {
-      R4 = (function(_super) {
-        __extends(R4, _super);
-        function R4(data, modified) {
-          if (data === void 0) {
-            data = [0, 0, 0, 0];
-          }
-          if (modified === void 0) {
-            modified = false;
-          }
-          _super.call(this, data, modified, 4);
-        }
-        Object.defineProperty(R4.prototype, "x", {
-          get: function() {
-            return this.coords[0];
-          },
-          set: function(value) {
-            this.modified = this.modified || this.x !== value;
-            this.coords[0] = value;
-          },
-          enumerable: true,
-          configurable: true
-        });
-        Object.defineProperty(R4.prototype, "y", {
-          get: function() {
-            return this.coords[1];
-          },
-          set: function(value) {
-            this.modified = this.modified || this.y !== value;
-            this.coords[1] = value;
-          },
-          enumerable: true,
-          configurable: true
-        });
-        Object.defineProperty(R4.prototype, "z", {
-          get: function() {
-            return this.coords[2];
-          },
-          set: function(value) {
-            this.modified = this.modified || this.z !== value;
-            this.coords[2] = value;
-          },
-          enumerable: true,
-          configurable: true
-        });
-        Object.defineProperty(R4.prototype, "w", {
-          get: function() {
-            return this.coords[3];
-          },
-          set: function(value) {
-            this.modified = this.modified || this.w !== value;
-            this.coords[3] = value;
-          },
-          enumerable: true,
-          configurable: true
-        });
-        R4.prototype.setW = function(w) {
-          this.w = w;
-          return this;
-        };
-        R4.prototype.add = function(vector, α) {
-          if (α === void 0) {
-            α = 1;
-          }
-          this.x += vector.x * α;
-          this.y += vector.y * α;
-          this.z += vector.z * α;
-          this.w += vector.w * α;
-          return this;
-        };
-        R4.prototype.add2 = function(a, b) {
-          this.x = a.x + b.x;
-          this.y = a.y + b.y;
-          this.z = a.z + b.z;
-          this.w = a.w + b.w;
-          return this;
-        };
-        R4.prototype.applyMatrix = function(m) {
-          var x = this.x;
-          var y = this.y;
-          var z = this.z;
-          var w = this.w;
-          var e = m.elements;
-          this.x = e[0x0] * x + e[0x4] * y + e[0x8] * z + e[0xC] * w;
-          this.y = e[0x1] * x + e[0x5] * y + e[0x9] * z + e[0xD] * w;
-          this.z = e[0x2] * x + e[0x6] * y + e[0xA] * z + e[0xE] * w;
-          this.w = e[0x3] * x + e[0x7] * y + e[0xB] * z + e[0xF] * w;
-          return this;
-        };
-        R4.prototype.clone = function() {
-          return new R4([this.x, this.y, this.z, this.w], this.modified);
-        };
-        R4.prototype.copy = function(v) {
-          this.x = v.x;
-          this.y = v.y;
-          this.z = v.z;
-          this.w = v.w;
-          return this;
-        };
-        R4.prototype.divByScalar = function(α) {
-          this.x /= α;
-          this.y /= α;
-          this.z /= α;
-          this.w /= α;
-          return this;
-        };
-        R4.prototype.lerp = function(target, α) {
-          this.x += (target.x - this.x) * α;
-          this.y += (target.y - this.y) * α;
-          this.z += (target.z - this.z) * α;
-          this.w += (target.w - this.w) * α;
-          return this;
-        };
-        R4.prototype.lerp2 = function(a, b, α) {
-          this.sub2(b, a).scale(α).add(a);
-          return this;
-        };
-        R4.prototype.neg = function() {
-          this.x = -this.x;
-          this.y = -this.y;
-          this.z = -this.z;
-          this.w = -this.w;
-          return this;
-        };
-        R4.prototype.scale = function(α) {
-          this.x *= α;
-          this.y *= α;
-          this.z *= α;
-          this.w *= α;
-          return this;
-        };
-        R4.prototype.reflect = function(n) {
-          return this;
-        };
-        R4.prototype.rotate = function(rotor) {
-          return this;
-        };
-        R4.prototype.slerp = function(target, α) {
-          return this;
-        };
-        R4.prototype.sub = function(v, α) {
-          this.x -= v.x * α;
-          this.y -= v.y * α;
-          this.z -= v.z * α;
-          this.w -= v.w * α;
-          return this;
-        };
-        R4.prototype.sub2 = function(a, b) {
-          this.x = a.x - b.x;
-          this.y = a.y - b.y;
-          this.z = a.z - b.z;
-          this.w = a.w - b.w;
-          return this;
-        };
-        R4.prototype.magnitude = function() {
-          throw new Error("TODO: R4.magnitude()");
-        };
-        R4.prototype.squaredNorm = function() {
-          throw new Error("TODO: R4.squaredNorm()");
-        };
-        R4.prototype.toExponential = function() {
-          return "TODO R4.toExponential";
-        };
-        R4.prototype.toFixed = function(digits) {
-          return "TODO R4.toFixed";
-        };
-        R4.prototype.zero = function() {
-          this.x = 0;
-          this.y = 0;
-          this.z = 0;
-          this.w = 0;
-          return this;
-        };
-        return R4;
-      })(VectorN_1.default);
-      exports_1("default", R4);
     }
   };
 });
@@ -3893,7 +3709,7 @@ System.register("davinci-eight/visual/Arrow.js", ["../checks/mustBeNumber", "../
   };
 });
 
-System.register("davinci-eight/visual/Cuboid.js", ["../checks/mustBeNumber", "./visualCache", "./VisualBody"], function(exports_1) {
+System.register("davinci-eight/visual/Cuboid.js", ["../core/Color", "../checks/isDefined", "../checks/mustBeNumber", "./visualCache", "./VisualBody"], function(exports_1) {
   var __extends = (this && this.__extends) || function(d, b) {
     for (var p in b)
       if (b.hasOwnProperty(p))
@@ -3903,12 +3719,18 @@ System.register("davinci-eight/visual/Cuboid.js", ["../checks/mustBeNumber", "./
     }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
   };
-  var mustBeNumber_1,
+  var Color_1,
+      isDefined_1,
+      mustBeNumber_1,
       visualCache_1,
       VisualBody_1;
   var Cuboid;
   return {
-    setters: [function(mustBeNumber_1_1) {
+    setters: [function(Color_1_1) {
+      Color_1 = Color_1_1;
+    }, function(isDefined_1_1) {
+      isDefined_1 = isDefined_1_1;
+    }, function(mustBeNumber_1_1) {
       mustBeNumber_1 = mustBeNumber_1_1;
     }, function(visualCache_1_1) {
       visualCache_1 = visualCache_1_1;
@@ -3925,6 +3747,10 @@ System.register("davinci-eight/visual/Cuboid.js", ["../checks/mustBeNumber", "./
           _super.call(this, visualCache_1.default.cuboid(options), visualCache_1.default.material(options), 'Cuboid');
           this._geometry.release();
           this._material.release();
+          this.width = isDefined_1.default(options.width) ? mustBeNumber_1.default('width', options.width) : 1;
+          this.height = isDefined_1.default(options.height) ? mustBeNumber_1.default('height', options.height) : 1;
+          this.depth = isDefined_1.default(options.depth) ? mustBeNumber_1.default('depth', options.depth) : 1;
+          this.color = Color_1.default.green;
         }
         Cuboid.prototype.destructor = function() {
           _super.prototype.destructor.call(this);
@@ -4869,7 +4695,7 @@ System.register("davinci-eight/geometries/CuboidGeometry.js", ["../core/Geometry
           var width = isDefined_1.default(options.width) ? mustBeNumber_1.default('width', options.width) : 1;
           var height = isDefined_1.default(options.height) ? mustBeNumber_1.default('height', options.height) : 1;
           var depth = isDefined_1.default(options.depth) ? mustBeNumber_1.default('depth', options.depth) : 1;
-          var wireFrame = false;
+          var wireFrame = isDefined_1.default(options.wireFrame) ? mustBeBoolean_1.default('wireFrame', options.wireFrame) : false;
           var ps = primitives(width, height, depth, wireFrame);
           var iLen = ps.length;
           for (var i = 0; i < iLen; i++) {
@@ -7736,25 +7562,235 @@ System.register("davinci-eight/math/dotVectorE2.js", ["../checks/isDefined"], fu
   };
 });
 
-System.register("davinci-eight/math/Euclidean2.js", ["../geometries/b2", "../geometries/b3", "../math/extE2", "../checks/isDefined", "../math/lcoE2", "../math/rcoE2", "../math/mulE2", "../checks/mustBeInteger", "../checks/mustBeNumber", "../i18n/readOnly", "../math/scpE2", "../math/stringFromCoordinates", "../math/Unit"], function(exports_1) {
+System.register("davinci-eight/math/R4.js", ["../math/VectorN"], function(exports_1) {
+  var __extends = (this && this.__extends) || function(d, b) {
+    for (var p in b)
+      if (b.hasOwnProperty(p))
+        d[p] = b[p];
+    function __() {
+      this.constructor = d;
+    }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+  };
+  var VectorN_1;
+  var R4;
+  return {
+    setters: [function(VectorN_1_1) {
+      VectorN_1 = VectorN_1_1;
+    }],
+    execute: function() {
+      R4 = (function(_super) {
+        __extends(R4, _super);
+        function R4(data, modified) {
+          if (data === void 0) {
+            data = [0, 0, 0, 0];
+          }
+          if (modified === void 0) {
+            modified = false;
+          }
+          _super.call(this, data, modified, 4);
+        }
+        Object.defineProperty(R4.prototype, "x", {
+          get: function() {
+            return this.coords[0];
+          },
+          set: function(value) {
+            this.modified = this.modified || this.x !== value;
+            this.coords[0] = value;
+          },
+          enumerable: true,
+          configurable: true
+        });
+        Object.defineProperty(R4.prototype, "y", {
+          get: function() {
+            return this.coords[1];
+          },
+          set: function(value) {
+            this.modified = this.modified || this.y !== value;
+            this.coords[1] = value;
+          },
+          enumerable: true,
+          configurable: true
+        });
+        Object.defineProperty(R4.prototype, "z", {
+          get: function() {
+            return this.coords[2];
+          },
+          set: function(value) {
+            this.modified = this.modified || this.z !== value;
+            this.coords[2] = value;
+          },
+          enumerable: true,
+          configurable: true
+        });
+        Object.defineProperty(R4.prototype, "w", {
+          get: function() {
+            return this.coords[3];
+          },
+          set: function(value) {
+            this.modified = this.modified || this.w !== value;
+            this.coords[3] = value;
+          },
+          enumerable: true,
+          configurable: true
+        });
+        R4.prototype.setW = function(w) {
+          this.w = w;
+          return this;
+        };
+        R4.prototype.add = function(vector, α) {
+          if (α === void 0) {
+            α = 1;
+          }
+          this.x += vector.x * α;
+          this.y += vector.y * α;
+          this.z += vector.z * α;
+          this.w += vector.w * α;
+          return this;
+        };
+        R4.prototype.add2 = function(a, b) {
+          this.x = a.x + b.x;
+          this.y = a.y + b.y;
+          this.z = a.z + b.z;
+          this.w = a.w + b.w;
+          return this;
+        };
+        R4.prototype.applyMatrix = function(m) {
+          var x = this.x;
+          var y = this.y;
+          var z = this.z;
+          var w = this.w;
+          var e = m.elements;
+          this.x = e[0x0] * x + e[0x4] * y + e[0x8] * z + e[0xC] * w;
+          this.y = e[0x1] * x + e[0x5] * y + e[0x9] * z + e[0xD] * w;
+          this.z = e[0x2] * x + e[0x6] * y + e[0xA] * z + e[0xE] * w;
+          this.w = e[0x3] * x + e[0x7] * y + e[0xB] * z + e[0xF] * w;
+          return this;
+        };
+        R4.prototype.clone = function() {
+          return new R4([this.x, this.y, this.z, this.w], this.modified);
+        };
+        R4.prototype.copy = function(v) {
+          this.x = v.x;
+          this.y = v.y;
+          this.z = v.z;
+          this.w = v.w;
+          return this;
+        };
+        R4.prototype.divByScalar = function(α) {
+          this.x /= α;
+          this.y /= α;
+          this.z /= α;
+          this.w /= α;
+          return this;
+        };
+        R4.prototype.lerp = function(target, α) {
+          this.x += (target.x - this.x) * α;
+          this.y += (target.y - this.y) * α;
+          this.z += (target.z - this.z) * α;
+          this.w += (target.w - this.w) * α;
+          return this;
+        };
+        R4.prototype.lerp2 = function(a, b, α) {
+          this.sub2(b, a).scale(α).add(a);
+          return this;
+        };
+        R4.prototype.neg = function() {
+          this.x = -this.x;
+          this.y = -this.y;
+          this.z = -this.z;
+          this.w = -this.w;
+          return this;
+        };
+        R4.prototype.scale = function(α) {
+          this.x *= α;
+          this.y *= α;
+          this.z *= α;
+          this.w *= α;
+          return this;
+        };
+        R4.prototype.reflect = function(n) {
+          return this;
+        };
+        R4.prototype.rotate = function(rotor) {
+          return this;
+        };
+        R4.prototype.slerp = function(target, α) {
+          return this;
+        };
+        R4.prototype.sub = function(v, α) {
+          this.x -= v.x * α;
+          this.y -= v.y * α;
+          this.z -= v.z * α;
+          this.w -= v.w * α;
+          return this;
+        };
+        R4.prototype.sub2 = function(a, b) {
+          this.x = a.x - b.x;
+          this.y = a.y - b.y;
+          this.z = a.z - b.z;
+          this.w = a.w - b.w;
+          return this;
+        };
+        R4.prototype.magnitude = function() {
+          throw new Error("TODO: R4.magnitude()");
+        };
+        R4.prototype.squaredNorm = function() {
+          throw new Error("TODO: R4.squaredNorm()");
+        };
+        R4.prototype.toExponential = function() {
+          return "TODO R4.toExponential";
+        };
+        R4.prototype.toFixed = function(digits) {
+          return "TODO R4.toFixed";
+        };
+        R4.prototype.zero = function() {
+          this.x = 0;
+          this.y = 0;
+          this.z = 0;
+          this.w = 0;
+          return this;
+        };
+        return R4;
+      })(VectorN_1.default);
+      exports_1("default", R4);
+    }
+  };
+});
+
+System.register("davinci-eight/math/tauR4.js", [], function(exports_1) {
+  function tauR4(a1, a2, a3, a4, out) {
+    return out.set(a1, a2, a3, -a4, a2, a1, a4, -a3, a3, -a4, a1, a2, a4, -a3, a2, a1);
+  }
+  exports_1("default", tauR4);
+  return {
+    setters: [],
+    execute: function() {}
+  };
+});
+
+System.register("davinci-eight/math/Euclidean2.js", ["../geometries/b2", "../geometries/b3", "./extE2", "../checks/isDefined", "./lcoE2", "./rcoE2", "./Mat4R", "./mulE2", "../checks/mustBeInteger", "../checks/mustBeNumber", "../i18n/notImplemented", "../i18n/readOnly", "./R4", "./scpE2", "./stringFromCoordinates", "./tauR4", "./Unit"], function(exports_1) {
   var b2_1,
       b3_1,
       extE2_1,
       isDefined_1,
       lcoE2_1,
       rcoE2_1,
+      Mat4R_1,
       mulE2_1,
       mustBeInteger_1,
       mustBeNumber_1,
+      notImplemented_1,
       readOnly_1,
+      R4_1,
       scpE2_1,
       stringFromCoordinates_1,
+      tauR4_1,
       Unit_1;
   var exp,
       cos,
       sin,
       sqrt,
-      divide,
       Euclidean2;
   function assertArgEuclidean2(name, arg) {
     if (arg instanceof Euclidean2) {
@@ -7866,18 +7902,26 @@ System.register("davinci-eight/math/Euclidean2.js", ["../geometries/b2", "../geo
       lcoE2_1 = lcoE2_1_1;
     }, function(rcoE2_1_1) {
       rcoE2_1 = rcoE2_1_1;
+    }, function(Mat4R_1_1) {
+      Mat4R_1 = Mat4R_1_1;
     }, function(mulE2_1_1) {
       mulE2_1 = mulE2_1_1;
     }, function(mustBeInteger_1_1) {
       mustBeInteger_1 = mustBeInteger_1_1;
     }, function(mustBeNumber_1_1) {
       mustBeNumber_1 = mustBeNumber_1_1;
+    }, function(notImplemented_1_1) {
+      notImplemented_1 = notImplemented_1_1;
     }, function(readOnly_1_1) {
       readOnly_1 = readOnly_1_1;
+    }, function(R4_1_1) {
+      R4_1 = R4_1_1;
     }, function(scpE2_1_1) {
       scpE2_1 = scpE2_1_1;
     }, function(stringFromCoordinates_1_1) {
       stringFromCoordinates_1 = stringFromCoordinates_1_1;
+    }, function(tauR4_1_1) {
+      tauR4_1 = tauR4_1_1;
     }, function(Unit_1_1) {
       Unit_1 = Unit_1_1;
     }],
@@ -7886,81 +7930,98 @@ System.register("davinci-eight/math/Euclidean2.js", ["../geometries/b2", "../geo
       cos = Math.cos;
       sin = Math.sin;
       sqrt = Math.sqrt;
-      divide = function(a00, a01, a10, a11, b00, b01, b10, b11, uom) {
-        var c00;
-        var c01;
-        var c10;
-        var c11;
-        var i00;
-        var i01;
-        var i10;
-        var i11;
-        var k00;
-        var m00;
-        var m01;
-        var m10;
-        var m11;
-        var r00;
-        var r01;
-        var r10;
-        var r11;
-        var s00;
-        var s01;
-        var s10;
-        var s11;
-        var x00;
-        var x01;
-        var x10;
-        var x11;
-        r00 = +b00;
-        r01 = +b01;
-        r10 = +b10;
-        r11 = -b11;
-        m00 = b00 * r00 + b01 * r01 + b10 * r10 - b11 * r11;
-        m01 = 0;
-        m10 = 0;
-        m11 = 0;
-        c00 = +m00;
-        c01 = -m01;
-        c10 = -m10;
-        c11 = -m11;
-        s00 = r00 * c00 + r01 * c01 + r10 * c10 - r11 * c11;
-        s01 = r00 * c01 + r01 * c00 - r10 * c11 + r11 * c10;
-        s10 = r00 * c10 + r01 * c11 + r10 * c00 - r11 * c01;
-        s11 = r00 * c11 + r01 * c10 - r10 * c01 + r11 * c00;
-        k00 = b00 * s00 + b01 * s01 + b10 * s10 - b11 * s11;
-        i00 = s00 / k00;
-        i01 = s01 / k00;
-        i10 = s10 / k00;
-        i11 = s11 / k00;
-        x00 = a00 * i00 + a01 * i01 + a10 * i10 - a11 * i11;
-        x01 = a00 * i01 + a01 * i00 - a10 * i11 + a11 * i10;
-        x10 = a00 * i10 + a01 * i11 + a10 * i00 - a11 * i01;
-        x11 = a00 * i11 + a01 * i10 - a10 * i01 + a11 * i00;
-        return new Euclidean2(x00, x01, x10, x11, uom);
-      };
       Euclidean2 = (function() {
         function Euclidean2(α, x, y, β, uom) {
-          this.w = mustBeNumber_1.default('α', α);
-          this.x = mustBeNumber_1.default('x', x);
-          this.y = mustBeNumber_1.default('y', y);
+          this._w = mustBeNumber_1.default('α', α);
+          this._x = mustBeNumber_1.default('x', x);
+          this._y = mustBeNumber_1.default('y', y);
           this.xy = mustBeNumber_1.default('β', β);
           this.uom = assertArgUnitOrUndefined('uom', uom);
           if (this.uom && this.uom.multiplier !== 1) {
             var multiplier = this.uom.multiplier;
-            this.w *= multiplier;
-            this.x *= multiplier;
-            this.y *= multiplier;
+            this._w *= multiplier;
+            this._x *= multiplier;
+            this._y *= multiplier;
             this.xy *= multiplier;
             this.uom = new Unit_1.default(1, uom.dimensions, uom.labels);
           }
         }
+        Object.defineProperty(Euclidean2, "zero", {
+          get: function() {
+            return Euclidean2._zero;
+          },
+          set: function(unused) {
+            throw new Error(readOnly_1.default('zero').message);
+          },
+          enumerable: true,
+          configurable: true
+        });
+        Object.defineProperty(Euclidean2, "one", {
+          get: function() {
+            return Euclidean2._one;
+          },
+          set: function(unused) {
+            throw new Error(readOnly_1.default('one').message);
+          },
+          enumerable: true,
+          configurable: true
+        });
+        Object.defineProperty(Euclidean2, "e1", {
+          get: function() {
+            return Euclidean2._e1;
+          },
+          set: function(unused) {
+            throw new Error(readOnly_1.default('e1').message);
+          },
+          enumerable: true,
+          configurable: true
+        });
+        Object.defineProperty(Euclidean2, "e2", {
+          get: function() {
+            return Euclidean2._e2;
+          },
+          set: function(unused) {
+            throw new Error(readOnly_1.default('e2').message);
+          },
+          enumerable: true,
+          configurable: true
+        });
+        Object.defineProperty(Euclidean2, "I", {
+          get: function() {
+            return Euclidean2._I;
+          },
+          set: function(unused) {
+            throw new Error(readOnly_1.default('I').message);
+          },
+          enumerable: true,
+          configurable: true
+        });
         Object.defineProperty(Euclidean2.prototype, "α", {
           get: function() {
-            return this.w;
+            return this._w;
           },
           set: function(unused) {
             throw new Error(readOnly_1.default('α').message);
+          },
+          enumerable: true,
+          configurable: true
+        });
+        Object.defineProperty(Euclidean2.prototype, "x", {
+          get: function() {
+            return this._x;
+          },
+          set: function(unused) {
+            throw new Error(readOnly_1.default('x').message);
+          },
+          enumerable: true,
+          configurable: true
+        });
+        Object.defineProperty(Euclidean2.prototype, "y", {
+          get: function() {
+            return this._y;
+          },
+          set: function(unused) {
+            throw new Error(readOnly_1.default('y').message);
           },
           enumerable: true,
           configurable: true
@@ -7993,7 +8054,7 @@ System.register("davinci-eight/math/Euclidean2.js", ["../geometries/b2", "../geo
         };
         Object.defineProperty(Euclidean2.prototype, "coords", {
           get: function() {
-            return [this.w, this.x, this.y, this.xy];
+            return [this._w, this._x, this._y, this.xy];
           },
           enumerable: true,
           configurable: true
@@ -8002,11 +8063,11 @@ System.register("davinci-eight/math/Euclidean2.js", ["../geometries/b2", "../geo
           mustBeNumber_1.default('index', index);
           switch (index) {
             case 0:
-              return this.w;
+              return this._w;
             case 1:
-              return this.x;
+              return this._x;
             case 2:
-              return this.y;
+              return this._y;
             case 3:
               return this.xy;
             default:
@@ -8034,10 +8095,10 @@ System.register("davinci-eight/math/Euclidean2.js", ["../geometries/b2", "../geo
           return new Euclidean2(xs[0], xs[1], xs[2], xs[3], Unit_1.default.compatible(this.uom, rhs.uom));
         };
         Euclidean2.prototype.addPseudo = function(β) {
-          return new Euclidean2(this.α, this.x, this.y, this.β + β, this.uom);
+          return new Euclidean2(this._w, this._x, this._y, this.β + β, this.uom);
         };
         Euclidean2.prototype.addScalar = function(α) {
-          return new Euclidean2(this.α + α, this.x, this.y, this.β, this.uom);
+          return new Euclidean2(this._w + α, this._x, this._y, this.β, this.uom);
         };
         Euclidean2.prototype.adj = function() {
           throw new Error("TODO: adj");
@@ -8063,21 +8124,32 @@ System.register("davinci-eight/math/Euclidean2.js", ["../geometries/b2", "../geo
           return this;
         };
         Euclidean2.prototype.conj = function() {
-          throw new Error("TODO: adj");
+          throw new Error(notImplemented_1.default('conj').message);
         };
         Euclidean2.prototype.cubicBezier = function(t, controlBegin, controlEnd, endPoint) {
-          var x = b3_1.default(t, this.x, controlBegin.x, controlEnd.x, endPoint.x);
-          var y = b3_1.default(t, this.y, controlBegin.y, controlEnd.y, endPoint.y);
-          return new Euclidean2(0, x, y, 0, this.uom);
+          var α = b3_1.default(t, this._w, controlBegin.α, controlEnd.α, endPoint.α);
+          var x = b3_1.default(t, this._x, controlBegin.x, controlEnd.x, endPoint.x);
+          var y = b3_1.default(t, this._y, controlBegin.y, controlEnd.y, endPoint.y);
+          var β = b3_1.default(t, this.xy, controlBegin.β, controlEnd.β, endPoint.β);
+          return new Euclidean2(α, x, y, β, this.uom);
         };
         Euclidean2.prototype.direction = function() {
-          throw new Error('direction');
+          var m = this.magnitudeSansUnits();
+          if (m !== 1) {
+            return new Euclidean2(this.α / m, this.x / m, this.y / m, this.β / m);
+          } else {
+            if (this.uom) {
+              return new Euclidean2(this.α, this.x, this.y, this.β);
+            } else {
+              return this;
+            }
+          }
         };
         Euclidean2.prototype.distanceTo = function(point) {
-          throw new Error("TODO: Euclidean2.distanceTo");
+          throw new Error(notImplemented_1.default('diistanceTo').message);
         };
         Euclidean2.prototype.equals = function(point) {
-          throw new Error("TODO: Euclidean2.equals");
+          throw new Error(notImplemented_1.default('equals').message);
         };
         Euclidean2.sub = function(a, b) {
           var a0 = a[0];
@@ -8115,13 +8187,13 @@ System.register("davinci-eight/math/Euclidean2.js", ["../geometries/b2", "../geo
         };
         Euclidean2.prototype.mul = function(rhs) {
           assertArgEuclidean2('rhs', rhs);
-          var a0 = this.w;
-          var a1 = this.x;
-          var a2 = this.y;
+          var a0 = this._w;
+          var a1 = this._x;
+          var a2 = this._y;
           var a3 = this.xy;
-          var b0 = rhs.w;
-          var b1 = rhs.x;
-          var b2 = rhs.y;
+          var b0 = rhs._w;
+          var b1 = rhs._x;
+          var b2 = rhs._y;
           var b3 = rhs.xy;
           var c0 = mulE2_1.default(a0, a1, a2, a3, b0, b1, b2, b3, 0);
           var c1 = mulE2_1.default(a0, a1, a2, a3, b0, b1, b2, b3, 1);
@@ -8146,14 +8218,14 @@ System.register("davinci-eight/math/Euclidean2.js", ["../geometries/b2", "../geo
           }
         };
         Euclidean2.prototype.scale = function(α) {
-          return new Euclidean2(this.w * α, this.x * α, this.y * α, this.xy * α, this.uom);
+          return new Euclidean2(this._w * α, this._x * α, this._y * α, this.xy * α, this.uom);
         };
         Euclidean2.prototype.div = function(rhs) {
           assertArgEuclidean2('rhs', rhs);
-          return divide(this.w, this.x, this.y, this.xy, rhs.w, rhs.x, rhs.y, rhs.xy, Unit_1.default.div(this.uom, rhs.uom));
+          return this.mul(rhs.inv());
         };
         Euclidean2.prototype.divByScalar = function(α) {
-          return new Euclidean2(this.w / α, this.x / α, this.y / α, this.xy / α, this.uom);
+          return new Euclidean2(this._w / α, this._x / α, this._y / α, this.xy / α, this.uom);
         };
         Euclidean2.prototype.__div__ = function(other) {
           if (other instanceof Euclidean2) {
@@ -8174,13 +8246,13 @@ System.register("davinci-eight/math/Euclidean2.js", ["../geometries/b2", "../geo
         };
         Euclidean2.prototype.scp = function(rhs) {
           assertArgEuclidean2('rhs', rhs);
-          var a0 = this.w;
-          var a1 = this.x;
-          var a2 = this.y;
+          var a0 = this._w;
+          var a1 = this._x;
+          var a2 = this._y;
           var a3 = this.xy;
-          var b0 = this.w;
-          var b1 = this.x;
-          var b2 = this.y;
+          var b0 = this._w;
+          var b1 = this._x;
+          var b2 = this._y;
           var b3 = this.xy;
           var c0 = scpE2_1.default(a0, a1, a2, a3, b0, b1, b2, b3, 0);
           return new Euclidean2(c0, 0, 0, 0, Unit_1.default.mul(this.uom, rhs.uom));
@@ -8239,7 +8311,7 @@ System.register("davinci-eight/math/Euclidean2.js", ["../geometries/b2", "../geo
           return [x0, x1, x2, x3];
         };
         Euclidean2.prototype.lerp = function(target, α) {
-          return this;
+          throw new Error(notImplemented_1.default('lerp').message);
         };
         Euclidean2.prototype.lco = function(rhs) {
           assertArgEuclidean2('rhs', rhs);
@@ -8313,7 +8385,7 @@ System.register("davinci-eight/math/Euclidean2.js", ["../geometries/b2", "../geo
           }
         };
         Euclidean2.prototype.pow = function(exponent) {
-          throw new Error('pow');
+          throw new Error(notImplemented_1.default('pow').message);
         };
         Euclidean2.prototype.__bang__ = function() {
           return this.inv();
@@ -8322,21 +8394,21 @@ System.register("davinci-eight/math/Euclidean2.js", ["../geometries/b2", "../geo
           return this;
         };
         Euclidean2.prototype.neg = function() {
-          return new Euclidean2(-this.α, -this.x, -this.y, -this.β, this.uom);
+          return new Euclidean2(-this._w, -this._x, -this._y, -this.β, this.uom);
         };
         Euclidean2.prototype.__neg__ = function() {
           return this.neg();
         };
         Euclidean2.prototype.__tilde__ = function() {
-          return new Euclidean2(this.α, this.x, this.y, -this.β, this.uom);
+          return this.rev();
         };
         Euclidean2.prototype.grade = function(grade) {
           mustBeInteger_1.default('grade', grade);
           switch (grade) {
             case 0:
-              return new Euclidean2(this.α, 0, 0, 0, this.uom);
+              return new Euclidean2(this._w, 0, 0, 0, this.uom);
             case 1:
-              return new Euclidean2(0, this.x, this.y, 0, this.uom);
+              return new Euclidean2(0, this._x, this._y, 0, this.uom);
             case 2:
               return new Euclidean2(0, 0, 0, this.β, this.uom);
             default:
@@ -8344,23 +8416,32 @@ System.register("davinci-eight/math/Euclidean2.js", ["../geometries/b2", "../geo
           }
         };
         Euclidean2.prototype.cos = function() {
-          throw new Error('cos');
+          throw new Error(notImplemented_1.default('cos').message);
         };
         Euclidean2.prototype.cosh = function() {
-          throw new Error('cosh');
+          throw new Error(notImplemented_1.default('cosh').message);
         };
         Euclidean2.prototype.exp = function() {
           Unit_1.default.assertDimensionless(this.uom);
-          var expα = exp(this.α);
+          var expα = exp(this._w);
           var cosβ = cos(this.β);
           var sinβ = sin(this.β);
           return new Euclidean2(expα * cosβ, 0, 0, expα * sinβ, this.uom);
         };
         Euclidean2.prototype.inv = function() {
-          throw new Error('inv');
+          var matrix = Mat4R_1.default.zero();
+          tauR4_1.default(this.α, this.x, this.y, this.β, matrix);
+          matrix.inv();
+          var X = new R4_1.default([1, 0, 0, 0]).applyMatrix(matrix);
+          var α = X.getComponent(0);
+          var x = X.getComponent(1);
+          var y = X.getComponent(2);
+          var β = X.getComponent(3);
+          var uom = this.uom ? this.uom.inv() : void 0;
+          return new Euclidean2(α, x, y, β, uom);
         };
         Euclidean2.prototype.log = function() {
-          throw new Error('log');
+          throw new Error(notImplemented_1.default('log').message);
         };
         Euclidean2.prototype.magnitude = function() {
           return this.norm();
@@ -8375,17 +8456,19 @@ System.register("davinci-eight/math/Euclidean2.js", ["../geometries/b2", "../geo
           return this.squaredNorm();
         };
         Euclidean2.prototype.quadraticBezier = function(t, controlPoint, endPoint) {
-          var x = b2_1.default(t, this.x, controlPoint.x, endPoint.x);
-          var y = b2_1.default(t, this.y, controlPoint.y, endPoint.y);
-          return new Euclidean2(0, x, y, 0, this.uom);
+          var α = b2_1.default(t, this._w, controlPoint.α, endPoint.α);
+          var x = b2_1.default(t, this._x, controlPoint.x, endPoint.x);
+          var y = b2_1.default(t, this._y, controlPoint.y, endPoint.y);
+          var β = b2_1.default(t, this.xy, controlPoint.β, endPoint.β);
+          return new Euclidean2(α, x, y, β, this.uom);
         };
         Euclidean2.prototype.squaredNorm = function() {
           return new Euclidean2(this.squaredNormSansUnits(), 0, 0, 0, Unit_1.default.mul(this.uom, this.uom));
         };
         Euclidean2.prototype.squaredNormSansUnits = function() {
-          var α = this.α;
-          var x = this.x;
-          var y = this.y;
+          var α = this._w;
+          var x = this._x;
+          var y = this._y;
           var β = this.β;
           return α * α + x * x + y * y + β * β;
         };
@@ -8394,31 +8477,31 @@ System.register("davinci-eight/math/Euclidean2.js", ["../geometries/b2", "../geo
           return m.mul(this).mul(m).scale(-1);
         };
         Euclidean2.prototype.rev = function() {
-          throw new Error('rev');
+          return new Euclidean2(this._w, this._x, this._y, -this.β, this.uom);
         };
         Euclidean2.prototype.rotate = function(R) {
-          throw new Error('rotate');
+          throw new Error(notImplemented_1.default('rotate').message);
         };
         Euclidean2.prototype.sin = function() {
-          throw new Error('sin');
+          throw new Error(notImplemented_1.default('sin').message);
         };
         Euclidean2.prototype.sinh = function() {
-          throw new Error('sinh');
+          throw new Error(notImplemented_1.default('sinh').message);
         };
         Euclidean2.prototype.slerp = function(target, α) {
-          return this;
+          throw new Error(notImplemented_1.default('slerp').message);
         };
         Euclidean2.prototype.tan = function() {
           return this.sin().div(this.cos());
         };
         Euclidean2.prototype.isOne = function() {
-          return this.w === 1 && this.x === 0 && this.y === 0 && this.xy === 0;
+          return this._w === 1 && this._x === 0 && this._y === 0 && this.xy === 0;
         };
         Euclidean2.prototype.isNaN = function() {
-          return isNaN(this.w) || isNaN(this.x) || isNaN(this.y) || isNaN(this.xy);
+          return isNaN(this._w) || isNaN(this._x) || isNaN(this._y) || isNaN(this.xy);
         };
         Euclidean2.prototype.isZero = function() {
-          return this.w === 0 && this.x === 0 && this.y === 0 && this.xy === 0;
+          return this._w === 0 && this._x === 0 && this._y === 0 && this.xy === 0;
         };
         Euclidean2.prototype.toStringCustom = function(coordToString, labels) {
           var quantityString = stringFromCoordinates_1.default(this.coords, coordToString, labels);
@@ -8481,6 +8564,19 @@ System.register("davinci-eight/math/Euclidean2.js", ["../geometries/b2", "../geo
             return void 0;
           }
         };
+        Euclidean2._zero = new Euclidean2(0, 0, 0, 0);
+        Euclidean2._one = new Euclidean2(1, 0, 0, 0);
+        Euclidean2._e1 = new Euclidean2(0, 1, 0, 0);
+        Euclidean2._e2 = new Euclidean2(0, 0, 1, 0);
+        Euclidean2._I = new Euclidean2(0, 0, 0, 1);
+        Euclidean2.kilogram = new Euclidean2(1, 0, 0, 0, Unit_1.default.KILOGRAM);
+        Euclidean2.meter = new Euclidean2(1, 0, 0, 0, Unit_1.default.METER);
+        Euclidean2.second = new Euclidean2(1, 0, 0, 0, Unit_1.default.SECOND);
+        Euclidean2.coulomb = new Euclidean2(1, 0, 0, 0, Unit_1.default.COULOMB);
+        Euclidean2.ampere = new Euclidean2(1, 0, 0, 0, Unit_1.default.AMPERE);
+        Euclidean2.kelvin = new Euclidean2(1, 0, 0, 0, Unit_1.default.KELVIN);
+        Euclidean2.mole = new Euclidean2(1, 0, 0, 0, Unit_1.default.MOLE);
+        Euclidean2.candela = new Euclidean2(1, 0, 0, 0, Unit_1.default.CANDELA);
         return Euclidean2;
       })();
       exports_1("default", Euclidean2);
@@ -10938,7 +11034,8 @@ System.register("davinci-eight/visual/visualCache.js", ["../geometries/ArrowGeom
     return new CuboidGeometry_1.default({
       width: 1,
       height: 1,
-      depth: 1
+      depth: 1,
+      wireFrame: wireFrame(options)
     });
   }
   function cylinder(options) {
@@ -13544,10 +13641,10 @@ System.register("davinci-eight/geometries/b3.js", [], function(exports_1) {
   function b3p3(t, p) {
     return t * t * t * p;
   }
-  function b3(t, p0, p1, p2, p3) {
+  function default_1(t, p0, p1, p2, p3) {
     return b3p0(t, p0) + b3p1(t, p1) + b3p2(t, p2) + b3p3(t, p3);
   }
-  exports_1("default", b3);
+  exports_1("default", default_1);
   return {
     setters: [],
     execute: function() {}
@@ -13821,30 +13918,21 @@ System.register("davinci-eight/math/mulG3.js", ["../math/compG3Get", "../math/mu
   };
 });
 
-System.register("davinci-eight/math/NotImplementedError.js", [], function(exports_1) {
-  var __extends = (this && this.__extends) || function(d, b) {
-    for (var p in b)
-      if (b.hasOwnProperty(p))
-        d[p] = b[p];
-    function __() {
-      this.constructor = d;
-    }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-  };
-  var NotImplementedError;
+System.register("davinci-eight/i18n/notImplemented.js", ["../checks/mustBeString"], function(exports_1) {
+  var mustBeString_1;
+  function default_1(name) {
+    mustBeString_1.default('name', name);
+    var message = {get message() {
+        return "Method '" + name + "' is not yet implemented.";
+      }};
+    return message;
+  }
+  exports_1("default", default_1);
   return {
-    setters: [],
-    execute: function() {
-      NotImplementedError = (function(_super) {
-        __extends(NotImplementedError, _super);
-        function NotImplementedError(message) {
-          _super.call(this, message);
-          this.name = 'NotImplementedError';
-        }
-        return NotImplementedError;
-      })(Error);
-      exports_1("default", NotImplementedError);
-    }
+    setters: [function(mustBeString_1_1) {
+      mustBeString_1 = mustBeString_1_1;
+    }],
+    execute: function() {}
   };
 });
 
@@ -15191,7 +15279,7 @@ System.register("davinci-eight/math/BASIS_LABELS_G3_STANDARD_HTML.js", [], funct
   };
 });
 
-System.register("davinci-eight/math/Euclidean3.js", ["../math/addE3", "../geometries/b2", "../geometries/b3", "../math/extG3", "../checks/isDefined", "../math/lcoG3", "../math/mulE3", "../math/mulG3", "../checks/mustBeInteger", "../checks/mustBeNumber", "../math/NotImplementedError", "../math/rcoG3", "../i18n/readOnly", "../math/scpG3", "../math/squaredNormG3", "../math/stringFromCoordinates", "../math/subE3", "../math/Unit", "../math/BASIS_LABELS_G3_GEOMETRIC", "../math/BASIS_LABELS_G3_HAMILTON", "../math/BASIS_LABELS_G3_STANDARD", "../math/BASIS_LABELS_G3_STANDARD_HTML"], function(exports_1) {
+System.register("davinci-eight/math/Euclidean3.js", ["../math/addE3", "../geometries/b2", "../geometries/b3", "../math/extG3", "../checks/isDefined", "../math/lcoG3", "../math/mulE3", "../math/mulG3", "../checks/mustBeInteger", "../checks/mustBeNumber", "../i18n/notImplemented", "../math/rcoG3", "../i18n/readOnly", "../math/scpG3", "../math/squaredNormG3", "../math/stringFromCoordinates", "../math/subE3", "../math/Unit", "../math/BASIS_LABELS_G3_GEOMETRIC", "../math/BASIS_LABELS_G3_HAMILTON", "../math/BASIS_LABELS_G3_STANDARD", "../math/BASIS_LABELS_G3_STANDARD_HTML"], function(exports_1) {
   var addE3_1,
       b2_1,
       b3_1,
@@ -15202,7 +15290,7 @@ System.register("davinci-eight/math/Euclidean3.js", ["../math/addE3", "../geomet
       mulG3_1,
       mustBeInteger_1,
       mustBeNumber_1,
-      NotImplementedError_1,
+      notImplemented_1,
       rcoG3_1,
       readOnly_1,
       scpG3_1,
@@ -15281,8 +15369,8 @@ System.register("davinci-eight/math/Euclidean3.js", ["../math/addE3", "../geomet
       mustBeInteger_1 = mustBeInteger_1_1;
     }, function(mustBeNumber_1_1) {
       mustBeNumber_1 = mustBeNumber_1_1;
-    }, function(NotImplementedError_1_1) {
-      NotImplementedError_1 = NotImplementedError_1_1;
+    }, function(notImplemented_1_1) {
+      notImplemented_1 = notImplemented_1_1;
     }, function(rcoG3_1_1) {
       rcoG3_1 = rcoG3_1_1;
     }, function(readOnly_1_1) {
@@ -15585,7 +15673,7 @@ System.register("davinci-eight/math/Euclidean3.js", ["../math/addE3", "../geomet
           }
         };
         Euclidean3.prototype.adj = function() {
-          return this;
+          throw new Error(notImplemented_1.default('adj').message);
         };
         Euclidean3.prototype.angle = function() {
           return this.log().grade(2);
@@ -15669,7 +15757,7 @@ System.register("davinci-eight/math/Euclidean3.js", ["../math/addE3", "../geomet
           }
         };
         Euclidean3.prototype.dual = function() {
-          return new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, this.uom);
+          throw new Error(notImplemented_1.default('dual').message);
         };
         Euclidean3.prototype.scp = function(rhs) {
           var out = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit_1.default.mul(this.uom, rhs.uom));
@@ -15811,7 +15899,7 @@ System.register("davinci-eight/math/Euclidean3.js", ["../math/addE3", "../geomet
           return (this.w === 0) && (this.x === 0) && (this.y === 0) && (this.z === 0) && (this.yz === 0) && (this.zx === 0) && (this.xy === 0) && (this.xyz === 0);
         };
         Euclidean3.prototype.lerp = function(target, α) {
-          return this;
+          throw new Error(notImplemented_1.default('lerp').message);
         };
         Euclidean3.prototype.cos = function() {
           Unit_1.default.assertDimensionless(this.uom);
@@ -15819,7 +15907,7 @@ System.register("davinci-eight/math/Euclidean3.js", ["../math/addE3", "../geomet
           return new Euclidean3(cosW, 0, 0, 0, 0, 0, 0, 0, void 0);
         };
         Euclidean3.prototype.cosh = function() {
-          throw new NotImplementedError_1.default('cosh(Euclidean3)');
+          throw new Error(notImplemented_1.default('cosh').message);
         };
         Euclidean3.prototype.distanceTo = function(point) {
           var dx = this.x - point.x;
@@ -15828,7 +15916,7 @@ System.register("davinci-eight/math/Euclidean3.js", ["../math/addE3", "../geomet
           return sqrt(dx * dx + dy * dy + dz * dz);
         };
         Euclidean3.prototype.equals = function(other) {
-          throw new Error("TODO: Euclidean3.equals");
+          throw new Error(notImplemented_1.default('equals').message);
         };
         Euclidean3.prototype.exp = function() {
           Unit_1.default.assertDimensionless(this.uom);
@@ -15847,7 +15935,7 @@ System.register("davinci-eight/math/Euclidean3.js", ["../math/addE3", "../geomet
           return this.rev().divByScalar(this.squaredNormSansUnits());
         };
         Euclidean3.prototype.log = function() {
-          return new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, this.uom);
+          throw new Error(notImplemented_1.default('log').message);
         };
         Euclidean3.prototype.magnitude = function() {
           return this.norm();
@@ -15900,10 +15988,10 @@ System.register("davinci-eight/math/Euclidean3.js", ["../math/addE3", "../geomet
           return new Euclidean3(sinW, 0, 0, 0, 0, 0, 0, 0, void 0);
         };
         Euclidean3.prototype.sinh = function() {
-          throw new Error('sinh');
+          throw new Error(notImplemented_1.default('sinh').message);
         };
         Euclidean3.prototype.slerp = function(target, α) {
-          return this;
+          throw new Error(notImplemented_1.default('slerp').message);
         };
         Euclidean3.prototype.sqrt = function() {
           return new Euclidean3(sqrt(this.w), 0, 0, 0, 0, 0, 0, 0, Unit_1.default.sqrt(this.uom));
@@ -16689,23 +16777,23 @@ System.register("davinci-eight/math/add4x4.js", [], function(exports_1) {
 });
 
 System.register("davinci-eight/math/inv4x4.js", [], function(exports_1) {
-  function inv4x4(me, te) {
-    var n11 = me[0x0],
-        n12 = me[0x4],
-        n13 = me[0x8],
-        n14 = me[0xC];
-    var n21 = me[0x1],
-        n22 = me[0x5],
-        n23 = me[0x9],
-        n24 = me[0xD];
-    var n31 = me[0x2],
-        n32 = me[0x6],
-        n33 = me[0xA],
-        n34 = me[0xE];
-    var n41 = me[0x3],
-        n42 = me[0x7],
-        n43 = me[0xB],
-        n44 = me[0xF];
+  function inv4x4(src, dest) {
+    var n11 = src[0x0],
+        n12 = src[0x4],
+        n13 = src[0x8],
+        n14 = src[0xC];
+    var n21 = src[0x1],
+        n22 = src[0x5],
+        n23 = src[0x9],
+        n24 = src[0xD];
+    var n31 = src[0x2],
+        n32 = src[0x6],
+        n33 = src[0xA],
+        n34 = src[0xE];
+    var n41 = src[0x3],
+        n42 = src[0x7],
+        n43 = src[0xB],
+        n44 = src[0xF];
     var o11 = n23 * n34 * n42 - n24 * n33 * n42 + n24 * n32 * n43 - n22 * n34 * n43 - n23 * n32 * n44 + n22 * n33 * n44;
     var o12 = n14 * n33 * n42 - n13 * n34 * n42 - n14 * n32 * n43 + n12 * n34 * n43 + n13 * n32 * n44 - n12 * n33 * n44;
     var o13 = n13 * n24 * n42 - n14 * n23 * n42 + n14 * n22 * n43 - n12 * n24 * n43 - n13 * n22 * n44 + n12 * n23 * n44;
@@ -16724,22 +16812,22 @@ System.register("davinci-eight/math/inv4x4.js", [], function(exports_1) {
     var o44 = n12 * n23 * n31 - n13 * n22 * n31 + n13 * n21 * n32 - n11 * n23 * n32 - n12 * n21 * n33 + n11 * n22 * n33;
     var det = n11 * o11 + n21 * o12 + n31 * o13 + n41 * o14;
     var α = 1 / det;
-    te[0x0] = o11 * α;
-    te[0x4] = o12 * α;
-    te[0x8] = o13 * α;
-    te[0xC] = o14 * α;
-    te[0x1] = o21 * α;
-    te[0x5] = o22 * α;
-    te[0x9] = o23 * α;
-    te[0xD] = o24 * α;
-    te[0x2] = o31 * α;
-    te[0x6] = o32 * α;
-    te[0xA] = o33 * α;
-    te[0xE] = o34 * α;
-    te[0x3] = o41 * α;
-    te[0x7] = o42 * α;
-    te[0xB] = o43 * α;
-    te[0xF] = o44 * α;
+    dest[0x0] = o11 * α;
+    dest[0x4] = o12 * α;
+    dest[0x8] = o13 * α;
+    dest[0xC] = o14 * α;
+    dest[0x1] = o21 * α;
+    dest[0x5] = o22 * α;
+    dest[0x9] = o23 * α;
+    dest[0xD] = o24 * α;
+    dest[0x2] = o31 * α;
+    dest[0x6] = o32 * α;
+    dest[0xA] = o33 * α;
+    dest[0xE] = o34 * α;
+    dest[0x3] = o41 * α;
+    dest[0x7] = o42 * α;
+    dest[0xB] = o43 * α;
+    dest[0xF] = o44 * α;
   }
   exports_1("default", inv4x4);
   return {
@@ -18449,11 +18537,7 @@ System.register("davinci-eight/visual/World.js", ["./Arrow", "../core/Color", ".
           if (options === void 0) {
             options = {};
           }
-          var cuboid = new Cuboid_1.default();
-          cuboid.width = isDefined_1.default(options.width) ? mustBeNumber_1.default('width', options.width) : 1;
-          cuboid.height = isDefined_1.default(options.height) ? mustBeNumber_1.default('height', options.height) : 1;
-          cuboid.depth = isDefined_1.default(options.depth) ? mustBeNumber_1.default('depth', options.depth) : 1;
-          cuboid.color = Color_1.default.green;
+          var cuboid = new Cuboid_1.default(options);
           this.drawList.add(cuboid);
           cuboid.release();
           return cuboid;
@@ -19382,10 +19466,10 @@ System.register("davinci-eight/core.js", [], function(exports_1) {
           this.fastPath = false;
           this.strict = false;
           this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-          this.LAST_MODIFIED = '2016-02-14';
+          this.LAST_MODIFIED = '2016-02-15';
           this.NAMESPACE = 'EIGHT';
           this.verbose = false;
-          this.VERSION = '2.186.0';
+          this.VERSION = '2.187.0';
           this.logging = {};
         }
         return Eight;
@@ -20234,7 +20318,6 @@ System.register("davinci-eight/core/WebGLRenderer.js", ["../commands/Capability"
           _super.call(this, 'WebGLRenderer');
           this._users = [];
           this._commands = new ShareableArray_1.default([]);
-          console.log(core_1.default.NAMESPACE + " @ " + core_1.default.VERSION);
           this._attributes = attributes;
           this._contextProvider = new WebGLContextProvider(this);
           this.enable(Capability_1.default.DEPTH_TEST);

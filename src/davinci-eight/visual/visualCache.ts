@@ -23,7 +23,7 @@ function arrow(options: VisualOptions): Geometry {
 }
 
 function cuboid(options: VisualOptions): Geometry {
-    return new CuboidGeometry({ width: 1, height: 1, depth: 1 })
+    return new CuboidGeometry({ width: 1, height: 1, depth: 1, wireFrame: wireFrame(options) })
 }
 
 function cylinder(options: VisualOptions): Geometry {

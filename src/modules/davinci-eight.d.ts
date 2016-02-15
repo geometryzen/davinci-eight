@@ -491,6 +491,32 @@ declare module EIGHT {
         static CANDELA: Unit;
     }
 
+    class Euclidean2 {
+        static ampere: Euclidean2
+        static candela: Euclidean2
+        static coulomb: Euclidean2
+        static e1: Euclidean2
+        static e2: Euclidean2
+        static I: Euclidean2
+        static kelvin: Euclidean2
+        static kilogram: Euclidean2
+        static meter: Euclidean2
+        static mole: Euclidean2
+        static one: Euclidean2
+        static second: Euclidean2
+        static zero: Euclidean2
+        α: number
+        x: number
+        y: number
+        β: number
+        uom: Unit
+        direction(): Euclidean2
+        magnitude(): Euclidean2
+        toExponential(): string;
+        toFixed(digits?: number): string;
+        toString(): string;
+    }
+
     /**
      * A measure with an optional unit of measure.
      */
@@ -3365,7 +3391,7 @@ declare module EIGHT {
     interface World extends IUnknown {
         add(mesh: Mesh): void
         arrow(): Arrow
-        cuboid(options?: { width?: number; height?: number; depth?: number }): Cuboid
+        cuboid(options?: { width?: number; height?: number; depth?: number; wireFrame?: boolean }): Cuboid
         sphere(options?: { radius?: number }): Sphere
         cylinder(options?: { radius?: number }): Cylinder
         ambients: Facet[]

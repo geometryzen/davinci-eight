@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.186.0</em>
+            <em>API Docs for: 2.187.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -204,6 +204,7 @@
 import Arrow from &#x27;./Arrow&#x27;
 import Color from &#x27;../core/Color&#x27;
 import Cuboid from &#x27;./Cuboid&#x27;
+import CuboidOptions from &#x27;./CuboidOptions&#x27;
 import Cylinder from &#x27;./Cylinder&#x27;
 import DrawList from &#x27;./DrawList&#x27;
 import Facet from &#x27;../core/Facet&#x27;
@@ -321,12 +322,8 @@ export default class World extends Shareable {
      * @method cuboid
      * @return {Cuboid}
      */
-    cuboid(options: { width?: number; height?: number; depth?: number } = {}): Cuboid {
-        const cuboid = new Cuboid()
-        cuboid.width = isDefined(options.width) ? mustBeNumber(&#x27;width&#x27;, options.width) : 1
-        cuboid.height = isDefined(options.height) ? mustBeNumber(&#x27;height&#x27;, options.height) : 1
-        cuboid.depth = isDefined(options.depth) ? mustBeNumber(&#x27;depth&#x27;, options.depth) : 1
-        cuboid.color = Color.green
+    cuboid(options: CuboidOptions = {}): Cuboid {
+        const cuboid = new Cuboid(options)
         this.drawList.add(cuboid)
         cuboid.release()
         return cuboid

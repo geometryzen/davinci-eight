@@ -147,7 +147,7 @@ module.exports = function(grunt) {
     watch: {
       scripts: {
         files: ['src/davinci-eight/**/*.ts'],
-        tasks: ['amd', 'jasmine'],
+        tasks: ['amd', 'jasmine', 'copy'],
         options: {
           spawn: false
         }

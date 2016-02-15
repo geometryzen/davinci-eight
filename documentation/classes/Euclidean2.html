@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.186.0</em>
+            <em>API Docs for: 2.187.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -202,7 +202,7 @@
 
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_math_Euclidean2.ts.html#l206"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Euclidean2.ts:206</code></a>
+            Defined in: <a href="../files/src_davinci-eight_math_Euclidean2.ts.html#l308"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Euclidean2.ts:308</code></a>
         </div>
 
             Module: <a href="../modules/math.html">math</a><br>
@@ -236,7 +236,7 @@
                         <code>β</code>
                 </li>
                 <li class="arg">
-                        <code>uom</code>
+                        <code class="optional">[uom]</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
@@ -251,7 +251,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Euclidean2.ts.html#l206"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Euclidean2.ts:206</code></a>
+        <a href="../files/src_davinci-eight_math_Euclidean2.ts.html#l308"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Euclidean2.ts:308</code></a>
         </p>
 
 
@@ -311,8 +311,9 @@
 
                 </li>
                 <li class="param">
-                        <code class="param-name">uom</code>
+                        <code class="param-name optional">[uom]</code>
                         <span class="type">Object</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
 
 
                     <div class="param-description">
@@ -355,9 +356,17 @@
                                     <span class="flag static">static</span>
                             </li>
                             <li class="index-item method">
+                                <a href="#method_direction">direction</a>
+
+                            </li>
+                            <li class="index-item method">
                                 <a href="#method_fromVectorE2">fromVectorE2</a>
 
                                     <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_inv">inv</a>
+
                             </li>
                             <li class="index-item method">
                                 <a href="#method_magnitude">magnitude</a>
@@ -368,7 +377,23 @@
 
                             </li>
                             <li class="index-item method">
+                                <a href="#method_rotate">rotate</a>
+
+                            </li>
+                            <li class="index-item method">
                                 <a href="#method_tan">tan</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_toExponential">toExponential</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_toFixed">toFixed</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_toString">toString</a>
 
                             </li>
                     </ul>
@@ -378,6 +403,104 @@
                     <h3>Properties</h3>
 
                     <ul class="index-list properties">
+                            <li class="index-item property private">
+                                <a href="#property__e2">_e2</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item property private">
+                                <a href="#property__e2">_e2</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item property private">
+                                <a href="#property__I">_I</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item property private">
+                                <a href="#property__one">_one</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item property private">
+                                <a href="#property__zero">_zero</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_ampere">ampere</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_candela">candela</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_coulomb">coulomb</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_e1">e1</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_e2">e2</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_I">I</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_kelvin">kelvin</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_kilogram">kilogram</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_meter">meter</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_mole">mole</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_one">one</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_second">second</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_x">x</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_y">y</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_zero">zero</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
                             <li class="index-item property">
                                 <a href="#property_α">α</a>
 
@@ -413,7 +536,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Euclidean2.ts.html#l348"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Euclidean2.ts:348</code></a>
+        <a href="../files/src_davinci-eight_math_Euclidean2.ts.html#l481"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Euclidean2.ts:481</code></a>
         </p>
 
 
@@ -460,7 +583,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Euclidean2.ts.html#l854"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Euclidean2.ts:854</code></a>
+        <a href="../files/src_davinci-eight_math_Euclidean2.ts.html#l1039"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Euclidean2.ts:1039</code></a>
         </p>
 
 
@@ -498,6 +621,47 @@
 
 
 </div>
+<div id="method_direction" class="method item">
+    <h3 class="name"><code>direction</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Euclidean2.html" class="crosslink">Euclidean2</a></span>
+        </span>
+
+
+
+
+
+        <span class="flag chainable">chainable</span>
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Euclidean2.ts.html#l505"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Euclidean2.ts:505</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Euclidean2.html" class="crosslink">Euclidean2</a></span>:
+            </div>
+        </div>
+
+
+</div>
 <div id="method_fromVectorE2" class="method item">
     <h3 class="name"><code>fromVectorE2</code></h3>
 
@@ -523,7 +687,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Euclidean2.ts.html#l869"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Euclidean2.ts:869</code></a>
+        <a href="../files/src_davinci-eight_math_Euclidean2.ts.html#l1054"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Euclidean2.ts:1054</code></a>
         </p>
 
 
@@ -561,6 +725,46 @@
 
 
 </div>
+<div id="method_inv" class="method item">
+    <h3 class="name"><code>inv</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Euclidean2.html" class="crosslink">Euclidean2</a></span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Euclidean2.ts.html#l866"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Euclidean2.ts:866</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Euclidean2.html" class="crosslink">Euclidean2</a></span>:
+            </div>
+        </div>
+
+
+</div>
 <div id="method_magnitude" class="method item">
     <h3 class="name"><code>magnitude</code></h3>
 
@@ -579,7 +783,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Euclidean2.ts.html#l724"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Euclidean2.ts:724</code></a>
+        <a href="../files/src_davinci-eight_math_Euclidean2.ts.html#l887"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Euclidean2.ts:887</code></a>
         </p>
 
 
@@ -626,7 +830,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Euclidean2.ts.html#l766"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Euclidean2.ts:766</code></a>
+        <a href="../files/src_davinci-eight_math_Euclidean2.ts.html#l932"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Euclidean2.ts:932</code></a>
         </p>
 
 
@@ -665,6 +869,68 @@
 
 
 </div>
+<div id="method_rotate" class="method item">
+    <h3 class="name"><code>rotate</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>R</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Euclidean2.html" class="crosslink">Euclidean2</a></span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Euclidean2.ts.html#l950"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Euclidean2.ts:950</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">R</code>
+                        <span class="type"><a href="../classes/SpinorE2.html" class="crosslink">SpinorE2</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Euclidean2.html" class="crosslink">Euclidean2</a></span>:
+            </div>
+        </div>
+
+
+</div>
 <div id="method_tan" class="method item">
     <h3 class="name"><code>tan</code></h3>
 
@@ -683,7 +949,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Euclidean2.ts.html#l799"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Euclidean2.ts:799</code></a>
+        <a href="../files/src_davinci-eight_math_Euclidean2.ts.html#l971"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Euclidean2.ts:971</code></a>
         </p>
 
 
@@ -705,14 +971,16 @@
 
 
 </div>
-            </div>
+<div id="method_toExponential" class="method item">
+    <h3 class="name"><code>toExponential</code></h3>
 
-            <div id="properties" class="api-class-tabpanel">
-                <h2 class="off-left">Properties</h2>
+        <span class="paren">()</span>
 
-<div id="property_α" class="property item">
-    <h3 class="name"><code>α</code></h3>
-    <span class="type">Unknown</span>
+        <span class="returns-inline">
+            <span class="type">String</span>
+        </span>
+
+
 
 
 
@@ -721,7 +989,653 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Euclidean2.ts.html#l233"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Euclidean2.ts:233</code></a>
+        <a href="../files/src_davinci-eight_math_Euclidean2.ts.html#l1001"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Euclidean2.ts:1001</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">String</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_toFixed" class="method item">
+    <h3 class="name"><code>toFixed</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code class="optional">[digits]</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">String</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Euclidean2.ts.html#l1010"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Euclidean2.ts:1010</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name optional">[digits]</code>
+                        <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">String</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_toString" class="method item">
+    <h3 class="name"><code>toString</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">String</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Euclidean2.ts.html#l1020"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Euclidean2.ts:1020</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">String</span>:
+            </div>
+        </div>
+
+
+</div>
+            </div>
+
+            <div id="properties" class="api-class-tabpanel">
+                <h2 class="off-left">Properties</h2>
+
+<div id="property__e2" class="property item private">
+    <h3 class="name"><code>_e2</code></h3>
+    <span class="type"><a href="../classes/Euclidean2.html" class="crosslink">Euclidean2</a></span>
+
+
+        <span class="flag private">private</span>
+
+
+        <span class="flag static">static</span>
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Euclidean2.ts.html#l189"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Euclidean2.ts:189</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property__e2" class="property item private">
+    <h3 class="name"><code>_e2</code></h3>
+    <span class="type"><a href="../classes/Euclidean2.html" class="crosslink">Euclidean2</a></span>
+
+
+        <span class="flag private">private</span>
+
+
+        <span class="flag static">static</span>
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Euclidean2.ts.html#l210"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Euclidean2.ts:210</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property__I" class="property item private">
+    <h3 class="name"><code>_I</code></h3>
+    <span class="type"><a href="../classes/Euclidean2.html" class="crosslink">Euclidean2</a></span>
+
+
+        <span class="flag private">private</span>
+
+
+        <span class="flag static">static</span>
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Euclidean2.ts.html#l231"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Euclidean2.ts:231</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property__one" class="property item private">
+    <h3 class="name"><code>_one</code></h3>
+    <span class="type"><a href="../classes/Euclidean2.html" class="crosslink">Euclidean2</a></span>
+
+
+        <span class="flag private">private</span>
+
+
+        <span class="flag static">static</span>
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Euclidean2.ts.html#l168"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Euclidean2.ts:168</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property__zero" class="property item private">
+    <h3 class="name"><code>_zero</code></h3>
+    <span class="type"><a href="../classes/Euclidean2.html" class="crosslink">Euclidean2</a></span>
+
+
+        <span class="flag private">private</span>
+
+
+        <span class="flag static">static</span>
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Euclidean2.ts.html#l147"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Euclidean2.ts:147</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_ampere" class="property item">
+    <h3 class="name"><code>ampere</code></h3>
+    <span class="type"><a href="../classes/Euclidean2.html" class="crosslink">Euclidean2</a></span>
+
+
+
+
+        <span class="flag static">static</span>
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Euclidean2.ts.html#l280"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Euclidean2.ts:280</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_candela" class="property item">
+    <h3 class="name"><code>candela</code></h3>
+    <span class="type"><a href="../classes/Euclidean2.html" class="crosslink">Euclidean2</a></span>
+
+
+
+
+        <span class="flag static">static</span>
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Euclidean2.ts.html#l301"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Euclidean2.ts:301</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_coulomb" class="property item">
+    <h3 class="name"><code>coulomb</code></h3>
+    <span class="type"><a href="../classes/Euclidean2.html" class="crosslink">Euclidean2</a></span>
+
+
+
+
+        <span class="flag static">static</span>
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Euclidean2.ts.html#l273"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Euclidean2.ts:273</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_e1" class="property item">
+    <h3 class="name"><code>e1</code></h3>
+    <span class="type"><a href="../classes/Euclidean2.html" class="crosslink">Euclidean2</a></span>
+
+
+
+
+        <span class="flag static">static</span>
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Euclidean2.ts.html#l197"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Euclidean2.ts:197</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_e2" class="property item">
+    <h3 class="name"><code>e2</code></h3>
+    <span class="type"><a href="../classes/Euclidean2.html" class="crosslink">Euclidean2</a></span>
+
+
+
+
+        <span class="flag static">static</span>
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Euclidean2.ts.html#l218"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Euclidean2.ts:218</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_I" class="property item">
+    <h3 class="name"><code>I</code></h3>
+    <span class="type"><a href="../classes/Euclidean2.html" class="crosslink">Euclidean2</a></span>
+
+
+
+
+        <span class="flag static">static</span>
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Euclidean2.ts.html#l239"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Euclidean2.ts:239</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_kelvin" class="property item">
+    <h3 class="name"><code>kelvin</code></h3>
+    <span class="type"><a href="../classes/Euclidean2.html" class="crosslink">Euclidean2</a></span>
+
+
+
+
+        <span class="flag static">static</span>
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Euclidean2.ts.html#l287"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Euclidean2.ts:287</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_kilogram" class="property item">
+    <h3 class="name"><code>kilogram</code></h3>
+    <span class="type"><a href="../classes/Euclidean2.html" class="crosslink">Euclidean2</a></span>
+
+
+
+
+        <span class="flag static">static</span>
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Euclidean2.ts.html#l252"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Euclidean2.ts:252</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_meter" class="property item">
+    <h3 class="name"><code>meter</code></h3>
+    <span class="type"><a href="../classes/Euclidean2.html" class="crosslink">Euclidean2</a></span>
+
+
+
+
+        <span class="flag static">static</span>
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Euclidean2.ts.html#l259"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Euclidean2.ts:259</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_mole" class="property item">
+    <h3 class="name"><code>mole</code></h3>
+    <span class="type"><a href="../classes/Euclidean2.html" class="crosslink">Euclidean2</a></span>
+
+
+
+
+        <span class="flag static">static</span>
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Euclidean2.ts.html#l294"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Euclidean2.ts:294</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_one" class="property item">
+    <h3 class="name"><code>one</code></h3>
+    <span class="type"><a href="../classes/Euclidean2.html" class="crosslink">Euclidean2</a></span>
+
+
+
+
+        <span class="flag static">static</span>
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Euclidean2.ts.html#l176"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Euclidean2.ts:176</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_second" class="property item">
+    <h3 class="name"><code>second</code></h3>
+    <span class="type"><a href="../classes/Euclidean2.html" class="crosslink">Euclidean2</a></span>
+
+
+
+
+        <span class="flag static">static</span>
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Euclidean2.ts.html#l266"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Euclidean2.ts:266</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_x" class="property item">
+    <h3 class="name"><code>x</code></h3>
+    <span class="type">Number</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Euclidean2.ts.html#l348"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Euclidean2.ts:348</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>The coordinate corresponding to the <b>e1</b> basis vector, without the unit of measure.</p>
+
+    </div>
+
+
+
+</div>
+<div id="property_y" class="property item">
+    <h3 class="name"><code>y</code></h3>
+    <span class="type">Number</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Euclidean2.ts.html#l362"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Euclidean2.ts:362</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>The coordinate corresponding to the <b>e2</b> basis vector, without the unit of measure.</p>
+
+    </div>
+
+
+
+</div>
+<div id="property_zero" class="property item">
+    <h3 class="name"><code>zero</code></h3>
+    <span class="type"><a href="../classes/Euclidean2.html" class="crosslink">Euclidean2</a></span>
+
+
+
+
+        <span class="flag static">static</span>
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Euclidean2.ts.html#l155"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Euclidean2.ts:155</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_α" class="property item">
+    <h3 class="name"><code>α</code></h3>
+    <span class="type">Number</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Euclidean2.ts.html#l335"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Euclidean2.ts:335</code></a>
         </p>
 
 
@@ -737,7 +1651,7 @@
 </div>
 <div id="property_β" class="property item">
     <h3 class="name"><code>β</code></h3>
-    <span class="type">Unknown</span>
+    <span class="type">Number</span>
 
 
 
@@ -746,7 +1660,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Euclidean2.ts.html#l245"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Euclidean2.ts:245</code></a>
+        <a href="../files/src_davinci-eight_math_Euclidean2.ts.html#l376"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Euclidean2.ts:376</code></a>
         </p>
 
 

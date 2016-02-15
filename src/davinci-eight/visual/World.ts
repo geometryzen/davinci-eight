@@ -1,6 +1,7 @@
 import Arrow from './Arrow'
 import Color from '../core/Color'
 import Cuboid from './Cuboid'
+import CuboidOptions from './CuboidOptions'
 import Cylinder from './Cylinder'
 import DrawList from './DrawList'
 import Facet from '../core/Facet'
@@ -118,12 +119,8 @@ export default class World extends Shareable {
      * @method cuboid
      * @return {Cuboid}
      */
-    cuboid(options: { width?: number; height?: number; depth?: number } = {}): Cuboid {
-        const cuboid = new Cuboid()
-        cuboid.width = isDefined(options.width) ? mustBeNumber('width', options.width) : 1
-        cuboid.height = isDefined(options.height) ? mustBeNumber('height', options.height) : 1
-        cuboid.depth = isDefined(options.depth) ? mustBeNumber('depth', options.depth) : 1
-        cuboid.color = Color.green
+    cuboid(options: CuboidOptions = {}): Cuboid {
+        const cuboid = new Cuboid(options)
         this.drawList.add(cuboid)
         cuboid.release()
         return cuboid

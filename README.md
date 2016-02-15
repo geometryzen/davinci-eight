@@ -262,6 +262,7 @@ Make your changes to the TypeScript files in the _src_ directory. Do not edit th
 * 2.184.0: 2016-02-12 TrackballControls
 * 2.185.0: 2016-02-12 DirectionalLight
 * 2.186.0: 2016-02-14 Object3D
+* 2.187.0: 2016-02-15 Euclidean2
 
 ## License
 Copyright (c) 2014-2016 David Holmes

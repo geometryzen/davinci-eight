@@ -1,4 +1,4 @@
-define(["require", "exports", '../math/addE3', '../geometries/b2', '../geometries/b3', '../math/extG3', '../checks/isDefined', '../math/lcoG3', '../math/mulE3', '../math/mulG3', '../checks/mustBeInteger', '../checks/mustBeNumber', '../math/NotImplementedError', '../math/rcoG3', '../i18n/readOnly', '../math/scpG3', '../math/squaredNormG3', '../math/stringFromCoordinates', '../math/subE3', '../math/Unit', '../math/BASIS_LABELS_G3_GEOMETRIC', '../math/BASIS_LABELS_G3_HAMILTON', '../math/BASIS_LABELS_G3_STANDARD', '../math/BASIS_LABELS_G3_STANDARD_HTML'], function (require, exports, addE3_1, b2_1, b3_1, extG3_1, isDefined_1, lcoG3_1, mulE3_1, mulG3_1, mustBeInteger_1, mustBeNumber_1, NotImplementedError_1, rcoG3_1, readOnly_1, scpG3_1, squaredNormG3_1, stringFromCoordinates_1, subE3_1, Unit_1, BASIS_LABELS_G3_GEOMETRIC_1, BASIS_LABELS_G3_HAMILTON_1, BASIS_LABELS_G3_STANDARD_1, BASIS_LABELS_G3_STANDARD_HTML_1) {
+define(["require", "exports", '../math/addE3', '../geometries/b2', '../geometries/b3', '../math/extG3', '../checks/isDefined', '../math/lcoG3', '../math/mulE3', '../math/mulG3', '../checks/mustBeInteger', '../checks/mustBeNumber', '../i18n/notImplemented', '../math/rcoG3', '../i18n/readOnly', '../math/scpG3', '../math/squaredNormG3', '../math/stringFromCoordinates', '../math/subE3', '../math/Unit', '../math/BASIS_LABELS_G3_GEOMETRIC', '../math/BASIS_LABELS_G3_HAMILTON', '../math/BASIS_LABELS_G3_STANDARD', '../math/BASIS_LABELS_G3_STANDARD_HTML'], function (require, exports, addE3_1, b2_1, b3_1, extG3_1, isDefined_1, lcoG3_1, mulE3_1, mulG3_1, mustBeInteger_1, mustBeNumber_1, notImplemented_1, rcoG3_1, readOnly_1, scpG3_1, squaredNormG3_1, stringFromCoordinates_1, subE3_1, Unit_1, BASIS_LABELS_G3_GEOMETRIC_1, BASIS_LABELS_G3_HAMILTON_1, BASIS_LABELS_G3_STANDARD_1, BASIS_LABELS_G3_STANDARD_HTML_1) {
     var cos = Math.cos;
     var sin = Math.sin;
     var sqrt = Math.sqrt;
@@ -316,7 +316,7 @@ define(["require", "exports", '../math/addE3', '../geometries/b2', '../geometrie
             }
         };
         Euclidean3.prototype.adj = function () {
-            return this;
+            throw new Error(notImplemented_1.default('adj').message);
         };
         Euclidean3.prototype.angle = function () {
             return this.log().grade(2);
@@ -406,7 +406,7 @@ define(["require", "exports", '../math/addE3', '../geometries/b2', '../geometrie
             }
         };
         Euclidean3.prototype.dual = function () {
-            return new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, this.uom);
+            throw new Error(notImplemented_1.default('dual').message);
         };
         Euclidean3.prototype.scp = function (rhs) {
             var out = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit_1.default.mul(this.uom, rhs.uom));
@@ -556,7 +556,7 @@ define(["require", "exports", '../math/addE3', '../geometries/b2', '../geometrie
             return (this.w === 0) && (this.x === 0) && (this.y === 0) && (this.z === 0) && (this.yz === 0) && (this.zx === 0) && (this.xy === 0) && (this.xyz === 0);
         };
         Euclidean3.prototype.lerp = function (target, α) {
-            return this;
+            throw new Error(notImplemented_1.default('lerp').message);
         };
         Euclidean3.prototype.cos = function () {
             Unit_1.default.assertDimensionless(this.uom);
@@ -564,7 +564,7 @@ define(["require", "exports", '../math/addE3', '../geometries/b2', '../geometrie
             return new Euclidean3(cosW, 0, 0, 0, 0, 0, 0, 0, void 0);
         };
         Euclidean3.prototype.cosh = function () {
-            throw new NotImplementedError_1.default('cosh(Euclidean3)');
+            throw new Error(notImplemented_1.default('cosh').message);
         };
         Euclidean3.prototype.distanceTo = function (point) {
             var dx = this.x - point.x;
@@ -573,7 +573,7 @@ define(["require", "exports", '../math/addE3', '../geometries/b2', '../geometrie
             return sqrt(dx * dx + dy * dy + dz * dz);
         };
         Euclidean3.prototype.equals = function (other) {
-            throw new Error("TODO: Euclidean3.equals");
+            throw new Error(notImplemented_1.default('equals').message);
         };
         Euclidean3.prototype.exp = function () {
             Unit_1.default.assertDimensionless(this.uom);
@@ -593,7 +593,7 @@ define(["require", "exports", '../math/addE3', '../geometries/b2', '../geometrie
             return this.rev().divByScalar(this.squaredNormSansUnits());
         };
         Euclidean3.prototype.log = function () {
-            return new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, this.uom);
+            throw new Error(notImplemented_1.default('log').message);
         };
         Euclidean3.prototype.magnitude = function () {
             return this.norm();
@@ -646,10 +646,10 @@ define(["require", "exports", '../math/addE3', '../geometries/b2', '../geometrie
             return new Euclidean3(sinW, 0, 0, 0, 0, 0, 0, 0, void 0);
         };
         Euclidean3.prototype.sinh = function () {
-            throw new Error('sinh');
+            throw new Error(notImplemented_1.default('sinh').message);
         };
         Euclidean3.prototype.slerp = function (target, α) {
-            return this;
+            throw new Error(notImplemented_1.default('slerp').message);
         };
         Euclidean3.prototype.sqrt = function () {
             return new Euclidean3(sqrt(this.w), 0, 0, 0, 0, 0, 0, 0, Unit_1.default.sqrt(this.uom));

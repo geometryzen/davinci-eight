@@ -425,7 +425,7 @@ define([    'davinci-eight/math/QQ', 'davinci-eight/math/Dimensions', 'davinci-e
     });
 
     describe("/", function() {
-      var n = Math.random();
+      var n = 2;
       var u = new Euclidean2(1, 0, 0, 0);
       var i = new Euclidean2(0, 1, 0, 0);
       var j = new Euclidean2(0, 0, 1, 0);

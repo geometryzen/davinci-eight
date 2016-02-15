@@ -44,12 +44,12 @@ export default class CuboidGeometry extends GeometryContainer {
      * @constructor
      * @param [options = {}] {{ width?: number; height?: number; depth?: number }}
      */
-    constructor(options: { width?: number; height?: number; depth?: number } = {}) {
+    constructor(options: { width?: number; height?: number; depth?: number, wireFrame?: boolean } = {}) {
         super()
         const width = isDefined(options.width) ? mustBeNumber('width', options.width) : 1
         const height = isDefined(options.height) ? mustBeNumber('height', options.height) : 1
         const depth = isDefined(options.depth) ? mustBeNumber('depth', options.depth) : 1
-        const wireFrame = false
+        const wireFrame = isDefined(options.wireFrame) ? mustBeBoolean('wireFrame', options.wireFrame) : false
         const ps = primitives(width, height, depth, wireFrame)
         const iLen = ps.length
         for (let i = 0; i < iLen; i++) {

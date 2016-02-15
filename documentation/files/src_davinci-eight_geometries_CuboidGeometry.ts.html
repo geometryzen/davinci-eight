@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.186.0</em>
+            <em>API Docs for: 2.187.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -247,12 +247,12 @@ export default class CuboidGeometry extends GeometryContainer {
      * @constructor
      * @param [options = {}] {{ width?: number; height?: number; depth?: number }}
      */
-    constructor(options: { width?: number; height?: number; depth?: number } = {}) {
+    constructor(options: { width?: number; height?: number; depth?: number, wireFrame?: boolean } = {}) {
         super()
         const width = isDefined(options.width) ? mustBeNumber(&#x27;width&#x27;, options.width) : 1
         const height = isDefined(options.height) ? mustBeNumber(&#x27;height&#x27;, options.height) : 1
         const depth = isDefined(options.depth) ? mustBeNumber(&#x27;depth&#x27;, options.depth) : 1
-        const wireFrame = false
+        const wireFrame = isDefined(options.wireFrame) ? mustBeBoolean(&#x27;wireFrame&#x27;, options.wireFrame) : false
         const ps = primitives(width, height, depth, wireFrame)
         const iLen = ps.length
         for (let i = 0; i &lt; iLen; i++) {

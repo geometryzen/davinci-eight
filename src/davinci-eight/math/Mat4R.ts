@@ -471,9 +471,8 @@ export default class Mat4R extends AbstractMatrix<Mat4R> implements Matrix<Mat4R
      * @method set
      * @return {Mat4R}
      * @chainable
-     * @private
      */
-    private set(
+    public set(
         n11: number,
         n12: number,
         n13: number,

@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.186.0</em>
+            <em>API Docs for: 2.187.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -215,7 +215,7 @@ import mulG3 from &#x27;../math/mulG3&#x27;;
 import mustBeInteger from &#x27;../checks/mustBeInteger&#x27;;
 import mustBeNumber from &#x27;../checks/mustBeNumber&#x27;;
 import GeometricElement from &#x27;../math/GeometricElement&#x27;;
-import NotImplementedError from &#x27;../math/NotImplementedError&#x27;;
+import notImplemented from &#x27;../i18n/notImplemented&#x27;;
 import rcoG3 from &#x27;../math/rcoG3&#x27;;
 import readOnly from &#x27;../i18n/readOnly&#x27;;
 import scpG3 from &#x27;../math/scpG3&#x27;;
@@ -848,8 +848,7 @@ export default class Euclidean3 implements ImmutableMeasure&lt;Euclidean3&gt;, G
      * @beta
      */
     adj(): Euclidean3 {
-        // TODO
-        return this;
+        throw new Error(notImplemented(&#x27;adj&#x27;).message)
     }
 
     /**
@@ -1045,8 +1044,7 @@ export default class Euclidean3 implements ImmutableMeasure&lt;Euclidean3&gt;, G
      * @beta
      */
     dual(): Euclidean3 {
-        // FIXME: TODO
-        return new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, this.uom);
+        throw new Error(notImplemented(&#x27;dual&#x27;).message)
     }
 
     /**
@@ -1365,8 +1363,7 @@ export default class Euclidean3 implements ImmutableMeasure&lt;Euclidean3&gt;, G
      * @return {Euclidean3}
      */
     lerp(target: Euclidean3, α: number): Euclidean3 {
-        // FIXME: TODO
-        return this;
+        throw new Error(notImplemented(&#x27;lerp&#x27;).message)
     }
 
     /**
@@ -1385,8 +1382,7 @@ export default class Euclidean3 implements ImmutableMeasure&lt;Euclidean3&gt;, G
      * @return {Euclidean3}
      */
     cosh(): Euclidean3 {
-        // Unit.assertDimensionless(this.uom);
-        throw new NotImplementedError(&#x27;cosh(Euclidean3)&#x27;);
+        throw new Error(notImplemented(&#x27;cosh&#x27;).message)
     }
 
     /**
@@ -1407,7 +1403,7 @@ export default class Euclidean3 implements ImmutableMeasure&lt;Euclidean3&gt;, G
      * @return {boolean}
      */
     equals(other: Euclidean3): boolean {
-        throw new Error(&quot;TODO: Euclidean3.equals&quot;)
+        throw new Error(notImplemented(&#x27;equals&#x27;).message)
     }
 
     /**
@@ -1446,8 +1442,7 @@ export default class Euclidean3 implements ImmutableMeasure&lt;Euclidean3&gt;, G
      * @return {Euclidean3}
      */
     log(): Euclidean3 {
-        // FIXME: TODO
-        return new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, this.uom);
+        throw new Error(notImplemented(&#x27;log&#x27;).message)
     }
 
     /**
@@ -1564,8 +1559,7 @@ export default class Euclidean3 implements ImmutableMeasure&lt;Euclidean3&gt;, G
      * @return {Euclidean3}
      */
     sinh(): Euclidean3 {
-        // Unit.assertDimensionless(this.uom);
-        throw new Error(&#x27;sinh&#x27;);
+        throw new Error(notImplemented(&#x27;sinh&#x27;).message)
     }
 
     /**
@@ -1575,8 +1569,7 @@ export default class Euclidean3 implements ImmutableMeasure&lt;Euclidean3&gt;, G
      * @return {Euclidean3}
      */
     slerp(target: Euclidean3, α: number): Euclidean3 {
-        // FIXME: TODO
-        return this
+        throw new Error(notImplemented(&#x27;slerp&#x27;).message)
     }
 
     /**

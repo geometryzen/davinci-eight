@@ -527,8 +527,7 @@ export default class WebGLRenderer extends Shareable {
      */
     constructor(attributes?: WebGLContextAttributes) {
         super('WebGLRenderer');
-        console.log(`${core.NAMESPACE} @ ${core.VERSION}`);
-        // FIXME: This seems out of place.
+
         this._attributes = attributes;
 
         this._contextProvider = new WebGLContextProvider(this)

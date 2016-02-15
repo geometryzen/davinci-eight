@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.186.0</em>
+            <em>API Docs for: 2.187.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -201,10 +201,12 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import mustBeNumber from &#x27;../checks/mustBeNumber&#x27;;
-import visualCache from &#x27;./visualCache&#x27;;
+import Color from &#x27;../core/Color&#x27;
+import isDefined from &#x27;../checks/isDefined&#x27;
+import mustBeNumber from &#x27;../checks/mustBeNumber&#x27;
+import visualCache from &#x27;./visualCache&#x27;
 import VisualBody from &#x27;./VisualBody&#x27;
-import VisualOptions from &#x27;./VisualOptions&#x27;
+import CuboidOptions from &#x27;./CuboidOptions&#x27;
 
 /**
  * @module EIGHT
@@ -216,10 +218,14 @@ import VisualOptions from &#x27;./VisualOptions&#x27;
  * @extends RigidBody
  */
 export default class Cuboid extends VisualBody {
-    constructor(options: VisualOptions = {}) {
+    constructor(options: CuboidOptions = {}) {
         super(visualCache.cuboid(options), visualCache.material(options), &#x27;Cuboid&#x27;)
         this._geometry.release()
         this._material.release()
+        this.width = isDefined(options.width) ? mustBeNumber(&#x27;width&#x27;, options.width) : 1
+        this.height = isDefined(options.height) ? mustBeNumber(&#x27;height&#x27;, options.height) : 1
+        this.depth = isDefined(options.depth) ? mustBeNumber(&#x27;depth&#x27;, options.depth) : 1
+        this.color = Color.green
     }
     protected destructor(): void {
         super.destructor()

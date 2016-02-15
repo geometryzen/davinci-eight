@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.186.0</em>
+            <em>API Docs for: 2.187.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -292,6 +292,21 @@ export default class SpinG2 extends VectorN&lt;number&gt; implements SpinorE2, M
         mustBeNumber(&#x27;α&#x27;, α)
         this.modified = this.modified || this.α !== α;
         this.coords[COORD_ALPHA] = α;
+    }
+
+    /**
+     * The pseudoscalar part of this spinor as a number.
+     * @property β
+     * @type number
+     * @readOnly
+     */
+    get β(): number {
+        return this.coords[COORD_XY];
+    }
+    set β(β: number) {
+        mustBeNumber(&#x27;β&#x27;, β)
+        this.modified = this.modified || this.β !== β;
+        this.coords[COORD_XY] = β;
     }
 
     /**

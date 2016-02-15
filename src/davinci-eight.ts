@@ -144,6 +144,7 @@ import R1 from 'davinci-eight/math/R1';
 import Mat2R from 'davinci-eight/math/Mat2R';
 import Mat3R from 'davinci-eight/math/Mat3R';
 import Mat4R from 'davinci-eight/math/Mat4R';
+import MatNR from 'davinci-eight/math/MatNR';
 import Measure from 'davinci-eight/math/Measure';
 import Mutable from 'davinci-eight/math/Mutable';
 import QQ from 'davinci-eight/math/QQ';

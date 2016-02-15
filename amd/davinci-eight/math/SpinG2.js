@@ -50,6 +50,18 @@ define(["require", "exports", '../math/dotVectorCartesianE2', '../math/dotVector
             enumerable: true,
             configurable: true
         });
+        Object.defineProperty(SpinG2.prototype, "β", {
+            get: function () {
+                return this.coords[COORD_XY];
+            },
+            set: function (β) {
+                mustBeNumber_1.default('β', β);
+                this.modified = this.modified || this.β !== β;
+                this.coords[COORD_XY] = β;
+            },
+            enumerable: true,
+            configurable: true
+        });
         SpinG2.prototype.add = function (spinor, α) {
             if (α === void 0) { α = 1; }
             mustBeObject_1.default('spinor', spinor);

@@ -92,6 +92,21 @@ export default class SpinG2 extends VectorN<number> implements SpinorE2, Measure
     }
 
     /**
+     * The pseudoscalar part of this spinor as a number.
+     * @property β
+     * @type number
+     * @readOnly
+     */
+    get β(): number {
+        return this.coords[COORD_XY];
+    }
+    set β(β: number) {
+        mustBeNumber('β', β)
+        this.modified = this.modified || this.β !== β;
+        this.coords[COORD_XY] = β;
+    }
+
+    /**
      * <p>
      * <code>this ⟼ this + α * spinor</code>
      * </p>
