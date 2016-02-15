@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.185.0</em>
+            <em>API Docs for: 2.186.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -203,6 +203,7 @@
     <pre class="code prettyprint linenums">
 import GeometryContainer from &#x27;../core/GeometryContainer&#x27;;
 import GeometryPrimitive from &#x27;../core/GeometryPrimitive&#x27;;
+import isDefined from &#x27;../checks/isDefined&#x27;
 import Primitive from &#x27;../core/Primitive&#x27;;
 import mustBeBoolean from &#x27;../checks/mustBeBoolean&#x27;;
 import mustBeNumber from &#x27;../checks/mustBeNumber&#x27;;
@@ -244,13 +245,14 @@ export default class CuboidGeometry extends GeometryContainer {
     /**
      * @class CuboidGeometry
      * @constructor
-     * @param width {number}
-     * @param height {number}
-     * @param depth {number}
-     * @param wireFrame {boolean}
+     * @param [options = {}] {{ width?: number; height?: number; depth?: number }}
      */
-    constructor(width: number, height: number, depth: number, wireFrame: boolean) {
+    constructor(options: { width?: number; height?: number; depth?: number } = {}) {
         super()
+        const width = isDefined(options.width) ? mustBeNumber(&#x27;width&#x27;, options.width) : 1
+        const height = isDefined(options.height) ? mustBeNumber(&#x27;height&#x27;, options.height) : 1
+        const depth = isDefined(options.depth) ? mustBeNumber(&#x27;depth&#x27;, options.depth) : 1
+        const wireFrame = false
         const ps = primitives(width, height, depth, wireFrame)
         const iLen = ps.length
         for (let i = 0; i &lt; iLen; i++) {

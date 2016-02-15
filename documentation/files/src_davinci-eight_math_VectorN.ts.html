@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.185.0</em>
+            <em>API Docs for: 2.186.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -201,9 +201,10 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import Mutable from &#x27;../math/Mutable&#x27;;
 import isDefined from &#x27;../checks/isDefined&#x27;;
 import isUndefined from &#x27;../checks/isUndefined&#x27;;
+import Mutable from &#x27;../math/Mutable&#x27;;
+import mustSatisfy from &#x27;../checks/mustSatisfy&#x27;
 
 function pushString(T: string): string {
     return &quot;push(value: &quot; + T + &quot;): number&quot;;
@@ -255,6 +256,7 @@ export default class VectorN&lt;T&gt; implements Mutable&lt;T[]&gt; {
         if (isDefined(size)) {
             this._size = size;
             this._data = data;
+            mustSatisfy(&#x27;data.length&#x27;, data.length === size, () =&gt; { return &#x60;${size}&#x60; })
         }
         else {
             this._size = void 0;

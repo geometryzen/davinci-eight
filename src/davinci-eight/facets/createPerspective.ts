@@ -8,6 +8,7 @@ import createView from './createView';
 import Mat4R from '../math/Mat4R';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
 import VectorE3 from '../math/VectorE3';
+import readOnly from '../i18n/readOnly';
 import R1 from '../math/R1';
 import R3 from '../math/R3';
 import isUndefined from '../checks/isUndefined';
@@ -120,6 +121,22 @@ export default function createPerspective(options?: { fov?: number; aspect?: num
                 matrixNeedsUpdate = true;
             }
             return self;
+        },
+        get projectionMatrix(): Mat4R {
+            if (matrixNeedsUpdate) {
+                computePerspectiveMatrix(fov.x, aspect.x, near.x, far.x, projectionMatrix);
+                matrixNeedsUpdate = false;
+            }
+            return projectionMatrix
+        },
+        set projectionMatrix(projectionMatrix: Mat4R) {
+            throw new Error(readOnly('projectionMatrix').message)
+        },
+        get viewMatrix(): Mat4R {
+            return base.viewMatrix
+        },
+        set viewMatrix(viewMatrix: Mat4R) {
+            base.viewMatrix = viewMatrix
         },
         setUniforms(visitor: FacetVisitor) {
             if (matrixNeedsUpdate) {

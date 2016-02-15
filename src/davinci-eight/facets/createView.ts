@@ -9,6 +9,7 @@ import View from './View';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
 import isUndefined from '../checks/isUndefined';
 import computeViewMatrix from './viewMatrix';
+import readOnly from '../i18n/readOnly';
 
 /**
  * @class createView
@@ -75,6 +76,12 @@ export default function createView(options?: { viewMatrixName?: string }): View 
             up.z = value.z
             up.direction()
             return self
+        },
+        get viewMatrix(): Mat4R {
+            return viewMatrix
+        },
+        set viewMatrix(unused: Mat4R) {
+            throw new Error(readOnly('viewMatrix').message)
         },
         setUniforms(visitor: FacetVisitor) {
             if (eye.modified || look.modified || up.modified) {

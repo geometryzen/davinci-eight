@@ -2,7 +2,7 @@
     "project": {
         "name": "davinci-eight",
         "description": "WebGL library for mathematical physics using Geometric Algebra",
-        "version": "2.185.0",
+        "version": "2.186.0",
         "url": ""
     },
     "files": {
@@ -1482,6 +1482,13 @@
             "fors": {},
             "namespaces": {}
         },
+        "src/davinci-eight/visual/Object3D.ts": {
+            "name": "src/davinci-eight/visual/Object3D.ts",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
         "src/davinci-eight/visual/RigidBody.ts": {
             "name": "src/davinci-eight/visual/RigidBody.ts",
             "modules": {},
@@ -1683,7 +1690,7 @@
             "fors": {},
             "namespaces": {},
             "file": "src/davinci-eight/visual/World.ts",
-            "line": 30
+            "line": 31
         },
         "controls": {
             "name": "controls",
@@ -1772,7 +1779,7 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/facets/View.ts",
-            "line": 10,
+            "line": 11,
             "description": "Common abstractions for computing shader uniform variables."
         },
         "geometries": {
@@ -1868,7 +1875,7 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/visual/World.ts",
-            "line": 30,
+            "line": 31,
             "description": "Convenient abstractions for Physics modeling."
         }
     },
@@ -2116,7 +2123,7 @@
             "submodule": "controls",
             "namespace": "",
             "file": "src/davinci-eight/controls/MouseControls.ts",
-            "line": 110,
+            "line": 107,
             "is_constructor": 1,
             "params": [
                 {
@@ -2838,7 +2845,8 @@
             "submodule": "facets",
             "namespace": "",
             "file": "src/davinci-eight/facets/ModelFacet.ts",
-            "line": 30,
+            "line": 31,
+            "extends": "ModelE3",
             "description": "<p>\nA collection of properties governing GLSL uniforms for Rigid Body Modeling.\n</p>\n<p>\nIn Physics, the composite object may represent a rigid body.\nIn Computer Graphics, the composite object is a collection of drawing primitives.\n</p>\n<p>\nModelFacet implements Facet required for manipulating a composite object.\n</p>\n<p>\nConstructs a ModelFacet at the origin and with unity attitude.\n</p>",
             "is_constructor": 1
         },
@@ -2853,7 +2861,7 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/facets/Perspective.ts",
-            "line": 4,
+            "line": 5,
             "extends": "View"
         },
         "PerspectiveCamera": {
@@ -2868,7 +2876,7 @@
             "submodule": "facets",
             "namespace": "",
             "file": "src/davinci-eight/facets/PerspectiveCamera.ts",
-            "line": 57,
+            "line": 51,
             "is_constructor": 1,
             "params": [
                 {
@@ -3011,7 +3019,7 @@
             "submodule": "facets",
             "namespace": "",
             "file": "src/davinci-eight/facets/View.ts",
-            "line": 10
+            "line": 11
         },
         "createView": {
             "name": "createView",
@@ -3024,7 +3032,7 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/facets/createView.ts",
-            "line": 13,
+            "line": 14,
             "is_constructor": 1
         },
         "ArrowGeometry": {
@@ -3056,30 +3064,15 @@
             "submodule": "geometries",
             "namespace": "",
             "file": "src/davinci-eight/geometries/CuboidGeometry.ts",
-            "line": 41,
+            "line": 42,
             "description": "A convenience class for creating a cuboid.",
             "extends": "Geometry",
             "is_constructor": 1,
             "params": [
                 {
-                    "name": "width",
-                    "description": "",
-                    "type": "Number"
-                },
-                {
-                    "name": "height",
-                    "description": "",
-                    "type": "Number"
-                },
-                {
-                    "name": "depth",
-                    "description": "",
-                    "type": "Number"
-                },
-                {
-                    "name": "wireFrame",
-                    "description": "",
-                    "type": "Boolean"
+                    "name": "options ",
+                    "description": "{{ width?: number; height?: number; depth?: number }}",
+                    "optional": true
                 }
             ]
         },
@@ -3696,12 +3689,12 @@
             "submodule": "math",
             "namespace": "",
             "file": "src/davinci-eight/math/R4.ts",
-            "line": 15,
+            "line": 18,
             "is_constructor": 1,
             "params": [
                 {
                     "name": "data",
-                    "description": "Default is [0, 0, 0, 0].",
+                    "description": "Default is [0, 0, 0, 0] corresponding to x, y, z, and w coordinate labels.",
                     "type": "Number[]"
                 },
                 {
@@ -3940,7 +3933,7 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/math/VectorN.ts",
-            "line": 43,
+            "line": 44,
             "is_constructor": 1,
             "params": [
                 {
@@ -4017,8 +4010,8 @@
             "submodule": "visual",
             "namespace": "",
             "file": "src/davinci-eight/visual/RigidBody.ts",
-            "line": 43,
-            "extends": "Mesh",
+            "line": 36,
+            "extends": "Object3D",
             "description": "Provides descriptive variables for translational and rotational motion.\nThis class is intended to be used as a base for bodies in the __visual__ module.",
             "is_constructor": 1,
             "params": [
@@ -4150,7 +4143,7 @@
             "submodule": "visual",
             "namespace": "",
             "file": "src/davinci-eight/visual/World.ts",
-            "line": 30,
+            "line": 31,
             "extends": "Shareable",
             "is_constructor": 1
         }
@@ -4961,13 +4954,13 @@
         },
         {
             "file": "src/davinci-eight/controls/MouseControls.ts",
-            "line": 10,
+            "line": 7,
             "description": "The index into the keys array is ROTATE=0, ZOOM=1, PAN=2",
             "class": "MouseControls"
         },
         {
             "file": "src/davinci-eight/controls/MouseControls.ts",
-            "line": 23,
+            "line": 20,
             "itemtype": "property",
             "name": "enabled",
             "type": "boolean",
@@ -4977,7 +4970,7 @@
         },
         {
             "file": "src/davinci-eight/controls/MouseControls.ts",
-            "line": 29,
+            "line": 26,
             "itemtype": "property",
             "name": "noRotate",
             "type": "boolean",
@@ -4988,7 +4981,7 @@
         },
         {
             "file": "src/davinci-eight/controls/MouseControls.ts",
-            "line": 36,
+            "line": 33,
             "itemtype": "property",
             "name": "noZoom",
             "type": "boolean",
@@ -4999,7 +4992,7 @@
         },
         {
             "file": "src/davinci-eight/controls/MouseControls.ts",
-            "line": 43,
+            "line": 40,
             "itemtype": "property",
             "name": "noRotate",
             "type": "boolean",
@@ -5010,7 +5003,7 @@
         },
         {
             "file": "src/davinci-eight/controls/MouseControls.ts",
-            "line": 50,
+            "line": 47,
             "itemtype": "property",
             "name": "minDistance",
             "type": "number",
@@ -5021,7 +5014,7 @@
         },
         {
             "file": "src/davinci-eight/controls/MouseControls.ts",
-            "line": 57,
+            "line": 54,
             "itemtype": "property",
             "name": "maxDistance",
             "type": "number",
@@ -5032,7 +5025,7 @@
         },
         {
             "file": "src/davinci-eight/controls/MouseControls.ts",
-            "line": 66,
+            "line": 63,
             "description": "The mouse controls operate modally. You can only do one thing (rotate, zoom, or pan) at a time.",
             "class": "MouseControls",
             "module": "EIGHT",
@@ -5040,7 +5033,7 @@
         },
         {
             "file": "src/davinci-eight/controls/MouseControls.ts",
-            "line": 70,
+            "line": 67,
             "description": "Using the keyboard allows us to change modes, so we keep this so that we can revert.",
             "class": "MouseControls",
             "module": "EIGHT",
@@ -5048,7 +5041,7 @@
         },
         {
             "file": "src/davinci-eight/controls/MouseControls.ts",
-            "line": 82,
+            "line": 79,
             "description": "Initialized by calling handleResize",
             "itemtype": "property",
             "name": "screenLoc",
@@ -5061,7 +5054,7 @@
         },
         {
             "file": "src/davinci-eight/controls/MouseControls.ts",
-            "line": 90,
+            "line": 87,
             "description": "Think of this vector as running from the top left corner of the screen.",
             "class": "MouseControls",
             "module": "EIGHT",
@@ -5069,7 +5062,7 @@
         },
         {
             "file": "src/davinci-eight/controls/MouseControls.ts",
-            "line": 94,
+            "line": 91,
             "description": "Think of this vector as running from the bottom left corner of the screen.",
             "class": "MouseControls",
             "module": "EIGHT",
@@ -5077,56 +5070,56 @@
         },
         {
             "file": "src/davinci-eight/controls/MouseControls.ts",
-            "line": 117,
+            "line": 114,
             "class": "MouseControls",
             "module": "EIGHT",
             "submodule": "controls"
         },
         {
             "file": "src/davinci-eight/controls/MouseControls.ts",
-            "line": 148,
+            "line": 145,
             "class": "MouseControls",
             "module": "EIGHT",
             "submodule": "controls"
         },
         {
             "file": "src/davinci-eight/controls/MouseControls.ts",
-            "line": 172,
+            "line": 169,
             "class": "MouseControls",
             "module": "EIGHT",
             "submodule": "controls"
         },
         {
             "file": "src/davinci-eight/controls/MouseControls.ts",
-            "line": 186,
+            "line": 183,
             "class": "MouseControls",
             "module": "EIGHT",
             "submodule": "controls"
         },
         {
             "file": "src/davinci-eight/controls/MouseControls.ts",
-            "line": 206,
+            "line": 203,
             "class": "MouseControls",
             "module": "EIGHT",
             "submodule": "controls"
         },
         {
             "file": "src/davinci-eight/controls/MouseControls.ts",
-            "line": 234,
+            "line": 231,
             "class": "MouseControls",
             "module": "EIGHT",
             "submodule": "controls"
         },
         {
             "file": "src/davinci-eight/controls/MouseControls.ts",
-            "line": 245,
+            "line": 242,
             "class": "MouseControls",
             "module": "EIGHT",
             "submodule": "controls"
         },
         {
             "file": "src/davinci-eight/controls/MouseControls.ts",
-            "line": 253,
+            "line": 250,
             "itemtype": "method",
             "name": "subscribe",
             "params": [
@@ -5146,7 +5139,7 @@
         },
         {
             "file": "src/davinci-eight/controls/MouseControls.ts",
-            "line": 273,
+            "line": 270,
             "itemtype": "method",
             "name": "unsubscribe",
             "return": {
@@ -5159,7 +5152,7 @@
         },
         {
             "file": "src/davinci-eight/controls/MouseControls.ts",
-            "line": 289,
+            "line": 286,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -5174,7 +5167,7 @@
         },
         {
             "file": "src/davinci-eight/controls/MouseControls.ts",
-            "line": 308,
+            "line": 305,
             "description": "Computes coordinates in the range [-1,+1] in both e1 and e2 directions.\ne1 goes to the RIGHT\ne2 goes UP\nUpdates the mouseOnCircle property.",
             "itemtype": "method",
             "name": "updateMouseOnCircle",
@@ -5197,7 +5190,7 @@
         },
         {
             "file": "src/davinci-eight/controls/MouseControls.ts",
-            "line": 325,
+            "line": 322,
             "description": "Computes coordinates in the range [0,1] in both e1 and e2 directions.\ne1 goes to the RIGHT\ne2 goes DOWN\nUpdates the mouseOnScreen property.",
             "itemtype": "method",
             "name": "updateMouseOnScreen",
@@ -5220,7 +5213,7 @@
         },
         {
             "file": "src/davinci-eight/controls/MouseControls.ts",
-            "line": 344,
+            "line": 341,
             "description": "This must be called whenever the window is resized",
             "itemtype": "method",
             "name": "handleResize",
@@ -10371,7 +10364,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ModelFacet.ts",
-            "line": 52,
+            "line": 55,
             "itemtype": "property",
             "name": "scaleXYZ",
             "type": "R3",
@@ -10382,7 +10375,18 @@
         },
         {
             "file": "src/davinci-eight/facets/ModelFacet.ts",
-            "line": 64,
+            "line": 67,
+            "itemtype": "property",
+            "name": "matrix",
+            "type": "Mat4R",
+            "readonly": "",
+            "class": "ModelFacet",
+            "module": "EIGHT",
+            "submodule": "facets"
+        },
+        {
+            "file": "src/davinci-eight/facets/ModelFacet.ts",
+            "line": 79,
             "itemtype": "method",
             "name": "setUniforms",
             "params": [
@@ -10402,7 +10406,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ModelFacet.ts",
-            "line": 90,
+            "line": 117,
             "itemtype": "method",
             "name": "setProperty",
             "params": [
@@ -10428,7 +10432,7 @@
         },
         {
             "file": "src/davinci-eight/facets/Perspective.ts",
-            "line": 9,
+            "line": 10,
             "itemtype": "property",
             "name": "fov",
             "type": "number",
@@ -10437,7 +10441,7 @@
         },
         {
             "file": "src/davinci-eight/facets/Perspective.ts",
-            "line": 14,
+            "line": 15,
             "itemtype": "property",
             "name": "aspect",
             "type": "number",
@@ -10446,7 +10450,7 @@
         },
         {
             "file": "src/davinci-eight/facets/Perspective.ts",
-            "line": 19,
+            "line": 20,
             "itemtype": "property",
             "name": "near",
             "type": "number",
@@ -10455,7 +10459,7 @@
         },
         {
             "file": "src/davinci-eight/facets/Perspective.ts",
-            "line": 24,
+            "line": 25,
             "itemtype": "property",
             "name": "far",
             "type": "number",
@@ -10464,7 +10468,13 @@
         },
         {
             "file": "src/davinci-eight/facets/Perspective.ts",
-            "line": 29,
+            "line": 30,
+            "class": "Perspective",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/facets/Perspective.ts",
+            "line": 34,
             "description": "Convenience method for setting the fov property allowing chainable method calls.",
             "itemtype": "method",
             "name": "setFov",
@@ -10480,7 +10490,7 @@
         },
         {
             "file": "src/davinci-eight/facets/Perspective.ts",
-            "line": 35,
+            "line": 40,
             "description": "Convenience method for setting the aspect property allowing chainable method calls.",
             "itemtype": "method",
             "name": "setAspect",
@@ -10496,7 +10506,7 @@
         },
         {
             "file": "src/davinci-eight/facets/Perspective.ts",
-            "line": 41,
+            "line": 46,
             "description": "Convenience method for setting the near property allowing chainable method calls.",
             "itemtype": "method",
             "name": "setNear",
@@ -10512,7 +10522,7 @@
         },
         {
             "file": "src/davinci-eight/facets/Perspective.ts",
-            "line": 47,
+            "line": 52,
             "description": "Convenience method for setting the far property allowing chainable method calls.",
             "itemtype": "method",
             "name": "setFar",
@@ -10528,7 +10538,7 @@
         },
         {
             "file": "src/davinci-eight/facets/Perspective.ts",
-            "line": 53,
+            "line": 58,
             "description": "Convenience method for setting the eye property allowing chainable method calls.",
             "itemtype": "method",
             "name": "setEye",
@@ -10544,7 +10554,7 @@
         },
         {
             "file": "src/davinci-eight/facets/Perspective.ts",
-            "line": 59,
+            "line": 64,
             "description": "Convenience method for setting the look property allowing chainable method calls.",
             "itemtype": "method",
             "name": "setLook",
@@ -10560,7 +10570,7 @@
         },
         {
             "file": "src/davinci-eight/facets/Perspective.ts",
-            "line": 65,
+            "line": 70,
             "description": "Convenience method for setting the up property allowing chainable method calls.",
             "itemtype": "method",
             "name": "setUp",
@@ -10592,16 +10602,6 @@
             "file": "src/davinci-eight/facets/PerspectiveCamera.ts",
             "line": 37,
             "itemtype": "property",
-            "name": "material",
-            "type": "{Material}",
-            "class": "PerspectiveCamera",
-            "module": "EIGHT",
-            "submodule": "facets"
-        },
-        {
-            "file": "src/davinci-eight/facets/PerspectiveCamera.ts",
-            "line": 43,
-            "itemtype": "property",
             "name": "name",
             "type": "{string}",
             "optional": 1,
@@ -10611,7 +10611,7 @@
         },
         {
             "file": "src/davinci-eight/facets/PerspectiveCamera.ts",
-            "line": 50,
+            "line": 44,
             "itemtype": "property",
             "name": "inner",
             "type": "{Perspective}",
@@ -10623,7 +10623,7 @@
         },
         {
             "file": "src/davinci-eight/facets/PerspectiveCamera.ts",
-            "line": 86,
+            "line": 80,
             "itemtype": "method",
             "name": "setUniforms",
             "params": [
@@ -10643,7 +10643,7 @@
         },
         {
             "file": "src/davinci-eight/facets/PerspectiveCamera.ts",
-            "line": 97,
+            "line": 91,
             "itemtype": "method",
             "name": "getProperty",
             "params": [
@@ -10663,7 +10663,7 @@
         },
         {
             "file": "src/davinci-eight/facets/PerspectiveCamera.ts",
-            "line": 116,
+            "line": 110,
             "itemtype": "method",
             "name": "setProperty",
             "params": [
@@ -10689,7 +10689,7 @@
         },
         {
             "file": "src/davinci-eight/facets/PerspectiveCamera.ts",
-            "line": 139,
+            "line": 133,
             "description": "The aspect ratio (width / height) of the camera viewport.",
             "itemtype": "property",
             "name": "aspect",
@@ -10701,7 +10701,7 @@
         },
         {
             "file": "src/davinci-eight/facets/PerspectiveCamera.ts",
-            "line": 149,
+            "line": 143,
             "itemtype": "method",
             "name": "setAspect",
             "params": [
@@ -10722,7 +10722,7 @@
         },
         {
             "file": "src/davinci-eight/facets/PerspectiveCamera.ts",
-            "line": 160,
+            "line": 154,
             "description": "The position of the camera.",
             "itemtype": "property",
             "name": "eye",
@@ -10734,7 +10734,7 @@
         },
         {
             "file": "src/davinci-eight/facets/PerspectiveCamera.ts",
-            "line": 173,
+            "line": 167,
             "description": "The position of the camera.",
             "itemtype": "property",
             "name": "position",
@@ -10746,7 +10746,7 @@
         },
         {
             "file": "src/davinci-eight/facets/PerspectiveCamera.ts",
-            "line": 186,
+            "line": 180,
             "itemtype": "method",
             "name": "setEye",
             "params": [
@@ -10767,7 +10767,7 @@
         },
         {
             "file": "src/davinci-eight/facets/PerspectiveCamera.ts",
-            "line": 197,
+            "line": 191,
             "description": "The field of view is the (planar) angle (magnitude) in the camera horizontal plane that encloses object that can be seen.\nMeasured in radians.",
             "itemtype": "property",
             "name": "fov",
@@ -10779,7 +10779,7 @@
         },
         {
             "file": "src/davinci-eight/facets/PerspectiveCamera.ts",
-            "line": 211,
+            "line": 205,
             "itemtype": "method",
             "name": "setFov",
             "params": [
@@ -10800,7 +10800,7 @@
         },
         {
             "file": "src/davinci-eight/facets/PerspectiveCamera.ts",
-            "line": 231,
+            "line": 225,
             "description": "The distance to the near plane.",
             "itemtype": "property",
             "name": "near",
@@ -10812,7 +10812,7 @@
         },
         {
             "file": "src/davinci-eight/facets/PerspectiveCamera.ts",
-            "line": 244,
+            "line": 238,
             "itemtype": "method",
             "name": "setNear",
             "params": [
@@ -10827,6 +10827,17 @@
                 "type": "PerspectiveCamera"
             },
             "chainable": 1,
+            "class": "PerspectiveCamera",
+            "module": "EIGHT",
+            "submodule": "facets"
+        },
+        {
+            "file": "src/davinci-eight/facets/PerspectiveCamera.ts",
+            "line": 280,
+            "itemtype": "property",
+            "name": "viewMatrix",
+            "type": "Mat4R",
+            "readonly": "",
             "class": "PerspectiveCamera",
             "module": "EIGHT",
             "submodule": "facets"
@@ -11071,7 +11082,7 @@
         },
         {
             "file": "src/davinci-eight/facets/View.ts",
-            "line": 15,
+            "line": 16,
             "itemtype": "property",
             "name": "eye",
             "type": "R3",
@@ -11081,7 +11092,7 @@
         },
         {
             "file": "src/davinci-eight/facets/View.ts",
-            "line": 21,
+            "line": 22,
             "itemtype": "property",
             "name": "look",
             "type": "R3",
@@ -11091,7 +11102,7 @@
         },
         {
             "file": "src/davinci-eight/facets/View.ts",
-            "line": 27,
+            "line": 28,
             "itemtype": "property",
             "name": "up",
             "type": "R3",
@@ -11101,7 +11112,18 @@
         },
         {
             "file": "src/davinci-eight/facets/View.ts",
-            "line": 33,
+            "line": 34,
+            "itemtype": "property",
+            "name": "viewMatrix",
+            "type": "Mat4R",
+            "readonly": "",
+            "class": "View",
+            "module": "EIGHT",
+            "submodule": "facets"
+        },
+        {
+            "file": "src/davinci-eight/facets/View.ts",
+            "line": 41,
             "description": "Convenience method for setting the eye property allowing chainable method calls.",
             "itemtype": "method",
             "name": "setEye",
@@ -11118,7 +11140,7 @@
         },
         {
             "file": "src/davinci-eight/facets/View.ts",
-            "line": 40,
+            "line": 48,
             "description": "Convenience method for setting the look property allowing chainable method calls.",
             "itemtype": "method",
             "name": "setLook",
@@ -11135,7 +11157,7 @@
         },
         {
             "file": "src/davinci-eight/facets/View.ts",
-            "line": 47,
+            "line": 55,
             "description": "Convenience method for setting the up property allowing chainable method calls.",
             "itemtype": "method",
             "name": "setUp",
@@ -11165,7 +11187,7 @@
         },
         {
             "file": "src/davinci-eight/facets/createPerspective.ts",
-            "line": 17,
+            "line": 18,
             "itemtype": "method",
             "name": "createPerspective",
             "is_constructor": 1,
@@ -11200,7 +11222,7 @@
         },
         {
             "file": "src/davinci-eight/facets/createView.ts",
-            "line": 40,
+            "line": 41,
             "itemtype": "method",
             "name": "setEye",
             "params": [
@@ -21924,7 +21946,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 191,
+            "line": 192,
             "description": "<p>\n<code>this ⟼ - n * this * n</code>\n</p>",
             "itemtype": "method",
             "name": "reflect",
@@ -21946,7 +21968,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 213,
+            "line": 214,
             "description": "<p>\n<code>this ⟼ R * this * rev(R)</code>\n</p>",
             "itemtype": "method",
             "name": "rotate",
@@ -21968,7 +21990,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 243,
+            "line": 244,
             "itemtype": "method",
             "name": "clone",
             "return": {
@@ -21981,7 +22003,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 251,
+            "line": 252,
             "description": "<p>\n<code>this ⟼ copy(v)</code>\n</p>",
             "itemtype": "method",
             "name": "copy",
@@ -22003,7 +22025,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 267,
+            "line": 268,
             "description": "Copies the coordinate values into this <code>R3</code>.",
             "itemtype": "method",
             "name": "copyCoordinates",
@@ -22025,7 +22047,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 282,
+            "line": 283,
             "description": "<p>\n<code>this ⟼ this ✕ v</code>\n</p>",
             "itemtype": "method",
             "name": "cross",
@@ -22047,7 +22069,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 294,
+            "line": 295,
             "description": "<p>\n<code>this ⟼ a ✕ b</code>\n</p>",
             "itemtype": "method",
             "name": "cross2",
@@ -22074,7 +22096,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 316,
+            "line": 317,
             "itemtype": "method",
             "name": "distanceTo",
             "params": [
@@ -22094,7 +22116,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 329,
+            "line": 330,
             "itemtype": "method",
             "name": "quadranceTo",
             "params": [
@@ -22114,7 +22136,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 345,
+            "line": 346,
             "description": "<p>\n<code>this ⟼ this / α</code>\n</p>",
             "itemtype": "method",
             "name": "divByScalar",
@@ -22136,7 +22158,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 368,
+            "line": 369,
             "itemtype": "method",
             "name": "dot",
             "params": [
@@ -22156,7 +22178,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 376,
+            "line": 377,
             "description": "Computes the <em>square root</em> of the <em>squared norm</em>.",
             "itemtype": "method",
             "name": "magnitude",
@@ -22170,7 +22192,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 384,
+            "line": 385,
             "itemtype": "method",
             "name": "neg",
             "return": {
@@ -22184,7 +22206,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 396,
+            "line": 397,
             "description": "<p>\n<code>this ⟼ this + α * (target - this)</code>\n</p>",
             "itemtype": "method",
             "name": "lerp",
@@ -22211,7 +22233,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 412,
+            "line": 413,
             "description": "<p>\n<code>this ⟼ a + α * (b - a)</code>\n</p>",
             "itemtype": "method",
             "name": "lerp2",
@@ -22243,7 +22265,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 427,
+            "line": 428,
             "description": "<p>\n<code>this ⟼ this / norm(this)</code>\n</p>",
             "itemtype": "method",
             "name": "direction",
@@ -22258,7 +22280,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 438,
+            "line": 439,
             "description": "<p>\n<code>this ⟼ this * α</code>\n</p>",
             "itemtype": "method",
             "name": "scale",
@@ -22275,7 +22297,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 451,
+            "line": 452,
             "description": "<p>\n<code>this ⟼ this</code>, with components modified.\n</p>",
             "itemtype": "method",
             "name": "set",
@@ -22308,7 +22330,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 470,
+            "line": 471,
             "itemtype": "method",
             "name": "setY",
             "params": [
@@ -22325,7 +22347,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 485,
+            "line": 486,
             "description": "Returns the (Euclidean) inner product of this vector with itself.",
             "itemtype": "method",
             "name": "squaredNorm",
@@ -22339,7 +22361,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 496,
+            "line": 497,
             "description": "<p>\n<code>this ⟼ this - v</code>\n</p>",
             "itemtype": "method",
             "name": "sub",
@@ -22368,7 +22390,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 513,
+            "line": 514,
             "description": "<p>\n<code>this ⟼ a - b</code>\n</p>",
             "itemtype": "method",
             "name": "sub2",
@@ -22397,7 +22419,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 531,
+            "line": 532,
             "itemtype": "method",
             "name": "toExponential",
             "return": {
@@ -22410,7 +22432,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 540,
+            "line": 541,
             "itemtype": "method",
             "name": "toFixed",
             "params": [
@@ -22431,7 +22453,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 550,
+            "line": 551,
             "itemtype": "method",
             "name": "toString",
             "return": {
@@ -22444,7 +22466,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 559,
+            "line": 560,
             "description": "Sets this vector to the identity element for addition, <b>0</b>.",
             "itemtype": "method",
             "name": "zero",
@@ -22459,7 +22481,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 589,
+            "line": 590,
             "itemtype": "method",
             "name": "mul",
             "params": [
@@ -22481,7 +22503,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 604,
+            "line": 605,
             "itemtype": "method",
             "name": "rmul",
             "params": [
@@ -22503,7 +22525,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 627,
+            "line": 628,
             "itemtype": "method",
             "name": "copy",
             "params": [
@@ -22524,7 +22546,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 637,
+            "line": 638,
             "itemtype": "method",
             "name": "lerp",
             "params": [
@@ -22555,7 +22577,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 649,
+            "line": 650,
             "itemtype": "method",
             "name": "random",
             "return": {
@@ -22569,7 +22591,7 @@
         },
         {
             "file": "src/davinci-eight/math/R4.ts",
-            "line": 24,
+            "line": 28,
             "itemtype": "property",
             "name": "x",
             "type": "Number",
@@ -22579,7 +22601,7 @@
         },
         {
             "file": "src/davinci-eight/math/R4.ts",
-            "line": 35,
+            "line": 40,
             "itemtype": "property",
             "name": "y",
             "type": "Number",
@@ -22589,7 +22611,7 @@
         },
         {
             "file": "src/davinci-eight/math/R4.ts",
-            "line": 47,
+            "line": 52,
             "itemtype": "property",
             "name": "z",
             "type": "Number",
@@ -22599,10 +22621,31 @@
         },
         {
             "file": "src/davinci-eight/math/R4.ts",
-            "line": 59,
+            "line": 64,
             "itemtype": "property",
             "name": "w",
             "type": "Number",
+            "class": "R4",
+            "module": "EIGHT",
+            "submodule": "math"
+        },
+        {
+            "file": "src/davinci-eight/math/R4.ts",
+            "line": 97,
+            "description": "Pre-multiplies the column vector corresponding to this vector by the matrix.\nThe result is applied to this vector.",
+            "itemtype": "method",
+            "name": "applyMatrix",
+            "params": [
+                {
+                    "name": "m",
+                    "description": "The 4x4 matrix that pre-multiplies this column vector."
+                }
+            ],
+            "return": {
+                "description": "<code>this</code>",
+                "type": "R4"
+            },
+            "chainable": 1,
             "class": "R4",
             "module": "EIGHT",
             "submodule": "math"
@@ -25081,7 +25124,7 @@
         },
         {
             "file": "src/davinci-eight/math/VectorN.ts",
-            "line": 29,
+            "line": 30,
             "itemtype": "property",
             "name": "_size",
             "type": "number",
@@ -25092,7 +25135,7 @@
         },
         {
             "file": "src/davinci-eight/math/VectorN.ts",
-            "line": 37,
+            "line": 38,
             "itemtype": "property",
             "name": "modified",
             "type": "{boolean}",
@@ -25101,7 +25144,7 @@
         },
         {
             "file": "src/davinci-eight/math/VectorN.ts",
-            "line": 62,
+            "line": 64,
             "itemtype": "property",
             "name": "data",
             "type": "{T[]}",
@@ -25110,7 +25153,7 @@
         },
         {
             "file": "src/davinci-eight/math/VectorN.ts",
-            "line": 83,
+            "line": 85,
             "itemtype": "property",
             "name": "callback",
             "type": "{() => T[]}",
@@ -25119,7 +25162,7 @@
         },
         {
             "file": "src/davinci-eight/math/VectorN.ts",
-            "line": 96,
+            "line": 98,
             "itemtype": "property",
             "name": "length",
             "type": "{number}",
@@ -25129,7 +25172,7 @@
         },
         {
             "file": "src/davinci-eight/math/VectorN.ts",
-            "line": 105,
+            "line": 107,
             "itemtype": "method",
             "name": "clone",
             "return": {
@@ -25141,7 +25184,7 @@
         },
         {
             "file": "src/davinci-eight/math/VectorN.ts",
-            "line": 113,
+            "line": 115,
             "itemtype": "method",
             "name": "getComponent",
             "params": [
@@ -25160,7 +25203,7 @@
         },
         {
             "file": "src/davinci-eight/math/VectorN.ts",
-            "line": 122,
+            "line": 124,
             "itemtype": "method",
             "name": "pop",
             "return": {
@@ -25172,7 +25215,7 @@
         },
         {
             "file": "src/davinci-eight/math/VectorN.ts",
-            "line": 135,
+            "line": 137,
             "itemtype": "method",
             "name": "push",
             "params": [
@@ -25191,7 +25234,7 @@
         },
         {
             "file": "src/davinci-eight/math/VectorN.ts",
-            "line": 152,
+            "line": 154,
             "itemtype": "method",
             "name": "setComponent",
             "params": [
@@ -25215,7 +25258,7 @@
         },
         {
             "file": "src/davinci-eight/math/VectorN.ts",
-            "line": 168,
+            "line": 170,
             "itemtype": "method",
             "name": "toArray",
             "params": [
@@ -25243,7 +25286,7 @@
         },
         {
             "file": "src/davinci-eight/math/VectorN.ts",
-            "line": 183,
+            "line": 185,
             "itemtype": "method",
             "name": "toLocaleString",
             "return": {
@@ -25255,7 +25298,7 @@
         },
         {
             "file": "src/davinci-eight/math/VectorN.ts",
-            "line": 191,
+            "line": 193,
             "itemtype": "method",
             "name": "toString",
             "return": {
@@ -25455,8 +25498,18 @@
             "module": "EIGHT"
         },
         {
+            "file": "src/davinci-eight/visual/Object3D.ts",
+            "line": 45,
+            "description": "Color",
+            "itemtype": "property",
+            "name": "color",
+            "type": "Color",
+            "class": "RigidBody",
+            "module": "EIGHT"
+        },
+        {
             "file": "src/davinci-eight/visual/RigidBody.ts",
-            "line": 27,
+            "line": 20,
             "itemtype": "property",
             "name": "_mass",
             "type": "Euclidean3",
@@ -25469,7 +25522,7 @@
         },
         {
             "file": "src/davinci-eight/visual/RigidBody.ts",
-            "line": 35,
+            "line": 28,
             "itemtype": "property",
             "name": "_momentum",
             "type": "Euclidean3",
@@ -25482,7 +25535,7 @@
         },
         {
             "file": "src/davinci-eight/visual/RigidBody.ts",
-            "line": 63,
+            "line": 50,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -25497,7 +25550,7 @@
         },
         {
             "file": "src/davinci-eight/visual/RigidBody.ts",
-            "line": 72,
+            "line": 59,
             "description": "Axis (vector)\nThis property is computed from the attitude spinor assuming a reference axis of e2.\nThe axis property may be updated by assignment, but not through mutation.",
             "itemtype": "property",
             "name": "axis",
@@ -25508,18 +25561,7 @@
         },
         {
             "file": "src/davinci-eight/visual/RigidBody.ts",
-            "line": 89,
-            "description": "Color",
-            "itemtype": "property",
-            "name": "color",
-            "type": "Color",
-            "class": "RigidBody",
-            "module": "EIGHT",
-            "submodule": "visual"
-        },
-        {
-            "file": "src/davinci-eight/visual/RigidBody.ts",
-            "line": 105,
+            "line": 76,
             "description": "Mass",
             "itemtype": "property",
             "name": "m",
@@ -25530,7 +25572,7 @@
         },
         {
             "file": "src/davinci-eight/visual/RigidBody.ts",
-            "line": 119,
+            "line": 90,
             "description": "Momentum",
             "itemtype": "property",
             "name": "P",
@@ -25541,7 +25583,7 @@
         },
         {
             "file": "src/davinci-eight/visual/RigidBody.ts",
-            "line": 132,
+            "line": 103,
             "description": "Attitude (spinor)",
             "itemtype": "property",
             "name": "R",
@@ -25552,7 +25594,7 @@
         },
         {
             "file": "src/davinci-eight/visual/RigidBody.ts",
-            "line": 145,
+            "line": 116,
             "description": "Position (vector)",
             "itemtype": "property",
             "name": "X",
@@ -25563,7 +25605,7 @@
         },
         {
             "file": "src/davinci-eight/visual/RigidBody.ts",
-            "line": 159,
+            "line": 130,
             "itemtype": "method",
             "name": "getScaleX",
             "return": {
@@ -25578,7 +25620,7 @@
         },
         {
             "file": "src/davinci-eight/visual/RigidBody.ts",
-            "line": 168,
+            "line": 139,
             "itemtype": "method",
             "name": "setScaleX",
             "params": [
@@ -25600,7 +25642,7 @@
         },
         {
             "file": "src/davinci-eight/visual/RigidBody.ts",
-            "line": 178,
+            "line": 149,
             "itemtype": "method",
             "name": "getScaleY",
             "return": {
@@ -25615,7 +25657,7 @@
         },
         {
             "file": "src/davinci-eight/visual/RigidBody.ts",
-            "line": 187,
+            "line": 158,
             "itemtype": "method",
             "name": "setScaleY",
             "params": [
@@ -25637,7 +25679,7 @@
         },
         {
             "file": "src/davinci-eight/visual/RigidBody.ts",
-            "line": 197,
+            "line": 168,
             "itemtype": "method",
             "name": "getScaleZ",
             "return": {
@@ -25652,7 +25694,7 @@
         },
         {
             "file": "src/davinci-eight/visual/RigidBody.ts",
-            "line": 206,
+            "line": 177,
             "itemtype": "method",
             "name": "setScaleZ",
             "params": [
@@ -25667,20 +25709,6 @@
                 "type": "Void"
             },
             "access": "protected",
-            "tagname": "",
-            "class": "RigidBody",
-            "module": "EIGHT",
-            "submodule": "visual"
-        },
-        {
-            "file": "src/davinci-eight/visual/RigidBody.ts",
-            "line": 216,
-            "description": "Helper method for accessing the model.",
-            "itemtype": "property",
-            "name": "_model",
-            "type": "ModelFacet",
-            "readonly": "",
-            "access": "private",
             "tagname": "",
             "class": "RigidBody",
             "module": "EIGHT",
@@ -25854,7 +25882,7 @@
         },
         {
             "file": "src/davinci-eight/visual/World.ts",
-            "line": 51,
+            "line": 52,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -25869,7 +25897,7 @@
         },
         {
             "file": "src/davinci-eight/visual/World.ts",
-            "line": 64,
+            "line": 65,
             "itemtype": "property",
             "name": "ambients",
             "type": "Facet[]",
@@ -25880,7 +25908,7 @@
         },
         {
             "file": "src/davinci-eight/visual/World.ts",
-            "line": 76,
+            "line": 77,
             "itemtype": "property",
             "name": "canvas",
             "type": "HTMLCanvasElement",
@@ -25891,7 +25919,7 @@
         },
         {
             "file": "src/davinci-eight/visual/World.ts",
-            "line": 88,
+            "line": 89,
             "itemtype": "property",
             "name": "controls",
             "type": "TrackballControls",
@@ -25902,7 +25930,7 @@
         },
         {
             "file": "src/davinci-eight/visual/World.ts",
-            "line": 100,
+            "line": 105,
             "itemtype": "method",
             "name": "arrow",
             "return": {
@@ -25915,7 +25943,7 @@
         },
         {
             "file": "src/davinci-eight/visual/World.ts",
-            "line": 112,
+            "line": 117,
             "itemtype": "method",
             "name": "cuboid",
             "return": {
@@ -25928,7 +25956,7 @@
         },
         {
             "file": "src/davinci-eight/visual/World.ts",
-            "line": 127,
+            "line": 132,
             "itemtype": "method",
             "name": "cylinder",
             "return": {
@@ -25941,7 +25969,7 @@
         },
         {
             "file": "src/davinci-eight/visual/World.ts",
-            "line": 140,
+            "line": 145,
             "itemtype": "method",
             "name": "sphere",
             "return": {
@@ -25978,11 +26006,11 @@
         },
         {
             "message": "replacing incorrect tag: function with method",
-            "line": " src/davinci-eight/facets/createPerspective.ts:17"
+            "line": " src/davinci-eight/facets/createPerspective.ts:18"
         },
         {
             "message": "param name missing: {number}",
-            "line": " src/davinci-eight/math/R3.ts:470"
+            "line": " src/davinci-eight/math/R3.ts:471"
         },
         {
             "message": "Missing item type\nEssentially constructs the ShareableArray without incrementing the\nreference count of the elements, and without creating zombies.",
@@ -25990,51 +26018,51 @@
         },
         {
             "message": "Missing item type\nThe index into the keys array is ROTATE=0, ZOOM=1, PAN=2",
-            "line": " src/davinci-eight/controls/MouseControls.ts:10"
+            "line": " src/davinci-eight/controls/MouseControls.ts:7"
         },
         {
             "message": "Missing item type\nThe mouse controls operate modally. You can only do one thing (rotate, zoom, or pan) at a time.",
-            "line": " src/davinci-eight/controls/MouseControls.ts:66"
+            "line": " src/davinci-eight/controls/MouseControls.ts:63"
         },
         {
             "message": "Missing item type\nUsing the keyboard allows us to change modes, so we keep this so that we can revert.",
-            "line": " src/davinci-eight/controls/MouseControls.ts:70"
+            "line": " src/davinci-eight/controls/MouseControls.ts:67"
         },
         {
             "message": "Missing item type\nThink of this vector as running from the top left corner of the screen.",
-            "line": " src/davinci-eight/controls/MouseControls.ts:90"
+            "line": " src/davinci-eight/controls/MouseControls.ts:87"
         },
         {
             "message": "Missing item type\nThink of this vector as running from the bottom left corner of the screen.",
-            "line": " src/davinci-eight/controls/MouseControls.ts:94"
+            "line": " src/davinci-eight/controls/MouseControls.ts:91"
         },
         {
             "message": "Missing item type",
-            "line": " src/davinci-eight/controls/MouseControls.ts:117"
+            "line": " src/davinci-eight/controls/MouseControls.ts:114"
         },
         {
             "message": "Missing item type",
-            "line": " src/davinci-eight/controls/MouseControls.ts:148"
+            "line": " src/davinci-eight/controls/MouseControls.ts:145"
         },
         {
             "message": "Missing item type",
-            "line": " src/davinci-eight/controls/MouseControls.ts:172"
+            "line": " src/davinci-eight/controls/MouseControls.ts:169"
         },
         {
             "message": "Missing item type",
-            "line": " src/davinci-eight/controls/MouseControls.ts:186"
+            "line": " src/davinci-eight/controls/MouseControls.ts:183"
         },
         {
             "message": "Missing item type",
-            "line": " src/davinci-eight/controls/MouseControls.ts:206"
+            "line": " src/davinci-eight/controls/MouseControls.ts:203"
         },
         {
             "message": "Missing item type",
-            "line": " src/davinci-eight/controls/MouseControls.ts:234"
+            "line": " src/davinci-eight/controls/MouseControls.ts:231"
         },
         {
             "message": "Missing item type",
-            "line": " src/davinci-eight/controls/MouseControls.ts:245"
+            "line": " src/davinci-eight/controls/MouseControls.ts:242"
         },
         {
             "message": "Missing item type",
@@ -26239,6 +26267,10 @@
         {
             "message": "Missing item type\nproperty PROP_ALPHA",
             "line": " src/davinci-eight/facets/ColorFacet.ts:80"
+        },
+        {
+            "message": "Missing item type",
+            "line": " src/davinci-eight/facets/Perspective.ts:30"
         },
         {
             "message": "Missing item type\nThe opposite direction to the axis.",

@@ -10,12 +10,12 @@ import TetrahedronGeometry from '../geometries/TetrahedronGeometry';
 import VisualOptions from './VisualOptions';
 
 function wireFrame(options: VisualOptions): boolean {
-  if (options.wireFrame) {
-    return true
-  }
-  else {
-    return false
-  }
+    if (options.wireFrame) {
+        return true
+    }
+    else {
+        return false
+    }
 }
 
 function arrow(options: VisualOptions): Geometry {
@@ -23,7 +23,7 @@ function arrow(options: VisualOptions): Geometry {
 }
 
 function cuboid(options: VisualOptions): Geometry {
-  return new CuboidGeometry(1, 1, 1, wireFrame(options))
+    return new CuboidGeometry({ width: 1, height: 1, depth: 1 })
 }
 
 function cylinder(options: VisualOptions): Geometry {
@@ -35,32 +35,32 @@ function sphere(options: VisualOptions): Geometry {
 }
 
 function tetrahedron(options: VisualOptions): Geometry {
-    return  new TetrahedronGeometry();
+    return new TetrahedronGeometry();
 }
 
 function material(options: VisualOptions): Material {
-  if (wireFrame(options)) {
-    return new LineMaterial()
-  }
-  else {
-    return new MeshMaterial()
-  }
+    if (wireFrame(options)) {
+        return new LineMaterial()
+    }
+    else {
+        return new MeshMaterial()
+    }
 }
 
 function geometryKey(kind: string, options: VisualOptions): string {
-  const copy: VisualOptions = {}
-  copy.wireFrame = wireFrame(options)
-  return `${kind}${JSON.stringify(copy)}`
+    const copy: VisualOptions = {}
+    copy.wireFrame = wireFrame(options)
+    return `${kind}${JSON.stringify(copy)}`
 }
 
 function materialKey(options: VisualOptions): string {
-  // Make a copy so that:
-  // 1. We can safely stringify,
-  // 2. Filter only options that affect material caching,
-  // 3. Make choices explicit for debugging.
-  const copy: VisualOptions = {}
-  copy.wireFrame = wireFrame(options)
-  return `material${JSON.stringify(copy)}`
+    // Make a copy so that:
+    // 1. We can safely stringify,
+    // 2. Filter only options that affect material caching,
+    // 3. Make choices explicit for debugging.
+    const copy: VisualOptions = {}
+    copy.wireFrame = wireFrame(options)
+    return `material${JSON.stringify(copy)}`
 }
 
 class VisualCache {
@@ -110,23 +110,23 @@ class VisualCache {
         return this.materialMap[key];
     }
     arrow(options: VisualOptions): Geometry {
-        return this.ensureGeometry('arrow', arrow ,options);
+        return this.ensureGeometry('arrow', arrow, options);
     }
     cuboid(options: VisualOptions): Geometry {
-        return this.ensureGeometry(geometryKey('cuboid', options), cuboid ,options);
+        return this.ensureGeometry(geometryKey('cuboid', options), cuboid, options);
     }
     cylinder(options: VisualOptions): Geometry {
-        return this.ensureGeometry('cylinder', cylinder ,options);
+        return this.ensureGeometry('cylinder', cylinder, options);
     }
     sphere(options: VisualOptions): Geometry {
-        return this.ensureGeometry('sphere', sphere ,options);
+        return this.ensureGeometry('sphere', sphere, options);
     }
     tetrahedron(options: VisualOptions): Geometry {
-        return this.ensureGeometry('tetrahedron', tetrahedron ,options);
+        return this.ensureGeometry('tetrahedron', tetrahedron, options);
     }
     material(options: VisualOptions): Material {
         const key = materialKey(options)
-        return this.ensureMaterial(key, material ,options);
+        return this.ensureMaterial(key, material, options);
     }
 }
 

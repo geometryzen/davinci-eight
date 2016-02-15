@@ -1,5 +1,7 @@
-define(['davinci-eight/math/R3'], function(R3)
-{
+define(['davinci-eight/math/R3'], function(R3) {
+
+  R3 = R3.default
+
   describe("R3", function() {
     describe("constructor", function() {
       var data = [Math.random(), Math.random(), Math.random()];

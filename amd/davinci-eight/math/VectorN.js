@@ -1,4 +1,4 @@
-define(["require", "exports", '../checks/isDefined', '../checks/isUndefined'], function (require, exports, isDefined_1, isUndefined_1) {
+define(["require", "exports", '../checks/isDefined', '../checks/isUndefined', '../checks/mustSatisfy'], function (require, exports, isDefined_1, isUndefined_1, mustSatisfy_1) {
     function pushString(T) {
         return "push(value: " + T + "): number";
     }
@@ -21,6 +21,7 @@ define(["require", "exports", '../checks/isDefined', '../checks/isUndefined'], f
             if (isDefined_1.default(size)) {
                 this._size = size;
                 this._data = data;
+                mustSatisfy_1.default('data.length', data.length === size, function () { return "" + size; });
             }
             else {
                 this._size = void 0;

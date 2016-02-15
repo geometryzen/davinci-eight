@@ -16,14 +16,15 @@ import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
 
 /**
  * @class ModelFacet
+ * @extends ModelE3
  */
 export default class ModelFacet extends ModelE3 implements Facet {
 
-    public static PROP_SCALEXYZ = 'scaleXYZ';
+    private static PROP_SCALEXYZ = 'scaleXYZ';
 
     private _scaleXYZ: R3 = new R3([1, 1, 1]);
-    private matM = Mat4R.one();
-    private matN = Mat3R.one();
+    private _matM = Mat4R.one();
+    private _matN = Mat3R.one();
     private matR = Mat4R.one();
     private matS = Mat4R.one();
     private matT = Mat4R.one();
@@ -46,6 +47,8 @@ export default class ModelFacet extends ModelE3 implements Facet {
      */
     constructor() {
         super()
+        this.X.modified = true
+        this.R.modified = true
         this._scaleXYZ.modified = true
     }
 
@@ -62,29 +65,53 @@ export default class ModelFacet extends ModelE3 implements Facet {
     }
 
     /**
+     * @property matrix
+     * @type Mat4R
+     * @readOnly
+     */
+    get matrix(): Mat4R {
+        return this._matM
+    }
+    set matrix(unused: Mat4R) {
+        throw new Error(readOnly('matrix').message)
+    }
+
+    /**
      * @method setUniforms
      * @param visitor {FacetVisitor}
      * @return {void}
      */
     setUniforms(visitor: FacetVisitor): void {
+        this.updateMatrices()
+
+        visitor.mat4(GraphicsProgramSymbols.UNIFORM_MODEL_MATRIX, this._matM, false)
+        visitor.mat3(GraphicsProgramSymbols.UNIFORM_NORMAL_MATRIX, this._matN, false)
+    }
+
+    private updateMatrices(): void {
+        let modified = false
+
         if (this.X.modified) {
             this.matT.translation(this.X)
             this.X.modified = false
+            modified = true;
         }
         if (this.R.modified) {
             this.matR.rotation(this.R)
             this.R.modified = false
+            modified = true
         }
         if (this.scaleXYZ.modified) {
             this.matS.scaling(this.scaleXYZ)
             this.scaleXYZ.modified = false
+            modified = true
         }
-        this.matM.copy(this.matT).mul(this.matR).mul(this.matS)
 
-        this.matN.normalFromMat4R(this.matM)
-
-        visitor.mat4(GraphicsProgramSymbols.UNIFORM_MODEL_MATRIX, this.matM, false)
-        visitor.mat3(GraphicsProgramSymbols.UNIFORM_NORMAL_MATRIX, this.matN, false)
+        if (modified) {
+            this._matM.copy(this.matT).mul(this.matR).mul(this.matS)
+            // The normal matrix is computed directly from the model matrix and cached.
+            this._matN.normalFromMat4R(this._matM)
+        }
     }
 
     /**

@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.185.0</em>
+            <em>API Docs for: 2.186.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -201,7 +201,6 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import Material from &#x27;../core/Material&#x27;;
 import createPerspective from &#x27;./createPerspective&#x27;;
 import readOnly from &#x27;../i18n/readOnly&#x27;;
 import mustBeObject from &#x27;../checks/mustBeObject&#x27;;
@@ -214,6 +213,7 @@ import Facet from &#x27;../core/Facet&#x27;;
 import FacetVisitor from &#x27;../core/FacetVisitor&#x27;;
 import R3 from &#x27;../math/R3&#x27;;
 import VectorE3 from &#x27;../math/VectorE3&#x27;;
+import Mat4R from &#x27;../math/Mat4R&#x27;
 
 /**
  * Common abstractions for computing shader uniform variables.
@@ -236,12 +236,6 @@ export default class PerspectiveCamera implements Perspective, Facet {
      */
     public static PROP_POSITION = &#x27;X&#x27;;
     public static PROP_EYE = &#x27;eye&#x27;;
-
-    /**
-     * @property material
-     * @type {Material}
-     */
-    public material: Material;
 
     /**
      * @property name
@@ -477,6 +471,25 @@ export default class PerspectiveCamera implements Perspective, Facet {
     setUp(up: VectorE3): PerspectiveCamera {
         this.inner.setUp(up);
         return this;
+    }
+
+    get projectionMatrix(): Mat4R {
+        return this.inner.projectionMatrix
+    }
+    set projectionMatrix(projectionMatrix: Mat4R) {
+        throw new Error(readOnly(&#x27;projectionMatrix&#x27;).message);
+    }
+
+    /**
+     * @property viewMatrix
+     * @type Mat4R
+     * @readOnly
+     */
+    get viewMatrix(): Mat4R {
+        return this.inner.viewMatrix
+    }
+    set viewMatrix(viewMatrix: Mat4R) {
+        this.inner.viewMatrix = viewMatrix
     }
 }
 

@@ -1,9 +1,6 @@
 import G2 from '../math/G2'
-import G3 from '../math/G3'
 import MouseCoordinates from './MouseCoordinates'
-import scrolled from './scrolled'
 import Shareable from '../core/Shareable'
-import PerspectiveCamera from '../facets/PerspectiveCamera'
 
 const MODE = { NONE: -1, ROTATE: 0, ZOOM: 1, PAN: 2, TOUCH_ROTATE: 3, TOUCH_ZOOM_PAN: 4 }
 

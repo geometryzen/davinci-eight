@@ -8,8 +8,16 @@ define(
   'davinci-eight/geometries/cube',
   'davinci-eight/core/GraphicsProgramSymbols'
 ],
-function(Simplex, Vertex, R3, simplicesToDrawPrimitive, simplicesToGeometryMeta, cube, GraphicsProgramSymbols)
-{
+function(Simplex, Vertex, R3, simplicesToDrawPrimitive, simplicesToGeometryMeta, cube, GraphicsProgramSymbols) {
+
+  Simplex = Simplex.default
+  R3 = R3.default
+  simplicesToDrawPrimitive = simplicesToDrawPrimitive.default
+  simplicesToGeometryMeta = simplicesToGeometryMeta.default
+  cube = cube.default
+  GraphicsProgramSymbols = GraphicsProgramSymbols.default
+
+
   var SQUARES_PER_CUBE = 6;
   var TRIANGLES_PER_SQUARE = 2;
   var VERTICES_PER_SQUARE = 4;

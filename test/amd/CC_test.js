@@ -1,4 +1,6 @@
-define(['davinci-eight/math/CC'], function(CC) {
+define(['davinci-eight/math/CC'], function(module) {
+
+  var CC = module.default
 
   describe("CC", function() {
 

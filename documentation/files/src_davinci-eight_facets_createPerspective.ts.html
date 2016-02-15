@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.185.0</em>
+            <em>API Docs for: 2.186.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -211,6 +211,7 @@ import createView from &#x27;./createView&#x27;;
 import Mat4R from &#x27;../math/Mat4R&#x27;;
 import GraphicsProgramSymbols from &#x27;../core/GraphicsProgramSymbols&#x27;;
 import VectorE3 from &#x27;../math/VectorE3&#x27;;
+import readOnly from &#x27;../i18n/readOnly&#x27;;
 import R1 from &#x27;../math/R1&#x27;;
 import R3 from &#x27;../math/R3&#x27;;
 import isUndefined from &#x27;../checks/isUndefined&#x27;;
@@ -323,6 +324,22 @@ export default function createPerspective(options?: { fov?: number; aspect?: num
                 matrixNeedsUpdate = true;
             }
             return self;
+        },
+        get projectionMatrix(): Mat4R {
+            if (matrixNeedsUpdate) {
+                computePerspectiveMatrix(fov.x, aspect.x, near.x, far.x, projectionMatrix);
+                matrixNeedsUpdate = false;
+            }
+            return projectionMatrix
+        },
+        set projectionMatrix(projectionMatrix: Mat4R) {
+            throw new Error(readOnly(&#x27;projectionMatrix&#x27;).message)
+        },
+        get viewMatrix(): Mat4R {
+            return base.viewMatrix
+        },
+        set viewMatrix(viewMatrix: Mat4R) {
+            base.viewMatrix = viewMatrix
         },
         setUniforms(visitor: FacetVisitor) {
             if (matrixNeedsUpdate) {

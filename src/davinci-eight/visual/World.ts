@@ -5,6 +5,7 @@ import Cylinder from './Cylinder'
 import DrawList from './DrawList'
 import Facet from '../core/Facet'
 import isDefined from '../checks/isDefined'
+import Mesh from '../core/Mesh'
 import mustBeNumber from '../checks/mustBeNumber'
 import readOnly from '../i18n/readOnly'
 import Shareable from '../core/Shareable'
@@ -95,6 +96,10 @@ export default class World extends Shareable {
     }
     set controls(unused: TrackballControls) {
         throw new Error(readOnly('controls').message)
+    }
+
+    add(mesh: Mesh): void {
+        this.drawList.add(mesh)
     }
 
     /**

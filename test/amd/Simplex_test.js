@@ -5,8 +5,13 @@ define(
   'davinci-eight/math/R3',
   'davinci-eight/geometries/triangle'
 ],
-function(Simplex, Vertex, R3, triangle)
-{
+function(Simplex, Vertex, R3, triangle) {
+
+  Simplex = Simplex.default
+  Vertex = Vertex.default
+  R3 = R3.default
+  traingle = triangle.default
+
   describe("Simplex", function() {
     describe("constructor", function() {
       it("should set vertices for an empty simplex", function() {

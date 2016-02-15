@@ -1,5 +1,6 @@
 import GeometryContainer from '../core/GeometryContainer';
 import GeometryPrimitive from '../core/GeometryPrimitive';
+import isDefined from '../checks/isDefined'
 import Primitive from '../core/Primitive';
 import mustBeBoolean from '../checks/mustBeBoolean';
 import mustBeNumber from '../checks/mustBeNumber';
@@ -41,13 +42,14 @@ export default class CuboidGeometry extends GeometryContainer {
     /**
      * @class CuboidGeometry
      * @constructor
-     * @param width {number}
-     * @param height {number}
-     * @param depth {number}
-     * @param wireFrame {boolean}
+     * @param [options = {}] {{ width?: number; height?: number; depth?: number }}
      */
-    constructor(width: number, height: number, depth: number, wireFrame: boolean) {
+    constructor(options: { width?: number; height?: number; depth?: number } = {}) {
         super()
+        const width = isDefined(options.width) ? mustBeNumber('width', options.width) : 1
+        const height = isDefined(options.height) ? mustBeNumber('height', options.height) : 1
+        const depth = isDefined(options.depth) ? mustBeNumber('depth', options.depth) : 1
+        const wireFrame = false
         const ps = primitives(width, height, depth, wireFrame)
         const iLen = ps.length
         for (let i = 0; i < iLen; i++) {

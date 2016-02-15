@@ -1,5 +1,8 @@
-define(['davinci-eight/math/SpinG3'], function(SpinG3)
-{
+define(['davinci-eight/math/SpinG3'], function(SpinG3) {
+
+
+  SpinG3 = SpinG3.default
+
   describe("SpinG3", function() {
     describe("constructor", function() {
       it("coords argument should be preserved", function() {

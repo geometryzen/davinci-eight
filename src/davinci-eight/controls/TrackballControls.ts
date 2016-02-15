@@ -212,6 +212,6 @@ export default class TrackballControls extends MouseControls {
      * Restricts the position of the camera to certain distance range
      */
     private checkDistances() {
-
+      // TODO
     }
 }

@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.185.0</em>
+            <em>API Docs for: 2.186.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -200,9 +200,12 @@
 <h1>ModelFacet Class</h1>
 <div class="box meta">
 
+        <div class="extends">
+            Extends <a href="../classes/ModelE3.html" class="crosslink">ModelE3</a>
+        </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_facets_ModelFacet.ts.html#l30"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ModelFacet.ts:30</code></a>
+            Defined in: <a href="../files/src_davinci-eight_facets_ModelFacet.ts.html#l31"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ModelFacet.ts:31</code></a>
         </div>
 
             Module: <a href="../modules/facets.html">facets</a><br>
@@ -244,7 +247,7 @@ Constructs a ModelFacet at the origin and with unity attitude.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_facets_ModelFacet.ts.html#l30"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ModelFacet.ts:30</code></a>
+        <a href="../files/src_davinci-eight_facets_ModelFacet.ts.html#l31"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ModelFacet.ts:31</code></a>
         </p>
 
 
@@ -276,8 +279,12 @@ Constructs a ModelFacet at the origin and with unity attitude.
                 <div class="index-section methods">
                     <h3>Methods</h3>
 
-                    <ul class="index-list methods">
-                            <li class="index-item method">
+                    <ul class="index-list methods extends">
+                            <li class="index-item method inherited">
+                                <a href="#method_getProperty">getProperty</a>
+
+                            </li>
+                            <li class="index-item method inherited">
                                 <a href="#method_setProperty">setProperty</a>
 
                             </li>
@@ -291,9 +298,37 @@ Constructs a ModelFacet at the origin and with unity attitude.
                 <div class="index-section properties">
                     <h3>Properties</h3>
 
-                    <ul class="index-list properties">
+                    <ul class="index-list properties extends">
+                            <li class="index-item property private inherited">
+                                <a href="#property__attCache">_attCache</a>
+
+                            </li>
+                            <li class="index-item property private inherited">
+                                <a href="#property__attitude">_attitude</a>
+
+                            </li>
+                            <li class="index-item property private inherited">
+                                <a href="#property__posCache">_posCache</a>
+
+                            </li>
+                            <li class="index-item property private inherited">
+                                <a href="#property__position">_position</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_matrix">matrix</a>
+
+                            </li>
+                            <li class="index-item property inherited">
+                                <a href="#property_R">R</a>
+
+                            </li>
                             <li class="index-item property">
                                 <a href="#property_scaleXYZ">scaleXYZ</a>
+
+                            </li>
+                            <li class="index-item property inherited">
+                                <a href="#property_X">X</a>
 
                             </li>
                     </ul>
@@ -305,6 +340,68 @@ Constructs a ModelFacet at the origin and with unity attitude.
             <div id="methods" class="api-class-tabpanel">
                 <h2 class="off-left">Methods</h2>
 
+<div id="method_getProperty" class="method item inherited">
+    <h3 class="name"><code>getProperty</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>name</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">Number</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/ModelE3.html#method_getProperty">ModelE3</a>:
+        <a href="../files/src_davinci-eight_facets_ModelE3.ts.html#l112"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ModelE3.ts:112</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">name</code>
+                        <span class="type">String</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Number</span>:
+            </div>
+        </div>
+
+
+</div>
 <div id="method_setProperty" class="method item">
     <h3 class="name"><code>setProperty</code></h3>
 
@@ -331,9 +428,12 @@ Constructs a ModelFacet at the origin and with unity attitude.
 
 
     <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_facets_ModelFacet.ts.html#l90"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ModelFacet.ts:90</code></a>
+            <p>Inherited from
+            <a href="../classes/ModelE3.html#method_setProperty">
+                ModelE3
+            </a>
+            but overwritten in
+        <a href="../files/src_davinci-eight_facets_ModelFacet.ts.html#l117"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ModelFacet.ts:117</code></a>
         </p>
 
 
@@ -405,7 +505,7 @@ Constructs a ModelFacet at the origin and with unity attitude.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_facets_ModelFacet.ts.html#l64"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ModelFacet.ts:64</code></a>
+        <a href="../files/src_davinci-eight_facets_ModelFacet.ts.html#l79"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ModelFacet.ts:79</code></a>
         </p>
 
 
@@ -448,6 +548,158 @@ Constructs a ModelFacet at the origin and with unity attitude.
             <div id="properties" class="api-class-tabpanel">
                 <h2 class="off-left">Properties</h2>
 
+<div id="property__attCache" class="property item private inherited">
+    <h3 class="name"><code>_attCache</code></h3>
+    <span class="type"><a href="../classes/SpinG3.html" class="crosslink">SpinG3</a></span>
+
+
+        <span class="flag private">private</span>
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/ModelE3.html#property__attCache">ModelE3</a>:
+        <a href="../files/src_davinci-eight_facets_ModelE3.ts.html#l55"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ModelE3.ts:55</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>Used for exchanging number[] data to achieve integrity and avoid lots of temporaries.</p>
+
+    </div>
+
+
+
+</div>
+<div id="property__attitude" class="property item private inherited">
+    <h3 class="name"><code>_attitude</code></h3>
+    <span class="type"><a href="../classes/G3.html" class="crosslink">G3</a></span>
+
+
+        <span class="flag private">private</span>
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/ModelE3.html#property__attitude">ModelE3</a>:
+        <a href="../files/src_davinci-eight_facets_ModelE3.ts.html#l41"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ModelE3.ts:41</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property__posCache" class="property item private inherited">
+    <h3 class="name"><code>_posCache</code></h3>
+    <span class="type"><a href="../classes/R3.html" class="crosslink">R3</a></span>
+
+
+        <span class="flag private">private</span>
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/ModelE3.html#property__posCache">ModelE3</a>:
+        <a href="../files/src_davinci-eight_facets_ModelE3.ts.html#l48"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ModelE3.ts:48</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>Used for exchanging number[] data to achieve integrity and avoid lots of temporaries.</p>
+
+    </div>
+
+
+
+</div>
+<div id="property__position" class="property item private inherited">
+    <h3 class="name"><code>_position</code></h3>
+    <span class="type"><a href="../classes/G3.html" class="crosslink">G3</a></span>
+
+
+        <span class="flag private">private</span>
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/ModelE3.html#property__position">ModelE3</a>:
+        <a href="../files/src_davinci-eight_facets_ModelE3.ts.html#l34"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ModelE3.ts:34</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_matrix" class="property item">
+    <h3 class="name"><code>matrix</code></h3>
+    <span class="type"><a href="../classes/Mat4R.html" class="crosslink">Mat4R</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_facets_ModelFacet.ts.html#l67"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ModelFacet.ts:67</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_R" class="property item inherited">
+    <h3 class="name"><code>R</code></h3>
+    <span class="type"><a href="../classes/G3.html" class="crosslink">G3</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/ModelE3.html#property_R">ModelE3</a>:
+        <a href="../files/src_davinci-eight_facets_ModelE3.ts.html#l80"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ModelE3.ts:80</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>
+The <em>attitude</em>, a unitary spinor.
+</p>
+    </div>
+
+
+
+</div>
 <div id="property_scaleXYZ" class="property item">
     <h3 class="name"><code>scaleXYZ</code></h3>
     <span class="type"><a href="../classes/R3.html" class="crosslink">R3</a></span>
@@ -459,7 +711,7 @@ Constructs a ModelFacet at the origin and with unity attitude.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_facets_ModelFacet.ts.html#l52"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ModelFacet.ts:52</code></a>
+        <a href="../files/src_davinci-eight_facets_ModelFacet.ts.html#l55"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ModelFacet.ts:55</code></a>
         </p>
 
 
@@ -467,6 +719,34 @@ Constructs a ModelFacet at the origin and with unity attitude.
 
     <div class="description">
         
+    </div>
+
+
+
+</div>
+<div id="property_X" class="property item inherited">
+    <h3 class="name"><code>X</code></h3>
+    <span class="type"><a href="../classes/G3.html" class="crosslink">G3</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/ModelE3.html#property_X">ModelE3</a>:
+        <a href="../files/src_davinci-eight_facets_ModelE3.ts.html#l94"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ModelE3.ts:94</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>
+The <em>position</em>, a vector.
+The vector <b>X</b> designates the center of mass of the body (Physics).
+The vector <b>X</b> designates the displacement from the local origin (Computer Graphics).
+</p>
     </div>
 
 

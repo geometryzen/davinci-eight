@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.185.0</em>
+            <em>API Docs for: 2.186.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -212,18 +212,23 @@ import Mesh from &#x27;../core/Mesh&#x27;
  * This allows the Mesh to override the draw method to produce history and draw trails.
  */
 export default class DrawList extends ShareableContextListener {
-    private _meshes: ShareableArray&lt;Mesh&gt;;
+    private _meshes: ShareableArray&lt;Mesh&gt;
+
     constructor() {
         super(&#x27;DrawList&#x27;)
         this._meshes = new ShareableArray&lt;Mesh&gt;()
     }
+
     protected destructor(): void {
         this._meshes.release()
         super.destructor()
     }
-    add(mesh: Mesh): number {
-        return this._meshes.push(mesh)
+
+    add(mesh: Mesh): void {
+        // Don&#x27;t return the index because we don&#x27;t want to guarantee the order.
+        this._meshes.push(mesh)
     }
+
     draw(ambients: Facet[]) {
         const iLen = this._meshes.length
         for (let i = 0; i &lt; iLen; i++) {
@@ -231,6 +236,7 @@ export default class DrawList extends ShareableContextListener {
             mesh.draw(ambients)
         }
     }
+
     contextFree(context: IContextProvider): void {
         const iLen = this._meshes.length
         for (let i = 0; i &lt; iLen; i++) {

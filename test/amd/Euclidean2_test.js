@@ -1,14 +1,10 @@
-define([
-    'davinci-eight/math/QQ',
-    'davinci-eight/math/Dimensions',
-    'davinci-eight/math/Unit',
-    'davinci-eight/math/Euclidean2'
-], function(
-    QQ,
-    Dimensions,
-    Unit,
-    Euclidean2
-) {
+define([    'davinci-eight/math/QQ', 'davinci-eight/math/Dimensions', 'davinci-eight/math/Unit', 'davinci-eight/math/Euclidean2'], function(QQ_Module, Dimensions_Module, Unit_Module, Euclidean2_Module) {
+
+  var QQ = QQ_Module.default;
+  var Dimensions = Dimensions_Module.default;
+  var Unit = Unit_Module.default
+  var Euclidean2 = Euclidean2_Module.default
+
   describe("Euclidean2", function() {
 
     beforeEach(function() {

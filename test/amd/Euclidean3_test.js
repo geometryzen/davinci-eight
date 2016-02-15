@@ -9,6 +9,12 @@ define([
     Unit,
     Euclidean3
 ) {
+
+  QQ = QQ.default
+  Dimensions = Dimensions.default
+  Unit = Unit.default
+  Euclidean3 = Euclidean3.default
+
   describe("Euclidean3", function() {
 
     var random = function() {

@@ -1,10 +1,6 @@
-import Mesh from '../core/Mesh'
-import ColorFacet from '../facets/ColorFacet';
-import Color from '../core/Color';
 import Euclidean3 from '../math/Euclidean3';
-import ModelFacet from '../facets/ModelFacet';
 import mustBeObject from '../checks/mustBeObject';
-import readOnly from '../i18n/readOnly';
+import Object3D from './Object3D';
 import Geometry from '../core/Geometry';
 import Material from '../core/Material';
 
@@ -15,14 +11,11 @@ import Material from '../core/Material';
  * @submodule visual
  */
 
-const COLOR_FACET_NAME = 'color';
-const MODEL_FACET_NAME = 'model';
-
 /**
  * @class RigidBody
- * @extends Mesh
+ * @extends Object3D
  */
-export default class RigidBody extends Mesh {
+export default class RigidBody extends Object3D {
 
     /**
      * @property _mass
@@ -52,12 +45,6 @@ export default class RigidBody extends Mesh {
      */
     constructor(geometry: Geometry, material: Material, type = 'RigidBody') {
         super(geometry, material, type)
-
-        const modelFacet = new ModelFacet()
-        this.setFacet(MODEL_FACET_NAME, modelFacet)
-
-        const colorFacet = new ColorFacet()
-        this.setFacet(COLOR_FACET_NAME, colorFacet)
     }
 
     /**
@@ -79,27 +66,11 @@ export default class RigidBody extends Mesh {
      */
     get axis(): Euclidean3 {
         // The initial axis of the geometry is e2.
-        return Euclidean3.e2.rotate(this._model.R)
+        return Euclidean3.e2.rotate(this.modelFacet.R)
     }
     set axis(axis: Euclidean3) {
         mustBeObject('axis', axis)
-        this._model.R.rotorFromDirections(axis, Euclidean3.e2)
-    }
-
-    /**
-     * Color
-     *
-     * @property color
-     * @type Color
-     */
-    get color() {
-        const facet = <ColorFacet>this.getFacet(COLOR_FACET_NAME)
-        const color = facet.color
-        return color
-    }
-    set color(color: Color) {
-        const facet = <ColorFacet>this.getFacet(COLOR_FACET_NAME)
-        facet.color.copy(color)
+        this.modelFacet.R.rotorFromDirections(axis, Euclidean3.e2)
     }
 
     /**
@@ -136,10 +107,10 @@ export default class RigidBody extends Mesh {
      * @type Euclidean3
      */
     get R(): Euclidean3 {
-        return Euclidean3.copy(this._model.R)
+        return Euclidean3.copy(this.modelFacet.R)
     }
     set R(R: Euclidean3) {
-        this._model.R.copySpinor(R)
+        this.modelFacet.R.copySpinor(R)
     }
 
     /**
@@ -149,11 +120,11 @@ export default class RigidBody extends Mesh {
      * @type Euclidean3
      */
     get X(): Euclidean3 {
-        return Euclidean3.copy(this._model.X)
+        return Euclidean3.copy(this.modelFacet.X)
     }
     set X(X: Euclidean3) {
         mustBeObject('X', X, () => { return this._type })
-        this._model.X.copyVector(X)
+        this.modelFacet.X.copyVector(X)
     }
 
     /**
@@ -162,7 +133,7 @@ export default class RigidBody extends Mesh {
      * @protected
      */
     protected getScaleX(): number {
-        return this._model.scaleXYZ.x
+        return this.modelFacet.scaleXYZ.x
     }
 
     /**
@@ -172,7 +143,7 @@ export default class RigidBody extends Mesh {
      * @protected
      */
     protected setScaleX(x: number): void {
-        this._model.scaleXYZ.x = x
+        this.modelFacet.scaleXYZ.x = x
     }
 
     /**
@@ -181,7 +152,7 @@ export default class RigidBody extends Mesh {
      * @protected
      */
     protected getScaleY(): number {
-        return this._model.scaleXYZ.y
+        return this.modelFacet.scaleXYZ.y
     }
 
     /**
@@ -191,7 +162,7 @@ export default class RigidBody extends Mesh {
      * @protected
      */
     protected setScaleY(y: number): void {
-        this._model.scaleXYZ.y = y
+        this.modelFacet.scaleXYZ.y = y
     }
 
     /**
@@ -200,7 +171,7 @@ export default class RigidBody extends Mesh {
      * @protected
      */
     protected getScaleZ(): number {
-        return this._model.scaleXYZ.z
+        return this.modelFacet.scaleXYZ.z
     }
 
     /**
@@ -210,22 +181,6 @@ export default class RigidBody extends Mesh {
      * @protected
      */
     protected setScaleZ(z: number): void {
-        this._model.scaleXYZ.z = z
-    }
-
-    /**
-     * Helper method for accessing the model.
-     *
-     * @property _model
-     * @type ModelFacet
-     * @readOnly
-     * @private
-     */
-    private get _model(): ModelFacet {
-        const model = <ModelFacet>this.getFacet(MODEL_FACET_NAME)
-        return model
-    }
-    private set _model(unused: ModelFacet) {
-        throw new Error(readOnly('_model').message)
+        this.modelFacet.scaleXYZ.z = z
     }
 }

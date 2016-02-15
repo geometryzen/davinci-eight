@@ -18,8 +18,6 @@
     require.config({
         baseUrl: "amd",
         paths: {
-          "gl-matrix": "../../vendor/gl-matrix/dist/gl-matrix-min",
-          "davinci-blade": "../vendor/davinci-blade/amd/davinci-blade"
         }
     });
 }(require));

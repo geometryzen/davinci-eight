@@ -74,8 +74,20 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
             this.w = a.w + b.w;
             return this;
         };
+        R4.prototype.applyMatrix = function (m) {
+            var x = this.x;
+            var y = this.y;
+            var z = this.z;
+            var w = this.w;
+            var e = m.elements;
+            this.x = e[0x0] * x + e[0x4] * y + e[0x8] * z + e[0xC] * w;
+            this.y = e[0x1] * x + e[0x5] * y + e[0x9] * z + e[0xD] * w;
+            this.z = e[0x2] * x + e[0x6] * y + e[0xA] * z + e[0xE] * w;
+            this.w = e[0x3] * x + e[0x7] * y + e[0xB] * z + e[0xF] * w;
+            return this;
+        };
         R4.prototype.clone = function () {
-            return new R4([this.x, this.y, this.z, this.w]);
+            return new R4([this.x, this.y, this.z, this.w], this.modified);
         };
         R4.prototype.copy = function (v) {
             this.x = v.x;

@@ -1,7 +1,9 @@
-import VectorE4 from '../math/VectorE4';
-import MutableLinearElement from '../math/MutableLinearElement';
-import SpinorE4 from '../math/SpinorE4';
-import VectorN from '../math/VectorN';
+import ColumnVector from '../math/ColumnVector';
+import VectorE4 from '../math/VectorE4'
+import MutableLinearElement from '../math/MutableLinearElement'
+import SpinorE4 from '../math/SpinorE4'
+import VectorN from '../math/VectorN'
+import Mat4R from '../math/Mat4R'
 
 /**
  * @module EIGHT
@@ -11,16 +13,18 @@ import VectorN from '../math/VectorN';
 /**
  * @class R4
  */
-export default class R4 extends VectorN<number> implements VectorE4, MutableLinearElement<VectorE4, R4, SpinorE4, VectorE4> {
+export default class R4 extends VectorN<number> implements ColumnVector<Mat4R, R4>, VectorE4, MutableLinearElement<VectorE4, R4, SpinorE4, VectorE4> {
+
     /**
      * @class R4
      * @constructor
-     * @param data {number[]} Default is [0, 0, 0, 0].
+     * @param data {number[]} Default is [0, 0, 0, 0] corresponding to x, y, z, and w coordinate labels.
      * @param modified {boolean} Default is false.
      */
     constructor(data = [0, 0, 0, 0], modified = false) {
         super(data, modified, 4);
     }
+
     /**
      * @property x
      * @type Number
@@ -32,6 +36,7 @@ export default class R4 extends VectorN<number> implements VectorE4, MutableLine
         this.modified = this.modified || this.x !== value;
         this.coords[0] = value;
     }
+
     /**
      * @property y
      * @type Number
@@ -67,10 +72,12 @@ export default class R4 extends VectorN<number> implements VectorE4, MutableLine
         this.modified = this.modified || this.w !== value;
         this.coords[3] = value;
     }
+
     setW(w: number) {
         this.w = w;
         return this;
     }
+
     add(vector: VectorE4, α = 1) {
         this.x += vector.x * α
         this.y += vector.y * α
@@ -78,6 +85,7 @@ export default class R4 extends VectorN<number> implements VectorE4, MutableLine
         this.w += vector.w * α
         return this
     }
+
     add2(a: VectorE4, b: VectorE4) {
         this.x = a.x + b.x
         this.y = a.y + b.y
@@ -85,23 +93,53 @@ export default class R4 extends VectorN<number> implements VectorE4, MutableLine
         this.w = a.w + b.w
         return this
     }
+
+    /**
+     * Pre-multiplies the column vector corresponding to this vector by the matrix.
+     * The result is applied to this vector.
+     *
+     * @method applyMatrix
+     * @param m The 4x4 matrix that pre-multiplies this column vector.
+     * @return {R4} <code>this</code>
+     * @chainable
+     */
+    applyMatrix(m: Mat4R): R4 {
+
+        const x = this.x
+        const y = this.y
+        const z = this.z
+        const w = this.w
+
+        const e = m.elements;
+
+        this.x = e[0x0] * x + e[0x4] * y + e[0x8] * z + e[0xC] * w
+        this.y = e[0x1] * x + e[0x5] * y + e[0x9] * z + e[0xD] * w
+        this.z = e[0x2] * x + e[0x6] * y + e[0xA] * z + e[0xE] * w
+        this.w = e[0x3] * x + e[0x7] * y + e[0xB] * z + e[0xF] * w
+
+        return this
+    }
+
     clone() {
-        return new R4([this.x, this.y, this.z, this.w]);
+        return new R4([this.x, this.y, this.z, this.w], this.modified);
     }
+
     copy(v: VectorE4) {
-        this.x = v.x;
-        this.y = v.y;
-        this.z = v.z;
-        this.w = v.w;
-        return this;
+        this.x = v.x
+        this.y = v.y
+        this.z = v.z
+        this.w = v.w
+        return this
     }
+
     divByScalar(α: number) {
-        this.x /= α;
-        this.y /= α;
-        this.z /= α;
-        this.w /= α;
-        return this;
+        this.x /= α
+        this.y /= α
+        this.z /= α
+        this.w /= α
+        return this
     }
+
     lerp(target: VectorE4, α: number) {
         this.x += (target.x - this.x) * α;
         this.y += (target.y - this.y) * α;
@@ -150,7 +188,7 @@ export default class R4 extends VectorN<number> implements VectorE4, MutableLine
         this.y = a.y - b.y
         this.z = a.z - b.z
         this.w = a.w - b.w
-        return this;
+        return this
     }
     magnitude(): number {
         throw new Error("TODO: R4.magnitude()")

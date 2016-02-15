@@ -188,6 +188,7 @@ export default class R3 extends VectorN<number> implements ColumnVector<Mat3R, R
 
         return this;
     }
+
     /**
      * <p>
      * <code>this ⟼ - n * this * n</code>

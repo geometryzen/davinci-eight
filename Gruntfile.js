@@ -60,23 +60,20 @@ module.exports = function(grunt) {
     connect: {
         test: {
             options: {
-                port: 8080
+                port: 8000
             }
         }
     },
+
     jasmine: {
         taskName: {
             src: 'amd/**/*.js',
             options: {
                 specs: 'test/amd/*_test.js',
-                host: 'http://127.0.0.1:8080/',
+                host: 'http://127.0.0.1:8000/',
                 template: require('grunt-template-jasmine-requirejs'),
                 templateOptions: {
-                    requireConfig: {
-                      baseUrl: 'amd/',
-                      paths: {
-                      }
-                    }
+                    requireConfigFile: 'requirejs.config.js'
                 }
             }
         }
@@ -130,14 +127,17 @@ module.exports = function(grunt) {
         "src/davinci-eight/checks/**/*.ts",
         "src/davinci-eight/collections/**/*.ts",
         "src/davinci-eight/commands/**/*.ts",
+        "src/davinci-eight/controls/**/*.ts",
         "src/davinci-eight/core/**/*.ts",
         "src/davinci-eight/facets/**/*.ts",
         "src/davinci-eight/geometries/**/*.ts",
         "src/davinci-eight/materials/**/*.ts",
         "src/davinci-eight/math/**/*.ts",
+        "src/davinci-eight/overlay/**/*.ts",
         "src/davinci-eight/visual/**/*.ts",
 
-        "src/davinci-eight/utils/EventEmitter.ts"
+        "src/davinci-eight/utils/EventEmitter.ts",
+        "src/davinci-eight/utils/exists.ts"
       ],
       options: {
         configuration: 'tslint.json'
@@ -147,7 +147,14 @@ module.exports = function(grunt) {
     watch: {
       scripts: {
         files: ['src/davinci-eight/**/*.ts'],
-        tasks: ['ts:systemES5'],
+        tasks: ['amd', 'jasmine'],
+        options: {
+          spawn: false
+        }
+      },
+      specs: {
+        files: ['test/amd/**/*.js'],
+        tasks: ['jasmine'],
         options: {
           spawn: false
         }
@@ -328,5 +335,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('dev', ['clean', 'amd', 'copy']);
 
-  grunt.registerTask('default', ['clean', 'system', 'tslint' ,'amd', 'uglify', 'copy', 'yuidoc']);
+  grunt.registerTask('tdd', ['clean', 'amd', 'connect:test', 'watch']);
+
+  grunt.registerTask('default', ['clean', 'system', 'tslint' ,'amd', 'test', 'uglify', 'copy', 'yuidoc']);
 };

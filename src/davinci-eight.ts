@@ -44,6 +44,29 @@ import initWebGL from 'davinci-eight/core/initWebGL';
 import Curve from 'davinci-eight/curves/Curve';
 // devices
 import Keyboard from 'davinci-eight/devices/Keyboard';
+
+// facets and animation targets
+import AmbientLight from 'davinci-eight/facets/AmbientLight';
+import ColorFacet from 'davinci-eight/facets/ColorFacet';
+import DirectionalLight from 'davinci-eight/facets/DirectionalLight';
+import ModelFacet from 'davinci-eight/facets/ModelFacet';
+import PointSizeFacet from 'davinci-eight/facets/PointSizeFacet';
+import ReflectionFacetE2 from 'davinci-eight/facets/ReflectionFacetE2';
+import ReflectionFacetE3 from 'davinci-eight/facets/ReflectionFacetE3';
+import Vector3Facet from 'davinci-eight/facets/Vector3Facet';
+import createFrustum from 'davinci-eight/facets/createFrustum';
+import createPerspective from 'davinci-eight/facets/createPerspective';
+import createView from 'davinci-eight/facets/createView';
+import Frustum from 'davinci-eight/facets/Frustum';
+import Perspective from 'davinci-eight/facets/Perspective';
+import View from 'davinci-eight/facets/View';
+import frustumMatrix from 'davinci-eight/facets/frustumMatrix';
+import PerspectiveCamera from 'davinci-eight/facets/PerspectiveCamera';
+import perspectiveMatrix from 'davinci-eight/facets/perspectiveMatrix';
+import viewMatrix from 'davinci-eight/facets/viewMatrix';
+import ModelE2 from 'davinci-eight/facets/ModelE2';
+import ModelE3 from 'davinci-eight/facets/ModelE3';
+
 // geometries
 import Attribute from 'davinci-eight/core/Attribute';
 import DrawAttribute from 'davinci-eight/geometries/DrawAttribute';
@@ -59,7 +82,6 @@ import quadrilateral from 'davinci-eight/geometries/quadrilateral';
 import square from 'davinci-eight/geometries/square';
 import simplicesToDrawPrimitive from 'davinci-eight/geometries/simplicesToDrawPrimitive';
 import triangle from 'davinci-eight/geometries/triangle';
-// geometries
 import ArrowGeometry from 'davinci-eight/geometries/ArrowGeometry';
 import CuboidGeometry from 'davinci-eight/geometries/CuboidGeometry';
 import CylinderGeometry from 'davinci-eight/geometries/CylinderGeometry';
@@ -101,6 +123,7 @@ import PointMaterial from 'davinci-eight/materials/PointMaterial';
 import GraphicsProgramBuilder from 'davinci-eight/materials/GraphicsProgramBuilder';
 import smartProgram from 'davinci-eight/materials/smartProgram';
 import programFromScripts from 'davinci-eight/materials/programFromScripts';
+
 // math
 import AbstractMatrix from 'davinci-eight/math/AbstractMatrix';
 import VectorE1 from 'davinci-eight/math/VectorE1';
@@ -139,29 +162,8 @@ import R4 from 'davinci-eight/math/R4';
 import VectorN from 'davinci-eight/math/VectorN';
 import HH from 'davinci-eight/math/HH';
 
-// facets and animation targets
-import AmbientLight from 'davinci-eight/facets/AmbientLight';
-import ColorFacet from 'davinci-eight/facets/ColorFacet';
-import DirectionalLight from 'davinci-eight/facets/DirectionalLight';
-import ModelFacet from 'davinci-eight/facets/ModelFacet';
-import PointSizeFacet from 'davinci-eight/facets/PointSizeFacet';
-import ReflectionFacetE2 from 'davinci-eight/facets/ReflectionFacetE2';
-import ReflectionFacetE3 from 'davinci-eight/facets/ReflectionFacetE3';
-import Vector3Facet from 'davinci-eight/facets/Vector3Facet';
-import createFrustum from 'davinci-eight/facets/createFrustum';
-import createPerspective from 'davinci-eight/facets/createPerspective';
-import createView from 'davinci-eight/facets/createView';
-import Frustum from 'davinci-eight/facets/Frustum';
-import Perspective from 'davinci-eight/facets/Perspective';
-import View from 'davinci-eight/facets/View';
-import frustumMatrix from 'davinci-eight/facets/frustumMatrix';
-import PerspectiveCamera from 'davinci-eight/facets/PerspectiveCamera';
-import perspectiveMatrix from 'davinci-eight/facets/perspectiveMatrix';
-import viewMatrix from 'davinci-eight/facets/viewMatrix';
-
-// models
-import ModelE2 from 'davinci-eight/facets/ModelE2';
-import ModelE3 from 'davinci-eight/facets/ModelE3';
+// overlay
+import Overlay from 'davinci-eight/overlay/Overlay';
 
 // utils
 import Framerate from 'davinci-eight/utils/Framerate';
@@ -179,6 +181,7 @@ import animation from 'davinci-eight/utils/animation';
 import Arrow from 'davinci-eight/visual/Arrow';
 import Sphere from 'davinci-eight/visual/Sphere';
 import Cuboid from 'davinci-eight/visual/Cuboid';
+import Object3D from 'davinci-eight/visual/Object3D';
 import RigidBody from 'davinci-eight/visual/RigidBody';
 import Cylinder from 'davinci-eight/visual/Cylinder';
 import Tetrahedron from 'davinci-eight/visual/Tetrahedron';
@@ -199,7 +202,7 @@ import ProgramArgs from 'davinci-eight/glsl/ProgramArgs';
 /**
  * @module EIGHT
  */
-var eight = {
+const eight = {
     /**
      * The publish date of the latest version of the library.
      * @property LAST_MODIFIED
@@ -278,6 +281,16 @@ var eight = {
 
     get TrackballControls() { return TrackballControls },
 
+    // facets
+    get AmbientLight() { return AmbientLight },
+    get ColorFacet() { return ColorFacet },
+    get DirectionalLight() { return DirectionalLight },
+    get PointSizeFacet() { return PointSizeFacet },
+    get ReflectionFacetE2() { return ReflectionFacetE2 },
+    get ReflectionFacetE3() { return ReflectionFacetE3 },
+    get Vector3Facet() { return Vector3Facet },
+
+    // geometries
     get ArrowGeometry() { return ArrowGeometry },
     get CuboidGeometry() { return CuboidGeometry },
     get CylinderGeometry() { return CylinderGeometry },
@@ -306,24 +319,22 @@ var eight = {
     get GraphicsProgramSymbols() { return GraphicsProgramSymbols },
     get GeometryContainer() { return GeometryContainer },
     get GeometryPrimitive() { return GeometryPrimitive },
+
+    // overlay
+    get Overlay() { return Overlay },
+
     // programs
     get programFromScripts() { return programFromScripts },
     get DrawAttribute() { return DrawAttribute },
     get DrawPrimitive() { return DrawPrimitive },
-    // facets
-    get AmbientLight() { return AmbientLight },
-    get ColorFacet() { return ColorFacet },
-    get DirectionalLight() { return DirectionalLight },
-    get PointSizeFacet() { return PointSizeFacet },
-    get ReflectionFacetE2() { return ReflectionFacetE2 },
-    get ReflectionFacetE3() { return ReflectionFacetE3 },
-    get Vector3Facet() { return Vector3Facet },
+
     // utils
     get ShareableArray() { return ShareableArray },
     get NumberIUnknownMap() { return NumberIUnknownMap },
     get refChange() { return refChange },
     get Shareable() { return Shareable },
     get StringIUnknownMap() { return StringIUnknownMap },
+
     // universal math functions
     get cos() { return mathcore.cos },
     get cosh() { return mathcore.cosh },
@@ -334,10 +345,12 @@ var eight = {
     get sin() { return mathcore.sin },
     get sinh() { return mathcore.sinh },
     get sqrt() { return mathcore.sqrt },
+
     // visual
     get Arrow() { return Arrow },
     get Sphere() { return Sphere },
     get Cuboid() { return Cuboid },
+    get Object3D() { return Object3D },
     get RigidBody() { return RigidBody },
     get Cylinder() { return Cylinder },
     get Tetrahedron() { return Tetrahedron },

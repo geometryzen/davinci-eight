@@ -2296,11 +2296,14 @@ declare module EIGHT {
      *
      */
     class R4 extends VectorN<number> implements VectorE4 {
-        x: number;
-        y: number;
-        z: number;
-        w: number;
-        constructor(coords?: number[], modified?: boolean);
+        x: number
+        y: number
+        z: number
+        w: number
+        constructor(coords?: number[], modified?: boolean)
+        applyMatrix(m: Mat4R): R4
+        clone(): R4
+        copy(v: VectorE4): R4
     }
 
     /**
@@ -2445,28 +2448,35 @@ declare module EIGHT {
     /**
      * A collection of properties governing GLSL uniforms for Computer Graphics Modeling.
      */
-    class ModelFacet extends Shareable {
+    class ModelFacet implements Facet {
+
         /**
          * The position, a vector.
          */
-        X: G3;
+        X: G3
+
         /**
          * The attitude, a unitary spinor.
          */
-        R: G3;
+        R: G3
+
         /**
          * The overall scale.
          */
-        scaleXYZ: R3;
+        scaleXYZ: R3
+
+        /**
+         * The matrix that is used for the uniform conventionally named 'uModel'.
+         */
+        matrix: Mat4R
+
         /**
          * Constructs a ModelFacet at the origin and with unity attitude.
          */
-        constructor();
-        incRef(): ModelFacet;
-        decRef(): ModelFacet;
-        getProperty(name: string): number[];
-        setProperty(name: string, value: number[]): ModelFacet;
-        setUniforms(visitor: FacetVisitor): void;
+        constructor()
+        getProperty(name: string): number[]
+        setProperty(name: string, value: number[]): ModelFacet
+        setUniforms(visitor: FacetVisitor): void
     }
 
     /**
@@ -2601,10 +2611,6 @@ declare module EIGHT {
          */
         position: R3;
         /**
-         * Optional material used for rendering this instance.
-         */
-        material: Material;
-        /**
          * Optional name used for finding this instance.
          */
         name: string;
@@ -2612,6 +2618,14 @@ declare module EIGHT {
          * The "guess" direction that is used to generate the upwards direction for the camera. 
          */
         up: R3;
+        /**
+         * The projection matrix
+         */
+        projectionMatrix: Mat4R;
+        /**
+         * The view matrix
+         */
+        viewMatrix: Mat4R;
         /**
          * fov...: The `fov` property.
          * aspect: The `aspect` property.
@@ -2756,7 +2770,7 @@ declare module EIGHT {
     }
 
     class CuboidGeometry extends GeometryContainer {
-        constructor(width: number, height: number, depth: number);
+        constructor(options?: { width?: number, height?: number, depth?: number });
     }
 
     class CylinderGeometry extends GeometryContainer {
@@ -3225,7 +3239,20 @@ declare module EIGHT {
 
     ///////////////////////////////////////////////////////////////////////////////
 
-    class RigidBody extends Mesh {
+    /**
+     *
+     */
+    class Object3D extends Mesh {
+        modelFacet: ModelFacet
+        modelMatrix: Mat4R
+        colorFacet: ColorFacet
+        /**
+         *
+         */
+        constructor(geometry: Geometry, material: Material, type?: string)
+    }
+
+    class RigidBody extends Object3D {
 
         /**
          *
@@ -3266,6 +3293,11 @@ declare module EIGHT {
          * Configures the trail left behind a moving rigid body.
          */
         trail: { enabled: boolean; interval: number; retain: number };
+
+        /**
+         *
+         */
+        constructor(geometry: Geometry, material: Material, type?: string)
     }
 
     class Arrow extends RigidBody {
@@ -3331,12 +3363,13 @@ declare module EIGHT {
      *
      */
     interface World extends IUnknown {
-        arrow(): Arrow;
-        cuboid(options?: { width?: number; height?: number; depth?: number }): Cuboid;
-        sphere(options?: { radius?: number }): Sphere;
-        cylinder(options?: { radius?: number }): Cylinder;
-        ambients: Facet[];
-        canvas: HTMLCanvasElement;
+        add(mesh: Mesh): void
+        arrow(): Arrow
+        cuboid(options?: { width?: number; height?: number; depth?: number }): Cuboid
+        sphere(options?: { radius?: number }): Sphere
+        cylinder(options?: { radius?: number }): Cylinder
+        ambients: Facet[]
+        canvas: HTMLCanvasElement
     }
 
     /**
@@ -3355,16 +3388,17 @@ declare module EIGHT {
 
     ///////////////////////////////////////////////////////////////////////////////
     class TrackballControls extends Shareable {
-      public rotateSpeed:  number
-      public zoomSpeed: number
-      public panSpeed: number
-      constructor(camera: PerspectiveCamera)
-      protected destructor(): void
-      public subscribe(domElement: HTMLElement): void
-      public unsubscribe()
-      public handleResize()
-      public update()
+        public rotateSpeed: number
+        public zoomSpeed: number
+        public panSpeed: number
+        constructor(camera: PerspectiveCamera)
+        protected destructor(): void
+        public subscribe(domElement: HTMLElement): void
+        public unsubscribe()
+        public handleResize()
+        public update()
     }
+    ///////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////
     function cos<T>(x: T): T;
     function cosh<T>(x: T): T;

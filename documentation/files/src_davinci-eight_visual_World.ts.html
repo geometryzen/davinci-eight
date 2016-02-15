@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.185.0</em>
+            <em>API Docs for: 2.186.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -208,6 +208,7 @@ import Cylinder from &#x27;./Cylinder&#x27;
 import DrawList from &#x27;./DrawList&#x27;
 import Facet from &#x27;../core/Facet&#x27;
 import isDefined from &#x27;../checks/isDefined&#x27;
+import Mesh from &#x27;../core/Mesh&#x27;
 import mustBeNumber from &#x27;../checks/mustBeNumber&#x27;
 import readOnly from &#x27;../i18n/readOnly&#x27;
 import Shareable from &#x27;../core/Shareable&#x27;
@@ -298,6 +299,10 @@ export default class World extends Shareable {
     }
     set controls(unused: TrackballControls) {
         throw new Error(readOnly(&#x27;controls&#x27;).message)
+    }
+
+    add(mesh: Mesh): void {
+        this.drawList.add(mesh)
     }
 
     /**

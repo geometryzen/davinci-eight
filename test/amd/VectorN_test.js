@@ -1,5 +1,7 @@
-define(['davinci-eight/math/VectorN'], function(VectorN)
-{
+define(['davinci-eight/math/VectorN'], function(VectorN) {
+
+  VectorN = VectorN.default
+
   describe("VectorN", function() {
     describe("constructor", function() {
       var data = [Math.random(), Math.random(), Math.random()];

@@ -1,5 +1,6 @@
 import View from './View';
 import VectorE3 from '../math/VectorE3';
+import Mat4R from '../math/Mat4R';
 
 /**
  * @class Perspective
@@ -26,6 +27,10 @@ interface Perspective extends View {
      * @type number
      */
     far: number;
+    /**
+     *
+     */
+    projectionMatrix: Mat4R
     /**
      * Convenience method for setting the fov property allowing chainable method calls.
      * @method setFov

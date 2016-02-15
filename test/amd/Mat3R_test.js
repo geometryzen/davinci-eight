@@ -1,5 +1,7 @@
-define(['davinci-eight/math/Mat3R'], function(Mat3R)
-{
+define(['davinci-eight/math/Mat3R'], function(Mat3R) {
+
+  Mat3R = Mat3R.default
+
   describe("Mat3R", function() {
     describe("elements", function() {
       it("should be a Float32Array to support WebGL", function() {

@@ -31,62 +31,46 @@ WARNING. This library is under active development; the API is subject to changes
 
 [API Documentation](http://www.mathdoodle.io/docs/davinci-eight/index.html)
 
-## Getting Started
-
-### Non-AMD execution
-
-Open the following file in your browser (Chrome of Firefox).
-```
-demo/index.html
-```
-Make sure that Pop-ups are not blocked for the page.
-
-This will run the non-AMD version of the code.
-
-### AMD execution
-
-To compile the main.ts to main.js:
-```
-tsc --module "amd" --target ES5
-```
-
-Open the following file in your browser (Chrome of Firefox).
-```
-demo/amd.html
-```
-Make sure that Pop-ups are not blocked for the page.
-
-This will run the AMD version of the code.
-
 ## Contributing
 
 ### Building
 
-Open your Terminal.
+Open a terminal window.
 
-Clone the davinci-eight repo.
+Clone the davinci-eight repo:
 ```
 git clone git://github.com/geometryzen/davinci-eight.git
 ```
 
-Change to the repo directory.
+Change to the repo directory:
 ```
 cd davinci-eight
 ```
 
-Run
+Install NPM:
 ```
 npm install
 ```
 to install the tooling dependencies (For this you need to have [Node.js](http://nodejs.org) installed).
 
-Run
+Install Bower:
 ```
 bower install
 ```
 to install the software dependencies (For this you need to have [Bower](http://bower.io) installed).
 
-Run
+Install JSPM:
+```
+jspm install
+```
+to install JSPM, used for testing.
+
+Install TypeScript definitions:
+```
+tsd install
+```
+to install TypeScript definitions for Jasmine used in testing.
+
 ```
 grunt
 ```
@@ -277,6 +261,7 @@ Make your changes to the TypeScript files in the _src_ directory. Do not edit th
 * 2.183.0: 2016-02-11 rotate
 * 2.184.0: 2016-02-12 TrackballControls
 * 2.185.0: 2016-02-12 DirectionalLight
+* 2.186.0: 2016-02-14 Object3D
 
 ## License
 Copyright (c) 2014-2016 David Holmes

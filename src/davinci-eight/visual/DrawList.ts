@@ -9,18 +9,23 @@ import Mesh from '../core/Mesh'
  * This allows the Mesh to override the draw method to produce history and draw trails.
  */
 export default class DrawList extends ShareableContextListener {
-    private _meshes: ShareableArray<Mesh>;
+    private _meshes: ShareableArray<Mesh>
+
     constructor() {
         super('DrawList')
         this._meshes = new ShareableArray<Mesh>()
     }
+
     protected destructor(): void {
         this._meshes.release()
         super.destructor()
     }
-    add(mesh: Mesh): number {
-        return this._meshes.push(mesh)
+
+    add(mesh: Mesh): void {
+        // Don't return the index because we don't want to guarantee the order.
+        this._meshes.push(mesh)
     }
+
     draw(ambients: Facet[]) {
         const iLen = this._meshes.length
         for (let i = 0; i < iLen; i++) {
@@ -28,6 +33,7 @@ export default class DrawList extends ShareableContextListener {
             mesh.draw(ambients)
         }
     }
+
     contextFree(context: IContextProvider): void {
         const iLen = this._meshes.length
         for (let i = 0; i < iLen; i++) {

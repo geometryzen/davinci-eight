@@ -1,6 +1,7 @@
-import Mutable from '../math/Mutable';
 import isDefined from '../checks/isDefined';
 import isUndefined from '../checks/isUndefined';
+import Mutable from '../math/Mutable';
+import mustSatisfy from '../checks/mustSatisfy'
 
 function pushString(T: string): string {
     return "push(value: " + T + "): number";
@@ -52,6 +53,7 @@ export default class VectorN<T> implements Mutable<T[]> {
         if (isDefined(size)) {
             this._size = size;
             this._data = data;
+            mustSatisfy('data.length', data.length === size, () => { return `${size}` })
         }
         else {
             this._size = void 0;

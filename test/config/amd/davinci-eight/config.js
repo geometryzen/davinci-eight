@@ -1,10 +1,9 @@
 // test/config/amd/davinci-eight/config.js
 // TODO: automate generation of this file.
 require([
-    'davinci-blade/Rational',
-    'gl-matrix'
+    'davinci-eight/math/QQ'
 ], function(){ require([
-    'test/amd/Rational_test.js'
+    'test/amd/QQ_test.js'
 ], function() {
     window.initializeJasmine();
 });});

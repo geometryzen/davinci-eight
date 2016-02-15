@@ -1,4 +1,3 @@
-import Material from '../core/Material';
 import createPerspective from './createPerspective';
 import readOnly from '../i18n/readOnly';
 import mustBeObject from '../checks/mustBeObject';
@@ -11,6 +10,7 @@ import Facet from '../core/Facet';
 import FacetVisitor from '../core/FacetVisitor';
 import R3 from '../math/R3';
 import VectorE3 from '../math/VectorE3';
+import Mat4R from '../math/Mat4R'
 
 /**
  * Common abstractions for computing shader uniform variables.
@@ -33,12 +33,6 @@ export default class PerspectiveCamera implements Perspective, Facet {
      */
     public static PROP_POSITION = 'X';
     public static PROP_EYE = 'eye';
-
-    /**
-     * @property material
-     * @type {Material}
-     */
-    public material: Material;
 
     /**
      * @property name
@@ -274,5 +268,24 @@ export default class PerspectiveCamera implements Perspective, Facet {
     setUp(up: VectorE3): PerspectiveCamera {
         this.inner.setUp(up);
         return this;
+    }
+
+    get projectionMatrix(): Mat4R {
+        return this.inner.projectionMatrix
+    }
+    set projectionMatrix(projectionMatrix: Mat4R) {
+        throw new Error(readOnly('projectionMatrix').message);
+    }
+
+    /**
+     * @property viewMatrix
+     * @type Mat4R
+     * @readOnly
+     */
+    get viewMatrix(): Mat4R {
+        return this.inner.viewMatrix
+    }
+    set viewMatrix(viewMatrix: Mat4R) {
+        this.inner.viewMatrix = viewMatrix
     }
 }

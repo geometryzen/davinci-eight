@@ -11,6 +11,15 @@ define(
 ],
 function(Simplex, Vertex, R3, triangle, simplicesToDrawPrimitive, GraphicsProgramSymbols, simplicesToGeometryMeta, computeFaceNormals)
 {
+  Simplex = Simplex.default;
+  Vertex = Vertex.default;
+  R3 = R3.default
+  triangle = triangle.default
+  simplicesToDrawPrimitive = simplicesToDrawPrimitive.default
+  GraphicsProgramSymbols = GraphicsProgramSymbols.default
+  simplicesToGeometryMeta = simplicesToGeometryMeta.default
+  computeFaceNormals = computeFaceNormals.default
+
   var VERTICES_PER_FACE = 3;
   var COORDS_PER_POSITION = 3;
   var COORDS_PER_NORMAL = 3;

@@ -1,5 +1,7 @@
-define(['davinci-eight/math/QQ'], function(QQ)
-{
+define(['davinci-eight/math/QQ'], function(QQ) {
+
+    QQ = QQ.default
+
     describe("QQ", function() {
         describe("constructor", function() {
             it("numer matches construction argument", function() {
