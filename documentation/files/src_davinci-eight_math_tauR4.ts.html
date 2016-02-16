@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.187.0</em>
+            <em>API Docs for: 2.188.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -237,7 +237,11 @@ const Γ4 = Mat4R.zero().set(
  * Computes Γ&lt;sub&gt;R&lt;/sub&gt;(a)
  */
 export default function tauR4(a1: number, a2: number, a3: number, a4: number, out: Mat4R): Mat4R {
-    return out.set(a1, a2, a3, -a4, a2, a1, a4, -a3, a3, -a4, a1, a2, a4, -a3, a2, a1)
+    return out.set(
+      a1, a2, a3, -a4,
+      a2, a1, a4, -a3,
+      a3, -a4, a1, a2,
+      a4, -a3, a2, a1)
 }
 
     </pre>

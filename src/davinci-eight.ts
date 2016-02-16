@@ -137,6 +137,7 @@ import Euclidean1Coords from 'davinci-eight/math/Euclidean1Coords';
 import Euclidean2 from 'davinci-eight/math/Euclidean2';
 import Euclidean3 from 'davinci-eight/math/Euclidean3';
 import Euler from 'davinci-eight/math/Euler';
+import gauss from 'davinci-eight/math/gauss';
 import GeometricElement from 'davinci-eight/math/GeometricElement';
 import LinearElement from 'davinci-eight/math/LinearElement';
 import mathcore from 'davinci-eight/math/mathcore';

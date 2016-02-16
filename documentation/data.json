@@ -2,7 +2,7 @@
     "project": {
         "name": "davinci-eight",
         "description": "WebGL library for mathematical physics using Geometric Algebra",
-        "version": "2.187.0",
+        "version": "2.188.0",
         "url": ""
     },
     "files": {
@@ -1364,6 +1364,13 @@
         },
         "src/davinci-eight/math/dotVectorCartesianE3.ts": {
             "name": "src/davinci-eight/math/dotVectorCartesianE3.ts",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/math/gauss.ts": {
+            "name": "src/davinci-eight/math/gauss.ts",
             "modules": {},
             "classes": {},
             "fors": {},
@@ -3381,7 +3388,7 @@
             "submodule": "math",
             "namespace": "",
             "file": "src/davinci-eight/math/Euclidean2.ts",
-            "line": 308,
+            "line": 280,
             "description": "The Euclidean2 class represents a multivector for a 2-dimensional linear space with a Euclidean metric.",
             "is_constructor": 1,
             "params": [
@@ -3424,7 +3431,7 @@
             "submodule": "math",
             "namespace": "",
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 259
+            "line": 67
         },
         "G2": {
             "name": "G2",
@@ -12977,7 +12984,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean2.ts",
-            "line": 147,
+            "line": 119,
             "itemtype": "property",
             "name": "_zero",
             "type": "Euclidean2",
@@ -12990,7 +12997,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean2.ts",
-            "line": 155,
+            "line": 127,
             "itemtype": "property",
             "name": "zero",
             "type": "Euclidean2",
@@ -13002,7 +13009,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean2.ts",
-            "line": 168,
+            "line": 140,
             "itemtype": "property",
             "name": "_one",
             "type": "Euclidean2",
@@ -13015,7 +13022,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean2.ts",
-            "line": 176,
+            "line": 148,
             "itemtype": "property",
             "name": "one",
             "type": "Euclidean2",
@@ -13027,7 +13034,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean2.ts",
-            "line": 189,
+            "line": 161,
             "itemtype": "property",
             "name": "_e2",
             "type": "Euclidean2",
@@ -13040,7 +13047,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean2.ts",
-            "line": 197,
+            "line": 169,
             "itemtype": "property",
             "name": "e1",
             "type": "Euclidean2",
@@ -13052,7 +13059,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean2.ts",
-            "line": 210,
+            "line": 182,
             "itemtype": "property",
             "name": "_e2",
             "type": "Euclidean2",
@@ -13065,7 +13072,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean2.ts",
-            "line": 218,
+            "line": 190,
             "itemtype": "property",
             "name": "e2",
             "type": "Euclidean2",
@@ -13077,7 +13084,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean2.ts",
-            "line": 231,
+            "line": 203,
             "itemtype": "property",
             "name": "_I",
             "type": "Euclidean2",
@@ -13090,7 +13097,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean2.ts",
-            "line": 239,
+            "line": 211,
             "itemtype": "property",
             "name": "I",
             "type": "Euclidean2",
@@ -13102,7 +13109,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean2.ts",
-            "line": 252,
+            "line": 224,
             "itemtype": "property",
             "name": "kilogram",
             "type": "Euclidean2",
@@ -13113,7 +13120,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean2.ts",
-            "line": 259,
+            "line": 231,
             "itemtype": "property",
             "name": "meter",
             "type": "Euclidean2",
@@ -13124,7 +13131,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean2.ts",
-            "line": 266,
+            "line": 238,
             "itemtype": "property",
             "name": "second",
             "type": "Euclidean2",
@@ -13135,7 +13142,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean2.ts",
-            "line": 273,
+            "line": 245,
             "itemtype": "property",
             "name": "coulomb",
             "type": "Euclidean2",
@@ -13146,7 +13153,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean2.ts",
-            "line": 280,
+            "line": 252,
             "itemtype": "property",
             "name": "ampere",
             "type": "Euclidean2",
@@ -13157,7 +13164,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean2.ts",
-            "line": 287,
+            "line": 259,
             "itemtype": "property",
             "name": "kelvin",
             "type": "Euclidean2",
@@ -13168,7 +13175,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean2.ts",
-            "line": 294,
+            "line": 266,
             "itemtype": "property",
             "name": "mole",
             "type": "Euclidean2",
@@ -13179,7 +13186,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean2.ts",
-            "line": 301,
+            "line": 273,
             "itemtype": "property",
             "name": "candela",
             "type": "Euclidean2",
@@ -13190,7 +13197,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean2.ts",
-            "line": 335,
+            "line": 307,
             "description": "The scalar part of this multivector.",
             "itemtype": "property",
             "name": "α",
@@ -13202,7 +13209,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean2.ts",
-            "line": 348,
+            "line": 320,
             "description": "The coordinate corresponding to the <b>e1</b> basis vector, without the unit of measure.",
             "itemtype": "property",
             "name": "x",
@@ -13214,7 +13221,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean2.ts",
-            "line": 362,
+            "line": 334,
             "description": "The coordinate corresponding to the <b>e2</b> basis vector, without the unit of measure.",
             "itemtype": "property",
             "name": "y",
@@ -13226,7 +13233,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean2.ts",
-            "line": 376,
+            "line": 348,
             "description": "The pseudoscalar part of this multivector.",
             "itemtype": "property",
             "name": "β",
@@ -13238,7 +13245,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean2.ts",
-            "line": 481,
+            "line": 441,
             "itemtype": "method",
             "name": "angle",
             "return": {
@@ -13251,7 +13258,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean2.ts",
-            "line": 505,
+            "line": 465,
             "itemtype": "method",
             "name": "direction",
             "return": {
@@ -13265,7 +13272,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean2.ts",
-            "line": 829,
+            "line": 783,
             "description": "~ (tilde) produces reversion.",
             "class": "Euclidean2",
             "module": "EIGHT",
@@ -13273,7 +13280,8 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean2.ts",
-            "line": 866,
+            "line": 819,
+            "description": "Computes the <em>inverse</em> of this multivector, if it exists.",
             "itemtype": "method",
             "name": "inv",
             "return": {
@@ -13286,7 +13294,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean2.ts",
-            "line": 887,
+            "line": 849,
             "description": "Computes the <em>square root</em> of the <em>squared norm</em>.",
             "itemtype": "method",
             "name": "magnitude",
@@ -13300,7 +13308,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean2.ts",
-            "line": 921,
+            "line": 883,
             "description": "Intentionally undocumented.",
             "class": "Euclidean2",
             "module": "EIGHT",
@@ -13308,7 +13316,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean2.ts",
-            "line": 932,
+            "line": 894,
             "description": "Computes the <em>reflection</em> of this multivector in the plane with normal <code>n</code>.",
             "itemtype": "method",
             "name": "reflect",
@@ -13329,7 +13337,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean2.ts",
-            "line": 950,
+            "line": 912,
             "itemtype": "method",
             "name": "rotate",
             "params": [
@@ -13349,7 +13357,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean2.ts",
-            "line": 971,
+            "line": 933,
             "itemtype": "method",
             "name": "tan",
             "return": {
@@ -13362,7 +13370,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean2.ts",
-            "line": 1001,
+            "line": 963,
             "itemtype": "method",
             "name": "toExponential",
             "return": {
@@ -13375,7 +13383,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean2.ts",
-            "line": 1010,
+            "line": 972,
             "itemtype": "method",
             "name": "toFixed",
             "params": [
@@ -13396,7 +13404,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean2.ts",
-            "line": 1020,
+            "line": 982,
             "itemtype": "method",
             "name": "toString",
             "return": {
@@ -13409,7 +13417,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean2.ts",
-            "line": 1039,
+            "line": 1001,
             "itemtype": "method",
             "name": "copy",
             "params": [
@@ -13430,7 +13438,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean2.ts",
-            "line": 1054,
+            "line": 1016,
             "itemtype": "method",
             "name": "fromVectorE2",
             "params": [
@@ -13451,7 +13459,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 268,
+            "line": 76,
             "itemtype": "property",
             "name": "BASIS_LABELS",
             "type": "{string[][]}",
@@ -13461,7 +13469,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 274,
+            "line": 82,
             "itemtype": "property",
             "name": "zero",
             "type": "{Euclidean3}",
@@ -13472,7 +13480,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 281,
+            "line": 89,
             "itemtype": "property",
             "name": "one",
             "type": "{Euclidean3}",
@@ -13483,7 +13491,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 288,
+            "line": 96,
             "itemtype": "property",
             "name": "e1",
             "type": "{Euclidean3}",
@@ -13494,7 +13502,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 295,
+            "line": 103,
             "itemtype": "property",
             "name": "e2",
             "type": "{Euclidean3}",
@@ -13505,7 +13513,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 302,
+            "line": 110,
             "itemtype": "property",
             "name": "e3",
             "type": "{Euclidean3}",
@@ -13516,7 +13524,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 309,
+            "line": 117,
             "itemtype": "property",
             "name": "kilogram",
             "type": "{Euclidean3}",
@@ -13527,7 +13535,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 316,
+            "line": 124,
             "itemtype": "property",
             "name": "meter",
             "type": "{Euclidean3}",
@@ -13538,7 +13546,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 323,
+            "line": 131,
             "itemtype": "property",
             "name": "second",
             "type": "{Euclidean3}",
@@ -13549,7 +13557,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 330,
+            "line": 138,
             "itemtype": "property",
             "name": "coulomb",
             "type": "{Euclidean3}",
@@ -13560,7 +13568,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 337,
+            "line": 145,
             "itemtype": "property",
             "name": "ampere",
             "type": "{Euclidean3}",
@@ -13571,7 +13579,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 344,
+            "line": 152,
             "itemtype": "property",
             "name": "kelvin",
             "type": "{Euclidean3}",
@@ -13582,7 +13590,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 351,
+            "line": 159,
             "itemtype": "property",
             "name": "mole",
             "type": "{Euclidean3}",
@@ -13593,7 +13601,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 358,
+            "line": 166,
             "itemtype": "property",
             "name": "candela",
             "type": "{Euclidean3}",
@@ -13604,7 +13612,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 365,
+            "line": 173,
             "itemtype": "property",
             "name": "w",
             "type": "{number}",
@@ -13616,7 +13624,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 372,
+            "line": 180,
             "description": "The `x` property is the x coordinate of the grade one (vector) part of the Euclidean3 multivector.",
             "itemtype": "property",
             "name": "x",
@@ -13627,7 +13635,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 379,
+            "line": 187,
             "description": "The `y` property is the y coordinate of the grade one (vector) part of the Euclidean3 multivector.",
             "itemtype": "property",
             "name": "y",
@@ -13638,7 +13646,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 386,
+            "line": 194,
             "description": "The `z` property is the z coordinate of the grade one (vector) part of the Euclidean3 multivector.",
             "itemtype": "property",
             "name": "z",
@@ -13649,7 +13657,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 393,
+            "line": 201,
             "description": "The `xy` property is the xy coordinate of the grade two (bivector) part of the Euclidean3 multivector.",
             "itemtype": "property",
             "name": "xy",
@@ -13660,7 +13668,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 400,
+            "line": 208,
             "description": "The `yz` property is the yz coordinate of the grade two (bivector) part of the Euclidean3 multivector.",
             "itemtype": "property",
             "name": "yz",
@@ -13671,7 +13679,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 407,
+            "line": 215,
             "description": "The `zx` property is the zx coordinate of the grade two (bivector) part of the Euclidean3 multivector.",
             "itemtype": "property",
             "name": "zx",
@@ -13682,7 +13690,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 414,
+            "line": 222,
             "itemtype": "property",
             "name": "xyz",
             "type": "{number}",
@@ -13694,7 +13702,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 421,
+            "line": 229,
             "description": "The optional unit of measure.",
             "itemtype": "property",
             "name": "uom",
@@ -13705,7 +13713,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 427,
+            "line": 235,
             "description": "The Euclidean3 class represents a multivector for a 3-dimensional vector space with a Euclidean metric.\nConstructs a Euclidean3 from its coordinates.",
             "is_constructor": 1,
             "params": [
@@ -13760,7 +13768,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 465,
+            "line": 273,
             "description": "The scalar part of this multivector.",
             "itemtype": "property",
             "name": "α",
@@ -13774,7 +13782,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 477,
+            "line": 285,
             "description": "The pseudoscalar part of this multivector.",
             "itemtype": "property",
             "name": "β",
@@ -13788,7 +13796,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 489,
+            "line": 297,
             "itemtype": "method",
             "name": "fromCartesian",
             "params": [
@@ -13849,7 +13857,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 517,
+            "line": 316,
             "itemtype": "property",
             "name": "coords",
             "type": "{number[]}",
@@ -13859,7 +13867,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 525,
+            "line": 324,
             "itemtype": "method",
             "name": "coordinate",
             "params": [
@@ -13879,7 +13887,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 554,
+            "line": 352,
             "description": "Computes the sum of this Euclidean3 and another considered to be the rhs of the binary addition, `+`, operator.\nThis method does not change this Euclidean3.",
             "itemtype": "method",
             "name": "add",
@@ -13900,7 +13908,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 571,
+            "line": 369,
             "description": "Computes <code>this + Iβ</code>",
             "itemtype": "method",
             "name": "addPseudo",
@@ -13922,7 +13930,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 591,
+            "line": 380,
             "description": "Computes <code>this + α</code>",
             "itemtype": "method",
             "name": "addScalar",
@@ -13944,14 +13952,14 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 611,
+            "line": 391,
             "itemtype": "method",
             "name": "__add__",
             "params": [
                 {
                     "name": "rhs",
                     "description": "",
-                    "type": "Any"
+                    "type": "Number | Euclidean3"
                 }
             ],
             "return": {
@@ -13966,14 +13974,14 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 626,
+            "line": 406,
             "itemtype": "method",
             "name": "__radd__",
             "params": [
                 {
                     "name": "lhs",
                     "description": "",
-                    "type": "Any"
+                    "type": "Number | Euclidean3"
                 }
             ],
             "return": {
@@ -13988,7 +13996,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 641,
+            "line": 421,
             "itemtype": "method",
             "name": "adj",
             "return": {
@@ -14003,7 +14011,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 651,
+            "line": 431,
             "itemtype": "method",
             "name": "angle",
             "return": {
@@ -14016,7 +14024,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 659,
+            "line": 439,
             "description": "Computes the <e>Clifford conjugate</em> of this multivector.\nThe grade multiplier is -1<sup>x(x+1)/2</sup>",
             "itemtype": "method",
             "name": "conj",
@@ -14031,7 +14039,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 670,
+            "line": 450,
             "itemtype": "method",
             "name": "cubicBezier",
             "params": [
@@ -14067,7 +14075,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 686,
+            "line": 466,
             "itemtype": "method",
             "name": "direction",
             "return": {
@@ -14080,7 +14088,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 694,
+            "line": 474,
             "itemtype": "method",
             "name": "sub",
             "params": [
@@ -14100,7 +14108,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 709,
+            "line": 489,
             "itemtype": "method",
             "name": "__sub__",
             "params": [
@@ -14122,7 +14130,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 725,
+            "line": 505,
             "itemtype": "method",
             "name": "__rsub__",
             "params": [
@@ -14144,7 +14152,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 740,
+            "line": 520,
             "itemtype": "method",
             "name": "mul",
             "params": [
@@ -14160,7 +14168,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 750,
+            "line": 530,
             "itemtype": "method",
             "name": "__mul__",
             "params": [
@@ -14182,7 +14190,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 765,
+            "line": 545,
             "itemtype": "method",
             "name": "__rmul__",
             "params": [
@@ -14204,7 +14212,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 780,
+            "line": 560,
             "itemtype": "method",
             "name": "scale",
             "params": [
@@ -14224,7 +14232,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 789,
+            "line": 569,
             "itemtype": "method",
             "name": "div",
             "params": [
@@ -14244,7 +14252,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 799,
+            "line": 578,
             "itemtype": "method",
             "name": "divByScalar",
             "params": [
@@ -14264,7 +14272,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 808,
+            "line": 587,
             "itemtype": "method",
             "name": "__div__",
             "params": [
@@ -14286,7 +14294,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 823,
+            "line": 602,
             "itemtype": "method",
             "name": "__rdiv__",
             "params": [
@@ -14308,7 +14316,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 838,
+            "line": 617,
             "itemtype": "method",
             "name": "dual",
             "return": {
@@ -14322,7 +14330,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 847,
+            "line": 626,
             "itemtype": "method",
             "name": "scp",
             "params": [
@@ -14342,7 +14350,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 858,
+            "line": 637,
             "itemtype": "method",
             "name": "ext",
             "params": [
@@ -14362,7 +14370,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 869,
+            "line": 648,
             "itemtype": "method",
             "name": "__vbar__",
             "params": [
@@ -14384,7 +14392,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 884,
+            "line": 663,
             "itemtype": "method",
             "name": "__rvbar__",
             "params": [
@@ -14406,7 +14414,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 899,
+            "line": 678,
             "itemtype": "method",
             "name": "__wedge__",
             "params": [
@@ -14428,7 +14436,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 914,
+            "line": 693,
             "itemtype": "method",
             "name": "__rwedge__",
             "params": [
@@ -14450,7 +14458,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 929,
+            "line": 708,
             "itemtype": "method",
             "name": "lco",
             "params": [
@@ -14470,7 +14478,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 940,
+            "line": 719,
             "itemtype": "method",
             "name": "__lshift__",
             "params": [
@@ -14492,7 +14500,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 955,
+            "line": 734,
             "itemtype": "method",
             "name": "__rlshift__",
             "params": [
@@ -14514,7 +14522,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 970,
+            "line": 749,
             "itemtype": "method",
             "name": "rco",
             "params": [
@@ -14534,7 +14542,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 981,
+            "line": 760,
             "itemtype": "method",
             "name": "__rshift__",
             "params": [
@@ -14556,7 +14564,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 996,
+            "line": 775,
             "itemtype": "method",
             "name": "__rrshift__",
             "params": [
@@ -14578,7 +14586,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 1011,
+            "line": 790,
             "itemtype": "method",
             "name": "pow",
             "params": [
@@ -14599,7 +14607,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 1022,
+            "line": 800,
             "itemtype": "method",
             "name": "__bang__",
             "return": {
@@ -14614,7 +14622,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 1031,
+            "line": 809,
             "description": "Unary plus(+).",
             "itemtype": "method",
             "name": "__pos__",
@@ -14630,7 +14638,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 1041,
+            "line": 819,
             "itemtype": "method",
             "name": "neg",
             "return": {
@@ -14643,7 +14651,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 1048,
+            "line": 826,
             "description": "Unary minus (-).",
             "itemtype": "method",
             "name": "__neg__",
@@ -14659,7 +14667,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 1058,
+            "line": 836,
             "itemtype": "method",
             "name": "rev",
             "return": {
@@ -14672,7 +14680,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 1066,
+            "line": 844,
             "description": "~ (tilde) produces reversion.",
             "itemtype": "method",
             "name": "__tilde__",
@@ -14688,7 +14696,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 1076,
+            "line": 854,
             "itemtype": "method",
             "name": "grade",
             "params": [
@@ -14708,7 +14716,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 1097,
+            "line": 874,
             "description": "Intentionally undocumented",
             "class": "Euclidean3",
             "module": "EIGHT",
@@ -14716,7 +14724,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 1106,
+            "line": 883,
             "itemtype": "method",
             "name": "cross",
             "params": [
@@ -14736,7 +14744,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 1134,
+            "line": 911,
             "itemtype": "method",
             "name": "isOne",
             "return": {
@@ -14749,7 +14757,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 1142,
+            "line": 919,
             "itemtype": "method",
             "name": "isZero",
             "return": {
@@ -14762,7 +14770,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 1156,
+            "line": 933,
             "itemtype": "method",
             "name": "lerp",
             "params": [
@@ -14787,7 +14795,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 1166,
+            "line": 943,
             "itemtype": "method",
             "name": "cos",
             "return": {
@@ -14800,7 +14808,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 1177,
+            "line": 954,
             "itemtype": "method",
             "name": "cosh",
             "return": {
@@ -14813,7 +14821,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 1185,
+            "line": 962,
             "itemtype": "method",
             "name": "distanceTo",
             "params": [
@@ -14833,7 +14841,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 1197,
+            "line": 975,
             "itemtype": "method",
             "name": "equals",
             "params": [
@@ -14853,7 +14861,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 1206,
+            "line": 1005,
             "itemtype": "method",
             "name": "exp",
             "return": {
@@ -14866,22 +14874,21 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 1225,
-            "description": "Computes the <em>inverse</em> of this multivector, if it exists.\ninv(A) = ~A / (A * ~A)",
+            "line": 1024,
+            "description": "Computes the <em>inverse</em> of this multivector, if it exists.",
             "itemtype": "method",
             "name": "inv",
             "return": {
                 "description": "",
                 "type": "Euclidean3"
             },
-            "beta": 1,
             "class": "Euclidean3",
             "module": "EIGHT",
             "submodule": "math"
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 1237,
+            "line": 1059,
             "itemtype": "method",
             "name": "log",
             "return": {
@@ -14894,7 +14901,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 1245,
+            "line": 1067,
             "description": "Computes the <em>square root</em> of the <em>squared norm</em>.",
             "itemtype": "method",
             "name": "magnitude",
@@ -14908,7 +14915,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 1258,
+            "line": 1080,
             "description": "Computes the magnitude of this Euclidean3. The magnitude is the square root of the quadrance.",
             "itemtype": "method",
             "name": "norm",
@@ -14922,7 +14929,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 1267,
+            "line": 1089,
             "description": "Computes the quadrance of this Euclidean3. The quadrance is the square of the magnitude.",
             "itemtype": "method",
             "name": "quad",
@@ -14936,7 +14943,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 1276,
+            "line": 1098,
             "itemtype": "method",
             "name": "quadraticBezier",
             "params": [
@@ -14966,7 +14973,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 1290,
+            "line": 1112,
             "itemtype": "method",
             "name": "squaredNorm",
             "return": {
@@ -14979,7 +14986,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 1302,
+            "line": 1124,
             "description": "Computes the <em>reflection</em> of this multivector in the plane with normal <code>n</code>.",
             "itemtype": "method",
             "name": "reflect",
@@ -15000,7 +15007,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 1314,
+            "line": 1136,
             "itemtype": "method",
             "name": "rotate",
             "params": [
@@ -15020,7 +15027,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 1343,
+            "line": 1165,
             "itemtype": "method",
             "name": "sin",
             "return": {
@@ -15033,7 +15040,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 1354,
+            "line": 1176,
             "itemtype": "method",
             "name": "sinh",
             "return": {
@@ -15046,7 +15053,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 1362,
+            "line": 1184,
             "itemtype": "method",
             "name": "slerp",
             "params": [
@@ -15071,7 +15078,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 1372,
+            "line": 1194,
             "itemtype": "method",
             "name": "sqrt",
             "return": {
@@ -15084,7 +15091,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 1380,
+            "line": 1202,
             "itemtype": "method",
             "name": "tan",
             "return": {
@@ -15097,7 +15104,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 1388,
+            "line": 1210,
             "description": "Intentionally undocumented.",
             "class": "Euclidean3",
             "module": "EIGHT",
@@ -15105,7 +15112,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 1407,
+            "line": 1229,
             "itemtype": "method",
             "name": "toExponential",
             "return": {
@@ -15118,7 +15125,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 1416,
+            "line": 1238,
             "itemtype": "method",
             "name": "toFixed",
             "params": [
@@ -15139,7 +15146,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 1426,
+            "line": 1248,
             "itemtype": "method",
             "name": "toString",
             "return": {
@@ -15152,7 +15159,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 1435,
+            "line": 1257,
             "description": "Provides access to the internals of Euclidean3 in order to use `product` functions.",
             "class": "Euclidean3",
             "module": "EIGHT",
@@ -15160,7 +15167,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 1474,
+            "line": 1296,
             "itemtype": "method",
             "name": "copy",
             "params": [
@@ -15181,7 +15188,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 1489,
+            "line": 1311,
             "itemtype": "method",
             "name": "fromSpinorE3",
             "params": [
@@ -15202,7 +15209,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 1504,
+            "line": 1326,
             "itemtype": "method",
             "name": "fromVectorE3",
             "params": [
@@ -25682,6 +25689,13 @@
             "module": "EIGHT"
         },
         {
+            "file": "src/davinci-eight/math/gauss.ts",
+            "line": 61,
+            "description": "Gaussian elimination\nAx = b",
+            "class": "Arrow",
+            "module": "EIGHT"
+        },
+        {
             "file": "src/davinci-eight/math/inv2x2.ts",
             "line": 1,
             "description": "Computes the inverse of a 2x2 (square) matrix where the elements are assumed to be in column-major order.",
@@ -26890,27 +26904,27 @@
         },
         {
             "message": "Missing item type\n~ (tilde) produces reversion.",
-            "line": " src/davinci-eight/math/Euclidean2.ts:829"
+            "line": " src/davinci-eight/math/Euclidean2.ts:783"
         },
         {
             "message": "Missing item type\nIntentionally undocumented.",
-            "line": " src/davinci-eight/math/Euclidean2.ts:921"
+            "line": " src/davinci-eight/math/Euclidean2.ts:883"
         },
         {
             "message": "Missing item type\nThe Euclidean3 class represents a multivector for a 3-dimensional vector space with a Euclidean metric.\nConstructs a Euclidean3 from its coordinates.",
-            "line": " src/davinci-eight/math/Euclidean3.ts:427"
+            "line": " src/davinci-eight/math/Euclidean3.ts:235"
         },
         {
             "message": "Missing item type\nIntentionally undocumented",
-            "line": " src/davinci-eight/math/Euclidean3.ts:1097"
+            "line": " src/davinci-eight/math/Euclidean3.ts:874"
         },
         {
             "message": "Missing item type\nIntentionally undocumented.",
-            "line": " src/davinci-eight/math/Euclidean3.ts:1388"
+            "line": " src/davinci-eight/math/Euclidean3.ts:1210"
         },
         {
             "message": "Missing item type\nProvides access to the internals of Euclidean3 in order to use `product` functions.",
-            "line": " src/davinci-eight/math/Euclidean3.ts:1435"
+            "line": " src/davinci-eight/math/Euclidean3.ts:1257"
         },
         {
             "message": "Missing item type\nCoordinates corresponding to basis labels.",
@@ -27279,6 +27293,10 @@
         {
             "message": "Missing item type\nComputes the dot product of the Cartesian components in a Euclidean metric",
             "line": " src/davinci-eight/math/dotVectorCartesianE3.ts:1"
+        },
+        {
+            "message": "Missing item type\nGaussian elimination\nAx = b",
+            "line": " src/davinci-eight/math/gauss.ts:61"
         },
         {
             "message": "Missing item type\nComputes the inverse of a 2x2 (square) matrix where the elements are assumed to be in column-major order.",

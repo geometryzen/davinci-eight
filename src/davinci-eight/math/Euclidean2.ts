@@ -1,24 +1,19 @@
 import b2 from '../geometries/b2';
 import b3 from '../geometries/b3';
 import extE2 from './extE2';
+import gauss from './gauss';
 import GeometricElement from './GeometricElement';
 import GeometricOperators from './GeometricOperators';
 import GeometricE2 from './GeometricE2';
-import isDefined from '../checks/isDefined';
 import lcoE2 from './lcoE2';
 import rcoE2 from './rcoE2';
 import ImmutableMeasure from './ImmutableMeasure';
-import Mat4R from './Mat4R';
 import mulE2 from './mulE2';
-import mustBeInteger from '../checks/mustBeInteger';
-import mustBeNumber from '../checks/mustBeNumber';
 import notImplemented from '../i18n/notImplemented';
 import readOnly from '../i18n/readOnly';
-import R4 from './R4'
 import scpE2 from './scpE2';
 import SpinorE2 from './SpinorE2';
 import stringFromCoordinates from './stringFromCoordinates';
-import tauR4 from './tauR4';
 import TrigMethods from './TrigMethods';
 import Unit from './Unit';
 import VectorE2 from './VectorE2';
@@ -27,29 +22,6 @@ import VectorE2 from './VectorE2';
  * @module EIGHT
  * @submodule math
  */
-
-const exp = Math.exp
-const cos = Math.cos
-const sin = Math.sin
-const sqrt = Math.sqrt
-
-function assertArgEuclidean2(name: string, arg: Euclidean2): Euclidean2 {
-    if (arg instanceof Euclidean2) {
-        return arg;
-    }
-    else {
-        throw new Error("Argument '" + arg + "' must be a Euclidean2");
-    }
-}
-
-function assertArgUnitOrUndefined(name: string, uom: Unit): Unit {
-    if (typeof uom === 'undefined' || uom instanceof Unit) {
-        return uom;
-    }
-    else {
-        throw new Error("Argument '" + uom + "' must be a Unit or undefined");
-    }
-}
 
 function add00(a00: number, a01: number, a10: number, a11: number, b00: number, b01: number, b10: number, b11: number): number {
     a00 = +a00;
@@ -317,11 +289,11 @@ export default class Euclidean2 implements ImmutableMeasure<Euclidean2>, Geometr
      * @param [uom] The optional unit of measure.
      */
     constructor(α: number, x: number, y: number, β: number, uom?: Unit) {
-        this._w = mustBeNumber('α', α);
-        this._x = mustBeNumber('x', x);
-        this._y = mustBeNumber('y', y);
-        this.xy = mustBeNumber('β', β);
-        this.uom = assertArgUnitOrUndefined('uom', uom);
+        this._w = α
+        this._x = x
+        this._y = y
+        this.xy = β
+        this.uom = uom
         if (this.uom && this.uom.multiplier !== 1) {
             const multiplier: number = this.uom.multiplier;
             this._w *= multiplier;
@@ -388,21 +360,11 @@ export default class Euclidean2 implements ImmutableMeasure<Euclidean2>, Geometr
 
     // FIXME: Replace x & y with a VectorE2, a
     fromCartesian(α: number, x: number, y: number, β: number, uom: Unit): Euclidean2 {
-        mustBeNumber('α', α)
-        mustBeNumber('x', x)
-        mustBeNumber('y', y)
-        mustBeNumber('β', β)
-        assertArgUnitOrUndefined('uom', uom)
         return new Euclidean2(α, x, y, β, uom)
     }
 
     fromPolar(α: number, r: number, θ: number, β: number, uom: Unit): Euclidean2 {
-        mustBeNumber('α', α)
-        mustBeNumber('r', r)
-        mustBeNumber('θ', θ)
-        mustBeNumber('β', β)
-        assertArgUnitOrUndefined('uom', uom)
-        return new Euclidean2(α, r * cos(θ), r * sin(θ), β, uom)
+        return new Euclidean2(α, r * Math.cos(θ), r * Math.sin(θ), β, uom)
     }
 
     get coords(): number[] {
@@ -410,7 +372,6 @@ export default class Euclidean2 implements ImmutableMeasure<Euclidean2>, Geometr
     }
 
     coordinate(index: number): number {
-        mustBeNumber('index', index);
         switch (index) {
             case 0:
                 return this._w;
@@ -443,7 +404,6 @@ export default class Euclidean2 implements ImmutableMeasure<Euclidean2>, Geometr
     }
 
     add(rhs: Euclidean2): Euclidean2 {
-        assertArgEuclidean2('rhs', rhs);
         var xs = Euclidean2.add(this.coords, rhs.coords);
         return new Euclidean2(xs[0], xs[1], xs[2], xs[3], Unit.compatible(this.uom, rhs.uom));
     }
@@ -547,7 +507,6 @@ export default class Euclidean2 implements ImmutableMeasure<Euclidean2>, Geometr
     }
 
     sub(rhs: Euclidean2): Euclidean2 {
-        assertArgEuclidean2('rhs', rhs);
         var xs = Euclidean2.sub(this.coords, rhs.coords);
         return new Euclidean2(xs[0], xs[1], xs[2], xs[3], Unit.compatible(this.uom, rhs.uom));
     }
@@ -571,7 +530,6 @@ export default class Euclidean2 implements ImmutableMeasure<Euclidean2>, Geometr
     }
 
     mul(rhs: Euclidean2): Euclidean2 {
-        assertArgEuclidean2('rhs', rhs)
         const a0 = this._w
         const a1 = this._x
         const a2 = this._y
@@ -613,7 +571,6 @@ export default class Euclidean2 implements ImmutableMeasure<Euclidean2>, Geometr
     }
 
     div(rhs: Euclidean2): Euclidean2 {
-        assertArgEuclidean2('rhs', rhs);
         return this.mul(rhs.inv())
     }
 
@@ -631,27 +588,27 @@ export default class Euclidean2 implements ImmutableMeasure<Euclidean2>, Geometr
         }
     }
 
-    __rdiv__(other: any): Euclidean2 {
+    __rdiv__(other: number | Euclidean2): Euclidean2 {
         if (other instanceof Euclidean2) {
-            var lhs: Euclidean2 = other;
-            return lhs.div(this);
+            return other.div(this);
         }
         else if (typeof other === 'number') {
-            var w: number = other;
-            return new Euclidean2(w, 0, 0, 0, undefined).div(this);
+            return new Euclidean2(other, 0, 0, 0, undefined).div(this);
         }
     }
 
     scp(rhs: Euclidean2): Euclidean2 {
-        assertArgEuclidean2('rhs', rhs)
-        const a0 = this._w
-        const a1 = this._x
-        const a2 = this._y
-        const a3 = this.xy
-        const b0 = this._w
-        const b1 = this._x
-        const b2 = this._y
-        const b3 = this.xy
+
+        const a0 = this.α
+        const a1 = this.x
+        const a2 = this.y
+        const a3 = this.β
+
+        const b0 = rhs.α
+        const b1 = rhs.x
+        const b2 = rhs.y
+        const b3 = rhs.β
+
         const c0 = scpE2(a0, a1, a2, a3, b0, b1, b2, b3, 0)
         return new Euclidean2(c0, 0, 0, 0, Unit.mul(this.uom, rhs.uom))
     }
@@ -673,7 +630,6 @@ export default class Euclidean2 implements ImmutableMeasure<Euclidean2>, Geometr
     }
 
     ext(rhs: Euclidean2): Euclidean2 {
-        assertArgEuclidean2('rhs', rhs);
         var xs = Euclidean2.ext(this.coords, rhs.coords);
         return new Euclidean2(xs[0], xs[1], xs[2], xs[3], Unit.mul(this.uom, rhs.uom));
     }
@@ -721,7 +677,6 @@ export default class Euclidean2 implements ImmutableMeasure<Euclidean2>, Geometr
     }
 
     lco(rhs: Euclidean2): Euclidean2 {
-        assertArgEuclidean2('rhs', rhs);
         var xs = Euclidean2.lshift(this.coords, rhs.coords);
         return new Euclidean2(xs[0], xs[1], xs[2], xs[3], Unit.mul(this.uom, rhs.uom));
     }
@@ -765,7 +720,6 @@ export default class Euclidean2 implements ImmutableMeasure<Euclidean2>, Geometr
     }
 
     rco(rhs: Euclidean2): Euclidean2 {
-        assertArgEuclidean2('rhs', rhs);
         var xs = Euclidean2.rshift(this.coords, rhs.coords);
         return new Euclidean2(xs[0], xs[1], xs[2], xs[3], Unit.mul(this.uom, rhs.uom));
     }
@@ -834,7 +788,6 @@ export default class Euclidean2 implements ImmutableMeasure<Euclidean2>, Geometr
     }
 
     grade(grade: number): Euclidean2 {
-        mustBeInteger('grade', grade);
         switch (grade) {
             case 0:
                 return new Euclidean2(this._w, 0, 0, 0, this.uom);
@@ -857,27 +810,36 @@ export default class Euclidean2 implements ImmutableMeasure<Euclidean2>, Geometr
 
     exp(): Euclidean2 {
         Unit.assertDimensionless(this.uom);
-        var expα = exp(this._w);
-        var cosβ = cos(this.β);
-        var sinβ = sin(this.β);
+        var expα = Math.exp(this._w);
+        var cosβ = Math.cos(this.β);
+        var sinβ = Math.sin(this.β);
         return new Euclidean2(expα * cosβ, 0, 0, expα * sinβ, this.uom);
     }
 
     /**
+     * Computes the <em>inverse</em> of this multivector, if it exists.
+     *
      * @method inv
      * @return {Euclidean2}
      */
     inv(): Euclidean2 {
-        const matrix = Mat4R.zero()
-        tauR4(this.α, this.x, this.y, this.β, matrix)
-        matrix.inv()
-        const X = new R4([1, 0, 0, 0]).applyMatrix(matrix)
-        const α = X.getComponent(0)
-        const x = X.getComponent(1)
-        const y = X.getComponent(2)
-        const β = X.getComponent(3)
+
+        const α = this.α
+        const x = this.x
+        const y = this.y
+        const β = this.β
+
+        const A = [
+            [α, x, y, -β],
+            [x, α, β, -y],
+            [y, -β, α, x],
+            [β, -y, x, α]
+        ]
+        const b = [1, 0, 0, 0]
+
+        const X = gauss(A, b)
         const uom = this.uom ? this.uom.inv() : void 0
-        return new Euclidean2(α, x, y, β, uom)
+        return new Euclidean2(X[0], X[1], X[2], X[3], uom);
     }
 
     log(): Euclidean2 {
@@ -895,7 +857,7 @@ export default class Euclidean2 implements ImmutableMeasure<Euclidean2>, Geometr
     }
 
     magnitudeSansUnits(): number {
-        return sqrt(this.squaredNormSansUnits())
+        return Math.sqrt(this.squaredNormSansUnits())
     }
 
     norm(): Euclidean2 {
@@ -1058,7 +1020,7 @@ export default class Euclidean2 implements ImmutableMeasure<Euclidean2>, Geometr
      * @static
      */
     static fromVectorE2(vector: VectorE2): Euclidean2 {
-        if (isDefined(vector)) {
+        if (vector) {
             if (vector instanceof Euclidean2) {
                 return new Euclidean2(0, vector.x, vector.y, 0, vector.uom)
             }

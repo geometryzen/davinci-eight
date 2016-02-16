@@ -511,7 +511,10 @@ declare module EIGHT {
         β: number
         uom: Unit
         direction(): Euclidean2
+        inv(): Euclidean2
+        isZero(): boolean
         magnitude(): Euclidean2
+        scp(rhs: Euclidean2): Euclidean2
         toExponential(): string;
         toFixed(digits?: number): string;
         toString(): string;

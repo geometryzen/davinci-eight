@@ -3,14 +3,11 @@ import b2 from '../geometries/b2';
 import b3 from '../geometries/b3';
 import extG3 from '../math/extG3';
 import GeometricE3 from '../math/GeometricE3';
-import isDefined from '../checks/isDefined';
 import lcoG3 from '../math/lcoG3';
 import GeometricOperators from '../math/GeometricOperators';
 import ImmutableMeasure from '../math/ImmutableMeasure';
-import mulE3 from '../math/mulE3';
 import mulG3 from '../math/mulG3';
-import mustBeInteger from '../checks/mustBeInteger';
-import mustBeNumber from '../checks/mustBeNumber';
+import gauss from './gauss';
 import GeometricElement from '../math/GeometricElement';
 import notImplemented from '../i18n/notImplemented';
 import rcoG3 from '../math/rcoG3';
@@ -32,28 +29,6 @@ import BASIS_LABELS_G3_STANDARD_HTML from '../math/BASIS_LABELS_G3_STANDARD_HTML
  * @module EIGHT
  * @submodule math
  */
-
-const cos = Math.cos;
-const sin = Math.sin;
-const sqrt = Math.sqrt;
-
-function assertArgEuclidean3(name: string, arg: Euclidean3): Euclidean3 {
-    if (arg instanceof Euclidean3) {
-        return arg;
-    }
-    else {
-        throw new Error("Argument '" + arg + "' must be a Euclidean3");
-    }
-}
-
-function assertArgUnitOrUndefined(name: string, uom: Unit): Unit {
-    if (typeof uom === 'undefined' || uom instanceof Unit) {
-        return uom;
-    }
-    else {
-        throw new Error("Argument '" + uom + "' must be a Unit or undefined");
-    }
-}
 
 function compute(
     f: (x0: number, x1: number, x2: number, x3: number, x4: number, x5: number, x6: number, x7: number, y0: number, y1: number, y2: number, y3: number, y4: number, y5: number, y6: number, y7: number, index: number) => number,
@@ -88,173 +63,6 @@ function compute(
     var x7 = f(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 7);
     return pack(x0, x1, x2, x3, x4, x5, x6, x7, uom);
 }
-
-// FIXME: Need to use tensor representations to find inverse, if it exists.
-// I don't remember how I came up with this, but part was Hestenes NFCM problem (7.2) p38.
-// Let A = α + a, where a is a non-zero vector.
-// Find inv(A) as a function of α and a.
-// etc
-// Perwass describes how to convert multivectors to a tensor representation and then use
-// matrices to find inverses. Essentially we are invoking theorems on the determinant
-// which apply to the antisymmetric product.
-var divide = function(
-    a000: number,  // a.w
-    a001: number,  // a.x
-    a010: number,  // a.y
-    a011: number,  // a.xy
-    a100: number,  // a.z
-    a101: number,  // -a.zx or a.xz
-    a110: number,  // a.yz
-    a111: number,  // a.xyz
-    b000: number,  // b.w
-    b001: number,  // b.x
-    b010: number,  // b.y
-    b011: number,  // b.xy
-    b100: number,  // b.z
-    b101: number,  // -b.zx or b.xz
-    b110: number,  // b.yz
-    b111: number,  // b.xyz
-    uom: Unit) {
-    var c000: number;
-    var c001: number;
-    var c010: number;
-    var c011: number;
-    var c100: number;
-    var c101: number;
-    var c110: number;
-    var c111: number;
-    var i000: number;
-    var i001: number;
-    var i010: number;
-    var i011: number;
-    var i100: number;
-    var i101: number;
-    var i110: number;
-    var i111: number;
-    var k000: number;
-    var m000: number;
-    var m001: number;
-    var m010: number;
-    var m011: number;
-    var m100: number;
-    var m101: number;
-    var m110: number;
-    var m111: number;
-    var r000: number;
-    var r001: number;
-    var r010: number;
-    var r011: number;
-    var r100: number;
-    var r101: number;
-    var r110: number;
-    var r111: number;
-    var s000: number;
-    var s001: number;
-    var s010: number;
-    var s011: number;
-    var s100: number;
-    var s101: number;
-    var s110: number;
-    var s111: number;
-    var w: number;
-    var x: number;
-    var x000: number;
-    var x001: number;
-    var x010: number;
-    var x011: number;
-    var x100: number;
-    var x101: number;
-    var x110: number;
-    var x111: number;
-    var xy: number;
-    var β: number;
-    var y: number;
-    var yz: number;
-    var z: number;
-    var zx: number;
-
-    // This looks like the reversion of b, but there is a strange sign flip for zx
-    // r = ~b
-    r000 = +b000;  // => b.w
-    r001 = +b001;  // => b.x
-    r010 = +b010;  // => b.y
-    r011 = -b011;  // => -b.xy
-    r100 = +b100;  // => b.z
-    r101 = -b101;  // => +b.zx
-    r110 = -b110;  // => -b.yz
-    r111 = -b111;  // => -b.xyz
-
-    // m = (b * r) grades 0 and 1
-    m000 = mulE3(b000, b001, b010, b100, b011, b110, -b101, b111, r000, r001, r010, r100, r011, r110, -r101, r111, 0);
-    m001 = mulE3(b000, b001, b010, b100, b011, b110, -b101, b111, r000, r001, r010, r100, r011, r110, -r101, r111, 1);
-    m010 = mulE3(b000, b001, b010, b100, b011, b110, -b101, b111, r000, r001, r010, r100, r011, r110, -r101, r111, 2);
-    m011 = 0;
-    m100 = mulE3(b000, b001, b010, b100, b011, b110, -b101, b111, r000, r001, r010, r100, r011, r110, -r101, r111, 3);
-    m101 = 0;
-    m110 = 0;
-    m111 = 0;
-
-    // Clifford conjugation.
-    // c = cc(m)
-    c000 = +m000;
-    c001 = -m001;
-    c010 = -m010;
-    c011 = -m011;
-    c100 = -m100;
-    c101 = -m101;
-    c110 = -m110;
-    c111 = +m111;
-
-    // s = r * c
-    s000 = mulE3(r000, r001, r010, r100, r011, r110, -r101, r111, c000, c001, c010, c100, c011, c110, -c101, c111, 0);
-    s001 = mulE3(r000, r001, r010, r100, r011, r110, -r101, r111, c000, c001, c010, c100, c011, c110, -c101, c111, 1);
-    s010 = mulE3(r000, r001, r010, r100, r011, r110, -r101, r111, c000, c001, c010, c100, c011, c110, -c101, c111, 2);
-    s011 = mulE3(r000, r001, r010, r100, r011, r110, -r101, r111, c000, c001, c010, c100, c011, c110, -c101, c111, 4);
-    s100 = mulE3(r000, r001, r010, r100, r011, r110, -r101, r111, c000, c001, c010, c100, c011, c110, -c101, c111, 3);
-    s101 = -mulE3(r000, r001, r010, r100, r011, r110, -r101, r111, c000, c001, c010, c100, c011, c110, -c101, c111, 6);
-    s110 = mulE3(r000, r001, r010, r100, r011, r110, -r101, r111, c000, c001, c010, c100, c011, c110, -c101, c111, 5);
-    s111 = mulE3(r000, r001, r010, r100, r011, r110, -r101, r111, c000, c001, c010, c100, c011, c110, -c101, c111, 7);
-
-    // k = (b * s), grade 0 part
-    k000 = mulE3(b000, b001, b010, b100, b011, b110, -b101, b111, s000, s001, s010, s100, s011, s110, -s101, s111, 0);
-
-    // i = s / k
-    i000 = s000 / k000;
-    i001 = s001 / k000;
-    i010 = s010 / k000;
-    i011 = s011 / k000;
-    i100 = s100 / k000;
-    i101 = s101 / k000;
-    i110 = s110 / k000;
-    i111 = s111 / k000;
-
-    // x = a * i
-    x000 = mulE3(a000, a001, a010, a100, a011, a110, -a101, a111, i000, i001, i010, i100, i011, i110, -i101, i111, 0);
-    x001 = mulE3(a000, a001, a010, a100, a011, a110, -a101, a111, i000, i001, i010, i100, i011, i110, -i101, i111, 1);
-    x010 = mulE3(a000, a001, a010, a100, a011, a110, -a101, a111, i000, i001, i010, i100, i011, i110, -i101, i111, 2);
-    x011 = mulE3(a000, a001, a010, a100, a011, a110, -a101, a111, i000, i001, i010, i100, i011, i110, -i101, i111, 4);
-    x100 = mulE3(a000, a001, a010, a100, a011, a110, -a101, a111, i000, i001, i010, i100, i011, i110, -i101, i111, 3);
-    x101 = -mulE3(a000, a001, a010, a100, a011, a110, -a101, a111, i000, i001, i010, i100, i011, i110, -i101, i111, 6);
-    x110 = mulE3(a000, a001, a010, a100, a011, a110, -a101, a111, i000, i001, i010, i100, i011, i110, -i101, i111, 5);
-    x111 = mulE3(a000, a001, a010, a100, a011, a110, -a101, a111, i000, i001, i010, i100, i011, i110, -i101, i111, 7);
-
-    // this = x
-    //      = a * i
-    //      = a * s / k
-    //      = a * s / grade(b * s, 0)
-    //      = a * r * c / grade(b * r * c, 0)
-    //      = a * r * cc(b * r) / grade(b * r * cc(b * r), 0)
-    //      = a * ~b * cc(b * ~b) / grade(b * ~b * cc(b * ~b), 0)
-    w = x000;
-    x = x001;
-    y = x010;
-    z = x100;
-    xy = x011;
-    yz = x110;
-    zx = -x101;
-    β = x111;
-    return new Euclidean3(w, x, y, z, xy, yz, zx, β, uom);
-};
 
 /**
  * @class Euclidean3
@@ -439,15 +247,15 @@ export default class Euclidean3 implements ImmutableMeasure<Euclidean3>, Geometr
      * @param uom The optional unit of measure.
      */
     constructor(α: number, x: number, y: number, z: number, xy: number, yz: number, zx: number, β: number, uom?: Unit) {
-        this.w = mustBeNumber('α', α);
-        this.x = mustBeNumber('x', x);
-        this.y = mustBeNumber('y', y);
-        this.z = mustBeNumber('z', z);
-        this.xy = mustBeNumber('xy', xy);
-        this.yz = mustBeNumber('yz', yz);
-        this.zx = mustBeNumber('zx', zx);
-        this.xyz = mustBeNumber('β', β);
-        this.uom = assertArgUnitOrUndefined('uom', uom);
+        this.w = α
+        this.x = x
+        this.y = y
+        this.z = z
+        this.xy = xy
+        this.yz = yz
+        this.zx = zx
+        this.xyz = β
+        this.uom = uom
         if (this.uom && this.uom.multiplier !== 1) {
             var multiplier: number = this.uom.multiplier;
             this.w *= multiplier;
@@ -502,15 +310,6 @@ export default class Euclidean3 implements ImmutableMeasure<Euclidean3>, Geometr
      * @static
      */
     static fromCartesian(α: number, x: number, y: number, z: number, xy: number, yz: number, zx: number, β: number, uom: Unit): Euclidean3 {
-        mustBeNumber('α', α)
-        mustBeNumber('x', x)
-        mustBeNumber('y', y)
-        mustBeNumber('z', z)
-        mustBeNumber('xy', xy)
-        mustBeNumber('yz', yz)
-        mustBeNumber('zx', zx)
-        mustBeNumber('β', β)
-        assertArgUnitOrUndefined('uom', uom)
         return new Euclidean3(α, x, y, z, xy, yz, zx, β, uom)
     }
 
@@ -528,7 +327,6 @@ export default class Euclidean3 implements ImmutableMeasure<Euclidean3>, Geometr
      * @return {number}
      */
     coordinate(index: number): number {
-        mustBeNumber('index', index);
         switch (index) {
             case 0:
                 return this.w;
@@ -576,16 +374,7 @@ export default class Euclidean3 implements ImmutableMeasure<Euclidean3>, Geometr
      * @chainable
      */
     addPseudo(β: number): Euclidean3 {
-        if (isDefined(β)) {
-            mustBeNumber('β', β)
-            return new Euclidean3(this.w, this.x, this.y, this.z, this.xy, this.yz, this.zx, this.xyz + β, this.uom)
-        }
-        else {
-            // Consider returning an undefined sentinel?
-            // This would allow chained methods to continue.
-            // The first check might then be isNumber. 
-            return void 0
-        }
+        return new Euclidean3(this.w, this.x, this.y, this.z, this.xy, this.yz, this.zx, this.xyz + β, this.uom)
     }
 
     /**
@@ -596,25 +385,16 @@ export default class Euclidean3 implements ImmutableMeasure<Euclidean3>, Geometr
      * @chainable
      */
     addScalar(α: number): Euclidean3 {
-        if (isDefined(α)) {
-            mustBeNumber('α', α)
-            return new Euclidean3(this.w + α, this.x, this.y, this.z, this.xy, this.yz, this.zx, this.xyz, this.uom)
-        }
-        else {
-            // Consider returning an undefined sentinel?
-            // This would allow chained methods to continue.
-            // The first check might then be isNumber. 
-            return void 0
-        }
+        return new Euclidean3(this.w + α, this.x, this.y, this.z, this.xy, this.yz, this.zx, this.xyz, this.uom)
     }
 
     /**
      * @method __add__
-     * @param rhs {any}
+     * @param rhs {number | Euclidean3}
      * @return {Euclidean3}
      * @private
      */
-    __add__(rhs: any): Euclidean3 {
+    __add__(rhs: number | Euclidean3): Euclidean3 {
         if (rhs instanceof Euclidean3) {
             return this.add(rhs);
         }
@@ -625,11 +405,11 @@ export default class Euclidean3 implements ImmutableMeasure<Euclidean3>, Geometr
 
     /**
      * @method __radd__
-     * @param lhs {any}
+     * @param lhs {number | Euclidean3}
      * @return {Euclidean3}
      * @private
      */
-    __radd__(lhs: any): Euclidean3 {
+    __radd__(lhs: number | Euclidean3): Euclidean3 {
         if (lhs instanceof Euclidean3) {
             return lhs.add(this)
         }
@@ -792,8 +572,7 @@ export default class Euclidean3 implements ImmutableMeasure<Euclidean3>, Geometr
      * @return {Euclidean3}
      */
     div(rhs: Euclidean3): Euclidean3 {
-        assertArgEuclidean3('rhs', rhs);
-        return divide(this.w, this.x, this.y, this.xy, this.z, -this.zx, this.yz, this.xyz, rhs.w, rhs.x, rhs.y, rhs.xy, rhs.z, -rhs.zx, rhs.yz, rhs.xyz, Unit.div(this.uom, rhs.uom));
+        return this.mul(rhs.inv())
     }
 
     /**
@@ -1015,7 +794,6 @@ export default class Euclidean3 implements ImmutableMeasure<Euclidean3>, Geometr
      * @beta
      */
     pow(exponent: Euclidean3): Euclidean3 {
-        // assertArgEuclidean3('exponent', exponent);
         throw new Error('pow');
     }
 
@@ -1079,7 +857,6 @@ export default class Euclidean3 implements ImmutableMeasure<Euclidean3>, Geometr
      * @return {Euclidean3}
      */
     grade(grade: number): Euclidean3 {
-        mustBeInteger('grade', grade);
         switch (grade) {
             case 0:
                 return Euclidean3.fromCartesian(this.w, 0, 0, 0, 0, 0, 0, 0, this.uom);
@@ -1170,7 +947,7 @@ export default class Euclidean3 implements ImmutableMeasure<Euclidean3>, Geometr
     cos(): Euclidean3 {
         // TODO: Generalize to full multivector.
         Unit.assertDimensionless(this.uom);
-        const cosW = cos(this.w);
+        const cosW = Math.cos(this.w);
         return new Euclidean3(cosW, 0, 0, 0, 0, 0, 0, 0, void 0);
     }
 
@@ -1188,10 +965,11 @@ export default class Euclidean3 implements ImmutableMeasure<Euclidean3>, Geometr
      * @return {number}
      */
     distanceTo(point: Euclidean3): number {
+        // TODO: Should this be generalized to all coordinates?
         const dx = this.x - point.x;
         const dy = this.y - point.y;
         const dz = this.z - point.z;
-        return sqrt(dx * dx + dy * dy + dz * dz);
+        return Math.sqrt(dx * dx + dy * dy + dz * dz);
     }
 
     /**
@@ -1200,7 +978,28 @@ export default class Euclidean3 implements ImmutableMeasure<Euclidean3>, Geometr
      * @return {boolean}
      */
     equals(other: Euclidean3): boolean {
-        throw new Error(notImplemented('equals').message)
+        if (this.α === other.α && this.x === other.x && this.y === other.y && this.z === other.z && this.xy === other.xy && this.yz === other.yz && this.zx === other.zx && this.xyz === other.xyz) {
+            if (this.uom) {
+                if (other.uom) {
+                    // TODO: We need equals on
+                    return true
+                }
+                else {
+                    return false
+                }
+            }
+            else {
+                if (other.uom) {
+                    return false
+                }
+                else {
+                    return true
+                }
+            }
+        }
+        else {
+            return false
+        }
     }
 
     /**
@@ -1224,14 +1023,37 @@ export default class Euclidean3 implements ImmutableMeasure<Euclidean3>, Geometr
 
     /**
      * Computes the <em>inverse</em> of this multivector, if it exists.
-     * inv(A) = ~A / (A * ~A)
      * @method inv
      * @return {Euclidean3}
-     * @beta
      */
     inv(): Euclidean3 {
-        // FIXME: This is not the definition above.
-        return this.rev().divByScalar(this.squaredNormSansUnits())
+
+        const α = this.α
+        const x = this.x
+        const y = this.y
+        const z = this.z
+        const xy = this.xy
+        const yz = this.yz
+        const zx = this.zx
+        const β = this.β
+
+        const A = [
+            [α, x, y, z, -xy, -yz, -zx, -β],
+            [x, α, xy, -zx, -y, -β, z, -yz],
+            [y, -xy, α, yz, x, -z, -β, -zx],
+            [z, zx, -yz, α, -β, y, -x, -xy],
+            [xy, -y, x, β, α, zx, -yz, z],
+            [yz, β, -z, y, -zx, α, xy, x],
+            [zx, z, β, -x, yz, -xy, α, y],
+            [β, yz, zx, xy, z, x, y, α]
+        ]
+
+        const b = [1, 0, 0, 0, 0, 0, 0, 0]
+
+        const X = gauss(A, b)
+
+        const uom = this.uom ? this.uom.inv() : void 0
+        return new Euclidean3(X[0], X[1], X[2], X[3], X[4], X[5], X[6], X[7], uom);
     }
 
     /**
@@ -1252,7 +1074,7 @@ export default class Euclidean3 implements ImmutableMeasure<Euclidean3>, Geometr
     }
 
     magnitudeSansUnits(): number {
-        return sqrt(this.squaredNormSansUnits())
+        return Math.sqrt(this.squaredNormSansUnits())
     }
 
     /**
@@ -1347,7 +1169,7 @@ export default class Euclidean3 implements ImmutableMeasure<Euclidean3>, Geometr
     sin(): Euclidean3 {
         // TODO: Generalize to full multivector.
         Unit.assertDimensionless(this.uom);
-        const sinW = sin(this.w);
+        const sinW = Math.sin(this.w);
         return new Euclidean3(sinW, 0, 0, 0, 0, 0, 0, 0, void 0);
     }
 
@@ -1374,7 +1196,7 @@ export default class Euclidean3 implements ImmutableMeasure<Euclidean3>, Geometr
      * @return {Euclidean3}
      */
     sqrt() {
-        return new Euclidean3(sqrt(this.w), 0, 0, 0, 0, 0, 0, 0, Unit.sqrt(this.uom));
+        return new Euclidean3(Math.sqrt(this.w), 0, 0, 0, 0, 0, 0, 0, Unit.sqrt(this.uom));
     }
 
     /**
@@ -1493,7 +1315,7 @@ export default class Euclidean3 implements ImmutableMeasure<Euclidean3>, Geometr
      * @static
      */
     static fromSpinorE3(spinor: SpinorE3): Euclidean3 {
-        if (isDefined(spinor)) {
+        if (spinor) {
             return new Euclidean3(spinor.α, 0, 0, 0, spinor.xy, spinor.yz, spinor.zx, 0, void 0)
         }
         else {
@@ -1508,7 +1330,7 @@ export default class Euclidean3 implements ImmutableMeasure<Euclidean3>, Geometr
      * @static
      */
     static fromVectorE3(vector: VectorE3): Euclidean3 {
-        if (isDefined(vector)) {
+        if (vector) {
             return new Euclidean3(0, vector.x, vector.y, vector.z, 0, 0, 0, 0, void 0)
         }
         else {
