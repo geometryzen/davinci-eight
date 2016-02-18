@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.188.0</em>
+            <em>API Docs for: 2.189.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -267,11 +267,11 @@ export default class RigidBody extends Object3D {
      * @property axis
      * @type Euclidean3
      */
-    get axis(): Euclidean3 {
+    public get axis(): Euclidean3 {
         // The initial axis of the geometry is e2.
         return Euclidean3.e2.rotate(this.modelFacet.R)
     }
-    set axis(axis: Euclidean3) {
+    public set axis(axis: Euclidean3) {
         mustBeObject(&#x27;axis&#x27;, axis)
         this.modelFacet.R.rotorFromDirections(axis, Euclidean3.e2)
     }
@@ -329,6 +329,20 @@ export default class RigidBody extends Object3D {
     set X(X: Euclidean3) {
         mustBeObject(&#x27;X&#x27;, X, () =&gt; { return this._type })
         this.modelFacet.X.copyVector(X)
+    }
+
+    /**
+     * Position (vector)
+     *
+     * @property pos
+     * @type Euclidean3
+     */
+    get pos(): Euclidean3 {
+        return Euclidean3.copy(this.modelFacet.X)
+    }
+    set pos(pos: Euclidean3) {
+        mustBeObject(&#x27;pos&#x27;, pos, () =&gt; { return this._type })
+        this.modelFacet.X.copyVector(pos)
     }
 
     /**

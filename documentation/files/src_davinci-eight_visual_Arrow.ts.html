@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.188.0</em>
+            <em>API Docs for: 2.189.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -201,7 +201,9 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
+import Euclidean3 from &#x27;../math/Euclidean3&#x27;;
 import mustBeNumber from &#x27;../checks/mustBeNumber&#x27;;
+import mustBeObject from &#x27;../checks/mustBeObject&#x27;;
 import mustBeGE from &#x27;../checks/mustBeGE&#x27;;
 import visualCache from &#x27;./visualCache&#x27;;
 import VisualBody from &#x27;./VisualBody&#x27;
@@ -236,6 +238,16 @@ export default class Arrow extends VisualBody {
      */
     protected destructor(): void {
         super.destructor()
+    }
+
+    get axis(): Euclidean3 {
+        const direction = Euclidean3.e2.rotate(this.modelFacet.R)
+        return direction.scale(this.length)
+    }
+    set axis(axis: Euclidean3) {
+        mustBeObject(&#x27;axis&#x27;, axis)
+        this.modelFacet.R.rotorFromDirections(axis.direction(), Euclidean3.e2)
+        this.length = axis.magnitude().α
     }
 
     /**

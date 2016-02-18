@@ -4,6 +4,7 @@ import Cuboid from './Cuboid'
 import CuboidOptions from './CuboidOptions'
 import Cylinder from './Cylinder'
 import DrawList from './DrawList'
+import Euclidean3 from '../math/Euclidean3'
 import Facet from '../core/Facet'
 import isDefined from '../checks/isDefined'
 import Mesh from '../core/Mesh'
@@ -12,6 +13,7 @@ import readOnly from '../i18n/readOnly'
 import Shareable from '../core/Shareable'
 import Sphere from './Sphere'
 import TrackballControls from '../controls/TrackballControls'
+import VectorE3 from '../math/VectorE3'
 import WebGLRenderer from '../core/WebGLRenderer'
 
 /**
@@ -107,9 +109,25 @@ export default class World extends Shareable {
      * @method arrow
      * @return {Arrow}
      */
-    arrow(): Arrow {
+    arrow(
+        options: {
+            axis?: VectorE3;
+            color?: Color;
+            pos?: VectorE3;
+        } = {}): Arrow {
         const arrow = new Arrow()
-        arrow.color = Color.fromRGB(0.6, 0.6, 0.6)
+        if (options.axis) {
+            arrow.axis = Euclidean3.vector(options.axis.x, options.axis.y, options.axis.z)
+        }
+        if (options.color) {
+            arrow.color.copy(options.color)
+        }
+        else {
+            arrow.color = Color.fromRGB(0.6, 0.6, 0.6)
+        }
+        if (options.pos) {
+            arrow.pos = Euclidean3.vector(options.pos.x, options.pos.y, options.pos.z)
+        }
         this.drawList.add(arrow)
         arrow.release()
         return arrow
@@ -143,10 +161,23 @@ export default class World extends Shareable {
      * @method sphere
      * @return {Sphere}
      */
-    sphere(options: { radius?: number } = {}): Sphere {
+    sphere(
+        options: {
+            color?: Color;
+            pos?: VectorE3;
+            radius?: number;
+        } = {}): Sphere {
         const sphere = new Sphere()
+        if (options.pos) {
+            sphere.pos = Euclidean3.vector(options.pos.x, options.pos.y, options.pos.z)
+        }
         sphere.radius = isDefined(options.radius) ? mustBeNumber('radius', options.radius) : 0.5
-        sphere.color = Color.blue
+        if (options.color) {
+            sphere.color.copy(options.color)
+        }
+        else {
+            sphere.color = Color.blue
+        }
         this.drawList.add(sphere)
         sphere.release()
         return sphere

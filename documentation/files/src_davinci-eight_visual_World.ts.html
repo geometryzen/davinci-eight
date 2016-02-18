@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.188.0</em>
+            <em>API Docs for: 2.189.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -207,6 +207,7 @@ import Cuboid from &#x27;./Cuboid&#x27;
 import CuboidOptions from &#x27;./CuboidOptions&#x27;
 import Cylinder from &#x27;./Cylinder&#x27;
 import DrawList from &#x27;./DrawList&#x27;
+import Euclidean3 from &#x27;../math/Euclidean3&#x27;
 import Facet from &#x27;../core/Facet&#x27;
 import isDefined from &#x27;../checks/isDefined&#x27;
 import Mesh from &#x27;../core/Mesh&#x27;
@@ -215,6 +216,7 @@ import readOnly from &#x27;../i18n/readOnly&#x27;
 import Shareable from &#x27;../core/Shareable&#x27;
 import Sphere from &#x27;./Sphere&#x27;
 import TrackballControls from &#x27;../controls/TrackballControls&#x27;
+import VectorE3 from &#x27;../math/VectorE3&#x27;
 import WebGLRenderer from &#x27;../core/WebGLRenderer&#x27;
 
 /**
@@ -310,9 +312,25 @@ export default class World extends Shareable {
      * @method arrow
      * @return {Arrow}
      */
-    arrow(): Arrow {
+    arrow(
+        options: {
+            axis?: VectorE3;
+            color?: Color;
+            pos?: VectorE3;
+        } = {}): Arrow {
         const arrow = new Arrow()
-        arrow.color = Color.fromRGB(0.6, 0.6, 0.6)
+        if (options.axis) {
+            arrow.axis = Euclidean3.vector(options.axis.x, options.axis.y, options.axis.z)
+        }
+        if (options.color) {
+            arrow.color.copy(options.color)
+        }
+        else {
+            arrow.color = Color.fromRGB(0.6, 0.6, 0.6)
+        }
+        if (options.pos) {
+            arrow.pos = Euclidean3.vector(options.pos.x, options.pos.y, options.pos.z)
+        }
         this.drawList.add(arrow)
         arrow.release()
         return arrow
@@ -346,10 +364,23 @@ export default class World extends Shareable {
      * @method sphere
      * @return {Sphere}
      */
-    sphere(options: { radius?: number } = {}): Sphere {
+    sphere(
+        options: {
+            color?: Color;
+            pos?: VectorE3;
+            radius?: number;
+        } = {}): Sphere {
         const sphere = new Sphere()
+        if (options.pos) {
+            sphere.pos = Euclidean3.vector(options.pos.x, options.pos.y, options.pos.z)
+        }
         sphere.radius = isDefined(options.radius) ? mustBeNumber(&#x27;radius&#x27;, options.radius) : 0.5
-        sphere.color = Color.blue
+        if (options.color) {
+            sphere.color.copy(options.color)
+        }
+        else {
+            sphere.color = Color.blue
+        }
         this.drawList.add(sphere)
         sphere.release()
         return sphere

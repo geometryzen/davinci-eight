@@ -64,11 +64,11 @@ export default class RigidBody extends Object3D {
      * @property axis
      * @type Euclidean3
      */
-    get axis(): Euclidean3 {
+    public get axis(): Euclidean3 {
         // The initial axis of the geometry is e2.
         return Euclidean3.e2.rotate(this.modelFacet.R)
     }
-    set axis(axis: Euclidean3) {
+    public set axis(axis: Euclidean3) {
         mustBeObject('axis', axis)
         this.modelFacet.R.rotorFromDirections(axis, Euclidean3.e2)
     }
@@ -126,6 +126,20 @@ export default class RigidBody extends Object3D {
     set X(X: Euclidean3) {
         mustBeObject('X', X, () => { return this._type })
         this.modelFacet.X.copyVector(X)
+    }
+
+    /**
+     * Position (vector)
+     *
+     * @property pos
+     * @type Euclidean3
+     */
+    get pos(): Euclidean3 {
+        return Euclidean3.copy(this.modelFacet.X)
+    }
+    set pos(pos: Euclidean3) {
+        mustBeObject('pos', pos, () => { return this._type })
+        this.modelFacet.X.copyVector(pos)
     }
 
     /**

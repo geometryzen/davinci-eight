@@ -2,7 +2,7 @@
     "project": {
         "name": "davinci-eight",
         "description": "WebGL library for mathematical physics using Geometric Algebra",
-        "version": "2.188.0",
+        "version": "2.189.0",
         "url": ""
     },
     "files": {
@@ -1697,7 +1697,7 @@
             "fors": {},
             "namespaces": {},
             "file": "src/davinci-eight/visual/World.ts",
-            "line": 32
+            "line": 34
         },
         "controls": {
             "name": "controls",
@@ -1882,7 +1882,7 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/visual/World.ts",
-            "line": 32,
+            "line": 34,
             "description": "Convenient abstractions for Physics modeling."
         }
     },
@@ -3984,7 +3984,7 @@
             "submodule": "visual",
             "namespace": "",
             "file": "src/davinci-eight/visual/Arrow.ts",
-            "line": 18,
+            "line": 20,
             "extends": "VisualBody",
             "is_constructor": 1
         },
@@ -4163,7 +4163,7 @@
             "submodule": "visual",
             "namespace": "",
             "file": "src/davinci-eight/visual/World.ts",
-            "line": 32,
+            "line": 34,
             "extends": "Shareable",
             "is_constructor": 1
         }
@@ -26332,7 +26332,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Arrow.ts",
-            "line": 29,
+            "line": 31,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -26347,7 +26347,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Arrow.ts",
-            "line": 38,
+            "line": 50,
             "itemtype": "property",
             "name": "length",
             "type": "number",
@@ -26472,6 +26472,17 @@
         {
             "file": "src/davinci-eight/visual/RigidBody.ts",
             "line": 131,
+            "description": "Position (vector)",
+            "itemtype": "property",
+            "name": "pos",
+            "type": "Euclidean3",
+            "class": "RigidBody",
+            "module": "EIGHT",
+            "submodule": "visual"
+        },
+        {
+            "file": "src/davinci-eight/visual/RigidBody.ts",
+            "line": 145,
             "itemtype": "method",
             "name": "getScaleX",
             "return": {
@@ -26486,7 +26497,7 @@
         },
         {
             "file": "src/davinci-eight/visual/RigidBody.ts",
-            "line": 140,
+            "line": 154,
             "itemtype": "method",
             "name": "setScaleX",
             "params": [
@@ -26508,7 +26519,7 @@
         },
         {
             "file": "src/davinci-eight/visual/RigidBody.ts",
-            "line": 150,
+            "line": 164,
             "itemtype": "method",
             "name": "getScaleY",
             "return": {
@@ -26523,7 +26534,7 @@
         },
         {
             "file": "src/davinci-eight/visual/RigidBody.ts",
-            "line": 159,
+            "line": 173,
             "itemtype": "method",
             "name": "setScaleY",
             "params": [
@@ -26545,7 +26556,7 @@
         },
         {
             "file": "src/davinci-eight/visual/RigidBody.ts",
-            "line": 169,
+            "line": 183,
             "itemtype": "method",
             "name": "getScaleZ",
             "return": {
@@ -26560,7 +26571,7 @@
         },
         {
             "file": "src/davinci-eight/visual/RigidBody.ts",
-            "line": 178,
+            "line": 192,
             "itemtype": "method",
             "name": "setScaleZ",
             "params": [
@@ -26748,7 +26759,7 @@
         },
         {
             "file": "src/davinci-eight/visual/World.ts",
-            "line": 53,
+            "line": 55,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -26763,7 +26774,7 @@
         },
         {
             "file": "src/davinci-eight/visual/World.ts",
-            "line": 66,
+            "line": 68,
             "itemtype": "property",
             "name": "ambients",
             "type": "Facet[]",
@@ -26774,7 +26785,7 @@
         },
         {
             "file": "src/davinci-eight/visual/World.ts",
-            "line": 78,
+            "line": 80,
             "itemtype": "property",
             "name": "canvas",
             "type": "HTMLCanvasElement",
@@ -26785,7 +26796,7 @@
         },
         {
             "file": "src/davinci-eight/visual/World.ts",
-            "line": 90,
+            "line": 92,
             "itemtype": "property",
             "name": "controls",
             "type": "TrackballControls",
@@ -26796,7 +26807,7 @@
         },
         {
             "file": "src/davinci-eight/visual/World.ts",
-            "line": 106,
+            "line": 108,
             "itemtype": "method",
             "name": "arrow",
             "return": {
@@ -26809,7 +26820,7 @@
         },
         {
             "file": "src/davinci-eight/visual/World.ts",
-            "line": 118,
+            "line": 136,
             "itemtype": "method",
             "name": "cuboid",
             "return": {
@@ -26822,7 +26833,7 @@
         },
         {
             "file": "src/davinci-eight/visual/World.ts",
-            "line": 129,
+            "line": 147,
             "itemtype": "method",
             "name": "cylinder",
             "return": {
@@ -26835,7 +26846,7 @@
         },
         {
             "file": "src/davinci-eight/visual/World.ts",
-            "line": 142,
+            "line": 160,
             "itemtype": "method",
             "name": "sphere",
             "return": {

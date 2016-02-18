@@ -3869,7 +3869,7 @@ System.register("davinci-eight/controls/TrackballControls.js", ["../math/G3", ".
   };
 });
 
-System.register("davinci-eight/visual/Arrow.js", ["../checks/mustBeNumber", "../checks/mustBeGE", "./visualCache", "./VisualBody"], function(exports_1) {
+System.register("davinci-eight/visual/Arrow.js", ["../math/Euclidean3", "../checks/mustBeNumber", "../checks/mustBeObject", "../checks/mustBeGE", "./visualCache", "./VisualBody"], function(exports_1) {
   var __extends = (this && this.__extends) || function(d, b) {
     for (var p in b)
       if (b.hasOwnProperty(p))
@@ -3879,14 +3879,20 @@ System.register("davinci-eight/visual/Arrow.js", ["../checks/mustBeNumber", "../
     }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
   };
-  var mustBeNumber_1,
+  var Euclidean3_1,
+      mustBeNumber_1,
+      mustBeObject_1,
       mustBeGE_1,
       visualCache_1,
       VisualBody_1;
   var Arrow;
   return {
-    setters: [function(mustBeNumber_1_1) {
+    setters: [function(Euclidean3_1_1) {
+      Euclidean3_1 = Euclidean3_1_1;
+    }, function(mustBeNumber_1_1) {
       mustBeNumber_1 = mustBeNumber_1_1;
+    }, function(mustBeObject_1_1) {
+      mustBeObject_1 = mustBeObject_1_1;
     }, function(mustBeGE_1_1) {
       mustBeGE_1 = mustBeGE_1_1;
     }, function(visualCache_1_1) {
@@ -3908,6 +3914,19 @@ System.register("davinci-eight/visual/Arrow.js", ["../checks/mustBeNumber", "../
         Arrow.prototype.destructor = function() {
           _super.prototype.destructor.call(this);
         };
+        Object.defineProperty(Arrow.prototype, "axis", {
+          get: function() {
+            var direction = Euclidean3_1.default.e2.rotate(this.modelFacet.R);
+            return direction.scale(this.length);
+          },
+          set: function(axis) {
+            mustBeObject_1.default('axis', axis);
+            this.modelFacet.R.rotorFromDirections(axis.direction(), Euclidean3_1.default.e2);
+            this.length = axis.magnitude().α;
+          },
+          enumerable: true,
+          configurable: true
+        });
         Object.defineProperty(Arrow.prototype, "length", {
           get: function() {
             return this.getScaleY();
@@ -18364,6 +18383,20 @@ System.register("davinci-eight/visual/RigidBody.js", ["../math/Euclidean3", "../
           enumerable: true,
           configurable: true
         });
+        Object.defineProperty(RigidBody.prototype, "pos", {
+          get: function() {
+            return Euclidean3_1.default.copy(this.modelFacet.X);
+          },
+          set: function(pos) {
+            var _this = this;
+            mustBeObject_1.default('pos', pos, function() {
+              return _this._type;
+            });
+            this.modelFacet.X.copyVector(pos);
+          },
+          enumerable: true,
+          configurable: true
+        });
         RigidBody.prototype.getScaleX = function() {
           return this.modelFacet.scaleXYZ.x;
         };
@@ -18578,7 +18611,7 @@ System.register("davinci-eight/visual/Sphere.js", ["../checks/mustBeNumber", "./
   };
 });
 
-System.register("davinci-eight/visual/World.js", ["./Arrow", "../core/Color", "./Cuboid", "./Cylinder", "../checks/isDefined", "../checks/mustBeNumber", "../i18n/readOnly", "../core/Shareable", "./Sphere"], function(exports_1) {
+System.register("davinci-eight/visual/World.js", ["./Arrow", "../core/Color", "./Cuboid", "./Cylinder", "../math/Euclidean3", "../checks/isDefined", "../checks/mustBeNumber", "../i18n/readOnly", "../core/Shareable", "./Sphere"], function(exports_1) {
   var __extends = (this && this.__extends) || function(d, b) {
     for (var p in b)
       if (b.hasOwnProperty(p))
@@ -18592,6 +18625,7 @@ System.register("davinci-eight/visual/World.js", ["./Arrow", "../core/Color", ".
       Color_1,
       Cuboid_1,
       Cylinder_1,
+      Euclidean3_1,
       isDefined_1,
       mustBeNumber_1,
       readOnly_1,
@@ -18607,6 +18641,8 @@ System.register("davinci-eight/visual/World.js", ["./Arrow", "../core/Color", ".
       Cuboid_1 = Cuboid_1_1;
     }, function(Cylinder_1_1) {
       Cylinder_1 = Cylinder_1_1;
+    }, function(Euclidean3_1_1) {
+      Euclidean3_1 = Euclidean3_1_1;
     }, function(isDefined_1_1) {
       isDefined_1 = isDefined_1_1;
     }, function(mustBeNumber_1_1) {
@@ -18672,9 +18708,22 @@ System.register("davinci-eight/visual/World.js", ["./Arrow", "../core/Color", ".
         World.prototype.add = function(mesh) {
           this.drawList.add(mesh);
         };
-        World.prototype.arrow = function() {
+        World.prototype.arrow = function(options) {
+          if (options === void 0) {
+            options = {};
+          }
           var arrow = new Arrow_1.default();
-          arrow.color = Color_1.default.fromRGB(0.6, 0.6, 0.6);
+          if (options.axis) {
+            arrow.axis = Euclidean3_1.default.vector(options.axis.x, options.axis.y, options.axis.z);
+          }
+          if (options.color) {
+            arrow.color.copy(options.color);
+          } else {
+            arrow.color = Color_1.default.fromRGB(0.6, 0.6, 0.6);
+          }
+          if (options.pos) {
+            arrow.pos = Euclidean3_1.default.vector(options.pos.x, options.pos.y, options.pos.z);
+          }
           this.drawList.add(arrow);
           arrow.release();
           return arrow;
@@ -18704,8 +18753,15 @@ System.register("davinci-eight/visual/World.js", ["./Arrow", "../core/Color", ".
             options = {};
           }
           var sphere = new Sphere_1.default();
+          if (options.pos) {
+            sphere.pos = Euclidean3_1.default.vector(options.pos.x, options.pos.y, options.pos.z);
+          }
           sphere.radius = isDefined_1.default(options.radius) ? mustBeNumber_1.default('radius', options.radius) : 0.5;
-          sphere.color = Color_1.default.blue;
+          if (options.color) {
+            sphere.color.copy(options.color);
+          } else {
+            sphere.color = Color_1.default.blue;
+          }
           this.drawList.add(sphere);
           sphere.release();
           return sphere;
@@ -19612,10 +19668,10 @@ System.register("davinci-eight/core.js", [], function(exports_1) {
           this.fastPath = false;
           this.strict = false;
           this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-          this.LAST_MODIFIED = '2016-02-16';
+          this.LAST_MODIFIED = '2016-02-17';
           this.NAMESPACE = 'EIGHT';
           this.verbose = false;
-          this.VERSION = '2.188.0';
+          this.VERSION = '2.189.0';
           this.logging = {};
         }
         return Eight;

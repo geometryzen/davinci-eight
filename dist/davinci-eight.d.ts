@@ -3351,6 +3351,11 @@ declare module EIGHT {
         X: Euclidean3;
 
         /**
+         * Position (vector)
+         */
+        pos: Euclidean3;
+
+        /**
          * Configures the trail left behind a moving rigid body.
          */
         trail: { enabled: boolean; interval: number; retain: number };
@@ -3362,30 +3367,30 @@ declare module EIGHT {
     }
 
     class Arrow extends RigidBody {
-        constructor(options?: { axis?: VectorE3; wireFrame?: boolean })
+        constructor(options?: { axis?: VectorE3 })
         length: number;
     }
 
     class Sphere extends RigidBody {
-        constructor(options?: { axis?: VectorE3; wireFrame?: boolean })
+        constructor(options?: { axis?: VectorE3 })
         radius: number;
     }
 
     class Cuboid extends RigidBody {
-        constructor(options?: { axis?: VectorE3; wireFrame?: boolean })
+        constructor(options?: { axis?: VectorE3 })
         width: number;
         height: number;
         depth: number;
     }
 
     class Cylinder extends RigidBody {
-        constructor(options?: { axis?: VectorE3; wireFrame?: boolean })
+        constructor(options?: { axis?: VectorE3 })
         radius: number;
         length: number;
     }
 
     class Tetrahedron extends RigidBody {
-        constructor(options?: { axis?: VectorE3; wireFrame?: boolean })
+        constructor(options?: { axis?: VectorE3 })
         radius: number;
     }
 
@@ -3425,10 +3430,28 @@ declare module EIGHT {
      */
     interface World extends IUnknown {
         add(mesh: Mesh): void
-        arrow(): Arrow
-        cuboid(options?: { width?: number; height?: number; depth?: number; wireFrame?: boolean }): Cuboid
-        sphere(options?: { radius?: number }): Sphere
-        cylinder(options?: { radius?: number }): Cylinder
+        arrow(
+            options?: {
+                axis?: VectorE3;
+                color?: Color;
+                pos?: VectorE3;
+            }): Arrow
+        cuboid(
+            options?: {
+                width?: number;
+                height?: number;
+                depth?: number;
+            }): Cuboid
+        sphere(
+            options?: {
+                color?: Color;
+                pos?: VectorE3;
+                radius?: number;
+            }): Sphere
+        cylinder(
+            options?: {
+                radius?: number
+            }): Cylinder
         ambients: Facet[]
         canvas: HTMLCanvasElement
     }

@@ -458,10 +458,10 @@ define('davinci-eight/core',["require", "exports"], function (require, exports) 
             this.fastPath = false;
             this.strict = false;
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-            this.LAST_MODIFIED = '2016-02-16';
+            this.LAST_MODIFIED = '2016-02-17';
             this.NAMESPACE = 'EIGHT';
             this.verbose = false;
-            this.VERSION = '2.188.0';
+            this.VERSION = '2.189.0';
             this.logging = {};
         }
         return Eight;
@@ -17167,6 +17167,18 @@ define('davinci-eight/visual/RigidBody',["require", "exports", '../math/Euclidea
             enumerable: true,
             configurable: true
         });
+        Object.defineProperty(RigidBody.prototype, "pos", {
+            get: function () {
+                return Euclidean3_1.default.copy(this.modelFacet.X);
+            },
+            set: function (pos) {
+                var _this = this;
+                mustBeObject_1.default('pos', pos, function () { return _this._type; });
+                this.modelFacet.X.copyVector(pos);
+            },
+            enumerable: true,
+            configurable: true
+        });
         RigidBody.prototype.getScaleX = function () {
             return this.modelFacet.scaleXYZ.x;
         };
@@ -17294,7 +17306,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/visual/Arrow',["require", "exports", '../checks/mustBeNumber', '../checks/mustBeGE', './visualCache', './VisualBody'], function (require, exports, mustBeNumber_1, mustBeGE_1, visualCache_1, VisualBody_1) {
+define('davinci-eight/visual/Arrow',["require", "exports", '../math/Euclidean3', '../checks/mustBeNumber', '../checks/mustBeObject', '../checks/mustBeGE', './visualCache', './VisualBody'], function (require, exports, Euclidean3_1, mustBeNumber_1, mustBeObject_1, mustBeGE_1, visualCache_1, VisualBody_1) {
     var Arrow = (function (_super) {
         __extends(Arrow, _super);
         function Arrow(options) {
@@ -17306,6 +17318,19 @@ define('davinci-eight/visual/Arrow',["require", "exports", '../checks/mustBeNumb
         Arrow.prototype.destructor = function () {
             _super.prototype.destructor.call(this);
         };
+        Object.defineProperty(Arrow.prototype, "axis", {
+            get: function () {
+                var direction = Euclidean3_1.default.e2.rotate(this.modelFacet.R);
+                return direction.scale(this.length);
+            },
+            set: function (axis) {
+                mustBeObject_1.default('axis', axis);
+                this.modelFacet.R.rotorFromDirections(axis.direction(), Euclidean3_1.default.e2);
+                this.length = axis.magnitude().α;
+            },
+            enumerable: true,
+            configurable: true
+        });
         Object.defineProperty(Arrow.prototype, "length", {
             get: function () {
                 return this.getScaleY();
@@ -17585,7 +17610,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/visual/World',["require", "exports", './Arrow', '../core/Color', './Cuboid', './Cylinder', '../checks/isDefined', '../checks/mustBeNumber', '../i18n/readOnly', '../core/Shareable', './Sphere'], function (require, exports, Arrow_1, Color_1, Cuboid_1, Cylinder_1, isDefined_1, mustBeNumber_1, readOnly_1, Shareable_1, Sphere_1) {
+define('davinci-eight/visual/World',["require", "exports", './Arrow', '../core/Color', './Cuboid', './Cylinder', '../math/Euclidean3', '../checks/isDefined', '../checks/mustBeNumber', '../i18n/readOnly', '../core/Shareable', './Sphere'], function (require, exports, Arrow_1, Color_1, Cuboid_1, Cylinder_1, Euclidean3_1, isDefined_1, mustBeNumber_1, readOnly_1, Shareable_1, Sphere_1) {
     var World = (function (_super) {
         __extends(World, _super);
         function World(renderer, drawList, ambients, controls) {
@@ -17639,9 +17664,21 @@ define('davinci-eight/visual/World',["require", "exports", './Arrow', '../core/C
         World.prototype.add = function (mesh) {
             this.drawList.add(mesh);
         };
-        World.prototype.arrow = function () {
+        World.prototype.arrow = function (options) {
+            if (options === void 0) { options = {}; }
             var arrow = new Arrow_1.default();
-            arrow.color = Color_1.default.fromRGB(0.6, 0.6, 0.6);
+            if (options.axis) {
+                arrow.axis = Euclidean3_1.default.vector(options.axis.x, options.axis.y, options.axis.z);
+            }
+            if (options.color) {
+                arrow.color.copy(options.color);
+            }
+            else {
+                arrow.color = Color_1.default.fromRGB(0.6, 0.6, 0.6);
+            }
+            if (options.pos) {
+                arrow.pos = Euclidean3_1.default.vector(options.pos.x, options.pos.y, options.pos.z);
+            }
             this.drawList.add(arrow);
             arrow.release();
             return arrow;
@@ -17665,8 +17702,16 @@ define('davinci-eight/visual/World',["require", "exports", './Arrow', '../core/C
         World.prototype.sphere = function (options) {
             if (options === void 0) { options = {}; }
             var sphere = new Sphere_1.default();
+            if (options.pos) {
+                sphere.pos = Euclidean3_1.default.vector(options.pos.x, options.pos.y, options.pos.z);
+            }
             sphere.radius = isDefined_1.default(options.radius) ? mustBeNumber_1.default('radius', options.radius) : 0.5;
-            sphere.color = Color_1.default.blue;
+            if (options.color) {
+                sphere.color.copy(options.color);
+            }
+            else {
+                sphere.color = Color_1.default.blue;
+            }
             this.drawList.add(sphere);
             sphere.release();
             return sphere;
