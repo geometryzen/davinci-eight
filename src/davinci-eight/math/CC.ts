@@ -95,6 +95,18 @@ export default class CC implements Measure<CC>, GeometricOperators<CC>, TrigMeth
     }
 
     /**
+     * The <em>real</em> or <em>scalar</em> part of this complex number.
+     * @property alpha
+     * @return {number}
+     */
+    get alpha(): number {
+        return this.x;
+    }
+    set alpha(unused) {
+        throw new Error(readOnly('alpha').message)
+    }
+
+    /**
      * The <em>imaginary</em> or <em>pseudoscalar</em> part of this complex number.
      * @property β
      * @return {number}
@@ -104,6 +116,12 @@ export default class CC implements Measure<CC>, GeometricOperators<CC>, TrigMeth
     }
     set β(unused) {
         throw new Error(readOnly('β').message)
+    }
+    get beta(): number {
+        return this.y;
+    }
+    set beta(unused) {
+        throw new Error(readOnly('beta').message)
     }
     get xy(): number {
         return this.y;

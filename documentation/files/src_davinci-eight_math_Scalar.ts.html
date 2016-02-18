@@ -206,11 +206,22 @@
  */
 interface Scalar {
     /**
-     * The &lt;em&gt;scalar&lt;/em&gt; property as a &lt;code&gt;number&lt;/code&gt;.
+     * The &lt;em&gt;scalar&lt;/em&gt; coordinate as a &lt;code&gt;number&lt;/code&gt;.
+     * This is an alias for the &lt;code&gt;alpha&lt;/code&gt; property and is useful for compact notation.
+     *
      * @property α
      * @type {number}
      */
     α: number;
+
+    /**
+     * The &lt;em&gt;scalar&lt;/em&gt; coordinate as a &lt;code&gt;number&lt;/code&gt;.
+     * This is an alias for the &lt;code&gt;α&lt;/code&gt; property and is useful on conventional keyboards.
+     *
+     * @property alpha
+     * @type {number}
+     */
+    alpha: number;
 }
 
 export default Scalar;

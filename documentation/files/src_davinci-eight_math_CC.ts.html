@@ -298,6 +298,18 @@ export default class CC implements Measure&lt;CC&gt;, GeometricOperators&lt;CC&g
     }
 
     /**
+     * The &lt;em&gt;real&lt;/em&gt; or &lt;em&gt;scalar&lt;/em&gt; part of this complex number.
+     * @property alpha
+     * @return {number}
+     */
+    get alpha(): number {
+        return this.x;
+    }
+    set alpha(unused) {
+        throw new Error(readOnly(&#x27;alpha&#x27;).message)
+    }
+
+    /**
      * The &lt;em&gt;imaginary&lt;/em&gt; or &lt;em&gt;pseudoscalar&lt;/em&gt; part of this complex number.
      * @property β
      * @return {number}
@@ -307,6 +319,12 @@ export default class CC implements Measure&lt;CC&gt;, GeometricOperators&lt;CC&g
     }
     set β(unused) {
         throw new Error(readOnly(&#x27;β&#x27;).message)
+    }
+    get beta(): number {
+        return this.y;
+    }
+    set beta(unused) {
+        throw new Error(readOnly(&#x27;beta&#x27;).message)
     }
     get xy(): number {
         return this.y;

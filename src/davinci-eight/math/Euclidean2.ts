@@ -23,6 +23,11 @@ import VectorE2 from './VectorE2';
  * @submodule math
  */
 
+const COORD_SCALAR = 0
+const COORD_X = 1
+const COORD_Y = 2
+const COORD_PSEUDO = 3
+
 function add00(a00: number, a01: number, a10: number, a11: number, b00: number, b01: number, b10: number, b11: number): number {
     a00 = +a00;
     a01 = +a01;
@@ -110,10 +115,16 @@ function subE2(a0: number, a1: number, a2: number, a3: number, b0: number, b1: n
  * @class Euclidean2
  */
 export default class Euclidean2 implements ImmutableMeasure<Euclidean2>, GeometricE2, GeometricElement<Euclidean2, Euclidean2, SpinorE2, VectorE2>, GeometricOperators<Euclidean2>, TrigMethods<Euclidean2> {
-    private _w: number;
-    private _x: number;
-    private _y: number;
-    public xy: number;
+    /**
+     * The coordinate values are stored in a number array.
+     * This should be convenient and efficient for tensor calculations.
+     *
+     * @property _coords
+     * @type number[]
+     * @private
+     */
+    private _coords: number[] = [0, 0, 0, 0]
+
     public uom: Unit;
 
     /**
@@ -282,24 +293,24 @@ export default class Euclidean2 implements ImmutableMeasure<Euclidean2>, Geometr
      *
      * @class Euclidean2
      * @constructor
-     * @param α {number} The scalar part of the multivector.
-     * @param x {number} The vector component of the multivector in the x-direction.
-     * @param y {number} The vector component of the multivector in the y-direction.
-     * @param β {number} The pseudoscalar part of the multivector.
+     * @param [α = 0] {number} The scalar part of the multivector.
+     * @param [x = 0] {number} The vector component of the multivector in the x-direction.
+     * @param [y = 0] {number} The vector component of the multivector in the y-direction.
+     * @param [β = 0] {number} The pseudoscalar part of the multivector.
      * @param [uom] The optional unit of measure.
      */
-    constructor(α: number, x: number, y: number, β: number, uom?: Unit) {
-        this._w = α
-        this._x = x
-        this._y = y
-        this.xy = β
+    constructor(α = 0, x = 0, y = 0, β = 0, uom?: Unit) {
+        this._coords[COORD_SCALAR] = α
+        this._coords[COORD_X] = x
+        this._coords[COORD_Y] = y
+        this._coords[COORD_PSEUDO] = β
         this.uom = uom
         if (this.uom && this.uom.multiplier !== 1) {
             const multiplier: number = this.uom.multiplier;
-            this._w *= multiplier;
-            this._x *= multiplier;
-            this._y *= multiplier;
-            this.xy *= multiplier;
+            this._coords[COORD_SCALAR] *= multiplier;
+            this._coords[COORD_X] *= multiplier;
+            this._coords[COORD_Y] *= multiplier;
+            this._coords[COORD_PSEUDO] *= multiplier;
             this.uom = new Unit(1, uom.dimensions, uom.labels);
         }
     }
@@ -311,10 +322,23 @@ export default class Euclidean2 implements ImmutableMeasure<Euclidean2>, Geometr
      * @readOnly
      */
     get α(): number {
-        return this._w
+        return this._coords[COORD_SCALAR]
     }
     set α(unused) {
         throw new Error(readOnly('α').message)
+    }
+
+    /**
+     * The scalar part of this multivector.
+     * @property alpha
+     * @type number
+     * @readOnly
+     */
+    get alpha(): number {
+        return this._coords[COORD_SCALAR]
+    }
+    set alpha(unused) {
+        throw new Error(readOnly('alpha').message)
     }
 
     /**
@@ -325,7 +349,7 @@ export default class Euclidean2 implements ImmutableMeasure<Euclidean2>, Geometr
      * @readOnly
      */
     get x(): number {
-        return this._x
+        return this._coords[COORD_X]
     }
     set x(unused) {
         throw new Error(readOnly('x').message)
@@ -339,7 +363,7 @@ export default class Euclidean2 implements ImmutableMeasure<Euclidean2>, Geometr
      * @readOnly
      */
     get y(): number {
-        return this._y
+        return this._coords[COORD_Y]
     }
     set y(unused) {
         throw new Error(readOnly('y').message)
@@ -352,10 +376,23 @@ export default class Euclidean2 implements ImmutableMeasure<Euclidean2>, Geometr
      * @readOnly
      */
     get β(): number {
-        return this.xy
+        return this._coords[COORD_PSEUDO]
     }
     set β(unused) {
         throw new Error(readOnly('β').message)
+    }
+
+    /**
+     * The pseudoscalar part of this multivector.
+     * @property beta
+     * @type number
+     * @readOnly
+     */
+    get beta(): number {
+        return this._coords[COORD_PSEUDO]
+    }
+    set beta(unused) {
+        throw new Error(readOnly('beta').message)
     }
 
     // FIXME: Replace x & y with a VectorE2, a
@@ -368,19 +405,19 @@ export default class Euclidean2 implements ImmutableMeasure<Euclidean2>, Geometr
     }
 
     get coords(): number[] {
-        return [this._w, this._x, this._y, this.xy];
+        return [this.α, this.x, this.y, this.β];
     }
 
     coordinate(index: number): number {
         switch (index) {
             case 0:
-                return this._w;
+                return this.α;
             case 1:
-                return this._x;
+                return this.x;
             case 2:
-                return this._y;
+                return this.y;
             case 3:
-                return this.xy;
+                return this.β;
             default:
                 throw new Error("index must be in the range [0..3]");
         }
@@ -409,11 +446,11 @@ export default class Euclidean2 implements ImmutableMeasure<Euclidean2>, Geometr
     }
 
     addPseudo(β: number): Euclidean2 {
-        return new Euclidean2(this._w, this._x, this._y, this.β + β, this.uom)
+        return new Euclidean2(this.α, this.x, this.y, this.β + β, this.uom)
     }
 
     addScalar(α: number): Euclidean2 {
-        return new Euclidean2(this._w + α, this._x, this._y, this.β, this.uom)
+        return new Euclidean2(this.α + α, this.x, this.y, this.β, this.uom)
     }
 
     adj(): Euclidean2 {
@@ -455,10 +492,10 @@ export default class Euclidean2 implements ImmutableMeasure<Euclidean2>, Geometr
     }
 
     cubicBezier(t: number, controlBegin: GeometricE2, controlEnd: GeometricE2, endPoint: GeometricE2) {
-        const α = b3(t, this._w, controlBegin.α, controlEnd.α, endPoint.α)
-        const x = b3(t, this._x, controlBegin.x, controlEnd.x, endPoint.x)
-        const y = b3(t, this._y, controlBegin.y, controlEnd.y, endPoint.y)
-        const β = b3(t, this.xy, controlBegin.β, controlEnd.β, endPoint.β)
+        const α = b3(t, this.α, controlBegin.α, controlEnd.α, endPoint.α)
+        const x = b3(t, this.x, controlBegin.x, controlEnd.x, endPoint.x)
+        const y = b3(t, this.y, controlBegin.y, controlEnd.y, endPoint.y)
+        const β = b3(t, this.β, controlBegin.β, controlEnd.β, endPoint.β)
         return new Euclidean2(α, x, y, β, this.uom);
     }
 
@@ -530,14 +567,14 @@ export default class Euclidean2 implements ImmutableMeasure<Euclidean2>, Geometr
     }
 
     mul(rhs: Euclidean2): Euclidean2 {
-        const a0 = this._w
-        const a1 = this._x
-        const a2 = this._y
-        const a3 = this.xy
-        const b0 = rhs._w
-        const b1 = rhs._x
-        const b2 = rhs._y
-        const b3 = rhs.xy
+        const a0 = this.α
+        const a1 = this.x
+        const a2 = this.y
+        const a3 = this.β
+        const b0 = rhs.α
+        const b1 = rhs.x
+        const b2 = rhs.y
+        const b3 = rhs.β
         // TODO: Split into four functions to avoid conditionals or inline.
         const c0 = mulE2(a0, a1, a2, a3, b0, b1, b2, b3, 0)
         const c1 = mulE2(a0, a1, a2, a3, b0, b1, b2, b3, 1)
@@ -567,7 +604,7 @@ export default class Euclidean2 implements ImmutableMeasure<Euclidean2>, Geometr
     }
 
     scale(α: number): Euclidean2 {
-        return new Euclidean2(this._w * α, this._x * α, this._y * α, this.xy * α, this.uom);
+        return new Euclidean2(this.α * α, this.x * α, this.y * α, this.β * α, this.uom);
     }
 
     div(rhs: Euclidean2): Euclidean2 {
@@ -575,7 +612,7 @@ export default class Euclidean2 implements ImmutableMeasure<Euclidean2>, Geometr
     }
 
     divByScalar(α: number): Euclidean2 {
-        return new Euclidean2(this._w / α, this._x / α, this._y / α, this.xy / α, this.uom);
+        return new Euclidean2(this.α / α, this.x / α, this.y / α, this.β / α, this.uom);
     }
 
     __div__(other: any): Euclidean2 {
@@ -773,7 +810,7 @@ export default class Euclidean2 implements ImmutableMeasure<Euclidean2>, Geometr
     }
 
     neg(): Euclidean2 {
-        return new Euclidean2(-this._w, -this._x, -this._y, -this.β, this.uom)
+        return new Euclidean2(-this.α, -this.x, -this.y, -this.β, this.uom)
     }
 
     __neg__(): Euclidean2 {
@@ -790,9 +827,9 @@ export default class Euclidean2 implements ImmutableMeasure<Euclidean2>, Geometr
     grade(grade: number): Euclidean2 {
         switch (grade) {
             case 0:
-                return new Euclidean2(this._w, 0, 0, 0, this.uom);
+                return new Euclidean2(this.α, 0, 0, 0, this.uom);
             case 1:
-                return new Euclidean2(0, this._x, this._y, 0, this.uom);
+                return new Euclidean2(0, this.x, this.y, 0, this.uom);
             case 2:
                 return new Euclidean2(0, 0, 0, this.β, this.uom);
             default:
@@ -809,11 +846,11 @@ export default class Euclidean2 implements ImmutableMeasure<Euclidean2>, Geometr
     }
 
     exp(): Euclidean2 {
-        Unit.assertDimensionless(this.uom);
-        var expα = Math.exp(this._w);
-        var cosβ = Math.cos(this.β);
-        var sinβ = Math.sin(this.β);
-        return new Euclidean2(expα * cosβ, 0, 0, expα * sinβ, this.uom);
+        Unit.assertDimensionless(this.uom)
+        const expα = Math.exp(this.α)
+        const cosβ = Math.cos(this.β)
+        const sinβ = Math.sin(this.β)
+        return new Euclidean2(expα * cosβ, 0, 0, expα * sinβ, this.uom)
     }
 
     /**
@@ -869,10 +906,10 @@ export default class Euclidean2 implements ImmutableMeasure<Euclidean2>, Geometr
     }
 
     quadraticBezier(t: number, controlPoint: GeometricE2, endPoint: GeometricE2) {
-        const α = b2(t, this._w, controlPoint.α, endPoint.α)
-        const x = b2(t, this._x, controlPoint.x, endPoint.x)
-        const y = b2(t, this._y, controlPoint.y, endPoint.y)
-        const β = b2(t, this.xy, controlPoint.β, endPoint.β)
+        const α = b2(t, this.α, controlPoint.α, endPoint.α)
+        const x = b2(t, this.x, controlPoint.x, endPoint.x)
+        const y = b2(t, this.y, controlPoint.y, endPoint.y)
+        const β = b2(t, this.β, controlPoint.β, endPoint.β)
         return new Euclidean2(α, x, y, β, this.uom);
     }
 
@@ -884,9 +921,9 @@ export default class Euclidean2 implements ImmutableMeasure<Euclidean2>, Geometr
      * Intentionally undocumented.
      */
     public squaredNormSansUnits(): number {
-        const α = this._w
-        const x = this._x
-        const y = this._y
+        const α = this.α
+        const x = this.x
+        const y = this.y
         const β = this.β
         return α * α + x * x + y * y + β * β
     }
@@ -906,16 +943,25 @@ export default class Euclidean2 implements ImmutableMeasure<Euclidean2>, Geometr
     }
 
     rev(): Euclidean2 {
-        return new Euclidean2(this._w, this._x, this._y, -this.β, this.uom)
+        return new Euclidean2(this.α, this.x, this.y, -this.β, this.uom)
     }
 
     /**
      * @method rotate
-     * @param R {SpinorE2}
+     * @param spinor {SpinorE2}
      * @return {Euclidean2}
      */
-    rotate(R: SpinorE2): Euclidean2 {
-        throw new Error(notImplemented('rotate').message)
+    rotate(spinor: SpinorE2): Euclidean2 {
+        const x = this.x
+        const y = this.y
+        const α = spinor.α
+        const β = spinor.β
+        const α2 = α * α
+        const β2 = β * β
+        const p = α2 - β2
+        const q = 2 * α * β
+        const s = α2 + β2
+        return new Euclidean2(s * this.α, p * x + q * y, p * y - q * x, s * this.β, this.uom)
     }
 
     sin(): Euclidean2 {
@@ -938,9 +984,9 @@ export default class Euclidean2 implements ImmutableMeasure<Euclidean2>, Geometr
         return this.sin().div(this.cos())
     }
 
-    isOne(): boolean { return this._w === 1 && this._x === 0 && this._y === 0 && this.xy === 0 }
-    isNaN(): boolean { return isNaN(this._w) || isNaN(this._x) || isNaN(this._y) || isNaN(this.xy) }
-    isZero(): boolean { return this._w === 0 && this._x === 0 && this._y === 0 && this.xy === 0 }
+    isOne(): boolean { return this.α === 1 && this.x === 0 && this.y === 0 && this.β === 0 }
+    isNaN(): boolean { return isNaN(this.α) || isNaN(this.x) || isNaN(this.y) || isNaN(this.β) }
+    isZero(): boolean { return this.α === 0 && this.x === 0 && this.y === 0 && this.β === 0 }
 
     toStringCustom(
         coordToString: (x: number) => string,
@@ -1031,5 +1077,17 @@ export default class Euclidean2 implements ImmutableMeasure<Euclidean2>, Geometr
         else {
             return void 0
         }
+    }
+
+    /**
+     * @method vector
+     * @param x {number}
+     * @param y {number}
+     * @param [uom] {Unit}
+     * @return {Euclidean2}
+     * @static
+     */
+    static vector(x: number, y: number, uom?: Unit): Euclidean2 {
+        return new Euclidean2(0, x, y, 0, uom)
     }
 }

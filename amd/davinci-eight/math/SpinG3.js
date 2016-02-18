@@ -60,6 +60,18 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../math/dotVector
             enumerable: true,
             configurable: true
         });
+        Object.defineProperty(SpinG3.prototype, "alpha", {
+            get: function () {
+                return this.coords[COORD_SCALAR];
+            },
+            set: function (alpha) {
+                mustBeNumber_1.default('alpha', alpha);
+                this.modified = this.modified || this.alpha !== alpha;
+                this.coords[COORD_SCALAR] = alpha;
+            },
+            enumerable: true,
+            configurable: true
+        });
         Object.defineProperty(SpinG3.prototype, "α", {
             get: function () {
                 return this.coords[COORD_SCALAR];

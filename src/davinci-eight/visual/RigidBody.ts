@@ -110,6 +110,7 @@ export default class RigidBody extends Object3D {
         return Euclidean3.copy(this.modelFacet.R)
     }
     set R(R: Euclidean3) {
+        mustBeObject('R', R, () => { return this._type })
         this.modelFacet.R.copySpinor(R)
     }
 

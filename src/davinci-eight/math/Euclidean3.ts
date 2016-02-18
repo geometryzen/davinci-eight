@@ -10,6 +10,7 @@ import mulG3 from '../math/mulG3';
 import gauss from './gauss';
 import GeometricElement from '../math/GeometricElement';
 import notImplemented from '../i18n/notImplemented';
+import quadSpinorE3 from './quadSpinorE3'
 import rcoG3 from '../math/rcoG3';
 import readOnly from '../i18n/readOnly';
 import scpG3 from '../math/scpG3';
@@ -29,6 +30,15 @@ import BASIS_LABELS_G3_STANDARD_HTML from '../math/BASIS_LABELS_G3_STANDARD_HTML
  * @module EIGHT
  * @submodule math
  */
+
+const COORD_SCALAR = 0
+const COORD_X = 1
+const COORD_Y = 2
+const COORD_Z = 3
+const COORD_XY = 4
+const COORD_YZ = 5
+const COORD_ZX = 6
+const COORD_PSEUDO = 7
 
 function compute(
     f: (x0: number, x1: number, x2: number, x3: number, x4: number, x5: number, x6: number, x7: number, y0: number, y1: number, y2: number, y3: number, y4: number, y5: number, y6: number, y7: number, index: number) => number,
@@ -171,65 +181,19 @@ export default class Euclidean3 implements ImmutableMeasure<Euclidean3>, Geometr
     public static candela = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.CANDELA);
 
     /**
-     * @property w
-     * @type {number}
+     * The coordinate values are stored in a number array.
+     * This should be convenient and efficient for tensor calculations.
+     *
+     * @property _coords
+     * @type number[]
      * @private
      */
-    public w: number;
-
-    /**
-     * The `x` property is the x coordinate of the grade one (vector) part of the Euclidean3 multivector.
-     * @property x
-     * @type {number}
-     */
-    public x: number;
-
-    /**
-     * The `y` property is the y coordinate of the grade one (vector) part of the Euclidean3 multivector.
-     * @property y
-     * @type {number}
-     */
-    public y: number;
-
-    /**
-     * The `z` property is the z coordinate of the grade one (vector) part of the Euclidean3 multivector.
-     * @property z
-     * @type {number}
-     */
-    public z: number;
-
-    /**
-     * The `xy` property is the xy coordinate of the grade two (bivector) part of the Euclidean3 multivector.
-     * @property xy
-     * @type {number}
-     */
-    public xy: number;
-
-    /**
-     * The `yz` property is the yz coordinate of the grade two (bivector) part of the Euclidean3 multivector.
-     * @property yz
-     * @type {number}
-     */
-    public yz: number;
-
-    /**
-     * The `zx` property is the zx coordinate of the grade two (bivector) part of the Euclidean3 multivector.
-     * @property zx
-     * @type {number}
-     */
-    public zx: number;
-
-    /**
-     * @property xyz
-     * @type {number}
-     * @private
-     */
-    public xyz: number;
+    private _coords: number[] = [0, 0, 0, 0, 0, 0, 0, 0]
 
     /**
      * The optional unit of measure.
      * @property uom
-     * @type {Unit}
+     * @type Unit
      */
     public uom: Unit;
     /**
@@ -244,28 +208,28 @@ export default class Euclidean3 implements ImmutableMeasure<Euclidean3>, Geometr
      * @param {number} yz The bivector component of the multivector in the yz-plane.
      * @param {number} zx The bivector component of the multivector in the zx-plane.
      * @param {number} β The pseudoscalar part of the multivector.
-     * @param uom The optional unit of measure.
+     * @param [uom] The optional unit of measure.
      */
     constructor(α: number, x: number, y: number, z: number, xy: number, yz: number, zx: number, β: number, uom?: Unit) {
-        this.w = α
-        this.x = x
-        this.y = y
-        this.z = z
-        this.xy = xy
-        this.yz = yz
-        this.zx = zx
-        this.xyz = β
+        this._coords[COORD_SCALAR] = α
+        this._coords[COORD_X] = x
+        this._coords[COORD_Y] = y
+        this._coords[COORD_Z] = z
+        this._coords[COORD_XY] = xy
+        this._coords[COORD_YZ] = yz
+        this._coords[COORD_ZX] = zx
+        this._coords[COORD_PSEUDO] = β
         this.uom = uom
         if (this.uom && this.uom.multiplier !== 1) {
             var multiplier: number = this.uom.multiplier;
-            this.w *= multiplier;
-            this.x *= multiplier;
-            this.y *= multiplier;
-            this.z *= multiplier;
-            this.xy *= multiplier;
-            this.yz *= multiplier;
-            this.zx *= multiplier;
-            this.xyz *= multiplier;
+            this._coords[COORD_SCALAR] *= multiplier;
+            this._coords[COORD_X] *= multiplier;
+            this._coords[COORD_Y] *= multiplier;
+            this._coords[COORD_Z] *= multiplier;
+            this._coords[COORD_XY] *= multiplier;
+            this._coords[COORD_YZ] *= multiplier;
+            this._coords[COORD_ZX] *= multiplier;
+            this._coords[COORD_PSEUDO] *= multiplier;
             this.uom = new Unit(1, uom.dimensions, uom.labels);
         }
     }
@@ -276,22 +240,128 @@ export default class Euclidean3 implements ImmutableMeasure<Euclidean3>, Geometr
      * @return {number}
      */
     get α(): number {
-        return this.w
+        return this._coords[COORD_SCALAR]
     }
     set α(unused) {
         throw new Error(readOnly('α').message)
     }
 
     /**
-     * The pseudoscalar part of this multivector.
+     * The scalar part of this multivector.
+     * @property alpha
+     * @return {number}
+     */
+    get alpha(): number {
+        return this._coords[COORD_SCALAR]
+    }
+    set alpha(unused) {
+        throw new Error(readOnly('alpha').message)
+    }
+
+    /**
+     * The Cartesian coordinate corresponding to the <b>e<sub>1</sub></b> basis vector.
+     *
+     * @property x
+     * @type number
+     */
+    get x(): number {
+        return this._coords[COORD_X]
+    }
+    set x(unused: number) {
+        throw new Error(readOnly('x').message)
+    }
+
+    /**
+     * The Cartesian coordinate corresponding to the <b>e<sub>2</sub></b> basis vector.
+     *
+     * @property y
+     * @type number
+     */
+    get y(): number {
+        return this._coords[COORD_Y]
+    }
+    set y(unused: number) {
+        throw new Error(readOnly('y').message)
+    }
+
+    /**
+     * The Cartesian coordinate corresponding to the <b>e<sub>3</sub></b> basis vector.
+     *
+     * @property z
+     * @type number
+     */
+    get z(): number {
+        return this._coords[COORD_Z]
+    }
+    set z(unused: number) {
+        throw new Error(readOnly('z').message)
+    }
+
+    /**
+     * The coordinate corresponding to the <b>e<sub>1</sub>e<sub>2</sub></b> basis bivector.
+     *
+     * @property xy
+     * @type number
+     */
+    get xy(): number {
+        return this._coords[COORD_XY]
+    }
+    set xy(unused: number) {
+        throw new Error(readOnly('xy').message)
+    }
+
+    /**
+     * The coordinate corresponding to the <b>e<sub>2</sub>e<sub>3</sub></b> basis bivector.
+     *
+     * @property yz
+     * @type number
+     */
+    get yz(): number {
+        return this._coords[COORD_YZ]
+    }
+    set yz(unused: number) {
+        throw new Error(readOnly('yz').message)
+    }
+
+    /**
+     * The coordinate corresponding to the <b>e<sub>3</sub>e<sub>1</sub></b> basis bivector.
+     *
+     * @property zx
+     * @type number
+     */
+    get zx(): number {
+        return this._coords[COORD_ZX]
+    }
+    set zx(unused: number) {
+        throw new Error(readOnly('zx').message)
+    }
+
+    /**
+     * The coordinate corresponding to the <b>e<sub>1</sub>e<sub>2</sub>e<sub>3</sub></b> basis trivector.
+     * The pseudoscalar coordinate of this multivector.
+     *
      * @property β
      * @return {number}
      */
     get β(): number {
-        return this.xyz
+        return this._coords[COORD_PSEUDO]
     }
     set β(unused) {
         throw new Error(readOnly('β').message)
+    }
+
+    /**
+     * The coordinate corresponding to the <b>e<sub>1</sub>e<sub>2</sub>e<sub>3</sub></b> basis trivector.
+     * The pseudoscalar coordinate of this multivector.
+     *
+     * @property beta
+     * @return {number}
+     */
+    get beta(): number {
+        return this._coords[COORD_PSEUDO]
+    }
+    set beta(unused: number) {
+        throw new Error(readOnly('beta').message)
     }
 
     /**
@@ -318,7 +388,7 @@ export default class Euclidean3 implements ImmutableMeasure<Euclidean3>, Geometr
      * @type {number[]}
      */
     get coords(): number[] {
-        return [this.w, this.x, this.y, this.z, this.xy, this.yz, this.zx, this.xyz];
+        return [this.α, this.x, this.y, this.z, this.xy, this.yz, this.zx, this.β];
     }
 
     /**
@@ -329,7 +399,7 @@ export default class Euclidean3 implements ImmutableMeasure<Euclidean3>, Geometr
     coordinate(index: number): number {
         switch (index) {
             case 0:
-                return this.w;
+                return this.α;
             case 1:
                 return this.x;
             case 2:
@@ -343,7 +413,7 @@ export default class Euclidean3 implements ImmutableMeasure<Euclidean3>, Geometr
             case 6:
                 return this.zx;
             case 7:
-                return this.xyz;
+                return this.β;
             default:
                 throw new Error("index must be in the range [0..7]");
         }
@@ -374,7 +444,7 @@ export default class Euclidean3 implements ImmutableMeasure<Euclidean3>, Geometr
      * @chainable
      */
     addPseudo(β: number): Euclidean3 {
-        return new Euclidean3(this.w, this.x, this.y, this.z, this.xy, this.yz, this.zx, this.xyz + β, this.uom)
+        return new Euclidean3(this.α, this.x, this.y, this.z, this.xy, this.yz, this.zx, this.β + β, this.uom)
     }
 
     /**
@@ -385,7 +455,7 @@ export default class Euclidean3 implements ImmutableMeasure<Euclidean3>, Geometr
      * @chainable
      */
     addScalar(α: number): Euclidean3 {
-        return new Euclidean3(this.w + α, this.x, this.y, this.z, this.xy, this.yz, this.zx, this.xyz, this.uom)
+        return new Euclidean3(this.α + α, this.x, this.y, this.z, this.xy, this.yz, this.zx, this.β, this.uom)
     }
 
     /**
@@ -444,7 +514,7 @@ export default class Euclidean3 implements ImmutableMeasure<Euclidean3>, Geometr
      * @chainable
      */
     conj(): Euclidean3 {
-        return new Euclidean3(this.w, -this.x, -this.y, -this.z, -this.xy, -this.yz, -this.zx, +this.xyz, this.uom);
+        return new Euclidean3(this.α, -this.x, -this.y, -this.z, -this.xy, -this.yz, -this.zx, +this.β, this.uom);
     }
 
     /**
@@ -563,7 +633,7 @@ export default class Euclidean3 implements ImmutableMeasure<Euclidean3>, Geometr
      * @return {Euclidean3}
      */
     scale(α: number): Euclidean3 {
-        return new Euclidean3(this.w * α, this.x * α, this.y * α, this.z * α, this.xy * α, this.yz * α, this.zx * α, this.xyz * α, this.uom);
+        return new Euclidean3(this.α * α, this.x * α, this.y * α, this.z * α, this.xy * α, this.yz * α, this.zx * α, this.β * α, this.uom);
     }
 
     /**
@@ -581,7 +651,7 @@ export default class Euclidean3 implements ImmutableMeasure<Euclidean3>, Geometr
      * @return {Euclidean3}
      */
     divByScalar(α: number): Euclidean3 {
-        return new Euclidean3(this.w / α, this.x / α, this.y / α, this.z / α, this.xy / α, this.yz / α, this.zx / α, this.xyz / α, this.uom);
+        return new Euclidean3(this.α / α, this.x / α, this.y / α, this.z / α, this.xy / α, this.yz / α, this.zx / α, this.β / α, this.uom);
     }
 
     /**
@@ -821,7 +891,7 @@ export default class Euclidean3 implements ImmutableMeasure<Euclidean3>, Geometr
      * @return {Euclidean3} <code>-1 * this</code>
      */
     neg(): Euclidean3 {
-        return new Euclidean3(-this.w, -this.x, -this.y, -this.z, -this.xy, -this.yz, -this.zx, -this.xyz, this.uom);
+        return new Euclidean3(-this.α, -this.x, -this.y, -this.z, -this.xy, -this.yz, -this.zx, -this.β, this.uom);
     }
     /**
      * Unary minus (-).
@@ -838,7 +908,7 @@ export default class Euclidean3 implements ImmutableMeasure<Euclidean3>, Geometr
      * @return {Euclidean3}
      */
     rev(): Euclidean3 {
-        return new Euclidean3(this.w, this.x, this.y, this.z, -this.xy, -this.yz, -this.zx, -this.xyz, this.uom);
+        return new Euclidean3(this.α, this.x, this.y, this.z, -this.xy, -this.yz, -this.zx, -this.β, this.uom);
     }
 
     /**
@@ -859,13 +929,13 @@ export default class Euclidean3 implements ImmutableMeasure<Euclidean3>, Geometr
     grade(grade: number): Euclidean3 {
         switch (grade) {
             case 0:
-                return Euclidean3.fromCartesian(this.w, 0, 0, 0, 0, 0, 0, 0, this.uom);
+                return Euclidean3.fromCartesian(this.α, 0, 0, 0, 0, 0, 0, 0, this.uom);
             case 1:
                 return Euclidean3.fromCartesian(0, this.x, this.y, this.z, 0, 0, 0, 0, this.uom);
             case 2:
                 return Euclidean3.fromCartesian(0, 0, 0, 0, this.xy, this.yz, this.zx, 0, this.uom);
             case 3:
-                return Euclidean3.fromCartesian(0, 0, 0, 0, 0, 0, 0, this.xyz, this.uom);
+                return Euclidean3.fromCartesian(0, 0, 0, 0, 0, 0, 0, this.β, this.uom);
             default:
                 return Euclidean3.fromCartesian(0, 0, 0, 0, 0, 0, 0, 0, this.uom);
         }
@@ -913,7 +983,7 @@ export default class Euclidean3 implements ImmutableMeasure<Euclidean3>, Geometr
      * @return {boolean}
      */
     isOne(): boolean {
-        return (this.w === 1) && (this.x === 0) && (this.y === 0) && (this.z === 0) && (this.yz === 0) && (this.zx === 0) && (this.xy === 0) && (this.xyz === 0);
+        return (this.α === 1) && (this.x === 0) && (this.y === 0) && (this.z === 0) && (this.yz === 0) && (this.zx === 0) && (this.xy === 0) && (this.β === 0);
     }
 
     /**
@@ -921,14 +991,8 @@ export default class Euclidean3 implements ImmutableMeasure<Euclidean3>, Geometr
      * @return {boolean}
      */
     isZero(): boolean {
-        return (this.w === 0) && (this.x === 0) && (this.y === 0) && (this.z === 0) && (this.yz === 0) && (this.zx === 0) && (this.xy === 0) && (this.xyz === 0);
+        return (this.α === 0) && (this.x === 0) && (this.y === 0) && (this.z === 0) && (this.yz === 0) && (this.zx === 0) && (this.xy === 0) && (this.β === 0);
     }
-
-    /*
-    length() {
-      return sqrt(this.w * this.w + this.x * this.x + this.y * this.y + this.z * this.z + this.xy * this.xy + this.yz * this.yz + this.zx * this.zx + this.xyz * this.xyz);
-    }
-    */
 
     /**
      * @method lerp
@@ -946,9 +1010,9 @@ export default class Euclidean3 implements ImmutableMeasure<Euclidean3>, Geometr
      */
     cos(): Euclidean3 {
         // TODO: Generalize to full multivector.
-        Unit.assertDimensionless(this.uom);
-        const cosW = Math.cos(this.w);
-        return new Euclidean3(cosW, 0, 0, 0, 0, 0, 0, 0, void 0);
+        Unit.assertDimensionless(this.uom)
+        const cosW = Math.cos(this.α)
+        return new Euclidean3(cosW, 0, 0, 0, 0, 0, 0, 0)
     }
 
     /**
@@ -978,7 +1042,7 @@ export default class Euclidean3 implements ImmutableMeasure<Euclidean3>, Geometr
      * @return {boolean}
      */
     equals(other: Euclidean3): boolean {
-        if (this.α === other.α && this.x === other.x && this.y === other.y && this.z === other.z && this.xy === other.xy && this.yz === other.yz && this.zx === other.zx && this.xyz === other.xyz) {
+        if (this.α === other.α && this.x === other.x && this.y === other.y && this.z === other.z && this.xy === other.xy && this.yz === other.yz && this.zx === other.zx && this.β === other.β) {
             if (this.uom) {
                 if (other.uom) {
                     // TODO: We need equals on
@@ -1148,18 +1212,21 @@ export default class Euclidean3 implements ImmutableMeasure<Euclidean3>, Geometr
         const a = R.xy;
         const b = R.yz;
         const c = R.zx;
-        const α = R.α
+        const α = R.α;
+        const quadR = quadSpinorE3(R)
 
         const ix = α * x - c * z + a * y;
         const iy = α * y - a * x + b * z;
         const iz = α * z - b * y + c * x;
         const iα = b * x + c * y + a * z;
 
+        const αOut = quadR * this.α
         const xOut = ix * α + iα * b + iy * a - iz * c;
         const yOut = iy * α + iα * c + iz * b - ix * a;
         const zOut = iz * α + iα * a + ix * c - iy * b;
+        const βOut = quadR * this.β
 
-        return Euclidean3.fromCartesian(this.α, xOut, yOut, zOut, 0, 0, 0, this.β, this.uom)
+        return Euclidean3.fromCartesian(αOut, xOut, yOut, zOut, 0, 0, 0, βOut, this.uom)
     }
 
     /**
@@ -1169,7 +1236,7 @@ export default class Euclidean3 implements ImmutableMeasure<Euclidean3>, Geometr
     sin(): Euclidean3 {
         // TODO: Generalize to full multivector.
         Unit.assertDimensionless(this.uom);
-        const sinW = Math.sin(this.w);
+        const sinW = Math.sin(this.α);
         return new Euclidean3(sinW, 0, 0, 0, 0, 0, 0, 0, void 0);
     }
 
@@ -1196,7 +1263,7 @@ export default class Euclidean3 implements ImmutableMeasure<Euclidean3>, Geometr
      * @return {Euclidean3}
      */
     sqrt() {
-        return new Euclidean3(Math.sqrt(this.w), 0, 0, 0, 0, 0, 0, 0, Unit.sqrt(this.uom));
+        return new Euclidean3(Math.sqrt(this.α), 0, 0, 0, 0, 0, 0, 0, Unit.sqrt(this.uom));
     }
 
     /**
@@ -1258,37 +1325,37 @@ export default class Euclidean3 implements ImmutableMeasure<Euclidean3>, Geometr
      * Provides access to the internals of Euclidean3 in order to use `product` functions.
      */
     private static mutator(M: Euclidean3): GeometricE3 {
-        var that: GeometricE3 = {
+        const that: GeometricE3 = {
             set α(α: number) {
-                M.w = α
+                M._coords[COORD_SCALAR] = α
+            },
+            set alpha(alpha: number) {
+                M._coords[COORD_SCALAR] = alpha
             },
             set x(x: number) {
-                M.x = x
+                M._coords[COORD_X] = x
             },
             set y(y: number) {
-                M.y = y
+                M._coords[COORD_Y] = y
             },
             set z(z: number) {
-                M.z = z
+                M._coords[COORD_Z] = z
             },
             set yz(yz: number) {
-                M.yz = yz
+                M._coords[COORD_YZ] = yz
             },
             set zx(zx: number) {
-                M.zx = zx
+                M._coords[COORD_ZX] = zx
             },
             set xy(xy: number) {
-                M.xy = xy
+                M._coords[COORD_XY] = xy
             },
             set β(β: number) {
-                M.xyz = β
+                M._coords[COORD_PSEUDO] = β
             },
-            //            magnitude(): number {
-            //                throw new Error("magnitude() should not be needed.");
-            //            },
-            //            squaredNorm(): number {
-            //                throw new Error("squaredNorm() should not be needed.");
-            //            }
+            set beta(beta: number) {
+                M._coords[COORD_PSEUDO] = beta
+            }
         }
         return that
     }
@@ -1336,5 +1403,18 @@ export default class Euclidean3 implements ImmutableMeasure<Euclidean3>, Geometr
         else {
             return void 0
         }
+    }
+
+    /**
+     * @method vector
+     * @param x {number}
+     * @param y {number}
+     * @param z {number}
+     * @param [uom] {Unit}
+     * @return {Euclidean3}
+     * @static
+     */
+    static vector(x: number, y: number, z: number, uom?: Unit): Euclidean3 {
+        return new Euclidean3(0, x, y, z, 0, 0, 0, 0, uom)
     }
 }

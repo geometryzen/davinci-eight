@@ -4,10 +4,10 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/dotVectorE2', '../math/Euclidean2', '../math/extE2', '../checks/isDefined', '../checks/isNumber', '../checks/isObject', '../math/lcoE2', '../math/mulE2', '../checks/mustBeInteger', '../checks/mustBeNumber', '../checks/mustBeObject', '../math/quadVectorE2', '../math/rcoE2', '../math/rotorFromDirections', '../math/scpE2', '../math/stringFromCoordinates', '../math/VectorN', '../math/wedgeXY'], function (require, exports, b2_1, b3_1, dotVectorE2_1, Euclidean2_1, extE2_1, isDefined_1, isNumber_1, isObject_1, lcoE2_1, mulE2_1, mustBeInteger_1, mustBeNumber_1, mustBeObject_1, quadVectorE2_1, rcoE2_1, rotorFromDirections_1, scpE2_1, stringFromCoordinates_1, VectorN_1, wedgeXY_1) {
-    var COORD_W = 0;
+    var COORD_SCALAR = 0;
     var COORD_X = 1;
     var COORD_Y = 2;
-    var COORD_XY = 3;
+    var COORD_PSEUDO = 3;
     var PI = Math.PI;
     var abs = Math.abs;
     var atan2 = Math.atan2;
@@ -54,11 +54,22 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/d
         }
         Object.defineProperty(G2.prototype, "α", {
             get: function () {
-                return this.coords[COORD_W];
+                return this.coords[COORD_SCALAR];
             },
             set: function (α) {
-                this.modified = this.modified || this.coords[COORD_W] !== α;
-                this.coords[COORD_W] = α;
+                this.modified = this.modified || this.coords[COORD_SCALAR] !== α;
+                this.coords[COORD_SCALAR] = α;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(G2.prototype, "alpha", {
+            get: function () {
+                return this.coords[COORD_SCALAR];
+            },
+            set: function (alpha) {
+                this.modified = this.modified || this.coords[COORD_SCALAR] !== alpha;
+                this.coords[COORD_SCALAR] = alpha;
             },
             enumerable: true,
             configurable: true
@@ -87,22 +98,33 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/d
         });
         Object.defineProperty(G2.prototype, "β", {
             get: function () {
-                return this.coords[COORD_XY];
+                return this.coords[COORD_PSEUDO];
             },
             set: function (β) {
-                this.modified = this.modified || this.coords[COORD_XY] !== β;
-                this.coords[COORD_XY] = β;
+                this.modified = this.modified || this.coords[COORD_PSEUDO] !== β;
+                this.coords[COORD_PSEUDO] = β;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(G2.prototype, "beta", {
+            get: function () {
+                return this.coords[COORD_PSEUDO];
+            },
+            set: function (beta) {
+                this.modified = this.modified || this.coords[COORD_PSEUDO] !== beta;
+                this.coords[COORD_PSEUDO] = beta;
             },
             enumerable: true,
             configurable: true
         });
         Object.defineProperty(G2.prototype, "xy", {
             get: function () {
-                return this.coords[COORD_XY];
+                return this.coords[COORD_PSEUDO];
             },
             set: function (xy) {
-                this.modified = this.modified || this.coords[COORD_XY] !== xy;
-                this.coords[COORD_XY] = xy;
+                this.modified = this.modified || this.coords[COORD_PSEUDO] !== xy;
+                this.coords[COORD_PSEUDO] = xy;
             },
             enumerable: true,
             configurable: true
@@ -187,7 +209,7 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/d
             this.α = spinor.α;
             this.x = 0;
             this.y = 0;
-            this.β = spinor.xy;
+            this.β = spinor.β;
             return this;
         };
         G2.prototype.copyVector = function (vector) {
@@ -432,12 +454,12 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/d
             mustBeObject_1.default('R', R);
             var x = this.x;
             var y = this.y;
-            var a = R.xy;
+            var β = R.β;
             var α = R.α;
-            var ix = α * x + a * y;
-            var iy = α * y - a * x;
-            this.x = ix * α + iy * a;
-            this.y = iy * α - ix * a;
+            var ix = α * x + β * y;
+            var iy = α * y - β * x;
+            this.x = ix * α + iy * β;
+            this.y = iy * α - ix * β;
             return this;
         };
         G2.prototype.rotorFromDirections = function (a, b) {
@@ -452,7 +474,7 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/d
         G2.prototype.rotorFromGeneratorAngle = function (B, θ) {
             mustBeObject_1.default('B', B);
             mustBeNumber_1.default('θ', θ);
-            var β = B.xy;
+            var β = B.β;
             var φ = θ / 2;
             this.α = cos(abs(β) * φ);
             this.x = 0;
@@ -825,6 +847,9 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/d
         };
         G2.rotorFromDirections = function (a, b) {
             return new G2().rotorFromDirections(a, b);
+        };
+        G2.vector = function (x, y) {
+            return this.fromCartesian(0, x, y, 0);
         };
         G2.BASIS_LABELS = STANDARD_LABELS;
         G2.zero = G2.fromCartesian(0, 0, 0, 0);

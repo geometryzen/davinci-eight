@@ -43,12 +43,32 @@ define(["require", "exports", '../math/mathcore', '../checks/mustBeInteger', '..
             enumerable: true,
             configurable: true
         });
+        Object.defineProperty(CC.prototype, "alpha", {
+            get: function () {
+                return this.x;
+            },
+            set: function (unused) {
+                throw new Error(readOnly_1.default('alpha').message);
+            },
+            enumerable: true,
+            configurable: true
+        });
         Object.defineProperty(CC.prototype, "β", {
             get: function () {
                 return this.y;
             },
             set: function (unused) {
                 throw new Error(readOnly_1.default('β').message);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(CC.prototype, "beta", {
+            get: function () {
+                return this.y;
+            },
+            set: function (unused) {
+                throw new Error(readOnly_1.default('beta').message);
             },
             enumerable: true,
             configurable: true

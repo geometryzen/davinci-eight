@@ -31,15 +31,15 @@ import wedgeZX from './wedgeZX';
  * @submodule math
  */
 
-// GraphicsProgramSymbols constants for the coordinate indices into the data array.
-const COORD_W = 0
+// Symbolic constants for the coordinate indices into the data array.
+const COORD_SCALAR = 0
 const COORD_X = 1
 const COORD_Y = 2
 const COORD_Z = 3
 const COORD_XY = 4
 const COORD_YZ = 5
 const COORD_ZX = 6
-const COORD_XYZ = 7
+const COORD_PSEUDO = 7
 
 const EVENT_NAME_CHANGE = 'change';
 
@@ -68,6 +68,12 @@ function makeConstantE3(label: string, α: number, x: number, y: number, z: numb
         },
         set α(unused: number) {
             throw new Error(readOnly(label + '.α').message);
+        },
+        get alpha() {
+            return α;
+        },
+        set alpha(unused: number) {
+            throw new Error(readOnly(label + '.alpha').message);
         },
         get x() {
             return x;
@@ -110,6 +116,12 @@ function makeConstantE3(label: string, α: number, x: number, y: number, z: numb
         },
         set β(unused: number) {
             throw new Error(readOnly(label + '.β').message);
+        },
+        get beta() {
+            return β;
+        },
+        set beta(unused: number) {
+            throw new Error(readOnly(label + '.beta').message);
         },
         toString() {
             return label;
@@ -177,10 +189,22 @@ export default class G3 extends VectorN<number> implements GeometricE3, MutableG
      * @type {number}
      */
     get α(): number {
-        return this.coords[COORD_W];
+        return this.coords[COORD_SCALAR];
     }
     set α(α: number) {
-        this.setCoordinate(COORD_W, α, 'α');
+        this.setCoordinate(COORD_SCALAR, α, 'α');
+    }
+
+    /**
+     * The scalar part of this multivector.
+     * @property alpha
+     * @type {number}
+     */
+    get alpha(): number {
+        return this.coords[COORD_SCALAR];
+    }
+    set alpha(alpha: number) {
+        this.setCoordinate(COORD_SCALAR, alpha, 'alpha');
     }
 
     /**
@@ -254,16 +278,29 @@ export default class G3 extends VectorN<number> implements GeometricE3, MutableG
     set xy(xy: number) {
         this.setCoordinate(COORD_XY, xy, 'xy');
     }
+
     /**
      * The pseudoscalar part of this multivector.
      * @property β
      * @type {number}
      */
     get β(): number {
-        return this.coords[COORD_XYZ]
+        return this.coords[COORD_PSEUDO]
     }
     set β(β: number) {
-        this.setCoordinate(COORD_XYZ, β, 'β');
+        this.setCoordinate(COORD_PSEUDO, β, 'β');
+    }
+
+    /**
+     * The pseudoscalar part of this multivector.
+     * @property beta
+     * @type {number}
+     */
+    get beta(): number {
+        return this.coords[COORD_PSEUDO]
+    }
+    set beta(beta: number) {
+        this.setCoordinate(COORD_PSEUDO, beta, 'beta');
     }
 
     /**

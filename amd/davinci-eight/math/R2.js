@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/VectorN'], function (require, exports, b2_1, b3_1, VectorN_1) {
+define(["require", "exports", '../geometries/b2', '../geometries/b3', '../i18n/notImplemented', '../math/stringFromCoordinates', '../math/VectorN'], function (require, exports, b2_1, b3_1, notImplemented_1, stringFromCoordinates_1, VectorN_1) {
     var sqrt = Math.sqrt;
     var COORD_X = 0;
     var COORD_Y = 1;
@@ -36,15 +36,10 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/V
             enumerable: true,
             configurable: true
         });
-        R2.prototype.copy = function (v) {
-            this.x = v.x;
-            this.y = v.y;
-            return this;
-        };
-        R2.prototype.add = function (v, alpha) {
-            if (alpha === void 0) { alpha = 1; }
-            this.x += v.x * alpha;
-            this.y += v.y * alpha;
+        R2.prototype.add = function (v, α) {
+            if (α === void 0) { α = 1; }
+            this.x += v.x * α;
+            this.y += v.y * α;
             return this;
         };
         R2.prototype.add2 = function (a, b) {
@@ -60,6 +55,14 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/V
             this.y = e[0x1] * x + e[0x3] * y;
             return this;
         };
+        R2.prototype.clone = function () {
+            return new R2([this.x, this.y]);
+        };
+        R2.prototype.copy = function (v) {
+            this.x = v.x;
+            this.y = v.y;
+            return this;
+        };
         R2.prototype.cubicBezier = function (t, controlBegin, controlEnd, endPoint) {
             var x = b3_1.default(t, this.x, controlBegin.x, controlEnd.x, endPoint.x);
             var y = b3_1.default(t, this.y, controlBegin.y, controlEnd.y, endPoint.y);
@@ -67,14 +70,12 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/V
             this.y = y;
             return this;
         };
+        R2.prototype.distanceTo = function (position) {
+            return sqrt(this.quadranceTo(position));
+        };
         R2.prototype.sub = function (v) {
             this.x -= v.x;
             this.y -= v.y;
-            return this;
-        };
-        R2.prototype.subScalar = function (s) {
-            this.x -= s;
-            this.y -= s;
             return this;
         };
         R2.prototype.sub2 = function (a, b) {
@@ -82,9 +83,9 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/V
             this.y = a.y - b.y;
             return this;
         };
-        R2.prototype.scale = function (s) {
-            this.x *= s;
-            this.y *= s;
+        R2.prototype.scale = function (α) {
+            this.x *= α;
+            this.y *= α;
             return this;
         };
         R2.prototype.divByScalar = function (scalar) {
@@ -142,9 +143,6 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/V
             this.y = -this.y;
             return this;
         };
-        R2.prototype.distanceTo = function (position) {
-            return sqrt(this.quadranceTo(position));
-        };
         R2.prototype.dot = function (v) {
             return this.x * v.x + this.y * v.y;
         };
@@ -170,9 +168,17 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/V
             return this;
         };
         R2.prototype.reflect = function (n) {
-            return this;
+            throw new Error(notImplemented_1.default('reflect').message);
         };
-        R2.prototype.rotate = function (rotor) {
+        R2.prototype.rotate = function (spinor) {
+            var x = this.x;
+            var y = this.y;
+            var α = spinor.α;
+            var β = spinor.β;
+            var p = α * α - β * β;
+            var q = 2 * α * β;
+            this.x = p * x + q * y;
+            this.y = p * y - q * x;
             return this;
         };
         R2.prototype.lerp = function (v, α) {
@@ -188,13 +194,19 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/V
             return ((v.x === this.x) && (v.y === this.y));
         };
         R2.prototype.slerp = function (v, α) {
-            return this;
+            throw new Error(notImplemented_1.default('slerp').message);
         };
         R2.prototype.toExponential = function () {
-            return "TODO: R2.toExponential";
+            var coordToString = function (coord) { return coord.toExponential(); };
+            return stringFromCoordinates_1.default(this.coords, coordToString, ['e1', 'e2']);
         };
-        R2.prototype.toFixed = function (digits) {
-            return "TODO: R2.toString";
+        R2.prototype.toFixed = function (fractionDigits) {
+            var coordToString = function (coord) { return coord.toFixed(fractionDigits); };
+            return stringFromCoordinates_1.default(this.coords, coordToString, ['e1', 'e2']);
+        };
+        R2.prototype.toString = function () {
+            var coordToString = function (coord) { return coord.toString(); };
+            return stringFromCoordinates_1.default(this.coords, coordToString, ['e1', 'e2']);
         };
         R2.prototype.fromArray = function (array, offset) {
             if (offset === void 0) { offset = 0; }
@@ -209,22 +221,22 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/V
             this.y = attribute.array[index + 1];
             return this;
         };
-        R2.prototype.clone = function () {
-            return new R2([this.x, this.y]);
-        };
         R2.prototype.zero = function () {
             this.x = 0;
             this.y = 0;
             return this;
         };
         R2.copy = function (vector) {
-            return new R2([vector.x, vector.y]);
+            return R2.vector(vector.x, vector.y);
         };
         R2.lerp = function (a, b, α) {
             return R2.copy(b).sub(a).scale(α).add(a);
         };
         R2.random = function () {
-            return new R2([Math.random(), Math.random()]);
+            return R2.vector(Math.random(), Math.random());
+        };
+        R2.vector = function (x, y) {
+            return new R2([x, y]);
         };
         return R2;
     })(VectorN_1.default);

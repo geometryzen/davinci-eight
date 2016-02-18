@@ -3,7 +3,9 @@ import b2 from '../geometries/b2';
 import b3 from '../geometries/b3';
 import Mat2R from '../math/Mat2R';
 import MutableLinearElement from '../math/MutableLinearElement';
+import notImplemented from '../i18n/notImplemented';
 import SpinorE2 from '../math/SpinorE2';
+import stringFromCoordinates from '../math/stringFromCoordinates';
 import VectorN from '../math/VectorN';
 import VectorE2 from '../math/VectorE2';
 
@@ -24,8 +26,8 @@ export default class R2 extends VectorN<number> implements ColumnVector<Mat2R, R
     /**
      * @class R2
      * @constructor
-     * @param data {number[]} Default is [0, 0].
-     * @param modified {boolean} Default is false.
+     * @param [data = [0, 0]] {number[]} Default is [0, 0].
+     * @param [modified = false] {boolean} Default is false.
      */
     constructor(data = [0, 0], modified = false) {
         super(data, modified, 2);
@@ -33,7 +35,7 @@ export default class R2 extends VectorN<number> implements ColumnVector<Mat2R, R
 
     /**
      * @property x
-     * @type Number
+     * @type number
      */
     get x(): number {
         return this.coords[COORD_X];
@@ -45,7 +47,7 @@ export default class R2 extends VectorN<number> implements ColumnVector<Mat2R, R
 
     /**
      * @property y
-     * @type Number
+     * @type number
      */
     get y(): number {
         return this.coords[COORD_Y];
@@ -57,33 +59,36 @@ export default class R2 extends VectorN<number> implements ColumnVector<Mat2R, R
     }
 
     /**
-     * @method copy
-     * @param v {{x: number; y: number}}
+     * @method add
+     * @param v {VectorE2}
+     * @param [α = 1] {number}
      * @return {R2}
      * @chainable
      */
-    copy(v: { x: number; y: number }): R2 {
-        this.x = v.x;
-        this.y = v.y;
-        return this;
-    }
-
-    add(v: VectorE2, alpha = 1) {
-        this.x += v.x * alpha
-        this.y += v.y * alpha
+    add(v: VectorE2, α = 1): R2 {
+        this.x += v.x * α
+        this.y += v.y * α
         return this
     }
 
-    add2(a: VectorE2, b: VectorE2) {
-        this.x = a.x + b.x;
-        this.y = a.y + b.y;
-        return this;
+    /**
+     * @method add2
+     * @param a {VectorE2}
+     * @param b {VectorE2}
+     * @return {R2}
+     * @chainable
+     */
+    add2(a: VectorE2, b: VectorE2): R2 {
+        this.x = a.x + b.x
+        this.y = a.y + b.y
+        return this
     }
 
     /**
      * <p>
      * <code>this ⟼ m * this<sup>T</sup></code>
      * </p>
+     *
      * @method applyMatrix
      * @param m {Mat2R}
      * @return {R2} <code>this</code>
@@ -102,40 +107,98 @@ export default class R2 extends VectorN<number> implements ColumnVector<Mat2R, R
     }
 
     /**
+     * @method clone
+     * @return {R2}
+     * @chainable
+     */
+    clone(): R2 {
+        return new R2([this.x, this.y])
+    }
+
+    /**
+     * @method copy
+     * @param v {VectorE2}
+     * @return {R2}
+     * @chainable
+     */
+    copy(v: VectorE2): R2 {
+        this.x = v.x
+        this.y = v.y
+        return this
+    }
+
+    /**
      * @method cubicBezier
      * @param t {number}
      * @param controlBegin {VectorE2}
      * @param endPoint {VectorE2}
      * @return {R2}
+     * @chainable
      */
     cubicBezier(t: number, controlBegin: VectorE2, controlEnd: VectorE2, endPoint: VectorE2): R2 {
-        let x = b3(t, this.x, controlBegin.x, controlEnd.x, endPoint.x);
-        let y = b3(t, this.y, controlBegin.y, controlEnd.y, endPoint.y);
-        this.x = x;
-        this.y = y;
+        const x = b3(t, this.x, controlBegin.x, controlEnd.x, endPoint.x)
+        const y = b3(t, this.y, controlBegin.y, controlEnd.y, endPoint.y)
+        this.x = x
+        this.y = y
         return this
     }
 
-    sub(v: VectorE2) {
+    /**
+     * @method distanceTo
+     * @param point {VectorE2}
+     * @return {number}
+     */
+    distanceTo(position: VectorE2) {
+        return sqrt(this.quadranceTo(position));
+    }
+
+    /**
+     * @method sub
+     * @param v {VectorE2}
+     * @return {R2}
+     * @chainable
+     */
+    sub(v: VectorE2): R2 {
         this.x -= v.x;
         this.y -= v.y;
         return this;
     }
+    /*
     subScalar(s: number) {
         this.x -= s;
         this.y -= s;
         return this;
     }
-    sub2(a: VectorE2, b: VectorE2) {
+    */
+
+    /**
+     * @method sub2
+     * @param a {VectorE2}
+     * @param b {VectorE2}
+     * @return {R2}
+     * @chainable
+     */
+    sub2(a: VectorE2, b: VectorE2): R2 {
         this.x = a.x - b.x;
         this.y = a.y - b.y;
         return this;
     }
-    scale(s: number) {
-        this.x *= s;
-        this.y *= s;
-        return this;
+
+    /**
+     * @method scale
+     * @param α {number}
+     * @return {R2}
+     * @chainable
+     */
+    scale(α: number): R2 {
+        this.x *= α
+        this.y *= α
+        return this
     }
+
+    /**
+     *
+     */
     divByScalar(scalar: number) {
         if (scalar !== 0) {
             var invScalar = 1 / scalar;
@@ -186,6 +249,7 @@ export default class R2 extends VectorN<number> implements ColumnVector<Mat2R, R
         this.y = (this.y < 0) ? Math.ceil(this.y) : Math.floor(this.y);
         return this;
     }
+
     /**
      * @method neg
      * @return {R2} <code>this</code>
@@ -197,20 +261,13 @@ export default class R2 extends VectorN<number> implements ColumnVector<Mat2R, R
         return this
     }
 
-    /**
-     * @method distanceTo
-     * @param point {VectorE2}
-     * @return {number}
-     */
-    distanceTo(position: VectorE2) {
-        return sqrt(this.quadranceTo(position));
-    }
     dot(v: VectorE2) {
         return this.x * v.x + this.y * v.y;
     }
 
     /**
      * Computes the <em>square root</em> of the <em>squared norm</em>.
+     *
      * @method magnitude
      * @return {number}
      */
@@ -219,7 +276,7 @@ export default class R2 extends VectorN<number> implements ColumnVector<Mat2R, R
     }
 
     direction() {
-        return this.divByScalar(this.magnitude());
+        return this.divByScalar(this.magnitude())
     }
 
     squaredNorm(): number {
@@ -240,38 +297,59 @@ export default class R2 extends VectorN<number> implements ColumnVector<Mat2R, R
      * @return {R2}
      */
     quadraticBezier(t: number, controlPoint: VectorE2, endPoint: VectorE2): R2 {
-        let x = b2(t, this.x, controlPoint.x, endPoint.x);
-        let y = b2(t, this.y, controlPoint.y, endPoint.y);
+        const x = b2(t, this.x, controlPoint.x, endPoint.x);
+        const y = b2(t, this.y, controlPoint.y, endPoint.y);
         this.x = x;
         this.y = y;
         return this
     }
 
     reflect(n: VectorE2): R2 {
-        // FIXME: TODO
-        return this;
+        throw new Error(notImplemented('reflect').message)
     }
-    rotate(rotor: SpinorE2): R2 {
-        return this;
+
+    /**
+     * @method rotate
+     * @param spinor {SpinorE2}
+     * @return {R2}
+     * @chainable
+     */
+    rotate(spinor: SpinorE2): R2 {
+        const x = this.x
+        const y = this.y
+
+        const α = spinor.α
+        const β = spinor.β
+
+        const p = α * α - β * β
+        const q = 2 * α * β
+
+        this.x = p * x + q * y
+        this.y = p * y - q * x
+
+        return this
     }
 
     /**
      * this ⟼ this + (v - this) * α
+     *
      * @method lerp
      * @param v {VectorE2}
      * @param α {number}
      * @return {R2}
      * @chainable 
      */
-    lerp(v: VectorE2, α: number) {
-        this.x += (v.x - this.x) * α;
-        this.y += (v.y - this.y) * α;
-        return this;
+    lerp(v: VectorE2, α: number): R2 {
+        this.x += (v.x - this.x) * α
+        this.y += (v.y - this.y) * α
+        return this
     }
+
     /**
      * <p>
      * <code>this ⟼ a + α * (b - a)</code>
      * </p>
+     *
      * @method lerp2
      * @param a {VectorE2}
      * @param b {VectorE2}
@@ -279,39 +357,63 @@ export default class R2 extends VectorN<number> implements ColumnVector<Mat2R, R
      * @return {R2} <code>this</code>
      * @chainable
      */
-    lerp2(a: VectorE2, b: VectorE2, α: number) {
+    lerp2(a: VectorE2, b: VectorE2, α: number): R2 {
         this.copy(a).lerp(b, α)
         return this
     }
-    equals(v: VectorE2) {
+
+    equals(v: VectorE2): boolean {
         return ((v.x === this.x) && (v.y === this.y));
     }
-    slerp(v: VectorE2, α: number) {
-        return this;
+
+    slerp(v: VectorE2, α: number): R2 {
+        throw new Error(notImplemented('slerp').message)
     }
+
+    /**
+     * @method toExponential
+     * @return {string}
+     */
     toExponential(): string {
-        return "TODO: R2.toExponential"
+        const coordToString = function(coord: number): string { return coord.toExponential() };
+        return stringFromCoordinates(this.coords, coordToString, ['e1', 'e2'])
     }
-    toFixed(digits?: number): string {
-        return "TODO: R2.toString"
+
+    /**
+     * @method toFixed
+     * @param [fractionDigits] {number}
+     * @return {string}
+     */
+    toFixed(fractionDigits?: number): string {
+        const coordToString = function(coord: number): string { return coord.toFixed(fractionDigits) };
+        return stringFromCoordinates(this.coords, coordToString, ['e1', 'e2'])
     }
+
+    /**
+     * @method toString
+     * @return {string}
+     */
+    toString(): string {
+        const coordToString = function(coord: number): string { return coord.toString() };
+        return stringFromCoordinates(this.coords, coordToString, ['e1', 'e2'])
+    }
+
     fromArray(array: number[], offset = 0) {
         this.x = array[offset];
         this.y = array[offset + 1];
         return this;
     }
+
     fromAttribute(attribute: { itemSize: number, array: number[] }, index: number, offset = 0) {
         index = index * attribute.itemSize + offset;
         this.x = attribute.array[index];
         this.y = attribute.array[index + 1];
         return this;
     }
-    clone() {
-        return new R2([this.x, this.y]);
-    }
 
     /**
      * Sets this vector to the identity element for addition, <b>0</b>.
+     *
      * @method zero
      * @return {R2}
      * @chainable
@@ -324,12 +426,13 @@ export default class R2 extends VectorN<number> implements ColumnVector<Mat2R, R
 
     /**
      * @method copy
-     * @param vector {{x: number; y: number}}
+     *
+     * @param vector {VectorE2}
      * @return {R2}
      * @static
      */
-    static copy(vector: { x: number; y: number }): R2 {
-        return new R2([vector.x, vector.y])
+    static copy(vector: VectorE2): R2 {
+        return R2.vector(vector.x, vector.y)
     }
 
     /**
@@ -343,13 +446,25 @@ export default class R2 extends VectorN<number> implements ColumnVector<Mat2R, R
     static lerp(a: VectorE2, b: VectorE2, α: number): R2 {
         return R2.copy(b).sub(a).scale(α).add(a)
     }
+
     /**
      * @method random
+     *
      * @return {R2}
      * @static
      */
     static random(): R2 {
-        return new R2([Math.random(), Math.random()])
+        return R2.vector(Math.random(), Math.random())
     }
 
+    /**
+     * @method vector
+     * @param x {number}
+     * @param y {number}
+     * @return {R2}
+     * @static
+     */
+    static vector(x: number, y: number): R2 {
+        return new R2([x, y])
+    }
 }

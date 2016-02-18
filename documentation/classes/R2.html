@@ -202,7 +202,7 @@
 
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_math_R2.ts.html#l24"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R2.ts:24</code></a>
+            Defined in: <a href="../files/src_davinci-eight_math_R2.ts.html#l26"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R2.ts:26</code></a>
         </div>
 
             Module: <a href="../modules/math.html">math</a><br>
@@ -223,10 +223,10 @@
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
-                        <code>data</code>
+                        <code class="optional">[data = [0, 0]]  Default is [0, 0]</code>
                 </li>
                 <li class="arg">
-                        <code>modified</code>
+                        <code class="optional">[modified = false]</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
@@ -241,7 +241,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R2.ts.html#l24"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R2.ts:24</code></a>
+        <a href="../files/src_davinci-eight_math_R2.ts.html#l26"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R2.ts:26</code></a>
         </p>
 
 
@@ -257,19 +257,21 @@
 
             <ul class="params-list">
                 <li class="param">
-                        <code class="param-name">data</code>
+                        <code class="param-name optional">[data = [0, 0]]  Default is [0, 0]</code>
                         <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
 
 
                     <div class="param-description">
-                        <p>Default is [0, 0].</p>
+                        <p>.</p>
 
                     </div>
 
                 </li>
                 <li class="param">
-                        <code class="param-name">modified</code>
+                        <code class="param-name optional">[modified = false]</code>
                         <span class="type">Boolean</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
 
 
                     <div class="param-description">
@@ -303,7 +305,19 @@
 
                     <ul class="index-list methods">
                             <li class="index-item method">
+                                <a href="#method_add">add</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_add2">add2</a>
+
+                            </li>
+                            <li class="index-item method">
                                 <a href="#method_applyMatrix">applyMatrix</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_clone">clone</a>
 
                             </li>
                             <li class="index-item method">
@@ -354,6 +368,39 @@
                                     <span class="flag static">static</span>
                             </li>
                             <li class="index-item method">
+                                <a href="#method_rotate">rotate</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_scale">scale</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_sub">sub</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_sub2">sub2</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_toExponential">toExponential</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_toFixed">toFixed</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_toString">toString</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_vector">vector</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item method">
                                 <a href="#method_zero">zero</a>
 
                             </li>
@@ -381,6 +428,159 @@
             <div id="methods" class="api-class-tabpanel">
                 <h2 class="off-left">Methods</h2>
 
+<div id="method_add" class="method item">
+    <h3 class="name"><code>add</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>v</code>
+                </li>
+                <li class="arg">
+                        <code class="optional">[α = 1]</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/R2.html" class="crosslink">R2</a></span>
+        </span>
+
+
+
+
+
+        <span class="flag chainable">chainable</span>
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_R2.ts.html#l61"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R2.ts:61</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">v</code>
+                        <span class="type"><a href="../classes/VectorE2.html" class="crosslink">VectorE2</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name optional">[α = 1]</code>
+                        <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/R2.html" class="crosslink">R2</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_add2" class="method item">
+    <h3 class="name"><code>add2</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>a</code>
+                </li>
+                <li class="arg">
+                        <code>b</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/R2.html" class="crosslink">R2</a></span>
+        </span>
+
+
+
+
+
+        <span class="flag chainable">chainable</span>
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_R2.ts.html#l74"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R2.ts:74</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">a</code>
+                        <span class="type"><a href="../classes/VectorE2.html" class="crosslink">VectorE2</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">b</code>
+                        <span class="type"><a href="../classes/VectorE2.html" class="crosslink">VectorE2</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/R2.html" class="crosslink">R2</a></span>:
+            </div>
+        </div>
+
+
+</div>
 <div id="method_applyMatrix" class="method item">
     <h3 class="name"><code>applyMatrix</code></h3>
 
@@ -406,7 +606,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R2.ts.html#l83"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R2.ts:83</code></a>
+        <a href="../files/src_davinci-eight_math_R2.ts.html#l87"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R2.ts:87</code></a>
         </p>
 
 
@@ -448,6 +648,47 @@
 
 
 </div>
+<div id="method_clone" class="method item">
+    <h3 class="name"><code>clone</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/R2.html" class="crosslink">R2</a></span>
+        </span>
+
+
+
+
+
+        <span class="flag chainable">chainable</span>
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_R2.ts.html#l109"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R2.ts:109</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/R2.html" class="crosslink">R2</a></span>:
+            </div>
+        </div>
+
+
+</div>
 <div id="method_copy" class="method item">
     <h3 class="name"><code>copy</code></h3>
 
@@ -473,7 +714,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R2.ts.html#l59"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R2.ts:59</code></a>
+        <a href="../files/src_davinci-eight_math_R2.ts.html#l118"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R2.ts:118</code></a>
         </p>
 
 
@@ -490,12 +731,11 @@
             <ul class="params-list">
                 <li class="param">
                         <code class="param-name">v</code>
-                        <span class="type">X: number; y: number</span>
+                        <span class="type"><a href="../classes/VectorE2.html" class="crosslink">VectorE2</a></span>
 
 
                     <div class="param-description">
-                        <p>}</p>
-
+                         
                     </div>
 
                 </li>
@@ -537,7 +777,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R2.ts.html#l325"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R2.ts:325</code></a>
+        <a href="../files/src_davinci-eight_math_R2.ts.html#l427"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R2.ts:427</code></a>
         </p>
 
 
@@ -554,12 +794,11 @@
             <ul class="params-list">
                 <li class="param">
                         <code class="param-name">vector</code>
-                        <span class="type">X: number; y: number</span>
+                        <span class="type"><a href="../classes/VectorE2.html" class="crosslink">VectorE2</a></span>
 
 
                     <div class="param-description">
-                        <p>}</p>
-
+                         
                     </div>
 
                 </li>
@@ -601,12 +840,13 @@
 
 
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R2.ts.html#l104"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R2.ts:104</code></a>
+        <a href="../files/src_davinci-eight_math_R2.ts.html#l130"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R2.ts:130</code></a>
         </p>
 
 
@@ -688,7 +928,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R2.ts.html#l200"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R2.ts:200</code></a>
+        <a href="../files/src_davinci-eight_math_R2.ts.html#l146"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R2.ts:146</code></a>
         </p>
 
 
@@ -754,7 +994,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R2.ts.html#l258"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R2.ts:258</code></a>
+        <a href="../files/src_davinci-eight_math_R2.ts.html#l333"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R2.ts:333</code></a>
         </p>
 
 
@@ -834,7 +1074,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R2.ts.html#l335"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R2.ts:335</code></a>
+        <a href="../files/src_davinci-eight_math_R2.ts.html#l438"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R2.ts:438</code></a>
         </p>
 
 
@@ -925,7 +1165,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R2.ts.html#l271"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R2.ts:271</code></a>
+        <a href="../files/src_davinci-eight_math_R2.ts.html#l348"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R2.ts:348</code></a>
         </p>
 
 
@@ -1005,7 +1245,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R2.ts.html#l212"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R2.ts:212</code></a>
+        <a href="../files/src_davinci-eight_math_R2.ts.html#l268"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R2.ts:268</code></a>
         </p>
 
 
@@ -1047,7 +1287,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R2.ts.html#l189"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R2.ts:189</code></a>
+        <a href="../files/src_davinci-eight_math_R2.ts.html#l253"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R2.ts:253</code></a>
         </p>
 
 
@@ -1101,7 +1341,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R2.ts.html#l235"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R2.ts:235</code></a>
+        <a href="../files/src_davinci-eight_math_R2.ts.html#l292"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R2.ts:292</code></a>
         </p>
 
 
@@ -1178,7 +1418,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R2.ts.html#l346"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R2.ts:346</code></a>
+        <a href="../files/src_davinci-eight_math_R2.ts.html#l450"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R2.ts:450</code></a>
         </p>
 
 
@@ -1189,6 +1429,490 @@
         
     </div>
 
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/R2.html" class="crosslink">R2</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_rotate" class="method item">
+    <h3 class="name"><code>rotate</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>spinor</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/R2.html" class="crosslink">R2</a></span>
+        </span>
+
+
+
+
+
+        <span class="flag chainable">chainable</span>
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_R2.ts.html#l311"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R2.ts:311</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">spinor</code>
+                        <span class="type"><a href="../classes/SpinorE2.html" class="crosslink">SpinorE2</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/R2.html" class="crosslink">R2</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_scale" class="method item">
+    <h3 class="name"><code>scale</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>α</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/R2.html" class="crosslink">R2</a></span>
+        </span>
+
+
+
+
+
+        <span class="flag chainable">chainable</span>
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_R2.ts.html#l187"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R2.ts:187</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">α</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/R2.html" class="crosslink">R2</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_sub" class="method item">
+    <h3 class="name"><code>sub</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>v</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/R2.html" class="crosslink">R2</a></span>
+        </span>
+
+
+
+
+
+        <span class="flag chainable">chainable</span>
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_R2.ts.html#l155"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R2.ts:155</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">v</code>
+                        <span class="type"><a href="../classes/VectorE2.html" class="crosslink">VectorE2</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/R2.html" class="crosslink">R2</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_sub2" class="method item">
+    <h3 class="name"><code>sub2</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>a</code>
+                </li>
+                <li class="arg">
+                        <code>b</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/R2.html" class="crosslink">R2</a></span>
+        </span>
+
+
+
+
+
+        <span class="flag chainable">chainable</span>
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_R2.ts.html#l174"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R2.ts:174</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">a</code>
+                        <span class="type"><a href="../classes/VectorE2.html" class="crosslink">VectorE2</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">b</code>
+                        <span class="type"><a href="../classes/VectorE2.html" class="crosslink">VectorE2</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/R2.html" class="crosslink">R2</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_toExponential" class="method item">
+    <h3 class="name"><code>toExponential</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">String</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_R2.ts.html#l373"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R2.ts:373</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">String</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_toFixed" class="method item">
+    <h3 class="name"><code>toFixed</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code class="optional">[fractionDigits]</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">String</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_R2.ts.html#l382"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R2.ts:382</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name optional">[fractionDigits]</code>
+                        <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">String</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_toString" class="method item">
+    <h3 class="name"><code>toString</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">String</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_R2.ts.html#l392"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R2.ts:392</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">String</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_vector" class="method item">
+    <h3 class="name"><code>vector</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>x</code>
+                </li>
+                <li class="arg">
+                        <code>y</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/R2.html" class="crosslink">R2</a></span>
+        </span>
+
+
+
+
+        <span class="flag static">static</span>
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_R2.ts.html#l460"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R2.ts:460</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">x</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">y</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
 
         <div class="returns">
             <h4>Returns:</h4>
@@ -1219,7 +1943,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R2.ts.html#l313"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R2.ts:313</code></a>
+        <a href="../files/src_davinci-eight_math_R2.ts.html#l414"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R2.ts:414</code></a>
         </p>
 
 
@@ -1258,7 +1982,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R2.ts.html#l34"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R2.ts:34</code></a>
+        <a href="../files/src_davinci-eight_math_R2.ts.html#l36"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R2.ts:36</code></a>
         </p>
 
 
@@ -1282,7 +2006,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R2.ts.html#l46"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R2.ts:46</code></a>
+        <a href="../files/src_davinci-eight_math_R2.ts.html#l48"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R2.ts:48</code></a>
         </p>
 
 

@@ -4,12 +4,12 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 define(["require", "exports", '../math/dotVectorCartesianE2', '../math/dotVectorE2', '../checks/isDefined', '../checks/mustBeInteger', '../checks/mustBeNumber', '../checks/mustBeObject', '../math/quadSpinorE2', '../math/quadVectorE2', '../math/rotorFromDirections', '../math/VectorN', '../math/wedgeXY'], function (require, exports, dotVectorCartesianE2_1, dotVectorE2_1, isDefined_1, mustBeInteger_1, mustBeNumber_1, mustBeObject_1, quadSpinorE2_1, quadVectorE2_1, rotorFromDirections_1, VectorN_1, wedgeXY_1) {
-    var COORD_XY = 0;
-    var COORD_ALPHA = 1;
+    var COORD_SCALAR = 1;
+    var COORD_PSEUDO = 0;
     function one() {
         var coords = [0, 0];
-        coords[COORD_ALPHA] = 1;
-        coords[COORD_XY] = 0;
+        coords[COORD_SCALAR] = 1;
+        coords[COORD_PSEUDO] = 0;
         return coords;
     }
     var abs = Math.abs;
@@ -28,36 +28,60 @@ define(["require", "exports", '../math/dotVectorCartesianE2', '../math/dotVector
         }
         Object.defineProperty(SpinG2.prototype, "xy", {
             get: function () {
-                return this.coords[COORD_XY];
+                return this.coords[COORD_PSEUDO];
             },
             set: function (xy) {
                 mustBeNumber_1.default('xy', xy);
                 this.modified = this.modified || this.xy !== xy;
-                this.coords[COORD_XY] = xy;
+                this.coords[COORD_PSEUDO] = xy;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(SpinG2.prototype, "alpha", {
+            get: function () {
+                return this.coords[COORD_SCALAR];
+            },
+            set: function (alpha) {
+                mustBeNumber_1.default('alpha', alpha);
+                this.modified = this.modified || this.alpha !== alpha;
+                this.coords[COORD_SCALAR] = alpha;
             },
             enumerable: true,
             configurable: true
         });
         Object.defineProperty(SpinG2.prototype, "α", {
             get: function () {
-                return this.coords[COORD_ALPHA];
+                return this.coords[COORD_SCALAR];
             },
             set: function (α) {
                 mustBeNumber_1.default('α', α);
                 this.modified = this.modified || this.α !== α;
-                this.coords[COORD_ALPHA] = α;
+                this.coords[COORD_SCALAR] = α;
             },
             enumerable: true,
             configurable: true
         });
         Object.defineProperty(SpinG2.prototype, "β", {
             get: function () {
-                return this.coords[COORD_XY];
+                return this.coords[COORD_PSEUDO];
             },
             set: function (β) {
                 mustBeNumber_1.default('β', β);
                 this.modified = this.modified || this.β !== β;
-                this.coords[COORD_XY] = β;
+                this.coords[COORD_PSEUDO] = β;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(SpinG2.prototype, "beta", {
+            get: function () {
+                return this.coords[COORD_PSEUDO];
+            },
+            set: function (beta) {
+                mustBeNumber_1.default('beta', beta);
+                this.modified = this.modified || this.beta !== beta;
+                this.coords[COORD_PSEUDO] = beta;
             },
             enumerable: true,
             configurable: true
@@ -66,13 +90,13 @@ define(["require", "exports", '../math/dotVectorCartesianE2', '../math/dotVector
             if (α === void 0) { α = 1; }
             mustBeObject_1.default('spinor', spinor);
             mustBeNumber_1.default('α', α);
-            this.xy += spinor.xy * α;
+            this.xy += spinor.β * α;
             this.α += spinor.α * α;
             return this;
         };
         SpinG2.prototype.add2 = function (a, b) {
             this.α = a.α + b.α;
-            this.xy = a.xy + b.xy;
+            this.xy = a.β + b.β;
             return this;
         };
         SpinG2.prototype.addPseudo = function (β) {
@@ -99,7 +123,7 @@ define(["require", "exports", '../math/dotVectorCartesianE2', '../math/dotVector
         };
         SpinG2.prototype.copy = function (spinor) {
             mustBeObject_1.default('spinor', spinor);
-            this.xy = mustBeNumber_1.default('spinor.xy', spinor.xy);
+            this.xy = mustBeNumber_1.default('spinor.β', spinor.β);
             this.α = mustBeNumber_1.default('spinor.α', spinor.α);
             return this;
         };
@@ -123,9 +147,9 @@ define(["require", "exports", '../math/dotVectorCartesianE2', '../math/dotVector
         };
         SpinG2.prototype.div2 = function (a, b) {
             var a0 = a.α;
-            var a1 = a.xy;
+            var a1 = a.β;
             var b0 = b.α;
-            var b1 = b.xy;
+            var b1 = b.β;
             var quadB = quadSpinorE2_1.default(b);
             this.α = (a0 * b0 + a1 * b1) / quadB;
             this.xy = (a1 * b0 - a0 * b1) / quadB;
@@ -194,9 +218,9 @@ define(["require", "exports", '../math/dotVectorCartesianE2', '../math/dotVector
         };
         SpinG2.prototype.mul2 = function (a, b) {
             var a0 = a.α;
-            var a1 = a.xy;
+            var a1 = a.β;
             var b0 = b.α;
-            var b1 = b.xy;
+            var b1 = b.β;
             this.α = a0 * b0 - a1 * b1;
             this.xy = a0 * b1 + a1 * b0;
             return this;
@@ -274,7 +298,7 @@ define(["require", "exports", '../math/dotVectorCartesianE2', '../math/dotVector
         SpinG2.prototype.rotorFromGeneratorAngle = function (B, θ) {
             var φ = θ / 2;
             var s = sin(φ);
-            this.xy = -B.xy * s;
+            this.xy = -B.β * s;
             this.α = cos(φ);
             return this;
         };
@@ -304,12 +328,12 @@ define(["require", "exports", '../math/dotVectorCartesianE2', '../math/dotVector
             if (α === void 0) { α = 1; }
             mustBeObject_1.default('s', s);
             mustBeNumber_1.default('α', α);
-            this.xy -= s.xy * α;
+            this.xy -= s.β * α;
             this.α -= s.α * α;
             return this;
         };
         SpinG2.prototype.sub2 = function (a, b) {
-            this.xy = a.xy - b.xy;
+            this.xy = a.β - b.β;
             this.α = a.α - b.α;
             return this;
         };

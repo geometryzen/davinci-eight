@@ -55,6 +55,16 @@ define(["require", "exports", '../checks/mustBeInteger', '../i18n/readOnly', '..
             enumerable: true,
             configurable: true
         });
+        Object.defineProperty(Euclidean1.prototype, "beta", {
+            get: function () {
+                return this.x;
+            },
+            set: function (unused) {
+                throw new Error(readOnly_1.default('beta').message);
+            },
+            enumerable: true,
+            configurable: true
+        });
         Object.defineProperty(Euclidean1.prototype, "coords", {
             get: function () {
                 return [this.w, this.x];

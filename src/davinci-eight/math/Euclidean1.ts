@@ -83,6 +83,18 @@ export default class Euclidean1 implements /*LinearElement<Euclidean1Coords, Euc
         throw new Error(readOnly('β').message)
     }
 
+    /**
+     * The pseudoscalar part of this multivector.
+     * @property beta
+     * @return {number}
+     */
+    get beta(): number {
+        return this.x;
+    }
+    set beta(unused) {
+        throw new Error(readOnly('beta').message)
+    }
+
     get coords(): number[] {
         return [this.w, this.x]
     }

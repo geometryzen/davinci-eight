@@ -1,4 +1,8 @@
 define(["require", "exports", '../geometries/b2', '../geometries/b3', './extE2', './gauss', './lcoE2', './rcoE2', './mulE2', '../i18n/notImplemented', '../i18n/readOnly', './scpE2', './stringFromCoordinates', './Unit'], function (require, exports, b2_1, b3_1, extE2_1, gauss_1, lcoE2_1, rcoE2_1, mulE2_1, notImplemented_1, readOnly_1, scpE2_1, stringFromCoordinates_1, Unit_1) {
+    var COORD_SCALAR = 0;
+    var COORD_X = 1;
+    var COORD_Y = 2;
+    var COORD_PSEUDO = 3;
     function add00(a00, a01, a10, a11, b00, b01, b10, b11) {
         a00 = +a00;
         a01 = +a01;
@@ -83,17 +87,22 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', './extE2',
     }
     var Euclidean2 = (function () {
         function Euclidean2(α, x, y, β, uom) {
-            this._w = α;
-            this._x = x;
-            this._y = y;
-            this.xy = β;
+            if (α === void 0) { α = 0; }
+            if (x === void 0) { x = 0; }
+            if (y === void 0) { y = 0; }
+            if (β === void 0) { β = 0; }
+            this._coords = [0, 0, 0, 0];
+            this._coords[COORD_SCALAR] = α;
+            this._coords[COORD_X] = x;
+            this._coords[COORD_Y] = y;
+            this._coords[COORD_PSEUDO] = β;
             this.uom = uom;
             if (this.uom && this.uom.multiplier !== 1) {
                 var multiplier = this.uom.multiplier;
-                this._w *= multiplier;
-                this._x *= multiplier;
-                this._y *= multiplier;
-                this.xy *= multiplier;
+                this._coords[COORD_SCALAR] *= multiplier;
+                this._coords[COORD_X] *= multiplier;
+                this._coords[COORD_Y] *= multiplier;
+                this._coords[COORD_PSEUDO] *= multiplier;
                 this.uom = new Unit_1.default(1, uom.dimensions, uom.labels);
             }
         }
@@ -149,7 +158,7 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', './extE2',
         });
         Object.defineProperty(Euclidean2.prototype, "α", {
             get: function () {
-                return this._w;
+                return this._coords[COORD_SCALAR];
             },
             set: function (unused) {
                 throw new Error(readOnly_1.default('α').message);
@@ -157,9 +166,19 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', './extE2',
             enumerable: true,
             configurable: true
         });
+        Object.defineProperty(Euclidean2.prototype, "alpha", {
+            get: function () {
+                return this._coords[COORD_SCALAR];
+            },
+            set: function (unused) {
+                throw new Error(readOnly_1.default('alpha').message);
+            },
+            enumerable: true,
+            configurable: true
+        });
         Object.defineProperty(Euclidean2.prototype, "x", {
             get: function () {
-                return this._x;
+                return this._coords[COORD_X];
             },
             set: function (unused) {
                 throw new Error(readOnly_1.default('x').message);
@@ -169,7 +188,7 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', './extE2',
         });
         Object.defineProperty(Euclidean2.prototype, "y", {
             get: function () {
-                return this._y;
+                return this._coords[COORD_Y];
             },
             set: function (unused) {
                 throw new Error(readOnly_1.default('y').message);
@@ -179,10 +198,20 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', './extE2',
         });
         Object.defineProperty(Euclidean2.prototype, "β", {
             get: function () {
-                return this.xy;
+                return this._coords[COORD_PSEUDO];
             },
             set: function (unused) {
                 throw new Error(readOnly_1.default('β').message);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Euclidean2.prototype, "beta", {
+            get: function () {
+                return this._coords[COORD_PSEUDO];
+            },
+            set: function (unused) {
+                throw new Error(readOnly_1.default('beta').message);
             },
             enumerable: true,
             configurable: true
@@ -195,7 +224,7 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', './extE2',
         };
         Object.defineProperty(Euclidean2.prototype, "coords", {
             get: function () {
-                return [this._w, this._x, this._y, this.xy];
+                return [this.α, this.x, this.y, this.β];
             },
             enumerable: true,
             configurable: true
@@ -203,13 +232,13 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', './extE2',
         Euclidean2.prototype.coordinate = function (index) {
             switch (index) {
                 case 0:
-                    return this._w;
+                    return this.α;
                 case 1:
-                    return this._x;
+                    return this.x;
                 case 2:
-                    return this._y;
+                    return this.y;
                 case 3:
-                    return this.xy;
+                    return this.β;
                 default:
                     throw new Error("index must be in the range [0..3]");
             }
@@ -234,10 +263,10 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', './extE2',
             return new Euclidean2(xs[0], xs[1], xs[2], xs[3], Unit_1.default.compatible(this.uom, rhs.uom));
         };
         Euclidean2.prototype.addPseudo = function (β) {
-            return new Euclidean2(this._w, this._x, this._y, this.β + β, this.uom);
+            return new Euclidean2(this.α, this.x, this.y, this.β + β, this.uom);
         };
         Euclidean2.prototype.addScalar = function (α) {
-            return new Euclidean2(this._w + α, this._x, this._y, this.β, this.uom);
+            return new Euclidean2(this.α + α, this.x, this.y, this.β, this.uom);
         };
         Euclidean2.prototype.adj = function () {
             throw new Error("TODO: adj");
@@ -268,10 +297,10 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', './extE2',
             throw new Error(notImplemented_1.default('conj').message);
         };
         Euclidean2.prototype.cubicBezier = function (t, controlBegin, controlEnd, endPoint) {
-            var α = b3_1.default(t, this._w, controlBegin.α, controlEnd.α, endPoint.α);
-            var x = b3_1.default(t, this._x, controlBegin.x, controlEnd.x, endPoint.x);
-            var y = b3_1.default(t, this._y, controlBegin.y, controlEnd.y, endPoint.y);
-            var β = b3_1.default(t, this.xy, controlBegin.β, controlEnd.β, endPoint.β);
+            var α = b3_1.default(t, this.α, controlBegin.α, controlEnd.α, endPoint.α);
+            var x = b3_1.default(t, this.x, controlBegin.x, controlEnd.x, endPoint.x);
+            var y = b3_1.default(t, this.y, controlBegin.y, controlEnd.y, endPoint.y);
+            var β = b3_1.default(t, this.β, controlBegin.β, controlEnd.β, endPoint.β);
             return new Euclidean2(α, x, y, β, this.uom);
         };
         Euclidean2.prototype.direction = function () {
@@ -330,14 +359,14 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', './extE2',
             }
         };
         Euclidean2.prototype.mul = function (rhs) {
-            var a0 = this._w;
-            var a1 = this._x;
-            var a2 = this._y;
-            var a3 = this.xy;
-            var b0 = rhs._w;
-            var b1 = rhs._x;
-            var b2 = rhs._y;
-            var b3 = rhs.xy;
+            var a0 = this.α;
+            var a1 = this.x;
+            var a2 = this.y;
+            var a3 = this.β;
+            var b0 = rhs.α;
+            var b1 = rhs.x;
+            var b2 = rhs.y;
+            var b3 = rhs.β;
             var c0 = mulE2_1.default(a0, a1, a2, a3, b0, b1, b2, b3, 0);
             var c1 = mulE2_1.default(a0, a1, a2, a3, b0, b1, b2, b3, 1);
             var c2 = mulE2_1.default(a0, a1, a2, a3, b0, b1, b2, b3, 2);
@@ -363,13 +392,13 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', './extE2',
             }
         };
         Euclidean2.prototype.scale = function (α) {
-            return new Euclidean2(this._w * α, this._x * α, this._y * α, this.xy * α, this.uom);
+            return new Euclidean2(this.α * α, this.x * α, this.y * α, this.β * α, this.uom);
         };
         Euclidean2.prototype.div = function (rhs) {
             return this.mul(rhs.inv());
         };
         Euclidean2.prototype.divByScalar = function (α) {
-            return new Euclidean2(this._w / α, this._x / α, this._y / α, this.xy / α, this.uom);
+            return new Euclidean2(this.α / α, this.x / α, this.y / α, this.β / α, this.uom);
         };
         Euclidean2.prototype.__div__ = function (other) {
             if (other instanceof Euclidean2) {
@@ -542,7 +571,7 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', './extE2',
             return this;
         };
         Euclidean2.prototype.neg = function () {
-            return new Euclidean2(-this._w, -this._x, -this._y, -this.β, this.uom);
+            return new Euclidean2(-this.α, -this.x, -this.y, -this.β, this.uom);
         };
         Euclidean2.prototype.__neg__ = function () {
             return this.neg();
@@ -553,9 +582,9 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', './extE2',
         Euclidean2.prototype.grade = function (grade) {
             switch (grade) {
                 case 0:
-                    return new Euclidean2(this._w, 0, 0, 0, this.uom);
+                    return new Euclidean2(this.α, 0, 0, 0, this.uom);
                 case 1:
-                    return new Euclidean2(0, this._x, this._y, 0, this.uom);
+                    return new Euclidean2(0, this.x, this.y, 0, this.uom);
                 case 2:
                     return new Euclidean2(0, 0, 0, this.β, this.uom);
                 default:
@@ -570,7 +599,7 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', './extE2',
         };
         Euclidean2.prototype.exp = function () {
             Unit_1.default.assertDimensionless(this.uom);
-            var expα = Math.exp(this._w);
+            var expα = Math.exp(this.α);
             var cosβ = Math.cos(this.β);
             var sinβ = Math.sin(this.β);
             return new Euclidean2(expα * cosβ, 0, 0, expα * sinβ, this.uom);
@@ -607,19 +636,19 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', './extE2',
             return this.squaredNorm();
         };
         Euclidean2.prototype.quadraticBezier = function (t, controlPoint, endPoint) {
-            var α = b2_1.default(t, this._w, controlPoint.α, endPoint.α);
-            var x = b2_1.default(t, this._x, controlPoint.x, endPoint.x);
-            var y = b2_1.default(t, this._y, controlPoint.y, endPoint.y);
-            var β = b2_1.default(t, this.xy, controlPoint.β, endPoint.β);
+            var α = b2_1.default(t, this.α, controlPoint.α, endPoint.α);
+            var x = b2_1.default(t, this.x, controlPoint.x, endPoint.x);
+            var y = b2_1.default(t, this.y, controlPoint.y, endPoint.y);
+            var β = b2_1.default(t, this.β, controlPoint.β, endPoint.β);
             return new Euclidean2(α, x, y, β, this.uom);
         };
         Euclidean2.prototype.squaredNorm = function () {
             return new Euclidean2(this.squaredNormSansUnits(), 0, 0, 0, Unit_1.default.mul(this.uom, this.uom));
         };
         Euclidean2.prototype.squaredNormSansUnits = function () {
-            var α = this._w;
-            var x = this._x;
-            var y = this._y;
+            var α = this.α;
+            var x = this.x;
+            var y = this.y;
             var β = this.β;
             return α * α + x * x + y * y + β * β;
         };
@@ -628,10 +657,19 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', './extE2',
             return m.mul(this).mul(m).scale(-1);
         };
         Euclidean2.prototype.rev = function () {
-            return new Euclidean2(this._w, this._x, this._y, -this.β, this.uom);
+            return new Euclidean2(this.α, this.x, this.y, -this.β, this.uom);
         };
-        Euclidean2.prototype.rotate = function (R) {
-            throw new Error(notImplemented_1.default('rotate').message);
+        Euclidean2.prototype.rotate = function (spinor) {
+            var x = this.x;
+            var y = this.y;
+            var α = spinor.α;
+            var β = spinor.β;
+            var α2 = α * α;
+            var β2 = β * β;
+            var p = α2 - β2;
+            var q = 2 * α * β;
+            var s = α2 + β2;
+            return new Euclidean2(s * this.α, p * x + q * y, p * y - q * x, s * this.β, this.uom);
         };
         Euclidean2.prototype.sin = function () {
             throw new Error(notImplemented_1.default('sin').message);
@@ -645,9 +683,9 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', './extE2',
         Euclidean2.prototype.tan = function () {
             return this.sin().div(this.cos());
         };
-        Euclidean2.prototype.isOne = function () { return this._w === 1 && this._x === 0 && this._y === 0 && this.xy === 0; };
-        Euclidean2.prototype.isNaN = function () { return isNaN(this._w) || isNaN(this._x) || isNaN(this._y) || isNaN(this.xy); };
-        Euclidean2.prototype.isZero = function () { return this._w === 0 && this._x === 0 && this._y === 0 && this.xy === 0; };
+        Euclidean2.prototype.isOne = function () { return this.α === 1 && this.x === 0 && this.y === 0 && this.β === 0; };
+        Euclidean2.prototype.isNaN = function () { return isNaN(this.α) || isNaN(this.x) || isNaN(this.y) || isNaN(this.β); };
+        Euclidean2.prototype.isZero = function () { return this.α === 0 && this.x === 0 && this.y === 0 && this.β === 0; };
         Euclidean2.prototype.toStringCustom = function (coordToString, labels) {
             var quantityString = stringFromCoordinates_1.default(this.coords, coordToString, labels);
             if (this.uom) {
@@ -703,6 +741,9 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', './extE2',
             else {
                 return void 0;
             }
+        };
+        Euclidean2.vector = function (x, y, uom) {
+            return new Euclidean2(0, x, y, 0, uom);
         };
         Euclidean2._zero = new Euclidean2(0, 0, 0, 0);
         Euclidean2._one = new Euclidean2(1, 0, 0, 0);

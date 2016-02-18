@@ -492,6 +492,23 @@ declare module EIGHT {
     }
 
     class Euclidean2 {
+        α: number
+        alpha: number
+        x: number
+        y: number
+        β: number
+        beta: number
+        uom: Unit
+        constructor(α?: number, x?: number, y?: number, β?: number, uom?: Unit)
+        direction(): Euclidean2
+        inv(): Euclidean2
+        isZero(): boolean
+        magnitude(): Euclidean2
+        scp(rhs: Euclidean2): Euclidean2
+        rotate(spinor: SpinorE2): Euclidean2
+        toExponential(): string;
+        toFixed(digits?: number): string;
+        toString(): string;
         static ampere: Euclidean2
         static candela: Euclidean2
         static coulomb: Euclidean2
@@ -505,19 +522,10 @@ declare module EIGHT {
         static one: Euclidean2
         static second: Euclidean2
         static zero: Euclidean2
-        α: number
-        x: number
-        y: number
-        β: number
-        uom: Unit
-        direction(): Euclidean2
-        inv(): Euclidean2
-        isZero(): boolean
-        magnitude(): Euclidean2
-        scp(rhs: Euclidean2): Euclidean2
-        toExponential(): string;
-        toFixed(digits?: number): string;
-        toString(): string;
+        /**
+         * Creates a vector from Cartesian coordinates and an optional unit of measure.
+         */
+        static vector(x: number, y: number, uom?: Unit): Euclidean2
     }
 
     /**
@@ -556,26 +564,29 @@ declare module EIGHT {
         /**
          * The scalar component.
          */
-        α: number;
-        x: number;
-        y: number;
-        z: number;
+        α: number
+        alpha: number
+
+        x: number
+        y: number
+        z: number
         /**
          * The bivector component in the <b>e</b><sub>2</sub><b>e</b><sub>3</sub> plane.
          */
-        yz: number;
+        yz: number
         /**
          * The bivector component in the <b>e</b><sub>3</sub><b>e</b><sub>1</sub> plane.
          */
-        zx: number;
+        zx: number
         /**
          * The bivector component in the <b>e</b><sub>1</sub><b>e</b><sub>2</sub> plane.
          */
-        xy: number;
+        xy: number
         /**
          * The pseudoscalar component.
          */
-        β: number;
+        β: number
+        beta: number
         /**
          * The (optional) unit of measure.
          */
@@ -630,6 +641,7 @@ declare module EIGHT {
         direction(): Euclidean3;
         static fromSpinorE3(spinor: SpinorE3): Euclidean3;
         static fromVectorE3(vector: VectorE3): Euclidean3;
+        static vector(x: number, y: number, z: number, uom?: Unit): Euclidean3;
     }
 
     /**
@@ -1040,16 +1052,7 @@ declare module EIGHT {
     /**
      *
      */
-    interface SpinorE2 {
-        /**
-         * The scalar component of this spinor.
-         */
-        α: number;
-
-        /**
-         * The bivector component of this spinor.
-         */
-        xy: number;
+    interface SpinorE2 extends Scalar, Pseudo {
     }
 
     /**
@@ -1093,7 +1096,8 @@ declare module EIGHT {
         /**
          * The coordinate corresponding to the unit standard basis scalar.
          */
-        α: number;
+        α: number
+        alpha: number
         /**
          * The coordinate corresponding to the <b>e</b><sub>1</sub> standard basis vector.
          */
@@ -1106,6 +1110,7 @@ declare module EIGHT {
          * The coordinate corresponding to the <b>e</b><sub>1</sub><b>e</b><sub>2</sub> standard basis bivector.
          */
         β: number;
+        beta: number;
         xy: number;
 
         /**
@@ -1509,19 +1514,19 @@ declare module EIGHT {
          * Creates a copy of a scalar.
          * @param α
          */
-        static fromScalar(α: number): G2;
+        static fromScalar(α: number): G2
 
         /**
          * Creates a copy of a spinor.
          * @param spinor
          */
-        static fromSpinor(spinor: SpinorE2): G2;
+        static fromSpinor(spinor: SpinorE2): G2
 
         /**
          * Creates a copy of a vector.
          * @param vector
          */
-        static fromVector(vector: VectorE2): G2;
+        static fromVector(vector: VectorE2): G2
 
         /**
          * Linear interpolation of two multivectors.
@@ -1530,20 +1535,25 @@ declare module EIGHT {
          * @param B
          * @param α
          */
-        static lerp(A: GeometricE2, B: GeometricE2, α: number): G2;
+        static lerp(A: GeometricE2, B: GeometricE2, α: number): G2
 
         /**
          * Computes the rotor corresponding to a rotation from vector <code>a</code> to vector <code>b</code>.
          * @param a
          * @param b
          */
-        static rotorFromDirections(a: VectorE2, b: VectorE2): G2;
+        static rotorFromDirections(a: VectorE2, b: VectorE2): G2
+
+        /**
+         * Creates a vector from Cartesian coordinates
+         */
+        static vector(x: number, y: number): G2
     }
 
     /**
      *
      */
-    class VectorN<T> implements Mutable<T[]> {
+    class VectorN<T> {
         callback: () => T[];
         coords: T[];
         modified: boolean;
@@ -1570,26 +1580,45 @@ declare module EIGHT {
      *
      */
     class R2 extends VectorN<number> implements VectorE2 {
-        x: number;
-        y: number;
-        constructor(coords?: number[], modified?: boolean);
-        add(v: VectorE2): R2;
-        add2(a: VectorE2, b: VectorE2): R2;
-        copy(v: VectorE2): R2;
-        magnitude(): number;
-        scale(s: number): R2;
-        squaredNorm(): number;
-        set(x: number, y: number): R2;
-        sub(v: VectorE2): R2;
-        sub2(a: VectorE2, b: VectorE2): R2;
+        x: number
+        y: number
+        constructor(coords?: number[], modified?: boolean)
+        add(v: VectorE2): R2
+        add2(a: VectorE2, b: VectorE2): R2
+        applyMatrix(m: Mat2R): R2
+        clone(): R2
+        copy(v: VectorE2): R2
+        cubicBezier(t: number, controlBegin: VectorE2, endPoint: VectorE2): R2
+        distanceTo(point: VectorE2): number
+        lerp(v: VectorE2, α: number): R2
+        lerp2(a: VectorE2, b: VectorE2, α: number): R2
+        magnitude(): number
+        neg(): R2
+        quadraticBezier(t: number, controlPoint: VectorE2, endPoint: VectorE2): R2
+        rotate(spinor: SpinorE2): R2
+        scale(α: number): R2
+        squaredNorm(): number
+        set(x: number, y: number): R2
+        sub(v: VectorE2): R2
+        sub2(a: VectorE2, b: VectorE2): R2
+        toExponential(): string
+        toFixed(fractionDigits?: number): string
+        toString(): string
+        zero(): R2
+        static copy(v: VectorE2): R2
+        static lerp(a: VectorE2, b: VectorE2, α: number): R2
+        static random(): R2
+        static vector(x: number, y: number): R2
     }
 
     interface Scalar {
-        α: number;
+        α: number
+        alpha: number
     }
 
     interface Pseudo {
-        β: number;
+        β: number
+        beta: number
     }
 
     /**
@@ -1636,35 +1665,37 @@ declare module EIGHT {
         /**
          * The coordinate corresponding to the unit standard basis scalar.
          */
-        α: number;
+        α: number
+        alpha: number
         /**
          * The coordinate corresponding to the <b>e</b><sub>1</sub> standard basis vector.
          */
-        x: number;
+        x: number
         /**
          * The coordinate corresponding to the <b>e</b><sub>2</sub> standard basis vector.
          */
-        y: number;
+        y: number
         /**
          * The coordinate corresponding to the <b>e</b><sub>3</sub> standard basis vector.
          */
-        z: number;
+        z: number
         /**
          * The bivector component in the <b>e</b><sub>2</sub><b>e</b><sub>3</sub> plane.
          */
-        yz: number;
+        yz: number
         /**
          * The bivector component in the <b>e</b><sub>3</sub><b>e</b><sub>1</sub> plane.
          */
-        zx: number;
+        zx: number
         /**
          * The coordinate corresponding to the <b>e</b><sub>1</sub><b>e</b><sub>2</sub> standard basis bivector.
          */
-        xy: number;
+        xy: number
         /**
          * The pseudoscalar coordinate of the multivector.
            */
-        β: number;
+        β: number
+        beta: number
         /**
          * Constructs a <code>G3</code>.
          * The multivector is initialized to zero.
@@ -2124,6 +2155,7 @@ declare module EIGHT {
          * The scalar component.
          */
         α: number;
+        alpha: number;
 
         /**
          * Constructs a <code>Spin3</code> with value <em>1</em>

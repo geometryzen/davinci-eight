@@ -8,10 +8,6 @@ import Pseudo from '../math/Pseudo';
  * @extends Pseudo
  */
 interface SpinorE2 extends Scalar, Pseudo {
-    /**
-     * The <em>bivector</em> xy-coordinate as a <code>number</code>.
-     */
-    xy: number;
 }
 
 export default SpinorE2;

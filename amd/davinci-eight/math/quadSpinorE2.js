@@ -2,9 +2,9 @@ define(["require", "exports", '../checks/isDefined', '../checks/isNumber'], func
     function quadSpinorE2(s) {
         if (isDefined_1.default(s)) {
             var α = s.α;
-            var xy = s.xy;
-            if (isNumber_1.default(α) && isNumber_1.default(xy)) {
-                return α * α + xy * xy;
+            var β = s.β;
+            if (isNumber_1.default(α) && isNumber_1.default(β)) {
+                return α * α + β * β;
             }
             else {
                 return void 0;

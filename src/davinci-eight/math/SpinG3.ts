@@ -92,6 +92,19 @@ export default class SpinG3 extends VectorN<number> implements SpinorE3, Mutable
     }
 
     /**
+     * @property alpha
+     * @type Number
+     */
+    get alpha(): number {
+        return this.coords[COORD_SCALAR];
+    }
+    set alpha(alpha: number) {
+        mustBeNumber('alpha', alpha)
+        this.modified = this.modified || this.alpha !== alpha;
+        this.coords[COORD_SCALAR] = alpha;
+    }
+
+    /**
      * @property α
      * @type Number
      */

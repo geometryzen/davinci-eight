@@ -4,14 +4,14 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 define(["require", "exports", './dotVectorE3', './Euclidean3', '../utils/EventEmitter', './extG3', './lcoG3', './isScalarG3', './mulG3', '../checks/mustBeInteger', '../checks/mustBeString', './quadVectorE3', './rcoG3', '../i18n/readOnly', './rotorFromDirections', './scpG3', './squaredNormG3', './stringFromCoordinates', './VectorN', './wedgeXY', './wedgeYZ', './wedgeZX'], function (require, exports, dotVectorE3_1, Euclidean3_1, EventEmitter_1, extG3_1, lcoG3_1, isScalarG3_1, mulG3_1, mustBeInteger_1, mustBeString_1, quadVectorE3_1, rcoG3_1, readOnly_1, rotorFromDirections_1, scpG3_1, squaredNormG3_1, stringFromCoordinates_1, VectorN_1, wedgeXY_1, wedgeYZ_1, wedgeZX_1) {
-    var COORD_W = 0;
+    var COORD_SCALAR = 0;
     var COORD_X = 1;
     var COORD_Y = 2;
     var COORD_Z = 3;
     var COORD_XY = 4;
     var COORD_YZ = 5;
     var COORD_ZX = 6;
-    var COORD_XYZ = 7;
+    var COORD_PSEUDO = 7;
     var EVENT_NAME_CHANGE = 'change';
     var atan2 = Math.atan2;
     var exp = Math.exp;
@@ -32,6 +32,12 @@ define(["require", "exports", './dotVectorE3', './Euclidean3', '../utils/EventEm
             },
             set α(unused) {
                 throw new Error(readOnly_1.default(label + '.α').message);
+            },
+            get alpha() {
+                return α;
+            },
+            set alpha(unused) {
+                throw new Error(readOnly_1.default(label + '.alpha').message);
             },
             get x() {
                 return x;
@@ -75,6 +81,12 @@ define(["require", "exports", './dotVectorE3', './Euclidean3', '../utils/EventEm
             set β(unused) {
                 throw new Error(readOnly_1.default(label + '.β').message);
             },
+            get beta() {
+                return β;
+            },
+            set beta(unused) {
+                throw new Error(readOnly_1.default(label + '.beta').message);
+            },
             toString: function () {
                 return label;
             }
@@ -110,10 +122,20 @@ define(["require", "exports", './dotVectorE3', './Euclidean3', '../utils/EventEm
         };
         Object.defineProperty(G3.prototype, "α", {
             get: function () {
-                return this.coords[COORD_W];
+                return this.coords[COORD_SCALAR];
             },
             set: function (α) {
-                this.setCoordinate(COORD_W, α, 'α');
+                this.setCoordinate(COORD_SCALAR, α, 'α');
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(G3.prototype, "alpha", {
+            get: function () {
+                return this.coords[COORD_SCALAR];
+            },
+            set: function (alpha) {
+                this.setCoordinate(COORD_SCALAR, alpha, 'alpha');
             },
             enumerable: true,
             configurable: true
@@ -180,10 +202,20 @@ define(["require", "exports", './dotVectorE3', './Euclidean3', '../utils/EventEm
         });
         Object.defineProperty(G3.prototype, "β", {
             get: function () {
-                return this.coords[COORD_XYZ];
+                return this.coords[COORD_PSEUDO];
             },
             set: function (β) {
-                this.setCoordinate(COORD_XYZ, β, 'β');
+                this.setCoordinate(COORD_PSEUDO, β, 'β');
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(G3.prototype, "beta", {
+            get: function () {
+                return this.coords[COORD_PSEUDO];
+            },
+            set: function (beta) {
+                this.setCoordinate(COORD_PSEUDO, beta, 'beta');
             },
             enumerable: true,
             configurable: true

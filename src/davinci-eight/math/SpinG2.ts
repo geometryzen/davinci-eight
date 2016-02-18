@@ -21,14 +21,14 @@ import wedgeXY from '../math/wedgeXY';
  * @submodule math
  */
 
-// GraphicsProgramSymbols constants for the coordinate indices into the coords array.
-const COORD_XY = 0
-const COORD_ALPHA = 1
+// Symbolic constants for the coordinate indices into the coords array.
+const COORD_SCALAR = 1
+const COORD_PSEUDO = 0
 
 function one(): number[] {
     const coords = [0, 0]
-    coords[COORD_ALPHA] = 1
-    coords[COORD_XY] = 0
+    coords[COORD_SCALAR] = 1
+    coords[COORD_PSEUDO] = 0
     return coords
 }
 
@@ -69,12 +69,26 @@ export default class SpinG2 extends VectorN<number> implements SpinorE2, Measure
      * @type {number}
      */
     get xy(): number {
-        return this.coords[COORD_XY];
+        return this.coords[COORD_PSEUDO];
     }
     set xy(xy: number) {
         mustBeNumber('xy', xy)
         this.modified = this.modified || this.xy !== xy;
-        this.coords[COORD_XY] = xy;
+        this.coords[COORD_PSEUDO] = xy;
+    }
+
+    /**
+     * The scalar part of this spinor as a number.
+     * @property alpha
+     * @type {number}
+     */
+    get alpha(): number {
+        return this.coords[COORD_SCALAR];
+    }
+    set alpha(alpha: number) {
+        mustBeNumber('alpha', alpha)
+        this.modified = this.modified || this.alpha !== alpha;
+        this.coords[COORD_SCALAR] = alpha;
     }
 
     /**
@@ -83,12 +97,12 @@ export default class SpinG2 extends VectorN<number> implements SpinorE2, Measure
      * @type {number}
      */
     get α(): number {
-        return this.coords[COORD_ALPHA];
+        return this.coords[COORD_SCALAR];
     }
     set α(α: number) {
         mustBeNumber('α', α)
         this.modified = this.modified || this.α !== α;
-        this.coords[COORD_ALPHA] = α;
+        this.coords[COORD_SCALAR] = α;
     }
 
     /**
@@ -98,12 +112,27 @@ export default class SpinG2 extends VectorN<number> implements SpinorE2, Measure
      * @readOnly
      */
     get β(): number {
-        return this.coords[COORD_XY];
+        return this.coords[COORD_PSEUDO];
     }
     set β(β: number) {
         mustBeNumber('β', β)
         this.modified = this.modified || this.β !== β;
-        this.coords[COORD_XY] = β;
+        this.coords[COORD_PSEUDO] = β;
+    }
+
+    /**
+     * The pseudoscalar part of this spinor as a number.
+     * @property beta
+     * @type number
+     * @readOnly
+     */
+    get beta(): number {
+        return this.coords[COORD_PSEUDO];
+    }
+    set beta(beta: number) {
+        mustBeNumber('beta', beta)
+        this.modified = this.modified || this.beta !== beta;
+        this.coords[COORD_PSEUDO] = beta;
     }
 
     /**
@@ -119,7 +148,7 @@ export default class SpinG2 extends VectorN<number> implements SpinorE2, Measure
     add(spinor: SpinorE2, α = 1): SpinG2 {
         mustBeObject('spinor', spinor)
         mustBeNumber('α', α)
-        this.xy += spinor.xy * α
+        this.xy += spinor.β * α
         this.α += spinor.α * α
         return this
     }
@@ -136,7 +165,7 @@ export default class SpinG2 extends VectorN<number> implements SpinorE2, Measure
      */
     add2(a: SpinorE2, b: SpinorE2): SpinG2 {
         this.α = a.α + b.α
-        this.xy = a.xy + b.xy
+        this.xy = a.β + b.β
         return this;
     }
 
@@ -213,7 +242,7 @@ export default class SpinG2 extends VectorN<number> implements SpinorE2, Measure
      */
     copy(spinor: SpinorE2): SpinG2 {
         mustBeObject('spinor', spinor)
-        this.xy = mustBeNumber('spinor.xy', spinor.xy)
+        this.xy = mustBeNumber('spinor.β', spinor.β)
         this.α = mustBeNumber('spinor.α', spinor.α)
         return this;
     }
@@ -277,9 +306,9 @@ export default class SpinG2 extends VectorN<number> implements SpinorE2, Measure
      */
     div2(a: SpinorE2, b: SpinorE2): SpinG2 {
         let a0 = a.α;
-        let a1 = a.xy;
+        let a1 = a.β;
         let b0 = b.α;
-        let b1 = b.xy;
+        let b1 = b.β;
         let quadB = quadSpinor(b)
         this.α = (a0 * b0 + a1 * b1) / quadB
         this.xy = (a1 * b0 - a0 * b1) / quadB
@@ -443,9 +472,9 @@ export default class SpinG2 extends VectorN<number> implements SpinorE2, Measure
      */
     mul2(a: SpinorE2, b: SpinorE2) {
         let a0 = a.α
-        let a1 = a.xy
+        let a1 = a.β
         let b0 = b.α
-        let b1 = b.xy
+        let b1 = b.β
         this.α = a0 * b0 - a1 * b1
         this.xy = a0 * b1 + a1 * b0
         return this
@@ -631,7 +660,7 @@ export default class SpinG2 extends VectorN<number> implements SpinorE2, Measure
     rotorFromGeneratorAngle(B: SpinorE2, θ: number): SpinG2 {
         let φ = θ / 2
         let s = sin(φ)
-        this.xy = -B.xy * s
+        this.xy = -B.β * s
         this.α = cos(φ)
         return this
     }
@@ -683,7 +712,7 @@ export default class SpinG2 extends VectorN<number> implements SpinorE2, Measure
     sub(s: SpinorE2, α = 1): SpinG2 {
         mustBeObject('s', s)
         mustBeNumber('α', α)
-        this.xy -= s.xy * α
+        this.xy -= s.β * α
         this.α -= s.α * α
         return this
     }
@@ -698,7 +727,7 @@ export default class SpinG2 extends VectorN<number> implements SpinorE2, Measure
      * @chainable
      */
     sub2(a: SpinorE2, b: SpinorE2): SpinG2 {
-        this.xy = a.xy - b.xy
+        this.xy = a.β - b.β
         this.α = a.α - b.α
         return this;
     }

@@ -1,4 +1,12 @@
-define(["require", "exports", '../math/addE3', '../geometries/b2', '../geometries/b3', '../math/extG3', '../math/lcoG3', '../math/mulG3', './gauss', '../i18n/notImplemented', '../math/rcoG3', '../i18n/readOnly', '../math/scpG3', '../math/squaredNormG3', '../math/stringFromCoordinates', '../math/subE3', '../math/Unit', '../math/BASIS_LABELS_G3_GEOMETRIC', '../math/BASIS_LABELS_G3_HAMILTON', '../math/BASIS_LABELS_G3_STANDARD', '../math/BASIS_LABELS_G3_STANDARD_HTML'], function (require, exports, addE3_1, b2_1, b3_1, extG3_1, lcoG3_1, mulG3_1, gauss_1, notImplemented_1, rcoG3_1, readOnly_1, scpG3_1, squaredNormG3_1, stringFromCoordinates_1, subE3_1, Unit_1, BASIS_LABELS_G3_GEOMETRIC_1, BASIS_LABELS_G3_HAMILTON_1, BASIS_LABELS_G3_STANDARD_1, BASIS_LABELS_G3_STANDARD_HTML_1) {
+define(["require", "exports", '../math/addE3', '../geometries/b2', '../geometries/b3', '../math/extG3', '../math/lcoG3', '../math/mulG3', './gauss', '../i18n/notImplemented', './quadSpinorE3', '../math/rcoG3', '../i18n/readOnly', '../math/scpG3', '../math/squaredNormG3', '../math/stringFromCoordinates', '../math/subE3', '../math/Unit', '../math/BASIS_LABELS_G3_GEOMETRIC', '../math/BASIS_LABELS_G3_HAMILTON', '../math/BASIS_LABELS_G3_STANDARD', '../math/BASIS_LABELS_G3_STANDARD_HTML'], function (require, exports, addE3_1, b2_1, b3_1, extG3_1, lcoG3_1, mulG3_1, gauss_1, notImplemented_1, quadSpinorE3_1, rcoG3_1, readOnly_1, scpG3_1, squaredNormG3_1, stringFromCoordinates_1, subE3_1, Unit_1, BASIS_LABELS_G3_GEOMETRIC_1, BASIS_LABELS_G3_HAMILTON_1, BASIS_LABELS_G3_STANDARD_1, BASIS_LABELS_G3_STANDARD_HTML_1) {
+    var COORD_SCALAR = 0;
+    var COORD_X = 1;
+    var COORD_Y = 2;
+    var COORD_Z = 3;
+    var COORD_XY = 4;
+    var COORD_YZ = 5;
+    var COORD_ZX = 6;
+    var COORD_PSEUDO = 7;
     function compute(f, a, b, coord, pack, uom) {
         var a0 = coord(a, 0);
         var a1 = coord(a, 1);
@@ -28,25 +36,26 @@ define(["require", "exports", '../math/addE3', '../geometries/b2', '../geometrie
     }
     var Euclidean3 = (function () {
         function Euclidean3(α, x, y, z, xy, yz, zx, β, uom) {
-            this.w = α;
-            this.x = x;
-            this.y = y;
-            this.z = z;
-            this.xy = xy;
-            this.yz = yz;
-            this.zx = zx;
-            this.xyz = β;
+            this._coords = [0, 0, 0, 0, 0, 0, 0, 0];
+            this._coords[COORD_SCALAR] = α;
+            this._coords[COORD_X] = x;
+            this._coords[COORD_Y] = y;
+            this._coords[COORD_Z] = z;
+            this._coords[COORD_XY] = xy;
+            this._coords[COORD_YZ] = yz;
+            this._coords[COORD_ZX] = zx;
+            this._coords[COORD_PSEUDO] = β;
             this.uom = uom;
             if (this.uom && this.uom.multiplier !== 1) {
                 var multiplier = this.uom.multiplier;
-                this.w *= multiplier;
-                this.x *= multiplier;
-                this.y *= multiplier;
-                this.z *= multiplier;
-                this.xy *= multiplier;
-                this.yz *= multiplier;
-                this.zx *= multiplier;
-                this.xyz *= multiplier;
+                this._coords[COORD_SCALAR] *= multiplier;
+                this._coords[COORD_X] *= multiplier;
+                this._coords[COORD_Y] *= multiplier;
+                this._coords[COORD_Z] *= multiplier;
+                this._coords[COORD_XY] *= multiplier;
+                this._coords[COORD_YZ] *= multiplier;
+                this._coords[COORD_ZX] *= multiplier;
+                this._coords[COORD_PSEUDO] *= multiplier;
                 this.uom = new Unit_1.default(1, uom.dimensions, uom.labels);
             }
         }
@@ -76,7 +85,7 @@ define(["require", "exports", '../math/addE3', '../geometries/b2', '../geometrie
         ;
         Object.defineProperty(Euclidean3.prototype, "α", {
             get: function () {
-                return this.w;
+                return this._coords[COORD_SCALAR];
             },
             set: function (unused) {
                 throw new Error(readOnly_1.default('α').message);
@@ -84,12 +93,92 @@ define(["require", "exports", '../math/addE3', '../geometries/b2', '../geometrie
             enumerable: true,
             configurable: true
         });
+        Object.defineProperty(Euclidean3.prototype, "alpha", {
+            get: function () {
+                return this._coords[COORD_SCALAR];
+            },
+            set: function (unused) {
+                throw new Error(readOnly_1.default('alpha').message);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Euclidean3.prototype, "x", {
+            get: function () {
+                return this._coords[COORD_X];
+            },
+            set: function (unused) {
+                throw new Error(readOnly_1.default('x').message);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Euclidean3.prototype, "y", {
+            get: function () {
+                return this._coords[COORD_Y];
+            },
+            set: function (unused) {
+                throw new Error(readOnly_1.default('y').message);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Euclidean3.prototype, "z", {
+            get: function () {
+                return this._coords[COORD_Z];
+            },
+            set: function (unused) {
+                throw new Error(readOnly_1.default('z').message);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Euclidean3.prototype, "xy", {
+            get: function () {
+                return this._coords[COORD_XY];
+            },
+            set: function (unused) {
+                throw new Error(readOnly_1.default('xy').message);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Euclidean3.prototype, "yz", {
+            get: function () {
+                return this._coords[COORD_YZ];
+            },
+            set: function (unused) {
+                throw new Error(readOnly_1.default('yz').message);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Euclidean3.prototype, "zx", {
+            get: function () {
+                return this._coords[COORD_ZX];
+            },
+            set: function (unused) {
+                throw new Error(readOnly_1.default('zx').message);
+            },
+            enumerable: true,
+            configurable: true
+        });
         Object.defineProperty(Euclidean3.prototype, "β", {
             get: function () {
-                return this.xyz;
+                return this._coords[COORD_PSEUDO];
             },
             set: function (unused) {
                 throw new Error(readOnly_1.default('β').message);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Euclidean3.prototype, "beta", {
+            get: function () {
+                return this._coords[COORD_PSEUDO];
+            },
+            set: function (unused) {
+                throw new Error(readOnly_1.default('beta').message);
             },
             enumerable: true,
             configurable: true
@@ -99,7 +188,7 @@ define(["require", "exports", '../math/addE3', '../geometries/b2', '../geometrie
         };
         Object.defineProperty(Euclidean3.prototype, "coords", {
             get: function () {
-                return [this.w, this.x, this.y, this.z, this.xy, this.yz, this.zx, this.xyz];
+                return [this.α, this.x, this.y, this.z, this.xy, this.yz, this.zx, this.β];
             },
             enumerable: true,
             configurable: true
@@ -107,7 +196,7 @@ define(["require", "exports", '../math/addE3', '../geometries/b2', '../geometrie
         Euclidean3.prototype.coordinate = function (index) {
             switch (index) {
                 case 0:
-                    return this.w;
+                    return this.α;
                 case 1:
                     return this.x;
                 case 2:
@@ -121,7 +210,7 @@ define(["require", "exports", '../math/addE3', '../geometries/b2', '../geometrie
                 case 6:
                     return this.zx;
                 case 7:
-                    return this.xyz;
+                    return this.β;
                 default:
                     throw new Error("index must be in the range [0..7]");
             }
@@ -136,10 +225,10 @@ define(["require", "exports", '../math/addE3', '../geometries/b2', '../geometrie
             return compute(addE3_1.default, this.coords, rhs.coords, coord, pack, Unit_1.default.compatible(this.uom, rhs.uom));
         };
         Euclidean3.prototype.addPseudo = function (β) {
-            return new Euclidean3(this.w, this.x, this.y, this.z, this.xy, this.yz, this.zx, this.xyz + β, this.uom);
+            return new Euclidean3(this.α, this.x, this.y, this.z, this.xy, this.yz, this.zx, this.β + β, this.uom);
         };
         Euclidean3.prototype.addScalar = function (α) {
-            return new Euclidean3(this.w + α, this.x, this.y, this.z, this.xy, this.yz, this.zx, this.xyz, this.uom);
+            return new Euclidean3(this.α + α, this.x, this.y, this.z, this.xy, this.yz, this.zx, this.β, this.uom);
         };
         Euclidean3.prototype.__add__ = function (rhs) {
             if (rhs instanceof Euclidean3) {
@@ -164,7 +253,7 @@ define(["require", "exports", '../math/addE3', '../geometries/b2', '../geometrie
             return this.log().grade(2);
         };
         Euclidean3.prototype.conj = function () {
-            return new Euclidean3(this.w, -this.x, -this.y, -this.z, -this.xy, -this.yz, -this.zx, +this.xyz, this.uom);
+            return new Euclidean3(this.α, -this.x, -this.y, -this.z, -this.xy, -this.yz, -this.zx, +this.β, this.uom);
         };
         Euclidean3.prototype.cubicBezier = function (t, controlBegin, controlEnd, endPoint) {
             var x = b3_1.default(t, this.x, controlBegin.x, controlEnd.x, endPoint.x);
@@ -222,13 +311,13 @@ define(["require", "exports", '../math/addE3', '../geometries/b2', '../geometrie
             }
         };
         Euclidean3.prototype.scale = function (α) {
-            return new Euclidean3(this.w * α, this.x * α, this.y * α, this.z * α, this.xy * α, this.yz * α, this.zx * α, this.xyz * α, this.uom);
+            return new Euclidean3(this.α * α, this.x * α, this.y * α, this.z * α, this.xy * α, this.yz * α, this.zx * α, this.β * α, this.uom);
         };
         Euclidean3.prototype.div = function (rhs) {
             return this.mul(rhs.inv());
         };
         Euclidean3.prototype.divByScalar = function (α) {
-            return new Euclidean3(this.w / α, this.x / α, this.y / α, this.z / α, this.xy / α, this.yz / α, this.zx / α, this.xyz / α, this.uom);
+            return new Euclidean3(this.α / α, this.x / α, this.y / α, this.z / α, this.xy / α, this.yz / α, this.zx / α, this.β / α, this.uom);
         };
         Euclidean3.prototype.__div__ = function (rhs) {
             if (rhs instanceof Euclidean3) {
@@ -343,13 +432,13 @@ define(["require", "exports", '../math/addE3', '../geometries/b2', '../geometrie
             return this;
         };
         Euclidean3.prototype.neg = function () {
-            return new Euclidean3(-this.w, -this.x, -this.y, -this.z, -this.xy, -this.yz, -this.zx, -this.xyz, this.uom);
+            return new Euclidean3(-this.α, -this.x, -this.y, -this.z, -this.xy, -this.yz, -this.zx, -this.β, this.uom);
         };
         Euclidean3.prototype.__neg__ = function () {
             return this.neg();
         };
         Euclidean3.prototype.rev = function () {
-            return new Euclidean3(this.w, this.x, this.y, this.z, -this.xy, -this.yz, -this.zx, -this.xyz, this.uom);
+            return new Euclidean3(this.α, this.x, this.y, this.z, -this.xy, -this.yz, -this.zx, -this.β, this.uom);
         };
         Euclidean3.prototype.__tilde__ = function () {
             return this.rev();
@@ -357,13 +446,13 @@ define(["require", "exports", '../math/addE3', '../geometries/b2', '../geometrie
         Euclidean3.prototype.grade = function (grade) {
             switch (grade) {
                 case 0:
-                    return Euclidean3.fromCartesian(this.w, 0, 0, 0, 0, 0, 0, 0, this.uom);
+                    return Euclidean3.fromCartesian(this.α, 0, 0, 0, 0, 0, 0, 0, this.uom);
                 case 1:
                     return Euclidean3.fromCartesian(0, this.x, this.y, this.z, 0, 0, 0, 0, this.uom);
                 case 2:
                     return Euclidean3.fromCartesian(0, 0, 0, 0, this.xy, this.yz, this.zx, 0, this.uom);
                 case 3:
-                    return Euclidean3.fromCartesian(0, 0, 0, 0, 0, 0, 0, this.xyz, this.uom);
+                    return Euclidean3.fromCartesian(0, 0, 0, 0, 0, 0, 0, this.β, this.uom);
                 default:
                     return Euclidean3.fromCartesian(0, 0, 0, 0, 0, 0, 0, 0, this.uom);
             }
@@ -390,18 +479,18 @@ define(["require", "exports", '../math/addE3', '../geometries/b2', '../geometrie
             return new Euclidean3(0, x, y, z, 0, 0, 0, 0, Unit_1.default.mul(this.uom, vector.uom));
         };
         Euclidean3.prototype.isOne = function () {
-            return (this.w === 1) && (this.x === 0) && (this.y === 0) && (this.z === 0) && (this.yz === 0) && (this.zx === 0) && (this.xy === 0) && (this.xyz === 0);
+            return (this.α === 1) && (this.x === 0) && (this.y === 0) && (this.z === 0) && (this.yz === 0) && (this.zx === 0) && (this.xy === 0) && (this.β === 0);
         };
         Euclidean3.prototype.isZero = function () {
-            return (this.w === 0) && (this.x === 0) && (this.y === 0) && (this.z === 0) && (this.yz === 0) && (this.zx === 0) && (this.xy === 0) && (this.xyz === 0);
+            return (this.α === 0) && (this.x === 0) && (this.y === 0) && (this.z === 0) && (this.yz === 0) && (this.zx === 0) && (this.xy === 0) && (this.β === 0);
         };
         Euclidean3.prototype.lerp = function (target, α) {
             throw new Error(notImplemented_1.default('lerp').message);
         };
         Euclidean3.prototype.cos = function () {
             Unit_1.default.assertDimensionless(this.uom);
-            var cosW = Math.cos(this.w);
-            return new Euclidean3(cosW, 0, 0, 0, 0, 0, 0, 0, void 0);
+            var cosW = Math.cos(this.α);
+            return new Euclidean3(cosW, 0, 0, 0, 0, 0, 0, 0);
         };
         Euclidean3.prototype.cosh = function () {
             throw new Error(notImplemented_1.default('cosh').message);
@@ -413,7 +502,7 @@ define(["require", "exports", '../math/addE3', '../geometries/b2', '../geometrie
             return Math.sqrt(dx * dx + dy * dy + dz * dz);
         };
         Euclidean3.prototype.equals = function (other) {
-            if (this.α === other.α && this.x === other.x && this.y === other.y && this.z === other.z && this.xy === other.xy && this.yz === other.yz && this.zx === other.zx && this.xyz === other.xyz) {
+            if (this.α === other.α && this.x === other.x && this.y === other.y && this.z === other.z && this.xy === other.xy && this.yz === other.yz && this.zx === other.zx && this.β === other.β) {
                 if (this.uom) {
                     if (other.uom) {
                         return true;
@@ -512,18 +601,21 @@ define(["require", "exports", '../math/addE3', '../geometries/b2', '../geometrie
             var b = R.yz;
             var c = R.zx;
             var α = R.α;
+            var quadR = quadSpinorE3_1.default(R);
             var ix = α * x - c * z + a * y;
             var iy = α * y - a * x + b * z;
             var iz = α * z - b * y + c * x;
             var iα = b * x + c * y + a * z;
+            var αOut = quadR * this.α;
             var xOut = ix * α + iα * b + iy * a - iz * c;
             var yOut = iy * α + iα * c + iz * b - ix * a;
             var zOut = iz * α + iα * a + ix * c - iy * b;
-            return Euclidean3.fromCartesian(this.α, xOut, yOut, zOut, 0, 0, 0, this.β, this.uom);
+            var βOut = quadR * this.β;
+            return Euclidean3.fromCartesian(αOut, xOut, yOut, zOut, 0, 0, 0, βOut, this.uom);
         };
         Euclidean3.prototype.sin = function () {
             Unit_1.default.assertDimensionless(this.uom);
-            var sinW = Math.sin(this.w);
+            var sinW = Math.sin(this.α);
             return new Euclidean3(sinW, 0, 0, 0, 0, 0, 0, 0, void 0);
         };
         Euclidean3.prototype.sinh = function () {
@@ -533,7 +625,7 @@ define(["require", "exports", '../math/addE3', '../geometries/b2', '../geometrie
             throw new Error(notImplemented_1.default('slerp').message);
         };
         Euclidean3.prototype.sqrt = function () {
-            return new Euclidean3(Math.sqrt(this.w), 0, 0, 0, 0, 0, 0, 0, Unit_1.default.sqrt(this.uom));
+            return new Euclidean3(Math.sqrt(this.α), 0, 0, 0, 0, 0, 0, 0, Unit_1.default.sqrt(this.uom));
         };
         Euclidean3.prototype.tan = function () {
             return this.sin().div(this.cos());
@@ -568,29 +660,35 @@ define(["require", "exports", '../math/addE3', '../geometries/b2', '../geometrie
         Euclidean3.mutator = function (M) {
             var that = {
                 set α(α) {
-                    M.w = α;
+                    M._coords[COORD_SCALAR] = α;
+                },
+                set alpha(alpha) {
+                    M._coords[COORD_SCALAR] = alpha;
                 },
                 set x(x) {
-                    M.x = x;
+                    M._coords[COORD_X] = x;
                 },
                 set y(y) {
-                    M.y = y;
+                    M._coords[COORD_Y] = y;
                 },
                 set z(z) {
-                    M.z = z;
+                    M._coords[COORD_Z] = z;
                 },
                 set yz(yz) {
-                    M.yz = yz;
+                    M._coords[COORD_YZ] = yz;
                 },
                 set zx(zx) {
-                    M.zx = zx;
+                    M._coords[COORD_ZX] = zx;
                 },
                 set xy(xy) {
-                    M.xy = xy;
+                    M._coords[COORD_XY] = xy;
                 },
                 set β(β) {
-                    M.xyz = β;
+                    M._coords[COORD_PSEUDO] = β;
                 },
+                set beta(beta) {
+                    M._coords[COORD_PSEUDO] = beta;
+                }
             };
             return that;
         };
@@ -617,6 +715,9 @@ define(["require", "exports", '../math/addE3', '../geometries/b2', '../geometrie
             else {
                 return void 0;
             }
+        };
+        Euclidean3.vector = function (x, y, z, uom) {
+            return new Euclidean3(0, x, y, z, 0, 0, 0, 0, uom);
         };
         Euclidean3.BASIS_LABELS = BASIS_LABELS_G3_STANDARD_1.default;
         Euclidean3.zero = new Euclidean3(0, 0, 0, 0, 0, 0, 0, 0);

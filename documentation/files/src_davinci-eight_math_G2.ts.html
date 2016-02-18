@@ -235,10 +235,10 @@ import wedgeXY from &#x27;../math/wedgeXY&#x27;;
  */
 
 // GraphicsProgramSymbols constants for the coordinate indices into the data array.
-const COORD_W = 0
+const COORD_SCALAR = 0
 const COORD_X = 1
 const COORD_Y = 2
-const COORD_XY = 3
+const COORD_PSEUDO = 3
 
 const PI = Math.PI
 const abs = Math.abs
@@ -335,11 +335,24 @@ export default class G2 extends VectorN&lt;number&gt; implements GeometricE2, Me
      * @type {number}
      */
     get α(): number {
-        return this.coords[COORD_W]
+        return this.coords[COORD_SCALAR]
     }
     set α(α: number) {
-        this.modified = this.modified || this.coords[COORD_W] !== α
-        this.coords[COORD_W] = α
+        this.modified = this.modified || this.coords[COORD_SCALAR] !== α
+        this.coords[COORD_SCALAR] = α
+    }
+
+    /**
+     * The coordinate corresponding to the unit standard basis scalar.
+     * @property alpha
+     * @type {number}
+     */
+    get alpha(): number {
+        return this.coords[COORD_SCALAR]
+    }
+    set alpha(alpha: number) {
+        this.modified = this.modified || this.coords[COORD_SCALAR] !== alpha
+        this.coords[COORD_SCALAR] = alpha
     }
 
     /**
@@ -374,19 +387,32 @@ export default class G2 extends VectorN&lt;number&gt; implements GeometricE2, Me
      * @type {number}
      */
     get β(): number {
-        return this.coords[COORD_XY]
+        return this.coords[COORD_PSEUDO]
     }
     set β(β: number) {
-        this.modified = this.modified || this.coords[COORD_XY] !== β
-        this.coords[COORD_XY] = β
+        this.modified = this.modified || this.coords[COORD_PSEUDO] !== β
+        this.coords[COORD_PSEUDO] = β
+    }
+
+    /**
+     * The coordinate corresponding to the &lt;b&gt;e&lt;/b&gt;&lt;sub&gt;1&lt;/sub&gt;&lt;b&gt;e&lt;/b&gt;&lt;sub&gt;2&lt;/sub&gt; standard basis bivector.
+     * @property beta
+     * @type {number}
+     */
+    get beta(): number {
+        return this.coords[COORD_PSEUDO]
+    }
+    set beta(beta: number) {
+        this.modified = this.modified || this.coords[COORD_PSEUDO] !== beta
+        this.coords[COORD_PSEUDO] = beta
     }
 
     get xy(): number {
-        return this.coords[COORD_XY]
+        return this.coords[COORD_PSEUDO]
     }
     set xy(xy: number) {
-        this.modified = this.modified || this.coords[COORD_XY] !== xy
-        this.coords[COORD_XY] = xy
+        this.modified = this.modified || this.coords[COORD_PSEUDO] !== xy
+        this.coords[COORD_PSEUDO] = xy
     }
 
     /**
@@ -577,7 +603,7 @@ export default class G2 extends VectorN&lt;number&gt; implements GeometricE2, Me
         this.α = spinor.α
         this.x = 0
         this.y = 0
-        this.β = spinor.xy
+        this.β = spinor.β
         return this
     }
 
@@ -1127,18 +1153,18 @@ export default class G2 extends VectorN&lt;number&gt; implements GeometricE2, Me
      */
     rotate(R: SpinorE2): G2 {
         mustBeObject(&#x27;R&#x27;, R);
-        // FIXME: This only rotates the vector components.
-        let x = this.x;
-        let y = this.y;
 
-        let a = R.xy;
-        let α = R.α;
+        const x = this.x;
+        const y = this.y;
 
-        let ix = α * x + a * y;
-        let iy = α * y - a * x;
+        const β = R.β;
+        const α = R.α;
 
-        this.x = ix * α + iy * a;
-        this.y = iy * α - ix * a;
+        const ix = α * x + β * y;
+        const iy = α * y - β * x;
+
+        this.x = ix * α + iy * β;
+        this.y = iy * α - ix * β;
 
         return this;
     }
@@ -1173,7 +1199,7 @@ export default class G2 extends VectorN&lt;number&gt; implements GeometricE2, Me
      * @param θ {number}
      * @return {G2} &lt;code&gt;this&lt;/code&gt;
      */
-    rotorFromGeneratorAngle(B: SpinorE2, θ: number) {
+    rotorFromGeneratorAngle(B: SpinorE2, θ: number): G2 {
         mustBeObject(&#x27;B&#x27;, B)
         mustBeNumber(&#x27;θ&#x27;, θ)
         // We assume that B really is just a bivector
@@ -1183,11 +1209,11 @@ export default class G2 extends VectorN&lt;number&gt; implements GeometricE2, Me
         // The effect will be a scaling of the angle.
         // A non unitary rotor, on the other hand, will scale the transformation.
         // We must also take into account the orientation of B.
-        let β = B.xy
+        const β = B.β
         /**
          * Sandwich operation means we need the half-angle.
          */
-        let φ = θ / 2
+        const φ = θ / 2
         /**
          * scalar part = cos(|B| * θ / 2)
          */
@@ -1356,7 +1382,7 @@ export default class G2 extends VectorN&lt;number&gt; implements GeometricE2, Me
      * @return {string}
      */
     toFixed(fractionDigits?: number): string {
-        var coordToString = function(coord: number): string { return coord.toFixed(fractionDigits) };
+        const coordToString = function(coord: number): string { return coord.toFixed(fractionDigits) };
         return stringFromCoordinates(coordinates(this), coordToString, G2.BASIS_LABELS)
     }
 
@@ -1366,7 +1392,7 @@ export default class G2 extends VectorN&lt;number&gt; implements GeometricE2, Me
      * @return {string} 
      */
     toString(): string {
-        let coordToString = function(coord: number): string { return coord.toString() };
+        const coordToString = function(coord: number): string { return coord.toString() };
         return stringFromCoordinates(coordinates(this), coordToString, G2.BASIS_LABELS)
     }
 
@@ -1785,7 +1811,7 @@ export default class G2 extends VectorN&lt;number&gt; implements GeometricE2, Me
      * Intentionally undocumented.
      */
     static fromCartesian(α: number, x: number, y: number, β: number): G2 {
-        var m = new G2();
+        const m = new G2();
         m.α = α;
         m.x = x;
         m.y = y;
@@ -1918,6 +1944,17 @@ export default class G2 extends VectorN&lt;number&gt; implements GeometricE2, Me
      */
     static rotorFromDirections(a: VectorE2, b: VectorE2): G2 {
         return new G2().rotorFromDirections(a, b)
+    }
+
+    /**
+     * @method vector
+     * @param x {number}
+     * @param y {number}
+     * @return {G2}
+     * @static
+     */
+    static vector(x: number, y: number): G2 {
+        return this.fromCartesian(0, x, y, 0)
     }
 }
 

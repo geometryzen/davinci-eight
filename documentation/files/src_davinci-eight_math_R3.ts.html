@@ -424,19 +424,19 @@ export default class R3 extends VectorN&lt;number&gt; implements ColumnVector&lt
      * @chainable
      */
     rotate(R: SpinorE3): R3 {
-        let x = this.x;
-        let y = this.y;
-        let z = this.z;
+        const x = this.x;
+        const y = this.y;
+        const z = this.z;
 
-        let a = R.xy;
-        let b = R.yz;
-        let c = R.zx;
-        let w = R.α;
+        const a = R.xy;
+        const b = R.yz;
+        const c = R.zx;
+        const w = R.α;
 
-        let ix = w * x - c * z + a * y;
-        let iy = w * y - a * x + b * z;
-        let iz = w * z - b * y + c * x;
-        let iw = b * x + c * y + a * z;
+        const ix = w * x - c * z + a * y;
+        const iy = w * y - a * x + b * z;
+        const iz = w * z - b * y + c * x;
+        const iw = b * x + c * y + a * z;
 
         this.x = ix * w + iw * b + iy * a - iz * c;
         this.y = iy * w + iw * c + iz * b - ix * a;
@@ -507,8 +507,8 @@ export default class R3 extends VectorN&lt;number&gt; implements ColumnVector&lt
      */
     cross2(a: VectorE3, b: VectorE3): R3 {
 
-        let ax = a.x, ay = a.y, az = a.z;
-        let bx = b.x, by = b.y, bz = b.z;
+        const ax = a.x, ay = a.y, az = a.z;
+        const bx = b.x, by = b.y, bz = b.z;
 
         this.x = wedgeYZ(ax, ay, az, bx, by, bz);
         this.y = wedgeZX(ax, ay, az, bx, by, bz);
