@@ -195,6 +195,7 @@ export default class Euclidean3 implements ImmutableMeasure<Euclidean3>, Geometr
      * @property uom
      * @type Unit
      */
+    // FIXME: This needs to be private and readOnly
     public uom: Unit;
     /**
      * The Euclidean3 class represents a multivector for a 3-dimensional vector space with a Euclidean metric.
@@ -221,7 +222,7 @@ export default class Euclidean3 implements ImmutableMeasure<Euclidean3>, Geometr
         this._coords[COORD_PSEUDO] = β
         this.uom = uom
         if (this.uom && this.uom.multiplier !== 1) {
-            var multiplier: number = this.uom.multiplier;
+            const multiplier: number = this.uom.multiplier;
             this._coords[COORD_SCALAR] *= multiplier;
             this._coords[COORD_X] *= multiplier;
             this._coords[COORD_Y] *= multiplier;
@@ -1355,6 +1356,9 @@ export default class Euclidean3 implements ImmutableMeasure<Euclidean3>, Geometr
             },
             set beta(beta: number) {
                 M._coords[COORD_PSEUDO] = beta
+            },
+            set uom(uom: Unit) {
+                M.uom = uom;
             }
         }
         return that
@@ -1371,7 +1375,7 @@ export default class Euclidean3 implements ImmutableMeasure<Euclidean3>, Geometr
             return m
         }
         else {
-            return new Euclidean3(m.α, m.x, m.y, m.z, m.xy, m.yz, m.zx, m.β, void 0)
+            return new Euclidean3(m.α, m.x, m.y, m.z, m.xy, m.yz, m.zx, m.β, m.uom)
         }
     }
 
@@ -1383,6 +1387,7 @@ export default class Euclidean3 implements ImmutableMeasure<Euclidean3>, Geometr
      */
     static fromSpinorE3(spinor: SpinorE3): Euclidean3 {
         if (spinor) {
+            // FIXME: SpinorE3 should support uom, even though it might be 1
             return new Euclidean3(spinor.α, 0, 0, 0, spinor.xy, spinor.yz, spinor.zx, 0, void 0)
         }
         else {
@@ -1398,11 +1403,22 @@ export default class Euclidean3 implements ImmutableMeasure<Euclidean3>, Geometr
      */
     static fromVectorE3(vector: VectorE3): Euclidean3 {
         if (vector) {
-            return new Euclidean3(0, vector.x, vector.y, vector.z, 0, 0, 0, 0, void 0)
+            return new Euclidean3(0, vector.x, vector.y, vector.z, 0, 0, 0, 0, vector.uom)
         }
         else {
             return void 0
         }
+    }
+
+    /**
+     * @method scalar
+     * @param α {number}
+     * @param [uom] {Unit}
+     * @return {Euclidean3}
+     * @static
+     */
+    static scalar(α: number, uom?: Unit): Euclidean3 {
+        return new Euclidean3(α, 0, 0, 0, 0, 0, 0, 0, uom)
     }
 
     /**

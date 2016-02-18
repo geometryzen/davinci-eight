@@ -46,7 +46,9 @@
                                 <li><a href="../classes/AttribMetaInfo.html">AttribMetaInfo</a></li>
                                 <li><a href="../classes/Attribute.html">Attribute</a></li>
                                 <li><a href="../classes/BlendFactor.html">BlendFactor</a></li>
+                                <li><a href="../classes/Box.html">Box</a></li>
                                 <li><a href="../classes/Capability.html">Capability</a></li>
+                                <li><a href="../classes/CartesianE3.html">CartesianE3</a></li>
                                 <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
@@ -54,7 +56,6 @@
                                 <li><a href="../classes/ColorRGBA.html">ColorRGBA</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
                                 <li><a href="../classes/createView.html">createView</a></li>
-                                <li><a href="../classes/Cuboid.html">Cuboid</a></li>
                                 <li><a href="../classes/CuboidGeometry.html">CuboidGeometry</a></li>
                                 <li><a href="../classes/CuboidPrimitivesBuilder.html">CuboidPrimitivesBuilder</a></li>
                                 <li><a href="../classes/Cylinder.html">Cylinder</a></li>
@@ -202,6 +203,7 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 import LeftDenotation from &#x27;./LeftDenotation&#x27;
+import Node from &#x27;./Node&#x27;
 import NullDenotation from &#x27;./NullDenotation&#x27;
 import Symbol from &#x27;./Symbol&#x27;
 import Token from &#x27;./Token&#x27;
@@ -210,10 +212,8 @@ import Token from &#x27;./Token&#x27;
 //
 // We assume that the source text has been transformed into an array of tokens.
 //
-/// &lt;reference path=&#x27;./Symbol.d.ts&#x27;/&gt;
-/// &lt;reference path=&#x27;./Token.d.ts&#x27;/&gt;
 
-var state;
+var state: any;
 /**
  * The current token.
  */
@@ -221,24 +221,24 @@ var token: Token;
 var tokens: Token[];
 var idx: number;
 
-function fail(message) {
-  return function() { return state.unexpected(message) }
+function fail(message: string) {
+    return function() { return state.unexpected(message) }
 }
 
 /**
  * The prototype for all other symbols. Its method will usually be overridden.
  */
 let original_symbol = {
-  nud: function() {
-    return this.children &amp;&amp; this.children.length ? this : fail(&#x27;unexpected&#x27;)()
-  },
-  led: fail(&#x27;missing operator&#x27;)
+    nud: function() {
+        return this.children &amp;&amp; this.children.length ? this : fail(&#x27;unexpected&#x27;)()
+    },
+    led: fail(&#x27;missing operator&#x27;)
 }
 
-let symbol_table: {[id:string]:Symbol} = {};
+let symbol_table: { [id: string]: Symbol } = {};
 
 let itself: NullDenotation = function() {
-  return this
+    return this
 }
 
 /**
@@ -247,67 +247,67 @@ let itself: NullDenotation = function() {
  * @param bp Binding Power. Optional. Defaults to zero.
  */
 function symbol(id: string, bp?: number) {
-  var sym: Symbol = symbol_table[id];
-  bp = bp || 0
-  if(sym) {
-    if(bp &gt; sym.lbp) {
-      sym.lbp = bp
+    var sym: Symbol = symbol_table[id];
+    bp = bp || 0
+    if (sym) {
+        if (bp &gt; sym.lbp) {
+            sym.lbp = bp
+        }
     }
-  }
-  else {
-    sym = Object.create(original_symbol)
-    sym.id = id 
-    sym.lbp = bp
-    symbol_table[id] = sym
-  }
-  return sym
+    else {
+        sym = Object.create(original_symbol)
+        sym.id = id
+        sym.lbp = bp
+        symbol_table[id] = sym
+    }
+    return sym
 }
 
 function infix(id: string, bp: number, led?: LeftDenotation): void {
-  var sym: Symbol = symbol(id, bp)
-  sym.led = led || function(left) {
-    this.children = [left, expression(bp)]
-    this.type = &#x27;binary&#x27;
-    return this
-  }
+    var sym: Symbol = symbol(id, bp)
+    sym.led = led || function(left) {
+        this.children = [left, expression(bp)]
+        this.type = &#x27;binary&#x27;
+        return this
+    }
 }
 
 function infixr(id: string, bp: number, led?: LeftDenotation): Symbol {
-  var sym = symbol(id, bp)
-  sym.led = led || function(left) {
-    this.children = [left, expression(bp - 1)]
-    this.type = &#x27;binary&#x27;
-    return this
-  }
-  return sym
+    var sym = symbol(id, bp)
+    sym.led = led || function(left) {
+        this.children = [left, expression(bp - 1)]
+        this.type = &#x27;binary&#x27;
+        return this
+    }
+    return sym
 }
 
 function prefix(id: string, nud?: NullDenotation): Symbol {
-  var sym = symbol(id)
-  sym.nud = nud || function() {
-    this.children = [expression(70)]
-    this.type = &#x27;unary&#x27;
-    return this
-  }
-  return sym
+    var sym = symbol(id)
+    sym.nud = nud || function() {
+        this.children = [expression(70)]
+        this.type = &#x27;unary&#x27;
+        return this
+    }
+    return sym
 }
 
 function suffix(id: string): void {
-  var sym = symbol(id, 150)
-  sym.led = function(left) {
-    this.children = [left]
-    this.type = &#x27;suffix&#x27;
-    return this
-  }
+    var sym = symbol(id, 150)
+    sym.led = function(left) {
+        this.children = [left]
+        this.type = &#x27;suffix&#x27;
+        return this
+    }
 }
 
 function assignment(id: string): Symbol {
-  return infixr(id, 10, function(left) {
-    this.children = [left, expression(9)]
-    this.assignment = true
-    this.type = &#x27;assign&#x27;
-    return this
-  })
+    return infixr(id, 10, function(left) {
+        this.children = [left, expression(9)]
+        this.assignment = true
+        this.type = &#x27;assign&#x27;
+        return this
+    })
 }
 
 // parentheses included to avoid collisions with user-defined tokens.
@@ -343,43 +343,43 @@ infix(&#x27;*&#x27;, 60)
 infix(&#x27;/&#x27;, 60)
 infix(&#x27;%&#x27;, 60)
 infix(&#x27;?&#x27;, 20, function(left: Symbol) {
-  this.children = [left, expression(0), (advance(&#x27;:&#x27;), expression(0))]; // original.
-  //this.children = [];
-  //this.children.push(left);
-  //this.children.push(expression(0));
-  //advance(&#x27;:&#x27;);
-  //this.children.push(expression(0));
-  this.type = &#x27;ternary&#x27;
-  return this
+    this.children = [left, expression(0), (advance(&#x27;:&#x27;), expression(0))]; // original.
+    //this.children = [];
+    //this.children.push(left);
+    //this.children.push(expression(0));
+    //advance(&#x27;:&#x27;);
+    //this.children.push(expression(0));
+    this.type = &#x27;ternary&#x27;
+    return this
 })
 infix(&#x27;.&#x27;, 80, function(left) {
-  token.type = &#x27;literal&#x27;
-  state.fake(token)
-  this.children = [left, token]
-  advance()
-  return this
+    token.type = &#x27;literal&#x27;
+    state.fake(token)
+    this.children = [left, token]
+    advance()
+    return this
 })
 infix(&#x27;[&#x27;, 80, function(left) {
-  this.children = [left, expression(0)]
-  this.type = &#x27;binary&#x27;
-  advance(&#x27;]&#x27;)
-  return this
+    this.children = [left, expression(0)]
+    this.type = &#x27;binary&#x27;
+    advance(&#x27;]&#x27;)
+    return this
 })
 infix(&#x27;(&#x27;, 80, function(left) {
-  this.children = [left]
-  this.type = &#x27;call&#x27;
+    this.children = [left]
+    this.type = &#x27;call&#x27;
 
-  if(token.data !== &#x27;)&#x27;) {
-    while(1) {
-      this.children.push(expression(0));
-      if(token.data !== &#x27;,&#x27;) {
-        break;
-      }
-      advance(&#x27;,&#x27;);
+    if (token.data !== &#x27;)&#x27;) {
+        while (1) {
+            this.children.push(expression(0));
+            if (token.data !== &#x27;,&#x27;) {
+                break;
+            }
+            advance(&#x27;,&#x27;);
+        }
     }
-  }
-  advance(&#x27;)&#x27;)
-  return this
+    advance(&#x27;)&#x27;)
+    return this
 })
 
 prefix(&#x27;-&#x27;)
@@ -388,10 +388,10 @@ prefix(&#x27;!&#x27;)
 prefix(&#x27;~&#x27;)
 prefix(&#x27;defined&#x27;)
 prefix(&#x27;(&#x27;, function() {
-  this.type = &#x27;group&#x27;
-  this.children = [expression(0)]
-  advance(&#x27;)&#x27;)
-  return this 
+    this.type = &#x27;group&#x27;
+    this.children = [expression(0)]
+    advance(&#x27;)&#x27;)
+    return this
 })
 prefix(&#x27;++&#x27;)
 prefix(&#x27;--&#x27;)
@@ -410,35 +410,35 @@ assignment(&#x27;^=&#x27;)
 assignment(&#x27;&gt;&gt;=&#x27;)
 assignment(&#x27;&lt;&lt;=&#x27;)
 
-export default function expr(incoming_state, incoming_tokens?: Token[]): void {
+export default function expr(incoming_state: any, incoming_tokens?: Token[]): void {
 
-  function emit(node) {
-    state.unshift(node, false)
-    for(var i = 0, len = node.children.length; i &lt; len; ++i) {
-      emit(node.children[i])
+    function emit(node: Node) {
+        state.unshift(node, false)
+        for (var i = 0, len = node.children.length; i &lt; len; ++i) {
+            emit(node.children[i])
+        }
+        state.shift()
     }
-    state.shift()
-  }
 
-  state = incoming_state
-  tokens = incoming_tokens
-  idx = 0
-  var result
+    state = incoming_state
+    tokens = incoming_tokens
+    idx = 0
+    var result: any
 
-  if(!tokens.length) {
-    return
-  }
+    if (!tokens.length) {
+        return
+    }
 
-  advance()
-  result = expression(0)
-  result.parent = state[0]
-  emit(result)
+    advance()
+    result = expression(0)
+    result.parent = state[0]
+    emit(result)
 
-  if(idx &lt; tokens.length) {
-    throw new Error(&#x27;did not use all tokens&#x27;)
-  }
+    if (idx &lt; tokens.length) {
+        throw new Error(&#x27;did not use all tokens&#x27;)
+    }
 
-  result.parent.children = [result]
+    result.parent.children = [result]
 }
 
 /**
@@ -446,85 +446,85 @@ export default function expr(incoming_state, incoming_tokens?: Token[]): void {
  * @param rbp Right Binding Power.
  */
 function expression(rbp: number): Symbol {
-  var left: Symbol;
-  var t: Token = token;
+    var left: Symbol;
+    var t: Token = token;
 
-  advance();
+    advance();
 
-  left = t.nud();
-  while(rbp &lt; token.lbp) {
-    t = token
-    advance()
-    left = t.led(left)
-  }
-  return left
+    left = t.nud();
+    while (rbp &lt; token.lbp) {
+        t = token
+        advance()
+        left = t.led(left)
+    }
+    return left
 }
 
 /**
  * Make a new token from the next simple object in the array and assign to the token variable
  */
-function advance(id?): Token {
-  var next: Token;
-  var value: string;
-  var type: string;
-  /**
-   * Symbol obtained from the symbol lookup table.
-   */
-  var output: Symbol;
+function advance(id?: string): Token {
+    var next: Token;
+    var value: string;
+    var type: string;
+    /**
+     * Symbol obtained from the symbol lookup table.
+     */
+    var output: Symbol;
 
-  if(id &amp;&amp; token.data !== id) {
-    return state.unexpected(&#x27;expected &#x60;&#x27;+ id + &#x27;&#x60;, got &#x60;&#x27;+token.data+&#x27;&#x60;&#x27;)
-  }
-
-  if(idx &gt;= tokens.length) {
-    token = symbol_table[&#x27;(end)&#x27;]
-    return
-  }
-
-  next = tokens[idx++]
-  value = next.data
-  type = next.type
-
-  if(type === &#x27;ident&#x27;) {
-    output = state.scope.find(value) || state.create_node()
-    type = output.type
-  }
-  else if(type === &#x27;builtin&#x27;) {
-    output = symbol_table[&#x27;(builtin)&#x27;]
-  }
-  else if(type === &#x27;keyword&#x27;) {
-    output = symbol_table[&#x27;(keyword)&#x27;]
-  }
-  else if(type === &#x27;operator&#x27;) {
-    output = symbol_table[value]
-    if(!output) {
-      return state.unexpected(&#x27;unknown operator &#x60;&#x27;+value+&#x27;&#x60;&#x27;)
+    if (id &amp;&amp; token.data !== id) {
+        return state.unexpected(&#x27;expected &#x60;&#x27; + id + &#x27;&#x60;, got &#x60;&#x27; + token.data + &#x27;&#x60;&#x27;)
     }
-  }
-  else if(type === &#x27;float&#x27; || type === &#x27;integer&#x27;) {
-    type = &#x27;literal&#x27;
-    output = symbol_table[&#x27;(literal)&#x27;]
-  }
-  else {
-    return state.unexpected(&#x27;unexpected token.&#x27;)
-  }
 
-  if(output) {
-    if(!output.nud) { output.nud = itself }
-    if(!output.children) { output.children = [] }
-  }
+    if (idx &gt;= tokens.length) {
+        token = symbol_table[&#x27;(end)&#x27;]
+        return
+    }
 
-  // FIXME: This should be assigning to token?
-  output = Object.create(output)
-  output.token = next
-  output.type = type
-  if(!output.data) {
-    output.data = value
-  }
+    next = tokens[idx++]
+    value = next.data
+    type = next.type
 
-  // I don&#x27;t think the assignment is required.
-  // It also may be effing up the type safety.
-  return token = output
+    if (type === &#x27;ident&#x27;) {
+        output = state.scope.find(value) || state.create_node()
+        type = output.type
+    }
+    else if (type === &#x27;builtin&#x27;) {
+        output = symbol_table[&#x27;(builtin)&#x27;]
+    }
+    else if (type === &#x27;keyword&#x27;) {
+        output = symbol_table[&#x27;(keyword)&#x27;]
+    }
+    else if (type === &#x27;operator&#x27;) {
+        output = symbol_table[value]
+        if (!output) {
+            return state.unexpected(&#x27;unknown operator &#x60;&#x27; + value + &#x27;&#x60;&#x27;)
+        }
+    }
+    else if (type === &#x27;float&#x27; || type === &#x27;integer&#x27;) {
+        type = &#x27;literal&#x27;
+        output = symbol_table[&#x27;(literal)&#x27;]
+    }
+    else {
+        return state.unexpected(&#x27;unexpected token.&#x27;)
+    }
+
+    if (output) {
+        if (!output.nud) { output.nud = itself }
+        if (!output.children) { output.children = [] }
+    }
+
+    // FIXME: This should be assigning to token?
+    output = Object.create(output)
+    output.token = next
+    output.type = type
+    if (!output.data) {
+        output.data = value
+    }
+
+    // I don&#x27;t think the assignment is required.
+    // It also may be effing up the type safety.
+    return token = output
 }
 
     </pre>

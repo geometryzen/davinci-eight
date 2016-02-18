@@ -3,11 +3,6 @@ import GeometryContainer from '../core/GeometryContainer'
 import GeometryPrimitive from '../core/GeometryPrimitive'
 import Primitive from '../core/Primitive'
 import CylinderBuilder from './CylinderBuilder'
-import CylinderPrimitivesBuilder from './CylinderPrimitivesBuilder'
-
-const e1 = CartesianE3.fromVectorE3({ x: 1, y: 0, z: 0 })
-const e2 = CartesianE3.fromVectorE3({ x: 0, y: 1, z: 0 })
-// const e3 = CartesianE3.fromVectorE3({ x: 0, y: 0, z: 1 })
 
 /**
  * @module EIGHT
@@ -15,20 +10,13 @@ const e2 = CartesianE3.fromVectorE3({ x: 0, y: 1, z: 0 })
  */
 
 function primitives(): Primitive[] {
-    if (false) {
-        // This only builds the walls, but does use a TRIANGLE_STRIP
-        const builder = new CylinderPrimitivesBuilder(e2, e1)
-        return builder.toPrimitives()
-    }
-    else {
-        // Conventional cylinder.
-        const builder = new CylinderBuilder(e2)
-        return builder.toPrimitives()
-    }
+    const builder = new CylinderBuilder(CartesianE3.e2)
+    builder.setPosition(CartesianE3.e2.scale(0.5))
+    return builder.toPrimitives()
 }
 
 /**
- * A convenience class for creating a cuboid.
+ * A convenience class for creating a Cylinder.
  *
  * @class CylinderGeometry
  * @extends GeometryContainer

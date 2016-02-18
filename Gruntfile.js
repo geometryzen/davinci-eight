@@ -97,7 +97,8 @@ module.exports = function(grunt) {
           module: 'amd',
           target: 'ES5',
           moduleResolution: "classic",
-          noImplicitAny: false,
+          noImplicitAny: true,
+          suppressImplicitAnyIndexErrors: true,
           outDir: 'amd',
           sourceMap: false,
           verbose: false
@@ -113,7 +114,8 @@ module.exports = function(grunt) {
           fast: 'never',
           module: 'system',
           target: 'ES5',
-          noImplicitAny: false,
+          noImplicitAny: true,
+          suppressImplicitAnyIndexErrors: true,
           outDir: 'system',
           sourceMap: false,
           verbose: false

@@ -1,18 +1,19 @@
-import ColumnVector from '../math/ColumnVector';
-import VectorE3 from '../math/VectorE3';
-import dotVectorE3 from '../math/dotVectorE3';
-import Euclidean3 from '../math/Euclidean3';
-import MutableLinearElement from '../math/MutableLinearElement';
-import Mat3R from '../math/Mat3R';
-import Mat4R from '../math/Mat4R';
+import ColumnVector from './ColumnVector';
+import VectorE3 from './VectorE3';
+import dotVectorE3 from './dotVectorE3';
+// import Euclidean3 from './Euclidean3';
+import MutableLinearElement from './MutableLinearElement';
+import Mat3R from './Mat3R';
+import Mat4R from './Mat4R';
 import isDefined from '../checks/isDefined';
 import isNumber from '../checks/isNumber';
-import SpinorE3 from '../math/SpinorE3';
-import toStringCustom from '../math/toStringCustom';
-import VectorN from '../math/VectorN';
-import wedgeXY from '../math/wedgeXY';
-import wedgeYZ from '../math/wedgeYZ';
-import wedgeZX from '../math/wedgeZX';
+import SpinorE3 from './SpinorE3';
+import toStringCustom from './toStringCustom';
+import Unit from './Unit';
+import VectorN from './VectorN';
+import wedgeXY from './wedgeXY';
+import wedgeYZ from './wedgeYZ';
+import wedgeZX from './wedgeZX';
 
 /**
  * @module EIGHT
@@ -38,24 +39,13 @@ function coordinates(m: VectorE3): number[] {
  * @extends VectorN<number>
  */
 export default class R3 extends VectorN<number> implements ColumnVector<Mat3R, R3>, VectorE3, MutableLinearElement<VectorE3, R3, SpinorE3, VectorE3> {
+
     /**
-     * @property e1
-     * @type {Euclidean3}
-     * @static
+     * @property uom
+     * @type Unit
      */
-    public static e1 = Euclidean3.e1;
-    /**
-     * @property e2
-     * @type {Euclidean3}
-     * @static
-     */
-    public static e2 = Euclidean3.e2;
-    /**
-     * @property e3
-     * @type {Euclidean3}
-     * @static
-     */
-    public static e3 = Euclidean3.e3;
+    public uom: Unit
+
     /**
      * @method dot
      * @param a {VectorE3}
@@ -66,6 +56,7 @@ export default class R3 extends VectorN<number> implements ColumnVector<Mat3R, R
     public static dot(a: VectorE3, b: VectorE3): number {
         return a.x * b.x + a.y * b.y + a.z * b.z;
     }
+
     /**
      * @class R3
      * @constructor
@@ -654,5 +645,20 @@ export default class R3 extends VectorN<number> implements ColumnVector<Mat3R, R
      */
     static random(): R3 {
         return new R3([Math.random(), Math.random(), Math.random()])
+    }
+
+    /**
+     * @method vector
+     * @param x {number}
+     * @param y {number}
+     * @param z {number}
+     * @param [uom] {Unit}
+     * @return {R3}
+     * @static
+     */
+    static vector(x: number, y: number, z: number, uom?: Unit): R3 {
+        const v = new R3([x, y, z])
+        v.uom = uom
+        return v
     }
 }

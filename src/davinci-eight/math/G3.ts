@@ -18,6 +18,7 @@ import scpG3 from './scpG3';
 import SpinorE3 from './SpinorE3';
 import squaredNormG3 from './squaredNormG3';
 import stringFromCoordinates from './stringFromCoordinates';
+import Unit from './Unit';
 import VectorE3 from './VectorE3';
 import VectorN from './VectorN';
 import wedgeXY from './wedgeXY';
@@ -59,7 +60,7 @@ function coordinates(m: GeometricE3): number[] {
     return [m.α, m.x, m.y, m.z, m.xy, m.yz, m.zx, m.β]
 }
 
-function makeConstantE3(label: string, α: number, x: number, y: number, z: number, yz: number, zx: number, xy: number, β: number): GeometricE3 {
+function makeConstantE3(label: string, α: number, x: number, y: number, z: number, yz: number, zx: number, xy: number, β: number, uom: Unit): GeometricE3 {
     mustBeString('label', label)
     var that: GeometricE3;
     that = {
@@ -123,6 +124,12 @@ function makeConstantE3(label: string, α: number, x: number, y: number, z: numb
         set beta(unused: number) {
             throw new Error(readOnly(label + '.beta').message);
         },
+        get uom() {
+            return uom;
+        },
+        set uom(unused: Unit) {
+            throw new Error(readOnly(label + '.uom').message);
+        },
         toString() {
             return label;
         }
@@ -130,12 +137,13 @@ function makeConstantE3(label: string, α: number, x: number, y: number, z: numb
     return that
 }
 
-const zero = makeConstantE3('0', 0, 0, 0, 0, 0, 0, 0, 0);
-const one = makeConstantE3('1', 1, 0, 0, 0, 0, 0, 0, 0);
-const e1 = makeConstantE3('e1', 0, 1, 0, 0, 0, 0, 0, 0);
-const e2 = makeConstantE3('e2', 0, 0, 1, 0, 0, 0, 0, 0);
-const e3 = makeConstantE3('e2', 0, 0, 0, 1, 0, 0, 0, 0);
-const I = makeConstantE3('I', 0, 0, 0, 0, 0, 0, 0, 1);
+// FIXME: Why do this? They are only constant by agreement. i.e. Not enforced.
+const zero = makeConstantE3('0', 0, 0, 0, 0, 0, 0, 0, 0, void 0);
+const one = makeConstantE3('1', 1, 0, 0, 0, 0, 0, 0, 0, void 0);
+const e1 = makeConstantE3('e1', 0, 1, 0, 0, 0, 0, 0, 0, void 0);
+const e2 = makeConstantE3('e2', 0, 0, 1, 0, 0, 0, 0, 0, void 0);
+const e3 = makeConstantE3('e2', 0, 0, 0, 1, 0, 0, 0, 0, void 0);
+const I = makeConstantE3('I', 0, 0, 0, 0, 0, 0, 0, 1, void 0);
 
 /**
  * @class G3
@@ -143,6 +151,7 @@ const I = makeConstantE3('I', 0, 0, 0, 0, 0, 0, 0, 1);
  * @beta
  */
 export default class G3 extends VectorN<number> implements GeometricE3, MutableGeometricElement3D<GeometricE3, G3, SpinorE3, VectorE3>, GeometricOperators<G3> {
+    public uom: Unit;
     /**
      * @property eventBus
      * @type EventEmitter
@@ -162,11 +171,11 @@ export default class G3 extends VectorN<number> implements GeometricE3, MutableG
         this.eventBus = new EventEmitter<G3>(this);
     }
 
-    on(eventName: string, callback) {
+    on(eventName: string, callback: (eventName: string, key: string, value: number, source: G3) => void) {
         this.eventBus.addEventListener(eventName, callback);
     }
 
-    off(eventName: string, callback) {
+    off(eventName: string, callback: (eventName: string, key: string, value: number, source: G3) => void) {
         this.eventBus.removeEventListener(eventName, callback);
     }
 
@@ -498,6 +507,7 @@ export default class G3 extends VectorN<number> implements GeometricE3, MutableG
         this.zx = M.zx
         this.xy = M.xy
         this.β = M.β
+
         return this
     }
 
@@ -545,6 +555,7 @@ export default class G3 extends VectorN<number> implements GeometricE3, MutableG
         this.x = vector.x
         this.y = vector.y
         this.z = vector.z
+        this.uom = vector.uom
         return this
     }
 
@@ -1016,7 +1027,30 @@ export default class G3 extends VectorN<number> implements GeometricE3, MutableG
      * @chainable
      */
     rotorFromDirections(b: VectorE3, a: VectorE3): G3 {
-        return rotorFromDirections(a, b, quadVector, dotVector, this)
+        if (rotorFromDirections(a, b, quadVector, dotVector, this) !== void 0) {
+            return this
+        }
+        else {
+            // Compute a random bivector containing the start vector, then turn
+            // it into a rotor that achieves the 180-degree rotation.
+            const rx = Math.random()
+            const ry = Math.random()
+            const rz = Math.random()
+
+            this.yz = wedgeYZ(rx, ry, rz, a.x, a.y, a.z)
+            this.zx = wedgeZX(rx, ry, rz, a.x, a.y, a.z)
+            this.xy = wedgeXY(rx, ry, rz, a.x, a.y, a.z)
+
+            this.α = 0
+            this.x = 0
+            this.y = 0
+            this.z = 0
+            this.β = 0
+
+            this.direction()
+            this.rotorFromGeneratorAngle(this, Math.PI)
+            return this
+        }
     }
 
     /**
@@ -1031,12 +1065,13 @@ export default class G3 extends VectorN<number> implements GeometricE3, MutableG
      */
     rotorFromAxisAngle(axis: VectorE3, θ: number): G3 {
         // FIXME: TODO
-        let φ = θ / 2
-        let s = sin(φ)
+        const φ = θ / 2
+        const s = sin(φ)
         this.yz = -axis.x * s
         this.zx = -axis.y * s
         this.xy = -axis.z * s
         this.α = cos(φ)
+        // FIXME; Zero out other coordinates
         return this
     }
 
@@ -1046,14 +1081,14 @@ export default class G3 extends VectorN<number> implements GeometricE3, MutableG
      * </p>
      * @method rotorFromGeneratorAngle
      * @param B {SpinorE3}
-     * @param θ {number}
+     * @param θ {number} The rotation angle when applied on both sides: R M ~R
      * @return {G3} <code>this</code>
      * @chainable
      */
     rotorFromGeneratorAngle(B: SpinorE3, θ: number): G3 {
         // FIXME: TODO
-        let φ = θ / 2
-        let s = sin(φ)
+        const φ = θ / 2
+        const s = sin(φ)
         this.yz = -B.yz * s
         this.zx = -B.zx * s
         this.xy = -B.xy * s
@@ -1627,17 +1662,18 @@ export default class G3 extends VectorN<number> implements GeometricE3, MutableG
     }
 
     /**
+     * Constructs a G3 representing the number zero.
      * The identity element for addition, <b>0</b>.
-     * @property zero
-     * @type {G3}
-     * @readOnly
-     * @final
+     *
+     * @method zero
+     * @return {G3}
      * @static
      */
-    static get zero(): G3 { return G3.copy(zero); };
+    static zero(): G3 { return G3.copy(zero); };
 
     /**
      * The identity element for multiplication, <b>1</b>.
+     *
      * @property one
      * @type {G3}
      * @readOnly

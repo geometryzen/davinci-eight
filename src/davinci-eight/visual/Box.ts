@@ -1,9 +1,9 @@
+import BoxOptions from './BoxOptions'
 import Color from '../core/Color'
 import isDefined from '../checks/isDefined'
 import mustBeNumber from '../checks/mustBeNumber'
 import visualCache from './visualCache'
 import VisualBody from './VisualBody'
-import CuboidOptions from './CuboidOptions'
 
 /**
  * @module EIGHT
@@ -11,12 +11,12 @@ import CuboidOptions from './CuboidOptions'
  */
 
 /**
- * @class Cuboid
+ * @class Box
  * @extends RigidBody
  */
-export default class Cuboid extends VisualBody {
-    constructor(options: CuboidOptions = {}) {
-        super(visualCache.cuboid(options), visualCache.material(options), 'Cuboid')
+export default class Box extends VisualBody {
+    constructor(options: BoxOptions = {}) {
+        super(visualCache.box(options), visualCache.material(options), 'Box')
         this._geometry.release()
         this._material.release()
         this.width = isDefined(options.width) ? mustBeNumber('width', options.width) : 1

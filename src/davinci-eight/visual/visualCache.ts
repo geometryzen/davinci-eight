@@ -22,7 +22,7 @@ function arrow(options: VisualOptions): Geometry {
     return new ArrowGeometry()
 }
 
-function cuboid(options: VisualOptions): Geometry {
+function box(options: VisualOptions): Geometry {
     return new CuboidGeometry({ width: 1, height: 1, depth: 1, wireFrame: wireFrame(options) })
 }
 
@@ -112,8 +112,8 @@ class VisualCache {
     arrow(options: VisualOptions): Geometry {
         return this.ensureGeometry('arrow', arrow, options);
     }
-    cuboid(options: VisualOptions): Geometry {
-        return this.ensureGeometry(geometryKey('cuboid', options), cuboid, options);
+    box(options: VisualOptions): Geometry {
+        return this.ensureGeometry(geometryKey('box', options), box, options);
     }
     cylinder(options: VisualOptions): Geometry {
         return this.ensureGeometry('cylinder', cylinder, options);

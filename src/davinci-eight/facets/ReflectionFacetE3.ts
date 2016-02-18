@@ -17,10 +17,12 @@ import readOnly from '../i18n/readOnly';
 export default class ReflectionFacetE3 implements Facet {
     /**
      * The vector perpendicular to the (hyper-)plane of reflection.
+     *
      * @property _normal
      * @type {G3}
      * @private
      */
+    // FIXME: Maybe use an R3 here instead?
     public _normal: G3;
 
     /**
@@ -39,7 +41,7 @@ export default class ReflectionFacetE3 implements Facet {
     constructor(name: string) {
         this.name = mustBeString('name', name)
         // The mathematics of the reflection causes a zero vector to be the identity transformation.
-        this._normal = G3.fromVector({ x: 0, y: 0, z: 0 })
+        this._normal = G3.zero()
         this._normal.modified = true
     }
 

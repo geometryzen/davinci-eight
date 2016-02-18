@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src/davinci-eight/visual/Cuboid.ts - davinci-eight</title>
+    <title>src/davinci-eight/math/CartesianE3.ts - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -46,7 +46,9 @@
                                 <li><a href="../classes/AttribMetaInfo.html">AttribMetaInfo</a></li>
                                 <li><a href="../classes/Attribute.html">Attribute</a></li>
                                 <li><a href="../classes/BlendFactor.html">BlendFactor</a></li>
+                                <li><a href="../classes/Box.html">Box</a></li>
                                 <li><a href="../classes/Capability.html">Capability</a></li>
+                                <li><a href="../classes/CartesianE3.html">CartesianE3</a></li>
                                 <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
@@ -54,7 +56,6 @@
                                 <li><a href="../classes/ColorRGBA.html">ColorRGBA</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
                                 <li><a href="../classes/createView.html">createView</a></li>
-                                <li><a href="../classes/Cuboid.html">Cuboid</a></li>
                                 <li><a href="../classes/CuboidGeometry.html">CuboidGeometry</a></li>
                                 <li><a href="../classes/CuboidPrimitivesBuilder.html">CuboidPrimitivesBuilder</a></li>
                                 <li><a href="../classes/Cylinder.html">Cylinder</a></li>
@@ -197,59 +198,131 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: src/davinci-eight/visual/Cuboid.ts</h1>
+<h1 class="file-heading">File: src/davinci-eight/math/CartesianE3.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import Color from &#x27;../core/Color&#x27;
-import isDefined from &#x27;../checks/isDefined&#x27;
+import core from &#x27;../core&#x27;
 import mustBeNumber from &#x27;../checks/mustBeNumber&#x27;
-import visualCache from &#x27;./visualCache&#x27;
-import VisualBody from &#x27;./VisualBody&#x27;
-import CuboidOptions from &#x27;./CuboidOptions&#x27;
+import readOnly from &#x27;../i18n/readOnly&#x27;
+import Unit from &#x27;./Unit&#x27;;
+import VectorE3 from &#x27;./VectorE3&#x27;
 
 /**
  * @module EIGHT
- * @submodule visual
+ * @submodule math
  */
 
 /**
- * @class Cuboid
- * @extends RigidBody
+ * @class CartesianE3
  */
-export default class Cuboid extends VisualBody {
-    constructor(options: CuboidOptions = {}) {
-        super(visualCache.cuboid(options), visualCache.material(options), &#x27;Cuboid&#x27;)
-        this._geometry.release()
-        this._material.release()
-        this.width = isDefined(options.width) ? mustBeNumber(&#x27;width&#x27;, options.width) : 1
-        this.height = isDefined(options.height) ? mustBeNumber(&#x27;height&#x27;, options.height) : 1
-        this.depth = isDefined(options.depth) ? mustBeNumber(&#x27;depth&#x27;, options.depth) : 1
-        this.color = Color.green
+export default class CartesianE3 implements VectorE3 {
+    private _coords: number[];
+    private _uom: Unit;
+
+    /**
+     * @property zero
+     * @type CartesianE3
+     * @readOnly
+     * @static
+     */
+    public static zero = new CartesianE3(0, 0, 0, void 0)
+
+    /**
+     * @property e1
+     * @type CartesianE3
+     * @readOnly
+     * @static
+     */
+    public static e1 = new CartesianE3(1, 0, 0, void 0)
+
+    /**
+     * @property e2
+     * @type CartesianE3
+     * @readOnly
+     * @static
+     */
+    public static e2 = new CartesianE3(0, 1, 0, void 0)
+
+    /**
+     * @property e3
+     * @type CartesianE3
+     * @readOnly
+     * @static
+     */
+    public static e3 = new CartesianE3(0, 0, 1, void 0)
+
+    /**
+     * @class CartesianE3
+     * @constructor
+     * @param x {number}
+     * @param y {number}
+     * @param z {number}
+     */
+    constructor(x: number, y: number, z: number, uom: Unit) {
+        if (core.safemode) {
+            mustBeNumber(&#x27;x&#x27;, x)
+            mustBeNumber(&#x27;y&#x27;, y)
+            mustBeNumber(&#x27;z&#x27;, z)
+        }
+        this._coords = [x, y, z]
+        this._uom = uom
     }
-    protected destructor(): void {
-        super.destructor()
+    get x(): number {
+        return this._coords[0]
     }
-    get width(): number {
-        return this.getScaleX()
+    set x(unused: number) {
+        throw new Error(readOnly(&#x27;x&#x27;).message)
     }
-    set width(width: number) {
-        mustBeNumber(&#x27;width&#x27;, width)
-        this.setScaleX(width)
+    get y(): number {
+        return this._coords[1]
     }
-    get height(): number {
-        return this.getScaleY()
+    set y(unused: number) {
+        throw new Error(readOnly(&#x27;y&#x27;).message)
     }
-    set height(height: number) {
-        mustBeNumber(&#x27;height&#x27;, height)
-        this.setScaleY(height)
+    get z(): number {
+        return this._coords[2]
     }
-    get depth(): number {
-        return this.getScaleZ()
+    set z(unused: number) {
+        throw new Error(readOnly(&#x27;z&#x27;).message)
     }
-    set depth(depth: number) {
-        mustBeNumber(&#x27;depth&#x27;, depth)
-        this.setScaleZ(depth)
+    get uom(): Unit {
+        return this._uom
+    }
+    set uom(unused: Unit) {
+        throw new Error(readOnly(&#x27;uom&#x27;).message)
+    }
+    // FIXME: This should return a Unit scaled by the coordinate values.
+    magnitude(): number {
+        return Math.sqrt(this.squaredNorm())
+    }
+
+    /**
+     * @method neg
+     * @return {Cartesian3}
+     */
+    neg(): CartesianE3 {
+        return this.scale(-1);
+    }
+    scale(α: number): CartesianE3 {
+        return new CartesianE3(α * this.x, α * this.y, α * this.z, this.uom)
+    }
+    // FIXME: This should return a Unit scaled by the coordinate values.
+    squaredNorm(): number {
+        const x = this.x
+        const y = this.y
+        const z = this.z
+        return x * x + y * y + z * z
+    }
+    static fromVectorE3(vector: VectorE3): CartesianE3 {
+        return new CartesianE3(vector.x, vector.y, vector.z, vector.uom)
+    }
+    static direction(vector: VectorE3): CartesianE3 {
+        const x = vector.x
+        const y = vector.y
+        const z = vector.z
+        const m = Math.sqrt(x * x + y * y + z * z)
+        return new CartesianE3(x / m, y / m, z / m, void 0)
     }
 }
 

@@ -46,7 +46,9 @@
                                 <li><a href="../classes/AttribMetaInfo.html">AttribMetaInfo</a></li>
                                 <li><a href="../classes/Attribute.html">Attribute</a></li>
                                 <li><a href="../classes/BlendFactor.html">BlendFactor</a></li>
+                                <li><a href="../classes/Box.html">Box</a></li>
                                 <li><a href="../classes/Capability.html">Capability</a></li>
+                                <li><a href="../classes/CartesianE3.html">CartesianE3</a></li>
                                 <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
@@ -54,7 +56,6 @@
                                 <li><a href="../classes/ColorRGBA.html">ColorRGBA</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
                                 <li><a href="../classes/createView.html">createView</a></li>
-                                <li><a href="../classes/Cuboid.html">Cuboid</a></li>
                                 <li><a href="../classes/CuboidGeometry.html">CuboidGeometry</a></li>
                                 <li><a href="../classes/CuboidPrimitivesBuilder.html">CuboidPrimitivesBuilder</a></li>
                                 <li><a href="../classes/Cylinder.html">Cylinder</a></li>
@@ -398,6 +399,7 @@ export default class Euclidean3 implements ImmutableMeasure&lt;Euclidean3&gt;, G
      * @property uom
      * @type Unit
      */
+    // FIXME: This needs to be private and readOnly
     public uom: Unit;
     /**
      * The Euclidean3 class represents a multivector for a 3-dimensional vector space with a Euclidean metric.
@@ -424,7 +426,7 @@ export default class Euclidean3 implements ImmutableMeasure&lt;Euclidean3&gt;, G
         this._coords[COORD_PSEUDO] = β
         this.uom = uom
         if (this.uom &amp;&amp; this.uom.multiplier !== 1) {
-            var multiplier: number = this.uom.multiplier;
+            const multiplier: number = this.uom.multiplier;
             this._coords[COORD_SCALAR] *= multiplier;
             this._coords[COORD_X] *= multiplier;
             this._coords[COORD_Y] *= multiplier;
@@ -1558,6 +1560,9 @@ export default class Euclidean3 implements ImmutableMeasure&lt;Euclidean3&gt;, G
             },
             set beta(beta: number) {
                 M._coords[COORD_PSEUDO] = beta
+            },
+            set uom(uom: Unit) {
+                M.uom = uom;
             }
         }
         return that
@@ -1574,7 +1579,7 @@ export default class Euclidean3 implements ImmutableMeasure&lt;Euclidean3&gt;, G
             return m
         }
         else {
-            return new Euclidean3(m.α, m.x, m.y, m.z, m.xy, m.yz, m.zx, m.β, void 0)
+            return new Euclidean3(m.α, m.x, m.y, m.z, m.xy, m.yz, m.zx, m.β, m.uom)
         }
     }
 
@@ -1586,6 +1591,7 @@ export default class Euclidean3 implements ImmutableMeasure&lt;Euclidean3&gt;, G
      */
     static fromSpinorE3(spinor: SpinorE3): Euclidean3 {
         if (spinor) {
+            // FIXME: SpinorE3 should support uom, even though it might be 1
             return new Euclidean3(spinor.α, 0, 0, 0, spinor.xy, spinor.yz, spinor.zx, 0, void 0)
         }
         else {
@@ -1601,11 +1607,22 @@ export default class Euclidean3 implements ImmutableMeasure&lt;Euclidean3&gt;, G
      */
     static fromVectorE3(vector: VectorE3): Euclidean3 {
         if (vector) {
-            return new Euclidean3(0, vector.x, vector.y, vector.z, 0, 0, 0, 0, void 0)
+            return new Euclidean3(0, vector.x, vector.y, vector.z, 0, 0, 0, 0, vector.uom)
         }
         else {
             return void 0
         }
+    }
+
+    /**
+     * @method scalar
+     * @param α {number}
+     * @param [uom] {Unit}
+     * @return {Euclidean3}
+     * @static
+     */
+    static scalar(α: number, uom?: Unit): Euclidean3 {
+        return new Euclidean3(α, 0, 0, 0, 0, 0, 0, 0, uom)
     }
 
     /**

@@ -46,7 +46,9 @@
                                 <li><a href="../classes/AttribMetaInfo.html">AttribMetaInfo</a></li>
                                 <li><a href="../classes/Attribute.html">Attribute</a></li>
                                 <li><a href="../classes/BlendFactor.html">BlendFactor</a></li>
+                                <li><a href="../classes/Box.html">Box</a></li>
                                 <li><a href="../classes/Capability.html">Capability</a></li>
+                                <li><a href="../classes/CartesianE3.html">CartesianE3</a></li>
                                 <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
@@ -54,7 +56,6 @@
                                 <li><a href="../classes/ColorRGBA.html">ColorRGBA</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
                                 <li><a href="../classes/createView.html">createView</a></li>
-                                <li><a href="../classes/Cuboid.html">Cuboid</a></li>
                                 <li><a href="../classes/CuboidGeometry.html">CuboidGeometry</a></li>
                                 <li><a href="../classes/CuboidPrimitivesBuilder.html">CuboidPrimitivesBuilder</a></li>
                                 <li><a href="../classes/Cylinder.html">Cylinder</a></li>
@@ -201,7 +202,8 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import DivisionRingOperators from &#x27;../math/DivisionRingOperators&#x27;;
+import core from &#x27;../core&#x27;
+import DivisionRingOperators from &#x27;./DivisionRingOperators&#x27;;
 import mustBeInteger from &#x27;../checks/mustBeInteger&#x27;;
 import readOnly from &#x27;../i18n/readOnly&#x27;;
 
@@ -240,13 +242,17 @@ export default class QQ implements DivisionRingOperators&lt;QQ&gt; {
      * @param {number} d The denominator, an integer.
      */
     constructor(n: number, d: number) {
-        mustBeInteger(&#x27;n&#x27;, n);
-        mustBeInteger(&#x27;d&#x27;, d);
+        if (core.safemode) {
+            mustBeInteger(&#x27;n&#x27;, n);
+            mustBeInteger(&#x27;d&#x27;, d);
+        }
         var g: number;
 
-        var gcd = function(a: number, b: number) {
-            mustBeInteger(&#x27;a&#x27;, a);
-            mustBeInteger(&#x27;b&#x27;, b);
+        const gcd = function(a: number, b: number) {
+            if (core.safemode) {
+                mustBeInteger(&#x27;a&#x27;, a);
+                mustBeInteger(&#x27;b&#x27;, b);
+            }
             var temp: number;
 
             if (a &lt; 0) {

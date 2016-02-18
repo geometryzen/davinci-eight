@@ -3,23 +3,23 @@ import literals from './literals'
 import operators from './operators'
 import builtins from './builtins'
 
-let NORMAL = 999;          // <-- never emitted
-let TOKEN = 9999;          // <-- never emitted
+const NORMAL = 999;          // <-- never emitted
+const TOKEN = 9999;          // <-- never emitted
 // These things are called mode(s) and correspond to the following map.
-let BLOCK_COMMENT = 0;
-let LINE_COMMENT = 1;
-let PREPROCESSOR = 2;
-let OPERATOR = 3;
-let INTEGER = 4;
-let FLOAT = 5;
-let IDENT = 6;
-let BUILTIN = 7;
-let KEYWORD = 8;
-let WHITESPACE = 9;
-let EOF = 10;
-let HEX = 11;
+const BLOCK_COMMENT = 0;
+const LINE_COMMENT = 1;
+const PREPROCESSOR = 2;
+const OPERATOR = 3;
+const INTEGER = 4;
+const FLOAT = 5;
+const IDENT = 6;
+const BUILTIN = 7;
+const KEYWORD = 8;
+const WHITESPACE = 9;
+const EOF = 10;
+const HEX = 11;
 
-let map: string[] = [
+const map: string[] = [
     'block-comment'
   , 'line-comment'
   , 'preprocessor'
@@ -53,7 +53,7 @@ export default function tokenize() {
     input += chunk
     len = input.length
 
-    var last
+    var last: number
 
     while(c = input[i], i < len) {
       last = i
@@ -84,7 +84,7 @@ export default function tokenize() {
     return tokens
   }
 
-  function end(chunk?) {
+  function end(chunk?: string) {
     if(content.length) {
       token(content.join(''))
     }
@@ -219,10 +219,10 @@ export default function tokenize() {
     return i + 1
   }
 
-  function determine_operator(buf) {
+  function determine_operator(buf: string[]) {
     var j = 0
-      , idx
-      , res
+    var idx: number
+    var res: any
 
     do {
       idx = operators.indexOf(buf.slice(0, buf.length + j).join(''))
@@ -333,9 +333,9 @@ export default function tokenize() {
   var i = 0;
   var total = 0;
   var mode = NORMAL;
-  var c;
-  var last;
-  var content = [];
+  var c: any;
+  var last: string;
+  var content: string[] = [];
   var tokens: Token[] = [];
   var token_idx = 0;
   var token_offs = 0;
@@ -345,7 +345,7 @@ export default function tokenize() {
   var isnum = false;
   var isoperator = false;
   var input = '';
-  var len;
+  var len: number;
 
   return function(data: string) {
     tokens = []

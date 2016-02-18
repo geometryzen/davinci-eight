@@ -1,6 +1,6 @@
 import Geometric from '../math/MutableGeometricElement';
 
-let sqrt = Math.sqrt
+const sqrt = Math.sqrt
 
 /**
  * Sets this multivector to a rotor representing a rotation from a to b.
@@ -8,12 +8,12 @@ let sqrt = Math.sqrt
  * Returns undefined (void 0) if the vectors are anti-parallel.
  */
 export default function rotorFromDirections<V, M extends Geometric<any, any, any, any>>(a: V, b: V, quad: (v: V) => number, dot: (a: V, b: V) => number, m: M): M {
-    let quadA = quad(a)
-    let absA = sqrt(quadA)
-    let quadB = quad(b)
-    let absB = sqrt(quadB)
-    let BA = absB * absA
-    let denom = sqrt(2 * (quadB * quadA + BA * dot(b, a)))
+    const quadA = quad(a)
+    const absA = sqrt(quadA)
+    const quadB = quad(b)
+    const absB = sqrt(quadB)
+    const BA = absB * absA
+    const denom = sqrt(2 * (quadB * quadA + BA * dot(b, a)))
     if (denom !== 0) {
         m = m.spinor(b, a)
         m = m.addScalar(BA)

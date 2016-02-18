@@ -688,6 +688,9 @@ define(["require", "exports", '../math/addE3', '../geometries/b2', '../geometrie
                 },
                 set beta(beta) {
                     M._coords[COORD_PSEUDO] = beta;
+                },
+                set uom(uom) {
+                    M.uom = uom;
                 }
             };
             return that;
@@ -697,7 +700,7 @@ define(["require", "exports", '../math/addE3', '../geometries/b2', '../geometrie
                 return m;
             }
             else {
-                return new Euclidean3(m.α, m.x, m.y, m.z, m.xy, m.yz, m.zx, m.β, void 0);
+                return new Euclidean3(m.α, m.x, m.y, m.z, m.xy, m.yz, m.zx, m.β, m.uom);
             }
         };
         Euclidean3.fromSpinorE3 = function (spinor) {
@@ -710,11 +713,14 @@ define(["require", "exports", '../math/addE3', '../geometries/b2', '../geometrie
         };
         Euclidean3.fromVectorE3 = function (vector) {
             if (vector) {
-                return new Euclidean3(0, vector.x, vector.y, vector.z, 0, 0, 0, 0, void 0);
+                return new Euclidean3(0, vector.x, vector.y, vector.z, 0, 0, 0, 0, vector.uom);
             }
             else {
                 return void 0;
             }
+        };
+        Euclidean3.scalar = function (α, uom) {
+            return new Euclidean3(α, 0, 0, 0, 0, 0, 0, 0, uom);
         };
         Euclidean3.vector = function (x, y, z, uom) {
             return new Euclidean3(0, x, y, z, 0, 0, 0, 0, uom);

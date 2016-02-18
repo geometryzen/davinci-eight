@@ -591,6 +591,7 @@ declare module EIGHT {
          * The (optional) unit of measure.
          */
         uom: Unit;
+        constructor(α: number, x: number, y: number, z: number, xy: number, yz: number, zx: number, β: number, uom?: Unit)
         add(rhs: Euclidean3): Euclidean3;
         addPseudo(β: number): Euclidean3;
         addScalar(α: number): Euclidean3;
@@ -641,6 +642,7 @@ declare module EIGHT {
         direction(): Euclidean3;
         static fromSpinorE3(spinor: SpinorE3): Euclidean3;
         static fromVectorE3(vector: VectorE3): Euclidean3;
+        static scalar(α: number, uom?: Unit): Euclidean3;
         static vector(x: number, y: number, z: number, uom?: Unit): Euclidean3;
     }
 
@@ -2281,18 +2283,26 @@ declare module EIGHT {
      * `Components` of a vector in a 3-dimensional Cartesian coordinate system.
      */
     interface VectorE3 {
+
         /**
          * The magnitude of the projection onto the standard e1 basis vector. 
          */
         x: number;
+
         /**
          * The magnitude of the projection onto the standard e2 basis vector. 
          */
         y: number;
+
         /**
          * The magnitude of the projection onto the standard e2 basis vector. 
          */
         z: number;
+
+        /**
+         * The optional unit of measure.
+         */
+        uom?: Unit;
     }
 
     /**
@@ -3376,7 +3386,7 @@ declare module EIGHT {
         radius: number;
     }
 
-    class Cuboid extends RigidBody {
+    class Box extends RigidBody {
         constructor(options?: { axis?: VectorE3 })
         width: number;
         height: number;
@@ -3436,12 +3446,12 @@ declare module EIGHT {
                 color?: Color;
                 pos?: VectorE3;
             }): Arrow
-        cuboid(
+        box(
             options?: {
                 width?: number;
                 height?: number;
                 depth?: number;
-            }): Cuboid
+            }): Box
         sphere(
             options?: {
                 color?: Color;
@@ -3450,7 +3460,9 @@ declare module EIGHT {
             }): Sphere
         cylinder(
             options?: {
-                radius?: number
+                axis?: VectorE3;
+                pos?: VectorE3;
+                radius?: number;
             }): Cylinder
         ambients: Facet[]
         canvas: HTMLCanvasElement

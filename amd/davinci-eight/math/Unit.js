@@ -1,11 +1,11 @@
-define(["require", "exports", '../math/Dimensions', '../math/QQ', '../math/UnitError'], function (require, exports, Dimensions_1, QQ_1, UnitError_1) {
+define(["require", "exports", '../math/Dimensions', '../math/QQ'], function (require, exports, Dimensions_1, QQ_1) {
     var LABELS_SI = ['kg', 'm', 's', 'C', 'K', 'mol', 'candela'];
     function assertArgNumber(name, x) {
         if (typeof x === 'number') {
             return x;
         }
         else {
-            throw new UnitError_1.default("Argument '" + name + "' must be a number");
+            throw new Error("Argument '" + name + "' must be a number");
         }
     }
     function assertArgDimensions(name, arg) {
@@ -13,7 +13,7 @@ define(["require", "exports", '../math/Dimensions', '../math/QQ', '../math/UnitE
             return arg;
         }
         else {
-            throw new UnitError_1.default("Argument '" + arg + "' must be a Dimensions");
+            throw new Error("Argument '" + arg + "' must be a Dimensions");
         }
     }
     function assertArgRational(name, arg) {
@@ -21,7 +21,7 @@ define(["require", "exports", '../math/Dimensions', '../math/QQ', '../math/UnitE
             return arg;
         }
         else {
-            throw new UnitError_1.default("Argument '" + arg + "' must be a QQ");
+            throw new Error("Argument '" + arg + "' must be a QQ");
         }
     }
     function assertArgUnit(name, arg) {
@@ -29,7 +29,7 @@ define(["require", "exports", '../math/Dimensions', '../math/QQ', '../math/UnitE
             return arg;
         }
         else {
-            throw new UnitError_1.default("Argument '" + arg + "' must be a Unit");
+            throw new Error("Argument '" + arg + "' must be a Unit");
         }
     }
     function assertArgUnitOrUndefined(name, arg) {
@@ -352,7 +352,7 @@ define(["require", "exports", '../math/Dimensions', '../math/QQ', '../math/UnitE
         };
         Unit.assertDimensionless = function (uom) {
             if (!Unit.isOne(uom)) {
-                throw new UnitError_1.default("uom must be dimensionless.");
+                throw new Error("uom must be dimensionless.");
             }
         };
         Unit.compatible = function (lhs, rhs) {
@@ -367,7 +367,7 @@ define(["require", "exports", '../math/Dimensions', '../math/QQ', '../math/UnitE
                         return void 0;
                     }
                     else {
-                        throw new UnitError_1.default(lhs + " is incompatible with 1");
+                        throw new Error(lhs + " is incompatible with 1");
                     }
                 }
             }
@@ -377,7 +377,7 @@ define(["require", "exports", '../math/Dimensions', '../math/QQ', '../math/UnitE
                         return void 0;
                     }
                     else {
-                        throw new UnitError_1.default("1 is incompatible with " + rhs);
+                        throw new Error("1 is incompatible with " + rhs);
                     }
                 }
                 else {

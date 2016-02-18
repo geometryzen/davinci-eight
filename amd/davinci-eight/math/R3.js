@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../math/Mat3R', '../math/Mat4R', '../checks/isDefined', '../checks/isNumber', '../math/toStringCustom', '../math/VectorN', '../math/wedgeXY', '../math/wedgeYZ', '../math/wedgeZX'], function (require, exports, dotVectorE3_1, Euclidean3_1, Mat3R_1, Mat4R_1, isDefined_1, isNumber_1, toStringCustom_1, VectorN_1, wedgeXY_1, wedgeYZ_1, wedgeZX_1) {
+define(["require", "exports", './dotVectorE3', './Mat3R', './Mat4R', '../checks/isDefined', '../checks/isNumber', './toStringCustom', './VectorN', './wedgeXY', './wedgeYZ', './wedgeZX'], function (require, exports, dotVectorE3_1, Mat3R_1, Mat4R_1, isDefined_1, isNumber_1, toStringCustom_1, VectorN_1, wedgeXY_1, wedgeYZ_1, wedgeZX_1) {
     var sqrt = Math.sqrt;
     var COORD_X = 0;
     var COORD_Y = 1;
@@ -302,9 +302,11 @@ define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../m
         R3.random = function () {
             return new R3([Math.random(), Math.random(), Math.random()]);
         };
-        R3.e1 = Euclidean3_1.default.e1;
-        R3.e2 = Euclidean3_1.default.e2;
-        R3.e3 = Euclidean3_1.default.e3;
+        R3.vector = function (x, y, z, uom) {
+            var v = new R3([x, y, z]);
+            v.uom = uom;
+            return v;
+        };
         return R3;
     })(VectorN_1.default);
     Object.defineProperty(exports, "__esModule", { value: true });

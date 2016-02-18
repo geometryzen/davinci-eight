@@ -3,18 +3,11 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../math/CartesianE3', '../core/GeometryContainer', '../core/GeometryPrimitive', './CylinderBuilder', './CylinderPrimitivesBuilder'], function (require, exports, CartesianE3_1, GeometryContainer_1, GeometryPrimitive_1, CylinderBuilder_1, CylinderPrimitivesBuilder_1) {
-    var e1 = CartesianE3_1.default.fromVectorE3({ x: 1, y: 0, z: 0 });
-    var e2 = CartesianE3_1.default.fromVectorE3({ x: 0, y: 1, z: 0 });
+define(["require", "exports", '../math/CartesianE3', '../core/GeometryContainer', '../core/GeometryPrimitive', './CylinderBuilder'], function (require, exports, CartesianE3_1, GeometryContainer_1, GeometryPrimitive_1, CylinderBuilder_1) {
     function primitives() {
-        if (false) {
-            var builder = new CylinderPrimitivesBuilder_1.default(e2, e1);
-            return builder.toPrimitives();
-        }
-        else {
-            var builder = new CylinderBuilder_1.default(e2);
-            return builder.toPrimitives();
-        }
+        var builder = new CylinderBuilder_1.default(CartesianE3_1.default.e2);
+        builder.setPosition(CartesianE3_1.default.e2.scale(0.5));
+        return builder.toPrimitives();
     }
     var CylinderGeometry = (function (_super) {
         __extends(CylinderGeometry, _super);

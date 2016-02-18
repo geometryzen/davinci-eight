@@ -46,7 +46,9 @@
                                 <li><a href="../classes/AttribMetaInfo.html">AttribMetaInfo</a></li>
                                 <li><a href="../classes/Attribute.html">Attribute</a></li>
                                 <li><a href="../classes/BlendFactor.html">BlendFactor</a></li>
+                                <li><a href="../classes/Box.html">Box</a></li>
                                 <li><a href="../classes/Capability.html">Capability</a></li>
+                                <li><a href="../classes/CartesianE3.html">CartesianE3</a></li>
                                 <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
@@ -54,7 +56,6 @@
                                 <li><a href="../classes/ColorRGBA.html">ColorRGBA</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
                                 <li><a href="../classes/createView.html">createView</a></li>
-                                <li><a href="../classes/Cuboid.html">Cuboid</a></li>
                                 <li><a href="../classes/CuboidGeometry.html">CuboidGeometry</a></li>
                                 <li><a href="../classes/CuboidPrimitivesBuilder.html">CuboidPrimitivesBuilder</a></li>
                                 <li><a href="../classes/Cylinder.html">Cylinder</a></li>
@@ -205,7 +206,6 @@ import DivisionRingOperators from &#x27;../math/DivisionRingOperators&#x27;;
 import Dimensions from &#x27;../math/Dimensions&#x27;;
 import LinearElement from &#x27;../math/LinearElement&#x27;;
 import QQ from &#x27;../math/QQ&#x27;;
-import UnitError from &#x27;../math/UnitError&#x27;;
 
 var LABELS_SI = [&#x27;kg&#x27;, &#x27;m&#x27;, &#x27;s&#x27;, &#x27;C&#x27;, &#x27;K&#x27;, &#x27;mol&#x27;, &#x27;candela&#x27;];
 
@@ -214,7 +214,7 @@ function assertArgNumber(name: string, x: number): number {
         return x;
     }
     else {
-        throw new UnitError(&quot;Argument &#x27;&quot; + name + &quot;&#x27; must be a number&quot;);
+        throw new Error(&quot;Argument &#x27;&quot; + name + &quot;&#x27; must be a number&quot;);
     }
 }
 
@@ -223,7 +223,7 @@ function assertArgDimensions(name: string, arg: Dimensions): Dimensions {
         return arg;
     }
     else {
-        throw new UnitError(&quot;Argument &#x27;&quot; + arg + &quot;&#x27; must be a Dimensions&quot;);
+        throw new Error(&quot;Argument &#x27;&quot; + arg + &quot;&#x27; must be a Dimensions&quot;);
     }
 }
 
@@ -232,7 +232,7 @@ function assertArgRational(name: string, arg: QQ): QQ {
         return arg;
     }
     else {
-        throw new UnitError(&quot;Argument &#x27;&quot; + arg + &quot;&#x27; must be a QQ&quot;);
+        throw new Error(&quot;Argument &#x27;&quot; + arg + &quot;&#x27; must be a QQ&quot;);
     }
 }
 
@@ -241,7 +241,7 @@ function assertArgUnit(name: string, arg: Unit): Unit {
         return arg;
     }
     else {
-        throw new UnitError(&quot;Argument &#x27;&quot; + arg + &quot;&#x27; must be a Unit&quot;);
+        throw new Error(&quot;Argument &#x27;&quot; + arg + &quot;&#x27; must be a Unit&quot;);
     }
 }
 
@@ -281,8 +281,8 @@ var dumbString = function(multiplier: number, dimensions: Dimensions, labels: st
     return &quot;&quot; + scaleString + operatorStr + unitsString;
 };
 
-var unitString = function(multiplier: number, dimensions: Dimensions, labels: string[]): string {
-    var patterns =
+const unitString = function(multiplier: number, dimensions: Dimensions, labels: string[]): string {
+    const patterns =
         [
             [-1, 1, -3, 1, 2, 1, 2, 1, 0, 1, 0, 1, 0, 1],
             [-1, 1, -2, 1, 1, 1, 2, 1, 0, 1, 0, 1, 0, 1],
@@ -314,7 +314,7 @@ var unitString = function(multiplier: number, dimensions: Dimensions, labels: st
             [1, 1, 2, 1, 0, 1, -2, 1, 0, 1, 0, 1, 0, 1],
             [1, 1, 2, 1, -1, 1, -1, 1, 0, 1, 0, 1, 0, 1]
         ];
-    var decodes =
+    const decodes =
         [
             [&quot;F/m&quot;],
             [&quot;S&quot;],
@@ -746,7 +746,7 @@ export default class Unit implements DivisionRingOperators&lt;Unit&gt;, LinearEl
 
     static assertDimensionless(uom: Unit) {
         if (!Unit.isOne(uom)) {
-            throw new UnitError(&quot;uom must be dimensionless.&quot;);
+            throw new Error(&quot;uom must be dimensionless.&quot;);
         }
     }
 
@@ -762,7 +762,7 @@ export default class Unit implements DivisionRingOperators&lt;Unit&gt;, LinearEl
                     return void 0;
                 }
                 else {
-                    throw new UnitError(lhs + &quot; is incompatible with 1&quot;);
+                    throw new Error(lhs + &quot; is incompatible with 1&quot;);
                 }
             }
         }
@@ -772,7 +772,7 @@ export default class Unit implements DivisionRingOperators&lt;Unit&gt;, LinearEl
                     return void 0;
                 }
                 else {
-                    throw new UnitError(&quot;1 is incompatible with &quot; + rhs);
+                    throw new Error(&quot;1 is incompatible with &quot; + rhs);
                 }
             }
             else {

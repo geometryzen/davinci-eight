@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>ShareableArray - davinci-eight</title>
+    <title>Box - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -198,61 +198,27 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1>ShareableArray Class</h1>
+<h1>Box Class</h1>
 <div class="box meta">
 
         <div class="extends">
-            Extends <a href="../classes/Shareable.html" class="crosslink">Shareable</a>
+            Extends <a href="../classes/RigidBody.html" class="crosslink">RigidBody</a>
         </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_collections_ShareableArray.ts.html#l36"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;ShareableArray.ts:36</code></a>
+            Defined in: <a href="../files/src_davinci-eight_visual_Box.ts.html#l13"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Box.ts:13</code></a>
         </div>
 
-            Module: <a href="../modules/EIGHT.html">EIGHT</a>
+            Module: <a href="../modules/visual.html">visual</a><br>
+            Parent Module: <a href="../modules/EIGHT.html">EIGHT</a>
 
 </div>
 
 
 <div class="box intro">
-    <p>Collection class for maintaining an array of types derived from IUnknown.
-Provides a safer way to maintain reference counts than a native array.</p>
-
+    
 </div>
 
-    <div class="constructor">
-        <h2>Constructor</h2>
-<div id="method_ShareableArray" class="method item">
-    <h3 class="name"><code>ShareableArray</code></h3>
-
-        <span class="paren">()</span>
-
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_collections_ShareableArray.ts.html#l36"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;ShareableArray.ts:36</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-
-
-</div>
-    </div>
 
 <div id="classdocs" class="tabview">
     <ul class="api-class-tabs">
@@ -270,56 +236,32 @@ Provides a safer way to maintain reference counts than a native array.</p>
                     <h3>Methods</h3>
 
                     <ul class="index-list methods extends">
-                            <li class="index-item method inherited inherited">
-                                <a href="#method_addRef">addRef</a>
-
-                            </li>
                             <li class="index-item method protected inherited">
                                 <a href="#method_destructor">destructor</a>
 
                             </li>
-                            <li class="index-item method">
-                                <a href="#method_forEach">forEach</a>
+                            <li class="index-item method protected inherited">
+                                <a href="#method_getScaleX">getScaleX</a>
 
                             </li>
-                            <li class="index-item method">
-                                <a href="#method_get">get</a>
+                            <li class="index-item method protected inherited">
+                                <a href="#method_getScaleY">getScaleY</a>
 
                             </li>
-                            <li class="index-item method">
-                                <a href="#method_getWeakRef">getWeakRef</a>
+                            <li class="index-item method protected inherited">
+                                <a href="#method_getScaleZ">getScaleZ</a>
 
                             </li>
-                            <li class="index-item method">
-                                <a href="#method_indexOf">indexOf</a>
+                            <li class="index-item method protected inherited">
+                                <a href="#method_setScaleX">setScaleX</a>
 
                             </li>
-                            <li class="index-item method">
-                                <a href="#method_pop">pop</a>
+                            <li class="index-item method protected inherited">
+                                <a href="#method_setScaleY">setScaleY</a>
 
                             </li>
-                            <li class="index-item method">
-                                <a href="#method_push">push</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_pushWeakRef">pushWeakRef</a>
-
-                            </li>
-                            <li class="index-item method inherited inherited">
-                                <a href="#method_release">release</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_shift">shift</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_slice">slice</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_splice">splice</a>
+                            <li class="index-item method protected inherited">
+                                <a href="#method_setScaleZ">setScaleZ</a>
 
                             </li>
                     </ul>
@@ -329,16 +271,40 @@ Provides a safer way to maintain reference counts than a native array.</p>
                     <h3>Properties</h3>
 
                     <ul class="index-list properties extends">
-                            <li class="index-item property private">
-                                <a href="#property__elements">_elements</a>
+                            <li class="index-item property private inherited">
+                                <a href="#property__mass">_mass</a>
 
                             </li>
-                            <li class="index-item property">
-                                <a href="#property_length">length</a>
+                            <li class="index-item property private inherited">
+                                <a href="#property__momentum">_momentum</a>
 
                             </li>
                             <li class="index-item property inherited">
-                                <a href="#property_uuid">uuid</a>
+                                <a href="#property_axis">axis</a>
+
+                            </li>
+                            <li class="index-item property inherited">
+                                <a href="#property_color">color</a>
+
+                            </li>
+                            <li class="index-item property inherited">
+                                <a href="#property_m">m</a>
+
+                            </li>
+                            <li class="index-item property inherited">
+                                <a href="#property_P">P</a>
+
+                            </li>
+                            <li class="index-item property inherited">
+                                <a href="#property_pos">pos</a>
+
+                            </li>
+                            <li class="index-item property inherited">
+                                <a href="#property_R">R</a>
+
+                            </li>
+                            <li class="index-item property inherited">
+                                <a href="#property_X">X</a>
 
                             </li>
                     </ul>
@@ -350,53 +316,7 @@ Provides a safer way to maintain reference counts than a native array.</p>
             <div id="methods" class="api-class-tabpanel">
                 <h2 class="off-left">Methods</h2>
 
-<div id="method_addRef" class="method item inherited">
-    <h3 class="name"><code>addRef</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type">Number</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-            <p>Inherited from
-            <a href="../classes/IUnknown.html#method_addRef">
-                IUnknown
-            </a>
-            but overwritten in
-        <a href="../files/src_davinci-eight_core_Shareable.ts.html#l34"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Shareable.ts:34</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-Notifies this instance that something is dereferencing it.
-</p>
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Number</span>:
-                    The new value of the reference count.
-            </div>
-        </div>
-
-
-</div>
-<div id="method_destructor" class="method item protected">
+<div id="method_destructor" class="method item protected inherited">
     <h3 class="name"><code>destructor</code></h3>
 
         <span class="paren">()</span>
@@ -413,12 +333,9 @@ Notifies this instance that something is dereferencing it.
 
 
     <div class="meta">
-            <p>Inherited from
-            <a href="../classes/Shareable.html#method_destructor">
-                Shareable
-            </a>
-            but overwritten in
-        <a href="../files/src_davinci-eight_collections_ShareableArray.ts.html#l49"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;ShareableArray.ts:49</code></a>
+                <p>Inherited from
+                <a href="../classes/RigidBody.html#method_destructor">RigidBody</a>:
+        <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l50"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:50</code></a>
         </p>
 
 
@@ -440,13 +357,136 @@ Notifies this instance that something is dereferencing it.
 
 
 </div>
-<div id="method_forEach" class="method item">
-    <h3 class="name"><code>forEach</code></h3>
+<div id="method_getScaleX" class="method item protected inherited">
+    <h3 class="name"><code>getScaleX</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">Number</span>
+        </span>
+
+
+        <span class="flag protected">protected</span>
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/RigidBody.html#method_getScaleX">RigidBody</a>:
+        <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l145"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:145</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Number</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_getScaleY" class="method item protected inherited">
+    <h3 class="name"><code>getScaleY</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">Number</span>
+        </span>
+
+
+        <span class="flag protected">protected</span>
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/RigidBody.html#method_getScaleY">RigidBody</a>:
+        <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l164"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:164</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Number</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_getScaleZ" class="method item protected inherited">
+    <h3 class="name"><code>getScaleZ</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">Number</span>
+        </span>
+
+
+        <span class="flag protected">protected</span>
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/RigidBody.html#method_getScaleZ">RigidBody</a>:
+        <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l183"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:183</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Number</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_setScaleX" class="method item protected inherited">
+    <h3 class="name"><code>setScaleX</code></h3>
 
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
-                        <code>callback</code>
+                        <code>x</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
@@ -456,15 +496,16 @@ Notifies this instance that something is dereferencing it.
         </span>
 
 
+        <span class="flag protected">protected</span>
 
 
 
 
 
     <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_collections_ShareableArray.ts.html#l161"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;ShareableArray.ts:161</code></a>
+                <p>Inherited from
+                <a href="../classes/RigidBody.html#method_setScaleX">RigidBody</a>:
+        <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l154"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:154</code></a>
         </p>
 
 
@@ -472,8 +513,7 @@ Notifies this instance that something is dereferencing it.
     </div>
 
     <div class="description">
-        <p>Traverse without Reference Counting</p>
-
+        
     </div>
 
         <div class="params">
@@ -481,8 +521,8 @@ Notifies this instance that something is dereferencing it.
 
             <ul class="params-list">
                 <li class="param">
-                        <code class="param-name">callback</code>
-                        <span class="type">(value: T, index: number)=>void</span>
+                        <code class="param-name">x</code>
+                        <span class="type">Number</span>
 
 
                     <div class="param-description">
@@ -503,160 +543,32 @@ Notifies this instance that something is dereferencing it.
 
 
 </div>
-<div id="method_get" class="method item">
-    <h3 class="name"><code>get</code></h3>
+<div id="method_setScaleY" class="method item protected inherited">
+    <h3 class="name"><code>setScaleY</code></h3>
 
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
-                        <code>index</code>
+                        <code>y</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
 
         <span class="returns-inline">
-            <span class="type">T</span>
+            <span class="type">Void</span>
         </span>
 
 
+        <span class="flag protected">protected</span>
 
 
 
 
 
     <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_collections_ShareableArray.ts.html#l88"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;ShareableArray.ts:88</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>Gets the element at the specified index, incrementing the reference count.</p>
-
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">index</code>
-                        <span class="type">Number</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">T</span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_getWeakRef" class="method item">
-    <h3 class="name"><code>getWeakRef</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>index</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type">T</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_collections_ShareableArray.ts.html#l101"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;ShareableArray.ts:101</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>Gets the element at the specified index, without incrementing the reference count.</p>
-
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">index</code>
-                        <span class="type">Number</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">T</span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_indexOf" class="method item">
-    <h3 class="name"><code>indexOf</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>searchElement</code>
-                </li>
-                <li class="arg">
-                        <code class="optional">[fromIndex]</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type">Number</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_collections_ShareableArray.ts.html#l110"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;ShareableArray.ts:110</code></a>
+                <p>Inherited from
+                <a href="../classes/RigidBody.html#method_setScaleY">RigidBody</a>:
+        <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l173"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:173</code></a>
         </p>
 
 
@@ -672,19 +584,8 @@ Notifies this instance that something is dereferencing it.
 
             <ul class="params-list">
                 <li class="param">
-                        <code class="param-name">searchElement</code>
-                        <span class="type">T</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name optional">[fromIndex]</code>
-                        <span class="type">Object</span>
-                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                        <code class="param-name">y</code>
+                        <span class="type">Number</span>
 
 
                     <div class="param-description">
@@ -699,31 +600,38 @@ Notifies this instance that something is dereferencing it.
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type">Number</span>:
+                        <span class="type">Void</span>:
             </div>
         </div>
 
 
 </div>
-<div id="method_pop" class="method item">
-    <h3 class="name"><code>pop</code></h3>
+<div id="method_setScaleZ" class="method item protected inherited">
+    <h3 class="name"><code>setScaleZ</code></h3>
 
-        <span class="paren">()</span>
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>z</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
 
         <span class="returns-inline">
-            <span class="type">T</span>
+            <span class="type">Void</span>
         </span>
 
 
+        <span class="flag protected">protected</span>
 
 
 
 
 
     <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_collections_ShareableArray.ts.html#l191"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;ShareableArray.ts:191</code></a>
+                <p>Inherited from
+                <a href="../classes/RigidBody.html#method_setScaleZ">RigidBody</a>:
+        <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l192"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:192</code></a>
         </p>
 
 
@@ -734,353 +642,12 @@ Notifies this instance that something is dereferencing it.
         
     </div>
 
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">T</span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_push" class="method item">
-    <h3 class="name"><code>push</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>element</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type">Number</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_collections_ShareableArray.ts.html#l170"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;ShareableArray.ts:170</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>Pushes an element onto the tail of the list and increments the element reference count.</p>
-
-    </div>
-
         <div class="params">
             <h4>Parameters:</h4>
 
             <ul class="params-list">
                 <li class="param">
-                        <code class="param-name">element</code>
-                        <span class="type">T</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Number</span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_pushWeakRef" class="method item">
-    <h3 class="name"><code>pushWeakRef</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>element</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type">Number</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_collections_ShareableArray.ts.html#l182"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;ShareableArray.ts:182</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>Pushes an element onto the tail of the list without incrementing the element reference count.</p>
-
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">element</code>
-                        <span class="type">T</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Number</span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_release" class="method item inherited">
-    <h3 class="name"><code>release</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type">Number</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-            <p>Inherited from
-            <a href="../classes/IUnknown.html#method_release">
-                IUnknown
-            </a>
-            but overwritten in
-        <a href="../files/src_davinci-eight_core_Shareable.ts.html#l48"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Shareable.ts:48</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-Notifies this instance that something is dereferencing it.
-</p>
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Number</span>:
-                    The new value of the reference count.
-            </div>
-        </div>
-
-
-</div>
-<div id="method_shift" class="method item">
-    <h3 class="name"><code>shift</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type">T</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_collections_ShareableArray.ts.html#l153"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;ShareableArray.ts:153</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">T</span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_slice" class="method item">
-    <h3 class="name"><code>slice</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code class="optional">[begin]</code>
-                </li>
-                <li class="arg">
-                        <code class="optional">[end]</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_collections_ShareableArray.ts.html#l132"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;ShareableArray.ts:132</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>The slice() method returns a shallow copy of a portion of an array into a new array object.
-It does not remove elements from the original array.</p>
-
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name optional">[begin]</code>
-                        <span class="type">Number</span>
-                        <span class="flag optional" title="This parameter is optional.">optional</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name optional">[end]</code>
-                        <span class="type">Number</span>
-                        <span class="flag optional" title="This parameter is optional.">optional</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-
-
-</div>
-<div id="method_splice" class="method item">
-    <h3 class="name"><code>splice</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>index</code>
-                </li>
-                <li class="arg">
-                        <code>deleteCount</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type">IUnkownArray<T></span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_collections_ShareableArray.ts.html#l142"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;ShareableArray.ts:142</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>The splice() method changes the content of an array by removing existing elements and/or adding new elements.</p>
-
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">index</code>
-                        <span class="type">Number</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">deleteCount</code>
+                        <code class="param-name">z</code>
                         <span class="type">Number</span>
 
 
@@ -1096,7 +663,7 @@ It does not remove elements from the original array.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type">IUnkownArray<T></span>:
+                        <span class="type">Void</span>:
             </div>
         </div>
 
@@ -1107,9 +674,9 @@ It does not remove elements from the original array.</p>
             <div id="properties" class="api-class-tabpanel">
                 <h2 class="off-left">Properties</h2>
 
-<div id="property__elements" class="property item private">
-    <h3 class="name"><code>_elements</code></h3>
-    <span class="type">T</span>
+<div id="property__mass" class="property item private inherited">
+    <h3 class="name"><code>_mass</code></h3>
+    <span class="type"><a href="../classes/Euclidean3.html" class="crosslink">Euclidean3</a></span>
 
 
         <span class="flag private">private</span>
@@ -1117,9 +684,9 @@ It does not remove elements from the original array.</p>
 
 
     <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_collections_ShareableArray.ts.html#l30"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;ShareableArray.ts:30</code></a>
+                <p>Inherited from
+                <a href="../classes/RigidBody.html#property__mass">RigidBody</a>:
+        <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l20"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:20</code></a>
         </p>
 
 
@@ -1129,21 +696,23 @@ It does not remove elements from the original array.</p>
         
     </div>
 
+        <p><strong>Default:</strong> one</p>
 
 
 </div>
-<div id="property_length" class="property item">
-    <h3 class="name"><code>length</code></h3>
-    <span class="type">Unknown</span>
+<div id="property__momentum" class="property item private inherited">
+    <h3 class="name"><code>_momentum</code></h3>
+    <span class="type"><a href="../classes/Euclidean3.html" class="crosslink">Euclidean3</a></span>
 
 
+        <span class="flag private">private</span>
 
 
 
     <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_collections_ShareableArray.ts.html#l119"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;ShareableArray.ts:119</code></a>
+                <p>Inherited from
+                <a href="../classes/RigidBody.html#property__momentum">RigidBody</a>:
+        <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l28"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:28</code></a>
         </p>
 
 
@@ -1153,12 +722,13 @@ It does not remove elements from the original array.</p>
         
     </div>
 
+        <p><strong>Default:</strong> zero</p>
 
 
 </div>
-<div id="property_uuid" class="property item inherited">
-    <h3 class="name"><code>uuid</code></h3>
-    <span class="type">String</span>
+<div id="property_axis" class="property item inherited">
+    <h3 class="name"><code>axis</code></h3>
+    <span class="type"><a href="../classes/Euclidean3.html" class="crosslink">Euclidean3</a></span>
 
 
 
@@ -1166,15 +736,161 @@ It does not remove elements from the original array.</p>
 
     <div class="meta">
                 <p>Inherited from
-                <a href="../classes/Shareable.html#property_uuid">Shareable</a>:
-        <a href="../files/src_davinci-eight_core_Shareable.ts.html#l92"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Shareable.ts:92</code></a>
+                <a href="../classes/RigidBody.html#property_axis">RigidBody</a>:
+        <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l59"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:59</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        
+        Axis (vector)
+This property is computed from the attitude spinor assuming a reference axis of e2.
+The axis property may be updated by assignment, but not through mutation.
+    </div>
+
+
+
+</div>
+<div id="property_color" class="property item inherited">
+    <h3 class="name"><code>color</code></h3>
+    <span class="type"><a href="../classes/Color.html" class="crosslink">Color</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/RigidBody.html#property_color">RigidBody</a>:
+        <a href="../files/src_davinci-eight_visual_Object3D.ts.html#l45"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Object3D.ts:45</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        Color
+    </div>
+
+
+
+</div>
+<div id="property_m" class="property item inherited">
+    <h3 class="name"><code>m</code></h3>
+    <span class="type"><a href="../classes/Euclidean3.html" class="crosslink">Euclidean3</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/RigidBody.html#property_m">RigidBody</a>:
+        <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l76"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:76</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        Mass
+    </div>
+
+
+
+</div>
+<div id="property_P" class="property item inherited">
+    <h3 class="name"><code>P</code></h3>
+    <span class="type"><a href="../classes/Euclidean3.html" class="crosslink">Euclidean3</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/RigidBody.html#property_P">RigidBody</a>:
+        <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l90"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:90</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        Momentum
+    </div>
+
+
+
+</div>
+<div id="property_pos" class="property item inherited">
+    <h3 class="name"><code>pos</code></h3>
+    <span class="type"><a href="../classes/Euclidean3.html" class="crosslink">Euclidean3</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/RigidBody.html#property_pos">RigidBody</a>:
+        <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l131"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:131</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        Position (vector)
+    </div>
+
+
+
+</div>
+<div id="property_R" class="property item inherited">
+    <h3 class="name"><code>R</code></h3>
+    <span class="type"><a href="../classes/Euclidean3.html" class="crosslink">Euclidean3</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/RigidBody.html#property_R">RigidBody</a>:
+        <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l103"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:103</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        Attitude (spinor)
+    </div>
+
+
+
+</div>
+<div id="property_X" class="property item inherited">
+    <h3 class="name"><code>X</code></h3>
+    <span class="type"><a href="../classes/Euclidean3.html" class="crosslink">Euclidean3</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/RigidBody.html#property_X">RigidBody</a>:
+        <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l117"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:117</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        Position (vector)
     </div>
 
 

@@ -25,7 +25,7 @@ describe("Euclidean3", function() {
         jasmine.addMatchers({
             toBeNear: function(m) {
                 return {
-                    compare: function(actual, expected) {
+                    compare: function(actual: Euclidean3, expected: Euclidean3) {
                         var tolerance = (Math.pow(10, -2) / 2);
                         var pass = (Math.abs(actual.coordinate(0) - expected.coordinate(0)) < tolerance) &&
                             (Math.abs(actual.coordinate(1) - expected.coordinate(1)) < tolerance) &&

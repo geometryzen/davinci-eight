@@ -153,7 +153,6 @@ import SpinorE1 from 'davinci-eight/math/SpinorE1';
 import SpinorE2 from 'davinci-eight/math/SpinorE2';
 import SpinorE3 from 'davinci-eight/math/SpinorE3';
 import Unit from 'davinci-eight/math/Unit';
-import UnitError from 'davinci-eight/math/UnitError';
 import G2 from 'davinci-eight/math/G2';
 import G3 from 'davinci-eight/math/G3';
 import SpinG2 from 'davinci-eight/math/SpinG2';
@@ -182,7 +181,7 @@ import animation from 'davinci-eight/utils/animation';
 // visual
 import Arrow from 'davinci-eight/visual/Arrow';
 import Sphere from 'davinci-eight/visual/Sphere';
-import Cuboid from 'davinci-eight/visual/Cuboid';
+import Box from 'davinci-eight/visual/Box';
 import Object3D from 'davinci-eight/visual/Object3D';
 import RigidBody from 'davinci-eight/visual/RigidBody';
 import Cylinder from 'davinci-eight/visual/Cylinder';
@@ -213,11 +212,11 @@ const eight = {
      */
     get LAST_MODIFIED() { return core.LAST_MODIFIED },
 
-    get fastPath(): boolean {
-        return core.fastPath;
+    get safemode(): boolean {
+        return core.safemode;
     },
-    set fastPath(value: boolean) {
-        core.fastPath = value;
+    set safemode(safemode: boolean) {
+        core.safemode = safemode;
     },
     get strict(): boolean {
         return core.strict;
@@ -351,7 +350,7 @@ const eight = {
     // visual
     get Arrow() { return Arrow },
     get Sphere() { return Sphere },
-    get Cuboid() { return Cuboid },
+    get Box() { return Box },
     get Object3D() { return Object3D },
     get RigidBody() { return RigidBody },
     get Cylinder() { return Cylinder },

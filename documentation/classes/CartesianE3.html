@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Cuboid - davinci-eight</title>
+    <title>CartesianE3 - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -46,7 +46,9 @@
                                 <li><a href="../classes/AttribMetaInfo.html">AttribMetaInfo</a></li>
                                 <li><a href="../classes/Attribute.html">Attribute</a></li>
                                 <li><a href="../classes/BlendFactor.html">BlendFactor</a></li>
+                                <li><a href="../classes/Box.html">Box</a></li>
                                 <li><a href="../classes/Capability.html">Capability</a></li>
+                                <li><a href="../classes/CartesianE3.html">CartesianE3</a></li>
                                 <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
@@ -54,7 +56,6 @@
                                 <li><a href="../classes/ColorRGBA.html">ColorRGBA</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
                                 <li><a href="../classes/createView.html">createView</a></li>
-                                <li><a href="../classes/Cuboid.html">Cuboid</a></li>
                                 <li><a href="../classes/CuboidGeometry.html">CuboidGeometry</a></li>
                                 <li><a href="../classes/CuboidPrimitivesBuilder.html">CuboidPrimitivesBuilder</a></li>
                                 <li><a href="../classes/Cylinder.html">Cylinder</a></li>
@@ -197,18 +198,15 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1>Cuboid Class</h1>
+<h1>CartesianE3 Class</h1>
 <div class="box meta">
 
-        <div class="extends">
-            Extends <a href="../classes/RigidBody.html" class="crosslink">RigidBody</a>
-        </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_visual_Cuboid.ts.html#l13"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Cuboid.ts:13</code></a>
+            Defined in: <a href="../files/src_davinci-eight_math_CartesianE3.ts.html#l51"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CartesianE3.ts:51</code></a>
         </div>
 
-            Module: <a href="../modules/visual.html">visual</a><br>
+            Module: <a href="../modules/math.html">math</a><br>
             Parent Module: <a href="../modules/EIGHT.html">EIGHT</a>
 
 </div>
@@ -218,293 +216,36 @@
     
 </div>
 
-
-<div id="classdocs" class="tabview">
-    <ul class="api-class-tabs">
-        <li class="api-class-tab index"><a href="#index">Index</a></li>
-
-            <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
-            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
-    </ul>
-
-    <div>
-        <div id="index" class="api-class-tabpanel index">
-            <h2 class="off-left">Item Index</h2>
-
-                <div class="index-section methods">
-                    <h3>Methods</h3>
-
-                    <ul class="index-list methods extends">
-                            <li class="index-item method protected inherited">
-                                <a href="#method_destructor">destructor</a>
-
-                            </li>
-                            <li class="index-item method protected inherited">
-                                <a href="#method_getScaleX">getScaleX</a>
-
-                            </li>
-                            <li class="index-item method protected inherited">
-                                <a href="#method_getScaleY">getScaleY</a>
-
-                            </li>
-                            <li class="index-item method protected inherited">
-                                <a href="#method_getScaleZ">getScaleZ</a>
-
-                            </li>
-                            <li class="index-item method protected inherited">
-                                <a href="#method_setScaleX">setScaleX</a>
-
-                            </li>
-                            <li class="index-item method protected inherited">
-                                <a href="#method_setScaleY">setScaleY</a>
-
-                            </li>
-                            <li class="index-item method protected inherited">
-                                <a href="#method_setScaleZ">setScaleZ</a>
-
-                            </li>
-                    </ul>
-                </div>
-
-                <div class="index-section properties">
-                    <h3>Properties</h3>
-
-                    <ul class="index-list properties extends">
-                            <li class="index-item property private inherited">
-                                <a href="#property__mass">_mass</a>
-
-                            </li>
-                            <li class="index-item property private inherited">
-                                <a href="#property__momentum">_momentum</a>
-
-                            </li>
-                            <li class="index-item property inherited">
-                                <a href="#property_axis">axis</a>
-
-                            </li>
-                            <li class="index-item property inherited">
-                                <a href="#property_color">color</a>
-
-                            </li>
-                            <li class="index-item property inherited">
-                                <a href="#property_m">m</a>
-
-                            </li>
-                            <li class="index-item property inherited">
-                                <a href="#property_P">P</a>
-
-                            </li>
-                            <li class="index-item property inherited">
-                                <a href="#property_pos">pos</a>
-
-                            </li>
-                            <li class="index-item property inherited">
-                                <a href="#property_R">R</a>
-
-                            </li>
-                            <li class="index-item property inherited">
-                                <a href="#property_X">X</a>
-
-                            </li>
-                    </ul>
-                </div>
-
-
-        </div>
-
-            <div id="methods" class="api-class-tabpanel">
-                <h2 class="off-left">Methods</h2>
-
-<div id="method_destructor" class="method item protected inherited">
-    <h3 class="name"><code>destructor</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type">Void</span>
-        </span>
-
-
-        <span class="flag protected">protected</span>
-
-
-
-
-
-    <div class="meta">
-                <p>Inherited from
-                <a href="../classes/RigidBody.html#method_destructor">RigidBody</a>:
-        <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l50"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:50</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Void</span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_getScaleX" class="method item protected inherited">
-    <h3 class="name"><code>getScaleX</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type">Number</span>
-        </span>
-
-
-        <span class="flag protected">protected</span>
-
-
-
-
-
-    <div class="meta">
-                <p>Inherited from
-                <a href="../classes/RigidBody.html#method_getScaleX">RigidBody</a>:
-        <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l145"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:145</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Number</span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_getScaleY" class="method item protected inherited">
-    <h3 class="name"><code>getScaleY</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type">Number</span>
-        </span>
-
-
-        <span class="flag protected">protected</span>
-
-
-
-
-
-    <div class="meta">
-                <p>Inherited from
-                <a href="../classes/RigidBody.html#method_getScaleY">RigidBody</a>:
-        <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l164"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:164</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Number</span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_getScaleZ" class="method item protected inherited">
-    <h3 class="name"><code>getScaleZ</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type">Number</span>
-        </span>
-
-
-        <span class="flag protected">protected</span>
-
-
-
-
-
-    <div class="meta">
-                <p>Inherited from
-                <a href="../classes/RigidBody.html#method_getScaleZ">RigidBody</a>:
-        <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l183"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:183</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Number</span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_setScaleX" class="method item protected inherited">
-    <h3 class="name"><code>setScaleX</code></h3>
+    <div class="constructor">
+        <h2>Constructor</h2>
+<div id="method_CartesianE3" class="method item">
+    <h3 class="name"><code>CartesianE3</code></h3>
 
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
                         <code>x</code>
                 </li>
+                <li class="arg">
+                        <code>y</code>
+                </li>
+                <li class="arg">
+                        <code>z</code>
+                </li>
             </ul><span class="paren">)</span>
         </div>
 
-        <span class="returns-inline">
-            <span class="type">Void</span>
-        </span>
 
 
-        <span class="flag protected">protected</span>
 
 
 
 
 
     <div class="meta">
-                <p>Inherited from
-                <a href="../classes/RigidBody.html#method_setScaleX">RigidBody</a>:
-        <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l154"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:154</code></a>
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_CartesianE3.ts.html#l51"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CartesianE3.ts:51</code></a>
         </p>
 
 
@@ -529,59 +270,6 @@
                     </div>
 
                 </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Void</span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_setScaleY" class="method item protected inherited">
-    <h3 class="name"><code>setScaleY</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>y</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type">Void</span>
-        </span>
-
-
-        <span class="flag protected">protected</span>
-
-
-
-
-
-    <div class="meta">
-                <p>Inherited from
-                <a href="../classes/RigidBody.html#method_setScaleY">RigidBody</a>:
-        <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l173"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:173</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
                 <li class="param">
                         <code class="param-name">y</code>
                         <span class="type">Number</span>
@@ -592,59 +280,6 @@
                     </div>
 
                 </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Void</span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_setScaleZ" class="method item protected inherited">
-    <h3 class="name"><code>setScaleZ</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>z</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type">Void</span>
-        </span>
-
-
-        <span class="flag protected">protected</span>
-
-
-
-
-
-    <div class="meta">
-                <p>Inherited from
-                <a href="../classes/RigidBody.html#method_setScaleZ">RigidBody</a>:
-        <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l192"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:192</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
                 <li class="param">
                         <code class="param-name">z</code>
                         <span class="type">Number</span>
@@ -658,11 +293,102 @@
             </ul>
         </div>
 
+
+
+</div>
+    </div>
+
+<div id="classdocs" class="tabview">
+    <ul class="api-class-tabs">
+        <li class="api-class-tab index"><a href="#index">Index</a></li>
+
+            <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
+            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
+    </ul>
+
+    <div>
+        <div id="index" class="api-class-tabpanel index">
+            <h2 class="off-left">Item Index</h2>
+
+                <div class="index-section methods">
+                    <h3>Methods</h3>
+
+                    <ul class="index-list methods">
+                            <li class="index-item method">
+                                <a href="#method_neg">neg</a>
+
+                            </li>
+                    </ul>
+                </div>
+
+                <div class="index-section properties">
+                    <h3>Properties</h3>
+
+                    <ul class="index-list properties">
+                            <li class="index-item property">
+                                <a href="#property_e1">e1</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_e2">e2</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_e3">e3</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_zero">zero</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                    </ul>
+                </div>
+
+
+        </div>
+
+            <div id="methods" class="api-class-tabpanel">
+                <h2 class="off-left">Methods</h2>
+
+<div id="method_neg" class="method item">
+    <h3 class="name"><code>neg</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">Cartesian3</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_CartesianE3.ts.html#l96"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CartesianE3.ts:96</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
         <div class="returns">
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type">Void</span>:
+                        <span class="type">Cartesian3</span>:
             </div>
         </div>
 
@@ -673,19 +399,19 @@
             <div id="properties" class="api-class-tabpanel">
                 <h2 class="off-left">Properties</h2>
 
-<div id="property__mass" class="property item private inherited">
-    <h3 class="name"><code>_mass</code></h3>
-    <span class="type"><a href="../classes/Euclidean3.html" class="crosslink">Euclidean3</a></span>
+<div id="property_e1" class="property item">
+    <h3 class="name"><code>e1</code></h3>
+    <span class="type"><a href="../classes/CartesianE3.html" class="crosslink">CartesianE3</a></span>
 
 
-        <span class="flag private">private</span>
 
 
+        <span class="flag static">static</span>
 
     <div class="meta">
-                <p>Inherited from
-                <a href="../classes/RigidBody.html#property__mass">RigidBody</a>:
-        <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l20"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:20</code></a>
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_CartesianE3.ts.html#l27"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CartesianE3.ts:27</code></a>
         </p>
 
 
@@ -695,23 +421,22 @@
         
     </div>
 
-        <p><strong>Default:</strong> one</p>
 
 
 </div>
-<div id="property__momentum" class="property item private inherited">
-    <h3 class="name"><code>_momentum</code></h3>
-    <span class="type"><a href="../classes/Euclidean3.html" class="crosslink">Euclidean3</a></span>
+<div id="property_e2" class="property item">
+    <h3 class="name"><code>e2</code></h3>
+    <span class="type"><a href="../classes/CartesianE3.html" class="crosslink">CartesianE3</a></span>
 
 
-        <span class="flag private">private</span>
 
 
+        <span class="flag static">static</span>
 
     <div class="meta">
-                <p>Inherited from
-                <a href="../classes/RigidBody.html#property__momentum">RigidBody</a>:
-        <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l28"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:28</code></a>
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_CartesianE3.ts.html#l35"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CartesianE3.ts:35</code></a>
         </p>
 
 
@@ -721,175 +446,54 @@
         
     </div>
 
-        <p><strong>Default:</strong> zero</p>
 
 
 </div>
-<div id="property_axis" class="property item inherited">
-    <h3 class="name"><code>axis</code></h3>
-    <span class="type"><a href="../classes/Euclidean3.html" class="crosslink">Euclidean3</a></span>
+<div id="property_e3" class="property item">
+    <h3 class="name"><code>e3</code></h3>
+    <span class="type"><a href="../classes/CartesianE3.html" class="crosslink">CartesianE3</a></span>
 
 
 
 
+        <span class="flag static">static</span>
 
     <div class="meta">
-                <p>Inherited from
-                <a href="../classes/RigidBody.html#property_axis">RigidBody</a>:
-        <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l59"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:59</code></a>
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_CartesianE3.ts.html#l43"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CartesianE3.ts:43</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        Axis (vector)
-This property is computed from the attitude spinor assuming a reference axis of e2.
-The axis property may be updated by assignment, but not through mutation.
+        
     </div>
 
 
 
 </div>
-<div id="property_color" class="property item inherited">
-    <h3 class="name"><code>color</code></h3>
-    <span class="type"><a href="../classes/Color.html" class="crosslink">Color</a></span>
+<div id="property_zero" class="property item">
+    <h3 class="name"><code>zero</code></h3>
+    <span class="type"><a href="../classes/CartesianE3.html" class="crosslink">CartesianE3</a></span>
 
 
 
 
+        <span class="flag static">static</span>
 
     <div class="meta">
-                <p>Inherited from
-                <a href="../classes/RigidBody.html#property_color">RigidBody</a>:
-        <a href="../files/src_davinci-eight_visual_Object3D.ts.html#l45"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Object3D.ts:45</code></a>
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_CartesianE3.ts.html#l19"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CartesianE3.ts:19</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        Color
-    </div>
-
-
-
-</div>
-<div id="property_m" class="property item inherited">
-    <h3 class="name"><code>m</code></h3>
-    <span class="type"><a href="../classes/Euclidean3.html" class="crosslink">Euclidean3</a></span>
-
-
-
-
-
-    <div class="meta">
-                <p>Inherited from
-                <a href="../classes/RigidBody.html#property_m">RigidBody</a>:
-        <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l76"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:76</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        Mass
-    </div>
-
-
-
-</div>
-<div id="property_P" class="property item inherited">
-    <h3 class="name"><code>P</code></h3>
-    <span class="type"><a href="../classes/Euclidean3.html" class="crosslink">Euclidean3</a></span>
-
-
-
-
-
-    <div class="meta">
-                <p>Inherited from
-                <a href="../classes/RigidBody.html#property_P">RigidBody</a>:
-        <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l90"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:90</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        Momentum
-    </div>
-
-
-
-</div>
-<div id="property_pos" class="property item inherited">
-    <h3 class="name"><code>pos</code></h3>
-    <span class="type"><a href="../classes/Euclidean3.html" class="crosslink">Euclidean3</a></span>
-
-
-
-
-
-    <div class="meta">
-                <p>Inherited from
-                <a href="../classes/RigidBody.html#property_pos">RigidBody</a>:
-        <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l131"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:131</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        Position (vector)
-    </div>
-
-
-
-</div>
-<div id="property_R" class="property item inherited">
-    <h3 class="name"><code>R</code></h3>
-    <span class="type"><a href="../classes/Euclidean3.html" class="crosslink">Euclidean3</a></span>
-
-
-
-
-
-    <div class="meta">
-                <p>Inherited from
-                <a href="../classes/RigidBody.html#property_R">RigidBody</a>:
-        <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l103"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:103</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        Attitude (spinor)
-    </div>
-
-
-
-</div>
-<div id="property_X" class="property item inherited">
-    <h3 class="name"><code>X</code></h3>
-    <span class="type"><a href="../classes/Euclidean3.html" class="crosslink">Euclidean3</a></span>
-
-
-
-
-
-    <div class="meta">
-                <p>Inherited from
-                <a href="../classes/RigidBody.html#property_X">RigidBody</a>:
-        <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l117"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:117</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        Position (vector)
+        
     </div>
 
 

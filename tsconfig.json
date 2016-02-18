@@ -3,7 +3,7 @@
     "module": "system",
     "target": "es5",
     "moduleResolution": "classic",
-    "noImplicitAny": false,
+    "noImplicitAny": true,
     "noLib": false,
     "outDir": "system",
     "removeComments": true,

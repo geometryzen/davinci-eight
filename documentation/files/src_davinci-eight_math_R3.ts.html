@@ -46,7 +46,9 @@
                                 <li><a href="../classes/AttribMetaInfo.html">AttribMetaInfo</a></li>
                                 <li><a href="../classes/Attribute.html">Attribute</a></li>
                                 <li><a href="../classes/BlendFactor.html">BlendFactor</a></li>
+                                <li><a href="../classes/Box.html">Box</a></li>
                                 <li><a href="../classes/Capability.html">Capability</a></li>
+                                <li><a href="../classes/CartesianE3.html">CartesianE3</a></li>
                                 <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
@@ -54,7 +56,6 @@
                                 <li><a href="../classes/ColorRGBA.html">ColorRGBA</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
                                 <li><a href="../classes/createView.html">createView</a></li>
-                                <li><a href="../classes/Cuboid.html">Cuboid</a></li>
                                 <li><a href="../classes/CuboidGeometry.html">CuboidGeometry</a></li>
                                 <li><a href="../classes/CuboidPrimitivesBuilder.html">CuboidPrimitivesBuilder</a></li>
                                 <li><a href="../classes/Cylinder.html">Cylinder</a></li>
@@ -201,21 +202,22 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import ColumnVector from &#x27;../math/ColumnVector&#x27;;
-import VectorE3 from &#x27;../math/VectorE3&#x27;;
-import dotVectorE3 from &#x27;../math/dotVectorE3&#x27;;
-import Euclidean3 from &#x27;../math/Euclidean3&#x27;;
-import MutableLinearElement from &#x27;../math/MutableLinearElement&#x27;;
-import Mat3R from &#x27;../math/Mat3R&#x27;;
-import Mat4R from &#x27;../math/Mat4R&#x27;;
+import ColumnVector from &#x27;./ColumnVector&#x27;;
+import VectorE3 from &#x27;./VectorE3&#x27;;
+import dotVectorE3 from &#x27;./dotVectorE3&#x27;;
+// import Euclidean3 from &#x27;./Euclidean3&#x27;;
+import MutableLinearElement from &#x27;./MutableLinearElement&#x27;;
+import Mat3R from &#x27;./Mat3R&#x27;;
+import Mat4R from &#x27;./Mat4R&#x27;;
 import isDefined from &#x27;../checks/isDefined&#x27;;
 import isNumber from &#x27;../checks/isNumber&#x27;;
-import SpinorE3 from &#x27;../math/SpinorE3&#x27;;
-import toStringCustom from &#x27;../math/toStringCustom&#x27;;
-import VectorN from &#x27;../math/VectorN&#x27;;
-import wedgeXY from &#x27;../math/wedgeXY&#x27;;
-import wedgeYZ from &#x27;../math/wedgeYZ&#x27;;
-import wedgeZX from &#x27;../math/wedgeZX&#x27;;
+import SpinorE3 from &#x27;./SpinorE3&#x27;;
+import toStringCustom from &#x27;./toStringCustom&#x27;;
+import Unit from &#x27;./Unit&#x27;;
+import VectorN from &#x27;./VectorN&#x27;;
+import wedgeXY from &#x27;./wedgeXY&#x27;;
+import wedgeYZ from &#x27;./wedgeYZ&#x27;;
+import wedgeZX from &#x27;./wedgeZX&#x27;;
 
 /**
  * @module EIGHT
@@ -241,24 +243,13 @@ function coordinates(m: VectorE3): number[] {
  * @extends VectorN&lt;number&gt;
  */
 export default class R3 extends VectorN&lt;number&gt; implements ColumnVector&lt;Mat3R, R3&gt;, VectorE3, MutableLinearElement&lt;VectorE3, R3, SpinorE3, VectorE3&gt; {
+
     /**
-     * @property e1
-     * @type {Euclidean3}
-     * @static
+     * @property uom
+     * @type Unit
      */
-    public static e1 = Euclidean3.e1;
-    /**
-     * @property e2
-     * @type {Euclidean3}
-     * @static
-     */
-    public static e2 = Euclidean3.e2;
-    /**
-     * @property e3
-     * @type {Euclidean3}
-     * @static
-     */
-    public static e3 = Euclidean3.e3;
+    public uom: Unit
+
     /**
      * @method dot
      * @param a {VectorE3}
@@ -269,6 +260,7 @@ export default class R3 extends VectorN&lt;number&gt; implements ColumnVector&lt
     public static dot(a: VectorE3, b: VectorE3): number {
         return a.x * b.x + a.y * b.y + a.z * b.z;
     }
+
     /**
      * @class R3
      * @constructor
@@ -857,6 +849,21 @@ export default class R3 extends VectorN&lt;number&gt; implements ColumnVector&lt
      */
     static random(): R3 {
         return new R3([Math.random(), Math.random(), Math.random()])
+    }
+
+    /**
+     * @method vector
+     * @param x {number}
+     * @param y {number}
+     * @param z {number}
+     * @param [uom] {Unit}
+     * @return {R3}
+     * @static
+     */
+    static vector(x: number, y: number, z: number, uom?: Unit): R3 {
+        const v = new R3([x, y, z])
+        v.uom = uom
+        return v
     }
 }
 

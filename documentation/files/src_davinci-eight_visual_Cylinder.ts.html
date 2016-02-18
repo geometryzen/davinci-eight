@@ -46,7 +46,9 @@
                                 <li><a href="../classes/AttribMetaInfo.html">AttribMetaInfo</a></li>
                                 <li><a href="../classes/Attribute.html">Attribute</a></li>
                                 <li><a href="../classes/BlendFactor.html">BlendFactor</a></li>
+                                <li><a href="../classes/Box.html">Box</a></li>
                                 <li><a href="../classes/Capability.html">Capability</a></li>
+                                <li><a href="../classes/CartesianE3.html">CartesianE3</a></li>
                                 <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
@@ -54,7 +56,6 @@
                                 <li><a href="../classes/ColorRGBA.html">ColorRGBA</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
                                 <li><a href="../classes/createView.html">createView</a></li>
-                                <li><a href="../classes/Cuboid.html">Cuboid</a></li>
                                 <li><a href="../classes/CuboidGeometry.html">CuboidGeometry</a></li>
                                 <li><a href="../classes/CuboidPrimitivesBuilder.html">CuboidPrimitivesBuilder</a></li>
                                 <li><a href="../classes/Cylinder.html">Cylinder</a></li>
@@ -201,7 +202,10 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
+import core from &#x27;../core&#x27;
+import Euclidean3 from &#x27;../math/Euclidean3&#x27;
 import mustBeNumber from &#x27;../checks/mustBeNumber&#x27;;
+import mustBeObject from &#x27;../checks/mustBeObject&#x27;;
 import visualCache from &#x27;./visualCache&#x27;;
 import VisualBody from &#x27;./VisualBody&#x27;
 import VisualOptions from &#x27;./VisualOptions&#x27;
@@ -216,27 +220,69 @@ import VisualOptions from &#x27;./VisualOptions&#x27;
  * @extends RigidBody
  */
 export default class Cylinder extends VisualBody {
+
+    /**
+     * @class Cylinder
+     * @constructor
+     * @param [options]
+     */
     constructor(options: VisualOptions = {}) {
         super(visualCache.cylinder(options), visualCache.material(options), &#x27;Cylinder&#x27;)
         this._geometry.release()
         this._material.release()
     }
+
+    /**
+     * @method destructor
+     * @return {void}
+     * @protected
+     */
     protected destructor(): void {
         super.destructor()
     }
+
+    /**
+     * @property axis
+     * @type Euclidean3
+     */
+    get axis(): Euclidean3 {
+        const direction = Euclidean3.e2.rotate(this.modelFacet.R)
+        return direction.scale(this.length)
+    }
+    set axis(axis: Euclidean3) {
+        if (core.safemode) {
+            mustBeObject(&#x27;axis&#x27;, axis)
+        }
+        this.modelFacet.R.rotorFromDirections(axis.direction(), Euclidean3.e2)
+        this.length = axis.magnitude().α
+    }
+
+    /**
+     * @property radius
+     * @type number
+     */
     get radius() {
         return this.getScaleX()
     }
     set radius(radius: number) {
-        mustBeNumber(&#x27;radius&#x27;, radius)
+        if (core.safemode) {
+            mustBeNumber(&#x27;radius&#x27;, radius)
+        }
         this.setScaleX(radius)
         this.setScaleZ(radius)
     }
+
+    /**
+     * @property length
+     * @type number
+     */
     get length() {
         return this.getScaleY();
     }
     set length(length: number) {
-        mustBeNumber(&#x27;length&#x27;, length)
+        if (core.safemode) {
+            mustBeNumber(&#x27;length&#x27;, length)
+        }
         this.setScaleY(length)
     }
 }

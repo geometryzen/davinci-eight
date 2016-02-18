@@ -47,9 +47,9 @@ export default class TrackballControls extends MouseControls {
      * The initial position, look and up of the camera.
      * We cache these so that we can reset the camera.
      */
-    private position0
-    private target0
-    private up0
+    private position0: R3
+    private target0: G3
+    private up0: R3
 
     // Working storage for calculations that update the camera.
     private moveDirection = new R3()
@@ -212,6 +212,6 @@ export default class TrackballControls extends MouseControls {
      * Restricts the position of the camera to certain distance range
      */
     private checkDistances() {
-      // TODO
+        // TODO
     }
 }

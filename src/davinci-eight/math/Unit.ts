@@ -2,7 +2,6 @@ import DivisionRingOperators from '../math/DivisionRingOperators';
 import Dimensions from '../math/Dimensions';
 import LinearElement from '../math/LinearElement';
 import QQ from '../math/QQ';
-import UnitError from '../math/UnitError';
 
 var LABELS_SI = ['kg', 'm', 's', 'C', 'K', 'mol', 'candela'];
 
@@ -11,7 +10,7 @@ function assertArgNumber(name: string, x: number): number {
         return x;
     }
     else {
-        throw new UnitError("Argument '" + name + "' must be a number");
+        throw new Error("Argument '" + name + "' must be a number");
     }
 }
 
@@ -20,7 +19,7 @@ function assertArgDimensions(name: string, arg: Dimensions): Dimensions {
         return arg;
     }
     else {
-        throw new UnitError("Argument '" + arg + "' must be a Dimensions");
+        throw new Error("Argument '" + arg + "' must be a Dimensions");
     }
 }
 
@@ -29,7 +28,7 @@ function assertArgRational(name: string, arg: QQ): QQ {
         return arg;
     }
     else {
-        throw new UnitError("Argument '" + arg + "' must be a QQ");
+        throw new Error("Argument '" + arg + "' must be a QQ");
     }
 }
 
@@ -38,7 +37,7 @@ function assertArgUnit(name: string, arg: Unit): Unit {
         return arg;
     }
     else {
-        throw new UnitError("Argument '" + arg + "' must be a Unit");
+        throw new Error("Argument '" + arg + "' must be a Unit");
     }
 }
 
@@ -78,8 +77,8 @@ var dumbString = function(multiplier: number, dimensions: Dimensions, labels: st
     return "" + scaleString + operatorStr + unitsString;
 };
 
-var unitString = function(multiplier: number, dimensions: Dimensions, labels: string[]): string {
-    var patterns =
+const unitString = function(multiplier: number, dimensions: Dimensions, labels: string[]): string {
+    const patterns =
         [
             [-1, 1, -3, 1, 2, 1, 2, 1, 0, 1, 0, 1, 0, 1],
             [-1, 1, -2, 1, 1, 1, 2, 1, 0, 1, 0, 1, 0, 1],
@@ -111,7 +110,7 @@ var unitString = function(multiplier: number, dimensions: Dimensions, labels: st
             [1, 1, 2, 1, 0, 1, -2, 1, 0, 1, 0, 1, 0, 1],
             [1, 1, 2, 1, -1, 1, -1, 1, 0, 1, 0, 1, 0, 1]
         ];
-    var decodes =
+    const decodes =
         [
             ["F/m"],
             ["S"],
@@ -543,7 +542,7 @@ export default class Unit implements DivisionRingOperators<Unit>, LinearElement<
 
     static assertDimensionless(uom: Unit) {
         if (!Unit.isOne(uom)) {
-            throw new UnitError("uom must be dimensionless.");
+            throw new Error("uom must be dimensionless.");
         }
     }
 
@@ -559,7 +558,7 @@ export default class Unit implements DivisionRingOperators<Unit>, LinearElement<
                     return void 0;
                 }
                 else {
-                    throw new UnitError(lhs + " is incompatible with 1");
+                    throw new Error(lhs + " is incompatible with 1");
                 }
             }
         }
@@ -569,7 +568,7 @@ export default class Unit implements DivisionRingOperators<Unit>, LinearElement<
                     return void 0;
                 }
                 else {
-                    throw new UnitError("1 is incompatible with " + rhs);
+                    throw new Error("1 is incompatible with " + rhs);
                 }
             }
             else {

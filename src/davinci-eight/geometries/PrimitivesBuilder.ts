@@ -6,7 +6,7 @@ import Primitive from '../core/Primitive';
 import VectorE3 from '../math/VectorE3';
 
 export default class PrimitivesBuilder implements IPrimitivesBuilder<PrimitivesBuilder> {
-    private _position = CartesianE3.fromVectorE3({ x: 0, y: 0, z: 0 })
+    private _position = CartesianE3.zero;
     public useTextureCoords: boolean = false;
     constructor() {
         // Do nothing.

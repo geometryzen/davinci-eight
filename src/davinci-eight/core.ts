@@ -1,5 +1,5 @@
 class Eight {
-    fastPath: boolean;
+    safemode: boolean;
     strict: boolean;
     GITHUB: string;
     LAST_MODIFIED: string;
@@ -9,7 +9,7 @@ class Eight {
     logging: { [name: string]: number };
 
     constructor() {
-        this.fastPath = false;
+        this.safemode = true;
         this.strict = false;
         this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
         this.LAST_MODIFIED = '2016-02-17';

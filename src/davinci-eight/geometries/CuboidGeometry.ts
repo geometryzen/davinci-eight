@@ -33,7 +33,7 @@ function primitives(width: number, height: number, depth: number, wireFrame: boo
 }
 
 /**
- * A convenience class for creating a cuboid.
+ * A convenience class for creating a CuboidGeometry.
  *
  * @class CuboidGeometry
  * @extends Geometry

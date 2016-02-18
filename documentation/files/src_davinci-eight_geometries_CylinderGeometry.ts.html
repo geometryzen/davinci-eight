@@ -46,7 +46,9 @@
                                 <li><a href="../classes/AttribMetaInfo.html">AttribMetaInfo</a></li>
                                 <li><a href="../classes/Attribute.html">Attribute</a></li>
                                 <li><a href="../classes/BlendFactor.html">BlendFactor</a></li>
+                                <li><a href="../classes/Box.html">Box</a></li>
                                 <li><a href="../classes/Capability.html">Capability</a></li>
+                                <li><a href="../classes/CartesianE3.html">CartesianE3</a></li>
                                 <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
@@ -54,7 +56,6 @@
                                 <li><a href="../classes/ColorRGBA.html">ColorRGBA</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
                                 <li><a href="../classes/createView.html">createView</a></li>
-                                <li><a href="../classes/Cuboid.html">Cuboid</a></li>
                                 <li><a href="../classes/CuboidGeometry.html">CuboidGeometry</a></li>
                                 <li><a href="../classes/CuboidPrimitivesBuilder.html">CuboidPrimitivesBuilder</a></li>
                                 <li><a href="../classes/Cylinder.html">Cylinder</a></li>
@@ -206,11 +207,6 @@ import GeometryContainer from &#x27;../core/GeometryContainer&#x27;
 import GeometryPrimitive from &#x27;../core/GeometryPrimitive&#x27;
 import Primitive from &#x27;../core/Primitive&#x27;
 import CylinderBuilder from &#x27;./CylinderBuilder&#x27;
-import CylinderPrimitivesBuilder from &#x27;./CylinderPrimitivesBuilder&#x27;
-
-const e1 = CartesianE3.fromVectorE3({ x: 1, y: 0, z: 0 })
-const e2 = CartesianE3.fromVectorE3({ x: 0, y: 1, z: 0 })
-// const e3 = CartesianE3.fromVectorE3({ x: 0, y: 0, z: 1 })
 
 /**
  * @module EIGHT
@@ -218,20 +214,13 @@ const e2 = CartesianE3.fromVectorE3({ x: 0, y: 1, z: 0 })
  */
 
 function primitives(): Primitive[] {
-    if (false) {
-        // This only builds the walls, but does use a TRIANGLE_STRIP
-        const builder = new CylinderPrimitivesBuilder(e2, e1)
-        return builder.toPrimitives()
-    }
-    else {
-        // Conventional cylinder.
-        const builder = new CylinderBuilder(e2)
-        return builder.toPrimitives()
-    }
+    const builder = new CylinderBuilder(CartesianE3.e2)
+    builder.setPosition(CartesianE3.e2.scale(0.5))
+    return builder.toPrimitives()
 }
 
 /**
- * A convenience class for creating a cuboid.
+ * A convenience class for creating a Cylinder.
  *
  * @class CylinderGeometry
  * @extends GeometryContainer

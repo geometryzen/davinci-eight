@@ -3,7 +3,7 @@
     "module": "system",
     "target": "es5",
     "outDir": "system",
-    "noImplicitAny": false,
+    "noImplicitAny": true,
     "noLib": true,
     "removeComments": true,
     "suppressImplicitAnyIndexErrors": true,

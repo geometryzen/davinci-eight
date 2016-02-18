@@ -1,12 +1,16 @@
-define(["require", "exports", '../checks/mustBeInteger', '../i18n/readOnly'], function (require, exports, mustBeInteger_1, readOnly_1) {
+define(["require", "exports", '../core', '../checks/mustBeInteger', '../i18n/readOnly'], function (require, exports, core_1, mustBeInteger_1, readOnly_1) {
     var QQ = (function () {
         function QQ(n, d) {
-            mustBeInteger_1.default('n', n);
-            mustBeInteger_1.default('d', d);
+            if (core_1.default.safemode) {
+                mustBeInteger_1.default('n', n);
+                mustBeInteger_1.default('d', d);
+            }
             var g;
             var gcd = function (a, b) {
-                mustBeInteger_1.default('a', a);
-                mustBeInteger_1.default('b', b);
+                if (core_1.default.safemode) {
+                    mustBeInteger_1.default('a', a);
+                    mustBeInteger_1.default('b', b);
+                }
                 var temp;
                 if (a < 0) {
                     a = -a;

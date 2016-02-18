@@ -20,7 +20,7 @@ define(["require", "exports", '../math/Euclidean3', '../geometries/SimplexPrimit
             this.lengthShaft = 0.8;
             this.arrowSegments = 8;
             this.radialSegments = 12;
-            this.generator = SpinG3_1.default.dual(R3_1.default.e3);
+            this.generator = SpinG3_1.default.dual(Euclidean3_1.default.e3);
             this.setModified(true);
         }
         VortexSimplexGeometry.prototype.isModified = function () {

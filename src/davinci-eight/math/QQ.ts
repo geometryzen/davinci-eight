@@ -1,4 +1,5 @@
-import DivisionRingOperators from '../math/DivisionRingOperators';
+import core from '../core'
+import DivisionRingOperators from './DivisionRingOperators';
 import mustBeInteger from '../checks/mustBeInteger';
 import readOnly from '../i18n/readOnly';
 
@@ -37,13 +38,17 @@ export default class QQ implements DivisionRingOperators<QQ> {
      * @param {number} d The denominator, an integer.
      */
     constructor(n: number, d: number) {
-        mustBeInteger('n', n);
-        mustBeInteger('d', d);
+        if (core.safemode) {
+            mustBeInteger('n', n);
+            mustBeInteger('d', d);
+        }
         var g: number;
 
-        var gcd = function(a: number, b: number) {
-            mustBeInteger('a', a);
-            mustBeInteger('b', b);
+        const gcd = function(a: number, b: number) {
+            if (core.safemode) {
+                mustBeInteger('a', a);
+                mustBeInteger('b', b);
+            }
             var temp: number;
 
             if (a < 0) {

@@ -1,9 +1,9 @@
 import VisualOptions from './VisualOptions'
 
-interface CuboidOptions extends VisualOptions {
+interface BoxOptions extends VisualOptions {
   width?: number;
   height?: number;
   depth?: number;
 }
 
-export default CuboidOptions
+export default BoxOptions

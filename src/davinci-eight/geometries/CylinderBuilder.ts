@@ -9,41 +9,41 @@ import R3 from '../math/R3';
 /**
  *
  */
-function computeVertices(radius: number, height: number, axis: VectorE3, start: VectorE3, angle: number, generator: SpinorE3, heightSegments: number, thetaSegments: number, points: R3[], vertices: number[][], uvs: R2[][]) {
+function computeVertices(radius: number, height: number, axis: VectorE3, pos: VectorE3, start: VectorE3, angle: number, generator: SpinorE3, heightSegments: number, thetaSegments: number, points: R3[], vertices: number[][], uvs: R2[][]) {
 
-    let begin = R3.copy(start).scale(radius)
-    let halfHeight = R3.copy(axis).scale(0.5 * height)
+    const begin = R3.copy(start).scale(radius)
+    const halfHeight = R3.copy(axis).scale(0.5 * height)
 
     /**
      * A displacement in the direction of axis that we must move for each height step.
      */
-    let stepH = R3.copy(axis).direction().scale(height / heightSegments)
+    const stepH = R3.copy(axis).direction().scale(height / heightSegments)
 
-    for (var i = 0; i <= heightSegments; i++) {
+    for (let i = 0; i <= heightSegments; i++) {
         /**
          * The displacement to the current level.
          */
-        let dispH = R3.copy(stepH).scale(i).sub(halfHeight)
-        let verticesRow: number[] = [];
-        let uvsRow: R2[] = [];
+        const dispH = R3.copy(stepH).scale(i).sub(halfHeight)
+        const verticesRow: number[] = [];
+        const uvsRow: R2[] = [];
         /**
          * Interesting that the v coordinate is 1 at the base and 0 at the top!
          * This is because i originally went from top to bottom.
          */
-        let v = (heightSegments - i) / heightSegments
+        const v = (heightSegments - i) / heightSegments
         /**
          * arcPoints.length => thetaSegments + 1
          */
-        var arcPoints = arc3(begin, angle, generator, thetaSegments)
+        const arcPoints = arc3(begin, angle, generator, thetaSegments)
         /**
          * j < arcPoints.length => j <= thetaSegments
          */
-        for (var j = 0, jLength = arcPoints.length; j < jLength; j++) {
-            var point = arcPoints[j].add(dispH)
+        for (let j = 0, jLength = arcPoints.length; j < jLength; j++) {
+            const point = arcPoints[j].add(dispH).add(pos)
             /**
              * u will vary from 0 to 1, because j goes from 0 to thetaSegments
              */
-            let u = j / thetaSegments;
+            const u = j / thetaSegments;
             points.push(point);
             verticesRow.push(points.length - 1);
             uvsRow.push(new R2([u, v]));
@@ -83,7 +83,7 @@ export default class CylinderBuilder extends SliceSimplexPrimitivesBuilder {
         let vertices: number[][] = [];
         let uvs: R2[][] = [];
 
-        computeVertices(radius, this.height, this.axis, this.sliceStart, this.sliceAngle, generator, heightSegments, thetaSegments, points, vertices, uvs)
+        computeVertices(radius, this.height, this.axis, this.position, this.sliceStart, this.sliceAngle, generator, heightSegments, thetaSegments, points, vertices, uvs)
 
         var na: R3;
         var nb: R3;
@@ -130,7 +130,7 @@ export default class CylinderBuilder extends SliceSimplexPrimitivesBuilder {
         // top cap
         if (!this.openTop && radius > 0) {
             // Push an extra point for the center of the top.
-            points.push(R3.copy(this.axis).scale(heightHalf));
+            points.push(R3.copy(this.axis).scale(heightHalf).add(this.position));
             for (let j = 0; j < thetaSegments; j++) {
                 let v1: number = vertices[heightSegments][j + 1];
                 let v2: number = points.length - 1;
@@ -149,7 +149,7 @@ export default class CylinderBuilder extends SliceSimplexPrimitivesBuilder {
         // bottom cap
         if (!this.openBottom && radius > 0) {
             // Push an extra point for the center of the bottom.
-            points.push(R3.copy(this.axis).scale(-heightHalf))
+            points.push(R3.copy(this.axis).scale(-heightHalf).add(this.position))
             for (let j = 0; j < thetaSegments; j++) {
                 let v1: number = vertices[0][j]
                 let v2: number = points.length - 1

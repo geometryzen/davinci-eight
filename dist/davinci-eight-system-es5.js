@@ -509,11 +509,7 @@ System.register("davinci-eight/facets/ReflectionFacetE3.js", ["../checks/mustBeA
         function ReflectionFacetE3(name) {
           this.matrix = Mat4R_1.default.one();
           this.name = mustBeString_1.default('name', name);
-          this._normal = G3_1.default.fromVector({
-            x: 0,
-            y: 0,
-            z: 0
-          });
+          this._normal = G3_1.default.zero();
           this._normal.modified = true;
         }
         Object.defineProperty(ReflectionFacetE3.prototype, "normal", {
@@ -1995,7 +1991,7 @@ System.register("davinci-eight/overlay/renderers/CanvasRenderer.js", ["./Abstrac
     execute: function() {
       CanvasRenderer = (function(_super) {
         __extends(CanvasRenderer, _super);
-        function CanvasRenderer(domElement, dim) {
+        function CanvasRenderer(domElement, dimensions) {
           _super.call(this);
         }
         return CanvasRenderer;
@@ -2132,7 +2128,7 @@ System.register("davinci-eight/overlay/renderers/SVGRenderer.js", ["./AbstractRe
     execute: function() {
       SVGRenderer = (function(_super) {
         __extends(SVGRenderer, _super);
-        function SVGRenderer(domElement, dim) {
+        function SVGRenderer(domElement, dimensions) {
           _super.call(this);
         }
         return SVGRenderer;
@@ -3948,7 +3944,7 @@ System.register("davinci-eight/visual/Arrow.js", ["../math/Euclidean3", "../chec
   };
 });
 
-System.register("davinci-eight/visual/Cuboid.js", ["../core/Color", "../checks/isDefined", "../checks/mustBeNumber", "./visualCache", "./VisualBody"], function(exports_1) {
+System.register("davinci-eight/visual/Box.js", ["../core/Color", "../checks/isDefined", "../checks/mustBeNumber", "./visualCache", "./VisualBody"], function(exports_1) {
   var __extends = (this && this.__extends) || function(d, b) {
     for (var p in b)
       if (b.hasOwnProperty(p))
@@ -3963,7 +3959,7 @@ System.register("davinci-eight/visual/Cuboid.js", ["../core/Color", "../checks/i
       mustBeNumber_1,
       visualCache_1,
       VisualBody_1;
-  var Cuboid;
+  var Box;
   return {
     setters: [function(Color_1_1) {
       Color_1 = Color_1_1;
@@ -3977,13 +3973,13 @@ System.register("davinci-eight/visual/Cuboid.js", ["../core/Color", "../checks/i
       VisualBody_1 = VisualBody_1_1;
     }],
     execute: function() {
-      Cuboid = (function(_super) {
-        __extends(Cuboid, _super);
-        function Cuboid(options) {
+      Box = (function(_super) {
+        __extends(Box, _super);
+        function Box(options) {
           if (options === void 0) {
             options = {};
           }
-          _super.call(this, visualCache_1.default.cuboid(options), visualCache_1.default.material(options), 'Cuboid');
+          _super.call(this, visualCache_1.default.box(options), visualCache_1.default.material(options), 'Box');
           this._geometry.release();
           this._material.release();
           this.width = isDefined_1.default(options.width) ? mustBeNumber_1.default('width', options.width) : 1;
@@ -3991,10 +3987,10 @@ System.register("davinci-eight/visual/Cuboid.js", ["../core/Color", "../checks/i
           this.depth = isDefined_1.default(options.depth) ? mustBeNumber_1.default('depth', options.depth) : 1;
           this.color = Color_1.default.green;
         }
-        Cuboid.prototype.destructor = function() {
+        Box.prototype.destructor = function() {
           _super.prototype.destructor.call(this);
         };
-        Object.defineProperty(Cuboid.prototype, "width", {
+        Object.defineProperty(Box.prototype, "width", {
           get: function() {
             return this.getScaleX();
           },
@@ -4005,7 +4001,7 @@ System.register("davinci-eight/visual/Cuboid.js", ["../core/Color", "../checks/i
           enumerable: true,
           configurable: true
         });
-        Object.defineProperty(Cuboid.prototype, "height", {
+        Object.defineProperty(Box.prototype, "height", {
           get: function() {
             return this.getScaleY();
           },
@@ -4016,7 +4012,7 @@ System.register("davinci-eight/visual/Cuboid.js", ["../core/Color", "../checks/i
           enumerable: true,
           configurable: true
         });
-        Object.defineProperty(Cuboid.prototype, "depth", {
+        Object.defineProperty(Box.prototype, "depth", {
           get: function() {
             return this.getScaleZ();
           },
@@ -4027,14 +4023,14 @@ System.register("davinci-eight/visual/Cuboid.js", ["../core/Color", "../checks/i
           enumerable: true,
           configurable: true
         });
-        return Cuboid;
+        return Box;
       })(VisualBody_1.default);
-      exports_1("default", Cuboid);
+      exports_1("default", Box);
     }
   };
 });
 
-System.register("davinci-eight/visual/Cylinder.js", ["../checks/mustBeNumber", "./visualCache", "./VisualBody"], function(exports_1) {
+System.register("davinci-eight/visual/Cylinder.js", ["../core", "../math/Euclidean3", "../checks/mustBeNumber", "../checks/mustBeObject", "./visualCache", "./VisualBody"], function(exports_1) {
   var __extends = (this && this.__extends) || function(d, b) {
     for (var p in b)
       if (b.hasOwnProperty(p))
@@ -4044,13 +4040,22 @@ System.register("davinci-eight/visual/Cylinder.js", ["../checks/mustBeNumber", "
     }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
   };
-  var mustBeNumber_1,
+  var core_1,
+      Euclidean3_1,
+      mustBeNumber_1,
+      mustBeObject_1,
       visualCache_1,
       VisualBody_1;
   var Cylinder;
   return {
-    setters: [function(mustBeNumber_1_1) {
+    setters: [function(core_1_1) {
+      core_1 = core_1_1;
+    }, function(Euclidean3_1_1) {
+      Euclidean3_1 = Euclidean3_1_1;
+    }, function(mustBeNumber_1_1) {
       mustBeNumber_1 = mustBeNumber_1_1;
+    }, function(mustBeObject_1_1) {
+      mustBeObject_1 = mustBeObject_1_1;
     }, function(visualCache_1_1) {
       visualCache_1 = visualCache_1_1;
     }, function(VisualBody_1_1) {
@@ -4070,12 +4075,29 @@ System.register("davinci-eight/visual/Cylinder.js", ["../checks/mustBeNumber", "
         Cylinder.prototype.destructor = function() {
           _super.prototype.destructor.call(this);
         };
+        Object.defineProperty(Cylinder.prototype, "axis", {
+          get: function() {
+            var direction = Euclidean3_1.default.e2.rotate(this.modelFacet.R);
+            return direction.scale(this.length);
+          },
+          set: function(axis) {
+            if (core_1.default.safemode) {
+              mustBeObject_1.default('axis', axis);
+            }
+            this.modelFacet.R.rotorFromDirections(axis.direction(), Euclidean3_1.default.e2);
+            this.length = axis.magnitude().α;
+          },
+          enumerable: true,
+          configurable: true
+        });
         Object.defineProperty(Cylinder.prototype, "radius", {
           get: function() {
             return this.getScaleX();
           },
           set: function(radius) {
-            mustBeNumber_1.default('radius', radius);
+            if (core_1.default.safemode) {
+              mustBeNumber_1.default('radius', radius);
+            }
             this.setScaleX(radius);
             this.setScaleZ(radius);
           },
@@ -4087,7 +4109,9 @@ System.register("davinci-eight/visual/Cylinder.js", ["../checks/mustBeNumber", "
             return this.getScaleY();
           },
           set: function(length) {
-            mustBeNumber_1.default('length', length);
+            if (core_1.default.safemode) {
+              mustBeNumber_1.default('length', length);
+            }
             this.setScaleY(length);
           },
           enumerable: true,
@@ -4181,6 +4205,185 @@ System.register("davinci-eight/geometries/ConeGeometry.js", ["./AxialPrimitivesB
         return ConeGeometry;
       })(AxialPrimitivesBuilder_1.default);
       exports_1("default", ConeGeometry);
+    }
+  };
+});
+
+System.register("davinci-eight/geometries/CylinderPrimitivesBuilder.js", ["./AxialPrimitivesBuilder", "../core/GraphicsProgramSymbols", "./GridTopology", "../math/SpinG3", "../math/R2", "../math/R3"], function(exports_1) {
+  var __extends = (this && this.__extends) || function(d, b) {
+    for (var p in b)
+      if (b.hasOwnProperty(p))
+        d[p] = b[p];
+    function __() {
+      this.constructor = d;
+    }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+  };
+  var AxialPrimitivesBuilder_1,
+      GraphicsProgramSymbols_1,
+      GridTopology_1,
+      SpinG3_1,
+      R2_1,
+      R3_1;
+  var CylinderPrimitivesBuilder;
+  return {
+    setters: [function(AxialPrimitivesBuilder_1_1) {
+      AxialPrimitivesBuilder_1 = AxialPrimitivesBuilder_1_1;
+    }, function(GraphicsProgramSymbols_1_1) {
+      GraphicsProgramSymbols_1 = GraphicsProgramSymbols_1_1;
+    }, function(GridTopology_1_1) {
+      GridTopology_1 = GridTopology_1_1;
+    }, function(SpinG3_1_1) {
+      SpinG3_1 = SpinG3_1_1;
+    }, function(R2_1_1) {
+      R2_1 = R2_1_1;
+    }, function(R3_1_1) {
+      R3_1 = R3_1_1;
+    }],
+    execute: function() {
+      CylinderPrimitivesBuilder = (function(_super) {
+        __extends(CylinderPrimitivesBuilder, _super);
+        function CylinderPrimitivesBuilder(axis, sliceStart) {
+          _super.call(this, axis, sliceStart);
+          this.radius = 1;
+          this.height = 1;
+          this.thetaSegments = 16;
+        }
+        CylinderPrimitivesBuilder.prototype.setAxis = function(axis) {
+          _super.prototype.setAxis.call(this, axis);
+          return this;
+        };
+        CylinderPrimitivesBuilder.prototype.setPosition = function(position) {
+          _super.prototype.setPosition.call(this, position);
+          return this;
+        };
+        CylinderPrimitivesBuilder.prototype.toPrimitives = function() {
+          var uSegments = this.thetaSegments;
+          var vSegments = 1;
+          var topo = new GridTopology_1.default(uSegments, vSegments);
+          var axis = this.axis;
+          var generator = SpinG3_1.default.dual(axis);
+          for (var uIndex = 0; uIndex < topo.uLength; uIndex++) {
+            var u = uIndex / uSegments;
+            var rotor = generator.clone().scale(this.sliceAngle * u / 2).exp();
+            for (var vIndex = 0; vIndex < topo.vLength; vIndex++) {
+              var v = vIndex / vSegments;
+              var normal = R3_1.default.copy(this.sliceStart).rotate(rotor);
+              var position = normal.clone().scale(this.radius).add(this.axis, v * this.height);
+              var vertex = topo.vertex(uIndex, vIndex);
+              vertex.attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_POSITION] = position.add(this.position);
+              vertex.attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_NORMAL] = normal;
+              if (this.useTextureCoords) {
+                vertex.attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_TEXTURE_COORDS] = new R2_1.default([u, v]);
+              }
+            }
+          }
+          return [topo.toDrawPrimitive()];
+        };
+        CylinderPrimitivesBuilder.prototype.enableTextureCoords = function(enable) {
+          _super.prototype.enableTextureCoords.call(this, enable);
+          return this;
+        };
+        return CylinderPrimitivesBuilder;
+      })(AxialPrimitivesBuilder_1.default);
+      exports_1("default", CylinderPrimitivesBuilder);
+    }
+  };
+});
+
+System.register("davinci-eight/geometries/AxialPrimitivesBuilder.js", ["../math/CartesianE3", "../geometries/PrimitivesBuilder", "../checks/mustBeNumber", "../checks/mustBeObject", "../math/R3"], function(exports_1) {
+  var __extends = (this && this.__extends) || function(d, b) {
+    for (var p in b)
+      if (b.hasOwnProperty(p))
+        d[p] = b[p];
+    function __() {
+      this.constructor = d;
+    }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+  };
+  var CartesianE3_1,
+      PrimitivesBuilder_1,
+      mustBeNumber_1,
+      mustBeObject_1,
+      R3_1;
+  var AxialPrimitivesBuilder;
+  return {
+    setters: [function(CartesianE3_1_1) {
+      CartesianE3_1 = CartesianE3_1_1;
+    }, function(PrimitivesBuilder_1_1) {
+      PrimitivesBuilder_1 = PrimitivesBuilder_1_1;
+    }, function(mustBeNumber_1_1) {
+      mustBeNumber_1 = mustBeNumber_1_1;
+    }, function(mustBeObject_1_1) {
+      mustBeObject_1 = mustBeObject_1_1;
+    }, function(R3_1_1) {
+      R3_1 = R3_1_1;
+    }],
+    execute: function() {
+      AxialPrimitivesBuilder = (function(_super) {
+        __extends(AxialPrimitivesBuilder, _super);
+        function AxialPrimitivesBuilder(axis, sliceStart) {
+          _super.call(this);
+          this._sliceAngle = 2 * Math.PI;
+          this.setAxis(axis);
+          if (sliceStart) {
+            this.setSliceStart(sliceStart);
+          } else {
+            this.setSliceStart(R3_1.default.random().cross(axis));
+          }
+        }
+        Object.defineProperty(AxialPrimitivesBuilder.prototype, "axis", {
+          get: function() {
+            return this._axis;
+          },
+          set: function(axis) {
+            this.setAxis(axis);
+          },
+          enumerable: true,
+          configurable: true
+        });
+        AxialPrimitivesBuilder.prototype.setAxis = function(axis) {
+          mustBeObject_1.default('axis', axis);
+          this._axis = CartesianE3_1.default.direction(axis);
+          this.setSliceStart(R3_1.default.random().cross(this._axis));
+          return this;
+        };
+        Object.defineProperty(AxialPrimitivesBuilder.prototype, "sliceAngle", {
+          get: function() {
+            return this._sliceAngle;
+          },
+          set: function(sliceAngle) {
+            mustBeNumber_1.default('sliceAngle', sliceAngle);
+            this._sliceAngle = sliceAngle;
+          },
+          enumerable: true,
+          configurable: true
+        });
+        Object.defineProperty(AxialPrimitivesBuilder.prototype, "sliceStart", {
+          get: function() {
+            return this._sliceStart;
+          },
+          set: function(sliceStart) {
+            this.setSliceStart(sliceStart);
+          },
+          enumerable: true,
+          configurable: true
+        });
+        AxialPrimitivesBuilder.prototype.setPosition = function(position) {
+          _super.prototype.setPosition.call(this, position);
+          return this;
+        };
+        AxialPrimitivesBuilder.prototype.setSliceStart = function(sliceStart) {
+          mustBeObject_1.default('sliceStart', sliceStart);
+          this._sliceStart = CartesianE3_1.default.direction(sliceStart);
+        };
+        AxialPrimitivesBuilder.prototype.enableTextureCoords = function(enable) {
+          _super.prototype.enableTextureCoords.call(this, enable);
+          return this;
+        };
+        return AxialPrimitivesBuilder;
+      })(PrimitivesBuilder_1.default);
+      exports_1("default", AxialPrimitivesBuilder);
     }
   };
 });
@@ -4407,6 +4610,223 @@ System.register("davinci-eight/geometries/ArrowGeometry.js", ["../core/GeometryC
         return ArrowGeometry;
       })(GeometryContainer_1.default);
       exports_1("default", ArrowGeometry);
+    }
+  };
+});
+
+System.register("davinci-eight/geometries/Topology.js", ["../geometries/DrawAttribute", "../geometries/DrawPrimitive", "../checks/mustBeInteger", "../geometries/Vertex", "../geometries/dataFromVectorN"], function(exports_1) {
+  var DrawAttribute_1,
+      DrawPrimitive_1,
+      mustBeInteger_1,
+      Vertex_1,
+      dataFromVectorN_1;
+  var Topology;
+  function attributes(elements, vertices) {
+    var attribs = {};
+    var iLen = vertices.length;
+    for (var i = 0; i < iLen; i++) {
+      var vertex = vertices[i];
+      var names = Object.keys(vertex.attributes);
+      var jLen = names.length;
+      for (var j = 0; j < jLen; j++) {
+        var name_1 = names[j];
+        var data = dataFromVectorN_1.default(vertex.attributes[name_1]);
+        var size = data.length;
+        var attrib = attribs[name_1];
+        if (!attrib) {
+          attrib = attribs[name_1] = new DrawAttribute_1.default([], size);
+        }
+        for (var k = 0; k < size; k++) {
+          attrib.values.push(data[k]);
+        }
+      }
+    }
+    return attribs;
+  }
+  return {
+    setters: [function(DrawAttribute_1_1) {
+      DrawAttribute_1 = DrawAttribute_1_1;
+    }, function(DrawPrimitive_1_1) {
+      DrawPrimitive_1 = DrawPrimitive_1_1;
+    }, function(mustBeInteger_1_1) {
+      mustBeInteger_1 = mustBeInteger_1_1;
+    }, function(Vertex_1_1) {
+      Vertex_1 = Vertex_1_1;
+    }, function(dataFromVectorN_1_1) {
+      dataFromVectorN_1 = dataFromVectorN_1_1;
+    }],
+    execute: function() {
+      Topology = (function() {
+        function Topology(mode, numVertices) {
+          this.mode = mustBeInteger_1.default('mode', mode);
+          mustBeInteger_1.default('numVertices', numVertices);
+          this.vertices = [];
+          for (var i = 0; i < numVertices; i++) {
+            this.vertices.push(new Vertex_1.default());
+          }
+        }
+        Topology.prototype.toDrawPrimitive = function() {
+          return new DrawPrimitive_1.default(this.mode, this.elements, attributes(this.elements, this.vertices));
+        };
+        return Topology;
+      })();
+      exports_1("default", Topology);
+    }
+  };
+});
+
+System.register("davinci-eight/geometries/MeshTopology.js", ["./Topology"], function(exports_1) {
+  var __extends = (this && this.__extends) || function(d, b) {
+    for (var p in b)
+      if (b.hasOwnProperty(p))
+        d[p] = b[p];
+    function __() {
+      this.constructor = d;
+    }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+  };
+  var Topology_1;
+  var MeshTopology;
+  return {
+    setters: [function(Topology_1_1) {
+      Topology_1 = Topology_1_1;
+    }],
+    execute: function() {
+      MeshTopology = (function(_super) {
+        __extends(MeshTopology, _super);
+        function MeshTopology(mode, numVertices) {
+          _super.call(this, mode, numVertices);
+        }
+        return MeshTopology;
+      })(Topology_1.default);
+      exports_1("default", MeshTopology);
+    }
+  };
+});
+
+System.register("davinci-eight/geometries/GridTopology.js", ["../core/DrawMode", "../checks/isDefined", "./MeshTopology", "../checks/mustBeArray", "../checks/mustBeInteger", "../i18n/readOnly"], function(exports_1) {
+  var __extends = (this && this.__extends) || function(d, b) {
+    for (var p in b)
+      if (b.hasOwnProperty(p))
+        d[p] = b[p];
+    function __() {
+      this.constructor = d;
+    }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+  };
+  var DrawMode_1,
+      isDefined_1,
+      MeshTopology_1,
+      mustBeArray_1,
+      mustBeInteger_1,
+      readOnly_1;
+  var GridTopology;
+  function numPostsForFence(segmentCount) {
+    mustBeInteger_1.default('segmentCount', segmentCount);
+    return segmentCount + 1;
+  }
+  function dimensionsForGrid(segmentCounts) {
+    mustBeArray_1.default('segmentCounts', segmentCounts);
+    return segmentCounts.map(numPostsForFence);
+  }
+  function numVerticesForGrid(uSegments, vSegments) {
+    mustBeInteger_1.default('uSegments', uSegments);
+    mustBeInteger_1.default('vSegments', vSegments);
+    return dimensionsForGrid([uSegments, vSegments]).reduce(function(a, b) {
+      return a * b;
+    }, 1);
+  }
+  function triangleStripForGrid(uSegments, vSegments, elements) {
+    elements = isDefined_1.default(elements) ? mustBeArray_1.default('elements', elements) : [];
+    var uLength = numPostsForFence(uSegments);
+    var lastVertex = uSegments + uLength * vSegments;
+    var eSimple = 2 * uLength * vSegments;
+    var j = 0;
+    for (var i = 1; i <= eSimple; i += 2) {
+      elements[j] = (i - 1) / 2;
+      elements[j + 1] = elements[j] + uLength;
+      if (elements[j + 1] % uLength === uSegments) {
+        if (elements[j + 1] !== uSegments && elements[j + 1] !== lastVertex) {
+          elements[j + 2] = elements[j + 1];
+          elements[j + 3] = (1 + i) / 2;
+          j += 2;
+        }
+      }
+      j += 2;
+    }
+    return elements;
+  }
+  return {
+    setters: [function(DrawMode_1_1) {
+      DrawMode_1 = DrawMode_1_1;
+    }, function(isDefined_1_1) {
+      isDefined_1 = isDefined_1_1;
+    }, function(MeshTopology_1_1) {
+      MeshTopology_1 = MeshTopology_1_1;
+    }, function(mustBeArray_1_1) {
+      mustBeArray_1 = mustBeArray_1_1;
+    }, function(mustBeInteger_1_1) {
+      mustBeInteger_1 = mustBeInteger_1_1;
+    }, function(readOnly_1_1) {
+      readOnly_1 = readOnly_1_1;
+    }],
+    execute: function() {
+      GridTopology = (function(_super) {
+        __extends(GridTopology, _super);
+        function GridTopology(uSegments, vSegments) {
+          _super.call(this, DrawMode_1.default.TRIANGLE_STRIP, numVerticesForGrid(uSegments, vSegments));
+          this.elements = triangleStripForGrid(uSegments, vSegments);
+          this._uSegments = uSegments;
+          this._vSegments = vSegments;
+        }
+        Object.defineProperty(GridTopology.prototype, "uSegments", {
+          get: function() {
+            return this._uSegments;
+          },
+          set: function(unused) {
+            throw new Error(readOnly_1.default('uSegments').message);
+          },
+          enumerable: true,
+          configurable: true
+        });
+        Object.defineProperty(GridTopology.prototype, "uLength", {
+          get: function() {
+            return numPostsForFence(this._uSegments);
+          },
+          set: function(unused) {
+            throw new Error(readOnly_1.default('uLength').message);
+          },
+          enumerable: true,
+          configurable: true
+        });
+        Object.defineProperty(GridTopology.prototype, "vSegments", {
+          get: function() {
+            return this._vSegments;
+          },
+          set: function(unused) {
+            throw new Error(readOnly_1.default('vSegments').message);
+          },
+          enumerable: true,
+          configurable: true
+        });
+        Object.defineProperty(GridTopology.prototype, "vLength", {
+          get: function() {
+            return numPostsForFence(this._vSegments);
+          },
+          set: function(unused) {
+            throw new Error(readOnly_1.default('vLength').message);
+          },
+          enumerable: true,
+          configurable: true
+        });
+        GridTopology.prototype.vertex = function(uIndex, vIndex) {
+          mustBeInteger_1.default('uIndex', uIndex);
+          mustBeInteger_1.default('vIndex', vIndex);
+          return this.vertices[(this._vSegments - vIndex) * this.uLength + uIndex];
+        };
+        return GridTopology;
+      })(MeshTopology_1.default);
+      exports_1("default", GridTopology);
     }
   };
 });
@@ -4967,7 +5387,7 @@ System.register("davinci-eight/geometries/CylinderBuilder.js", ["../geometries/a
       R2_1,
       R3_1;
   var CylinderBuilder;
-  function computeVertices(radius, height, axis, start, angle, generator, heightSegments, thetaSegments, points, vertices, uvs) {
+  function computeVertices(radius, height, axis, pos, start, angle, generator, heightSegments, thetaSegments, points, vertices, uvs) {
     var begin = R3_1.default.copy(start).scale(radius);
     var halfHeight = R3_1.default.copy(axis).scale(0.5 * height);
     var stepH = R3_1.default.copy(axis).direction().scale(height / heightSegments);
@@ -4979,7 +5399,7 @@ System.register("davinci-eight/geometries/CylinderBuilder.js", ["../geometries/a
       var arcPoints = arc3_1.default(begin, angle, generator, thetaSegments);
       for (var j = 0,
           jLength = arcPoints.length; j < jLength; j++) {
-        var point = arcPoints[j].add(dispH);
+        var point = arcPoints[j].add(dispH).add(pos);
         var u = j / thetaSegments;
         points.push(point);
         verticesRow.push(points.length - 1);
@@ -5023,7 +5443,7 @@ System.register("davinci-eight/geometries/CylinderBuilder.js", ["../geometries/a
           var points = [];
           var vertices = [];
           var uvs = [];
-          computeVertices(radius, this.height, this.axis, this.sliceStart, this.sliceAngle, generator, heightSegments, thetaSegments, points, vertices, uvs);
+          computeVertices(radius, this.height, this.axis, this.position, this.sliceStart, this.sliceAngle, generator, heightSegments, thetaSegments, points, vertices, uvs);
           var na;
           var nb;
           for (var j = 0; j < thetaSegments; j++) {
@@ -5054,7 +5474,7 @@ System.register("davinci-eight/geometries/CylinderBuilder.js", ["../geometries/a
             }
           }
           if (!this.openTop && radius > 0) {
-            points.push(R3_1.default.copy(this.axis).scale(heightHalf));
+            points.push(R3_1.default.copy(this.axis).scale(heightHalf).add(this.position));
             for (var j = 0; j < thetaSegments; j++) {
               var v1 = vertices[heightSegments][j + 1];
               var v2 = points.length - 1;
@@ -5069,7 +5489,7 @@ System.register("davinci-eight/geometries/CylinderBuilder.js", ["../geometries/a
             }
           }
           if (!this.openBottom && radius > 0) {
-            points.push(R3_1.default.copy(this.axis).scale(-heightHalf));
+            points.push(R3_1.default.copy(this.axis).scale(-heightHalf).add(this.position));
             for (var j = 0; j < thetaSegments; j++) {
               var v1 = vertices[0][j];
               var v2 = points.length - 1;
@@ -5092,403 +5512,7 @@ System.register("davinci-eight/geometries/CylinderBuilder.js", ["../geometries/a
   };
 });
 
-System.register("davinci-eight/geometries/AxialPrimitivesBuilder.js", ["../math/CartesianE3", "../geometries/PrimitivesBuilder", "../checks/mustBeNumber", "../checks/mustBeObject", "../math/R3"], function(exports_1) {
-  var __extends = (this && this.__extends) || function(d, b) {
-    for (var p in b)
-      if (b.hasOwnProperty(p))
-        d[p] = b[p];
-    function __() {
-      this.constructor = d;
-    }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-  };
-  var CartesianE3_1,
-      PrimitivesBuilder_1,
-      mustBeNumber_1,
-      mustBeObject_1,
-      R3_1;
-  var AxialPrimitivesBuilder;
-  return {
-    setters: [function(CartesianE3_1_1) {
-      CartesianE3_1 = CartesianE3_1_1;
-    }, function(PrimitivesBuilder_1_1) {
-      PrimitivesBuilder_1 = PrimitivesBuilder_1_1;
-    }, function(mustBeNumber_1_1) {
-      mustBeNumber_1 = mustBeNumber_1_1;
-    }, function(mustBeObject_1_1) {
-      mustBeObject_1 = mustBeObject_1_1;
-    }, function(R3_1_1) {
-      R3_1 = R3_1_1;
-    }],
-    execute: function() {
-      AxialPrimitivesBuilder = (function(_super) {
-        __extends(AxialPrimitivesBuilder, _super);
-        function AxialPrimitivesBuilder(axis, sliceStart) {
-          _super.call(this);
-          this._sliceAngle = 2 * Math.PI;
-          this.setAxis(axis);
-          if (sliceStart) {
-            this.setSliceStart(sliceStart);
-          } else {
-            this.setSliceStart(R3_1.default.random().cross(axis));
-          }
-        }
-        Object.defineProperty(AxialPrimitivesBuilder.prototype, "axis", {
-          get: function() {
-            return this._axis;
-          },
-          set: function(axis) {
-            this.setAxis(axis);
-          },
-          enumerable: true,
-          configurable: true
-        });
-        AxialPrimitivesBuilder.prototype.setAxis = function(axis) {
-          mustBeObject_1.default('axis', axis);
-          this._axis = CartesianE3_1.default.direction(axis);
-          this.setSliceStart(R3_1.default.random().cross(this._axis));
-          return this;
-        };
-        Object.defineProperty(AxialPrimitivesBuilder.prototype, "sliceAngle", {
-          get: function() {
-            return this._sliceAngle;
-          },
-          set: function(sliceAngle) {
-            mustBeNumber_1.default('sliceAngle', sliceAngle);
-            this._sliceAngle = sliceAngle;
-          },
-          enumerable: true,
-          configurable: true
-        });
-        Object.defineProperty(AxialPrimitivesBuilder.prototype, "sliceStart", {
-          get: function() {
-            return this._sliceStart;
-          },
-          set: function(sliceStart) {
-            this.setSliceStart(sliceStart);
-          },
-          enumerable: true,
-          configurable: true
-        });
-        AxialPrimitivesBuilder.prototype.setPosition = function(position) {
-          _super.prototype.setPosition.call(this, position);
-          return this;
-        };
-        AxialPrimitivesBuilder.prototype.setSliceStart = function(sliceStart) {
-          mustBeObject_1.default('sliceStart', sliceStart);
-          this._sliceStart = CartesianE3_1.default.direction(sliceStart);
-        };
-        AxialPrimitivesBuilder.prototype.enableTextureCoords = function(enable) {
-          _super.prototype.enableTextureCoords.call(this, enable);
-          return this;
-        };
-        return AxialPrimitivesBuilder;
-      })(PrimitivesBuilder_1.default);
-      exports_1("default", AxialPrimitivesBuilder);
-    }
-  };
-});
-
-System.register("davinci-eight/geometries/Topology.js", ["../geometries/DrawAttribute", "../geometries/DrawPrimitive", "../checks/mustBeInteger", "../geometries/Vertex", "../geometries/dataFromVectorN"], function(exports_1) {
-  var DrawAttribute_1,
-      DrawPrimitive_1,
-      mustBeInteger_1,
-      Vertex_1,
-      dataFromVectorN_1;
-  var Topology;
-  function attributes(elements, vertices) {
-    var attribs = {};
-    var iLen = vertices.length;
-    for (var i = 0; i < iLen; i++) {
-      var vertex = vertices[i];
-      var names = Object.keys(vertex.attributes);
-      var jLen = names.length;
-      for (var j = 0; j < jLen; j++) {
-        var name_1 = names[j];
-        var data = dataFromVectorN_1.default(vertex.attributes[name_1]);
-        var size = data.length;
-        var attrib = attribs[name_1];
-        if (!attrib) {
-          attrib = attribs[name_1] = new DrawAttribute_1.default([], size);
-        }
-        for (var k = 0; k < size; k++) {
-          attrib.values.push(data[k]);
-        }
-      }
-    }
-    return attribs;
-  }
-  return {
-    setters: [function(DrawAttribute_1_1) {
-      DrawAttribute_1 = DrawAttribute_1_1;
-    }, function(DrawPrimitive_1_1) {
-      DrawPrimitive_1 = DrawPrimitive_1_1;
-    }, function(mustBeInteger_1_1) {
-      mustBeInteger_1 = mustBeInteger_1_1;
-    }, function(Vertex_1_1) {
-      Vertex_1 = Vertex_1_1;
-    }, function(dataFromVectorN_1_1) {
-      dataFromVectorN_1 = dataFromVectorN_1_1;
-    }],
-    execute: function() {
-      Topology = (function() {
-        function Topology(mode, numVertices) {
-          this.mode = mustBeInteger_1.default('mode', mode);
-          mustBeInteger_1.default('numVertices', numVertices);
-          this.vertices = [];
-          for (var i = 0; i < numVertices; i++) {
-            this.vertices.push(new Vertex_1.default());
-          }
-        }
-        Topology.prototype.toDrawPrimitive = function() {
-          return new DrawPrimitive_1.default(this.mode, this.elements, attributes(this.elements, this.vertices));
-        };
-        return Topology;
-      })();
-      exports_1("default", Topology);
-    }
-  };
-});
-
-System.register("davinci-eight/geometries/MeshTopology.js", ["./Topology"], function(exports_1) {
-  var __extends = (this && this.__extends) || function(d, b) {
-    for (var p in b)
-      if (b.hasOwnProperty(p))
-        d[p] = b[p];
-    function __() {
-      this.constructor = d;
-    }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-  };
-  var Topology_1;
-  var MeshTopology;
-  return {
-    setters: [function(Topology_1_1) {
-      Topology_1 = Topology_1_1;
-    }],
-    execute: function() {
-      MeshTopology = (function(_super) {
-        __extends(MeshTopology, _super);
-        function MeshTopology(mode, numVertices) {
-          _super.call(this, mode, numVertices);
-        }
-        return MeshTopology;
-      })(Topology_1.default);
-      exports_1("default", MeshTopology);
-    }
-  };
-});
-
-System.register("davinci-eight/geometries/GridTopology.js", ["../core/DrawMode", "../checks/isDefined", "./MeshTopology", "../checks/mustBeArray", "../checks/mustBeInteger", "../i18n/readOnly"], function(exports_1) {
-  var __extends = (this && this.__extends) || function(d, b) {
-    for (var p in b)
-      if (b.hasOwnProperty(p))
-        d[p] = b[p];
-    function __() {
-      this.constructor = d;
-    }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-  };
-  var DrawMode_1,
-      isDefined_1,
-      MeshTopology_1,
-      mustBeArray_1,
-      mustBeInteger_1,
-      readOnly_1;
-  var GridTopology;
-  function numPostsForFence(segmentCount) {
-    mustBeInteger_1.default('segmentCount', segmentCount);
-    return segmentCount + 1;
-  }
-  function dimensionsForGrid(segmentCounts) {
-    mustBeArray_1.default('segmentCounts', segmentCounts);
-    return segmentCounts.map(numPostsForFence);
-  }
-  function numVerticesForGrid(uSegments, vSegments) {
-    mustBeInteger_1.default('uSegments', uSegments);
-    mustBeInteger_1.default('vSegments', vSegments);
-    return dimensionsForGrid([uSegments, vSegments]).reduce(function(a, b) {
-      return a * b;
-    }, 1);
-  }
-  function triangleStripForGrid(uSegments, vSegments, elements) {
-    elements = isDefined_1.default(elements) ? mustBeArray_1.default('elements', elements) : [];
-    var uLength = numPostsForFence(uSegments);
-    var lastVertex = uSegments + uLength * vSegments;
-    var eSimple = 2 * uLength * vSegments;
-    var j = 0;
-    for (var i = 1; i <= eSimple; i += 2) {
-      elements[j] = (i - 1) / 2;
-      elements[j + 1] = elements[j] + uLength;
-      if (elements[j + 1] % uLength === uSegments) {
-        if (elements[j + 1] !== uSegments && elements[j + 1] !== lastVertex) {
-          elements[j + 2] = elements[j + 1];
-          elements[j + 3] = (1 + i) / 2;
-          j += 2;
-        }
-      }
-      j += 2;
-    }
-    return elements;
-  }
-  return {
-    setters: [function(DrawMode_1_1) {
-      DrawMode_1 = DrawMode_1_1;
-    }, function(isDefined_1_1) {
-      isDefined_1 = isDefined_1_1;
-    }, function(MeshTopology_1_1) {
-      MeshTopology_1 = MeshTopology_1_1;
-    }, function(mustBeArray_1_1) {
-      mustBeArray_1 = mustBeArray_1_1;
-    }, function(mustBeInteger_1_1) {
-      mustBeInteger_1 = mustBeInteger_1_1;
-    }, function(readOnly_1_1) {
-      readOnly_1 = readOnly_1_1;
-    }],
-    execute: function() {
-      GridTopology = (function(_super) {
-        __extends(GridTopology, _super);
-        function GridTopology(uSegments, vSegments) {
-          _super.call(this, DrawMode_1.default.TRIANGLE_STRIP, numVerticesForGrid(uSegments, vSegments));
-          this.elements = triangleStripForGrid(uSegments, vSegments);
-          this._uSegments = uSegments;
-          this._vSegments = vSegments;
-        }
-        Object.defineProperty(GridTopology.prototype, "uSegments", {
-          get: function() {
-            return this._uSegments;
-          },
-          set: function(unused) {
-            throw new Error(readOnly_1.default('uSegments').message);
-          },
-          enumerable: true,
-          configurable: true
-        });
-        Object.defineProperty(GridTopology.prototype, "uLength", {
-          get: function() {
-            return numPostsForFence(this._uSegments);
-          },
-          set: function(unused) {
-            throw new Error(readOnly_1.default('uLength').message);
-          },
-          enumerable: true,
-          configurable: true
-        });
-        Object.defineProperty(GridTopology.prototype, "vSegments", {
-          get: function() {
-            return this._vSegments;
-          },
-          set: function(unused) {
-            throw new Error(readOnly_1.default('vSegments').message);
-          },
-          enumerable: true,
-          configurable: true
-        });
-        Object.defineProperty(GridTopology.prototype, "vLength", {
-          get: function() {
-            return numPostsForFence(this._vSegments);
-          },
-          set: function(unused) {
-            throw new Error(readOnly_1.default('vLength').message);
-          },
-          enumerable: true,
-          configurable: true
-        });
-        GridTopology.prototype.vertex = function(uIndex, vIndex) {
-          mustBeInteger_1.default('uIndex', uIndex);
-          mustBeInteger_1.default('vIndex', vIndex);
-          return this.vertices[(this._vSegments - vIndex) * this.uLength + uIndex];
-        };
-        return GridTopology;
-      })(MeshTopology_1.default);
-      exports_1("default", GridTopology);
-    }
-  };
-});
-
-System.register("davinci-eight/geometries/CylinderPrimitivesBuilder.js", ["./AxialPrimitivesBuilder", "../core/GraphicsProgramSymbols", "./GridTopology", "../math/SpinG3", "../math/R2", "../math/R3"], function(exports_1) {
-  var __extends = (this && this.__extends) || function(d, b) {
-    for (var p in b)
-      if (b.hasOwnProperty(p))
-        d[p] = b[p];
-    function __() {
-      this.constructor = d;
-    }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-  };
-  var AxialPrimitivesBuilder_1,
-      GraphicsProgramSymbols_1,
-      GridTopology_1,
-      SpinG3_1,
-      R2_1,
-      R3_1;
-  var CylinderPrimitivesBuilder;
-  return {
-    setters: [function(AxialPrimitivesBuilder_1_1) {
-      AxialPrimitivesBuilder_1 = AxialPrimitivesBuilder_1_1;
-    }, function(GraphicsProgramSymbols_1_1) {
-      GraphicsProgramSymbols_1 = GraphicsProgramSymbols_1_1;
-    }, function(GridTopology_1_1) {
-      GridTopology_1 = GridTopology_1_1;
-    }, function(SpinG3_1_1) {
-      SpinG3_1 = SpinG3_1_1;
-    }, function(R2_1_1) {
-      R2_1 = R2_1_1;
-    }, function(R3_1_1) {
-      R3_1 = R3_1_1;
-    }],
-    execute: function() {
-      CylinderPrimitivesBuilder = (function(_super) {
-        __extends(CylinderPrimitivesBuilder, _super);
-        function CylinderPrimitivesBuilder(axis, sliceStart) {
-          _super.call(this, axis, sliceStart);
-          this.radius = 1;
-          this.height = 1;
-          this.thetaSegments = 16;
-        }
-        CylinderPrimitivesBuilder.prototype.setAxis = function(axis) {
-          _super.prototype.setAxis.call(this, axis);
-          return this;
-        };
-        CylinderPrimitivesBuilder.prototype.setPosition = function(position) {
-          _super.prototype.setPosition.call(this, position);
-          return this;
-        };
-        CylinderPrimitivesBuilder.prototype.toPrimitives = function() {
-          var uSegments = this.thetaSegments;
-          var vSegments = 1;
-          var topo = new GridTopology_1.default(uSegments, vSegments);
-          var axis = this.axis;
-          var generator = SpinG3_1.default.dual(axis);
-          for (var uIndex = 0; uIndex < topo.uLength; uIndex++) {
-            var u = uIndex / uSegments;
-            var rotor = generator.clone().scale(this.sliceAngle * u / 2).exp();
-            for (var vIndex = 0; vIndex < topo.vLength; vIndex++) {
-              var v = vIndex / vSegments;
-              var normal = R3_1.default.copy(this.sliceStart).rotate(rotor);
-              var position = normal.clone().scale(this.radius).add(this.axis, v * this.height);
-              var vertex = topo.vertex(uIndex, vIndex);
-              vertex.attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_POSITION] = position.add(this.position);
-              vertex.attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_NORMAL] = normal;
-              if (this.useTextureCoords) {
-                vertex.attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_TEXTURE_COORDS] = new R2_1.default([u, v]);
-              }
-            }
-          }
-          return [topo.toDrawPrimitive()];
-        };
-        CylinderPrimitivesBuilder.prototype.enableTextureCoords = function(enable) {
-          _super.prototype.enableTextureCoords.call(this, enable);
-          return this;
-        };
-        return CylinderPrimitivesBuilder;
-      })(AxialPrimitivesBuilder_1.default);
-      exports_1("default", CylinderPrimitivesBuilder);
-    }
-  };
-});
-
-System.register("davinci-eight/geometries/CylinderGeometry.js", ["../math/CartesianE3", "../core/GeometryContainer", "../core/GeometryPrimitive", "./CylinderBuilder", "./CylinderPrimitivesBuilder"], function(exports_1) {
+System.register("davinci-eight/geometries/CylinderGeometry.js", ["../math/CartesianE3", "../core/GeometryContainer", "../core/GeometryPrimitive", "./CylinderBuilder"], function(exports_1) {
   var __extends = (this && this.__extends) || function(d, b) {
     for (var p in b)
       if (b.hasOwnProperty(p))
@@ -5501,19 +5525,12 @@ System.register("davinci-eight/geometries/CylinderGeometry.js", ["../math/Cartes
   var CartesianE3_1,
       GeometryContainer_1,
       GeometryPrimitive_1,
-      CylinderBuilder_1,
-      CylinderPrimitivesBuilder_1;
-  var e1,
-      e2,
-      CylinderGeometry;
+      CylinderBuilder_1;
+  var CylinderGeometry;
   function primitives() {
-    if (false) {
-      var builder = new CylinderPrimitivesBuilder_1.default(e2, e1);
-      return builder.toPrimitives();
-    } else {
-      var builder = new CylinderBuilder_1.default(e2);
-      return builder.toPrimitives();
-    }
+    var builder = new CylinderBuilder_1.default(CartesianE3_1.default.e2);
+    builder.setPosition(CartesianE3_1.default.e2.scale(0.5));
+    return builder.toPrimitives();
   }
   return {
     setters: [function(CartesianE3_1_1) {
@@ -5524,20 +5541,8 @@ System.register("davinci-eight/geometries/CylinderGeometry.js", ["../math/Cartes
       GeometryPrimitive_1 = GeometryPrimitive_1_1;
     }, function(CylinderBuilder_1_1) {
       CylinderBuilder_1 = CylinderBuilder_1_1;
-    }, function(CylinderPrimitivesBuilder_1_1) {
-      CylinderPrimitivesBuilder_1 = CylinderPrimitivesBuilder_1_1;
     }],
     execute: function() {
-      e1 = CartesianE3_1.default.fromVectorE3({
-        x: 1,
-        y: 0,
-        z: 0
-      });
-      e2 = CartesianE3_1.default.fromVectorE3({
-        x: 0,
-        y: 1,
-        z: 0
-      });
       CylinderGeometry = (function(_super) {
         __extends(CylinderGeometry, _super);
         function CylinderGeometry() {
@@ -7350,30 +7355,33 @@ System.register("davinci-eight/core/GeometryPrimitive.js", ["../i18n/notSupporte
   };
 });
 
-System.register("davinci-eight/math/CartesianE3.js", ["../checks/mustBeNumber", "../i18n/readOnly"], function(exports_1) {
-  var mustBeNumber_1,
+System.register("davinci-eight/math/CartesianE3.js", ["../core", "../checks/mustBeNumber", "../i18n/readOnly"], function(exports_1) {
+  var core_1,
+      mustBeNumber_1,
       readOnly_1;
   var CartesianE3;
   return {
-    setters: [function(mustBeNumber_1_1) {
+    setters: [function(core_1_1) {
+      core_1 = core_1_1;
+    }, function(mustBeNumber_1_1) {
       mustBeNumber_1 = mustBeNumber_1_1;
     }, function(readOnly_1_1) {
       readOnly_1 = readOnly_1_1;
     }],
     execute: function() {
       CartesianE3 = (function() {
-        function CartesianE3(x, y, z, areYouSure) {
-          mustBeNumber_1.default('x', x);
-          mustBeNumber_1.default('y', y);
-          mustBeNumber_1.default('z', z);
-          this.coordinates = [x, y, z];
-          if (!areYouSure) {
-            console.warn("Try constructing CartesianE3 from geometric static methods.");
+        function CartesianE3(x, y, z, uom) {
+          if (core_1.default.safemode) {
+            mustBeNumber_1.default('x', x);
+            mustBeNumber_1.default('y', y);
+            mustBeNumber_1.default('z', z);
           }
+          this._coords = [x, y, z];
+          this._uom = uom;
         }
         Object.defineProperty(CartesianE3.prototype, "x", {
           get: function() {
-            return this.coordinates[0];
+            return this._coords[0];
           },
           set: function(unused) {
             throw new Error(readOnly_1.default('x').message);
@@ -7383,7 +7391,7 @@ System.register("davinci-eight/math/CartesianE3.js", ["../checks/mustBeNumber", 
         });
         Object.defineProperty(CartesianE3.prototype, "y", {
           get: function() {
-            return this.coordinates[1];
+            return this._coords[1];
           },
           set: function(unused) {
             throw new Error(readOnly_1.default('y').message);
@@ -7393,7 +7401,7 @@ System.register("davinci-eight/math/CartesianE3.js", ["../checks/mustBeNumber", 
         });
         Object.defineProperty(CartesianE3.prototype, "z", {
           get: function() {
-            return this.coordinates[2];
+            return this._coords[2];
           },
           set: function(unused) {
             throw new Error(readOnly_1.default('z').message);
@@ -7401,8 +7409,24 @@ System.register("davinci-eight/math/CartesianE3.js", ["../checks/mustBeNumber", 
           enumerable: true,
           configurable: true
         });
+        Object.defineProperty(CartesianE3.prototype, "uom", {
+          get: function() {
+            return this._uom;
+          },
+          set: function(unused) {
+            throw new Error(readOnly_1.default('uom').message);
+          },
+          enumerable: true,
+          configurable: true
+        });
         CartesianE3.prototype.magnitude = function() {
           return Math.sqrt(this.squaredNorm());
+        };
+        CartesianE3.prototype.neg = function() {
+          return this.scale(-1);
+        };
+        CartesianE3.prototype.scale = function(α) {
+          return new CartesianE3(α * this.x, α * this.y, α * this.z, this.uom);
         };
         CartesianE3.prototype.squaredNorm = function() {
           var x = this.x;
@@ -7411,15 +7435,19 @@ System.register("davinci-eight/math/CartesianE3.js", ["../checks/mustBeNumber", 
           return x * x + y * y + z * z;
         };
         CartesianE3.fromVectorE3 = function(vector) {
-          return new CartesianE3(vector.x, vector.y, vector.z, true);
+          return new CartesianE3(vector.x, vector.y, vector.z, vector.uom);
         };
         CartesianE3.direction = function(vector) {
           var x = vector.x;
           var y = vector.y;
           var z = vector.z;
           var m = Math.sqrt(x * x + y * y + z * z);
-          return new CartesianE3(x / m, y / m, z / m, true);
+          return new CartesianE3(x / m, y / m, z / m, void 0);
         };
+        CartesianE3.zero = new CartesianE3(0, 0, 0, void 0);
+        CartesianE3.e1 = new CartesianE3(1, 0, 0, void 0);
+        CartesianE3.e2 = new CartesianE3(0, 1, 0, void 0);
+        CartesianE3.e3 = new CartesianE3(0, 0, 1, void 0);
         return CartesianE3;
       })();
       exports_1("default", CartesianE3);
@@ -7443,11 +7471,7 @@ System.register("davinci-eight/geometries/PrimitivesBuilder.js", ["../math/Carte
     execute: function() {
       PrimitivesBuilder = (function() {
         function PrimitivesBuilder() {
-          this._position = CartesianE3_1.default.fromVectorE3({
-            x: 0,
-            y: 0,
-            z: 0
-          });
+          this._position = CartesianE3_1.default.zero;
           this.useTextureCoords = false;
         }
         Object.defineProperty(PrimitivesBuilder.prototype, "position", {
@@ -11104,7 +11128,7 @@ System.register("davinci-eight/visual/visualCache.js", ["../geometries/ArrowGeom
   function arrow(options) {
     return new ArrowGeometry_1.default();
   }
-  function cuboid(options) {
+  function box(options) {
     return new CuboidGeometry_1.default({
       width: 1,
       height: 1,
@@ -11195,8 +11219,8 @@ System.register("davinci-eight/visual/visualCache.js", ["../geometries/ArrowGeom
         VisualCache.prototype.arrow = function(options) {
           return this.ensureGeometry('arrow', arrow, options);
         };
-        VisualCache.prototype.cuboid = function(options) {
-          return this.ensureGeometry(geometryKey('cuboid', options), cuboid, options);
+        VisualCache.prototype.box = function(options) {
+          return this.ensureGeometry(geometryKey('box', options), box, options);
         };
         VisualCache.prototype.cylinder = function(options) {
           return this.ensureGeometry('cylinder', cylinder, options);
@@ -11808,1816 +11832,6 @@ System.register("davinci-eight/core/Mesh.js", ["../checks/mustBeBoolean", "../i1
   };
 });
 
-System.register("davinci-eight/utils/EventEmitter.js", [], function(exports_1) {
-  var EventEmitter;
-  return {
-    setters: [],
-    execute: function() {
-      EventEmitter = (function() {
-        function EventEmitter(owner) {
-          this.owner = owner;
-        }
-        EventEmitter.prototype.addEventListener = function(eventName, callback) {
-          this._eventRegistry = this._eventRegistry || {};
-          var listeners = this._eventRegistry[eventName];
-          if (!listeners) {
-            listeners = this._eventRegistry[eventName] = [];
-          }
-          if (listeners.indexOf(callback) === -1) {
-            listeners.push(callback);
-          }
-          return callback;
-        };
-        EventEmitter.prototype.removeEventListener = function(eventName, callback) {
-          this._eventRegistry = this._eventRegistry || {};
-          var listeners = this._eventRegistry[eventName];
-          if (!listeners)
-            return;
-          var index = listeners.indexOf(callback);
-          if (index !== -1) {
-            listeners.splice(index, 1);
-          }
-        };
-        EventEmitter.prototype.emit = function(eventName, key, value) {
-          if (this._eventRegistry) {
-            var listeners = this._eventRegistry[eventName];
-            if (listeners) {
-              var iLength = listeners.length;
-              if (iLength) {
-                for (var i = 0; i < iLength; i++) {
-                  listeners[i](eventName, key, value, this.owner);
-                }
-              }
-            }
-          }
-        };
-        return EventEmitter;
-      })();
-      exports_1("default", EventEmitter);
-    }
-  };
-});
-
-System.register("davinci-eight/math/isScalarG3.js", [], function(exports_1) {
-  function default_1(m) {
-    return m.x === 0 && m.y === 0 && m.z === 0 && m.xy === 0 && m.yz === 0 && m.zx === 0 && m.β === 0;
-  }
-  exports_1("default", default_1);
-  return {
-    setters: [],
-    execute: function() {}
-  };
-});
-
-System.register("davinci-eight/math/G3.js", ["./dotVectorE3", "./Euclidean3", "../utils/EventEmitter", "./extG3", "./lcoG3", "./isScalarG3", "./mulG3", "../checks/mustBeInteger", "../checks/mustBeString", "./quadVectorE3", "./rcoG3", "../i18n/readOnly", "./rotorFromDirections", "./scpG3", "./squaredNormG3", "./stringFromCoordinates", "./VectorN", "./wedgeXY", "./wedgeYZ", "./wedgeZX"], function(exports_1) {
-  var __extends = (this && this.__extends) || function(d, b) {
-    for (var p in b)
-      if (b.hasOwnProperty(p))
-        d[p] = b[p];
-    function __() {
-      this.constructor = d;
-    }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-  };
-  var dotVectorE3_1,
-      Euclidean3_1,
-      EventEmitter_1,
-      extG3_1,
-      lcoG3_1,
-      isScalarG3_1,
-      mulG3_1,
-      mustBeInteger_1,
-      mustBeString_1,
-      quadVectorE3_1,
-      rcoG3_1,
-      readOnly_1,
-      rotorFromDirections_1,
-      scpG3_1,
-      squaredNormG3_1,
-      stringFromCoordinates_1,
-      VectorN_1,
-      wedgeXY_1,
-      wedgeYZ_1,
-      wedgeZX_1;
-  var COORD_SCALAR,
-      COORD_X,
-      COORD_Y,
-      COORD_Z,
-      COORD_XY,
-      COORD_YZ,
-      COORD_ZX,
-      COORD_PSEUDO,
-      EVENT_NAME_CHANGE,
-      atan2,
-      exp,
-      cos,
-      log,
-      sin,
-      sqrt,
-      BASIS_LABELS,
-      zero,
-      one,
-      e1,
-      e2,
-      e3,
-      I,
-      G3;
-  function coordinates(m) {
-    return [m.α, m.x, m.y, m.z, m.xy, m.yz, m.zx, m.β];
-  }
-  function makeConstantE3(label, α, x, y, z, yz, zx, xy, β) {
-    mustBeString_1.default('label', label);
-    var that;
-    that = {
-      get α() {
-        return α;
-      },
-      set α(unused) {
-        throw new Error(readOnly_1.default(label + '.α').message);
-      },
-      get alpha() {
-        return α;
-      },
-      set alpha(unused) {
-        throw new Error(readOnly_1.default(label + '.alpha').message);
-      },
-      get x() {
-        return x;
-      },
-      set x(unused) {
-        throw new Error(readOnly_1.default(label + '.x').message);
-      },
-      get y() {
-        return y;
-      },
-      set y(unused) {
-        throw new Error(readOnly_1.default(label + '.y').message);
-      },
-      get z() {
-        return z;
-      },
-      set z(unused) {
-        throw new Error(readOnly_1.default(label + '.x').message);
-      },
-      get yz() {
-        return yz;
-      },
-      set yz(unused) {
-        throw new Error(readOnly_1.default(label + '.yz').message);
-      },
-      get zx() {
-        return zx;
-      },
-      set zx(unused) {
-        throw new Error(readOnly_1.default(label + '.zx').message);
-      },
-      get xy() {
-        return xy;
-      },
-      set xy(unused) {
-        throw new Error(readOnly_1.default(label + '.xy').message);
-      },
-      get β() {
-        return β;
-      },
-      set β(unused) {
-        throw new Error(readOnly_1.default(label + '.β').message);
-      },
-      get beta() {
-        return β;
-      },
-      set beta(unused) {
-        throw new Error(readOnly_1.default(label + '.beta').message);
-      },
-      toString: function() {
-        return label;
-      }
-    };
-    return that;
-  }
-  return {
-    setters: [function(dotVectorE3_1_1) {
-      dotVectorE3_1 = dotVectorE3_1_1;
-    }, function(Euclidean3_1_1) {
-      Euclidean3_1 = Euclidean3_1_1;
-    }, function(EventEmitter_1_1) {
-      EventEmitter_1 = EventEmitter_1_1;
-    }, function(extG3_1_1) {
-      extG3_1 = extG3_1_1;
-    }, function(lcoG3_1_1) {
-      lcoG3_1 = lcoG3_1_1;
-    }, function(isScalarG3_1_1) {
-      isScalarG3_1 = isScalarG3_1_1;
-    }, function(mulG3_1_1) {
-      mulG3_1 = mulG3_1_1;
-    }, function(mustBeInteger_1_1) {
-      mustBeInteger_1 = mustBeInteger_1_1;
-    }, function(mustBeString_1_1) {
-      mustBeString_1 = mustBeString_1_1;
-    }, function(quadVectorE3_1_1) {
-      quadVectorE3_1 = quadVectorE3_1_1;
-    }, function(rcoG3_1_1) {
-      rcoG3_1 = rcoG3_1_1;
-    }, function(readOnly_1_1) {
-      readOnly_1 = readOnly_1_1;
-    }, function(rotorFromDirections_1_1) {
-      rotorFromDirections_1 = rotorFromDirections_1_1;
-    }, function(scpG3_1_1) {
-      scpG3_1 = scpG3_1_1;
-    }, function(squaredNormG3_1_1) {
-      squaredNormG3_1 = squaredNormG3_1_1;
-    }, function(stringFromCoordinates_1_1) {
-      stringFromCoordinates_1 = stringFromCoordinates_1_1;
-    }, function(VectorN_1_1) {
-      VectorN_1 = VectorN_1_1;
-    }, function(wedgeXY_1_1) {
-      wedgeXY_1 = wedgeXY_1_1;
-    }, function(wedgeYZ_1_1) {
-      wedgeYZ_1 = wedgeYZ_1_1;
-    }, function(wedgeZX_1_1) {
-      wedgeZX_1 = wedgeZX_1_1;
-    }],
-    execute: function() {
-      COORD_SCALAR = 0;
-      COORD_X = 1;
-      COORD_Y = 2;
-      COORD_Z = 3;
-      COORD_XY = 4;
-      COORD_YZ = 5;
-      COORD_ZX = 6;
-      COORD_PSEUDO = 7;
-      EVENT_NAME_CHANGE = 'change';
-      atan2 = Math.atan2;
-      exp = Math.exp;
-      cos = Math.cos;
-      log = Math.log;
-      sin = Math.sin;
-      sqrt = Math.sqrt;
-      BASIS_LABELS = ["1", "e1", "e2", "e3", "e12", "e23", "e31", "e123"];
-      zero = makeConstantE3('0', 0, 0, 0, 0, 0, 0, 0, 0);
-      one = makeConstantE3('1', 1, 0, 0, 0, 0, 0, 0, 0);
-      e1 = makeConstantE3('e1', 0, 1, 0, 0, 0, 0, 0, 0);
-      e2 = makeConstantE3('e2', 0, 0, 1, 0, 0, 0, 0, 0);
-      e3 = makeConstantE3('e2', 0, 0, 0, 1, 0, 0, 0, 0);
-      I = makeConstantE3('I', 0, 0, 0, 0, 0, 0, 0, 1);
-      G3 = (function(_super) {
-        __extends(G3, _super);
-        function G3() {
-          _super.call(this, [0, 0, 0, 0, 0, 0, 0, 0], false, 8);
-          this.eventBus = new EventEmitter_1.default(this);
-        }
-        G3.prototype.on = function(eventName, callback) {
-          this.eventBus.addEventListener(eventName, callback);
-        };
-        G3.prototype.off = function(eventName, callback) {
-          this.eventBus.removeEventListener(eventName, callback);
-        };
-        G3.prototype.setCoordinate = function(index, newValue, name) {
-          var coords = this.coords;
-          var previous = coords[index];
-          if (newValue !== previous) {
-            coords[index] = newValue;
-            this.modified = true;
-            this.eventBus.emit(EVENT_NAME_CHANGE, name, newValue);
-          }
-        };
-        Object.defineProperty(G3.prototype, "α", {
-          get: function() {
-            return this.coords[COORD_SCALAR];
-          },
-          set: function(α) {
-            this.setCoordinate(COORD_SCALAR, α, 'α');
-          },
-          enumerable: true,
-          configurable: true
-        });
-        Object.defineProperty(G3.prototype, "alpha", {
-          get: function() {
-            return this.coords[COORD_SCALAR];
-          },
-          set: function(alpha) {
-            this.setCoordinate(COORD_SCALAR, alpha, 'alpha');
-          },
-          enumerable: true,
-          configurable: true
-        });
-        Object.defineProperty(G3.prototype, "x", {
-          get: function() {
-            return this.coords[COORD_X];
-          },
-          set: function(x) {
-            this.setCoordinate(COORD_X, x, 'x');
-          },
-          enumerable: true,
-          configurable: true
-        });
-        Object.defineProperty(G3.prototype, "y", {
-          get: function() {
-            return this.coords[COORD_Y];
-          },
-          set: function(y) {
-            this.setCoordinate(COORD_Y, y, 'y');
-          },
-          enumerable: true,
-          configurable: true
-        });
-        Object.defineProperty(G3.prototype, "z", {
-          get: function() {
-            return this.coords[COORD_Z];
-          },
-          set: function(z) {
-            this.setCoordinate(COORD_Z, z, 'z');
-          },
-          enumerable: true,
-          configurable: true
-        });
-        Object.defineProperty(G3.prototype, "yz", {
-          get: function() {
-            return this.coords[COORD_YZ];
-          },
-          set: function(yz) {
-            this.setCoordinate(COORD_YZ, yz, 'yz');
-          },
-          enumerable: true,
-          configurable: true
-        });
-        Object.defineProperty(G3.prototype, "zx", {
-          get: function() {
-            return this.coords[COORD_ZX];
-          },
-          set: function(zx) {
-            this.setCoordinate(COORD_ZX, zx, 'zx');
-          },
-          enumerable: true,
-          configurable: true
-        });
-        Object.defineProperty(G3.prototype, "xy", {
-          get: function() {
-            return this.coords[COORD_XY];
-          },
-          set: function(xy) {
-            this.setCoordinate(COORD_XY, xy, 'xy');
-          },
-          enumerable: true,
-          configurable: true
-        });
-        Object.defineProperty(G3.prototype, "β", {
-          get: function() {
-            return this.coords[COORD_PSEUDO];
-          },
-          set: function(β) {
-            this.setCoordinate(COORD_PSEUDO, β, 'β');
-          },
-          enumerable: true,
-          configurable: true
-        });
-        Object.defineProperty(G3.prototype, "beta", {
-          get: function() {
-            return this.coords[COORD_PSEUDO];
-          },
-          set: function(beta) {
-            this.setCoordinate(COORD_PSEUDO, beta, 'beta');
-          },
-          enumerable: true,
-          configurable: true
-        });
-        G3.prototype.add = function(M, α) {
-          if (α === void 0) {
-            α = 1;
-          }
-          this.α += M.α * α;
-          this.x += M.x * α;
-          this.y += M.y * α;
-          this.z += M.z * α;
-          this.yz += M.yz * α;
-          this.zx += M.zx * α;
-          this.xy += M.xy * α;
-          this.β += M.β * α;
-          return this;
-        };
-        G3.prototype.addPseudo = function(β) {
-          this.β += β;
-          return this;
-        };
-        G3.prototype.addScalar = function(α) {
-          this.α += α;
-          return this;
-        };
-        G3.prototype.addVector = function(v, α) {
-          if (α === void 0) {
-            α = 1;
-          }
-          this.x += v.x * α;
-          this.y += v.y * α;
-          this.z += v.z * α;
-          return this;
-        };
-        G3.prototype.add2 = function(a, b) {
-          this.α = a.α + b.α;
-          this.x = a.x + b.x;
-          this.y = a.y + b.y;
-          this.z = a.z + b.z;
-          this.yz = a.yz + b.yz;
-          this.zx = a.zx + b.zx;
-          this.xy = a.xy + b.xy;
-          this.β = a.β + b.β;
-          return this;
-        };
-        G3.prototype.adj = function() {
-          throw new Error('TODO: G3.adj');
-        };
-        G3.prototype.angle = function() {
-          return this.log().grade(2);
-        };
-        G3.prototype.clone = function() {
-          return G3.copy(this);
-        };
-        G3.prototype.conj = function() {
-          this.yz = -this.yz;
-          this.zx = -this.zx;
-          this.xy = -this.xy;
-          return this;
-        };
-        G3.prototype.lco = function(m) {
-          return this.lco2(this, m);
-        };
-        G3.prototype.lco2 = function(a, b) {
-          return lcoG3_1.default(a, b, this);
-        };
-        G3.prototype.rco = function(m) {
-          return this.rco2(this, m);
-        };
-        G3.prototype.rco2 = function(a, b) {
-          return rcoG3_1.default(a, b, this);
-        };
-        G3.prototype.copy = function(M) {
-          this.α = M.α;
-          this.x = M.x;
-          this.y = M.y;
-          this.z = M.z;
-          this.yz = M.yz;
-          this.zx = M.zx;
-          this.xy = M.xy;
-          this.β = M.β;
-          return this;
-        };
-        G3.prototype.copyScalar = function(α) {
-          return this.zero().addScalar(α);
-        };
-        G3.prototype.copySpinor = function(spinor) {
-          this.zero();
-          this.α = spinor.α;
-          this.yz = spinor.yz;
-          this.zx = spinor.zx;
-          this.xy = spinor.xy;
-          return this;
-        };
-        G3.prototype.copyVector = function(vector) {
-          this.zero();
-          this.x = vector.x;
-          this.y = vector.y;
-          this.z = vector.z;
-          return this;
-        };
-        G3.prototype.div = function(m) {
-          if (isScalarG3_1.default(m)) {
-            return this.divByScalar(m.α);
-          } else {
-            throw new Error("division with arbitrary multivectors is not supported");
-          }
-        };
-        G3.prototype.divByScalar = function(α) {
-          this.α /= α;
-          this.x /= α;
-          this.y /= α;
-          this.z /= α;
-          this.yz /= α;
-          this.zx /= α;
-          this.xy /= α;
-          this.β /= α;
-          return this;
-        };
-        G3.prototype.div2 = function(a, b) {
-          var a0 = a.α;
-          var a1 = a.yz;
-          var a2 = a.zx;
-          var a3 = a.xy;
-          var b0 = b.α;
-          var b1 = b.yz;
-          var b2 = b.zx;
-          var b3 = b.xy;
-          this.α = a0 * b0 - a1 * b1 - a2 * b2 - a3 * b3;
-          this.yz = a0 * b1 + a1 * b0 - a2 * b3 + a3 * b2;
-          this.zx = a0 * b2 + a1 * b3 + a2 * b0 - a3 * b1;
-          this.xy = a0 * b3 - a1 * b2 + a2 * b1 + a3 * b0;
-          return this;
-        };
-        G3.prototype.dual = function(m) {
-          var w = -m.β;
-          var x = -m.yz;
-          var y = -m.zx;
-          var z = -m.xy;
-          var yz = m.x;
-          var zx = m.y;
-          var xy = m.z;
-          var β = m.α;
-          this.α = w;
-          this.x = x;
-          this.y = y;
-          this.z = z;
-          this.yz = yz;
-          this.zx = zx;
-          this.xy = xy;
-          this.β = β;
-          return this;
-        };
-        G3.prototype.exp = function() {
-          var expW = exp(this.α);
-          var yz = this.yz;
-          var zx = this.zx;
-          var xy = this.xy;
-          var φ = sqrt(yz * yz + zx * zx + xy * xy);
-          var s = φ !== 0 ? sin(φ) / φ : 1;
-          var cosφ = cos(φ);
-          this.α = cosφ;
-          this.yz = yz * s;
-          this.zx = zx * s;
-          this.xy = xy * s;
-          return this.scale(expW);
-        };
-        G3.prototype.inv = function() {
-          this.conj();
-          return this;
-        };
-        G3.prototype.isOne = function() {
-          return this.α === 1 && this.x === 0 && this.y === 0 && this.z === 0 && this.yz === 0 && this.zx === 0 && this.xy === 0 && this.β === 0;
-        };
-        G3.prototype.isZero = function() {
-          return this.α === 0 && this.x === 0 && this.y === 0 && this.z === 0 && this.yz === 0 && this.zx === 0 && this.xy === 0 && this.β === 0;
-        };
-        G3.prototype.lerp = function(target, α) {
-          this.α += (target.α - this.α) * α;
-          this.x += (target.x - this.x) * α;
-          this.y += (target.y - this.y) * α;
-          this.z += (target.z - this.z) * α;
-          this.yz += (target.yz - this.yz) * α;
-          this.zx += (target.zx - this.zx) * α;
-          this.xy += (target.xy - this.xy) * α;
-          this.β += (target.β - this.β) * α;
-          return this;
-        };
-        G3.prototype.lerp2 = function(a, b, α) {
-          this.copy(a).lerp(b, α);
-          return this;
-        };
-        G3.prototype.log = function() {
-          var α = this.α;
-          var x = this.yz;
-          var y = this.zx;
-          var z = this.xy;
-          var BB = x * x + y * y + z * z;
-          var B = sqrt(BB);
-          var f = atan2(B, α) / B;
-          this.α = log(sqrt(α * α + BB));
-          this.yz = x * f;
-          this.zx = y * f;
-          this.xy = z * f;
-          return this;
-        };
-        G3.prototype.magnitude = function() {
-          return this.norm();
-        };
-        G3.prototype.magnitudeSansUnits = function() {
-          return sqrt(this.squaredNormSansUnits());
-        };
-        G3.prototype.mul = function(m) {
-          return this.mul2(this, m);
-        };
-        G3.prototype.mul2 = function(a, b) {
-          return mulG3_1.default(a, b, this);
-        };
-        G3.prototype.neg = function() {
-          this.α = -this.α;
-          this.x = -this.x;
-          this.y = -this.y;
-          this.z = -this.z;
-          this.yz = -this.yz;
-          this.zx = -this.zx;
-          this.xy = -this.xy;
-          this.β = -this.β;
-          return this;
-        };
-        G3.prototype.norm = function() {
-          this.α = this.magnitudeSansUnits();
-          this.x = 0;
-          this.y = 0;
-          this.z = 0;
-          this.yz = 0;
-          this.zx = 0;
-          this.xy = 0;
-          this.β = 0;
-          return this;
-        };
-        G3.prototype.direction = function() {
-          var norm = this.magnitudeSansUnits();
-          this.α = this.α / norm;
-          this.x = this.x / norm;
-          this.y = this.y / norm;
-          this.z = this.z / norm;
-          this.yz = this.yz / norm;
-          this.zx = this.zx / norm;
-          this.xy = this.xy / norm;
-          this.β = this.β / norm;
-          return this;
-        };
-        G3.prototype.one = function() {
-          this.α = 1;
-          this.x = 0;
-          this.y = 0;
-          this.z = 0;
-          this.yz = 0;
-          this.zx = 0;
-          this.xy = 0;
-          this.β = 0;
-          return this;
-        };
-        G3.prototype.quad = function() {
-          return this.squaredNorm();
-        };
-        G3.prototype.squaredNorm = function() {
-          this.α = this.squaredNormSansUnits();
-          this.yz = 0;
-          this.zx = 0;
-          this.xy = 0;
-          return this;
-        };
-        G3.prototype.squaredNormSansUnits = function() {
-          return squaredNormG3_1.default(this);
-        };
-        G3.prototype.reflect = function(n) {
-          var N = Euclidean3_1.default.fromVectorE3(n);
-          var M = Euclidean3_1.default.copy(this);
-          var R = N.mul(M).mul(N).scale(-1);
-          this.copy(R);
-          return this;
-        };
-        G3.prototype.rev = function() {
-          this.α = +this.α;
-          this.x = +this.x;
-          this.y = +this.y;
-          this.z = +this.z;
-          this.yz = -this.yz;
-          this.zx = -this.zx;
-          this.xy = -this.xy;
-          this.β = -this.β;
-          return this;
-        };
-        G3.prototype.__tilde__ = function() {
-          return G3.copy(this).rev();
-        };
-        G3.prototype.rotate = function(R) {
-          var x = this.x;
-          var y = this.y;
-          var z = this.z;
-          var a = R.xy;
-          var b = R.yz;
-          var c = R.zx;
-          var α = R.α;
-          var ix = α * x - c * z + a * y;
-          var iy = α * y - a * x + b * z;
-          var iz = α * z - b * y + c * x;
-          var iα = b * x + c * y + a * z;
-          this.x = ix * α + iα * b + iy * a - iz * c;
-          this.y = iy * α + iα * c + iz * b - ix * a;
-          this.z = iz * α + iα * a + ix * c - iy * b;
-          return this;
-        };
-        G3.prototype.rotorFromDirections = function(b, a) {
-          return rotorFromDirections_1.default(a, b, quadVectorE3_1.default, dotVectorE3_1.default, this);
-        };
-        G3.prototype.rotorFromAxisAngle = function(axis, θ) {
-          var φ = θ / 2;
-          var s = sin(φ);
-          this.yz = -axis.x * s;
-          this.zx = -axis.y * s;
-          this.xy = -axis.z * s;
-          this.α = cos(φ);
-          return this;
-        };
-        G3.prototype.rotorFromGeneratorAngle = function(B, θ) {
-          var φ = θ / 2;
-          var s = sin(φ);
-          this.yz = -B.yz * s;
-          this.zx = -B.zx * s;
-          this.xy = -B.xy * s;
-          this.α = cos(φ);
-          return this;
-        };
-        G3.prototype.scp = function(m) {
-          return this.scp2(this, m);
-        };
-        G3.prototype.scp2 = function(a, b) {
-          return scpG3_1.default(a, b, this);
-        };
-        G3.prototype.scale = function(α) {
-          this.α *= α;
-          this.x *= α;
-          this.y *= α;
-          this.z *= α;
-          this.yz *= α;
-          this.zx *= α;
-          this.xy *= α;
-          this.β *= α;
-          return this;
-        };
-        G3.prototype.slerp = function(target, α) {
-          return this;
-        };
-        G3.prototype.spinor = function(a, b) {
-          var ax = a.x;
-          var ay = a.y;
-          var az = a.z;
-          var bx = b.x;
-          var by = b.y;
-          var bz = b.z;
-          this.zero();
-          this.α = dotVectorE3_1.default(a, b);
-          this.yz = wedgeYZ_1.default(ax, ay, az, bx, by, bz);
-          this.zx = wedgeZX_1.default(ax, ay, az, bx, by, bz);
-          this.xy = wedgeXY_1.default(ax, ay, az, bx, by, bz);
-          return this;
-        };
-        G3.prototype.sub = function(M, α) {
-          if (α === void 0) {
-            α = 1;
-          }
-          this.α -= M.α * α;
-          this.x -= M.x * α;
-          this.y -= M.y * α;
-          this.z -= M.z * α;
-          this.yz -= M.yz * α;
-          this.zx -= M.zx * α;
-          this.xy -= M.xy * α;
-          this.β -= M.β * α;
-          return this;
-        };
-        G3.prototype.sub2 = function(a, b) {
-          this.α = a.α - b.α;
-          this.x = a.x - b.x;
-          this.y = a.y - b.y;
-          this.z = a.z - b.z;
-          this.yz = a.yz - b.yz;
-          this.zx = a.zx - b.zx;
-          this.xy = a.xy - b.xy;
-          this.β = a.β - b.β;
-          return this;
-        };
-        G3.prototype.toExponential = function() {
-          var coordToString = function(coord) {
-            return coord.toExponential();
-          };
-          return stringFromCoordinates_1.default(coordinates(this), coordToString, BASIS_LABELS);
-        };
-        G3.prototype.toFixed = function(fractionDigits) {
-          var coordToString = function(coord) {
-            return coord.toFixed(fractionDigits);
-          };
-          return stringFromCoordinates_1.default(coordinates(this), coordToString, BASIS_LABELS);
-        };
-        G3.prototype.toString = function() {
-          var coordToString = function(coord) {
-            return coord.toString();
-          };
-          return stringFromCoordinates_1.default(coordinates(this), coordToString, BASIS_LABELS);
-        };
-        G3.prototype.grade = function(grade) {
-          mustBeInteger_1.default('grade', grade);
-          switch (grade) {
-            case 0:
-              {
-                this.x = 0;
-                this.y = 0;
-                this.z = 0;
-                this.yz = 0;
-                this.zx = 0;
-                this.xy = 0;
-                this.β = 0;
-              }
-              break;
-            case 1:
-              {
-                this.α = 0;
-                this.yz = 0;
-                this.zx = 0;
-                this.xy = 0;
-                this.β = 0;
-              }
-              break;
-            case 2:
-              {
-                this.α = 0;
-                this.x = 0;
-                this.y = 0;
-                this.z = 0;
-                this.β = 0;
-              }
-              break;
-            case 3:
-              {
-                this.α = 0;
-                this.x = 0;
-                this.y = 0;
-                this.z = 0;
-                this.yz = 0;
-                this.zx = 0;
-                this.xy = 0;
-              }
-              break;
-            default:
-              {
-                this.α = 0;
-                this.x = 0;
-                this.y = 0;
-                this.z = 0;
-                this.yz = 0;
-                this.zx = 0;
-                this.xy = 0;
-                this.β = 0;
-              }
-          }
-          return this;
-        };
-        G3.prototype.ext = function(m) {
-          return this.ext2(this, m);
-        };
-        G3.prototype.ext2 = function(a, b) {
-          return extG3_1.default(a, b, this);
-        };
-        G3.prototype.zero = function() {
-          this.α = 0;
-          this.x = 0;
-          this.y = 0;
-          this.z = 0;
-          this.yz = 0;
-          this.zx = 0;
-          this.xy = 0;
-          this.β = 0;
-          return this;
-        };
-        G3.prototype.__add__ = function(rhs) {
-          if (rhs instanceof G3) {
-            return G3.copy(this).add(rhs);
-          } else if (typeof rhs === 'number') {
-            return G3.copy(this).add(G3.fromScalar(rhs));
-          } else {
-            return void 0;
-          }
-        };
-        G3.prototype.__div__ = function(rhs) {
-          if (rhs instanceof G3) {
-            return G3.copy(this).div(rhs);
-          } else if (typeof rhs === 'number') {
-            return G3.copy(this).divByScalar(rhs);
-          } else {
-            return void 0;
-          }
-        };
-        G3.prototype.__rdiv__ = function(lhs) {
-          if (lhs instanceof G3) {
-            return G3.copy(lhs).div(this);
-          } else if (typeof lhs === 'number') {
-            return G3.fromScalar(lhs).div(this);
-          } else {
-            return void 0;
-          }
-        };
-        G3.prototype.__mul__ = function(rhs) {
-          if (rhs instanceof G3) {
-            return G3.copy(this).mul(rhs);
-          } else if (typeof rhs === 'number') {
-            return G3.copy(this).scale(rhs);
-          } else {
-            return void 0;
-          }
-        };
-        G3.prototype.__rmul__ = function(lhs) {
-          if (lhs instanceof G3) {
-            return G3.copy(lhs).mul(this);
-          } else if (typeof lhs === 'number') {
-            return G3.copy(this).scale(lhs);
-          } else {
-            return void 0;
-          }
-        };
-        G3.prototype.__radd__ = function(lhs) {
-          if (lhs instanceof G3) {
-            return G3.copy(lhs).add(this);
-          } else if (typeof lhs === 'number') {
-            return G3.fromScalar(lhs).add(this);
-          } else {
-            return void 0;
-          }
-        };
-        G3.prototype.__sub__ = function(rhs) {
-          if (rhs instanceof G3) {
-            return G3.copy(this).sub(rhs);
-          } else if (typeof rhs === 'number') {
-            return G3.fromScalar(rhs).neg().add(this);
-          } else {
-            return void 0;
-          }
-        };
-        G3.prototype.__rsub__ = function(lhs) {
-          if (lhs instanceof G3) {
-            return G3.copy(lhs).sub(this);
-          } else if (typeof lhs === 'number') {
-            return G3.fromScalar(lhs).sub(this);
-          } else {
-            return void 0;
-          }
-        };
-        G3.prototype.__wedge__ = function(rhs) {
-          if (rhs instanceof G3) {
-            return G3.copy(this).ext(rhs);
-          } else if (typeof rhs === 'number') {
-            return G3.copy(this).scale(rhs);
-          } else {
-            return void 0;
-          }
-        };
-        G3.prototype.__rwedge__ = function(lhs) {
-          if (lhs instanceof G3) {
-            return G3.copy(lhs).ext(this);
-          } else if (typeof lhs === 'number') {
-            return G3.copy(this).scale(lhs);
-          } else {
-            return void 0;
-          }
-        };
-        G3.prototype.__lshift__ = function(rhs) {
-          if (rhs instanceof G3) {
-            return G3.copy(this).lco(rhs);
-          } else if (typeof rhs === 'number') {
-            return G3.copy(this).lco(G3.fromScalar(rhs));
-          } else {
-            return void 0;
-          }
-        };
-        G3.prototype.__rlshift__ = function(lhs) {
-          if (lhs instanceof G3) {
-            return G3.copy(lhs).lco(this);
-          } else if (typeof lhs === 'number') {
-            return G3.fromScalar(lhs).lco(this);
-          } else {
-            return void 0;
-          }
-        };
-        G3.prototype.__rshift__ = function(rhs) {
-          if (rhs instanceof G3) {
-            return G3.copy(this).rco(rhs);
-          } else if (typeof rhs === 'number') {
-            return G3.copy(this).rco(G3.fromScalar(rhs));
-          } else {
-            return void 0;
-          }
-        };
-        G3.prototype.__rrshift__ = function(lhs) {
-          if (lhs instanceof G3) {
-            return G3.copy(lhs).rco(this);
-          } else if (typeof lhs === 'number') {
-            return G3.fromScalar(lhs).rco(this);
-          } else {
-            return void 0;
-          }
-        };
-        G3.prototype.__vbar__ = function(rhs) {
-          if (rhs instanceof G3) {
-            return G3.copy(this).scp(rhs);
-          } else if (typeof rhs === 'number') {
-            return G3.copy(this).scp(G3.fromScalar(rhs));
-          } else {
-            return void 0;
-          }
-        };
-        G3.prototype.__rvbar__ = function(lhs) {
-          if (lhs instanceof G3) {
-            return G3.copy(lhs).scp(this);
-          } else if (typeof lhs === 'number') {
-            return G3.fromScalar(lhs).scp(this);
-          } else {
-            return void 0;
-          }
-        };
-        G3.prototype.__bang__ = function() {
-          return G3.copy(this).inv();
-        };
-        G3.prototype.__pos__ = function() {
-          return G3.copy(this);
-        };
-        G3.prototype.__neg__ = function() {
-          return G3.copy(this).neg();
-        };
-        Object.defineProperty(G3, "zero", {
-          get: function() {
-            return G3.copy(zero);
-          },
-          enumerable: true,
-          configurable: true
-        });
-        ;
-        Object.defineProperty(G3, "one", {
-          get: function() {
-            return G3.copy(one);
-          },
-          enumerable: true,
-          configurable: true
-        });
-        ;
-        Object.defineProperty(G3, "e1", {
-          get: function() {
-            return G3.copy(e1);
-          },
-          enumerable: true,
-          configurable: true
-        });
-        ;
-        Object.defineProperty(G3, "e2", {
-          get: function() {
-            return G3.copy(e2);
-          },
-          enumerable: true,
-          configurable: true
-        });
-        ;
-        Object.defineProperty(G3, "e3", {
-          get: function() {
-            return G3.copy(e3);
-          },
-          enumerable: true,
-          configurable: true
-        });
-        ;
-        Object.defineProperty(G3, "I", {
-          get: function() {
-            return G3.copy(I);
-          },
-          enumerable: true,
-          configurable: true
-        });
-        ;
-        G3.copy = function(M) {
-          var copy = new G3();
-          copy.α = M.α;
-          copy.x = M.x;
-          copy.y = M.y;
-          copy.z = M.z;
-          copy.yz = M.yz;
-          copy.zx = M.zx;
-          copy.xy = M.xy;
-          copy.β = M.β;
-          return copy;
-        };
-        G3.fromScalar = function(α) {
-          return new G3().copyScalar(α);
-        };
-        G3.fromSpinor = function(spinor) {
-          var copy = new G3();
-          copy.α = spinor.α;
-          copy.yz = spinor.yz;
-          copy.zx = spinor.yz;
-          copy.xy = spinor.xy;
-          return copy;
-        };
-        G3.fromVector = function(vector) {
-          var copy = new G3();
-          copy.x = vector.x;
-          copy.y = vector.y;
-          copy.z = vector.z;
-          return copy;
-        };
-        G3.lerp = function(A, B, α) {
-          return G3.copy(A).lerp(B, α);
-        };
-        G3.rotorFromDirections = function(a, b) {
-          return new G3().rotorFromDirections(a, b);
-        };
-        return G3;
-      })(VectorN_1.default);
-      exports_1("default", G3);
-    }
-  };
-});
-
-System.register("davinci-eight/math/quadVectorE3.js", ["../math/dotVectorCartesianE3", "../checks/isDefined", "../checks/isNumber"], function(exports_1) {
-  var dotVectorCartesianE3_1,
-      isDefined_1,
-      isNumber_1;
-  function quadVectorE3(vector) {
-    if (isDefined_1.default(vector)) {
-      var x = vector.x;
-      var y = vector.y;
-      var z = vector.z;
-      if (isNumber_1.default(x) && isNumber_1.default(y) && isNumber_1.default(z)) {
-        return dotVectorCartesianE3_1.default(x, y, z, x, y, z);
-      } else {
-        return void 0;
-      }
-    } else {
-      return void 0;
-    }
-  }
-  exports_1("default", quadVectorE3);
-  return {
-    setters: [function(dotVectorCartesianE3_1_1) {
-      dotVectorCartesianE3_1 = dotVectorCartesianE3_1_1;
-    }, function(isDefined_1_1) {
-      isDefined_1 = isDefined_1_1;
-    }, function(isNumber_1_1) {
-      isNumber_1 = isNumber_1_1;
-    }],
-    execute: function() {}
-  };
-});
-
-System.register("davinci-eight/math/rotorFromDirections.js", [], function(exports_1) {
-  var sqrt;
-  function rotorFromDirections(a, b, quad, dot, m) {
-    var quadA = quad(a);
-    var absA = sqrt(quadA);
-    var quadB = quad(b);
-    var absB = sqrt(quadB);
-    var BA = absB * absA;
-    var denom = sqrt(2 * (quadB * quadA + BA * dot(b, a)));
-    if (denom !== 0) {
-      m = m.spinor(b, a);
-      m = m.addScalar(BA);
-      m = m.divByScalar(denom);
-      return m;
-    } else {
-      return void 0;
-    }
-  }
-  exports_1("default", rotorFromDirections);
-  return {
-    setters: [],
-    execute: function() {
-      sqrt = Math.sqrt;
-    }
-  };
-});
-
-System.register("davinci-eight/math/SpinG3.js", ["../math/dotVectorCartesianE3", "../math/dotVectorE3", "../checks/mustBeInteger", "../checks/mustBeNumber", "../checks/mustBeObject", "../math/quadSpinorE3", "../math/quadVectorE3", "../math/rotorFromDirections", "../math/VectorN", "../math/wedgeXY", "../math/wedgeYZ", "../math/wedgeZX"], function(exports_1) {
-  var __extends = (this && this.__extends) || function(d, b) {
-    for (var p in b)
-      if (b.hasOwnProperty(p))
-        d[p] = b[p];
-    function __() {
-      this.constructor = d;
-    }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-  };
-  var dotVectorCartesianE3_1,
-      dotVectorE3_1,
-      mustBeInteger_1,
-      mustBeNumber_1,
-      mustBeObject_1,
-      quadSpinorE3_1,
-      quadVectorE3_1,
-      rotorFromDirections_1,
-      VectorN_1,
-      wedgeXY_1,
-      wedgeYZ_1,
-      wedgeZX_1;
-  var COORD_YZ,
-      COORD_ZX,
-      COORD_XY,
-      COORD_SCALAR,
-      exp,
-      cos,
-      sin,
-      sqrt,
-      SpinG3;
-  function one() {
-    var coords = [0, 0, 0, 0];
-    coords[COORD_SCALAR] = 1;
-    return coords;
-  }
-  return {
-    setters: [function(dotVectorCartesianE3_1_1) {
-      dotVectorCartesianE3_1 = dotVectorCartesianE3_1_1;
-    }, function(dotVectorE3_1_1) {
-      dotVectorE3_1 = dotVectorE3_1_1;
-    }, function(mustBeInteger_1_1) {
-      mustBeInteger_1 = mustBeInteger_1_1;
-    }, function(mustBeNumber_1_1) {
-      mustBeNumber_1 = mustBeNumber_1_1;
-    }, function(mustBeObject_1_1) {
-      mustBeObject_1 = mustBeObject_1_1;
-    }, function(quadSpinorE3_1_1) {
-      quadSpinorE3_1 = quadSpinorE3_1_1;
-    }, function(quadVectorE3_1_1) {
-      quadVectorE3_1 = quadVectorE3_1_1;
-    }, function(rotorFromDirections_1_1) {
-      rotorFromDirections_1 = rotorFromDirections_1_1;
-    }, function(VectorN_1_1) {
-      VectorN_1 = VectorN_1_1;
-    }, function(wedgeXY_1_1) {
-      wedgeXY_1 = wedgeXY_1_1;
-    }, function(wedgeYZ_1_1) {
-      wedgeYZ_1 = wedgeYZ_1_1;
-    }, function(wedgeZX_1_1) {
-      wedgeZX_1 = wedgeZX_1_1;
-    }],
-    execute: function() {
-      COORD_YZ = 0;
-      COORD_ZX = 1;
-      COORD_XY = 2;
-      COORD_SCALAR = 3;
-      exp = Math.exp;
-      cos = Math.cos;
-      sin = Math.sin;
-      sqrt = Math.sqrt;
-      SpinG3 = (function(_super) {
-        __extends(SpinG3, _super);
-        function SpinG3(coordinates, modified) {
-          if (coordinates === void 0) {
-            coordinates = one();
-          }
-          if (modified === void 0) {
-            modified = false;
-          }
-          _super.call(this, coordinates, modified, 4);
-        }
-        Object.defineProperty(SpinG3.prototype, "yz", {
-          get: function() {
-            return this.coords[COORD_YZ];
-          },
-          set: function(yz) {
-            mustBeNumber_1.default('yz', yz);
-            this.modified = this.modified || this.yz !== yz;
-            this.coords[COORD_YZ] = yz;
-          },
-          enumerable: true,
-          configurable: true
-        });
-        Object.defineProperty(SpinG3.prototype, "zx", {
-          get: function() {
-            return this.coords[COORD_ZX];
-          },
-          set: function(zx) {
-            mustBeNumber_1.default('zx', zx);
-            this.modified = this.modified || this.zx !== zx;
-            this.coords[COORD_ZX] = zx;
-          },
-          enumerable: true,
-          configurable: true
-        });
-        Object.defineProperty(SpinG3.prototype, "xy", {
-          get: function() {
-            return this.coords[COORD_XY];
-          },
-          set: function(xy) {
-            mustBeNumber_1.default('xy', xy);
-            this.modified = this.modified || this.xy !== xy;
-            this.coords[COORD_XY] = xy;
-          },
-          enumerable: true,
-          configurable: true
-        });
-        Object.defineProperty(SpinG3.prototype, "alpha", {
-          get: function() {
-            return this.coords[COORD_SCALAR];
-          },
-          set: function(alpha) {
-            mustBeNumber_1.default('alpha', alpha);
-            this.modified = this.modified || this.alpha !== alpha;
-            this.coords[COORD_SCALAR] = alpha;
-          },
-          enumerable: true,
-          configurable: true
-        });
-        Object.defineProperty(SpinG3.prototype, "α", {
-          get: function() {
-            return this.coords[COORD_SCALAR];
-          },
-          set: function(α) {
-            mustBeNumber_1.default('α', α);
-            this.modified = this.modified || this.α !== α;
-            this.coords[COORD_SCALAR] = α;
-          },
-          enumerable: true,
-          configurable: true
-        });
-        SpinG3.prototype.add = function(spinor, α) {
-          if (α === void 0) {
-            α = 1;
-          }
-          mustBeObject_1.default('spinor', spinor);
-          mustBeNumber_1.default('α', α);
-          this.yz += spinor.yz * α;
-          this.zx += spinor.zx * α;
-          this.xy += spinor.xy * α;
-          this.α += spinor.α * α;
-          return this;
-        };
-        SpinG3.prototype.add2 = function(a, b) {
-          this.α = a.α + b.α;
-          this.yz = a.yz + b.yz;
-          this.zx = a.zx + b.zx;
-          this.xy = a.xy + b.xy;
-          return this;
-        };
-        SpinG3.prototype.addPseudo = function(β) {
-          mustBeNumber_1.default('β', β);
-          return this;
-        };
-        SpinG3.prototype.addScalar = function(α) {
-          mustBeNumber_1.default('α', α);
-          this.α += α;
-          return this;
-        };
-        SpinG3.prototype.adj = function() {
-          throw new Error('TODO: SpinG3.adj');
-        };
-        SpinG3.prototype.angle = function() {
-          return this.log().grade(2);
-        };
-        SpinG3.prototype.clone = function() {
-          return SpinG3.copy(this);
-        };
-        SpinG3.prototype.conj = function() {
-          this.yz = -this.yz;
-          this.zx = -this.zx;
-          this.xy = -this.xy;
-          return this;
-        };
-        SpinG3.prototype.copy = function(spinor) {
-          mustBeObject_1.default('spinor', spinor);
-          this.yz = mustBeNumber_1.default('spinor.yz', spinor.yz);
-          this.zx = mustBeNumber_1.default('spinor.zx', spinor.zx);
-          this.xy = mustBeNumber_1.default('spinor.xy', spinor.xy);
-          this.α = mustBeNumber_1.default('spinor.α', spinor.α);
-          return this;
-        };
-        SpinG3.prototype.copyScalar = function(α) {
-          return this.zero().addScalar(α);
-        };
-        SpinG3.prototype.copySpinor = function(s) {
-          return this.copy(s);
-        };
-        SpinG3.prototype.copyVector = function(vector) {
-          return this.zero();
-        };
-        SpinG3.prototype.div = function(s) {
-          return this.div2(this, s);
-        };
-        SpinG3.prototype.div2 = function(a, b) {
-          var a0 = a.α;
-          var a1 = a.yz;
-          var a2 = a.zx;
-          var a3 = a.xy;
-          var b0 = b.α;
-          var b1 = b.yz;
-          var b2 = b.zx;
-          var b3 = b.xy;
-          this.α = a0 * b0 - a1 * b1 - a2 * b2 - a3 * b3;
-          this.yz = a0 * b1 + a1 * b0 - a2 * b3 + a3 * b2;
-          this.zx = a0 * b2 + a1 * b3 + a2 * b0 - a3 * b1;
-          this.xy = a0 * b3 - a1 * b2 + a2 * b1 + a3 * b0;
-          return this;
-        };
-        SpinG3.prototype.divByScalar = function(α) {
-          this.yz /= α;
-          this.zx /= α;
-          this.xy /= α;
-          this.α /= α;
-          return this;
-        };
-        SpinG3.prototype.dual = function(v) {
-          mustBeObject_1.default('v', v);
-          this.α = 0;
-          this.yz = mustBeNumber_1.default('v.x', v.x);
-          this.zx = mustBeNumber_1.default('v.y', v.y);
-          this.xy = mustBeNumber_1.default('v.z', v.z);
-          return this;
-        };
-        SpinG3.prototype.exp = function() {
-          var w = this.α;
-          var x = this.yz;
-          var y = this.zx;
-          var z = this.xy;
-          var expW = exp(w);
-          var φ = sqrt(x * x + y * y + z * z);
-          var s = expW * (φ !== 0 ? sin(φ) / φ : 1);
-          this.α = expW * cos(φ);
-          this.yz = x * s;
-          this.zx = y * s;
-          this.xy = z * s;
-          return this;
-        };
-        SpinG3.prototype.inv = function() {
-          this.conj();
-          this.divByScalar(this.squaredNormSansUnits());
-          return this;
-        };
-        SpinG3.prototype.lco = function(rhs) {
-          return this.lco2(this, rhs);
-        };
-        SpinG3.prototype.lco2 = function(a, b) {
-          return this;
-        };
-        SpinG3.prototype.lerp = function(target, α) {
-          var R2 = SpinG3.copy(target);
-          var R1 = this.clone();
-          var R = R2.mul(R1.inv());
-          R.log();
-          R.scale(α);
-          R.exp();
-          this.copy(R);
-          return this;
-        };
-        SpinG3.prototype.lerp2 = function(a, b, α) {
-          this.sub2(b, a).scale(α).add(a);
-          return this;
-        };
-        SpinG3.prototype.log = function() {
-          var w = this.α;
-          var x = this.yz;
-          var y = this.zx;
-          var z = this.xy;
-          var bb = x * x + y * y + z * z;
-          var R2 = sqrt(bb);
-          var R0 = Math.abs(w);
-          var R = sqrt(w * w + bb);
-          this.α = Math.log(R);
-          var θ = Math.atan2(R2, R0) / R2;
-          this.yz = x * θ;
-          this.zx = y * θ;
-          this.xy = z * θ;
-          return this;
-        };
-        SpinG3.prototype.magnitude = function() {
-          return this.norm();
-        };
-        SpinG3.prototype.magnitudeSansUnits = function() {
-          return sqrt(this.squaredNormSansUnits());
-        };
-        SpinG3.prototype.mul = function(s) {
-          return this.mul2(this, s);
-        };
-        SpinG3.prototype.mul2 = function(a, b) {
-          var a0 = a.α;
-          var a1 = a.yz;
-          var a2 = a.zx;
-          var a3 = a.xy;
-          var b0 = b.α;
-          var b1 = b.yz;
-          var b2 = b.zx;
-          var b3 = b.xy;
-          this.α = a0 * b0 - a1 * b1 - a2 * b2 - a3 * b3;
-          this.yz = a0 * b1 + a1 * b0 - a2 * b3 + a3 * b2;
-          this.zx = a0 * b2 + a1 * b3 + a2 * b0 - a3 * b1;
-          this.xy = a0 * b3 - a1 * b2 + a2 * b1 + a3 * b0;
-          return this;
-        };
-        SpinG3.prototype.neg = function() {
-          this.α = -this.α;
-          this.yz = -this.yz;
-          this.zx = -this.zx;
-          this.xy = -this.xy;
-          return this;
-        };
-        SpinG3.prototype.norm = function() {
-          var norm = this.magnitudeSansUnits();
-          return this.zero().addScalar(norm);
-        };
-        SpinG3.prototype.direction = function() {
-          var modulus = this.magnitudeSansUnits();
-          this.yz = this.yz / modulus;
-          this.zx = this.zx / modulus;
-          this.xy = this.xy / modulus;
-          this.α = this.α / modulus;
-          return this;
-        };
-        SpinG3.prototype.one = function() {
-          this.α = 1;
-          this.yz = 0;
-          this.zx = 0;
-          this.xy = 0;
-          return this;
-        };
-        SpinG3.prototype.quad = function() {
-          return this.squaredNorm();
-        };
-        SpinG3.prototype.squaredNorm = function() {
-          var squaredNorm = this.squaredNormSansUnits();
-          return this.zero().addScalar(squaredNorm);
-        };
-        SpinG3.prototype.squaredNormSansUnits = function() {
-          return quadSpinorE3_1.default(this);
-        };
-        SpinG3.prototype.rco = function(rhs) {
-          return this.rco2(this, rhs);
-        };
-        SpinG3.prototype.rco2 = function(a, b) {
-          return this;
-        };
-        SpinG3.prototype.rev = function() {
-          this.yz *= -1;
-          this.zx *= -1;
-          this.xy *= -1;
-          return this;
-        };
-        SpinG3.prototype.reflect = function(n) {
-          var w = this.α;
-          var yz = this.yz;
-          var zx = this.zx;
-          var xy = this.xy;
-          var nx = n.x;
-          var ny = n.y;
-          var nz = n.z;
-          var nn = nx * nx + ny * ny + nz * nz;
-          var nB = nx * yz + ny * zx + nz * xy;
-          this.α = nn * w;
-          this.xy = 2 * nz * nB - nn * xy;
-          this.yz = 2 * nx * nB - nn * yz;
-          this.zx = 2 * ny * nB - nn * zx;
-          return this;
-        };
-        SpinG3.prototype.rotate = function(rotor) {
-          console.warn("SpinG3.rotate is not implemented");
-          return this;
-        };
-        SpinG3.prototype.rotorFromDirections = function(a, b) {
-          return rotorFromDirections_1.default(a, b, quadVectorE3_1.default, dotVectorE3_1.default, this);
-        };
-        SpinG3.prototype.rotorFromAxisAngle = function(axis, θ) {
-          var φ = θ / 2;
-          var s = sin(φ);
-          this.yz = -axis.x * s;
-          this.zx = -axis.y * s;
-          this.xy = -axis.z * s;
-          this.α = cos(φ);
-          return this;
-        };
-        SpinG3.prototype.rotorFromGeneratorAngle = function(B, θ) {
-          var φ = θ / 2;
-          var s = sin(φ);
-          this.yz = -B.yz * s;
-          this.zx = -B.zx * s;
-          this.xy = -B.xy * s;
-          this.α = cos(φ);
-          return this;
-        };
-        SpinG3.prototype.scp = function(rhs) {
-          return this.scp2(this, rhs);
-        };
-        SpinG3.prototype.scp2 = function(a, b) {
-          return this;
-        };
-        SpinG3.prototype.scale = function(α) {
-          mustBeNumber_1.default('α', α);
-          this.yz *= α;
-          this.zx *= α;
-          this.xy *= α;
-          this.α *= α;
-          return this;
-        };
-        SpinG3.prototype.slerp = function(target, α) {
-          var R2 = SpinG3.copy(target);
-          var R1 = this.clone();
-          var R = R2.mul(R1.inv());
-          R.log();
-          R.scale(α);
-          R.exp();
-          this.copy(R);
-          return this;
-        };
-        SpinG3.prototype.sub = function(s, α) {
-          if (α === void 0) {
-            α = 1;
-          }
-          mustBeObject_1.default('s', s);
-          mustBeNumber_1.default('α', α);
-          this.yz -= s.yz * α;
-          this.zx -= s.zx * α;
-          this.xy -= s.xy * α;
-          this.α -= s.α * α;
-          return this;
-        };
-        SpinG3.prototype.sub2 = function(a, b) {
-          this.yz = a.yz - b.yz;
-          this.zx = a.zx - b.zx;
-          this.xy = a.xy - b.xy;
-          this.α = a.α - b.α;
-          return this;
-        };
-        SpinG3.prototype.spinor = function(a, b) {
-          var ax = a.x;
-          var ay = a.y;
-          var az = a.z;
-          var bx = b.x;
-          var by = b.y;
-          var bz = b.z;
-          this.α = dotVectorCartesianE3_1.default(ax, ay, az, bx, by, bz);
-          this.yz = wedgeYZ_1.default(ax, ay, az, bx, by, bz);
-          this.zx = wedgeZX_1.default(ax, ay, az, bx, by, bz);
-          this.xy = wedgeXY_1.default(ax, ay, az, bx, by, bz);
-          return this;
-        };
-        SpinG3.prototype.grade = function(grade) {
-          mustBeInteger_1.default('grade', grade);
-          switch (grade) {
-            case 0:
-              {
-                this.yz = 0;
-                this.zx = 0;
-                this.xy = 0;
-              }
-              break;
-            case 2:
-              {
-                this.α = 0;
-              }
-              break;
-            default:
-              {
-                this.α = 0;
-                this.yz = 0;
-                this.zx = 0;
-                this.xy = 0;
-              }
-          }
-          return this;
-        };
-        SpinG3.prototype.toExponential = function() {
-          return this.toString();
-        };
-        SpinG3.prototype.toFixed = function(digits) {
-          return this.toString();
-        };
-        SpinG3.prototype.toString = function() {
-          return "SpinG3({yz: " + this.yz + ", zx: " + this.zx + ", xy: " + this.xy + ", w: " + this.α + "})";
-        };
-        SpinG3.prototype.ext = function(rhs) {
-          return this.ext2(this, rhs);
-        };
-        SpinG3.prototype.ext2 = function(a, b) {
-          return this;
-        };
-        SpinG3.prototype.zero = function() {
-          this.α = 0;
-          this.yz = 0;
-          this.zx = 0;
-          this.xy = 0;
-          return this;
-        };
-        SpinG3.copy = function(spinor) {
-          return new SpinG3().copy(spinor);
-        };
-        SpinG3.dual = function(v) {
-          return new SpinG3().dual(v);
-        };
-        SpinG3.lerp = function(a, b, α) {
-          return SpinG3.copy(a).lerp(b, α);
-        };
-        SpinG3.rotorFromDirections = function(a, b) {
-          return new SpinG3().rotorFromDirections(a, b);
-        };
-        return SpinG3;
-      })(VectorN_1.default);
-      exports_1("default", SpinG3);
-    }
-  };
-});
-
-System.register("davinci-eight/facets/ModelE3.js", ["../math/G3", "../math/R3", "../math/SpinG3", "../i18n/readOnly"], function(exports_1) {
-  var G3_1,
-      R3_1,
-      SpinG3_1,
-      readOnly_1;
-  var ModelE3;
-  return {
-    setters: [function(G3_1_1) {
-      G3_1 = G3_1_1;
-    }, function(R3_1_1) {
-      R3_1 = R3_1_1;
-    }, function(SpinG3_1_1) {
-      SpinG3_1 = SpinG3_1_1;
-    }, function(readOnly_1_1) {
-      readOnly_1 = readOnly_1_1;
-    }],
-    execute: function() {
-      ModelE3 = (function() {
-        function ModelE3() {
-          this._position = new G3_1.default().zero();
-          this._attitude = new G3_1.default().zero().addScalar(1);
-          this._posCache = new R3_1.default();
-          this._attCache = new SpinG3_1.default();
-          this._position.modified = true;
-          this._attitude.modified = true;
-        }
-        Object.defineProperty(ModelE3.prototype, "R", {
-          get: function() {
-            return this._attitude;
-          },
-          set: function(unused) {
-            throw new Error(readOnly_1.default(ModelE3.PROP_ATTITUDE).message);
-          },
-          enumerable: true,
-          configurable: true
-        });
-        Object.defineProperty(ModelE3.prototype, "X", {
-          get: function() {
-            return this._position;
-          },
-          set: function(unused) {
-            throw new Error(readOnly_1.default(ModelE3.PROP_POSITION).message);
-          },
-          enumerable: true,
-          configurable: true
-        });
-        ModelE3.prototype.getProperty = function(name) {
-          switch (name) {
-            case ModelE3.PROP_ATTITUDE:
-              {
-                return this._attCache.copy(this._attitude).coords;
-              }
-              break;
-            case ModelE3.PROP_POSITION:
-              {
-                return this._posCache.copy(this._position).coords;
-              }
-              break;
-            default:
-              {
-                console.warn("ModelE3.getProperty " + name);
-                return void 0;
-              }
-          }
-        };
-        ModelE3.prototype.setProperty = function(name, data) {
-          switch (name) {
-            case ModelE3.PROP_ATTITUDE:
-              {
-                this._attCache.coords = data;
-                this._attitude.copySpinor(this._attCache);
-              }
-              break;
-            case ModelE3.PROP_POSITION:
-              {
-                this._posCache.coords = data;
-                this._position.copyVector(this._posCache);
-              }
-              break;
-            default:
-              {
-                console.warn("ModelE3.setProperty " + name);
-              }
-          }
-          return this;
-        };
-        ModelE3.PROP_ATTITUDE = 'R';
-        ModelE3.PROP_POSITION = 'X';
-        return ModelE3;
-      })();
-      exports_1("default", ModelE3);
-    }
-  };
-});
-
-System.register("davinci-eight/math/dotVectorCartesianE3.js", [], function(exports_1) {
-  function dotVectorCartesianE3(ax, ay, az, bx, by, bz) {
-    return ax * bx + ay * by + az * bz;
-  }
-  exports_1("default", dotVectorCartesianE3);
-  return {
-    setters: [],
-    execute: function() {}
-  };
-});
-
-System.register("davinci-eight/math/dotVectorE3.js", ["../math/dotVectorCartesianE3", "../checks/isDefined"], function(exports_1) {
-  var dotVectorCartesianE3_1,
-      isDefined_1;
-  function dotVectorE3(a, b) {
-    if (isDefined_1.default(a) && isDefined_1.default(b)) {
-      return dotVectorCartesianE3_1.default(a.x, a.y, a.z, b.x, b.y, b.z);
-    } else {
-      return void 0;
-    }
-  }
-  exports_1("default", dotVectorE3);
-  return {
-    setters: [function(dotVectorCartesianE3_1_1) {
-      dotVectorCartesianE3_1 = dotVectorCartesianE3_1_1;
-    }, function(isDefined_1_1) {
-      isDefined_1 = isDefined_1_1;
-    }],
-    execute: function() {}
-  };
-});
-
 System.register("davinci-eight/math/addE3.js", [], function(exports_1) {
   function addE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, index) {
     a0 = +a0;
@@ -13740,273 +11954,6 @@ System.register("davinci-eight/geometries/b3.js", [], function(exports_1) {
   };
 });
 
-System.register("davinci-eight/math/extE3.js", [], function(exports_1) {
-  function extE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, index) {
-    a0 = +a0;
-    a1 = +a1;
-    a2 = +a2;
-    a3 = +a3;
-    a4 = +a4;
-    a5 = +a5;
-    a6 = +a6;
-    a7 = +a7;
-    b0 = +b0;
-    b1 = +b1;
-    b2 = +b2;
-    b3 = +b3;
-    b4 = +b4;
-    b5 = +b5;
-    b6 = +b6;
-    b7 = +b7;
-    index = index | 0;
-    var x = 0.0;
-    switch (~(~index)) {
-      case 0:
-        {
-          x = +(a0 * b0);
-        }
-        break;
-      case 1:
-        {
-          x = +(a0 * b1 + a1 * b0);
-        }
-        break;
-      case 2:
-        {
-          x = +(a0 * b2 + a2 * b0);
-        }
-        break;
-      case 3:
-        {
-          x = +(a0 * b3 + a3 * b0);
-        }
-        break;
-      case 4:
-        {
-          x = +(a0 * b4 + a1 * b2 - a2 * b1 + a4 * b0);
-        }
-        break;
-      case 5:
-        {
-          x = +(a0 * b5 + a2 * b3 - a3 * b2 + a5 * b0);
-        }
-        break;
-      case 6:
-        {
-          x = +(a0 * b6 - a1 * b3 + a3 * b1 + a6 * b0);
-        }
-        break;
-      case 7:
-        {
-          x = +(a0 * b7 + a1 * b5 + a2 * b6 + a3 * b4 + a4 * b3 + a5 * b1 + a6 * b2 + a7 * b0);
-        }
-        break;
-      default:
-        {
-          throw new Error("index must be in the range [0..7]");
-        }
-    }
-    return +x;
-  }
-  exports_1("default", extE3);
-  return {
-    setters: [],
-    execute: function() {}
-  };
-});
-
-System.register("davinci-eight/math/extG3.js", ["../math/compG3Get", "../math/extE3", "../math/compG3Set"], function(exports_1) {
-  var compG3Get_1,
-      extE3_1,
-      compG3Set_1;
-  function extG3(a, b, out) {
-    var a0 = compG3Get_1.default(a, 0);
-    var a1 = compG3Get_1.default(a, 1);
-    var a2 = compG3Get_1.default(a, 2);
-    var a3 = compG3Get_1.default(a, 3);
-    var a4 = compG3Get_1.default(a, 4);
-    var a5 = compG3Get_1.default(a, 5);
-    var a6 = compG3Get_1.default(a, 6);
-    var a7 = compG3Get_1.default(a, 7);
-    var b0 = compG3Get_1.default(b, 0);
-    var b1 = compG3Get_1.default(b, 1);
-    var b2 = compG3Get_1.default(b, 2);
-    var b3 = compG3Get_1.default(b, 3);
-    var b4 = compG3Get_1.default(b, 4);
-    var b5 = compG3Get_1.default(b, 5);
-    var b6 = compG3Get_1.default(b, 6);
-    var b7 = compG3Get_1.default(b, 7);
-    for (var i = 0; i < 8; i++) {
-      compG3Set_1.default(out, i, extE3_1.default(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, i));
-    }
-    return out;
-  }
-  exports_1("default", extG3);
-  return {
-    setters: [function(compG3Get_1_1) {
-      compG3Get_1 = compG3Get_1_1;
-    }, function(extE3_1_1) {
-      extE3_1 = extE3_1_1;
-    }, function(compG3Set_1_1) {
-      compG3Set_1 = compG3Set_1_1;
-    }],
-    execute: function() {}
-  };
-});
-
-System.register("davinci-eight/math/lcoE3.js", [], function(exports_1) {
-  function lcoE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, index) {
-    a0 = +a0;
-    a1 = +a1;
-    a2 = +a2;
-    a3 = +a3;
-    a4 = +a4;
-    a5 = +a5;
-    a6 = +a6;
-    a7 = +a7;
-    b0 = +b0;
-    b1 = +b1;
-    b2 = +b2;
-    b3 = +b3;
-    b4 = +b4;
-    b5 = +b5;
-    b6 = +b6;
-    b7 = +b7;
-    index = index | 0;
-    var x = 0.0;
-    switch (~(~index)) {
-      case 0:
-        {
-          x = +(a0 * b0 + a1 * b1 + a2 * b2 + a3 * b3 - a4 * b4 - a5 * b5 - a6 * b6 - a7 * b7);
-        }
-        break;
-      case 1:
-        {
-          x = +(a0 * b1 - a2 * b4 + a3 * b6 - a5 * b7);
-        }
-        break;
-      case 2:
-        {
-          x = +(a0 * b2 + a1 * b4 - a3 * b5 - a6 * b7);
-        }
-        break;
-      case 3:
-        {
-          x = +(a0 * b3 - a1 * b6 + a2 * b5 - a4 * b7);
-        }
-        break;
-      case 4:
-        {
-          x = +(a0 * b4 + a3 * b7);
-        }
-        break;
-      case 5:
-        {
-          x = +(a0 * b5 + a1 * b7);
-        }
-        break;
-      case 6:
-        {
-          x = +(a0 * b6 + a2 * b7);
-        }
-        break;
-      case 7:
-        {
-          x = +(a0 * b7);
-        }
-        break;
-      default:
-        {
-          throw new Error("index must be in the range [0..7]");
-        }
-    }
-    return +x;
-  }
-  exports_1("default", lcoE3);
-  return {
-    setters: [],
-    execute: function() {}
-  };
-});
-
-System.register("davinci-eight/math/lcoG3.js", ["../math/compG3Get", "../math/lcoE3", "../math/compG3Set"], function(exports_1) {
-  var compG3Get_1,
-      lcoE3_1,
-      compG3Set_1;
-  function lcoG3(a, b, out) {
-    var a0 = compG3Get_1.default(a, 0);
-    var a1 = compG3Get_1.default(a, 1);
-    var a2 = compG3Get_1.default(a, 2);
-    var a3 = compG3Get_1.default(a, 3);
-    var a4 = compG3Get_1.default(a, 4);
-    var a5 = compG3Get_1.default(a, 5);
-    var a6 = compG3Get_1.default(a, 6);
-    var a7 = compG3Get_1.default(a, 7);
-    var b0 = compG3Get_1.default(b, 0);
-    var b1 = compG3Get_1.default(b, 1);
-    var b2 = compG3Get_1.default(b, 2);
-    var b3 = compG3Get_1.default(b, 3);
-    var b4 = compG3Get_1.default(b, 4);
-    var b5 = compG3Get_1.default(b, 5);
-    var b6 = compG3Get_1.default(b, 6);
-    var b7 = compG3Get_1.default(b, 7);
-    for (var i = 0; i < 8; i++) {
-      compG3Set_1.default(out, i, lcoE3_1.default(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, i));
-    }
-    return out;
-  }
-  exports_1("default", lcoG3);
-  return {
-    setters: [function(compG3Get_1_1) {
-      compG3Get_1 = compG3Get_1_1;
-    }, function(lcoE3_1_1) {
-      lcoE3_1 = lcoE3_1_1;
-    }, function(compG3Set_1_1) {
-      compG3Set_1 = compG3Set_1_1;
-    }],
-    execute: function() {}
-  };
-});
-
-System.register("davinci-eight/math/mulG3.js", ["../math/compG3Get", "../math/mulE3", "../math/compG3Set"], function(exports_1) {
-  var compG3Get_1,
-      mulE3_1,
-      compG3Set_1;
-  function mulG3(a, b, out) {
-    var a0 = compG3Get_1.default(a, 0);
-    var a1 = compG3Get_1.default(a, 1);
-    var a2 = compG3Get_1.default(a, 2);
-    var a3 = compG3Get_1.default(a, 3);
-    var a4 = compG3Get_1.default(a, 4);
-    var a5 = compG3Get_1.default(a, 5);
-    var a6 = compG3Get_1.default(a, 6);
-    var a7 = compG3Get_1.default(a, 7);
-    var b0 = compG3Get_1.default(b, 0);
-    var b1 = compG3Get_1.default(b, 1);
-    var b2 = compG3Get_1.default(b, 2);
-    var b3 = compG3Get_1.default(b, 3);
-    var b4 = compG3Get_1.default(b, 4);
-    var b5 = compG3Get_1.default(b, 5);
-    var b6 = compG3Get_1.default(b, 6);
-    var b7 = compG3Get_1.default(b, 7);
-    for (var i = 0; i < 8; i++) {
-      compG3Set_1.default(out, i, mulE3_1.default(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, i));
-    }
-    return out;
-  }
-  exports_1("default", mulG3);
-  return {
-    setters: [function(compG3Get_1_1) {
-      compG3Get_1 = compG3Get_1_1;
-    }, function(mulE3_1_1) {
-      mulE3_1 = mulE3_1_1;
-    }, function(compG3Set_1_1) {
-      compG3Set_1 = compG3Set_1_1;
-    }],
-    execute: function() {}
-  };
-});
-
 System.register("davinci-eight/math/gauss.js", [], function(exports_1) {
   var abs;
   function makeColumnVector(n, v) {
@@ -14093,431 +12040,6 @@ System.register("davinci-eight/i18n/notImplemented.js", ["../checks/mustBeString
     setters: [function(mustBeString_1_1) {
       mustBeString_1 = mustBeString_1_1;
     }],
-    execute: function() {}
-  };
-});
-
-System.register("davinci-eight/math/quadSpinorE3.js", ["../checks/isDefined", "../checks/isNumber"], function(exports_1) {
-  var isDefined_1,
-      isNumber_1;
-  function quadSpinorE3(s) {
-    if (isDefined_1.default(s)) {
-      var α = s.α;
-      var x = s.yz;
-      var y = s.zx;
-      var z = s.xy;
-      if (isNumber_1.default(α) && isNumber_1.default(x) && isNumber_1.default(y) && isNumber_1.default(z)) {
-        return α * α + x * x + y * y + z * z;
-      } else {
-        return void 0;
-      }
-    } else {
-      return void 0;
-    }
-  }
-  exports_1("default", quadSpinorE3);
-  return {
-    setters: [function(isDefined_1_1) {
-      isDefined_1 = isDefined_1_1;
-    }, function(isNumber_1_1) {
-      isNumber_1 = isNumber_1_1;
-    }],
-    execute: function() {}
-  };
-});
-
-System.register("davinci-eight/math/rcoE3.js", [], function(exports_1) {
-  function rcoE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, index) {
-    a0 = +a0;
-    a1 = +a1;
-    a2 = +a2;
-    a3 = +a3;
-    a4 = +a4;
-    a5 = +a5;
-    a6 = +a6;
-    a7 = +a7;
-    b0 = +b0;
-    b1 = +b1;
-    b2 = +b2;
-    b3 = +b3;
-    b4 = +b4;
-    b5 = +b5;
-    b6 = +b6;
-    b7 = +b7;
-    index = index | 0;
-    var x = 0.0;
-    switch (~(~index)) {
-      case 0:
-        {
-          x = +(a0 * b0 + a1 * b1 + a2 * b2 + a3 * b3 - a4 * b4 - a5 * b5 - a6 * b6 - a7 * b7);
-        }
-        break;
-      case 1:
-        {
-          x = +(+a1 * b0 + a4 * b2 - a6 * b3 - a7 * b5);
-        }
-        break;
-      case 2:
-        {
-          x = +(+a2 * b0 - a4 * b1 + a5 * b3 - a7 * b6);
-        }
-        break;
-      case 3:
-        {
-          x = +(+a3 * b0 - a5 * b2 + a6 * b1 - a7 * b4);
-        }
-        break;
-      case 4:
-        {
-          x = +(+a4 * b0 + a7 * b3);
-        }
-        break;
-      case 5:
-        {
-          x = +(+a5 * b0 + a7 * b1);
-        }
-        break;
-      case 6:
-        {
-          x = +(+a6 * b0 + a7 * b2);
-        }
-        break;
-      case 7:
-        {
-          x = +(+a7 * b0);
-        }
-        break;
-      default:
-        {
-          throw new Error("index must be in the range [0..7]");
-        }
-    }
-    return +x;
-  }
-  exports_1("default", rcoE3);
-  return {
-    setters: [],
-    execute: function() {}
-  };
-});
-
-System.register("davinci-eight/math/rcoG3.js", ["../math/compG3Get", "../math/rcoE3", "../math/compG3Set"], function(exports_1) {
-  var compG3Get_1,
-      rcoE3_1,
-      compG3Set_1;
-  function rcoG3(a, b, out) {
-    var a0 = compG3Get_1.default(a, 0);
-    var a1 = compG3Get_1.default(a, 1);
-    var a2 = compG3Get_1.default(a, 2);
-    var a3 = compG3Get_1.default(a, 3);
-    var a4 = compG3Get_1.default(a, 4);
-    var a5 = compG3Get_1.default(a, 5);
-    var a6 = compG3Get_1.default(a, 6);
-    var a7 = compG3Get_1.default(a, 7);
-    var b0 = compG3Get_1.default(b, 0);
-    var b1 = compG3Get_1.default(b, 1);
-    var b2 = compG3Get_1.default(b, 2);
-    var b3 = compG3Get_1.default(b, 3);
-    var b4 = compG3Get_1.default(b, 4);
-    var b5 = compG3Get_1.default(b, 5);
-    var b6 = compG3Get_1.default(b, 6);
-    var b7 = compG3Get_1.default(b, 7);
-    for (var i = 0; i < 8; i++) {
-      compG3Set_1.default(out, i, rcoE3_1.default(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, i));
-    }
-    return out;
-  }
-  exports_1("default", rcoG3);
-  return {
-    setters: [function(compG3Get_1_1) {
-      compG3Get_1 = compG3Get_1_1;
-    }, function(rcoE3_1_1) {
-      rcoE3_1 = rcoE3_1_1;
-    }, function(compG3Set_1_1) {
-      compG3Set_1 = compG3Set_1_1;
-    }],
-    execute: function() {}
-  };
-});
-
-System.register("davinci-eight/math/compG3Get.js", [], function(exports_1) {
-  var COORD_W,
-      COORD_X,
-      COORD_Y,
-      COORD_Z,
-      COORD_XY,
-      COORD_YZ,
-      COORD_ZX,
-      COORD_XYZ;
-  function gcompE3(m, index) {
-    switch (index) {
-      case COORD_W:
-        {
-          return m.α;
-        }
-        break;
-      case COORD_X:
-        {
-          return m.x;
-        }
-        break;
-      case COORD_Y:
-        {
-          return m.y;
-        }
-        break;
-      case COORD_Z:
-        {
-          return m.z;
-        }
-        break;
-      case COORD_XY:
-        {
-          return m.xy;
-        }
-        break;
-      case COORD_YZ:
-        {
-          return m.yz;
-        }
-        break;
-      case COORD_ZX:
-        {
-          return m.zx;
-        }
-        break;
-      case COORD_XYZ:
-        {
-          return m.β;
-        }
-        break;
-      default:
-        {
-          throw new Error("index => " + index);
-        }
-    }
-  }
-  exports_1("default", gcompE3);
-  return {
-    setters: [],
-    execute: function() {
-      COORD_W = 0;
-      COORD_X = 1;
-      COORD_Y = 2;
-      COORD_Z = 3;
-      COORD_XY = 4;
-      COORD_YZ = 5;
-      COORD_ZX = 6;
-      COORD_XYZ = 7;
-    }
-  };
-});
-
-System.register("davinci-eight/math/mulE3.js", [], function(exports_1) {
-  function mulE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, index) {
-    a0 = +a0;
-    a1 = +a1;
-    a2 = +a2;
-    a3 = +a3;
-    a4 = +a4;
-    a5 = +a5;
-    a6 = +a6;
-    a7 = +a7;
-    b0 = +b0;
-    b1 = +b1;
-    b2 = +b2;
-    b3 = +b3;
-    b4 = +b4;
-    b5 = +b5;
-    b6 = +b6;
-    b7 = +b7;
-    index = index | 0;
-    var x = 0.0;
-    switch (~(~index)) {
-      case 0:
-        {
-          x = +(a0 * b0 + a1 * b1 + a2 * b2 + a3 * b3 - a4 * b4 - a5 * b5 - a6 * b6 - a7 * b7);
-        }
-        break;
-      case 1:
-        {
-          x = +(a0 * b1 + a1 * b0 - a2 * b4 + a3 * b6 + a4 * b2 - a5 * b7 - a6 * b3 - a7 * b5);
-        }
-        break;
-      case 2:
-        {
-          x = +(a0 * b2 + a1 * b4 + a2 * b0 - a3 * b5 - a4 * b1 + a5 * b3 - a6 * b7 - a7 * b6);
-        }
-        break;
-      case 3:
-        {
-          x = +(a0 * b3 - a1 * b6 + a2 * b5 + a3 * b0 - a4 * b7 - a5 * b2 + a6 * b1 - a7 * b4);
-        }
-        break;
-      case 4:
-        {
-          x = +(a0 * b4 + a1 * b2 - a2 * b1 + a3 * b7 + a4 * b0 - a5 * b6 + a6 * b5 + a7 * b3);
-        }
-        break;
-      case 5:
-        {
-          x = +(a0 * b5 + a1 * b7 + a2 * b3 - a3 * b2 + a4 * b6 + a5 * b0 - a6 * b4 + a7 * b1);
-        }
-        break;
-      case 6:
-        {
-          x = +(a0 * b6 - a1 * b3 + a2 * b7 + a3 * b1 - a4 * b5 + a5 * b4 + a6 * b0 + a7 * b2);
-        }
-        break;
-      case 7:
-        {
-          x = +(a0 * b7 + a1 * b5 + a2 * b6 + a3 * b4 + a4 * b3 + a5 * b1 + a6 * b2 + a7 * b0);
-        }
-        break;
-      default:
-        {
-          throw new Error("index must be in the range [0..7]");
-        }
-    }
-    return +x;
-  }
-  exports_1("default", mulE3);
-  return {
-    setters: [],
-    execute: function() {}
-  };
-});
-
-System.register("davinci-eight/math/compG3Set.js", [], function(exports_1) {
-  var COORD_W,
-      COORD_X,
-      COORD_Y,
-      COORD_Z,
-      COORD_XY,
-      COORD_YZ,
-      COORD_ZX,
-      COORD_XYZ;
-  function compG3Set(m, index, value) {
-    switch (index) {
-      case COORD_W:
-        {
-          m.α = value;
-        }
-        break;
-      case COORD_X:
-        {
-          m.x = value;
-        }
-        break;
-      case COORD_Y:
-        {
-          m.y = value;
-        }
-        break;
-      case COORD_Z:
-        {
-          m.z = value;
-        }
-        break;
-      case COORD_XY:
-        {
-          m.xy = value;
-        }
-        break;
-      case COORD_YZ:
-        {
-          m.yz = value;
-        }
-        break;
-      case COORD_ZX:
-        {
-          m.zx = value;
-        }
-        break;
-      case COORD_XYZ:
-        {
-          m.β = value;
-        }
-        break;
-      default:
-        throw new Error("index => " + index);
-    }
-  }
-  exports_1("default", compG3Set);
-  return {
-    setters: [],
-    execute: function() {
-      COORD_W = 0;
-      COORD_X = 1;
-      COORD_Y = 2;
-      COORD_Z = 3;
-      COORD_XY = 4;
-      COORD_YZ = 5;
-      COORD_ZX = 6;
-      COORD_XYZ = 7;
-    }
-  };
-});
-
-System.register("davinci-eight/math/scpG3.js", ["../math/compG3Get", "../math/mulE3", "../math/compG3Set"], function(exports_1) {
-  var compG3Get_1,
-      mulE3_1,
-      compG3Set_1;
-  function scpG3(a, b, out) {
-    var a0 = compG3Get_1.default(a, 0);
-    var a1 = compG3Get_1.default(a, 1);
-    var a2 = compG3Get_1.default(a, 2);
-    var a3 = compG3Get_1.default(a, 3);
-    var a4 = compG3Get_1.default(a, 4);
-    var a5 = compG3Get_1.default(a, 5);
-    var a6 = compG3Get_1.default(a, 6);
-    var a7 = compG3Get_1.default(a, 7);
-    var b0 = compG3Get_1.default(b, 0);
-    var b1 = compG3Get_1.default(b, 1);
-    var b2 = compG3Get_1.default(b, 2);
-    var b3 = compG3Get_1.default(b, 3);
-    var b4 = compG3Get_1.default(b, 4);
-    var b5 = compG3Get_1.default(b, 5);
-    var b6 = compG3Get_1.default(b, 6);
-    var b7 = compG3Get_1.default(b, 7);
-    compG3Set_1.default(out, 0, mulE3_1.default(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 0));
-    compG3Set_1.default(out, 1, 0);
-    compG3Set_1.default(out, 2, 0);
-    compG3Set_1.default(out, 3, 0);
-    compG3Set_1.default(out, 4, 0);
-    compG3Set_1.default(out, 5, 0);
-    compG3Set_1.default(out, 6, 0);
-    compG3Set_1.default(out, 7, 0);
-    return out;
-  }
-  exports_1("default", scpG3);
-  return {
-    setters: [function(compG3Get_1_1) {
-      compG3Get_1 = compG3Get_1_1;
-    }, function(mulE3_1_1) {
-      mulE3_1 = mulE3_1_1;
-    }, function(compG3Set_1_1) {
-      compG3Set_1 = compG3Set_1_1;
-    }],
-    execute: function() {}
-  };
-});
-
-System.register("davinci-eight/math/squaredNormG3.js", [], function(exports_1) {
-  function squaredNormG3(m) {
-    var w = m.α;
-    var x = m.x;
-    var y = m.y;
-    var z = m.z;
-    var yz = m.yz;
-    var zx = m.zx;
-    var xy = m.xy;
-    var v = m.β;
-    return w * w + x * x + y * y + z * z + yz * yz + zx * zx + xy * xy + v * v;
-  }
-  exports_1("default", squaredNormG3);
-  return {
-    setters: [],
     execute: function() {}
   };
 });
@@ -14764,12 +12286,15 @@ System.register("davinci-eight/math/Dimensions.js", ["../math/QQ"], function(exp
   };
 });
 
-System.register("davinci-eight/math/QQ.js", ["../checks/mustBeInteger", "../i18n/readOnly"], function(exports_1) {
-  var mustBeInteger_1,
+System.register("davinci-eight/math/QQ.js", ["../core", "../checks/mustBeInteger", "../i18n/readOnly"], function(exports_1) {
+  var core_1,
+      mustBeInteger_1,
       readOnly_1;
   var QQ;
   return {
-    setters: [function(mustBeInteger_1_1) {
+    setters: [function(core_1_1) {
+      core_1 = core_1_1;
+    }, function(mustBeInteger_1_1) {
       mustBeInteger_1 = mustBeInteger_1_1;
     }, function(readOnly_1_1) {
       readOnly_1 = readOnly_1_1;
@@ -14777,12 +12302,16 @@ System.register("davinci-eight/math/QQ.js", ["../checks/mustBeInteger", "../i18n
     execute: function() {
       QQ = (function() {
         function QQ(n, d) {
-          mustBeInteger_1.default('n', n);
-          mustBeInteger_1.default('d', d);
+          if (core_1.default.safemode) {
+            mustBeInteger_1.default('n', n);
+            mustBeInteger_1.default('d', d);
+          }
           var g;
           var gcd = function(a, b) {
-            mustBeInteger_1.default('a', a);
-            mustBeInteger_1.default('b', b);
+            if (core_1.default.safemode) {
+              mustBeInteger_1.default('a', a);
+              mustBeInteger_1.default('b', b);
+            }
             var temp;
             if (a < 0) {
               a = -a;
@@ -14952,37 +12481,9 @@ System.register("davinci-eight/math/QQ.js", ["../checks/mustBeInteger", "../i18n
   };
 });
 
-System.register("davinci-eight/math/UnitError.js", [], function(exports_1) {
-  var __extends = (this && this.__extends) || function(d, b) {
-    for (var p in b)
-      if (b.hasOwnProperty(p))
-        d[p] = b[p];
-    function __() {
-      this.constructor = d;
-    }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-  };
-  var UnitError;
-  return {
-    setters: [],
-    execute: function() {
-      UnitError = (function(_super) {
-        __extends(UnitError, _super);
-        function UnitError(message) {
-          _super.call(this, message);
-          this.name = 'UnitError';
-        }
-        return UnitError;
-      })(Error);
-      exports_1("default", UnitError);
-    }
-  };
-});
-
-System.register("davinci-eight/math/Unit.js", ["../math/Dimensions", "../math/QQ", "../math/UnitError"], function(exports_1) {
+System.register("davinci-eight/math/Unit.js", ["../math/Dimensions", "../math/QQ"], function(exports_1) {
   var Dimensions_1,
-      QQ_1,
-      UnitError_1;
+      QQ_1;
   var LABELS_SI,
       dumbString,
       unitString,
@@ -14991,28 +12492,28 @@ System.register("davinci-eight/math/Unit.js", ["../math/Dimensions", "../math/QQ
     if (typeof x === 'number') {
       return x;
     } else {
-      throw new UnitError_1.default("Argument '" + name + "' must be a number");
+      throw new Error("Argument '" + name + "' must be a number");
     }
   }
   function assertArgDimensions(name, arg) {
     if (arg instanceof Dimensions_1.default) {
       return arg;
     } else {
-      throw new UnitError_1.default("Argument '" + arg + "' must be a Dimensions");
+      throw new Error("Argument '" + arg + "' must be a Dimensions");
     }
   }
   function assertArgRational(name, arg) {
     if (arg instanceof QQ_1.default) {
       return arg;
     } else {
-      throw new UnitError_1.default("Argument '" + arg + "' must be a QQ");
+      throw new Error("Argument '" + arg + "' must be a QQ");
     }
   }
   function assertArgUnit(name, arg) {
     if (arg instanceof Unit) {
       return arg;
     } else {
-      throw new UnitError_1.default("Argument '" + arg + "' must be a Unit");
+      throw new Error("Argument '" + arg + "' must be a Unit");
     }
   }
   function assertArgUnitOrUndefined(name, arg) {
@@ -15042,8 +12543,6 @@ System.register("davinci-eight/math/Unit.js", ["../math/Dimensions", "../math/QQ
       Dimensions_1 = Dimensions_1_1;
     }, function(QQ_1_1) {
       QQ_1 = QQ_1_1;
-    }, function(UnitError_1_1) {
-      UnitError_1 = UnitError_1_1;
     }],
     execute: function() {
       LABELS_SI = ['kg', 'm', 's', 'C', 'K', 'mol', 'candela'];
@@ -15261,7 +12760,7 @@ System.register("davinci-eight/math/Unit.js", ["../math/Dimensions", "../math/QQ
         };
         Unit.assertDimensionless = function(uom) {
           if (!Unit.isOne(uom)) {
-            throw new UnitError_1.default("uom must be dimensionless.");
+            throw new Error("uom must be dimensionless.");
           }
         };
         Unit.compatible = function(lhs, rhs) {
@@ -15274,7 +12773,7 @@ System.register("davinci-eight/math/Unit.js", ["../math/Dimensions", "../math/QQ
               if (lhs.isOne()) {
                 return void 0;
               } else {
-                throw new UnitError_1.default(lhs + " is incompatible with 1");
+                throw new Error(lhs + " is incompatible with 1");
               }
             }
           } else {
@@ -15282,7 +12781,7 @@ System.register("davinci-eight/math/Unit.js", ["../math/Dimensions", "../math/QQ
               if (rhs.isOne()) {
                 return void 0;
               } else {
-                throw new UnitError_1.default("1 is incompatible with " + rhs);
+                throw new Error("1 is incompatible with " + rhs);
               }
             } else {
               return void 0;
@@ -16213,6 +13712,9 @@ System.register("davinci-eight/math/Euclidean3.js", ["../math/addE3", "../geomet
             },
             set beta(beta) {
               M._coords[COORD_PSEUDO] = beta;
+            },
+            set uom(uom) {
+              M.uom = uom;
             }
           };
           return that;
@@ -16221,7 +13723,7 @@ System.register("davinci-eight/math/Euclidean3.js", ["../math/addE3", "../geomet
           if (m instanceof Euclidean3) {
             return m;
           } else {
-            return new Euclidean3(m.α, m.x, m.y, m.z, m.xy, m.yz, m.zx, m.β, void 0);
+            return new Euclidean3(m.α, m.x, m.y, m.z, m.xy, m.yz, m.zx, m.β, m.uom);
           }
         };
         Euclidean3.fromSpinorE3 = function(spinor) {
@@ -16233,10 +13735,13 @@ System.register("davinci-eight/math/Euclidean3.js", ["../math/addE3", "../geomet
         };
         Euclidean3.fromVectorE3 = function(vector) {
           if (vector) {
-            return new Euclidean3(0, vector.x, vector.y, vector.z, 0, 0, 0, 0, void 0);
+            return new Euclidean3(0, vector.x, vector.y, vector.z, 0, 0, 0, 0, vector.uom);
           } else {
             return void 0;
           }
+        };
+        Euclidean3.scalar = function(α, uom) {
+          return new Euclidean3(α, 0, 0, 0, 0, 0, 0, 0, uom);
         };
         Euclidean3.vector = function(x, y, z, uom) {
           return new Euclidean3(0, x, y, z, 0, 0, 0, 0, uom);
@@ -16259,6 +13764,2528 @@ System.register("davinci-eight/math/Euclidean3.js", ["../math/addE3", "../geomet
       })();
       exports_1("default", Euclidean3);
     }
+  };
+});
+
+System.register("davinci-eight/utils/EventEmitter.js", [], function(exports_1) {
+  var EventEmitter;
+  return {
+    setters: [],
+    execute: function() {
+      EventEmitter = (function() {
+        function EventEmitter(owner) {
+          this.owner = owner;
+        }
+        EventEmitter.prototype.addEventListener = function(eventName, callback) {
+          this._eventRegistry = this._eventRegistry || {};
+          var listeners = this._eventRegistry[eventName];
+          if (!listeners) {
+            listeners = this._eventRegistry[eventName] = [];
+          }
+          if (listeners.indexOf(callback) === -1) {
+            listeners.push(callback);
+          }
+          return callback;
+        };
+        EventEmitter.prototype.removeEventListener = function(eventName, callback) {
+          this._eventRegistry = this._eventRegistry || {};
+          var listeners = this._eventRegistry[eventName];
+          if (!listeners)
+            return;
+          var index = listeners.indexOf(callback);
+          if (index !== -1) {
+            listeners.splice(index, 1);
+          }
+        };
+        EventEmitter.prototype.emit = function(eventName, key, value) {
+          if (this._eventRegistry) {
+            var listeners = this._eventRegistry[eventName];
+            if (listeners) {
+              var iLength = listeners.length;
+              if (iLength) {
+                for (var i = 0; i < iLength; i++) {
+                  listeners[i](eventName, key, value, this.owner);
+                }
+              }
+            }
+          }
+        };
+        return EventEmitter;
+      })();
+      exports_1("default", EventEmitter);
+    }
+  };
+});
+
+System.register("davinci-eight/math/extE3.js", [], function(exports_1) {
+  function extE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, index) {
+    a0 = +a0;
+    a1 = +a1;
+    a2 = +a2;
+    a3 = +a3;
+    a4 = +a4;
+    a5 = +a5;
+    a6 = +a6;
+    a7 = +a7;
+    b0 = +b0;
+    b1 = +b1;
+    b2 = +b2;
+    b3 = +b3;
+    b4 = +b4;
+    b5 = +b5;
+    b6 = +b6;
+    b7 = +b7;
+    index = index | 0;
+    var x = 0.0;
+    switch (~(~index)) {
+      case 0:
+        {
+          x = +(a0 * b0);
+        }
+        break;
+      case 1:
+        {
+          x = +(a0 * b1 + a1 * b0);
+        }
+        break;
+      case 2:
+        {
+          x = +(a0 * b2 + a2 * b0);
+        }
+        break;
+      case 3:
+        {
+          x = +(a0 * b3 + a3 * b0);
+        }
+        break;
+      case 4:
+        {
+          x = +(a0 * b4 + a1 * b2 - a2 * b1 + a4 * b0);
+        }
+        break;
+      case 5:
+        {
+          x = +(a0 * b5 + a2 * b3 - a3 * b2 + a5 * b0);
+        }
+        break;
+      case 6:
+        {
+          x = +(a0 * b6 - a1 * b3 + a3 * b1 + a6 * b0);
+        }
+        break;
+      case 7:
+        {
+          x = +(a0 * b7 + a1 * b5 + a2 * b6 + a3 * b4 + a4 * b3 + a5 * b1 + a6 * b2 + a7 * b0);
+        }
+        break;
+      default:
+        {
+          throw new Error("index must be in the range [0..7]");
+        }
+    }
+    return +x;
+  }
+  exports_1("default", extE3);
+  return {
+    setters: [],
+    execute: function() {}
+  };
+});
+
+System.register("davinci-eight/math/extG3.js", ["../math/compG3Get", "../math/extE3", "../math/compG3Set"], function(exports_1) {
+  var compG3Get_1,
+      extE3_1,
+      compG3Set_1;
+  function extG3(a, b, out) {
+    var a0 = compG3Get_1.default(a, 0);
+    var a1 = compG3Get_1.default(a, 1);
+    var a2 = compG3Get_1.default(a, 2);
+    var a3 = compG3Get_1.default(a, 3);
+    var a4 = compG3Get_1.default(a, 4);
+    var a5 = compG3Get_1.default(a, 5);
+    var a6 = compG3Get_1.default(a, 6);
+    var a7 = compG3Get_1.default(a, 7);
+    var b0 = compG3Get_1.default(b, 0);
+    var b1 = compG3Get_1.default(b, 1);
+    var b2 = compG3Get_1.default(b, 2);
+    var b3 = compG3Get_1.default(b, 3);
+    var b4 = compG3Get_1.default(b, 4);
+    var b5 = compG3Get_1.default(b, 5);
+    var b6 = compG3Get_1.default(b, 6);
+    var b7 = compG3Get_1.default(b, 7);
+    for (var i = 0; i < 8; i++) {
+      compG3Set_1.default(out, i, extE3_1.default(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, i));
+    }
+    return out;
+  }
+  exports_1("default", extG3);
+  return {
+    setters: [function(compG3Get_1_1) {
+      compG3Get_1 = compG3Get_1_1;
+    }, function(extE3_1_1) {
+      extE3_1 = extE3_1_1;
+    }, function(compG3Set_1_1) {
+      compG3Set_1 = compG3Set_1_1;
+    }],
+    execute: function() {}
+  };
+});
+
+System.register("davinci-eight/math/lcoE3.js", [], function(exports_1) {
+  function lcoE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, index) {
+    a0 = +a0;
+    a1 = +a1;
+    a2 = +a2;
+    a3 = +a3;
+    a4 = +a4;
+    a5 = +a5;
+    a6 = +a6;
+    a7 = +a7;
+    b0 = +b0;
+    b1 = +b1;
+    b2 = +b2;
+    b3 = +b3;
+    b4 = +b4;
+    b5 = +b5;
+    b6 = +b6;
+    b7 = +b7;
+    index = index | 0;
+    var x = 0.0;
+    switch (~(~index)) {
+      case 0:
+        {
+          x = +(a0 * b0 + a1 * b1 + a2 * b2 + a3 * b3 - a4 * b4 - a5 * b5 - a6 * b6 - a7 * b7);
+        }
+        break;
+      case 1:
+        {
+          x = +(a0 * b1 - a2 * b4 + a3 * b6 - a5 * b7);
+        }
+        break;
+      case 2:
+        {
+          x = +(a0 * b2 + a1 * b4 - a3 * b5 - a6 * b7);
+        }
+        break;
+      case 3:
+        {
+          x = +(a0 * b3 - a1 * b6 + a2 * b5 - a4 * b7);
+        }
+        break;
+      case 4:
+        {
+          x = +(a0 * b4 + a3 * b7);
+        }
+        break;
+      case 5:
+        {
+          x = +(a0 * b5 + a1 * b7);
+        }
+        break;
+      case 6:
+        {
+          x = +(a0 * b6 + a2 * b7);
+        }
+        break;
+      case 7:
+        {
+          x = +(a0 * b7);
+        }
+        break;
+      default:
+        {
+          throw new Error("index must be in the range [0..7]");
+        }
+    }
+    return +x;
+  }
+  exports_1("default", lcoE3);
+  return {
+    setters: [],
+    execute: function() {}
+  };
+});
+
+System.register("davinci-eight/math/lcoG3.js", ["../math/compG3Get", "../math/lcoE3", "../math/compG3Set"], function(exports_1) {
+  var compG3Get_1,
+      lcoE3_1,
+      compG3Set_1;
+  function lcoG3(a, b, out) {
+    var a0 = compG3Get_1.default(a, 0);
+    var a1 = compG3Get_1.default(a, 1);
+    var a2 = compG3Get_1.default(a, 2);
+    var a3 = compG3Get_1.default(a, 3);
+    var a4 = compG3Get_1.default(a, 4);
+    var a5 = compG3Get_1.default(a, 5);
+    var a6 = compG3Get_1.default(a, 6);
+    var a7 = compG3Get_1.default(a, 7);
+    var b0 = compG3Get_1.default(b, 0);
+    var b1 = compG3Get_1.default(b, 1);
+    var b2 = compG3Get_1.default(b, 2);
+    var b3 = compG3Get_1.default(b, 3);
+    var b4 = compG3Get_1.default(b, 4);
+    var b5 = compG3Get_1.default(b, 5);
+    var b6 = compG3Get_1.default(b, 6);
+    var b7 = compG3Get_1.default(b, 7);
+    for (var i = 0; i < 8; i++) {
+      compG3Set_1.default(out, i, lcoE3_1.default(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, i));
+    }
+    return out;
+  }
+  exports_1("default", lcoG3);
+  return {
+    setters: [function(compG3Get_1_1) {
+      compG3Get_1 = compG3Get_1_1;
+    }, function(lcoE3_1_1) {
+      lcoE3_1 = lcoE3_1_1;
+    }, function(compG3Set_1_1) {
+      compG3Set_1 = compG3Set_1_1;
+    }],
+    execute: function() {}
+  };
+});
+
+System.register("davinci-eight/math/isScalarG3.js", [], function(exports_1) {
+  function default_1(m) {
+    return m.x === 0 && m.y === 0 && m.z === 0 && m.xy === 0 && m.yz === 0 && m.zx === 0 && m.β === 0;
+  }
+  exports_1("default", default_1);
+  return {
+    setters: [],
+    execute: function() {}
+  };
+});
+
+System.register("davinci-eight/math/mulG3.js", ["../math/compG3Get", "../math/mulE3", "../math/compG3Set"], function(exports_1) {
+  var compG3Get_1,
+      mulE3_1,
+      compG3Set_1;
+  function mulG3(a, b, out) {
+    var a0 = compG3Get_1.default(a, 0);
+    var a1 = compG3Get_1.default(a, 1);
+    var a2 = compG3Get_1.default(a, 2);
+    var a3 = compG3Get_1.default(a, 3);
+    var a4 = compG3Get_1.default(a, 4);
+    var a5 = compG3Get_1.default(a, 5);
+    var a6 = compG3Get_1.default(a, 6);
+    var a7 = compG3Get_1.default(a, 7);
+    var b0 = compG3Get_1.default(b, 0);
+    var b1 = compG3Get_1.default(b, 1);
+    var b2 = compG3Get_1.default(b, 2);
+    var b3 = compG3Get_1.default(b, 3);
+    var b4 = compG3Get_1.default(b, 4);
+    var b5 = compG3Get_1.default(b, 5);
+    var b6 = compG3Get_1.default(b, 6);
+    var b7 = compG3Get_1.default(b, 7);
+    for (var i = 0; i < 8; i++) {
+      compG3Set_1.default(out, i, mulE3_1.default(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, i));
+    }
+    return out;
+  }
+  exports_1("default", mulG3);
+  return {
+    setters: [function(compG3Get_1_1) {
+      compG3Get_1 = compG3Get_1_1;
+    }, function(mulE3_1_1) {
+      mulE3_1 = mulE3_1_1;
+    }, function(compG3Set_1_1) {
+      compG3Set_1 = compG3Set_1_1;
+    }],
+    execute: function() {}
+  };
+});
+
+System.register("davinci-eight/math/rcoE3.js", [], function(exports_1) {
+  function rcoE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, index) {
+    a0 = +a0;
+    a1 = +a1;
+    a2 = +a2;
+    a3 = +a3;
+    a4 = +a4;
+    a5 = +a5;
+    a6 = +a6;
+    a7 = +a7;
+    b0 = +b0;
+    b1 = +b1;
+    b2 = +b2;
+    b3 = +b3;
+    b4 = +b4;
+    b5 = +b5;
+    b6 = +b6;
+    b7 = +b7;
+    index = index | 0;
+    var x = 0.0;
+    switch (~(~index)) {
+      case 0:
+        {
+          x = +(a0 * b0 + a1 * b1 + a2 * b2 + a3 * b3 - a4 * b4 - a5 * b5 - a6 * b6 - a7 * b7);
+        }
+        break;
+      case 1:
+        {
+          x = +(+a1 * b0 + a4 * b2 - a6 * b3 - a7 * b5);
+        }
+        break;
+      case 2:
+        {
+          x = +(+a2 * b0 - a4 * b1 + a5 * b3 - a7 * b6);
+        }
+        break;
+      case 3:
+        {
+          x = +(+a3 * b0 - a5 * b2 + a6 * b1 - a7 * b4);
+        }
+        break;
+      case 4:
+        {
+          x = +(+a4 * b0 + a7 * b3);
+        }
+        break;
+      case 5:
+        {
+          x = +(+a5 * b0 + a7 * b1);
+        }
+        break;
+      case 6:
+        {
+          x = +(+a6 * b0 + a7 * b2);
+        }
+        break;
+      case 7:
+        {
+          x = +(+a7 * b0);
+        }
+        break;
+      default:
+        {
+          throw new Error("index must be in the range [0..7]");
+        }
+    }
+    return +x;
+  }
+  exports_1("default", rcoE3);
+  return {
+    setters: [],
+    execute: function() {}
+  };
+});
+
+System.register("davinci-eight/math/rcoG3.js", ["../math/compG3Get", "../math/rcoE3", "../math/compG3Set"], function(exports_1) {
+  var compG3Get_1,
+      rcoE3_1,
+      compG3Set_1;
+  function rcoG3(a, b, out) {
+    var a0 = compG3Get_1.default(a, 0);
+    var a1 = compG3Get_1.default(a, 1);
+    var a2 = compG3Get_1.default(a, 2);
+    var a3 = compG3Get_1.default(a, 3);
+    var a4 = compG3Get_1.default(a, 4);
+    var a5 = compG3Get_1.default(a, 5);
+    var a6 = compG3Get_1.default(a, 6);
+    var a7 = compG3Get_1.default(a, 7);
+    var b0 = compG3Get_1.default(b, 0);
+    var b1 = compG3Get_1.default(b, 1);
+    var b2 = compG3Get_1.default(b, 2);
+    var b3 = compG3Get_1.default(b, 3);
+    var b4 = compG3Get_1.default(b, 4);
+    var b5 = compG3Get_1.default(b, 5);
+    var b6 = compG3Get_1.default(b, 6);
+    var b7 = compG3Get_1.default(b, 7);
+    for (var i = 0; i < 8; i++) {
+      compG3Set_1.default(out, i, rcoE3_1.default(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, i));
+    }
+    return out;
+  }
+  exports_1("default", rcoG3);
+  return {
+    setters: [function(compG3Get_1_1) {
+      compG3Get_1 = compG3Get_1_1;
+    }, function(rcoE3_1_1) {
+      rcoE3_1 = rcoE3_1_1;
+    }, function(compG3Set_1_1) {
+      compG3Set_1 = compG3Set_1_1;
+    }],
+    execute: function() {}
+  };
+});
+
+System.register("davinci-eight/math/compG3Get.js", [], function(exports_1) {
+  var COORD_W,
+      COORD_X,
+      COORD_Y,
+      COORD_Z,
+      COORD_XY,
+      COORD_YZ,
+      COORD_ZX,
+      COORD_XYZ;
+  function gcompE3(m, index) {
+    switch (index) {
+      case COORD_W:
+        {
+          return m.α;
+        }
+        break;
+      case COORD_X:
+        {
+          return m.x;
+        }
+        break;
+      case COORD_Y:
+        {
+          return m.y;
+        }
+        break;
+      case COORD_Z:
+        {
+          return m.z;
+        }
+        break;
+      case COORD_XY:
+        {
+          return m.xy;
+        }
+        break;
+      case COORD_YZ:
+        {
+          return m.yz;
+        }
+        break;
+      case COORD_ZX:
+        {
+          return m.zx;
+        }
+        break;
+      case COORD_XYZ:
+        {
+          return m.β;
+        }
+        break;
+      default:
+        {
+          throw new Error("index => " + index);
+        }
+    }
+  }
+  exports_1("default", gcompE3);
+  return {
+    setters: [],
+    execute: function() {
+      COORD_W = 0;
+      COORD_X = 1;
+      COORD_Y = 2;
+      COORD_Z = 3;
+      COORD_XY = 4;
+      COORD_YZ = 5;
+      COORD_ZX = 6;
+      COORD_XYZ = 7;
+    }
+  };
+});
+
+System.register("davinci-eight/math/mulE3.js", [], function(exports_1) {
+  function mulE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, index) {
+    a0 = +a0;
+    a1 = +a1;
+    a2 = +a2;
+    a3 = +a3;
+    a4 = +a4;
+    a5 = +a5;
+    a6 = +a6;
+    a7 = +a7;
+    b0 = +b0;
+    b1 = +b1;
+    b2 = +b2;
+    b3 = +b3;
+    b4 = +b4;
+    b5 = +b5;
+    b6 = +b6;
+    b7 = +b7;
+    index = index | 0;
+    var x = 0.0;
+    switch (~(~index)) {
+      case 0:
+        {
+          x = +(a0 * b0 + a1 * b1 + a2 * b2 + a3 * b3 - a4 * b4 - a5 * b5 - a6 * b6 - a7 * b7);
+        }
+        break;
+      case 1:
+        {
+          x = +(a0 * b1 + a1 * b0 - a2 * b4 + a3 * b6 + a4 * b2 - a5 * b7 - a6 * b3 - a7 * b5);
+        }
+        break;
+      case 2:
+        {
+          x = +(a0 * b2 + a1 * b4 + a2 * b0 - a3 * b5 - a4 * b1 + a5 * b3 - a6 * b7 - a7 * b6);
+        }
+        break;
+      case 3:
+        {
+          x = +(a0 * b3 - a1 * b6 + a2 * b5 + a3 * b0 - a4 * b7 - a5 * b2 + a6 * b1 - a7 * b4);
+        }
+        break;
+      case 4:
+        {
+          x = +(a0 * b4 + a1 * b2 - a2 * b1 + a3 * b7 + a4 * b0 - a5 * b6 + a6 * b5 + a7 * b3);
+        }
+        break;
+      case 5:
+        {
+          x = +(a0 * b5 + a1 * b7 + a2 * b3 - a3 * b2 + a4 * b6 + a5 * b0 - a6 * b4 + a7 * b1);
+        }
+        break;
+      case 6:
+        {
+          x = +(a0 * b6 - a1 * b3 + a2 * b7 + a3 * b1 - a4 * b5 + a5 * b4 + a6 * b0 + a7 * b2);
+        }
+        break;
+      case 7:
+        {
+          x = +(a0 * b7 + a1 * b5 + a2 * b6 + a3 * b4 + a4 * b3 + a5 * b1 + a6 * b2 + a7 * b0);
+        }
+        break;
+      default:
+        {
+          throw new Error("index must be in the range [0..7]");
+        }
+    }
+    return +x;
+  }
+  exports_1("default", mulE3);
+  return {
+    setters: [],
+    execute: function() {}
+  };
+});
+
+System.register("davinci-eight/math/compG3Set.js", [], function(exports_1) {
+  var COORD_W,
+      COORD_X,
+      COORD_Y,
+      COORD_Z,
+      COORD_XY,
+      COORD_YZ,
+      COORD_ZX,
+      COORD_XYZ;
+  function compG3Set(m, index, value) {
+    switch (index) {
+      case COORD_W:
+        {
+          m.α = value;
+        }
+        break;
+      case COORD_X:
+        {
+          m.x = value;
+        }
+        break;
+      case COORD_Y:
+        {
+          m.y = value;
+        }
+        break;
+      case COORD_Z:
+        {
+          m.z = value;
+        }
+        break;
+      case COORD_XY:
+        {
+          m.xy = value;
+        }
+        break;
+      case COORD_YZ:
+        {
+          m.yz = value;
+        }
+        break;
+      case COORD_ZX:
+        {
+          m.zx = value;
+        }
+        break;
+      case COORD_XYZ:
+        {
+          m.β = value;
+        }
+        break;
+      default:
+        throw new Error("index => " + index);
+    }
+  }
+  exports_1("default", compG3Set);
+  return {
+    setters: [],
+    execute: function() {
+      COORD_W = 0;
+      COORD_X = 1;
+      COORD_Y = 2;
+      COORD_Z = 3;
+      COORD_XY = 4;
+      COORD_YZ = 5;
+      COORD_ZX = 6;
+      COORD_XYZ = 7;
+    }
+  };
+});
+
+System.register("davinci-eight/math/scpG3.js", ["../math/compG3Get", "../math/mulE3", "../math/compG3Set"], function(exports_1) {
+  var compG3Get_1,
+      mulE3_1,
+      compG3Set_1;
+  function scpG3(a, b, out) {
+    var a0 = compG3Get_1.default(a, 0);
+    var a1 = compG3Get_1.default(a, 1);
+    var a2 = compG3Get_1.default(a, 2);
+    var a3 = compG3Get_1.default(a, 3);
+    var a4 = compG3Get_1.default(a, 4);
+    var a5 = compG3Get_1.default(a, 5);
+    var a6 = compG3Get_1.default(a, 6);
+    var a7 = compG3Get_1.default(a, 7);
+    var b0 = compG3Get_1.default(b, 0);
+    var b1 = compG3Get_1.default(b, 1);
+    var b2 = compG3Get_1.default(b, 2);
+    var b3 = compG3Get_1.default(b, 3);
+    var b4 = compG3Get_1.default(b, 4);
+    var b5 = compG3Get_1.default(b, 5);
+    var b6 = compG3Get_1.default(b, 6);
+    var b7 = compG3Get_1.default(b, 7);
+    compG3Set_1.default(out, 0, mulE3_1.default(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 0));
+    compG3Set_1.default(out, 1, 0);
+    compG3Set_1.default(out, 2, 0);
+    compG3Set_1.default(out, 3, 0);
+    compG3Set_1.default(out, 4, 0);
+    compG3Set_1.default(out, 5, 0);
+    compG3Set_1.default(out, 6, 0);
+    compG3Set_1.default(out, 7, 0);
+    return out;
+  }
+  exports_1("default", scpG3);
+  return {
+    setters: [function(compG3Get_1_1) {
+      compG3Get_1 = compG3Get_1_1;
+    }, function(mulE3_1_1) {
+      mulE3_1 = mulE3_1_1;
+    }, function(compG3Set_1_1) {
+      compG3Set_1 = compG3Set_1_1;
+    }],
+    execute: function() {}
+  };
+});
+
+System.register("davinci-eight/math/squaredNormG3.js", [], function(exports_1) {
+  function squaredNormG3(m) {
+    var w = m.α;
+    var x = m.x;
+    var y = m.y;
+    var z = m.z;
+    var yz = m.yz;
+    var zx = m.zx;
+    var xy = m.xy;
+    var v = m.β;
+    return w * w + x * x + y * y + z * z + yz * yz + zx * zx + xy * xy + v * v;
+  }
+  exports_1("default", squaredNormG3);
+  return {
+    setters: [],
+    execute: function() {}
+  };
+});
+
+System.register("davinci-eight/math/G3.js", ["./dotVectorE3", "./Euclidean3", "../utils/EventEmitter", "./extG3", "./lcoG3", "./isScalarG3", "./mulG3", "../checks/mustBeInteger", "../checks/mustBeString", "./quadVectorE3", "./rcoG3", "../i18n/readOnly", "./rotorFromDirections", "./scpG3", "./squaredNormG3", "./stringFromCoordinates", "./VectorN", "./wedgeXY", "./wedgeYZ", "./wedgeZX"], function(exports_1) {
+  var __extends = (this && this.__extends) || function(d, b) {
+    for (var p in b)
+      if (b.hasOwnProperty(p))
+        d[p] = b[p];
+    function __() {
+      this.constructor = d;
+    }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+  };
+  var dotVectorE3_1,
+      Euclidean3_1,
+      EventEmitter_1,
+      extG3_1,
+      lcoG3_1,
+      isScalarG3_1,
+      mulG3_1,
+      mustBeInteger_1,
+      mustBeString_1,
+      quadVectorE3_1,
+      rcoG3_1,
+      readOnly_1,
+      rotorFromDirections_1,
+      scpG3_1,
+      squaredNormG3_1,
+      stringFromCoordinates_1,
+      VectorN_1,
+      wedgeXY_1,
+      wedgeYZ_1,
+      wedgeZX_1;
+  var COORD_SCALAR,
+      COORD_X,
+      COORD_Y,
+      COORD_Z,
+      COORD_XY,
+      COORD_YZ,
+      COORD_ZX,
+      COORD_PSEUDO,
+      EVENT_NAME_CHANGE,
+      atan2,
+      exp,
+      cos,
+      log,
+      sin,
+      sqrt,
+      BASIS_LABELS,
+      zero,
+      one,
+      e1,
+      e2,
+      e3,
+      I,
+      G3;
+  function coordinates(m) {
+    return [m.α, m.x, m.y, m.z, m.xy, m.yz, m.zx, m.β];
+  }
+  function makeConstantE3(label, α, x, y, z, yz, zx, xy, β, uom) {
+    mustBeString_1.default('label', label);
+    var that;
+    that = {
+      get α() {
+        return α;
+      },
+      set α(unused) {
+        throw new Error(readOnly_1.default(label + '.α').message);
+      },
+      get alpha() {
+        return α;
+      },
+      set alpha(unused) {
+        throw new Error(readOnly_1.default(label + '.alpha').message);
+      },
+      get x() {
+        return x;
+      },
+      set x(unused) {
+        throw new Error(readOnly_1.default(label + '.x').message);
+      },
+      get y() {
+        return y;
+      },
+      set y(unused) {
+        throw new Error(readOnly_1.default(label + '.y').message);
+      },
+      get z() {
+        return z;
+      },
+      set z(unused) {
+        throw new Error(readOnly_1.default(label + '.x').message);
+      },
+      get yz() {
+        return yz;
+      },
+      set yz(unused) {
+        throw new Error(readOnly_1.default(label + '.yz').message);
+      },
+      get zx() {
+        return zx;
+      },
+      set zx(unused) {
+        throw new Error(readOnly_1.default(label + '.zx').message);
+      },
+      get xy() {
+        return xy;
+      },
+      set xy(unused) {
+        throw new Error(readOnly_1.default(label + '.xy').message);
+      },
+      get β() {
+        return β;
+      },
+      set β(unused) {
+        throw new Error(readOnly_1.default(label + '.β').message);
+      },
+      get beta() {
+        return β;
+      },
+      set beta(unused) {
+        throw new Error(readOnly_1.default(label + '.beta').message);
+      },
+      get uom() {
+        return uom;
+      },
+      set uom(unused) {
+        throw new Error(readOnly_1.default(label + '.uom').message);
+      },
+      toString: function() {
+        return label;
+      }
+    };
+    return that;
+  }
+  return {
+    setters: [function(dotVectorE3_1_1) {
+      dotVectorE3_1 = dotVectorE3_1_1;
+    }, function(Euclidean3_1_1) {
+      Euclidean3_1 = Euclidean3_1_1;
+    }, function(EventEmitter_1_1) {
+      EventEmitter_1 = EventEmitter_1_1;
+    }, function(extG3_1_1) {
+      extG3_1 = extG3_1_1;
+    }, function(lcoG3_1_1) {
+      lcoG3_1 = lcoG3_1_1;
+    }, function(isScalarG3_1_1) {
+      isScalarG3_1 = isScalarG3_1_1;
+    }, function(mulG3_1_1) {
+      mulG3_1 = mulG3_1_1;
+    }, function(mustBeInteger_1_1) {
+      mustBeInteger_1 = mustBeInteger_1_1;
+    }, function(mustBeString_1_1) {
+      mustBeString_1 = mustBeString_1_1;
+    }, function(quadVectorE3_1_1) {
+      quadVectorE3_1 = quadVectorE3_1_1;
+    }, function(rcoG3_1_1) {
+      rcoG3_1 = rcoG3_1_1;
+    }, function(readOnly_1_1) {
+      readOnly_1 = readOnly_1_1;
+    }, function(rotorFromDirections_1_1) {
+      rotorFromDirections_1 = rotorFromDirections_1_1;
+    }, function(scpG3_1_1) {
+      scpG3_1 = scpG3_1_1;
+    }, function(squaredNormG3_1_1) {
+      squaredNormG3_1 = squaredNormG3_1_1;
+    }, function(stringFromCoordinates_1_1) {
+      stringFromCoordinates_1 = stringFromCoordinates_1_1;
+    }, function(VectorN_1_1) {
+      VectorN_1 = VectorN_1_1;
+    }, function(wedgeXY_1_1) {
+      wedgeXY_1 = wedgeXY_1_1;
+    }, function(wedgeYZ_1_1) {
+      wedgeYZ_1 = wedgeYZ_1_1;
+    }, function(wedgeZX_1_1) {
+      wedgeZX_1 = wedgeZX_1_1;
+    }],
+    execute: function() {
+      COORD_SCALAR = 0;
+      COORD_X = 1;
+      COORD_Y = 2;
+      COORD_Z = 3;
+      COORD_XY = 4;
+      COORD_YZ = 5;
+      COORD_ZX = 6;
+      COORD_PSEUDO = 7;
+      EVENT_NAME_CHANGE = 'change';
+      atan2 = Math.atan2;
+      exp = Math.exp;
+      cos = Math.cos;
+      log = Math.log;
+      sin = Math.sin;
+      sqrt = Math.sqrt;
+      BASIS_LABELS = ["1", "e1", "e2", "e3", "e12", "e23", "e31", "e123"];
+      zero = makeConstantE3('0', 0, 0, 0, 0, 0, 0, 0, 0, void 0);
+      one = makeConstantE3('1', 1, 0, 0, 0, 0, 0, 0, 0, void 0);
+      e1 = makeConstantE3('e1', 0, 1, 0, 0, 0, 0, 0, 0, void 0);
+      e2 = makeConstantE3('e2', 0, 0, 1, 0, 0, 0, 0, 0, void 0);
+      e3 = makeConstantE3('e2', 0, 0, 0, 1, 0, 0, 0, 0, void 0);
+      I = makeConstantE3('I', 0, 0, 0, 0, 0, 0, 0, 1, void 0);
+      G3 = (function(_super) {
+        __extends(G3, _super);
+        function G3() {
+          _super.call(this, [0, 0, 0, 0, 0, 0, 0, 0], false, 8);
+          this.eventBus = new EventEmitter_1.default(this);
+        }
+        G3.prototype.on = function(eventName, callback) {
+          this.eventBus.addEventListener(eventName, callback);
+        };
+        G3.prototype.off = function(eventName, callback) {
+          this.eventBus.removeEventListener(eventName, callback);
+        };
+        G3.prototype.setCoordinate = function(index, newValue, name) {
+          var coords = this.coords;
+          var previous = coords[index];
+          if (newValue !== previous) {
+            coords[index] = newValue;
+            this.modified = true;
+            this.eventBus.emit(EVENT_NAME_CHANGE, name, newValue);
+          }
+        };
+        Object.defineProperty(G3.prototype, "α", {
+          get: function() {
+            return this.coords[COORD_SCALAR];
+          },
+          set: function(α) {
+            this.setCoordinate(COORD_SCALAR, α, 'α');
+          },
+          enumerable: true,
+          configurable: true
+        });
+        Object.defineProperty(G3.prototype, "alpha", {
+          get: function() {
+            return this.coords[COORD_SCALAR];
+          },
+          set: function(alpha) {
+            this.setCoordinate(COORD_SCALAR, alpha, 'alpha');
+          },
+          enumerable: true,
+          configurable: true
+        });
+        Object.defineProperty(G3.prototype, "x", {
+          get: function() {
+            return this.coords[COORD_X];
+          },
+          set: function(x) {
+            this.setCoordinate(COORD_X, x, 'x');
+          },
+          enumerable: true,
+          configurable: true
+        });
+        Object.defineProperty(G3.prototype, "y", {
+          get: function() {
+            return this.coords[COORD_Y];
+          },
+          set: function(y) {
+            this.setCoordinate(COORD_Y, y, 'y');
+          },
+          enumerable: true,
+          configurable: true
+        });
+        Object.defineProperty(G3.prototype, "z", {
+          get: function() {
+            return this.coords[COORD_Z];
+          },
+          set: function(z) {
+            this.setCoordinate(COORD_Z, z, 'z');
+          },
+          enumerable: true,
+          configurable: true
+        });
+        Object.defineProperty(G3.prototype, "yz", {
+          get: function() {
+            return this.coords[COORD_YZ];
+          },
+          set: function(yz) {
+            this.setCoordinate(COORD_YZ, yz, 'yz');
+          },
+          enumerable: true,
+          configurable: true
+        });
+        Object.defineProperty(G3.prototype, "zx", {
+          get: function() {
+            return this.coords[COORD_ZX];
+          },
+          set: function(zx) {
+            this.setCoordinate(COORD_ZX, zx, 'zx');
+          },
+          enumerable: true,
+          configurable: true
+        });
+        Object.defineProperty(G3.prototype, "xy", {
+          get: function() {
+            return this.coords[COORD_XY];
+          },
+          set: function(xy) {
+            this.setCoordinate(COORD_XY, xy, 'xy');
+          },
+          enumerable: true,
+          configurable: true
+        });
+        Object.defineProperty(G3.prototype, "β", {
+          get: function() {
+            return this.coords[COORD_PSEUDO];
+          },
+          set: function(β) {
+            this.setCoordinate(COORD_PSEUDO, β, 'β');
+          },
+          enumerable: true,
+          configurable: true
+        });
+        Object.defineProperty(G3.prototype, "beta", {
+          get: function() {
+            return this.coords[COORD_PSEUDO];
+          },
+          set: function(beta) {
+            this.setCoordinate(COORD_PSEUDO, beta, 'beta');
+          },
+          enumerable: true,
+          configurable: true
+        });
+        G3.prototype.add = function(M, α) {
+          if (α === void 0) {
+            α = 1;
+          }
+          this.α += M.α * α;
+          this.x += M.x * α;
+          this.y += M.y * α;
+          this.z += M.z * α;
+          this.yz += M.yz * α;
+          this.zx += M.zx * α;
+          this.xy += M.xy * α;
+          this.β += M.β * α;
+          return this;
+        };
+        G3.prototype.addPseudo = function(β) {
+          this.β += β;
+          return this;
+        };
+        G3.prototype.addScalar = function(α) {
+          this.α += α;
+          return this;
+        };
+        G3.prototype.addVector = function(v, α) {
+          if (α === void 0) {
+            α = 1;
+          }
+          this.x += v.x * α;
+          this.y += v.y * α;
+          this.z += v.z * α;
+          return this;
+        };
+        G3.prototype.add2 = function(a, b) {
+          this.α = a.α + b.α;
+          this.x = a.x + b.x;
+          this.y = a.y + b.y;
+          this.z = a.z + b.z;
+          this.yz = a.yz + b.yz;
+          this.zx = a.zx + b.zx;
+          this.xy = a.xy + b.xy;
+          this.β = a.β + b.β;
+          return this;
+        };
+        G3.prototype.adj = function() {
+          throw new Error('TODO: G3.adj');
+        };
+        G3.prototype.angle = function() {
+          return this.log().grade(2);
+        };
+        G3.prototype.clone = function() {
+          return G3.copy(this);
+        };
+        G3.prototype.conj = function() {
+          this.yz = -this.yz;
+          this.zx = -this.zx;
+          this.xy = -this.xy;
+          return this;
+        };
+        G3.prototype.lco = function(m) {
+          return this.lco2(this, m);
+        };
+        G3.prototype.lco2 = function(a, b) {
+          return lcoG3_1.default(a, b, this);
+        };
+        G3.prototype.rco = function(m) {
+          return this.rco2(this, m);
+        };
+        G3.prototype.rco2 = function(a, b) {
+          return rcoG3_1.default(a, b, this);
+        };
+        G3.prototype.copy = function(M) {
+          this.α = M.α;
+          this.x = M.x;
+          this.y = M.y;
+          this.z = M.z;
+          this.yz = M.yz;
+          this.zx = M.zx;
+          this.xy = M.xy;
+          this.β = M.β;
+          return this;
+        };
+        G3.prototype.copyScalar = function(α) {
+          return this.zero().addScalar(α);
+        };
+        G3.prototype.copySpinor = function(spinor) {
+          this.zero();
+          this.α = spinor.α;
+          this.yz = spinor.yz;
+          this.zx = spinor.zx;
+          this.xy = spinor.xy;
+          return this;
+        };
+        G3.prototype.copyVector = function(vector) {
+          this.zero();
+          this.x = vector.x;
+          this.y = vector.y;
+          this.z = vector.z;
+          this.uom = vector.uom;
+          return this;
+        };
+        G3.prototype.div = function(m) {
+          if (isScalarG3_1.default(m)) {
+            return this.divByScalar(m.α);
+          } else {
+            throw new Error("division with arbitrary multivectors is not supported");
+          }
+        };
+        G3.prototype.divByScalar = function(α) {
+          this.α /= α;
+          this.x /= α;
+          this.y /= α;
+          this.z /= α;
+          this.yz /= α;
+          this.zx /= α;
+          this.xy /= α;
+          this.β /= α;
+          return this;
+        };
+        G3.prototype.div2 = function(a, b) {
+          var a0 = a.α;
+          var a1 = a.yz;
+          var a2 = a.zx;
+          var a3 = a.xy;
+          var b0 = b.α;
+          var b1 = b.yz;
+          var b2 = b.zx;
+          var b3 = b.xy;
+          this.α = a0 * b0 - a1 * b1 - a2 * b2 - a3 * b3;
+          this.yz = a0 * b1 + a1 * b0 - a2 * b3 + a3 * b2;
+          this.zx = a0 * b2 + a1 * b3 + a2 * b0 - a3 * b1;
+          this.xy = a0 * b3 - a1 * b2 + a2 * b1 + a3 * b0;
+          return this;
+        };
+        G3.prototype.dual = function(m) {
+          var w = -m.β;
+          var x = -m.yz;
+          var y = -m.zx;
+          var z = -m.xy;
+          var yz = m.x;
+          var zx = m.y;
+          var xy = m.z;
+          var β = m.α;
+          this.α = w;
+          this.x = x;
+          this.y = y;
+          this.z = z;
+          this.yz = yz;
+          this.zx = zx;
+          this.xy = xy;
+          this.β = β;
+          return this;
+        };
+        G3.prototype.exp = function() {
+          var expW = exp(this.α);
+          var yz = this.yz;
+          var zx = this.zx;
+          var xy = this.xy;
+          var φ = sqrt(yz * yz + zx * zx + xy * xy);
+          var s = φ !== 0 ? sin(φ) / φ : 1;
+          var cosφ = cos(φ);
+          this.α = cosφ;
+          this.yz = yz * s;
+          this.zx = zx * s;
+          this.xy = xy * s;
+          return this.scale(expW);
+        };
+        G3.prototype.inv = function() {
+          this.conj();
+          return this;
+        };
+        G3.prototype.isOne = function() {
+          return this.α === 1 && this.x === 0 && this.y === 0 && this.z === 0 && this.yz === 0 && this.zx === 0 && this.xy === 0 && this.β === 0;
+        };
+        G3.prototype.isZero = function() {
+          return this.α === 0 && this.x === 0 && this.y === 0 && this.z === 0 && this.yz === 0 && this.zx === 0 && this.xy === 0 && this.β === 0;
+        };
+        G3.prototype.lerp = function(target, α) {
+          this.α += (target.α - this.α) * α;
+          this.x += (target.x - this.x) * α;
+          this.y += (target.y - this.y) * α;
+          this.z += (target.z - this.z) * α;
+          this.yz += (target.yz - this.yz) * α;
+          this.zx += (target.zx - this.zx) * α;
+          this.xy += (target.xy - this.xy) * α;
+          this.β += (target.β - this.β) * α;
+          return this;
+        };
+        G3.prototype.lerp2 = function(a, b, α) {
+          this.copy(a).lerp(b, α);
+          return this;
+        };
+        G3.prototype.log = function() {
+          var α = this.α;
+          var x = this.yz;
+          var y = this.zx;
+          var z = this.xy;
+          var BB = x * x + y * y + z * z;
+          var B = sqrt(BB);
+          var f = atan2(B, α) / B;
+          this.α = log(sqrt(α * α + BB));
+          this.yz = x * f;
+          this.zx = y * f;
+          this.xy = z * f;
+          return this;
+        };
+        G3.prototype.magnitude = function() {
+          return this.norm();
+        };
+        G3.prototype.magnitudeSansUnits = function() {
+          return sqrt(this.squaredNormSansUnits());
+        };
+        G3.prototype.mul = function(m) {
+          return this.mul2(this, m);
+        };
+        G3.prototype.mul2 = function(a, b) {
+          return mulG3_1.default(a, b, this);
+        };
+        G3.prototype.neg = function() {
+          this.α = -this.α;
+          this.x = -this.x;
+          this.y = -this.y;
+          this.z = -this.z;
+          this.yz = -this.yz;
+          this.zx = -this.zx;
+          this.xy = -this.xy;
+          this.β = -this.β;
+          return this;
+        };
+        G3.prototype.norm = function() {
+          this.α = this.magnitudeSansUnits();
+          this.x = 0;
+          this.y = 0;
+          this.z = 0;
+          this.yz = 0;
+          this.zx = 0;
+          this.xy = 0;
+          this.β = 0;
+          return this;
+        };
+        G3.prototype.direction = function() {
+          var norm = this.magnitudeSansUnits();
+          this.α = this.α / norm;
+          this.x = this.x / norm;
+          this.y = this.y / norm;
+          this.z = this.z / norm;
+          this.yz = this.yz / norm;
+          this.zx = this.zx / norm;
+          this.xy = this.xy / norm;
+          this.β = this.β / norm;
+          return this;
+        };
+        G3.prototype.one = function() {
+          this.α = 1;
+          this.x = 0;
+          this.y = 0;
+          this.z = 0;
+          this.yz = 0;
+          this.zx = 0;
+          this.xy = 0;
+          this.β = 0;
+          return this;
+        };
+        G3.prototype.quad = function() {
+          return this.squaredNorm();
+        };
+        G3.prototype.squaredNorm = function() {
+          this.α = this.squaredNormSansUnits();
+          this.yz = 0;
+          this.zx = 0;
+          this.xy = 0;
+          return this;
+        };
+        G3.prototype.squaredNormSansUnits = function() {
+          return squaredNormG3_1.default(this);
+        };
+        G3.prototype.reflect = function(n) {
+          var N = Euclidean3_1.default.fromVectorE3(n);
+          var M = Euclidean3_1.default.copy(this);
+          var R = N.mul(M).mul(N).scale(-1);
+          this.copy(R);
+          return this;
+        };
+        G3.prototype.rev = function() {
+          this.α = +this.α;
+          this.x = +this.x;
+          this.y = +this.y;
+          this.z = +this.z;
+          this.yz = -this.yz;
+          this.zx = -this.zx;
+          this.xy = -this.xy;
+          this.β = -this.β;
+          return this;
+        };
+        G3.prototype.__tilde__ = function() {
+          return G3.copy(this).rev();
+        };
+        G3.prototype.rotate = function(R) {
+          var x = this.x;
+          var y = this.y;
+          var z = this.z;
+          var a = R.xy;
+          var b = R.yz;
+          var c = R.zx;
+          var α = R.α;
+          var ix = α * x - c * z + a * y;
+          var iy = α * y - a * x + b * z;
+          var iz = α * z - b * y + c * x;
+          var iα = b * x + c * y + a * z;
+          this.x = ix * α + iα * b + iy * a - iz * c;
+          this.y = iy * α + iα * c + iz * b - ix * a;
+          this.z = iz * α + iα * a + ix * c - iy * b;
+          return this;
+        };
+        G3.prototype.rotorFromDirections = function(b, a) {
+          if (rotorFromDirections_1.default(a, b, quadVectorE3_1.default, dotVectorE3_1.default, this) !== void 0) {
+            return this;
+          } else {
+            var rx = Math.random();
+            var ry = Math.random();
+            var rz = Math.random();
+            this.yz = wedgeYZ_1.default(rx, ry, rz, a.x, a.y, a.z);
+            this.zx = wedgeZX_1.default(rx, ry, rz, a.x, a.y, a.z);
+            this.xy = wedgeXY_1.default(rx, ry, rz, a.x, a.y, a.z);
+            this.α = 0;
+            this.x = 0;
+            this.y = 0;
+            this.z = 0;
+            this.β = 0;
+            this.direction();
+            this.rotorFromGeneratorAngle(this, Math.PI);
+            return this;
+          }
+        };
+        G3.prototype.rotorFromAxisAngle = function(axis, θ) {
+          var φ = θ / 2;
+          var s = sin(φ);
+          this.yz = -axis.x * s;
+          this.zx = -axis.y * s;
+          this.xy = -axis.z * s;
+          this.α = cos(φ);
+          return this;
+        };
+        G3.prototype.rotorFromGeneratorAngle = function(B, θ) {
+          var φ = θ / 2;
+          var s = sin(φ);
+          this.yz = -B.yz * s;
+          this.zx = -B.zx * s;
+          this.xy = -B.xy * s;
+          this.α = cos(φ);
+          return this;
+        };
+        G3.prototype.scp = function(m) {
+          return this.scp2(this, m);
+        };
+        G3.prototype.scp2 = function(a, b) {
+          return scpG3_1.default(a, b, this);
+        };
+        G3.prototype.scale = function(α) {
+          this.α *= α;
+          this.x *= α;
+          this.y *= α;
+          this.z *= α;
+          this.yz *= α;
+          this.zx *= α;
+          this.xy *= α;
+          this.β *= α;
+          return this;
+        };
+        G3.prototype.slerp = function(target, α) {
+          return this;
+        };
+        G3.prototype.spinor = function(a, b) {
+          var ax = a.x;
+          var ay = a.y;
+          var az = a.z;
+          var bx = b.x;
+          var by = b.y;
+          var bz = b.z;
+          this.zero();
+          this.α = dotVectorE3_1.default(a, b);
+          this.yz = wedgeYZ_1.default(ax, ay, az, bx, by, bz);
+          this.zx = wedgeZX_1.default(ax, ay, az, bx, by, bz);
+          this.xy = wedgeXY_1.default(ax, ay, az, bx, by, bz);
+          return this;
+        };
+        G3.prototype.sub = function(M, α) {
+          if (α === void 0) {
+            α = 1;
+          }
+          this.α -= M.α * α;
+          this.x -= M.x * α;
+          this.y -= M.y * α;
+          this.z -= M.z * α;
+          this.yz -= M.yz * α;
+          this.zx -= M.zx * α;
+          this.xy -= M.xy * α;
+          this.β -= M.β * α;
+          return this;
+        };
+        G3.prototype.sub2 = function(a, b) {
+          this.α = a.α - b.α;
+          this.x = a.x - b.x;
+          this.y = a.y - b.y;
+          this.z = a.z - b.z;
+          this.yz = a.yz - b.yz;
+          this.zx = a.zx - b.zx;
+          this.xy = a.xy - b.xy;
+          this.β = a.β - b.β;
+          return this;
+        };
+        G3.prototype.toExponential = function() {
+          var coordToString = function(coord) {
+            return coord.toExponential();
+          };
+          return stringFromCoordinates_1.default(coordinates(this), coordToString, BASIS_LABELS);
+        };
+        G3.prototype.toFixed = function(fractionDigits) {
+          var coordToString = function(coord) {
+            return coord.toFixed(fractionDigits);
+          };
+          return stringFromCoordinates_1.default(coordinates(this), coordToString, BASIS_LABELS);
+        };
+        G3.prototype.toString = function() {
+          var coordToString = function(coord) {
+            return coord.toString();
+          };
+          return stringFromCoordinates_1.default(coordinates(this), coordToString, BASIS_LABELS);
+        };
+        G3.prototype.grade = function(grade) {
+          mustBeInteger_1.default('grade', grade);
+          switch (grade) {
+            case 0:
+              {
+                this.x = 0;
+                this.y = 0;
+                this.z = 0;
+                this.yz = 0;
+                this.zx = 0;
+                this.xy = 0;
+                this.β = 0;
+              }
+              break;
+            case 1:
+              {
+                this.α = 0;
+                this.yz = 0;
+                this.zx = 0;
+                this.xy = 0;
+                this.β = 0;
+              }
+              break;
+            case 2:
+              {
+                this.α = 0;
+                this.x = 0;
+                this.y = 0;
+                this.z = 0;
+                this.β = 0;
+              }
+              break;
+            case 3:
+              {
+                this.α = 0;
+                this.x = 0;
+                this.y = 0;
+                this.z = 0;
+                this.yz = 0;
+                this.zx = 0;
+                this.xy = 0;
+              }
+              break;
+            default:
+              {
+                this.α = 0;
+                this.x = 0;
+                this.y = 0;
+                this.z = 0;
+                this.yz = 0;
+                this.zx = 0;
+                this.xy = 0;
+                this.β = 0;
+              }
+          }
+          return this;
+        };
+        G3.prototype.ext = function(m) {
+          return this.ext2(this, m);
+        };
+        G3.prototype.ext2 = function(a, b) {
+          return extG3_1.default(a, b, this);
+        };
+        G3.prototype.zero = function() {
+          this.α = 0;
+          this.x = 0;
+          this.y = 0;
+          this.z = 0;
+          this.yz = 0;
+          this.zx = 0;
+          this.xy = 0;
+          this.β = 0;
+          return this;
+        };
+        G3.prototype.__add__ = function(rhs) {
+          if (rhs instanceof G3) {
+            return G3.copy(this).add(rhs);
+          } else if (typeof rhs === 'number') {
+            return G3.copy(this).add(G3.fromScalar(rhs));
+          } else {
+            return void 0;
+          }
+        };
+        G3.prototype.__div__ = function(rhs) {
+          if (rhs instanceof G3) {
+            return G3.copy(this).div(rhs);
+          } else if (typeof rhs === 'number') {
+            return G3.copy(this).divByScalar(rhs);
+          } else {
+            return void 0;
+          }
+        };
+        G3.prototype.__rdiv__ = function(lhs) {
+          if (lhs instanceof G3) {
+            return G3.copy(lhs).div(this);
+          } else if (typeof lhs === 'number') {
+            return G3.fromScalar(lhs).div(this);
+          } else {
+            return void 0;
+          }
+        };
+        G3.prototype.__mul__ = function(rhs) {
+          if (rhs instanceof G3) {
+            return G3.copy(this).mul(rhs);
+          } else if (typeof rhs === 'number') {
+            return G3.copy(this).scale(rhs);
+          } else {
+            return void 0;
+          }
+        };
+        G3.prototype.__rmul__ = function(lhs) {
+          if (lhs instanceof G3) {
+            return G3.copy(lhs).mul(this);
+          } else if (typeof lhs === 'number') {
+            return G3.copy(this).scale(lhs);
+          } else {
+            return void 0;
+          }
+        };
+        G3.prototype.__radd__ = function(lhs) {
+          if (lhs instanceof G3) {
+            return G3.copy(lhs).add(this);
+          } else if (typeof lhs === 'number') {
+            return G3.fromScalar(lhs).add(this);
+          } else {
+            return void 0;
+          }
+        };
+        G3.prototype.__sub__ = function(rhs) {
+          if (rhs instanceof G3) {
+            return G3.copy(this).sub(rhs);
+          } else if (typeof rhs === 'number') {
+            return G3.fromScalar(rhs).neg().add(this);
+          } else {
+            return void 0;
+          }
+        };
+        G3.prototype.__rsub__ = function(lhs) {
+          if (lhs instanceof G3) {
+            return G3.copy(lhs).sub(this);
+          } else if (typeof lhs === 'number') {
+            return G3.fromScalar(lhs).sub(this);
+          } else {
+            return void 0;
+          }
+        };
+        G3.prototype.__wedge__ = function(rhs) {
+          if (rhs instanceof G3) {
+            return G3.copy(this).ext(rhs);
+          } else if (typeof rhs === 'number') {
+            return G3.copy(this).scale(rhs);
+          } else {
+            return void 0;
+          }
+        };
+        G3.prototype.__rwedge__ = function(lhs) {
+          if (lhs instanceof G3) {
+            return G3.copy(lhs).ext(this);
+          } else if (typeof lhs === 'number') {
+            return G3.copy(this).scale(lhs);
+          } else {
+            return void 0;
+          }
+        };
+        G3.prototype.__lshift__ = function(rhs) {
+          if (rhs instanceof G3) {
+            return G3.copy(this).lco(rhs);
+          } else if (typeof rhs === 'number') {
+            return G3.copy(this).lco(G3.fromScalar(rhs));
+          } else {
+            return void 0;
+          }
+        };
+        G3.prototype.__rlshift__ = function(lhs) {
+          if (lhs instanceof G3) {
+            return G3.copy(lhs).lco(this);
+          } else if (typeof lhs === 'number') {
+            return G3.fromScalar(lhs).lco(this);
+          } else {
+            return void 0;
+          }
+        };
+        G3.prototype.__rshift__ = function(rhs) {
+          if (rhs instanceof G3) {
+            return G3.copy(this).rco(rhs);
+          } else if (typeof rhs === 'number') {
+            return G3.copy(this).rco(G3.fromScalar(rhs));
+          } else {
+            return void 0;
+          }
+        };
+        G3.prototype.__rrshift__ = function(lhs) {
+          if (lhs instanceof G3) {
+            return G3.copy(lhs).rco(this);
+          } else if (typeof lhs === 'number') {
+            return G3.fromScalar(lhs).rco(this);
+          } else {
+            return void 0;
+          }
+        };
+        G3.prototype.__vbar__ = function(rhs) {
+          if (rhs instanceof G3) {
+            return G3.copy(this).scp(rhs);
+          } else if (typeof rhs === 'number') {
+            return G3.copy(this).scp(G3.fromScalar(rhs));
+          } else {
+            return void 0;
+          }
+        };
+        G3.prototype.__rvbar__ = function(lhs) {
+          if (lhs instanceof G3) {
+            return G3.copy(lhs).scp(this);
+          } else if (typeof lhs === 'number') {
+            return G3.fromScalar(lhs).scp(this);
+          } else {
+            return void 0;
+          }
+        };
+        G3.prototype.__bang__ = function() {
+          return G3.copy(this).inv();
+        };
+        G3.prototype.__pos__ = function() {
+          return G3.copy(this);
+        };
+        G3.prototype.__neg__ = function() {
+          return G3.copy(this).neg();
+        };
+        G3.zero = function() {
+          return G3.copy(zero);
+        };
+        ;
+        Object.defineProperty(G3, "one", {
+          get: function() {
+            return G3.copy(one);
+          },
+          enumerable: true,
+          configurable: true
+        });
+        ;
+        Object.defineProperty(G3, "e1", {
+          get: function() {
+            return G3.copy(e1);
+          },
+          enumerable: true,
+          configurable: true
+        });
+        ;
+        Object.defineProperty(G3, "e2", {
+          get: function() {
+            return G3.copy(e2);
+          },
+          enumerable: true,
+          configurable: true
+        });
+        ;
+        Object.defineProperty(G3, "e3", {
+          get: function() {
+            return G3.copy(e3);
+          },
+          enumerable: true,
+          configurable: true
+        });
+        ;
+        Object.defineProperty(G3, "I", {
+          get: function() {
+            return G3.copy(I);
+          },
+          enumerable: true,
+          configurable: true
+        });
+        ;
+        G3.copy = function(M) {
+          var copy = new G3();
+          copy.α = M.α;
+          copy.x = M.x;
+          copy.y = M.y;
+          copy.z = M.z;
+          copy.yz = M.yz;
+          copy.zx = M.zx;
+          copy.xy = M.xy;
+          copy.β = M.β;
+          return copy;
+        };
+        G3.fromScalar = function(α) {
+          return new G3().copyScalar(α);
+        };
+        G3.fromSpinor = function(spinor) {
+          var copy = new G3();
+          copy.α = spinor.α;
+          copy.yz = spinor.yz;
+          copy.zx = spinor.yz;
+          copy.xy = spinor.xy;
+          return copy;
+        };
+        G3.fromVector = function(vector) {
+          var copy = new G3();
+          copy.x = vector.x;
+          copy.y = vector.y;
+          copy.z = vector.z;
+          return copy;
+        };
+        G3.lerp = function(A, B, α) {
+          return G3.copy(A).lerp(B, α);
+        };
+        G3.rotorFromDirections = function(a, b) {
+          return new G3().rotorFromDirections(a, b);
+        };
+        return G3;
+      })(VectorN_1.default);
+      exports_1("default", G3);
+    }
+  };
+});
+
+System.register("davinci-eight/math/quadSpinorE3.js", ["../checks/isDefined", "../checks/isNumber"], function(exports_1) {
+  var isDefined_1,
+      isNumber_1;
+  function quadSpinorE3(s) {
+    if (isDefined_1.default(s)) {
+      var α = s.α;
+      var x = s.yz;
+      var y = s.zx;
+      var z = s.xy;
+      if (isNumber_1.default(α) && isNumber_1.default(x) && isNumber_1.default(y) && isNumber_1.default(z)) {
+        return α * α + x * x + y * y + z * z;
+      } else {
+        return void 0;
+      }
+    } else {
+      return void 0;
+    }
+  }
+  exports_1("default", quadSpinorE3);
+  return {
+    setters: [function(isDefined_1_1) {
+      isDefined_1 = isDefined_1_1;
+    }, function(isNumber_1_1) {
+      isNumber_1 = isNumber_1_1;
+    }],
+    execute: function() {}
+  };
+});
+
+System.register("davinci-eight/math/quadVectorE3.js", ["../math/dotVectorCartesianE3", "../checks/isDefined", "../checks/isNumber"], function(exports_1) {
+  var dotVectorCartesianE3_1,
+      isDefined_1,
+      isNumber_1;
+  function quadVectorE3(vector) {
+    if (isDefined_1.default(vector)) {
+      var x = vector.x;
+      var y = vector.y;
+      var z = vector.z;
+      if (isNumber_1.default(x) && isNumber_1.default(y) && isNumber_1.default(z)) {
+        return dotVectorCartesianE3_1.default(x, y, z, x, y, z);
+      } else {
+        return void 0;
+      }
+    } else {
+      return void 0;
+    }
+  }
+  exports_1("default", quadVectorE3);
+  return {
+    setters: [function(dotVectorCartesianE3_1_1) {
+      dotVectorCartesianE3_1 = dotVectorCartesianE3_1_1;
+    }, function(isDefined_1_1) {
+      isDefined_1 = isDefined_1_1;
+    }, function(isNumber_1_1) {
+      isNumber_1 = isNumber_1_1;
+    }],
+    execute: function() {}
+  };
+});
+
+System.register("davinci-eight/math/rotorFromDirections.js", [], function(exports_1) {
+  var sqrt;
+  function rotorFromDirections(a, b, quad, dot, m) {
+    var quadA = quad(a);
+    var absA = sqrt(quadA);
+    var quadB = quad(b);
+    var absB = sqrt(quadB);
+    var BA = absB * absA;
+    var denom = sqrt(2 * (quadB * quadA + BA * dot(b, a)));
+    if (denom !== 0) {
+      m = m.spinor(b, a);
+      m = m.addScalar(BA);
+      m = m.divByScalar(denom);
+      return m;
+    } else {
+      return void 0;
+    }
+  }
+  exports_1("default", rotorFromDirections);
+  return {
+    setters: [],
+    execute: function() {
+      sqrt = Math.sqrt;
+    }
+  };
+});
+
+System.register("davinci-eight/math/SpinG3.js", ["../math/dotVectorCartesianE3", "../math/dotVectorE3", "../checks/mustBeInteger", "../checks/mustBeNumber", "../checks/mustBeObject", "../math/quadSpinorE3", "../math/quadVectorE3", "../math/rotorFromDirections", "../math/VectorN", "../math/wedgeXY", "../math/wedgeYZ", "../math/wedgeZX"], function(exports_1) {
+  var __extends = (this && this.__extends) || function(d, b) {
+    for (var p in b)
+      if (b.hasOwnProperty(p))
+        d[p] = b[p];
+    function __() {
+      this.constructor = d;
+    }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+  };
+  var dotVectorCartesianE3_1,
+      dotVectorE3_1,
+      mustBeInteger_1,
+      mustBeNumber_1,
+      mustBeObject_1,
+      quadSpinorE3_1,
+      quadVectorE3_1,
+      rotorFromDirections_1,
+      VectorN_1,
+      wedgeXY_1,
+      wedgeYZ_1,
+      wedgeZX_1;
+  var COORD_YZ,
+      COORD_ZX,
+      COORD_XY,
+      COORD_SCALAR,
+      exp,
+      cos,
+      sin,
+      sqrt,
+      SpinG3;
+  function one() {
+    var coords = [0, 0, 0, 0];
+    coords[COORD_SCALAR] = 1;
+    return coords;
+  }
+  return {
+    setters: [function(dotVectorCartesianE3_1_1) {
+      dotVectorCartesianE3_1 = dotVectorCartesianE3_1_1;
+    }, function(dotVectorE3_1_1) {
+      dotVectorE3_1 = dotVectorE3_1_1;
+    }, function(mustBeInteger_1_1) {
+      mustBeInteger_1 = mustBeInteger_1_1;
+    }, function(mustBeNumber_1_1) {
+      mustBeNumber_1 = mustBeNumber_1_1;
+    }, function(mustBeObject_1_1) {
+      mustBeObject_1 = mustBeObject_1_1;
+    }, function(quadSpinorE3_1_1) {
+      quadSpinorE3_1 = quadSpinorE3_1_1;
+    }, function(quadVectorE3_1_1) {
+      quadVectorE3_1 = quadVectorE3_1_1;
+    }, function(rotorFromDirections_1_1) {
+      rotorFromDirections_1 = rotorFromDirections_1_1;
+    }, function(VectorN_1_1) {
+      VectorN_1 = VectorN_1_1;
+    }, function(wedgeXY_1_1) {
+      wedgeXY_1 = wedgeXY_1_1;
+    }, function(wedgeYZ_1_1) {
+      wedgeYZ_1 = wedgeYZ_1_1;
+    }, function(wedgeZX_1_1) {
+      wedgeZX_1 = wedgeZX_1_1;
+    }],
+    execute: function() {
+      COORD_YZ = 0;
+      COORD_ZX = 1;
+      COORD_XY = 2;
+      COORD_SCALAR = 3;
+      exp = Math.exp;
+      cos = Math.cos;
+      sin = Math.sin;
+      sqrt = Math.sqrt;
+      SpinG3 = (function(_super) {
+        __extends(SpinG3, _super);
+        function SpinG3(coordinates, modified) {
+          if (coordinates === void 0) {
+            coordinates = one();
+          }
+          if (modified === void 0) {
+            modified = false;
+          }
+          _super.call(this, coordinates, modified, 4);
+        }
+        Object.defineProperty(SpinG3.prototype, "yz", {
+          get: function() {
+            return this.coords[COORD_YZ];
+          },
+          set: function(yz) {
+            mustBeNumber_1.default('yz', yz);
+            this.modified = this.modified || this.yz !== yz;
+            this.coords[COORD_YZ] = yz;
+          },
+          enumerable: true,
+          configurable: true
+        });
+        Object.defineProperty(SpinG3.prototype, "zx", {
+          get: function() {
+            return this.coords[COORD_ZX];
+          },
+          set: function(zx) {
+            mustBeNumber_1.default('zx', zx);
+            this.modified = this.modified || this.zx !== zx;
+            this.coords[COORD_ZX] = zx;
+          },
+          enumerable: true,
+          configurable: true
+        });
+        Object.defineProperty(SpinG3.prototype, "xy", {
+          get: function() {
+            return this.coords[COORD_XY];
+          },
+          set: function(xy) {
+            mustBeNumber_1.default('xy', xy);
+            this.modified = this.modified || this.xy !== xy;
+            this.coords[COORD_XY] = xy;
+          },
+          enumerable: true,
+          configurable: true
+        });
+        Object.defineProperty(SpinG3.prototype, "alpha", {
+          get: function() {
+            return this.coords[COORD_SCALAR];
+          },
+          set: function(alpha) {
+            mustBeNumber_1.default('alpha', alpha);
+            this.modified = this.modified || this.alpha !== alpha;
+            this.coords[COORD_SCALAR] = alpha;
+          },
+          enumerable: true,
+          configurable: true
+        });
+        Object.defineProperty(SpinG3.prototype, "α", {
+          get: function() {
+            return this.coords[COORD_SCALAR];
+          },
+          set: function(α) {
+            mustBeNumber_1.default('α', α);
+            this.modified = this.modified || this.α !== α;
+            this.coords[COORD_SCALAR] = α;
+          },
+          enumerable: true,
+          configurable: true
+        });
+        SpinG3.prototype.add = function(spinor, α) {
+          if (α === void 0) {
+            α = 1;
+          }
+          mustBeObject_1.default('spinor', spinor);
+          mustBeNumber_1.default('α', α);
+          this.yz += spinor.yz * α;
+          this.zx += spinor.zx * α;
+          this.xy += spinor.xy * α;
+          this.α += spinor.α * α;
+          return this;
+        };
+        SpinG3.prototype.add2 = function(a, b) {
+          this.α = a.α + b.α;
+          this.yz = a.yz + b.yz;
+          this.zx = a.zx + b.zx;
+          this.xy = a.xy + b.xy;
+          return this;
+        };
+        SpinG3.prototype.addPseudo = function(β) {
+          mustBeNumber_1.default('β', β);
+          return this;
+        };
+        SpinG3.prototype.addScalar = function(α) {
+          mustBeNumber_1.default('α', α);
+          this.α += α;
+          return this;
+        };
+        SpinG3.prototype.adj = function() {
+          throw new Error('TODO: SpinG3.adj');
+        };
+        SpinG3.prototype.angle = function() {
+          return this.log().grade(2);
+        };
+        SpinG3.prototype.clone = function() {
+          return SpinG3.copy(this);
+        };
+        SpinG3.prototype.conj = function() {
+          this.yz = -this.yz;
+          this.zx = -this.zx;
+          this.xy = -this.xy;
+          return this;
+        };
+        SpinG3.prototype.copy = function(spinor) {
+          mustBeObject_1.default('spinor', spinor);
+          this.yz = mustBeNumber_1.default('spinor.yz', spinor.yz);
+          this.zx = mustBeNumber_1.default('spinor.zx', spinor.zx);
+          this.xy = mustBeNumber_1.default('spinor.xy', spinor.xy);
+          this.α = mustBeNumber_1.default('spinor.α', spinor.α);
+          return this;
+        };
+        SpinG3.prototype.copyScalar = function(α) {
+          return this.zero().addScalar(α);
+        };
+        SpinG3.prototype.copySpinor = function(s) {
+          return this.copy(s);
+        };
+        SpinG3.prototype.copyVector = function(vector) {
+          return this.zero();
+        };
+        SpinG3.prototype.div = function(s) {
+          return this.div2(this, s);
+        };
+        SpinG3.prototype.div2 = function(a, b) {
+          var a0 = a.α;
+          var a1 = a.yz;
+          var a2 = a.zx;
+          var a3 = a.xy;
+          var b0 = b.α;
+          var b1 = b.yz;
+          var b2 = b.zx;
+          var b3 = b.xy;
+          this.α = a0 * b0 - a1 * b1 - a2 * b2 - a3 * b3;
+          this.yz = a0 * b1 + a1 * b0 - a2 * b3 + a3 * b2;
+          this.zx = a0 * b2 + a1 * b3 + a2 * b0 - a3 * b1;
+          this.xy = a0 * b3 - a1 * b2 + a2 * b1 + a3 * b0;
+          return this;
+        };
+        SpinG3.prototype.divByScalar = function(α) {
+          this.yz /= α;
+          this.zx /= α;
+          this.xy /= α;
+          this.α /= α;
+          return this;
+        };
+        SpinG3.prototype.dual = function(v) {
+          mustBeObject_1.default('v', v);
+          this.α = 0;
+          this.yz = mustBeNumber_1.default('v.x', v.x);
+          this.zx = mustBeNumber_1.default('v.y', v.y);
+          this.xy = mustBeNumber_1.default('v.z', v.z);
+          return this;
+        };
+        SpinG3.prototype.exp = function() {
+          var w = this.α;
+          var x = this.yz;
+          var y = this.zx;
+          var z = this.xy;
+          var expW = exp(w);
+          var φ = sqrt(x * x + y * y + z * z);
+          var s = expW * (φ !== 0 ? sin(φ) / φ : 1);
+          this.α = expW * cos(φ);
+          this.yz = x * s;
+          this.zx = y * s;
+          this.xy = z * s;
+          return this;
+        };
+        SpinG3.prototype.inv = function() {
+          this.conj();
+          this.divByScalar(this.squaredNormSansUnits());
+          return this;
+        };
+        SpinG3.prototype.lco = function(rhs) {
+          return this.lco2(this, rhs);
+        };
+        SpinG3.prototype.lco2 = function(a, b) {
+          return this;
+        };
+        SpinG3.prototype.lerp = function(target, α) {
+          var R2 = SpinG3.copy(target);
+          var R1 = this.clone();
+          var R = R2.mul(R1.inv());
+          R.log();
+          R.scale(α);
+          R.exp();
+          this.copy(R);
+          return this;
+        };
+        SpinG3.prototype.lerp2 = function(a, b, α) {
+          this.sub2(b, a).scale(α).add(a);
+          return this;
+        };
+        SpinG3.prototype.log = function() {
+          var w = this.α;
+          var x = this.yz;
+          var y = this.zx;
+          var z = this.xy;
+          var bb = x * x + y * y + z * z;
+          var R2 = sqrt(bb);
+          var R0 = Math.abs(w);
+          var R = sqrt(w * w + bb);
+          this.α = Math.log(R);
+          var θ = Math.atan2(R2, R0) / R2;
+          this.yz = x * θ;
+          this.zx = y * θ;
+          this.xy = z * θ;
+          return this;
+        };
+        SpinG3.prototype.magnitude = function() {
+          return this.norm();
+        };
+        SpinG3.prototype.magnitudeSansUnits = function() {
+          return sqrt(this.squaredNormSansUnits());
+        };
+        SpinG3.prototype.mul = function(s) {
+          return this.mul2(this, s);
+        };
+        SpinG3.prototype.mul2 = function(a, b) {
+          var a0 = a.α;
+          var a1 = a.yz;
+          var a2 = a.zx;
+          var a3 = a.xy;
+          var b0 = b.α;
+          var b1 = b.yz;
+          var b2 = b.zx;
+          var b3 = b.xy;
+          this.α = a0 * b0 - a1 * b1 - a2 * b2 - a3 * b3;
+          this.yz = a0 * b1 + a1 * b0 - a2 * b3 + a3 * b2;
+          this.zx = a0 * b2 + a1 * b3 + a2 * b0 - a3 * b1;
+          this.xy = a0 * b3 - a1 * b2 + a2 * b1 + a3 * b0;
+          return this;
+        };
+        SpinG3.prototype.neg = function() {
+          this.α = -this.α;
+          this.yz = -this.yz;
+          this.zx = -this.zx;
+          this.xy = -this.xy;
+          return this;
+        };
+        SpinG3.prototype.norm = function() {
+          var norm = this.magnitudeSansUnits();
+          return this.zero().addScalar(norm);
+        };
+        SpinG3.prototype.direction = function() {
+          var modulus = this.magnitudeSansUnits();
+          this.yz = this.yz / modulus;
+          this.zx = this.zx / modulus;
+          this.xy = this.xy / modulus;
+          this.α = this.α / modulus;
+          return this;
+        };
+        SpinG3.prototype.one = function() {
+          this.α = 1;
+          this.yz = 0;
+          this.zx = 0;
+          this.xy = 0;
+          return this;
+        };
+        SpinG3.prototype.quad = function() {
+          return this.squaredNorm();
+        };
+        SpinG3.prototype.squaredNorm = function() {
+          var squaredNorm = this.squaredNormSansUnits();
+          return this.zero().addScalar(squaredNorm);
+        };
+        SpinG3.prototype.squaredNormSansUnits = function() {
+          return quadSpinorE3_1.default(this);
+        };
+        SpinG3.prototype.rco = function(rhs) {
+          return this.rco2(this, rhs);
+        };
+        SpinG3.prototype.rco2 = function(a, b) {
+          return this;
+        };
+        SpinG3.prototype.rev = function() {
+          this.yz *= -1;
+          this.zx *= -1;
+          this.xy *= -1;
+          return this;
+        };
+        SpinG3.prototype.reflect = function(n) {
+          var w = this.α;
+          var yz = this.yz;
+          var zx = this.zx;
+          var xy = this.xy;
+          var nx = n.x;
+          var ny = n.y;
+          var nz = n.z;
+          var nn = nx * nx + ny * ny + nz * nz;
+          var nB = nx * yz + ny * zx + nz * xy;
+          this.α = nn * w;
+          this.xy = 2 * nz * nB - nn * xy;
+          this.yz = 2 * nx * nB - nn * yz;
+          this.zx = 2 * ny * nB - nn * zx;
+          return this;
+        };
+        SpinG3.prototype.rotate = function(rotor) {
+          console.warn("SpinG3.rotate is not implemented");
+          return this;
+        };
+        SpinG3.prototype.rotorFromDirections = function(a, b) {
+          return rotorFromDirections_1.default(a, b, quadVectorE3_1.default, dotVectorE3_1.default, this);
+        };
+        SpinG3.prototype.rotorFromAxisAngle = function(axis, θ) {
+          var φ = θ / 2;
+          var s = sin(φ);
+          this.yz = -axis.x * s;
+          this.zx = -axis.y * s;
+          this.xy = -axis.z * s;
+          this.α = cos(φ);
+          return this;
+        };
+        SpinG3.prototype.rotorFromGeneratorAngle = function(B, θ) {
+          var φ = θ / 2;
+          var s = sin(φ);
+          this.yz = -B.yz * s;
+          this.zx = -B.zx * s;
+          this.xy = -B.xy * s;
+          this.α = cos(φ);
+          return this;
+        };
+        SpinG3.prototype.scp = function(rhs) {
+          return this.scp2(this, rhs);
+        };
+        SpinG3.prototype.scp2 = function(a, b) {
+          return this;
+        };
+        SpinG3.prototype.scale = function(α) {
+          mustBeNumber_1.default('α', α);
+          this.yz *= α;
+          this.zx *= α;
+          this.xy *= α;
+          this.α *= α;
+          return this;
+        };
+        SpinG3.prototype.slerp = function(target, α) {
+          var R2 = SpinG3.copy(target);
+          var R1 = this.clone();
+          var R = R2.mul(R1.inv());
+          R.log();
+          R.scale(α);
+          R.exp();
+          this.copy(R);
+          return this;
+        };
+        SpinG3.prototype.sub = function(s, α) {
+          if (α === void 0) {
+            α = 1;
+          }
+          mustBeObject_1.default('s', s);
+          mustBeNumber_1.default('α', α);
+          this.yz -= s.yz * α;
+          this.zx -= s.zx * α;
+          this.xy -= s.xy * α;
+          this.α -= s.α * α;
+          return this;
+        };
+        SpinG3.prototype.sub2 = function(a, b) {
+          this.yz = a.yz - b.yz;
+          this.zx = a.zx - b.zx;
+          this.xy = a.xy - b.xy;
+          this.α = a.α - b.α;
+          return this;
+        };
+        SpinG3.prototype.spinor = function(a, b) {
+          var ax = a.x;
+          var ay = a.y;
+          var az = a.z;
+          var bx = b.x;
+          var by = b.y;
+          var bz = b.z;
+          this.α = dotVectorCartesianE3_1.default(ax, ay, az, bx, by, bz);
+          this.yz = wedgeYZ_1.default(ax, ay, az, bx, by, bz);
+          this.zx = wedgeZX_1.default(ax, ay, az, bx, by, bz);
+          this.xy = wedgeXY_1.default(ax, ay, az, bx, by, bz);
+          return this;
+        };
+        SpinG3.prototype.grade = function(grade) {
+          mustBeInteger_1.default('grade', grade);
+          switch (grade) {
+            case 0:
+              {
+                this.yz = 0;
+                this.zx = 0;
+                this.xy = 0;
+              }
+              break;
+            case 2:
+              {
+                this.α = 0;
+              }
+              break;
+            default:
+              {
+                this.α = 0;
+                this.yz = 0;
+                this.zx = 0;
+                this.xy = 0;
+              }
+          }
+          return this;
+        };
+        SpinG3.prototype.toExponential = function() {
+          return this.toString();
+        };
+        SpinG3.prototype.toFixed = function(digits) {
+          return this.toString();
+        };
+        SpinG3.prototype.toString = function() {
+          return "SpinG3({yz: " + this.yz + ", zx: " + this.zx + ", xy: " + this.xy + ", w: " + this.α + "})";
+        };
+        SpinG3.prototype.ext = function(rhs) {
+          return this.ext2(this, rhs);
+        };
+        SpinG3.prototype.ext2 = function(a, b) {
+          return this;
+        };
+        SpinG3.prototype.zero = function() {
+          this.α = 0;
+          this.yz = 0;
+          this.zx = 0;
+          this.xy = 0;
+          return this;
+        };
+        SpinG3.copy = function(spinor) {
+          return new SpinG3().copy(spinor);
+        };
+        SpinG3.dual = function(v) {
+          return new SpinG3().dual(v);
+        };
+        SpinG3.lerp = function(a, b, α) {
+          return SpinG3.copy(a).lerp(b, α);
+        };
+        SpinG3.rotorFromDirections = function(a, b) {
+          return new SpinG3().rotorFromDirections(a, b);
+        };
+        return SpinG3;
+      })(VectorN_1.default);
+      exports_1("default", SpinG3);
+    }
+  };
+});
+
+System.register("davinci-eight/facets/ModelE3.js", ["../math/G3", "../math/R3", "../math/SpinG3", "../i18n/readOnly"], function(exports_1) {
+  var G3_1,
+      R3_1,
+      SpinG3_1,
+      readOnly_1;
+  var ModelE3;
+  return {
+    setters: [function(G3_1_1) {
+      G3_1 = G3_1_1;
+    }, function(R3_1_1) {
+      R3_1 = R3_1_1;
+    }, function(SpinG3_1_1) {
+      SpinG3_1 = SpinG3_1_1;
+    }, function(readOnly_1_1) {
+      readOnly_1 = readOnly_1_1;
+    }],
+    execute: function() {
+      ModelE3 = (function() {
+        function ModelE3() {
+          this._position = new G3_1.default().zero();
+          this._attitude = new G3_1.default().zero().addScalar(1);
+          this._posCache = new R3_1.default();
+          this._attCache = new SpinG3_1.default();
+          this._position.modified = true;
+          this._attitude.modified = true;
+        }
+        Object.defineProperty(ModelE3.prototype, "R", {
+          get: function() {
+            return this._attitude;
+          },
+          set: function(unused) {
+            throw new Error(readOnly_1.default(ModelE3.PROP_ATTITUDE).message);
+          },
+          enumerable: true,
+          configurable: true
+        });
+        Object.defineProperty(ModelE3.prototype, "X", {
+          get: function() {
+            return this._position;
+          },
+          set: function(unused) {
+            throw new Error(readOnly_1.default(ModelE3.PROP_POSITION).message);
+          },
+          enumerable: true,
+          configurable: true
+        });
+        ModelE3.prototype.getProperty = function(name) {
+          switch (name) {
+            case ModelE3.PROP_ATTITUDE:
+              {
+                return this._attCache.copy(this._attitude).coords;
+              }
+              break;
+            case ModelE3.PROP_POSITION:
+              {
+                return this._posCache.copy(this._position).coords;
+              }
+              break;
+            default:
+              {
+                console.warn("ModelE3.getProperty " + name);
+                return void 0;
+              }
+          }
+        };
+        ModelE3.prototype.setProperty = function(name, data) {
+          switch (name) {
+            case ModelE3.PROP_ATTITUDE:
+              {
+                this._attCache.coords = data;
+                this._attitude.copySpinor(this._attCache);
+              }
+              break;
+            case ModelE3.PROP_POSITION:
+              {
+                this._posCache.coords = data;
+                this._position.copyVector(this._posCache);
+              }
+              break;
+            default:
+              {
+                console.warn("ModelE3.setProperty " + name);
+              }
+          }
+          return this;
+        };
+        ModelE3.PROP_ATTITUDE = 'R';
+        ModelE3.PROP_POSITION = 'X';
+        return ModelE3;
+      })();
+      exports_1("default", ModelE3);
+    }
+  };
+});
+
+System.register("davinci-eight/math/dotVectorCartesianE3.js", [], function(exports_1) {
+  function dotVectorCartesianE3(ax, ay, az, bx, by, bz) {
+    return ax * bx + ay * by + az * bz;
+  }
+  exports_1("default", dotVectorCartesianE3);
+  return {
+    setters: [],
+    execute: function() {}
+  };
+});
+
+System.register("davinci-eight/math/dotVectorE3.js", ["../math/dotVectorCartesianE3", "../checks/isDefined"], function(exports_1) {
+  var dotVectorCartesianE3_1,
+      isDefined_1;
+  function dotVectorE3(a, b) {
+    if (isDefined_1.default(a) && isDefined_1.default(b)) {
+      return dotVectorCartesianE3_1.default(a.x, a.y, a.z, b.x, b.y, b.z);
+    } else {
+      return void 0;
+    }
+  }
+  exports_1("default", dotVectorE3);
+  return {
+    setters: [function(dotVectorCartesianE3_1_1) {
+      dotVectorCartesianE3_1 = dotVectorCartesianE3_1_1;
+    }, function(isDefined_1_1) {
+      isDefined_1 = isDefined_1_1;
+    }],
+    execute: function() {}
   };
 });
 
@@ -17668,7 +17695,7 @@ System.register("davinci-eight/math/wedgeZX.js", [], function(exports_1) {
   };
 });
 
-System.register("davinci-eight/math/R3.js", ["../math/dotVectorE3", "../math/Euclidean3", "../math/Mat3R", "../math/Mat4R", "../checks/isDefined", "../checks/isNumber", "../math/toStringCustom", "../math/VectorN", "../math/wedgeXY", "../math/wedgeYZ", "../math/wedgeZX"], function(exports_1) {
+System.register("davinci-eight/math/R3.js", ["./dotVectorE3", "./Mat3R", "./Mat4R", "../checks/isDefined", "../checks/isNumber", "./toStringCustom", "./VectorN", "./wedgeXY", "./wedgeYZ", "./wedgeZX"], function(exports_1) {
   var __extends = (this && this.__extends) || function(d, b) {
     for (var p in b)
       if (b.hasOwnProperty(p))
@@ -17679,7 +17706,6 @@ System.register("davinci-eight/math/R3.js", ["../math/dotVectorE3", "../math/Euc
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
   };
   var dotVectorE3_1,
-      Euclidean3_1,
       Mat3R_1,
       Mat4R_1,
       isDefined_1,
@@ -17701,8 +17727,6 @@ System.register("davinci-eight/math/R3.js", ["../math/dotVectorE3", "../math/Euc
   return {
     setters: [function(dotVectorE3_1_1) {
       dotVectorE3_1 = dotVectorE3_1_1;
-    }, function(Euclidean3_1_1) {
-      Euclidean3_1 = Euclidean3_1_1;
     }, function(Mat3R_1_1) {
       Mat3R_1 = Mat3R_1_1;
     }, function(Mat4R_1_1) {
@@ -18029,9 +18053,11 @@ System.register("davinci-eight/math/R3.js", ["../math/dotVectorE3", "../math/Euc
         R3.random = function() {
           return new R3([Math.random(), Math.random(), Math.random()]);
         };
-        R3.e1 = Euclidean3_1.default.e1;
-        R3.e2 = Euclidean3_1.default.e2;
-        R3.e3 = Euclidean3_1.default.e3;
+        R3.vector = function(x, y, z, uom) {
+          var v = new R3([x, y, z]);
+          v.uom = uom;
+          return v;
+        };
         return R3;
       })(VectorN_1.default);
       exports_1("default", R3);
@@ -18611,7 +18637,7 @@ System.register("davinci-eight/visual/Sphere.js", ["../checks/mustBeNumber", "./
   };
 });
 
-System.register("davinci-eight/visual/World.js", ["./Arrow", "../core/Color", "./Cuboid", "./Cylinder", "../math/Euclidean3", "../checks/isDefined", "../checks/mustBeNumber", "../i18n/readOnly", "../core/Shareable", "./Sphere"], function(exports_1) {
+System.register("davinci-eight/visual/World.js", ["./Arrow", "../core/Color", "./Box", "./Cylinder", "../math/Euclidean3", "../checks/isDefined", "../checks/mustBeNumber", "../i18n/readOnly", "../core/Shareable", "./Sphere"], function(exports_1) {
   var __extends = (this && this.__extends) || function(d, b) {
     for (var p in b)
       if (b.hasOwnProperty(p))
@@ -18623,7 +18649,7 @@ System.register("davinci-eight/visual/World.js", ["./Arrow", "../core/Color", ".
   };
   var Arrow_1,
       Color_1,
-      Cuboid_1,
+      Box_1,
       Cylinder_1,
       Euclidean3_1,
       isDefined_1,
@@ -18637,8 +18663,8 @@ System.register("davinci-eight/visual/World.js", ["./Arrow", "../core/Color", ".
       Arrow_1 = Arrow_1_1;
     }, function(Color_1_1) {
       Color_1 = Color_1_1;
-    }, function(Cuboid_1_1) {
-      Cuboid_1 = Cuboid_1_1;
+    }, function(Box_1_1) {
+      Box_1 = Box_1_1;
     }, function(Cylinder_1_1) {
       Cylinder_1 = Cylinder_1_1;
     }, function(Euclidean3_1_1) {
@@ -18728,20 +18754,26 @@ System.register("davinci-eight/visual/World.js", ["./Arrow", "../core/Color", ".
           arrow.release();
           return arrow;
         };
-        World.prototype.cuboid = function(options) {
+        World.prototype.box = function(options) {
           if (options === void 0) {
             options = {};
           }
-          var cuboid = new Cuboid_1.default(options);
-          this.drawList.add(cuboid);
-          cuboid.release();
-          return cuboid;
+          var box = new Box_1.default(options);
+          this.drawList.add(box);
+          box.release();
+          return box;
         };
         World.prototype.cylinder = function(options) {
           if (options === void 0) {
             options = {};
           }
           var cylinder = new Cylinder_1.default();
+          if (options.axis) {
+            cylinder.axis = Euclidean3_1.default.vector(options.axis.x, options.axis.y, options.axis.z);
+          }
+          if (options.pos) {
+            cylinder.pos = Euclidean3_1.default.fromVectorE3(options.pos);
+          }
           cylinder.radius = isDefined_1.default(options.radius) ? mustBeNumber_1.default('radius', options.radius) : 0.5;
           cylinder.color = Color_1.default.magenta;
           this.drawList.add(cylinder);
@@ -18754,7 +18786,7 @@ System.register("davinci-eight/visual/World.js", ["./Arrow", "../core/Color", ".
           }
           var sphere = new Sphere_1.default();
           if (options.pos) {
-            sphere.pos = Euclidean3_1.default.vector(options.pos.x, options.pos.y, options.pos.z);
+            sphere.pos = Euclidean3_1.default.fromVectorE3(options.pos);
           }
           sphere.radius = isDefined_1.default(options.radius) ? mustBeNumber_1.default('radius', options.radius) : 0.5;
           if (options.color) {
@@ -18788,6 +18820,31 @@ System.register("davinci-eight/core/DrawMode.js", [], function(exports_1) {
         DrawMode[DrawMode["TRIANGLE_FAN"] = 6] = "TRIANGLE_FAN";
       })(DrawMode || (DrawMode = {}));
       exports_1("default", DrawMode);
+    }
+  };
+});
+
+System.register("davinci-eight/core.js", [], function(exports_1) {
+  var Eight,
+      core;
+  return {
+    setters: [],
+    execute: function() {
+      Eight = (function() {
+        function Eight() {
+          this.safemode = true;
+          this.strict = false;
+          this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
+          this.LAST_MODIFIED = '2016-02-17';
+          this.NAMESPACE = 'EIGHT';
+          this.verbose = false;
+          this.VERSION = '2.189.0';
+          this.logging = {};
+        }
+        return Eight;
+      })();
+      core = new Eight();
+      exports_1("default", core);
     }
   };
 });
@@ -19225,29 +19282,19 @@ System.register("davinci-eight/checks/isArray.js", [], function(exports_1) {
   };
 });
 
-System.register("davinci-eight/checks/mustBeArray.js", ["../core", "../checks/mustSatisfy", "../checks/isArray"], function(exports_1) {
-  var core_1,
-      mustSatisfy_1,
+System.register("davinci-eight/checks/mustBeArray.js", ["../checks/mustSatisfy", "../checks/isArray"], function(exports_1) {
+  var mustSatisfy_1,
       isArray_1;
   function beAnArray() {
     return "be an array";
   }
   function default_1(name, value, contextBuilder) {
-    if (core_1.default.fastPath) {
-      if (core_1.default.strict) {
-        throw new Error("mustBeArray must not be called on the fast path.");
-      } else {
-        console.warn("mustBeArray should not be called on the fast path.");
-      }
-    }
     mustSatisfy_1.default(name, isArray_1.default(value), beAnArray, contextBuilder);
     return value;
   }
   exports_1("default", default_1);
   return {
-    setters: [function(core_1_1) {
-      core_1 = core_1_1;
-    }, function(mustSatisfy_1_1) {
+    setters: [function(mustSatisfy_1_1) {
       mustSatisfy_1 = mustSatisfy_1_1;
     }, function(isArray_1_1) {
       isArray_1 = isArray_1_1;
@@ -19626,59 +19673,24 @@ System.register("davinci-eight/checks/isNumber.js", [], function(exports_1) {
   };
 });
 
-System.register("davinci-eight/checks/mustBeNumber.js", ["../core", "../checks/mustSatisfy", "../checks/isNumber"], function(exports_1) {
-  var core_1,
-      mustSatisfy_1,
+System.register("davinci-eight/checks/mustBeNumber.js", ["../checks/mustSatisfy", "../checks/isNumber"], function(exports_1) {
+  var mustSatisfy_1,
       isNumber_1;
   function beANumber() {
     return "be a `number`";
   }
   function default_1(name, value, contextBuilder) {
-    if (core_1.default.fastPath) {
-      if (core_1.default.strict) {
-        throw new Error("mustBeNumber must not be called on the fast path.");
-      } else {
-        console.warn("mustBeNumber should not be called on the fast path.");
-      }
-    }
     mustSatisfy_1.default(name, isNumber_1.default(value), beANumber, contextBuilder);
     return value;
   }
   exports_1("default", default_1);
   return {
-    setters: [function(core_1_1) {
-      core_1 = core_1_1;
-    }, function(mustSatisfy_1_1) {
+    setters: [function(mustSatisfy_1_1) {
       mustSatisfy_1 = mustSatisfy_1_1;
     }, function(isNumber_1_1) {
       isNumber_1 = isNumber_1_1;
     }],
     execute: function() {}
-  };
-});
-
-System.register("davinci-eight/core.js", [], function(exports_1) {
-  var Eight,
-      core;
-  return {
-    setters: [],
-    execute: function() {
-      Eight = (function() {
-        function Eight() {
-          this.fastPath = false;
-          this.strict = false;
-          this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-          this.LAST_MODIFIED = '2016-02-17';
-          this.NAMESPACE = 'EIGHT';
-          this.verbose = false;
-          this.VERSION = '2.189.0';
-          this.logging = {};
-        }
-        return Eight;
-      })();
-      core = new Eight();
-      exports_1("default", core);
-    }
   };
 });
 
@@ -19708,29 +19720,19 @@ System.register("davinci-eight/checks/isString.js", [], function(exports_1) {
   };
 });
 
-System.register("davinci-eight/checks/mustBeString.js", ["../core", "../checks/mustSatisfy", "../checks/isString"], function(exports_1) {
-  var core_1,
-      mustSatisfy_1,
+System.register("davinci-eight/checks/mustBeString.js", ["../checks/mustSatisfy", "../checks/isString"], function(exports_1) {
+  var mustSatisfy_1,
       isString_1;
   function beAString() {
     return "be a string";
   }
   function default_1(name, value, contextBuilder) {
-    if (core_1.default.fastPath) {
-      if (core_1.default.strict) {
-        throw new Error("mustBeString must not be called on the fast path.");
-      } else {
-        console.warn("mustBeString should not be called on the fast path.");
-      }
-    }
     mustSatisfy_1.default(name, isString_1.default(value), beAString, contextBuilder);
     return value;
   }
   exports_1("default", default_1);
   return {
-    setters: [function(core_1_1) {
-      core_1 = core_1_1;
-    }, function(mustSatisfy_1_1) {
+    setters: [function(mustSatisfy_1_1) {
       mustSatisfy_1 = mustSatisfy_1_1;
     }, function(isString_1_1) {
       isString_1 = isString_1_1;
@@ -20713,9 +20715,10 @@ System.register("davinci-eight/core/WebGLRenderer.js", ["../commands/Capability"
   };
 });
 
-System.register("davinci-eight/visual/bootstrap.js", ["../facets/AmbientLight", "../core/Color", "../facets/DirectionalLight", "../checks/isDefined", "../checks/mustBeBoolean", "../checks/mustBeFunction", "../checks/mustBeNumber", "../checks/mustBeString", "./DrawList", "../facets/PerspectiveCamera", "../core/refChange", "../controls/TrackballControls", "./World", "../core/WebGLRenderer"], function(exports_1) {
+System.register("davinci-eight/visual/bootstrap.js", ["../facets/AmbientLight", "../core/Color", "../math/CartesianE3", "../facets/DirectionalLight", "../checks/isDefined", "../checks/mustBeBoolean", "../checks/mustBeFunction", "../checks/mustBeNumber", "../checks/mustBeString", "./DrawList", "../facets/PerspectiveCamera", "../core/refChange", "../controls/TrackballControls", "./World", "../core/WebGLRenderer"], function(exports_1) {
   var AmbientLight_1,
       Color_1,
+      CartesianE3_1,
       DirectionalLight_1,
       isDefined_1,
       mustBeBoolean_1,
@@ -20748,11 +20751,7 @@ System.register("davinci-eight/visual/bootstrap.js", ["../facets/AmbientLight", 
     var ambients = [];
     var ambientLight = new AmbientLight_1.default(Color_1.default.fromRGB(0.3, 0.3, 0.3));
     ambients.push(ambientLight);
-    var dirLight = new DirectionalLight_1.default({
-      x: 0,
-      y: 0,
-      z: -1
-    }, Color_1.default.white);
+    var dirLight = new DirectionalLight_1.default(CartesianE3_1.default.e3.neg(), Color_1.default.white);
     ambients.push(dirLight);
     var camera = new PerspectiveCamera_1.default(45 * Math.PI / 180, 1, 0.1, 1000);
     camera.position.setXYZ(0, 0, 7);
@@ -20816,6 +20815,8 @@ System.register("davinci-eight/visual/bootstrap.js", ["../facets/AmbientLight", 
       AmbientLight_1 = AmbientLight_1_1;
     }, function(Color_1_1) {
       Color_1 = Color_1_1;
+    }, function(CartesianE3_1_1) {
+      CartesianE3_1 = CartesianE3_1_1;
     }, function(DirectionalLight_1_1) {
       DirectionalLight_1 = DirectionalLight_1_1;
     }, function(isDefined_1_1) {
@@ -20845,7 +20846,7 @@ System.register("davinci-eight/visual/bootstrap.js", ["../facets/AmbientLight", 
   };
 });
 
-System.register("davinci-eight.js", ["davinci-eight/commands/BlendFactor", "davinci-eight/commands/WebGLBlendFunc", "davinci-eight/commands/WebGLClearColor", "davinci-eight/commands/Capability", "davinci-eight/commands/WebGLDisable", "davinci-eight/commands/WebGLEnable", "davinci-eight/controls/TrackballControls", "davinci-eight/core/AttribLocation", "davinci-eight/core/Color", "davinci-eight/core", "davinci-eight/core/DrawMode", "davinci-eight/core/GraphicsProgramSymbols", "davinci-eight/core/UniformLocation", "davinci-eight/core/Mesh", "davinci-eight/core/Scene", "davinci-eight/core/WebGLRenderer", "davinci-eight/core/GeometryContainer", "davinci-eight/core/GeometryPrimitive", "davinci-eight/curves/Curve", "davinci-eight/facets/AmbientLight", "davinci-eight/facets/ColorFacet", "davinci-eight/facets/DirectionalLight", "davinci-eight/facets/ModelFacet", "davinci-eight/facets/PointSizeFacet", "davinci-eight/facets/ReflectionFacetE2", "davinci-eight/facets/ReflectionFacetE3", "davinci-eight/facets/Vector3Facet", "davinci-eight/facets/frustumMatrix", "davinci-eight/facets/PerspectiveCamera", "davinci-eight/facets/perspectiveMatrix", "davinci-eight/facets/viewMatrix", "davinci-eight/facets/ModelE2", "davinci-eight/facets/ModelE3", "davinci-eight/geometries/DrawAttribute", "davinci-eight/geometries/DrawPrimitive", "davinci-eight/geometries/Simplex", "davinci-eight/geometries/Vertex", "davinci-eight/geometries/ArrowGeometry", "davinci-eight/geometries/CuboidGeometry", "davinci-eight/geometries/CylinderGeometry", "davinci-eight/geometries/SphereGeometry", "davinci-eight/geometries/TetrahedronGeometry", "davinci-eight/materials/HTMLScriptsMaterial", "davinci-eight/materials/LineMaterial", "davinci-eight/materials/MeshMaterial", "davinci-eight/materials/PointMaterial", "davinci-eight/materials/GraphicsProgramBuilder", "davinci-eight/materials/smartProgram", "davinci-eight/materials/programFromScripts", "davinci-eight/math/Dimensions", "davinci-eight/math/Euclidean2", "davinci-eight/math/Euclidean3", "davinci-eight/math/mathcore", "davinci-eight/math/R1", "davinci-eight/math/Mat2R", "davinci-eight/math/Mat3R", "davinci-eight/math/Mat4R", "davinci-eight/math/QQ", "davinci-eight/math/Unit", "davinci-eight/math/G2", "davinci-eight/math/G3", "davinci-eight/math/SpinG2", "davinci-eight/math/SpinG3", "davinci-eight/math/R2", "davinci-eight/math/R3", "davinci-eight/math/R4", "davinci-eight/math/VectorN", "davinci-eight/overlay/Overlay", "davinci-eight/utils/getCanvasElementById", "davinci-eight/collections/ShareableArray", "davinci-eight/collections/NumberIUnknownMap", "davinci-eight/core/refChange", "davinci-eight/core/Shareable", "davinci-eight/collections/StringIUnknownMap", "davinci-eight/utils/animation", "davinci-eight/visual/Arrow", "davinci-eight/visual/Sphere", "davinci-eight/visual/Cuboid", "davinci-eight/visual/Object3D", "davinci-eight/visual/RigidBody", "davinci-eight/visual/Cylinder", "davinci-eight/visual/Tetrahedron", "davinci-eight/visual/Trail", "davinci-eight/visual/bootstrap"], function(exports_1) {
+System.register("davinci-eight.js", ["davinci-eight/commands/BlendFactor", "davinci-eight/commands/WebGLBlendFunc", "davinci-eight/commands/WebGLClearColor", "davinci-eight/commands/Capability", "davinci-eight/commands/WebGLDisable", "davinci-eight/commands/WebGLEnable", "davinci-eight/controls/TrackballControls", "davinci-eight/core/AttribLocation", "davinci-eight/core/Color", "davinci-eight/core", "davinci-eight/core/DrawMode", "davinci-eight/core/GraphicsProgramSymbols", "davinci-eight/core/UniformLocation", "davinci-eight/core/Mesh", "davinci-eight/core/Scene", "davinci-eight/core/WebGLRenderer", "davinci-eight/core/GeometryContainer", "davinci-eight/core/GeometryPrimitive", "davinci-eight/curves/Curve", "davinci-eight/facets/AmbientLight", "davinci-eight/facets/ColorFacet", "davinci-eight/facets/DirectionalLight", "davinci-eight/facets/ModelFacet", "davinci-eight/facets/PointSizeFacet", "davinci-eight/facets/ReflectionFacetE2", "davinci-eight/facets/ReflectionFacetE3", "davinci-eight/facets/Vector3Facet", "davinci-eight/facets/frustumMatrix", "davinci-eight/facets/PerspectiveCamera", "davinci-eight/facets/perspectiveMatrix", "davinci-eight/facets/viewMatrix", "davinci-eight/facets/ModelE2", "davinci-eight/facets/ModelE3", "davinci-eight/geometries/DrawAttribute", "davinci-eight/geometries/DrawPrimitive", "davinci-eight/geometries/Simplex", "davinci-eight/geometries/Vertex", "davinci-eight/geometries/ArrowGeometry", "davinci-eight/geometries/CuboidGeometry", "davinci-eight/geometries/CylinderGeometry", "davinci-eight/geometries/SphereGeometry", "davinci-eight/geometries/TetrahedronGeometry", "davinci-eight/materials/HTMLScriptsMaterial", "davinci-eight/materials/LineMaterial", "davinci-eight/materials/MeshMaterial", "davinci-eight/materials/PointMaterial", "davinci-eight/materials/GraphicsProgramBuilder", "davinci-eight/materials/smartProgram", "davinci-eight/materials/programFromScripts", "davinci-eight/math/Dimensions", "davinci-eight/math/Euclidean2", "davinci-eight/math/Euclidean3", "davinci-eight/math/mathcore", "davinci-eight/math/R1", "davinci-eight/math/Mat2R", "davinci-eight/math/Mat3R", "davinci-eight/math/Mat4R", "davinci-eight/math/QQ", "davinci-eight/math/Unit", "davinci-eight/math/G2", "davinci-eight/math/G3", "davinci-eight/math/SpinG2", "davinci-eight/math/SpinG3", "davinci-eight/math/R2", "davinci-eight/math/R3", "davinci-eight/math/R4", "davinci-eight/math/VectorN", "davinci-eight/overlay/Overlay", "davinci-eight/utils/getCanvasElementById", "davinci-eight/collections/ShareableArray", "davinci-eight/collections/NumberIUnknownMap", "davinci-eight/core/refChange", "davinci-eight/core/Shareable", "davinci-eight/collections/StringIUnknownMap", "davinci-eight/utils/animation", "davinci-eight/visual/Arrow", "davinci-eight/visual/Sphere", "davinci-eight/visual/Box", "davinci-eight/visual/Object3D", "davinci-eight/visual/RigidBody", "davinci-eight/visual/Cylinder", "davinci-eight/visual/Tetrahedron", "davinci-eight/visual/Trail", "davinci-eight/visual/bootstrap"], function(exports_1) {
   var BlendFactor_1,
       WebGLBlendFunc_1,
       WebGLClearColor_1,
@@ -20923,7 +20924,7 @@ System.register("davinci-eight.js", ["davinci-eight/commands/BlendFactor", "davi
       animation_1,
       Arrow_1,
       Sphere_1,
-      Cuboid_1,
+      Box_1,
       Object3D_1,
       RigidBody_1,
       Cylinder_1,
@@ -21086,8 +21087,8 @@ System.register("davinci-eight.js", ["davinci-eight/commands/BlendFactor", "davi
       Arrow_1 = Arrow_1_1;
     }, function(Sphere_1_1) {
       Sphere_1 = Sphere_1_1;
-    }, function(Cuboid_1_1) {
-      Cuboid_1 = Cuboid_1_1;
+    }, function(Box_1_1) {
+      Box_1 = Box_1_1;
     }, function(Object3D_1_1) {
       Object3D_1 = Object3D_1_1;
     }, function(RigidBody_1_1) {
@@ -21106,11 +21107,11 @@ System.register("davinci-eight.js", ["davinci-eight/commands/BlendFactor", "davi
         get LAST_MODIFIED() {
           return core_1.default.LAST_MODIFIED;
         },
-        get fastPath() {
-          return core_1.default.fastPath;
+        get safemode() {
+          return core_1.default.safemode;
         },
-        set fastPath(value) {
-          core_1.default.fastPath = value;
+        set safemode(safemode) {
+          core_1.default.safemode = safemode;
         },
         get strict() {
           return core_1.default.strict;
@@ -21383,8 +21384,8 @@ System.register("davinci-eight.js", ["davinci-eight/commands/BlendFactor", "davi
         get Sphere() {
           return Sphere_1.default;
         },
-        get Cuboid() {
-          return Cuboid_1.default;
+        get Box() {
+          return Box_1.default;
         },
         get Object3D() {
           return Object3D_1.default;

@@ -3,7 +3,7 @@ define(["require", "exports", '../checks/mustBeArray', '../checks/mustBeString',
         function ReflectionFacetE3(name) {
             this.matrix = Mat4R_1.default.one();
             this.name = mustBeString_1.default('name', name);
-            this._normal = G3_1.default.fromVector({ x: 0, y: 0, z: 0 });
+            this._normal = G3_1.default.zero();
             this._normal.modified = true;
         }
         Object.defineProperty(ReflectionFacetE3.prototype, "normal", {

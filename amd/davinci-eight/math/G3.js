@@ -23,7 +23,7 @@ define(["require", "exports", './dotVectorE3', './Euclidean3', '../utils/EventEm
     function coordinates(m) {
         return [m.α, m.x, m.y, m.z, m.xy, m.yz, m.zx, m.β];
     }
-    function makeConstantE3(label, α, x, y, z, yz, zx, xy, β) {
+    function makeConstantE3(label, α, x, y, z, yz, zx, xy, β, uom) {
         mustBeString_1.default('label', label);
         var that;
         that = {
@@ -87,18 +87,24 @@ define(["require", "exports", './dotVectorE3', './Euclidean3', '../utils/EventEm
             set beta(unused) {
                 throw new Error(readOnly_1.default(label + '.beta').message);
             },
+            get uom() {
+                return uom;
+            },
+            set uom(unused) {
+                throw new Error(readOnly_1.default(label + '.uom').message);
+            },
             toString: function () {
                 return label;
             }
         };
         return that;
     }
-    var zero = makeConstantE3('0', 0, 0, 0, 0, 0, 0, 0, 0);
-    var one = makeConstantE3('1', 1, 0, 0, 0, 0, 0, 0, 0);
-    var e1 = makeConstantE3('e1', 0, 1, 0, 0, 0, 0, 0, 0);
-    var e2 = makeConstantE3('e2', 0, 0, 1, 0, 0, 0, 0, 0);
-    var e3 = makeConstantE3('e2', 0, 0, 0, 1, 0, 0, 0, 0);
-    var I = makeConstantE3('I', 0, 0, 0, 0, 0, 0, 0, 1);
+    var zero = makeConstantE3('0', 0, 0, 0, 0, 0, 0, 0, 0, void 0);
+    var one = makeConstantE3('1', 1, 0, 0, 0, 0, 0, 0, 0, void 0);
+    var e1 = makeConstantE3('e1', 0, 1, 0, 0, 0, 0, 0, 0, void 0);
+    var e2 = makeConstantE3('e2', 0, 0, 1, 0, 0, 0, 0, 0, void 0);
+    var e3 = makeConstantE3('e2', 0, 0, 0, 1, 0, 0, 0, 0, void 0);
+    var I = makeConstantE3('I', 0, 0, 0, 0, 0, 0, 0, 1, void 0);
     var G3 = (function (_super) {
         __extends(G3, _super);
         function G3() {
@@ -312,6 +318,7 @@ define(["require", "exports", './dotVectorE3', './Euclidean3', '../utils/EventEm
             this.x = vector.x;
             this.y = vector.y;
             this.z = vector.z;
+            this.uom = vector.uom;
             return this;
         };
         G3.prototype.div = function (m) {
@@ -529,7 +536,25 @@ define(["require", "exports", './dotVectorE3', './Euclidean3', '../utils/EventEm
             return this;
         };
         G3.prototype.rotorFromDirections = function (b, a) {
-            return rotorFromDirections_1.default(a, b, quadVectorE3_1.default, dotVectorE3_1.default, this);
+            if (rotorFromDirections_1.default(a, b, quadVectorE3_1.default, dotVectorE3_1.default, this) !== void 0) {
+                return this;
+            }
+            else {
+                var rx = Math.random();
+                var ry = Math.random();
+                var rz = Math.random();
+                this.yz = wedgeYZ_1.default(rx, ry, rz, a.x, a.y, a.z);
+                this.zx = wedgeZX_1.default(rx, ry, rz, a.x, a.y, a.z);
+                this.xy = wedgeXY_1.default(rx, ry, rz, a.x, a.y, a.z);
+                this.α = 0;
+                this.x = 0;
+                this.y = 0;
+                this.z = 0;
+                this.β = 0;
+                this.direction();
+                this.rotorFromGeneratorAngle(this, Math.PI);
+                return this;
+            }
         };
         G3.prototype.rotorFromAxisAngle = function (axis, θ) {
             var φ = θ / 2;
@@ -876,11 +901,7 @@ define(["require", "exports", './dotVectorE3', './Euclidean3', '../utils/EventEm
         G3.prototype.__neg__ = function () {
             return G3.copy(this).neg();
         };
-        Object.defineProperty(G3, "zero", {
-            get: function () { return G3.copy(zero); },
-            enumerable: true,
-            configurable: true
-        });
+        G3.zero = function () { return G3.copy(zero); };
         ;
         Object.defineProperty(G3, "one", {
             get: function () { return G3.copy(one); },

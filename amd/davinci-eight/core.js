@@ -1,7 +1,7 @@
 define(["require", "exports"], function (require, exports) {
     var Eight = (function () {
         function Eight() {
-            this.fastPath = false;
+            this.safemode = true;
             this.strict = false;
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
             this.LAST_MODIFIED = '2016-02-17';

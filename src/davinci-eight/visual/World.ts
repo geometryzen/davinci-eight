@@ -1,7 +1,7 @@
 import Arrow from './Arrow'
 import Color from '../core/Color'
-import Cuboid from './Cuboid'
-import CuboidOptions from './CuboidOptions'
+import Box from './Box'
+import BoxOptions from './BoxOptions'
 import Cylinder from './Cylinder'
 import DrawList from './DrawList'
 import Euclidean3 from '../math/Euclidean3'
@@ -134,22 +134,33 @@ export default class World extends Shareable {
     }
 
     /**
-     * @method cuboid
-     * @return {Cuboid}
+     * @method box
+     * @return {Box}
      */
-    cuboid(options: CuboidOptions = {}): Cuboid {
-        const cuboid = new Cuboid(options)
-        this.drawList.add(cuboid)
-        cuboid.release()
-        return cuboid
+    box(options: BoxOptions = {}): Box {
+        const box = new Box(options)
+        this.drawList.add(box)
+        box.release()
+        return box
     }
 
     /**
      * @method cylinder
      * @return {Cylinder}
      */
-    cylinder(options: { radius?: number } = {}): Cylinder {
+    cylinder(
+        options: {
+            axis?: VectorE3;
+            pos?: VectorE3;
+            radius?: number;
+        } = {}): Cylinder {
         const cylinder = new Cylinder()
+        if (options.axis) {
+            cylinder.axis = Euclidean3.vector(options.axis.x, options.axis.y, options.axis.z)
+        }
+        if (options.pos) {
+            cylinder.pos = Euclidean3.fromVectorE3(options.pos)
+        }
         cylinder.radius = isDefined(options.radius) ? mustBeNumber('radius', options.radius) : 0.5
         cylinder.color = Color.magenta
         this.drawList.add(cylinder)
@@ -169,7 +180,7 @@ export default class World extends Shareable {
         } = {}): Sphere {
         const sphere = new Sphere()
         if (options.pos) {
-            sphere.pos = Euclidean3.vector(options.pos.x, options.pos.y, options.pos.z)
+            sphere.pos = Euclidean3.fromVectorE3(options.pos)
         }
         sphere.radius = isDefined(options.radius) ? mustBeNumber('radius', options.radius) : 0.5
         if (options.color) {

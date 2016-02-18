@@ -183,7 +183,7 @@ export default class SphereBuilder extends SliceSimplexPrimitivesBuilder impleme
     public thetaLength: number;
     public thetaStart: number;
     constructor(
-        radius,
+        radius: number,
         axis: VectorE3,
         phiStart?: VectorE3,
         phiLength = 2 * Math.PI,
