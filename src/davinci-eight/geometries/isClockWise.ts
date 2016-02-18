@@ -1,4 +1,4 @@
-import Euclidean3 from '../math/Euclidean3';
+import G3 from '../math/G3';
 /*
 var area = function ( contour ) {
 
@@ -15,7 +15,7 @@ var area = function ( contour ) {
 
   };
 */
-export default function isClockWise(points: Euclidean3[]): boolean {
+export default function isClockWise(points: G3[]): boolean {
     // This needs to be relative to a bivector.
     // return area(pts) < 0
     throw new Error("isClockWise")

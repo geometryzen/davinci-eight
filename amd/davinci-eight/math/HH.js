@@ -1,4 +1,4 @@
-define(["require", "exports", '../math/dotVectorCartesianE3', '../math/Euclidean3', '../math/dotVectorE3', '../checks/mustBeInteger', '../checks/mustBeNumber', '../checks/mustBeObject', '../math/quadVectorE3', '../math/R3', '../math/rotorFromDirections'], function (require, exports, dotVectorCartesianE3_1, Euclidean3_1, dotVectorE3_1, mustBeInteger_1, mustBeNumber_1, mustBeObject_1, quadVectorE3_1, R3_1, rotorFromDirections_1) {
+define(["require", "exports", '../math/dotVectorCartesianE3', '../math/G3', '../math/dotVectorE3', '../checks/mustBeInteger', '../checks/mustBeNumber', '../checks/mustBeObject', '../math/quadVectorE3', '../math/R3m', '../math/rotorFromDirections'], function (require, exports, dotVectorCartesianE3_1, G3_1, dotVectorE3_1, mustBeInteger_1, mustBeNumber_1, mustBeObject_1, quadVectorE3_1, R3m_1, rotorFromDirections_1) {
     var cos = Math.cos;
     var sin = Math.sin;
     var exp = Math.exp;
@@ -6,7 +6,7 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../math/Euclidean
     var HH = (function () {
         function HH(t, v) {
             if (t === void 0) { t = 1; }
-            if (v === void 0) { v = Euclidean3_1.default.zero; }
+            if (v === void 0) { v = G3_1.default.zero; }
             this.t = mustBeNumber_1.default('t', t);
             mustBeObject_1.default('v', v);
             this.x = mustBeNumber_1.default('v.x', v.x);
@@ -15,7 +15,7 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../math/Euclidean
         }
         Object.defineProperty(HH.prototype, "v", {
             get: function () {
-                return new Euclidean3_1.default(0, this.x, this.y, this.z, 0, 0, 0, 0);
+                return new G3_1.default(0, this.x, this.y, this.z, 0, 0, 0, 0);
             },
             enumerable: true,
             configurable: true
@@ -58,7 +58,7 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../math/Euclidean
             return this;
         };
         HH.prototype.clone = function () {
-            return new HH(this.t, new Euclidean3_1.default(0, this.x, this.y, this.z, 0, 0, 0, 0));
+            return new HH(this.t, new G3_1.default(0, this.x, this.y, this.z, 0, 0, 0, 0));
         };
         HH.prototype.lco = function (rhs) {
             return this.lco2(this, rhs);
@@ -297,7 +297,7 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../math/Euclidean
             return this;
         };
         HH.prototype.spinor = function (a, b) {
-            var v1 = new R3_1.default();
+            var v1 = new R3m_1.default();
             var r = dotVectorE3_1.default(a, b) + 1;
             if (r < EPS) {
                 r = 0;

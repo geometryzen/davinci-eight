@@ -3,19 +3,19 @@ import CartesianE3 from '../math/CartesianE3';
 import SimplexPrimitivesBuilder from '../geometries/SimplexPrimitivesBuilder';
 import Simplex from '../geometries/Simplex';
 import SliceSimplexPrimitivesBuilder from '../geometries/SliceSimplexPrimitivesBuilder';
-import SpinG3 from '../math/SpinG3';
+import SpinG3m from '../math/SpinG3m';
 import SpinorE3 from '../math/SpinorE3';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
-import R2 from '../math/R2';
-import R3 from '../math/R3';
+import R2m from '../math/R2m';
+import R3m from '../math/R3m';
 import VectorE3 from '../math/VectorE3';
 
-function computeVertices(a: number, b: number, axis: CartesianE3, start: VectorE3, angle: number, generator: SpinorE3, radialSegments: number, thetaSegments: number, vertices: R3[], uvs: R2[]) {
+function computeVertices(a: number, b: number, axis: CartesianE3, start: VectorE3, angle: number, generator: SpinorE3, radialSegments: number, thetaSegments: number, vertices: R3m[], uvs: R2m[]) {
     /**
      * `t` is the vector perpendicular to s in the plane of the ring.
      * We could use the generator an PI / 4 to calculate this or the cross product as here.
      */
-    var perp = R3.copy(axis).cross(start)
+    var perp = R3m.copy(axis).cross(start)
     /**
      * The distance of the vertex from the origin and center.
      */
@@ -23,13 +23,13 @@ function computeVertices(a: number, b: number, axis: CartesianE3, start: VectorE
     var radiusStep = (a - b) / radialSegments
 
     for (var i = 0; i < radialSegments + 1; i++) {
-        var begin = R3.copy(start).scale(radius)
+        var begin = R3m.copy(start).scale(radius)
         var arcPoints = arc3(begin, angle, generator, thetaSegments)
         for (var j = 0, jLength = arcPoints.length; j < jLength; j++) {
             var arcPoint = arcPoints[j]
             vertices.push(arcPoint)
             // The coordinates vary between -a and +a, which we map to 0 and 1.
-            uvs.push(new R2([(arcPoint.dot(start) / a + 1) / 2, (arcPoint.dot(perp) / a + 1) / 2]))
+            uvs.push(new R2m([(arcPoint.dot(start) / a + 1) / 2, (arcPoint.dot(perp) / a + 1) / 2]))
         }
         radius += radiusStep;
     }
@@ -39,7 +39,7 @@ function vertexIndex(i: number, j: number, thetaSegments: number): number {
     return i * (thetaSegments + 1) + j
 }
 
-function makeTriangles(vertices: R3[], uvs: R2[], axis: CartesianE3, radialSegments: number, thetaSegments: number, geometry: SimplexPrimitivesBuilder) {
+function makeTriangles(vertices: R3m[], uvs: R2m[], axis: CartesianE3, radialSegments: number, thetaSegments: number, geometry: SimplexPrimitivesBuilder) {
     for (var i = 0; i < radialSegments; i++) {
         // Our traversal has resulted in the following formula for the index
         // into the vertices or uvs array
@@ -60,18 +60,18 @@ function makeTriangles(vertices: R3[], uvs: R2[], axis: CartesianE3, radialSegme
             var v1 = quadIndex + thetaSegments + 1  // Move outwards one segment.
             var v2 = quadIndex + thetaSegments + 2  // Then move one segment along the radius.
 
-            geometry.triangle([vertices[v0], vertices[v1], vertices[v2]], [R3.copy(axis), R3.copy(axis), R3.copy(axis)], [uvs[v0].clone(), uvs[v1].clone(), uvs[v2].clone()])
+            geometry.triangle([vertices[v0], vertices[v1], vertices[v2]], [R3m.copy(axis), R3m.copy(axis), R3m.copy(axis)], [uvs[v0].clone(), uvs[v1].clone(), uvs[v2].clone()])
 
             v0 = quadIndex // Start at the same corner
             v1 = quadIndex + thetaSegments + 2 // Move diagonally outwards and along radial
             v2 = quadIndex + 1  // Then move radially inwards
 
-            geometry.triangle([vertices[v0], vertices[v1], vertices[v2]], [R3.copy(axis), R3.copy(axis), R3.copy(axis)], [uvs[v0].clone(), uvs[v1].clone(), uvs[v2].clone()])
+            geometry.triangle([vertices[v0], vertices[v1], vertices[v2]], [R3m.copy(axis), R3m.copy(axis), R3m.copy(axis)], [uvs[v0].clone(), uvs[v1].clone(), uvs[v2].clone()])
         }
     }
 }
 
-function makeLineSegments(vertices: R3[], radialSegments: number, thetaSegments: number, data: Simplex[]) {
+function makeLineSegments(vertices: R3m[], radialSegments: number, thetaSegments: number, data: Simplex[]) {
     for (let i = 0; i < radialSegments; i++) {
         for (let j = 0; j < thetaSegments; j++) {
             let simplex = new Simplex(Simplex.LINE)
@@ -99,7 +99,7 @@ function makeLineSegments(vertices: R3[], radialSegments: number, thetaSegments:
     }
 }
 
-function makePoints(vertices: R3[], radialSegments: number, thetaSegments: number, data: Simplex[]) {
+function makePoints(vertices: R3m[], radialSegments: number, thetaSegments: number, data: Simplex[]) {
     for (let i = 0; i <= radialSegments; i++) {
         for (let j = 0; j <= thetaSegments; j++) {
             var simplex = new Simplex(Simplex.POINT)
@@ -109,7 +109,7 @@ function makePoints(vertices: R3[], radialSegments: number, thetaSegments: numbe
     }
 }
 
-function makeEmpty(vertices: R3[], radialSegments: number, thetaSegments: number, data: Simplex[]) {
+function makeEmpty(vertices: R3m[], radialSegments: number, thetaSegments: number, data: Simplex[]) {
     for (let i = 0; i <= radialSegments; i++) {
         for (let j = 0; j <= thetaSegments; j++) {
             var simplex = new Simplex(Simplex.EMPTY)
@@ -134,10 +134,10 @@ export default class RingSimplexGeometry extends SliceSimplexPrimitivesBuilder {
 
         var radialSegments = this.flatSegments
         var thetaSegments = this.curvedSegments
-        var generator: SpinorE3 = SpinG3.dual(this.axis)
+        var generator: SpinorE3 = SpinG3m.dual(this.axis)
 
-        var vertices: R3[] = []
-        var uvs: R2[] = []
+        var vertices: R3m[] = []
+        var uvs: R2m[] = []
 
         computeVertices(this.a, this.b, this.axis, this.sliceStart, this.sliceAngle, generator, radialSegments, thetaSegments, vertices, uvs)
         switch (this.k) {

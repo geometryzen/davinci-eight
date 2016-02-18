@@ -1,0 +1,2028 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>src/davinci-eight/math/G3m.ts - davinci-eight</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="icon" href="../assets/favicon.ico">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+                <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 2.189.0</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+                    <h2 class="off-left">APIs</h2>
+                    <div id="api-tabview" class="tabview">
+                        <ul class="tabs">
+                            <li><a href="#api-classes">Classes</a></li>
+                            <li><a href="#api-modules">Modules</a></li>
+                        </ul>
+                
+                        <div id="api-tabview-filter">
+                            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+                        </div>
+                
+                        <div id="api-tabview-panel">
+                            <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/AbstractMatrix.html">AbstractMatrix</a></li>
+                                <li><a href="../classes/AmbientLight.html">AmbientLight</a></li>
+                                <li><a href="../classes/Arrow.html">Arrow</a></li>
+                                <li><a href="../classes/ArrowGeometry.html">ArrowGeometry</a></li>
+                                <li><a href="../classes/AttribLocation.html">AttribLocation</a></li>
+                                <li><a href="../classes/AttribMetaInfo.html">AttribMetaInfo</a></li>
+                                <li><a href="../classes/Attribute.html">Attribute</a></li>
+                                <li><a href="../classes/BlendFactor.html">BlendFactor</a></li>
+                                <li><a href="../classes/Box.html">Box</a></li>
+                                <li><a href="../classes/Capability.html">Capability</a></li>
+                                <li><a href="../classes/CartesianE3.html">CartesianE3</a></li>
+                                <li><a href="../classes/CC.html">CC</a></li>
+                                <li><a href="../classes/Color.html">Color</a></li>
+                                <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
+                                <li><a href="../classes/ColorRGB.html">ColorRGB</a></li>
+                                <li><a href="../classes/ColorRGBA.html">ColorRGBA</a></li>
+                                <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
+                                <li><a href="../classes/createView.html">createView</a></li>
+                                <li><a href="../classes/CuboidGeometry.html">CuboidGeometry</a></li>
+                                <li><a href="../classes/CuboidPrimitivesBuilder.html">CuboidPrimitivesBuilder</a></li>
+                                <li><a href="../classes/Cylinder.html">Cylinder</a></li>
+                                <li><a href="../classes/CylinderGeometry.html">CylinderGeometry</a></li>
+                                <li><a href="../classes/Dimensions.html">Dimensions</a></li>
+                                <li><a href="../classes/DirectionalLight.html">DirectionalLight</a></li>
+                                <li><a href="../classes/DrawMode.html">DrawMode</a></li>
+                                <li><a href="../classes/EIGHTLogger.html">EIGHTLogger</a></li>
+                                <li><a href="../classes/Facet.html">Facet</a></li>
+                                <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
+                                <li><a href="../classes/Frustum.html">Frustum</a></li>
+                                <li><a href="../classes/G1.html">G1</a></li>
+                                <li><a href="../classes/G2.html">G2</a></li>
+                                <li><a href="../classes/G2m.html">G2m</a></li>
+                                <li><a href="../classes/G3.html">G3</a></li>
+                                <li><a href="../classes/G3m.html">G3m</a></li>
+                                <li><a href="../classes/GeometricE2.html">GeometricE2</a></li>
+                                <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
+                                <li><a href="../classes/Geometry.html">Geometry</a></li>
+                                <li><a href="../classes/GeometryContainer.html">GeometryContainer</a></li>
+                                <li><a href="../classes/GeometryPrimitive.html">GeometryPrimitive</a></li>
+                                <li><a href="../classes/GraphicsProgramSymbols.html">GraphicsProgramSymbols</a></li>
+                                <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
+                                <li><a href="../classes/IContextConsumer.html">IContextConsumer</a></li>
+                                <li><a href="../classes/IContextListener.html">IContextListener</a></li>
+                                <li><a href="../classes/IContextProgramConsumer.html">IContextProgramConsumer</a></li>
+                                <li><a href="../classes/IContextProvider.html">IContextProvider</a></li>
+                                <li><a href="../classes/IUnknown.html">IUnknown</a></li>
+                                <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
+                                <li><a href="../classes/Mat2R.html">Mat2R</a></li>
+                                <li><a href="../classes/Mat3R.html">Mat3R</a></li>
+                                <li><a href="../classes/Mat4R.html">Mat4R</a></li>
+                                <li><a href="../classes/Material.html">Material</a></li>
+                                <li><a href="../classes/Mesh.html">Mesh</a></li>
+                                <li><a href="../classes/MeshMaterial.html">MeshMaterial</a></li>
+                                <li><a href="../classes/ModelE2.html">ModelE2</a></li>
+                                <li><a href="../classes/ModelE3.html">ModelE3</a></li>
+                                <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
+                                <li><a href="../classes/MouseControls.html">MouseControls</a></li>
+                                <li><a href="../classes/Mutable.html">Mutable</a></li>
+                                <li><a href="../classes/NumberIUnknownMap.html">NumberIUnknownMap</a></li>
+                                <li><a href="../classes/Perspective.html">Perspective</a></li>
+                                <li><a href="../classes/PerspectiveCamera.html">PerspectiveCamera</a></li>
+                                <li><a href="../classes/PointMaterial.html">PointMaterial</a></li>
+                                <li><a href="../classes/PointSizeFacet.html">PointSizeFacet</a></li>
+                                <li><a href="../classes/Primitive.html">Primitive</a></li>
+                                <li><a href="../classes/PrimitiveBuffers.html">PrimitiveBuffers</a></li>
+                                <li><a href="../classes/Pseudo.html">Pseudo</a></li>
+                                <li><a href="../classes/QQ.html">QQ</a></li>
+                                <li><a href="../classes/R1m.html">R1m</a></li>
+                                <li><a href="../classes/R2m.html">R2m</a></li>
+                                <li><a href="../classes/R3m.html">R3m</a></li>
+                                <li><a href="../classes/R4m.html">R4m</a></li>
+                                <li><a href="../classes/ReflectionFacetE2.html">ReflectionFacetE2</a></li>
+                                <li><a href="../classes/ReflectionFacetE3.html">ReflectionFacetE3</a></li>
+                                <li><a href="../classes/RigidBody.html">RigidBody</a></li>
+                                <li><a href="../classes/Scalar.html">Scalar</a></li>
+                                <li><a href="../classes/Scene.html">Scene</a></li>
+                                <li><a href="../classes/Shareable.html">Shareable</a></li>
+                                <li><a href="../classes/ShareableArray.html">ShareableArray</a></li>
+                                <li><a href="../classes/ShareableContextListener.html">ShareableContextListener</a></li>
+                                <li><a href="../classes/ShareableWebGLBuffer.html">ShareableWebGLBuffer</a></li>
+                                <li><a href="../classes/ShareableWebGLShader.html">ShareableWebGLShader</a></li>
+                                <li><a href="../classes/ShareableWebGLTexture.html">ShareableWebGLTexture</a></li>
+                                <li><a href="../classes/Sphere.html">Sphere</a></li>
+                                <li><a href="../classes/SphereGeometry.html">SphereGeometry</a></li>
+                                <li><a href="../classes/SpinG2m.html">SpinG2m</a></li>
+                                <li><a href="../classes/SpinG3m.html">SpinG3m</a></li>
+                                <li><a href="../classes/SpinorE1.html">SpinorE1</a></li>
+                                <li><a href="../classes/SpinorE2.html">SpinorE2</a></li>
+                                <li><a href="../classes/SpinorE3.html">SpinorE3</a></li>
+                                <li><a href="../classes/SpinorE4.html">SpinorE4</a></li>
+                                <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
+                                <li><a href="../classes/Tetrahedron.html">Tetrahedron</a></li>
+                                <li><a href="../classes/TetrahedronGeometry.html">TetrahedronGeometry</a></li>
+                                <li><a href="../classes/TrackballControls.html">TrackballControls</a></li>
+                                <li><a href="../classes/Trail.html">Trail</a></li>
+                                <li><a href="../classes/UniformLocation.html">UniformLocation</a></li>
+                                <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
+                                <li><a href="../classes/Unit.html">Unit</a></li>
+                                <li><a href="../classes/Vector.html">Vector</a></li>
+                                <li><a href="../classes/Vector3Facet.html">Vector3Facet</a></li>
+                                <li><a href="../classes/VectorE0.html">VectorE0</a></li>
+                                <li><a href="../classes/VectorE1.html">VectorE1</a></li>
+                                <li><a href="../classes/VectorE2.html">VectorE2</a></li>
+                                <li><a href="../classes/VectorE3.html">VectorE3</a></li>
+                                <li><a href="../classes/VectorE4.html">VectorE4</a></li>
+                                <li><a href="../classes/VectorN.html">VectorN</a></li>
+                                <li><a href="../classes/VersionLogger.html">VersionLogger</a></li>
+                                <li><a href="../classes/View.html">View</a></li>
+                                <li><a href="../classes/VisualBody.html">VisualBody</a></li>
+                                <li><a href="../classes/WebGLBlendFunc.html">WebGLBlendFunc</a></li>
+                                <li><a href="../classes/WebGLClearColor.html">WebGLClearColor</a></li>
+                                <li><a href="../classes/WebGLDisable.html">WebGLDisable</a></li>
+                                <li><a href="../classes/WebGLEnable.html">WebGLEnable</a></li>
+                                <li><a href="../classes/WebGLRenderer.html">WebGLRenderer</a></li>
+                                <li><a href="../classes/World.html">World</a></li>
+                            </ul>
+                
+                
+                            <ul id="api-modules" class="apis modules">
+                                <li><a href="../modules/controls.html">controls</a></li>
+                                <li><a href="../modules/core.html">core</a></li>
+                                <li><a href="../modules/EIGHT.html">EIGHT</a></li>
+                                <li><a href="../modules/facets.html">facets</a></li>
+                                <li><a href="../modules/geometries.html">geometries</a></li>
+                                <li><a href="../modules/materials.html">materials</a></li>
+                                <li><a href="../modules/math.html">math</a></li>
+                                <li><a href="../modules/visual.html">visual</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+                    Show:
+                    <label for="api-show-inherited">
+                        <input type="checkbox" id="api-show-inherited" checked>
+                        Inherited
+                    </label>
+            
+                    <label for="api-show-protected">
+                        <input type="checkbox" id="api-show-protected">
+                        Protected
+                    </label>
+            
+                    <label for="api-show-private">
+                        <input type="checkbox" id="api-show-private">
+                        Private
+                    </label>
+                    <label for="api-show-deprecated">
+                        <input type="checkbox" id="api-show-deprecated">
+                        Deprecated
+                    </label>
+            
+                </div>
+            
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+<h1 class="file-heading">File: src/davinci-eight/math/G3m.ts</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+import dotVector from &#x27;./dotVectorE3&#x27;;
+import G3 from &#x27;./G3&#x27;;
+import EventEmitter from &#x27;../utils/EventEmitter&#x27;;
+import extG3 from &#x27;./extG3&#x27;;
+import GeometricE3 from &#x27;./GeometricE3&#x27;;
+import lcoG3 from &#x27;./lcoG3&#x27;;
+import GeometricOperators from &#x27;./GeometricOperators&#x27;;
+import isScalarG3 from &#x27;./isScalarG3&#x27;;
+import mulG3 from &#x27;./mulG3&#x27;;
+import mustBeInteger from &#x27;../checks/mustBeInteger&#x27;;
+import mustBeString from &#x27;../checks/mustBeString&#x27;;
+import MutableGeometricElement3D from &#x27;./MutableGeometricElement3D&#x27;;
+import quadVector from &#x27;./quadVectorE3&#x27;;
+import rcoG3 from &#x27;./rcoG3&#x27;;
+import readOnly from &#x27;../i18n/readOnly&#x27;;
+import rotorFromDirections from &#x27;./rotorFromDirections&#x27;;
+import scpG3 from &#x27;./scpG3&#x27;;
+import SpinorE3 from &#x27;./SpinorE3&#x27;;
+import squaredNormG3 from &#x27;./squaredNormG3&#x27;;
+import stringFromCoordinates from &#x27;./stringFromCoordinates&#x27;;
+import Unit from &#x27;./Unit&#x27;;
+import VectorE3 from &#x27;./VectorE3&#x27;;
+import VectorN from &#x27;./VectorN&#x27;;
+import wedgeXY from &#x27;./wedgeXY&#x27;;
+import wedgeYZ from &#x27;./wedgeYZ&#x27;;
+import wedgeZX from &#x27;./wedgeZX&#x27;;
+
+/**
+ * Geometric Algebra and Mathematical abstractions.
+ *
+ * @module EIGHT
+ * @submodule math
+ */
+
+// Symbolic constants for the coordinate indices into the data array.
+const COORD_SCALAR = 0
+const COORD_X = 1
+const COORD_Y = 2
+const COORD_Z = 3
+const COORD_XY = 4
+const COORD_YZ = 5
+const COORD_ZX = 6
+const COORD_PSEUDO = 7
+
+const EVENT_NAME_CHANGE = &#x27;change&#x27;;
+
+const atan2 = Math.atan2
+const exp = Math.exp
+const cos = Math.cos
+const log = Math.log
+const sin = Math.sin
+const sqrt = Math.sqrt
+
+const BASIS_LABELS = [&quot;1&quot;, &quot;e1&quot;, &quot;e2&quot;, &quot;e3&quot;, &quot;e12&quot;, &quot;e23&quot;, &quot;e31&quot;, &quot;e123&quot;]
+
+/**
+ * Coordinates corresponding to basis labels.
+ */
+function coordinates(m: GeometricE3): number[] {
+    return [m.α, m.x, m.y, m.z, m.xy, m.yz, m.zx, m.β]
+}
+
+function makeConstantE3(label: string, α: number, x: number, y: number, z: number, yz: number, zx: number, xy: number, β: number, uom: Unit): GeometricE3 {
+    mustBeString(&#x27;label&#x27;, label)
+    var that: GeometricE3;
+    that = {
+        get α() {
+            return α;
+        },
+        set α(unused: number) {
+            throw new Error(readOnly(label + &#x27;.α&#x27;).message);
+        },
+        get alpha() {
+            return α;
+        },
+        set alpha(unused: number) {
+            throw new Error(readOnly(label + &#x27;.alpha&#x27;).message);
+        },
+        get x() {
+            return x;
+        },
+        set x(unused: number) {
+            throw new Error(readOnly(label + &#x27;.x&#x27;).message);
+        },
+        get y() {
+            return y;
+        },
+        set y(unused: number) {
+            throw new Error(readOnly(label + &#x27;.y&#x27;).message);
+        },
+        get z() {
+            return z;
+        },
+        set z(unused: number) {
+            throw new Error(readOnly(label + &#x27;.x&#x27;).message);
+        },
+        get yz() {
+            return yz;
+        },
+        set yz(unused: number) {
+            throw new Error(readOnly(label + &#x27;.yz&#x27;).message);
+        },
+        get zx() {
+            return zx;
+        },
+        set zx(unused: number) {
+            throw new Error(readOnly(label + &#x27;.zx&#x27;).message);
+        },
+        get xy() {
+            return xy;
+        },
+        set xy(unused: number) {
+            throw new Error(readOnly(label + &#x27;.xy&#x27;).message);
+        },
+        get β() {
+            return β;
+        },
+        set β(unused: number) {
+            throw new Error(readOnly(label + &#x27;.β&#x27;).message);
+        },
+        get beta() {
+            return β;
+        },
+        set beta(unused: number) {
+            throw new Error(readOnly(label + &#x27;.beta&#x27;).message);
+        },
+        get uom() {
+            return uom;
+        },
+        set uom(unused: Unit) {
+            throw new Error(readOnly(label + &#x27;.uom&#x27;).message);
+        },
+        toString() {
+            return label;
+        }
+    }
+    return that
+}
+
+// FIXME: Why do this? They are only constant by agreement. i.e. Not enforced.
+const zero = makeConstantE3(&#x27;0&#x27;, 0, 0, 0, 0, 0, 0, 0, 0, void 0);
+const one = makeConstantE3(&#x27;1&#x27;, 1, 0, 0, 0, 0, 0, 0, 0, void 0);
+const e1 = makeConstantE3(&#x27;e1&#x27;, 0, 1, 0, 0, 0, 0, 0, 0, void 0);
+const e2 = makeConstantE3(&#x27;e2&#x27;, 0, 0, 1, 0, 0, 0, 0, 0, void 0);
+const e3 = makeConstantE3(&#x27;e2&#x27;, 0, 0, 0, 1, 0, 0, 0, 0, void 0);
+const I = makeConstantE3(&#x27;I&#x27;, 0, 0, 0, 0, 0, 0, 0, 1, void 0);
+
+/**
+ * @class G3m
+ * @extends GeometricE3
+ * @beta
+ */
+export default class G3m extends VectorN&lt;number&gt; implements GeometricE3, MutableGeometricElement3D&lt;GeometricE3, G3m, SpinorE3, VectorE3&gt;, GeometricOperators&lt;G3m&gt; {
+    public uom: Unit;
+    /**
+     * @property eventBus
+     * @type EventEmitter
+     * @private
+     */
+    private eventBus: EventEmitter&lt;G3m&gt;;
+
+    /**
+     * Constructs a &lt;code&gt;G3m&lt;/code&gt;.
+     * The multivector is initialized to zero.
+     * @class G3m
+     * @beta
+     * @constructor
+     */
+    constructor() {
+        super([0, 0, 0, 0, 0, 0, 0, 0], false, 8);
+        this.eventBus = new EventEmitter&lt;G3m&gt;(this);
+    }
+
+    on(eventName: string, callback: (eventName: string, key: string, value: number, source: G3m) =&gt; void) {
+        this.eventBus.addEventListener(eventName, callback);
+    }
+
+    off(eventName: string, callback: (eventName: string, key: string, value: number, source: G3m) =&gt; void) {
+        this.eventBus.removeEventListener(eventName, callback);
+    }
+
+    /**
+     * Consistently set a coordinate value in the most optimized way.
+     */
+    private setCoordinate(index: number, newValue: number, name: string) {
+        const coords = this.coords;
+        const previous = coords[index];
+        if (newValue !== previous) {
+            coords[index] = newValue;
+            this.modified = true;
+            this.eventBus.emit(EVENT_NAME_CHANGE, name, newValue);
+        }
+    }
+
+    /**
+     * The scalar part of this multivector.
+     * @property α
+     * @type {number}
+     */
+    get α(): number {
+        return this.coords[COORD_SCALAR];
+    }
+    set α(α: number) {
+        this.setCoordinate(COORD_SCALAR, α, &#x27;α&#x27;);
+    }
+
+    /**
+     * The scalar part of this multivector.
+     * @property alpha
+     * @type {number}
+     */
+    get alpha(): number {
+        return this.coords[COORD_SCALAR];
+    }
+    set alpha(alpha: number) {
+        this.setCoordinate(COORD_SCALAR, alpha, &#x27;alpha&#x27;);
+    }
+
+    /**
+     * The coordinate corresponding to the &lt;b&gt;e&lt;/b&gt;&lt;sub&gt;1&lt;/sub&gt; standard basis vector.
+     * @property x
+     * @type {number}
+     */
+    get x(): number {
+        return this.coords[COORD_X]
+    }
+    set x(x: number) {
+        this.setCoordinate(COORD_X, x, &#x27;x&#x27;);
+    }
+
+    /**
+     * The coordinate corresponding to the &lt;b&gt;e&lt;/b&gt;&lt;sub&gt;2&lt;/sub&gt; standard basis vector.
+     * @property y
+     * @type {number}
+     */
+    get y(): number {
+        return this.coords[COORD_Y]
+    }
+    set y(y: number) {
+        this.setCoordinate(COORD_Y, y, &#x27;y&#x27;);
+    }
+
+    /**
+     * The coordinate corresponding to the &lt;b&gt;e&lt;/b&gt;&lt;sub&gt;3&lt;/sub&gt; standard basis vector.
+     * @property z
+     * @type {number}
+     */
+    get z(): number {
+        return this.coords[COORD_Z]
+    }
+    set z(z: number) {
+        this.setCoordinate(COORD_Z, z, &#x27;z&#x27;);
+    }
+
+    /**
+     * The coordinate corresponding to the &lt;b&gt;e&lt;/b&gt;&lt;sub&gt;2&lt;/sub&gt;&lt;b&gt;e&lt;/b&gt;&lt;sub&gt;3&lt;/sub&gt; standard basis bivector.
+     * @property yz
+     * @type {number}
+     */
+    get yz(): number {
+        return this.coords[COORD_YZ]
+    }
+    set yz(yz: number) {
+        this.setCoordinate(COORD_YZ, yz, &#x27;yz&#x27;);
+    }
+
+    /**
+     * The coordinate corresponding to the &lt;b&gt;e&lt;/b&gt;&lt;sub&gt;3&lt;/sub&gt;&lt;b&gt;e&lt;/b&gt;&lt;sub&gt;1&lt;/sub&gt; standard basis bivector.
+     * @property zx
+     * @type {number}
+     */
+    get zx(): number {
+        return this.coords[COORD_ZX]
+    }
+    set zx(zx: number) {
+        this.setCoordinate(COORD_ZX, zx, &#x27;zx&#x27;);
+    }
+
+    /**
+     * The coordinate corresponding to the &lt;b&gt;e&lt;/b&gt;&lt;sub&gt;1&lt;/sub&gt;&lt;b&gt;e&lt;/b&gt;&lt;sub&gt;2&lt;/sub&gt; standard basis bivector.
+     * @property xy
+     * @type {number}
+     */
+    get xy(): number {
+        return this.coords[COORD_XY]
+    }
+    set xy(xy: number) {
+        this.setCoordinate(COORD_XY, xy, &#x27;xy&#x27;);
+    }
+
+    /**
+     * The pseudoscalar part of this multivector.
+     * @property β
+     * @type {number}
+     */
+    get β(): number {
+        return this.coords[COORD_PSEUDO]
+    }
+    set β(β: number) {
+        this.setCoordinate(COORD_PSEUDO, β, &#x27;β&#x27;);
+    }
+
+    /**
+     * The pseudoscalar part of this multivector.
+     * @property beta
+     * @type {number}
+     */
+    get beta(): number {
+        return this.coords[COORD_PSEUDO]
+    }
+    set beta(beta: number) {
+        this.setCoordinate(COORD_PSEUDO, beta, &#x27;beta&#x27;);
+    }
+
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ this + M * α&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method add
+     * @param M {GeometricE3}
+     * @param [α = 1] {number}
+     * @return {G3m} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    add(M: GeometricE3, α = 1): G3m {
+        this.α += M.α * α
+        this.x += M.x * α
+        this.y += M.y * α
+        this.z += M.z * α
+        this.yz += M.yz * α
+        this.zx += M.zx * α
+        this.xy += M.xy * α
+        this.β += M.β * α
+        return this
+    }
+
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ this + Iβ&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method addPseudo
+     * @param β {number}
+     * @return {G3m} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    addPseudo(β: number): G3m {
+        this.β += β
+        return this
+    }
+
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ this + α&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method addScalar
+     * @param α {number}
+     * @return {G3m} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    addScalar(α: number): G3m {
+        this.α += α
+        return this
+    }
+
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ this + v * α&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method addVector
+     * @param v {VectorE3}
+     * @param [α = 1] {number}
+     * @return {G3m} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    addVector(v: VectorE3, α = 1): G3m {
+        this.x += v.x * α
+        this.y += v.y * α
+        this.z += v.z * α
+        return this
+    }
+
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ a + b&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method add2
+     * @param a {GeometricE3}
+     * @param b {GeometricE3}
+     * @return {G3m} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    add2(a: GeometricE3, b: GeometricE3): G3m {
+        this.α = a.α + b.α
+        this.x = a.x + b.x
+        this.y = a.y + b.y
+        this.z = a.z + b.z
+        this.yz = a.yz + b.yz
+        this.zx = a.zx + b.zx
+        this.xy = a.xy + b.xy
+        this.β = a.β + b.β
+        return this
+    }
+
+    adj(): G3m {
+        throw new Error(&#x27;TODO: G3m.adj&#x27;)
+    }
+
+    /**
+     * @method angle
+     * @return {G3m}
+     */
+    angle(): G3m {
+        return this.log().grade(2);
+    }
+
+    /**
+     * @method clone
+     * @return {G3m} &lt;code&gt;copy(this)&lt;/code&gt;
+     * @chainable
+     */
+    clone(): G3m {
+        return G3m.copy(this)
+    }
+
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ conjugate(this)&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method conj
+     * @return {G3m} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    conj(): G3m {
+        // FIXME: This is only the bivector part.
+        // Also need to think about various involutions.
+        this.yz = -this.yz;
+        this.zx = -this.zx;
+        this.xy = -this.xy;
+        return this
+    }
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ this &lt;&lt; m&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method lco
+     * @param m {GeometricE3}
+     * @return {G3m} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    lco(m: GeometricE3): G3m {
+        return this.lco2(this, m)
+    }
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ a &lt;&lt; b&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method lco2
+     * @param a {GeometricE3}
+     * @param b {GeometricE3}
+     * @return {G3m} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    lco2(a: GeometricE3, b: GeometricE3): G3m {
+        return lcoG3(a, b, this)
+    }
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ this &gt;&gt; m&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method rco
+     * @param m {GeometricE3}
+     * @return {G3m} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    rco(m: GeometricE3): G3m {
+        return this.rco2(this, m)
+    }
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ a &gt;&gt; b&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method rco2
+     * @param a {GeometricE3}
+     * @param b {GeometricE3}
+     * @return {G3m} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    rco2(a: GeometricE3, b: GeometricE3): G3m {
+        return rcoG3(a, b, this)
+    }
+
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ copy(v)&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method copy
+     * @param M {VectorE3}
+     * @return {G3m} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    copy(M: GeometricE3): G3m {
+        this.α = M.α
+        this.x = M.x
+        this.y = M.y
+        this.z = M.z
+        this.yz = M.yz
+        this.zx = M.zx
+        this.xy = M.xy
+        this.β = M.β
+
+        return this
+    }
+
+    /**
+     * Sets this multivector to the value of the scalar, &lt;code&gt;α&lt;/code&gt;.
+     *
+     * @method copyScalar
+     * @param α {number}
+     * @return {G3m}
+     * @chainable
+     */
+    copyScalar(α: number): G3m {
+        return this.zero().addScalar(α)
+    }
+
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ copy(spinor)&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method copySpinor
+     * @param spinor {SpinorE3}
+     * @return {G3m} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    copySpinor(spinor: SpinorE3) {
+        this.zero()
+        this.α = spinor.α
+        this.yz = spinor.yz
+        this.zx = spinor.zx
+        this.xy = spinor.xy
+        return this
+    }
+
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ copyVector(vector)&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method copyVector
+     * @param vector {VectorE3}
+     * @return {G3m} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    copyVector(vector: VectorE3) {
+        this.zero()
+        this.x = vector.x
+        this.y = vector.y
+        this.z = vector.z
+        this.uom = vector.uom
+        return this
+    }
+
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ this / m&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method div
+     * @param m {GeometricE3}
+     * @return {G3m} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    div(m: GeometricE3): G3m {
+        // TODO: Generalize
+        if (isScalarG3(m)) {
+            return this.divByScalar(m.α)
+        }
+        else {
+            throw new Error(&quot;division with arbitrary multivectors is not supported&quot;)
+        }
+        // return this.div2(this, m)
+    }
+
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ this / α&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method divByScalar
+     * @param α {number}
+     * @return {G3m} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    divByScalar(α: number): G3m {
+        this.α /= α
+        this.x /= α
+        this.y /= α
+        this.z /= α
+        this.yz /= α
+        this.zx /= α
+        this.xy /= α
+        this.β /= α
+        return this
+    }
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ a / b&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method div2
+     * @param a {GeometricE3}
+     * @param b {GeometricE3}
+     * @return {G3m} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    div2(a: SpinorE3, b: SpinorE3): G3m {
+        // FIXME: Generalize
+        let a0 = a.α
+        let a1 = a.yz;
+        let a2 = a.zx;
+        let a3 = a.xy;
+        let b0 = b.α
+        let b1 = b.yz;
+        let b2 = b.zx;
+        let b3 = b.xy;
+        // Compare this to the product for Quaternions
+        // It would be interesting to DRY this out.
+        this.α = a0 * b0 - a1 * b1 - a2 * b2 - a3 * b3;
+        // this.α = a0 * b0 - dotVectorCartesianE3(a1, a2, a3, b1, b2, b3)
+        this.yz = a0 * b1 + a1 * b0 - a2 * b3 + a3 * b2;
+        this.zx = a0 * b2 + a1 * b3 + a2 * b0 - a3 * b1;
+        this.xy = a0 * b3 - a1 * b2 + a2 * b1 + a3 * b0;
+        return this;
+    }
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ dual(m) = I * m&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method dual
+     * @param m {GeometricE3}
+     * @return {G3m} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    dual(m: GeometricE3) {
+        let w = -m.β
+        let x = -m.yz
+        let y = -m.zx
+        let z = -m.xy
+        let yz = m.x
+        let zx = m.y
+        let xy = m.z
+        let β = m.α
+
+        this.α = w
+        this.x = x
+        this.y = y
+        this.z = z
+        this.yz = yz
+        this.zx = zx
+        this.xy = xy
+        this.β = β
+
+        return this
+    }
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ e&lt;sup&gt;this&lt;/sup&gt;&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method exp
+     * @return {G3m} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    exp() {
+        // It&#x27;s always the case that the scalar commutes with every other
+        // grade of the multivector, so we can pull it out the front.
+        let expW = exp(this.α)
+
+        // In G3m we have the special case that the pseudoscalar also commutes.
+        // And since it squares to -1, we get a exp(Iβ) = cos(β) + I * sin(β) factor.
+        // let cosβ = cos(this.β)
+        // let sinβ = sin(this.β)
+
+        // We are left with the vector and bivector components.
+        // For a bivector (usual case), let B = I * φ, where φ is a vector.
+        // We would get cos(φ) + I * n * sin(φ), where φ = |φ|n and n is a unit vector.
+        let yz = this.yz
+        let zx = this.zx
+        let xy = this.xy
+        // φ is actually the absolute value of one half the rotation angle.
+        // The orientation of the rotation gets carried in the bivector components.
+        let φ = sqrt(yz * yz + zx * zx + xy * xy)
+        let s = φ !== 0 ? sin(φ) / φ : 1
+        let cosφ = cos(φ);
+
+        // For a vector a, we use exp(a) = cosh(a) + n * sinh(a)
+        // The mixture of vector and bivector parts is more complex!
+        this.α = cosφ;
+        this.yz = yz * s;
+        this.zx = zx * s;
+        this.xy = xy * s;
+        return this.scale(expW);
+    }
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ conj(this) / quad(this)&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method inv
+     * @return {G3m} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    inv(): G3m {
+        // FIXME: TODO
+        this.conj()
+        // this.divByScalar(this.squaredNorm());
+        return this
+    }
+
+    /**
+     * @method isOne
+     * @return {boolean}
+     */
+    isOne(): boolean {
+        return this.α === 1 &amp;&amp; this.x === 0 &amp;&amp; this.y === 0 &amp;&amp; this.z === 0 &amp;&amp; this.yz === 0 &amp;&amp; this.zx === 0 &amp;&amp; this.xy === 0 &amp;&amp; this.β === 0
+    }
+
+    /**
+     * @method isZero
+     * @return {boolean}
+     */
+    isZero(): boolean {
+        return this.α === 0 &amp;&amp; this.x === 0 &amp;&amp; this.y === 0 &amp;&amp; this.z === 0 &amp;&amp; this.yz === 0 &amp;&amp; this.zx === 0 &amp;&amp; this.xy === 0 &amp;&amp; this.β === 0
+    }
+
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ this + α * (target - this)&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method lerp
+     * @param target {GeometricE3}
+     * @param α {number}
+     * @return {G3m} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    lerp(target: GeometricE3, α: number): G3m {
+        this.α += (target.α - this.α) * α;
+        this.x += (target.x - this.x) * α;
+        this.y += (target.y - this.y) * α;
+        this.z += (target.z - this.z) * α;
+        this.yz += (target.yz - this.yz) * α;
+        this.zx += (target.zx - this.zx) * α;
+        this.xy += (target.xy - this.xy) * α;
+        this.β += (target.β - this.β) * α;
+        return this;
+    }
+
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ a + α * (b - a)&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method lerp2
+     * @param a {GeometricE3}
+     * @param b {GeometricE3}
+     * @param α {number}
+     * @return {G3m} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    lerp2(a: GeometricE3, b: GeometricE3, α: number): G3m {
+        this.copy(a).lerp(b, α)
+        return this
+    }
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ log(this)&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method log
+     * @return {G3m} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    log() {
+        let α = this.α
+        let x = this.yz
+        let y = this.zx
+        let z = this.xy
+        let BB = x * x + y * y + z * z
+        let B = sqrt(BB)
+        let f = atan2(B, α) / B
+        this.α = log(sqrt(α * α + BB))
+        this.yz = x * f
+        this.zx = y * f
+        this.xy = z * f
+        return this
+    }
+
+    /**
+     * Computes the &lt;em&gt;square root&lt;/em&gt; of the &lt;em&gt;squared norm&lt;/em&gt;.
+     * @method magnitude
+     * @return {G3m}
+     */
+    magnitude(): G3m {
+        return this.norm();
+    }
+
+    magnitudeSansUnits(): number {
+        return sqrt(this.squaredNormSansUnits());
+    }
+
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ this * s&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method mul
+     * @param m {GeometricE3}
+     * @return {G3m} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    mul(m: GeometricE3): G3m {
+        return this.mul2(this, m)
+    }
+
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ a * b&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method mul2
+     * @param a {GeometricE3}
+     * @param b {GeometricE3}
+     * @return {G3m} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    mul2(a: GeometricE3, b: GeometricE3): G3m {
+        return mulG3(a, b, this)
+    }
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ -1 * this&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method neg
+     * @return {G3m} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    neg() {
+        this.α = -this.α
+        this.x = -this.x
+        this.y = -this.y
+        this.z = -this.z
+        this.yz = -this.yz
+        this.zx = -this.zx
+        this.xy = -this.xy
+        this.β = -this.β
+        return this;
+    }
+
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ sqrt(this * conj(this))&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method norm
+     * @return {G3m} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    norm(): G3m {
+        this.α = this.magnitudeSansUnits()
+        this.x = 0
+        this.y = 0
+        this.z = 0
+        this.yz = 0
+        this.zx = 0
+        this.xy = 0
+        this.β = 0
+        return this
+    }
+
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ this / magnitude(this)&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method direction
+     * @return {G3m} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    direction(): G3m {
+        // The squaredNorm is the squared norm.
+        let norm = this.magnitudeSansUnits()
+        this.α = this.α / norm
+        this.x = this.x / norm
+        this.y = this.y / norm
+        this.z = this.z / norm
+        this.yz = this.yz / norm
+        this.zx = this.zx / norm
+        this.xy = this.xy / norm
+        this.β = this.β / norm
+        return this
+    }
+
+    /**
+     * Sets this multivector to the identity element for multiplication, &lt;b&gt;1&lt;/b&gt;.
+     * @method one
+     * @return {G3m}
+     * @chainable
+     */
+    one() {
+        this.α = 1
+        this.x = 0
+        this.y = 0
+        this.z = 0
+        this.yz = 0
+        this.zx = 0
+        this.xy = 0
+        this.β = 0
+        return this
+    }
+
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ scp(this, rev(this)) = this | ~this&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method quad
+     * @return {G3m} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    quad(): G3m {
+        return this.squaredNorm();
+    }
+
+    /**
+     * Computes the &lt;em&gt;squared norm&lt;/em&gt; of this multivector.
+     * @method squaredNorm
+     * @return {G3m} &lt;code&gt;this * conj(this)&lt;/code&gt;
+     */
+    squaredNorm(): G3m {
+        // FIXME: TODO
+        this.α = this.squaredNormSansUnits()
+        this.yz = 0
+        this.zx = 0
+        this.xy = 0
+        return this
+    }
+
+    squaredNormSansUnits(): number {
+        return squaredNormG3(this)
+    }
+
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ - n * this * n&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method reflect
+     * @param n {VectorE3}
+     * @return {G3m} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    reflect(n: VectorE3): G3m {
+        // TODO: Optimize.
+        let N = G3.fromVectorE3(n);
+        let M = G3.copy(this);
+        let R = N.mul(M).mul(N).scale(-1);
+        this.copy(R);
+        return this;
+    }
+
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ rev(this)&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method reverse
+     * @return {G3m} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    rev() {
+        // reverse has a ++-- structure on the grades.
+        this.α = +this.α
+        this.x = +this.x
+        this.y = +this.y
+        this.z = +this.z
+        this.yz = -this.yz
+        this.zx = -this.zx
+        this.xy = -this.xy
+        this.β = -this.β
+        return this
+    }
+
+    /**
+     * @method __tilde__
+     * @return {G3m}
+     * @private
+     */
+    __tilde__(): G3m {
+        return G3m.copy(this).rev()
+    }
+
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ R * this * rev(R)&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method rotate
+     * @param R {SpinorE3}
+     * @return {G3m} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    rotate(R: SpinorE3): G3m {
+        // FIXME: This only rotates the vector components.
+        let x = this.x;
+        let y = this.y;
+        let z = this.z;
+
+        let a = R.xy;
+        let b = R.yz;
+        let c = R.zx;
+        let α = R.α
+
+        let ix = α * x - c * z + a * y;
+        let iy = α * y - a * x + b * z;
+        let iz = α * z - b * y + c * x;
+        let iα = b * x + c * y + a * z;
+
+        this.x = ix * α + iα * b + iy * a - iz * c;
+        this.y = iy * α + iα * c + iz * b - ix * a;
+        this.z = iz * α + iα * a + ix * c - iy * b;
+
+        return this;
+    }
+    /**
+     * &lt;p&gt;
+     * Computes a rotor, R, from two unit vectors, where
+     * R = (1 + b * a) / sqrt(2 * (1 + b &lt;&lt; a))
+     * &lt;/p&gt;
+     * @method rotorFromDirections
+     * @param b {VectorE3} The ending unit vector
+     * @param a {VectorE3} The starting unit vector
+     * @return {G3m} &lt;code&gt;this&lt;/code&gt; The rotor representing a rotation from a to b.
+     * @chainable
+     */
+    rotorFromDirections(b: VectorE3, a: VectorE3): G3m {
+        if (rotorFromDirections(a, b, quadVector, dotVector, this) !== void 0) {
+            return this
+        }
+        else {
+            // Compute a random bivector containing the start vector, then turn
+            // it into a rotor that achieves the 180-degree rotation.
+            const rx = Math.random()
+            const ry = Math.random()
+            const rz = Math.random()
+
+            this.yz = wedgeYZ(rx, ry, rz, a.x, a.y, a.z)
+            this.zx = wedgeZX(rx, ry, rz, a.x, a.y, a.z)
+            this.xy = wedgeXY(rx, ry, rz, a.x, a.y, a.z)
+
+            this.α = 0
+            this.x = 0
+            this.y = 0
+            this.z = 0
+            this.β = 0
+
+            this.direction()
+            this.rotorFromGeneratorAngle(this, Math.PI)
+            return this
+        }
+    }
+
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this = ⟼ exp(- dual(a) * θ / 2)&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method rotorFromAxisAngle
+     * @param axis {VectorE3}
+     * @param θ {number}
+     * @return {G3m} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    rotorFromAxisAngle(axis: VectorE3, θ: number): G3m {
+        // FIXME: TODO
+        const φ = θ / 2
+        const s = sin(φ)
+        this.yz = -axis.x * s
+        this.zx = -axis.y * s
+        this.xy = -axis.z * s
+        this.α = cos(φ)
+        // FIXME; Zero out other coordinates
+        return this
+    }
+
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this = ⟼ exp(- B * θ / 2)&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method rotorFromGeneratorAngle
+     * @param B {SpinorE3}
+     * @param θ {number} The rotation angle when applied on both sides: R M ~R
+     * @return {G3m} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    rotorFromGeneratorAngle(B: SpinorE3, θ: number): G3m {
+        // FIXME: TODO
+        const φ = θ / 2
+        const s = sin(φ)
+        this.yz = -B.yz * s
+        this.zx = -B.zx * s
+        this.xy = -B.xy * s
+        this.α = cos(φ)
+        return this
+    }
+
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ scp(this, m)&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method align
+     * @param m {GeometricE3}
+     * @return {G3m} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    scp(m: GeometricE3): G3m {
+        return this.scp2(this, m)
+    }
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ scp(a, b)&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method scp2
+     * @param a {GeometricE3}
+     * @param b {GeometricE3}
+     * @return {G3m} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    scp2(a: GeometricE3, b: GeometricE3): G3m {
+        return scpG3(a, b, this)
+    }
+
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ this * α&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method scale
+     * @param α {number} 
+     */
+    scale(α: number): G3m {
+        this.α *= α
+        this.x *= α
+        this.y *= α
+        this.z *= α
+        this.yz *= α
+        this.zx *= α
+        this.xy *= α
+        this.β *= α
+        return this
+    }
+
+    slerp(target: GeometricE3, α: number): G3m {
+        // TODO
+        return this;
+    }
+
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ a * b&lt;/code&gt;
+     * &lt;/p&gt;
+     * Sets this G3m to the geometric product a * b of the vector arguments. 
+     * @method spinor
+     * @param a {VectorE3}
+     * @param b {VectorE3}
+     * @return {G3m} &lt;code&gt;this&lt;/code&gt;
+     */
+    spinor(a: VectorE3, b: VectorE3): G3m {
+        let ax = a.x;
+        let ay = a.y;
+        let az = a.z;
+        let bx = b.x;
+        let by = b.y;
+        let bz = b.z;
+
+        this.zero()
+        this.α = dotVector(a, b)
+        this.yz = wedgeYZ(ax, ay, az, bx, by, bz)
+        this.zx = wedgeZX(ax, ay, az, bx, by, bz)
+        this.xy = wedgeXY(ax, ay, az, bx, by, bz)
+
+        return this
+    }
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ this - M * α&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method sub
+     * @param M {GeometricE3}
+     * @param [α = 1] {number}
+     * @return {G3m} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    sub(M: GeometricE3, α = 1): G3m {
+        this.α -= M.α * α
+        this.x -= M.x * α
+        this.y -= M.y * α
+        this.z -= M.z * α
+        this.yz -= M.yz * α
+        this.zx -= M.zx * α
+        this.xy -= M.xy * α
+        this.β -= M.β * α
+        return this
+    }
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ a - b&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method sub2
+     * @param a {GeometricE3}
+     * @param b {GeometricE3}
+     * @return {G3m} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    sub2(a: GeometricE3, b: GeometricE3): G3m {
+        this.α = a.α - b.α
+        this.x = a.x - b.x
+        this.y = a.y - b.y
+        this.z = a.z - b.z
+        this.yz = a.yz - b.yz
+        this.zx = a.zx - b.zx
+        this.xy = a.xy - b.xy
+        this.β = a.β - b.β
+        return this
+    }
+
+    /**
+     * Returns a string representing the number in exponential notation.
+     * @method toExponential
+     * @return {string}
+     */
+    toExponential(): string {
+        var coordToString = function(coord: number): string { return coord.toExponential() };
+        return stringFromCoordinates(coordinates(this), coordToString, BASIS_LABELS)
+    }
+
+    /**
+     * Returns a string representing the number in fixed-point notation.
+     * @method toFixed
+     * @param [fractionDigits] {number}
+     * @return {string}
+     */
+    toFixed(fractionDigits?: number): string {
+        var coordToString = function(coord: number): string { return coord.toFixed(fractionDigits) };
+        return stringFromCoordinates(coordinates(this), coordToString, BASIS_LABELS)
+    }
+
+    /**
+     * Returns a string representation of the number.
+     * @method toString
+     * @return {string} 
+     */
+    toString(): string {
+        let coordToString = function(coord: number): string { return coord.toString() };
+        return stringFromCoordinates(coordinates(this), coordToString, BASIS_LABELS)
+    }
+
+    grade(grade: number): G3m {
+        mustBeInteger(&#x27;grade&#x27;, grade)
+        switch (grade) {
+            case 0: {
+                this.x = 0;
+                this.y = 0;
+                this.z = 0;
+                this.yz = 0;
+                this.zx = 0;
+                this.xy = 0;
+                this.β = 0;
+            }
+                break;
+            case 1: {
+                this.α = 0;
+                this.yz = 0;
+                this.zx = 0;
+                this.xy = 0;
+                this.β = 0;
+            }
+                break;
+            case 2: {
+                this.α = 0;
+                this.x = 0;
+                this.y = 0;
+                this.z = 0;
+                this.β = 0;
+            }
+                break;
+            case 3: {
+                this.α = 0;
+                this.x = 0;
+                this.y = 0;
+                this.z = 0;
+                this.yz = 0;
+                this.zx = 0;
+                this.xy = 0;
+            }
+                break;
+            default: {
+                this.α = 0;
+                this.x = 0;
+                this.y = 0;
+                this.z = 0;
+                this.yz = 0;
+                this.zx = 0;
+                this.xy = 0;
+                this.β = 0;
+            }
+        }
+        return this;
+    }
+
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ this ^ m&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method wedge
+     * @param m {GeometricE3}
+     * @return {G3m} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    ext(m: GeometricE3): G3m {
+        return this.ext2(this, m)
+    }
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ a ^ b&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method ext2
+     * @param a {GeometricE3}
+     * @param b {GeometricE3}
+     * @return {G3m} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    ext2(a: GeometricE3, b: GeometricE3): G3m {
+        return extG3(a, b, this)
+    }
+
+    /**
+     * Sets this multivector to the identity element for addition, &lt;b&gt;0&lt;/b&gt;.
+     * @method zero
+     * @return {G3m}
+     * @chainable
+     */
+    zero(): G3m {
+        this.α = 0
+        this.x = 0
+        this.y = 0
+        this.z = 0
+        this.yz = 0
+        this.zx = 0
+        this.xy = 0
+        this.β = 0
+        return this
+    }
+
+    /**
+     * @method __add__
+     * @param rhs {any}
+     * @return {G3m}
+     * @private
+     */
+    __add__(rhs: any) {
+        if (rhs instanceof G3m) {
+            return G3m.copy(this).add(rhs)
+        }
+        else if (typeof rhs === &#x27;number&#x27;) {
+            return G3m.copy(this).add(G3m.fromScalar(rhs))
+        }
+        else {
+            return void 0
+        }
+    }
+
+    /**
+     * @method __div__
+     * @param rhs {any}
+     * @return {G3m}
+     * @private
+     */
+    __div__(rhs: any) {
+        if (rhs instanceof G3m) {
+            return G3m.copy(this).div(rhs)
+        }
+        else if (typeof rhs === &#x27;number&#x27;) {
+            return G3m.copy(this).divByScalar(rhs)
+        }
+        else {
+            return void 0
+        }
+    }
+
+    /**
+     * @method __rdiv__
+     * @param lhs {any}
+     * @return {G3m}
+     * @private
+     */
+    __rdiv__(lhs: any) {
+        if (lhs instanceof G3m) {
+            return G3m.copy(lhs).div(this)
+        }
+        else if (typeof lhs === &#x27;number&#x27;) {
+            return G3m.fromScalar(lhs).div(this)
+        }
+        else {
+            return void 0
+        }
+    }
+
+    /**
+     * @method __mul__
+     * @param rhs {any}
+     * @return {G3m}
+     * @private
+     */
+    __mul__(rhs: any) {
+        if (rhs instanceof G3m) {
+            return G3m.copy(this).mul(rhs)
+        }
+        else if (typeof rhs === &#x27;number&#x27;) {
+            return G3m.copy(this).scale(rhs)
+        }
+        else {
+            return void 0
+        }
+    }
+
+    /**
+     * @method __rmul__
+     * @param lhs {any}
+     * @return {G3m}
+     * @private
+     */
+    __rmul__(lhs: any) {
+        if (lhs instanceof G3m) {
+            return G3m.copy(lhs).mul(this)
+        }
+        else if (typeof lhs === &#x27;number&#x27;) {
+            return G3m.copy(this).scale(lhs)
+        }
+        else {
+            return void 0
+        }
+    }
+
+    /**
+     * @method __radd__
+     * @param lhs {any}
+     * @return {G3m}
+     * @private
+     */
+    __radd__(lhs: any) {
+        if (lhs instanceof G3m) {
+            return G3m.copy(lhs).add(this)
+        }
+        else if (typeof lhs === &#x27;number&#x27;) {
+            return G3m.fromScalar(lhs).add(this)
+        }
+        else {
+            return void 0
+        }
+    }
+    /**
+     * @method __sub__
+     * @param rhs {any}
+     * @return {G3m}
+     * @private
+     */
+    __sub__(rhs: any) {
+        if (rhs instanceof G3m) {
+            return G3m.copy(this).sub(rhs)
+        }
+        else if (typeof rhs === &#x27;number&#x27;) {
+            return G3m.fromScalar(rhs).neg().add(this)
+        }
+        else {
+            return void 0
+        }
+    }
+    /**
+     * @method __rsub__
+     * @param lhs {any}
+     * @return {G3m}
+     * @private
+     */
+    __rsub__(lhs: any) {
+        if (lhs instanceof G3m) {
+            return G3m.copy(lhs).sub(this)
+        }
+        else if (typeof lhs === &#x27;number&#x27;) {
+            return G3m.fromScalar(lhs).sub(this)
+        }
+        else {
+            return void 0
+        }
+    }
+
+    /**
+     * @method __wedge__
+     * @param rhs {any}
+     * @return {G3m}
+     * @private
+     */
+    __wedge__(rhs: any) {
+        if (rhs instanceof G3m) {
+            return G3m.copy(this).ext(rhs)
+        }
+        else if (typeof rhs === &#x27;number&#x27;) {
+            // The outer product with a scalar is scalar multiplication.
+            return G3m.copy(this).scale(rhs)
+        }
+        else {
+            return void 0
+        }
+    }
+
+    /**
+     * @method __rwedge__
+     * @param lhs {any}
+     * @return {G3m}
+     * @private
+     */
+    __rwedge__(lhs: any) {
+        if (lhs instanceof G3m) {
+            return G3m.copy(lhs).ext(this)
+        }
+        else if (typeof lhs === &#x27;number&#x27;) {
+            // The outer product with a scalar is scalar multiplication, and commutes.
+            return G3m.copy(this).scale(lhs)
+        }
+        else {
+            return void 0
+        }
+    }
+
+    /**
+     * @method __lshift__
+     * @param rhs {any}
+     * @return {G3m}
+     * @private
+     */
+    __lshift__(rhs: any) {
+        if (rhs instanceof G3m) {
+            return G3m.copy(this).lco(rhs)
+        }
+        else if (typeof rhs === &#x27;number&#x27;) {
+            return G3m.copy(this).lco(G3m.fromScalar(rhs))
+        }
+        else {
+            return void 0
+        }
+    }
+
+    /**
+     * @method __rlshift__
+     * @param other {any}
+     * @return {G3m}
+     * @private
+     */
+    __rlshift__(lhs: any) {
+        if (lhs instanceof G3m) {
+            return G3m.copy(lhs).lco(this)
+        }
+        else if (typeof lhs === &#x27;number&#x27;) {
+            return G3m.fromScalar(lhs).lco(this)
+        }
+        else {
+            return void 0
+        }
+    }
+
+    /**
+     * @method __rshift__
+     * @param rhs {any}
+     * @return {G3m}
+     * @private
+     */
+    __rshift__(rhs: any) {
+        if (rhs instanceof G3m) {
+            return G3m.copy(this).rco(rhs)
+        }
+        else if (typeof rhs === &#x27;number&#x27;) {
+            return G3m.copy(this).rco(G3m.fromScalar(rhs))
+        }
+        else {
+            return void 0
+        }
+    }
+
+    /**
+     * @method __rrshift__
+     * @param other {any}
+     * @return {G3m}
+     * @private
+     */
+    __rrshift__(lhs: any) {
+        if (lhs instanceof G3m) {
+            return G3m.copy(lhs).rco(this)
+        }
+        else if (typeof lhs === &#x27;number&#x27;) {
+            return G3m.fromScalar(lhs).rco(this)
+        }
+        else {
+            return void 0
+        }
+    }
+
+    /**
+     * @method __vbar__
+     * @param rhs {any}
+     * @return {G3m}
+     * @private
+     */
+    __vbar__(rhs: any) {
+        if (rhs instanceof G3m) {
+            return G3m.copy(this).scp(rhs)
+        }
+        else if (typeof rhs === &#x27;number&#x27;) {
+            return G3m.copy(this).scp(G3m.fromScalar(rhs))
+        }
+        else {
+            return void 0
+        }
+    }
+
+    /**
+     * @method __rvbar__
+     * @param lhs {any}
+     * @return {G3m}
+     * @private
+     */
+    __rvbar__(lhs: any) {
+        if (lhs instanceof G3m) {
+            return G3m.copy(lhs).scp(this)
+        }
+        else if (typeof lhs === &#x27;number&#x27;) {
+            return G3m.fromScalar(lhs).scp(this)
+        }
+        else {
+            return void 0
+        }
+    }
+
+    /**
+     * @method __bang__
+     * @return {G3m}
+     * @private
+     * @chainable
+     */
+    __bang__(): G3m {
+        return G3m.copy(this).inv()
+    }
+
+    /**
+     * @method __pos__
+     * @return {G3m}
+     * @private
+     * @chainable
+     */
+    __pos__() {
+        return G3m.copy(this)/*.pos()*/
+    }
+
+    /**
+     * @method __neg__
+     * @return {G3m}
+     * @private
+     * @chainable
+     */
+    __neg__() {
+        return G3m.copy(this).neg()
+    }
+
+    /**
+     * Constructs a G3m representing the number zero.
+     * The identity element for addition, &lt;b&gt;0&lt;/b&gt;.
+     *
+     * @method zero
+     * @return {G3m}
+     * @static
+     */
+    static zero(): G3m { return G3m.copy(zero); };
+
+    /**
+     * The identity element for multiplication, &lt;b&gt;1&lt;/b&gt;.
+     *
+     * @property one
+     * @type {G3m}
+     * @readOnly
+     * @static
+     */
+    static get one(): G3m { return G3m.copy(one); };
+
+    /**
+     * Basis vector corresponding to the &lt;code&gt;x&lt;/code&gt; coordinate.
+     * @property e1
+     * @type {G3m}
+     * @readOnly
+     * @static
+     */
+    static get e1(): G3m { return G3m.copy(e1); };
+
+    /**
+     * Basis vector corresponding to the &lt;code&gt;y&lt;/code&gt; coordinate.
+     * @property e2
+     * @type {G3m}
+     * @readOnly
+     * @static
+     */
+    static get e2(): G3m { return G3m.copy(e2); };
+
+    /**
+     * Basis vector corresponding to the &lt;code&gt;y&lt;/code&gt; coordinate.
+     * @property e3
+     * @type {G3m}
+     * @readOnly
+     * @static
+     */
+    static get e3(): G3m { return G3m.copy(e3); };
+
+    /**
+     * Basis vector corresponding to the &lt;code&gt;β&lt;/code&gt; coordinate.
+     * @property I
+     * @type {G3m}
+     * @readOnly
+     * @static
+     */
+    static get I(): G3m { return G3m.copy(I); };
+
+    /**
+     * @method copy
+     * @param M {GeometricE3}
+     * @return {G3m}
+     * @static
+     */
+    static copy(M: GeometricE3): G3m {
+        var copy = new G3m()
+        copy.α = M.α
+        copy.x = M.x
+        copy.y = M.y
+        copy.z = M.z
+        copy.yz = M.yz
+        copy.zx = M.zx
+        copy.xy = M.xy
+        copy.β = M.β
+        return copy
+    }
+
+    /**
+     * @method fromScalar
+     * @param α {number}
+     * @return {G3m}
+     * @static
+     * @chainable
+     */
+    static fromScalar(α: number): G3m {
+        return new G3m().copyScalar(α)
+    }
+
+    /**
+     * @method fromSpinor
+     * @param spinor {SpinorE3}
+     * @return {G3m}
+     * @static
+     * @chainable
+     */
+    static fromSpinor(spinor: SpinorE3): G3m {
+        var copy = new G3m()
+        copy.α = spinor.α
+        copy.yz = spinor.yz
+        copy.zx = spinor.yz
+        copy.xy = spinor.xy
+        return copy
+    }
+
+    /**
+     * @method fromVector
+     * @param vector {VectorE3}
+     * @return {G3m}
+     * @static
+     * @chainable
+     */
+    static fromVector(vector: VectorE3): G3m {
+        var copy = new G3m()
+        copy.x = vector.x
+        copy.y = vector.y
+        copy.z = vector.z
+        return copy
+    }
+
+    /**
+     * @method lerp
+     * @param A {GeometricE3}
+     * @param B {GeometricE3}
+     * @param α {number}
+     * @return {G3m} &lt;code&gt;A + α * (B - A)&lt;/code&gt;
+     * @static
+     * @chainable
+     */
+    static lerp(A: GeometricE3, B: GeometricE3, α: number): G3m {
+        return G3m.copy(A).lerp(B, α)
+    }
+
+    /**
+     * Computes the rotor that rotates vector &lt;code&gt;a&lt;/code&gt; to vector &lt;code&gt;b&lt;/code&gt;.
+     * @method rotorFromDirections
+     * @param a {VectorE3} The &lt;em&gt;from&lt;/em&gt; vector.
+     * @param b {VectorE3} The &lt;em&gt;to&lt;/em&gt; vector.
+     * @return {G3m}
+     * @static
+     */
+    static rotorFromDirections(a: VectorE3, b: VectorE3): G3m {
+        return new G3m().rotorFromDirections(a, b)
+    }
+}
+
+    </pre>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

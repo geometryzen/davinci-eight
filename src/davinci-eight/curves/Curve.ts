@@ -1,4 +1,4 @@
-import Euclidean3 from '../math/Euclidean3';
+import G3 from '../math/G3';
 
 export default class Curve {
     private cacheArcLengths: number[];
@@ -6,30 +6,30 @@ export default class Curve {
     private __arcLengthDivisions: number;
     constructor() {
     }
-    getPoint(t: number): Euclidean3 {
+    getPoint(t: number): G3 {
         throw new Error("Curve.getPoint() not implemented!");
     }
-    getPointAt(u: number): Euclidean3 {
+    getPointAt(u: number): G3 {
         var t = this.getUtoTmapping(u);
         return this.getPoint(t);
     }
-    getPoints(divisions?: number): Euclidean3[] {
+    getPoints(divisions?: number): G3[] {
         if (!divisions) {
             divisions = 5;
         }
         var d: number;
-        var pts: Euclidean3[] = [];
+        var pts: G3[] = [];
         for (d = 0; d <= divisions; d++) {
             pts.push(this.getPoint(d / divisions));
         }
         return pts;
     }
-    getSpacedPoints(divisions?: number): Euclidean3[] {
+    getSpacedPoints(divisions?: number): G3[] {
         if (!divisions) {
             divisions = 5;
         }
         var d: number;
-        var pts: Euclidean3[] = [];
+        var pts: G3[] = [];
         for (d = 0; d <= divisions; d++) {
             pts.push(this.getPointAt(d / divisions));
         }
@@ -54,8 +54,8 @@ export default class Curve {
         this.needsUpdate = false;
 
         var cache: number[] = [];
-        var current: Euclidean3;
-        var last: Euclidean3 = this.getPoint(0);
+        var current: G3;
+        var last: G3 = this.getPoint(0);
         var p: number;
         var sum: number = 0;
 
@@ -168,7 +168,7 @@ export default class Curve {
      * 2 points a small delta apart will be used to find its gradient
      * which seems to give a reasonable approximation
      */
-    getTangent(t: number): Euclidean3 {
+    getTangent(t: number): G3 {
 
         var delta = 0.0001;
         var t1 = t - delta;
@@ -177,14 +177,14 @@ export default class Curve {
         if (t1 < 0) t1 = 0;
         if (t2 > 1) t2 = 1;
 
-        var pt1: Euclidean3 = this.getPoint(t1);
-        var pt2: Euclidean3 = this.getPoint(t2);
+        var pt1: G3 = this.getPoint(t1);
+        var pt2: G3 = this.getPoint(t2);
 
-        var tangent: Euclidean3 = pt2.sub(pt1);
+        var tangent: G3 = pt2.sub(pt1);
         return tangent.direction();
     }
 
-    getTangentAt(u: number): Euclidean3 {
+    getTangentAt(u: number): G3 {
         var t: number = this.getUtoTmapping(u);
         return this.getTangent(t);
     }

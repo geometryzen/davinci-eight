@@ -64,14 +64,14 @@
                                 <li><a href="../classes/DirectionalLight.html">DirectionalLight</a></li>
                                 <li><a href="../classes/DrawMode.html">DrawMode</a></li>
                                 <li><a href="../classes/EIGHTLogger.html">EIGHTLogger</a></li>
-                                <li><a href="../classes/Euclidean1.html">Euclidean1</a></li>
-                                <li><a href="../classes/Euclidean2.html">Euclidean2</a></li>
-                                <li><a href="../classes/Euclidean3.html">Euclidean3</a></li>
                                 <li><a href="../classes/Facet.html">Facet</a></li>
                                 <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
+                                <li><a href="../classes/G1.html">G1</a></li>
                                 <li><a href="../classes/G2.html">G2</a></li>
+                                <li><a href="../classes/G2m.html">G2m</a></li>
                                 <li><a href="../classes/G3.html">G3</a></li>
+                                <li><a href="../classes/G3m.html">G3m</a></li>
                                 <li><a href="../classes/GeometricE2.html">GeometricE2</a></li>
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
@@ -105,10 +105,10 @@
                                 <li><a href="../classes/PrimitiveBuffers.html">PrimitiveBuffers</a></li>
                                 <li><a href="../classes/Pseudo.html">Pseudo</a></li>
                                 <li><a href="../classes/QQ.html">QQ</a></li>
-                                <li><a href="../classes/R1.html">R1</a></li>
-                                <li><a href="../classes/R2.html">R2</a></li>
-                                <li><a href="../classes/R3.html">R3</a></li>
-                                <li><a href="../classes/R4.html">R4</a></li>
+                                <li><a href="../classes/R1m.html">R1m</a></li>
+                                <li><a href="../classes/R2m.html">R2m</a></li>
+                                <li><a href="../classes/R3m.html">R3m</a></li>
+                                <li><a href="../classes/R4m.html">R4m</a></li>
                                 <li><a href="../classes/ReflectionFacetE2.html">ReflectionFacetE2</a></li>
                                 <li><a href="../classes/ReflectionFacetE3.html">ReflectionFacetE3</a></li>
                                 <li><a href="../classes/RigidBody.html">RigidBody</a></li>
@@ -122,8 +122,8 @@
                                 <li><a href="../classes/ShareableWebGLTexture.html">ShareableWebGLTexture</a></li>
                                 <li><a href="../classes/Sphere.html">Sphere</a></li>
                                 <li><a href="../classes/SphereGeometry.html">SphereGeometry</a></li>
-                                <li><a href="../classes/SpinG2.html">SpinG2</a></li>
-                                <li><a href="../classes/SpinG3.html">SpinG3</a></li>
+                                <li><a href="../classes/SpinG2m.html">SpinG2m</a></li>
+                                <li><a href="../classes/SpinG3m.html">SpinG3m</a></li>
                                 <li><a href="../classes/SpinorE1.html">SpinorE1</a></li>
                                 <li><a href="../classes/SpinorE2.html">SpinorE2</a></li>
                                 <li><a href="../classes/SpinorE3.html">SpinorE3</a></li>
@@ -206,7 +206,7 @@ import Facet from &#x27;../core/Facet&#x27;;
 import FacetVisitor from &#x27;../core/FacetVisitor&#x27;;
 import mustBeArray from &#x27;../checks/mustBeArray&#x27;;
 import mustBeString from &#x27;../checks/mustBeString&#x27;;
-import G3 from &#x27;../math/G3&#x27;;
+import G3m from &#x27;../math/G3m&#x27;;
 import Mat4R from &#x27;../math/Mat4R&#x27;;
 import readOnly from &#x27;../i18n/readOnly&#x27;;
 
@@ -223,11 +223,11 @@ export default class ReflectionFacetE3 implements Facet {
      * The vector perpendicular to the (hyper-)plane of reflection.
      *
      * @property _normal
-     * @type {G3}
+     * @type {G3m}
      * @private
      */
-    // FIXME: Maybe use an R3 here instead?
-    public _normal: G3;
+    // FIXME: Maybe use an R3m here instead?
+    public _normal: G3m;
 
     /**
      * @property matrix
@@ -245,16 +245,16 @@ export default class ReflectionFacetE3 implements Facet {
     constructor(name: string) {
         this.name = mustBeString(&#x27;name&#x27;, name)
         // The mathematics of the reflection causes a zero vector to be the identity transformation.
-        this._normal = G3.zero()
+        this._normal = G3m.zero()
         this._normal.modified = true
     }
 
     /**
      * @property normal
-     * @type G3
+     * @type G3m
      * @readOnly
      */
-    get normal(): G3 {
+    get normal(): G3m {
         return this._normal
     }
     set normal(unused) {

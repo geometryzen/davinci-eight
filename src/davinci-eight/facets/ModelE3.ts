@@ -1,6 +1,6 @@
-import G3 from '../math/G3';
-import R3 from '../math/R3';
-import SpinG3 from '../math/SpinG3';
+import G3m from '../math/G3m';
+import R3m from '../math/R3m';
+import SpinG3m from '../math/SpinG3m';
 import readOnly from '../i18n/readOnly';
 
 /**
@@ -33,32 +33,32 @@ export default class ModelE3 {
 
     /**
      * @property _position
-     * @type {G3}
+     * @type {G3m}
      * @private
      */
-    private _position = new G3().zero();
+    private _position = new G3m().zero();
 
     /**
      * @property _attitude
-     * @type {G3}
+     * @type {G3m}
      * @private
      */
-    private _attitude = new G3().zero().addScalar(1);
+    private _attitude = new G3m().zero().addScalar(1);
 
     /**
      * Used for exchanging number[] data to achieve integrity and avoid lots of temporaries.
      * @property _posCache
-     * @type {R3}
+     * @type {R3m}
      * @private
      */
-    private _posCache = new R3();
+    private _posCache = new R3m();
     /**
      * Used for exchanging number[] data to achieve integrity and avoid lots of temporaries.
      * @property _attCache
-     * @type {SpinG3}
+     * @type {SpinG3m}
      * @private
      */
-    private _attCache = new SpinG3();
+    private _attCache = new SpinG3m();
     /**
      * <p>
      * A collection of properties for Rigid Body Modeling.
@@ -82,10 +82,10 @@ export default class ModelE3 {
      * The <em>attitude</em>, a unitary spinor.
      * </p>
      * @property R
-     * @type G3
+     * @type G3m
      * @readOnly
      */
-    get R(): G3 {
+    get R(): G3m {
         return this._attitude
     }
     set R(unused) {
@@ -99,10 +99,10 @@ export default class ModelE3 {
      * </p>
      *
      * @property X
-     * @type G3
+     * @type G3m
      * @readOnly
      */
-    get X(): G3 {
+    get X(): G3m {
         return this._position
     }
     set X(unused) {

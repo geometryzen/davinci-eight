@@ -1,6 +1,6 @@
-import G2 from '../math/G2';
-import R2 from '../math/R2';
-import SpinG2 from '../math/SpinG2';
+import G2m from '../math/G2m';
+import R2m from '../math/R2m';
+import SpinG2m from '../math/SpinG2m';
 import readOnly from '../i18n/readOnly';
 
 /**
@@ -31,22 +31,22 @@ export default class ModelE2 {
      */
     public static PROP_POSITION = 'X';
 
-    private _position = new G2().zero();
-    private _attitude = new G2().zero().addScalar(1);
+    private _position = new G2m().zero();
+    private _attitude = new G2m().zero().addScalar(1);
     /**
      * Used for exchanging number[] data to achieve integrity and avoid lots of temporaries.
      * @property _posCache
-     * @type {R2}
+     * @type {R2m}
      * @private
      */
-    private _posCache = new R2();
+    private _posCache = new R2m();
     /**
      * Used for exchanging number[] data to achieve integrity and avoid lots of temporaries.
      * @property _attCache
-     * @type {SpinG2}
+     * @type {SpinG2m}
      * @private
      */
-    private _attCache = new SpinG2();
+    private _attCache = new SpinG2m();
     /**
      * <p>
      * A collection of properties for Rigid Body Modeling.
@@ -70,10 +70,10 @@ export default class ModelE2 {
      * The <em>attitude</em>, a unitary spinor.
      * </p>
      * @property R
-     * @type G2
+     * @type G2m
      * @readOnly
      */
-    get R(): G2 {
+    get R(): G2m {
         return this._attitude
     }
     set R(unused) {
@@ -87,10 +87,10 @@ export default class ModelE2 {
      * </p>
      *
      * @property X
-     * @type G2
+     * @type G2m
      * @readOnly
      */
-    get X(): G2 {
+    get X(): G2m {
         return this._position
     }
     set X(unused) {

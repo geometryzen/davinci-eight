@@ -1,4 +1,4 @@
-import Euclidean3 from '../math/Euclidean3';
+import G3 from '../math/G3';
 import Facet from '../core/Facet';
 import RigidBody from './RigidBody';
 import mustBeObject from '../checks/mustBeObject';
@@ -19,17 +19,17 @@ export default class Trail {
 
     /**
      * @property Xs
-     * @type {Euclidean3[]}
+     * @type {G3[]}
      * @private
      */
-    private Xs: Euclidean3[] = []
+    private Xs: G3[] = []
 
     /**
      * @property Rs
-     * @type {Euclidean3[]}
+     * @type {G3[]}
      * @private
      */
-    private Rs: Euclidean3[] = []
+    private Rs: G3[] = []
 
     /**
      * @property config

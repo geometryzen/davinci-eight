@@ -1,12 +1,12 @@
 import VectorE3 from '../math/VectorE3';
-import R3 from '../math/R3';
+import R3m from '../math/R3m';
 import mustSatisfy from '../checks/mustSatisfy';
 import isDefined from '../checks/isDefined';
 
 // Assume single-threaded to avoid temporary object creation.
-const n = new R3()
-const u = new R3()
-const v = new R3()
+const n = new R3m()
+const u = new R3m()
+const v = new R3m()
 
 export default function viewArray(eye: VectorE3, look: VectorE3, up: VectorE3, matrix?: Float32Array): Float32Array {
 
@@ -24,9 +24,9 @@ export default function viewArray(eye: VectorE3, look: VectorE3, up: VectorE3, m
     }
     u.copy(up).cross(n)
     v.copy(n).cross(u)
-    m[0x0] = u.x; m[0x4] = u.y; m[0x8] = u.z; m[0xC] = -R3.dot(eye, u);
-    m[0x1] = v.x; m[0x5] = v.y; m[0x9] = v.z; m[0xD] = -R3.dot(eye, v);
-    m[0x2] = n.x; m[0x6] = n.y; m[0xA] = n.z; m[0xE] = -R3.dot(eye, n);
+    m[0x0] = u.x; m[0x4] = u.y; m[0x8] = u.z; m[0xC] = -R3m.dot(eye, u);
+    m[0x1] = v.x; m[0x5] = v.y; m[0x9] = v.z; m[0xD] = -R3m.dot(eye, v);
+    m[0x2] = n.x; m[0x6] = n.y; m[0xA] = n.z; m[0xE] = -R3m.dot(eye, n);
     m[0x3] = 0;   m[0x7] = 0;   m[0xB] = 0;   m[0xF] = 1;
 
     return m;

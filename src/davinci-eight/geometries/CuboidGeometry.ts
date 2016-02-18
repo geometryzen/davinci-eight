@@ -6,7 +6,7 @@ import mustBeBoolean from '../checks/mustBeBoolean';
 import mustBeNumber from '../checks/mustBeNumber';
 import CuboidPrimitivesBuilder from './CuboidPrimitivesBuilder';
 import CuboidSimplexPrimitivesBuilder from './CuboidSimplexPrimitivesBuilder';
-import G3 from '../math/G3'
+import G3m from '../math/G3m'
 import Simplex from './Simplex'
 
 /**
@@ -20,7 +20,7 @@ function primitives(width: number, height: number, depth: number, wireFrame: boo
     mustBeNumber('depth', depth)
     mustBeBoolean('wireFrame', wireFrame)
     if (wireFrame) {
-        const builder = new CuboidSimplexPrimitivesBuilder(G3.e1, G3.e2, G3.e3, Simplex.LINE, 0, 1)
+        const builder = new CuboidSimplexPrimitivesBuilder(G3m.e1, G3m.e2, G3m.e3, Simplex.LINE, 0, 1)
         return builder.toPrimitives()
     }
     else {

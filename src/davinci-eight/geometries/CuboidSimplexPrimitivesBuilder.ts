@@ -4,8 +4,8 @@ import SimplexPrimitivesBuilder from '../geometries/SimplexPrimitivesBuilder';
 import quad from '../geometries/quadrilateral';
 import Simplex from '../geometries/Simplex';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
-import R1 from '../math/R1';
-import R3 from '../math/R3';
+import R1m from '../math/R1m';
+import R3m from '../math/R3m';
 import VectorE3 from '../math/VectorE3';
 
 export default class CuboidSimplexPrimitivesBuilder extends SimplexPrimitivesBuilder {
@@ -56,19 +56,19 @@ export default class CuboidSimplexPrimitivesBuilder extends SimplexPrimitivesBui
         this.setModified(false)
 
         // Define the anchor points relative to the origin.
-        var pos: R3[] = [0, 1, 2, 3, 4, 5, 6, 7].map(function(index) { return void 0 })
-        pos[0] = new R3().sub(this._a).sub(this._b).add(this._c).divByScalar(2)
-        pos[1] = new R3().add(this._a).sub(this._b).add(this._c).divByScalar(2)
-        pos[2] = new R3().add(this._a).add(this._b).add(this._c).divByScalar(2)
-        pos[3] = new R3().sub(this._a).add(this._b).add(this._c).divByScalar(2)
-        pos[4] = new R3().copy(pos[3]).sub(this._c)
-        pos[5] = new R3().copy(pos[2]).sub(this._c)
-        pos[6] = new R3().copy(pos[1]).sub(this._c)
-        pos[7] = new R3().copy(pos[0]).sub(this._c)
+        var pos: R3m[] = [0, 1, 2, 3, 4, 5, 6, 7].map(function(index) { return void 0 })
+        pos[0] = new R3m().sub(this._a).sub(this._b).add(this._c).divByScalar(2)
+        pos[1] = new R3m().add(this._a).sub(this._b).add(this._c).divByScalar(2)
+        pos[2] = new R3m().add(this._a).add(this._b).add(this._c).divByScalar(2)
+        pos[3] = new R3m().sub(this._a).add(this._b).add(this._c).divByScalar(2)
+        pos[4] = new R3m().copy(pos[3]).sub(this._c)
+        pos[5] = new R3m().copy(pos[2]).sub(this._c)
+        pos[6] = new R3m().copy(pos[1]).sub(this._c)
+        pos[7] = new R3m().copy(pos[0]).sub(this._c)
 
         // Translate the points according to the position.
         let position = this.position
-        pos.forEach(function(point: R3) {
+        pos.forEach(function(point: R3m) {
             point.add(position)
         })
 
@@ -76,7 +76,7 @@ export default class CuboidSimplexPrimitivesBuilder extends SimplexPrimitivesBui
             let simplex = new Simplex(indices.length - 1)
             for (var i = 0; i < indices.length; i++) {
                 simplex.vertices[i].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = pos[indices[i]]
-                simplex.vertices[i].attributes[GraphicsProgramSymbols.ATTRIBUTE_GEOMETRY_INDEX] = new R1([i])
+                simplex.vertices[i].attributes[GraphicsProgramSymbols.ATTRIBUTE_GEOMETRY_INDEX] = new R1m([i])
             }
             return simplex
         }

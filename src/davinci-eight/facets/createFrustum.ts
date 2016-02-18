@@ -4,8 +4,8 @@ import View from './View';
 import createView from './createView';
 import Mat4R from '../math/Mat4R';
 import VectorE3 from '../math/VectorE3';
-import R1 from '../math/R1';
-import R3 from '../math/R3';
+import R1m from '../math/R1m';
+import R3m from '../math/R3m';
 
 /**
  * @function createFrustum
@@ -15,12 +15,12 @@ import R3 from '../math/R3';
 export default function createFrustum(viewMatrixName: string, projectionMatrixName: string): Frustum {
 
     const base: View = createView(viewMatrixName);
-    const left: R1 = new R1();
-    const right: R1 = new R1();
-    const bottom: R1 = new R1();
-    const top: R1 = new R1();
-    const near: R1 = new R1();
-    const far: R1 = new R1();
+    const left: R1m = new R1m();
+    const right: R1m = new R1m();
+    const bottom: R1m = new R1m();
+    const top: R1m = new R1m();
+    const near: R1m = new R1m();
+    const far: R1m = new R1m();
     // TODO: We should immediately create with a frustum static constructor?
     const projectionMatrix: Mat4R = Mat4R.one();
 
@@ -35,30 +35,30 @@ export default function createFrustum(viewMatrixName: string, projectionMatrixNa
             return this;
         },
         // Delegate to the base camera.
-        get eye(): R3 {
+        get eye(): R3m {
             return base.eye;
         },
-        set eye(value: R3) {
+        set eye(value: R3m) {
             base.eye = value;
         },
         setEye(eye: VectorE3) {
             base.setEye(eye);
             return self;
         },
-        get look(): R3 {
+        get look(): R3m {
             return base.look;
         },
-        set look(value: R3) {
+        set look(value: R3m) {
             base.look = value;
         },
         setLook(look: VectorE3) {
             base.setLook(look);
             return self;
         },
-        get up(): R3 {
+        get up(): R3m {
             return base.up;
         },
-        set up(up: R3) {
+        set up(up: R3m) {
             base.setUp(up);
         },
         setUp(up: VectorE3): Frustum {

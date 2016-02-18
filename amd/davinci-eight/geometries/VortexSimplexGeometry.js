@@ -3,11 +3,11 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../math/Euclidean3', '../geometries/SimplexPrimitivesBuilder', '../checks/mustBeInteger', '../math/SpinG3', '../math/R2', '../math/R3'], function (require, exports, Euclidean3_1, SimplexPrimitivesBuilder_1, mustBeInteger_1, SpinG3_1, R2_1, R3_1) {
+define(["require", "exports", '../math/G3', '../geometries/SimplexPrimitivesBuilder', '../checks/mustBeInteger', '../math/SpinG3m', '../math/R2m', '../math/R3m'], function (require, exports, G3_1, SimplexPrimitivesBuilder_1, mustBeInteger_1, SpinG3m_1, R2m_1, R3m_1) {
     function perpendicular(to) {
-        var random = new R3_1.default([Math.random(), Math.random(), Math.random()]);
+        var random = new R3m_1.default([Math.random(), Math.random(), Math.random()]);
         random.cross(to).direction();
-        return new Euclidean3_1.default(0, random.x, random.y, random.z, 0, 0, 0, 0);
+        return new G3_1.default(0, random.x, random.y, random.z, 0, 0, 0, 0);
     }
     var VortexSimplexGeometry = (function (_super) {
         __extends(VortexSimplexGeometry, _super);
@@ -20,7 +20,7 @@ define(["require", "exports", '../math/Euclidean3', '../geometries/SimplexPrimit
             this.lengthShaft = 0.8;
             this.arrowSegments = 8;
             this.radialSegments = 12;
-            this.generator = SpinG3_1.default.dual(Euclidean3_1.default.e3);
+            this.generator = SpinG3m_1.default.dual(G3_1.default.e3);
             this.setModified(true);
         }
         VortexSimplexGeometry.prototype.isModified = function () {
@@ -35,15 +35,15 @@ define(["require", "exports", '../math/Euclidean3', '../geometries/SimplexPrimit
             var radiusCone = this.radiusCone;
             var radiusShaft = this.radiusShaft;
             var radialSegments = this.radialSegments;
-            var axis = new Euclidean3_1.default(0, -this.generator.yz, -this.generator.zx, -this.generator.xy, 0, 0, 0, 0);
+            var axis = new G3_1.default(0, -this.generator.yz, -this.generator.zx, -this.generator.xy, 0, 0, 0, 0);
             var radial = perpendicular(axis);
             var R0 = radial.scale(this.radius);
-            var generator = new Euclidean3_1.default(this.generator.α, 0, 0, 0, this.generator.xy, this.generator.yz, this.generator.zx, 0);
+            var generator = new G3_1.default(this.generator.α, 0, 0, 0, this.generator.xy, this.generator.yz, this.generator.zx, 0);
             var Rminor0 = axis.ext(radial);
             var n = 9;
             var circleSegments = this.arrowSegments * n;
             var tau = Math.PI * 2;
-            var center = new R3_1.default([0, 0, 0]);
+            var center = new R3m_1.default([0, 0, 0]);
             var normals = [];
             var points = [];
             var uvs = [];
@@ -77,14 +77,14 @@ define(["require", "exports", '../math/Euclidean3', '../geometries/SimplexPrimit
                     var u = computeAngle(i);
                     var Rmajor = generator.scale(-u / 2).exp();
                     center.copy(R0).rotate(Rmajor);
-                    var vertex = R3_1.default.copy(center);
+                    var vertex = R3m_1.default.copy(center);
                     var r0 = axis.scale(computeRadius(i));
                     var Rminor = Rmajor.mul(Rminor0).mul(Rmajor.__tilde__()).scale(-v / 2).exp();
                     var r = Rminor.mul(r0).mul(Rminor.__tilde__());
                     vertex.add2(center, r);
                     points.push(vertex);
-                    uvs.push(new R2_1.default([i / circleSegments, j / radialSegments]));
-                    normals.push(R3_1.default.copy(r).direction());
+                    uvs.push(new R2m_1.default([i / circleSegments, j / radialSegments]));
+                    normals.push(R3m_1.default.copy(r).direction());
                 }
             }
             for (var j = 1; j <= radialSegments; j++) {

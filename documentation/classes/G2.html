@@ -64,14 +64,14 @@
                                 <li><a href="../classes/DirectionalLight.html">DirectionalLight</a></li>
                                 <li><a href="../classes/DrawMode.html">DrawMode</a></li>
                                 <li><a href="../classes/EIGHTLogger.html">EIGHTLogger</a></li>
-                                <li><a href="../classes/Euclidean1.html">Euclidean1</a></li>
-                                <li><a href="../classes/Euclidean2.html">Euclidean2</a></li>
-                                <li><a href="../classes/Euclidean3.html">Euclidean3</a></li>
                                 <li><a href="../classes/Facet.html">Facet</a></li>
                                 <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
+                                <li><a href="../classes/G1.html">G1</a></li>
                                 <li><a href="../classes/G2.html">G2</a></li>
+                                <li><a href="../classes/G2m.html">G2m</a></li>
                                 <li><a href="../classes/G3.html">G3</a></li>
+                                <li><a href="../classes/G3m.html">G3m</a></li>
                                 <li><a href="../classes/GeometricE2.html">GeometricE2</a></li>
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
@@ -105,10 +105,10 @@
                                 <li><a href="../classes/PrimitiveBuffers.html">PrimitiveBuffers</a></li>
                                 <li><a href="../classes/Pseudo.html">Pseudo</a></li>
                                 <li><a href="../classes/QQ.html">QQ</a></li>
-                                <li><a href="../classes/R1.html">R1</a></li>
-                                <li><a href="../classes/R2.html">R2</a></li>
-                                <li><a href="../classes/R3.html">R3</a></li>
-                                <li><a href="../classes/R4.html">R4</a></li>
+                                <li><a href="../classes/R1m.html">R1m</a></li>
+                                <li><a href="../classes/R2m.html">R2m</a></li>
+                                <li><a href="../classes/R3m.html">R3m</a></li>
+                                <li><a href="../classes/R4m.html">R4m</a></li>
                                 <li><a href="../classes/ReflectionFacetE2.html">ReflectionFacetE2</a></li>
                                 <li><a href="../classes/ReflectionFacetE3.html">ReflectionFacetE3</a></li>
                                 <li><a href="../classes/RigidBody.html">RigidBody</a></li>
@@ -122,8 +122,8 @@
                                 <li><a href="../classes/ShareableWebGLTexture.html">ShareableWebGLTexture</a></li>
                                 <li><a href="../classes/Sphere.html">Sphere</a></li>
                                 <li><a href="../classes/SphereGeometry.html">SphereGeometry</a></li>
-                                <li><a href="../classes/SpinG2.html">SpinG2</a></li>
-                                <li><a href="../classes/SpinG3.html">SpinG3</a></li>
+                                <li><a href="../classes/SpinG2m.html">SpinG2m</a></li>
+                                <li><a href="../classes/SpinG3m.html">SpinG3m</a></li>
                                 <li><a href="../classes/SpinorE1.html">SpinorE1</a></li>
                                 <li><a href="../classes/SpinorE2.html">SpinorE2</a></li>
                                 <li><a href="../classes/SpinorE3.html">SpinorE3</a></li>
@@ -201,12 +201,9 @@
 <h1>G2 Class</h1>
 <div class="box meta">
 
-        <div class="extends">
-            Extends <a href="../classes/VectorN.html" class="crosslink">VectorN</a>
-        </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_math_G2.ts.html#l118"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:118</code></a>
+            Defined in: <a href="../files/src_davinci-eight_math_G2.ts.html#l291"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:291</code></a>
         </div>
 
             Module: <a href="../modules/math.html">math</a><br>
@@ -216,8 +213,7 @@
 
 
 <div class="box intro">
-    <p>Constructs a <code>G2</code>.
-The multivector is initialized to zero.</p>
+    <p>The G2 class represents a multivector for a 2-dimensional linear space with a Euclidean metric.</p>
 
 </div>
 
@@ -226,7 +222,25 @@ The multivector is initialized to zero.</p>
 <div id="method_G2" class="method item">
     <h3 class="name"><code>G2</code></h3>
 
-        <span class="paren">()</span>
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code class="optional">[α = 0]</code>
+                </li>
+                <li class="arg">
+                        <code class="optional">[x = 0]</code>
+                </li>
+                <li class="arg">
+                        <code class="optional">[y = 0]</code>
+                </li>
+                <li class="arg">
+                        <code class="optional">[β = 0]</code>
+                </li>
+                <li class="arg">
+                        <code class="optional">[uom]</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
 
 
 
@@ -238,7 +252,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l118"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:118</code></a>
+        <a href="../files/src_davinci-eight_math_G2.ts.html#l291"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:291</code></a>
         </p>
 
 
@@ -249,6 +263,72 @@ The multivector is initialized to zero.</p>
         
     </div>
 
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name optional">[α = 0]</code>
+                        <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+
+
+                    <div class="param-description">
+                        <p>The scalar part of the multivector.</p>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name optional">[x = 0]</code>
+                        <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+
+
+                    <div class="param-description">
+                        <p>The vector component of the multivector in the x-direction.</p>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name optional">[y = 0]</code>
+                        <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+
+
+                    <div class="param-description">
+                        <p>The vector component of the multivector in the y-direction.</p>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name optional">[β = 0]</code>
+                        <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+
+
+                    <div class="param-description">
+                        <p>The pseudoscalar part of the multivector.</p>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name optional">[uom]</code>
+                        <span class="type">Object</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+
+
+                    <div class="param-description">
+                        <p>The optional unit of measure.</p>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
 
 
 
@@ -270,234 +350,27 @@ The multivector is initialized to zero.</p>
                 <div class="index-section methods">
                     <h3>Methods</h3>
 
-                    <ul class="index-list methods extends">
-                            <li class="index-item method private">
-                                <a href="#method___add__">__add__</a>
-
-                            </li>
-                            <li class="index-item method private">
-                                <a href="#method___bang__">__bang__</a>
-
-                            </li>
-                            <li class="index-item method private">
-                                <a href="#method___div__">__div__</a>
-
-                            </li>
-                            <li class="index-item method private">
-                                <a href="#method___lshift__">__lshift__</a>
-
-                            </li>
-                            <li class="index-item method private">
-                                <a href="#method___mul__">__mul__</a>
-
-                            </li>
-                            <li class="index-item method private">
-                                <a href="#method___neg__">__neg__</a>
-
-                            </li>
-                            <li class="index-item method private">
-                                <a href="#method___pos__">__pos__</a>
-
-                            </li>
-                            <li class="index-item method private">
-                                <a href="#method___radd__">__radd__</a>
-
-                            </li>
-                            <li class="index-item method private">
-                                <a href="#method___rdiv__">__rdiv__</a>
-
-                            </li>
-                            <li class="index-item method private">
-                                <a href="#method___rlshift__">__rlshift__</a>
-
-                            </li>
-                            <li class="index-item method private">
-                                <a href="#method___rmul__">__rmul__</a>
-
-                            </li>
-                            <li class="index-item method private">
-                                <a href="#method___rrshift__">__rrshift__</a>
-
-                            </li>
-                            <li class="index-item method private">
-                                <a href="#method___rshift__">__rshift__</a>
-
-                            </li>
-                            <li class="index-item method private">
-                                <a href="#method___rsub__">__rsub__</a>
-
-                            </li>
-                            <li class="index-item method private">
-                                <a href="#method___rvbar__">__rvbar__</a>
-
-                            </li>
-                            <li class="index-item method private">
-                                <a href="#method___rwedge__">__rwedge__</a>
-
-                            </li>
-                            <li class="index-item method private">
-                                <a href="#method___sub__">__sub__</a>
-
-                            </li>
-                            <li class="index-item method private">
-                                <a href="#method___tilde__">__tilde__</a>
-
-                            </li>
-                            <li class="index-item method private">
-                                <a href="#method___vbar__">__vbar__</a>
-
-                            </li>
-                            <li class="index-item method private">
-                                <a href="#method___wedge__">__wedge__</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_add">add</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_add2">add2</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_addPseudo">addPseudo</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_addScalar">addScalar</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_addVector">addVector</a>
-
-                            </li>
+                    <ul class="index-list methods">
                             <li class="index-item method">
                                 <a href="#method_angle">angle</a>
-
-                            </li>
-                            <li class="index-item method inherited">
-                                <a href="#method_clone">clone</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_conj">conj</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_copy">copy</a>
 
                             </li>
                             <li class="index-item method">
                                 <a href="#method_copy">copy</a>
 
                                     <span class="flag static">static</span>
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_copyScalar">copyScalar</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_copySpinor">copySpinor</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_copyVector">copyVector</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_cubicBezier">cubicBezier</a>
-
                             </li>
                             <li class="index-item method">
                                 <a href="#method_direction">direction</a>
 
                             </li>
                             <li class="index-item method">
-                                <a href="#method_div">div</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_div2">div2</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_divByScalar">divByScalar</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_dual">dual</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_exp">exp</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_ext">ext</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_ext2">ext2</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_fromScalar">fromScalar</a>
+                                <a href="#method_fromVectorE2">fromVectorE2</a>
 
                                     <span class="flag static">static</span>
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_fromSpinor">fromSpinor</a>
-
-                                    <span class="flag static">static</span>
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_fromVector">fromVector</a>
-
-                                    <span class="flag static">static</span>
-                            </li>
-                            <li class="index-item method inherited">
-                                <a href="#method_getComponent">getComponent</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_grade">grade</a>
-
                             </li>
                             <li class="index-item method">
                                 <a href="#method_inv">inv</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_isOne">isOne</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_isZero">isZero</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_lco">lco</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_lco2">lco2</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_lerp">lerp</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_lerp">lerp</a>
-
-                                    <span class="flag static">static</span>
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_lerp2">lerp2</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_log">log</a>
 
                             </li>
                             <li class="index-item method">
@@ -505,55 +378,7 @@ The multivector is initialized to zero.</p>
 
                             </li>
                             <li class="index-item method">
-                                <a href="#method_mul">mul</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_mul2">mul2</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_neg">neg</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_norm">norm</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_one">one</a>
-
-                            </li>
-                            <li class="index-item method inherited">
-                                <a href="#method_pop">pop</a>
-
-                            </li>
-                            <li class="index-item method inherited">
-                                <a href="#method_push">push</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_quad">quad</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_quadraticBezier">quadraticBezier</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_rco">rco</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_rco2">rco2</a>
-
-                            </li>
-                            <li class="index-item method">
                                 <a href="#method_reflect">reflect</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_reverse">reverse</a>
 
                             </li>
                             <li class="index-item method">
@@ -561,52 +386,7 @@ The multivector is initialized to zero.</p>
 
                             </li>
                             <li class="index-item method">
-                                <a href="#method_rotorFromDirections">rotorFromDirections</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_rotorFromDirections">rotorFromDirections</a>
-
-                                    <span class="flag static">static</span>
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_rotorFromGeneratorAngle">rotorFromGeneratorAngle</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_scale">scale</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_scp">scp</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_scp2">scp2</a>
-
-                            </li>
-                            <li class="index-item method inherited">
-                                <a href="#method_setComponent">setComponent</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_spinor">spinor</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_squaredNorm">squaredNorm</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_sub">sub</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_sub2">sub2</a>
-
-                            </li>
-                            <li class="index-item method inherited">
-                                <a href="#method_toArray">toArray</a>
+                                <a href="#method_tan">tan</a>
 
                             </li>
                             <li class="index-item method">
@@ -617,11 +397,7 @@ The multivector is initialized to zero.</p>
                                 <a href="#method_toFixed">toFixed</a>
 
                             </li>
-                            <li class="index-item method inherited">
-                                <a href="#method_toLocaleString">toLocaleString</a>
-
-                            </li>
-                            <li class="index-item method inherited">
+                            <li class="index-item method">
                                 <a href="#method_toString">toString</a>
 
                             </li>
@@ -630,40 +406,64 @@ The multivector is initialized to zero.</p>
 
                                     <span class="flag static">static</span>
                             </li>
-                            <li class="index-item method">
-                                <a href="#method_zero">zero</a>
-
-                            </li>
                     </ul>
                 </div>
 
                 <div class="index-section properties">
                     <h3>Properties</h3>
 
-                    <ul class="index-list properties extends">
-                            <li class="index-item property private inherited">
-                                <a href="#property__size">_size</a>
+                    <ul class="index-list properties">
+                            <li class="index-item property private">
+                                <a href="#property__coords">_coords</a>
 
+                            </li>
+                            <li class="index-item property private">
+                                <a href="#property__e2">_e2</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item property private">
+                                <a href="#property__e2">_e2</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item property private">
+                                <a href="#property__I">_I</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item property private">
+                                <a href="#property__one">_one</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item property private">
+                                <a href="#property__zero">_zero</a>
+
+                                    <span class="flag static">static</span>
                             </li>
                             <li class="index-item property">
                                 <a href="#property_alpha">alpha</a>
 
                             </li>
                             <li class="index-item property">
-                                <a href="#property_BASIS_LABELS">BASIS_LABELS</a>
+                                <a href="#property_ampere">ampere</a>
 
+                                    <span class="flag static">static</span>
                             </li>
                             <li class="index-item property">
                                 <a href="#property_beta">beta</a>
 
                             </li>
-                            <li class="index-item property inherited">
-                                <a href="#property_callback">callback</a>
+                            <li class="index-item property">
+                                <a href="#property_candela">candela</a>
 
+                                    <span class="flag static">static</span>
                             </li>
-                            <li class="index-item property inherited">
-                                <a href="#property_data">data</a>
+                            <li class="index-item property">
+                                <a href="#property_coulomb">coulomb</a>
 
+                                    <span class="flag static">static</span>
                             </li>
                             <li class="index-item property">
                                 <a href="#property_e1">e1</a>
@@ -680,13 +480,25 @@ The multivector is initialized to zero.</p>
 
                                     <span class="flag static">static</span>
                             </li>
-                            <li class="index-item property inherited">
-                                <a href="#property_length">length</a>
+                            <li class="index-item property">
+                                <a href="#property_kelvin">kelvin</a>
 
+                                    <span class="flag static">static</span>
                             </li>
-                            <li class="index-item property inherited">
-                                <a href="#property_modified">modified</a>
+                            <li class="index-item property">
+                                <a href="#property_kilogram">kilogram</a>
 
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_meter">meter</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_mole">mole</a>
+
+                                    <span class="flag static">static</span>
                             </li>
                             <li class="index-item property">
                                 <a href="#property_one">one</a>
@@ -694,8 +506,9 @@ The multivector is initialized to zero.</p>
                                     <span class="flag static">static</span>
                             </li>
                             <li class="index-item property">
-                                <a href="#property_uom">uom</a>
+                                <a href="#property_second">second</a>
 
+                                    <span class="flag static">static</span>
                             </li>
                             <li class="index-item property">
                                 <a href="#property_x">x</a>
@@ -727,1558 +540,6 @@ The multivector is initialized to zero.</p>
             <div id="methods" class="api-class-tabpanel">
                 <h2 class="off-left">Methods</h2>
 
-<div id="method___add__" class="method item private">
-    <h3 class="name"><code>__add__</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>rhs</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>
-        </span>
-
-
-        <span class="flag private">private</span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l1246"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:1246</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">rhs</code>
-                        <span class="type">Any</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method___bang__" class="method item private">
-    <h3 class="name"><code>__bang__</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>
-        </span>
-
-
-        <span class="flag private">private</span>
-
-
-
-        <span class="flag chainable">chainable</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l1566"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:1566</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method___div__" class="method item private">
-    <h3 class="name"><code>__div__</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>rhs</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>
-        </span>
-
-
-        <span class="flag private">private</span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l1272"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:1272</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">rhs</code>
-                        <span class="type">Any</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method___lshift__" class="method item private">
-    <h3 class="name"><code>__lshift__</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>other</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>
-        </span>
-
-
-        <span class="flag private">private</span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l1458"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:1458</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">other</code>
-                        <span class="type">Any</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method___mul__" class="method item private">
-    <h3 class="name"><code>__mul__</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>rhs</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>
-        </span>
-
-
-        <span class="flag private">private</span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l1308"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:1308</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">rhs</code>
-                        <span class="type">Any</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method___neg__" class="method item private">
-    <h3 class="name"><code>__neg__</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>
-        </span>
-
-
-        <span class="flag private">private</span>
-
-
-
-        <span class="flag chainable">chainable</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l1597"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:1597</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method___pos__" class="method item private">
-    <h3 class="name"><code>__pos__</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>
-        </span>
-
-
-        <span class="flag private">private</span>
-
-
-
-        <span class="flag chainable">chainable</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l1586"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:1586</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method___radd__" class="method item private">
-    <h3 class="name"><code>__radd__</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>lhs</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>
-        </span>
-
-
-        <span class="flag private">private</span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l1359"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:1359</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">lhs</code>
-                        <span class="type">Any</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method___rdiv__" class="method item private">
-    <h3 class="name"><code>__rdiv__</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>lhs</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>
-        </span>
-
-
-        <span class="flag private">private</span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l1290"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:1290</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">lhs</code>
-                        <span class="type">Any</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method___rlshift__" class="method item private">
-    <h3 class="name"><code>__rlshift__</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>other</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>
-        </span>
-
-
-        <span class="flag private">private</span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l1476"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:1476</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">other</code>
-                        <span class="type">Any</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method___rmul__" class="method item private">
-    <h3 class="name"><code>__rmul__</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>lhs</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>
-        </span>
-
-
-        <span class="flag private">private</span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l1334"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:1334</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">lhs</code>
-                        <span class="type">Any</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method___rrshift__" class="method item private">
-    <h3 class="name"><code>__rrshift__</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>lhs</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>
-        </span>
-
-
-        <span class="flag private">private</span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l1512"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:1512</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">lhs</code>
-                        <span class="type">Any</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method___rshift__" class="method item private">
-    <h3 class="name"><code>__rshift__</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>rhs</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>
-        </span>
-
-
-        <span class="flag private">private</span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l1494"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:1494</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">rhs</code>
-                        <span class="type">Any</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method___rsub__" class="method item private">
-    <h3 class="name"><code>__rsub__</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>lhs</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>
-        </span>
-
-
-        <span class="flag private">private</span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l1402"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:1402</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">lhs</code>
-                        <span class="type">Any</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method___rvbar__" class="method item private">
-    <h3 class="name"><code>__rvbar__</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>lhs</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>
-        </span>
-
-
-        <span class="flag private">private</span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l1548"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:1548</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">lhs</code>
-                        <span class="type">Any</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method___rwedge__" class="method item private">
-    <h3 class="name"><code>__rwedge__</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>lhs</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>
-        </span>
-
-
-        <span class="flag private">private</span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l1439"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:1439</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">lhs</code>
-                        <span class="type">Any</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method___sub__" class="method item private">
-    <h3 class="name"><code>__sub__</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>rhs</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>
-        </span>
-
-
-        <span class="flag private">private</span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l1384"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:1384</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">rhs</code>
-                        <span class="type">Any</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method___tilde__" class="method item private">
-    <h3 class="name"><code>__tilde__</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>
-        </span>
-
-
-        <span class="flag private">private</span>
-
-
-
-        <span class="flag chainable">chainable</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l1576"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:1576</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method___vbar__" class="method item private">
-    <h3 class="name"><code>__vbar__</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>rhs</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>
-        </span>
-
-
-        <span class="flag private">private</span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l1530"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:1530</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">rhs</code>
-                        <span class="type">Any</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method___wedge__" class="method item private">
-    <h3 class="name"><code>__wedge__</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>rhs</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>
-        </span>
-
-
-        <span class="flag private">private</span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l1420"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:1420</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">rhs</code>
-                        <span class="type">Any</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_add" class="method item">
-    <h3 class="name"><code>add</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>M</code>
-                </li>
-                <li class="arg">
-                        <code class="optional">[α = 1]</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>
-        </span>
-
-
-
-
-
-        <span class="flag chainable">chainable</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l215"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:215</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-<code>this ⟼ this + M * α</code>
-</p>
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">M</code>
-                        <span class="type"><a href="../classes/GeometricE2.html" class="crosslink">GeometricE2</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name optional">[α = 1]</code>
-                        <span class="type">Number</span>
-                        <span class="flag optional" title="This parameter is optional.">optional</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>:
-                    <p><code>this</code></p>
-
-            </div>
-        </div>
-
-
-</div>
-<div id="method_add2" class="method item">
-    <h3 class="name"><code>add2</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>a</code>
-                </li>
-                <li class="arg">
-                        <code>b</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>
-        </span>
-
-
-
-
-
-        <span class="flag chainable">chainable</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l235"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:235</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-<code>this ⟼ a + b</code>
-</p>
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">a</code>
-                        <span class="type"><a href="../classes/GeometricE2.html" class="crosslink">GeometricE2</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">b</code>
-                        <span class="type"><a href="../classes/GeometricE2.html" class="crosslink">GeometricE2</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>:
-                    <p><code>this</code></p>
-
-            </div>
-        </div>
-
-
-</div>
-<div id="method_addPseudo" class="method item">
-    <h3 class="name"><code>addPseudo</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>β</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>
-        </span>
-
-
-
-
-
-        <span class="flag chainable">chainable</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l255"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:255</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-<code>this ⟼ this + Iβ</code>
-</p>
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">β</code>
-                        <span class="type">Number</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>:
-                    <p><code>this</code></p>
-
-            </div>
-        </div>
-
-
-</div>
-<div id="method_addScalar" class="method item">
-    <h3 class="name"><code>addScalar</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>α</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>
-        </span>
-
-
-
-
-
-        <span class="flag chainable">chainable</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l270"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:270</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-<code>this ⟼ this + α</code>
-</p>
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">α</code>
-                        <span class="type">Number</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>:
-                    <p><code>this</code></p>
-
-            </div>
-        </div>
-
-
-</div>
-<div id="method_addVector" class="method item">
-    <h3 class="name"><code>addVector</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>v</code>
-                </li>
-                <li class="arg">
-                        <code class="optional">[α = 1]</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>
-        </span>
-
-
-
-
-
-        <span class="flag chainable">chainable</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l285"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:285</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-<code>this ⟼ this + v * α</code>
-</p>
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">v</code>
-                        <span class="type"><a href="../classes/VectorE2.html" class="crosslink">VectorE2</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name optional">[α = 1]</code>
-                        <span class="type">Number</span>
-                        <span class="flag optional" title="This parameter is optional.">optional</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>:
-                    <p><code>this</code></p>
-
-            </div>
-        </div>
-
-
-</div>
 <div id="method_angle" class="method item">
     <h3 class="name"><code>angle</code></h3>
 
@@ -2292,61 +553,12 @@ The multivector is initialized to zero.</p>
 
 
 
-        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l307"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:307</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-<code>this ⟼ log(this).grade(2)</code>
-</p>
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>:
-                    <p><code>this</code></p>
-
-            </div>
-        </div>
-
-
-</div>
-<div id="method_clone" class="method item">
-    <h3 class="name"><code>clone</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>
-        </span>
-
-
-
-
-
-        <span class="flag chainable">chainable</span>
-
-
-    <div class="meta">
-            <p>Inherited from
-            <a href="../classes/VectorN.html#method_clone">
-                VectorN
-            </a>
-            but overwritten in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l319"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:319</code></a>
+        <a href="../files/src_davinci-eight_math_G2.ts.html#l478"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:478</code></a>
         </p>
 
 
@@ -2363,120 +575,6 @@ The multivector is initialized to zero.</p>
 
             <div class="returns-description">
                         <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>:
-                    <p><code>copy(this)</code></p>
-
-            </div>
-        </div>
-
-
-</div>
-<div id="method_conj" class="method item">
-    <h3 class="name"><code>conj</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>
-        </span>
-
-
-
-
-
-        <span class="flag chainable">chainable</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l330"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:330</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-<code>this ⟼ conjugate(this)</code>
-</p>
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>:
-                    <p><code>this</code></p>
-
-            </div>
-        </div>
-
-
-</div>
-<div id="method_copy" class="method item">
-    <h3 class="name"><code>copy</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>M</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>
-        </span>
-
-
-
-
-
-        <span class="flag chainable">chainable</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l361"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:361</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-<code>this ⟼ copy(M)</code>
-</p>
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">M</code>
-                        <span class="type"><a href="../classes/GeometricE2.html" class="crosslink">GeometricE2</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>:
-                    <p><code>this</code></p>
-
             </div>
         </div>
 
@@ -2502,13 +600,12 @@ The multivector is initialized to zero.</p>
 
         <span class="flag static">static</span>
 
-        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l1664"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:1664</code></a>
+        <a href="../files/src_davinci-eight_math_G2.ts.html#l1047"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:1047</code></a>
         </p>
 
 
@@ -2541,288 +638,6 @@ The multivector is initialized to zero.</p>
 
             <div class="returns-description">
                         <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_copyScalar" class="method item">
-    <h3 class="name"><code>copyScalar</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>
-        </span>
-
-
-
-
-
-        <span class="flag chainable">chainable</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l379"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:379</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>Sets this multivector to the value of the scalar, <code>α</code>.</p>
-
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>:
-                    <p><code>this</code></p>
-
-            </div>
-        </div>
-
-
-</div>
-<div id="method_copySpinor" class="method item">
-    <h3 class="name"><code>copySpinor</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>spinor</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>
-        </span>
-
-
-
-
-
-        <span class="flag chainable">chainable</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l389"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:389</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-<code>this ⟼ copy(spinor)</code>
-</p>
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">spinor</code>
-                        <span class="type"><a href="../classes/SpinorE2.html" class="crosslink">SpinorE2</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>:
-                    <p><code>this</code></p>
-
-            </div>
-        </div>
-
-
-</div>
-<div id="method_copyVector" class="method item">
-    <h3 class="name"><code>copyVector</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>vector</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>
-        </span>
-
-
-
-
-
-        <span class="flag chainable">chainable</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l407"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:407</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-<code>this ⟼ copyVector(vector)</code>
-</p>
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">vector</code>
-                        <span class="type"><a href="../classes/VectorE2.html" class="crosslink">VectorE2</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>:
-                    <p><code>this</code></p>
-
-            </div>
-        </div>
-
-
-</div>
-<div id="method_cubicBezier" class="method item">
-    <h3 class="name"><code>cubicBezier</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>t</code>
-                </li>
-                <li class="arg">
-                        <code>controlBegin</code>
-                </li>
-                <li class="arg">
-                        <code>controlEnd</code>
-                </li>
-                <li class="arg">
-                        <code>endPoint</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>
-        </span>
-
-
-
-
-
-        <span class="flag chainable">chainable</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l425"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:425</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">t</code>
-                        <span class="type">Number</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">controlBegin</code>
-                        <span class="type"><a href="../classes/GeometricE2.html" class="crosslink">GeometricE2</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">controlEnd</code>
-                        <span class="type"><a href="../classes/GeometricE2.html" class="crosslink">GeometricE2</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">endPoint</code>
-                        <span class="type"><a href="../classes/GeometricE2.html" class="crosslink">GeometricE2</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>:
-                    <p><code>this</code></p>
-
             </div>
         </div>
 
@@ -2847,532 +662,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l446"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:446</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-<code>this ⟼ this / magnitude(this)</code>
-</p>
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>:
-                    <p><code>this</code></p>
-
-            </div>
-        </div>
-
-
-</div>
-<div id="method_div" class="method item">
-    <h3 class="name"><code>div</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>m</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>
-        </span>
-
-
-
-
-
-        <span class="flag chainable">chainable</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l463"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:463</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-<code>this ⟼ this / m</code>
-</p>
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">m</code>
-                        <span class="type"><a href="../classes/GeometricE2.html" class="crosslink">GeometricE2</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>:
-                    <p><code>this</code></p>
-
-            </div>
-        </div>
-
-
-</div>
-<div id="method_div2" class="method item">
-    <h3 class="name"><code>div2</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>a</code>
-                </li>
-                <li class="arg">
-                        <code>b</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>
-        </span>
-
-
-
-
-
-        <span class="flag chainable">chainable</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l476"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:476</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-<code>this ⟼ a / b</code>
-</p>
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">a</code>
-                        <span class="type"><a href="../classes/GeometricE2.html" class="crosslink">GeometricE2</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">b</code>
-                        <span class="type"><a href="../classes/GeometricE2.html" class="crosslink">GeometricE2</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>:
-                    <p><code>this</code></p>
-
-            </div>
-        </div>
-
-
-</div>
-<div id="method_divByScalar" class="method item">
-    <h3 class="name"><code>divByScalar</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>α</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>
-        </span>
-
-
-
-
-
-        <span class="flag chainable">chainable</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l491"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:491</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-<code>this ⟼ this / α</code>
-</p>
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">α</code>
-                        <span class="type">Number</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>:
-                    <p><code>this</code></p>
-
-            </div>
-        </div>
-
-
-</div>
-<div id="method_dual" class="method item">
-    <h3 class="name"><code>dual</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>m</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>
-        </span>
-
-
-
-
-
-        <span class="flag chainable">chainable</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l509"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:509</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-<code>this ⟼ dual(m) = I * m</code>
-</p>
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">m</code>
-                        <span class="type"><a href="../classes/GeometricE2.html" class="crosslink">GeometricE2</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>:
-                    <p><code>this</code></p>
-
-            </div>
-        </div>
-
-
-</div>
-<div id="method_exp" class="method item">
-    <h3 class="name"><code>exp</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>
-        </span>
-
-
-
-
-
-        <span class="flag chainable">chainable</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l531"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:531</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-<code>this ⟼ e<sup>this</sup></code>
-</p>
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>:
-                    <p><code>this</code></p>
-
-            </div>
-        </div>
-
-
-</div>
-<div id="method_ext" class="method item">
-    <h3 class="name"><code>ext</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>m</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>
-        </span>
-
-
-
-
-
-        <span class="flag chainable">chainable</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l552"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:552</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-<code>this ⟼ this ^ m</code>
-</p>
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">m</code>
-                        <span class="type"><a href="../classes/GeometricE2.html" class="crosslink">GeometricE2</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>:
-                    <p><code>this</code></p>
-
-            </div>
-        </div>
-
-
-</div>
-<div id="method_ext2" class="method item">
-    <h3 class="name"><code>ext2</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>a</code>
-                </li>
-                <li class="arg">
-                        <code>b</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>
-        </span>
-
-
-
-
-
-        <span class="flag chainable">chainable</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l565"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:565</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-<code>this ⟼ a ^ b</code>
-</p>
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">a</code>
-                        <span class="type"><a href="../classes/GeometricE2.html" class="crosslink">GeometricE2</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">b</code>
-                        <span class="type"><a href="../classes/GeometricE2.html" class="crosslink">GeometricE2</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>:
-                    <p><code>this</code></p>
-
-            </div>
-        </div>
-
-
-</div>
-<div id="method_fromScalar" class="method item">
-    <h3 class="name"><code>fromScalar</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>α</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>
-        </span>
-
-
-
-
-        <span class="flag static">static</span>
-
-        <span class="flag chainable">chainable</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l1680"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:1680</code></a>
+        <a href="../files/src_davinci-eight_math_G2.ts.html#l502"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:502</code></a>
         </p>
 
 
@@ -3383,22 +673,6 @@ The multivector is initialized to zero.</p>
         
     </div>
 
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">α</code>
-                        <span class="type">Number</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
 
         <div class="returns">
             <h4>Returns:</h4>
@@ -3410,72 +684,8 @@ The multivector is initialized to zero.</p>
 
 
 </div>
-<div id="method_fromSpinor" class="method item">
-    <h3 class="name"><code>fromSpinor</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>spinor</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>
-        </span>
-
-
-
-
-        <span class="flag static">static</span>
-
-        <span class="flag chainable">chainable</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l1691"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:1691</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">spinor</code>
-                        <span class="type"><a href="../classes/SpinorE2.html" class="crosslink">SpinorE2</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_fromVector" class="method item">
-    <h3 class="name"><code>fromVector</code></h3>
+<div id="method_fromVectorE2" class="method item">
+    <h3 class="name"><code>fromVectorE2</code></h3>
 
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
@@ -3494,13 +704,12 @@ The multivector is initialized to zero.</p>
 
         <span class="flag static">static</span>
 
-        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l1702"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:1702</code></a>
+        <a href="../files/src_davinci-eight_math_G2.ts.html#l1062"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:1062</code></a>
         </p>
 
 
@@ -3538,133 +747,6 @@ The multivector is initialized to zero.</p>
 
 
 </div>
-<div id="method_getComponent" class="method item inherited">
-    <h3 class="name"><code>getComponent</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>index</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type">T</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>Inherited from
-                <a href="../classes/VectorN.html#method_getComponent">VectorN</a>:
-        <a href="../files/src_davinci-eight_math_VectorN.ts.html#l115"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;VectorN.ts:115</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">index</code>
-                        <span class="type">Number</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">T</span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_grade" class="method item">
-    <h3 class="name"><code>grade</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>grade</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>
-        </span>
-
-
-
-
-
-        <span class="flag chainable">chainable</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l1196"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:1196</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">grade</code>
-                        <span class="type">Number</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>:
-                    <p><code>this</code></p>
-
-            </div>
-        </div>
-
-
-</div>
 <div id="method_inv" class="method item">
     <h3 class="name"><code>inv</code></h3>
 
@@ -3678,13 +760,12 @@ The multivector is initialized to zero.</p>
 
 
 
-        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l591"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:591</code></a>
+        <a href="../files/src_davinci-eight_math_G2.ts.html#l856"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:856</code></a>
         </p>
 
 
@@ -3692,9 +773,8 @@ The multivector is initialized to zero.</p>
     </div>
 
     <div class="description">
-        <p>
-<code>this ⟼ conj(this) / quad(this)</code>
-</p>
+        <p>Computes the <em>inverse</em> of this multivector, if it exists.</p>
+
     </div>
 
 
@@ -3703,545 +783,6 @@ The multivector is initialized to zero.</p>
 
             <div class="returns-description">
                         <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>:
-                    <p><code>this</code></p>
-
-            </div>
-        </div>
-
-
-</div>
-<div id="method_isOne" class="method item">
-    <h3 class="name"><code>isOne</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type">Boolean</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l606"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:606</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Boolean</span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_isZero" class="method item">
-    <h3 class="name"><code>isZero</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type">Boolean</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l614"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:614</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Boolean</span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_lco" class="method item">
-    <h3 class="name"><code>lco</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>m</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>
-        </span>
-
-
-
-
-
-        <span class="flag chainable">chainable</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l622"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:622</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-<code>this ⟼ this << m</code>
-</p>
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">m</code>
-                        <span class="type"><a href="../classes/GeometricE2.html" class="crosslink">GeometricE2</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>:
-                    <p><code>this</code></p>
-
-            </div>
-        </div>
-
-
-</div>
-<div id="method_lco2" class="method item">
-    <h3 class="name"><code>lco2</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>a</code>
-                </li>
-                <li class="arg">
-                        <code>b</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>
-        </span>
-
-
-
-
-
-        <span class="flag chainable">chainable</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l635"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:635</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-<code>this ⟼ a << b</code>
-</p>
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">a</code>
-                        <span class="type"><a href="../classes/GeometricE2.html" class="crosslink">GeometricE2</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">b</code>
-                        <span class="type"><a href="../classes/GeometricE2.html" class="crosslink">GeometricE2</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>:
-                    <p><code>this</code></p>
-
-            </div>
-        </div>
-
-
-</div>
-<div id="method_lerp" class="method item">
-    <h3 class="name"><code>lerp</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>target</code>
-                </li>
-                <li class="arg">
-                        <code>α</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>
-        </span>
-
-
-
-
-
-        <span class="flag chainable">chainable</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l661"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:661</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-<code>this ⟼ this + α * (target - this)</code>
-</p>
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">target</code>
-                        <span class="type"><a href="../classes/GeometricE2.html" class="crosslink">GeometricE2</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">α</code>
-                        <span class="type">Number</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>:
-                    <p><code>this</code></p>
-
-            </div>
-        </div>
-
-
-</div>
-<div id="method_lerp" class="method item">
-    <h3 class="name"><code>lerp</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>A</code>
-                </li>
-                <li class="arg">
-                        <code>B</code>
-                </li>
-                <li class="arg">
-                        <code>α</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>
-        </span>
-
-
-
-
-        <span class="flag static">static</span>
-
-        <span class="flag chainable">chainable</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l1719"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:1719</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">A</code>
-                        <span class="type"><a href="../classes/GeometricE2.html" class="crosslink">GeometricE2</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">B</code>
-                        <span class="type"><a href="../classes/GeometricE2.html" class="crosslink">GeometricE2</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">α</code>
-                        <span class="type">Number</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>:
-                    <p><code>A + α * (B - A)</code></p>
-
-            </div>
-        </div>
-
-
-</div>
-<div id="method_lerp2" class="method item">
-    <h3 class="name"><code>lerp2</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>a</code>
-                </li>
-                <li class="arg">
-                        <code>b</code>
-                </li>
-                <li class="arg">
-                        <code>α</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>
-        </span>
-
-
-
-
-
-        <span class="flag chainable">chainable</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l681"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:681</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-<code>this ⟼ a + α * (b - a)</code>
-</p>
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">a</code>
-                        <span class="type"><a href="../classes/GeometricE2.html" class="crosslink">GeometricE2</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">b</code>
-                        <span class="type"><a href="../classes/GeometricE2.html" class="crosslink">GeometricE2</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">α</code>
-                        <span class="type">Number</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>:
-                    <p><code>this</code></p>
-
-            </div>
-        </div>
-
-
-</div>
-<div id="method_log" class="method item">
-    <h3 class="name"><code>log</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>
-        </span>
-
-
-
-
-
-        <span class="flag chainable">chainable</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l700"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:700</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-<code>this ⟼ log(sqrt(w * w + β * β)) + <b>e</b><sub>1</sub><b>e</b><sub>2</sub> * atan2(β, w)</code>
-</p>
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>:
-                    <p><code>this</code></p>
-
             </div>
         </div>
 
@@ -4265,7 +806,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l719"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:719</code></a>
+        <a href="../files/src_davinci-eight_math_G2.ts.html#l886"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:886</code></a>
         </p>
 
 
@@ -4283,670 +824,6 @@ The multivector is initialized to zero.</p>
 
             <div class="returns-description">
                         <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_mul" class="method item">
-    <h3 class="name"><code>mul</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>m</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>
-        </span>
-
-
-
-
-
-        <span class="flag chainable">chainable</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l732"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:732</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-<code>this ⟼ this * s</code>
-</p>
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">m</code>
-                        <span class="type"><a href="../classes/GeometricE2.html" class="crosslink">GeometricE2</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>:
-                    <p><code>this</code></p>
-
-            </div>
-        </div>
-
-
-</div>
-<div id="method_mul2" class="method item">
-    <h3 class="name"><code>mul2</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>a</code>
-                </li>
-                <li class="arg">
-                        <code>b</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>
-        </span>
-
-
-
-
-
-        <span class="flag chainable">chainable</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l745"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:745</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-<code>this ⟼ a * b</code>
-</p>
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">a</code>
-                        <span class="type"><a href="../classes/GeometricE2.html" class="crosslink">GeometricE2</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">b</code>
-                        <span class="type"><a href="../classes/GeometricE2.html" class="crosslink">GeometricE2</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>:
-                    <p><code>this</code></p>
-
-            </div>
-        </div>
-
-
-</div>
-<div id="method_neg" class="method item">
-    <h3 class="name"><code>neg</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>
-        </span>
-
-
-
-
-
-        <span class="flag chainable">chainable</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l771"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:771</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-<code>this ⟼ -1 * this</code>
-</p>
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>:
-                    <p><code>this</code></p>
-
-            </div>
-        </div>
-
-
-</div>
-<div id="method_norm" class="method item">
-    <h3 class="name"><code>norm</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>
-        </span>
-
-
-
-
-
-        <span class="flag chainable">chainable</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l787"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:787</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-<code>this ⟼ sqrt(this * conj(this))</code>
-</p>
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>:
-                    <p><code>this</code></p>
-
-            </div>
-        </div>
-
-
-</div>
-<div id="method_one" class="method item">
-    <h3 class="name"><code>one</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>
-        </span>
-
-
-
-
-
-        <span class="flag chainable">chainable</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l803"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:803</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>Sets this multivector to the identity element for multiplication, <b>1</b>.</p>
-
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_pop" class="method item inherited">
-    <h3 class="name"><code>pop</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type">T</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>Inherited from
-                <a href="../classes/VectorN.html#method_pop">VectorN</a>:
-        <a href="../files/src_davinci-eight_math_VectorN.ts.html#l124"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;VectorN.ts:124</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">T</span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_push" class="method item inherited">
-    <h3 class="name"><code>push</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>value</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type">Number</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>Inherited from
-                <a href="../classes/VectorN.html#method_push">VectorN</a>:
-        <a href="../files/src_davinci-eight_math_VectorN.ts.html#l137"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;VectorN.ts:137</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">value</code>
-                        <span class="type">T</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Number</span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_quad" class="method item">
-    <h3 class="name"><code>quad</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>
-        </span>
-
-
-
-
-
-        <span class="flag chainable">chainable</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l821"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:821</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-Updates <code>this</code> target to be the <em>quad</em> or <em>squared norm</em> of the target.
-</p>
-<p>
-<code>this ⟼ scp(this, rev(this)) = this | ~this</code>
-</p>
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>:
-                    <p><code>this</code></p>
-
-            </div>
-        </div>
-
-
-</div>
-<div id="method_quadraticBezier" class="method item">
-    <h3 class="name"><code>quadraticBezier</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>t</code>
-                </li>
-                <li class="arg">
-                        <code>controlPoint</code>
-                </li>
-                <li class="arg">
-                        <code>endPoint</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l840"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:840</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">t</code>
-                        <span class="type">Number</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">controlPoint</code>
-                        <span class="type"><a href="../classes/GeometricE2.html" class="crosslink">GeometricE2</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">endPoint</code>
-                        <span class="type"><a href="../classes/GeometricE2.html" class="crosslink">GeometricE2</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_rco" class="method item">
-    <h3 class="name"><code>rco</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>m</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>
-        </span>
-
-
-
-
-
-        <span class="flag chainable">chainable</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l859"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:859</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-<code>this ⟼ this >> m</code>
-</p>
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">m</code>
-                        <span class="type"><a href="../classes/GeometricE2.html" class="crosslink">GeometricE2</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>:
-                    <p><code>this</code></p>
-
-            </div>
-        </div>
-
-
-</div>
-<div id="method_rco2" class="method item">
-    <h3 class="name"><code>rco2</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>a</code>
-                </li>
-                <li class="arg">
-                        <code>b</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>
-        </span>
-
-
-
-
-
-        <span class="flag chainable">chainable</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l872"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:872</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-<code>this ⟼ a >> b</code>
-</p>
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">a</code>
-                        <span class="type"><a href="../classes/GeometricE2.html" class="crosslink">GeometricE2</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">b</code>
-                        <span class="type"><a href="../classes/GeometricE2.html" class="crosslink">GeometricE2</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>:
-                    <p><code>this</code></p>
-
             </div>
         </div>
 
@@ -4971,13 +848,12 @@ Updates <code>this</code> target to be the <em>quad</em> or <em>squared norm</em
 
 
 
-        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l898"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:898</code></a>
+        <a href="../files/src_davinci-eight_math_G2.ts.html#l931"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:931</code></a>
         </p>
 
 
@@ -4985,9 +861,8 @@ Updates <code>this</code> target to be the <em>quad</em> or <em>squared norm</em
     </div>
 
     <div class="description">
-        <p>
-<code>this ⟼ - n * this * n</code>
-</p>
+        <p>Computes the <em>reflection</em> of this multivector in the plane with normal <code>n</code>.</p>
+
     </div>
 
         <div class="params">
@@ -5012,53 +887,6 @@ Updates <code>this</code> target to be the <em>quad</em> or <em>squared norm</em
 
             <div class="returns-description">
                         <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>:
-                    <p><code>this</code></p>
-
-            </div>
-        </div>
-
-
-</div>
-<div id="method_reverse" class="method item">
-    <h3 class="name"><code>reverse</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>
-        </span>
-
-
-
-
-
-        <span class="flag chainable">chainable</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l917"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:917</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-<code>this ⟼ rev(this)</code>
-</p>
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>:
-                    <p><code>this</code></p>
-
             </div>
         </div>
 
@@ -5070,238 +898,7 @@ Updates <code>this</code> target to be the <em>quad</em> or <em>squared norm</em
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
-                        <code>R</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>
-        </span>
-
-
-
-
-
-        <span class="flag chainable">chainable</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l942"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:942</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-<code>this ⟼ R * this * rev(R)</code>
-</p>
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">R</code>
-                        <span class="type"><a href="../classes/SpinorE2.html" class="crosslink">SpinorE2</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>:
-                    <p><code>this</code></p>
-
-            </div>
-        </div>
-
-
-</div>
-<div id="method_rotorFromDirections" class="method item">
-    <h3 class="name"><code>rotorFromDirections</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>a</code>
-                </li>
-                <li class="arg">
-                        <code>b</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>
-        </span>
-
-
-
-
-
-        <span class="flag chainable">chainable</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l969"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:969</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>Sets this multivector to a rotation from vector <code>a</code> to vector <code>b</code>.</p>
-
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">a</code>
-                        <span class="type"><a href="../classes/VectorE2.html" class="crosslink">VectorE2</a></span>
-
-
-                    <div class="param-description">
-                        <p>The starting vector</p>
-
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">b</code>
-                        <span class="type"><a href="../classes/VectorE2.html" class="crosslink">VectorE2</a></span>
-
-
-                    <div class="param-description">
-                        <p>The ending vector</p>
-
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>:
-                    <p><code>this</code> The rotor representing a rotation from a to b.</p>
-
-            </div>
-        </div>
-
-
-</div>
-<div id="method_rotorFromDirections" class="method item">
-    <h3 class="name"><code>rotorFromDirections</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>a</code>
-                </li>
-                <li class="arg">
-                        <code>b</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>
-        </span>
-
-
-
-
-        <span class="flag static">static</span>
-
-        <span class="flag chainable">chainable</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l1733"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:1733</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>Computes the rotor that rotates vector <code>a</code> to vector <code>b</code>.</p>
-
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">a</code>
-                        <span class="type"><a href="../classes/VectorE2.html" class="crosslink">VectorE2</a></span>
-
-
-                    <div class="param-description">
-                        <p>The <em>from</em> vector.</p>
-
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">b</code>
-                        <span class="type"><a href="../classes/VectorE2.html" class="crosslink">VectorE2</a></span>
-
-
-                    <div class="param-description">
-                        <p>The <em>to</em> vector.</p>
-
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_rotorFromGeneratorAngle" class="method item">
-    <h3 class="name"><code>rotorFromGeneratorAngle</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>B</code>
-                </li>
-                <li class="arg">
-                        <code>θ</code>
+                        <code>spinor</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
@@ -5319,287 +916,7 @@ Updates <code>this</code> target to be the <em>quad</em> or <em>squared norm</em
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l990"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:990</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-<code>this = ⟼ exp(- B * θ / 2)</code>
-</p>
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">B</code>
-                        <span class="type"><a href="../classes/SpinorE2.html" class="crosslink">SpinorE2</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">θ</code>
-                        <span class="type">Number</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>:
-                    <p><code>this</code></p>
-
-            </div>
-        </div>
-
-
-</div>
-<div id="method_scale" class="method item">
-    <h3 class="name"><code>scale</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>α</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l1058"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:1058</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-<code>this ⟼ this * α</code>
-</p>
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">α</code>
-                        <span class="type">Number</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-
-
-</div>
-<div id="method_scp" class="method item">
-    <h3 class="name"><code>scp</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>m</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>
-        </span>
-
-
-
-
-
-        <span class="flag chainable">chainable</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l1027"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:1027</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-<code>this ⟼ scp(this, m)</code>
-</p>
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">m</code>
-                        <span class="type"><a href="../classes/GeometricE2.html" class="crosslink">GeometricE2</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>:
-                    <p><code>this</code></p>
-
-            </div>
-        </div>
-
-
-</div>
-<div id="method_scp2" class="method item">
-    <h3 class="name"><code>scp2</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>a</code>
-                </li>
-                <li class="arg">
-                        <code>b</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>
-        </span>
-
-
-
-
-
-        <span class="flag chainable">chainable</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l1040"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:1040</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-<code>this ⟼ scp(a, b)</code>
-</p>
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">a</code>
-                        <span class="type"><a href="../classes/GeometricE2.html" class="crosslink">GeometricE2</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">b</code>
-                        <span class="type"><a href="../classes/GeometricE2.html" class="crosslink">GeometricE2</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>:
-                    <p><code>this</code></p>
-
-            </div>
-        </div>
-
-
-</div>
-<div id="method_setComponent" class="method item inherited">
-    <h3 class="name"><code>setComponent</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>index</code>
-                </li>
-                <li class="arg">
-                        <code>value</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type">Void</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>Inherited from
-                <a href="../classes/VectorN.html#method_setComponent">VectorN</a>:
-        <a href="../files/src_davinci-eight_math_VectorN.ts.html#l154"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;VectorN.ts:154</code></a>
+        <a href="../files/src_davinci-eight_math_G2.ts.html#l949"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:949</code></a>
         </p>
 
 
@@ -5615,96 +932,8 @@ Updates <code>this</code> target to be the <em>quad</em> or <em>squared norm</em
 
             <ul class="params-list">
                 <li class="param">
-                        <code class="param-name">index</code>
-                        <span class="type">Number</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">value</code>
-                        <span class="type">T</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Void</span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_spinor" class="method item">
-    <h3 class="name"><code>spinor</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>a</code>
-                </li>
-                <li class="arg">
-                        <code>b</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l1080"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:1080</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-<code>this ⟼ a * b = a · b + a ^ b</code>
-</p>
-Sets this G2 to the geometric product a * b of the vector arguments.
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">a</code>
-                        <span class="type"><a href="../classes/VectorE2.html" class="crosslink">VectorE2</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">b</code>
-                        <span class="type"><a href="../classes/VectorE2.html" class="crosslink">VectorE2</a></span>
+                        <code class="param-name">spinor</code>
+                        <span class="type"><a href="../classes/SpinorE2.html" class="crosslink">SpinorE2</a></span>
 
 
                     <div class="param-description">
@@ -5720,71 +949,17 @@ Sets this G2 to the geometric product a * b of the vector arguments.
 
             <div class="returns-description">
                         <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>:
-                    <p><code>this</code></p>
-
             </div>
         </div>
 
 
 </div>
-<div id="method_squaredNorm" class="method item">
-    <h3 class="name"><code>squaredNorm</code></h3>
+<div id="method_tan" class="method item">
+    <h3 class="name"><code>tan</code></h3>
 
         <span class="paren">()</span>
 
         <span class="returns-inline">
-            <span class="type">Number</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l1104"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:1104</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>Computes the <em>squared norm</em> of this <code>G2</code> multivector.</p>
-
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Number</span>:
-                    <p><code>this | ~this</code></p>
-
-            </div>
-        </div>
-
-
-</div>
-<div id="method_sub" class="method item">
-    <h3 class="name"><code>sub</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>M</code>
-                </li>
-                <li class="arg">
-                        <code class="optional">[α = 1]</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
             <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>
         </span>
 
@@ -5792,173 +967,12 @@ Sets this G2 to the geometric product a * b of the vector arguments.
 
 
 
-        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l1125"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:1125</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-<code>this ⟼ this - M * α</code>
-</p>
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">M</code>
-                        <span class="type"><a href="../classes/GeometricE2.html" class="crosslink">GeometricE2</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name optional">[α = 1]</code>
-                        <span class="type">Number</span>
-                        <span class="flag optional" title="This parameter is optional.">optional</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>:
-                    <p><code>this</code></p>
-
-            </div>
-        </div>
-
-
-</div>
-<div id="method_sub2" class="method item">
-    <h3 class="name"><code>sub2</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>a</code>
-                </li>
-                <li class="arg">
-                        <code>b</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>
-        </span>
-
-
-
-
-
-        <span class="flag chainable">chainable</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l1145"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:1145</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-<code>this ⟼ a - b</code>
-</p>
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">a</code>
-                        <span class="type"><a href="../classes/GeometricE2.html" class="crosslink">GeometricE2</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">b</code>
-                        <span class="type"><a href="../classes/GeometricE2.html" class="crosslink">GeometricE2</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>:
-                    <p><code>this</code></p>
-
-            </div>
-        </div>
-
-
-</div>
-<div id="method_toArray" class="method item inherited">
-    <h3 class="name"><code>toArray</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code class="optional">[array = []]</code>
-                </li>
-                <li class="arg">
-                        <code class="optional">[offset = 0]</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type">T</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>Inherited from
-                <a href="../classes/VectorN.html#method_toArray">VectorN</a>:
-        <a href="../files/src_davinci-eight_math_VectorN.ts.html#l170"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;VectorN.ts:170</code></a>
+        <a href="../files/src_davinci-eight_math_G2.ts.html#l979"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:979</code></a>
         </p>
 
 
@@ -5969,40 +983,12 @@ Sets this G2 to the geometric product a * b of the vector arguments.
         
     </div>
 
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name optional">[array = []]</code>
-                        <span class="type">T</span>
-                        <span class="flag optional" title="This parameter is optional.">optional</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name optional">[offset = 0]</code>
-                        <span class="type">Number</span>
-                        <span class="flag optional" title="This parameter is optional.">optional</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
 
         <div class="returns">
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type">T</span>:
+                        <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>:
             </div>
         </div>
 
@@ -6026,7 +1012,7 @@ Sets this G2 to the geometric product a * b of the vector arguments.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l1165"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:1165</code></a>
+        <a href="../files/src_davinci-eight_math_G2.ts.html#l1009"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:1009</code></a>
         </p>
 
 
@@ -6034,8 +1020,7 @@ Sets this G2 to the geometric product a * b of the vector arguments.
     </div>
 
     <div class="description">
-        <p>Returns a string representing the number in exponential notation.</p>
-
+        
     </div>
 
 
@@ -6055,7 +1040,7 @@ Sets this G2 to the geometric product a * b of the vector arguments.
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
-                        <code class="optional">[fractionDigits]</code>
+                        <code class="optional">[digits]</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
@@ -6073,7 +1058,7 @@ Sets this G2 to the geometric product a * b of the vector arguments.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l1175"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:1175</code></a>
+        <a href="../files/src_davinci-eight_math_G2.ts.html#l1018"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:1018</code></a>
         </p>
 
 
@@ -6081,8 +1066,7 @@ Sets this G2 to the geometric product a * b of the vector arguments.
     </div>
 
     <div class="description">
-        <p>Returns a string representing the number in fixed-point notation.</p>
-
+        
     </div>
 
         <div class="params">
@@ -6090,7 +1074,7 @@ Sets this G2 to the geometric product a * b of the vector arguments.
 
             <ul class="params-list">
                 <li class="param">
-                        <code class="param-name optional">[fractionDigits]</code>
+                        <code class="param-name optional">[digits]</code>
                         <span class="type">Number</span>
                         <span class="flag optional" title="This parameter is optional.">optional</span>
 
@@ -6102,46 +1086,6 @@ Sets this G2 to the geometric product a * b of the vector arguments.
                 </li>
             </ul>
         </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">String</span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_toLocaleString" class="method item inherited">
-    <h3 class="name"><code>toLocaleString</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type">String</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>Inherited from
-                <a href="../classes/VectorN.html#method_toLocaleString">VectorN</a>:
-        <a href="../files/src_davinci-eight_math_VectorN.ts.html#l185"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;VectorN.ts:185</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
 
         <div class="returns">
             <h4>Returns:</h4>
@@ -6169,12 +1113,9 @@ Sets this G2 to the geometric product a * b of the vector arguments.
 
 
     <div class="meta">
-            <p>Inherited from
-            <a href="../classes/VectorN.html#method_toString">
-                VectorN
-            </a>
-            but overwritten in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l1186"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:1186</code></a>
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_G2.ts.html#l1028"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:1028</code></a>
         </p>
 
 
@@ -6182,8 +1123,7 @@ Sets this G2 to the geometric product a * b of the vector arguments.
     </div>
 
     <div class="description">
-        <p>Returns a string representation of the number.</p>
-
+        
     </div>
 
 
@@ -6208,6 +1148,9 @@ Sets this G2 to the geometric product a * b of the vector arguments.
                 <li class="arg">
                         <code>y</code>
                 </li>
+                <li class="arg">
+                        <code class="optional">[uom]</code>
+                </li>
             </ul><span class="paren">)</span>
         </div>
 
@@ -6225,7 +1168,7 @@ Sets this G2 to the geometric product a * b of the vector arguments.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l1746"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:1746</code></a>
+        <a href="../files/src_davinci-eight_math_G2.ts.html#l1082"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:1082</code></a>
         </p>
 
 
@@ -6260,50 +1203,19 @@ Sets this G2 to the geometric product a * b of the vector arguments.
                     </div>
 
                 </li>
+                <li class="param">
+                        <code class="param-name optional">[uom]</code>
+                        <span class="type"><a href="../classes/Unit.html" class="crosslink">Unit</a></span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
             </ul>
         </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_zero" class="method item">
-    <h3 class="name"><code>zero</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>
-        </span>
-
-
-
-
-
-        <span class="flag chainable">chainable</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l1232"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:1232</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>Sets this multivector to the identity element for addition, <b>0</b>.</p>
-
-    </div>
-
 
         <div class="returns">
             <h4>Returns:</h4>
@@ -6320,8 +1232,8 @@ Sets this G2 to the geometric product a * b of the vector arguments.
             <div id="properties" class="api-class-tabpanel">
                 <h2 class="off-left">Properties</h2>
 
-<div id="property__size" class="property item private inherited">
-    <h3 class="name"><code>_size</code></h3>
+<div id="property__coords" class="property item private">
+    <h3 class="name"><code>_coords</code></h3>
     <span class="type">Number</span>
 
 
@@ -6330,9 +1242,141 @@ Sets this G2 to the geometric product a * b of the vector arguments.
 
 
     <div class="meta">
-                <p>Inherited from
-                <a href="../classes/VectorN.html#property__size">VectorN</a>:
-        <a href="../files/src_davinci-eight_math_VectorN.ts.html#l30"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;VectorN.ts:30</code></a>
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_G2.ts.html#l118"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:118</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>The coordinate values are stored in a number array.
+This should be convenient and efficient for tensor calculations.</p>
+
+    </div>
+
+
+
+</div>
+<div id="property__e2" class="property item private">
+    <h3 class="name"><code>_e2</code></h3>
+    <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>
+
+
+        <span class="flag private">private</span>
+
+
+        <span class="flag static">static</span>
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_G2.ts.html#l172"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:172</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property__e2" class="property item private">
+    <h3 class="name"><code>_e2</code></h3>
+    <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>
+
+
+        <span class="flag private">private</span>
+
+
+        <span class="flag static">static</span>
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_G2.ts.html#l193"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:193</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property__I" class="property item private">
+    <h3 class="name"><code>_I</code></h3>
+    <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>
+
+
+        <span class="flag private">private</span>
+
+
+        <span class="flag static">static</span>
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_G2.ts.html#l214"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:214</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property__one" class="property item private">
+    <h3 class="name"><code>_one</code></h3>
+    <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>
+
+
+        <span class="flag private">private</span>
+
+
+        <span class="flag static">static</span>
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_G2.ts.html#l151"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:151</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property__zero" class="property item private">
+    <h3 class="name"><code>_zero</code></h3>
+    <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>
+
+
+        <span class="flag private">private</span>
+
+
+        <span class="flag static">static</span>
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_G2.ts.html#l130"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:130</code></a>
         </p>
 
 
@@ -6356,32 +1400,33 @@ Sets this G2 to the geometric product a * b of the vector arguments.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l142"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:142</code></a>
+        <a href="../files/src_davinci-eight_math_G2.ts.html#l331"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:331</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        <p>The coordinate corresponding to the unit standard basis scalar.</p>
+        <p>The scalar part of this multivector.</p>
 
     </div>
 
 
 
 </div>
-<div id="property_BASIS_LABELS" class="property item">
-    <h3 class="name"><code>BASIS_LABELS</code></h3>
-    <span class="type">(string | string)[]</span>
+<div id="property_ampere" class="property item">
+    <h3 class="name"><code>ampere</code></h3>
+    <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>
 
 
 
 
+        <span class="flag static">static</span>
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l104"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:104</code></a>
+        <a href="../files/src_davinci-eight_math_G2.ts.html#l263"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:263</code></a>
         </p>
 
 
@@ -6405,32 +1450,33 @@ Sets this G2 to the geometric product a * b of the vector arguments.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l194"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:194</code></a>
+        <a href="../files/src_davinci-eight_math_G2.ts.html#l385"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:385</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        <p>The coordinate corresponding to the <b>e</b><sub>1</sub><b>e</b><sub>2</sub> standard basis bivector.</p>
+        <p>The pseudoscalar part of this multivector.</p>
 
     </div>
 
 
 
 </div>
-<div id="property_callback" class="property item inherited">
-    <h3 class="name"><code>callback</code></h3>
-    <span class="type">() => T</span>
+<div id="property_candela" class="property item">
+    <h3 class="name"><code>candela</code></h3>
+    <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>
 
 
 
 
+        <span class="flag static">static</span>
 
     <div class="meta">
-                <p>Inherited from
-                <a href="../classes/VectorN.html#property_callback">VectorN</a>:
-        <a href="../files/src_davinci-eight_math_VectorN.ts.html#l85"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;VectorN.ts:85</code></a>
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_G2.ts.html#l284"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:284</code></a>
         </p>
 
 
@@ -6443,18 +1489,19 @@ Sets this G2 to the geometric product a * b of the vector arguments.
 
 
 </div>
-<div id="property_data" class="property item inherited">
-    <h3 class="name"><code>data</code></h3>
-    <span class="type">T</span>
+<div id="property_coulomb" class="property item">
+    <h3 class="name"><code>coulomb</code></h3>
+    <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>
 
 
 
 
+        <span class="flag static">static</span>
 
     <div class="meta">
-                <p>Inherited from
-                <a href="../classes/VectorN.html#property_data">VectorN</a>:
-        <a href="../files/src_davinci-eight_math_VectorN.ts.html#l64"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;VectorN.ts:64</code></a>
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_G2.ts.html#l256"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:256</code></a>
         </p>
 
 
@@ -6479,15 +1526,14 @@ Sets this G2 to the geometric product a * b of the vector arguments.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l1637"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:1637</code></a>
+        <a href="../files/src_davinci-eight_math_G2.ts.html#l180"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:180</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        <p>Basis vector corresponding to the <code>x</code> coordinate.</p>
-
+        
     </div>
 
 
@@ -6505,15 +1551,14 @@ Sets this G2 to the geometric product a * b of the vector arguments.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l1646"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:1646</code></a>
+        <a href="../files/src_davinci-eight_math_G2.ts.html#l201"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:201</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        <p>Basis vector corresponding to the <code>y</code> coordinate.</p>
-
+        
     </div>
 
 
@@ -6531,32 +1576,7 @@ Sets this G2 to the geometric product a * b of the vector arguments.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l1655"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:1655</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>Basis vector corresponding to the <code>β</code> coordinate.</p>
-
-    </div>
-
-
-
-</div>
-<div id="property_length" class="property item inherited">
-    <h3 class="name"><code>length</code></h3>
-    <span class="type">Number</span>
-
-
-
-
-
-    <div class="meta">
-                <p>Inherited from
-                <a href="../classes/VectorN.html#property_length">VectorN</a>:
-        <a href="../files/src_davinci-eight_math_VectorN.ts.html#l98"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;VectorN.ts:98</code></a>
+        <a href="../files/src_davinci-eight_math_G2.ts.html#l222"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:222</code></a>
         </p>
 
 
@@ -6569,18 +1589,94 @@ Sets this G2 to the geometric product a * b of the vector arguments.
 
 
 </div>
-<div id="property_modified" class="property item inherited">
-    <h3 class="name"><code>modified</code></h3>
-    <span class="type">Boolean</span>
+<div id="property_kelvin" class="property item">
+    <h3 class="name"><code>kelvin</code></h3>
+    <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>
 
 
 
 
+        <span class="flag static">static</span>
 
     <div class="meta">
-                <p>Inherited from
-                <a href="../classes/VectorN.html#property_modified">VectorN</a>:
-        <a href="../files/src_davinci-eight_math_VectorN.ts.html#l38"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;VectorN.ts:38</code></a>
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_G2.ts.html#l270"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:270</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_kilogram" class="property item">
+    <h3 class="name"><code>kilogram</code></h3>
+    <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>
+
+
+
+
+        <span class="flag static">static</span>
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_G2.ts.html#l235"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:235</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_meter" class="property item">
+    <h3 class="name"><code>meter</code></h3>
+    <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>
+
+
+
+
+        <span class="flag static">static</span>
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_G2.ts.html#l242"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:242</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_mole" class="property item">
+    <h3 class="name"><code>mole</code></h3>
+    <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>
+
+
+
+
+        <span class="flag static">static</span>
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_G2.ts.html#l277"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:277</code></a>
         </p>
 
 
@@ -6605,40 +1701,39 @@ Sets this G2 to the geometric product a * b of the vector arguments.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l1628"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:1628</code></a>
+        <a href="../files/src_davinci-eight_math_G2.ts.html#l159"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:159</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        <p>The identity element for multiplication, <b>1</b>.</p>
-
+        
     </div>
 
 
 
 </div>
-<div id="property_uom" class="property item">
-    <h3 class="name"><code>uom</code></h3>
-    <span class="type"><a href="../classes/Unit.html" class="crosslink">Unit</a></span>
+<div id="property_second" class="property item">
+    <h3 class="name"><code>second</code></h3>
+    <span class="type"><a href="../classes/G2.html" class="crosslink">G2</a></span>
 
 
 
 
+        <span class="flag static">static</span>
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l110"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:110</code></a>
+        <a href="../files/src_davinci-eight_math_G2.ts.html#l249"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:249</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        <p>The optional unit of measure.</p>
-
+        
     </div>
 
 
@@ -6655,14 +1750,14 @@ Sets this G2 to the geometric product a * b of the vector arguments.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l155"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:155</code></a>
+        <a href="../files/src_davinci-eight_math_G2.ts.html#l344"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:344</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        <p>The coordinate corresponding to the <b>e</b><sub>1</sub> standard basis vector.</p>
+        <p>The coordinate corresponding to the <b>e1</b> basis vector, without the unit of measure.</p>
 
     </div>
 
@@ -6680,14 +1775,14 @@ Sets this G2 to the geometric product a * b of the vector arguments.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l168"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:168</code></a>
+        <a href="../files/src_davinci-eight_math_G2.ts.html#l358"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:358</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        <p>The coordinate corresponding to the <b>e</b><sub>2</sub> standard basis vector.</p>
+        <p>The coordinate corresponding to the <b>e2</b> basis vector, without the unit of measure.</p>
 
     </div>
 
@@ -6706,15 +1801,14 @@ Sets this G2 to the geometric product a * b of the vector arguments.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l1619"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:1619</code></a>
+        <a href="../files/src_davinci-eight_math_G2.ts.html#l138"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:138</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        <p>The identity element for addition, <b>0</b>.</p>
-
+        
     </div>
 
 
@@ -6731,14 +1825,14 @@ Sets this G2 to the geometric product a * b of the vector arguments.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l129"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:129</code></a>
+        <a href="../files/src_davinci-eight_math_G2.ts.html#l318"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:318</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        <p>The coordinate corresponding to the unit standard basis scalar.</p>
+        <p>The scalar part of this multivector.</p>
 
     </div>
 
@@ -6756,14 +1850,14 @@ Sets this G2 to the geometric product a * b of the vector arguments.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G2.ts.html#l181"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:181</code></a>
+        <a href="../files/src_davinci-eight_math_G2.ts.html#l372"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G2.ts:372</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        <p>The coordinate corresponding to the <b>e</b><sub>1</sub><b>e</b><sub>2</sub> standard basis bivector.</p>
+        <p>The pseudoscalar part of this multivector.</p>
 
     </div>
 

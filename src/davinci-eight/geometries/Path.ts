@@ -1,6 +1,6 @@
 import CubicBezierCurve from '../curves/CubicBezierCurve';
 import CurvePath from '../curves/CurvePath';
-import Euclidean3 from '../math/Euclidean3';
+import G3 from '../math/G3';
 import isClockWise from '../geometries/isClockWise';
 import LineCurve from '../curves/LineCurve';
 import PathAction from '../geometries/PathAction';
@@ -14,7 +14,7 @@ export default class Path extends CurvePath {
     public actions: PathAction[];
     private useSpacedPoints: boolean;
 
-    constructor(points?: Euclidean3[]) {
+    constructor(points?: G3[]) {
         super()
         this.actions = []
         if (points) {
@@ -22,7 +22,7 @@ export default class Path extends CurvePath {
         }
     }
 
-    fromPoints(points: Euclidean3[]): void {
+    fromPoints(points: G3[]): void {
         if (points.length > 0) {
             this.moveTo(points[0]);
             for (var i = 1, iLength = points.length; i < iLength; i++) {
@@ -31,8 +31,8 @@ export default class Path extends CurvePath {
         }
     }
 
-    getSpacedPoints(divisions = 40, closedPath?: boolean): Euclidean3[] {
-        var points: Euclidean3[] = []
+    getSpacedPoints(divisions = 40, closedPath?: boolean): G3[] {
+        var points: G3[] = []
         for (var i = 0; i < divisions; i++) {
             points.push(this.getPoint(i / divisions))
         }
@@ -44,7 +44,7 @@ export default class Path extends CurvePath {
         return points
     }
 
-    getPoints(divisions?: number, closedPath?: boolean): Euclidean3[] {
+    getPoints(divisions?: number, closedPath?: boolean): G3[] {
 
         if (this.useSpacedPoints) {
             return this.getSpacedPoints(divisions, closedPath);
@@ -52,11 +52,11 @@ export default class Path extends CurvePath {
 
         divisions = divisions || 12;
 
-        var points: Euclidean3[] = [];
-        var beginPoint: Euclidean3;
-        var controlBegin: Euclidean3;
-        var endPoint: Euclidean3;
-        var controlEnd: Euclidean3;
+        var points: G3[] = [];
+        var beginPoint: G3;
+        var controlBegin: G3;
+        var endPoint: G3;
+        var controlEnd: G3;
 
         for (let i = 0, il = this.actions.length; i < il; i++) {
 
@@ -112,7 +112,7 @@ export default class Path extends CurvePath {
                     let laste = this.actions[i - 1].data;
 
                     var last = new Vector2(laste[laste.length - 2], laste[laste.length - 1]);
-                    var spts: Euclidean3 = [last];
+                    var spts: G3 = [last];
 
                     var n = divisions * data[0].length;
 
@@ -216,7 +216,7 @@ export default class Path extends CurvePath {
         if (closedPath) {
             points.push(points[0]);
         }
-        return <Euclidean3[]>points;
+        return <G3[]>points;
     };
 
     execute(action: string, args: PathArgs): void {
@@ -224,19 +224,19 @@ export default class Path extends CurvePath {
         throw new Error("TODO Path.execute")
     }
 
-    moveTo(point: Euclidean3): void {
+    moveTo(point: G3): void {
         this.actions.push({ action: PathKind.MOVE_TO, data: { endPoint: point } })
     }
 
-    lineTo(point: Euclidean3) {
+    lineTo(point: G3) {
         var prevArgs: PathArgs = this.actions[this.actions.length - 1].data;
-        var beginPoint: Euclidean3 = prevArgs.endPoint;
+        var beginPoint: G3 = prevArgs.endPoint;
         var curve = new LineCurve(beginPoint, point);
         this.curves.push(curve);
         this.actions.push({ action: PathKind.LINE_TO, data: { endPoint: point } });
     }
 
-    quadraticCurveTo(controlPoint: Euclidean3, point: Euclidean3): void {
+    quadraticCurveTo(controlPoint: G3, point: G3): void {
         var prevArgs: PathArgs = this.actions[this.actions.length - 1].data;
         var beginPoint = prevArgs.endPoint;
         var curve = new QuadraticBezierCurve(beginPoint, controlPoint, point)
@@ -244,7 +244,7 @@ export default class Path extends CurvePath {
         this.actions.push({ action: PathKind.QUADRATIC_CURVE_TO, data: { controlBegin: controlPoint, endPoint: point } });
     }
 
-    bezierCurveTo(controlBegin: Euclidean3, controlEnd: Euclidean3, point: Euclidean3): void {
+    bezierCurveTo(controlBegin: G3, controlEnd: G3, point: G3): void {
         var prevArgs: PathArgs = this.actions[this.actions.length - 1].data;
         var beginPoint = prevArgs.endPoint;
         var curve = new CubicBezierCurve(beginPoint, controlBegin, controlEnd, point)
@@ -310,7 +310,7 @@ export default class Path extends CurvePath {
             return shapes;
         };
 
-        function isPointInsidePolygon(inPt: Euclidean3, inPolygon: Euclidean3[]): boolean {
+        function isPointInsidePolygon(inPt: G3, inPolygon: G3[]): boolean {
             var EPSILON = 0.0000000001;
 
             var polyLen = inPolygon.length;
@@ -347,7 +347,7 @@ export default class Path extends CurvePath {
                     if (inPt.y !== edgeLowPt.y) continue;      // parallel
                     // egde lies on the same horizontal line as inPt
                     if (((edgeHighPt.x <= inPt.x) && (inPt.x <= edgeLowPt.x)) ||
-                        ((edgeLowPt.x <= inPt.x) && (inPt.x <= edgeHighPt.x))) return true;  // inPt: Euclidean3 on contour !
+                        ((edgeLowPt.x <= inPt.x) && (inPt.x <= edgeHighPt.x))) return true;  // inPt: G3 on contour !
                     // continue;
                 }
             }
@@ -381,11 +381,11 @@ export default class Path extends CurvePath {
         var holesFirst = !isClockWise(subPaths[0].getPoints());
         holesFirst = isCCW ? !holesFirst : holesFirst;
 
-        var betterShapeHoles: { h: Path; p: Euclidean3 }[][] = [];
-        var newShapes: { s: Shape; p: Euclidean3[] }[] = [];
-        var newShapeHoles: { h: Path; p: Euclidean3 }[][] = [];
+        var betterShapeHoles: { h: Path; p: G3 }[][] = [];
+        var newShapes: { s: Shape; p: G3[] }[] = [];
+        var newShapeHoles: { h: Path; p: G3 }[][] = [];
         var mainIdx = 0;
-        var tmpPoints: Euclidean3[];
+        var tmpPoints: G3[];
 
         newShapes[mainIdx] = undefined;
         newShapeHoles[mainIdx] = [];
@@ -451,7 +451,7 @@ export default class Path extends CurvePath {
             }
         }
 
-        var tmpHoles: { h: Path; p: Euclidean3 }[];
+        var tmpHoles: { h: Path; p: G3 }[];
         for (let i = 0, il = newShapes.length; i < il; i++) {
             tmpShape = newShapes[i].s;
             shapes.push(tmpShape);

@@ -64,14 +64,14 @@
                                 <li><a href="../classes/DirectionalLight.html">DirectionalLight</a></li>
                                 <li><a href="../classes/DrawMode.html">DrawMode</a></li>
                                 <li><a href="../classes/EIGHTLogger.html">EIGHTLogger</a></li>
-                                <li><a href="../classes/Euclidean1.html">Euclidean1</a></li>
-                                <li><a href="../classes/Euclidean2.html">Euclidean2</a></li>
-                                <li><a href="../classes/Euclidean3.html">Euclidean3</a></li>
                                 <li><a href="../classes/Facet.html">Facet</a></li>
                                 <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
+                                <li><a href="../classes/G1.html">G1</a></li>
                                 <li><a href="../classes/G2.html">G2</a></li>
+                                <li><a href="../classes/G2m.html">G2m</a></li>
                                 <li><a href="../classes/G3.html">G3</a></li>
+                                <li><a href="../classes/G3m.html">G3m</a></li>
                                 <li><a href="../classes/GeometricE2.html">GeometricE2</a></li>
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
@@ -105,10 +105,10 @@
                                 <li><a href="../classes/PrimitiveBuffers.html">PrimitiveBuffers</a></li>
                                 <li><a href="../classes/Pseudo.html">Pseudo</a></li>
                                 <li><a href="../classes/QQ.html">QQ</a></li>
-                                <li><a href="../classes/R1.html">R1</a></li>
-                                <li><a href="../classes/R2.html">R2</a></li>
-                                <li><a href="../classes/R3.html">R3</a></li>
-                                <li><a href="../classes/R4.html">R4</a></li>
+                                <li><a href="../classes/R1m.html">R1m</a></li>
+                                <li><a href="../classes/R2m.html">R2m</a></li>
+                                <li><a href="../classes/R3m.html">R3m</a></li>
+                                <li><a href="../classes/R4m.html">R4m</a></li>
                                 <li><a href="../classes/ReflectionFacetE2.html">ReflectionFacetE2</a></li>
                                 <li><a href="../classes/ReflectionFacetE3.html">ReflectionFacetE3</a></li>
                                 <li><a href="../classes/RigidBody.html">RigidBody</a></li>
@@ -122,8 +122,8 @@
                                 <li><a href="../classes/ShareableWebGLTexture.html">ShareableWebGLTexture</a></li>
                                 <li><a href="../classes/Sphere.html">Sphere</a></li>
                                 <li><a href="../classes/SphereGeometry.html">SphereGeometry</a></li>
-                                <li><a href="../classes/SpinG2.html">SpinG2</a></li>
-                                <li><a href="../classes/SpinG3.html">SpinG3</a></li>
+                                <li><a href="../classes/SpinG2m.html">SpinG2m</a></li>
+                                <li><a href="../classes/SpinG3m.html">SpinG3m</a></li>
                                 <li><a href="../classes/SpinorE1.html">SpinorE1</a></li>
                                 <li><a href="../classes/SpinorE2.html">SpinorE2</a></li>
                                 <li><a href="../classes/SpinorE3.html">SpinorE3</a></li>
@@ -213,8 +213,8 @@ import Mat4R from &#x27;../math/Mat4R&#x27;;
 import GraphicsProgramSymbols from &#x27;../core/GraphicsProgramSymbols&#x27;;
 import VectorE3 from &#x27;../math/VectorE3&#x27;;
 import readOnly from &#x27;../i18n/readOnly&#x27;;
-import R1 from &#x27;../math/R1&#x27;;
-import R3 from &#x27;../math/R3&#x27;;
+import R1m from &#x27;../math/R1m&#x27;;
+import R3m from &#x27;../math/R3m&#x27;;
 import isUndefined from &#x27;../checks/isUndefined&#x27;;
 import mustBeNumber from &#x27;../checks/mustBeNumber&#x27;;
 import computePerspectiveMatrix from &#x27;./perspectiveMatrix&#x27;;
@@ -231,10 +231,10 @@ import computePerspectiveMatrix from &#x27;./perspectiveMatrix&#x27;;
 export default function createPerspective(options?: { fov?: number; aspect?: number; near?: number; far?: number; projectionMatrixName?: string; viewMatrixName?: string; }): Perspective {
 
     options = options || {};
-    const fov: R1 = new R1([isUndefined(options.fov) ? 75 * Math.PI / 180 : options.fov]);
-    const aspect: R1 = new R1([isUndefined(options.aspect) ? 1 : options.aspect]);
-    const near: R1 = new R1([isUndefined(options.near) ? 0.1 : options.near]);
-    const far: R1 = new R1([mustBeNumber(&#x27;options.far&#x27;, isUndefined(options.far) ? 2000 : options.far)]);
+    const fov: R1m = new R1m([isUndefined(options.fov) ? 75 * Math.PI / 180 : options.fov]);
+    const aspect: R1m = new R1m([isUndefined(options.aspect) ? 1 : options.aspect]);
+    const near: R1m = new R1m([isUndefined(options.near) ? 0.1 : options.near]);
+    const far: R1m = new R1m([mustBeNumber(&#x27;options.far&#x27;, isUndefined(options.far) ? 2000 : options.far)]);
     const projectionMatrixName = isUndefined(options.projectionMatrixName) ? GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX : options.projectionMatrixName;
 
     const base: View = createView(options)
@@ -246,30 +246,30 @@ export default function createPerspective(options?: { fov?: number; aspect?: num
             return self;
         },
         // Delegate to the base camera.
-        get eye(): R3 {
+        get eye(): R3m {
             return base.eye;
         },
-        set eye(eye: R3) {
+        set eye(eye: R3m) {
             base.eye = eye;
         },
         setEye(eye: VectorE3) {
             base.setEye(eye);
             return self;
         },
-        get look(): R3 {
+        get look(): R3m {
             return base.look;
         },
-        set look(value: R3) {
+        set look(value: R3m) {
             base.look = value;
         },
         setLook(look: VectorE3) {
             base.setLook(look);
             return self;
         },
-        get up(): R3 {
+        get up(): R3m {
             return base.up;
         },
-        set up(value: R3) {
+        set up(value: R3m) {
             base.up = value;
         },
         setUp(up: VectorE3) {

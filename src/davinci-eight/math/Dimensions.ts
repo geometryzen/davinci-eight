@@ -7,7 +7,7 @@ import QQ from '../math/QQ';
  */
 
 const R0 = QQ.ZERO;
-const R1 = QQ.ONE;
+const R1m = QQ.ONE;
 const M1 = QQ.MINUS_ONE;
 
 function assertArgRational(name: string, arg: QQ): QQ {
@@ -36,56 +36,56 @@ export default class Dimensions implements DivisionRingOperators<Dimensions> {
      * @type {Dimensions}
      * @static
      */
-    public static MASS = new Dimensions(R1, R0, R0, R0, R0, R0, R0);
+    public static MASS = new Dimensions(R1m, R0, R0, R0, R0, R0, R0);
 
     /**
      * @property LENGTH
      * @type {Dimensions}
      * @static
      */
-    public static LENGTH = new Dimensions(R0, R1, R0, R0, R0, R0, R0);
+    public static LENGTH = new Dimensions(R0, R1m, R0, R0, R0, R0, R0);
 
     /**
      * @property TIME
      * @type {Dimensions}
      * @static
      */
-    public static TIME = new Dimensions(R0, R0, R1, R0, R0, R0, R0);
+    public static TIME = new Dimensions(R0, R0, R1m, R0, R0, R0, R0);
 
     /**
      * @property CHARGE
      * @type {Dimensions}
      * @static
      */
-    public static CHARGE = new Dimensions(R0, R0, R0, R1, R0, R0, R0);
+    public static CHARGE = new Dimensions(R0, R0, R0, R1m, R0, R0, R0);
 
     /**
      * @property CURRENT
      * @type {Dimensions}
      * @static
      */
-    public static CURRENT = new Dimensions(R0, R0, M1, R1, R0, R0, R0);
+    public static CURRENT = new Dimensions(R0, R0, M1, R1m, R0, R0, R0);
 
     /**
      * @property TEMPERATURE
      * @type {Dimensions}
      * @static
      */
-    public static TEMPERATURE = new Dimensions(R0, R0, R0, R0, R1, R0, R0);
+    public static TEMPERATURE = new Dimensions(R0, R0, R0, R0, R1m, R0, R0);
 
     /**
      * @property AMOUNT
      * @type {Dimensions}
      * @static
      */
-    public static AMOUNT = new Dimensions(R0, R0, R0, R0, R0, R1, R0);
+    public static AMOUNT = new Dimensions(R0, R0, R0, R0, R0, R1m, R0);
 
     /**
      * @property INTENSITY
      * @type {Dimensions}
      * @static
      */
-    public static INTENSITY = new Dimensions(R0, R0, R0, R0, R0, R0, R1);
+    public static INTENSITY = new Dimensions(R0, R0, R0, R0, R0, R0, R1m);
 
     /**
      * The Dimensions class captures the physical dimensions associated with a unit of measure.

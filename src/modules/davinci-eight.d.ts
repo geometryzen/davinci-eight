@@ -491,7 +491,7 @@ declare module EIGHT {
         static CANDELA: Unit;
     }
 
-    class Euclidean2 {
+    class G2 {
         α: number
         alpha: number
         x: number
@@ -500,41 +500,41 @@ declare module EIGHT {
         beta: number
         uom: Unit
         constructor(α?: number, x?: number, y?: number, β?: number, uom?: Unit)
-        direction(): Euclidean2
-        inv(): Euclidean2
+        direction(): G2
+        inv(): G2
         isZero(): boolean
-        magnitude(): Euclidean2
-        scp(rhs: Euclidean2): Euclidean2
-        rotate(spinor: SpinorE2): Euclidean2
+        magnitude(): G2
+        scp(rhs: G2): G2
+        rotate(spinor: SpinorE2): G2
         toExponential(): string;
         toFixed(digits?: number): string;
         toString(): string;
-        static ampere: Euclidean2
-        static candela: Euclidean2
-        static coulomb: Euclidean2
-        static e1: Euclidean2
-        static e2: Euclidean2
-        static I: Euclidean2
-        static kelvin: Euclidean2
-        static kilogram: Euclidean2
-        static meter: Euclidean2
-        static mole: Euclidean2
-        static one: Euclidean2
-        static second: Euclidean2
-        static zero: Euclidean2
+        static ampere: G2
+        static candela: G2
+        static coulomb: G2
+        static e1: G2
+        static e2: G2
+        static I: G2
+        static kelvin: G2
+        static kilogram: G2
+        static meter: G2
+        static mole: G2
+        static one: G2
+        static second: G2
+        static zero: G2
         /**
          * Creates a vector from Cartesian coordinates and an optional unit of measure.
          */
-        static vector(x: number, y: number, uom?: Unit): Euclidean2
+        static vector(x: number, y: number, uom?: Unit): G2
     }
 
     /**
      * A measure with an optional unit of measure.
      */
-    class Euclidean3 implements VectorE3, SpinorE3 {
+    class G3 implements VectorE3, SpinorE3 {
         /**
          * The labels to use for the basis vectors.
-         * For G3 there must be eight (8) labels.
+         * For G3m there must be eight (8) labels.
          * e.g.
          * [['1'], ['e1'], ['e2'], ['e3'],['e12'], ['e23'], ['e32'], ['e123']]
          * or
@@ -548,19 +548,19 @@ declare module EIGHT {
         static BASIS_LABELS_STANDARD: string[][];
         static BASIS_LABELS_STANDARD_HTML: string[][];
 
-        static ampere: Euclidean3;
-        static candela: Euclidean3;
-        static coulomb: Euclidean3;
-        static e1: Euclidean3;
-        static e2: Euclidean3;
-        static e3: Euclidean3;
-        static kelvin: Euclidean3;
-        static kilogram: Euclidean3;
-        static meter: Euclidean3;
-        static mole: Euclidean3;
-        static one: Euclidean3;
-        static second: Euclidean3;
-        static zero: Euclidean3;
+        static ampere: G3;
+        static candela: G3;
+        static coulomb: G3;
+        static e1: G3;
+        static e2: G3;
+        static e3: G3;
+        static kelvin: G3;
+        static kilogram: G3;
+        static meter: G3;
+        static mole: G3;
+        static one: G3;
+        static second: G3;
+        static zero: G3;
         /**
          * The scalar component.
          */
@@ -592,58 +592,58 @@ declare module EIGHT {
          */
         uom: Unit;
         constructor(α: number, x: number, y: number, z: number, xy: number, yz: number, zx: number, β: number, uom?: Unit)
-        add(rhs: Euclidean3): Euclidean3;
-        addPseudo(β: number): Euclidean3;
-        addScalar(α: number): Euclidean3;
-        adj(): Euclidean3;
-        angle(); Euclidean3;
-        conj(): Euclidean3;
+        add(rhs: G3): G3;
+        addPseudo(β: number): G3;
+        addScalar(α: number): G3;
+        adj(): G3;
+        angle(); G3;
+        conj(): G3;
         coordinate(index: number): number;
-        cos(): Euclidean3;
-        cosh(): Euclidean3;
-        cross(vector: Euclidean3): Euclidean3;
-        cubicBezier(t: number, controlBegin: GeometricE3, controlEnd: GeometricE3, endPoint: GeometricE3): Euclidean3;
-        distanceTo(point: Euclidean3): number;
-        div(rhs: Euclidean3): Euclidean3;
-        divByScalar(α: number): Euclidean3;
-        dual(): Euclidean3;
-        equals(other: Euclidean3): Euclidean3;
-        exp(): Euclidean3;
-        ext(rhs: Euclidean3): Euclidean3;
-        grade(index: number): Euclidean3;
-        inv(): Euclidean3;
+        cos(): G3;
+        cosh(): G3;
+        cross(vector: G3): G3;
+        cubicBezier(t: number, controlBegin: GeometricE3, controlEnd: GeometricE3, endPoint: GeometricE3): G3;
+        distanceTo(point: G3): number;
+        div(rhs: G3): G3;
+        divByScalar(α: number): G3;
+        dual(): G3;
+        equals(other: G3): G3;
+        exp(): G3;
+        ext(rhs: G3): G3;
+        grade(index: number): G3;
+        inv(): G3;
         isOne(): boolean;
         isZero(): boolean;
-        lco(rhs: Euclidean3): Euclidean3;
-        lerp(target: Euclidean3, α: number): Euclidean3;
-        log(): Euclidean3;
-        magnitude(): Euclidean3;
-        mul(rhs: Euclidean3): Euclidean3;
-        neg(): Euclidean3;
-        norm(): Euclidean3;
-        pow(exponent: Euclidean3): Euclidean3;
-        quad(): Euclidean3;
-        quadraticBezier(t: number, controlPoint: GeometricE3, endPoint: GeometricE3): Euclidean3;
-        rco(rhs: Euclidean3): Euclidean3;
-        reflect(n: VectorE3): Euclidean3;
-        rev(): Euclidean3;
-        rotate(s: SpinorE3): Euclidean3;
-        scale(α: number): Euclidean3;
-        scp(rhs: Euclidean3): Euclidean3;
-        sin(): Euclidean3;
-        sinh(): Euclidean3;
-        slerp(target: Euclidean3, α: number): Euclidean3;
-        sqrt(): Euclidean3;
-        squaredNorm(): Euclidean3;
-        sub(rhs: Euclidean3): Euclidean3;
+        lco(rhs: G3): G3;
+        lerp(target: G3, α: number): G3;
+        log(): G3;
+        magnitude(): G3;
+        mul(rhs: G3): G3;
+        neg(): G3;
+        norm(): G3;
+        pow(exponent: G3): G3;
+        quad(): G3;
+        quadraticBezier(t: number, controlPoint: GeometricE3, endPoint: GeometricE3): G3;
+        rco(rhs: G3): G3;
+        reflect(n: VectorE3): G3;
+        rev(): G3;
+        rotate(s: SpinorE3): G3;
+        scale(α: number): G3;
+        scp(rhs: G3): G3;
+        sin(): G3;
+        sinh(): G3;
+        slerp(target: G3, α: number): G3;
+        sqrt(): G3;
+        squaredNorm(): G3;
+        sub(rhs: G3): G3;
         toExponential(): string;
         toFixed(digits?: number): string;
         toString(): string;
-        direction(): Euclidean3;
-        static fromSpinorE3(spinor: SpinorE3): Euclidean3;
-        static fromVectorE3(vector: VectorE3): Euclidean3;
-        static scalar(α: number, uom?: Unit): Euclidean3;
-        static vector(x: number, y: number, z: number, uom?: Unit): Euclidean3;
+        direction(): G3;
+        static fromSpinorE3(spinor: SpinorE3): G3;
+        static fromVectorE3(vector: VectorE3): G3;
+        static scalar(α: number, uom?: Unit): G3;
+        static vector(x: number, y: number, z: number, uom?: Unit): G3;
     }
 
     /**
@@ -1066,10 +1066,10 @@ declare module EIGHT {
     /**
      * The Geometric Algebra of the Euclidean plane
      */
-    class G2 extends VectorN<number> implements GeometricE2 {
+    class G2m extends VectorN<number> implements GeometricE2 {
         /**
          * The labels to use for the basis vectors.
-         * For G2 there must be four (4) labels.
+         * For G2m there must be four (4) labels.
          * The first is the scalar symbol.
          * The second is the first vector symbol.
          * The third is the second vector symbol.
@@ -1091,7 +1091,7 @@ declare module EIGHT {
         // static BASIS_LABELS: (string | string[])[];
 
         /**
-         * Constructs a <code>G2</code>.
+         * Constructs a <code>G2m</code>.
          * The multivector is initialized to zero.
          */
         constructor();
@@ -1122,7 +1122,7 @@ declare module EIGHT {
          * @param M
          * @param α
          */
-        add(M: GeometricE2, α?: number): G2;
+        add(M: GeometricE2, α?: number): G2m;
 
         /**
          * <p>
@@ -1131,7 +1131,7 @@ declare module EIGHT {
          * @param v
          * @param α
          */
-        addVector(v: VectorE2, α?: number): G2;
+        addVector(v: VectorE2, α?: number): G2m;
 
         /**
          * <p>
@@ -1140,17 +1140,17 @@ declare module EIGHT {
          * @param a
          * @param b
          */
-        add2(a: GeometricE2, b: GeometricE2): G2;
+        add2(a: GeometricE2, b: GeometricE2): G2m;
 
         /**
          * The bivector whose area (magnitude) is θ/2, where θ is the radian measure. 
          */
-        angle(): G2;
+        angle(): G2m;
 
         /**
          *
          */
-        clone(): G2;
+        clone(): G2m;
 
         /**
          * Sets this <em>multivector</em> to its <em>Clifford conjugate</em>.
@@ -1158,7 +1158,7 @@ declare module EIGHT {
          * <code>this ⟼ conj(this)</code>
          * </p>
          */
-        conj(): G2;
+        conj(): G2m;
 
         /**
          * Sets this multivector to be a copy of another multivector.
@@ -1167,7 +1167,7 @@ declare module EIGHT {
          * </p>
          * @param M
          */
-        copy(M: GeometricE2): G2;
+        copy(M: GeometricE2): G2m;
 
         /**
          * Sets this multivector to be a copy of a spinor.
@@ -1176,7 +1176,7 @@ declare module EIGHT {
          * </p>
          * @param spinor
          */
-        copySpinor(spinor: SpinorE2): G2;
+        copySpinor(spinor: SpinorE2): G2m;
         /**
          * Sets this multivector to be a copy of a vector.
          * <p>
@@ -1184,7 +1184,7 @@ declare module EIGHT {
          * </p>
          * @param vector
          */
-        copyVector(vector: VectorE2): G2;
+        copyVector(vector: VectorE2): G2m;
 
         /**
          * Sets this multivector to the result of division by another multivector.
@@ -1193,7 +1193,7 @@ declare module EIGHT {
          * </p>
          * @param m
          */
-        div(m: GeometricE2): G2;
+        div(m: GeometricE2): G2m;
 
         /**
          * <p>
@@ -1201,7 +1201,7 @@ declare module EIGHT {
          * </p>
          * @param α
          */
-        divByScalar(α: number): G2;
+        divByScalar(α: number): G2m;
 
         /**
          * <p>
@@ -1210,7 +1210,7 @@ declare module EIGHT {
          * @param a
          * @param b
          */
-        div2(a: SpinorE2, b: SpinorE2): G2;
+        div2(a: SpinorE2, b: SpinorE2): G2m;
 
         /**
          * <p>
@@ -1219,14 +1219,14 @@ declare module EIGHT {
          * Notice that the dual of a vector is related to the spinor by the right-hand rule.
          * @param m The vector whose dual will be used to set this spinor.
          */
-        dual(m: VectorE2): G2;
+        dual(m: VectorE2): G2m;
 
         /**
          * <p>
          * <code>this ⟼ e<sup>this</sup></code>
          * </p>
          */
-        exp(): G2;
+        exp(): G2m;
 
         /**
          * <p>
@@ -1234,7 +1234,7 @@ declare module EIGHT {
          * </p>
          * @param m
          */
-        ext(m: GeometricE2): G2;
+        ext(m: GeometricE2): G2m;
 
         /**
          * <p>
@@ -1243,14 +1243,14 @@ declare module EIGHT {
          * @param a
          * @param b
          */
-        ext2(a: GeometricE2, b: GeometricE2): G2;
+        ext2(a: GeometricE2, b: GeometricE2): G2m;
 
         /**
          * <p>
          * <code>this ⟼ conj(this) / quad(this)</code>
          * </p>
          */
-        inv(): G2;
+        inv(): G2m;
 
         /**
          * Sets this multivector to the left contraction with another multivector.
@@ -1259,7 +1259,7 @@ declare module EIGHT {
          * </p>
          * @param m
          */
-        lco(m: GeometricE2): G2;
+        lco(m: GeometricE2): G2m;
 
         /**
          * Sets this multivector to the left contraction of two multivectors. 
@@ -1269,7 +1269,7 @@ declare module EIGHT {
          * @param a
          * @param b
          */
-        lco2(a: GeometricE2, b: GeometricE2): G2;
+        lco2(a: GeometricE2, b: GeometricE2): G2m;
 
         /**
          * <p>
@@ -1278,7 +1278,7 @@ declare module EIGHT {
          * @param target
          * @param α
          */
-        lerp(target: GeometricE2, α: number): G2;
+        lerp(target: GeometricE2, α: number): G2m;
 
         /**
          * <p>
@@ -1288,19 +1288,19 @@ declare module EIGHT {
          * @param b
          * @param α
          */
-        lerp2(a: GeometricE2, b: GeometricE2, α: number): G2;
+        lerp2(a: GeometricE2, b: GeometricE2, α: number): G2m;
 
         /**
          * <p>
          * <code>this ⟼ log(this)</code>
          * </p>
          */
-        log(): G2;
+        log(): G2m;
 
         /**
          * Computes the <em>square root</em> of the <em>squared norm</em>.
          */
-        magnitude(): G2;
+        magnitude(): G2m;
 
         /**
          * <p>
@@ -1308,7 +1308,7 @@ declare module EIGHT {
          * </p>
          * @param m
          */
-        mul(m: GeometricE2): G2;
+        mul(m: GeometricE2): G2m;
 
         /**
          * <p>
@@ -1317,40 +1317,40 @@ declare module EIGHT {
          * @param a
          * @param b
          */
-        mul2(a: GeometricE2, b: GeometricE2): G2;
+        mul2(a: GeometricE2, b: GeometricE2): G2m;
 
         /**
          * <p>
          * <code>this ⟼ -1 * this</code>
          * </p>
          */
-        neg(): G2;
+        neg(): G2m;
 
         /**
          * <p>
          * <code>this ⟼ sqrt(this * conj(this))</code>
          * </p>
          */
-        norm(): G2;
+        norm(): G2m;
 
         /**
          * <p>
          * <code>this ⟼ this / magnitude(this)</code>
          * </p>
          */
-        direction(): G2;
+        direction(): G2m;
 
         /**
          * <p>
          * <code>this ⟼ this | ~this = scp(this, rev(this))</code>
          * </p>
          */
-        quad(): G2;
+        quad(): G2m;
 
         /**
          * Computes the squared norm, scp(A, rev(A)).
          */
-        squaredNorm(): G2;
+        squaredNorm(): G2m;
 
         /**
          * Sets this multivector to the right contraction with another multivector.
@@ -1359,7 +1359,7 @@ declare module EIGHT {
          * </p>
          * @param m
          */
-        rco(m: GeometricE2): G2;
+        rco(m: GeometricE2): G2m;
 
         /**
          * Sets this multivector to the right contraction of two multivectors.
@@ -1369,7 +1369,7 @@ declare module EIGHT {
          * @param a
          * @param b
          */
-        rco2(a: GeometricE2, b: GeometricE2): G2;
+        rco2(a: GeometricE2, b: GeometricE2): G2m;
 
         /**
          * <p>
@@ -1377,14 +1377,14 @@ declare module EIGHT {
          * </p>
          * @param n
          */
-        reflect(n: VectorE2): G2;
+        reflect(n: VectorE2): G2m;
 
         /**
          * <p>
          * <code>this ⟼ rev(this)</code>
          * </p>
          */
-        rev(): G2;
+        rev(): G2m;
 
         /**
          * <p>
@@ -1392,7 +1392,7 @@ declare module EIGHT {
          * </p>
          * @param R
          */
-        rotate(R: SpinorE2): G2;
+        rotate(R: SpinorE2): G2m;
 
         /**
          * <p>
@@ -1402,7 +1402,7 @@ declare module EIGHT {
          * @param a The <em>from</em> vector.
          * @param b The <em>to</em> vector.
          */
-        rotorFromDirections(a: VectorE2, b: VectorE2): G2;
+        rotorFromDirections(a: VectorE2, b: VectorE2): G2m;
 
         /**
          * <p>
@@ -1411,7 +1411,7 @@ declare module EIGHT {
          * @param B
          * @param θ
          */
-        rotorFromGeneratorAngle(B: SpinorE2, θ: number): G2;
+        rotorFromGeneratorAngle(B: SpinorE2, θ: number): G2m;
 
         /**
          * <p>
@@ -1419,7 +1419,7 @@ declare module EIGHT {
          * </p>
          * @param α
          */
-        scale(α: number): G2;
+        scale(α: number): G2m;
 
         /**
          * <p>
@@ -1427,7 +1427,7 @@ declare module EIGHT {
          * </p>
          * @param m
          */
-        scp(m: GeometricE2): G2;
+        scp(m: GeometricE2): G2m;
 
         /**
          * <p>
@@ -1436,17 +1436,17 @@ declare module EIGHT {
          * @param a
          * @param b
          */
-        scp2(a: GeometricE2, b: GeometricE2): G2;
+        scp2(a: GeometricE2, b: GeometricE2): G2m;
 
         /**
          * <p>
          * <code>this ⟼ a * b = a · b + a ^ b</code>
          * </p>
-         * Sets this G2 to the geometric product a * b of the vector arguments.
+         * Sets this G2m to the geometric product a * b of the vector arguments.
          * @param a
          * @param b
          */
-        spinor(a: VectorE2, b: VectorE2): G2;
+        spinor(a: VectorE2, b: VectorE2): G2m;
         /**
          * <p>
          * <code>this ⟼ this - M * α</code>
@@ -1454,7 +1454,7 @@ declare module EIGHT {
          * @param M
          * @param α
          */
-        sub(M: GeometricE2, α?: number): G2;
+        sub(M: GeometricE2, α?: number): G2m;
         /**
          * <p>
          * <code>this ⟼ a - b</code>
@@ -1462,7 +1462,7 @@ declare module EIGHT {
          * @param a
          * @param b
          */
-        sub2(a: GeometricE2, b: GeometricE2): G2;
+        sub2(a: GeometricE2, b: GeometricE2): G2m;
 
         /**
          * Returns a string representing the number in exponential notation.
@@ -1484,51 +1484,51 @@ declare module EIGHT {
         /**
          * The identity element for addition, <b>0</b>.
          */
-        static zero: G2;
+        static zero: G2m;
 
         /**
          * The identity element for multiplication, <b>1</b>.
          */
-        static one: G2;
+        static one: G2m;
 
         /**
          * Basis vector corresponding to the <code>x</code> coordinate.
          */
-        static e1: G2;
+        static e1: G2m;
 
         /**
          * Basis vector corresponding to the <code>y</code> coordinate.
          */
-        static e2: G2;
+        static e2: G2m;
 
         /**
          * Basis vector corresponding to the <code>β</code> coordinate.
          */
-        static I: G2;
+        static I: G2m;
 
         /**
          * Creates a copy of a multivector.  
          * @param M
          */
-        static copy(M: GeometricE2): G2;
+        static copy(M: GeometricE2): G2m;
 
         /**
          * Creates a copy of a scalar.
          * @param α
          */
-        static fromScalar(α: number): G2
+        static fromScalar(α: number): G2m
 
         /**
          * Creates a copy of a spinor.
          * @param spinor
          */
-        static fromSpinor(spinor: SpinorE2): G2
+        static fromSpinor(spinor: SpinorE2): G2m
 
         /**
          * Creates a copy of a vector.
          * @param vector
          */
-        static fromVector(vector: VectorE2): G2
+        static fromVector(vector: VectorE2): G2m
 
         /**
          * Linear interpolation of two multivectors.
@@ -1537,19 +1537,19 @@ declare module EIGHT {
          * @param B
          * @param α
          */
-        static lerp(A: GeometricE2, B: GeometricE2, α: number): G2
+        static lerp(A: GeometricE2, B: GeometricE2, α: number): G2m
 
         /**
          * Computes the rotor corresponding to a rotation from vector <code>a</code> to vector <code>b</code>.
          * @param a
          * @param b
          */
-        static rotorFromDirections(a: VectorE2, b: VectorE2): G2
+        static rotorFromDirections(a: VectorE2, b: VectorE2): G2m
 
         /**
          * Creates a vector from Cartesian coordinates
          */
-        static vector(x: number, y: number): G2
+        static vector(x: number, y: number): G2m
     }
 
     /**
@@ -1573,7 +1573,7 @@ declare module EIGHT {
     /**
      *
      */
-    class R1 extends VectorN<number> implements VectorE1 {
+    class R1m extends VectorN<number> implements VectorE1 {
         x: number;
         constructor(coords?: number[], modified?: boolean);
     }
@@ -1581,36 +1581,36 @@ declare module EIGHT {
     /**
      *
      */
-    class R2 extends VectorN<number> implements VectorE2 {
+    class R2m extends VectorN<number> implements VectorE2 {
         x: number
         y: number
         constructor(coords?: number[], modified?: boolean)
-        add(v: VectorE2): R2
-        add2(a: VectorE2, b: VectorE2): R2
-        applyMatrix(m: Mat2R): R2
-        clone(): R2
-        copy(v: VectorE2): R2
-        cubicBezier(t: number, controlBegin: VectorE2, endPoint: VectorE2): R2
+        add(v: VectorE2): R2m
+        add2(a: VectorE2, b: VectorE2): R2m
+        applyMatrix(m: Mat2R): R2m
+        clone(): R2m
+        copy(v: VectorE2): R2m
+        cubicBezier(t: number, controlBegin: VectorE2, endPoint: VectorE2): R2m
         distanceTo(point: VectorE2): number
-        lerp(v: VectorE2, α: number): R2
-        lerp2(a: VectorE2, b: VectorE2, α: number): R2
+        lerp(v: VectorE2, α: number): R2m
+        lerp2(a: VectorE2, b: VectorE2, α: number): R2m
         magnitude(): number
-        neg(): R2
-        quadraticBezier(t: number, controlPoint: VectorE2, endPoint: VectorE2): R2
-        rotate(spinor: SpinorE2): R2
-        scale(α: number): R2
+        neg(): R2m
+        quadraticBezier(t: number, controlPoint: VectorE2, endPoint: VectorE2): R2m
+        rotate(spinor: SpinorE2): R2m
+        scale(α: number): R2m
         squaredNorm(): number
-        set(x: number, y: number): R2
-        sub(v: VectorE2): R2
-        sub2(a: VectorE2, b: VectorE2): R2
+        set(x: number, y: number): R2m
+        sub(v: VectorE2): R2m
+        sub2(a: VectorE2, b: VectorE2): R2m
         toExponential(): string
         toFixed(fractionDigits?: number): string
         toString(): string
-        zero(): R2
-        static copy(v: VectorE2): R2
-        static lerp(a: VectorE2, b: VectorE2, α: number): R2
-        static random(): R2
-        static vector(x: number, y: number): R2
+        zero(): R2m
+        static copy(v: VectorE2): R2m
+        static lerp(a: VectorE2, b: VectorE2, α: number): R2m
+        static random(): R2m
+        static vector(x: number, y: number): R2m
     }
 
     interface Scalar {
@@ -1624,7 +1624,7 @@ declare module EIGHT {
     }
 
     /**
-     * The even sub-algebra of <code>G3</code>.
+     * The even sub-algebra of <code>G3m</code>.
      */
     interface SpinorE3 extends Scalar {
         /**
@@ -1663,7 +1663,7 @@ declare module EIGHT {
     /**
      * A mutable multivector in 3D with a Euclidean metric.
      */
-    class G3 extends VectorN<number> implements GeometricE3 {
+    class G3m extends VectorN<number> implements GeometricE3 {
         /**
          * The coordinate corresponding to the unit standard basis scalar.
          */
@@ -1699,7 +1699,7 @@ declare module EIGHT {
         β: number
         beta: number
         /**
-         * Constructs a <code>G3</code>.
+         * Constructs a <code>G3m</code>.
          * The multivector is initialized to zero.
          */
         constructor();
@@ -1711,7 +1711,7 @@ declare module EIGHT {
          * @param M
          * @param α
          */
-        add(M: GeometricE3, α?: number): G3;
+        add(M: GeometricE3, α?: number): G3m;
 
         /**
          * <p>
@@ -1720,11 +1720,11 @@ declare module EIGHT {
          * @param a
          * @param b
          */
-        add2(a: GeometricE3, b: GeometricE3): G3;
+        add2(a: GeometricE3, b: GeometricE3): G3m;
 
-        addPseudo(β: number): G3;
+        addPseudo(β: number): G3m;
 
-        addScalar(α: number): G3;
+        addScalar(α: number): G3m;
 
         /**
          * <p>
@@ -1733,19 +1733,19 @@ declare module EIGHT {
          * @param v
          * @param α
          */
-        addVector(v: VectorE3, α?: number): G3;
+        addVector(v: VectorE3, α?: number): G3m;
 
-        align(m: GeometricE3): G3;
+        align(m: GeometricE3): G3m;
 
         /**
          * The bivector whose area (magnitude) is θ/2, where θ is the radian measure. 
          */
-        angle(): G3;
+        angle(): G3m;
 
         /**
          *
          */
-        clone(): G3;
+        clone(): G3m;
 
         /**
          * Sets this <em>multivector</em> to its <em>Clifford conjugate</em>.
@@ -1753,33 +1753,33 @@ declare module EIGHT {
          * <code>this ⟼ conj(this)</code>
          * </p>
          */
-        conj(): G3;
+        conj(): G3m;
 
         /**
          * <p>
          * <code>this ⟼ copy(M)</code>
          * </p>
          */
-        copy(M: GeometricE3): G3;
+        copy(M: GeometricE3): G3m;
 
         /**
          * this ⟼ copy(α)
          */
-        copyScalar(α: number): G3;
+        copyScalar(α: number): G3m;
 
         /**
          * <p>
          * <code>this ⟼ copy(spinor)</code>
          * </p>
          */
-        copySpinor(spinor: SpinorE3): G3;
+        copySpinor(spinor: SpinorE3): G3m;
 
         /**
          * <p>
          * <code>this ⟼ copyVector(vector)</code>
          * </p>
          */
-        copyVector(vector: VectorE3): G3;
+        copyVector(vector: VectorE3): G3m;
 
         /**
          * Sets this multivector to the result of division by another multivector.
@@ -1787,14 +1787,14 @@ declare module EIGHT {
          * <code>this ⟼ this / m</code>
          * </p>
          */
-        div(m: GeometricE3): G3;
+        div(m: GeometricE3): G3m;
 
         /**
          * <p>
          * <code>this ⟼ this / α</code>
          * </p>
          */
-        divByScalar(α: number): G3;
+        divByScalar(α: number): G3m;
 
         /**
          * <p>
@@ -1803,7 +1803,7 @@ declare module EIGHT {
          * @param a
          * @param b
          */
-        div2(a: SpinorE3, b: SpinorE3): G3;
+        div2(a: SpinorE3, b: SpinorE3): G3m;
 
         /**
          * <p>
@@ -1812,14 +1812,14 @@ declare module EIGHT {
          * Notice that the dual of a vector is related to the spinor by the right-hand rule.
          * @param m The vector whose dual will be used to set this spinor.
          */
-        dual(m: VectorE3): G3;
+        dual(m: VectorE3): G3m;
 
         /**
          * <p>
          * <code>this ⟼ e<sup>this</sup></code>
          * </p>
          */
-        exp(): G3;
+        exp(): G3m;
 
         /**
          * <p>
@@ -1827,7 +1827,7 @@ declare module EIGHT {
          * </p>
          * @param m
          */
-        ext(m: GeometricE3): G3;
+        ext(m: GeometricE3): G3m;
 
         /**
          * <p>
@@ -1836,14 +1836,14 @@ declare module EIGHT {
          * @param a
          * @param b
          */
-        ext2(a: GeometricE3, b: GeometricE3): G3;
+        ext2(a: GeometricE3, b: GeometricE3): G3m;
 
         /**
          * <p>
          * <code>this ⟼ conj(this) / quad(this)</code>
          * </p>
          */
-        inv(): G3;
+        inv(): G3m;
 
         /**
          * Sets this multivector to the left contraction with another multivector.
@@ -1852,7 +1852,7 @@ declare module EIGHT {
          * </p>
          * @param m
          */
-        lco(m: GeometricE3): G3;
+        lco(m: GeometricE3): G3m;
 
         /**
          * Sets this multivector to the left contraction of two multivectors. 
@@ -1862,7 +1862,7 @@ declare module EIGHT {
          * @param a
          * @param b
          */
-        lco2(a: GeometricE3, b: GeometricE3): G3;
+        lco2(a: GeometricE3, b: GeometricE3): G3m;
 
         /**
          * <p>
@@ -1871,7 +1871,7 @@ declare module EIGHT {
          * @param target
          * @param α
          */
-        lerp(target: GeometricE3, α: number): G3;
+        lerp(target: GeometricE3, α: number): G3m;
 
         /**
          * <p>
@@ -1881,19 +1881,19 @@ declare module EIGHT {
          * @param b {GeometricE3}
          * @param α {number}
          */
-        lerp2(a: GeometricE3, b: GeometricE3, α: number): G3;
+        lerp2(a: GeometricE3, b: GeometricE3, α: number): G3m;
 
         /**
          * <p>
          * <code>this ⟼ log(this)</code>
          * </p>
          */
-        log(): G3;
+        log(): G3m;
 
         /**
          * Computes the <em>square root</em> of the <em>squared norm</em>.
          */
-        magnitude(): G3;
+        magnitude(): G3m;
 
         /**
          * <p>
@@ -1901,7 +1901,7 @@ declare module EIGHT {
          * </p>
          * @param m {GeometricE3}
          */
-        mul(m: GeometricE3): G3;
+        mul(m: GeometricE3): G3m;
 
         /**
          * <p>
@@ -1910,35 +1910,35 @@ declare module EIGHT {
          * @param a
          * @param b
          */
-        mul2(a: GeometricE3, b: GeometricE3): G3;
+        mul2(a: GeometricE3, b: GeometricE3): G3m;
 
         /**
          * <p>
          * <code>this ⟼ -1 * this</code>
          * </p>
          */
-        neg(): G3;
+        neg(): G3m;
 
         /**
          * <p>
          * <code>this ⟼ sqrt(this * conj(this))</code>
          * </p>
          */
-        norm(): G3
+        norm(): G3m
 
         /**
          * <p>
          * <code>this ⟼ this / magnitude(this)</code>
          * </p>
          */
-        direction(): G3
+        direction(): G3m
 
         /**
          * <p>
          * <code>this ⟼ this | ~this = scp(this, rev(this))</code>
          * </p>
          */
-        quad(): G3;
+        quad(): G3m;
 
         /**
          * Sets this multivector to the right contraction with another multivector.
@@ -1947,7 +1947,7 @@ declare module EIGHT {
          * </p>
          * @param m
          */
-        rco(m: GeometricE3): G3;
+        rco(m: GeometricE3): G3m;
 
         /**
          * Sets this multivector to the right contraction of two multivectors.
@@ -1957,7 +1957,7 @@ declare module EIGHT {
          * @param a
          * @param b
          */
-        rco2(a: GeometricE3, b: GeometricE3): G3;
+        rco2(a: GeometricE3, b: GeometricE3): G3m;
 
         /**
          * <p>
@@ -1965,14 +1965,14 @@ declare module EIGHT {
          * </p>
          * @param n
          */
-        reflect(n: VectorE3): G3;
+        reflect(n: VectorE3): G3m;
 
         /**
          * <p>
          * <code>this ⟼ rev(this)</code>
          * </p>
          */
-        rev(): G3;
+        rev(): G3m;
 
         /**
          * <p>
@@ -1980,7 +1980,7 @@ declare module EIGHT {
          * </p>
          * @param R
          */
-        rotate(R: SpinorE3): G3;
+        rotate(R: SpinorE3): G3m;
 
         /**
          * <p>
@@ -1989,7 +1989,7 @@ declare module EIGHT {
          * @param axis
          * @param θ
          */
-        rotorFromAxisAngle(axis: VectorE3, θ: number): G3;
+        rotorFromAxisAngle(axis: VectorE3, θ: number): G3m;
 
         /**
          * <p>
@@ -1999,7 +1999,7 @@ declare module EIGHT {
          * @param a The <em>from</em> vector.
          * @param b The <em>to</em> vector.
          */
-        rotorFromDirections(a: VectorE3, b: VectorE3): G3;
+        rotorFromDirections(a: VectorE3, b: VectorE3): G3m;
 
         /**
          * <p>
@@ -2008,7 +2008,7 @@ declare module EIGHT {
          * @param B
          * @param θ
          */
-        rotorFromGeneratorAngle(B: SpinorE3, θ: number): G3;
+        rotorFromGeneratorAngle(B: SpinorE3, θ: number): G3m;
 
         /**
          * <p>
@@ -2016,7 +2016,7 @@ declare module EIGHT {
          * </p>
          * @param α
          */
-        scale(α: number): G3;
+        scale(α: number): G3m;
 
         /**
          * <p>
@@ -2024,7 +2024,7 @@ declare module EIGHT {
          * </p>
          * @param m
          */
-        scp(m: GeometricE3): G3;
+        scp(m: GeometricE3): G3m;
 
         /**
          * <p>
@@ -2033,22 +2033,22 @@ declare module EIGHT {
          * @param a
          * @param b
          */
-        scp2(a: GeometricE3, b: GeometricE3): G3;
+        scp2(a: GeometricE3, b: GeometricE3): G3m;
 
         /**
          * <p>
          * <code>this ⟼ a * b</code>
          * </p>
-         * Sets this G3 to the geometric product a * b of the vector arguments.
+         * Sets this G3m to the geometric product a * b of the vector arguments.
          * @param a
          * @param b
          */
-        spinor(a: VectorE3, b: VectorE3): G3;
+        spinor(a: VectorE3, b: VectorE3): G3m;
 
         /**
          * Computes the <em>squared norm</em> of this multivector.
          */
-        squaredNorm(): G3;
+        squaredNorm(): G3m;
 
         /**
          * <p>
@@ -2057,7 +2057,7 @@ declare module EIGHT {
          * @param M
          * @param α
          */
-        sub(M: GeometricE3, α?: number): G3;
+        sub(M: GeometricE3, α?: number): G3m;
 
         /**
          * <p>
@@ -2066,7 +2066,7 @@ declare module EIGHT {
          * @param a
          * @param b
          */
-        sub2(a: GeometricE3, b: GeometricE3): G3;
+        sub2(a: GeometricE3, b: GeometricE3): G3m;
 
         /**
          * Returns a string representing the number in exponential notation.
@@ -2087,57 +2087,57 @@ declare module EIGHT {
         /**
          * The identity element for addition, <b>0</b>.
          */
-        static zero: G3;
+        static zero: G3m;
 
         /**
          * The identity element for multiplication, <b>1</b>.
          */
-        static one: G3;
+        static one: G3m;
 
         /**
          * Basis vector corresponding to the <code>x</code> coordinate.
          */
-        static e1: G3;
+        static e1: G3m;
 
         /**
          * Basis vector corresponding to the <code>y</code> coordinate.
          */
-        static e2: G3;
+        static e2: G3m;
 
         /**
          * Basis vector corresponding to the <code>z</code> coordinate.
          */
-        static e3: G3;
+        static e3: G3m;
 
         /**
          * Basis vector corresponding to the <code>β</code> coordinate.
          */
-        static I: G3;
+        static I: G3m;
 
         /**
          * Creates a copy of a spinor.
          * @param spinor
          */
-        static fromSpinor(spinor: SpinorE3): G3;
+        static fromSpinor(spinor: SpinorE3): G3m;
 
         /**
          * Creates a copy of a vector.
          * @param vector
          */
-        static fromVector(vector: VectorE3): G3;
+        static fromVector(vector: VectorE3): G3m;
 
         /**
          * Computes the rotor that rotates vector <code>a</code> to vector <code>b</code>.
          * @param a The <em>from</em> vector.
          * @param b The <em>to</em> vector.
          */
-        static rotorFromDirections(a: VectorE3, b: VectorE3): G3;
+        static rotorFromDirections(a: VectorE3, b: VectorE3): G3m;
     }
 
     /**
-     * The even sub-algebra of <code>G3</code>.
+     * The even sub-algebra of <code>G3m</code>.
      */
-    class SpinG3 extends VectorN<number> implements SpinorE3 {
+    class SpinG3m extends VectorN<number> implements SpinorE3 {
         /**
          * The bivector component in the <b>e</b><sub>2</sub><b>e</b><sub>3</sub> plane.
          */
@@ -2166,84 +2166,84 @@ declare module EIGHT {
         /**
          * this ⟼ this + spinor * α
          */
-        add(spinor: SpinorE3, α?: number): SpinG3;
+        add(spinor: SpinorE3, α?: number): SpinG3m;
 
-        add2(a: SpinorE3, b: SpinorE3): SpinG3;
+        add2(a: SpinorE3, b: SpinorE3): SpinG3m;
 
         /**
          * The bivector whose area (magnitude) is θ/2, where θ is the radian measure. 
          */
-        angle(): SpinG3;
+        angle(): SpinG3m;
 
         /**
          * Computes a copy of this spinor.
          */
-        clone(): SpinG3;
+        clone(): SpinG3m;
 
         /**
          * Sets this spinor to be a copy of the <code>spinor</code> argument.
          * this ⟼ copy(spinor)
          */
-        copy(spinor: SpinorE3): SpinG3;
+        copy(spinor: SpinorE3): SpinG3m;
 
-        divByScalar(scalar: number): SpinG3;
+        divByScalar(scalar: number): SpinG3m;
 
         /**
          * this ⟼ dual(v) = I * v
          */
-        dual(v: VectorE3): SpinG3;
+        dual(v: VectorE3): SpinG3m;
 
         /**
          * this ⟼ exp(this)
          */
-        exp(): SpinG3;
-        inv(): SpinG3;
-        lerp(target: SpinorE3, α: number): SpinG3;
+        exp(): SpinG3m;
+        inv(): SpinG3m;
+        lerp(target: SpinorE3, α: number): SpinG3m;
 
         /**
          * <p>
          * <code>this ⟼ log(this)</code>
          * </p>
          */
-        log(): SpinG3;
+        log(): SpinG3m;
 
-        magnitude(): SpinG3;
+        magnitude(): SpinG3m;
 
-        mul(rhs: SpinorE3): SpinG3;
+        mul(rhs: SpinorE3): SpinG3m;
 
         /**
-         * Sets this SpinG3 to the geometric product of the vectors a and b, a * b.
+         * Sets this SpinG3m to the geometric product of the vectors a and b, a * b.
          */
-        mul2(a: SpinorE3, b: SpinorE3): SpinG3;
+        mul2(a: SpinorE3, b: SpinorE3): SpinG3m;
 
         /**
          * this ⟼ this / magnitude(this)
          * <em>s.direction()</em> scales the target spinor, <em>s</em>, so that it has unit magnitude.
          */
-        direction(): SpinG3;
+        direction(): SpinG3m;
 
         /**
          * this ⟼ this * α
          */
-        scale(α: number): SpinG3;
+        scale(α: number): SpinG3m;
 
-        squaredNorm(): SpinG3;
+        squaredNorm(): SpinG3m;
 
-        rev(): SpinG3;
+        rev(): SpinG3m;
 
-        reflect(n: VectorE3): SpinG3;
+        reflect(n: VectorE3): SpinG3m;
 
         /**
          * this ⟼ R * this * rev(R)
          */
-        rotate(R: SpinorE3): SpinG3;
+        rotate(R: SpinorE3): SpinG3m;
 
         /**
          * this ⟼ exp(- dual(axis) * θ / 2)
          * <code>axis</code> The direction (unit vector) of the rotation.
          * <code>θ</code> The angle of the rotation, measured in radians.
          */
-        rotorFromAxisAngle(axis: VectorE3, θ: number): SpinG3;
+        rotorFromAxisAngle(axis: VectorE3, θ: number): SpinG3m;
 
         /**
          * <p>
@@ -2253,7 +2253,7 @@ declare module EIGHT {
          * @param a {VectorE3} The <em>from</em> vector.
          * @param b {VectorE3} The <em>to</em> vector.
          */
-        rotorFromDirections(a: VectorE3, b: VectorE3): SpinG3;
+        rotorFromDirections(a: VectorE3, b: VectorE3): SpinG3m;
 
         /**
          * <p>
@@ -2262,21 +2262,21 @@ declare module EIGHT {
          * @param B {SpinorE3}
          * @param θ {number}
          */
-        rotorFromGeneratorAngle(B: SpinorE3, θ: number): SpinG3;
+        rotorFromGeneratorAngle(B: SpinorE3, θ: number): SpinG3m;
 
         /**
          * this ⟼ this - spinor * α
          */
-        sub(spinor: SpinorE3, α?: number): SpinG3;
+        sub(spinor: SpinorE3, α?: number): SpinG3m;
         /**
          *
          */
-        sub2(a: SpinorE3, b: SpinorE3): SpinG3;
+        sub2(a: SpinorE3, b: SpinorE3): SpinG3m;
         toString(): string;
         /**
          * this ⟼ a * b
          */
-        spinor(a: VectorE3, b: VectorE3): SpinG3;
+        spinor(a: VectorE3, b: VectorE3): SpinG3m;
     }
 
     /**
@@ -2308,7 +2308,7 @@ declare module EIGHT {
     /**
      *
      */
-    class R3 extends VectorN<number> implements VectorE3 {
+    class R3m extends VectorN<number> implements VectorE3 {
         x: number;
         y: number;
         z: number;
@@ -2316,38 +2316,38 @@ declare module EIGHT {
         /**
          * this += alpha * vector
          */
-        add(vector: VectorE3, alpha?: number): R3;
-        add2(a: VectorE3, b: VectorE3): R3;
-        applyMatrix4(m: Mat4R): R3;
-        applyMatrix(m: Mat3R): R3;
-        clone(): R3;
-        copy(v: VectorE3): R3;
-        static copy(vector: VectorE3): R3;
-        copyCoordinates(coordinates: number[]): R3;
-        cross(v: VectorE3): R3;
-        cross2(a: VectorE3, b: VectorE3): R3;
+        add(vector: VectorE3, alpha?: number): R3m;
+        add2(a: VectorE3, b: VectorE3): R3m;
+        applyMatrix4(m: Mat4R): R3m;
+        applyMatrix(m: Mat3R): R3m;
+        clone(): R3m;
+        copy(v: VectorE3): R3m;
+        static copy(vector: VectorE3): R3m;
+        copyCoordinates(coordinates: number[]): R3m;
+        cross(v: VectorE3): R3m;
+        cross2(a: VectorE3, b: VectorE3): R3m;
         distanceTo(point: VectorE3): number;
-        divByScalar(rhs: number): R3;
+        divByScalar(rhs: number): R3m;
         static dot(a: VectorE3, b: VectorE3): number;
         dot(v: VectorE3): number;
-        lerp(target: VectorE3, α: number): R3;
-        static lerp(a: VectorE3, b: VectorE3, α: number): R3;
-        lerp2(a: VectorE3, b: VectorE3, α: number): R3;
+        lerp(target: VectorE3, α: number): R3m;
+        static lerp(a: VectorE3, b: VectorE3, α: number): R3m;
+        lerp2(a: VectorE3, b: VectorE3, α: number): R3m;
         /**
          * Computes the <em>square root</em> of the <em>squared norm</em>.
          */
         magnitude(): number;
-        neg(): R3;
-        direction(): R3;
+        neg(): R3m;
+        direction(): R3m;
         quadranceTo(point: VectorE3): number;
-        static random(): R3;
-        reflect(n: VectorE3): R3;
-        rotate(rotor: SpinorE3): R3;
-        scale(rhs: number): R3;
-        set(x: number, y: number, z: number): R3;
+        static random(): R3m;
+        reflect(n: VectorE3): R3m;
+        rotate(rotor: SpinorE3): R3m;
+        scale(rhs: number): R3m;
+        set(x: number, y: number, z: number): R3m;
         squaredNorm(): number;
-        sub(rhs: VectorE3): R3;
-        sub2(a: VectorE3, b: VectorE3): R3;
+        sub(rhs: VectorE3): R3m;
+        sub2(a: VectorE3, b: VectorE3): R3m;
         toExponential(): string;
         toFixed(digits?: number): string;
         toString(): string;
@@ -2366,15 +2366,15 @@ declare module EIGHT {
     /**
      *
      */
-    class R4 extends VectorN<number> implements VectorE4 {
+    class R4m extends VectorN<number> implements VectorE4 {
         x: number
         y: number
         z: number
         w: number
         constructor(coords?: number[], modified?: boolean)
-        applyMatrix(m: Mat4R): R4
-        clone(): R4
-        copy(v: VectorE4): R4
+        applyMatrix(m: Mat4R): R4m
+        clone(): R4m
+        copy(v: VectorE4): R4m
     }
 
     /**
@@ -2501,11 +2501,11 @@ declare module EIGHT {
         /**
          * The <em>position</em>, a vector. Initialized to <em>0</em>
          */
-        X: G2;
+        X: G2m;
         /**
          * The <em>attitude</em>, a unitary spinor. Initialized to <em>1</em>.
          */
-        R: G2;
+        R: G2m;
         /**
          * Constructs a <code>ModelE2</code> at the origin and with unity attitude.
          * Initializes <code>X</code> to <code>0</code>.
@@ -2524,17 +2524,17 @@ declare module EIGHT {
         /**
          * The position, a vector.
          */
-        X: G3
+        X: G3m
 
         /**
          * The attitude, a unitary spinor.
          */
-        R: G3
+        R: G3m
 
         /**
          * The overall scale.
          */
-        scaleXYZ: R3
+        scaleXYZ: R3m
 
         /**
          * The matrix that is used for the uniform conventionally named 'uModel'.
@@ -2659,7 +2659,7 @@ declare module EIGHT {
         /**
          * The position of the camera.
          */
-        eye: R3;
+        eye: R3m;
         /**
          * The distance to the far plane of the viewport.
          */
@@ -2672,7 +2672,7 @@ declare module EIGHT {
         /**
          * The point (position vector) that the camera looks at.
          */
-        look: R3;
+        look: R3m;
         /**
          *The distance to the near plane of the viewport.
          */
@@ -2680,7 +2680,7 @@ declare module EIGHT {
         /**
          *
          */
-        position: R3;
+        position: R3m;
         /**
          * Optional name used for finding this instance.
          */
@@ -2688,7 +2688,7 @@ declare module EIGHT {
         /**
          * The "guess" direction that is used to generate the upwards direction for the camera. 
          */
-        up: R3;
+        up: R3m;
         /**
          * The projection matrix
          */
@@ -3027,7 +3027,7 @@ declare module EIGHT {
         /**
          * The <em>direction</em> (unit vector) in which the light is travelling.
          */
-        direction: R3;
+        direction: R3m;
         /**
          * The <em>color</em> of the light.
          */
@@ -3053,10 +3053,10 @@ declare module EIGHT {
     }
 
     /**
-     * A (name: string, vector: R3) pair that can be used to set a uniform variable.
+     * A (name: string, vector: R3m) pair that can be used to set a uniform variable.
      */
     class Vector3Facet extends AbstractFacet {
-        constructor(name: string, vector: R3);
+        constructor(name: string, vector: R3m);
     }
 
     /**
@@ -3066,7 +3066,7 @@ declare module EIGHT {
         /**
          * The vector perpendicular to the (hyper-)plane of reflection.
          */
-        public normal: R2;
+        public normal: R2m;
 
         /**
          * @param name The name of the uniform variable associated with this facet.
@@ -3098,7 +3098,7 @@ declare module EIGHT {
          * The vector perpendicular to the (hyper-)plane of reflection.
          *
          */
-        public normal: R3;
+        public normal: R3m;
 
         /**
          * @param name The name of the uniform variable associated with this facet.
@@ -3328,12 +3328,12 @@ declare module EIGHT {
         /**
          *
          */
-        axis: Euclidean3;
+        axis: G3;
 
         /**
          * Mass
          */
-        m: Euclidean3;
+        m: G3;
 
         /**
          * Color
@@ -3343,27 +3343,27 @@ declare module EIGHT {
         /**
          * Angular Momentum (bivector)
          */
-        L: Euclidean3;
+        L: G3;
 
         /**
          * Momentum
          */
-        P: Euclidean3;
+        P: G3;
 
         /**
          * Attitude (spinor)
          */
-        R: Euclidean3;
+        R: G3;
 
         /**
          * Position (vector)
          */
-        X: Euclidean3;
+        X: G3;
 
         /**
          * Position (vector)
          */
-        pos: Euclidean3;
+        pos: G3;
 
         /**
          * Configures the trail left behind a moving rigid body.

@@ -1,4 +1,4 @@
-define(["require", "exports", '../core/GraphicsProgramSymbols', '../math/R3', '../math/wedgeXY', '../math/wedgeYZ', '../math/wedgeZX'], function (require, exports, GraphicsProgramSymbols_1, R3_1, wedgeXY_1, wedgeYZ_1, wedgeZX_1) {
+define(["require", "exports", '../core/GraphicsProgramSymbols', '../math/R3m', '../math/wedgeXY', '../math/wedgeYZ', '../math/wedgeZX'], function (require, exports, GraphicsProgramSymbols_1, R3m_1, wedgeXY_1, wedgeYZ_1, wedgeZX_1) {
     function computeFaceNormals(simplex, positionName, normalName) {
         if (positionName === void 0) { positionName = GraphicsProgramSymbols_1.default.ATTRIBUTE_POSITION; }
         if (normalName === void 0) { normalName = GraphicsProgramSymbols_1.default.ATTRIBUTE_NORMAL; }
@@ -26,7 +26,7 @@ define(["require", "exports", '../core/GraphicsProgramSymbols', '../math/R3', '.
         var x = wedgeYZ_1.default(ax, ay, az, bx, by, bz);
         var y = wedgeZX_1.default(ax, ay, az, bx, by, bz);
         var z = wedgeXY_1.default(ax, ay, az, bx, by, bz);
-        var normal = new R3_1.default([x, y, z]).direction();
+        var normal = new R3m_1.default([x, y, z]).direction();
         vertex0[normalName] = normal;
         vertex1[normalName] = normal;
         vertex2[normalName] = normal;

@@ -3,8 +3,8 @@ import GridTopology from './GridTopology';
 import IAxialGeometry from './IAxialGeometry';
 import AxialPrimitivesBuilder from './AxialPrimitivesBuilder';
 import Primitive from '../core/Primitive';
-import R2 from '../math/R2';
-import G3 from '../math/G3';
+import R2m from '../math/R2m';
+import G3m from '../math/G3m';
 import VectorE3 from '../math/VectorE3';
 
 export default class RingBuilder extends AxialPrimitivesBuilder implements IAxialGeometry<RingBuilder> {
@@ -28,9 +28,9 @@ export default class RingBuilder extends AxialPrimitivesBuilder implements IAxia
         const topo = new GridTopology(uSegments, vSegments)
         const a = this.outerRadius
         const b = this.innerRadius
-        const axis = G3.fromVector(this.axis)
-        const start = G3.fromVector(this.sliceStart)
-        const generator = new G3().dual(axis)
+        const axis = G3m.fromVector(this.axis)
+        const start = G3m.fromVector(this.sliceStart)
+        const generator = new G3m().dual(axis)
 
         for (let uIndex = 0; uIndex < topo.uLength; uIndex++) {
             const u = uIndex / uSegments
@@ -42,7 +42,7 @@ export default class RingBuilder extends AxialPrimitivesBuilder implements IAxia
                 vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = position.addVector(this.position)
                 vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = axis
                 if (this.useTextureCoords) {
-                    vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORDS] = new R2([u, v])
+                    vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORDS] = new R2m([u, v])
                 }
             }
         }

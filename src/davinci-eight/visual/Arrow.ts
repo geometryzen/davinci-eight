@@ -1,4 +1,4 @@
-import Euclidean3 from '../math/Euclidean3';
+import G3 from '../math/G3';
 import mustBeNumber from '../checks/mustBeNumber';
 import mustBeObject from '../checks/mustBeObject';
 import mustBeGE from '../checks/mustBeGE';
@@ -37,13 +37,13 @@ export default class Arrow extends VisualBody {
         super.destructor()
     }
 
-    get axis(): Euclidean3 {
-        const direction = Euclidean3.e2.rotate(this.modelFacet.R)
+    get axis(): G3 {
+        const direction = G3.e2.rotate(this.modelFacet.R)
         return direction.scale(this.length)
     }
-    set axis(axis: Euclidean3) {
+    set axis(axis: G3) {
         mustBeObject('axis', axis)
-        this.modelFacet.R.rotorFromDirections(axis.direction(), Euclidean3.e2)
+        this.modelFacet.R.rotorFromDirections(axis.direction(), G3.e2)
         this.length = axis.magnitude().α
     }
 

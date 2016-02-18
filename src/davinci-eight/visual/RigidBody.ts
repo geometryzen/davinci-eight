@@ -1,4 +1,4 @@
-import Euclidean3 from '../math/Euclidean3';
+import G3 from '../math/G3';
 import mustBeObject from '../checks/mustBeObject';
 import Object3D from './Object3D';
 import Geometry from '../core/Geometry';
@@ -19,19 +19,19 @@ export default class RigidBody extends Object3D {
 
     /**
      * @property _mass
-     * @type Euclidean3
+     * @type G3
      * @default one
      * @private
      */
-    private _mass = Euclidean3.one
+    private _mass = G3.one
 
     /**
      * @property _momentum
-     * @type Euclidean3
+     * @type G3
      * @default zero
      * @private
      */
-    private _momentum = Euclidean3.zero
+    private _momentum = G3.zero
 
     /**
      * Provides descriptive variables for translational and rotational motion.
@@ -62,27 +62,27 @@ export default class RigidBody extends Object3D {
      * The axis property may be updated by assignment, but not through mutation.
      *
      * @property axis
-     * @type Euclidean3
+     * @type G3
      */
-    public get axis(): Euclidean3 {
+    public get axis(): G3 {
         // The initial axis of the geometry is e2.
-        return Euclidean3.e2.rotate(this.modelFacet.R)
+        return G3.e2.rotate(this.modelFacet.R)
     }
-    public set axis(axis: Euclidean3) {
+    public set axis(axis: G3) {
         mustBeObject('axis', axis)
-        this.modelFacet.R.rotorFromDirections(axis, Euclidean3.e2)
+        this.modelFacet.R.rotorFromDirections(axis, G3.e2)
     }
 
     /**
      * Mass
      *
      * @property m
-     * @type Euclidean3
+     * @type G3
      */
-    get m(): Euclidean3 {
+    get m(): G3 {
         return this._mass
     }
-    set m(m: Euclidean3) {
+    set m(m: G3) {
         mustBeObject('m', m, () => { return this._type })
         this._mass = m
     }
@@ -91,12 +91,12 @@ export default class RigidBody extends Object3D {
      * Momentum
      *
      * @property P
-     * @type Euclidean3
+     * @type G3
      */
-    get P(): Euclidean3 {
+    get P(): G3 {
         return this._momentum
     }
-    set P(P: Euclidean3) {
+    set P(P: G3) {
         this._momentum = P
     }
 
@@ -104,12 +104,12 @@ export default class RigidBody extends Object3D {
      * Attitude (spinor)
      *
      * @property R
-     * @type Euclidean3
+     * @type G3
      */
-    get R(): Euclidean3 {
-        return Euclidean3.copy(this.modelFacet.R)
+    get R(): G3 {
+        return G3.copy(this.modelFacet.R)
     }
-    set R(R: Euclidean3) {
+    set R(R: G3) {
         mustBeObject('R', R, () => { return this._type })
         this.modelFacet.R.copySpinor(R)
     }
@@ -118,12 +118,12 @@ export default class RigidBody extends Object3D {
      * Position (vector)
      *
      * @property X
-     * @type Euclidean3
+     * @type G3
      */
-    get X(): Euclidean3 {
-        return Euclidean3.copy(this.modelFacet.X)
+    get X(): G3 {
+        return G3.copy(this.modelFacet.X)
     }
-    set X(X: Euclidean3) {
+    set X(X: G3) {
         mustBeObject('X', X, () => { return this._type })
         this.modelFacet.X.copyVector(X)
     }
@@ -132,12 +132,12 @@ export default class RigidBody extends Object3D {
      * Position (vector)
      *
      * @property pos
-     * @type Euclidean3
+     * @type G3
      */
-    get pos(): Euclidean3 {
-        return Euclidean3.copy(this.modelFacet.X)
+    get pos(): G3 {
+        return G3.copy(this.modelFacet.X)
     }
-    set pos(pos: Euclidean3) {
+    set pos(pos: G3) {
         mustBeObject('pos', pos, () => { return this._type })
         this.modelFacet.X.copyVector(pos)
     }

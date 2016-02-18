@@ -5,7 +5,7 @@ import Mat4R from '../math/Mat4R';
 import ModelE3 from './ModelE3';
 import mustBeArray from '../checks/mustBeArray';
 import mustBeString from '../checks/mustBeString';
-import R3 from '../math/R3';
+import R3m from '../math/R3m';
 import readOnly from '../i18n/readOnly';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
 
@@ -22,7 +22,7 @@ export default class ModelFacet extends ModelE3 implements Facet {
 
     private static PROP_SCALEXYZ = 'scaleXYZ';
 
-    private _scaleXYZ: R3 = new R3([1, 1, 1]);
+    private _scaleXYZ: R3m = new R3m([1, 1, 1]);
     private _matM = Mat4R.one();
     private _matN = Mat3R.one();
     private matR = Mat4R.one();
@@ -54,10 +54,10 @@ export default class ModelFacet extends ModelE3 implements Facet {
 
     /**
      * @property scaleXYZ
-     * @type R3
+     * @type R3m
      * @readOnly
      */
-    get scaleXYZ(): R3 {
+    get scaleXYZ(): R3m {
         return this._scaleXYZ
     }
     set scaleXYZ(unused) {

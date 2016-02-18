@@ -1,9 +1,9 @@
-import Euclidean3 from '../math/Euclidean3';
+import G3 from '../math/G3';
 
 interface PathArgs {
-    controlBegin?: Euclidean3;
-    controlEnd?: Euclidean3;
-    endPoint?: Euclidean3;
+    controlBegin?: G3;
+    controlEnd?: G3;
+    endPoint?: G3;
     radius?: number;
 }
 

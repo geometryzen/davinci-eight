@@ -1,23 +1,23 @@
 import SimplexPrimitivesBuilder from '../geometries/SimplexPrimitivesBuilder';
-import SpinG3 from '../math/SpinG3';
-import R2 from '../math/R2';
-import R3 from '../math/R3';
+import SpinG3m from '../math/SpinG3m';
+import R2m from '../math/R2m';
+import R3m from '../math/R3m';
 
 export default class RevolutionSimplexPrimitivesBuilder extends SimplexPrimitivesBuilder {
     constructor() {
         super()
     }
     protected revolve(
-        points: R3[],
-        generator: SpinG3,
+        points: R3m[],
+        generator: SpinG3m,
         segments = 12,
         phiStart = 0,
         phiLength = 2 * Math.PI,
-        attitude: SpinG3) {
+        attitude: SpinG3m) {
         /**
          * Temporary list of points.
          */
-        var vertices: R3[] = []
+        var vertices: R3m[] = []
 
         // Determine heuristically whether the user intended to make a complete revolution.
         var isClosed = Math.abs(2 * Math.PI - Math.abs(phiLength - phiStart)) < 0.0001;
@@ -32,7 +32,7 @@ export default class RevolutionSimplexPrimitivesBuilder extends SimplexPrimitive
         var il: number;
         var jl: number;
 
-        var R: SpinG3 = new SpinG3()
+        var R: SpinG3m = new SpinG3m()
 
         for (i = 0, il = halfPlanes; i < il; i++) {
 
@@ -77,8 +77,8 @@ export default class RevolutionSimplexPrimitivesBuilder extends SimplexPrimitive
                 var u1 = u0 + inverseSegments;
                 var v1 = v0 + inversePointLength;
 
-                this.triangle([vertices[d], vertices[b], vertices[a]], [], [new R2([u0, v0]), new R2([u1, v0]), new R2([u0, v1])])
-                this.triangle([vertices[d], vertices[c], vertices[b]], [], [new R2([u1, v0]), new R2([u1, v1]), new R2([u0, v1])])
+                this.triangle([vertices[d], vertices[b], vertices[a]], [], [new R2m([u0, v0]), new R2m([u1, v0]), new R2m([u0, v1])])
+                this.triangle([vertices[d], vertices[c], vertices[b]], [], [new R2m([u1, v0]), new R2m([u1, v1]), new R2m([u0, v1])])
             }
         }
         //    this.computeFaceNormals();

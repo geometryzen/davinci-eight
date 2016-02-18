@@ -1,7 +1,7 @@
 import GeometricE3 from '../math/GeometricE3';
 
 // GraphicsProgramSymbols constants for the coordinate indices into the data array.
-// These are chosen to match those used by Euclidean3.
+// These are chosen to match those used by G3.
 // TODO: The goal should be to protect the user from changes in ordering.
 const COORD_W = 0
 const COORD_X = 1

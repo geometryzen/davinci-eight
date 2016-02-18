@@ -64,14 +64,14 @@
                                 <li><a href="../classes/DirectionalLight.html">DirectionalLight</a></li>
                                 <li><a href="../classes/DrawMode.html">DrawMode</a></li>
                                 <li><a href="../classes/EIGHTLogger.html">EIGHTLogger</a></li>
-                                <li><a href="../classes/Euclidean1.html">Euclidean1</a></li>
-                                <li><a href="../classes/Euclidean2.html">Euclidean2</a></li>
-                                <li><a href="../classes/Euclidean3.html">Euclidean3</a></li>
                                 <li><a href="../classes/Facet.html">Facet</a></li>
                                 <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
+                                <li><a href="../classes/G1.html">G1</a></li>
                                 <li><a href="../classes/G2.html">G2</a></li>
+                                <li><a href="../classes/G2m.html">G2m</a></li>
                                 <li><a href="../classes/G3.html">G3</a></li>
+                                <li><a href="../classes/G3m.html">G3m</a></li>
                                 <li><a href="../classes/GeometricE2.html">GeometricE2</a></li>
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
@@ -105,10 +105,10 @@
                                 <li><a href="../classes/PrimitiveBuffers.html">PrimitiveBuffers</a></li>
                                 <li><a href="../classes/Pseudo.html">Pseudo</a></li>
                                 <li><a href="../classes/QQ.html">QQ</a></li>
-                                <li><a href="../classes/R1.html">R1</a></li>
-                                <li><a href="../classes/R2.html">R2</a></li>
-                                <li><a href="../classes/R3.html">R3</a></li>
-                                <li><a href="../classes/R4.html">R4</a></li>
+                                <li><a href="../classes/R1m.html">R1m</a></li>
+                                <li><a href="../classes/R2m.html">R2m</a></li>
+                                <li><a href="../classes/R3m.html">R3m</a></li>
+                                <li><a href="../classes/R4m.html">R4m</a></li>
                                 <li><a href="../classes/ReflectionFacetE2.html">ReflectionFacetE2</a></li>
                                 <li><a href="../classes/ReflectionFacetE3.html">ReflectionFacetE3</a></li>
                                 <li><a href="../classes/RigidBody.html">RigidBody</a></li>
@@ -122,8 +122,8 @@
                                 <li><a href="../classes/ShareableWebGLTexture.html">ShareableWebGLTexture</a></li>
                                 <li><a href="../classes/Sphere.html">Sphere</a></li>
                                 <li><a href="../classes/SphereGeometry.html">SphereGeometry</a></li>
-                                <li><a href="../classes/SpinG2.html">SpinG2</a></li>
-                                <li><a href="../classes/SpinG3.html">SpinG3</a></li>
+                                <li><a href="../classes/SpinG2m.html">SpinG2m</a></li>
+                                <li><a href="../classes/SpinG3m.html">SpinG3m</a></li>
                                 <li><a href="../classes/SpinorE1.html">SpinorE1</a></li>
                                 <li><a href="../classes/SpinorE2.html">SpinorE2</a></li>
                                 <li><a href="../classes/SpinorE3.html">SpinorE3</a></li>
@@ -202,9 +202,9 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import Euclidean3 from &#x27;../math/Euclidean3&#x27;;
+import G3 from &#x27;../math/G3&#x27;;
 import FacetVisitor from &#x27;../core/FacetVisitor&#x27;;
-import R3 from &#x27;../math/R3&#x27;;
+import R3m from &#x27;../math/R3m&#x27;;
 import VectorE3 from &#x27;../math/VectorE3&#x27;;
 import Mat4R from &#x27;../math/Mat4R&#x27;;
 import mustBeNumber from &#x27;../checks/mustBeNumber&#x27;;
@@ -221,9 +221,9 @@ import readOnly from &#x27;../i18n/readOnly&#x27;;
  */
 export default function createView(options?: { viewMatrixName?: string }): View {
 
-    const eye: R3 = new R3()
-    const look: R3 = new R3()
-    const up: R3 = R3.copy(Euclidean3.e2)
+    const eye: R3m = new R3m()
+    const look: R3m = new R3m()
+    const up: R3m = R3m.copy(G3.e2)
     const viewMatrix: Mat4R = Mat4R.one()
     const viewMatrixName = isUndefined(options.viewMatrixName) ? GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX : options.viewMatrixName
 
@@ -236,28 +236,28 @@ export default function createView(options?: { viewMatrixName?: string }): View 
         setProperty(name: string, value: number[]): View {
             return self;
         },
-        get eye(): R3 {
+        get eye(): R3m {
             return eye
         },
-        set eye(value: R3) {
+        set eye(value: R3m) {
             self.setEye(value)
         },
         /**
          * @method setEye
-         * @param eye {R3}
+         * @param eye {R3m}
          * @return {View} &#x60;this&#x60; instance.
          */
-        setEye(eye_: R3): View {
+        setEye(eye_: R3m): View {
             mustBeObject(&#x27;eye&#x27;, eye_)
             eye.x = mustBeNumber(&#x27;eye.x&#x27;, eye_.x)
             eye.y = mustBeNumber(&#x27;eye.y&#x27;, eye_.y)
             eye.z = mustBeNumber(&#x27;eye.z&#x27;, eye_.z)
             return self
         },
-        get look(): R3 {
+        get look(): R3m {
             return look
         },
-        set look(value: R3) {
+        set look(value: R3m) {
             self.setLook(value)
         },
         setLook(value: VectorE3): View {
@@ -267,10 +267,10 @@ export default function createView(options?: { viewMatrixName?: string }): View 
             look.z = value.z
             return self
         },
-        get up(): R3 {
+        get up(): R3m {
             return up
         },
-        set up(value: R3) {
+        set up(value: R3m) {
             self.setUp(value)
         },
         setUp(value: VectorE3): View {

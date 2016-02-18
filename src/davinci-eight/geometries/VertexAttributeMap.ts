@@ -1,7 +1,7 @@
 import VectorN from '../math/VectorN'
 
 /**
- * Using VectorN allows G2, G3, R1, R2, R3, R4, SpinG2, SpinG3.
+ * Using VectorN allows G2m, G3m, R1m, R2m, R3m, R4m, SpinG2m, SpinG3m.
  */
 interface VertexAttributeMap {
     [name: string]: VectorN<number>

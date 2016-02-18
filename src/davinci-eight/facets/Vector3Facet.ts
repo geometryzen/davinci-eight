@@ -2,7 +2,7 @@ import Facet from '../core/Facet';
 import FacetVisitor from '../core/FacetVisitor';
 import mustBeObject from '../checks/mustBeObject';
 import mustBeString from '../checks/mustBeString';
-import R3 from '../math/R3';
+import R3m from '../math/R3m';
 
 /**
  * @module EIGHT
@@ -20,14 +20,14 @@ function contextBuilder() {
  */
 export default class Vector3Facet implements Facet {
     private _name: string;
-    private _vector: R3;
+    private _vector: R3m;
     /**
      * @class Vector3Facet
      * @constructor
      * @param name {string}
-     * @param vector {R3}
+     * @param vector {R3m}
      */
-    constructor(name: string, vector: R3) {
+    constructor(name: string, vector: R3m) {
         this._name = mustBeString('name', name, contextBuilder)
         this._vector = mustBeObject('vector', vector, contextBuilder)
     }

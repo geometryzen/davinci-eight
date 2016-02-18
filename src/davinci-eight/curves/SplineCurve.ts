@@ -1,7 +1,7 @@
 import Curve from '../curves/Curve';
-import Euclidean3 from '../math/Euclidean3';
+import G3 from '../math/G3';
 
-function interpolate(p0: Euclidean3, p1: Euclidean3, p2: Euclidean3, p3: Euclidean3, t: number): Euclidean3 {
+function interpolate(p0: G3, p1: G3, p2: G3, p3: G3, t: number): G3 {
     var v20 = p2.sub(p0)
     var v12 = p1.sub(p2)
     var v21 = p2.sub(p1)
@@ -19,12 +19,12 @@ function interpolate(p0: Euclidean3, p1: Euclidean3, p2: Euclidean3, p3: Euclide
 }
 
 export default class SplineCurve extends Curve {
-    points: Euclidean3[]
-    constructor(points: Euclidean3[] = []) {
+    points: G3[]
+    constructor(points: G3[] = []) {
         super()
         this.points = points
     }
-    getPoint(t: number): Euclidean3 {
+    getPoint(t: number): G3 {
 
         var points = this.points;
         var point = (points.length - 1) * t;

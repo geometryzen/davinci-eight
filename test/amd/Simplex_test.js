@@ -2,14 +2,14 @@ define(
 [
   'davinci-eight/geometries/Simplex',
   'davinci-eight/geometries/Vertex',
-  'davinci-eight/math/R3',
+  'davinci-eight/math/R3m',
   'davinci-eight/geometries/triangle'
 ],
-function(Simplex, Vertex, R3, triangle) {
+function(Simplex, Vertex, R3m, triangle) {
 
   Simplex = Simplex.default
   Vertex = Vertex.default
-  R3 = R3.default
+  R3m = R3m.default
   traingle = triangle.default
 
   describe("Simplex", function() {

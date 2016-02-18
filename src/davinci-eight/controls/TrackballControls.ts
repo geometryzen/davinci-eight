@@ -1,8 +1,8 @@
-import G3 from '../math/G3'
+import G3m from '../math/G3m'
 import MouseControls from './MouseControls'
 import PerspectiveCamera from '../facets/PerspectiveCamera'
-import R2 from '../math/R2'
-import R3 from '../math/R3'
+import R2m from '../math/R2m'
+import R3m from '../math/R3m'
 
 /**
  * @module EIGHT
@@ -36,31 +36,31 @@ export default class TrackballControls extends MouseControls {
      * The eye vector is the position of the camera relative to the target position vector.
      * So, camera.position = target + eye, or, eye = camera.position - target.
      */
-    private eye = new R3()
+    private eye = new R3m()
 
     /**
      * The position that we look at.
      */
-    private target = new G3()
+    private target = new G3m()
 
     /**
      * The initial position, look and up of the camera.
      * We cache these so that we can reset the camera.
      */
-    private position0: R3
-    private target0: G3
-    private up0: R3
+    private position0: R3m
+    private target0: G3m
+    private up0: R3m
 
     // Working storage for calculations that update the camera.
-    private moveDirection = new R3()
-    private eyeDirection = new R3()
-    private objectUpDirection = new R3()
-    private objectSidewaysDirection = new R3()
-    private axis = new R3()
-    private rotor = new G3()
-    private mouseChange = new R2()
-    private pan = new R3()
-    private objectUp = new R3()
+    private moveDirection = new R3m()
+    private eyeDirection = new R3m()
+    private objectUpDirection = new R3m()
+    private objectSidewaysDirection = new R3m()
+    private axis = new R3m()
+    private rotor = new G3m()
+    private mouseChange = new R2m()
+    private pan = new R3m()
+    private objectUp = new R3m()
 
     /**
      * @class TrackballControls

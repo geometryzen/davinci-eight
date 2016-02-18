@@ -4,7 +4,7 @@ import Box from './Box'
 import BoxOptions from './BoxOptions'
 import Cylinder from './Cylinder'
 import DrawList from './DrawList'
-import Euclidean3 from '../math/Euclidean3'
+import G3 from '../math/G3'
 import Facet from '../core/Facet'
 import isDefined from '../checks/isDefined'
 import Mesh from '../core/Mesh'
@@ -117,7 +117,7 @@ export default class World extends Shareable {
         } = {}): Arrow {
         const arrow = new Arrow()
         if (options.axis) {
-            arrow.axis = Euclidean3.vector(options.axis.x, options.axis.y, options.axis.z)
+            arrow.axis = G3.vector(options.axis.x, options.axis.y, options.axis.z)
         }
         if (options.color) {
             arrow.color.copy(options.color)
@@ -126,7 +126,7 @@ export default class World extends Shareable {
             arrow.color = Color.fromRGB(0.6, 0.6, 0.6)
         }
         if (options.pos) {
-            arrow.pos = Euclidean3.vector(options.pos.x, options.pos.y, options.pos.z)
+            arrow.pos = G3.vector(options.pos.x, options.pos.y, options.pos.z)
         }
         this.drawList.add(arrow)
         arrow.release()
@@ -156,10 +156,10 @@ export default class World extends Shareable {
         } = {}): Cylinder {
         const cylinder = new Cylinder()
         if (options.axis) {
-            cylinder.axis = Euclidean3.vector(options.axis.x, options.axis.y, options.axis.z)
+            cylinder.axis = G3.vector(options.axis.x, options.axis.y, options.axis.z)
         }
         if (options.pos) {
-            cylinder.pos = Euclidean3.fromVectorE3(options.pos)
+            cylinder.pos = G3.fromVectorE3(options.pos)
         }
         cylinder.radius = isDefined(options.radius) ? mustBeNumber('radius', options.radius) : 0.5
         cylinder.color = Color.magenta
@@ -180,7 +180,7 @@ export default class World extends Shareable {
         } = {}): Sphere {
         const sphere = new Sphere()
         if (options.pos) {
-            sphere.pos = Euclidean3.fromVectorE3(options.pos)
+            sphere.pos = G3.fromVectorE3(options.pos)
         }
         sphere.radius = isDefined(options.radius) ? mustBeNumber('radius', options.radius) : 0.5
         if (options.color) {

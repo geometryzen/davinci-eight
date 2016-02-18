@@ -64,14 +64,14 @@
                                 <li><a href="../classes/DirectionalLight.html">DirectionalLight</a></li>
                                 <li><a href="../classes/DrawMode.html">DrawMode</a></li>
                                 <li><a href="../classes/EIGHTLogger.html">EIGHTLogger</a></li>
-                                <li><a href="../classes/Euclidean1.html">Euclidean1</a></li>
-                                <li><a href="../classes/Euclidean2.html">Euclidean2</a></li>
-                                <li><a href="../classes/Euclidean3.html">Euclidean3</a></li>
                                 <li><a href="../classes/Facet.html">Facet</a></li>
                                 <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
+                                <li><a href="../classes/G1.html">G1</a></li>
                                 <li><a href="../classes/G2.html">G2</a></li>
+                                <li><a href="../classes/G2m.html">G2m</a></li>
                                 <li><a href="../classes/G3.html">G3</a></li>
+                                <li><a href="../classes/G3m.html">G3m</a></li>
                                 <li><a href="../classes/GeometricE2.html">GeometricE2</a></li>
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
@@ -105,10 +105,10 @@
                                 <li><a href="../classes/PrimitiveBuffers.html">PrimitiveBuffers</a></li>
                                 <li><a href="../classes/Pseudo.html">Pseudo</a></li>
                                 <li><a href="../classes/QQ.html">QQ</a></li>
-                                <li><a href="../classes/R1.html">R1</a></li>
-                                <li><a href="../classes/R2.html">R2</a></li>
-                                <li><a href="../classes/R3.html">R3</a></li>
-                                <li><a href="../classes/R4.html">R4</a></li>
+                                <li><a href="../classes/R1m.html">R1m</a></li>
+                                <li><a href="../classes/R2m.html">R2m</a></li>
+                                <li><a href="../classes/R3m.html">R3m</a></li>
+                                <li><a href="../classes/R4m.html">R4m</a></li>
                                 <li><a href="../classes/ReflectionFacetE2.html">ReflectionFacetE2</a></li>
                                 <li><a href="../classes/ReflectionFacetE3.html">ReflectionFacetE3</a></li>
                                 <li><a href="../classes/RigidBody.html">RigidBody</a></li>
@@ -122,8 +122,8 @@
                                 <li><a href="../classes/ShareableWebGLTexture.html">ShareableWebGLTexture</a></li>
                                 <li><a href="../classes/Sphere.html">Sphere</a></li>
                                 <li><a href="../classes/SphereGeometry.html">SphereGeometry</a></li>
-                                <li><a href="../classes/SpinG2.html">SpinG2</a></li>
-                                <li><a href="../classes/SpinG3.html">SpinG3</a></li>
+                                <li><a href="../classes/SpinG2m.html">SpinG2m</a></li>
+                                <li><a href="../classes/SpinG3m.html">SpinG3m</a></li>
                                 <li><a href="../classes/SpinorE1.html">SpinorE1</a></li>
                                 <li><a href="../classes/SpinorE2.html">SpinorE2</a></li>
                                 <li><a href="../classes/SpinorE3.html">SpinorE3</a></li>
@@ -202,9 +202,9 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import G2 from &#x27;../math/G2&#x27;;
-import R2 from &#x27;../math/R2&#x27;;
-import SpinG2 from &#x27;../math/SpinG2&#x27;;
+import G2m from &#x27;../math/G2m&#x27;;
+import R2m from &#x27;../math/R2m&#x27;;
+import SpinG2m from &#x27;../math/SpinG2m&#x27;;
 import readOnly from &#x27;../i18n/readOnly&#x27;;
 
 /**
@@ -235,22 +235,22 @@ export default class ModelE2 {
      */
     public static PROP_POSITION = &#x27;X&#x27;;
 
-    private _position = new G2().zero();
-    private _attitude = new G2().zero().addScalar(1);
+    private _position = new G2m().zero();
+    private _attitude = new G2m().zero().addScalar(1);
     /**
      * Used for exchanging number[] data to achieve integrity and avoid lots of temporaries.
      * @property _posCache
-     * @type {R2}
+     * @type {R2m}
      * @private
      */
-    private _posCache = new R2();
+    private _posCache = new R2m();
     /**
      * Used for exchanging number[] data to achieve integrity and avoid lots of temporaries.
      * @property _attCache
-     * @type {SpinG2}
+     * @type {SpinG2m}
      * @private
      */
-    private _attCache = new SpinG2();
+    private _attCache = new SpinG2m();
     /**
      * &lt;p&gt;
      * A collection of properties for Rigid Body Modeling.
@@ -274,10 +274,10 @@ export default class ModelE2 {
      * The &lt;em&gt;attitude&lt;/em&gt;, a unitary spinor.
      * &lt;/p&gt;
      * @property R
-     * @type G2
+     * @type G2m
      * @readOnly
      */
-    get R(): G2 {
+    get R(): G2m {
         return this._attitude
     }
     set R(unused) {
@@ -291,10 +291,10 @@ export default class ModelE2 {
      * &lt;/p&gt;
      *
      * @property X
-     * @type G2
+     * @type G2m
      * @readOnly
      */
-    get X(): G2 {
+    get X(): G2m {
         return this._position
     }
     set X(unused) {

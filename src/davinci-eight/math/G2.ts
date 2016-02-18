@@ -1,723 +1,891 @@
 import b2 from '../geometries/b2';
 import b3 from '../geometries/b3';
-import dotVector from '../math/dotVectorE2';
-import Euclidean2 from '../math/Euclidean2';
-import extE2 from '../math/extE2';
-import GeometricE2 from '../math/GeometricE2';
-import isDefined from '../checks/isDefined';
-import isNumber from '../checks/isNumber';
-import isObject from '../checks/isObject';
-import lcoE2 from '../math/lcoE2';
-import GeometricOperators from '../math/GeometricOperators';
-import Measure from '../math/Measure';
-import mulE2 from '../math/mulE2';
-import mustBeInteger from '../checks/mustBeInteger';
-import mustBeNumber from '../checks/mustBeNumber';
-import mustBeObject from '../checks/mustBeObject';
-import MutableGeometricElement from '../math/MutableGeometricElement';
-import quadVector from '../math/quadVectorE2';
-import rcoE2 from '../math/rcoE2';
-import rotorFromDirections from '../math/rotorFromDirections';
-import scpE2 from '../math/scpE2';
-import SpinorE2 from '../math/SpinorE2';
-import stringFromCoordinates from '../math/stringFromCoordinates';
-import Unit from '../math/Unit';
-import VectorE2 from '../math/VectorE2';
-import VectorN from '../math/VectorN';
-import wedgeXY from '../math/wedgeXY';
+import extE2 from './extE2';
+import gauss from './gauss';
+import GeometricElement from './GeometricElement';
+import GeometricOperators from './GeometricOperators';
+import GeometricE2 from './GeometricE2';
+import lcoE2 from './lcoE2';
+import rcoE2 from './rcoE2';
+import ImmutableMeasure from './ImmutableMeasure';
+import mulE2 from './mulE2';
+import notImplemented from '../i18n/notImplemented';
+import readOnly from '../i18n/readOnly';
+import scpE2 from './scpE2';
+import SpinorE2 from './SpinorE2';
+import stringFromCoordinates from './stringFromCoordinates';
+import TrigMethods from './TrigMethods';
+import Unit from './Unit';
+import VectorE2 from './VectorE2';
 
 /**
  * @module EIGHT
  * @submodule math
  */
 
-// GraphicsProgramSymbols constants for the coordinate indices into the data array.
 const COORD_SCALAR = 0
 const COORD_X = 1
 const COORD_Y = 2
 const COORD_PSEUDO = 3
 
-const PI = Math.PI
-const abs = Math.abs
-const atan2 = Math.atan2
-const exp = Math.exp
-const log = Math.log
-const cos = Math.cos
-const sin = Math.sin
-const sqrt = Math.sqrt
-
-// const LEFTWARDS_ARROW = "←"
-// const RIGHTWARDS_ARROW = "→"
-// const UPWARDS_ARROW = "↑"
-// const DOWNWARDS_ARROW = "↓"
-// const BULLSEYE = "◎"
-// const CLOCKWISE_OPEN_CIRCLE_ARROW = "↻"
-// const ANTICLOCKWISE_OPEN_CIRCLE_ARROW = "↺"
-
-// const ARROW_LABELS = ["1", [LEFTWARDS_ARROW, RIGHTWARDS_ARROW], [DOWNWARDS_ARROW, UPWARDS_ARROW], [CLOCKWISE_OPEN_CIRCLE_ARROW, ANTICLOCKWISE_OPEN_CIRCLE_ARROW]]
-const STANDARD_LABELS = ["1", "e1", "e2", "I"]
-
-/**
- * Coordinates corresponding to basis labels.
- */
-function coordinates(m: GeometricE2): number[] {
-    return [m.α, m.x, m.y, m.β]
+function add00(a00: number, a01: number, a10: number, a11: number, b00: number, b01: number, b10: number, b11: number): number {
+    a00 = +a00;
+    a01 = +a01;
+    a10 = +a10;
+    a11 = +a11;
+    b00 = +b00;
+    b01 = +b01;
+    b10 = +b10;
+    b11 = +b11;
+    return +(a00 + b00);
 }
 
-/**
- * Promotes an unknown value to a G2, or returns undefined.
- */
-function duckCopy(value: any): G2 {
-    if (isObject(value)) {
-        let m = <GeometricE2>value
-        if (isNumber(m.x) && isNumber(m.y)) {
-            if (isNumber(m.α) && isNumber(m.β)) {
-                console.warn("Copying GeometricE2 to G2")
-                return G2.copy(m)
-            }
-            else {
-                console.warn("Copying VectorE2 to G2")
-                return G2.fromVector(m)
-            }
+function add01(a00: number, a01: number, a10: number, a11: number, b00: number, b01: number, b10: number, b11: number): number {
+    a00 = +a00;
+    a01 = +a01;
+    a10 = +a10;
+    a11 = +a11;
+    b00 = +b00;
+    b01 = +b01;
+    b10 = +b10;
+    b11 = +b11;
+    return +(a01 + b01);
+}
+
+function add10(a00: number, a01: number, a10: number, a11: number, b00: number, b01: number, b10: number, b11: number): number {
+    a00 = +a00;
+    a01 = +a01;
+    a10 = +a10;
+    a11 = +a11;
+    b00 = +b00;
+    b01 = +b01;
+    b10 = +b10;
+    b11 = +b11;
+    return +(a10 + b10);
+}
+
+function add11(a00: number, a01: number, a10: number, a11: number, b00: number, b01: number, b10: number, b11: number): number {
+    a00 = +a00;
+    a01 = +a01;
+    a10 = +a10;
+    a11 = +a11;
+    b00 = +b00;
+    b01 = +b01;
+    b10 = +b10;
+    b11 = +b11;
+    return +(a11 + b11);
+}
+
+function subE2(a0: number, a1: number, a2: number, a3: number, b0: number, b1: number, b2: number, b3: number, index: number): number {
+    a0 = +a0;
+    a1 = +a1;
+    a2 = +a2;
+    a3 = +a3;
+    b0 = +b0;
+    b1 = +b1;
+    b2 = +b2;
+    b3 = +b3;
+    index = index | 0;
+    var x = 0.0;
+    switch (~(~index)) {
+        case 0: {
+            x = +(a0 - b0);
         }
-        else {
-            if (isNumber(m.α) && isNumber(m.β)) {
-                console.warn("Copying SpinorE2 to G2")
-                return G2.fromSpinor(m)
-            }
-            else {
-                return void 0
-            }
+            break;
+        case 1: {
+            x = +(a1 - b1);
+        }
+            break;
+        case 2: {
+            x = +(a2 - b2);
+        }
+            break;
+        case 3: {
+            x = +(a3 - b3);
+        }
+            break;
+        default: {
+            throw new Error("index must be in the range [0..3]");
         }
     }
-    else {
-        return void 0
-    }
+    return +x;
 }
 
 /**
  * @class G2
- * @extends VectorN
- * @beta
  */
-export default class G2 extends VectorN<number> implements GeometricE2, Measure<G2>, MutableGeometricElement<GeometricE2, G2, SpinorE2, VectorE2>, GeometricOperators<G2> {
+export default class G2 implements ImmutableMeasure<G2>, GeometricE2, GeometricElement<G2, G2, SpinorE2, VectorE2>, GeometricOperators<G2>, TrigMethods<G2> {
     /**
-     * @property BASIS_LABELS
-     * @type {(string | string[])[]}
+     * The coordinate values are stored in a number array.
+     * This should be convenient and efficient for tensor calculations.
+     *
+     * @property _coords
+     * @type number[]
+     * @private
      */
-    static BASIS_LABELS: (string | string[])[] = STANDARD_LABELS
+    private _coords: number[] = [0, 0, 0, 0]
+
+    public uom: Unit;
 
     /**
-     * The optional unit of measure.
-     * @property uom
-     * @type {Unit}
-     * @beta
+     * @property _zero
+     * @type G2
+     * @static
+     * @private
      */
-    uom: Unit;
+    private static _zero = new G2(0, 0, 0, 0)
 
     /**
-     * Constructs a <code>G2</code>.
-     * The multivector is initialized to zero.
-     * @class G2
-     * @beta
-     * @constructor
+     * @property zero
+     * @type G2
+     * @static
+     * @readOnly
      */
-    constructor() {
-        super([0, 0, 0, 0], false, 4)
+    public static get zero() {
+        return G2._zero
+    }
+    public static set zero(unused) {
+        throw new Error(readOnly('zero').message)
     }
 
     /**
-     * The coordinate corresponding to the unit standard basis scalar.
+     * @property _one
+     * @type G2
+     * @static
+     * @private
+     */
+    private static _one = new G2(1, 0, 0, 0)
+
+    /**
+     * @property one
+     * @type G2
+     * @static
+     * @readOnly
+     */
+    public static get one() {
+        return G2._one
+    }
+    public static set one(unused) {
+        throw new Error(readOnly('one').message)
+    }
+
+    /**
+     * @property _e2
+     * @type G2
+     * @static
+     * @private
+     */
+    private static _e1 = new G2(0, 1, 0, 0)
+
+    /**
+     * @property e1
+     * @type G2
+     * @static
+     * @readOnly
+     */
+    public static get e1() {
+        return G2._e1
+    }
+    public static set e1(unused) {
+        throw new Error(readOnly('e1').message)
+    }
+
+    /**
+     * @property _e2
+     * @type G2
+     * @static
+     * @private
+     */
+    private static _e2 = new G2(0, 0, 1, 0)
+
+    /**
+     * @property e2
+     * @type G2
+     * @static
+     * @readOnly
+     */
+    public static get e2() {
+        return G2._e2
+    }
+    public static set e2(unused) {
+        throw new Error(readOnly('e2').message)
+    }
+
+    /**
+     * @property _I
+     * @type G2
+     * @static
+     * @private
+     */
+    private static _I = new G2(0, 0, 0, 1)
+
+    /**
+     * @property I
+     * @type G2
+     * @static
+     * @readOnly
+     */
+    public static get I() {
+        return G2._I
+    }
+    public static set I(unused) {
+        throw new Error(readOnly('I').message)
+    }
+
+    /**
+     * @property kilogram
+     * @type G2
+     * @static
+     */
+    public static kilogram = new G2(1, 0, 0, 0, Unit.KILOGRAM)
+
+    /**
+     * @property meter
+     * @type G2
+     * @static
+     */
+    public static meter = new G2(1, 0, 0, 0, Unit.METER)
+
+    /**
+     * @property second
+     * @type G2
+     * @static
+     */
+    public static second = new G2(1, 0, 0, 0, Unit.SECOND)
+
+    /**
+     * @property coulomb
+     * @type G2
+     * @static
+     */
+    public static coulomb = new G2(1, 0, 0, 0, Unit.COULOMB)
+
+    /**
+     * @property ampere
+     * @type G2
+     * @static
+     */
+    public static ampere = new G2(1, 0, 0, 0, Unit.AMPERE)
+
+    /**
+     * @property kelvin
+     * @type G2
+     * @static
+     */
+    public static kelvin = new G2(1, 0, 0, 0, Unit.KELVIN)
+
+    /**
+     * @property mole
+     * @type G2
+     * @static
+     */
+    public static mole = new G2(1, 0, 0, 0, Unit.MOLE)
+
+    /**
+     * @property candela
+     * @type G2
+     * @static
+     */
+    public static candela = new G2(1, 0, 0, 0, Unit.CANDELA)
+
+    /**
+     * The G2 class represents a multivector for a 2-dimensional linear space with a Euclidean metric.
+     *
+     * @class G2
+     * @constructor
+     * @param [α = 0] {number} The scalar part of the multivector.
+     * @param [x = 0] {number} The vector component of the multivector in the x-direction.
+     * @param [y = 0] {number} The vector component of the multivector in the y-direction.
+     * @param [β = 0] {number} The pseudoscalar part of the multivector.
+     * @param [uom] The optional unit of measure.
+     */
+    constructor(α = 0, x = 0, y = 0, β = 0, uom?: Unit) {
+        this._coords[COORD_SCALAR] = α
+        this._coords[COORD_X] = x
+        this._coords[COORD_Y] = y
+        this._coords[COORD_PSEUDO] = β
+        this.uom = uom
+        if (this.uom && this.uom.multiplier !== 1) {
+            const multiplier: number = this.uom.multiplier;
+            this._coords[COORD_SCALAR] *= multiplier;
+            this._coords[COORD_X] *= multiplier;
+            this._coords[COORD_Y] *= multiplier;
+            this._coords[COORD_PSEUDO] *= multiplier;
+            this.uom = new Unit(1, uom.dimensions, uom.labels);
+        }
+    }
+
+    /**
+     * The scalar part of this multivector.
      * @property α
-     * @type {number}
+     * @type number
+     * @readOnly
      */
     get α(): number {
-        return this.coords[COORD_SCALAR]
+        return this._coords[COORD_SCALAR]
     }
-    set α(α: number) {
-        this.modified = this.modified || this.coords[COORD_SCALAR] !== α
-        this.coords[COORD_SCALAR] = α
+    set α(unused) {
+        throw new Error(readOnly('α').message)
     }
 
     /**
-     * The coordinate corresponding to the unit standard basis scalar.
+     * The scalar part of this multivector.
      * @property alpha
-     * @type {number}
+     * @type number
+     * @readOnly
      */
     get alpha(): number {
-        return this.coords[COORD_SCALAR]
+        return this._coords[COORD_SCALAR]
     }
-    set alpha(alpha: number) {
-        this.modified = this.modified || this.coords[COORD_SCALAR] !== alpha
-        this.coords[COORD_SCALAR] = alpha
+    set alpha(unused) {
+        throw new Error(readOnly('alpha').message)
     }
 
     /**
-     * The coordinate corresponding to the <b>e</b><sub>1</sub> standard basis vector.
+     * The coordinate corresponding to the <b>e1</b> basis vector, without the unit of measure.
+     *
      * @property x
-     * @type {number}
+     * @type number
+     * @readOnly
      */
     get x(): number {
-        return this.coords[COORD_X]
+        return this._coords[COORD_X]
     }
-    set x(x: number) {
-        this.modified = this.modified || this.coords[COORD_X] !== x
-        this.coords[COORD_X] = x
+    set x(unused) {
+        throw new Error(readOnly('x').message)
     }
 
     /**
-     * The coordinate corresponding to the <b>e</b><sub>2</sub> standard basis vector.
+     * The coordinate corresponding to the <b>e2</b> basis vector, without the unit of measure.
+     *
      * @property y
-     * @type {number}
+     * @type number
+     * @readOnly
      */
     get y(): number {
-        return this.coords[COORD_Y]
+        return this._coords[COORD_Y]
     }
-    set y(y: number) {
-        this.modified = this.modified || this.coords[COORD_Y] !== y
-        this.coords[COORD_Y] = y
+    set y(unused) {
+        throw new Error(readOnly('y').message)
     }
 
     /**
-     * The coordinate corresponding to the <b>e</b><sub>1</sub><b>e</b><sub>2</sub> standard basis bivector.
+     * The pseudoscalar part of this multivector.
      * @property β
-     * @type {number}
+     * @type number
+     * @readOnly
      */
     get β(): number {
-        return this.coords[COORD_PSEUDO]
+        return this._coords[COORD_PSEUDO]
     }
-    set β(β: number) {
-        this.modified = this.modified || this.coords[COORD_PSEUDO] !== β
-        this.coords[COORD_PSEUDO] = β
+    set β(unused) {
+        throw new Error(readOnly('β').message)
     }
 
     /**
-     * The coordinate corresponding to the <b>e</b><sub>1</sub><b>e</b><sub>2</sub> standard basis bivector.
+     * The pseudoscalar part of this multivector.
      * @property beta
-     * @type {number}
+     * @type number
+     * @readOnly
      */
     get beta(): number {
-        return this.coords[COORD_PSEUDO]
+        return this._coords[COORD_PSEUDO]
     }
-    set beta(beta: number) {
-        this.modified = this.modified || this.coords[COORD_PSEUDO] !== beta
-        this.coords[COORD_PSEUDO] = beta
-    }
-
-    get xy(): number {
-        return this.coords[COORD_PSEUDO]
-    }
-    set xy(xy: number) {
-        this.modified = this.modified || this.coords[COORD_PSEUDO] !== xy
-        this.coords[COORD_PSEUDO] = xy
+    set beta(unused) {
+        throw new Error(readOnly('beta').message)
     }
 
-    /**
-     * <p>
-     * <code>this ⟼ this + M * α</code>
-     * </p>
-     * @method add
-     * @param M {GeometricE2}
-     * @param [α = 1] {number}
-     * @return {G2} <code>this</code>
-     * @chainable
-     */
-    add(M: GeometricE2, α = 1): G2 {
-        mustBeObject('M', M)
-        mustBeNumber('α', α)
-        this.α += M.α * α
-        this.x += M.x * α
-        this.y += M.y * α
-        this.β += M.β * α
-        return this
+    // FIXME: Replace x & y with a VectorE2, a
+    fromCartesian(α: number, x: number, y: number, β: number, uom: Unit): G2 {
+        return new G2(α, x, y, β, uom)
     }
 
-    /**
-     * <p>
-     * <code>this ⟼ a + b</code>
-     * </p>
-     * @method add2
-     * @param a {GeometricE2}
-     * @param b {GeometricE2}
-     * @return {G2} <code>this</code>
-     * @chainable
-     */
-    add2(a: GeometricE2, b: GeometricE2): G2 {
-        mustBeObject('a', a)
-        mustBeObject('b', b)
-        this.α = a.α + b.α
-        this.x = a.x + b.x
-        this.y = a.y + b.y
-        this.β = a.β + b.β
-        return this
+    fromPolar(α: number, r: number, θ: number, β: number, uom: Unit): G2 {
+        return new G2(α, r * Math.cos(θ), r * Math.sin(θ), β, uom)
     }
 
-    /**
-     * <p>
-     * <code>this ⟼ this + Iβ</code>
-     * </p>
-     * @method addPseudo
-     * @param β {number}
-     * @return {G2} <code>this</code>
-     * @chainable
-     */
+    get coords(): number[] {
+        return [this.α, this.x, this.y, this.β];
+    }
+
+    coordinate(index: number): number {
+        switch (index) {
+            case 0:
+                return this.α;
+            case 1:
+                return this.x;
+            case 2:
+                return this.y;
+            case 3:
+                return this.β;
+            default:
+                throw new Error("index must be in the range [0..3]");
+        }
+    }
+
+    // FIXME: This function forces the creation of temporary arrays.
+    private static add(a: number[], b: number[]): number[] {
+        const a00 = a[0];
+        const a01 = a[1];
+        const a10 = a[2];
+        const a11 = a[3];
+        const b00 = b[0];
+        const b01 = b[1];
+        const b10 = b[2];
+        const b11 = b[3];
+        const x00 = add00(a00, a01, a10, a11, b00, b01, b10, b11);
+        const x01 = add01(a00, a01, a10, a11, b00, b01, b10, b11);
+        const x10 = add10(a00, a01, a10, a11, b00, b01, b10, b11);
+        const x11 = add11(a00, a01, a10, a11, b00, b01, b10, b11);
+        return [x00, x01, x10, x11];
+    }
+
+    add(rhs: G2): G2 {
+        var xs = G2.add(this.coords, rhs.coords);
+        return new G2(xs[0], xs[1], xs[2], xs[3], Unit.compatible(this.uom, rhs.uom));
+    }
+
     addPseudo(β: number): G2 {
-        mustBeNumber('β', β)
-        this.β += β
-        return this
+        return new G2(this.α, this.x, this.y, this.β + β, this.uom)
     }
 
-    /**
-     * <p>
-     * <code>this ⟼ this + α</code>
-     * </p>
-     * @method addScalar
-     * @param α {number}
-     * @return {G2} <code>this</code>
-     * @chainable
-     */
     addScalar(α: number): G2 {
-        mustBeNumber('α', α)
-        this.α += α
-        return this
-    }
-
-    /**
-     * <p>
-     * <code>this ⟼ this + v * α</code>
-     * </p>
-     * @method addVector
-     * @param v {VectorE2}
-     * @param [α = 1] {number}
-     * @return {G2} <code>this</code>
-     * @chainable
-     */
-    addVector(v: VectorE2, α = 1): G2 {
-        mustBeObject('v', v)
-        mustBeNumber('α', α)
-        this.x += v.x * α
-        this.y += v.y * α
-        return this
+        return new G2(this.α + α, this.x, this.y, this.β, this.uom)
     }
 
     adj(): G2 {
-        throw new Error('TODO: G2.adj')
+        throw new Error("TODO: adj")
+    }
+
+    __add__(other: any): G2 {
+        if (other instanceof G2) {
+            return this.add(other);
+        }
+        else if (typeof other === 'number') {
+            return this.add(new G2(other, 0, 0, 0, undefined));
+        }
+    }
+
+    __radd__(other: any): G2 {
+        if (other instanceof G2) {
+            return (<G2>other).add(this);
+        }
+        else if (typeof other === 'number') {
+            return new G2(other, 0, 0, 0, undefined).add(this);
+        }
     }
 
     /**
-     * <p>
-     * <code>this ⟼ log(this).grade(2)</code>
-     * </p>
      * @method angle
-     * @return {G2} <code>this</code>
-     * @chainable
+     * @return {G2}
      */
     angle(): G2 {
         return this.log().grade(2);
     }
 
-    /**
-     * @method clone
-     * @return {G2} <code>copy(this)</code>
-     * @chainable
-     */
     clone(): G2 {
-        let m = new G2()
-        m.copy(this)
-        return m
+        return this;
+    }
+
+    conj(): G2 {
+        throw new Error(notImplemented('conj').message)
+    }
+
+    cubicBezier(t: number, controlBegin: GeometricE2, controlEnd: GeometricE2, endPoint: GeometricE2) {
+        const α = b3(t, this.α, controlBegin.α, controlEnd.α, endPoint.α)
+        const x = b3(t, this.x, controlBegin.x, controlEnd.x, endPoint.x)
+        const y = b3(t, this.y, controlBegin.y, controlEnd.y, endPoint.y)
+        const β = b3(t, this.β, controlBegin.β, controlEnd.β, endPoint.β)
+        return new G2(α, x, y, β, this.uom);
     }
 
     /**
-     * <p>
-     * <code>this ⟼ conjugate(this)</code>
-     * </p>
-     * @method conj
-     * @return {G2} <code>this</code>
+     * @method direction
+     * @return {G2}
      * @chainable
      */
-    conj(): G2 {
-        // FIXME: This is only the bivector part.
-        // Also need to think about various involutions.
-        this.β = -this.β;
-        return this
-    }
-
-    cos(): G2 {
-        throw new Error("TODO: G2.cos")
-    }
-
-    cosh(): G2 {
-        throw new Error("TODO: G2.cosh")
+    public direction(): G2 {
+        const m: number = this.magnitudeSansUnits()
+        if (m !== 1) {
+            return new G2(this.α / m, this.x / m, this.y / m, this.β / m)
+        }
+        else {
+            if (this.uom) {
+                return new G2(this.α, this.x, this.y, this.β)
+            }
+            else {
+                return this
+            }
+        }
     }
 
     distanceTo(point: GeometricE2): number {
-        throw new Error("TODO: G2.distanceTo")
+        throw new Error(notImplemented('diistanceTo').message)
     }
 
     equals(point: GeometricE2): boolean {
-        throw new Error("TODO: G2.equals")
+        throw new Error(notImplemented('equals').message)
     }
 
-    /**
-     * <p>
-     * <code>this ⟼ copy(M)</code>
-     * </p>
-     * @method copy
-     * @param M {GeometricE2}
-     * @return {G2} <code>this</code>
-     * @chainable
-     */
-    copy(M: GeometricE2): G2 {
-        mustBeObject('M', M)
-        this.α = M.α
-        this.x = M.x
-        this.y = M.y
-        this.β = M.β
-        return this
+    private static sub(a: number[], b: number[]): number[] {
+        var a0 = a[0];
+        var a1 = a[1];
+        var a2 = a[2];
+        var a3 = a[3];
+        var b0 = b[0];
+        var b1 = b[1];
+        var b2 = b[2];
+        var b3 = b[3];
+        var x0 = subE2(a0, a1, a2, a3, b0, b1, b2, b3, 0);
+        var x1 = subE2(a0, a1, a2, a3, b0, b1, b2, b3, 1);
+        var x2 = subE2(a0, a1, a2, a3, b0, b1, b2, b3, 2);
+        var x3 = subE2(a0, a1, a2, a3, b0, b1, b2, b3, 3);
+        return [x0, x1, x2, x3];
     }
 
-    /**
-     * Sets this multivector to the value of the scalar, <code>α</code>.
-     * @method copyScalar
-     * @return {G2} <code>this</code>
-     * @chainable
-     */
-    copyScalar(α: number): G2 {
-        return this.zero().addScalar(α)
+    sub(rhs: G2): G2 {
+        var xs = G2.sub(this.coords, rhs.coords);
+        return new G2(xs[0], xs[1], xs[2], xs[3], Unit.compatible(this.uom, rhs.uom));
     }
 
-    /**
-     * <p>
-     * <code>this ⟼ copy(spinor)</code>
-     * </p>
-     * @method copySpinor
-     * @param spinor {SpinorE2}
-     * @return {G2} <code>this</code>
-     * @chainable
-     */
-    copySpinor(spinor: SpinorE2) {
-        mustBeObject('spinor', spinor)
-        this.α = spinor.α
-        this.x = 0
-        this.y = 0
-        this.β = spinor.β
-        return this
+    __sub__(other: any): G2 {
+        if (other instanceof G2) {
+            return this.sub(other);
+        }
+        else if (typeof other === 'number') {
+            return this.sub(new G2(other, 0, 0, 0, undefined));
+        }
     }
 
-    /**
-     * <p>
-     * <code>this ⟼ copyVector(vector)</code>
-     * </p>
-     * @method copyVector
-     * @param vector {VectorE2}
-     * @return {G2} <code>this</code>
-     * @chainable
-     */
-    copyVector(vector: VectorE2) {
-        mustBeObject('vector', vector)
-        this.α = 0
-        this.x = vector.x
-        this.y = vector.y
-        this.β = 0
-        return this
+    __rsub__(other: any): G2 {
+        if (other instanceof G2) {
+            return (<G2>other).sub(this);
+        }
+        else if (typeof other === 'number') {
+            return new G2(other, 0, 0, 0, undefined).sub(this);
+        }
     }
 
-    /**
-     * @method cubicBezier
-     * @param t {number}
-     * @param controlBegin {GeometricE2}
-     * @param controlEnd {GeometricE2}
-     * @param endPoint {GeometricE2}
-     * @return {G2} <code>this</code>
-     * @chainable
-     */
-    cubicBezier(t: number, controlBegin: GeometricE2, controlEnd: GeometricE2, endPoint: GeometricE2) {
-        let α = b3(t, this.α, controlBegin.α, controlEnd.α, endPoint.α);
-        let x = b3(t, this.x, controlBegin.x, controlEnd.x, endPoint.x);
-        let y = b3(t, this.y, controlBegin.y, controlEnd.y, endPoint.y);
-        let β = b3(t, this.β, controlBegin.β, controlEnd.β, endPoint.β);
-        this.α = α;
-        this.x = x;
-        this.y = y;
-        this.β = β;
-        return this;
+    mul(rhs: G2): G2 {
+        const a0 = this.α
+        const a1 = this.x
+        const a2 = this.y
+        const a3 = this.β
+        const b0 = rhs.α
+        const b1 = rhs.x
+        const b2 = rhs.y
+        const b3 = rhs.β
+        // TODO: Split into four functions to avoid conditionals or inline.
+        const c0 = mulE2(a0, a1, a2, a3, b0, b1, b2, b3, 0)
+        const c1 = mulE2(a0, a1, a2, a3, b0, b1, b2, b3, 1)
+        const c2 = mulE2(a0, a1, a2, a3, b0, b1, b2, b3, 2)
+        const c3 = mulE2(a0, a1, a2, a3, b0, b1, b2, b3, 3)
+        return new G2(c0, c1, c2, c3, Unit.mul(this.uom, rhs.uom))
     }
 
-    /**
-     * <p>
-     * <code>this ⟼ this / magnitude(this)</code>
-     * </p>
-     * @method direction
-     * @return {G2} <code>this</code>
-     * @chainable
-     */
-    direction(): G2 {
-        const norm = sqrt(this.squaredNormSansUnits())
-        this.α = this.α / norm
-        this.x = this.x / norm
-        this.y = this.y / norm
-        this.β = this.β / norm
-        return this
+    __mul__(other: any): G2 {
+        if (other instanceof G2) {
+            return this.mul(other);
+        }
+        else if (typeof other === 'number') {
+            return this.mul(new G2(other, 0, 0, 0, undefined));
+        }
     }
 
-    /**
-     * <p>
-     * <code>this ⟼ this / m</code>
-     * </p>
-     * @method div
-     * @param m {GeometricE2}
-     * @return {G2} <code>this</code>
-     * @chainable
-     */
-    div(m: GeometricE2): G2 {
-        return this.div2(this, m)
+    __rmul__(other: any): G2 {
+        if (other instanceof G2) {
+            var lhs: G2 = other;
+            return lhs.mul(this);
+        }
+        else if (typeof other === 'number') {
+            var w: number = other;
+            return new G2(w, 0, 0, 0, undefined).mul(this);
+        }
     }
 
-    /**
-     * <p>
-     * <code>this ⟼ a / b</code>
-     * </p>
-     * @method div2
-     * @param a {GeometricE2}
-     * @param b {GeometricE2}
-     * @return {G2} <code>this</code>
-     * @chainable
-     */
-    div2(a: SpinorE2, b: SpinorE2): G2 {
-        // FIXME: Generalize
-        return this;
+    scale(α: number): G2 {
+        return new G2(this.α * α, this.x * α, this.y * α, this.β * α, this.uom);
     }
 
-    /**
-     * <p>
-     * <code>this ⟼ this / α</code>
-     * </p>
-     * @method divByScalar
-     * @param α {number}
-     * @return {G2} <code>this</code>
-     * @chainable
-     */
+    div(rhs: G2): G2 {
+        return this.mul(rhs.inv())
+    }
+
     divByScalar(α: number): G2 {
-        mustBeNumber('α', α)
-        this.α /= α
-        this.x /= α
-        this.y /= α
-        this.β /= α
+        return new G2(this.α / α, this.x / α, this.y / α, this.β / α, this.uom);
+    }
+
+    __div__(other: any): G2 {
+        if (other instanceof G2) {
+            return this.div(other);
+        }
+        else if (typeof other === 'number') {
+            var w: number = other;
+            return this.div(new G2(w, 0, 0, 0, undefined));
+        }
+    }
+
+    __rdiv__(other: number | G2): G2 {
+        if (other instanceof G2) {
+            return other.div(this);
+        }
+        else if (typeof other === 'number') {
+            return new G2(other, 0, 0, 0, undefined).div(this);
+        }
+    }
+
+    scp(rhs: G2): G2 {
+
+        const a0 = this.α
+        const a1 = this.x
+        const a2 = this.y
+        const a3 = this.β
+
+        const b0 = rhs.α
+        const b1 = rhs.x
+        const b2 = rhs.y
+        const b3 = rhs.β
+
+        const c0 = scpE2(a0, a1, a2, a3, b0, b1, b2, b3, 0)
+        return new G2(c0, 0, 0, 0, Unit.mul(this.uom, rhs.uom))
+    }
+
+    private static ext(a: number[], b: number[]): number[] {
+        const a0: number = a[0];
+        const a1: number = a[1];
+        const a2: number = a[2];
+        const a3: number = a[3];
+        const b0: number = b[0];
+        const b1: number = b[1];
+        const b2: number = b[2];
+        const b3: number = b[3];
+        const x0: number = extE2(a0, a1, a2, a3, b0, b1, b2, b3, 0);
+        const x1: number = extE2(a0, a1, a2, a3, b0, b1, b2, b3, 1);
+        const x2: number = extE2(a0, a1, a2, a3, b0, b1, b2, b3, 2);
+        const x3: number = extE2(a0, a1, a2, a3, b0, b1, b2, b3, 3);
+        return [x0, x1, x2, x3];
+    }
+
+    ext(rhs: G2): G2 {
+        var xs = G2.ext(this.coords, rhs.coords);
+        return new G2(xs[0], xs[1], xs[2], xs[3], Unit.mul(this.uom, rhs.uom));
+    }
+
+    __wedge__(other: any): G2 {
+        if (other instanceof G2) {
+            var rhs: G2 = other;
+            return this.ext(rhs);
+        }
+        else if (typeof other === 'number') {
+            var w: number = other;
+            return this.ext(new G2(w, 0, 0, 0, undefined));
+        }
+    }
+
+    __rwedge__(other: any): G2 {
+        if (other instanceof G2) {
+            var lhs: G2 = other;
+            return lhs.ext(this);
+        }
+        else if (typeof other === 'number') {
+            var w: number = other;
+            return new G2(w, 0, 0, 0, undefined).ext(this);
+        }
+    }
+
+    private static lshift(a: number[], b: number[]): number[] {
+        var a0 = a[0];
+        var a1 = a[1];
+        var a2 = a[2];
+        var a3 = a[3];
+        var b0 = b[0];
+        var b1 = b[1];
+        var b2 = b[2];
+        var b3 = b[3];
+        var x0 = lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 0);
+        var x1 = lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 1);
+        var x2 = lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 2);
+        var x3 = lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 3);
+        return [x0, x1, x2, x3];
+    }
+
+    lerp(target: G2, α: number): G2 {
+        throw new Error(notImplemented('lerp').message)
+    }
+
+    lco(rhs: G2): G2 {
+        var xs = G2.lshift(this.coords, rhs.coords);
+        return new G2(xs[0], xs[1], xs[2], xs[3], Unit.mul(this.uom, rhs.uom));
+    }
+
+    __lshift__(other: any): G2 {
+        if (other instanceof G2) {
+            var rhs: G2 = other;
+            return this.lco(rhs);
+        }
+        else if (typeof other === 'number') {
+            var w: number = other;
+            return this.lco(new G2(w, 0, 0, 0, undefined));
+        }
+    }
+
+    __rlshift__(other: any): G2 {
+        if (other instanceof G2) {
+            var lhs: G2 = other;
+            return lhs.lco(this);
+        }
+        else if (typeof other === 'number') {
+            var w: number = other;
+            return new G2(w, 0, 0, 0, undefined).lco(this);
+        }
+    }
+
+    private static rshift(a: number[], b: number[]): number[] {
+        var a0 = a[0];
+        var a1 = a[1];
+        var a2 = a[2];
+        var a3 = a[3];
+        var b0 = b[0];
+        var b1 = b[1];
+        var b2 = b[2];
+        var b3 = b[3];
+        var x0 = rcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 0);
+        var x1 = rcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 1);
+        var x2 = rcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 2);
+        var x3 = rcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 3);
+        return [x0, x1, x2, x3];
+    }
+
+    rco(rhs: G2): G2 {
+        var xs = G2.rshift(this.coords, rhs.coords);
+        return new G2(xs[0], xs[1], xs[2], xs[3], Unit.mul(this.uom, rhs.uom));
+    }
+
+    __rshift__(other: any): G2 {
+        if (other instanceof G2) {
+            return this.rco(other);
+        }
+        else if (typeof other === 'number') {
+            return this.rco(new G2(other, 0, 0, 0, undefined));
+        }
+    }
+
+    __rrshift__(other: any): G2 {
+        if (other instanceof G2) {
+            return (<G2>other).rco(this);
+        }
+        else if (typeof other === 'number') {
+            return new G2(other, 0, 0, 0, undefined).rco(this);
+        }
+    }
+
+    __vbar__(other: any): G2 {
+        if (other instanceof G2) {
+            return this.scp(other);
+        }
+        else if (typeof other === 'number') {
+            return this.scp(new G2(other, 0, 0, 0, undefined));
+        }
+    }
+
+    __rvbar__(other: any): G2 {
+        if (other instanceof G2) {
+            return (<G2>other).scp(this);
+        }
+        else if (typeof other === 'number') {
+            return new G2(other, 0, 0, 0, undefined).scp(this);
+        }
+    }
+
+    pow(exponent: G2): G2 {
+        throw new Error(notImplemented('pow').message)
+    }
+
+    __bang__(): G2 {
+        return this.inv()
+    }
+
+    __pos__(): G2 {
         return this
     }
 
-    /**
-     * <p>
-     * <code>this ⟼ dual(m) = I * m</code>
-     * </p>
-     * @method dual
-     * @param m {GeometricE2}
-     * @return {G2} <code>this</code>
-     * @chainable
-     */
-    dual(m: GeometricE2) {
-        let w = -m.β
-        let x = +m.y
-        let y = -m.x
-        let β = +m.α
+    neg(): G2 {
+        return new G2(-this.α, -this.x, -this.y, -this.β, this.uom)
+    }
 
-        this.α = w
-        this.x = x
-        this.y = y
-        this.β = β
-        return this
+    __neg__(): G2 {
+        return this.neg()
     }
 
     /**
-     * <p>
-     * <code>this ⟼ e<sup>this</sup></code>
-     * </p>
-     * @method exp
-     * @return {G2} <code>this</code>
-     * @chainable
+     * ~ (tilde) produces reversion.
      */
-    exp() {
-        let w = this.α
-        let z = this.β
-        let expW = exp(w)
-        // φ is actually the absolute value of one half the rotation angle.
-        // The orientation of the rotation gets carried in the bivector components.
-        let φ = sqrt(z * z)
-        let s = expW * (φ !== 0 ? sin(φ) / φ : 1)
-        this.α = expW * cos(φ)
-        this.β = z * s
-        return this
+    __tilde__(): G2 {
+        return this.rev()
+    }
+
+    grade(grade: number): G2 {
+        switch (grade) {
+            case 0:
+                return new G2(this.α, 0, 0, 0, this.uom);
+            case 1:
+                return new G2(0, this.x, this.y, 0, this.uom);
+            case 2:
+                return new G2(0, 0, 0, this.β, this.uom);
+            default:
+                return new G2(0, 0, 0, 0, this.uom);
+        }
+    }
+
+    cos(): G2 {
+        throw new Error(notImplemented('cos').message)
+    }
+
+    cosh(): G2 {
+        throw new Error(notImplemented('cosh').message)
+    }
+
+    exp(): G2 {
+        Unit.assertDimensionless(this.uom)
+        const expα = Math.exp(this.α)
+        const cosβ = Math.cos(this.β)
+        const sinβ = Math.sin(this.β)
+        return new G2(expα * cosβ, 0, 0, expα * sinβ, this.uom)
     }
 
     /**
-     * <p>
-     * <code>this ⟼ this ^ m</code>
-     * </p>
-     * @method ext
-     * @param m {GeometricE2}
-     * @return {G2} <code>this</code>
-     * @chainable
-     */
-    ext(m: GeometricE2): G2 {
-        return this.ext2(this, m)
-    }
-
-    /**
-     * <p>
-     * <code>this ⟼ a ^ b</code>
-     * </p>
-     * @method ext2
-     * @param a {GeometricE2}
-     * @param b {GeometricE2}
-     * @return {G2} <code>this</code>
-     * @chainable
-     */
-    ext2(a: GeometricE2, b: GeometricE2): G2 {
-        let a0 = a.α
-        let a1 = a.x
-        let a2 = a.y
-        let a3 = a.β
-        let b0 = b.α
-        let b1 = b.x
-        let b2 = b.y
-        let b3 = b.β
-        this.α = extE2(a0, a1, a2, a3, b0, b1, b2, b3, 0)
-        this.x = extE2(a0, a1, a2, a3, b0, b1, b2, b3, 1)
-        this.y = extE2(a0, a1, a2, a3, b0, b1, b2, b3, 2)
-        this.β = extE2(a0, a1, a2, a3, b0, b1, b2, b3, 3)
-        return this
-    }
-
-    /**
-     * <p>
-     * <code>this ⟼ conj(this) / quad(this)</code>
-     * </p>
+     * Computes the <em>inverse</em> of this multivector, if it exists.
+     *
      * @method inv
-     * @return {G2} <code>this</code>
-     * @chainable
+     * @return {G2}
      */
     inv(): G2 {
-        // FIXME: TODO
-        this.conj()
-        // this.divByScalar(this.squaredNorm());
-        return this
+
+        const α = this.α
+        const x = this.x
+        const y = this.y
+        const β = this.β
+
+        const A = [
+            [α, x, y, -β],
+            [x, α, β, -y],
+            [y, -β, α, x],
+            [β, -y, x, α]
+        ]
+        const b = [1, 0, 0, 0]
+
+        const X = gauss(A, b)
+        const uom = this.uom ? this.uom.inv() : void 0
+        return new G2(X[0], X[1], X[2], X[3], uom);
     }
 
-    /**
-     * @method isOne
-     * @return {boolean}
-     */
-    isOne(): boolean {
-        return this.α === 1 && this.x === 0 && this.y === 0 && this.β === 0
-    }
-
-    /**
-     * @method isZero
-     * @return {boolean}
-     */
-    isZero(): boolean {
-        return this.α === 0 && this.x === 0 && this.y === 0 && this.β === 0
-    }
-
-    /**
-     * <p>
-     * <code>this ⟼ this << m</code>
-     * </p>
-     * @method lco
-     * @param m {GeometricE2}
-     * @return {G2} <code>this</code>
-     * @chainable
-     */
-    lco(m: GeometricE2): G2 {
-        return this.lco2(this, m)
-    }
-
-    /**
-     * <p>
-     * <code>this ⟼ a << b</code>
-     * </p>
-     * @method lco2
-     * @param a {GeometricE2}
-     * @param b {GeometricE2}
-     * @return {G2} <code>this</code>
-     * @chainable
-     */
-    lco2(a: GeometricE2, b: GeometricE2): G2 {
-        let a0 = a.α
-        let a1 = a.x
-        let a2 = a.y
-        let a3 = a.β
-        let b0 = b.α
-        let b1 = b.x
-        let b2 = b.y
-        let b3 = b.β
-        this.α = lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 0)
-        this.x = lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 1)
-        this.y = lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 2)
-        this.β = lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 3)
-        return this
-    }
-
-    /**
-     * <p>
-     * <code>this ⟼ this + α * (target - this)</code>
-     * </p>
-     * @method lerp
-     * @param target {GeometricE2}
-     * @param α {number}
-     * @return {G2} <code>this</code>
-     * @chainable
-     */
-    lerp(target: GeometricE2, α: number): G2 {
-        mustBeObject('target', target)
-        mustBeNumber('α', α)
-        this.α += (target.α - this.α) * α;
-        this.x += (target.x - this.x) * α;
-        this.y += (target.y - this.y) * α;
-        this.β += (target.β - this.β) * α;
-        return this;
-    }
-
-    /**
-     * <p>
-     * <code>this ⟼ a + α * (b - a)</code>
-     * </p>
-     * @method lerp2
-     * @param a {GeometricE2}
-     * @param b {GeometricE2}
-     * @param α {number}
-     * @return {G2} <code>this</code>
-     * @chainable
-     */
-    lerp2(a: GeometricE2, b: GeometricE2, α: number): G2 {
-        mustBeObject('a', a)
-        mustBeObject('b', b)
-        mustBeNumber('α', α)
-        this.copy(a).lerp(b, α)
-        return this
-    }
-
-    /**
-     * <p>
-     * <code>this ⟼ log(sqrt(w * w + β * β)) + <b>e</b><sub>1</sub><b>e</b><sub>2</sub> * atan2(β, w)</code>
-     * </p>
-     * @method log
-     * @return {G2} <code>this</code>
-     * @chainable
-     */
-    log() {
-        // FIXME: This only handles the spinor components.
-        let α = this.α
-        let β = this.β
-        this.α = log(sqrt(α * α + β * β))
-        this.x = 0
-        this.y = 0
-        this.β = atan2(β, α)
-        return this;
+    log(): G2 {
+        throw new Error(notImplemented('log').message)
     }
 
     /**
      * Computes the <em>square root</em> of the <em>squared norm</em>.
+     *
      * @method magnitude
      * @return {G2}
      */
@@ -726,1031 +894,200 @@ export default class G2 extends VectorN<number> implements GeometricE2, Measure<
     }
 
     magnitudeSansUnits(): number {
-        return sqrt(this.squaredNormSansUnits());
+        return Math.sqrt(this.squaredNormSansUnits())
     }
 
-    /**
-     * <p>
-     * <code>this ⟼ this * s</code>
-     * </p>
-     * @method mul
-     * @param m {GeometricE2}
-     * @return {G2} <code>this</code>
-     * @chainable
-     */
-    mul(m: GeometricE2): G2 {
-        return this.mul2(this, m)
-    }
-
-    /**
-     * <p>
-     * <code>this ⟼ a * b</code>
-     * </p>
-     * @method mul2
-     * @param a {GeometricE2}
-     * @param b {GeometricE2}
-     * @return {G2} <code>this</code>
-     * @chainable
-     */
-    mul2(a: GeometricE2, b: GeometricE2) {
-        let a0 = a.α
-        let a1 = a.x
-        let a2 = a.y
-        let a3 = a.β
-        let b0 = b.α
-        let b1 = b.x
-        let b2 = b.y
-        let b3 = b.β
-        this.α = mulE2(a0, a1, a2, a3, b0, b1, b2, b3, 0)
-        this.x = mulE2(a0, a1, a2, a3, b0, b1, b2, b3, 1)
-        this.y = mulE2(a0, a1, a2, a3, b0, b1, b2, b3, 2)
-        this.β = mulE2(a0, a1, a2, a3, b0, b1, b2, b3, 3)
-        return this
-    }
-
-    /**
-     * <p>
-     * <code>this ⟼ -1 * this</code>
-     * </p>
-     * @method neg
-     * @return {G2} <code>this</code>
-     * @chainable
-     */
-    neg() {
-        this.α = -this.α
-        this.x = -this.x
-        this.y = -this.y
-        this.β = -this.β
-        return this;
-    }
-
-    /**
-     * <p>
-     * <code>this ⟼ sqrt(this * conj(this))</code>
-     * </p>
-     * @method norm
-     * @return {G2} <code>this</code>
-     * @chainable
-     */
     norm(): G2 {
-        this.α = this.magnitudeSansUnits()
-        this.x = 0
-        this.y = 0
-        this.β = 0
-        return this
+        return new G2(this.magnitudeSansUnits(), 0, 0, 0, this.uom);
     }
 
-    /**
-     * Sets this multivector to the identity element for multiplication, <b>1</b>.
-     * @method one
-     * @return {G2}
-     * @chainable
-     */
-    one() {
-        this.α = 1
-        this.x = 0
-        this.y = 0
-        this.β = 0
-        return this
-    }
-
-    pow(): G2 {
-        throw new Error("TODO: G2.pow")
-    }
-
-    /**
-     * <p>
-     * Updates <code>this</code> target to be the <em>quad</em> or <em>squared norm</em> of the target.
-     * </p>
-     * <p>
-     * <code>this ⟼ scp(this, rev(this)) = this | ~this</code>
-     * </p>
-     * @method quad
-     * @return {G2} <code>this</code>
-     * @chainable
-     */
     quad(): G2 {
-        this.α = this.squaredNormSansUnits()
-        this.x = 0
-        this.y = 0
-        this.β = 0
-        return this
+        return this.squaredNorm();
     }
 
-    /**
-     * @method quadraticBezier
-     * @param t {number}
-     * @param controlPoint {GeometricE2}
-     * @param endPoint {GeometricE2}
-     * @return {G2}
-     */
     quadraticBezier(t: number, controlPoint: GeometricE2, endPoint: GeometricE2) {
-        let α = b2(t, this.α, controlPoint.α, endPoint.α);
-        let x = b2(t, this.x, controlPoint.x, endPoint.x);
-        let y = b2(t, this.y, controlPoint.y, endPoint.y);
-        let β = b2(t, this.β, controlPoint.β, endPoint.β);
-        this.α = α;
-        this.x = x;
-        this.y = y;
-        this.β = β;
-        return this;
+        const α = b2(t, this.α, controlPoint.α, endPoint.α)
+        const x = b2(t, this.x, controlPoint.x, endPoint.x)
+        const y = b2(t, this.y, controlPoint.y, endPoint.y)
+        const β = b2(t, this.β, controlPoint.β, endPoint.β)
+        return new G2(α, x, y, β, this.uom);
     }
 
-    /**
-     * <p>
-     * <code>this ⟼ this >> m</code>
-     * </p>
-     * @method rco
-     * @param m {GeometricE2}
-     * @return {G2} <code>this</code>
-     * @chainable
-     */
-    rco(m: GeometricE2): G2 {
-        return this.rco2(this, m)
-    }
-
-    /**
-     * <p>
-     * <code>this ⟼ a >> b</code>
-     * </p>
-     * @method rco2
-     * @param a {GeometricE2}
-     * @param b {GeometricE2}
-     * @return {G2} <code>this</code>
-     * @chainable
-     */
-    rco2(a: GeometricE2, b: GeometricE2): G2 {
-        let a0 = a.α
-        let a1 = a.x
-        let a2 = a.y
-        let a3 = a.β
-        let b0 = b.α
-        let b1 = b.x
-        let b2 = b.y
-        let b3 = b.β
-        this.α = rcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 0)
-        this.x = rcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 1)
-        this.y = rcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 2)
-        this.β = rcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 3)
-        return this
-    }
-
-    /**
-     * <p>
-     * <code>this ⟼ - n * this * n</code>
-     * </p>
-     * @method reflect
-     * @param n {VectorE2}
-     * @return {G2} <code>this</code>
-     * @chainable
-     */
-    reflect(n: VectorE2): G2 {
-        // TODO: Optimize.
-        mustBeObject('n', n);
-        let N = Euclidean2.fromVectorE2(n);
-        let M = Euclidean2.copy(this);
-        let R = N.mul(M).mul(N).scale(-1);
-        this.copy(R);
-        return this;
-    }
-
-    /**
-     * <p>
-     * <code>this ⟼ rev(this)</code>
-     * </p>
-     * @method reverse
-     * @return {G2} <code>this</code>
-     * @chainable
-     */
-    rev(): G2 {
-        // reverse has a ++-- structure.
-        this.α = this.α
-        this.x = this.x
-        this.y = this.y
-        this.β = -this.β
-        return this
-    }
-
-    sin(): G2 {
-        throw new Error("G2.sin")
-    }
-
-    sinh(): G2 {
-        throw new Error("G2.sinh")
-    }
-
-    /**
-     * <p>
-     * <code>this ⟼ R * this * rev(R)</code>
-     * </p>
-     * @method rotate
-     * @param R {SpinorE2}
-     * @return {G2} <code>this</code>
-     * @chainable
-     */
-    rotate(R: SpinorE2): G2 {
-        mustBeObject('R', R);
-
-        const x = this.x;
-        const y = this.y;
-
-        const β = R.β;
-        const α = R.α;
-
-        const ix = α * x + β * y;
-        const iy = α * y - β * x;
-
-        this.x = ix * α + iy * β;
-        this.y = iy * α - ix * β;
-
-        return this;
-    }
-
-    /**
-     * Sets this multivector to a rotation from vector <code>a</code> to vector <code>b</code>.
-     * @method rotorFromDirections
-     * @param a {VectorE2} The starting vector
-     * @param b {VectorE2} The ending vector
-     * @return {G2} <code>this</code> The rotor representing a rotation from a to b.
-     * @chainable
-     */
-    rotorFromDirections(a: VectorE2, b: VectorE2): G2 {
-        if (isDefined(rotorFromDirections(a, b, quadVector, dotVector, this))) {
-            return this;
-        }
-        else {
-            // In two dimensions, the rotation plane is not ambiguous.
-            // FIXME: This is a bit dubious.
-            // Probably better to make undefined a first-class concept.
-            this.rotorFromGeneratorAngle(G2.I, PI)
-        }
-        return this;
-    }
-
-    /**
-     * <p>
-     * <code>this = ⟼ exp(- B * θ / 2)</code>
-     * </p>
-     * @method rotorFromGeneratorAngle
-     * @param B {SpinorE2}
-     * @param θ {number}
-     * @return {G2} <code>this</code>
-     */
-    rotorFromGeneratorAngle(B: SpinorE2, θ: number): G2 {
-        mustBeObject('B', B)
-        mustBeNumber('θ', θ)
-        // We assume that B really is just a bivector
-        // by ignoring scalar and vector components.
-        // Normally, B will have unit magnitude and B * B => -1.
-        // However, we don't assume that is the case.
-        // The effect will be a scaling of the angle.
-        // A non unitary rotor, on the other hand, will scale the transformation.
-        // We must also take into account the orientation of B.
-        const β = B.β
-        /**
-         * Sandwich operation means we need the half-angle.
-         */
-        const φ = θ / 2
-        /**
-         * scalar part = cos(|B| * θ / 2)
-         */
-        this.α = cos(abs(β) * φ)
-        this.x = 0
-        this.y = 0
-        /**
-         * pseudo part = -unit(B) * sin(|B| * θ / 2)
-         */
-        this.β = -sin(β * φ)
-        return this
-    }
-
-    /**
-     * <p>
-     * <code>this ⟼ scp(this, m)</code>
-     * </p>
-     * @method scp
-     * @param m {GeometricE2}
-     * @return {G2} <code>this</code>
-     * @chainable
-     */
-    scp(m: GeometricE2): G2 {
-        return this.scp2(this, m)
-    }
-
-    /**
-     * <p>
-     * <code>this ⟼ scp(a, b)</code>
-     * </p>
-     * @method scp2
-     * @param a {GeometricE2}
-     * @param b {GeometricE2}
-     * @return {G2} <code>this</code>
-     * @chainable
-     */
-    scp2(a: GeometricE2, b: GeometricE2) {
-        this.α = scpE2(a.α, a.x, a.y, a.β, b.α, b.x, b.y, b.β, 0)
-        this.x = 0
-        this.y = 0
-        this.β = 0
-        return this
-    }
-
-    /**
-     * <p>
-     * <code>this ⟼ this * α</code>
-     * </p>
-     * @method scale
-     * @param α {number} 
-     */
-    scale(α: number): G2 {
-        mustBeNumber('α', α)
-        this.α *= α
-        this.x *= α
-        this.y *= α
-        this.β *= α
-        return this
-    }
-
-    slerp(target: GeometricE2, α: number): G2 {
-        mustBeObject('target', target)
-        mustBeNumber('α', α)
-        return this;
-    }
-
-    /**
-     * <p>
-     * <code>this ⟼ a * b = a · b + a ^ b</code>
-     * </p>
-     * Sets this G2 to the geometric product a * b of the vector arguments. 
-     * @method spinor
-     * @param a {VectorE2}
-     * @param b {VectorE2}
-     * @return {G2} <code>this</code>
-     */
-    spinor(a: VectorE2, b: VectorE2) {
-        let ax = a.x
-        let ay = a.y
-        let bx = b.x
-        let by = b.y
-
-        this.α = dotVector(a, b)
-        this.x = 0
-        this.y = 0
-        this.β = wedgeXY(ax, ay, 0, bx, by, 0) // FIXME wedgeVectorsE2
-
-        return this
-    }
-
-    /**
-     * Computes the <em>squared norm</em> of this <code>G2</code> multivector. 
-     * @method squaredNorm
-     * @return {number} <code>this | ~this</code>
-     */
-    squaredNorm(): G2 {
-        this.α = this.squaredNormSansUnits()
-        this.x = 0
-        this.y = 0
-        this.β = 0
-        return this
-    }
-
-    squaredNormSansUnits(): number {
-        let w = this.α
-        let x = this.x
-        let y = this.y
-        let B = this.β
-        return w * w + x * x + y * y + B * B
-    }
-
-    /**
-     * <p>
-     * <code>this ⟼ this - M * α</code>
-     * </p>
-     * @method sub
-     * @param M {GeometricE2}
-     * @param [α = 1] {number}
-     * @return {G2} <code>this</code>
-     * @chainable
-     */
-    sub(M: GeometricE2, α = 1): G2 {
-        mustBeObject('M', M)
-        mustBeNumber('α', α)
-        this.α -= M.α * α
-        this.x -= M.x * α
-        this.y -= M.y * α
-        this.β -= M.β * α
-        return this
-    }
-
-    /**
-     * <p>
-     * <code>this ⟼ a - b</code>
-     * </p>
-     * @method sub2
-     * @param a {GeometricE2}
-     * @param b {GeometricE2}
-     * @return {G2} <code>this</code>
-     * @chainable
-     */
-    sub2(a: GeometricE2, b: GeometricE2): G2 {
-        mustBeObject('a', a)
-        mustBeObject('b', b)
-        this.α = a.α - b.α
-        this.x = a.x - b.x
-        this.y = a.y - b.y
-        this.β = a.β - b.β
-        return this
-    }
-
-    /**
-     * Returns a string representing the number in exponential notation.
-     * @method toExponential
-     * @return {string}
-     */
-    toExponential(): string {
-        var coordToString = function(coord: number): string { return coord.toExponential() };
-        return stringFromCoordinates(coordinates(this), coordToString, G2.BASIS_LABELS)
-    }
-
-    /**
-     * Returns a string representing the number in fixed-point notation.
-     * @method toFixed
-     * @param [fractionDigits] {number}
-     * @return {string}
-     */
-    toFixed(fractionDigits?: number): string {
-        const coordToString = function(coord: number): string { return coord.toFixed(fractionDigits) };
-        return stringFromCoordinates(coordinates(this), coordToString, G2.BASIS_LABELS)
-    }
-
-    /**
-     * Returns a string representation of the number.
-     * @method toString
-     * @return {string} 
-     */
-    toString(): string {
-        const coordToString = function(coord: number): string { return coord.toString() };
-        return stringFromCoordinates(coordinates(this), coordToString, G2.BASIS_LABELS)
-    }
-
-    /**
-     * @method grade
-     * @param grade {number}
-     * @return {G2} <code>this</code>
-     * @chainable
-     */
-    grade(grade: number): G2 {
-        mustBeInteger('grade', grade)
-        switch (grade) {
-            case 0: {
-                this.x = 0;
-                this.y = 0;
-                this.β = 0;
-            }
-                break;
-            case 1: {
-                this.α = 0;
-                this.β = 0;
-            }
-                break;
-            case 2: {
-                this.α = 0;
-                this.x = 0;
-                this.y = 0;
-            }
-                break;
-            default: {
-                this.α = 0;
-                this.x = 0;
-                this.y = 0;
-                this.β = 0;
-            }
-        }
-        return this;
-    }
-
-    /**
-     * Sets this multivector to the identity element for addition, <b>0</b>.
-     * @method zero
-     * @return {G2}
-     * @chainable
-     */
-    zero(): G2 {
-        this.α = 0
-        this.x = 0
-        this.y = 0
-        this.β = 0
-        return this
-    }
-
-    /**
-     * @method __add__
-     * @param rhs {any}
-     * @return {G2}
-     * @private
-     */
-    __add__(rhs: any) {
-        if (rhs instanceof G2) {
-            return G2.copy(this).add(rhs)
-        }
-        else if (typeof rhs === 'number') {
-            // Addition commutes, but addScalar might be useful.
-            return G2.fromScalar(rhs).add(this)
-        }
-        else {
-            let rhsCopy = duckCopy(rhs)
-            if (rhsCopy) {
-                // rhs is a copy and addition commutes.
-                return rhsCopy.add(this)
-            }
-            else {
-                return void 0
-            }
-        }
-    }
-
-    /**
-     * @method __div__
-     * @param rhs {any}
-     * @return {G2}
-     * @private
-     */
-    __div__(rhs: any) {
-        if (rhs instanceof G2) {
-            return G2.copy(this).div(rhs)
-        }
-        else if (typeof rhs === 'number') {
-            return G2.copy(this).divByScalar(rhs)
-        }
-        else {
-            return void 0
-        }
-    }
-
-    /**
-     * @method __rdiv__
-     * @param lhs {any}
-     * @return {G2}
-     * @private
-     */
-    __rdiv__(lhs: any) {
-        if (lhs instanceof G2) {
-            return G2.copy(lhs).div(this)
-        }
-        else if (typeof lhs === 'number') {
-            return G2.fromScalar(lhs).div(this)
-        }
-        else {
-            return void 0
-        }
-    }
-
-    /**
-     * @method __mul__
-     * @param rhs {any}
-     * @return {G2}
-     * @private
-     */
-    __mul__(rhs: any): G2 {
-        if (rhs instanceof G2) {
-            return G2.copy(this).mul(rhs)
-        }
-        else if (typeof rhs === 'number') {
-            return G2.copy(this).scale(rhs)
-        }
-        else {
-            let rhsCopy = duckCopy(rhs)
-            if (rhsCopy) {
-                // rhsCopy is a copy but multiplication does not commute.
-                // If we had rmul then we could mutate the rhs!
-                return this.__mul__(rhsCopy);
-            }
-            else {
-                return void 0
-            }
-        }
-    }
-
-    /**
-     * @method __rmul__
-     * @param lhs {any}
-     * @return {G2}
-     * @private
-     */
-    __rmul__(lhs: any) {
-        if (lhs instanceof G2) {
-            return G2.copy(lhs).mul(this)
-        }
-        else if (typeof lhs === 'number') {
-            return G2.copy(this).scale(lhs)
-        }
-        else {
-            let lhsCopy = duckCopy(lhs)
-            if (lhsCopy) {
-                // lhs is a copy, so we can mutate it, and use it on the left.
-                return lhsCopy.mul(this)
-            }
-            else {
-                return void 0
-            }
-        }
-    }
-
-    /**
-     * @method __radd__
-     * @param lhs {any}
-     * @return {G2}
-     * @private
-     */
-    __radd__(lhs: any) {
-        if (lhs instanceof G2) {
-            return G2.copy(lhs).add(this)
-        }
-        else if (typeof lhs === 'number') {
-            return G2.fromScalar(lhs).add(this)
-        }
-        else {
-            let lhsCopy = duckCopy(lhs)
-            if (lhsCopy) {
-                // lhs is a copy, so we can mutate it.
-                return lhsCopy.add(this)
-            }
-            else {
-                return void 0
-            }
-        }
-    }
-
-    /**
-     * @method __sub__
-     * @param rhs {any}
-     * @return {G2}
-     * @private
-     */
-    __sub__(rhs: any) {
-        if (rhs instanceof G2) {
-            return G2.copy(this).sub(rhs)
-        }
-        else if (typeof rhs === 'number') {
-            return G2.fromScalar(-rhs).add(this)
-        }
-        else {
-            return void 0
-        }
-    }
-
-    /**
-     * @method __rsub__
-     * @param lhs {any}
-     * @return {G2}
-     * @private
-     */
-    __rsub__(lhs: any) {
-        if (lhs instanceof G2) {
-            return G2.copy(lhs).sub(this)
-        }
-        else if (typeof lhs === 'number') {
-            return G2.fromScalar(lhs).sub(this)
-        }
-        else {
-            return void 0
-        }
-    }
-
-    /**
-     * @method __wedge__
-     * @param rhs {any}
-     * @return {G2}
-     * @private
-     */
-    __wedge__(rhs: any) {
-        if (rhs instanceof G2) {
-            return G2.copy(this).ext(rhs)
-        }
-        else if (typeof rhs === 'number') {
-            // The outer product with a scalar is simply scalar multiplication.
-            return G2.copy(this).scale(rhs)
-        }
-        else {
-            return void 0
-        }
-    }
-
-    /**
-     * @method __rwedge__
-     * @param lhs {any}
-     * @return {G2}
-     * @private
-     */
-    __rwedge__(lhs: any) {
-        if (lhs instanceof G2) {
-            return G2.copy(lhs).ext(this)
-        }
-        else if (typeof lhs === 'number') {
-            // The outer product with a scalar is simply scalar multiplication, and commutes.
-            return G2.copy(this).scale(lhs)
-        }
-        else {
-            return void 0
-        }
-    }
-
-    /**
-     * @method __lshift__
-     * @param other {any}
-     * @return {G2}
-     * @private
-     */
-    __lshift__(rhs: any) {
-        if (rhs instanceof G2) {
-            return G2.copy(this).lco(rhs)
-        }
-        else if (typeof rhs === 'number') {
-            return G2.copy(this).lco(G2.fromScalar(rhs))
-        }
-        else {
-            return void 0
-        }
-    }
-
-    /**
-     * @method __rlshift__
-     * @param other {any}
-     * @return {G2}
-     * @private
-     */
-    __rlshift__(lhs: any) {
-        if (lhs instanceof G2) {
-            return G2.copy(lhs).lco(this)
-        }
-        else if (typeof lhs === 'number') {
-            return G2.fromScalar(lhs).lco(this)
-        }
-        else {
-            return void 0
-        }
-    }
-
-    /**
-     * @method __rshift__
-     * @param rhs {any}
-     * @return {G2}
-     * @private
-     */
-    __rshift__(rhs: any) {
-        if (rhs instanceof G2) {
-            return G2.copy(this).rco(rhs)
-        }
-        else if (typeof rhs === 'number') {
-            return G2.copy(this).rco(G2.fromScalar(rhs))
-        }
-        else {
-            return void 0
-        }
-    }
-
-    /**
-     * @method __rrshift__
-     * @param lhs {any}
-     * @return {G2}
-     * @private
-     */
-    __rrshift__(lhs: any) {
-        if (lhs instanceof G2) {
-            return G2.copy(lhs).rco(this)
-        }
-        else if (typeof lhs === 'number') {
-            return G2.fromScalar(lhs).rco(this)
-        }
-        else {
-            return void 0
-        }
-    }
-
-    /**
-     * @method __vbar__
-     * @param rhs {any}
-     * @return {G2}
-     * @private
-     */
-    __vbar__(rhs: any) {
-        if (rhs instanceof G2) {
-            return G2.copy(this).scp(rhs)
-        }
-        else if (typeof rhs === 'number') {
-            return G2.copy(this).scp(G2.fromScalar(rhs))
-        }
-        else {
-            return void 0
-        }
-    }
-
-    /**
-     * @method __rvbar__
-     * @param lhs {any}
-     * @return {G2}
-     * @private
-     */
-    __rvbar__(lhs: any) {
-        if (lhs instanceof G2) {
-            return G2.copy(lhs).scp(this)
-        }
-        else if (typeof lhs === 'number') {
-            return G2.fromScalar(lhs).scp(this)
-        }
-        else {
-            return void 0
-        }
-    }
-
-    /**
-     * @method __bang__
-     * @return {G2}
-     * @private
-     * @chainable
-     */
-    __bang__(): G2 {
-        return G2.copy(this).inv()
-    }
-
-    /**
-     * @method __tilde__
-     * @return {G2}
-     * @private
-     * @chainable
-     */
-    __tilde__(): G2 {
-        return G2.copy(this).rev()
-    }
-
-    /**
-     * @method __pos__
-     * @return {G2}
-     * @private
-     * @chainable
-     */
-    __pos__(): G2 {
-        // It's important that we make a copy whenever using operators.
-        return G2.copy(this)/*.pos()*/
-    }
-
-    /**
-     * @method __neg__
-     * @return {G2}
-     * @private
-     * @chainable
-     */
-    __neg__(): G2 {
-        return G2.copy(this).neg()
+    public squaredNorm(): G2 {
+        return new G2(this.squaredNormSansUnits(), 0, 0, 0, Unit.mul(this.uom, this.uom));
     }
 
     /**
      * Intentionally undocumented.
      */
-    static fromCartesian(α: number, x: number, y: number, β: number): G2 {
-        const m = new G2();
-        m.α = α;
-        m.x = x;
-        m.y = y;
-        m.β = β;
-        return m;
+    public squaredNormSansUnits(): number {
+        const α = this.α
+        const x = this.x
+        const y = this.y
+        const β = this.β
+        return α * α + x * x + y * y + β * β
     }
 
     /**
-     * The identity element for addition, <b>0</b>.
-     * @property zero
-     * @type {G2}
-     * @readOnly
-     * @static
+     * Computes the <em>reflection</em> of this multivector in the plane with normal <code>n</code>.
+     *
+     *
+     * @method reflect
+     * @param n {VectorE2}
+     * @return {G2}
      */
-    static zero = G2.fromCartesian(0, 0, 0, 0);
+    reflect(n: VectorE2): G2 {
+        // TODO: Optimize to minimize object creation and increase performance.
+        const m = G2.fromVectorE2(n)
+        return m.mul(this).mul(m).scale(-1)
+    }
+
+    rev(): G2 {
+        return new G2(this.α, this.x, this.y, -this.β, this.uom)
+    }
 
     /**
-     * The identity element for multiplication, <b>1</b>.
-     * @property one
-     * @type {G2}
-     * @readOnly
-     * @static
+     * @method rotate
+     * @param spinor {SpinorE2}
+     * @return {G2}
      */
-    static one = G2.fromCartesian(1, 0, 0, 0);
+    rotate(spinor: SpinorE2): G2 {
+        const x = this.x
+        const y = this.y
+        const α = spinor.α
+        const β = spinor.β
+        const α2 = α * α
+        const β2 = β * β
+        const p = α2 - β2
+        const q = 2 * α * β
+        const s = α2 + β2
+        return new G2(s * this.α, p * x + q * y, p * y - q * x, s * this.β, this.uom)
+    }
+
+    sin(): G2 {
+        throw new Error(notImplemented('sin').message)
+    }
+
+    sinh(): G2 {
+        throw new Error(notImplemented('sinh').message)
+    }
+
+    slerp(target: G2, α: number): G2 {
+        throw new Error(notImplemented('slerp').message)
+    }
 
     /**
-     * Basis vector corresponding to the <code>x</code> coordinate.
-     * @property e1
-     * @type {G2}
-     * @readOnly
-     * @static
+     * @method tan
+     * @return {G2}
      */
-    static e1 = G2.fromCartesian(0, 1, 0, 0);
+    tan(): G2 {
+        return this.sin().div(this.cos())
+    }
+
+    isOne(): boolean { return this.α === 1 && this.x === 0 && this.y === 0 && this.β === 0 }
+    isNaN(): boolean { return isNaN(this.α) || isNaN(this.x) || isNaN(this.y) || isNaN(this.β) }
+    isZero(): boolean { return this.α === 0 && this.x === 0 && this.y === 0 && this.β === 0 }
+
+    toStringCustom(
+        coordToString: (x: number) => string,
+        labels: string[]): string {
+        var quantityString: string = stringFromCoordinates(this.coords, coordToString, labels);
+        if (this.uom) {
+            var unitString = this.uom.toString().trim();
+            if (unitString) {
+                return quantityString + ' ' + unitString;
+            }
+            else {
+                return quantityString;
+            }
+        }
+        else {
+            return quantityString;
+        }
+    }
 
     /**
-     * Basis vector corresponding to the <code>y</code> coordinate.
-     * @property e2
-     * @type {G2}
-     * @readOnly
-     * @static
+     * @method toExponential
+     * @return {string}
      */
-    static e2 = G2.fromCartesian(0, 0, 1, 0);
+    public toExponential(): string {
+        var coordToString = function(coord: number): string { return coord.toExponential() };
+        return this.toStringCustom(coordToString, ["1", "e1", "e2", "e12"]);
+    }
 
     /**
-     * Basis vector corresponding to the <code>β</code> coordinate.
-     * @property I
-     * @type {G2}
-     * @readOnly
-     * @static
+     * @method toFixed
+     * @param [digits] {number}
+     * @return {string}
      */
-    static I = G2.fromCartesian(0, 0, 0, 1);
+    public toFixed(digits?: number): string {
+        var coordToString = function(coord: number): string { return coord.toFixed(digits) };
+        return this.toStringCustom(coordToString, ["1", "e1", "e2", "e12"]);
+    }
+
+    /**
+     * @method toString
+     * @return {string}
+     */
+    public toString(): string {
+        var coordToString = function(coord: number): string { return coord.toString() };
+        return this.toStringCustom(coordToString, ["1", "e1", "e2", "e12"]);
+    }
+
+    toStringIJK(): string {
+        var coordToString = function(coord: number): string { return coord.toString() };
+        return this.toStringCustom(coordToString, ["1", "i", "j", "I"]);
+    }
+
+    toStringLATEX(): string {
+        var coordToString = function(coord: number): string { return coord.toString() };
+        return this.toStringCustom(coordToString, ["1", "e_{1}", "e_{2}", "e_{12}"]);
+    }
 
     /**
      * @method copy
      * @param M {GeometricE2}
      * @return {G2}
      * @static
-     * @chainable
      */
-    static copy(M: GeometricE2): G2 {
-        var copy = new G2()
-        copy.α = M.α
-        copy.x = M.x
-        copy.y = M.y
-        copy.β = M.β
-        return copy
+    static copy(m: GeometricE2): G2 {
+        if (m instanceof G2) {
+            return m
+        }
+        else {
+            return new G2(m.α, m.x, m.y, m.β, void 0)
+        }
     }
 
     /**
-     * @method fromScalar
-     * @param α {number}
-     * @return {G2}
-     * @static
-     * @chainable
-     */
-    static fromScalar(α: number): G2 {
-        return new G2().addScalar(α)
-    }
-
-    /**
-     * @method fromSpinor
-     * @param spinor {SpinorE2}
-     * @return {G2}
-     * @static
-     * @chainable
-     */
-    static fromSpinor(spinor: SpinorE2): G2 {
-        return new G2().copySpinor(spinor)
-    }
-
-    /**
-     * @method fromVector
+     * @method fromVectorE2
      * @param vector {VectorE2}
      * @return {G2}
      * @static
-     * @chainable
      */
-    static fromVector(vector: VectorE2): G2 {
-        if (isDefined(vector)) {
-            return new G2().copyVector(vector)
+    static fromVectorE2(vector: VectorE2): G2 {
+        if (vector) {
+            if (vector instanceof G2) {
+                return new G2(0, vector.x, vector.y, 0, vector.uom)
+            }
+            else {
+                return new G2(0, vector.x, vector.y, 0, void 0)
+            }
         }
         else {
-            // We could also return an undefined value here!
             return void 0
         }
-    }
-
-    /**
-     * @method lerp
-     * @param A {GeometricE2}
-     * @param B {GeometricE2}
-     * @param α {number}
-     * @return {G2} <code>A + α * (B - A)</code>
-     * @static
-     * @chainable
-     */
-    static lerp(A: GeometricE2, B: GeometricE2, α: number): G2 {
-        return G2.copy(A).lerp(B, α)
-        // return G2.copy(B).sub(A).scale(α).add(A)
-    }
-
-    /**
-     * Computes the rotor that rotates vector <code>a</code> to vector <code>b</code>.
-     * @method rotorFromDirections
-     * @param a {VectorE2} The <em>from</em> vector.
-     * @param b {VectorE2} The <em>to</em> vector.
-     * @return {G2}
-     * @static
-     * @chainable
-     */
-    static rotorFromDirections(a: VectorE2, b: VectorE2): G2 {
-        return new G2().rotorFromDirections(a, b)
     }
 
     /**
      * @method vector
      * @param x {number}
      * @param y {number}
+     * @param [uom] {Unit}
      * @return {G2}
      * @static
      */
-    static vector(x: number, y: number): G2 {
-        return this.fromCartesian(0, x, y, 0)
+    static vector(x: number, y: number, uom?: Unit): G2 {
+        return new G2(0, x, y, 0, uom)
     }
 }

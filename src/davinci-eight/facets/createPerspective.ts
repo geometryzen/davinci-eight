@@ -9,8 +9,8 @@ import Mat4R from '../math/Mat4R';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
 import VectorE3 from '../math/VectorE3';
 import readOnly from '../i18n/readOnly';
-import R1 from '../math/R1';
-import R3 from '../math/R3';
+import R1m from '../math/R1m';
+import R3m from '../math/R3m';
 import isUndefined from '../checks/isUndefined';
 import mustBeNumber from '../checks/mustBeNumber';
 import computePerspectiveMatrix from './perspectiveMatrix';
@@ -27,10 +27,10 @@ import computePerspectiveMatrix from './perspectiveMatrix';
 export default function createPerspective(options?: { fov?: number; aspect?: number; near?: number; far?: number; projectionMatrixName?: string; viewMatrixName?: string; }): Perspective {
 
     options = options || {};
-    const fov: R1 = new R1([isUndefined(options.fov) ? 75 * Math.PI / 180 : options.fov]);
-    const aspect: R1 = new R1([isUndefined(options.aspect) ? 1 : options.aspect]);
-    const near: R1 = new R1([isUndefined(options.near) ? 0.1 : options.near]);
-    const far: R1 = new R1([mustBeNumber('options.far', isUndefined(options.far) ? 2000 : options.far)]);
+    const fov: R1m = new R1m([isUndefined(options.fov) ? 75 * Math.PI / 180 : options.fov]);
+    const aspect: R1m = new R1m([isUndefined(options.aspect) ? 1 : options.aspect]);
+    const near: R1m = new R1m([isUndefined(options.near) ? 0.1 : options.near]);
+    const far: R1m = new R1m([mustBeNumber('options.far', isUndefined(options.far) ? 2000 : options.far)]);
     const projectionMatrixName = isUndefined(options.projectionMatrixName) ? GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX : options.projectionMatrixName;
 
     const base: View = createView(options)
@@ -42,30 +42,30 @@ export default function createPerspective(options?: { fov?: number; aspect?: num
             return self;
         },
         // Delegate to the base camera.
-        get eye(): R3 {
+        get eye(): R3m {
             return base.eye;
         },
-        set eye(eye: R3) {
+        set eye(eye: R3m) {
             base.eye = eye;
         },
         setEye(eye: VectorE3) {
             base.setEye(eye);
             return self;
         },
-        get look(): R3 {
+        get look(): R3m {
             return base.look;
         },
-        set look(value: R3) {
+        set look(value: R3m) {
             base.look = value;
         },
         setLook(look: VectorE3) {
             base.setLook(look);
             return self;
         },
-        get up(): R3 {
+        get up(): R3m {
             return base.up;
         },
-        set up(value: R3) {
+        set up(value: R3m) {
             base.up = value;
         },
         setUp(up: VectorE3) {

@@ -64,14 +64,14 @@
                                 <li><a href="../classes/DirectionalLight.html">DirectionalLight</a></li>
                                 <li><a href="../classes/DrawMode.html">DrawMode</a></li>
                                 <li><a href="../classes/EIGHTLogger.html">EIGHTLogger</a></li>
-                                <li><a href="../classes/Euclidean1.html">Euclidean1</a></li>
-                                <li><a href="../classes/Euclidean2.html">Euclidean2</a></li>
-                                <li><a href="../classes/Euclidean3.html">Euclidean3</a></li>
                                 <li><a href="../classes/Facet.html">Facet</a></li>
                                 <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
+                                <li><a href="../classes/G1.html">G1</a></li>
                                 <li><a href="../classes/G2.html">G2</a></li>
+                                <li><a href="../classes/G2m.html">G2m</a></li>
                                 <li><a href="../classes/G3.html">G3</a></li>
+                                <li><a href="../classes/G3m.html">G3m</a></li>
                                 <li><a href="../classes/GeometricE2.html">GeometricE2</a></li>
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
@@ -105,10 +105,10 @@
                                 <li><a href="../classes/PrimitiveBuffers.html">PrimitiveBuffers</a></li>
                                 <li><a href="../classes/Pseudo.html">Pseudo</a></li>
                                 <li><a href="../classes/QQ.html">QQ</a></li>
-                                <li><a href="../classes/R1.html">R1</a></li>
-                                <li><a href="../classes/R2.html">R2</a></li>
-                                <li><a href="../classes/R3.html">R3</a></li>
-                                <li><a href="../classes/R4.html">R4</a></li>
+                                <li><a href="../classes/R1m.html">R1m</a></li>
+                                <li><a href="../classes/R2m.html">R2m</a></li>
+                                <li><a href="../classes/R3m.html">R3m</a></li>
+                                <li><a href="../classes/R4m.html">R4m</a></li>
                                 <li><a href="../classes/ReflectionFacetE2.html">ReflectionFacetE2</a></li>
                                 <li><a href="../classes/ReflectionFacetE3.html">ReflectionFacetE3</a></li>
                                 <li><a href="../classes/RigidBody.html">RigidBody</a></li>
@@ -122,8 +122,8 @@
                                 <li><a href="../classes/ShareableWebGLTexture.html">ShareableWebGLTexture</a></li>
                                 <li><a href="../classes/Sphere.html">Sphere</a></li>
                                 <li><a href="../classes/SphereGeometry.html">SphereGeometry</a></li>
-                                <li><a href="../classes/SpinG2.html">SpinG2</a></li>
-                                <li><a href="../classes/SpinG3.html">SpinG3</a></li>
+                                <li><a href="../classes/SpinG2m.html">SpinG2m</a></li>
+                                <li><a href="../classes/SpinG3m.html">SpinG3m</a></li>
                                 <li><a href="../classes/SpinorE1.html">SpinorE1</a></li>
                                 <li><a href="../classes/SpinorE2.html">SpinorE2</a></li>
                                 <li><a href="../classes/SpinorE3.html">SpinorE3</a></li>
@@ -203,7 +203,7 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 import dotVectorCartesianE3 from &#x27;../math/dotVectorCartesianE3&#x27;;
-import Euclidean3 from &#x27;../math/Euclidean3&#x27;;
+import G3 from &#x27;../math/G3&#x27;;
 import dotVector from &#x27;../math/dotVectorE3&#x27;;
 import MutableGeometricElement3D from &#x27;../math/MutableGeometricElement3D&#x27;;
 import Mat4R from &#x27;../math/Mat4R&#x27;;
@@ -211,7 +211,7 @@ import mustBeInteger from &#x27;../checks/mustBeInteger&#x27;;
 import mustBeNumber from &#x27;../checks/mustBeNumber&#x27;;
 import mustBeObject from &#x27;../checks/mustBeObject&#x27;;
 import quadVector from &#x27;../math/quadVectorE3&#x27;;
-import R3 from &#x27;../math/R3&#x27;;
+import R3m from &#x27;../math/R3m&#x27;;
 import rotorFromDirections from &#x27;../math/rotorFromDirections&#x27;;
 import TrigMethods from &#x27;../math/TrigMethods&#x27;;
 import VectorE3 from &#x27;../math/VectorE3&#x27;;
@@ -229,14 +229,14 @@ const EPS = 0.000001;
 
 // This class is for reference only and will remain undocumented and internal.
 // Notice that it is mutable, betraying a usage with animation loops.
-// But there we want to use the SpinG3 spinor, or the full multivector, G3.
+// But there we want to use the SpinG3m spinor, or the full multivector, G3m.
 // For comparison QQ and CC are immutable.
 export default class HH implements MutableGeometricElement3D&lt;HH, HH, HH, VectorE3&gt;, TrigMethods&lt;HH&gt; {
     private x: number;
     private y: number;
     private z: number;
     public t: number;
-    constructor(t = 1, v: VectorE3 = Euclidean3.zero) {
+    constructor(t = 1, v: VectorE3 = G3.zero) {
         this.t = mustBeNumber(&#x27;t&#x27;, t)
         mustBeObject(&#x27;v&#x27;, v)
         this.x = mustBeNumber(&#x27;v.x&#x27;, v.x)
@@ -244,7 +244,7 @@ export default class HH implements MutableGeometricElement3D&lt;HH, HH, HH, Vect
         this.z = mustBeNumber(&#x27;v.z&#x27;, v.z)
     }
     get v(): VectorE3 {
-        return new Euclidean3(0, this.x, this.y, this.z, 0, 0, 0, 0)
+        return new G3(0, this.x, this.y, this.z, 0, 0, 0, 0)
     }
 
     add(q: HH, α = 1): HH {
@@ -294,7 +294,7 @@ export default class HH implements MutableGeometricElement3D&lt;HH, HH, HH, Vect
         return this
     }
     clone(): HH {
-        return new HH(this.t, new Euclidean3(0, this.x, this.y, this.z, 0, 0, 0, 0))
+        return new HH(this.t, new G3(0, this.x, this.y, this.z, 0, 0, 0, 0))
     }
     lco(rhs: HH): HH {
         return this.lco2(this, rhs)
@@ -549,7 +549,7 @@ export default class HH implements MutableGeometricElement3D&lt;HH, HH, HH, Vect
     }
     spinor(a: VectorE3, b: VectorE3): HH {
         // TODO: Could create circularity problems.
-        let v1 = new R3();
+        let v1 = new R3m();
 
         var r: number = dotVector(a, b) + 1;
 

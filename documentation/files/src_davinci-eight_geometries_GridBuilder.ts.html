@@ -64,14 +64,14 @@
                                 <li><a href="../classes/DirectionalLight.html">DirectionalLight</a></li>
                                 <li><a href="../classes/DrawMode.html">DrawMode</a></li>
                                 <li><a href="../classes/EIGHTLogger.html">EIGHTLogger</a></li>
-                                <li><a href="../classes/Euclidean1.html">Euclidean1</a></li>
-                                <li><a href="../classes/Euclidean2.html">Euclidean2</a></li>
-                                <li><a href="../classes/Euclidean3.html">Euclidean3</a></li>
                                 <li><a href="../classes/Facet.html">Facet</a></li>
                                 <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
+                                <li><a href="../classes/G1.html">G1</a></li>
                                 <li><a href="../classes/G2.html">G2</a></li>
+                                <li><a href="../classes/G2m.html">G2m</a></li>
                                 <li><a href="../classes/G3.html">G3</a></li>
+                                <li><a href="../classes/G3m.html">G3m</a></li>
                                 <li><a href="../classes/GeometricE2.html">GeometricE2</a></li>
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
@@ -105,10 +105,10 @@
                                 <li><a href="../classes/PrimitiveBuffers.html">PrimitiveBuffers</a></li>
                                 <li><a href="../classes/Pseudo.html">Pseudo</a></li>
                                 <li><a href="../classes/QQ.html">QQ</a></li>
-                                <li><a href="../classes/R1.html">R1</a></li>
-                                <li><a href="../classes/R2.html">R2</a></li>
-                                <li><a href="../classes/R3.html">R3</a></li>
-                                <li><a href="../classes/R4.html">R4</a></li>
+                                <li><a href="../classes/R1m.html">R1m</a></li>
+                                <li><a href="../classes/R2m.html">R2m</a></li>
+                                <li><a href="../classes/R3m.html">R3m</a></li>
+                                <li><a href="../classes/R4m.html">R4m</a></li>
                                 <li><a href="../classes/ReflectionFacetE2.html">ReflectionFacetE2</a></li>
                                 <li><a href="../classes/ReflectionFacetE3.html">ReflectionFacetE3</a></li>
                                 <li><a href="../classes/RigidBody.html">RigidBody</a></li>
@@ -122,8 +122,8 @@
                                 <li><a href="../classes/ShareableWebGLTexture.html">ShareableWebGLTexture</a></li>
                                 <li><a href="../classes/Sphere.html">Sphere</a></li>
                                 <li><a href="../classes/SphereGeometry.html">SphereGeometry</a></li>
-                                <li><a href="../classes/SpinG2.html">SpinG2</a></li>
-                                <li><a href="../classes/SpinG3.html">SpinG3</a></li>
+                                <li><a href="../classes/SpinG2m.html">SpinG2m</a></li>
+                                <li><a href="../classes/SpinG3m.html">SpinG3m</a></li>
                                 <li><a href="../classes/SpinorE1.html">SpinorE1</a></li>
                                 <li><a href="../classes/SpinorE2.html">SpinorE2</a></li>
                                 <li><a href="../classes/SpinorE3.html">SpinorE3</a></li>
@@ -206,8 +206,8 @@ import VectorE3 from &#x27;../math/VectorE3&#x27;;
 import Simplex from &#x27;../geometries/Simplex&#x27;;
 import SimplexPrimitivesBuilder from &#x27;../geometries/SimplexPrimitivesBuilder&#x27;;
 import GraphicsProgramSymbols from &#x27;../core/GraphicsProgramSymbols&#x27;;
-import R2 from &#x27;../math/R2&#x27;;
-import R3 from &#x27;../math/R3&#x27;;
+import R2m from &#x27;../math/R2m&#x27;;
+import R3m from &#x27;../math/R3m&#x27;;
 import mustBeFunction from &#x27;../checks/mustBeFunction&#x27;;
 import mustBeInteger from &#x27;../checks/mustBeInteger&#x27;;
 
@@ -220,7 +220,7 @@ export default class GridBuilder extends SimplexPrimitivesBuilder {
         /**
          * Temporary array of points.
          */
-        let points: R3[] = [];
+        let points: R3m[] = [];
 
         var i: number;
         var j: number;
@@ -237,7 +237,7 @@ export default class GridBuilder extends SimplexPrimitivesBuilder {
 
                 let point: VectorE3 = parametricFunction(u, v);
                 // Make a copy just in case the function is returning mutable references.
-                points.push(R3.copy(point));
+                points.push(R3m.copy(point));
             }
         }
 
@@ -245,10 +245,10 @@ export default class GridBuilder extends SimplexPrimitivesBuilder {
         var b: number;
         var c: number;
         var d: number;
-        var uva: R2;
-        var uvb: R2;
-        var uvc: R2;
-        var uvd: R2;
+        var uva: R2m;
+        var uvb: R2m;
+        var uvc: R2m;
+        var uvd: R2m;
 
         for (i = 0; i &lt; vSegments; i++) {
 
@@ -259,10 +259,10 @@ export default class GridBuilder extends SimplexPrimitivesBuilder {
                 c = (i + 1) * sliceCount + j + 1;
                 d = (i + 1) * sliceCount + j;
 
-                uva = new R2([j / uSegments, i / vSegments]);
-                uvb = new R2([(j + 1) / uSegments, i / vSegments]);
-                uvc = new R2([(j + 1) / uSegments, (i + 1) / vSegments]);
-                uvd = new R2([j / uSegments, (i + 1) / vSegments]);
+                uva = new R2m([j / uSegments, i / vSegments]);
+                uvb = new R2m([(j + 1) / uSegments, i / vSegments]);
+                uvc = new R2m([(j + 1) / uSegments, (i + 1) / vSegments]);
+                uvd = new R2m([j / uSegments, (i + 1) / vSegments]);
 
                 let simplex = new Simplex(Simplex.TRIANGLE)
                 simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = points[a]

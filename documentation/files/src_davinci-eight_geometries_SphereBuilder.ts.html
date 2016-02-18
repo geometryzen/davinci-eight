@@ -64,14 +64,14 @@
                                 <li><a href="../classes/DirectionalLight.html">DirectionalLight</a></li>
                                 <li><a href="../classes/DrawMode.html">DrawMode</a></li>
                                 <li><a href="../classes/EIGHTLogger.html">EIGHTLogger</a></li>
-                                <li><a href="../classes/Euclidean1.html">Euclidean1</a></li>
-                                <li><a href="../classes/Euclidean2.html">Euclidean2</a></li>
-                                <li><a href="../classes/Euclidean3.html">Euclidean3</a></li>
                                 <li><a href="../classes/Facet.html">Facet</a></li>
                                 <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
+                                <li><a href="../classes/G1.html">G1</a></li>
                                 <li><a href="../classes/G2.html">G2</a></li>
+                                <li><a href="../classes/G2m.html">G2m</a></li>
                                 <li><a href="../classes/G3.html">G3</a></li>
+                                <li><a href="../classes/G3m.html">G3m</a></li>
                                 <li><a href="../classes/GeometricE2.html">GeometricE2</a></li>
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
@@ -105,10 +105,10 @@
                                 <li><a href="../classes/PrimitiveBuffers.html">PrimitiveBuffers</a></li>
                                 <li><a href="../classes/Pseudo.html">Pseudo</a></li>
                                 <li><a href="../classes/QQ.html">QQ</a></li>
-                                <li><a href="../classes/R1.html">R1</a></li>
-                                <li><a href="../classes/R2.html">R2</a></li>
-                                <li><a href="../classes/R3.html">R3</a></li>
-                                <li><a href="../classes/R4.html">R4</a></li>
+                                <li><a href="../classes/R1m.html">R1m</a></li>
+                                <li><a href="../classes/R2m.html">R2m</a></li>
+                                <li><a href="../classes/R3m.html">R3m</a></li>
+                                <li><a href="../classes/R4m.html">R4m</a></li>
                                 <li><a href="../classes/ReflectionFacetE2.html">ReflectionFacetE2</a></li>
                                 <li><a href="../classes/ReflectionFacetE3.html">ReflectionFacetE3</a></li>
                                 <li><a href="../classes/RigidBody.html">RigidBody</a></li>
@@ -122,8 +122,8 @@
                                 <li><a href="../classes/ShareableWebGLTexture.html">ShareableWebGLTexture</a></li>
                                 <li><a href="../classes/Sphere.html">Sphere</a></li>
                                 <li><a href="../classes/SphereGeometry.html">SphereGeometry</a></li>
-                                <li><a href="../classes/SpinG2.html">SpinG2</a></li>
-                                <li><a href="../classes/SpinG3.html">SpinG3</a></li>
+                                <li><a href="../classes/SpinG2m.html">SpinG2m</a></li>
+                                <li><a href="../classes/SpinG3m.html">SpinG3m</a></li>
                                 <li><a href="../classes/SpinorE1.html">SpinorE1</a></li>
                                 <li><a href="../classes/SpinorE2.html">SpinorE2</a></li>
                                 <li><a href="../classes/SpinorE3.html">SpinorE3</a></li>
@@ -207,18 +207,18 @@ import CartesianE3 from &#x27;../math/CartesianE3&#x27;;
 import SimplexPrimitivesBuilder from &#x27;../geometries/SimplexPrimitivesBuilder&#x27;;
 import IAxialGeometry from &#x27;../geometries/IAxialGeometry&#x27;;
 import mustBeNumber from &#x27;../checks/mustBeNumber&#x27;;
-import R1 from &#x27;../math/R1&#x27;;
+import R1m from &#x27;../math/R1m&#x27;;
 import Simplex from &#x27;../geometries/Simplex&#x27;;
 import SliceSimplexPrimitivesBuilder from &#x27;../geometries/SliceSimplexPrimitivesBuilder&#x27;;
-import SpinG3 from &#x27;../math/SpinG3&#x27;;
+import SpinG3m from &#x27;../math/SpinG3m&#x27;;
 import SpinorE3 from &#x27;../math/SpinorE3&#x27;;
-import R2 from &#x27;../math/R2&#x27;;
-import R3 from &#x27;../math/R3&#x27;;
+import R2m from &#x27;../math/R2m&#x27;;
+import R3m from &#x27;../math/R3m&#x27;;
 import VectorE3 from &#x27;../math/VectorE3&#x27;;
 
-function computeVertices(radius: number, axis: CartesianE3, phiStart: R3, phiLength: number, thetaStart: number, thetaLength: number, heightSegments: number, widthSegments: number, points: R3[], uvs: R2[]) {
+function computeVertices(radius: number, axis: CartesianE3, phiStart: R3m, phiLength: number, thetaStart: number, thetaLength: number, heightSegments: number, widthSegments: number, points: R3m[], uvs: R2m[]) {
 
-    const generator: SpinorE3 = SpinG3.dual(axis)
+    const generator: SpinorE3 = SpinG3m.dual(axis)
     const iLength = heightSegments + 1
     const jLength = widthSegments + 1
 
@@ -227,9 +227,9 @@ function computeVertices(radius: number, axis: CartesianE3, phiStart: R3, phiLen
 
         const θ: number = thetaStart + v * thetaLength
         const arcRadius = radius * Math.sin(θ)
-        const begin = R3.copy(phiStart).scale(arcRadius)
+        const begin = R3m.copy(phiStart).scale(arcRadius)
 
-        const arcPoints: R3[] = arc3(begin, phiLength, generator, widthSegments)
+        const arcPoints: R3m[] = arc3(begin, phiLength, generator, widthSegments)
         /**
          * Displacement that we need to add (in the axis direction) to each arc point to get the
          * distance position parallel to the axis correct.
@@ -241,7 +241,7 @@ function computeVertices(radius: number, axis: CartesianE3, phiStart: R3, phiLen
             const point = arcPoints[j].add(axis, displacement)
             points.push(point)
             const u = j / widthSegments;
-            uvs.push(new R2([u, 1 - v]))
+            uvs.push(new R2m([u, 1 - v]))
         }
     }
 }
@@ -259,7 +259,7 @@ function vertexIndex(qIndex: number, n: number, innerSegments: number) {
     }
 }
 
-function makeTriangles(points: R3[], uvs: R2[], radius: number, heightSegments: number, widthSegments: number, geometry: SimplexPrimitivesBuilder) {
+function makeTriangles(points: R3m[], uvs: R2m[], radius: number, heightSegments: number, widthSegments: number, geometry: SimplexPrimitivesBuilder) {
     for (var i = 0; i &lt; heightSegments; i++) {
         for (var j = 0; j &lt; widthSegments; j++) {
             let qIndex = quadIndex(i, j, widthSegments)
@@ -270,16 +270,16 @@ function makeTriangles(points: R3[], uvs: R2[], radius: number, heightSegments: 
             var v3: number = vertexIndex(qIndex, 3, widthSegments)
 
             // The normal vectors for the sphere are simply the normalized position vectors.
-            var n0: R3 = R3.copy(points[v0]).direction();
-            var n1: R3 = R3.copy(points[v1]).direction();
-            var n2: R3 = R3.copy(points[v2]).direction();
-            var n3: R3 = R3.copy(points[v3]).direction();
+            var n0: R3m = R3m.copy(points[v0]).direction();
+            var n1: R3m = R3m.copy(points[v1]).direction();
+            var n2: R3m = R3m.copy(points[v2]).direction();
+            var n3: R3m = R3m.copy(points[v3]).direction();
 
             // Grab the uv coordinates too.
-            var uv0: R2 = uvs[v0].clone();
-            var uv1: R2 = uvs[v1].clone();
-            var uv2: R2 = uvs[v2].clone();
-            var uv3: R2 = uvs[v3].clone();
+            var uv0: R2m = uvs[v0].clone();
+            var uv1: R2m = uvs[v1].clone();
+            var uv2: R2m = uvs[v2].clone();
+            var uv3: R2m = uvs[v3].clone();
 
             // Special case the north and south poles by only creating one triangle.
             // FIXME: What&#x27;s the geometric equivalent here?
@@ -300,7 +300,7 @@ function makeTriangles(points: R3[], uvs: R2[], radius: number, heightSegments: 
     }
 }
 
-function makeLineSegments(points: R3[], uvs: R2[], radius: number, heightSegments: number, widthSegments: number, geometry: SimplexPrimitivesBuilder) {
+function makeLineSegments(points: R3m[], uvs: R2m[], radius: number, heightSegments: number, widthSegments: number, geometry: SimplexPrimitivesBuilder) {
     for (var i = 0; i &lt; heightSegments; i++) {
         for (var j = 0; j &lt; widthSegments; j++) {
             let qIndex = quadIndex(i, j, widthSegments)
@@ -310,16 +310,16 @@ function makeLineSegments(points: R3[], uvs: R2[], radius: number, heightSegment
             var v3: number = vertexIndex(qIndex, 3, widthSegments)
 
             // The normal vectors for the sphere are simply the normalized position vectors.
-            var n0: R3 = R3.copy(points[v0]).direction();
-            var n1: R3 = R3.copy(points[v1]).direction();
-            var n2: R3 = R3.copy(points[v2]).direction();
-            var n3: R3 = R3.copy(points[v3]).direction();
+            var n0: R3m = R3m.copy(points[v0]).direction();
+            var n1: R3m = R3m.copy(points[v1]).direction();
+            var n2: R3m = R3m.copy(points[v2]).direction();
+            var n3: R3m = R3m.copy(points[v3]).direction();
 
             // Grab the uv coordinates too.
-            var uv0: R2 = uvs[v0].clone();
-            var uv1: R2 = uvs[v1].clone();
-            var uv2: R2 = uvs[v2].clone();
-            var uv3: R2 = uvs[v3].clone();
+            var uv0: R2m = uvs[v0].clone();
+            var uv1: R2m = uvs[v1].clone();
+            var uv2: R2m = uvs[v2].clone();
+            var uv3: R2m = uvs[v3].clone();
 
             // Special case the north and south poles by only creating one triangle.
             // FIXME: What&#x27;s the geometric equivalent here?
@@ -341,7 +341,7 @@ function makeLineSegments(points: R3[], uvs: R2[], radius: number, heightSegment
     }
 }
 
-function makePoints(points: R3[], uvs: R2[], radius: number, heightSegments: number, widthSegments: number, geometry: SimplexPrimitivesBuilder) {
+function makePoints(points: R3m[], uvs: R2m[], radius: number, heightSegments: number, widthSegments: number, geometry: SimplexPrimitivesBuilder) {
     for (var i = 0; i &lt; heightSegments; i++) {
         for (var j = 0; j &lt; widthSegments; j++) {
             let qIndex = quadIndex(i, j, widthSegments)
@@ -351,16 +351,16 @@ function makePoints(points: R3[], uvs: R2[], radius: number, heightSegments: num
             var v3: number = vertexIndex(qIndex, 3, widthSegments)
 
             // The normal vectors for the sphere are simply the normalized position vectors.
-            var n0: R3 = R3.copy(points[v0]).direction();
-            var n1: R3 = R3.copy(points[v1]).direction();
-            var n2: R3 = R3.copy(points[v2]).direction();
-            var n3: R3 = R3.copy(points[v3]).direction();
+            var n0: R3m = R3m.copy(points[v0]).direction();
+            var n1: R3m = R3m.copy(points[v1]).direction();
+            var n2: R3m = R3m.copy(points[v2]).direction();
+            var n3: R3m = R3m.copy(points[v3]).direction();
 
             // Grab the uv coordinates too.
-            var uv0: R2 = uvs[v0].clone();
-            var uv1: R2 = uvs[v1].clone();
-            var uv2: R2 = uvs[v2].clone();
-            var uv3: R2 = uvs[v3].clone();
+            var uv0: R2m = uvs[v0].clone();
+            var uv1: R2m = uvs[v1].clone();
+            var uv2: R2m = uvs[v2].clone();
+            var uv3: R2m = uvs[v3].clone();
 
             // Special case the north and south poles by only creating one triangle.
             // FIXME: What&#x27;s the geometric equivalent here?
@@ -383,7 +383,7 @@ function makePoints(points: R3[], uvs: R2[], radius: number, heightSegments: num
 }
 
 export default class SphereBuilder extends SliceSimplexPrimitivesBuilder implements IAxialGeometry&lt;SphereBuilder&gt; {
-    public _radius: R1;
+    public _radius: R1m;
     public thetaLength: number;
     public thetaStart: number;
     constructor(
@@ -395,7 +395,7 @@ export default class SphereBuilder extends SliceSimplexPrimitivesBuilder impleme
         thetaLength = Math.PI
     ) {
         super(axis, phiStart, phiLength)
-        this._radius = new R1([radius])
+        this._radius = new R1m([radius])
         this.thetaLength = thetaLength
         this.thetaStart = thetaStart
 
@@ -414,10 +414,10 @@ export default class SphereBuilder extends SliceSimplexPrimitivesBuilder impleme
     set phiLength(phiLength: number) {
         this.sliceAngle = phiLength
     }
-    get phiStart(): R3 {
+    get phiStart(): R3m {
         return this.sliceStart
     }
-    set phiStart(phiStart: R3) {
+    set phiStart(phiStart: R3m) {
         this.sliceStart.copy(phiStart)
     }
     public setAxis(axis: VectorE3): SphereBuilder {
@@ -447,8 +447,8 @@ export default class SphereBuilder extends SliceSimplexPrimitivesBuilder impleme
         let widthSegments = this.curvedSegments
 
         // Output. Could this be {[name:string]:VertexN&lt;number&gt;}[]
-        var points: R3[] = []
-        var uvs: R2[] = []
+        var points: R3m[] = []
+        var uvs: R2m[] = []
         computeVertices(this.radius, this.axis, this.phiStart, this.phiLength, this.thetaStart, this.thetaLength, heightSegments, widthSegments, points, uvs)
 
         switch (this.k) {

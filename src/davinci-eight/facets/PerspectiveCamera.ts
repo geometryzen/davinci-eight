@@ -8,7 +8,7 @@ import mustBeString from '../checks/mustBeString';
 import Perspective from './Perspective';
 import Facet from '../core/Facet';
 import FacetVisitor from '../core/FacetVisitor';
-import R3 from '../math/R3';
+import R3m from '../math/R3m';
 import VectorE3 from '../math/VectorE3';
 import Mat4R from '../math/Mat4R'
 
@@ -154,26 +154,26 @@ export default class PerspectiveCamera implements Perspective, Facet {
     /**
      * The position of the camera.
      * @property eye
-     * @type {R3}
+     * @type {R3m}
      * @readOnly
      */
-    get eye(): R3 {
+    get eye(): R3m {
         return this.inner.eye;
     }
-    set eye(eye: R3) {
+    set eye(eye: R3m) {
         this.inner.eye.copy(eye);
     }
 
     /**
      * The position of the camera.
      * @property position
-     * @type {R3}
+     * @type {R3m}
      * @readOnly
      */
-    get position(): R3 {
+    get position(): R3m {
         return this.inner.eye;
     }
-    set position(position: R3) {
+    set position(position: R3m) {
         this.inner.eye.copy(position);
     }
 
@@ -195,7 +195,7 @@ export default class PerspectiveCamera implements Perspective, Facet {
      * @type {number}
      * @readOnly
      */
-    // TODO: Field of view could be specified as an Aspect + Magnitude of a SpinG3!?
+    // TODO: Field of view could be specified as an Aspect + Magnitude of a SpinG3m!?
     get fov(): number {
         return this.inner.fov;
     }
@@ -214,7 +214,7 @@ export default class PerspectiveCamera implements Perspective, Facet {
         return this;
     }
 
-    get look(): R3 {
+    get look(): R3m {
         return this.inner.look;
     }
     setLook(look: VectorE3): PerspectiveCamera {
@@ -258,7 +258,7 @@ export default class PerspectiveCamera implements Perspective, Facet {
         return this;
     }
 
-    get up(): R3 {
+    get up(): R3m {
         return this.inner.up;
     }
     set up(unused) {

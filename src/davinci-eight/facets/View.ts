@@ -1,5 +1,5 @@
 import Facet from '../core/Facet';
-import R3 from '../math/R3';
+import R3m from '../math/R3m';
 import VectorE3 from '../math/VectorE3';
 import Mat4R from '../math/Mat4R';
 
@@ -15,21 +15,21 @@ interface View extends Facet {
 
     /**
      * @property eye
-     * @type R3
+     * @type R3m
      */
-    eye: R3;
+    eye: R3m;
 
     /**
      * @property look
-     * @type R3
+     * @type R3m
      */
-    look: R3;
+    look: R3m;
 
     /**
      * @property up
-     * @type R3
+     * @type R3m
      */
-    up: R3;
+    up: R3m;
 
     /**
      * @property viewMatrix

@@ -1,4 +1,4 @@
-import G2 from '../math/G2'
+import G2m from '../math/G2m'
 import MouseCoordinates from './MouseCoordinates'
 import Shareable from '../core/Shareable'
 
@@ -69,32 +69,32 @@ export default class MouseControls extends Shareable {
      */
     private prevMode = MODE.NONE
 
-    protected moveCurr = new G2()
-    protected movePrev = new G2()
-    protected zoomStart = new G2()
-    protected zoomEnd = new G2()
-    protected panStart = new G2()
-    protected panEnd = new G2()
+    protected moveCurr = new G2m()
+    protected movePrev = new G2m()
+    protected zoomStart = new G2m()
+    protected zoomEnd = new G2m()
+    protected panStart = new G2m()
+    protected panEnd = new G2m()
 
     /**
      * Initialized by calling handleResize
      *
      * @property screenLoc
-     * @type G2
+     * @type G2m
      * @private
      */
-    private screenLoc = new G2()
+    private screenLoc = new G2m()
     /**
      * Think of this vector as running from the top left corner of the screen.
      */
-    private circleExt = new G2()
+    private circleExt = new G2m()
     /**
      * Think of this vector as running from the bottom left corner of the screen.
      */
-    private screenExt = new G2()
+    private screenExt = new G2m()
 
-    private mouseOnCircle = new G2()
-    private mouseOnScreen = new G2()
+    private mouseOnCircle = new G2m()
+    private mouseOnScreen = new G2m()
 
     private mousedown: (event: MouseEvent) => any
     private mousemove: (event: MouseEvent) => any

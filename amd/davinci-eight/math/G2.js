@@ -1,864 +1,765 @@
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/dotVectorE2', '../math/Euclidean2', '../math/extE2', '../checks/isDefined', '../checks/isNumber', '../checks/isObject', '../math/lcoE2', '../math/mulE2', '../checks/mustBeInteger', '../checks/mustBeNumber', '../checks/mustBeObject', '../math/quadVectorE2', '../math/rcoE2', '../math/rotorFromDirections', '../math/scpE2', '../math/stringFromCoordinates', '../math/VectorN', '../math/wedgeXY'], function (require, exports, b2_1, b3_1, dotVectorE2_1, Euclidean2_1, extE2_1, isDefined_1, isNumber_1, isObject_1, lcoE2_1, mulE2_1, mustBeInteger_1, mustBeNumber_1, mustBeObject_1, quadVectorE2_1, rcoE2_1, rotorFromDirections_1, scpE2_1, stringFromCoordinates_1, VectorN_1, wedgeXY_1) {
+define(["require", "exports", '../geometries/b2', '../geometries/b3', './extE2', './gauss', './lcoE2', './rcoE2', './mulE2', '../i18n/notImplemented', '../i18n/readOnly', './scpE2', './stringFromCoordinates', './Unit'], function (require, exports, b2_1, b3_1, extE2_1, gauss_1, lcoE2_1, rcoE2_1, mulE2_1, notImplemented_1, readOnly_1, scpE2_1, stringFromCoordinates_1, Unit_1) {
     var COORD_SCALAR = 0;
     var COORD_X = 1;
     var COORD_Y = 2;
     var COORD_PSEUDO = 3;
-    var PI = Math.PI;
-    var abs = Math.abs;
-    var atan2 = Math.atan2;
-    var exp = Math.exp;
-    var log = Math.log;
-    var cos = Math.cos;
-    var sin = Math.sin;
-    var sqrt = Math.sqrt;
-    var STANDARD_LABELS = ["1", "e1", "e2", "I"];
-    function coordinates(m) {
-        return [m.α, m.x, m.y, m.β];
+    function add00(a00, a01, a10, a11, b00, b01, b10, b11) {
+        a00 = +a00;
+        a01 = +a01;
+        a10 = +a10;
+        a11 = +a11;
+        b00 = +b00;
+        b01 = +b01;
+        b10 = +b10;
+        b11 = +b11;
+        return +(a00 + b00);
     }
-    function duckCopy(value) {
-        if (isObject_1.default(value)) {
-            var m = value;
-            if (isNumber_1.default(m.x) && isNumber_1.default(m.y)) {
-                if (isNumber_1.default(m.α) && isNumber_1.default(m.β)) {
-                    console.warn("Copying GeometricE2 to G2");
-                    return G2.copy(m);
-                }
-                else {
-                    console.warn("Copying VectorE2 to G2");
-                    return G2.fromVector(m);
-                }
-            }
-            else {
-                if (isNumber_1.default(m.α) && isNumber_1.default(m.β)) {
-                    console.warn("Copying SpinorE2 to G2");
-                    return G2.fromSpinor(m);
-                }
-                else {
-                    return void 0;
-                }
-            }
-        }
-        else {
-            return void 0;
-        }
+    function add01(a00, a01, a10, a11, b00, b01, b10, b11) {
+        a00 = +a00;
+        a01 = +a01;
+        a10 = +a10;
+        a11 = +a11;
+        b00 = +b00;
+        b01 = +b01;
+        b10 = +b10;
+        b11 = +b11;
+        return +(a01 + b01);
     }
-    var G2 = (function (_super) {
-        __extends(G2, _super);
-        function G2() {
-            _super.call(this, [0, 0, 0, 0], false, 4);
+    function add10(a00, a01, a10, a11, b00, b01, b10, b11) {
+        a00 = +a00;
+        a01 = +a01;
+        a10 = +a10;
+        a11 = +a11;
+        b00 = +b00;
+        b01 = +b01;
+        b10 = +b10;
+        b11 = +b11;
+        return +(a10 + b10);
+    }
+    function add11(a00, a01, a10, a11, b00, b01, b10, b11) {
+        a00 = +a00;
+        a01 = +a01;
+        a10 = +a10;
+        a11 = +a11;
+        b00 = +b00;
+        b01 = +b01;
+        b10 = +b10;
+        b11 = +b11;
+        return +(a11 + b11);
+    }
+    function subE2(a0, a1, a2, a3, b0, b1, b2, b3, index) {
+        a0 = +a0;
+        a1 = +a1;
+        a2 = +a2;
+        a3 = +a3;
+        b0 = +b0;
+        b1 = +b1;
+        b2 = +b2;
+        b3 = +b3;
+        index = index | 0;
+        var x = 0.0;
+        switch (~(~index)) {
+            case 0:
+                {
+                    x = +(a0 - b0);
+                }
+                break;
+            case 1:
+                {
+                    x = +(a1 - b1);
+                }
+                break;
+            case 2:
+                {
+                    x = +(a2 - b2);
+                }
+                break;
+            case 3:
+                {
+                    x = +(a3 - b3);
+                }
+                break;
+            default: {
+                throw new Error("index must be in the range [0..3]");
+            }
         }
+        return +x;
+    }
+    var G2 = (function () {
+        function G2(α, x, y, β, uom) {
+            if (α === void 0) { α = 0; }
+            if (x === void 0) { x = 0; }
+            if (y === void 0) { y = 0; }
+            if (β === void 0) { β = 0; }
+            this._coords = [0, 0, 0, 0];
+            this._coords[COORD_SCALAR] = α;
+            this._coords[COORD_X] = x;
+            this._coords[COORD_Y] = y;
+            this._coords[COORD_PSEUDO] = β;
+            this.uom = uom;
+            if (this.uom && this.uom.multiplier !== 1) {
+                var multiplier = this.uom.multiplier;
+                this._coords[COORD_SCALAR] *= multiplier;
+                this._coords[COORD_X] *= multiplier;
+                this._coords[COORD_Y] *= multiplier;
+                this._coords[COORD_PSEUDO] *= multiplier;
+                this.uom = new Unit_1.default(1, uom.dimensions, uom.labels);
+            }
+        }
+        Object.defineProperty(G2, "zero", {
+            get: function () {
+                return G2._zero;
+            },
+            set: function (unused) {
+                throw new Error(readOnly_1.default('zero').message);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(G2, "one", {
+            get: function () {
+                return G2._one;
+            },
+            set: function (unused) {
+                throw new Error(readOnly_1.default('one').message);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(G2, "e1", {
+            get: function () {
+                return G2._e1;
+            },
+            set: function (unused) {
+                throw new Error(readOnly_1.default('e1').message);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(G2, "e2", {
+            get: function () {
+                return G2._e2;
+            },
+            set: function (unused) {
+                throw new Error(readOnly_1.default('e2').message);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(G2, "I", {
+            get: function () {
+                return G2._I;
+            },
+            set: function (unused) {
+                throw new Error(readOnly_1.default('I').message);
+            },
+            enumerable: true,
+            configurable: true
+        });
         Object.defineProperty(G2.prototype, "α", {
             get: function () {
-                return this.coords[COORD_SCALAR];
+                return this._coords[COORD_SCALAR];
             },
-            set: function (α) {
-                this.modified = this.modified || this.coords[COORD_SCALAR] !== α;
-                this.coords[COORD_SCALAR] = α;
+            set: function (unused) {
+                throw new Error(readOnly_1.default('α').message);
             },
             enumerable: true,
             configurable: true
         });
         Object.defineProperty(G2.prototype, "alpha", {
             get: function () {
-                return this.coords[COORD_SCALAR];
+                return this._coords[COORD_SCALAR];
             },
-            set: function (alpha) {
-                this.modified = this.modified || this.coords[COORD_SCALAR] !== alpha;
-                this.coords[COORD_SCALAR] = alpha;
+            set: function (unused) {
+                throw new Error(readOnly_1.default('alpha').message);
             },
             enumerable: true,
             configurable: true
         });
         Object.defineProperty(G2.prototype, "x", {
             get: function () {
-                return this.coords[COORD_X];
+                return this._coords[COORD_X];
             },
-            set: function (x) {
-                this.modified = this.modified || this.coords[COORD_X] !== x;
-                this.coords[COORD_X] = x;
+            set: function (unused) {
+                throw new Error(readOnly_1.default('x').message);
             },
             enumerable: true,
             configurable: true
         });
         Object.defineProperty(G2.prototype, "y", {
             get: function () {
-                return this.coords[COORD_Y];
+                return this._coords[COORD_Y];
             },
-            set: function (y) {
-                this.modified = this.modified || this.coords[COORD_Y] !== y;
-                this.coords[COORD_Y] = y;
+            set: function (unused) {
+                throw new Error(readOnly_1.default('y').message);
             },
             enumerable: true,
             configurable: true
         });
         Object.defineProperty(G2.prototype, "β", {
             get: function () {
-                return this.coords[COORD_PSEUDO];
+                return this._coords[COORD_PSEUDO];
             },
-            set: function (β) {
-                this.modified = this.modified || this.coords[COORD_PSEUDO] !== β;
-                this.coords[COORD_PSEUDO] = β;
+            set: function (unused) {
+                throw new Error(readOnly_1.default('β').message);
             },
             enumerable: true,
             configurable: true
         });
         Object.defineProperty(G2.prototype, "beta", {
             get: function () {
-                return this.coords[COORD_PSEUDO];
+                return this._coords[COORD_PSEUDO];
             },
-            set: function (beta) {
-                this.modified = this.modified || this.coords[COORD_PSEUDO] !== beta;
-                this.coords[COORD_PSEUDO] = beta;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(G2.prototype, "xy", {
-            get: function () {
-                return this.coords[COORD_PSEUDO];
-            },
-            set: function (xy) {
-                this.modified = this.modified || this.coords[COORD_PSEUDO] !== xy;
-                this.coords[COORD_PSEUDO] = xy;
+            set: function (unused) {
+                throw new Error(readOnly_1.default('beta').message);
             },
             enumerable: true,
             configurable: true
         });
-        G2.prototype.add = function (M, α) {
-            if (α === void 0) { α = 1; }
-            mustBeObject_1.default('M', M);
-            mustBeNumber_1.default('α', α);
-            this.α += M.α * α;
-            this.x += M.x * α;
-            this.y += M.y * α;
-            this.β += M.β * α;
-            return this;
+        G2.prototype.fromCartesian = function (α, x, y, β, uom) {
+            return new G2(α, x, y, β, uom);
         };
-        G2.prototype.add2 = function (a, b) {
-            mustBeObject_1.default('a', a);
-            mustBeObject_1.default('b', b);
-            this.α = a.α + b.α;
-            this.x = a.x + b.x;
-            this.y = a.y + b.y;
-            this.β = a.β + b.β;
-            return this;
+        G2.prototype.fromPolar = function (α, r, θ, β, uom) {
+            return new G2(α, r * Math.cos(θ), r * Math.sin(θ), β, uom);
+        };
+        Object.defineProperty(G2.prototype, "coords", {
+            get: function () {
+                return [this.α, this.x, this.y, this.β];
+            },
+            enumerable: true,
+            configurable: true
+        });
+        G2.prototype.coordinate = function (index) {
+            switch (index) {
+                case 0:
+                    return this.α;
+                case 1:
+                    return this.x;
+                case 2:
+                    return this.y;
+                case 3:
+                    return this.β;
+                default:
+                    throw new Error("index must be in the range [0..3]");
+            }
+        };
+        G2.add = function (a, b) {
+            var a00 = a[0];
+            var a01 = a[1];
+            var a10 = a[2];
+            var a11 = a[3];
+            var b00 = b[0];
+            var b01 = b[1];
+            var b10 = b[2];
+            var b11 = b[3];
+            var x00 = add00(a00, a01, a10, a11, b00, b01, b10, b11);
+            var x01 = add01(a00, a01, a10, a11, b00, b01, b10, b11);
+            var x10 = add10(a00, a01, a10, a11, b00, b01, b10, b11);
+            var x11 = add11(a00, a01, a10, a11, b00, b01, b10, b11);
+            return [x00, x01, x10, x11];
+        };
+        G2.prototype.add = function (rhs) {
+            var xs = G2.add(this.coords, rhs.coords);
+            return new G2(xs[0], xs[1], xs[2], xs[3], Unit_1.default.compatible(this.uom, rhs.uom));
         };
         G2.prototype.addPseudo = function (β) {
-            mustBeNumber_1.default('β', β);
-            this.β += β;
-            return this;
+            return new G2(this.α, this.x, this.y, this.β + β, this.uom);
         };
         G2.prototype.addScalar = function (α) {
-            mustBeNumber_1.default('α', α);
-            this.α += α;
-            return this;
-        };
-        G2.prototype.addVector = function (v, α) {
-            if (α === void 0) { α = 1; }
-            mustBeObject_1.default('v', v);
-            mustBeNumber_1.default('α', α);
-            this.x += v.x * α;
-            this.y += v.y * α;
-            return this;
+            return new G2(this.α + α, this.x, this.y, this.β, this.uom);
         };
         G2.prototype.adj = function () {
-            throw new Error('TODO: G2.adj');
+            throw new Error("TODO: adj");
+        };
+        G2.prototype.__add__ = function (other) {
+            if (other instanceof G2) {
+                return this.add(other);
+            }
+            else if (typeof other === 'number') {
+                return this.add(new G2(other, 0, 0, 0, undefined));
+            }
+        };
+        G2.prototype.__radd__ = function (other) {
+            if (other instanceof G2) {
+                return other.add(this);
+            }
+            else if (typeof other === 'number') {
+                return new G2(other, 0, 0, 0, undefined).add(this);
+            }
         };
         G2.prototype.angle = function () {
             return this.log().grade(2);
         };
         G2.prototype.clone = function () {
-            var m = new G2();
-            m.copy(this);
-            return m;
+            return this;
         };
         G2.prototype.conj = function () {
-            this.β = -this.β;
-            return this;
-        };
-        G2.prototype.cos = function () {
-            throw new Error("TODO: G2.cos");
-        };
-        G2.prototype.cosh = function () {
-            throw new Error("TODO: G2.cosh");
-        };
-        G2.prototype.distanceTo = function (point) {
-            throw new Error("TODO: G2.distanceTo");
-        };
-        G2.prototype.equals = function (point) {
-            throw new Error("TODO: G2.equals");
-        };
-        G2.prototype.copy = function (M) {
-            mustBeObject_1.default('M', M);
-            this.α = M.α;
-            this.x = M.x;
-            this.y = M.y;
-            this.β = M.β;
-            return this;
-        };
-        G2.prototype.copyScalar = function (α) {
-            return this.zero().addScalar(α);
-        };
-        G2.prototype.copySpinor = function (spinor) {
-            mustBeObject_1.default('spinor', spinor);
-            this.α = spinor.α;
-            this.x = 0;
-            this.y = 0;
-            this.β = spinor.β;
-            return this;
-        };
-        G2.prototype.copyVector = function (vector) {
-            mustBeObject_1.default('vector', vector);
-            this.α = 0;
-            this.x = vector.x;
-            this.y = vector.y;
-            this.β = 0;
-            return this;
+            throw new Error(notImplemented_1.default('conj').message);
         };
         G2.prototype.cubicBezier = function (t, controlBegin, controlEnd, endPoint) {
             var α = b3_1.default(t, this.α, controlBegin.α, controlEnd.α, endPoint.α);
             var x = b3_1.default(t, this.x, controlBegin.x, controlEnd.x, endPoint.x);
             var y = b3_1.default(t, this.y, controlBegin.y, controlEnd.y, endPoint.y);
             var β = b3_1.default(t, this.β, controlBegin.β, controlEnd.β, endPoint.β);
-            this.α = α;
-            this.x = x;
-            this.y = y;
-            this.β = β;
-            return this;
+            return new G2(α, x, y, β, this.uom);
         };
         G2.prototype.direction = function () {
-            var norm = sqrt(this.squaredNormSansUnits());
-            this.α = this.α / norm;
-            this.x = this.x / norm;
-            this.y = this.y / norm;
-            this.β = this.β / norm;
-            return this;
+            var m = this.magnitudeSansUnits();
+            if (m !== 1) {
+                return new G2(this.α / m, this.x / m, this.y / m, this.β / m);
+            }
+            else {
+                if (this.uom) {
+                    return new G2(this.α, this.x, this.y, this.β);
+                }
+                else {
+                    return this;
+                }
+            }
         };
-        G2.prototype.div = function (m) {
-            return this.div2(this, m);
+        G2.prototype.distanceTo = function (point) {
+            throw new Error(notImplemented_1.default('diistanceTo').message);
         };
-        G2.prototype.div2 = function (a, b) {
-            return this;
+        G2.prototype.equals = function (point) {
+            throw new Error(notImplemented_1.default('equals').message);
+        };
+        G2.sub = function (a, b) {
+            var a0 = a[0];
+            var a1 = a[1];
+            var a2 = a[2];
+            var a3 = a[3];
+            var b0 = b[0];
+            var b1 = b[1];
+            var b2 = b[2];
+            var b3 = b[3];
+            var x0 = subE2(a0, a1, a2, a3, b0, b1, b2, b3, 0);
+            var x1 = subE2(a0, a1, a2, a3, b0, b1, b2, b3, 1);
+            var x2 = subE2(a0, a1, a2, a3, b0, b1, b2, b3, 2);
+            var x3 = subE2(a0, a1, a2, a3, b0, b1, b2, b3, 3);
+            return [x0, x1, x2, x3];
+        };
+        G2.prototype.sub = function (rhs) {
+            var xs = G2.sub(this.coords, rhs.coords);
+            return new G2(xs[0], xs[1], xs[2], xs[3], Unit_1.default.compatible(this.uom, rhs.uom));
+        };
+        G2.prototype.__sub__ = function (other) {
+            if (other instanceof G2) {
+                return this.sub(other);
+            }
+            else if (typeof other === 'number') {
+                return this.sub(new G2(other, 0, 0, 0, undefined));
+            }
+        };
+        G2.prototype.__rsub__ = function (other) {
+            if (other instanceof G2) {
+                return other.sub(this);
+            }
+            else if (typeof other === 'number') {
+                return new G2(other, 0, 0, 0, undefined).sub(this);
+            }
+        };
+        G2.prototype.mul = function (rhs) {
+            var a0 = this.α;
+            var a1 = this.x;
+            var a2 = this.y;
+            var a3 = this.β;
+            var b0 = rhs.α;
+            var b1 = rhs.x;
+            var b2 = rhs.y;
+            var b3 = rhs.β;
+            var c0 = mulE2_1.default(a0, a1, a2, a3, b0, b1, b2, b3, 0);
+            var c1 = mulE2_1.default(a0, a1, a2, a3, b0, b1, b2, b3, 1);
+            var c2 = mulE2_1.default(a0, a1, a2, a3, b0, b1, b2, b3, 2);
+            var c3 = mulE2_1.default(a0, a1, a2, a3, b0, b1, b2, b3, 3);
+            return new G2(c0, c1, c2, c3, Unit_1.default.mul(this.uom, rhs.uom));
+        };
+        G2.prototype.__mul__ = function (other) {
+            if (other instanceof G2) {
+                return this.mul(other);
+            }
+            else if (typeof other === 'number') {
+                return this.mul(new G2(other, 0, 0, 0, undefined));
+            }
+        };
+        G2.prototype.__rmul__ = function (other) {
+            if (other instanceof G2) {
+                var lhs = other;
+                return lhs.mul(this);
+            }
+            else if (typeof other === 'number') {
+                var w = other;
+                return new G2(w, 0, 0, 0, undefined).mul(this);
+            }
+        };
+        G2.prototype.scale = function (α) {
+            return new G2(this.α * α, this.x * α, this.y * α, this.β * α, this.uom);
+        };
+        G2.prototype.div = function (rhs) {
+            return this.mul(rhs.inv());
         };
         G2.prototype.divByScalar = function (α) {
-            mustBeNumber_1.default('α', α);
-            this.α /= α;
-            this.x /= α;
-            this.y /= α;
-            this.β /= α;
-            return this;
+            return new G2(this.α / α, this.x / α, this.y / α, this.β / α, this.uom);
         };
-        G2.prototype.dual = function (m) {
-            var w = -m.β;
-            var x = +m.y;
-            var y = -m.x;
-            var β = +m.α;
-            this.α = w;
-            this.x = x;
-            this.y = y;
-            this.β = β;
-            return this;
+        G2.prototype.__div__ = function (other) {
+            if (other instanceof G2) {
+                return this.div(other);
+            }
+            else if (typeof other === 'number') {
+                var w = other;
+                return this.div(new G2(w, 0, 0, 0, undefined));
+            }
         };
-        G2.prototype.exp = function () {
-            var w = this.α;
-            var z = this.β;
-            var expW = exp(w);
-            var φ = sqrt(z * z);
-            var s = expW * (φ !== 0 ? sin(φ) / φ : 1);
-            this.α = expW * cos(φ);
-            this.β = z * s;
-            return this;
+        G2.prototype.__rdiv__ = function (other) {
+            if (other instanceof G2) {
+                return other.div(this);
+            }
+            else if (typeof other === 'number') {
+                return new G2(other, 0, 0, 0, undefined).div(this);
+            }
         };
-        G2.prototype.ext = function (m) {
-            return this.ext2(this, m);
+        G2.prototype.scp = function (rhs) {
+            var a0 = this.α;
+            var a1 = this.x;
+            var a2 = this.y;
+            var a3 = this.β;
+            var b0 = rhs.α;
+            var b1 = rhs.x;
+            var b2 = rhs.y;
+            var b3 = rhs.β;
+            var c0 = scpE2_1.default(a0, a1, a2, a3, b0, b1, b2, b3, 0);
+            return new G2(c0, 0, 0, 0, Unit_1.default.mul(this.uom, rhs.uom));
         };
-        G2.prototype.ext2 = function (a, b) {
-            var a0 = a.α;
-            var a1 = a.x;
-            var a2 = a.y;
-            var a3 = a.β;
-            var b0 = b.α;
-            var b1 = b.x;
-            var b2 = b.y;
-            var b3 = b.β;
-            this.α = extE2_1.default(a0, a1, a2, a3, b0, b1, b2, b3, 0);
-            this.x = extE2_1.default(a0, a1, a2, a3, b0, b1, b2, b3, 1);
-            this.y = extE2_1.default(a0, a1, a2, a3, b0, b1, b2, b3, 2);
-            this.β = extE2_1.default(a0, a1, a2, a3, b0, b1, b2, b3, 3);
-            return this;
+        G2.ext = function (a, b) {
+            var a0 = a[0];
+            var a1 = a[1];
+            var a2 = a[2];
+            var a3 = a[3];
+            var b0 = b[0];
+            var b1 = b[1];
+            var b2 = b[2];
+            var b3 = b[3];
+            var x0 = extE2_1.default(a0, a1, a2, a3, b0, b1, b2, b3, 0);
+            var x1 = extE2_1.default(a0, a1, a2, a3, b0, b1, b2, b3, 1);
+            var x2 = extE2_1.default(a0, a1, a2, a3, b0, b1, b2, b3, 2);
+            var x3 = extE2_1.default(a0, a1, a2, a3, b0, b1, b2, b3, 3);
+            return [x0, x1, x2, x3];
         };
-        G2.prototype.inv = function () {
-            this.conj();
-            return this;
+        G2.prototype.ext = function (rhs) {
+            var xs = G2.ext(this.coords, rhs.coords);
+            return new G2(xs[0], xs[1], xs[2], xs[3], Unit_1.default.mul(this.uom, rhs.uom));
         };
-        G2.prototype.isOne = function () {
-            return this.α === 1 && this.x === 0 && this.y === 0 && this.β === 0;
+        G2.prototype.__wedge__ = function (other) {
+            if (other instanceof G2) {
+                var rhs = other;
+                return this.ext(rhs);
+            }
+            else if (typeof other === 'number') {
+                var w = other;
+                return this.ext(new G2(w, 0, 0, 0, undefined));
+            }
         };
-        G2.prototype.isZero = function () {
-            return this.α === 0 && this.x === 0 && this.y === 0 && this.β === 0;
+        G2.prototype.__rwedge__ = function (other) {
+            if (other instanceof G2) {
+                var lhs = other;
+                return lhs.ext(this);
+            }
+            else if (typeof other === 'number') {
+                var w = other;
+                return new G2(w, 0, 0, 0, undefined).ext(this);
+            }
         };
-        G2.prototype.lco = function (m) {
-            return this.lco2(this, m);
-        };
-        G2.prototype.lco2 = function (a, b) {
-            var a0 = a.α;
-            var a1 = a.x;
-            var a2 = a.y;
-            var a3 = a.β;
-            var b0 = b.α;
-            var b1 = b.x;
-            var b2 = b.y;
-            var b3 = b.β;
-            this.α = lcoE2_1.default(a0, a1, a2, a3, b0, b1, b2, b3, 0);
-            this.x = lcoE2_1.default(a0, a1, a2, a3, b0, b1, b2, b3, 1);
-            this.y = lcoE2_1.default(a0, a1, a2, a3, b0, b1, b2, b3, 2);
-            this.β = lcoE2_1.default(a0, a1, a2, a3, b0, b1, b2, b3, 3);
-            return this;
+        G2.lshift = function (a, b) {
+            var a0 = a[0];
+            var a1 = a[1];
+            var a2 = a[2];
+            var a3 = a[3];
+            var b0 = b[0];
+            var b1 = b[1];
+            var b2 = b[2];
+            var b3 = b[3];
+            var x0 = lcoE2_1.default(a0, a1, a2, a3, b0, b1, b2, b3, 0);
+            var x1 = lcoE2_1.default(a0, a1, a2, a3, b0, b1, b2, b3, 1);
+            var x2 = lcoE2_1.default(a0, a1, a2, a3, b0, b1, b2, b3, 2);
+            var x3 = lcoE2_1.default(a0, a1, a2, a3, b0, b1, b2, b3, 3);
+            return [x0, x1, x2, x3];
         };
         G2.prototype.lerp = function (target, α) {
-            mustBeObject_1.default('target', target);
-            mustBeNumber_1.default('α', α);
-            this.α += (target.α - this.α) * α;
-            this.x += (target.x - this.x) * α;
-            this.y += (target.y - this.y) * α;
-            this.β += (target.β - this.β) * α;
+            throw new Error(notImplemented_1.default('lerp').message);
+        };
+        G2.prototype.lco = function (rhs) {
+            var xs = G2.lshift(this.coords, rhs.coords);
+            return new G2(xs[0], xs[1], xs[2], xs[3], Unit_1.default.mul(this.uom, rhs.uom));
+        };
+        G2.prototype.__lshift__ = function (other) {
+            if (other instanceof G2) {
+                var rhs = other;
+                return this.lco(rhs);
+            }
+            else if (typeof other === 'number') {
+                var w = other;
+                return this.lco(new G2(w, 0, 0, 0, undefined));
+            }
+        };
+        G2.prototype.__rlshift__ = function (other) {
+            if (other instanceof G2) {
+                var lhs = other;
+                return lhs.lco(this);
+            }
+            else if (typeof other === 'number') {
+                var w = other;
+                return new G2(w, 0, 0, 0, undefined).lco(this);
+            }
+        };
+        G2.rshift = function (a, b) {
+            var a0 = a[0];
+            var a1 = a[1];
+            var a2 = a[2];
+            var a3 = a[3];
+            var b0 = b[0];
+            var b1 = b[1];
+            var b2 = b[2];
+            var b3 = b[3];
+            var x0 = rcoE2_1.default(a0, a1, a2, a3, b0, b1, b2, b3, 0);
+            var x1 = rcoE2_1.default(a0, a1, a2, a3, b0, b1, b2, b3, 1);
+            var x2 = rcoE2_1.default(a0, a1, a2, a3, b0, b1, b2, b3, 2);
+            var x3 = rcoE2_1.default(a0, a1, a2, a3, b0, b1, b2, b3, 3);
+            return [x0, x1, x2, x3];
+        };
+        G2.prototype.rco = function (rhs) {
+            var xs = G2.rshift(this.coords, rhs.coords);
+            return new G2(xs[0], xs[1], xs[2], xs[3], Unit_1.default.mul(this.uom, rhs.uom));
+        };
+        G2.prototype.__rshift__ = function (other) {
+            if (other instanceof G2) {
+                return this.rco(other);
+            }
+            else if (typeof other === 'number') {
+                return this.rco(new G2(other, 0, 0, 0, undefined));
+            }
+        };
+        G2.prototype.__rrshift__ = function (other) {
+            if (other instanceof G2) {
+                return other.rco(this);
+            }
+            else if (typeof other === 'number') {
+                return new G2(other, 0, 0, 0, undefined).rco(this);
+            }
+        };
+        G2.prototype.__vbar__ = function (other) {
+            if (other instanceof G2) {
+                return this.scp(other);
+            }
+            else if (typeof other === 'number') {
+                return this.scp(new G2(other, 0, 0, 0, undefined));
+            }
+        };
+        G2.prototype.__rvbar__ = function (other) {
+            if (other instanceof G2) {
+                return other.scp(this);
+            }
+            else if (typeof other === 'number') {
+                return new G2(other, 0, 0, 0, undefined).scp(this);
+            }
+        };
+        G2.prototype.pow = function (exponent) {
+            throw new Error(notImplemented_1.default('pow').message);
+        };
+        G2.prototype.__bang__ = function () {
+            return this.inv();
+        };
+        G2.prototype.__pos__ = function () {
             return this;
         };
-        G2.prototype.lerp2 = function (a, b, α) {
-            mustBeObject_1.default('a', a);
-            mustBeObject_1.default('b', b);
-            mustBeNumber_1.default('α', α);
-            this.copy(a).lerp(b, α);
-            return this;
+        G2.prototype.neg = function () {
+            return new G2(-this.α, -this.x, -this.y, -this.β, this.uom);
+        };
+        G2.prototype.__neg__ = function () {
+            return this.neg();
+        };
+        G2.prototype.__tilde__ = function () {
+            return this.rev();
+        };
+        G2.prototype.grade = function (grade) {
+            switch (grade) {
+                case 0:
+                    return new G2(this.α, 0, 0, 0, this.uom);
+                case 1:
+                    return new G2(0, this.x, this.y, 0, this.uom);
+                case 2:
+                    return new G2(0, 0, 0, this.β, this.uom);
+                default:
+                    return new G2(0, 0, 0, 0, this.uom);
+            }
+        };
+        G2.prototype.cos = function () {
+            throw new Error(notImplemented_1.default('cos').message);
+        };
+        G2.prototype.cosh = function () {
+            throw new Error(notImplemented_1.default('cosh').message);
+        };
+        G2.prototype.exp = function () {
+            Unit_1.default.assertDimensionless(this.uom);
+            var expα = Math.exp(this.α);
+            var cosβ = Math.cos(this.β);
+            var sinβ = Math.sin(this.β);
+            return new G2(expα * cosβ, 0, 0, expα * sinβ, this.uom);
+        };
+        G2.prototype.inv = function () {
+            var α = this.α;
+            var x = this.x;
+            var y = this.y;
+            var β = this.β;
+            var A = [
+                [α, x, y, -β],
+                [x, α, β, -y],
+                [y, -β, α, x],
+                [β, -y, x, α]
+            ];
+            var b = [1, 0, 0, 0];
+            var X = gauss_1.default(A, b);
+            var uom = this.uom ? this.uom.inv() : void 0;
+            return new G2(X[0], X[1], X[2], X[3], uom);
         };
         G2.prototype.log = function () {
-            var α = this.α;
-            var β = this.β;
-            this.α = log(sqrt(α * α + β * β));
-            this.x = 0;
-            this.y = 0;
-            this.β = atan2(β, α);
-            return this;
+            throw new Error(notImplemented_1.default('log').message);
         };
         G2.prototype.magnitude = function () {
             return this.norm();
         };
         G2.prototype.magnitudeSansUnits = function () {
-            return sqrt(this.squaredNormSansUnits());
-        };
-        G2.prototype.mul = function (m) {
-            return this.mul2(this, m);
-        };
-        G2.prototype.mul2 = function (a, b) {
-            var a0 = a.α;
-            var a1 = a.x;
-            var a2 = a.y;
-            var a3 = a.β;
-            var b0 = b.α;
-            var b1 = b.x;
-            var b2 = b.y;
-            var b3 = b.β;
-            this.α = mulE2_1.default(a0, a1, a2, a3, b0, b1, b2, b3, 0);
-            this.x = mulE2_1.default(a0, a1, a2, a3, b0, b1, b2, b3, 1);
-            this.y = mulE2_1.default(a0, a1, a2, a3, b0, b1, b2, b3, 2);
-            this.β = mulE2_1.default(a0, a1, a2, a3, b0, b1, b2, b3, 3);
-            return this;
-        };
-        G2.prototype.neg = function () {
-            this.α = -this.α;
-            this.x = -this.x;
-            this.y = -this.y;
-            this.β = -this.β;
-            return this;
+            return Math.sqrt(this.squaredNormSansUnits());
         };
         G2.prototype.norm = function () {
-            this.α = this.magnitudeSansUnits();
-            this.x = 0;
-            this.y = 0;
-            this.β = 0;
-            return this;
-        };
-        G2.prototype.one = function () {
-            this.α = 1;
-            this.x = 0;
-            this.y = 0;
-            this.β = 0;
-            return this;
-        };
-        G2.prototype.pow = function () {
-            throw new Error("TODO: G2.pow");
+            return new G2(this.magnitudeSansUnits(), 0, 0, 0, this.uom);
         };
         G2.prototype.quad = function () {
-            this.α = this.squaredNormSansUnits();
-            this.x = 0;
-            this.y = 0;
-            this.β = 0;
-            return this;
+            return this.squaredNorm();
         };
         G2.prototype.quadraticBezier = function (t, controlPoint, endPoint) {
             var α = b2_1.default(t, this.α, controlPoint.α, endPoint.α);
             var x = b2_1.default(t, this.x, controlPoint.x, endPoint.x);
             var y = b2_1.default(t, this.y, controlPoint.y, endPoint.y);
             var β = b2_1.default(t, this.β, controlPoint.β, endPoint.β);
-            this.α = α;
-            this.x = x;
-            this.y = y;
-            this.β = β;
-            return this;
-        };
-        G2.prototype.rco = function (m) {
-            return this.rco2(this, m);
-        };
-        G2.prototype.rco2 = function (a, b) {
-            var a0 = a.α;
-            var a1 = a.x;
-            var a2 = a.y;
-            var a3 = a.β;
-            var b0 = b.α;
-            var b1 = b.x;
-            var b2 = b.y;
-            var b3 = b.β;
-            this.α = rcoE2_1.default(a0, a1, a2, a3, b0, b1, b2, b3, 0);
-            this.x = rcoE2_1.default(a0, a1, a2, a3, b0, b1, b2, b3, 1);
-            this.y = rcoE2_1.default(a0, a1, a2, a3, b0, b1, b2, b3, 2);
-            this.β = rcoE2_1.default(a0, a1, a2, a3, b0, b1, b2, b3, 3);
-            return this;
-        };
-        G2.prototype.reflect = function (n) {
-            mustBeObject_1.default('n', n);
-            var N = Euclidean2_1.default.fromVectorE2(n);
-            var M = Euclidean2_1.default.copy(this);
-            var R = N.mul(M).mul(N).scale(-1);
-            this.copy(R);
-            return this;
-        };
-        G2.prototype.rev = function () {
-            this.α = this.α;
-            this.x = this.x;
-            this.y = this.y;
-            this.β = -this.β;
-            return this;
-        };
-        G2.prototype.sin = function () {
-            throw new Error("G2.sin");
-        };
-        G2.prototype.sinh = function () {
-            throw new Error("G2.sinh");
-        };
-        G2.prototype.rotate = function (R) {
-            mustBeObject_1.default('R', R);
-            var x = this.x;
-            var y = this.y;
-            var β = R.β;
-            var α = R.α;
-            var ix = α * x + β * y;
-            var iy = α * y - β * x;
-            this.x = ix * α + iy * β;
-            this.y = iy * α - ix * β;
-            return this;
-        };
-        G2.prototype.rotorFromDirections = function (a, b) {
-            if (isDefined_1.default(rotorFromDirections_1.default(a, b, quadVectorE2_1.default, dotVectorE2_1.default, this))) {
-                return this;
-            }
-            else {
-                this.rotorFromGeneratorAngle(G2.I, PI);
-            }
-            return this;
-        };
-        G2.prototype.rotorFromGeneratorAngle = function (B, θ) {
-            mustBeObject_1.default('B', B);
-            mustBeNumber_1.default('θ', θ);
-            var β = B.β;
-            var φ = θ / 2;
-            this.α = cos(abs(β) * φ);
-            this.x = 0;
-            this.y = 0;
-            this.β = -sin(β * φ);
-            return this;
-        };
-        G2.prototype.scp = function (m) {
-            return this.scp2(this, m);
-        };
-        G2.prototype.scp2 = function (a, b) {
-            this.α = scpE2_1.default(a.α, a.x, a.y, a.β, b.α, b.x, b.y, b.β, 0);
-            this.x = 0;
-            this.y = 0;
-            this.β = 0;
-            return this;
-        };
-        G2.prototype.scale = function (α) {
-            mustBeNumber_1.default('α', α);
-            this.α *= α;
-            this.x *= α;
-            this.y *= α;
-            this.β *= α;
-            return this;
-        };
-        G2.prototype.slerp = function (target, α) {
-            mustBeObject_1.default('target', target);
-            mustBeNumber_1.default('α', α);
-            return this;
-        };
-        G2.prototype.spinor = function (a, b) {
-            var ax = a.x;
-            var ay = a.y;
-            var bx = b.x;
-            var by = b.y;
-            this.α = dotVectorE2_1.default(a, b);
-            this.x = 0;
-            this.y = 0;
-            this.β = wedgeXY_1.default(ax, ay, 0, bx, by, 0);
-            return this;
+            return new G2(α, x, y, β, this.uom);
         };
         G2.prototype.squaredNorm = function () {
-            this.α = this.squaredNormSansUnits();
-            this.x = 0;
-            this.y = 0;
-            this.β = 0;
-            return this;
+            return new G2(this.squaredNormSansUnits(), 0, 0, 0, Unit_1.default.mul(this.uom, this.uom));
         };
         G2.prototype.squaredNormSansUnits = function () {
-            var w = this.α;
+            var α = this.α;
             var x = this.x;
             var y = this.y;
-            var B = this.β;
-            return w * w + x * x + y * y + B * B;
+            var β = this.β;
+            return α * α + x * x + y * y + β * β;
         };
-        G2.prototype.sub = function (M, α) {
-            if (α === void 0) { α = 1; }
-            mustBeObject_1.default('M', M);
-            mustBeNumber_1.default('α', α);
-            this.α -= M.α * α;
-            this.x -= M.x * α;
-            this.y -= M.y * α;
-            this.β -= M.β * α;
-            return this;
+        G2.prototype.reflect = function (n) {
+            var m = G2.fromVectorE2(n);
+            return m.mul(this).mul(m).scale(-1);
         };
-        G2.prototype.sub2 = function (a, b) {
-            mustBeObject_1.default('a', a);
-            mustBeObject_1.default('b', b);
-            this.α = a.α - b.α;
-            this.x = a.x - b.x;
-            this.y = a.y - b.y;
-            this.β = a.β - b.β;
-            return this;
+        G2.prototype.rev = function () {
+            return new G2(this.α, this.x, this.y, -this.β, this.uom);
+        };
+        G2.prototype.rotate = function (spinor) {
+            var x = this.x;
+            var y = this.y;
+            var α = spinor.α;
+            var β = spinor.β;
+            var α2 = α * α;
+            var β2 = β * β;
+            var p = α2 - β2;
+            var q = 2 * α * β;
+            var s = α2 + β2;
+            return new G2(s * this.α, p * x + q * y, p * y - q * x, s * this.β, this.uom);
+        };
+        G2.prototype.sin = function () {
+            throw new Error(notImplemented_1.default('sin').message);
+        };
+        G2.prototype.sinh = function () {
+            throw new Error(notImplemented_1.default('sinh').message);
+        };
+        G2.prototype.slerp = function (target, α) {
+            throw new Error(notImplemented_1.default('slerp').message);
+        };
+        G2.prototype.tan = function () {
+            return this.sin().div(this.cos());
+        };
+        G2.prototype.isOne = function () { return this.α === 1 && this.x === 0 && this.y === 0 && this.β === 0; };
+        G2.prototype.isNaN = function () { return isNaN(this.α) || isNaN(this.x) || isNaN(this.y) || isNaN(this.β); };
+        G2.prototype.isZero = function () { return this.α === 0 && this.x === 0 && this.y === 0 && this.β === 0; };
+        G2.prototype.toStringCustom = function (coordToString, labels) {
+            var quantityString = stringFromCoordinates_1.default(this.coords, coordToString, labels);
+            if (this.uom) {
+                var unitString = this.uom.toString().trim();
+                if (unitString) {
+                    return quantityString + ' ' + unitString;
+                }
+                else {
+                    return quantityString;
+                }
+            }
+            else {
+                return quantityString;
+            }
         };
         G2.prototype.toExponential = function () {
             var coordToString = function (coord) { return coord.toExponential(); };
-            return stringFromCoordinates_1.default(coordinates(this), coordToString, G2.BASIS_LABELS);
+            return this.toStringCustom(coordToString, ["1", "e1", "e2", "e12"]);
         };
-        G2.prototype.toFixed = function (fractionDigits) {
-            var coordToString = function (coord) { return coord.toFixed(fractionDigits); };
-            return stringFromCoordinates_1.default(coordinates(this), coordToString, G2.BASIS_LABELS);
+        G2.prototype.toFixed = function (digits) {
+            var coordToString = function (coord) { return coord.toFixed(digits); };
+            return this.toStringCustom(coordToString, ["1", "e1", "e2", "e12"]);
         };
         G2.prototype.toString = function () {
             var coordToString = function (coord) { return coord.toString(); };
-            return stringFromCoordinates_1.default(coordinates(this), coordToString, G2.BASIS_LABELS);
+            return this.toStringCustom(coordToString, ["1", "e1", "e2", "e12"]);
         };
-        G2.prototype.grade = function (grade) {
-            mustBeInteger_1.default('grade', grade);
-            switch (grade) {
-                case 0:
-                    {
-                        this.x = 0;
-                        this.y = 0;
-                        this.β = 0;
-                    }
-                    break;
-                case 1:
-                    {
-                        this.α = 0;
-                        this.β = 0;
-                    }
-                    break;
-                case 2:
-                    {
-                        this.α = 0;
-                        this.x = 0;
-                        this.y = 0;
-                    }
-                    break;
-                default: {
-                    this.α = 0;
-                    this.x = 0;
-                    this.y = 0;
-                    this.β = 0;
-                }
-            }
-            return this;
+        G2.prototype.toStringIJK = function () {
+            var coordToString = function (coord) { return coord.toString(); };
+            return this.toStringCustom(coordToString, ["1", "i", "j", "I"]);
         };
-        G2.prototype.zero = function () {
-            this.α = 0;
-            this.x = 0;
-            this.y = 0;
-            this.β = 0;
-            return this;
+        G2.prototype.toStringLATEX = function () {
+            var coordToString = function (coord) { return coord.toString(); };
+            return this.toStringCustom(coordToString, ["1", "e_{1}", "e_{2}", "e_{12}"]);
         };
-        G2.prototype.__add__ = function (rhs) {
-            if (rhs instanceof G2) {
-                return G2.copy(this).add(rhs);
-            }
-            else if (typeof rhs === 'number') {
-                return G2.fromScalar(rhs).add(this);
+        G2.copy = function (m) {
+            if (m instanceof G2) {
+                return m;
             }
             else {
-                var rhsCopy = duckCopy(rhs);
-                if (rhsCopy) {
-                    return rhsCopy.add(this);
+                return new G2(m.α, m.x, m.y, m.β, void 0);
+            }
+        };
+        G2.fromVectorE2 = function (vector) {
+            if (vector) {
+                if (vector instanceof G2) {
+                    return new G2(0, vector.x, vector.y, 0, vector.uom);
                 }
                 else {
-                    return void 0;
+                    return new G2(0, vector.x, vector.y, 0, void 0);
                 }
             }
-        };
-        G2.prototype.__div__ = function (rhs) {
-            if (rhs instanceof G2) {
-                return G2.copy(this).div(rhs);
-            }
-            else if (typeof rhs === 'number') {
-                return G2.copy(this).divByScalar(rhs);
-            }
             else {
                 return void 0;
             }
         };
-        G2.prototype.__rdiv__ = function (lhs) {
-            if (lhs instanceof G2) {
-                return G2.copy(lhs).div(this);
-            }
-            else if (typeof lhs === 'number') {
-                return G2.fromScalar(lhs).div(this);
-            }
-            else {
-                return void 0;
-            }
+        G2.vector = function (x, y, uom) {
+            return new G2(0, x, y, 0, uom);
         };
-        G2.prototype.__mul__ = function (rhs) {
-            if (rhs instanceof G2) {
-                return G2.copy(this).mul(rhs);
-            }
-            else if (typeof rhs === 'number') {
-                return G2.copy(this).scale(rhs);
-            }
-            else {
-                var rhsCopy = duckCopy(rhs);
-                if (rhsCopy) {
-                    return this.__mul__(rhsCopy);
-                }
-                else {
-                    return void 0;
-                }
-            }
-        };
-        G2.prototype.__rmul__ = function (lhs) {
-            if (lhs instanceof G2) {
-                return G2.copy(lhs).mul(this);
-            }
-            else if (typeof lhs === 'number') {
-                return G2.copy(this).scale(lhs);
-            }
-            else {
-                var lhsCopy = duckCopy(lhs);
-                if (lhsCopy) {
-                    return lhsCopy.mul(this);
-                }
-                else {
-                    return void 0;
-                }
-            }
-        };
-        G2.prototype.__radd__ = function (lhs) {
-            if (lhs instanceof G2) {
-                return G2.copy(lhs).add(this);
-            }
-            else if (typeof lhs === 'number') {
-                return G2.fromScalar(lhs).add(this);
-            }
-            else {
-                var lhsCopy = duckCopy(lhs);
-                if (lhsCopy) {
-                    return lhsCopy.add(this);
-                }
-                else {
-                    return void 0;
-                }
-            }
-        };
-        G2.prototype.__sub__ = function (rhs) {
-            if (rhs instanceof G2) {
-                return G2.copy(this).sub(rhs);
-            }
-            else if (typeof rhs === 'number') {
-                return G2.fromScalar(-rhs).add(this);
-            }
-            else {
-                return void 0;
-            }
-        };
-        G2.prototype.__rsub__ = function (lhs) {
-            if (lhs instanceof G2) {
-                return G2.copy(lhs).sub(this);
-            }
-            else if (typeof lhs === 'number') {
-                return G2.fromScalar(lhs).sub(this);
-            }
-            else {
-                return void 0;
-            }
-        };
-        G2.prototype.__wedge__ = function (rhs) {
-            if (rhs instanceof G2) {
-                return G2.copy(this).ext(rhs);
-            }
-            else if (typeof rhs === 'number') {
-                return G2.copy(this).scale(rhs);
-            }
-            else {
-                return void 0;
-            }
-        };
-        G2.prototype.__rwedge__ = function (lhs) {
-            if (lhs instanceof G2) {
-                return G2.copy(lhs).ext(this);
-            }
-            else if (typeof lhs === 'number') {
-                return G2.copy(this).scale(lhs);
-            }
-            else {
-                return void 0;
-            }
-        };
-        G2.prototype.__lshift__ = function (rhs) {
-            if (rhs instanceof G2) {
-                return G2.copy(this).lco(rhs);
-            }
-            else if (typeof rhs === 'number') {
-                return G2.copy(this).lco(G2.fromScalar(rhs));
-            }
-            else {
-                return void 0;
-            }
-        };
-        G2.prototype.__rlshift__ = function (lhs) {
-            if (lhs instanceof G2) {
-                return G2.copy(lhs).lco(this);
-            }
-            else if (typeof lhs === 'number') {
-                return G2.fromScalar(lhs).lco(this);
-            }
-            else {
-                return void 0;
-            }
-        };
-        G2.prototype.__rshift__ = function (rhs) {
-            if (rhs instanceof G2) {
-                return G2.copy(this).rco(rhs);
-            }
-            else if (typeof rhs === 'number') {
-                return G2.copy(this).rco(G2.fromScalar(rhs));
-            }
-            else {
-                return void 0;
-            }
-        };
-        G2.prototype.__rrshift__ = function (lhs) {
-            if (lhs instanceof G2) {
-                return G2.copy(lhs).rco(this);
-            }
-            else if (typeof lhs === 'number') {
-                return G2.fromScalar(lhs).rco(this);
-            }
-            else {
-                return void 0;
-            }
-        };
-        G2.prototype.__vbar__ = function (rhs) {
-            if (rhs instanceof G2) {
-                return G2.copy(this).scp(rhs);
-            }
-            else if (typeof rhs === 'number') {
-                return G2.copy(this).scp(G2.fromScalar(rhs));
-            }
-            else {
-                return void 0;
-            }
-        };
-        G2.prototype.__rvbar__ = function (lhs) {
-            if (lhs instanceof G2) {
-                return G2.copy(lhs).scp(this);
-            }
-            else if (typeof lhs === 'number') {
-                return G2.fromScalar(lhs).scp(this);
-            }
-            else {
-                return void 0;
-            }
-        };
-        G2.prototype.__bang__ = function () {
-            return G2.copy(this).inv();
-        };
-        G2.prototype.__tilde__ = function () {
-            return G2.copy(this).rev();
-        };
-        G2.prototype.__pos__ = function () {
-            return G2.copy(this);
-        };
-        G2.prototype.__neg__ = function () {
-            return G2.copy(this).neg();
-        };
-        G2.fromCartesian = function (α, x, y, β) {
-            var m = new G2();
-            m.α = α;
-            m.x = x;
-            m.y = y;
-            m.β = β;
-            return m;
-        };
-        G2.copy = function (M) {
-            var copy = new G2();
-            copy.α = M.α;
-            copy.x = M.x;
-            copy.y = M.y;
-            copy.β = M.β;
-            return copy;
-        };
-        G2.fromScalar = function (α) {
-            return new G2().addScalar(α);
-        };
-        G2.fromSpinor = function (spinor) {
-            return new G2().copySpinor(spinor);
-        };
-        G2.fromVector = function (vector) {
-            if (isDefined_1.default(vector)) {
-                return new G2().copyVector(vector);
-            }
-            else {
-                return void 0;
-            }
-        };
-        G2.lerp = function (A, B, α) {
-            return G2.copy(A).lerp(B, α);
-        };
-        G2.rotorFromDirections = function (a, b) {
-            return new G2().rotorFromDirections(a, b);
-        };
-        G2.vector = function (x, y) {
-            return this.fromCartesian(0, x, y, 0);
-        };
-        G2.BASIS_LABELS = STANDARD_LABELS;
-        G2.zero = G2.fromCartesian(0, 0, 0, 0);
-        G2.one = G2.fromCartesian(1, 0, 0, 0);
-        G2.e1 = G2.fromCartesian(0, 1, 0, 0);
-        G2.e2 = G2.fromCartesian(0, 0, 1, 0);
-        G2.I = G2.fromCartesian(0, 0, 0, 1);
+        G2._zero = new G2(0, 0, 0, 0);
+        G2._one = new G2(1, 0, 0, 0);
+        G2._e1 = new G2(0, 1, 0, 0);
+        G2._e2 = new G2(0, 0, 1, 0);
+        G2._I = new G2(0, 0, 0, 1);
+        G2.kilogram = new G2(1, 0, 0, 0, Unit_1.default.KILOGRAM);
+        G2.meter = new G2(1, 0, 0, 0, Unit_1.default.METER);
+        G2.second = new G2(1, 0, 0, 0, Unit_1.default.SECOND);
+        G2.coulomb = new G2(1, 0, 0, 0, Unit_1.default.COULOMB);
+        G2.ampere = new G2(1, 0, 0, 0, Unit_1.default.AMPERE);
+        G2.kelvin = new G2(1, 0, 0, 0, Unit_1.default.KELVIN);
+        G2.mole = new G2(1, 0, 0, 0, Unit_1.default.MOLE);
+        G2.candela = new G2(1, 0, 0, 0, Unit_1.default.CANDELA);
         return G2;
-    })(VectorN_1.default);
+    })();
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = G2;
 });

@@ -1,5 +1,5 @@
 import dotVectorCartesianE3 from '../math/dotVectorCartesianE3';
-import Euclidean3 from '../math/Euclidean3';
+import G3 from '../math/G3';
 import dotVector from '../math/dotVectorE3';
 import MutableGeometricElement3D from '../math/MutableGeometricElement3D';
 import Mat4R from '../math/Mat4R';
@@ -7,7 +7,7 @@ import mustBeInteger from '../checks/mustBeInteger';
 import mustBeNumber from '../checks/mustBeNumber';
 import mustBeObject from '../checks/mustBeObject';
 import quadVector from '../math/quadVectorE3';
-import R3 from '../math/R3';
+import R3m from '../math/R3m';
 import rotorFromDirections from '../math/rotorFromDirections';
 import TrigMethods from '../math/TrigMethods';
 import VectorE3 from '../math/VectorE3';
@@ -25,14 +25,14 @@ const EPS = 0.000001;
 
 // This class is for reference only and will remain undocumented and internal.
 // Notice that it is mutable, betraying a usage with animation loops.
-// But there we want to use the SpinG3 spinor, or the full multivector, G3.
+// But there we want to use the SpinG3m spinor, or the full multivector, G3m.
 // For comparison QQ and CC are immutable.
 export default class HH implements MutableGeometricElement3D<HH, HH, HH, VectorE3>, TrigMethods<HH> {
     private x: number;
     private y: number;
     private z: number;
     public t: number;
-    constructor(t = 1, v: VectorE3 = Euclidean3.zero) {
+    constructor(t = 1, v: VectorE3 = G3.zero) {
         this.t = mustBeNumber('t', t)
         mustBeObject('v', v)
         this.x = mustBeNumber('v.x', v.x)
@@ -40,7 +40,7 @@ export default class HH implements MutableGeometricElement3D<HH, HH, HH, VectorE
         this.z = mustBeNumber('v.z', v.z)
     }
     get v(): VectorE3 {
-        return new Euclidean3(0, this.x, this.y, this.z, 0, 0, 0, 0)
+        return new G3(0, this.x, this.y, this.z, 0, 0, 0, 0)
     }
 
     add(q: HH, α = 1): HH {
@@ -90,7 +90,7 @@ export default class HH implements MutableGeometricElement3D<HH, HH, HH, VectorE
         return this
     }
     clone(): HH {
-        return new HH(this.t, new Euclidean3(0, this.x, this.y, this.z, 0, 0, 0, 0))
+        return new HH(this.t, new G3(0, this.x, this.y, this.z, 0, 0, 0, 0))
     }
     lco(rhs: HH): HH {
         return this.lco2(this, rhs)
@@ -345,7 +345,7 @@ export default class HH implements MutableGeometricElement3D<HH, HH, HH, VectorE
     }
     spinor(a: VectorE3, b: VectorE3): HH {
         // TODO: Could create circularity problems.
-        let v1 = new R3();
+        let v1 = new R3m();
 
         var r: number = dotVector(a, b) + 1;
 

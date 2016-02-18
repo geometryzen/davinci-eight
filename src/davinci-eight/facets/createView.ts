@@ -1,6 +1,6 @@
-import Euclidean3 from '../math/Euclidean3';
+import G3 from '../math/G3';
 import FacetVisitor from '../core/FacetVisitor';
-import R3 from '../math/R3';
+import R3m from '../math/R3m';
 import VectorE3 from '../math/VectorE3';
 import Mat4R from '../math/Mat4R';
 import mustBeNumber from '../checks/mustBeNumber';
@@ -17,9 +17,9 @@ import readOnly from '../i18n/readOnly';
  */
 export default function createView(options?: { viewMatrixName?: string }): View {
 
-    const eye: R3 = new R3()
-    const look: R3 = new R3()
-    const up: R3 = R3.copy(Euclidean3.e2)
+    const eye: R3m = new R3m()
+    const look: R3m = new R3m()
+    const up: R3m = R3m.copy(G3.e2)
     const viewMatrix: Mat4R = Mat4R.one()
     const viewMatrixName = isUndefined(options.viewMatrixName) ? GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX : options.viewMatrixName
 
@@ -32,28 +32,28 @@ export default function createView(options?: { viewMatrixName?: string }): View 
         setProperty(name: string, value: number[]): View {
             return self;
         },
-        get eye(): R3 {
+        get eye(): R3m {
             return eye
         },
-        set eye(value: R3) {
+        set eye(value: R3m) {
             self.setEye(value)
         },
         /**
          * @method setEye
-         * @param eye {R3}
+         * @param eye {R3m}
          * @return {View} `this` instance.
          */
-        setEye(eye_: R3): View {
+        setEye(eye_: R3m): View {
             mustBeObject('eye', eye_)
             eye.x = mustBeNumber('eye.x', eye_.x)
             eye.y = mustBeNumber('eye.y', eye_.y)
             eye.z = mustBeNumber('eye.z', eye_.z)
             return self
         },
-        get look(): R3 {
+        get look(): R3m {
             return look
         },
-        set look(value: R3) {
+        set look(value: R3m) {
             self.setLook(value)
         },
         setLook(value: VectorE3): View {
@@ -63,10 +63,10 @@ export default function createView(options?: { viewMatrixName?: string }): View 
             look.z = value.z
             return self
         },
-        get up(): R3 {
+        get up(): R3m {
             return up
         },
-        set up(value: R3) {
+        set up(value: R3m) {
             self.setUp(value)
         },
         setUp(value: VectorE3): View {

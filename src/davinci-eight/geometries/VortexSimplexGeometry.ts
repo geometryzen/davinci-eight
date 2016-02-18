@@ -1,15 +1,15 @@
 import VectorE3 from '../math/VectorE3';
-import Euclidean3 from '../math/Euclidean3';
+import G3 from '../math/G3';
 import SimplexPrimitivesBuilder from '../geometries/SimplexPrimitivesBuilder';
 import mustBeInteger from '../checks/mustBeInteger';
-import SpinG3 from '../math/SpinG3';
-import R2 from '../math/R2';
-import R3 from '../math/R3';
+import SpinG3m from '../math/SpinG3m';
+import R2m from '../math/R2m';
+import R3m from '../math/R3m';
 
-function perpendicular(to: VectorE3): Euclidean3 {
-    var random = new R3([Math.random(), Math.random(), Math.random()])
+function perpendicular(to: VectorE3): G3 {
+    var random = new R3m([Math.random(), Math.random(), Math.random()])
     random.cross(to).direction()
-    return new Euclidean3(0, random.x, random.y, random.z, 0, 0, 0, 0)
+    return new G3(0, random.x, random.y, random.z, 0, 0, 0, 0)
 }
 
 export default class VortexSimplexGeometry extends SimplexPrimitivesBuilder {
@@ -21,7 +21,7 @@ export default class VortexSimplexGeometry extends SimplexPrimitivesBuilder {
     public lengthShaft: number = 0.8;
     public arrowSegments: number = 8;
     public radialSegments: number = 12;
-    public generator: SpinG3 = SpinG3.dual(Euclidean3.e3);
+    public generator: SpinG3m = SpinG3m.dual(G3.e3);
 
     constructor() {
         super()
@@ -43,23 +43,23 @@ export default class VortexSimplexGeometry extends SimplexPrimitivesBuilder {
         var radiusCone = this.radiusCone
         var radiusShaft = this.radiusShaft
         var radialSegments = this.radialSegments
-        var axis: Euclidean3 = new Euclidean3(0, -this.generator.yz, -this.generator.zx, -this.generator.xy, 0, 0, 0, 0)
-        var radial: Euclidean3 = perpendicular(axis)
+        var axis: G3 = new G3(0, -this.generator.yz, -this.generator.zx, -this.generator.xy, 0, 0, 0, 0)
+        var radial: G3 = perpendicular(axis)
         // FIXME: Change to scale
-        var R0: Euclidean3 = radial.scale(this.radius)
-        // FIXME: More elegant way to construct a Euclidean3 from a SpinorE3.
-        var generator = new Euclidean3(this.generator.α, 0, 0, 0, this.generator.xy, this.generator.yz, this.generator.zx, 0)
-        var Rminor0: Euclidean3 = axis.ext(radial)
+        var R0: G3 = radial.scale(this.radius)
+        // FIXME: More elegant way to construct a G3 from a SpinorE3.
+        var generator = new G3(this.generator.α, 0, 0, 0, this.generator.xy, this.generator.yz, this.generator.zx, 0)
+        var Rminor0: G3 = axis.ext(radial)
 
         var n = 9;
         var circleSegments = this.arrowSegments * n;
 
         var tau = Math.PI * 2;
-        var center = new R3([0, 0, 0]);
+        var center = new R3m([0, 0, 0]);
 
-        var normals: R3[] = [];
-        var points: R3[] = [];
-        var uvs: R2[] = [];
+        var normals: R3m[] = [];
+        var points: R3m[] = [];
+        var uvs: R2m[] = [];
 
         var alpha = this.lengthShaft / (this.lengthCone + this.lengthShaft);
         var factor = tau / this.arrowSegments;
@@ -98,25 +98,25 @@ export default class VortexSimplexGeometry extends SimplexPrimitivesBuilder {
                 // u is the angle in the xy-plane measured from the x-axis clockwise about the z-axis.
                 var u = computeAngle(i)
 
-                var Rmajor: Euclidean3 = generator.scale(-u / 2).exp()
+                var Rmajor: G3 = generator.scale(-u / 2).exp()
 
                 center.copy(R0).rotate(Rmajor)
 
-                var vertex = R3.copy(center)
-                var r0: Euclidean3 = axis.scale(computeRadius(i))
+                var vertex = R3m.copy(center)
+                var r0: G3 = axis.scale(computeRadius(i))
 
                 var Rminor = Rmajor.mul(Rminor0).mul(Rmajor.__tilde__()).scale(-v / 2).exp()
 
                 // var Rminor = Rminor0.clone().rotate(Rmajor).scale(-v/2).exp()
 
-                var r: Euclidean3 = Rminor.mul(r0).mul(Rminor.__tilde__())
+                var r: G3 = Rminor.mul(r0).mul(Rminor.__tilde__())
 
                 vertex.add2(center, r)
 
                 points.push(vertex);
 
-                uvs.push(new R2([i / circleSegments, j / radialSegments]));
-                normals.push(R3.copy(r).direction());
+                uvs.push(new R2m([i / circleSegments, j / radialSegments]));
+                normals.push(R3m.copy(r).direction());
             }
         }
 

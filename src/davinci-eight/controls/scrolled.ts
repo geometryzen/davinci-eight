@@ -1,4 +1,4 @@
-import G2 from '../math/G2'
+import G2m from '../math/G2m'
 
 function domElement(): HTMLElement {
     const documentElement = document.documentElement
@@ -22,7 +22,7 @@ function domElement(): HTMLElement {
  *
  * See https://developer.mozilla.org/en-US/docs/Web/API/Window/scrollX
  */
-export default function(out: G2): void {
+export default function(out: G2m): void {
     out.α = 0
     out.xy = 0
     if (window.pageXOffset !== void 0 && window.pageYOffset !== void 0) {

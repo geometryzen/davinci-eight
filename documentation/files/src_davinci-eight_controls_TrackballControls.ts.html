@@ -64,14 +64,14 @@
                                 <li><a href="../classes/DirectionalLight.html">DirectionalLight</a></li>
                                 <li><a href="../classes/DrawMode.html">DrawMode</a></li>
                                 <li><a href="../classes/EIGHTLogger.html">EIGHTLogger</a></li>
-                                <li><a href="../classes/Euclidean1.html">Euclidean1</a></li>
-                                <li><a href="../classes/Euclidean2.html">Euclidean2</a></li>
-                                <li><a href="../classes/Euclidean3.html">Euclidean3</a></li>
                                 <li><a href="../classes/Facet.html">Facet</a></li>
                                 <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
+                                <li><a href="../classes/G1.html">G1</a></li>
                                 <li><a href="../classes/G2.html">G2</a></li>
+                                <li><a href="../classes/G2m.html">G2m</a></li>
                                 <li><a href="../classes/G3.html">G3</a></li>
+                                <li><a href="../classes/G3m.html">G3m</a></li>
                                 <li><a href="../classes/GeometricE2.html">GeometricE2</a></li>
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
@@ -105,10 +105,10 @@
                                 <li><a href="../classes/PrimitiveBuffers.html">PrimitiveBuffers</a></li>
                                 <li><a href="../classes/Pseudo.html">Pseudo</a></li>
                                 <li><a href="../classes/QQ.html">QQ</a></li>
-                                <li><a href="../classes/R1.html">R1</a></li>
-                                <li><a href="../classes/R2.html">R2</a></li>
-                                <li><a href="../classes/R3.html">R3</a></li>
-                                <li><a href="../classes/R4.html">R4</a></li>
+                                <li><a href="../classes/R1m.html">R1m</a></li>
+                                <li><a href="../classes/R2m.html">R2m</a></li>
+                                <li><a href="../classes/R3m.html">R3m</a></li>
+                                <li><a href="../classes/R4m.html">R4m</a></li>
                                 <li><a href="../classes/ReflectionFacetE2.html">ReflectionFacetE2</a></li>
                                 <li><a href="../classes/ReflectionFacetE3.html">ReflectionFacetE3</a></li>
                                 <li><a href="../classes/RigidBody.html">RigidBody</a></li>
@@ -122,8 +122,8 @@
                                 <li><a href="../classes/ShareableWebGLTexture.html">ShareableWebGLTexture</a></li>
                                 <li><a href="../classes/Sphere.html">Sphere</a></li>
                                 <li><a href="../classes/SphereGeometry.html">SphereGeometry</a></li>
-                                <li><a href="../classes/SpinG2.html">SpinG2</a></li>
-                                <li><a href="../classes/SpinG3.html">SpinG3</a></li>
+                                <li><a href="../classes/SpinG2m.html">SpinG2m</a></li>
+                                <li><a href="../classes/SpinG3m.html">SpinG3m</a></li>
                                 <li><a href="../classes/SpinorE1.html">SpinorE1</a></li>
                                 <li><a href="../classes/SpinorE2.html">SpinorE2</a></li>
                                 <li><a href="../classes/SpinorE3.html">SpinorE3</a></li>
@@ -202,11 +202,11 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import G3 from &#x27;../math/G3&#x27;
+import G3m from &#x27;../math/G3m&#x27;
 import MouseControls from &#x27;./MouseControls&#x27;
 import PerspectiveCamera from &#x27;../facets/PerspectiveCamera&#x27;
-import R2 from &#x27;../math/R2&#x27;
-import R3 from &#x27;../math/R3&#x27;
+import R2m from &#x27;../math/R2m&#x27;
+import R3m from &#x27;../math/R3m&#x27;
 
 /**
  * @module EIGHT
@@ -240,31 +240,31 @@ export default class TrackballControls extends MouseControls {
      * The eye vector is the position of the camera relative to the target position vector.
      * So, camera.position = target + eye, or, eye = camera.position - target.
      */
-    private eye = new R3()
+    private eye = new R3m()
 
     /**
      * The position that we look at.
      */
-    private target = new G3()
+    private target = new G3m()
 
     /**
      * The initial position, look and up of the camera.
      * We cache these so that we can reset the camera.
      */
-    private position0: R3
-    private target0: G3
-    private up0: R3
+    private position0: R3m
+    private target0: G3m
+    private up0: R3m
 
     // Working storage for calculations that update the camera.
-    private moveDirection = new R3()
-    private eyeDirection = new R3()
-    private objectUpDirection = new R3()
-    private objectSidewaysDirection = new R3()
-    private axis = new R3()
-    private rotor = new G3()
-    private mouseChange = new R2()
-    private pan = new R3()
-    private objectUp = new R3()
+    private moveDirection = new R3m()
+    private eyeDirection = new R3m()
+    private objectUpDirection = new R3m()
+    private objectSidewaysDirection = new R3m()
+    private axis = new R3m()
+    private rotor = new G3m()
+    private mouseChange = new R2m()
+    private pan = new R3m()
+    private objectUp = new R3m()
 
     /**
      * @class TrackballControls

@@ -1,6 +1,6 @@
 import b2 from '../geometries/b2';
 import b3 from '../geometries/b3';
-import Euclidean3 from '../math/Euclidean3';
+import G3 from '../math/G3';
 import FontFace from '../geometries/FontFace';
 import Path from '../geometries/Path';
 import Shape from '../geometries/Shape';
@@ -35,7 +35,7 @@ function drawText(text: string, face: FontFace, size: number, divs: number): { p
  */
 function extractGlyphPoints(c: string, face: FontFace, scale: number, offset: number, path: Path, divs: number) {
 
-    var pts: Euclidean3[] = [];
+    var pts: G3[] = [];
 
     var divisions: number;
     var outline: (number | string)[];
@@ -53,7 +53,7 @@ function extractGlyphPoints(c: string, face: FontFace, scale: number, offset: nu
     var cpy1: number;
     var cpx2: number;
     var cpy2: number;
-    var laste: Euclidean3;
+    var laste: G3;
     var glyph = face.glyphs[c] || face.glyphs['?'];
 
     if (!glyph) return;
@@ -78,7 +78,7 @@ function extractGlyphPoints(c: string, face: FontFace, scale: number, offset: nu
 
                     x = <number>outline[i++] * scaleX + offset;
                     y = <number>outline[i++] * scaleY;
-                    path.moveTo(Euclidean3.fromCartesian(0, x, y, 0, 0, 0, 0, 0, void 0));
+                    path.moveTo(G3.fromCartesian(0, x, y, 0, 0, 0, 0, 0, void 0));
                     break;
 
                 case 'l':
@@ -87,7 +87,7 @@ function extractGlyphPoints(c: string, face: FontFace, scale: number, offset: nu
 
                     x = <number>outline[i++] * scaleX + offset;
                     y = <number>outline[i++] * scaleY;
-                    path.lineTo(Euclidean3.fromCartesian(0, x, y, 0, 0, 0, 0, 0, void 0));
+                    path.lineTo(G3.fromCartesian(0, x, y, 0, 0, 0, 0, 0, void 0));
                     break;
 
                 case 'q':
@@ -98,8 +98,8 @@ function extractGlyphPoints(c: string, face: FontFace, scale: number, offset: nu
                     cpy = <number>outline[i++] * scaleY;
                     cpx1 = <number>outline[i++] * scaleX + offset;
                     cpy1 = <number>outline[i++] * scaleY;
-                    var controlPoint = Euclidean3.fromCartesian(0, cpx1, cpy1, 0, 0, 0, 0, 0, void 0)
-                    var point = Euclidean3.fromCartesian(0, cpx, cpy, 0, 0, 0, 0, 0, void 0)
+                    var controlPoint = G3.fromCartesian(0, cpx1, cpy1, 0, 0, 0, 0, 0, void 0)
+                    var point = G3.fromCartesian(0, cpx, cpy, 0, 0, 0, 0, 0, void 0)
 
                     path.quadraticCurveTo(controlPoint, point);
 
@@ -127,15 +127,15 @@ function extractGlyphPoints(c: string, face: FontFace, scale: number, offset: nu
 
                     cpx = <number>outline[i++] * scaleX + offset;
                     cpy = <number>outline[i++] * scaleY;
-                    point = Euclidean3.fromCartesian(0, cpx, cpy, 0, 0, 0, 0, 0, void 0)
+                    point = G3.fromCartesian(0, cpx, cpy, 0, 0, 0, 0, 0, void 0)
 
                     cpx1 = <number>outline[i++] * scaleX + offset;
                     cpy1 = <number>outline[i++] * scaleY;
-                    var controlBegin = Euclidean3.fromCartesian(0, cpx1, cpy1, 0, 0, 0, 0, 0, void 0)
+                    var controlBegin = G3.fromCartesian(0, cpx1, cpy1, 0, 0, 0, 0, 0, void 0)
 
                     cpx2 = <number>outline[i++] * scaleX + offset;
                     cpy2 = <number>outline[i++] * scaleY;
-                    var controlEnd = Euclidean3.fromCartesian(0, cpx2, cpy2, 0, 0, 0, 0, 0, void 0)
+                    var controlEnd = G3.fromCartesian(0, cpx2, cpy2, 0, 0, 0, 0, 0, void 0)
 
                     path.bezierCurveTo(controlBegin, controlEnd, point);
 
@@ -176,7 +176,7 @@ export default function generateTextShapes(text: string, face: FontFace, paramet
 
     // Get a Font data json object
 
-    var data /* : { paths: Path<R2>[]; offset: number } */ = drawText(text, face, size, curveSegments);
+    var data /* : { paths: Path<R2m>[]; offset: number } */ = drawText(text, face, size, curveSegments);
 
     var paths = data.paths;
     var shapes: Shape[] = [];

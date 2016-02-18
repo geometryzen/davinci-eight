@@ -1,7 +1,7 @@
-import Euclidean3 from '../math/Euclidean3';
+import G3 from '../math/G3';
 import RevolutionSimplexPrimitivesBuilder from '../geometries/RevolutionSimplexPrimitivesBuilder';
-import SpinG3 from '../math/SpinG3';
-import R3 from '../math/R3';
+import SpinG3m from '../math/SpinG3m';
+import R3m from '../math/R3m';
 import VectorE3 from '../math/VectorE3';
 
 function signum(x: number): number {
@@ -19,33 +19,33 @@ var permutation = function(direction: VectorE3): number {
     return bigger(x, z) ? (bigger(x, y) ? 0 : 1) : (bigger(y, z) ? 1 : 2)
 }
 
-var orientation = function(cardinalIndex: number, direction: R3): number {
+var orientation = function(cardinalIndex: number, direction: R3m): number {
     return signum(direction.getComponent(cardinalIndex))
 }
 
-function nearest(direction: R3): R3 {
+function nearest(direction: R3m): R3m {
     var cardinalIndex = permutation(direction)
     switch (cardinalIndex) {
         case 0: {
-            return new R3([orientation(cardinalIndex, direction), 0, 0])
+            return new R3m([orientation(cardinalIndex, direction), 0, 0])
         }
         break;
         case 1: {
-            return new R3([0, orientation(cardinalIndex, direction), 0])
+            return new R3m([0, orientation(cardinalIndex, direction), 0])
         }
         break;
         case 2: {
-            return new R3([0, 0, orientation(cardinalIndex, direction)])
+            return new R3m([0, 0, orientation(cardinalIndex, direction)])
         }
     }
-    return R3.copy(direction)
+    return R3m.copy(direction)
 }
 
 export default class ArrowSimplexPrimitivesBuilder extends RevolutionSimplexPrimitivesBuilder {
     public lengthCone: number = 0.20;
     public radiusCone: number = 0.08;
     public radiusShaft: number = 0.01;
-    public vector: R3 = R3.copy(Euclidean3.e1);
+    public vector: R3m = R3m.copy(G3.e1);
     public segments: number = 12;
     constructor() {
         super()
@@ -64,7 +64,7 @@ export default class ArrowSimplexPrimitivesBuilder extends RevolutionSimplexPrim
         var halfLength = length / 2;
         var radiusCone = this.radiusCone
         var radiusShaft = this.radiusShaft
-        var computeArrow = function(direction: R3): { points: R3[], generator: SpinG3 } {
+        var computeArrow = function(direction: R3m): { points: R3m[], generator: SpinG3m } {
             var cycle = permutation(direction)
             var sign = orientation(cycle, direction)
             var i = (cycle + 0) % 3
@@ -81,14 +81,14 @@ export default class ArrowSimplexPrimitivesBuilder extends RevolutionSimplexPrim
                 [-a, 0, 0]    // tail end
             ]
             var points = data.map(function(point: number[]) {
-                return new R3([point[i], point[j], point[k]])
+                return new R3m([point[i], point[j], point[k]])
             })
-            var generator = SpinG3.dual(nearest(direction))
+            var generator = SpinG3m.dual(nearest(direction))
             return { "points": points, "generator": generator }
         }
-        var direction = R3.copy(this.vector).direction()
+        var direction = R3m.copy(this.vector).direction()
         var arrow = computeArrow(direction)
-        var R = SpinG3.rotorFromDirections(nearest(direction), direction)
+        var R = SpinG3m.rotorFromDirections(nearest(direction), direction)
         this.data = []
         super.revolve(arrow.points, arrow.generator, this.segments, 0, 2 * Math.PI, R)
         this.setModified(false)

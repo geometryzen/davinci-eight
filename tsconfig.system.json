@@ -14,7 +14,7 @@
   },
   "files": [
     "src/davinci-eight.ts",
-    "src/davinci-eight/math/Euclidean3.spec.ts",
+    "src/davinci-eight/math/G3.spec.ts",
     "src/davinci-eight/core/ShareableWebGLShader.ts",
     "typings/jasmine/jasmine.d.ts"
   ]

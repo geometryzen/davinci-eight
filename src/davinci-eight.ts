@@ -132,16 +132,16 @@ import VectorE3 from 'davinci-eight/math/VectorE3';
 import VectorE4 from 'davinci-eight/math/VectorE4';
 import CC from 'davinci-eight/math/CC';
 import Dimensions from 'davinci-eight/math/Dimensions';
-import Euclidean1 from 'davinci-eight/math/Euclidean1';
-import Euclidean1Coords from 'davinci-eight/math/Euclidean1Coords';
-import Euclidean2 from 'davinci-eight/math/Euclidean2';
-import Euclidean3 from 'davinci-eight/math/Euclidean3';
+import G1 from 'davinci-eight/math/G1';
+import GeometricE1 from 'davinci-eight/math/GeometricE1';
+import G2 from 'davinci-eight/math/G2';
+import G3 from 'davinci-eight/math/G3';
 import Euler from 'davinci-eight/math/Euler';
 import gauss from 'davinci-eight/math/gauss';
 import GeometricElement from 'davinci-eight/math/GeometricElement';
 import LinearElement from 'davinci-eight/math/LinearElement';
 import mathcore from 'davinci-eight/math/mathcore';
-import R1 from 'davinci-eight/math/R1';
+import R1m from 'davinci-eight/math/R1m';
 import Mat2R from 'davinci-eight/math/Mat2R';
 import Mat3R from 'davinci-eight/math/Mat3R';
 import Mat4R from 'davinci-eight/math/Mat4R';
@@ -153,13 +153,13 @@ import SpinorE1 from 'davinci-eight/math/SpinorE1';
 import SpinorE2 from 'davinci-eight/math/SpinorE2';
 import SpinorE3 from 'davinci-eight/math/SpinorE3';
 import Unit from 'davinci-eight/math/Unit';
-import G2 from 'davinci-eight/math/G2';
-import G3 from 'davinci-eight/math/G3';
-import SpinG2 from 'davinci-eight/math/SpinG2';
-import SpinG3 from 'davinci-eight/math/SpinG3';
-import R2 from 'davinci-eight/math/R2';
-import R3 from 'davinci-eight/math/R3';
-import R4 from 'davinci-eight/math/R4';
+import G2m from 'davinci-eight/math/G2m';
+import G3m from 'davinci-eight/math/G3m';
+import SpinG2m from 'davinci-eight/math/SpinG2m';
+import SpinG3m from 'davinci-eight/math/SpinG3m';
+import R2m from 'davinci-eight/math/R2m';
+import R3m from 'davinci-eight/math/R3m';
+import R4m from 'davinci-eight/math/R4m';
 import VectorN from 'davinci-eight/math/VectorN';
 import HH from 'davinci-eight/math/HH';
 
@@ -300,20 +300,20 @@ const eight = {
 
     get Dimensions() { return Dimensions },
     get Unit() { return Unit },
-    get Euclidean2() { return Euclidean2 },
-    get Euclidean3() { return Euclidean3 },
+    get G2() { return G2 },
+    get G3() { return G3 },
     get Mat2R() { return Mat2R },
     get Mat3R() { return Mat3R },
     get Mat4R() { return Mat4R },
     get QQ() { return QQ },
-    get G2() { return G2 },
-    get G3() { return G3 },
-    get R1() { return R1 },
-    get SpinG2() { return SpinG2 },
-    get SpinG3() { return SpinG3 },
-    get R2() { return R2 },
-    get R3() { return R3 },
-    get R4() { return R4 },
+    get G2m() { return G2m },
+    get G3m() { return G3m },
+    get R1m() { return R1m },
+    get SpinG2m() { return SpinG2m },
+    get SpinG3m() { return SpinG3m },
+    get R2m() { return R2m },
+    get R3m() { return R3m },
+    get R4m() { return R4m },
     get VectorN() { return VectorN },
     get Curve() { return Curve },
 

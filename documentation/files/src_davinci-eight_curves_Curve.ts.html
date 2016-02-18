@@ -64,14 +64,14 @@
                                 <li><a href="../classes/DirectionalLight.html">DirectionalLight</a></li>
                                 <li><a href="../classes/DrawMode.html">DrawMode</a></li>
                                 <li><a href="../classes/EIGHTLogger.html">EIGHTLogger</a></li>
-                                <li><a href="../classes/Euclidean1.html">Euclidean1</a></li>
-                                <li><a href="../classes/Euclidean2.html">Euclidean2</a></li>
-                                <li><a href="../classes/Euclidean3.html">Euclidean3</a></li>
                                 <li><a href="../classes/Facet.html">Facet</a></li>
                                 <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
+                                <li><a href="../classes/G1.html">G1</a></li>
                                 <li><a href="../classes/G2.html">G2</a></li>
+                                <li><a href="../classes/G2m.html">G2m</a></li>
                                 <li><a href="../classes/G3.html">G3</a></li>
+                                <li><a href="../classes/G3m.html">G3m</a></li>
                                 <li><a href="../classes/GeometricE2.html">GeometricE2</a></li>
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
@@ -105,10 +105,10 @@
                                 <li><a href="../classes/PrimitiveBuffers.html">PrimitiveBuffers</a></li>
                                 <li><a href="../classes/Pseudo.html">Pseudo</a></li>
                                 <li><a href="../classes/QQ.html">QQ</a></li>
-                                <li><a href="../classes/R1.html">R1</a></li>
-                                <li><a href="../classes/R2.html">R2</a></li>
-                                <li><a href="../classes/R3.html">R3</a></li>
-                                <li><a href="../classes/R4.html">R4</a></li>
+                                <li><a href="../classes/R1m.html">R1m</a></li>
+                                <li><a href="../classes/R2m.html">R2m</a></li>
+                                <li><a href="../classes/R3m.html">R3m</a></li>
+                                <li><a href="../classes/R4m.html">R4m</a></li>
                                 <li><a href="../classes/ReflectionFacetE2.html">ReflectionFacetE2</a></li>
                                 <li><a href="../classes/ReflectionFacetE3.html">ReflectionFacetE3</a></li>
                                 <li><a href="../classes/RigidBody.html">RigidBody</a></li>
@@ -122,8 +122,8 @@
                                 <li><a href="../classes/ShareableWebGLTexture.html">ShareableWebGLTexture</a></li>
                                 <li><a href="../classes/Sphere.html">Sphere</a></li>
                                 <li><a href="../classes/SphereGeometry.html">SphereGeometry</a></li>
-                                <li><a href="../classes/SpinG2.html">SpinG2</a></li>
-                                <li><a href="../classes/SpinG3.html">SpinG3</a></li>
+                                <li><a href="../classes/SpinG2m.html">SpinG2m</a></li>
+                                <li><a href="../classes/SpinG3m.html">SpinG3m</a></li>
                                 <li><a href="../classes/SpinorE1.html">SpinorE1</a></li>
                                 <li><a href="../classes/SpinorE2.html">SpinorE2</a></li>
                                 <li><a href="../classes/SpinorE3.html">SpinorE3</a></li>
@@ -202,7 +202,7 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import Euclidean3 from &#x27;../math/Euclidean3&#x27;;
+import G3 from &#x27;../math/G3&#x27;;
 
 export default class Curve {
     private cacheArcLengths: number[];
@@ -210,30 +210,30 @@ export default class Curve {
     private __arcLengthDivisions: number;
     constructor() {
     }
-    getPoint(t: number): Euclidean3 {
+    getPoint(t: number): G3 {
         throw new Error(&quot;Curve.getPoint() not implemented!&quot;);
     }
-    getPointAt(u: number): Euclidean3 {
+    getPointAt(u: number): G3 {
         var t = this.getUtoTmapping(u);
         return this.getPoint(t);
     }
-    getPoints(divisions?: number): Euclidean3[] {
+    getPoints(divisions?: number): G3[] {
         if (!divisions) {
             divisions = 5;
         }
         var d: number;
-        var pts: Euclidean3[] = [];
+        var pts: G3[] = [];
         for (d = 0; d &lt;= divisions; d++) {
             pts.push(this.getPoint(d / divisions));
         }
         return pts;
     }
-    getSpacedPoints(divisions?: number): Euclidean3[] {
+    getSpacedPoints(divisions?: number): G3[] {
         if (!divisions) {
             divisions = 5;
         }
         var d: number;
-        var pts: Euclidean3[] = [];
+        var pts: G3[] = [];
         for (d = 0; d &lt;= divisions; d++) {
             pts.push(this.getPointAt(d / divisions));
         }
@@ -258,8 +258,8 @@ export default class Curve {
         this.needsUpdate = false;
 
         var cache: number[] = [];
-        var current: Euclidean3;
-        var last: Euclidean3 = this.getPoint(0);
+        var current: G3;
+        var last: G3 = this.getPoint(0);
         var p: number;
         var sum: number = 0;
 
@@ -372,7 +372,7 @@ export default class Curve {
      * 2 points a small delta apart will be used to find its gradient
      * which seems to give a reasonable approximation
      */
-    getTangent(t: number): Euclidean3 {
+    getTangent(t: number): G3 {
 
         var delta = 0.0001;
         var t1 = t - delta;
@@ -381,14 +381,14 @@ export default class Curve {
         if (t1 &lt; 0) t1 = 0;
         if (t2 &gt; 1) t2 = 1;
 
-        var pt1: Euclidean3 = this.getPoint(t1);
-        var pt2: Euclidean3 = this.getPoint(t2);
+        var pt1: G3 = this.getPoint(t1);
+        var pt2: G3 = this.getPoint(t2);
 
-        var tangent: Euclidean3 = pt2.sub(pt1);
+        var tangent: G3 = pt2.sub(pt1);
         return tangent.direction();
     }
 
-    getTangentAt(u: number): Euclidean3 {
+    getTangentAt(u: number): G3 {
         var t: number = this.getUtoTmapping(u);
         return this.getTangent(t);
     }

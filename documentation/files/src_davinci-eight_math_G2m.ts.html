@@ -1,0 +1,1979 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>src/davinci-eight/math/G2m.ts - davinci-eight</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="icon" href="../assets/favicon.ico">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+                <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 2.189.0</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+                    <h2 class="off-left">APIs</h2>
+                    <div id="api-tabview" class="tabview">
+                        <ul class="tabs">
+                            <li><a href="#api-classes">Classes</a></li>
+                            <li><a href="#api-modules">Modules</a></li>
+                        </ul>
+                
+                        <div id="api-tabview-filter">
+                            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+                        </div>
+                
+                        <div id="api-tabview-panel">
+                            <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/AbstractMatrix.html">AbstractMatrix</a></li>
+                                <li><a href="../classes/AmbientLight.html">AmbientLight</a></li>
+                                <li><a href="../classes/Arrow.html">Arrow</a></li>
+                                <li><a href="../classes/ArrowGeometry.html">ArrowGeometry</a></li>
+                                <li><a href="../classes/AttribLocation.html">AttribLocation</a></li>
+                                <li><a href="../classes/AttribMetaInfo.html">AttribMetaInfo</a></li>
+                                <li><a href="../classes/Attribute.html">Attribute</a></li>
+                                <li><a href="../classes/BlendFactor.html">BlendFactor</a></li>
+                                <li><a href="../classes/Box.html">Box</a></li>
+                                <li><a href="../classes/Capability.html">Capability</a></li>
+                                <li><a href="../classes/CartesianE3.html">CartesianE3</a></li>
+                                <li><a href="../classes/CC.html">CC</a></li>
+                                <li><a href="../classes/Color.html">Color</a></li>
+                                <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
+                                <li><a href="../classes/ColorRGB.html">ColorRGB</a></li>
+                                <li><a href="../classes/ColorRGBA.html">ColorRGBA</a></li>
+                                <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
+                                <li><a href="../classes/createView.html">createView</a></li>
+                                <li><a href="../classes/CuboidGeometry.html">CuboidGeometry</a></li>
+                                <li><a href="../classes/CuboidPrimitivesBuilder.html">CuboidPrimitivesBuilder</a></li>
+                                <li><a href="../classes/Cylinder.html">Cylinder</a></li>
+                                <li><a href="../classes/CylinderGeometry.html">CylinderGeometry</a></li>
+                                <li><a href="../classes/Dimensions.html">Dimensions</a></li>
+                                <li><a href="../classes/DirectionalLight.html">DirectionalLight</a></li>
+                                <li><a href="../classes/DrawMode.html">DrawMode</a></li>
+                                <li><a href="../classes/EIGHTLogger.html">EIGHTLogger</a></li>
+                                <li><a href="../classes/Facet.html">Facet</a></li>
+                                <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
+                                <li><a href="../classes/Frustum.html">Frustum</a></li>
+                                <li><a href="../classes/G1.html">G1</a></li>
+                                <li><a href="../classes/G2.html">G2</a></li>
+                                <li><a href="../classes/G2m.html">G2m</a></li>
+                                <li><a href="../classes/G3.html">G3</a></li>
+                                <li><a href="../classes/G3m.html">G3m</a></li>
+                                <li><a href="../classes/GeometricE2.html">GeometricE2</a></li>
+                                <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
+                                <li><a href="../classes/Geometry.html">Geometry</a></li>
+                                <li><a href="../classes/GeometryContainer.html">GeometryContainer</a></li>
+                                <li><a href="../classes/GeometryPrimitive.html">GeometryPrimitive</a></li>
+                                <li><a href="../classes/GraphicsProgramSymbols.html">GraphicsProgramSymbols</a></li>
+                                <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
+                                <li><a href="../classes/IContextConsumer.html">IContextConsumer</a></li>
+                                <li><a href="../classes/IContextListener.html">IContextListener</a></li>
+                                <li><a href="../classes/IContextProgramConsumer.html">IContextProgramConsumer</a></li>
+                                <li><a href="../classes/IContextProvider.html">IContextProvider</a></li>
+                                <li><a href="../classes/IUnknown.html">IUnknown</a></li>
+                                <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
+                                <li><a href="../classes/Mat2R.html">Mat2R</a></li>
+                                <li><a href="../classes/Mat3R.html">Mat3R</a></li>
+                                <li><a href="../classes/Mat4R.html">Mat4R</a></li>
+                                <li><a href="../classes/Material.html">Material</a></li>
+                                <li><a href="../classes/Mesh.html">Mesh</a></li>
+                                <li><a href="../classes/MeshMaterial.html">MeshMaterial</a></li>
+                                <li><a href="../classes/ModelE2.html">ModelE2</a></li>
+                                <li><a href="../classes/ModelE3.html">ModelE3</a></li>
+                                <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
+                                <li><a href="../classes/MouseControls.html">MouseControls</a></li>
+                                <li><a href="../classes/Mutable.html">Mutable</a></li>
+                                <li><a href="../classes/NumberIUnknownMap.html">NumberIUnknownMap</a></li>
+                                <li><a href="../classes/Perspective.html">Perspective</a></li>
+                                <li><a href="../classes/PerspectiveCamera.html">PerspectiveCamera</a></li>
+                                <li><a href="../classes/PointMaterial.html">PointMaterial</a></li>
+                                <li><a href="../classes/PointSizeFacet.html">PointSizeFacet</a></li>
+                                <li><a href="../classes/Primitive.html">Primitive</a></li>
+                                <li><a href="../classes/PrimitiveBuffers.html">PrimitiveBuffers</a></li>
+                                <li><a href="../classes/Pseudo.html">Pseudo</a></li>
+                                <li><a href="../classes/QQ.html">QQ</a></li>
+                                <li><a href="../classes/R1m.html">R1m</a></li>
+                                <li><a href="../classes/R2m.html">R2m</a></li>
+                                <li><a href="../classes/R3m.html">R3m</a></li>
+                                <li><a href="../classes/R4m.html">R4m</a></li>
+                                <li><a href="../classes/ReflectionFacetE2.html">ReflectionFacetE2</a></li>
+                                <li><a href="../classes/ReflectionFacetE3.html">ReflectionFacetE3</a></li>
+                                <li><a href="../classes/RigidBody.html">RigidBody</a></li>
+                                <li><a href="../classes/Scalar.html">Scalar</a></li>
+                                <li><a href="../classes/Scene.html">Scene</a></li>
+                                <li><a href="../classes/Shareable.html">Shareable</a></li>
+                                <li><a href="../classes/ShareableArray.html">ShareableArray</a></li>
+                                <li><a href="../classes/ShareableContextListener.html">ShareableContextListener</a></li>
+                                <li><a href="../classes/ShareableWebGLBuffer.html">ShareableWebGLBuffer</a></li>
+                                <li><a href="../classes/ShareableWebGLShader.html">ShareableWebGLShader</a></li>
+                                <li><a href="../classes/ShareableWebGLTexture.html">ShareableWebGLTexture</a></li>
+                                <li><a href="../classes/Sphere.html">Sphere</a></li>
+                                <li><a href="../classes/SphereGeometry.html">SphereGeometry</a></li>
+                                <li><a href="../classes/SpinG2m.html">SpinG2m</a></li>
+                                <li><a href="../classes/SpinG3m.html">SpinG3m</a></li>
+                                <li><a href="../classes/SpinorE1.html">SpinorE1</a></li>
+                                <li><a href="../classes/SpinorE2.html">SpinorE2</a></li>
+                                <li><a href="../classes/SpinorE3.html">SpinorE3</a></li>
+                                <li><a href="../classes/SpinorE4.html">SpinorE4</a></li>
+                                <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
+                                <li><a href="../classes/Tetrahedron.html">Tetrahedron</a></li>
+                                <li><a href="../classes/TetrahedronGeometry.html">TetrahedronGeometry</a></li>
+                                <li><a href="../classes/TrackballControls.html">TrackballControls</a></li>
+                                <li><a href="../classes/Trail.html">Trail</a></li>
+                                <li><a href="../classes/UniformLocation.html">UniformLocation</a></li>
+                                <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
+                                <li><a href="../classes/Unit.html">Unit</a></li>
+                                <li><a href="../classes/Vector.html">Vector</a></li>
+                                <li><a href="../classes/Vector3Facet.html">Vector3Facet</a></li>
+                                <li><a href="../classes/VectorE0.html">VectorE0</a></li>
+                                <li><a href="../classes/VectorE1.html">VectorE1</a></li>
+                                <li><a href="../classes/VectorE2.html">VectorE2</a></li>
+                                <li><a href="../classes/VectorE3.html">VectorE3</a></li>
+                                <li><a href="../classes/VectorE4.html">VectorE4</a></li>
+                                <li><a href="../classes/VectorN.html">VectorN</a></li>
+                                <li><a href="../classes/VersionLogger.html">VersionLogger</a></li>
+                                <li><a href="../classes/View.html">View</a></li>
+                                <li><a href="../classes/VisualBody.html">VisualBody</a></li>
+                                <li><a href="../classes/WebGLBlendFunc.html">WebGLBlendFunc</a></li>
+                                <li><a href="../classes/WebGLClearColor.html">WebGLClearColor</a></li>
+                                <li><a href="../classes/WebGLDisable.html">WebGLDisable</a></li>
+                                <li><a href="../classes/WebGLEnable.html">WebGLEnable</a></li>
+                                <li><a href="../classes/WebGLRenderer.html">WebGLRenderer</a></li>
+                                <li><a href="../classes/World.html">World</a></li>
+                            </ul>
+                
+                
+                            <ul id="api-modules" class="apis modules">
+                                <li><a href="../modules/controls.html">controls</a></li>
+                                <li><a href="../modules/core.html">core</a></li>
+                                <li><a href="../modules/EIGHT.html">EIGHT</a></li>
+                                <li><a href="../modules/facets.html">facets</a></li>
+                                <li><a href="../modules/geometries.html">geometries</a></li>
+                                <li><a href="../modules/materials.html">materials</a></li>
+                                <li><a href="../modules/math.html">math</a></li>
+                                <li><a href="../modules/visual.html">visual</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+                    Show:
+                    <label for="api-show-inherited">
+                        <input type="checkbox" id="api-show-inherited" checked>
+                        Inherited
+                    </label>
+            
+                    <label for="api-show-protected">
+                        <input type="checkbox" id="api-show-protected">
+                        Protected
+                    </label>
+            
+                    <label for="api-show-private">
+                        <input type="checkbox" id="api-show-private">
+                        Private
+                    </label>
+                    <label for="api-show-deprecated">
+                        <input type="checkbox" id="api-show-deprecated">
+                        Deprecated
+                    </label>
+            
+                </div>
+            
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+<h1 class="file-heading">File: src/davinci-eight/math/G2m.ts</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+import b2 from &#x27;../geometries/b2&#x27;;
+import b3 from &#x27;../geometries/b3&#x27;;
+import dotVector from &#x27;../math/dotVectorE2&#x27;;
+import G2 from &#x27;../math/G2&#x27;;
+import extE2 from &#x27;../math/extE2&#x27;;
+import GeometricE2 from &#x27;../math/GeometricE2&#x27;;
+import isDefined from &#x27;../checks/isDefined&#x27;;
+import isNumber from &#x27;../checks/isNumber&#x27;;
+import isObject from &#x27;../checks/isObject&#x27;;
+import lcoE2 from &#x27;../math/lcoE2&#x27;;
+import GeometricOperators from &#x27;../math/GeometricOperators&#x27;;
+import Measure from &#x27;../math/Measure&#x27;;
+import mulE2 from &#x27;../math/mulE2&#x27;;
+import mustBeInteger from &#x27;../checks/mustBeInteger&#x27;;
+import mustBeNumber from &#x27;../checks/mustBeNumber&#x27;;
+import mustBeObject from &#x27;../checks/mustBeObject&#x27;;
+import MutableGeometricElement from &#x27;../math/MutableGeometricElement&#x27;;
+import quadVector from &#x27;../math/quadVectorE2&#x27;;
+import rcoE2 from &#x27;../math/rcoE2&#x27;;
+import rotorFromDirections from &#x27;../math/rotorFromDirections&#x27;;
+import scpE2 from &#x27;../math/scpE2&#x27;;
+import SpinorE2 from &#x27;../math/SpinorE2&#x27;;
+import stringFromCoordinates from &#x27;../math/stringFromCoordinates&#x27;;
+import Unit from &#x27;../math/Unit&#x27;;
+import VectorE2 from &#x27;../math/VectorE2&#x27;;
+import VectorN from &#x27;../math/VectorN&#x27;;
+import wedgeXY from &#x27;../math/wedgeXY&#x27;;
+
+/**
+ * @module EIGHT
+ * @submodule math
+ */
+
+// GraphicsProgramSymbols constants for the coordinate indices into the data array.
+const COORD_SCALAR = 0
+const COORD_X = 1
+const COORD_Y = 2
+const COORD_PSEUDO = 3
+
+const PI = Math.PI
+const abs = Math.abs
+const atan2 = Math.atan2
+const exp = Math.exp
+const log = Math.log
+const cos = Math.cos
+const sin = Math.sin
+const sqrt = Math.sqrt
+
+// const LEFTWARDS_ARROW = &quot;←&quot;
+// const RIGHTWARDS_ARROW = &quot;→&quot;
+// const UPWARDS_ARROW = &quot;↑&quot;
+// const DOWNWARDS_ARROW = &quot;↓&quot;
+// const BULLSEYE = &quot;◎&quot;
+// const CLOCKWISE_OPEN_CIRCLE_ARROW = &quot;↻&quot;
+// const ANTICLOCKWISE_OPEN_CIRCLE_ARROW = &quot;↺&quot;
+
+// const ARROW_LABELS = [&quot;1&quot;, [LEFTWARDS_ARROW, RIGHTWARDS_ARROW], [DOWNWARDS_ARROW, UPWARDS_ARROW], [CLOCKWISE_OPEN_CIRCLE_ARROW, ANTICLOCKWISE_OPEN_CIRCLE_ARROW]]
+const STANDARD_LABELS = [&quot;1&quot;, &quot;e1&quot;, &quot;e2&quot;, &quot;I&quot;]
+
+/**
+ * Coordinates corresponding to basis labels.
+ */
+function coordinates(m: GeometricE2): number[] {
+    return [m.α, m.x, m.y, m.β]
+}
+
+/**
+ * Promotes an unknown value to a G2m, or returns undefined.
+ */
+function duckCopy(value: any): G2m {
+    if (isObject(value)) {
+        let m = &lt;GeometricE2&gt;value
+        if (isNumber(m.x) &amp;&amp; isNumber(m.y)) {
+            if (isNumber(m.α) &amp;&amp; isNumber(m.β)) {
+                console.warn(&quot;Copying GeometricE2 to G2m&quot;)
+                return G2m.copy(m)
+            }
+            else {
+                console.warn(&quot;Copying VectorE2 to G2m&quot;)
+                return G2m.fromVector(m)
+            }
+        }
+        else {
+            if (isNumber(m.α) &amp;&amp; isNumber(m.β)) {
+                console.warn(&quot;Copying SpinorE2 to G2m&quot;)
+                return G2m.fromSpinor(m)
+            }
+            else {
+                return void 0
+            }
+        }
+    }
+    else {
+        return void 0
+    }
+}
+
+/**
+ * @class G2m
+ * @extends VectorN
+ * @beta
+ */
+export default class G2m extends VectorN&lt;number&gt; implements GeometricE2, Measure&lt;G2m&gt;, MutableGeometricElement&lt;GeometricE2, G2m, SpinorE2, VectorE2&gt;, GeometricOperators&lt;G2m&gt; {
+    /**
+     * @property BASIS_LABELS
+     * @type {(string | string[])[]}
+     */
+    static BASIS_LABELS: (string | string[])[] = STANDARD_LABELS
+
+    /**
+     * The optional unit of measure.
+     * @property uom
+     * @type {Unit}
+     * @beta
+     */
+    uom: Unit;
+
+    /**
+     * Constructs a &lt;code&gt;G2m&lt;/code&gt;.
+     * The multivector is initialized to zero.
+     * @class G2m
+     * @beta
+     * @constructor
+     */
+    constructor() {
+        super([0, 0, 0, 0], false, 4)
+    }
+
+    /**
+     * The coordinate corresponding to the unit standard basis scalar.
+     * @property α
+     * @type {number}
+     */
+    get α(): number {
+        return this.coords[COORD_SCALAR]
+    }
+    set α(α: number) {
+        this.modified = this.modified || this.coords[COORD_SCALAR] !== α
+        this.coords[COORD_SCALAR] = α
+    }
+
+    /**
+     * The coordinate corresponding to the unit standard basis scalar.
+     * @property alpha
+     * @type {number}
+     */
+    get alpha(): number {
+        return this.coords[COORD_SCALAR]
+    }
+    set alpha(alpha: number) {
+        this.modified = this.modified || this.coords[COORD_SCALAR] !== alpha
+        this.coords[COORD_SCALAR] = alpha
+    }
+
+    /**
+     * The coordinate corresponding to the &lt;b&gt;e&lt;/b&gt;&lt;sub&gt;1&lt;/sub&gt; standard basis vector.
+     * @property x
+     * @type {number}
+     */
+    get x(): number {
+        return this.coords[COORD_X]
+    }
+    set x(x: number) {
+        this.modified = this.modified || this.coords[COORD_X] !== x
+        this.coords[COORD_X] = x
+    }
+
+    /**
+     * The coordinate corresponding to the &lt;b&gt;e&lt;/b&gt;&lt;sub&gt;2&lt;/sub&gt; standard basis vector.
+     * @property y
+     * @type {number}
+     */
+    get y(): number {
+        return this.coords[COORD_Y]
+    }
+    set y(y: number) {
+        this.modified = this.modified || this.coords[COORD_Y] !== y
+        this.coords[COORD_Y] = y
+    }
+
+    /**
+     * The coordinate corresponding to the &lt;b&gt;e&lt;/b&gt;&lt;sub&gt;1&lt;/sub&gt;&lt;b&gt;e&lt;/b&gt;&lt;sub&gt;2&lt;/sub&gt; standard basis bivector.
+     * @property β
+     * @type {number}
+     */
+    get β(): number {
+        return this.coords[COORD_PSEUDO]
+    }
+    set β(β: number) {
+        this.modified = this.modified || this.coords[COORD_PSEUDO] !== β
+        this.coords[COORD_PSEUDO] = β
+    }
+
+    /**
+     * The coordinate corresponding to the &lt;b&gt;e&lt;/b&gt;&lt;sub&gt;1&lt;/sub&gt;&lt;b&gt;e&lt;/b&gt;&lt;sub&gt;2&lt;/sub&gt; standard basis bivector.
+     * @property beta
+     * @type {number}
+     */
+    get beta(): number {
+        return this.coords[COORD_PSEUDO]
+    }
+    set beta(beta: number) {
+        this.modified = this.modified || this.coords[COORD_PSEUDO] !== beta
+        this.coords[COORD_PSEUDO] = beta
+    }
+
+    get xy(): number {
+        return this.coords[COORD_PSEUDO]
+    }
+    set xy(xy: number) {
+        this.modified = this.modified || this.coords[COORD_PSEUDO] !== xy
+        this.coords[COORD_PSEUDO] = xy
+    }
+
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ this + M * α&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method add
+     * @param M {GeometricE2}
+     * @param [α = 1] {number}
+     * @return {G2m} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    add(M: GeometricE2, α = 1): G2m {
+        mustBeObject(&#x27;M&#x27;, M)
+        mustBeNumber(&#x27;α&#x27;, α)
+        this.α += M.α * α
+        this.x += M.x * α
+        this.y += M.y * α
+        this.β += M.β * α
+        return this
+    }
+
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ a + b&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method add2
+     * @param a {GeometricE2}
+     * @param b {GeometricE2}
+     * @return {G2m} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    add2(a: GeometricE2, b: GeometricE2): G2m {
+        mustBeObject(&#x27;a&#x27;, a)
+        mustBeObject(&#x27;b&#x27;, b)
+        this.α = a.α + b.α
+        this.x = a.x + b.x
+        this.y = a.y + b.y
+        this.β = a.β + b.β
+        return this
+    }
+
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ this + Iβ&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method addPseudo
+     * @param β {number}
+     * @return {G2m} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    addPseudo(β: number): G2m {
+        mustBeNumber(&#x27;β&#x27;, β)
+        this.β += β
+        return this
+    }
+
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ this + α&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method addScalar
+     * @param α {number}
+     * @return {G2m} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    addScalar(α: number): G2m {
+        mustBeNumber(&#x27;α&#x27;, α)
+        this.α += α
+        return this
+    }
+
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ this + v * α&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method addVector
+     * @param v {VectorE2}
+     * @param [α = 1] {number}
+     * @return {G2m} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    addVector(v: VectorE2, α = 1): G2m {
+        mustBeObject(&#x27;v&#x27;, v)
+        mustBeNumber(&#x27;α&#x27;, α)
+        this.x += v.x * α
+        this.y += v.y * α
+        return this
+    }
+
+    adj(): G2m {
+        throw new Error(&#x27;TODO: G2m.adj&#x27;)
+    }
+
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ log(this).grade(2)&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method angle
+     * @return {G2m} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    angle(): G2m {
+        return this.log().grade(2);
+    }
+
+    /**
+     * @method clone
+     * @return {G2m} &lt;code&gt;copy(this)&lt;/code&gt;
+     * @chainable
+     */
+    clone(): G2m {
+        let m = new G2m()
+        m.copy(this)
+        return m
+    }
+
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ conjugate(this)&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method conj
+     * @return {G2m} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    conj(): G2m {
+        // FIXME: This is only the bivector part.
+        // Also need to think about various involutions.
+        this.β = -this.β;
+        return this
+    }
+
+    cos(): G2m {
+        throw new Error(&quot;TODO: G2m.cos&quot;)
+    }
+
+    cosh(): G2m {
+        throw new Error(&quot;TODO: G2m.cosh&quot;)
+    }
+
+    distanceTo(point: GeometricE2): number {
+        throw new Error(&quot;TODO: G2m.distanceTo&quot;)
+    }
+
+    equals(point: GeometricE2): boolean {
+        throw new Error(&quot;TODO: G2m.equals&quot;)
+    }
+
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ copy(M)&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method copy
+     * @param M {GeometricE2}
+     * @return {G2m} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    copy(M: GeometricE2): G2m {
+        mustBeObject(&#x27;M&#x27;, M)
+        this.α = M.α
+        this.x = M.x
+        this.y = M.y
+        this.β = M.β
+        return this
+    }
+
+    /**
+     * Sets this multivector to the value of the scalar, &lt;code&gt;α&lt;/code&gt;.
+     * @method copyScalar
+     * @return {G2m} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    copyScalar(α: number): G2m {
+        return this.zero().addScalar(α)
+    }
+
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ copy(spinor)&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method copySpinor
+     * @param spinor {SpinorE2}
+     * @return {G2m} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    copySpinor(spinor: SpinorE2) {
+        mustBeObject(&#x27;spinor&#x27;, spinor)
+        this.α = spinor.α
+        this.x = 0
+        this.y = 0
+        this.β = spinor.β
+        return this
+    }
+
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ copyVector(vector)&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method copyVector
+     * @param vector {VectorE2}
+     * @return {G2m} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    copyVector(vector: VectorE2) {
+        mustBeObject(&#x27;vector&#x27;, vector)
+        this.α = 0
+        this.x = vector.x
+        this.y = vector.y
+        this.β = 0
+        return this
+    }
+
+    /**
+     * @method cubicBezier
+     * @param t {number}
+     * @param controlBegin {GeometricE2}
+     * @param controlEnd {GeometricE2}
+     * @param endPoint {GeometricE2}
+     * @return {G2m} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    cubicBezier(t: number, controlBegin: GeometricE2, controlEnd: GeometricE2, endPoint: GeometricE2) {
+        let α = b3(t, this.α, controlBegin.α, controlEnd.α, endPoint.α);
+        let x = b3(t, this.x, controlBegin.x, controlEnd.x, endPoint.x);
+        let y = b3(t, this.y, controlBegin.y, controlEnd.y, endPoint.y);
+        let β = b3(t, this.β, controlBegin.β, controlEnd.β, endPoint.β);
+        this.α = α;
+        this.x = x;
+        this.y = y;
+        this.β = β;
+        return this;
+    }
+
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ this / magnitude(this)&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method direction
+     * @return {G2m} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    direction(): G2m {
+        const norm = sqrt(this.squaredNormSansUnits())
+        this.α = this.α / norm
+        this.x = this.x / norm
+        this.y = this.y / norm
+        this.β = this.β / norm
+        return this
+    }
+
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ this / m&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method div
+     * @param m {GeometricE2}
+     * @return {G2m} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    div(m: GeometricE2): G2m {
+        return this.div2(this, m)
+    }
+
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ a / b&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method div2
+     * @param a {GeometricE2}
+     * @param b {GeometricE2}
+     * @return {G2m} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    div2(a: SpinorE2, b: SpinorE2): G2m {
+        // FIXME: Generalize
+        return this;
+    }
+
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ this / α&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method divByScalar
+     * @param α {number}
+     * @return {G2m} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    divByScalar(α: number): G2m {
+        mustBeNumber(&#x27;α&#x27;, α)
+        this.α /= α
+        this.x /= α
+        this.y /= α
+        this.β /= α
+        return this
+    }
+
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ dual(m) = I * m&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method dual
+     * @param m {GeometricE2}
+     * @return {G2m} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    dual(m: GeometricE2) {
+        let w = -m.β
+        let x = +m.y
+        let y = -m.x
+        let β = +m.α
+
+        this.α = w
+        this.x = x
+        this.y = y
+        this.β = β
+        return this
+    }
+
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ e&lt;sup&gt;this&lt;/sup&gt;&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method exp
+     * @return {G2m} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    exp() {
+        let w = this.α
+        let z = this.β
+        let expW = exp(w)
+        // φ is actually the absolute value of one half the rotation angle.
+        // The orientation of the rotation gets carried in the bivector components.
+        let φ = sqrt(z * z)
+        let s = expW * (φ !== 0 ? sin(φ) / φ : 1)
+        this.α = expW * cos(φ)
+        this.β = z * s
+        return this
+    }
+
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ this ^ m&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method ext
+     * @param m {GeometricE2}
+     * @return {G2m} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    ext(m: GeometricE2): G2m {
+        return this.ext2(this, m)
+    }
+
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ a ^ b&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method ext2
+     * @param a {GeometricE2}
+     * @param b {GeometricE2}
+     * @return {G2m} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    ext2(a: GeometricE2, b: GeometricE2): G2m {
+        let a0 = a.α
+        let a1 = a.x
+        let a2 = a.y
+        let a3 = a.β
+        let b0 = b.α
+        let b1 = b.x
+        let b2 = b.y
+        let b3 = b.β
+        this.α = extE2(a0, a1, a2, a3, b0, b1, b2, b3, 0)
+        this.x = extE2(a0, a1, a2, a3, b0, b1, b2, b3, 1)
+        this.y = extE2(a0, a1, a2, a3, b0, b1, b2, b3, 2)
+        this.β = extE2(a0, a1, a2, a3, b0, b1, b2, b3, 3)
+        return this
+    }
+
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ conj(this) / quad(this)&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method inv
+     * @return {G2m} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    inv(): G2m {
+        // FIXME: TODO
+        this.conj()
+        // this.divByScalar(this.squaredNorm());
+        return this
+    }
+
+    /**
+     * @method isOne
+     * @return {boolean}
+     */
+    isOne(): boolean {
+        return this.α === 1 &amp;&amp; this.x === 0 &amp;&amp; this.y === 0 &amp;&amp; this.β === 0
+    }
+
+    /**
+     * @method isZero
+     * @return {boolean}
+     */
+    isZero(): boolean {
+        return this.α === 0 &amp;&amp; this.x === 0 &amp;&amp; this.y === 0 &amp;&amp; this.β === 0
+    }
+
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ this &lt;&lt; m&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method lco
+     * @param m {GeometricE2}
+     * @return {G2m} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    lco(m: GeometricE2): G2m {
+        return this.lco2(this, m)
+    }
+
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ a &lt;&lt; b&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method lco2
+     * @param a {GeometricE2}
+     * @param b {GeometricE2}
+     * @return {G2m} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    lco2(a: GeometricE2, b: GeometricE2): G2m {
+        let a0 = a.α
+        let a1 = a.x
+        let a2 = a.y
+        let a3 = a.β
+        let b0 = b.α
+        let b1 = b.x
+        let b2 = b.y
+        let b3 = b.β
+        this.α = lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 0)
+        this.x = lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 1)
+        this.y = lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 2)
+        this.β = lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 3)
+        return this
+    }
+
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ this + α * (target - this)&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method lerp
+     * @param target {GeometricE2}
+     * @param α {number}
+     * @return {G2m} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    lerp(target: GeometricE2, α: number): G2m {
+        mustBeObject(&#x27;target&#x27;, target)
+        mustBeNumber(&#x27;α&#x27;, α)
+        this.α += (target.α - this.α) * α;
+        this.x += (target.x - this.x) * α;
+        this.y += (target.y - this.y) * α;
+        this.β += (target.β - this.β) * α;
+        return this;
+    }
+
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ a + α * (b - a)&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method lerp2
+     * @param a {GeometricE2}
+     * @param b {GeometricE2}
+     * @param α {number}
+     * @return {G2m} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    lerp2(a: GeometricE2, b: GeometricE2, α: number): G2m {
+        mustBeObject(&#x27;a&#x27;, a)
+        mustBeObject(&#x27;b&#x27;, b)
+        mustBeNumber(&#x27;α&#x27;, α)
+        this.copy(a).lerp(b, α)
+        return this
+    }
+
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ log(sqrt(w * w + β * β)) + &lt;b&gt;e&lt;/b&gt;&lt;sub&gt;1&lt;/sub&gt;&lt;b&gt;e&lt;/b&gt;&lt;sub&gt;2&lt;/sub&gt; * atan2(β, w)&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method log
+     * @return {G2m} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    log() {
+        // FIXME: This only handles the spinor components.
+        let α = this.α
+        let β = this.β
+        this.α = log(sqrt(α * α + β * β))
+        this.x = 0
+        this.y = 0
+        this.β = atan2(β, α)
+        return this;
+    }
+
+    /**
+     * Computes the &lt;em&gt;square root&lt;/em&gt; of the &lt;em&gt;squared norm&lt;/em&gt;.
+     * @method magnitude
+     * @return {G2m}
+     */
+    magnitude(): G2m {
+        return this.norm();
+    }
+
+    magnitudeSansUnits(): number {
+        return sqrt(this.squaredNormSansUnits());
+    }
+
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ this * s&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method mul
+     * @param m {GeometricE2}
+     * @return {G2m} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    mul(m: GeometricE2): G2m {
+        return this.mul2(this, m)
+    }
+
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ a * b&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method mul2
+     * @param a {GeometricE2}
+     * @param b {GeometricE2}
+     * @return {G2m} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    mul2(a: GeometricE2, b: GeometricE2) {
+        let a0 = a.α
+        let a1 = a.x
+        let a2 = a.y
+        let a3 = a.β
+        let b0 = b.α
+        let b1 = b.x
+        let b2 = b.y
+        let b3 = b.β
+        this.α = mulE2(a0, a1, a2, a3, b0, b1, b2, b3, 0)
+        this.x = mulE2(a0, a1, a2, a3, b0, b1, b2, b3, 1)
+        this.y = mulE2(a0, a1, a2, a3, b0, b1, b2, b3, 2)
+        this.β = mulE2(a0, a1, a2, a3, b0, b1, b2, b3, 3)
+        return this
+    }
+
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ -1 * this&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method neg
+     * @return {G2m} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    neg() {
+        this.α = -this.α
+        this.x = -this.x
+        this.y = -this.y
+        this.β = -this.β
+        return this;
+    }
+
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ sqrt(this * conj(this))&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method norm
+     * @return {G2m} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    norm(): G2m {
+        this.α = this.magnitudeSansUnits()
+        this.x = 0
+        this.y = 0
+        this.β = 0
+        return this
+    }
+
+    /**
+     * Sets this multivector to the identity element for multiplication, &lt;b&gt;1&lt;/b&gt;.
+     * @method one
+     * @return {G2m}
+     * @chainable
+     */
+    one() {
+        this.α = 1
+        this.x = 0
+        this.y = 0
+        this.β = 0
+        return this
+    }
+
+    pow(): G2m {
+        throw new Error(&quot;TODO: G2m.pow&quot;)
+    }
+
+    /**
+     * &lt;p&gt;
+     * Updates &lt;code&gt;this&lt;/code&gt; target to be the &lt;em&gt;quad&lt;/em&gt; or &lt;em&gt;squared norm&lt;/em&gt; of the target.
+     * &lt;/p&gt;
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ scp(this, rev(this)) = this | ~this&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method quad
+     * @return {G2m} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    quad(): G2m {
+        this.α = this.squaredNormSansUnits()
+        this.x = 0
+        this.y = 0
+        this.β = 0
+        return this
+    }
+
+    /**
+     * @method quadraticBezier
+     * @param t {number}
+     * @param controlPoint {GeometricE2}
+     * @param endPoint {GeometricE2}
+     * @return {G2m}
+     */
+    quadraticBezier(t: number, controlPoint: GeometricE2, endPoint: GeometricE2) {
+        let α = b2(t, this.α, controlPoint.α, endPoint.α);
+        let x = b2(t, this.x, controlPoint.x, endPoint.x);
+        let y = b2(t, this.y, controlPoint.y, endPoint.y);
+        let β = b2(t, this.β, controlPoint.β, endPoint.β);
+        this.α = α;
+        this.x = x;
+        this.y = y;
+        this.β = β;
+        return this;
+    }
+
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ this &gt;&gt; m&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method rco
+     * @param m {GeometricE2}
+     * @return {G2m} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    rco(m: GeometricE2): G2m {
+        return this.rco2(this, m)
+    }
+
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ a &gt;&gt; b&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method rco2
+     * @param a {GeometricE2}
+     * @param b {GeometricE2}
+     * @return {G2m} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    rco2(a: GeometricE2, b: GeometricE2): G2m {
+        let a0 = a.α
+        let a1 = a.x
+        let a2 = a.y
+        let a3 = a.β
+        let b0 = b.α
+        let b1 = b.x
+        let b2 = b.y
+        let b3 = b.β
+        this.α = rcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 0)
+        this.x = rcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 1)
+        this.y = rcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 2)
+        this.β = rcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 3)
+        return this
+    }
+
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ - n * this * n&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method reflect
+     * @param n {VectorE2}
+     * @return {G2m} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    reflect(n: VectorE2): G2m {
+        // TODO: Optimize.
+        mustBeObject(&#x27;n&#x27;, n);
+        let N = G2.fromVectorE2(n);
+        let M = G2.copy(this);
+        let R = N.mul(M).mul(N).scale(-1);
+        this.copy(R);
+        return this;
+    }
+
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ rev(this)&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method reverse
+     * @return {G2m} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    rev(): G2m {
+        // reverse has a ++-- structure.
+        this.α = this.α
+        this.x = this.x
+        this.y = this.y
+        this.β = -this.β
+        return this
+    }
+
+    sin(): G2m {
+        throw new Error(&quot;G2m.sin&quot;)
+    }
+
+    sinh(): G2m {
+        throw new Error(&quot;G2m.sinh&quot;)
+    }
+
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ R * this * rev(R)&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method rotate
+     * @param R {SpinorE2}
+     * @return {G2m} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    rotate(R: SpinorE2): G2m {
+        mustBeObject(&#x27;R&#x27;, R);
+
+        const x = this.x;
+        const y = this.y;
+
+        const β = R.β;
+        const α = R.α;
+
+        const ix = α * x + β * y;
+        const iy = α * y - β * x;
+
+        this.x = ix * α + iy * β;
+        this.y = iy * α - ix * β;
+
+        return this;
+    }
+
+    /**
+     * Sets this multivector to a rotation from vector &lt;code&gt;a&lt;/code&gt; to vector &lt;code&gt;b&lt;/code&gt;.
+     * @method rotorFromDirections
+     * @param a {VectorE2} The starting vector
+     * @param b {VectorE2} The ending vector
+     * @return {G2m} &lt;code&gt;this&lt;/code&gt; The rotor representing a rotation from a to b.
+     * @chainable
+     */
+    rotorFromDirections(a: VectorE2, b: VectorE2): G2m {
+        if (isDefined(rotorFromDirections(a, b, quadVector, dotVector, this))) {
+            return this;
+        }
+        else {
+            // In two dimensions, the rotation plane is not ambiguous.
+            // FIXME: This is a bit dubious.
+            // Probably better to make undefined a first-class concept.
+            this.rotorFromGeneratorAngle(G2m.I, PI)
+        }
+        return this;
+    }
+
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this = ⟼ exp(- B * θ / 2)&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method rotorFromGeneratorAngle
+     * @param B {SpinorE2}
+     * @param θ {number}
+     * @return {G2m} &lt;code&gt;this&lt;/code&gt;
+     */
+    rotorFromGeneratorAngle(B: SpinorE2, θ: number): G2m {
+        mustBeObject(&#x27;B&#x27;, B)
+        mustBeNumber(&#x27;θ&#x27;, θ)
+        // We assume that B really is just a bivector
+        // by ignoring scalar and vector components.
+        // Normally, B will have unit magnitude and B * B =&gt; -1.
+        // However, we don&#x27;t assume that is the case.
+        // The effect will be a scaling of the angle.
+        // A non unitary rotor, on the other hand, will scale the transformation.
+        // We must also take into account the orientation of B.
+        const β = B.β
+        /**
+         * Sandwich operation means we need the half-angle.
+         */
+        const φ = θ / 2
+        /**
+         * scalar part = cos(|B| * θ / 2)
+         */
+        this.α = cos(abs(β) * φ)
+        this.x = 0
+        this.y = 0
+        /**
+         * pseudo part = -unit(B) * sin(|B| * θ / 2)
+         */
+        this.β = -sin(β * φ)
+        return this
+    }
+
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ scp(this, m)&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method scp
+     * @param m {GeometricE2}
+     * @return {G2m} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    scp(m: GeometricE2): G2m {
+        return this.scp2(this, m)
+    }
+
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ scp(a, b)&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method scp2
+     * @param a {GeometricE2}
+     * @param b {GeometricE2}
+     * @return {G2m} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    scp2(a: GeometricE2, b: GeometricE2) {
+        this.α = scpE2(a.α, a.x, a.y, a.β, b.α, b.x, b.y, b.β, 0)
+        this.x = 0
+        this.y = 0
+        this.β = 0
+        return this
+    }
+
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ this * α&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method scale
+     * @param α {number} 
+     */
+    scale(α: number): G2m {
+        mustBeNumber(&#x27;α&#x27;, α)
+        this.α *= α
+        this.x *= α
+        this.y *= α
+        this.β *= α
+        return this
+    }
+
+    slerp(target: GeometricE2, α: number): G2m {
+        mustBeObject(&#x27;target&#x27;, target)
+        mustBeNumber(&#x27;α&#x27;, α)
+        return this;
+    }
+
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ a * b = a · b + a ^ b&lt;/code&gt;
+     * &lt;/p&gt;
+     * Sets this G2m to the geometric product a * b of the vector arguments. 
+     * @method spinor
+     * @param a {VectorE2}
+     * @param b {VectorE2}
+     * @return {G2m} &lt;code&gt;this&lt;/code&gt;
+     */
+    spinor(a: VectorE2, b: VectorE2) {
+        let ax = a.x
+        let ay = a.y
+        let bx = b.x
+        let by = b.y
+
+        this.α = dotVector(a, b)
+        this.x = 0
+        this.y = 0
+        this.β = wedgeXY(ax, ay, 0, bx, by, 0) // FIXME wedgeVectorsE2
+
+        return this
+    }
+
+    /**
+     * Computes the &lt;em&gt;squared norm&lt;/em&gt; of this &lt;code&gt;G2m&lt;/code&gt; multivector. 
+     * @method squaredNorm
+     * @return {number} &lt;code&gt;this | ~this&lt;/code&gt;
+     */
+    squaredNorm(): G2m {
+        this.α = this.squaredNormSansUnits()
+        this.x = 0
+        this.y = 0
+        this.β = 0
+        return this
+    }
+
+    squaredNormSansUnits(): number {
+        let w = this.α
+        let x = this.x
+        let y = this.y
+        let B = this.β
+        return w * w + x * x + y * y + B * B
+    }
+
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ this - M * α&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method sub
+     * @param M {GeometricE2}
+     * @param [α = 1] {number}
+     * @return {G2m} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    sub(M: GeometricE2, α = 1): G2m {
+        mustBeObject(&#x27;M&#x27;, M)
+        mustBeNumber(&#x27;α&#x27;, α)
+        this.α -= M.α * α
+        this.x -= M.x * α
+        this.y -= M.y * α
+        this.β -= M.β * α
+        return this
+    }
+
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ a - b&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method sub2
+     * @param a {GeometricE2}
+     * @param b {GeometricE2}
+     * @return {G2m} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    sub2(a: GeometricE2, b: GeometricE2): G2m {
+        mustBeObject(&#x27;a&#x27;, a)
+        mustBeObject(&#x27;b&#x27;, b)
+        this.α = a.α - b.α
+        this.x = a.x - b.x
+        this.y = a.y - b.y
+        this.β = a.β - b.β
+        return this
+    }
+
+    /**
+     * Returns a string representing the number in exponential notation.
+     * @method toExponential
+     * @return {string}
+     */
+    toExponential(): string {
+        var coordToString = function(coord: number): string { return coord.toExponential() };
+        return stringFromCoordinates(coordinates(this), coordToString, G2m.BASIS_LABELS)
+    }
+
+    /**
+     * Returns a string representing the number in fixed-point notation.
+     * @method toFixed
+     * @param [fractionDigits] {number}
+     * @return {string}
+     */
+    toFixed(fractionDigits?: number): string {
+        const coordToString = function(coord: number): string { return coord.toFixed(fractionDigits) };
+        return stringFromCoordinates(coordinates(this), coordToString, G2m.BASIS_LABELS)
+    }
+
+    /**
+     * Returns a string representation of the number.
+     * @method toString
+     * @return {string} 
+     */
+    toString(): string {
+        const coordToString = function(coord: number): string { return coord.toString() };
+        return stringFromCoordinates(coordinates(this), coordToString, G2m.BASIS_LABELS)
+    }
+
+    /**
+     * @method grade
+     * @param grade {number}
+     * @return {G2m} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    grade(grade: number): G2m {
+        mustBeInteger(&#x27;grade&#x27;, grade)
+        switch (grade) {
+            case 0: {
+                this.x = 0;
+                this.y = 0;
+                this.β = 0;
+            }
+                break;
+            case 1: {
+                this.α = 0;
+                this.β = 0;
+            }
+                break;
+            case 2: {
+                this.α = 0;
+                this.x = 0;
+                this.y = 0;
+            }
+                break;
+            default: {
+                this.α = 0;
+                this.x = 0;
+                this.y = 0;
+                this.β = 0;
+            }
+        }
+        return this;
+    }
+
+    /**
+     * Sets this multivector to the identity element for addition, &lt;b&gt;0&lt;/b&gt;.
+     * @method zero
+     * @return {G2m}
+     * @chainable
+     */
+    zero(): G2m {
+        this.α = 0
+        this.x = 0
+        this.y = 0
+        this.β = 0
+        return this
+    }
+
+    /**
+     * @method __add__
+     * @param rhs {any}
+     * @return {G2m}
+     * @private
+     */
+    __add__(rhs: any) {
+        if (rhs instanceof G2m) {
+            return G2m.copy(this).add(rhs)
+        }
+        else if (typeof rhs === &#x27;number&#x27;) {
+            // Addition commutes, but addScalar might be useful.
+            return G2m.fromScalar(rhs).add(this)
+        }
+        else {
+            let rhsCopy = duckCopy(rhs)
+            if (rhsCopy) {
+                // rhs is a copy and addition commutes.
+                return rhsCopy.add(this)
+            }
+            else {
+                return void 0
+            }
+        }
+    }
+
+    /**
+     * @method __div__
+     * @param rhs {any}
+     * @return {G2m}
+     * @private
+     */
+    __div__(rhs: any) {
+        if (rhs instanceof G2m) {
+            return G2m.copy(this).div(rhs)
+        }
+        else if (typeof rhs === &#x27;number&#x27;) {
+            return G2m.copy(this).divByScalar(rhs)
+        }
+        else {
+            return void 0
+        }
+    }
+
+    /**
+     * @method __rdiv__
+     * @param lhs {any}
+     * @return {G2m}
+     * @private
+     */
+    __rdiv__(lhs: any) {
+        if (lhs instanceof G2m) {
+            return G2m.copy(lhs).div(this)
+        }
+        else if (typeof lhs === &#x27;number&#x27;) {
+            return G2m.fromScalar(lhs).div(this)
+        }
+        else {
+            return void 0
+        }
+    }
+
+    /**
+     * @method __mul__
+     * @param rhs {any}
+     * @return {G2m}
+     * @private
+     */
+    __mul__(rhs: any): G2m {
+        if (rhs instanceof G2m) {
+            return G2m.copy(this).mul(rhs)
+        }
+        else if (typeof rhs === &#x27;number&#x27;) {
+            return G2m.copy(this).scale(rhs)
+        }
+        else {
+            let rhsCopy = duckCopy(rhs)
+            if (rhsCopy) {
+                // rhsCopy is a copy but multiplication does not commute.
+                // If we had rmul then we could mutate the rhs!
+                return this.__mul__(rhsCopy);
+            }
+            else {
+                return void 0
+            }
+        }
+    }
+
+    /**
+     * @method __rmul__
+     * @param lhs {any}
+     * @return {G2m}
+     * @private
+     */
+    __rmul__(lhs: any) {
+        if (lhs instanceof G2m) {
+            return G2m.copy(lhs).mul(this)
+        }
+        else if (typeof lhs === &#x27;number&#x27;) {
+            return G2m.copy(this).scale(lhs)
+        }
+        else {
+            let lhsCopy = duckCopy(lhs)
+            if (lhsCopy) {
+                // lhs is a copy, so we can mutate it, and use it on the left.
+                return lhsCopy.mul(this)
+            }
+            else {
+                return void 0
+            }
+        }
+    }
+
+    /**
+     * @method __radd__
+     * @param lhs {any}
+     * @return {G2m}
+     * @private
+     */
+    __radd__(lhs: any) {
+        if (lhs instanceof G2m) {
+            return G2m.copy(lhs).add(this)
+        }
+        else if (typeof lhs === &#x27;number&#x27;) {
+            return G2m.fromScalar(lhs).add(this)
+        }
+        else {
+            let lhsCopy = duckCopy(lhs)
+            if (lhsCopy) {
+                // lhs is a copy, so we can mutate it.
+                return lhsCopy.add(this)
+            }
+            else {
+                return void 0
+            }
+        }
+    }
+
+    /**
+     * @method __sub__
+     * @param rhs {any}
+     * @return {G2m}
+     * @private
+     */
+    __sub__(rhs: any) {
+        if (rhs instanceof G2m) {
+            return G2m.copy(this).sub(rhs)
+        }
+        else if (typeof rhs === &#x27;number&#x27;) {
+            return G2m.fromScalar(-rhs).add(this)
+        }
+        else {
+            return void 0
+        }
+    }
+
+    /**
+     * @method __rsub__
+     * @param lhs {any}
+     * @return {G2m}
+     * @private
+     */
+    __rsub__(lhs: any) {
+        if (lhs instanceof G2m) {
+            return G2m.copy(lhs).sub(this)
+        }
+        else if (typeof lhs === &#x27;number&#x27;) {
+            return G2m.fromScalar(lhs).sub(this)
+        }
+        else {
+            return void 0
+        }
+    }
+
+    /**
+     * @method __wedge__
+     * @param rhs {any}
+     * @return {G2m}
+     * @private
+     */
+    __wedge__(rhs: any) {
+        if (rhs instanceof G2m) {
+            return G2m.copy(this).ext(rhs)
+        }
+        else if (typeof rhs === &#x27;number&#x27;) {
+            // The outer product with a scalar is simply scalar multiplication.
+            return G2m.copy(this).scale(rhs)
+        }
+        else {
+            return void 0
+        }
+    }
+
+    /**
+     * @method __rwedge__
+     * @param lhs {any}
+     * @return {G2m}
+     * @private
+     */
+    __rwedge__(lhs: any) {
+        if (lhs instanceof G2m) {
+            return G2m.copy(lhs).ext(this)
+        }
+        else if (typeof lhs === &#x27;number&#x27;) {
+            // The outer product with a scalar is simply scalar multiplication, and commutes.
+            return G2m.copy(this).scale(lhs)
+        }
+        else {
+            return void 0
+        }
+    }
+
+    /**
+     * @method __lshift__
+     * @param other {any}
+     * @return {G2m}
+     * @private
+     */
+    __lshift__(rhs: any) {
+        if (rhs instanceof G2m) {
+            return G2m.copy(this).lco(rhs)
+        }
+        else if (typeof rhs === &#x27;number&#x27;) {
+            return G2m.copy(this).lco(G2m.fromScalar(rhs))
+        }
+        else {
+            return void 0
+        }
+    }
+
+    /**
+     * @method __rlshift__
+     * @param other {any}
+     * @return {G2m}
+     * @private
+     */
+    __rlshift__(lhs: any) {
+        if (lhs instanceof G2m) {
+            return G2m.copy(lhs).lco(this)
+        }
+        else if (typeof lhs === &#x27;number&#x27;) {
+            return G2m.fromScalar(lhs).lco(this)
+        }
+        else {
+            return void 0
+        }
+    }
+
+    /**
+     * @method __rshift__
+     * @param rhs {any}
+     * @return {G2m}
+     * @private
+     */
+    __rshift__(rhs: any) {
+        if (rhs instanceof G2m) {
+            return G2m.copy(this).rco(rhs)
+        }
+        else if (typeof rhs === &#x27;number&#x27;) {
+            return G2m.copy(this).rco(G2m.fromScalar(rhs))
+        }
+        else {
+            return void 0
+        }
+    }
+
+    /**
+     * @method __rrshift__
+     * @param lhs {any}
+     * @return {G2m}
+     * @private
+     */
+    __rrshift__(lhs: any) {
+        if (lhs instanceof G2m) {
+            return G2m.copy(lhs).rco(this)
+        }
+        else if (typeof lhs === &#x27;number&#x27;) {
+            return G2m.fromScalar(lhs).rco(this)
+        }
+        else {
+            return void 0
+        }
+    }
+
+    /**
+     * @method __vbar__
+     * @param rhs {any}
+     * @return {G2m}
+     * @private
+     */
+    __vbar__(rhs: any) {
+        if (rhs instanceof G2m) {
+            return G2m.copy(this).scp(rhs)
+        }
+        else if (typeof rhs === &#x27;number&#x27;) {
+            return G2m.copy(this).scp(G2m.fromScalar(rhs))
+        }
+        else {
+            return void 0
+        }
+    }
+
+    /**
+     * @method __rvbar__
+     * @param lhs {any}
+     * @return {G2m}
+     * @private
+     */
+    __rvbar__(lhs: any) {
+        if (lhs instanceof G2m) {
+            return G2m.copy(lhs).scp(this)
+        }
+        else if (typeof lhs === &#x27;number&#x27;) {
+            return G2m.fromScalar(lhs).scp(this)
+        }
+        else {
+            return void 0
+        }
+    }
+
+    /**
+     * @method __bang__
+     * @return {G2m}
+     * @private
+     * @chainable
+     */
+    __bang__(): G2m {
+        return G2m.copy(this).inv()
+    }
+
+    /**
+     * @method __tilde__
+     * @return {G2m}
+     * @private
+     * @chainable
+     */
+    __tilde__(): G2m {
+        return G2m.copy(this).rev()
+    }
+
+    /**
+     * @method __pos__
+     * @return {G2m}
+     * @private
+     * @chainable
+     */
+    __pos__(): G2m {
+        // It&#x27;s important that we make a copy whenever using operators.
+        return G2m.copy(this)/*.pos()*/
+    }
+
+    /**
+     * @method __neg__
+     * @return {G2m}
+     * @private
+     * @chainable
+     */
+    __neg__(): G2m {
+        return G2m.copy(this).neg()
+    }
+
+    /**
+     * Intentionally undocumented.
+     */
+    static fromCartesian(α: number, x: number, y: number, β: number): G2m {
+        const m = new G2m();
+        m.α = α;
+        m.x = x;
+        m.y = y;
+        m.β = β;
+        return m;
+    }
+
+    /**
+     * The identity element for addition, &lt;b&gt;0&lt;/b&gt;.
+     * @property zero
+     * @type {G2m}
+     * @readOnly
+     * @static
+     */
+    static zero = G2m.fromCartesian(0, 0, 0, 0);
+
+    /**
+     * The identity element for multiplication, &lt;b&gt;1&lt;/b&gt;.
+     * @property one
+     * @type {G2m}
+     * @readOnly
+     * @static
+     */
+    static one = G2m.fromCartesian(1, 0, 0, 0);
+
+    /**
+     * Basis vector corresponding to the &lt;code&gt;x&lt;/code&gt; coordinate.
+     * @property e1
+     * @type {G2m}
+     * @readOnly
+     * @static
+     */
+    static e1 = G2m.fromCartesian(0, 1, 0, 0);
+
+    /**
+     * Basis vector corresponding to the &lt;code&gt;y&lt;/code&gt; coordinate.
+     * @property e2
+     * @type {G2m}
+     * @readOnly
+     * @static
+     */
+    static e2 = G2m.fromCartesian(0, 0, 1, 0);
+
+    /**
+     * Basis vector corresponding to the &lt;code&gt;β&lt;/code&gt; coordinate.
+     * @property I
+     * @type {G2m}
+     * @readOnly
+     * @static
+     */
+    static I = G2m.fromCartesian(0, 0, 0, 1);
+
+    /**
+     * @method copy
+     * @param M {GeometricE2}
+     * @return {G2m}
+     * @static
+     * @chainable
+     */
+    static copy(M: GeometricE2): G2m {
+        var copy = new G2m()
+        copy.α = M.α
+        copy.x = M.x
+        copy.y = M.y
+        copy.β = M.β
+        return copy
+    }
+
+    /**
+     * @method fromScalar
+     * @param α {number}
+     * @return {G2m}
+     * @static
+     * @chainable
+     */
+    static fromScalar(α: number): G2m {
+        return new G2m().addScalar(α)
+    }
+
+    /**
+     * @method fromSpinor
+     * @param spinor {SpinorE2}
+     * @return {G2m}
+     * @static
+     * @chainable
+     */
+    static fromSpinor(spinor: SpinorE2): G2m {
+        return new G2m().copySpinor(spinor)
+    }
+
+    /**
+     * @method fromVector
+     * @param vector {VectorE2}
+     * @return {G2m}
+     * @static
+     * @chainable
+     */
+    static fromVector(vector: VectorE2): G2m {
+        if (isDefined(vector)) {
+            return new G2m().copyVector(vector)
+        }
+        else {
+            // We could also return an undefined value here!
+            return void 0
+        }
+    }
+
+    /**
+     * @method lerp
+     * @param A {GeometricE2}
+     * @param B {GeometricE2}
+     * @param α {number}
+     * @return {G2m} &lt;code&gt;A + α * (B - A)&lt;/code&gt;
+     * @static
+     * @chainable
+     */
+    static lerp(A: GeometricE2, B: GeometricE2, α: number): G2m {
+        return G2m.copy(A).lerp(B, α)
+        // return G2m.copy(B).sub(A).scale(α).add(A)
+    }
+
+    /**
+     * Computes the rotor that rotates vector &lt;code&gt;a&lt;/code&gt; to vector &lt;code&gt;b&lt;/code&gt;.
+     * @method rotorFromDirections
+     * @param a {VectorE2} The &lt;em&gt;from&lt;/em&gt; vector.
+     * @param b {VectorE2} The &lt;em&gt;to&lt;/em&gt; vector.
+     * @return {G2m}
+     * @static
+     * @chainable
+     */
+    static rotorFromDirections(a: VectorE2, b: VectorE2): G2m {
+        return new G2m().rotorFromDirections(a, b)
+    }
+
+    /**
+     * @method vector
+     * @param x {number}
+     * @param y {number}
+     * @return {G2m}
+     * @static
+     */
+    static vector(x: number, y: number): G2m {
+        return this.fromCartesian(0, x, y, 0)
+    }
+}
+
+    </pre>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

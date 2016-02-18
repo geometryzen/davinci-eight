@@ -1,5 +1,5 @@
 /**
- * Scalar Product of G3.
+ * Scalar Product of G3m.
  * This was originally written for asm.
  * Note that all componenets except the zeroth are zero and so users can optimize.
  */

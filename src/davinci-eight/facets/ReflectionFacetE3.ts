@@ -2,7 +2,7 @@ import Facet from '../core/Facet';
 import FacetVisitor from '../core/FacetVisitor';
 import mustBeArray from '../checks/mustBeArray';
 import mustBeString from '../checks/mustBeString';
-import G3 from '../math/G3';
+import G3m from '../math/G3m';
 import Mat4R from '../math/Mat4R';
 import readOnly from '../i18n/readOnly';
 
@@ -19,11 +19,11 @@ export default class ReflectionFacetE3 implements Facet {
      * The vector perpendicular to the (hyper-)plane of reflection.
      *
      * @property _normal
-     * @type {G3}
+     * @type {G3m}
      * @private
      */
-    // FIXME: Maybe use an R3 here instead?
-    public _normal: G3;
+    // FIXME: Maybe use an R3m here instead?
+    public _normal: G3m;
 
     /**
      * @property matrix
@@ -41,16 +41,16 @@ export default class ReflectionFacetE3 implements Facet {
     constructor(name: string) {
         this.name = mustBeString('name', name)
         // The mathematics of the reflection causes a zero vector to be the identity transformation.
-        this._normal = G3.zero()
+        this._normal = G3m.zero()
         this._normal.modified = true
     }
 
     /**
      * @property normal
-     * @type G3
+     * @type G3m
      * @readOnly
      */
-    get normal(): G3 {
+    get normal(): G3m {
         return this._normal
     }
     set normal(unused) {

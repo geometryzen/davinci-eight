@@ -3,7 +3,7 @@ import PrimitivesBuilder from '../geometries/PrimitivesBuilder';
 import IAxialGeometry from '../geometries/IAxialGeometry';
 import mustBeNumber from '../checks/mustBeNumber';
 import mustBeObject from '../checks/mustBeObject';
-import R3 from '../math/R3';
+import R3m from '../math/R3m';
 import VectorE3 from '../math/VectorE3';
 
 export default class AxialPrimitivesBuilder extends PrimitivesBuilder implements IAxialGeometry<AxialPrimitivesBuilder> {
@@ -17,7 +17,7 @@ export default class AxialPrimitivesBuilder extends PrimitivesBuilder implements
             this.setSliceStart(sliceStart)
         }
         else {
-            this.setSliceStart(R3.random().cross(axis))
+            this.setSliceStart(R3m.random().cross(axis))
         }
     }
     get axis(): CartesianE3 {
@@ -29,7 +29,7 @@ export default class AxialPrimitivesBuilder extends PrimitivesBuilder implements
     setAxis(axis: VectorE3): AxialPrimitivesBuilder {
         mustBeObject('axis', axis)
         this._axis = CartesianE3.direction(axis)
-        this.setSliceStart(R3.random().cross(this._axis))
+        this.setSliceStart(R3m.random().cross(this._axis))
         return this
     }
     get sliceAngle(): number {
