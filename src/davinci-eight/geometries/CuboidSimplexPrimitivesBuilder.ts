@@ -1,4 +1,4 @@
-import CartesianE3 from '../math/CartesianE3';
+import R3 from '../math/R3';
 import computeFaceNormals from '../geometries/computeFaceNormals';
 import SimplexPrimitivesBuilder from '../geometries/SimplexPrimitivesBuilder';
 import quad from '../geometries/quadrilateral';
@@ -9,38 +9,38 @@ import R3m from '../math/R3m';
 import VectorE3 from '../math/VectorE3';
 
 export default class CuboidSimplexPrimitivesBuilder extends SimplexPrimitivesBuilder {
-    private _a: CartesianE3;
-    private _b: CartesianE3;
-    private _c: CartesianE3;
+    private _a: R3;
+    private _b: R3;
+    private _c: R3;
     private _isModified: boolean = true;
     constructor(a: VectorE3, b: VectorE3, c: VectorE3, k = Simplex.TRIANGLE, subdivide = 0, boundary = 0) {
         super()
-        this._a = CartesianE3.fromVectorE3(a)
-        this._b = CartesianE3.fromVectorE3(b)
-        this._c = CartesianE3.fromVectorE3(c)
+        this._a = R3.fromVectorE3(a)
+        this._b = R3.fromVectorE3(b)
+        this._c = R3.fromVectorE3(c)
         this.k = k
         this.subdivide(subdivide)
         this.boundary(boundary)
         this.regenerate();
     }
-    public get a(): CartesianE3 {
+    public get a(): R3 {
         return this._a
     }
-    public set a(a: CartesianE3) {
+    public set a(a: R3) {
         this._a = a
         this._isModified = true
     }
-    public get b(): CartesianE3 {
+    public get b(): R3 {
         return this._b
     }
-    public set b(b: CartesianE3) {
+    public set b(b: R3) {
         this._b = b
         this._isModified = true
     }
-    public get c(): CartesianE3 {
+    public get c(): R3 {
         return this._c
     }
-    public set c(c: CartesianE3) {
+    public set c(c: R3) {
         this._c = c
         this._isModified = true
     }

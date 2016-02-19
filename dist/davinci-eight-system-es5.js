@@ -2622,61 +2622,6 @@ System.register("davinci-eight/visual/Tetrahedron.js", ["../checks/mustBeNumber"
   };
 });
 
-System.register("davinci-eight/facets/AmbientLight.js", ["../core/Color", "../checks/mustBeArray", "../checks/mustBeNumber", "../checks/mustBeObject", "../checks/mustBeString", "../core/GraphicsProgramSymbols"], function(exports_1) {
-  var Color_1,
-      mustBeArray_1,
-      mustBeNumber_1,
-      mustBeObject_1,
-      mustBeString_1,
-      GraphicsProgramSymbols_1;
-  var LOGGING_NAME,
-      AmbientLight;
-  function contextBuilder() {
-    return LOGGING_NAME;
-  }
-  return {
-    setters: [function(Color_1_1) {
-      Color_1 = Color_1_1;
-    }, function(mustBeArray_1_1) {
-      mustBeArray_1 = mustBeArray_1_1;
-    }, function(mustBeNumber_1_1) {
-      mustBeNumber_1 = mustBeNumber_1_1;
-    }, function(mustBeObject_1_1) {
-      mustBeObject_1 = mustBeObject_1_1;
-    }, function(mustBeString_1_1) {
-      mustBeString_1 = mustBeString_1_1;
-    }, function(GraphicsProgramSymbols_1_1) {
-      GraphicsProgramSymbols_1 = GraphicsProgramSymbols_1_1;
-    }],
-    execute: function() {
-      LOGGING_NAME = 'AmbientLight';
-      AmbientLight = (function() {
-        function AmbientLight(color) {
-          mustBeObject_1.default('color', color);
-          this.color = Color_1.default.white.clone();
-          this.color.r = mustBeNumber_1.default('color.r', color.r);
-          this.color.g = mustBeNumber_1.default('color.g', color.g);
-          this.color.b = mustBeNumber_1.default('color.b', color.b);
-        }
-        AmbientLight.prototype.getProperty = function(name) {
-          return void 0;
-        };
-        AmbientLight.prototype.setProperty = function(name, value) {
-          mustBeString_1.default('name', name, contextBuilder);
-          mustBeArray_1.default('value', value, contextBuilder);
-          return this;
-        };
-        AmbientLight.prototype.setUniforms = function(visitor) {
-          var coords = [this.color.r, this.color.g, this.color.b];
-          visitor.vector3(GraphicsProgramSymbols_1.default.UNIFORM_AMBIENT_LIGHT, coords);
-        };
-        return AmbientLight;
-      })();
-      exports_1("default", AmbientLight);
-    }
-  };
-});
-
 System.register("davinci-eight/facets/DirectionalLight.js", ["../core/Color", "../checks/mustBeObject", "../checks/mustBeString", "../core/GraphicsProgramSymbols", "../math/R3m"], function(exports_1) {
   var Color_1,
       mustBeObject_1,
@@ -3743,7 +3688,7 @@ System.register("davinci-eight/controls/MouseControls.js", ["../math/G2m", "../c
   };
 });
 
-System.register("davinci-eight/controls/TrackballControls.js", ["../math/G3m", "./MouseControls", "../math/R2m", "../math/R3m"], function(exports_1) {
+System.register("davinci-eight/controls/TrackballCameraControls.js", ["../math/G3m", "./MouseControls", "../math/R2m", "../math/R3m"], function(exports_1) {
   var __extends = (this && this.__extends) || function(d, b) {
     for (var p in b)
       if (b.hasOwnProperty(p))
@@ -3757,7 +3702,7 @@ System.register("davinci-eight/controls/TrackballControls.js", ["../math/G3m", "
       MouseControls_1,
       R2m_1,
       R3m_1;
-  var TrackballControls;
+  var TrackballCameraControls;
   return {
     setters: [function(G3m_1_1) {
       G3m_1 = G3m_1_1;
@@ -3769,10 +3714,10 @@ System.register("davinci-eight/controls/TrackballControls.js", ["../math/G3m", "
       R3m_1 = R3m_1_1;
     }],
     execute: function() {
-      TrackballControls = (function(_super) {
-        __extends(TrackballControls, _super);
-        function TrackballControls(camera) {
-          _super.call(this, 'TrackballControls');
+      TrackballCameraControls = (function(_super) {
+        __extends(TrackballCameraControls, _super);
+        function TrackballCameraControls(camera) {
+          _super.call(this, 'TrackballCameraControls');
           this.rotateSpeed = 1;
           this.zoomSpeed = 1;
           this.panSpeed = 1;
@@ -3793,10 +3738,10 @@ System.register("davinci-eight/controls/TrackballControls.js", ["../math/G3m", "
           this.up0 = this.camera.up.clone();
           this.update();
         }
-        TrackballControls.prototype.destructor = function() {
+        TrackballCameraControls.prototype.destructor = function() {
           _super.prototype.destructor.call(this);
         };
-        TrackballControls.prototype.reset = function() {
+        TrackballCameraControls.prototype.reset = function() {
           this.target.copy(this.target0);
           this.camera.position.copy(this.position0);
           this.camera.up.copy(this.up0);
@@ -3804,7 +3749,7 @@ System.register("davinci-eight/controls/TrackballControls.js", ["../math/G3m", "
           this.camera.look.copy(this.target);
           _super.prototype.reset.call(this);
         };
-        TrackballControls.prototype.update = function() {
+        TrackballCameraControls.prototype.update = function() {
           this.eye.copy(this.camera.position).sub(this.target);
           if (!this.noRotate) {
             this.rotateCamera();
@@ -3819,7 +3764,7 @@ System.register("davinci-eight/controls/TrackballControls.js", ["../math/G3m", "
           this.checkDistances();
           this.camera.look.copy(this.target);
         };
-        TrackballControls.prototype.rotateCamera = function() {
+        TrackballCameraControls.prototype.rotateCamera = function() {
           this.moveDirection.setXYZ(this.moveCurr.x - this.movePrev.x, this.moveCurr.y - this.movePrev.y, 0);
           var angle = this.moveDirection.magnitude();
           if (angle) {
@@ -3838,14 +3783,14 @@ System.register("davinci-eight/controls/TrackballControls.js", ["../math/G3m", "
           }
           this.movePrev.copy(this.moveCurr);
         };
-        TrackballControls.prototype.zoomCamera = function() {
+        TrackballCameraControls.prototype.zoomCamera = function() {
           var factor = 1 + (this.zoomEnd.y - this.zoomStart.y) * this.zoomSpeed;
           if (factor !== 1 && factor > 0) {
             this.eye.scale(factor);
             this.zoomStart.copy(this.zoomEnd);
           }
         };
-        TrackballControls.prototype.panCamera = function() {
+        TrackballCameraControls.prototype.panCamera = function() {
           this.mouseChange.copy(this.panEnd).sub(this.panStart);
           if (this.mouseChange.squaredNorm()) {
             this.mouseChange.scale(this.eye.magnitude() * this.panSpeed);
@@ -3857,10 +3802,10 @@ System.register("davinci-eight/controls/TrackballControls.js", ["../math/G3m", "
             this.panStart.copy(this.panEnd);
           }
         };
-        TrackballControls.prototype.checkDistances = function() {};
-        return TrackballControls;
+        TrackballCameraControls.prototype.checkDistances = function() {};
+        return TrackballCameraControls;
       })(MouseControls_1.default);
-      exports_1("default", TrackballControls);
+      exports_1("default", TrackballCameraControls);
     }
   };
 });
@@ -4124,6 +4069,61 @@ System.register("davinci-eight/visual/Cylinder.js", ["../core", "../math/G3", ".
   };
 });
 
+System.register("davinci-eight/facets/AmbientLight.js", ["../core/Color", "../checks/mustBeArray", "../checks/mustBeNumber", "../checks/mustBeObject", "../checks/mustBeString", "../core/GraphicsProgramSymbols"], function(exports_1) {
+  var Color_1,
+      mustBeArray_1,
+      mustBeNumber_1,
+      mustBeObject_1,
+      mustBeString_1,
+      GraphicsProgramSymbols_1;
+  var LOGGING_NAME,
+      AmbientLight;
+  function contextBuilder() {
+    return LOGGING_NAME;
+  }
+  return {
+    setters: [function(Color_1_1) {
+      Color_1 = Color_1_1;
+    }, function(mustBeArray_1_1) {
+      mustBeArray_1 = mustBeArray_1_1;
+    }, function(mustBeNumber_1_1) {
+      mustBeNumber_1 = mustBeNumber_1_1;
+    }, function(mustBeObject_1_1) {
+      mustBeObject_1 = mustBeObject_1_1;
+    }, function(mustBeString_1_1) {
+      mustBeString_1 = mustBeString_1_1;
+    }, function(GraphicsProgramSymbols_1_1) {
+      GraphicsProgramSymbols_1 = GraphicsProgramSymbols_1_1;
+    }],
+    execute: function() {
+      LOGGING_NAME = 'AmbientLight';
+      AmbientLight = (function() {
+        function AmbientLight(color) {
+          mustBeObject_1.default('color', color);
+          this.color = Color_1.default.white.clone();
+          this.color.r = mustBeNumber_1.default('color.r', color.r);
+          this.color.g = mustBeNumber_1.default('color.g', color.g);
+          this.color.b = mustBeNumber_1.default('color.b', color.b);
+        }
+        AmbientLight.prototype.getProperty = function(name) {
+          return void 0;
+        };
+        AmbientLight.prototype.setProperty = function(name, value) {
+          mustBeString_1.default('name', name, contextBuilder);
+          mustBeArray_1.default('value', value, contextBuilder);
+          return this;
+        };
+        AmbientLight.prototype.setUniforms = function(visitor) {
+          var coords = [this.color.r, this.color.g, this.color.b];
+          visitor.vector3(GraphicsProgramSymbols_1.default.UNIFORM_AMBIENT_LIGHT, coords);
+        };
+        return AmbientLight;
+      })();
+      exports_1("default", AmbientLight);
+    }
+  };
+});
+
 System.register("davinci-eight/geometries/ConeGeometry.js", ["./AxialPrimitivesBuilder", "../core/GraphicsProgramSymbols", "./GridTopology", "../math/R2m", "../math/R3m"], function(exports_1) {
   var __extends = (this && this.__extends) || function(d, b) {
     for (var p in b)
@@ -4291,7 +4291,7 @@ System.register("davinci-eight/geometries/CylinderPrimitivesBuilder.js", ["./Axi
   };
 });
 
-System.register("davinci-eight/geometries/AxialPrimitivesBuilder.js", ["../math/CartesianE3", "../geometries/PrimitivesBuilder", "../checks/mustBeNumber", "../checks/mustBeObject", "../math/R3m"], function(exports_1) {
+System.register("davinci-eight/geometries/AxialPrimitivesBuilder.js", ["../math/R3", "../geometries/PrimitivesBuilder", "../checks/mustBeNumber", "../checks/mustBeObject", "../math/R3m"], function(exports_1) {
   var __extends = (this && this.__extends) || function(d, b) {
     for (var p in b)
       if (b.hasOwnProperty(p))
@@ -4301,15 +4301,15 @@ System.register("davinci-eight/geometries/AxialPrimitivesBuilder.js", ["../math/
     }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
   };
-  var CartesianE3_1,
+  var R3_1,
       PrimitivesBuilder_1,
       mustBeNumber_1,
       mustBeObject_1,
       R3m_1;
   var AxialPrimitivesBuilder;
   return {
-    setters: [function(CartesianE3_1_1) {
-      CartesianE3_1 = CartesianE3_1_1;
+    setters: [function(R3_1_1) {
+      R3_1 = R3_1_1;
     }, function(PrimitivesBuilder_1_1) {
       PrimitivesBuilder_1 = PrimitivesBuilder_1_1;
     }, function(mustBeNumber_1_1) {
@@ -4344,7 +4344,7 @@ System.register("davinci-eight/geometries/AxialPrimitivesBuilder.js", ["../math/
         });
         AxialPrimitivesBuilder.prototype.setAxis = function(axis) {
           mustBeObject_1.default('axis', axis);
-          this._axis = CartesianE3_1.default.direction(axis);
+          this._axis = R3_1.default.direction(axis);
           this.setSliceStart(R3m_1.default.random().cross(this._axis));
           return this;
         };
@@ -4375,7 +4375,7 @@ System.register("davinci-eight/geometries/AxialPrimitivesBuilder.js", ["../math/
         };
         AxialPrimitivesBuilder.prototype.setSliceStart = function(sliceStart) {
           mustBeObject_1.default('sliceStart', sliceStart);
-          this._sliceStart = CartesianE3_1.default.direction(sliceStart);
+          this._sliceStart = R3_1.default.direction(sliceStart);
         };
         AxialPrimitivesBuilder.prototype.enableTextureCoords = function(enable) {
           _super.prototype.enableTextureCoords.call(this, enable);
@@ -5113,7 +5113,7 @@ System.register("davinci-eight/geometries/quadrilateral.js", ["../checks/expectA
   };
 });
 
-System.register("davinci-eight/geometries/CuboidSimplexPrimitivesBuilder.js", ["../math/CartesianE3", "../geometries/computeFaceNormals", "../geometries/SimplexPrimitivesBuilder", "../geometries/quadrilateral", "../geometries/Simplex", "../core/GraphicsProgramSymbols", "../math/R1m", "../math/R3m"], function(exports_1) {
+System.register("davinci-eight/geometries/CuboidSimplexPrimitivesBuilder.js", ["../math/R3", "../geometries/computeFaceNormals", "../geometries/SimplexPrimitivesBuilder", "../geometries/quadrilateral", "../geometries/Simplex", "../core/GraphicsProgramSymbols", "../math/R1m", "../math/R3m"], function(exports_1) {
   var __extends = (this && this.__extends) || function(d, b) {
     for (var p in b)
       if (b.hasOwnProperty(p))
@@ -5123,7 +5123,7 @@ System.register("davinci-eight/geometries/CuboidSimplexPrimitivesBuilder.js", ["
     }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
   };
-  var CartesianE3_1,
+  var R3_1,
       computeFaceNormals_1,
       SimplexPrimitivesBuilder_1,
       quadrilateral_1,
@@ -5133,8 +5133,8 @@ System.register("davinci-eight/geometries/CuboidSimplexPrimitivesBuilder.js", ["
       R3m_1;
   var CuboidSimplexPrimitivesBuilder;
   return {
-    setters: [function(CartesianE3_1_1) {
-      CartesianE3_1 = CartesianE3_1_1;
+    setters: [function(R3_1_1) {
+      R3_1 = R3_1_1;
     }, function(computeFaceNormals_1_1) {
       computeFaceNormals_1 = computeFaceNormals_1_1;
     }, function(SimplexPrimitivesBuilder_1_1) {
@@ -5165,9 +5165,9 @@ System.register("davinci-eight/geometries/CuboidSimplexPrimitivesBuilder.js", ["
           }
           _super.call(this);
           this._isModified = true;
-          this._a = CartesianE3_1.default.fromVectorE3(a);
-          this._b = CartesianE3_1.default.fromVectorE3(b);
-          this._c = CartesianE3_1.default.fromVectorE3(c);
+          this._a = R3_1.default.fromVectorE3(a);
+          this._b = R3_1.default.fromVectorE3(b);
+          this._c = R3_1.default.fromVectorE3(c);
           this.k = k;
           this.subdivide(subdivide);
           this.boundary(boundary);
@@ -5512,7 +5512,7 @@ System.register("davinci-eight/geometries/CylinderBuilder.js", ["../geometries/a
   };
 });
 
-System.register("davinci-eight/geometries/CylinderGeometry.js", ["../math/CartesianE3", "../core/GeometryContainer", "../core/GeometryPrimitive", "./CylinderBuilder"], function(exports_1) {
+System.register("davinci-eight/geometries/CylinderGeometry.js", ["../math/R3", "../core/GeometryContainer", "../core/GeometryPrimitive", "./CylinderBuilder"], function(exports_1) {
   var __extends = (this && this.__extends) || function(d, b) {
     for (var p in b)
       if (b.hasOwnProperty(p))
@@ -5522,19 +5522,19 @@ System.register("davinci-eight/geometries/CylinderGeometry.js", ["../math/Cartes
     }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
   };
-  var CartesianE3_1,
+  var R3_1,
       GeometryContainer_1,
       GeometryPrimitive_1,
       CylinderBuilder_1;
   var CylinderGeometry;
   function primitives() {
-    var builder = new CylinderBuilder_1.default(CartesianE3_1.default.e2);
-    builder.setPosition(CartesianE3_1.default.e2.scale(0.5));
+    var builder = new CylinderBuilder_1.default(R3_1.default.e2);
+    builder.setPosition(R3_1.default.e2.scale(0.5));
     return builder.toPrimitives();
   }
   return {
-    setters: [function(CartesianE3_1_1) {
-      CartesianE3_1 = CartesianE3_1_1;
+    setters: [function(R3_1_1) {
+      R3_1 = R3_1_1;
     }, function(GeometryContainer_1_1) {
       GeometryContainer_1 = GeometryContainer_1_1;
     }, function(GeometryPrimitive_1_1) {
@@ -6726,7 +6726,7 @@ System.register("davinci-eight/geometries/arc3.js", ["../checks/mustBeDefined", 
   };
 });
 
-System.register("davinci-eight/geometries/AxialSimplexPrimitivesBuilder.js", ["../math/CartesianE3", "../checks/mustBeObject", "../geometries/SimplexPrimitivesBuilder"], function(exports_1) {
+System.register("davinci-eight/geometries/AxialSimplexPrimitivesBuilder.js", ["../math/R3", "../checks/mustBeObject", "../geometries/SimplexPrimitivesBuilder"], function(exports_1) {
   var __extends = (this && this.__extends) || function(d, b) {
     for (var p in b)
       if (b.hasOwnProperty(p))
@@ -6736,13 +6736,13 @@ System.register("davinci-eight/geometries/AxialSimplexPrimitivesBuilder.js", [".
     }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
   };
-  var CartesianE3_1,
+  var R3_1,
       mustBeObject_1,
       SimplexPrimitivesBuilder_1;
   var AxialSimplexPrimitivesBuilder;
   return {
-    setters: [function(CartesianE3_1_1) {
-      CartesianE3_1 = CartesianE3_1_1;
+    setters: [function(R3_1_1) {
+      R3_1 = R3_1_1;
     }, function(mustBeObject_1_1) {
       mustBeObject_1 = mustBeObject_1_1;
     }, function(SimplexPrimitivesBuilder_1_1) {
@@ -6757,7 +6757,7 @@ System.register("davinci-eight/geometries/AxialSimplexPrimitivesBuilder.js", [".
         }
         AxialSimplexPrimitivesBuilder.prototype.setAxis = function(axis) {
           mustBeObject_1.default('axis', axis);
-          this.axis = CartesianE3_1.default.direction(axis);
+          this.axis = R3_1.default.direction(axis);
           return this;
         };
         AxialSimplexPrimitivesBuilder.prototype.setPosition = function(position) {
@@ -7355,11 +7355,11 @@ System.register("davinci-eight/core/GeometryPrimitive.js", ["../i18n/notSupporte
   };
 });
 
-System.register("davinci-eight/math/CartesianE3.js", ["../core", "../checks/mustBeNumber", "../i18n/readOnly"], function(exports_1) {
+System.register("davinci-eight/math/R3.js", ["../core", "../checks/mustBeNumber", "../i18n/readOnly"], function(exports_1) {
   var core_1,
       mustBeNumber_1,
       readOnly_1;
-  var CartesianE3;
+  var R3;
   return {
     setters: [function(core_1_1) {
       core_1 = core_1_1;
@@ -7369,8 +7369,8 @@ System.register("davinci-eight/math/CartesianE3.js", ["../core", "../checks/must
       readOnly_1 = readOnly_1_1;
     }],
     execute: function() {
-      CartesianE3 = (function() {
-        function CartesianE3(x, y, z, uom) {
+      R3 = (function() {
+        function R3(x, y, z, uom) {
           if (core_1.default.safemode) {
             mustBeNumber_1.default('x', x);
             mustBeNumber_1.default('y', y);
@@ -7379,7 +7379,7 @@ System.register("davinci-eight/math/CartesianE3.js", ["../core", "../checks/must
           this._coords = [x, y, z];
           this._uom = uom;
         }
-        Object.defineProperty(CartesianE3.prototype, "x", {
+        Object.defineProperty(R3.prototype, "x", {
           get: function() {
             return this._coords[0];
           },
@@ -7389,7 +7389,7 @@ System.register("davinci-eight/math/CartesianE3.js", ["../core", "../checks/must
           enumerable: true,
           configurable: true
         });
-        Object.defineProperty(CartesianE3.prototype, "y", {
+        Object.defineProperty(R3.prototype, "y", {
           get: function() {
             return this._coords[1];
           },
@@ -7399,7 +7399,7 @@ System.register("davinci-eight/math/CartesianE3.js", ["../core", "../checks/must
           enumerable: true,
           configurable: true
         });
-        Object.defineProperty(CartesianE3.prototype, "z", {
+        Object.defineProperty(R3.prototype, "z", {
           get: function() {
             return this._coords[2];
           },
@@ -7409,7 +7409,7 @@ System.register("davinci-eight/math/CartesianE3.js", ["../core", "../checks/must
           enumerable: true,
           configurable: true
         });
-        Object.defineProperty(CartesianE3.prototype, "uom", {
+        Object.defineProperty(R3.prototype, "uom", {
           get: function() {
             return this._uom;
           },
@@ -7419,50 +7419,50 @@ System.register("davinci-eight/math/CartesianE3.js", ["../core", "../checks/must
           enumerable: true,
           configurable: true
         });
-        CartesianE3.prototype.magnitude = function() {
+        R3.prototype.magnitude = function() {
           return Math.sqrt(this.squaredNorm());
         };
-        CartesianE3.prototype.neg = function() {
+        R3.prototype.neg = function() {
           return this.scale(-1);
         };
-        CartesianE3.prototype.scale = function(α) {
-          return new CartesianE3(α * this.x, α * this.y, α * this.z, this.uom);
+        R3.prototype.scale = function(α) {
+          return new R3(α * this.x, α * this.y, α * this.z, this.uom);
         };
-        CartesianE3.prototype.squaredNorm = function() {
+        R3.prototype.squaredNorm = function() {
           var x = this.x;
           var y = this.y;
           var z = this.z;
           return x * x + y * y + z * z;
         };
-        CartesianE3.fromVectorE3 = function(vector) {
-          return new CartesianE3(vector.x, vector.y, vector.z, vector.uom);
+        R3.fromVectorE3 = function(vector) {
+          return new R3(vector.x, vector.y, vector.z, vector.uom);
         };
-        CartesianE3.direction = function(vector) {
+        R3.direction = function(vector) {
           var x = vector.x;
           var y = vector.y;
           var z = vector.z;
           var m = Math.sqrt(x * x + y * y + z * z);
-          return new CartesianE3(x / m, y / m, z / m, void 0);
+          return new R3(x / m, y / m, z / m, void 0);
         };
-        CartesianE3.zero = new CartesianE3(0, 0, 0, void 0);
-        CartesianE3.e1 = new CartesianE3(1, 0, 0, void 0);
-        CartesianE3.e2 = new CartesianE3(0, 1, 0, void 0);
-        CartesianE3.e3 = new CartesianE3(0, 0, 1, void 0);
-        return CartesianE3;
+        R3.zero = new R3(0, 0, 0, void 0);
+        R3.e1 = new R3(1, 0, 0, void 0);
+        R3.e2 = new R3(0, 1, 0, void 0);
+        R3.e3 = new R3(0, 0, 1, void 0);
+        return R3;
       })();
-      exports_1("default", CartesianE3);
+      exports_1("default", R3);
     }
   };
 });
 
-System.register("davinci-eight/geometries/PrimitivesBuilder.js", ["../math/CartesianE3", "../checks/mustBeBoolean", "../checks/mustBeObject"], function(exports_1) {
-  var CartesianE3_1,
+System.register("davinci-eight/geometries/PrimitivesBuilder.js", ["../math/R3", "../checks/mustBeBoolean", "../checks/mustBeObject"], function(exports_1) {
+  var R3_1,
       mustBeBoolean_1,
       mustBeObject_1;
   var PrimitivesBuilder;
   return {
-    setters: [function(CartesianE3_1_1) {
-      CartesianE3_1 = CartesianE3_1_1;
+    setters: [function(R3_1_1) {
+      R3_1 = R3_1_1;
     }, function(mustBeBoolean_1_1) {
       mustBeBoolean_1 = mustBeBoolean_1_1;
     }, function(mustBeObject_1_1) {
@@ -7471,7 +7471,7 @@ System.register("davinci-eight/geometries/PrimitivesBuilder.js", ["../math/Carte
     execute: function() {
       PrimitivesBuilder = (function() {
         function PrimitivesBuilder() {
-          this._position = CartesianE3_1.default.zero;
+          this._position = R3_1.default.zero;
           this.useTextureCoords = false;
         }
         Object.defineProperty(PrimitivesBuilder.prototype, "position", {
@@ -7491,7 +7491,7 @@ System.register("davinci-eight/geometries/PrimitivesBuilder.js", ["../math/Carte
         };
         PrimitivesBuilder.prototype.setPosition = function(position) {
           mustBeObject_1.default('position', position);
-          this._position = CartesianE3_1.default.fromVectorE3(position);
+          this._position = R3_1.default.fromVectorE3(position);
           return this;
         };
         PrimitivesBuilder.prototype.toPrimitives = function() {
@@ -13740,6 +13740,9 @@ System.register("davinci-eight/math/G3.js", ["../math/addE3", "../geometries/b2"
             return void 0;
           }
         };
+        G3.random = function(uom) {
+          return new G3(Math.random(), Math.random(), Math.random(), Math.random(), Math.random(), Math.random(), Math.random(), Math.random(), uom);
+        };
         G3.scalar = function(α, uom) {
           return new G3(α, 0, 0, 0, 0, 0, 0, 0, uom);
         };
@@ -18637,7 +18640,7 @@ System.register("davinci-eight/visual/Sphere.js", ["../checks/mustBeNumber", "./
   };
 });
 
-System.register("davinci-eight/visual/World.js", ["./Arrow", "../core/Color", "./Box", "./Cylinder", "../math/G3", "../checks/isDefined", "../checks/mustBeNumber", "../i18n/readOnly", "../core/Shareable", "./Sphere"], function(exports_1) {
+System.register("davinci-eight/visual/World.js", ["./Arrow", "../core/Color", "../core", "./Box", "./Cylinder", "../math/G3", "../checks/isDefined", "../facets/AmbientLight", "../core/Mesh", "../checks/mustBeNumber", "../i18n/readOnly", "../core/Shareable", "./Sphere"], function(exports_1) {
   var __extends = (this && this.__extends) || function(d, b) {
     for (var p in b)
       if (b.hasOwnProperty(p))
@@ -18649,10 +18652,13 @@ System.register("davinci-eight/visual/World.js", ["./Arrow", "../core/Color", ".
   };
   var Arrow_1,
       Color_1,
+      core_1,
       Box_1,
       Cylinder_1,
       G3_1,
       isDefined_1,
+      AmbientLight_1,
+      Mesh_1,
       mustBeNumber_1,
       readOnly_1,
       Shareable_1,
@@ -18663,6 +18669,8 @@ System.register("davinci-eight/visual/World.js", ["./Arrow", "../core/Color", ".
       Arrow_1 = Arrow_1_1;
     }, function(Color_1_1) {
       Color_1 = Color_1_1;
+    }, function(core_1_1) {
+      core_1 = core_1_1;
     }, function(Box_1_1) {
       Box_1 = Box_1_1;
     }, function(Cylinder_1_1) {
@@ -18671,6 +18679,10 @@ System.register("davinci-eight/visual/World.js", ["./Arrow", "../core/Color", ".
       G3_1 = G3_1_1;
     }, function(isDefined_1_1) {
       isDefined_1 = isDefined_1_1;
+    }, function(AmbientLight_1_1) {
+      AmbientLight_1 = AmbientLight_1_1;
+    }, function(Mesh_1_1) {
+      Mesh_1 = Mesh_1_1;
     }, function(mustBeNumber_1_1) {
       mustBeNumber_1 = mustBeNumber_1_1;
     }, function(readOnly_1_1) {
@@ -18685,12 +18697,14 @@ System.register("davinci-eight/visual/World.js", ["./Arrow", "../core/Color", ".
         __extends(World, _super);
         function World(renderer, drawList, ambients, controls) {
           _super.call(this, 'World');
+          this._ambientLight = new AmbientLight_1.default(Color_1.default.fromRGB(0.3, 0.3, 0.3));
           renderer.addRef();
           this.renderer = renderer;
           drawList.addRef();
           this.drawList = drawList;
           this.drawList.subscribe(renderer);
           this._ambients = ambients;
+          this._ambients.push(this._ambientLight);
           controls.addRef();
           this._controls = controls;
         }
@@ -18732,6 +18746,11 @@ System.register("davinci-eight/visual/World.js", ["./Arrow", "../core/Color", ".
           configurable: true
         });
         World.prototype.add = function(mesh) {
+          if (core_1.default.safemode) {
+            if (!(mesh instanceof Mesh_1.default)) {
+              throw new Error("mesh must be an instance of Mesh");
+            }
+          }
           this.drawList.add(mesh);
         };
         World.prototype.arrow = function(options) {
@@ -18740,7 +18759,7 @@ System.register("davinci-eight/visual/World.js", ["./Arrow", "../core/Color", ".
           }
           var arrow = new Arrow_1.default();
           if (options.axis) {
-            arrow.axis = G3_1.default.vector(options.axis.x, options.axis.y, options.axis.z);
+            arrow.axis = G3_1.default.fromVectorE3(options.axis);
           }
           if (options.color) {
             arrow.color.copy(options.color);
@@ -18759,6 +18778,14 @@ System.register("davinci-eight/visual/World.js", ["./Arrow", "../core/Color", ".
             options = {};
           }
           var box = new Box_1.default(options);
+          if (options.axis) {
+            box.axis = G3_1.default.fromVectorE3(options.axis);
+          }
+          if (options.color) {
+            box.color.copy(options.color);
+          } else {
+            box.color = Color_1.default.fromRGB(0.6, 0.6, 0.6);
+          }
           this.drawList.add(box);
           box.release();
           return box;
@@ -18835,10 +18862,10 @@ System.register("davinci-eight/core.js", [], function(exports_1) {
           this.safemode = true;
           this.strict = false;
           this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-          this.LAST_MODIFIED = '2016-02-17';
+          this.LAST_MODIFIED = '2016-02-18';
           this.NAMESPACE = 'EIGHT';
           this.verbose = false;
-          this.VERSION = '2.189.0';
+          this.VERSION = '2.190.0';
           this.logging = {};
         }
         return Eight;
@@ -20715,10 +20742,9 @@ System.register("davinci-eight/core/WebGLRenderer.js", ["../commands/Capability"
   };
 });
 
-System.register("davinci-eight/visual/bootstrap.js", ["../facets/AmbientLight", "../core/Color", "../math/CartesianE3", "../facets/DirectionalLight", "../checks/isDefined", "../checks/mustBeBoolean", "../checks/mustBeFunction", "../checks/mustBeNumber", "../checks/mustBeString", "./DrawList", "../facets/PerspectiveCamera", "../core/refChange", "../controls/TrackballControls", "./World", "../core/WebGLRenderer"], function(exports_1) {
-  var AmbientLight_1,
-      Color_1,
-      CartesianE3_1,
+System.register("davinci-eight/visual/bootstrap.js", ["../core/Color", "../math/R3", "../facets/DirectionalLight", "../checks/isDefined", "../checks/mustBeBoolean", "../checks/mustBeFunction", "../checks/mustBeNumber", "../checks/mustBeString", "./DrawList", "../facets/PerspectiveCamera", "../core/refChange", "../controls/TrackballCameraControls", "./World", "../core/WebGLRenderer"], function(exports_1) {
+  var Color_1,
+      R3_1,
       DirectionalLight_1,
       isDefined_1,
       mustBeBoolean_1,
@@ -20728,7 +20754,7 @@ System.register("davinci-eight/visual/bootstrap.js", ["../facets/AmbientLight", 
       DrawList_1,
       PerspectiveCamera_1,
       refChange_1,
-      TrackballControls_1,
+      TrackballCameraControls_1,
       World_1,
       WebGLRenderer_1;
   function default_1(canvasId, animate, options) {
@@ -20749,16 +20775,14 @@ System.register("davinci-eight/visual/bootstrap.js", ["../facets/AmbientLight", 
     renderer.clearColor(0.1, 0.1, 0.1, 1.0);
     var drawList = new DrawList_1.default();
     var ambients = [];
-    var ambientLight = new AmbientLight_1.default(Color_1.default.fromRGB(0.3, 0.3, 0.3));
-    ambients.push(ambientLight);
-    var dirLight = new DirectionalLight_1.default(CartesianE3_1.default.e3.neg(), Color_1.default.white);
+    var dirLight = new DirectionalLight_1.default(R3_1.default.e3.neg(), Color_1.default.white);
     ambients.push(dirLight);
     var camera = new PerspectiveCamera_1.default(45 * Math.PI / 180, 1, 0.1, 1000);
     camera.position.setXYZ(0, 0, 7);
     camera.look.setXYZ(0, 0, 0);
     camera.up.setXYZ(0, 1, 0);
     ambients.push(camera);
-    var controls = new TrackballControls_1.default(camera);
+    var controls = new TrackballCameraControls_1.default(camera);
     var world = new World_1.default(renderer, drawList, ambients, controls);
     var requestId;
     function step(timestamp) {
@@ -20811,12 +20835,10 @@ System.register("davinci-eight/visual/bootstrap.js", ["../facets/AmbientLight", 
   }
   exports_1("default", default_1);
   return {
-    setters: [function(AmbientLight_1_1) {
-      AmbientLight_1 = AmbientLight_1_1;
-    }, function(Color_1_1) {
+    setters: [function(Color_1_1) {
       Color_1 = Color_1_1;
-    }, function(CartesianE3_1_1) {
-      CartesianE3_1 = CartesianE3_1_1;
+    }, function(R3_1_1) {
+      R3_1 = R3_1_1;
     }, function(DirectionalLight_1_1) {
       DirectionalLight_1 = DirectionalLight_1_1;
     }, function(isDefined_1_1) {
@@ -20835,8 +20857,8 @@ System.register("davinci-eight/visual/bootstrap.js", ["../facets/AmbientLight", 
       PerspectiveCamera_1 = PerspectiveCamera_1_1;
     }, function(refChange_1_1) {
       refChange_1 = refChange_1_1;
-    }, function(TrackballControls_1_1) {
-      TrackballControls_1 = TrackballControls_1_1;
+    }, function(TrackballCameraControls_1_1) {
+      TrackballCameraControls_1 = TrackballCameraControls_1_1;
     }, function(World_1_1) {
       World_1 = World_1_1;
     }, function(WebGLRenderer_1_1) {
@@ -20846,14 +20868,14 @@ System.register("davinci-eight/visual/bootstrap.js", ["../facets/AmbientLight", 
   };
 });
 
-System.register("davinci-eight.js", ["davinci-eight/commands/BlendFactor", "davinci-eight/commands/WebGLBlendFunc", "davinci-eight/commands/WebGLClearColor", "davinci-eight/commands/Capability", "davinci-eight/commands/WebGLDisable", "davinci-eight/commands/WebGLEnable", "davinci-eight/controls/TrackballControls", "davinci-eight/core/AttribLocation", "davinci-eight/core/Color", "davinci-eight/core", "davinci-eight/core/DrawMode", "davinci-eight/core/GraphicsProgramSymbols", "davinci-eight/core/UniformLocation", "davinci-eight/core/Mesh", "davinci-eight/core/Scene", "davinci-eight/core/WebGLRenderer", "davinci-eight/core/GeometryContainer", "davinci-eight/core/GeometryPrimitive", "davinci-eight/curves/Curve", "davinci-eight/facets/AmbientLight", "davinci-eight/facets/ColorFacet", "davinci-eight/facets/DirectionalLight", "davinci-eight/facets/ModelFacet", "davinci-eight/facets/PointSizeFacet", "davinci-eight/facets/ReflectionFacetE2", "davinci-eight/facets/ReflectionFacetE3", "davinci-eight/facets/Vector3Facet", "davinci-eight/facets/frustumMatrix", "davinci-eight/facets/PerspectiveCamera", "davinci-eight/facets/perspectiveMatrix", "davinci-eight/facets/viewMatrix", "davinci-eight/facets/ModelE2", "davinci-eight/facets/ModelE3", "davinci-eight/geometries/DrawAttribute", "davinci-eight/geometries/DrawPrimitive", "davinci-eight/geometries/Simplex", "davinci-eight/geometries/Vertex", "davinci-eight/geometries/ArrowGeometry", "davinci-eight/geometries/CuboidGeometry", "davinci-eight/geometries/CylinderGeometry", "davinci-eight/geometries/SphereGeometry", "davinci-eight/geometries/TetrahedronGeometry", "davinci-eight/materials/HTMLScriptsMaterial", "davinci-eight/materials/LineMaterial", "davinci-eight/materials/MeshMaterial", "davinci-eight/materials/PointMaterial", "davinci-eight/materials/GraphicsProgramBuilder", "davinci-eight/materials/smartProgram", "davinci-eight/materials/programFromScripts", "davinci-eight/math/Dimensions", "davinci-eight/math/G2", "davinci-eight/math/G3", "davinci-eight/math/mathcore", "davinci-eight/math/R1m", "davinci-eight/math/Mat2R", "davinci-eight/math/Mat3R", "davinci-eight/math/Mat4R", "davinci-eight/math/QQ", "davinci-eight/math/Unit", "davinci-eight/math/G2m", "davinci-eight/math/G3m", "davinci-eight/math/SpinG2m", "davinci-eight/math/SpinG3m", "davinci-eight/math/R2m", "davinci-eight/math/R3m", "davinci-eight/math/R4m", "davinci-eight/math/VectorN", "davinci-eight/overlay/Overlay", "davinci-eight/utils/getCanvasElementById", "davinci-eight/collections/ShareableArray", "davinci-eight/collections/NumberIUnknownMap", "davinci-eight/core/refChange", "davinci-eight/core/Shareable", "davinci-eight/collections/StringIUnknownMap", "davinci-eight/utils/animation", "davinci-eight/visual/Arrow", "davinci-eight/visual/Sphere", "davinci-eight/visual/Box", "davinci-eight/visual/Object3D", "davinci-eight/visual/RigidBody", "davinci-eight/visual/Cylinder", "davinci-eight/visual/Tetrahedron", "davinci-eight/visual/Trail", "davinci-eight/visual/bootstrap"], function(exports_1) {
+System.register("davinci-eight.js", ["davinci-eight/commands/BlendFactor", "davinci-eight/commands/WebGLBlendFunc", "davinci-eight/commands/WebGLClearColor", "davinci-eight/commands/Capability", "davinci-eight/commands/WebGLDisable", "davinci-eight/commands/WebGLEnable", "davinci-eight/controls/TrackballCameraControls", "davinci-eight/core/AttribLocation", "davinci-eight/core/Color", "davinci-eight/core", "davinci-eight/core/DrawMode", "davinci-eight/core/GraphicsProgramSymbols", "davinci-eight/core/UniformLocation", "davinci-eight/core/Mesh", "davinci-eight/core/Scene", "davinci-eight/core/WebGLRenderer", "davinci-eight/core/GeometryContainer", "davinci-eight/core/GeometryPrimitive", "davinci-eight/curves/Curve", "davinci-eight/facets/AmbientLight", "davinci-eight/facets/ColorFacet", "davinci-eight/facets/DirectionalLight", "davinci-eight/facets/ModelFacet", "davinci-eight/facets/PointSizeFacet", "davinci-eight/facets/ReflectionFacetE2", "davinci-eight/facets/ReflectionFacetE3", "davinci-eight/facets/Vector3Facet", "davinci-eight/facets/frustumMatrix", "davinci-eight/facets/PerspectiveCamera", "davinci-eight/facets/perspectiveMatrix", "davinci-eight/facets/viewMatrix", "davinci-eight/facets/ModelE2", "davinci-eight/facets/ModelE3", "davinci-eight/geometries/DrawAttribute", "davinci-eight/geometries/DrawPrimitive", "davinci-eight/geometries/Simplex", "davinci-eight/geometries/Vertex", "davinci-eight/geometries/ArrowGeometry", "davinci-eight/geometries/CuboidGeometry", "davinci-eight/geometries/CylinderGeometry", "davinci-eight/geometries/SphereGeometry", "davinci-eight/geometries/TetrahedronGeometry", "davinci-eight/materials/HTMLScriptsMaterial", "davinci-eight/materials/LineMaterial", "davinci-eight/materials/MeshMaterial", "davinci-eight/materials/PointMaterial", "davinci-eight/materials/GraphicsProgramBuilder", "davinci-eight/materials/smartProgram", "davinci-eight/materials/programFromScripts", "davinci-eight/math/Dimensions", "davinci-eight/math/G2", "davinci-eight/math/G3", "davinci-eight/math/mathcore", "davinci-eight/math/R1m", "davinci-eight/math/Mat2R", "davinci-eight/math/Mat3R", "davinci-eight/math/Mat4R", "davinci-eight/math/QQ", "davinci-eight/math/Unit", "davinci-eight/math/G2m", "davinci-eight/math/G3m", "davinci-eight/math/SpinG2m", "davinci-eight/math/SpinG3m", "davinci-eight/math/R2m", "davinci-eight/math/R3m", "davinci-eight/math/R4m", "davinci-eight/math/VectorN", "davinci-eight/overlay/Overlay", "davinci-eight/utils/getCanvasElementById", "davinci-eight/collections/ShareableArray", "davinci-eight/collections/NumberIUnknownMap", "davinci-eight/core/refChange", "davinci-eight/core/Shareable", "davinci-eight/collections/StringIUnknownMap", "davinci-eight/utils/animation", "davinci-eight/visual/Arrow", "davinci-eight/visual/Sphere", "davinci-eight/visual/Box", "davinci-eight/visual/Object3D", "davinci-eight/visual/RigidBody", "davinci-eight/visual/Cylinder", "davinci-eight/visual/Tetrahedron", "davinci-eight/visual/Trail", "davinci-eight/visual/bootstrap"], function(exports_1) {
   var BlendFactor_1,
       WebGLBlendFunc_1,
       WebGLClearColor_1,
       Capability_1,
       WebGLDisable_1,
       WebGLEnable_1,
-      TrackballControls_1,
+      TrackballCameraControls_1,
       AttribLocation_1,
       Color_1,
       core_1,
@@ -20945,8 +20967,8 @@ System.register("davinci-eight.js", ["davinci-eight/commands/BlendFactor", "davi
       WebGLDisable_1 = WebGLDisable_1_1;
     }, function(WebGLEnable_1_1) {
       WebGLEnable_1 = WebGLEnable_1_1;
-    }, function(TrackballControls_1_1) {
-      TrackballControls_1 = TrackballControls_1_1;
+    }, function(TrackballCameraControls_1_1) {
+      TrackballCameraControls_1 = TrackballCameraControls_1_1;
     }, function(AttribLocation_1_1) {
       AttribLocation_1 = AttribLocation_1_1;
     }, function(Color_1_1) {
@@ -21222,8 +21244,8 @@ System.register("davinci-eight.js", ["davinci-eight/commands/BlendFactor", "davi
         get Color() {
           return Color_1.default;
         },
-        get TrackballControls() {
-          return TrackballControls_1.default;
+        get TrackballCameraControls() {
+          return TrackballCameraControls_1.default;
         },
         get AmbientLight() {
           return AmbientLight_1.default;

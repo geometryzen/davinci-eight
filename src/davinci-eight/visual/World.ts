@@ -1,18 +1,19 @@
 import Arrow from './Arrow'
 import Color from '../core/Color'
+import core from '../core'
 import Box from './Box'
-import BoxOptions from './BoxOptions'
 import Cylinder from './Cylinder'
 import DrawList from './DrawList'
 import G3 from '../math/G3'
 import Facet from '../core/Facet'
 import isDefined from '../checks/isDefined'
+import AmbientLight from '../facets/AmbientLight'
 import Mesh from '../core/Mesh'
 import mustBeNumber from '../checks/mustBeNumber'
 import readOnly from '../i18n/readOnly'
 import Shareable from '../core/Shareable'
 import Sphere from './Sphere'
-import TrackballControls from '../controls/TrackballControls'
+import TrackballCameraControls from '../controls/TrackballCameraControls'
 import VectorE3 from '../math/VectorE3'
 import WebGLRenderer from '../core/WebGLRenderer'
 
@@ -29,13 +30,14 @@ export default class World extends Shareable {
     private drawList: DrawList
     private renderer: WebGLRenderer
     private _ambients: Facet[]
-    private _controls: TrackballControls
+    private _controls: TrackballCameraControls
+    private _ambientLight = new AmbientLight(Color.fromRGB(0.3, 0.3, 0.3))
 
     /**
      * @class World
      * @constructor
      */
-    constructor(renderer: WebGLRenderer, drawList: DrawList, ambients: Facet[], controls: TrackballControls) {
+    constructor(renderer: WebGLRenderer, drawList: DrawList, ambients: Facet[], controls: TrackballCameraControls) {
         super('World')
 
         renderer.addRef()
@@ -47,6 +49,7 @@ export default class World extends Shareable {
         this.drawList.subscribe(renderer)
 
         this._ambients = ambients
+        this._ambients.push(this._ambientLight)
 
         controls.addRef()
         this._controls = controls
@@ -91,17 +94,22 @@ export default class World extends Shareable {
 
     /**
      * @property controls
-     * @type TrackballControls
+     * @type TrackballCameraControls
      * @readOnly
      */
-    get controls(): TrackballControls {
+    get controls(): TrackballCameraControls {
         return this._controls;
     }
-    set controls(unused: TrackballControls) {
+    set controls(unused: TrackballCameraControls) {
         throw new Error(readOnly('controls').message)
     }
 
     add(mesh: Mesh): void {
+        if (core.safemode) {
+            if (!(mesh instanceof Mesh)) {
+                throw new Error("mesh must be an instance of Mesh")
+            }
+        }
         this.drawList.add(mesh)
     }
 
@@ -117,7 +125,7 @@ export default class World extends Shareable {
         } = {}): Arrow {
         const arrow = new Arrow()
         if (options.axis) {
-            arrow.axis = G3.vector(options.axis.x, options.axis.y, options.axis.z)
+            arrow.axis = G3.fromVectorE3(options.axis)
         }
         if (options.color) {
             arrow.color.copy(options.color)
@@ -137,8 +145,24 @@ export default class World extends Shareable {
      * @method box
      * @return {Box}
      */
-    box(options: BoxOptions = {}): Box {
+    box(
+        options: {
+            axis?: VectorE3;
+            color?: Color;
+            width?: number;
+            height?: number;
+            depth?: number;
+        } = {}): Box {
         const box = new Box(options)
+        if (options.axis) {
+            box.axis = G3.fromVectorE3(options.axis)
+        }
+        if (options.color) {
+            box.color.copy(options.color)
+        }
+        else {
+            box.color = Color.fromRGB(0.6, 0.6, 0.6)
+        }
         this.drawList.add(box)
         box.release()
         return box

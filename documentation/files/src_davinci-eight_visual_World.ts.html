@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.189.0</em>
+            <em>API Docs for: 2.190.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -48,7 +48,6 @@
                                 <li><a href="../classes/BlendFactor.html">BlendFactor</a></li>
                                 <li><a href="../classes/Box.html">Box</a></li>
                                 <li><a href="../classes/Capability.html">Capability</a></li>
-                                <li><a href="../classes/CartesianE3.html">CartesianE3</a></li>
                                 <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
@@ -107,6 +106,7 @@
                                 <li><a href="../classes/QQ.html">QQ</a></li>
                                 <li><a href="../classes/R1m.html">R1m</a></li>
                                 <li><a href="../classes/R2m.html">R2m</a></li>
+                                <li><a href="../classes/R3.html">R3</a></li>
                                 <li><a href="../classes/R3m.html">R3m</a></li>
                                 <li><a href="../classes/R4m.html">R4m</a></li>
                                 <li><a href="../classes/ReflectionFacetE2.html">ReflectionFacetE2</a></li>
@@ -131,7 +131,7 @@
                                 <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
                                 <li><a href="../classes/Tetrahedron.html">Tetrahedron</a></li>
                                 <li><a href="../classes/TetrahedronGeometry.html">TetrahedronGeometry</a></li>
-                                <li><a href="../classes/TrackballControls.html">TrackballControls</a></li>
+                                <li><a href="../classes/TrackballCameraControls.html">TrackballCameraControls</a></li>
                                 <li><a href="../classes/Trail.html">Trail</a></li>
                                 <li><a href="../classes/UniformLocation.html">UniformLocation</a></li>
                                 <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
@@ -204,19 +204,20 @@
     <pre class="code prettyprint linenums">
 import Arrow from &#x27;./Arrow&#x27;
 import Color from &#x27;../core/Color&#x27;
+import core from &#x27;../core&#x27;
 import Box from &#x27;./Box&#x27;
-import BoxOptions from &#x27;./BoxOptions&#x27;
 import Cylinder from &#x27;./Cylinder&#x27;
 import DrawList from &#x27;./DrawList&#x27;
 import G3 from &#x27;../math/G3&#x27;
 import Facet from &#x27;../core/Facet&#x27;
 import isDefined from &#x27;../checks/isDefined&#x27;
+import AmbientLight from &#x27;../facets/AmbientLight&#x27;
 import Mesh from &#x27;../core/Mesh&#x27;
 import mustBeNumber from &#x27;../checks/mustBeNumber&#x27;
 import readOnly from &#x27;../i18n/readOnly&#x27;
 import Shareable from &#x27;../core/Shareable&#x27;
 import Sphere from &#x27;./Sphere&#x27;
-import TrackballControls from &#x27;../controls/TrackballControls&#x27;
+import TrackballCameraControls from &#x27;../controls/TrackballCameraControls&#x27;
 import VectorE3 from &#x27;../math/VectorE3&#x27;
 import WebGLRenderer from &#x27;../core/WebGLRenderer&#x27;
 
@@ -233,13 +234,14 @@ export default class World extends Shareable {
     private drawList: DrawList
     private renderer: WebGLRenderer
     private _ambients: Facet[]
-    private _controls: TrackballControls
+    private _controls: TrackballCameraControls
+    private _ambientLight = new AmbientLight(Color.fromRGB(0.3, 0.3, 0.3))
 
     /**
      * @class World
      * @constructor
      */
-    constructor(renderer: WebGLRenderer, drawList: DrawList, ambients: Facet[], controls: TrackballControls) {
+    constructor(renderer: WebGLRenderer, drawList: DrawList, ambients: Facet[], controls: TrackballCameraControls) {
         super(&#x27;World&#x27;)
 
         renderer.addRef()
@@ -251,6 +253,7 @@ export default class World extends Shareable {
         this.drawList.subscribe(renderer)
 
         this._ambients = ambients
+        this._ambients.push(this._ambientLight)
 
         controls.addRef()
         this._controls = controls
@@ -295,17 +298,22 @@ export default class World extends Shareable {
 
     /**
      * @property controls
-     * @type TrackballControls
+     * @type TrackballCameraControls
      * @readOnly
      */
-    get controls(): TrackballControls {
+    get controls(): TrackballCameraControls {
         return this._controls;
     }
-    set controls(unused: TrackballControls) {
+    set controls(unused: TrackballCameraControls) {
         throw new Error(readOnly(&#x27;controls&#x27;).message)
     }
 
     add(mesh: Mesh): void {
+        if (core.safemode) {
+            if (!(mesh instanceof Mesh)) {
+                throw new Error(&quot;mesh must be an instance of Mesh&quot;)
+            }
+        }
         this.drawList.add(mesh)
     }
 
@@ -321,7 +329,7 @@ export default class World extends Shareable {
         } = {}): Arrow {
         const arrow = new Arrow()
         if (options.axis) {
-            arrow.axis = G3.vector(options.axis.x, options.axis.y, options.axis.z)
+            arrow.axis = G3.fromVectorE3(options.axis)
         }
         if (options.color) {
             arrow.color.copy(options.color)
@@ -341,8 +349,24 @@ export default class World extends Shareable {
      * @method box
      * @return {Box}
      */
-    box(options: BoxOptions = {}): Box {
+    box(
+        options: {
+            axis?: VectorE3;
+            color?: Color;
+            width?: number;
+            height?: number;
+            depth?: number;
+        } = {}): Box {
         const box = new Box(options)
+        if (options.axis) {
+            box.axis = G3.fromVectorE3(options.axis)
+        }
+        if (options.color) {
+            box.color.copy(options.color)
+        }
+        else {
+            box.color = Color.fromRGB(0.6, 0.6, 0.6)
+        }
         this.drawList.add(box)
         box.release()
         return box

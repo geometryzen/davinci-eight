@@ -2007,10 +2007,10 @@ define('davinci-eight/core',["require", "exports"], function (require, exports) 
             this.safemode = true;
             this.strict = false;
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-            this.LAST_MODIFIED = '2016-02-17';
+            this.LAST_MODIFIED = '2016-02-18';
             this.NAMESPACE = 'EIGHT';
             this.verbose = false;
-            this.VERSION = '2.189.0';
+            this.VERSION = '2.190.0';
             this.logging = {};
         }
         return Eight;
@@ -3652,6 +3652,9 @@ define('davinci-eight/math/G3',["require", "exports", '../math/addE3', '../geome
             else {
                 return void 0;
             }
+        };
+        G3.random = function (uom) {
+            return new G3(Math.random(), Math.random(), Math.random(), Math.random(), Math.random(), Math.random(), Math.random(), Math.random(), uom);
         };
         G3.scalar = function (α, uom) {
             return new G3(α, 0, 0, 0, 0, 0, 0, 0, uom);
@@ -8488,11 +8491,11 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/controls/TrackballControls',["require", "exports", '../math/G3m', './MouseControls', '../math/R2m', '../math/R3m'], function (require, exports, G3m_1, MouseControls_1, R2m_1, R3m_1) {
-    var TrackballControls = (function (_super) {
-        __extends(TrackballControls, _super);
-        function TrackballControls(camera) {
-            _super.call(this, 'TrackballControls');
+define('davinci-eight/controls/TrackballCameraControls',["require", "exports", '../math/G3m', './MouseControls', '../math/R2m', '../math/R3m'], function (require, exports, G3m_1, MouseControls_1, R2m_1, R3m_1) {
+    var TrackballCameraControls = (function (_super) {
+        __extends(TrackballCameraControls, _super);
+        function TrackballCameraControls(camera) {
+            _super.call(this, 'TrackballCameraControls');
             this.rotateSpeed = 1;
             this.zoomSpeed = 1;
             this.panSpeed = 1;
@@ -8513,10 +8516,10 @@ define('davinci-eight/controls/TrackballControls',["require", "exports", '../mat
             this.up0 = this.camera.up.clone();
             this.update();
         }
-        TrackballControls.prototype.destructor = function () {
+        TrackballCameraControls.prototype.destructor = function () {
             _super.prototype.destructor.call(this);
         };
-        TrackballControls.prototype.reset = function () {
+        TrackballCameraControls.prototype.reset = function () {
             this.target.copy(this.target0);
             this.camera.position.copy(this.position0);
             this.camera.up.copy(this.up0);
@@ -8524,7 +8527,7 @@ define('davinci-eight/controls/TrackballControls',["require", "exports", '../mat
             this.camera.look.copy(this.target);
             _super.prototype.reset.call(this);
         };
-        TrackballControls.prototype.update = function () {
+        TrackballCameraControls.prototype.update = function () {
             this.eye.copy(this.camera.position).sub(this.target);
             if (!this.noRotate) {
                 this.rotateCamera();
@@ -8539,7 +8542,7 @@ define('davinci-eight/controls/TrackballControls',["require", "exports", '../mat
             this.checkDistances();
             this.camera.look.copy(this.target);
         };
-        TrackballControls.prototype.rotateCamera = function () {
+        TrackballCameraControls.prototype.rotateCamera = function () {
             this.moveDirection.setXYZ(this.moveCurr.x - this.movePrev.x, this.moveCurr.y - this.movePrev.y, 0);
             var angle = this.moveDirection.magnitude();
             if (angle) {
@@ -8558,14 +8561,14 @@ define('davinci-eight/controls/TrackballControls',["require", "exports", '../mat
             }
             this.movePrev.copy(this.moveCurr);
         };
-        TrackballControls.prototype.zoomCamera = function () {
+        TrackballCameraControls.prototype.zoomCamera = function () {
             var factor = 1 + (this.zoomEnd.y - this.zoomStart.y) * this.zoomSpeed;
             if (factor !== 1 && factor > 0) {
                 this.eye.scale(factor);
                 this.zoomStart.copy(this.zoomEnd);
             }
         };
-        TrackballControls.prototype.panCamera = function () {
+        TrackballCameraControls.prototype.panCamera = function () {
             this.mouseChange.copy(this.panEnd).sub(this.panStart);
             if (this.mouseChange.squaredNorm()) {
                 this.mouseChange.scale(this.eye.magnitude() * this.panSpeed);
@@ -8577,12 +8580,12 @@ define('davinci-eight/controls/TrackballControls',["require", "exports", '../mat
                 this.panStart.copy(this.panEnd);
             }
         };
-        TrackballControls.prototype.checkDistances = function () {
+        TrackballCameraControls.prototype.checkDistances = function () {
         };
-        return TrackballControls;
+        return TrackballCameraControls;
     })(MouseControls_1.default);
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = TrackballControls;
+    exports.default = TrackballCameraControls;
 });
 
 define('davinci-eight/core/AttribLocation',["require", "exports", '../i18n/readOnly'], function (require, exports, readOnly_1) {
@@ -13257,9 +13260,9 @@ define('davinci-eight/geometries/Simplex',["require", "exports", '../checks/expe
     exports.default = Simplex;
 });
 
-define('davinci-eight/math/CartesianE3',["require", "exports", '../core', '../checks/mustBeNumber', '../i18n/readOnly'], function (require, exports, core_1, mustBeNumber_1, readOnly_1) {
-    var CartesianE3 = (function () {
-        function CartesianE3(x, y, z, uom) {
+define('davinci-eight/math/R3',["require", "exports", '../core', '../checks/mustBeNumber', '../i18n/readOnly'], function (require, exports, core_1, mustBeNumber_1, readOnly_1) {
+    var R3 = (function () {
+        function R3(x, y, z, uom) {
             if (core_1.default.safemode) {
                 mustBeNumber_1.default('x', x);
                 mustBeNumber_1.default('y', y);
@@ -13268,7 +13271,7 @@ define('davinci-eight/math/CartesianE3',["require", "exports", '../core', '../ch
             this._coords = [x, y, z];
             this._uom = uom;
         }
-        Object.defineProperty(CartesianE3.prototype, "x", {
+        Object.defineProperty(R3.prototype, "x", {
             get: function () {
                 return this._coords[0];
             },
@@ -13278,7 +13281,7 @@ define('davinci-eight/math/CartesianE3',["require", "exports", '../core', '../ch
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(CartesianE3.prototype, "y", {
+        Object.defineProperty(R3.prototype, "y", {
             get: function () {
                 return this._coords[1];
             },
@@ -13288,7 +13291,7 @@ define('davinci-eight/math/CartesianE3',["require", "exports", '../core', '../ch
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(CartesianE3.prototype, "z", {
+        Object.defineProperty(R3.prototype, "z", {
             get: function () {
                 return this._coords[2];
             },
@@ -13298,7 +13301,7 @@ define('davinci-eight/math/CartesianE3',["require", "exports", '../core', '../ch
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(CartesianE3.prototype, "uom", {
+        Object.defineProperty(R3.prototype, "uom", {
             get: function () {
                 return this._uom;
             },
@@ -13308,45 +13311,45 @@ define('davinci-eight/math/CartesianE3',["require", "exports", '../core', '../ch
             enumerable: true,
             configurable: true
         });
-        CartesianE3.prototype.magnitude = function () {
+        R3.prototype.magnitude = function () {
             return Math.sqrt(this.squaredNorm());
         };
-        CartesianE3.prototype.neg = function () {
+        R3.prototype.neg = function () {
             return this.scale(-1);
         };
-        CartesianE3.prototype.scale = function (α) {
-            return new CartesianE3(α * this.x, α * this.y, α * this.z, this.uom);
+        R3.prototype.scale = function (α) {
+            return new R3(α * this.x, α * this.y, α * this.z, this.uom);
         };
-        CartesianE3.prototype.squaredNorm = function () {
+        R3.prototype.squaredNorm = function () {
             var x = this.x;
             var y = this.y;
             var z = this.z;
             return x * x + y * y + z * z;
         };
-        CartesianE3.fromVectorE3 = function (vector) {
-            return new CartesianE3(vector.x, vector.y, vector.z, vector.uom);
+        R3.fromVectorE3 = function (vector) {
+            return new R3(vector.x, vector.y, vector.z, vector.uom);
         };
-        CartesianE3.direction = function (vector) {
+        R3.direction = function (vector) {
             var x = vector.x;
             var y = vector.y;
             var z = vector.z;
             var m = Math.sqrt(x * x + y * y + z * z);
-            return new CartesianE3(x / m, y / m, z / m, void 0);
+            return new R3(x / m, y / m, z / m, void 0);
         };
-        CartesianE3.zero = new CartesianE3(0, 0, 0, void 0);
-        CartesianE3.e1 = new CartesianE3(1, 0, 0, void 0);
-        CartesianE3.e2 = new CartesianE3(0, 1, 0, void 0);
-        CartesianE3.e3 = new CartesianE3(0, 0, 1, void 0);
-        return CartesianE3;
+        R3.zero = new R3(0, 0, 0, void 0);
+        R3.e1 = new R3(1, 0, 0, void 0);
+        R3.e2 = new R3(0, 1, 0, void 0);
+        R3.e3 = new R3(0, 0, 1, void 0);
+        return R3;
     })();
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = CartesianE3;
+    exports.default = R3;
 });
 
-define('davinci-eight/geometries/PrimitivesBuilder',["require", "exports", '../math/CartesianE3', '../checks/mustBeBoolean', '../checks/mustBeObject'], function (require, exports, CartesianE3_1, mustBeBoolean_1, mustBeObject_1) {
+define('davinci-eight/geometries/PrimitivesBuilder',["require", "exports", '../math/R3', '../checks/mustBeBoolean', '../checks/mustBeObject'], function (require, exports, R3_1, mustBeBoolean_1, mustBeObject_1) {
     var PrimitivesBuilder = (function () {
         function PrimitivesBuilder() {
-            this._position = CartesianE3_1.default.zero;
+            this._position = R3_1.default.zero;
             this.useTextureCoords = false;
         }
         Object.defineProperty(PrimitivesBuilder.prototype, "position", {
@@ -13366,7 +13369,7 @@ define('davinci-eight/geometries/PrimitivesBuilder',["require", "exports", '../m
         };
         PrimitivesBuilder.prototype.setPosition = function (position) {
             mustBeObject_1.default('position', position);
-            this._position = CartesianE3_1.default.fromVectorE3(position);
+            this._position = R3_1.default.fromVectorE3(position);
             return this;
         };
         PrimitivesBuilder.prototype.toPrimitives = function () {
@@ -13384,7 +13387,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/geometries/AxialPrimitivesBuilder',["require", "exports", '../math/CartesianE3', '../geometries/PrimitivesBuilder', '../checks/mustBeNumber', '../checks/mustBeObject', '../math/R3m'], function (require, exports, CartesianE3_1, PrimitivesBuilder_1, mustBeNumber_1, mustBeObject_1, R3m_1) {
+define('davinci-eight/geometries/AxialPrimitivesBuilder',["require", "exports", '../math/R3', '../geometries/PrimitivesBuilder', '../checks/mustBeNumber', '../checks/mustBeObject', '../math/R3m'], function (require, exports, R3_1, PrimitivesBuilder_1, mustBeNumber_1, mustBeObject_1, R3m_1) {
     var AxialPrimitivesBuilder = (function (_super) {
         __extends(AxialPrimitivesBuilder, _super);
         function AxialPrimitivesBuilder(axis, sliceStart) {
@@ -13410,7 +13413,7 @@ define('davinci-eight/geometries/AxialPrimitivesBuilder',["require", "exports", 
         });
         AxialPrimitivesBuilder.prototype.setAxis = function (axis) {
             mustBeObject_1.default('axis', axis);
-            this._axis = CartesianE3_1.default.direction(axis);
+            this._axis = R3_1.default.direction(axis);
             this.setSliceStart(R3m_1.default.random().cross(this._axis));
             return this;
         };
@@ -13441,7 +13444,7 @@ define('davinci-eight/geometries/AxialPrimitivesBuilder',["require", "exports", 
         };
         AxialPrimitivesBuilder.prototype.setSliceStart = function (sliceStart) {
             mustBeObject_1.default('sliceStart', sliceStart);
-            this._sliceStart = CartesianE3_1.default.direction(sliceStart);
+            this._sliceStart = R3_1.default.direction(sliceStart);
         };
         AxialPrimitivesBuilder.prototype.enableTextureCoords = function (enable) {
             _super.prototype.enableTextureCoords.call(this, enable);
@@ -14478,7 +14481,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/geometries/CuboidSimplexPrimitivesBuilder',["require", "exports", '../math/CartesianE3', '../geometries/computeFaceNormals', '../geometries/SimplexPrimitivesBuilder', '../geometries/quadrilateral', '../geometries/Simplex', '../core/GraphicsProgramSymbols', '../math/R1m', '../math/R3m'], function (require, exports, CartesianE3_1, computeFaceNormals_1, SimplexPrimitivesBuilder_1, quadrilateral_1, Simplex_1, GraphicsProgramSymbols_1, R1m_1, R3m_1) {
+define('davinci-eight/geometries/CuboidSimplexPrimitivesBuilder',["require", "exports", '../math/R3', '../geometries/computeFaceNormals', '../geometries/SimplexPrimitivesBuilder', '../geometries/quadrilateral', '../geometries/Simplex', '../core/GraphicsProgramSymbols', '../math/R1m', '../math/R3m'], function (require, exports, R3_1, computeFaceNormals_1, SimplexPrimitivesBuilder_1, quadrilateral_1, Simplex_1, GraphicsProgramSymbols_1, R1m_1, R3m_1) {
     var CuboidSimplexPrimitivesBuilder = (function (_super) {
         __extends(CuboidSimplexPrimitivesBuilder, _super);
         function CuboidSimplexPrimitivesBuilder(a, b, c, k, subdivide, boundary) {
@@ -14487,9 +14490,9 @@ define('davinci-eight/geometries/CuboidSimplexPrimitivesBuilder',["require", "ex
             if (boundary === void 0) { boundary = 0; }
             _super.call(this);
             this._isModified = true;
-            this._a = CartesianE3_1.default.fromVectorE3(a);
-            this._b = CartesianE3_1.default.fromVectorE3(b);
-            this._c = CartesianE3_1.default.fromVectorE3(c);
+            this._a = R3_1.default.fromVectorE3(a);
+            this._b = R3_1.default.fromVectorE3(b);
+            this._c = R3_1.default.fromVectorE3(c);
             this.k = k;
             this.subdivide(subdivide);
             this.boundary(boundary);
@@ -14670,7 +14673,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/geometries/AxialSimplexPrimitivesBuilder',["require", "exports", '../math/CartesianE3', '../checks/mustBeObject', '../geometries/SimplexPrimitivesBuilder'], function (require, exports, CartesianE3_1, mustBeObject_1, SimplexPrimitivesBuilder_1) {
+define('davinci-eight/geometries/AxialSimplexPrimitivesBuilder',["require", "exports", '../math/R3', '../checks/mustBeObject', '../geometries/SimplexPrimitivesBuilder'], function (require, exports, R3_1, mustBeObject_1, SimplexPrimitivesBuilder_1) {
     var AxialSimplexPrimitivesBuilder = (function (_super) {
         __extends(AxialSimplexPrimitivesBuilder, _super);
         function AxialSimplexPrimitivesBuilder(axis) {
@@ -14679,7 +14682,7 @@ define('davinci-eight/geometries/AxialSimplexPrimitivesBuilder',["require", "exp
         }
         AxialSimplexPrimitivesBuilder.prototype.setAxis = function (axis) {
             mustBeObject_1.default('axis', axis);
-            this.axis = CartesianE3_1.default.direction(axis);
+            this.axis = R3_1.default.direction(axis);
             return this;
         };
         AxialSimplexPrimitivesBuilder.prototype.setPosition = function (position) {
@@ -14847,10 +14850,10 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/geometries/CylinderGeometry',["require", "exports", '../math/CartesianE3', '../core/GeometryContainer', '../core/GeometryPrimitive', './CylinderBuilder'], function (require, exports, CartesianE3_1, GeometryContainer_1, GeometryPrimitive_1, CylinderBuilder_1) {
+define('davinci-eight/geometries/CylinderGeometry',["require", "exports", '../math/R3', '../core/GeometryContainer', '../core/GeometryPrimitive', './CylinderBuilder'], function (require, exports, R3_1, GeometryContainer_1, GeometryPrimitive_1, CylinderBuilder_1) {
     function primitives() {
-        var builder = new CylinderBuilder_1.default(CartesianE3_1.default.e2);
-        builder.setPosition(CartesianE3_1.default.e2.scale(0.5));
+        var builder = new CylinderBuilder_1.default(R3_1.default.e2);
+        builder.setPosition(R3_1.default.e2.scale(0.5));
         return builder.toPrimitives();
     }
     var CylinderGeometry = (function (_super) {
@@ -17633,17 +17636,19 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/visual/World',["require", "exports", './Arrow', '../core/Color', './Box', './Cylinder', '../math/G3', '../checks/isDefined', '../checks/mustBeNumber', '../i18n/readOnly', '../core/Shareable', './Sphere'], function (require, exports, Arrow_1, Color_1, Box_1, Cylinder_1, G3_1, isDefined_1, mustBeNumber_1, readOnly_1, Shareable_1, Sphere_1) {
+define('davinci-eight/visual/World',["require", "exports", './Arrow', '../core/Color', '../core', './Box', './Cylinder', '../math/G3', '../checks/isDefined', '../facets/AmbientLight', '../core/Mesh', '../checks/mustBeNumber', '../i18n/readOnly', '../core/Shareable', './Sphere'], function (require, exports, Arrow_1, Color_1, core_1, Box_1, Cylinder_1, G3_1, isDefined_1, AmbientLight_1, Mesh_1, mustBeNumber_1, readOnly_1, Shareable_1, Sphere_1) {
     var World = (function (_super) {
         __extends(World, _super);
         function World(renderer, drawList, ambients, controls) {
             _super.call(this, 'World');
+            this._ambientLight = new AmbientLight_1.default(Color_1.default.fromRGB(0.3, 0.3, 0.3));
             renderer.addRef();
             this.renderer = renderer;
             drawList.addRef();
             this.drawList = drawList;
             this.drawList.subscribe(renderer);
             this._ambients = ambients;
+            this._ambients.push(this._ambientLight);
             controls.addRef();
             this._controls = controls;
         }
@@ -17685,13 +17690,18 @@ define('davinci-eight/visual/World',["require", "exports", './Arrow', '../core/C
             configurable: true
         });
         World.prototype.add = function (mesh) {
+            if (core_1.default.safemode) {
+                if (!(mesh instanceof Mesh_1.default)) {
+                    throw new Error("mesh must be an instance of Mesh");
+                }
+            }
             this.drawList.add(mesh);
         };
         World.prototype.arrow = function (options) {
             if (options === void 0) { options = {}; }
             var arrow = new Arrow_1.default();
             if (options.axis) {
-                arrow.axis = G3_1.default.vector(options.axis.x, options.axis.y, options.axis.z);
+                arrow.axis = G3_1.default.fromVectorE3(options.axis);
             }
             if (options.color) {
                 arrow.color.copy(options.color);
@@ -17709,6 +17719,15 @@ define('davinci-eight/visual/World',["require", "exports", './Arrow', '../core/C
         World.prototype.box = function (options) {
             if (options === void 0) { options = {}; }
             var box = new Box_1.default(options);
+            if (options.axis) {
+                box.axis = G3_1.default.fromVectorE3(options.axis);
+            }
+            if (options.color) {
+                box.color.copy(options.color);
+            }
+            else {
+                box.color = Color_1.default.fromRGB(0.6, 0.6, 0.6);
+            }
             this.drawList.add(box);
             box.release();
             return box;
@@ -17751,7 +17770,7 @@ define('davinci-eight/visual/World',["require", "exports", './Arrow', '../core/C
     exports.default = World;
 });
 
-define('davinci-eight/visual/bootstrap',["require", "exports", '../facets/AmbientLight', '../core/Color', '../math/CartesianE3', '../facets/DirectionalLight', '../checks/isDefined', '../checks/mustBeBoolean', '../checks/mustBeFunction', '../checks/mustBeNumber', '../checks/mustBeString', './DrawList', '../facets/PerspectiveCamera', '../core/refChange', '../controls/TrackballControls', './World', '../core/WebGLRenderer'], function (require, exports, AmbientLight_1, Color_1, CartesianE3_1, DirectionalLight_1, isDefined_1, mustBeBoolean_1, mustBeFunction_1, mustBeNumber_1, mustBeString_1, DrawList_1, PerspectiveCamera_1, refChange_1, TrackballControls_1, World_1, WebGLRenderer_1) {
+define('davinci-eight/visual/bootstrap',["require", "exports", '../core/Color', '../math/R3', '../facets/DirectionalLight', '../checks/isDefined', '../checks/mustBeBoolean', '../checks/mustBeFunction', '../checks/mustBeNumber', '../checks/mustBeString', './DrawList', '../facets/PerspectiveCamera', '../core/refChange', '../controls/TrackballCameraControls', './World', '../core/WebGLRenderer'], function (require, exports, Color_1, R3_1, DirectionalLight_1, isDefined_1, mustBeBoolean_1, mustBeFunction_1, mustBeNumber_1, mustBeString_1, DrawList_1, PerspectiveCamera_1, refChange_1, TrackballCameraControls_1, World_1, WebGLRenderer_1) {
     function default_1(canvasId, animate, options) {
         if (options === void 0) { options = {}; }
         mustBeString_1.default('canvasId', canvasId);
@@ -17768,16 +17787,14 @@ define('davinci-eight/visual/bootstrap',["require", "exports", '../facets/Ambien
         renderer.clearColor(0.1, 0.1, 0.1, 1.0);
         var drawList = new DrawList_1.default();
         var ambients = [];
-        var ambientLight = new AmbientLight_1.default(Color_1.default.fromRGB(0.3, 0.3, 0.3));
-        ambients.push(ambientLight);
-        var dirLight = new DirectionalLight_1.default(CartesianE3_1.default.e3.neg(), Color_1.default.white);
+        var dirLight = new DirectionalLight_1.default(R3_1.default.e3.neg(), Color_1.default.white);
         ambients.push(dirLight);
         var camera = new PerspectiveCamera_1.default(45 * Math.PI / 180, 1, 0.1, 1000);
         camera.position.setXYZ(0, 0, 7);
         camera.look.setXYZ(0, 0, 0);
         camera.up.setXYZ(0, 1, 0);
         ambients.push(camera);
-        var controls = new TrackballControls_1.default(camera);
+        var controls = new TrackballCameraControls_1.default(camera);
         var world = new World_1.default(renderer, drawList, ambients, controls);
         var requestId;
         function step(timestamp) {
@@ -17835,7 +17852,7 @@ define('davinci-eight/visual/bootstrap',["require", "exports", '../facets/Ambien
     exports.default = default_1;
 });
 
-define('davinci-eight',["require", "exports", 'davinci-eight/commands/BlendFactor', 'davinci-eight/commands/WebGLBlendFunc', 'davinci-eight/commands/WebGLClearColor', 'davinci-eight/commands/Capability', 'davinci-eight/commands/WebGLDisable', 'davinci-eight/commands/WebGLEnable', 'davinci-eight/controls/TrackballControls', 'davinci-eight/core/AttribLocation', 'davinci-eight/core/Color', 'davinci-eight/core', 'davinci-eight/core/DrawMode', 'davinci-eight/core/GraphicsProgramSymbols', 'davinci-eight/core/UniformLocation', 'davinci-eight/core/Mesh', 'davinci-eight/core/Scene', 'davinci-eight/core/WebGLRenderer', 'davinci-eight/core/GeometryContainer', 'davinci-eight/core/GeometryPrimitive', 'davinci-eight/curves/Curve', 'davinci-eight/facets/AmbientLight', 'davinci-eight/facets/ColorFacet', 'davinci-eight/facets/DirectionalLight', 'davinci-eight/facets/ModelFacet', 'davinci-eight/facets/PointSizeFacet', 'davinci-eight/facets/ReflectionFacetE2', 'davinci-eight/facets/ReflectionFacetE3', 'davinci-eight/facets/Vector3Facet', 'davinci-eight/facets/frustumMatrix', 'davinci-eight/facets/PerspectiveCamera', 'davinci-eight/facets/perspectiveMatrix', 'davinci-eight/facets/viewMatrix', 'davinci-eight/facets/ModelE2', 'davinci-eight/facets/ModelE3', 'davinci-eight/geometries/DrawAttribute', 'davinci-eight/geometries/DrawPrimitive', 'davinci-eight/geometries/Simplex', 'davinci-eight/geometries/Vertex', 'davinci-eight/geometries/ArrowGeometry', 'davinci-eight/geometries/CuboidGeometry', 'davinci-eight/geometries/CylinderGeometry', 'davinci-eight/geometries/SphereGeometry', 'davinci-eight/geometries/TetrahedronGeometry', 'davinci-eight/materials/HTMLScriptsMaterial', 'davinci-eight/materials/LineMaterial', 'davinci-eight/materials/MeshMaterial', 'davinci-eight/materials/PointMaterial', 'davinci-eight/materials/GraphicsProgramBuilder', 'davinci-eight/materials/smartProgram', 'davinci-eight/materials/programFromScripts', 'davinci-eight/math/Dimensions', 'davinci-eight/math/G2', 'davinci-eight/math/G3', 'davinci-eight/math/mathcore', 'davinci-eight/math/R1m', 'davinci-eight/math/Mat2R', 'davinci-eight/math/Mat3R', 'davinci-eight/math/Mat4R', 'davinci-eight/math/QQ', 'davinci-eight/math/Unit', 'davinci-eight/math/G2m', 'davinci-eight/math/G3m', 'davinci-eight/math/SpinG2m', 'davinci-eight/math/SpinG3m', 'davinci-eight/math/R2m', 'davinci-eight/math/R3m', 'davinci-eight/math/R4m', 'davinci-eight/math/VectorN', 'davinci-eight/overlay/Overlay', 'davinci-eight/utils/getCanvasElementById', 'davinci-eight/collections/ShareableArray', 'davinci-eight/collections/NumberIUnknownMap', 'davinci-eight/core/refChange', 'davinci-eight/core/Shareable', 'davinci-eight/collections/StringIUnknownMap', 'davinci-eight/utils/animation', 'davinci-eight/visual/Arrow', 'davinci-eight/visual/Sphere', 'davinci-eight/visual/Box', 'davinci-eight/visual/Object3D', 'davinci-eight/visual/RigidBody', 'davinci-eight/visual/Cylinder', 'davinci-eight/visual/Tetrahedron', 'davinci-eight/visual/Trail', 'davinci-eight/visual/bootstrap'], function (require, exports, BlendFactor_1, WebGLBlendFunc_1, WebGLClearColor_1, Capability_1, WebGLDisable_1, WebGLEnable_1, TrackballControls_1, AttribLocation_1, Color_1, core_1, DrawMode_1, GraphicsProgramSymbols_1, UniformLocation_1, Mesh_1, Scene_1, WebGLRenderer_1, GeometryContainer_1, GeometryPrimitive_1, Curve_1, AmbientLight_1, ColorFacet_1, DirectionalLight_1, ModelFacet_1, PointSizeFacet_1, ReflectionFacetE2_1, ReflectionFacetE3_1, Vector3Facet_1, frustumMatrix_1, PerspectiveCamera_1, perspectiveMatrix_1, viewMatrix_1, ModelE2_1, ModelE3_1, DrawAttribute_1, DrawPrimitive_1, Simplex_1, Vertex_1, ArrowGeometry_1, CuboidGeometry_1, CylinderGeometry_1, SphereGeometry_1, TetrahedronGeometry_1, HTMLScriptsMaterial_1, LineMaterial_1, MeshMaterial_1, PointMaterial_1, GraphicsProgramBuilder_1, smartProgram_1, programFromScripts_1, Dimensions_1, G2_1, G3_1, mathcore_1, R1m_1, Mat2R_1, Mat3R_1, Mat4R_1, QQ_1, Unit_1, G2m_1, G3m_1, SpinG2m_1, SpinG3m_1, R2m_1, R3m_1, R4m_1, VectorN_1, Overlay_1, getCanvasElementById_1, ShareableArray_1, NumberIUnknownMap_1, refChange_1, Shareable_1, StringIUnknownMap_1, animation_1, Arrow_1, Sphere_1, Box_1, Object3D_1, RigidBody_1, Cylinder_1, Tetrahedron_1, Trail_1, bootstrap_1) {
+define('davinci-eight',["require", "exports", 'davinci-eight/commands/BlendFactor', 'davinci-eight/commands/WebGLBlendFunc', 'davinci-eight/commands/WebGLClearColor', 'davinci-eight/commands/Capability', 'davinci-eight/commands/WebGLDisable', 'davinci-eight/commands/WebGLEnable', 'davinci-eight/controls/TrackballCameraControls', 'davinci-eight/core/AttribLocation', 'davinci-eight/core/Color', 'davinci-eight/core', 'davinci-eight/core/DrawMode', 'davinci-eight/core/GraphicsProgramSymbols', 'davinci-eight/core/UniformLocation', 'davinci-eight/core/Mesh', 'davinci-eight/core/Scene', 'davinci-eight/core/WebGLRenderer', 'davinci-eight/core/GeometryContainer', 'davinci-eight/core/GeometryPrimitive', 'davinci-eight/curves/Curve', 'davinci-eight/facets/AmbientLight', 'davinci-eight/facets/ColorFacet', 'davinci-eight/facets/DirectionalLight', 'davinci-eight/facets/ModelFacet', 'davinci-eight/facets/PointSizeFacet', 'davinci-eight/facets/ReflectionFacetE2', 'davinci-eight/facets/ReflectionFacetE3', 'davinci-eight/facets/Vector3Facet', 'davinci-eight/facets/frustumMatrix', 'davinci-eight/facets/PerspectiveCamera', 'davinci-eight/facets/perspectiveMatrix', 'davinci-eight/facets/viewMatrix', 'davinci-eight/facets/ModelE2', 'davinci-eight/facets/ModelE3', 'davinci-eight/geometries/DrawAttribute', 'davinci-eight/geometries/DrawPrimitive', 'davinci-eight/geometries/Simplex', 'davinci-eight/geometries/Vertex', 'davinci-eight/geometries/ArrowGeometry', 'davinci-eight/geometries/CuboidGeometry', 'davinci-eight/geometries/CylinderGeometry', 'davinci-eight/geometries/SphereGeometry', 'davinci-eight/geometries/TetrahedronGeometry', 'davinci-eight/materials/HTMLScriptsMaterial', 'davinci-eight/materials/LineMaterial', 'davinci-eight/materials/MeshMaterial', 'davinci-eight/materials/PointMaterial', 'davinci-eight/materials/GraphicsProgramBuilder', 'davinci-eight/materials/smartProgram', 'davinci-eight/materials/programFromScripts', 'davinci-eight/math/Dimensions', 'davinci-eight/math/G2', 'davinci-eight/math/G3', 'davinci-eight/math/mathcore', 'davinci-eight/math/R1m', 'davinci-eight/math/Mat2R', 'davinci-eight/math/Mat3R', 'davinci-eight/math/Mat4R', 'davinci-eight/math/QQ', 'davinci-eight/math/Unit', 'davinci-eight/math/G2m', 'davinci-eight/math/G3m', 'davinci-eight/math/SpinG2m', 'davinci-eight/math/SpinG3m', 'davinci-eight/math/R2m', 'davinci-eight/math/R3m', 'davinci-eight/math/R4m', 'davinci-eight/math/VectorN', 'davinci-eight/overlay/Overlay', 'davinci-eight/utils/getCanvasElementById', 'davinci-eight/collections/ShareableArray', 'davinci-eight/collections/NumberIUnknownMap', 'davinci-eight/core/refChange', 'davinci-eight/core/Shareable', 'davinci-eight/collections/StringIUnknownMap', 'davinci-eight/utils/animation', 'davinci-eight/visual/Arrow', 'davinci-eight/visual/Sphere', 'davinci-eight/visual/Box', 'davinci-eight/visual/Object3D', 'davinci-eight/visual/RigidBody', 'davinci-eight/visual/Cylinder', 'davinci-eight/visual/Tetrahedron', 'davinci-eight/visual/Trail', 'davinci-eight/visual/bootstrap'], function (require, exports, BlendFactor_1, WebGLBlendFunc_1, WebGLClearColor_1, Capability_1, WebGLDisable_1, WebGLEnable_1, TrackballCameraControls_1, AttribLocation_1, Color_1, core_1, DrawMode_1, GraphicsProgramSymbols_1, UniformLocation_1, Mesh_1, Scene_1, WebGLRenderer_1, GeometryContainer_1, GeometryPrimitive_1, Curve_1, AmbientLight_1, ColorFacet_1, DirectionalLight_1, ModelFacet_1, PointSizeFacet_1, ReflectionFacetE2_1, ReflectionFacetE3_1, Vector3Facet_1, frustumMatrix_1, PerspectiveCamera_1, perspectiveMatrix_1, viewMatrix_1, ModelE2_1, ModelE3_1, DrawAttribute_1, DrawPrimitive_1, Simplex_1, Vertex_1, ArrowGeometry_1, CuboidGeometry_1, CylinderGeometry_1, SphereGeometry_1, TetrahedronGeometry_1, HTMLScriptsMaterial_1, LineMaterial_1, MeshMaterial_1, PointMaterial_1, GraphicsProgramBuilder_1, smartProgram_1, programFromScripts_1, Dimensions_1, G2_1, G3_1, mathcore_1, R1m_1, Mat2R_1, Mat3R_1, Mat4R_1, QQ_1, Unit_1, G2m_1, G3m_1, SpinG2m_1, SpinG3m_1, R2m_1, R3m_1, R4m_1, VectorN_1, Overlay_1, getCanvasElementById_1, ShareableArray_1, NumberIUnknownMap_1, refChange_1, Shareable_1, StringIUnknownMap_1, animation_1, Arrow_1, Sphere_1, Box_1, Object3D_1, RigidBody_1, Cylinder_1, Tetrahedron_1, Trail_1, bootstrap_1) {
     var eight = {
         get LAST_MODIFIED() { return core_1.default.LAST_MODIFIED; },
         get safemode() {
@@ -17894,7 +17911,7 @@ define('davinci-eight',["require", "exports", 'davinci-eight/commands/BlendFacto
             return smartProgram_1.default;
         },
         get Color() { return Color_1.default; },
-        get TrackballControls() { return TrackballControls_1.default; },
+        get TrackballCameraControls() { return TrackballCameraControls_1.default; },
         get AmbientLight() { return AmbientLight_1.default; },
         get ColorFacet() { return ColorFacet_1.default; },
         get DirectionalLight() { return DirectionalLight_1.default; },

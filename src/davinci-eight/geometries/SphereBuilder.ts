@@ -1,5 +1,5 @@
 import arc3 from '../geometries/arc3';
-import CartesianE3 from '../math/CartesianE3';
+import R3 from '../math/R3';
 import SimplexPrimitivesBuilder from '../geometries/SimplexPrimitivesBuilder';
 import IAxialGeometry from '../geometries/IAxialGeometry';
 import mustBeNumber from '../checks/mustBeNumber';
@@ -12,7 +12,7 @@ import R2m from '../math/R2m';
 import R3m from '../math/R3m';
 import VectorE3 from '../math/VectorE3';
 
-function computeVertices(radius: number, axis: CartesianE3, phiStart: R3m, phiLength: number, thetaStart: number, thetaLength: number, heightSegments: number, widthSegments: number, points: R3m[], uvs: R2m[]) {
+function computeVertices(radius: number, axis: R3, phiStart: R3m, phiLength: number, thetaStart: number, thetaLength: number, heightSegments: number, widthSegments: number, points: R3m[], uvs: R2m[]) {
 
     const generator: SpinorE3 = SpinG3m.dual(axis)
     const iLength = heightSegments + 1

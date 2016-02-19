@@ -1,6 +1,5 @@
-import AmbientLight from '../facets/AmbientLight'
 import Color from '../core/Color'
-import CartesianE3 from '../math/CartesianE3'
+import R3 from '../math/R3'
 import DirectionalLight from '../facets/DirectionalLight'
 import Facet from '../core/Facet'
 import isDefined from '../checks/isDefined'
@@ -11,7 +10,7 @@ import mustBeString from '../checks/mustBeString'
 import DrawList from './DrawList'
 import PerspectiveCamera from '../facets/PerspectiveCamera'
 import refChange from '../core/refChange'
-import TrackballControls from '../controls/TrackballControls'
+import TrackballCameraControls from '../controls/TrackballCameraControls'
 import World from './World'
 import WebGLRenderer from '../core/WebGLRenderer'
 
@@ -46,10 +45,7 @@ export default function(
 
     const ambients: Facet[] = []
 
-    const ambientLight = new AmbientLight(Color.fromRGB(0.3, 0.3, 0.3))
-    ambients.push(ambientLight)
-
-    const dirLight = new DirectionalLight(CartesianE3.e3.neg(), Color.white)
+    const dirLight = new DirectionalLight(R3.e3.neg(), Color.white)
     ambients.push(dirLight)
 
     const camera = new PerspectiveCamera(45 * Math.PI / 180, 1, 0.1, 1000)
@@ -58,7 +54,7 @@ export default function(
     camera.up.setXYZ(0, 1, 0)
     ambients.push(camera)
 
-    const controls = new TrackballControls(camera)
+    const controls = new TrackballCameraControls(camera)
 
     const world = new World(renderer, drawList, ambients, controls)
 

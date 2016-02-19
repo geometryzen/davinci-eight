@@ -17,7 +17,7 @@ import Capability from 'davinci-eight/commands/Capability';
 import WebGLDisable from 'davinci-eight/commands/WebGLDisable';
 import WebGLEnable from 'davinci-eight/commands/WebGLEnable';
 // controls
-import TrackballControls from 'davinci-eight/controls/TrackballControls'
+import TrackballCameraControls from 'davinci-eight/controls/TrackballCameraControls'
 // core
 import AttribLocation from 'davinci-eight/core/AttribLocation';
 import AttribMetaInfo from 'davinci-eight/core/AttribMetaInfo';
@@ -280,7 +280,7 @@ const eight = {
     },
     get Color() { return Color },
 
-    get TrackballControls() { return TrackballControls },
+    get TrackballCameraControls() { return TrackballCameraControls },
 
     // facets
     get AmbientLight() { return AmbientLight },

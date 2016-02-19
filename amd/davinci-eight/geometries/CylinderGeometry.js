@@ -3,10 +3,10 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../math/CartesianE3', '../core/GeometryContainer', '../core/GeometryPrimitive', './CylinderBuilder'], function (require, exports, CartesianE3_1, GeometryContainer_1, GeometryPrimitive_1, CylinderBuilder_1) {
+define(["require", "exports", '../math/R3', '../core/GeometryContainer', '../core/GeometryPrimitive', './CylinderBuilder'], function (require, exports, R3_1, GeometryContainer_1, GeometryPrimitive_1, CylinderBuilder_1) {
     function primitives() {
-        var builder = new CylinderBuilder_1.default(CartesianE3_1.default.e2);
-        builder.setPosition(CartesianE3_1.default.e2.scale(0.5));
+        var builder = new CylinderBuilder_1.default(R3_1.default.e2);
+        builder.setPosition(R3_1.default.e2.scale(0.5));
         return builder.toPrimitives();
     }
     var CylinderGeometry = (function (_super) {

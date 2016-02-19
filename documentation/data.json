@@ -2,7 +2,7 @@
     "project": {
         "name": "davinci-eight",
         "description": "WebGL library for mathematical physics using Geometric Algebra",
-        "version": "2.189.0",
+        "version": "2.190.0",
         "url": ""
     },
     "files": {
@@ -125,11 +125,11 @@
             "fors": {},
             "namespaces": {}
         },
-        "src/davinci-eight/controls/TrackballControls.ts": {
-            "name": "src/davinci-eight/controls/TrackballControls.ts",
+        "src/davinci-eight/controls/TrackballCameraControls.ts": {
+            "name": "src/davinci-eight/controls/TrackballCameraControls.ts",
             "modules": {},
             "classes": {
-                "TrackballControls": 1
+                "TrackballCameraControls": 1
             },
             "fors": {},
             "namespaces": {}
@@ -946,15 +946,6 @@
             "fors": {},
             "namespaces": {}
         },
-        "src/davinci-eight/math/CartesianE3.ts": {
-            "name": "src/davinci-eight/math/CartesianE3.ts",
-            "modules": {},
-            "classes": {
-                "CartesianE3": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
         "src/davinci-eight/math/Dimensions.ts": {
             "name": "src/davinci-eight/math/Dimensions.ts",
             "modules": {},
@@ -1179,6 +1170,15 @@
             "modules": {},
             "classes": {
                 "R2m": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/math/R3.ts": {
+            "name": "src/davinci-eight/math/R3.ts",
+            "modules": {},
+            "classes": {
+                "R3": 1
             },
             "fors": {},
             "namespaces": {}
@@ -1601,7 +1601,7 @@
                 "WebGLDisable": 1,
                 "WebGLEnable": 1,
                 "MouseControls": 1,
-                "TrackballControls": 1,
+                "TrackballCameraControls": 1,
                 "AttribLocation": 1,
                 "AttribMetaInfo": 1,
                 "Attribute": 1,
@@ -1660,7 +1660,6 @@
                 "PointMaterial": 1,
                 "AbstractMatrix": 1,
                 "CC": 1,
-                "CartesianE3": 1,
                 "Dimensions": 1,
                 "G1": 1,
                 "G2": 1,
@@ -1677,6 +1676,7 @@
                 "QQ": 1,
                 "R1m": 1,
                 "R2m": 1,
+                "R3": 1,
                 "R3m": 1,
                 "R4m": 1,
                 "Scalar": 1,
@@ -1707,7 +1707,7 @@
             "fors": {},
             "namespaces": {},
             "file": "src/davinci-eight/visual/World.ts",
-            "line": 34
+            "line": 36
         },
         "controls": {
             "name": "controls",
@@ -1715,14 +1715,14 @@
             "elements": {},
             "classes": {
                 "MouseControls": 1,
-                "TrackballControls": 1
+                "TrackballCameraControls": 1
             },
             "fors": {},
             "is_submodule": 1,
             "namespaces": {},
             "module": "EIGHT",
             "namespace": "",
-            "file": "src/davinci-eight/controls/TrackballControls.ts",
+            "file": "src/davinci-eight/controls/TrackballCameraControls.ts",
             "line": 65,
             "extends": "Shareable"
         },
@@ -1845,7 +1845,6 @@
             "classes": {
                 "AbstractMatrix": 1,
                 "CC": 1,
-                "CartesianE3": 1,
                 "Dimensions": 1,
                 "G2": 1,
                 "G2m": 1,
@@ -1857,6 +1856,7 @@
                 "QQ": 1,
                 "R1m": 1,
                 "R2m": 1,
+                "R3": 1,
                 "R3m": 1,
                 "R4m": 1,
                 "SpinG2m": 1,
@@ -1893,7 +1893,7 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/visual/World.ts",
-            "line": 34,
+            "line": 36,
             "description": "Convenient abstractions for Physics modeling."
         }
     },
@@ -2151,9 +2151,9 @@
                 }
             ]
         },
-        "TrackballControls": {
-            "name": "TrackballControls",
-            "shortname": "TrackballControls",
+        "TrackballCameraControls": {
+            "name": "TrackballCameraControls",
+            "shortname": "TrackballCameraControls",
             "classitems": [],
             "plugins": [],
             "extensions": [],
@@ -2162,7 +2162,7 @@
             "module": "EIGHT",
             "submodule": "controls",
             "namespace": "",
-            "file": "src/davinci-eight/controls/TrackballControls.ts",
+            "file": "src/davinci-eight/controls/TrackballCameraControls.ts",
             "line": 65,
             "is_constructor": 1,
             "params": [
@@ -3296,38 +3296,6 @@
                 }
             ]
         },
-        "CartesianE3": {
-            "name": "CartesianE3",
-            "shortname": "CartesianE3",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "EIGHT",
-            "submodule": "math",
-            "namespace": "",
-            "file": "src/davinci-eight/math/CartesianE3.ts",
-            "line": 51,
-            "is_constructor": 1,
-            "params": [
-                {
-                    "name": "x",
-                    "description": "",
-                    "type": "Number"
-                },
-                {
-                    "name": "y",
-                    "description": "",
-                    "type": "Number"
-                },
-                {
-                    "name": "z",
-                    "description": "",
-                    "type": "Number"
-                }
-            ]
-        },
         "Dimensions": {
             "name": "Dimensions",
             "shortname": "Dimensions",
@@ -3708,6 +3676,38 @@
                     "type": "Boolean",
                     "optional": true,
                     "optdefault": " false"
+                }
+            ]
+        },
+        "R3": {
+            "name": "R3",
+            "shortname": "R3",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "submodule": "math",
+            "namespace": "",
+            "file": "src/davinci-eight/math/R3.ts",
+            "line": 51,
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "x",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "y",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "z",
+                    "description": "",
+                    "type": "Number"
                 }
             ]
         },
@@ -4214,7 +4214,7 @@
             "submodule": "visual",
             "namespace": "",
             "file": "src/davinci-eight/visual/World.ts",
-            "line": 34,
+            "line": 36,
             "extends": "Shareable",
             "is_constructor": 1
         }
@@ -5297,60 +5297,60 @@
             "submodule": "controls"
         },
         {
-            "file": "src/davinci-eight/controls/TrackballControls.ts",
+            "file": "src/davinci-eight/controls/TrackballCameraControls.ts",
             "line": 15,
-            "class": "TrackballControls",
+            "class": "TrackballCameraControls",
             "module": "EIGHT",
             "submodule": "controls"
         },
         {
-            "file": "src/davinci-eight/controls/TrackballControls.ts",
+            "file": "src/davinci-eight/controls/TrackballCameraControls.ts",
             "line": 20,
-            "class": "TrackballControls",
+            "class": "TrackballCameraControls",
             "module": "EIGHT",
             "submodule": "controls"
         },
         {
-            "file": "src/davinci-eight/controls/TrackballControls.ts",
+            "file": "src/davinci-eight/controls/TrackballCameraControls.ts",
             "line": 25,
-            "class": "TrackballControls",
+            "class": "TrackballCameraControls",
             "module": "EIGHT",
             "submodule": "controls"
         },
         {
-            "file": "src/davinci-eight/controls/TrackballControls.ts",
+            "file": "src/davinci-eight/controls/TrackballCameraControls.ts",
             "line": 30,
             "description": "The camera object is what we will be moving.",
-            "class": "TrackballControls",
+            "class": "TrackballCameraControls",
             "module": "EIGHT",
             "submodule": "controls"
         },
         {
-            "file": "src/davinci-eight/controls/TrackballControls.ts",
+            "file": "src/davinci-eight/controls/TrackballCameraControls.ts",
             "line": 35,
             "description": "The eye vector is the position of the camera relative to the target position vector.\nSo, camera.position = target + eye, or, eye = camera.position - target.",
-            "class": "TrackballControls",
+            "class": "TrackballCameraControls",
             "module": "EIGHT",
             "submodule": "controls"
         },
         {
-            "file": "src/davinci-eight/controls/TrackballControls.ts",
+            "file": "src/davinci-eight/controls/TrackballCameraControls.ts",
             "line": 41,
             "description": "The position that we look at.",
-            "class": "TrackballControls",
+            "class": "TrackballCameraControls",
             "module": "EIGHT",
             "submodule": "controls"
         },
         {
-            "file": "src/davinci-eight/controls/TrackballControls.ts",
+            "file": "src/davinci-eight/controls/TrackballCameraControls.ts",
             "line": 46,
             "description": "The initial position, look and up of the camera.\nWe cache these so that we can reset the camera.",
-            "class": "TrackballControls",
+            "class": "TrackballCameraControls",
             "module": "EIGHT",
             "submodule": "controls"
         },
         {
-            "file": "src/davinci-eight/controls/TrackballControls.ts",
+            "file": "src/davinci-eight/controls/TrackballCameraControls.ts",
             "line": 84,
             "itemtype": "method",
             "name": "destructor",
@@ -5360,19 +5360,19 @@
             },
             "access": "protected",
             "tagname": "",
-            "class": "TrackballControls",
+            "class": "TrackballCameraControls",
             "module": "EIGHT",
             "submodule": "controls"
         },
         {
-            "file": "src/davinci-eight/controls/TrackballControls.ts",
+            "file": "src/davinci-eight/controls/TrackballCameraControls.ts",
             "line": 93,
-            "class": "TrackballControls",
+            "class": "TrackballCameraControls",
             "module": "EIGHT",
             "submodule": "controls"
         },
         {
-            "file": "src/davinci-eight/controls/TrackballControls.ts",
+            "file": "src/davinci-eight/controls/TrackballCameraControls.ts",
             "line": 106,
             "description": "This should be called inside the animation frame to update the camera location.\nNotice that the movement of the mouse controls is decoupled from the effect.\nWe also want to avoid temporary object creation in this and called methods by recycling variables.",
             "itemtype": "method",
@@ -5381,12 +5381,12 @@
                 "description": "",
                 "type": "Void"
             },
-            "class": "TrackballControls",
+            "class": "TrackballCameraControls",
             "module": "EIGHT",
             "submodule": "controls"
         },
         {
-            "file": "src/davinci-eight/controls/TrackballControls.ts",
+            "file": "src/davinci-eight/controls/TrackballCameraControls.ts",
             "line": 134,
             "itemtype": "method",
             "name": "rotateCamera",
@@ -5396,12 +5396,12 @@
             },
             "access": "private",
             "tagname": "",
-            "class": "TrackballControls",
+            "class": "TrackballCameraControls",
             "module": "EIGHT",
             "submodule": "controls"
         },
         {
-            "file": "src/davinci-eight/controls/TrackballControls.ts",
+            "file": "src/davinci-eight/controls/TrackballCameraControls.ts",
             "line": 180,
             "itemtype": "method",
             "name": "zoomCamera",
@@ -5411,12 +5411,12 @@
             },
             "access": "private",
             "tagname": "",
-            "class": "TrackballControls",
+            "class": "TrackballCameraControls",
             "module": "EIGHT",
             "submodule": "controls"
         },
         {
-            "file": "src/davinci-eight/controls/TrackballControls.ts",
+            "file": "src/davinci-eight/controls/TrackballCameraControls.ts",
             "line": 193,
             "itemtype": "method",
             "name": "panCamera",
@@ -5426,15 +5426,15 @@
             },
             "access": "private",
             "tagname": "",
-            "class": "TrackballControls",
+            "class": "TrackballCameraControls",
             "module": "EIGHT",
             "submodule": "controls"
         },
         {
-            "file": "src/davinci-eight/controls/TrackballControls.ts",
+            "file": "src/davinci-eight/controls/TrackballCameraControls.ts",
             "line": 211,
             "description": "Restricts the position of the camera to certain distance range",
-            "class": "TrackballControls",
+            "class": "TrackballCameraControls",
             "module": "EIGHT",
             "submodule": "controls"
         },
@@ -12584,67 +12584,6 @@
             "submodule": "math"
         },
         {
-            "file": "src/davinci-eight/math/CartesianE3.ts",
-            "line": 19,
-            "itemtype": "property",
-            "name": "zero",
-            "type": "CartesianE3",
-            "readonly": "",
-            "static": 1,
-            "class": "CartesianE3",
-            "module": "EIGHT",
-            "submodule": "math"
-        },
-        {
-            "file": "src/davinci-eight/math/CartesianE3.ts",
-            "line": 27,
-            "itemtype": "property",
-            "name": "e1",
-            "type": "CartesianE3",
-            "readonly": "",
-            "static": 1,
-            "class": "CartesianE3",
-            "module": "EIGHT",
-            "submodule": "math"
-        },
-        {
-            "file": "src/davinci-eight/math/CartesianE3.ts",
-            "line": 35,
-            "itemtype": "property",
-            "name": "e2",
-            "type": "CartesianE3",
-            "readonly": "",
-            "static": 1,
-            "class": "CartesianE3",
-            "module": "EIGHT",
-            "submodule": "math"
-        },
-        {
-            "file": "src/davinci-eight/math/CartesianE3.ts",
-            "line": 43,
-            "itemtype": "property",
-            "name": "e3",
-            "type": "CartesianE3",
-            "readonly": "",
-            "static": 1,
-            "class": "CartesianE3",
-            "module": "EIGHT",
-            "submodule": "math"
-        },
-        {
-            "file": "src/davinci-eight/math/CartesianE3.ts",
-            "line": 96,
-            "itemtype": "method",
-            "name": "neg",
-            "return": {
-                "description": "",
-                "type": "Cartesian3"
-            },
-            "class": "CartesianE3",
-            "module": "EIGHT",
-            "submodule": "math"
-        },
-        {
             "file": "src/davinci-eight/math/Dimensions.ts",
             "line": 27,
             "itemtype": "property",
@@ -17442,6 +17381,27 @@
             "file": "src/davinci-eight/math/G3.ts",
             "line": 1413,
             "itemtype": "method",
+            "name": "random",
+            "params": [
+                {
+                    "name": "uom",
+                    "description": "Unit",
+                    "optional": true
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "G3"
+            },
+            "static": 1,
+            "class": "G3",
+            "module": "EIGHT",
+            "submodule": "math"
+        },
+        {
+            "file": "src/davinci-eight/math/G3.ts",
+            "line": 1423,
+            "itemtype": "method",
             "name": "scalar",
             "params": [
                 {
@@ -17467,7 +17427,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3.ts",
-            "line": 1424,
+            "line": 1434,
             "itemtype": "method",
             "name": "vector",
             "params": [
@@ -22691,6 +22651,67 @@
             "submodule": "math"
         },
         {
+            "file": "src/davinci-eight/math/R3.ts",
+            "line": 19,
+            "itemtype": "property",
+            "name": "zero",
+            "type": "R3",
+            "readonly": "",
+            "static": 1,
+            "class": "R3",
+            "module": "EIGHT",
+            "submodule": "math"
+        },
+        {
+            "file": "src/davinci-eight/math/R3.ts",
+            "line": 27,
+            "itemtype": "property",
+            "name": "e1",
+            "type": "R3",
+            "readonly": "",
+            "static": 1,
+            "class": "R3",
+            "module": "EIGHT",
+            "submodule": "math"
+        },
+        {
+            "file": "src/davinci-eight/math/R3.ts",
+            "line": 35,
+            "itemtype": "property",
+            "name": "e2",
+            "type": "R3",
+            "readonly": "",
+            "static": 1,
+            "class": "R3",
+            "module": "EIGHT",
+            "submodule": "math"
+        },
+        {
+            "file": "src/davinci-eight/math/R3.ts",
+            "line": 43,
+            "itemtype": "property",
+            "name": "e3",
+            "type": "R3",
+            "readonly": "",
+            "static": 1,
+            "class": "R3",
+            "module": "EIGHT",
+            "submodule": "math"
+        },
+        {
+            "file": "src/davinci-eight/math/R3.ts",
+            "line": 96,
+            "itemtype": "method",
+            "name": "neg",
+            "return": {
+                "description": "",
+                "type": "Cartesian3"
+            },
+            "class": "R3",
+            "module": "EIGHT",
+            "submodule": "math"
+        },
+        {
             "file": "src/davinci-eight/math/R3m.ts",
             "line": 30,
             "description": "Coordinates corresponding to basis labels.",
@@ -26969,7 +26990,7 @@
         },
         {
             "file": "src/davinci-eight/visual/World.ts",
-            "line": 55,
+            "line": 58,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -26984,7 +27005,7 @@
         },
         {
             "file": "src/davinci-eight/visual/World.ts",
-            "line": 68,
+            "line": 71,
             "itemtype": "property",
             "name": "ambients",
             "type": "Facet[]",
@@ -26995,7 +27016,7 @@
         },
         {
             "file": "src/davinci-eight/visual/World.ts",
-            "line": 80,
+            "line": 83,
             "itemtype": "property",
             "name": "canvas",
             "type": "HTMLCanvasElement",
@@ -27006,10 +27027,10 @@
         },
         {
             "file": "src/davinci-eight/visual/World.ts",
-            "line": 92,
+            "line": 95,
             "itemtype": "property",
             "name": "controls",
-            "type": "TrackballControls",
+            "type": "TrackballCameraControls",
             "readonly": "",
             "class": "World",
             "module": "EIGHT",
@@ -27017,7 +27038,7 @@
         },
         {
             "file": "src/davinci-eight/visual/World.ts",
-            "line": 108,
+            "line": 116,
             "itemtype": "method",
             "name": "arrow",
             "return": {
@@ -27030,7 +27051,7 @@
         },
         {
             "file": "src/davinci-eight/visual/World.ts",
-            "line": 136,
+            "line": 144,
             "itemtype": "method",
             "name": "box",
             "return": {
@@ -27043,7 +27064,7 @@
         },
         {
             "file": "src/davinci-eight/visual/World.ts",
-            "line": 147,
+            "line": 171,
             "itemtype": "method",
             "name": "cylinder",
             "return": {
@@ -27056,7 +27077,7 @@
         },
         {
             "file": "src/davinci-eight/visual/World.ts",
-            "line": 171,
+            "line": 195,
             "itemtype": "method",
             "name": "sphere",
             "return": {
@@ -27153,39 +27174,39 @@
         },
         {
             "message": "Missing item type",
-            "line": " src/davinci-eight/controls/TrackballControls.ts:15"
+            "line": " src/davinci-eight/controls/TrackballCameraControls.ts:15"
         },
         {
             "message": "Missing item type",
-            "line": " src/davinci-eight/controls/TrackballControls.ts:20"
+            "line": " src/davinci-eight/controls/TrackballCameraControls.ts:20"
         },
         {
             "message": "Missing item type",
-            "line": " src/davinci-eight/controls/TrackballControls.ts:25"
+            "line": " src/davinci-eight/controls/TrackballCameraControls.ts:25"
         },
         {
             "message": "Missing item type\nThe camera object is what we will be moving.",
-            "line": " src/davinci-eight/controls/TrackballControls.ts:30"
+            "line": " src/davinci-eight/controls/TrackballCameraControls.ts:30"
         },
         {
             "message": "Missing item type\nThe eye vector is the position of the camera relative to the target position vector.\nSo, camera.position = target + eye, or, eye = camera.position - target.",
-            "line": " src/davinci-eight/controls/TrackballControls.ts:35"
+            "line": " src/davinci-eight/controls/TrackballCameraControls.ts:35"
         },
         {
             "message": "Missing item type\nThe position that we look at.",
-            "line": " src/davinci-eight/controls/TrackballControls.ts:41"
+            "line": " src/davinci-eight/controls/TrackballCameraControls.ts:41"
         },
         {
             "message": "Missing item type\nThe initial position, look and up of the camera.\nWe cache these so that we can reset the camera.",
-            "line": " src/davinci-eight/controls/TrackballControls.ts:46"
+            "line": " src/davinci-eight/controls/TrackballCameraControls.ts:46"
         },
         {
             "message": "Missing item type",
-            "line": " src/davinci-eight/controls/TrackballControls.ts:93"
+            "line": " src/davinci-eight/controls/TrackballCameraControls.ts:93"
         },
         {
             "message": "Missing item type\nRestricts the position of the camera to certain distance range",
-            "line": " src/davinci-eight/controls/TrackballControls.ts:211"
+            "line": " src/davinci-eight/controls/TrackballCameraControls.ts:211"
         },
         {
             "message": "Missing item type\nA cross-browser compatible, geometric, implementation of scroolX and scrollY.\n\nSee https://developer.mozilla.org/en-US/docs/Web/API/Window/scrollX",

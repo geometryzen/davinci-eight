@@ -1,5 +1,5 @@
 import arc3 from '../geometries/arc3';
-import CartesianE3 from '../math/CartesianE3';
+import R3 from '../math/R3';
 import SimplexPrimitivesBuilder from '../geometries/SimplexPrimitivesBuilder';
 import Simplex from '../geometries/Simplex';
 import SliceSimplexPrimitivesBuilder from '../geometries/SliceSimplexPrimitivesBuilder';
@@ -10,7 +10,7 @@ import R2m from '../math/R2m';
 import R3m from '../math/R3m';
 import VectorE3 from '../math/VectorE3';
 
-function computeVertices(a: number, b: number, axis: CartesianE3, start: VectorE3, angle: number, generator: SpinorE3, radialSegments: number, thetaSegments: number, vertices: R3m[], uvs: R2m[]) {
+function computeVertices(a: number, b: number, axis: R3, start: VectorE3, angle: number, generator: SpinorE3, radialSegments: number, thetaSegments: number, vertices: R3m[], uvs: R2m[]) {
     /**
      * `t` is the vector perpendicular to s in the plane of the ring.
      * We could use the generator an PI / 4 to calculate this or the cross product as here.
@@ -39,7 +39,7 @@ function vertexIndex(i: number, j: number, thetaSegments: number): number {
     return i * (thetaSegments + 1) + j
 }
 
-function makeTriangles(vertices: R3m[], uvs: R2m[], axis: CartesianE3, radialSegments: number, thetaSegments: number, geometry: SimplexPrimitivesBuilder) {
+function makeTriangles(vertices: R3m[], uvs: R2m[], axis: R3, radialSegments: number, thetaSegments: number, geometry: SimplexPrimitivesBuilder) {
     for (var i = 0; i < radialSegments; i++) {
         // Our traversal has resulted in the following formula for the index
         // into the vertices or uvs array

@@ -1,4 +1,4 @@
-import CartesianE3 from '../math/CartesianE3';
+import R3 from '../math/R3';
 import VectorE3 from '../math/VectorE3';
 import IAxialGeometry from '../geometries/IAxialGeometry';
 import mustBeObject from '../checks/mustBeObject';
@@ -6,7 +6,7 @@ import SimplexPrimitivesBuilder from '../geometries/SimplexPrimitivesBuilder';
 
 export default class AxialSimplexPrimitivesBuilder extends SimplexPrimitivesBuilder implements IAxialGeometry<AxialSimplexPrimitivesBuilder> {
 
-    public axis: CartesianE3;
+    public axis: R3;
 
     constructor(axis: VectorE3) {
         super()
@@ -15,7 +15,7 @@ export default class AxialSimplexPrimitivesBuilder extends SimplexPrimitivesBuil
 
     setAxis(axis: VectorE3): AxialSimplexPrimitivesBuilder {
         mustBeObject('axis', axis)
-        this.axis = CartesianE3.direction(axis)
+        this.axis = R3.direction(axis)
         return this
     }
 

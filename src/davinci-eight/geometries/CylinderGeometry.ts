@@ -1,4 +1,4 @@
-import CartesianE3 from '../math/CartesianE3'
+import R3 from '../math/R3'
 import GeometryContainer from '../core/GeometryContainer'
 import GeometryPrimitive from '../core/GeometryPrimitive'
 import Primitive from '../core/Primitive'
@@ -10,8 +10,8 @@ import CylinderBuilder from './CylinderBuilder'
  */
 
 function primitives(): Primitive[] {
-    const builder = new CylinderBuilder(CartesianE3.e2)
-    builder.setPosition(CartesianE3.e2.scale(0.5))
+    const builder = new CylinderBuilder(R3.e2)
+    builder.setPosition(R3.e2.scale(0.5))
     return builder.toPrimitives()
 }
 

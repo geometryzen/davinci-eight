@@ -10,46 +10,46 @@ import VectorE3 from './VectorE3'
  */
 
 /**
- * @class CartesianE3
+ * @class R3
  */
-export default class CartesianE3 implements VectorE3 {
+export default class R3 implements VectorE3 {
     private _coords: number[];
     private _uom: Unit;
 
     /**
      * @property zero
-     * @type CartesianE3
+     * @type R3
      * @readOnly
      * @static
      */
-    public static zero = new CartesianE3(0, 0, 0, void 0)
+    public static zero = new R3(0, 0, 0, void 0)
 
     /**
      * @property e1
-     * @type CartesianE3
+     * @type R3
      * @readOnly
      * @static
      */
-    public static e1 = new CartesianE3(1, 0, 0, void 0)
+    public static e1 = new R3(1, 0, 0, void 0)
 
     /**
      * @property e2
-     * @type CartesianE3
+     * @type R3
      * @readOnly
      * @static
      */
-    public static e2 = new CartesianE3(0, 1, 0, void 0)
+    public static e2 = new R3(0, 1, 0, void 0)
 
     /**
      * @property e3
-     * @type CartesianE3
+     * @type R3
      * @readOnly
      * @static
      */
-    public static e3 = new CartesianE3(0, 0, 1, void 0)
+    public static e3 = new R3(0, 0, 1, void 0)
 
     /**
-     * @class CartesianE3
+     * @class R3
      * @constructor
      * @param x {number}
      * @param y {number}
@@ -97,11 +97,11 @@ export default class CartesianE3 implements VectorE3 {
      * @method neg
      * @return {Cartesian3}
      */
-    neg(): CartesianE3 {
+    neg(): R3 {
         return this.scale(-1);
     }
-    scale(α: number): CartesianE3 {
-        return new CartesianE3(α * this.x, α * this.y, α * this.z, this.uom)
+    scale(α: number): R3 {
+        return new R3(α * this.x, α * this.y, α * this.z, this.uom)
     }
     // FIXME: This should return a Unit scaled by the coordinate values.
     squaredNorm(): number {
@@ -110,14 +110,14 @@ export default class CartesianE3 implements VectorE3 {
         const z = this.z
         return x * x + y * y + z * z
     }
-    static fromVectorE3(vector: VectorE3): CartesianE3 {
-        return new CartesianE3(vector.x, vector.y, vector.z, vector.uom)
+    static fromVectorE3(vector: VectorE3): R3 {
+        return new R3(vector.x, vector.y, vector.z, vector.uom)
     }
-    static direction(vector: VectorE3): CartesianE3 {
+    static direction(vector: VectorE3): R3 {
         const x = vector.x
         const y = vector.y
         const z = vector.z
         const m = Math.sqrt(x * x + y * y + z * z)
-        return new CartesianE3(x / m, y / m, z / m, void 0)
+        return new R3(x / m, y / m, z / m, void 0)
     }
 }

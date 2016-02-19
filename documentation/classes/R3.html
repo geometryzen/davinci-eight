@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src/davinci-eight/math/CartesianE3.ts - davinci-eight</title>
+    <title>R3 - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.189.0</em>
+            <em>API Docs for: 2.190.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -48,7 +48,6 @@
                                 <li><a href="../classes/BlendFactor.html">BlendFactor</a></li>
                                 <li><a href="../classes/Box.html">Box</a></li>
                                 <li><a href="../classes/Capability.html">Capability</a></li>
-                                <li><a href="../classes/CartesianE3.html">CartesianE3</a></li>
                                 <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
@@ -107,6 +106,7 @@
                                 <li><a href="../classes/QQ.html">QQ</a></li>
                                 <li><a href="../classes/R1m.html">R1m</a></li>
                                 <li><a href="../classes/R2m.html">R2m</a></li>
+                                <li><a href="../classes/R3.html">R3</a></li>
                                 <li><a href="../classes/R3m.html">R3m</a></li>
                                 <li><a href="../classes/R4m.html">R4m</a></li>
                                 <li><a href="../classes/ReflectionFacetE2.html">ReflectionFacetE2</a></li>
@@ -131,7 +131,7 @@
                                 <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
                                 <li><a href="../classes/Tetrahedron.html">Tetrahedron</a></li>
                                 <li><a href="../classes/TetrahedronGeometry.html">TetrahedronGeometry</a></li>
-                                <li><a href="../classes/TrackballControls.html">TrackballControls</a></li>
+                                <li><a href="../classes/TrackballCameraControls.html">TrackballCameraControls</a></li>
                                 <li><a href="../classes/Trail.html">Trail</a></li>
                                 <li><a href="../classes/UniformLocation.html">UniformLocation</a></li>
                                 <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
@@ -198,135 +198,311 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: src/davinci-eight/math/CartesianE3.ts</h1>
+<h1>R3 Class</h1>
+<div class="box meta">
 
-<div class="file">
-    <pre class="code prettyprint linenums">
-import core from &#x27;../core&#x27;
-import mustBeNumber from &#x27;../checks/mustBeNumber&#x27;
-import readOnly from &#x27;../i18n/readOnly&#x27;
-import Unit from &#x27;./Unit&#x27;;
-import VectorE3 from &#x27;./VectorE3&#x27;
 
-/**
- * @module EIGHT
- * @submodule math
- */
+        <div class="foundat">
+            Defined in: <a href="../files/src_davinci-eight_math_R3.ts.html#l51"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:51</code></a>
+        </div>
 
-/**
- * @class CartesianE3
- */
-export default class CartesianE3 implements VectorE3 {
-    private _coords: number[];
-    private _uom: Unit;
+            Module: <a href="../modules/math.html">math</a><br>
+            Parent Module: <a href="../modules/EIGHT.html">EIGHT</a>
 
-    /**
-     * @property zero
-     * @type CartesianE3
-     * @readOnly
-     * @static
-     */
-    public static zero = new CartesianE3(0, 0, 0, void 0)
+</div>
 
-    /**
-     * @property e1
-     * @type CartesianE3
-     * @readOnly
-     * @static
-     */
-    public static e1 = new CartesianE3(1, 0, 0, void 0)
 
-    /**
-     * @property e2
-     * @type CartesianE3
-     * @readOnly
-     * @static
-     */
-    public static e2 = new CartesianE3(0, 1, 0, void 0)
+<div class="box intro">
+    
+</div>
 
-    /**
-     * @property e3
-     * @type CartesianE3
-     * @readOnly
-     * @static
-     */
-    public static e3 = new CartesianE3(0, 0, 1, void 0)
+    <div class="constructor">
+        <h2>Constructor</h2>
+<div id="method_R3" class="method item">
+    <h3 class="name"><code>R3</code></h3>
 
-    /**
-     * @class CartesianE3
-     * @constructor
-     * @param x {number}
-     * @param y {number}
-     * @param z {number}
-     */
-    constructor(x: number, y: number, z: number, uom: Unit) {
-        if (core.safemode) {
-            mustBeNumber(&#x27;x&#x27;, x)
-            mustBeNumber(&#x27;y&#x27;, y)
-            mustBeNumber(&#x27;z&#x27;, z)
-        }
-        this._coords = [x, y, z]
-        this._uom = uom
-    }
-    get x(): number {
-        return this._coords[0]
-    }
-    set x(unused: number) {
-        throw new Error(readOnly(&#x27;x&#x27;).message)
-    }
-    get y(): number {
-        return this._coords[1]
-    }
-    set y(unused: number) {
-        throw new Error(readOnly(&#x27;y&#x27;).message)
-    }
-    get z(): number {
-        return this._coords[2]
-    }
-    set z(unused: number) {
-        throw new Error(readOnly(&#x27;z&#x27;).message)
-    }
-    get uom(): Unit {
-        return this._uom
-    }
-    set uom(unused: Unit) {
-        throw new Error(readOnly(&#x27;uom&#x27;).message)
-    }
-    // FIXME: This should return a Unit scaled by the coordinate values.
-    magnitude(): number {
-        return Math.sqrt(this.squaredNorm())
-    }
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>x</code>
+                </li>
+                <li class="arg">
+                        <code>y</code>
+                </li>
+                <li class="arg">
+                        <code>z</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
 
-    /**
-     * @method neg
-     * @return {Cartesian3}
-     */
-    neg(): CartesianE3 {
-        return this.scale(-1);
-    }
-    scale(α: number): CartesianE3 {
-        return new CartesianE3(α * this.x, α * this.y, α * this.z, this.uom)
-    }
-    // FIXME: This should return a Unit scaled by the coordinate values.
-    squaredNorm(): number {
-        const x = this.x
-        const y = this.y
-        const z = this.z
-        return x * x + y * y + z * z
-    }
-    static fromVectorE3(vector: VectorE3): CartesianE3 {
-        return new CartesianE3(vector.x, vector.y, vector.z, vector.uom)
-    }
-    static direction(vector: VectorE3): CartesianE3 {
-        const x = vector.x
-        const y = vector.y
-        const z = vector.z
-        const m = Math.sqrt(x * x + y * y + z * z)
-        return new CartesianE3(x / m, y / m, z / m, void 0)
-    }
-}
 
-    </pre>
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_R3.ts.html#l51"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:51</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">x</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">y</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">z</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+
+
+</div>
+    </div>
+
+<div id="classdocs" class="tabview">
+    <ul class="api-class-tabs">
+        <li class="api-class-tab index"><a href="#index">Index</a></li>
+
+            <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
+            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
+    </ul>
+
+    <div>
+        <div id="index" class="api-class-tabpanel index">
+            <h2 class="off-left">Item Index</h2>
+
+                <div class="index-section methods">
+                    <h3>Methods</h3>
+
+                    <ul class="index-list methods">
+                            <li class="index-item method">
+                                <a href="#method_neg">neg</a>
+
+                            </li>
+                    </ul>
+                </div>
+
+                <div class="index-section properties">
+                    <h3>Properties</h3>
+
+                    <ul class="index-list properties">
+                            <li class="index-item property">
+                                <a href="#property_e1">e1</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_e2">e2</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_e3">e3</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_zero">zero</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                    </ul>
+                </div>
+
+
+        </div>
+
+            <div id="methods" class="api-class-tabpanel">
+                <h2 class="off-left">Methods</h2>
+
+<div id="method_neg" class="method item">
+    <h3 class="name"><code>neg</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">Cartesian3</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_R3.ts.html#l96"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:96</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Cartesian3</span>:
+            </div>
+        </div>
+
+
+</div>
+            </div>
+
+            <div id="properties" class="api-class-tabpanel">
+                <h2 class="off-left">Properties</h2>
+
+<div id="property_e1" class="property item">
+    <h3 class="name"><code>e1</code></h3>
+    <span class="type"><a href="../classes/R3.html" class="crosslink">R3</a></span>
+
+
+
+
+        <span class="flag static">static</span>
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_R3.ts.html#l27"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:27</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_e2" class="property item">
+    <h3 class="name"><code>e2</code></h3>
+    <span class="type"><a href="../classes/R3.html" class="crosslink">R3</a></span>
+
+
+
+
+        <span class="flag static">static</span>
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_R3.ts.html#l35"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:35</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_e3" class="property item">
+    <h3 class="name"><code>e3</code></h3>
+    <span class="type"><a href="../classes/R3.html" class="crosslink">R3</a></span>
+
+
+
+
+        <span class="flag static">static</span>
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_R3.ts.html#l43"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:43</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_zero" class="property item">
+    <h3 class="name"><code>zero</code></h3>
+    <span class="type"><a href="../classes/R3.html" class="crosslink">R3</a></span>
+
+
+
+
+        <span class="flag static">static</span>
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_R3.ts.html#l19"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:19</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+            </div>
+
+
+    </div>
 </div>
                     </div>
                 </div>

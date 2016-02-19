@@ -610,6 +610,9 @@ declare module EIGHT {
         equals(other: G3): G3;
         exp(): G3;
         ext(rhs: G3): G3;
+        /**
+         * Extracts the specified grade from this multivector.
+         */
         grade(index: number): G3;
         inv(): G3;
         isOne(): boolean;
@@ -642,6 +645,10 @@ declare module EIGHT {
         direction(): G3;
         static fromSpinorE3(spinor: SpinorE3): G3;
         static fromVectorE3(vector: VectorE3): G3;
+        /**
+         * Computes a random multivector with an optional unit of measure.
+         */
+        static random(uom?: Unit): G3;
         static scalar(α: number, uom?: Unit): G3;
         static vector(x: number, y: number, z: number, uom?: Unit): G3;
     }
@@ -3448,6 +3455,7 @@ declare module EIGHT {
             }): Arrow
         box(
             options?: {
+                axis?: VectorE3;
                 width?: number;
                 height?: number;
                 depth?: number;
@@ -3483,7 +3491,7 @@ declare module EIGHT {
         }): World;
 
     ///////////////////////////////////////////////////////////////////////////////
-    class TrackballControls extends Shareable {
+    class TrackballCameraControls extends Shareable {
         public rotateSpeed: number
         public zoomSpeed: number
         public panSpeed: number

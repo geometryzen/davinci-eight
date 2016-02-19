@@ -8,10 +8,10 @@ import R3m from '../math/R3m'
  * @module EIGHT
  * @submodule controls
  *
- * @class TrackballControls
+ * @class TrackballCameraControls
  * @extends Shareable
  */
-export default class TrackballControls extends MouseControls {
+export default class TrackballCameraControls extends MouseControls {
     /**
      *
      */
@@ -63,12 +63,12 @@ export default class TrackballControls extends MouseControls {
     private objectUp = new R3m()
 
     /**
-     * @class TrackballControls
+     * @class TrackballCameraControls
      * @constructor
      * @param camera
      */
     constructor(camera: PerspectiveCamera) {
-        super('TrackballControls')
+        super('TrackballCameraControls')
         this.camera = camera
 
         // Cache camera properties required for a reset.

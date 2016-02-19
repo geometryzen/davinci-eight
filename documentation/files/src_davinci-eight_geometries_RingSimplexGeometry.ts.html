@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.189.0</em>
+            <em>API Docs for: 2.190.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -48,7 +48,6 @@
                                 <li><a href="../classes/BlendFactor.html">BlendFactor</a></li>
                                 <li><a href="../classes/Box.html">Box</a></li>
                                 <li><a href="../classes/Capability.html">Capability</a></li>
-                                <li><a href="../classes/CartesianE3.html">CartesianE3</a></li>
                                 <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
@@ -107,6 +106,7 @@
                                 <li><a href="../classes/QQ.html">QQ</a></li>
                                 <li><a href="../classes/R1m.html">R1m</a></li>
                                 <li><a href="../classes/R2m.html">R2m</a></li>
+                                <li><a href="../classes/R3.html">R3</a></li>
                                 <li><a href="../classes/R3m.html">R3m</a></li>
                                 <li><a href="../classes/R4m.html">R4m</a></li>
                                 <li><a href="../classes/ReflectionFacetE2.html">ReflectionFacetE2</a></li>
@@ -131,7 +131,7 @@
                                 <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
                                 <li><a href="../classes/Tetrahedron.html">Tetrahedron</a></li>
                                 <li><a href="../classes/TetrahedronGeometry.html">TetrahedronGeometry</a></li>
-                                <li><a href="../classes/TrackballControls.html">TrackballControls</a></li>
+                                <li><a href="../classes/TrackballCameraControls.html">TrackballCameraControls</a></li>
                                 <li><a href="../classes/Trail.html">Trail</a></li>
                                 <li><a href="../classes/UniformLocation.html">UniformLocation</a></li>
                                 <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
@@ -203,7 +203,7 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 import arc3 from &#x27;../geometries/arc3&#x27;;
-import CartesianE3 from &#x27;../math/CartesianE3&#x27;;
+import R3 from &#x27;../math/R3&#x27;;
 import SimplexPrimitivesBuilder from &#x27;../geometries/SimplexPrimitivesBuilder&#x27;;
 import Simplex from &#x27;../geometries/Simplex&#x27;;
 import SliceSimplexPrimitivesBuilder from &#x27;../geometries/SliceSimplexPrimitivesBuilder&#x27;;
@@ -214,7 +214,7 @@ import R2m from &#x27;../math/R2m&#x27;;
 import R3m from &#x27;../math/R3m&#x27;;
 import VectorE3 from &#x27;../math/VectorE3&#x27;;
 
-function computeVertices(a: number, b: number, axis: CartesianE3, start: VectorE3, angle: number, generator: SpinorE3, radialSegments: number, thetaSegments: number, vertices: R3m[], uvs: R2m[]) {
+function computeVertices(a: number, b: number, axis: R3, start: VectorE3, angle: number, generator: SpinorE3, radialSegments: number, thetaSegments: number, vertices: R3m[], uvs: R2m[]) {
     /**
      * &#x60;t&#x60; is the vector perpendicular to s in the plane of the ring.
      * We could use the generator an PI / 4 to calculate this or the cross product as here.
@@ -243,7 +243,7 @@ function vertexIndex(i: number, j: number, thetaSegments: number): number {
     return i * (thetaSegments + 1) + j
 }
 
-function makeTriangles(vertices: R3m[], uvs: R2m[], axis: CartesianE3, radialSegments: number, thetaSegments: number, geometry: SimplexPrimitivesBuilder) {
+function makeTriangles(vertices: R3m[], uvs: R2m[], axis: R3, radialSegments: number, thetaSegments: number, geometry: SimplexPrimitivesBuilder) {
     for (var i = 0; i &lt; radialSegments; i++) {
         // Our traversal has resulted in the following formula for the index
         // into the vertices or uvs array

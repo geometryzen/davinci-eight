@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>CartesianE3 - davinci-eight</title>
+    <title>TrackballCameraControls - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.189.0</em>
+            <em>API Docs for: 2.190.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -48,7 +48,6 @@
                                 <li><a href="../classes/BlendFactor.html">BlendFactor</a></li>
                                 <li><a href="../classes/Box.html">Box</a></li>
                                 <li><a href="../classes/Capability.html">Capability</a></li>
-                                <li><a href="../classes/CartesianE3.html">CartesianE3</a></li>
                                 <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
@@ -107,6 +106,7 @@
                                 <li><a href="../classes/QQ.html">QQ</a></li>
                                 <li><a href="../classes/R1m.html">R1m</a></li>
                                 <li><a href="../classes/R2m.html">R2m</a></li>
+                                <li><a href="../classes/R3.html">R3</a></li>
                                 <li><a href="../classes/R3m.html">R3m</a></li>
                                 <li><a href="../classes/R4m.html">R4m</a></li>
                                 <li><a href="../classes/ReflectionFacetE2.html">ReflectionFacetE2</a></li>
@@ -131,7 +131,7 @@
                                 <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
                                 <li><a href="../classes/Tetrahedron.html">Tetrahedron</a></li>
                                 <li><a href="../classes/TetrahedronGeometry.html">TetrahedronGeometry</a></li>
-                                <li><a href="../classes/TrackballControls.html">TrackballControls</a></li>
+                                <li><a href="../classes/TrackballCameraControls.html">TrackballCameraControls</a></li>
                                 <li><a href="../classes/Trail.html">Trail</a></li>
                                 <li><a href="../classes/UniformLocation.html">UniformLocation</a></li>
                                 <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
@@ -198,15 +198,15 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1>CartesianE3 Class</h1>
+<h1>TrackballCameraControls Class</h1>
 <div class="box meta">
 
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_math_CartesianE3.ts.html#l51"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CartesianE3.ts:51</code></a>
+            Defined in: <a href="../files/src_davinci-eight_controls_TrackballCameraControls.ts.html#l65"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;TrackballCameraControls.ts:65</code></a>
         </div>
 
-            Module: <a href="../modules/math.html">math</a><br>
+            Module: <a href="../modules/controls.html">controls</a><br>
             Parent Module: <a href="../modules/EIGHT.html">EIGHT</a>
 
 </div>
@@ -218,19 +218,13 @@
 
     <div class="constructor">
         <h2>Constructor</h2>
-<div id="method_CartesianE3" class="method item">
-    <h3 class="name"><code>CartesianE3</code></h3>
+<div id="method_TrackballCameraControls" class="method item">
+    <h3 class="name"><code>TrackballCameraControls</code></h3>
 
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
-                        <code>x</code>
-                </li>
-                <li class="arg">
-                        <code>y</code>
-                </li>
-                <li class="arg">
-                        <code>z</code>
+                        <code>camera</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
@@ -245,7 +239,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_CartesianE3.ts.html#l51"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CartesianE3.ts:51</code></a>
+        <a href="../files/src_davinci-eight_controls_TrackballCameraControls.ts.html#l65"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;TrackballCameraControls.ts:65</code></a>
         </p>
 
 
@@ -261,28 +255,8 @@
 
             <ul class="params-list">
                 <li class="param">
-                        <code class="param-name">x</code>
-                        <span class="type">Number</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">y</code>
-                        <span class="type">Number</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">z</code>
-                        <span class="type">Number</span>
+                        <code class="param-name">camera</code>
+                        <span class="type">Object</span>
 
 
                     <div class="param-description">
@@ -303,7 +277,6 @@
         <li class="api-class-tab index"><a href="#index">Index</a></li>
 
             <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
-            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
     </ul>
 
     <div>
@@ -314,39 +287,29 @@
                     <h3>Methods</h3>
 
                     <ul class="index-list methods">
+                            <li class="index-item method protected">
+                                <a href="#method_destructor">destructor</a>
+
+                            </li>
+                            <li class="index-item method private">
+                                <a href="#method_panCamera">panCamera</a>
+
+                            </li>
+                            <li class="index-item method private">
+                                <a href="#method_rotateCamera">rotateCamera</a>
+
+                            </li>
                             <li class="index-item method">
-                                <a href="#method_neg">neg</a>
+                                <a href="#method_update">update</a>
+
+                            </li>
+                            <li class="index-item method private">
+                                <a href="#method_zoomCamera">zoomCamera</a>
 
                             </li>
                     </ul>
                 </div>
 
-                <div class="index-section properties">
-                    <h3>Properties</h3>
-
-                    <ul class="index-list properties">
-                            <li class="index-item property">
-                                <a href="#property_e1">e1</a>
-
-                                    <span class="flag static">static</span>
-                            </li>
-                            <li class="index-item property">
-                                <a href="#property_e2">e2</a>
-
-                                    <span class="flag static">static</span>
-                            </li>
-                            <li class="index-item property">
-                                <a href="#property_e3">e3</a>
-
-                                    <span class="flag static">static</span>
-                            </li>
-                            <li class="index-item property">
-                                <a href="#property_zero">zero</a>
-
-                                    <span class="flag static">static</span>
-                            </li>
-                    </ul>
-                </div>
 
 
         </div>
@@ -354,16 +317,17 @@
             <div id="methods" class="api-class-tabpanel">
                 <h2 class="off-left">Methods</h2>
 
-<div id="method_neg" class="method item">
-    <h3 class="name"><code>neg</code></h3>
+<div id="method_destructor" class="method item protected">
+    <h3 class="name"><code>destructor</code></h3>
 
         <span class="paren">()</span>
 
         <span class="returns-inline">
-            <span class="type">Cartesian3</span>
+            <span class="type">Void</span>
         </span>
 
 
+        <span class="flag protected">protected</span>
 
 
 
@@ -372,7 +336,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_CartesianE3.ts.html#l96"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CartesianE3.ts:96</code></a>
+        <a href="../files/src_davinci-eight_controls_TrackballCameraControls.ts.html#l84"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;TrackballCameraControls.ts:84</code></a>
         </p>
 
 
@@ -388,7 +352,173 @@
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type">Cartesian3</span>:
+                        <span class="type">Void</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_panCamera" class="method item private">
+    <h3 class="name"><code>panCamera</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+
+
+        <span class="flag private">private</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_controls_TrackballCameraControls.ts.html#l193"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;TrackballCameraControls.ts:193</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Void</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_rotateCamera" class="method item private">
+    <h3 class="name"><code>rotateCamera</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+
+
+        <span class="flag private">private</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_controls_TrackballCameraControls.ts.html#l134"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;TrackballCameraControls.ts:134</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Void</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_update" class="method item">
+    <h3 class="name"><code>update</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_controls_TrackballCameraControls.ts.html#l106"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;TrackballCameraControls.ts:106</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>This should be called inside the animation frame to update the camera location.
+Notice that the movement of the mouse controls is decoupled from the effect.
+We also want to avoid temporary object creation in this and called methods by recycling variables.</p>
+
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Void</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_zoomCamera" class="method item private">
+    <h3 class="name"><code>zoomCamera</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+
+
+        <span class="flag private">private</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_controls_TrackballCameraControls.ts.html#l180"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;TrackballCameraControls.ts:180</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Void</span>:
             </div>
         </div>
 
@@ -396,110 +526,6 @@
 </div>
             </div>
 
-            <div id="properties" class="api-class-tabpanel">
-                <h2 class="off-left">Properties</h2>
-
-<div id="property_e1" class="property item">
-    <h3 class="name"><code>e1</code></h3>
-    <span class="type"><a href="../classes/CartesianE3.html" class="crosslink">CartesianE3</a></span>
-
-
-
-
-        <span class="flag static">static</span>
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_CartesianE3.ts.html#l27"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CartesianE3.ts:27</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-
-</div>
-<div id="property_e2" class="property item">
-    <h3 class="name"><code>e2</code></h3>
-    <span class="type"><a href="../classes/CartesianE3.html" class="crosslink">CartesianE3</a></span>
-
-
-
-
-        <span class="flag static">static</span>
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_CartesianE3.ts.html#l35"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CartesianE3.ts:35</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-
-</div>
-<div id="property_e3" class="property item">
-    <h3 class="name"><code>e3</code></h3>
-    <span class="type"><a href="../classes/CartesianE3.html" class="crosslink">CartesianE3</a></span>
-
-
-
-
-        <span class="flag static">static</span>
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_CartesianE3.ts.html#l43"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CartesianE3.ts:43</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-
-</div>
-<div id="property_zero" class="property item">
-    <h3 class="name"><code>zero</code></h3>
-    <span class="type"><a href="../classes/CartesianE3.html" class="crosslink">CartesianE3</a></span>
-
-
-
-
-        <span class="flag static">static</span>
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_CartesianE3.ts.html#l19"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CartesianE3.ts:19</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-
-</div>
-            </div>
 
 
     </div>

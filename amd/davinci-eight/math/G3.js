@@ -719,6 +719,9 @@ define(["require", "exports", '../math/addE3', '../geometries/b2', '../geometrie
                 return void 0;
             }
         };
+        G3.random = function (uom) {
+            return new G3(Math.random(), Math.random(), Math.random(), Math.random(), Math.random(), Math.random(), Math.random(), Math.random(), uom);
+        };
         G3.scalar = function (α, uom) {
             return new G3(α, 0, 0, 0, 0, 0, 0, 0, uom);
         };
