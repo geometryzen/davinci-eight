@@ -1,7 +1,7 @@
-define(["require", "exports", '../checks/mustBeArray', '../checks/mustBeString', '../math/G3m', '../math/Mat4R', '../i18n/readOnly'], function (require, exports, mustBeArray_1, mustBeString_1, G3m_1, Mat4R_1, readOnly_1) {
+define(["require", "exports", '../checks/mustBeArray', '../checks/mustBeString', '../math/G3m', '../math/Matrix4', '../i18n/readOnly'], function (require, exports, mustBeArray_1, mustBeString_1, G3m_1, Matrix4_1, readOnly_1) {
     var ReflectionFacetE3 = (function () {
         function ReflectionFacetE3(name) {
-            this.matrix = Mat4R_1.default.one();
+            this.matrix = Matrix4_1.default.one();
             this.name = mustBeString_1.default('name', name);
             this._normal = G3m_1.default.zero();
             this._normal.modified = true;

@@ -1,9 +1,9 @@
-define(["require", "exports", '../checks/mustBeArray', '../checks/mustBeString', '../math/R2m', '../math/Mat2R', '../i18n/readOnly'], function (require, exports, mustBeArray_1, mustBeString_1, R2m_1, Mat2R_1, readOnly_1) {
+define(["require", "exports", '../checks/mustBeArray', '../checks/mustBeString', '../math/Vector2', '../math/Matrix2', '../i18n/readOnly'], function (require, exports, mustBeArray_1, mustBeString_1, Vector2_1, Matrix2_1, readOnly_1) {
     var ReflectionFacetE2 = (function () {
         function ReflectionFacetE2(name) {
-            this.matrix = Mat2R_1.default.one();
+            this.matrix = Matrix2_1.default.one();
             this.name = mustBeString_1.default('name', name);
-            this._normal = new R2m_1.default().zero();
+            this._normal = new Vector2_1.default().zero();
             this._normal.modified = true;
         }
         Object.defineProperty(ReflectionFacetE2.prototype, "normal", {

@@ -5,7 +5,7 @@ import AxialPrimitivesBuilder from '../geometries/AxialPrimitivesBuilder';
 import IAxialGeometry from '../geometries/IAxialGeometry';
 import Primitive from '../core/Primitive';
 import RingBuilder from '../geometries/RingBuilder';
-import R3m from '../math/R3m';
+import Vector3 from '../math/Vector3';
 
 export default class ArrowBuilder extends AxialPrimitivesBuilder implements IAxialGeometry<ArrowBuilder> {
     public heightCone: number = 0.20;
@@ -28,15 +28,15 @@ export default class ArrowBuilder extends AxialPrimitivesBuilder implements IAxi
         /**
          * The opposite direction to the axis.
          */
-        let back = R3m.copy(this.axis).scale(-1)
+        let back = Vector3.copy(this.axis).scale(-1)
         /**
          * The neck is the place where the cone meets the shaft. 
          */
-        let neck = R3m.copy(this.axis).scale(heightShaft).add(this.position)
+        let neck = Vector3.copy(this.axis).scale(heightShaft).add(this.position)
         /**
          * The tail is the the position of the blunt end of the arrow.
          */
-        let tail = R3m.copy(this.position)
+        let tail = Vector3.copy(this.position)
 
         let cone = new ConeGeometry(this.axis, this.sliceStart)
         cone.radius = this.radiusCone

@@ -110,7 +110,7 @@ export default class R3 implements VectorE3 {
         const z = this.z
         return x * x + y * y + z * z
     }
-    static fromVectorE3(vector: VectorE3): R3 {
+    static fromVector(vector: VectorE3): R3 {
         return new R3(vector.x, vector.y, vector.z, vector.uom)
     }
     static direction(vector: VectorE3): R3 {

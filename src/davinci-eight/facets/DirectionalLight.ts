@@ -5,7 +5,7 @@ import FacetVisitor from '../core/FacetVisitor';
 import mustBeObject from '../checks/mustBeObject';
 import mustBeString from '../checks/mustBeString';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
-import R3m from '../math/R3m';
+import Vector3 from '../math/Vector3';
 import VectorE3 from '../math/VectorE3';
 
 /**
@@ -45,9 +45,9 @@ export default class DirectionalLight implements Facet {
 
     /**
      * @property direction
-     * @type {R3m}
+     * @type {Vector3}
      */
-    public direction: R3m;
+    public direction: Vector3;
 
     /**
      * @property color
@@ -64,7 +64,7 @@ export default class DirectionalLight implements Facet {
     constructor(direction: VectorE3, color: ColorRGB) {
         mustBeObject('direction', direction)
         mustBeObject('color', color)
-        this.direction = R3m.copy(direction).direction()
+        this.direction = Vector3.copy(direction).direction()
         this.color = Color.fromColor(color)
     }
 

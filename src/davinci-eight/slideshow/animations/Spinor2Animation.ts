@@ -1,7 +1,7 @@
 import IAnimation from '../../slideshow/IAnimation';
 import IAnimationTarget from '../../slideshow/IAnimationTarget';
 import Shareable from '../../core/Shareable';
-import SpinG2m from '../../math/SpinG2m';
+import Spinor2 from '../../math/Spinor2';
 import SpinorE2 from '../../math/SpinorE2';
 
 function loop(n: number, callback: (i: number) => void) {
@@ -11,8 +11,8 @@ function loop(n: number, callback: (i: number) => void) {
 }
 
 export default class Spinor2Animation extends Shareable implements IAnimation {
-    private from: SpinG2m;
-    private to: SpinG2m;
+    private from: Spinor2;
+    private to: Spinor2;
     private duration: number;
     private start: number;
     private fraction: number;
@@ -21,7 +21,7 @@ export default class Spinor2Animation extends Shareable implements IAnimation {
     constructor(value: SpinorE2, duration: number = 300, callback?: () => void, ease?: string) {
         super('Spinor2Animation')
         this.from = void 0
-        this.to = SpinG2m.copy(value)
+        this.to = Spinor2.copy(value)
         this.duration = duration
         this.start = 0
         this.fraction = 0
@@ -37,7 +37,7 @@ export default class Spinor2Animation extends Shareable implements IAnimation {
             if (this.from === void 0) {
                 var data: number[] = target.getProperty(propName)
                 if (data) {
-                    this.from = new SpinG2m()
+                    this.from = new Spinor2()
                     this.from.coords = data
                 }
             }
@@ -74,7 +74,7 @@ export default class Spinor2Animation extends Shareable implements IAnimation {
                 break
         }
 
-        var lerp = SpinG2m.lerp(from, to, fraction)
+        var lerp = Spinor2.lerp(from, to, fraction)
         target.setProperty(propName, lerp.coords)
     }
     hurry(factor: number): void {

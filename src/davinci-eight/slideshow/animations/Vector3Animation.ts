@@ -2,7 +2,7 @@ import VectorE3 from '../../math/VectorE3';
 import IAnimation from '../../slideshow/IAnimation';
 import IAnimationTarget from '../../slideshow/IAnimationTarget';
 import Shareable from '../../core/Shareable';
-import R3m from '../../math/R3m';
+import Vector3 from '../../math/Vector3';
 
 function loop(n: number, callback: (i: number) => void) {
     for (var i = 0; i < n; ++i) {
@@ -11,8 +11,8 @@ function loop(n: number, callback: (i: number) => void) {
 }
 
 export default class Vector3Animation extends Shareable implements IAnimation {
-    private from: R3m;
-    private to: R3m;
+    private from: Vector3;
+    private to: Vector3;
     private duration: number;
     private start: number;
     private fraction: number;
@@ -20,7 +20,7 @@ export default class Vector3Animation extends Shareable implements IAnimation {
     private ease: string;
     constructor(value: VectorE3, duration: number = 300, callback?: () => void, ease?: string) {
         super('Vector3Animation')
-        this.to = R3m.copy(value)
+        this.to = Vector3.copy(value)
         this.duration = duration
         this.fraction = 0;
         this.callback = callback
@@ -38,7 +38,7 @@ export default class Vector3Animation extends Shareable implements IAnimation {
                 if (data) {
                     // Make sure to copy the coordinates so that we aren't
                     // holding onto a reference to a mutable number array.
-                    this.from = new R3m().copyCoordinates(data)
+                    this.from = new Vector3().copyCoordinates(data)
                 }
             }
         }
@@ -72,7 +72,7 @@ export default class Vector3Animation extends Shareable implements IAnimation {
                 break
         }
 
-        var lerp = R3m.lerp(this.from, this.to, rolloff)
+        var lerp = Vector3.lerp(this.from, this.to, rolloff)
         target.setProperty(propName, lerp.coords)
     }
     hurry(factor: number): void {

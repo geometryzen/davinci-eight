@@ -3,18 +3,18 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../geometries/arc3', '../geometries/Simplex', '../geometries/SliceSimplexPrimitivesBuilder', '../math/SpinG3m', '../core/GraphicsProgramSymbols', '../math/R2m', '../math/R3m'], function (require, exports, arc3_1, Simplex_1, SliceSimplexPrimitivesBuilder_1, SpinG3m_1, GraphicsProgramSymbols_1, R2m_1, R3m_1) {
+define(["require", "exports", '../geometries/arc3', '../geometries/Simplex', '../geometries/SliceSimplexPrimitivesBuilder', '../math/Spinor3', '../core/GraphicsProgramSymbols', '../math/Vector2', '../math/Vector3'], function (require, exports, arc3_1, Simplex_1, SliceSimplexPrimitivesBuilder_1, Spinor3_1, GraphicsProgramSymbols_1, Vector2_1, Vector3_1) {
     function computeVertices(a, b, axis, start, angle, generator, radialSegments, thetaSegments, vertices, uvs) {
-        var perp = R3m_1.default.copy(axis).cross(start);
+        var perp = Vector3_1.default.copy(axis).cross(start);
         var radius = b;
         var radiusStep = (a - b) / radialSegments;
         for (var i = 0; i < radialSegments + 1; i++) {
-            var begin = R3m_1.default.copy(start).scale(radius);
+            var begin = Vector3_1.default.copy(start).scale(radius);
             var arcPoints = arc3_1.default(begin, angle, generator, thetaSegments);
             for (var j = 0, jLength = arcPoints.length; j < jLength; j++) {
                 var arcPoint = arcPoints[j];
                 vertices.push(arcPoint);
-                uvs.push(new R2m_1.default([(arcPoint.dot(start) / a + 1) / 2, (arcPoint.dot(perp) / a + 1) / 2]));
+                uvs.push(new Vector2_1.default([(arcPoint.dot(start) / a + 1) / 2, (arcPoint.dot(perp) / a + 1) / 2]));
             }
             radius += radiusStep;
         }
@@ -30,11 +30,11 @@ define(["require", "exports", '../geometries/arc3', '../geometries/Simplex', '..
                 var v0 = quadIndex;
                 var v1 = quadIndex + thetaSegments + 1;
                 var v2 = quadIndex + thetaSegments + 2;
-                geometry.triangle([vertices[v0], vertices[v1], vertices[v2]], [R3m_1.default.copy(axis), R3m_1.default.copy(axis), R3m_1.default.copy(axis)], [uvs[v0].clone(), uvs[v1].clone(), uvs[v2].clone()]);
+                geometry.triangle([vertices[v0], vertices[v1], vertices[v2]], [Vector3_1.default.copy(axis), Vector3_1.default.copy(axis), Vector3_1.default.copy(axis)], [uvs[v0].clone(), uvs[v1].clone(), uvs[v2].clone()]);
                 v0 = quadIndex;
                 v1 = quadIndex + thetaSegments + 2;
                 v2 = quadIndex + 1;
-                geometry.triangle([vertices[v0], vertices[v1], vertices[v2]], [R3m_1.default.copy(axis), R3m_1.default.copy(axis), R3m_1.default.copy(axis)], [uvs[v0].clone(), uvs[v1].clone(), uvs[v2].clone()]);
+                geometry.triangle([vertices[v0], vertices[v1], vertices[v2]], [Vector3_1.default.copy(axis), Vector3_1.default.copy(axis), Vector3_1.default.copy(axis)], [uvs[v0].clone(), uvs[v1].clone(), uvs[v2].clone()]);
             }
         }
     }
@@ -95,7 +95,7 @@ define(["require", "exports", '../geometries/arc3', '../geometries/Simplex', '..
             this.data = [];
             var radialSegments = this.flatSegments;
             var thetaSegments = this.curvedSegments;
-            var generator = SpinG3m_1.default.dual(this.axis);
+            var generator = Spinor3_1.default.dual(this.axis);
             var vertices = [];
             var uvs = [];
             computeVertices(this.a, this.b, this.axis, this.sliceStart, this.sliceAngle, generator, radialSegments, thetaSegments, vertices, uvs);

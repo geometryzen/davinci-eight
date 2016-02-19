@@ -1,9 +1,9 @@
 import VectorE2 from '../math/VectorE2';
 import VectorE3 from '../math/VectorE3';
 import VectorE4 from '../math/VectorE4';
-import Mat2R from '../math/Mat2R';
-import Mat3R from '../math/Mat3R';
-import Mat4R from '../math/Mat4R';
+import Matrix2 from '../math/Matrix2';
+import Matrix3 from '../math/Matrix3';
+import Matrix4 from '../math/Matrix4';
 
 /**
  * @module EIGHT
@@ -57,29 +57,29 @@ interface FacetVisitor {
     /**
      * @method mat2
      * @param name {string}
-     * @param matrix {Mat2R}
+     * @param matrix {Matrix2}
      * @param [transpose = false] {boolean}
      * @return {void}
      */
-    mat2(name: string, matrix: Mat2R, transpose: boolean): void;
+    mat2(name: string, matrix: Matrix2, transpose: boolean): void;
 
     /**
      * @method mat3
      * @param name {string}
-     * @param matrix {Mat3R}
+     * @param matrix {Matrix3}
      * @param [transpose = false] {boolean}
      * @return {void}
      */
-    mat3(name: string, matrix: Mat3R, transpose: boolean): void;
+    mat3(name: string, matrix: Matrix3, transpose: boolean): void;
 
     /**
      * @method mat4
      * @param name {string}
-     * @param matrix {Mat4R}
+     * @param matrix {Matrix4}
      * @param [transpose = false] {boolean}
      * @return {void}
      */
-    mat4(name: string, matrix: Mat4R, transpose: boolean): void;
+    mat4(name: string, matrix: Matrix4, transpose: boolean): void;
 
     /**
      * @method vec2

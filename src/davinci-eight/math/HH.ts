@@ -2,12 +2,12 @@ import dotVectorCartesianE3 from '../math/dotVectorCartesianE3';
 import G3 from '../math/G3';
 import dotVector from '../math/dotVectorE3';
 import MutableGeometricElement3D from '../math/MutableGeometricElement3D';
-import Mat4R from '../math/Mat4R';
+import Matrix4 from '../math/Matrix4';
 import mustBeInteger from '../checks/mustBeInteger';
 import mustBeNumber from '../checks/mustBeNumber';
 import mustBeObject from '../checks/mustBeObject';
 import quadVector from '../math/quadVectorE3';
-import R3m from '../math/R3m';
+import Vector3 from '../math/Vector3';
 import rotorFromDirections from '../math/rotorFromDirections';
 import TrigMethods from '../math/TrigMethods';
 import VectorE3 from '../math/VectorE3';
@@ -25,7 +25,7 @@ const EPS = 0.000001;
 
 // This class is for reference only and will remain undocumented and internal.
 // Notice that it is mutable, betraying a usage with animation loops.
-// But there we want to use the SpinG3m spinor, or the full multivector, G3m.
+// But there we want to use the Spinor3 spinor, or the full multivector, G3m.
 // For comparison QQ and CC are immutable.
 export default class HH implements MutableGeometricElement3D<HH, HH, HH, VectorE3>, TrigMethods<HH> {
     private x: number;
@@ -301,7 +301,7 @@ export default class HH implements MutableGeometricElement3D<HH, HH, HH, VectorE
         this.t = cos(φ)
         return this;
     }
-    setFromRotationMatrix(m: Mat4R): HH {
+    setFromRotationMatrix(m: Matrix4): HH {
         // http://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToQuaternion/index.htm
         // assumes the upper 3x3 of m is a pure rotation matrix (i.e, unscaled)
         var te = m.elements,
@@ -343,9 +343,10 @@ export default class HH implements MutableGeometricElement3D<HH, HH, HH, VectorE
         }
         return this;
     }
-    spinor(a: VectorE3, b: VectorE3): HH {
+
+    versor(a: VectorE3, b: VectorE3): HH {
         // TODO: Could create circularity problems.
-        let v1 = new R3m();
+        let v1 = new Vector3();
 
         var r: number = dotVector(a, b) + 1;
 
@@ -368,6 +369,7 @@ export default class HH implements MutableGeometricElement3D<HH, HH, HH, VectorE
         this.direction();
         return this;
     }
+
     slerp(qb: HH, t: number): HH {
         if (t === 0) return this;
         if (t === 1) return this.copy(qb);

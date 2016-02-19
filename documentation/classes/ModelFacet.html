@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.190.0</em>
+            <em>API Docs for: 2.191.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -47,6 +47,7 @@
                                 <li><a href="../classes/Attribute.html">Attribute</a></li>
                                 <li><a href="../classes/BlendFactor.html">BlendFactor</a></li>
                                 <li><a href="../classes/Box.html">Box</a></li>
+                                <li><a href="../classes/CameraControls.html">CameraControls</a></li>
                                 <li><a href="../classes/Capability.html">Capability</a></li>
                                 <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
@@ -61,6 +62,7 @@
                                 <li><a href="../classes/CylinderGeometry.html">CylinderGeometry</a></li>
                                 <li><a href="../classes/Dimensions.html">Dimensions</a></li>
                                 <li><a href="../classes/DirectionalLight.html">DirectionalLight</a></li>
+                                <li><a href="../classes/Drawable.html">Drawable</a></li>
                                 <li><a href="../classes/DrawMode.html">DrawMode</a></li>
                                 <li><a href="../classes/EIGHTLogger.html">EIGHTLogger</a></li>
                                 <li><a href="../classes/Facet.html">Facet</a></li>
@@ -84,10 +86,10 @@
                                 <li><a href="../classes/IContextProvider.html">IContextProvider</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
-                                <li><a href="../classes/Mat2R.html">Mat2R</a></li>
-                                <li><a href="../classes/Mat3R.html">Mat3R</a></li>
-                                <li><a href="../classes/Mat4R.html">Mat4R</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
+                                <li><a href="../classes/Matrix2.html">Matrix2</a></li>
+                                <li><a href="../classes/Matrix3.html">Matrix3</a></li>
+                                <li><a href="../classes/Matrix4.html">Matrix4</a></li>
                                 <li><a href="../classes/Mesh.html">Mesh</a></li>
                                 <li><a href="../classes/MeshMaterial.html">MeshMaterial</a></li>
                                 <li><a href="../classes/ModelE2.html">ModelE2</a></li>
@@ -104,11 +106,7 @@
                                 <li><a href="../classes/PrimitiveBuffers.html">PrimitiveBuffers</a></li>
                                 <li><a href="../classes/Pseudo.html">Pseudo</a></li>
                                 <li><a href="../classes/QQ.html">QQ</a></li>
-                                <li><a href="../classes/R1m.html">R1m</a></li>
-                                <li><a href="../classes/R2m.html">R2m</a></li>
                                 <li><a href="../classes/R3.html">R3</a></li>
-                                <li><a href="../classes/R3m.html">R3m</a></li>
-                                <li><a href="../classes/R4m.html">R4m</a></li>
                                 <li><a href="../classes/ReflectionFacetE2.html">ReflectionFacetE2</a></li>
                                 <li><a href="../classes/ReflectionFacetE3.html">ReflectionFacetE3</a></li>
                                 <li><a href="../classes/RigidBody.html">RigidBody</a></li>
@@ -122,8 +120,8 @@
                                 <li><a href="../classes/ShareableWebGLTexture.html">ShareableWebGLTexture</a></li>
                                 <li><a href="../classes/Sphere.html">Sphere</a></li>
                                 <li><a href="../classes/SphereGeometry.html">SphereGeometry</a></li>
-                                <li><a href="../classes/SpinG2m.html">SpinG2m</a></li>
-                                <li><a href="../classes/SpinG3m.html">SpinG3m</a></li>
+                                <li><a href="../classes/Spinor2.html">Spinor2</a></li>
+                                <li><a href="../classes/Spinor3.html">Spinor3</a></li>
                                 <li><a href="../classes/SpinorE1.html">SpinorE1</a></li>
                                 <li><a href="../classes/SpinorE2.html">SpinorE2</a></li>
                                 <li><a href="../classes/SpinorE3.html">SpinorE3</a></li>
@@ -131,13 +129,16 @@
                                 <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
                                 <li><a href="../classes/Tetrahedron.html">Tetrahedron</a></li>
                                 <li><a href="../classes/TetrahedronGeometry.html">TetrahedronGeometry</a></li>
-                                <li><a href="../classes/TrackballCameraControls.html">TrackballCameraControls</a></li>
                                 <li><a href="../classes/Trail.html">Trail</a></li>
                                 <li><a href="../classes/UniformLocation.html">UniformLocation</a></li>
                                 <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
                                 <li><a href="../classes/Unit.html">Unit</a></li>
                                 <li><a href="../classes/Vector.html">Vector</a></li>
+                                <li><a href="../classes/Vector1.html">Vector1</a></li>
+                                <li><a href="../classes/Vector2.html">Vector2</a></li>
+                                <li><a href="../classes/Vector3.html">Vector3</a></li>
                                 <li><a href="../classes/Vector3Facet.html">Vector3Facet</a></li>
+                                <li><a href="../classes/Vector4.html">Vector4</a></li>
                                 <li><a href="../classes/VectorE0.html">VectorE0</a></li>
                                 <li><a href="../classes/VectorE1.html">VectorE1</a></li>
                                 <li><a href="../classes/VectorE2.html">VectorE2</a></li>
@@ -325,7 +326,7 @@ Constructs a ModelFacet at the origin and with unity attitude.
 
                             </li>
                             <li class="index-item property">
-                                <a href="#property_scaleXYZ">scaleXYZ</a>
+                                <a href="#property_scale">scale</a>
 
                             </li>
                             <li class="index-item property inherited">
@@ -365,7 +366,7 @@ Constructs a ModelFacet at the origin and with unity attitude.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/ModelE3.html#method_getProperty">ModelE3</a>:
-        <a href="../files/src_davinci-eight_facets_ModelE3.ts.html#l112"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ModelE3.ts:112</code></a>
+        <a href="../files/src_davinci-eight_facets_ModelE3.ts.html#l113"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ModelE3.ts:113</code></a>
         </p>
 
 
@@ -551,7 +552,7 @@ Constructs a ModelFacet at the origin and with unity attitude.
 
 <div id="property__attCache" class="property item private inherited">
     <h3 class="name"><code>_attCache</code></h3>
-    <span class="type"><a href="../classes/SpinG3m.html" class="crosslink">SpinG3m</a></span>
+    <span class="type"><a href="../classes/Spinor3.html" class="crosslink">Spinor3</a></span>
 
 
         <span class="flag private">private</span>
@@ -561,7 +562,7 @@ Constructs a ModelFacet at the origin and with unity attitude.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/ModelE3.html#property__attCache">ModelE3</a>:
-        <a href="../files/src_davinci-eight_facets_ModelE3.ts.html#l55"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ModelE3.ts:55</code></a>
+        <a href="../files/src_davinci-eight_facets_ModelE3.ts.html#l56"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ModelE3.ts:56</code></a>
         </p>
 
 
@@ -587,7 +588,7 @@ Constructs a ModelFacet at the origin and with unity attitude.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/ModelE3.html#property__attitude">ModelE3</a>:
-        <a href="../files/src_davinci-eight_facets_ModelE3.ts.html#l41"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ModelE3.ts:41</code></a>
+        <a href="../files/src_davinci-eight_facets_ModelE3.ts.html#l42"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ModelE3.ts:42</code></a>
         </p>
 
 
@@ -602,7 +603,7 @@ Constructs a ModelFacet at the origin and with unity attitude.
 </div>
 <div id="property__posCache" class="property item private inherited">
     <h3 class="name"><code>_posCache</code></h3>
-    <span class="type"><a href="../classes/R3m.html" class="crosslink">R3m</a></span>
+    <span class="type"><a href="../classes/Vector3.html" class="crosslink">Vector3</a></span>
 
 
         <span class="flag private">private</span>
@@ -612,7 +613,7 @@ Constructs a ModelFacet at the origin and with unity attitude.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/ModelE3.html#property__posCache">ModelE3</a>:
-        <a href="../files/src_davinci-eight_facets_ModelE3.ts.html#l48"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ModelE3.ts:48</code></a>
+        <a href="../files/src_davinci-eight_facets_ModelE3.ts.html#l49"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ModelE3.ts:49</code></a>
         </p>
 
 
@@ -638,7 +639,7 @@ Constructs a ModelFacet at the origin and with unity attitude.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/ModelE3.html#property__position">ModelE3</a>:
-        <a href="../files/src_davinci-eight_facets_ModelE3.ts.html#l34"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ModelE3.ts:34</code></a>
+        <a href="../files/src_davinci-eight_facets_ModelE3.ts.html#l35"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ModelE3.ts:35</code></a>
         </p>
 
 
@@ -653,7 +654,7 @@ Constructs a ModelFacet at the origin and with unity attitude.
 </div>
 <div id="property_matrix" class="property item">
     <h3 class="name"><code>matrix</code></h3>
-    <span class="type"><a href="../classes/Mat4R.html" class="crosslink">Mat4R</a></span>
+    <span class="type"><a href="../classes/Matrix4.html" class="crosslink">Matrix4</a></span>
 
 
 
@@ -677,7 +678,7 @@ Constructs a ModelFacet at the origin and with unity attitude.
 </div>
 <div id="property_R" class="property item inherited">
     <h3 class="name"><code>R</code></h3>
-    <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
+    <span class="type"><a href="../classes/Spinor3.html" class="crosslink">Spinor3</a></span>
 
 
 
@@ -686,7 +687,7 @@ Constructs a ModelFacet at the origin and with unity attitude.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/ModelE3.html#property_R">ModelE3</a>:
-        <a href="../files/src_davinci-eight_facets_ModelE3.ts.html#l80"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ModelE3.ts:80</code></a>
+        <a href="../files/src_davinci-eight_facets_ModelE3.ts.html#l81"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ModelE3.ts:81</code></a>
         </p>
 
 
@@ -701,9 +702,9 @@ The <em>attitude</em>, a unitary spinor.
 
 
 </div>
-<div id="property_scaleXYZ" class="property item">
-    <h3 class="name"><code>scaleXYZ</code></h3>
-    <span class="type"><a href="../classes/R3m.html" class="crosslink">R3m</a></span>
+<div id="property_scale" class="property item">
+    <h3 class="name"><code>scale</code></h3>
+    <span class="type"><a href="../classes/Vector3.html" class="crosslink">Vector3</a></span>
 
 
 
@@ -727,7 +728,7 @@ The <em>attitude</em>, a unitary spinor.
 </div>
 <div id="property_X" class="property item inherited">
     <h3 class="name"><code>X</code></h3>
-    <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
+    <span class="type"><a href="../classes/Vector3.html" class="crosslink">Vector3</a></span>
 
 
 
@@ -736,7 +737,7 @@ The <em>attitude</em>, a unitary spinor.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/ModelE3.html#property_X">ModelE3</a>:
-        <a href="../files/src_davinci-eight_facets_ModelE3.ts.html#l94"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ModelE3.ts:94</code></a>
+        <a href="../files/src_davinci-eight_facets_ModelE3.ts.html#l95"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ModelE3.ts:95</code></a>
         </p>
 
 

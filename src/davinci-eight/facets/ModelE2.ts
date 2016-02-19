@@ -1,6 +1,6 @@
 import G2m from '../math/G2m';
-import R2m from '../math/R2m';
-import SpinG2m from '../math/SpinG2m';
+import Vector2 from '../math/Vector2';
+import Spinor2 from '../math/Spinor2';
 import readOnly from '../i18n/readOnly';
 
 /**
@@ -36,17 +36,17 @@ export default class ModelE2 {
     /**
      * Used for exchanging number[] data to achieve integrity and avoid lots of temporaries.
      * @property _posCache
-     * @type {R2m}
+     * @type {Vector2}
      * @private
      */
-    private _posCache = new R2m();
+    private _posCache = new Vector2();
     /**
      * Used for exchanging number[] data to achieve integrity and avoid lots of temporaries.
      * @property _attCache
-     * @type {SpinG2m}
+     * @type {Spinor2}
      * @private
      */
-    private _attCache = new SpinG2m();
+    private _attCache = new Spinor2();
     /**
      * <p>
      * A collection of properties for Rigid Body Modeling.

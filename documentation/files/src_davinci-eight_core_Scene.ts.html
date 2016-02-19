@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.190.0</em>
+            <em>API Docs for: 2.191.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -47,6 +47,7 @@
                                 <li><a href="../classes/Attribute.html">Attribute</a></li>
                                 <li><a href="../classes/BlendFactor.html">BlendFactor</a></li>
                                 <li><a href="../classes/Box.html">Box</a></li>
+                                <li><a href="../classes/CameraControls.html">CameraControls</a></li>
                                 <li><a href="../classes/Capability.html">Capability</a></li>
                                 <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
@@ -61,6 +62,7 @@
                                 <li><a href="../classes/CylinderGeometry.html">CylinderGeometry</a></li>
                                 <li><a href="../classes/Dimensions.html">Dimensions</a></li>
                                 <li><a href="../classes/DirectionalLight.html">DirectionalLight</a></li>
+                                <li><a href="../classes/Drawable.html">Drawable</a></li>
                                 <li><a href="../classes/DrawMode.html">DrawMode</a></li>
                                 <li><a href="../classes/EIGHTLogger.html">EIGHTLogger</a></li>
                                 <li><a href="../classes/Facet.html">Facet</a></li>
@@ -84,10 +86,10 @@
                                 <li><a href="../classes/IContextProvider.html">IContextProvider</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
-                                <li><a href="../classes/Mat2R.html">Mat2R</a></li>
-                                <li><a href="../classes/Mat3R.html">Mat3R</a></li>
-                                <li><a href="../classes/Mat4R.html">Mat4R</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
+                                <li><a href="../classes/Matrix2.html">Matrix2</a></li>
+                                <li><a href="../classes/Matrix3.html">Matrix3</a></li>
+                                <li><a href="../classes/Matrix4.html">Matrix4</a></li>
                                 <li><a href="../classes/Mesh.html">Mesh</a></li>
                                 <li><a href="../classes/MeshMaterial.html">MeshMaterial</a></li>
                                 <li><a href="../classes/ModelE2.html">ModelE2</a></li>
@@ -104,11 +106,7 @@
                                 <li><a href="../classes/PrimitiveBuffers.html">PrimitiveBuffers</a></li>
                                 <li><a href="../classes/Pseudo.html">Pseudo</a></li>
                                 <li><a href="../classes/QQ.html">QQ</a></li>
-                                <li><a href="../classes/R1m.html">R1m</a></li>
-                                <li><a href="../classes/R2m.html">R2m</a></li>
                                 <li><a href="../classes/R3.html">R3</a></li>
-                                <li><a href="../classes/R3m.html">R3m</a></li>
-                                <li><a href="../classes/R4m.html">R4m</a></li>
                                 <li><a href="../classes/ReflectionFacetE2.html">ReflectionFacetE2</a></li>
                                 <li><a href="../classes/ReflectionFacetE3.html">ReflectionFacetE3</a></li>
                                 <li><a href="../classes/RigidBody.html">RigidBody</a></li>
@@ -122,8 +120,8 @@
                                 <li><a href="../classes/ShareableWebGLTexture.html">ShareableWebGLTexture</a></li>
                                 <li><a href="../classes/Sphere.html">Sphere</a></li>
                                 <li><a href="../classes/SphereGeometry.html">SphereGeometry</a></li>
-                                <li><a href="../classes/SpinG2m.html">SpinG2m</a></li>
-                                <li><a href="../classes/SpinG3m.html">SpinG3m</a></li>
+                                <li><a href="../classes/Spinor2.html">Spinor2</a></li>
+                                <li><a href="../classes/Spinor3.html">Spinor3</a></li>
                                 <li><a href="../classes/SpinorE1.html">SpinorE1</a></li>
                                 <li><a href="../classes/SpinorE2.html">SpinorE2</a></li>
                                 <li><a href="../classes/SpinorE3.html">SpinorE3</a></li>
@@ -131,13 +129,16 @@
                                 <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
                                 <li><a href="../classes/Tetrahedron.html">Tetrahedron</a></li>
                                 <li><a href="../classes/TetrahedronGeometry.html">TetrahedronGeometry</a></li>
-                                <li><a href="../classes/TrackballCameraControls.html">TrackballCameraControls</a></li>
                                 <li><a href="../classes/Trail.html">Trail</a></li>
                                 <li><a href="../classes/UniformLocation.html">UniformLocation</a></li>
                                 <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
                                 <li><a href="../classes/Unit.html">Unit</a></li>
                                 <li><a href="../classes/Vector.html">Vector</a></li>
+                                <li><a href="../classes/Vector1.html">Vector1</a></li>
+                                <li><a href="../classes/Vector2.html">Vector2</a></li>
+                                <li><a href="../classes/Vector3.html">Vector3</a></li>
                                 <li><a href="../classes/Vector3Facet.html">Vector3Facet</a></li>
+                                <li><a href="../classes/Vector4.html">Vector4</a></li>
                                 <li><a href="../classes/VectorE0.html">VectorE0</a></li>
                                 <li><a href="../classes/VectorE1.html">VectorE1</a></li>
                                 <li><a href="../classes/VectorE2.html">VectorE2</a></li>
@@ -204,7 +205,7 @@
     <pre class="code prettyprint linenums">
 import Facet from &#x27;../core/Facet&#x27;;
 import IContextProvider from &#x27;../core/IContextProvider&#x27;;
-import Mesh from &#x27;./Mesh&#x27;;
+import Drawable from &#x27;./Drawable&#x27;;
 import ShareableArray from &#x27;../collections/ShareableArray&#x27;;
 import mustBeObject from &#x27;../checks/mustBeObject&#x27;;
 import Geometry from &#x27;./Geometry&#x27;;
@@ -230,12 +231,12 @@ class ScenePart extends Shareable {
     /**
      * Keep track of the &#x27;parent&#x27; mesh.
      */
-    private _mesh: Mesh;
+    private _mesh: Drawable;
 
     /**
      *
      */
-    constructor(geometry: Geometry, mesh: Mesh) {
+    constructor(geometry: Geometry, mesh: Drawable) {
         super(&#x27;ScenePart&#x27;)
         this._geometry = geometry
         this._geometry.addRef()
@@ -279,7 +280,7 @@ class ScenePart extends Shareable {
     }
 }
 
-function partsFromMesh(mesh: Mesh): ShareableArray&lt;ScenePart&gt; {
+function partsFromMesh(mesh: Drawable): ShareableArray&lt;ScenePart&gt; {
     mustBeObject(&#x27;mesh&#x27;, mesh)
     const parts = new ShareableArray&lt;ScenePart&gt;()
     const geometry = mesh.geometry
@@ -301,7 +302,7 @@ function partsFromMesh(mesh: Mesh): ShareableArray&lt;ScenePart&gt; {
  */
 export default class Scene extends ShareableContextListener {
 
-    private _meshes: ShareableArray&lt;Mesh&gt;;
+    private _meshes: ShareableArray&lt;Drawable&gt;;
     private _parts: ShareableArray&lt;ScenePart&gt;;
 
     // FIXME: Do I need the collection, or can I be fooled into thinking there is one monitor?
@@ -316,7 +317,7 @@ export default class Scene extends ShareableContextListener {
      */
     constructor() {
         super(&#x27;Scene&#x27;)
-        this._meshes = new ShareableArray&lt;Mesh&gt;()
+        this._meshes = new ShareableArray&lt;Drawable&gt;()
         this._parts = new ShareableArray&lt;ScenePart&gt;()
     }
 
@@ -337,13 +338,13 @@ export default class Scene extends ShareableContextListener {
      * Adds the &lt;code&gt;mesh&lt;/code&gt; to this &lt;code&gt;Scene&lt;/code&gt;.
      * &lt;/p&gt;
      * @method add
-     * @param mesh {Mesh}
+     * @param mesh {Drawable}
      * @return {Void}
      * &lt;p&gt;
      * This method returns &lt;code&gt;undefined&lt;/code&gt;.
      * &lt;/p&gt;
      */
-    add(mesh: Mesh): void {
+    add(mesh: Drawable): void {
         mustBeObject(&#x27;mesh&#x27;, mesh)
         this._meshes.push(mesh)
 
@@ -360,10 +361,10 @@ export default class Scene extends ShareableContextListener {
 
     /**
      * @method contains
-     * @param mesh {Mesh}
+     * @param mesh {Drawable}
      * @return {boolean}
      */
-    contains(mesh: Mesh): boolean {
+    contains(mesh: Drawable): boolean {
         mustBeObject(&#x27;mesh&#x27;, mesh)
         return this._meshes.indexOf(mesh) &gt;= 0
     }
@@ -387,28 +388,28 @@ export default class Scene extends ShareableContextListener {
 
     /**
      * @method find
-     * @param match {(mesh: Mesh) =&gt; boolean}
+     * @param match {(mesh: Drawable) =&gt; boolean}
      * @return {ShareableArray}
      */
-    find(match: (mesh: Mesh) =&gt; boolean): ShareableArray&lt;Mesh&gt; {
+    find(match: (mesh: Drawable) =&gt; boolean): ShareableArray&lt;Drawable&gt; {
         return this._meshes.find(match)
     }
 
     /**
      * @method findOne
-     * @param match {(mesh: Mesh) =&gt; boolean}
-     * @return {Mesh}
+     * @param match {(mesh: Drawable) =&gt; boolean}
+     * @return {Drawable}
      */
-    findOne(match: (mesh: Mesh) =&gt; boolean): Mesh {
+    findOne(match: (mesh: Drawable) =&gt; boolean): Drawable {
         return this._meshes.findOne(match)
     }
 
     /**
      * @method findOneByName
      * @param name {string}
-     * @return {Mesh}
+     * @return {Drawable}
      */
-    findOneByName(name: string): Mesh {
+    findOneByName(name: string): Drawable {
         return this.findOne(function(mesh) { return mesh.name === name })
     }
 
@@ -417,7 +418,7 @@ export default class Scene extends ShareableContextListener {
      * @param name {string}
      * @return {ShareableArray}
      */
-    findByName(name: string): ShareableArray&lt;Mesh&gt; {
+    findByName(name: string): ShareableArray&lt;Drawable&gt; {
         return this.find(function(mesh) { return mesh.name === name })
     }
 
@@ -427,10 +428,10 @@ export default class Scene extends ShareableContextListener {
      * &lt;/p&gt;
      *
      * @method remove
-     * @param mesh {Mesh}
+     * @param mesh {Drawable}
      * @return {void}
      */
-    remove(mesh: Mesh): void {
+    remove(mesh: Drawable): void {
         // TODO: Remove the appropriate parts from the scene.
         mustBeObject(&#x27;mesh&#x27;, mesh)
         const index = this._meshes.indexOf(mesh)

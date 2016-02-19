@@ -2,18 +2,18 @@ define(
 [
   'davinci-eight/geometries/Simplex',
   'davinci-eight/geometries/Vertex',
-  'davinci-eight/math/R3m',
+  'davinci-eight/math/Vector3',
   'davinci-eight/geometries/triangle',
   'davinci-eight/geometries/simplicesToDrawPrimitive',
   'davinci-eight/core/GraphicsProgramSymbols',
   'davinci-eight/geometries/simplicesToGeometryMeta',
   'davinci-eight/geometries/computeFaceNormals'
 ],
-function(Simplex, Vertex, R3m, triangle, simplicesToDrawPrimitive, GraphicsProgramSymbols, simplicesToGeometryMeta, computeFaceNormals)
+function(Simplex, Vertex, Vector3, triangle, simplicesToDrawPrimitive, GraphicsProgramSymbols, simplicesToGeometryMeta, computeFaceNormals)
 {
   Simplex = Simplex.default;
   Vertex = Vertex.default;
-  R3m = R3m.default
+  Vector3 = Vector3.default
   triangle = triangle.default
   simplicesToDrawPrimitive = simplicesToDrawPrimitive.default
   GraphicsProgramSymbols = GraphicsProgramSymbols.default
@@ -34,9 +34,9 @@ function(Simplex, Vertex, R3m, triangle, simplicesToDrawPrimitive, GraphicsProgr
       });
     });
     describe("one triangle", function() {
-      var A = new R3m([0.0, 0.0, 0.0]);
-      var B = new R3m([0.1, 0.0, 0.0]);
-      var C = new R3m([0.0, 0.1, 0.0]);
+      var A = new Vector3([0.0, 0.0, 0.0]);
+      var B = new Vector3([0.1, 0.0, 0.0]);
+      var C = new Vector3([0.0, 0.1, 0.0]);
       var geometry = triangle(A, B, C);
       var a = geometry[0].vertices[0];
       var b = geometry[0].vertices[1];
@@ -89,10 +89,10 @@ function(Simplex, Vertex, R3m, triangle, simplicesToDrawPrimitive, GraphicsProgr
       });
     });
     describe("two triangles with one common edge", function() {
-      var vec0 = new R3m([0.2, 0.0, 0.0]);
-      var vec1 = new R3m([0.0, 0.0, 0.0]);
-      var vec2 = new R3m([0.0, 0.2, 0.0]);
-      var vec3 = new R3m([0.2, 0.2, 0.0]);
+      var vec0 = new Vector3([0.2, 0.0, 0.0]);
+      var vec1 = new Vector3([0.0, 0.0, 0.0]);
+      var vec2 = new Vector3([0.0, 0.2, 0.0]);
+      var vec3 = new Vector3([0.2, 0.2, 0.0]);
       var f012 = triangle(vec0, vec1, vec2)[0];
       var f023 = triangle(vec0, vec2, vec3)[0];
       var geometry = [];
@@ -165,10 +165,10 @@ function(Simplex, Vertex, R3m, triangle, simplicesToDrawPrimitive, GraphicsProgr
     });
     describe("tetrahedron", function() {
       var vecs = [];
-      vecs.push(new R3m([0, 0, 0]));
-      vecs.push(new R3m([1, 0, 0]));
-      vecs.push(new R3m([0, 1, 0]));
-      vecs.push(new R3m([0, 0, 1]));
+      vecs.push(new Vector3([0, 0, 0]));
+      vecs.push(new Vector3([1, 0, 0]));
+      vecs.push(new Vector3([0, 1, 0]));
+      vecs.push(new Vector3([0, 0, 1]));
       var f123 = triangle(vecs[1], vecs[2], vecs[3])[0];
       var f013 = triangle(vecs[0], vecs[1], vecs[3])[0];
       var f032 = triangle(vecs[0], vecs[3], vecs[2])[0];

@@ -2,8 +2,8 @@ import Facet from '../core/Facet';
 import FacetVisitor from '../core/FacetVisitor';
 import mustBeArray from '../checks/mustBeArray';
 import mustBeString from '../checks/mustBeString';
-import R2m from '../math/R2m';
-import Mat2R from '../math/Mat2R';
+import Vector2 from '../math/Vector2';
+import Matrix2 from '../math/Matrix2';
 import readOnly from '../i18n/readOnly';
 
 /**
@@ -18,16 +18,16 @@ export default class ReflectionFacetE2 implements Facet {
     /**
      * The vector perpendicular to the (hyper-)plane of reflection.
      * @property _normal
-     * @type {R2m}
+     * @type {Vector2}
      * @private
      */
-    public _normal: R2m;
+    public _normal: Vector2;
     /**
      * @property matrix
-     * @type {Mat2R}
+     * @type {Matrix2}
      * @private
      */
-    private matrix = Mat2R.one();
+    private matrix = Matrix2.one();
     private name: string;
 
     /**
@@ -38,16 +38,16 @@ export default class ReflectionFacetE2 implements Facet {
     constructor(name: string) {
         this.name = mustBeString('name', name)
         // The mathematics of the reflection causes a zero vector to be the identity transformation.
-        this._normal = new R2m().zero()
+        this._normal = new Vector2().zero()
         this._normal.modified = true
     }
 
     /**
      * @property normal
-     * @type R2m
+     * @type Vector2
      * @readOnly
      */
-    get normal(): R2m {
+    get normal(): Vector2 {
         return this._normal
     }
     set normal(unused) {

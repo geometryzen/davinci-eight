@@ -1,7 +1,7 @@
 import Facet from '../core/Facet';
-import R3m from '../math/R3m';
+import Vector3 from '../math/Vector3';
 import VectorE3 from '../math/VectorE3';
-import Mat4R from '../math/Mat4R';
+import Matrix4 from '../math/Matrix4';
 
 /**
  * @module EIGHT
@@ -15,28 +15,28 @@ interface View extends Facet {
 
     /**
      * @property eye
-     * @type R3m
+     * @type Vector3
      */
-    eye: R3m;
+    eye: Vector3;
 
     /**
      * @property look
-     * @type R3m
+     * @type Vector3
      */
-    look: R3m;
+    look: Vector3;
 
     /**
      * @property up
-     * @type R3m
+     * @type Vector3
      */
-    up: R3m;
+    up: Vector3;
 
     /**
      * @property viewMatrix
-     * @type Mat4R
+     * @type Matrix4
      * @readOnly
      */
-    viewMatrix: Mat4R;
+    viewMatrix: Matrix4;
 
     /**
      * Convenience method for setting the eye property allowing chainable method calls.

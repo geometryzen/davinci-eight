@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.190.0</em>
+            <em>API Docs for: 2.191.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -47,6 +47,7 @@
                                 <li><a href="../classes/Attribute.html">Attribute</a></li>
                                 <li><a href="../classes/BlendFactor.html">BlendFactor</a></li>
                                 <li><a href="../classes/Box.html">Box</a></li>
+                                <li><a href="../classes/CameraControls.html">CameraControls</a></li>
                                 <li><a href="../classes/Capability.html">Capability</a></li>
                                 <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
@@ -61,6 +62,7 @@
                                 <li><a href="../classes/CylinderGeometry.html">CylinderGeometry</a></li>
                                 <li><a href="../classes/Dimensions.html">Dimensions</a></li>
                                 <li><a href="../classes/DirectionalLight.html">DirectionalLight</a></li>
+                                <li><a href="../classes/Drawable.html">Drawable</a></li>
                                 <li><a href="../classes/DrawMode.html">DrawMode</a></li>
                                 <li><a href="../classes/EIGHTLogger.html">EIGHTLogger</a></li>
                                 <li><a href="../classes/Facet.html">Facet</a></li>
@@ -84,10 +86,10 @@
                                 <li><a href="../classes/IContextProvider.html">IContextProvider</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
-                                <li><a href="../classes/Mat2R.html">Mat2R</a></li>
-                                <li><a href="../classes/Mat3R.html">Mat3R</a></li>
-                                <li><a href="../classes/Mat4R.html">Mat4R</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
+                                <li><a href="../classes/Matrix2.html">Matrix2</a></li>
+                                <li><a href="../classes/Matrix3.html">Matrix3</a></li>
+                                <li><a href="../classes/Matrix4.html">Matrix4</a></li>
                                 <li><a href="../classes/Mesh.html">Mesh</a></li>
                                 <li><a href="../classes/MeshMaterial.html">MeshMaterial</a></li>
                                 <li><a href="../classes/ModelE2.html">ModelE2</a></li>
@@ -104,11 +106,7 @@
                                 <li><a href="../classes/PrimitiveBuffers.html">PrimitiveBuffers</a></li>
                                 <li><a href="../classes/Pseudo.html">Pseudo</a></li>
                                 <li><a href="../classes/QQ.html">QQ</a></li>
-                                <li><a href="../classes/R1m.html">R1m</a></li>
-                                <li><a href="../classes/R2m.html">R2m</a></li>
                                 <li><a href="../classes/R3.html">R3</a></li>
-                                <li><a href="../classes/R3m.html">R3m</a></li>
-                                <li><a href="../classes/R4m.html">R4m</a></li>
                                 <li><a href="../classes/ReflectionFacetE2.html">ReflectionFacetE2</a></li>
                                 <li><a href="../classes/ReflectionFacetE3.html">ReflectionFacetE3</a></li>
                                 <li><a href="../classes/RigidBody.html">RigidBody</a></li>
@@ -122,8 +120,8 @@
                                 <li><a href="../classes/ShareableWebGLTexture.html">ShareableWebGLTexture</a></li>
                                 <li><a href="../classes/Sphere.html">Sphere</a></li>
                                 <li><a href="../classes/SphereGeometry.html">SphereGeometry</a></li>
-                                <li><a href="../classes/SpinG2m.html">SpinG2m</a></li>
-                                <li><a href="../classes/SpinG3m.html">SpinG3m</a></li>
+                                <li><a href="../classes/Spinor2.html">Spinor2</a></li>
+                                <li><a href="../classes/Spinor3.html">Spinor3</a></li>
                                 <li><a href="../classes/SpinorE1.html">SpinorE1</a></li>
                                 <li><a href="../classes/SpinorE2.html">SpinorE2</a></li>
                                 <li><a href="../classes/SpinorE3.html">SpinorE3</a></li>
@@ -131,13 +129,16 @@
                                 <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
                                 <li><a href="../classes/Tetrahedron.html">Tetrahedron</a></li>
                                 <li><a href="../classes/TetrahedronGeometry.html">TetrahedronGeometry</a></li>
-                                <li><a href="../classes/TrackballCameraControls.html">TrackballCameraControls</a></li>
                                 <li><a href="../classes/Trail.html">Trail</a></li>
                                 <li><a href="../classes/UniformLocation.html">UniformLocation</a></li>
                                 <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
                                 <li><a href="../classes/Unit.html">Unit</a></li>
                                 <li><a href="../classes/Vector.html">Vector</a></li>
+                                <li><a href="../classes/Vector1.html">Vector1</a></li>
+                                <li><a href="../classes/Vector2.html">Vector2</a></li>
+                                <li><a href="../classes/Vector3.html">Vector3</a></li>
                                 <li><a href="../classes/Vector3Facet.html">Vector3Facet</a></li>
+                                <li><a href="../classes/Vector4.html">Vector4</a></li>
                                 <li><a href="../classes/VectorE0.html">VectorE0</a></li>
                                 <li><a href="../classes/VectorE1.html">VectorE1</a></li>
                                 <li><a href="../classes/VectorE2.html">VectorE2</a></li>
@@ -204,7 +205,7 @@
     <pre class="code prettyprint linenums">
 import G3 from &#x27;../math/G3&#x27;;
 import mustBeObject from &#x27;../checks/mustBeObject&#x27;;
-import Object3D from &#x27;./Object3D&#x27;;
+import Mesh from &#x27;../core/Mesh&#x27;;
 import Geometry from &#x27;../core/Geometry&#x27;;
 import Material from &#x27;../core/Material&#x27;;
 
@@ -217,9 +218,9 @@ import Material from &#x27;../core/Material&#x27;;
 
 /**
  * @class RigidBody
- * @extends Object3D
+ * @extends Mesh
  */
-export default class RigidBody extends Object3D {
+export default class RigidBody extends Mesh {
 
     /**
      * @property _mass
@@ -270,11 +271,11 @@ export default class RigidBody extends Object3D {
      */
     public get axis(): G3 {
         // The initial axis of the geometry is e2.
-        return G3.e2.rotate(this.modelFacet.R)
+        return G3.e2.rotate(this.attitude)
     }
     public set axis(axis: G3) {
         mustBeObject(&#x27;axis&#x27;, axis)
-        this.modelFacet.R.rotorFromDirections(axis, G3.e2)
+        this.attitude.rotorFromDirections(G3.e2, axis)
     }
 
     /**
@@ -311,11 +312,11 @@ export default class RigidBody extends Object3D {
      * @type G3
      */
     get R(): G3 {
-        return G3.copy(this.modelFacet.R)
+        return G3.fromSpinor(this.attitude)
     }
     set R(R: G3) {
         mustBeObject(&#x27;R&#x27;, R, () =&gt; { return this._type })
-        this.modelFacet.R.copySpinor(R)
+        this.attitude.copySpinor(R)
     }
 
     /**
@@ -325,11 +326,11 @@ export default class RigidBody extends Object3D {
      * @type G3
      */
     get X(): G3 {
-        return G3.copy(this.modelFacet.X)
+        return G3.fromVector(this.position)
     }
     set X(X: G3) {
         mustBeObject(&#x27;X&#x27;, X, () =&gt; { return this._type })
-        this.modelFacet.X.copyVector(X)
+        this.position.copy(X)
     }
 
     /**
@@ -339,11 +340,11 @@ export default class RigidBody extends Object3D {
      * @type G3
      */
     get pos(): G3 {
-        return G3.copy(this.modelFacet.X)
+        return G3.fromVector(this.position)
     }
     set pos(pos: G3) {
         mustBeObject(&#x27;pos&#x27;, pos, () =&gt; { return this._type })
-        this.modelFacet.X.copyVector(pos)
+        this.position.copy(pos)
     }
 
     /**
@@ -352,7 +353,7 @@ export default class RigidBody extends Object3D {
      * @protected
      */
     protected getScaleX(): number {
-        return this.modelFacet.scaleXYZ.x
+        return this.scale.x
     }
 
     /**
@@ -362,7 +363,7 @@ export default class RigidBody extends Object3D {
      * @protected
      */
     protected setScaleX(x: number): void {
-        this.modelFacet.scaleXYZ.x = x
+        this.scale.x = x
     }
 
     /**
@@ -371,7 +372,7 @@ export default class RigidBody extends Object3D {
      * @protected
      */
     protected getScaleY(): number {
-        return this.modelFacet.scaleXYZ.y
+        return this.scale.y
     }
 
     /**
@@ -381,7 +382,7 @@ export default class RigidBody extends Object3D {
      * @protected
      */
     protected setScaleY(y: number): void {
-        this.modelFacet.scaleXYZ.y = y
+        this.scale.y = y
     }
 
     /**
@@ -390,7 +391,7 @@ export default class RigidBody extends Object3D {
      * @protected
      */
     protected getScaleZ(): number {
-        return this.modelFacet.scaleXYZ.z
+        return this.scale.z
     }
 
     /**
@@ -400,7 +401,7 @@ export default class RigidBody extends Object3D {
      * @protected
      */
     protected setScaleZ(z: number): void {
-        this.modelFacet.scaleXYZ.z = z
+        this.scale.z = z
     }
 }
 

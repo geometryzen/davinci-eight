@@ -3,7 +3,7 @@ import FacetVisitor from '../core/FacetVisitor';
 import mustBeArray from '../checks/mustBeArray';
 import mustBeString from '../checks/mustBeString';
 import G3m from '../math/G3m';
-import Mat4R from '../math/Mat4R';
+import Matrix4 from '../math/Matrix4';
 import readOnly from '../i18n/readOnly';
 
 /**
@@ -22,15 +22,15 @@ export default class ReflectionFacetE3 implements Facet {
      * @type {G3m}
      * @private
      */
-    // FIXME: Maybe use an R3m here instead?
+    // FIXME: Maybe use an Vector3 here instead?
     public _normal: G3m;
 
     /**
      * @property matrix
-     * @type {Mat4R}
+     * @type {Matrix4}
      * @private
      */
-    private matrix = Mat4R.one();
+    private matrix = Matrix4.one();
     private name: string;
 
     /**

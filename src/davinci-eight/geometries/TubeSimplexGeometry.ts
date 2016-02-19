@@ -2,16 +2,16 @@ import clamp = require('../math/clamp');
 import Curve = require('../curves/Curve');
 import Face3 = require('../core/Face3');
 import SimplexPrimitivesBuilder = require('../geometries/SimplexPrimitivesBuilder');
-import Mat4R = require('../math/Mat4R');
-import R2m = require('../math/R2m');
-import R3m = require('../math/R3m');
+import Matrix4 = require('../math/Matrix4');
+import Vector2 = require('../math/Vector2');
+import Vector3 = require('../math/Vector3');
 
 class TubeSimplexGeometry extends SimplexPrimitivesBuilder {
   public static NoTaper = function (u: number): number {return 1;};
   public static SinusoidalTaper = function (u: number): number {return Math.sin(Math.PI * u);};
-  public tangents: R3m[];
-  public normals: R3m[];
-  public binormals: R3m[];
+  public tangents: Vector3[];
+  public normals: Vector3[];
+  public binormals: Vector3[];
   constructor(path: Curve, segments?: number, radius?: number, radialSegments?: number, closed?: boolean, taper?: (u: number) => number) {
     super();
     segments = segments || 64;
@@ -23,9 +23,9 @@ class TubeSimplexGeometry extends SimplexPrimitivesBuilder {
     var grid: number[][] = [];
 
     var scope = this;
-    var tangent: R3m;
-    var normal: R3m;
-    var binormal: R3m;
+    var tangent: Vector3;
+    var normal: Vector3;
+    var binormal: Vector3;
     var numpoints = segments + 1;
 
     var u: number;
@@ -34,8 +34,8 @@ class TubeSimplexGeometry extends SimplexPrimitivesBuilder {
 
     var cx: number;
     var cy: number;
-    var pos: R3m;
-    var pos2: R3m = new R3m([0, 0, 0]);
+    var pos: Vector3;
+    var pos2: Vector3 = new Vector3([0, 0, 0]);
     var i: number;
     var j: number;
     var ip: number;
@@ -44,10 +44,10 @@ class TubeSimplexGeometry extends SimplexPrimitivesBuilder {
     var b: number;
     var c: number;
     var d: number;
-    var uva: R2m;
-    var uvb: R2m;
-    var uvc: R2m;
-    var uvd: R2m;
+    var uva: Vector2;
+    var uvb: Vector2;
+    var uvc: Vector2;
+    var uvd: Vector2;
 
     var frames = new FrenetFrames(path, segments, closed);
     var tangents = frames.tangents;
@@ -60,7 +60,7 @@ class TubeSimplexGeometry extends SimplexPrimitivesBuilder {
     this.binormals = binormals;
 
     function vert(x: number, y: number, z: number) {
-      return scope.vertices.push(new R3m([x, y, z])) - 1;
+      return scope.vertices.push(new Vector3([x, y, z])) - 1;
     }
 
     // consruct the grid
@@ -108,10 +108,10 @@ class TubeSimplexGeometry extends SimplexPrimitivesBuilder {
         c = grid[ ip ][ jp ];
         d = grid[ i ][ jp ];
 
-        uva = new R2m([i / segments, j / radialSegments]);
-        uvb = new R2m([( i + 1 ) / segments, j / radialSegments]);
-        uvc = new R2m([( i + 1 ) / segments, ( j + 1 ) / radialSegments]);
-        uvd = new R2m([i / segments, ( j + 1 ) / radialSegments]);
+        uva = new Vector2([i / segments, j / radialSegments]);
+        uvb = new Vector2([( i + 1 ) / segments, j / radialSegments]);
+        uvc = new Vector2([( i + 1 ) / segments, ( j + 1 ) / radialSegments]);
+        uvd = new Vector2([i / segments, ( j + 1 ) / radialSegments]);
 
         this.faces.push( new Face3( a, b, d ) );
         this.faceVertexUvs[ 0 ].push( [ uva, uvb, uvd ] );
@@ -131,17 +131,17 @@ export = TubeSimplexGeometry;
 
 // For computing of Frenet frames, exposing the tangents, normals and binormals the spline
 class FrenetFrames {
-  public tangents: R3m[];
-  public normals: R3m[];
-  public binormals: R3m[];
+  public tangents: Vector3[];
+  public normals: Vector3[];
+  public binormals: Vector3[];
   constructor(path: Curve, segments: number, closed: boolean) {
-    var normal = new R3m([0, 0, 0]);
-    var tangents: R3m[] = [];
-    var normals: R3m[] = [];
-    var binormals: R3m[] = [];
+    var normal = new Vector3([0, 0, 0]);
+    var tangents: Vector3[] = [];
+    var normals: Vector3[] = [];
+    var binormals: Vector3[] = [];
 
-    var vec = new R3m([0, 0, 0]);
-    var mat = Mat4R.one();
+    var vec = new Vector3([0, 0, 0]);
+    var mat = Matrix4.one();
 
     var numpoints: number = segments + 1;
     var theta: number;
@@ -149,7 +149,7 @@ class FrenetFrames {
     // let epsilonSquared = 0.0001 * 0.0001;
     var smallest: number;
 
-    // TODO: The folloowing should be a R3m
+    // TODO: The folloowing should be a Vector3
     var tx: number;
     var ty: number;
     var tz: number;
@@ -178,17 +178,17 @@ class FrenetFrames {
     /*
     function initialNormal1(lastBinormal) {
       // fixed start binormal. Has dangers of 0 vectors
-      normals[ 0 ] = new R3m();
-      binormals[ 0 ] = new R3m();
-      if (lastBinormal===undefined) lastBinormal = new R3m( 0, 0, 1 );
+      normals[ 0 ] = new Vector3();
+      binormals[ 0 ] = new Vector3();
+      if (lastBinormal===undefined) lastBinormal = new Vector3( 0, 0, 1 );
       normals[ 0 ].cross2( lastBinormal, tangents[ 0 ] ).direction();
       binormals[ 0 ].cross2( tangents[ 0 ], normals[ 0 ] ).direction();
     }
     function initialNormal2() {
       // This uses the Frenet-Serret formula for deriving binormal
       var t2 = path.getTangentAt( epsilon );
-      normals[ 0 ] = new R3m().difference( t2, tangents[ 0 ] ).direction();
-      binormals[ 0 ] = new R3m().cross2( tangents[ 0 ], normals[ 0 ] );
+      normals[ 0 ] = new Vector3().difference( t2, tangents[ 0 ] ).direction();
+      binormals[ 0 ] = new Vector3().cross2( tangents[ 0 ], normals[ 0 ] );
       normals[ 0 ].cross2( binormals[ 0 ], tangents[ 0 ] ).direction(); // last binormal x tangent
       binormals[ 0 ].cross2( tangents[ 0 ], normals[ 0 ] ).direction();
     }
@@ -198,8 +198,8 @@ class FrenetFrames {
         // select an initial normal vector perpendicular to the first tangent vector,
         // and in the direction of the smallest tangent component
 
-        normals[0] = new R3m([0, 0, 0]);
-        binormals[0] = new R3m([0, 0, 0]);
+        normals[0] = new Vector3([0, 0, 0]);
+        binormals[0] = new Vector3([0, 0, 0]);
         smallest = Number.MAX_VALUE;
         tx = Math.abs(tangents[0].x);
         ty = Math.abs(tangents[0].y);

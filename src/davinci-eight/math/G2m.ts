@@ -1081,22 +1081,23 @@ export default class G2m extends VectorN<number> implements GeometricE2, Measure
      * <p>
      * <code>this ⟼ a * b = a · b + a ^ b</code>
      * </p>
-     * Sets this G2m to the geometric product a * b of the vector arguments. 
-     * @method spinor
+     * Sets this G2m to the geometric product a * b of the vector arguments.
+     *
+     * @method versor
      * @param a {VectorE2}
      * @param b {VectorE2}
      * @return {G2m} <code>this</code>
      */
-    spinor(a: VectorE2, b: VectorE2) {
-        let ax = a.x
-        let ay = a.y
-        let bx = b.x
-        let by = b.y
+    versor(a: VectorE2, b: VectorE2) {
+        const ax = a.x
+        const ay = a.y
+        const bx = b.x
+        const by = b.y
 
         this.α = dotVector(a, b)
         this.x = 0
         this.y = 0
-        this.β = wedgeXY(ax, ay, 0, bx, by, 0) // FIXME wedgeVectorsE2
+        this.β = wedgeXY(ax, ay, 0, bx, by, 0)
 
         return this
     }

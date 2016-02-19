@@ -1,12 +1,12 @@
 import GridBuilder from '../geometries/GridBuilder';
-import R3m from '../math/R3m';
+import Vector3 from '../math/Vector3';
 
 let cos = Math.cos;
 let sin = Math.sin;
 let pi = Math.PI;
 
-function klein(u: number, v: number): R3m {
-    var point = new R3m();
+function klein(u: number, v: number): Vector3 {
+    var point = new Vector3();
 
     u = u * 2 * pi;
     v = v * 2 * pi;

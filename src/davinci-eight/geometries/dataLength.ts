@@ -1,7 +1,7 @@
 import G2m from '../math/G2m';
 import G3m from '../math/G3m';
-import R2m from '../math/R2m';
-import R3m from '../math/R3m';
+import Vector2 from '../math/Vector2';
+import Vector3 from '../math/Vector3';
 import VectorN from '../math/VectorN';
 
 /**
@@ -21,13 +21,13 @@ export default function dataLength(source: VectorN<number>): number {
         }
         return 2
     }
-    else if (source instanceof R3m) {
+    else if (source instanceof Vector3) {
         if (source.length !== 3) {
             throw new Error("source.length is expected to be 3")
         }
         return 3
     }
-    else if (source instanceof R2m) {
+    else if (source instanceof Vector2) {
         if (source.length !== 2) {
             throw new Error("source.length is expected to be 2")
         }

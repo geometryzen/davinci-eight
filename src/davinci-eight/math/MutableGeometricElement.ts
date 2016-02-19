@@ -66,7 +66,7 @@ interface MutableGeometricElement<I, M, S, V> extends GeometricElement<I, M, S, 
     /**
      * Sets this multivector to the geometric product of the vectors.
      */
-    spinor(a: V, b: V): M;
+    versor(a: V, b: V): M;
 
     /**
      * Sets this multivector to the exterior product of the multivectors.

@@ -1,6 +1,6 @@
 define(["require", "exports", '../math/QQ'], function (require, exports, QQ_1) {
     var R0 = QQ_1.default.ZERO;
-    var R1m = QQ_1.default.ONE;
+    var Vector1 = QQ_1.default.ONE;
     var M1 = QQ_1.default.MINUS_ONE;
     function assertArgRational(name, arg) {
         if (arg instanceof QQ_1.default) {
@@ -152,14 +152,14 @@ define(["require", "exports", '../math/QQ'], function (require, exports, QQ_1) {
             return this;
         };
         Dimensions.ONE = new Dimensions(R0, R0, R0, R0, R0, R0, R0);
-        Dimensions.MASS = new Dimensions(R1m, R0, R0, R0, R0, R0, R0);
-        Dimensions.LENGTH = new Dimensions(R0, R1m, R0, R0, R0, R0, R0);
-        Dimensions.TIME = new Dimensions(R0, R0, R1m, R0, R0, R0, R0);
-        Dimensions.CHARGE = new Dimensions(R0, R0, R0, R1m, R0, R0, R0);
-        Dimensions.CURRENT = new Dimensions(R0, R0, M1, R1m, R0, R0, R0);
-        Dimensions.TEMPERATURE = new Dimensions(R0, R0, R0, R0, R1m, R0, R0);
-        Dimensions.AMOUNT = new Dimensions(R0, R0, R0, R0, R0, R1m, R0);
-        Dimensions.INTENSITY = new Dimensions(R0, R0, R0, R0, R0, R0, R1m);
+        Dimensions.MASS = new Dimensions(Vector1, R0, R0, R0, R0, R0, R0);
+        Dimensions.LENGTH = new Dimensions(R0, Vector1, R0, R0, R0, R0, R0);
+        Dimensions.TIME = new Dimensions(R0, R0, Vector1, R0, R0, R0, R0);
+        Dimensions.CHARGE = new Dimensions(R0, R0, R0, Vector1, R0, R0, R0);
+        Dimensions.CURRENT = new Dimensions(R0, R0, M1, Vector1, R0, R0, R0);
+        Dimensions.TEMPERATURE = new Dimensions(R0, R0, R0, R0, Vector1, R0, R0);
+        Dimensions.AMOUNT = new Dimensions(R0, R0, R0, R0, R0, Vector1, R0);
+        Dimensions.INTENSITY = new Dimensions(R0, R0, R0, R0, R0, R0, Vector1);
         return Dimensions;
     })();
     Object.defineProperty(exports, "__esModule", { value: true });

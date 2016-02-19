@@ -42,14 +42,14 @@ export default class Cylinder extends VisualBody {
      * @type G3
      */
     get axis(): G3 {
-        const direction = G3.e2.rotate(this.modelFacet.R)
+        const direction = G3.e2.rotate(this.attitude)
         return direction.scale(this.length)
     }
     set axis(axis: G3) {
         if (core.safemode) {
             mustBeObject('axis', axis)
         }
-        this.modelFacet.R.rotorFromDirections(axis.direction(), G3.e2)
+        this.attitude.rotorFromDirections(G3.e2, axis.direction())
         this.length = axis.magnitude().α
     }
 

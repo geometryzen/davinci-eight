@@ -24,7 +24,7 @@ export default class PrimitivesBuilder implements IPrimitivesBuilder<PrimitivesB
     }
     setPosition(position: VectorE3): PrimitivesBuilder {
         mustBeObject('position', position)
-        this._position = R3.fromVectorE3(position)
+        this._position = R3.fromVector(position)
         return this
     }
     toPrimitives(): Primitive[] {

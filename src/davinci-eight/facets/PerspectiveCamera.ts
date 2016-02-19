@@ -8,9 +8,9 @@ import mustBeString from '../checks/mustBeString';
 import Perspective from './Perspective';
 import Facet from '../core/Facet';
 import FacetVisitor from '../core/FacetVisitor';
-import R3m from '../math/R3m';
+import Vector3 from '../math/Vector3';
 import VectorE3 from '../math/VectorE3';
-import Mat4R from '../math/Mat4R'
+import Matrix4 from '../math/Matrix4'
 
 /**
  * Common abstractions for computing shader uniform variables.
@@ -154,26 +154,26 @@ export default class PerspectiveCamera implements Perspective, Facet {
     /**
      * The position of the camera.
      * @property eye
-     * @type {R3m}
+     * @type {Vector3}
      * @readOnly
      */
-    get eye(): R3m {
+    get eye(): Vector3 {
         return this.inner.eye;
     }
-    set eye(eye: R3m) {
+    set eye(eye: Vector3) {
         this.inner.eye.copy(eye);
     }
 
     /**
      * The position of the camera.
      * @property position
-     * @type {R3m}
+     * @type {Vector3}
      * @readOnly
      */
-    get position(): R3m {
+    get position(): Vector3 {
         return this.inner.eye;
     }
-    set position(position: R3m) {
+    set position(position: Vector3) {
         this.inner.eye.copy(position);
     }
 
@@ -195,7 +195,7 @@ export default class PerspectiveCamera implements Perspective, Facet {
      * @type {number}
      * @readOnly
      */
-    // TODO: Field of view could be specified as an Aspect + Magnitude of a SpinG3m!?
+    // TODO: Field of view could be specified as an Aspect + Magnitude of a Spinor3!?
     get fov(): number {
         return this.inner.fov;
     }
@@ -214,7 +214,7 @@ export default class PerspectiveCamera implements Perspective, Facet {
         return this;
     }
 
-    get look(): R3m {
+    get look(): Vector3 {
         return this.inner.look;
     }
     setLook(look: VectorE3): PerspectiveCamera {
@@ -258,7 +258,7 @@ export default class PerspectiveCamera implements Perspective, Facet {
         return this;
     }
 
-    get up(): R3m {
+    get up(): Vector3 {
         return this.inner.up;
     }
     set up(unused) {
@@ -270,22 +270,22 @@ export default class PerspectiveCamera implements Perspective, Facet {
         return this;
     }
 
-    get projectionMatrix(): Mat4R {
+    get projectionMatrix(): Matrix4 {
         return this.inner.projectionMatrix
     }
-    set projectionMatrix(projectionMatrix: Mat4R) {
+    set projectionMatrix(projectionMatrix: Matrix4) {
         throw new Error(readOnly('projectionMatrix').message);
     }
 
     /**
      * @property viewMatrix
-     * @type Mat4R
+     * @type Matrix4
      * @readOnly
      */
-    get viewMatrix(): Mat4R {
+    get viewMatrix(): Matrix4 {
         return this.inner.viewMatrix
     }
-    set viewMatrix(viewMatrix: Mat4R) {
+    set viewMatrix(viewMatrix: Matrix4) {
         this.inner.viewMatrix = viewMatrix
     }
 }

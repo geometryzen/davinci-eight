@@ -1,7 +1,8 @@
-import G3m from '../math/G3m';
-import R3m from '../math/R3m';
-import SpinG3m from '../math/SpinG3m';
+import Vector3 from '../math/Vector3';
+import Spinor3 from '../math/Spinor3';
 import readOnly from '../i18n/readOnly';
+
+'use strict';
 
 /**
  * @module EIGHT
@@ -36,29 +37,29 @@ export default class ModelE3 {
      * @type {G3m}
      * @private
      */
-    private _position = new G3m().zero();
+    private _position = new Vector3().zero();
 
     /**
      * @property _attitude
      * @type {G3m}
      * @private
      */
-    private _attitude = new G3m().zero().addScalar(1);
+    private _attitude = new Spinor3().zero().addScalar(1);
 
     /**
      * Used for exchanging number[] data to achieve integrity and avoid lots of temporaries.
      * @property _posCache
-     * @type {R3m}
+     * @type {Vector3}
      * @private
      */
-    private _posCache = new R3m();
+    private _posCache = new Vector3();
     /**
      * Used for exchanging number[] data to achieve integrity and avoid lots of temporaries.
      * @property _attCache
-     * @type {SpinG3m}
+     * @type {Spinor3}
      * @private
      */
-    private _attCache = new SpinG3m();
+    private _attCache = new Spinor3();
     /**
      * <p>
      * A collection of properties for Rigid Body Modeling.
@@ -82,10 +83,10 @@ export default class ModelE3 {
      * The <em>attitude</em>, a unitary spinor.
      * </p>
      * @property R
-     * @type G3m
+     * @type Spinor3
      * @readOnly
      */
-    get R(): G3m {
+    get R(): Spinor3 {
         return this._attitude
     }
     set R(unused) {
@@ -99,10 +100,10 @@ export default class ModelE3 {
      * </p>
      *
      * @property X
-     * @type G3m
+     * @type Vector3
      * @readOnly
      */
-    get X(): G3m {
+    get X(): Vector3 {
         return this._position
     }
     set X(unused) {
@@ -142,12 +143,12 @@ export default class ModelE3 {
         switch (name) {
             case ModelE3.PROP_ATTITUDE: {
                 this._attCache.coords = data
-                this._attitude.copySpinor(this._attCache)
+                this._attitude.copy(this._attCache)
             }
                 break;
             case ModelE3.PROP_POSITION: {
                 this._posCache.coords = data
-                this._position.copyVector(this._posCache)
+                this._position.copy(this._posCache)
             }
                 break;
             default: {

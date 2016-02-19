@@ -273,15 +273,15 @@ declare module EIGHT {
         /**
          * Sets the uniform location to the value of the specified matrix.
          */
-        mat2(matrix: Mat2R, transpose?: boolean): UniformLocation;
+        mat2(matrix: Matrix2, transpose?: boolean): UniformLocation;
         /**
          * Sets the uniform location to the value of the specified matrix.
          */
-        mat3(matrix: Mat3R, transpose?: boolean): UniformLocation;
+        mat3(matrix: Matrix3, transpose?: boolean): UniformLocation;
         /**
          * Sets the uniform location to the value of the specified matrix.
          */
-        mat4(matrix: Mat4R, transpose?: boolean): UniformLocation;
+        mat4(matrix: Matrix4, transpose?: boolean): UniformLocation;
 
         vector2(coords: number[]): void;
         vector3(coords: number[]): void;
@@ -643,8 +643,8 @@ declare module EIGHT {
         toFixed(digits?: number): string;
         toString(): string;
         direction(): G3;
-        static fromSpinorE3(spinor: SpinorE3): G3;
-        static fromVectorE3(vector: VectorE3): G3;
+        static fromSpinor(spinor: SpinorE3): G3;
+        static fromVector(vector: VectorE3): G3;
         /**
          * Computes a random multivector with an optional unit of measure.
          */
@@ -667,10 +667,10 @@ declare module EIGHT {
     /**
      * A 2x2 (square) matrix of <code>number</code>.
      */
-    class Mat2R extends AbstractMatrix {
+    class Matrix2 extends AbstractMatrix {
 
         /**
-         * Constructs a new <code>Mat2R</code> wrapper around a <code>Float32Array</code>.
+         * Constructs a new <code>Matrix2</code> wrapper around a <code>Float32Array</code>.
          * The elements are expected to be in column-major order.
          */
         constructor(elements: Float32Array);
@@ -678,12 +678,12 @@ declare module EIGHT {
         /**
          * Sets this matrix to the value of <code>this</code> + <code>rhs</code>.
          */
-        add(rhs: Mat2R): Mat2R;
+        add(rhs: Matrix2): Matrix2;
 
         /**
          * Creates a copy of this matrix.
          */
-        clone(): Mat2R;
+        clone(): Matrix2;
 
         /**
          * Computes the determinant of this matrix.
@@ -693,7 +693,7 @@ declare module EIGHT {
         /**
          * Sets this matrix to its multiplicative inverse.
          */
-        inv(): Mat2R;
+        inv(): Matrix2;
 
         /**
          * Determines whether this matrix is the multiplicative identity.
@@ -708,22 +708,22 @@ declare module EIGHT {
         /**
          * Sets this matrix to the value of <code>this</code> * <code>rhs</code>.
          */
-        mul(rhs: Mat2R): Mat2R;
+        mul(rhs: Matrix2): Matrix2;
 
         /**
          * Sets this matrix to the value of <code>a</code> * <code>b</code>.
          */
-        mul2(a: Mat2R, b: Mat2R): Mat2R;
+        mul2(a: Matrix2, b: Matrix2): Matrix2;
 
         /**
          * Sets this matrix to its additive inverse.
          */
-        neg(): Mat2R;
+        neg(): Matrix2;
 
         /**
          * Sets this matrix to the multiplicative identity, <em>1</em>. 
          */
-        one(): Mat2R;
+        one(): Matrix2;
 
         /**
          * <p>
@@ -734,7 +734,7 @@ declare module EIGHT {
          * this ⟼ reflection(<b>n</b>) = I - 2 * <b>n</b><sup>T</sup> * <b>n</b>
          * </p>
          */
-        reflection(n: VectorE1): Mat2R;
+        reflection(n: VectorE1): Matrix2;
 
         /**
          * Computes the row corresponding to the zero-based index, <code>i</code>.
@@ -744,18 +744,18 @@ declare module EIGHT {
         /**
          * Sets this matrix to the value of <code>this</code> * <code>α</code>.
          */
-        scale(α: number): Mat2R;
+        scale(α: number): Matrix2;
 
         /**
          * Sets the elements of this matrix.
          * The parameters are in row-major order.
          */
-        set(n11: number, n12: number, n21: number, n22: number): Mat2R;
+        set(n11: number, n12: number, n21: number, n22: number): Matrix2;
 
         /**
          * Sets this matrix to the value of <code>this</code> - <code>rhs</code>.
          */
-        sub(rhs: Mat2R): Mat2R;
+        sub(rhs: Matrix2): Matrix2;
 
         /**
          * Computes a string representation of this matrix in exponential notation.
@@ -775,12 +775,12 @@ declare module EIGHT {
         /**
          * Sets this matrix to the additive identity, <em>0</em>. 
          */
-        zero(): Mat2R;
+        zero(): Matrix2;
 
         /**
          * Creates a matrix that is the multiplicative identity, <em>1</em>. 
          */
-        static one(): Mat2R;
+        static one(): Matrix2;
 
         /**
          * <P>
@@ -791,21 +791,21 @@ declare module EIGHT {
          * reflection(<b>n</b>) = I - 2 * <b>n</b><sup>T</sup> * <b>n</b>
          * </p>
          */
-        static reflection(n: VectorE1): Mat2R;
+        static reflection(n: VectorE1): Matrix2;
 
         /**
          * Creates a matrix that is the additive identity, <em>0</em>. 
          */
-        static zero(): Mat2R;
+        static zero(): Matrix2;
     }
 
     /**
      * A 3x3 (square) matrix of <code>number</code>.
      */
-    class Mat3R extends AbstractMatrix {
+    class Matrix3 extends AbstractMatrix {
 
         /**
-         * Constructs a new <code>Mat3R</code> wrapper around a <code>Float32Array</code>.
+         * Constructs a new <code>Matrix3</code> wrapper around a <code>Float32Array</code>.
          * The elements are expected to be in column-major order.
          */
         constructor(elements: Float32Array);
@@ -813,17 +813,17 @@ declare module EIGHT {
         /**
          * Sets this matrix to the value of <code>this</code> + <code>rhs</code>.
          */
-        add(rhs: Mat3R): Mat3R;
+        add(rhs: Matrix3): Matrix3;
 
         /**
          * Creates a copy of this matrix.
          */
-        clone(): Mat3R;
+        clone(): Matrix3;
 
         /**
          *
          */
-        copy(m: Mat3R): Mat3R;
+        copy(m: Matrix3): Matrix3;
 
         /**
          *
@@ -833,7 +833,7 @@ declare module EIGHT {
         /**
          *
          */
-        inv(): Mat3R;
+        inv(): Matrix3;
 
         /**
          *
@@ -848,65 +848,65 @@ declare module EIGHT {
         /**
          *
          */
-        mul(rhs: Mat3R): Mat3R;
+        mul(rhs: Matrix3): Matrix3;
 
         /**
          *
          */
-        mul2(a: Mat3R, b: Mat3R): Mat3R;
+        mul2(a: Matrix3, b: Matrix3): Matrix3;
 
         /**
          *
          */
-        neg(): Mat3R;
+        neg(): Matrix3;
 
         /**
          * Sets this matrix to the identity element for multiplication, <b>1</b>.
          */
-        one(): Mat4R;
+        one(): Matrix4;
 
-        reflection(n: VectorE3): Mat3R;
+        reflection(n: VectorE3): Matrix3;
         row(i: number): number[];
-        scale(alpha: number): Mat3R;
-        set(m11: number, m12: number, m13: number, m21: number, m22: number, m23: number, m31: number, m32: number, m33: number): Mat3R;
-        sub(rhs: Mat3R): Mat3R;
+        scale(alpha: number): Matrix3;
+        set(m11: number, m12: number, m13: number, m21: number, m22: number, m23: number, m31: number, m32: number, m33: number): Matrix3;
+        sub(rhs: Matrix3): Matrix3;
         toString(): string;
-        transpose(): Mat3R;
-        zero(): Mat3R;
+        transpose(): Matrix3;
+        zero(): Matrix3;
 
         /**
          *
          */
-        normalFromMat4R(matrix: Mat4R): void;
+        normalFromMatrix4(matrix: Matrix4): void;
 
         /**
          * Generates a new identity matrix.
          */
-        static one(): Mat3R;
-        static reflection(n: VectorE2): Mat3R;
-        static zero(): Mat3R;
+        static one(): Matrix3;
+        static reflection(n: VectorE2): Matrix3;
+        static zero(): Matrix3;
     }
 
     /**
      *
      */
-    class Mat4R extends AbstractMatrix {
+    class Matrix4 extends AbstractMatrix {
         constructor(elements: Float32Array);
 
         /**
          * Returns a copy of this matrix instance.
          */
-        clone(): Mat4R;
+        clone(): Matrix4;
 
         /**
          *
          */
-        compose(scale: VectorE3, attitude: SpinorE3, position: VectorE3): Mat4R;
+        compose(scale: VectorE3, attitude: SpinorE3, position: VectorE3): Matrix4;
 
         /**
          *
          */
-        copy(matrix: Mat4R): Mat4R;
+        copy(matrix: Matrix4): Matrix4;
 
         /**
          * Computes the determinant of the matrix.
@@ -916,62 +916,62 @@ declare module EIGHT {
         /**
          *
          */
-        frustum(left: number, right: number, bottom: number, top: number, near: number, far: number): Mat4R;
+        frustum(left: number, right: number, bottom: number, top: number, near: number, far: number): Matrix4;
 
         /**
          *
          */
-        invert(m: Mat4R, throwOnSingular?: boolean): Mat4R;
+        invert(m: Matrix4, throwOnSingular?: boolean): Matrix4;
 
         /**
          *
          */
-        mul(rhs: Mat4R): Mat4R;
+        mul(rhs: Matrix4): Matrix4;
 
         /**
          *
          */
-        mul2(a: Mat4R, b: Mat4R): Mat4R;
+        mul2(a: Matrix4, b: Matrix4): Matrix4;
 
         /**
          * Generates a new identity matrix.
          */
-        static one(): Mat4R;
+        static one(): Matrix4;
 
         /**
          * Sets this matrix to the identity element for multiplication, <b>1</b>.
          */
-        one(): Mat4R;
+        one(): Matrix4;
 
         /**
          *
          */
-        reflection(n: VectorE3): Mat4R;
+        reflection(n: VectorE3): Matrix4;
 
         /**
          *
          */
-        rmul(lhs: Mat4R): Mat4R;
+        rmul(lhs: Matrix4): Matrix4;
 
         /**
          *
          */
-        rotate(spinor: SpinorE3): Mat4R;
+        rotate(spinor: SpinorE3): Matrix4;
 
         /**
          * Generates a new rotation matrix.
          */
-        static rotation(spinor: SpinorE3): Mat4R;
+        static rotation(spinor: SpinorE3): Matrix4;
 
         /**
          *
          */
-        rotation(spinor: SpinorE3): Mat4R;
+        rotation(spinor: SpinorE3): Matrix4;
 
         /**
          *
          */
-        rotationAxis(axis: VectorE3, angle: number): Mat4R;
+        rotationAxis(axis: VectorE3, angle: number): Matrix4;
 
         /**
          *
@@ -981,22 +981,22 @@ declare module EIGHT {
         /**
          *
          */
-        scale(scale: VectorE3): Mat4R;
+        scale(scale: VectorE3): Matrix4;
 
         /**
          *
          */
-        scaleXYZ(scale: VectorE3): Mat4R;
+        scaleXYZ(scale: VectorE3): Matrix4;
 
         /**
          * Generates a new scaling matrix.
          */
-        static scaling(scale: VectorE3): Mat4R;
+        static scaling(scale: VectorE3): Matrix4;
 
         /**
          *
          */
-        scaling(scale: VectorE3): Mat4R;
+        scaling(scale: VectorE3): Matrix4;
 
         /**
          *
@@ -1011,27 +1011,27 @@ declare module EIGHT {
         /**
          *
          */
-        translate(displacement: VectorE3): Mat4R;
+        translate(displacement: VectorE3): Matrix4;
 
         /**
          * Generates a new translation matrix.
          */
-        static translation(vector: VectorE3): Mat4R;
+        static translation(vector: VectorE3): Matrix4;
 
         /**
          *
          */
-        translation(displacement: VectorE3): Mat4R;
+        translation(displacement: VectorE3): Matrix4;
 
         /**
          *
          */
-        transpose(): Mat4R;
+        transpose(): Matrix4;
 
         /**
          * Creates a new matrix with all elements zero.
          */
-        static zero(): Mat4R;
+        static zero(): Matrix4;
     }
 
     /**
@@ -1453,7 +1453,8 @@ declare module EIGHT {
          * @param a
          * @param b
          */
-        spinor(a: VectorE2, b: VectorE2): G2m;
+        versor(a: VectorE2, b: VectorE2): G2m;
+
         /**
          * <p>
          * <code>this ⟼ this - M * α</code>
@@ -1580,7 +1581,7 @@ declare module EIGHT {
     /**
      *
      */
-    class R1m extends VectorN<number> implements VectorE1 {
+    class Vector1 extends VectorN<number> implements VectorE1 {
         x: number;
         constructor(coords?: number[], modified?: boolean);
     }
@@ -1588,36 +1589,36 @@ declare module EIGHT {
     /**
      *
      */
-    class R2m extends VectorN<number> implements VectorE2 {
+    class Vector2 extends VectorN<number> implements VectorE2 {
         x: number
         y: number
         constructor(coords?: number[], modified?: boolean)
-        add(v: VectorE2): R2m
-        add2(a: VectorE2, b: VectorE2): R2m
-        applyMatrix(m: Mat2R): R2m
-        clone(): R2m
-        copy(v: VectorE2): R2m
-        cubicBezier(t: number, controlBegin: VectorE2, endPoint: VectorE2): R2m
+        add(v: VectorE2): Vector2
+        add2(a: VectorE2, b: VectorE2): Vector2
+        applyMatrix(m: Matrix2): Vector2
+        clone(): Vector2
+        copy(v: VectorE2): Vector2
+        cubicBezier(t: number, controlBegin: VectorE2, endPoint: VectorE2): Vector2
         distanceTo(point: VectorE2): number
-        lerp(v: VectorE2, α: number): R2m
-        lerp2(a: VectorE2, b: VectorE2, α: number): R2m
+        lerp(v: VectorE2, α: number): Vector2
+        lerp2(a: VectorE2, b: VectorE2, α: number): Vector2
         magnitude(): number
-        neg(): R2m
-        quadraticBezier(t: number, controlPoint: VectorE2, endPoint: VectorE2): R2m
-        rotate(spinor: SpinorE2): R2m
-        scale(α: number): R2m
+        neg(): Vector2
+        quadraticBezier(t: number, controlPoint: VectorE2, endPoint: VectorE2): Vector2
+        rotate(spinor: SpinorE2): Vector2
+        scale(α: number): Vector2
         squaredNorm(): number
-        set(x: number, y: number): R2m
-        sub(v: VectorE2): R2m
-        sub2(a: VectorE2, b: VectorE2): R2m
+        set(x: number, y: number): Vector2
+        sub(v: VectorE2): Vector2
+        sub2(a: VectorE2, b: VectorE2): Vector2
         toExponential(): string
         toFixed(fractionDigits?: number): string
         toString(): string
-        zero(): R2m
-        static copy(v: VectorE2): R2m
-        static lerp(a: VectorE2, b: VectorE2, α: number): R2m
-        static random(): R2m
-        static vector(x: number, y: number): R2m
+        zero(): Vector2
+        static copy(v: VectorE2): Vector2
+        static lerp(a: VectorE2, b: VectorE2, α: number): Vector2
+        static random(): Vector2
+        static vector(x: number, y: number): Vector2
     }
 
     interface Scalar {
@@ -2050,7 +2051,7 @@ declare module EIGHT {
          * @param a
          * @param b
          */
-        spinor(a: VectorE3, b: VectorE3): G3m;
+        versor(a: VectorE3, b: VectorE3): G3m;
 
         /**
          * Computes the <em>squared norm</em> of this multivector.
@@ -2144,7 +2145,7 @@ declare module EIGHT {
     /**
      * The even sub-algebra of <code>G3m</code>.
      */
-    class SpinG3m extends VectorN<number> implements SpinorE3 {
+    class Spinor3 extends VectorN<number> implements SpinorE3 {
         /**
          * The bivector component in the <b>e</b><sub>2</sub><b>e</b><sub>3</sub> plane.
          */
@@ -2173,84 +2174,84 @@ declare module EIGHT {
         /**
          * this ⟼ this + spinor * α
          */
-        add(spinor: SpinorE3, α?: number): SpinG3m;
+        add(spinor: SpinorE3, α?: number): Spinor3;
 
-        add2(a: SpinorE3, b: SpinorE3): SpinG3m;
+        add2(a: SpinorE3, b: SpinorE3): Spinor3;
 
         /**
          * The bivector whose area (magnitude) is θ/2, where θ is the radian measure. 
          */
-        angle(): SpinG3m;
+        angle(): Spinor3;
 
         /**
          * Computes a copy of this spinor.
          */
-        clone(): SpinG3m;
+        clone(): Spinor3;
 
         /**
          * Sets this spinor to be a copy of the <code>spinor</code> argument.
          * this ⟼ copy(spinor)
          */
-        copy(spinor: SpinorE3): SpinG3m;
+        copy(spinor: SpinorE3): Spinor3;
 
-        divByScalar(scalar: number): SpinG3m;
+        divByScalar(scalar: number): Spinor3;
 
         /**
          * this ⟼ dual(v) = I * v
          */
-        dual(v: VectorE3): SpinG3m;
+        dual(v: VectorE3): Spinor3;
 
         /**
          * this ⟼ exp(this)
          */
-        exp(): SpinG3m;
-        inv(): SpinG3m;
-        lerp(target: SpinorE3, α: number): SpinG3m;
+        exp(): Spinor3;
+        inv(): Spinor3;
+        lerp(target: SpinorE3, α: number): Spinor3;
 
         /**
          * <p>
          * <code>this ⟼ log(this)</code>
          * </p>
          */
-        log(): SpinG3m;
+        log(): Spinor3;
 
-        magnitude(): SpinG3m;
+        magnitude(): Spinor3;
 
-        mul(rhs: SpinorE3): SpinG3m;
+        mul(rhs: SpinorE3): Spinor3;
 
         /**
-         * Sets this SpinG3m to the geometric product of the vectors a and b, a * b.
+         * Sets this Spinor3 to the geometric product of the vectors a and b, a * b.
          */
-        mul2(a: SpinorE3, b: SpinorE3): SpinG3m;
+        mul2(a: SpinorE3, b: SpinorE3): Spinor3;
 
         /**
          * this ⟼ this / magnitude(this)
          * <em>s.direction()</em> scales the target spinor, <em>s</em>, so that it has unit magnitude.
          */
-        direction(): SpinG3m;
+        direction(): Spinor3;
 
         /**
          * this ⟼ this * α
          */
-        scale(α: number): SpinG3m;
+        scale(α: number): Spinor3;
 
-        squaredNorm(): SpinG3m;
+        squaredNorm(): Spinor3;
 
-        rev(): SpinG3m;
+        rev(): Spinor3;
 
-        reflect(n: VectorE3): SpinG3m;
+        reflect(n: VectorE3): Spinor3;
 
         /**
          * this ⟼ R * this * rev(R)
          */
-        rotate(R: SpinorE3): SpinG3m;
+        rotate(R: SpinorE3): Spinor3;
 
         /**
          * this ⟼ exp(- dual(axis) * θ / 2)
          * <code>axis</code> The direction (unit vector) of the rotation.
          * <code>θ</code> The angle of the rotation, measured in radians.
          */
-        rotorFromAxisAngle(axis: VectorE3, θ: number): SpinG3m;
+        rotorFromAxisAngle(axis: VectorE3, θ: number): Spinor3;
 
         /**
          * <p>
@@ -2260,7 +2261,7 @@ declare module EIGHT {
          * @param a {VectorE3} The <em>from</em> vector.
          * @param b {VectorE3} The <em>to</em> vector.
          */
-        rotorFromDirections(a: VectorE3, b: VectorE3): SpinG3m;
+        rotorFromDirections(a: VectorE3, b: VectorE3): Spinor3;
 
         /**
          * <p>
@@ -2269,21 +2270,22 @@ declare module EIGHT {
          * @param B {SpinorE3}
          * @param θ {number}
          */
-        rotorFromGeneratorAngle(B: SpinorE3, θ: number): SpinG3m;
+        rotorFromGeneratorAngle(B: SpinorE3, θ: number): Spinor3;
 
         /**
          * this ⟼ this - spinor * α
          */
-        sub(spinor: SpinorE3, α?: number): SpinG3m;
+        sub(spinor: SpinorE3, α?: number): Spinor3;
         /**
          *
          */
-        sub2(a: SpinorE3, b: SpinorE3): SpinG3m;
+        sub2(a: SpinorE3, b: SpinorE3): Spinor3;
         toString(): string;
+
         /**
          * this ⟼ a * b
          */
-        spinor(a: VectorE3, b: VectorE3): SpinG3m;
+        versor(a: VectorE3, b: VectorE3): Spinor3;
     }
 
     /**
@@ -2315,7 +2317,7 @@ declare module EIGHT {
     /**
      *
      */
-    class R3m extends VectorN<number> implements VectorE3 {
+    class Vector3 extends VectorN<number> implements VectorE3 {
         x: number;
         y: number;
         z: number;
@@ -2323,38 +2325,38 @@ declare module EIGHT {
         /**
          * this += alpha * vector
          */
-        add(vector: VectorE3, alpha?: number): R3m;
-        add2(a: VectorE3, b: VectorE3): R3m;
-        applyMatrix4(m: Mat4R): R3m;
-        applyMatrix(m: Mat3R): R3m;
-        clone(): R3m;
-        copy(v: VectorE3): R3m;
-        static copy(vector: VectorE3): R3m;
-        copyCoordinates(coordinates: number[]): R3m;
-        cross(v: VectorE3): R3m;
-        cross2(a: VectorE3, b: VectorE3): R3m;
+        add(vector: VectorE3, alpha?: number): Vector3;
+        add2(a: VectorE3, b: VectorE3): Vector3;
+        applyMatrix4(m: Matrix4): Vector3;
+        applyMatrix(m: Matrix3): Vector3;
+        clone(): Vector3;
+        copy(v: VectorE3): Vector3;
+        static copy(vector: VectorE3): Vector3;
+        copyCoordinates(coordinates: number[]): Vector3;
+        cross(v: VectorE3): Vector3;
+        cross2(a: VectorE3, b: VectorE3): Vector3;
         distanceTo(point: VectorE3): number;
-        divByScalar(rhs: number): R3m;
+        divByScalar(rhs: number): Vector3;
         static dot(a: VectorE3, b: VectorE3): number;
         dot(v: VectorE3): number;
-        lerp(target: VectorE3, α: number): R3m;
-        static lerp(a: VectorE3, b: VectorE3, α: number): R3m;
-        lerp2(a: VectorE3, b: VectorE3, α: number): R3m;
+        lerp(target: VectorE3, α: number): Vector3;
+        static lerp(a: VectorE3, b: VectorE3, α: number): Vector3;
+        lerp2(a: VectorE3, b: VectorE3, α: number): Vector3;
         /**
          * Computes the <em>square root</em> of the <em>squared norm</em>.
          */
         magnitude(): number;
-        neg(): R3m;
-        direction(): R3m;
+        neg(): Vector3;
+        direction(): Vector3;
         quadranceTo(point: VectorE3): number;
-        static random(): R3m;
-        reflect(n: VectorE3): R3m;
-        rotate(rotor: SpinorE3): R3m;
-        scale(rhs: number): R3m;
-        set(x: number, y: number, z: number): R3m;
+        static random(): Vector3;
+        reflect(n: VectorE3): Vector3;
+        rotate(rotor: SpinorE3): Vector3;
+        scale(rhs: number): Vector3;
+        set(x: number, y: number, z: number): Vector3;
         squaredNorm(): number;
-        sub(rhs: VectorE3): R3m;
-        sub2(a: VectorE3, b: VectorE3): R3m;
+        sub(rhs: VectorE3): Vector3;
+        sub2(a: VectorE3, b: VectorE3): Vector3;
         toExponential(): string;
         toFixed(digits?: number): string;
         toString(): string;
@@ -2373,15 +2375,15 @@ declare module EIGHT {
     /**
      *
      */
-    class R4m extends VectorN<number> implements VectorE4 {
+    class Vector4 extends VectorN<number> implements VectorE4 {
         x: number
         y: number
         z: number
         w: number
         constructor(coords?: number[], modified?: boolean)
-        applyMatrix(m: Mat4R): R4m
-        clone(): R4m
-        copy(v: VectorE4): R4m
+        applyMatrix(m: Matrix4): Vector4
+        clone(): Vector4
+        copy(v: VectorE4): Vector4
     }
 
     /**
@@ -2392,9 +2394,9 @@ declare module EIGHT {
         uniform2f(name: string, x: number, y: number): void;
         uniform3f(name: string, x: number, y: number, z: number): void;
         uniform4f(name: string, x: number, y: number, z: number, w: number): void;
-        mat2(name: string, matrix: Mat2R, transpose: boolean): void;
-        mat3(name: string, matrix: Mat3R, transpose: boolean): void;
-        mat4(name: string, matrix: Mat4R, transpose: boolean): void;
+        mat2(name: string, matrix: Matrix2, transpose: boolean): void;
+        mat3(name: string, matrix: Matrix3, transpose: boolean): void;
+        mat4(name: string, matrix: Matrix4, transpose: boolean): void;
         vec2(name: string, vector: VectorE2): void;
         vec3(name: string, vector: VectorE3): void;
         vec4(name: string, vector: VectorE4): void;
@@ -2541,12 +2543,12 @@ declare module EIGHT {
         /**
          * The overall scale.
          */
-        scaleXYZ: R3m
+        scaleXYZ: Vector3
 
         /**
          * The matrix that is used for the uniform conventionally named 'uModel'.
          */
-        matrix: Mat4R
+        matrix: Matrix4
 
         /**
          * Constructs a ModelFacet at the origin and with unity attitude.
@@ -2639,19 +2641,19 @@ declare module EIGHT {
      */
     class Scene {
         constructor()
-        add(mesh: Mesh): void
+        add(mesh: Drawable): void
         addRef(): number
         contextFree(context: IContextProvider): void
         contextGain(context: IContextProvider): void
         contextLost(): void
         draw(ambients: Facet[]): void
-        findOne(match: (mesh: Mesh) => boolean): Mesh
-        findOneByName(name: string): Mesh
-        findByName(name: string): ShareableArray<Mesh>
+        findOne(match: (mesh: Drawable) => boolean): Drawable
+        findOneByName(name: string): Drawable
+        findByName(name: string): ShareableArray<Drawable>
         release(): number
-        remove(mesh: Mesh): void
+        remove(mesh: Drawable): void
         subscribe(visual: WebGLRenderer): void
-        traverse(callback: (mesh: Mesh) => void): void
+        traverse(callback: (mesh: Drawable) => void): void
         unsubscribe(): void
     }
 
@@ -2666,7 +2668,7 @@ declare module EIGHT {
         /**
          * The position of the camera.
          */
-        eye: R3m;
+        eye: Vector3;
         /**
          * The distance to the far plane of the viewport.
          */
@@ -2679,7 +2681,7 @@ declare module EIGHT {
         /**
          * The point (position vector) that the camera looks at.
          */
-        look: R3m;
+        look: Vector3;
         /**
          *The distance to the near plane of the viewport.
          */
@@ -2687,7 +2689,7 @@ declare module EIGHT {
         /**
          *
          */
-        position: R3m;
+        position: Vector3;
         /**
          * Optional name used for finding this instance.
          */
@@ -2695,15 +2697,15 @@ declare module EIGHT {
         /**
          * The "guess" direction that is used to generate the upwards direction for the camera. 
          */
-        up: R3m;
+        up: Vector3;
         /**
          * The projection matrix
          */
-        projectionMatrix: Mat4R;
+        projectionMatrix: Matrix4;
         /**
          * The view matrix
          */
-        viewMatrix: Mat4R;
+        viewMatrix: Matrix4;
         /**
          * fov...: The `fov` property.
          * aspect: The `aspect` property.
@@ -2884,9 +2886,9 @@ declare module EIGHT {
         uniform2f(name: string, x: number, y: number): void;
         uniform3f(name: string, x: number, y: number, z: number): void;
         uniform4f(name: string, x: number, y: number, z: number, w: number): void;
-        mat2(name: string, matrix: Mat2R, transpose: boolean): void;
-        mat3(name: string, matrix: Mat3R, transpose: boolean): void;
-        mat4(name: string, matrix: Mat4R, transpose: boolean): void;
+        mat2(name: string, matrix: Matrix2, transpose: boolean): void;
+        mat3(name: string, matrix: Matrix3, transpose: boolean): void;
+        mat4(name: string, matrix: Matrix4, transpose: boolean): void;
         uniforms(): { [name: string]: UniformLocation };
         vec2(name: string, vector: VectorE2): void;
         vec3(name: string, vector: VectorE3): void;
@@ -2903,7 +2905,7 @@ declare module EIGHT {
      * The primitives provide attribute arguments to the graphics program.
      * The facets provide uniform arguments to the graphics program. 
      */
-    class Mesh extends Shareable {
+    class Drawable extends Shareable {
 
         /**
          *
@@ -2921,7 +2923,7 @@ declare module EIGHT {
         name: string;
 
         /**
-         * Determines whether this Mesh will be rendered.
+         * Determines whether this Drawable will be rendered.
          */
         visible: boolean;
 
@@ -3034,7 +3036,7 @@ declare module EIGHT {
         /**
          * The <em>direction</em> (unit vector) in which the light is travelling.
          */
-        direction: R3m;
+        direction: Vector3;
         /**
          * The <em>color</em> of the light.
          */
@@ -3060,10 +3062,10 @@ declare module EIGHT {
     }
 
     /**
-     * A (name: string, vector: R3m) pair that can be used to set a uniform variable.
+     * A (name: string, vector: Vector3) pair that can be used to set a uniform variable.
      */
     class Vector3Facet extends AbstractFacet {
-        constructor(name: string, vector: R3m);
+        constructor(name: string, vector: Vector3);
     }
 
     /**
@@ -3073,7 +3075,7 @@ declare module EIGHT {
         /**
          * The vector perpendicular to the (hyper-)plane of reflection.
          */
-        public normal: R2m;
+        public normal: Vector2;
 
         /**
          * @param name The name of the uniform variable associated with this facet.
@@ -3105,7 +3107,7 @@ declare module EIGHT {
          * The vector perpendicular to the (hyper-)plane of reflection.
          *
          */
-        public normal: R3m;
+        public normal: Vector3;
 
         /**
          * @param name The name of the uniform variable associated with this facet.
@@ -3320,17 +3322,22 @@ declare module EIGHT {
     /**
      *
      */
-    class Object3D extends Mesh {
-        modelFacet: ModelFacet
-        modelMatrix: Mat4R
-        colorFacet: ColorFacet
+    class Mesh extends Drawable {
+        attitude: Spinor3;
+        color: Color;
+        matrix: Matrix4;
+        position: Vector3;
+        scale: Vector3;
         /**
          *
          */
         constructor(geometry: Geometry, material: Material, type?: string)
     }
 
-    class RigidBody extends Object3D {
+    /**
+     *
+     */
+    class RigidBody extends Mesh {
 
         /**
          *
@@ -3446,7 +3453,7 @@ declare module EIGHT {
      *
      */
     interface World extends IUnknown {
-        add(mesh: Mesh): void
+        add(mesh: Drawable): void
         arrow(
             options?: {
                 axis?: VectorE3;
@@ -3456,12 +3463,15 @@ declare module EIGHT {
         box(
             options?: {
                 axis?: VectorE3;
+                color?: Color;
+                pos?: VectorE3;
                 width?: number;
                 height?: number;
                 depth?: number;
             }): Box
         sphere(
             options?: {
+                axis?: VectorE3;
                 color?: Color;
                 pos?: VectorE3;
                 radius?: number;
@@ -3469,6 +3479,7 @@ declare module EIGHT {
         cylinder(
             options?: {
                 axis?: VectorE3;
+                color?: Color;
                 pos?: VectorE3;
                 radius?: number;
             }): Cylinder
@@ -3491,7 +3502,7 @@ declare module EIGHT {
         }): World;
 
     ///////////////////////////////////////////////////////////////////////////////
-    class TrackballCameraControls extends Shareable {
+    class CameraControls extends Shareable {
         public rotateSpeed: number
         public zoomSpeed: number
         public panSpeed: number

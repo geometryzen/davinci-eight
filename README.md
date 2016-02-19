@@ -266,6 +266,7 @@ Make your changes to the TypeScript files in the _src_ directory. Do not edit th
 * 2.188.0: 2016-02-15 Euclidean3.inv()
 * 2.189.0: 2016-02-17 Arrow
 * 2.190.0: 2016-02-18 renames
+* 2.191.0: 2016-02-19 renames
 
 ## License
 Copyright (c) 2014-2016 David Holmes

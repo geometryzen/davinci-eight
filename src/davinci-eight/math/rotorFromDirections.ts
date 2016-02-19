@@ -7,6 +7,7 @@ const sqrt = Math.sqrt
  * R = (|b||a| + b * a) / sqrt(2 * |b||a|(|b||a| + b << a))
  * Returns undefined (void 0) if the vectors are anti-parallel.
  */
+// FIXME: This should be deprecated because of the poor handling of the undefined case.
 export default function rotorFromDirections<V, M extends Geometric<any, any, any, any>>(a: V, b: V, quad: (v: V) => number, dot: (a: V, b: V) => number, m: M): M {
     const quadA = quad(a)
     const absA = sqrt(quadA)
@@ -15,7 +16,7 @@ export default function rotorFromDirections<V, M extends Geometric<any, any, any
     const BA = absB * absA
     const denom = sqrt(2 * (quadB * quadA + BA * dot(b, a)))
     if (denom !== 0) {
-        m = m.spinor(b, a)
+        m = m.versor(b, a)
         m = m.addScalar(BA)
         m = m.divByScalar(denom)
         return m

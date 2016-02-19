@@ -2,7 +2,7 @@ import VectorE2 from '../../math/VectorE2';
 import IAnimation from '../../slideshow/IAnimation';
 import IAnimationTarget from '../../slideshow/IAnimationTarget';
 import Shareable from '../../core/Shareable';
-import R2m from '../../math/R2m';
+import Vector2 from '../../math/Vector2';
 
 function loop(n: number, callback: (i: number) => void) {
     for (var i = 0; i < n; ++i) {
@@ -11,8 +11,8 @@ function loop(n: number, callback: (i: number) => void) {
 }
 
 export default class Vector2Animation extends Shareable implements IAnimation {
-    private from: R2m;
-    private to: R2m;
+    private from: Vector2;
+    private to: Vector2;
     private duration: number;
     private start: number;
     private fraction: number;
@@ -20,7 +20,7 @@ export default class Vector2Animation extends Shareable implements IAnimation {
     private ease: string;
     constructor(value: VectorE2, duration: number = 300, callback?: () => void, ease?: string) {
         super('Vector2Animation')
-        this.to = R2m.copy(value)
+        this.to = Vector2.copy(value)
         this.duration = duration
         this.fraction = 0;
         this.callback = callback
@@ -35,7 +35,7 @@ export default class Vector2Animation extends Shareable implements IAnimation {
             if (this.from === void 0) {
                 var data: number[] = target.getProperty(propName)
                 if (data) {
-                    this.from = new R2m(data)
+                    this.from = new Vector2(data)
                 }
             }
         }
@@ -69,8 +69,8 @@ export default class Vector2Animation extends Shareable implements IAnimation {
                 break
         }
 
-        var lerp: R2m = R2m.lerp(this.from, this.to, rolloff)
-        // The animator sends the data back to the animation target suitable for the R2m constructor.
+        var lerp: Vector2 = Vector2.lerp(this.from, this.to, rolloff)
+        // The animator sends the data back to the animation target suitable for the Vector2 constructor.
         target.setProperty(propName, lerp.coords)
     }
     hurry(factor: number): void {

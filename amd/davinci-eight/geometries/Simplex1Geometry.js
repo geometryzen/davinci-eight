@@ -3,13 +3,13 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../geometries/SimplexPrimitivesBuilder', '../geometries/Simplex', '../core/GraphicsProgramSymbols', '../math/R3m'], function (require, exports, SimplexPrimitivesBuilder_1, Simplex_1, GraphicsProgramSymbols_1, R3m_1) {
+define(["require", "exports", '../geometries/SimplexPrimitivesBuilder', '../geometries/Simplex', '../core/GraphicsProgramSymbols', '../math/Vector3'], function (require, exports, SimplexPrimitivesBuilder_1, Simplex_1, GraphicsProgramSymbols_1, Vector3_1) {
     var Simplex1Geometry = (function (_super) {
         __extends(Simplex1Geometry, _super);
         function Simplex1Geometry() {
             _super.call(this);
-            this.head = new R3m_1.default([1, 0, 0]);
-            this.tail = new R3m_1.default([0, 1, 0]);
+            this.head = new Vector3_1.default([1, 0, 0]);
+            this.tail = new Vector3_1.default([0, 1, 0]);
             this.calculate();
         }
         Simplex1Geometry.prototype.calculate = function () {

@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.190.0</em>
+            <em>API Docs for: 2.191.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -47,6 +47,7 @@
                                 <li><a href="../classes/Attribute.html">Attribute</a></li>
                                 <li><a href="../classes/BlendFactor.html">BlendFactor</a></li>
                                 <li><a href="../classes/Box.html">Box</a></li>
+                                <li><a href="../classes/CameraControls.html">CameraControls</a></li>
                                 <li><a href="../classes/Capability.html">Capability</a></li>
                                 <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
@@ -61,6 +62,7 @@
                                 <li><a href="../classes/CylinderGeometry.html">CylinderGeometry</a></li>
                                 <li><a href="../classes/Dimensions.html">Dimensions</a></li>
                                 <li><a href="../classes/DirectionalLight.html">DirectionalLight</a></li>
+                                <li><a href="../classes/Drawable.html">Drawable</a></li>
                                 <li><a href="../classes/DrawMode.html">DrawMode</a></li>
                                 <li><a href="../classes/EIGHTLogger.html">EIGHTLogger</a></li>
                                 <li><a href="../classes/Facet.html">Facet</a></li>
@@ -84,10 +86,10 @@
                                 <li><a href="../classes/IContextProvider.html">IContextProvider</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
-                                <li><a href="../classes/Mat2R.html">Mat2R</a></li>
-                                <li><a href="../classes/Mat3R.html">Mat3R</a></li>
-                                <li><a href="../classes/Mat4R.html">Mat4R</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
+                                <li><a href="../classes/Matrix2.html">Matrix2</a></li>
+                                <li><a href="../classes/Matrix3.html">Matrix3</a></li>
+                                <li><a href="../classes/Matrix4.html">Matrix4</a></li>
                                 <li><a href="../classes/Mesh.html">Mesh</a></li>
                                 <li><a href="../classes/MeshMaterial.html">MeshMaterial</a></li>
                                 <li><a href="../classes/ModelE2.html">ModelE2</a></li>
@@ -104,11 +106,7 @@
                                 <li><a href="../classes/PrimitiveBuffers.html">PrimitiveBuffers</a></li>
                                 <li><a href="../classes/Pseudo.html">Pseudo</a></li>
                                 <li><a href="../classes/QQ.html">QQ</a></li>
-                                <li><a href="../classes/R1m.html">R1m</a></li>
-                                <li><a href="../classes/R2m.html">R2m</a></li>
                                 <li><a href="../classes/R3.html">R3</a></li>
-                                <li><a href="../classes/R3m.html">R3m</a></li>
-                                <li><a href="../classes/R4m.html">R4m</a></li>
                                 <li><a href="../classes/ReflectionFacetE2.html">ReflectionFacetE2</a></li>
                                 <li><a href="../classes/ReflectionFacetE3.html">ReflectionFacetE3</a></li>
                                 <li><a href="../classes/RigidBody.html">RigidBody</a></li>
@@ -122,8 +120,8 @@
                                 <li><a href="../classes/ShareableWebGLTexture.html">ShareableWebGLTexture</a></li>
                                 <li><a href="../classes/Sphere.html">Sphere</a></li>
                                 <li><a href="../classes/SphereGeometry.html">SphereGeometry</a></li>
-                                <li><a href="../classes/SpinG2m.html">SpinG2m</a></li>
-                                <li><a href="../classes/SpinG3m.html">SpinG3m</a></li>
+                                <li><a href="../classes/Spinor2.html">Spinor2</a></li>
+                                <li><a href="../classes/Spinor3.html">Spinor3</a></li>
                                 <li><a href="../classes/SpinorE1.html">SpinorE1</a></li>
                                 <li><a href="../classes/SpinorE2.html">SpinorE2</a></li>
                                 <li><a href="../classes/SpinorE3.html">SpinorE3</a></li>
@@ -131,13 +129,16 @@
                                 <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
                                 <li><a href="../classes/Tetrahedron.html">Tetrahedron</a></li>
                                 <li><a href="../classes/TetrahedronGeometry.html">TetrahedronGeometry</a></li>
-                                <li><a href="../classes/TrackballCameraControls.html">TrackballCameraControls</a></li>
                                 <li><a href="../classes/Trail.html">Trail</a></li>
                                 <li><a href="../classes/UniformLocation.html">UniformLocation</a></li>
                                 <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
                                 <li><a href="../classes/Unit.html">Unit</a></li>
                                 <li><a href="../classes/Vector.html">Vector</a></li>
+                                <li><a href="../classes/Vector1.html">Vector1</a></li>
+                                <li><a href="../classes/Vector2.html">Vector2</a></li>
+                                <li><a href="../classes/Vector3.html">Vector3</a></li>
                                 <li><a href="../classes/Vector3Facet.html">Vector3Facet</a></li>
+                                <li><a href="../classes/Vector4.html">Vector4</a></li>
                                 <li><a href="../classes/VectorE0.html">VectorE0</a></li>
                                 <li><a href="../classes/VectorE1.html">VectorE1</a></li>
                                 <li><a href="../classes/VectorE2.html">VectorE2</a></li>
@@ -212,9 +213,9 @@ import mustBeString from &#x27;../checks/mustBeString&#x27;;
 import Perspective from &#x27;./Perspective&#x27;;
 import Facet from &#x27;../core/Facet&#x27;;
 import FacetVisitor from &#x27;../core/FacetVisitor&#x27;;
-import R3m from &#x27;../math/R3m&#x27;;
+import Vector3 from &#x27;../math/Vector3&#x27;;
 import VectorE3 from &#x27;../math/VectorE3&#x27;;
-import Mat4R from &#x27;../math/Mat4R&#x27;
+import Matrix4 from &#x27;../math/Matrix4&#x27;
 
 /**
  * Common abstractions for computing shader uniform variables.
@@ -358,26 +359,26 @@ export default class PerspectiveCamera implements Perspective, Facet {
     /**
      * The position of the camera.
      * @property eye
-     * @type {R3m}
+     * @type {Vector3}
      * @readOnly
      */
-    get eye(): R3m {
+    get eye(): Vector3 {
         return this.inner.eye;
     }
-    set eye(eye: R3m) {
+    set eye(eye: Vector3) {
         this.inner.eye.copy(eye);
     }
 
     /**
      * The position of the camera.
      * @property position
-     * @type {R3m}
+     * @type {Vector3}
      * @readOnly
      */
-    get position(): R3m {
+    get position(): Vector3 {
         return this.inner.eye;
     }
-    set position(position: R3m) {
+    set position(position: Vector3) {
         this.inner.eye.copy(position);
     }
 
@@ -399,7 +400,7 @@ export default class PerspectiveCamera implements Perspective, Facet {
      * @type {number}
      * @readOnly
      */
-    // TODO: Field of view could be specified as an Aspect + Magnitude of a SpinG3m!?
+    // TODO: Field of view could be specified as an Aspect + Magnitude of a Spinor3!?
     get fov(): number {
         return this.inner.fov;
     }
@@ -418,7 +419,7 @@ export default class PerspectiveCamera implements Perspective, Facet {
         return this;
     }
 
-    get look(): R3m {
+    get look(): Vector3 {
         return this.inner.look;
     }
     setLook(look: VectorE3): PerspectiveCamera {
@@ -462,7 +463,7 @@ export default class PerspectiveCamera implements Perspective, Facet {
         return this;
     }
 
-    get up(): R3m {
+    get up(): Vector3 {
         return this.inner.up;
     }
     set up(unused) {
@@ -474,22 +475,22 @@ export default class PerspectiveCamera implements Perspective, Facet {
         return this;
     }
 
-    get projectionMatrix(): Mat4R {
+    get projectionMatrix(): Matrix4 {
         return this.inner.projectionMatrix
     }
-    set projectionMatrix(projectionMatrix: Mat4R) {
+    set projectionMatrix(projectionMatrix: Matrix4) {
         throw new Error(readOnly(&#x27;projectionMatrix&#x27;).message);
     }
 
     /**
      * @property viewMatrix
-     * @type Mat4R
+     * @type Matrix4
      * @readOnly
      */
-    get viewMatrix(): Mat4R {
+    get viewMatrix(): Matrix4 {
         return this.inner.viewMatrix
     }
-    set viewMatrix(viewMatrix: Mat4R) {
+    set viewMatrix(viewMatrix: Matrix4) {
         this.inner.viewMatrix = viewMatrix
     }
 }

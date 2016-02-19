@@ -3,7 +3,7 @@ import GridTopology from './GridTopology';
 import IAxialGeometry from './IAxialGeometry';
 import AxialPrimitivesBuilder from './AxialPrimitivesBuilder';
 import Primitive from '../core/Primitive';
-import R2m from '../math/R2m';
+import Vector2 from '../math/Vector2';
 import G3m from '../math/G3m';
 import VectorE3 from '../math/VectorE3';
 
@@ -42,7 +42,7 @@ export default class RingBuilder extends AxialPrimitivesBuilder implements IAxia
                 vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = position.addVector(this.position)
                 vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = axis
                 if (this.useTextureCoords) {
-                    vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORDS] = new R2m([u, v])
+                    vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORDS] = new Vector2([u, v])
                 }
             }
         }

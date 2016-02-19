@@ -1,7 +1,7 @@
 import IContextProgramConsumer from './IContextProgramConsumer';
-import Mat2R from '../math/Mat2R';
-import Mat3R from '../math/Mat3R';
-import Mat4R from '../math/Mat4R';
+import Matrix2 from '../math/Matrix2';
+import Matrix3 from '../math/Matrix3';
+import Matrix4 from '../math/Matrix4';
 import VectorE1 from '../math/VectorE1';
 import VectorE2 from '../math/VectorE2';
 import VectorE3 from '../math/VectorE3';
@@ -147,12 +147,12 @@ export default class UniformLocation implements IContextProgramConsumer {
     /**
      * Sets a uniform location of type <code>mat2</code> in the <code>WebGLProgram</code>.
      * @method mat2
-     * @param matrix {Mat2R}
+     * @param matrix {Matrix2}
      * @param [transpose = false] {boolean}
      * @return {UniformLocation}
      * @chainable
      */
-    mat2(matrix: Mat2R, transpose = false): UniformLocation {
+    mat2(matrix: Matrix2, transpose = false): UniformLocation {
         this._context.uniformMatrix2fv(this._location, transpose, matrix.elements)
         return this
     }
@@ -160,12 +160,12 @@ export default class UniformLocation implements IContextProgramConsumer {
     /**
      * Sets a uniform location of type <code>mat3</code> in the <code>WebGLProgram</code>.
      * @method mat3
-     * @param matrix {Mat3R}
+     * @param matrix {Matrix3}
      * @param [transpose = false] {boolean}
      * @return {UniformLocation}
      * @chainable
      */
-    mat3(matrix: Mat3R, transpose = false): UniformLocation {
+    mat3(matrix: Matrix3, transpose = false): UniformLocation {
         this._context.uniformMatrix3fv(this._location, transpose, matrix.elements)
         return this
     }
@@ -173,12 +173,12 @@ export default class UniformLocation implements IContextProgramConsumer {
     /**
      * Sets a uniform location of type <code>mat4</code> in the <code>WebGLProgram</code>.
      * @method mat4
-     * @param matrix {Mat4R}
+     * @param matrix {Matrix4}
      * @param [transpose = false] {boolean}
      * @return {UniformLocation}
      * @chainable
      */
-    mat4(matrix: Mat4R, transpose = false): UniformLocation {
+    mat4(matrix: Matrix4, transpose = false): UniformLocation {
         this._context.uniformMatrix4fv(this._location, transpose, matrix.elements)
         return this
     }

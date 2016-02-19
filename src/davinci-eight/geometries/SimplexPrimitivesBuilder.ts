@@ -9,15 +9,15 @@ import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
 import simplicesToDrawPrimitive from '../geometries/simplicesToDrawPrimitive';
 import simplicesToGeometryMeta from '../geometries/simplicesToGeometryMeta';
 import Primitive from '../core/Primitive';
-import R1m from '../math/R1m';
-import R3m from '../math/R3m';
-import R2m from '../math/R2m';
+import Vector1 from '../math/Vector1';
+import Vector3 from '../math/Vector3';
+import Vector2 from '../math/Vector2';
 import VectorE3 from '../math/VectorE3';
 
 export default class SimplexPrimitivesBuilder extends PrimitivesBuilder implements IPrimitivesBuilder<SimplexPrimitivesBuilder> {
     public data: Simplex[] = [];
     public meta: GeometryMeta;
-    private _k = new R1m([Simplex.TRIANGLE]);
+    private _k = new Vector1([Simplex.TRIANGLE]);
     public curvedSegments: number = 16;
     public flatSegments: number = 1;
     public orientationColors: boolean = false;
@@ -76,7 +76,7 @@ export default class SimplexPrimitivesBuilder extends PrimitivesBuilder implemen
     protected mergeVertices(precisionPoints = 4): void {
         // console.warn("SimplexPrimitivesBuilder.mergeVertices not yet implemented");
     }
-    public triangle(positions: R3m[], normals: R3m[], uvs: R2m[]): number {
+    public triangle(positions: Vector3[], normals: Vector3[], uvs: Vector2[]): number {
         var simplex = new Simplex(Simplex.TRIANGLE)
         simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = positions[0]
         simplex.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = positions[1]
@@ -90,13 +90,13 @@ export default class SimplexPrimitivesBuilder extends PrimitivesBuilder implemen
         simplex.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORDS] = uvs[1]
         simplex.vertices[2].attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORDS] = uvs[2]
         if (this.orientationColors) {
-            simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_COLOR] = R3m.copy(G3.e1)
-            simplex.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_COLOR] = R3m.copy(G3.e2)
-            simplex.vertices[2].attributes[GraphicsProgramSymbols.ATTRIBUTE_COLOR] = R3m.copy(G3.e3)
+            simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_COLOR] = Vector3.copy(G3.e1)
+            simplex.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_COLOR] = Vector3.copy(G3.e2)
+            simplex.vertices[2].attributes[GraphicsProgramSymbols.ATTRIBUTE_COLOR] = Vector3.copy(G3.e3)
         }
         return this.data.push(simplex)
     }
-    public lineSegment(positions: R3m[], normals: R3m[], uvs: R2m[]): number {
+    public lineSegment(positions: Vector3[], normals: Vector3[], uvs: Vector2[]): number {
         var simplex = new Simplex(Simplex.LINE)
         simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = positions[0]
         simplex.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = positions[1]
@@ -107,12 +107,12 @@ export default class SimplexPrimitivesBuilder extends PrimitivesBuilder implemen
         simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORDS] = uvs[0]
         simplex.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORDS] = uvs[1]
         if (this.orientationColors) {
-            simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_COLOR] = R3m.copy(G3.e1)
-            simplex.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_COLOR] = R3m.copy(G3.e2)
+            simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_COLOR] = Vector3.copy(G3.e1)
+            simplex.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_COLOR] = Vector3.copy(G3.e2)
         }
         return this.data.push(simplex)
     }
-    public point(positions: R3m[], normals: R3m[], uvs: R2m[]): number {
+    public point(positions: Vector3[], normals: Vector3[], uvs: Vector2[]): number {
         var simplex = new Simplex(Simplex.POINT)
         simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = positions[0]
 
@@ -120,11 +120,11 @@ export default class SimplexPrimitivesBuilder extends PrimitivesBuilder implemen
 
         simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORDS] = uvs[0]
         if (this.orientationColors) {
-            simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_COLOR] = R3m.copy(G3.e1)
+            simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_COLOR] = Vector3.copy(G3.e1)
         }
         return this.data.push(simplex)
     }
-    public empty(positions: R3m[], normals: R3m[], uvs: R2m[]): number {
+    public empty(positions: Vector3[], normals: Vector3[], uvs: Vector2[]): number {
         var simplex = new Simplex(Simplex.EMPTY)
         return this.data.push(simplex)
     }

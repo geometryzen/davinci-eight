@@ -3,12 +3,12 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../geometries/GridBuilder', '../math/R3m'], function (require, exports, GridBuilder_1, R3m_1) {
+define(["require", "exports", '../geometries/GridBuilder', '../math/Vector3'], function (require, exports, GridBuilder_1, Vector3_1) {
     var cos = Math.cos;
     var sin = Math.sin;
     var pi = Math.PI;
     function mobius(u, v) {
-        var point = new R3m_1.default([0, 0, 0]);
+        var point = new Vector3_1.default([0, 0, 0]);
         var R = 1;
         var w = 0.05;
         var s = (2 * u - 1) * w;

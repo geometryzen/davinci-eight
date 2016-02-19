@@ -947,7 +947,7 @@ export default class G3m extends VectorN<number> implements GeometricE3, Mutable
      */
     reflect(n: VectorE3): G3m {
         // TODO: Optimize.
-        let N = G3.fromVectorE3(n);
+        let N = G3.fromVector(n);
         let M = G3.copy(this);
         let R = N.mul(M).mul(N).scale(-1);
         this.copy(R);
@@ -1150,19 +1150,20 @@ export default class G3m extends VectorN<number> implements GeometricE3, Mutable
      * <p>
      * <code>this ⟼ a * b</code>
      * </p>
-     * Sets this G3m to the geometric product a * b of the vector arguments. 
-     * @method spinor
+     * Sets this G3m to the geometric product a * b of the vector arguments.
+     *
+     * @method versor
      * @param a {VectorE3}
      * @param b {VectorE3}
      * @return {G3m} <code>this</code>
      */
-    spinor(a: VectorE3, b: VectorE3): G3m {
-        let ax = a.x;
-        let ay = a.y;
-        let az = a.z;
-        let bx = b.x;
-        let by = b.y;
-        let bz = b.z;
+    versor(a: VectorE3, b: VectorE3): G3m {
+        const ax = a.x
+        const ay = a.y
+        const az = a.z
+        const bx = b.x
+        const by = b.y
+        const bz = b.z
 
         this.zero()
         this.α = dotVector(a, b)
@@ -1172,6 +1173,7 @@ export default class G3m extends VectorN<number> implements GeometricE3, Mutable
 
         return this
     }
+
     /**
      * <p>
      * <code>this ⟼ this - M * α</code>

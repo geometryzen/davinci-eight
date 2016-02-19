@@ -590,7 +590,7 @@ define(["require", "exports", '../math/addE3', '../geometries/b2', '../geometrie
             return squaredNormG3_1.default(this);
         };
         G3.prototype.reflect = function (n) {
-            var m = G3.fromVectorE3(n);
+            var m = G3.fromVector(n);
             return m.mul(this).mul(m).scale(-1);
         };
         G3.prototype.rotate = function (R) {
@@ -703,7 +703,7 @@ define(["require", "exports", '../math/addE3', '../geometries/b2', '../geometrie
                 return new G3(m.α, m.x, m.y, m.z, m.xy, m.yz, m.zx, m.β, m.uom);
             }
         };
-        G3.fromSpinorE3 = function (spinor) {
+        G3.fromSpinor = function (spinor) {
             if (spinor) {
                 return new G3(spinor.α, 0, 0, 0, spinor.xy, spinor.yz, spinor.zx, 0, void 0);
             }
@@ -711,7 +711,7 @@ define(["require", "exports", '../math/addE3', '../geometries/b2', '../geometrie
                 return void 0;
             }
         };
-        G3.fromVectorE3 = function (vector) {
+        G3.fromVector = function (vector) {
             if (vector) {
                 return new G3(0, vector.x, vector.y, vector.z, 0, 0, 0, 0, vector.uom);
             }

@@ -1,8 +1,8 @@
 import Simplex from '../geometries/Simplex';
 import quadrilateral from '../geometries/quadrilateral';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
-import R2m from '../math/R2m';
-import R3m from '../math/R3m';
+import Vector2 from '../math/Vector2';
+import Vector3 from '../math/Vector3';
 import VectorN from '../math/VectorN';
 
 /**
@@ -20,19 +20,19 @@ export default function cube(size = 1): Simplex[] {
 
     let s = size / 2;
 
-    let vec0 = new R3m([+s, +s, +s]);
-    let vec1 = new R3m([-s, +s, +s]);
-    let vec2 = new R3m([-s, -s, +s]);
-    let vec3 = new R3m([+s, -s, +s]);
-    let vec4 = new R3m([+s, -s, -s]);
-    let vec5 = new R3m([+s, +s, -s]);
-    let vec6 = new R3m([-s, +s, -s]);
-    let vec7 = new R3m([-s, -s, -s]);
+    let vec0 = new Vector3([+s, +s, +s]);
+    let vec1 = new Vector3([-s, +s, +s]);
+    let vec2 = new Vector3([-s, -s, +s]);
+    let vec3 = new Vector3([+s, -s, +s]);
+    let vec4 = new Vector3([+s, -s, -s]);
+    let vec5 = new Vector3([+s, +s, -s]);
+    let vec6 = new Vector3([-s, +s, -s]);
+    let vec7 = new Vector3([-s, -s, -s]);
 
-    let c00 = new R2m([0, 0]);
-    let c01 = new R2m([0, 1]);
-    let c10 = new R2m([1, 0]);
-    let c11 = new R2m([1, 1]);
+    let c00 = new Vector2([0, 0]);
+    let c01 = new Vector2([0, 1]);
+    let c10 = new Vector2([1, 0]);
+    let c11 = new Vector2([1, 1]);
 
     let attributes: { [name: string]: VectorN<number>[] } = {};
 

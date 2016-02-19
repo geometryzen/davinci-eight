@@ -2,16 +2,16 @@ define(
 [
   'davinci-eight/geometries/Simplex',
   'davinci-eight/geometries/Vertex',
-  'davinci-eight/math/R3m',
+  'davinci-eight/math/Vector3',
   'davinci-eight/geometries/simplicesToDrawPrimitive',
   'davinci-eight/geometries/simplicesToGeometryMeta',
   'davinci-eight/geometries/cube',
   'davinci-eight/core/GraphicsProgramSymbols'
 ],
-function(Simplex, Vertex, R3m, simplicesToDrawPrimitive, simplicesToGeometryMeta, cube, GraphicsProgramSymbols) {
+function(Simplex, Vertex, Vector3, simplicesToDrawPrimitive, simplicesToGeometryMeta, cube, GraphicsProgramSymbols) {
 
   Simplex = Simplex.default
-  R3m = R3m.default
+  Vector3 = Vector3.default
   simplicesToDrawPrimitive = simplicesToDrawPrimitive.default
   simplicesToGeometryMeta = simplicesToGeometryMeta.default
   cube = cube.default

@@ -2,10 +2,10 @@ import FacetVisitor from '../core/FacetVisitor';
 import Frustum from './Frustum';
 import View from './View';
 import createView from './createView';
-import Mat4R from '../math/Mat4R';
+import Matrix4 from '../math/Matrix4';
 import VectorE3 from '../math/VectorE3';
-import R1m from '../math/R1m';
-import R3m from '../math/R3m';
+import Vector1 from '../math/Vector1';
+import Vector3 from '../math/Vector3';
 
 /**
  * @function createFrustum
@@ -15,14 +15,14 @@ import R3m from '../math/R3m';
 export default function createFrustum(viewMatrixName: string, projectionMatrixName: string): Frustum {
 
     const base: View = createView(viewMatrixName);
-    const left: R1m = new R1m();
-    const right: R1m = new R1m();
-    const bottom: R1m = new R1m();
-    const top: R1m = new R1m();
-    const near: R1m = new R1m();
-    const far: R1m = new R1m();
+    const left: Vector1 = new Vector1();
+    const right: Vector1 = new Vector1();
+    const bottom: Vector1 = new Vector1();
+    const top: Vector1 = new Vector1();
+    const near: Vector1 = new Vector1();
+    const far: Vector1 = new Vector1();
     // TODO: We should immediately create with a frustum static constructor?
-    const projectionMatrix: Mat4R = Mat4R.one();
+    const projectionMatrix: Matrix4 = Matrix4.one();
 
     function updateProjectionMatrix() {
         projectionMatrix.frustum(left.x, right.x, bottom.x, top.x, near.x, far.x);
@@ -35,30 +35,30 @@ export default function createFrustum(viewMatrixName: string, projectionMatrixNa
             return this;
         },
         // Delegate to the base camera.
-        get eye(): R3m {
+        get eye(): Vector3 {
             return base.eye;
         },
-        set eye(value: R3m) {
+        set eye(value: Vector3) {
             base.eye = value;
         },
         setEye(eye: VectorE3) {
             base.setEye(eye);
             return self;
         },
-        get look(): R3m {
+        get look(): Vector3 {
             return base.look;
         },
-        set look(value: R3m) {
+        set look(value: Vector3) {
             base.look = value;
         },
         setLook(look: VectorE3) {
             base.setLook(look);
             return self;
         },
-        get up(): R3m {
+        get up(): Vector3 {
             return base.up;
         },
-        set up(up: R3m) {
+        set up(up: Vector3) {
             base.setUp(up);
         },
         setUp(up: VectorE3): Frustum {
@@ -107,10 +107,10 @@ export default function createFrustum(viewMatrixName: string, projectionMatrixNa
             far.x = value;
             updateProjectionMatrix();
         },
-        get viewMatrix(): Mat4R {
+        get viewMatrix(): Matrix4 {
             return base.viewMatrix
         },
-        set viewMatrix(viewMatrix: Mat4R) {
+        set viewMatrix(viewMatrix: Matrix4) {
             base.viewMatrix = viewMatrix
         },
         setUniforms(visitor: FacetVisitor) {

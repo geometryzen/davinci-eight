@@ -1,11 +1,11 @@
 import Facet from '../core/Facet';
 import FacetVisitor from '../core/FacetVisitor';
-import Mat3R from '../math/Mat3R';
-import Mat4R from '../math/Mat4R';
+import Matrix3 from '../math/Matrix3';
+import Matrix4 from '../math/Matrix4';
 import ModelE3 from './ModelE3';
 import mustBeArray from '../checks/mustBeArray';
 import mustBeString from '../checks/mustBeString';
-import R3m from '../math/R3m';
+import Vector3 from '../math/Vector3';
 import readOnly from '../i18n/readOnly';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
 
@@ -22,12 +22,12 @@ export default class ModelFacet extends ModelE3 implements Facet {
 
     private static PROP_SCALEXYZ = 'scaleXYZ';
 
-    private _scaleXYZ: R3m = new R3m([1, 1, 1]);
-    private _matM = Mat4R.one();
-    private _matN = Mat3R.one();
-    private matR = Mat4R.one();
-    private matS = Mat4R.one();
-    private matT = Mat4R.one();
+    private _scaleXYZ: Vector3 = new Vector3([1, 1, 1]);
+    private _matM = Matrix4.one();
+    private _matN = Matrix3.one();
+    private matR = Matrix4.one();
+    private matS = Matrix4.one();
+    private matT = Matrix4.one();
     /**
      * <p>
      * A collection of properties governing GLSL uniforms for Rigid Body Modeling.
@@ -53,26 +53,26 @@ export default class ModelFacet extends ModelE3 implements Facet {
     }
 
     /**
-     * @property scaleXYZ
-     * @type R3m
+     * @property scale
+     * @type Vector3
      * @readOnly
      */
-    get scaleXYZ(): R3m {
+    get scale(): Vector3 {
         return this._scaleXYZ
     }
-    set scaleXYZ(unused) {
+    set scale(unused) {
         throw new Error(readOnly(ModelFacet.PROP_SCALEXYZ).message)
     }
 
     /**
      * @property matrix
-     * @type Mat4R
+     * @type Matrix4
      * @readOnly
      */
-    get matrix(): Mat4R {
+    get matrix(): Matrix4 {
         return this._matM
     }
-    set matrix(unused: Mat4R) {
+    set matrix(unused: Matrix4) {
         throw new Error(readOnly('matrix').message)
     }
 
@@ -101,16 +101,16 @@ export default class ModelFacet extends ModelE3 implements Facet {
             this.R.modified = false
             modified = true
         }
-        if (this.scaleXYZ.modified) {
-            this.matS.scaling(this.scaleXYZ)
-            this.scaleXYZ.modified = false
+        if (this.scale.modified) {
+            this.matS.scaling(this.scale)
+            this.scale.modified = false
             modified = true
         }
 
         if (modified) {
             this._matM.copy(this.matT).mul(this.matR).mul(this.matS)
             // The normal matrix is computed directly from the model matrix and cached.
-            this._matN.normalFromMat4R(this._matM)
+            this._matN.normalFromMatrix4(this._matM)
         }
     }
 

@@ -17,27 +17,28 @@ import Capability from 'davinci-eight/commands/Capability';
 import WebGLDisable from 'davinci-eight/commands/WebGLDisable';
 import WebGLEnable from 'davinci-eight/commands/WebGLEnable';
 // controls
-import TrackballCameraControls from 'davinci-eight/controls/TrackballCameraControls'
+import CameraControls from 'davinci-eight/controls/CameraControls'
 // core
 import AttribLocation from 'davinci-eight/core/AttribLocation';
 import AttribMetaInfo from 'davinci-eight/core/AttribMetaInfo';
 import Color from 'davinci-eight/core/Color';
 import core from 'davinci-eight/core';
+import Drawable from 'davinci-eight/core/Drawable';
 import DrawMode from 'davinci-eight/core/DrawMode';
 import IContextConsumer from 'davinci-eight/core/IContextConsumer';
 import IContextProgramConsumer from 'davinci-eight/core/IContextProgramConsumer';
 import IContextProvider from 'davinci-eight/core/IContextProvider';
+import GeometryContainer from 'davinci-eight/core/GeometryContainer';
+import GeometryPrimitive from 'davinci-eight/core/GeometryPrimitive';
 import GraphicsProgramSymbols from 'davinci-eight/core/GraphicsProgramSymbols';
 import Facet from 'davinci-eight/core/Facet';
 import FacetVisitor from 'davinci-eight/core/FacetVisitor';
-import UniformLocation from 'davinci-eight/core/UniformLocation';
-import UniformMetaInfo from 'davinci-eight/core/UniformMetaInfo';
+import Material from 'davinci-eight/core/Material';
 import Mesh from 'davinci-eight/core/Mesh';
 import Scene from 'davinci-eight/core/Scene';
+import UniformLocation from 'davinci-eight/core/UniformLocation';
+import UniformMetaInfo from 'davinci-eight/core/UniformMetaInfo';
 import WebGLRenderer from 'davinci-eight/core/WebGLRenderer';
-import Material from 'davinci-eight/core/Material';
-import GeometryContainer from 'davinci-eight/core/GeometryContainer';
-import GeometryPrimitive from 'davinci-eight/core/GeometryPrimitive';
 import initWebGL from 'davinci-eight/core/initWebGL';
 
 // curves
@@ -141,11 +142,10 @@ import gauss from 'davinci-eight/math/gauss';
 import GeometricElement from 'davinci-eight/math/GeometricElement';
 import LinearElement from 'davinci-eight/math/LinearElement';
 import mathcore from 'davinci-eight/math/mathcore';
-import R1m from 'davinci-eight/math/R1m';
-import Mat2R from 'davinci-eight/math/Mat2R';
-import Mat3R from 'davinci-eight/math/Mat3R';
-import Mat4R from 'davinci-eight/math/Mat4R';
-import MatNR from 'davinci-eight/math/MatNR';
+import Vector1 from 'davinci-eight/math/Vector1';
+import Matrix2 from 'davinci-eight/math/Matrix2';
+import Matrix3 from 'davinci-eight/math/Matrix3';
+import Matrix4 from 'davinci-eight/math/Matrix4';
 import Measure from 'davinci-eight/math/Measure';
 import Mutable from 'davinci-eight/math/Mutable';
 import QQ from 'davinci-eight/math/QQ';
@@ -155,11 +155,11 @@ import SpinorE3 from 'davinci-eight/math/SpinorE3';
 import Unit from 'davinci-eight/math/Unit';
 import G2m from 'davinci-eight/math/G2m';
 import G3m from 'davinci-eight/math/G3m';
-import SpinG2m from 'davinci-eight/math/SpinG2m';
-import SpinG3m from 'davinci-eight/math/SpinG3m';
-import R2m from 'davinci-eight/math/R2m';
-import R3m from 'davinci-eight/math/R3m';
-import R4m from 'davinci-eight/math/R4m';
+import Spinor2 from 'davinci-eight/math/Spinor2';
+import Spinor3 from 'davinci-eight/math/Spinor3';
+import Vector2 from 'davinci-eight/math/Vector2';
+import Vector3 from 'davinci-eight/math/Vector3';
+import Vector4 from 'davinci-eight/math/Vector4';
 import VectorN from 'davinci-eight/math/VectorN';
 import HH from 'davinci-eight/math/HH';
 
@@ -182,7 +182,6 @@ import animation from 'davinci-eight/utils/animation';
 import Arrow from 'davinci-eight/visual/Arrow';
 import Sphere from 'davinci-eight/visual/Sphere';
 import Box from 'davinci-eight/visual/Box';
-import Object3D from 'davinci-eight/visual/Object3D';
 import RigidBody from 'davinci-eight/visual/RigidBody';
 import Cylinder from 'davinci-eight/visual/Cylinder';
 import Tetrahedron from 'davinci-eight/visual/Tetrahedron';
@@ -267,7 +266,7 @@ const eight = {
     get perspectiveMatrix() { return perspectiveMatrix },
     get viewMatrix() { return viewMatrix },
     get Scene() { return Scene },
-    get Mesh() { return Mesh },
+    get Drawable() { return Drawable },
     get PerspectiveCamera() { return PerspectiveCamera },
     get getCanvasElementById() { return getCanvasElementById },
     get WebGLRenderer() { return WebGLRenderer },
@@ -280,7 +279,7 @@ const eight = {
     },
     get Color() { return Color },
 
-    get TrackballCameraControls() { return TrackballCameraControls },
+    get CameraControls() { return CameraControls },
 
     // facets
     get AmbientLight() { return AmbientLight },
@@ -302,18 +301,18 @@ const eight = {
     get Unit() { return Unit },
     get G2() { return G2 },
     get G3() { return G3 },
-    get Mat2R() { return Mat2R },
-    get Mat3R() { return Mat3R },
-    get Mat4R() { return Mat4R },
+    get Matrix2() { return Matrix2 },
+    get Matrix3() { return Matrix3 },
+    get Matrix4() { return Matrix4 },
     get QQ() { return QQ },
     get G2m() { return G2m },
     get G3m() { return G3m },
-    get R1m() { return R1m },
-    get SpinG2m() { return SpinG2m },
-    get SpinG3m() { return SpinG3m },
-    get R2m() { return R2m },
-    get R3m() { return R3m },
-    get R4m() { return R4m },
+    get Vector1() { return Vector1 },
+    get Spinor2() { return Spinor2 },
+    get Spinor3() { return Spinor3 },
+    get Vector2() { return Vector2 },
+    get Vector3() { return Vector3 },
+    get Vector4() { return Vector4 },
     get VectorN() { return VectorN },
     get Curve() { return Curve },
 
@@ -351,7 +350,7 @@ const eight = {
     get Arrow() { return Arrow },
     get Sphere() { return Sphere },
     get Box() { return Box },
-    get Object3D() { return Object3D },
+    get Mesh() { return Mesh },
     get RigidBody() { return RigidBody },
     get Cylinder() { return Cylinder },
     get Tetrahedron() { return Tetrahedron },

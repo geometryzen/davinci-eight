@@ -3,18 +3,18 @@ import R3 from '../math/R3';
 import SimplexPrimitivesBuilder from '../geometries/SimplexPrimitivesBuilder';
 import IAxialGeometry from '../geometries/IAxialGeometry';
 import mustBeNumber from '../checks/mustBeNumber';
-import R1m from '../math/R1m';
+import Vector1 from '../math/Vector1';
 import Simplex from '../geometries/Simplex';
 import SliceSimplexPrimitivesBuilder from '../geometries/SliceSimplexPrimitivesBuilder';
-import SpinG3m from '../math/SpinG3m';
+import Spinor3 from '../math/Spinor3';
 import SpinorE3 from '../math/SpinorE3';
-import R2m from '../math/R2m';
-import R3m from '../math/R3m';
+import Vector2 from '../math/Vector2';
+import Vector3 from '../math/Vector3';
 import VectorE3 from '../math/VectorE3';
 
-function computeVertices(radius: number, axis: R3, phiStart: R3m, phiLength: number, thetaStart: number, thetaLength: number, heightSegments: number, widthSegments: number, points: R3m[], uvs: R2m[]) {
+function computeVertices(radius: number, axis: R3, phiStart: Vector3, phiLength: number, thetaStart: number, thetaLength: number, heightSegments: number, widthSegments: number, points: Vector3[], uvs: Vector2[]) {
 
-    const generator: SpinorE3 = SpinG3m.dual(axis)
+    const generator: SpinorE3 = Spinor3.dual(axis)
     const iLength = heightSegments + 1
     const jLength = widthSegments + 1
 
@@ -23,9 +23,9 @@ function computeVertices(radius: number, axis: R3, phiStart: R3m, phiLength: num
 
         const θ: number = thetaStart + v * thetaLength
         const arcRadius = radius * Math.sin(θ)
-        const begin = R3m.copy(phiStart).scale(arcRadius)
+        const begin = Vector3.copy(phiStart).scale(arcRadius)
 
-        const arcPoints: R3m[] = arc3(begin, phiLength, generator, widthSegments)
+        const arcPoints: Vector3[] = arc3(begin, phiLength, generator, widthSegments)
         /**
          * Displacement that we need to add (in the axis direction) to each arc point to get the
          * distance position parallel to the axis correct.
@@ -37,7 +37,7 @@ function computeVertices(radius: number, axis: R3, phiStart: R3m, phiLength: num
             const point = arcPoints[j].add(axis, displacement)
             points.push(point)
             const u = j / widthSegments;
-            uvs.push(new R2m([u, 1 - v]))
+            uvs.push(new Vector2([u, 1 - v]))
         }
     }
 }
@@ -55,7 +55,7 @@ function vertexIndex(qIndex: number, n: number, innerSegments: number) {
     }
 }
 
-function makeTriangles(points: R3m[], uvs: R2m[], radius: number, heightSegments: number, widthSegments: number, geometry: SimplexPrimitivesBuilder) {
+function makeTriangles(points: Vector3[], uvs: Vector2[], radius: number, heightSegments: number, widthSegments: number, geometry: SimplexPrimitivesBuilder) {
     for (var i = 0; i < heightSegments; i++) {
         for (var j = 0; j < widthSegments; j++) {
             let qIndex = quadIndex(i, j, widthSegments)
@@ -66,16 +66,16 @@ function makeTriangles(points: R3m[], uvs: R2m[], radius: number, heightSegments
             var v3: number = vertexIndex(qIndex, 3, widthSegments)
 
             // The normal vectors for the sphere are simply the normalized position vectors.
-            var n0: R3m = R3m.copy(points[v0]).direction();
-            var n1: R3m = R3m.copy(points[v1]).direction();
-            var n2: R3m = R3m.copy(points[v2]).direction();
-            var n3: R3m = R3m.copy(points[v3]).direction();
+            var n0: Vector3 = Vector3.copy(points[v0]).direction();
+            var n1: Vector3 = Vector3.copy(points[v1]).direction();
+            var n2: Vector3 = Vector3.copy(points[v2]).direction();
+            var n3: Vector3 = Vector3.copy(points[v3]).direction();
 
             // Grab the uv coordinates too.
-            var uv0: R2m = uvs[v0].clone();
-            var uv1: R2m = uvs[v1].clone();
-            var uv2: R2m = uvs[v2].clone();
-            var uv3: R2m = uvs[v3].clone();
+            var uv0: Vector2 = uvs[v0].clone();
+            var uv1: Vector2 = uvs[v1].clone();
+            var uv2: Vector2 = uvs[v2].clone();
+            var uv3: Vector2 = uvs[v3].clone();
 
             // Special case the north and south poles by only creating one triangle.
             // FIXME: What's the geometric equivalent here?
@@ -96,7 +96,7 @@ function makeTriangles(points: R3m[], uvs: R2m[], radius: number, heightSegments
     }
 }
 
-function makeLineSegments(points: R3m[], uvs: R2m[], radius: number, heightSegments: number, widthSegments: number, geometry: SimplexPrimitivesBuilder) {
+function makeLineSegments(points: Vector3[], uvs: Vector2[], radius: number, heightSegments: number, widthSegments: number, geometry: SimplexPrimitivesBuilder) {
     for (var i = 0; i < heightSegments; i++) {
         for (var j = 0; j < widthSegments; j++) {
             let qIndex = quadIndex(i, j, widthSegments)
@@ -106,16 +106,16 @@ function makeLineSegments(points: R3m[], uvs: R2m[], radius: number, heightSegme
             var v3: number = vertexIndex(qIndex, 3, widthSegments)
 
             // The normal vectors for the sphere are simply the normalized position vectors.
-            var n0: R3m = R3m.copy(points[v0]).direction();
-            var n1: R3m = R3m.copy(points[v1]).direction();
-            var n2: R3m = R3m.copy(points[v2]).direction();
-            var n3: R3m = R3m.copy(points[v3]).direction();
+            var n0: Vector3 = Vector3.copy(points[v0]).direction();
+            var n1: Vector3 = Vector3.copy(points[v1]).direction();
+            var n2: Vector3 = Vector3.copy(points[v2]).direction();
+            var n3: Vector3 = Vector3.copy(points[v3]).direction();
 
             // Grab the uv coordinates too.
-            var uv0: R2m = uvs[v0].clone();
-            var uv1: R2m = uvs[v1].clone();
-            var uv2: R2m = uvs[v2].clone();
-            var uv3: R2m = uvs[v3].clone();
+            var uv0: Vector2 = uvs[v0].clone();
+            var uv1: Vector2 = uvs[v1].clone();
+            var uv2: Vector2 = uvs[v2].clone();
+            var uv3: Vector2 = uvs[v3].clone();
 
             // Special case the north and south poles by only creating one triangle.
             // FIXME: What's the geometric equivalent here?
@@ -137,7 +137,7 @@ function makeLineSegments(points: R3m[], uvs: R2m[], radius: number, heightSegme
     }
 }
 
-function makePoints(points: R3m[], uvs: R2m[], radius: number, heightSegments: number, widthSegments: number, geometry: SimplexPrimitivesBuilder) {
+function makePoints(points: Vector3[], uvs: Vector2[], radius: number, heightSegments: number, widthSegments: number, geometry: SimplexPrimitivesBuilder) {
     for (var i = 0; i < heightSegments; i++) {
         for (var j = 0; j < widthSegments; j++) {
             let qIndex = quadIndex(i, j, widthSegments)
@@ -147,16 +147,16 @@ function makePoints(points: R3m[], uvs: R2m[], radius: number, heightSegments: n
             var v3: number = vertexIndex(qIndex, 3, widthSegments)
 
             // The normal vectors for the sphere are simply the normalized position vectors.
-            var n0: R3m = R3m.copy(points[v0]).direction();
-            var n1: R3m = R3m.copy(points[v1]).direction();
-            var n2: R3m = R3m.copy(points[v2]).direction();
-            var n3: R3m = R3m.copy(points[v3]).direction();
+            var n0: Vector3 = Vector3.copy(points[v0]).direction();
+            var n1: Vector3 = Vector3.copy(points[v1]).direction();
+            var n2: Vector3 = Vector3.copy(points[v2]).direction();
+            var n3: Vector3 = Vector3.copy(points[v3]).direction();
 
             // Grab the uv coordinates too.
-            var uv0: R2m = uvs[v0].clone();
-            var uv1: R2m = uvs[v1].clone();
-            var uv2: R2m = uvs[v2].clone();
-            var uv3: R2m = uvs[v3].clone();
+            var uv0: Vector2 = uvs[v0].clone();
+            var uv1: Vector2 = uvs[v1].clone();
+            var uv2: Vector2 = uvs[v2].clone();
+            var uv3: Vector2 = uvs[v3].clone();
 
             // Special case the north and south poles by only creating one triangle.
             // FIXME: What's the geometric equivalent here?
@@ -179,7 +179,7 @@ function makePoints(points: R3m[], uvs: R2m[], radius: number, heightSegments: n
 }
 
 export default class SphereBuilder extends SliceSimplexPrimitivesBuilder implements IAxialGeometry<SphereBuilder> {
-    public _radius: R1m;
+    public _radius: Vector1;
     public thetaLength: number;
     public thetaStart: number;
     constructor(
@@ -191,7 +191,7 @@ export default class SphereBuilder extends SliceSimplexPrimitivesBuilder impleme
         thetaLength = Math.PI
     ) {
         super(axis, phiStart, phiLength)
-        this._radius = new R1m([radius])
+        this._radius = new Vector1([radius])
         this.thetaLength = thetaLength
         this.thetaStart = thetaStart
 
@@ -210,10 +210,10 @@ export default class SphereBuilder extends SliceSimplexPrimitivesBuilder impleme
     set phiLength(phiLength: number) {
         this.sliceAngle = phiLength
     }
-    get phiStart(): R3m {
+    get phiStart(): Vector3 {
         return this.sliceStart
     }
-    set phiStart(phiStart: R3m) {
+    set phiStart(phiStart: Vector3) {
         this.sliceStart.copy(phiStart)
     }
     public setAxis(axis: VectorE3): SphereBuilder {
@@ -243,8 +243,8 @@ export default class SphereBuilder extends SliceSimplexPrimitivesBuilder impleme
         let widthSegments = this.curvedSegments
 
         // Output. Could this be {[name:string]:VertexN<number>}[]
-        var points: R3m[] = []
-        var uvs: R2m[] = []
+        var points: Vector3[] = []
+        var uvs: Vector2[] = []
         computeVertices(this.radius, this.axis, this.phiStart, this.phiLength, this.thetaStart, this.thetaLength, heightSegments, widthSegments, points, uvs)
 
         switch (this.k) {

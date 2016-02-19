@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.190.0</em>
+            <em>API Docs for: 2.191.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -47,6 +47,7 @@
                                 <li><a href="../classes/Attribute.html">Attribute</a></li>
                                 <li><a href="../classes/BlendFactor.html">BlendFactor</a></li>
                                 <li><a href="../classes/Box.html">Box</a></li>
+                                <li><a href="../classes/CameraControls.html">CameraControls</a></li>
                                 <li><a href="../classes/Capability.html">Capability</a></li>
                                 <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
@@ -61,6 +62,7 @@
                                 <li><a href="../classes/CylinderGeometry.html">CylinderGeometry</a></li>
                                 <li><a href="../classes/Dimensions.html">Dimensions</a></li>
                                 <li><a href="../classes/DirectionalLight.html">DirectionalLight</a></li>
+                                <li><a href="../classes/Drawable.html">Drawable</a></li>
                                 <li><a href="../classes/DrawMode.html">DrawMode</a></li>
                                 <li><a href="../classes/EIGHTLogger.html">EIGHTLogger</a></li>
                                 <li><a href="../classes/Facet.html">Facet</a></li>
@@ -84,10 +86,10 @@
                                 <li><a href="../classes/IContextProvider.html">IContextProvider</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
-                                <li><a href="../classes/Mat2R.html">Mat2R</a></li>
-                                <li><a href="../classes/Mat3R.html">Mat3R</a></li>
-                                <li><a href="../classes/Mat4R.html">Mat4R</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
+                                <li><a href="../classes/Matrix2.html">Matrix2</a></li>
+                                <li><a href="../classes/Matrix3.html">Matrix3</a></li>
+                                <li><a href="../classes/Matrix4.html">Matrix4</a></li>
                                 <li><a href="../classes/Mesh.html">Mesh</a></li>
                                 <li><a href="../classes/MeshMaterial.html">MeshMaterial</a></li>
                                 <li><a href="../classes/ModelE2.html">ModelE2</a></li>
@@ -104,11 +106,7 @@
                                 <li><a href="../classes/PrimitiveBuffers.html">PrimitiveBuffers</a></li>
                                 <li><a href="../classes/Pseudo.html">Pseudo</a></li>
                                 <li><a href="../classes/QQ.html">QQ</a></li>
-                                <li><a href="../classes/R1m.html">R1m</a></li>
-                                <li><a href="../classes/R2m.html">R2m</a></li>
                                 <li><a href="../classes/R3.html">R3</a></li>
-                                <li><a href="../classes/R3m.html">R3m</a></li>
-                                <li><a href="../classes/R4m.html">R4m</a></li>
                                 <li><a href="../classes/ReflectionFacetE2.html">ReflectionFacetE2</a></li>
                                 <li><a href="../classes/ReflectionFacetE3.html">ReflectionFacetE3</a></li>
                                 <li><a href="../classes/RigidBody.html">RigidBody</a></li>
@@ -122,8 +120,8 @@
                                 <li><a href="../classes/ShareableWebGLTexture.html">ShareableWebGLTexture</a></li>
                                 <li><a href="../classes/Sphere.html">Sphere</a></li>
                                 <li><a href="../classes/SphereGeometry.html">SphereGeometry</a></li>
-                                <li><a href="../classes/SpinG2m.html">SpinG2m</a></li>
-                                <li><a href="../classes/SpinG3m.html">SpinG3m</a></li>
+                                <li><a href="../classes/Spinor2.html">Spinor2</a></li>
+                                <li><a href="../classes/Spinor3.html">Spinor3</a></li>
                                 <li><a href="../classes/SpinorE1.html">SpinorE1</a></li>
                                 <li><a href="../classes/SpinorE2.html">SpinorE2</a></li>
                                 <li><a href="../classes/SpinorE3.html">SpinorE3</a></li>
@@ -131,13 +129,16 @@
                                 <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
                                 <li><a href="../classes/Tetrahedron.html">Tetrahedron</a></li>
                                 <li><a href="../classes/TetrahedronGeometry.html">TetrahedronGeometry</a></li>
-                                <li><a href="../classes/TrackballCameraControls.html">TrackballCameraControls</a></li>
                                 <li><a href="../classes/Trail.html">Trail</a></li>
                                 <li><a href="../classes/UniformLocation.html">UniformLocation</a></li>
                                 <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
                                 <li><a href="../classes/Unit.html">Unit</a></li>
                                 <li><a href="../classes/Vector.html">Vector</a></li>
+                                <li><a href="../classes/Vector1.html">Vector1</a></li>
+                                <li><a href="../classes/Vector2.html">Vector2</a></li>
+                                <li><a href="../classes/Vector3.html">Vector3</a></li>
                                 <li><a href="../classes/Vector3Facet.html">Vector3Facet</a></li>
+                                <li><a href="../classes/Vector4.html">Vector4</a></li>
                                 <li><a href="../classes/VectorE0.html">VectorE0</a></li>
                                 <li><a href="../classes/VectorE1.html">VectorE1</a></li>
                                 <li><a href="../classes/VectorE2.html">VectorE2</a></li>
@@ -205,31 +206,31 @@
 import arc3 from &#x27;../geometries/arc3&#x27;;
 import VectorE3 from &#x27;../math/VectorE3&#x27;;
 import SliceSimplexPrimitivesBuilder from &#x27;../geometries/SliceSimplexPrimitivesBuilder&#x27;;
-import SpinG3m from &#x27;../math/SpinG3m&#x27;;
+import Spinor3 from &#x27;../math/Spinor3&#x27;;
 import SpinorE3 from &#x27;../math/SpinorE3&#x27;;
-import R2m from &#x27;../math/R2m&#x27;;
-import R3m from &#x27;../math/R3m&#x27;;
+import Vector2 from &#x27;../math/Vector2&#x27;;
+import Vector3 from &#x27;../math/Vector3&#x27;;
 
 /**
  *
  */
-function computeVertices(radius: number, height: number, axis: VectorE3, pos: VectorE3, start: VectorE3, angle: number, generator: SpinorE3, heightSegments: number, thetaSegments: number, points: R3m[], vertices: number[][], uvs: R2m[][]) {
+function computeVertices(radius: number, height: number, axis: VectorE3, pos: VectorE3, start: VectorE3, angle: number, generator: SpinorE3, heightSegments: number, thetaSegments: number, points: Vector3[], vertices: number[][], uvs: Vector2[][]) {
 
-    const begin = R3m.copy(start).scale(radius)
-    const halfHeight = R3m.copy(axis).scale(0.5 * height)
+    const begin = Vector3.copy(start).scale(radius)
+    const halfHeight = Vector3.copy(axis).scale(0.5 * height)
 
     /**
      * A displacement in the direction of axis that we must move for each height step.
      */
-    const stepH = R3m.copy(axis).direction().scale(height / heightSegments)
+    const stepH = Vector3.copy(axis).direction().scale(height / heightSegments)
 
     for (let i = 0; i &lt;= heightSegments; i++) {
         /**
          * The displacement to the current level.
          */
-        const dispH = R3m.copy(stepH).scale(i).sub(halfHeight)
+        const dispH = Vector3.copy(stepH).scale(i).sub(halfHeight)
         const verticesRow: number[] = [];
-        const uvsRow: R2m[] = [];
+        const uvsRow: Vector2[] = [];
         /**
          * Interesting that the v coordinate is 1 at the base and 0 at the top!
          * This is because i originally went from top to bottom.
@@ -250,7 +251,7 @@ function computeVertices(radius: number, height: number, axis: VectorE3, pos: Ve
             const u = j / thetaSegments;
             points.push(point);
             verticesRow.push(points.length - 1);
-            uvsRow.push(new R2m([u, v]));
+            uvsRow.push(new Vector2([u, v]));
         }
         vertices.push(verticesRow);
         uvs.push(uvsRow);
@@ -277,29 +278,29 @@ export default class CylinderBuilder extends SliceSimplexPrimitivesBuilder {
         const height = this.height
         const heightSegments = this.flatSegments
         const thetaSegments = this.curvedSegments
-        const generator: SpinorE3 = SpinG3m.dual(this.axis)
+        const generator: SpinorE3 = Spinor3.dual(this.axis)
 
         const heightHalf = height / 2;
 
-        var points: R3m[] = [];
+        var points: Vector3[] = [];
         // The double array allows us to manage the i,j indexing more naturally.
         // The alternative is to use an indexing function.
         let vertices: number[][] = [];
-        let uvs: R2m[][] = [];
+        let uvs: Vector2[][] = [];
 
         computeVertices(radius, this.height, this.axis, this.position, this.sliceStart, this.sliceAngle, generator, heightSegments, thetaSegments, points, vertices, uvs)
 
-        var na: R3m;
-        var nb: R3m;
+        var na: Vector3;
+        var nb: Vector3;
         // sides
         for (let j = 0; j &lt; thetaSegments; j++) {
             if (radius !== 0) {
-                na = R3m.copy(points[vertices[0][j]]);
-                nb = R3m.copy(points[vertices[0][j + 1]]);
+                na = Vector3.copy(points[vertices[0][j]]);
+                nb = Vector3.copy(points[vertices[0][j + 1]]);
             }
             else {
-                na = R3m.copy(points[vertices[1][j]]);
-                nb = R3m.copy(points[vertices[1][j + 1]]);
+                na = Vector3.copy(points[vertices[1][j]]);
+                nb = Vector3.copy(points[vertices[1][j + 1]]);
             }
             // FIXME: This isn&#x27;t geometric.
             na.setY(0).direction();
@@ -334,18 +335,18 @@ export default class CylinderBuilder extends SliceSimplexPrimitivesBuilder {
         // top cap
         if (!this.openTop &amp;&amp; radius &gt; 0) {
             // Push an extra point for the center of the top.
-            points.push(R3m.copy(this.axis).scale(heightHalf).add(this.position));
+            points.push(Vector3.copy(this.axis).scale(heightHalf).add(this.position));
             for (let j = 0; j &lt; thetaSegments; j++) {
                 let v1: number = vertices[heightSegments][j + 1];
                 let v2: number = points.length - 1;
                 let v3: number = vertices[heightSegments][j];
-                let n1: R3m = R3m.copy(this.axis)
-                let n2: R3m = R3m.copy(this.axis)
-                let n3: R3m = R3m.copy(this.axis)
-                let uv1: R2m = uvs[heightSegments][j + 1].clone();
+                let n1: Vector3 = Vector3.copy(this.axis)
+                let n2: Vector3 = Vector3.copy(this.axis)
+                let n3: Vector3 = Vector3.copy(this.axis)
+                let uv1: Vector2 = uvs[heightSegments][j + 1].clone();
                 // Check this
-                let uv2: R2m = new R2m([uv1.x, 1]);
-                let uv3: R2m = uvs[heightSegments][j].clone();
+                let uv2: Vector2 = new Vector2([uv1.x, 1]);
+                let uv3: Vector2 = uvs[heightSegments][j].clone();
                 this.triangle([points[v1], points[v2], points[v3]], [n1, n2, n3], [uv1, uv2, uv3])
             }
         }
@@ -353,18 +354,18 @@ export default class CylinderBuilder extends SliceSimplexPrimitivesBuilder {
         // bottom cap
         if (!this.openBottom &amp;&amp; radius &gt; 0) {
             // Push an extra point for the center of the bottom.
-            points.push(R3m.copy(this.axis).scale(-heightHalf).add(this.position))
+            points.push(Vector3.copy(this.axis).scale(-heightHalf).add(this.position))
             for (let j = 0; j &lt; thetaSegments; j++) {
                 let v1: number = vertices[0][j]
                 let v2: number = points.length - 1
                 let v3: number = vertices[0][j + 1]
-                let n1: R3m = R3m.copy(this.axis).scale(-1)
-                let n2: R3m = R3m.copy(this.axis).scale(-1)
-                let n3: R3m = R3m.copy(this.axis).scale(-1)
-                let uv1: R2m = uvs[0][j].clone()
+                let n1: Vector3 = Vector3.copy(this.axis).scale(-1)
+                let n2: Vector3 = Vector3.copy(this.axis).scale(-1)
+                let n3: Vector3 = Vector3.copy(this.axis).scale(-1)
+                let uv1: Vector2 = uvs[0][j].clone()
                 // TODO: Check this
-                let uv2: R2m = new R2m([uv1.x, 1])
-                let uv3: R2m = uvs[0][j + 1].clone()
+                let uv2: Vector2 = new Vector2([uv1.x, 1])
+                let uv3: Vector2 = uvs[0][j + 1].clone()
                 this.triangle([points[v1], points[v2], points[v3]], [n1, n2, n3], [uv1, uv2, uv3])
             }
         }

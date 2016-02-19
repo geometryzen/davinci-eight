@@ -1,23 +1,23 @@
 import SimplexPrimitivesBuilder from '../geometries/SimplexPrimitivesBuilder';
-import SpinG3m from '../math/SpinG3m';
-import R2m from '../math/R2m';
-import R3m from '../math/R3m';
+import Spinor3 from '../math/Spinor3';
+import Vector2 from '../math/Vector2';
+import Vector3 from '../math/Vector3';
 
 export default class RevolutionSimplexPrimitivesBuilder extends SimplexPrimitivesBuilder {
     constructor() {
         super()
     }
     protected revolve(
-        points: R3m[],
-        generator: SpinG3m,
+        points: Vector3[],
+        generator: Spinor3,
         segments = 12,
         phiStart = 0,
         phiLength = 2 * Math.PI,
-        attitude: SpinG3m) {
+        attitude: Spinor3) {
         /**
          * Temporary list of points.
          */
-        var vertices: R3m[] = []
+        var vertices: Vector3[] = []
 
         // Determine heuristically whether the user intended to make a complete revolution.
         var isClosed = Math.abs(2 * Math.PI - Math.abs(phiLength - phiStart)) < 0.0001;
@@ -32,7 +32,7 @@ export default class RevolutionSimplexPrimitivesBuilder extends SimplexPrimitive
         var il: number;
         var jl: number;
 
-        var R: SpinG3m = new SpinG3m()
+        var R: Spinor3 = new Spinor3()
 
         for (i = 0, il = halfPlanes; i < il; i++) {
 
@@ -77,8 +77,8 @@ export default class RevolutionSimplexPrimitivesBuilder extends SimplexPrimitive
                 var u1 = u0 + inverseSegments;
                 var v1 = v0 + inversePointLength;
 
-                this.triangle([vertices[d], vertices[b], vertices[a]], [], [new R2m([u0, v0]), new R2m([u1, v0]), new R2m([u0, v1])])
-                this.triangle([vertices[d], vertices[c], vertices[b]], [], [new R2m([u1, v0]), new R2m([u1, v1]), new R2m([u0, v1])])
+                this.triangle([vertices[d], vertices[b], vertices[a]], [], [new Vector2([u0, v0]), new Vector2([u1, v0]), new Vector2([u0, v1])])
+                this.triangle([vertices[d], vertices[c], vertices[b]], [], [new Vector2([u1, v0]), new Vector2([u1, v1]), new Vector2([u0, v1])])
             }
         }
         //    this.computeFaceNormals();

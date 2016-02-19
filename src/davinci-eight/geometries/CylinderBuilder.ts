@@ -1,31 +1,31 @@
 import arc3 from '../geometries/arc3';
 import VectorE3 from '../math/VectorE3';
 import SliceSimplexPrimitivesBuilder from '../geometries/SliceSimplexPrimitivesBuilder';
-import SpinG3m from '../math/SpinG3m';
+import Spinor3 from '../math/Spinor3';
 import SpinorE3 from '../math/SpinorE3';
-import R2m from '../math/R2m';
-import R3m from '../math/R3m';
+import Vector2 from '../math/Vector2';
+import Vector3 from '../math/Vector3';
 
 /**
  *
  */
-function computeVertices(radius: number, height: number, axis: VectorE3, pos: VectorE3, start: VectorE3, angle: number, generator: SpinorE3, heightSegments: number, thetaSegments: number, points: R3m[], vertices: number[][], uvs: R2m[][]) {
+function computeVertices(radius: number, height: number, axis: VectorE3, pos: VectorE3, start: VectorE3, angle: number, generator: SpinorE3, heightSegments: number, thetaSegments: number, points: Vector3[], vertices: number[][], uvs: Vector2[][]) {
 
-    const begin = R3m.copy(start).scale(radius)
-    const halfHeight = R3m.copy(axis).scale(0.5 * height)
+    const begin = Vector3.copy(start).scale(radius)
+    const halfHeight = Vector3.copy(axis).scale(0.5 * height)
 
     /**
      * A displacement in the direction of axis that we must move for each height step.
      */
-    const stepH = R3m.copy(axis).direction().scale(height / heightSegments)
+    const stepH = Vector3.copy(axis).direction().scale(height / heightSegments)
 
     for (let i = 0; i <= heightSegments; i++) {
         /**
          * The displacement to the current level.
          */
-        const dispH = R3m.copy(stepH).scale(i).sub(halfHeight)
+        const dispH = Vector3.copy(stepH).scale(i).sub(halfHeight)
         const verticesRow: number[] = [];
-        const uvsRow: R2m[] = [];
+        const uvsRow: Vector2[] = [];
         /**
          * Interesting that the v coordinate is 1 at the base and 0 at the top!
          * This is because i originally went from top to bottom.
@@ -46,7 +46,7 @@ function computeVertices(radius: number, height: number, axis: VectorE3, pos: Ve
             const u = j / thetaSegments;
             points.push(point);
             verticesRow.push(points.length - 1);
-            uvsRow.push(new R2m([u, v]));
+            uvsRow.push(new Vector2([u, v]));
         }
         vertices.push(verticesRow);
         uvs.push(uvsRow);
@@ -73,29 +73,29 @@ export default class CylinderBuilder extends SliceSimplexPrimitivesBuilder {
         const height = this.height
         const heightSegments = this.flatSegments
         const thetaSegments = this.curvedSegments
-        const generator: SpinorE3 = SpinG3m.dual(this.axis)
+        const generator: SpinorE3 = Spinor3.dual(this.axis)
 
         const heightHalf = height / 2;
 
-        var points: R3m[] = [];
+        var points: Vector3[] = [];
         // The double array allows us to manage the i,j indexing more naturally.
         // The alternative is to use an indexing function.
         let vertices: number[][] = [];
-        let uvs: R2m[][] = [];
+        let uvs: Vector2[][] = [];
 
         computeVertices(radius, this.height, this.axis, this.position, this.sliceStart, this.sliceAngle, generator, heightSegments, thetaSegments, points, vertices, uvs)
 
-        var na: R3m;
-        var nb: R3m;
+        var na: Vector3;
+        var nb: Vector3;
         // sides
         for (let j = 0; j < thetaSegments; j++) {
             if (radius !== 0) {
-                na = R3m.copy(points[vertices[0][j]]);
-                nb = R3m.copy(points[vertices[0][j + 1]]);
+                na = Vector3.copy(points[vertices[0][j]]);
+                nb = Vector3.copy(points[vertices[0][j + 1]]);
             }
             else {
-                na = R3m.copy(points[vertices[1][j]]);
-                nb = R3m.copy(points[vertices[1][j + 1]]);
+                na = Vector3.copy(points[vertices[1][j]]);
+                nb = Vector3.copy(points[vertices[1][j + 1]]);
             }
             // FIXME: This isn't geometric.
             na.setY(0).direction();
@@ -130,18 +130,18 @@ export default class CylinderBuilder extends SliceSimplexPrimitivesBuilder {
         // top cap
         if (!this.openTop && radius > 0) {
             // Push an extra point for the center of the top.
-            points.push(R3m.copy(this.axis).scale(heightHalf).add(this.position));
+            points.push(Vector3.copy(this.axis).scale(heightHalf).add(this.position));
             for (let j = 0; j < thetaSegments; j++) {
                 let v1: number = vertices[heightSegments][j + 1];
                 let v2: number = points.length - 1;
                 let v3: number = vertices[heightSegments][j];
-                let n1: R3m = R3m.copy(this.axis)
-                let n2: R3m = R3m.copy(this.axis)
-                let n3: R3m = R3m.copy(this.axis)
-                let uv1: R2m = uvs[heightSegments][j + 1].clone();
+                let n1: Vector3 = Vector3.copy(this.axis)
+                let n2: Vector3 = Vector3.copy(this.axis)
+                let n3: Vector3 = Vector3.copy(this.axis)
+                let uv1: Vector2 = uvs[heightSegments][j + 1].clone();
                 // Check this
-                let uv2: R2m = new R2m([uv1.x, 1]);
-                let uv3: R2m = uvs[heightSegments][j].clone();
+                let uv2: Vector2 = new Vector2([uv1.x, 1]);
+                let uv3: Vector2 = uvs[heightSegments][j].clone();
                 this.triangle([points[v1], points[v2], points[v3]], [n1, n2, n3], [uv1, uv2, uv3])
             }
         }
@@ -149,18 +149,18 @@ export default class CylinderBuilder extends SliceSimplexPrimitivesBuilder {
         // bottom cap
         if (!this.openBottom && radius > 0) {
             // Push an extra point for the center of the bottom.
-            points.push(R3m.copy(this.axis).scale(-heightHalf).add(this.position))
+            points.push(Vector3.copy(this.axis).scale(-heightHalf).add(this.position))
             for (let j = 0; j < thetaSegments; j++) {
                 let v1: number = vertices[0][j]
                 let v2: number = points.length - 1
                 let v3: number = vertices[0][j + 1]
-                let n1: R3m = R3m.copy(this.axis).scale(-1)
-                let n2: R3m = R3m.copy(this.axis).scale(-1)
-                let n3: R3m = R3m.copy(this.axis).scale(-1)
-                let uv1: R2m = uvs[0][j].clone()
+                let n1: Vector3 = Vector3.copy(this.axis).scale(-1)
+                let n2: Vector3 = Vector3.copy(this.axis).scale(-1)
+                let n3: Vector3 = Vector3.copy(this.axis).scale(-1)
+                let uv1: Vector2 = uvs[0][j].clone()
                 // TODO: Check this
-                let uv2: R2m = new R2m([uv1.x, 1])
-                let uv3: R2m = uvs[0][j + 1].clone()
+                let uv2: Vector2 = new Vector2([uv1.x, 1])
+                let uv3: Vector2 = uvs[0][j + 1].clone()
                 this.triangle([points[v1], points[v2], points[v3]], [n1, n2, n3], [uv1, uv2, uv3])
             }
         }

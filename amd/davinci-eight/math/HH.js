@@ -1,4 +1,4 @@
-define(["require", "exports", '../math/dotVectorCartesianE3', '../math/G3', '../math/dotVectorE3', '../checks/mustBeInteger', '../checks/mustBeNumber', '../checks/mustBeObject', '../math/quadVectorE3', '../math/R3m', '../math/rotorFromDirections'], function (require, exports, dotVectorCartesianE3_1, G3_1, dotVectorE3_1, mustBeInteger_1, mustBeNumber_1, mustBeObject_1, quadVectorE3_1, R3m_1, rotorFromDirections_1) {
+define(["require", "exports", '../math/dotVectorCartesianE3', '../math/G3', '../math/dotVectorE3', '../checks/mustBeInteger', '../checks/mustBeNumber', '../checks/mustBeObject', '../math/quadVectorE3', '../math/Vector3', '../math/rotorFromDirections'], function (require, exports, dotVectorCartesianE3_1, G3_1, dotVectorE3_1, mustBeInteger_1, mustBeNumber_1, mustBeObject_1, quadVectorE3_1, Vector3_1, rotorFromDirections_1) {
     var cos = Math.cos;
     var sin = Math.sin;
     var exp = Math.exp;
@@ -296,8 +296,8 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../math/G3', '../
             }
             return this;
         };
-        HH.prototype.spinor = function (a, b) {
-            var v1 = new R3m_1.default();
+        HH.prototype.versor = function (a, b) {
+            var v1 = new Vector3_1.default();
             var r = dotVectorE3_1.default(a, b) + 1;
             if (r < EPS) {
                 r = 0;

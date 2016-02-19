@@ -10,7 +10,7 @@ import mustBeString from '../checks/mustBeString'
 import DrawList from './DrawList'
 import PerspectiveCamera from '../facets/PerspectiveCamera'
 import refChange from '../core/refChange'
-import TrackballCameraControls from '../controls/TrackballCameraControls'
+import CameraControls from '../controls/CameraControls'
 import World from './World'
 import WebGLRenderer from '../core/WebGLRenderer'
 
@@ -54,7 +54,7 @@ export default function(
     camera.up.setXYZ(0, 1, 0)
     ambients.push(camera)
 
-    const controls = new TrackballCameraControls(camera)
+    const controls = new CameraControls(camera)
 
     const world = new World(renderer, drawList, ambients, controls)
 

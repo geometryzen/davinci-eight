@@ -5,28 +5,28 @@ import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
 import IPrimitivesBuilder from './IPrimitivesBuilder';
 import mustBeNumber from '../checks/mustBeNumber';
 import Primitive from '../core/Primitive';
-import R3m from '../math/R3m';
-import R2m from '../math/R2m';
+import Vector3 from '../math/Vector3';
+import Vector2 from '../math/Vector2';
 import VectorE3 from '../math/VectorE3';
 
-function side(basis: R3m[], uSegments: number, vSegments: number): GridTopology {
-    var normal = R3m.copy(basis[0]).cross(basis[1]).direction()
-    var aNeg = R3m.copy(basis[0]).scale(-0.5)
-    var aPos = R3m.copy(basis[0]).scale(+0.5)
-    var bNeg = R3m.copy(basis[1]).scale(-0.5)
-    var bPos = R3m.copy(basis[1]).scale(+0.5)
-    var cPos = R3m.copy(basis[2]).scale(+0.5)
+function side(basis: Vector3[], uSegments: number, vSegments: number): GridTopology {
+    var normal = Vector3.copy(basis[0]).cross(basis[1]).direction()
+    var aNeg = Vector3.copy(basis[0]).scale(-0.5)
+    var aPos = Vector3.copy(basis[0]).scale(+0.5)
+    var bNeg = Vector3.copy(basis[1]).scale(-0.5)
+    var bPos = Vector3.copy(basis[1]).scale(+0.5)
+    var cPos = Vector3.copy(basis[2]).scale(+0.5)
     var side = new GridTopology(uSegments, vSegments)
     for (var uIndex = 0; uIndex < side.uLength; uIndex++) {
         for (var vIndex = 0; vIndex < side.vLength; vIndex++) {
             var u = uIndex / uSegments
             var v = vIndex / vSegments
-            var a = R3m.copy(aNeg).lerp(aPos, u)
-            var b = R3m.copy(bNeg).lerp(bPos, v)
+            var a = Vector3.copy(aNeg).lerp(aPos, u)
+            var b = Vector3.copy(bNeg).lerp(bPos, v)
             var vertex = side.vertex(uIndex, vIndex)
-            vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = R3m.copy(a).add(b).add(cPos)
+            vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = Vector3.copy(a).add(b).add(cPos)
             vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = normal
-            vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORDS] = new R2m([u, v])
+            vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORDS] = new Vector2([u, v])
         }
     }
     return side
@@ -36,9 +36,9 @@ export default class CuboidPrimitivesBuilder extends PrimitivesBuilder implement
     public iSegments: number = 1;
     public jSegments: number = 1;
     public kSegments: number = 1;
-    private _a: R3m = R3m.copy(G3.e1);
-    private _b: R3m = R3m.copy(G3.e2);
-    private _c: R3m = R3m.copy(G3.e3);
+    private _a: Vector3 = Vector3.copy(G3.e1);
+    private _b: Vector3 = Vector3.copy(G3.e2);
+    private _c: Vector3 = Vector3.copy(G3.e3);
     private sides: GridTopology[];
     /**
      * @class CuboidPrimitivesBuilder
@@ -86,15 +86,15 @@ export default class CuboidPrimitivesBuilder extends PrimitivesBuilder implement
         // front
         this.sides.push(side([this._a, this._b, this._c], this.iSegments, this.jSegments))
         // right
-        this.sides.push(side([R3m.copy(this._c).scale(-1), this._b, this._a], this.kSegments, this.jSegments))
+        this.sides.push(side([Vector3.copy(this._c).scale(-1), this._b, this._a], this.kSegments, this.jSegments))
         // left
-        this.sides.push(side([this._c, this._b, R3m.copy(this._a).scale(-1)], this.kSegments, this.jSegments))
+        this.sides.push(side([this._c, this._b, Vector3.copy(this._a).scale(-1)], this.kSegments, this.jSegments))
         // back
-        this.sides.push(side([R3m.copy(this._a).scale(-1), this._b, R3m.copy(this._c).scale(-1)], this.iSegments, this.jSegments))
+        this.sides.push(side([Vector3.copy(this._a).scale(-1), this._b, Vector3.copy(this._c).scale(-1)], this.iSegments, this.jSegments))
         // top
-        this.sides.push(side([this._a, R3m.copy(this._c).scale(-1), this._b], this.iSegments, this.kSegments))
+        this.sides.push(side([this._a, Vector3.copy(this._c).scale(-1), this._b], this.iSegments, this.kSegments))
         // bottom
-        this.sides.push(side([this._a, this._c, R3m.copy(this._b).scale(-1)], this.iSegments, this.kSegments))
+        this.sides.push(side([this._a, this._c, Vector3.copy(this._b).scale(-1)], this.iSegments, this.kSegments))
     }
     /**
      * @method setPosition

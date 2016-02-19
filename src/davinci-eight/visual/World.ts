@@ -8,14 +8,33 @@ import G3 from '../math/G3'
 import Facet from '../core/Facet'
 import isDefined from '../checks/isDefined'
 import AmbientLight from '../facets/AmbientLight'
-import Mesh from '../core/Mesh'
+import Drawable from '../core/Drawable'
 import mustBeNumber from '../checks/mustBeNumber'
 import readOnly from '../i18n/readOnly'
 import Shareable from '../core/Shareable'
 import Sphere from './Sphere'
-import TrackballCameraControls from '../controls/TrackballCameraControls'
+import CameraControls from '../controls/CameraControls'
 import VectorE3 from '../math/VectorE3'
+import VisualBody from './VisualBody'
 import WebGLRenderer from '../core/WebGLRenderer'
+
+function updateRigidBody(body: VisualBody, options: { axis?: VectorE3; color?: Color; pos?: VectorE3 }): void {
+
+    if (options.axis) {
+        body.axis = G3.fromVector(options.axis)
+    }
+
+    if (options.color) {
+        body.color.copy(options.color)
+    }
+    else {
+        body.color = Color.fromRGB(0.6, 0.6, 0.6)
+    }
+
+    if (options.pos) {
+        body.pos = G3.fromVector(options.pos)
+    }
+}
 
 /**
  * @module EIGHT
@@ -30,14 +49,14 @@ export default class World extends Shareable {
     private drawList: DrawList
     private renderer: WebGLRenderer
     private _ambients: Facet[]
-    private _controls: TrackballCameraControls
+    private _controls: CameraControls
     private _ambientLight = new AmbientLight(Color.fromRGB(0.3, 0.3, 0.3))
 
     /**
      * @class World
      * @constructor
      */
-    constructor(renderer: WebGLRenderer, drawList: DrawList, ambients: Facet[], controls: TrackballCameraControls) {
+    constructor(renderer: WebGLRenderer, drawList: DrawList, ambients: Facet[], controls: CameraControls) {
         super('World')
 
         renderer.addRef()
@@ -94,20 +113,20 @@ export default class World extends Shareable {
 
     /**
      * @property controls
-     * @type TrackballCameraControls
+     * @type CameraControls
      * @readOnly
      */
-    get controls(): TrackballCameraControls {
+    get controls(): CameraControls {
         return this._controls;
     }
-    set controls(unused: TrackballCameraControls) {
+    set controls(unused: CameraControls) {
         throw new Error(readOnly('controls').message)
     }
 
-    add(mesh: Mesh): void {
+    add(mesh: Drawable): void {
         if (core.safemode) {
-            if (!(mesh instanceof Mesh)) {
-                throw new Error("mesh must be an instance of Mesh")
+            if (!(mesh instanceof Drawable)) {
+                throw new Error("mesh must be an instance of Drawable")
             }
         }
         this.drawList.add(mesh)
@@ -124,18 +143,7 @@ export default class World extends Shareable {
             pos?: VectorE3;
         } = {}): Arrow {
         const arrow = new Arrow()
-        if (options.axis) {
-            arrow.axis = G3.fromVectorE3(options.axis)
-        }
-        if (options.color) {
-            arrow.color.copy(options.color)
-        }
-        else {
-            arrow.color = Color.fromRGB(0.6, 0.6, 0.6)
-        }
-        if (options.pos) {
-            arrow.pos = G3.vector(options.pos.x, options.pos.y, options.pos.z)
-        }
+        updateRigidBody(arrow, options)
         this.drawList.add(arrow)
         arrow.release()
         return arrow
@@ -149,20 +157,13 @@ export default class World extends Shareable {
         options: {
             axis?: VectorE3;
             color?: Color;
+            pos?: VectorE3;
             width?: number;
             height?: number;
             depth?: number;
         } = {}): Box {
         const box = new Box(options)
-        if (options.axis) {
-            box.axis = G3.fromVectorE3(options.axis)
-        }
-        if (options.color) {
-            box.color.copy(options.color)
-        }
-        else {
-            box.color = Color.fromRGB(0.6, 0.6, 0.6)
-        }
+        updateRigidBody(box, options)
         this.drawList.add(box)
         box.release()
         return box
@@ -175,18 +176,13 @@ export default class World extends Shareable {
     cylinder(
         options: {
             axis?: VectorE3;
+            color?: Color;
             pos?: VectorE3;
             radius?: number;
         } = {}): Cylinder {
         const cylinder = new Cylinder()
-        if (options.axis) {
-            cylinder.axis = G3.vector(options.axis.x, options.axis.y, options.axis.z)
-        }
-        if (options.pos) {
-            cylinder.pos = G3.fromVectorE3(options.pos)
-        }
+        updateRigidBody(cylinder, options)
         cylinder.radius = isDefined(options.radius) ? mustBeNumber('radius', options.radius) : 0.5
-        cylinder.color = Color.magenta
         this.drawList.add(cylinder)
         cylinder.release()
         return cylinder
@@ -203,16 +199,8 @@ export default class World extends Shareable {
             radius?: number;
         } = {}): Sphere {
         const sphere = new Sphere()
-        if (options.pos) {
-            sphere.pos = G3.fromVectorE3(options.pos)
-        }
+        updateRigidBody(sphere, options)
         sphere.radius = isDefined(options.radius) ? mustBeNumber('radius', options.radius) : 0.5
-        if (options.color) {
-            sphere.color.copy(options.color)
-        }
-        else {
-            sphere.color = Color.blue
-        }
         this.drawList.add(sphere)
         sphere.release()
         return sphere

@@ -1,12 +1,12 @@
 import GridBuilder from '../geometries/GridBuilder';
-import R3m from '../math/R3m';
+import Vector3 from '../math/Vector3';
 
 let cos = Math.cos;
 let sin = Math.sin;
 let pi = Math.PI;
 
-function mobius(u: number, v: number): R3m {
-    var point = new R3m([0, 0, 0]);
+function mobius(u: number, v: number): Vector3 {
+    var point = new Vector3([0, 0, 0]);
     /**
      * radius
      */

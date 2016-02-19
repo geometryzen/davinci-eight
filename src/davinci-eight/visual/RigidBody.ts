@@ -1,6 +1,6 @@
 import G3 from '../math/G3';
 import mustBeObject from '../checks/mustBeObject';
-import Object3D from './Object3D';
+import Mesh from '../core/Mesh';
 import Geometry from '../core/Geometry';
 import Material from '../core/Material';
 
@@ -13,9 +13,9 @@ import Material from '../core/Material';
 
 /**
  * @class RigidBody
- * @extends Object3D
+ * @extends Mesh
  */
-export default class RigidBody extends Object3D {
+export default class RigidBody extends Mesh {
 
     /**
      * @property _mass
@@ -66,11 +66,11 @@ export default class RigidBody extends Object3D {
      */
     public get axis(): G3 {
         // The initial axis of the geometry is e2.
-        return G3.e2.rotate(this.modelFacet.R)
+        return G3.e2.rotate(this.attitude)
     }
     public set axis(axis: G3) {
         mustBeObject('axis', axis)
-        this.modelFacet.R.rotorFromDirections(axis, G3.e2)
+        this.attitude.rotorFromDirections(G3.e2, axis)
     }
 
     /**
@@ -107,11 +107,11 @@ export default class RigidBody extends Object3D {
      * @type G3
      */
     get R(): G3 {
-        return G3.copy(this.modelFacet.R)
+        return G3.fromSpinor(this.attitude)
     }
     set R(R: G3) {
         mustBeObject('R', R, () => { return this._type })
-        this.modelFacet.R.copySpinor(R)
+        this.attitude.copySpinor(R)
     }
 
     /**
@@ -121,11 +121,11 @@ export default class RigidBody extends Object3D {
      * @type G3
      */
     get X(): G3 {
-        return G3.copy(this.modelFacet.X)
+        return G3.fromVector(this.position)
     }
     set X(X: G3) {
         mustBeObject('X', X, () => { return this._type })
-        this.modelFacet.X.copyVector(X)
+        this.position.copy(X)
     }
 
     /**
@@ -135,11 +135,11 @@ export default class RigidBody extends Object3D {
      * @type G3
      */
     get pos(): G3 {
-        return G3.copy(this.modelFacet.X)
+        return G3.fromVector(this.position)
     }
     set pos(pos: G3) {
         mustBeObject('pos', pos, () => { return this._type })
-        this.modelFacet.X.copyVector(pos)
+        this.position.copy(pos)
     }
 
     /**
@@ -148,7 +148,7 @@ export default class RigidBody extends Object3D {
      * @protected
      */
     protected getScaleX(): number {
-        return this.modelFacet.scaleXYZ.x
+        return this.scale.x
     }
 
     /**
@@ -158,7 +158,7 @@ export default class RigidBody extends Object3D {
      * @protected
      */
     protected setScaleX(x: number): void {
-        this.modelFacet.scaleXYZ.x = x
+        this.scale.x = x
     }
 
     /**
@@ -167,7 +167,7 @@ export default class RigidBody extends Object3D {
      * @protected
      */
     protected getScaleY(): number {
-        return this.modelFacet.scaleXYZ.y
+        return this.scale.y
     }
 
     /**
@@ -177,7 +177,7 @@ export default class RigidBody extends Object3D {
      * @protected
      */
     protected setScaleY(y: number): void {
-        this.modelFacet.scaleXYZ.y = y
+        this.scale.y = y
     }
 
     /**
@@ -186,7 +186,7 @@ export default class RigidBody extends Object3D {
      * @protected
      */
     protected getScaleZ(): number {
-        return this.modelFacet.scaleXYZ.z
+        return this.scale.z
     }
 
     /**
@@ -196,6 +196,6 @@ export default class RigidBody extends Object3D {
      * @protected
      */
     protected setScaleZ(z: number): void {
-        this.modelFacet.scaleXYZ.z = z
+        this.scale.z = z
     }
 }

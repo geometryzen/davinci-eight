@@ -1,5 +1,4 @@
 import BoxOptions from './BoxOptions'
-import Color from '../core/Color'
 import isDefined from '../checks/isDefined'
 import mustBeNumber from '../checks/mustBeNumber'
 import visualCache from './visualCache'
@@ -22,7 +21,6 @@ export default class Box extends VisualBody {
         this.width = isDefined(options.width) ? mustBeNumber('width', options.width) : 1
         this.height = isDefined(options.height) ? mustBeNumber('height', options.height) : 1
         this.depth = isDefined(options.depth) ? mustBeNumber('depth', options.depth) : 1
-        this.color = Color.green
     }
     protected destructor(): void {
         super.destructor()

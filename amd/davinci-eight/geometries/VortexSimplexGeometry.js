@@ -3,9 +3,9 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../math/G3', '../geometries/SimplexPrimitivesBuilder', '../checks/mustBeInteger', '../math/SpinG3m', '../math/R2m', '../math/R3m'], function (require, exports, G3_1, SimplexPrimitivesBuilder_1, mustBeInteger_1, SpinG3m_1, R2m_1, R3m_1) {
+define(["require", "exports", '../math/G3', '../geometries/SimplexPrimitivesBuilder', '../checks/mustBeInteger', '../math/Spinor3', '../math/Vector2', '../math/Vector3'], function (require, exports, G3_1, SimplexPrimitivesBuilder_1, mustBeInteger_1, Spinor3_1, Vector2_1, Vector3_1) {
     function perpendicular(to) {
-        var random = new R3m_1.default([Math.random(), Math.random(), Math.random()]);
+        var random = new Vector3_1.default([Math.random(), Math.random(), Math.random()]);
         random.cross(to).direction();
         return new G3_1.default(0, random.x, random.y, random.z, 0, 0, 0, 0);
     }
@@ -20,7 +20,7 @@ define(["require", "exports", '../math/G3', '../geometries/SimplexPrimitivesBuil
             this.lengthShaft = 0.8;
             this.arrowSegments = 8;
             this.radialSegments = 12;
-            this.generator = SpinG3m_1.default.dual(G3_1.default.e3);
+            this.generator = Spinor3_1.default.dual(G3_1.default.e3);
             this.setModified(true);
         }
         VortexSimplexGeometry.prototype.isModified = function () {
@@ -43,7 +43,7 @@ define(["require", "exports", '../math/G3', '../geometries/SimplexPrimitivesBuil
             var n = 9;
             var circleSegments = this.arrowSegments * n;
             var tau = Math.PI * 2;
-            var center = new R3m_1.default([0, 0, 0]);
+            var center = new Vector3_1.default([0, 0, 0]);
             var normals = [];
             var points = [];
             var uvs = [];
@@ -77,14 +77,14 @@ define(["require", "exports", '../math/G3', '../geometries/SimplexPrimitivesBuil
                     var u = computeAngle(i);
                     var Rmajor = generator.scale(-u / 2).exp();
                     center.copy(R0).rotate(Rmajor);
-                    var vertex = R3m_1.default.copy(center);
+                    var vertex = Vector3_1.default.copy(center);
                     var r0 = axis.scale(computeRadius(i));
                     var Rminor = Rmajor.mul(Rminor0).mul(Rmajor.__tilde__()).scale(-v / 2).exp();
                     var r = Rminor.mul(r0).mul(Rminor.__tilde__());
                     vertex.add2(center, r);
                     points.push(vertex);
-                    uvs.push(new R2m_1.default([i / circleSegments, j / radialSegments]));
-                    normals.push(R3m_1.default.copy(r).direction());
+                    uvs.push(new Vector2_1.default([i / circleSegments, j / radialSegments]));
+                    normals.push(Vector3_1.default.copy(r).direction());
                 }
             }
             for (var j = 1; j <= radialSegments; j++) {

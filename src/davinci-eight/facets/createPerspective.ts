@@ -5,12 +5,12 @@ import FacetVisitor from '../core/FacetVisitor';
 import Perspective from './Perspective';
 import View from './View';
 import createView from './createView';
-import Mat4R from '../math/Mat4R';
+import Matrix4 from '../math/Matrix4';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
 import VectorE3 from '../math/VectorE3';
 import readOnly from '../i18n/readOnly';
-import R1m from '../math/R1m';
-import R3m from '../math/R3m';
+import Vector1 from '../math/Vector1';
+import Vector3 from '../math/Vector3';
 import isUndefined from '../checks/isUndefined';
 import mustBeNumber from '../checks/mustBeNumber';
 import computePerspectiveMatrix from './perspectiveMatrix';
@@ -27,14 +27,14 @@ import computePerspectiveMatrix from './perspectiveMatrix';
 export default function createPerspective(options?: { fov?: number; aspect?: number; near?: number; far?: number; projectionMatrixName?: string; viewMatrixName?: string; }): Perspective {
 
     options = options || {};
-    const fov: R1m = new R1m([isUndefined(options.fov) ? 75 * Math.PI / 180 : options.fov]);
-    const aspect: R1m = new R1m([isUndefined(options.aspect) ? 1 : options.aspect]);
-    const near: R1m = new R1m([isUndefined(options.near) ? 0.1 : options.near]);
-    const far: R1m = new R1m([mustBeNumber('options.far', isUndefined(options.far) ? 2000 : options.far)]);
+    const fov: Vector1 = new Vector1([isUndefined(options.fov) ? 75 * Math.PI / 180 : options.fov]);
+    const aspect: Vector1 = new Vector1([isUndefined(options.aspect) ? 1 : options.aspect]);
+    const near: Vector1 = new Vector1([isUndefined(options.near) ? 0.1 : options.near]);
+    const far: Vector1 = new Vector1([mustBeNumber('options.far', isUndefined(options.far) ? 2000 : options.far)]);
     const projectionMatrixName = isUndefined(options.projectionMatrixName) ? GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX : options.projectionMatrixName;
 
     const base: View = createView(options)
-    const projectionMatrix: Mat4R = Mat4R.one()
+    const projectionMatrix: Matrix4 = Matrix4.one()
     var matrixNeedsUpdate = true
 
     const self: Perspective = {
@@ -42,30 +42,30 @@ export default function createPerspective(options?: { fov?: number; aspect?: num
             return self;
         },
         // Delegate to the base camera.
-        get eye(): R3m {
+        get eye(): Vector3 {
             return base.eye;
         },
-        set eye(eye: R3m) {
+        set eye(eye: Vector3) {
             base.eye = eye;
         },
         setEye(eye: VectorE3) {
             base.setEye(eye);
             return self;
         },
-        get look(): R3m {
+        get look(): Vector3 {
             return base.look;
         },
-        set look(value: R3m) {
+        set look(value: Vector3) {
             base.look = value;
         },
         setLook(look: VectorE3) {
             base.setLook(look);
             return self;
         },
-        get up(): R3m {
+        get up(): Vector3 {
             return base.up;
         },
-        set up(value: R3m) {
+        set up(value: Vector3) {
             base.up = value;
         },
         setUp(up: VectorE3) {
@@ -122,20 +122,20 @@ export default function createPerspective(options?: { fov?: number; aspect?: num
             }
             return self;
         },
-        get projectionMatrix(): Mat4R {
+        get projectionMatrix(): Matrix4 {
             if (matrixNeedsUpdate) {
                 computePerspectiveMatrix(fov.x, aspect.x, near.x, far.x, projectionMatrix);
                 matrixNeedsUpdate = false;
             }
             return projectionMatrix
         },
-        set projectionMatrix(projectionMatrix: Mat4R) {
+        set projectionMatrix(projectionMatrix: Matrix4) {
             throw new Error(readOnly('projectionMatrix').message)
         },
-        get viewMatrix(): Mat4R {
+        get viewMatrix(): Matrix4 {
             return base.viewMatrix
         },
-        set viewMatrix(viewMatrix: Mat4R) {
+        set viewMatrix(viewMatrix: Matrix4) {
             base.viewMatrix = viewMatrix
         },
         setUniforms(visitor: FacetVisitor) {

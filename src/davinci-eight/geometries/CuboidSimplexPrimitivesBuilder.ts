@@ -4,8 +4,8 @@ import SimplexPrimitivesBuilder from '../geometries/SimplexPrimitivesBuilder';
 import quad from '../geometries/quadrilateral';
 import Simplex from '../geometries/Simplex';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
-import R1m from '../math/R1m';
-import R3m from '../math/R3m';
+import Vector1 from '../math/Vector1';
+import Vector3 from '../math/Vector3';
 import VectorE3 from '../math/VectorE3';
 
 export default class CuboidSimplexPrimitivesBuilder extends SimplexPrimitivesBuilder {
@@ -15,9 +15,9 @@ export default class CuboidSimplexPrimitivesBuilder extends SimplexPrimitivesBui
     private _isModified: boolean = true;
     constructor(a: VectorE3, b: VectorE3, c: VectorE3, k = Simplex.TRIANGLE, subdivide = 0, boundary = 0) {
         super()
-        this._a = R3.fromVectorE3(a)
-        this._b = R3.fromVectorE3(b)
-        this._c = R3.fromVectorE3(c)
+        this._a = R3.fromVector(a)
+        this._b = R3.fromVector(b)
+        this._c = R3.fromVector(c)
         this.k = k
         this.subdivide(subdivide)
         this.boundary(boundary)
@@ -56,19 +56,19 @@ export default class CuboidSimplexPrimitivesBuilder extends SimplexPrimitivesBui
         this.setModified(false)
 
         // Define the anchor points relative to the origin.
-        var pos: R3m[] = [0, 1, 2, 3, 4, 5, 6, 7].map(function(index) { return void 0 })
-        pos[0] = new R3m().sub(this._a).sub(this._b).add(this._c).divByScalar(2)
-        pos[1] = new R3m().add(this._a).sub(this._b).add(this._c).divByScalar(2)
-        pos[2] = new R3m().add(this._a).add(this._b).add(this._c).divByScalar(2)
-        pos[3] = new R3m().sub(this._a).add(this._b).add(this._c).divByScalar(2)
-        pos[4] = new R3m().copy(pos[3]).sub(this._c)
-        pos[5] = new R3m().copy(pos[2]).sub(this._c)
-        pos[6] = new R3m().copy(pos[1]).sub(this._c)
-        pos[7] = new R3m().copy(pos[0]).sub(this._c)
+        var pos: Vector3[] = [0, 1, 2, 3, 4, 5, 6, 7].map(function(index) { return void 0 })
+        pos[0] = new Vector3().sub(this._a).sub(this._b).add(this._c).divByScalar(2)
+        pos[1] = new Vector3().add(this._a).sub(this._b).add(this._c).divByScalar(2)
+        pos[2] = new Vector3().add(this._a).add(this._b).add(this._c).divByScalar(2)
+        pos[3] = new Vector3().sub(this._a).add(this._b).add(this._c).divByScalar(2)
+        pos[4] = new Vector3().copy(pos[3]).sub(this._c)
+        pos[5] = new Vector3().copy(pos[2]).sub(this._c)
+        pos[6] = new Vector3().copy(pos[1]).sub(this._c)
+        pos[7] = new Vector3().copy(pos[0]).sub(this._c)
 
         // Translate the points according to the position.
         let position = this.position
-        pos.forEach(function(point: R3m) {
+        pos.forEach(function(point: Vector3) {
             point.add(position)
         })
 
@@ -76,7 +76,7 @@ export default class CuboidSimplexPrimitivesBuilder extends SimplexPrimitivesBui
             let simplex = new Simplex(indices.length - 1)
             for (var i = 0; i < indices.length; i++) {
                 simplex.vertices[i].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = pos[indices[i]]
-                simplex.vertices[i].attributes[GraphicsProgramSymbols.ATTRIBUTE_GEOMETRY_INDEX] = new R1m([i])
+                simplex.vertices[i].attributes[GraphicsProgramSymbols.ATTRIBUTE_GEOMETRY_INDEX] = new Vector1([i])
             }
             return simplex
         }

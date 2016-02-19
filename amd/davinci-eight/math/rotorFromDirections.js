@@ -8,7 +8,7 @@ define(["require", "exports"], function (require, exports) {
         var BA = absB * absA;
         var denom = sqrt(2 * (quadB * quadA + BA * dot(b, a)));
         if (denom !== 0) {
-            m = m.spinor(b, a);
+            m = m.versor(b, a);
             m = m.addScalar(BA);
             m = m.divByScalar(denom);
             return m;

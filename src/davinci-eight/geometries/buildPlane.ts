@@ -1,8 +1,8 @@
 import Simplex = require('../geometries/Simplex')
 import GraphicsProgramSymbols = require('../core/GraphicsProgramSymbols')
-import R1m = require('../math/R1m')
-import R2m = require('../math/R2m')
-import R3m = require('../math/R3m')
+import Vector1 = require('../math/Vector1')
+import Vector2 = require('../math/Vector2')
+import Vector3 = require('../math/Vector3')
 
 function buildPlane(
   u: string,
@@ -15,8 +15,8 @@ function buildPlane(
   widthSegments: number,
   heightSegments: number,
   depthSegments: number,
-  geometryIndex: R1m,
-  points: R3m[],
+  geometryIndex: Vector1,
+  points: Vector3[],
   faces: Simplex[]) {
 
   var w: string;
@@ -48,7 +48,7 @@ function buildPlane(
   let segment_height = height / gridY;
 
   // The normal starts out as all zeros.
-  let normal = new R3m();
+  let normal = new Vector3();
   // A bit of hackery to keey TypeScript compiler happy.
   // TODO: This should really be implemented by, say, cyclic permutation of an array.
   var something: any = normal;
@@ -59,7 +59,7 @@ function buildPlane(
   // Compute the points.
   for ( iy = 0; iy < gridY1; iy ++ ) {
     for ( ix = 0; ix < gridX1; ix ++ ) {
-      let point = new R3m();
+      let point = new Vector3();
       something = point;
       let bogusPoint: { [key: string]: number } = something;
 
@@ -81,10 +81,10 @@ function buildPlane(
       var c = ( ix + 1 ) + gridX1 * ( iy + 1 );
       var d = ( ix + 1 ) + gridX1 * iy;
 
-      var uva = new R2m([ix / gridX, 1 - iy / gridY]);
-      var uvb = new R2m([ix / gridX, 1 - ( iy + 1 ) / gridY]);
-      var uvc = new R2m([( ix + 1 ) / gridX, 1 - ( iy + 1 ) / gridY]);
-      var uvd = new R2m([( ix + 1 ) / gridX, 1 - iy / gridY]);
+      var uva = new Vector2([ix / gridX, 1 - iy / gridY]);
+      var uvb = new Vector2([ix / gridX, 1 - ( iy + 1 ) / gridY]);
+      var uvc = new Vector2([( ix + 1 ) / gridX, 1 - ( iy + 1 ) / gridY]);
+      var uvd = new Vector2([( ix + 1 ) / gridX, 1 - iy / gridY]);
 
       var face = new Simplex(Simplex.TRIANGLE);
 

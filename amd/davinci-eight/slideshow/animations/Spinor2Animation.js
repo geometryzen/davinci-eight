@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../../core/Shareable', '../../math/SpinG2m'], function (require, exports, Shareable_1, SpinG2m_1) {
+define(["require", "exports", '../../core/Shareable', '../../math/Spinor2'], function (require, exports, Shareable_1, Spinor2_1) {
     function loop(n, callback) {
         for (var i = 0; i < n; ++i) {
             callback(i);
@@ -15,7 +15,7 @@ define(["require", "exports", '../../core/Shareable', '../../math/SpinG2m'], fun
             if (duration === void 0) { duration = 300; }
             _super.call(this, 'Spinor2Animation');
             this.from = void 0;
-            this.to = SpinG2m_1.default.copy(value);
+            this.to = Spinor2_1.default.copy(value);
             this.duration = duration;
             this.start = 0;
             this.fraction = 0;
@@ -30,7 +30,7 @@ define(["require", "exports", '../../core/Shareable', '../../math/SpinG2m'], fun
                 if (this.from === void 0) {
                     var data = target.getProperty(propName);
                     if (data) {
-                        this.from = new SpinG2m_1.default();
+                        this.from = new Spinor2_1.default();
                         this.from.coords = data;
                     }
                 }
@@ -61,7 +61,7 @@ define(["require", "exports", '../../core/Shareable', '../../math/SpinG2m'], fun
                     rolloff = 0.5 - 0.5 * Math.cos(fraction * Math.PI);
                     break;
             }
-            var lerp = SpinG2m_1.default.lerp(from, to, fraction);
+            var lerp = Spinor2_1.default.lerp(from, to, fraction);
             target.setProperty(propName, lerp.coords);
         };
         Spinor2Animation.prototype.hurry = function (factor) {

@@ -1,9 +1,9 @@
 import AttribLocation from './AttribLocation';
 import IContextProvider from './IContextProvider';
 import makeWebGLProgram from './makeWebGLProgram';
-import Mat2R from '../math/Mat2R';
-import Mat3R from '../math/Mat3R';
-import Mat4R from '../math/Mat4R';
+import Matrix2 from '../math/Matrix2';
+import Matrix3 from '../math/Matrix3';
+import Matrix4 from '../math/Matrix4';
 import mustBeArray from '../checks/mustBeArray';
 import mustBeString from '../checks/mustBeString';
 import mustBeUndefined from '../checks/mustBeUndefined';
@@ -349,11 +349,11 @@ export default class Material extends ShareableContextListener {
     /**
      * @method mat2
      * @param name {string}
-     * @param matrix {Mat2R}
+     * @param matrix {Matrix2}
      * @param transpose {boolean}
      * @return {void}
      */
-    mat2(name: string, matrix: Mat2R, transpose: boolean): void {
+    mat2(name: string, matrix: Matrix2, transpose: boolean): void {
         const uniformLoc = this._uniforms[name]
         if (uniformLoc) {
             uniformLoc.mat2(matrix, transpose)
@@ -363,11 +363,11 @@ export default class Material extends ShareableContextListener {
     /**
      * @method mat3
      * @param name {string}
-     * @param matrix {Mat3R}
+     * @param matrix {Matrix3}
      * @param transpose {boolean}
      * @return {void}
      */
-    mat3(name: string, matrix: Mat3R, transpose: boolean) {
+    mat3(name: string, matrix: Matrix3, transpose: boolean) {
         const uniformLoc = this._uniforms[name]
         if (uniformLoc) {
             uniformLoc.mat3(matrix, transpose)
@@ -377,11 +377,11 @@ export default class Material extends ShareableContextListener {
     /**
      * @method mat4
      * @param name {string}
-     * @param matrix {Mat4R}
+     * @param matrix {Matrix4}
      * @param transpose {boolean}
      * @return {void}
      */
-    mat4(name: string, matrix: Mat4R, transpose: boolean) {
+    mat4(name: string, matrix: Matrix4, transpose: boolean) {
         const uniformLoc = this._uniforms[name]
         if (uniformLoc) {
             uniformLoc.mat4(matrix, transpose)

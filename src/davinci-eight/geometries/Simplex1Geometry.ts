@@ -1,17 +1,17 @@
 import SimplexPrimitivesBuilder from '../geometries/SimplexPrimitivesBuilder';
 import Simplex from '../geometries/Simplex';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
-import R3m from '../math/R3m';
+import Vector3 from '../math/Vector3';
 
 export default class Simplex1Geometry extends SimplexPrimitivesBuilder {
-    public head: R3m = new R3m([1, 0, 0]);
-    public tail: R3m = new R3m([0, 1, 0]);
+    public head: Vector3 = new Vector3([1, 0, 0]);
+    public tail: Vector3 = new Vector3([0, 1, 0]);
     constructor() {
         super()
         this.calculate();
     }
     public calculate(): void {
-        var pos: R3m[] = [0, 1].map(function(index) { return void 0 })
+        var pos: Vector3[] = [0, 1].map(function(index) { return void 0 })
         pos[0] = this.tail
         pos[1] = this.head
 

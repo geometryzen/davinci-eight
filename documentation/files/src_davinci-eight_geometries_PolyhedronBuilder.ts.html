@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.190.0</em>
+            <em>API Docs for: 2.191.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -47,6 +47,7 @@
                                 <li><a href="../classes/Attribute.html">Attribute</a></li>
                                 <li><a href="../classes/BlendFactor.html">BlendFactor</a></li>
                                 <li><a href="../classes/Box.html">Box</a></li>
+                                <li><a href="../classes/CameraControls.html">CameraControls</a></li>
                                 <li><a href="../classes/Capability.html">Capability</a></li>
                                 <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
@@ -61,6 +62,7 @@
                                 <li><a href="../classes/CylinderGeometry.html">CylinderGeometry</a></li>
                                 <li><a href="../classes/Dimensions.html">Dimensions</a></li>
                                 <li><a href="../classes/DirectionalLight.html">DirectionalLight</a></li>
+                                <li><a href="../classes/Drawable.html">Drawable</a></li>
                                 <li><a href="../classes/DrawMode.html">DrawMode</a></li>
                                 <li><a href="../classes/EIGHTLogger.html">EIGHTLogger</a></li>
                                 <li><a href="../classes/Facet.html">Facet</a></li>
@@ -84,10 +86,10 @@
                                 <li><a href="../classes/IContextProvider.html">IContextProvider</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
-                                <li><a href="../classes/Mat2R.html">Mat2R</a></li>
-                                <li><a href="../classes/Mat3R.html">Mat3R</a></li>
-                                <li><a href="../classes/Mat4R.html">Mat4R</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
+                                <li><a href="../classes/Matrix2.html">Matrix2</a></li>
+                                <li><a href="../classes/Matrix3.html">Matrix3</a></li>
+                                <li><a href="../classes/Matrix4.html">Matrix4</a></li>
                                 <li><a href="../classes/Mesh.html">Mesh</a></li>
                                 <li><a href="../classes/MeshMaterial.html">MeshMaterial</a></li>
                                 <li><a href="../classes/ModelE2.html">ModelE2</a></li>
@@ -104,11 +106,7 @@
                                 <li><a href="../classes/PrimitiveBuffers.html">PrimitiveBuffers</a></li>
                                 <li><a href="../classes/Pseudo.html">Pseudo</a></li>
                                 <li><a href="../classes/QQ.html">QQ</a></li>
-                                <li><a href="../classes/R1m.html">R1m</a></li>
-                                <li><a href="../classes/R2m.html">R2m</a></li>
                                 <li><a href="../classes/R3.html">R3</a></li>
-                                <li><a href="../classes/R3m.html">R3m</a></li>
-                                <li><a href="../classes/R4m.html">R4m</a></li>
                                 <li><a href="../classes/ReflectionFacetE2.html">ReflectionFacetE2</a></li>
                                 <li><a href="../classes/ReflectionFacetE3.html">ReflectionFacetE3</a></li>
                                 <li><a href="../classes/RigidBody.html">RigidBody</a></li>
@@ -122,8 +120,8 @@
                                 <li><a href="../classes/ShareableWebGLTexture.html">ShareableWebGLTexture</a></li>
                                 <li><a href="../classes/Sphere.html">Sphere</a></li>
                                 <li><a href="../classes/SphereGeometry.html">SphereGeometry</a></li>
-                                <li><a href="../classes/SpinG2m.html">SpinG2m</a></li>
-                                <li><a href="../classes/SpinG3m.html">SpinG3m</a></li>
+                                <li><a href="../classes/Spinor2.html">Spinor2</a></li>
+                                <li><a href="../classes/Spinor3.html">Spinor3</a></li>
                                 <li><a href="../classes/SpinorE1.html">SpinorE1</a></li>
                                 <li><a href="../classes/SpinorE2.html">SpinorE2</a></li>
                                 <li><a href="../classes/SpinorE3.html">SpinorE3</a></li>
@@ -131,13 +129,16 @@
                                 <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
                                 <li><a href="../classes/Tetrahedron.html">Tetrahedron</a></li>
                                 <li><a href="../classes/TetrahedronGeometry.html">TetrahedronGeometry</a></li>
-                                <li><a href="../classes/TrackballCameraControls.html">TrackballCameraControls</a></li>
                                 <li><a href="../classes/Trail.html">Trail</a></li>
                                 <li><a href="../classes/UniformLocation.html">UniformLocation</a></li>
                                 <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
                                 <li><a href="../classes/Unit.html">Unit</a></li>
                                 <li><a href="../classes/Vector.html">Vector</a></li>
+                                <li><a href="../classes/Vector1.html">Vector1</a></li>
+                                <li><a href="../classes/Vector2.html">Vector2</a></li>
+                                <li><a href="../classes/Vector3.html">Vector3</a></li>
                                 <li><a href="../classes/Vector3Facet.html">Vector3Facet</a></li>
+                                <li><a href="../classes/Vector4.html">Vector4</a></li>
                                 <li><a href="../classes/VectorE0.html">VectorE0</a></li>
                                 <li><a href="../classes/VectorE1.html">VectorE1</a></li>
                                 <li><a href="../classes/VectorE2.html">VectorE2</a></li>
@@ -207,8 +208,8 @@ import VectorE3 from &#x27;../math/VectorE3&#x27;;
 import SimplexPrimitivesBuilder from &#x27;../geometries/SimplexPrimitivesBuilder&#x27;;
 import Simplex from &#x27;../geometries/Simplex&#x27;;
 import GraphicsProgramSymbols from &#x27;../core/GraphicsProgramSymbols&#x27;;
-import R2m from &#x27;../math/R2m&#x27;;
-import R3m from &#x27;../math/R3m&#x27;;
+import Vector2 from &#x27;../math/Vector2&#x27;;
+import Vector3 from &#x27;../math/Vector3&#x27;;
 
 // Angle around the Y axis, counter-clockwise when looking from above.
 function azimuth(vector: VectorE3): number {
@@ -224,24 +225,24 @@ function inclination(pos: VectorE3): number {
  * Modifies the incoming point by projecting it onto the unit sphere.
  * Add the point to the array of points
  * Sets a hidden &#x60;index&#x60; property to the index in &#x60;points&#x60;
- * Computes the texture coordinates and sticks them in the hidden &#x60;uv&#x60; property as a R2m.
+ * Computes the texture coordinates and sticks them in the hidden &#x60;uv&#x60; property as a Vector2.
  * OK!
  */
-function prepare(point: VectorE3, points: R3m[]): VectorE3 {
-    let vertex: R3m = R3m.copy(point).direction()
+function prepare(point: VectorE3, points: Vector3[]): VectorE3 {
+    let vertex: Vector3 = Vector3.copy(point).direction()
     points.push(vertex)
     // Texture coords are equivalent to map coords, calculate angle and convert to fraction of a circle.
     let u = azimuth(point) / 2 / Math.PI + 0.5;
     let v = inclination(point) / Math.PI + 0.5;
     var something: any = vertex
-    something[&#x27;uv&#x27;] = new R2m([u, 1 - v]);
+    something[&#x27;uv&#x27;] = new Vector2([u, 1 - v]);
     return vertex;
 }
 
 // Texture fixing helper.
-function correctUV(uv: R2m, vector: VectorE3, azimuth: number): R2m {
-    if ((azimuth &lt; 0) &amp;&amp; (uv.x === 1)) uv = new R2m([uv.x - 1, uv.y]);
-    if ((vector.x === 0) &amp;&amp; (vector.z === 0)) uv = new R2m([azimuth / 2 / Math.PI + 0.5, uv.y]);
+function correctUV(uv: Vector2, vector: VectorE3, azimuth: number): Vector2 {
+    if ((azimuth &lt; 0) &amp;&amp; (uv.x === 1)) uv = new Vector2([uv.x - 1, uv.y]);
+    if ((vector.x === 0) &amp;&amp; (vector.z === 0)) uv = new Vector2([azimuth / 2 / Math.PI + 0.5, uv.y]);
     return uv.clone();
 }
 
@@ -251,10 +252,10 @@ export default class PolyhedronBuilder extends SimplexPrimitivesBuilder {
 
         var that = this;
 
-        var points: R3m[] = []
+        var points: Vector3[] = []
 
         for (var i = 0, l = vertices.length; i &lt; l; i += 3) {
-            prepare(new R3m([vertices[i], vertices[i + 1], vertices[i + 2]]), points)
+            prepare(new Vector3([vertices[i], vertices[i + 1], vertices[i + 2]]), points)
         }
 
         var faces: Simplex[] = [];
@@ -269,11 +270,11 @@ export default class PolyhedronBuilder extends SimplexPrimitivesBuilder {
             // TODO: Optimize vector copies.
             var simplex = new Simplex(Simplex.TRIANGLE)
             simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = v1
-            simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = R3m.copy(v1)
+            simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = Vector3.copy(v1)
             simplex.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = v2
-            simplex.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = R3m.copy(v2)
+            simplex.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = Vector3.copy(v2)
             simplex.vertices[2].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = v3
-            simplex.vertices[2].attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = R3m.copy(v3)
+            simplex.vertices[2].attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = Vector3.copy(v3)
             faces[j] = simplex
         }
 
@@ -345,26 +346,26 @@ export default class PolyhedronBuilder extends SimplexPrimitivesBuilder {
             var uv3 = correctUV(something3[&#x27;uv&#x27;], v3, azi);
 
             var simplex = new Simplex(Simplex.TRIANGLE)
-            simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = R3m.copy(v1)
-            simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = R3m.copy(v1)
+            simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = Vector3.copy(v1)
+            simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = Vector3.copy(v1)
             simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORDS] = uv1
-            simplex.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = R3m.copy(v2)
-            simplex.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = R3m.copy(v2)
+            simplex.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = Vector3.copy(v2)
+            simplex.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = Vector3.copy(v2)
             simplex.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORDS] = uv2
-            simplex.vertices[2].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = R3m.copy(v3)
-            simplex.vertices[2].attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = R3m.copy(v3)
+            simplex.vertices[2].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = Vector3.copy(v3)
+            simplex.vertices[2].attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = Vector3.copy(v3)
             simplex.vertices[2].attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORDS] = uv3
             that.data.push(simplex)
         }
 
         // Analytically subdivide a face to the required detail level.
 
-        function subdivide(face: Simplex, detail: number, points: R3m[]) {
+        function subdivide(face: Simplex, detail: number, points: Vector3[]) {
 
             var cols = Math.pow(2, detail);
-            var a: VectorE3 = prepare(&lt;R3m&gt;face.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION], points);
-            var b: VectorE3 = prepare(&lt;R3m&gt;face.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION], points);
-            var c: VectorE3 = prepare(&lt;R3m&gt;face.vertices[2].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION], points);
+            var a: VectorE3 = prepare(&lt;Vector3&gt;face.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION], points);
+            var b: VectorE3 = prepare(&lt;Vector3&gt;face.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION], points);
+            var c: VectorE3 = prepare(&lt;Vector3&gt;face.vertices[2].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION], points);
             var v: VectorE3[][] = [];
 
             // Construct all of the vertices for this subdivision.
@@ -373,8 +374,8 @@ export default class PolyhedronBuilder extends SimplexPrimitivesBuilder {
 
                 v[i] = [];
 
-                var aj: VectorE3 = prepare(R3m.copy(a).lerp(c, i / cols), points);
-                var bj: VectorE3 = prepare(R3m.copy(b).lerp(c, i / cols), points);
+                var aj: VectorE3 = prepare(Vector3.copy(a).lerp(c, i / cols), points);
+                var bj: VectorE3 = prepare(Vector3.copy(b).lerp(c, i / cols), points);
                 var rows = cols - i;
 
                 for (var j = 0; j &lt;= rows; j++) {
@@ -383,7 +384,7 @@ export default class PolyhedronBuilder extends SimplexPrimitivesBuilder {
                         v[i][j] = aj;
                     }
                     else {
-                        v[i][j] = prepare(R3m.copy(aj).lerp(bj, j / rows), points);
+                        v[i][j] = prepare(Vector3.copy(aj).lerp(bj, j / rows), points);
                     }
 
                 }

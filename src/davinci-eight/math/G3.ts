@@ -1194,7 +1194,7 @@ export default class G3 implements ImmutableMeasure<G3>, GeometricE3, GeometricE
    */
   reflect(n: VectorE3): G3 {
     // TODO: Optimize to minimize object creation and increase performance.
-    let m = G3.fromVectorE3(n)
+    let m = G3.fromVector(n)
     return m.mul(this).mul(m).scale(-1)
   }
 
@@ -1380,12 +1380,12 @@ export default class G3 implements ImmutableMeasure<G3>, GeometricE3, GeometricE
   }
 
   /**
-   * @method fromSpinorE3
+   * @method fromSpinor
    * @param spinor {SpinorE3}
    * @return {G3}
    * @static
    */
-  static fromSpinorE3(spinor: SpinorE3): G3 {
+  static fromSpinor(spinor: SpinorE3): G3 {
     if (spinor) {
       // FIXME: SpinorE3 should support uom, even though it might be 1
       return new G3(spinor.α, 0, 0, 0, spinor.xy, spinor.yz, spinor.zx, 0, void 0)
@@ -1396,12 +1396,12 @@ export default class G3 implements ImmutableMeasure<G3>, GeometricE3, GeometricE
   }
 
   /**
-   * @method fromVectorE3
+   * @method fromVector
    * @param vector {VectorE3}
    * @return {G3}
    * @static
    */
-  static fromVectorE3(vector: VectorE3): G3 {
+  static fromVector(vector: VectorE3): G3 {
     if (vector) {
       return new G3(0, vector.x, vector.y, vector.z, 0, 0, 0, 0, vector.uom)
     }

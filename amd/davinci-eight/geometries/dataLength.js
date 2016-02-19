@@ -1,4 +1,4 @@
-define(["require", "exports", '../math/G2m', '../math/G3m', '../math/R2m', '../math/R3m'], function (require, exports, G2m_1, G3m_1, R2m_1, R3m_1) {
+define(["require", "exports", '../math/G2m', '../math/G3m', '../math/Vector2', '../math/Vector3'], function (require, exports, G2m_1, G3m_1, Vector2_1, Vector3_1) {
     function dataLength(source) {
         if (source instanceof G3m_1.default) {
             if (source.length !== 8) {
@@ -12,13 +12,13 @@ define(["require", "exports", '../math/G2m', '../math/G3m', '../math/R2m', '../m
             }
             return 2;
         }
-        else if (source instanceof R3m_1.default) {
+        else if (source instanceof Vector3_1.default) {
             if (source.length !== 3) {
                 throw new Error("source.length is expected to be 3");
             }
             return 3;
         }
-        else if (source instanceof R2m_1.default) {
+        else if (source instanceof Vector2_1.default) {
             if (source.length !== 2) {
                 throw new Error("source.length is expected to be 2");
             }

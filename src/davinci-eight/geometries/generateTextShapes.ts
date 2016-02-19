@@ -176,7 +176,7 @@ export default function generateTextShapes(text: string, face: FontFace, paramet
 
     // Get a Font data json object
 
-    var data /* : { paths: Path<R2m>[]; offset: number } */ = drawText(text, face, size, curveSegments);
+    var data /* : { paths: Path<Vector2>[]; offset: number } */ = drawText(text, face, size, curveSegments);
 
     var paths = data.paths;
     var shapes: Shape[] = [];

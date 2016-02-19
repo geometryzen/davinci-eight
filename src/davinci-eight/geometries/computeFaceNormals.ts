@@ -1,6 +1,6 @@
 import Simplex from '../geometries/Simplex';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
-import R3m from '../math/R3m';
+import Vector3 from '../math/Vector3';
 import VectorN from '../math/VectorN';
 import wedgeXY from '../math/wedgeXY';
 import wedgeYZ from '../math/wedgeYZ';
@@ -39,7 +39,7 @@ export default function computeFaceNormals(simplex: Simplex, positionName = Grap
     let y = wedgeZX(ax, ay, az, bx, by, bz);
     let z = wedgeXY(ax, ay, az, bx, by, bz);
 
-    let normal = new R3m([x, y, z]).direction();
+    let normal = new Vector3([x, y, z]).direction();
 
     vertex0[normalName] = normal;
     vertex1[normalName] = normal;

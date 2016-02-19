@@ -2,12 +2,12 @@ import VectorE3 from '../math/VectorE3';
 import G3 from '../math/G3';
 import SimplexPrimitivesBuilder from '../geometries/SimplexPrimitivesBuilder';
 import mustBeInteger from '../checks/mustBeInteger';
-import SpinG3m from '../math/SpinG3m';
-import R2m from '../math/R2m';
-import R3m from '../math/R3m';
+import Spinor3 from '../math/Spinor3';
+import Vector2 from '../math/Vector2';
+import Vector3 from '../math/Vector3';
 
 function perpendicular(to: VectorE3): G3 {
-    var random = new R3m([Math.random(), Math.random(), Math.random()])
+    var random = new Vector3([Math.random(), Math.random(), Math.random()])
     random.cross(to).direction()
     return new G3(0, random.x, random.y, random.z, 0, 0, 0, 0)
 }
@@ -21,7 +21,7 @@ export default class VortexSimplexGeometry extends SimplexPrimitivesBuilder {
     public lengthShaft: number = 0.8;
     public arrowSegments: number = 8;
     public radialSegments: number = 12;
-    public generator: SpinG3m = SpinG3m.dual(G3.e3);
+    public generator: Spinor3 = Spinor3.dual(G3.e3);
 
     constructor() {
         super()
@@ -55,11 +55,11 @@ export default class VortexSimplexGeometry extends SimplexPrimitivesBuilder {
         var circleSegments = this.arrowSegments * n;
 
         var tau = Math.PI * 2;
-        var center = new R3m([0, 0, 0]);
+        var center = new Vector3([0, 0, 0]);
 
-        var normals: R3m[] = [];
-        var points: R3m[] = [];
-        var uvs: R2m[] = [];
+        var normals: Vector3[] = [];
+        var points: Vector3[] = [];
+        var uvs: Vector2[] = [];
 
         var alpha = this.lengthShaft / (this.lengthCone + this.lengthShaft);
         var factor = tau / this.arrowSegments;
@@ -102,7 +102,7 @@ export default class VortexSimplexGeometry extends SimplexPrimitivesBuilder {
 
                 center.copy(R0).rotate(Rmajor)
 
-                var vertex = R3m.copy(center)
+                var vertex = Vector3.copy(center)
                 var r0: G3 = axis.scale(computeRadius(i))
 
                 var Rminor = Rmajor.mul(Rminor0).mul(Rmajor.__tilde__()).scale(-v / 2).exp()
@@ -115,8 +115,8 @@ export default class VortexSimplexGeometry extends SimplexPrimitivesBuilder {
 
                 points.push(vertex);
 
-                uvs.push(new R2m([i / circleSegments, j / radialSegments]));
-                normals.push(R3m.copy(r).direction());
+                uvs.push(new Vector2([i / circleSegments, j / radialSegments]));
+                normals.push(Vector3.copy(r).direction());
             }
         }
 
