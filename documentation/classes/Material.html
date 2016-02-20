@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.191.0</em>
+            <em>API Docs for: 2.192.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -47,6 +47,7 @@
                                 <li><a href="../classes/Attribute.html">Attribute</a></li>
                                 <li><a href="../classes/BlendFactor.html">BlendFactor</a></li>
                                 <li><a href="../classes/Box.html">Box</a></li>
+                                <li><a href="../classes/BoxGeometry.html">BoxGeometry</a></li>
                                 <li><a href="../classes/CameraControls.html">CameraControls</a></li>
                                 <li><a href="../classes/Capability.html">Capability</a></li>
                                 <li><a href="../classes/CC.html">CC</a></li>
@@ -56,7 +57,6 @@
                                 <li><a href="../classes/ColorRGBA.html">ColorRGBA</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
                                 <li><a href="../classes/createView.html">createView</a></li>
-                                <li><a href="../classes/CuboidGeometry.html">CuboidGeometry</a></li>
                                 <li><a href="../classes/CuboidPrimitivesBuilder.html">CuboidPrimitivesBuilder</a></li>
                                 <li><a href="../classes/Cylinder.html">Cylinder</a></li>
                                 <li><a href="../classes/CylinderGeometry.html">CylinderGeometry</a></li>
@@ -77,6 +77,7 @@
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
                                 <li><a href="../classes/GeometryContainer.html">GeometryContainer</a></li>
+                                <li><a href="../classes/GeometryElements.html">GeometryElements</a></li>
                                 <li><a href="../classes/GeometryPrimitive.html">GeometryPrimitive</a></li>
                                 <li><a href="../classes/GraphicsProgramSymbols.html">GraphicsProgramSymbols</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
@@ -92,6 +93,7 @@
                                 <li><a href="../classes/Matrix4.html">Matrix4</a></li>
                                 <li><a href="../classes/Mesh.html">Mesh</a></li>
                                 <li><a href="../classes/MeshMaterial.html">MeshMaterial</a></li>
+                                <li><a href="../classes/MeshNormalMaterial.html">MeshNormalMaterial</a></li>
                                 <li><a href="../classes/ModelE2.html">ModelE2</a></li>
                                 <li><a href="../classes/ModelE3.html">ModelE3</a></li>
                                 <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
@@ -345,6 +347,14 @@
                             </li>
                             <li class="index-item method">
                                 <a href="#method_enableAttrib">enableAttrib</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_enableAttribs">enableAttribs</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_getAttribLocation">getAttribLocation</a>
 
                             </li>
                             <li class="index-item method">
@@ -688,7 +698,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Material.ts.html#l250"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Material.ts:250</code></a>
+        <a href="../files/src_davinci-eight_core_Material.ts.html#l265"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Material.ts:265</code></a>
         </p>
 
 
@@ -744,7 +754,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Material.ts.html#l262"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Material.ts:262</code></a>
+        <a href="../files/src_davinci-eight_core_Material.ts.html#l277"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Material.ts:277</code></a>
         </p>
 
 
@@ -828,6 +838,110 @@
 
 
 </div>
+<div id="method_enableAttribs" class="method item">
+    <h3 class="name"><code>enableAttribs</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_core_Material.ts.html#l250"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Material.ts:250</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Void</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_getAttribLocation" class="method item">
+    <h3 class="name"><code>getAttribLocation</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>name</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">Number</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_core_Material.ts.html#l292"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Material.ts:292</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Returns the location (index) of the attribute with the specified name.
+Returns <code>-1</code> if the name does not correspond to an attribute.</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">name</code>
+                        <span class="type">String</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Number</span>:
+            </div>
+        </div>
+
+
+</div>
 <div id="method_mat2" class="method item">
     <h3 class="name"><code>mat2</code></h3>
 
@@ -858,7 +972,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Material.ts.html#l349"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Material.ts:349</code></a>
+        <a href="../files/src_davinci-eight_core_Material.ts.html#l382"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Material.ts:382</code></a>
         </p>
 
 
@@ -946,7 +1060,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Material.ts.html#l363"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Material.ts:363</code></a>
+        <a href="../files/src_davinci-eight_core_Material.ts.html#l396"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Material.ts:396</code></a>
         </p>
 
 
@@ -1034,7 +1148,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Material.ts.html#l377"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Material.ts:377</code></a>
+        <a href="../files/src_davinci-eight_core_Material.ts.html#l410"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Material.ts:410</code></a>
         </p>
 
 
@@ -1119,7 +1233,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Material.ts.html#l291"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Material.ts:291</code></a>
+        <a href="../files/src_davinci-eight_core_Material.ts.html#l324"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Material.ts:324</code></a>
         </p>
 
 
@@ -1197,7 +1311,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Material.ts.html#l304"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Material.ts:304</code></a>
+        <a href="../files/src_davinci-eight_core_Material.ts.html#l337"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Material.ts:337</code></a>
         </p>
 
 
@@ -1288,7 +1402,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Material.ts.html#l318"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Material.ts:318</code></a>
+        <a href="../files/src_davinci-eight_core_Material.ts.html#l351"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Material.ts:351</code></a>
         </p>
 
 
@@ -1392,7 +1506,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Material.ts.html#l333"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Material.ts:333</code></a>
+        <a href="../files/src_davinci-eight_core_Material.ts.html#l366"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Material.ts:366</code></a>
         </p>
 
 
@@ -1537,7 +1651,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Material.ts.html#l391"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Material.ts:391</code></a>
+        <a href="../files/src_davinci-eight_core_Material.ts.html#l424"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Material.ts:424</code></a>
         </p>
 
 
@@ -1612,7 +1726,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Material.ts.html#l404"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Material.ts:404</code></a>
+        <a href="../files/src_davinci-eight_core_Material.ts.html#l437"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Material.ts:437</code></a>
         </p>
 
 
@@ -1687,7 +1801,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Material.ts.html#l417"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Material.ts:417</code></a>
+        <a href="../files/src_davinci-eight_core_Material.ts.html#l450"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Material.ts:450</code></a>
         </p>
 
 
@@ -1762,7 +1876,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Material.ts.html#l430"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Material.ts:430</code></a>
+        <a href="../files/src_davinci-eight_core_Material.ts.html#l463"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Material.ts:463</code></a>
         </p>
 
 
@@ -1837,7 +1951,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Material.ts.html#l443"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Material.ts:443</code></a>
+        <a href="../files/src_davinci-eight_core_Material.ts.html#l476"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Material.ts:476</code></a>
         </p>
 
 
@@ -1912,7 +2026,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Material.ts.html#l456"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Material.ts:456</code></a>
+        <a href="../files/src_davinci-eight_core_Material.ts.html#l489"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Material.ts:489</code></a>
         </p>
 
 
@@ -1996,7 +2110,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Material.ts.html#l277"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Material.ts:277</code></a>
+        <a href="../files/src_davinci-eight_core_Material.ts.html#l310"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Material.ts:310</code></a>
         </p>
 
 

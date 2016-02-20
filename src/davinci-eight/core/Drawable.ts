@@ -85,7 +85,7 @@ export default class Drawable extends ShareableContextListener {
      * @return {void}
      */
     setUniforms(): void {
-        const program = this._material
+        const material = this._material
         const facets = this._facets
         // FIXME: Temporary object creation?
         const keys = Object.keys(facets)
@@ -93,7 +93,7 @@ export default class Drawable extends ShareableContextListener {
         for (let i = 0; i < keysLength; i++) {
             const key = keys[i]
             const facet = facets[key]
-            facet.setUniforms(program)
+            facet.setUniforms(material)
         }
     }
 
@@ -110,8 +110,8 @@ export default class Drawable extends ShareableContextListener {
 
             const iL = ambients.length;
             for (let i = 0; i < iL; i++) {
-                const ambient = ambients[i]
-                ambient.setUniforms(material)
+                const facet = ambients[i]
+                facet.setUniforms(material)
             }
 
             this.setUniforms();

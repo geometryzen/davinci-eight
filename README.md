@@ -267,6 +267,7 @@ Make your changes to the TypeScript files in the _src_ directory. Do not edit th
 * 2.189.0: 2016-02-17 Arrow
 * 2.190.0: 2016-02-18 renames
 * 2.191.0: 2016-02-19 renames
+* 2.192.0: 2016-02-20 interleave
 
 ## License
 Copyright (c) 2014-2016 David Holmes

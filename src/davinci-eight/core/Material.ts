@@ -248,6 +248,21 @@ export default class Material extends ShareableContextListener {
     }
 
     /**
+     * @method enableAttribs
+     * @return {void}
+     */
+    enableAttribs(): void {
+        const attribLocations = this._attributes
+        if (attribLocations) {
+            // TODO: Store loactions as a plain array in order to avoid temporaries (aNames)
+            const aNames = Object.keys(attribLocations)
+            for (var i = 0, iLength = aNames.length; i < iLength; i++) {
+                attribLocations[aNames[i]].enable()
+            }
+        }
+    }
+
+    /**
      * @method disableAttrib
      * @param name {string}
      * @return {void}
@@ -271,6 +286,24 @@ export default class Material extends ShareableContextListener {
             for (var i = 0, iLength = aNames.length; i < iLength; i++) {
                 attribLocations[aNames[i]].disable()
             }
+        }
+    }
+
+    /**
+     * Returns the location (index) of the attribute with the specified name.
+     * Returns <code>-1</code> if the name does not correspond to an attribute.
+     *
+     * @method getAttribLocation
+     * @param name {string}
+     * @return {number}
+     */
+    getAttribLocation(name: string): number {
+        const attribLoc = this._attributes[name]
+        if (attribLoc) {
+            return attribLoc.index
+        }
+        else {
+            return -1
         }
     }
 

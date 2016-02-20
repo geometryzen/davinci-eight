@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.191.0</em>
+            <em>API Docs for: 2.192.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -47,6 +47,7 @@
                                 <li><a href="../classes/Attribute.html">Attribute</a></li>
                                 <li><a href="../classes/BlendFactor.html">BlendFactor</a></li>
                                 <li><a href="../classes/Box.html">Box</a></li>
+                                <li><a href="../classes/BoxGeometry.html">BoxGeometry</a></li>
                                 <li><a href="../classes/CameraControls.html">CameraControls</a></li>
                                 <li><a href="../classes/Capability.html">Capability</a></li>
                                 <li><a href="../classes/CC.html">CC</a></li>
@@ -56,7 +57,6 @@
                                 <li><a href="../classes/ColorRGBA.html">ColorRGBA</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
                                 <li><a href="../classes/createView.html">createView</a></li>
-                                <li><a href="../classes/CuboidGeometry.html">CuboidGeometry</a></li>
                                 <li><a href="../classes/CuboidPrimitivesBuilder.html">CuboidPrimitivesBuilder</a></li>
                                 <li><a href="../classes/Cylinder.html">Cylinder</a></li>
                                 <li><a href="../classes/CylinderGeometry.html">CylinderGeometry</a></li>
@@ -77,6 +77,7 @@
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
                                 <li><a href="../classes/GeometryContainer.html">GeometryContainer</a></li>
+                                <li><a href="../classes/GeometryElements.html">GeometryElements</a></li>
                                 <li><a href="../classes/GeometryPrimitive.html">GeometryPrimitive</a></li>
                                 <li><a href="../classes/GraphicsProgramSymbols.html">GraphicsProgramSymbols</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
@@ -92,6 +93,7 @@
                                 <li><a href="../classes/Matrix4.html">Matrix4</a></li>
                                 <li><a href="../classes/Mesh.html">Mesh</a></li>
                                 <li><a href="../classes/MeshMaterial.html">MeshMaterial</a></li>
+                                <li><a href="../classes/MeshNormalMaterial.html">MeshNormalMaterial</a></li>
                                 <li><a href="../classes/ModelE2.html">ModelE2</a></li>
                                 <li><a href="../classes/ModelE3.html">ModelE3</a></li>
                                 <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
@@ -235,11 +237,11 @@ export default class AttribLocation implements IContextProgramConsumer {
     /**
      * The cached &lt;code&gt;WebGLRenderingContext&lt;/code&gt; obtained through
      * a &lt;code&gt;contextGain&lt;/code&gt; notification.
-     * @property _context
+     * @property _gl
      * @type {WebGLRenderingContext}
      * @private
      */
-    private _context: WebGLRenderingContext;
+    private _gl: WebGLRenderingContext;
 
     /**
      * @class AttribLocation
@@ -275,7 +277,7 @@ export default class AttribLocation implements IContextProgramConsumer {
         // Nothing to deallocate. Just reflect notification in state variables.
         // This is coincidentally the same as contextLost, but not appropriate for DRY.
         this._index = void 0
-        this._context = void 0
+        this._gl = void 0
     }
 
     /**
@@ -288,7 +290,7 @@ export default class AttribLocation implements IContextProgramConsumer {
      */
     contextGain(context: WebGLRenderingContext, program: WebGLProgram): void {
         this._index = context.getAttribLocation(program, this._name);
-        this._context = context;
+        this._gl = context;
     }
 
     /**
@@ -299,7 +301,7 @@ export default class AttribLocation implements IContextProgramConsumer {
      */
     contextLost(): void {
         this._index = void 0;
-        this._context = void 0;
+        this._gl = void 0;
     }
 
     /**
@@ -315,7 +317,10 @@ export default class AttribLocation implements IContextProgramConsumer {
      * @return {void}
      */
     vertexPointer(size: number, normalized = false, stride = 0, offset = 0): void {
-        this._context.vertexAttribPointer(this._index, size, this._context.FLOAT, normalized, stride, offset);
+        // TODO: Notice that when this function is called, the cached index is used.
+        // This suggests that we should used the cached indices to to look up attributes
+        // when we are in the animation loop.
+        this._gl.vertexAttribPointer(this._index, size, this._gl.FLOAT, normalized, stride, offset);
     }
 
     /**
@@ -327,7 +332,7 @@ export default class AttribLocation implements IContextProgramConsumer {
      */
     enable(): void {
         // FIXME: This 
-        this._context.enableVertexAttribArray(this._index);
+        this._gl.enableVertexAttribArray(this._index);
     }
 
     /**
@@ -338,7 +343,7 @@ export default class AttribLocation implements IContextProgramConsumer {
      * @return {void}
      */
     disable(): void {
-        this._context.disableVertexAttribArray(this._index);
+        this._gl.disableVertexAttribArray(this._index);
     }
 
     /**

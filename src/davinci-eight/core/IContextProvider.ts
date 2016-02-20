@@ -1,6 +1,4 @@
 import IUnknown from './IUnknown';
-import PrimitiveBuffers from './PrimitiveBuffers';
-import Primitive from './Primitive';
 
 /**
  * @module EIGHT
@@ -15,14 +13,6 @@ interface IContextProvider extends IUnknown {
      * @readOnly
      */
     gl: WebGLRenderingContext;
-
-    /**
-     * @method createPrimitiveBuffers
-     * @param primitive {Primitive}
-     * @param [usage] {number}
-     * @return {PrimitiveBuffers}
-     */
-    createPrimitiveBuffers(primitive: Primitive, usage?: number): PrimitiveBuffers;
 }
 
 export default IContextProvider;

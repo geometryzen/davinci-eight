@@ -1,5 +1,5 @@
 import ArrowGeometry from '../geometries/ArrowGeometry';
-import CuboidGeometry from '../geometries/CuboidGeometry';
+import BoxGeometry from '../geometries/BoxGeometry';
 import CylinderGeometry from '../geometries/CylinderGeometry';
 import Geometry from '../core/Geometry';
 import Material from '../core/Material';
@@ -23,7 +23,7 @@ function arrow(options: VisualOptions): Geometry {
 }
 
 function box(options: VisualOptions): Geometry {
-    return new CuboidGeometry({ width: 1, height: 1, depth: 1, wireFrame: wireFrame(options) })
+    return new BoxGeometry({ width: 1, height: 1, depth: 1, wireFrame: wireFrame(options) })
 }
 
 function cylinder(options: VisualOptions): Geometry {

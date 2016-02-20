@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.191.0</em>
+            <em>API Docs for: 2.192.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -47,6 +47,7 @@
                                 <li><a href="../classes/Attribute.html">Attribute</a></li>
                                 <li><a href="../classes/BlendFactor.html">BlendFactor</a></li>
                                 <li><a href="../classes/Box.html">Box</a></li>
+                                <li><a href="../classes/BoxGeometry.html">BoxGeometry</a></li>
                                 <li><a href="../classes/CameraControls.html">CameraControls</a></li>
                                 <li><a href="../classes/Capability.html">Capability</a></li>
                                 <li><a href="../classes/CC.html">CC</a></li>
@@ -56,7 +57,6 @@
                                 <li><a href="../classes/ColorRGBA.html">ColorRGBA</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
                                 <li><a href="../classes/createView.html">createView</a></li>
-                                <li><a href="../classes/CuboidGeometry.html">CuboidGeometry</a></li>
                                 <li><a href="../classes/CuboidPrimitivesBuilder.html">CuboidPrimitivesBuilder</a></li>
                                 <li><a href="../classes/Cylinder.html">Cylinder</a></li>
                                 <li><a href="../classes/CylinderGeometry.html">CylinderGeometry</a></li>
@@ -77,6 +77,7 @@
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
                                 <li><a href="../classes/GeometryContainer.html">GeometryContainer</a></li>
+                                <li><a href="../classes/GeometryElements.html">GeometryElements</a></li>
                                 <li><a href="../classes/GeometryPrimitive.html">GeometryPrimitive</a></li>
                                 <li><a href="../classes/GraphicsProgramSymbols.html">GraphicsProgramSymbols</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
@@ -92,6 +93,7 @@
                                 <li><a href="../classes/Matrix4.html">Matrix4</a></li>
                                 <li><a href="../classes/Mesh.html">Mesh</a></li>
                                 <li><a href="../classes/MeshMaterial.html">MeshMaterial</a></li>
+                                <li><a href="../classes/MeshNormalMaterial.html">MeshNormalMaterial</a></li>
                                 <li><a href="../classes/ModelE2.html">ModelE2</a></li>
                                 <li><a href="../classes/ModelE3.html">ModelE3</a></li>
                                 <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
@@ -204,28 +206,16 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 import Capability from &#x27;../commands/Capability&#x27;;
-import DrawMode from &#x27;./DrawMode&#x27;;
 import core from &#x27;../core&#x27;;
 import IContextProvider from &#x27;./IContextProvider&#x27;;
 import IContextConsumer from &#x27;./IContextConsumer&#x27;;
-import ShareableWebGLBuffer from &#x27;./ShareableWebGLBuffer&#x27;;
-import PrimitiveBuffers from &#x27;./PrimitiveBuffers&#x27;;
-import Material from &#x27;./Material&#x27;;
 import ShareableArray from &#x27;../collections/ShareableArray&#x27;;
 import initWebGL from &#x27;./initWebGL&#x27;;
 import isDefined from &#x27;../checks/isDefined&#x27;;
-import isUndefined from &#x27;../checks/isUndefined&#x27;;
-import mustBeArray from &#x27;../checks/mustBeArray&#x27;;
 import mustBeDefined from &#x27;../checks/mustBeDefined&#x27;;
-import mustBeInteger from &#x27;../checks/mustBeInteger&#x27;;
-import mustBeNumber from &#x27;../checks/mustBeNumber&#x27;;
 import mustBeObject from &#x27;../checks/mustBeObject&#x27;;
-import mustBeString from &#x27;../checks/mustBeString&#x27;;
-import mustSatisfy from &#x27;../checks/mustSatisfy&#x27;;
-import Primitive from &#x27;./Primitive&#x27;;
 import readOnly from &#x27;../i18n/readOnly&#x27;;
 import Shareable from &#x27;./Shareable&#x27;;
-import StringIUnknownMap from &#x27;../collections/StringIUnknownMap&#x27;;
 import WebGLClearColor from &#x27;../commands/WebGLClearColor&#x27;;
 import WebGLEnable from &#x27;../commands/WebGLEnable&#x27;;
 import WebGLDisable from &#x27;../commands/WebGLDisable&#x27;;
@@ -237,456 +227,21 @@ import WebGLDisable from &#x27;../commands/WebGLDisable&#x27;;
  * @submodule core
  */
 
-function isBufferUsage(usage: number): boolean {
-    mustBeNumber(&#x27;usage&#x27;, usage);
-    switch (usage) {
-        case WebGLRenderingContext.STATIC_DRAW: {
-            return true;
-        }
-            break;
-        default: {
-            return false;
-        }
-    }
-}
-
-/**
- * Renders geometric primitives indexed by element array data.
- */
-class DrawElementsCommand {
-
-    /**
-     * Specifies the kind of primitives to render.
-     */
-    private mode: DrawMode;
-
-    /**
-     * The number of elements to render.
-     */
-    private count: number;
-
-    /**
-     * The type of elements in the element array buffer. Usually a gl.UNSIGNED_SHORT.
-     */
-    private type: number;
-
-    /**
-     * Offset into the element array buffer. Must be a valid multiple of the size of type.
-     */
-    private offset: number;
-
-    /**
-     *
-     */
-    constructor(mode: DrawMode, count: number, type: number, offset: number) {
-        mustBeInteger(&#x27;mode&#x27;, mode)
-        mustBeInteger(&#x27;count&#x27;, count)
-        mustBeInteger(&#x27;type&#x27;, type)
-        mustBeInteger(&#x27;offset&#x27;, offset)
-        this.mode = mode
-        this.count = count
-        this.type = type
-        this.offset = offset
-    }
-
-    /**
-     * Executes the drawElements command using the instance state.
-     */
-    execute(gl: WebGLRenderingContext) {
-        if (isDefined(gl)) {
-            switch (this.mode) {
-                case DrawMode.TRIANGLE_STRIP:
-                    gl.drawElements(gl.TRIANGLE_STRIP, this.count, this.type, this.offset)
-                    break
-                case DrawMode.TRIANGLE_FAN:
-                    gl.drawElements(gl.TRIANGLE_FAN, this.count, this.type, this.offset)
-                    break
-                case DrawMode.TRIANGLES:
-                    gl.drawElements(gl.TRIANGLES, this.count, this.type, this.offset)
-                    break
-                case DrawMode.LINE_STRIP:
-                    gl.drawElements(gl.LINE_STRIP, this.count, this.type, this.offset)
-                    break
-                case DrawMode.LINE_LOOP:
-                    gl.drawElements(gl.LINE_LOOP, this.count, this.type, this.offset)
-                    break
-                case DrawMode.LINES:
-                    gl.drawElements(gl.LINES, this.count, this.type, this.offset)
-                    break
-                case DrawMode.POINTS:
-                    gl.drawElements(gl.POINTS, this.count, this.type, this.offset)
-                    break
-                default:
-                    throw new Error(&quot;mode: &quot; + this.mode)
-            }
-        }
-    }
-}
-
-/**
- * A tuple containing (indexBuffer, attributes, drawCommand).
- */
-class ElementsBlock extends Shareable implements IContextConsumer {
-
-    /**
-     * Mapping from attribute name to a data structure describing and containing a buffer.
-     */
-    private _attributes: StringIUnknownMap&lt;ElementsBlockAttrib&gt;;
-
-    /**
-     * The buffer containing element indices used in the drawElements command.
-     * We keep the index buffer private to avoid unnecessary addRef() and release() calls.
-     */
-    private _indexBuffer: ShareableWebGLBuffer;
-
-    /**
-     * An executable command. May be a call to drawElements or drawArrays.
-     */
-    public drawCommand: DrawElementsCommand;
-
-    /**
-     *
-     */
-    constructor(indexBuffer: ShareableWebGLBuffer, attributes: StringIUnknownMap&lt;ElementsBlockAttrib&gt;, drawCommand: DrawElementsCommand) {
-        super(&#x27;ElementsBlock&#x27;)
-        this._indexBuffer = indexBuffer
-        this._indexBuffer.addRef()
-        this._attributes = attributes
-        this._attributes.addRef()
-        this.drawCommand = drawCommand
-    }
-
-    protected destructor(): void {
-        this._attributes.release()
-        this._attributes = void 0
-        this._indexBuffer.release()
-        this._indexBuffer = void 0
-        super.destructor()
-    }
-
-    contextFree(context: IContextProvider): void {
-        this._indexBuffer.contextFree(context)
-        this._attributes.forEach((key, attribute) =&gt; {
-            attribute.contextFree(context)
-        })
-    }
-
-    contextGain(context: IContextProvider): void {
-        this._indexBuffer.contextGain(context)
-        this._attributes.forEach((key, attribute) =&gt; {
-            attribute.contextGain(context)
-        })
-    }
-
-    contextLost(): void {
-        this._indexBuffer.contextLost()
-        this._attributes.forEach((key, attribute) =&gt; {
-            attribute.contextLost()
-        })
-    }
-
-    /**
-     * 
-     */
-    bind() {
-        this._indexBuffer.bind()
-    }
-
-    unbind() {
-        this._indexBuffer.unbind()
-    }
-
-    get attributes(): StringIUnknownMap&lt;ElementsBlockAttrib&gt; {
-        this._attributes.addRef()
-        return this._attributes
-    }
-    set attributes(unused) {
-        throw new Error(readOnly(&#x27;attributes&#x27;).message)
-    }
-}
-
-/**
- * Keeps track of the buffer and metadata associated with an &#x27;attribute&#x27; variable.
- */
-class ElementsBlockAttrib extends Shareable implements IContextConsumer {
-    /**
-     * The buffer is a shared resource
-     */
-    private _buffer: ShareableWebGLBuffer;
-    public size: number;
-    public normalized: boolean;
-    public stride: number;
-    public offset: number;
-    constructor(buffer: ShareableWebGLBuffer, size: number, normalized: boolean, stride: number, offset: number) {
-        super(&#x27;ElementsBlockAttrib&#x27;)
-        this._buffer = buffer;
-        this._buffer.addRef();
-        this.size = size;
-        this.normalized = normalized;
-        this.stride = stride;
-        this.offset = offset;
-    }
-    destructor(): void {
-        this._buffer.release();
-        this._buffer = void 0;
-        this.size = void 0;
-        this.normalized = void 0;
-        this.stride = void 0;
-        this.offset = void 0;
-        super.destructor();
-    }
-
-    contextFree(context: IContextProvider): void {
-        this._buffer.contextFree(context)
-    }
-
-    contextGain(context: IContextProvider): void {
-        this._buffer.contextGain(context)
-    }
-
-    contextLost(): void {
-        this._buffer.contextLost()
-    }
-
-    get buffer() {
-        this._buffer.addRef();
-        return this._buffer;
-    }
-    set buffer(unused) {
-        throw new Error(readOnly(&#x27;buffer&#x27;).message)
-    }
-}
-
-function messageUnrecognizedMesh(uuid: string): string {
-    mustBeString(&#x27;uuid&#x27;, uuid);
-    return uuid + &quot; is not a recognized mesh uuid&quot;;
-}
-
-function attribKey(aName: string, aNameToKeyName?: { [aName: string]: string }): string {
-    if (aNameToKeyName) {
-        const key = aNameToKeyName[aName];
-        return key ? key : aName;
-    }
-    else {
-        return aName;
-    }
-}
-
-/**
- *
- */
-function bindProgramAttribLocations(material: Material, block: ElementsBlock, aNameToKeyName: { [name: string]: string }) {
-    const aNames = material.attributeNames
-    if (aNames) {
-        for (let i = 0, iLength = aNames.length; i &lt; iLength; i++) {
-            const aName = aNames[i]
-            const key: string = attribKey(aName, aNameToKeyName)
-            const attributes = block.attributes
-            const attribute: ElementsBlockAttrib = attributes.getWeakRef(key)
-            if (attribute) {
-                // Associate the attribute buffer with the attribute location.
-                // FIXME Would be nice to be able to get a weak reference to the buffer.
-                const buffer: ShareableWebGLBuffer = attribute.buffer
-                buffer.bind()
-                material.vertexPointer(aName, attribute.size, attribute.normalized, attribute.stride, attribute.offset)
-                buffer.unbind()
-                material.enableAttrib(aName)
-                buffer.release()
-            }
-            else {
-                console.warn(&#x60;material attribute ${aName} is not satisfied by the mesh&#x60;)
-            }
-            attributes.release()
-        }
-    }
-    else {
-        console.warn(&quot;material.attributes is falsey.&quot;)
-    }
-}
-
-/**
- * Implementation of PrimitiveBuffers coupled to the &#x27;blocks&#x27; implementation.
- */
-class PrimitiveBuffersImpl extends Shareable implements PrimitiveBuffers {
-    private _program: Material;
-    private _blocks: StringIUnknownMap&lt;ElementsBlock&gt;;
-    private gl: WebGLRenderingContext;
-    constructor(gl: WebGLRenderingContext, blocks: StringIUnknownMap&lt;ElementsBlock&gt;) {
-        super(&#x27;PrimitiveBuffers&#x27;)
-        this._blocks = blocks
-        this._blocks.addRef()
-        this.gl = gl
-    }
-    protected destructor(): void {
-        this._blocks.release()
-        this._blocks = void 0
-        this.gl = void 0
-        super.destructor()
-    }
-    bind(program: Material, aNameToKeyName?: { [name: string]: string }): void {
-        if (this._program !== program) {
-            if (this._program) {
-                this.unbind()
-            }
-            let block = this._blocks.getWeakRef(this.uuid)
-            if (block) {
-                if (program) {
-                    this._program = program
-                    this._program.addRef()
-                    block.bind()
-                    bindProgramAttribLocations(this._program, block, aNameToKeyName)
-                }
-                else {
-                    mustBeObject(&#x27;program&#x27;, program)
-                }
-            }
-            else {
-                throw new Error(messageUnrecognizedMesh(this.uuid))
-            }
-        }
-    }
-    draw(): void {
-        let block = this._blocks.getWeakRef(this.uuid)
-        if (block) {
-            // FIXME: Wondering why we don&#x27;t just make this a parameter?
-            // On the other hand, buffer geometry is only good for one context.
-            block.drawCommand.execute(this.gl)
-        }
-        else {
-            throw new Error(messageUnrecognizedMesh(this.uuid));
-        }
-    }
-    unbind(): void {
-        if (this._program) {
-            let block = this._blocks.getWeakRef(this.uuid)
-            if (block) {
-                block.unbind()
-                this._program.disableAttribs()
-            }
-            else {
-                throw new Error(messageUnrecognizedMesh(this.uuid));
-            }
-            // We bumped up the reference count during bind. Now we are done.
-            this._program.release()
-            // Important! The existence of _program indicates the binding state.
-            this._program = void 0
-        }
-    }
-}
-
 class WebGLContextProvider extends Shareable implements IContextProvider {
     private _renderer: WebGLRenderer
-
-    /**
-     * @property _blocks
-     * @type StringIUnknownMap
-     * @private
-     */
-    private _blocks = new StringIUnknownMap&lt;ElementsBlock&gt;();
 
     constructor(renderer: WebGLRenderer) {
         super(&#x27;WebGLContextProvider&#x27;)
         this._renderer = renderer
     }
     protected destructor(): void {
-        this._blocks.release();
         super.destructor()
     }
     get gl() {
-        return this._renderer.gl;
+        return this._renderer.gl
     }
-    createPrimitiveBuffers(primitive: Primitive, usage?: number): PrimitiveBuffers {
-        mustBeObject(&#x27;primitive&#x27;, primitive);
-        mustBeInteger(&#x27;primitive.mode&#x27;, primitive.mode);
-        mustBeArray(&#x27;primitive.indices&#x27;, primitive.indices);
-        mustBeObject(&#x27;primitive.attributes&#x27;, primitive.attributes);
-        const gl = this._renderer.gl;
-        if (isDefined(usage)) {
-            mustSatisfy(&#x27;usage&#x27;, isBufferUsage(usage), () =&gt; { return &#x60;${this._type}.createPrimitiveBuffers&#x60; })
-        }
-        else {
-            usage = isDefined(gl) ? gl.STATIC_DRAW : void 0
-        }
-        // It&#x27;s going to get pretty hopeless without a WebGL context.
-        // If that&#x27;s the case, let&#x27;s just return undefined now before we start allocating useless stuff.
-        if (isUndefined(gl)) {
-            if (core.verbose) {
-                console.warn(&quot;Impossible to create a buffer geometry without a WebGL context.&quot;)
-            }
-            return void 0
-        }
-
-        const mesh: PrimitiveBuffers = new PrimitiveBuffersImpl(gl, this._blocks)
-
-        // TODO: In this use case, the ShareableWebGLBuffer isn&#x27;t expected to recover it data.
-        const indexBuffer: ShareableWebGLBuffer = new ShareableWebGLBuffer(true);
-        this._renderer.synchronize(indexBuffer)
-        indexBuffer.bind();
-        if (isDefined(gl)) {
-            gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(primitive.indices), usage);
-        }
-        else {
-            console.warn(&quot;Unable to bufferData to ELEMENT_ARRAY_BUFFER, WebGL context is undefined.&quot;)
-        }
-        indexBuffer.unbind();
-
-        let attributes = new StringIUnknownMap&lt;ElementsBlockAttrib&gt;()
-        let names = Object.keys(primitive.attributes)
-        let namesLength = names.length
-        for (var i = 0; i &lt; namesLength; i++) {
-            let name = names[i]
-            const buffer: ShareableWebGLBuffer = new ShareableWebGLBuffer(false)
-            this._renderer.synchronize(buffer)
-            buffer.bind()
-            let vertexAttrib = primitive.attributes[name]
-            let data: number[] = vertexAttrib.values
-            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(data), usage)
-            // TODO: stride = 0 and offset = 0
-            let attribute = new ElementsBlockAttrib(buffer, vertexAttrib.size, false, 0, 0)
-            attributes.put(name, attribute)
-            attribute.release()
-            buffer.unbind()
-            buffer.release()
-        }
-        // Use UNSIGNED_BYTE  if ELEMENT_ARRAY_BUFFER is a Uint8Array.
-        // Use UNSIGNED_SHORT if ELEMENT_ARRAY_BUFFER is a Uint16Array.
-        // TODO: Notice that the offset is zero. How do we reuse a buffer.
-        let drawCommand = new DrawElementsCommand(primitive.mode, primitive.indices.length, gl.UNSIGNED_SHORT, 0)
-        const block = new ElementsBlock(indexBuffer, attributes, drawCommand)
-        this._blocks.put(mesh.uuid, block)
-        block.release()
-        attributes.release()
-        indexBuffer.release()
-        return mesh
-    }
-
-    public emitStartEvent() {
-        this._blocks.forEach((key, block) =&gt; {
-            this.emitContextGain(block)
-        })
-    }
-    private emitContextGain(consumer: IContextConsumer): void {
-        if (this._renderer.gl.isContextLost()) {
-            consumer.contextLost();
-        }
-        else {
-            consumer.contextGain(this);
-        }
-    }
-
-    public emitStopEvent() {
-        this._blocks.forEach((key, block) =&gt; {
-            this.emitContextFree(block)
-        })
-    }
-
-    private emitContextFree(consumer: IContextConsumer): void {
-        if (this._renderer.gl.isContextLost()) {
-            consumer.contextLost();
-        }
-        else {
-            consumer.contextFree(this);
-        }
+    set gl(unused) {
+        throw new Error(readOnly(&#x27;gl&#x27;).message)
     }
 }
 
@@ -701,29 +256,29 @@ export default class WebGLRenderer extends Shareable {
      * @type WebGLRenderingContext
      * @private
      */
-    private _gl: WebGLRenderingContext;
+    private _gl: WebGLRenderingContext
 
     /**
      * @property _canvas
      * @type HTMLCanvasElement
      * @private
      */
-    private _canvas: HTMLCanvasElement;
+    private _canvas: HTMLCanvasElement
 
-    private _attributes: WebGLContextAttributes;
+    private _attributes: WebGLContextAttributes
 
     // Remark: We only hold weak references to users so that the lifetime of resource
     // objects is not affected by the fact that they are listening for gl events.
     // Users should automatically add themselves upon construction and remove upon release.
     // // FIXME: Really? Not ShareableArray&lt;IIContextConsumer&gt; ?
-    private _users: IContextConsumer[] = [];
+    private _users: IContextConsumer[] = []
 
-    private _webGLContextLost: (event: Event) =&gt; any;
-    private _webGLContextRestored: (event: Event) =&gt; any;
+    private _webGLContextLost: (event: Event) =&gt; any
+    private _webGLContextRestored: (event: Event) =&gt; any
 
     private _commands = new ShareableArray&lt;IContextConsumer&gt;([])
 
-    private _contextProvider: WebGLContextProvider;
+    private _contextProvider: WebGLContextProvider
 
     /**
      * @class WebGLRenderer
@@ -731,7 +286,7 @@ export default class WebGLRenderer extends Shareable {
      * @param [attributes] {WebGLContextAttributes} Allow the context to be configured.
      */
     constructor(attributes?: WebGLContextAttributes) {
-        super(&#x27;WebGLRenderer&#x27;);
+        super(&#x27;WebGLRenderer&#x27;)
 
         this._attributes = attributes;
 
@@ -799,7 +354,7 @@ export default class WebGLRenderer extends Shareable {
     get canvas(): HTMLCanvasElement {
         // FIXME: Retract this implicit starting behavior.
         if (!this._canvas) {
-            this.start(document.createElement(&#x27;canvas&#x27;));
+            this.start(document.createElement(&#x27;canvas&#x27;))
         }
         return this._canvas;
     }
@@ -835,6 +390,9 @@ export default class WebGLRenderer extends Shareable {
      */
     clearColor(red: number, green: number, blue: number, alpha: number): WebGLRenderer {
         this._commands.pushWeakRef(new WebGLClearColor(red, green, blue, alpha))
+        if (this._gl) {
+            this._gl.clearColor(red, green, blue, alpha)
+        }
         return this
     }
 
@@ -869,10 +427,10 @@ export default class WebGLRenderer extends Shareable {
      */
     get gl(): WebGLRenderingContext {
         if (this._gl) {
-            return this._gl;
+            return this._gl
         }
         else {
-            return void 0;
+            return void 0
         }
     }
     set gl(unused) {
@@ -897,9 +455,9 @@ export default class WebGLRenderer extends Shareable {
      * @return {void}
      */
     clear(): void {
-        const gl = this._gl;
+        const gl = this._gl
         if (gl) {
-            gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+            gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
         }
     }
 
@@ -937,7 +495,7 @@ export default class WebGLRenderer extends Shareable {
             return this
         }
         mustBeDefined(&#x27;canvas&#x27;, canvas)
-        const alreadyStarted = isDefined(this._canvas);
+        const alreadyStarted = isDefined(this._canvas)
         if (!alreadyStarted) {
             // cache the arguments
             this._canvas = canvas
@@ -954,7 +512,7 @@ export default class WebGLRenderer extends Shareable {
         // To not complain is the way of the hyper-functional warrior.
         if (isDefined(this._canvas)) {
             this._gl = initWebGL(this._canvas, this._attributes);
-            this.emitStartEvent();
+            this.emitStartEvent()
             this._canvas.addEventListener(&#x27;webglcontextlost&#x27;, this._webGLContextLost, false)
             this._canvas.addEventListener(&#x27;webglcontextrestored&#x27;, this._webGLContextRestored, false)
         }
@@ -971,37 +529,33 @@ export default class WebGLRenderer extends Shareable {
             this._canvas.removeEventListener(&#x27;webglcontextrestored&#x27;, this._webGLContextRestored, false)
             this._canvas.removeEventListener(&#x27;webglcontextlost&#x27;, this._webGLContextLost, false)
             if (this._gl) {
-                this.emitStopEvent();
-                this._gl = void 0;
+                this.emitStopEvent()
+                this._gl = void 0
             }
-            this._canvas = void 0;
+            this._canvas = void 0
         }
         return this
     }
 
     private emitStartEvent() {
-
-        this._contextProvider.emitStartEvent()
-
         this._users.forEach((user: IContextConsumer) =&gt; {
             this.emitContextGain(user)
         })
         this._commands.forEach((command) =&gt; {
-            this.emitContextGain(command);
+            this.emitContextGain(command)
         })
     }
 
     private emitContextGain(consumer: IContextConsumer): void {
         if (this._gl.isContextLost()) {
-            consumer.contextLost();
+            consumer.contextLost()
         }
         else {
-            consumer.contextGain(this._contextProvider);
+            consumer.contextGain(this._contextProvider)
         }
     }
 
     private emitStopEvent() {
-        this._contextProvider.emitStopEvent()
         this._users.forEach((user: IContextConsumer) =&gt; {
             this.emitContextFree(user)
         })
@@ -1012,10 +566,10 @@ export default class WebGLRenderer extends Shareable {
 
     private emitContextFree(consumer: IContextConsumer): void {
         if (this._gl.isContextLost()) {
-            consumer.contextLost();
+            consumer.contextLost()
         }
         else {
-            consumer.contextFree(this._contextProvider);
+            consumer.contextFree(this._contextProvider)
         }
     }
 
@@ -1026,7 +580,7 @@ export default class WebGLRenderer extends Shareable {
      */
     synchronize(consumer: IContextConsumer): void {
         if (this._gl) {
-            this.emitContextGain(consumer);
+            this.emitContextGain(consumer)
         }
         else {
             // FIXME: Broken symmetry.

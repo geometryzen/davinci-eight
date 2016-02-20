@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.191.0</em>
+            <em>API Docs for: 2.192.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -47,6 +47,7 @@
                                 <li><a href="../classes/Attribute.html">Attribute</a></li>
                                 <li><a href="../classes/BlendFactor.html">BlendFactor</a></li>
                                 <li><a href="../classes/Box.html">Box</a></li>
+                                <li><a href="../classes/BoxGeometry.html">BoxGeometry</a></li>
                                 <li><a href="../classes/CameraControls.html">CameraControls</a></li>
                                 <li><a href="../classes/Capability.html">Capability</a></li>
                                 <li><a href="../classes/CC.html">CC</a></li>
@@ -56,7 +57,6 @@
                                 <li><a href="../classes/ColorRGBA.html">ColorRGBA</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
                                 <li><a href="../classes/createView.html">createView</a></li>
-                                <li><a href="../classes/CuboidGeometry.html">CuboidGeometry</a></li>
                                 <li><a href="../classes/CuboidPrimitivesBuilder.html">CuboidPrimitivesBuilder</a></li>
                                 <li><a href="../classes/Cylinder.html">Cylinder</a></li>
                                 <li><a href="../classes/CylinderGeometry.html">CylinderGeometry</a></li>
@@ -77,6 +77,7 @@
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
                                 <li><a href="../classes/GeometryContainer.html">GeometryContainer</a></li>
+                                <li><a href="../classes/GeometryElements.html">GeometryElements</a></li>
                                 <li><a href="../classes/GeometryPrimitive.html">GeometryPrimitive</a></li>
                                 <li><a href="../classes/GraphicsProgramSymbols.html">GraphicsProgramSymbols</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
@@ -92,6 +93,7 @@
                                 <li><a href="../classes/Matrix4.html">Matrix4</a></li>
                                 <li><a href="../classes/Mesh.html">Mesh</a></li>
                                 <li><a href="../classes/MeshMaterial.html">MeshMaterial</a></li>
+                                <li><a href="../classes/MeshNormalMaterial.html">MeshNormalMaterial</a></li>
                                 <li><a href="../classes/ModelE2.html">ModelE2</a></li>
                                 <li><a href="../classes/ModelE3.html">ModelE3</a></li>
                                 <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
@@ -208,16 +210,13 @@ import G3 from &#x27;./G3&#x27;;
 import EventEmitter from &#x27;../utils/EventEmitter&#x27;;
 import extG3 from &#x27;./extG3&#x27;;
 import GeometricE3 from &#x27;./GeometricE3&#x27;;
-import lcoG3 from &#x27;./lcoG3&#x27;;
 import GeometricOperators from &#x27;./GeometricOperators&#x27;;
 import isScalarG3 from &#x27;./isScalarG3&#x27;;
+import lcoG3 from &#x27;./lcoG3&#x27;;
 import mulG3 from &#x27;./mulG3&#x27;;
-import mustBeInteger from &#x27;../checks/mustBeInteger&#x27;;
-import mustBeString from &#x27;../checks/mustBeString&#x27;;
 import MutableGeometricElement3D from &#x27;./MutableGeometricElement3D&#x27;;
 import quadVector from &#x27;./quadVectorE3&#x27;;
 import rcoG3 from &#x27;./rcoG3&#x27;;
-import readOnly from &#x27;../i18n/readOnly&#x27;;
 import rotorFromDirections from &#x27;./rotorFromDirections&#x27;;
 import scpG3 from &#x27;./scpG3&#x27;;
 import SpinorE3 from &#x27;./SpinorE3&#x27;;
@@ -247,15 +246,6 @@ const COORD_YZ = 5
 const COORD_ZX = 6
 const COORD_PSEUDO = 7
 
-const EVENT_NAME_CHANGE = &#x27;change&#x27;;
-
-const atan2 = Math.atan2
-const exp = Math.exp
-const cos = Math.cos
-const log = Math.log
-const sin = Math.sin
-const sqrt = Math.sqrt
-
 const BASIS_LABELS = [&quot;1&quot;, &quot;e1&quot;, &quot;e2&quot;, &quot;e3&quot;, &quot;e12&quot;, &quot;e23&quot;, &quot;e31&quot;, &quot;e123&quot;]
 
 /**
@@ -265,90 +255,14 @@ function coordinates(m: GeometricE3): number[] {
     return [m.α, m.x, m.y, m.z, m.xy, m.yz, m.zx, m.β]
 }
 
-function makeConstantE3(label: string, α: number, x: number, y: number, z: number, yz: number, zx: number, xy: number, β: number, uom: Unit): GeometricE3 {
-    mustBeString(&#x27;label&#x27;, label)
-    var that: GeometricE3;
-    that = {
-        get α() {
-            return α;
-        },
-        set α(unused: number) {
-            throw new Error(readOnly(label + &#x27;.α&#x27;).message);
-        },
-        get alpha() {
-            return α;
-        },
-        set alpha(unused: number) {
-            throw new Error(readOnly(label + &#x27;.alpha&#x27;).message);
-        },
-        get x() {
-            return x;
-        },
-        set x(unused: number) {
-            throw new Error(readOnly(label + &#x27;.x&#x27;).message);
-        },
-        get y() {
-            return y;
-        },
-        set y(unused: number) {
-            throw new Error(readOnly(label + &#x27;.y&#x27;).message);
-        },
-        get z() {
-            return z;
-        },
-        set z(unused: number) {
-            throw new Error(readOnly(label + &#x27;.x&#x27;).message);
-        },
-        get yz() {
-            return yz;
-        },
-        set yz(unused: number) {
-            throw new Error(readOnly(label + &#x27;.yz&#x27;).message);
-        },
-        get zx() {
-            return zx;
-        },
-        set zx(unused: number) {
-            throw new Error(readOnly(label + &#x27;.zx&#x27;).message);
-        },
-        get xy() {
-            return xy;
-        },
-        set xy(unused: number) {
-            throw new Error(readOnly(label + &#x27;.xy&#x27;).message);
-        },
-        get β() {
-            return β;
-        },
-        set β(unused: number) {
-            throw new Error(readOnly(label + &#x27;.β&#x27;).message);
-        },
-        get beta() {
-            return β;
-        },
-        set beta(unused: number) {
-            throw new Error(readOnly(label + &#x27;.beta&#x27;).message);
-        },
-        get uom() {
-            return uom;
-        },
-        set uom(unused: Unit) {
-            throw new Error(readOnly(label + &#x27;.uom&#x27;).message);
-        },
-        toString() {
-            return label;
-        }
-    }
-    return that
-}
+const EVENT_NAME_CHANGE = &#x27;change&#x27;;
 
-// FIXME: Why do this? They are only constant by agreement. i.e. Not enforced.
-const zero = makeConstantE3(&#x27;0&#x27;, 0, 0, 0, 0, 0, 0, 0, 0, void 0);
-const one = makeConstantE3(&#x27;1&#x27;, 1, 0, 0, 0, 0, 0, 0, 0, void 0);
-const e1 = makeConstantE3(&#x27;e1&#x27;, 0, 1, 0, 0, 0, 0, 0, 0, void 0);
-const e2 = makeConstantE3(&#x27;e2&#x27;, 0, 0, 1, 0, 0, 0, 0, 0, void 0);
-const e3 = makeConstantE3(&#x27;e2&#x27;, 0, 0, 0, 1, 0, 0, 0, 0, void 0);
-const I = makeConstantE3(&#x27;I&#x27;, 0, 0, 0, 0, 0, 0, 0, 1, void 0);
+const atan2 = Math.atan2
+const exp = Math.exp
+const cos = Math.cos
+const log = Math.log
+const sin = Math.sin
+const sqrt = Math.sqrt
 
 /**
  * @class G3m
@@ -356,7 +270,13 @@ const I = makeConstantE3(&#x27;I&#x27;, 0, 0, 0, 0, 0, 0, 0, 1, void 0);
  * @beta
  */
 export default class G3m extends VectorN&lt;number&gt; implements GeometricE3, MutableGeometricElement3D&lt;GeometricE3, G3m, SpinorE3, VectorE3&gt;, GeometricOperators&lt;G3m&gt; {
+
+    /**
+     * @property uom
+     * @type Unit
+     */
     public uom: Unit;
+
     /**
      * @property eventBus
      * @type EventEmitter
@@ -643,6 +563,7 @@ export default class G3m extends VectorN&lt;number&gt; implements GeometricE3, M
         this.xy = -this.xy;
         return this
     }
+
     /**
      * &lt;p&gt;
      * &lt;code&gt;this ⟼ this &lt;&lt; m&lt;/code&gt;
@@ -655,6 +576,7 @@ export default class G3m extends VectorN&lt;number&gt; implements GeometricE3, M
     lco(m: GeometricE3): G3m {
         return this.lco2(this, m)
     }
+
     /**
      * &lt;p&gt;
      * &lt;code&gt;this ⟼ a &lt;&lt; b&lt;/code&gt;
@@ -668,6 +590,7 @@ export default class G3m extends VectorN&lt;number&gt; implements GeometricE3, M
     lco2(a: GeometricE3, b: GeometricE3): G3m {
         return lcoG3(a, b, this)
     }
+
     /**
      * &lt;p&gt;
      * &lt;code&gt;this ⟼ this &gt;&gt; m&lt;/code&gt;
@@ -680,6 +603,7 @@ export default class G3m extends VectorN&lt;number&gt; implements GeometricE3, M
     rco(m: GeometricE3): G3m {
         return this.rco2(this, m)
     }
+
     /**
      * &lt;p&gt;
      * &lt;code&gt;this ⟼ a &gt;&gt; b&lt;/code&gt;
@@ -774,14 +698,13 @@ export default class G3m extends VectorN&lt;number&gt; implements GeometricE3, M
      * @chainable
      */
     div(m: GeometricE3): G3m {
-        // TODO: Generalize
+        // TODO: Generalize (this is implemented in G3)
         if (isScalarG3(m)) {
             return this.divByScalar(m.α)
         }
         else {
             throw new Error(&quot;division with arbitrary multivectors is not supported&quot;)
         }
-        // return this.div2(this, m)
     }
 
     /**
@@ -804,6 +727,7 @@ export default class G3m extends VectorN&lt;number&gt; implements GeometricE3, M
         this.β /= α
         return this
     }
+
     /**
      * &lt;p&gt;
      * &lt;code&gt;this ⟼ a / b&lt;/code&gt;
@@ -833,6 +757,7 @@ export default class G3m extends VectorN&lt;number&gt; implements GeometricE3, M
         this.xy = a0 * b3 - a1 * b2 + a2 * b1 + a3 * b0;
         return this;
     }
+
     /**
      * &lt;p&gt;
      * &lt;code&gt;this ⟼ dual(m) = I * m&lt;/code&gt;
@@ -863,6 +788,7 @@ export default class G3m extends VectorN&lt;number&gt; implements GeometricE3, M
 
         return this
     }
+
     /**
      * &lt;p&gt;
      * &lt;code&gt;this ⟼ e&lt;sup&gt;this&lt;/sup&gt;&lt;/code&gt;
@@ -901,6 +827,7 @@ export default class G3m extends VectorN&lt;number&gt; implements GeometricE3, M
         this.xy = xy * s;
         return this.scale(expW);
     }
+
     /**
      * &lt;p&gt;
      * &lt;code&gt;this ⟼ conj(this) / quad(this)&lt;/code&gt;
@@ -969,6 +896,7 @@ export default class G3m extends VectorN&lt;number&gt; implements GeometricE3, M
         this.copy(a).lerp(b, α)
         return this
     }
+
     /**
      * &lt;p&gt;
      * &lt;code&gt;this ⟼ log(this)&lt;/code&gt;
@@ -1001,6 +929,9 @@ export default class G3m extends VectorN&lt;number&gt; implements GeometricE3, M
         return this.norm();
     }
 
+    /**
+     * Intentionally undocumented.
+     */
     magnitudeSansUnits(): number {
         return sqrt(this.squaredNormSansUnits());
     }
@@ -1031,6 +962,7 @@ export default class G3m extends VectorN&lt;number&gt; implements GeometricE3, M
     mul2(a: GeometricE3, b: GeometricE3): G3m {
         return mulG3(a, b, this)
     }
+
     /**
      * &lt;p&gt;
      * &lt;code&gt;this ⟼ -1 * this&lt;/code&gt;
@@ -1090,6 +1022,7 @@ export default class G3m extends VectorN&lt;number&gt; implements GeometricE3, M
         this.zx = this.zx / norm
         this.xy = this.xy / norm
         this.β = this.β / norm
+        this.uom = void 0
         return this
     }
 
@@ -1108,6 +1041,7 @@ export default class G3m extends VectorN&lt;number&gt; implements GeometricE3, M
         this.zx = 0
         this.xy = 0
         this.β = 0
+        this.uom = void 0
         return this
     }
 
@@ -1137,6 +1071,9 @@ export default class G3m extends VectorN&lt;number&gt; implements GeometricE3, M
         return this
     }
 
+    /**
+     * Intentionally undocumented
+     */
     squaredNormSansUnits(): number {
         return squaredNormG3(this)
     }
@@ -1220,6 +1157,7 @@ export default class G3m extends VectorN&lt;number&gt; implements GeometricE3, M
 
         return this;
     }
+
     /**
      * &lt;p&gt;
      * Computes a rotor, R, from two unit vectors, where
@@ -1313,6 +1251,7 @@ export default class G3m extends VectorN&lt;number&gt; implements GeometricE3, M
     scp(m: GeometricE3): G3m {
         return this.scp2(this, m)
     }
+
     /**
      * &lt;p&gt;
      * &lt;code&gt;this ⟼ scp(a, b)&lt;/code&gt;
@@ -1400,6 +1339,7 @@ export default class G3m extends VectorN&lt;number&gt; implements GeometricE3, M
         this.β -= M.β * α
         return this
     }
+
     /**
      * &lt;p&gt;
      * &lt;code&gt;this ⟼ a - b&lt;/code&gt;
@@ -1453,8 +1393,13 @@ export default class G3m extends VectorN&lt;number&gt; implements GeometricE3, M
         return stringFromCoordinates(coordinates(this), coordToString, BASIS_LABELS)
     }
 
+    /**
+     * @method grade
+     * @param grade {number}
+     * @return {G3m}
+     * @chainable
+     */
     grade(grade: number): G3m {
-        mustBeInteger(&#x27;grade&#x27;, grade)
         switch (grade) {
             case 0: {
                 this.x = 0;
@@ -1518,6 +1463,7 @@ export default class G3m extends VectorN&lt;number&gt; implements GeometricE3, M
     ext(m: GeometricE3): G3m {
         return this.ext2(this, m)
     }
+
     /**
      * &lt;p&gt;
      * &lt;code&gt;this ⟼ a ^ b&lt;/code&gt;
@@ -1547,6 +1493,7 @@ export default class G3m extends VectorN&lt;number&gt; implements GeometricE3, M
         this.zx = 0
         this.xy = 0
         this.β = 0
+        this.uom = void 0
         return this
     }
 
@@ -1876,53 +1823,53 @@ export default class G3m extends VectorN&lt;number&gt; implements GeometricE3, M
      * @return {G3m}
      * @static
      */
-    static zero(): G3m { return G3m.copy(zero); };
+    static zero(): G3m { return new G3m() }
 
     /**
+     * Constructs a G3m representing the number one.
      * The identity element for multiplication, &lt;b&gt;1&lt;/b&gt;.
      *
-     * @property one
-     * @type {G3m}
-     * @readOnly
+     * @method one
+     * @return {G3m}
      * @static
      */
-    static get one(): G3m { return G3m.copy(one); };
+    static one(): G3m { return new G3m().addScalar(1) }
 
     /**
-     * Basis vector corresponding to the &lt;code&gt;x&lt;/code&gt; coordinate.
-     * @property e1
-     * @type {G3m}
-     * @readOnly
+     * Constructs a basis vector corresponding to the &lt;code&gt;x&lt;/code&gt; coordinate.
+     *
+     * @method e1
+     * @return {G3m}
      * @static
      */
-    static get e1(): G3m { return G3m.copy(e1); };
+    static e1(): G3m { return G3m.vector(1, 0, 0) }
 
     /**
-     * Basis vector corresponding to the &lt;code&gt;y&lt;/code&gt; coordinate.
-     * @property e2
-     * @type {G3m}
-     * @readOnly
+     * Constructs a basis vector corresponding to the &lt;code&gt;y&lt;/code&gt; coordinate.
+     *
+     * @method e2
+     * @return {G3m}
      * @static
      */
-    static get e2(): G3m { return G3m.copy(e2); };
+    static e2(): G3m { return G3m.vector(0, 1, 0) }
 
     /**
-     * Basis vector corresponding to the &lt;code&gt;y&lt;/code&gt; coordinate.
-     * @property e3
-     * @type {G3m}
-     * @readOnly
+     * Constructs a basis vector corresponding to the &lt;code&gt;z&lt;/code&gt; coordinate.
+     *
+     * @method e3
+     * @return {G3m}
      * @static
      */
-    static get e3(): G3m { return G3m.copy(e3); };
+    static e3(): G3m { return G3m.vector(0, 0, 1) }
 
     /**
-     * Basis vector corresponding to the &lt;code&gt;β&lt;/code&gt; coordinate.
-     * @property I
-     * @type {G3m}
-     * @readOnly
+     * Constructs a basis vector corresponding to the &lt;code&gt;β&lt;/code&gt; coordinate.
+     *
+     * @method I
+     * @return {G3m}
      * @static
      */
-    static get I(): G3m { return G3m.copy(I); };
+    static I(): G3m { return new G3m().addPseudo(1) }
 
     /**
      * @method copy
@@ -1962,7 +1909,7 @@ export default class G3m extends VectorN&lt;number&gt; implements GeometricE3, M
      * @chainable
      */
     static fromSpinor(spinor: SpinorE3): G3m {
-        var copy = new G3m()
+        const copy = new G3m()
         copy.α = spinor.α
         copy.yz = spinor.yz
         copy.zx = spinor.yz
@@ -1978,7 +1925,7 @@ export default class G3m extends VectorN&lt;number&gt; implements GeometricE3, M
      * @chainable
      */
     static fromVector(vector: VectorE3): G3m {
-        var copy = new G3m()
+        const copy = new G3m()
         copy.x = vector.x
         copy.y = vector.y
         copy.z = vector.z
@@ -2008,6 +1955,24 @@ export default class G3m extends VectorN&lt;number&gt; implements GeometricE3, M
      */
     static rotorFromDirections(a: VectorE3, b: VectorE3): G3m {
         return new G3m().rotorFromDirections(a, b)
+    }
+
+    /**
+     * @method vector
+     * @param x {number}
+     * @param y {number}
+     * @param z {number}
+     * @param [uom] Unit
+     * @return {G3m}
+     * @static
+     */
+    static vector(x: number, y: number, z: number, uom?: Unit): G3m {
+        const v = new G3m()
+        v.x = x
+        v.y = y
+        v.z = z
+        v.uom = uom
+        return v
     }
 }
 

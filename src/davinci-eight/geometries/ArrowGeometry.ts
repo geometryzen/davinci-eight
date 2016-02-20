@@ -2,7 +2,7 @@ import GeometryContainer from '../core/GeometryContainer';
 import GeometryPrimitive from '../core/GeometryPrimitive';
 import Primitive from '../core/Primitive';
 import ArrowBuilder from './ArrowBuilder';
-import G3m from '../math/G3m';
+import R3 from '../math/R3';
 
 /**
  * @module EIGHT
@@ -10,7 +10,7 @@ import G3m from '../math/G3m';
  */
 
 function primitives(): Primitive[] {
-    const builder = new ArrowBuilder(G3m.e2)
+    const builder = new ArrowBuilder(R3.e2)
     return builder.toPrimitives()
 }
 

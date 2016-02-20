@@ -6,7 +6,7 @@ import mustBeBoolean from '../checks/mustBeBoolean';
 import mustBeNumber from '../checks/mustBeNumber';
 import CuboidPrimitivesBuilder from './CuboidPrimitivesBuilder';
 import CuboidSimplexPrimitivesBuilder from './CuboidSimplexPrimitivesBuilder';
-import G3m from '../math/G3m'
+import R3 from '../math/R3'
 import Simplex from './Simplex'
 
 /**
@@ -20,7 +20,7 @@ function primitives(width: number, height: number, depth: number, wireFrame: boo
     mustBeNumber('depth', depth)
     mustBeBoolean('wireFrame', wireFrame)
     if (wireFrame) {
-        const builder = new CuboidSimplexPrimitivesBuilder(G3m.e1, G3m.e2, G3m.e3, Simplex.LINE, 0, 1)
+        const builder = new CuboidSimplexPrimitivesBuilder(R3.e1, R3.e2, R3.e3, Simplex.LINE, 0, 1)
         return builder.toPrimitives()
     }
     else {
@@ -33,14 +33,14 @@ function primitives(width: number, height: number, depth: number, wireFrame: boo
 }
 
 /**
- * A convenience class for creating a CuboidGeometry.
+ * A convenience class for creating a BoxGeometry.
  *
- * @class CuboidGeometry
+ * @class BoxGeometry
  * @extends Geometry
  */
-export default class CuboidGeometry extends GeometryContainer {
+export default class BoxGeometry extends GeometryContainer {
     /**
-     * @class CuboidGeometry
+     * @class BoxGeometry
      * @constructor
      * @param [options = {}] {{ width?: number; height?: number; depth?: number }}
      */

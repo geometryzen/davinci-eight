@@ -40,6 +40,12 @@ interface Geometry extends IContextConsumer {
      */
     draw(material: Material): void
 
+    /**
+     * @method isLeaf
+     * @return {boolean}
+     */
+    isLeaf(): boolean
+
     // TODO: Move this to IUnknown
     isZombie(): boolean
 }

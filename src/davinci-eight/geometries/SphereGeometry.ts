@@ -2,7 +2,7 @@ import GeometryContainer from '../core/GeometryContainer'
 import GeometryPrimitive from '../core/GeometryPrimitive'
 import Primitive from '../core/Primitive'
 import SphereBuilder from './SphereBuilder'
-import G3m from '../math/G3m'
+import R3 from '../math/R3'
 import Simplex from './Simplex'
 import isDefined from '../checks/isDefined'
 import mustBeInteger from '../checks/mustBeInteger'
@@ -22,7 +22,7 @@ function k(options: { k?: number }): number {
  */
 
 function primitives(options: { k?: number }): Primitive[] {
-    const builder = new SphereBuilder(1, G3m.e2)
+    const builder = new SphereBuilder(1, R3.e2)
     builder.k = k(options)
     return builder.toPrimitives()
 }

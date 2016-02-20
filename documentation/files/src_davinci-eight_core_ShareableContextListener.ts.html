@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.191.0</em>
+            <em>API Docs for: 2.192.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -47,6 +47,7 @@
                                 <li><a href="../classes/Attribute.html">Attribute</a></li>
                                 <li><a href="../classes/BlendFactor.html">BlendFactor</a></li>
                                 <li><a href="../classes/Box.html">Box</a></li>
+                                <li><a href="../classes/BoxGeometry.html">BoxGeometry</a></li>
                                 <li><a href="../classes/CameraControls.html">CameraControls</a></li>
                                 <li><a href="../classes/Capability.html">Capability</a></li>
                                 <li><a href="../classes/CC.html">CC</a></li>
@@ -56,7 +57,6 @@
                                 <li><a href="../classes/ColorRGBA.html">ColorRGBA</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
                                 <li><a href="../classes/createView.html">createView</a></li>
-                                <li><a href="../classes/CuboidGeometry.html">CuboidGeometry</a></li>
                                 <li><a href="../classes/CuboidPrimitivesBuilder.html">CuboidPrimitivesBuilder</a></li>
                                 <li><a href="../classes/Cylinder.html">Cylinder</a></li>
                                 <li><a href="../classes/CylinderGeometry.html">CylinderGeometry</a></li>
@@ -77,6 +77,7 @@
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
                                 <li><a href="../classes/GeometryContainer.html">GeometryContainer</a></li>
+                                <li><a href="../classes/GeometryElements.html">GeometryElements</a></li>
                                 <li><a href="../classes/GeometryPrimitive.html">GeometryPrimitive</a></li>
                                 <li><a href="../classes/GraphicsProgramSymbols.html">GraphicsProgramSymbols</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
@@ -92,6 +93,7 @@
                                 <li><a href="../classes/Matrix4.html">Matrix4</a></li>
                                 <li><a href="../classes/Mesh.html">Mesh</a></li>
                                 <li><a href="../classes/MeshMaterial.html">MeshMaterial</a></li>
+                                <li><a href="../classes/MeshNormalMaterial.html">MeshNormalMaterial</a></li>
                                 <li><a href="../classes/ModelE2.html">ModelE2</a></li>
                                 <li><a href="../classes/ModelE3.html">ModelE3</a></li>
                                 <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
@@ -217,8 +219,8 @@ import Shareable from &#x27;./Shareable&#x27;;
  * @extends Shareable
  */
 export default class ShareableContextListener extends Shareable implements IContextListener {
-    private _visual: WebGLRenderer
-    private _context: IContextProvider
+    private _context: WebGLRenderer
+    protected mirror: IContextProvider
 
     /**
      * @class ShareableContextListener
@@ -246,9 +248,9 @@ export default class ShareableContextListener extends Shareable implements ICont
      * @return {void}
      */
     subscribe(visual: WebGLRenderer): void {
-        if (!this._visual) {
+        if (!this._context) {
             visual.addRef()
-            this._visual = visual
+            this._context = visual
             visual.addContextListener(this)
             visual.synchronize(this)
         }
@@ -265,31 +267,31 @@ export default class ShareableContextListener extends Shareable implements ICont
      * @return {void}
      */
     unsubscribe(): void {
-        if (this._context) {
-            cleanUp(this._context, this)
+        if (this.mirror) {
+            cleanUp(this.mirror, this)
         }
-        if (this._visual) {
-            this._visual.removeContextListener(this)
-            this._visual.release()
-            this._visual = void 0
+        if (this._context) {
+            this._context.removeContextListener(this)
+            this._context.release()
+            this._context = void 0
         }
     }
 
     contextFree(context: IContextProvider): void {
-        this._context = void 0
+        this.mirror = void 0
     }
 
     contextGain(context: IContextProvider): void {
-        this._context = context
+        this.mirror = context
     }
 
     contextLost(): void {
-        this._context = void 0
+        this.mirror = void 0
     }
 
     get gl(): WebGLRenderingContext {
-        if (this._context) {
-            return this._context.gl
+        if (this.mirror) {
+            return this.mirror.gl
         }
         else {
             return void 0

@@ -11,7 +11,19 @@ import ShareableContextListener from './ShareableContextListener';
  * @extends Shareable
  */
 export default class ShareableWebGLBuffer extends ShareableContextListener {
+
+    /**
+     * @property _buffer
+     * @type WebGLBuffer
+     * @private
+     */
     private _buffer: WebGLBuffer;
+
+    /**
+     * @property _isElements
+     * @type boolean
+     * @private
+     */
     private _isElements: boolean;
 
     /**
@@ -32,6 +44,7 @@ export default class ShareableWebGLBuffer extends ShareableContextListener {
         super('ShareableWebGLBuffer')
         this._isElements = mustBeBoolean('isElements', isElements)
     }
+
     /**
      * @method destructor
      * @return {void}

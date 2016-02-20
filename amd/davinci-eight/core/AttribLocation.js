@@ -15,27 +15,27 @@ define(["require", "exports", '../i18n/readOnly'], function (require, exports, r
         });
         AttribLocation.prototype.contextFree = function () {
             this._index = void 0;
-            this._context = void 0;
+            this._gl = void 0;
         };
         AttribLocation.prototype.contextGain = function (context, program) {
             this._index = context.getAttribLocation(program, this._name);
-            this._context = context;
+            this._gl = context;
         };
         AttribLocation.prototype.contextLost = function () {
             this._index = void 0;
-            this._context = void 0;
+            this._gl = void 0;
         };
         AttribLocation.prototype.vertexPointer = function (size, normalized, stride, offset) {
             if (normalized === void 0) { normalized = false; }
             if (stride === void 0) { stride = 0; }
             if (offset === void 0) { offset = 0; }
-            this._context.vertexAttribPointer(this._index, size, this._context.FLOAT, normalized, stride, offset);
+            this._gl.vertexAttribPointer(this._index, size, this._gl.FLOAT, normalized, stride, offset);
         };
         AttribLocation.prototype.enable = function () {
-            this._context.enableVertexAttribArray(this._index);
+            this._gl.enableVertexAttribArray(this._index);
         };
         AttribLocation.prototype.disable = function () {
-            this._context.disableVertexAttribArray(this._index);
+            this._gl.disableVertexAttribArray(this._index);
         };
         AttribLocation.prototype.toString = function () {
             return ['attribute', this._name].join(' ');

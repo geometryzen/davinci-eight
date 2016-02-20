@@ -30,11 +30,11 @@ export default class AttribLocation implements IContextProgramConsumer {
     /**
      * The cached <code>WebGLRenderingContext</code> obtained through
      * a <code>contextGain</code> notification.
-     * @property _context
+     * @property _gl
      * @type {WebGLRenderingContext}
      * @private
      */
-    private _context: WebGLRenderingContext;
+    private _gl: WebGLRenderingContext;
 
     /**
      * @class AttribLocation
@@ -70,7 +70,7 @@ export default class AttribLocation implements IContextProgramConsumer {
         // Nothing to deallocate. Just reflect notification in state variables.
         // This is coincidentally the same as contextLost, but not appropriate for DRY.
         this._index = void 0
-        this._context = void 0
+        this._gl = void 0
     }
 
     /**
@@ -83,7 +83,7 @@ export default class AttribLocation implements IContextProgramConsumer {
      */
     contextGain(context: WebGLRenderingContext, program: WebGLProgram): void {
         this._index = context.getAttribLocation(program, this._name);
-        this._context = context;
+        this._gl = context;
     }
 
     /**
@@ -94,7 +94,7 @@ export default class AttribLocation implements IContextProgramConsumer {
      */
     contextLost(): void {
         this._index = void 0;
-        this._context = void 0;
+        this._gl = void 0;
     }
 
     /**
@@ -110,7 +110,10 @@ export default class AttribLocation implements IContextProgramConsumer {
      * @return {void}
      */
     vertexPointer(size: number, normalized = false, stride = 0, offset = 0): void {
-        this._context.vertexAttribPointer(this._index, size, this._context.FLOAT, normalized, stride, offset);
+        // TODO: Notice that when this function is called, the cached index is used.
+        // This suggests that we should used the cached indices to to look up attributes
+        // when we are in the animation loop.
+        this._gl.vertexAttribPointer(this._index, size, this._gl.FLOAT, normalized, stride, offset);
     }
 
     /**
@@ -122,7 +125,7 @@ export default class AttribLocation implements IContextProgramConsumer {
      */
     enable(): void {
         // FIXME: This 
-        this._context.enableVertexAttribArray(this._index);
+        this._gl.enableVertexAttribArray(this._index);
     }
 
     /**
@@ -133,7 +136,7 @@ export default class AttribLocation implements IContextProgramConsumer {
      * @return {void}
      */
     disable(): void {
-        this._context.disableVertexAttribArray(this._index);
+        this._gl.disableVertexAttribArray(this._index);
     }
 
     /**

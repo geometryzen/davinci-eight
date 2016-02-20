@@ -2,7 +2,7 @@
     "project": {
         "name": "davinci-eight",
         "description": "WebGL library for mathematical physics using Geometric Algebra",
-        "version": "2.191.0",
+        "version": "2.192.0",
         "url": ""
     },
     "files": {
@@ -247,6 +247,15 @@
             "modules": {},
             "classes": {
                 "GeometryContainer": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/core/GeometryElements.ts": {
+            "name": "src/davinci-eight/core/GeometryElements.ts",
+            "modules": {},
+            "classes": {
+                "GeometryElements": 1
             },
             "fors": {},
             "namespaces": {}
@@ -642,11 +651,11 @@
             "fors": {},
             "namespaces": {}
         },
-        "src/davinci-eight/geometries/CuboidGeometry.ts": {
-            "name": "src/davinci-eight/geometries/CuboidGeometry.ts",
+        "src/davinci-eight/geometries/BoxGeometry.ts": {
+            "name": "src/davinci-eight/geometries/BoxGeometry.ts",
             "modules": {},
             "classes": {
-                "CuboidGeometry": 1
+                "BoxGeometry": 1
             },
             "fors": {},
             "namespaces": {}
@@ -880,6 +889,15 @@
             "modules": {},
             "classes": {
                 "MeshMaterial": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/materials/MeshNormalMaterial.ts": {
+            "name": "src/davinci-eight/materials/MeshNormalMaterial.ts",
+            "modules": {},
+            "classes": {
+                "MeshNormalMaterial": 1
             },
             "fors": {},
             "namespaces": {}
@@ -1616,6 +1634,7 @@
                 "FacetVisitor": 1,
                 "Geometry": 1,
                 "GeometryContainer": 1,
+                "GeometryElements": 1,
                 "GeometryPrimitive": 1,
                 "GraphicsProgramSymbols": 1,
                 "IContextConsumer": 1,
@@ -1652,7 +1671,7 @@
                 "View": 1,
                 "createView": 1,
                 "ArrowGeometry": 1,
-                "CuboidGeometry": 1,
+                "BoxGeometry": 1,
                 "CuboidPrimitivesBuilder": 1,
                 "CylinderGeometry": 1,
                 "SphereGeometry": 1,
@@ -1660,6 +1679,7 @@
                 "HTMLScriptsMaterial": 1,
                 "LineMaterial": 1,
                 "MeshMaterial": 1,
+                "MeshNormalMaterial": 1,
                 "PointMaterial": 1,
                 "AbstractMatrix": 1,
                 "CC": 1,
@@ -1745,6 +1765,7 @@
                 "Facet": 1,
                 "FacetVisitor": 1,
                 "GeometryContainer": 1,
+                "GeometryElements": 1,
                 "GeometryPrimitive": 1,
                 "GraphicsProgramSymbols": 1,
                 "IContextConsumer": 1,
@@ -1772,7 +1793,7 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 523,
+            "line": 76,
             "extends": "IContextConsumer",
             "description": "Fundamental abstractions in the architecture."
         },
@@ -1809,7 +1830,7 @@
             "elements": {},
             "classes": {
                 "ArrowGeometry": 1,
-                "CuboidGeometry": 1,
+                "BoxGeometry": 1,
                 "CylinderGeometry": 1,
                 "SphereGeometry": 1,
                 "TetrahedronGeometry": 1
@@ -1831,6 +1852,7 @@
                 "HTMLScriptsMaterial": 1,
                 "LineMaterial": 1,
                 "MeshMaterial": 1,
+                "MeshNormalMaterial": 1,
                 "PointMaterial": 1
             },
             "fors": {},
@@ -2400,6 +2422,30 @@
             "extends": "Shareable",
             "is_constructor": 1
         },
+        "GeometryElements": {
+            "name": "GeometryElements",
+            "shortname": "GeometryElements",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "submodule": "core",
+            "namespace": "",
+            "file": "src/davinci-eight/core/GeometryElements.ts",
+            "line": 36,
+            "description": "A Geometry that supports interleaved vertex buffers.",
+            "extends": "Shareable",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "dataSource",
+                    "description": "",
+                    "type": "VertexArrays"
+                }
+            ]
+        },
         "GeometryPrimitive": {
             "name": "GeometryPrimitive",
             "shortname": "GeometryPrimitive",
@@ -2412,9 +2458,8 @@
             "submodule": "core",
             "namespace": "",
             "file": "src/davinci-eight/core/GeometryPrimitive.ts",
-            "line": 42,
-            "description": "A buffer for drawing a single primitive\nthat can endure context loss and gain events.",
-            "extends": "Shareable",
+            "line": 16,
+            "extends": "GeometryElements",
             "is_constructor": 1,
             "params": [
                 {
@@ -2495,7 +2540,7 @@
             "submodule": "core",
             "namespace": "",
             "file": "src/davinci-eight/core/IContextProvider.ts",
-            "line": 5
+            "line": 3
         },
         "IUnknown": {
             "name": "IUnknown",
@@ -2621,7 +2666,7 @@
             "submodule": "core",
             "namespace": "",
             "file": "src/davinci-eight/core/Scene.ts",
-            "line": 104,
+            "line": 110,
             "extends": "Shareable",
             "description": "<p>\nA <code>Scene</code> is a collection of mesh instances arranged in some order.\nThe precise order is implementation defined.\nThe collection may be traversed for general processing using callback/visitor functions.\n</p>",
             "is_constructor": 1
@@ -2684,7 +2729,7 @@
             "submodule": "core",
             "namespace": "",
             "file": "src/davinci-eight/core/ShareableWebGLBuffer.ts",
-            "line": 25,
+            "line": 37,
             "is_constructor": 1,
             "params": [
                 {
@@ -2775,7 +2820,7 @@
             "submodule": "core",
             "namespace": "",
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 523,
+            "line": 76,
             "extends": "Shareable",
             "is_constructor": 1,
             "params": [
@@ -3109,9 +3154,9 @@
             "extends": "Geometry",
             "is_constructor": 1
         },
-        "CuboidGeometry": {
-            "name": "CuboidGeometry",
-            "shortname": "CuboidGeometry",
+        "BoxGeometry": {
+            "name": "BoxGeometry",
+            "shortname": "BoxGeometry",
             "classitems": [],
             "plugins": [],
             "extensions": [],
@@ -3120,9 +3165,9 @@
             "module": "EIGHT",
             "submodule": "geometries",
             "namespace": "",
-            "file": "src/davinci-eight/geometries/CuboidGeometry.ts",
+            "file": "src/davinci-eight/geometries/BoxGeometry.ts",
             "line": 42,
-            "description": "A convenience class for creating a CuboidGeometry.",
+            "description": "A convenience class for creating a BoxGeometry.",
             "extends": "Geometry",
             "is_constructor": 1,
             "params": [
@@ -3263,6 +3308,22 @@
             "submodule": "materials",
             "namespace": "",
             "file": "src/davinci-eight/materials/MeshMaterial.ts",
+            "line": 43,
+            "extends": "Material",
+            "is_constructor": 1
+        },
+        "MeshNormalMaterial": {
+            "name": "MeshNormalMaterial",
+            "shortname": "MeshNormalMaterial",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "submodule": "materials",
+            "namespace": "",
+            "file": "src/davinci-eight/materials/MeshNormalMaterial.ts",
             "line": 43,
             "extends": "Material",
             "is_constructor": 1
@@ -3482,7 +3543,7 @@
             "submodule": "math",
             "namespace": "",
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 118,
+            "line": 117,
             "extends": "VectorN",
             "beta": 1,
             "description": "Constructs a <code>G2m</code>.\nThe multivector is initialized to zero.",
@@ -3514,7 +3575,7 @@
             "submodule": "math",
             "namespace": "",
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 162,
+            "line": 80,
             "extends": "GeometricE3",
             "beta": 1,
             "description": "Constructs a <code>G3m</code>.\nThe multivector is initialized to zero.",
@@ -5516,7 +5577,7 @@
             "line": 30,
             "description": "The cached <code>WebGLRenderingContext</code> obtained through\na <code>contextGain</code> notification.",
             "itemtype": "property",
-            "name": "_context",
+            "name": "_gl",
             "type": "{WebGLRenderingContext}",
             "access": "private",
             "tagname": "",
@@ -5634,7 +5695,7 @@
         },
         {
             "file": "src/davinci-eight/core/AttribLocation.ts",
-            "line": 116,
+            "line": 119,
             "description": "Calls the <code>enableVertexAttribArray</code> method\non the underlying <code>WebGLRenderingContext</code>\nusing the cached attribute index.",
             "itemtype": "method",
             "name": "enable",
@@ -5648,7 +5709,7 @@
         },
         {
             "file": "src/davinci-eight/core/AttribLocation.ts",
-            "line": 128,
+            "line": 131,
             "description": "Calls the <code>disableVertexAttribArray</code> method\non the underlying <code>WebGLRenderingContext</code>\nusing the cached attribute index.",
             "itemtype": "method",
             "name": "disable",
@@ -5662,7 +5723,7 @@
         },
         {
             "file": "src/davinci-eight/core/AttribLocation.ts",
-            "line": 139,
+            "line": 142,
             "description": "Returns a non-normative string representation of the GLSL attribute.",
             "itemtype": "method",
             "name": "toString",
@@ -6975,6 +7036,18 @@
             "module": "EIGHT"
         },
         {
+            "file": "src/davinci-eight/core/Geometry.ts",
+            "line": 43,
+            "itemtype": "method",
+            "name": "isLeaf",
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "class": "Geometry",
+            "module": "EIGHT"
+        },
+        {
             "file": "src/davinci-eight/core/GeometryContainer.ts",
             "line": 21,
             "itemtype": "property",
@@ -7002,7 +7075,7 @@
         },
         {
             "file": "src/davinci-eight/core/GeometryContainer.ts",
-            "line": 73,
+            "line": 78,
             "itemtype": "method",
             "name": "contextFree",
             "params": [],
@@ -7012,7 +7085,7 @@
         },
         {
             "file": "src/davinci-eight/core/GeometryContainer.ts",
-            "line": 83,
+            "line": 88,
             "itemtype": "method",
             "name": "contextGain",
             "params": [
@@ -7032,7 +7105,7 @@
         },
         {
             "file": "src/davinci-eight/core/GeometryContainer.ts",
-            "line": 94,
+            "line": 99,
             "itemtype": "method",
             "name": "contextLost",
             "return": {
@@ -7044,33 +7117,160 @@
             "submodule": "core"
         },
         {
-            "file": "src/davinci-eight/core/GeometryPrimitive.ts",
-            "line": 24,
-            "description": "The always available source of primitive data that\nallows us to recover from context loss events.",
+            "file": "src/davinci-eight/core/GeometryElements.ts",
+            "line": 51,
+            "itemtype": "method",
+            "name": "destructor",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "access": "protected",
+            "tagname": "",
+            "class": "GeometryElements",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/GeometryElements.ts",
+            "line": 60,
+            "itemtype": "method",
+            "name": "isLeaf",
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "class": "GeometryElements",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/GeometryElements.ts",
+            "line": 68,
             "itemtype": "property",
-            "name": "dataSource",
-            "type": "Primitive",
-            "access": "private",
-            "tagname": "",
-            "class": "GeometryPrimitive",
+            "name": "partsLength",
+            "type": "number",
+            "readonly": "",
+            "class": "GeometryElements",
             "module": "EIGHT",
             "submodule": "core"
         },
         {
-            "file": "src/davinci-eight/core/GeometryPrimitive.ts",
-            "line": 33,
-            "description": "The primitive buffer associated with the source that may\ncome and go according to context loss and gain events.",
-            "proprty": "dataBuffer",
-            "type": "PrimitiveBuffers",
-            "access": "private",
-            "tagname": "",
-            "class": "GeometryPrimitive",
+            "file": "src/davinci-eight/core/GeometryElements.ts",
+            "line": 80,
+            "itemtype": "method",
+            "name": "addPart",
+            "params": [
+                {
+                    "name": "geometry",
+                    "description": "",
+                    "type": "Geometry"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "GeometryElements",
             "module": "EIGHT",
             "submodule": "core"
         },
         {
-            "file": "src/davinci-eight/core/GeometryPrimitive.ts",
-            "line": 99,
+            "file": "src/davinci-eight/core/GeometryElements.ts",
+            "line": 89,
+            "itemtype": "method",
+            "name": "removePart",
+            "params": [
+                {
+                    "name": "index",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "GeometryElements",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/GeometryElements.ts",
+            "line": 98,
+            "itemtype": "method",
+            "name": "getPart",
+            "params": [
+                {
+                    "name": "index",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Geometry"
+            },
+            "class": "GeometryElements",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/GeometryElements.ts",
+            "line": 107,
+            "itemtype": "method",
+            "name": "contextFree",
+            "params": [
+                {
+                    "name": "context",
+                    "description": "",
+                    "type": "IContextProvider"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "GeometryElements",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/GeometryElements.ts",
+            "line": 125,
+            "itemtype": "method",
+            "name": "contextGain",
+            "params": [
+                {
+                    "name": "context",
+                    "description": "",
+                    "type": "IContextProvider"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "GeometryElements",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/GeometryElements.ts",
+            "line": 148,
+            "itemtype": "method",
+            "name": "contextLost",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "GeometryElements",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/GeometryElements.ts",
+            "line": 158,
             "itemtype": "method",
             "name": "draw",
             "params": [
@@ -7084,7 +7284,7 @@
                 "description": "",
                 "type": "Void"
             },
-            "class": "GeometryPrimitive",
+            "class": "GeometryElements",
             "module": "EIGHT",
             "submodule": "core"
         },
@@ -7425,37 +7625,11 @@
         },
         {
             "file": "src/davinci-eight/core/IContextProvider.ts",
-            "line": 12,
+            "line": 10,
             "itemtype": "property",
             "name": "gl",
             "type": "{WebGLRenderingContext}",
             "readonly": "",
-            "class": "IContextProvider",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/IContextProvider.ts",
-            "line": 19,
-            "itemtype": "method",
-            "name": "createPrimitiveBuffers",
-            "params": [
-                {
-                    "name": "primitive",
-                    "description": "",
-                    "type": "Primitive"
-                },
-                {
-                    "name": "usage",
-                    "description": "",
-                    "type": "Number",
-                    "optional": true
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "PrimitiveBuffers"
-            },
             "class": "IContextProvider",
             "module": "EIGHT",
             "submodule": "core"
@@ -7698,6 +7872,19 @@
             "file": "src/davinci-eight/core/Material.ts",
             "line": 250,
             "itemtype": "method",
+            "name": "enableAttribs",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "Material",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/Material.ts",
+            "line": 265,
+            "itemtype": "method",
             "name": "disableAttrib",
             "params": [
                 {
@@ -7716,7 +7903,7 @@
         },
         {
             "file": "src/davinci-eight/core/Material.ts",
-            "line": 262,
+            "line": 277,
             "itemtype": "method",
             "name": "disableAttribs",
             "return": {
@@ -7729,7 +7916,28 @@
         },
         {
             "file": "src/davinci-eight/core/Material.ts",
-            "line": 277,
+            "line": 292,
+            "description": "Returns the location (index) of the attribute with the specified name.\nReturns <code>-1</code> if the name does not correspond to an attribute.",
+            "itemtype": "method",
+            "name": "getAttribLocation",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "class": "Material",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/Material.ts",
+            "line": 310,
             "itemtype": "method",
             "name": "vertexPointer",
             "params": [
@@ -7769,7 +7977,7 @@
         },
         {
             "file": "src/davinci-eight/core/Material.ts",
-            "line": 291,
+            "line": 324,
             "itemtype": "method",
             "name": "uniform1f",
             "params": [
@@ -7794,7 +8002,7 @@
         },
         {
             "file": "src/davinci-eight/core/Material.ts",
-            "line": 304,
+            "line": 337,
             "itemtype": "method",
             "name": "uniform2f",
             "params": [
@@ -7824,7 +8032,7 @@
         },
         {
             "file": "src/davinci-eight/core/Material.ts",
-            "line": 318,
+            "line": 351,
             "itemtype": "method",
             "name": "uniform3f",
             "params": [
@@ -7859,7 +8067,7 @@
         },
         {
             "file": "src/davinci-eight/core/Material.ts",
-            "line": 333,
+            "line": 366,
             "itemtype": "method",
             "name": "uniform4f",
             "params": [
@@ -7899,7 +8107,7 @@
         },
         {
             "file": "src/davinci-eight/core/Material.ts",
-            "line": 349,
+            "line": 382,
             "itemtype": "method",
             "name": "mat2",
             "params": [
@@ -7929,7 +8137,7 @@
         },
         {
             "file": "src/davinci-eight/core/Material.ts",
-            "line": 363,
+            "line": 396,
             "itemtype": "method",
             "name": "mat3",
             "params": [
@@ -7959,7 +8167,7 @@
         },
         {
             "file": "src/davinci-eight/core/Material.ts",
-            "line": 377,
+            "line": 410,
             "itemtype": "method",
             "name": "mat4",
             "params": [
@@ -7989,7 +8197,7 @@
         },
         {
             "file": "src/davinci-eight/core/Material.ts",
-            "line": 391,
+            "line": 424,
             "itemtype": "method",
             "name": "vec2",
             "params": [
@@ -8014,7 +8222,7 @@
         },
         {
             "file": "src/davinci-eight/core/Material.ts",
-            "line": 404,
+            "line": 437,
             "itemtype": "method",
             "name": "vec3",
             "params": [
@@ -8039,7 +8247,7 @@
         },
         {
             "file": "src/davinci-eight/core/Material.ts",
-            "line": 417,
+            "line": 450,
             "itemtype": "method",
             "name": "vec4",
             "params": [
@@ -8064,7 +8272,7 @@
         },
         {
             "file": "src/davinci-eight/core/Material.ts",
-            "line": 430,
+            "line": 463,
             "itemtype": "method",
             "name": "vector2",
             "params": [
@@ -8089,7 +8297,7 @@
         },
         {
             "file": "src/davinci-eight/core/Material.ts",
-            "line": 443,
+            "line": 476,
             "itemtype": "method",
             "name": "vector3",
             "params": [
@@ -8114,7 +8322,7 @@
         },
         {
             "file": "src/davinci-eight/core/Material.ts",
-            "line": 456,
+            "line": 489,
             "itemtype": "method",
             "name": "vector4",
             "params": [
@@ -8342,7 +8550,7 @@
         },
         {
             "file": "src/davinci-eight/core/Scene.ts",
-            "line": 119,
+            "line": 125,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -8357,7 +8565,7 @@
         },
         {
             "file": "src/davinci-eight/core/Scene.ts",
-            "line": 131,
+            "line": 137,
             "description": "<p>\nAdds the <code>mesh</code> to this <code>Scene</code>.\n</p>",
             "itemtype": "method",
             "name": "add",
@@ -8378,7 +8586,7 @@
         },
         {
             "file": "src/davinci-eight/core/Scene.ts",
-            "line": 157,
+            "line": 163,
             "itemtype": "method",
             "name": "contains",
             "params": [
@@ -8398,7 +8606,7 @@
         },
         {
             "file": "src/davinci-eight/core/Scene.ts",
-            "line": 167,
+            "line": 173,
             "description": "<p>\nTraverses the collection of scene parts drawing each one.\n</p>",
             "itemtype": "method",
             "name": "draw",
@@ -8420,7 +8628,7 @@
         },
         {
             "file": "src/davinci-eight/core/Scene.ts",
-            "line": 184,
+            "line": 190,
             "itemtype": "method",
             "name": "find",
             "params": [
@@ -8440,7 +8648,7 @@
         },
         {
             "file": "src/davinci-eight/core/Scene.ts",
-            "line": 193,
+            "line": 199,
             "itemtype": "method",
             "name": "findOne",
             "params": [
@@ -8460,7 +8668,7 @@
         },
         {
             "file": "src/davinci-eight/core/Scene.ts",
-            "line": 202,
+            "line": 208,
             "itemtype": "method",
             "name": "findOneByName",
             "params": [
@@ -8480,7 +8688,7 @@
         },
         {
             "file": "src/davinci-eight/core/Scene.ts",
-            "line": 211,
+            "line": 217,
             "itemtype": "method",
             "name": "findByName",
             "params": [
@@ -8500,7 +8708,7 @@
         },
         {
             "file": "src/davinci-eight/core/Scene.ts",
-            "line": 220,
+            "line": 226,
             "description": "<p>\nRemoves the <code>mesh</code> from this <code>Scene</code>.\n</p>",
             "itemtype": "method",
             "name": "remove",
@@ -8521,7 +8729,7 @@
         },
         {
             "file": "src/davinci-eight/core/Scene.ts",
-            "line": 238,
+            "line": 244,
             "itemtype": "method",
             "name": "contextFree",
             "params": [
@@ -8541,7 +8749,7 @@
         },
         {
             "file": "src/davinci-eight/core/Scene.ts",
-            "line": 251,
+            "line": 257,
             "itemtype": "method",
             "name": "contextGain",
             "params": [
@@ -8561,7 +8769,7 @@
         },
         {
             "file": "src/davinci-eight/core/Scene.ts",
-            "line": 264,
+            "line": 270,
             "itemtype": "method",
             "name": "contextLost",
             "return": {
@@ -8677,7 +8885,31 @@
         },
         {
             "file": "src/davinci-eight/core/ShareableWebGLBuffer.ts",
-            "line": 17,
+            "line": 15,
+            "itemtype": "property",
+            "name": "_buffer",
+            "type": "WebGLBuffer",
+            "access": "private",
+            "tagname": "",
+            "class": "ShareableWebGLBuffer",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/ShareableWebGLBuffer.ts",
+            "line": 22,
+            "itemtype": "property",
+            "name": "_isElements",
+            "type": "boolean",
+            "access": "private",
+            "tagname": "",
+            "class": "ShareableWebGLBuffer",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/ShareableWebGLBuffer.ts",
+            "line": 29,
             "description": "Cache the target when we have a context.",
             "itemtype": "property",
             "name": "_target",
@@ -8690,7 +8922,7 @@
         },
         {
             "file": "src/davinci-eight/core/ShareableWebGLBuffer.ts",
-            "line": 35,
+            "line": 48,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -8705,7 +8937,7 @@
         },
         {
             "file": "src/davinci-eight/core/ShareableWebGLBuffer.ts",
-            "line": 85,
+            "line": 98,
             "itemtype": "method",
             "name": "bind",
             "return": {
@@ -8718,7 +8950,7 @@
         },
         {
             "file": "src/davinci-eight/core/ShareableWebGLBuffer.ts",
-            "line": 99,
+            "line": 112,
             "itemtype": "method",
             "name": "unbind",
             "return": {
@@ -9149,151 +9381,7 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 48,
-            "description": "Renders geometric primitives indexed by element array data.",
-            "class": "WebGLRenderer",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 53,
-            "description": "Specifies the kind of primitives to render.",
-            "class": "WebGLRenderer",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 58,
-            "description": "The number of elements to render.",
-            "class": "WebGLRenderer",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 63,
-            "description": "The type of elements in the element array buffer. Usually a gl.UNSIGNED_SHORT.",
-            "class": "WebGLRenderer",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 68,
-            "description": "Offset into the element array buffer. Must be a valid multiple of the size of type.",
-            "class": "WebGLRenderer",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 73,
-            "class": "WebGLRenderer",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 87,
-            "description": "Executes the drawElements command using the instance state.",
-            "class": "WebGLRenderer",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 121,
-            "description": "A tuple containing (indexBuffer, attributes, drawCommand).",
-            "class": "WebGLRenderer",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 126,
-            "description": "Mapping from attribute name to a data structure describing and containing a buffer.",
-            "class": "WebGLRenderer",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 131,
-            "description": "The buffer containing element indices used in the drawElements command.\nWe keep the index buffer private to avoid unnecessary addRef() and release() calls.",
-            "class": "WebGLRenderer",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 137,
-            "description": "An executable command. May be a call to drawElements or drawArrays.",
-            "class": "WebGLRenderer",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 142,
-            "class": "WebGLRenderer",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 183,
-            "class": "WebGLRenderer",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 203,
-            "description": "Keeps track of the buffer and metadata associated with an 'attribute' variable.",
-            "class": "WebGLRenderer",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 207,
-            "description": "The buffer is a shared resource",
-            "class": "WebGLRenderer",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 270,
-            "class": "WebGLRenderer",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 302,
-            "description": "Implementation of PrimitiveBuffers coupled to the 'blocks' implementation.",
-            "class": "WebGLRenderer",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 375,
-            "itemtype": "property",
-            "name": "_blocks",
-            "type": "StringIUnknownMap",
-            "access": "private",
-            "tagname": "",
-            "class": "WebGLRenderer",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 494,
+            "line": 47,
             "itemtype": "property",
             "name": "_gl",
             "type": "WebGLRenderingContext",
@@ -9305,7 +9393,7 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 501,
+            "line": 54,
             "itemtype": "property",
             "name": "_canvas",
             "type": "HTMLCanvasElement",
@@ -9317,7 +9405,7 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 559,
+            "line": 112,
             "itemtype": "method",
             "name": "destructor!~YUIDOC_LINE~!return",
             "type": "Void",
@@ -9329,7 +9417,7 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 574,
+            "line": 127,
             "itemtype": "method",
             "name": "addContextListener",
             "params": [
@@ -9349,7 +9437,7 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 590,
+            "line": 143,
             "itemtype": "property",
             "name": "canvas",
             "type": "{HTMLCanvasElement}",
@@ -9359,7 +9447,7 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 605,
+            "line": 158,
             "itemtype": "property",
             "name": "commands",
             "type": "{ShareableArray}",
@@ -9371,7 +9459,7 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 619,
+            "line": 172,
             "description": "<p>\nSpecifies color values to use by the <code>clear</code> method to clear the color buffer.\n<p>",
             "itemtype": "method",
             "name": "clearColor",
@@ -9408,7 +9496,7 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 636,
+            "line": 192,
             "description": "Turns off specific WebGL capabilities for this context.",
             "itemtype": "method",
             "name": "disable",
@@ -9430,7 +9518,7 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 648,
+            "line": 204,
             "description": "Turns on specific WebGL capabilities for this context.",
             "itemtype": "method",
             "name": "enable",
@@ -9452,7 +9540,7 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 660,
+            "line": 216,
             "itemtype": "property",
             "name": "gl",
             "type": "{WebGLRenderingContext}",
@@ -9463,7 +9551,7 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 677,
+            "line": 233,
             "itemtype": "method",
             "name": "removeContextListener",
             "params": [
@@ -9483,7 +9571,7 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 690,
+            "line": 246,
             "itemtype": "method",
             "name": "clear",
             "return": {
@@ -9496,7 +9584,7 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 701,
+            "line": 257,
             "description": "Defines what part of the canvas will be used in rendering the drawing buffer.",
             "itemtype": "method",
             "name": "viewport",
@@ -9533,7 +9621,7 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 722,
+            "line": 278,
             "description": "Initializes the WebGL context for the specified <code>canvas</code>.",
             "itemtype": "method",
             "name": "start",
@@ -9555,7 +9643,7 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 759,
+            "line": 315,
             "itemtype": "method",
             "name": "stop",
             "return": {
@@ -9569,7 +9657,7 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 817,
+            "line": 369,
             "itemtype": "method",
             "name": "synchronize",
             "params": [
@@ -13724,7 +13812,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 60,
+            "line": 59,
             "description": "Coordinates corresponding to basis labels.",
             "class": "G2m",
             "module": "EIGHT",
@@ -13732,7 +13820,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 67,
+            "line": 66,
             "description": "Promotes an unknown value to a G2m, or returns undefined.",
             "class": "G2m",
             "module": "EIGHT",
@@ -13740,7 +13828,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 104,
+            "line": 103,
             "itemtype": "property",
             "name": "BASIS_LABELS",
             "type": "{(string | string[])[]}",
@@ -13750,7 +13838,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 110,
+            "line": 109,
             "description": "The optional unit of measure.",
             "itemtype": "property",
             "name": "uom",
@@ -13762,7 +13850,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 129,
+            "line": 128,
             "description": "The coordinate corresponding to the unit standard basis scalar.",
             "itemtype": "property",
             "name": "α",
@@ -13773,7 +13861,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 142,
+            "line": 141,
             "description": "The coordinate corresponding to the unit standard basis scalar.",
             "itemtype": "property",
             "name": "alpha",
@@ -13784,7 +13872,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 155,
+            "line": 154,
             "description": "The coordinate corresponding to the <b>e</b><sub>1</sub> standard basis vector.",
             "itemtype": "property",
             "name": "x",
@@ -13795,7 +13883,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 168,
+            "line": 167,
             "description": "The coordinate corresponding to the <b>e</b><sub>2</sub> standard basis vector.",
             "itemtype": "property",
             "name": "y",
@@ -13806,7 +13894,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 181,
+            "line": 180,
             "description": "The coordinate corresponding to the <b>e</b><sub>1</sub><b>e</b><sub>2</sub> standard basis bivector.",
             "itemtype": "property",
             "name": "β",
@@ -13817,7 +13905,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 194,
+            "line": 193,
             "description": "The coordinate corresponding to the <b>e</b><sub>1</sub><b>e</b><sub>2</sub> standard basis bivector.",
             "itemtype": "property",
             "name": "beta",
@@ -13828,7 +13916,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 215,
+            "line": 214,
             "description": "<p>\n<code>this ⟼ this + M * α</code>\n</p>",
             "itemtype": "method",
             "name": "add",
@@ -13857,7 +13945,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 235,
+            "line": 234,
             "description": "<p>\n<code>this ⟼ a + b</code>\n</p>",
             "itemtype": "method",
             "name": "add2",
@@ -13884,7 +13972,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 255,
+            "line": 254,
             "description": "<p>\n<code>this ⟼ this + Iβ</code>\n</p>",
             "itemtype": "method",
             "name": "addPseudo",
@@ -13906,7 +13994,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 270,
+            "line": 269,
             "description": "<p>\n<code>this ⟼ this + α</code>\n</p>",
             "itemtype": "method",
             "name": "addScalar",
@@ -13928,7 +14016,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 285,
+            "line": 284,
             "description": "<p>\n<code>this ⟼ this + v * α</code>\n</p>",
             "itemtype": "method",
             "name": "addVector",
@@ -13957,7 +14045,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 307,
+            "line": 306,
             "description": "<p>\n<code>this ⟼ log(this).grade(2)</code>\n</p>",
             "itemtype": "method",
             "name": "angle",
@@ -13972,7 +14060,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 319,
+            "line": 318,
             "itemtype": "method",
             "name": "clone",
             "return": {
@@ -13986,7 +14074,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 330,
+            "line": 329,
             "description": "<p>\n<code>this ⟼ conjugate(this)</code>\n</p>",
             "itemtype": "method",
             "name": "conj",
@@ -14001,7 +14089,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 361,
+            "line": 360,
             "description": "<p>\n<code>this ⟼ copy(M)</code>\n</p>",
             "itemtype": "method",
             "name": "copy",
@@ -14023,7 +14111,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 379,
+            "line": 378,
             "description": "Sets this multivector to the value of the scalar, <code>α</code>.",
             "itemtype": "method",
             "name": "copyScalar",
@@ -14038,7 +14126,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 389,
+            "line": 388,
             "description": "<p>\n<code>this ⟼ copy(spinor)</code>\n</p>",
             "itemtype": "method",
             "name": "copySpinor",
@@ -14060,7 +14148,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 407,
+            "line": 406,
             "description": "<p>\n<code>this ⟼ copyVector(vector)</code>\n</p>",
             "itemtype": "method",
             "name": "copyVector",
@@ -14082,7 +14170,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 425,
+            "line": 424,
             "itemtype": "method",
             "name": "cubicBezier",
             "params": [
@@ -14118,7 +14206,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 446,
+            "line": 445,
             "description": "<p>\n<code>this ⟼ this / magnitude(this)</code>\n</p>",
             "itemtype": "method",
             "name": "direction",
@@ -14133,7 +14221,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 463,
+            "line": 462,
             "description": "<p>\n<code>this ⟼ this / m</code>\n</p>",
             "itemtype": "method",
             "name": "div",
@@ -14155,7 +14243,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 476,
+            "line": 475,
             "description": "<p>\n<code>this ⟼ a / b</code>\n</p>",
             "itemtype": "method",
             "name": "div2",
@@ -14182,7 +14270,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 491,
+            "line": 490,
             "description": "<p>\n<code>this ⟼ this / α</code>\n</p>",
             "itemtype": "method",
             "name": "divByScalar",
@@ -14204,7 +14292,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 509,
+            "line": 508,
             "description": "<p>\n<code>this ⟼ dual(m) = I * m</code>\n</p>",
             "itemtype": "method",
             "name": "dual",
@@ -14226,7 +14314,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 531,
+            "line": 530,
             "description": "<p>\n<code>this ⟼ e<sup>this</sup></code>\n</p>",
             "itemtype": "method",
             "name": "exp",
@@ -14241,7 +14329,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 552,
+            "line": 551,
             "description": "<p>\n<code>this ⟼ this ^ m</code>\n</p>",
             "itemtype": "method",
             "name": "ext",
@@ -14263,7 +14351,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 565,
+            "line": 564,
             "description": "<p>\n<code>this ⟼ a ^ b</code>\n</p>",
             "itemtype": "method",
             "name": "ext2",
@@ -14290,7 +14378,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 591,
+            "line": 590,
             "description": "<p>\n<code>this ⟼ conj(this) / quad(this)</code>\n</p>",
             "itemtype": "method",
             "name": "inv",
@@ -14305,7 +14393,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 606,
+            "line": 605,
             "itemtype": "method",
             "name": "isOne",
             "return": {
@@ -14318,7 +14406,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 614,
+            "line": 613,
             "itemtype": "method",
             "name": "isZero",
             "return": {
@@ -14331,7 +14419,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 622,
+            "line": 621,
             "description": "<p>\n<code>this ⟼ this << m</code>\n</p>",
             "itemtype": "method",
             "name": "lco",
@@ -14353,7 +14441,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 635,
+            "line": 634,
             "description": "<p>\n<code>this ⟼ a << b</code>\n</p>",
             "itemtype": "method",
             "name": "lco2",
@@ -14380,7 +14468,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 661,
+            "line": 660,
             "description": "<p>\n<code>this ⟼ this + α * (target - this)</code>\n</p>",
             "itemtype": "method",
             "name": "lerp",
@@ -14407,7 +14495,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 681,
+            "line": 680,
             "description": "<p>\n<code>this ⟼ a + α * (b - a)</code>\n</p>",
             "itemtype": "method",
             "name": "lerp2",
@@ -14439,7 +14527,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 700,
+            "line": 699,
             "description": "<p>\n<code>this ⟼ log(sqrt(w * w + β * β)) + <b>e</b><sub>1</sub><b>e</b><sub>2</sub> * atan2(β, w)</code>\n</p>",
             "itemtype": "method",
             "name": "log",
@@ -14454,7 +14542,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 719,
+            "line": 718,
             "description": "Computes the <em>square root</em> of the <em>squared norm</em>.",
             "itemtype": "method",
             "name": "magnitude",
@@ -14468,7 +14556,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 732,
+            "line": 731,
             "description": "<p>\n<code>this ⟼ this * s</code>\n</p>",
             "itemtype": "method",
             "name": "mul",
@@ -14490,7 +14578,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 745,
+            "line": 744,
             "description": "<p>\n<code>this ⟼ a * b</code>\n</p>",
             "itemtype": "method",
             "name": "mul2",
@@ -14517,7 +14605,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 771,
+            "line": 770,
             "description": "<p>\n<code>this ⟼ -1 * this</code>\n</p>",
             "itemtype": "method",
             "name": "neg",
@@ -14532,7 +14620,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 787,
+            "line": 786,
             "description": "<p>\n<code>this ⟼ sqrt(this * conj(this))</code>\n</p>",
             "itemtype": "method",
             "name": "norm",
@@ -14547,7 +14635,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 803,
+            "line": 802,
             "description": "Sets this multivector to the identity element for multiplication, <b>1</b>.",
             "itemtype": "method",
             "name": "one",
@@ -14562,7 +14650,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 821,
+            "line": 820,
             "description": "<p>\nUpdates <code>this</code> target to be the <em>quad</em> or <em>squared norm</em> of the target.\n</p>\n<p>\n<code>this ⟼ scp(this, rev(this)) = this | ~this</code>\n</p>",
             "itemtype": "method",
             "name": "quad",
@@ -14577,7 +14665,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 840,
+            "line": 839,
             "itemtype": "method",
             "name": "quadraticBezier",
             "params": [
@@ -14607,7 +14695,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 859,
+            "line": 858,
             "description": "<p>\n<code>this ⟼ this >> m</code>\n</p>",
             "itemtype": "method",
             "name": "rco",
@@ -14629,7 +14717,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 872,
+            "line": 871,
             "description": "<p>\n<code>this ⟼ a >> b</code>\n</p>",
             "itemtype": "method",
             "name": "rco2",
@@ -14656,7 +14744,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 898,
+            "line": 897,
             "description": "<p>\n<code>this ⟼ - n * this * n</code>\n</p>",
             "itemtype": "method",
             "name": "reflect",
@@ -14678,7 +14766,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 917,
+            "line": 916,
             "description": "<p>\n<code>this ⟼ rev(this)</code>\n</p>",
             "itemtype": "method",
             "name": "reverse",
@@ -14693,7 +14781,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 942,
+            "line": 941,
             "description": "<p>\n<code>this ⟼ R * this * rev(R)</code>\n</p>",
             "itemtype": "method",
             "name": "rotate",
@@ -14715,7 +14803,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 969,
+            "line": 968,
             "description": "Sets this multivector to a rotation from vector <code>a</code> to vector <code>b</code>.",
             "itemtype": "method",
             "name": "rotorFromDirections",
@@ -14742,7 +14830,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 990,
+            "line": 987,
             "description": "<p>\n<code>this = ⟼ exp(- B * θ / 2)</code>\n</p>",
             "itemtype": "method",
             "name": "rotorFromGeneratorAngle",
@@ -14768,7 +14856,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 1010,
+            "line": 1007,
             "description": "Sandwich operation means we need the half-angle.",
             "class": "G2m",
             "module": "EIGHT",
@@ -14776,7 +14864,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 1014,
+            "line": 1011,
             "description": "scalar part = cos(|B| * θ / 2)",
             "class": "G2m",
             "module": "EIGHT",
@@ -14784,7 +14872,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 1020,
+            "line": 1017,
             "description": "pseudo part = -unit(B) * sin(|B| * θ / 2)",
             "class": "G2m",
             "module": "EIGHT",
@@ -14792,7 +14880,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 1027,
+            "line": 1024,
             "description": "<p>\n<code>this ⟼ scp(this, m)</code>\n</p>",
             "itemtype": "method",
             "name": "scp",
@@ -14814,7 +14902,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 1040,
+            "line": 1037,
             "description": "<p>\n<code>this ⟼ scp(a, b)</code>\n</p>",
             "itemtype": "method",
             "name": "scp2",
@@ -14841,7 +14929,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 1058,
+            "line": 1055,
             "description": "<p>\n<code>this ⟼ this * α</code>\n</p>",
             "itemtype": "method",
             "name": "scale",
@@ -14858,7 +14946,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 1080,
+            "line": 1077,
             "description": "<p>\n<code>this ⟼ a * b = a · b + a ^ b</code>\n</p>\nSets this G2m to the geometric product a * b of the vector arguments.",
             "itemtype": "method",
             "name": "versor",
@@ -14884,7 +14972,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 1105,
+            "line": 1102,
             "description": "Computes the <em>squared norm</em> of this <code>G2m</code> multivector.",
             "itemtype": "method",
             "name": "squaredNorm",
@@ -14898,7 +14986,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 1126,
+            "line": 1123,
             "description": "<p>\n<code>this ⟼ this - M * α</code>\n</p>",
             "itemtype": "method",
             "name": "sub",
@@ -14927,7 +15015,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 1146,
+            "line": 1143,
             "description": "<p>\n<code>this ⟼ a - b</code>\n</p>",
             "itemtype": "method",
             "name": "sub2",
@@ -14954,7 +15042,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 1166,
+            "line": 1163,
             "description": "Returns a string representing the number in exponential notation.",
             "itemtype": "method",
             "name": "toExponential",
@@ -14968,7 +15056,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 1176,
+            "line": 1173,
             "description": "Returns a string representing the number in fixed-point notation.",
             "itemtype": "method",
             "name": "toFixed",
@@ -14990,7 +15078,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 1187,
+            "line": 1184,
             "description": "Returns a string representation of the number.",
             "itemtype": "method",
             "name": "toString",
@@ -15004,7 +15092,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 1197,
+            "line": 1194,
             "itemtype": "method",
             "name": "grade",
             "params": [
@@ -15025,7 +15113,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 1233,
+            "line": 1230,
             "description": "Sets this multivector to the identity element for addition, <b>0</b>.",
             "itemtype": "method",
             "name": "zero",
@@ -15040,7 +15128,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 1247,
+            "line": 1244,
             "itemtype": "method",
             "name": "__add__",
             "params": [
@@ -15062,7 +15150,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 1273,
+            "line": 1270,
             "itemtype": "method",
             "name": "__div__",
             "params": [
@@ -15084,7 +15172,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 1291,
+            "line": 1288,
             "itemtype": "method",
             "name": "__rdiv__",
             "params": [
@@ -15106,7 +15194,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 1309,
+            "line": 1306,
             "itemtype": "method",
             "name": "__mul__",
             "params": [
@@ -15128,7 +15216,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 1335,
+            "line": 1332,
             "itemtype": "method",
             "name": "__rmul__",
             "params": [
@@ -15150,7 +15238,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 1360,
+            "line": 1357,
             "itemtype": "method",
             "name": "__radd__",
             "params": [
@@ -15172,7 +15260,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 1385,
+            "line": 1382,
             "itemtype": "method",
             "name": "__sub__",
             "params": [
@@ -15194,7 +15282,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 1403,
+            "line": 1400,
             "itemtype": "method",
             "name": "__rsub__",
             "params": [
@@ -15216,7 +15304,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 1421,
+            "line": 1418,
             "itemtype": "method",
             "name": "__wedge__",
             "params": [
@@ -15238,7 +15326,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 1440,
+            "line": 1437,
             "itemtype": "method",
             "name": "__rwedge__",
             "params": [
@@ -15260,7 +15348,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 1459,
+            "line": 1456,
             "itemtype": "method",
             "name": "__lshift__",
             "params": [
@@ -15282,7 +15370,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 1477,
+            "line": 1474,
             "itemtype": "method",
             "name": "__rlshift__",
             "params": [
@@ -15304,7 +15392,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 1495,
+            "line": 1492,
             "itemtype": "method",
             "name": "__rshift__",
             "params": [
@@ -15326,7 +15414,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 1513,
+            "line": 1510,
             "itemtype": "method",
             "name": "__rrshift__",
             "params": [
@@ -15348,7 +15436,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 1531,
+            "line": 1528,
             "itemtype": "method",
             "name": "__vbar__",
             "params": [
@@ -15370,7 +15458,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 1549,
+            "line": 1546,
             "itemtype": "method",
             "name": "__rvbar__",
             "params": [
@@ -15392,7 +15480,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 1567,
+            "line": 1564,
             "itemtype": "method",
             "name": "__bang__",
             "return": {
@@ -15408,7 +15496,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 1577,
+            "line": 1574,
             "itemtype": "method",
             "name": "__tilde__",
             "return": {
@@ -15424,7 +15512,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 1587,
+            "line": 1584,
             "itemtype": "method",
             "name": "__pos__",
             "return": {
@@ -15440,7 +15528,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 1598,
+            "line": 1595,
             "itemtype": "method",
             "name": "__neg__",
             "return": {
@@ -15456,7 +15544,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 1608,
+            "line": 1605,
             "description": "Intentionally undocumented.",
             "class": "G2m",
             "module": "EIGHT",
@@ -15464,72 +15552,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 1620,
-            "description": "The identity element for addition, <b>0</b>.",
-            "itemtype": "property",
-            "name": "zero",
-            "type": "{G2m}",
-            "readonly": "",
-            "static": 1,
-            "class": "G2m",
-            "module": "EIGHT",
-            "submodule": "math"
-        },
-        {
-            "file": "src/davinci-eight/math/G2m.ts",
-            "line": 1629,
-            "description": "The identity element for multiplication, <b>1</b>.",
-            "itemtype": "property",
-            "name": "one",
-            "type": "{G2m}",
-            "readonly": "",
-            "static": 1,
-            "class": "G2m",
-            "module": "EIGHT",
-            "submodule": "math"
-        },
-        {
-            "file": "src/davinci-eight/math/G2m.ts",
-            "line": 1638,
-            "description": "Basis vector corresponding to the <code>x</code> coordinate.",
-            "itemtype": "property",
-            "name": "e1",
-            "type": "{G2m}",
-            "readonly": "",
-            "static": 1,
-            "class": "G2m",
-            "module": "EIGHT",
-            "submodule": "math"
-        },
-        {
-            "file": "src/davinci-eight/math/G2m.ts",
-            "line": 1647,
-            "description": "Basis vector corresponding to the <code>y</code> coordinate.",
-            "itemtype": "property",
-            "name": "e2",
-            "type": "{G2m}",
-            "readonly": "",
-            "static": 1,
-            "class": "G2m",
-            "module": "EIGHT",
-            "submodule": "math"
-        },
-        {
-            "file": "src/davinci-eight/math/G2m.ts",
-            "line": 1656,
-            "description": "Basis vector corresponding to the <code>β</code> coordinate.",
-            "itemtype": "property",
-            "name": "I",
-            "type": "{G2m}",
-            "readonly": "",
-            "static": 1,
-            "class": "G2m",
-            "module": "EIGHT",
-            "submodule": "math"
-        },
-        {
-            "file": "src/davinci-eight/math/G2m.ts",
-            "line": 1665,
+            "line": 1618,
             "itemtype": "method",
             "name": "copy",
             "params": [
@@ -15551,7 +15574,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 1681,
+            "line": 1634,
             "itemtype": "method",
             "name": "fromScalar",
             "params": [
@@ -15573,7 +15596,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 1692,
+            "line": 1645,
             "itemtype": "method",
             "name": "fromSpinor",
             "params": [
@@ -15595,7 +15618,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 1703,
+            "line": 1656,
             "itemtype": "method",
             "name": "fromVector",
             "params": [
@@ -15617,7 +15640,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 1720,
+            "line": 1673,
             "itemtype": "method",
             "name": "lerp",
             "params": [
@@ -15649,7 +15672,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 1734,
+            "line": 1687,
             "description": "Computes the rotor that rotates vector <code>a</code> to vector <code>b</code>.",
             "itemtype": "method",
             "name": "rotorFromDirections",
@@ -15677,7 +15700,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2m.ts",
-            "line": 1747,
+            "line": 1700,
             "itemtype": "method",
             "name": "vector",
             "params": [
@@ -17577,7 +17600,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 56,
+            "line": 44,
             "description": "Coordinates corresponding to basis labels.",
             "class": "G3m",
             "module": "EIGHT",
@@ -17585,7 +17608,17 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 155,
+            "line": 67,
+            "itemtype": "property",
+            "name": "uom",
+            "type": "Unit",
+            "class": "G3m",
+            "module": "EIGHT",
+            "submodule": "math"
+        },
+        {
+            "file": "src/davinci-eight/math/G3m.ts",
+            "line": 73,
             "itemtype": "property",
             "name": "eventBus",
             "type": "EventEmitter",
@@ -17597,7 +17630,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 182,
+            "line": 100,
             "description": "Consistently set a coordinate value in the most optimized way.",
             "class": "G3m",
             "module": "EIGHT",
@@ -17605,7 +17638,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 195,
+            "line": 113,
             "description": "The scalar part of this multivector.",
             "itemtype": "property",
             "name": "α",
@@ -17616,7 +17649,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 207,
+            "line": 125,
             "description": "The scalar part of this multivector.",
             "itemtype": "property",
             "name": "alpha",
@@ -17627,7 +17660,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 219,
+            "line": 137,
             "description": "The coordinate corresponding to the <b>e</b><sub>1</sub> standard basis vector.",
             "itemtype": "property",
             "name": "x",
@@ -17638,7 +17671,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 231,
+            "line": 149,
             "description": "The coordinate corresponding to the <b>e</b><sub>2</sub> standard basis vector.",
             "itemtype": "property",
             "name": "y",
@@ -17649,7 +17682,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 243,
+            "line": 161,
             "description": "The coordinate corresponding to the <b>e</b><sub>3</sub> standard basis vector.",
             "itemtype": "property",
             "name": "z",
@@ -17660,7 +17693,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 255,
+            "line": 173,
             "description": "The coordinate corresponding to the <b>e</b><sub>2</sub><b>e</b><sub>3</sub> standard basis bivector.",
             "itemtype": "property",
             "name": "yz",
@@ -17671,7 +17704,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 267,
+            "line": 185,
             "description": "The coordinate corresponding to the <b>e</b><sub>3</sub><b>e</b><sub>1</sub> standard basis bivector.",
             "itemtype": "property",
             "name": "zx",
@@ -17682,7 +17715,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 279,
+            "line": 197,
             "description": "The coordinate corresponding to the <b>e</b><sub>1</sub><b>e</b><sub>2</sub> standard basis bivector.",
             "itemtype": "property",
             "name": "xy",
@@ -17693,7 +17726,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 291,
+            "line": 209,
             "description": "The pseudoscalar part of this multivector.",
             "itemtype": "property",
             "name": "β",
@@ -17704,7 +17737,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 303,
+            "line": 221,
             "description": "The pseudoscalar part of this multivector.",
             "itemtype": "property",
             "name": "beta",
@@ -17715,7 +17748,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 315,
+            "line": 233,
             "description": "<p>\n<code>this ⟼ this + M * α</code>\n</p>",
             "itemtype": "method",
             "name": "add",
@@ -17744,7 +17777,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 337,
+            "line": 255,
             "description": "<p>\n<code>this ⟼ this + Iβ</code>\n</p>",
             "itemtype": "method",
             "name": "addPseudo",
@@ -17766,7 +17799,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 351,
+            "line": 269,
             "description": "<p>\n<code>this ⟼ this + α</code>\n</p>",
             "itemtype": "method",
             "name": "addScalar",
@@ -17788,7 +17821,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 365,
+            "line": 283,
             "description": "<p>\n<code>this ⟼ this + v * α</code>\n</p>",
             "itemtype": "method",
             "name": "addVector",
@@ -17817,7 +17850,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 382,
+            "line": 300,
             "description": "<p>\n<code>this ⟼ a + b</code>\n</p>",
             "itemtype": "method",
             "name": "add2",
@@ -17844,7 +17877,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 408,
+            "line": 326,
             "itemtype": "method",
             "name": "angle",
             "return": {
@@ -17857,7 +17890,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 416,
+            "line": 334,
             "itemtype": "method",
             "name": "clone",
             "return": {
@@ -17871,7 +17904,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 425,
+            "line": 343,
             "description": "<p>\n<code>this ⟼ conjugate(this)</code>\n</p>",
             "itemtype": "method",
             "name": "conj",
@@ -17886,7 +17919,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 441,
+            "line": 360,
             "description": "<p>\n<code>this ⟼ this << m</code>\n</p>",
             "itemtype": "method",
             "name": "lco",
@@ -17908,7 +17941,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 453,
+            "line": 373,
             "description": "<p>\n<code>this ⟼ a << b</code>\n</p>",
             "itemtype": "method",
             "name": "lco2",
@@ -17935,7 +17968,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 466,
+            "line": 387,
             "description": "<p>\n<code>this ⟼ this >> m</code>\n</p>",
             "itemtype": "method",
             "name": "rco",
@@ -17957,7 +17990,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 478,
+            "line": 400,
             "description": "<p>\n<code>this ⟼ a >> b</code>\n</p>",
             "itemtype": "method",
             "name": "rco2",
@@ -17984,7 +18017,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 492,
+            "line": 414,
             "description": "<p>\n<code>this ⟼ copy(v)</code>\n</p>",
             "itemtype": "method",
             "name": "copy",
@@ -18006,7 +18039,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 514,
+            "line": 436,
             "description": "Sets this multivector to the value of the scalar, <code>α</code>.",
             "itemtype": "method",
             "name": "copyScalar",
@@ -18028,7 +18061,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 526,
+            "line": 448,
             "description": "<p>\n<code>this ⟼ copy(spinor)</code>\n</p>",
             "itemtype": "method",
             "name": "copySpinor",
@@ -18050,7 +18083,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 544,
+            "line": 466,
             "description": "<p>\n<code>this ⟼ copyVector(vector)</code>\n</p>",
             "itemtype": "method",
             "name": "copyVector",
@@ -18072,7 +18105,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 562,
+            "line": 484,
             "description": "<p>\n<code>this ⟼ this / m</code>\n</p>",
             "itemtype": "method",
             "name": "div",
@@ -18094,7 +18127,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 582,
+            "line": 503,
             "description": "<p>\n<code>this ⟼ this / α</code>\n</p>",
             "itemtype": "method",
             "name": "divByScalar",
@@ -18116,7 +18149,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 602,
+            "line": 524,
             "description": "<p>\n<code>this ⟼ a / b</code>\n</p>",
             "itemtype": "method",
             "name": "div2",
@@ -18143,7 +18176,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 631,
+            "line": 554,
             "description": "<p>\n<code>this ⟼ dual(m) = I * m</code>\n</p>",
             "itemtype": "method",
             "name": "dual",
@@ -18165,7 +18198,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 661,
+            "line": 585,
             "description": "<p>\n<code>this ⟼ e<sup>this</sup></code>\n</p>",
             "itemtype": "method",
             "name": "exp",
@@ -18180,7 +18213,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 699,
+            "line": 624,
             "description": "<p>\n<code>this ⟼ conj(this) / quad(this)</code>\n</p>",
             "itemtype": "method",
             "name": "inv",
@@ -18195,7 +18228,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 714,
+            "line": 639,
             "itemtype": "method",
             "name": "isOne",
             "return": {
@@ -18208,7 +18241,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 722,
+            "line": 647,
             "itemtype": "method",
             "name": "isZero",
             "return": {
@@ -18221,7 +18254,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 730,
+            "line": 655,
             "description": "<p>\n<code>this ⟼ this + α * (target - this)</code>\n</p>",
             "itemtype": "method",
             "name": "lerp",
@@ -18248,7 +18281,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 752,
+            "line": 677,
             "description": "<p>\n<code>this ⟼ a + α * (b - a)</code>\n</p>",
             "itemtype": "method",
             "name": "lerp2",
@@ -18280,7 +18313,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 767,
+            "line": 693,
             "description": "<p>\n<code>this ⟼ log(this)</code>\n</p>",
             "itemtype": "method",
             "name": "log",
@@ -18295,7 +18328,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 790,
+            "line": 716,
             "description": "Computes the <em>square root</em> of the <em>squared norm</em>.",
             "itemtype": "method",
             "name": "magnitude",
@@ -18309,7 +18342,15 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 803,
+            "line": 725,
+            "description": "Intentionally undocumented.",
+            "class": "G3m",
+            "module": "EIGHT",
+            "submodule": "math"
+        },
+        {
+            "file": "src/davinci-eight/math/G3m.ts",
+            "line": 732,
             "description": "<p>\n<code>this ⟼ this * s</code>\n</p>",
             "itemtype": "method",
             "name": "mul",
@@ -18331,7 +18372,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 816,
+            "line": 745,
             "description": "<p>\n<code>this ⟼ a * b</code>\n</p>",
             "itemtype": "method",
             "name": "mul2",
@@ -18358,7 +18399,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 829,
+            "line": 759,
             "description": "<p>\n<code>this ⟼ -1 * this</code>\n</p>",
             "itemtype": "method",
             "name": "neg",
@@ -18373,7 +18414,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 849,
+            "line": 779,
             "description": "<p>\n<code>this ⟼ sqrt(this * conj(this))</code>\n</p>",
             "itemtype": "method",
             "name": "norm",
@@ -18388,7 +18429,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 869,
+            "line": 799,
             "description": "<p>\n<code>this ⟼ this / magnitude(this)</code>\n</p>",
             "itemtype": "method",
             "name": "direction",
@@ -18403,7 +18444,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 891,
+            "line": 822,
             "description": "Sets this multivector to the identity element for multiplication, <b>1</b>.",
             "itemtype": "method",
             "name": "one",
@@ -18418,7 +18459,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 909,
+            "line": 841,
             "description": "<p>\n<code>this ⟼ scp(this, rev(this)) = this | ~this</code>\n</p>",
             "itemtype": "method",
             "name": "quad",
@@ -18433,7 +18474,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 921,
+            "line": 853,
             "description": "Computes the <em>squared norm</em> of this multivector.",
             "itemtype": "method",
             "name": "squaredNorm",
@@ -18447,7 +18488,15 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 939,
+            "line": 867,
+            "description": "Intentionally undocumented",
+            "class": "G3m",
+            "module": "EIGHT",
+            "submodule": "math"
+        },
+        {
+            "file": "src/davinci-eight/math/G3m.ts",
+            "line": 874,
             "description": "<p>\n<code>this ⟼ - n * this * n</code>\n</p>",
             "itemtype": "method",
             "name": "reflect",
@@ -18469,7 +18518,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 957,
+            "line": 892,
             "description": "<p>\n<code>this ⟼ rev(this)</code>\n</p>",
             "itemtype": "method",
             "name": "reverse",
@@ -18484,7 +18533,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 978,
+            "line": 913,
             "itemtype": "method",
             "name": "__tilde__",
             "return": {
@@ -18499,7 +18548,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 987,
+            "line": 922,
             "description": "<p>\n<code>this ⟼ R * this * rev(R)</code>\n</p>",
             "itemtype": "method",
             "name": "rotate",
@@ -18521,7 +18570,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 1018,
+            "line": 954,
             "description": "<p>\nComputes a rotor, R, from two unit vectors, where\nR = (1 + b * a) / sqrt(2 * (1 + b << a))\n</p>",
             "itemtype": "method",
             "name": "rotorFromDirections",
@@ -18548,7 +18597,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 1056,
+            "line": 992,
             "description": "<p>\n<code>this = ⟼ exp(- dual(a) * θ / 2)</code>\n</p>",
             "itemtype": "method",
             "name": "rotorFromAxisAngle",
@@ -18575,7 +18624,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 1078,
+            "line": 1014,
             "description": "<p>\n<code>this = ⟼ exp(- B * θ / 2)</code>\n</p>",
             "itemtype": "method",
             "name": "rotorFromGeneratorAngle",
@@ -18602,7 +18651,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 1099,
+            "line": 1035,
             "description": "<p>\n<code>this ⟼ scp(this, m)</code>\n</p>",
             "itemtype": "method",
             "name": "align",
@@ -18624,7 +18673,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 1111,
+            "line": 1048,
             "description": "<p>\n<code>this ⟼ scp(a, b)</code>\n</p>",
             "itemtype": "method",
             "name": "scp2",
@@ -18651,7 +18700,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 1125,
+            "line": 1062,
             "description": "<p>\n<code>this ⟼ this * α</code>\n</p>",
             "itemtype": "method",
             "name": "scale",
@@ -18668,7 +18717,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 1149,
+            "line": 1086,
             "description": "<p>\n<code>this ⟼ a * b</code>\n</p>\nSets this G3m to the geometric product a * b of the vector arguments.",
             "itemtype": "method",
             "name": "versor",
@@ -18694,7 +18743,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 1177,
+            "line": 1114,
             "description": "<p>\n<code>this ⟼ this - M * α</code>\n</p>",
             "itemtype": "method",
             "name": "sub",
@@ -18723,7 +18772,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 1198,
+            "line": 1136,
             "description": "<p>\n<code>this ⟼ a - b</code>\n</p>",
             "itemtype": "method",
             "name": "sub2",
@@ -18750,7 +18799,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 1220,
+            "line": 1158,
             "description": "Returns a string representing the number in exponential notation.",
             "itemtype": "method",
             "name": "toExponential",
@@ -18764,7 +18813,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 1230,
+            "line": 1168,
             "description": "Returns a string representing the number in fixed-point notation.",
             "itemtype": "method",
             "name": "toFixed",
@@ -18786,7 +18835,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 1241,
+            "line": 1179,
             "description": "Returns a string representation of the number.",
             "itemtype": "method",
             "name": "toString",
@@ -18800,7 +18849,28 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 1304,
+            "line": 1189,
+            "itemtype": "method",
+            "name": "grade",
+            "params": [
+                {
+                    "name": "grade",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "G3m"
+            },
+            "chainable": 1,
+            "class": "G3m",
+            "module": "EIGHT",
+            "submodule": "math"
+        },
+        {
+            "file": "src/davinci-eight/math/G3m.ts",
+            "line": 1247,
             "description": "<p>\n<code>this ⟼ this ^ m</code>\n</p>",
             "itemtype": "method",
             "name": "wedge",
@@ -18822,7 +18892,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 1316,
+            "line": 1260,
             "description": "<p>\n<code>this ⟼ a ^ b</code>\n</p>",
             "itemtype": "method",
             "name": "ext2",
@@ -18849,7 +18919,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 1330,
+            "line": 1274,
             "description": "Sets this multivector to the identity element for addition, <b>0</b>.",
             "itemtype": "method",
             "name": "zero",
@@ -18864,7 +18934,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 1348,
+            "line": 1293,
             "itemtype": "method",
             "name": "__add__",
             "params": [
@@ -18886,7 +18956,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 1366,
+            "line": 1311,
             "itemtype": "method",
             "name": "__div__",
             "params": [
@@ -18908,7 +18978,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 1384,
+            "line": 1329,
             "itemtype": "method",
             "name": "__rdiv__",
             "params": [
@@ -18930,7 +19000,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 1402,
+            "line": 1347,
             "itemtype": "method",
             "name": "__mul__",
             "params": [
@@ -18952,7 +19022,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 1420,
+            "line": 1365,
             "itemtype": "method",
             "name": "__rmul__",
             "params": [
@@ -18974,7 +19044,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 1438,
+            "line": 1383,
             "itemtype": "method",
             "name": "__radd__",
             "params": [
@@ -18996,7 +19066,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 1455,
+            "line": 1400,
             "itemtype": "method",
             "name": "__sub__",
             "params": [
@@ -19018,7 +19088,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 1472,
+            "line": 1417,
             "itemtype": "method",
             "name": "__rsub__",
             "params": [
@@ -19040,7 +19110,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 1490,
+            "line": 1435,
             "itemtype": "method",
             "name": "__wedge__",
             "params": [
@@ -19062,7 +19132,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 1509,
+            "line": 1454,
             "itemtype": "method",
             "name": "__rwedge__",
             "params": [
@@ -19084,7 +19154,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 1528,
+            "line": 1473,
             "itemtype": "method",
             "name": "__lshift__",
             "params": [
@@ -19106,7 +19176,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 1546,
+            "line": 1491,
             "itemtype": "method",
             "name": "__rlshift__",
             "params": [
@@ -19128,7 +19198,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 1564,
+            "line": 1509,
             "itemtype": "method",
             "name": "__rshift__",
             "params": [
@@ -19150,7 +19220,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 1582,
+            "line": 1527,
             "itemtype": "method",
             "name": "__rrshift__",
             "params": [
@@ -19172,7 +19242,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 1600,
+            "line": 1545,
             "itemtype": "method",
             "name": "__vbar__",
             "params": [
@@ -19194,7 +19264,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 1618,
+            "line": 1563,
             "itemtype": "method",
             "name": "__rvbar__",
             "params": [
@@ -19216,7 +19286,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 1636,
+            "line": 1581,
             "itemtype": "method",
             "name": "__bang__",
             "return": {
@@ -19232,7 +19302,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 1646,
+            "line": 1591,
             "itemtype": "method",
             "name": "__pos__",
             "return": {
@@ -19248,7 +19318,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 1656,
+            "line": 1601,
             "itemtype": "method",
             "name": "__neg__",
             "return": {
@@ -19264,7 +19334,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 1666,
+            "line": 1611,
             "description": "Constructs a G3m representing the number zero.\nThe identity element for addition, <b>0</b>.",
             "itemtype": "method",
             "name": "zero",
@@ -19279,12 +19349,14 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 1676,
-            "description": "The identity element for multiplication, <b>1</b>.",
-            "itemtype": "property",
+            "line": 1621,
+            "description": "Constructs a G3m representing the number one.\nThe identity element for multiplication, <b>1</b>.",
+            "itemtype": "method",
             "name": "one",
-            "type": "{G3m}",
-            "readonly": "",
+            "return": {
+                "description": "",
+                "type": "G3m"
+            },
             "static": 1,
             "class": "G3m",
             "module": "EIGHT",
@@ -19292,12 +19364,14 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 1686,
-            "description": "Basis vector corresponding to the <code>x</code> coordinate.",
-            "itemtype": "property",
+            "line": 1631,
+            "description": "Constructs a basis vector corresponding to the <code>x</code> coordinate.",
+            "itemtype": "method",
             "name": "e1",
-            "type": "{G3m}",
-            "readonly": "",
+            "return": {
+                "description": "",
+                "type": "G3m"
+            },
             "static": 1,
             "class": "G3m",
             "module": "EIGHT",
@@ -19305,12 +19379,14 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 1695,
-            "description": "Basis vector corresponding to the <code>y</code> coordinate.",
-            "itemtype": "property",
+            "line": 1640,
+            "description": "Constructs a basis vector corresponding to the <code>y</code> coordinate.",
+            "itemtype": "method",
             "name": "e2",
-            "type": "{G3m}",
-            "readonly": "",
+            "return": {
+                "description": "",
+                "type": "G3m"
+            },
             "static": 1,
             "class": "G3m",
             "module": "EIGHT",
@@ -19318,12 +19394,14 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 1704,
-            "description": "Basis vector corresponding to the <code>y</code> coordinate.",
-            "itemtype": "property",
+            "line": 1649,
+            "description": "Constructs a basis vector corresponding to the <code>z</code> coordinate.",
+            "itemtype": "method",
             "name": "e3",
-            "type": "{G3m}",
-            "readonly": "",
+            "return": {
+                "description": "",
+                "type": "G3m"
+            },
             "static": 1,
             "class": "G3m",
             "module": "EIGHT",
@@ -19331,12 +19409,14 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 1713,
-            "description": "Basis vector corresponding to the <code>β</code> coordinate.",
-            "itemtype": "property",
+            "line": 1658,
+            "description": "Constructs a basis vector corresponding to the <code>β</code> coordinate.",
+            "itemtype": "method",
             "name": "I",
-            "type": "{G3m}",
-            "readonly": "",
+            "return": {
+                "description": "",
+                "type": "G3m"
+            },
             "static": 1,
             "class": "G3m",
             "module": "EIGHT",
@@ -19344,7 +19424,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 1722,
+            "line": 1667,
             "itemtype": "method",
             "name": "copy",
             "params": [
@@ -19365,7 +19445,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 1741,
+            "line": 1686,
             "itemtype": "method",
             "name": "fromScalar",
             "params": [
@@ -19387,7 +19467,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 1752,
+            "line": 1697,
             "itemtype": "method",
             "name": "fromSpinor",
             "params": [
@@ -19409,7 +19489,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 1768,
+            "line": 1713,
             "itemtype": "method",
             "name": "fromVector",
             "params": [
@@ -19431,7 +19511,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 1783,
+            "line": 1728,
             "itemtype": "method",
             "name": "lerp",
             "params": [
@@ -19463,7 +19543,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3m.ts",
-            "line": 1796,
+            "line": 1741,
             "description": "Computes the rotor that rotates vector <code>a</code> to vector <code>b</code>.",
             "itemtype": "method",
             "name": "rotorFromDirections",
@@ -19477,6 +19557,42 @@
                     "name": "b",
                     "description": "The <em>to</em> vector.",
                     "type": "VectorE3"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "G3m"
+            },
+            "static": 1,
+            "class": "G3m",
+            "module": "EIGHT",
+            "submodule": "math"
+        },
+        {
+            "file": "src/davinci-eight/math/G3m.ts",
+            "line": 1753,
+            "itemtype": "method",
+            "name": "vector",
+            "params": [
+                {
+                    "name": "x",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "y",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "z",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "uom",
+                    "description": "Unit",
+                    "optional": true
                 }
             ],
             "return": {
@@ -27205,11 +27321,7 @@
         },
         {
             "message": "param name/type/descript missing",
-            "line": " src/davinci-eight/core/GeometryContainer.ts:73"
-        },
-        {
-            "message": "unknown tag: proprty",
-            "line": " src/davinci-eight/core/GeometryPrimitive.ts:33"
+            "line": " src/davinci-eight/core/GeometryContainer.ts:78"
         },
         {
             "message": "replacing incorrect tag: function with method",
@@ -27332,10 +27444,6 @@
             "line": " src/davinci-eight/core/Color.ts:249"
         },
         {
-            "message": "Missing item type\nThe primitive buffer associated with the source that may\ncome and go according to context loss and gain events.",
-            "line": " src/davinci-eight/core/GeometryPrimitive.ts:33"
-        },
-        {
             "message": "Missing item type\nThe parts of a scene are the smallest components that\nare heuristically sorted in order to optimize rendering.",
             "line": " src/davinci-eight/core/Scene.ts:15"
         },
@@ -27358,74 +27466,6 @@
         {
             "message": "Missing item type",
             "line": " src/davinci-eight/core/Scene.ts:53"
-        },
-        {
-            "message": "Missing item type\nRenders geometric primitives indexed by element array data.",
-            "line": " src/davinci-eight/core/WebGLRenderer.ts:48"
-        },
-        {
-            "message": "Missing item type\nSpecifies the kind of primitives to render.",
-            "line": " src/davinci-eight/core/WebGLRenderer.ts:53"
-        },
-        {
-            "message": "Missing item type\nThe number of elements to render.",
-            "line": " src/davinci-eight/core/WebGLRenderer.ts:58"
-        },
-        {
-            "message": "Missing item type\nThe type of elements in the element array buffer. Usually a gl.UNSIGNED_SHORT.",
-            "line": " src/davinci-eight/core/WebGLRenderer.ts:63"
-        },
-        {
-            "message": "Missing item type\nOffset into the element array buffer. Must be a valid multiple of the size of type.",
-            "line": " src/davinci-eight/core/WebGLRenderer.ts:68"
-        },
-        {
-            "message": "Missing item type",
-            "line": " src/davinci-eight/core/WebGLRenderer.ts:73"
-        },
-        {
-            "message": "Missing item type\nExecutes the drawElements command using the instance state.",
-            "line": " src/davinci-eight/core/WebGLRenderer.ts:87"
-        },
-        {
-            "message": "Missing item type\nA tuple containing (indexBuffer, attributes, drawCommand).",
-            "line": " src/davinci-eight/core/WebGLRenderer.ts:121"
-        },
-        {
-            "message": "Missing item type\nMapping from attribute name to a data structure describing and containing a buffer.",
-            "line": " src/davinci-eight/core/WebGLRenderer.ts:126"
-        },
-        {
-            "message": "Missing item type\nThe buffer containing element indices used in the drawElements command.\nWe keep the index buffer private to avoid unnecessary addRef() and release() calls.",
-            "line": " src/davinci-eight/core/WebGLRenderer.ts:131"
-        },
-        {
-            "message": "Missing item type\nAn executable command. May be a call to drawElements or drawArrays.",
-            "line": " src/davinci-eight/core/WebGLRenderer.ts:137"
-        },
-        {
-            "message": "Missing item type",
-            "line": " src/davinci-eight/core/WebGLRenderer.ts:142"
-        },
-        {
-            "message": "Missing item type",
-            "line": " src/davinci-eight/core/WebGLRenderer.ts:183"
-        },
-        {
-            "message": "Missing item type\nKeeps track of the buffer and metadata associated with an 'attribute' variable.",
-            "line": " src/davinci-eight/core/WebGLRenderer.ts:203"
-        },
-        {
-            "message": "Missing item type\nThe buffer is a shared resource",
-            "line": " src/davinci-eight/core/WebGLRenderer.ts:207"
-        },
-        {
-            "message": "Missing item type",
-            "line": " src/davinci-eight/core/WebGLRenderer.ts:270"
-        },
-        {
-            "message": "Missing item type\nImplementation of PrimitiveBuffers coupled to the 'blocks' implementation.",
-            "line": " src/davinci-eight/core/WebGLRenderer.ts:302"
         },
         {
             "message": "Missing item type\nPolicy for how an attribute variable name is determined.",
@@ -27757,27 +27797,27 @@
         },
         {
             "message": "Missing item type\nCoordinates corresponding to basis labels.",
-            "line": " src/davinci-eight/math/G2m.ts:60"
+            "line": " src/davinci-eight/math/G2m.ts:59"
         },
         {
             "message": "Missing item type\nPromotes an unknown value to a G2m, or returns undefined.",
-            "line": " src/davinci-eight/math/G2m.ts:67"
+            "line": " src/davinci-eight/math/G2m.ts:66"
         },
         {
             "message": "Missing item type\nSandwich operation means we need the half-angle.",
-            "line": " src/davinci-eight/math/G2m.ts:1010"
+            "line": " src/davinci-eight/math/G2m.ts:1007"
         },
         {
             "message": "Missing item type\nscalar part = cos(|B| * θ / 2)",
-            "line": " src/davinci-eight/math/G2m.ts:1014"
+            "line": " src/davinci-eight/math/G2m.ts:1011"
         },
         {
             "message": "Missing item type\npseudo part = -unit(B) * sin(|B| * θ / 2)",
-            "line": " src/davinci-eight/math/G2m.ts:1020"
+            "line": " src/davinci-eight/math/G2m.ts:1017"
         },
         {
             "message": "Missing item type\nIntentionally undocumented.",
-            "line": " src/davinci-eight/math/G2m.ts:1608"
+            "line": " src/davinci-eight/math/G2m.ts:1605"
         },
         {
             "message": "Missing item type\nThe G3 class represents a multivector for a 3-dimensional vector space with a Euclidean metric.\nConstructs a G3 from its coordinates.",
@@ -27797,11 +27837,19 @@
         },
         {
             "message": "Missing item type\nCoordinates corresponding to basis labels.",
-            "line": " src/davinci-eight/math/G3m.ts:56"
+            "line": " src/davinci-eight/math/G3m.ts:44"
         },
         {
             "message": "Missing item type\nConsistently set a coordinate value in the most optimized way.",
-            "line": " src/davinci-eight/math/G3m.ts:182"
+            "line": " src/davinci-eight/math/G3m.ts:100"
+        },
+        {
+            "message": "Missing item type\nIntentionally undocumented.",
+            "line": " src/davinci-eight/math/G3m.ts:725"
+        },
+        {
+            "message": "Missing item type\nIntentionally undocumented",
+            "line": " src/davinci-eight/math/G3m.ts:867"
         },
         {
             "message": "Missing item type\nThis interface is provided to ensure consistency.\nIt is not part of the documented API.\nNotice that the effect on the target depends upon whether the target class in mutable.",

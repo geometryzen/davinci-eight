@@ -44,6 +44,10 @@ export default class GeometryContainer extends Shareable implements Geometry {
         super.destructor()
     }
 
+    public isLeaf(): boolean {
+        return false
+    }
+
     get partsLength(): number {
         return this._parts.length;
     }
@@ -65,6 +69,7 @@ export default class GeometryContainer extends Shareable implements Geometry {
     }
 
     draw(material: Material): void {
+        // FIXME: Use for loop.
         this._parts.forEach(function(buffer) {
             buffer.draw(material)
         })

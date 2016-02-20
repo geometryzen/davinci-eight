@@ -12,8 +12,8 @@ import Shareable from './Shareable';
  * @extends Shareable
  */
 export default class ShareableContextListener extends Shareable implements IContextListener {
-    private _visual: WebGLRenderer
-    private _context: IContextProvider
+    private _context: WebGLRenderer
+    protected mirror: IContextProvider
 
     /**
      * @class ShareableContextListener
@@ -41,9 +41,9 @@ export default class ShareableContextListener extends Shareable implements ICont
      * @return {void}
      */
     subscribe(visual: WebGLRenderer): void {
-        if (!this._visual) {
+        if (!this._context) {
             visual.addRef()
-            this._visual = visual
+            this._context = visual
             visual.addContextListener(this)
             visual.synchronize(this)
         }
@@ -60,31 +60,31 @@ export default class ShareableContextListener extends Shareable implements ICont
      * @return {void}
      */
     unsubscribe(): void {
-        if (this._context) {
-            cleanUp(this._context, this)
+        if (this.mirror) {
+            cleanUp(this.mirror, this)
         }
-        if (this._visual) {
-            this._visual.removeContextListener(this)
-            this._visual.release()
-            this._visual = void 0
+        if (this._context) {
+            this._context.removeContextListener(this)
+            this._context.release()
+            this._context = void 0
         }
     }
 
     contextFree(context: IContextProvider): void {
-        this._context = void 0
+        this.mirror = void 0
     }
 
     contextGain(context: IContextProvider): void {
-        this._context = context
+        this.mirror = context
     }
 
     contextLost(): void {
-        this._context = void 0
+        this.mirror = void 0
     }
 
     get gl(): WebGLRenderingContext {
-        if (this._context) {
-            return this._context.gl
+        if (this.mirror) {
+            return this.mirror.gl
         }
         else {
             return void 0

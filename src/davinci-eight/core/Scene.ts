@@ -79,13 +79,19 @@ function partsFromMesh(mesh: Drawable): ShareableArray<ScenePart> {
     mustBeObject('mesh', mesh)
     const parts = new ShareableArray<ScenePart>()
     const geometry = mesh.geometry
-    const iLen = geometry.partsLength
-    for (let i = 0; i < iLen; i++) {
-        const geometryPart = geometry.getPart(i)
-        // FIXME: This needs to go down to the leaves.
-        const scenePart = new ScenePart(geometryPart, mesh)
-        geometryPart.release()
-        parts.pushWeakRef(scenePart)
+    if (geometry.isLeaf()) {
+      const scenePart = new ScenePart(geometry, mesh)
+      parts.pushWeakRef(scenePart)
+    }
+    else {
+      const iLen = geometry.partsLength
+      for (let i = 0; i < iLen; i++) {
+          const geometryPart = geometry.getPart(i)
+          // FIXME: This needs to go down to the leaves.
+          const scenePart = new ScenePart(geometryPart, mesh)
+          geometryPart.release()
+          parts.pushWeakRef(scenePart)
+      }
     }
     geometry.release()
     return parts

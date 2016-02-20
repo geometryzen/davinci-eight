@@ -37,7 +37,6 @@ const COORD_X = 1
 const COORD_Y = 2
 const COORD_PSEUDO = 3
 
-const PI = Math.PI
 const abs = Math.abs
 const atan2 = Math.atan2
 const exp = Math.exp
@@ -980,9 +979,7 @@ export default class G2m extends VectorN<number> implements GeometricE2, Measure
         }
         else {
             // In two dimensions, the rotation plane is not ambiguous.
-            // FIXME: This is a bit dubious.
-            // Probably better to make undefined a first-class concept.
-            this.rotorFromGeneratorAngle(G2m.I, PI)
+            return G2m.fromCartesian(0, 0, 0, 1)
         }
         return this;
     }
@@ -1608,59 +1605,15 @@ export default class G2m extends VectorN<number> implements GeometricE2, Measure
     /**
      * Intentionally undocumented.
      */
-    static fromCartesian(α: number, x: number, y: number, β: number): G2m {
-        const m = new G2m();
-        m.α = α;
-        m.x = x;
-        m.y = y;
-        m.β = β;
-        return m;
+    static fromCartesian(α: number, x: number, y: number, β: number, uom?: Unit): G2m {
+        const m = new G2m()
+        m.α = α
+        m.x = x
+        m.y = y
+        m.β = β
+        m.uom = uom
+        return m
     }
-
-    /**
-     * The identity element for addition, <b>0</b>.
-     * @property zero
-     * @type {G2m}
-     * @readOnly
-     * @static
-     */
-    static zero = G2m.fromCartesian(0, 0, 0, 0);
-
-    /**
-     * The identity element for multiplication, <b>1</b>.
-     * @property one
-     * @type {G2m}
-     * @readOnly
-     * @static
-     */
-    static one = G2m.fromCartesian(1, 0, 0, 0);
-
-    /**
-     * Basis vector corresponding to the <code>x</code> coordinate.
-     * @property e1
-     * @type {G2m}
-     * @readOnly
-     * @static
-     */
-    static e1 = G2m.fromCartesian(0, 1, 0, 0);
-
-    /**
-     * Basis vector corresponding to the <code>y</code> coordinate.
-     * @property e2
-     * @type {G2m}
-     * @readOnly
-     * @static
-     */
-    static e2 = G2m.fromCartesian(0, 0, 1, 0);
-
-    /**
-     * Basis vector corresponding to the <code>β</code> coordinate.
-     * @property I
-     * @type {G2m}
-     * @readOnly
-     * @static
-     */
-    static I = G2m.fromCartesian(0, 0, 0, 1);
 
     /**
      * @method copy
@@ -1670,7 +1623,7 @@ export default class G2m extends VectorN<number> implements GeometricE2, Measure
      * @chainable
      */
     static copy(M: GeometricE2): G2m {
-        var copy = new G2m()
+        const copy = new G2m()
         copy.α = M.α
         copy.x = M.x
         copy.y = M.y

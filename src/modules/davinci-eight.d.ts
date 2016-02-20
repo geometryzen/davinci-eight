@@ -534,7 +534,7 @@ declare module EIGHT {
     class G3 implements VectorE3, SpinorE3 {
         /**
          * The labels to use for the basis vectors.
-         * For G3m there must be eight (8) labels.
+         * For G3 there must be eight (8) labels.
          * e.g.
          * [['1'], ['e1'], ['e2'], ['e3'],['e12'], ['e23'], ['e32'], ['e123']]
          * or
@@ -1632,7 +1632,7 @@ declare module EIGHT {
     }
 
     /**
-     * The even sub-algebra of <code>G3m</code>.
+     * The even sub-algebra of <code>G3</code>.
      */
     interface SpinorE3 extends Scalar {
         /**
@@ -1706,6 +1706,11 @@ declare module EIGHT {
            */
         β: number
         beta: number
+
+        /**
+         *
+         */
+        uom: Unit
         /**
          * Constructs a <code>G3m</code>.
          * The multivector is initialized to zero.
@@ -1716,8 +1721,6 @@ declare module EIGHT {
          * <p>
          * <code>this ⟼ this + M * α</code>
          * </p>
-         * @param M
-         * @param α
          */
         add(M: GeometricE3, α?: number): G3m;
 
@@ -1725,8 +1728,6 @@ declare module EIGHT {
          * <p>
          * <code>this ⟼ a + b</code>
          * </p>
-         * @param a
-         * @param b
          */
         add2(a: GeometricE3, b: GeometricE3): G3m;
 
@@ -1738,8 +1739,6 @@ declare module EIGHT {
          * <p>
          * <code>this ⟼ this + v * α</code>
          * </p>
-         * @param v
-         * @param α
          */
         addVector(v: VectorE3, α?: number): G3m;
 
@@ -1790,19 +1789,17 @@ declare module EIGHT {
         copyVector(vector: VectorE3): G3m;
 
         /**
+         * this ⟼ this / magnitude(this)
+         */
+        direction(): G3m;
+
+        /**
          * Sets this multivector to the result of division by another multivector.
          * <p>
          * <code>this ⟼ this / m</code>
          * </p>
          */
         div(m: GeometricE3): G3m;
-
-        /**
-         * <p>
-         * <code>this ⟼ this / α</code>
-         * </p>
-         */
-        divByScalar(α: number): G3m;
 
         /**
          * <p>
@@ -1815,12 +1812,23 @@ declare module EIGHT {
 
         /**
          * <p>
+         * <code>this ⟼ this / α</code>
+         * </p>
+         */
+        divByScalar(α: number): G3m;
+
+        /**
+         * <p>
          * <code>this ⟼ dual(m) = I * m</code>
          * </p>
          * Notice that the dual of a vector is related to the spinor by the right-hand rule.
          * @param m The vector whose dual will be used to set this spinor.
          */
         dual(m: VectorE3): G3m;
+
+        e1(): G3m;
+        e2(): G3m;
+        e3(): G3m;
 
         /**
          * <p>
@@ -1846,12 +1854,20 @@ declare module EIGHT {
          */
         ext2(a: GeometricE3, b: GeometricE3): G3m;
 
+        grade(grade: number): G3m;
+
+        I(): G3m;
+
         /**
          * <p>
          * <code>this ⟼ conj(this) / quad(this)</code>
          * </p>
          */
         inv(): G3m;
+
+        isOne(): boolean;
+
+        isZero(): boolean;
 
         /**
          * Sets this multivector to the left contraction with another multivector.
@@ -1932,14 +1948,9 @@ declare module EIGHT {
          * <code>this ⟼ sqrt(this * conj(this))</code>
          * </p>
          */
-        norm(): G3m
+        norm(): G3m;
 
-        /**
-         * <p>
-         * <code>this ⟼ this / magnitude(this)</code>
-         * </p>
-         */
-        direction(): G3m
+        one(): G3m;
 
         /**
          * <p>
@@ -2044,16 +2055,6 @@ declare module EIGHT {
         scp2(a: GeometricE3, b: GeometricE3): G3m;
 
         /**
-         * <p>
-         * <code>this ⟼ a * b</code>
-         * </p>
-         * Sets this G3m to the geometric product a * b of the vector arguments.
-         * @param a
-         * @param b
-         */
-        versor(a: VectorE3, b: VectorE3): G3m;
-
-        /**
          * Computes the <em>squared norm</em> of this multivector.
          */
         squaredNorm(): G3m;
@@ -2093,34 +2094,46 @@ declare module EIGHT {
         toString(): string;
 
         /**
+         * <p>
+         * <code>this ⟼ a * b</code>
+         * </p>
+         * Sets this G3m to the geometric product a * b of the vector arguments.
+         * @param a
+         * @param b
+         */
+        versor(a: VectorE3, b: VectorE3): G3m;
+
+        wedge(m: GeometricE3): G3m;
+
+        /**
          * The identity element for addition, <b>0</b>.
          */
-        static zero: G3m;
+        static zero(): G3m;
 
         /**
          * The identity element for multiplication, <b>1</b>.
          */
-        static one: G3m;
+        static one(): G3m;
 
         /**
          * Basis vector corresponding to the <code>x</code> coordinate.
          */
-        static e1: G3m;
+        static e1(): G3m;
 
         /**
          * Basis vector corresponding to the <code>y</code> coordinate.
          */
-        static e2: G3m;
+        static e2(): G3m;
 
         /**
          * Basis vector corresponding to the <code>z</code> coordinate.
          */
-        static e3: G3m;
+        static e3(): G3m;
 
         /**
          * Basis vector corresponding to the <code>β</code> coordinate.
          */
-        static I: G3m;
+        static I(): G3m;
 
         /**
          * Creates a copy of a spinor.
@@ -2494,13 +2507,7 @@ declare module EIGHT {
      *
      */
     interface IContextProvider extends IUnknown {
-        createArrayBuffer(): ShareableWebGLBuffer;
-        createElementArrayBuffer(): ShareableWebGLBuffer;
-        createPrimitiveBuffers(primitive: Primitive, usage?: number): PrimitiveBuffers;
-        createTexture2D(): ITexture2D;
-        createTextureCubeMap(): ITextureCubeMap;
         gl: WebGLRenderingContext;
-        canvas: HTMLCanvasElement;
     }
 
     /**
@@ -2821,18 +2828,6 @@ declare module EIGHT {
         draw(material: Material): void;
     }
 
-    class GeometryPrimitive extends Shareable implements Geometry {
-        constructor(dataSource: Primitive);
-        partsLength: number;
-        addPart(geometry: Geometry): void;
-        removePart(index: number): void;
-        getPart(index: number): Geometry;
-        draw(material: Material): void;
-        contextFree(context: IContextProvider): void;
-        contextGain(context: IContextProvider): void;
-        contextLost(): void;
-    }
-
     class GeometryContainer extends Shareable implements Geometry {
         constructor();
         partsLength: number;
@@ -2845,11 +2840,59 @@ declare module EIGHT {
         contextLost(): void;
     }
 
+    interface VertexAttribPointer {
+        /**
+         * The name of the vertex attribute.
+         */
+        name: string;
+        /**
+         * The number of values per vertex for this attribute.
+         */
+        size: number;
+        /**
+         * Determines what range to use when normalizing values.
+         */
+        normalized: boolean;
+        /**
+         * The offset of the values in bytes.
+         */
+        offset: number
+    }
+
+    interface VertexArrays {
+        drawMode: DrawMode
+        indices: number[]
+        attributes: number[]
+        stride: number
+        pointers: VertexAttribPointer[]
+    }
+
+    class GeometryElements extends ShareableContextListener implements Geometry {
+        constructor(dataSource: VertexArrays);
+        partsLength: number;
+        addPart(geometry: Geometry): void;
+        removePart(index: number): void;
+        getPart(index: number): Geometry;
+        draw(material: Material): void;
+    }
+
+    class GeometryPrimitive extends Shareable implements Geometry {
+        constructor(dataSource: Primitive);
+        partsLength: number;
+        addPart(geometry: Geometry): void;
+        removePart(index: number): void;
+        getPart(index: number): Geometry;
+        draw(material: Material): void;
+        contextFree(context: IContextProvider): void;
+        contextGain(context: IContextProvider): void;
+        contextLost(): void;
+    }
+
     class ArrowGeometry extends GeometryContainer {
         constructor();
     }
 
-    class CuboidGeometry extends GeometryContainer {
+    class BoxGeometry extends GeometryContainer {
         constructor(options?: { width?: number, height?: number, depth?: number });
     }
 
@@ -2996,6 +3039,13 @@ declare module EIGHT {
      *
      */
     class MeshMaterial extends Material {
+        constructor();
+    }
+
+    /**
+     *
+     */
+    class MeshNormalMaterial extends Material {
         constructor();
     }
 

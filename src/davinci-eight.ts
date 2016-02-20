@@ -29,6 +29,7 @@ import IContextConsumer from 'davinci-eight/core/IContextConsumer';
 import IContextProgramConsumer from 'davinci-eight/core/IContextProgramConsumer';
 import IContextProvider from 'davinci-eight/core/IContextProvider';
 import GeometryContainer from 'davinci-eight/core/GeometryContainer';
+import GeometryElements from 'davinci-eight/core/GeometryElements';
 import GeometryPrimitive from 'davinci-eight/core/GeometryPrimitive';
 import GraphicsProgramSymbols from 'davinci-eight/core/GraphicsProgramSymbols';
 import Facet from 'davinci-eight/core/Facet';
@@ -84,7 +85,7 @@ import square from 'davinci-eight/geometries/square';
 import simplicesToDrawPrimitive from 'davinci-eight/geometries/simplicesToDrawPrimitive';
 import triangle from 'davinci-eight/geometries/triangle';
 import ArrowGeometry from 'davinci-eight/geometries/ArrowGeometry';
-import CuboidGeometry from 'davinci-eight/geometries/CuboidGeometry';
+import BoxGeometry from 'davinci-eight/geometries/BoxGeometry';
 import CylinderGeometry from 'davinci-eight/geometries/CylinderGeometry';
 import SphereGeometry from 'davinci-eight/geometries/SphereGeometry';
 import TetrahedronGeometry from 'davinci-eight/geometries/TetrahedronGeometry';
@@ -120,6 +121,7 @@ import arc3 from 'davinci-eight/geometries/arc3';
 import HTMLScriptsMaterial from 'davinci-eight/materials/HTMLScriptsMaterial';
 import LineMaterial from 'davinci-eight/materials/LineMaterial';
 import MeshMaterial from 'davinci-eight/materials/MeshMaterial';
+import MeshNormalMaterial from 'davinci-eight/materials/MeshNormalMaterial';
 import PointMaterial from 'davinci-eight/materials/PointMaterial';
 import GraphicsProgramBuilder from 'davinci-eight/materials/GraphicsProgramBuilder';
 import smartProgram from 'davinci-eight/materials/smartProgram';
@@ -246,6 +248,7 @@ const eight = {
     get HTMLScriptsMaterial() { return HTMLScriptsMaterial },
     get LineMaterial() { return LineMaterial },
     get MeshMaterial() { return MeshMaterial },
+    get MeshNormalMaterial() { return MeshNormalMaterial },
     get PointMaterial() { return PointMaterial },
     get GraphicsProgramBuilder() { return GraphicsProgramBuilder },
     //commands
@@ -292,7 +295,7 @@ const eight = {
 
     // geometries
     get ArrowGeometry() { return ArrowGeometry },
-    get CuboidGeometry() { return CuboidGeometry },
+    get BoxGeometry() { return BoxGeometry },
     get CylinderGeometry() { return CylinderGeometry },
     get SphereGeometry() { return SphereGeometry },
     get TetrahedronGeometry() { return TetrahedronGeometry },
@@ -318,6 +321,7 @@ const eight = {
 
     get GraphicsProgramSymbols() { return GraphicsProgramSymbols },
     get GeometryContainer() { return GeometryContainer },
+    get GeometryElements() { return GeometryElements },
     get GeometryPrimitive() { return GeometryPrimitive },
 
     // overlay
