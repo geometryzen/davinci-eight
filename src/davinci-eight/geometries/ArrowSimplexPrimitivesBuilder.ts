@@ -90,7 +90,7 @@ export default class ArrowSimplexPrimitivesBuilder extends RevolutionSimplexPrim
         var arrow = computeArrow(direction)
         // TODO: The directions may be wrong here and need revesing.
         // The convention is that we rotate from a to b.
-        var R = Spinor3.rotorFromDirections(nearest(direction), direction)
+        const R = Spinor3.rotorFromDirections(nearest(direction), direction)
         this.data = []
         super.revolve(arrow.points, arrow.generator, this.segments, 0, 2 * Math.PI, R)
         this.setModified(false)

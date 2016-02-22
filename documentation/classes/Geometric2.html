@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>G3m - davinci-eight</title>
+    <title>Geometric2 - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.192.0</em>
+            <em>API Docs for: 2.193.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -70,9 +70,9 @@
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
                                 <li><a href="../classes/G1.html">G1</a></li>
                                 <li><a href="../classes/G2.html">G2</a></li>
-                                <li><a href="../classes/G2m.html">G2m</a></li>
                                 <li><a href="../classes/G3.html">G3</a></li>
-                                <li><a href="../classes/G3m.html">G3m</a></li>
+                                <li><a href="../classes/Geometric2.html">Geometric2</a></li>
+                                <li><a href="../classes/Geometric3.html">Geometric3</a></li>
                                 <li><a href="../classes/GeometricE2.html">GeometricE2</a></li>
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
@@ -201,15 +201,15 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1>G3m Class</h1>
+<h1>Geometric2 Class</h1>
 <div class="box meta">
 
         <div class="extends">
-            Extends <a href="../classes/GeometricE3.html" class="crosslink">GeometricE3</a>
+            Extends <a href="../classes/VectorN.html" class="crosslink">VectorN</a>
         </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_math_G3m.ts.html#l80"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:80</code></a>
+            Defined in: <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l116"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:116</code></a>
         </div>
 
             Module: <a href="../modules/math.html">math</a><br>
@@ -219,15 +219,15 @@
 
 
 <div class="box intro">
-    <p>Constructs a <code>G3m</code>.
+    <p>Constructs a <code>Geometric2</code>.
 The multivector is initialized to zero.</p>
 
 </div>
 
     <div class="constructor">
         <h2>Constructor</h2>
-<div id="method_G3m" class="method item">
-    <h3 class="name"><code>G3m</code></h3>
+<div id="method_Geometric2" class="method item">
+    <h3 class="name"><code>Geometric2</code></h3>
 
         <span class="paren">()</span>
 
@@ -241,7 +241,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l80"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:80</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l116"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:116</code></a>
         </p>
 
 
@@ -375,14 +375,10 @@ The multivector is initialized to zero.</p>
 
                             </li>
                             <li class="index-item method">
-                                <a href="#method_align">align</a>
-
-                            </li>
-                            <li class="index-item method">
                                 <a href="#method_angle">angle</a>
 
                             </li>
-                            <li class="index-item method">
+                            <li class="index-item method inherited">
                                 <a href="#method_clone">clone</a>
 
                             </li>
@@ -412,6 +408,10 @@ The multivector is initialized to zero.</p>
 
                             </li>
                             <li class="index-item method">
+                                <a href="#method_cubicBezier">cubicBezier</a>
+
+                            </li>
+                            <li class="index-item method">
                                 <a href="#method_direction">direction</a>
 
                             </li>
@@ -432,22 +432,11 @@ The multivector is initialized to zero.</p>
 
                             </li>
                             <li class="index-item method">
-                                <a href="#method_e1">e1</a>
-
-                                    <span class="flag static">static</span>
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_e2">e2</a>
-
-                                    <span class="flag static">static</span>
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_e3">e3</a>
-
-                                    <span class="flag static">static</span>
-                            </li>
-                            <li class="index-item method">
                                 <a href="#method_exp">exp</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_ext">ext</a>
 
                             </li>
                             <li class="index-item method">
@@ -469,14 +458,13 @@ The multivector is initialized to zero.</p>
 
                                     <span class="flag static">static</span>
                             </li>
-                            <li class="index-item method">
-                                <a href="#method_grade">grade</a>
+                            <li class="index-item method inherited">
+                                <a href="#method_getComponent">getComponent</a>
 
                             </li>
                             <li class="index-item method">
-                                <a href="#method_I">I</a>
+                                <a href="#method_grade">grade</a>
 
-                                    <span class="flag static">static</span>
                             </li>
                             <li class="index-item method">
                                 <a href="#method_inv">inv</a>
@@ -501,11 +489,11 @@ The multivector is initialized to zero.</p>
                             <li class="index-item method">
                                 <a href="#method_lerp">lerp</a>
 
-                                    <span class="flag static">static</span>
                             </li>
                             <li class="index-item method">
                                 <a href="#method_lerp">lerp</a>
 
+                                    <span class="flag static">static</span>
                             </li>
                             <li class="index-item method">
                                 <a href="#method_lerp2">lerp2</a>
@@ -538,14 +526,21 @@ The multivector is initialized to zero.</p>
                             <li class="index-item method">
                                 <a href="#method_one">one</a>
 
-                                    <span class="flag static">static</span>
                             </li>
-                            <li class="index-item method">
-                                <a href="#method_one">one</a>
+                            <li class="index-item method inherited">
+                                <a href="#method_pop">pop</a>
+
+                            </li>
+                            <li class="index-item method inherited">
+                                <a href="#method_push">push</a>
 
                             </li>
                             <li class="index-item method">
                                 <a href="#method_quad">quad</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_quadraticBezier">quadraticBezier</a>
 
                             </li>
                             <li class="index-item method">
@@ -569,17 +564,13 @@ The multivector is initialized to zero.</p>
 
                             </li>
                             <li class="index-item method">
-                                <a href="#method_rotorFromAxisAngle">rotorFromAxisAngle</a>
+                                <a href="#method_rotorFromDirections">rotorFromDirections</a>
 
                             </li>
                             <li class="index-item method">
                                 <a href="#method_rotorFromDirections">rotorFromDirections</a>
 
                                     <span class="flag static">static</span>
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_rotorFromDirections">rotorFromDirections</a>
-
                             </li>
                             <li class="index-item method">
                                 <a href="#method_rotorFromGeneratorAngle">rotorFromGeneratorAngle</a>
@@ -590,7 +581,15 @@ The multivector is initialized to zero.</p>
 
                             </li>
                             <li class="index-item method">
+                                <a href="#method_scp">scp</a>
+
+                            </li>
+                            <li class="index-item method">
                                 <a href="#method_scp2">scp2</a>
+
+                            </li>
+                            <li class="index-item method inherited">
+                                <a href="#method_setComponent">setComponent</a>
 
                             </li>
                             <li class="index-item method">
@@ -605,6 +604,10 @@ The multivector is initialized to zero.</p>
                                 <a href="#method_sub2">sub2</a>
 
                             </li>
+                            <li class="index-item method inherited">
+                                <a href="#method_toArray">toArray</a>
+
+                            </li>
                             <li class="index-item method">
                                 <a href="#method_toExponential">toExponential</a>
 
@@ -613,7 +616,11 @@ The multivector is initialized to zero.</p>
                                 <a href="#method_toFixed">toFixed</a>
 
                             </li>
-                            <li class="index-item method">
+                            <li class="index-item method inherited">
+                                <a href="#method_toLocaleString">toLocaleString</a>
+
+                            </li>
+                            <li class="index-item method inherited">
                                 <a href="#method_toString">toString</a>
 
                             </li>
@@ -627,17 +634,8 @@ The multivector is initialized to zero.</p>
 
                             </li>
                             <li class="index-item method">
-                                <a href="#method_wedge">wedge</a>
-
-                            </li>
-                            <li class="index-item method">
                                 <a href="#method_zero">zero</a>
 
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_zero">zero</a>
-
-                                    <span class="flag static">static</span>
                             </li>
                     </ul>
                 </div>
@@ -646,44 +644,48 @@ The multivector is initialized to zero.</p>
                     <h3>Properties</h3>
 
                     <ul class="index-list properties extends">
+                            <li class="index-item property protected inherited">
+                                <a href="#property__coords">_coords</a>
+
+                            </li>
+                            <li class="index-item property private inherited">
+                                <a href="#property__size">_size</a>
+
+                            </li>
                             <li class="index-item property">
                                 <a href="#property_alpha">alpha</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_BASIS_LABELS">BASIS_LABELS</a>
 
                             </li>
                             <li class="index-item property">
                                 <a href="#property_beta">beta</a>
 
                             </li>
-                            <li class="index-item property private">
-                                <a href="#property_eventBus">eventBus</a>
+                            <li class="index-item property inherited">
+                                <a href="#property_data">data</a>
 
                             </li>
                             <li class="index-item property inherited">
+                                <a href="#property_length">length</a>
+
+                            </li>
+                            <li class="index-item property inherited">
+                                <a href="#property_modified">modified</a>
+
+                            </li>
+                            <li class="index-item property">
                                 <a href="#property_uom">uom</a>
 
                             </li>
-                            <li class="index-item property inherited">
+                            <li class="index-item property">
                                 <a href="#property_x">x</a>
 
                             </li>
                             <li class="index-item property">
-                                <a href="#property_xy">xy</a>
-
-                            </li>
-                            <li class="index-item property inherited">
                                 <a href="#property_y">y</a>
-
-                            </li>
-                            <li class="index-item property">
-                                <a href="#property_yz">yz</a>
-
-                            </li>
-                            <li class="index-item property inherited">
-                                <a href="#property_z">z</a>
-
-                            </li>
-                            <li class="index-item property">
-                                <a href="#property_zx">zx</a>
 
                             </li>
                             <li class="index-item property">
@@ -715,7 +717,7 @@ The multivector is initialized to zero.</p>
         </div>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
         </span>
 
 
@@ -728,7 +730,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l1293"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:1293</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1238"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1238</code></a>
         </p>
 
 
@@ -760,7 +762,7 @@ The multivector is initialized to zero.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>:
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
             </div>
         </div>
 
@@ -772,7 +774,7 @@ The multivector is initialized to zero.</p>
         <span class="paren">()</span>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
         </span>
 
 
@@ -786,7 +788,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l1581"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:1581</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1558"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1558</code></a>
         </p>
 
 
@@ -802,7 +804,7 @@ The multivector is initialized to zero.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>:
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
             </div>
         </div>
 
@@ -820,7 +822,7 @@ The multivector is initialized to zero.</p>
         </div>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
         </span>
 
 
@@ -833,7 +835,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l1311"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:1311</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1264"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1264</code></a>
         </p>
 
 
@@ -865,7 +867,7 @@ The multivector is initialized to zero.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>:
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
             </div>
         </div>
 
@@ -877,13 +879,13 @@ The multivector is initialized to zero.</p>
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
-                        <code>rhs</code>
+                        <code>other</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
         </span>
 
 
@@ -896,7 +898,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l1473"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:1473</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1450"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1450</code></a>
         </p>
 
 
@@ -912,7 +914,7 @@ The multivector is initialized to zero.</p>
 
             <ul class="params-list">
                 <li class="param">
-                        <code class="param-name">rhs</code>
+                        <code class="param-name">other</code>
                         <span class="type">Any</span>
 
 
@@ -928,7 +930,7 @@ The multivector is initialized to zero.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>:
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
             </div>
         </div>
 
@@ -946,7 +948,7 @@ The multivector is initialized to zero.</p>
         </div>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
         </span>
 
 
@@ -959,7 +961,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l1347"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:1347</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1300"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1300</code></a>
         </p>
 
 
@@ -991,7 +993,7 @@ The multivector is initialized to zero.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>:
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
             </div>
         </div>
 
@@ -1003,7 +1005,7 @@ The multivector is initialized to zero.</p>
         <span class="paren">()</span>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
         </span>
 
 
@@ -1017,7 +1019,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l1601"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:1601</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1589"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1589</code></a>
         </p>
 
 
@@ -1033,7 +1035,7 @@ The multivector is initialized to zero.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>:
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
             </div>
         </div>
 
@@ -1045,7 +1047,7 @@ The multivector is initialized to zero.</p>
         <span class="paren">()</span>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
         </span>
 
 
@@ -1059,7 +1061,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l1591"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:1591</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1578"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1578</code></a>
         </p>
 
 
@@ -1075,7 +1077,7 @@ The multivector is initialized to zero.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>:
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
             </div>
         </div>
 
@@ -1093,7 +1095,7 @@ The multivector is initialized to zero.</p>
         </div>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
         </span>
 
 
@@ -1106,7 +1108,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l1383"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:1383</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1351"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1351</code></a>
         </p>
 
 
@@ -1138,7 +1140,7 @@ The multivector is initialized to zero.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>:
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
             </div>
         </div>
 
@@ -1156,7 +1158,7 @@ The multivector is initialized to zero.</p>
         </div>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
         </span>
 
 
@@ -1169,7 +1171,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l1329"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:1329</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1282"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1282</code></a>
         </p>
 
 
@@ -1201,7 +1203,7 @@ The multivector is initialized to zero.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>:
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
             </div>
         </div>
 
@@ -1219,7 +1221,7 @@ The multivector is initialized to zero.</p>
         </div>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
         </span>
 
 
@@ -1232,7 +1234,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l1491"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:1491</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1468"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1468</code></a>
         </p>
 
 
@@ -1264,7 +1266,7 @@ The multivector is initialized to zero.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>:
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
             </div>
         </div>
 
@@ -1282,7 +1284,7 @@ The multivector is initialized to zero.</p>
         </div>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
         </span>
 
 
@@ -1295,7 +1297,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l1365"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:1365</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1326"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1326</code></a>
         </p>
 
 
@@ -1327,7 +1329,7 @@ The multivector is initialized to zero.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>:
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
             </div>
         </div>
 
@@ -1339,13 +1341,13 @@ The multivector is initialized to zero.</p>
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
-                        <code>other</code>
+                        <code>lhs</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
         </span>
 
 
@@ -1358,7 +1360,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l1527"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:1527</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1504"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1504</code></a>
         </p>
 
 
@@ -1374,7 +1376,7 @@ The multivector is initialized to zero.</p>
 
             <ul class="params-list">
                 <li class="param">
-                        <code class="param-name">other</code>
+                        <code class="param-name">lhs</code>
                         <span class="type">Any</span>
 
 
@@ -1390,7 +1392,7 @@ The multivector is initialized to zero.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>:
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
             </div>
         </div>
 
@@ -1408,7 +1410,7 @@ The multivector is initialized to zero.</p>
         </div>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
         </span>
 
 
@@ -1421,7 +1423,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l1509"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:1509</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1486"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1486</code></a>
         </p>
 
 
@@ -1453,7 +1455,7 @@ The multivector is initialized to zero.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>:
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
             </div>
         </div>
 
@@ -1471,7 +1473,7 @@ The multivector is initialized to zero.</p>
         </div>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
         </span>
 
 
@@ -1484,7 +1486,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l1417"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:1417</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1394"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1394</code></a>
         </p>
 
 
@@ -1516,7 +1518,7 @@ The multivector is initialized to zero.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>:
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
             </div>
         </div>
 
@@ -1534,7 +1536,7 @@ The multivector is initialized to zero.</p>
         </div>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
         </span>
 
 
@@ -1547,7 +1549,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l1563"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:1563</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1540"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1540</code></a>
         </p>
 
 
@@ -1579,7 +1581,7 @@ The multivector is initialized to zero.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>:
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
             </div>
         </div>
 
@@ -1597,7 +1599,7 @@ The multivector is initialized to zero.</p>
         </div>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
         </span>
 
 
@@ -1610,7 +1612,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l1454"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:1454</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1431"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1431</code></a>
         </p>
 
 
@@ -1642,7 +1644,7 @@ The multivector is initialized to zero.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>:
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
             </div>
         </div>
 
@@ -1660,7 +1662,7 @@ The multivector is initialized to zero.</p>
         </div>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
         </span>
 
 
@@ -1673,7 +1675,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l1400"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:1400</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1376"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1376</code></a>
         </p>
 
 
@@ -1705,7 +1707,7 @@ The multivector is initialized to zero.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>:
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
             </div>
         </div>
 
@@ -1717,7 +1719,7 @@ The multivector is initialized to zero.</p>
         <span class="paren">()</span>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
         </span>
 
 
@@ -1725,12 +1727,13 @@ The multivector is initialized to zero.</p>
 
 
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l913"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:913</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1568"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1568</code></a>
         </p>
 
 
@@ -1746,7 +1749,7 @@ The multivector is initialized to zero.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>:
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
             </div>
         </div>
 
@@ -1764,7 +1767,7 @@ The multivector is initialized to zero.</p>
         </div>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
         </span>
 
 
@@ -1777,7 +1780,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l1545"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:1545</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1522"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1522</code></a>
         </p>
 
 
@@ -1809,7 +1812,7 @@ The multivector is initialized to zero.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>:
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
             </div>
         </div>
 
@@ -1827,7 +1830,7 @@ The multivector is initialized to zero.</p>
         </div>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
         </span>
 
 
@@ -1840,7 +1843,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l1435"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:1435</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1412"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1412</code></a>
         </p>
 
 
@@ -1872,7 +1875,7 @@ The multivector is initialized to zero.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>:
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
             </div>
         </div>
 
@@ -1893,7 +1896,7 @@ The multivector is initialized to zero.</p>
         </div>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
         </span>
 
 
@@ -1906,7 +1909,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l233"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:233</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l213"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:213</code></a>
         </p>
 
 
@@ -1925,7 +1928,7 @@ The multivector is initialized to zero.</p>
             <ul class="params-list">
                 <li class="param">
                         <code class="param-name">M</code>
-                        <span class="type"><a href="../classes/GeometricE3.html" class="crosslink">GeometricE3</a></span>
+                        <span class="type"><a href="../classes/GeometricE2.html" class="crosslink">GeometricE2</a></span>
 
 
                     <div class="param-description">
@@ -1951,7 +1954,7 @@ The multivector is initialized to zero.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>:
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
                     <p><code>this</code></p>
 
             </div>
@@ -1974,7 +1977,7 @@ The multivector is initialized to zero.</p>
         </div>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
         </span>
 
 
@@ -1987,7 +1990,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l300"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:300</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l233"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:233</code></a>
         </p>
 
 
@@ -2006,7 +2009,7 @@ The multivector is initialized to zero.</p>
             <ul class="params-list">
                 <li class="param">
                         <code class="param-name">a</code>
-                        <span class="type"><a href="../classes/GeometricE3.html" class="crosslink">GeometricE3</a></span>
+                        <span class="type"><a href="../classes/GeometricE2.html" class="crosslink">GeometricE2</a></span>
 
 
                     <div class="param-description">
@@ -2016,7 +2019,7 @@ The multivector is initialized to zero.</p>
                 </li>
                 <li class="param">
                         <code class="param-name">b</code>
-                        <span class="type"><a href="../classes/GeometricE3.html" class="crosslink">GeometricE3</a></span>
+                        <span class="type"><a href="../classes/GeometricE2.html" class="crosslink">GeometricE2</a></span>
 
 
                     <div class="param-description">
@@ -2031,7 +2034,7 @@ The multivector is initialized to zero.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>:
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
                     <p><code>this</code></p>
 
             </div>
@@ -2051,7 +2054,7 @@ The multivector is initialized to zero.</p>
         </div>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
         </span>
 
 
@@ -2064,7 +2067,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l255"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:255</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l253"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:253</code></a>
         </p>
 
 
@@ -2098,7 +2101,7 @@ The multivector is initialized to zero.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>:
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
                     <p><code>this</code></p>
 
             </div>
@@ -2118,7 +2121,7 @@ The multivector is initialized to zero.</p>
         </div>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
         </span>
 
 
@@ -2131,7 +2134,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l269"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:269</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l268"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:268</code></a>
         </p>
 
 
@@ -2165,7 +2168,7 @@ The multivector is initialized to zero.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>:
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
                     <p><code>this</code></p>
 
             </div>
@@ -2188,7 +2191,7 @@ The multivector is initialized to zero.</p>
         </div>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
         </span>
 
 
@@ -2201,7 +2204,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l283"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:283</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l283"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:283</code></a>
         </p>
 
 
@@ -2220,7 +2223,7 @@ The multivector is initialized to zero.</p>
             <ul class="params-list">
                 <li class="param">
                         <code class="param-name">v</code>
-                        <span class="type"><a href="../classes/VectorE3.html" class="crosslink">VectorE3</a></span>
+                        <span class="type"><a href="../classes/VectorE2.html" class="crosslink">VectorE2</a></span>
 
 
                     <div class="param-description">
@@ -2246,74 +2249,7 @@ The multivector is initialized to zero.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>:
-                    <p><code>this</code></p>
-
-            </div>
-        </div>
-
-
-</div>
-<div id="method_align" class="method item">
-    <h3 class="name"><code>align</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>m</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
-        </span>
-
-
-
-
-
-        <span class="flag chainable">chainable</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l1035"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:1035</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-<code>this ⟼ scp(this, m)</code>
-</p>
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">m</code>
-                        <span class="type"><a href="../classes/GeometricE3.html" class="crosslink">GeometricE3</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>:
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
                     <p><code>this</code></p>
 
             </div>
@@ -2327,47 +2263,7 @@ The multivector is initialized to zero.</p>
         <span class="paren">()</span>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l326"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:326</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_clone" class="method item">
-    <h3 class="name"><code>clone</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
         </span>
 
 
@@ -2380,7 +2276,55 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l334"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:334</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l305"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:305</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>
+<code>this ⟼ log(this).grade(2)</code>
+</p>
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
+                    <p><code>this</code></p>
+
+            </div>
+        </div>
+
+
+</div>
+<div id="method_clone" class="method item">
+    <h3 class="name"><code>clone</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
+        </span>
+
+
+
+
+
+        <span class="flag chainable">chainable</span>
+
+
+    <div class="meta">
+            <p>Inherited from
+            <a href="../classes/VectorN.html#method_clone">
+                VectorN
+            </a>
+            but overwritten in
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l317"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:317</code></a>
         </p>
 
 
@@ -2396,7 +2340,7 @@ The multivector is initialized to zero.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>:
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
                     <p><code>copy(this)</code></p>
 
             </div>
@@ -2410,7 +2354,7 @@ The multivector is initialized to zero.</p>
         <span class="paren">()</span>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
         </span>
 
 
@@ -2423,7 +2367,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l343"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:343</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l328"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:328</code></a>
         </p>
 
 
@@ -2441,7 +2385,7 @@ The multivector is initialized to zero.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>:
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
                     <p><code>this</code></p>
 
             </div>
@@ -2461,7 +2405,7 @@ The multivector is initialized to zero.</p>
         </div>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
         </span>
 
 
@@ -2474,7 +2418,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l414"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:414</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l359"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:359</code></a>
         </p>
 
 
@@ -2483,7 +2427,7 @@ The multivector is initialized to zero.</p>
 
     <div class="description">
         <p>
-<code>this ⟼ copy(v)</code>
+<code>this ⟼ copy(M)</code>
 </p>
     </div>
 
@@ -2493,7 +2437,7 @@ The multivector is initialized to zero.</p>
             <ul class="params-list">
                 <li class="param">
                         <code class="param-name">M</code>
-                        <span class="type"><a href="../classes/VectorE3.html" class="crosslink">VectorE3</a></span>
+                        <span class="type"><a href="../classes/GeometricE2.html" class="crosslink">GeometricE2</a></span>
 
 
                     <div class="param-description">
@@ -2508,7 +2452,7 @@ The multivector is initialized to zero.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>:
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
                     <p><code>this</code></p>
 
             </div>
@@ -2528,7 +2472,7 @@ The multivector is initialized to zero.</p>
         </div>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
         </span>
 
 
@@ -2536,12 +2480,13 @@ The multivector is initialized to zero.</p>
 
         <span class="flag static">static</span>
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l1667"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:1667</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1612"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1612</code></a>
         </p>
 
 
@@ -2558,7 +2503,7 @@ The multivector is initialized to zero.</p>
             <ul class="params-list">
                 <li class="param">
                         <code class="param-name">M</code>
-                        <span class="type"><a href="../classes/GeometricE3.html" class="crosslink">GeometricE3</a></span>
+                        <span class="type"><a href="../classes/GeometricE2.html" class="crosslink">GeometricE2</a></span>
 
 
                     <div class="param-description">
@@ -2573,7 +2518,7 @@ The multivector is initialized to zero.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>:
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
             </div>
         </div>
 
@@ -2582,16 +2527,10 @@ The multivector is initialized to zero.</p>
 <div id="method_copyScalar" class="method item">
     <h3 class="name"><code>copyScalar</code></h3>
 
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>α</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
+        <span class="paren">()</span>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
         </span>
 
 
@@ -2604,7 +2543,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l436"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:436</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l377"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:377</code></a>
         </p>
 
 
@@ -2616,28 +2555,14 @@ The multivector is initialized to zero.</p>
 
     </div>
 
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">α</code>
-                        <span class="type">Number</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
 
         <div class="returns">
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>:
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
+                    <p><code>this</code></p>
+
             </div>
         </div>
 
@@ -2655,7 +2580,7 @@ The multivector is initialized to zero.</p>
         </div>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
         </span>
 
 
@@ -2668,7 +2593,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l448"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:448</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l387"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:387</code></a>
         </p>
 
 
@@ -2687,7 +2612,7 @@ The multivector is initialized to zero.</p>
             <ul class="params-list">
                 <li class="param">
                         <code class="param-name">spinor</code>
-                        <span class="type"><a href="../classes/SpinorE3.html" class="crosslink">SpinorE3</a></span>
+                        <span class="type"><a href="../classes/SpinorE2.html" class="crosslink">SpinorE2</a></span>
 
 
                     <div class="param-description">
@@ -2702,7 +2627,7 @@ The multivector is initialized to zero.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>:
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
                     <p><code>this</code></p>
 
             </div>
@@ -2722,7 +2647,7 @@ The multivector is initialized to zero.</p>
         </div>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
         </span>
 
 
@@ -2735,7 +2660,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l466"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:466</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l405"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:405</code></a>
         </p>
 
 
@@ -2754,7 +2679,7 @@ The multivector is initialized to zero.</p>
             <ul class="params-list">
                 <li class="param">
                         <code class="param-name">vector</code>
-                        <span class="type"><a href="../classes/VectorE3.html" class="crosslink">VectorE3</a></span>
+                        <span class="type"><a href="../classes/VectorE2.html" class="crosslink">VectorE2</a></span>
 
 
                     <div class="param-description">
@@ -2769,7 +2694,111 @@ The multivector is initialized to zero.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>:
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
+                    <p><code>this</code></p>
+
+            </div>
+        </div>
+
+
+</div>
+<div id="method_cubicBezier" class="method item">
+    <h3 class="name"><code>cubicBezier</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>t</code>
+                </li>
+                <li class="arg">
+                        <code>controlBegin</code>
+                </li>
+                <li class="arg">
+                        <code>controlEnd</code>
+                </li>
+                <li class="arg">
+                        <code>endPoint</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
+        </span>
+
+
+
+
+
+        <span class="flag chainable">chainable</span>
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l423"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:423</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">t</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">controlBegin</code>
+                        <span class="type"><a href="../classes/GeometricE2.html" class="crosslink">GeometricE2</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">controlEnd</code>
+                        <span class="type"><a href="../classes/GeometricE2.html" class="crosslink">GeometricE2</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">endPoint</code>
+                        <span class="type"><a href="../classes/GeometricE2.html" class="crosslink">GeometricE2</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
                     <p><code>this</code></p>
 
             </div>
@@ -2783,7 +2812,7 @@ The multivector is initialized to zero.</p>
         <span class="paren">()</span>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
         </span>
 
 
@@ -2796,7 +2825,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l799"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:799</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l444"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:444</code></a>
         </p>
 
 
@@ -2814,7 +2843,7 @@ The multivector is initialized to zero.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>:
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
                     <p><code>this</code></p>
 
             </div>
@@ -2834,7 +2863,7 @@ The multivector is initialized to zero.</p>
         </div>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
         </span>
 
 
@@ -2847,7 +2876,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l484"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:484</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l461"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:461</code></a>
         </p>
 
 
@@ -2866,7 +2895,7 @@ The multivector is initialized to zero.</p>
             <ul class="params-list">
                 <li class="param">
                         <code class="param-name">m</code>
-                        <span class="type"><a href="../classes/GeometricE3.html" class="crosslink">GeometricE3</a></span>
+                        <span class="type"><a href="../classes/GeometricE2.html" class="crosslink">GeometricE2</a></span>
 
 
                     <div class="param-description">
@@ -2881,7 +2910,7 @@ The multivector is initialized to zero.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>:
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
                     <p><code>this</code></p>
 
             </div>
@@ -2904,7 +2933,7 @@ The multivector is initialized to zero.</p>
         </div>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
         </span>
 
 
@@ -2917,7 +2946,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l524"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:524</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l474"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:474</code></a>
         </p>
 
 
@@ -2936,7 +2965,7 @@ The multivector is initialized to zero.</p>
             <ul class="params-list">
                 <li class="param">
                         <code class="param-name">a</code>
-                        <span class="type"><a href="../classes/GeometricE3.html" class="crosslink">GeometricE3</a></span>
+                        <span class="type"><a href="../classes/GeometricE2.html" class="crosslink">GeometricE2</a></span>
 
 
                     <div class="param-description">
@@ -2946,7 +2975,7 @@ The multivector is initialized to zero.</p>
                 </li>
                 <li class="param">
                         <code class="param-name">b</code>
-                        <span class="type"><a href="../classes/GeometricE3.html" class="crosslink">GeometricE3</a></span>
+                        <span class="type"><a href="../classes/GeometricE2.html" class="crosslink">GeometricE2</a></span>
 
 
                     <div class="param-description">
@@ -2961,7 +2990,7 @@ The multivector is initialized to zero.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>:
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
                     <p><code>this</code></p>
 
             </div>
@@ -2981,7 +3010,7 @@ The multivector is initialized to zero.</p>
         </div>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
         </span>
 
 
@@ -2994,7 +3023,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l503"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:503</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l489"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:489</code></a>
         </p>
 
 
@@ -3028,7 +3057,7 @@ The multivector is initialized to zero.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>:
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
                     <p><code>this</code></p>
 
             </div>
@@ -3048,7 +3077,7 @@ The multivector is initialized to zero.</p>
         </div>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
         </span>
 
 
@@ -3061,7 +3090,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l554"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:554</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l507"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:507</code></a>
         </p>
 
 
@@ -3080,7 +3109,7 @@ The multivector is initialized to zero.</p>
             <ul class="params-list">
                 <li class="param">
                         <code class="param-name">m</code>
-                        <span class="type"><a href="../classes/GeometricE3.html" class="crosslink">GeometricE3</a></span>
+                        <span class="type"><a href="../classes/GeometricE2.html" class="crosslink">GeometricE2</a></span>
 
 
                     <div class="param-description">
@@ -3095,135 +3124,9 @@ The multivector is initialized to zero.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>:
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
                     <p><code>this</code></p>
 
-            </div>
-        </div>
-
-
-</div>
-<div id="method_e1" class="method item">
-    <h3 class="name"><code>e1</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
-        </span>
-
-
-
-
-        <span class="flag static">static</span>
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l1631"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:1631</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>Constructs a basis vector corresponding to the <code>x</code> coordinate.</p>
-
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_e2" class="method item">
-    <h3 class="name"><code>e2</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
-        </span>
-
-
-
-
-        <span class="flag static">static</span>
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l1640"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:1640</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>Constructs a basis vector corresponding to the <code>y</code> coordinate.</p>
-
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_e3" class="method item">
-    <h3 class="name"><code>e3</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
-        </span>
-
-
-
-
-        <span class="flag static">static</span>
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l1649"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:1649</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>Constructs a basis vector corresponding to the <code>z</code> coordinate.</p>
-
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>:
             </div>
         </div>
 
@@ -3235,7 +3138,7 @@ The multivector is initialized to zero.</p>
         <span class="paren">()</span>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
         </span>
 
 
@@ -3248,7 +3151,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l585"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:585</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l529"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:529</code></a>
         </p>
 
 
@@ -3266,7 +3169,74 @@ The multivector is initialized to zero.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>:
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
+                    <p><code>this</code></p>
+
+            </div>
+        </div>
+
+
+</div>
+<div id="method_ext" class="method item">
+    <h3 class="name"><code>ext</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>m</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
+        </span>
+
+
+
+
+
+        <span class="flag chainable">chainable</span>
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l550"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:550</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>
+<code>this ⟼ this ^ m</code>
+</p>
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">m</code>
+                        <span class="type"><a href="../classes/GeometricE2.html" class="crosslink">GeometricE2</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
                     <p><code>this</code></p>
 
             </div>
@@ -3289,7 +3259,7 @@ The multivector is initialized to zero.</p>
         </div>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
         </span>
 
 
@@ -3302,7 +3272,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l1260"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:1260</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l563"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:563</code></a>
         </p>
 
 
@@ -3321,7 +3291,7 @@ The multivector is initialized to zero.</p>
             <ul class="params-list">
                 <li class="param">
                         <code class="param-name">a</code>
-                        <span class="type"><a href="../classes/GeometricE3.html" class="crosslink">GeometricE3</a></span>
+                        <span class="type"><a href="../classes/GeometricE2.html" class="crosslink">GeometricE2</a></span>
 
 
                     <div class="param-description">
@@ -3331,7 +3301,7 @@ The multivector is initialized to zero.</p>
                 </li>
                 <li class="param">
                         <code class="param-name">b</code>
-                        <span class="type"><a href="../classes/GeometricE3.html" class="crosslink">GeometricE3</a></span>
+                        <span class="type"><a href="../classes/GeometricE2.html" class="crosslink">GeometricE2</a></span>
 
 
                     <div class="param-description">
@@ -3346,7 +3316,7 @@ The multivector is initialized to zero.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>:
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
                     <p><code>this</code></p>
 
             </div>
@@ -3366,7 +3336,7 @@ The multivector is initialized to zero.</p>
         </div>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
         </span>
 
 
@@ -3380,7 +3350,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l1686"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:1686</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1628"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1628</code></a>
         </p>
 
 
@@ -3412,7 +3382,7 @@ The multivector is initialized to zero.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>:
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
             </div>
         </div>
 
@@ -3430,7 +3400,7 @@ The multivector is initialized to zero.</p>
         </div>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
         </span>
 
 
@@ -3444,7 +3414,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l1697"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:1697</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1639"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1639</code></a>
         </p>
 
 
@@ -3461,7 +3431,7 @@ The multivector is initialized to zero.</p>
             <ul class="params-list">
                 <li class="param">
                         <code class="param-name">spinor</code>
-                        <span class="type"><a href="../classes/SpinorE3.html" class="crosslink">SpinorE3</a></span>
+                        <span class="type"><a href="../classes/SpinorE2.html" class="crosslink">SpinorE2</a></span>
 
 
                     <div class="param-description">
@@ -3476,7 +3446,7 @@ The multivector is initialized to zero.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>:
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
             </div>
         </div>
 
@@ -3494,7 +3464,7 @@ The multivector is initialized to zero.</p>
         </div>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
         </span>
 
 
@@ -3508,7 +3478,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l1713"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:1713</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1650"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1650</code></a>
         </p>
 
 
@@ -3525,7 +3495,7 @@ The multivector is initialized to zero.</p>
             <ul class="params-list">
                 <li class="param">
                         <code class="param-name">vector</code>
-                        <span class="type"><a href="../classes/VectorE3.html" class="crosslink">VectorE3</a></span>
+                        <span class="type"><a href="../classes/VectorE2.html" class="crosslink">VectorE2</a></span>
 
 
                     <div class="param-description">
@@ -3540,7 +3510,69 @@ The multivector is initialized to zero.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>:
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_getComponent" class="method item inherited">
+    <h3 class="name"><code>getComponent</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>index</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">T</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/VectorN.html#method_getComponent">VectorN</a>:
+        <a href="../files/src_davinci-eight_math_VectorN.ts.html#l99"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;VectorN.ts:99</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">index</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">T</span>:
             </div>
         </div>
 
@@ -3558,7 +3590,7 @@ The multivector is initialized to zero.</p>
         </div>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
         </span>
 
 
@@ -3571,7 +3603,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l1189"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:1189</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1188"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1188</code></a>
         </p>
 
 
@@ -3603,49 +3635,9 @@ The multivector is initialized to zero.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>:
-            </div>
-        </div>
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
+                    <p><code>this</code></p>
 
-
-</div>
-<div id="method_I" class="method item">
-    <h3 class="name"><code>I</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
-        </span>
-
-
-
-
-        <span class="flag static">static</span>
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l1658"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:1658</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>Constructs a basis vector corresponding to the <code>β</code> coordinate.</p>
-
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>:
             </div>
         </div>
 
@@ -3657,7 +3649,7 @@ The multivector is initialized to zero.</p>
         <span class="paren">()</span>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
         </span>
 
 
@@ -3670,7 +3662,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l624"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:624</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l589"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:589</code></a>
         </p>
 
 
@@ -3688,7 +3680,7 @@ The multivector is initialized to zero.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>:
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
                     <p><code>this</code></p>
 
             </div>
@@ -3714,7 +3706,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l639"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:639</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l604"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:604</code></a>
         </p>
 
 
@@ -3754,7 +3746,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l647"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:647</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l612"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:612</code></a>
         </p>
 
 
@@ -3788,7 +3780,7 @@ The multivector is initialized to zero.</p>
         </div>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
         </span>
 
 
@@ -3801,7 +3793,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l360"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:360</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l620"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:620</code></a>
         </p>
 
 
@@ -3820,7 +3812,7 @@ The multivector is initialized to zero.</p>
             <ul class="params-list">
                 <li class="param">
                         <code class="param-name">m</code>
-                        <span class="type"><a href="../classes/GeometricE3.html" class="crosslink">GeometricE3</a></span>
+                        <span class="type"><a href="../classes/GeometricE2.html" class="crosslink">GeometricE2</a></span>
 
 
                     <div class="param-description">
@@ -3835,7 +3827,7 @@ The multivector is initialized to zero.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>:
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
                     <p><code>this</code></p>
 
             </div>
@@ -3858,7 +3850,7 @@ The multivector is initialized to zero.</p>
         </div>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
         </span>
 
 
@@ -3871,7 +3863,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l373"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:373</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l633"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:633</code></a>
         </p>
 
 
@@ -3890,7 +3882,7 @@ The multivector is initialized to zero.</p>
             <ul class="params-list">
                 <li class="param">
                         <code class="param-name">a</code>
-                        <span class="type"><a href="../classes/GeometricE3.html" class="crosslink">GeometricE3</a></span>
+                        <span class="type"><a href="../classes/GeometricE2.html" class="crosslink">GeometricE2</a></span>
 
 
                     <div class="param-description">
@@ -3900,7 +3892,7 @@ The multivector is initialized to zero.</p>
                 </li>
                 <li class="param">
                         <code class="param-name">b</code>
-                        <span class="type"><a href="../classes/GeometricE3.html" class="crosslink">GeometricE3</a></span>
+                        <span class="type"><a href="../classes/GeometricE2.html" class="crosslink">GeometricE2</a></span>
 
 
                     <div class="param-description">
@@ -3915,7 +3907,87 @@ The multivector is initialized to zero.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>:
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
+                    <p><code>this</code></p>
+
+            </div>
+        </div>
+
+
+</div>
+<div id="method_lerp" class="method item">
+    <h3 class="name"><code>lerp</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>target</code>
+                </li>
+                <li class="arg">
+                        <code>α</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
+        </span>
+
+
+
+
+
+        <span class="flag chainable">chainable</span>
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l659"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:659</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>
+<code>this ⟼ this + α * (target - this)</code>
+</p>
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">target</code>
+                        <span class="type"><a href="../classes/GeometricE2.html" class="crosslink">GeometricE2</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">α</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
                     <p><code>this</code></p>
 
             </div>
@@ -3941,7 +4013,7 @@ The multivector is initialized to zero.</p>
         </div>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
         </span>
 
 
@@ -3955,7 +4027,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l1728"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:1728</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1667"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1667</code></a>
         </p>
 
 
@@ -3972,7 +4044,7 @@ The multivector is initialized to zero.</p>
             <ul class="params-list">
                 <li class="param">
                         <code class="param-name">A</code>
-                        <span class="type"><a href="../classes/GeometricE3.html" class="crosslink">GeometricE3</a></span>
+                        <span class="type"><a href="../classes/GeometricE2.html" class="crosslink">GeometricE2</a></span>
 
 
                     <div class="param-description">
@@ -3982,7 +4054,7 @@ The multivector is initialized to zero.</p>
                 </li>
                 <li class="param">
                         <code class="param-name">B</code>
-                        <span class="type"><a href="../classes/GeometricE3.html" class="crosslink">GeometricE3</a></span>
+                        <span class="type"><a href="../classes/GeometricE2.html" class="crosslink">GeometricE2</a></span>
 
 
                     <div class="param-description">
@@ -4007,88 +4079,8 @@ The multivector is initialized to zero.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>:
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
                     <p><code>A + α * (B - A)</code></p>
-
-            </div>
-        </div>
-
-
-</div>
-<div id="method_lerp" class="method item">
-    <h3 class="name"><code>lerp</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>target</code>
-                </li>
-                <li class="arg">
-                        <code>α</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
-        </span>
-
-
-
-
-
-        <span class="flag chainable">chainable</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l655"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:655</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-<code>this ⟼ this + α * (target - this)</code>
-</p>
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">target</code>
-                        <span class="type"><a href="../classes/GeometricE3.html" class="crosslink">GeometricE3</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">α</code>
-                        <span class="type">Number</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>:
-                    <p><code>this</code></p>
 
             </div>
         </div>
@@ -4113,7 +4105,7 @@ The multivector is initialized to zero.</p>
         </div>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
         </span>
 
 
@@ -4126,7 +4118,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l677"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:677</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l679"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:679</code></a>
         </p>
 
 
@@ -4145,7 +4137,7 @@ The multivector is initialized to zero.</p>
             <ul class="params-list">
                 <li class="param">
                         <code class="param-name">a</code>
-                        <span class="type"><a href="../classes/GeometricE3.html" class="crosslink">GeometricE3</a></span>
+                        <span class="type"><a href="../classes/GeometricE2.html" class="crosslink">GeometricE2</a></span>
 
 
                     <div class="param-description">
@@ -4155,7 +4147,7 @@ The multivector is initialized to zero.</p>
                 </li>
                 <li class="param">
                         <code class="param-name">b</code>
-                        <span class="type"><a href="../classes/GeometricE3.html" class="crosslink">GeometricE3</a></span>
+                        <span class="type"><a href="../classes/GeometricE2.html" class="crosslink">GeometricE2</a></span>
 
 
                     <div class="param-description">
@@ -4180,7 +4172,7 @@ The multivector is initialized to zero.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>:
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
                     <p><code>this</code></p>
 
             </div>
@@ -4194,7 +4186,7 @@ The multivector is initialized to zero.</p>
         <span class="paren">()</span>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
         </span>
 
 
@@ -4207,7 +4199,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l693"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:693</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l698"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:698</code></a>
         </p>
 
 
@@ -4216,7 +4208,7 @@ The multivector is initialized to zero.</p>
 
     <div class="description">
         <p>
-<code>this ⟼ log(this)</code>
+<code>this ⟼ log(sqrt(w * w + β * β)) + <b>e</b><sub>1</sub><b>e</b><sub>2</sub> * atan2(β, w)</code>
 </p>
     </div>
 
@@ -4225,7 +4217,7 @@ The multivector is initialized to zero.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>:
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
                     <p><code>this</code></p>
 
             </div>
@@ -4239,7 +4231,7 @@ The multivector is initialized to zero.</p>
         <span class="paren">()</span>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
         </span>
 
 
@@ -4251,7 +4243,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l716"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:716</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l717"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:717</code></a>
         </p>
 
 
@@ -4268,7 +4260,7 @@ The multivector is initialized to zero.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>:
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
             </div>
         </div>
 
@@ -4286,7 +4278,7 @@ The multivector is initialized to zero.</p>
         </div>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
         </span>
 
 
@@ -4299,7 +4291,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l732"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:732</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l730"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:730</code></a>
         </p>
 
 
@@ -4318,7 +4310,7 @@ The multivector is initialized to zero.</p>
             <ul class="params-list">
                 <li class="param">
                         <code class="param-name">m</code>
-                        <span class="type"><a href="../classes/GeometricE3.html" class="crosslink">GeometricE3</a></span>
+                        <span class="type"><a href="../classes/GeometricE2.html" class="crosslink">GeometricE2</a></span>
 
 
                     <div class="param-description">
@@ -4333,7 +4325,7 @@ The multivector is initialized to zero.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>:
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
                     <p><code>this</code></p>
 
             </div>
@@ -4356,7 +4348,7 @@ The multivector is initialized to zero.</p>
         </div>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
         </span>
 
 
@@ -4369,7 +4361,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l745"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:745</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l743"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:743</code></a>
         </p>
 
 
@@ -4388,7 +4380,7 @@ The multivector is initialized to zero.</p>
             <ul class="params-list">
                 <li class="param">
                         <code class="param-name">a</code>
-                        <span class="type"><a href="../classes/GeometricE3.html" class="crosslink">GeometricE3</a></span>
+                        <span class="type"><a href="../classes/GeometricE2.html" class="crosslink">GeometricE2</a></span>
 
 
                     <div class="param-description">
@@ -4398,7 +4390,7 @@ The multivector is initialized to zero.</p>
                 </li>
                 <li class="param">
                         <code class="param-name">b</code>
-                        <span class="type"><a href="../classes/GeometricE3.html" class="crosslink">GeometricE3</a></span>
+                        <span class="type"><a href="../classes/GeometricE2.html" class="crosslink">GeometricE2</a></span>
 
 
                     <div class="param-description">
@@ -4413,7 +4405,7 @@ The multivector is initialized to zero.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>:
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
                     <p><code>this</code></p>
 
             </div>
@@ -4427,7 +4419,7 @@ The multivector is initialized to zero.</p>
         <span class="paren">()</span>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
         </span>
 
 
@@ -4440,7 +4432,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l759"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:759</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l769"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:769</code></a>
         </p>
 
 
@@ -4458,7 +4450,7 @@ The multivector is initialized to zero.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>:
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
                     <p><code>this</code></p>
 
             </div>
@@ -4472,7 +4464,7 @@ The multivector is initialized to zero.</p>
         <span class="paren">()</span>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
         </span>
 
 
@@ -4485,7 +4477,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l779"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:779</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l785"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:785</code></a>
         </p>
 
 
@@ -4503,7 +4495,7 @@ The multivector is initialized to zero.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>:
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
                     <p><code>this</code></p>
 
             </div>
@@ -4517,50 +4509,7 @@ The multivector is initialized to zero.</p>
         <span class="paren">()</span>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
-        </span>
-
-
-
-
-        <span class="flag static">static</span>
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l1621"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:1621</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>Constructs a G3m representing the number one.
-The identity element for multiplication, <b>1</b>.</p>
-
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_one" class="method item">
-    <h3 class="name"><code>one</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
         </span>
 
 
@@ -4573,7 +4522,7 @@ The identity element for multiplication, <b>1</b>.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l822"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:822</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l801"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:801</code></a>
         </p>
 
 
@@ -4590,7 +4539,109 @@ The identity element for multiplication, <b>1</b>.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>:
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_pop" class="method item inherited">
+    <h3 class="name"><code>pop</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">T</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/VectorN.html#method_pop">VectorN</a>:
+        <a href="../files/src_davinci-eight_math_VectorN.ts.html#l108"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;VectorN.ts:108</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">T</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_push" class="method item inherited">
+    <h3 class="name"><code>push</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>value</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">Number</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/VectorN.html#method_push">VectorN</a>:
+        <a href="../files/src_davinci-eight_math_VectorN.ts.html#l121"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;VectorN.ts:121</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">value</code>
+                        <span class="type">T</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Number</span>:
             </div>
         </div>
 
@@ -4602,7 +4653,7 @@ The identity element for multiplication, <b>1</b>.</p>
         <span class="paren">()</span>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
         </span>
 
 
@@ -4615,7 +4666,7 @@ The identity element for multiplication, <b>1</b>.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l841"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:841</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l819"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:819</code></a>
         </p>
 
 
@@ -4624,6 +4675,9 @@ The identity element for multiplication, <b>1</b>.</p>
 
     <div class="description">
         <p>
+Updates <code>this</code> target to be the <em>quad</em> or <em>squared norm</em> of the target.
+</p>
+<p>
 <code>this ⟼ scp(this, rev(this)) = this | ~this</code>
 </p>
     </div>
@@ -4633,9 +4687,97 @@ The identity element for multiplication, <b>1</b>.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>:
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
                     <p><code>this</code></p>
 
+            </div>
+        </div>
+
+
+</div>
+<div id="method_quadraticBezier" class="method item">
+    <h3 class="name"><code>quadraticBezier</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>t</code>
+                </li>
+                <li class="arg">
+                        <code>controlPoint</code>
+                </li>
+                <li class="arg">
+                        <code>endPoint</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l838"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:838</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">t</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">controlPoint</code>
+                        <span class="type"><a href="../classes/GeometricE2.html" class="crosslink">GeometricE2</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">endPoint</code>
+                        <span class="type"><a href="../classes/GeometricE2.html" class="crosslink">GeometricE2</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
             </div>
         </div>
 
@@ -4653,7 +4795,7 @@ The identity element for multiplication, <b>1</b>.</p>
         </div>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
         </span>
 
 
@@ -4666,7 +4808,7 @@ The identity element for multiplication, <b>1</b>.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l387"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:387</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l857"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:857</code></a>
         </p>
 
 
@@ -4685,7 +4827,7 @@ The identity element for multiplication, <b>1</b>.</p>
             <ul class="params-list">
                 <li class="param">
                         <code class="param-name">m</code>
-                        <span class="type"><a href="../classes/GeometricE3.html" class="crosslink">GeometricE3</a></span>
+                        <span class="type"><a href="../classes/GeometricE2.html" class="crosslink">GeometricE2</a></span>
 
 
                     <div class="param-description">
@@ -4700,7 +4842,7 @@ The identity element for multiplication, <b>1</b>.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>:
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
                     <p><code>this</code></p>
 
             </div>
@@ -4723,7 +4865,7 @@ The identity element for multiplication, <b>1</b>.</p>
         </div>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
         </span>
 
 
@@ -4736,7 +4878,7 @@ The identity element for multiplication, <b>1</b>.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l400"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:400</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l870"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:870</code></a>
         </p>
 
 
@@ -4755,7 +4897,7 @@ The identity element for multiplication, <b>1</b>.</p>
             <ul class="params-list">
                 <li class="param">
                         <code class="param-name">a</code>
-                        <span class="type"><a href="../classes/GeometricE3.html" class="crosslink">GeometricE3</a></span>
+                        <span class="type"><a href="../classes/GeometricE2.html" class="crosslink">GeometricE2</a></span>
 
 
                     <div class="param-description">
@@ -4765,7 +4907,7 @@ The identity element for multiplication, <b>1</b>.</p>
                 </li>
                 <li class="param">
                         <code class="param-name">b</code>
-                        <span class="type"><a href="../classes/GeometricE3.html" class="crosslink">GeometricE3</a></span>
+                        <span class="type"><a href="../classes/GeometricE2.html" class="crosslink">GeometricE2</a></span>
 
 
                     <div class="param-description">
@@ -4780,7 +4922,7 @@ The identity element for multiplication, <b>1</b>.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>:
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
                     <p><code>this</code></p>
 
             </div>
@@ -4800,7 +4942,7 @@ The identity element for multiplication, <b>1</b>.</p>
         </div>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
         </span>
 
 
@@ -4813,7 +4955,7 @@ The identity element for multiplication, <b>1</b>.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l874"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:874</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l896"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:896</code></a>
         </p>
 
 
@@ -4832,7 +4974,7 @@ The identity element for multiplication, <b>1</b>.</p>
             <ul class="params-list">
                 <li class="param">
                         <code class="param-name">n</code>
-                        <span class="type"><a href="../classes/VectorE3.html" class="crosslink">VectorE3</a></span>
+                        <span class="type"><a href="../classes/VectorE2.html" class="crosslink">VectorE2</a></span>
 
 
                     <div class="param-description">
@@ -4847,7 +4989,7 @@ The identity element for multiplication, <b>1</b>.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>:
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
                     <p><code>this</code></p>
 
             </div>
@@ -4861,7 +5003,7 @@ The identity element for multiplication, <b>1</b>.</p>
         <span class="paren">()</span>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
         </span>
 
 
@@ -4874,7 +5016,7 @@ The identity element for multiplication, <b>1</b>.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l892"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:892</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l915"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:915</code></a>
         </p>
 
 
@@ -4892,7 +5034,7 @@ The identity element for multiplication, <b>1</b>.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>:
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
                     <p><code>this</code></p>
 
             </div>
@@ -4912,7 +5054,7 @@ The identity element for multiplication, <b>1</b>.</p>
         </div>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
         </span>
 
 
@@ -4925,7 +5067,7 @@ The identity element for multiplication, <b>1</b>.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l922"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:922</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l940"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:940</code></a>
         </p>
 
 
@@ -4944,7 +5086,7 @@ The identity element for multiplication, <b>1</b>.</p>
             <ul class="params-list">
                 <li class="param">
                         <code class="param-name">R</code>
-                        <span class="type"><a href="../classes/SpinorE3.html" class="crosslink">SpinorE3</a></span>
+                        <span class="type"><a href="../classes/SpinorE2.html" class="crosslink">SpinorE2</a></span>
 
 
                     <div class="param-description">
@@ -4959,87 +5101,7 @@ The identity element for multiplication, <b>1</b>.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>:
-                    <p><code>this</code></p>
-
-            </div>
-        </div>
-
-
-</div>
-<div id="method_rotorFromAxisAngle" class="method item">
-    <h3 class="name"><code>rotorFromAxisAngle</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>axis</code>
-                </li>
-                <li class="arg">
-                        <code>θ</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
-        </span>
-
-
-
-
-
-        <span class="flag chainable">chainable</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l992"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:992</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-<code>this = ⟼ exp(- dual(a) * θ / 2)</code>
-</p>
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">axis</code>
-                        <span class="type"><a href="../classes/VectorE3.html" class="crosslink">VectorE3</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">θ</code>
-                        <span class="type">Number</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>:
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
                     <p><code>this</code></p>
 
             </div>
@@ -5062,7 +5124,88 @@ The identity element for multiplication, <b>1</b>.</p>
         </div>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
+        </span>
+
+
+
+
+
+        <span class="flag chainable">chainable</span>
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l967"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:967</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Sets this multivector to a rotation from vector <code>a</code> to vector <code>b</code>.</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">a</code>
+                        <span class="type"><a href="../classes/VectorE2.html" class="crosslink">VectorE2</a></span>
+
+
+                    <div class="param-description">
+                        <p>The starting vector</p>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">b</code>
+                        <span class="type"><a href="../classes/VectorE2.html" class="crosslink">VectorE2</a></span>
+
+
+                    <div class="param-description">
+                        <p>The ending vector</p>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
+                    <p><code>this</code> The rotor representing a rotation from a to b.</p>
+
+            </div>
+        </div>
+
+
+</div>
+<div id="method_rotorFromDirections" class="method item">
+    <h3 class="name"><code>rotorFromDirections</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>a</code>
+                </li>
+                <li class="arg">
+                        <code>b</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
         </span>
 
 
@@ -5070,12 +5213,13 @@ The identity element for multiplication, <b>1</b>.</p>
 
         <span class="flag static">static</span>
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l1741"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:1741</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1681"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1681</code></a>
         </p>
 
 
@@ -5093,7 +5237,7 @@ The identity element for multiplication, <b>1</b>.</p>
             <ul class="params-list">
                 <li class="param">
                         <code class="param-name">a</code>
-                        <span class="type"><a href="../classes/VectorE3.html" class="crosslink">VectorE3</a></span>
+                        <span class="type"><a href="../classes/VectorE2.html" class="crosslink">VectorE2</a></span>
 
 
                     <div class="param-description">
@@ -5104,7 +5248,7 @@ The identity element for multiplication, <b>1</b>.</p>
                 </li>
                 <li class="param">
                         <code class="param-name">b</code>
-                        <span class="type"><a href="../classes/VectorE3.html" class="crosslink">VectorE3</a></span>
+                        <span class="type"><a href="../classes/VectorE2.html" class="crosslink">VectorE2</a></span>
 
 
                     <div class="param-description">
@@ -5120,90 +5264,7 @@ The identity element for multiplication, <b>1</b>.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_rotorFromDirections" class="method item">
-    <h3 class="name"><code>rotorFromDirections</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>b</code>
-                </li>
-                <li class="arg">
-                        <code>a</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
-        </span>
-
-
-
-
-
-        <span class="flag chainable">chainable</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l954"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:954</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-Computes a rotor, R, from two unit vectors, where
-R = (1 + b * a) / sqrt(2 * (1 + b << a))
-</p>
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">b</code>
-                        <span class="type"><a href="../classes/VectorE3.html" class="crosslink">VectorE3</a></span>
-
-
-                    <div class="param-description">
-                        <p>The ending unit vector</p>
-
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">a</code>
-                        <span class="type"><a href="../classes/VectorE3.html" class="crosslink">VectorE3</a></span>
-
-
-                    <div class="param-description">
-                        <p>The starting unit vector</p>
-
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>:
-                    <p><code>this</code> The rotor representing a rotation from a to b.</p>
-
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
             </div>
         </div>
 
@@ -5224,20 +5285,19 @@ R = (1 + b * a) / sqrt(2 * (1 + b << a))
         </div>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
         </span>
 
 
 
 
 
-        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l1014"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:1014</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l981"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:981</code></a>
         </p>
 
 
@@ -5256,7 +5316,7 @@ R = (1 + b * a) / sqrt(2 * (1 + b << a))
             <ul class="params-list">
                 <li class="param">
                         <code class="param-name">B</code>
-                        <span class="type"><a href="../classes/SpinorE3.html" class="crosslink">SpinorE3</a></span>
+                        <span class="type"><a href="../classes/SpinorE2.html" class="crosslink">SpinorE2</a></span>
 
 
                     <div class="param-description">
@@ -5270,8 +5330,7 @@ R = (1 + b * a) / sqrt(2 * (1 + b << a))
 
 
                     <div class="param-description">
-                        <p>The rotation angle when applied on both sides: R M ~R</p>
-
+                         
                     </div>
 
                 </li>
@@ -5282,7 +5341,7 @@ R = (1 + b * a) / sqrt(2 * (1 + b << a))
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>:
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
                     <p><code>this</code></p>
 
             </div>
@@ -5311,7 +5370,7 @@ R = (1 + b * a) / sqrt(2 * (1 + b << a))
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l1062"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:1062</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1049"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1049</code></a>
         </p>
 
 
@@ -5344,6 +5403,73 @@ R = (1 + b * a) / sqrt(2 * (1 + b << a))
 
 
 </div>
+<div id="method_scp" class="method item">
+    <h3 class="name"><code>scp</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>m</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
+        </span>
+
+
+
+
+
+        <span class="flag chainable">chainable</span>
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1018"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1018</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>
+<code>this ⟼ scp(this, m)</code>
+</p>
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">m</code>
+                        <span class="type"><a href="../classes/GeometricE2.html" class="crosslink">GeometricE2</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
+                    <p><code>this</code></p>
+
+            </div>
+        </div>
+
+
+</div>
 <div id="method_scp2" class="method item">
     <h3 class="name"><code>scp2</code></h3>
 
@@ -5359,7 +5485,7 @@ R = (1 + b * a) / sqrt(2 * (1 + b << a))
         </div>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
         </span>
 
 
@@ -5372,7 +5498,7 @@ R = (1 + b * a) / sqrt(2 * (1 + b << a))
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l1048"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:1048</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1031"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1031</code></a>
         </p>
 
 
@@ -5391,7 +5517,7 @@ R = (1 + b * a) / sqrt(2 * (1 + b << a))
             <ul class="params-list">
                 <li class="param">
                         <code class="param-name">a</code>
-                        <span class="type"><a href="../classes/GeometricE3.html" class="crosslink">GeometricE3</a></span>
+                        <span class="type"><a href="../classes/GeometricE2.html" class="crosslink">GeometricE2</a></span>
 
 
                     <div class="param-description">
@@ -5401,7 +5527,7 @@ R = (1 + b * a) / sqrt(2 * (1 + b << a))
                 </li>
                 <li class="param">
                         <code class="param-name">b</code>
-                        <span class="type"><a href="../classes/GeometricE3.html" class="crosslink">GeometricE3</a></span>
+                        <span class="type"><a href="../classes/GeometricE2.html" class="crosslink">GeometricE2</a></span>
 
 
                     <div class="param-description">
@@ -5416,9 +5542,84 @@ R = (1 + b * a) / sqrt(2 * (1 + b << a))
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>:
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
                     <p><code>this</code></p>
 
+            </div>
+        </div>
+
+
+</div>
+<div id="method_setComponent" class="method item inherited">
+    <h3 class="name"><code>setComponent</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>index</code>
+                </li>
+                <li class="arg">
+                        <code>value</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/VectorN.html#method_setComponent">VectorN</a>:
+        <a href="../files/src_davinci-eight_math_VectorN.ts.html#l138"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;VectorN.ts:138</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">index</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">value</code>
+                        <span class="type">T</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Void</span>:
             </div>
         </div>
 
@@ -5430,7 +5631,7 @@ R = (1 + b * a) / sqrt(2 * (1 + b << a))
         <span class="paren">()</span>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
+            <span class="type">Number</span>
         </span>
 
 
@@ -5442,7 +5643,7 @@ R = (1 + b * a) / sqrt(2 * (1 + b << a))
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l853"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:853</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1096"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1096</code></a>
         </p>
 
 
@@ -5450,7 +5651,7 @@ R = (1 + b * a) / sqrt(2 * (1 + b << a))
     </div>
 
     <div class="description">
-        <p>Computes the <em>squared norm</em> of this multivector.</p>
+        <p>Computes the <em>squared norm</em> of this <code>Geometric2</code> multivector.</p>
 
     </div>
 
@@ -5459,8 +5660,8 @@ R = (1 + b * a) / sqrt(2 * (1 + b << a))
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>:
-                    <p><code>this * conj(this)</code></p>
+                        <span class="type">Number</span>:
+                    <p><code>this | ~this</code></p>
 
             </div>
         </div>
@@ -5482,7 +5683,7 @@ R = (1 + b * a) / sqrt(2 * (1 + b << a))
         </div>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
         </span>
 
 
@@ -5495,7 +5696,7 @@ R = (1 + b * a) / sqrt(2 * (1 + b << a))
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l1114"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:1114</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1117"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1117</code></a>
         </p>
 
 
@@ -5514,7 +5715,7 @@ R = (1 + b * a) / sqrt(2 * (1 + b << a))
             <ul class="params-list">
                 <li class="param">
                         <code class="param-name">M</code>
-                        <span class="type"><a href="../classes/GeometricE3.html" class="crosslink">GeometricE3</a></span>
+                        <span class="type"><a href="../classes/GeometricE2.html" class="crosslink">GeometricE2</a></span>
 
 
                     <div class="param-description">
@@ -5540,7 +5741,7 @@ R = (1 + b * a) / sqrt(2 * (1 + b << a))
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>:
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
                     <p><code>this</code></p>
 
             </div>
@@ -5563,7 +5764,7 @@ R = (1 + b * a) / sqrt(2 * (1 + b << a))
         </div>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
         </span>
 
 
@@ -5576,7 +5777,7 @@ R = (1 + b * a) / sqrt(2 * (1 + b << a))
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l1136"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:1136</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1137"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1137</code></a>
         </p>
 
 
@@ -5595,7 +5796,7 @@ R = (1 + b * a) / sqrt(2 * (1 + b << a))
             <ul class="params-list">
                 <li class="param">
                         <code class="param-name">a</code>
-                        <span class="type"><a href="../classes/GeometricE3.html" class="crosslink">GeometricE3</a></span>
+                        <span class="type"><a href="../classes/GeometricE2.html" class="crosslink">GeometricE2</a></span>
 
 
                     <div class="param-description">
@@ -5605,7 +5806,7 @@ R = (1 + b * a) / sqrt(2 * (1 + b << a))
                 </li>
                 <li class="param">
                         <code class="param-name">b</code>
-                        <span class="type"><a href="../classes/GeometricE3.html" class="crosslink">GeometricE3</a></span>
+                        <span class="type"><a href="../classes/GeometricE2.html" class="crosslink">GeometricE2</a></span>
 
 
                     <div class="param-description">
@@ -5620,9 +5821,86 @@ R = (1 + b * a) / sqrt(2 * (1 + b << a))
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>:
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
                     <p><code>this</code></p>
 
+            </div>
+        </div>
+
+
+</div>
+<div id="method_toArray" class="method item inherited">
+    <h3 class="name"><code>toArray</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code class="optional">[array = []]</code>
+                </li>
+                <li class="arg">
+                        <code class="optional">[offset = 0]</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">T</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/VectorN.html#method_toArray">VectorN</a>:
+        <a href="../files/src_davinci-eight_math_VectorN.ts.html#l154"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;VectorN.ts:154</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name optional">[array = []]</code>
+                        <span class="type">T</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name optional">[offset = 0]</code>
+                        <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">T</span>:
             </div>
         </div>
 
@@ -5646,7 +5924,7 @@ R = (1 + b * a) / sqrt(2 * (1 + b << a))
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l1158"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:1158</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1157"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1157</code></a>
         </p>
 
 
@@ -5693,7 +5971,7 @@ R = (1 + b * a) / sqrt(2 * (1 + b << a))
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l1168"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:1168</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1167"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1167</code></a>
         </p>
 
 
@@ -5733,6 +6011,46 @@ R = (1 + b * a) / sqrt(2 * (1 + b << a))
 
 
 </div>
+<div id="method_toLocaleString" class="method item inherited">
+    <h3 class="name"><code>toLocaleString</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">String</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/VectorN.html#method_toLocaleString">VectorN</a>:
+        <a href="../files/src_davinci-eight_math_VectorN.ts.html#l169"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;VectorN.ts:169</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">String</span>:
+            </div>
+        </div>
+
+
+</div>
 <div id="method_toString" class="method item">
     <h3 class="name"><code>toString</code></h3>
 
@@ -5749,9 +6067,12 @@ R = (1 + b * a) / sqrt(2 * (1 + b << a))
 
 
     <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l1179"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:1179</code></a>
+            <p>Inherited from
+            <a href="../classes/VectorN.html#method_toString">
+                VectorN
+            </a>
+            but overwritten in
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1178"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1178</code></a>
         </p>
 
 
@@ -5785,17 +6106,11 @@ R = (1 + b * a) / sqrt(2 * (1 + b << a))
                 <li class="arg">
                         <code>y</code>
                 </li>
-                <li class="arg">
-                        <code>z</code>
-                </li>
-                <li class="arg">
-                        <code class="optional">[uom]</code>
-                </li>
             </ul><span class="paren">)</span>
         </div>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
         </span>
 
 
@@ -5808,7 +6123,7 @@ R = (1 + b * a) / sqrt(2 * (1 + b << a))
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l1753"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:1753</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1694"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1694</code></a>
         </p>
 
 
@@ -5843,28 +6158,6 @@ R = (1 + b * a) / sqrt(2 * (1 + b << a))
                     </div>
 
                 </li>
-                <li class="param">
-                        <code class="param-name">z</code>
-                        <span class="type">Number</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name optional">[uom]</code>
-                        <span class="type">Object</span>
-                        <span class="flag optional" title="This parameter is optional.">optional</span>
-
-
-                    <div class="param-description">
-                        <p>Unit</p>
-
-                    </div>
-
-                </li>
             </ul>
         </div>
 
@@ -5872,7 +6165,7 @@ R = (1 + b * a) / sqrt(2 * (1 + b << a))
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>:
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
             </div>
         </div>
 
@@ -5893,7 +6186,7 @@ R = (1 + b * a) / sqrt(2 * (1 + b << a))
         </div>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
         </span>
 
 
@@ -5905,7 +6198,7 @@ R = (1 + b * a) / sqrt(2 * (1 + b << a))
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l1086"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:1086</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1071"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1071</code></a>
         </p>
 
 
@@ -5914,9 +6207,9 @@ R = (1 + b * a) / sqrt(2 * (1 + b << a))
 
     <div class="description">
         <p>
-<code>this ⟼ a * b</code>
+<code>this ⟼ a * b = a · b + a ^ b</code>
 </p>
-Sets this G3m to the geometric product a * b of the vector arguments.
+Sets this Geometric2 to the geometric product a * b of the vector arguments.
     </div>
 
         <div class="params">
@@ -5925,7 +6218,7 @@ Sets this G3m to the geometric product a * b of the vector arguments.
             <ul class="params-list">
                 <li class="param">
                         <code class="param-name">a</code>
-                        <span class="type"><a href="../classes/VectorE3.html" class="crosslink">VectorE3</a></span>
+                        <span class="type"><a href="../classes/VectorE2.html" class="crosslink">VectorE2</a></span>
 
 
                     <div class="param-description">
@@ -5935,7 +6228,7 @@ Sets this G3m to the geometric product a * b of the vector arguments.
                 </li>
                 <li class="param">
                         <code class="param-name">b</code>
-                        <span class="type"><a href="../classes/VectorE3.html" class="crosslink">VectorE3</a></span>
+                        <span class="type"><a href="../classes/VectorE2.html" class="crosslink">VectorE2</a></span>
 
 
                     <div class="param-description">
@@ -5950,74 +6243,7 @@ Sets this G3m to the geometric product a * b of the vector arguments.
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>:
-                    <p><code>this</code></p>
-
-            </div>
-        </div>
-
-
-</div>
-<div id="method_wedge" class="method item">
-    <h3 class="name"><code>wedge</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>m</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
-        </span>
-
-
-
-
-
-        <span class="flag chainable">chainable</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l1247"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:1247</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-<code>this ⟼ this ^ m</code>
-</p>
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">m</code>
-                        <span class="type"><a href="../classes/GeometricE3.html" class="crosslink">GeometricE3</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>:
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
                     <p><code>this</code></p>
 
             </div>
@@ -6031,7 +6257,7 @@ Sets this G3m to the geometric product a * b of the vector arguments.
         <span class="paren">()</span>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
         </span>
 
 
@@ -6044,7 +6270,7 @@ Sets this G3m to the geometric product a * b of the vector arguments.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l1274"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:1274</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1224"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1224</code></a>
         </p>
 
 
@@ -6061,50 +6287,7 @@ Sets this G3m to the geometric product a * b of the vector arguments.
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_zero" class="method item">
-    <h3 class="name"><code>zero</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>
-        </span>
-
-
-
-
-        <span class="flag static">static</span>
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l1611"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:1611</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>Constructs a G3m representing the number zero.
-The identity element for addition, <b>0</b>.</p>
-
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/G3m.html" class="crosslink">G3m</a></span>:
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
             </div>
         </div>
 
@@ -6115,6 +6298,56 @@ The identity element for addition, <b>0</b>.</p>
             <div id="properties" class="api-class-tabpanel">
                 <h2 class="off-left">Properties</h2>
 
+<div id="property__coords" class="property item protected inherited">
+    <h3 class="name"><code>_coords</code></h3>
+    <span class="type">Number</span>
+
+
+        <span class="flag protected">protected</span>
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/VectorN.html#property__coords">VectorN</a>:
+        <a href="../files/src_davinci-eight_math_VectorN.ts.html#l37"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;VectorN.ts:37</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property__size" class="property item private inherited">
+    <h3 class="name"><code>_size</code></h3>
+    <span class="type">Number</span>
+
+
+        <span class="flag private">private</span>
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/VectorN.html#property__size">VectorN</a>:
+        <a href="../files/src_davinci-eight_math_VectorN.ts.html#l30"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;VectorN.ts:30</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
 <div id="property_alpha" class="property item">
     <h3 class="name"><code>alpha</code></h3>
     <span class="type">Number</span>
@@ -6126,15 +6359,39 @@ The identity element for addition, <b>0</b>.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l125"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:125</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l140"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:140</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        <p>The scalar part of this multivector.</p>
+        <p>The coordinate corresponding to the unit standard basis scalar.</p>
 
+    </div>
+
+
+
+</div>
+<div id="property_BASIS_LABELS" class="property item">
+    <h3 class="name"><code>BASIS_LABELS</code></h3>
+    <span class="type">(string | string)[]</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l102"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:102</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
     </div>
 
 
@@ -6151,33 +6408,80 @@ The identity element for addition, <b>0</b>.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l221"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:221</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l192"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:192</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        <p>The pseudoscalar part of this multivector.</p>
+        <p>The coordinate corresponding to the <b>e</b><sub>1</sub><b>e</b><sub>2</sub> standard basis bivector.</p>
 
     </div>
 
 
 
 </div>
-<div id="property_eventBus" class="property item private">
-    <h3 class="name"><code>eventBus</code></h3>
-    <span class="type">EventEmitter</span>
+<div id="property_data" class="property item inherited">
+    <h3 class="name"><code>data</code></h3>
+    <span class="type">T</span>
 
 
-        <span class="flag private">private</span>
 
 
 
     <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l73"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:73</code></a>
+                <p>Inherited from
+                <a href="../classes/VectorN.html#property_data">VectorN</a>:
+        <a href="../files/src_davinci-eight_math_VectorN.ts.html#l70"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;VectorN.ts:70</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_length" class="property item inherited">
+    <h3 class="name"><code>length</code></h3>
+    <span class="type">Number</span>
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/VectorN.html#property_length">VectorN</a>:
+        <a href="../files/src_davinci-eight_math_VectorN.ts.html#l82"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;VectorN.ts:82</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_modified" class="property item inherited">
+    <h3 class="name"><code>modified</code></h3>
+    <span class="type">Boolean</span>
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/VectorN.html#property_modified">VectorN</a>:
+        <a href="../files/src_davinci-eight_math_VectorN.ts.html#l44"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;VectorN.ts:44</code></a>
         </p>
 
 
@@ -6199,19 +6503,17 @@ The identity element for addition, <b>0</b>.</p>
 
 
     <div class="meta">
-            <p>Inherited from
-            <a href="../classes/VectorE3.html#property_uom">
-                VectorE3
-            </a>
-            but overwritten in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l67"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:67</code></a>
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l108"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:108</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        
+        <p>The optional unit of measure.</p>
+
     </div>
 
 
@@ -6226,12 +6528,9 @@ The identity element for addition, <b>0</b>.</p>
 
 
     <div class="meta">
-            <p>Inherited from
-            <a href="../classes/VectorE3.html#property_x">
-                VectorE3
-            </a>
-            but overwritten in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l137"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:137</code></a>
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l153"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:153</code></a>
         </p>
 
 
@@ -6239,31 +6538,6 @@ The identity element for addition, <b>0</b>.</p>
 
     <div class="description">
         <p>The coordinate corresponding to the <b>e</b><sub>1</sub> standard basis vector.</p>
-
-    </div>
-
-
-
-</div>
-<div id="property_xy" class="property item">
-    <h3 class="name"><code>xy</code></h3>
-    <span class="type">Number</span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l197"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:197</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>The coordinate corresponding to the <b>e</b><sub>1</sub><b>e</b><sub>2</sub> standard basis bivector.</p>
 
     </div>
 
@@ -6279,12 +6553,9 @@ The identity element for addition, <b>0</b>.</p>
 
 
     <div class="meta">
-            <p>Inherited from
-            <a href="../classes/VectorE3.html#property_y">
-                VectorE3
-            </a>
-            but overwritten in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l149"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:149</code></a>
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l166"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:166</code></a>
         </p>
 
 
@@ -6292,84 +6563,6 @@ The identity element for addition, <b>0</b>.</p>
 
     <div class="description">
         <p>The coordinate corresponding to the <b>e</b><sub>2</sub> standard basis vector.</p>
-
-    </div>
-
-
-
-</div>
-<div id="property_yz" class="property item">
-    <h3 class="name"><code>yz</code></h3>
-    <span class="type">Number</span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l173"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:173</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>The coordinate corresponding to the <b>e</b><sub>2</sub><b>e</b><sub>3</sub> standard basis bivector.</p>
-
-    </div>
-
-
-
-</div>
-<div id="property_z" class="property item">
-    <h3 class="name"><code>z</code></h3>
-    <span class="type">Number</span>
-
-
-
-
-
-    <div class="meta">
-            <p>Inherited from
-            <a href="../classes/VectorE3.html#property_z">
-                VectorE3
-            </a>
-            but overwritten in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l161"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:161</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>The coordinate corresponding to the <b>e</b><sub>3</sub> standard basis vector.</p>
-
-    </div>
-
-
-
-</div>
-<div id="property_zx" class="property item">
-    <h3 class="name"><code>zx</code></h3>
-    <span class="type">Number</span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l185"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:185</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>The coordinate corresponding to the <b>e</b><sub>3</sub><b>e</b><sub>1</sub> standard basis bivector.</p>
 
     </div>
 
@@ -6387,14 +6580,14 @@ The identity element for addition, <b>0</b>.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l113"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:113</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l127"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:127</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        <p>The scalar part of this multivector.</p>
+        <p>The coordinate corresponding to the unit standard basis scalar.</p>
 
     </div>
 
@@ -6412,14 +6605,14 @@ The identity element for addition, <b>0</b>.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3m.ts.html#l209"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3m.ts:209</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l179"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:179</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        <p>The pseudoscalar part of this multivector.</p>
+        <p>The coordinate corresponding to the <b>e</b><sub>1</sub><b>e</b><sub>2</sub> standard basis bivector.</p>
 
     </div>
 

@@ -1,4 +1,4 @@
-import G2m from '../math/G2m';
+import Geometric2 from '../math/Geometric2';
 import Vector2 from '../math/Vector2';
 import Spinor2 from '../math/Spinor2';
 import readOnly from '../i18n/readOnly';
@@ -31,8 +31,8 @@ export default class ModelE2 {
      */
     public static PROP_POSITION = 'X';
 
-    private _position = new G2m().zero();
-    private _attitude = new G2m().zero().addScalar(1);
+    private _position = new Geometric2().zero();
+    private _attitude = new Geometric2().zero().addScalar(1);
     /**
      * Used for exchanging number[] data to achieve integrity and avoid lots of temporaries.
      * @property _posCache
@@ -70,10 +70,10 @@ export default class ModelE2 {
      * The <em>attitude</em>, a unitary spinor.
      * </p>
      * @property R
-     * @type G2m
+     * @type Geometric2
      * @readOnly
      */
-    get R(): G2m {
+    get R(): Geometric2 {
         return this._attitude
     }
     set R(unused) {
@@ -87,10 +87,10 @@ export default class ModelE2 {
      * </p>
      *
      * @property X
-     * @type G2m
+     * @type Geometric2
      * @readOnly
      */
-    get X(): G2m {
+    get X(): Geometric2 {
         return this._position
     }
     set X(unused) {

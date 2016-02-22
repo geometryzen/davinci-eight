@@ -20,41 +20,20 @@ define(["require", "exports", '../checks/isDefined', '../checks/isUndefined', '.
             this.modified = modified;
             if (isDefined_1.default(size)) {
                 this._size = size;
-                this._data = data;
+                this._coords = data;
                 mustSatisfy_1.default('data.length', data.length === size, function () { return "" + size; });
             }
             else {
                 this._size = void 0;
-                this._data = data;
+                this._coords = data;
             }
         }
         Object.defineProperty(VectorN.prototype, "coords", {
             get: function () {
-                if (this._data) {
-                    return this._data;
-                }
-                else if (this._callback) {
-                    return this._callback();
-                }
-                else {
-                    throw new Error("Vector" + this._size + " is undefined.");
-                }
+                return this._coords;
             },
             set: function (data) {
-                this._data = data;
-                this._callback = void 0;
-                this.modified = true;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(VectorN.prototype, "callback", {
-            get: function () {
-                return this._callback;
-            },
-            set: function (reactTo) {
-                this._callback = reactTo;
-                this._data = void 0;
+                this._coords = data;
                 this.modified = true;
             },
             enumerable: true,
@@ -68,7 +47,7 @@ define(["require", "exports", '../checks/isDefined', '../checks/isUndefined', '.
             configurable: true
         });
         VectorN.prototype.clone = function () {
-            return new VectorN(this._data, this.modified, this._size);
+            return new VectorN(this._coords, this.modified, this._size);
         };
         VectorN.prototype.getComponent = function (index) {
             return this.coords[index];

@@ -1,51 +1,72 @@
-define(["require", "exports", '../math/Dimensions', '../math/QQ'], function (require, exports, Dimensions_1, QQ_1) {
-    var LABELS_SI = ['kg', 'm', 's', 'C', 'K', 'mol', 'candela'];
-    function assertArgNumber(name, x) {
-        if (typeof x === 'number') {
-            return x;
-        }
-        else {
-            throw new Error("Argument '" + name + "' must be a number");
-        }
-    }
-    function assertArgDimensions(name, arg) {
-        if (arg instanceof Dimensions_1.default) {
-            return arg;
-        }
-        else {
-            throw new Error("Argument '" + arg + "' must be a Dimensions");
-        }
-    }
-    function assertArgRational(name, arg) {
-        if (arg instanceof QQ_1.default) {
-            return arg;
-        }
-        else {
-            throw new Error("Argument '" + arg + "' must be a QQ");
-        }
-    }
-    function assertArgUnit(name, arg) {
-        if (arg instanceof Unit) {
-            return arg;
-        }
-        else {
-            throw new Error("Argument '" + arg + "' must be a Unit");
-        }
-    }
-    function assertArgUnitOrUndefined(name, arg) {
-        if (typeof arg === 'undefined') {
-            return arg;
-        }
-        else {
-            return assertArgUnit(name, arg);
-        }
-    }
-    var dumbString = function (multiplier, dimensions, labels) {
-        assertArgNumber('multiplier', multiplier);
-        assertArgDimensions('dimensions', dimensions);
-        var operatorStr;
-        var scaleString;
-        var unitsString;
+define(["require", "exports", '../math/Dimensions', '../i18n/notImplemented'], function (require, exports, Dimensions_1, notImplemented_1) {
+    var SYMBOLS_SI = ['kg', 'm', 's', 'C', 'K', 'mol', 'cd'];
+    var patterns = [
+        [-1, 1, -3, 1, 2, 1, 2, 1, 0, 1, 0, 1, 0, 1],
+        [-1, 1, -2, 1, 1, 1, 2, 1, 0, 1, 0, 1, 0, 1],
+        [-1, 1, -2, 1, 2, 1, 2, 1, 0, 1, 0, 1, 0, 1],
+        [-1, 1, +0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1],
+        [+0, 1, -3, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1],
+        [+0, 1, 2, 1, -2, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+        [+0, 1, 0, 1, -1, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+        [+0, 1, 0, 1, -1, 1, 1, 1, 0, 1, 0, 1, 0, 1],
+        [0, 1, 1, 1, -2, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+        [0, 1, 1, 1, -1, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+        [1, 1, 1, 1, -1, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+        [1, 1, -1, 1, -2, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+        [1, 1, -1, 1, -1, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+        [1, 1, 0, 1, -3, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+        [1, 1, 0, 1, -2, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+        [1, 1, 0, 1, -1, 1, -1, 1, 0, 1, 0, 1, 0, 1],
+        [1, 1, 1, 1, -3, 1, 0, 1, -1, 1, 0, 1, 0, 1],
+        [1, 1, 1, 1, -2, 1, -1, 1, 0, 1, 0, 1, 0, 1],
+        [1, 1, 1, 1, -2, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+        [1, 1, 1, 1, 0, 1, -2, 1, 0, 1, 0, 1, 0, 1],
+        [1, 1, 2, 1, -2, 1, 0, 1, -1, 1, 0, 1, 0, 1],
+        [0, 1, 2, 1, -2, 1, 0, 1, -1, 1, 0, 1, 0, 1],
+        [1, 1, 2, 1, -2, 1, 0, 1, -1, 1, -1, 1, 0, 1],
+        [1, 1, 2, 1, -2, 1, 0, 1, 0, 1, -1, 1, 0, 1],
+        [1, 1, 2, 1, -2, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+        [1, 1, 2, 1, -1, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+        [1, 1, 2, 1, -3, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+        [1, 1, 2, 1, -2, 1, -1, 1, 0, 1, 0, 1, 0, 1],
+        [1, 1, 2, 1, -1, 1, -2, 1, 0, 1, 0, 1, 0, 1],
+        [1, 1, 2, 1, 0, 1, -2, 1, 0, 1, 0, 1, 0, 1],
+        [1, 1, 2, 1, -1, 1, -1, 1, 0, 1, 0, 1, 0, 1]
+    ];
+    var decodes = [
+        ["F/m"],
+        ["S"],
+        ["F"],
+        ["C/kg"],
+        ["C/m ** 3"],
+        ["J/kg"],
+        ["Hz"],
+        ["A"],
+        ["m/s ** 2"],
+        ["m/s"],
+        ["kg·m/s"],
+        ["Pa"],
+        ["Pa·s"],
+        ["W/m ** 2"],
+        ["N/m"],
+        ["T"],
+        ["W/(m·K)"],
+        ["V/m"],
+        ["N"],
+        ["H/m"],
+        ["J/K"],
+        ["J/(kg·K)"],
+        ["J/(mol·K)"],
+        ["J/mol"],
+        ["J"],
+        ["J·s"],
+        ["W"],
+        ["V"],
+        ["Ω"],
+        ["H"],
+        ["Wb"]
+    ];
+    var dumbString = function (multiplier, formatted, dimensions, labels) {
         var stringify = function (rational, label) {
             if (rational.numer === 0) {
                 return null;
@@ -60,76 +81,14 @@ define(["require", "exports", '../math/Dimensions', '../math/QQ'], function (req
             }
             return "" + label + " ** " + rational;
         };
-        operatorStr = multiplier === 1 || dimensions.isOne() ? "" : " ";
-        scaleString = multiplier === 1 ? "" : "" + multiplier;
-        unitsString = [stringify(dimensions.M, labels[0]), stringify(dimensions.L, labels[1]), stringify(dimensions.T, labels[2]), stringify(dimensions.Q, labels[3]), stringify(dimensions.temperature, labels[4]), stringify(dimensions.amount, labels[5]), stringify(dimensions.intensity, labels[6])].filter(function (x) {
+        var operatorStr = multiplier === 1 || dimensions.isOne() ? "" : " ";
+        var scaleString = multiplier === 1 ? "" : formatted;
+        var unitsString = [stringify(dimensions.M, labels[0]), stringify(dimensions.L, labels[1]), stringify(dimensions.T, labels[2]), stringify(dimensions.Q, labels[3]), stringify(dimensions.temperature, labels[4]), stringify(dimensions.amount, labels[5]), stringify(dimensions.intensity, labels[6])].filter(function (x) {
             return typeof x === 'string';
         }).join(" ");
         return "" + scaleString + operatorStr + unitsString;
     };
-    var unitString = function (multiplier, dimensions, labels) {
-        var patterns = [
-            [-1, 1, -3, 1, 2, 1, 2, 1, 0, 1, 0, 1, 0, 1],
-            [-1, 1, -2, 1, 1, 1, 2, 1, 0, 1, 0, 1, 0, 1],
-            [-1, 1, -2, 1, 2, 1, 2, 1, 0, 1, 0, 1, 0, 1],
-            [-1, 1, 3, 1, -2, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-            [0, 1, 0, 1, -1, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-            [0, 1, 0, 1, -1, 1, 1, 1, 0, 1, 0, 1, 0, 1],
-            [0, 1, 1, 1, -2, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-            [0, 1, 1, 1, -1, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-            [1, 1, 1, 1, -1, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-            [1, 1, -1, 1, -2, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-            [1, 1, -1, 1, -1, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-            [1, 1, 0, 1, -3, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-            [1, 1, 0, 1, -2, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-            [1, 1, 0, 1, -1, 1, -1, 1, 0, 1, 0, 1, 0, 1],
-            [1, 1, 1, 1, -3, 1, 0, 1, -1, 1, 0, 1, 0, 1],
-            [1, 1, 1, 1, -2, 1, -1, 1, 0, 1, 0, 1, 0, 1],
-            [1, 1, 1, 1, -2, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-            [1, 1, 1, 1, 0, 1, -2, 1, 0, 1, 0, 1, 0, 1],
-            [1, 1, 2, 1, -2, 1, 0, 1, -1, 1, 0, 1, 0, 1],
-            [0, 1, 2, 1, -2, 1, 0, 1, -1, 1, 0, 1, 0, 1],
-            [1, 1, 2, 1, -2, 1, 0, 1, -1, 1, -1, 1, 0, 1],
-            [1, 1, 2, 1, -2, 1, 0, 1, 0, 1, -1, 1, 0, 1],
-            [1, 1, 2, 1, -2, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-            [1, 1, 2, 1, -1, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-            [1, 1, 2, 1, -3, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-            [1, 1, 2, 1, -2, 1, -1, 1, 0, 1, 0, 1, 0, 1],
-            [1, 1, 2, 1, -1, 1, -2, 1, 0, 1, 0, 1, 0, 1],
-            [1, 1, 2, 1, 0, 1, -2, 1, 0, 1, 0, 1, 0, 1],
-            [1, 1, 2, 1, -1, 1, -1, 1, 0, 1, 0, 1, 0, 1]
-        ];
-        var decodes = [
-            ["F/m"],
-            ["S"],
-            ["F"],
-            ["N·m ** 2/kg ** 2"],
-            ["Hz"],
-            ["A"],
-            ["m/s ** 2"],
-            ["m/s"],
-            ["kg·m/s"],
-            ["Pa"],
-            ["Pa·s"],
-            ["W/m ** 2"],
-            ["N/m"],
-            ["T"],
-            ["W/(m·K)"],
-            ["V/m"],
-            ["N"],
-            ["H/m"],
-            ["J/K"],
-            ["J/(kg·K)"],
-            ["J/(mol·K)"],
-            ["J/mol"],
-            ["J"],
-            ["J·s"],
-            ["W"],
-            ["V"],
-            ["Ω"],
-            ["H"],
-            ["Wb"]
-        ];
+    var unitString = function (multiplier, formatted, dimensions, labels) {
         var M = dimensions.M;
         var L = dimensions.L;
         var T = dimensions.T;
@@ -154,7 +113,7 @@ define(["require", "exports", '../math/Dimensions', '../math/QQ'], function (req
                 }
             }
         }
-        return dumbString(multiplier, dimensions, labels);
+        return dumbString(multiplier, formatted, dimensions, labels);
     };
     function add(lhs, rhs) {
         return new Unit(lhs.multiplier + rhs.multiplier, lhs.dimensions.compatible(rhs.dimensions), lhs.labels);
@@ -193,7 +152,6 @@ define(["require", "exports", '../math/Dimensions', '../math/QQ'], function (req
             }
         };
         Unit.prototype.add = function (rhs) {
-            assertArgUnit('rhs', rhs);
             return add(this, rhs);
         };
         Unit.prototype.__add__ = function (rhs) {
@@ -213,7 +171,6 @@ define(["require", "exports", '../math/Dimensions', '../math/QQ'], function (req
             }
         };
         Unit.prototype.sub = function (rhs) {
-            assertArgUnit('rhs', rhs);
             return sub(this, rhs);
         };
         Unit.prototype.__sub__ = function (rhs) {
@@ -233,7 +190,6 @@ define(["require", "exports", '../math/Dimensions', '../math/QQ'], function (req
             }
         };
         Unit.prototype.mul = function (rhs) {
-            assertArgUnit('rhs', rhs);
             return mul(this, rhs);
         };
         Unit.prototype.__mul__ = function (rhs) {
@@ -259,7 +215,6 @@ define(["require", "exports", '../math/Dimensions', '../math/QQ'], function (req
             }
         };
         Unit.prototype.div = function (rhs) {
-            assertArgUnit('rhs', rhs);
             return div(this, rhs);
         };
         Unit.prototype.divByScalar = function (α) {
@@ -287,8 +242,25 @@ define(["require", "exports", '../math/Dimensions', '../math/QQ'], function (req
                 return;
             }
         };
+        Unit.prototype.pattern = function () {
+            var ns = [];
+            ns.push(this.dimensions.M.numer);
+            ns.push(this.dimensions.M.denom);
+            ns.push(this.dimensions.L.numer);
+            ns.push(this.dimensions.L.denom);
+            ns.push(this.dimensions.T.numer);
+            ns.push(this.dimensions.T.denom);
+            ns.push(this.dimensions.Q.numer);
+            ns.push(this.dimensions.Q.denom);
+            ns.push(this.dimensions.temperature.numer);
+            ns.push(this.dimensions.temperature.denom);
+            ns.push(this.dimensions.amount.numer);
+            ns.push(this.dimensions.amount.denom);
+            ns.push(this.dimensions.intensity.numer);
+            ns.push(this.dimensions.intensity.denom);
+            return JSON.stringify(ns);
+        };
         Unit.prototype.pow = function (exponent) {
-            assertArgRational('exponent', exponent);
             return new Unit(Math.pow(this.multiplier, exponent.numer / exponent.denom), this.dimensions.pow(exponent), this.labels);
         };
         Unit.prototype.inv = function () {
@@ -304,7 +276,7 @@ define(["require", "exports", '../math/Dimensions', '../math/QQ'], function (req
             return this.dimensions.isZero() || (this.multiplier === 0);
         };
         Unit.prototype.lerp = function (target, α) {
-            return this;
+            throw new Error(notImplemented_1.default('lerp').message);
         };
         Unit.prototype.norm = function () {
             return new Unit(Math.abs(this.multiplier), this.dimensions, this.labels);
@@ -322,16 +294,16 @@ define(["require", "exports", '../math/Dimensions', '../math/QQ'], function (req
             return new Unit(this.multiplier * α, this.dimensions, this.labels);
         };
         Unit.prototype.slerp = function (target, α) {
-            return this;
+            throw new Error(notImplemented_1.default('slerp').message);
         };
         Unit.prototype.toExponential = function () {
-            return unitString(this.multiplier, this.dimensions, this.labels);
+            return unitString(this.multiplier, this.multiplier.toExponential(), this.dimensions, this.labels);
         };
-        Unit.prototype.toFixed = function (digits) {
-            return unitString(this.multiplier, this.dimensions, this.labels);
+        Unit.prototype.toFixed = function (fractionDigits) {
+            return unitString(this.multiplier, this.multiplier.toFixed(fractionDigits), this.dimensions, this.labels);
         };
         Unit.prototype.toString = function () {
-            return unitString(this.multiplier, this.dimensions, this.labels);
+            return unitString(this.multiplier, this.multiplier.toString(), this.dimensions, this.labels);
         };
         Unit.prototype.__pos__ = function () {
             return this;
@@ -340,7 +312,7 @@ define(["require", "exports", '../math/Dimensions', '../math/QQ'], function (req
             return this.neg();
         };
         Unit.isOne = function (uom) {
-            if (typeof uom === 'undefined') {
+            if (uom === void 0) {
                 return true;
             }
             else if (uom instanceof Unit) {
@@ -356,8 +328,6 @@ define(["require", "exports", '../math/Dimensions', '../math/QQ'], function (req
             }
         };
         Unit.compatible = function (lhs, rhs) {
-            assertArgUnitOrUndefined('lhs', lhs);
-            assertArgUnitOrUndefined('rhs', rhs);
             if (lhs) {
                 if (rhs) {
                     return lhs.compatible(rhs);
@@ -386,8 +356,8 @@ define(["require", "exports", '../math/Dimensions', '../math/QQ'], function (req
             }
         };
         Unit.mul = function (lhs, rhs) {
-            if (lhs instanceof Unit) {
-                if (rhs instanceof Unit) {
+            if (lhs) {
+                if (rhs) {
                     return lhs.mul(rhs);
                 }
                 else if (Unit.isOne(rhs)) {
@@ -405,8 +375,8 @@ define(["require", "exports", '../math/Dimensions', '../math/QQ'], function (req
             }
         };
         Unit.div = function (lhs, rhs) {
-            if (lhs instanceof Unit) {
-                if (rhs instanceof Unit) {
+            if (lhs) {
+                if (rhs) {
                     return lhs.div(rhs);
                 }
                 else {
@@ -414,7 +384,7 @@ define(["require", "exports", '../math/Dimensions', '../math/QQ'], function (req
                 }
             }
             else {
-                if (rhs instanceof Unit) {
+                if (rhs) {
                     return rhs.inv();
                 }
                 else {
@@ -424,7 +394,6 @@ define(["require", "exports", '../math/Dimensions', '../math/QQ'], function (req
         };
         Unit.sqrt = function (uom) {
             if (typeof uom !== 'undefined') {
-                assertArgUnit('uom', uom);
                 if (!uom.isOne()) {
                     return new Unit(Math.sqrt(uom.multiplier), uom.dimensions.sqrt(), uom.labels);
                 }
@@ -436,15 +405,15 @@ define(["require", "exports", '../math/Dimensions', '../math/QQ'], function (req
                 return void 0;
             }
         };
-        Unit.ONE = new Unit(1.0, Dimensions_1.default.ONE, LABELS_SI);
-        Unit.KILOGRAM = new Unit(1.0, Dimensions_1.default.MASS, LABELS_SI);
-        Unit.METER = new Unit(1.0, Dimensions_1.default.LENGTH, LABELS_SI);
-        Unit.SECOND = new Unit(1.0, Dimensions_1.default.TIME, LABELS_SI);
-        Unit.COULOMB = new Unit(1.0, Dimensions_1.default.CHARGE, LABELS_SI);
-        Unit.AMPERE = new Unit(1.0, Dimensions_1.default.CURRENT, LABELS_SI);
-        Unit.KELVIN = new Unit(1.0, Dimensions_1.default.TEMPERATURE, LABELS_SI);
-        Unit.MOLE = new Unit(1.0, Dimensions_1.default.AMOUNT, LABELS_SI);
-        Unit.CANDELA = new Unit(1.0, Dimensions_1.default.INTENSITY, LABELS_SI);
+        Unit.ONE = new Unit(1.0, Dimensions_1.default.ONE, SYMBOLS_SI);
+        Unit.KILOGRAM = new Unit(1.0, Dimensions_1.default.MASS, SYMBOLS_SI);
+        Unit.METER = new Unit(1.0, Dimensions_1.default.LENGTH, SYMBOLS_SI);
+        Unit.SECOND = new Unit(1.0, Dimensions_1.default.TIME, SYMBOLS_SI);
+        Unit.COULOMB = new Unit(1.0, Dimensions_1.default.CHARGE, SYMBOLS_SI);
+        Unit.AMPERE = new Unit(1.0, Dimensions_1.default.CURRENT, SYMBOLS_SI);
+        Unit.KELVIN = new Unit(1.0, Dimensions_1.default.TEMPERATURE, SYMBOLS_SI);
+        Unit.MOLE = new Unit(1.0, Dimensions_1.default.AMOUNT, SYMBOLS_SI);
+        Unit.CANDELA = new Unit(1.0, Dimensions_1.default.INTENSITY, SYMBOLS_SI);
         return Unit;
     })();
     Object.defineProperty(exports, "__esModule", { value: true });

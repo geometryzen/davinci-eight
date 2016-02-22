@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src/davinci-eight/math/G3m.ts - davinci-eight</title>
+    <title>src/davinci-eight/math/Geometric2.ts - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.192.0</em>
+            <em>API Docs for: 2.193.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -70,9 +70,9 @@
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
                                 <li><a href="../classes/G1.html">G1</a></li>
                                 <li><a href="../classes/G2.html">G2</a></li>
-                                <li><a href="../classes/G2m.html">G2m</a></li>
                                 <li><a href="../classes/G3.html">G3</a></li>
-                                <li><a href="../classes/G3m.html">G3m</a></li>
+                                <li><a href="../classes/Geometric2.html">Geometric2</a></li>
+                                <li><a href="../classes/Geometric3.html">Geometric3</a></li>
                                 <li><a href="../classes/GeometricE2.html">GeometricE2</a></li>
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
@@ -201,144 +201,160 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: src/davinci-eight/math/G3m.ts</h1>
+<h1 class="file-heading">File: src/davinci-eight/math/Geometric2.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import dotVector from &#x27;./dotVectorE3&#x27;;
-import G3 from &#x27;./G3&#x27;;
-import EventEmitter from &#x27;../utils/EventEmitter&#x27;;
-import extG3 from &#x27;./extG3&#x27;;
-import GeometricE3 from &#x27;./GeometricE3&#x27;;
+import b2 from &#x27;../geometries/b2&#x27;;
+import b3 from &#x27;../geometries/b3&#x27;;
+import dotVector from &#x27;./dotVectorE2&#x27;;
+import G2 from &#x27;./G2&#x27;;
+import extE2 from &#x27;./extE2&#x27;;
+import GeometricE2 from &#x27;./GeometricE2&#x27;;
+import isDefined from &#x27;../checks/isDefined&#x27;;
+import isNumber from &#x27;../checks/isNumber&#x27;;
+import isObject from &#x27;../checks/isObject&#x27;;
+import lcoE2 from &#x27;./lcoE2&#x27;;
 import GeometricOperators from &#x27;./GeometricOperators&#x27;;
-import isScalarG3 from &#x27;./isScalarG3&#x27;;
-import lcoG3 from &#x27;./lcoG3&#x27;;
-import mulG3 from &#x27;./mulG3&#x27;;
-import MutableGeometricElement3D from &#x27;./MutableGeometricElement3D&#x27;;
-import quadVector from &#x27;./quadVectorE3&#x27;;
-import rcoG3 from &#x27;./rcoG3&#x27;;
-import rotorFromDirections from &#x27;./rotorFromDirections&#x27;;
-import scpG3 from &#x27;./scpG3&#x27;;
-import SpinorE3 from &#x27;./SpinorE3&#x27;;
-import squaredNormG3 from &#x27;./squaredNormG3&#x27;;
+import Measure from &#x27;./Measure&#x27;;
+import mulE2 from &#x27;./mulE2&#x27;;
+import mustBeInteger from &#x27;../checks/mustBeInteger&#x27;;
+import mustBeNumber from &#x27;../checks/mustBeNumber&#x27;;
+import mustBeObject from &#x27;../checks/mustBeObject&#x27;;
+import MutableGeometricElement from &#x27;./MutableGeometricElement&#x27;;
+import rcoE2 from &#x27;./rcoE2&#x27;;
+import rotorFromDirections from &#x27;./rotorFromDirectionsE2&#x27;;
+import scpE2 from &#x27;./scpE2&#x27;;
+import SpinorE2 from &#x27;./SpinorE2&#x27;;
 import stringFromCoordinates from &#x27;./stringFromCoordinates&#x27;;
 import Unit from &#x27;./Unit&#x27;;
-import VectorE3 from &#x27;./VectorE3&#x27;;
+import VectorE2 from &#x27;./VectorE2&#x27;;
 import VectorN from &#x27;./VectorN&#x27;;
 import wedgeXY from &#x27;./wedgeXY&#x27;;
-import wedgeYZ from &#x27;./wedgeYZ&#x27;;
-import wedgeZX from &#x27;./wedgeZX&#x27;;
 
 /**
- * Geometric Algebra and Mathematical abstractions.
- *
  * @module EIGHT
  * @submodule math
  */
 
-// Symbolic constants for the coordinate indices into the data array.
+// GraphicsProgramSymbols constants for the coordinate indices into the data array.
 const COORD_SCALAR = 0
 const COORD_X = 1
 const COORD_Y = 2
-const COORD_Z = 3
-const COORD_XY = 4
-const COORD_YZ = 5
-const COORD_ZX = 6
-const COORD_PSEUDO = 7
+const COORD_PSEUDO = 3
 
-const BASIS_LABELS = [&quot;1&quot;, &quot;e1&quot;, &quot;e2&quot;, &quot;e3&quot;, &quot;e12&quot;, &quot;e23&quot;, &quot;e31&quot;, &quot;e123&quot;]
+const abs = Math.abs
+const atan2 = Math.atan2
+const exp = Math.exp
+const log = Math.log
+const cos = Math.cos
+const sin = Math.sin
+const sqrt = Math.sqrt
+
+// const LEFTWARDS_ARROW = &quot;←&quot;
+// const RIGHTWARDS_ARROW = &quot;→&quot;
+// const UPWARDS_ARROW = &quot;↑&quot;
+// const DOWNWARDS_ARROW = &quot;↓&quot;
+// const BULLSEYE = &quot;◎&quot;
+// const CLOCKWISE_OPEN_CIRCLE_ARROW = &quot;↻&quot;
+// const ANTICLOCKWISE_OPEN_CIRCLE_ARROW = &quot;↺&quot;
+
+// const ARROW_LABELS = [&quot;1&quot;, [LEFTWARDS_ARROW, RIGHTWARDS_ARROW], [DOWNWARDS_ARROW, UPWARDS_ARROW], [CLOCKWISE_OPEN_CIRCLE_ARROW, ANTICLOCKWISE_OPEN_CIRCLE_ARROW]]
+const STANDARD_LABELS = [&quot;1&quot;, &quot;e1&quot;, &quot;e2&quot;, &quot;I&quot;]
 
 /**
  * Coordinates corresponding to basis labels.
  */
-function coordinates(m: GeometricE3): number[] {
-    return [m.α, m.x, m.y, m.z, m.xy, m.yz, m.zx, m.β]
+function coordinates(m: GeometricE2): number[] {
+    return [m.α, m.x, m.y, m.β]
 }
 
-const EVENT_NAME_CHANGE = &#x27;change&#x27;;
-
-const atan2 = Math.atan2
-const exp = Math.exp
-const cos = Math.cos
-const log = Math.log
-const sin = Math.sin
-const sqrt = Math.sqrt
+/**
+ * Promotes an unknown value to a Geometric2, or returns undefined.
+ */
+function duckCopy(value: any): Geometric2 {
+    if (isObject(value)) {
+        let m = &lt;GeometricE2&gt;value
+        if (isNumber(m.x) &amp;&amp; isNumber(m.y)) {
+            if (isNumber(m.α) &amp;&amp; isNumber(m.β)) {
+                console.warn(&quot;Copying GeometricE2 to Geometric2&quot;)
+                return Geometric2.copy(m)
+            }
+            else {
+                console.warn(&quot;Copying VectorE2 to Geometric2&quot;)
+                return Geometric2.fromVector(m)
+            }
+        }
+        else {
+            if (isNumber(m.α) &amp;&amp; isNumber(m.β)) {
+                console.warn(&quot;Copying SpinorE2 to Geometric2&quot;)
+                return Geometric2.fromSpinor(m)
+            }
+            else {
+                return void 0
+            }
+        }
+    }
+    else {
+        return void 0
+    }
+}
 
 /**
- * @class G3m
- * @extends GeometricE3
+ * @class Geometric2
+ * @extends VectorN
  * @beta
  */
-export default class G3m extends VectorN&lt;number&gt; implements GeometricE3, MutableGeometricElement3D&lt;GeometricE3, G3m, SpinorE3, VectorE3&gt;, GeometricOperators&lt;G3m&gt; {
+export default class Geometric2 extends VectorN&lt;number&gt; implements GeometricE2, Measure&lt;Geometric2&gt;, MutableGeometricElement&lt;GeometricE2, Geometric2, SpinorE2, VectorE2&gt;, GeometricOperators&lt;Geometric2&gt; {
+    /**
+     * @property BASIS_LABELS
+     * @type {(string | string[])[]}
+     */
+    static BASIS_LABELS: (string | string[])[] = STANDARD_LABELS
 
     /**
+     * The optional unit of measure.
      * @property uom
-     * @type Unit
+     * @type {Unit}
+     * @beta
      */
-    public uom: Unit;
+    uom: Unit;
 
     /**
-     * @property eventBus
-     * @type EventEmitter
-     * @private
-     */
-    private eventBus: EventEmitter&lt;G3m&gt;;
-
-    /**
-     * Constructs a &lt;code&gt;G3m&lt;/code&gt;.
+     * Constructs a &lt;code&gt;Geometric2&lt;/code&gt;.
      * The multivector is initialized to zero.
-     * @class G3m
+     * @class Geometric2
      * @beta
      * @constructor
      */
     constructor() {
-        super([0, 0, 0, 0, 0, 0, 0, 0], false, 8);
-        this.eventBus = new EventEmitter&lt;G3m&gt;(this);
-    }
-
-    on(eventName: string, callback: (eventName: string, key: string, value: number, source: G3m) =&gt; void) {
-        this.eventBus.addEventListener(eventName, callback);
-    }
-
-    off(eventName: string, callback: (eventName: string, key: string, value: number, source: G3m) =&gt; void) {
-        this.eventBus.removeEventListener(eventName, callback);
+        super([0, 0, 0, 0], false, 4)
     }
 
     /**
-     * Consistently set a coordinate value in the most optimized way.
-     */
-    private setCoordinate(index: number, newValue: number, name: string) {
-        const coords = this.coords;
-        const previous = coords[index];
-        if (newValue !== previous) {
-            coords[index] = newValue;
-            this.modified = true;
-            this.eventBus.emit(EVENT_NAME_CHANGE, name, newValue);
-        }
-    }
-
-    /**
-     * The scalar part of this multivector.
+     * The coordinate corresponding to the unit standard basis scalar.
      * @property α
      * @type {number}
      */
     get α(): number {
-        return this.coords[COORD_SCALAR];
+        return this.coords[COORD_SCALAR]
     }
     set α(α: number) {
-        this.setCoordinate(COORD_SCALAR, α, &#x27;α&#x27;);
+        this.modified = this.modified || this.coords[COORD_SCALAR] !== α
+        this.coords[COORD_SCALAR] = α
     }
 
     /**
-     * The scalar part of this multivector.
+     * The coordinate corresponding to the unit standard basis scalar.
      * @property alpha
      * @type {number}
      */
     get alpha(): number {
-        return this.coords[COORD_SCALAR];
+        return this.coords[COORD_SCALAR]
     }
     set alpha(alpha: number) {
-        this.setCoordinate(COORD_SCALAR, alpha, &#x27;alpha&#x27;);
+        this.modified = this.modified || this.coords[COORD_SCALAR] !== alpha
+        this.coords[COORD_SCALAR] = alpha
     }
 
     /**
@@ -350,7 +366,8 @@ export default class G3m extends VectorN&lt;number&gt; implements GeometricE3, M
         return this.coords[COORD_X]
     }
     set x(x: number) {
-        this.setCoordinate(COORD_X, x, &#x27;x&#x27;);
+        this.modified = this.modified || this.coords[COORD_X] !== x
+        this.coords[COORD_X] = x
     }
 
     /**
@@ -362,59 +379,12 @@ export default class G3m extends VectorN&lt;number&gt; implements GeometricE3, M
         return this.coords[COORD_Y]
     }
     set y(y: number) {
-        this.setCoordinate(COORD_Y, y, &#x27;y&#x27;);
-    }
-
-    /**
-     * The coordinate corresponding to the &lt;b&gt;e&lt;/b&gt;&lt;sub&gt;3&lt;/sub&gt; standard basis vector.
-     * @property z
-     * @type {number}
-     */
-    get z(): number {
-        return this.coords[COORD_Z]
-    }
-    set z(z: number) {
-        this.setCoordinate(COORD_Z, z, &#x27;z&#x27;);
-    }
-
-    /**
-     * The coordinate corresponding to the &lt;b&gt;e&lt;/b&gt;&lt;sub&gt;2&lt;/sub&gt;&lt;b&gt;e&lt;/b&gt;&lt;sub&gt;3&lt;/sub&gt; standard basis bivector.
-     * @property yz
-     * @type {number}
-     */
-    get yz(): number {
-        return this.coords[COORD_YZ]
-    }
-    set yz(yz: number) {
-        this.setCoordinate(COORD_YZ, yz, &#x27;yz&#x27;);
-    }
-
-    /**
-     * The coordinate corresponding to the &lt;b&gt;e&lt;/b&gt;&lt;sub&gt;3&lt;/sub&gt;&lt;b&gt;e&lt;/b&gt;&lt;sub&gt;1&lt;/sub&gt; standard basis bivector.
-     * @property zx
-     * @type {number}
-     */
-    get zx(): number {
-        return this.coords[COORD_ZX]
-    }
-    set zx(zx: number) {
-        this.setCoordinate(COORD_ZX, zx, &#x27;zx&#x27;);
+        this.modified = this.modified || this.coords[COORD_Y] !== y
+        this.coords[COORD_Y] = y
     }
 
     /**
      * The coordinate corresponding to the &lt;b&gt;e&lt;/b&gt;&lt;sub&gt;1&lt;/sub&gt;&lt;b&gt;e&lt;/b&gt;&lt;sub&gt;2&lt;/sub&gt; standard basis bivector.
-     * @property xy
-     * @type {number}
-     */
-    get xy(): number {
-        return this.coords[COORD_XY]
-    }
-    set xy(xy: number) {
-        this.setCoordinate(COORD_XY, xy, &#x27;xy&#x27;);
-    }
-
-    /**
-     * The pseudoscalar part of this multivector.
      * @property β
      * @type {number}
      */
@@ -422,11 +392,12 @@ export default class G3m extends VectorN&lt;number&gt; implements GeometricE3, M
         return this.coords[COORD_PSEUDO]
     }
     set β(β: number) {
-        this.setCoordinate(COORD_PSEUDO, β, &#x27;β&#x27;);
+        this.modified = this.modified || this.coords[COORD_PSEUDO] !== β
+        this.coords[COORD_PSEUDO] = β
     }
 
     /**
-     * The pseudoscalar part of this multivector.
+     * The coordinate corresponding to the &lt;b&gt;e&lt;/b&gt;&lt;sub&gt;1&lt;/sub&gt;&lt;b&gt;e&lt;/b&gt;&lt;sub&gt;2&lt;/sub&gt; standard basis bivector.
      * @property beta
      * @type {number}
      */
@@ -434,7 +405,16 @@ export default class G3m extends VectorN&lt;number&gt; implements GeometricE3, M
         return this.coords[COORD_PSEUDO]
     }
     set beta(beta: number) {
-        this.setCoordinate(COORD_PSEUDO, beta, &#x27;beta&#x27;);
+        this.modified = this.modified || this.coords[COORD_PSEUDO] !== beta
+        this.coords[COORD_PSEUDO] = beta
+    }
+
+    get xy(): number {
+        return this.coords[COORD_PSEUDO]
+    }
+    set xy(xy: number) {
+        this.modified = this.modified || this.coords[COORD_PSEUDO] !== xy
+        this.coords[COORD_PSEUDO] = xy
     }
 
     /**
@@ -442,20 +422,38 @@ export default class G3m extends VectorN&lt;number&gt; implements GeometricE3, M
      * &lt;code&gt;this ⟼ this + M * α&lt;/code&gt;
      * &lt;/p&gt;
      * @method add
-     * @param M {GeometricE3}
+     * @param M {GeometricE2}
      * @param [α = 1] {number}
-     * @return {G3m} &lt;code&gt;this&lt;/code&gt;
+     * @return {Geometric2} &lt;code&gt;this&lt;/code&gt;
      * @chainable
      */
-    add(M: GeometricE3, α = 1): G3m {
+    add(M: GeometricE2, α = 1): Geometric2 {
+        mustBeObject(&#x27;M&#x27;, M)
+        mustBeNumber(&#x27;α&#x27;, α)
         this.α += M.α * α
         this.x += M.x * α
         this.y += M.y * α
-        this.z += M.z * α
-        this.yz += M.yz * α
-        this.zx += M.zx * α
-        this.xy += M.xy * α
         this.β += M.β * α
+        return this
+    }
+
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ a + b&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method add2
+     * @param a {GeometricE2}
+     * @param b {GeometricE2}
+     * @return {Geometric2} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    add2(a: GeometricE2, b: GeometricE2): Geometric2 {
+        mustBeObject(&#x27;a&#x27;, a)
+        mustBeObject(&#x27;b&#x27;, b)
+        this.α = a.α + b.α
+        this.x = a.x + b.x
+        this.y = a.y + b.y
+        this.β = a.β + b.β
         return this
     }
 
@@ -465,10 +463,11 @@ export default class G3m extends VectorN&lt;number&gt; implements GeometricE3, M
      * &lt;/p&gt;
      * @method addPseudo
      * @param β {number}
-     * @return {G3m} &lt;code&gt;this&lt;/code&gt;
+     * @return {Geometric2} &lt;code&gt;this&lt;/code&gt;
      * @chainable
      */
-    addPseudo(β: number): G3m {
+    addPseudo(β: number): Geometric2 {
+        mustBeNumber(&#x27;β&#x27;, β)
         this.β += β
         return this
     }
@@ -479,10 +478,11 @@ export default class G3m extends VectorN&lt;number&gt; implements GeometricE3, M
      * &lt;/p&gt;
      * @method addScalar
      * @param α {number}
-     * @return {G3m} &lt;code&gt;this&lt;/code&gt;
+     * @return {Geometric2} &lt;code&gt;this&lt;/code&gt;
      * @chainable
      */
-    addScalar(α: number): G3m {
+    addScalar(α: number): Geometric2 {
+        mustBeNumber(&#x27;α&#x27;, α)
         this.α += α
         return this
     }
@@ -492,59 +492,44 @@ export default class G3m extends VectorN&lt;number&gt; implements GeometricE3, M
      * &lt;code&gt;this ⟼ this + v * α&lt;/code&gt;
      * &lt;/p&gt;
      * @method addVector
-     * @param v {VectorE3}
+     * @param v {VectorE2}
      * @param [α = 1] {number}
-     * @return {G3m} &lt;code&gt;this&lt;/code&gt;
+     * @return {Geometric2} &lt;code&gt;this&lt;/code&gt;
      * @chainable
      */
-    addVector(v: VectorE3, α = 1): G3m {
+    addVector(v: VectorE2, α = 1): Geometric2 {
+        mustBeObject(&#x27;v&#x27;, v)
+        mustBeNumber(&#x27;α&#x27;, α)
         this.x += v.x * α
         this.y += v.y * α
-        this.z += v.z * α
         return this
+    }
+
+    adj(): Geometric2 {
+        throw new Error(&#x27;TODO: Geometric2.adj&#x27;)
     }
 
     /**
      * &lt;p&gt;
-     * &lt;code&gt;this ⟼ a + b&lt;/code&gt;
+     * &lt;code&gt;this ⟼ log(this).grade(2)&lt;/code&gt;
      * &lt;/p&gt;
-     * @method add2
-     * @param a {GeometricE3}
-     * @param b {GeometricE3}
-     * @return {G3m} &lt;code&gt;this&lt;/code&gt;
+     * @method angle
+     * @return {Geometric2} &lt;code&gt;this&lt;/code&gt;
      * @chainable
      */
-    add2(a: GeometricE3, b: GeometricE3): G3m {
-        this.α = a.α + b.α
-        this.x = a.x + b.x
-        this.y = a.y + b.y
-        this.z = a.z + b.z
-        this.yz = a.yz + b.yz
-        this.zx = a.zx + b.zx
-        this.xy = a.xy + b.xy
-        this.β = a.β + b.β
-        return this
-    }
-
-    adj(): G3m {
-        throw new Error(&#x27;TODO: G3m.adj&#x27;)
-    }
-
-    /**
-     * @method angle
-     * @return {G3m}
-     */
-    angle(): G3m {
+    angle(): Geometric2 {
         return this.log().grade(2);
     }
 
     /**
      * @method clone
-     * @return {G3m} &lt;code&gt;copy(this)&lt;/code&gt;
+     * @return {Geometric2} &lt;code&gt;copy(this)&lt;/code&gt;
      * @chainable
      */
-    clone(): G3m {
-        return G3m.copy(this)
+    clone(): Geometric2 {
+        let m = new Geometric2()
+        m.copy(this)
+        return m
     }
 
     /**
@@ -552,103 +537,57 @@ export default class G3m extends VectorN&lt;number&gt; implements GeometricE3, M
      * &lt;code&gt;this ⟼ conjugate(this)&lt;/code&gt;
      * &lt;/p&gt;
      * @method conj
-     * @return {G3m} &lt;code&gt;this&lt;/code&gt;
+     * @return {Geometric2} &lt;code&gt;this&lt;/code&gt;
      * @chainable
      */
-    conj(): G3m {
+    conj(): Geometric2 {
         // FIXME: This is only the bivector part.
         // Also need to think about various involutions.
-        this.yz = -this.yz;
-        this.zx = -this.zx;
-        this.xy = -this.xy;
+        this.β = -this.β;
         return this
     }
 
-    /**
-     * &lt;p&gt;
-     * &lt;code&gt;this ⟼ this &lt;&lt; m&lt;/code&gt;
-     * &lt;/p&gt;
-     * @method lco
-     * @param m {GeometricE3}
-     * @return {G3m} &lt;code&gt;this&lt;/code&gt;
-     * @chainable
-     */
-    lco(m: GeometricE3): G3m {
-        return this.lco2(this, m)
+    cos(): Geometric2 {
+        throw new Error(&quot;TODO: Geometric2.cos&quot;)
+    }
+
+    cosh(): Geometric2 {
+        throw new Error(&quot;TODO: Geometric2.cosh&quot;)
+    }
+
+    distanceTo(point: GeometricE2): number {
+        throw new Error(&quot;TODO: Geometric2.distanceTo&quot;)
+    }
+
+    equals(point: GeometricE2): boolean {
+        throw new Error(&quot;TODO: Geometric2.equals&quot;)
     }
 
     /**
      * &lt;p&gt;
-     * &lt;code&gt;this ⟼ a &lt;&lt; b&lt;/code&gt;
-     * &lt;/p&gt;
-     * @method lco2
-     * @param a {GeometricE3}
-     * @param b {GeometricE3}
-     * @return {G3m} &lt;code&gt;this&lt;/code&gt;
-     * @chainable
-     */
-    lco2(a: GeometricE3, b: GeometricE3): G3m {
-        return lcoG3(a, b, this)
-    }
-
-    /**
-     * &lt;p&gt;
-     * &lt;code&gt;this ⟼ this &gt;&gt; m&lt;/code&gt;
-     * &lt;/p&gt;
-     * @method rco
-     * @param m {GeometricE3}
-     * @return {G3m} &lt;code&gt;this&lt;/code&gt;
-     * @chainable
-     */
-    rco(m: GeometricE3): G3m {
-        return this.rco2(this, m)
-    }
-
-    /**
-     * &lt;p&gt;
-     * &lt;code&gt;this ⟼ a &gt;&gt; b&lt;/code&gt;
-     * &lt;/p&gt;
-     * @method rco2
-     * @param a {GeometricE3}
-     * @param b {GeometricE3}
-     * @return {G3m} &lt;code&gt;this&lt;/code&gt;
-     * @chainable
-     */
-    rco2(a: GeometricE3, b: GeometricE3): G3m {
-        return rcoG3(a, b, this)
-    }
-
-    /**
-     * &lt;p&gt;
-     * &lt;code&gt;this ⟼ copy(v)&lt;/code&gt;
+     * &lt;code&gt;this ⟼ copy(M)&lt;/code&gt;
      * &lt;/p&gt;
      * @method copy
-     * @param M {VectorE3}
-     * @return {G3m} &lt;code&gt;this&lt;/code&gt;
+     * @param M {GeometricE2}
+     * @return {Geometric2} &lt;code&gt;this&lt;/code&gt;
      * @chainable
      */
-    copy(M: GeometricE3): G3m {
+    copy(M: GeometricE2): Geometric2 {
+        mustBeObject(&#x27;M&#x27;, M)
         this.α = M.α
         this.x = M.x
         this.y = M.y
-        this.z = M.z
-        this.yz = M.yz
-        this.zx = M.zx
-        this.xy = M.xy
         this.β = M.β
-
         return this
     }
 
     /**
      * Sets this multivector to the value of the scalar, &lt;code&gt;α&lt;/code&gt;.
-     *
      * @method copyScalar
-     * @param α {number}
-     * @return {G3m}
+     * @return {Geometric2} &lt;code&gt;this&lt;/code&gt;
      * @chainable
      */
-    copyScalar(α: number): G3m {
+    copyScalar(α: number): Geometric2 {
         return this.zero().addScalar(α)
     }
 
@@ -657,16 +596,16 @@ export default class G3m extends VectorN&lt;number&gt; implements GeometricE3, M
      * &lt;code&gt;this ⟼ copy(spinor)&lt;/code&gt;
      * &lt;/p&gt;
      * @method copySpinor
-     * @param spinor {SpinorE3}
-     * @return {G3m} &lt;code&gt;this&lt;/code&gt;
+     * @param spinor {SpinorE2}
+     * @return {Geometric2} &lt;code&gt;this&lt;/code&gt;
      * @chainable
      */
-    copySpinor(spinor: SpinorE3) {
-        this.zero()
+    copySpinor(spinor: SpinorE2) {
+        mustBeObject(&#x27;spinor&#x27;, spinor)
         this.α = spinor.α
-        this.yz = spinor.yz
-        this.zx = spinor.zx
-        this.xy = spinor.xy
+        this.x = 0
+        this.y = 0
+        this.β = spinor.β
         return this
     }
 
@@ -675,16 +614,54 @@ export default class G3m extends VectorN&lt;number&gt; implements GeometricE3, M
      * &lt;code&gt;this ⟼ copyVector(vector)&lt;/code&gt;
      * &lt;/p&gt;
      * @method copyVector
-     * @param vector {VectorE3}
-     * @return {G3m} &lt;code&gt;this&lt;/code&gt;
+     * @param vector {VectorE2}
+     * @return {Geometric2} &lt;code&gt;this&lt;/code&gt;
      * @chainable
      */
-    copyVector(vector: VectorE3) {
-        this.zero()
+    copyVector(vector: VectorE2) {
+        mustBeObject(&#x27;vector&#x27;, vector)
+        this.α = 0
         this.x = vector.x
         this.y = vector.y
-        this.z = vector.z
-        this.uom = vector.uom
+        this.β = 0
+        return this
+    }
+
+    /**
+     * @method cubicBezier
+     * @param t {number}
+     * @param controlBegin {GeometricE2}
+     * @param controlEnd {GeometricE2}
+     * @param endPoint {GeometricE2}
+     * @return {Geometric2} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    cubicBezier(t: number, controlBegin: GeometricE2, controlEnd: GeometricE2, endPoint: GeometricE2) {
+        let α = b3(t, this.α, controlBegin.α, controlEnd.α, endPoint.α);
+        let x = b3(t, this.x, controlBegin.x, controlEnd.x, endPoint.x);
+        let y = b3(t, this.y, controlBegin.y, controlEnd.y, endPoint.y);
+        let β = b3(t, this.β, controlBegin.β, controlEnd.β, endPoint.β);
+        this.α = α;
+        this.x = x;
+        this.y = y;
+        this.β = β;
+        return this;
+    }
+
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ this / magnitude(this)&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method direction
+     * @return {Geometric2} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    direction(): Geometric2 {
+        const norm = sqrt(this.squaredNormSansUnits())
+        this.α = this.α / norm
+        this.x = this.x / norm
+        this.y = this.y / norm
+        this.β = this.β / norm
         return this
     }
 
@@ -693,18 +670,27 @@ export default class G3m extends VectorN&lt;number&gt; implements GeometricE3, M
      * &lt;code&gt;this ⟼ this / m&lt;/code&gt;
      * &lt;/p&gt;
      * @method div
-     * @param m {GeometricE3}
-     * @return {G3m} &lt;code&gt;this&lt;/code&gt;
+     * @param m {GeometricE2}
+     * @return {Geometric2} &lt;code&gt;this&lt;/code&gt;
      * @chainable
      */
-    div(m: GeometricE3): G3m {
-        // TODO: Generalize (this is implemented in G3)
-        if (isScalarG3(m)) {
-            return this.divByScalar(m.α)
-        }
-        else {
-            throw new Error(&quot;division with arbitrary multivectors is not supported&quot;)
-        }
+    div(m: GeometricE2): Geometric2 {
+        return this.div2(this, m)
+    }
+
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ a / b&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method div2
+     * @param a {GeometricE2}
+     * @param b {GeometricE2}
+     * @return {Geometric2} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    div2(a: SpinorE2, b: SpinorE2): Geometric2 {
+        // FIXME: Generalize
+        return this;
     }
 
     /**
@@ -713,49 +699,16 @@ export default class G3m extends VectorN&lt;number&gt; implements GeometricE3, M
      * &lt;/p&gt;
      * @method divByScalar
      * @param α {number}
-     * @return {G3m} &lt;code&gt;this&lt;/code&gt;
+     * @return {Geometric2} &lt;code&gt;this&lt;/code&gt;
      * @chainable
      */
-    divByScalar(α: number): G3m {
+    divByScalar(α: number): Geometric2 {
+        mustBeNumber(&#x27;α&#x27;, α)
         this.α /= α
         this.x /= α
         this.y /= α
-        this.z /= α
-        this.yz /= α
-        this.zx /= α
-        this.xy /= α
         this.β /= α
         return this
-    }
-
-    /**
-     * &lt;p&gt;
-     * &lt;code&gt;this ⟼ a / b&lt;/code&gt;
-     * &lt;/p&gt;
-     * @method div2
-     * @param a {GeometricE3}
-     * @param b {GeometricE3}
-     * @return {G3m} &lt;code&gt;this&lt;/code&gt;
-     * @chainable
-     */
-    div2(a: SpinorE3, b: SpinorE3): G3m {
-        // FIXME: Generalize
-        let a0 = a.α
-        let a1 = a.yz;
-        let a2 = a.zx;
-        let a3 = a.xy;
-        let b0 = b.α
-        let b1 = b.yz;
-        let b2 = b.zx;
-        let b3 = b.xy;
-        // Compare this to the product for Quaternions
-        // It would be interesting to DRY this out.
-        this.α = a0 * b0 - a1 * b1 - a2 * b2 - a3 * b3;
-        // this.α = a0 * b0 - dotVectorCartesianE3(a1, a2, a3, b1, b2, b3)
-        this.yz = a0 * b1 + a1 * b0 - a2 * b3 + a3 * b2;
-        this.zx = a0 * b2 + a1 * b3 + a2 * b0 - a3 * b1;
-        this.xy = a0 * b3 - a1 * b2 + a2 * b1 + a3 * b0;
-        return this;
     }
 
     /**
@@ -763,29 +716,20 @@ export default class G3m extends VectorN&lt;number&gt; implements GeometricE3, M
      * &lt;code&gt;this ⟼ dual(m) = I * m&lt;/code&gt;
      * &lt;/p&gt;
      * @method dual
-     * @param m {GeometricE3}
-     * @return {G3m} &lt;code&gt;this&lt;/code&gt;
+     * @param m {GeometricE2}
+     * @return {Geometric2} &lt;code&gt;this&lt;/code&gt;
      * @chainable
      */
-    dual(m: GeometricE3) {
+    dual(m: GeometricE2) {
         let w = -m.β
-        let x = -m.yz
-        let y = -m.zx
-        let z = -m.xy
-        let yz = m.x
-        let zx = m.y
-        let xy = m.z
-        let β = m.α
+        let x = +m.y
+        let y = -m.x
+        let β = +m.α
 
         this.α = w
         this.x = x
         this.y = y
-        this.z = z
-        this.yz = yz
-        this.zx = zx
-        this.xy = xy
         this.β = β
-
         return this
     }
 
@@ -794,38 +738,59 @@ export default class G3m extends VectorN&lt;number&gt; implements GeometricE3, M
      * &lt;code&gt;this ⟼ e&lt;sup&gt;this&lt;/sup&gt;&lt;/code&gt;
      * &lt;/p&gt;
      * @method exp
-     * @return {G3m} &lt;code&gt;this&lt;/code&gt;
+     * @return {Geometric2} &lt;code&gt;this&lt;/code&gt;
      * @chainable
      */
     exp() {
-        // It&#x27;s always the case that the scalar commutes with every other
-        // grade of the multivector, so we can pull it out the front.
-        let expW = exp(this.α)
-
-        // In G3m we have the special case that the pseudoscalar also commutes.
-        // And since it squares to -1, we get a exp(Iβ) = cos(β) + I * sin(β) factor.
-        // let cosβ = cos(this.β)
-        // let sinβ = sin(this.β)
-
-        // We are left with the vector and bivector components.
-        // For a bivector (usual case), let B = I * φ, where φ is a vector.
-        // We would get cos(φ) + I * n * sin(φ), where φ = |φ|n and n is a unit vector.
-        let yz = this.yz
-        let zx = this.zx
-        let xy = this.xy
+        let w = this.α
+        let z = this.β
+        let expW = exp(w)
         // φ is actually the absolute value of one half the rotation angle.
         // The orientation of the rotation gets carried in the bivector components.
-        let φ = sqrt(yz * yz + zx * zx + xy * xy)
-        let s = φ !== 0 ? sin(φ) / φ : 1
-        let cosφ = cos(φ);
+        let φ = sqrt(z * z)
+        let s = expW * (φ !== 0 ? sin(φ) / φ : 1)
+        this.α = expW * cos(φ)
+        this.β = z * s
+        return this
+    }
 
-        // For a vector a, we use exp(a) = cosh(a) + n * sinh(a)
-        // The mixture of vector and bivector parts is more complex!
-        this.α = cosφ;
-        this.yz = yz * s;
-        this.zx = zx * s;
-        this.xy = xy * s;
-        return this.scale(expW);
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ this ^ m&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method ext
+     * @param m {GeometricE2}
+     * @return {Geometric2} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    ext(m: GeometricE2): Geometric2 {
+        return this.ext2(this, m)
+    }
+
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ a ^ b&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method ext2
+     * @param a {GeometricE2}
+     * @param b {GeometricE2}
+     * @return {Geometric2} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    ext2(a: GeometricE2, b: GeometricE2): Geometric2 {
+        let a0 = a.α
+        let a1 = a.x
+        let a2 = a.y
+        let a3 = a.β
+        let b0 = b.α
+        let b1 = b.x
+        let b2 = b.y
+        let b3 = b.β
+        this.α = extE2(a0, a1, a2, a3, b0, b1, b2, b3, 0)
+        this.x = extE2(a0, a1, a2, a3, b0, b1, b2, b3, 1)
+        this.y = extE2(a0, a1, a2, a3, b0, b1, b2, b3, 2)
+        this.β = extE2(a0, a1, a2, a3, b0, b1, b2, b3, 3)
+        return this
     }
 
     /**
@@ -833,10 +798,10 @@ export default class G3m extends VectorN&lt;number&gt; implements GeometricE3, M
      * &lt;code&gt;this ⟼ conj(this) / quad(this)&lt;/code&gt;
      * &lt;/p&gt;
      * @method inv
-     * @return {G3m} &lt;code&gt;this&lt;/code&gt;
+     * @return {Geometric2} &lt;code&gt;this&lt;/code&gt;
      * @chainable
      */
-    inv(): G3m {
+    inv(): Geometric2 {
         // FIXME: TODO
         this.conj()
         // this.divByScalar(this.squaredNorm());
@@ -848,7 +813,7 @@ export default class G3m extends VectorN&lt;number&gt; implements GeometricE3, M
      * @return {boolean}
      */
     isOne(): boolean {
-        return this.α === 1 &amp;&amp; this.x === 0 &amp;&amp; this.y === 0 &amp;&amp; this.z === 0 &amp;&amp; this.yz === 0 &amp;&amp; this.zx === 0 &amp;&amp; this.xy === 0 &amp;&amp; this.β === 0
+        return this.α === 1 &amp;&amp; this.x === 0 &amp;&amp; this.y === 0 &amp;&amp; this.β === 0
     }
 
     /**
@@ -856,7 +821,46 @@ export default class G3m extends VectorN&lt;number&gt; implements GeometricE3, M
      * @return {boolean}
      */
     isZero(): boolean {
-        return this.α === 0 &amp;&amp; this.x === 0 &amp;&amp; this.y === 0 &amp;&amp; this.z === 0 &amp;&amp; this.yz === 0 &amp;&amp; this.zx === 0 &amp;&amp; this.xy === 0 &amp;&amp; this.β === 0
+        return this.α === 0 &amp;&amp; this.x === 0 &amp;&amp; this.y === 0 &amp;&amp; this.β === 0
+    }
+
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ this &lt;&lt; m&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method lco
+     * @param m {GeometricE2}
+     * @return {Geometric2} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    lco(m: GeometricE2): Geometric2 {
+        return this.lco2(this, m)
+    }
+
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ a &lt;&lt; b&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method lco2
+     * @param a {GeometricE2}
+     * @param b {GeometricE2}
+     * @return {Geometric2} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    lco2(a: GeometricE2, b: GeometricE2): Geometric2 {
+        let a0 = a.α
+        let a1 = a.x
+        let a2 = a.y
+        let a3 = a.β
+        let b0 = b.α
+        let b1 = b.x
+        let b2 = b.y
+        let b3 = b.β
+        this.α = lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 0)
+        this.x = lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 1)
+        this.y = lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 2)
+        this.β = lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 3)
+        return this
     }
 
     /**
@@ -864,19 +868,17 @@ export default class G3m extends VectorN&lt;number&gt; implements GeometricE3, M
      * &lt;code&gt;this ⟼ this + α * (target - this)&lt;/code&gt;
      * &lt;/p&gt;
      * @method lerp
-     * @param target {GeometricE3}
+     * @param target {GeometricE2}
      * @param α {number}
-     * @return {G3m} &lt;code&gt;this&lt;/code&gt;
+     * @return {Geometric2} &lt;code&gt;this&lt;/code&gt;
      * @chainable
      */
-    lerp(target: GeometricE3, α: number): G3m {
+    lerp(target: GeometricE2, α: number): Geometric2 {
+        mustBeObject(&#x27;target&#x27;, target)
+        mustBeNumber(&#x27;α&#x27;, α)
         this.α += (target.α - this.α) * α;
         this.x += (target.x - this.x) * α;
         this.y += (target.y - this.y) * α;
-        this.z += (target.z - this.z) * α;
-        this.yz += (target.yz - this.yz) * α;
-        this.zx += (target.zx - this.zx) * α;
-        this.xy += (target.xy - this.xy) * α;
         this.β += (target.β - this.β) * α;
         return this;
     }
@@ -886,52 +888,48 @@ export default class G3m extends VectorN&lt;number&gt; implements GeometricE3, M
      * &lt;code&gt;this ⟼ a + α * (b - a)&lt;/code&gt;
      * &lt;/p&gt;
      * @method lerp2
-     * @param a {GeometricE3}
-     * @param b {GeometricE3}
+     * @param a {GeometricE2}
+     * @param b {GeometricE2}
      * @param α {number}
-     * @return {G3m} &lt;code&gt;this&lt;/code&gt;
+     * @return {Geometric2} &lt;code&gt;this&lt;/code&gt;
      * @chainable
      */
-    lerp2(a: GeometricE3, b: GeometricE3, α: number): G3m {
+    lerp2(a: GeometricE2, b: GeometricE2, α: number): Geometric2 {
+        mustBeObject(&#x27;a&#x27;, a)
+        mustBeObject(&#x27;b&#x27;, b)
+        mustBeNumber(&#x27;α&#x27;, α)
         this.copy(a).lerp(b, α)
         return this
     }
 
     /**
      * &lt;p&gt;
-     * &lt;code&gt;this ⟼ log(this)&lt;/code&gt;
+     * &lt;code&gt;this ⟼ log(sqrt(w * w + β * β)) + &lt;b&gt;e&lt;/b&gt;&lt;sub&gt;1&lt;/sub&gt;&lt;b&gt;e&lt;/b&gt;&lt;sub&gt;2&lt;/sub&gt; * atan2(β, w)&lt;/code&gt;
      * &lt;/p&gt;
      * @method log
-     * @return {G3m} &lt;code&gt;this&lt;/code&gt;
+     * @return {Geometric2} &lt;code&gt;this&lt;/code&gt;
      * @chainable
      */
     log() {
+        // FIXME: This only handles the spinor components.
         let α = this.α
-        let x = this.yz
-        let y = this.zx
-        let z = this.xy
-        let BB = x * x + y * y + z * z
-        let B = sqrt(BB)
-        let f = atan2(B, α) / B
-        this.α = log(sqrt(α * α + BB))
-        this.yz = x * f
-        this.zx = y * f
-        this.xy = z * f
-        return this
+        let β = this.β
+        this.α = log(sqrt(α * α + β * β))
+        this.x = 0
+        this.y = 0
+        this.β = atan2(β, α)
+        return this;
     }
 
     /**
      * Computes the &lt;em&gt;square root&lt;/em&gt; of the &lt;em&gt;squared norm&lt;/em&gt;.
      * @method magnitude
-     * @return {G3m}
+     * @return {Geometric2}
      */
-    magnitude(): G3m {
+    magnitude(): Geometric2 {
         return this.norm();
     }
 
-    /**
-     * Intentionally undocumented.
-     */
     magnitudeSansUnits(): number {
         return sqrt(this.squaredNormSansUnits());
     }
@@ -941,11 +939,11 @@ export default class G3m extends VectorN&lt;number&gt; implements GeometricE3, M
      * &lt;code&gt;this ⟼ this * s&lt;/code&gt;
      * &lt;/p&gt;
      * @method mul
-     * @param m {GeometricE3}
-     * @return {G3m} &lt;code&gt;this&lt;/code&gt;
+     * @param m {GeometricE2}
+     * @return {Geometric2} &lt;code&gt;this&lt;/code&gt;
      * @chainable
      */
-    mul(m: GeometricE3): G3m {
+    mul(m: GeometricE2): Geometric2 {
         return this.mul2(this, m)
     }
 
@@ -954,13 +952,25 @@ export default class G3m extends VectorN&lt;number&gt; implements GeometricE3, M
      * &lt;code&gt;this ⟼ a * b&lt;/code&gt;
      * &lt;/p&gt;
      * @method mul2
-     * @param a {GeometricE3}
-     * @param b {GeometricE3}
-     * @return {G3m} &lt;code&gt;this&lt;/code&gt;
+     * @param a {GeometricE2}
+     * @param b {GeometricE2}
+     * @return {Geometric2} &lt;code&gt;this&lt;/code&gt;
      * @chainable
      */
-    mul2(a: GeometricE3, b: GeometricE3): G3m {
-        return mulG3(a, b, this)
+    mul2(a: GeometricE2, b: GeometricE2) {
+        let a0 = a.α
+        let a1 = a.x
+        let a2 = a.y
+        let a3 = a.β
+        let b0 = b.α
+        let b1 = b.x
+        let b2 = b.y
+        let b3 = b.β
+        this.α = mulE2(a0, a1, a2, a3, b0, b1, b2, b3, 0)
+        this.x = mulE2(a0, a1, a2, a3, b0, b1, b2, b3, 1)
+        this.y = mulE2(a0, a1, a2, a3, b0, b1, b2, b3, 2)
+        this.β = mulE2(a0, a1, a2, a3, b0, b1, b2, b3, 3)
+        return this
     }
 
     /**
@@ -968,17 +978,13 @@ export default class G3m extends VectorN&lt;number&gt; implements GeometricE3, M
      * &lt;code&gt;this ⟼ -1 * this&lt;/code&gt;
      * &lt;/p&gt;
      * @method neg
-     * @return {G3m} &lt;code&gt;this&lt;/code&gt;
+     * @return {Geometric2} &lt;code&gt;this&lt;/code&gt;
      * @chainable
      */
     neg() {
         this.α = -this.α
         this.x = -this.x
         this.y = -this.y
-        this.z = -this.z
-        this.yz = -this.yz
-        this.zx = -this.zx
-        this.xy = -this.xy
         this.β = -this.β
         return this;
     }
@@ -988,94 +994,110 @@ export default class G3m extends VectorN&lt;number&gt; implements GeometricE3, M
      * &lt;code&gt;this ⟼ sqrt(this * conj(this))&lt;/code&gt;
      * &lt;/p&gt;
      * @method norm
-     * @return {G3m} &lt;code&gt;this&lt;/code&gt;
+     * @return {Geometric2} &lt;code&gt;this&lt;/code&gt;
      * @chainable
      */
-    norm(): G3m {
+    norm(): Geometric2 {
         this.α = this.magnitudeSansUnits()
         this.x = 0
         this.y = 0
-        this.z = 0
-        this.yz = 0
-        this.zx = 0
-        this.xy = 0
         this.β = 0
-        return this
-    }
-
-    /**
-     * &lt;p&gt;
-     * &lt;code&gt;this ⟼ this / magnitude(this)&lt;/code&gt;
-     * &lt;/p&gt;
-     * @method direction
-     * @return {G3m} &lt;code&gt;this&lt;/code&gt;
-     * @chainable
-     */
-    direction(): G3m {
-        // The squaredNorm is the squared norm.
-        let norm = this.magnitudeSansUnits()
-        this.α = this.α / norm
-        this.x = this.x / norm
-        this.y = this.y / norm
-        this.z = this.z / norm
-        this.yz = this.yz / norm
-        this.zx = this.zx / norm
-        this.xy = this.xy / norm
-        this.β = this.β / norm
-        this.uom = void 0
         return this
     }
 
     /**
      * Sets this multivector to the identity element for multiplication, &lt;b&gt;1&lt;/b&gt;.
      * @method one
-     * @return {G3m}
+     * @return {Geometric2}
      * @chainable
      */
     one() {
         this.α = 1
         this.x = 0
         this.y = 0
-        this.z = 0
-        this.yz = 0
-        this.zx = 0
-        this.xy = 0
         this.β = 0
-        this.uom = void 0
         return this
+    }
+
+    pow(): Geometric2 {
+        throw new Error(&quot;TODO: Geometric2.pow&quot;)
     }
 
     /**
      * &lt;p&gt;
+     * Updates &lt;code&gt;this&lt;/code&gt; target to be the &lt;em&gt;quad&lt;/em&gt; or &lt;em&gt;squared norm&lt;/em&gt; of the target.
+     * &lt;/p&gt;
+     * &lt;p&gt;
      * &lt;code&gt;this ⟼ scp(this, rev(this)) = this | ~this&lt;/code&gt;
      * &lt;/p&gt;
      * @method quad
-     * @return {G3m} &lt;code&gt;this&lt;/code&gt;
+     * @return {Geometric2} &lt;code&gt;this&lt;/code&gt;
      * @chainable
      */
-    quad(): G3m {
-        return this.squaredNorm();
-    }
-
-    /**
-     * Computes the &lt;em&gt;squared norm&lt;/em&gt; of this multivector.
-     * @method squaredNorm
-     * @return {G3m} &lt;code&gt;this * conj(this)&lt;/code&gt;
-     */
-    squaredNorm(): G3m {
-        // FIXME: TODO
+    quad(): Geometric2 {
         this.α = this.squaredNormSansUnits()
-        this.yz = 0
-        this.zx = 0
-        this.xy = 0
+        this.x = 0
+        this.y = 0
+        this.β = 0
         return this
     }
 
     /**
-     * Intentionally undocumented
+     * @method quadraticBezier
+     * @param t {number}
+     * @param controlPoint {GeometricE2}
+     * @param endPoint {GeometricE2}
+     * @return {Geometric2}
      */
-    squaredNormSansUnits(): number {
-        return squaredNormG3(this)
+    quadraticBezier(t: number, controlPoint: GeometricE2, endPoint: GeometricE2) {
+        let α = b2(t, this.α, controlPoint.α, endPoint.α);
+        let x = b2(t, this.x, controlPoint.x, endPoint.x);
+        let y = b2(t, this.y, controlPoint.y, endPoint.y);
+        let β = b2(t, this.β, controlPoint.β, endPoint.β);
+        this.α = α;
+        this.x = x;
+        this.y = y;
+        this.β = β;
+        return this;
+    }
+
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ this &gt;&gt; m&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method rco
+     * @param m {GeometricE2}
+     * @return {Geometric2} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    rco(m: GeometricE2): Geometric2 {
+        return this.rco2(this, m)
+    }
+
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ a &gt;&gt; b&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method rco2
+     * @param a {GeometricE2}
+     * @param b {GeometricE2}
+     * @return {Geometric2} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    rco2(a: GeometricE2, b: GeometricE2): Geometric2 {
+        let a0 = a.α
+        let a1 = a.x
+        let a2 = a.y
+        let a3 = a.β
+        let b0 = b.α
+        let b1 = b.x
+        let b2 = b.y
+        let b3 = b.β
+        this.α = rcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 0)
+        this.x = rcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 1)
+        this.y = rcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 2)
+        this.β = rcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 3)
+        return this
     }
 
     /**
@@ -1083,14 +1105,15 @@ export default class G3m extends VectorN&lt;number&gt; implements GeometricE3, M
      * &lt;code&gt;this ⟼ - n * this * n&lt;/code&gt;
      * &lt;/p&gt;
      * @method reflect
-     * @param n {VectorE3}
-     * @return {G3m} &lt;code&gt;this&lt;/code&gt;
+     * @param n {VectorE2}
+     * @return {Geometric2} &lt;code&gt;this&lt;/code&gt;
      * @chainable
      */
-    reflect(n: VectorE3): G3m {
+    reflect(n: VectorE2): Geometric2 {
         // TODO: Optimize.
-        let N = G3.fromVector(n);
-        let M = G3.copy(this);
+        mustBeObject(&#x27;n&#x27;, n);
+        let N = G2.fromVectorE2(n);
+        let M = G2.copy(this);
         let R = N.mul(M).mul(N).scale(-1);
         this.copy(R);
         return this;
@@ -1101,29 +1124,24 @@ export default class G3m extends VectorN&lt;number&gt; implements GeometricE3, M
      * &lt;code&gt;this ⟼ rev(this)&lt;/code&gt;
      * &lt;/p&gt;
      * @method reverse
-     * @return {G3m} &lt;code&gt;this&lt;/code&gt;
+     * @return {Geometric2} &lt;code&gt;this&lt;/code&gt;
      * @chainable
      */
-    rev() {
-        // reverse has a ++-- structure on the grades.
-        this.α = +this.α
-        this.x = +this.x
-        this.y = +this.y
-        this.z = +this.z
-        this.yz = -this.yz
-        this.zx = -this.zx
-        this.xy = -this.xy
+    rev(): Geometric2 {
+        // reverse has a ++-- structure.
+        this.α = this.α
+        this.x = this.x
+        this.y = this.y
         this.β = -this.β
         return this
     }
 
-    /**
-     * @method __tilde__
-     * @return {G3m}
-     * @private
-     */
-    __tilde__(): G3m {
-        return G3m.copy(this).rev()
+    sin(): Geometric2 {
+        throw new Error(&quot;Geometric2.sin&quot;)
+    }
+
+    sinh(): Geometric2 {
+        throw new Error(&quot;Geometric2.sinh&quot;)
     }
 
     /**
@@ -1131,90 +1149,39 @@ export default class G3m extends VectorN&lt;number&gt; implements GeometricE3, M
      * &lt;code&gt;this ⟼ R * this * rev(R)&lt;/code&gt;
      * &lt;/p&gt;
      * @method rotate
-     * @param R {SpinorE3}
-     * @return {G3m} &lt;code&gt;this&lt;/code&gt;
+     * @param R {SpinorE2}
+     * @return {Geometric2} &lt;code&gt;this&lt;/code&gt;
      * @chainable
      */
-    rotate(R: SpinorE3): G3m {
-        // FIXME: This only rotates the vector components.
-        let x = this.x;
-        let y = this.y;
-        let z = this.z;
+    rotate(R: SpinorE2): Geometric2 {
+        mustBeObject(&#x27;R&#x27;, R);
 
-        let a = R.xy;
-        let b = R.yz;
-        let c = R.zx;
-        let α = R.α
+        const x = this.x;
+        const y = this.y;
 
-        let ix = α * x - c * z + a * y;
-        let iy = α * y - a * x + b * z;
-        let iz = α * z - b * y + c * x;
-        let iα = b * x + c * y + a * z;
+        const β = R.β;
+        const α = R.α;
 
-        this.x = ix * α + iα * b + iy * a - iz * c;
-        this.y = iy * α + iα * c + iz * b - ix * a;
-        this.z = iz * α + iα * a + ix * c - iy * b;
+        const ix = α * x + β * y;
+        const iy = α * y - β * x;
+
+        this.x = ix * α + iy * β;
+        this.y = iy * α - ix * β;
 
         return this;
     }
 
     /**
-     * &lt;p&gt;
-     * Computes a rotor, R, from two unit vectors, where
-     * R = (1 + b * a) / sqrt(2 * (1 + b &lt;&lt; a))
-     * &lt;/p&gt;
+     * Sets this multivector to a rotation from vector &lt;code&gt;a&lt;/code&gt; to vector &lt;code&gt;b&lt;/code&gt;.
+     *
      * @method rotorFromDirections
-     * @param b {VectorE3} The ending unit vector
-     * @param a {VectorE3} The starting unit vector
-     * @return {G3m} &lt;code&gt;this&lt;/code&gt; The rotor representing a rotation from a to b.
+     * @param a {VectorE2} The starting vector
+     * @param b {VectorE2} The ending vector
+     * @return {Geometric2} &lt;code&gt;this&lt;/code&gt; The rotor representing a rotation from a to b.
      * @chainable
      */
-    rotorFromDirections(b: VectorE3, a: VectorE3): G3m {
-        if (rotorFromDirections(a, b, quadVector, dotVector, this) !== void 0) {
-            return this
-        }
-        else {
-            // Compute a random bivector containing the start vector, then turn
-            // it into a rotor that achieves the 180-degree rotation.
-            const rx = Math.random()
-            const ry = Math.random()
-            const rz = Math.random()
-
-            this.yz = wedgeYZ(rx, ry, rz, a.x, a.y, a.z)
-            this.zx = wedgeZX(rx, ry, rz, a.x, a.y, a.z)
-            this.xy = wedgeXY(rx, ry, rz, a.x, a.y, a.z)
-
-            this.α = 0
-            this.x = 0
-            this.y = 0
-            this.z = 0
-            this.β = 0
-
-            this.direction()
-            this.rotorFromGeneratorAngle(this, Math.PI)
-            return this
-        }
-    }
-
-    /**
-     * &lt;p&gt;
-     * &lt;code&gt;this = ⟼ exp(- dual(a) * θ / 2)&lt;/code&gt;
-     * &lt;/p&gt;
-     * @method rotorFromAxisAngle
-     * @param axis {VectorE3}
-     * @param θ {number}
-     * @return {G3m} &lt;code&gt;this&lt;/code&gt;
-     * @chainable
-     */
-    rotorFromAxisAngle(axis: VectorE3, θ: number): G3m {
-        // FIXME: TODO
-        const φ = θ / 2
-        const s = sin(φ)
-        this.yz = -axis.x * s
-        this.zx = -axis.y * s
-        this.xy = -axis.z * s
-        this.α = cos(φ)
-        // FIXME; Zero out other coordinates
+    rotorFromDirections(a: VectorE2, b: VectorE2): Geometric2 {
+        rotorFromDirections(a, b, this)
         return this
     }
 
@@ -1223,19 +1190,35 @@ export default class G3m extends VectorN&lt;number&gt; implements GeometricE3, M
      * &lt;code&gt;this = ⟼ exp(- B * θ / 2)&lt;/code&gt;
      * &lt;/p&gt;
      * @method rotorFromGeneratorAngle
-     * @param B {SpinorE3}
-     * @param θ {number} The rotation angle when applied on both sides: R M ~R
-     * @return {G3m} &lt;code&gt;this&lt;/code&gt;
-     * @chainable
+     * @param B {SpinorE2}
+     * @param θ {number}
+     * @return {Geometric2} &lt;code&gt;this&lt;/code&gt;
      */
-    rotorFromGeneratorAngle(B: SpinorE3, θ: number): G3m {
-        // FIXME: TODO
+    rotorFromGeneratorAngle(B: SpinorE2, θ: number): Geometric2 {
+        mustBeObject(&#x27;B&#x27;, B)
+        mustBeNumber(&#x27;θ&#x27;, θ)
+        // We assume that B really is just a bivector
+        // by ignoring scalar and vector components.
+        // Normally, B will have unit magnitude and B * B =&gt; -1.
+        // However, we don&#x27;t assume that is the case.
+        // The effect will be a scaling of the angle.
+        // A non unitary rotor, on the other hand, will scale the transformation.
+        // We must also take into account the orientation of B.
+        const β = B.β
+        /**
+         * Sandwich operation means we need the half-angle.
+         */
         const φ = θ / 2
-        const s = sin(φ)
-        this.yz = -B.yz * s
-        this.zx = -B.zx * s
-        this.xy = -B.xy * s
-        this.α = cos(φ)
+        /**
+         * scalar part = cos(|B| * θ / 2)
+         */
+        this.α = cos(abs(β) * φ)
+        this.x = 0
+        this.y = 0
+        /**
+         * pseudo part = -unit(B) * sin(|B| * θ / 2)
+         */
+        this.β = -sin(β * φ)
         return this
     }
 
@@ -1243,12 +1226,12 @@ export default class G3m extends VectorN&lt;number&gt; implements GeometricE3, M
      * &lt;p&gt;
      * &lt;code&gt;this ⟼ scp(this, m)&lt;/code&gt;
      * &lt;/p&gt;
-     * @method align
-     * @param m {GeometricE3}
-     * @return {G3m} &lt;code&gt;this&lt;/code&gt;
+     * @method scp
+     * @param m {GeometricE2}
+     * @return {Geometric2} &lt;code&gt;this&lt;/code&gt;
      * @chainable
      */
-    scp(m: GeometricE3): G3m {
+    scp(m: GeometricE2): Geometric2 {
         return this.scp2(this, m)
     }
 
@@ -1257,13 +1240,17 @@ export default class G3m extends VectorN&lt;number&gt; implements GeometricE3, M
      * &lt;code&gt;this ⟼ scp(a, b)&lt;/code&gt;
      * &lt;/p&gt;
      * @method scp2
-     * @param a {GeometricE3}
-     * @param b {GeometricE3}
-     * @return {G3m} &lt;code&gt;this&lt;/code&gt;
+     * @param a {GeometricE2}
+     * @param b {GeometricE2}
+     * @return {Geometric2} &lt;code&gt;this&lt;/code&gt;
      * @chainable
      */
-    scp2(a: GeometricE3, b: GeometricE3): G3m {
-        return scpG3(a, b, this)
+    scp2(a: GeometricE2, b: GeometricE2) {
+        this.α = scpE2(a.α, a.x, a.y, a.β, b.α, b.x, b.y, b.β, 0)
+        this.x = 0
+        this.y = 0
+        this.β = 0
+        return this
     }
 
     /**
@@ -1273,49 +1260,65 @@ export default class G3m extends VectorN&lt;number&gt; implements GeometricE3, M
      * @method scale
      * @param α {number} 
      */
-    scale(α: number): G3m {
+    scale(α: number): Geometric2 {
+        mustBeNumber(&#x27;α&#x27;, α)
         this.α *= α
         this.x *= α
         this.y *= α
-        this.z *= α
-        this.yz *= α
-        this.zx *= α
-        this.xy *= α
         this.β *= α
         return this
     }
 
-    slerp(target: GeometricE3, α: number): G3m {
-        // TODO
+    slerp(target: GeometricE2, α: number): Geometric2 {
+        mustBeObject(&#x27;target&#x27;, target)
+        mustBeNumber(&#x27;α&#x27;, α)
         return this;
     }
 
     /**
      * &lt;p&gt;
-     * &lt;code&gt;this ⟼ a * b&lt;/code&gt;
+     * &lt;code&gt;this ⟼ a * b = a · b + a ^ b&lt;/code&gt;
      * &lt;/p&gt;
-     * Sets this G3m to the geometric product a * b of the vector arguments.
+     * Sets this Geometric2 to the geometric product a * b of the vector arguments.
      *
      * @method versor
-     * @param a {VectorE3}
-     * @param b {VectorE3}
-     * @return {G3m} &lt;code&gt;this&lt;/code&gt;
+     * @param a {VectorE2}
+     * @param b {VectorE2}
+     * @return {Geometric2} &lt;code&gt;this&lt;/code&gt;
      */
-    versor(a: VectorE3, b: VectorE3): G3m {
+    versor(a: VectorE2, b: VectorE2) {
         const ax = a.x
         const ay = a.y
-        const az = a.z
         const bx = b.x
         const by = b.y
-        const bz = b.z
 
-        this.zero()
         this.α = dotVector(a, b)
-        this.yz = wedgeYZ(ax, ay, az, bx, by, bz)
-        this.zx = wedgeZX(ax, ay, az, bx, by, bz)
-        this.xy = wedgeXY(ax, ay, az, bx, by, bz)
+        this.x = 0
+        this.y = 0
+        this.β = wedgeXY(ax, ay, 0, bx, by, 0)
 
         return this
+    }
+
+    /**
+     * Computes the &lt;em&gt;squared norm&lt;/em&gt; of this &lt;code&gt;Geometric2&lt;/code&gt; multivector. 
+     * @method squaredNorm
+     * @return {number} &lt;code&gt;this | ~this&lt;/code&gt;
+     */
+    squaredNorm(): Geometric2 {
+        this.α = this.squaredNormSansUnits()
+        this.x = 0
+        this.y = 0
+        this.β = 0
+        return this
+    }
+
+    squaredNormSansUnits(): number {
+        let w = this.α
+        let x = this.x
+        let y = this.y
+        let B = this.β
+        return w * w + x * x + y * y + B * B
     }
 
     /**
@@ -1323,19 +1326,17 @@ export default class G3m extends VectorN&lt;number&gt; implements GeometricE3, M
      * &lt;code&gt;this ⟼ this - M * α&lt;/code&gt;
      * &lt;/p&gt;
      * @method sub
-     * @param M {GeometricE3}
+     * @param M {GeometricE2}
      * @param [α = 1] {number}
-     * @return {G3m} &lt;code&gt;this&lt;/code&gt;
+     * @return {Geometric2} &lt;code&gt;this&lt;/code&gt;
      * @chainable
      */
-    sub(M: GeometricE3, α = 1): G3m {
+    sub(M: GeometricE2, α = 1): Geometric2 {
+        mustBeObject(&#x27;M&#x27;, M)
+        mustBeNumber(&#x27;α&#x27;, α)
         this.α -= M.α * α
         this.x -= M.x * α
         this.y -= M.y * α
-        this.z -= M.z * α
-        this.yz -= M.yz * α
-        this.zx -= M.zx * α
-        this.xy -= M.xy * α
         this.β -= M.β * α
         return this
     }
@@ -1345,19 +1346,17 @@ export default class G3m extends VectorN&lt;number&gt; implements GeometricE3, M
      * &lt;code&gt;this ⟼ a - b&lt;/code&gt;
      * &lt;/p&gt;
      * @method sub2
-     * @param a {GeometricE3}
-     * @param b {GeometricE3}
-     * @return {G3m} &lt;code&gt;this&lt;/code&gt;
+     * @param a {GeometricE2}
+     * @param b {GeometricE2}
+     * @return {Geometric2} &lt;code&gt;this&lt;/code&gt;
      * @chainable
      */
-    sub2(a: GeometricE3, b: GeometricE3): G3m {
+    sub2(a: GeometricE2, b: GeometricE2): Geometric2 {
+        mustBeObject(&#x27;a&#x27;, a)
+        mustBeObject(&#x27;b&#x27;, b)
         this.α = a.α - b.α
         this.x = a.x - b.x
         this.y = a.y - b.y
-        this.z = a.z - b.z
-        this.yz = a.yz - b.yz
-        this.zx = a.zx - b.zx
-        this.xy = a.xy - b.xy
         this.β = a.β - b.β
         return this
     }
@@ -1369,7 +1368,7 @@ export default class G3m extends VectorN&lt;number&gt; implements GeometricE3, M
      */
     toExponential(): string {
         var coordToString = function(coord: number): string { return coord.toExponential() };
-        return stringFromCoordinates(coordinates(this), coordToString, BASIS_LABELS)
+        return stringFromCoordinates(coordinates(this), coordToString, Geometric2.BASIS_LABELS)
     }
 
     /**
@@ -1379,8 +1378,8 @@ export default class G3m extends VectorN&lt;number&gt; implements GeometricE3, M
      * @return {string}
      */
     toFixed(fractionDigits?: number): string {
-        var coordToString = function(coord: number): string { return coord.toFixed(fractionDigits) };
-        return stringFromCoordinates(coordinates(this), coordToString, BASIS_LABELS)
+        const coordToString = function(coord: number): string { return coord.toFixed(fractionDigits) };
+        return stringFromCoordinates(coordinates(this), coordToString, Geometric2.BASIS_LABELS)
     }
 
     /**
@@ -1389,33 +1388,27 @@ export default class G3m extends VectorN&lt;number&gt; implements GeometricE3, M
      * @return {string} 
      */
     toString(): string {
-        let coordToString = function(coord: number): string { return coord.toString() };
-        return stringFromCoordinates(coordinates(this), coordToString, BASIS_LABELS)
+        const coordToString = function(coord: number): string { return coord.toString() };
+        return stringFromCoordinates(coordinates(this), coordToString, Geometric2.BASIS_LABELS)
     }
 
     /**
      * @method grade
      * @param grade {number}
-     * @return {G3m}
+     * @return {Geometric2} &lt;code&gt;this&lt;/code&gt;
      * @chainable
      */
-    grade(grade: number): G3m {
+    grade(grade: number): Geometric2 {
+        mustBeInteger(&#x27;grade&#x27;, grade)
         switch (grade) {
             case 0: {
                 this.x = 0;
                 this.y = 0;
-                this.z = 0;
-                this.yz = 0;
-                this.zx = 0;
-                this.xy = 0;
                 this.β = 0;
             }
                 break;
             case 1: {
                 this.α = 0;
-                this.yz = 0;
-                this.zx = 0;
-                this.xy = 0;
                 this.β = 0;
             }
                 break;
@@ -1423,28 +1416,12 @@ export default class G3m extends VectorN&lt;number&gt; implements GeometricE3, M
                 this.α = 0;
                 this.x = 0;
                 this.y = 0;
-                this.z = 0;
-                this.β = 0;
-            }
-                break;
-            case 3: {
-                this.α = 0;
-                this.x = 0;
-                this.y = 0;
-                this.z = 0;
-                this.yz = 0;
-                this.zx = 0;
-                this.xy = 0;
             }
                 break;
             default: {
                 this.α = 0;
                 this.x = 0;
                 this.y = 0;
-                this.z = 0;
-                this.yz = 0;
-                this.zx = 0;
-                this.xy = 0;
                 this.β = 0;
             }
         }
@@ -1452,81 +1429,57 @@ export default class G3m extends VectorN&lt;number&gt; implements GeometricE3, M
     }
 
     /**
-     * &lt;p&gt;
-     * &lt;code&gt;this ⟼ this ^ m&lt;/code&gt;
-     * &lt;/p&gt;
-     * @method wedge
-     * @param m {GeometricE3}
-     * @return {G3m} &lt;code&gt;this&lt;/code&gt;
-     * @chainable
-     */
-    ext(m: GeometricE3): G3m {
-        return this.ext2(this, m)
-    }
-
-    /**
-     * &lt;p&gt;
-     * &lt;code&gt;this ⟼ a ^ b&lt;/code&gt;
-     * &lt;/p&gt;
-     * @method ext2
-     * @param a {GeometricE3}
-     * @param b {GeometricE3}
-     * @return {G3m} &lt;code&gt;this&lt;/code&gt;
-     * @chainable
-     */
-    ext2(a: GeometricE3, b: GeometricE3): G3m {
-        return extG3(a, b, this)
-    }
-
-    /**
      * Sets this multivector to the identity element for addition, &lt;b&gt;0&lt;/b&gt;.
      * @method zero
-     * @return {G3m}
+     * @return {Geometric2}
      * @chainable
      */
-    zero(): G3m {
+    zero(): Geometric2 {
         this.α = 0
         this.x = 0
         this.y = 0
-        this.z = 0
-        this.yz = 0
-        this.zx = 0
-        this.xy = 0
         this.β = 0
-        this.uom = void 0
         return this
     }
 
     /**
      * @method __add__
      * @param rhs {any}
-     * @return {G3m}
+     * @return {Geometric2}
      * @private
      */
     __add__(rhs: any) {
-        if (rhs instanceof G3m) {
-            return G3m.copy(this).add(rhs)
+        if (rhs instanceof Geometric2) {
+            return Geometric2.copy(this).add(rhs)
         }
         else if (typeof rhs === &#x27;number&#x27;) {
-            return G3m.copy(this).add(G3m.fromScalar(rhs))
+            // Addition commutes, but addScalar might be useful.
+            return Geometric2.fromScalar(rhs).add(this)
         }
         else {
-            return void 0
+            let rhsCopy = duckCopy(rhs)
+            if (rhsCopy) {
+                // rhs is a copy and addition commutes.
+                return rhsCopy.add(this)
+            }
+            else {
+                return void 0
+            }
         }
     }
 
     /**
      * @method __div__
      * @param rhs {any}
-     * @return {G3m}
+     * @return {Geometric2}
      * @private
      */
     __div__(rhs: any) {
-        if (rhs instanceof G3m) {
-            return G3m.copy(this).div(rhs)
+        if (rhs instanceof Geometric2) {
+            return Geometric2.copy(this).div(rhs)
         }
         else if (typeof rhs === &#x27;number&#x27;) {
-            return G3m.copy(this).divByScalar(rhs)
+            return Geometric2.copy(this).divByScalar(rhs)
         }
         else {
             return void 0
@@ -1536,15 +1489,15 @@ export default class G3m extends VectorN&lt;number&gt; implements GeometricE3, M
     /**
      * @method __rdiv__
      * @param lhs {any}
-     * @return {G3m}
+     * @return {Geometric2}
      * @private
      */
     __rdiv__(lhs: any) {
-        if (lhs instanceof G3m) {
-            return G3m.copy(lhs).div(this)
+        if (lhs instanceof Geometric2) {
+            return Geometric2.copy(lhs).div(this)
         }
         else if (typeof lhs === &#x27;number&#x27;) {
-            return G3m.fromScalar(lhs).div(this)
+            return Geometric2.fromScalar(lhs).div(this)
         }
         else {
             return void 0
@@ -1554,33 +1507,91 @@ export default class G3m extends VectorN&lt;number&gt; implements GeometricE3, M
     /**
      * @method __mul__
      * @param rhs {any}
-     * @return {G3m}
+     * @return {Geometric2}
      * @private
      */
-    __mul__(rhs: any) {
-        if (rhs instanceof G3m) {
-            return G3m.copy(this).mul(rhs)
+    __mul__(rhs: any): Geometric2 {
+        if (rhs instanceof Geometric2) {
+            return Geometric2.copy(this).mul(rhs)
         }
         else if (typeof rhs === &#x27;number&#x27;) {
-            return G3m.copy(this).scale(rhs)
+            return Geometric2.copy(this).scale(rhs)
         }
         else {
-            return void 0
+            let rhsCopy = duckCopy(rhs)
+            if (rhsCopy) {
+                // rhsCopy is a copy but multiplication does not commute.
+                // If we had rmul then we could mutate the rhs!
+                return this.__mul__(rhsCopy);
+            }
+            else {
+                return void 0
+            }
         }
     }
 
     /**
      * @method __rmul__
      * @param lhs {any}
-     * @return {G3m}
+     * @return {Geometric2}
      * @private
      */
     __rmul__(lhs: any) {
-        if (lhs instanceof G3m) {
-            return G3m.copy(lhs).mul(this)
+        if (lhs instanceof Geometric2) {
+            return Geometric2.copy(lhs).mul(this)
         }
         else if (typeof lhs === &#x27;number&#x27;) {
-            return G3m.copy(this).scale(lhs)
+            return Geometric2.copy(this).scale(lhs)
+        }
+        else {
+            let lhsCopy = duckCopy(lhs)
+            if (lhsCopy) {
+                // lhs is a copy, so we can mutate it, and use it on the left.
+                return lhsCopy.mul(this)
+            }
+            else {
+                return void 0
+            }
+        }
+    }
+
+    /**
+     * @method __radd__
+     * @param lhs {any}
+     * @return {Geometric2}
+     * @private
+     */
+    __radd__(lhs: any) {
+        if (lhs instanceof Geometric2) {
+            return Geometric2.copy(lhs).add(this)
+        }
+        else if (typeof lhs === &#x27;number&#x27;) {
+            return Geometric2.fromScalar(lhs).add(this)
+        }
+        else {
+            let lhsCopy = duckCopy(lhs)
+            if (lhsCopy) {
+                // lhs is a copy, so we can mutate it.
+                return lhsCopy.add(this)
+            }
+            else {
+                return void 0
+            }
+        }
+    }
+
+    /**
+     * @method __sub__
+     * @param rhs {any}
+     * @return {Geometric2}
+     * @private
+     */
+    __sub__(rhs: any) {
+        if (rhs instanceof Geometric2) {
+            return Geometric2.copy(this).sub(rhs)
+        }
+        else if (typeof rhs === &#x27;number&#x27;) {
+            return Geometric2.fromScalar(-rhs).add(this)
         }
         else {
             return void 0
@@ -1588,51 +1599,17 @@ export default class G3m extends VectorN&lt;number&gt; implements GeometricE3, M
     }
 
     /**
-     * @method __radd__
-     * @param lhs {any}
-     * @return {G3m}
-     * @private
-     */
-    __radd__(lhs: any) {
-        if (lhs instanceof G3m) {
-            return G3m.copy(lhs).add(this)
-        }
-        else if (typeof lhs === &#x27;number&#x27;) {
-            return G3m.fromScalar(lhs).add(this)
-        }
-        else {
-            return void 0
-        }
-    }
-    /**
-     * @method __sub__
-     * @param rhs {any}
-     * @return {G3m}
-     * @private
-     */
-    __sub__(rhs: any) {
-        if (rhs instanceof G3m) {
-            return G3m.copy(this).sub(rhs)
-        }
-        else if (typeof rhs === &#x27;number&#x27;) {
-            return G3m.fromScalar(rhs).neg().add(this)
-        }
-        else {
-            return void 0
-        }
-    }
-    /**
      * @method __rsub__
      * @param lhs {any}
-     * @return {G3m}
+     * @return {Geometric2}
      * @private
      */
     __rsub__(lhs: any) {
-        if (lhs instanceof G3m) {
-            return G3m.copy(lhs).sub(this)
+        if (lhs instanceof Geometric2) {
+            return Geometric2.copy(lhs).sub(this)
         }
         else if (typeof lhs === &#x27;number&#x27;) {
-            return G3m.fromScalar(lhs).sub(this)
+            return Geometric2.fromScalar(lhs).sub(this)
         }
         else {
             return void 0
@@ -1642,16 +1619,16 @@ export default class G3m extends VectorN&lt;number&gt; implements GeometricE3, M
     /**
      * @method __wedge__
      * @param rhs {any}
-     * @return {G3m}
+     * @return {Geometric2}
      * @private
      */
     __wedge__(rhs: any) {
-        if (rhs instanceof G3m) {
-            return G3m.copy(this).ext(rhs)
+        if (rhs instanceof Geometric2) {
+            return Geometric2.copy(this).ext(rhs)
         }
         else if (typeof rhs === &#x27;number&#x27;) {
-            // The outer product with a scalar is scalar multiplication.
-            return G3m.copy(this).scale(rhs)
+            // The outer product with a scalar is simply scalar multiplication.
+            return Geometric2.copy(this).scale(rhs)
         }
         else {
             return void 0
@@ -1661,16 +1638,16 @@ export default class G3m extends VectorN&lt;number&gt; implements GeometricE3, M
     /**
      * @method __rwedge__
      * @param lhs {any}
-     * @return {G3m}
+     * @return {Geometric2}
      * @private
      */
     __rwedge__(lhs: any) {
-        if (lhs instanceof G3m) {
-            return G3m.copy(lhs).ext(this)
+        if (lhs instanceof Geometric2) {
+            return Geometric2.copy(lhs).ext(this)
         }
         else if (typeof lhs === &#x27;number&#x27;) {
-            // The outer product with a scalar is scalar multiplication, and commutes.
-            return G3m.copy(this).scale(lhs)
+            // The outer product with a scalar is simply scalar multiplication, and commutes.
+            return Geometric2.copy(this).scale(lhs)
         }
         else {
             return void 0
@@ -1679,16 +1656,16 @@ export default class G3m extends VectorN&lt;number&gt; implements GeometricE3, M
 
     /**
      * @method __lshift__
-     * @param rhs {any}
-     * @return {G3m}
+     * @param other {any}
+     * @return {Geometric2}
      * @private
      */
     __lshift__(rhs: any) {
-        if (rhs instanceof G3m) {
-            return G3m.copy(this).lco(rhs)
+        if (rhs instanceof Geometric2) {
+            return Geometric2.copy(this).lco(rhs)
         }
         else if (typeof rhs === &#x27;number&#x27;) {
-            return G3m.copy(this).lco(G3m.fromScalar(rhs))
+            return Geometric2.copy(this).lco(Geometric2.fromScalar(rhs))
         }
         else {
             return void 0
@@ -1698,15 +1675,15 @@ export default class G3m extends VectorN&lt;number&gt; implements GeometricE3, M
     /**
      * @method __rlshift__
      * @param other {any}
-     * @return {G3m}
+     * @return {Geometric2}
      * @private
      */
     __rlshift__(lhs: any) {
-        if (lhs instanceof G3m) {
-            return G3m.copy(lhs).lco(this)
+        if (lhs instanceof Geometric2) {
+            return Geometric2.copy(lhs).lco(this)
         }
         else if (typeof lhs === &#x27;number&#x27;) {
-            return G3m.fromScalar(lhs).lco(this)
+            return Geometric2.fromScalar(lhs).lco(this)
         }
         else {
             return void 0
@@ -1716,15 +1693,15 @@ export default class G3m extends VectorN&lt;number&gt; implements GeometricE3, M
     /**
      * @method __rshift__
      * @param rhs {any}
-     * @return {G3m}
+     * @return {Geometric2}
      * @private
      */
     __rshift__(rhs: any) {
-        if (rhs instanceof G3m) {
-            return G3m.copy(this).rco(rhs)
+        if (rhs instanceof Geometric2) {
+            return Geometric2.copy(this).rco(rhs)
         }
         else if (typeof rhs === &#x27;number&#x27;) {
-            return G3m.copy(this).rco(G3m.fromScalar(rhs))
+            return Geometric2.copy(this).rco(Geometric2.fromScalar(rhs))
         }
         else {
             return void 0
@@ -1733,16 +1710,16 @@ export default class G3m extends VectorN&lt;number&gt; implements GeometricE3, M
 
     /**
      * @method __rrshift__
-     * @param other {any}
-     * @return {G3m}
+     * @param lhs {any}
+     * @return {Geometric2}
      * @private
      */
     __rrshift__(lhs: any) {
-        if (lhs instanceof G3m) {
-            return G3m.copy(lhs).rco(this)
+        if (lhs instanceof Geometric2) {
+            return Geometric2.copy(lhs).rco(this)
         }
         else if (typeof lhs === &#x27;number&#x27;) {
-            return G3m.fromScalar(lhs).rco(this)
+            return Geometric2.fromScalar(lhs).rco(this)
         }
         else {
             return void 0
@@ -1752,15 +1729,15 @@ export default class G3m extends VectorN&lt;number&gt; implements GeometricE3, M
     /**
      * @method __vbar__
      * @param rhs {any}
-     * @return {G3m}
+     * @return {Geometric2}
      * @private
      */
     __vbar__(rhs: any) {
-        if (rhs instanceof G3m) {
-            return G3m.copy(this).scp(rhs)
+        if (rhs instanceof Geometric2) {
+            return Geometric2.copy(this).scp(rhs)
         }
         else if (typeof rhs === &#x27;number&#x27;) {
-            return G3m.copy(this).scp(G3m.fromScalar(rhs))
+            return Geometric2.copy(this).scp(Geometric2.fromScalar(rhs))
         }
         else {
             return void 0
@@ -1770,15 +1747,15 @@ export default class G3m extends VectorN&lt;number&gt; implements GeometricE3, M
     /**
      * @method __rvbar__
      * @param lhs {any}
-     * @return {G3m}
+     * @return {Geometric2}
      * @private
      */
     __rvbar__(lhs: any) {
-        if (lhs instanceof G3m) {
-            return G3m.copy(lhs).scp(this)
+        if (lhs instanceof Geometric2) {
+            return Geometric2.copy(lhs).scp(this)
         }
         else if (typeof lhs === &#x27;number&#x27;) {
-            return G3m.fromScalar(lhs).scp(this)
+            return Geometric2.fromScalar(lhs).scp(this)
         }
         else {
             return void 0
@@ -1787,105 +1764,70 @@ export default class G3m extends VectorN&lt;number&gt; implements GeometricE3, M
 
     /**
      * @method __bang__
-     * @return {G3m}
+     * @return {Geometric2}
      * @private
      * @chainable
      */
-    __bang__(): G3m {
-        return G3m.copy(this).inv()
+    __bang__(): Geometric2 {
+        return Geometric2.copy(this).inv()
+    }
+
+    /**
+     * @method __tilde__
+     * @return {Geometric2}
+     * @private
+     * @chainable
+     */
+    __tilde__(): Geometric2 {
+        return Geometric2.copy(this).rev()
     }
 
     /**
      * @method __pos__
-     * @return {G3m}
+     * @return {Geometric2}
      * @private
      * @chainable
      */
-    __pos__() {
-        return G3m.copy(this)/*.pos()*/
+    __pos__(): Geometric2 {
+        // It&#x27;s important that we make a copy whenever using operators.
+        return Geometric2.copy(this)/*.pos()*/
     }
 
     /**
      * @method __neg__
-     * @return {G3m}
+     * @return {Geometric2}
      * @private
      * @chainable
      */
-    __neg__() {
-        return G3m.copy(this).neg()
+    __neg__(): Geometric2 {
+        return Geometric2.copy(this).neg()
     }
 
     /**
-     * Constructs a G3m representing the number zero.
-     * The identity element for addition, &lt;b&gt;0&lt;/b&gt;.
-     *
-     * @method zero
-     * @return {G3m}
-     * @static
+     * Intentionally undocumented.
      */
-    static zero(): G3m { return new G3m() }
-
-    /**
-     * Constructs a G3m representing the number one.
-     * The identity element for multiplication, &lt;b&gt;1&lt;/b&gt;.
-     *
-     * @method one
-     * @return {G3m}
-     * @static
-     */
-    static one(): G3m { return new G3m().addScalar(1) }
-
-    /**
-     * Constructs a basis vector corresponding to the &lt;code&gt;x&lt;/code&gt; coordinate.
-     *
-     * @method e1
-     * @return {G3m}
-     * @static
-     */
-    static e1(): G3m { return G3m.vector(1, 0, 0) }
-
-    /**
-     * Constructs a basis vector corresponding to the &lt;code&gt;y&lt;/code&gt; coordinate.
-     *
-     * @method e2
-     * @return {G3m}
-     * @static
-     */
-    static e2(): G3m { return G3m.vector(0, 1, 0) }
-
-    /**
-     * Constructs a basis vector corresponding to the &lt;code&gt;z&lt;/code&gt; coordinate.
-     *
-     * @method e3
-     * @return {G3m}
-     * @static
-     */
-    static e3(): G3m { return G3m.vector(0, 0, 1) }
-
-    /**
-     * Constructs a basis vector corresponding to the &lt;code&gt;β&lt;/code&gt; coordinate.
-     *
-     * @method I
-     * @return {G3m}
-     * @static
-     */
-    static I(): G3m { return new G3m().addPseudo(1) }
+    static fromCartesian(α: number, x: number, y: number, β: number, uom?: Unit): Geometric2 {
+        const m = new Geometric2()
+        m.α = α
+        m.x = x
+        m.y = y
+        m.β = β
+        m.uom = uom
+        return m
+    }
 
     /**
      * @method copy
-     * @param M {GeometricE3}
-     * @return {G3m}
+     * @param M {GeometricE2}
+     * @return {Geometric2}
      * @static
+     * @chainable
      */
-    static copy(M: GeometricE3): G3m {
-        var copy = new G3m()
+    static copy(M: GeometricE2): Geometric2 {
+        const copy = new Geometric2()
         copy.α = M.α
         copy.x = M.x
         copy.y = M.y
-        copy.z = M.z
-        copy.yz = M.yz
-        copy.zx = M.zx
-        copy.xy = M.xy
         copy.β = M.β
         return copy
     }
@@ -1893,86 +1835,78 @@ export default class G3m extends VectorN&lt;number&gt; implements GeometricE3, M
     /**
      * @method fromScalar
      * @param α {number}
-     * @return {G3m}
+     * @return {Geometric2}
      * @static
      * @chainable
      */
-    static fromScalar(α: number): G3m {
-        return new G3m().copyScalar(α)
+    static fromScalar(α: number): Geometric2 {
+        return new Geometric2().addScalar(α)
     }
 
     /**
      * @method fromSpinor
-     * @param spinor {SpinorE3}
-     * @return {G3m}
+     * @param spinor {SpinorE2}
+     * @return {Geometric2}
      * @static
      * @chainable
      */
-    static fromSpinor(spinor: SpinorE3): G3m {
-        const copy = new G3m()
-        copy.α = spinor.α
-        copy.yz = spinor.yz
-        copy.zx = spinor.yz
-        copy.xy = spinor.xy
-        return copy
+    static fromSpinor(spinor: SpinorE2): Geometric2 {
+        return new Geometric2().copySpinor(spinor)
     }
 
     /**
      * @method fromVector
-     * @param vector {VectorE3}
-     * @return {G3m}
+     * @param vector {VectorE2}
+     * @return {Geometric2}
      * @static
      * @chainable
      */
-    static fromVector(vector: VectorE3): G3m {
-        const copy = new G3m()
-        copy.x = vector.x
-        copy.y = vector.y
-        copy.z = vector.z
-        return copy
+    static fromVector(vector: VectorE2): Geometric2 {
+        if (isDefined(vector)) {
+            return new Geometric2().copyVector(vector)
+        }
+        else {
+            // We could also return an undefined value here!
+            return void 0
+        }
     }
 
     /**
      * @method lerp
-     * @param A {GeometricE3}
-     * @param B {GeometricE3}
+     * @param A {GeometricE2}
+     * @param B {GeometricE2}
      * @param α {number}
-     * @return {G3m} &lt;code&gt;A + α * (B - A)&lt;/code&gt;
+     * @return {Geometric2} &lt;code&gt;A + α * (B - A)&lt;/code&gt;
      * @static
      * @chainable
      */
-    static lerp(A: GeometricE3, B: GeometricE3, α: number): G3m {
-        return G3m.copy(A).lerp(B, α)
+    static lerp(A: GeometricE2, B: GeometricE2, α: number): Geometric2 {
+        return Geometric2.copy(A).lerp(B, α)
+        // return Geometric2.copy(B).sub(A).scale(α).add(A)
     }
 
     /**
      * Computes the rotor that rotates vector &lt;code&gt;a&lt;/code&gt; to vector &lt;code&gt;b&lt;/code&gt;.
      * @method rotorFromDirections
-     * @param a {VectorE3} The &lt;em&gt;from&lt;/em&gt; vector.
-     * @param b {VectorE3} The &lt;em&gt;to&lt;/em&gt; vector.
-     * @return {G3m}
+     * @param a {VectorE2} The &lt;em&gt;from&lt;/em&gt; vector.
+     * @param b {VectorE2} The &lt;em&gt;to&lt;/em&gt; vector.
+     * @return {Geometric2}
      * @static
+     * @chainable
      */
-    static rotorFromDirections(a: VectorE3, b: VectorE3): G3m {
-        return new G3m().rotorFromDirections(a, b)
+    static rotorFromDirections(a: VectorE2, b: VectorE2): Geometric2 {
+        return new Geometric2().rotorFromDirections(a, b)
     }
 
     /**
      * @method vector
      * @param x {number}
      * @param y {number}
-     * @param z {number}
-     * @param [uom] Unit
-     * @return {G3m}
+     * @return {Geometric2}
      * @static
      */
-    static vector(x: number, y: number, z: number, uom?: Unit): G3m {
-        const v = new G3m()
-        v.x = x
-        v.y = y
-        v.z = z
-        v.uom = uom
-        return v
+    static vector(x: number, y: number): Geometric2 {
+        return this.fromCartesian(0, x, y, 0)
     }
 }
 

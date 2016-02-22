@@ -9,7 +9,6 @@ import isDefined from '../checks/isDefined';
 import isNumber from '../checks/isNumber';
 import SpinorE3 from './SpinorE3';
 import toStringCustom from './toStringCustom';
-import Unit from './Unit';
 import VectorN from './VectorN';
 import wedgeXY from './wedgeXY';
 import wedgeYZ from './wedgeYZ';
@@ -41,12 +40,6 @@ function coordinates(m: VectorE3): number[] {
 export default class Vector3 extends VectorN<number> implements ColumnVector<Matrix3, Vector3>, VectorE3, MutableLinearElement<VectorE3, Vector3, SpinorE3, VectorE3> {
 
     /**
-     * @property uom
-     * @type Unit
-     */
-    public uom: Unit
-
-    /**
      * @method dot
      * @param a {VectorE3}
      * @param b {VectorE3}
@@ -54,6 +47,7 @@ export default class Vector3 extends VectorN<number> implements ColumnVector<Mat
      * @static
      */
     public static dot(a: VectorE3, b: VectorE3): number {
+        // FIXME: Since vectors may now have units, the return type should be a unit.
         return a.x * b.x + a.y * b.y + a.z * b.z;
     }
 
@@ -64,6 +58,7 @@ export default class Vector3 extends VectorN<number> implements ColumnVector<Mat
      * @param modified [boolean = false]
      */
     constructor(data: number[] = [0, 0, 0], modified = false) {
+        // FIXME : Where is the uom, even if it is optional.
         super(data, modified, 3);
     }
     /**
@@ -99,6 +94,7 @@ export default class Vector3 extends VectorN<number> implements ColumnVector<Mat
         this.modified = this.modified || this.z !== value;
         this.coords[COORD_Z] = value;
     }
+
     /**
      * <p>
      * <code>this ⟼ this + vector * α</code>
@@ -190,13 +186,13 @@ export default class Vector3 extends VectorN<number> implements ColumnVector<Mat
      * @chainable
      */
     reflect(n: VectorE3) {
-        let ax = this.x;
-        let ay = this.y;
-        let az = this.z;
-        let nx = n.x;
-        let ny = n.y;
-        let nz = n.z;
-        let dot2 = (ax * nx + ay * ny + az * nz) * 2;
+        const ax = this.x;
+        const ay = this.y;
+        const az = this.z;
+        const nx = n.x;
+        const ny = n.y;
+        const nz = n.z;
+        const dot2 = (ax * nx + ay * ny + az * nz) * 2;
         this.x = ax - dot2 * nx;
         this.y = ay - dot2 * ny;
         this.z = az - dot2 * nz;
@@ -237,6 +233,8 @@ export default class Vector3 extends VectorN<number> implements ColumnVector<Mat
      * @return {Vector3} <code>copy(this)</code>
      */
     clone() {
+        // FIXME: uom is not being carried.
+        // FIXME: modidied flaf should be replicated
         return new Vector3([this.x, this.y, this.z]);
     }
 
@@ -244,15 +242,16 @@ export default class Vector3 extends VectorN<number> implements ColumnVector<Mat
      * <p>
      * <code>this ⟼ copy(v)</code>
      * </p>
+     *
      * @method copy
      * @param v {VectorE3}
      * @return {Vector3} <code>this</code>
      * @chainable
      */
     copy(v: VectorE3) {
-        this.x = v.x;
-        this.y = v.y;
-        this.z = v.z;
+        this.x = v.x
+        this.y = v.y
+        this.z = v.z
         return this;
     }
 
@@ -301,7 +300,6 @@ export default class Vector3 extends VectorN<number> implements ColumnVector<Mat
         this.x = wedgeYZ(ax, ay, az, bx, by, bz);
         this.y = wedgeZX(ax, ay, az, bx, by, bz);
         this.z = wedgeXY(ax, ay, az, bx, by, bz);
-
         return this;
     }
 
@@ -427,6 +425,7 @@ export default class Vector3 extends VectorN<number> implements ColumnVector<Mat
     direction(): Vector3 {
         return this.divByScalar(this.magnitude());
     }
+
     /**
      * <p>
      * <code>this ⟼ this * α</code>
@@ -440,6 +439,7 @@ export default class Vector3 extends VectorN<number> implements ColumnVector<Mat
         this.z *= α
         return this
     }
+
     /**
      * <p>
      * <code>this ⟼ this</code>, with components modified.
@@ -652,13 +652,11 @@ export default class Vector3 extends VectorN<number> implements ColumnVector<Mat
      * @param x {number}
      * @param y {number}
      * @param z {number}
-     * @param [uom] {Unit}
      * @return {Vector3}
      * @static
      */
-    static vector(x: number, y: number, z: number, uom?: Unit): Vector3 {
+    static vector(x: number, y: number, z: number): Vector3 {
         const v = new Vector3([x, y, z])
-        v.uom = uom
         return v
     }
 }

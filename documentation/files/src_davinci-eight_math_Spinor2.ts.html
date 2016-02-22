@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.192.0</em>
+            <em>API Docs for: 2.193.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -70,9 +70,9 @@
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
                                 <li><a href="../classes/G1.html">G1</a></li>
                                 <li><a href="../classes/G2.html">G2</a></li>
-                                <li><a href="../classes/G2m.html">G2m</a></li>
                                 <li><a href="../classes/G3.html">G3</a></li>
-                                <li><a href="../classes/G3m.html">G3m</a></li>
+                                <li><a href="../classes/Geometric2.html">Geometric2</a></li>
+                                <li><a href="../classes/Geometric3.html">Geometric3</a></li>
                                 <li><a href="../classes/GeometricE2.html">GeometricE2</a></li>
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
@@ -206,8 +206,6 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 import dotVectorCartesian from &#x27;../math/dotVectorCartesianE2&#x27;;
-import dotVector from &#x27;../math/dotVectorE2&#x27;;
-import isDefined from &#x27;../checks/isDefined&#x27;;
 import Measure from &#x27;../math/Measure&#x27;;
 import mustBeInteger from &#x27;../checks/mustBeInteger&#x27;;
 import mustBeNumber from &#x27;../checks/mustBeNumber&#x27;;
@@ -215,8 +213,7 @@ import mustBeObject from &#x27;../checks/mustBeObject&#x27;;
 import Mutable from &#x27;../math/Mutable&#x27;;
 import MutableGeometricElement from &#x27;../math/MutableGeometricElement&#x27;;
 import quadSpinor from &#x27;../math/quadSpinorE2&#x27;;
-import quadVector from &#x27;../math/quadVectorE2&#x27;;
-import rotorFromDirections from &#x27;../math/rotorFromDirections&#x27;;
+import rotorFromDirections from &#x27;../math/rotorFromDirectionsE2&#x27;;
 import SpinorE2 from &#x27;../math/SpinorE2&#x27;;
 import Unit from &#x27;../math/Unit&#x27;;
 import VectorE2 from &#x27;../math/VectorE2&#x27;;
@@ -241,7 +238,6 @@ function one(): number[] {
 
 const abs = Math.abs
 const atan2 = Math.atan2
-const exp = Math.exp
 const log = Math.log
 const cos = Math.cos
 const sin = Math.sin
@@ -252,8 +248,10 @@ const sqrt = Math.sqrt
  * @extends VectorN&lt;number&gt;
  */
 export default class Spinor2 extends VectorN&lt;number&gt; implements SpinorE2, Measure&lt;Spinor2&gt;, Mutable&lt;number[]&gt;, MutableGeometricElement&lt;SpinorE2, Spinor2, Spinor2, VectorE2&gt; {
+
     /**
      * The optional unit of measure.
+     *
      * @property uom
      * @type {Unit}
      * @beta
@@ -541,21 +539,24 @@ export default class Spinor2 extends VectorN&lt;number&gt; implements SpinorE2, 
      * &lt;p&gt;
      * &lt;code&gt;this ⟼ e&lt;sup&gt;this&lt;/sup&gt;&lt;/code&gt;
      * &lt;/p&gt;
+     *
      * @method exp
      * @return {Spinor2} &lt;code&gt;this&lt;/code&gt;
      * @chainable
      */
     exp(): Spinor2 {
-        let w = this.α
-        let z = this.xy
-        let expW = exp(w)
+
+        const α = this.α
+        const β = this.β
+
+        const expA = Math.exp(α)
         // φ is actually the absolute value of one half the rotation angle.
         // The orientation of the rotation gets carried in the bivector components.
         // FIXME: DRY
-        let φ = sqrt(z * z)
-        let s = expW * (φ !== 0 ? sin(φ) / φ : 1)
-        this.α = expW * cos(φ);
-        this.xy = z * s;
+        const φ = sqrt(β * β)
+        const s = expA * (φ !== 0 ? sin(φ) / φ : 1)
+        this.α = expA * cos(φ);
+        this.β = β * s;
         return this;
     }
     /**
@@ -627,7 +628,7 @@ export default class Spinor2 extends VectorN&lt;number&gt; implements SpinorE2, 
      * @chainable
      */
     log(): Spinor2 {
-        // FIXME: This is wrong see G2m.
+        // FIXME: This is wrong see Geometric2.
         let w = this.α
         let z = this.xy
         // FIXME: DRY
@@ -844,15 +845,8 @@ export default class Spinor2 extends VectorN&lt;number&gt; implements SpinorE2, 
      * @chainable
      */
     rotorFromDirections(a: VectorE2, b: VectorE2): Spinor2 {
-        if (isDefined(rotorFromDirections(a, b, quadVector, dotVector, this))) {
-            return this;
-        }
-        else {
-            // In two dimensions, the rotation plane is not ambiguous.
-            // FIXME: This is a bit dubious.
-            // Probably better to make undefined a first-class concept.
-            // ... this.undefined()
-        }
+        rotorFromDirections(a, b, this)
+        return this
     }
 
     /**

@@ -3,7 +3,7 @@ import get from '../math/compG2Get';
 import mulE2 from '../math/mulE2';
 import set from '../math/compG2Set';
 
-export default function mulG3<T extends GeometricE2>(a: GeometricE2, b: GeometricE2, out: T): T {
+export default function <T extends GeometricE2>(a: GeometricE2, b: GeometricE2, out: T): T {
 
     let a0 = get(a, 0)
     let a1 = get(a, 1)

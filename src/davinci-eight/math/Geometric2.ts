@@ -1,30 +1,29 @@
 import b2 from '../geometries/b2';
 import b3 from '../geometries/b3';
-import dotVector from '../math/dotVectorE2';
-import G2 from '../math/G2';
-import extE2 from '../math/extE2';
-import GeometricE2 from '../math/GeometricE2';
+import dotVector from './dotVectorE2';
+import G2 from './G2';
+import extE2 from './extE2';
+import GeometricE2 from './GeometricE2';
 import isDefined from '../checks/isDefined';
 import isNumber from '../checks/isNumber';
 import isObject from '../checks/isObject';
-import lcoE2 from '../math/lcoE2';
-import GeometricOperators from '../math/GeometricOperators';
-import Measure from '../math/Measure';
-import mulE2 from '../math/mulE2';
+import lcoE2 from './lcoE2';
+import GeometricOperators from './GeometricOperators';
+import Measure from './Measure';
+import mulE2 from './mulE2';
 import mustBeInteger from '../checks/mustBeInteger';
 import mustBeNumber from '../checks/mustBeNumber';
 import mustBeObject from '../checks/mustBeObject';
-import MutableGeometricElement from '../math/MutableGeometricElement';
-import quadVector from '../math/quadVectorE2';
-import rcoE2 from '../math/rcoE2';
-import rotorFromDirections from '../math/rotorFromDirections';
-import scpE2 from '../math/scpE2';
-import SpinorE2 from '../math/SpinorE2';
-import stringFromCoordinates from '../math/stringFromCoordinates';
-import Unit from '../math/Unit';
-import VectorE2 from '../math/VectorE2';
-import VectorN from '../math/VectorN';
-import wedgeXY from '../math/wedgeXY';
+import MutableGeometricElement from './MutableGeometricElement';
+import rcoE2 from './rcoE2';
+import rotorFromDirections from './rotorFromDirectionsE2';
+import scpE2 from './scpE2';
+import SpinorE2 from './SpinorE2';
+import stringFromCoordinates from './stringFromCoordinates';
+import Unit from './Unit';
+import VectorE2 from './VectorE2';
+import VectorN from './VectorN';
+import wedgeXY from './wedgeXY';
 
 /**
  * @module EIGHT
@@ -64,25 +63,25 @@ function coordinates(m: GeometricE2): number[] {
 }
 
 /**
- * Promotes an unknown value to a G2m, or returns undefined.
+ * Promotes an unknown value to a Geometric2, or returns undefined.
  */
-function duckCopy(value: any): G2m {
+function duckCopy(value: any): Geometric2 {
     if (isObject(value)) {
         let m = <GeometricE2>value
         if (isNumber(m.x) && isNumber(m.y)) {
             if (isNumber(m.α) && isNumber(m.β)) {
-                console.warn("Copying GeometricE2 to G2m")
-                return G2m.copy(m)
+                console.warn("Copying GeometricE2 to Geometric2")
+                return Geometric2.copy(m)
             }
             else {
-                console.warn("Copying VectorE2 to G2m")
-                return G2m.fromVector(m)
+                console.warn("Copying VectorE2 to Geometric2")
+                return Geometric2.fromVector(m)
             }
         }
         else {
             if (isNumber(m.α) && isNumber(m.β)) {
-                console.warn("Copying SpinorE2 to G2m")
-                return G2m.fromSpinor(m)
+                console.warn("Copying SpinorE2 to Geometric2")
+                return Geometric2.fromSpinor(m)
             }
             else {
                 return void 0
@@ -95,11 +94,11 @@ function duckCopy(value: any): G2m {
 }
 
 /**
- * @class G2m
+ * @class Geometric2
  * @extends VectorN
  * @beta
  */
-export default class G2m extends VectorN<number> implements GeometricE2, Measure<G2m>, MutableGeometricElement<GeometricE2, G2m, SpinorE2, VectorE2>, GeometricOperators<G2m> {
+export default class Geometric2 extends VectorN<number> implements GeometricE2, Measure<Geometric2>, MutableGeometricElement<GeometricE2, Geometric2, SpinorE2, VectorE2>, GeometricOperators<Geometric2> {
     /**
      * @property BASIS_LABELS
      * @type {(string | string[])[]}
@@ -115,9 +114,9 @@ export default class G2m extends VectorN<number> implements GeometricE2, Measure
     uom: Unit;
 
     /**
-     * Constructs a <code>G2m</code>.
+     * Constructs a <code>Geometric2</code>.
      * The multivector is initialized to zero.
-     * @class G2m
+     * @class Geometric2
      * @beta
      * @constructor
      */
@@ -218,10 +217,10 @@ export default class G2m extends VectorN<number> implements GeometricE2, Measure
      * @method add
      * @param M {GeometricE2}
      * @param [α = 1] {number}
-     * @return {G2m} <code>this</code>
+     * @return {Geometric2} <code>this</code>
      * @chainable
      */
-    add(M: GeometricE2, α = 1): G2m {
+    add(M: GeometricE2, α = 1): Geometric2 {
         mustBeObject('M', M)
         mustBeNumber('α', α)
         this.α += M.α * α
@@ -238,10 +237,10 @@ export default class G2m extends VectorN<number> implements GeometricE2, Measure
      * @method add2
      * @param a {GeometricE2}
      * @param b {GeometricE2}
-     * @return {G2m} <code>this</code>
+     * @return {Geometric2} <code>this</code>
      * @chainable
      */
-    add2(a: GeometricE2, b: GeometricE2): G2m {
+    add2(a: GeometricE2, b: GeometricE2): Geometric2 {
         mustBeObject('a', a)
         mustBeObject('b', b)
         this.α = a.α + b.α
@@ -257,10 +256,10 @@ export default class G2m extends VectorN<number> implements GeometricE2, Measure
      * </p>
      * @method addPseudo
      * @param β {number}
-     * @return {G2m} <code>this</code>
+     * @return {Geometric2} <code>this</code>
      * @chainable
      */
-    addPseudo(β: number): G2m {
+    addPseudo(β: number): Geometric2 {
         mustBeNumber('β', β)
         this.β += β
         return this
@@ -272,10 +271,10 @@ export default class G2m extends VectorN<number> implements GeometricE2, Measure
      * </p>
      * @method addScalar
      * @param α {number}
-     * @return {G2m} <code>this</code>
+     * @return {Geometric2} <code>this</code>
      * @chainable
      */
-    addScalar(α: number): G2m {
+    addScalar(α: number): Geometric2 {
         mustBeNumber('α', α)
         this.α += α
         return this
@@ -288,10 +287,10 @@ export default class G2m extends VectorN<number> implements GeometricE2, Measure
      * @method addVector
      * @param v {VectorE2}
      * @param [α = 1] {number}
-     * @return {G2m} <code>this</code>
+     * @return {Geometric2} <code>this</code>
      * @chainable
      */
-    addVector(v: VectorE2, α = 1): G2m {
+    addVector(v: VectorE2, α = 1): Geometric2 {
         mustBeObject('v', v)
         mustBeNumber('α', α)
         this.x += v.x * α
@@ -299,8 +298,8 @@ export default class G2m extends VectorN<number> implements GeometricE2, Measure
         return this
     }
 
-    adj(): G2m {
-        throw new Error('TODO: G2m.adj')
+    adj(): Geometric2 {
+        throw new Error('TODO: Geometric2.adj')
     }
 
     /**
@@ -308,20 +307,20 @@ export default class G2m extends VectorN<number> implements GeometricE2, Measure
      * <code>this ⟼ log(this).grade(2)</code>
      * </p>
      * @method angle
-     * @return {G2m} <code>this</code>
+     * @return {Geometric2} <code>this</code>
      * @chainable
      */
-    angle(): G2m {
+    angle(): Geometric2 {
         return this.log().grade(2);
     }
 
     /**
      * @method clone
-     * @return {G2m} <code>copy(this)</code>
+     * @return {Geometric2} <code>copy(this)</code>
      * @chainable
      */
-    clone(): G2m {
-        let m = new G2m()
+    clone(): Geometric2 {
+        let m = new Geometric2()
         m.copy(this)
         return m
     }
@@ -331,30 +330,30 @@ export default class G2m extends VectorN<number> implements GeometricE2, Measure
      * <code>this ⟼ conjugate(this)</code>
      * </p>
      * @method conj
-     * @return {G2m} <code>this</code>
+     * @return {Geometric2} <code>this</code>
      * @chainable
      */
-    conj(): G2m {
+    conj(): Geometric2 {
         // FIXME: This is only the bivector part.
         // Also need to think about various involutions.
         this.β = -this.β;
         return this
     }
 
-    cos(): G2m {
-        throw new Error("TODO: G2m.cos")
+    cos(): Geometric2 {
+        throw new Error("TODO: Geometric2.cos")
     }
 
-    cosh(): G2m {
-        throw new Error("TODO: G2m.cosh")
+    cosh(): Geometric2 {
+        throw new Error("TODO: Geometric2.cosh")
     }
 
     distanceTo(point: GeometricE2): number {
-        throw new Error("TODO: G2m.distanceTo")
+        throw new Error("TODO: Geometric2.distanceTo")
     }
 
     equals(point: GeometricE2): boolean {
-        throw new Error("TODO: G2m.equals")
+        throw new Error("TODO: Geometric2.equals")
     }
 
     /**
@@ -363,10 +362,10 @@ export default class G2m extends VectorN<number> implements GeometricE2, Measure
      * </p>
      * @method copy
      * @param M {GeometricE2}
-     * @return {G2m} <code>this</code>
+     * @return {Geometric2} <code>this</code>
      * @chainable
      */
-    copy(M: GeometricE2): G2m {
+    copy(M: GeometricE2): Geometric2 {
         mustBeObject('M', M)
         this.α = M.α
         this.x = M.x
@@ -378,10 +377,10 @@ export default class G2m extends VectorN<number> implements GeometricE2, Measure
     /**
      * Sets this multivector to the value of the scalar, <code>α</code>.
      * @method copyScalar
-     * @return {G2m} <code>this</code>
+     * @return {Geometric2} <code>this</code>
      * @chainable
      */
-    copyScalar(α: number): G2m {
+    copyScalar(α: number): Geometric2 {
         return this.zero().addScalar(α)
     }
 
@@ -391,7 +390,7 @@ export default class G2m extends VectorN<number> implements GeometricE2, Measure
      * </p>
      * @method copySpinor
      * @param spinor {SpinorE2}
-     * @return {G2m} <code>this</code>
+     * @return {Geometric2} <code>this</code>
      * @chainable
      */
     copySpinor(spinor: SpinorE2) {
@@ -409,7 +408,7 @@ export default class G2m extends VectorN<number> implements GeometricE2, Measure
      * </p>
      * @method copyVector
      * @param vector {VectorE2}
-     * @return {G2m} <code>this</code>
+     * @return {Geometric2} <code>this</code>
      * @chainable
      */
     copyVector(vector: VectorE2) {
@@ -427,7 +426,7 @@ export default class G2m extends VectorN<number> implements GeometricE2, Measure
      * @param controlBegin {GeometricE2}
      * @param controlEnd {GeometricE2}
      * @param endPoint {GeometricE2}
-     * @return {G2m} <code>this</code>
+     * @return {Geometric2} <code>this</code>
      * @chainable
      */
     cubicBezier(t: number, controlBegin: GeometricE2, controlEnd: GeometricE2, endPoint: GeometricE2) {
@@ -447,10 +446,10 @@ export default class G2m extends VectorN<number> implements GeometricE2, Measure
      * <code>this ⟼ this / magnitude(this)</code>
      * </p>
      * @method direction
-     * @return {G2m} <code>this</code>
+     * @return {Geometric2} <code>this</code>
      * @chainable
      */
-    direction(): G2m {
+    direction(): Geometric2 {
         const norm = sqrt(this.squaredNormSansUnits())
         this.α = this.α / norm
         this.x = this.x / norm
@@ -465,10 +464,10 @@ export default class G2m extends VectorN<number> implements GeometricE2, Measure
      * </p>
      * @method div
      * @param m {GeometricE2}
-     * @return {G2m} <code>this</code>
+     * @return {Geometric2} <code>this</code>
      * @chainable
      */
-    div(m: GeometricE2): G2m {
+    div(m: GeometricE2): Geometric2 {
         return this.div2(this, m)
     }
 
@@ -479,10 +478,10 @@ export default class G2m extends VectorN<number> implements GeometricE2, Measure
      * @method div2
      * @param a {GeometricE2}
      * @param b {GeometricE2}
-     * @return {G2m} <code>this</code>
+     * @return {Geometric2} <code>this</code>
      * @chainable
      */
-    div2(a: SpinorE2, b: SpinorE2): G2m {
+    div2(a: SpinorE2, b: SpinorE2): Geometric2 {
         // FIXME: Generalize
         return this;
     }
@@ -493,10 +492,10 @@ export default class G2m extends VectorN<number> implements GeometricE2, Measure
      * </p>
      * @method divByScalar
      * @param α {number}
-     * @return {G2m} <code>this</code>
+     * @return {Geometric2} <code>this</code>
      * @chainable
      */
-    divByScalar(α: number): G2m {
+    divByScalar(α: number): Geometric2 {
         mustBeNumber('α', α)
         this.α /= α
         this.x /= α
@@ -511,7 +510,7 @@ export default class G2m extends VectorN<number> implements GeometricE2, Measure
      * </p>
      * @method dual
      * @param m {GeometricE2}
-     * @return {G2m} <code>this</code>
+     * @return {Geometric2} <code>this</code>
      * @chainable
      */
     dual(m: GeometricE2) {
@@ -532,7 +531,7 @@ export default class G2m extends VectorN<number> implements GeometricE2, Measure
      * <code>this ⟼ e<sup>this</sup></code>
      * </p>
      * @method exp
-     * @return {G2m} <code>this</code>
+     * @return {Geometric2} <code>this</code>
      * @chainable
      */
     exp() {
@@ -554,10 +553,10 @@ export default class G2m extends VectorN<number> implements GeometricE2, Measure
      * </p>
      * @method ext
      * @param m {GeometricE2}
-     * @return {G2m} <code>this</code>
+     * @return {Geometric2} <code>this</code>
      * @chainable
      */
-    ext(m: GeometricE2): G2m {
+    ext(m: GeometricE2): Geometric2 {
         return this.ext2(this, m)
     }
 
@@ -568,10 +567,10 @@ export default class G2m extends VectorN<number> implements GeometricE2, Measure
      * @method ext2
      * @param a {GeometricE2}
      * @param b {GeometricE2}
-     * @return {G2m} <code>this</code>
+     * @return {Geometric2} <code>this</code>
      * @chainable
      */
-    ext2(a: GeometricE2, b: GeometricE2): G2m {
+    ext2(a: GeometricE2, b: GeometricE2): Geometric2 {
         let a0 = a.α
         let a1 = a.x
         let a2 = a.y
@@ -592,10 +591,10 @@ export default class G2m extends VectorN<number> implements GeometricE2, Measure
      * <code>this ⟼ conj(this) / quad(this)</code>
      * </p>
      * @method inv
-     * @return {G2m} <code>this</code>
+     * @return {Geometric2} <code>this</code>
      * @chainable
      */
-    inv(): G2m {
+    inv(): Geometric2 {
         // FIXME: TODO
         this.conj()
         // this.divByScalar(this.squaredNorm());
@@ -624,10 +623,10 @@ export default class G2m extends VectorN<number> implements GeometricE2, Measure
      * </p>
      * @method lco
      * @param m {GeometricE2}
-     * @return {G2m} <code>this</code>
+     * @return {Geometric2} <code>this</code>
      * @chainable
      */
-    lco(m: GeometricE2): G2m {
+    lco(m: GeometricE2): Geometric2 {
         return this.lco2(this, m)
     }
 
@@ -638,10 +637,10 @@ export default class G2m extends VectorN<number> implements GeometricE2, Measure
      * @method lco2
      * @param a {GeometricE2}
      * @param b {GeometricE2}
-     * @return {G2m} <code>this</code>
+     * @return {Geometric2} <code>this</code>
      * @chainable
      */
-    lco2(a: GeometricE2, b: GeometricE2): G2m {
+    lco2(a: GeometricE2, b: GeometricE2): Geometric2 {
         let a0 = a.α
         let a1 = a.x
         let a2 = a.y
@@ -664,10 +663,10 @@ export default class G2m extends VectorN<number> implements GeometricE2, Measure
      * @method lerp
      * @param target {GeometricE2}
      * @param α {number}
-     * @return {G2m} <code>this</code>
+     * @return {Geometric2} <code>this</code>
      * @chainable
      */
-    lerp(target: GeometricE2, α: number): G2m {
+    lerp(target: GeometricE2, α: number): Geometric2 {
         mustBeObject('target', target)
         mustBeNumber('α', α)
         this.α += (target.α - this.α) * α;
@@ -685,10 +684,10 @@ export default class G2m extends VectorN<number> implements GeometricE2, Measure
      * @param a {GeometricE2}
      * @param b {GeometricE2}
      * @param α {number}
-     * @return {G2m} <code>this</code>
+     * @return {Geometric2} <code>this</code>
      * @chainable
      */
-    lerp2(a: GeometricE2, b: GeometricE2, α: number): G2m {
+    lerp2(a: GeometricE2, b: GeometricE2, α: number): Geometric2 {
         mustBeObject('a', a)
         mustBeObject('b', b)
         mustBeNumber('α', α)
@@ -701,7 +700,7 @@ export default class G2m extends VectorN<number> implements GeometricE2, Measure
      * <code>this ⟼ log(sqrt(w * w + β * β)) + <b>e</b><sub>1</sub><b>e</b><sub>2</sub> * atan2(β, w)</code>
      * </p>
      * @method log
-     * @return {G2m} <code>this</code>
+     * @return {Geometric2} <code>this</code>
      * @chainable
      */
     log() {
@@ -718,9 +717,9 @@ export default class G2m extends VectorN<number> implements GeometricE2, Measure
     /**
      * Computes the <em>square root</em> of the <em>squared norm</em>.
      * @method magnitude
-     * @return {G2m}
+     * @return {Geometric2}
      */
-    magnitude(): G2m {
+    magnitude(): Geometric2 {
         return this.norm();
     }
 
@@ -734,10 +733,10 @@ export default class G2m extends VectorN<number> implements GeometricE2, Measure
      * </p>
      * @method mul
      * @param m {GeometricE2}
-     * @return {G2m} <code>this</code>
+     * @return {Geometric2} <code>this</code>
      * @chainable
      */
-    mul(m: GeometricE2): G2m {
+    mul(m: GeometricE2): Geometric2 {
         return this.mul2(this, m)
     }
 
@@ -748,7 +747,7 @@ export default class G2m extends VectorN<number> implements GeometricE2, Measure
      * @method mul2
      * @param a {GeometricE2}
      * @param b {GeometricE2}
-     * @return {G2m} <code>this</code>
+     * @return {Geometric2} <code>this</code>
      * @chainable
      */
     mul2(a: GeometricE2, b: GeometricE2) {
@@ -772,7 +771,7 @@ export default class G2m extends VectorN<number> implements GeometricE2, Measure
      * <code>this ⟼ -1 * this</code>
      * </p>
      * @method neg
-     * @return {G2m} <code>this</code>
+     * @return {Geometric2} <code>this</code>
      * @chainable
      */
     neg() {
@@ -788,10 +787,10 @@ export default class G2m extends VectorN<number> implements GeometricE2, Measure
      * <code>this ⟼ sqrt(this * conj(this))</code>
      * </p>
      * @method norm
-     * @return {G2m} <code>this</code>
+     * @return {Geometric2} <code>this</code>
      * @chainable
      */
-    norm(): G2m {
+    norm(): Geometric2 {
         this.α = this.magnitudeSansUnits()
         this.x = 0
         this.y = 0
@@ -802,7 +801,7 @@ export default class G2m extends VectorN<number> implements GeometricE2, Measure
     /**
      * Sets this multivector to the identity element for multiplication, <b>1</b>.
      * @method one
-     * @return {G2m}
+     * @return {Geometric2}
      * @chainable
      */
     one() {
@@ -813,8 +812,8 @@ export default class G2m extends VectorN<number> implements GeometricE2, Measure
         return this
     }
 
-    pow(): G2m {
-        throw new Error("TODO: G2m.pow")
+    pow(): Geometric2 {
+        throw new Error("TODO: Geometric2.pow")
     }
 
     /**
@@ -825,10 +824,10 @@ export default class G2m extends VectorN<number> implements GeometricE2, Measure
      * <code>this ⟼ scp(this, rev(this)) = this | ~this</code>
      * </p>
      * @method quad
-     * @return {G2m} <code>this</code>
+     * @return {Geometric2} <code>this</code>
      * @chainable
      */
-    quad(): G2m {
+    quad(): Geometric2 {
         this.α = this.squaredNormSansUnits()
         this.x = 0
         this.y = 0
@@ -841,7 +840,7 @@ export default class G2m extends VectorN<number> implements GeometricE2, Measure
      * @param t {number}
      * @param controlPoint {GeometricE2}
      * @param endPoint {GeometricE2}
-     * @return {G2m}
+     * @return {Geometric2}
      */
     quadraticBezier(t: number, controlPoint: GeometricE2, endPoint: GeometricE2) {
         let α = b2(t, this.α, controlPoint.α, endPoint.α);
@@ -861,10 +860,10 @@ export default class G2m extends VectorN<number> implements GeometricE2, Measure
      * </p>
      * @method rco
      * @param m {GeometricE2}
-     * @return {G2m} <code>this</code>
+     * @return {Geometric2} <code>this</code>
      * @chainable
      */
-    rco(m: GeometricE2): G2m {
+    rco(m: GeometricE2): Geometric2 {
         return this.rco2(this, m)
     }
 
@@ -875,10 +874,10 @@ export default class G2m extends VectorN<number> implements GeometricE2, Measure
      * @method rco2
      * @param a {GeometricE2}
      * @param b {GeometricE2}
-     * @return {G2m} <code>this</code>
+     * @return {Geometric2} <code>this</code>
      * @chainable
      */
-    rco2(a: GeometricE2, b: GeometricE2): G2m {
+    rco2(a: GeometricE2, b: GeometricE2): Geometric2 {
         let a0 = a.α
         let a1 = a.x
         let a2 = a.y
@@ -900,10 +899,10 @@ export default class G2m extends VectorN<number> implements GeometricE2, Measure
      * </p>
      * @method reflect
      * @param n {VectorE2}
-     * @return {G2m} <code>this</code>
+     * @return {Geometric2} <code>this</code>
      * @chainable
      */
-    reflect(n: VectorE2): G2m {
+    reflect(n: VectorE2): Geometric2 {
         // TODO: Optimize.
         mustBeObject('n', n);
         let N = G2.fromVectorE2(n);
@@ -918,10 +917,10 @@ export default class G2m extends VectorN<number> implements GeometricE2, Measure
      * <code>this ⟼ rev(this)</code>
      * </p>
      * @method reverse
-     * @return {G2m} <code>this</code>
+     * @return {Geometric2} <code>this</code>
      * @chainable
      */
-    rev(): G2m {
+    rev(): Geometric2 {
         // reverse has a ++-- structure.
         this.α = this.α
         this.x = this.x
@@ -930,12 +929,12 @@ export default class G2m extends VectorN<number> implements GeometricE2, Measure
         return this
     }
 
-    sin(): G2m {
-        throw new Error("G2m.sin")
+    sin(): Geometric2 {
+        throw new Error("Geometric2.sin")
     }
 
-    sinh(): G2m {
-        throw new Error("G2m.sinh")
+    sinh(): Geometric2 {
+        throw new Error("Geometric2.sinh")
     }
 
     /**
@@ -944,10 +943,10 @@ export default class G2m extends VectorN<number> implements GeometricE2, Measure
      * </p>
      * @method rotate
      * @param R {SpinorE2}
-     * @return {G2m} <code>this</code>
+     * @return {Geometric2} <code>this</code>
      * @chainable
      */
-    rotate(R: SpinorE2): G2m {
+    rotate(R: SpinorE2): Geometric2 {
         mustBeObject('R', R);
 
         const x = this.x;
@@ -967,21 +966,16 @@ export default class G2m extends VectorN<number> implements GeometricE2, Measure
 
     /**
      * Sets this multivector to a rotation from vector <code>a</code> to vector <code>b</code>.
+     *
      * @method rotorFromDirections
      * @param a {VectorE2} The starting vector
      * @param b {VectorE2} The ending vector
-     * @return {G2m} <code>this</code> The rotor representing a rotation from a to b.
+     * @return {Geometric2} <code>this</code> The rotor representing a rotation from a to b.
      * @chainable
      */
-    rotorFromDirections(a: VectorE2, b: VectorE2): G2m {
-        if (isDefined(rotorFromDirections(a, b, quadVector, dotVector, this))) {
-            return this;
-        }
-        else {
-            // In two dimensions, the rotation plane is not ambiguous.
-            return G2m.fromCartesian(0, 0, 0, 1)
-        }
-        return this;
+    rotorFromDirections(a: VectorE2, b: VectorE2): Geometric2 {
+        rotorFromDirections(a, b, this)
+        return this
     }
 
     /**
@@ -991,9 +985,9 @@ export default class G2m extends VectorN<number> implements GeometricE2, Measure
      * @method rotorFromGeneratorAngle
      * @param B {SpinorE2}
      * @param θ {number}
-     * @return {G2m} <code>this</code>
+     * @return {Geometric2} <code>this</code>
      */
-    rotorFromGeneratorAngle(B: SpinorE2, θ: number): G2m {
+    rotorFromGeneratorAngle(B: SpinorE2, θ: number): Geometric2 {
         mustBeObject('B', B)
         mustBeNumber('θ', θ)
         // We assume that B really is just a bivector
@@ -1027,10 +1021,10 @@ export default class G2m extends VectorN<number> implements GeometricE2, Measure
      * </p>
      * @method scp
      * @param m {GeometricE2}
-     * @return {G2m} <code>this</code>
+     * @return {Geometric2} <code>this</code>
      * @chainable
      */
-    scp(m: GeometricE2): G2m {
+    scp(m: GeometricE2): Geometric2 {
         return this.scp2(this, m)
     }
 
@@ -1041,7 +1035,7 @@ export default class G2m extends VectorN<number> implements GeometricE2, Measure
      * @method scp2
      * @param a {GeometricE2}
      * @param b {GeometricE2}
-     * @return {G2m} <code>this</code>
+     * @return {Geometric2} <code>this</code>
      * @chainable
      */
     scp2(a: GeometricE2, b: GeometricE2) {
@@ -1059,7 +1053,7 @@ export default class G2m extends VectorN<number> implements GeometricE2, Measure
      * @method scale
      * @param α {number} 
      */
-    scale(α: number): G2m {
+    scale(α: number): Geometric2 {
         mustBeNumber('α', α)
         this.α *= α
         this.x *= α
@@ -1068,7 +1062,7 @@ export default class G2m extends VectorN<number> implements GeometricE2, Measure
         return this
     }
 
-    slerp(target: GeometricE2, α: number): G2m {
+    slerp(target: GeometricE2, α: number): Geometric2 {
         mustBeObject('target', target)
         mustBeNumber('α', α)
         return this;
@@ -1078,12 +1072,12 @@ export default class G2m extends VectorN<number> implements GeometricE2, Measure
      * <p>
      * <code>this ⟼ a * b = a · b + a ^ b</code>
      * </p>
-     * Sets this G2m to the geometric product a * b of the vector arguments.
+     * Sets this Geometric2 to the geometric product a * b of the vector arguments.
      *
      * @method versor
      * @param a {VectorE2}
      * @param b {VectorE2}
-     * @return {G2m} <code>this</code>
+     * @return {Geometric2} <code>this</code>
      */
     versor(a: VectorE2, b: VectorE2) {
         const ax = a.x
@@ -1100,11 +1094,11 @@ export default class G2m extends VectorN<number> implements GeometricE2, Measure
     }
 
     /**
-     * Computes the <em>squared norm</em> of this <code>G2m</code> multivector. 
+     * Computes the <em>squared norm</em> of this <code>Geometric2</code> multivector. 
      * @method squaredNorm
      * @return {number} <code>this | ~this</code>
      */
-    squaredNorm(): G2m {
+    squaredNorm(): Geometric2 {
         this.α = this.squaredNormSansUnits()
         this.x = 0
         this.y = 0
@@ -1127,10 +1121,10 @@ export default class G2m extends VectorN<number> implements GeometricE2, Measure
      * @method sub
      * @param M {GeometricE2}
      * @param [α = 1] {number}
-     * @return {G2m} <code>this</code>
+     * @return {Geometric2} <code>this</code>
      * @chainable
      */
-    sub(M: GeometricE2, α = 1): G2m {
+    sub(M: GeometricE2, α = 1): Geometric2 {
         mustBeObject('M', M)
         mustBeNumber('α', α)
         this.α -= M.α * α
@@ -1147,10 +1141,10 @@ export default class G2m extends VectorN<number> implements GeometricE2, Measure
      * @method sub2
      * @param a {GeometricE2}
      * @param b {GeometricE2}
-     * @return {G2m} <code>this</code>
+     * @return {Geometric2} <code>this</code>
      * @chainable
      */
-    sub2(a: GeometricE2, b: GeometricE2): G2m {
+    sub2(a: GeometricE2, b: GeometricE2): Geometric2 {
         mustBeObject('a', a)
         mustBeObject('b', b)
         this.α = a.α - b.α
@@ -1167,7 +1161,7 @@ export default class G2m extends VectorN<number> implements GeometricE2, Measure
      */
     toExponential(): string {
         var coordToString = function(coord: number): string { return coord.toExponential() };
-        return stringFromCoordinates(coordinates(this), coordToString, G2m.BASIS_LABELS)
+        return stringFromCoordinates(coordinates(this), coordToString, Geometric2.BASIS_LABELS)
     }
 
     /**
@@ -1178,7 +1172,7 @@ export default class G2m extends VectorN<number> implements GeometricE2, Measure
      */
     toFixed(fractionDigits?: number): string {
         const coordToString = function(coord: number): string { return coord.toFixed(fractionDigits) };
-        return stringFromCoordinates(coordinates(this), coordToString, G2m.BASIS_LABELS)
+        return stringFromCoordinates(coordinates(this), coordToString, Geometric2.BASIS_LABELS)
     }
 
     /**
@@ -1188,16 +1182,16 @@ export default class G2m extends VectorN<number> implements GeometricE2, Measure
      */
     toString(): string {
         const coordToString = function(coord: number): string { return coord.toString() };
-        return stringFromCoordinates(coordinates(this), coordToString, G2m.BASIS_LABELS)
+        return stringFromCoordinates(coordinates(this), coordToString, Geometric2.BASIS_LABELS)
     }
 
     /**
      * @method grade
      * @param grade {number}
-     * @return {G2m} <code>this</code>
+     * @return {Geometric2} <code>this</code>
      * @chainable
      */
-    grade(grade: number): G2m {
+    grade(grade: number): Geometric2 {
         mustBeInteger('grade', grade)
         switch (grade) {
             case 0: {
@@ -1230,10 +1224,10 @@ export default class G2m extends VectorN<number> implements GeometricE2, Measure
     /**
      * Sets this multivector to the identity element for addition, <b>0</b>.
      * @method zero
-     * @return {G2m}
+     * @return {Geometric2}
      * @chainable
      */
-    zero(): G2m {
+    zero(): Geometric2 {
         this.α = 0
         this.x = 0
         this.y = 0
@@ -1244,16 +1238,16 @@ export default class G2m extends VectorN<number> implements GeometricE2, Measure
     /**
      * @method __add__
      * @param rhs {any}
-     * @return {G2m}
+     * @return {Geometric2}
      * @private
      */
     __add__(rhs: any) {
-        if (rhs instanceof G2m) {
-            return G2m.copy(this).add(rhs)
+        if (rhs instanceof Geometric2) {
+            return Geometric2.copy(this).add(rhs)
         }
         else if (typeof rhs === 'number') {
             // Addition commutes, but addScalar might be useful.
-            return G2m.fromScalar(rhs).add(this)
+            return Geometric2.fromScalar(rhs).add(this)
         }
         else {
             let rhsCopy = duckCopy(rhs)
@@ -1270,15 +1264,15 @@ export default class G2m extends VectorN<number> implements GeometricE2, Measure
     /**
      * @method __div__
      * @param rhs {any}
-     * @return {G2m}
+     * @return {Geometric2}
      * @private
      */
     __div__(rhs: any) {
-        if (rhs instanceof G2m) {
-            return G2m.copy(this).div(rhs)
+        if (rhs instanceof Geometric2) {
+            return Geometric2.copy(this).div(rhs)
         }
         else if (typeof rhs === 'number') {
-            return G2m.copy(this).divByScalar(rhs)
+            return Geometric2.copy(this).divByScalar(rhs)
         }
         else {
             return void 0
@@ -1288,15 +1282,15 @@ export default class G2m extends VectorN<number> implements GeometricE2, Measure
     /**
      * @method __rdiv__
      * @param lhs {any}
-     * @return {G2m}
+     * @return {Geometric2}
      * @private
      */
     __rdiv__(lhs: any) {
-        if (lhs instanceof G2m) {
-            return G2m.copy(lhs).div(this)
+        if (lhs instanceof Geometric2) {
+            return Geometric2.copy(lhs).div(this)
         }
         else if (typeof lhs === 'number') {
-            return G2m.fromScalar(lhs).div(this)
+            return Geometric2.fromScalar(lhs).div(this)
         }
         else {
             return void 0
@@ -1306,15 +1300,15 @@ export default class G2m extends VectorN<number> implements GeometricE2, Measure
     /**
      * @method __mul__
      * @param rhs {any}
-     * @return {G2m}
+     * @return {Geometric2}
      * @private
      */
-    __mul__(rhs: any): G2m {
-        if (rhs instanceof G2m) {
-            return G2m.copy(this).mul(rhs)
+    __mul__(rhs: any): Geometric2 {
+        if (rhs instanceof Geometric2) {
+            return Geometric2.copy(this).mul(rhs)
         }
         else if (typeof rhs === 'number') {
-            return G2m.copy(this).scale(rhs)
+            return Geometric2.copy(this).scale(rhs)
         }
         else {
             let rhsCopy = duckCopy(rhs)
@@ -1332,15 +1326,15 @@ export default class G2m extends VectorN<number> implements GeometricE2, Measure
     /**
      * @method __rmul__
      * @param lhs {any}
-     * @return {G2m}
+     * @return {Geometric2}
      * @private
      */
     __rmul__(lhs: any) {
-        if (lhs instanceof G2m) {
-            return G2m.copy(lhs).mul(this)
+        if (lhs instanceof Geometric2) {
+            return Geometric2.copy(lhs).mul(this)
         }
         else if (typeof lhs === 'number') {
-            return G2m.copy(this).scale(lhs)
+            return Geometric2.copy(this).scale(lhs)
         }
         else {
             let lhsCopy = duckCopy(lhs)
@@ -1357,15 +1351,15 @@ export default class G2m extends VectorN<number> implements GeometricE2, Measure
     /**
      * @method __radd__
      * @param lhs {any}
-     * @return {G2m}
+     * @return {Geometric2}
      * @private
      */
     __radd__(lhs: any) {
-        if (lhs instanceof G2m) {
-            return G2m.copy(lhs).add(this)
+        if (lhs instanceof Geometric2) {
+            return Geometric2.copy(lhs).add(this)
         }
         else if (typeof lhs === 'number') {
-            return G2m.fromScalar(lhs).add(this)
+            return Geometric2.fromScalar(lhs).add(this)
         }
         else {
             let lhsCopy = duckCopy(lhs)
@@ -1382,15 +1376,15 @@ export default class G2m extends VectorN<number> implements GeometricE2, Measure
     /**
      * @method __sub__
      * @param rhs {any}
-     * @return {G2m}
+     * @return {Geometric2}
      * @private
      */
     __sub__(rhs: any) {
-        if (rhs instanceof G2m) {
-            return G2m.copy(this).sub(rhs)
+        if (rhs instanceof Geometric2) {
+            return Geometric2.copy(this).sub(rhs)
         }
         else if (typeof rhs === 'number') {
-            return G2m.fromScalar(-rhs).add(this)
+            return Geometric2.fromScalar(-rhs).add(this)
         }
         else {
             return void 0
@@ -1400,15 +1394,15 @@ export default class G2m extends VectorN<number> implements GeometricE2, Measure
     /**
      * @method __rsub__
      * @param lhs {any}
-     * @return {G2m}
+     * @return {Geometric2}
      * @private
      */
     __rsub__(lhs: any) {
-        if (lhs instanceof G2m) {
-            return G2m.copy(lhs).sub(this)
+        if (lhs instanceof Geometric2) {
+            return Geometric2.copy(lhs).sub(this)
         }
         else if (typeof lhs === 'number') {
-            return G2m.fromScalar(lhs).sub(this)
+            return Geometric2.fromScalar(lhs).sub(this)
         }
         else {
             return void 0
@@ -1418,16 +1412,16 @@ export default class G2m extends VectorN<number> implements GeometricE2, Measure
     /**
      * @method __wedge__
      * @param rhs {any}
-     * @return {G2m}
+     * @return {Geometric2}
      * @private
      */
     __wedge__(rhs: any) {
-        if (rhs instanceof G2m) {
-            return G2m.copy(this).ext(rhs)
+        if (rhs instanceof Geometric2) {
+            return Geometric2.copy(this).ext(rhs)
         }
         else if (typeof rhs === 'number') {
             // The outer product with a scalar is simply scalar multiplication.
-            return G2m.copy(this).scale(rhs)
+            return Geometric2.copy(this).scale(rhs)
         }
         else {
             return void 0
@@ -1437,16 +1431,16 @@ export default class G2m extends VectorN<number> implements GeometricE2, Measure
     /**
      * @method __rwedge__
      * @param lhs {any}
-     * @return {G2m}
+     * @return {Geometric2}
      * @private
      */
     __rwedge__(lhs: any) {
-        if (lhs instanceof G2m) {
-            return G2m.copy(lhs).ext(this)
+        if (lhs instanceof Geometric2) {
+            return Geometric2.copy(lhs).ext(this)
         }
         else if (typeof lhs === 'number') {
             // The outer product with a scalar is simply scalar multiplication, and commutes.
-            return G2m.copy(this).scale(lhs)
+            return Geometric2.copy(this).scale(lhs)
         }
         else {
             return void 0
@@ -1456,15 +1450,15 @@ export default class G2m extends VectorN<number> implements GeometricE2, Measure
     /**
      * @method __lshift__
      * @param other {any}
-     * @return {G2m}
+     * @return {Geometric2}
      * @private
      */
     __lshift__(rhs: any) {
-        if (rhs instanceof G2m) {
-            return G2m.copy(this).lco(rhs)
+        if (rhs instanceof Geometric2) {
+            return Geometric2.copy(this).lco(rhs)
         }
         else if (typeof rhs === 'number') {
-            return G2m.copy(this).lco(G2m.fromScalar(rhs))
+            return Geometric2.copy(this).lco(Geometric2.fromScalar(rhs))
         }
         else {
             return void 0
@@ -1474,15 +1468,15 @@ export default class G2m extends VectorN<number> implements GeometricE2, Measure
     /**
      * @method __rlshift__
      * @param other {any}
-     * @return {G2m}
+     * @return {Geometric2}
      * @private
      */
     __rlshift__(lhs: any) {
-        if (lhs instanceof G2m) {
-            return G2m.copy(lhs).lco(this)
+        if (lhs instanceof Geometric2) {
+            return Geometric2.copy(lhs).lco(this)
         }
         else if (typeof lhs === 'number') {
-            return G2m.fromScalar(lhs).lco(this)
+            return Geometric2.fromScalar(lhs).lco(this)
         }
         else {
             return void 0
@@ -1492,15 +1486,15 @@ export default class G2m extends VectorN<number> implements GeometricE2, Measure
     /**
      * @method __rshift__
      * @param rhs {any}
-     * @return {G2m}
+     * @return {Geometric2}
      * @private
      */
     __rshift__(rhs: any) {
-        if (rhs instanceof G2m) {
-            return G2m.copy(this).rco(rhs)
+        if (rhs instanceof Geometric2) {
+            return Geometric2.copy(this).rco(rhs)
         }
         else if (typeof rhs === 'number') {
-            return G2m.copy(this).rco(G2m.fromScalar(rhs))
+            return Geometric2.copy(this).rco(Geometric2.fromScalar(rhs))
         }
         else {
             return void 0
@@ -1510,15 +1504,15 @@ export default class G2m extends VectorN<number> implements GeometricE2, Measure
     /**
      * @method __rrshift__
      * @param lhs {any}
-     * @return {G2m}
+     * @return {Geometric2}
      * @private
      */
     __rrshift__(lhs: any) {
-        if (lhs instanceof G2m) {
-            return G2m.copy(lhs).rco(this)
+        if (lhs instanceof Geometric2) {
+            return Geometric2.copy(lhs).rco(this)
         }
         else if (typeof lhs === 'number') {
-            return G2m.fromScalar(lhs).rco(this)
+            return Geometric2.fromScalar(lhs).rco(this)
         }
         else {
             return void 0
@@ -1528,15 +1522,15 @@ export default class G2m extends VectorN<number> implements GeometricE2, Measure
     /**
      * @method __vbar__
      * @param rhs {any}
-     * @return {G2m}
+     * @return {Geometric2}
      * @private
      */
     __vbar__(rhs: any) {
-        if (rhs instanceof G2m) {
-            return G2m.copy(this).scp(rhs)
+        if (rhs instanceof Geometric2) {
+            return Geometric2.copy(this).scp(rhs)
         }
         else if (typeof rhs === 'number') {
-            return G2m.copy(this).scp(G2m.fromScalar(rhs))
+            return Geometric2.copy(this).scp(Geometric2.fromScalar(rhs))
         }
         else {
             return void 0
@@ -1546,15 +1540,15 @@ export default class G2m extends VectorN<number> implements GeometricE2, Measure
     /**
      * @method __rvbar__
      * @param lhs {any}
-     * @return {G2m}
+     * @return {Geometric2}
      * @private
      */
     __rvbar__(lhs: any) {
-        if (lhs instanceof G2m) {
-            return G2m.copy(lhs).scp(this)
+        if (lhs instanceof Geometric2) {
+            return Geometric2.copy(lhs).scp(this)
         }
         else if (typeof lhs === 'number') {
-            return G2m.fromScalar(lhs).scp(this)
+            return Geometric2.fromScalar(lhs).scp(this)
         }
         else {
             return void 0
@@ -1563,50 +1557,50 @@ export default class G2m extends VectorN<number> implements GeometricE2, Measure
 
     /**
      * @method __bang__
-     * @return {G2m}
+     * @return {Geometric2}
      * @private
      * @chainable
      */
-    __bang__(): G2m {
-        return G2m.copy(this).inv()
+    __bang__(): Geometric2 {
+        return Geometric2.copy(this).inv()
     }
 
     /**
      * @method __tilde__
-     * @return {G2m}
+     * @return {Geometric2}
      * @private
      * @chainable
      */
-    __tilde__(): G2m {
-        return G2m.copy(this).rev()
+    __tilde__(): Geometric2 {
+        return Geometric2.copy(this).rev()
     }
 
     /**
      * @method __pos__
-     * @return {G2m}
+     * @return {Geometric2}
      * @private
      * @chainable
      */
-    __pos__(): G2m {
+    __pos__(): Geometric2 {
         // It's important that we make a copy whenever using operators.
-        return G2m.copy(this)/*.pos()*/
+        return Geometric2.copy(this)/*.pos()*/
     }
 
     /**
      * @method __neg__
-     * @return {G2m}
+     * @return {Geometric2}
      * @private
      * @chainable
      */
-    __neg__(): G2m {
-        return G2m.copy(this).neg()
+    __neg__(): Geometric2 {
+        return Geometric2.copy(this).neg()
     }
 
     /**
      * Intentionally undocumented.
      */
-    static fromCartesian(α: number, x: number, y: number, β: number, uom?: Unit): G2m {
-        const m = new G2m()
+    static fromCartesian(α: number, x: number, y: number, β: number, uom?: Unit): Geometric2 {
+        const m = new Geometric2()
         m.α = α
         m.x = x
         m.y = y
@@ -1618,12 +1612,12 @@ export default class G2m extends VectorN<number> implements GeometricE2, Measure
     /**
      * @method copy
      * @param M {GeometricE2}
-     * @return {G2m}
+     * @return {Geometric2}
      * @static
      * @chainable
      */
-    static copy(M: GeometricE2): G2m {
-        const copy = new G2m()
+    static copy(M: GeometricE2): Geometric2 {
+        const copy = new Geometric2()
         copy.α = M.α
         copy.x = M.x
         copy.y = M.y
@@ -1634,35 +1628,35 @@ export default class G2m extends VectorN<number> implements GeometricE2, Measure
     /**
      * @method fromScalar
      * @param α {number}
-     * @return {G2m}
+     * @return {Geometric2}
      * @static
      * @chainable
      */
-    static fromScalar(α: number): G2m {
-        return new G2m().addScalar(α)
+    static fromScalar(α: number): Geometric2 {
+        return new Geometric2().addScalar(α)
     }
 
     /**
      * @method fromSpinor
      * @param spinor {SpinorE2}
-     * @return {G2m}
+     * @return {Geometric2}
      * @static
      * @chainable
      */
-    static fromSpinor(spinor: SpinorE2): G2m {
-        return new G2m().copySpinor(spinor)
+    static fromSpinor(spinor: SpinorE2): Geometric2 {
+        return new Geometric2().copySpinor(spinor)
     }
 
     /**
      * @method fromVector
      * @param vector {VectorE2}
-     * @return {G2m}
+     * @return {Geometric2}
      * @static
      * @chainable
      */
-    static fromVector(vector: VectorE2): G2m {
+    static fromVector(vector: VectorE2): Geometric2 {
         if (isDefined(vector)) {
-            return new G2m().copyVector(vector)
+            return new Geometric2().copyVector(vector)
         }
         else {
             // We could also return an undefined value here!
@@ -1675,13 +1669,13 @@ export default class G2m extends VectorN<number> implements GeometricE2, Measure
      * @param A {GeometricE2}
      * @param B {GeometricE2}
      * @param α {number}
-     * @return {G2m} <code>A + α * (B - A)</code>
+     * @return {Geometric2} <code>A + α * (B - A)</code>
      * @static
      * @chainable
      */
-    static lerp(A: GeometricE2, B: GeometricE2, α: number): G2m {
-        return G2m.copy(A).lerp(B, α)
-        // return G2m.copy(B).sub(A).scale(α).add(A)
+    static lerp(A: GeometricE2, B: GeometricE2, α: number): Geometric2 {
+        return Geometric2.copy(A).lerp(B, α)
+        // return Geometric2.copy(B).sub(A).scale(α).add(A)
     }
 
     /**
@@ -1689,22 +1683,22 @@ export default class G2m extends VectorN<number> implements GeometricE2, Measure
      * @method rotorFromDirections
      * @param a {VectorE2} The <em>from</em> vector.
      * @param b {VectorE2} The <em>to</em> vector.
-     * @return {G2m}
+     * @return {Geometric2}
      * @static
      * @chainable
      */
-    static rotorFromDirections(a: VectorE2, b: VectorE2): G2m {
-        return new G2m().rotorFromDirections(a, b)
+    static rotorFromDirections(a: VectorE2, b: VectorE2): Geometric2 {
+        return new Geometric2().rotorFromDirections(a, b)
     }
 
     /**
      * @method vector
      * @param x {number}
      * @param y {number}
-     * @return {G2m}
+     * @return {Geometric2}
      * @static
      */
-    static vector(x: number, y: number): G2m {
+    static vector(x: number, y: number): Geometric2 {
         return this.fromCartesian(0, x, y, 0)
     }
 }

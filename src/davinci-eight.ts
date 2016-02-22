@@ -155,8 +155,8 @@ import SpinorE1 from 'davinci-eight/math/SpinorE1';
 import SpinorE2 from 'davinci-eight/math/SpinorE2';
 import SpinorE3 from 'davinci-eight/math/SpinorE3';
 import Unit from 'davinci-eight/math/Unit';
-import G2m from 'davinci-eight/math/G2m';
-import G3m from 'davinci-eight/math/G3m';
+import Geometric2 from 'davinci-eight/math/Geometric2';
+import Geometric3 from 'davinci-eight/math/Geometric3';
 import Spinor2 from 'davinci-eight/math/Spinor2';
 import Spinor3 from 'davinci-eight/math/Spinor3';
 import Vector2 from 'davinci-eight/math/Vector2';
@@ -308,8 +308,8 @@ const eight = {
     get Matrix3() { return Matrix3 },
     get Matrix4() { return Matrix4 },
     get QQ() { return QQ },
-    get G2m() { return G2m },
-    get G3m() { return G3m },
+    get Geometric2() { return Geometric2 },
+    get Geometric3() { return Geometric3 },
     get Vector1() { return Vector1 },
     get Spinor2() { return Spinor2 },
     get Spinor3() { return Spinor3 },

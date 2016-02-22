@@ -3,6 +3,7 @@ import mustBeObject from '../checks/mustBeObject';
 import Mesh from '../core/Mesh';
 import Geometry from '../core/Geometry';
 import Material from '../core/Material';
+import Unit from '../math/Unit'
 
 /**
  * Convenient abstractions for Physics modeling.
@@ -11,11 +12,24 @@ import Material from '../core/Material';
  * @submodule visual
  */
 
+//
+// RigidBody extends Mesh, which has dimensionless, mutable, attitude and position properties.
+// RigidBody may have optional units and has strictly immutable types.
+// This makes RigidBody useful for Physics education purposes but less so for performance graphics.
+//
+
 /**
  * @class RigidBody
  * @extends Mesh
  */
 export default class RigidBody extends Mesh {
+
+    /**
+     * @property posUom
+     * @type Unit
+     * @private
+     */
+    private posUom: Unit;
 
     /**
      * @property _mass
@@ -121,11 +135,12 @@ export default class RigidBody extends Mesh {
      * @type G3
      */
     get X(): G3 {
-        return G3.fromVector(this.position)
+        return G3.fromVector(this.position, this.posUom)
     }
     set X(X: G3) {
         mustBeObject('X', X, () => { return this._type })
         this.position.copy(X)
+        this.posUom = X.uom
     }
 
     /**
@@ -135,11 +150,12 @@ export default class RigidBody extends Mesh {
      * @type G3
      */
     get pos(): G3 {
-        return G3.fromVector(this.position)
+        return G3.fromVector(this.position, this.posUom)
     }
     set pos(pos: G3) {
         mustBeObject('pos', pos, () => { return this._type })
         this.position.copy(pos)
+        this.posUom = pos.uom
     }
 
     /**

@@ -34,14 +34,14 @@ export default class ModelE3 {
 
     /**
      * @property _position
-     * @type {G3m}
+     * @type {Geometric3}
      * @private
      */
     private _position = new Vector3().zero();
 
     /**
      * @property _attitude
-     * @type {G3m}
+     * @type {Geometric3}
      * @private
      */
     private _attitude = new Spinor3().zero().addScalar(1);

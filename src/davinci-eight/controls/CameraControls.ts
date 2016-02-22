@@ -1,4 +1,4 @@
-import G3m from '../math/G3m'
+import Geometric3 from '../math/Geometric3'
 import MouseControls from './MouseControls'
 import PerspectiveCamera from '../facets/PerspectiveCamera'
 import Vector2 from '../math/Vector2'
@@ -41,14 +41,14 @@ export default class CameraControls extends MouseControls {
     /**
      * The position that we look at.
      */
-    private target = new G3m()
+    private target = new Geometric3()
 
     /**
      * The initial position, look and up of the camera.
      * We cache these so that we can reset the camera.
      */
     private position0: Vector3
-    private target0: G3m
+    private target0: Geometric3
     private up0: Vector3
 
     // Working storage for calculations that update the camera.
@@ -57,7 +57,7 @@ export default class CameraControls extends MouseControls {
     private objectUpDirection = new Vector3()
     private objectSidewaysDirection = new Vector3()
     private axis = new Vector3()
-    private rotor = new G3m()
+    private rotor = new Geometric3()
     private mouseChange = new Vector2()
     private pan = new Vector3()
     private objectUp = new Vector3()

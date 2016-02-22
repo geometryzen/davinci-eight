@@ -1,62 +1,84 @@
 import DivisionRingOperators from '../math/DivisionRingOperators';
 import Dimensions from '../math/Dimensions';
 import LinearElement from '../math/LinearElement';
+import notImplemented from '../i18n/notImplemented';
 import QQ from '../math/QQ';
 
-var LABELS_SI = ['kg', 'm', 's', 'C', 'K', 'mol', 'candela'];
+// const NAMES_SI = ['kilogram', 'meter', 'second', 'coulomb', 'kelvin', 'mole', 'candela'];
+const SYMBOLS_SI = ['kg', 'm', 's', 'C', 'K', 'mol', 'cd'];
 
-function assertArgNumber(name: string, x: number): number {
-    if (typeof x === 'number') {
-        return x;
-    }
-    else {
-        throw new Error("Argument '" + name + "' must be a number");
-    }
-}
+const patterns =
+    [
+        [-1, 1, -3, 1, 2, 1, 2, 1, 0, 1, 0, 1, 0, 1],  // F/m
+        [-1, 1, -2, 1, 1, 1, 2, 1, 0, 1, 0, 1, 0, 1],  // S
+        [-1, 1, -2, 1, 2, 1, 2, 1, 0, 1, 0, 1, 0, 1],  // F
+        [-1, 1, +0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1],  // C/kg
+        [+0, 1, -3, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1],  // C/m ** 3
+        [+0, 1, 2, 1, -2, 1, 0, 1, 0, 1, 0, 1, 0, 1],  // J/kg
+        [+0, 1, 0, 1, -1, 1, 0, 1, 0, 1, 0, 1, 0, 1],  // Hz
+        [+0, 1, 0, 1, -1, 1, 1, 1, 0, 1, 0, 1, 0, 1],  // A
+        [0, 1, 1, 1, -2, 1, 0, 1, 0, 1, 0, 1, 0, 1],   // m/s ** 2
+        [0, 1, 1, 1, -1, 1, 0, 1, 0, 1, 0, 1, 0, 1],   // m/s
+        [1, 1, 1, 1, -1, 1, 0, 1, 0, 1, 0, 1, 0, 1],   // kg·m/s
+        [1, 1, -1, 1, -2, 1, 0, 1, 0, 1, 0, 1, 0, 1],  // Pa
+        [1, 1, -1, 1, -1, 1, 0, 1, 0, 1, 0, 1, 0, 1],  // Pa·s
+        [1, 1, 0, 1, -3, 1, 0, 1, 0, 1, 0, 1, 0, 1],   // W/m ** 2
+        [1, 1, 0, 1, -2, 1, 0, 1, 0, 1, 0, 1, 0, 1],   // N/m
+        [1, 1, 0, 1, -1, 1, -1, 1, 0, 1, 0, 1, 0, 1],  // T
+        [1, 1, 1, 1, -3, 1, 0, 1, -1, 1, 0, 1, 0, 1],  // W/(m·K)
+        [1, 1, 1, 1, -2, 1, -1, 1, 0, 1, 0, 1, 0, 1],  // V/m
+        [1, 1, 1, 1, -2, 1, 0, 1, 0, 1, 0, 1, 0, 1],   // N
+        [1, 1, 1, 1, 0, 1, -2, 1, 0, 1, 0, 1, 0, 1],   // H/m
+        [1, 1, 2, 1, -2, 1, 0, 1, -1, 1, 0, 1, 0, 1],  // J/K
+        [0, 1, 2, 1, -2, 1, 0, 1, -1, 1, 0, 1, 0, 1],  // J/(kg·K)
+        [1, 1, 2, 1, -2, 1, 0, 1, -1, 1, -1, 1, 0, 1], // J/(mol·K)
+        [1, 1, 2, 1, -2, 1, 0, 1, 0, 1, -1, 1, 0, 1],  // J/(mol)
+        [1, 1, 2, 1, -2, 1, 0, 1, 0, 1, 0, 1, 0, 1],   // J
+        [1, 1, 2, 1, -1, 1, 0, 1, 0, 1, 0, 1, 0, 1],   // J·s
+        [1, 1, 2, 1, -3, 1, 0, 1, 0, 1, 0, 1, 0, 1],   // W
+        [1, 1, 2, 1, -2, 1, -1, 1, 0, 1, 0, 1, 0, 1],  // V
+        [1, 1, 2, 1, -1, 1, -2, 1, 0, 1, 0, 1, 0, 1],  // Ω
+        [1, 1, 2, 1, 0, 1, -2, 1, 0, 1, 0, 1, 0, 1],   // H
+        [1, 1, 2, 1, -1, 1, -1, 1, 0, 1, 0, 1, 0, 1]   // Wb
+    ];
 
-function assertArgDimensions(name: string, arg: Dimensions): Dimensions {
-    if (arg instanceof Dimensions) {
-        return arg;
-    }
-    else {
-        throw new Error("Argument '" + arg + "' must be a Dimensions");
-    }
-}
+const decodes =
+    [
+        ["F/m"],
+        ["S"],
+        ["F"],
+        ["C/kg"],
+        ["C/m ** 3"],
+        ["J/kg"],
+        ["Hz"],
+        ["A"],
+        ["m/s ** 2"],
+        ["m/s"],
+        ["kg·m/s"],
+        ["Pa"],
+        ["Pa·s"],
+        ["W/m ** 2"],
+        ["N/m"],
+        ["T"],
+        ["W/(m·K)"],
+        ["V/m"],
+        ["N"],
+        ["H/m"],
+        ["J/K"],
+        ["J/(kg·K)"],
+        ["J/(mol·K)"],
+        ["J/mol"],
+        ["J"],
+        ["J·s"],
+        ["W"],
+        ["V"],
+        ["Ω"],
+        ["H"],
+        ["Wb"]
+    ];
 
-function assertArgRational(name: string, arg: QQ): QQ {
-    if (arg instanceof QQ) {
-        return arg;
-    }
-    else {
-        throw new Error("Argument '" + arg + "' must be a QQ");
-    }
-}
-
-function assertArgUnit(name: string, arg: Unit): Unit {
-    if (arg instanceof Unit) {
-        return arg;
-    }
-    else {
-        throw new Error("Argument '" + arg + "' must be a Unit");
-    }
-}
-
-function assertArgUnitOrUndefined(name: string, arg: Unit): Unit {
-    if (typeof arg === 'undefined') {
-        return arg;
-    }
-    else {
-        return assertArgUnit(name, arg);
-    }
-}
-
-var dumbString = function(multiplier: number, dimensions: Dimensions, labels: string[]) {
-    assertArgNumber('multiplier', multiplier);
-    assertArgDimensions('dimensions', dimensions);
-    var operatorStr: string;
-    var scaleString: string;
-    var unitsString: string;
-    var stringify = function(rational: QQ, label: string): string {
+const dumbString = function(multiplier: number, formatted: string, dimensions: Dimensions, labels: string[]) {
+    const stringify = function(rational: QQ, label: string): string {
         if (rational.numer === 0) {
             return null;
         } else if (rational.denom === 1) {
@@ -69,88 +91,24 @@ var dumbString = function(multiplier: number, dimensions: Dimensions, labels: st
         return "" + label + " ** " + rational;
     };
 
-    operatorStr = multiplier === 1 || dimensions.isOne() ? "" : " ";
-    scaleString = multiplier === 1 ? "" : "" + multiplier;
-    unitsString = [stringify(dimensions.M, labels[0]), stringify(dimensions.L, labels[1]), stringify(dimensions.T, labels[2]), stringify(dimensions.Q, labels[3]), stringify(dimensions.temperature, labels[4]), stringify(dimensions.amount, labels[5]), stringify(dimensions.intensity, labels[6])].filter(function(x) {
+    const operatorStr = multiplier === 1 || dimensions.isOne() ? "" : " ";
+    const scaleString = multiplier === 1 ? "" : formatted;
+    const unitsString = [stringify(dimensions.M, labels[0]), stringify(dimensions.L, labels[1]), stringify(dimensions.T, labels[2]), stringify(dimensions.Q, labels[3]), stringify(dimensions.temperature, labels[4]), stringify(dimensions.amount, labels[5]), stringify(dimensions.intensity, labels[6])].filter(function(x) {
         return typeof x === 'string';
     }).join(" ");
     return "" + scaleString + operatorStr + unitsString;
 };
 
-const unitString = function(multiplier: number, dimensions: Dimensions, labels: string[]): string {
-    const patterns =
-        [
-            [-1, 1, -3, 1, 2, 1, 2, 1, 0, 1, 0, 1, 0, 1],
-            [-1, 1, -2, 1, 1, 1, 2, 1, 0, 1, 0, 1, 0, 1],
-            [-1, 1, -2, 1, 2, 1, 2, 1, 0, 1, 0, 1, 0, 1],
-            [-1, 1, 3, 1, -2, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-            [0, 1, 0, 1, -1, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-            [0, 1, 0, 1, -1, 1, 1, 1, 0, 1, 0, 1, 0, 1],
-            [0, 1, 1, 1, -2, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-            [0, 1, 1, 1, -1, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-            [1, 1, 1, 1, -1, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-            [1, 1, -1, 1, -2, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-            [1, 1, -1, 1, -1, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-            [1, 1, 0, 1, -3, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-            [1, 1, 0, 1, -2, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-            [1, 1, 0, 1, -1, 1, -1, 1, 0, 1, 0, 1, 0, 1],
-            [1, 1, 1, 1, -3, 1, 0, 1, -1, 1, 0, 1, 0, 1],
-            [1, 1, 1, 1, -2, 1, -1, 1, 0, 1, 0, 1, 0, 1],
-            [1, 1, 1, 1, -2, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-            [1, 1, 1, 1, 0, 1, -2, 1, 0, 1, 0, 1, 0, 1],
-            [1, 1, 2, 1, -2, 1, 0, 1, -1, 1, 0, 1, 0, 1],
-            [0, 1, 2, 1, -2, 1, 0, 1, -1, 1, 0, 1, 0, 1],
-            [1, 1, 2, 1, -2, 1, 0, 1, -1, 1, -1, 1, 0, 1],
-            [1, 1, 2, 1, -2, 1, 0, 1, 0, 1, -1, 1, 0, 1],
-            [1, 1, 2, 1, -2, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-            [1, 1, 2, 1, -1, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-            [1, 1, 2, 1, -3, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-            [1, 1, 2, 1, -2, 1, -1, 1, 0, 1, 0, 1, 0, 1],
-            [1, 1, 2, 1, -1, 1, -2, 1, 0, 1, 0, 1, 0, 1],
-            [1, 1, 2, 1, 0, 1, -2, 1, 0, 1, 0, 1, 0, 1],
-            [1, 1, 2, 1, -1, 1, -1, 1, 0, 1, 0, 1, 0, 1]
-        ];
-    const decodes =
-        [
-            ["F/m"],
-            ["S"],
-            ["F"],
-            ["N·m ** 2/kg ** 2"],
-            ["Hz"],
-            ["A"],
-            ["m/s ** 2"],
-            ["m/s"],
-            ["kg·m/s"],
-            ["Pa"],
-            ["Pa·s"],
-            ["W/m ** 2"],
-            ["N/m"],
-            ["T"],
-            ["W/(m·K)"],
-            ["V/m"],
-            ["N"],
-            ["H/m"],
-            ["J/K"],
-            ["J/(kg·K)"],
-            ["J/(mol·K)"],
-            ["J/mol"],
-            ["J"],
-            ["J·s"],
-            ["W"],
-            ["V"],
-            ["Ω"],
-            ["H"],
-            ["Wb"]
-        ];
-    var M = dimensions.M;
-    var L = dimensions.L;
-    var T = dimensions.T;
-    var Q = dimensions.Q;
-    var temperature = dimensions.temperature;
-    var amount = dimensions.amount;
-    var intensity = dimensions.intensity;
-    for (var i = 0, len = patterns.length; i < len; i++) {
-        var pattern = patterns[i];
+const unitString = function(multiplier: number, formatted: string, dimensions: Dimensions, labels: string[]): string {
+    const M = dimensions.M;
+    const L = dimensions.L;
+    const T = dimensions.T;
+    const Q = dimensions.Q;
+    const temperature = dimensions.temperature;
+    const amount = dimensions.amount;
+    const intensity = dimensions.intensity;
+    for (let i = 0, len = patterns.length; i < len; i++) {
+        const pattern = patterns[i];
         if (M.numer === pattern[0] && M.denom === pattern[1] &&
             L.numer === pattern[2] && L.denom === pattern[3] &&
             T.numer === pattern[4] && T.denom === pattern[5] &&
@@ -166,7 +124,7 @@ const unitString = function(multiplier: number, dimensions: Dimensions, labels: 
             }
         }
     }
-    return dumbString(multiplier, dimensions, labels);
+    return dumbString(multiplier, formatted, dimensions, labels);
 };
 
 function add(lhs: Unit, rhs: Unit): Unit {
@@ -198,15 +156,60 @@ function div(lhs: Unit, rhs: Unit): Unit {
  * @class Unit
  */
 export default class Unit implements DivisionRingOperators<Unit>, LinearElement<Unit, Unit, Unit, Unit> {
-    public static ONE = new Unit(1.0, Dimensions.ONE, LABELS_SI);
-    public static KILOGRAM = new Unit(1.0, Dimensions.MASS, LABELS_SI);
-    public static METER = new Unit(1.0, Dimensions.LENGTH, LABELS_SI);
-    public static SECOND = new Unit(1.0, Dimensions.TIME, LABELS_SI);
-    public static COULOMB = new Unit(1.0, Dimensions.CHARGE, LABELS_SI);
-    public static AMPERE = new Unit(1.0, Dimensions.CURRENT, LABELS_SI);
-    public static KELVIN = new Unit(1.0, Dimensions.TEMPERATURE, LABELS_SI);
-    public static MOLE = new Unit(1.0, Dimensions.AMOUNT, LABELS_SI);
-    public static CANDELA = new Unit(1.0, Dimensions.INTENSITY, LABELS_SI);
+    /**
+     * @property ONE
+     * @type Unit
+     * @static
+     */
+    public static ONE = new Unit(1.0, Dimensions.ONE, SYMBOLS_SI);
+    /**
+     * @property KILOGRAM
+     * @type Unit
+     * @static
+     */
+    public static KILOGRAM = new Unit(1.0, Dimensions.MASS, SYMBOLS_SI);
+    /**
+     * @property METER
+     * @type Unit
+     * @static
+     */
+    public static METER = new Unit(1.0, Dimensions.LENGTH, SYMBOLS_SI);
+    /**
+     * @property SECOND
+     * @type Unit
+     * @static
+     */
+    public static SECOND = new Unit(1.0, Dimensions.TIME, SYMBOLS_SI);
+    /**
+     * @property COULOMB
+     * @type Unit
+     * @static
+     */
+    public static COULOMB = new Unit(1.0, Dimensions.CHARGE, SYMBOLS_SI);
+    /**
+     * @property AMPERE
+     * @type Unit
+     * @static
+     */
+    public static AMPERE = new Unit(1.0, Dimensions.CURRENT, SYMBOLS_SI);
+    /**
+     * @property KELVIN
+     * @type Unit
+     * @static
+     */
+    public static KELVIN = new Unit(1.0, Dimensions.TEMPERATURE, SYMBOLS_SI);
+    /**
+     * @property MOLE
+     * @type Unit
+     * @static
+     */
+    public static MOLE = new Unit(1.0, Dimensions.AMOUNT, SYMBOLS_SI);
+    /**
+     * @property CANDELA
+     * @type Unit
+     * @static
+     */
+    public static CANDELA = new Unit(1.0, Dimensions.INTENSITY, SYMBOLS_SI);
     /**
      * The Unit class represents the units for a measure.
      *
@@ -246,7 +249,6 @@ export default class Unit implements DivisionRingOperators<Unit>, LinearElement<
      * @return {Unit}
      */
     add(rhs: Unit): Unit {
-        assertArgUnit('rhs', rhs);
         return add(this, rhs);
     }
 
@@ -256,7 +258,7 @@ export default class Unit implements DivisionRingOperators<Unit>, LinearElement<
      * @return {Unit}
      * @private
      */
-    __add__(rhs: any) {
+    __add__(rhs: Unit) {
         if (rhs instanceof Unit) {
             return add(this, rhs);
         }
@@ -271,7 +273,7 @@ export default class Unit implements DivisionRingOperators<Unit>, LinearElement<
      * @return {Unit}
      * @private
      */
-    __radd__(lhs: any) {
+    __radd__(lhs: Unit) {
         if (lhs instanceof Unit) {
             return add(lhs, this);
         }
@@ -287,7 +289,6 @@ export default class Unit implements DivisionRingOperators<Unit>, LinearElement<
      * @return {Unit}
      */
     sub(rhs: Unit): Unit {
-        assertArgUnit('rhs', rhs);
         return sub(this, rhs);
     }
 
@@ -296,7 +297,7 @@ export default class Unit implements DivisionRingOperators<Unit>, LinearElement<
      * @param rhs {Unit}
      * @return {Unit}
      */
-    __sub__(rhs: any) {
+    __sub__(rhs: Unit) {
         if (rhs instanceof Unit) {
             return sub(this, rhs);
         }
@@ -310,7 +311,7 @@ export default class Unit implements DivisionRingOperators<Unit>, LinearElement<
      * @param lhs {Unit}
      * @return {Unit}
      */
-    __rsub__(lhs: any) {
+    __rsub__(lhs: Unit) {
         if (lhs instanceof Unit) {
             return sub(lhs, this);
         }
@@ -325,17 +326,16 @@ export default class Unit implements DivisionRingOperators<Unit>, LinearElement<
      * @param rhs {Unit}
      * @return {Unit}
      */
-    mul(rhs: any): Unit {
-        assertArgUnit('rhs', rhs);
+    mul(rhs: Unit): Unit {
         return mul(this, rhs);
     }
 
     /**
      * @method __mul__
-     * @param rhs {Unit}
+     * @param rhs {number | Unit}
      * @return {Unit}
      */
-    __mul__(rhs: any) {
+    __mul__(rhs: number | Unit) {
         if (rhs instanceof Unit) {
             return mul(this, rhs);
         }
@@ -349,10 +349,10 @@ export default class Unit implements DivisionRingOperators<Unit>, LinearElement<
 
     /**
      * @method __rmul__
-     * @param lhs {Unit}
+     * @param lhs {number | Unit}
      * @return {Unit}
      */
-    __rmul__(lhs: any) {
+    __rmul__(lhs: number | Unit) {
         if (lhs instanceof Unit) {
             return mul(lhs, this);
         }
@@ -365,7 +365,6 @@ export default class Unit implements DivisionRingOperators<Unit>, LinearElement<
     }
 
     div(rhs: Unit): Unit {
-        assertArgUnit('rhs', rhs);
         return div(this, rhs);
     }
 
@@ -373,7 +372,7 @@ export default class Unit implements DivisionRingOperators<Unit>, LinearElement<
         return new Unit(this.multiplier / α, this.dimensions, this.labels);
     }
 
-    __div__(other: any) {
+    __div__(other: number | Unit) {
         if (other instanceof Unit) {
             return div(this, other);
         }
@@ -385,7 +384,7 @@ export default class Unit implements DivisionRingOperators<Unit>, LinearElement<
         }
     }
 
-    __rdiv__(other: any) {
+    __rdiv__(other: number | Unit) {
         if (other instanceof Unit) {
             return div(other, this);
         }
@@ -397,8 +396,29 @@ export default class Unit implements DivisionRingOperators<Unit>, LinearElement<
         }
     }
 
+    /**
+     * Intentionaly undocumented.
+     */
+    pattern(): string {
+        const ns: number[] = []
+        ns.push(this.dimensions.M.numer)
+        ns.push(this.dimensions.M.denom)
+        ns.push(this.dimensions.L.numer)
+        ns.push(this.dimensions.L.denom)
+        ns.push(this.dimensions.T.numer)
+        ns.push(this.dimensions.T.denom)
+        ns.push(this.dimensions.Q.numer)
+        ns.push(this.dimensions.Q.denom)
+        ns.push(this.dimensions.temperature.numer)
+        ns.push(this.dimensions.temperature.denom)
+        ns.push(this.dimensions.amount.numer)
+        ns.push(this.dimensions.amount.denom)
+        ns.push(this.dimensions.intensity.numer)
+        ns.push(this.dimensions.intensity.denom)
+        return JSON.stringify(ns)
+    }
+
     pow(exponent: QQ): Unit {
-        assertArgRational('exponent', exponent);
         return new Unit(Math.pow(this.multiplier, exponent.numer / exponent.denom), this.dimensions.pow(exponent), this.labels);
     }
 
@@ -441,7 +461,7 @@ export default class Unit implements DivisionRingOperators<Unit>, LinearElement<
      * @return {Unit}
      */
     lerp(target: Unit, α: number): Unit {
-        return this
+        throw new Error(notImplemented('lerp').message)
     }
 
     /**
@@ -489,19 +509,32 @@ export default class Unit implements DivisionRingOperators<Unit>, LinearElement<
      * @return {Unit}
      */
     slerp(target: Unit, α: number): Unit {
-        return this
+        throw new Error(notImplemented('slerp').message)
     }
 
+    /**
+     * @method toExponential
+     * @return {string}
+     */
     toExponential(): string {
-        return unitString(this.multiplier, this.dimensions, this.labels);
+        return unitString(this.multiplier, this.multiplier.toExponential(), this.dimensions, this.labels);
     }
 
-    toFixed(digits?: number): string {
-        return unitString(this.multiplier, this.dimensions, this.labels);
+    /**
+     * @method toFixed
+     * @param [fractionDigits] {number}
+     * @return {string}
+     */
+    toFixed(fractionDigits?: number): string {
+        return unitString(this.multiplier, this.multiplier.toFixed(fractionDigits), this.dimensions, this.labels);
     }
 
+    /**
+     * @method toString
+     * @return {string}
+     */
     toString(): string {
-        return unitString(this.multiplier, this.dimensions, this.labels);
+        return unitString(this.multiplier, this.multiplier.toString(), this.dimensions, this.labels);
     }
 
     /**
@@ -529,7 +562,7 @@ export default class Unit implements DivisionRingOperators<Unit>, LinearElement<
      * @static
      */
     static isOne(uom: Unit): boolean {
-        if (typeof uom === 'undefined') {
+        if (uom === void 0) {
             return true;
         }
         else if (uom instanceof Unit) {
@@ -540,15 +573,19 @@ export default class Unit implements DivisionRingOperators<Unit>, LinearElement<
         }
     }
 
-    static assertDimensionless(uom: Unit) {
+    /**
+     * @method assertDimensionless
+     * @param uom {Unit}
+     * @return {void}
+     * @static
+     */
+    static assertDimensionless(uom: Unit): void {
         if (!Unit.isOne(uom)) {
             throw new Error("uom must be dimensionless.");
         }
     }
 
     static compatible(lhs: Unit, rhs: Unit): Unit {
-        assertArgUnitOrUndefined('lhs', lhs);
-        assertArgUnitOrUndefined('rhs', rhs);
         if (lhs) {
             if (rhs) {
                 return lhs.compatible(rhs);
@@ -578,8 +615,8 @@ export default class Unit implements DivisionRingOperators<Unit>, LinearElement<
     }
 
     static mul(lhs: Unit, rhs: Unit): Unit {
-        if (lhs instanceof Unit) {
-            if (rhs instanceof Unit) {
+        if (lhs) {
+            if (rhs) {
                 return lhs.mul(rhs);
             }
             else if (Unit.isOne(rhs)) {
@@ -598,8 +635,8 @@ export default class Unit implements DivisionRingOperators<Unit>, LinearElement<
     }
 
     static div(lhs: Unit, rhs: Unit): Unit {
-        if (lhs instanceof Unit) {
-            if (rhs instanceof Unit) {
+        if (lhs) {
+            if (rhs) {
                 return lhs.div(rhs);
             }
             else {
@@ -607,7 +644,7 @@ export default class Unit implements DivisionRingOperators<Unit>, LinearElement<
             }
         }
         else {
-            if (rhs instanceof Unit) {
+            if (rhs) {
                 return rhs.inv();
             }
             else {
@@ -618,7 +655,6 @@ export default class Unit implements DivisionRingOperators<Unit>, LinearElement<
 
     static sqrt(uom: Unit): Unit {
         if (typeof uom !== 'undefined') {
-            assertArgUnit('uom', uom);
             if (!uom.isOne()) {
                 return new Unit(Math.sqrt(uom.multiplier), uom.dimensions.sqrt(), uom.labels);
             }

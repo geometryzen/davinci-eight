@@ -268,6 +268,7 @@ Make your changes to the TypeScript files in the _src_ directory. Do not edit th
 * 2.190.0: 2016-02-18 renames
 * 2.191.0: 2016-02-19 renames
 * 2.192.0: 2016-02-20 interleave
+* 2.193.0: 2016-02-12 tests
 
 ## License
 Copyright (c) 2014-2016 David Holmes

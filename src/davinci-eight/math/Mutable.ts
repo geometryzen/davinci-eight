@@ -7,11 +7,6 @@ interface Mutable<T> {
      * @type T
      */
     coords: T;
-    /**
-     * @property callback
-     * @type () => T
-     */
-    callback: () => T;
 }
 
 export default Mutable;

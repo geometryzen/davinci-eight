@@ -339,5 +339,5 @@ module.exports = function(grunt) {
 
   grunt.registerTask('tdd', ['clean', 'amd', 'connect:test', 'watch']);
 
-  grunt.registerTask('default', ['clean', 'system', 'tslint' ,'amd', 'test', 'uglify', 'copy', 'yuidoc']);
+  grunt.registerTask('default', ['clean', 'system','amd', 'test', 'tslint', 'uglify', 'copy', 'yuidoc']);
 };

@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.192.0</em>
+            <em>API Docs for: 2.193.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -70,9 +70,9 @@
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
                                 <li><a href="../classes/G1.html">G1</a></li>
                                 <li><a href="../classes/G2.html">G2</a></li>
-                                <li><a href="../classes/G2m.html">G2m</a></li>
                                 <li><a href="../classes/G3.html">G3</a></li>
-                                <li><a href="../classes/G3m.html">G3m</a></li>
+                                <li><a href="../classes/Geometric2.html">Geometric2</a></li>
+                                <li><a href="../classes/Geometric3.html">Geometric3</a></li>
                                 <li><a href="../classes/GeometricE2.html">GeometricE2</a></li>
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
@@ -209,7 +209,7 @@ import Facet from &#x27;../core/Facet&#x27;;
 import FacetVisitor from &#x27;../core/FacetVisitor&#x27;;
 import mustBeArray from &#x27;../checks/mustBeArray&#x27;;
 import mustBeString from &#x27;../checks/mustBeString&#x27;;
-import G3m from &#x27;../math/G3m&#x27;;
+import Geometric3 from &#x27;../math/Geometric3&#x27;;
 import Matrix4 from &#x27;../math/Matrix4&#x27;;
 import readOnly from &#x27;../i18n/readOnly&#x27;;
 
@@ -226,11 +226,11 @@ export default class ReflectionFacetE3 implements Facet {
      * The vector perpendicular to the (hyper-)plane of reflection.
      *
      * @property _normal
-     * @type {G3m}
+     * @type {Geometric3}
      * @private
      */
     // FIXME: Maybe use an Vector3 here instead?
-    public _normal: G3m;
+    public _normal: Geometric3;
 
     /**
      * @property matrix
@@ -248,16 +248,16 @@ export default class ReflectionFacetE3 implements Facet {
     constructor(name: string) {
         this.name = mustBeString(&#x27;name&#x27;, name)
         // The mathematics of the reflection causes a zero vector to be the identity transformation.
-        this._normal = G3m.zero()
+        this._normal = Geometric3.zero()
         this._normal.modified = true
     }
 
     /**
      * @property normal
-     * @type G3m
+     * @type Geometric3
      * @readOnly
      */
-    get normal(): G3m {
+    get normal(): Geometric3 {
         return this._normal
     }
     set normal(unused) {

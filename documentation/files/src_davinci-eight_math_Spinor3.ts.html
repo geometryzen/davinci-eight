@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.192.0</em>
+            <em>API Docs for: 2.193.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -70,9 +70,9 @@
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
                                 <li><a href="../classes/G1.html">G1</a></li>
                                 <li><a href="../classes/G2.html">G2</a></li>
-                                <li><a href="../classes/G2m.html">G2m</a></li>
                                 <li><a href="../classes/G3.html">G3</a></li>
-                                <li><a href="../classes/G3m.html">G3m</a></li>
+                                <li><a href="../classes/Geometric2.html">Geometric2</a></li>
+                                <li><a href="../classes/Geometric3.html">Geometric3</a></li>
                                 <li><a href="../classes/GeometricE2.html">GeometricE2</a></li>
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
@@ -206,15 +206,13 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 import dotVectorCartesianE3 from &#x27;../math/dotVectorCartesianE3&#x27;;
-import dotVector from &#x27;../math/dotVectorE3&#x27;;
 import MutableGeometricElement3D from &#x27;../math/MutableGeometricElement3D&#x27;;
 import mustBeInteger from &#x27;../checks/mustBeInteger&#x27;;
 import mustBeNumber from &#x27;../checks/mustBeNumber&#x27;;
 import mustBeObject from &#x27;../checks/mustBeObject&#x27;;
 import Mutable from &#x27;../math/Mutable&#x27;;
 import quadSpinor from &#x27;../math/quadSpinorE3&#x27;;
-import quadVector from &#x27;../math/quadVectorE3&#x27;;
-import rotorFromDirections from &#x27;../math/rotorFromDirections&#x27;;
+import rotorFromDirections from &#x27;../math/rotorFromDirectionsE3&#x27;;
 import SpinorE3 from &#x27;../math/SpinorE3&#x27;;
 import VectorE3 from &#x27;../math/VectorE3&#x27;;
 import VectorN from &#x27;../math/VectorN&#x27;;
@@ -502,7 +500,7 @@ export default class Spinor3 extends VectorN&lt;number&gt; implements SpinorE3, 
         let b2 = b.zx;
         let b3 = b.xy;
         // Compare this to the product for Quaternions
-        // How does this compare to G3m
+        // How does this compare to Geometric3
         // It would be interesting to DRY this out.
         this.α = a0 * b0 - a1 * b1 - a2 * b2 - a3 * b3;
         // this.α = a0 * b0 - dotVectorCartesianE3(a1, a2, a3, b1, b2, b3)
@@ -869,7 +867,8 @@ export default class Spinor3 extends VectorN&lt;number&gt; implements SpinorE3, 
      * @chainable
      */
     rotorFromDirections(a: VectorE3, b: VectorE3): Spinor3 {
-        return rotorFromDirections(a, b, quadVector, dotVector, this)
+        rotorFromDirections(a, b, this)
+        return this
     }
 
     /**

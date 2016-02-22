@@ -6,9 +6,8 @@ import Matrix4 from '../math/Matrix4';
 import mustBeInteger from '../checks/mustBeInteger';
 import mustBeNumber from '../checks/mustBeNumber';
 import mustBeObject from '../checks/mustBeObject';
-import quadVector from '../math/quadVectorE3';
+import notImplemented from '../i18n/notImplemented';
 import Vector3 from '../math/Vector3';
-import rotorFromDirections from '../math/rotorFromDirections';
 import TrigMethods from '../math/TrigMethods';
 import VectorE3 from '../math/VectorE3';
 
@@ -25,7 +24,7 @@ const EPS = 0.000001;
 
 // This class is for reference only and will remain undocumented and internal.
 // Notice that it is mutable, betraying a usage with animation loops.
-// But there we want to use the Spinor3 spinor, or the full multivector, G3m.
+// But there we want to use the Spinor3 spinor, or the full multivector, Geometric3.
 // For comparison QQ and CC are immutable.
 export default class HH implements MutableGeometricElement3D<HH, HH, HH, VectorE3>, TrigMethods<HH> {
     private x: number;
@@ -281,7 +280,7 @@ export default class HH implements MutableGeometricElement3D<HH, HH, HH, VectorE
         return this.mul2(rotor, this);
     }
     rotorFromDirections(a: VectorE3, b: VectorE3): HH {
-        return rotorFromDirections(a, b, quadVector, dotVector, this)
+        throw new Error(notImplemented('rotorFromDirections').message);
     }
     rotorFromAxisAngle(axis: VectorE3, θ: number): HH {
         let φ = θ / 2

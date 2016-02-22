@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.192.0</em>
+            <em>API Docs for: 2.193.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -70,9 +70,9 @@
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
                                 <li><a href="../classes/G1.html">G1</a></li>
                                 <li><a href="../classes/G2.html">G2</a></li>
-                                <li><a href="../classes/G2m.html">G2m</a></li>
                                 <li><a href="../classes/G3.html">G3</a></li>
-                                <li><a href="../classes/G3m.html">G3m</a></li>
+                                <li><a href="../classes/Geometric2.html">Geometric2</a></li>
+                                <li><a href="../classes/Geometric3.html">Geometric3</a></li>
                                 <li><a href="../classes/GeometricE2.html">GeometricE2</a></li>
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
@@ -205,8 +205,8 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import G2m from &#x27;../math/G2m&#x27;;
-import G3m from &#x27;../math/G3m&#x27;;
+import Geometric2 from &#x27;../math/Geometric2&#x27;;
+import Geometric3 from &#x27;../math/Geometric3&#x27;;
 import Vector2 from &#x27;../math/Vector2&#x27;;
 import Vector3 from &#x27;../math/Vector3&#x27;;
 import VectorN from &#x27;../math/VectorN&#x27;;
@@ -216,12 +216,12 @@ import VectorN from &#x27;../math/VectorN&#x27;;
  * geometric numbers for vertex attributes, but allows us to extract the vector (grade-1) part?
  */
 export default function dataFromVectorN(source: VectorN&lt;number&gt;): number[] {
-    if (source instanceof G3m) {
-        const g3 = &lt;G3m&gt;source
+    if (source instanceof Geometric3) {
+        const g3 = &lt;Geometric3&gt;source
         return [g3.x, g3.y, g3.z]
     }
-    else if (source instanceof G2m) {
-        const g2 = &lt;G2m&gt;source
+    else if (source instanceof Geometric2) {
+        const g2 = &lt;Geometric2&gt;source
         return [g2.x, g2.y]
     }
     else if (source instanceof Vector3) {

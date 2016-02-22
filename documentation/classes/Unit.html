@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.192.0</em>
+            <em>API Docs for: 2.193.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -70,9 +70,9 @@
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
                                 <li><a href="../classes/G1.html">G1</a></li>
                                 <li><a href="../classes/G2.html">G2</a></li>
-                                <li><a href="../classes/G2m.html">G2m</a></li>
                                 <li><a href="../classes/G3.html">G3</a></li>
-                                <li><a href="../classes/G3m.html">G3m</a></li>
+                                <li><a href="../classes/Geometric2.html">Geometric2</a></li>
+                                <li><a href="../classes/Geometric3.html">Geometric3</a></li>
                                 <li><a href="../classes/GeometricE2.html">GeometricE2</a></li>
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
@@ -206,7 +206,7 @@
 
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_math_Unit.ts.html#l210"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Unit.ts:210</code></a>
+            Defined in: <a href="../files/src_davinci-eight_math_Unit.ts.html#l213"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Unit.ts:213</code></a>
         </div>
 
             Module: <a href="../modules/math.html">math</a><br>
@@ -249,7 +249,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Unit.ts.html#l210"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Unit.ts:210</code></a>
+        <a href="../files/src_davinci-eight_math_Unit.ts.html#l213"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Unit.ts:213</code></a>
         </p>
 
 
@@ -308,6 +308,7 @@
         <li class="api-class-tab index"><a href="#index">Index</a></li>
 
             <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
+            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
     </ul>
 
     <div>
@@ -353,6 +354,11 @@
                             <li class="index-item method">
                                 <a href="#method_add">add</a>
 
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_assertDimensionless">assertDimensionless</a>
+
+                                    <span class="flag static">static</span>
                             </li>
                             <li class="index-item method">
                                 <a href="#method_compatible">compatible</a>
@@ -411,9 +417,72 @@
                                 <a href="#method_sub">sub</a>
 
                             </li>
+                            <li class="index-item method">
+                                <a href="#method_toExponential">toExponential</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_toFixed">toFixed</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_toString">toString</a>
+
+                            </li>
                     </ul>
                 </div>
 
+                <div class="index-section properties">
+                    <h3>Properties</h3>
+
+                    <ul class="index-list properties">
+                            <li class="index-item property">
+                                <a href="#property_AMPERE">AMPERE</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_CANDELA">CANDELA</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_COULOMB">COULOMB</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_KELVIN">KELVIN</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_KILOGRAM">KILOGRAM</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_METER">METER</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_MOLE">MOLE</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_ONE">ONE</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_SECOND">SECOND</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                    </ul>
+                </div>
 
 
         </div>
@@ -446,7 +515,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Unit.ts.html#l253"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Unit.ts:253</code></a>
+        <a href="../files/src_davinci-eight_math_Unit.ts.html#l255"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Unit.ts:255</code></a>
         </p>
 
 
@@ -525,7 +594,7 @@
             <ul class="params-list">
                 <li class="param">
                         <code class="param-name">rhs</code>
-                        <span class="type"><a href="../classes/Unit.html" class="crosslink">Unit</a></span>
+                        <span class="type">Number | <a href="../classes/Unit.html" class="crosslink">Unit</a></span>
 
 
                     <div class="param-description">
@@ -565,7 +634,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Unit.ts.html#l516"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Unit.ts:516</code></a>
+        <a href="../files/src_davinci-eight_math_Unit.ts.html#l549"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Unit.ts:549</code></a>
         </p>
 
 
@@ -606,7 +675,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Unit.ts.html#l507"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Unit.ts:507</code></a>
+        <a href="../files/src_davinci-eight_math_Unit.ts.html#l540"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Unit.ts:540</code></a>
         </p>
 
 
@@ -653,7 +722,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Unit.ts.html#l268"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Unit.ts:268</code></a>
+        <a href="../files/src_davinci-eight_math_Unit.ts.html#l270"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Unit.ts:270</code></a>
         </p>
 
 
@@ -732,7 +801,7 @@
             <ul class="params-list">
                 <li class="param">
                         <code class="param-name">lhs</code>
-                        <span class="type"><a href="../classes/Unit.html" class="crosslink">Unit</a></span>
+                        <span class="type">Number | <a href="../classes/Unit.html" class="crosslink">Unit</a></span>
 
 
                     <div class="param-description">
@@ -777,7 +846,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Unit.ts.html#l308"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Unit.ts:308</code></a>
+        <a href="../files/src_davinci-eight_math_Unit.ts.html#l309"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Unit.ts:309</code></a>
         </p>
 
 
@@ -839,7 +908,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Unit.ts.html#l294"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Unit.ts:294</code></a>
+        <a href="../files/src_davinci-eight_math_Unit.ts.html#l295"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Unit.ts:295</code></a>
         </p>
 
 
@@ -901,7 +970,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Unit.ts.html#l243"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Unit.ts:243</code></a>
+        <a href="../files/src_davinci-eight_math_Unit.ts.html#l246"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Unit.ts:246</code></a>
         </p>
 
 
@@ -939,6 +1008,69 @@
 
 
 </div>
+<div id="method_assertDimensionless" class="method item">
+    <h3 class="name"><code>assertDimensionless</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>uom</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+
+
+
+
+        <span class="flag static">static</span>
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Unit.ts.html#l576"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Unit.ts:576</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">uom</code>
+                        <span class="type"><a href="../classes/Unit.html" class="crosslink">Unit</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Void</span>:
+            </div>
+        </div>
+
+
+</div>
 <div id="method_compatible" class="method item">
     <h3 class="name"><code>compatible</code></h3>
 
@@ -963,7 +1095,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Unit.ts.html#l228"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Unit.ts:228</code></a>
+        <a href="../files/src_davinci-eight_math_Unit.ts.html#l231"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Unit.ts:231</code></a>
         </p>
 
 
@@ -1019,7 +1151,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Unit.ts.html#l405"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Unit.ts:405</code></a>
+        <a href="../files/src_davinci-eight_math_Unit.ts.html#l425"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Unit.ts:425</code></a>
         </p>
 
 
@@ -1066,7 +1198,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Unit.ts.html#l525"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Unit.ts:525</code></a>
+        <a href="../files/src_davinci-eight_math_Unit.ts.html#l558"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Unit.ts:558</code></a>
         </p>
 
 
@@ -1122,7 +1254,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Unit.ts.html#l421"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Unit.ts:421</code></a>
+        <a href="../files/src_davinci-eight_math_Unit.ts.html#l441"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Unit.ts:441</code></a>
         </p>
 
 
@@ -1162,7 +1294,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Unit.ts.html#l429"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Unit.ts:429</code></a>
+        <a href="../files/src_davinci-eight_math_Unit.ts.html#l449"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Unit.ts:449</code></a>
         </p>
 
 
@@ -1211,7 +1343,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Unit.ts.html#l437"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Unit.ts:437</code></a>
+        <a href="../files/src_davinci-eight_math_Unit.ts.html#l457"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Unit.ts:457</code></a>
         </p>
 
 
@@ -1283,7 +1415,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Unit.ts.html#l323"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Unit.ts:323</code></a>
+        <a href="../files/src_davinci-eight_math_Unit.ts.html#l324"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Unit.ts:324</code></a>
         </p>
 
 
@@ -1339,7 +1471,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Unit.ts.html#l413"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Unit.ts:413</code></a>
+        <a href="../files/src_davinci-eight_math_Unit.ts.html#l433"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Unit.ts:433</code></a>
         </p>
 
 
@@ -1379,7 +1511,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Unit.ts.html#l447"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Unit.ts:447</code></a>
+        <a href="../files/src_davinci-eight_math_Unit.ts.html#l467"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Unit.ts:467</code></a>
         </p>
 
 
@@ -1419,7 +1551,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Unit.ts.html#l455"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Unit.ts:455</code></a>
+        <a href="../files/src_davinci-eight_math_Unit.ts.html#l475"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Unit.ts:475</code></a>
         </p>
 
 
@@ -1465,7 +1597,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Unit.ts.html#l463"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Unit.ts:463</code></a>
+        <a href="../files/src_davinci-eight_math_Unit.ts.html#l483"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Unit.ts:483</code></a>
         </p>
 
 
@@ -1527,7 +1659,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Unit.ts.html#l472"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Unit.ts:472</code></a>
+        <a href="../files/src_davinci-eight_math_Unit.ts.html#l492"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Unit.ts:492</code></a>
         </p>
 
 
@@ -1592,7 +1724,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Unit.ts.html#l485"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Unit.ts:485</code></a>
+        <a href="../files/src_davinci-eight_math_Unit.ts.html#l505"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Unit.ts:505</code></a>
         </p>
 
 
@@ -1664,7 +1796,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Unit.ts.html#l284"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Unit.ts:284</code></a>
+        <a href="../files/src_davinci-eight_math_Unit.ts.html#l286"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Unit.ts:286</code></a>
         </p>
 
 
@@ -1702,8 +1834,380 @@
 
 
 </div>
+<div id="method_toExponential" class="method item">
+    <h3 class="name"><code>toExponential</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">String</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Unit.ts.html#l515"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Unit.ts:515</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">String</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_toFixed" class="method item">
+    <h3 class="name"><code>toFixed</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code class="optional">[fractionDigits]</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">String</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Unit.ts.html#l523"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Unit.ts:523</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name optional">[fractionDigits]</code>
+                        <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">String</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_toString" class="method item">
+    <h3 class="name"><code>toString</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">String</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Unit.ts.html#l532"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Unit.ts:532</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">String</span>:
+            </div>
+        </div>
+
+
+</div>
             </div>
 
+            <div id="properties" class="api-class-tabpanel">
+                <h2 class="off-left">Properties</h2>
+
+<div id="property_AMPERE" class="property item">
+    <h3 class="name"><code>AMPERE</code></h3>
+    <span class="type"><a href="../classes/Unit.html" class="crosslink">Unit</a></span>
+
+
+
+
+        <span class="flag static">static</span>
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Unit.ts.html#l189"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Unit.ts:189</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_CANDELA" class="property item">
+    <h3 class="name"><code>CANDELA</code></h3>
+    <span class="type"><a href="../classes/Unit.html" class="crosslink">Unit</a></span>
+
+
+
+
+        <span class="flag static">static</span>
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Unit.ts.html#l207"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Unit.ts:207</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_COULOMB" class="property item">
+    <h3 class="name"><code>COULOMB</code></h3>
+    <span class="type"><a href="../classes/Unit.html" class="crosslink">Unit</a></span>
+
+
+
+
+        <span class="flag static">static</span>
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Unit.ts.html#l183"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Unit.ts:183</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_KELVIN" class="property item">
+    <h3 class="name"><code>KELVIN</code></h3>
+    <span class="type"><a href="../classes/Unit.html" class="crosslink">Unit</a></span>
+
+
+
+
+        <span class="flag static">static</span>
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Unit.ts.html#l195"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Unit.ts:195</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_KILOGRAM" class="property item">
+    <h3 class="name"><code>KILOGRAM</code></h3>
+    <span class="type"><a href="../classes/Unit.html" class="crosslink">Unit</a></span>
+
+
+
+
+        <span class="flag static">static</span>
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Unit.ts.html#l165"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Unit.ts:165</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_METER" class="property item">
+    <h3 class="name"><code>METER</code></h3>
+    <span class="type"><a href="../classes/Unit.html" class="crosslink">Unit</a></span>
+
+
+
+
+        <span class="flag static">static</span>
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Unit.ts.html#l171"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Unit.ts:171</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_MOLE" class="property item">
+    <h3 class="name"><code>MOLE</code></h3>
+    <span class="type"><a href="../classes/Unit.html" class="crosslink">Unit</a></span>
+
+
+
+
+        <span class="flag static">static</span>
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Unit.ts.html#l201"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Unit.ts:201</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_ONE" class="property item">
+    <h3 class="name"><code>ONE</code></h3>
+    <span class="type"><a href="../classes/Unit.html" class="crosslink">Unit</a></span>
+
+
+
+
+        <span class="flag static">static</span>
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Unit.ts.html#l159"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Unit.ts:159</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_SECOND" class="property item">
+    <h3 class="name"><code>SECOND</code></h3>
+    <span class="type"><a href="../classes/Unit.html" class="crosslink">Unit</a></span>
+
+
+
+
+        <span class="flag static">static</span>
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Unit.ts.html#l177"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Unit.ts:177</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+            </div>
 
 
     </div>

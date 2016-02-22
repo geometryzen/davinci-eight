@@ -1,5 +1,5 @@
 /**
- * Scalar Product of G3m.
+ * Scalar Product of Geometric3.
  * This was originally written for asm.
  * Note that all componenets except the zeroth are zero and so users can optimize.
  */

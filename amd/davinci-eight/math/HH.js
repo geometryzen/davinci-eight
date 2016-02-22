@@ -1,4 +1,4 @@
-define(["require", "exports", '../math/dotVectorCartesianE3', '../math/G3', '../math/dotVectorE3', '../checks/mustBeInteger', '../checks/mustBeNumber', '../checks/mustBeObject', '../math/quadVectorE3', '../math/Vector3', '../math/rotorFromDirections'], function (require, exports, dotVectorCartesianE3_1, G3_1, dotVectorE3_1, mustBeInteger_1, mustBeNumber_1, mustBeObject_1, quadVectorE3_1, Vector3_1, rotorFromDirections_1) {
+define(["require", "exports", '../math/dotVectorCartesianE3', '../math/G3', '../math/dotVectorE3', '../checks/mustBeInteger', '../checks/mustBeNumber', '../checks/mustBeObject', '../i18n/notImplemented', '../math/Vector3'], function (require, exports, dotVectorCartesianE3_1, G3_1, dotVectorE3_1, mustBeInteger_1, mustBeNumber_1, mustBeObject_1, notImplemented_1, Vector3_1) {
     var cos = Math.cos;
     var sin = Math.sin;
     var exp = Math.exp;
@@ -244,7 +244,7 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../math/G3', '../
             return this.mul2(rotor, this);
         };
         HH.prototype.rotorFromDirections = function (a, b) {
-            return rotorFromDirections_1.default(a, b, quadVectorE3_1.default, dotVectorE3_1.default, this);
+            throw new Error(notImplemented_1.default('rotorFromDirections').message);
         };
         HH.prototype.rotorFromAxisAngle = function (axis, θ) {
             var φ = θ / 2;

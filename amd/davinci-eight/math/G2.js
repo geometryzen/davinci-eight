@@ -599,10 +599,15 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', './extE2',
         };
         G2.prototype.exp = function () {
             Unit_1.default.assertDimensionless(this.uom);
-            var expα = Math.exp(this.α);
-            var cosβ = Math.cos(this.β);
-            var sinβ = Math.sin(this.β);
-            return new G2(expα * cosβ, 0, 0, expα * sinβ, this.uom);
+            if (this.isSpinor()) {
+                var expα = Math.exp(this.α);
+                var cosβ = Math.cos(this.β);
+                var sinβ = Math.sin(this.β);
+                return new G2(expα * cosβ, 0, 0, expα * sinβ);
+            }
+            else {
+                throw new Error(notImplemented_1.default("exp(" + this.toString() + ")").message);
+            }
         };
         G2.prototype.inv = function () {
             var α = this.α;
@@ -619,6 +624,9 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', './extE2',
             var X = gauss_1.default(A, b);
             var uom = this.uom ? this.uom.inv() : void 0;
             return new G2(X[0], X[1], X[2], X[3], uom);
+        };
+        G2.prototype.isSpinor = function () {
+            return this.x === 0 && this.y === 0;
         };
         G2.prototype.log = function () {
             throw new Error(notImplemented_1.default('log').message);

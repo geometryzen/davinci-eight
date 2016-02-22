@@ -10,17 +10,22 @@ import isDefined from '../checks/isDefined'
 import AmbientLight from '../facets/AmbientLight'
 import Drawable from '../core/Drawable'
 import mustBeNumber from '../checks/mustBeNumber'
+import CameraControls from '../controls/CameraControls'
 import readOnly from '../i18n/readOnly'
 import Shareable from '../core/Shareable'
 import Sphere from './Sphere'
-import CameraControls from '../controls/CameraControls'
 import VectorE3 from '../math/VectorE3'
 import VisualBody from './VisualBody'
 import WebGLRenderer from '../core/WebGLRenderer'
 
-function updateRigidBody(body: VisualBody, options: { axis?: VectorE3; color?: Color; pos?: VectorE3 }): void {
+/**
+ * Note:
+ * 1. The options.pos property is intentionally G3 so that we don't force an Unit onto Vector3 etc.
+ */
+function updateRigidBody(body: VisualBody, options: { axis?: VectorE3; color?: Color; pos?: G3 }): void {
 
     if (options.axis) {
+        // TODO: We drop the uom on purpose, that means we really only need a Vector3 for the axis.
         body.axis = G3.fromVector(options.axis)
     }
 
@@ -32,7 +37,8 @@ function updateRigidBody(body: VisualBody, options: { axis?: VectorE3; color?: C
     }
 
     if (options.pos) {
-        body.pos = G3.fromVector(options.pos)
+        // Being careful to retain the unit of measure.
+        body.pos = options.pos
     }
 }
 
@@ -140,7 +146,7 @@ export default class World extends Shareable {
         options: {
             axis?: VectorE3;
             color?: Color;
-            pos?: VectorE3;
+            pos?: G3;
         } = {}): Arrow {
         const arrow = new Arrow()
         updateRigidBody(arrow, options)
@@ -157,7 +163,7 @@ export default class World extends Shareable {
         options: {
             axis?: VectorE3;
             color?: Color;
-            pos?: VectorE3;
+            pos?: G3;
             width?: number;
             height?: number;
             depth?: number;
@@ -177,7 +183,7 @@ export default class World extends Shareable {
         options: {
             axis?: VectorE3;
             color?: Color;
-            pos?: VectorE3;
+            pos?: G3;
             radius?: number;
         } = {}): Cylinder {
         const cylinder = new Cylinder()
@@ -195,7 +201,7 @@ export default class World extends Shareable {
     sphere(
         options: {
             color?: Color;
-            pos?: VectorE3;
+            pos?: G3;
             radius?: number;
         } = {}): Sphere {
         const sphere = new Sphere()

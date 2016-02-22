@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.192.0</em>
+            <em>API Docs for: 2.193.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -70,9 +70,9 @@
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
                                 <li><a href="../classes/G1.html">G1</a></li>
                                 <li><a href="../classes/G2.html">G2</a></li>
-                                <li><a href="../classes/G2m.html">G2m</a></li>
                                 <li><a href="../classes/G3.html">G3</a></li>
-                                <li><a href="../classes/G3m.html">G3m</a></li>
+                                <li><a href="../classes/Geometric2.html">Geometric2</a></li>
+                                <li><a href="../classes/Geometric3.html">Geometric3</a></li>
                                 <li><a href="../classes/GeometricE2.html">GeometricE2</a></li>
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
@@ -205,7 +205,7 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import G3m from &#x27;../math/G3m&#x27;
+import Geometric3 from &#x27;../math/Geometric3&#x27;
 import MouseControls from &#x27;./MouseControls&#x27;
 import PerspectiveCamera from &#x27;../facets/PerspectiveCamera&#x27;
 import Vector2 from &#x27;../math/Vector2&#x27;
@@ -248,14 +248,14 @@ export default class CameraControls extends MouseControls {
     /**
      * The position that we look at.
      */
-    private target = new G3m()
+    private target = new Geometric3()
 
     /**
      * The initial position, look and up of the camera.
      * We cache these so that we can reset the camera.
      */
     private position0: Vector3
-    private target0: G3m
+    private target0: Geometric3
     private up0: Vector3
 
     // Working storage for calculations that update the camera.
@@ -264,7 +264,7 @@ export default class CameraControls extends MouseControls {
     private objectUpDirection = new Vector3()
     private objectSidewaysDirection = new Vector3()
     private axis = new Vector3()
-    private rotor = new G3m()
+    private rotor = new Geometric3()
     private mouseChange = new Vector2()
     private pan = new Vector3()
     private objectUp = new Vector3()

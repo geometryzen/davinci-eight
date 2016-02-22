@@ -1,5 +1,5 @@
-import G2m from '../math/G2m';
-import G3m from '../math/G3m';
+import Geometric2 from '../math/Geometric2';
+import Geometric3 from '../math/Geometric3';
 import Vector2 from '../math/Vector2';
 import Vector3 from '../math/Vector3';
 import VectorN from '../math/VectorN';
@@ -9,12 +9,12 @@ import VectorN from '../math/VectorN';
  * geometric numbers for vertex attributes, but allows us to extract the vector (grade-1) part?
  */
 export default function dataFromVectorN(source: VectorN<number>): number[] {
-    if (source instanceof G3m) {
-        const g3 = <G3m>source
+    if (source instanceof Geometric3) {
+        const g3 = <Geometric3>source
         return [g3.x, g3.y, g3.z]
     }
-    else if (source instanceof G2m) {
-        const g2 = <G2m>source
+    else if (source instanceof Geometric2) {
+        const g2 = <Geometric2>source
         return [g2.x, g2.y]
     }
     else if (source instanceof Vector3) {

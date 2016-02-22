@@ -4,7 +4,7 @@ import IAxialGeometry from './IAxialGeometry';
 import AxialPrimitivesBuilder from './AxialPrimitivesBuilder';
 import Primitive from '../core/Primitive';
 import Vector2 from '../math/Vector2';
-import G3m from '../math/G3m';
+import Geometric3 from '../math/Geometric3';
 import VectorE3 from '../math/VectorE3';
 
 export default class RingBuilder extends AxialPrimitivesBuilder implements IAxialGeometry<RingBuilder> {
@@ -28,9 +28,9 @@ export default class RingBuilder extends AxialPrimitivesBuilder implements IAxia
         const topo = new GridTopology(uSegments, vSegments)
         const a = this.outerRadius
         const b = this.innerRadius
-        const axis = G3m.fromVector(this.axis)
-        const start = G3m.fromVector(this.sliceStart)
-        const generator = new G3m().dual(axis)
+        const axis = Geometric3.fromVector(this.axis)
+        const start = Geometric3.fromVector(this.sliceStart)
+        const generator = new Geometric3().dual(axis)
 
         for (let uIndex = 0; uIndex < topo.uLength; uIndex++) {
             const u = uIndex / uSegments

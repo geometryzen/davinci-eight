@@ -1,13 +1,11 @@
 import dotVectorCartesianE3 from '../math/dotVectorCartesianE3';
-import dotVector from '../math/dotVectorE3';
 import MutableGeometricElement3D from '../math/MutableGeometricElement3D';
 import mustBeInteger from '../checks/mustBeInteger';
 import mustBeNumber from '../checks/mustBeNumber';
 import mustBeObject from '../checks/mustBeObject';
 import Mutable from '../math/Mutable';
 import quadSpinor from '../math/quadSpinorE3';
-import quadVector from '../math/quadVectorE3';
-import rotorFromDirections from '../math/rotorFromDirections';
+import rotorFromDirections from '../math/rotorFromDirectionsE3';
 import SpinorE3 from '../math/SpinorE3';
 import VectorE3 from '../math/VectorE3';
 import VectorN from '../math/VectorN';
@@ -295,7 +293,7 @@ export default class Spinor3 extends VectorN<number> implements SpinorE3, Mutabl
         let b2 = b.zx;
         let b3 = b.xy;
         // Compare this to the product for Quaternions
-        // How does this compare to G3m
+        // How does this compare to Geometric3
         // It would be interesting to DRY this out.
         this.α = a0 * b0 - a1 * b1 - a2 * b2 - a3 * b3;
         // this.α = a0 * b0 - dotVectorCartesianE3(a1, a2, a3, b1, b2, b3)
@@ -662,7 +660,8 @@ export default class Spinor3 extends VectorN<number> implements SpinorE3, Mutabl
      * @chainable
      */
     rotorFromDirections(a: VectorE3, b: VectorE3): Spinor3 {
-        return rotorFromDirections(a, b, quadVector, dotVector, this)
+        rotorFromDirections(a, b, this)
+        return this
     }
 
     /**

@@ -64,31 +64,35 @@ export default class R3 implements VectorE3 {
         this._coords = [x, y, z]
         this._uom = uom
     }
+
     get x(): number {
         return this._coords[0]
     }
     set x(unused: number) {
         throw new Error(readOnly('x').message)
     }
+
     get y(): number {
         return this._coords[1]
     }
     set y(unused: number) {
         throw new Error(readOnly('y').message)
     }
+
     get z(): number {
         return this._coords[2]
     }
     set z(unused: number) {
         throw new Error(readOnly('z').message)
     }
+
     get uom(): Unit {
         return this._uom
     }
     set uom(unused: Unit) {
         throw new Error(readOnly('uom').message)
     }
-    // FIXME: This should return a Unit scaled by the coordinate values.
+
     magnitude(): number {
         return Math.sqrt(this.squaredNorm())
     }
@@ -100,19 +104,35 @@ export default class R3 implements VectorE3 {
     neg(): R3 {
         return this.scale(-1);
     }
+
     scale(α: number): R3 {
         return new R3(α * this.x, α * this.y, α * this.z, this.uom)
     }
-    // FIXME: This should return a Unit scaled by the coordinate values.
+
     squaredNorm(): number {
         const x = this.x
         const y = this.y
         const z = this.z
         return x * x + y * y + z * z
     }
-    static fromVector(vector: VectorE3): R3 {
-        return new R3(vector.x, vector.y, vector.z, vector.uom)
+
+    /**
+     * @method fromVector
+     * @param vector {VectorE3}
+     * @param [uom] {Unit}
+     * @return {R3}
+     * @static
+     */
+    static fromVector(vector: VectorE3, uom?: Unit): R3 {
+        return new R3(vector.x, vector.y, vector.z, uom)
     }
+
+    /**
+     * @method direction
+     * @param vector {VectorE3}
+     * @return {R3}
+     * @static
+     */
     static direction(vector: VectorE3): R3 {
         const x = vector.x
         const y = vector.y

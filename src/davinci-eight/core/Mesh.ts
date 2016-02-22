@@ -17,6 +17,10 @@ const MODEL_FACET_NAME = 'model'
  * @submodule core
  */
 
+// Mesh is designed to be equivalent to the Three.js Mesh in the sense that it assumes
+// particlular facets that give the Drawable position, attitude, and color.
+// The position and attitude are dimensionless, mutable, and readOnly quantities for performance.
+
 /**
  * @class Mesh
  * @extends Drawable
@@ -103,7 +107,7 @@ export default class Mesh extends Drawable {
         return (<ModelFacet>this.getFacet(MODEL_FACET_NAME)).matrix
     }
     set matrix(unused: Matrix4) {
-        throw new Error(readOnly('modelMatrix').message)
+        throw new Error(readOnly('matrix').message)
     }
 
     /**

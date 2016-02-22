@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.192.0</em>
+            <em>API Docs for: 2.193.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -70,9 +70,9 @@
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
                                 <li><a href="../classes/G1.html">G1</a></li>
                                 <li><a href="../classes/G2.html">G2</a></li>
-                                <li><a href="../classes/G2m.html">G2m</a></li>
                                 <li><a href="../classes/G3.html">G3</a></li>
-                                <li><a href="../classes/G3m.html">G3m</a></li>
+                                <li><a href="../classes/Geometric2.html">Geometric2</a></li>
+                                <li><a href="../classes/Geometric3.html">Geometric3</a></li>
                                 <li><a href="../classes/GeometricE2.html">GeometricE2</a></li>
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
@@ -205,7 +205,7 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import G2m from &#x27;../math/G2m&#x27;;
+import Geometric2 from &#x27;../math/Geometric2&#x27;;
 import Vector2 from &#x27;../math/Vector2&#x27;;
 import Spinor2 from &#x27;../math/Spinor2&#x27;;
 import readOnly from &#x27;../i18n/readOnly&#x27;;
@@ -238,8 +238,8 @@ export default class ModelE2 {
      */
     public static PROP_POSITION = &#x27;X&#x27;;
 
-    private _position = new G2m().zero();
-    private _attitude = new G2m().zero().addScalar(1);
+    private _position = new Geometric2().zero();
+    private _attitude = new Geometric2().zero().addScalar(1);
     /**
      * Used for exchanging number[] data to achieve integrity and avoid lots of temporaries.
      * @property _posCache
@@ -277,10 +277,10 @@ export default class ModelE2 {
      * The &lt;em&gt;attitude&lt;/em&gt;, a unitary spinor.
      * &lt;/p&gt;
      * @property R
-     * @type G2m
+     * @type Geometric2
      * @readOnly
      */
-    get R(): G2m {
+    get R(): Geometric2 {
         return this._attitude
     }
     set R(unused) {
@@ -294,10 +294,10 @@ export default class ModelE2 {
      * &lt;/p&gt;
      *
      * @property X
-     * @type G2m
+     * @type Geometric2
      * @readOnly
      */
-    get X(): G2m {
+    get X(): Geometric2 {
         return this._position
     }
     set X(unused) {

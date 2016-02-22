@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.192.0</em>
+            <em>API Docs for: 2.193.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -70,9 +70,9 @@
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
                                 <li><a href="../classes/G1.html">G1</a></li>
                                 <li><a href="../classes/G2.html">G2</a></li>
-                                <li><a href="../classes/G2m.html">G2m</a></li>
                                 <li><a href="../classes/G3.html">G3</a></li>
-                                <li><a href="../classes/G3m.html">G3m</a></li>
+                                <li><a href="../classes/Geometric2.html">Geometric2</a></li>
+                                <li><a href="../classes/Geometric3.html">Geometric3</a></li>
                                 <li><a href="../classes/GeometricE2.html">GeometricE2</a></li>
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
@@ -240,8 +240,14 @@ export default class VectorN&lt;T&gt; implements Mutable&lt;T[]&gt; {
      * @private
      */
     private _size: number;
-    private _data: T[];
-    private _callback: () =&gt; T[];
+
+    /**
+     * @property _coords
+     * @type number[]
+     * @protected
+     */
+    protected _coords: T[];
+
     /**
      * @property modified
      * @type {boolean}
@@ -259,12 +265,12 @@ export default class VectorN&lt;T&gt; implements Mutable&lt;T[]&gt; {
         this.modified = modified;
         if (isDefined(size)) {
             this._size = size;
-            this._data = data;
+            this._coords = data;
             mustSatisfy(&#x27;data.length&#x27;, data.length === size, () =&gt; { return &#x60;${size}&#x60; })
         }
         else {
             this._size = void 0;
-            this._data = data;
+            this._coords = data;
         }
     }
 
@@ -273,32 +279,10 @@ export default class VectorN&lt;T&gt; implements Mutable&lt;T[]&gt; {
      * @type {T[]}
      */
     get coords(): T[] {
-        if (this._data) {
-            return this._data;
-        }
-        else if (this._callback) {
-            return this._callback();
-        }
-        else {
-            throw new Error(&quot;Vector&quot; + this._size + &quot; is undefined.&quot;);
-        }
+        return this._coords;
     }
     set coords(data: T[]) {
-        this._data = data;
-        this._callback = void 0;
-        this.modified = true;
-    }
-
-    /**
-     * @property callback
-     * @type {() =&gt; T[]}
-     */
-    get callback(): () =&gt; T[] {
-        return this._callback;
-    }
-    set callback(reactTo: () =&gt; T[]) {
-        this._callback = reactTo;
-        this._data = void 0;
+        this._coords = data;
         this.modified = true;
     }
 
@@ -316,7 +300,7 @@ export default class VectorN&lt;T&gt; implements Mutable&lt;T[]&gt; {
      * @return {VectorN}
      */
     clone(): VectorN&lt;T&gt; {
-        return new VectorN&lt;T&gt;(this._data, this.modified, this._size);
+        return new VectorN&lt;T&gt;(this._coords, this.modified, this._size);
     }
 
     /**

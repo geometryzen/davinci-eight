@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.192.0</em>
+            <em>API Docs for: 2.193.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -70,9 +70,9 @@
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
                                 <li><a href="../classes/G1.html">G1</a></li>
                                 <li><a href="../classes/G2.html">G2</a></li>
-                                <li><a href="../classes/G2m.html">G2m</a></li>
                                 <li><a href="../classes/G3.html">G3</a></li>
-                                <li><a href="../classes/G3m.html">G3m</a></li>
+                                <li><a href="../classes/Geometric2.html">Geometric2</a></li>
+                                <li><a href="../classes/Geometric3.html">Geometric3</a></li>
                                 <li><a href="../classes/GeometricE2.html">GeometricE2</a></li>
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
@@ -208,62 +208,84 @@
 import DivisionRingOperators from &#x27;../math/DivisionRingOperators&#x27;;
 import Dimensions from &#x27;../math/Dimensions&#x27;;
 import LinearElement from &#x27;../math/LinearElement&#x27;;
+import notImplemented from &#x27;../i18n/notImplemented&#x27;;
 import QQ from &#x27;../math/QQ&#x27;;
 
-var LABELS_SI = [&#x27;kg&#x27;, &#x27;m&#x27;, &#x27;s&#x27;, &#x27;C&#x27;, &#x27;K&#x27;, &#x27;mol&#x27;, &#x27;candela&#x27;];
+// const NAMES_SI = [&#x27;kilogram&#x27;, &#x27;meter&#x27;, &#x27;second&#x27;, &#x27;coulomb&#x27;, &#x27;kelvin&#x27;, &#x27;mole&#x27;, &#x27;candela&#x27;];
+const SYMBOLS_SI = [&#x27;kg&#x27;, &#x27;m&#x27;, &#x27;s&#x27;, &#x27;C&#x27;, &#x27;K&#x27;, &#x27;mol&#x27;, &#x27;cd&#x27;];
 
-function assertArgNumber(name: string, x: number): number {
-    if (typeof x === &#x27;number&#x27;) {
-        return x;
-    }
-    else {
-        throw new Error(&quot;Argument &#x27;&quot; + name + &quot;&#x27; must be a number&quot;);
-    }
-}
+const patterns =
+    [
+        [-1, 1, -3, 1, 2, 1, 2, 1, 0, 1, 0, 1, 0, 1],  // F/m
+        [-1, 1, -2, 1, 1, 1, 2, 1, 0, 1, 0, 1, 0, 1],  // S
+        [-1, 1, -2, 1, 2, 1, 2, 1, 0, 1, 0, 1, 0, 1],  // F
+        [-1, 1, +0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1],  // C/kg
+        [+0, 1, -3, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1],  // C/m ** 3
+        [+0, 1, 2, 1, -2, 1, 0, 1, 0, 1, 0, 1, 0, 1],  // J/kg
+        [+0, 1, 0, 1, -1, 1, 0, 1, 0, 1, 0, 1, 0, 1],  // Hz
+        [+0, 1, 0, 1, -1, 1, 1, 1, 0, 1, 0, 1, 0, 1],  // A
+        [0, 1, 1, 1, -2, 1, 0, 1, 0, 1, 0, 1, 0, 1],   // m/s ** 2
+        [0, 1, 1, 1, -1, 1, 0, 1, 0, 1, 0, 1, 0, 1],   // m/s
+        [1, 1, 1, 1, -1, 1, 0, 1, 0, 1, 0, 1, 0, 1],   // kg·m/s
+        [1, 1, -1, 1, -2, 1, 0, 1, 0, 1, 0, 1, 0, 1],  // Pa
+        [1, 1, -1, 1, -1, 1, 0, 1, 0, 1, 0, 1, 0, 1],  // Pa·s
+        [1, 1, 0, 1, -3, 1, 0, 1, 0, 1, 0, 1, 0, 1],   // W/m ** 2
+        [1, 1, 0, 1, -2, 1, 0, 1, 0, 1, 0, 1, 0, 1],   // N/m
+        [1, 1, 0, 1, -1, 1, -1, 1, 0, 1, 0, 1, 0, 1],  // T
+        [1, 1, 1, 1, -3, 1, 0, 1, -1, 1, 0, 1, 0, 1],  // W/(m·K)
+        [1, 1, 1, 1, -2, 1, -1, 1, 0, 1, 0, 1, 0, 1],  // V/m
+        [1, 1, 1, 1, -2, 1, 0, 1, 0, 1, 0, 1, 0, 1],   // N
+        [1, 1, 1, 1, 0, 1, -2, 1, 0, 1, 0, 1, 0, 1],   // H/m
+        [1, 1, 2, 1, -2, 1, 0, 1, -1, 1, 0, 1, 0, 1],  // J/K
+        [0, 1, 2, 1, -2, 1, 0, 1, -1, 1, 0, 1, 0, 1],  // J/(kg·K)
+        [1, 1, 2, 1, -2, 1, 0, 1, -1, 1, -1, 1, 0, 1], // J/(mol·K)
+        [1, 1, 2, 1, -2, 1, 0, 1, 0, 1, -1, 1, 0, 1],  // J/(mol)
+        [1, 1, 2, 1, -2, 1, 0, 1, 0, 1, 0, 1, 0, 1],   // J
+        [1, 1, 2, 1, -1, 1, 0, 1, 0, 1, 0, 1, 0, 1],   // J·s
+        [1, 1, 2, 1, -3, 1, 0, 1, 0, 1, 0, 1, 0, 1],   // W
+        [1, 1, 2, 1, -2, 1, -1, 1, 0, 1, 0, 1, 0, 1],  // V
+        [1, 1, 2, 1, -1, 1, -2, 1, 0, 1, 0, 1, 0, 1],  // Ω
+        [1, 1, 2, 1, 0, 1, -2, 1, 0, 1, 0, 1, 0, 1],   // H
+        [1, 1, 2, 1, -1, 1, -1, 1, 0, 1, 0, 1, 0, 1]   // Wb
+    ];
 
-function assertArgDimensions(name: string, arg: Dimensions): Dimensions {
-    if (arg instanceof Dimensions) {
-        return arg;
-    }
-    else {
-        throw new Error(&quot;Argument &#x27;&quot; + arg + &quot;&#x27; must be a Dimensions&quot;);
-    }
-}
+const decodes =
+    [
+        [&quot;F/m&quot;],
+        [&quot;S&quot;],
+        [&quot;F&quot;],
+        [&quot;C/kg&quot;],
+        [&quot;C/m ** 3&quot;],
+        [&quot;J/kg&quot;],
+        [&quot;Hz&quot;],
+        [&quot;A&quot;],
+        [&quot;m/s ** 2&quot;],
+        [&quot;m/s&quot;],
+        [&quot;kg·m/s&quot;],
+        [&quot;Pa&quot;],
+        [&quot;Pa·s&quot;],
+        [&quot;W/m ** 2&quot;],
+        [&quot;N/m&quot;],
+        [&quot;T&quot;],
+        [&quot;W/(m·K)&quot;],
+        [&quot;V/m&quot;],
+        [&quot;N&quot;],
+        [&quot;H/m&quot;],
+        [&quot;J/K&quot;],
+        [&quot;J/(kg·K)&quot;],
+        [&quot;J/(mol·K)&quot;],
+        [&quot;J/mol&quot;],
+        [&quot;J&quot;],
+        [&quot;J·s&quot;],
+        [&quot;W&quot;],
+        [&quot;V&quot;],
+        [&quot;Ω&quot;],
+        [&quot;H&quot;],
+        [&quot;Wb&quot;]
+    ];
 
-function assertArgRational(name: string, arg: QQ): QQ {
-    if (arg instanceof QQ) {
-        return arg;
-    }
-    else {
-        throw new Error(&quot;Argument &#x27;&quot; + arg + &quot;&#x27; must be a QQ&quot;);
-    }
-}
-
-function assertArgUnit(name: string, arg: Unit): Unit {
-    if (arg instanceof Unit) {
-        return arg;
-    }
-    else {
-        throw new Error(&quot;Argument &#x27;&quot; + arg + &quot;&#x27; must be a Unit&quot;);
-    }
-}
-
-function assertArgUnitOrUndefined(name: string, arg: Unit): Unit {
-    if (typeof arg === &#x27;undefined&#x27;) {
-        return arg;
-    }
-    else {
-        return assertArgUnit(name, arg);
-    }
-}
-
-var dumbString = function(multiplier: number, dimensions: Dimensions, labels: string[]) {
-    assertArgNumber(&#x27;multiplier&#x27;, multiplier);
-    assertArgDimensions(&#x27;dimensions&#x27;, dimensions);
-    var operatorStr: string;
-    var scaleString: string;
-    var unitsString: string;
-    var stringify = function(rational: QQ, label: string): string {
+const dumbString = function(multiplier: number, formatted: string, dimensions: Dimensions, labels: string[]) {
+    const stringify = function(rational: QQ, label: string): string {
         if (rational.numer === 0) {
             return null;
         } else if (rational.denom === 1) {
@@ -276,88 +298,24 @@ var dumbString = function(multiplier: number, dimensions: Dimensions, labels: st
         return &quot;&quot; + label + &quot; ** &quot; + rational;
     };
 
-    operatorStr = multiplier === 1 || dimensions.isOne() ? &quot;&quot; : &quot; &quot;;
-    scaleString = multiplier === 1 ? &quot;&quot; : &quot;&quot; + multiplier;
-    unitsString = [stringify(dimensions.M, labels[0]), stringify(dimensions.L, labels[1]), stringify(dimensions.T, labels[2]), stringify(dimensions.Q, labels[3]), stringify(dimensions.temperature, labels[4]), stringify(dimensions.amount, labels[5]), stringify(dimensions.intensity, labels[6])].filter(function(x) {
+    const operatorStr = multiplier === 1 || dimensions.isOne() ? &quot;&quot; : &quot; &quot;;
+    const scaleString = multiplier === 1 ? &quot;&quot; : formatted;
+    const unitsString = [stringify(dimensions.M, labels[0]), stringify(dimensions.L, labels[1]), stringify(dimensions.T, labels[2]), stringify(dimensions.Q, labels[3]), stringify(dimensions.temperature, labels[4]), stringify(dimensions.amount, labels[5]), stringify(dimensions.intensity, labels[6])].filter(function(x) {
         return typeof x === &#x27;string&#x27;;
     }).join(&quot; &quot;);
     return &quot;&quot; + scaleString + operatorStr + unitsString;
 };
 
-const unitString = function(multiplier: number, dimensions: Dimensions, labels: string[]): string {
-    const patterns =
-        [
-            [-1, 1, -3, 1, 2, 1, 2, 1, 0, 1, 0, 1, 0, 1],
-            [-1, 1, -2, 1, 1, 1, 2, 1, 0, 1, 0, 1, 0, 1],
-            [-1, 1, -2, 1, 2, 1, 2, 1, 0, 1, 0, 1, 0, 1],
-            [-1, 1, 3, 1, -2, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-            [0, 1, 0, 1, -1, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-            [0, 1, 0, 1, -1, 1, 1, 1, 0, 1, 0, 1, 0, 1],
-            [0, 1, 1, 1, -2, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-            [0, 1, 1, 1, -1, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-            [1, 1, 1, 1, -1, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-            [1, 1, -1, 1, -2, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-            [1, 1, -1, 1, -1, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-            [1, 1, 0, 1, -3, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-            [1, 1, 0, 1, -2, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-            [1, 1, 0, 1, -1, 1, -1, 1, 0, 1, 0, 1, 0, 1],
-            [1, 1, 1, 1, -3, 1, 0, 1, -1, 1, 0, 1, 0, 1],
-            [1, 1, 1, 1, -2, 1, -1, 1, 0, 1, 0, 1, 0, 1],
-            [1, 1, 1, 1, -2, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-            [1, 1, 1, 1, 0, 1, -2, 1, 0, 1, 0, 1, 0, 1],
-            [1, 1, 2, 1, -2, 1, 0, 1, -1, 1, 0, 1, 0, 1],
-            [0, 1, 2, 1, -2, 1, 0, 1, -1, 1, 0, 1, 0, 1],
-            [1, 1, 2, 1, -2, 1, 0, 1, -1, 1, -1, 1, 0, 1],
-            [1, 1, 2, 1, -2, 1, 0, 1, 0, 1, -1, 1, 0, 1],
-            [1, 1, 2, 1, -2, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-            [1, 1, 2, 1, -1, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-            [1, 1, 2, 1, -3, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-            [1, 1, 2, 1, -2, 1, -1, 1, 0, 1, 0, 1, 0, 1],
-            [1, 1, 2, 1, -1, 1, -2, 1, 0, 1, 0, 1, 0, 1],
-            [1, 1, 2, 1, 0, 1, -2, 1, 0, 1, 0, 1, 0, 1],
-            [1, 1, 2, 1, -1, 1, -1, 1, 0, 1, 0, 1, 0, 1]
-        ];
-    const decodes =
-        [
-            [&quot;F/m&quot;],
-            [&quot;S&quot;],
-            [&quot;F&quot;],
-            [&quot;N·m ** 2/kg ** 2&quot;],
-            [&quot;Hz&quot;],
-            [&quot;A&quot;],
-            [&quot;m/s ** 2&quot;],
-            [&quot;m/s&quot;],
-            [&quot;kg·m/s&quot;],
-            [&quot;Pa&quot;],
-            [&quot;Pa·s&quot;],
-            [&quot;W/m ** 2&quot;],
-            [&quot;N/m&quot;],
-            [&quot;T&quot;],
-            [&quot;W/(m·K)&quot;],
-            [&quot;V/m&quot;],
-            [&quot;N&quot;],
-            [&quot;H/m&quot;],
-            [&quot;J/K&quot;],
-            [&quot;J/(kg·K)&quot;],
-            [&quot;J/(mol·K)&quot;],
-            [&quot;J/mol&quot;],
-            [&quot;J&quot;],
-            [&quot;J·s&quot;],
-            [&quot;W&quot;],
-            [&quot;V&quot;],
-            [&quot;Ω&quot;],
-            [&quot;H&quot;],
-            [&quot;Wb&quot;]
-        ];
-    var M = dimensions.M;
-    var L = dimensions.L;
-    var T = dimensions.T;
-    var Q = dimensions.Q;
-    var temperature = dimensions.temperature;
-    var amount = dimensions.amount;
-    var intensity = dimensions.intensity;
-    for (var i = 0, len = patterns.length; i &lt; len; i++) {
-        var pattern = patterns[i];
+const unitString = function(multiplier: number, formatted: string, dimensions: Dimensions, labels: string[]): string {
+    const M = dimensions.M;
+    const L = dimensions.L;
+    const T = dimensions.T;
+    const Q = dimensions.Q;
+    const temperature = dimensions.temperature;
+    const amount = dimensions.amount;
+    const intensity = dimensions.intensity;
+    for (let i = 0, len = patterns.length; i &lt; len; i++) {
+        const pattern = patterns[i];
         if (M.numer === pattern[0] &amp;&amp; M.denom === pattern[1] &amp;&amp;
             L.numer === pattern[2] &amp;&amp; L.denom === pattern[3] &amp;&amp;
             T.numer === pattern[4] &amp;&amp; T.denom === pattern[5] &amp;&amp;
@@ -373,7 +331,7 @@ const unitString = function(multiplier: number, dimensions: Dimensions, labels: 
             }
         }
     }
-    return dumbString(multiplier, dimensions, labels);
+    return dumbString(multiplier, formatted, dimensions, labels);
 };
 
 function add(lhs: Unit, rhs: Unit): Unit {
@@ -405,15 +363,60 @@ function div(lhs: Unit, rhs: Unit): Unit {
  * @class Unit
  */
 export default class Unit implements DivisionRingOperators&lt;Unit&gt;, LinearElement&lt;Unit, Unit, Unit, Unit&gt; {
-    public static ONE = new Unit(1.0, Dimensions.ONE, LABELS_SI);
-    public static KILOGRAM = new Unit(1.0, Dimensions.MASS, LABELS_SI);
-    public static METER = new Unit(1.0, Dimensions.LENGTH, LABELS_SI);
-    public static SECOND = new Unit(1.0, Dimensions.TIME, LABELS_SI);
-    public static COULOMB = new Unit(1.0, Dimensions.CHARGE, LABELS_SI);
-    public static AMPERE = new Unit(1.0, Dimensions.CURRENT, LABELS_SI);
-    public static KELVIN = new Unit(1.0, Dimensions.TEMPERATURE, LABELS_SI);
-    public static MOLE = new Unit(1.0, Dimensions.AMOUNT, LABELS_SI);
-    public static CANDELA = new Unit(1.0, Dimensions.INTENSITY, LABELS_SI);
+    /**
+     * @property ONE
+     * @type Unit
+     * @static
+     */
+    public static ONE = new Unit(1.0, Dimensions.ONE, SYMBOLS_SI);
+    /**
+     * @property KILOGRAM
+     * @type Unit
+     * @static
+     */
+    public static KILOGRAM = new Unit(1.0, Dimensions.MASS, SYMBOLS_SI);
+    /**
+     * @property METER
+     * @type Unit
+     * @static
+     */
+    public static METER = new Unit(1.0, Dimensions.LENGTH, SYMBOLS_SI);
+    /**
+     * @property SECOND
+     * @type Unit
+     * @static
+     */
+    public static SECOND = new Unit(1.0, Dimensions.TIME, SYMBOLS_SI);
+    /**
+     * @property COULOMB
+     * @type Unit
+     * @static
+     */
+    public static COULOMB = new Unit(1.0, Dimensions.CHARGE, SYMBOLS_SI);
+    /**
+     * @property AMPERE
+     * @type Unit
+     * @static
+     */
+    public static AMPERE = new Unit(1.0, Dimensions.CURRENT, SYMBOLS_SI);
+    /**
+     * @property KELVIN
+     * @type Unit
+     * @static
+     */
+    public static KELVIN = new Unit(1.0, Dimensions.TEMPERATURE, SYMBOLS_SI);
+    /**
+     * @property MOLE
+     * @type Unit
+     * @static
+     */
+    public static MOLE = new Unit(1.0, Dimensions.AMOUNT, SYMBOLS_SI);
+    /**
+     * @property CANDELA
+     * @type Unit
+     * @static
+     */
+    public static CANDELA = new Unit(1.0, Dimensions.INTENSITY, SYMBOLS_SI);
     /**
      * The Unit class represents the units for a measure.
      *
@@ -453,7 +456,6 @@ export default class Unit implements DivisionRingOperators&lt;Unit&gt;, LinearEl
      * @return {Unit}
      */
     add(rhs: Unit): Unit {
-        assertArgUnit(&#x27;rhs&#x27;, rhs);
         return add(this, rhs);
     }
 
@@ -463,7 +465,7 @@ export default class Unit implements DivisionRingOperators&lt;Unit&gt;, LinearEl
      * @return {Unit}
      * @private
      */
-    __add__(rhs: any) {
+    __add__(rhs: Unit) {
         if (rhs instanceof Unit) {
             return add(this, rhs);
         }
@@ -478,7 +480,7 @@ export default class Unit implements DivisionRingOperators&lt;Unit&gt;, LinearEl
      * @return {Unit}
      * @private
      */
-    __radd__(lhs: any) {
+    __radd__(lhs: Unit) {
         if (lhs instanceof Unit) {
             return add(lhs, this);
         }
@@ -494,7 +496,6 @@ export default class Unit implements DivisionRingOperators&lt;Unit&gt;, LinearEl
      * @return {Unit}
      */
     sub(rhs: Unit): Unit {
-        assertArgUnit(&#x27;rhs&#x27;, rhs);
         return sub(this, rhs);
     }
 
@@ -503,7 +504,7 @@ export default class Unit implements DivisionRingOperators&lt;Unit&gt;, LinearEl
      * @param rhs {Unit}
      * @return {Unit}
      */
-    __sub__(rhs: any) {
+    __sub__(rhs: Unit) {
         if (rhs instanceof Unit) {
             return sub(this, rhs);
         }
@@ -517,7 +518,7 @@ export default class Unit implements DivisionRingOperators&lt;Unit&gt;, LinearEl
      * @param lhs {Unit}
      * @return {Unit}
      */
-    __rsub__(lhs: any) {
+    __rsub__(lhs: Unit) {
         if (lhs instanceof Unit) {
             return sub(lhs, this);
         }
@@ -532,17 +533,16 @@ export default class Unit implements DivisionRingOperators&lt;Unit&gt;, LinearEl
      * @param rhs {Unit}
      * @return {Unit}
      */
-    mul(rhs: any): Unit {
-        assertArgUnit(&#x27;rhs&#x27;, rhs);
+    mul(rhs: Unit): Unit {
         return mul(this, rhs);
     }
 
     /**
      * @method __mul__
-     * @param rhs {Unit}
+     * @param rhs {number | Unit}
      * @return {Unit}
      */
-    __mul__(rhs: any) {
+    __mul__(rhs: number | Unit) {
         if (rhs instanceof Unit) {
             return mul(this, rhs);
         }
@@ -556,10 +556,10 @@ export default class Unit implements DivisionRingOperators&lt;Unit&gt;, LinearEl
 
     /**
      * @method __rmul__
-     * @param lhs {Unit}
+     * @param lhs {number | Unit}
      * @return {Unit}
      */
-    __rmul__(lhs: any) {
+    __rmul__(lhs: number | Unit) {
         if (lhs instanceof Unit) {
             return mul(lhs, this);
         }
@@ -572,7 +572,6 @@ export default class Unit implements DivisionRingOperators&lt;Unit&gt;, LinearEl
     }
 
     div(rhs: Unit): Unit {
-        assertArgUnit(&#x27;rhs&#x27;, rhs);
         return div(this, rhs);
     }
 
@@ -580,7 +579,7 @@ export default class Unit implements DivisionRingOperators&lt;Unit&gt;, LinearEl
         return new Unit(this.multiplier / α, this.dimensions, this.labels);
     }
 
-    __div__(other: any) {
+    __div__(other: number | Unit) {
         if (other instanceof Unit) {
             return div(this, other);
         }
@@ -592,7 +591,7 @@ export default class Unit implements DivisionRingOperators&lt;Unit&gt;, LinearEl
         }
     }
 
-    __rdiv__(other: any) {
+    __rdiv__(other: number | Unit) {
         if (other instanceof Unit) {
             return div(other, this);
         }
@@ -604,8 +603,29 @@ export default class Unit implements DivisionRingOperators&lt;Unit&gt;, LinearEl
         }
     }
 
+    /**
+     * Intentionaly undocumented.
+     */
+    pattern(): string {
+        const ns: number[] = []
+        ns.push(this.dimensions.M.numer)
+        ns.push(this.dimensions.M.denom)
+        ns.push(this.dimensions.L.numer)
+        ns.push(this.dimensions.L.denom)
+        ns.push(this.dimensions.T.numer)
+        ns.push(this.dimensions.T.denom)
+        ns.push(this.dimensions.Q.numer)
+        ns.push(this.dimensions.Q.denom)
+        ns.push(this.dimensions.temperature.numer)
+        ns.push(this.dimensions.temperature.denom)
+        ns.push(this.dimensions.amount.numer)
+        ns.push(this.dimensions.amount.denom)
+        ns.push(this.dimensions.intensity.numer)
+        ns.push(this.dimensions.intensity.denom)
+        return JSON.stringify(ns)
+    }
+
     pow(exponent: QQ): Unit {
-        assertArgRational(&#x27;exponent&#x27;, exponent);
         return new Unit(Math.pow(this.multiplier, exponent.numer / exponent.denom), this.dimensions.pow(exponent), this.labels);
     }
 
@@ -648,7 +668,7 @@ export default class Unit implements DivisionRingOperators&lt;Unit&gt;, LinearEl
      * @return {Unit}
      */
     lerp(target: Unit, α: number): Unit {
-        return this
+        throw new Error(notImplemented(&#x27;lerp&#x27;).message)
     }
 
     /**
@@ -696,19 +716,32 @@ export default class Unit implements DivisionRingOperators&lt;Unit&gt;, LinearEl
      * @return {Unit}
      */
     slerp(target: Unit, α: number): Unit {
-        return this
+        throw new Error(notImplemented(&#x27;slerp&#x27;).message)
     }
 
+    /**
+     * @method toExponential
+     * @return {string}
+     */
     toExponential(): string {
-        return unitString(this.multiplier, this.dimensions, this.labels);
+        return unitString(this.multiplier, this.multiplier.toExponential(), this.dimensions, this.labels);
     }
 
-    toFixed(digits?: number): string {
-        return unitString(this.multiplier, this.dimensions, this.labels);
+    /**
+     * @method toFixed
+     * @param [fractionDigits] {number}
+     * @return {string}
+     */
+    toFixed(fractionDigits?: number): string {
+        return unitString(this.multiplier, this.multiplier.toFixed(fractionDigits), this.dimensions, this.labels);
     }
 
+    /**
+     * @method toString
+     * @return {string}
+     */
     toString(): string {
-        return unitString(this.multiplier, this.dimensions, this.labels);
+        return unitString(this.multiplier, this.multiplier.toString(), this.dimensions, this.labels);
     }
 
     /**
@@ -736,7 +769,7 @@ export default class Unit implements DivisionRingOperators&lt;Unit&gt;, LinearEl
      * @static
      */
     static isOne(uom: Unit): boolean {
-        if (typeof uom === &#x27;undefined&#x27;) {
+        if (uom === void 0) {
             return true;
         }
         else if (uom instanceof Unit) {
@@ -747,15 +780,19 @@ export default class Unit implements DivisionRingOperators&lt;Unit&gt;, LinearEl
         }
     }
 
-    static assertDimensionless(uom: Unit) {
+    /**
+     * @method assertDimensionless
+     * @param uom {Unit}
+     * @return {void}
+     * @static
+     */
+    static assertDimensionless(uom: Unit): void {
         if (!Unit.isOne(uom)) {
             throw new Error(&quot;uom must be dimensionless.&quot;);
         }
     }
 
     static compatible(lhs: Unit, rhs: Unit): Unit {
-        assertArgUnitOrUndefined(&#x27;lhs&#x27;, lhs);
-        assertArgUnitOrUndefined(&#x27;rhs&#x27;, rhs);
         if (lhs) {
             if (rhs) {
                 return lhs.compatible(rhs);
@@ -785,8 +822,8 @@ export default class Unit implements DivisionRingOperators&lt;Unit&gt;, LinearEl
     }
 
     static mul(lhs: Unit, rhs: Unit): Unit {
-        if (lhs instanceof Unit) {
-            if (rhs instanceof Unit) {
+        if (lhs) {
+            if (rhs) {
                 return lhs.mul(rhs);
             }
             else if (Unit.isOne(rhs)) {
@@ -805,8 +842,8 @@ export default class Unit implements DivisionRingOperators&lt;Unit&gt;, LinearEl
     }
 
     static div(lhs: Unit, rhs: Unit): Unit {
-        if (lhs instanceof Unit) {
-            if (rhs instanceof Unit) {
+        if (lhs) {
+            if (rhs) {
                 return lhs.div(rhs);
             }
             else {
@@ -814,7 +851,7 @@ export default class Unit implements DivisionRingOperators&lt;Unit&gt;, LinearEl
             }
         }
         else {
-            if (rhs instanceof Unit) {
+            if (rhs) {
                 return rhs.inv();
             }
             else {
@@ -825,7 +862,6 @@ export default class Unit implements DivisionRingOperators&lt;Unit&gt;, LinearEl
 
     static sqrt(uom: Unit): Unit {
         if (typeof uom !== &#x27;undefined&#x27;) {
-            assertArgUnit(&#x27;uom&#x27;, uom);
             if (!uom.isOne()) {
                 return new Unit(Math.sqrt(uom.multiplier), uom.dimensions.sqrt(), uom.labels);
             }

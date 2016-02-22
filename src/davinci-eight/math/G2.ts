@@ -845,12 +845,23 @@ export default class G2 implements ImmutableMeasure<G2>, GeometricE2, GeometricE
         throw new Error(notImplemented('cosh').message)
     }
 
+    /**
+     *
+     *
+     * @method exp
+     * @return {G2}
+     */
     exp(): G2 {
         Unit.assertDimensionless(this.uom)
-        const expα = Math.exp(this.α)
-        const cosβ = Math.cos(this.β)
-        const sinβ = Math.sin(this.β)
-        return new G2(expα * cosβ, 0, 0, expα * sinβ, this.uom)
+        if (this.isSpinor()) {
+            const expα = Math.exp(this.α)
+            const cosβ = Math.cos(this.β)
+            const sinβ = Math.sin(this.β)
+            return new G2(expα * cosβ, 0, 0, expα * sinβ)
+        }
+        else {
+            throw new Error(notImplemented(`exp(${this.toString()})`).message)
+        }
     }
 
     /**
@@ -877,6 +888,16 @@ export default class G2 implements ImmutableMeasure<G2>, GeometricE2, GeometricE
         const X = gauss(A, b)
         const uom = this.uom ? this.uom.inv() : void 0
         return new G2(X[0], X[1], X[2], X[3], uom);
+    }
+
+    /**
+     * Determines whether this multivector has grade(1) components.
+     *
+     * @method isSpinor
+     * @return {boolean}
+     */
+    isSpinor(): boolean {
+        return this.x === 0 && this.y === 0
     }
 
     log(): G2 {

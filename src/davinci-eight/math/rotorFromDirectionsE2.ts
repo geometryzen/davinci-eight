@@ -1,25 +1,33 @@
-import Geometric from '../math/MutableGeometricElement';
+import dot from './dotVectorE2'
+import quad from './quadVectorE2'
+import Vector from './VectorE2'
+import Spinor from './SpinorE2'
 
 const sqrt = Math.sqrt
+
+interface Output extends Spinor {
+    versor(a: Vector, b: Vector): Output
+    addScalar(α: number): Output
+    divByScalar(α: number): Output
+}
 
 /**
  * Sets this multivector to a rotor representing a rotation from a to b.
  * R = (|b||a| + b * a) / sqrt(2 * |b||a|(|b||a| + b << a))
  * Returns undefined (void 0) if the vectors are anti-parallel.
  */
-// FIXME: This should be deprecated because of the poor handling of the undefined case.
-export default function rotorFromDirections<V, M extends Geometric<any, any, any, any>>(a: V, b: V, quad: (v: V) => number, dot: (a: V, b: V) => number, m: M): M {
+export default function(a: Vector, b: Vector, m: Output): void {
     const quadA = quad(a)
     const absA = sqrt(quadA)
     const quadB = quad(b)
     const absB = sqrt(quadB)
     const BA = absB * absA
-    const denom = sqrt(2 * (quadB * quadA + BA * dot(b, a)))
+    const dotBA = dot(b, a)
+    const denom = sqrt(2 * (quadB * quadA + BA * dotBA))
     if (denom !== 0) {
         m = m.versor(b, a)
         m = m.addScalar(BA)
         m = m.divByScalar(denom)
-        return m
     }
     else {
         // The denominator is zero when |a||b| + a << b = 0.

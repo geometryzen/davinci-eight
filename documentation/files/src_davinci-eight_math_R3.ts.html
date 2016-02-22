@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.192.0</em>
+            <em>API Docs for: 2.193.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -70,9 +70,9 @@
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
                                 <li><a href="../classes/G1.html">G1</a></li>
                                 <li><a href="../classes/G2.html">G2</a></li>
-                                <li><a href="../classes/G2m.html">G2m</a></li>
                                 <li><a href="../classes/G3.html">G3</a></li>
-                                <li><a href="../classes/G3m.html">G3m</a></li>
+                                <li><a href="../classes/Geometric2.html">Geometric2</a></li>
+                                <li><a href="../classes/Geometric3.html">Geometric3</a></li>
                                 <li><a href="../classes/GeometricE2.html">GeometricE2</a></li>
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
@@ -271,31 +271,35 @@ export default class R3 implements VectorE3 {
         this._coords = [x, y, z]
         this._uom = uom
     }
+
     get x(): number {
         return this._coords[0]
     }
     set x(unused: number) {
         throw new Error(readOnly(&#x27;x&#x27;).message)
     }
+
     get y(): number {
         return this._coords[1]
     }
     set y(unused: number) {
         throw new Error(readOnly(&#x27;y&#x27;).message)
     }
+
     get z(): number {
         return this._coords[2]
     }
     set z(unused: number) {
         throw new Error(readOnly(&#x27;z&#x27;).message)
     }
+
     get uom(): Unit {
         return this._uom
     }
     set uom(unused: Unit) {
         throw new Error(readOnly(&#x27;uom&#x27;).message)
     }
-    // FIXME: This should return a Unit scaled by the coordinate values.
+
     magnitude(): number {
         return Math.sqrt(this.squaredNorm())
     }
@@ -307,19 +311,35 @@ export default class R3 implements VectorE3 {
     neg(): R3 {
         return this.scale(-1);
     }
+
     scale(α: number): R3 {
         return new R3(α * this.x, α * this.y, α * this.z, this.uom)
     }
-    // FIXME: This should return a Unit scaled by the coordinate values.
+
     squaredNorm(): number {
         const x = this.x
         const y = this.y
         const z = this.z
         return x * x + y * y + z * z
     }
-    static fromVector(vector: VectorE3): R3 {
-        return new R3(vector.x, vector.y, vector.z, vector.uom)
+
+    /**
+     * @method fromVector
+     * @param vector {VectorE3}
+     * @param [uom] {Unit}
+     * @return {R3}
+     * @static
+     */
+    static fromVector(vector: VectorE3, uom?: Unit): R3 {
+        return new R3(vector.x, vector.y, vector.z, uom)
     }
+
+    /**
+     * @method direction
+     * @param vector {VectorE3}
+     * @return {R3}
+     * @static
+     */
     static direction(vector: VectorE3): R3 {
         const x = vector.x
         const y = vector.y

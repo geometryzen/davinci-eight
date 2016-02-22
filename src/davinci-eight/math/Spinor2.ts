@@ -1,6 +1,4 @@
 import dotVectorCartesian from '../math/dotVectorCartesianE2';
-import dotVector from '../math/dotVectorE2';
-import isDefined from '../checks/isDefined';
 import Measure from '../math/Measure';
 import mustBeInteger from '../checks/mustBeInteger';
 import mustBeNumber from '../checks/mustBeNumber';
@@ -8,8 +6,7 @@ import mustBeObject from '../checks/mustBeObject';
 import Mutable from '../math/Mutable';
 import MutableGeometricElement from '../math/MutableGeometricElement';
 import quadSpinor from '../math/quadSpinorE2';
-import quadVector from '../math/quadVectorE2';
-import rotorFromDirections from '../math/rotorFromDirections';
+import rotorFromDirections from '../math/rotorFromDirectionsE2';
 import SpinorE2 from '../math/SpinorE2';
 import Unit from '../math/Unit';
 import VectorE2 from '../math/VectorE2';
@@ -34,7 +31,6 @@ function one(): number[] {
 
 const abs = Math.abs
 const atan2 = Math.atan2
-const exp = Math.exp
 const log = Math.log
 const cos = Math.cos
 const sin = Math.sin
@@ -45,8 +41,10 @@ const sqrt = Math.sqrt
  * @extends VectorN<number>
  */
 export default class Spinor2 extends VectorN<number> implements SpinorE2, Measure<Spinor2>, Mutable<number[]>, MutableGeometricElement<SpinorE2, Spinor2, Spinor2, VectorE2> {
+
     /**
      * The optional unit of measure.
+     *
      * @property uom
      * @type {Unit}
      * @beta
@@ -334,21 +332,24 @@ export default class Spinor2 extends VectorN<number> implements SpinorE2, Measur
      * <p>
      * <code>this ⟼ e<sup>this</sup></code>
      * </p>
+     *
      * @method exp
      * @return {Spinor2} <code>this</code>
      * @chainable
      */
     exp(): Spinor2 {
-        let w = this.α
-        let z = this.xy
-        let expW = exp(w)
+
+        const α = this.α
+        const β = this.β
+
+        const expA = Math.exp(α)
         // φ is actually the absolute value of one half the rotation angle.
         // The orientation of the rotation gets carried in the bivector components.
         // FIXME: DRY
-        let φ = sqrt(z * z)
-        let s = expW * (φ !== 0 ? sin(φ) / φ : 1)
-        this.α = expW * cos(φ);
-        this.xy = z * s;
+        const φ = sqrt(β * β)
+        const s = expA * (φ !== 0 ? sin(φ) / φ : 1)
+        this.α = expA * cos(φ);
+        this.β = β * s;
         return this;
     }
     /**
@@ -420,7 +421,7 @@ export default class Spinor2 extends VectorN<number> implements SpinorE2, Measur
      * @chainable
      */
     log(): Spinor2 {
-        // FIXME: This is wrong see G2m.
+        // FIXME: This is wrong see Geometric2.
         let w = this.α
         let z = this.xy
         // FIXME: DRY
@@ -637,15 +638,8 @@ export default class Spinor2 extends VectorN<number> implements SpinorE2, Measur
      * @chainable
      */
     rotorFromDirections(a: VectorE2, b: VectorE2): Spinor2 {
-        if (isDefined(rotorFromDirections(a, b, quadVector, dotVector, this))) {
-            return this;
-        }
-        else {
-            // In two dimensions, the rotation plane is not ambiguous.
-            // FIXME: This is a bit dubious.
-            // Probably better to make undefined a first-class concept.
-            // ... this.undefined()
-        }
+        rotorFromDirections(a, b, this)
+        return this
     }
 
     /**

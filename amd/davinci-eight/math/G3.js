@@ -227,15 +227,15 @@ define(["require", "exports", '../math/addE3', '../geometries/b2', '../geometrie
         G3.prototype.addPseudo = function (β) {
             return new G3(this.α, this.x, this.y, this.z, this.xy, this.yz, this.zx, this.β + β, this.uom);
         };
-        G3.prototype.addScalar = function (α) {
-            return new G3(this.α + α, this.x, this.y, this.z, this.xy, this.yz, this.zx, this.β, this.uom);
+        G3.prototype.addScalar = function (α, uom) {
+            return new G3(this.α + α, this.x, this.y, this.z, this.xy, this.yz, this.zx, this.β, Unit_1.default.compatible(this.uom, uom));
         };
         G3.prototype.__add__ = function (rhs) {
             if (rhs instanceof G3) {
                 return this.add(rhs);
             }
             else if (typeof rhs === 'number') {
-                return this.addScalar(rhs);
+                return this.addScalar(rhs, void 0);
             }
         };
         G3.prototype.__radd__ = function (lhs) {
@@ -290,8 +290,8 @@ define(["require", "exports", '../math/addE3', '../geometries/b2', '../geometrie
             }
         };
         G3.prototype.mul = function (rhs) {
-            var out = new G3(1, 0, 0, 0, 0, 0, 0, 0, Unit_1.default.mul(this.uom, rhs.uom));
-            mulG3_1.default(this, rhs, G3.mutator(out));
+            var out = new G3(0, 0, 0, 0, 0, 0, 0, 0, Unit_1.default.mul(this.uom, rhs.uom));
+            mulG3_1.default(this, rhs, out._coords);
             return out;
         };
         G3.prototype.__mul__ = function (rhs) {
@@ -688,20 +688,12 @@ define(["require", "exports", '../math/addE3', '../geometries/b2', '../geometrie
                 },
                 set beta(beta) {
                     M._coords[COORD_PSEUDO] = beta;
-                },
-                set uom(uom) {
-                    M.uom = uom;
                 }
             };
             return that;
         };
-        G3.copy = function (m) {
-            if (m instanceof G3) {
-                return m;
-            }
-            else {
-                return new G3(m.α, m.x, m.y, m.z, m.xy, m.yz, m.zx, m.β, m.uom);
-            }
+        G3.copy = function (m, uom) {
+            return new G3(m.α, m.x, m.y, m.z, m.xy, m.yz, m.zx, m.β, uom);
         };
         G3.fromSpinor = function (spinor) {
             if (spinor) {
@@ -711,9 +703,9 @@ define(["require", "exports", '../math/addE3', '../geometries/b2', '../geometrie
                 return void 0;
             }
         };
-        G3.fromVector = function (vector) {
+        G3.fromVector = function (vector, uom) {
             if (vector) {
-                return new G3(0, vector.x, vector.y, vector.z, 0, 0, 0, 0, vector.uom);
+                return new G3(0, vector.x, vector.y, vector.z, 0, 0, 0, 0, uom);
             }
             else {
                 return void 0;

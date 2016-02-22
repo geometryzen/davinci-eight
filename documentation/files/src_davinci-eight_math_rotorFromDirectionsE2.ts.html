@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src/davinci-eight/math/rotorFromDirections.ts - davinci-eight</title>
+    <title>src/davinci-eight/math/rotorFromDirectionsE2.ts - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.192.0</em>
+            <em>API Docs for: 2.193.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -70,9 +70,9 @@
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
                                 <li><a href="../classes/G1.html">G1</a></li>
                                 <li><a href="../classes/G2.html">G2</a></li>
-                                <li><a href="../classes/G2m.html">G2m</a></li>
                                 <li><a href="../classes/G3.html">G3</a></li>
-                                <li><a href="../classes/G3m.html">G3m</a></li>
+                                <li><a href="../classes/Geometric2.html">Geometric2</a></li>
+                                <li><a href="../classes/Geometric3.html">Geometric3</a></li>
                                 <li><a href="../classes/GeometricE2.html">GeometricE2</a></li>
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
@@ -201,32 +201,40 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: src/davinci-eight/math/rotorFromDirections.ts</h1>
+<h1 class="file-heading">File: src/davinci-eight/math/rotorFromDirectionsE2.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import Geometric from &#x27;../math/MutableGeometricElement&#x27;;
+import dot from &#x27;./dotVectorE2&#x27;
+import quad from &#x27;./quadVectorE2&#x27;
+import Vector from &#x27;./VectorE2&#x27;
+import Spinor from &#x27;./SpinorE2&#x27;
 
 const sqrt = Math.sqrt
+
+interface Output extends Spinor {
+    versor(a: Vector, b: Vector): Output
+    addScalar(α: number): Output
+    divByScalar(α: number): Output
+}
 
 /**
  * Sets this multivector to a rotor representing a rotation from a to b.
  * R = (|b||a| + b * a) / sqrt(2 * |b||a|(|b||a| + b &lt;&lt; a))
  * Returns undefined (void 0) if the vectors are anti-parallel.
  */
-// FIXME: This should be deprecated because of the poor handling of the undefined case.
-export default function rotorFromDirections&lt;V, M extends Geometric&lt;any, any, any, any&gt;&gt;(a: V, b: V, quad: (v: V) =&gt; number, dot: (a: V, b: V) =&gt; number, m: M): M {
+export default function(a: Vector, b: Vector, m: Output): void {
     const quadA = quad(a)
     const absA = sqrt(quadA)
     const quadB = quad(b)
     const absB = sqrt(quadB)
     const BA = absB * absA
-    const denom = sqrt(2 * (quadB * quadA + BA * dot(b, a)))
+    const dotBA = dot(b, a)
+    const denom = sqrt(2 * (quadB * quadA + BA * dotBA))
     if (denom !== 0) {
         m = m.versor(b, a)
         m = m.addScalar(BA)
         m = m.divByScalar(denom)
-        return m
     }
     else {
         // The denominator is zero when |a||b| + a &lt;&lt; b = 0.

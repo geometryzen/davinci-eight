@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.192.0</em>
+            <em>API Docs for: 2.193.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -70,9 +70,9 @@
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
                                 <li><a href="../classes/G1.html">G1</a></li>
                                 <li><a href="../classes/G2.html">G2</a></li>
-                                <li><a href="../classes/G2m.html">G2m</a></li>
                                 <li><a href="../classes/G3.html">G3</a></li>
-                                <li><a href="../classes/G3m.html">G3m</a></li>
+                                <li><a href="../classes/Geometric2.html">Geometric2</a></li>
+                                <li><a href="../classes/Geometric3.html">Geometric3</a></li>
                                 <li><a href="../classes/GeometricE2.html">GeometricE2</a></li>
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
@@ -210,6 +210,7 @@ import mustBeObject from &#x27;../checks/mustBeObject&#x27;;
 import Mesh from &#x27;../core/Mesh&#x27;;
 import Geometry from &#x27;../core/Geometry&#x27;;
 import Material from &#x27;../core/Material&#x27;;
+import Unit from &#x27;../math/Unit&#x27;
 
 /**
  * Convenient abstractions for Physics modeling.
@@ -218,11 +219,24 @@ import Material from &#x27;../core/Material&#x27;;
  * @submodule visual
  */
 
+//
+// RigidBody extends Mesh, which has dimensionless, mutable, attitude and position properties.
+// RigidBody may have optional units and has strictly immutable types.
+// This makes RigidBody useful for Physics education purposes but less so for performance graphics.
+//
+
 /**
  * @class RigidBody
  * @extends Mesh
  */
 export default class RigidBody extends Mesh {
+
+    /**
+     * @property posUom
+     * @type Unit
+     * @private
+     */
+    private posUom: Unit;
 
     /**
      * @property _mass
@@ -328,11 +342,12 @@ export default class RigidBody extends Mesh {
      * @type G3
      */
     get X(): G3 {
-        return G3.fromVector(this.position)
+        return G3.fromVector(this.position, this.posUom)
     }
     set X(X: G3) {
         mustBeObject(&#x27;X&#x27;, X, () =&gt; { return this._type })
         this.position.copy(X)
+        this.posUom = X.uom
     }
 
     /**
@@ -342,11 +357,12 @@ export default class RigidBody extends Mesh {
      * @type G3
      */
     get pos(): G3 {
-        return G3.fromVector(this.position)
+        return G3.fromVector(this.position, this.posUom)
     }
     set pos(pos: G3) {
         mustBeObject(&#x27;pos&#x27;, pos, () =&gt; { return this._type })
         this.position.copy(pos)
+        this.posUom = pos.uom
     }
 
     /**

@@ -33,8 +33,14 @@ export default class VectorN<T> implements Mutable<T[]> {
      * @private
      */
     private _size: number;
-    private _data: T[];
-    private _callback: () => T[];
+
+    /**
+     * @property _coords
+     * @type number[]
+     * @protected
+     */
+    protected _coords: T[];
+
     /**
      * @property modified
      * @type {boolean}
@@ -52,12 +58,12 @@ export default class VectorN<T> implements Mutable<T[]> {
         this.modified = modified;
         if (isDefined(size)) {
             this._size = size;
-            this._data = data;
+            this._coords = data;
             mustSatisfy('data.length', data.length === size, () => { return `${size}` })
         }
         else {
             this._size = void 0;
-            this._data = data;
+            this._coords = data;
         }
     }
 
@@ -66,32 +72,10 @@ export default class VectorN<T> implements Mutable<T[]> {
      * @type {T[]}
      */
     get coords(): T[] {
-        if (this._data) {
-            return this._data;
-        }
-        else if (this._callback) {
-            return this._callback();
-        }
-        else {
-            throw new Error("Vector" + this._size + " is undefined.");
-        }
+        return this._coords;
     }
     set coords(data: T[]) {
-        this._data = data;
-        this._callback = void 0;
-        this.modified = true;
-    }
-
-    /**
-     * @property callback
-     * @type {() => T[]}
-     */
-    get callback(): () => T[] {
-        return this._callback;
-    }
-    set callback(reactTo: () => T[]) {
-        this._callback = reactTo;
-        this._data = void 0;
+        this._coords = data;
         this.modified = true;
     }
 
@@ -109,7 +93,7 @@ export default class VectorN<T> implements Mutable<T[]> {
      * @return {VectorN}
      */
     clone(): VectorN<T> {
-        return new VectorN<T>(this._data, this.modified, this._size);
+        return new VectorN<T>(this._coords, this.modified, this._size);
     }
 
     /**

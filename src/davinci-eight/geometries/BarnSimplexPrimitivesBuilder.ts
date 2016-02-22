@@ -5,12 +5,12 @@ import quad from '../geometries/quadrilateral';
 import Simplex from '../geometries/Simplex';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
 import triangle from '../geometries/triangle';
-import G3m from '../math/G3m';
+import Geometric3 from '../math/Geometric3';
 
 export default class BarnSimplexPrimitivesBuilder extends SimplexPrimitivesBuilder {
-    public a: G3m = G3m.fromVector(G3.e1);
-    public b: G3m = G3m.fromVector(G3.e2);
-    public c: G3m = G3m.fromVector(G3.e3);
+    public a: Geometric3 = Geometric3.fromVector(G3.e1);
+    public b: Geometric3 = Geometric3.fromVector(G3.e2);
+    public c: Geometric3 = Geometric3.fromVector(G3.e3);
     constructor() {
         super()
         this.regenerate();
@@ -29,24 +29,24 @@ export default class BarnSimplexPrimitivesBuilder extends SimplexPrimitivesBuild
 
         this.setModified(false)
 
-        var points: G3m[] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(function(index) { return void 0 })
+        var points: Geometric3[] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(function(index) { return void 0 })
 
         // Define the anchor points relative to the origin.
-        points[0] = new G3m().sub(this.a).sub(this.b).sub(this.c).divByScalar(2)
-        points[1] = new G3m().add(this.a).sub(this.b).sub(this.c).divByScalar(2)
-        points[6] = new G3m().add(this.a).sub(this.b).add(this.c).divByScalar(2)
-        points[5] = new G3m().sub(this.a).sub(this.b).add(this.c).divByScalar(2)
+        points[0] = new Geometric3().sub(this.a).sub(this.b).sub(this.c).divByScalar(2)
+        points[1] = new Geometric3().add(this.a).sub(this.b).sub(this.c).divByScalar(2)
+        points[6] = new Geometric3().add(this.a).sub(this.b).add(this.c).divByScalar(2)
+        points[5] = new Geometric3().sub(this.a).sub(this.b).add(this.c).divByScalar(2)
 
-        points[4] = new G3m().copy(points[0]).add(this.b)
-        points[2] = new G3m().copy(points[1]).add(this.b)
-        points[7] = new G3m().copy(points[6]).add(this.b)
-        points[9] = new G3m().copy(points[5]).add(this.b)
+        points[4] = new Geometric3().copy(points[0]).add(this.b)
+        points[2] = new Geometric3().copy(points[1]).add(this.b)
+        points[7] = new Geometric3().copy(points[6]).add(this.b)
+        points[9] = new Geometric3().copy(points[5]).add(this.b)
 
-        points[3] = G3m.lerp(points[4], points[2], 0.5).scale(2).add(this.b).divByScalar(2)
-        points[8] = G3m.lerp(points[7], points[9], 0.5).scale(2).add(this.b).divByScalar(2)
+        points[3] = Geometric3.lerp(points[4], points[2], 0.5).scale(2).add(this.b).divByScalar(2)
+        points[8] = Geometric3.lerp(points[7], points[9], 0.5).scale(2).add(this.b).divByScalar(2)
 
         // Translate the points according to the position.
-        let position = G3m.fromVector(this.position)
+        let position = Geometric3.fromVector(this.position)
         points = points.map((point) => { return point.add(position) })
 
         function simplex(indices: number[]): Simplex {

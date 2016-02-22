@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.192.0</em>
+            <em>API Docs for: 2.193.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -70,9 +70,9 @@
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
                                 <li><a href="../classes/G1.html">G1</a></li>
                                 <li><a href="../classes/G2.html">G2</a></li>
-                                <li><a href="../classes/G2m.html">G2m</a></li>
                                 <li><a href="../classes/G3.html">G3</a></li>
-                                <li><a href="../classes/G3m.html">G3m</a></li>
+                                <li><a href="../classes/Geometric2.html">Geometric2</a></li>
+                                <li><a href="../classes/Geometric3.html">Geometric3</a></li>
                                 <li><a href="../classes/GeometricE2.html">GeometricE2</a></li>
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
@@ -217,17 +217,22 @@ import isDefined from &#x27;../checks/isDefined&#x27;
 import AmbientLight from &#x27;../facets/AmbientLight&#x27;
 import Drawable from &#x27;../core/Drawable&#x27;
 import mustBeNumber from &#x27;../checks/mustBeNumber&#x27;
+import CameraControls from &#x27;../controls/CameraControls&#x27;
 import readOnly from &#x27;../i18n/readOnly&#x27;
 import Shareable from &#x27;../core/Shareable&#x27;
 import Sphere from &#x27;./Sphere&#x27;
-import CameraControls from &#x27;../controls/CameraControls&#x27;
 import VectorE3 from &#x27;../math/VectorE3&#x27;
 import VisualBody from &#x27;./VisualBody&#x27;
 import WebGLRenderer from &#x27;../core/WebGLRenderer&#x27;
 
-function updateRigidBody(body: VisualBody, options: { axis?: VectorE3; color?: Color; pos?: VectorE3 }): void {
+/**
+ * Note:
+ * 1. The options.pos property is intentionally G3 so that we don&#x27;t force an Unit onto Vector3 etc.
+ */
+function updateRigidBody(body: VisualBody, options: { axis?: VectorE3; color?: Color; pos?: G3 }): void {
 
     if (options.axis) {
+        // TODO: We drop the uom on purpose, that means we really only need a Vector3 for the axis.
         body.axis = G3.fromVector(options.axis)
     }
 
@@ -239,7 +244,8 @@ function updateRigidBody(body: VisualBody, options: { axis?: VectorE3; color?: C
     }
 
     if (options.pos) {
-        body.pos = G3.fromVector(options.pos)
+        // Being careful to retain the unit of measure.
+        body.pos = options.pos
     }
 }
 
@@ -347,7 +353,7 @@ export default class World extends Shareable {
         options: {
             axis?: VectorE3;
             color?: Color;
-            pos?: VectorE3;
+            pos?: G3;
         } = {}): Arrow {
         const arrow = new Arrow()
         updateRigidBody(arrow, options)
@@ -364,7 +370,7 @@ export default class World extends Shareable {
         options: {
             axis?: VectorE3;
             color?: Color;
-            pos?: VectorE3;
+            pos?: G3;
             width?: number;
             height?: number;
             depth?: number;
@@ -384,7 +390,7 @@ export default class World extends Shareable {
         options: {
             axis?: VectorE3;
             color?: Color;
-            pos?: VectorE3;
+            pos?: G3;
             radius?: number;
         } = {}): Cylinder {
         const cylinder = new Cylinder()
@@ -402,7 +408,7 @@ export default class World extends Shareable {
     sphere(
         options: {
             color?: Color;
-            pos?: VectorE3;
+            pos?: G3;
             radius?: number;
         } = {}): Sphere {
         const sphere = new Sphere()

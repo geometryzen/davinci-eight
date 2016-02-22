@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.192.0</em>
+            <em>API Docs for: 2.193.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -70,9 +70,9 @@
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
                                 <li><a href="../classes/G1.html">G1</a></li>
                                 <li><a href="../classes/G2.html">G2</a></li>
-                                <li><a href="../classes/G2m.html">G2m</a></li>
                                 <li><a href="../classes/G3.html">G3</a></li>
-                                <li><a href="../classes/G3m.html">G3m</a></li>
+                                <li><a href="../classes/Geometric2.html">Geometric2</a></li>
+                                <li><a href="../classes/Geometric3.html">Geometric3</a></li>
                                 <li><a href="../classes/GeometricE2.html">GeometricE2</a></li>
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
@@ -216,7 +216,6 @@ import isDefined from &#x27;../checks/isDefined&#x27;;
 import isNumber from &#x27;../checks/isNumber&#x27;;
 import SpinorE3 from &#x27;./SpinorE3&#x27;;
 import toStringCustom from &#x27;./toStringCustom&#x27;;
-import Unit from &#x27;./Unit&#x27;;
 import VectorN from &#x27;./VectorN&#x27;;
 import wedgeXY from &#x27;./wedgeXY&#x27;;
 import wedgeYZ from &#x27;./wedgeYZ&#x27;;
@@ -248,12 +247,6 @@ function coordinates(m: VectorE3): number[] {
 export default class Vector3 extends VectorN&lt;number&gt; implements ColumnVector&lt;Matrix3, Vector3&gt;, VectorE3, MutableLinearElement&lt;VectorE3, Vector3, SpinorE3, VectorE3&gt; {
 
     /**
-     * @property uom
-     * @type Unit
-     */
-    public uom: Unit
-
-    /**
      * @method dot
      * @param a {VectorE3}
      * @param b {VectorE3}
@@ -261,6 +254,7 @@ export default class Vector3 extends VectorN&lt;number&gt; implements ColumnVect
      * @static
      */
     public static dot(a: VectorE3, b: VectorE3): number {
+        // FIXME: Since vectors may now have units, the return type should be a unit.
         return a.x * b.x + a.y * b.y + a.z * b.z;
     }
 
@@ -271,6 +265,7 @@ export default class Vector3 extends VectorN&lt;number&gt; implements ColumnVect
      * @param modified [boolean = false]
      */
     constructor(data: number[] = [0, 0, 0], modified = false) {
+        // FIXME : Where is the uom, even if it is optional.
         super(data, modified, 3);
     }
     /**
@@ -306,6 +301,7 @@ export default class Vector3 extends VectorN&lt;number&gt; implements ColumnVect
         this.modified = this.modified || this.z !== value;
         this.coords[COORD_Z] = value;
     }
+
     /**
      * &lt;p&gt;
      * &lt;code&gt;this ⟼ this + vector * α&lt;/code&gt;
@@ -397,13 +393,13 @@ export default class Vector3 extends VectorN&lt;number&gt; implements ColumnVect
      * @chainable
      */
     reflect(n: VectorE3) {
-        let ax = this.x;
-        let ay = this.y;
-        let az = this.z;
-        let nx = n.x;
-        let ny = n.y;
-        let nz = n.z;
-        let dot2 = (ax * nx + ay * ny + az * nz) * 2;
+        const ax = this.x;
+        const ay = this.y;
+        const az = this.z;
+        const nx = n.x;
+        const ny = n.y;
+        const nz = n.z;
+        const dot2 = (ax * nx + ay * ny + az * nz) * 2;
         this.x = ax - dot2 * nx;
         this.y = ay - dot2 * ny;
         this.z = az - dot2 * nz;
@@ -444,6 +440,8 @@ export default class Vector3 extends VectorN&lt;number&gt; implements ColumnVect
      * @return {Vector3} &lt;code&gt;copy(this)&lt;/code&gt;
      */
     clone() {
+        // FIXME: uom is not being carried.
+        // FIXME: modidied flaf should be replicated
         return new Vector3([this.x, this.y, this.z]);
     }
 
@@ -451,15 +449,16 @@ export default class Vector3 extends VectorN&lt;number&gt; implements ColumnVect
      * &lt;p&gt;
      * &lt;code&gt;this ⟼ copy(v)&lt;/code&gt;
      * &lt;/p&gt;
+     *
      * @method copy
      * @param v {VectorE3}
      * @return {Vector3} &lt;code&gt;this&lt;/code&gt;
      * @chainable
      */
     copy(v: VectorE3) {
-        this.x = v.x;
-        this.y = v.y;
-        this.z = v.z;
+        this.x = v.x
+        this.y = v.y
+        this.z = v.z
         return this;
     }
 
@@ -508,7 +507,6 @@ export default class Vector3 extends VectorN&lt;number&gt; implements ColumnVect
         this.x = wedgeYZ(ax, ay, az, bx, by, bz);
         this.y = wedgeZX(ax, ay, az, bx, by, bz);
         this.z = wedgeXY(ax, ay, az, bx, by, bz);
-
         return this;
     }
 
@@ -634,6 +632,7 @@ export default class Vector3 extends VectorN&lt;number&gt; implements ColumnVect
     direction(): Vector3 {
         return this.divByScalar(this.magnitude());
     }
+
     /**
      * &lt;p&gt;
      * &lt;code&gt;this ⟼ this * α&lt;/code&gt;
@@ -647,6 +646,7 @@ export default class Vector3 extends VectorN&lt;number&gt; implements ColumnVect
         this.z *= α
         return this
     }
+
     /**
      * &lt;p&gt;
      * &lt;code&gt;this ⟼ this&lt;/code&gt;, with components modified.
@@ -859,13 +859,11 @@ export default class Vector3 extends VectorN&lt;number&gt; implements ColumnVect
      * @param x {number}
      * @param y {number}
      * @param z {number}
-     * @param [uom] {Unit}
      * @return {Vector3}
      * @static
      */
-    static vector(x: number, y: number, z: number, uom?: Unit): Vector3 {
+    static vector(x: number, y: number, z: number): Vector3 {
         const v = new Vector3([x, y, z])
-        v.uom = uom
         return v
     }
 }
