@@ -212,8 +212,6 @@ import core from &#x27;../core&#x27;;
 import IContextProvider from &#x27;../core/IContextProvider&#x27;;
 import Shareable from &#x27;../core/Shareable&#x27;;
 
-var QUALIFIED_NAME = &#x27;EIGHT.Logger&#x27;
-
 /**
  * &lt;p&gt;
  * Displays details about EIGHT to the console.
@@ -230,7 +228,7 @@ export default class EIGHTLogger extends Shareable {
      * @constructor
      */
     constructor() {
-        super(QUALIFIED_NAME);
+        super(&#x27;EIGHTLogger&#x27;);
     }
     contextFree(manager: IContextProvider): void {
         // Do nothing.
@@ -241,11 +239,12 @@ export default class EIGHTLogger extends Shareable {
      * @param unused WebGLRenderingContext
      */
     contextGain(manager: IContextProvider): void {
-        console.log(core.NAMESPACE + &quot; &quot; + core.VERSION + &quot; (&quot; + core.GITHUB + &quot;) &quot; + core.LAST_MODIFIED);
+        console.log(&#x60;${core.NAMESPACE} ${core.VERSION} (${core.GITHUB}) ${core.LAST_MODIFIED}&#x60;);
     }
     contextLost(): void {
         // Do nothing.
     }
+
     /**
      * Does nothing.
      * @protected
@@ -255,8 +254,9 @@ export default class EIGHTLogger extends Shareable {
     protected destructor(): void {
         // Do nothing.
     }
+
     get name(): string {
-        return QUALIFIED_NAME;
+        return this._type;
     }
 }
 

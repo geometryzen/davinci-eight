@@ -33,7 +33,7 @@ export default class VersionLogger extends Shareable {
      * @return {void}
      */
     contextGain(manager: IContextProvider): void {
-        var gl = manager.gl
+        const gl = manager.gl
         console.log(gl.getParameter(gl.VERSION))
     }
     contextLost(): void {

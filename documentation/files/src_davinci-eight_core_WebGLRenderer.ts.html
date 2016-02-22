@@ -210,6 +210,7 @@
     <pre class="code prettyprint linenums">
 import Capability from &#x27;../commands/Capability&#x27;;
 import core from &#x27;../core&#x27;;
+import EIGHTLogger from &#x27;../commands/EIGHTLogger&#x27;
 import IContextProvider from &#x27;./IContextProvider&#x27;;
 import IContextConsumer from &#x27;./IContextConsumer&#x27;;
 import ShareableArray from &#x27;../collections/ShareableArray&#x27;;
@@ -219,6 +220,7 @@ import mustBeDefined from &#x27;../checks/mustBeDefined&#x27;;
 import mustBeObject from &#x27;../checks/mustBeObject&#x27;;
 import readOnly from &#x27;../i18n/readOnly&#x27;;
 import Shareable from &#x27;./Shareable&#x27;;
+import VersionLogger from &#x27;../commands/VersionLogger&#x27;
 import WebGLClearColor from &#x27;../commands/WebGLClearColor&#x27;;
 import WebGLEnable from &#x27;../commands/WebGLEnable&#x27;;
 import WebGLDisable from &#x27;../commands/WebGLDisable&#x27;;
@@ -273,7 +275,6 @@ export default class WebGLRenderer extends Shareable {
     // Remark: We only hold weak references to users so that the lifetime of resource
     // objects is not affected by the fact that they are listening for gl events.
     // Users should automatically add themselves upon construction and remove upon release.
-    // // FIXME: Really? Not ShareableArray&lt;IIContextConsumer&gt; ?
     private _users: IContextConsumer[] = []
 
     private _webGLContextLost: (event: Event) =&gt; any
@@ -290,9 +291,11 @@ export default class WebGLRenderer extends Shareable {
      */
     constructor(attributes?: WebGLContextAttributes) {
         super(&#x27;WebGLRenderer&#x27;)
-        console.log(&#x60;${core.NAMESPACE}.${this._type} ${core.VERSION}&#x60;)
 
         this._attributes = attributes;
+
+        this._commands.pushWeakRef(new EIGHTLogger())
+        this._commands.pushWeakRef(new VersionLogger())
 
         this._contextProvider = new WebGLContextProvider(this)
 

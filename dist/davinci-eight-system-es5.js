@@ -19278,6 +19278,51 @@ System.register("davinci-eight/core.js", [], function(exports_1) {
   };
 });
 
+System.register("davinci-eight/commands/EIGHTLogger.js", ["../core", "../core/Shareable"], function(exports_1) {
+  var __extends = (this && this.__extends) || function(d, b) {
+    for (var p in b)
+      if (b.hasOwnProperty(p))
+        d[p] = b[p];
+    function __() {
+      this.constructor = d;
+    }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+  };
+  var core_1,
+      Shareable_1;
+  var EIGHTLogger;
+  return {
+    setters: [function(core_1_1) {
+      core_1 = core_1_1;
+    }, function(Shareable_1_1) {
+      Shareable_1 = Shareable_1_1;
+    }],
+    execute: function() {
+      EIGHTLogger = (function(_super) {
+        __extends(EIGHTLogger, _super);
+        function EIGHTLogger() {
+          _super.call(this, 'EIGHTLogger');
+        }
+        EIGHTLogger.prototype.contextFree = function(manager) {};
+        EIGHTLogger.prototype.contextGain = function(manager) {
+          console.log(core_1.default.NAMESPACE + " " + core_1.default.VERSION + " (" + core_1.default.GITHUB + ") " + core_1.default.LAST_MODIFIED);
+        };
+        EIGHTLogger.prototype.contextLost = function() {};
+        EIGHTLogger.prototype.destructor = function() {};
+        Object.defineProperty(EIGHTLogger.prototype, "name", {
+          get: function() {
+            return this._type;
+          },
+          enumerable: true,
+          configurable: true
+        });
+        return EIGHTLogger;
+      })(Shareable_1.default);
+      exports_1("default", EIGHTLogger);
+    }
+  };
+});
+
 System.register("davinci-eight/collections/ShareableArray.js", ["../core/Shareable"], function(exports_1) {
   var __extends = (this && this.__extends) || function(d, b) {
     for (var p in b)
@@ -19473,6 +19518,51 @@ System.register("davinci-eight/checks/mustBeObject.js", ["../checks/mustSatisfy"
       isObject_1 = isObject_1_1;
     }],
     execute: function() {}
+  };
+});
+
+System.register("davinci-eight/commands/VersionLogger.js", ["../core/Shareable"], function(exports_1) {
+  var __extends = (this && this.__extends) || function(d, b) {
+    for (var p in b)
+      if (b.hasOwnProperty(p))
+        d[p] = b[p];
+    function __() {
+      this.constructor = d;
+    }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+  };
+  var Shareable_1;
+  var QUALIFIED_NAME,
+      VersionLogger;
+  return {
+    setters: [function(Shareable_1_1) {
+      Shareable_1 = Shareable_1_1;
+    }],
+    execute: function() {
+      QUALIFIED_NAME = 'EIGHT.VersionLogger';
+      VersionLogger = (function(_super) {
+        __extends(VersionLogger, _super);
+        function VersionLogger() {
+          _super.call(this, QUALIFIED_NAME);
+        }
+        VersionLogger.prototype.contextFree = function() {};
+        VersionLogger.prototype.contextGain = function(manager) {
+          var gl = manager.gl;
+          console.log(gl.getParameter(gl.VERSION));
+        };
+        VersionLogger.prototype.contextLost = function() {};
+        VersionLogger.prototype.destructor = function() {};
+        Object.defineProperty(VersionLogger.prototype, "name", {
+          get: function() {
+            return QUALIFIED_NAME;
+          },
+          enumerable: true,
+          configurable: true
+        });
+        return VersionLogger;
+      })(Shareable_1.default);
+      exports_1("default", VersionLogger);
+    }
   };
 });
 
@@ -20126,7 +20216,7 @@ System.register("davinci-eight/commands/WebGLDisable.js", ["../commands/glCapabi
   };
 });
 
-System.register("davinci-eight/core/WebGLRenderer.js", ["../commands/Capability", "../core", "../collections/ShareableArray", "./initWebGL", "../checks/isDefined", "../checks/mustBeDefined", "../checks/mustBeObject", "../i18n/readOnly", "./Shareable", "../commands/WebGLClearColor", "../commands/WebGLEnable", "../commands/WebGLDisable"], function(exports_1) {
+System.register("davinci-eight/core/WebGLRenderer.js", ["../commands/Capability", "../core", "../commands/EIGHTLogger", "../collections/ShareableArray", "./initWebGL", "../checks/isDefined", "../checks/mustBeDefined", "../checks/mustBeObject", "../i18n/readOnly", "./Shareable", "../commands/VersionLogger", "../commands/WebGLClearColor", "../commands/WebGLEnable", "../commands/WebGLDisable"], function(exports_1) {
   var __extends = (this && this.__extends) || function(d, b) {
     for (var p in b)
       if (b.hasOwnProperty(p))
@@ -20138,6 +20228,7 @@ System.register("davinci-eight/core/WebGLRenderer.js", ["../commands/Capability"
   };
   var Capability_1,
       core_1,
+      EIGHTLogger_1,
       ShareableArray_1,
       initWebGL_1,
       isDefined_1,
@@ -20145,6 +20236,7 @@ System.register("davinci-eight/core/WebGLRenderer.js", ["../commands/Capability"
       mustBeObject_1,
       readOnly_1,
       Shareable_1,
+      VersionLogger_1,
       WebGLClearColor_1,
       WebGLEnable_1,
       WebGLDisable_1;
@@ -20155,6 +20247,8 @@ System.register("davinci-eight/core/WebGLRenderer.js", ["../commands/Capability"
       Capability_1 = Capability_1_1;
     }, function(core_1_1) {
       core_1 = core_1_1;
+    }, function(EIGHTLogger_1_1) {
+      EIGHTLogger_1 = EIGHTLogger_1_1;
     }, function(ShareableArray_1_1) {
       ShareableArray_1 = ShareableArray_1_1;
     }, function(initWebGL_1_1) {
@@ -20169,6 +20263,8 @@ System.register("davinci-eight/core/WebGLRenderer.js", ["../commands/Capability"
       readOnly_1 = readOnly_1_1;
     }, function(Shareable_1_1) {
       Shareable_1 = Shareable_1_1;
+    }, function(VersionLogger_1_1) {
+      VersionLogger_1 = VersionLogger_1_1;
     }, function(WebGLClearColor_1_1) {
       WebGLClearColor_1 = WebGLClearColor_1_1;
     }, function(WebGLEnable_1_1) {
@@ -20205,8 +20301,9 @@ System.register("davinci-eight/core/WebGLRenderer.js", ["../commands/Capability"
           _super.call(this, 'WebGLRenderer');
           this._users = [];
           this._commands = new ShareableArray_1.default([]);
-          console.log(core_1.default.NAMESPACE + "." + this._type + " " + core_1.default.VERSION);
           this._attributes = attributes;
+          this._commands.pushWeakRef(new EIGHTLogger_1.default());
+          this._commands.pushWeakRef(new VersionLogger_1.default());
           this._contextProvider = new WebGLContextProvider(this);
           this.enable(Capability_1.default.DEPTH_TEST);
           this._webGLContextLost = function(event) {

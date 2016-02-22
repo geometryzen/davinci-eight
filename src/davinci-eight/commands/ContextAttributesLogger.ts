@@ -1,7 +1,6 @@
 import IContextProvider from '../core/IContextProvider';
+import readOnly from '../i18n/readOnly';
 import Shareable from '../core/Shareable';
-
-var QUALIFIED_NAME = 'EIGHT.ContextAttributesLogger'
 
 /**
  * <p>
@@ -11,15 +10,39 @@ var QUALIFIED_NAME = 'EIGHT.ContextAttributesLogger'
  * @extends Shareable
  */
 export default class ContextAttributesLogger extends Shareable {
+    /**
+     * @class ContextAttributesLogger
+     * @constructor
+     */
     constructor() {
-        super(QUALIFIED_NAME)
+        super('ContextAttributesLogger')
     }
+
+    /**
+     * @method destructor
+     * @return {void}
+     */
+    protected destructor(): void {
+        super.destructor()
+    }
+
+    /**
+     * @method contextFree
+     * @param manager {IContextProvider}
+     * @return {void}
+     */
     contextFree(manager: IContextProvider): void {
         // Do nothing.
     }
+
+    /**
+     * @method contextGain
+     * @param manager {IContextProvider}
+     * @return {void}
+     */
     contextGain(manager: IContextProvider): void {
-        let gl = manager.gl
-        let attributes: WebGLContextAttributes = gl.getContextAttributes()
+        const gl = manager.gl
+        const attributes: WebGLContextAttributes = gl.getContextAttributes()
         console.log("alpha                 => " + attributes.alpha)
         console.log("antialias             => " + attributes.antialias)
         console.log("depth                 => " + attributes.depth)
@@ -27,13 +50,24 @@ export default class ContextAttributesLogger extends Shareable {
         console.log("preserveDrawingBuffer => " + attributes.preserveDrawingBuffer)
         console.log("stencil               => " + attributes.stencil)
     }
+
+    /**
+     * @method contextLost
+     * @return {void}
+     */
     contextLost(): void {
         // Do nothing.
     }
-    destructor(): void {
-        super.destructor()
-    }
+
+    /**
+     * @property name
+     * @type string
+     * @readOnly
+     */
     get name(): string {
-        return QUALIFIED_NAME
+        return this._type
+    }
+    set name(unused) {
+        throw new Error(readOnly('name').message)
     }
 }

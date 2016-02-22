@@ -1815,7 +1815,7 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 76,
+            "line": 77,
             "extends": "IContextConsumer",
             "description": "Fundamental abstractions in the architecture."
         },
@@ -2029,9 +2029,10 @@
             "extension_for": [],
             "module": "EIGHT",
             "file": "src/davinci-eight/commands/ContextAttributesLogger.ts",
-            "line": 6,
+            "line": 13,
             "description": "<p>\nDisplays details about the WegGL version to the console.\n<p>",
-            "extends": "Shareable"
+            "extends": "Shareable",
+            "is_constructor": 1
         },
         "EIGHTLogger": {
             "name": "EIGHTLogger",
@@ -2043,7 +2044,7 @@
             "extension_for": [],
             "module": "EIGHT",
             "file": "src/davinci-eight/commands/EIGHTLogger.ts",
-            "line": 15,
+            "line": 13,
             "description": "<p>\nInitializes <b>the</b> `type` property to 'EIGHTLogger'.\n</p>",
             "extends": "Shareable",
             "is_constructor": 1
@@ -2822,7 +2823,7 @@
             "submodule": "core",
             "namespace": "",
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 76,
+            "line": 77,
             "extends": "Shareable",
             "is_constructor": 1,
             "params": [
@@ -5105,8 +5106,75 @@
             "class": "Capability"
         },
         {
+            "file": "src/davinci-eight/commands/ContextAttributesLogger.ts",
+            "line": 21,
+            "itemtype": "method",
+            "name": "destructor",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "ContextAttributesLogger"
+        },
+        {
+            "file": "src/davinci-eight/commands/ContextAttributesLogger.ts",
+            "line": 29,
+            "itemtype": "method",
+            "name": "contextFree",
+            "params": [
+                {
+                    "name": "manager",
+                    "description": "",
+                    "type": "IContextProvider"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "ContextAttributesLogger"
+        },
+        {
+            "file": "src/davinci-eight/commands/ContextAttributesLogger.ts",
+            "line": 38,
+            "itemtype": "method",
+            "name": "contextGain",
+            "params": [
+                {
+                    "name": "manager",
+                    "description": "",
+                    "type": "IContextProvider"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "ContextAttributesLogger"
+        },
+        {
+            "file": "src/davinci-eight/commands/ContextAttributesLogger.ts",
+            "line": 54,
+            "itemtype": "method",
+            "name": "contextLost",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "ContextAttributesLogger"
+        },
+        {
+            "file": "src/davinci-eight/commands/ContextAttributesLogger.ts",
+            "line": 62,
+            "itemtype": "property",
+            "name": "name",
+            "type": "string",
+            "readonly": "",
+            "class": "ContextAttributesLogger"
+        },
+        {
             "file": "src/davinci-eight/commands/EIGHTLogger.ts",
-            "line": 28,
+            "line": 26,
             "description": "Logs the version, GitHub URL, and last modified date to the console.",
             "itemtype": "method",
             "name": "execute",
@@ -5120,7 +5188,7 @@
         },
         {
             "file": "src/davinci-eight/commands/EIGHTLogger.ts",
-            "line": 39,
+            "line": 38,
             "description": "Does nothing.",
             "access": "protected",
             "tagname": "",
@@ -9469,7 +9537,7 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 47,
+            "line": 49,
             "itemtype": "property",
             "name": "_gl",
             "type": "WebGLRenderingContext",
@@ -9481,7 +9549,7 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 54,
+            "line": 56,
             "itemtype": "property",
             "name": "_canvas",
             "type": "HTMLCanvasElement",
@@ -9493,7 +9561,7 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 113,
+            "line": 116,
             "itemtype": "method",
             "name": "destructor!~YUIDOC_LINE~!return",
             "type": "Void",
@@ -9505,7 +9573,7 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 128,
+            "line": 131,
             "itemtype": "method",
             "name": "addContextListener",
             "params": [
@@ -9525,7 +9593,7 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 144,
+            "line": 147,
             "itemtype": "property",
             "name": "canvas",
             "type": "{HTMLCanvasElement}",
@@ -9535,7 +9603,7 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 159,
+            "line": 162,
             "itemtype": "property",
             "name": "commands",
             "type": "{ShareableArray}",
@@ -9547,7 +9615,7 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 173,
+            "line": 176,
             "description": "<p>\nSpecifies color values to use by the <code>clear</code> method to clear the color buffer.\n<p>",
             "itemtype": "method",
             "name": "clearColor",
@@ -9584,7 +9652,7 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 193,
+            "line": 196,
             "description": "Turns off specific WebGL capabilities for this context.",
             "itemtype": "method",
             "name": "disable",
@@ -9606,7 +9674,7 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 205,
+            "line": 208,
             "description": "Turns on specific WebGL capabilities for this context.",
             "itemtype": "method",
             "name": "enable",
@@ -9628,7 +9696,7 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 217,
+            "line": 220,
             "itemtype": "property",
             "name": "gl",
             "type": "{WebGLRenderingContext}",
@@ -9639,7 +9707,7 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 234,
+            "line": 237,
             "itemtype": "method",
             "name": "removeContextListener",
             "params": [
@@ -9659,7 +9727,7 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 247,
+            "line": 250,
             "itemtype": "method",
             "name": "clear",
             "return": {
@@ -9672,7 +9740,7 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 258,
+            "line": 261,
             "description": "Defines what part of the canvas will be used in rendering the drawing buffer.",
             "itemtype": "method",
             "name": "viewport",
@@ -9709,7 +9777,7 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 279,
+            "line": 282,
             "description": "Initializes the WebGL context for the specified <code>canvas</code>.",
             "itemtype": "method",
             "name": "start",
@@ -9731,7 +9799,7 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 316,
+            "line": 319,
             "itemtype": "method",
             "name": "stop",
             "return": {
@@ -9745,7 +9813,7 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 370,
+            "line": 373,
             "itemtype": "method",
             "name": "synchronize",
             "params": [

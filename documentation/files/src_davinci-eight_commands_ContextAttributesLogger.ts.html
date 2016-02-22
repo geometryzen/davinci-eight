@@ -209,9 +209,8 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 import IContextProvider from &#x27;../core/IContextProvider&#x27;;
+import readOnly from &#x27;../i18n/readOnly&#x27;;
 import Shareable from &#x27;../core/Shareable&#x27;;
-
-var QUALIFIED_NAME = &#x27;EIGHT.ContextAttributesLogger&#x27;
 
 /**
  * &lt;p&gt;
@@ -221,15 +220,39 @@ var QUALIFIED_NAME = &#x27;EIGHT.ContextAttributesLogger&#x27;
  * @extends Shareable
  */
 export default class ContextAttributesLogger extends Shareable {
+    /**
+     * @class ContextAttributesLogger
+     * @constructor
+     */
     constructor() {
-        super(QUALIFIED_NAME)
+        super(&#x27;ContextAttributesLogger&#x27;)
     }
+
+    /**
+     * @method destructor
+     * @return {void}
+     */
+    protected destructor(): void {
+        super.destructor()
+    }
+
+    /**
+     * @method contextFree
+     * @param manager {IContextProvider}
+     * @return {void}
+     */
     contextFree(manager: IContextProvider): void {
         // Do nothing.
     }
+
+    /**
+     * @method contextGain
+     * @param manager {IContextProvider}
+     * @return {void}
+     */
     contextGain(manager: IContextProvider): void {
-        let gl = manager.gl
-        let attributes: WebGLContextAttributes = gl.getContextAttributes()
+        const gl = manager.gl
+        const attributes: WebGLContextAttributes = gl.getContextAttributes()
         console.log(&quot;alpha                 =&gt; &quot; + attributes.alpha)
         console.log(&quot;antialias             =&gt; &quot; + attributes.antialias)
         console.log(&quot;depth                 =&gt; &quot; + attributes.depth)
@@ -237,14 +260,25 @@ export default class ContextAttributesLogger extends Shareable {
         console.log(&quot;preserveDrawingBuffer =&gt; &quot; + attributes.preserveDrawingBuffer)
         console.log(&quot;stencil               =&gt; &quot; + attributes.stencil)
     }
+
+    /**
+     * @method contextLost
+     * @return {void}
+     */
     contextLost(): void {
         // Do nothing.
     }
-    destructor(): void {
-        super.destructor()
-    }
+
+    /**
+     * @property name
+     * @type string
+     * @readOnly
+     */
     get name(): string {
-        return QUALIFIED_NAME
+        return this._type
+    }
+    set name(unused) {
+        throw new Error(readOnly(&#x27;name&#x27;).message)
     }
 }
 

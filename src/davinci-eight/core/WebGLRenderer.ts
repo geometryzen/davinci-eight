@@ -1,5 +1,6 @@
 import Capability from '../commands/Capability';
 import core from '../core';
+import EIGHTLogger from '../commands/EIGHTLogger'
 import IContextProvider from './IContextProvider';
 import IContextConsumer from './IContextConsumer';
 import ShareableArray from '../collections/ShareableArray';
@@ -9,6 +10,7 @@ import mustBeDefined from '../checks/mustBeDefined';
 import mustBeObject from '../checks/mustBeObject';
 import readOnly from '../i18n/readOnly';
 import Shareable from './Shareable';
+import VersionLogger from '../commands/VersionLogger'
 import WebGLClearColor from '../commands/WebGLClearColor';
 import WebGLEnable from '../commands/WebGLEnable';
 import WebGLDisable from '../commands/WebGLDisable';
@@ -63,7 +65,6 @@ export default class WebGLRenderer extends Shareable {
     // Remark: We only hold weak references to users so that the lifetime of resource
     // objects is not affected by the fact that they are listening for gl events.
     // Users should automatically add themselves upon construction and remove upon release.
-    // // FIXME: Really? Not ShareableArray<IIContextConsumer> ?
     private _users: IContextConsumer[] = []
 
     private _webGLContextLost: (event: Event) => any
@@ -80,9 +81,11 @@ export default class WebGLRenderer extends Shareable {
      */
     constructor(attributes?: WebGLContextAttributes) {
         super('WebGLRenderer')
-        console.log(`${core.NAMESPACE}.${this._type} ${core.VERSION}`)
 
         this._attributes = attributes;
+
+        this._commands.pushWeakRef(new EIGHTLogger())
+        this._commands.pushWeakRef(new VersionLogger())
 
         this._contextProvider = new WebGLContextProvider(this)
 
