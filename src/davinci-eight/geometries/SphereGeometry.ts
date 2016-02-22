@@ -1,11 +1,12 @@
 import GeometryContainer from '../core/GeometryContainer'
-import GeometryPrimitive from '../core/GeometryPrimitive'
+import GeometryBuffers from '../core/GeometryBuffers'
 import Primitive from '../core/Primitive'
 import SphereBuilder from './SphereBuilder'
 import R3 from '../math/R3'
 import Simplex from './Simplex'
 import isDefined from '../checks/isDefined'
 import mustBeInteger from '../checks/mustBeInteger'
+import vertexArraysFromPrimitive from '../core/vertexArraysFromPrimitive'
 
 function k(options: { k?: number }): number {
     if (isDefined(options.k)) {
@@ -44,7 +45,7 @@ export default class SphereGeometry extends GeometryContainer {
         const iLen = ps.length
         for (let i = 0; i < iLen; i++) {
             const p = ps[i]
-            const geometry = new GeometryPrimitive(p)
+            const geometry = new GeometryBuffers(vertexArraysFromPrimitive(p))
             this.addPart(geometry)
             geometry.release()
         }

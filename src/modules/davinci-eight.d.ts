@@ -2867,25 +2867,13 @@ declare module EIGHT {
         pointers: VertexAttribPointer[]
     }
 
-    class GeometryElements extends ShareableContextListener implements Geometry {
+    class GeometryBuffers extends ShareableContextListener implements Geometry {
         constructor(dataSource: VertexArrays);
         partsLength: number;
         addPart(geometry: Geometry): void;
         removePart(index: number): void;
         getPart(index: number): Geometry;
         draw(material: Material): void;
-    }
-
-    class GeometryPrimitive extends Shareable implements Geometry {
-        constructor(dataSource: Primitive);
-        partsLength: number;
-        addPart(geometry: Geometry): void;
-        removePart(index: number): void;
-        getPart(index: number): Geometry;
-        draw(material: Material): void;
-        contextFree(context: IContextProvider): void;
-        contextGain(context: IContextProvider): void;
-        contextLost(): void;
     }
 
     class ArrowGeometry extends GeometryContainer {

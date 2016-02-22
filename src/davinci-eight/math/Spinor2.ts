@@ -8,7 +8,6 @@ import MutableGeometricElement from '../math/MutableGeometricElement';
 import quadSpinor from '../math/quadSpinorE2';
 import rotorFromDirections from '../math/rotorFromDirectionsE2';
 import SpinorE2 from '../math/SpinorE2';
-import Unit from '../math/Unit';
 import VectorE2 from '../math/VectorE2';
 import VectorN from '../math/VectorN';
 import wedgeXY from '../math/wedgeXY';
@@ -41,16 +40,6 @@ const sqrt = Math.sqrt
  * @extends VectorN<number>
  */
 export default class Spinor2 extends VectorN<number> implements SpinorE2, Measure<Spinor2>, Mutable<number[]>, MutableGeometricElement<SpinorE2, Spinor2, Spinor2, VectorE2> {
-
-    /**
-     * The optional unit of measure.
-     *
-     * @property uom
-     * @type {Unit}
-     * @beta
-     */
-    uom: Unit;
-
     /**
      * Constructs a <code>Spinor2</code> from a <code>number[]</code>.
      * For a <em>geometric</em> implementation, use the static methods.
@@ -213,7 +202,9 @@ export default class Spinor2 extends VectorN<number> implements SpinorE2, Measur
      * @chainable
      */
     clone(): Spinor2 {
-        return Spinor2.copy(this)
+        const spinor = Spinor2.copy(this)
+        spinor.modified = this.modified
+        return spinor
     }
 
     /**

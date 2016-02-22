@@ -29,8 +29,7 @@ import IContextConsumer from 'davinci-eight/core/IContextConsumer';
 import IContextProgramConsumer from 'davinci-eight/core/IContextProgramConsumer';
 import IContextProvider from 'davinci-eight/core/IContextProvider';
 import GeometryContainer from 'davinci-eight/core/GeometryContainer';
-import GeometryElements from 'davinci-eight/core/GeometryElements';
-import GeometryPrimitive from 'davinci-eight/core/GeometryPrimitive';
+import GeometryBuffers from 'davinci-eight/core/GeometryBuffers';
 import GraphicsProgramSymbols from 'davinci-eight/core/GraphicsProgramSymbols';
 import Facet from 'davinci-eight/core/Facet';
 import FacetVisitor from 'davinci-eight/core/FacetVisitor';
@@ -82,7 +81,6 @@ import computeFaceNormals from 'davinci-eight/geometries/computeFaceNormals';
 import cube from 'davinci-eight/geometries/cube';
 import quadrilateral from 'davinci-eight/geometries/quadrilateral';
 import square from 'davinci-eight/geometries/square';
-import simplicesToDrawPrimitive from 'davinci-eight/geometries/simplicesToDrawPrimitive';
 import triangle from 'davinci-eight/geometries/triangle';
 import ArrowGeometry from 'davinci-eight/geometries/ArrowGeometry';
 import BoxGeometry from 'davinci-eight/geometries/BoxGeometry';
@@ -139,7 +137,6 @@ import G1 from 'davinci-eight/math/G1';
 import GeometricE1 from 'davinci-eight/math/GeometricE1';
 import G2 from 'davinci-eight/math/G2';
 import G3 from 'davinci-eight/math/G3';
-import Euler from 'davinci-eight/math/Euler';
 import gauss from 'davinci-eight/math/gauss';
 import GeometricElement from 'davinci-eight/math/GeometricElement';
 import LinearElement from 'davinci-eight/math/LinearElement';
@@ -321,8 +318,7 @@ const eight = {
 
     get GraphicsProgramSymbols() { return GraphicsProgramSymbols },
     get GeometryContainer() { return GeometryContainer },
-    get GeometryElements() { return GeometryElements },
-    get GeometryPrimitive() { return GeometryPrimitive },
+    get GeometryBuffers() { return GeometryBuffers },
 
     // overlay
     get Overlay() { return Overlay },

@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../math/R3', '../core/GeometryContainer', '../core/GeometryPrimitive', './CylinderBuilder'], function (require, exports, R3_1, GeometryContainer_1, GeometryPrimitive_1, CylinderBuilder_1) {
+define(["require", "exports", '../math/R3', '../core/GeometryContainer', '../core/GeometryBuffers', './CylinderBuilder', '../core/vertexArraysFromPrimitive'], function (require, exports, R3_1, GeometryContainer_1, GeometryBuffers_1, CylinderBuilder_1, vertexArraysFromPrimitive_1) {
     function primitives() {
         var builder = new CylinderBuilder_1.default(R3_1.default.e2);
         builder.setPosition(R3_1.default.e2.scale(0.5));
@@ -17,7 +17,7 @@ define(["require", "exports", '../math/R3', '../core/GeometryContainer', '../cor
             var iLen = ps.length;
             for (var i = 0; i < iLen; i++) {
                 var dataSource = ps[i];
-                var geometry = new GeometryPrimitive_1.default(dataSource);
+                var geometry = new GeometryBuffers_1.default(vertexArraysFromPrimitive_1.default(dataSource));
                 this.addPart(geometry);
                 geometry.release();
             }

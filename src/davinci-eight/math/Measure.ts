@@ -1,4 +1,3 @@
-import Unit from '../math/Unit';
 //
 // Measure is used to make implementations consistent.
 // It is not part of the public API.
@@ -11,7 +10,6 @@ interface Measure<T> {
      */
     α: number;
     coords: number[];
-    uom: Unit;
     add(rhs: T): T;
     angle(): T;
     cos(): T;

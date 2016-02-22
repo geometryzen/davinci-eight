@@ -1,5 +1,5 @@
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
-import GridTopology from './GridTopology';
+import TriangleStrip from './TriangleStrip';
 import IAxialGeometry from './IAxialGeometry';
 import AxialPrimitivesBuilder from './AxialPrimitivesBuilder';
 import Primitive from '../core/Primitive';
@@ -25,20 +25,20 @@ export default class RingBuilder extends AxialPrimitivesBuilder implements IAxia
     toPrimitives(): Primitive[] {
         const uSegments = this.thetaSegments
         const vSegments = 1
-        const topo = new GridTopology(uSegments, vSegments)
+        const grid = new TriangleStrip(uSegments, vSegments)
         const a = this.outerRadius
         const b = this.innerRadius
         const axis = Geometric3.fromVector(this.axis)
         const start = Geometric3.fromVector(this.sliceStart)
         const generator = new Geometric3().dual(axis)
 
-        for (let uIndex = 0; uIndex < topo.uLength; uIndex++) {
+        for (let uIndex = 0; uIndex < grid.uLength; uIndex++) {
             const u = uIndex / uSegments
             const rotor = generator.clone().scale(this.sliceAngle * u / 2).exp()
-            for (let vIndex = 0; vIndex < topo.vLength; vIndex++) {
+            for (let vIndex = 0; vIndex < grid.vLength; vIndex++) {
                 const v = vIndex / vSegments
                 const position = start.clone().rotate(rotor).scale(b + (a - b) * v)
-                const vertex = topo.vertex(uIndex, vIndex)
+                const vertex = grid.vertex(uIndex, vIndex)
                 vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = position.addVector(this.position)
                 vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = axis
                 if (this.useTextureCoords) {
@@ -46,7 +46,7 @@ export default class RingBuilder extends AxialPrimitivesBuilder implements IAxia
                 }
             }
         }
-        return [topo.toDrawPrimitive()]
+        return [grid.toPrimitive()]
     }
     enableTextureCoords(enable: boolean): RingBuilder {
         super.enableTextureCoords(enable)

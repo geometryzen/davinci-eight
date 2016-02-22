@@ -1,8 +1,9 @@
 import GeometryContainer from '../core/GeometryContainer';
-import GeometryPrimitive from '../core/GeometryPrimitive';
+import GeometryBuffers from '../core/GeometryBuffers';
 import Primitive from '../core/Primitive';
 import mustBeNumber from '../checks/mustBeNumber';
 import PolyhedronBuilder from '../geometries/PolyhedronBuilder';
+import vertexArraysFromPrimitive from '../core/vertexArraysFromPrimitive'
 
 /**
  * @module EIGHT
@@ -41,7 +42,7 @@ export default class TetrahedronGeometry extends GeometryContainer {
         const iLen = ps.length
         for (let i = 0; i < iLen; i++) {
             const p = ps[i]
-            const geometry = new GeometryPrimitive(p)
+            const geometry = new GeometryBuffers(vertexArraysFromPrimitive(p))
             this.addPart(geometry)
             geometry.release()
         }

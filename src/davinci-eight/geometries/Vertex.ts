@@ -1,6 +1,11 @@
 import VectorN from '../math/VectorN';
 import VertexAttributeMap from '../geometries/VertexAttributeMap';
 
+/**
+ * @module EIGHT
+ * @submodule geometries
+ */
+
 function stringVectorN(name: string, vector: VectorN<number>): string {
     if (vector) {
         return name + vector.toString();
@@ -19,13 +24,33 @@ function stringifyVertex(vertex: Vertex): string {
     return attribsKey;
 }
 
+/**
+ * @class Vertex
+ */
 export default class Vertex {
-    public attributes: VertexAttributeMap = {};
+    /**
+     * @property attributes
+     * @type VertexAttributeMap
+     */
+    public attributes: VertexAttributeMap = {}
+    /**
+     * @property index
+     * @type number
+     * @deprecated (Maybe)
+     */
     public index: number;
+    /**
+     * @class Vertex
+     * @constructor
+     */
     constructor() {
       // Do nothing.
     }
+    /**
+     * @method toString
+     * @return {string}
+     */
     toString(): string {
-        return stringifyVertex(this);
+        return stringifyVertex(this)
     }
 }

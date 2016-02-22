@@ -6,7 +6,7 @@ import mustBeInteger from '../checks/mustBeInteger';
 import PrimitivesBuilder from '../geometries/PrimitivesBuilder';
 import Simplex from '../geometries/Simplex';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
-import simplicesToDrawPrimitive from '../geometries/simplicesToDrawPrimitive';
+import simplicesToPrimitive from '../geometries/simplicesToPrimitive';
 import simplicesToGeometryMeta from '../geometries/simplicesToGeometryMeta';
 import Primitive from '../core/Primitive';
 import Vector1 from '../math/Vector1';
@@ -71,7 +71,7 @@ export default class SimplexPrimitivesBuilder extends PrimitivesBuilder implemen
             this.regenerate()
         }
         this.check()
-        return [simplicesToDrawPrimitive(this.data, this.meta)]
+        return [simplicesToPrimitive(this.data, this.meta)]
     }
     protected mergeVertices(precisionPoints = 4): void {
         // console.warn("SimplexPrimitivesBuilder.mergeVertices not yet implemented");

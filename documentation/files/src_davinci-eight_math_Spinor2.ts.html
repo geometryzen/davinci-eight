@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.193.0</em>
+            <em>API Docs for: 2.194.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -76,8 +76,8 @@
                                 <li><a href="../classes/GeometricE2.html">GeometricE2</a></li>
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
+                                <li><a href="../classes/GeometryBuffers.html">GeometryBuffers</a></li>
                                 <li><a href="../classes/GeometryContainer.html">GeometryContainer</a></li>
-                                <li><a href="../classes/GeometryElements.html">GeometryElements</a></li>
                                 <li><a href="../classes/GeometryPrimitive.html">GeometryPrimitive</a></li>
                                 <li><a href="../classes/GraphicsProgramSymbols.html">GraphicsProgramSymbols</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
@@ -132,6 +132,7 @@
                                 <li><a href="../classes/Tetrahedron.html">Tetrahedron</a></li>
                                 <li><a href="../classes/TetrahedronGeometry.html">TetrahedronGeometry</a></li>
                                 <li><a href="../classes/Trail.html">Trail</a></li>
+                                <li><a href="../classes/TriangleStrip.html">TriangleStrip</a></li>
                                 <li><a href="../classes/UniformLocation.html">UniformLocation</a></li>
                                 <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
                                 <li><a href="../classes/Unit.html">Unit</a></li>
@@ -148,6 +149,8 @@
                                 <li><a href="../classes/VectorE4.html">VectorE4</a></li>
                                 <li><a href="../classes/VectorN.html">VectorN</a></li>
                                 <li><a href="../classes/VersionLogger.html">VersionLogger</a></li>
+                                <li><a href="../classes/Vertex.html">Vertex</a></li>
+                                <li><a href="../classes/VertexAttributeMap.html">VertexAttributeMap</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
                                 <li><a href="../classes/VisualBody.html">VisualBody</a></li>
                                 <li><a href="../classes/WebGLBlendFunc.html">WebGLBlendFunc</a></li>
@@ -215,7 +218,6 @@ import MutableGeometricElement from &#x27;../math/MutableGeometricElement&#x27;;
 import quadSpinor from &#x27;../math/quadSpinorE2&#x27;;
 import rotorFromDirections from &#x27;../math/rotorFromDirectionsE2&#x27;;
 import SpinorE2 from &#x27;../math/SpinorE2&#x27;;
-import Unit from &#x27;../math/Unit&#x27;;
 import VectorE2 from &#x27;../math/VectorE2&#x27;;
 import VectorN from &#x27;../math/VectorN&#x27;;
 import wedgeXY from &#x27;../math/wedgeXY&#x27;;
@@ -248,16 +250,6 @@ const sqrt = Math.sqrt
  * @extends VectorN&lt;number&gt;
  */
 export default class Spinor2 extends VectorN&lt;number&gt; implements SpinorE2, Measure&lt;Spinor2&gt;, Mutable&lt;number[]&gt;, MutableGeometricElement&lt;SpinorE2, Spinor2, Spinor2, VectorE2&gt; {
-
-    /**
-     * The optional unit of measure.
-     *
-     * @property uom
-     * @type {Unit}
-     * @beta
-     */
-    uom: Unit;
-
     /**
      * Constructs a &lt;code&gt;Spinor2&lt;/code&gt; from a &lt;code&gt;number[]&lt;/code&gt;.
      * For a &lt;em&gt;geometric&lt;/em&gt; implementation, use the static methods.
@@ -420,7 +412,9 @@ export default class Spinor2 extends VectorN&lt;number&gt; implements SpinorE2, 
      * @chainable
      */
     clone(): Spinor2 {
-        return Spinor2.copy(this)
+        const spinor = Spinor2.copy(this)
+        spinor.modified = this.modified
+        return spinor
     }
 
     /**

@@ -1,7 +1,6 @@
 import ColumnVector from './ColumnVector';
 import VectorE3 from './VectorE3';
 import dotVectorE3 from './dotVectorE3';
-// import G3 from './G3';
 import MutableLinearElement from './MutableLinearElement';
 import Matrix3 from './Matrix3';
 import Matrix4 from './Matrix4';

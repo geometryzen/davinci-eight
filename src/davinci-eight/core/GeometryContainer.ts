@@ -11,7 +11,7 @@ import Shareable from '../core/Shareable';
  */
 
 /**
- * A collection of GeometryPrimitive(s) with functions
+ * A collection of Geometry(s) with functions
  * that reflect the dependency on the WebGL context events.
  * @class GeometryContainer
  * @extends Shareable

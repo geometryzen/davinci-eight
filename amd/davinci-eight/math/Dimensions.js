@@ -1,4 +1,4 @@
-define(["require", "exports", '../math/QQ'], function (require, exports, QQ_1) {
+define(["require", "exports", '../math/QQ', '../i18n/notSupported'], function (require, exports, QQ_1, notSupported_1) {
     var R0 = QQ_1.default.ZERO;
     var Vector1 = QQ_1.default.ONE;
     var M1 = QQ_1.default.MINUS_ONE;
@@ -35,7 +35,22 @@ define(["require", "exports", '../math/QQ'], function (require, exports, QQ_1) {
                 return this;
             }
             else {
-                throw new Error("Dimensions must be equal (" + this + ", " + rhs + ")");
+                if (this.isOne()) {
+                    if (rhs.isOne()) {
+                        throw new Error();
+                    }
+                    else {
+                        throw new Error("Dimensions must be equal (dimensionless, " + rhs + ")");
+                    }
+                }
+                else {
+                    if (rhs.isOne()) {
+                        throw new Error("Dimensions must be equal (" + this + ", dimensionless)");
+                    }
+                    else {
+                        throw new Error("Dimensions must be equal (" + this + ", " + rhs + ")");
+                    }
+                }
             }
         };
         Dimensions.prototype.mul = function (rhs) {
@@ -54,13 +69,13 @@ define(["require", "exports", '../math/QQ'], function (require, exports, QQ_1) {
             return this.M.isZero() && this.L.isZero() && this.T.isZero() && this.Q.isZero() && this.temperature.isZero() && this.amount.isZero() && this.intensity.isZero();
         };
         Dimensions.prototype.isZero = function () {
-            return false;
+            throw new Error(notSupported_1.default('isZero').message);
         };
         Dimensions.prototype.inv = function () {
             return new Dimensions(this.M.neg(), this.L.neg(), this.T.neg(), this.Q.neg(), this.temperature.neg(), this.amount.neg(), this.intensity.neg());
         };
         Dimensions.prototype.neg = function () {
-            return this;
+            throw new Error(notSupported_1.default('neg').message);
         };
         Dimensions.prototype.toString = function () {
             var stringify = function (rational, label) {

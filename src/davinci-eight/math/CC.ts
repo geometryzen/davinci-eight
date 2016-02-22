@@ -49,14 +49,14 @@ export default class CC implements Measure<CC>, GeometricOperators<CC>, TrigMeth
      * @type {number}
      * @private
      */
-    private x: number;
+    public x: number;
     /**
      * The <em>imaginary</em> part of the complex number.
      * @property y
      * @type {number}
      * @private
      */
-    private y: number;
+    public y: number;
     /**
      * The optional unit of measure.
      * @property uom

@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", './AxialPrimitivesBuilder', '../core/GraphicsProgramSymbols', './GridTopology', '../math/Vector2', '../math/Vector3'], function (require, exports, AxialPrimitivesBuilder_1, GraphicsProgramSymbols_1, GridTopology_1, Vector2_1, Vector3_1) {
+define(["require", "exports", './AxialPrimitivesBuilder', '../core/GraphicsProgramSymbols', './TriangleStrip', '../math/Vector2', '../math/Vector3'], function (require, exports, AxialPrimitivesBuilder_1, GraphicsProgramSymbols_1, TriangleStrip_1, Vector2_1, Vector3_1) {
     var ConeGeometry = (function (_super) {
         __extends(ConeGeometry, _super);
         function ConeGeometry(axis, sliceStart) {
@@ -21,10 +21,10 @@ define(["require", "exports", './AxialPrimitivesBuilder', '../core/GraphicsProgr
             return this;
         };
         ConeGeometry.prototype.toPrimitives = function () {
-            var topo = new GridTopology_1.default(this.thetaSegments, 1);
-            var uLength = topo.uLength;
+            var grid = new TriangleStrip_1.default(this.thetaSegments, 1);
+            var uLength = grid.uLength;
             var uSegments = uLength - 1;
-            var vLength = topo.vLength;
+            var vLength = grid.vLength;
             var vSegments = vLength - 1;
             var a = Vector3_1.default.copy(this.sliceStart).direction().scale(this.radius);
             var b = new Vector3_1.default().cross2(a, this.axis).direction().scale(this.radius);
@@ -39,7 +39,7 @@ define(["require", "exports", './AxialPrimitivesBuilder', '../core/GraphicsProgr
                     var position = new Vector3_1.default().add(a, cosTheta * (1 - v)).add(b, sinTheta * (1 - v)).add(h, v);
                     var peak = Vector3_1.default.copy(h).sub(position);
                     var normal = new Vector3_1.default().cross2(peak, position).cross(peak).direction();
-                    var vertex = topo.vertex(uIndex, vIndex);
+                    var vertex = grid.vertex(uIndex, vIndex);
                     vertex.attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_POSITION] = position.add(this.position);
                     vertex.attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_NORMAL] = normal;
                     if (this.useTextureCoords) {
@@ -47,7 +47,7 @@ define(["require", "exports", './AxialPrimitivesBuilder', '../core/GraphicsProgr
                     }
                 }
             }
-            return [topo.toDrawPrimitive()];
+            return [grid.toPrimitive()];
         };
         ConeGeometry.prototype.enableTextureCoords = function (enable) {
             _super.prototype.enableTextureCoords.call(this, enable);

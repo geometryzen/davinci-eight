@@ -16,7 +16,7 @@
     };
 
     require.config({
-        baseUrl: "amd",
+        baseUrl: "test/amd",
         paths: {
         }
     });

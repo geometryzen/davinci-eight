@@ -1,5 +1,5 @@
 import GeometryContainer from '../core/GeometryContainer';
-import GeometryPrimitive from '../core/GeometryPrimitive';
+import GeometryBuffers from '../core/GeometryBuffers';
 import isDefined from '../checks/isDefined'
 import Primitive from '../core/Primitive';
 import mustBeBoolean from '../checks/mustBeBoolean';
@@ -8,6 +8,7 @@ import CuboidPrimitivesBuilder from './CuboidPrimitivesBuilder';
 import CuboidSimplexPrimitivesBuilder from './CuboidSimplexPrimitivesBuilder';
 import R3 from '../math/R3'
 import Simplex from './Simplex'
+import vertexArraysFromPrimitive from '../core/vertexArraysFromPrimitive'
 
 /**
  * @module EIGHT
@@ -54,7 +55,7 @@ export default class BoxGeometry extends GeometryContainer {
         const iLen = ps.length
         for (let i = 0; i < iLen; i++) {
             const dataSource = ps[i]
-            const geometry = new GeometryPrimitive(dataSource)
+            const geometry = new GeometryBuffers(vertexArraysFromPrimitive(dataSource))
             this.addPart(geometry)
             geometry.release()
         }

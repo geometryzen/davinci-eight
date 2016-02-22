@@ -1,15 +1,14 @@
 {
   "compilerOptions": {
-    "module": "system",
-    "target": "es5",
-    "moduleResolution": "classic",
-    "noImplicitAny": true,
+    "module": "amd",
+    "target": "ES5",
+    "outDir": "test/amd",
+    "noImplicitAny": false,
     "noLib": false,
-    "outDir": "system",
     "removeComments": true,
-    "rootDir": ".",
-    "sourceMap": false,
     "suppressImplicitAnyIndexErrors": true,
+    "moduleResolution": "classic",
+    "sourceMap": false,
     "inlineSourceMap": false,
     "inlineSources": false
   },
@@ -17,10 +16,42 @@
     "node_modules"
   ],
   "files": [
-    "src/davinci-eight.ts",
-    "src/davinci-eight/utils/EventEmitter.ts",
-    "src/davinci-eight/core/ShareableWebGLShader.ts",
+    "src/davinci-eight/core/Shareable.spec.ts",
+
+    "src/davinci-eight/geometries/BoxGeometry.spec.ts",
+    "src/davinci-eight/geometries/Simplex.spec.ts",
+    "src/davinci-eight/geometries/TriangleStrip.spec.ts",
+    "src/davinci-eight/geometries/cube.spec.ts",
+    "src/davinci-eight/geometries/triangles.spec.ts",
+
+    "src/davinci-eight/glsl/NodeWalker.spec.ts",
+    "src/davinci-eight/glsl/Scope.spec.ts",
+    "src/davinci-eight/glsl/builtins.spec.ts",
+    "src/davinci-eight/glsl/literals.spec.ts",
+    "src/davinci-eight/glsl/parse.spec.ts",
+    "src/davinci-eight/glsl/tokenize.spec.ts",
+
+    "src/davinci-eight/materials/MeshMaterial.spec.ts",
+
+    "src/davinci-eight/math/CC.spec.ts",
+    "src/davinci-eight/math/Dimensions.spec.ts",
+    "src/davinci-eight/math/G2.spec.ts",
     "src/davinci-eight/math/G3.spec.ts",
+    "src/davinci-eight/math/Matrix2.spec.ts",
+    "src/davinci-eight/math/Matrix3.spec.ts",
+    "src/davinci-eight/math/Matrix4.spec.ts",
+    "src/davinci-eight/math/QQ.spec.ts",
+    "src/davinci-eight/math/Spinor2.spec.ts",
+    "src/davinci-eight/math/Spinor3.spec.ts",
+    "src/davinci-eight/math/Unit.spec.ts",
+    "src/davinci-eight/math/Vector2.spec.ts",
+    "src/davinci-eight/math/Vector3.spec.ts",
+    "src/davinci-eight/math/Vector4.spec.ts",
+    "src/davinci-eight/math/VectorN.spec.ts",
+    "src/davinci-eight/math/gauss.spec.ts",
+
+    "src/davinci-eight/visual/Box.spec.ts",
+
     "typings/jasmine/jasmine.d.ts"
   ]
 }

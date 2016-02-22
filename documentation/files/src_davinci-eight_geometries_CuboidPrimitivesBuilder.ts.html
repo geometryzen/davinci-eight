@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.193.0</em>
+            <em>API Docs for: 2.194.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -76,8 +76,8 @@
                                 <li><a href="../classes/GeometricE2.html">GeometricE2</a></li>
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
+                                <li><a href="../classes/GeometryBuffers.html">GeometryBuffers</a></li>
                                 <li><a href="../classes/GeometryContainer.html">GeometryContainer</a></li>
-                                <li><a href="../classes/GeometryElements.html">GeometryElements</a></li>
                                 <li><a href="../classes/GeometryPrimitive.html">GeometryPrimitive</a></li>
                                 <li><a href="../classes/GraphicsProgramSymbols.html">GraphicsProgramSymbols</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
@@ -132,6 +132,7 @@
                                 <li><a href="../classes/Tetrahedron.html">Tetrahedron</a></li>
                                 <li><a href="../classes/TetrahedronGeometry.html">TetrahedronGeometry</a></li>
                                 <li><a href="../classes/Trail.html">Trail</a></li>
+                                <li><a href="../classes/TriangleStrip.html">TriangleStrip</a></li>
                                 <li><a href="../classes/UniformLocation.html">UniformLocation</a></li>
                                 <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
                                 <li><a href="../classes/Unit.html">Unit</a></li>
@@ -148,6 +149,8 @@
                                 <li><a href="../classes/VectorE4.html">VectorE4</a></li>
                                 <li><a href="../classes/VectorN.html">VectorN</a></li>
                                 <li><a href="../classes/VersionLogger.html">VersionLogger</a></li>
+                                <li><a href="../classes/Vertex.html">Vertex</a></li>
+                                <li><a href="../classes/VertexAttributeMap.html">VertexAttributeMap</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
                                 <li><a href="../classes/VisualBody.html">VisualBody</a></li>
                                 <li><a href="../classes/WebGLBlendFunc.html">WebGLBlendFunc</a></li>
@@ -206,7 +209,7 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 import G3 from &#x27;../math/G3&#x27;;
-import GridTopology from &#x27;./GridTopology&#x27;;
+import TriangleStrip from &#x27;./TriangleStrip&#x27;;
 import PrimitivesBuilder from &#x27;./PrimitivesBuilder&#x27;;
 import GraphicsProgramSymbols from &#x27;../core/GraphicsProgramSymbols&#x27;;
 import IPrimitivesBuilder from &#x27;./IPrimitivesBuilder&#x27;;
@@ -216,21 +219,21 @@ import Vector3 from &#x27;../math/Vector3&#x27;;
 import Vector2 from &#x27;../math/Vector2&#x27;;
 import VectorE3 from &#x27;../math/VectorE3&#x27;;
 
-function side(basis: Vector3[], uSegments: number, vSegments: number): GridTopology {
-    var normal = Vector3.copy(basis[0]).cross(basis[1]).direction()
-    var aNeg = Vector3.copy(basis[0]).scale(-0.5)
-    var aPos = Vector3.copy(basis[0]).scale(+0.5)
-    var bNeg = Vector3.copy(basis[1]).scale(-0.5)
-    var bPos = Vector3.copy(basis[1]).scale(+0.5)
-    var cPos = Vector3.copy(basis[2]).scale(+0.5)
-    var side = new GridTopology(uSegments, vSegments)
-    for (var uIndex = 0; uIndex &lt; side.uLength; uIndex++) {
-        for (var vIndex = 0; vIndex &lt; side.vLength; vIndex++) {
-            var u = uIndex / uSegments
-            var v = vIndex / vSegments
-            var a = Vector3.copy(aNeg).lerp(aPos, u)
-            var b = Vector3.copy(bNeg).lerp(bPos, v)
-            var vertex = side.vertex(uIndex, vIndex)
+function side(basis: Vector3[], uSegments: number, vSegments: number): TriangleStrip {
+    const normal = Vector3.copy(basis[0]).cross(basis[1]).direction()
+    const aNeg = Vector3.copy(basis[0]).scale(-0.5)
+    const aPos = Vector3.copy(basis[0]).scale(+0.5)
+    const bNeg = Vector3.copy(basis[1]).scale(-0.5)
+    const bPos = Vector3.copy(basis[1]).scale(+0.5)
+    const cPos = Vector3.copy(basis[2]).scale(+0.5)
+    const side = new TriangleStrip(uSegments, vSegments)
+    for (let uIndex = 0; uIndex &lt; side.uLength; uIndex++) {
+        for (let vIndex = 0; vIndex &lt; side.vLength; vIndex++) {
+            const u = uIndex / uSegments
+            const v = vIndex / vSegments
+            const a = Vector3.copy(aNeg).lerp(aPos, u)
+            const b = Vector3.copy(bNeg).lerp(bPos, v)
+            const vertex = side.vertex(uIndex, vIndex)
             vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = Vector3.copy(a).add(b).add(cPos)
             vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = normal
             vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORDS] = new Vector2([u, v])
@@ -246,7 +249,7 @@ export default class CuboidPrimitivesBuilder extends PrimitivesBuilder implement
     private _a: Vector3 = Vector3.copy(G3.e1);
     private _b: Vector3 = Vector3.copy(G3.e2);
     private _c: Vector3 = Vector3.copy(G3.e3);
-    private sides: GridTopology[];
+    private sides: TriangleStrip[];
     /**
      * @class CuboidPrimitivesBuilder
      * @constructor
@@ -318,7 +321,7 @@ export default class CuboidPrimitivesBuilder extends PrimitivesBuilder implement
      */
     public toPrimitives(): Primitive[] {
         this.regenerate()
-        return this.sides.map((side) =&gt; { return side.toDrawPrimitive() })
+        return this.sides.map((side) =&gt; { return side.toPrimitive() })
     }
     enableTextureCoords(enable: boolean): CuboidPrimitivesBuilder {
         super.enableTextureCoords(enable)

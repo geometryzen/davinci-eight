@@ -13,7 +13,7 @@ module.exports = function(grunt) {
 
     // Task configuration.
     clean: {
-      src: ['amd', 'dist', 'documentation', 'system', '.tscache']
+      src: ['test/amd', 'amd', 'dist', 'documentation', 'system', '.tscache']
     },
 
     exec: {
@@ -67,9 +67,9 @@ module.exports = function(grunt) {
 
     jasmine: {
         taskName: {
-            src: 'amd/**/*.js',
+            src: 'test/amd/**/*.js',
             options: {
-                specs: 'test/amd/*_test.js',
+                specs: 'test/amd/**/*_test.js',
                 host: 'http://127.0.0.1:8000/',
                 template: require('grunt-template-jasmine-requirejs'),
                 templateOptions: {
@@ -100,6 +100,24 @@ module.exports = function(grunt) {
           noImplicitAny: true,
           suppressImplicitAnyIndexErrors: true,
           outDir: 'amd',
+          sourceMap: false,
+          verbose: false
+        }
+      },
+      testAMD : {
+        tsconfig: {
+          tsconfig: './tsconfig.json',
+          ignoreFiles: true,
+          ignoreSettings: true
+        },
+        options: {
+          fast: 'never',
+          module: 'amd',
+          target: 'ES5',
+          moduleResolution: "classic",
+          noImplicitAny: true,
+          suppressImplicitAnyIndexErrors: true,
+          outDir: 'temp/amd',
           sourceMap: false,
           verbose: false
         }
@@ -337,7 +355,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('dev', ['clean', 'amd', 'copy']);
 
-  grunt.registerTask('tdd', ['clean', 'amd', 'connect:test', 'watch']);
+  grunt.registerTask('tdd', ['clean','ts:testAMD', 'amd', 'connect:test', 'watch']);
 
-  grunt.registerTask('default', ['clean', 'system','amd', 'test', 'tslint', 'uglify', 'copy', 'yuidoc']);
+  grunt.registerTask('default', ['clean','ts:testAMD','amd', 'test', 'system', 'tslint', 'uglify', 'copy', 'yuidoc']);
 };

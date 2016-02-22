@@ -19,7 +19,7 @@ export default class Scope {
     define(str: string) {
         this.current[str] = this.state[0]
     }
-    find(name: string, fail: any) {
+    find(name: string, fail?: any) {
         for (var i = this.scopes.length - 1; i > -1; --i) {
             if (this.scopes[i].hasOwnProperty(name)) {
                 return this.scopes[i][name]

@@ -1,5 +1,5 @@
 import G3 from '../math/G3';
-import GridTopology from './GridTopology';
+import TriangleStrip from './TriangleStrip';
 import PrimitivesBuilder from './PrimitivesBuilder';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
 import IPrimitivesBuilder from './IPrimitivesBuilder';
@@ -9,21 +9,21 @@ import Vector3 from '../math/Vector3';
 import Vector2 from '../math/Vector2';
 import VectorE3 from '../math/VectorE3';
 
-function side(basis: Vector3[], uSegments: number, vSegments: number): GridTopology {
-    var normal = Vector3.copy(basis[0]).cross(basis[1]).direction()
-    var aNeg = Vector3.copy(basis[0]).scale(-0.5)
-    var aPos = Vector3.copy(basis[0]).scale(+0.5)
-    var bNeg = Vector3.copy(basis[1]).scale(-0.5)
-    var bPos = Vector3.copy(basis[1]).scale(+0.5)
-    var cPos = Vector3.copy(basis[2]).scale(+0.5)
-    var side = new GridTopology(uSegments, vSegments)
-    for (var uIndex = 0; uIndex < side.uLength; uIndex++) {
-        for (var vIndex = 0; vIndex < side.vLength; vIndex++) {
-            var u = uIndex / uSegments
-            var v = vIndex / vSegments
-            var a = Vector3.copy(aNeg).lerp(aPos, u)
-            var b = Vector3.copy(bNeg).lerp(bPos, v)
-            var vertex = side.vertex(uIndex, vIndex)
+function side(basis: Vector3[], uSegments: number, vSegments: number): TriangleStrip {
+    const normal = Vector3.copy(basis[0]).cross(basis[1]).direction()
+    const aNeg = Vector3.copy(basis[0]).scale(-0.5)
+    const aPos = Vector3.copy(basis[0]).scale(+0.5)
+    const bNeg = Vector3.copy(basis[1]).scale(-0.5)
+    const bPos = Vector3.copy(basis[1]).scale(+0.5)
+    const cPos = Vector3.copy(basis[2]).scale(+0.5)
+    const side = new TriangleStrip(uSegments, vSegments)
+    for (let uIndex = 0; uIndex < side.uLength; uIndex++) {
+        for (let vIndex = 0; vIndex < side.vLength; vIndex++) {
+            const u = uIndex / uSegments
+            const v = vIndex / vSegments
+            const a = Vector3.copy(aNeg).lerp(aPos, u)
+            const b = Vector3.copy(bNeg).lerp(bPos, v)
+            const vertex = side.vertex(uIndex, vIndex)
             vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = Vector3.copy(a).add(b).add(cPos)
             vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = normal
             vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORDS] = new Vector2([u, v])
@@ -39,7 +39,7 @@ export default class CuboidPrimitivesBuilder extends PrimitivesBuilder implement
     private _a: Vector3 = Vector3.copy(G3.e1);
     private _b: Vector3 = Vector3.copy(G3.e2);
     private _c: Vector3 = Vector3.copy(G3.e3);
-    private sides: GridTopology[];
+    private sides: TriangleStrip[];
     /**
      * @class CuboidPrimitivesBuilder
      * @constructor
@@ -111,7 +111,7 @@ export default class CuboidPrimitivesBuilder extends PrimitivesBuilder implement
      */
     public toPrimitives(): Primitive[] {
         this.regenerate()
-        return this.sides.map((side) => { return side.toDrawPrimitive() })
+        return this.sides.map((side) => { return side.toPrimitive() })
     }
     enableTextureCoords(enable: boolean): CuboidPrimitivesBuilder {
         super.enableTextureCoords(enable)

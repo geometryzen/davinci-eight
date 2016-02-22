@@ -1,7 +1,7 @@
 import AxialPrimitivesBuilder from './AxialPrimitivesBuilder';
 import VectorE3 from '../math/VectorE3';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
-import GridTopology from './GridTopology';
+import TriangleStrip from './TriangleStrip';
 import IAxialGeometry from './IAxialGeometry';
 import Spinor3 from '../math/Spinor3';
 import Primitive from '../core/Primitive';
@@ -27,22 +27,24 @@ export default class CylinderPrimitivesBuilder extends AxialPrimitivesBuilder im
         return this
     }
     toPrimitives(): Primitive[] {
-        const uSegments = this.thetaSegments
-        const vSegments = 1
-        const topo = new GridTopology(uSegments, vSegments)
+        const uSegments = this.thetaSegments  // the u-coordinate goes around.
+        const vSegments = 1  // the v-coordinate goes 'up'.
+        const grid = new TriangleStrip(uSegments, vSegments)
         const axis = this.axis
         const generator = Spinor3.dual(axis)
 
-        for (let uIndex = 0; uIndex < topo.uLength; uIndex++) {
+        const uLen = grid.uLength;
+        for (let uIndex = 0; uIndex < uLen; uIndex++) {
             const u = uIndex / uSegments
 
             const rotor = generator.clone().scale(this.sliceAngle * u / 2).exp()
 
-            for (let vIndex = 0; vIndex < topo.vLength; vIndex++) {
+            const vLen = grid.vLength;
+            for (let vIndex = 0; vIndex < vLen; vIndex++) {
                 const v = vIndex / vSegments
                 const normal = Vector3.copy(this.sliceStart).rotate(rotor)
                 const position = normal.clone().scale(this.radius).add(this.axis, v * this.height)
-                const vertex = topo.vertex(uIndex, vIndex)
+                const vertex = grid.vertex(uIndex, vIndex)
                 vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = position.add(this.position)
                 vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = normal
                 if (this.useTextureCoords) {
@@ -50,7 +52,7 @@ export default class CylinderPrimitivesBuilder extends AxialPrimitivesBuilder im
                 }
             }
         }
-        return [topo.toDrawPrimitive()]
+        return [grid.toPrimitive()]
     }
     enableTextureCoords(enable: boolean): CylinderPrimitivesBuilder {
         super.enableTextureCoords(enable)

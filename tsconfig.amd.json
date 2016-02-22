@@ -3,7 +3,7 @@
     "module": "amd",
     "target": "ES5",
     "outDir": "amd",
-    "noImplicitAny": false,
+    "noImplicitAny": true,
     "noLib": true,
     "removeComments": true,
     "suppressImplicitAnyIndexErrors": true,
@@ -13,7 +13,6 @@
     "inlineSources": false
   },
   "files": [
-    "src/davinci-eight.ts",
-    "src/davinci-eight/core/ShareableWebGLShader.ts"
+    "src/davinci-eight.ts"
   ]
 }
