@@ -2010,7 +2010,7 @@ define('davinci-eight/core',["require", "exports"], function (require, exports) 
             this.LAST_MODIFIED = '2016-02-22';
             this.NAMESPACE = 'EIGHT';
             this.verbose = false;
-            this.VERSION = '2.194.0';
+            this.VERSION = '2.195.0';
             this.logging = {};
         }
         return Eight;
@@ -10469,6 +10469,7 @@ define('davinci-eight/core/WebGLRenderer',["require", "exports", '../commands/Ca
             _super.call(this, 'WebGLRenderer');
             this._users = [];
             this._commands = new ShareableArray_1.default([]);
+            console.log(core_1.default.NAMESPACE + "." + this._type + " " + core_1.default.VERSION);
             this._attributes = attributes;
             this._contextProvider = new WebGLContextProvider(this);
             this.enable(Capability_1.default.DEPTH_TEST);

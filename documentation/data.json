@@ -2,7 +2,7 @@
     "project": {
         "name": "davinci-eight",
         "description": "WebGL library for mathematical physics using Geometric Algebra",
-        "version": "2.194.0",
+        "version": "2.195.0",
         "url": ""
     },
     "files": {
@@ -9493,7 +9493,7 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 112,
+            "line": 113,
             "itemtype": "method",
             "name": "destructor!~YUIDOC_LINE~!return",
             "type": "Void",
@@ -9505,7 +9505,7 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 127,
+            "line": 128,
             "itemtype": "method",
             "name": "addContextListener",
             "params": [
@@ -9525,7 +9525,7 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 143,
+            "line": 144,
             "itemtype": "property",
             "name": "canvas",
             "type": "{HTMLCanvasElement}",
@@ -9535,7 +9535,7 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 158,
+            "line": 159,
             "itemtype": "property",
             "name": "commands",
             "type": "{ShareableArray}",
@@ -9547,7 +9547,7 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 172,
+            "line": 173,
             "description": "<p>\nSpecifies color values to use by the <code>clear</code> method to clear the color buffer.\n<p>",
             "itemtype": "method",
             "name": "clearColor",
@@ -9584,7 +9584,7 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 192,
+            "line": 193,
             "description": "Turns off specific WebGL capabilities for this context.",
             "itemtype": "method",
             "name": "disable",
@@ -9606,7 +9606,7 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 204,
+            "line": 205,
             "description": "Turns on specific WebGL capabilities for this context.",
             "itemtype": "method",
             "name": "enable",
@@ -9628,7 +9628,7 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 216,
+            "line": 217,
             "itemtype": "property",
             "name": "gl",
             "type": "{WebGLRenderingContext}",
@@ -9639,7 +9639,7 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 233,
+            "line": 234,
             "itemtype": "method",
             "name": "removeContextListener",
             "params": [
@@ -9659,7 +9659,7 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 246,
+            "line": 247,
             "itemtype": "method",
             "name": "clear",
             "return": {
@@ -9672,7 +9672,7 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 257,
+            "line": 258,
             "description": "Defines what part of the canvas will be used in rendering the drawing buffer.",
             "itemtype": "method",
             "name": "viewport",
@@ -9709,7 +9709,7 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 278,
+            "line": 279,
             "description": "Initializes the WebGL context for the specified <code>canvas</code>.",
             "itemtype": "method",
             "name": "start",
@@ -9731,7 +9731,7 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 315,
+            "line": 316,
             "itemtype": "method",
             "name": "stop",
             "return": {
@@ -9745,7 +9745,7 @@
         },
         {
             "file": "src/davinci-eight/core/WebGLRenderer.ts",
-            "line": 369,
+            "line": 370,
             "itemtype": "method",
             "name": "synchronize",
             "params": [
