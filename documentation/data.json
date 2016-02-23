@@ -2,7 +2,7 @@
     "project": {
         "name": "davinci-eight",
         "description": "WebGL library for mathematical physics using Geometric Algebra",
-        "version": "2.195.0",
+        "version": "2.196.0",
         "url": ""
     },
     "files": {

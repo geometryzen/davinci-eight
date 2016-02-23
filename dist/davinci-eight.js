@@ -2010,7 +2010,7 @@ define('davinci-eight/core',["require", "exports"], function (require, exports) 
             this.LAST_MODIFIED = '2016-02-22';
             this.NAMESPACE = 'EIGHT';
             this.verbose = false;
-            this.VERSION = '2.195.0';
+            this.VERSION = '2.196.0';
             this.logging = {};
         }
         return Eight;
