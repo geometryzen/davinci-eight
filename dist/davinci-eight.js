@@ -431,7 +431,7 @@ var requirejs, require, define;
     };
 }());
 
-define("../vendor/almond/almond", function(){});
+define("../bower_components/almond/almond", function(){});
 
 define('davinci-eight/commands/BlendFactor',["require", "exports"], function (require, exports) {
     var BlendFactor;

@@ -1,9 +1,10 @@
 amd/
+bower_components/
 jspm_packages/
 node_modules/
 system/
+test/amd/
 typings/
-vendor/
 .baseDir.ts
 .baseDir.js
 .grunt/

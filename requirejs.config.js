@@ -7,13 +7,10 @@ requirejs.config({
 
   // specify custom module name paths
   paths: {
-    "cs": "../vendor/require-cs/cs",
-    "coffee-script": "../vendor/coffee-script/extras/coffee-script",
-    "spec": "../test/spec"
   },
 
   // target amd loader shim as the main module, path is relative to baseUrl.
-  name: "../vendor/almond/almond",
+  name: "../bower_components/almond/almond",
 
   optimize: "none",
 

@@ -1,1 +1,0 @@
-"/home/david/dev/geometryzen/davinci-eight/src/davinci-eight.ts" "/home/david/dev/geometryzen/davinci-eight/src/davinci-eight/core/ShareableWebGLShader.ts" "/home/david/dev/geometryzen/davinci-eight/src/.baseDir.ts" --removeComments --noImplicitAny --suppressImplicitAnyIndexErrors --moduleResolution classic --target ES5 --module amd --outDir amd
