@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.196.0</em>
+            <em>API Docs for: 2.197.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -112,6 +112,7 @@
                                 <li><a href="../classes/ReflectionFacetE2.html">ReflectionFacetE2</a></li>
                                 <li><a href="../classes/ReflectionFacetE3.html">ReflectionFacetE3</a></li>
                                 <li><a href="../classes/RigidBody.html">RigidBody</a></li>
+                                <li><a href="../classes/RigidBodyWithUnits.html">RigidBodyWithUnits</a></li>
                                 <li><a href="../classes/Scalar.html">Scalar</a></li>
                                 <li><a href="../classes/Scene.html">Scene</a></li>
                                 <li><a href="../classes/Shareable.html">Shareable</a></li>
@@ -152,7 +153,6 @@
                                 <li><a href="../classes/Vertex.html">Vertex</a></li>
                                 <li><a href="../classes/VertexAttributeMap.html">VertexAttributeMap</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
-                                <li><a href="../classes/VisualBody.html">VisualBody</a></li>
                                 <li><a href="../classes/WebGLBlendFunc.html">WebGLBlendFunc</a></li>
                                 <li><a href="../classes/WebGLClearColor.html">WebGLClearColor</a></li>
                                 <li><a href="../classes/WebGLDisable.html">WebGLDisable</a></li>
@@ -208,11 +208,17 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import core from &#x27;../core&#x27;
+import notImplemented from &#x27;../i18n/notImplemented&#x27;
 import mustBeNumber from &#x27;../checks/mustBeNumber&#x27;
+import mustBeObject from &#x27;../checks/mustBeObject&#x27;
+import NormedLinearElement from &#x27;./NormedLinearElement&#x27;
 import readOnly from &#x27;../i18n/readOnly&#x27;
+import SpinorE3 from &#x27;./SpinorE3&#x27;
+import stringFromCoordinates from &#x27;./stringFromCoordinates&#x27;;
 import Unit from &#x27;./Unit&#x27;;
 import VectorE3 from &#x27;./VectorE3&#x27;
+
+const BASIS_LABELS = [&#x27;e1&#x27;, &#x27;e2&#x27;, &#x27;e3&#x27;]
 
 /**
  * @module EIGHT
@@ -220,136 +226,324 @@ import VectorE3 from &#x27;./VectorE3&#x27;
  */
 
 /**
+ * &lt;p&gt;
+ * An immutable vector in Euclidean 3D space supporting an optional unit of measure.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * This class is intended to be used for Physical Science education and research by
+ * supporting linear algebra applications with units of measure.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * This class is not intended to be used in high-performance graphics applications
+ * owing to the cost of creating temporary objects and unit computation.
+ * &lt;/p&gt;
+ *
  * @class R3
  */
-export default class R3 implements VectorE3 {
-    private _coords: number[];
-    private _uom: Unit;
+export default class R3 implements VectorE3, NormedLinearElement&lt;R3, R3, SpinorE3, VectorE3, Unit&gt; {
+  /**
+   * @property _coords
+   * @type number[]
+   * @private
+   */
+  private _coords: number[];
 
-    /**
-     * @property zero
-     * @type R3
-     * @readOnly
-     * @static
-     */
-    public static zero = new R3(0, 0, 0, void 0)
+  /**
+   * @property _uom
+   * @type {Unit}
+   * @private
+   */
+  private _uom: Unit;
 
-    /**
-     * @property e1
-     * @type R3
-     * @readOnly
-     * @static
-     */
-    public static e1 = new R3(1, 0, 0, void 0)
+  /**
+   * @property zero
+   * @type R3
+   * @readOnly
+   * @static
+   */
+  public static zero = new R3(0, 0, 0, Unit.ONE)
 
-    /**
-     * @property e2
-     * @type R3
-     * @readOnly
-     * @static
-     */
-    public static e2 = new R3(0, 1, 0, void 0)
+  /**
+   * @property e1
+   * @type R3
+   * @readOnly
+   * @static
+   */
+  public static e1 = new R3(1, 0, 0, Unit.ONE)
 
-    /**
-     * @property e3
-     * @type R3
-     * @readOnly
-     * @static
-     */
-    public static e3 = new R3(0, 0, 1, void 0)
+  /**
+   * @property e2
+   * @type R3
+   * @readOnly
+   * @static
+   */
+  public static e2 = new R3(0, 1, 0, Unit.ONE)
 
-    /**
-     * @class R3
-     * @constructor
-     * @param x {number}
-     * @param y {number}
-     * @param z {number}
-     */
-    constructor(x: number, y: number, z: number, uom: Unit) {
-        if (core.safemode) {
-            mustBeNumber(&#x27;x&#x27;, x)
-            mustBeNumber(&#x27;y&#x27;, y)
-            mustBeNumber(&#x27;z&#x27;, z)
-        }
-        this._coords = [x, y, z]
-        this._uom = uom
-    }
+  /**
+   * @property e3
+   * @type R3
+   * @readOnly
+   * @static
+   */
+  public static e3 = new R3(0, 0, 1, Unit.ONE)
 
-    get x(): number {
-        return this._coords[0]
-    }
-    set x(unused: number) {
-        throw new Error(readOnly(&#x27;x&#x27;).message)
-    }
+  /**
+   * @class R3
+   * @constructor
+   * @param x {number}
+   * @param y {number}
+   * @param z {number}
+   */
+  constructor(x: number, y: number, z: number, uom: Unit) {
+    mustBeNumber(&#x27;x&#x27;, x)
+    mustBeNumber(&#x27;y&#x27;, y)
+    mustBeNumber(&#x27;z&#x27;, z)
+    this._coords = [x, y, z]
+    this._uom = mustBeObject(&#x27;uom&#x27;, uom)
+  }
 
-    get y(): number {
-        return this._coords[1]
-    }
-    set y(unused: number) {
-        throw new Error(readOnly(&#x27;y&#x27;).message)
-    }
+  /**
+   * @property x
+   * @type number
+   * @readOnly
+   */
+  get x(): number {
+    return this._coords[0]
+  }
+  set x(unused: number) {
+    throw new Error(readOnly(&#x27;x&#x27;).message)
+  }
 
-    get z(): number {
-        return this._coords[2]
-    }
-    set z(unused: number) {
-        throw new Error(readOnly(&#x27;z&#x27;).message)
-    }
+  /**
+   * @property y
+   * @type number
+   * @readOnly
+   */
+  get y(): number {
+    return this._coords[1]
+  }
+  set y(unused: number) {
+    throw new Error(readOnly(&#x27;y&#x27;).message)
+  }
 
-    get uom(): Unit {
-        return this._uom
-    }
-    set uom(unused: Unit) {
-        throw new Error(readOnly(&#x27;uom&#x27;).message)
-    }
+  /**
+   * @property z
+   * @type number
+   * @readOnly
+   */
+  get z(): number {
+    return this._coords[2]
+  }
+  set z(unused: number) {
+    throw new Error(readOnly(&#x27;z&#x27;).message)
+  }
 
-    magnitude(): number {
-        return Math.sqrt(this.squaredNorm())
-    }
+  /**
+   * @property uom
+   * @type Unit
+   * @readOnly
+   */
+  get uom(): Unit {
+    return this._uom
+  }
+  set uom(unused: Unit) {
+    throw new Error(readOnly(&#x27;uom&#x27;).message)
+  }
 
-    /**
-     * @method neg
-     * @return {Cartesian3}
-     */
-    neg(): R3 {
-        return this.scale(-1);
-    }
+  /**
+   * @method add
+   * @param rhs {R3}
+   * @param [α = 1] {number}
+   * @return {R3}
+   */
+  add(rhs: R3, α = 1): R3 {
+    throw new Error(notImplemented(&#x27;add&#x27;).message)
+  }
 
-    scale(α: number): R3 {
-        return new R3(α * this.x, α * this.y, α * this.z, this.uom)
-    }
+  /**
+   * @method divByScalar
+   * @param α {Unit}
+   * @return {R3}
+   */
+  divByScalar(α: Unit): R3 {
+    return new R3(this.x, this.y, this.z, this.uom.div(α))
+  }
 
-    squaredNorm(): number {
-        const x = this.x
-        const y = this.y
-        const z = this.z
-        return x * x + y * y + z * z
-    }
+  /**
+   * @method lerp
+   * @param target {R3}
+   * @param α {number}
+   * @return {R3}
+   */
+  lerp(target: R3, α: number): R3 {
+    throw new Error(notImplemented(&#x27;lerp&#x27;).message)
+  }
 
-    /**
-     * @method fromVector
-     * @param vector {VectorE3}
-     * @param [uom] {Unit}
-     * @return {R3}
-     * @static
-     */
-    static fromVector(vector: VectorE3, uom?: Unit): R3 {
-        return new R3(vector.x, vector.y, vector.z, uom)
-    }
+  /**
+   * @method magnitude
+   * @return {Unit}
+   */
+  magnitude(): Unit {
+    return this.squaredNorm().sqrt()
+  }
 
-    /**
-     * @method direction
-     * @param vector {VectorE3}
-     * @return {R3}
-     * @static
-     */
-    static direction(vector: VectorE3): R3 {
-        const x = vector.x
-        const y = vector.y
-        const z = vector.z
-        const m = Math.sqrt(x * x + y * y + z * z)
-        return new R3(x / m, y / m, z / m, void 0)
+  /**
+   * @method neg
+   * @return {Cartesian3}
+   */
+  neg(): R3 {
+    return new R3(-this.x, -this.y, -this.z, this.uom)
+  }
+
+  /**
+   * @method reflect
+   * @param n {VectorE3}
+   * @return {R3}
+   */
+  reflect(n: VectorE3): R3 {
+    throw new Error(notImplemented(&#x27;reflect&#x27;).message)
+  }
+
+  /**
+   * @method rotate
+   * @param R {SpinorE3}
+   * @return {R3}
+   */
+  rotate(R: SpinorE3): R3 {
+    const x = this.x;
+    const y = this.y;
+    const z = this.z;
+
+    const a = R.xy;
+    const b = R.yz;
+    const c = R.zx;
+    const w = R.α;
+
+    const ix = w * x - c * z + a * y;
+    const iy = w * y - a * x + b * z;
+    const iz = w * z - b * y + c * x;
+    const iw = b * x + c * y + a * z;
+
+    const ox = ix * w + iw * b + iy * a - iz * c;
+    const oy = iy * w + iw * c + iz * b - ix * a;
+    const oz = iz * w + iw * a + ix * c - iy * b;
+
+    return new R3(ox, oy, oz, this.uom)
+  }
+
+  /**
+   * @method scale
+   * @param α {Unit}
+   * @return {Unit}
+   */
+  scale(α: Unit): R3 {
+    return new R3(this.x, this.y, this.z, this.uom.mul(α))
+  }
+
+  /**
+   * @method slerp
+   * @param target R3
+   * @param α {number}
+   * @return {R3}
+   */
+  slerp(target: R3, α: number): R3 {
+    throw new Error(notImplemented(&#x27;slerp&#x27;).message)
+  }
+
+  /**
+   * @method squaredNorm
+   * @return {Unit}
+   */
+  squaredNorm(): Unit {
+    const x = this.x
+    const y = this.y
+    const z = this.z
+    return this.uom.quad().scale(x * x + y * y + z * z)
+  }
+
+  /**
+   * @method sub
+   * @param rhs {R3}
+   * @param [α = 1] {number}
+   * @return {R3}
+   */
+  sub(rhs: R3, α = 1): R3 {
+    throw new Error(notImplemented(&#x27;sub&#x27;).message)
+  }
+
+  /**
+   * Intentionally undocumented.
+   */
+  toStringCustom(coordToString: (x: number) =&gt; string, labels: (string | string[])[]): string {
+    const quantityString: string = stringFromCoordinates(this._coords, coordToString, labels);
+    if (this.uom) {
+      const unitString = this.uom.toString().trim();
+      if (unitString) {
+        return quantityString + &#x27; &#x27; + unitString;
+      }
+      else {
+        return quantityString;
+      }
     }
+    else {
+      return quantityString;
+    }
+  }
+
+  /**
+   * @method toExponential
+   * @return {string}
+   */
+  toExponential(): string {
+    const coordToString = function(coord: number): string { return coord.toExponential() }
+    return this.toStringCustom(coordToString, BASIS_LABELS)
+  }
+
+  /**
+   * @method toFixed
+   * @param [fractionDigits] {number}
+   * @return {string}
+   */
+  toFixed(fractionDigits?: number): string {
+    const coordToString = function(coord: number): string { return coord.toFixed(fractionDigits) }
+    return this.toStringCustom(coordToString, BASIS_LABELS)
+  }
+
+  /**
+   * @method toString
+   * @return {string}
+   */
+  toString(): string {
+    const coordToString = function(coord: number): string { return coord.toString() }
+    return this.toStringCustom(coordToString, BASIS_LABELS)
+  }
+
+  /**
+   * @method fromVector
+   * @param vector {VectorE3}
+   * @param uom {Unit}
+   * @return {R3}
+   * @static
+   */
+  static fromVector(vector: VectorE3, uom: Unit): R3 {
+    return new R3(vector.x, vector.y, vector.z, uom)
+  }
+
+  /**
+   * Creates a new R3 with the same direction as the supplied vector.
+   *
+   * @method direction
+   * @param vector {VectorE3}
+   * @return {R3}
+   * @static
+   */
+  static direction(vector: VectorE3): R3 {
+    const x = vector.x
+    const y = vector.y
+    const z = vector.z
+    const m = Math.sqrt(x * x + y * y + z * z)
+    return new R3(x / m, y / m, z / m, Unit.ONE)
+  }
 }
 
     </pre>

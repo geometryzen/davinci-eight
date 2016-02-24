@@ -1,40 +1,56 @@
-import G3 from '../math/G3';
 import Facet from '../core/Facet';
-import RigidBody from './RigidBody';
+import Geometric3 from '../math/Geometric3'
+import Mesh from '../core/Mesh';
 import mustBeObject from '../checks/mustBeObject';
+import Shareable from '../core/Shareable';
 import TrailConfig from './TrailConfig';
 
 /**
  * @module EIGHT
  * @submodule visual
- * @class Trail
  */
-export default class Trail {
-    /**
-     * @property rigidBody
-     * @type RigidBody
-     * @private
-     */
-    private rigidBody: RigidBody
+
+/**
+ * Records the position and attitude history of a Mesh allowing the
+ * Mesh to be drawn in its historical configuration.
+ *
+ * @class Trail
+ * @extends Shareable
+ */
+export default class Trail extends Shareable {
 
     /**
+     * The underlying Mesh.
+     *
+     * @property mesh
+     * @type Mesh
+     * @private
+     */
+    private mesh: Mesh
+
+    /**
+     * The position history.
+     *
      * @property Xs
-     * @type {G3[]}
+     * @type {Geometric3[]}
      * @private
      */
-    private Xs: G3[] = []
+    private Xs: Geometric3[] = []
 
     /**
+     * The attitude history.
+     *
      * @property Rs
-     * @type {G3[]}
+     * @type {Geometric3[]}
      * @private
      */
-    private Rs: G3[] = []
+    private Rs: Geometric3[] = []
 
     /**
+     * The configuration that determines how the history is recorded.
+     *
      * @property config
      * @type TrailConfig
-     * @public
      */
     public config: TrailConfig = new TrailConfig();
 
@@ -46,29 +62,38 @@ export default class Trail {
     private counter = 0
 
     /**
-     * Constructs a trail for the specified rigidBody.
-     * The maximum number of trail points defaults to 10.
-     *
      * @class Trail
      * @constructor
-     * @param rigidBody {RigidBody}
-     * @param [retain = 10] {number}
+     * @param mesh {Mesh}
      */
-    constructor(rigidBody: RigidBody) {
-        mustBeObject('rigidBody', rigidBody)
-        this.rigidBody = rigidBody
+    constructor(mesh: Mesh) {
+        super('Trail')
+        mustBeObject('mesh', mesh)
+        mesh.addRef()
+        this.mesh = mesh
     }
 
     /**
-     * Records the RigidBody variables according to the interval property.
+     * @method destructor
+     * @return {void}
+     * @protected
+     */
+    protected destructor(): void {
+        this.mesh.release()
+        this.mesh = void 0
+        super.destructor()
+    }
+
+    /**
+     * Records the Mesh variables according to the interval property.
      *
      * @method snapshot()
      * @return {void}
      */
     snapshot(): void {
         if (this.counter % this.config.interval === 0) {
-            this.Xs.unshift(this.rigidBody.X)
-            this.Rs.unshift(this.rigidBody.R)
+            this.Xs.unshift(this.mesh.position.clone())
+            this.Rs.unshift(this.mesh.attitude.clone())
         }
         while (this.Xs.length > this.config.retain) {
             this.Xs.pop()
@@ -83,16 +108,17 @@ export default class Trail {
      * @return {void}
      */
     draw(ambients: Facet[]): void {
-        // Save the rigidBody position and attitude so that we can restore them later.
-        const X = this.rigidBody.X
-        const R = this.rigidBody.R
-        for (let i = 0, iLength = this.Xs.length; i < iLength; i++) {
-            this.rigidBody.X = this.Xs[i]
-            this.rigidBody.R = this.Rs[i]
-            this.rigidBody.draw(ambients)
+        // Save the mesh position and attitude so that we can restore them later.
+        const X = this.mesh.position.clone()
+        const R = this.mesh.attitude.clone()
+        const iLength: number = this.Xs.length
+        for (let i = 0; i < iLength; i++) {
+            this.mesh.position.copyVector(this.Xs[i])
+            this.mesh.attitude.copySpinor(this.Rs[i])
+            this.mesh.draw(ambients)
         }
-        // Restore the rigidBody position and attitude.
-        this.rigidBody.X = X
-        this.rigidBody.R = R
+        // Restore the mesh position and attitude.
+        this.mesh.position.copy(X)
+        this.mesh.attitude.copy(R)
     }
 }

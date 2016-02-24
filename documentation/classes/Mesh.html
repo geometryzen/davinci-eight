@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.196.0</em>
+            <em>API Docs for: 2.197.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -112,6 +112,7 @@
                                 <li><a href="../classes/ReflectionFacetE2.html">ReflectionFacetE2</a></li>
                                 <li><a href="../classes/ReflectionFacetE3.html">ReflectionFacetE3</a></li>
                                 <li><a href="../classes/RigidBody.html">RigidBody</a></li>
+                                <li><a href="../classes/RigidBodyWithUnits.html">RigidBodyWithUnits</a></li>
                                 <li><a href="../classes/Scalar.html">Scalar</a></li>
                                 <li><a href="../classes/Scene.html">Scene</a></li>
                                 <li><a href="../classes/Shareable.html">Shareable</a></li>
@@ -152,7 +153,6 @@
                                 <li><a href="../classes/Vertex.html">Vertex</a></li>
                                 <li><a href="../classes/VertexAttributeMap.html">VertexAttributeMap</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
-                                <li><a href="../classes/VisualBody.html">VisualBody</a></li>
                                 <li><a href="../classes/WebGLBlendFunc.html">WebGLBlendFunc</a></li>
                                 <li><a href="../classes/WebGLClearColor.html">WebGLClearColor</a></li>
                                 <li><a href="../classes/WebGLDisable.html">WebGLDisable</a></li>
@@ -212,7 +212,7 @@
         </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_core_Mesh.ts.html#l30"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:30</code></a>
+            Defined in: <a href="../files/src_davinci-eight_core_Mesh.ts.html#l32"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:32</code></a>
         </div>
 
             Module: <a href="../modules/core.html">core</a><br>
@@ -254,7 +254,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l30"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:30</code></a>
+        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l32"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:32</code></a>
         </p>
 
 
@@ -395,6 +395,10 @@
                                 <a href="#property_color">color</a>
 
                             </li>
+                            <li class="index-item property">
+                                <a href="#property_deviation">deviation</a>
+
+                            </li>
                             <li class="index-item property inherited">
                                 <a href="#property_geometry">geometry</a>
 
@@ -466,7 +470,7 @@
 
     <div class="description">
         <p>
-Notifies this instance that something is dereferencing it.
+Notifies this instance that something is referencing it.
 </p>
     </div>
 
@@ -668,7 +672,7 @@ Notifies this instance that something is dereferencing it.
                 Shareable
             </a>
             but overwritten in
-        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l47"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:47</code></a>
+        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l49"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:49</code></a>
         </p>
 
 
@@ -1082,7 +1086,7 @@ Notifies this instance that something is dereferencing it.
 </div>
 <div id="property_attitude" class="property item">
     <h3 class="name"><code>attitude</code></h3>
-    <span class="type"><a href="../classes/Spinor3.html" class="crosslink">Spinor3</a></span>
+    <span class="type"><a href="../classes/Geometric3.html" class="crosslink">Geometric3</a></span>
 
 
 
@@ -1091,7 +1095,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l56"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:56</code></a>
+        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l58"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:58</code></a>
         </p>
 
 
@@ -1116,7 +1120,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l76"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:76</code></a>
+        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l83"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:83</code></a>
         </p>
 
 
@@ -1124,6 +1128,33 @@ Notifies this instance that something is dereferencing it.
 
     <div class="description">
         <p>Color</p>
+
+    </div>
+
+
+
+</div>
+<div id="property_deviation" class="property item">
+    <h3 class="name"><code>deviation</code></h3>
+    <span class="type"><a href="../classes/Spinor3.html" class="crosslink">Spinor3</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l108"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:108</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>The spinor that rotates the object from the frame
+in which scaling is defined to the initial frame of the
+object.</p>
 
     </div>
 
@@ -1191,7 +1222,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l101"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:101</code></a>
+        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l135"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:135</code></a>
         </p>
 
 
@@ -1230,7 +1261,7 @@ Notifies this instance that something is dereferencing it.
 </div>
 <div id="property_position" class="property item">
     <h3 class="name"><code>position</code></h3>
-    <span class="type"><a href="../classes/Vector3.html" class="crosslink">Vector3</a></span>
+    <span class="type"><a href="../classes/Geometric3.html" class="crosslink">Geometric3</a></span>
 
 
 
@@ -1239,7 +1270,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l113"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:113</code></a>
+        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l147"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:147</code></a>
         </p>
 
 
@@ -1264,7 +1295,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l133"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:133</code></a>
+        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l172"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:172</code></a>
         </p>
 
 

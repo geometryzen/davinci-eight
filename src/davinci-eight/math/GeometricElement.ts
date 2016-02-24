@@ -4,7 +4,7 @@ import LinearElement from '../math/LinearElement';
  * It is not part of the documented API.
  * Notice that the effect on the target depends upon whether the target class in mutable.
  */
-interface GeometricElement<I, M, S, V> extends LinearElement<I, M, S, V> {
+interface GeometricElement<I, M, S, V> extends LinearElement<I, M, S, V, number> {
 
     /**
      * Addition of a pseudoscalar.

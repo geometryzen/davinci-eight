@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.196.0</em>
+            <em>API Docs for: 2.197.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -112,6 +112,7 @@
                                 <li><a href="../classes/ReflectionFacetE2.html">ReflectionFacetE2</a></li>
                                 <li><a href="../classes/ReflectionFacetE3.html">ReflectionFacetE3</a></li>
                                 <li><a href="../classes/RigidBody.html">RigidBody</a></li>
+                                <li><a href="../classes/RigidBodyWithUnits.html">RigidBodyWithUnits</a></li>
                                 <li><a href="../classes/Scalar.html">Scalar</a></li>
                                 <li><a href="../classes/Scene.html">Scene</a></li>
                                 <li><a href="../classes/Shareable.html">Shareable</a></li>
@@ -152,7 +153,6 @@
                                 <li><a href="../classes/Vertex.html">Vertex</a></li>
                                 <li><a href="../classes/VertexAttributeMap.html">VertexAttributeMap</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
-                                <li><a href="../classes/VisualBody.html">VisualBody</a></li>
                                 <li><a href="../classes/WebGLBlendFunc.html">WebGLBlendFunc</a></li>
                                 <li><a href="../classes/WebGLClearColor.html">WebGLClearColor</a></li>
                                 <li><a href="../classes/WebGLDisable.html">WebGLDisable</a></li>
@@ -207,9 +207,12 @@
 <h1>Trail Class</h1>
 <div class="box meta">
 
+        <div class="extends">
+            Extends <a href="../classes/Shareable.html" class="crosslink">Shareable</a>
+        </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_visual_Trail.ts.html#l48"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Trail.ts:48</code></a>
+            Defined in: <a href="../files/src_davinci-eight_visual_Trail.ts.html#l64"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Trail.ts:64</code></a>
         </div>
 
             Module: <a href="../modules/visual.html">visual</a><br>
@@ -219,8 +222,8 @@
 
 
 <div class="box intro">
-    <p>Constructs a trail for the specified rigidBody.
-The maximum number of trail points defaults to 10.</p>
+    <p>Records the position and attitude history of a Mesh allowing the
+Mesh to be drawn in its historical configuration.</p>
 
 </div>
 
@@ -232,10 +235,7 @@ The maximum number of trail points defaults to 10.</p>
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
-                        <code>rigidBody</code>
-                </li>
-                <li class="arg">
-                        <code class="optional">[retain = 10]</code>
+                        <code>mesh</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
@@ -250,7 +250,7 @@ The maximum number of trail points defaults to 10.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_visual_Trail.ts.html#l48"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Trail.ts:48</code></a>
+        <a href="../files/src_davinci-eight_visual_Trail.ts.html#l64"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Trail.ts:64</code></a>
         </p>
 
 
@@ -266,19 +266,8 @@ The maximum number of trail points defaults to 10.</p>
 
             <ul class="params-list">
                 <li class="param">
-                        <code class="param-name">rigidBody</code>
-                        <span class="type"><a href="../classes/RigidBody.html" class="crosslink">RigidBody</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name optional">[retain = 10]</code>
-                        <span class="type">Number</span>
-                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                        <code class="param-name">mesh</code>
+                        <span class="type"><a href="../classes/Mesh.html" class="crosslink">Mesh</a></span>
 
 
                     <div class="param-description">
@@ -309,9 +298,21 @@ The maximum number of trail points defaults to 10.</p>
                 <div class="index-section methods">
                     <h3>Methods</h3>
 
-                    <ul class="index-list methods">
+                    <ul class="index-list methods extends">
+                            <li class="index-item method inherited inherited">
+                                <a href="#method_addRef">addRef</a>
+
+                            </li>
+                            <li class="index-item method protected inherited">
+                                <a href="#method_destructor">destructor</a>
+
+                            </li>
                             <li class="index-item method">
                                 <a href="#method_draw">draw</a>
+
+                            </li>
+                            <li class="index-item method inherited inherited">
+                                <a href="#method_release">release</a>
 
                             </li>
                             <li class="index-item method">
@@ -324,8 +325,8 @@ The maximum number of trail points defaults to 10.</p>
                 <div class="index-section properties">
                     <h3>Properties</h3>
 
-                    <ul class="index-list properties">
-                            <li class="index-item property public">
+                    <ul class="index-list properties extends">
+                            <li class="index-item property">
                                 <a href="#property_config">config</a>
 
                             </li>
@@ -334,11 +335,15 @@ The maximum number of trail points defaults to 10.</p>
 
                             </li>
                             <li class="index-item property private">
-                                <a href="#property_rigidBody">rigidBody</a>
+                                <a href="#property_mesh">mesh</a>
 
                             </li>
                             <li class="index-item property private">
                                 <a href="#property_Rs">Rs</a>
+
+                            </li>
+                            <li class="index-item property inherited">
+                                <a href="#property_uuid">uuid</a>
 
                             </li>
                             <li class="index-item property private">
@@ -354,6 +359,97 @@ The maximum number of trail points defaults to 10.</p>
             <div id="methods" class="api-class-tabpanel">
                 <h2 class="off-left">Methods</h2>
 
+<div id="method_addRef" class="method item inherited">
+    <h3 class="name"><code>addRef</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">Number</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+            <p>Inherited from
+            <a href="../classes/IUnknown.html#method_addRef">
+                IUnknown
+            </a>
+            but overwritten in
+        <a href="../files/src_davinci-eight_core_Shareable.ts.html#l34"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Shareable.ts:34</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>
+Notifies this instance that something is referencing it.
+</p>
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Number</span>:
+                    <p>The new value of the reference count.</p>
+
+            </div>
+        </div>
+
+
+</div>
+<div id="method_destructor" class="method item protected">
+    <h3 class="name"><code>destructor</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+
+
+        <span class="flag protected">protected</span>
+
+
+
+
+
+    <div class="meta">
+            <p>Inherited from
+            <a href="../classes/Shareable.html#method_destructor">
+                Shareable
+            </a>
+            but overwritten in
+        <a href="../files/src_davinci-eight_visual_Trail.ts.html#l76"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Trail.ts:76</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Void</span>:
+            </div>
+        </div>
+
+
+</div>
 <div id="method_draw" class="method item">
     <h3 class="name"><code>draw</code></h3>
 
@@ -378,7 +474,7 @@ The maximum number of trail points defaults to 10.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_visual_Trail.ts.html#l80"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Trail.ts:80</code></a>
+        <a href="../files/src_davinci-eight_visual_Trail.ts.html#l105"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Trail.ts:105</code></a>
         </p>
 
 
@@ -416,6 +512,53 @@ The maximum number of trail points defaults to 10.</p>
 
 
 </div>
+<div id="method_release" class="method item inherited">
+    <h3 class="name"><code>release</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">Number</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+            <p>Inherited from
+            <a href="../classes/IUnknown.html#method_release">
+                IUnknown
+            </a>
+            but overwritten in
+        <a href="../files/src_davinci-eight_core_Shareable.ts.html#l48"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Shareable.ts:48</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>
+Notifies this instance that something is dereferencing it.
+</p>
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Number</span>:
+                    <p>The new value of the reference count.</p>
+
+            </div>
+        </div>
+
+
+</div>
 <div id="method_snapshot()" class="method item">
     <h3 class="name"><code>snapshot()</code></h3>
 
@@ -434,7 +577,7 @@ The maximum number of trail points defaults to 10.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_visual_Trail.ts.html#l62"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Trail.ts:62</code></a>
+        <a href="../files/src_davinci-eight_visual_Trail.ts.html#l87"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Trail.ts:87</code></a>
         </p>
 
 
@@ -442,7 +585,7 @@ The maximum number of trail points defaults to 10.</p>
     </div>
 
     <div class="description">
-        <p>Records the RigidBody variables according to the interval property.</p>
+        <p>Records the Mesh variables according to the interval property.</p>
 
     </div>
 
@@ -462,26 +605,26 @@ The maximum number of trail points defaults to 10.</p>
             <div id="properties" class="api-class-tabpanel">
                 <h2 class="off-left">Properties</h2>
 
-<div id="property_config" class="property item public">
+<div id="property_config" class="property item">
     <h3 class="name"><code>config</code></h3>
     <span class="type">TrailConfig</span>
 
 
-        <span class="flag public">public</span>
 
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_visual_Trail.ts.html#l34"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Trail.ts:34</code></a>
+        <a href="../files/src_davinci-eight_visual_Trail.ts.html#l49"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Trail.ts:49</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        
+        <p>The configuration that determines how the history is recorded.</p>
+
     </div>
 
 
@@ -499,7 +642,7 @@ The maximum number of trail points defaults to 10.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_visual_Trail.ts.html#l41"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Trail.ts:41</code></a>
+        <a href="../files/src_davinci-eight_visual_Trail.ts.html#l57"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Trail.ts:57</code></a>
         </p>
 
 
@@ -512,9 +655,9 @@ The maximum number of trail points defaults to 10.</p>
 
 
 </div>
-<div id="property_rigidBody" class="property item private">
-    <h3 class="name"><code>rigidBody</code></h3>
-    <span class="type"><a href="../classes/RigidBody.html" class="crosslink">RigidBody</a></span>
+<div id="property_mesh" class="property item private">
+    <h3 class="name"><code>mesh</code></h3>
+    <span class="type"><a href="../classes/Mesh.html" class="crosslink">Mesh</a></span>
 
 
         <span class="flag private">private</span>
@@ -524,14 +667,15 @@ The maximum number of trail points defaults to 10.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_visual_Trail.ts.html#l13"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Trail.ts:13</code></a>
+        <a href="../files/src_davinci-eight_visual_Trail.ts.html#l22"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Trail.ts:22</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        
+        <p>The underlying Mesh.</p>
+
     </div>
 
 
@@ -539,7 +683,7 @@ The maximum number of trail points defaults to 10.</p>
 </div>
 <div id="property_Rs" class="property item private">
     <h3 class="name"><code>Rs</code></h3>
-    <span class="type"><a href="../classes/G3.html" class="crosslink">G3[]</a></span>
+    <span class="type"><a href="../classes/Geometric3.html" class="crosslink">Geometric3[]</a></span>
 
 
         <span class="flag private">private</span>
@@ -549,7 +693,32 @@ The maximum number of trail points defaults to 10.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_visual_Trail.ts.html#l27"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Trail.ts:27</code></a>
+        <a href="../files/src_davinci-eight_visual_Trail.ts.html#l40"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Trail.ts:40</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>The attitude history.</p>
+
+    </div>
+
+
+
+</div>
+<div id="property_uuid" class="property item inherited">
+    <h3 class="name"><code>uuid</code></h3>
+    <span class="type">String</span>
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/Shareable.html#property_uuid">Shareable</a>:
+        <a href="../files/src_davinci-eight_core_Shareable.ts.html#l92"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Shareable.ts:92</code></a>
         </p>
 
 
@@ -564,7 +733,7 @@ The maximum number of trail points defaults to 10.</p>
 </div>
 <div id="property_Xs" class="property item private">
     <h3 class="name"><code>Xs</code></h3>
-    <span class="type"><a href="../classes/G3.html" class="crosslink">G3[]</a></span>
+    <span class="type"><a href="../classes/Geometric3.html" class="crosslink">Geometric3[]</a></span>
 
 
         <span class="flag private">private</span>
@@ -574,14 +743,15 @@ The maximum number of trail points defaults to 10.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_visual_Trail.ts.html#l20"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Trail.ts:20</code></a>
+        <a href="../files/src_davinci-eight_visual_Trail.ts.html#l31"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Trail.ts:31</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        
+        <p>The position history.</p>
+
     </div>
 
 

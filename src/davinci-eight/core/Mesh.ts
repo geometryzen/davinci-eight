@@ -1,10 +1,12 @@
 import Color from './Color';
 import ColorFacet from '../facets/ColorFacet';
 import Drawable from './Drawable'
+import Geometric3 from '../math/Geometric3'
 import Geometry from './Geometry';
 import Material from './Material';
 import Matrix4 from '../math/Matrix4'
 import ModelFacet from '../facets/ModelFacet';
+import notSupported from '../i18n/notSupported'
 import readOnly from '../i18n/readOnly';
 import Spinor3 from '../math/Spinor3'
 import Vector3 from '../math/Vector3'
@@ -57,20 +59,25 @@ export default class Mesh extends Drawable {
      * Attitude (spinor)
      *
      * @property attitude
-     * @type Spinor3
-     * @readOnly
+     * @type Geometric3
      */
-    get attitude(): Spinor3 {
+    get attitude(): Geometric3 {
         const facet = <ModelFacet>this.getFacet(MODEL_FACET_NAME)
         if (facet) {
-            return facet.R
+            return facet.attitude
         }
         else {
-            return void 0
+            throw new Error(notSupported('attitude').message)
         }
     }
-    set attitude(unused) {
-        throw new Error(readOnly('attitude').message)
+    set attitude(attitude: Geometric3) {
+        const facet = <ModelFacet>this.getFacet(MODEL_FACET_NAME)
+        if (facet) {
+            facet.attitude.copySpinor(attitude)
+        }
+        else {
+            throw new Error(notSupported('attitude').message)
+        }
     }
 
     /**
@@ -79,13 +86,13 @@ export default class Mesh extends Drawable {
      * @property color
      * @type Color
      */
-    get color() {
+    get color(): Color {
         const facet = <ColorFacet>this.getFacet(COLOR_FACET_NAME)
         if (facet) {
             return facet.color
         }
         else {
-            return void 0
+            throw new Error(notSupported('color').message)
         }
     }
     set color(color: Color) {
@@ -94,7 +101,34 @@ export default class Mesh extends Drawable {
             facet.color.copy(color)
         }
         else {
-            // We should probably add a facet and set the color.
+            throw new Error(notSupported('color').message)
+        }
+    }
+
+    /**
+     * The spinor that rotates the object from the frame
+     * in which scaling is defined to the initial frame of the
+     * object.
+     *
+     * @property deviation
+     * @type Spinor3
+     */
+    get deviation(): Spinor3 {
+        const facet = <ModelFacet>this.getFacet(MODEL_FACET_NAME)
+        if (facet) {
+            return facet.deviation
+        }
+        else {
+            throw new Error(notSupported('deviation').message)
+        }
+    }
+    set deviation(deviation: Spinor3) {
+        const facet = <ModelFacet>this.getFacet(MODEL_FACET_NAME)
+        if (facet) {
+            facet.deviation.copy(deviation)
+        }
+        else {
+            throw new Error(notSupported('deviation').message)
         }
     }
 
@@ -114,20 +148,25 @@ export default class Mesh extends Drawable {
      * Position (vector)
      *
      * @property position
-     * @type Vector3
-     * @readOnly
+     * @type Geometric3
      */
-    get position(): Vector3 {
+    get position(): Geometric3 {
         const facet = <ModelFacet>this.getFacet(MODEL_FACET_NAME)
         if (facet) {
-            return facet.X
+            return facet.position
         }
         else {
-            return void 0
+            throw new Error(notSupported('position').message)
         }
     }
-    set position(unused) {
-        throw new Error(readOnly('position').message)
+    set position(position: Geometric3) {
+        const facet = <ModelFacet>this.getFacet(MODEL_FACET_NAME)
+        if (facet) {
+            facet.position.copyVector(position)
+        }
+        else {
+            throw new Error(notSupported('position').message)
+        }
     }
 
     /**
@@ -135,7 +174,6 @@ export default class Mesh extends Drawable {
      *
      * @property scale
      * @type Vector3
-     * @readOnly
      */
     get scale(): Vector3 {
         const facet = <ModelFacet>this.getFacet(MODEL_FACET_NAME)
@@ -143,10 +181,16 @@ export default class Mesh extends Drawable {
             return facet.scale
         }
         else {
-            return void 0
+            throw new Error(notSupported('scale').message)
         }
     }
-    set scale(unused) {
-        throw new Error(readOnly('scale').message)
+    set scale(scale: Vector3) {
+        const facet = <ModelFacet>this.getFacet(MODEL_FACET_NAME)
+        if (facet) {
+            facet.scale.copy(scale)
+        }
+        else {
+            throw new Error(notSupported('scale').message)
+        }
     }
 }

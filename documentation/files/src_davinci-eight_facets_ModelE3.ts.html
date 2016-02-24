@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.196.0</em>
+            <em>API Docs for: 2.197.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -112,6 +112,7 @@
                                 <li><a href="../classes/ReflectionFacetE2.html">ReflectionFacetE2</a></li>
                                 <li><a href="../classes/ReflectionFacetE3.html">ReflectionFacetE3</a></li>
                                 <li><a href="../classes/RigidBody.html">RigidBody</a></li>
+                                <li><a href="../classes/RigidBodyWithUnits.html">RigidBodyWithUnits</a></li>
                                 <li><a href="../classes/Scalar.html">Scalar</a></li>
                                 <li><a href="../classes/Scene.html">Scene</a></li>
                                 <li><a href="../classes/Shareable.html">Shareable</a></li>
@@ -152,7 +153,6 @@
                                 <li><a href="../classes/Vertex.html">Vertex</a></li>
                                 <li><a href="../classes/VertexAttributeMap.html">VertexAttributeMap</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
-                                <li><a href="../classes/VisualBody.html">VisualBody</a></li>
                                 <li><a href="../classes/WebGLBlendFunc.html">WebGLBlendFunc</a></li>
                                 <li><a href="../classes/WebGLClearColor.html">WebGLClearColor</a></li>
                                 <li><a href="../classes/WebGLDisable.html">WebGLDisable</a></li>
@@ -208,9 +208,9 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
+import Geometric3 from &#x27;../math/Geometric3&#x27;
 import Vector3 from &#x27;../math/Vector3&#x27;;
 import Spinor3 from &#x27;../math/Spinor3&#x27;;
-import readOnly from &#x27;../i18n/readOnly&#x27;;
 
 &#x27;use strict&#x27;;
 
@@ -247,14 +247,14 @@ export default class ModelE3 {
      * @type {Geometric3}
      * @private
      */
-    private _position = new Vector3().zero();
+    private _position = Geometric3.zero();
 
     /**
      * @property _attitude
      * @type {Geometric3}
      * @private
      */
-    private _attitude = new Spinor3().zero().addScalar(1);
+    private _attitude = Geometric3.one();
 
     /**
      * Used for exchanging number[] data to achieve integrity and avoid lots of temporaries.
@@ -263,6 +263,7 @@ export default class ModelE3 {
      * @private
      */
     private _posCache = new Vector3();
+
     /**
      * Used for exchanging number[] data to achieve integrity and avoid lots of temporaries.
      * @property _attCache
@@ -270,6 +271,7 @@ export default class ModelE3 {
      * @private
      */
     private _attCache = new Spinor3();
+
     /**
      * &lt;p&gt;
      * A collection of properties for Rigid Body Modeling.
@@ -289,35 +291,25 @@ export default class ModelE3 {
     }
 
     /**
-     * &lt;p&gt;
-     * The &lt;em&gt;attitude&lt;/em&gt;, a unitary spinor.
-     * &lt;/p&gt;
-     * @property R
-     * @type Spinor3
-     * @readOnly
+     * @property attitude
+     * @type Geometric3
      */
-    get R(): Spinor3 {
+    get attitude(): Geometric3 {
         return this._attitude
     }
-    set R(unused) {
-        throw new Error(readOnly(ModelE3.PROP_ATTITUDE).message)
+    set attitude(attitude: Geometric3) {
+        this._attitude.copySpinor(attitude)
     }
+
     /**
-     * &lt;p&gt;
-     * The &lt;em&gt;position&lt;/em&gt;, a vector.
-     * The vector &lt;b&gt;X&lt;/b&gt; designates the center of mass of the body (Physics).
-     * The vector &lt;b&gt;X&lt;/b&gt; designates the displacement from the local origin (Computer Graphics).
-     * &lt;/p&gt;
-     *
-     * @property X
-     * @type Vector3
-     * @readOnly
+     * @property position
+     * @type Geometric3
      */
-    get X(): Vector3 {
+    get position(): Geometric3 {
         return this._position
     }
-    set X(unused) {
-        throw new Error(readOnly(ModelE3.PROP_POSITION).message)
+    set position(position: Geometric3) {
+        this._position.copyVector(position)
     }
 
     /**
@@ -353,12 +345,12 @@ export default class ModelE3 {
         switch (name) {
             case ModelE3.PROP_ATTITUDE: {
                 this._attCache.coords = data
-                this._attitude.copy(this._attCache)
+                this._attitude.copySpinor(this._attCache)
             }
                 break;
             case ModelE3.PROP_POSITION: {
                 this._posCache.coords = data
-                this._position.copy(this._posCache)
+                this._position.copyVector(this._posCache)
             }
                 break;
             default: {

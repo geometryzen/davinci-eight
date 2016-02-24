@@ -147,12 +147,26 @@ export default class QQ implements DivisionRingOperators<QQ> {
      * @param rhs {QQ}
      * @return {QQ}
      */
-    div(rhs: any): QQ {
-        if (typeof rhs === 'number') {
-            return new QQ(this._numer, this._denom * rhs);
+    div(rhs: QQ): QQ {
+        const numer = this._numer * rhs._denom
+        const denom = this._denom * rhs._numer
+        if (numer === 0) {
+            if (denom === 0) {
+                // How do we handle undefined?
+                return new QQ(numer, denom)
+            }
+            else {
+                return QQ.ZERO
+            }
         }
         else {
-            return new QQ(this._numer * rhs._denom, this._denom * rhs._numer);
+            if (denom === 0) {
+                // How do we handle division by zero.
+                return new QQ(numer, denom)
+            }
+            else {
+                return new QQ(numer, denom)
+            }
         }
     }
 

@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.196.0</em>
+            <em>API Docs for: 2.197.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -112,6 +112,7 @@
                                 <li><a href="../classes/ReflectionFacetE2.html">ReflectionFacetE2</a></li>
                                 <li><a href="../classes/ReflectionFacetE3.html">ReflectionFacetE3</a></li>
                                 <li><a href="../classes/RigidBody.html">RigidBody</a></li>
+                                <li><a href="../classes/RigidBodyWithUnits.html">RigidBodyWithUnits</a></li>
                                 <li><a href="../classes/Scalar.html">Scalar</a></li>
                                 <li><a href="../classes/Scene.html">Scene</a></li>
                                 <li><a href="../classes/Shareable.html">Shareable</a></li>
@@ -152,7 +153,6 @@
                                 <li><a href="../classes/Vertex.html">Vertex</a></li>
                                 <li><a href="../classes/VertexAttributeMap.html">VertexAttributeMap</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
-                                <li><a href="../classes/VisualBody.html">VisualBody</a></li>
                                 <li><a href="../classes/WebGLBlendFunc.html">WebGLBlendFunc</a></li>
                                 <li><a href="../classes/WebGLClearColor.html">WebGLClearColor</a></li>
                                 <li><a href="../classes/WebGLDisable.html">WebGLDisable</a></li>
@@ -212,7 +212,7 @@ import GeometryContainer from &#x27;../core/GeometryContainer&#x27;;
 import GeometryBuffers from &#x27;../core/GeometryBuffers&#x27;;
 import Primitive from &#x27;../core/Primitive&#x27;;
 import ArrowBuilder from &#x27;./ArrowBuilder&#x27;;
-import R3 from &#x27;../math/R3&#x27;;
+import VectorE3 from &#x27;../math/VectorE3&#x27;;
 import vertexArraysFromPrimitive from &#x27;../core/vertexArraysFromPrimitive&#x27;
 
 /**
@@ -220,8 +220,8 @@ import vertexArraysFromPrimitive from &#x27;../core/vertexArraysFromPrimitive&#x
  * @submodule geometries
  */
 
-function primitives(): Primitive[] {
-    const builder = new ArrowBuilder(R3.e2)
+function primitives(axis: VectorE3): Primitive[] {
+    const builder = new ArrowBuilder(axis)
     return builder.toPrimitives()
 }
 
@@ -235,10 +235,11 @@ export default class ArrowGeometry extends GeometryContainer {
     /**
      * @class ArrowGeometry
      * @constructor
+     * @param axis {VectorE3} The initial axis of the arrow.
      */
-    constructor() {
+    constructor(axis: VectorE3) {
         super()
-        const ps = primitives()
+        const ps = primitives(axis)
         const iLen = ps.length
         for (let i = 0; i &lt; iLen; i++) {
             const dataSource = ps[i]

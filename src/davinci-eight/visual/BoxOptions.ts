@@ -1,9 +1,7 @@
-import VisualOptions from './VisualOptions'
-
-interface BoxOptions extends VisualOptions {
-  width?: number;
-  height?: number;
-  depth?: number;
+interface BoxOptions {
+    width?: number;
+    height?: number;
+    depth?: number;
 }
 
 export default BoxOptions

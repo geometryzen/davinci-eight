@@ -1,7 +1,8 @@
+import deviation from './deviation'
+import direction from './direction'
 import mustBeNumber from '../checks/mustBeNumber';
+import RigidBody from './RigidBody'
 import visualCache from './visualCache';
-import VisualBody from './VisualBody'
-import VisualOptions from './VisualOptions'
 
 /**
  * @module EIGHT
@@ -12,14 +13,14 @@ import VisualOptions from './VisualOptions'
  * @class Sphere
  * @extends VisualBody
  */
-export default class Sphere extends VisualBody {
+export default class Sphere extends RigidBody {
 
     /**
      * @class Sphere
      * @constructor
      */
-    constructor(options: VisualOptions = {}) {
-        super(visualCache.sphere(options), visualCache.material(options), 'Sphere')
+    constructor(options: {} = {}) {
+        super(visualCache.sphere(), visualCache.material(), 'Sphere', deviation(direction(options)), direction(options))
         this._geometry.release()
         this._material.release()
     }
@@ -39,12 +40,12 @@ export default class Sphere extends VisualBody {
      * @default 1
      */
     get radius(): number {
-        return this.getScaleX()
+        return this.scale.x
     }
     set radius(radius: number) {
         mustBeNumber('radius', radius)
-        this.setScaleX(radius)
-        this.setScaleY(radius)
-        this.setScaleZ(radius)
+        this.scale.x = radius
+        this.scale.y = radius
+        this.scale.z = radius
     }
 }

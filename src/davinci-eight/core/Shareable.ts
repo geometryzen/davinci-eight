@@ -33,7 +33,7 @@ export default class Shareable implements IUnknown {
 
     /**
      * <p>
-     * Notifies this instance that something is dereferencing it.
+     * Notifies this instance that something is referencing it.
      * </p>
      *
      * @method addRef

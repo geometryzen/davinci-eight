@@ -155,7 +155,7 @@ function div(lhs: Unit, rhs: Unit): Unit {
 /**
  * @class Unit
  */
-export default class Unit implements DivisionRingOperators<Unit>, LinearElement<Unit, Unit, Unit, Unit> {
+export default class Unit implements DivisionRingOperators<Unit>, LinearElement<Unit, Unit, Unit, Unit, number> {
     /**
      * @property ONE
      * @type Unit
@@ -510,6 +510,14 @@ export default class Unit implements DivisionRingOperators<Unit>, LinearElement<
      */
     slerp(target: Unit, α: number): Unit {
         throw new Error(notImplemented('slerp').message)
+    }
+
+    /**
+     * @method sqrt
+     * @return {Unit}
+     */
+    sqrt(): Unit {
+        return new Unit(Math.sqrt(this.multiplier), this.dimensions.sqrt(), this.labels)
     }
 
     /**

@@ -13,27 +13,27 @@ describe("QQ", function() {
         it("Construction", function() {
             const x = new QQ(1, 1);
             expect(x.numer).toBe(1);
-            return expect(x.denom).toBe(1);
+            expect(x.denom).toBe(1);
         });
         it("Construction on zero", function() {
             const x = new QQ(0, 1);
             expect(x.numer).toBe(0);
-            return expect(x.denom).toBe(1);
+            expect(x.denom).toBe(1);
         });
         it("GCD", function() {
             const x = new QQ(2, 2);
             expect(x.numer).toBe(1);
-            return expect(x.denom).toBe(1);
+            expect(x.denom).toBe(1);
         });
         it("Canonical (-1,3) => (-1,3)", function() {
             const x = new QQ(-1, 3);
             expect(x.numer).toBe(-1);
-            return expect(x.denom).toBe(3);
+            expect(x.denom).toBe(3);
         });
         it("Canonical (1,-3) => (-1,3)", function() {
             const x = new QQ(1, -3);
             expect(x.numer).toBe(-1);
-            return expect(x.denom).toBe(3);
+            expect(x.denom).toBe(3);
         });
         it("add QQ", function() {
             const x = new QQ(1, 3);
@@ -44,7 +44,7 @@ describe("QQ", function() {
             expect(x.numer).toBe(1);
             expect(x.denom).toBe(3);
             expect(y.numer).toBe(2);
-            return expect(y.denom).toBe(1);
+            expect(y.denom).toBe(1);
         });
         it("sub QQ", function() {
             const x = new QQ(1, 3);
@@ -55,7 +55,7 @@ describe("QQ", function() {
             expect(x.numer).toBe(1);
             expect(x.denom).toBe(3);
             expect(y.numer).toBe(2);
-            return expect(y.denom).toBe(1);
+            expect(y.denom).toBe(1);
         });
         it("mul", function() {
             const x = new QQ(1, 3);
@@ -66,23 +66,34 @@ describe("QQ", function() {
             expect(x.numer).toBe(1);
             expect(x.denom).toBe(3);
             expect(y.numer).toBe(2);
-            return expect(y.denom).toBe(1);
+            expect(y.denom).toBe(1);
+        });
+        it("div", function() {
+            const x = new QQ(0, 1);
+            const y = new QQ(2, 1);
+            const q = x.div(y);
+            expect(q.numer).toBe(0);
+            expect(q.denom).toBe(1);
+            expect(x.numer).toBe(0);
+            expect(x.denom).toBe(1);
+            expect(y.numer).toBe(2);
+            expect(y.denom).toBe(1);
         });
         it("neg() should change the sign of the numerator", function() {
             const x = new QQ(1, 3);
             const n = x.neg();
             expect(x.numer).toBe(+1);
-            return expect(n.numer).toBe(-1);
+            expect(n.numer).toBe(-1);
         });
         it("neg() should leave the denominator unchanged", function() {
             const x = new QQ(1, 3);
             const n = x.neg();
             expect(x.denom).toBe(+3);
-            return expect(n.denom).toBe(+3);
+            expect(n.denom).toBe(+3);
         });
         return it("toString", function() {
             const x = new QQ(1, 2);
-            return expect("" + x).toBe("1/2");
+            expect("" + x).toBe("1/2");
         });
     });
 });

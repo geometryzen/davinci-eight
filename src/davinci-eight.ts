@@ -148,6 +148,7 @@ import Matrix4 from 'davinci-eight/math/Matrix4';
 import Measure from 'davinci-eight/math/Measure';
 import Mutable from 'davinci-eight/math/Mutable';
 import QQ from 'davinci-eight/math/QQ';
+import R3 from 'davinci-eight/math/R3';
 import SpinorE1 from 'davinci-eight/math/SpinorE1';
 import SpinorE2 from 'davinci-eight/math/SpinorE2';
 import SpinorE3 from 'davinci-eight/math/SpinorE3';
@@ -181,7 +182,7 @@ import animation from 'davinci-eight/utils/animation';
 import Arrow from 'davinci-eight/visual/Arrow';
 import Sphere from 'davinci-eight/visual/Sphere';
 import Box from 'davinci-eight/visual/Box';
-import RigidBody from 'davinci-eight/visual/RigidBody';
+import RigidBodyWithUnits from 'davinci-eight/visual/RigidBodyWithUnits';
 import Cylinder from 'davinci-eight/visual/Cylinder';
 import Tetrahedron from 'davinci-eight/visual/Tetrahedron';
 import Trail from 'davinci-eight/visual/Trail';
@@ -305,6 +306,7 @@ const eight = {
     get Matrix3() { return Matrix3 },
     get Matrix4() { return Matrix4 },
     get QQ() { return QQ },
+    get R3() { return R3 },
     get Geometric2() { return Geometric2 },
     get Geometric3() { return Geometric3 },
     get Vector1() { return Vector1 },
@@ -351,7 +353,7 @@ const eight = {
     get Sphere() { return Sphere },
     get Box() { return Box },
     get Mesh() { return Mesh },
-    get RigidBody() { return RigidBody },
+    get RigidBodyWithUnits() { return RigidBodyWithUnits },
     get Cylinder() { return Cylinder },
     get Tetrahedron() { return Tetrahedron },
     get Trail() { return Trail },

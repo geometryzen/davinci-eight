@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.196.0</em>
+            <em>API Docs for: 2.197.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -112,6 +112,7 @@
                                 <li><a href="../classes/ReflectionFacetE2.html">ReflectionFacetE2</a></li>
                                 <li><a href="../classes/ReflectionFacetE3.html">ReflectionFacetE3</a></li>
                                 <li><a href="../classes/RigidBody.html">RigidBody</a></li>
+                                <li><a href="../classes/RigidBodyWithUnits.html">RigidBodyWithUnits</a></li>
                                 <li><a href="../classes/Scalar.html">Scalar</a></li>
                                 <li><a href="../classes/Scene.html">Scene</a></li>
                                 <li><a href="../classes/Shareable.html">Shareable</a></li>
@@ -152,7 +153,6 @@
                                 <li><a href="../classes/Vertex.html">Vertex</a></li>
                                 <li><a href="../classes/VertexAttributeMap.html">VertexAttributeMap</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
-                                <li><a href="../classes/VisualBody.html">VisualBody</a></li>
                                 <li><a href="../classes/WebGLBlendFunc.html">WebGLBlendFunc</a></li>
                                 <li><a href="../classes/WebGLClearColor.html">WebGLClearColor</a></li>
                                 <li><a href="../classes/WebGLDisable.html">WebGLDisable</a></li>
@@ -208,10 +208,9 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
+import Mesh from &#x27;../core/Mesh&#x27;
 import mustBeNumber from &#x27;../checks/mustBeNumber&#x27;;
 import visualCache from &#x27;./visualCache&#x27;;
-import RigidBody from &#x27;./RigidBody&#x27;
-import VisualOptions from &#x27;./VisualOptions&#x27;
 
 /**
  * @module EIGHT
@@ -220,16 +219,16 @@ import VisualOptions from &#x27;./VisualOptions&#x27;
 
 /**
  * @class Tetrahedron
- * @extends RigidBody
+ * @extends Mesh
  */
-export default class Tetrahedron extends RigidBody {
+export default class Tetrahedron extends Mesh {
 
     /**
      * @class Tetrahedron
      * @constructor
      */
-    constructor(options: VisualOptions = {}) {
-        super(visualCache.tetrahedron(options), visualCache.material(options), &#x27;Tetrahedron&#x27;)
+    constructor() {
+        super(visualCache.tetrahedron(), visualCache.material(), &#x27;Tetrahedron&#x27;)
         this._geometry.release()
         this._material.release()
     }
@@ -249,13 +248,13 @@ export default class Tetrahedron extends RigidBody {
      * @default 1
      */
     get radius(): number {
-        return this.getScaleX()
+        return this.scale.x
     }
     set radius(radius: number) {
         mustBeNumber(&#x27;radius&#x27;, radius)
-        this.setScaleX(radius)
-        this.setScaleY(radius)
-        this.setScaleZ(radius)
+        this.scale.x = radius
+        this.scale.y = radius
+        this.scale.z = radius
     }
 }
 

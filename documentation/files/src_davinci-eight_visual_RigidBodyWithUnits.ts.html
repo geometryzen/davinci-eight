@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src/davinci-eight/visual/VisualBody.ts - davinci-eight</title>
+    <title>src/davinci-eight/visual/RigidBodyWithUnits.ts - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.196.0</em>
+            <em>API Docs for: 2.197.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -112,6 +112,7 @@
                                 <li><a href="../classes/ReflectionFacetE2.html">ReflectionFacetE2</a></li>
                                 <li><a href="../classes/ReflectionFacetE3.html">ReflectionFacetE3</a></li>
                                 <li><a href="../classes/RigidBody.html">RigidBody</a></li>
+                                <li><a href="../classes/RigidBodyWithUnits.html">RigidBodyWithUnits</a></li>
                                 <li><a href="../classes/Scalar.html">Scalar</a></li>
                                 <li><a href="../classes/Scene.html">Scene</a></li>
                                 <li><a href="../classes/Shareable.html">Shareable</a></li>
@@ -152,7 +153,6 @@
                                 <li><a href="../classes/Vertex.html">Vertex</a></li>
                                 <li><a href="../classes/VertexAttributeMap.html">VertexAttributeMap</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
-                                <li><a href="../classes/VisualBody.html">VisualBody</a></li>
                                 <li><a href="../classes/WebGLBlendFunc.html">WebGLBlendFunc</a></li>
                                 <li><a href="../classes/WebGLClearColor.html">WebGLClearColor</a></li>
                                 <li><a href="../classes/WebGLDisable.html">WebGLDisable</a></li>
@@ -204,71 +204,151 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: src/davinci-eight/visual/VisualBody.ts</h1>
+<h1 class="file-heading">File: src/davinci-eight/visual/RigidBodyWithUnits.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import RigidBody from &#x27;./RigidBody&#x27;
-import Facet from &#x27;../core/Facet&#x27;
-import Geometry from &#x27;../core/Geometry&#x27;
-import Material from &#x27;../core/Material&#x27;
-import readOnly from &#x27;../i18n/readOnly&#x27;
-import Trail from &#x27;./Trail&#x27;
-import TrailConfig from &#x27;./TrailConfig&#x27;
+import G3 from &#x27;../math/G3&#x27;;
+import IRigidBody from &#x27;./IRigidBody&#x27;
+import mustBeObject from &#x27;../checks/mustBeObject&#x27;;
+import Mesh from &#x27;../core/Mesh&#x27;;
+import Shareable from &#x27;../core/Shareable&#x27;;
+import Unit from &#x27;../math/Unit&#x27;;
+import VectorE3 from &#x27;../math/VectorE3&#x27;;
+
+const UNIT_MOMENTUM = Unit.KILOGRAM.mul(Unit.METER).div(Unit.SECOND)
 
 /**
+ * Convenient abstractions for Physics modeling.
+ *
  * @module EIGHT
  * @submodule visual
  */
 
 /**
- * @class VisualBody
- * @extends RigidBody
+ * A RigidBodyWithUnits is an Adapter for a Mesh.
+ *
+ * @class RigidBodyWithUnits
+ * @extends Shareable
  */
-export default class VisualBody extends RigidBody {
-    private history: Trail
+export default class RigidBodyWithUnits extends Shareable implements IRigidBody&lt;G3, G3&gt; {
 
     /**
-     * Property to prevent infinite recursion.
+     * The underlying Mesh.
      *
-     * @property dontLoop
-     * @type boolean
+     * @property mesh
+     * @type Mesh
      * @private
      */
-    private dontLoop = false
+    private mesh: Mesh;
+    private base: G3;
 
     /**
-     * @class VisualBody
-     * @constructor
-     * @param geometry {Geometry}
-     * @param material {Material}
-     * @param [type = &#x27;VisualBody&#x27;] {string}
+     * @property _mass
+     * @type G3
+     * @default one
+     * @private
      */
-    constructor(geometry: Geometry, material: Material, type = &#x27;VisualBody&#x27;) {
-        super(geometry, material, type)
-        this.history = new Trail(this)
+    private _mass = G3.scalar(1, Unit.KILOGRAM)
+
+    /**
+     * @property _momentum
+     * @type G3
+     * @default 0 kg·m/s
+     * @private
+     */
+    private _momentum = G3.scalar(0, Unit.KILOGRAM.mul(Unit.METER).div(Unit.SECOND))
+
+    /**
+     * Provides descriptive variables for translational and rotational motion.
+     * This class is intended to be used as a base for bodies in the __visual__ module.
+     *
+     * @class RigidBodyWithUnits
+     * @constructor
+     * @param mesh {Mesh}
+     * @param axis {VectorE3} The axis corresponding to a unit attitude spinor.
+     * @param [type = &#x27;RigidBodyWithUnits&#x27;] {string}
+     */
+    constructor(mesh: Mesh, axis: VectorE3, type = &#x27;RigidBodyWithUnits&#x27;) {
+        super(type)
+        this.mesh = mustBeObject(&#x27;mesh&#x27;, mesh);
+        this.mesh.addRef()
+        this.base = G3.direction(mustBeObject(&#x27;axis&#x27;, axis))
     }
-    draw(ambients: Facet[]): void {
-        if (this.history.config.enabled) {
-            if (this.dontLoop) {
-                super.draw(ambients)
-            }
-            else {
-                this.history.snapshot()
-                this.dontLoop = true;
-                this.history.draw(ambients)
-                this.dontLoop = false;
-            }
-        }
-        else {
-            super.draw(ambients)
-        }
+
+    /**
+     * @method destructor
+     * @return {void}
+     * @protected
+     */
+    protected destructor(): void {
+        this.mesh.release()
+        this.mesh = void 0
+        super.destructor()
     }
-    get trail(): TrailConfig {
-        return this.history.config
+
+    /**
+     * @property axis
+     * @type G3
+     */
+    public get axis(): G3 {
+        return this.base.rotate(this.mesh.attitude)
     }
-    set trail(unused) {
-        throw new Error(readOnly(&#x27;trail&#x27;).message)
+    public set axis(axis: G3) {
+        mustBeObject(&#x27;axis&#x27;, axis)
+        this.mesh.attitude.rotorFromDirections(this.base, axis)
+    }
+
+    /**
+     * @property attitude
+     * @type G3
+     */
+    get attitude(): G3 {
+        return G3.fromSpinor(this.mesh.attitude)
+    }
+    set attitude(attitude: G3) {
+        mustBeObject(&#x27;attitude&#x27;, attitude, () =&gt; { return this._type })
+        Unit.compatible(attitude.uom, Unit.ONE)
+        this.mesh.attitude.copySpinor(attitude)
+    }
+
+    /**
+     * @property mass
+     * @type G3
+     */
+    get mass(): G3 {
+        return this._mass
+    }
+    set mass(mass: G3) {
+        mustBeObject(&#x27;mass&#x27;, mass, () =&gt; { return this._type })
+        Unit.compatible(mass.uom, Unit.KILOGRAM)
+        this._mass = mass
+    }
+
+    /**
+     * @property momentum
+     * @type G3
+     */
+    get momentum(): G3 {
+        return this._momentum
+    }
+    set momentum(momentum: G3) {
+        mustBeObject(&#x27;momentum&#x27;, momentum, () =&gt; { return this._type })
+        Unit.compatible(momentum.uom, UNIT_MOMENTUM)
+        this._momentum = momentum
+    }
+
+    /**
+     * @property position
+     * @type G3
+     */
+    get position(): G3 {
+        return G3.fromVector(this.mesh.position, Unit.METER)
+    }
+    set position(position: G3) {
+        mustBeObject(&#x27;position&#x27;, position, () =&gt; { return this._type })
+        Unit.compatible(position.uom, Unit.METER)
+        this.mesh.position.copy(position)
     }
 }
 

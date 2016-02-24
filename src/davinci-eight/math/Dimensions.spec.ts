@@ -163,6 +163,39 @@ describe("Dimensions", function() {
         return expect(base.intensity.denom).toBe(1);
     });
 
+    it("sqrt", function() {
+        const quad = new Dimensions(R1, R2, R3, R2, R2, R2, R2);
+        const x = quad.sqrt();
+        expect(x.M.numer).toBe(1);
+        expect(x.M.denom).toBe(2);
+        expect(x.L.numer).toBe(1);
+        expect(x.L.denom).toBe(1);
+        expect(x.T.numer).toBe(3);
+        expect(x.T.denom).toBe(2);
+        expect(x.Q.numer).toBe(1);
+        expect(x.Q.denom).toBe(1);
+        expect(x.temperature.numer).toBe(1);
+        expect(x.temperature.denom).toBe(1);
+        expect(x.amount.numer).toBe(1);
+        expect(x.amount.denom).toBe(1);
+        expect(x.intensity.numer).toBe(1);
+        expect(x.intensity.denom).toBe(1);
+        expect(quad.M.numer).toBe(1);
+        expect(quad.M.denom).toBe(1);
+        expect(quad.L.numer).toBe(2);
+        expect(quad.L.denom).toBe(1);
+        expect(quad.T.numer).toBe(3);
+        expect(quad.T.denom).toBe(1);
+        expect(quad.Q.numer).toBe(2);
+        expect(quad.Q.denom).toBe(1);
+        expect(quad.temperature.numer).toBe(2);
+        expect(quad.temperature.denom).toBe(1);
+        expect(quad.amount.numer).toBe(2);
+        expect(quad.amount.denom).toBe(1);
+        expect(quad.intensity.numer).toBe(2);
+        return expect(quad.intensity.denom).toBe(1);
+    });
+
     it("compatible", function() {
         const one = new Dimensions(R0, R0, R0, R0, R0, R0, R0);
         const all = new Dimensions(R1, R1, R1, R1, R1, R1, R1);

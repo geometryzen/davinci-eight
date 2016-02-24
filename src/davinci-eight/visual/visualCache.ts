@@ -3,63 +3,47 @@ import BoxGeometry from '../geometries/BoxGeometry';
 import CylinderGeometry from '../geometries/CylinderGeometry';
 import Geometry from '../core/Geometry';
 import Material from '../core/Material';
-import LineMaterial from '../materials/LineMaterial';
 import MeshMaterial from '../materials/MeshMaterial';
 import SphereGeometry from '../geometries/SphereGeometry';
 import TetrahedronGeometry from '../geometries/TetrahedronGeometry';
-import VisualOptions from './VisualOptions';
+import VectorE3 from '../math/VectorE3';
+import R3 from '../math/R3';
 
-function wireFrame(options: VisualOptions): boolean {
-    if (options.wireFrame) {
-        return true
-    }
-    else {
-        return false
-    }
+function arrow(axis: VectorE3): Geometry {
+    return new ArrowGeometry(axis)
 }
 
-function arrow(options: VisualOptions): Geometry {
-    return new ArrowGeometry()
+function box(axis: VectorE3): Geometry {
+    return new BoxGeometry({ width: 1, height: 1, depth: 1 })
 }
 
-function box(options: VisualOptions): Geometry {
-    return new BoxGeometry({ width: 1, height: 1, depth: 1, wireFrame: wireFrame(options) })
+function cylinder(axis: VectorE3): Geometry {
+    return new CylinderGeometry(axis);
 }
 
-function cylinder(options: VisualOptions): Geometry {
-    return new CylinderGeometry();
-}
-
-function sphere(options: VisualOptions): Geometry {
+function sphere(axis: VectorE3): Geometry {
     return new SphereGeometry()
 }
 
-function tetrahedron(options: VisualOptions): Geometry {
+function tetrahedron(axis: VectorE3): Geometry {
     return new TetrahedronGeometry();
 }
 
-function material(options: VisualOptions): Material {
-    if (wireFrame(options)) {
-        return new LineMaterial()
-    }
-    else {
-        return new MeshMaterial()
-    }
+function material(): Material {
+    return new MeshMaterial()
 }
 
-function geometryKey(kind: string, options: VisualOptions): string {
-    const copy: VisualOptions = {}
-    copy.wireFrame = wireFrame(options)
+function geometryKey(kind: string): string {
+    const copy = {}
     return `${kind}${JSON.stringify(copy)}`
 }
 
-function materialKey(options: VisualOptions): string {
+function materialKey(): string {
     // Make a copy so that:
     // 1. We can safely stringify,
     // 2. Filter only options that affect material caching,
     // 3. Make choices explicit for debugging.
-    const copy: VisualOptions = {}
-    copy.wireFrame = wireFrame(options)
+    const copy = {}
     return `material${JSON.stringify(copy)}`
 }
 
@@ -91,42 +75,42 @@ class VisualCache {
             return true;
         }
     }
-    private ensureGeometry(key: string, factory: (options: VisualOptions) => Geometry, options: VisualOptions): Geometry {
+    private ensureGeometry(key: string, factory: (axis: VectorE3) => Geometry, axis: VectorE3): Geometry {
         if (this.isZombieGeometryOrMissing(key)) {
-            this.geometryMap[key] = factory(options);
+            this.geometryMap[key] = factory(axis);
         }
         else {
             this.geometryMap[key].addRef();
         }
         return this.geometryMap[key];
     }
-    private ensureMaterial(key: string, factory: (options: VisualOptions) => Material, options: VisualOptions): Material {
+    private ensureMaterial(key: string, factory: () => Material): Material {
         if (this.isZombieMaterialOrMissing(key)) {
-            this.materialMap[key] = factory(options);
+            this.materialMap[key] = factory();
         }
         else {
             this.materialMap[key].addRef();
         }
         return this.materialMap[key];
     }
-    arrow(options: VisualOptions): Geometry {
-        return this.ensureGeometry('arrow', arrow, options);
+    arrow(axis: VectorE3): Geometry {
+        return this.ensureGeometry('arrow', arrow, axis);
     }
-    box(options: VisualOptions): Geometry {
-        return this.ensureGeometry(geometryKey('box', options), box, options);
+    box(): Geometry {
+        return this.ensureGeometry(geometryKey('box'), box, R3.e2);
     }
-    cylinder(options: VisualOptions): Geometry {
-        return this.ensureGeometry('cylinder', cylinder, options);
+    cylinder(e: VectorE3): Geometry {
+        return this.ensureGeometry('cylinder', cylinder, e);
     }
-    sphere(options: VisualOptions): Geometry {
-        return this.ensureGeometry('sphere', sphere, options);
+    sphere(): Geometry {
+        return this.ensureGeometry('sphere', sphere, R3.e2);
     }
-    tetrahedron(options: VisualOptions): Geometry {
-        return this.ensureGeometry('tetrahedron', tetrahedron, options);
+    tetrahedron(): Geometry {
+        return this.ensureGeometry('tetrahedron', tetrahedron, R3.e2);
     }
-    material(options: VisualOptions): Material {
-        const key = materialKey(options)
-        return this.ensureMaterial(key, material, options);
+    material(): Material {
+        const key = materialKey()
+        return this.ensureMaterial(key, material);
     }
 }
 

@@ -1129,7 +1129,7 @@ export default class Geometric3 extends VectorN<number> implements GeometricE3, 
      * @return {string}
      */
     toExponential(): string {
-        var coordToString = function(coord: number): string { return coord.toExponential() };
+        const coordToString = function(coord: number): string { return coord.toExponential() };
         return stringFromCoordinates(coordinates(this), coordToString, BASIS_LABELS)
     }
 
@@ -1140,7 +1140,7 @@ export default class Geometric3 extends VectorN<number> implements GeometricE3, 
      * @return {string}
      */
     toFixed(fractionDigits?: number): string {
-        var coordToString = function(coord: number): string { return coord.toFixed(fractionDigits) };
+        const coordToString = function(coord: number): string { return coord.toFixed(fractionDigits) };
         return stringFromCoordinates(coordinates(this), coordToString, BASIS_LABELS)
     }
 
@@ -1150,7 +1150,7 @@ export default class Geometric3 extends VectorN<number> implements GeometricE3, 
      * @return {string} 
      */
     toString(): string {
-        let coordToString = function(coord: number): string { return coord.toString() };
+        const coordToString = function(coord: number): string { return coord.toString() };
         return stringFromCoordinates(coordinates(this), coordToString, BASIS_LABELS)
     }
 
@@ -1638,7 +1638,7 @@ export default class Geometric3 extends VectorN<number> implements GeometricE3, 
      * @static
      */
     static copy(M: GeometricE3): Geometric3 {
-        var copy = new Geometric3()
+        const copy = new Geometric3()
         copy.α = M.α
         copy.x = M.x
         copy.y = M.y

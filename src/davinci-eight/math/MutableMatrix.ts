@@ -1,17 +1,8 @@
 /**
- * @class Mutable
+ * Intentionally undocumented
  */
 interface MutableMatrix<T> {
-    /**
-     * @property elements
-     * @type T
-     */
     elements: T;
-    /**
-     * @property callback
-     * @type () => T
-     */
-    callback: () => T;
 }
 
 export default MutableMatrix;

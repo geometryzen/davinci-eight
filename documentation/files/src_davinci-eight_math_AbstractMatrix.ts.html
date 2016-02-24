@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.196.0</em>
+            <em>API Docs for: 2.197.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -112,6 +112,7 @@
                                 <li><a href="../classes/ReflectionFacetE2.html">ReflectionFacetE2</a></li>
                                 <li><a href="../classes/ReflectionFacetE3.html">ReflectionFacetE3</a></li>
                                 <li><a href="../classes/RigidBody.html">RigidBody</a></li>
+                                <li><a href="../classes/RigidBodyWithUnits.html">RigidBodyWithUnits</a></li>
                                 <li><a href="../classes/Scalar.html">Scalar</a></li>
                                 <li><a href="../classes/Scene.html">Scene</a></li>
                                 <li><a href="../classes/Shareable.html">Shareable</a></li>
@@ -152,7 +153,6 @@
                                 <li><a href="../classes/Vertex.html">Vertex</a></li>
                                 <li><a href="../classes/VertexAttributeMap.html">VertexAttributeMap</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
-                                <li><a href="../classes/VisualBody.html">VisualBody</a></li>
                                 <li><a href="../classes/WebGLBlendFunc.html">WebGLBlendFunc</a></li>
                                 <li><a href="../classes/WebGLClearColor.html">WebGLClearColor</a></li>
                                 <li><a href="../classes/WebGLDisable.html">WebGLDisable</a></li>
@@ -217,6 +217,12 @@ import readOnly from &#x27;../i18n/readOnly&#x27;;
 /**
  * @module EIGHT
  * @submodule math
+ */
+
+/**
+ * Base class for matrices with the expectation that they will be used with WebGL.
+ * The underlying data storage is Float32Array.
+ *
  * @class AbstractMatrix
  */
 export default class AbstractMatrix&lt;T extends { elements: Float32Array }&gt; implements MutableMatrix&lt;Float32Array&gt; {
@@ -226,7 +232,6 @@ export default class AbstractMatrix&lt;T extends { elements: Float32Array }&gt; 
      * @private
      */
     private _elements: Float32Array;
-    private _callback: () =&gt; Float32Array;
 
     /**
      * @property _length
@@ -267,34 +272,11 @@ export default class AbstractMatrix&lt;T extends { elements: Float32Array }&gt; 
      * @type {Float32Array}
      */
     get elements(): Float32Array {
-        if (this._elements) {
-            return this._elements;
-        }
-        else if (this._callback) {
-            var elements = this._callback();
-            expectArg(&#x27;callback()&#x27;, elements).toSatisfy(elements.length === this._length, &quot;callback() length must be &quot; + this._length);
-            return this._callback();
-        }
-        else {
-            throw new Error(&quot;Matrix&quot; + Math.sqrt(this._length) + &quot; is undefined.&quot;);
-        }
+        return this._elements;
     }
     set elements(elements: Float32Array) {
         expectArg(&#x27;elements&#x27;, elements).toSatisfy(elements.length === this._length, &quot;elements length must be &quot; + this._length);
         this._elements = elements;
-        this._callback = void 0;
-    }
-
-    /**
-     * @property callback
-     * @type {() =&gt; Float32Array}
-     */
-    get callback() {
-        return this._callback;
-    }
-    set callback(reactTo: () =&gt; Float32Array) {
-        this._callback = reactTo;
-        this._elements = void 0;
     }
 
     /**

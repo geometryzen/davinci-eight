@@ -2,7 +2,7 @@ import GeometryContainer from '../core/GeometryContainer';
 import GeometryBuffers from '../core/GeometryBuffers';
 import Primitive from '../core/Primitive';
 import ArrowBuilder from './ArrowBuilder';
-import R3 from '../math/R3';
+import VectorE3 from '../math/VectorE3';
 import vertexArraysFromPrimitive from '../core/vertexArraysFromPrimitive'
 
 /**
@@ -10,8 +10,8 @@ import vertexArraysFromPrimitive from '../core/vertexArraysFromPrimitive'
  * @submodule geometries
  */
 
-function primitives(): Primitive[] {
-    const builder = new ArrowBuilder(R3.e2)
+function primitives(axis: VectorE3): Primitive[] {
+    const builder = new ArrowBuilder(axis)
     return builder.toPrimitives()
 }
 
@@ -25,10 +25,11 @@ export default class ArrowGeometry extends GeometryContainer {
     /**
      * @class ArrowGeometry
      * @constructor
+     * @param axis {VectorE3} The initial axis of the arrow.
      */
-    constructor() {
+    constructor(axis: VectorE3) {
         super()
-        const ps = primitives()
+        const ps = primitives(axis)
         const iLen = ps.length
         for (let i = 0; i < iLen; i++) {
             const dataSource = ps[i]

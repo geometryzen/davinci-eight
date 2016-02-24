@@ -7,6 +7,12 @@ import readOnly from '../i18n/readOnly';
 /**
  * @module EIGHT
  * @submodule math
+ */
+
+/**
+ * Base class for matrices with the expectation that they will be used with WebGL.
+ * The underlying data storage is Float32Array.
+ *
  * @class AbstractMatrix
  */
 export default class AbstractMatrix<T extends { elements: Float32Array }> implements MutableMatrix<Float32Array> {
@@ -16,7 +22,6 @@ export default class AbstractMatrix<T extends { elements: Float32Array }> implem
      * @private
      */
     private _elements: Float32Array;
-    private _callback: () => Float32Array;
 
     /**
      * @property _length
@@ -57,34 +62,11 @@ export default class AbstractMatrix<T extends { elements: Float32Array }> implem
      * @type {Float32Array}
      */
     get elements(): Float32Array {
-        if (this._elements) {
-            return this._elements;
-        }
-        else if (this._callback) {
-            var elements = this._callback();
-            expectArg('callback()', elements).toSatisfy(elements.length === this._length, "callback() length must be " + this._length);
-            return this._callback();
-        }
-        else {
-            throw new Error("Matrix" + Math.sqrt(this._length) + " is undefined.");
-        }
+        return this._elements;
     }
     set elements(elements: Float32Array) {
         expectArg('elements', elements).toSatisfy(elements.length === this._length, "elements length must be " + this._length);
         this._elements = elements;
-        this._callback = void 0;
-    }
-
-    /**
-     * @property callback
-     * @type {() => Float32Array}
-     */
-    get callback() {
-        return this._callback;
-    }
-    set callback(reactTo: () => Float32Array) {
-        this._callback = reactTo;
-        this._elements = void 0;
     }
 
     /**

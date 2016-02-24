@@ -2,7 +2,7 @@ import BoxOptions from './BoxOptions'
 import isDefined from '../checks/isDefined'
 import mustBeNumber from '../checks/mustBeNumber'
 import visualCache from './visualCache'
-import VisualBody from './VisualBody'
+import Mesh from '../core/Mesh'
 
 /**
  * @module EIGHT
@@ -11,39 +11,66 @@ import VisualBody from './VisualBody'
 
 /**
  * @class Box
- * @extends RigidBody
+ * @extends Mesh
  */
-export default class Box extends VisualBody {
+export default class Box extends Mesh {
+
+    /**
+     * @class Box
+     * @constructor
+     * @param [options={}] {BoxOptions}
+     */
     constructor(options: BoxOptions = {}) {
-        super(visualCache.box(options), visualCache.material(options), 'Box')
+        super(visualCache.box(), visualCache.material(), 'Box')
         this._geometry.release()
         this._material.release()
         this.width = isDefined(options.width) ? mustBeNumber('width', options.width) : 1
         this.height = isDefined(options.height) ? mustBeNumber('height', options.height) : 1
         this.depth = isDefined(options.depth) ? mustBeNumber('depth', options.depth) : 1
     }
+
+    /**
+     * @method destructor
+     * @return {void}
+     * @protected
+     */
     protected destructor(): void {
         super.destructor()
     }
+
+    /**
+     * @property width
+     * @type number
+     */
     get width(): number {
-        return this.getScaleX()
+        return this.scale.x
     }
     set width(width: number) {
         mustBeNumber('width', width)
-        this.setScaleX(width)
+        this.scale.x = width
     }
+
+    /**
+     * @property height
+     * @type number
+     */
     get height(): number {
-        return this.getScaleY()
+        return this.scale.y
     }
     set height(height: number) {
         mustBeNumber('height', height)
-        this.setScaleY(height)
+        this.scale.y = height
     }
+
+    /**
+     * @property depth
+     * @type number
+     */
     get depth(): number {
-        return this.getScaleZ()
+        return this.scale.z
     }
     set depth(depth: number) {
         mustBeNumber('depth', depth)
-        this.setScaleZ(depth)
+        this.scale.z = depth
     }
 }

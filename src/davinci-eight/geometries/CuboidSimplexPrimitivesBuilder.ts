@@ -4,6 +4,7 @@ import SimplexPrimitivesBuilder from '../geometries/SimplexPrimitivesBuilder';
 import quad from '../geometries/quadrilateral';
 import Simplex from '../geometries/Simplex';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
+import Unit from '../math/Unit'
 import Vector1 from '../math/Vector1';
 import Vector3 from '../math/Vector3';
 import VectorE3 from '../math/VectorE3';
@@ -15,9 +16,9 @@ export default class CuboidSimplexPrimitivesBuilder extends SimplexPrimitivesBui
     private _isModified: boolean = true;
     constructor(a: VectorE3, b: VectorE3, c: VectorE3, k = Simplex.TRIANGLE, subdivide = 0, boundary = 0) {
         super()
-        this._a = R3.fromVector(a)
-        this._b = R3.fromVector(b)
-        this._c = R3.fromVector(c)
+        this._a = R3.fromVector(a, Unit.ONE)
+        this._b = R3.fromVector(b, Unit.ONE)
+        this._c = R3.fromVector(c, Unit.ONE)
         this.k = k
         this.subdivide(subdivide)
         this.boundary(boundary)

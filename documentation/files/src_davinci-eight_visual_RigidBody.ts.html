@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.196.0</em>
+            <em>API Docs for: 2.197.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -112,6 +112,7 @@
                                 <li><a href="../classes/ReflectionFacetE2.html">ReflectionFacetE2</a></li>
                                 <li><a href="../classes/ReflectionFacetE3.html">ReflectionFacetE3</a></li>
                                 <li><a href="../classes/RigidBody.html">RigidBody</a></li>
+                                <li><a href="../classes/RigidBodyWithUnits.html">RigidBodyWithUnits</a></li>
                                 <li><a href="../classes/Scalar.html">Scalar</a></li>
                                 <li><a href="../classes/Scene.html">Scene</a></li>
                                 <li><a href="../classes/Shareable.html">Shareable</a></li>
@@ -152,7 +153,6 @@
                                 <li><a href="../classes/Vertex.html">Vertex</a></li>
                                 <li><a href="../classes/VertexAttributeMap.html">VertexAttributeMap</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
-                                <li><a href="../classes/VisualBody.html">VisualBody</a></li>
                                 <li><a href="../classes/WebGLBlendFunc.html">WebGLBlendFunc</a></li>
                                 <li><a href="../classes/WebGLClearColor.html">WebGLClearColor</a></li>
                                 <li><a href="../classes/WebGLDisable.html">WebGLDisable</a></li>
@@ -208,67 +208,66 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import G3 from &#x27;../math/G3&#x27;;
+import Geometric3 from &#x27;../math/Geometric3&#x27;
+import Geometry from &#x27;../core/Geometry&#x27;
+import IRigidBody from &#x27;./IRigidBody&#x27;
+import Material from &#x27;../core/Material&#x27;
+import Mesh from &#x27;../core/Mesh&#x27;
 import mustBeObject from &#x27;../checks/mustBeObject&#x27;;
-import Mesh from &#x27;../core/Mesh&#x27;;
-import Geometry from &#x27;../core/Geometry&#x27;;
-import Material from &#x27;../core/Material&#x27;;
-import Unit from &#x27;../math/Unit&#x27;
+import R3 from &#x27;../math/R3&#x27;;
+import SpinorE3 from &#x27;../math/SpinorE3&#x27;
+import Unit from &#x27;../math/Unit&#x27;;
+import VectorE3 from &#x27;../math/VectorE3&#x27;
 
 /**
- * Convenient abstractions for Physics modeling.
+ * Decorates the Mesh by adding properties for physical modeling.
  *
- * @module EIGHT
- * @submodule visual
- */
-
-//
-// RigidBody extends Mesh, which has dimensionless, mutable, attitude and position properties.
-// RigidBody may have optional units and has strictly immutable types.
-// This makes RigidBody useful for Physics education purposes but less so for performance graphics.
-//
-
-/**
  * @class RigidBody
  * @extends Mesh
  */
-export default class RigidBody extends Mesh {
+export default class RigidBody extends Mesh implements IRigidBody&lt;number, Geometric3&gt; {
 
     /**
-     * @property posUom
-     * @type Unit
-     * @private
-     */
-    private posUom: Unit;
-
-    /**
-     * @property _mass
-     * @type G3
-     * @default one
-     * @private
-     */
-    private _mass = G3.one
-
-    /**
-     * @property _momentum
-     * @type G3
-     * @default zero
-     * @private
-     */
-    private _momentum = G3.zero
-
-    /**
-     * Provides descriptive variables for translational and rotational motion.
-     * This class is intended to be used as a base for bodies in the __visual__ module.
+     * The (dimensionless) mass of the &lt;code&gt;RigidBody&lt;/code&gt;.
      *
+     * @property mass
+     * @type number
+     * @default 1
+     */
+    public mass = 1
+
+    /**
+     * The (dimensionless) momentum of the &lt;code&gt;RigidBody&lt;/code&gt;
+     *
+     * @property momentum
+     * @type Geometric3
+     * @default 0
+     */
+    public momentum = Geometric3.zero()
+
+    /**
+     * Cache the initial axis value so that we can compute the axis at any
+     * time by rotating the initial axis using the Mesh attitude.
+     *
+     * @property _direction
+     * @type R3
+     * @private
+     */
+    private _direction: R3;
+
+    /**
      * @class RigidBody
      * @constructor
      * @param geometry {Geometry}
      * @param material {Material}
-     * @param [type = &#x27;RigidBody&#x27;] {string}
+     * @param type {string}
+     * @param deviation {SpinorE3} The deviation from the scaling reference frame.
+     * @param direction {VectorE3} The initial direction of the symmetry axis
      */
-    constructor(geometry: Geometry, material: Material, type = &#x27;RigidBody&#x27;) {
+    constructor(geometry: Geometry, material: Material, type: string, deviation: SpinorE3, direction: VectorE3) {
         super(geometry, material, type)
+        this._direction = R3.fromVector(direction, Unit.ONE)
+        this.deviation.copy(deviation)
     }
 
     /**
@@ -281,148 +280,15 @@ export default class RigidBody extends Mesh {
     }
 
     /**
-     * Axis (vector)
-     * This property is computed from the attitude spinor assuming a reference axis of e2.
-     * The axis property may be updated by assignment, but not through mutation.
-     *
      * @property axis
-     * @type G3
+     * @type R3
      */
-    public get axis(): G3 {
-        // The initial axis of the geometry is e2.
-        return G3.e2.rotate(this.attitude)
+    get axis(): R3 {
+        return this._direction.rotate(this.attitude)
     }
-    public set axis(axis: G3) {
+    set axis(axis: R3) {
         mustBeObject(&#x27;axis&#x27;, axis)
-        this.attitude.rotorFromDirections(G3.e2, axis)
-    }
-
-    /**
-     * Mass
-     *
-     * @property m
-     * @type G3
-     */
-    get m(): G3 {
-        return this._mass
-    }
-    set m(m: G3) {
-        mustBeObject(&#x27;m&#x27;, m, () =&gt; { return this._type })
-        this._mass = m
-    }
-
-    /**
-     * Momentum
-     *
-     * @property P
-     * @type G3
-     */
-    get P(): G3 {
-        return this._momentum
-    }
-    set P(P: G3) {
-        this._momentum = P
-    }
-
-    /**
-     * Attitude (spinor)
-     *
-     * @property R
-     * @type G3
-     */
-    get R(): G3 {
-        return G3.fromSpinor(this.attitude)
-    }
-    set R(R: G3) {
-        mustBeObject(&#x27;R&#x27;, R, () =&gt; { return this._type })
-        this.attitude.copySpinor(R)
-    }
-
-    /**
-     * Position (vector)
-     *
-     * @property X
-     * @type G3
-     */
-    get X(): G3 {
-        return G3.fromVector(this.position, this.posUom)
-    }
-    set X(X: G3) {
-        mustBeObject(&#x27;X&#x27;, X, () =&gt; { return this._type })
-        this.position.copy(X)
-        this.posUom = X.uom
-    }
-
-    /**
-     * Position (vector)
-     *
-     * @property pos
-     * @type G3
-     */
-    get pos(): G3 {
-        return G3.fromVector(this.position, this.posUom)
-    }
-    set pos(pos: G3) {
-        mustBeObject(&#x27;pos&#x27;, pos, () =&gt; { return this._type })
-        this.position.copy(pos)
-        this.posUom = pos.uom
-    }
-
-    /**
-     * @method getScaleX
-     * @return {number}
-     * @protected
-     */
-    protected getScaleX(): number {
-        return this.scale.x
-    }
-
-    /**
-     * @method setScaleX
-     * @param x {number}
-     * @return {void}
-     * @protected
-     */
-    protected setScaleX(x: number): void {
-        this.scale.x = x
-    }
-
-    /**
-     * @method getScaleY
-     * @return {number}
-     * @protected
-     */
-    protected getScaleY(): number {
-        return this.scale.y
-    }
-
-    /**
-     * @method setScaleY
-     * @param y {number}
-     * @return {void}
-     * @protected
-     */
-    protected setScaleY(y: number): void {
-        this.scale.y = y
-    }
-
-    /**
-     * @method getScaleZ
-     * @return {number}
-     * @protected
-     */
-    protected getScaleZ(): number {
-        return this.scale.z
-    }
-
-    /**
-     * @method setScaleZ
-     * @param z {number}
-     * @return {void}
-     * @protected
-     */
-    protected setScaleZ(z: number): void {
-        this.scale.z = z
+        this.attitude.rotorFromDirections(this._direction, axis)
     }
 }
 

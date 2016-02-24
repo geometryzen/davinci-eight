@@ -171,13 +171,6 @@ module.exports = function(grunt) {
         options: {
           spawn: false
         }
-      },
-      specs: {
-        files: ['test/amd/**/*.js'],
-        tasks: ['jasmine'],
-        options: {
-          spawn: false
-        }
       }
     },
 

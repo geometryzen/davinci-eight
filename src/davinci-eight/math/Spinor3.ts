@@ -895,6 +895,15 @@ export default class Spinor3 extends VectorN<number> implements SpinorE3, Mutabl
     }
 
     /**
+     * @method one
+     * @return {Spinor3}
+     * @static
+     */
+    static one(): Spinor3 {
+        return new Spinor3([0, 0, 0, 1])
+    }
+
+    /**
      * Computes the rotor that rotates vector <code>a</code> to vector <code>b</code>.
      * @method rotorFromDirections
      * @param a {VectorE3} The <em>from</em> vector.

@@ -1,6 +1,6 @@
+import Geometric3 from '../math/Geometric3'
 import Vector3 from '../math/Vector3';
 import Spinor3 from '../math/Spinor3';
-import readOnly from '../i18n/readOnly';
 
 'use strict';
 
@@ -37,14 +37,14 @@ export default class ModelE3 {
      * @type {Geometric3}
      * @private
      */
-    private _position = new Vector3().zero();
+    private _position = Geometric3.zero();
 
     /**
      * @property _attitude
      * @type {Geometric3}
      * @private
      */
-    private _attitude = new Spinor3().zero().addScalar(1);
+    private _attitude = Geometric3.one();
 
     /**
      * Used for exchanging number[] data to achieve integrity and avoid lots of temporaries.
@@ -53,6 +53,7 @@ export default class ModelE3 {
      * @private
      */
     private _posCache = new Vector3();
+
     /**
      * Used for exchanging number[] data to achieve integrity and avoid lots of temporaries.
      * @property _attCache
@@ -60,6 +61,7 @@ export default class ModelE3 {
      * @private
      */
     private _attCache = new Spinor3();
+
     /**
      * <p>
      * A collection of properties for Rigid Body Modeling.
@@ -79,35 +81,25 @@ export default class ModelE3 {
     }
 
     /**
-     * <p>
-     * The <em>attitude</em>, a unitary spinor.
-     * </p>
-     * @property R
-     * @type Spinor3
-     * @readOnly
+     * @property attitude
+     * @type Geometric3
      */
-    get R(): Spinor3 {
+    get attitude(): Geometric3 {
         return this._attitude
     }
-    set R(unused) {
-        throw new Error(readOnly(ModelE3.PROP_ATTITUDE).message)
+    set attitude(attitude: Geometric3) {
+        this._attitude.copySpinor(attitude)
     }
+
     /**
-     * <p>
-     * The <em>position</em>, a vector.
-     * The vector <b>X</b> designates the center of mass of the body (Physics).
-     * The vector <b>X</b> designates the displacement from the local origin (Computer Graphics).
-     * </p>
-     *
-     * @property X
-     * @type Vector3
-     * @readOnly
+     * @property position
+     * @type Geometric3
      */
-    get X(): Vector3 {
+    get position(): Geometric3 {
         return this._position
     }
-    set X(unused) {
-        throw new Error(readOnly(ModelE3.PROP_POSITION).message)
+    set position(position: Geometric3) {
+        this._position.copyVector(position)
     }
 
     /**
@@ -143,12 +135,12 @@ export default class ModelE3 {
         switch (name) {
             case ModelE3.PROP_ATTITUDE: {
                 this._attCache.coords = data
-                this._attitude.copy(this._attCache)
+                this._attitude.copySpinor(this._attCache)
             }
                 break;
             case ModelE3.PROP_POSITION: {
                 this._posCache.coords = data
-                this._position.copy(this._posCache)
+                this._position.copyVector(this._posCache)
             }
                 break;
             default: {

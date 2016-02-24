@@ -659,7 +659,6 @@ declare module EIGHT {
     class AbstractMatrix {
         elements: Float32Array;
         dimensions: number;
-        callback: () => Float32Array;
         modified: boolean;
         constructor(elements: Float32Array, dimensions: number);
     }
@@ -1564,7 +1563,6 @@ declare module EIGHT {
      *
      */
     class VectorN<T> {
-        callback: () => T[];
         coords: T[];
         modified: boolean;
         constructor(coords: T[], modified?: boolean, size?: number);
@@ -2153,6 +2151,11 @@ declare module EIGHT {
          * @param b The <em>to</em> vector.
          */
         static rotorFromDirections(a: VectorE3, b: VectorE3): Geometric3;
+
+        /**
+         * Constructs a new vector from Cartesian coordinates
+         */
+        static vector(x: number, y: number, z: number): Geometric3;
     }
 
     /**
@@ -2320,11 +2323,6 @@ declare module EIGHT {
          * The magnitude of the projection onto the standard e2 basis vector. 
          */
         z: number;
-
-        /**
-         * The optional unit of measure.
-         */
-        uom?: Unit;
     }
 
     /**
@@ -2336,9 +2334,9 @@ declare module EIGHT {
         z: number;
         constructor(coordinates?: number[], modified?: boolean);
         /**
-         * this += alpha * vector
+         * this += α * vector
          */
-        add(vector: VectorE3, alpha?: number): Vector3;
+        add(vector: VectorE3, α?: number): Vector3;
         add2(a: VectorE3, b: VectorE3): Vector3;
         applyMatrix4(m: Matrix4): Vector3;
         applyMatrix(m: Matrix3): Vector3;
@@ -2373,6 +2371,37 @@ declare module EIGHT {
         toExponential(): string;
         toFixed(digits?: number): string;
         toString(): string;
+    }
+
+    /**
+     * An immutable vector in Euclidean 3D space with a unit of measure.
+     */
+    class R3 {
+        x: number
+        y: number
+        z: number
+        uom: Unit
+        constructor(x: number, y: number, z: number);
+        add(rhs: R3, α: number): R3
+        divByScalar(α: Unit): R3
+        lerp(target: R3, α: number): R3
+        magnitude(): Unit
+        neg(): R3
+        reflect(n: VectorE3): R3
+        rotate(R: SpinorE3): R3
+        scale(α: Unit): R3
+        slerp(target: R3, α: number): R3
+        squaredNorm(): Unit
+        sub(rhs: R3, α: number): R3
+        toExponential(): string
+        toFixed(fractionDigits?: number): string
+        toString(): string
+        static direction(vector: VectorE3): R3
+        static fromVector(vector: VectorE3, uom: Unit): R3
+        static e1: R3
+        static e2: R3
+        static e3: R3
+        static zero: R3
     }
 
     /**
@@ -2540,7 +2569,7 @@ declare module EIGHT {
         /**
          * The position, a vector.
          */
-        X: Geometric3
+        position: Geometric3
 
         /**
          * The attitude, a unitary spinor.
@@ -3358,14 +3387,21 @@ declare module EIGHT {
     ///////////////////////////////////////////////////////////////////////////////
 
     /**
-     *
+     * A Mesh is a Decorator for a Drawable.
+     * A Mesh adds attitude, color, position, and scale properties to a Drawable
+     * which are implemented as Facet(s).
      */
     class Mesh extends Drawable {
+        /**
+         *
+         */
         attitude: Spinor3;
         color: Color;
+        deviation: Spinor3;
         matrix: Matrix4;
-        position: Vector3;
+        position: Geometric3;
         scale: Vector3;
+
         /**
          *
          */
@@ -3375,104 +3411,79 @@ declare module EIGHT {
     /**
      *
      */
+    class RigidBodyWithUnits extends Shareable {
+        attitude: G3
+        axis: G3
+        mass: G3
+        momentum: G3
+        position: G3
+        /**
+         *
+         */
+        constructor(mesh: Mesh, axis: VectorE3, type?: string)
+    }
+
     class RigidBody extends Mesh {
+        public axis: R3
 
         /**
-         *
+         * The (dimensionless) mass of the RigidBody.
          */
-        axis: G3;
+        public mass: number
 
         /**
-         * Mass
+         * The (dimensionless) momentum of the RigidBody.
          */
-        m: G3;
+        public momentum: Geometric3
 
-        /**
-         * Color
-         */
-        color: Color;
-
-        /**
-         * Angular Momentum (bivector)
-         */
-        L: G3;
-
-        /**
-         * Momentum
-         */
-        P: G3;
-
-        /**
-         * Attitude (spinor)
-         */
-        R: G3;
-
-        /**
-         * Position (vector)
-         */
-        X: G3;
-
-        /**
-         * Position (vector)
-         */
-        pos: G3;
-
-        /**
-         * Configures the trail left behind a moving rigid body.
-         */
-        trail: { enabled: boolean; interval: number; retain: number };
-
-        /**
-         *
-         */
-        constructor(geometry: Geometry, material: Material, type?: string)
+        constructor(geometry: Geometry, material: Material, type: string, deviation: SpinorE3, direction: VectorE3)
     }
 
     class Arrow extends RigidBody {
-        constructor(options?: { axis?: VectorE3 })
         length: number;
+        constructor(options?: { axis?: VectorE3 })
     }
 
     class Sphere extends RigidBody {
-        constructor(options?: { axis?: VectorE3 })
         radius: number;
+        constructor(options?: { axis?: VectorE3 })
     }
 
-    class Box extends RigidBody {
-        constructor(options?: { axis?: VectorE3 })
+    class Box extends Mesh {
         width: number;
         height: number;
         depth: number;
+        constructor(options?: { axis?: VectorE3 })
     }
 
     class Cylinder extends RigidBody {
-        constructor(options?: { axis?: VectorE3 })
         radius: number;
         length: number;
-    }
-
-    class Tetrahedron extends RigidBody {
         constructor(options?: { axis?: VectorE3 })
-        radius: number;
     }
 
-    class Trail {
+    class Tetrahedron extends Mesh {
+        radius: number;
+        constructor(options?: { axis?: VectorE3 })
+    }
+
+    interface TrailConfig {
+        enable: boolean;
+        interval: number;
+        retain: number;
+    }
+
+    class Trail extends Shareable {
 
         /**
          *
          */
-        maxLength: number
+        config: TrailConfig
 
         /**
-         *
+         * Constructs a trail for the specified mesh.
          */
-        spacing: number
-
-        /**
-         * Constructs a trail for the specified rigidBody.
-         * The maximum number of trail points defaults to 10.
-         */
-        constructor(rigidBody: RigidBody, maxLength?: number);
+        constructor(mesh: Mesh);
 
         /**
          * Records the graphics model variables.
@@ -3480,9 +3491,7 @@ declare module EIGHT {
         snapshot(): void;
 
         /**
-         * @method draw
-         * @param ambients {Facet[]}
-         * @return {void}
+         * Draws the mesh in its historical positions and attitudes.
          */
         draw(ambients: Facet[]): void;
     }
@@ -3496,13 +3505,13 @@ declare module EIGHT {
             options?: {
                 axis?: VectorE3;
                 color?: Color;
-                pos?: G3;
+                pos?: VectorE3;
             }): Arrow
         box(
             options?: {
                 axis?: VectorE3;
                 color?: Color;
-                pos?: G3;
+                pos?: VectorE3;
                 width?: number;
                 height?: number;
                 depth?: number;
@@ -3511,14 +3520,14 @@ declare module EIGHT {
             options?: {
                 axis?: VectorE3;
                 color?: Color;
-                pos?: G3;
+                pos?: VectorE3;
                 radius?: number;
             }): Sphere
         cylinder(
             options?: {
                 axis?: VectorE3;
                 color?: Color;
-                pos?: G3;
+                pos?: VectorE3;
                 radius?: number;
             }): Cylinder
         ambients: Facet[]

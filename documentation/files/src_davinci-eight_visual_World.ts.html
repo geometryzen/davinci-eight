@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.196.0</em>
+            <em>API Docs for: 2.197.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -112,6 +112,7 @@
                                 <li><a href="../classes/ReflectionFacetE2.html">ReflectionFacetE2</a></li>
                                 <li><a href="../classes/ReflectionFacetE3.html">ReflectionFacetE3</a></li>
                                 <li><a href="../classes/RigidBody.html">RigidBody</a></li>
+                                <li><a href="../classes/RigidBodyWithUnits.html">RigidBodyWithUnits</a></li>
                                 <li><a href="../classes/Scalar.html">Scalar</a></li>
                                 <li><a href="../classes/Scene.html">Scene</a></li>
                                 <li><a href="../classes/Shareable.html">Shareable</a></li>
@@ -152,7 +153,6 @@
                                 <li><a href="../classes/Vertex.html">Vertex</a></li>
                                 <li><a href="../classes/VertexAttributeMap.html">VertexAttributeMap</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
-                                <li><a href="../classes/VisualBody.html">VisualBody</a></li>
                                 <li><a href="../classes/WebGLBlendFunc.html">WebGLBlendFunc</a></li>
                                 <li><a href="../classes/WebGLClearColor.html">WebGLClearColor</a></li>
                                 <li><a href="../classes/WebGLDisable.html">WebGLDisable</a></li>
@@ -213,42 +213,40 @@ import Color from &#x27;../core/Color&#x27;
 import core from &#x27;../core&#x27;
 import Box from &#x27;./Box&#x27;
 import Cylinder from &#x27;./Cylinder&#x27;
+import RigidBody from &#x27;./RigidBody&#x27;
 import DrawList from &#x27;./DrawList&#x27;
-import G3 from &#x27;../math/G3&#x27;
 import Facet from &#x27;../core/Facet&#x27;
 import isDefined from &#x27;../checks/isDefined&#x27;
 import AmbientLight from &#x27;../facets/AmbientLight&#x27;
 import Drawable from &#x27;../core/Drawable&#x27;
+import Mesh from &#x27;../core/Mesh&#x27;
 import mustBeNumber from &#x27;../checks/mustBeNumber&#x27;
 import CameraControls from &#x27;../controls/CameraControls&#x27;
 import readOnly from &#x27;../i18n/readOnly&#x27;
+import R3 from &#x27;../math/R3&#x27;
 import Shareable from &#x27;../core/Shareable&#x27;
 import Sphere from &#x27;./Sphere&#x27;
 import VectorE3 from &#x27;../math/VectorE3&#x27;
-import VisualBody from &#x27;./VisualBody&#x27;
 import WebGLRenderer from &#x27;../core/WebGLRenderer&#x27;
 
-/**
- * Note:
- * 1. The options.pos property is intentionally G3 so that we don&#x27;t force an Unit onto Vector3 etc.
- */
-function updateRigidBody(body: VisualBody, options: { axis?: VectorE3; color?: Color; pos?: G3 }): void {
-
+function updateAxis(body: RigidBody, options: { axis?: VectorE3 }): void {
     if (options.axis) {
-        // TODO: We drop the uom on purpose, that means we really only need a Vector3 for the axis.
-        body.axis = G3.fromVector(options.axis)
+        body.axis = R3.direction(options.axis)
     }
+}
 
+function updateColor(body: Mesh, options: { color?: Color }): void {
     if (options.color) {
         body.color.copy(options.color)
     }
     else {
         body.color = Color.fromRGB(0.6, 0.6, 0.6)
     }
+}
 
+function updatePosition(body: Mesh, options: { pos?: VectorE3 }): void {
     if (options.pos) {
-        // Being careful to retain the unit of measure.
-        body.pos = options.pos
+        body.position.copyVector(options.pos)
     }
 }
 
@@ -356,10 +354,12 @@ export default class World extends Shareable {
         options: {
             axis?: VectorE3;
             color?: Color;
-            pos?: G3;
+            pos?: VectorE3;
         } = {}): Arrow {
-        const arrow = new Arrow()
-        updateRigidBody(arrow, options)
+        const arrow = new Arrow(options)
+        updateAxis(arrow, options)
+        updateColor(arrow, options)
+        updatePosition(arrow, options)
         this.drawList.add(arrow)
         arrow.release()
         return arrow
@@ -373,13 +373,14 @@ export default class World extends Shareable {
         options: {
             axis?: VectorE3;
             color?: Color;
-            pos?: G3;
+            pos?: VectorE3;
             width?: number;
             height?: number;
             depth?: number;
         } = {}): Box {
         const box = new Box(options)
-        updateRigidBody(box, options)
+        updateColor(box, options)
+        updatePosition(box, options)
         this.drawList.add(box)
         box.release()
         return box
@@ -393,11 +394,13 @@ export default class World extends Shareable {
         options: {
             axis?: VectorE3;
             color?: Color;
-            pos?: G3;
+            pos?: VectorE3;
             radius?: number;
         } = {}): Cylinder {
         const cylinder = new Cylinder()
-        updateRigidBody(cylinder, options)
+        updateAxis(cylinder, options)
+        updateColor(cylinder, options)
+        updatePosition(cylinder, options)
         cylinder.radius = isDefined(options.radius) ? mustBeNumber(&#x27;radius&#x27;, options.radius) : 0.5
         this.drawList.add(cylinder)
         cylinder.release()
@@ -411,11 +414,12 @@ export default class World extends Shareable {
     sphere(
         options: {
             color?: Color;
-            pos?: G3;
+            pos?: VectorE3;
             radius?: number;
         } = {}): Sphere {
         const sphere = new Sphere()
-        updateRigidBody(sphere, options)
+        updateColor(sphere, options)
+        updatePosition(sphere, options)
         sphere.radius = isDefined(options.radius) ? mustBeNumber(&#x27;radius&#x27;, options.radius) : 0.5
         this.drawList.add(sphere)
         sphere.release()

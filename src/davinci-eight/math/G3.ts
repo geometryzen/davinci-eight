@@ -1,30 +1,30 @@
-import addE3 from '../math/addE3';
+import addE3 from './addE3';
 import b2 from '../geometries/b2';
 import b3 from '../geometries/b3';
-import extG3 from '../math/extG3';
-import GeometricE3 from '../math/GeometricE3';
-import lcoG3 from '../math/lcoG3';
-import GeometricOperators from '../math/GeometricOperators';
-import ImmutableMeasure from '../math/ImmutableMeasure';
-import mulG3 from '../math/mulG3';
+import extG3 from './extG3';
+import GeometricE3 from './GeometricE3';
+import lcoG3 from './lcoG3';
+import GeometricOperators from './GeometricOperators';
+import ImmutableMeasure from './ImmutableMeasure';
+import mulG3 from './mulG3';
 import gauss from './gauss';
-import GeometricElement from '../math/GeometricElement';
+import GeometricElement from './GeometricElement';
 import notImplemented from '../i18n/notImplemented';
 import quadSpinorE3 from './quadSpinorE3'
-import rcoG3 from '../math/rcoG3';
+import rcoG3 from './rcoG3';
 import readOnly from '../i18n/readOnly';
-import scpG3 from '../math/scpG3';
-import SpinorE3 from '../math/SpinorE3';
-import squaredNormG3 from '../math/squaredNormG3';
-import stringFromCoordinates from '../math/stringFromCoordinates';
-import subE3 from '../math/subE3';
-import TrigMethods from '../math/TrigMethods';
-import Unit from '../math/Unit';
-import VectorE3 from '../math/VectorE3';
-import BASIS_LABELS_G3_GEOMETRIC from '../math/BASIS_LABELS_G3_GEOMETRIC';
-import BASIS_LABELS_G3_HAMILTON from '../math/BASIS_LABELS_G3_HAMILTON';
-import BASIS_LABELS_G3_STANDARD from '../math/BASIS_LABELS_G3_STANDARD';
-import BASIS_LABELS_G3_STANDARD_HTML from '../math/BASIS_LABELS_G3_STANDARD_HTML';
+import scpG3 from './scpG3';
+import SpinorE3 from './SpinorE3';
+import squaredNormG3 from './squaredNormG3';
+import stringFromCoordinates from './stringFromCoordinates';
+import subE3 from './subE3';
+import TrigMethods from './TrigMethods';
+import Unit from './Unit';
+import VectorE3 from './VectorE3';
+import BASIS_LABELS_G3_GEOMETRIC from './BASIS_LABELS_G3_GEOMETRIC';
+import BASIS_LABELS_G3_HAMILTON from './BASIS_LABELS_G3_HAMILTON';
+import BASIS_LABELS_G3_STANDARD from './BASIS_LABELS_G3_STANDARD';
+import BASIS_LABELS_G3_STANDARD_HTML from './BASIS_LABELS_G3_STANDARD_HTML';
 
 /**
  * @module EIGHT
@@ -1075,12 +1075,12 @@ export default class G3 implements ImmutableMeasure<G3>, GeometricE3, GeometricE
      */
     exp(): G3 {
         Unit.assertDimensionless(this.uom);
-        var bivector = this.grade(2);
-        var a = bivector.norm();
+        const bivector = this.grade(2);
+        const a = bivector.norm();
         if (!a.isZero()) {
-            var c = a.cos();
-            var s = a.sin();
-            var B = bivector.direction();
+            const c = a.cos();
+            const s = a.sin();
+            const B = bivector.direction();
             return c.add(B.mul(s));
         }
         else {
@@ -1301,7 +1301,7 @@ export default class G3 implements ImmutableMeasure<G3>, GeometricE3, GeometricE
      * @return {string}
      */
     toExponential(): string {
-        var coordToString = function(coord: number): string { return coord.toExponential() };
+        const coordToString = function(coord: number): string { return coord.toExponential() };
         return this.toStringCustom(coordToString, G3.BASIS_LABELS);
     }
 
@@ -1311,7 +1311,7 @@ export default class G3 implements ImmutableMeasure<G3>, GeometricE3, GeometricE
      * @return {string}
      */
     toFixed(digits?: number): string {
-        var coordToString = function(coord: number): string { return coord.toFixed(digits) };
+        const coordToString = function(coord: number): string { return coord.toFixed(digits) };
         return this.toStringCustom(coordToString, G3.BASIS_LABELS);
     }
 
@@ -1320,7 +1320,7 @@ export default class G3 implements ImmutableMeasure<G3>, GeometricE3, GeometricE
      * @return {string}
      */
     toString(): string {
-        let coordToString = function(coord: number): string { return coord.toString() };
+        const coordToString = function(coord: number): string { return coord.toString() };
         return this.toStringCustom(coordToString, G3.BASIS_LABELS);
     }
 
@@ -1372,6 +1372,21 @@ export default class G3 implements ImmutableMeasure<G3>, GeometricE3, GeometricE
      */
     static copy(m: GeometricE3, uom?: Unit): G3 {
         return new G3(m.α, m.x, m.y, m.z, m.xy, m.yz, m.zx, m.β, uom)
+    }
+
+    /**
+     * @method direction
+     * @param vector {VectorE3}
+     * @return {R3}
+     * @static
+     */
+    static direction(vector: VectorE3): G3 {
+        if (vector) {
+            return new G3(0, vector.x, vector.y, vector.z, 0, 0, 0, 0).direction()
+        }
+        else {
+            return void 0
+        }
     }
 
     /**

@@ -1,10 +1,10 @@
-import core from '../core'
-import G3 from '../math/G3'
-import mustBeNumber from '../checks/mustBeNumber';
-import mustBeObject from '../checks/mustBeObject';
-import visualCache from './visualCache';
-import VisualBody from './VisualBody'
-import VisualOptions from './VisualOptions'
+import deviation from './deviation'
+import direction from './direction'
+import CylinderOptions from './CylinderOptions'
+import mustBeGE from '../checks/mustBeGE'
+import mustBeNumber from '../checks/mustBeNumber'
+import RigidBody from './RigidBody'
+import visualCache from './visualCache'
 
 /**
  * @module EIGHT
@@ -13,17 +13,16 @@ import VisualOptions from './VisualOptions'
 
 /**
  * @class Cylinder
- * @extends RigidBody
+ * @extends Mesh
  */
-export default class Cylinder extends VisualBody {
+export default class Cylinder extends RigidBody {
 
     /**
      * @class Cylinder
      * @constructor
-     * @param [options]
      */
-    constructor(options: VisualOptions = {}) {
-        super(visualCache.cylinder(options), visualCache.material(options), 'Cylinder')
+    constructor(options: CylinderOptions = {}) {
+        super(visualCache.cylinder(direction(options)), visualCache.material(), 'Cylinder', deviation(direction(options)), direction(options))
         this._geometry.release()
         this._material.release()
     }
@@ -38,47 +37,30 @@ export default class Cylinder extends VisualBody {
     }
 
     /**
-     * @property axis
-     * @type G3
-     */
-    get axis(): G3 {
-        const direction = G3.e2.rotate(this.attitude)
-        return direction.scale(this.length)
-    }
-    set axis(axis: G3) {
-        if (core.safemode) {
-            mustBeObject('axis', axis)
-        }
-        this.attitude.rotorFromDirections(G3.e2, axis.direction())
-        this.length = axis.magnitude().α
-    }
-
-    /**
      * @property radius
      * @type number
      */
     get radius() {
-        return this.getScaleX()
+        return this.scale.x
     }
     set radius(radius: number) {
-        if (core.safemode) {
-            mustBeNumber('radius', radius)
-        }
-        this.setScaleX(radius)
-        this.setScaleZ(radius)
+        mustBeNumber('radius', radius)
+        mustBeGE('radius', radius, 0)
+        this.scale.x = radius
+        this.scale.z = radius
     }
 
     /**
      * @property length
      * @type number
+     * @default 1
      */
     get length() {
-        return this.getScaleY();
+        return this.scale.y
     }
     set length(length: number) {
-        if (core.safemode) {
-            mustBeNumber('length', length)
-        }
-        this.setScaleY(length)
+        mustBeNumber('length', length)
+        mustBeGE('length', length, 0)
+        this.scale.y = length
     }
 }

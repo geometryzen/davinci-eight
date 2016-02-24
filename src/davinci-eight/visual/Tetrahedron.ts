@@ -1,7 +1,6 @@
+import Mesh from '../core/Mesh'
 import mustBeNumber from '../checks/mustBeNumber';
 import visualCache from './visualCache';
-import RigidBody from './RigidBody'
-import VisualOptions from './VisualOptions'
 
 /**
  * @module EIGHT
@@ -10,16 +9,16 @@ import VisualOptions from './VisualOptions'
 
 /**
  * @class Tetrahedron
- * @extends RigidBody
+ * @extends Mesh
  */
-export default class Tetrahedron extends RigidBody {
+export default class Tetrahedron extends Mesh {
 
     /**
      * @class Tetrahedron
      * @constructor
      */
-    constructor(options: VisualOptions = {}) {
-        super(visualCache.tetrahedron(options), visualCache.material(options), 'Tetrahedron')
+    constructor() {
+        super(visualCache.tetrahedron(), visualCache.material(), 'Tetrahedron')
         this._geometry.release()
         this._material.release()
     }
@@ -39,12 +38,12 @@ export default class Tetrahedron extends RigidBody {
      * @default 1
      */
     get radius(): number {
-        return this.getScaleX()
+        return this.scale.x
     }
     set radius(radius: number) {
         mustBeNumber('radius', radius)
-        this.setScaleX(radius)
-        this.setScaleY(radius)
-        this.setScaleZ(radius)
+        this.scale.x = radius
+        this.scale.y = radius
+        this.scale.z = radius
     }
 }

@@ -3,16 +3,21 @@ import GeometryContainer from '../core/GeometryContainer'
 import GeometryBuffers from '../core/GeometryBuffers'
 import Primitive from '../core/Primitive'
 import CylinderBuilder from './CylinderBuilder'
+import Unit from '../math/Unit'
+import VectorE3 from '../math/VectorE3'
 import vertexArraysFromPrimitive from '../core/vertexArraysFromPrimitive'
+
+// FIXME: Maybe we should have a constant for this use case?
+const HALF = Unit.ONE.scale(0.5)
 
 /**
  * @module EIGHT
  * @submodule geometries
  */
 
-function primitives(): Primitive[] {
-    const builder = new CylinderBuilder(R3.e2)
-    builder.setPosition(R3.e2.scale(0.5))
+function primitives(axis: VectorE3): Primitive[] {
+    const builder = new CylinderBuilder(axis)
+    builder.setPosition(R3.direction(axis).scale(HALF))
     return builder.toPrimitives()
 }
 
@@ -27,9 +32,9 @@ export default class CylinderGeometry extends GeometryContainer {
      * @class CylinderGeometry
      * @constructor
      */
-    constructor() {
+    constructor(axis: VectorE3) {
         super()
-        const ps: Primitive[] = primitives()
+        const ps: Primitive[] = primitives(axis)
         const iLen = ps.length
         for (let i = 0; i < iLen; i++) {
             const dataSource = ps[i]

@@ -1,29 +1,31 @@
-import G3 from '../math/G3';
-import mustBeNumber from '../checks/mustBeNumber';
-import mustBeObject from '../checks/mustBeObject';
-import mustBeGE from '../checks/mustBeGE';
+import ArrowOptions from './ArrowOptions'
+import deviation from './deviation'
+import direction from './direction'
+import mustBeGE from '../checks/mustBeGE'
+import mustBeNumber from '../checks/mustBeNumber'
+import RigidBody from './RigidBody'
 import visualCache from './visualCache';
-import VisualBody from './VisualBody'
-import VisualOptions from './VisualOptions'
 
 /**
  * @module EIGHT
  * @submodule visual
  */
 
+
+
 /**
  * @class Arrow
- * @extends VisualBody
+ * @extends Mesh
  */
-export default class Arrow extends VisualBody {
+export default class Arrow extends RigidBody {
 
     /**
      * @class Arrow
      * @constructor
-     * @extends RigidBody
+     * @param [options={}] {ArrowOptions}
      */
-    constructor(options: VisualOptions = {}) {
-        super(visualCache.arrow(options), visualCache.material(options), 'Arrow')
+    constructor(options: ArrowOptions = {}) {
+        super(visualCache.arrow(direction(options)), visualCache.material(), 'Arrow', deviation(direction(options)), direction(options))
         this._geometry.release()
         this._material.release()
     }
@@ -37,29 +39,19 @@ export default class Arrow extends VisualBody {
         super.destructor()
     }
 
-    get axis(): G3 {
-        const direction = G3.e2.rotate(this.attitude)
-        return direction.scale(this.length)
-    }
-    set axis(axis: G3) {
-        mustBeObject('axis', axis)
-        this.attitude.rotorFromDirections(G3.e2, axis.direction())
-        this.length = axis.magnitude().α
-    }
-
     /**
      * @property length
      * @type number
      * @default 1
      */
     get length() {
-        return this.getScaleY()
+        return this.scale.y
     }
     set length(length: number) {
         mustBeNumber('length', length)
         mustBeGE('length', length, 0)
-        this.setScaleX(length)
-        this.setScaleY(length)
-        this.setScaleZ(length)
+        this.scale.x = length
+        this.scale.y = length
+        this.scale.z = length
     }
 }

@@ -3,42 +3,40 @@ import Color from '../core/Color'
 import core from '../core'
 import Box from './Box'
 import Cylinder from './Cylinder'
+import RigidBody from './RigidBody'
 import DrawList from './DrawList'
-import G3 from '../math/G3'
 import Facet from '../core/Facet'
 import isDefined from '../checks/isDefined'
 import AmbientLight from '../facets/AmbientLight'
 import Drawable from '../core/Drawable'
+import Mesh from '../core/Mesh'
 import mustBeNumber from '../checks/mustBeNumber'
 import CameraControls from '../controls/CameraControls'
 import readOnly from '../i18n/readOnly'
+import R3 from '../math/R3'
 import Shareable from '../core/Shareable'
 import Sphere from './Sphere'
 import VectorE3 from '../math/VectorE3'
-import VisualBody from './VisualBody'
 import WebGLRenderer from '../core/WebGLRenderer'
 
-/**
- * Note:
- * 1. The options.pos property is intentionally G3 so that we don't force an Unit onto Vector3 etc.
- */
-function updateRigidBody(body: VisualBody, options: { axis?: VectorE3; color?: Color; pos?: G3 }): void {
-
+function updateAxis(body: RigidBody, options: { axis?: VectorE3 }): void {
     if (options.axis) {
-        // TODO: We drop the uom on purpose, that means we really only need a Vector3 for the axis.
-        body.axis = G3.fromVector(options.axis)
+        body.axis = R3.direction(options.axis)
     }
+}
 
+function updateColor(body: Mesh, options: { color?: Color }): void {
     if (options.color) {
         body.color.copy(options.color)
     }
     else {
         body.color = Color.fromRGB(0.6, 0.6, 0.6)
     }
+}
 
+function updatePosition(body: Mesh, options: { pos?: VectorE3 }): void {
     if (options.pos) {
-        // Being careful to retain the unit of measure.
-        body.pos = options.pos
+        body.position.copyVector(options.pos)
     }
 }
 
@@ -146,10 +144,12 @@ export default class World extends Shareable {
         options: {
             axis?: VectorE3;
             color?: Color;
-            pos?: G3;
+            pos?: VectorE3;
         } = {}): Arrow {
-        const arrow = new Arrow()
-        updateRigidBody(arrow, options)
+        const arrow = new Arrow(options)
+        updateAxis(arrow, options)
+        updateColor(arrow, options)
+        updatePosition(arrow, options)
         this.drawList.add(arrow)
         arrow.release()
         return arrow
@@ -163,13 +163,14 @@ export default class World extends Shareable {
         options: {
             axis?: VectorE3;
             color?: Color;
-            pos?: G3;
+            pos?: VectorE3;
             width?: number;
             height?: number;
             depth?: number;
         } = {}): Box {
         const box = new Box(options)
-        updateRigidBody(box, options)
+        updateColor(box, options)
+        updatePosition(box, options)
         this.drawList.add(box)
         box.release()
         return box
@@ -183,11 +184,13 @@ export default class World extends Shareable {
         options: {
             axis?: VectorE3;
             color?: Color;
-            pos?: G3;
+            pos?: VectorE3;
             radius?: number;
         } = {}): Cylinder {
         const cylinder = new Cylinder()
-        updateRigidBody(cylinder, options)
+        updateAxis(cylinder, options)
+        updateColor(cylinder, options)
+        updatePosition(cylinder, options)
         cylinder.radius = isDefined(options.radius) ? mustBeNumber('radius', options.radius) : 0.5
         this.drawList.add(cylinder)
         cylinder.release()
@@ -201,11 +204,12 @@ export default class World extends Shareable {
     sphere(
         options: {
             color?: Color;
-            pos?: G3;
+            pos?: VectorE3;
             radius?: number;
         } = {}): Sphere {
         const sphere = new Sphere()
-        updateRigidBody(sphere, options)
+        updateColor(sphere, options)
+        updatePosition(sphere, options)
         sphere.radius = isDefined(options.radius) ? mustBeNumber('radius', options.radius) : 0.5
         this.drawList.add(sphere)
         sphere.release()

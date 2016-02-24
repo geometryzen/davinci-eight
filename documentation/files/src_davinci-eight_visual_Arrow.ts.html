@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.196.0</em>
+            <em>API Docs for: 2.197.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -112,6 +112,7 @@
                                 <li><a href="../classes/ReflectionFacetE2.html">ReflectionFacetE2</a></li>
                                 <li><a href="../classes/ReflectionFacetE3.html">ReflectionFacetE3</a></li>
                                 <li><a href="../classes/RigidBody.html">RigidBody</a></li>
+                                <li><a href="../classes/RigidBodyWithUnits.html">RigidBodyWithUnits</a></li>
                                 <li><a href="../classes/Scalar.html">Scalar</a></li>
                                 <li><a href="../classes/Scene.html">Scene</a></li>
                                 <li><a href="../classes/Shareable.html">Shareable</a></li>
@@ -152,7 +153,6 @@
                                 <li><a href="../classes/Vertex.html">Vertex</a></li>
                                 <li><a href="../classes/VertexAttributeMap.html">VertexAttributeMap</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
-                                <li><a href="../classes/VisualBody.html">VisualBody</a></li>
                                 <li><a href="../classes/WebGLBlendFunc.html">WebGLBlendFunc</a></li>
                                 <li><a href="../classes/WebGLClearColor.html">WebGLClearColor</a></li>
                                 <li><a href="../classes/WebGLDisable.html">WebGLDisable</a></li>
@@ -208,32 +208,34 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import G3 from &#x27;../math/G3&#x27;;
-import mustBeNumber from &#x27;../checks/mustBeNumber&#x27;;
-import mustBeObject from &#x27;../checks/mustBeObject&#x27;;
-import mustBeGE from &#x27;../checks/mustBeGE&#x27;;
+import ArrowOptions from &#x27;./ArrowOptions&#x27;
+import deviation from &#x27;./deviation&#x27;
+import direction from &#x27;./direction&#x27;
+import mustBeGE from &#x27;../checks/mustBeGE&#x27;
+import mustBeNumber from &#x27;../checks/mustBeNumber&#x27;
+import RigidBody from &#x27;./RigidBody&#x27;
 import visualCache from &#x27;./visualCache&#x27;;
-import VisualBody from &#x27;./VisualBody&#x27;
-import VisualOptions from &#x27;./VisualOptions&#x27;
 
 /**
  * @module EIGHT
  * @submodule visual
  */
 
+
+
 /**
  * @class Arrow
- * @extends VisualBody
+ * @extends Mesh
  */
-export default class Arrow extends VisualBody {
+export default class Arrow extends RigidBody {
 
     /**
      * @class Arrow
      * @constructor
-     * @extends RigidBody
+     * @param [options={}] {ArrowOptions}
      */
-    constructor(options: VisualOptions = {}) {
-        super(visualCache.arrow(options), visualCache.material(options), &#x27;Arrow&#x27;)
+    constructor(options: ArrowOptions = {}) {
+        super(visualCache.arrow(direction(options)), visualCache.material(), &#x27;Arrow&#x27;, deviation(direction(options)), direction(options))
         this._geometry.release()
         this._material.release()
     }
@@ -247,30 +249,20 @@ export default class Arrow extends VisualBody {
         super.destructor()
     }
 
-    get axis(): G3 {
-        const direction = G3.e2.rotate(this.attitude)
-        return direction.scale(this.length)
-    }
-    set axis(axis: G3) {
-        mustBeObject(&#x27;axis&#x27;, axis)
-        this.attitude.rotorFromDirections(G3.e2, axis.direction())
-        this.length = axis.magnitude().α
-    }
-
     /**
      * @property length
      * @type number
      * @default 1
      */
     get length() {
-        return this.getScaleY()
+        return this.scale.y
     }
     set length(length: number) {
         mustBeNumber(&#x27;length&#x27;, length)
         mustBeGE(&#x27;length&#x27;, length, 0)
-        this.setScaleX(length)
-        this.setScaleY(length)
-        this.setScaleZ(length)
+        this.scale.x = length
+        this.scale.y = length
+        this.scale.z = length
     }
 }
 
