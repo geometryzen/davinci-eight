@@ -5561,7 +5561,7 @@ System.register("davinci-eight/visual/RigidBody.js", ["../math/Geometric3", "../
         };
         Object.defineProperty(RigidBody.prototype, "axis", {
           get: function() {
-            return this._direction.rotate(this.attitude);
+            return Geometric3_1.default.fromVector(this._direction).rotate(this.attitude);
           },
           set: function(axis) {
             mustBeObject_1.default('axis', axis);
@@ -14405,7 +14405,7 @@ System.register("davinci-eight/math/Geometric3.js", ["./dotVectorE3", "./G3", ".
           this.z = iz * α + iα * a + ix * c - iy * b;
           return this;
         };
-        Geometric3.prototype.rotorFromDirections = function(b, a) {
+        Geometric3.prototype.rotorFromDirections = function(a, b) {
           rotorFromDirectionsE3_1.default(a, b, this);
           return this;
         };
@@ -14581,7 +14581,7 @@ System.register("davinci-eight/math/Geometric3.js", ["./dotVectorE3", "./G3", ".
           if (rhs instanceof Geometric3) {
             return Geometric3.copy(this).add(rhs);
           } else if (typeof rhs === 'number') {
-            return Geometric3.copy(this).add(Geometric3.fromScalar(rhs));
+            return Geometric3.copy(this).add(Geometric3.scalar(rhs));
           } else {
             return void 0;
           }
@@ -14599,7 +14599,7 @@ System.register("davinci-eight/math/Geometric3.js", ["./dotVectorE3", "./G3", ".
           if (lhs instanceof Geometric3) {
             return Geometric3.copy(lhs).div(this);
           } else if (typeof lhs === 'number') {
-            return Geometric3.fromScalar(lhs).div(this);
+            return Geometric3.scalar(lhs).div(this);
           } else {
             return void 0;
           }
@@ -14626,7 +14626,7 @@ System.register("davinci-eight/math/Geometric3.js", ["./dotVectorE3", "./G3", ".
           if (lhs instanceof Geometric3) {
             return Geometric3.copy(lhs).add(this);
           } else if (typeof lhs === 'number') {
-            return Geometric3.fromScalar(lhs).add(this);
+            return Geometric3.scalar(lhs).add(this);
           } else {
             return void 0;
           }
@@ -14635,7 +14635,7 @@ System.register("davinci-eight/math/Geometric3.js", ["./dotVectorE3", "./G3", ".
           if (rhs instanceof Geometric3) {
             return Geometric3.copy(this).sub(rhs);
           } else if (typeof rhs === 'number') {
-            return Geometric3.fromScalar(rhs).neg().add(this);
+            return Geometric3.scalar(rhs).neg().add(this);
           } else {
             return void 0;
           }
@@ -14644,7 +14644,7 @@ System.register("davinci-eight/math/Geometric3.js", ["./dotVectorE3", "./G3", ".
           if (lhs instanceof Geometric3) {
             return Geometric3.copy(lhs).sub(this);
           } else if (typeof lhs === 'number') {
-            return Geometric3.fromScalar(lhs).sub(this);
+            return Geometric3.scalar(lhs).sub(this);
           } else {
             return void 0;
           }
@@ -14671,7 +14671,7 @@ System.register("davinci-eight/math/Geometric3.js", ["./dotVectorE3", "./G3", ".
           if (rhs instanceof Geometric3) {
             return Geometric3.copy(this).lco(rhs);
           } else if (typeof rhs === 'number') {
-            return Geometric3.copy(this).lco(Geometric3.fromScalar(rhs));
+            return Geometric3.copy(this).lco(Geometric3.scalar(rhs));
           } else {
             return void 0;
           }
@@ -14680,7 +14680,7 @@ System.register("davinci-eight/math/Geometric3.js", ["./dotVectorE3", "./G3", ".
           if (lhs instanceof Geometric3) {
             return Geometric3.copy(lhs).lco(this);
           } else if (typeof lhs === 'number') {
-            return Geometric3.fromScalar(lhs).lco(this);
+            return Geometric3.scalar(lhs).lco(this);
           } else {
             return void 0;
           }
@@ -14689,7 +14689,7 @@ System.register("davinci-eight/math/Geometric3.js", ["./dotVectorE3", "./G3", ".
           if (rhs instanceof Geometric3) {
             return Geometric3.copy(this).rco(rhs);
           } else if (typeof rhs === 'number') {
-            return Geometric3.copy(this).rco(Geometric3.fromScalar(rhs));
+            return Geometric3.copy(this).rco(Geometric3.scalar(rhs));
           } else {
             return void 0;
           }
@@ -14698,7 +14698,7 @@ System.register("davinci-eight/math/Geometric3.js", ["./dotVectorE3", "./G3", ".
           if (lhs instanceof Geometric3) {
             return Geometric3.copy(lhs).rco(this);
           } else if (typeof lhs === 'number') {
-            return Geometric3.fromScalar(lhs).rco(this);
+            return Geometric3.scalar(lhs).rco(this);
           } else {
             return void 0;
           }
@@ -14707,7 +14707,7 @@ System.register("davinci-eight/math/Geometric3.js", ["./dotVectorE3", "./G3", ".
           if (rhs instanceof Geometric3) {
             return Geometric3.copy(this).scp(rhs);
           } else if (typeof rhs === 'number') {
-            return Geometric3.copy(this).scp(Geometric3.fromScalar(rhs));
+            return Geometric3.copy(this).scp(Geometric3.scalar(rhs));
           } else {
             return void 0;
           }
@@ -14716,7 +14716,7 @@ System.register("davinci-eight/math/Geometric3.js", ["./dotVectorE3", "./G3", ".
           if (lhs instanceof Geometric3) {
             return Geometric3.copy(lhs).scp(this);
           } else if (typeof lhs === 'number') {
-            return Geometric3.fromScalar(lhs).scp(this);
+            return Geometric3.scalar(lhs).scp(this);
           } else {
             return void 0;
           }
@@ -14760,8 +14760,8 @@ System.register("davinci-eight/math/Geometric3.js", ["./dotVectorE3", "./G3", ".
           copy.β = M.β;
           return copy;
         };
-        Geometric3.fromScalar = function(α) {
-          return new Geometric3().copyScalar(α);
+        Geometric3.fromScalar = function(scalar) {
+          return new Geometric3().copyScalar(scalar.α);
         };
         Geometric3.fromSpinor = function(spinor) {
           var copy = new Geometric3();
@@ -14783,6 +14783,9 @@ System.register("davinci-eight/math/Geometric3.js", ["./dotVectorE3", "./G3", ".
         };
         Geometric3.rotorFromDirections = function(a, b) {
           return new Geometric3().rotorFromDirections(a, b);
+        };
+        Geometric3.scalar = function(α) {
+          return new Geometric3().copyScalar(α);
         };
         Geometric3.vector = function(x, y, z) {
           var v = new Geometric3();
@@ -19225,7 +19228,7 @@ System.register("davinci-eight/visual/Sphere.js", ["./deviation", "./direction",
   };
 });
 
-System.register("davinci-eight/visual/World.js", ["./Arrow", "../core/Color", "../core", "./Box", "./Cylinder", "../checks/isDefined", "../facets/AmbientLight", "../core/Drawable", "../checks/mustBeNumber", "../i18n/readOnly", "../math/R3", "../core/Shareable", "./Sphere"], function(exports_1) {
+System.register("davinci-eight/visual/World.js", ["./Arrow", "../core/Color", "../core", "./Box", "./Cylinder", "../checks/isDefined", "../facets/AmbientLight", "../core/Drawable", "../checks/mustBeNumber", "../i18n/readOnly", "../core/Shareable", "./Sphere"], function(exports_1) {
   var __extends = (this && this.__extends) || function(d, b) {
     for (var p in b)
       if (b.hasOwnProperty(p))
@@ -19245,13 +19248,12 @@ System.register("davinci-eight/visual/World.js", ["./Arrow", "../core/Color", ".
       Drawable_1,
       mustBeNumber_1,
       readOnly_1,
-      R3_1,
       Shareable_1,
       Sphere_1;
   var World;
   function updateAxis(body, options) {
     if (options.axis) {
-      body.axis = R3_1.default.direction(options.axis);
+      body.axis.copyVector(options.axis).direction();
     }
   }
   function updateColor(body, options) {
@@ -19287,8 +19289,6 @@ System.register("davinci-eight/visual/World.js", ["./Arrow", "../core/Color", ".
       mustBeNumber_1 = mustBeNumber_1_1;
     }, function(readOnly_1_1) {
       readOnly_1 = readOnly_1_1;
-    }, function(R3_1_1) {
-      R3_1 = R3_1_1;
     }, function(Shareable_1_1) {
       Shareable_1 = Shareable_1_1;
     }, function(Sphere_1_1) {

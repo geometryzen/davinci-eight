@@ -2134,14 +2134,17 @@ declare module EIGHT {
         static I(): Geometric3;
 
         /**
+         * Creates a copy of a scalar.
+         */
+        static fromScalar(scalar: Scalar): Geometric3;
+
+        /**
          * Creates a copy of a spinor.
-         * @param spinor
          */
         static fromSpinor(spinor: SpinorE3): Geometric3;
 
         /**
          * Creates a copy of a vector.
-         * @param vector
          */
         static fromVector(vector: VectorE3): Geometric3;
 
@@ -2151,6 +2154,11 @@ declare module EIGHT {
          * @param b The <em>to</em> vector.
          */
         static rotorFromDirections(a: VectorE3, b: VectorE3): Geometric3;
+
+        /**
+         * Constructs a new scalar from a number
+         */
+        static scalar(α: number): Geometric3;
 
         /**
          * Constructs a new vector from Cartesian coordinates
@@ -3424,7 +3432,10 @@ declare module EIGHT {
     }
 
     class RigidBody extends Mesh {
-        public axis: R3
+        /**
+         * The axis of the RigidBody.
+         */
+        public axis: Geometric3
 
         /**
          * The (dimensionless) mass of the RigidBody.

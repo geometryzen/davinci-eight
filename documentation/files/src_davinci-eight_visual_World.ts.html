@@ -223,7 +223,6 @@ import Mesh from &#x27;../core/Mesh&#x27;
 import mustBeNumber from &#x27;../checks/mustBeNumber&#x27;
 import CameraControls from &#x27;../controls/CameraControls&#x27;
 import readOnly from &#x27;../i18n/readOnly&#x27;
-import R3 from &#x27;../math/R3&#x27;
 import Shareable from &#x27;../core/Shareable&#x27;
 import Sphere from &#x27;./Sphere&#x27;
 import VectorE3 from &#x27;../math/VectorE3&#x27;
@@ -231,7 +230,7 @@ import WebGLRenderer from &#x27;../core/WebGLRenderer&#x27;
 
 function updateAxis(body: RigidBody, options: { axis?: VectorE3 }): void {
     if (options.axis) {
-        body.axis = R3.direction(options.axis)
+        body.axis.copyVector(options.axis).direction()
     }
 }
 

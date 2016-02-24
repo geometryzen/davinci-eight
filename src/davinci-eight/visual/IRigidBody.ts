@@ -3,6 +3,7 @@
  */
 interface IRigidBody<MASS, MV> {
     attitude: MV
+    axis: MV
     mass: MASS
     momentum: MV
     position: MV

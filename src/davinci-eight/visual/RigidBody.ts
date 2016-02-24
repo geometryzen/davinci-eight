@@ -71,12 +71,12 @@ export default class RigidBody extends Mesh implements IRigidBody<number, Geomet
 
     /**
      * @property axis
-     * @type R3
+     * @type Geometric3
      */
-    get axis(): R3 {
-        return this._direction.rotate(this.attitude)
+    get axis(): Geometric3 {
+        return Geometric3.fromVector(this._direction).rotate(this.attitude)
     }
-    set axis(axis: R3) {
+    set axis(axis: Geometric3) {
         mustBeObject('axis', axis)
         this.attitude.rotorFromDirections(this._direction, axis)
     }

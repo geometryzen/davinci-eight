@@ -4391,7 +4391,7 @@ define('davinci-eight/math/Geometric3',["require", "exports", './dotVectorE3', '
             this.z = iz * α + iα * a + ix * c - iy * b;
             return this;
         };
-        Geometric3.prototype.rotorFromDirections = function (b, a) {
+        Geometric3.prototype.rotorFromDirections = function (a, b) {
             rotorFromDirectionsE3_1.default(a, b, this);
             return this;
         };
@@ -4559,7 +4559,7 @@ define('davinci-eight/math/Geometric3',["require", "exports", './dotVectorE3', '
                 return Geometric3.copy(this).add(rhs);
             }
             else if (typeof rhs === 'number') {
-                return Geometric3.copy(this).add(Geometric3.fromScalar(rhs));
+                return Geometric3.copy(this).add(Geometric3.scalar(rhs));
             }
             else {
                 return void 0;
@@ -4581,7 +4581,7 @@ define('davinci-eight/math/Geometric3',["require", "exports", './dotVectorE3', '
                 return Geometric3.copy(lhs).div(this);
             }
             else if (typeof lhs === 'number') {
-                return Geometric3.fromScalar(lhs).div(this);
+                return Geometric3.scalar(lhs).div(this);
             }
             else {
                 return void 0;
@@ -4614,7 +4614,7 @@ define('davinci-eight/math/Geometric3',["require", "exports", './dotVectorE3', '
                 return Geometric3.copy(lhs).add(this);
             }
             else if (typeof lhs === 'number') {
-                return Geometric3.fromScalar(lhs).add(this);
+                return Geometric3.scalar(lhs).add(this);
             }
             else {
                 return void 0;
@@ -4625,7 +4625,7 @@ define('davinci-eight/math/Geometric3',["require", "exports", './dotVectorE3', '
                 return Geometric3.copy(this).sub(rhs);
             }
             else if (typeof rhs === 'number') {
-                return Geometric3.fromScalar(rhs).neg().add(this);
+                return Geometric3.scalar(rhs).neg().add(this);
             }
             else {
                 return void 0;
@@ -4636,7 +4636,7 @@ define('davinci-eight/math/Geometric3',["require", "exports", './dotVectorE3', '
                 return Geometric3.copy(lhs).sub(this);
             }
             else if (typeof lhs === 'number') {
-                return Geometric3.fromScalar(lhs).sub(this);
+                return Geometric3.scalar(lhs).sub(this);
             }
             else {
                 return void 0;
@@ -4669,7 +4669,7 @@ define('davinci-eight/math/Geometric3',["require", "exports", './dotVectorE3', '
                 return Geometric3.copy(this).lco(rhs);
             }
             else if (typeof rhs === 'number') {
-                return Geometric3.copy(this).lco(Geometric3.fromScalar(rhs));
+                return Geometric3.copy(this).lco(Geometric3.scalar(rhs));
             }
             else {
                 return void 0;
@@ -4680,7 +4680,7 @@ define('davinci-eight/math/Geometric3',["require", "exports", './dotVectorE3', '
                 return Geometric3.copy(lhs).lco(this);
             }
             else if (typeof lhs === 'number') {
-                return Geometric3.fromScalar(lhs).lco(this);
+                return Geometric3.scalar(lhs).lco(this);
             }
             else {
                 return void 0;
@@ -4691,7 +4691,7 @@ define('davinci-eight/math/Geometric3',["require", "exports", './dotVectorE3', '
                 return Geometric3.copy(this).rco(rhs);
             }
             else if (typeof rhs === 'number') {
-                return Geometric3.copy(this).rco(Geometric3.fromScalar(rhs));
+                return Geometric3.copy(this).rco(Geometric3.scalar(rhs));
             }
             else {
                 return void 0;
@@ -4702,7 +4702,7 @@ define('davinci-eight/math/Geometric3',["require", "exports", './dotVectorE3', '
                 return Geometric3.copy(lhs).rco(this);
             }
             else if (typeof lhs === 'number') {
-                return Geometric3.fromScalar(lhs).rco(this);
+                return Geometric3.scalar(lhs).rco(this);
             }
             else {
                 return void 0;
@@ -4713,7 +4713,7 @@ define('davinci-eight/math/Geometric3',["require", "exports", './dotVectorE3', '
                 return Geometric3.copy(this).scp(rhs);
             }
             else if (typeof rhs === 'number') {
-                return Geometric3.copy(this).scp(Geometric3.fromScalar(rhs));
+                return Geometric3.copy(this).scp(Geometric3.scalar(rhs));
             }
             else {
                 return void 0;
@@ -4724,7 +4724,7 @@ define('davinci-eight/math/Geometric3',["require", "exports", './dotVectorE3', '
                 return Geometric3.copy(lhs).scp(this);
             }
             else if (typeof lhs === 'number') {
-                return Geometric3.fromScalar(lhs).scp(this);
+                return Geometric3.scalar(lhs).scp(this);
             }
             else {
                 return void 0;
@@ -4757,8 +4757,8 @@ define('davinci-eight/math/Geometric3',["require", "exports", './dotVectorE3', '
             copy.β = M.β;
             return copy;
         };
-        Geometric3.fromScalar = function (α) {
-            return new Geometric3().copyScalar(α);
+        Geometric3.fromScalar = function (scalar) {
+            return new Geometric3().copyScalar(scalar.α);
         };
         Geometric3.fromSpinor = function (spinor) {
             var copy = new Geometric3();
@@ -4780,6 +4780,9 @@ define('davinci-eight/math/Geometric3',["require", "exports", './dotVectorE3', '
         };
         Geometric3.rotorFromDirections = function (a, b) {
             return new Geometric3().rotorFromDirections(a, b);
+        };
+        Geometric3.scalar = function (α) {
+            return new Geometric3().copyScalar(α);
         };
         Geometric3.vector = function (x, y, z) {
             var v = new Geometric3();
@@ -16896,7 +16899,7 @@ define('davinci-eight/visual/RigidBody',["require", "exports", '../math/Geometri
         };
         Object.defineProperty(RigidBody.prototype, "axis", {
             get: function () {
-                return this._direction.rotate(this.attitude);
+                return Geometric3_1.default.fromVector(this._direction).rotate(this.attitude);
             },
             set: function (axis) {
                 mustBeObject_1.default('axis', axis);
@@ -17459,10 +17462,10 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/visual/World',["require", "exports", './Arrow', '../core/Color', '../core', './Box', './Cylinder', '../checks/isDefined', '../facets/AmbientLight', '../core/Drawable', '../checks/mustBeNumber', '../i18n/readOnly', '../math/R3', '../core/Shareable', './Sphere'], function (require, exports, Arrow_1, Color_1, core_1, Box_1, Cylinder_1, isDefined_1, AmbientLight_1, Drawable_1, mustBeNumber_1, readOnly_1, R3_1, Shareable_1, Sphere_1) {
+define('davinci-eight/visual/World',["require", "exports", './Arrow', '../core/Color', '../core', './Box', './Cylinder', '../checks/isDefined', '../facets/AmbientLight', '../core/Drawable', '../checks/mustBeNumber', '../i18n/readOnly', '../core/Shareable', './Sphere'], function (require, exports, Arrow_1, Color_1, core_1, Box_1, Cylinder_1, isDefined_1, AmbientLight_1, Drawable_1, mustBeNumber_1, readOnly_1, Shareable_1, Sphere_1) {
     function updateAxis(body, options) {
         if (options.axis) {
-            body.axis = R3_1.default.direction(options.axis);
+            body.axis.copyVector(options.axis).direction();
         }
     }
     function updateColor(body, options) {

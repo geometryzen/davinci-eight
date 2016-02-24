@@ -11,6 +11,7 @@ import MutableGeometricElement3D from './MutableGeometricElement3D';
 import rcoG3 from './rcoG3';
 import rotorFromDirections from './rotorFromDirectionsE3';
 import scpG3 from './scpG3';
+import Scalar from './Scalar';
 import SpinorE3 from './SpinorE3';
 import squaredNormG3 from './squaredNormG3';
 import stringFromCoordinates from './stringFromCoordinates';
@@ -947,12 +948,12 @@ export default class Geometric3 extends VectorN<number> implements GeometricE3, 
      * R = (1 + b * a) / sqrt(2 * (1 + b << a))
      * </p>
      * @method rotorFromDirections
-     * @param b {VectorE3} The ending unit vector
      * @param a {VectorE3} The starting unit vector
+     * @param b {VectorE3} The ending unit vector
      * @return {Geometric3} <code>this</code> The rotor representing a rotation from a to b.
      * @chainable
      */
-    rotorFromDirections(b: VectorE3, a: VectorE3): Geometric3 {
+    rotorFromDirections(a: VectorE3, b: VectorE3): Geometric3 {
         rotorFromDirections(a, b, this)
         return this
     }
@@ -1259,16 +1260,16 @@ export default class Geometric3 extends VectorN<number> implements GeometricE3, 
 
     /**
      * @method __add__
-     * @param rhs {any}
+     * @param rhs {number | Geometric3}
      * @return {Geometric3}
      * @private
      */
-    __add__(rhs: any) {
+    __add__(rhs: number | Geometric3) {
         if (rhs instanceof Geometric3) {
             return Geometric3.copy(this).add(rhs)
         }
         else if (typeof rhs === 'number') {
-            return Geometric3.copy(this).add(Geometric3.fromScalar(rhs))
+            return Geometric3.copy(this).add(Geometric3.scalar(rhs))
         }
         else {
             return void 0
@@ -1277,11 +1278,11 @@ export default class Geometric3 extends VectorN<number> implements GeometricE3, 
 
     /**
      * @method __div__
-     * @param rhs {any}
+     * @param rhs {number | Geometric3}
      * @return {Geometric3}
      * @private
      */
-    __div__(rhs: any) {
+    __div__(rhs: number | Geometric3) {
         if (rhs instanceof Geometric3) {
             return Geometric3.copy(this).div(rhs)
         }
@@ -1295,16 +1296,16 @@ export default class Geometric3 extends VectorN<number> implements GeometricE3, 
 
     /**
      * @method __rdiv__
-     * @param lhs {any}
+     * @param lhs {number | Geometric3}
      * @return {Geometric3}
      * @private
      */
-    __rdiv__(lhs: any) {
+    __rdiv__(lhs: number | Geometric3) {
         if (lhs instanceof Geometric3) {
             return Geometric3.copy(lhs).div(this)
         }
         else if (typeof lhs === 'number') {
-            return Geometric3.fromScalar(lhs).div(this)
+            return Geometric3.scalar(lhs).div(this)
         }
         else {
             return void 0
@@ -1313,11 +1314,11 @@ export default class Geometric3 extends VectorN<number> implements GeometricE3, 
 
     /**
      * @method __mul__
-     * @param rhs {any}
+     * @param rhs {number | Geometric3}
      * @return {Geometric3}
      * @private
      */
-    __mul__(rhs: any) {
+    __mul__(rhs: number | Geometric3) {
         if (rhs instanceof Geometric3) {
             return Geometric3.copy(this).mul(rhs)
         }
@@ -1331,11 +1332,11 @@ export default class Geometric3 extends VectorN<number> implements GeometricE3, 
 
     /**
      * @method __rmul__
-     * @param lhs {any}
+     * @param lhs {number | Geometric3}
      * @return {Geometric3}
      * @private
      */
-    __rmul__(lhs: any) {
+    __rmul__(lhs: number | Geometric3) {
         if (lhs instanceof Geometric3) {
             return Geometric3.copy(lhs).mul(this)
         }
@@ -1349,16 +1350,16 @@ export default class Geometric3 extends VectorN<number> implements GeometricE3, 
 
     /**
      * @method __radd__
-     * @param lhs {any}
+     * @param lhs {number | Geometric3}
      * @return {Geometric3}
      * @private
      */
-    __radd__(lhs: any) {
+    __radd__(lhs: number | Geometric3) {
         if (lhs instanceof Geometric3) {
             return Geometric3.copy(lhs).add(this)
         }
         else if (typeof lhs === 'number') {
-            return Geometric3.fromScalar(lhs).add(this)
+            return Geometric3.scalar(lhs).add(this)
         }
         else {
             return void 0
@@ -1366,16 +1367,16 @@ export default class Geometric3 extends VectorN<number> implements GeometricE3, 
     }
     /**
      * @method __sub__
-     * @param rhs {any}
+     * @param rhs {number | Geometric3}
      * @return {Geometric3}
      * @private
      */
-    __sub__(rhs: any) {
+    __sub__(rhs: number | Geometric3) {
         if (rhs instanceof Geometric3) {
             return Geometric3.copy(this).sub(rhs)
         }
         else if (typeof rhs === 'number') {
-            return Geometric3.fromScalar(rhs).neg().add(this)
+            return Geometric3.scalar(rhs).neg().add(this)
         }
         else {
             return void 0
@@ -1383,16 +1384,16 @@ export default class Geometric3 extends VectorN<number> implements GeometricE3, 
     }
     /**
      * @method __rsub__
-     * @param lhs {any}
+     * @param lhs {number | Geometric3}
      * @return {Geometric3}
      * @private
      */
-    __rsub__(lhs: any) {
+    __rsub__(lhs: number | Geometric3) {
         if (lhs instanceof Geometric3) {
             return Geometric3.copy(lhs).sub(this)
         }
         else if (typeof lhs === 'number') {
-            return Geometric3.fromScalar(lhs).sub(this)
+            return Geometric3.scalar(lhs).sub(this)
         }
         else {
             return void 0
@@ -1401,11 +1402,11 @@ export default class Geometric3 extends VectorN<number> implements GeometricE3, 
 
     /**
      * @method __wedge__
-     * @param rhs {any}
+     * @param rhs {number | Geometric3}
      * @return {Geometric3}
      * @private
      */
-    __wedge__(rhs: any) {
+    __wedge__(rhs: number | Geometric3) {
         if (rhs instanceof Geometric3) {
             return Geometric3.copy(this).ext(rhs)
         }
@@ -1420,11 +1421,11 @@ export default class Geometric3 extends VectorN<number> implements GeometricE3, 
 
     /**
      * @method __rwedge__
-     * @param lhs {any}
+     * @param lhs {number | Geometric3}
      * @return {Geometric3}
      * @private
      */
-    __rwedge__(lhs: any) {
+    __rwedge__(lhs: number | Geometric3) {
         if (lhs instanceof Geometric3) {
             return Geometric3.copy(lhs).ext(this)
         }
@@ -1439,16 +1440,16 @@ export default class Geometric3 extends VectorN<number> implements GeometricE3, 
 
     /**
      * @method __lshift__
-     * @param rhs {any}
+     * @param rhs {number | Geometric3}
      * @return {Geometric3}
      * @private
      */
-    __lshift__(rhs: any) {
+    __lshift__(rhs: number | Geometric3) {
         if (rhs instanceof Geometric3) {
             return Geometric3.copy(this).lco(rhs)
         }
         else if (typeof rhs === 'number') {
-            return Geometric3.copy(this).lco(Geometric3.fromScalar(rhs))
+            return Geometric3.copy(this).lco(Geometric3.scalar(rhs))
         }
         else {
             return void 0
@@ -1457,16 +1458,16 @@ export default class Geometric3 extends VectorN<number> implements GeometricE3, 
 
     /**
      * @method __rlshift__
-     * @param other {any}
+     * @param other {number | Geometric3}
      * @return {Geometric3}
      * @private
      */
-    __rlshift__(lhs: any) {
+    __rlshift__(lhs: number | Geometric3) {
         if (lhs instanceof Geometric3) {
             return Geometric3.copy(lhs).lco(this)
         }
         else if (typeof lhs === 'number') {
-            return Geometric3.fromScalar(lhs).lco(this)
+            return Geometric3.scalar(lhs).lco(this)
         }
         else {
             return void 0
@@ -1475,16 +1476,16 @@ export default class Geometric3 extends VectorN<number> implements GeometricE3, 
 
     /**
      * @method __rshift__
-     * @param rhs {any}
+     * @param rhs {number | Geoemtric3}
      * @return {Geometric3}
      * @private
      */
-    __rshift__(rhs: any) {
+    __rshift__(rhs: number | Geometric3) {
         if (rhs instanceof Geometric3) {
             return Geometric3.copy(this).rco(rhs)
         }
         else if (typeof rhs === 'number') {
-            return Geometric3.copy(this).rco(Geometric3.fromScalar(rhs))
+            return Geometric3.copy(this).rco(Geometric3.scalar(rhs))
         }
         else {
             return void 0
@@ -1493,16 +1494,16 @@ export default class Geometric3 extends VectorN<number> implements GeometricE3, 
 
     /**
      * @method __rrshift__
-     * @param other {any}
+     * @param other {number | Geometric3}
      * @return {Geometric3}
      * @private
      */
-    __rrshift__(lhs: any) {
+    __rrshift__(lhs: number | Geometric3) {
         if (lhs instanceof Geometric3) {
             return Geometric3.copy(lhs).rco(this)
         }
         else if (typeof lhs === 'number') {
-            return Geometric3.fromScalar(lhs).rco(this)
+            return Geometric3.scalar(lhs).rco(this)
         }
         else {
             return void 0
@@ -1511,16 +1512,16 @@ export default class Geometric3 extends VectorN<number> implements GeometricE3, 
 
     /**
      * @method __vbar__
-     * @param rhs {any}
+     * @param rhs {number | Geometric3}
      * @return {Geometric3}
      * @private
      */
-    __vbar__(rhs: any) {
+    __vbar__(rhs: number | Geometric3) {
         if (rhs instanceof Geometric3) {
             return Geometric3.copy(this).scp(rhs)
         }
         else if (typeof rhs === 'number') {
-            return Geometric3.copy(this).scp(Geometric3.fromScalar(rhs))
+            return Geometric3.copy(this).scp(Geometric3.scalar(rhs))
         }
         else {
             return void 0
@@ -1529,16 +1530,16 @@ export default class Geometric3 extends VectorN<number> implements GeometricE3, 
 
     /**
      * @method __rvbar__
-     * @param lhs {any}
+     * @param lhs {number | Geometric3}
      * @return {Geometric3}
      * @private
      */
-    __rvbar__(lhs: any) {
+    __rvbar__(lhs: number | Geometric3) {
         if (lhs instanceof Geometric3) {
             return Geometric3.copy(lhs).scp(this)
         }
         else if (typeof lhs === 'number') {
-            return Geometric3.fromScalar(lhs).scp(this)
+            return Geometric3.scalar(lhs).scp(this)
         }
         else {
             return void 0
@@ -1582,6 +1583,7 @@ export default class Geometric3 extends VectorN<number> implements GeometricE3, 
      * @method zero
      * @return {Geometric3}
      * @static
+     * @chainable
      */
     static zero(): Geometric3 { return new Geometric3() }
 
@@ -1592,6 +1594,7 @@ export default class Geometric3 extends VectorN<number> implements GeometricE3, 
      * @method one
      * @return {Geometric3}
      * @static
+     * @chainable
      */
     static one(): Geometric3 { return new Geometric3().addScalar(1) }
 
@@ -1601,6 +1604,7 @@ export default class Geometric3 extends VectorN<number> implements GeometricE3, 
      * @method e1
      * @return {Geometric3}
      * @static
+     * @chainable
      */
     static e1(): Geometric3 { return Geometric3.vector(1, 0, 0) }
 
@@ -1610,6 +1614,7 @@ export default class Geometric3 extends VectorN<number> implements GeometricE3, 
      * @method e2
      * @return {Geometric3}
      * @static
+     * @chainable
      */
     static e2(): Geometric3 { return Geometric3.vector(0, 1, 0) }
 
@@ -1619,6 +1624,7 @@ export default class Geometric3 extends VectorN<number> implements GeometricE3, 
      * @method e3
      * @return {Geometric3}
      * @static
+     * @chainable
      */
     static e3(): Geometric3 { return Geometric3.vector(0, 0, 1) }
 
@@ -1628,6 +1634,7 @@ export default class Geometric3 extends VectorN<number> implements GeometricE3, 
      * @method I
      * @return {Geometric3}
      * @static
+     * @chainable
      */
     static I(): Geometric3 { return new Geometric3().addPseudo(1) }
 
@@ -1636,6 +1643,7 @@ export default class Geometric3 extends VectorN<number> implements GeometricE3, 
      * @param M {GeometricE3}
      * @return {Geometric3}
      * @static
+     * @chainable
      */
     static copy(M: GeometricE3): Geometric3 {
         const copy = new Geometric3()
@@ -1652,13 +1660,13 @@ export default class Geometric3 extends VectorN<number> implements GeometricE3, 
 
     /**
      * @method fromScalar
-     * @param α {number}
+     * @param scalar {Scalar}
      * @return {Geometric3}
      * @static
      * @chainable
      */
-    static fromScalar(α: number): Geometric3 {
-        return new Geometric3().copyScalar(α)
+    static fromScalar(scalar: Scalar): Geometric3 {
+        return new Geometric3().copyScalar(scalar.α)
     }
 
     /**
@@ -1712,9 +1720,21 @@ export default class Geometric3 extends VectorN<number> implements GeometricE3, 
      * @param b {VectorE3} The <em>to</em> vector.
      * @return {Geometric3}
      * @static
+     * @chainable
      */
     static rotorFromDirections(a: VectorE3, b: VectorE3): Geometric3 {
         return new Geometric3().rotorFromDirections(a, b)
+    }
+
+    /**
+     * @method scalar
+     * @param α {number}
+     * @return {Geometric3}
+     * @static
+     * @chainable
+     */
+    static scalar(α: number): Geometric3 {
+        return new Geometric3().copyScalar(α)
     }
 
     /**
@@ -1724,6 +1744,7 @@ export default class Geometric3 extends VectorN<number> implements GeometricE3, 
      * @param z {number}
      * @return {Geometric3}
      * @static
+     * @chainable
      */
     static vector(x: number, y: number, z: number): Geometric3 {
         const v = new Geometric3()
