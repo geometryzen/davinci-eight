@@ -121,8 +121,8 @@ function makeEmpty(vertices: Vector3[], radialSegments: number, thetaSegments: n
 export default class RingSimplexGeometry extends SliceSimplexPrimitivesBuilder {
     public a: number;
     public b: number;
-    constructor(a = 1, b = 0, axis?: VectorE3, sliceStart?: VectorE3, sliceAngle?: number) {
-        super(axis, sliceStart, sliceAngle)
+    constructor(a = 1, b = 0, sliceAngle?: number) {
+        super()
         this.a = a
         this.b = b
     }
@@ -134,12 +134,12 @@ export default class RingSimplexGeometry extends SliceSimplexPrimitivesBuilder {
 
         var radialSegments = this.flatSegments
         var thetaSegments = this.curvedSegments
-        var generator: SpinorE3 = Spinor3.dual(this.axis)
+        var generator: SpinorE3 = Spinor3.dual(this.up, false)
 
         var vertices: Vector3[] = []
         var uvs: Vector2[] = []
 
-        computeVertices(this.a, this.b, this.axis, this.sliceStart, this.sliceAngle, generator, radialSegments, thetaSegments, vertices, uvs)
+        computeVertices(this.a, this.b, this.up, this.out, this.sliceAngle, generator, radialSegments, thetaSegments, vertices, uvs)
         switch (this.k) {
             case Simplex.EMPTY: {
                 makeEmpty(vertices, radialSegments, thetaSegments, this.data)
@@ -154,7 +154,7 @@ export default class RingSimplexGeometry extends SliceSimplexPrimitivesBuilder {
             }
                 break
             case Simplex.TRIANGLE: {
-                makeTriangles(vertices, uvs, this.axis, radialSegments, thetaSegments, this)
+                makeTriangles(vertices, uvs, this.up, radialSegments, thetaSegments, this)
             }
                 break
             default: {

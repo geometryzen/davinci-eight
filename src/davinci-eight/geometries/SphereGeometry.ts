@@ -23,7 +23,12 @@ function k(options: { k?: number }): number {
  */
 
 function primitives(options: { k?: number }): Primitive[] {
-    const builder = new SphereBuilder(1, R3.e2)
+    const builder = new SphereBuilder()
+    // We know that the standard configuration is for a sphere of radius 1,
+    // at the origin, with a spherical polar axis aligned with e3, and the
+    // azimuth aligned with e1.
+    // FIXME: The scale, tilt, offset should be parameters.
+    builder.tilt.rotorFromDirections(R3.e3, R3.e2)
     builder.k = k(options)
     return builder.toPrimitives()
 }

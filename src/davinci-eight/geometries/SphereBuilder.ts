@@ -1,9 +1,7 @@
 import arc3 from '../geometries/arc3';
 import R3 from '../math/R3';
 import SimplexPrimitivesBuilder from '../geometries/SimplexPrimitivesBuilder';
-import IAxialGeometry from '../geometries/IAxialGeometry';
 import mustBeNumber from '../checks/mustBeNumber';
-import Vector1 from '../math/Vector1';
 import Simplex from '../geometries/Simplex';
 import SliceSimplexPrimitivesBuilder from '../geometries/SliceSimplexPrimitivesBuilder';
 import Spinor3 from '../math/Spinor3';
@@ -12,18 +10,18 @@ import Vector2 from '../math/Vector2';
 import Vector3 from '../math/Vector3';
 import VectorE3 from '../math/VectorE3';
 
-function computeVertices(radius: number, axis: R3, phiStart: Vector3, phiLength: number, thetaStart: number, thetaLength: number, heightSegments: number, widthSegments: number, points: Vector3[], uvs: Vector2[]) {
+function computeVertices(stress: VectorE3, tilt: SpinorE3, offset: VectorE3, phiLength: number, thetaLength: number, heightSegments: number, widthSegments: number, points: Vector3[], uvs: Vector2[]) {
 
-    const generator: SpinorE3 = Spinor3.dual(axis)
+    const generator: SpinorE3 = Spinor3.dual(R3.e3, false)
     const iLength = heightSegments + 1
     const jLength = widthSegments + 1
 
     for (let i = 0; i < iLength; i++) {
         const v = i / heightSegments;
 
-        const θ: number = thetaStart + v * thetaLength
-        const arcRadius = radius * Math.sin(θ)
-        const begin = Vector3.copy(phiStart).scale(arcRadius)
+        const θ: number = v * thetaLength
+        const arcRadius = Math.sin(θ)
+        const begin = Vector3.copy(R3.e1).scale(arcRadius)
 
         const arcPoints: Vector3[] = arc3(begin, phiLength, generator, widthSegments)
         /**
@@ -31,11 +29,16 @@ function computeVertices(radius: number, axis: R3, phiStart: Vector3, phiLength:
          * distance position parallel to the axis correct.
          */
         const cosθ = Math.cos(θ)
-        const displacement = radius * cosθ
+        const displacement = cosθ
 
         for (let j = 0; j < jLength; j++) {
-            const point = arcPoints[j].add(axis, displacement)
-            points.push(point)
+            const point = arcPoints[j].add(R3.e3, displacement)
+            // FIXME: Allow different scaling in different directions.
+            point.stress(stress)
+            point.rotate(tilt)
+            point.add(offset)
+            // FIXME: Here we should apply the scale, tilt and offset.
+            points.push(point.rotate(tilt))
             const u = j / widthSegments;
             uvs.push(new Vector2([u, 1 - v]))
         }
@@ -178,62 +181,43 @@ function makePoints(points: Vector3[], uvs: Vector2[], radius: number, heightSeg
     }
 }
 
-export default class SphereBuilder extends SliceSimplexPrimitivesBuilder implements IAxialGeometry<SphereBuilder> {
-    public _radius: Vector1;
-    public thetaLength: number;
-    public thetaStart: number;
-    constructor(
-        radius: number,
-        axis: VectorE3,
-        phiStart?: VectorE3,
-        phiLength = 2 * Math.PI,
-        thetaStart = 0,
-        thetaLength = Math.PI
-    ) {
-        super(axis, phiStart, phiLength)
-        this._radius = new Vector1([radius])
-        this.thetaLength = thetaLength
-        this.thetaStart = thetaStart
+/**
+ * @class SphereBuilder
+ * @extends SliceSimplexPrimitivesBuilder
+ */
+export default class SphereBuilder extends SliceSimplexPrimitivesBuilder {
+    /**
+     * @property thetaLength
+     * @type number
+     */
+    public thetaLength: number = Math.PI;
 
+    constructor() {
+        super()
         this.setModified(true)
         this.regenerate()
     }
     get radius(): number {
-        return this._radius.x
+        return this.stress.x
     }
     set radius(radius: number) {
-        this._radius.x = mustBeNumber('radius', radius)
+        mustBeNumber('radius', radius)
+        this.stress.x = radius
+        this.stress.y = radius
+        this.stress.z = radius
     }
     get phiLength(): number {
         return this.sliceAngle
     }
     set phiLength(phiLength: number) {
+        mustBeNumber('phiLength', phiLength)
         this.sliceAngle = phiLength
     }
-    get phiStart(): Vector3 {
-        return this.sliceStart
-    }
-    set phiStart(phiStart: Vector3) {
-        this.sliceStart.copy(phiStart)
-    }
-    public setAxis(axis: VectorE3): SphereBuilder {
-        super.setAxis(axis)
-        return this
-    }
-    public setPosition(position: VectorE3): SphereBuilder {
-        super.setPosition(position)
-        return this
-    }
-    public enableTextureCoords(enable: boolean): SphereBuilder {
-        super.enableTextureCoords(enable)
-        return this
-    }
     public isModified(): boolean {
-        return this._radius.modified || super.isModified()
+        return super.isModified()
     }
     public setModified(modified: boolean): SphereBuilder {
         super.setModified(modified)
-        this._radius.modified = modified
         return this
     }
     public regenerate(): void {
@@ -245,7 +229,8 @@ export default class SphereBuilder extends SliceSimplexPrimitivesBuilder impleme
         // Output. Could this be {[name:string]:VertexN<number>}[]
         var points: Vector3[] = []
         var uvs: Vector2[] = []
-        computeVertices(this.radius, this.axis, this.phiStart, this.phiLength, this.thetaStart, this.thetaLength, heightSegments, widthSegments, points, uvs)
+
+        computeVertices(this.stress, this.tilt, this.offset, this.phiLength, this.thetaLength, heightSegments, widthSegments, points, uvs)
 
         switch (this.k) {
             case Simplex.EMPTY: {

@@ -10,6 +10,7 @@ import mulG3 from './mulG3';
 import gauss from './gauss';
 import GeometricElement from './GeometricElement';
 import notImplemented from '../i18n/notImplemented';
+import notSupported from '../i18n/notSupported';
 import quadSpinorE3 from './quadSpinorE3'
 import rcoG3 from './rcoG3';
 import readOnly from '../i18n/readOnly';
@@ -1186,6 +1187,10 @@ export default class G3 implements ImmutableMeasure<G3>, GeometricE3, GeometricE
 
     squaredNormSansUnits(): number {
         return squaredNormG3(this);
+    }
+
+    stress(σ: VectorE3): G3 {
+        throw new Error(notSupported('stress').message)
     }
 
     /**

@@ -1,5 +1,6 @@
 import b2 from '../geometries/b2';
 import b3 from '../geometries/b3';
+import Coords from './Coords';
 import dotVector from './dotVectorE2';
 import G2 from './G2';
 import extE2 from './extE2';
@@ -15,6 +16,7 @@ import mustBeInteger from '../checks/mustBeInteger';
 import mustBeNumber from '../checks/mustBeNumber';
 import mustBeObject from '../checks/mustBeObject';
 import MutableGeometricElement from './MutableGeometricElement';
+import notSupported from '../i18n/notSupported';
 import rcoE2 from './rcoE2';
 import rotorFromDirections from './rotorFromDirectionsE2';
 import scpE2 from './scpE2';
@@ -22,7 +24,6 @@ import SpinorE2 from './SpinorE2';
 import stringFromCoordinates from './stringFromCoordinates';
 import Unit from './Unit';
 import VectorE2 from './VectorE2';
-import VectorN from './VectorN';
 import wedgeXY from './wedgeXY';
 
 /**
@@ -95,10 +96,10 @@ function duckCopy(value: any): Geometric2 {
 
 /**
  * @class Geometric2
- * @extends VectorN
+ * @extends Coords
  * @beta
  */
-export default class Geometric2 extends VectorN<number> implements GeometricE2, Measure<Geometric2>, MutableGeometricElement<GeometricE2, Geometric2, SpinorE2, VectorE2>, GeometricOperators<Geometric2> {
+export default class Geometric2 extends Coords implements GeometricE2, Measure<Geometric2>, MutableGeometricElement<GeometricE2, Geometric2, SpinorE2, VectorE2>, GeometricOperators<Geometric2> {
     /**
      * @property BASIS_LABELS
      * @type {(string | string[])[]}
@@ -1066,6 +1067,10 @@ export default class Geometric2 extends VectorN<number> implements GeometricE2, 
         mustBeObject('target', target)
         mustBeNumber('α', α)
         return this;
+    }
+
+    stress(σ: VectorE2): Geometric2 {
+        throw new Error(notSupported('stress').message)
     }
 
     /**

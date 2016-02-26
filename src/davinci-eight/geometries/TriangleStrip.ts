@@ -76,6 +76,9 @@ function triangleStripForGrid(uSegments: number, vSegments: number, elements?: n
 
 /**
  * Used for creating TRIANGLE_STRIP primitives.
+ * The vertices generated have coordinates (u, v) and the traversal creates
+ * counter-clockwise orientation when increasing u is the first direction and
+ * increasing v the second direction.
  *
  * @class TriangleStrip
  * @extends GeometryPrimitive
@@ -129,6 +132,7 @@ export default class TriangleStrip extends GeometryPrimitive {
     set uLength(unused: number) {
         throw new Error(readOnly('uLength').message)
     }
+
     /**
      * @property vSegments
      * @type number
@@ -140,6 +144,7 @@ export default class TriangleStrip extends GeometryPrimitive {
     set vSegments(unused: number) {
         throw new Error(readOnly('vSegments').message)
     }
+
     /**
      * vLength = vSegments + 1
      *
@@ -153,6 +158,7 @@ export default class TriangleStrip extends GeometryPrimitive {
     set vLength(unused: number) {
         throw new Error(readOnly('vLength').message)
     }
+
     /**
      * @method vertex
      * @param uIndex {number} An integer. 0 <= uIndex < uLength

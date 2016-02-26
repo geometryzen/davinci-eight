@@ -46,12 +46,21 @@ export default class GraphicsProgramSymbols {
     public static ATTRIBUTE_POSITION: string = 'aPosition';
 
     /**
-     * 'aTextureCoords'
-     * @property ATTRIBUTE_TEXTURE_COORDS
+     * 'aTangent'
+     *
+     * @property ATTRIBUTE_TANGENT
      * @type {string}
      * @static
      */
-    public static ATTRIBUTE_TEXTURE_COORDS: string = 'aTextureCoords';
+    public static ATTRIBUTE_TANGENT: string = 'aTangent';
+
+    /**
+     * 'aTextureCoord'
+     * @property ATTRIBUTE_TEXTURE_COORD
+     * @type {string}
+     * @static
+     */
+    public static ATTRIBUTE_TEXTURE_COORD: string = 'aTextureCoord';
 
     /**
      * 'uAlpha'

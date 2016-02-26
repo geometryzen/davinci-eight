@@ -1,3 +1,4 @@
+import Coords from '../math/Coords';
 import dotVectorCartesian from '../math/dotVectorCartesianE2';
 import Measure from '../math/Measure';
 import mustBeInteger from '../checks/mustBeInteger';
@@ -5,11 +6,11 @@ import mustBeNumber from '../checks/mustBeNumber';
 import mustBeObject from '../checks/mustBeObject';
 import Mutable from '../math/Mutable';
 import MutableGeometricElement from '../math/MutableGeometricElement';
+import notSupported from '../i18n/notSupported'
 import quadSpinor from '../math/quadSpinorE2';
 import rotorFromDirections from '../math/rotorFromDirectionsE2';
 import SpinorE2 from '../math/SpinorE2';
 import VectorE2 from '../math/VectorE2';
-import VectorN from '../math/VectorN';
 import wedgeXY from '../math/wedgeXY';
 
 /**
@@ -37,9 +38,9 @@ const sqrt = Math.sqrt
 
 /**
  * @class Spinor2
- * @extends VectorN<number>
+ * @extends Coords
  */
-export default class Spinor2 extends VectorN<number> implements SpinorE2, Measure<Spinor2>, Mutable<number[]>, MutableGeometricElement<SpinorE2, Spinor2, Spinor2, VectorE2> {
+export default class Spinor2 extends Coords implements SpinorE2, Measure<Spinor2>, Mutable<number[]>, MutableGeometricElement<SpinorE2, Spinor2, Spinor2, VectorE2> {
     /**
      * Constructs a <code>Spinor2</code> from a <code>number[]</code>.
      * For a <em>geometric</em> implementation, use the static methods.
@@ -674,15 +675,20 @@ export default class Spinor2 extends VectorN<number> implements SpinorE2, Measur
     }
 
     slerp(target: SpinorE2, α: number): Spinor2 {
-        var Vector2 = Spinor2.copy(target)
-        var Vector1 = this.clone()
-        var R = Vector2.mul(Vector1.inv())
+        const Vector2 = Spinor2.copy(target)
+        const Vector1 = this.clone()
+        const R = Vector2.mul(Vector1.inv())
         R.log()
         R.scale(α)
         R.exp()
         this.copy(R)
         return this
     }
+
+    stress(σ: VectorE2): Spinor2 {
+        throw new Error(notSupported('stress').message)
+    }
+
 
     /**
      * <p>

@@ -45,9 +45,7 @@ export default class BarnSimplexPrimitivesBuilder extends SimplexPrimitivesBuild
         points[3] = Geometric3.lerp(points[4], points[2], 0.5).scale(2).add(this.b).divByScalar(2)
         points[8] = Geometric3.lerp(points[7], points[9], 0.5).scale(2).add(this.b).divByScalar(2)
 
-        // Translate the points according to the position.
-        let position = Geometric3.fromVector(this.position)
-        points = points.map((point) => { return point.add(position) })
+        points = points.map((point) => { return point.stress(this.stress).rotate(this.tilt).addVector(this.offset) })
 
         function simplex(indices: number[]): Simplex {
             let simplex = new Simplex(indices.length - 1)

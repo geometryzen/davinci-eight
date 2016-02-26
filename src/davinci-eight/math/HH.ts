@@ -266,6 +266,9 @@ export default class HH implements MutableGeometricElement3D<HH, HH, HH, VectorE
         return this.x * this.x + this.y * this.y + this.z * this.z + this.t * this.t;
     }
 
+    stress(σ: VectorE3): HH {
+        throw new Error(notImplemented('stress').message);
+    }
     reflect(n: VectorE3): HH {
         throw new Error("TODO: HH.reflect");
     }

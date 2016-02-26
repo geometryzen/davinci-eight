@@ -1,23 +1,25 @@
-import R3 from '../math/R3'
+import CylinderBuilder from './CylinderBuilder'
+import mustBeObject from '../checks/mustBeObject'
 import GeometryContainer from '../core/GeometryContainer'
 import GeometryBuffers from '../core/GeometryBuffers'
 import Primitive from '../core/Primitive'
-import CylinderBuilder from './CylinderBuilder'
-import Unit from '../math/Unit'
+import SpinorE3 from '../math/SpinorE3'
 import VectorE3 from '../math/VectorE3'
 import vertexArraysFromPrimitive from '../core/vertexArraysFromPrimitive'
-
-// FIXME: Maybe we should have a constant for this use case?
-const HALF = Unit.ONE.scale(0.5)
 
 /**
  * @module EIGHT
  * @submodule geometries
  */
 
-function primitives(axis: VectorE3): Primitive[] {
-    const builder = new CylinderBuilder(axis)
-    builder.setPosition(R3.direction(axis).scale(HALF))
+function primitives(stress: VectorE3, tilt: SpinorE3, offset: VectorE3): Primitive[] {
+    mustBeObject('stress', stress)
+    mustBeObject('tile', tilt)
+    mustBeObject('offset', offset)
+    const builder = new CylinderBuilder()
+    builder.stress.copy(stress)
+    builder.tilt.copy(tilt)
+    builder.offset.copy(offset)
     return builder.toPrimitives()
 }
 
@@ -32,9 +34,13 @@ export default class CylinderGeometry extends GeometryContainer {
      * @class CylinderGeometry
      * @constructor
      */
-    constructor(axis: VectorE3) {
+    // TODO: CylinderConfig
+    constructor(stress: VectorE3, tilt: SpinorE3, offset: VectorE3) {
         super()
-        const ps: Primitive[] = primitives(axis)
+        mustBeObject('stress', stress)
+        mustBeObject('tile', tilt)
+        mustBeObject('offset', offset)
+        const ps: Primitive[] = primitives(stress, tilt, offset)
         const iLen = ps.length
         for (let i = 0; i < iLen; i++) {
             const dataSource = ps[i]

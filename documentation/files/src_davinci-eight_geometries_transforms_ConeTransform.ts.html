@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src/davinci-eight/geometries/ConeGeometry.ts - davinci-eight</title>
+    <title>src/davinci-eight/geometries/transforms/ConeTransform.ts - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -40,11 +40,15 @@
                             <ul id="api-classes" class="apis classes">
                                 <li><a href="../classes/AbstractMatrix.html">AbstractMatrix</a></li>
                                 <li><a href="../classes/AmbientLight.html">AmbientLight</a></li>
+                                <li><a href="../classes/Approximation.html">Approximation</a></li>
                                 <li><a href="../classes/Arrow.html">Arrow</a></li>
+                                <li><a href="../classes/ArrowBuilder.html">ArrowBuilder</a></li>
+                                <li><a href="../classes/ArrowConfig.html">ArrowConfig</a></li>
                                 <li><a href="../classes/ArrowGeometry.html">ArrowGeometry</a></li>
                                 <li><a href="../classes/AttribLocation.html">AttribLocation</a></li>
                                 <li><a href="../classes/AttribMetaInfo.html">AttribMetaInfo</a></li>
                                 <li><a href="../classes/Attribute.html">Attribute</a></li>
+                                <li><a href="../classes/AxialPrimitivesBuilder.html">AxialPrimitivesBuilder</a></li>
                                 <li><a href="../classes/BlendFactor.html">BlendFactor</a></li>
                                 <li><a href="../classes/Box.html">Box</a></li>
                                 <li><a href="../classes/BoxGeometry.html">BoxGeometry</a></li>
@@ -55,15 +59,22 @@
                                 <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
                                 <li><a href="../classes/ColorRGB.html">ColorRGB</a></li>
                                 <li><a href="../classes/ColorRGBA.html">ColorRGBA</a></li>
+                                <li><a href="../classes/ConeTransform.html">ConeTransform</a></li>
+                                <li><a href="../classes/ConicalShellBuilder.html">ConicalShellBuilder</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
+                                <li><a href="../classes/Coords.html">Coords</a></li>
                                 <li><a href="../classes/createView.html">createView</a></li>
                                 <li><a href="../classes/CuboidPrimitivesBuilder.html">CuboidPrimitivesBuilder</a></li>
                                 <li><a href="../classes/Cylinder.html">Cylinder</a></li>
                                 <li><a href="../classes/CylinderGeometry.html">CylinderGeometry</a></li>
+                                <li><a href="../classes/CylinderTransform.html">CylinderTransform</a></li>
+                                <li><a href="../classes/CylindricalShellBuilder.html">CylindricalShellBuilder</a></li>
                                 <li><a href="../classes/Dimensions.html">Dimensions</a></li>
+                                <li><a href="../classes/Direction.html">Direction</a></li>
                                 <li><a href="../classes/DirectionalLight.html">DirectionalLight</a></li>
                                 <li><a href="../classes/Drawable.html">Drawable</a></li>
                                 <li><a href="../classes/DrawMode.html">DrawMode</a></li>
+                                <li><a href="../classes/Duality.html">Duality</a></li>
                                 <li><a href="../classes/EIGHTLogger.html">EIGHTLogger</a></li>
                                 <li><a href="../classes/Facet.html">Facet</a></li>
                                 <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
@@ -77,6 +88,7 @@
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
                                 <li><a href="../classes/GeometryBuffers.html">GeometryBuffers</a></li>
+                                <li><a href="../classes/GeometryBuilder.html">GeometryBuilder</a></li>
                                 <li><a href="../classes/GeometryContainer.html">GeometryContainer</a></li>
                                 <li><a href="../classes/GeometryPrimitive.html">GeometryPrimitive</a></li>
                                 <li><a href="../classes/GraphicsProgramSymbols.html">GraphicsProgramSymbols</a></li>
@@ -106,6 +118,7 @@
                                 <li><a href="../classes/PointSizeFacet.html">PointSizeFacet</a></li>
                                 <li><a href="../classes/Primitive.html">Primitive</a></li>
                                 <li><a href="../classes/PrimitiveBuffers.html">PrimitiveBuffers</a></li>
+                                <li><a href="../classes/PrimitivesBuilder.html">PrimitivesBuilder</a></li>
                                 <li><a href="../classes/Pseudo.html">Pseudo</a></li>
                                 <li><a href="../classes/QQ.html">QQ</a></li>
                                 <li><a href="../classes/R3.html">R3</a></li>
@@ -113,7 +126,11 @@
                                 <li><a href="../classes/ReflectionFacetE3.html">ReflectionFacetE3</a></li>
                                 <li><a href="../classes/RigidBody.html">RigidBody</a></li>
                                 <li><a href="../classes/RigidBodyWithUnits.html">RigidBodyWithUnits</a></li>
+                                <li><a href="../classes/RingBuilder.html">RingBuilder</a></li>
+                                <li><a href="../classes/RingTransform.html">RingTransform</a></li>
+                                <li><a href="../classes/Rotation.html">Rotation</a></li>
                                 <li><a href="../classes/Scalar.html">Scalar</a></li>
+                                <li><a href="../classes/Scaling.html">Scaling</a></li>
                                 <li><a href="../classes/Scene.html">Scene</a></li>
                                 <li><a href="../classes/Shareable.html">Shareable</a></li>
                                 <li><a href="../classes/ShareableArray.html">ShareableArray</a></li>
@@ -121,7 +138,9 @@
                                 <li><a href="../classes/ShareableWebGLBuffer.html">ShareableWebGLBuffer</a></li>
                                 <li><a href="../classes/ShareableWebGLShader.html">ShareableWebGLShader</a></li>
                                 <li><a href="../classes/ShareableWebGLTexture.html">ShareableWebGLTexture</a></li>
+                                <li><a href="../classes/SliceSimplexPrimitivesBuilder.html">SliceSimplexPrimitivesBuilder</a></li>
                                 <li><a href="../classes/Sphere.html">Sphere</a></li>
+                                <li><a href="../classes/SphereBuilder.html">SphereBuilder</a></li>
                                 <li><a href="../classes/SphereGeometry.html">SphereGeometry</a></li>
                                 <li><a href="../classes/Spinor2.html">Spinor2</a></li>
                                 <li><a href="../classes/Spinor3.html">Spinor3</a></li>
@@ -132,7 +151,9 @@
                                 <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
                                 <li><a href="../classes/Tetrahedron.html">Tetrahedron</a></li>
                                 <li><a href="../classes/TetrahedronGeometry.html">TetrahedronGeometry</a></li>
+                                <li><a href="../classes/TextureCoords.html">TextureCoords</a></li>
                                 <li><a href="../classes/Trail.html">Trail</a></li>
+                                <li><a href="../classes/Translation.html">Translation</a></li>
                                 <li><a href="../classes/TriangleStrip.html">TriangleStrip</a></li>
                                 <li><a href="../classes/UniformLocation.html">UniformLocation</a></li>
                                 <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
@@ -204,70 +225,112 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: src/davinci-eight/geometries/ConeGeometry.ts</h1>
+<h1 class="file-heading">File: src/davinci-eight/geometries/transforms/ConeTransform.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import AxialPrimitivesBuilder from &#x27;./AxialPrimitivesBuilder&#x27;;
-import VectorE3 from &#x27;../math/VectorE3&#x27;;
-import GraphicsProgramSymbols from &#x27;../core/GraphicsProgramSymbols&#x27;;
-import TriangleStrip from &#x27;./TriangleStrip&#x27;;
-import IAxialGeometry from &#x27;./IAxialGeometry&#x27;;
-import Primitive from &#x27;../core/Primitive&#x27;;
-import Vector2 from &#x27;../math/Vector2&#x27;;
-import Vector3 from &#x27;../math/Vector3&#x27;;
+import mustBeNumber from &#x27;../../checks/mustBeNumber&#x27;
+import mustBeString from &#x27;../../checks/mustBeString&#x27;
+import R3 from &#x27;../../math/R3&#x27;
+import Spinor3 from &#x27;../../math/Spinor3&#x27;
+import Vector3 from &#x27;../../math/Vector3&#x27;
+import VectorE3 from &#x27;../../math/VectorE3&#x27;
+import Vertex from &#x27;../Vertex&#x27;
+import Transform from &#x27;./Transform&#x27;
 
 /**
- * This implementation currently only generates the wall of the cone
+ * Unit vector pointing along the symmetry axis of the cone.
  */
-export default class ConeGeometry extends AxialPrimitivesBuilder implements IAxialGeometry&lt;ConeGeometry&gt; {
-    public radius: number = 1;
-    public height: number = 1;
-    public thetaSegments = 16;
-    constructor(axis: VectorE3, sliceStart: VectorE3) {
-        super(axis, sliceStart)
-    }
-    public setAxis(axis: VectorE3): ConeGeometry {
-        super.setAxis(axis)
-        return this
-    }
-    public setPosition(position: VectorE3): ConeGeometry {
-        super.setPosition(position)
-        return this
-    }
-    public toPrimitives(): Primitive[] {
-        const grid = new TriangleStrip(this.thetaSegments, 1)
-        const uLength = grid.uLength
-        const uSegments = uLength - 1
-        const vLength = grid.vLength
-        const vSegments = vLength - 1
+const h = R3.e2
 
-        const a = Vector3.copy(this.sliceStart).direction().scale(this.radius)
-        const b = new Vector3().cross2(a, this.axis).direction().scale(this.radius)
-        const h = Vector3.copy(this.axis).scale(this.height)
-        for (let uIndex = 0; uIndex &lt; uLength; uIndex++) {
-            const u = uIndex / uSegments
-            const theta = this.sliceAngle * u
-            const cosTheta = Math.cos(theta)
-            const sinTheta = Math.sin(theta)
-            for (let vIndex = 0; vIndex &lt; vLength; vIndex++) {
-                const v = vIndex / vSegments
-                const position = new Vector3().add(a, cosTheta * (1 - v)).add(b, sinTheta * (1 - v)).add(h, v)
-                const peak = Vector3.copy(h).sub(position)
-                const normal = new Vector3().cross2(peak, position).cross(peak).direction()
-                const vertex = grid.vertex(uIndex, vIndex)
-                vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = position.add(this.position)
-                vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = normal
-                if (this.useTextureCoords) {
-                    vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORDS] = new Vector2([u, v])
-                }
-            }
-        }
-        return [grid.toPrimitive()]
+/**
+ * Unit vector for the major axis of the cone.
+ */
+const a = R3.e3
+
+/**
+ * Unit vector for the minor axis of the cone.
+ * We compute this so that the grid wraps around the cone with
+ * u increasing with θ and v increasing toward the apex of the cone.
+ */
+const b = new Vector3().cross2(h, a).direction()
+
+function coneNormal(ρ: VectorE3, h: VectorE3, out: Vector3): void {
+    out.copy(ρ)
+    const ρ2 = out.squaredNorm()
+    out.add(h, ρ2).divByScalar(Math.sqrt(ρ2) * Math.sqrt(1 + ρ2))
+}
+
+/**
+ * @class ConeTransform
+ */
+export default class ConeTransform implements Transform {
+    private sliceAngle: number
+    private aPosition: string
+    private aTangent: string
+
+    /**
+     * @class ConeTransform
+     * @constructor
+     * @param sliceAngle {number}
+     * @param aPosition {string} The name to use for the position attribute.
+     * @param aTangent {string} The name to use for the tangent plane attribute.
+     */
+    constructor(sliceAngle: number, aPosition: string, aTangent: string) {
+        this.sliceAngle = mustBeNumber(&#x27;sliceAngle&#x27;, sliceAngle)
+        this.aPosition = mustBeString(&#x27;aPosition&#x27;, aPosition)
+        this.aTangent = mustBeString(&#x27;aTangent&#x27;, aTangent)
     }
-    enableTextureCoords(enable: boolean): ConeGeometry {
-        super.enableTextureCoords(enable)
-        return this
+
+    /**
+     * @method exec
+     * @param vertex {Vertex}
+     * @param i {number}
+     * @param j {number}
+     * @param iLength {number}
+     * @param jLength {number}
+     */
+    exec(vertex: Vertex, i: number, j: number, iLength: number, jLength: number): void {
+        // Let h be the unit vector in the symmetry axis of the cone.
+        // Let ρ be a point on the base of the cone.
+        // Then the normal to the cone n is given by
+        //
+        // n = (ρ * ρ * h + ρ) / (|ρ| * sqrt(1 + ρ * ρ))
+        //
+        // This formula is derived by finding the vector in the plane of h and ρ
+        // That is normal to the vector peak = h - ρ and normalized to unity.
+        // The formula always gives a formula that is well defined provided |ρ| is non-zero.
+        //
+        // In order to account for the stress and tilt operations, compute the normal using
+        // the transformed ρ and h
+        const uSegments = iLength - 1
+        const u = i / uSegments
+
+        const vSegments = jLength - 1
+        const v = j / vSegments
+
+        // TODO: We could cache the trig values by u for performance?
+        const θ = this.sliceAngle * u
+        const cosθ = Math.cos(θ)
+        const sinθ = Math.sin(θ)
+
+        /**
+         * Point on the base of the cone.
+         * TODO: This would be the best thing to cache.
+         */
+        const ρ = new Vector3().add(a, cosθ).add(b, sinθ)
+
+        /**
+         * Point on the standard cone at uIndex, vIndex.
+         */
+        const x = Vector3.lerp(ρ, h, v)
+
+        vertex.attributes[this.aPosition] = x
+
+        const normal = Vector3.zero()
+        coneNormal(ρ, h, normal)
+
+        vertex.attributes[this.aTangent] = Spinor3.dual(normal, false)
     }
 }
 

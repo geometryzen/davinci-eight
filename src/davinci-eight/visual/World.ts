@@ -3,6 +3,7 @@ import Color from '../core/Color'
 import core from '../core'
 import Box from './Box'
 import Cylinder from './Cylinder'
+import CylinderOptions from './CylinderOptions'
 import RigidBody from './RigidBody'
 import DrawList from './DrawList'
 import Facet from '../core/Facet'
@@ -145,7 +146,7 @@ export default class World extends Shareable {
             color?: Color;
             pos?: VectorE3;
         } = {}): Arrow {
-        const arrow = new Arrow(options)
+        const arrow = Arrow.create(options)
         updateAxis(arrow, options)
         updateColor(arrow, options)
         updatePosition(arrow, options)
@@ -177,16 +178,11 @@ export default class World extends Shareable {
 
     /**
      * @method cylinder
+     * @param [options = {}] {CylinderOptions}
      * @return {Cylinder}
      */
-    cylinder(
-        options: {
-            axis?: VectorE3;
-            color?: Color;
-            pos?: VectorE3;
-            radius?: number;
-        } = {}): Cylinder {
-        const cylinder = new Cylinder()
+    cylinder(options: CylinderOptions = {}): Cylinder {
+        const cylinder = Cylinder.create(options)
         updateAxis(cylinder, options)
         updateColor(cylinder, options)
         updatePosition(cylinder, options)

@@ -1,4 +1,9 @@
+import Coords from '../math/Coords';
 import dotVectorCartesianE3 from '../math/dotVectorCartesianE3';
+import mulSpinorE3YZ from './mulSpinorE3YZ';
+import mulSpinorE3ZX from './mulSpinorE3ZX';
+import mulSpinorE3XY from './mulSpinorE3XY';
+import mulSpinorE3alpha from './mulSpinorE3alpha';
 import MutableGeometricElement3D from '../math/MutableGeometricElement3D';
 import mustBeInteger from '../checks/mustBeInteger';
 import mustBeNumber from '../checks/mustBeNumber';
@@ -8,7 +13,6 @@ import quadSpinor from '../math/quadSpinorE3';
 import rotorFromDirections from '../math/rotorFromDirectionsE3';
 import SpinorE3 from '../math/SpinorE3';
 import VectorE3 from '../math/VectorE3';
-import VectorN from '../math/VectorN';
 import wedgeXY from '../math/wedgeXY';
 import wedgeYZ from '../math/wedgeYZ';
 import wedgeZX from '../math/wedgeZX';
@@ -37,9 +41,9 @@ const sqrt = Math.sqrt
 
 /**
  * @class Spinor3
- * @extends VectorN<number>
+ * @extends Coords
  */
-export default class Spinor3 extends VectorN<number> implements SpinorE3, Mutable<number[]>, MutableGeometricElement3D<SpinorE3, Spinor3, Spinor3, VectorE3> {
+export default class Spinor3 extends Coords implements SpinorE3, Mutable<number[]>, MutableGeometricElement3D<SpinorE3, Spinor3, Spinor3, VectorE3> {
     /**
      * Constructs a <code>Spinor3</code> from a <code>number[]</code>.
      * For a <em>geometric</em> implementation, use the static methods.
@@ -318,23 +322,28 @@ export default class Spinor3 extends VectorN<number> implements SpinorE3, Mutabl
         this.α /= α
         return this
     }
+
     /**
      * <p>
      * <code>this ⟼ dual(v) = I * v</code>
      * </p>
      * @method dual
      * @param v {VectorE3} The vector whose dual will be used to set this spinor.
+     * @param changeSign {boolean}
      * @return {Spinor3} <code>this</code>
      * @chainable
      */
-    dual(v: VectorE3) {
-        mustBeObject('v', v)
+    dual(v: VectorE3, changeSign: boolean): Spinor3 {
         this.α = 0
-        this.yz = mustBeNumber('v.x', v.x)
-        this.zx = mustBeNumber('v.y', v.y)
-        this.xy = mustBeNumber('v.z', v.z)
+        this.yz = v.x
+        this.zx = v.y
+        this.xy = v.z
+        if (changeSign) {
+            this.neg()
+        }
         return this
     }
+
     /**
      * <p>
      * <code>this ⟼ e<sup>this</sup></code>
@@ -463,16 +472,28 @@ export default class Spinor3 extends VectorN<number> implements SpinorE3, Mutabl
 
     /**
      * <p>
-     * <code>this ⟼ this * s</code>
+     * <code>this ⟼ this * rhs</code>
      * </p>
      * @method mul
-     * @param s {SpinorE3}
+     * @param rhs {SpinorE3}
      * @return {Spinor3} <code>this</code>
      * @chainable
      */
-    mul(s: SpinorE3): Spinor3 {
-        return this.mul2(this, s)
+    mul(rhs: SpinorE3): Spinor3 {
+
+        const α = mulSpinorE3alpha(this, rhs)
+        const yz = mulSpinorE3YZ(this, rhs)
+        const zx = mulSpinorE3ZX(this, rhs)
+        const xy = mulSpinorE3XY(this, rhs)
+
+        this.α = α
+        this.yz = yz
+        this.zx = zx
+        this.xy = xy
+
+        return this
     }
+
     /**
      * <p>
      * <code>this ⟼ a * b</code>
@@ -483,23 +504,19 @@ export default class Spinor3 extends VectorN<number> implements SpinorE3, Mutabl
      * @return {Spinor3} <code>this</code>
      * @chainable
      */
-    mul2(a: SpinorE3, b: SpinorE3) {
-        let a0 = a.α;
-        let a1 = a.yz;
-        let a2 = a.zx;
-        let a3 = a.xy;
-        let b0 = b.α;
-        let b1 = b.yz;
-        let b2 = b.zx;
-        let b3 = b.xy;
-        // Compare this to the product for Quaternions
-        // It would be interesting to DRY this out.
-        this.α = a0 * b0 - a1 * b1 - a2 * b2 - a3 * b3;
-        // this.α = a0 * b0 - dotVectorCartesianE3(a1, a2, a3, b1, b2, b3)
-        this.yz = a0 * b1 + a1 * b0 - a2 * b3 + a3 * b2;
-        this.zx = a0 * b2 + a1 * b3 + a2 * b0 - a3 * b1;
-        this.xy = a0 * b3 - a1 * b2 + a2 * b1 + a3 * b0;
-        return this;
+    mul2(a: SpinorE3, b: SpinorE3): Spinor3 {
+
+        const α = mulSpinorE3alpha(a, b)
+        const yz = mulSpinorE3YZ(a, b)
+        const zx = mulSpinorE3ZX(a, b)
+        const xy = mulSpinorE3XY(a, b)
+
+        this.α = α
+        this.yz = yz
+        this.zx = zx
+        this.xy = xy
+
+        return this
     }
     /**
      * @method neg
@@ -587,6 +604,20 @@ export default class Spinor3 extends VectorN<number> implements SpinorE3, Mutabl
         return quadSpinor(this)
     }
 
+    /**
+     * @method stress
+     * @param σ {VectorE3}
+     * @return {Spinor3}
+     * @chainable
+     */
+    stress(σ: VectorE3): Spinor3 {
+        // There is no change to the scalar coordinate, α.
+        this.yz = this.yz * σ.y * σ.z
+        this.zx = this.zx * σ.z * σ.x
+        this.xy = this.xy * σ.x * σ.y
+        return this
+    }
+
     rco(rhs: SpinorE3): Spinor3 {
         return this.rco2(this, rhs)
     }
@@ -619,35 +650,41 @@ export default class Spinor3 extends VectorN<number> implements SpinorE3, Mutabl
      * @return {Spinor3} <code>this</code>
      * @chainable
      */
-    reflect(n: VectorE3): Spinor3 {
-        let w = this.α;
-        let yz = this.yz;
-        let zx = this.zx;
-        let xy = this.xy;
-        let nx = n.x;
-        let ny = n.y;
-        let nz = n.z;
-        let nn = nx * nx + ny * ny + nz * nz
-        let nB = nx * yz + ny * zx + nz * xy
+    reflect(n: VectorE3) {
+        const w = this.α;
+        const yz = this.yz;
+        const zx = this.zx;
+        const xy = this.xy;
+        const nx = n.x;
+        const ny = n.y;
+        const nz = n.z;
+        const nn = nx * nx + ny * ny + nz * nz
+        const nB = nx * yz + ny * zx + nz * xy
         this.α = nn * w
         this.xy = 2 * nz * nB - nn * xy
         this.yz = 2 * nx * nB - nn * yz
         this.zx = 2 * ny * nB - nn * zx
         return this;
     }
+
     /**
      * <p>
-     * <code>this = ⟼ rotor * this * rev(rotor)</code>
+     * <code>this = ⟼ R * this * rev(R)</code>
      * </p>
      * @method rotate
-     * @param rotor {SpinorE3}
+     * @param R {SpinorE3}
      * @return {Spinor3} <code>this</code>
      * @chainable
      */
-    rotate(rotor: SpinorE3): Spinor3 {
-        console.warn("Spinor3.rotate is not implemented")
-        return this;
+    rotate(R: SpinorE3): Spinor3 {
+        // R * this * rev(R) = R * rev(R * rev(this))
+        this.rev()
+        this.mul2(R, this)
+        this.rev()
+        this.mul2(R, this)
+        return this
     }
+
     /**
      * <p>
      * Computes a rotor, R, from two vectors, where
@@ -867,6 +904,7 @@ export default class Spinor3 extends VectorN<number> implements SpinorE3, Mutabl
      * @param spinor {SpinorE3}
      * @return {Spinor3} A copy of the <code>spinor</code> argument.
      * @static
+     * @chainable
      */
     static copy(spinor: SpinorE3): Spinor3 {
         return new Spinor3().copy(spinor)
@@ -876,10 +914,13 @@ export default class Spinor3 extends VectorN<number> implements SpinorE3, Mutabl
      * Computes I * <code>v</code>, the dual of <code>v</code>.
      * @method dual
      * @param v {VectorE3}
+     * @param changeSign {boolean}
      * @return {Spinor3}
+     * @static
+     * @chainable
      */
-    static dual(v: VectorE3): Spinor3 {
-        return new Spinor3().dual(v)
+    static dual(v: VectorE3, changeSign: boolean): Spinor3 {
+        return new Spinor3().dual(v, changeSign)
     }
 
     /**
@@ -889,6 +930,7 @@ export default class Spinor3 extends VectorN<number> implements SpinorE3, Mutabl
      * @param α {number}
      * @return {Spinor3} <code>a + α * (b - a)</code>
      * @static
+     * @chainable
      */
     static lerp(a: SpinorE3, b: SpinorE3, α: number): Spinor3 {
         return Spinor3.copy(a).lerp(b, α)
@@ -898,6 +940,7 @@ export default class Spinor3 extends VectorN<number> implements SpinorE3, Mutabl
      * @method one
      * @return {Spinor3}
      * @static
+     * @chainable
      */
     static one(): Spinor3 {
         return new Spinor3([0, 0, 0, 1])
@@ -910,8 +953,22 @@ export default class Spinor3 extends VectorN<number> implements SpinorE3, Mutabl
      * @param b {VectorE3} The <em>to</em> vector.
      * @return {Spinor3}
      * @static
+     * @chainable
      */
     static rotorFromDirections(a: VectorE3, b: VectorE3): Spinor3 {
         return new Spinor3().rotorFromDirections(a, b)
+    }
+
+    /**
+     * @method spinor
+     * @param yz {number}
+     * @param zx {number}
+     * @param xy {number}
+     * @param α {number}
+     * @return {Spinor3}
+     * @chainable
+     */
+    static spinor(yz: number, zx: number, xy: number, α: number): Spinor3 {
+        return new Spinor3([yz, zx, xy, α])
     }
 }

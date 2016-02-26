@@ -2,12 +2,10 @@ import G3 from '../math/G3';
 import TriangleStrip from './TriangleStrip';
 import PrimitivesBuilder from './PrimitivesBuilder';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
-import IPrimitivesBuilder from './IPrimitivesBuilder';
 import mustBeNumber from '../checks/mustBeNumber';
 import Primitive from '../core/Primitive';
 import Vector3 from '../math/Vector3';
 import Vector2 from '../math/Vector2';
-import VectorE3 from '../math/VectorE3';
 
 function side(basis: Vector3[], uSegments: number, vSegments: number): TriangleStrip {
     const normal = Vector3.copy(basis[0]).cross(basis[1]).direction()
@@ -26,13 +24,13 @@ function side(basis: Vector3[], uSegments: number, vSegments: number): TriangleS
             const vertex = side.vertex(uIndex, vIndex)
             vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = Vector3.copy(a).add(b).add(cPos)
             vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = normal
-            vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORDS] = new Vector2([u, v])
+            vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORD] = new Vector2([u, v])
         }
     }
     return side
 }
 
-export default class CuboidPrimitivesBuilder extends PrimitivesBuilder implements IPrimitivesBuilder<CuboidPrimitivesBuilder> {
+export default class CuboidPrimitivesBuilder extends PrimitivesBuilder {
     public iSegments: number = 1;
     public jSegments: number = 1;
     public kSegments: number = 1;
@@ -97,24 +95,11 @@ export default class CuboidPrimitivesBuilder extends PrimitivesBuilder implement
         this.sides.push(side([this._a, this._c, Vector3.copy(this._b).scale(-1)], this.iSegments, this.kSegments))
     }
     /**
-     * @method setPosition
-     * @param position {VectorE3}
-     * @return {CuboidPrimitivesBuilder}
-     */
-    public setPosition(position: VectorE3): CuboidPrimitivesBuilder {
-        super.setPosition(position)
-        return this
-    }
-    /**
      * @method toPrimitives
      * @return {Primitive[]}
      */
     public toPrimitives(): Primitive[] {
         this.regenerate()
         return this.sides.map((side) => { return side.toPrimitive() })
-    }
-    enableTextureCoords(enable: boolean): CuboidPrimitivesBuilder {
-        super.enableTextureCoords(enable)
-        return this
     }
 }

@@ -173,6 +173,14 @@ export default class Vector4 extends VectorN<number> implements ColumnVector<Mat
         // TODO
         return this;
     }
+
+    stress(σ: VectorE4) {
+        this.x *= σ.x
+        this.y *= σ.y
+        this.z *= σ.z
+        this.w *= σ.w
+        return this
+    }
     slerp(target: VectorE4, α: number) {
         return this;
     }

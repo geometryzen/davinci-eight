@@ -20,7 +20,7 @@ export default class ConeSimplexGeometry extends SliceSimplexPrimitivesBuilder {
         openBottom = false,
         thetaStart = 0) {
 
-        super(axis, void 0, void 0)
+        super()
         this.radiusTop = radiusTop
         this.radius = radius
         this.height = height

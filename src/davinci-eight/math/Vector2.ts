@@ -1,4 +1,5 @@
 import ColumnVector from '../math/ColumnVector';
+import Coords from '../math/Coords';
 import b2 from '../geometries/b2';
 import b3 from '../geometries/b3';
 import Matrix2 from '../math/Matrix2';
@@ -6,7 +7,6 @@ import MutableLinearElement from '../math/MutableLinearElement';
 import notImplemented from '../i18n/notImplemented';
 import SpinorE2 from '../math/SpinorE2';
 import stringFromCoordinates from '../math/stringFromCoordinates';
-import VectorN from '../math/VectorN';
 import VectorE2 from '../math/VectorE2';
 
 /**
@@ -21,8 +21,9 @@ const COORD_Y = 1;
 
 /**
  * @class Vector2
+ * @extends Coords
  */
-export default class Vector2 extends VectorN<number> implements ColumnVector<Matrix2, Vector2>, VectorE2, MutableLinearElement<VectorE2, Vector2, SpinorE2, VectorE2> {
+export default class Vector2 extends Coords implements ColumnVector<Matrix2, Vector2>, VectorE2, MutableLinearElement<VectorE2, Vector2, SpinorE2, VectorE2> {
     /**
      * @class Vector2
      * @constructor
@@ -197,19 +198,15 @@ export default class Vector2 extends VectorN<number> implements ColumnVector<Mat
     }
 
     /**
-     *
+     * @method divByScalar
+     * @param α {number}
+     * @return {Vector2}
+     * @chainable
      */
-    divByScalar(scalar: number) {
-        if (scalar !== 0) {
-            var invScalar = 1 / scalar;
-            this.x *= invScalar;
-            this.y *= invScalar;
-        }
-        else {
-            this.x = 0;
-            this.y = 0;
-        }
-        return this;
+    divByScalar(α: number) {
+        this.x /= α
+        this.y /= α
+        return this
     }
     min(v: VectorE2) {
         if (this.x > v.x) {
@@ -364,6 +361,17 @@ export default class Vector2 extends VectorN<number> implements ColumnVector<Mat
 
     equals(v: VectorE2): boolean {
         return ((v.x === this.x) && (v.y === this.y));
+    }
+
+    /**
+     * @method stress
+     * @param σ {VectorE2}
+     * @return {Vector2}
+     */
+    stress(σ: VectorE2) {
+        this.x *= σ.x
+        this.y *= σ.y
+        return this
     }
 
     slerp(v: VectorE2, α: number): Vector2 {

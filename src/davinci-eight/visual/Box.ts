@@ -21,7 +21,7 @@ export default class Box extends Mesh {
      * @param [options={}] {BoxOptions}
      */
     constructor(options: BoxOptions = {}) {
-        super(visualCache.box(), visualCache.material(), 'Box')
+        super(visualCache.box(options), visualCache.material(), 'Box')
         this._geometry.release()
         this._material.release()
         this.width = isDefined(options.width) ? mustBeNumber('width', options.width) : 1

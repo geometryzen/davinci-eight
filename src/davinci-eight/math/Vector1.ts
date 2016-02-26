@@ -145,6 +145,10 @@ export default class Vector1 extends VectorN<number> implements VectorE1, Mutabl
         this.x *= scalar
         return this
     }
+    stress(σ: VectorE1) {
+        this.x *= σ.x
+        return this
+    }
     sub(v: VectorE1) {
         this.x -= v.x
         return this

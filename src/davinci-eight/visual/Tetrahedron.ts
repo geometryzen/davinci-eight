@@ -1,5 +1,6 @@
 import Mesh from '../core/Mesh'
 import mustBeNumber from '../checks/mustBeNumber';
+import TetrahedronOptions from './TetrahedronOptions';
 import visualCache from './visualCache';
 
 /**
@@ -17,8 +18,8 @@ export default class Tetrahedron extends Mesh {
      * @class Tetrahedron
      * @constructor
      */
-    constructor() {
-        super(visualCache.tetrahedron(), visualCache.material(), 'Tetrahedron')
+    constructor(options: TetrahedronOptions) {
+        super(visualCache.tetrahedron(options), visualCache.material(), 'Tetrahedron')
         this._geometry.release()
         this._material.release()
     }

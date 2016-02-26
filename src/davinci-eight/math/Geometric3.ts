@@ -1,3 +1,4 @@
+import Coords from './Coords';
 import dotVector from './dotVectorE3';
 import G3 from './G3';
 import EventEmitter from '../utils/EventEmitter';
@@ -8,6 +9,7 @@ import isScalarG3 from './isScalarG3';
 import lcoG3 from './lcoG3';
 import mulG3 from './mulG3';
 import MutableGeometricElement3D from './MutableGeometricElement3D';
+import notImplemented from '../i18n/notImplemented';
 import rcoG3 from './rcoG3';
 import rotorFromDirections from './rotorFromDirectionsE3';
 import scpG3 from './scpG3';
@@ -16,7 +18,6 @@ import SpinorE3 from './SpinorE3';
 import squaredNormG3 from './squaredNormG3';
 import stringFromCoordinates from './stringFromCoordinates';
 import VectorE3 from './VectorE3';
-import VectorN from './VectorN';
 import wedgeXY from './wedgeXY';
 import wedgeYZ from './wedgeYZ';
 import wedgeZX from './wedgeZX';
@@ -58,10 +59,9 @@ const sqrt = Math.sqrt
 
 /**
  * @class Geometric3
- * @extends GeometricE3
- * @beta
+ * @extends Coords
  */
-export default class Geometric3 extends VectorN<number> implements GeometricE3, MutableGeometricElement3D<GeometricE3, Geometric3, SpinorE3, VectorE3>, GeometricOperators<Geometric3> {
+export default class Geometric3 extends Coords implements GeometricE3, MutableGeometricElement3D<GeometricE3, Geometric3, SpinorE3, VectorE3>, GeometricOperators<Geometric3> {
 
     /**
      * @property eventBus
@@ -1047,9 +1047,33 @@ export default class Geometric3 extends VectorN<number> implements GeometricE3, 
         return this
     }
 
+    /**
+     * Not Implemented
+     *
+     * @method slerp
+     * @param target {GeometricE3}
+     * @param α {number}
+     * @return {Geometric3}
+     * @chainable
+     */
     slerp(target: GeometricE3, α: number): Geometric3 {
-        // TODO
-        return this;
+        throw new Error(notImplemented('slerp').message)
+    }
+
+    /**
+     * Applies the diagonal elements of a scaling matrix to this multivector.
+     *
+     * @method stress
+     * @param σ {Vector3}
+     * @return {Geometric3}
+     * @chainable
+     */
+    stress(σ: VectorE3): Geometric3 {
+        this.x *= σ.x
+        this.y *= σ.y
+        this.z *= σ.z
+        // TODO: Action on other components TBD.
+        return this
     }
 
     /**

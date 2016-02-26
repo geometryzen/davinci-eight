@@ -36,7 +36,7 @@ export default function cube(size = 1): Simplex[] {
 
     let attributes: { [name: string]: VectorN<number>[] } = {};
 
-    attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORDS] = [c11, c01, c00, c10];
+    attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORD] = [c11, c01, c00, c10];
 
     // We currently call quadrilateral rather than square because of the arguments.
     let front = quadrilateral(vec0, vec1, vec2, vec3, attributes);

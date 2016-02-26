@@ -21,7 +21,7 @@ export default class VortexSimplexGeometry extends SimplexPrimitivesBuilder {
     public lengthShaft: number = 0.8;
     public arrowSegments: number = 8;
     public radialSegments: number = 12;
-    public generator: Spinor3 = Spinor3.dual(G3.e3);
+    public generator: Spinor3 = Spinor3.dual(G3.e3, false);
 
     constructor() {
         super()

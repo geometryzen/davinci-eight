@@ -82,21 +82,21 @@ import cube from 'davinci-eight/geometries/cube';
 import quadrilateral from 'davinci-eight/geometries/quadrilateral';
 import square from 'davinci-eight/geometries/square';
 import triangle from 'davinci-eight/geometries/triangle';
+import ArrowConfig from 'davinci-eight/geometries/ArrowConfig';
 import ArrowGeometry from 'davinci-eight/geometries/ArrowGeometry';
 import BoxGeometry from 'davinci-eight/geometries/BoxGeometry';
 import CylinderGeometry from 'davinci-eight/geometries/CylinderGeometry';
 import SphereGeometry from 'davinci-eight/geometries/SphereGeometry';
 import TetrahedronGeometry from 'davinci-eight/geometries/TetrahedronGeometry';
 
-import AxialSimplexPrimitivesBuilder from 'davinci-eight/geometries/AxialSimplexPrimitivesBuilder';
 import ArrowBuilder from 'davinci-eight/geometries/ArrowBuilder';
 import ArrowSimplexPrimitivesBuilder from 'davinci-eight/geometries/ArrowSimplexPrimitivesBuilder';
 import BarnSimplexPrimitivesBuilder from 'davinci-eight/geometries/BarnSimplexPrimitivesBuilder';
-import ConeGeometry from 'davinci-eight/geometries/ConeGeometry';
+import ConicalShellBuilder from 'davinci-eight/geometries/ConicalShellBuilder';
 import ConeSimplexGeometry from 'davinci-eight/geometries/ConeSimplexGeometry';
 import CuboidPrimitivesBuilder from 'davinci-eight/geometries/CuboidPrimitivesBuilder';
 import CuboidSimplexPrimitivesBuilder from 'davinci-eight/geometries/CuboidSimplexPrimitivesBuilder';
-import CylinderPrimitivesBuilder from 'davinci-eight/geometries/CylinderPrimitivesBuilder';
+import CylindricalShellBuilder from 'davinci-eight/geometries/CylindricalShellBuilder';
 import CylinderBuilder from 'davinci-eight/geometries/CylinderBuilder';
 import DodecahedronSimplexGeometry from 'davinci-eight/geometries/DodecahedronSimplexGeometry';
 import IcosahedronSimplexGeometry from 'davinci-eight/geometries/IcosahedronSimplexGeometry';
@@ -292,9 +292,14 @@ const eight = {
     get Vector3Facet() { return Vector3Facet },
 
     // geometries
+    get ArrowBuilder() { return ArrowBuilder },
+    get ArrowConfig() { return ArrowConfig },
     get ArrowGeometry() { return ArrowGeometry },
     get BoxGeometry() { return BoxGeometry },
+    get ConicalShellBuilder() { return ConicalShellBuilder },
     get CylinderGeometry() { return CylinderGeometry },
+    get CylindricalShellBuilder() { return CylindricalShellBuilder },
+    get RingBuilder() { return RingBuilder },
     get SphereGeometry() { return SphereGeometry },
     get TetrahedronGeometry() { return TetrahedronGeometry },
 

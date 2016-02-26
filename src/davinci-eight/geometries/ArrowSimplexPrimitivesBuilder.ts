@@ -29,11 +29,11 @@ function nearest(direction: Vector3): Vector3 {
         case 0: {
             return new Vector3([orientation(cardinalIndex, direction), 0, 0])
         }
-        break;
+            break;
         case 1: {
             return new Vector3([0, orientation(cardinalIndex, direction), 0])
         }
-        break;
+            break;
         case 2: {
             return new Vector3([0, 0, orientation(cardinalIndex, direction)])
         }
@@ -83,7 +83,7 @@ export default class ArrowSimplexPrimitivesBuilder extends RevolutionSimplexPrim
             var points = data.map(function(point: number[]) {
                 return new Vector3([point[i], point[j], point[k]])
             })
-            var generator = Spinor3.dual(nearest(direction))
+            var generator = Spinor3.dual(nearest(direction), false)
             return { "points": points, "generator": generator }
         }
         var direction = Vector3.copy(this.vector).direction()

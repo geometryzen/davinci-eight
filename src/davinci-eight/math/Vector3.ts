@@ -1,4 +1,5 @@
 import ColumnVector from './ColumnVector';
+import Coords from './Coords';
 import VectorE3 from './VectorE3';
 import dotVectorE3 from './dotVectorE3';
 import MutableLinearElement from './MutableLinearElement';
@@ -8,7 +9,6 @@ import isDefined from '../checks/isDefined';
 import isNumber from '../checks/isNumber';
 import SpinorE3 from './SpinorE3';
 import toStringCustom from './toStringCustom';
-import VectorN from './VectorN';
 import wedgeXY from './wedgeXY';
 import wedgeYZ from './wedgeYZ';
 import wedgeZX from './wedgeZX';
@@ -34,9 +34,9 @@ function coordinates(m: VectorE3): number[] {
 
 /**
  * @class Vector3
- * @extends VectorN<number>
+ * @extends Coords
  */
-export default class Vector3 extends VectorN<number> implements ColumnVector<Matrix3, Vector3>, VectorE3, MutableLinearElement<VectorE3, Vector3, SpinorE3, VectorE3> {
+export default class Vector3 extends Coords implements ColumnVector<Matrix3, Vector3>, VectorE3, MutableLinearElement<VectorE3, Vector3, SpinorE3, VectorE3> {
 
     /**
      * @method dot
@@ -60,6 +60,7 @@ export default class Vector3 extends VectorN<number> implements ColumnVector<Mat
         // FIXME : Where is the uom, even if it is optional.
         super(data, modified, 3);
     }
+
     /**
      * @property x
      * @type {number}
@@ -71,6 +72,7 @@ export default class Vector3 extends VectorN<number> implements ColumnVector<Mat
         this.modified = this.modified || this.x !== value;
         this.coords[COORD_X] = value;
     }
+
     /**
      * @property y
      * @type Number
@@ -82,6 +84,7 @@ export default class Vector3 extends VectorN<number> implements ColumnVector<Mat
         this.modified = this.modified || this.y !== value;
         this.coords[COORD_Y] = value;
     }
+
     /**
      * @property z
      * @type Number
@@ -110,6 +113,7 @@ export default class Vector3 extends VectorN<number> implements ColumnVector<Mat
         this.z += vector.z * α
         return this
     }
+
     /**
      * <p>
      * <code>this ⟼ a + b</code>
@@ -440,6 +444,18 @@ export default class Vector3 extends VectorN<number> implements ColumnVector<Mat
     }
 
     /**
+     * @method stress
+     * @param σ {VectorE3}
+     * @return Vector3
+     */
+    stress(σ: VectorE3) {
+        this.x *= σ.x
+        this.y *= σ.y
+        this.z *= σ.z
+        return this
+    }
+
+    /**
      * <p>
      * <code>this ⟼ this</code>, with components modified.
      * </p>
@@ -594,21 +610,16 @@ export default class Vector3 extends VectorN<number> implements ColumnVector<Mat
 
     /**
      * @method rmul
-     * @param lhs {number}
+     * @param lhs {number | Matrix3}
      * @return {Vector3}
      * @private
      */
-    __rmul__(lhs: any): Vector3 {
+    __rmul__(lhs: number | Matrix3): Vector3 {
         if (typeof lhs === 'number') {
             return this.clone().scale(lhs);
         }
         else if (lhs instanceof Matrix3) {
-            let m33: Matrix3 = lhs;
-            return this.clone().applyMatrix(m33);
-        }
-        else if (lhs instanceof Matrix4) {
-            let m44: Matrix4 = lhs;
-            return this.clone().applyMatrix4(m44);
+            return this.clone().applyMatrix(lhs);
         }
         else {
             return void 0;
@@ -620,9 +631,31 @@ export default class Vector3 extends VectorN<number> implements ColumnVector<Mat
      * @param vector {VectorE3}
      * @return {Vector3}
      * @static
+     * @chainable
      */
     static copy(vector: VectorE3): Vector3 {
         return new Vector3([vector.x, vector.y, vector.z])
+    }
+
+    /**
+     * Constructs a vector which is the dual of the supplied bivector, B.
+     * The convention used is dual(m) = I * m.
+     * If a sign change is desired from this convention,
+     * set the <code>changeSign</code> to <code>true</code>.
+     *
+     * @method dual
+     * @param B {SpinorE3}
+     * @param changeSign {boolean}
+     * @return {Vector3}
+     * @chainable
+     */
+    static dual(B: SpinorE3, changeSign: boolean): Vector3 {
+        if (changeSign) {
+            return new Vector3([B.yz, B.zx, B.xy])
+        }
+        else {
+            return new Vector3([-B.yz, -B.zx, -B.xy])
+        }
     }
 
     /**
@@ -632,6 +665,7 @@ export default class Vector3 extends VectorN<number> implements ColumnVector<Mat
      * @param α {number}
      * @return {Vector3} <code>a + α * (b - a)</code>
      * @static
+     * @chainable
      */
     static lerp(a: VectorE3, b: VectorE3, α: number): Vector3 {
         return Vector3.copy(b).sub(a).scale(α).add(a)
@@ -641,6 +675,7 @@ export default class Vector3 extends VectorN<number> implements ColumnVector<Mat
      * @method random
      * @return {Vector3}
      * @static
+     * @chainable
      */
     static random(): Vector3 {
         return new Vector3([Math.random(), Math.random(), Math.random()])
@@ -653,9 +688,19 @@ export default class Vector3 extends VectorN<number> implements ColumnVector<Mat
      * @param z {number}
      * @return {Vector3}
      * @static
+     * @chainable
      */
     static vector(x: number, y: number, z: number): Vector3 {
-        const v = new Vector3([x, y, z])
-        return v
+        return new Vector3([x, y, z])
+    }
+
+    /**
+     * @method zero
+     * @return {Vector3}
+     * @static
+     * @chainable
+     */
+    static zero(): Vector3 {
+        return new Vector3([0, 0, 0])
     }
 }

@@ -37,6 +37,7 @@
     "src/davinci-eight/math/Dimensions.spec.ts",
     "src/davinci-eight/math/G2.spec.ts",
     "src/davinci-eight/math/G3.spec.ts",
+    "src/davinci-eight/math/Geometric3.spec.ts",
     "src/davinci-eight/math/Matrix2.spec.ts",
     "src/davinci-eight/math/Matrix3.spec.ts",
     "src/davinci-eight/math/Matrix4.spec.ts",

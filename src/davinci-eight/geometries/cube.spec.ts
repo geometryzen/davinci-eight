@@ -19,7 +19,7 @@ describe("cube", function() {
         const indices = geometryData.indices;
         const positions = geometryData.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION].values;
         const normals = geometryData.attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL].values;
-        const coords = geometryData.attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORDS].values;
+        const coords = geometryData.attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORD].values;
         it("indices.length", function() {
             expect(indices.length).toBe(SQUARES_PER_CUBE * TRIANGLES_PER_SQUARE * VERTICES_PER_TRIANGLE);
             expect(indices.length).toBe(simplices.length * VERTICES_PER_TRIANGLE);

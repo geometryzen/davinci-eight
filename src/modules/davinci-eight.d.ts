@@ -2659,7 +2659,7 @@ declare module EIGHT {
         /**
          * 'aTextureCoords'
          */
-        static ATTRIBUTE_TEXTURE_COORDS: string;
+        static ATTRIBUTE_TEXTURE_COORD: string;
 
         static UNIFORM_AMBIENT_LIGHT: string;
         static UNIFORM_COLOR: string;
@@ -2913,24 +2913,71 @@ declare module EIGHT {
         draw(material: Material): void;
     }
 
-    class ArrowGeometry extends GeometryContainer {
-        constructor();
+    interface GeometryBuilder {
+        stress: Vector3
+        tilt: Spinor3
+        offset: Vector3
+        toGeometry(): Geometry
     }
 
-    class BoxGeometry extends GeometryContainer {
-        constructor(options?: { width?: number, height?: number, depth?: number });
+    class ArrowBuilder implements GeometryBuilder {
+        heightCone: number
+        offset: Vector3
+        radiusCone: number
+        radiusShaft: number
+        sliceAngle: number
+        stress: Vector3
+        thetaSegments: number
+        tilt: Spinor3
+        useNormal: boolean
+        usePosition: boolean
+        useTextureCoord: boolean
+        toGeometry(): Geometry
     }
 
-    class CylinderGeometry extends GeometryContainer {
-        constructor();
+    class ConicalShellBuilder implements GeometryBuilder {
+        height: number
+        offset: Vector3
+        radius: number
+        radialSegments: number
+        sliceAngle: number
+        stress: Vector3
+        thetaSegments: number
+        tilt: Spinor3
+        useNormal: boolean
+        usePosition: boolean
+        useTextureCoord: boolean
+        toGeometry(): Geometry
     }
 
-    class SphereGeometry extends GeometryContainer {
-        constructor();
+    class CylindricalShellBuilder implements GeometryBuilder {
+        height: number
+        offset: Vector3
+        radialSegments: number
+        radius: number
+        sliceAngle: number
+        stress: Vector3
+        thetaSegments: number
+        tilt: Spinor3
+        useNormal: boolean
+        usePosition: boolean
+        useTextureCoord: boolean
+        toGeometry(): Geometry
     }
 
-    class TetrahedronGeometry extends GeometryContainer {
-        constructor(radius?: number)
+    class RingBuilder implements GeometryBuilder {
+        innerRadius: number
+        offset: Vector3
+        outerRadius: number
+        radialSegments: number
+        sliceAngle: number
+        stress: Vector3
+        thetaSegments: number
+        tilt: Spinor3
+        useNormal: boolean
+        usePosition: boolean
+        useTextureCoord: boolean
+        toGeometry(): Geometry
     }
 
     /**

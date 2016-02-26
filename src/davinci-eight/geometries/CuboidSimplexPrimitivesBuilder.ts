@@ -67,10 +67,11 @@ export default class CuboidSimplexPrimitivesBuilder extends SimplexPrimitivesBui
         pos[6] = new Vector3().copy(pos[1]).sub(this._c)
         pos[7] = new Vector3().copy(pos[0]).sub(this._c)
 
-        // Translate the points according to the position.
-        let position = this.position
+        // Perform the scale, tilt, offset active transformation.
         pos.forEach(function(point: Vector3) {
-            point.add(position)
+            point.scale(this.scale.x)
+            point.rotate(this.tilt)
+            point.add(this.offset)
         })
 
         function simplex(indices: number[]): Simplex {

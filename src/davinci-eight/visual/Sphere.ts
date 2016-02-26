@@ -1,8 +1,9 @@
 import deviation from './deviation'
 import direction from './direction'
-import mustBeNumber from '../checks/mustBeNumber';
+import mustBeNumber from '../checks/mustBeNumber'
 import RigidBody from './RigidBody'
-import visualCache from './visualCache';
+import SphereOptions from './SphereOptions'
+import visualCache from './visualCache'
 
 /**
  * @module EIGHT
@@ -19,8 +20,8 @@ export default class Sphere extends RigidBody {
      * @class Sphere
      * @constructor
      */
-    constructor(options: {} = {}) {
-        super(visualCache.sphere(), visualCache.material(), 'Sphere', deviation(direction(options)), direction(options))
+    constructor(options: SphereOptions = {}) {
+        super(visualCache.sphere(options), visualCache.material(), 'Sphere', deviation(direction(options)), direction(options))
         this._geometry.release()
         this._material.release()
     }

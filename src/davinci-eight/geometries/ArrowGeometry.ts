@@ -1,8 +1,9 @@
 import GeometryContainer from '../core/GeometryContainer';
 import GeometryBuffers from '../core/GeometryBuffers';
+import mustBeObject from '../checks/mustBeObject';
 import Primitive from '../core/Primitive';
 import ArrowBuilder from './ArrowBuilder';
-import VectorE3 from '../math/VectorE3';
+import ArrowConfig from './ArrowConfig';
 import vertexArraysFromPrimitive from '../core/vertexArraysFromPrimitive'
 
 /**
@@ -10,8 +11,12 @@ import vertexArraysFromPrimitive from '../core/vertexArraysFromPrimitive'
  * @submodule geometries
  */
 
-function primitives(axis: VectorE3): Primitive[] {
-    const builder = new ArrowBuilder(axis)
+function primitives(config: ArrowConfig): Primitive[] {
+    mustBeObject('config', config)
+    const builder = new ArrowBuilder()
+    builder.stress.copy(config.stress)
+    builder.tilt.copy(config.tilt)
+    builder.offset.copy(config.offset)
     return builder.toPrimitives()
 }
 
@@ -20,16 +25,18 @@ function primitives(axis: VectorE3): Primitive[] {
  *
  * @class ArrowGeometry
  * @extends Geometry
+ * @deprecated Moving towards the GeometryBuilder architecture and ArrowBuilder.
  */
 export default class ArrowGeometry extends GeometryContainer {
     /**
      * @class ArrowGeometry
      * @constructor
-     * @param axis {VectorE3} The initial axis of the arrow.
+     * @param config {ArrowConfig} The initial axis of the arrow.
      */
-    constructor(axis: VectorE3) {
+    constructor(config: ArrowConfig) {
         super()
-        const ps = primitives(axis)
+        mustBeObject('config', config)
+        const ps = primitives(config)
         const iLen = ps.length
         for (let i = 0; i < iLen; i++) {
             const dataSource = ps[i]

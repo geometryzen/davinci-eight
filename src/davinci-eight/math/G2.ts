@@ -10,6 +10,7 @@ import rcoE2 from './rcoE2';
 import ImmutableMeasure from './ImmutableMeasure';
 import mulE2 from './mulE2';
 import notImplemented from '../i18n/notImplemented';
+import notSupported from '../i18n/notSupported';
 import readOnly from '../i18n/readOnly';
 import scpE2 from './scpE2';
 import SpinorE2 from './SpinorE2';
@@ -948,6 +949,11 @@ export default class G2 implements ImmutableMeasure<G2>, GeometricE2, GeometricE
         const β = this.β
         return α * α + x * x + y * y + β * β
     }
+
+    stress(σ: VectorE2): G2 {
+        throw new Error(notSupported('stress').message)
+    }
+
 
     /**
      * Computes the <em>reflection</em> of this multivector in the plane with normal <code>n</code>.

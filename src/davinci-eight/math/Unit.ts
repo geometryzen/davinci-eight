@@ -2,6 +2,7 @@ import DivisionRingOperators from '../math/DivisionRingOperators';
 import Dimensions from '../math/Dimensions';
 import LinearElement from '../math/LinearElement';
 import notImplemented from '../i18n/notImplemented';
+import notSupported from '../i18n/notSupported';
 import QQ from '../math/QQ';
 
 // const NAMES_SI = ['kilogram', 'meter', 'second', 'coulomb', 'kelvin', 'mole', 'candela'];
@@ -498,6 +499,12 @@ export default class Unit implements DivisionRingOperators<Unit>, LinearElement<
         return this;
     }
 
+    /**
+     * @property scale
+     * @param α {number}
+     * @return {Unit}
+     * @chainable
+     */
     scale(α: number): Unit {
         return new Unit(this.multiplier * α, this.dimensions, this.labels);
     }
@@ -518,6 +525,10 @@ export default class Unit implements DivisionRingOperators<Unit>, LinearElement<
      */
     sqrt(): Unit {
         return new Unit(Math.sqrt(this.multiplier), this.dimensions.sqrt(), this.labels)
+    }
+
+    stress(σ: Unit): Unit {
+        throw new Error(notSupported('stress').message)
     }
 
     /**
