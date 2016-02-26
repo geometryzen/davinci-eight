@@ -2177,8 +2177,12 @@ define('davinci-eight/core',["require", "exports"], function (require, exports) 
 });
 
 define('davinci-eight/math/QQ',["require", "exports", '../core', '../checks/mustBeInteger', '../i18n/readOnly'], function (require, exports, core_1, mustBeInteger_1, readOnly_1) {
+    var magicCode = Math.random();
     var QQ = (function () {
-        function QQ(n, d) {
+        function QQ(n, d, code) {
+            if (code !== magicCode) {
+                throw new Error("Use the static create method instead of the constructor");
+            }
             if (core_1.default.safemode) {
                 mustBeInteger_1.default('n', n);
                 mustBeInteger_1.default('d', d);
@@ -2249,20 +2253,20 @@ define('davinci-eight/math/QQ',["require", "exports", '../core', '../checks/must
             configurable: true
         });
         QQ.prototype.add = function (rhs) {
-            return new QQ(this._numer * rhs._denom + this._denom * rhs._numer, this._denom * rhs._denom);
+            return QQ.valueOf(this._numer * rhs._denom + this._denom * rhs._numer, this._denom * rhs._denom);
         };
         QQ.prototype.sub = function (rhs) {
-            return new QQ(this._numer * rhs._denom - this._denom * rhs._numer, this._denom * rhs._denom);
+            return QQ.valueOf(this._numer * rhs._denom - this._denom * rhs._numer, this._denom * rhs._denom);
         };
         QQ.prototype.mul = function (rhs) {
-            return new QQ(this._numer * rhs._numer, this._denom * rhs._denom);
+            return QQ.valueOf(this._numer * rhs._numer, this._denom * rhs._denom);
         };
         QQ.prototype.div = function (rhs) {
             var numer = this._numer * rhs._denom;
             var denom = this._denom * rhs._numer;
             if (numer === 0) {
                 if (denom === 0) {
-                    return new QQ(numer, denom);
+                    return QQ.valueOf(numer, denom);
                 }
                 else {
                     return QQ.ZERO;
@@ -2270,10 +2274,10 @@ define('davinci-eight/math/QQ',["require", "exports", '../core', '../checks/must
             }
             else {
                 if (denom === 0) {
-                    return new QQ(numer, denom);
+                    return QQ.valueOf(numer, denom);
                 }
                 else {
-                    return new QQ(numer, denom);
+                    return QQ.valueOf(numer, denom);
                 }
             }
         };
@@ -2284,10 +2288,10 @@ define('davinci-eight/math/QQ',["require", "exports", '../core', '../checks/must
             return this._numer === 0 && this._denom === 1;
         };
         QQ.prototype.inv = function () {
-            return new QQ(this._denom, this._numer);
+            return QQ.valueOf(this._denom, this._numer);
         };
         QQ.prototype.neg = function () {
-            return new QQ(-this._numer, this._denom);
+            return QQ.valueOf(-this._numer, this._denom);
         };
         QQ.prototype.equals = function (other) {
             if (other instanceof QQ) {
@@ -2370,10 +2374,112 @@ define('davinci-eight/math/QQ',["require", "exports", '../core', '../checks/must
         QQ.prototype.__neg__ = function () {
             return this.neg();
         };
-        QQ.ONE = new QQ(1, 1);
-        QQ.TWO = new QQ(2, 1);
-        QQ.MINUS_ONE = new QQ(-1, 1);
-        QQ.ZERO = new QQ(0, 1);
+        QQ.valueOf = function (n, d) {
+            if (n === 0) {
+                if (d !== 0) {
+                    return QQ.ZERO;
+                }
+                else {
+                }
+            }
+            else if (d === 0) {
+            }
+            else if (n === d) {
+                return QQ.ONE;
+            }
+            else if (n === 1) {
+                if (d === 2) {
+                    return QQ.POS_01_02;
+                }
+                else if (d === 3) {
+                    return QQ.POS_01_03;
+                }
+                else if (d === 4) {
+                    return QQ.POS_01_04;
+                }
+                else if (d === 5) {
+                    return QQ.POS_01_05;
+                }
+                else if (d === -3) {
+                    return QQ.NEG_01_03;
+                }
+            }
+            else if (n === -1) {
+                if (d === 1) {
+                    return QQ.NEG_01_01;
+                }
+                else if (d === 3) {
+                    return QQ.NEG_01_03;
+                }
+            }
+            else if (n === 2) {
+                if (d === 1) {
+                    return QQ.POS_02_01;
+                }
+                else if (d === 3) {
+                    return QQ.POS_02_03;
+                }
+            }
+            else if (n === -2) {
+                if (d === 1) {
+                    return QQ.NEG_02_01;
+                }
+            }
+            else if (n === 3) {
+                if (d === 1) {
+                    return QQ.POS_03_01;
+                }
+            }
+            else if (n === -3) {
+                if (d === 1) {
+                    return QQ.NEG_03_01;
+                }
+            }
+            else if (n === 4) {
+                if (d === 1) {
+                    return QQ.POS_04_01;
+                }
+            }
+            else if (n === 5) {
+                if (d === 1) {
+                    return QQ.POS_05_01;
+                }
+            }
+            else if (n === 6) {
+                if (d === 1) {
+                    return QQ.POS_06_01;
+                }
+            }
+            else if (n === 7) {
+                if (d === 1) {
+                    return QQ.POS_07_01;
+                }
+            }
+            else if (n === 8) {
+                if (d === 1) {
+                    return QQ.POS_08_01;
+                }
+            }
+            return new QQ(n, d, magicCode);
+        };
+        QQ.POS_08_01 = new QQ(8, 1, magicCode);
+        QQ.POS_07_01 = new QQ(7, 1, magicCode);
+        QQ.POS_06_01 = new QQ(6, 1, magicCode);
+        QQ.POS_05_01 = new QQ(5, 1, magicCode);
+        QQ.POS_04_01 = new QQ(4, 1, magicCode);
+        QQ.POS_03_01 = new QQ(3, 1, magicCode);
+        QQ.POS_02_01 = new QQ(2, 1, magicCode);
+        QQ.ONE = new QQ(1, 1, magicCode);
+        QQ.POS_01_02 = new QQ(1, 2, magicCode);
+        QQ.POS_01_03 = new QQ(1, 3, magicCode);
+        QQ.POS_01_04 = new QQ(1, 4, magicCode);
+        QQ.POS_01_05 = new QQ(1, 5, magicCode);
+        QQ.ZERO = new QQ(0, 1, magicCode);
+        QQ.NEG_01_03 = new QQ(-1, 3, magicCode);
+        QQ.NEG_01_01 = new QQ(-1, 1, magicCode);
+        QQ.NEG_02_01 = new QQ(-2, 1, magicCode);
+        QQ.NEG_03_01 = new QQ(-3, 1, magicCode);
+        QQ.POS_02_03 = new QQ(2, 3, magicCode);
         return QQ;
     })();
     Object.defineProperty(exports, "__esModule", { value: true });
@@ -2381,9 +2487,10 @@ define('davinci-eight/math/QQ',["require", "exports", '../core', '../checks/must
 });
 
 define('davinci-eight/math/Dimensions',["require", "exports", '../math/QQ', '../i18n/notSupported'], function (require, exports, QQ_1, notSupported_1) {
-    var R0 = QQ_1.default.ZERO;
-    var Vector1 = QQ_1.default.ONE;
-    var M1 = QQ_1.default.MINUS_ONE;
+    var R0 = QQ_1.default.valueOf(0, 1);
+    var R1 = QQ_1.default.valueOf(1, 1);
+    var R2 = QQ_1.default.valueOf(2, 1);
+    var M1 = QQ_1.default.valueOf(-1, 1);
     function assertArgRational(name, arg) {
         if (arg instanceof QQ_1.default) {
             return arg;
@@ -2445,7 +2552,7 @@ define('davinci-eight/math/Dimensions',["require", "exports", '../math/QQ', '../
             return new Dimensions(this.M.mul(exponent), this.L.mul(exponent), this.T.mul(exponent), this.Q.mul(exponent), this.temperature.mul(exponent), this.amount.mul(exponent), this.intensity.mul(exponent));
         };
         Dimensions.prototype.sqrt = function () {
-            return new Dimensions(this.M.div(QQ_1.default.TWO), this.L.div(QQ_1.default.TWO), this.T.div(QQ_1.default.TWO), this.Q.div(QQ_1.default.TWO), this.temperature.div(QQ_1.default.TWO), this.amount.div(QQ_1.default.TWO), this.intensity.div(QQ_1.default.TWO));
+            return new Dimensions(this.M.div(R2), this.L.div(R2), this.T.div(R2), this.Q.div(R2), this.temperature.div(R2), this.amount.div(R2), this.intensity.div(R2));
         };
         Dimensions.prototype.isOne = function () {
             return this.M.isZero() && this.L.isZero() && this.T.isZero() && this.Q.isZero() && this.temperature.isZero() && this.amount.isZero() && this.intensity.isZero();
@@ -2549,14 +2656,14 @@ define('davinci-eight/math/Dimensions',["require", "exports", '../math/QQ', '../
             return this;
         };
         Dimensions.ONE = new Dimensions(R0, R0, R0, R0, R0, R0, R0);
-        Dimensions.MASS = new Dimensions(Vector1, R0, R0, R0, R0, R0, R0);
-        Dimensions.LENGTH = new Dimensions(R0, Vector1, R0, R0, R0, R0, R0);
-        Dimensions.TIME = new Dimensions(R0, R0, Vector1, R0, R0, R0, R0);
-        Dimensions.CHARGE = new Dimensions(R0, R0, R0, Vector1, R0, R0, R0);
-        Dimensions.CURRENT = new Dimensions(R0, R0, M1, Vector1, R0, R0, R0);
-        Dimensions.TEMPERATURE = new Dimensions(R0, R0, R0, R0, Vector1, R0, R0);
-        Dimensions.AMOUNT = new Dimensions(R0, R0, R0, R0, R0, Vector1, R0);
-        Dimensions.INTENSITY = new Dimensions(R0, R0, R0, R0, R0, R0, Vector1);
+        Dimensions.MASS = new Dimensions(R1, R0, R0, R0, R0, R0, R0);
+        Dimensions.LENGTH = new Dimensions(R0, R1, R0, R0, R0, R0, R0);
+        Dimensions.TIME = new Dimensions(R0, R0, R1, R0, R0, R0, R0);
+        Dimensions.CHARGE = new Dimensions(R0, R0, R0, R1, R0, R0, R0);
+        Dimensions.CURRENT = new Dimensions(R0, R0, M1, R1, R0, R0, R0);
+        Dimensions.TEMPERATURE = new Dimensions(R0, R0, R0, R0, R1, R0, R0);
+        Dimensions.AMOUNT = new Dimensions(R0, R0, R0, R0, R0, R1, R0);
+        Dimensions.INTENSITY = new Dimensions(R0, R0, R0, R0, R0, R0, R1);
         return Dimensions;
     })();
     Object.defineProperty(exports, "__esModule", { value: true });

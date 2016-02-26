@@ -314,14 +314,12 @@ declare module EIGHT {
     }
 
     /**
-     * A rational number.
+     * The QQ class represents a rational number.
+     * The QQ implementation is that of an immutable (value) type.
+     * The numerator and denominator are reduced to their lowest form.
+     * Construct new instances using the static valueOf method.
      */
     class QQ {
-
-        /**
-         * The numerator.
-         */
-        numer: number;
 
         /**
          * The denominator.
@@ -329,44 +327,64 @@ declare module EIGHT {
         denom: number;
 
         /**
-         * Constructs a rational number from an ordered pair of integers.
-         * @param numer The numerator.
-         * @param denom The denominator.
+         * The numerator.
          */
-        constructor(numer: number, denom: number);
+        numer: number;
+
+        /**
+         *
+         */
+        add(rhs: QQ): QQ
+
+        /**
+         *
+         */
+        div(rhs: QQ): QQ
+
+        /**
+         *
+         */
+        equals(other: QQ): boolean
 
         /**
          * Computes the multiplicative inverse of this rational number.
          */
-        inv(): QQ;
+        inv(): QQ
 
         /**
          * Determines whether this rational number is the multiplicative identity, <b>1</b>.
          */
-        isOne(): boolean;
+        isOne(): boolean
 
         /**
          * Determines whether this rational number is the additive identity, <b>0</b>.
          */
-        isZero(): boolean;
+        isZero(): boolean
+
+        /**
+         *
+         */
+        mul(rhs: QQ): QQ
 
         /**
          * Computes the additive inverse of this rational number.
          */
-        neg(): QQ;
-
-        static MINUS_ONE: QQ;
+        neg(): QQ
 
         /**
-         * The multiplicative identity <b>1</b> for rational numbers.
+         *
          */
-        static ONE: QQ;
-        static TWO: QQ;
+        sub(rhs: QQ): QQ
 
         /**
-         * The additive identity <b>0</b> for rational numbers.
+         *
          */
-        static ZERO: QQ;
+        toString(): string
+
+        /**
+         *
+         */
+        static valueOf(numer: number, denom: number): QQ
     }
 
     /**

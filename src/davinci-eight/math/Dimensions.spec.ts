@@ -1,8 +1,8 @@
 import Dimensions from './Dimensions'
 import QQ from './QQ'
 
-const R0 = QQ.ZERO
-const R1 = QQ.ONE
+const R0 = QQ.valueOf(0, 1)
+const R1 = QQ.valueOf(1, 1)
 const R2 = R1.add(R1)
 const R3 = R2.add(R1)
 const R4 = R3.add(R1)
@@ -13,13 +13,13 @@ const R7 = R6.add(R1)
 describe("Dimensions", function() {
     describe("constructor", function() {
         it("properties match construction arguments", function() {
-            const M = new QQ(2, 3);
-            const L = new QQ(3, 5);
-            const T = new QQ(5, 7);
-            const Q = new QQ(7, 11);
-            const temperature = new QQ(11, 13);
-            const amount = new QQ(13, 17);
-            const intensity = new QQ(17, 19);
+            const M = QQ.valueOf(2, 3);
+            const L = QQ.valueOf(3, 5);
+            const T = QQ.valueOf(5, 7);
+            const Q = QQ.valueOf(7, 11);
+            const temperature = QQ.valueOf(11, 13);
+            const amount = QQ.valueOf(13, 17);
+            const intensity = QQ.valueOf(17, 19);
             const x = new Dimensions(M, L, T, Q, temperature, amount, intensity);
             expect(x.M.numer).toBe(2);
             expect(x.M.denom).toBe(3);
@@ -29,23 +29,23 @@ describe("Dimensions", function() {
             expect(x.T.denom).toBe(7);
             expect(x.Q.numer).toBe(7);
             expect(x.Q.denom).toBe(11);
-            expect(x.temperature.numer).toBe(11);
-            expect(x.temperature.denom).toBe(13);
-            expect(x.amount.numer).toBe(13);
-            expect(x.amount.denom).toBe(17);
-            expect(x.intensity.numer).toBe(17);
-            expect(x.intensity.denom).toBe(19);
-        });
-    });
+            expect(x.temperature.numer).toBe(11)
+            expect(x.temperature.denom).toBe(13)
+            expect(x.amount.numer).toBe(13)
+            expect(x.amount.denom).toBe(17)
+            expect(x.intensity.numer).toBe(17)
+            expect(x.intensity.denom).toBe(19)
+        })
+    })
 
     it("Construction(QQ)", function() {
-        const M = new QQ(1, 1);
-        const L = new QQ(2, 1);
-        const T = new QQ(3, 1);
-        const Q = new QQ(4, 1);
-        const temperature = new QQ(5, 1);
-        const amount = new QQ(6, 1);
-        const intensity = new QQ(7, 1);
+        const M = QQ.valueOf(1, 1);
+        const L = QQ.valueOf(2, 1);
+        const T = QQ.valueOf(3, 1);
+        const Q = QQ.valueOf(4, 1);
+        const temperature = QQ.valueOf(5, 1);
+        const amount = QQ.valueOf(6, 1);
+        const intensity = QQ.valueOf(7, 1);
         const d = new Dimensions(M, L, T, Q, temperature, amount, intensity);
         expect(d.M.numer).toBe(1);
         expect(d.M.denom).toBe(1);
@@ -279,6 +279,6 @@ describe("Dimensions", function() {
         expect("" + (new Dimensions(R0, R0, R0, R0, R0, R1, R0))).toBe("amount of substance");
         expect("" + (new Dimensions(R0, R0, R0, R0, R0, R0, R1))).toBe("luminous intensity");
 
-        return expect("" + (new Dimensions(R0, R1, new QQ(-2, 1), R0, R0, R0, R0))).toBe("length * time ** -2");
+        return expect("" + (new Dimensions(R0, R1, QQ.valueOf(-2, 1), R0, R0, R0, R0))).toBe("length * time ** -2");
     });
 });

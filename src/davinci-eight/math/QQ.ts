@@ -1,7 +1,9 @@
 import core from '../core'
-import DivisionRingOperators from './DivisionRingOperators';
-import mustBeInteger from '../checks/mustBeInteger';
-import readOnly from '../i18n/readOnly';
+import DivisionRingOperators from './DivisionRingOperators'
+import mustBeInteger from '../checks/mustBeInteger'
+import readOnly from '../i18n/readOnly'
+
+const magicCode = Math.random()
 
 /**
  * @module EIGHT
@@ -9,6 +11,14 @@ import readOnly from '../i18n/readOnly';
  */
 
 /**
+ * The QQ class represents a rational number, ℚ.
+ *
+ * The QQ implementation is that of an <em>immutable</em> (value) type.
+ *
+ * The numerator and denominator are reduced to their lowest form.
+ *
+ * Construct new instances using the static <code>valueOf</code> method.
+ *
  * @class QQ
  */
 export default class QQ implements DivisionRingOperators<QQ> {
@@ -26,18 +36,12 @@ export default class QQ implements DivisionRingOperators<QQ> {
     private _denom: number;
 
     /**
-     * The QQ class represents a rational number, ℚ.
-     *
-     * The QQ implementation is that of an <em>immutable</em> (value) type.
-     *
-     * The numerator and denominator are reduced to their lowest form.
-     *
-     * @class QQ
-     * @constructor
-     * @param {number} n The numerator, an integer.
-     * @param {number} d The denominator, an integer.
+     * Intentionally undocumented.
      */
-    constructor(n: number, d: number) {
+    constructor(n: number, d: number, code: number) {
+        if (code !== magicCode) {
+            throw new Error("Use the static create method instead of the constructor")
+        }
         if (core.safemode) {
             mustBeInteger('n', n);
             mustBeInteger('d', d);
@@ -119,33 +123,37 @@ export default class QQ implements DivisionRingOperators<QQ> {
      * @method add
      * @param rhs {QQ}
      * @return {QQ}
+     * @chainable
      */
     add(rhs: QQ): QQ {
-        return new QQ(this._numer * rhs._denom + this._denom * rhs._numer, this._denom * rhs._denom);
+        return QQ.valueOf(this._numer * rhs._denom + this._denom * rhs._numer, this._denom * rhs._denom);
     }
 
     /**
      * @method sub
      * @param rhs {QQ}
      * @return {QQ}
+     * @chainable
      */
     sub(rhs: QQ): QQ {
-        return new QQ(this._numer * rhs._denom - this._denom * rhs._numer, this._denom * rhs._denom);
+        return QQ.valueOf(this._numer * rhs._denom - this._denom * rhs._numer, this._denom * rhs._denom);
     }
 
     /**
      * @method mul
      * @param rhs {QQ}
      * @return {QQ}
+     * @chainable
      */
     mul(rhs: QQ): QQ {
-        return new QQ(this._numer * rhs._numer, this._denom * rhs._denom);
+        return QQ.valueOf(this._numer * rhs._numer, this._denom * rhs._denom);
     }
 
     /**
      * @method div
      * @param rhs {QQ}
      * @return {QQ}
+     * @chainable
      */
     div(rhs: QQ): QQ {
         const numer = this._numer * rhs._denom
@@ -153,7 +161,7 @@ export default class QQ implements DivisionRingOperators<QQ> {
         if (numer === 0) {
             if (denom === 0) {
                 // How do we handle undefined?
-                return new QQ(numer, denom)
+                return QQ.valueOf(numer, denom)
             }
             else {
                 return QQ.ZERO
@@ -162,10 +170,10 @@ export default class QQ implements DivisionRingOperators<QQ> {
         else {
             if (denom === 0) {
                 // How do we handle division by zero.
-                return new QQ(numer, denom)
+                return QQ.valueOf(numer, denom)
             }
             else {
-                return new QQ(numer, denom)
+                return QQ.valueOf(numer, denom)
             }
         }
     }
@@ -187,24 +195,39 @@ export default class QQ implements DivisionRingOperators<QQ> {
     }
 
     /**
+     * @method hashCode
+     * @return {number}
+     * @beta
+     */
+    hashCode(): number {
+        return 37 * this.numer + 13 * this.denom
+    }
+
+    /**
      * Computes the multiplicative inverse of this rational number.
+     *
      * @method inv
      * @return {QQ}
+     * @chainable
      */
     inv(): QQ {
-        return new QQ(this._denom, this._numer);
+        return QQ.valueOf(this._denom, this._numer);
     }
 
     /**
      * Computes the additive inverse of this rational number.
+     *
      * @method neg
      * @return {QQ}
+     * @chainable
      */
     neg(): QQ {
-        return new QQ(-this._numer, this._denom);
+        return QQ.valueOf(-this._numer, this._denom);
     }
 
     /**
+     * Determines whether two rational numbers are equal.
+     *
      * @method equals
      * @param other {QQ}
      * @return {boolean}
@@ -220,6 +243,9 @@ export default class QQ implements DivisionRingOperators<QQ> {
 
     /**
      * Computes a non-normative string representation of this rational.
+     *
+     * @method toString
+     * @return {string}
      */
     toString(): string {
         return "" + this._numer + "/" + this._denom + ""
@@ -227,11 +253,11 @@ export default class QQ implements DivisionRingOperators<QQ> {
 
     /**
      * @method __add__
-     * @param rhs {any}
+     * @param rhs {QQ}
      * @return {QQ}
      * @private
      */
-    __add__(rhs: any): QQ {
+    __add__(rhs: QQ): QQ {
         if (rhs instanceof QQ) {
             return this.add(rhs)
         }
@@ -242,11 +268,11 @@ export default class QQ implements DivisionRingOperators<QQ> {
 
     /**
      * @method __radd__
-     * @param lhs {any}
+     * @param lhs {QQ}
      * @return {QQ}
      * @private
      */
-    __radd__(lhs: any): QQ {
+    __radd__(lhs: QQ): QQ {
         if (lhs instanceof QQ) {
             return lhs.add(this)
         }
@@ -257,11 +283,11 @@ export default class QQ implements DivisionRingOperators<QQ> {
 
     /**
      * @method __sub__
-     * @param rhs {any}
+     * @param rhs {QQ}
      * @return {QQ}
      * @private
      */
-    __sub__(rhs: any): QQ {
+    __sub__(rhs: QQ): QQ {
         if (rhs instanceof QQ) {
             return this.sub(rhs)
         }
@@ -272,11 +298,11 @@ export default class QQ implements DivisionRingOperators<QQ> {
 
     /**
      * @method __rsub__
-     * @param lhs {any}
+     * @param lhs {QQ}
      * @return {QQ}
      * @private
      */
-    __rsub__(lhs: any): QQ {
+    __rsub__(lhs: QQ): QQ {
         if (lhs instanceof QQ) {
             return lhs.sub(this)
         }
@@ -287,11 +313,11 @@ export default class QQ implements DivisionRingOperators<QQ> {
 
     /**
      * @method __mul__
-     * @param rhs {any}
+     * @param rhs {QQ}
      * @return {QQ}
      * @private
      */
-    __mul__(rhs: any): QQ {
+    __mul__(rhs: QQ): QQ {
         if (rhs instanceof QQ) {
             return this.mul(rhs)
         }
@@ -302,11 +328,11 @@ export default class QQ implements DivisionRingOperators<QQ> {
 
     /**
      * @method __rmul__
-     * @param lhs {any}
+     * @param lhs {QQ}
      * @return {QQ}
      * @private
      */
-    __rmul__(lhs: any): QQ {
+    __rmul__(lhs: QQ): QQ {
         if (lhs instanceof QQ) {
             return lhs.mul(this)
         }
@@ -317,11 +343,11 @@ export default class QQ implements DivisionRingOperators<QQ> {
 
     /**
      * @method __div__
-     * @param div {any}
+     * @param div {QQ}
      * @return {QQ}
      * @private
      */
-    __div__(rhs: any): QQ {
+    __div__(rhs: QQ): QQ {
         if (rhs instanceof QQ) {
             return this.div(rhs)
         }
@@ -332,11 +358,11 @@ export default class QQ implements DivisionRingOperators<QQ> {
 
     /**
      * @method __rdiv__
-     * @param lhs {any}
+     * @param lhs {QQ}
      * @return {QQ}
      * @private
      */
-    __rdiv__(lhs: any): QQ {
+    __rdiv__(lhs: QQ): QQ {
         if (lhs instanceof QQ) {
             return lhs.div(this)
         }
@@ -363,31 +389,123 @@ export default class QQ implements DivisionRingOperators<QQ> {
         return this.neg()
     }
 
-    /**
-     * @property ONE
-     * @type {QQ}
-     * @static
-     */
-    static ONE: QQ = new QQ(1, 1)
+    private static POS_08_01: QQ = new QQ(8, 1, magicCode)
+    private static POS_07_01: QQ = new QQ(7, 1, magicCode)
+    private static POS_06_01: QQ = new QQ(6, 1, magicCode)
+    private static POS_05_01: QQ = new QQ(5, 1, magicCode)
+    private static POS_04_01: QQ = new QQ(4, 1, magicCode)
+    private static POS_03_01: QQ = new QQ(3, 1, magicCode)
+    private static POS_02_01: QQ = new QQ(2, 1, magicCode)
+    private static ONE: QQ = new QQ(1, 1, magicCode)
+    private static POS_01_02: QQ = new QQ(1, 2, magicCode)
+    private static POS_01_03: QQ = new QQ(1, 3, magicCode)
+    private static POS_01_04: QQ = new QQ(1, 4, magicCode)
+    private static POS_01_05: QQ = new QQ(1, 5, magicCode)
+    private static ZERO: QQ = new QQ(0, 1, magicCode)
+    private static NEG_01_03: QQ = new QQ(-1, 3, magicCode)
+    private static NEG_01_01: QQ = new QQ(-1, 1, magicCode)
+    private static NEG_02_01: QQ = new QQ(-2, 1, magicCode)
+    private static NEG_03_01: QQ = new QQ(-3, 1, magicCode)
+
+    private static POS_02_03: QQ = new QQ(2, 3, magicCode)
 
     /**
-     * @property TWO
-     * @type {QQ}
+     * @method valueOf
+     * @param numer {number}
+     * @param denom {number}
+     * @return {QQ}
      * @static
+     * @chainable
      */
-    static TWO: QQ = new QQ(2, 1)
-
-    /**
-     * @property MINUS_ONE
-     * @type {QQ}
-     * @static
-     */
-    static MINUS_ONE: QQ = new QQ(-1, 1)
-
-    /**
-     * @property ZERO
-     * @type {QQ}
-     * @static
-     */
-    static ZERO: QQ = new QQ(0, 1)
+    static valueOf(n: number, d: number): QQ {
+        if (n === 0) {
+            if (d !== 0) {
+                return QQ.ZERO
+            }
+            else {
+                // This is the undefined case, 0/0.
+            }
+        }
+        else if (d === 0) {
+            // Fall through
+        }
+        else if (n === d) {
+            return QQ.ONE
+        }
+        else if (n === 1) {
+            if (d === 2) {
+                return QQ.POS_01_02
+            }
+            else if (d === 3) {
+                return QQ.POS_01_03
+            }
+            else if (d === 4) {
+                return QQ.POS_01_04
+            }
+            else if (d === 5) {
+                return QQ.POS_01_05
+            }
+            else if (d === -3) {
+                return QQ.NEG_01_03
+            }
+        }
+        else if (n === -1) {
+            if (d === 1) {
+                return QQ.NEG_01_01
+            }
+            else if (d === 3) {
+                return QQ.NEG_01_03
+            }
+        }
+        else if (n === 2) {
+            if (d === 1) {
+                return QQ.POS_02_01
+            }
+            else if (d === 3) {
+                return QQ.POS_02_03
+            }
+        }
+        else if (n === -2) {
+            if (d === 1) {
+                return QQ.NEG_02_01
+            }
+        }
+        else if (n === 3) {
+            if (d === 1) {
+                return QQ.POS_03_01
+            }
+        }
+        else if (n === -3) {
+            if (d === 1) {
+                return QQ.NEG_03_01
+            }
+        }
+        else if (n === 4) {
+            if (d === 1) {
+                return QQ.POS_04_01
+            }
+        }
+        else if (n === 5) {
+            if (d === 1) {
+                return QQ.POS_05_01
+            }
+        }
+        else if (n === 6) {
+            if (d === 1) {
+                return QQ.POS_06_01
+            }
+        }
+        else if (n === 7) {
+            if (d === 1) {
+                return QQ.POS_07_01
+            }
+        }
+        else if (n === 8) {
+            if (d === 1) {
+                return QQ.POS_08_01
+            }
+        }
+        // console.warn(`QQ.valueOf(${n},${d}) is not cached.`)
+        return new QQ(n, d, magicCode)
+    }
 }

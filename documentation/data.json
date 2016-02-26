@@ -4156,7 +4156,7 @@
             "submodule": "math",
             "namespace": "",
             "file": "src/davinci-eight/math/Dimensions.ts",
-            "line": 91,
+            "line": 92,
             "description": "The Dimensions class captures the physical dimensions associated with a unit of measure.",
             "is_constructor": 1,
             "params": [
@@ -4453,21 +4453,8 @@
             "submodule": "math",
             "namespace": "",
             "file": "src/davinci-eight/math/QQ.ts",
-            "line": 28,
-            "description": "The QQ class represents a rational number, ℚ.\n\nThe QQ implementation is that of an <em>immutable</em> (value) type.\n\nThe numerator and denominator are reduced to their lowest form.",
-            "is_constructor": 1,
-            "params": [
-                {
-                    "name": "n",
-                    "description": "The numerator, an integer.",
-                    "type": "Number"
-                },
-                {
-                    "name": "d",
-                    "description": "The denominator, an integer.",
-                    "type": "Number"
-                }
-            ]
+            "line": 13,
+            "description": "The QQ class represents a rational number, ℚ.\n\nThe QQ implementation is that of an <em>immutable</em> (value) type.\n\nThe numerator and denominator are reduced to their lowest form.\n\nConstruct new instances using the static <code>valueOf</code> method."
         },
         "R3": {
             "name": "R3",
@@ -14819,7 +14806,7 @@
         },
         {
             "file": "src/davinci-eight/math/Dimensions.ts",
-            "line": 28,
+            "line": 29,
             "itemtype": "property",
             "name": "ONE",
             "type": "{Dimensions}",
@@ -14830,7 +14817,7 @@
         },
         {
             "file": "src/davinci-eight/math/Dimensions.ts",
-            "line": 35,
+            "line": 36,
             "itemtype": "property",
             "name": "MASS",
             "type": "{Dimensions}",
@@ -14841,7 +14828,7 @@
         },
         {
             "file": "src/davinci-eight/math/Dimensions.ts",
-            "line": 42,
+            "line": 43,
             "itemtype": "property",
             "name": "LENGTH",
             "type": "{Dimensions}",
@@ -14852,7 +14839,7 @@
         },
         {
             "file": "src/davinci-eight/math/Dimensions.ts",
-            "line": 49,
+            "line": 50,
             "itemtype": "property",
             "name": "TIME",
             "type": "{Dimensions}",
@@ -14863,7 +14850,7 @@
         },
         {
             "file": "src/davinci-eight/math/Dimensions.ts",
-            "line": 56,
+            "line": 57,
             "itemtype": "property",
             "name": "CHARGE",
             "type": "{Dimensions}",
@@ -14874,7 +14861,7 @@
         },
         {
             "file": "src/davinci-eight/math/Dimensions.ts",
-            "line": 63,
+            "line": 64,
             "itemtype": "property",
             "name": "CURRENT",
             "type": "{Dimensions}",
@@ -14885,7 +14872,7 @@
         },
         {
             "file": "src/davinci-eight/math/Dimensions.ts",
-            "line": 70,
+            "line": 71,
             "itemtype": "property",
             "name": "TEMPERATURE",
             "type": "{Dimensions}",
@@ -14896,7 +14883,7 @@
         },
         {
             "file": "src/davinci-eight/math/Dimensions.ts",
-            "line": 77,
+            "line": 78,
             "itemtype": "property",
             "name": "AMOUNT",
             "type": "{Dimensions}",
@@ -14907,7 +14894,7 @@
         },
         {
             "file": "src/davinci-eight/math/Dimensions.ts",
-            "line": 84,
+            "line": 85,
             "itemtype": "property",
             "name": "INTENSITY",
             "type": "{Dimensions}",
@@ -14918,7 +14905,7 @@
         },
         {
             "file": "src/davinci-eight/math/Dimensions.ts",
-            "line": 117,
+            "line": 118,
             "description": "Returns the dimensions if they are all equal, otherwise throws an <code>Error</code>",
             "itemtype": "method",
             "name": "compatible",
@@ -14939,7 +14926,7 @@
         },
         {
             "file": "src/davinci-eight/math/Dimensions.ts",
-            "line": 148,
+            "line": 149,
             "description": "Multiplies dimensions by adding rational exponents.",
             "itemtype": "method",
             "name": "mul",
@@ -14960,7 +14947,7 @@
         },
         {
             "file": "src/davinci-eight/math/Dimensions.ts",
-            "line": 159,
+            "line": 160,
             "description": "Divides dimensions by subtracting rational exponents.",
             "itemtype": "method",
             "name": "div",
@@ -14981,7 +14968,7 @@
         },
         {
             "file": "src/davinci-eight/math/Dimensions.ts",
-            "line": 170,
+            "line": 171,
             "description": "Computes the power function by multiplying rational exponents.",
             "itemtype": "method",
             "name": "div",
@@ -15002,7 +14989,7 @@
         },
         {
             "file": "src/davinci-eight/math/Dimensions.ts",
-            "line": 181,
+            "line": 182,
             "description": "Computes the square root by dividing each rational component by two.",
             "itemtype": "method",
             "name": "sqrt",
@@ -15016,7 +15003,7 @@
         },
         {
             "file": "src/davinci-eight/math/Dimensions.ts",
-            "line": 191,
+            "line": 192,
             "description": "Determines whether all the exponents of this dimensions number are zero.\nThis implies a dimensionless quantity.",
             "itemtype": "method",
             "name": "isOne",
@@ -15030,7 +15017,7 @@
         },
         {
             "file": "src/davinci-eight/math/Dimensions.ts",
-            "line": 202,
+            "line": 203,
             "description": "Intentionally undocumented.",
             "class": "Dimensions",
             "module": "EIGHT",
@@ -15038,7 +15025,7 @@
         },
         {
             "file": "src/davinci-eight/math/Dimensions.ts",
-            "line": 209,
+            "line": 210,
             "description": "Computes the multiplicative inverse of this dimensions number.\nThis is achived by changing the signs of all the exponent quantities.",
             "itemtype": "method",
             "name": "inv",
@@ -15052,7 +15039,7 @@
         },
         {
             "file": "src/davinci-eight/math/Dimensions.ts",
-            "line": 220,
+            "line": 221,
             "description": "Intentionally undocumented.",
             "class": "Dimensions",
             "module": "EIGHT",
@@ -15060,7 +15047,7 @@
         },
         {
             "file": "src/davinci-eight/math/Dimensions.ts",
-            "line": 227,
+            "line": 228,
             "description": "Creates a representation of this <code>Dimensions</code> instance.",
             "itemtype": "method",
             "name": "toString",
@@ -15074,7 +15061,7 @@
         },
         {
             "file": "src/davinci-eight/math/Dimensions.ts",
-            "line": 252,
+            "line": 253,
             "itemtype": "method",
             "name": "__add__",
             "params": [
@@ -15094,7 +15081,7 @@
         },
         {
             "file": "src/davinci-eight/math/Dimensions.ts",
-            "line": 266,
+            "line": 267,
             "itemtype": "method",
             "name": "__radd__",
             "params": [
@@ -15114,7 +15101,7 @@
         },
         {
             "file": "src/davinci-eight/math/Dimensions.ts",
-            "line": 280,
+            "line": 281,
             "itemtype": "method",
             "name": "__sub__",
             "params": [
@@ -15134,7 +15121,7 @@
         },
         {
             "file": "src/davinci-eight/math/Dimensions.ts",
-            "line": 294,
+            "line": 295,
             "itemtype": "method",
             "name": "__rsub__",
             "params": [
@@ -15154,7 +15141,7 @@
         },
         {
             "file": "src/davinci-eight/math/Dimensions.ts",
-            "line": 308,
+            "line": 309,
             "itemtype": "method",
             "name": "__mul__",
             "params": [
@@ -15174,7 +15161,7 @@
         },
         {
             "file": "src/davinci-eight/math/Dimensions.ts",
-            "line": 322,
+            "line": 323,
             "itemtype": "method",
             "name": "__rmul__",
             "params": [
@@ -15194,7 +15181,7 @@
         },
         {
             "file": "src/davinci-eight/math/Dimensions.ts",
-            "line": 336,
+            "line": 337,
             "itemtype": "method",
             "name": "__div__",
             "params": [
@@ -15214,7 +15201,7 @@
         },
         {
             "file": "src/davinci-eight/math/Dimensions.ts",
-            "line": 350,
+            "line": 351,
             "itemtype": "method",
             "name": "__rdiv__",
             "params": [
@@ -15234,7 +15221,7 @@
         },
         {
             "file": "src/davinci-eight/math/Dimensions.ts",
-            "line": 364,
+            "line": 365,
             "itemtype": "method",
             "name": "__pos__",
             "return": {
@@ -15247,7 +15234,7 @@
         },
         {
             "file": "src/davinci-eight/math/Dimensions.ts",
-            "line": 372,
+            "line": 373,
             "itemtype": "method",
             "name": "__neg__",
             "return": {
@@ -23879,7 +23866,7 @@
         },
         {
             "file": "src/davinci-eight/math/QQ.ts",
-            "line": 15,
+            "line": 25,
             "itemtype": "property",
             "name": "_numer",
             "type": "{number}",
@@ -23891,7 +23878,7 @@
         },
         {
             "file": "src/davinci-eight/math/QQ.ts",
-            "line": 21,
+            "line": 31,
             "itemtype": "property",
             "name": "_denom",
             "type": "{number}",
@@ -23903,7 +23890,15 @@
         },
         {
             "file": "src/davinci-eight/math/QQ.ts",
-            "line": 94,
+            "line": 38,
+            "description": "Intentionally undocumented.",
+            "class": "QQ",
+            "module": "EIGHT",
+            "submodule": "math"
+        },
+        {
+            "file": "src/davinci-eight/math/QQ.ts",
+            "line": 98,
             "itemtype": "property",
             "name": "numer",
             "type": "{number}",
@@ -23914,7 +23909,7 @@
         },
         {
             "file": "src/davinci-eight/math/QQ.ts",
-            "line": 106,
+            "line": 110,
             "itemtype": "property",
             "name": "denom",
             "type": "{number}",
@@ -23925,7 +23920,7 @@
         },
         {
             "file": "src/davinci-eight/math/QQ.ts",
-            "line": 118,
+            "line": 122,
             "itemtype": "method",
             "name": "add",
             "params": [
@@ -23939,13 +23934,14 @@
                 "description": "",
                 "type": "QQ"
             },
+            "chainable": 1,
             "class": "QQ",
             "module": "EIGHT",
             "submodule": "math"
         },
         {
             "file": "src/davinci-eight/math/QQ.ts",
-            "line": 127,
+            "line": 132,
             "itemtype": "method",
             "name": "sub",
             "params": [
@@ -23959,13 +23955,14 @@
                 "description": "",
                 "type": "QQ"
             },
+            "chainable": 1,
             "class": "QQ",
             "module": "EIGHT",
             "submodule": "math"
         },
         {
             "file": "src/davinci-eight/math/QQ.ts",
-            "line": 136,
+            "line": 142,
             "itemtype": "method",
             "name": "mul",
             "params": [
@@ -23979,13 +23976,14 @@
                 "description": "",
                 "type": "QQ"
             },
+            "chainable": 1,
             "class": "QQ",
             "module": "EIGHT",
             "submodule": "math"
         },
         {
             "file": "src/davinci-eight/math/QQ.ts",
-            "line": 145,
+            "line": 152,
             "itemtype": "method",
             "name": "div",
             "params": [
@@ -23999,13 +23997,14 @@
                 "description": "",
                 "type": "QQ"
             },
+            "chainable": 1,
             "class": "QQ",
             "module": "EIGHT",
             "submodule": "math"
         },
         {
             "file": "src/davinci-eight/math/QQ.ts",
-            "line": 173,
+            "line": 181,
             "itemtype": "method",
             "name": "isOne",
             "return": {
@@ -24018,7 +24017,7 @@
         },
         {
             "file": "src/davinci-eight/math/QQ.ts",
-            "line": 181,
+            "line": 189,
             "itemtype": "method",
             "name": "isZero",
             "return": {
@@ -24031,7 +24030,7 @@
         },
         {
             "file": "src/davinci-eight/math/QQ.ts",
-            "line": 189,
+            "line": 197,
             "description": "Computes the multiplicative inverse of this rational number.",
             "itemtype": "method",
             "name": "inv",
@@ -24039,13 +24038,14 @@
                 "description": "",
                 "type": "QQ"
             },
+            "chainable": 1,
             "class": "QQ",
             "module": "EIGHT",
             "submodule": "math"
         },
         {
             "file": "src/davinci-eight/math/QQ.ts",
-            "line": 198,
+            "line": 208,
             "description": "Computes the additive inverse of this rational number.",
             "itemtype": "method",
             "name": "neg",
@@ -24053,13 +24053,15 @@
                 "description": "",
                 "type": "QQ"
             },
+            "chainable": 1,
             "class": "QQ",
             "module": "EIGHT",
             "submodule": "math"
         },
         {
             "file": "src/davinci-eight/math/QQ.ts",
-            "line": 207,
+            "line": 219,
+            "description": "Determines whether two rational numbers are equal.",
             "itemtype": "method",
             "name": "equals",
             "params": [
@@ -24079,22 +24081,28 @@
         },
         {
             "file": "src/davinci-eight/math/QQ.ts",
-            "line": 221,
+            "line": 235,
             "description": "Computes a non-normative string representation of this rational.",
+            "itemtype": "method",
+            "name": "toString",
+            "return": {
+                "description": "",
+                "type": "String"
+            },
             "class": "QQ",
             "module": "EIGHT",
             "submodule": "math"
         },
         {
             "file": "src/davinci-eight/math/QQ.ts",
-            "line": 228,
+            "line": 245,
             "itemtype": "method",
             "name": "__add__",
             "params": [
                 {
                     "name": "rhs",
                     "description": "",
-                    "type": "Any"
+                    "type": "QQ"
                 }
             ],
             "return": {
@@ -24109,14 +24117,14 @@
         },
         {
             "file": "src/davinci-eight/math/QQ.ts",
-            "line": 243,
+            "line": 260,
             "itemtype": "method",
             "name": "__radd__",
             "params": [
                 {
                     "name": "lhs",
                     "description": "",
-                    "type": "Any"
+                    "type": "QQ"
                 }
             ],
             "return": {
@@ -24131,14 +24139,14 @@
         },
         {
             "file": "src/davinci-eight/math/QQ.ts",
-            "line": 258,
+            "line": 275,
             "itemtype": "method",
             "name": "__sub__",
             "params": [
                 {
                     "name": "rhs",
                     "description": "",
-                    "type": "Any"
+                    "type": "QQ"
                 }
             ],
             "return": {
@@ -24153,14 +24161,14 @@
         },
         {
             "file": "src/davinci-eight/math/QQ.ts",
-            "line": 273,
+            "line": 290,
             "itemtype": "method",
             "name": "__rsub__",
             "params": [
                 {
                     "name": "lhs",
                     "description": "",
-                    "type": "Any"
+                    "type": "QQ"
                 }
             ],
             "return": {
@@ -24175,14 +24183,14 @@
         },
         {
             "file": "src/davinci-eight/math/QQ.ts",
-            "line": 288,
+            "line": 305,
             "itemtype": "method",
             "name": "__mul__",
             "params": [
                 {
                     "name": "rhs",
                     "description": "",
-                    "type": "Any"
+                    "type": "QQ"
                 }
             ],
             "return": {
@@ -24197,14 +24205,14 @@
         },
         {
             "file": "src/davinci-eight/math/QQ.ts",
-            "line": 303,
+            "line": 320,
             "itemtype": "method",
             "name": "__rmul__",
             "params": [
                 {
                     "name": "lhs",
                     "description": "",
-                    "type": "Any"
+                    "type": "QQ"
                 }
             ],
             "return": {
@@ -24219,14 +24227,14 @@
         },
         {
             "file": "src/davinci-eight/math/QQ.ts",
-            "line": 318,
+            "line": 335,
             "itemtype": "method",
             "name": "__div__",
             "params": [
                 {
                     "name": "div",
                     "description": "",
-                    "type": "Any"
+                    "type": "QQ"
                 }
             ],
             "return": {
@@ -24241,14 +24249,14 @@
         },
         {
             "file": "src/davinci-eight/math/QQ.ts",
-            "line": 333,
+            "line": 350,
             "itemtype": "method",
             "name": "__rdiv__",
             "params": [
                 {
                     "name": "lhs",
                     "description": "",
-                    "type": "Any"
+                    "type": "QQ"
                 }
             ],
             "return": {
@@ -24263,7 +24271,7 @@
         },
         {
             "file": "src/davinci-eight/math/QQ.ts",
-            "line": 348,
+            "line": 365,
             "itemtype": "method",
             "name": "__pos__",
             "return": {
@@ -24278,7 +24286,7 @@
         },
         {
             "file": "src/davinci-eight/math/QQ.ts",
-            "line": 357,
+            "line": 374,
             "itemtype": "method",
             "name": "__neg__",
             "return": {
@@ -24293,44 +24301,27 @@
         },
         {
             "file": "src/davinci-eight/math/QQ.ts",
-            "line": 366,
-            "itemtype": "property",
-            "name": "ONE",
-            "type": "{QQ}",
+            "line": 403,
+            "itemtype": "method",
+            "name": "valueOf",
+            "params": [
+                {
+                    "name": "numer",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "denom",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "QQ"
+            },
             "static": 1,
-            "class": "QQ",
-            "module": "EIGHT",
-            "submodule": "math"
-        },
-        {
-            "file": "src/davinci-eight/math/QQ.ts",
-            "line": 373,
-            "itemtype": "property",
-            "name": "TWO",
-            "type": "{QQ}",
-            "static": 1,
-            "class": "QQ",
-            "module": "EIGHT",
-            "submodule": "math"
-        },
-        {
-            "file": "src/davinci-eight/math/QQ.ts",
-            "line": 380,
-            "itemtype": "property",
-            "name": "MINUS_ONE",
-            "type": "{QQ}",
-            "static": 1,
-            "class": "QQ",
-            "module": "EIGHT",
-            "submodule": "math"
-        },
-        {
-            "file": "src/davinci-eight/math/QQ.ts",
-            "line": 387,
-            "itemtype": "property",
-            "name": "ZERO",
-            "type": "{QQ}",
-            "static": 1,
+            "chainable": 1,
             "class": "QQ",
             "module": "EIGHT",
             "submodule": "math"
@@ -30798,11 +30789,11 @@
         },
         {
             "message": "Missing item type\nIntentionally undocumented.",
-            "line": " src/davinci-eight/math/Dimensions.ts:202"
+            "line": " src/davinci-eight/math/Dimensions.ts:203"
         },
         {
             "message": "Missing item type\nIntentionally undocumented.",
-            "line": " src/davinci-eight/math/Dimensions.ts:220"
+            "line": " src/davinci-eight/math/Dimensions.ts:221"
         },
         {
             "message": "Missing item type",
@@ -31101,8 +31092,8 @@
             "line": " src/davinci-eight/math/MutableMatrix.ts:1"
         },
         {
-            "message": "Missing item type\nComputes a non-normative string representation of this rational.",
-            "line": " src/davinci-eight/math/QQ.ts:221"
+            "message": "Missing item type\nIntentionally undocumented.",
+            "line": " src/davinci-eight/math/QQ.ts:38"
         },
         {
             "message": "Missing item type\nIntentionally undocumented.",

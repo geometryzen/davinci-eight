@@ -2,8 +2,9 @@ import Dimensions from './Dimensions'
 import QQ from './QQ'
 import Unit from './Unit'
 
-const Rat0 = QQ.ZERO
-const Rat1 = QQ.ONE
+const Rat0 = QQ.valueOf(0, 1)
+const Rat1 = QQ.valueOf(1, 1)
+const Rat2 = QQ.valueOf(2, 1)
 
 const ONE = Unit.ONE
 const KILOGRAM = Unit.KILOGRAM
@@ -98,7 +99,7 @@ describe("Unit", function() {
     });
     it("pow by number", function() {
         const meter = new Unit(1, new Dimensions(Rat0, Rat1, Rat0, Rat0, Rat0, Rat0, Rat0), symbols);
-        const square = meter.pow(QQ.TWO);
+        const square = meter.pow(Rat2);
         // const radian = new Unit(1, new Dimensions(Rat0, Rat0, Rat0, Rat0, Rat0, Rat0, Rat0), symbols);
         expect(meter.toString()).toBe("m");
         expect(square.toString()).toBe("m ** 2");
