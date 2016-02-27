@@ -66,6 +66,7 @@
                                 <li><a href="../classes/createView.html">createView</a></li>
                                 <li><a href="../classes/CuboidPrimitivesBuilder.html">CuboidPrimitivesBuilder</a></li>
                                 <li><a href="../classes/Cylinder.html">Cylinder</a></li>
+                                <li><a href="../classes/CylinderBuilder.html">CylinderBuilder</a></li>
                                 <li><a href="../classes/CylinderGeometry.html">CylinderGeometry</a></li>
                                 <li><a href="../classes/CylinderTransform.html">CylinderTransform</a></li>
                                 <li><a href="../classes/CylindricalShellBuilder.html">CylindricalShellBuilder</a></li>
@@ -138,6 +139,7 @@
                                 <li><a href="../classes/ShareableWebGLBuffer.html">ShareableWebGLBuffer</a></li>
                                 <li><a href="../classes/ShareableWebGLShader.html">ShareableWebGLShader</a></li>
                                 <li><a href="../classes/ShareableWebGLTexture.html">ShareableWebGLTexture</a></li>
+                                <li><a href="../classes/SimplexPrimitivesBuilder.html">SimplexPrimitivesBuilder</a></li>
                                 <li><a href="../classes/SliceSimplexPrimitivesBuilder.html">SliceSimplexPrimitivesBuilder</a></li>
                                 <li><a href="../classes/Sphere.html">Sphere</a></li>
                                 <li><a href="../classes/SphereBuilder.html">SphereBuilder</a></li>
@@ -451,7 +453,7 @@ export default class SphereBuilder extends SliceSimplexPrimitivesBuilder {
         super.setModified(modified)
         return this
     }
-    public regenerate(): void {
+    protected regenerate(): void {
         this.data = []
 
         let heightSegments = this.curvedSegments

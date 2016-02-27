@@ -2,6 +2,15 @@ import R3 from './R3'
 import Unit from './Unit'
 
 describe("R3", function() {
+    describe("constructor", function() {
+        it("should move units multiplier to coordinates (coexistence with dimensionless)", function() {
+            const v = new R3(2, 3, 5, Unit.ONE.scale(2))
+            expect(v.x).toBe(4)
+            expect(v.y).toBe(6)
+            expect(v.z).toBe(10)
+            expect(v.uom.isOne()).toBe(true)
+        })
+    })
     describe("e1", function() {
         it("should be the standard basis vector (1, 0, 0)", function() {
             const e1 = R3.e1

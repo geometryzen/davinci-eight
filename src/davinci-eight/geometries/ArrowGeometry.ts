@@ -1,9 +1,10 @@
-import GeometryContainer from '../core/GeometryContainer';
-import GeometryBuffers from '../core/GeometryBuffers';
-import mustBeObject from '../checks/mustBeObject';
-import Primitive from '../core/Primitive';
-import ArrowBuilder from './ArrowBuilder';
-import ArrowConfig from './ArrowConfig';
+import GeometryContainer from '../core/GeometryContainer'
+import GeometryBuffers from '../core/GeometryBuffers'
+import mustBeObject from '../checks/mustBeObject'
+import Primitive from '../core/Primitive'
+import R3 from '../math/R3'
+import ArrowBuilder from './ArrowBuilder'
+import ArrowConfig from './ArrowConfig'
 import vertexArraysFromPrimitive from '../core/vertexArraysFromPrimitive'
 
 /**
@@ -13,7 +14,7 @@ import vertexArraysFromPrimitive from '../core/vertexArraysFromPrimitive'
 
 function primitives(config: ArrowConfig): Primitive[] {
     mustBeObject('config', config)
-    const builder = new ArrowBuilder()
+    const builder = new ArrowBuilder(R3.e2, R3.e3, false)
     builder.stress.copy(config.stress)
     builder.tilt.copy(config.tilt)
     builder.offset.copy(config.offset)

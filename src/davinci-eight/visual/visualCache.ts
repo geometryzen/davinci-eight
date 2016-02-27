@@ -1,16 +1,17 @@
-import ArrowBuilder from '../geometries/ArrowBuilder';
-import BoxGeometry from '../geometries/BoxGeometry';
+import ArrowBuilder from '../geometries/ArrowBuilder'
+import BoxGeometry from '../geometries/BoxGeometry'
 import BoxOptions from './BoxOptions'
-import CylinderGeometry from '../geometries/CylinderGeometry';
-import Geometry from '../core/Geometry';
-import Material from '../core/Material';
-import MeshMaterial from '../materials/MeshMaterial';
-import SphereGeometry from '../geometries/SphereGeometry';
+import CylinderGeometry from '../geometries/CylinderGeometry'
+import Geometry from '../core/Geometry'
+import Material from '../core/Material'
+import MeshMaterial from '../materials/MeshMaterial'
+import R3 from '../math/R3'
+import SphereGeometry from '../geometries/SphereGeometry'
 import SphereOptions from './SphereOptions'
-import SpinorE3 from '../math/SpinorE3';
-import TetrahedronGeometry from '../geometries/TetrahedronGeometry';
-import TetrahedronOptions from './TetrahedronOptions';
-import VectorE3 from '../math/VectorE3';
+import SpinorE3 from '../math/SpinorE3'
+import TetrahedronGeometry from '../geometries/TetrahedronGeometry'
+import TetrahedronOptions from './TetrahedronOptions'
+import VectorE3 from '../math/VectorE3'
 
 class VisualCache {
     // Intentionally use only weak references.
@@ -23,7 +24,7 @@ class VisualCache {
         // Do nothing yet.
     }
     arrow(stress: VectorE3, tilt: SpinorE3, offset: VectorE3): Geometry {
-        const builder = new ArrowBuilder()
+        const builder = new ArrowBuilder(R3.e2, R3.e3, false)
         builder.stress.copy(stress)
         builder.tilt.copy(tilt)
         builder.offset.copy(offset)
@@ -34,8 +35,7 @@ class VisualCache {
         return new BoxGeometry({ width: 1, height: 1, depth: 1 })
     }
     cylinder(stress: VectorE3, tilt: SpinorE3, offset: VectorE3): Geometry {
-        // FIXME: Replace with Builder pattern.
-        return new CylinderGeometry(stress, tilt, offset);
+        return new CylinderGeometry(R3.e2, R3.e3, false, stress, tilt, offset);
     }
     sphere(options: SphereOptions): Geometry {
         // FIXME: Replace with Builder pattern.

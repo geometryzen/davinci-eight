@@ -8,9 +8,11 @@ import AxialPrimitivesBuilder from './AxialPrimitivesBuilder';
 import Primitive from '../core/Primitive';
 import ConeTransform from './transforms/ConeTransform'
 import Rotation from './transforms/Rotation'
+import R3 from '../math/R3'
 import Scaling from './transforms/Scaling'
 import Translation from './transforms/Translation'
 import TextureCoords from './transforms/TextureCoords'
+import VectorE3 from '../math/VectorE3'
 
 const aPosition = GraphicsProgramSymbols.ATTRIBUTE_POSITION
 const aTangent = GraphicsProgramSymbols.ATTRIBUTE_TANGENT
@@ -36,12 +38,22 @@ export default class ConicalShellBuilder extends AxialPrimitivesBuilder implemen
      */
     public thetaSegments = 32
 
+    private e: R3
+    private cutLine: R3
+    private clockwise: boolean
+
     /**
      * @class ConicalShellBuilder
      * @constructor
+     * @param e {VectorE3}
+     * @param cutLine {VectorE3}
+     * @param clockwise {boolean}
      */
-    constructor() {
+    constructor(e: VectorE3, cutLine: VectorE3, clockwise: boolean) {
         super()
+        this.e = R3.direction(e)
+        this.cutLine = R3.direction(cutLine)
+        this.clockwise = clockwise
     }
 
     /**
@@ -74,7 +86,7 @@ export default class ConicalShellBuilder extends AxialPrimitivesBuilder implemen
      * @return {Primitive[]}
      */
     public toPrimitives(): Primitive[] {
-        this.transforms.push(new ConeTransform(this.sliceAngle, aPosition, aTangent))
+        this.transforms.push(new ConeTransform(this.e, this.cutLine, this.clockwise, this.sliceAngle, aPosition, aTangent))
 
         this.transforms.push(new Scaling(this.stress, [aPosition, aTangent]))
         this.transforms.push(new Rotation(this.tilt, [aPosition, aTangent]))

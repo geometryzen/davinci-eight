@@ -66,6 +66,7 @@
                                 <li><a href="../classes/createView.html">createView</a></li>
                                 <li><a href="../classes/CuboidPrimitivesBuilder.html">CuboidPrimitivesBuilder</a></li>
                                 <li><a href="../classes/Cylinder.html">Cylinder</a></li>
+                                <li><a href="../classes/CylinderBuilder.html">CylinderBuilder</a></li>
                                 <li><a href="../classes/CylinderGeometry.html">CylinderGeometry</a></li>
                                 <li><a href="../classes/CylinderTransform.html">CylinderTransform</a></li>
                                 <li><a href="../classes/CylindricalShellBuilder.html">CylindricalShellBuilder</a></li>
@@ -138,6 +139,7 @@
                                 <li><a href="../classes/ShareableWebGLBuffer.html">ShareableWebGLBuffer</a></li>
                                 <li><a href="../classes/ShareableWebGLShader.html">ShareableWebGLShader</a></li>
                                 <li><a href="../classes/ShareableWebGLTexture.html">ShareableWebGLTexture</a></li>
+                                <li><a href="../classes/SimplexPrimitivesBuilder.html">SimplexPrimitivesBuilder</a></li>
                                 <li><a href="../classes/SliceSimplexPrimitivesBuilder.html">SliceSimplexPrimitivesBuilder</a></li>
                                 <li><a href="../classes/Sphere.html">Sphere</a></li>
                                 <li><a href="../classes/SphereBuilder.html">SphereBuilder</a></li>
@@ -232,10 +234,12 @@
 import AxialPrimitivesBuilder from &#x27;./AxialPrimitivesBuilder&#x27;;
 import ConicalShellBuilder from &#x27;./ConicalShellBuilder&#x27;;
 import CylindricalShellBuilder from &#x27;./CylindricalShellBuilder&#x27;;
-import GeometryBuilder from &#x27;./GeometryBuilder&#x27;;
-import Primitive from &#x27;../core/Primitive&#x27;;
-import RingBuilder from &#x27;../geometries/RingBuilder&#x27;;
-import Vector3 from &#x27;../math/Vector3&#x27;;
+import GeometryBuilder from &#x27;./GeometryBuilder&#x27;
+import Primitive from &#x27;../core/Primitive&#x27;
+import RingBuilder from &#x27;../geometries/RingBuilder&#x27;
+import R3 from &#x27;../math/R3&#x27;
+import Vector3 from &#x27;../math/Vector3&#x27;
+import VectorE3 from &#x27;../math/VectorE3&#x27;
 
 /**
  * @class ArrowBuilder
@@ -271,12 +275,19 @@ export default class ArrowBuilder extends AxialPrimitivesBuilder implements Geom
      */
     public thetaSegments = 16;
 
+    private e: R3;
+    private cutLine: R3;
+    private clockwise: boolean;
+
     /**
      * @class ArrowBuilder
      * @constructor
      */
-    constructor() {
+    constructor(e: VectorE3, cutLine: VectorE3, clockwise: boolean) {
         super()
+        this.e = R3.direction(e)
+        this.cutLine = R3.direction(cutLine)
+        this.clockwise = clockwise
     }
 
     /**
@@ -284,17 +295,17 @@ export default class ArrowBuilder extends AxialPrimitivesBuilder implements Geom
      * @return {Primitive[]}
      */
     toPrimitives(): Primitive[] {
-        const axis = this.up
+
         const heightShaft = 1 - this.heightCone
         /**
          * The opposite direction to the axis.
          */
-        const back = axis.neg()
+        const back = this.e.neg()
 
         /**
          * The neck is the place where the cone meets the shaft. 
          */
-        const neck = Vector3.copy(axis).scale(heightShaft).add(this.offset)
+        const neck = Vector3.copy(this.e).scale(heightShaft).add(this.offset)
         neck.rotate(this.tilt)
 
         /**
@@ -306,7 +317,7 @@ export default class ArrowBuilder extends AxialPrimitivesBuilder implements Geom
         /**
          * The &#x60;cone&#x60; forms the head of the arrow.
          */
-        const cone = new ConicalShellBuilder()
+        const cone = new ConicalShellBuilder(this.e, this.cutLine, this.clockwise)
         // Use the radius and height helpers instead of the scale.
         cone.radius = this.radiusCone
         cone.height = this.heightCone
@@ -321,13 +332,12 @@ export default class ArrowBuilder extends AxialPrimitivesBuilder implements Geom
         /**
          * The &#x60;disc&#x60; fills the space between the cone and the shaft.
          */
-        const disc = new RingBuilder()
-        disc.tilt.rotorFromDirections(axis, back)
+        const disc = new RingBuilder(back, this.cutLine, !this.clockwise)
         disc.innerRadius = this.radiusShaft
         disc.outerRadius = this.radiusCone
         disc.tilt.mul(this.tilt)
         disc.offset.copy(neck)
-        disc.sliceAngle = -this.sliceAngle
+        disc.sliceAngle = this.sliceAngle
         disc.thetaSegments = this.thetaSegments
         disc.useNormal = this.useNormal
         disc.usePosition = this.usePosition
@@ -336,7 +346,7 @@ export default class ArrowBuilder extends AxialPrimitivesBuilder implements Geom
         /**
          * The &#x60;shaft&#x60; is the slim part of the arrow.
          */
-        const shaft = new CylindricalShellBuilder()
+        const shaft = new CylindricalShellBuilder(this.e, this.cutLine, this.clockwise)
         shaft.radius = this.radiusShaft
         shaft.height = heightShaft
         shaft.tilt.mul(this.tilt)
@@ -350,13 +360,12 @@ export default class ArrowBuilder extends AxialPrimitivesBuilder implements Geom
         /**
          * The &#x60;plug&#x60; fills the end of the shaft.
          */
-        const plug = new RingBuilder()
-        plug.tilt.rotorFromDirections(axis, back)
+        const plug = new RingBuilder(back, this.cutLine, !this.clockwise)
         plug.innerRadius = 0
         plug.outerRadius = this.radiusShaft
         plug.tilt.mul(this.tilt)
         plug.offset.copy(tail)
-        plug.sliceAngle = -this.sliceAngle
+        plug.sliceAngle = this.sliceAngle
         plug.thetaSegments = this.thetaSegments
         plug.useNormal = this.useNormal
         plug.usePosition = this.usePosition

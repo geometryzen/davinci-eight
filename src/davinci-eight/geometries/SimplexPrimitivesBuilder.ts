@@ -12,27 +12,69 @@ import Vector1 from '../math/Vector1';
 import Vector3 from '../math/Vector3';
 import Vector2 from '../math/Vector2';
 
+/**
+ * @class SimplexPrimitivesBuilder
+ * @extends PrimitivesBuilder
+ */
 export default class SimplexPrimitivesBuilder extends PrimitivesBuilder {
     public data: Simplex[] = [];
     public meta: GeometryMeta;
     private _k = new Vector1([Simplex.TRIANGLE]);
+
+    /**
+     * @property curvedSegments
+     * @type number
+     * @default 16
+     */
     public curvedSegments: number = 16;
+
+    /**
+     * @property flatSegments
+     * @type number
+     * @default 1
+     */
     public flatSegments: number = 1;
+
+    /**
+     * @property orientationColors
+     * @type boolean
+     * @default false
+     */
     public orientationColors: boolean = false;
+
+    /**
+     * @class SimplexPrimitivesBuilder
+     * @constructor
+     */
     constructor() {
         super()
         // Force regenerate, even if derived classes don't call setModified.
         this._k.modified = true
     }
+
+    /**
+     * @properyty k
+     * @type number
+     */
     public get k(): number {
         return this._k.x
     }
     public set k(k: number) {
         this._k.x = mustBeInteger('k', k)
     }
-    public regenerate(): void {
-        console.warn("`public regenerate(): void` method should be implemented in derived class.")
+
+    /**
+     * @method regenerate
+     * @return {void}
+     * @protected
+     */
+    protected regenerate(): void {
+        throw new Error("`protected regenerate(): void` method should be implemented in derived class.")
     }
+
+    /**
+     *
+     */
     public isModified(): boolean {
         return this._k.modified
     }
@@ -41,10 +83,14 @@ export default class SimplexPrimitivesBuilder extends PrimitivesBuilder {
         this._k.modified = modified
         return this
     }
+
+    /**
+     * @method boundary
+     * @param [times] {number}
+     * @return {SimplexPrimitivesBuilder}
+     */
     public boundary(times?: number): SimplexPrimitivesBuilder {
-        if (this.isModified()) {
-            this.regenerate()
-        }
+        this.regenerate()
         this.data = Simplex.boundary(this.data, times);
         return this.check();
     }
@@ -53,17 +99,13 @@ export default class SimplexPrimitivesBuilder extends PrimitivesBuilder {
         return this;
     }
     public subdivide(times?: number): SimplexPrimitivesBuilder {
-        if (this.isModified()) {
-            this.regenerate()
-        }
+        this.regenerate()
         this.data = Simplex.subdivide(this.data, times);
         this.check();
         return this;
     }
     public toPrimitives(): Primitive[] {
-        if (this.isModified()) {
-            this.regenerate()
-        }
+        this.regenerate()
         this.check()
         return [simplicesToPrimitive(this.data, this.meta)]
     }

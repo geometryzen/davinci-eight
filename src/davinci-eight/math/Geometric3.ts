@@ -799,7 +799,7 @@ export default class Geometric3 extends Coords implements GeometricE3, MutableGe
      */
     direction(): Geometric3 {
         // The squaredNorm is the squared norm.
-        let norm = this.magnitudeSansUnits()
+        const norm = this.magnitudeSansUnits()
         this.α = this.α / norm
         this.x = this.x / norm
         this.y = this.y / norm

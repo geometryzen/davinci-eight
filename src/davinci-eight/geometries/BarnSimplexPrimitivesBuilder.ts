@@ -25,7 +25,7 @@ export default class BarnSimplexPrimitivesBuilder extends SimplexPrimitivesBuild
         super.setModified(modified)
         return this
     }
-    public regenerate(): void {
+    protected regenerate(): void {
 
         this.setModified(false)
 

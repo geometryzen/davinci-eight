@@ -782,7 +782,9 @@
         "src/davinci-eight/geometries/CylinderBuilder.ts": {
             "name": "src/davinci-eight/geometries/CylinderBuilder.ts",
             "modules": {},
-            "classes": {},
+            "classes": {
+                "CylinderBuilder": 1
+            },
             "fors": {},
             "namespaces": {}
         },
@@ -893,6 +895,15 @@
             "name": "src/davinci-eight/geometries/RingSimplexGeometry.ts",
             "modules": {},
             "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/geometries/SimplexPrimitivesBuilder.ts": {
+            "name": "src/davinci-eight/geometries/SimplexPrimitivesBuilder.ts",
+            "modules": {},
+            "classes": {
+                "SimplexPrimitivesBuilder": 1
+            },
             "fors": {},
             "namespaces": {}
         },
@@ -1888,12 +1899,14 @@
                 "BoxGeometry": 1,
                 "ConicalShellBuilder": 1,
                 "CuboidPrimitivesBuilder": 1,
+                "CylinderBuilder": 1,
                 "CylinderGeometry": 1,
                 "CylindricalShellBuilder": 1,
                 "GeometryBuilder": 1,
                 "GeometryPrimitive": 1,
                 "PrimitivesBuilder": 1,
                 "RingBuilder": 1,
+                "SimplexPrimitivesBuilder": 1,
                 "SliceSimplexPrimitivesBuilder": 1,
                 "SphereBuilder": 1,
                 "SphereGeometry": 1,
@@ -3379,9 +3392,24 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/geometries/transforms/ConeTransform.ts",
-            "line": 41,
+            "line": 34,
             "is_constructor": 1,
             "params": [
+                {
+                    "name": "e",
+                    "description": "",
+                    "type": "VectorE3"
+                },
+                {
+                    "name": "cutLine",
+                    "description": "",
+                    "type": "VectorE3"
+                },
+                {
+                    "name": "clockwise",
+                    "description": "",
+                    "type": "Boolean"
+                },
                 {
                     "name": "sliceAngle",
                     "description": "",
@@ -3410,7 +3438,7 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/geometries/transforms/CylinderTransform.ts",
-            "line": 29,
+            "line": 26,
             "is_constructor": 1,
             "params": [
                 {
@@ -3484,13 +3512,23 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/geometries/transforms/RingTransform.ts",
-            "line": 21,
+            "line": 22,
             "is_constructor": 1,
             "params": [
                 {
                     "name": "e",
                     "description": "The axis normal to the plane of the ring.",
                     "type": "Vector3"
+                },
+                {
+                    "name": "cutLine",
+                    "description": "",
+                    "type": "Vector3"
+                },
+                {
+                    "name": "clockwise",
+                    "description": "",
+                    "type": "Boolean"
                 },
                 {
                     "name": "a",
@@ -3501,11 +3539,6 @@
                     "name": "b",
                     "description": "The inner radius.",
                     "type": "Number"
-                },
-                {
-                    "name": "cutLine",
-                    "description": "",
-                    "type": "Vector3"
                 },
                 {
                     "name": "aPosition",
@@ -3620,7 +3653,7 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/geometries/ArrowBuilder.ts",
-            "line": 43,
+            "line": 49,
             "extends": "AxialPrimitivesBuilder",
             "is_constructor": 1
         },
@@ -3651,7 +3684,7 @@
             "submodule": "geometries",
             "namespace": "",
             "file": "src/davinci-eight/geometries/ArrowGeometry.ts",
-            "line": 31,
+            "line": 32,
             "description": "A convenience class for creating an arrow.",
             "extends": "Geometry",
             "deprecated": true,
@@ -3676,7 +3709,7 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/geometries/AxialPrimitivesBuilder.ts",
-            "line": 16,
+            "line": 20,
             "extends": "PrimitivesBuilder",
             "is_constructor": 1
         },
@@ -3715,9 +3748,26 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/geometries/ConicalShellBuilder.ts",
-            "line": 39,
+            "line": 45,
             "extends": "AxialPrimitivesBuilder",
-            "is_constructor": 1
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "e",
+                    "description": "",
+                    "type": "VectorE3"
+                },
+                {
+                    "name": "cutLine",
+                    "description": "",
+                    "type": "VectorE3"
+                },
+                {
+                    "name": "clockwise",
+                    "description": "",
+                    "type": "Boolean"
+                }
+            ]
         },
         "CuboidPrimitivesBuilder": {
             "name": "CuboidPrimitivesBuilder",
@@ -3733,6 +3783,38 @@
             "line": 41,
             "is_constructor": 1
         },
+        "CylinderBuilder": {
+            "name": "CylinderBuilder",
+            "shortname": "CylinderBuilder",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/geometries/CylinderBuilder.ts",
+            "line": 87,
+            "extends": "SliceSimplexPrimitivesBuilder",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "e",
+                    "description": "",
+                    "type": "VectorE3"
+                },
+                {
+                    "name": "cutLine",
+                    "description": "",
+                    "type": "VectorE3"
+                },
+                {
+                    "name": "clockwise",
+                    "description": "",
+                    "type": "Boolean"
+                }
+            ]
+        },
         "CylinderGeometry": {
             "name": "CylinderGeometry",
             "shortname": "CylinderGeometry",
@@ -3745,10 +3827,42 @@
             "submodule": "geometries",
             "namespace": "",
             "file": "src/davinci-eight/geometries/CylinderGeometry.ts",
-            "line": 33,
+            "line": 35,
             "description": "A convenience class for creating a Cylinder.",
             "extends": "GeometryContainer",
-            "is_constructor": 1
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "e",
+                    "description": "",
+                    "type": "VectorE3"
+                },
+                {
+                    "name": "cutLine",
+                    "description": "",
+                    "type": "VectorE3"
+                },
+                {
+                    "name": "clockwise",
+                    "description": "",
+                    "type": "Boolean"
+                },
+                {
+                    "name": "stress",
+                    "description": "",
+                    "type": "VectorE3"
+                },
+                {
+                    "name": "tilt",
+                    "description": "",
+                    "type": "SpinorE3"
+                },
+                {
+                    "name": "offset",
+                    "description": "",
+                    "type": "VectorE3"
+                }
+            ]
         },
         "CylindricalShellBuilder": {
             "name": "CylindricalShellBuilder",
@@ -3761,10 +3875,27 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/geometries/CylindricalShellBuilder.ts",
-            "line": 40,
+            "line": 46,
             "description": "This implementation only builds the walls of the cylinder (by wrapping a grid)",
             "extends": "AxialPrimitivesBuilder",
-            "is_constructor": 1
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "e",
+                    "description": "",
+                    "type": "VectorE3"
+                },
+                {
+                    "name": "cutLine",
+                    "description": "",
+                    "type": "VectorE3"
+                },
+                {
+                    "name": "clockwise",
+                    "description": "",
+                    "type": "Boolean"
+                }
+            ]
         },
         "GeometryBuilder": {
             "name": "GeometryBuilder",
@@ -3817,7 +3948,7 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/geometries/PrimitivesBuilder.ts",
-            "line": 85,
+            "line": 83,
             "description": "A GeometryBuilder that takes building Primitive arrays as primary.",
             "is_constructor": 1
         },
@@ -3832,9 +3963,41 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/geometries/RingBuilder.ts",
-            "line": 55,
+            "line": 61,
             "description": "Constructs a one-sided ring using a TRIANGLE_STRIP.",
             "extends": "AxialPrimitivesBuilder",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "e",
+                    "description": "",
+                    "type": "VectorE3"
+                },
+                {
+                    "name": "cutLine",
+                    "description": "",
+                    "type": "VectorE3"
+                },
+                {
+                    "name": "clockwise",
+                    "description": "",
+                    "type": "Boolean"
+                }
+            ]
+        },
+        "SimplexPrimitivesBuilder": {
+            "name": "SimplexPrimitivesBuilder",
+            "shortname": "SimplexPrimitivesBuilder",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/geometries/SimplexPrimitivesBuilder.ts",
+            "line": 45,
+            "extends": "PrimitivesBuilder",
             "is_constructor": 1
         },
         "SliceSimplexPrimitivesBuilder": {
@@ -3848,8 +4011,9 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/geometries/SliceSimplexPrimitivesBuilder.ts",
-            "line": 3,
-            "extends": "SimplexPrimitivesBuilder"
+            "line": 16,
+            "extends": "SimplexPrimitivesBuilder",
+            "is_constructor": 1
         },
         "SphereBuilder": {
             "name": "SphereBuilder",
@@ -12463,21 +12627,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/transforms/ConeTransform.ts",
-            "line": 10,
-            "description": "Unit vector pointing along the symmetry axis of the cone.",
-            "class": "ConeTransform",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/geometries/transforms/ConeTransform.ts",
-            "line": 15,
-            "description": "Unit vector for the major axis of the cone.",
-            "class": "ConeTransform",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/geometries/transforms/ConeTransform.ts",
-            "line": 20,
+            "line": 23,
             "description": "Unit vector for the minor axis of the cone.\nWe compute this so that the grid wraps around the cone with\nu increasing with θ and v increasing toward the apex of the cone.",
             "class": "ConeTransform",
             "module": "EIGHT"
@@ -12520,28 +12670,27 @@
         {
             "file": "src/davinci-eight/geometries/transforms/ConeTransform.ts",
             "line": 86,
-            "description": "Point on the base of the cone.\nTODO: This would be the best thing to cache.",
+            "description": "Point on the base of the cone.",
             "class": "ConeTransform",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/geometries/transforms/ConeTransform.ts",
-            "line": 92,
+            "line": 91,
             "description": "Point on the standard cone at uIndex, vIndex.",
             "class": "ConeTransform",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/geometries/transforms/CylinderTransform.ts",
-            "line": 9,
+            "line": 13,
             "description": "Unit vector pointing along the symmetry axis of the cone.",
             "class": "CylinderTransform",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/geometries/transforms/CylinderTransform.ts",
-            "line": 14,
-            "description": "Unit vector for the major axis of the cone.",
+            "line": 17,
             "class": "CylinderTransform",
             "module": "EIGHT"
         },
@@ -12716,7 +12865,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/transforms/RingTransform.ts",
-            "line": 40,
+            "line": 43,
             "itemtype": "method",
             "name": "exec",
             "params": [
@@ -12915,7 +13064,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/ArrowBuilder.ts",
-            "line": 15,
+            "line": 17,
             "itemtype": "property",
             "name": "heightCone",
             "type": "number",
@@ -12925,7 +13074,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/ArrowBuilder.ts",
-            "line": 22,
+            "line": 24,
             "itemtype": "property",
             "name": "radiusCone",
             "type": "number",
@@ -12935,7 +13084,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/ArrowBuilder.ts",
-            "line": 29,
+            "line": 31,
             "itemtype": "property",
             "name": "radiusShaft",
             "type": "number",
@@ -12945,7 +13094,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/ArrowBuilder.ts",
-            "line": 36,
+            "line": 38,
             "itemtype": "property",
             "name": "thetaSegments",
             "type": "number",
@@ -12955,7 +13104,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/ArrowBuilder.ts",
-            "line": 51,
+            "line": 60,
             "itemtype": "method",
             "name": "toPrimitives",
             "return": {
@@ -12967,49 +13116,49 @@
         },
         {
             "file": "src/davinci-eight/geometries/ArrowBuilder.ts",
-            "line": 58,
+            "line": 67,
             "description": "The opposite direction to the axis.",
             "class": "ArrowBuilder",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/geometries/ArrowBuilder.ts",
-            "line": 63,
+            "line": 72,
             "description": "The neck is the place where the cone meets the shaft.",
             "class": "ArrowBuilder",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/geometries/ArrowBuilder.ts",
-            "line": 69,
+            "line": 78,
             "description": "The tail is the the position of the blunt end of the arrow.",
             "class": "ArrowBuilder",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/geometries/ArrowBuilder.ts",
-            "line": 75,
+            "line": 84,
             "description": "The `cone` forms the head of the arrow.",
             "class": "ArrowBuilder",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/geometries/ArrowBuilder.ts",
-            "line": 90,
+            "line": 99,
             "description": "The `disc` fills the space between the cone and the shaft.",
             "class": "ArrowBuilder",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/geometries/ArrowBuilder.ts",
-            "line": 105,
+            "line": 113,
             "description": "The `shaft` is the slim part of the arrow.",
             "class": "ArrowBuilder",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/geometries/ArrowBuilder.ts",
-            "line": 119,
+            "line": 127,
             "description": "The `plug` fills the end of the shaft.",
             "class": "ArrowBuilder",
             "module": "EIGHT"
@@ -13047,6 +13196,7 @@
         {
             "file": "src/davinci-eight/geometries/AxialPrimitivesBuilder.ts",
             "line": 9,
+            "description": "The sliceAngle is the angle from the cutLine to the end of the slice.\nA positive slice angle represents a counter-clockwise rotation around\nthe symmetry axis direction.",
             "itemtype": "property",
             "name": "sliceAngle",
             "type": "number",
@@ -13056,7 +13206,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/ConicalShellBuilder.ts",
-            "line": 25,
+            "line": 27,
             "itemtype": "property",
             "name": "radialSegments",
             "type": "number",
@@ -13066,7 +13216,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/ConicalShellBuilder.ts",
-            "line": 32,
+            "line": 34,
             "itemtype": "property",
             "name": "thetaSegments",
             "type": "number",
@@ -13076,7 +13226,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/ConicalShellBuilder.ts",
-            "line": 47,
+            "line": 59,
             "itemtype": "property",
             "name": "radius",
             "type": "number",
@@ -13086,7 +13236,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/ConicalShellBuilder.ts",
-            "line": 60,
+            "line": 72,
             "itemtype": "property",
             "name": "height",
             "type": "number",
@@ -13096,7 +13246,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/ConicalShellBuilder.ts",
-            "line": 72,
+            "line": 84,
             "itemtype": "method",
             "name": "toPrimitives",
             "return": {
@@ -13135,7 +13285,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/CuboidPrimitivesBuilder.ts",
-            "line": 97,
+            "line": 98,
             "itemtype": "method",
             "name": "toPrimitives",
             "return": {
@@ -13147,62 +13297,96 @@
         },
         {
             "file": "src/davinci-eight/geometries/CylinderBuilder.ts",
-            "line": 10,
-            "class": "CylinderGeometry",
+            "line": 11,
+            "class": "CylinderBuilder",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/geometries/CylinderBuilder.ts",
-            "line": 20,
+            "line": 18,
             "description": "A displacement in the direction of axis that we must move for each height step.",
-            "class": "CylinderGeometry",
+            "class": "CylinderBuilder",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/geometries/CylinderBuilder.ts",
-            "line": 26,
+            "line": 25,
             "description": "The displacement to the current level.",
-            "class": "CylinderGeometry",
+            "class": "CylinderBuilder",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/geometries/CylinderBuilder.ts",
-            "line": 32,
+            "line": 31,
             "description": "Interesting that the v coordinate is 1 at the base and 0 at the top!\nThis is because i originally went from top to bottom.",
-            "class": "CylinderGeometry",
+            "class": "CylinderBuilder",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/geometries/CylinderBuilder.ts",
-            "line": 37,
+            "line": 36,
             "description": "arcPoints.length => thetaSegments + 1",
-            "class": "CylinderGeometry",
+            "class": "CylinderBuilder",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/geometries/CylinderBuilder.ts",
-            "line": 41,
+            "line": 40,
             "description": "j < arcPoints.length => j <= thetaSegments",
-            "class": "CylinderGeometry",
+            "class": "CylinderBuilder",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/geometries/CylinderBuilder.ts",
             "line": 50,
             "description": "u will vary from 0 to 1, because j goes from 0 to thetaSegments",
-            "class": "CylinderGeometry",
+            "class": "CylinderBuilder",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/CylinderBuilder.ts",
+            "line": 73,
+            "itemtype": "property",
+            "name": "openTop",
+            "type": "boolean",
+            "default": "false",
+            "class": "CylinderBuilder",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/CylinderBuilder.ts",
+            "line": 80,
+            "itemtype": "property",
+            "name": "openBottom",
+            "type": "boolean",
+            "default": "false",
+            "class": "CylinderBuilder",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/geometries/CylinderBuilder.ts",
             "line": 102,
+            "itemtype": "method",
+            "name": "regenerate",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "access": "protected",
+            "tagname": "",
+            "class": "CylinderBuilder",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/CylinderBuilder.ts",
+            "line": 133,
             "description": "2-------3\n|       | \n|       |\n|       |\n1-------4",
-            "class": "CylinderGeometry",
+            "class": "CylinderBuilder",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/geometries/CylindricalShellBuilder.ts",
-            "line": 26,
+            "line": 28,
             "itemtype": "property",
             "name": "radialSegments",
             "type": "number",
@@ -13212,7 +13396,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/CylindricalShellBuilder.ts",
-            "line": 33,
+            "line": 35,
             "itemtype": "property",
             "name": "thetaSegments",
             "type": "number",
@@ -13222,7 +13406,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/CylindricalShellBuilder.ts",
-            "line": 48,
+            "line": 60,
             "itemtype": "property",
             "name": "radius",
             "type": "number",
@@ -13232,7 +13416,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/CylindricalShellBuilder.ts",
-            "line": 61,
+            "line": 73,
             "itemtype": "property",
             "name": "height",
             "type": "number",
@@ -13242,7 +13426,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/CylindricalShellBuilder.ts",
-            "line": 73,
+            "line": 85,
             "itemtype": "method",
             "name": "toPrimitives",
             "return": {
@@ -13437,7 +13621,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/PrimitivesBuilder.ts",
-            "line": 22,
+            "line": 20,
             "description": "The scaling to apply to the geometry in the initial configuration.\nThis has a slightly strange sounding name because it involves a\nreference frame specific transformation.\n\nThis may be replaced by a Matrix3 in future.",
             "itemtype": "property",
             "name": "stress",
@@ -13449,7 +13633,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/PrimitivesBuilder.ts",
-            "line": 36,
+            "line": 34,
             "description": "The rotor to apply to the geometry (after scale has been applied).",
             "itemtype": "property",
             "name": "tilt",
@@ -13460,7 +13644,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/PrimitivesBuilder.ts",
-            "line": 44,
+            "line": 42,
             "description": "The translation to apply to the geometry (after tilt has been applied).",
             "itemtype": "property",
             "name": "offset",
@@ -13471,7 +13655,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/PrimitivesBuilder.ts",
-            "line": 52,
+            "line": 50,
             "itemtype": "property",
             "name": "transforms",
             "type": "Transform[]",
@@ -13480,7 +13664,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/PrimitivesBuilder.ts",
-            "line": 58,
+            "line": 56,
             "description": "Determines whether to include normals in the geometry.",
             "itemtype": "property",
             "name": "useNormal",
@@ -13491,7 +13675,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/PrimitivesBuilder.ts",
-            "line": 67,
+            "line": 65,
             "description": "Determines whether to include positions in the geometry.",
             "itemtype": "property",
             "name": "usePosition",
@@ -13502,7 +13686,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/PrimitivesBuilder.ts",
-            "line": 76,
+            "line": 74,
             "description": "Determines whether to include texture coordinates in the geometry.",
             "itemtype": "property",
             "name": "useTextureCoord",
@@ -13513,7 +13697,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/PrimitivesBuilder.ts",
-            "line": 114,
+            "line": 98,
             "itemtype": "method",
             "name": "toGeometry",
             "return": {
@@ -13526,7 +13710,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/PrimitivesBuilder.ts",
-            "line": 132,
+            "line": 116,
             "itemtype": "method",
             "name": "toVertexArrays",
             "return": {
@@ -13539,7 +13723,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/PrimitivesBuilder.ts",
-            "line": 147,
+            "line": 131,
             "itemtype": "method",
             "name": "toPrimitives",
             "type": "Primitive[]",
@@ -13555,7 +13739,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/RingBuilder.ts",
-            "line": 27,
+            "line": 29,
             "itemtype": "property",
             "name": "innerRadius",
             "type": "number",
@@ -13565,7 +13749,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/RingBuilder.ts",
-            "line": 34,
+            "line": 36,
             "itemtype": "property",
             "name": "outerRadius",
             "type": "number",
@@ -13575,7 +13759,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/RingBuilder.ts",
-            "line": 41,
+            "line": 43,
             "itemtype": "property",
             "name": "radialSegments",
             "type": "number",
@@ -13585,7 +13769,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/RingBuilder.ts",
-            "line": 48,
+            "line": 50,
             "itemtype": "property",
             "name": "thetaSegments",
             "type": "number",
@@ -13595,7 +13779,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/RingBuilder.ts",
-            "line": 63,
+            "line": 75,
             "itemtype": "method",
             "name": "toPrimitives",
             "type": "Primitive[]",
@@ -13606,33 +13790,111 @@
             "file": "src/davinci-eight/geometries/RingSimplexGeometry.ts",
             "line": 14,
             "description": "`t` is the vector perpendicular to s in the plane of the ring.\nWe could use the generator an PI / 4 to calculate this or the cross product as here.",
-            "class": "SliceSimplexPrimitivesBuilder",
+            "class": "SimplexPrimitivesBuilder",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/geometries/RingSimplexGeometry.ts",
             "line": 19,
             "description": "The distance of the vertex from the origin and center.",
-            "class": "SliceSimplexPrimitivesBuilder",
+            "class": "SimplexPrimitivesBuilder",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/geometries/RingSimplexGeometry.ts",
             "line": 47,
             "description": "The index along the start radial line where j = 0. This is just index(i,0)",
-            "class": "SliceSimplexPrimitivesBuilder",
+            "class": "SimplexPrimitivesBuilder",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/geometries/RingSimplexGeometry.ts",
             "line": 53,
             "description": "The index of the corner of the quadrilateral with the lowest value of i and j.\nThis corresponds to the smallest radius and smallest angle counterclockwise.",
-            "class": "SliceSimplexPrimitivesBuilder",
+            "class": "SimplexPrimitivesBuilder",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/SimplexPrimitivesBuilder.ts",
+            "line": 24,
+            "itemtype": "property",
+            "name": "curvedSegments",
+            "type": "number",
+            "default": "16",
+            "class": "SimplexPrimitivesBuilder",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/SimplexPrimitivesBuilder.ts",
+            "line": 31,
+            "itemtype": "property",
+            "name": "flatSegments",
+            "type": "number",
+            "default": "1",
+            "class": "SimplexPrimitivesBuilder",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/SimplexPrimitivesBuilder.ts",
+            "line": 38,
+            "itemtype": "property",
+            "name": "orientationColors",
+            "type": "boolean",
+            "default": "false",
+            "class": "SimplexPrimitivesBuilder",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/SimplexPrimitivesBuilder.ts",
+            "line": 55,
+            "properyty": "k",
+            "type": "number",
+            "class": "SimplexPrimitivesBuilder",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/SimplexPrimitivesBuilder.ts",
+            "line": 66,
+            "itemtype": "method",
+            "name": "regenerate",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "access": "protected",
+            "tagname": "",
+            "class": "SimplexPrimitivesBuilder",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/SimplexPrimitivesBuilder.ts",
+            "line": 75,
+            "class": "SimplexPrimitivesBuilder",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/SimplexPrimitivesBuilder.ts",
+            "line": 87,
+            "itemtype": "method",
+            "name": "boundary",
+            "params": [
+                {
+                    "name": "times",
+                    "description": "",
+                    "type": "Number",
+                    "optional": true
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "SimplexPrimitivesBuilder"
+            },
+            "class": "SimplexPrimitivesBuilder",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/geometries/SliceSimplexPrimitivesBuilder.ts",
-            "line": 8,
+            "line": 9,
             "itemtype": "property",
             "name": "sliceAngle",
             "type": "number",
@@ -24031,6 +24293,20 @@
         {
             "file": "src/davinci-eight/math/QQ.ts",
             "line": 197,
+            "itemtype": "method",
+            "name": "hashCode",
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "beta": 1,
+            "class": "QQ",
+            "module": "EIGHT",
+            "submodule": "math"
+        },
+        {
+            "file": "src/davinci-eight/math/QQ.ts",
+            "line": 206,
             "description": "Computes the multiplicative inverse of this rational number.",
             "itemtype": "method",
             "name": "inv",
@@ -24045,7 +24321,7 @@
         },
         {
             "file": "src/davinci-eight/math/QQ.ts",
-            "line": 208,
+            "line": 217,
             "description": "Computes the additive inverse of this rational number.",
             "itemtype": "method",
             "name": "neg",
@@ -24060,7 +24336,7 @@
         },
         {
             "file": "src/davinci-eight/math/QQ.ts",
-            "line": 219,
+            "line": 228,
             "description": "Determines whether two rational numbers are equal.",
             "itemtype": "method",
             "name": "equals",
@@ -24081,7 +24357,7 @@
         },
         {
             "file": "src/davinci-eight/math/QQ.ts",
-            "line": 235,
+            "line": 244,
             "description": "Computes a non-normative string representation of this rational.",
             "itemtype": "method",
             "name": "toString",
@@ -24095,7 +24371,7 @@
         },
         {
             "file": "src/davinci-eight/math/QQ.ts",
-            "line": 245,
+            "line": 254,
             "itemtype": "method",
             "name": "__add__",
             "params": [
@@ -24117,7 +24393,7 @@
         },
         {
             "file": "src/davinci-eight/math/QQ.ts",
-            "line": 260,
+            "line": 269,
             "itemtype": "method",
             "name": "__radd__",
             "params": [
@@ -24139,7 +24415,7 @@
         },
         {
             "file": "src/davinci-eight/math/QQ.ts",
-            "line": 275,
+            "line": 284,
             "itemtype": "method",
             "name": "__sub__",
             "params": [
@@ -24161,7 +24437,7 @@
         },
         {
             "file": "src/davinci-eight/math/QQ.ts",
-            "line": 290,
+            "line": 299,
             "itemtype": "method",
             "name": "__rsub__",
             "params": [
@@ -24183,7 +24459,7 @@
         },
         {
             "file": "src/davinci-eight/math/QQ.ts",
-            "line": 305,
+            "line": 314,
             "itemtype": "method",
             "name": "__mul__",
             "params": [
@@ -24205,7 +24481,7 @@
         },
         {
             "file": "src/davinci-eight/math/QQ.ts",
-            "line": 320,
+            "line": 329,
             "itemtype": "method",
             "name": "__rmul__",
             "params": [
@@ -24227,7 +24503,7 @@
         },
         {
             "file": "src/davinci-eight/math/QQ.ts",
-            "line": 335,
+            "line": 344,
             "itemtype": "method",
             "name": "__div__",
             "params": [
@@ -24249,7 +24525,7 @@
         },
         {
             "file": "src/davinci-eight/math/QQ.ts",
-            "line": 350,
+            "line": 359,
             "itemtype": "method",
             "name": "__rdiv__",
             "params": [
@@ -24271,7 +24547,7 @@
         },
         {
             "file": "src/davinci-eight/math/QQ.ts",
-            "line": 365,
+            "line": 374,
             "itemtype": "method",
             "name": "__pos__",
             "return": {
@@ -24286,7 +24562,7 @@
         },
         {
             "file": "src/davinci-eight/math/QQ.ts",
-            "line": 374,
+            "line": 383,
             "itemtype": "method",
             "name": "__neg__",
             "return": {
@@ -24301,7 +24577,7 @@
         },
         {
             "file": "src/davinci-eight/math/QQ.ts",
-            "line": 403,
+            "line": 412,
             "itemtype": "method",
             "name": "valueOf",
             "params": [
@@ -24400,7 +24676,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 95,
+            "line": 103,
             "itemtype": "property",
             "name": "x",
             "type": "number",
@@ -24411,7 +24687,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 107,
+            "line": 115,
             "itemtype": "property",
             "name": "y",
             "type": "number",
@@ -24422,7 +24698,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 119,
+            "line": 127,
             "itemtype": "property",
             "name": "z",
             "type": "number",
@@ -24433,7 +24709,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 131,
+            "line": 139,
             "itemtype": "property",
             "name": "uom",
             "type": "Unit",
@@ -24444,7 +24720,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 143,
+            "line": 151,
             "itemtype": "method",
             "name": "add",
             "params": [
@@ -24471,7 +24747,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 153,
+            "line": 161,
             "itemtype": "method",
             "name": "divByScalar",
             "params": [
@@ -24491,7 +24767,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 162,
+            "line": 170,
             "itemtype": "method",
             "name": "lerp",
             "params": [
@@ -24516,7 +24792,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 172,
+            "line": 180,
             "itemtype": "method",
             "name": "magnitude",
             "return": {
@@ -24529,12 +24805,12 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 180,
+            "line": 188,
             "itemtype": "method",
             "name": "neg",
             "return": {
                 "description": "",
-                "type": "Cartesian3"
+                "type": "R3"
             },
             "class": "R3",
             "module": "EIGHT",
@@ -24542,7 +24818,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 188,
+            "line": 196,
             "itemtype": "method",
             "name": "reflect",
             "params": [
@@ -24562,7 +24838,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 197,
+            "line": 205,
             "itemtype": "method",
             "name": "rotate",
             "params": [
@@ -24582,7 +24858,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 224,
+            "line": 232,
             "itemtype": "method",
             "name": "scale",
             "params": [
@@ -24602,7 +24878,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 233,
+            "line": 241,
             "itemtype": "method",
             "name": "slerp",
             "params": [
@@ -24626,7 +24902,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 243,
+            "line": 251,
             "itemtype": "method",
             "name": "squaredNorm",
             "return": {
@@ -24639,7 +24915,27 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 258,
+            "line": 262,
+            "itemtype": "method",
+            "name": "stress",
+            "params": [
+                {
+                    "name": "σ",
+                    "description": "",
+                    "type": "VectorE3"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "R3"
+            },
+            "class": "R3",
+            "module": "EIGHT",
+            "submodule": "math"
+        },
+        {
+            "file": "src/davinci-eight/math/R3.ts",
+            "line": 271,
             "itemtype": "method",
             "name": "sub",
             "params": [
@@ -24666,7 +24962,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 268,
+            "line": 281,
             "description": "Intentionally undocumented.",
             "class": "R3",
             "module": "EIGHT",
@@ -24674,7 +24970,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 287,
+            "line": 300,
             "itemtype": "method",
             "name": "toExponential",
             "return": {
@@ -24687,7 +24983,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 296,
+            "line": 309,
             "itemtype": "method",
             "name": "toFixed",
             "params": [
@@ -24708,7 +25004,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 306,
+            "line": 319,
             "itemtype": "method",
             "name": "toString",
             "return": {
@@ -24721,7 +25017,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 315,
+            "line": 328,
             "itemtype": "method",
             "name": "fromVector",
             "params": [
@@ -24748,7 +25044,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 327,
+            "line": 340,
             "description": "Creates a new R3 with the same direction as the supplied vector.",
             "itemtype": "method",
             "name": "direction",
@@ -24771,7 +25067,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 344,
+            "line": 357,
             "itemtype": "method",
             "name": "vector",
             "params": [
@@ -30308,6 +30604,10 @@
             "line": " src/davinci-eight/facets/createPerspective.ts:18"
         },
         {
+            "message": "unknown tag: properyty",
+            "line": " src/davinci-eight/geometries/SimplexPrimitivesBuilder.ts:55"
+        },
+        {
             "message": "param name missing: {number}",
             "line": " src/davinci-eight/math/Vector3.ts:477"
         },
@@ -30500,32 +30800,24 @@
             "line": " src/davinci-eight/facets/Perspective.ts:30"
         },
         {
-            "message": "Missing item type\nUnit vector pointing along the symmetry axis of the cone.",
-            "line": " src/davinci-eight/geometries/transforms/ConeTransform.ts:10"
-        },
-        {
-            "message": "Missing item type\nUnit vector for the major axis of the cone.",
-            "line": " src/davinci-eight/geometries/transforms/ConeTransform.ts:15"
-        },
-        {
             "message": "Missing item type\nUnit vector for the minor axis of the cone.\nWe compute this so that the grid wraps around the cone with\nu increasing with θ and v increasing toward the apex of the cone.",
-            "line": " src/davinci-eight/geometries/transforms/ConeTransform.ts:20"
+            "line": " src/davinci-eight/geometries/transforms/ConeTransform.ts:23"
         },
         {
-            "message": "Missing item type\nPoint on the base of the cone.\nTODO: This would be the best thing to cache.",
+            "message": "Missing item type\nPoint on the base of the cone.",
             "line": " src/davinci-eight/geometries/transforms/ConeTransform.ts:86"
         },
         {
             "message": "Missing item type\nPoint on the standard cone at uIndex, vIndex.",
-            "line": " src/davinci-eight/geometries/transforms/ConeTransform.ts:92"
+            "line": " src/davinci-eight/geometries/transforms/ConeTransform.ts:91"
         },
         {
             "message": "Missing item type\nUnit vector pointing along the symmetry axis of the cone.",
-            "line": " src/davinci-eight/geometries/transforms/CylinderTransform.ts:9"
+            "line": " src/davinci-eight/geometries/transforms/CylinderTransform.ts:13"
         },
         {
-            "message": "Missing item type\nUnit vector for the major axis of the cone.",
-            "line": " src/davinci-eight/geometries/transforms/CylinderTransform.ts:14"
+            "message": "Missing item type",
+            "line": " src/davinci-eight/geometries/transforms/CylinderTransform.ts:17"
         },
         {
             "message": "Missing item type\nPoint on the wall of the cylinder with no vertical component.",
@@ -30533,55 +30825,55 @@
         },
         {
             "message": "Missing item type\nThe opposite direction to the axis.",
-            "line": " src/davinci-eight/geometries/ArrowBuilder.ts:58"
+            "line": " src/davinci-eight/geometries/ArrowBuilder.ts:67"
         },
         {
             "message": "Missing item type\nThe neck is the place where the cone meets the shaft.",
-            "line": " src/davinci-eight/geometries/ArrowBuilder.ts:63"
+            "line": " src/davinci-eight/geometries/ArrowBuilder.ts:72"
         },
         {
             "message": "Missing item type\nThe tail is the the position of the blunt end of the arrow.",
-            "line": " src/davinci-eight/geometries/ArrowBuilder.ts:69"
+            "line": " src/davinci-eight/geometries/ArrowBuilder.ts:78"
         },
         {
             "message": "Missing item type\nThe `cone` forms the head of the arrow.",
-            "line": " src/davinci-eight/geometries/ArrowBuilder.ts:75"
+            "line": " src/davinci-eight/geometries/ArrowBuilder.ts:84"
         },
         {
             "message": "Missing item type\nThe `disc` fills the space between the cone and the shaft.",
-            "line": " src/davinci-eight/geometries/ArrowBuilder.ts:90"
+            "line": " src/davinci-eight/geometries/ArrowBuilder.ts:99"
         },
         {
             "message": "Missing item type\nThe `shaft` is the slim part of the arrow.",
-            "line": " src/davinci-eight/geometries/ArrowBuilder.ts:105"
+            "line": " src/davinci-eight/geometries/ArrowBuilder.ts:113"
         },
         {
             "message": "Missing item type\nThe `plug` fills the end of the shaft.",
-            "line": " src/davinci-eight/geometries/ArrowBuilder.ts:119"
+            "line": " src/davinci-eight/geometries/ArrowBuilder.ts:127"
         },
         {
             "message": "Missing item type",
-            "line": " src/davinci-eight/geometries/CylinderBuilder.ts:10"
+            "line": " src/davinci-eight/geometries/CylinderBuilder.ts:11"
         },
         {
             "message": "Missing item type\nA displacement in the direction of axis that we must move for each height step.",
-            "line": " src/davinci-eight/geometries/CylinderBuilder.ts:20"
+            "line": " src/davinci-eight/geometries/CylinderBuilder.ts:18"
         },
         {
             "message": "Missing item type\nThe displacement to the current level.",
-            "line": " src/davinci-eight/geometries/CylinderBuilder.ts:26"
+            "line": " src/davinci-eight/geometries/CylinderBuilder.ts:25"
         },
         {
             "message": "Missing item type\nInteresting that the v coordinate is 1 at the base and 0 at the top!\nThis is because i originally went from top to bottom.",
-            "line": " src/davinci-eight/geometries/CylinderBuilder.ts:32"
+            "line": " src/davinci-eight/geometries/CylinderBuilder.ts:31"
         },
         {
             "message": "Missing item type\narcPoints.length => thetaSegments + 1",
-            "line": " src/davinci-eight/geometries/CylinderBuilder.ts:37"
+            "line": " src/davinci-eight/geometries/CylinderBuilder.ts:36"
         },
         {
             "message": "Missing item type\nj < arcPoints.length => j <= thetaSegments",
-            "line": " src/davinci-eight/geometries/CylinderBuilder.ts:41"
+            "line": " src/davinci-eight/geometries/CylinderBuilder.ts:40"
         },
         {
             "message": "Missing item type\nu will vary from 0 to 1, because j goes from 0 to thetaSegments",
@@ -30589,7 +30881,7 @@
         },
         {
             "message": "Missing item type\n2-------3\n|       | \n|       |\n|       |\n1-------4",
-            "line": " src/davinci-eight/geometries/CylinderBuilder.ts:102"
+            "line": " src/davinci-eight/geometries/CylinderBuilder.ts:133"
         },
         {
             "message": "Missing item type\nA convenience class for implementing the Attribute interface.",
@@ -30642,6 +30934,14 @@
         {
             "message": "Missing item type\nThe index of the corner of the quadrilateral with the lowest value of i and j.\nThis corresponds to the smallest radius and smallest angle counterclockwise.",
             "line": " src/davinci-eight/geometries/RingSimplexGeometry.ts:53"
+        },
+        {
+            "message": "Missing item type",
+            "line": " src/davinci-eight/geometries/SimplexPrimitivesBuilder.ts:55"
+        },
+        {
+            "message": "Missing item type",
+            "line": " src/davinci-eight/geometries/SimplexPrimitivesBuilder.ts:75"
         },
         {
             "message": "Missing item type\nDisplacement that we need to add (in the axis direction) to each arc point to get the\ndistance position parallel to the axis correct.",
@@ -31097,7 +31397,7 @@
         },
         {
             "message": "Missing item type\nIntentionally undocumented.",
-            "line": " src/davinci-eight/math/R3.ts:268"
+            "line": " src/davinci-eight/math/R3.ts:281"
         },
         {
             "message": "Missing item type\nA ring is an abelian group with a second binary operation that is associative,\nis distributive over the abelian group operation and has an identity element.",

@@ -66,6 +66,7 @@
                                 <li><a href="../classes/createView.html">createView</a></li>
                                 <li><a href="../classes/CuboidPrimitivesBuilder.html">CuboidPrimitivesBuilder</a></li>
                                 <li><a href="../classes/Cylinder.html">Cylinder</a></li>
+                                <li><a href="../classes/CylinderBuilder.html">CylinderBuilder</a></li>
                                 <li><a href="../classes/CylinderGeometry.html">CylinderGeometry</a></li>
                                 <li><a href="../classes/CylinderTransform.html">CylinderTransform</a></li>
                                 <li><a href="../classes/CylindricalShellBuilder.html">CylindricalShellBuilder</a></li>
@@ -138,6 +139,7 @@
                                 <li><a href="../classes/ShareableWebGLBuffer.html">ShareableWebGLBuffer</a></li>
                                 <li><a href="../classes/ShareableWebGLShader.html">ShareableWebGLShader</a></li>
                                 <li><a href="../classes/ShareableWebGLTexture.html">ShareableWebGLTexture</a></li>
+                                <li><a href="../classes/SimplexPrimitivesBuilder.html">SimplexPrimitivesBuilder</a></li>
                                 <li><a href="../classes/SliceSimplexPrimitivesBuilder.html">SliceSimplexPrimitivesBuilder</a></li>
                                 <li><a href="../classes/Sphere.html">Sphere</a></li>
                                 <li><a href="../classes/SphereBuilder.html">SphereBuilder</a></li>
@@ -239,9 +241,11 @@ import AxialPrimitivesBuilder from &#x27;./AxialPrimitivesBuilder&#x27;;
 import Primitive from &#x27;../core/Primitive&#x27;;
 import ConeTransform from &#x27;./transforms/ConeTransform&#x27;
 import Rotation from &#x27;./transforms/Rotation&#x27;
+import R3 from &#x27;../math/R3&#x27;
 import Scaling from &#x27;./transforms/Scaling&#x27;
 import Translation from &#x27;./transforms/Translation&#x27;
 import TextureCoords from &#x27;./transforms/TextureCoords&#x27;
+import VectorE3 from &#x27;../math/VectorE3&#x27;
 
 const aPosition = GraphicsProgramSymbols.ATTRIBUTE_POSITION
 const aTangent = GraphicsProgramSymbols.ATTRIBUTE_TANGENT
@@ -267,12 +271,22 @@ export default class ConicalShellBuilder extends AxialPrimitivesBuilder implemen
      */
     public thetaSegments = 32
 
+    private e: R3
+    private cutLine: R3
+    private clockwise: boolean
+
     /**
      * @class ConicalShellBuilder
      * @constructor
+     * @param e {VectorE3}
+     * @param cutLine {VectorE3}
+     * @param clockwise {boolean}
      */
-    constructor() {
+    constructor(e: VectorE3, cutLine: VectorE3, clockwise: boolean) {
         super()
+        this.e = R3.direction(e)
+        this.cutLine = R3.direction(cutLine)
+        this.clockwise = clockwise
     }
 
     /**
@@ -305,7 +319,7 @@ export default class ConicalShellBuilder extends AxialPrimitivesBuilder implemen
      * @return {Primitive[]}
      */
     public toPrimitives(): Primitive[] {
-        this.transforms.push(new ConeTransform(this.sliceAngle, aPosition, aTangent))
+        this.transforms.push(new ConeTransform(this.e, this.cutLine, this.clockwise, this.sliceAngle, aPosition, aTangent))
 
         this.transforms.push(new Scaling(this.stress, [aPosition, aTangent]))
         this.transforms.push(new Rotation(this.tilt, [aPosition, aTangent]))

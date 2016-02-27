@@ -66,6 +66,7 @@
                                 <li><a href="../classes/createView.html">createView</a></li>
                                 <li><a href="../classes/CuboidPrimitivesBuilder.html">CuboidPrimitivesBuilder</a></li>
                                 <li><a href="../classes/Cylinder.html">Cylinder</a></li>
+                                <li><a href="../classes/CylinderBuilder.html">CylinderBuilder</a></li>
                                 <li><a href="../classes/CylinderGeometry.html">CylinderGeometry</a></li>
                                 <li><a href="../classes/CylinderTransform.html">CylinderTransform</a></li>
                                 <li><a href="../classes/CylindricalShellBuilder.html">CylindricalShellBuilder</a></li>
@@ -138,6 +139,7 @@
                                 <li><a href="../classes/ShareableWebGLBuffer.html">ShareableWebGLBuffer</a></li>
                                 <li><a href="../classes/ShareableWebGLShader.html">ShareableWebGLShader</a></li>
                                 <li><a href="../classes/ShareableWebGLTexture.html">ShareableWebGLTexture</a></li>
+                                <li><a href="../classes/SimplexPrimitivesBuilder.html">SimplexPrimitivesBuilder</a></li>
                                 <li><a href="../classes/SliceSimplexPrimitivesBuilder.html">SliceSimplexPrimitivesBuilder</a></li>
                                 <li><a href="../classes/Sphere.html">Sphere</a></li>
                                 <li><a href="../classes/SphereBuilder.html">SphereBuilder</a></li>
@@ -241,11 +243,12 @@ import Transform from &#x27;./Transform&#x27;
  * @class RingTransform
  */
 export default class RingTransform implements Transform {
+    private e: Vector3
+    private cutLine: Vector3
     private innerRadius: number
     private outerRadius: number
     private sliceAngle: number
     private generator: Spinor3
-    private cutDirection: Vector3
     private aPosition: string
     private aTangent: string
 
@@ -253,17 +256,19 @@ export default class RingTransform implements Transform {
      * @class RingTransform
      * @constructor
      * @param e {Vector3} The axis normal to the plane of the ring.
+     * @param cutLine {Vector3}
+     * @param clockwise {boolean}
      * @param a {number} The outer radius.
      * @param b {number} The inner radius.
-     * @param cutLine {Vector3}
      * @param aPosition {string} The name to use for the position attribute.
      */
-    constructor(e: VectorE3, a: number, b: number, cutLine: VectorE3, sliceAngle: number, aPosition: string, aTangent: string) {
+    constructor(e: VectorE3, cutLine: VectorE3, clockwise: boolean, a: number, b: number, sliceAngle: number, aPosition: string, aTangent: string) {
+        this.e = Vector3.copy(e)
         this.innerRadius = mustBeNumber(&#x27;a&#x27;, a)
         this.outerRadius = mustBeNumber(&#x27;b&#x27;, b)
         this.sliceAngle = mustBeNumber(&#x27;sliceAngle&#x27;, sliceAngle)
-        this.generator = Spinor3.dual(e, false)
-        this.cutDirection = Vector3.copy(cutLine).direction()
+        this.generator = Spinor3.dual(e, clockwise)
+        this.cutLine = Vector3.copy(cutLine).direction()
         this.aPosition = mustBeString(&#x27;aPosition&#x27;, aPosition)
         this.aTangent = mustBeString(&#x27;aTangent&#x27;, aTangent)
     }
@@ -286,8 +291,8 @@ export default class RingTransform implements Transform {
         const b = this.innerRadius
         const a = this.outerRadius
         const rotor = this.generator.clone().scale(-this.sliceAngle * u / 2).exp()
-        const position = Vector3.copy(this.cutDirection).rotate(rotor).scale(b + (a - b) * v)
-        const tangent = this.generator.clone()
+        const position = Vector3.copy(this.cutLine).rotate(rotor).scale(b + (a - b) * v)
+        const tangent = Spinor3.dual(this.e, false)
         vertex.attributes[this.aPosition] = position
         vertex.attributes[this.aTangent] = tangent
     }

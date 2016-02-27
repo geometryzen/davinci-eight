@@ -66,6 +66,7 @@
                                 <li><a href="../classes/createView.html">createView</a></li>
                                 <li><a href="../classes/CuboidPrimitivesBuilder.html">CuboidPrimitivesBuilder</a></li>
                                 <li><a href="../classes/Cylinder.html">Cylinder</a></li>
+                                <li><a href="../classes/CylinderBuilder.html">CylinderBuilder</a></li>
                                 <li><a href="../classes/CylinderGeometry.html">CylinderGeometry</a></li>
                                 <li><a href="../classes/CylinderTransform.html">CylinderTransform</a></li>
                                 <li><a href="../classes/CylindricalShellBuilder.html">CylindricalShellBuilder</a></li>
@@ -138,6 +139,7 @@
                                 <li><a href="../classes/ShareableWebGLBuffer.html">ShareableWebGLBuffer</a></li>
                                 <li><a href="../classes/ShareableWebGLShader.html">ShareableWebGLShader</a></li>
                                 <li><a href="../classes/ShareableWebGLTexture.html">ShareableWebGLTexture</a></li>
+                                <li><a href="../classes/SimplexPrimitivesBuilder.html">SimplexPrimitivesBuilder</a></li>
                                 <li><a href="../classes/SliceSimplexPrimitivesBuilder.html">SliceSimplexPrimitivesBuilder</a></li>
                                 <li><a href="../classes/Sphere.html">Sphere</a></li>
                                 <li><a href="../classes/SphereBuilder.html">SphereBuilder</a></li>
@@ -1030,7 +1032,7 @@ export default class Geometric3 extends Coords implements GeometricE3, MutableGe
      */
     direction(): Geometric3 {
         // The squaredNorm is the squared norm.
-        let norm = this.magnitudeSansUnits()
+        const norm = this.magnitudeSansUnits()
         this.α = this.α / norm
         this.x = this.x / norm
         this.y = this.y / norm

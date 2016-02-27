@@ -2,9 +2,7 @@ import GeometryBuilder from './GeometryBuilder'
 import Geometry from '../core/Geometry'
 import GeometryBuffers from '../core/GeometryBuffers'
 import GeometryContainer from '../core/GeometryContainer'
-import R3 from '../math/R3';
 import Primitive from '../core/Primitive';
-import readOnly from '../i18n/readOnly';
 import Spinor3 from '../math/Spinor3';
 import Vector3 from '../math/Vector3';
 import Vertex from './Vertex';
@@ -95,20 +93,6 @@ export default class PrimitivesBuilder implements GeometryBuilder {
         for (let t = 0; t < tLen; t++) {
             this.transforms[t].exec(vertex, i, j, iLength, jLength)
         }
-    }
-
-    get up(): R3 {
-        return R3.e2
-    }
-    set up(unused: R3) {
-        throw new Error(readOnly('up').message)
-    }
-
-    get out(): R3 {
-        return R3.e3
-    }
-    set out(unused: R3) {
-        throw new Error(readOnly('out').message)
     }
 
     /**

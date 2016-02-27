@@ -297,6 +297,7 @@ const eight = {
     get ArrowGeometry() { return ArrowGeometry },
     get BoxGeometry() { return BoxGeometry },
     get ConicalShellBuilder() { return ConicalShellBuilder },
+    get CylinderBuilder() { return CylinderBuilder },
     get CylinderGeometry() { return CylinderGeometry },
     get CylindricalShellBuilder() { return CylindricalShellBuilder },
     get RingBuilder() { return RingBuilder },

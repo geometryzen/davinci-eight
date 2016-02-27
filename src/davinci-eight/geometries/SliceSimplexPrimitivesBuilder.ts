@@ -5,6 +5,7 @@ import SimplexPrimitivesBuilder from '../geometries/SimplexPrimitivesBuilder'
  * @extends SimplexPrimitivesBuilder
  */
 export default class SliceSimplexPrimitivesBuilder extends SimplexPrimitivesBuilder {
+
     /**
      * @property sliceAngle
      * @type number
@@ -12,6 +13,10 @@ export default class SliceSimplexPrimitivesBuilder extends SimplexPrimitivesBuil
      */
     public sliceAngle: number = 2 * Math.PI
 
+    /**
+     * @class SliceSimplexPrimitivesBuilder
+     * @constructor
+     */
     constructor() {
         super()
     }

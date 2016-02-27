@@ -2287,6 +2287,9 @@ define('davinci-eight/math/QQ',["require", "exports", '../core', '../checks/must
         QQ.prototype.isZero = function () {
             return this._numer === 0 && this._denom === 1;
         };
+        QQ.prototype.hashCode = function () {
+            return 37 * this.numer + 13 * this.denom;
+        };
         QQ.prototype.inv = function () {
             return QQ.valueOf(this._denom, this._numer);
         };
@@ -13165,8 +13168,16 @@ define('davinci-eight/math/R3',["require", "exports", '../i18n/notImplemented', 
             mustBeNumber_1.default('x', x);
             mustBeNumber_1.default('y', y);
             mustBeNumber_1.default('z', z);
-            this._coords = [x, y, z];
-            this._uom = mustBeObject_1.default('uom', uom);
+            mustBeObject_1.default('uom', uom);
+            var m = uom.multiplier;
+            if (m !== 1) {
+                this._coords = [m * x, m * y, m * z];
+                this._uom = new Unit_1.default(1, uom.dimensions, uom.labels);
+            }
+            else {
+                this._coords = [x, y, z];
+                this._uom = uom;
+            }
         }
         Object.defineProperty(R3.prototype, "x", {
             get: function () {
@@ -13385,7 +13396,7 @@ define('davinci-eight/core/vertexArraysFromPrimitive',["require", "exports", './
     exports.default = default_1;
 });
 
-define('davinci-eight/geometries/PrimitivesBuilder',["require", "exports", '../core/GeometryBuffers', '../core/GeometryContainer', '../math/R3', '../i18n/readOnly', '../math/Spinor3', '../math/Vector3', '../core/vertexArraysFromPrimitive'], function (require, exports, GeometryBuffers_1, GeometryContainer_1, R3_1, readOnly_1, Spinor3_1, Vector3_1, vertexArraysFromPrimitive_1) {
+define('davinci-eight/geometries/PrimitivesBuilder',["require", "exports", '../core/GeometryBuffers', '../core/GeometryContainer', '../math/Spinor3', '../math/Vector3', '../core/vertexArraysFromPrimitive'], function (require, exports, GeometryBuffers_1, GeometryContainer_1, Spinor3_1, Vector3_1, vertexArraysFromPrimitive_1) {
     var PrimitivesBuilder = (function () {
         function PrimitivesBuilder() {
             this.stress = Vector3_1.default.vector(1, 1, 1);
@@ -13402,26 +13413,6 @@ define('davinci-eight/geometries/PrimitivesBuilder',["require", "exports", '../c
                 this.transforms[t].exec(vertex, i, j, iLength, jLength);
             }
         };
-        Object.defineProperty(PrimitivesBuilder.prototype, "up", {
-            get: function () {
-                return R3_1.default.e2;
-            },
-            set: function (unused) {
-                throw new Error(readOnly_1.default('up').message);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(PrimitivesBuilder.prototype, "out", {
-            get: function () {
-                return R3_1.default.e3;
-            },
-            set: function (unused) {
-                throw new Error(readOnly_1.default('out').message);
-            },
-            enumerable: true,
-            configurable: true
-        });
         PrimitivesBuilder.prototype.toGeometry = function () {
             var container = new GeometryContainer_1.default();
             var ps = this.toPrimitives();
@@ -13764,17 +13755,18 @@ define('davinci-eight/geometries/TriangleStrip',["require", "exports", '../core/
     exports.default = TriangleStrip;
 });
 
-define('davinci-eight/geometries/transforms/ConeTransform',["require", "exports", '../../checks/mustBeNumber', '../../checks/mustBeString', '../../math/R3', '../../math/Spinor3', '../../math/Vector3'], function (require, exports, mustBeNumber_1, mustBeString_1, R3_1, Spinor3_1, Vector3_1) {
-    var h = R3_1.default.e2;
-    var a = R3_1.default.e3;
-    var b = new Vector3_1.default().cross2(h, a).direction();
+define('davinci-eight/geometries/transforms/ConeTransform',["require", "exports", '../../checks/mustBeBoolean', '../../checks/mustBeNumber', '../../checks/mustBeString', '../../math/R3', '../../math/Spinor3', '../../math/Vector3'], function (require, exports, mustBeBoolean_1, mustBeNumber_1, mustBeString_1, R3_1, Spinor3_1, Vector3_1) {
     function coneNormal(ρ, h, out) {
         out.copy(ρ);
         var ρ2 = out.squaredNorm();
         out.add(h, ρ2).divByScalar(Math.sqrt(ρ2) * Math.sqrt(1 + ρ2));
     }
     var ConeTransform = (function () {
-        function ConeTransform(sliceAngle, aPosition, aTangent) {
+        function ConeTransform(e, cutLine, clockwise, sliceAngle, aPosition, aTangent) {
+            this.e = R3_1.default.direction(e);
+            this.cutLine = R3_1.default.direction(cutLine);
+            this.b = new Vector3_1.default().cross2(e, cutLine).direction();
+            this.clockwise = mustBeBoolean_1.default('clockwise', clockwise);
             this.sliceAngle = mustBeNumber_1.default('sliceAngle', sliceAngle);
             this.aPosition = mustBeString_1.default('aPosition', aPosition);
             this.aTangent = mustBeString_1.default('aTangent', aTangent);
@@ -13784,14 +13776,15 @@ define('davinci-eight/geometries/transforms/ConeTransform',["require", "exports"
             var u = i / uSegments;
             var vSegments = jLength - 1;
             var v = j / vSegments;
-            var θ = this.sliceAngle * u;
+            var sign = this.clockwise ? -1 : +1;
+            var θ = sign * this.sliceAngle * u;
             var cosθ = Math.cos(θ);
             var sinθ = Math.sin(θ);
-            var ρ = new Vector3_1.default().add(a, cosθ).add(b, sinθ);
-            var x = Vector3_1.default.lerp(ρ, h, v);
+            var ρ = new Vector3_1.default().add(this.cutLine, cosθ).add(this.b, sinθ);
+            var x = Vector3_1.default.lerp(ρ, this.e, v);
             vertex.attributes[this.aPosition] = x;
             var normal = Vector3_1.default.zero();
-            coneNormal(ρ, h, normal);
+            coneNormal(ρ, this.e, normal);
             vertex.attributes[this.aTangent] = Spinor3_1.default.dual(normal, false);
         };
         return ConeTransform;
@@ -13914,16 +13907,19 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/geometries/ConicalShellBuilder',["require", "exports", './transforms/Approximation', './transforms/Direction', './transforms/Duality', '../core/GraphicsProgramSymbols', './TriangleStrip', './AxialPrimitivesBuilder', './transforms/ConeTransform', './transforms/Rotation', './transforms/Scaling', './transforms/Translation', './transforms/TextureCoords'], function (require, exports, Approximation_1, Direction_1, Duality_1, GraphicsProgramSymbols_1, TriangleStrip_1, AxialPrimitivesBuilder_1, ConeTransform_1, Rotation_1, Scaling_1, Translation_1, TextureCoords_1) {
+define('davinci-eight/geometries/ConicalShellBuilder',["require", "exports", './transforms/Approximation', './transforms/Direction', './transforms/Duality', '../core/GraphicsProgramSymbols', './TriangleStrip', './AxialPrimitivesBuilder', './transforms/ConeTransform', './transforms/Rotation', '../math/R3', './transforms/Scaling', './transforms/Translation', './transforms/TextureCoords'], function (require, exports, Approximation_1, Direction_1, Duality_1, GraphicsProgramSymbols_1, TriangleStrip_1, AxialPrimitivesBuilder_1, ConeTransform_1, Rotation_1, R3_1, Scaling_1, Translation_1, TextureCoords_1) {
     var aPosition = GraphicsProgramSymbols_1.default.ATTRIBUTE_POSITION;
     var aTangent = GraphicsProgramSymbols_1.default.ATTRIBUTE_TANGENT;
     var aNormal = GraphicsProgramSymbols_1.default.ATTRIBUTE_NORMAL;
     var ConicalShellBuilder = (function (_super) {
         __extends(ConicalShellBuilder, _super);
-        function ConicalShellBuilder() {
+        function ConicalShellBuilder(e, cutLine, clockwise) {
             _super.call(this);
             this.radialSegments = 1;
             this.thetaSegments = 32;
+            this.e = R3_1.default.direction(e);
+            this.cutLine = R3_1.default.direction(cutLine);
+            this.clockwise = clockwise;
         }
         Object.defineProperty(ConicalShellBuilder.prototype, "radius", {
             get: function () {
@@ -13947,7 +13943,7 @@ define('davinci-eight/geometries/ConicalShellBuilder',["require", "exports", './
             configurable: true
         });
         ConicalShellBuilder.prototype.toPrimitives = function () {
-            this.transforms.push(new ConeTransform_1.default(this.sliceAngle, aPosition, aTangent));
+            this.transforms.push(new ConeTransform_1.default(this.e, this.cutLine, this.clockwise, this.sliceAngle, aPosition, aTangent));
             this.transforms.push(new Scaling_1.default(this.stress, [aPosition, aTangent]));
             this.transforms.push(new Rotation_1.default(this.tilt, [aPosition, aTangent]));
             this.transforms.push(new Translation_1.default(this.offset, [aPosition]));
@@ -13973,12 +13969,12 @@ define('davinci-eight/geometries/ConicalShellBuilder',["require", "exports", './
     exports.default = ConicalShellBuilder;
 });
 
-define('davinci-eight/geometries/transforms/CylinderTransform',["require", "exports", '../../checks/mustBeNumber', '../../checks/mustBeString', '../../math/R3', '../../math/Spinor3', '../../math/Vector3'], function (require, exports, mustBeNumber_1, mustBeString_1, R3_1, Spinor3_1, Vector3_1) {
-    var e = R3_1.default.e2;
-    var a = R3_1.default.e3;
-    var generator = Spinor3_1.default.dual(e, false);
+define('davinci-eight/geometries/transforms/CylinderTransform',["require", "exports", '../../checks/mustBeNumber', '../../checks/mustBeString', '../../math/Spinor3', '../../math/Vector3'], function (require, exports, mustBeNumber_1, mustBeString_1, Spinor3_1, Vector3_1) {
     var CylinderTransform = (function () {
-        function CylinderTransform(sliceAngle, aPosition, aTangent) {
+        function CylinderTransform(e, cutLine, clockwise, sliceAngle, aPosition, aTangent) {
+            this.e = Vector3_1.default.copy(e);
+            this.cutLine = Vector3_1.default.copy(cutLine);
+            this.generator = Spinor3_1.default.dual(e, clockwise);
             this.sliceAngle = mustBeNumber_1.default('sliceAngle', sliceAngle);
             this.aPosition = mustBeString_1.default('aPosition', aPosition);
             this.aTangent = mustBeString_1.default('aTangent', aTangent);
@@ -13988,12 +13984,10 @@ define('davinci-eight/geometries/transforms/CylinderTransform',["require", "expo
             var u = i / uSegments;
             var vSegments = jLength - 1;
             var v = j / vSegments;
-            var rotor = generator.clone().scale(-this.sliceAngle * u / 2).exp();
-            var ρ = Vector3_1.default.copy(a).rotate(rotor);
-            var x = ρ.clone().add(e, v);
-            vertex.attributes[this.aPosition] = x;
-            var normal = Vector3_1.default.copy(a).rotate(rotor);
-            vertex.attributes[this.aTangent] = Spinor3_1.default.dual(normal, false);
+            var rotor = this.generator.clone().scale(-this.sliceAngle * u / 2).exp();
+            var ρ = Vector3_1.default.copy(this.cutLine).rotate(rotor);
+            vertex.attributes[this.aPosition] = ρ.clone().add(this.e, v);
+            vertex.attributes[this.aTangent] = Spinor3_1.default.dual(ρ, false);
         };
         return CylinderTransform;
     })();
@@ -14006,16 +14000,19 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/geometries/CylindricalShellBuilder',["require", "exports", './transforms/Approximation', './transforms/Direction', './transforms/Duality', '../core/GraphicsProgramSymbols', './TriangleStrip', './AxialPrimitivesBuilder', './transforms/CylinderTransform', './transforms/Rotation', './transforms/Scaling', './transforms/Translation', './transforms/TextureCoords'], function (require, exports, Approximation_1, Direction_1, Duality_1, GraphicsProgramSymbols_1, TriangleStrip_1, AxialPrimitivesBuilder_1, CylinderTransform_1, Rotation_1, Scaling_1, Translation_1, TextureCoords_1) {
+define('davinci-eight/geometries/CylindricalShellBuilder',["require", "exports", './transforms/Approximation', './transforms/Direction', './transforms/Duality', '../core/GraphicsProgramSymbols', './TriangleStrip', './AxialPrimitivesBuilder', './transforms/CylinderTransform', './transforms/Rotation', './transforms/Scaling', './transforms/Translation', './transforms/TextureCoords', '../math/Vector3'], function (require, exports, Approximation_1, Direction_1, Duality_1, GraphicsProgramSymbols_1, TriangleStrip_1, AxialPrimitivesBuilder_1, CylinderTransform_1, Rotation_1, Scaling_1, Translation_1, TextureCoords_1, Vector3_1) {
     var aPosition = GraphicsProgramSymbols_1.default.ATTRIBUTE_POSITION;
     var aTangent = GraphicsProgramSymbols_1.default.ATTRIBUTE_TANGENT;
     var aNormal = GraphicsProgramSymbols_1.default.ATTRIBUTE_NORMAL;
     var CylindricalShellBuilder = (function (_super) {
         __extends(CylindricalShellBuilder, _super);
-        function CylindricalShellBuilder() {
+        function CylindricalShellBuilder(e, cutLine, clockwise) {
             _super.call(this);
             this.radialSegments = 1;
             this.thetaSegments = 32;
+            this.e = Vector3_1.default.copy(e);
+            this.cutLine = Vector3_1.default.copy(cutLine);
+            this.clockwise = clockwise;
         }
         Object.defineProperty(CylindricalShellBuilder.prototype, "radius", {
             get: function () {
@@ -14039,7 +14036,7 @@ define('davinci-eight/geometries/CylindricalShellBuilder',["require", "exports",
             configurable: true
         });
         CylindricalShellBuilder.prototype.toPrimitives = function () {
-            this.transforms.push(new CylinderTransform_1.default(this.sliceAngle, aPosition, aTangent));
+            this.transforms.push(new CylinderTransform_1.default(this.e, this.cutLine, this.clockwise, this.sliceAngle, aPosition, aTangent));
             this.transforms.push(new Scaling_1.default(this.stress, [aPosition, aTangent]));
             this.transforms.push(new Rotation_1.default(this.tilt, [aPosition, aTangent]));
             this.transforms.push(new Translation_1.default(this.offset, [aPosition]));
@@ -14068,12 +14065,13 @@ define('davinci-eight/geometries/CylindricalShellBuilder',["require", "exports",
 
 define('davinci-eight/geometries/transforms/RingTransform',["require", "exports", '../../checks/mustBeNumber', '../../checks/mustBeString', '../../math/Spinor3', '../../math/Vector3'], function (require, exports, mustBeNumber_1, mustBeString_1, Spinor3_1, Vector3_1) {
     var RingTransform = (function () {
-        function RingTransform(e, a, b, cutLine, sliceAngle, aPosition, aTangent) {
+        function RingTransform(e, cutLine, clockwise, a, b, sliceAngle, aPosition, aTangent) {
+            this.e = Vector3_1.default.copy(e);
             this.innerRadius = mustBeNumber_1.default('a', a);
             this.outerRadius = mustBeNumber_1.default('b', b);
             this.sliceAngle = mustBeNumber_1.default('sliceAngle', sliceAngle);
-            this.generator = Spinor3_1.default.dual(e, false);
-            this.cutDirection = Vector3_1.default.copy(cutLine).direction();
+            this.generator = Spinor3_1.default.dual(e, clockwise);
+            this.cutLine = Vector3_1.default.copy(cutLine).direction();
             this.aPosition = mustBeString_1.default('aPosition', aPosition);
             this.aTangent = mustBeString_1.default('aTangent', aTangent);
         }
@@ -14085,8 +14083,8 @@ define('davinci-eight/geometries/transforms/RingTransform',["require", "exports"
             var b = this.innerRadius;
             var a = this.outerRadius;
             var rotor = this.generator.clone().scale(-this.sliceAngle * u / 2).exp();
-            var position = Vector3_1.default.copy(this.cutDirection).rotate(rotor).scale(b + (a - b) * v);
-            var tangent = this.generator.clone();
+            var position = Vector3_1.default.copy(this.cutLine).rotate(rotor).scale(b + (a - b) * v);
+            var tangent = Spinor3_1.default.dual(this.e, false);
             vertex.attributes[this.aPosition] = position;
             vertex.attributes[this.aTangent] = tangent;
         };
@@ -14101,21 +14099,24 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/geometries/RingBuilder',["require", "exports", './transforms/Approximation', './transforms/Direction', './transforms/Duality', '../core/GraphicsProgramSymbols', './TriangleStrip', './AxialPrimitivesBuilder', './transforms/RingTransform', './transforms/Rotation', './transforms/Scaling', './transforms/Translation', './transforms/TextureCoords'], function (require, exports, Approximation_1, Direction_1, Duality_1, GraphicsProgramSymbols_1, TriangleStrip_1, AxialPrimitivesBuilder_1, RingTransform_1, Rotation_1, Scaling_1, Translation_1, TextureCoords_1) {
+define('davinci-eight/geometries/RingBuilder',["require", "exports", './transforms/Approximation', './transforms/Direction', './transforms/Duality', '../core/GraphicsProgramSymbols', './TriangleStrip', './AxialPrimitivesBuilder', './transforms/RingTransform', './transforms/Rotation', './transforms/Scaling', './transforms/Translation', './transforms/TextureCoords', '../math/Vector3'], function (require, exports, Approximation_1, Direction_1, Duality_1, GraphicsProgramSymbols_1, TriangleStrip_1, AxialPrimitivesBuilder_1, RingTransform_1, Rotation_1, Scaling_1, Translation_1, TextureCoords_1, Vector3_1) {
     var aPosition = GraphicsProgramSymbols_1.default.ATTRIBUTE_POSITION;
     var aTangent = GraphicsProgramSymbols_1.default.ATTRIBUTE_TANGENT;
     var aNormal = GraphicsProgramSymbols_1.default.ATTRIBUTE_NORMAL;
     var RingBuilder = (function (_super) {
         __extends(RingBuilder, _super);
-        function RingBuilder() {
+        function RingBuilder(e, cutLine, clockwise) {
             _super.call(this);
             this.innerRadius = 0;
             this.outerRadius = 1;
             this.radialSegments = 1;
             this.thetaSegments = 32;
+            this.e = Vector3_1.default.copy(e);
+            this.cutLine = Vector3_1.default.copy(cutLine);
+            this.clockwise = clockwise;
         }
         RingBuilder.prototype.toPrimitives = function () {
-            this.transforms.push(new RingTransform_1.default(this.up, this.outerRadius, this.innerRadius, this.out, this.sliceAngle, aPosition, aTangent));
+            this.transforms.push(new RingTransform_1.default(this.e, this.cutLine, this.clockwise, this.outerRadius, this.innerRadius, this.sliceAngle, aPosition, aTangent));
             this.transforms.push(new Scaling_1.default(this.stress, [aPosition, aTangent]));
             this.transforms.push(new Rotation_1.default(this.tilt, [aPosition, aTangent]));
             this.transforms.push(new Translation_1.default(this.offset, [aPosition]));
@@ -14146,25 +14147,27 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/geometries/ArrowBuilder',["require", "exports", './AxialPrimitivesBuilder', './ConicalShellBuilder', './CylindricalShellBuilder', '../geometries/RingBuilder', '../math/Vector3'], function (require, exports, AxialPrimitivesBuilder_1, ConicalShellBuilder_1, CylindricalShellBuilder_1, RingBuilder_1, Vector3_1) {
+define('davinci-eight/geometries/ArrowBuilder',["require", "exports", './AxialPrimitivesBuilder', './ConicalShellBuilder', './CylindricalShellBuilder', '../geometries/RingBuilder', '../math/R3', '../math/Vector3'], function (require, exports, AxialPrimitivesBuilder_1, ConicalShellBuilder_1, CylindricalShellBuilder_1, RingBuilder_1, R3_1, Vector3_1) {
     var ArrowBuilder = (function (_super) {
         __extends(ArrowBuilder, _super);
-        function ArrowBuilder() {
+        function ArrowBuilder(e, cutLine, clockwise) {
             _super.call(this);
             this.heightCone = 0.20;
             this.radiusCone = 0.08;
             this.radiusShaft = 0.01;
             this.thetaSegments = 16;
+            this.e = R3_1.default.direction(e);
+            this.cutLine = R3_1.default.direction(cutLine);
+            this.clockwise = clockwise;
         }
         ArrowBuilder.prototype.toPrimitives = function () {
-            var axis = this.up;
             var heightShaft = 1 - this.heightCone;
-            var back = axis.neg();
-            var neck = Vector3_1.default.copy(axis).scale(heightShaft).add(this.offset);
+            var back = this.e.neg();
+            var neck = Vector3_1.default.copy(this.e).scale(heightShaft).add(this.offset);
             neck.rotate(this.tilt);
             var tail = Vector3_1.default.copy(this.offset);
             tail.rotate(this.tilt);
-            var cone = new ConicalShellBuilder_1.default();
+            var cone = new ConicalShellBuilder_1.default(this.e, this.cutLine, this.clockwise);
             cone.radius = this.radiusCone;
             cone.height = this.heightCone;
             cone.tilt.mul(this.tilt);
@@ -14174,18 +14177,17 @@ define('davinci-eight/geometries/ArrowBuilder',["require", "exports", './AxialPr
             cone.useNormal = this.useNormal;
             cone.usePosition = this.usePosition;
             cone.useTextureCoord = this.useTextureCoord;
-            var disc = new RingBuilder_1.default();
-            disc.tilt.rotorFromDirections(axis, back);
+            var disc = new RingBuilder_1.default(back, this.cutLine, !this.clockwise);
             disc.innerRadius = this.radiusShaft;
             disc.outerRadius = this.radiusCone;
             disc.tilt.mul(this.tilt);
             disc.offset.copy(neck);
-            disc.sliceAngle = -this.sliceAngle;
+            disc.sliceAngle = this.sliceAngle;
             disc.thetaSegments = this.thetaSegments;
             disc.useNormal = this.useNormal;
             disc.usePosition = this.usePosition;
             disc.useTextureCoord = this.useTextureCoord;
-            var shaft = new CylindricalShellBuilder_1.default();
+            var shaft = new CylindricalShellBuilder_1.default(this.e, this.cutLine, this.clockwise);
             shaft.radius = this.radiusShaft;
             shaft.height = heightShaft;
             shaft.tilt.mul(this.tilt);
@@ -14195,13 +14197,12 @@ define('davinci-eight/geometries/ArrowBuilder',["require", "exports", './AxialPr
             shaft.useNormal = this.useNormal;
             shaft.usePosition = this.usePosition;
             shaft.useTextureCoord = this.useTextureCoord;
-            var plug = new RingBuilder_1.default();
-            plug.tilt.rotorFromDirections(axis, back);
+            var plug = new RingBuilder_1.default(back, this.cutLine, !this.clockwise);
             plug.innerRadius = 0;
             plug.outerRadius = this.radiusShaft;
             plug.tilt.mul(this.tilt);
             plug.offset.copy(tail);
-            plug.sliceAngle = -this.sliceAngle;
+            plug.sliceAngle = this.sliceAngle;
             plug.thetaSegments = this.thetaSegments;
             plug.useNormal = this.useNormal;
             plug.usePosition = this.usePosition;
@@ -14219,10 +14220,10 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/geometries/ArrowGeometry',["require", "exports", '../core/GeometryContainer', '../core/GeometryBuffers', '../checks/mustBeObject', './ArrowBuilder', '../core/vertexArraysFromPrimitive'], function (require, exports, GeometryContainer_1, GeometryBuffers_1, mustBeObject_1, ArrowBuilder_1, vertexArraysFromPrimitive_1) {
+define('davinci-eight/geometries/ArrowGeometry',["require", "exports", '../core/GeometryContainer', '../core/GeometryBuffers', '../checks/mustBeObject', '../math/R3', './ArrowBuilder', '../core/vertexArraysFromPrimitive'], function (require, exports, GeometryContainer_1, GeometryBuffers_1, mustBeObject_1, R3_1, ArrowBuilder_1, vertexArraysFromPrimitive_1) {
     function primitives(config) {
         mustBeObject_1.default('config', config);
-        var builder = new ArrowBuilder_1.default();
+        var builder = new ArrowBuilder_1.default(R3_1.default.e2, R3_1.default.e3, false);
         builder.stress.copy(config.stress);
         builder.tilt.copy(config.tilt);
         builder.offset.copy(config.offset);
@@ -14657,7 +14658,7 @@ define('davinci-eight/geometries/SimplexPrimitivesBuilder',["require", "exports"
             configurable: true
         });
         SimplexPrimitivesBuilder.prototype.regenerate = function () {
-            console.warn("`public regenerate(): void` method should be implemented in derived class.");
+            throw new Error("`protected regenerate(): void` method should be implemented in derived class.");
         };
         SimplexPrimitivesBuilder.prototype.isModified = function () {
             return this._k.modified;
@@ -14668,9 +14669,7 @@ define('davinci-eight/geometries/SimplexPrimitivesBuilder',["require", "exports"
             return this;
         };
         SimplexPrimitivesBuilder.prototype.boundary = function (times) {
-            if (this.isModified()) {
-                this.regenerate();
-            }
+            this.regenerate();
             this.data = Simplex_1.default.boundary(this.data, times);
             return this.check();
         };
@@ -14679,17 +14678,13 @@ define('davinci-eight/geometries/SimplexPrimitivesBuilder',["require", "exports"
             return this;
         };
         SimplexPrimitivesBuilder.prototype.subdivide = function (times) {
-            if (this.isModified()) {
-                this.regenerate();
-            }
+            this.regenerate();
             this.data = Simplex_1.default.subdivide(this.data, times);
             this.check();
             return this;
         };
         SimplexPrimitivesBuilder.prototype.toPrimitives = function () {
-            if (this.isModified()) {
-                this.regenerate();
-            }
+            this.regenerate();
             this.check();
             return [simplicesToPrimitive_1.default(this.data, this.meta)];
         };
@@ -15015,19 +15010,19 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/geometries/CylinderBuilder',["require", "exports", '../geometries/arc3', '../math/R3', '../geometries/SliceSimplexPrimitivesBuilder', '../math/Spinor3', '../math/Vector2', '../math/Vector3'], function (require, exports, arc3_1, R3_1, SliceSimplexPrimitivesBuilder_1, Spinor3_1, Vector2_1, Vector3_1) {
-    function computeVertices(stress, tilt, offset, angle, generator, heightSegments, thetaSegments, points, vertices, uvs) {
-        var axis = R3_1.default.e3;
-        var begin = R3_1.default.e1;
-        var halfHeight = Vector3_1.default.copy(axis).scale(0.5);
-        var stepH = Vector3_1.default.copy(axis).direction().scale(1 / heightSegments);
-        for (var i = 0; i <= heightSegments; i++) {
+define('davinci-eight/geometries/CylinderBuilder',["require", "exports", '../geometries/arc3', '../math/R3', '../geometries/SliceSimplexPrimitivesBuilder', '../math/Spinor3', '../math/Unit', '../math/Vector2', '../math/Vector3'], function (require, exports, arc3_1, R3_1, SliceSimplexPrimitivesBuilder_1, Spinor3_1, Unit_1, Vector2_1, Vector3_1) {
+    function computeVertices(e, cutLine, clockwise, stress, tilt, offset, angle, generator, heightSegments, thetaSegments, points, vertices, uvs) {
+        var halfHeight = e.scale(Unit_1.default.ONE.scale(0.5));
+        var stepH = e.scale(Unit_1.default.ONE.scale(1 / heightSegments));
+        var iLength = heightSegments + 1;
+        for (var i = 0; i < iLength; i++) {
             var dispH = Vector3_1.default.copy(stepH).scale(i).sub(halfHeight);
             var verticesRow = [];
             var uvsRow = [];
             var v = (heightSegments - i) / heightSegments;
-            var arcPoints = arc3_1.default(begin, angle, generator, thetaSegments);
-            for (var j = 0, jLength = arcPoints.length; j < jLength; j++) {
+            var arcPoints = arc3_1.default(cutLine, angle, generator, thetaSegments);
+            var jLength = arcPoints.length;
+            for (var j = 0; j < jLength; j++) {
                 var point = arcPoints[j].add(dispH);
                 point.stress(stress);
                 point.rotate(tilt);
@@ -15043,23 +15038,25 @@ define('davinci-eight/geometries/CylinderBuilder',["require", "exports", '../geo
     }
     var CylinderBuilder = (function (_super) {
         __extends(CylinderBuilder, _super);
-        function CylinderBuilder() {
+        function CylinderBuilder(e, cutLine, clockwise) {
             _super.call(this);
             this.openTop = false;
             this.openBottom = false;
+            this.e = R3_1.default.direction(e);
+            this.cutLine = R3_1.default.direction(cutLine);
+            this.clockwise = clockwise;
             this.setModified(true);
         }
         CylinderBuilder.prototype.regenerate = function () {
             this.data = [];
             var heightSegments = this.flatSegments;
             var thetaSegments = this.curvedSegments;
-            var generator = Spinor3_1.default.dual(R3_1.default.e3, false);
+            var generator = Spinor3_1.default.dual(this.e, false);
             var heightHalf = 1 / 2;
             var points = [];
             var vertices = [];
             var uvs = [];
-            computeVertices(this.stress, this.tilt, this.offset, this.sliceAngle, generator, heightSegments, thetaSegments, points, vertices, uvs);
-            var axis = R3_1.default.e3;
+            computeVertices(this.e, this.cutLine, this.clockwise, this.stress, this.tilt, this.offset, this.sliceAngle, generator, heightSegments, thetaSegments, points, vertices, uvs);
             var na;
             var nb;
             for (var j = 0; j < thetaSegments; j++) {
@@ -15085,14 +15082,15 @@ define('davinci-eight/geometries/CylinderBuilder',["require", "exports", '../geo
                 }
             }
             if (!this.openTop) {
-                points.push(Vector3_1.default.copy(axis).scale(heightHalf).add(this.offset));
+                var top_1 = Vector3_1.default.copy(this.e).scale(heightHalf).add(this.offset);
+                points.push(top_1);
                 for (var j = 0; j < thetaSegments; j++) {
                     var v1 = vertices[heightSegments][j + 1];
                     var v2 = points.length - 1;
                     var v3 = vertices[heightSegments][j];
-                    var n1 = Vector3_1.default.copy(axis);
-                    var n2 = Vector3_1.default.copy(axis);
-                    var n3 = Vector3_1.default.copy(axis);
+                    var n1 = Vector3_1.default.copy(this.e);
+                    var n2 = Vector3_1.default.copy(this.e);
+                    var n3 = Vector3_1.default.copy(this.e);
                     var uv1 = uvs[heightSegments][j + 1].clone();
                     var uv2 = new Vector2_1.default([uv1.x, 1]);
                     var uv3 = uvs[heightSegments][j].clone();
@@ -15100,14 +15098,15 @@ define('davinci-eight/geometries/CylinderBuilder',["require", "exports", '../geo
                 }
             }
             if (!this.openBottom) {
-                points.push(Vector3_1.default.copy(axis).scale(-heightHalf).add(this.offset));
+                var bottom = Vector3_1.default.copy(this.e).scale(-heightHalf).add(this.offset);
+                points.push(bottom);
                 for (var j = 0; j < thetaSegments; j++) {
                     var v1 = vertices[0][j];
                     var v2 = points.length - 1;
                     var v3 = vertices[0][j + 1];
-                    var n1 = Vector3_1.default.copy(axis).scale(-1);
-                    var n2 = Vector3_1.default.copy(axis).scale(-1);
-                    var n3 = Vector3_1.default.copy(axis).scale(-1);
+                    var n1 = Vector3_1.default.copy(this.e).scale(-1);
+                    var n2 = Vector3_1.default.copy(this.e).scale(-1);
+                    var n3 = Vector3_1.default.copy(this.e).scale(-1);
                     var uv1 = uvs[0][j].clone();
                     var uv2 = new Vector2_1.default([uv1.x, 1]);
                     var uv3 = uvs[0][j + 1].clone();
@@ -15128,11 +15127,13 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 define('davinci-eight/geometries/CylinderGeometry',["require", "exports", './CylinderBuilder', '../checks/mustBeObject', '../core/GeometryContainer', '../core/GeometryBuffers', '../core/vertexArraysFromPrimitive'], function (require, exports, CylinderBuilder_1, mustBeObject_1, GeometryContainer_1, GeometryBuffers_1, vertexArraysFromPrimitive_1) {
-    function primitives(stress, tilt, offset) {
+    function primitives(e, cutLine, clockwise, stress, tilt, offset) {
         mustBeObject_1.default('stress', stress);
         mustBeObject_1.default('tile', tilt);
         mustBeObject_1.default('offset', offset);
-        var builder = new CylinderBuilder_1.default();
+        var builder = new CylinderBuilder_1.default(e, cutLine, clockwise);
+        builder.openBottom = false;
+        builder.openTop = false;
         builder.stress.copy(stress);
         builder.tilt.copy(tilt);
         builder.offset.copy(offset);
@@ -15140,12 +15141,12 @@ define('davinci-eight/geometries/CylinderGeometry',["require", "exports", './Cyl
     }
     var CylinderGeometry = (function (_super) {
         __extends(CylinderGeometry, _super);
-        function CylinderGeometry(stress, tilt, offset) {
+        function CylinderGeometry(e, cutLine, clockwise, stress, tilt, offset) {
             _super.call(this);
             mustBeObject_1.default('stress', stress);
             mustBeObject_1.default('tile', tilt);
             mustBeObject_1.default('offset', offset);
-            var ps = primitives(stress, tilt, offset);
+            var ps = primitives(e, cutLine, clockwise, stress, tilt, offset);
             var iLen = ps.length;
             for (var i = 0; i < iLen; i++) {
                 var dataSource = ps[i];
@@ -17399,12 +17400,12 @@ define('davinci-eight/visual/RigidBody',["require", "exports", '../math/Geometri
     exports.default = RigidBody;
 });
 
-define('davinci-eight/visual/visualCache',["require", "exports", '../geometries/ArrowBuilder', '../geometries/BoxGeometry', '../geometries/CylinderGeometry', '../materials/MeshMaterial', '../geometries/SphereGeometry', '../geometries/TetrahedronGeometry'], function (require, exports, ArrowBuilder_1, BoxGeometry_1, CylinderGeometry_1, MeshMaterial_1, SphereGeometry_1, TetrahedronGeometry_1) {
+define('davinci-eight/visual/visualCache',["require", "exports", '../geometries/ArrowBuilder', '../geometries/BoxGeometry', '../geometries/CylinderGeometry', '../materials/MeshMaterial', '../math/R3', '../geometries/SphereGeometry', '../geometries/TetrahedronGeometry'], function (require, exports, ArrowBuilder_1, BoxGeometry_1, CylinderGeometry_1, MeshMaterial_1, R3_1, SphereGeometry_1, TetrahedronGeometry_1) {
     var VisualCache = (function () {
         function VisualCache() {
         }
         VisualCache.prototype.arrow = function (stress, tilt, offset) {
-            var builder = new ArrowBuilder_1.default();
+            var builder = new ArrowBuilder_1.default(R3_1.default.e2, R3_1.default.e3, false);
             builder.stress.copy(stress);
             builder.tilt.copy(tilt);
             builder.offset.copy(offset);
@@ -17414,7 +17415,7 @@ define('davinci-eight/visual/visualCache',["require", "exports", '../geometries/
             return new BoxGeometry_1.default({ width: 1, height: 1, depth: 1 });
         };
         VisualCache.prototype.cylinder = function (stress, tilt, offset) {
-            return new CylinderGeometry_1.default(stress, tilt, offset);
+            return new CylinderGeometry_1.default(R3_1.default.e2, R3_1.default.e3, false, stress, tilt, offset);
         };
         VisualCache.prototype.sphere = function (options) {
             return new SphereGeometry_1.default();
@@ -18113,7 +18114,7 @@ define('davinci-eight/visual/bootstrap',["require", "exports", '../core/Color', 
     exports.default = default_1;
 });
 
-define('davinci-eight',["require", "exports", 'davinci-eight/commands/BlendFactor', 'davinci-eight/commands/WebGLBlendFunc', 'davinci-eight/commands/WebGLClearColor', 'davinci-eight/commands/Capability', 'davinci-eight/commands/WebGLDisable', 'davinci-eight/commands/WebGLEnable', 'davinci-eight/controls/CameraControls', 'davinci-eight/core/AttribLocation', 'davinci-eight/core/Color', 'davinci-eight/core', 'davinci-eight/core/Drawable', 'davinci-eight/core/DrawMode', 'davinci-eight/core/GeometryContainer', 'davinci-eight/core/GeometryBuffers', 'davinci-eight/core/GraphicsProgramSymbols', 'davinci-eight/core/Mesh', 'davinci-eight/core/Scene', 'davinci-eight/core/UniformLocation', 'davinci-eight/core/WebGLRenderer', 'davinci-eight/curves/Curve', 'davinci-eight/facets/AmbientLight', 'davinci-eight/facets/ColorFacet', 'davinci-eight/facets/DirectionalLight', 'davinci-eight/facets/ModelFacet', 'davinci-eight/facets/PointSizeFacet', 'davinci-eight/facets/ReflectionFacetE2', 'davinci-eight/facets/ReflectionFacetE3', 'davinci-eight/facets/Vector3Facet', 'davinci-eight/facets/frustumMatrix', 'davinci-eight/facets/PerspectiveCamera', 'davinci-eight/facets/perspectiveMatrix', 'davinci-eight/facets/viewMatrix', 'davinci-eight/facets/ModelE2', 'davinci-eight/facets/ModelE3', 'davinci-eight/geometries/DrawAttribute', 'davinci-eight/geometries/DrawPrimitive', 'davinci-eight/geometries/Simplex', 'davinci-eight/geometries/Vertex', 'davinci-eight/geometries/ArrowConfig', 'davinci-eight/geometries/ArrowGeometry', 'davinci-eight/geometries/BoxGeometry', 'davinci-eight/geometries/CylinderGeometry', 'davinci-eight/geometries/SphereGeometry', 'davinci-eight/geometries/TetrahedronGeometry', 'davinci-eight/geometries/ArrowBuilder', 'davinci-eight/geometries/ConicalShellBuilder', 'davinci-eight/geometries/CylindricalShellBuilder', 'davinci-eight/geometries/RingBuilder', 'davinci-eight/materials/HTMLScriptsMaterial', 'davinci-eight/materials/LineMaterial', 'davinci-eight/materials/MeshMaterial', 'davinci-eight/materials/MeshNormalMaterial', 'davinci-eight/materials/PointMaterial', 'davinci-eight/materials/GraphicsProgramBuilder', 'davinci-eight/materials/smartProgram', 'davinci-eight/materials/programFromScripts', 'davinci-eight/math/Dimensions', 'davinci-eight/math/G2', 'davinci-eight/math/G3', 'davinci-eight/math/mathcore', 'davinci-eight/math/Vector1', 'davinci-eight/math/Matrix2', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/math/QQ', 'davinci-eight/math/R3', 'davinci-eight/math/Unit', 'davinci-eight/math/Geometric2', 'davinci-eight/math/Geometric3', 'davinci-eight/math/Spinor2', 'davinci-eight/math/Spinor3', 'davinci-eight/math/Vector2', 'davinci-eight/math/Vector3', 'davinci-eight/math/Vector4', 'davinci-eight/math/VectorN', 'davinci-eight/overlay/Overlay', 'davinci-eight/utils/getCanvasElementById', 'davinci-eight/collections/ShareableArray', 'davinci-eight/collections/NumberIUnknownMap', 'davinci-eight/core/refChange', 'davinci-eight/core/Shareable', 'davinci-eight/collections/StringIUnknownMap', 'davinci-eight/utils/animation', 'davinci-eight/visual/Arrow', 'davinci-eight/visual/Sphere', 'davinci-eight/visual/Box', 'davinci-eight/visual/RigidBodyWithUnits', 'davinci-eight/visual/Cylinder', 'davinci-eight/visual/Tetrahedron', 'davinci-eight/visual/Trail', 'davinci-eight/visual/bootstrap'], function (require, exports, BlendFactor_1, WebGLBlendFunc_1, WebGLClearColor_1, Capability_1, WebGLDisable_1, WebGLEnable_1, CameraControls_1, AttribLocation_1, Color_1, core_1, Drawable_1, DrawMode_1, GeometryContainer_1, GeometryBuffers_1, GraphicsProgramSymbols_1, Mesh_1, Scene_1, UniformLocation_1, WebGLRenderer_1, Curve_1, AmbientLight_1, ColorFacet_1, DirectionalLight_1, ModelFacet_1, PointSizeFacet_1, ReflectionFacetE2_1, ReflectionFacetE3_1, Vector3Facet_1, frustumMatrix_1, PerspectiveCamera_1, perspectiveMatrix_1, viewMatrix_1, ModelE2_1, ModelE3_1, DrawAttribute_1, DrawPrimitive_1, Simplex_1, Vertex_1, ArrowConfig_1, ArrowGeometry_1, BoxGeometry_1, CylinderGeometry_1, SphereGeometry_1, TetrahedronGeometry_1, ArrowBuilder_1, ConicalShellBuilder_1, CylindricalShellBuilder_1, RingBuilder_1, HTMLScriptsMaterial_1, LineMaterial_1, MeshMaterial_1, MeshNormalMaterial_1, PointMaterial_1, GraphicsProgramBuilder_1, smartProgram_1, programFromScripts_1, Dimensions_1, G2_1, G3_1, mathcore_1, Vector1_1, Matrix2_1, Matrix3_1, Matrix4_1, QQ_1, R3_1, Unit_1, Geometric2_1, Geometric3_1, Spinor2_1, Spinor3_1, Vector2_1, Vector3_1, Vector4_1, VectorN_1, Overlay_1, getCanvasElementById_1, ShareableArray_1, NumberIUnknownMap_1, refChange_1, Shareable_1, StringIUnknownMap_1, animation_1, Arrow_1, Sphere_1, Box_1, RigidBodyWithUnits_1, Cylinder_1, Tetrahedron_1, Trail_1, bootstrap_1) {
+define('davinci-eight',["require", "exports", 'davinci-eight/commands/BlendFactor', 'davinci-eight/commands/WebGLBlendFunc', 'davinci-eight/commands/WebGLClearColor', 'davinci-eight/commands/Capability', 'davinci-eight/commands/WebGLDisable', 'davinci-eight/commands/WebGLEnable', 'davinci-eight/controls/CameraControls', 'davinci-eight/core/AttribLocation', 'davinci-eight/core/Color', 'davinci-eight/core', 'davinci-eight/core/Drawable', 'davinci-eight/core/DrawMode', 'davinci-eight/core/GeometryContainer', 'davinci-eight/core/GeometryBuffers', 'davinci-eight/core/GraphicsProgramSymbols', 'davinci-eight/core/Mesh', 'davinci-eight/core/Scene', 'davinci-eight/core/UniformLocation', 'davinci-eight/core/WebGLRenderer', 'davinci-eight/curves/Curve', 'davinci-eight/facets/AmbientLight', 'davinci-eight/facets/ColorFacet', 'davinci-eight/facets/DirectionalLight', 'davinci-eight/facets/ModelFacet', 'davinci-eight/facets/PointSizeFacet', 'davinci-eight/facets/ReflectionFacetE2', 'davinci-eight/facets/ReflectionFacetE3', 'davinci-eight/facets/Vector3Facet', 'davinci-eight/facets/frustumMatrix', 'davinci-eight/facets/PerspectiveCamera', 'davinci-eight/facets/perspectiveMatrix', 'davinci-eight/facets/viewMatrix', 'davinci-eight/facets/ModelE2', 'davinci-eight/facets/ModelE3', 'davinci-eight/geometries/DrawAttribute', 'davinci-eight/geometries/DrawPrimitive', 'davinci-eight/geometries/Simplex', 'davinci-eight/geometries/Vertex', 'davinci-eight/geometries/ArrowConfig', 'davinci-eight/geometries/ArrowGeometry', 'davinci-eight/geometries/BoxGeometry', 'davinci-eight/geometries/CylinderGeometry', 'davinci-eight/geometries/SphereGeometry', 'davinci-eight/geometries/TetrahedronGeometry', 'davinci-eight/geometries/ArrowBuilder', 'davinci-eight/geometries/ConicalShellBuilder', 'davinci-eight/geometries/CylindricalShellBuilder', 'davinci-eight/geometries/CylinderBuilder', 'davinci-eight/geometries/RingBuilder', 'davinci-eight/materials/HTMLScriptsMaterial', 'davinci-eight/materials/LineMaterial', 'davinci-eight/materials/MeshMaterial', 'davinci-eight/materials/MeshNormalMaterial', 'davinci-eight/materials/PointMaterial', 'davinci-eight/materials/GraphicsProgramBuilder', 'davinci-eight/materials/smartProgram', 'davinci-eight/materials/programFromScripts', 'davinci-eight/math/Dimensions', 'davinci-eight/math/G2', 'davinci-eight/math/G3', 'davinci-eight/math/mathcore', 'davinci-eight/math/Vector1', 'davinci-eight/math/Matrix2', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/math/QQ', 'davinci-eight/math/R3', 'davinci-eight/math/Unit', 'davinci-eight/math/Geometric2', 'davinci-eight/math/Geometric3', 'davinci-eight/math/Spinor2', 'davinci-eight/math/Spinor3', 'davinci-eight/math/Vector2', 'davinci-eight/math/Vector3', 'davinci-eight/math/Vector4', 'davinci-eight/math/VectorN', 'davinci-eight/overlay/Overlay', 'davinci-eight/utils/getCanvasElementById', 'davinci-eight/collections/ShareableArray', 'davinci-eight/collections/NumberIUnknownMap', 'davinci-eight/core/refChange', 'davinci-eight/core/Shareable', 'davinci-eight/collections/StringIUnknownMap', 'davinci-eight/utils/animation', 'davinci-eight/visual/Arrow', 'davinci-eight/visual/Sphere', 'davinci-eight/visual/Box', 'davinci-eight/visual/RigidBodyWithUnits', 'davinci-eight/visual/Cylinder', 'davinci-eight/visual/Tetrahedron', 'davinci-eight/visual/Trail', 'davinci-eight/visual/bootstrap'], function (require, exports, BlendFactor_1, WebGLBlendFunc_1, WebGLClearColor_1, Capability_1, WebGLDisable_1, WebGLEnable_1, CameraControls_1, AttribLocation_1, Color_1, core_1, Drawable_1, DrawMode_1, GeometryContainer_1, GeometryBuffers_1, GraphicsProgramSymbols_1, Mesh_1, Scene_1, UniformLocation_1, WebGLRenderer_1, Curve_1, AmbientLight_1, ColorFacet_1, DirectionalLight_1, ModelFacet_1, PointSizeFacet_1, ReflectionFacetE2_1, ReflectionFacetE3_1, Vector3Facet_1, frustumMatrix_1, PerspectiveCamera_1, perspectiveMatrix_1, viewMatrix_1, ModelE2_1, ModelE3_1, DrawAttribute_1, DrawPrimitive_1, Simplex_1, Vertex_1, ArrowConfig_1, ArrowGeometry_1, BoxGeometry_1, CylinderGeometry_1, SphereGeometry_1, TetrahedronGeometry_1, ArrowBuilder_1, ConicalShellBuilder_1, CylindricalShellBuilder_1, CylinderBuilder_1, RingBuilder_1, HTMLScriptsMaterial_1, LineMaterial_1, MeshMaterial_1, MeshNormalMaterial_1, PointMaterial_1, GraphicsProgramBuilder_1, smartProgram_1, programFromScripts_1, Dimensions_1, G2_1, G3_1, mathcore_1, Vector1_1, Matrix2_1, Matrix3_1, Matrix4_1, QQ_1, R3_1, Unit_1, Geometric2_1, Geometric3_1, Spinor2_1, Spinor3_1, Vector2_1, Vector3_1, Vector4_1, VectorN_1, Overlay_1, getCanvasElementById_1, ShareableArray_1, NumberIUnknownMap_1, refChange_1, Shareable_1, StringIUnknownMap_1, animation_1, Arrow_1, Sphere_1, Box_1, RigidBodyWithUnits_1, Cylinder_1, Tetrahedron_1, Trail_1, bootstrap_1) {
     var eight = {
         get LAST_MODIFIED() { return core_1.default.LAST_MODIFIED; },
         get safemode() {
@@ -18186,6 +18187,7 @@ define('davinci-eight',["require", "exports", 'davinci-eight/commands/BlendFacto
         get ArrowGeometry() { return ArrowGeometry_1.default; },
         get BoxGeometry() { return BoxGeometry_1.default; },
         get ConicalShellBuilder() { return ConicalShellBuilder_1.default; },
+        get CylinderBuilder() { return CylinderBuilder_1.default; },
         get CylinderGeometry() { return CylinderGeometry_1.default; },
         get CylindricalShellBuilder() { return CylindricalShellBuilder_1.default; },
         get RingBuilder() { return RingBuilder_1.default; },

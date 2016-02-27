@@ -88,8 +88,16 @@ export default class R3 implements VectorE3, NormedLinearElement<R3, R3, SpinorE
         mustBeNumber('x', x)
         mustBeNumber('y', y)
         mustBeNumber('z', z)
-        this._coords = [x, y, z]
-        this._uom = mustBeObject('uom', uom)
+        mustBeObject('uom', uom)
+        const m = uom.multiplier
+        if (m !== 1) {
+            this._coords = [m * x, m * y, m * z]
+            this._uom = new Unit(1, uom.dimensions, uom.labels)
+        }
+        else {
+            this._coords = [x, y, z]
+            this._uom = uom
+        }
     }
 
     /**
@@ -179,7 +187,7 @@ export default class R3 implements VectorE3, NormedLinearElement<R3, R3, SpinorE
 
     /**
      * @method neg
-     * @return {Cartesian3}
+     * @return {R3}
      */
     neg(): R3 {
         return new R3(-this.x, -this.y, -this.z, this.uom)
@@ -251,6 +259,11 @@ export default class R3 implements VectorE3, NormedLinearElement<R3, R3, SpinorE
         return this.uom.quad().scale(x * x + y * y + z * z)
     }
 
+    /**
+     * @method stress
+     * @param σ {VectorE3}
+     * @return {R3}
+     */
     stress(σ: VectorE3): R3 {
         return R3.vector(this.x * σ.x, this.y * σ.y, this.z * σ.z, this.uom)
     }

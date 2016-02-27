@@ -10,6 +10,8 @@ import Rotation from './transforms/Rotation'
 import Scaling from './transforms/Scaling'
 import Translation from './transforms/Translation'
 import TextureCoords from './transforms/TextureCoords'
+import VectorE3 from '../math/VectorE3'
+import Vector3 from '../math/Vector3'
 
 const aPosition = GraphicsProgramSymbols.ATTRIBUTE_POSITION
 const aTangent = GraphicsProgramSymbols.ATTRIBUTE_TANGENT
@@ -37,12 +39,22 @@ export default class CylindricalShellBuilder extends AxialPrimitivesBuilder {
      */
     public thetaSegments = 32
 
+    private e: Vector3
+    private cutLine: Vector3
+    private clockwise: boolean
+
     /**
      * @class CylindricalShellBuilder
      * @constructor
+     * @param e {VectorE3}
+     * @param cutLine {VectorE3}
+     * @param clockwise {boolean}
      */
-    constructor() {
+    constructor(e: VectorE3, cutLine: VectorE3, clockwise: boolean) {
         super()
+        this.e = Vector3.copy(e)
+        this.cutLine = Vector3.copy(cutLine)
+        this.clockwise = clockwise
     }
 
     /**
@@ -75,7 +87,7 @@ export default class CylindricalShellBuilder extends AxialPrimitivesBuilder {
      * @return {Primitive[]}
      */
     toPrimitives(): Primitive[] {
-        this.transforms.push(new CylinderTransform(this.sliceAngle, aPosition, aTangent))
+        this.transforms.push(new CylinderTransform(this.e, this.cutLine, this.clockwise, this.sliceAngle, aPosition, aTangent))
 
         this.transforms.push(new Scaling(this.stress, [aPosition, aTangent]))
         this.transforms.push(new Rotation(this.tilt, [aPosition, aTangent]))

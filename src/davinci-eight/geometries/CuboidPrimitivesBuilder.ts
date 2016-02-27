@@ -94,6 +94,7 @@ export default class CuboidPrimitivesBuilder extends PrimitivesBuilder {
         // bottom
         this.sides.push(side([this._a, this._c, Vector3.copy(this._b).scale(-1)], this.iSegments, this.kSegments))
     }
+
     /**
      * @method toPrimitives
      * @return {Primitive[]}

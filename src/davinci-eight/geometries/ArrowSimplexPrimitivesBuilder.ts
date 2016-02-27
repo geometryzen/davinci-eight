@@ -58,7 +58,7 @@ export default class ArrowSimplexPrimitivesBuilder extends RevolutionSimplexPrim
         this.vector.modified = modified
         return this
     }
-    public regenerate(): void {
+    protected regenerate(): void {
         var length = this.vector.magnitude()
         var lengthShaft = length - this.lengthCone
         var halfLength = length / 2;

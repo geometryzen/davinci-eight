@@ -28,7 +28,8 @@ export default class ConeSimplexGeometry extends SliceSimplexPrimitivesBuilder {
         this.openBottom = openBottom
         this.thetaStart = thetaStart
     }
-    public regenerate(): void {
+
+    protected regenerate(): void {
         let radiusBottom = this.radius
         let radiusTop = this.radiusTop
         let height = this.height

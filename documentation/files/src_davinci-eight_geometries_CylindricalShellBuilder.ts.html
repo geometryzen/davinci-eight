@@ -66,6 +66,7 @@
                                 <li><a href="../classes/createView.html">createView</a></li>
                                 <li><a href="../classes/CuboidPrimitivesBuilder.html">CuboidPrimitivesBuilder</a></li>
                                 <li><a href="../classes/Cylinder.html">Cylinder</a></li>
+                                <li><a href="../classes/CylinderBuilder.html">CylinderBuilder</a></li>
                                 <li><a href="../classes/CylinderGeometry.html">CylinderGeometry</a></li>
                                 <li><a href="../classes/CylinderTransform.html">CylinderTransform</a></li>
                                 <li><a href="../classes/CylindricalShellBuilder.html">CylindricalShellBuilder</a></li>
@@ -138,6 +139,7 @@
                                 <li><a href="../classes/ShareableWebGLBuffer.html">ShareableWebGLBuffer</a></li>
                                 <li><a href="../classes/ShareableWebGLShader.html">ShareableWebGLShader</a></li>
                                 <li><a href="../classes/ShareableWebGLTexture.html">ShareableWebGLTexture</a></li>
+                                <li><a href="../classes/SimplexPrimitivesBuilder.html">SimplexPrimitivesBuilder</a></li>
                                 <li><a href="../classes/SliceSimplexPrimitivesBuilder.html">SliceSimplexPrimitivesBuilder</a></li>
                                 <li><a href="../classes/Sphere.html">Sphere</a></li>
                                 <li><a href="../classes/SphereBuilder.html">SphereBuilder</a></li>
@@ -241,6 +243,8 @@ import Rotation from &#x27;./transforms/Rotation&#x27;
 import Scaling from &#x27;./transforms/Scaling&#x27;
 import Translation from &#x27;./transforms/Translation&#x27;
 import TextureCoords from &#x27;./transforms/TextureCoords&#x27;
+import VectorE3 from &#x27;../math/VectorE3&#x27;
+import Vector3 from &#x27;../math/Vector3&#x27;
 
 const aPosition = GraphicsProgramSymbols.ATTRIBUTE_POSITION
 const aTangent = GraphicsProgramSymbols.ATTRIBUTE_TANGENT
@@ -268,12 +272,22 @@ export default class CylindricalShellBuilder extends AxialPrimitivesBuilder {
      */
     public thetaSegments = 32
 
+    private e: Vector3
+    private cutLine: Vector3
+    private clockwise: boolean
+
     /**
      * @class CylindricalShellBuilder
      * @constructor
+     * @param e {VectorE3}
+     * @param cutLine {VectorE3}
+     * @param clockwise {boolean}
      */
-    constructor() {
+    constructor(e: VectorE3, cutLine: VectorE3, clockwise: boolean) {
         super()
+        this.e = Vector3.copy(e)
+        this.cutLine = Vector3.copy(cutLine)
+        this.clockwise = clockwise
     }
 
     /**
@@ -306,7 +320,7 @@ export default class CylindricalShellBuilder extends AxialPrimitivesBuilder {
      * @return {Primitive[]}
      */
     toPrimitives(): Primitive[] {
-        this.transforms.push(new CylinderTransform(this.sliceAngle, aPosition, aTangent))
+        this.transforms.push(new CylinderTransform(this.e, this.cutLine, this.clockwise, this.sliceAngle, aPosition, aTangent))
 
         this.transforms.push(new Scaling(this.stress, [aPosition, aTangent]))
         this.transforms.push(new Rotation(this.tilt, [aPosition, aTangent]))

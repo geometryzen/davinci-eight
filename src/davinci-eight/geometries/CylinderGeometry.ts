@@ -12,11 +12,13 @@ import vertexArraysFromPrimitive from '../core/vertexArraysFromPrimitive'
  * @submodule geometries
  */
 
-function primitives(stress: VectorE3, tilt: SpinorE3, offset: VectorE3): Primitive[] {
+function primitives(e: VectorE3, cutLine: VectorE3, clockwise: boolean, stress: VectorE3, tilt: SpinorE3, offset: VectorE3): Primitive[] {
     mustBeObject('stress', stress)
     mustBeObject('tile', tilt)
     mustBeObject('offset', offset)
-    const builder = new CylinderBuilder()
+    const builder = new CylinderBuilder(e, cutLine, clockwise)
+    builder.openBottom = false
+    builder.openTop = false
     builder.stress.copy(stress)
     builder.tilt.copy(tilt)
     builder.offset.copy(offset)
@@ -33,14 +35,19 @@ export default class CylinderGeometry extends GeometryContainer {
     /**
      * @class CylinderGeometry
      * @constructor
+     * @param e {VectorE3}
+     * @param cutLine {VectorE3}
+     * @param clockwise {boolean}
+     * @param stress {VectorE3}
+     * @param tilt {SpinorE3}
+     * @param offset {VectorE3}
      */
-    // TODO: CylinderConfig
-    constructor(stress: VectorE3, tilt: SpinorE3, offset: VectorE3) {
+    constructor(e: VectorE3, cutLine: VectorE3, clockwise: boolean, stress: VectorE3, tilt: SpinorE3, offset: VectorE3) {
         super()
         mustBeObject('stress', stress)
         mustBeObject('tile', tilt)
         mustBeObject('offset', offset)
-        const ps: Primitive[] = primitives(stress, tilt, offset)
+        const ps: Primitive[] = primitives(e, cutLine, clockwise, stress, tilt, offset)
         const iLen = ps.length
         for (let i = 0; i < iLen; i++) {
             const dataSource = ps[i]

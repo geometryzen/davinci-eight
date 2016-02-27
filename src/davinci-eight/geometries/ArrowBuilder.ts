@@ -1,10 +1,12 @@
 import AxialPrimitivesBuilder from './AxialPrimitivesBuilder';
 import ConicalShellBuilder from './ConicalShellBuilder';
 import CylindricalShellBuilder from './CylindricalShellBuilder';
-import GeometryBuilder from './GeometryBuilder';
-import Primitive from '../core/Primitive';
-import RingBuilder from '../geometries/RingBuilder';
-import Vector3 from '../math/Vector3';
+import GeometryBuilder from './GeometryBuilder'
+import Primitive from '../core/Primitive'
+import RingBuilder from '../geometries/RingBuilder'
+import R3 from '../math/R3'
+import Vector3 from '../math/Vector3'
+import VectorE3 from '../math/VectorE3'
 
 /**
  * @class ArrowBuilder
@@ -40,12 +42,19 @@ export default class ArrowBuilder extends AxialPrimitivesBuilder implements Geom
      */
     public thetaSegments = 16;
 
+    private e: R3;
+    private cutLine: R3;
+    private clockwise: boolean;
+
     /**
      * @class ArrowBuilder
      * @constructor
      */
-    constructor() {
+    constructor(e: VectorE3, cutLine: VectorE3, clockwise: boolean) {
         super()
+        this.e = R3.direction(e)
+        this.cutLine = R3.direction(cutLine)
+        this.clockwise = clockwise
     }
 
     /**
@@ -53,17 +62,17 @@ export default class ArrowBuilder extends AxialPrimitivesBuilder implements Geom
      * @return {Primitive[]}
      */
     toPrimitives(): Primitive[] {
-        const axis = this.up
+
         const heightShaft = 1 - this.heightCone
         /**
          * The opposite direction to the axis.
          */
-        const back = axis.neg()
+        const back = this.e.neg()
 
         /**
          * The neck is the place where the cone meets the shaft. 
          */
-        const neck = Vector3.copy(axis).scale(heightShaft).add(this.offset)
+        const neck = Vector3.copy(this.e).scale(heightShaft).add(this.offset)
         neck.rotate(this.tilt)
 
         /**
@@ -75,7 +84,7 @@ export default class ArrowBuilder extends AxialPrimitivesBuilder implements Geom
         /**
          * The `cone` forms the head of the arrow.
          */
-        const cone = new ConicalShellBuilder()
+        const cone = new ConicalShellBuilder(this.e, this.cutLine, this.clockwise)
         // Use the radius and height helpers instead of the scale.
         cone.radius = this.radiusCone
         cone.height = this.heightCone
@@ -90,13 +99,12 @@ export default class ArrowBuilder extends AxialPrimitivesBuilder implements Geom
         /**
          * The `disc` fills the space between the cone and the shaft.
          */
-        const disc = new RingBuilder()
-        disc.tilt.rotorFromDirections(axis, back)
+        const disc = new RingBuilder(back, this.cutLine, !this.clockwise)
         disc.innerRadius = this.radiusShaft
         disc.outerRadius = this.radiusCone
         disc.tilt.mul(this.tilt)
         disc.offset.copy(neck)
-        disc.sliceAngle = -this.sliceAngle
+        disc.sliceAngle = this.sliceAngle
         disc.thetaSegments = this.thetaSegments
         disc.useNormal = this.useNormal
         disc.usePosition = this.usePosition
@@ -105,7 +113,7 @@ export default class ArrowBuilder extends AxialPrimitivesBuilder implements Geom
         /**
          * The `shaft` is the slim part of the arrow.
          */
-        const shaft = new CylindricalShellBuilder()
+        const shaft = new CylindricalShellBuilder(this.e, this.cutLine, this.clockwise)
         shaft.radius = this.radiusShaft
         shaft.height = heightShaft
         shaft.tilt.mul(this.tilt)
@@ -119,13 +127,12 @@ export default class ArrowBuilder extends AxialPrimitivesBuilder implements Geom
         /**
          * The `plug` fills the end of the shaft.
          */
-        const plug = new RingBuilder()
-        plug.tilt.rotorFromDirections(axis, back)
+        const plug = new RingBuilder(back, this.cutLine, !this.clockwise)
         plug.innerRadius = 0
         plug.outerRadius = this.radiusShaft
         plug.tilt.mul(this.tilt)
         plug.offset.copy(tail)
-        plug.sliceAngle = -this.sliceAngle
+        plug.sliceAngle = this.sliceAngle
         plug.thetaSegments = this.thetaSegments
         plug.useNormal = this.useNormal
         plug.usePosition = this.usePosition

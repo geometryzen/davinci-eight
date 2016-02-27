@@ -66,6 +66,7 @@
                                 <li><a href="../classes/createView.html">createView</a></li>
                                 <li><a href="../classes/CuboidPrimitivesBuilder.html">CuboidPrimitivesBuilder</a></li>
                                 <li><a href="../classes/Cylinder.html">Cylinder</a></li>
+                                <li><a href="../classes/CylinderBuilder.html">CylinderBuilder</a></li>
                                 <li><a href="../classes/CylinderGeometry.html">CylinderGeometry</a></li>
                                 <li><a href="../classes/CylinderTransform.html">CylinderTransform</a></li>
                                 <li><a href="../classes/CylindricalShellBuilder.html">CylindricalShellBuilder</a></li>
@@ -138,6 +139,7 @@
                                 <li><a href="../classes/ShareableWebGLBuffer.html">ShareableWebGLBuffer</a></li>
                                 <li><a href="../classes/ShareableWebGLShader.html">ShareableWebGLShader</a></li>
                                 <li><a href="../classes/ShareableWebGLTexture.html">ShareableWebGLTexture</a></li>
+                                <li><a href="../classes/SimplexPrimitivesBuilder.html">SimplexPrimitivesBuilder</a></li>
                                 <li><a href="../classes/SliceSimplexPrimitivesBuilder.html">SliceSimplexPrimitivesBuilder</a></li>
                                 <li><a href="../classes/Sphere.html">Sphere</a></li>
                                 <li><a href="../classes/SphereBuilder.html">SphereBuilder</a></li>
@@ -231,28 +233,25 @@
     <pre class="code prettyprint linenums">
 import mustBeNumber from &#x27;../../checks/mustBeNumber&#x27;
 import mustBeString from &#x27;../../checks/mustBeString&#x27;
-import R3 from &#x27;../../math/R3&#x27;
 import Spinor3 from &#x27;../../math/Spinor3&#x27;
 import Vector3 from &#x27;../../math/Vector3&#x27;
+import VectorE3 from &#x27;../../math/VectorE3&#x27;
 import Vertex from &#x27;../Vertex&#x27;
 import Transform from &#x27;./Transform&#x27;
-
-/**
- * Unit vector pointing along the symmetry axis of the cone.
- */
-const e = R3.e2
-
-/**
- * Unit vector for the major axis of the cone.
- */
-const a = R3.e3
-
-const generator = Spinor3.dual(e, false)
 
 /**
  * @class CylinderTransform
  */
 export default class CylinderTransform implements Transform {
+    /**
+     * Unit vector pointing along the symmetry axis of the cone.
+     */
+    private e: Vector3
+    /**
+     *
+     */
+    private cutLine: Vector3
+    private generator: Spinor3
     private sliceAngle: number
     private aPosition: string
     private aTangent: string
@@ -264,7 +263,10 @@ export default class CylinderTransform implements Transform {
      * @param aPosition {string} The name to use for the position attribute.
      * @param aTangent {string} The name to use for the tangent plane attribute.
      */
-    constructor(sliceAngle: number, aPosition: string, aTangent: string) {
+    constructor(e: VectorE3, cutLine: VectorE3, clockwise: boolean, sliceAngle: number, aPosition: string, aTangent: string) {
+        this.e = Vector3.copy(e)
+        this.cutLine = Vector3.copy(cutLine)
+        this.generator = Spinor3.dual(e, clockwise)
         this.sliceAngle = mustBeNumber(&#x27;sliceAngle&#x27;, sliceAngle)
         this.aPosition = mustBeString(&#x27;aPosition&#x27;, aPosition)
         this.aTangent = mustBeString(&#x27;aTangent&#x27;, aTangent)
@@ -285,18 +287,15 @@ export default class CylinderTransform implements Transform {
         const vSegments = jLength - 1
         const v = j / vSegments
 
-        const rotor = generator.clone().scale(-this.sliceAngle * u / 2).exp()
+        const rotor = this.generator.clone().scale(-this.sliceAngle * u / 2).exp()
 
         /**
          * Point on the wall of the cylinder with no vertical component.
          */
-        const ρ = Vector3.copy(a).rotate(rotor)
-        const x = ρ.clone().add(e, v)
+        const ρ = Vector3.copy(this.cutLine).rotate(rotor)
 
-        vertex.attributes[this.aPosition] = x
-
-        const normal = Vector3.copy(a).rotate(rotor)
-        vertex.attributes[this.aTangent] = Spinor3.dual(normal, false)
+        vertex.attributes[this.aPosition] = ρ.clone().add(this.e, v)
+        vertex.attributes[this.aTangent] = Spinor3.dual(ρ, false)
     }
 }
 

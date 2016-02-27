@@ -220,7 +220,7 @@ export default class SphereBuilder extends SliceSimplexPrimitivesBuilder {
         super.setModified(modified)
         return this
     }
-    public regenerate(): void {
+    protected regenerate(): void {
         this.data = []
 
         let heightSegments = this.curvedSegments

@@ -2950,6 +2950,7 @@ declare module EIGHT {
         useNormal: boolean
         usePosition: boolean
         useTextureCoord: boolean
+        constructor(e: VectorE3, cutLine: VectorE3, clockwise: boolean)
         toGeometry(): Geometry
     }
 
@@ -2965,6 +2966,22 @@ declare module EIGHT {
         useNormal: boolean
         usePosition: boolean
         useTextureCoord: boolean
+        constructor(e: VectorE3, cutLine: VectorE3, clockwise: boolean)
+        toGeometry(): Geometry
+    }
+
+    class CylinderBuilder implements GeometryBuilder {
+        offset: Vector3
+        openBottom: boolean
+        openTop: boolean
+        sliceAngle: number
+        stress: Vector3
+        tilt: Spinor3
+        useNormal: boolean
+        usePosition: boolean
+        useTextureCoord: boolean
+        constructor(e: VectorE3, cutLine: VectorE3, clockwise: boolean)
+        boundary(times?: number): void
         toGeometry(): Geometry
     }
 
@@ -2980,6 +2997,7 @@ declare module EIGHT {
         useNormal: boolean
         usePosition: boolean
         useTextureCoord: boolean
+        constructor(e: VectorE3, cutLine: VectorE3, clockwise: boolean)
         toGeometry(): Geometry
     }
 
@@ -2995,6 +3013,7 @@ declare module EIGHT {
         useNormal: boolean
         usePosition: boolean
         useTextureCoord: boolean
+        constructor(e: VectorE3, cutLine: VectorE3, clockwise: boolean)
         toGeometry(): Geometry
     }
 

@@ -1,16 +1,18 @@
 import Approximation from './transforms/Approximation'
 import Direction from './transforms/Direction'
 import Duality from './transforms/Duality'
-import GeometryBuilder from './GeometryBuilder';
-import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
-import TriangleStrip from './TriangleStrip';
-import AxialPrimitivesBuilder from './AxialPrimitivesBuilder';
-import Primitive from '../core/Primitive';
+import GeometryBuilder from './GeometryBuilder'
+import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols'
+import TriangleStrip from './TriangleStrip'
+import AxialPrimitivesBuilder from './AxialPrimitivesBuilder'
+import Primitive from '../core/Primitive'
 import RingTransform from './transforms/RingTransform'
 import Rotation from './transforms/Rotation'
 import Scaling from './transforms/Scaling'
 import Translation from './transforms/Translation'
 import TextureCoords from './transforms/TextureCoords'
+import VectorE3 from '../math/VectorE3'
+import Vector3 from '../math/Vector3'
 
 const aPosition = GraphicsProgramSymbols.ATTRIBUTE_POSITION
 const aTangent = GraphicsProgramSymbols.ATTRIBUTE_TANGENT
@@ -52,12 +54,22 @@ export default class RingBuilder extends AxialPrimitivesBuilder implements Geome
      */
     public thetaSegments = 32;
 
+    private e: Vector3
+    private cutLine: Vector3
+    private clockwise: boolean
+
     /**
      * @class RingBuilder
      * @constructor
+     * @param e {VectorE3}
+     * @param cutLine {VectorE3}
+     * @param clockwise {boolean}
      */
-    constructor() {
+    constructor(e: VectorE3, cutLine: VectorE3, clockwise: boolean) {
         super()
+        this.e = Vector3.copy(e)
+        this.cutLine = Vector3.copy(cutLine)
+        this.clockwise = clockwise
     }
 
     /**
@@ -66,7 +78,7 @@ export default class RingBuilder extends AxialPrimitivesBuilder implements Geome
      */
     toPrimitives(): Primitive[] {
 
-        this.transforms.push(new RingTransform(this.up, this.outerRadius, this.innerRadius, this.out, this.sliceAngle, aPosition, aTangent))
+        this.transforms.push(new RingTransform(this.e, this.cutLine, this.clockwise, this.outerRadius, this.innerRadius, this.sliceAngle, aPosition, aTangent))
 
         this.transforms.push(new Scaling(this.stress, [aPosition, aTangent]))
         this.transforms.push(new Rotation(this.tilt, [aPosition, aTangent]))
