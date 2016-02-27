@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.198.0</em>
+            <em>API Docs for: 2.199.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -45,6 +45,7 @@
                                 <li><a href="../classes/ArrowBuilder.html">ArrowBuilder</a></li>
                                 <li><a href="../classes/ArrowConfig.html">ArrowConfig</a></li>
                                 <li><a href="../classes/ArrowGeometry.html">ArrowGeometry</a></li>
+                                <li><a href="../classes/ArrowOptions.html">ArrowOptions</a></li>
                                 <li><a href="../classes/AttribLocation.html">AttribLocation</a></li>
                                 <li><a href="../classes/AttribMetaInfo.html">AttribMetaInfo</a></li>
                                 <li><a href="../classes/Attribute.html">Attribute</a></li>
@@ -68,6 +69,7 @@
                                 <li><a href="../classes/Cylinder.html">Cylinder</a></li>
                                 <li><a href="../classes/CylinderBuilder.html">CylinderBuilder</a></li>
                                 <li><a href="../classes/CylinderGeometry.html">CylinderGeometry</a></li>
+                                <li><a href="../classes/CylinderOptions.html">CylinderOptions</a></li>
                                 <li><a href="../classes/CylinderTransform.html">CylinderTransform</a></li>
                                 <li><a href="../classes/CylindricalShellBuilder.html">CylindricalShellBuilder</a></li>
                                 <li><a href="../classes/Dimensions.html">Dimensions</a></li>
@@ -311,8 +313,6 @@ export default class Slide extends Shareable implements ISlide {
     /**
      * Update all currently running animations.
      * Essentially calls &#x60;apply&#x60; on each IAnimation in the queues of active objects.
-     * @method advance
-     * @param interval {number} Advances the static Slide.now property.
      */
     advance(interval: number): void {
         this.now += interval

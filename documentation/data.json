@@ -2,7 +2,7 @@
     "project": {
         "name": "davinci-eight",
         "description": "WebGL library for mathematical physics using Geometric Algebra",
-        "version": "2.198.0",
+        "version": "2.199.0",
         "url": ""
     },
     "files": {
@@ -1692,6 +1692,15 @@
             "fors": {},
             "namespaces": {}
         },
+        "src/davinci-eight/visual/ArrowOptions.ts": {
+            "name": "src/davinci-eight/visual/ArrowOptions.ts",
+            "modules": {},
+            "classes": {
+                "ArrowOptions": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "src/davinci-eight/visual/Box.ts": {
             "name": "src/davinci-eight/visual/Box.ts",
             "modules": {},
@@ -1706,6 +1715,15 @@
             "modules": {},
             "classes": {
                 "Cylinder": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/visual/CylinderOptions.ts": {
+            "name": "src/davinci-eight/visual/CylinderOptions.ts",
+            "modules": {},
+            "classes": {
+                "CylinderOptions": 1
             },
             "fors": {},
             "namespaces": {}
@@ -1957,8 +1975,10 @@
                 "VectorE4": 1,
                 "VectorN": 1,
                 "Arrow": 1,
+                "ArrowOptions": 1,
                 "Box": 1,
                 "Cylinder": 1,
+                "CylinderOptions": 1,
                 "RigidBody": 1,
                 "RigidBodyWithUnits": 1,
                 "Sphere": 1,
@@ -5028,31 +5048,21 @@
             "submodule": "visual",
             "namespace": "",
             "file": "src/davinci-eight/visual/Arrow.ts",
-            "line": 27,
-            "extends": "Mesh",
-            "is_constructor": 1,
-            "params": [
-                {
-                    "name": "geometry",
-                    "description": "",
-                    "type": "Geometry"
-                },
-                {
-                    "name": "material",
-                    "description": "",
-                    "type": "Material"
-                },
-                {
-                    "name": "tilt",
-                    "description": "",
-                    "type": "SpinorE3"
-                },
-                {
-                    "name": "initialDirection",
-                    "description": "",
-                    "type": "SpinorE3"
-                }
-            ]
+            "line": 21,
+            "extends": "RigidBody"
+        },
+        "ArrowOptions": {
+            "name": "ArrowOptions",
+            "shortname": "ArrowOptions",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/visual/ArrowOptions.ts",
+            "line": 3
         },
         "Box": {
             "name": "Box",
@@ -5089,9 +5099,21 @@
             "submodule": "visual",
             "namespace": "",
             "file": "src/davinci-eight/visual/Cylinder.ts",
-            "line": 25,
-            "extends": "Mesh",
-            "is_constructor": 1
+            "line": 19,
+            "extends": "RigidBody"
+        },
+        "CylinderOptions": {
+            "name": "CylinderOptions",
+            "shortname": "CylinderOptions",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/visual/CylinderOptions.ts",
+            "line": 4
         },
         "RigidBody": {
             "name": "RigidBody",
@@ -5185,8 +5207,16 @@
             "namespace": "",
             "file": "src/davinci-eight/visual/Sphere.ts",
             "line": 19,
-            "extends": "VisualBody",
-            "is_constructor": 1
+            "extends": "RigidBody",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "options",
+                    "description": "",
+                    "type": "SphereOptions",
+                    "optional": true
+                }
+            ]
         },
         "Tetrahedron": {
             "name": "Tetrahedron",
@@ -5202,7 +5232,14 @@
             "file": "src/davinci-eight/visual/Tetrahedron.ts",
             "line": 17,
             "extends": "Mesh",
-            "is_constructor": 1
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "options",
+                    "description": "",
+                    "type": "TetrahedronOptions"
+                }
+            ]
         },
         "Trail": {
             "name": "Trail",
@@ -29935,42 +29972,41 @@
             "file": "src/davinci-eight/slideshow/Slide.ts",
             "line": 78,
             "description": "Update all currently running animations.\nEssentially calls `apply` on each IAnimation in the queues of active objects.",
-            "itemtype": "method",
-            "name": "advance",
-            "params": [
-                {
-                    "name": "interval",
-                    "description": "Advances the static Slide.now property.",
-                    "type": "Number"
-                }
-            ],
             "class": "Arrow",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/slideshow/Slide.ts",
-            "line": 89,
+            "line": 87,
             "description": "`offset` is variable used to keep things running on schedule.\nIf an animation finishes before the interval, it reports the\nduration `extra` that brings the tome to `now`. Subsequent animations\nget a head start by considering their start time to be now - offset.",
             "class": "Arrow",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/slideshow/Slide.ts",
-            "line": 195,
+            "line": 193,
             "description": "The companion to a target: IAnimationTarget containing animation state.",
             "class": "Arrow",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/slideshow/Slide.ts",
-            "line": 199,
+            "line": 197,
             "description": "A map from property name to a list of properties of the property value.\nIt should be possible to animate many properties of a target at once.\nHowever, a given property should only be animated in one way at a given time.\nFor these reasons, we structure the data as map from property name to a queue of animations.",
             "class": "Arrow",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/visual/Arrow.ts",
-            "line": 39,
+            "line": 27,
+            "description": "Intentionally undocumented.",
+            "class": "Arrow",
+            "module": "EIGHT",
+            "submodule": "visual"
+        },
+        {
+            "file": "src/davinci-eight/visual/Arrow.ts",
+            "line": 34,
             "itemtype": "method",
             "name": "create",
             "params": [
@@ -29989,7 +30025,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Arrow.ts",
-            "line": 60,
+            "line": 55,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -30004,7 +30040,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Arrow.ts",
-            "line": 69,
+            "line": 64,
             "itemtype": "property",
             "name": "length",
             "type": "number",
@@ -30012,6 +30048,15 @@
             "class": "Arrow",
             "module": "EIGHT",
             "submodule": "visual"
+        },
+        {
+            "file": "src/davinci-eight/visual/ArrowOptions.ts",
+            "line": 8,
+            "itemtype": "property",
+            "name": "axis",
+            "type": "VectorE3",
+            "class": "ArrowOptions",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/visual/Box.ts",
@@ -30060,7 +30105,15 @@
         },
         {
             "file": "src/davinci-eight/visual/Cylinder.ts",
-            "line": 33,
+            "line": 25,
+            "description": "Intentionally undocumented.",
+            "class": "Cylinder",
+            "module": "EIGHT",
+            "submodule": "visual"
+        },
+        {
+            "file": "src/davinci-eight/visual/Cylinder.ts",
+            "line": 32,
             "itemtype": "method",
             "name": "create",
             "params": [
@@ -30079,7 +30132,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Cylinder.ts",
-            "line": 55,
+            "line": 54,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -30094,7 +30147,18 @@
         },
         {
             "file": "src/davinci-eight/visual/Cylinder.ts",
-            "line": 64,
+            "line": 63,
+            "itemtype": "property",
+            "name": "length",
+            "type": "number",
+            "default": "1",
+            "class": "Cylinder",
+            "module": "EIGHT",
+            "submodule": "visual"
+        },
+        {
+            "file": "src/davinci-eight/visual/Cylinder.ts",
+            "line": 77,
             "itemtype": "property",
             "name": "radius",
             "type": "number",
@@ -30103,15 +30167,10 @@
             "submodule": "visual"
         },
         {
-            "file": "src/davinci-eight/visual/Cylinder.ts",
-            "line": 78,
-            "itemtype": "property",
-            "name": "length",
-            "type": "number",
-            "default": "1",
-            "class": "Cylinder",
-            "module": "EIGHT",
-            "submodule": "visual"
+            "file": "src/davinci-eight/visual/CylinderOptions.ts",
+            "line": 8,
+            "class": "CylinderOptions",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/visual/DrawList.ts",
@@ -30290,7 +30349,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Sphere.ts",
-            "line": 29,
+            "line": 30,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -30305,7 +30364,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Sphere.ts",
-            "line": 38,
+            "line": 39,
             "itemtype": "property",
             "name": "radius",
             "type": "number",
@@ -30316,7 +30375,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Tetrahedron.ts",
-            "line": 27,
+            "line": 28,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -30331,7 +30390,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Tetrahedron.ts",
-            "line": 36,
+            "line": 37,
             "itemtype": "property",
             "name": "radius",
             "type": "number",
@@ -31568,16 +31627,32 @@
             "line": " src/davinci-eight/slideshow/Slide.ts:25"
         },
         {
+            "message": "Missing item type\nUpdate all currently running animations.\nEssentially calls `apply` on each IAnimation in the queues of active objects.",
+            "line": " src/davinci-eight/slideshow/Slide.ts:78"
+        },
+        {
             "message": "Missing item type\n`offset` is variable used to keep things running on schedule.\nIf an animation finishes before the interval, it reports the\nduration `extra` that brings the tome to `now`. Subsequent animations\nget a head start by considering their start time to be now - offset.",
-            "line": " src/davinci-eight/slideshow/Slide.ts:89"
+            "line": " src/davinci-eight/slideshow/Slide.ts:87"
         },
         {
             "message": "Missing item type\nThe companion to a target: IAnimationTarget containing animation state.",
-            "line": " src/davinci-eight/slideshow/Slide.ts:195"
+            "line": " src/davinci-eight/slideshow/Slide.ts:193"
         },
         {
             "message": "Missing item type\nA map from property name to a list of properties of the property value.\nIt should be possible to animate many properties of a target at once.\nHowever, a given property should only be animated in one way at a given time.\nFor these reasons, we structure the data as map from property name to a queue of animations.",
-            "line": " src/davinci-eight/slideshow/Slide.ts:199"
+            "line": " src/davinci-eight/slideshow/Slide.ts:197"
+        },
+        {
+            "message": "Missing item type\nIntentionally undocumented.",
+            "line": " src/davinci-eight/visual/Arrow.ts:27"
+        },
+        {
+            "message": "Missing item type\nIntentionally undocumented.",
+            "line": " src/davinci-eight/visual/Cylinder.ts:25"
+        },
+        {
+            "message": "Missing item type",
+            "line": " src/davinci-eight/visual/CylinderOptions.ts:8"
         },
         {
             "message": "Missing item type\nA simple list of meshes that does not bypass the draw method of the Drawable.\nThis allows the Drawable to override the draw method to produce history and draw trails.",

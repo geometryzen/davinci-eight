@@ -12,13 +12,14 @@ import visualCache from './visualCache'
 
 /**
  * @class Sphere
- * @extends VisualBody
+ * @extends RigidBody
  */
 export default class Sphere extends RigidBody {
 
     /**
      * @class Sphere
      * @constructor
+     * @param [options] {SphereOptions}
      */
     constructor(options: SphereOptions = {}) {
         super(visualCache.sphere(options), visualCache.material(), 'Sphere', deviation(direction(options)), direction(options))

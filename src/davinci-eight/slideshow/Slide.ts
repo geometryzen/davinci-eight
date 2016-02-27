@@ -78,8 +78,6 @@ export default class Slide extends Shareable implements ISlide {
     /**
      * Update all currently running animations.
      * Essentially calls `apply` on each IAnimation in the queues of active objects.
-     * @method advance
-     * @param interval {number} Advances the static Slide.now property.
      */
     advance(interval: number): void {
         this.now += interval

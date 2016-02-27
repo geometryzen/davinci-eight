@@ -4051,6 +4051,18 @@ System.register("davinci-eight/visual/Cylinder.js", ["./deviation", "./direction
         Cylinder.prototype.destructor = function() {
           _super.prototype.destructor.call(this);
         };
+        Object.defineProperty(Cylinder.prototype, "length", {
+          get: function() {
+            return this.scale.y;
+          },
+          set: function(length) {
+            mustBeNumber_1.default('length', length);
+            mustBeGE_1.default('length', length, 0);
+            this.scale.y = length;
+          },
+          enumerable: true,
+          configurable: true
+        });
         Object.defineProperty(Cylinder.prototype, "radius", {
           get: function() {
             return this.scale.x;
@@ -4060,18 +4072,6 @@ System.register("davinci-eight/visual/Cylinder.js", ["./deviation", "./direction
             mustBeGE_1.default('radius', radius, 0);
             this.scale.x = radius;
             this.scale.z = radius;
-          },
-          enumerable: true,
-          configurable: true
-        });
-        Object.defineProperty(Cylinder.prototype, "length", {
-          get: function() {
-            return this.scale.y;
-          },
-          set: function(length) {
-            mustBeNumber_1.default('length', length);
-            mustBeGE_1.default('length', length, 0);
-            this.scale.y = length;
           },
           enumerable: true,
           configurable: true
@@ -20122,7 +20122,7 @@ System.register("davinci-eight/core.js", [], function(exports_1) {
           this.LAST_MODIFIED = '2016-02-26';
           this.NAMESPACE = 'EIGHT';
           this.verbose = false;
-          this.VERSION = '2.198.0';
+          this.VERSION = '2.199.0';
           this.logging = {};
         }
         return Eight;

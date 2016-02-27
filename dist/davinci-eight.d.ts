@@ -3534,9 +3534,13 @@ declare module EIGHT {
         constructor(geometry: Geometry, material: Material, type: string, deviation: SpinorE3, direction: VectorE3)
     }
 
+    interface ArrowOptions {
+        axis?: VectorE3
+    }
+
     class Arrow extends RigidBody {
-        length: number;
-        constructor(options?: { axis?: VectorE3 })
+        length: number
+        static create(options?: ArrowOptions): Arrow
     }
 
     class Sphere extends RigidBody {
@@ -3551,10 +3555,14 @@ declare module EIGHT {
         constructor(options?: { axis?: VectorE3 })
     }
 
+    interface CylinderOptions {
+      
+    }
+
     class Cylinder extends RigidBody {
-        radius: number;
         length: number;
-        constructor(options?: { axis?: VectorE3 })
+        radius: number;
+        static create(options?: CylinderOptions)
     }
 
     class Tetrahedron extends Mesh {

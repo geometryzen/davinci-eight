@@ -18,13 +18,12 @@ import visualCache from './visualCache'
 
 /**
  * @class Cylinder
- * @extends Mesh
+ * @extends RigidBody
  */
 export default class Cylinder extends RigidBody {
 
     /**
-     * @class Cylinder
-     * @constructor
+     * Intentionally undocumented.
      */
     constructor(geometry: Geometry, material: Material, tilt: SpinorE3, initialDirection: VectorE3) {
         super(geometry, material, 'Cylinder', tilt, initialDirection)
@@ -62,20 +61,6 @@ export default class Cylinder extends RigidBody {
     }
 
     /**
-     * @property radius
-     * @type number
-     */
-    get radius() {
-        return this.scale.x
-    }
-    set radius(radius: number) {
-        mustBeNumber('radius', radius)
-        mustBeGE('radius', radius, 0)
-        this.scale.x = radius
-        this.scale.z = radius
-    }
-
-    /**
      * @property length
      * @type number
      * @default 1
@@ -87,5 +72,19 @@ export default class Cylinder extends RigidBody {
         mustBeNumber('length', length)
         mustBeGE('length', length, 0)
         this.scale.y = length
+    }
+
+    /**
+     * @property radius
+     * @type number
+     */
+    get radius() {
+        return this.scale.x
+    }
+    set radius(radius: number) {
+        mustBeNumber('radius', radius)
+        mustBeGE('radius', radius, 0)
+        this.scale.x = radius
+        this.scale.z = radius
     }
 }

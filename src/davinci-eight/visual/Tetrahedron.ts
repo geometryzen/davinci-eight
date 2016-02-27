@@ -17,6 +17,7 @@ export default class Tetrahedron extends Mesh {
     /**
      * @class Tetrahedron
      * @constructor
+     * @param options {TetrahedronOptions}
      */
     constructor(options: TetrahedronOptions) {
         super(visualCache.tetrahedron(options), visualCache.material(), 'Tetrahedron')

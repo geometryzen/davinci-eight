@@ -20,17 +20,12 @@ import visualCache from './visualCache'
 
 /**
  * @class Arrow
- * @extends Mesh
+ * @extends RigidBody
  */
 export default class Arrow extends RigidBody {
 
     /**
-     * @class Arrow
-     * @constructor
-     * @param geometry {Geometry}
-     * @param material {Material}
-     * @param tilt {SpinorE3}
-     * @param initialDirection {SpinorE3}
+     * Intentionally undocumented.
      */
     constructor(geometry: Geometry, material: Material, tilt: SpinorE3, initialDirection: VectorE3) {
         super(geometry, material, 'Arrow', tilt, initialDirection)
