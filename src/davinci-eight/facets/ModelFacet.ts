@@ -23,23 +23,23 @@ import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
 export default class ModelFacet extends ModelE3 implements Facet {
 
     /**
-     * @property _scaleXYZ
+     * @property _stress
      * @type Vector3
      * @private
      */
-    private _scaleXYZ: Vector3 = new Vector3([1, 1, 1]);
+    private _stress: Vector3 = new Vector3([1, 1, 1]);
 
     /**
-     * The deviation is the spinor that rotates the object from
+     * The tilt is the spinor that rotates the object from
      * the coordinate frame used for scaling to the local coordinate
      * frame of the object. We want the scaling to work relative to the
      * local coordinate frame of the object.
      *
-     * @property _deviation
+     * @property _tilt
      * @type Spinor3
      * @private
      */
-    private _deviation = Spinor3.one();
+    private _tilt = Spinor3.one();
 
     private _matM = Matrix4.one();
     private _matN = Matrix3.one();
@@ -75,22 +75,22 @@ export default class ModelFacet extends ModelE3 implements Facet {
         super()
         this.position.modified = true
         this.attitude.modified = true
-        this._scaleXYZ.modified = true
+        this._stress.modified = true
     }
 
     /**
-     * The spinor that rotates the object from the frame used for scaling
-     * to the local frame of the object.
+     * The spinor that rotates the object from the 'XYZ' frame used for scaling
+     * to the reference (initial) frame of the object.
      *
-     * @property deviation
+     * @property tilt
      * @type Spinor3
      */
-    get deviation(): Spinor3 {
-        return this._deviation
+    get tilt(): Spinor3 {
+        return this._tilt
     }
-    set deviation(deviation: Spinor3) {
-        mustBeObject('deviation', deviation)
-        this._deviation.copy(deviation)
+    set tilt(tilt: Spinor3) {
+        mustBeObject('tilt', tilt)
+        this._tilt.copy(tilt)
     }
 
     /**
@@ -98,11 +98,11 @@ export default class ModelFacet extends ModelE3 implements Facet {
      * @type Vector3
      */
     get scale(): Vector3 {
-        return this._scaleXYZ
+        return this._stress
     }
     set scale(scale: Vector3) {
         mustBeObject('scale', scale)
-        this._scaleXYZ.copy(scale)
+        this._stress.copy(scale)
     }
 
     /**
@@ -142,12 +142,12 @@ export default class ModelFacet extends ModelE3 implements Facet {
             this.attitude.modified = false
             modified = true
         }
-        if (this.scale.modified || this.deviation.modified) {
-            this.matK.rotation(this.deviation)
-            this.matS.scaling(this.scale)
+        if (this._stress.modified || this.tilt.modified) {
+            this.matK.rotation(this.tilt)
+            this.matS.scaling(this._stress)
             this.matS.mul2(this.matK, this.matS).mul(this.matK.inv())
-            this.scale.modified = false
-            this.deviation.modified = true
+            this._stress.modified = false
+            this.tilt.modified = true
             modified = true
         }
 

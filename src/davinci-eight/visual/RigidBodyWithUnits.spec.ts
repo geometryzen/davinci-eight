@@ -11,7 +11,9 @@ describe("RigidBodyWithUnits", function() {
 
         const geometry = new BoxGeometry()
         const material = new MeshMaterial()
-        const mesh = new Mesh(geometry, material)
+        const mesh = new Mesh()
+        mesh.geometry = geometry
+        mesh.material = material
         const axis = R3.e3
         const rigidBody = new RigidBodyWithUnits(mesh, R3.e3, 'Foo')
 

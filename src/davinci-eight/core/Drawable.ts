@@ -1,8 +1,7 @@
 import IContextProvider from '../core/IContextProvider';
 import mustBeBoolean from '../checks/mustBeBoolean'
 import Geometry from './Geometry';
-import Material from '../core/Material';
-import readOnly from '../i18n/readOnly';
+import IMaterial from '../core/IMaterial';
 import ShareableContextListener from '../core/ShareableContextListener';
 import Facet from '../core/Facet';
 
@@ -22,50 +21,42 @@ export default class Drawable extends ShareableContextListener {
      * @type {Geometry}
      * @private
      */
-    // FIXME: Make this private again (Sphere)
-    protected _geometry: Geometry;
+    private _geometry: Geometry
 
     /**
      * @property _material
-     * @type {Material}
+     * @type {IMaterial}
      * @private
      */
-    // FIXME: Make this private again (Sphere)
-    protected _material: Material;
+    private _material: IMaterial
 
     /**
      * @property name
      * @type {string}
      * @optional
      */
-    public name: string;
+    public name: string
 
     /**
      * @property _visible
      * @type boolean
      * @private
      */
-    private _visible = true;
+    private _visible = true
 
     /**
      * @property _facets
      * @private
      */
-    private _facets: { [name: string]: Facet };
+    private _facets: { [name: string]: Facet }
 
     /**
      * @class Drawable
      * @constructor
-     * @param geometry {Geometry}
-     * @param material {Material}
      * @param [type = 'Drawable'] {string}
      */
-    constructor(geometry: Geometry, material: Material, type = 'Drawable') {
+    constructor(type = 'Drawable') {
         super(type)
-        this._geometry = geometry
-        this._geometry.addRef()
-        this._material = material
-        this._material.addRef()
         this._facets = {}
     }
 
@@ -181,23 +172,38 @@ export default class Drawable extends ShareableContextListener {
         this._geometry.addRef()
         return this._geometry
     }
-    set geometry(unused) {
-        throw new Error(readOnly('geometry').message)
+    set geometry(geometry: Geometry) {
+        if (this._geometry) {
+            this._geometry.release()
+            this._geometry = void 0
+        }
+        if (geometry) {
+            geometry.addRef()
+            this._geometry = geometry
+            // TODO: How to synchronize the geometry with the context.
+        }
     }
 
     /**
      * Provides a reference counted reference to the graphics program property.
      *
      * @property material
-     * @type {Material}
-     * @readOnly
+     * @type {IMaterial}
      */
-    get material(): Material {
+    get material(): IMaterial {
         this._material.addRef()
         return this._material
     }
-    set material(unused) {
-        throw new Error(readOnly('material').message)
+    set material(material: IMaterial) {
+        if (this._material) {
+            this._material.release()
+            this._material = void 0
+        }
+        if (material) {
+            material.addRef()
+            this._material = material
+            // TODO: How to synchronize the material with the context.
+        }
     }
 
     /**

@@ -3487,12 +3487,12 @@ declare module EIGHT {
         /**
          *
          */
-        attitude: Spinor3;
-        color: Color;
-        deviation: Spinor3;
-        matrix: Matrix4;
-        position: Geometric3;
-        scale: Vector3;
+        attitude: Geometric3
+        color: Color
+        matrix: Matrix4
+        position: Geometric3
+        scale: Vector3
+        tilt: Spinor3
 
         /**
          *
@@ -3534,18 +3534,9 @@ declare module EIGHT {
         constructor(geometry: Geometry, material: Material, type: string, deviation: SpinorE3, direction: VectorE3)
     }
 
-    interface ArrowOptions {
-        axis?: VectorE3
-    }
-
     class Arrow extends RigidBody {
         length: number
-        static create(options?: ArrowOptions): Arrow
-    }
-
-    class Sphere extends RigidBody {
-        radius: number;
-        constructor(options?: { axis?: VectorE3 })
+        constructor(options?: {axis?: VectorE3})
     }
 
     class Box extends Mesh {
@@ -3555,14 +3546,15 @@ declare module EIGHT {
         constructor(options?: { axis?: VectorE3 })
     }
 
-    interface CylinderOptions {
-      
-    }
-
     class Cylinder extends RigidBody {
         length: number;
         radius: number;
-        static create(options?: CylinderOptions)
+        constructor(options?: {axis?: VectorE3})
+    }
+
+    class Sphere extends RigidBody {
+        radius: number;
+        constructor(options?: { axis?: VectorE3 })
     }
 
     class Tetrahedron extends Mesh {

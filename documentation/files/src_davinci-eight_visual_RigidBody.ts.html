@@ -238,9 +238,7 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 import Geometric3 from &#x27;../math/Geometric3&#x27;
-import Geometry from &#x27;../core/Geometry&#x27;
 import IRigidBody from &#x27;./IRigidBody&#x27;
-import Material from &#x27;../core/Material&#x27;
 import Mesh from &#x27;../core/Mesh&#x27;
 import mustBeObject from &#x27;../checks/mustBeObject&#x27;;
 import R3 from &#x27;../math/R3&#x27;;
@@ -286,16 +284,14 @@ export default class RigidBody extends Mesh implements IRigidBody&lt;number, Geo
     /**
      * @class RigidBody
      * @constructor
-     * @param geometry {Geometry}
-     * @param material {Material}
      * @param type {string}
-     * @param deviation {SpinorE3} The deviation from the scaling reference frame.
+     * @param tilt {SpinorE3} The tilt from the scaling reference frame.
      * @param initialAxis {VectorE3} The initial direction of the symmetry axis
      */
-    constructor(geometry: Geometry, material: Material, type: string, deviation: SpinorE3, initialAxis: VectorE3) {
-        super(geometry, material, type)
+    constructor(type: string, tilt: SpinorE3, initialAxis: VectorE3) {
+        super(type)
         this.initialAxis = R3.fromVector(initialAxis, Unit.ONE)
-        this.deviation.copy(deviation)
+        this.tilt.copy(tilt)
     }
 
     /**

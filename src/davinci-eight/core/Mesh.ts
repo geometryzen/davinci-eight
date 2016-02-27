@@ -2,8 +2,6 @@ import Color from './Color';
 import ColorFacet from '../facets/ColorFacet';
 import Drawable from './Drawable'
 import Geometric3 from '../math/Geometric3'
-import Geometry from './Geometry';
-import Material from './Material';
 import Matrix4 from '../math/Matrix4'
 import ModelFacet from '../facets/ModelFacet';
 import notSupported from '../i18n/notSupported'
@@ -32,12 +30,10 @@ export default class Mesh extends Drawable {
     /**
      * @class Mesh
      * @constructor
-     * @param geometry {Geometry}
-     * @param material {Material}
      * @param [type = 'Mesh'] {string}
      */
-    constructor(geometry: Geometry, material: Material, type = 'Mesh') {
-        super(geometry, material, type)
+    constructor(type = 'Mesh') {
+        super(type)
 
         const modelFacet = new ModelFacet()
         this.setFacet(MODEL_FACET_NAME, modelFacet)
@@ -110,25 +106,25 @@ export default class Mesh extends Drawable {
      * in which scaling is defined to the initial frame of the
      * object.
      *
-     * @property deviation
+     * @property tilt
      * @type Spinor3
      */
-    get deviation(): Spinor3 {
+    get tilt(): Spinor3 {
         const facet = <ModelFacet>this.getFacet(MODEL_FACET_NAME)
         if (facet) {
-            return facet.deviation
+            return facet.tilt
         }
         else {
-            throw new Error(notSupported('deviation').message)
+            throw new Error(notSupported('tilt').message)
         }
     }
-    set deviation(deviation: Spinor3) {
+    set tilt(tilt: Spinor3) {
         const facet = <ModelFacet>this.getFacet(MODEL_FACET_NAME)
         if (facet) {
-            facet.deviation.copy(deviation)
+            facet.tilt.copy(tilt)
         }
         else {
-            throw new Error(notSupported('deviation').message)
+            throw new Error(notSupported('tilt').message)
         }
     }
 

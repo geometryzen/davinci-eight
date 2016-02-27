@@ -146,7 +146,7 @@ export default class World extends Shareable {
             color?: Color;
             pos?: VectorE3;
         } = {}): Arrow {
-        const arrow = Arrow.create(options)
+        const arrow = new Arrow(options)
         updateAxis(arrow, options)
         updateColor(arrow, options)
         updatePosition(arrow, options)
@@ -182,7 +182,7 @@ export default class World extends Shareable {
      * @return {Cylinder}
      */
     cylinder(options: CylinderOptions = {}): Cylinder {
-        const cylinder = Cylinder.create(options)
+        const cylinder = new Cylinder(options)
         updateAxis(cylinder, options)
         updateColor(cylinder, options)
         updatePosition(cylinder, options)

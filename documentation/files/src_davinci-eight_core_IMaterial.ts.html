@@ -238,14 +238,14 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 import FacetVisitor from &#x27;./FacetVisitor&#x27;
-import IUnknown from &#x27;./IUnknown&#x27;
+import IContextConsumer from &#x27;./IContextConsumer&#x27;
 
 /**
  * @class IMaterial
  * @extends FacetVisitor
- * @extends IUnknown
+ * @extends IContextConsumer
  */
-interface IMaterial extends FacetVisitor, IUnknown {
+interface IMaterial extends FacetVisitor, IContextConsumer {
 
     /**
      * @method use

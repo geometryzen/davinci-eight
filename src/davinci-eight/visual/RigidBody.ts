@@ -1,7 +1,5 @@
 import Geometric3 from '../math/Geometric3'
-import Geometry from '../core/Geometry'
 import IRigidBody from './IRigidBody'
-import Material from '../core/Material'
 import Mesh from '../core/Mesh'
 import mustBeObject from '../checks/mustBeObject';
 import R3 from '../math/R3';
@@ -47,16 +45,14 @@ export default class RigidBody extends Mesh implements IRigidBody<number, Geomet
     /**
      * @class RigidBody
      * @constructor
-     * @param geometry {Geometry}
-     * @param material {Material}
      * @param type {string}
-     * @param deviation {SpinorE3} The deviation from the scaling reference frame.
+     * @param tilt {SpinorE3} The tilt from the scaling reference frame.
      * @param initialAxis {VectorE3} The initial direction of the symmetry axis
      */
-    constructor(geometry: Geometry, material: Material, type: string, deviation: SpinorE3, initialAxis: VectorE3) {
-        super(geometry, material, type)
+    constructor(type: string, tilt: SpinorE3, initialAxis: VectorE3) {
+        super(type)
         this.initialAxis = R3.fromVector(initialAxis, Unit.ONE)
-        this.deviation.copy(deviation)
+        this.tilt.copy(tilt)
     }
 
     /**

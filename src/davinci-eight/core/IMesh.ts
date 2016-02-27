@@ -17,7 +17,7 @@ interface IMesh extends IDrawable {
      */
     attitude: Geometric3
     color: Color
-    deviation: Spinor3
+    tilt: Spinor3
     matrix: Matrix4
     scale: Vector3
 }

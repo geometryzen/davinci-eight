@@ -47,9 +47,12 @@ export default class Box extends Shareable implements IGeometric3RigidBody {
         super('Box')
         const geometry = visualCache.box(options)
         const material = visualCache.material()
-        const deviation: Spinor3 = Spinor3.one()
+        const tilt: Spinor3 = Spinor3.one()
         const direction: Vector3 = Vector3.vector(0, 1, 0)
-        this.inner = new RigidBody(geometry, material, 'Box', deviation, direction)
+        // FIXME: This is too complicated now...
+        this.inner = new RigidBody('Box', tilt, direction)
+        this.inner.geometry = geometry
+        this.inner.material = material
         geometry.release()
         material.release()
         this.width = isDefined(options.width) ? mustBeNumber('width', options.width) : 1
@@ -113,14 +116,14 @@ export default class Box extends Shareable implements IGeometric3RigidBody {
     }
 
     /**
-     * @property deviation
+     * @property tilt
      * @type Spinor3
      */
-    get deviation(): Spinor3 {
-        return this.inner.deviation
+    get tilt(): Spinor3 {
+        return this.inner.tilt
     }
-    set deviation(deviation: Spinor3) {
-        this.inner.deviation = deviation
+    set tilt(tilt: Spinor3) {
+        this.inner.tilt = tilt
     }
 
     /**

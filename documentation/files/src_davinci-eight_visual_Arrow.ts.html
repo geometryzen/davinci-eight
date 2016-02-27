@@ -240,13 +240,9 @@
 import ArrowOptions from &#x27;./ArrowOptions&#x27;
 import deviation from &#x27;./deviation&#x27;
 import direction from &#x27;./direction&#x27;
-import Geometry from &#x27;../core/Geometry&#x27;
-import Material from &#x27;../core/Material&#x27;
 import mustBeGE from &#x27;../checks/mustBeGE&#x27;
 import mustBeNumber from &#x27;../checks/mustBeNumber&#x27;
 import RigidBody from &#x27;./RigidBody&#x27;
-import SpinorE3 from &#x27;../math/SpinorE3&#x27;
-import VectorE3 from &#x27;../math/VectorE3&#x27;
 import Vector3 from &#x27;../math/Vector3&#x27;
 import visualCache from &#x27;./visualCache&#x27;
 
@@ -255,8 +251,6 @@ import visualCache from &#x27;./visualCache&#x27;
  * @submodule visual
  */
 
-
-
 /**
  * @class Arrow
  * @extends RigidBody
@@ -264,19 +258,12 @@ import visualCache from &#x27;./visualCache&#x27;
 export default class Arrow extends RigidBody {
 
     /**
-     * Intentionally undocumented.
-     */
-    constructor(geometry: Geometry, material: Material, tilt: SpinorE3, initialDirection: VectorE3) {
-        super(geometry, material, &#x27;Arrow&#x27;, tilt, initialDirection)
-    }
-
-    /**
-     * @method create
+     * @class Arrow
+     * @constructor
      * @param [options={}] {ArrowOptions}
-     * @return Arrow
      */
-    public static create(options: ArrowOptions = {}): Arrow {
-        const initialDirection = direction(options)
+    constructor(options: ArrowOptions = {}) {
+        super(&#x27;Arrow&#x27;, deviation(direction(options)), direction(options))
         // The shape is created un-stressed and then parameters drive the scaling.
         // The scaling matrix takes into account the initial tilt from the standard configuration.
         const stress = Vector3.vector(1, 1, 1)
@@ -285,10 +272,10 @@ export default class Arrow extends RigidBody {
         const offset = Vector3.zero()
         const geometry = visualCache.arrow(stress, tilt, offset)
         const material = visualCache.material()
-        const arrow = new Arrow(geometry, material, tilt, initialDirection)
+        this.geometry = geometry
+        this.material = material
         geometry.release()
         material.release()
-        return arrow;
     }
 
     /**

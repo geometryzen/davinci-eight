@@ -241,8 +241,6 @@ import Color from &#x27;./Color&#x27;;
 import ColorFacet from &#x27;../facets/ColorFacet&#x27;;
 import Drawable from &#x27;./Drawable&#x27;
 import Geometric3 from &#x27;../math/Geometric3&#x27;
-import Geometry from &#x27;./Geometry&#x27;;
-import Material from &#x27;./Material&#x27;;
 import Matrix4 from &#x27;../math/Matrix4&#x27;
 import ModelFacet from &#x27;../facets/ModelFacet&#x27;;
 import notSupported from &#x27;../i18n/notSupported&#x27;
@@ -271,12 +269,10 @@ export default class Mesh extends Drawable {
     /**
      * @class Mesh
      * @constructor
-     * @param geometry {Geometry}
-     * @param material {Material}
      * @param [type = &#x27;Mesh&#x27;] {string}
      */
-    constructor(geometry: Geometry, material: Material, type = &#x27;Mesh&#x27;) {
-        super(geometry, material, type)
+    constructor(type = &#x27;Mesh&#x27;) {
+        super(type)
 
         const modelFacet = new ModelFacet()
         this.setFacet(MODEL_FACET_NAME, modelFacet)
@@ -349,25 +345,25 @@ export default class Mesh extends Drawable {
      * in which scaling is defined to the initial frame of the
      * object.
      *
-     * @property deviation
+     * @property tilt
      * @type Spinor3
      */
-    get deviation(): Spinor3 {
+    get tilt(): Spinor3 {
         const facet = &lt;ModelFacet&gt;this.getFacet(MODEL_FACET_NAME)
         if (facet) {
-            return facet.deviation
+            return facet.tilt
         }
         else {
-            throw new Error(notSupported(&#x27;deviation&#x27;).message)
+            throw new Error(notSupported(&#x27;tilt&#x27;).message)
         }
     }
-    set deviation(deviation: Spinor3) {
+    set tilt(tilt: Spinor3) {
         const facet = &lt;ModelFacet&gt;this.getFacet(MODEL_FACET_NAME)
         if (facet) {
-            facet.deviation.copy(deviation)
+            facet.tilt.copy(tilt)
         }
         else {
-            throw new Error(notSupported(&#x27;deviation&#x27;).message)
+            throw new Error(notSupported(&#x27;tilt&#x27;).message)
         }
     }
 

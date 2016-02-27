@@ -240,13 +240,9 @@
 import deviation from &#x27;./deviation&#x27;
 import direction from &#x27;./direction&#x27;
 import CylinderOptions from &#x27;./CylinderOptions&#x27;
-import Geometry from &#x27;../core/Geometry&#x27;
-import Material from &#x27;../core/Material&#x27;
 import mustBeGE from &#x27;../checks/mustBeGE&#x27;
 import mustBeNumber from &#x27;../checks/mustBeNumber&#x27;
 import RigidBody from &#x27;./RigidBody&#x27;
-import SpinorE3 from &#x27;../math/SpinorE3&#x27;
-import VectorE3 from &#x27;../math/VectorE3&#x27;
 import Vector3 from &#x27;../math/Vector3&#x27;
 import visualCache from &#x27;./visualCache&#x27;
 
@@ -262,31 +258,26 @@ import visualCache from &#x27;./visualCache&#x27;
 export default class Cylinder extends RigidBody {
 
     /**
-     * Intentionally undocumented.
-     */
-    constructor(geometry: Geometry, material: Material, tilt: SpinorE3, initialDirection: VectorE3) {
-        super(geometry, material, &#x27;Cylinder&#x27;, tilt, initialDirection)
-    }
-
-    /**
-     * @method create
+     * @class Cylinder
+     * @constructor
      * @param [options={}] {CylinderOptions}
-     * @return Cylinder
      */
-    public static create(options: CylinderOptions = {}): Cylinder {
-        const initialDirection = direction(options)
+    constructor(options: CylinderOptions = {}) {
+        super(&#x27;Cylinder&#x27;, deviation(direction(options)), direction(options))
         // The shape is created un-stressed and then parameters drive the scaling.
         // The scaling matrix takes into account the initial tilt from the standard configuration.
         const stress = Vector3.vector(1, 1, 1)
         const tilt = deviation(direction(options))
         // The options don&#x27;t currently include an offset.
         const offset = Vector3.zero()
+
         const geometry = visualCache.cylinder(stress, tilt, offset)
-        const material = visualCache.material()
-        const cylinder = new Cylinder(geometry, material, tilt, initialDirection)
+        this.geometry = geometry
         geometry.release()
+
+        const material = visualCache.material()
+        this.material = material
         material.release()
-        return cylinder;
     }
 
 

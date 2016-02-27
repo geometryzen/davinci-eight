@@ -1,12 +1,12 @@
 import FacetVisitor from './FacetVisitor'
-import IUnknown from './IUnknown'
+import IContextConsumer from './IContextConsumer'
 
 /**
  * @class IMaterial
  * @extends FacetVisitor
- * @extends IUnknown
+ * @extends IContextConsumer
  */
-interface IMaterial extends FacetVisitor, IUnknown {
+interface IMaterial extends FacetVisitor, IContextConsumer {
 
     /**
      * @method use

@@ -2641,20 +2641,10 @@
             "submodule": "core",
             "namespace": "",
             "file": "src/davinci-eight/core/Drawable.ts",
-            "line": 56,
+            "line": 53,
             "extends": "Shareable",
             "is_constructor": 1,
             "params": [
-                {
-                    "name": "geometry",
-                    "description": "",
-                    "type": "Geometry"
-                },
-                {
-                    "name": "material",
-                    "description": "",
-                    "type": "Material"
-                },
                 {
                     "name": "type ",
                     "description": "",
@@ -2846,7 +2836,7 @@
             "namespace": "",
             "file": "src/davinci-eight/core/IMaterial.ts",
             "line": 4,
-            "extends": "IUnknown"
+            "extends": "IContextConsumer"
         },
         "IMesh": {
             "name": "IMesh",
@@ -2922,20 +2912,10 @@
             "submodule": "core",
             "namespace": "",
             "file": "src/davinci-eight/core/Mesh.ts",
-            "line": 32,
+            "line": 30,
             "extends": "Drawable",
             "is_constructor": 1,
             "params": [
-                {
-                    "name": "geometry",
-                    "description": "",
-                    "type": "Geometry"
-                },
-                {
-                    "name": "material",
-                    "description": "",
-                    "type": "Material"
-                },
                 {
                     "name": "type ",
                     "description": "",
@@ -5131,7 +5111,15 @@
             "namespace": "",
             "file": "src/davinci-eight/visual/Arrow.ts",
             "line": 21,
-            "extends": "RigidBody"
+            "extends": "RigidBody",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "options",
+                    "description": "{ArrowOptions}",
+                    "optional": true
+                }
+            ]
         },
         "ArrowOptions": {
             "name": "ArrowOptions",
@@ -5181,8 +5169,16 @@
             "submodule": "visual",
             "namespace": "",
             "file": "src/davinci-eight/visual/Cylinder.ts",
-            "line": 19,
-            "extends": "RigidBody"
+            "line": 21,
+            "extends": "RigidBody",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "options",
+                    "description": "{CylinderOptions}",
+                    "optional": true
+                }
+            ]
         },
         "CylinderOptions": {
             "name": "CylinderOptions",
@@ -5222,29 +5218,19 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/visual/RigidBody.ts",
-            "line": 47,
+            "line": 45,
             "description": "Decorates the Mesh by adding properties for physical modeling.",
             "extends": "Mesh",
             "is_constructor": 1,
             "params": [
-                {
-                    "name": "geometry",
-                    "description": "",
-                    "type": "Geometry"
-                },
-                {
-                    "name": "material",
-                    "description": "",
-                    "type": "Material"
-                },
                 {
                     "name": "type",
                     "description": "",
                     "type": "String"
                 },
                 {
-                    "name": "deviation",
-                    "description": "The deviation from the scaling reference frame.",
+                    "name": "tilt",
+                    "description": "The tilt from the scaling reference frame.",
                     "type": "SpinorE3"
                 },
                 {
@@ -7416,7 +7402,7 @@
         },
         {
             "file": "src/davinci-eight/core/Drawable.ts",
-            "line": 20,
+            "line": 19,
             "itemtype": "property",
             "name": "_geometry",
             "type": "{Geometry}",
@@ -7428,10 +7414,10 @@
         },
         {
             "file": "src/davinci-eight/core/Drawable.ts",
-            "line": 28,
+            "line": 26,
             "itemtype": "property",
             "name": "_material",
-            "type": "{Material}",
+            "type": "{IMaterial}",
             "access": "private",
             "tagname": "",
             "class": "Drawable",
@@ -7440,7 +7426,7 @@
         },
         {
             "file": "src/davinci-eight/core/Drawable.ts",
-            "line": 36,
+            "line": 33,
             "itemtype": "property",
             "name": "name",
             "type": "{string}",
@@ -7451,7 +7437,7 @@
         },
         {
             "file": "src/davinci-eight/core/Drawable.ts",
-            "line": 43,
+            "line": 40,
             "itemtype": "property",
             "name": "_visible",
             "type": "boolean",
@@ -7463,7 +7449,7 @@
         },
         {
             "file": "src/davinci-eight/core/Drawable.ts",
-            "line": 50,
+            "line": 47,
             "itemtype": "property",
             "name": "_facets",
             "access": "private",
@@ -7474,7 +7460,7 @@
         },
         {
             "file": "src/davinci-eight/core/Drawable.ts",
-            "line": 72,
+            "line": 63,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -7489,7 +7475,7 @@
         },
         {
             "file": "src/davinci-eight/core/Drawable.ts",
-            "line": 85,
+            "line": 76,
             "itemtype": "method",
             "name": "setUniforms",
             "return": {
@@ -7502,7 +7488,7 @@
         },
         {
             "file": "src/davinci-eight/core/Drawable.ts",
-            "line": 102,
+            "line": 93,
             "itemtype": "method",
             "name": "draw",
             "params": [
@@ -7522,7 +7508,7 @@
         },
         {
             "file": "src/davinci-eight/core/Drawable.ts",
-            "line": 125,
+            "line": 116,
             "itemtype": "method",
             "name": "contextFree",
             "params": [
@@ -7542,7 +7528,7 @@
         },
         {
             "file": "src/davinci-eight/core/Drawable.ts",
-            "line": 135,
+            "line": 126,
             "itemtype": "method",
             "name": "contextGain",
             "params": [
@@ -7562,7 +7548,7 @@
         },
         {
             "file": "src/davinci-eight/core/Drawable.ts",
-            "line": 145,
+            "line": 136,
             "itemtype": "method",
             "name": "contextLost",
             "return": {
@@ -7575,7 +7561,7 @@
         },
         {
             "file": "src/davinci-eight/core/Drawable.ts",
-            "line": 154,
+            "line": 145,
             "itemtype": "method",
             "name": "getFacet",
             "params": [
@@ -7595,7 +7581,7 @@
         },
         {
             "file": "src/davinci-eight/core/Drawable.ts",
-            "line": 163,
+            "line": 154,
             "itemtype": "method",
             "name": "setFacet",
             "params": [
@@ -7620,7 +7606,7 @@
         },
         {
             "file": "src/davinci-eight/core/Drawable.ts",
-            "line": 173,
+            "line": 164,
             "description": "Provides a reference counted reference to the graphics buffers property.",
             "itemtype": "property",
             "name": "geometry",
@@ -7632,19 +7618,18 @@
         },
         {
             "file": "src/davinci-eight/core/Drawable.ts",
-            "line": 188,
+            "line": 187,
             "description": "Provides a reference counted reference to the graphics program property.",
             "itemtype": "property",
             "name": "material",
-            "type": "{Material}",
-            "readonly": "",
+            "type": "{IMaterial}",
             "class": "Drawable",
             "module": "EIGHT",
             "submodule": "core"
         },
         {
             "file": "src/davinci-eight/core/Drawable.ts",
-            "line": 203,
+            "line": 209,
             "itemtype": "property",
             "name": "visible",
             "type": "boolean",
@@ -9573,7 +9558,7 @@
         },
         {
             "file": "src/davinci-eight/core/Mesh.ts",
-            "line": 49,
+            "line": 45,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -9588,7 +9573,7 @@
         },
         {
             "file": "src/davinci-eight/core/Mesh.ts",
-            "line": 58,
+            "line": 54,
             "description": "Attitude (spinor)",
             "itemtype": "property",
             "name": "attitude",
@@ -9599,7 +9584,7 @@
         },
         {
             "file": "src/davinci-eight/core/Mesh.ts",
-            "line": 83,
+            "line": 79,
             "description": "Color",
             "itemtype": "property",
             "name": "color",
@@ -9610,10 +9595,10 @@
         },
         {
             "file": "src/davinci-eight/core/Mesh.ts",
-            "line": 108,
+            "line": 104,
             "description": "The spinor that rotates the object from the frame\nin which scaling is defined to the initial frame of the\nobject.",
             "itemtype": "property",
-            "name": "deviation",
+            "name": "tilt",
             "type": "Spinor3",
             "class": "Mesh",
             "module": "EIGHT",
@@ -9621,7 +9606,7 @@
         },
         {
             "file": "src/davinci-eight/core/Mesh.ts",
-            "line": 135,
+            "line": 131,
             "itemtype": "property",
             "name": "matrix",
             "type": "Matrix4",
@@ -9632,7 +9617,7 @@
         },
         {
             "file": "src/davinci-eight/core/Mesh.ts",
-            "line": 147,
+            "line": 143,
             "description": "Position (vector)",
             "itemtype": "property",
             "name": "position",
@@ -9643,7 +9628,7 @@
         },
         {
             "file": "src/davinci-eight/core/Mesh.ts",
-            "line": 172,
+            "line": 168,
             "description": "Scale (vector)",
             "itemtype": "property",
             "name": "scale",
@@ -11868,7 +11853,7 @@
             "file": "src/davinci-eight/facets/ModelFacet.ts",
             "line": 25,
             "itemtype": "property",
-            "name": "_scaleXYZ",
+            "name": "_stress",
             "type": "Vector3",
             "access": "private",
             "tagname": "",
@@ -11879,9 +11864,9 @@
         {
             "file": "src/davinci-eight/facets/ModelFacet.ts",
             "line": 32,
-            "description": "The deviation is the spinor that rotates the object from\nthe coordinate frame used for scaling to the local coordinate\nframe of the object. We want the scaling to work relative to the\nlocal coordinate frame of the object.",
+            "description": "The tilt is the spinor that rotates the object from\nthe coordinate frame used for scaling to the local coordinate\nframe of the object. We want the scaling to work relative to the\nlocal coordinate frame of the object.",
             "itemtype": "property",
-            "name": "_deviation",
+            "name": "_tilt",
             "type": "Spinor3",
             "access": "private",
             "tagname": "",
@@ -11904,9 +11889,9 @@
         {
             "file": "src/davinci-eight/facets/ModelFacet.ts",
             "line": 81,
-            "description": "The spinor that rotates the object from the frame used for scaling\nto the local frame of the object.",
+            "description": "The spinor that rotates the object from the 'XYZ' frame used for scaling\nto the reference (initial) frame of the object.",
             "itemtype": "property",
-            "name": "deviation",
+            "name": "tilt",
             "type": "Spinor3",
             "class": "ModelFacet",
             "module": "EIGHT",
@@ -30182,34 +30167,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Arrow.ts",
-            "line": 27,
-            "description": "Intentionally undocumented.",
-            "class": "Arrow",
-            "module": "EIGHT",
-            "submodule": "visual"
-        },
-        {
-            "file": "src/davinci-eight/visual/Arrow.ts",
-            "line": 34,
-            "itemtype": "method",
-            "name": "create",
-            "params": [
-                {
-                    "name": "options",
-                    "description": "{ArrowOptions}",
-                    "optional": true
-                }
-            ],
-            "return": {
-                "description": "Arrow"
-            },
-            "class": "Arrow",
-            "module": "EIGHT",
-            "submodule": "visual"
-        },
-        {
-            "file": "src/davinci-eight/visual/Arrow.ts",
-            "line": 55,
+            "line": 42,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -30224,7 +30182,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Arrow.ts",
-            "line": 64,
+            "line": 51,
             "itemtype": "property",
             "name": "length",
             "type": "number",
@@ -30256,7 +30214,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Box.ts",
-            "line": 60,
+            "line": 63,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -30271,7 +30229,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Box.ts",
-            "line": 70,
+            "line": 73,
             "itemtype": "property",
             "name": "attitude",
             "type": "Geometric3",
@@ -30281,7 +30239,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Box.ts",
-            "line": 81,
+            "line": 84,
             "itemtype": "property",
             "name": "axis",
             "type": "Geometric3",
@@ -30291,7 +30249,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Box.ts",
-            "line": 92,
+            "line": 95,
             "itemtype": "property",
             "name": "color",
             "type": "Color",
@@ -30301,7 +30259,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Box.ts",
-            "line": 103,
+            "line": 106,
             "itemtype": "property",
             "name": "depth",
             "type": "number",
@@ -30311,9 +30269,9 @@
         },
         {
             "file": "src/davinci-eight/visual/Box.ts",
-            "line": 115,
+            "line": 118,
             "itemtype": "property",
-            "name": "deviation",
+            "name": "tilt",
             "type": "Spinor3",
             "class": "Box",
             "module": "EIGHT",
@@ -30321,7 +30279,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Box.ts",
-            "line": 126,
+            "line": 129,
             "itemtype": "property",
             "name": "geometry",
             "type": "Geometry",
@@ -30331,7 +30289,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Box.ts",
-            "line": 137,
+            "line": 140,
             "itemtype": "property",
             "name": "height",
             "type": "number",
@@ -30341,7 +30299,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Box.ts",
-            "line": 149,
+            "line": 152,
             "itemtype": "property",
             "name": "initialAxis",
             "type": "R3",
@@ -30351,7 +30309,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Box.ts",
-            "line": 160,
+            "line": 163,
             "itemtype": "property",
             "name": "mass",
             "type": "number",
@@ -30361,7 +30319,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Box.ts",
-            "line": 171,
+            "line": 174,
             "itemtype": "property",
             "name": "material",
             "type": "IMaterial",
@@ -30371,7 +30329,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Box.ts",
-            "line": 182,
+            "line": 185,
             "itemtype": "property",
             "name": "matrix",
             "type": "Matrix4",
@@ -30381,7 +30339,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Box.ts",
-            "line": 193,
+            "line": 196,
             "itemtype": "property",
             "name": "momentum",
             "type": "number",
@@ -30391,7 +30349,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Box.ts",
-            "line": 204,
+            "line": 207,
             "itemtype": "property",
             "name": "name",
             "type": "string",
@@ -30401,7 +30359,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Box.ts",
-            "line": 215,
+            "line": 218,
             "itemtype": "property",
             "name": "position",
             "type": "Geometric3",
@@ -30411,7 +30369,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Box.ts",
-            "line": 226,
+            "line": 229,
             "itemtype": "property",
             "name": "scale",
             "type": "Vector3",
@@ -30421,7 +30379,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Box.ts",
-            "line": 237,
+            "line": 240,
             "itemtype": "property",
             "name": "visible",
             "type": "boolean",
@@ -30431,7 +30389,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Box.ts",
-            "line": 248,
+            "line": 251,
             "itemtype": "property",
             "name": "width",
             "type": "number",
@@ -30441,7 +30399,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Box.ts",
-            "line": 260,
+            "line": 263,
             "itemtype": "method",
             "name": "contextFree",
             "params": [
@@ -30461,7 +30419,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Box.ts",
-            "line": 269,
+            "line": 272,
             "itemtype": "method",
             "name": "contextGain",
             "params": [
@@ -30481,7 +30439,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Box.ts",
-            "line": 278,
+            "line": 281,
             "itemtype": "method",
             "name": "contextLost",
             "return": {
@@ -30494,7 +30452,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Box.ts",
-            "line": 286,
+            "line": 289,
             "itemtype": "method",
             "name": "draw",
             "params": [
@@ -30514,7 +30472,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Box.ts",
-            "line": 295,
+            "line": 298,
             "itemtype": "method",
             "name": "setUniforms",
             "return": {
@@ -30527,34 +30485,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Cylinder.ts",
-            "line": 25,
-            "description": "Intentionally undocumented.",
-            "class": "Cylinder",
-            "module": "EIGHT",
-            "submodule": "visual"
-        },
-        {
-            "file": "src/davinci-eight/visual/Cylinder.ts",
-            "line": 32,
-            "itemtype": "method",
-            "name": "create",
-            "params": [
-                {
-                    "name": "options",
-                    "description": "{CylinderOptions}",
-                    "optional": true
-                }
-            ],
-            "return": {
-                "description": "Cylinder"
-            },
-            "class": "Cylinder",
-            "module": "EIGHT",
-            "submodule": "visual"
-        },
-        {
-            "file": "src/davinci-eight/visual/Cylinder.ts",
-            "line": 54,
+            "line": 45,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -30569,7 +30500,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Cylinder.ts",
-            "line": 63,
+            "line": 54,
             "itemtype": "property",
             "name": "length",
             "type": "number",
@@ -30580,7 +30511,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Cylinder.ts",
-            "line": 77,
+            "line": 68,
             "itemtype": "property",
             "name": "radius",
             "type": "number",
@@ -30619,7 +30550,7 @@
         },
         {
             "file": "src/davinci-eight/visual/RigidBody.ts",
-            "line": 20,
+            "line": 18,
             "description": "The (dimensionless) mass of the <code>RigidBody</code>.",
             "itemtype": "property",
             "name": "mass",
@@ -30630,7 +30561,7 @@
         },
         {
             "file": "src/davinci-eight/visual/RigidBody.ts",
-            "line": 29,
+            "line": 27,
             "description": "The (dimensionless) momentum of the <code>RigidBody</code>",
             "itemtype": "property",
             "name": "momentum",
@@ -30641,7 +30572,7 @@
         },
         {
             "file": "src/davinci-eight/visual/RigidBody.ts",
-            "line": 38,
+            "line": 36,
             "description": "Cache the initial axis value so that we can compute the axis at any\ntime by rotating the initial axis using the Mesh attitude.",
             "itemtype": "property",
             "name": "initialAxis",
@@ -30651,7 +30582,7 @@
         },
         {
             "file": "src/davinci-eight/visual/RigidBody.ts",
-            "line": 62,
+            "line": 58,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -30665,7 +30596,7 @@
         },
         {
             "file": "src/davinci-eight/visual/RigidBody.ts",
-            "line": 71,
+            "line": 67,
             "itemtype": "property",
             "name": "axis",
             "type": "Geometric3",
@@ -30778,7 +30709,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Sphere.ts",
-            "line": 30,
+            "line": 34,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -30793,7 +30724,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Sphere.ts",
-            "line": 39,
+            "line": 43,
             "itemtype": "property",
             "name": "radius",
             "type": "number",
@@ -30804,7 +30735,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Tetrahedron.ts",
-            "line": 28,
+            "line": 32,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -30819,7 +30750,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Tetrahedron.ts",
-            "line": 37,
+            "line": 41,
             "itemtype": "property",
             "name": "radius",
             "type": "number",
@@ -31101,7 +31032,7 @@
         },
         {
             "message": "replacing incorrect tag: parm with param",
-            "line": " src/davinci-eight/visual/Box.ts:286"
+            "line": " src/davinci-eight/visual/Box.ts:289"
         },
         {
             "message": "Missing item type\nEssentially constructs the ShareableArray without incrementing the\nreference count of the elements, and without creating zombies.",
@@ -32074,14 +32005,6 @@
         {
             "message": "Missing item type\nA map from property name to a list of properties of the property value.\nIt should be possible to animate many properties of a target at once.\nHowever, a given property should only be animated in one way at a given time.\nFor these reasons, we structure the data as map from property name to a queue of animations.",
             "line": " src/davinci-eight/slideshow/Slide.ts:197"
-        },
-        {
-            "message": "Missing item type\nIntentionally undocumented.",
-            "line": " src/davinci-eight/visual/Arrow.ts:27"
-        },
-        {
-            "message": "Missing item type\nIntentionally undocumented.",
-            "line": " src/davinci-eight/visual/Cylinder.ts:25"
         },
         {
             "message": "Missing item type",

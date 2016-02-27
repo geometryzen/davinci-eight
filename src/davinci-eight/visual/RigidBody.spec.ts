@@ -10,7 +10,9 @@ describe('RigidBody', function() {
         const material = new MeshMaterial()
         const deviation = new Spinor3()
         const direction = new Vector3()
-        const sphere = new RigidBody(geometry, material, 'Foo', deviation, direction)
+        const sphere = new RigidBody('Foo', deviation, direction)
+        sphere.geometry = geometry
+        sphere.material = material
         expect(sphere.isZombie()).toBe(false)
         sphere.release()
         expect(sphere.isZombie()).toBe(true)
@@ -20,7 +22,9 @@ describe('RigidBody', function() {
         const material = new MeshMaterial()
         const deviation = new Spinor3()
         const direction = new Vector3()
-        const sphere = new RigidBody(geometry, material, 'Foo', deviation, direction)
+        const sphere = new RigidBody('Foo', deviation, direction)
+        sphere.geometry = geometry
+        sphere.material = material
         expect(sphere.mass).toBe(1)
         sphere.release()
     })
@@ -29,7 +33,9 @@ describe('RigidBody', function() {
         const material = new MeshMaterial()
         const deviation = new Spinor3()
         const direction = new Vector3()
-        const sphere = new RigidBody(geometry, material, 'Foo', deviation, direction)
+        const sphere = new RigidBody('Foo', deviation, direction)
+        sphere.geometry = geometry
+        sphere.material = material
         expect(sphere.momentum.α).toBe(0)
         expect(sphere.momentum.x).toBe(0)
         expect(sphere.momentum.y).toBe(0)
