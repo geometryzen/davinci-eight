@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.199.0</em>
+            <em>API Docs for: 2.200.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -100,6 +100,10 @@
                                 <li><a href="../classes/IContextListener.html">IContextListener</a></li>
                                 <li><a href="../classes/IContextProgramConsumer.html">IContextProgramConsumer</a></li>
                                 <li><a href="../classes/IContextProvider.html">IContextProvider</a></li>
+                                <li><a href="../classes/IDrawable.html">IDrawable</a></li>
+                                <li><a href="../classes/IGeometric3RigidBody.html">IGeometric3RigidBody</a></li>
+                                <li><a href="../classes/IMaterial.html">IMaterial</a></li>
+                                <li><a href="../classes/IMesh.html">IMesh</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
@@ -274,11 +278,10 @@ export default class RigidBody extends Mesh implements IRigidBody&lt;number, Geo
      * Cache the initial axis value so that we can compute the axis at any
      * time by rotating the initial axis using the Mesh attitude.
      *
-     * @property _direction
+     * @property initialAxis
      * @type R3
-     * @private
      */
-    private _direction: R3;
+    public initialAxis: R3;
 
     /**
      * @class RigidBody
@@ -287,11 +290,11 @@ export default class RigidBody extends Mesh implements IRigidBody&lt;number, Geo
      * @param material {Material}
      * @param type {string}
      * @param deviation {SpinorE3} The deviation from the scaling reference frame.
-     * @param direction {VectorE3} The initial direction of the symmetry axis
+     * @param initialAxis {VectorE3} The initial direction of the symmetry axis
      */
-    constructor(geometry: Geometry, material: Material, type: string, deviation: SpinorE3, direction: VectorE3) {
+    constructor(geometry: Geometry, material: Material, type: string, deviation: SpinorE3, initialAxis: VectorE3) {
         super(geometry, material, type)
-        this._direction = R3.fromVector(direction, Unit.ONE)
+        this.initialAxis = R3.fromVector(initialAxis, Unit.ONE)
         this.deviation.copy(deviation)
     }
 
@@ -309,11 +312,11 @@ export default class RigidBody extends Mesh implements IRigidBody&lt;number, Geo
      * @type Geometric3
      */
     get axis(): Geometric3 {
-        return Geometric3.fromVector(this._direction).rotate(this.attitude)
+        return Geometric3.fromVector(this.initialAxis).rotate(this.attitude)
     }
     set axis(axis: Geometric3) {
         mustBeObject(&#x27;axis&#x27;, axis)
-        this.attitude.rotorFromDirections(this._direction, axis)
+        this.attitude.rotorFromDirections(this.initialAxis, axis)
     }
 }
 

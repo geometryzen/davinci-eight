@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.199.0</em>
+            <em>API Docs for: 2.200.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -100,6 +100,10 @@
                                 <li><a href="../classes/IContextListener.html">IContextListener</a></li>
                                 <li><a href="../classes/IContextProgramConsumer.html">IContextProgramConsumer</a></li>
                                 <li><a href="../classes/IContextProvider.html">IContextProvider</a></li>
+                                <li><a href="../classes/IDrawable.html">IDrawable</a></li>
+                                <li><a href="../classes/IGeometric3RigidBody.html">IGeometric3RigidBody</a></li>
+                                <li><a href="../classes/IMaterial.html">IMaterial</a></li>
+                                <li><a href="../classes/IMesh.html">IMesh</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
@@ -233,11 +237,11 @@
 <div class="box meta">
 
         <div class="extends">
-            Extends <a href="../classes/Mesh.html" class="crosslink">Mesh</a>
+            Extends <a href="../classes/IGeometric3RigidBody.html" class="crosslink">IGeometric3RigidBody</a>
         </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_visual_Box.ts.html#l18"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Box.ts:18</code></a>
+            Defined in: <a href="../files/src_davinci-eight_visual_Box.ts.html#l38"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Box.ts:38</code></a>
         </div>
 
             Module: <a href="../modules/visual.html">visual</a><br>
@@ -273,7 +277,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_visual_Box.ts.html#l18"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Box.ts:18</code></a>
+        <a href="../files/src_davinci-eight_visual_Box.ts.html#l38"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Box.ts:38</code></a>
         </p>
 
 
@@ -324,43 +328,27 @@
                     <h3>Methods</h3>
 
                     <ul class="index-list methods extends">
-                            <li class="index-item method inherited inherited">
-                                <a href="#method_addRef">addRef</a>
-
-                            </li>
-                            <li class="index-item method inherited">
+                            <li class="index-item method">
                                 <a href="#method_contextFree">contextFree</a>
 
                             </li>
-                            <li class="index-item method inherited">
+                            <li class="index-item method">
                                 <a href="#method_contextGain">contextGain</a>
 
                             </li>
-                            <li class="index-item method inherited">
+                            <li class="index-item method">
                                 <a href="#method_contextLost">contextLost</a>
 
                             </li>
-                            <li class="index-item method protected inherited">
+                            <li class="index-item method protected">
                                 <a href="#method_destructor">destructor</a>
 
                             </li>
-                            <li class="index-item method inherited">
+                            <li class="index-item method">
                                 <a href="#method_draw">draw</a>
 
                             </li>
-                            <li class="index-item method inherited">
-                                <a href="#method_getFacet">getFacet</a>
-
-                            </li>
-                            <li class="index-item method inherited inherited">
-                                <a href="#method_release">release</a>
-
-                            </li>
-                            <li class="index-item method inherited">
-                                <a href="#method_setFacet">setFacet</a>
-
-                            </li>
-                            <li class="index-item method inherited">
+                            <li class="index-item method">
                                 <a href="#method_setUniforms">setUniforms</a>
 
                             </li>
@@ -371,27 +359,15 @@
                     <h3>Properties</h3>
 
                     <ul class="index-list properties extends">
-                            <li class="index-item property private inherited">
-                                <a href="#property__facets">_facets</a>
-
-                            </li>
-                            <li class="index-item property private inherited">
-                                <a href="#property__geometry">_geometry</a>
-
-                            </li>
-                            <li class="index-item property private inherited">
-                                <a href="#property__material">_material</a>
-
-                            </li>
-                            <li class="index-item property private inherited">
-                                <a href="#property__visible">_visible</a>
-
-                            </li>
-                            <li class="index-item property inherited">
+                            <li class="index-item property">
                                 <a href="#property_attitude">attitude</a>
 
                             </li>
-                            <li class="index-item property inherited">
+                            <li class="index-item property">
+                                <a href="#property_axis">axis</a>
+
+                            </li>
+                            <li class="index-item property">
                                 <a href="#property_color">color</a>
 
                             </li>
@@ -399,11 +375,11 @@
                                 <a href="#property_depth">depth</a>
 
                             </li>
-                            <li class="index-item property inherited">
+                            <li class="index-item property">
                                 <a href="#property_deviation">deviation</a>
 
                             </li>
-                            <li class="index-item property inherited">
+                            <li class="index-item property">
                                 <a href="#property_geometry">geometry</a>
 
                             </li>
@@ -412,30 +388,42 @@
 
                             </li>
                             <li class="index-item property inherited">
+                                <a href="#property_initialAxis">initialAxis</a>
+
+                            </li>
+                            <li class="index-item property private">
+                                <a href="#property_inner">inner</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_mass">mass</a>
+
+                            </li>
+                            <li class="index-item property">
                                 <a href="#property_material">material</a>
 
                             </li>
-                            <li class="index-item property inherited">
+                            <li class="index-item property">
                                 <a href="#property_matrix">matrix</a>
 
                             </li>
-                            <li class="index-item property inherited">
+                            <li class="index-item property">
+                                <a href="#property_momentum">momentum</a>
+
+                            </li>
+                            <li class="index-item property">
                                 <a href="#property_name">name</a>
 
                             </li>
-                            <li class="index-item property inherited">
+                            <li class="index-item property">
                                 <a href="#property_position">position</a>
 
                             </li>
-                            <li class="index-item property inherited">
+                            <li class="index-item property">
                                 <a href="#property_scale">scale</a>
 
                             </li>
-                            <li class="index-item property inherited">
-                                <a href="#property_uuid">uuid</a>
-
-                            </li>
-                            <li class="index-item property inherited">
+                            <li class="index-item property">
                                 <a href="#property_visible">visible</a>
 
                             </li>
@@ -452,54 +440,7 @@
             <div id="methods" class="api-class-tabpanel">
                 <h2 class="off-left">Methods</h2>
 
-<div id="method_addRef" class="method item inherited">
-    <h3 class="name"><code>addRef</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type">Number</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-            <p>Inherited from
-            <a href="../classes/IUnknown.html#method_addRef">
-                IUnknown
-            </a>
-            but overwritten in
-        <a href="../files/src_davinci-eight_core_Shareable.ts.html#l34"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Shareable.ts:34</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-Notifies this instance that something is referencing it.
-</p>
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Number</span>:
-                    <p>The new value of the reference count.</p>
-
-            </div>
-        </div>
-
-
-</div>
-<div id="method_contextFree" class="method item inherited">
+<div id="method_contextFree" class="method item">
     <h3 class="name"><code>contextFree</code></h3>
 
         <div class="args">
@@ -521,9 +462,9 @@ Notifies this instance that something is referencing it.
 
 
     <div class="meta">
-                <p>Inherited from
-                <a href="../classes/Drawable.html#method_contextFree">Drawable</a>:
-        <a href="../files/src_davinci-eight_core_Drawable.ts.html#l123"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Drawable.ts:123</code></a>
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_visual_Box.ts.html#l260"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Box.ts:260</code></a>
         </p>
 
 
@@ -561,7 +502,7 @@ Notifies this instance that something is referencing it.
 
 
 </div>
-<div id="method_contextGain" class="method item inherited">
+<div id="method_contextGain" class="method item">
     <h3 class="name"><code>contextGain</code></h3>
 
         <div class="args">
@@ -583,9 +524,9 @@ Notifies this instance that something is referencing it.
 
 
     <div class="meta">
-                <p>Inherited from
-                <a href="../classes/Drawable.html#method_contextGain">Drawable</a>:
-        <a href="../files/src_davinci-eight_core_Drawable.ts.html#l133"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Drawable.ts:133</code></a>
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_visual_Box.ts.html#l269"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Box.ts:269</code></a>
         </p>
 
 
@@ -623,7 +564,7 @@ Notifies this instance that something is referencing it.
 
 
 </div>
-<div id="method_contextLost" class="method item inherited">
+<div id="method_contextLost" class="method item">
     <h3 class="name"><code>contextLost</code></h3>
 
         <span class="paren">()</span>
@@ -639,9 +580,9 @@ Notifies this instance that something is referencing it.
 
 
     <div class="meta">
-                <p>Inherited from
-                <a href="../classes/Drawable.html#method_contextLost">Drawable</a>:
-        <a href="../files/src_davinci-eight_core_Drawable.ts.html#l143"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Drawable.ts:143</code></a>
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_visual_Box.ts.html#l278"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Box.ts:278</code></a>
         </p>
 
 
@@ -680,12 +621,9 @@ Notifies this instance that something is referencing it.
 
 
     <div class="meta">
-            <p>Inherited from
-            <a href="../classes/Shareable.html#method_destructor">
-                Shareable
-            </a>
-            but overwritten in
-        <a href="../files/src_davinci-eight_visual_Box.ts.html#l32"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Box.ts:32</code></a>
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_visual_Box.ts.html#l60"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Box.ts:60</code></a>
         </p>
 
 
@@ -707,7 +645,7 @@ Notifies this instance that something is referencing it.
 
 
 </div>
-<div id="method_draw" class="method item inherited">
+<div id="method_draw" class="method item">
     <h3 class="name"><code>draw</code></h3>
 
         <div class="args">
@@ -729,9 +667,9 @@ Notifies this instance that something is referencing it.
 
 
     <div class="meta">
-                <p>Inherited from
-                <a href="../classes/Drawable.html#method_draw">Drawable</a>:
-        <a href="../files/src_davinci-eight_core_Drawable.ts.html#l100"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Drawable.ts:100</code></a>
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_visual_Box.ts.html#l286"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Box.ts:286</code></a>
         </p>
 
 
@@ -769,191 +707,7 @@ Notifies this instance that something is referencing it.
 
 
 </div>
-<div id="method_getFacet" class="method item inherited">
-    <h3 class="name"><code>getFacet</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>name</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/Facet.html" class="crosslink">Facet</a></span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>Inherited from
-                <a href="../classes/Drawable.html#method_getFacet">Drawable</a>:
-        <a href="../files/src_davinci-eight_core_Drawable.ts.html#l152"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Drawable.ts:152</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">name</code>
-                        <span class="type">String</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/Facet.html" class="crosslink">Facet</a></span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_release" class="method item inherited">
-    <h3 class="name"><code>release</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type">Number</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-            <p>Inherited from
-            <a href="../classes/IUnknown.html#method_release">
-                IUnknown
-            </a>
-            but overwritten in
-        <a href="../files/src_davinci-eight_core_Shareable.ts.html#l48"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Shareable.ts:48</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-Notifies this instance that something is dereferencing it.
-</p>
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Number</span>:
-                    <p>The new value of the reference count.</p>
-
-            </div>
-        </div>
-
-
-</div>
-<div id="method_setFacet" class="method item inherited">
-    <h3 class="name"><code>setFacet</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>name</code>
-                </li>
-                <li class="arg">
-                        <code>facet</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type">Void</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>Inherited from
-                <a href="../classes/Drawable.html#method_setFacet">Drawable</a>:
-        <a href="../files/src_davinci-eight_core_Drawable.ts.html#l161"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Drawable.ts:161</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">name</code>
-                        <span class="type">String</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">facet</code>
-                        <span class="type"><a href="../classes/Facet.html" class="crosslink">Facet</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Void</span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_setUniforms" class="method item inherited">
+<div id="method_setUniforms" class="method item">
     <h3 class="name"><code>setUniforms</code></h3>
 
         <span class="paren">()</span>
@@ -969,9 +723,9 @@ Notifies this instance that something is dereferencing it.
 
 
     <div class="meta">
-                <p>Inherited from
-                <a href="../classes/Drawable.html#method_setUniforms">Drawable</a>:
-        <a href="../files/src_davinci-eight_core_Drawable.ts.html#l83"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Drawable.ts:83</code></a>
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_visual_Box.ts.html#l295"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Box.ts:295</code></a>
         </p>
 
 
@@ -998,107 +752,7 @@ Notifies this instance that something is dereferencing it.
             <div id="properties" class="api-class-tabpanel">
                 <h2 class="off-left">Properties</h2>
 
-<div id="property__facets" class="property item private inherited">
-    <h3 class="name"><code>_facets</code></h3>
-    <span class="type">Unknown</span>
-
-
-        <span class="flag private">private</span>
-
-
-
-    <div class="meta">
-                <p>Inherited from
-                <a href="../classes/Drawable.html#property__facets">Drawable</a>:
-        <a href="../files/src_davinci-eight_core_Drawable.ts.html#l48"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Drawable.ts:48</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-
-</div>
-<div id="property__geometry" class="property item private inherited">
-    <h3 class="name"><code>_geometry</code></h3>
-    <span class="type"><a href="../classes/Geometry.html" class="crosslink">Geometry</a></span>
-
-
-        <span class="flag private">private</span>
-
-
-
-    <div class="meta">
-                <p>Inherited from
-                <a href="../classes/Drawable.html#property__geometry">Drawable</a>:
-        <a href="../files/src_davinci-eight_core_Drawable.ts.html#l20"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Drawable.ts:20</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-
-</div>
-<div id="property__material" class="property item private inherited">
-    <h3 class="name"><code>_material</code></h3>
-    <span class="type"><a href="../classes/Material.html" class="crosslink">Material</a></span>
-
-
-        <span class="flag private">private</span>
-
-
-
-    <div class="meta">
-                <p>Inherited from
-                <a href="../classes/Drawable.html#property__material">Drawable</a>:
-        <a href="../files/src_davinci-eight_core_Drawable.ts.html#l27"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Drawable.ts:27</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-
-</div>
-<div id="property__visible" class="property item private inherited">
-    <h3 class="name"><code>_visible</code></h3>
-    <span class="type">Boolean</span>
-
-
-        <span class="flag private">private</span>
-
-
-
-    <div class="meta">
-                <p>Inherited from
-                <a href="../classes/Drawable.html#property__visible">Drawable</a>:
-        <a href="../files/src_davinci-eight_core_Drawable.ts.html#l41"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Drawable.ts:41</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-
-</div>
-<div id="property_attitude" class="property item inherited">
+<div id="property_attitude" class="property item">
     <h3 class="name"><code>attitude</code></h3>
     <span class="type"><a href="../classes/Geometric3.html" class="crosslink">Geometric3</a></span>
 
@@ -1107,23 +761,46 @@ Notifies this instance that something is dereferencing it.
 
 
     <div class="meta">
-                <p>Inherited from
-                <a href="../classes/Mesh.html#property_attitude">Mesh</a>:
-        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l58"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:58</code></a>
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_visual_Box.ts.html#l70"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Box.ts:70</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        <p>Attitude (spinor)</p>
-
+        
     </div>
 
 
 
 </div>
-<div id="property_color" class="property item inherited">
+<div id="property_axis" class="property item">
+    <h3 class="name"><code>axis</code></h3>
+    <span class="type"><a href="../classes/Geometric3.html" class="crosslink">Geometric3</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_visual_Box.ts.html#l81"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Box.ts:81</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_color" class="property item">
     <h3 class="name"><code>color</code></h3>
     <span class="type"><a href="../classes/Color.html" class="crosslink">Color</a></span>
 
@@ -1132,17 +809,16 @@ Notifies this instance that something is dereferencing it.
 
 
     <div class="meta">
-                <p>Inherited from
-                <a href="../classes/Mesh.html#property_color">Mesh</a>:
-        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l83"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:83</code></a>
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_visual_Box.ts.html#l92"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Box.ts:92</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        <p>Color</p>
-
+        
     </div>
 
 
@@ -1159,7 +835,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_visual_Box.ts.html#l65"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Box.ts:65</code></a>
+        <a href="../files/src_davinci-eight_visual_Box.ts.html#l103"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Box.ts:103</code></a>
         </p>
 
 
@@ -1172,7 +848,7 @@ Notifies this instance that something is dereferencing it.
 
 
 </div>
-<div id="property_deviation" class="property item inherited">
+<div id="property_deviation" class="property item">
     <h3 class="name"><code>deviation</code></h3>
     <span class="type"><a href="../classes/Spinor3.html" class="crosslink">Spinor3</a></span>
 
@@ -1181,25 +857,22 @@ Notifies this instance that something is dereferencing it.
 
 
     <div class="meta">
-                <p>Inherited from
-                <a href="../classes/Mesh.html#property_deviation">Mesh</a>:
-        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l108"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:108</code></a>
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_visual_Box.ts.html#l115"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Box.ts:115</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        <p>The spinor that rotates the object from the frame
-in which scaling is defined to the initial frame of the
-object.</p>
-
+        
     </div>
 
 
 
 </div>
-<div id="property_geometry" class="property item inherited">
+<div id="property_geometry" class="property item">
     <h3 class="name"><code>geometry</code></h3>
     <span class="type"><a href="../classes/Geometry.html" class="crosslink">Geometry</a></span>
 
@@ -1208,17 +881,16 @@ object.</p>
 
 
     <div class="meta">
-                <p>Inherited from
-                <a href="../classes/Drawable.html#property_geometry">Drawable</a>:
-        <a href="../files/src_davinci-eight_core_Drawable.ts.html#l171"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Drawable.ts:171</code></a>
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_visual_Box.ts.html#l126"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Box.ts:126</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        <p>Provides a reference counted reference to the graphics buffers property.</p>
-
+        
     </div>
 
 
@@ -1235,7 +907,7 @@ object.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_visual_Box.ts.html#l53"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Box.ts:53</code></a>
+        <a href="../files/src_davinci-eight_visual_Box.ts.html#l137"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Box.ts:137</code></a>
         </p>
 
 
@@ -1248,32 +920,107 @@ object.</p>
 
 
 </div>
-<div id="property_material" class="property item inherited">
-    <h3 class="name"><code>material</code></h3>
-    <span class="type"><a href="../classes/Material.html" class="crosslink">Material</a></span>
+<div id="property_initialAxis" class="property item">
+    <h3 class="name"><code>initialAxis</code></h3>
+    <span class="type"><a href="../classes/R3.html" class="crosslink">R3</a></span>
 
 
 
 
 
     <div class="meta">
-                <p>Inherited from
-                <a href="../classes/Drawable.html#property_material">Drawable</a>:
-        <a href="../files/src_davinci-eight_core_Drawable.ts.html#l186"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Drawable.ts:186</code></a>
+            <p>Inherited from
+            <a href="../classes/IGeometric3RigidBody.html#property_initialAxis">
+                IGeometric3RigidBody
+            </a>
+            but overwritten in
+        <a href="../files/src_davinci-eight_visual_Box.ts.html#l149"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Box.ts:149</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        <p>Provides a reference counted reference to the graphics program property.</p>
-
+        
     </div>
 
 
 
 </div>
-<div id="property_matrix" class="property item inherited">
+<div id="property_inner" class="property item private">
+    <h3 class="name"><code>inner</code></h3>
+    <span class="type"><a href="../classes/RigidBody.html" class="crosslink">RigidBody</a></span>
+
+
+        <span class="flag private">private</span>
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_visual_Box.ts.html#l31"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Box.ts:31</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_mass" class="property item">
+    <h3 class="name"><code>mass</code></h3>
+    <span class="type">Number</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_visual_Box.ts.html#l160"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Box.ts:160</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_material" class="property item">
+    <h3 class="name"><code>material</code></h3>
+    <span class="type"><a href="../classes/IMaterial.html" class="crosslink">IMaterial</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_visual_Box.ts.html#l171"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Box.ts:171</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_matrix" class="property item">
     <h3 class="name"><code>matrix</code></h3>
     <span class="type"><a href="../classes/Matrix4.html" class="crosslink">Matrix4</a></span>
 
@@ -1282,9 +1029,9 @@ object.</p>
 
 
     <div class="meta">
-                <p>Inherited from
-                <a href="../classes/Mesh.html#property_matrix">Mesh</a>:
-        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l135"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:135</code></a>
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_visual_Box.ts.html#l182"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Box.ts:182</code></a>
         </p>
 
 
@@ -1297,7 +1044,31 @@ object.</p>
 
 
 </div>
-<div id="property_name" class="property item inherited">
+<div id="property_momentum" class="property item">
+    <h3 class="name"><code>momentum</code></h3>
+    <span class="type">Number</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_visual_Box.ts.html#l193"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Box.ts:193</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_name" class="property item">
     <h3 class="name"><code>name</code></h3>
     <span class="type">String</span>
 
@@ -1306,9 +1077,9 @@ object.</p>
 
 
     <div class="meta">
-                <p>Inherited from
-                <a href="../classes/Drawable.html#property_name">Drawable</a>:
-        <a href="../files/src_davinci-eight_core_Drawable.ts.html#l34"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Drawable.ts:34</code></a>
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_visual_Box.ts.html#l204"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Box.ts:204</code></a>
         </p>
 
 
@@ -1321,7 +1092,7 @@ object.</p>
 
 
 </div>
-<div id="property_position" class="property item inherited">
+<div id="property_position" class="property item">
     <h3 class="name"><code>position</code></h3>
     <span class="type"><a href="../classes/Geometric3.html" class="crosslink">Geometric3</a></span>
 
@@ -1330,23 +1101,22 @@ object.</p>
 
 
     <div class="meta">
-                <p>Inherited from
-                <a href="../classes/Mesh.html#property_position">Mesh</a>:
-        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l147"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:147</code></a>
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_visual_Box.ts.html#l215"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Box.ts:215</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        <p>Position (vector)</p>
-
+        
     </div>
 
 
 
 </div>
-<div id="property_scale" class="property item inherited">
+<div id="property_scale" class="property item">
     <h3 class="name"><code>scale</code></h3>
     <span class="type"><a href="../classes/Vector3.html" class="crosslink">Vector3</a></span>
 
@@ -1355,34 +1125,9 @@ object.</p>
 
 
     <div class="meta">
-                <p>Inherited from
-                <a href="../classes/Mesh.html#property_scale">Mesh</a>:
-        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l172"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:172</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>Scale (vector)</p>
-
-    </div>
-
-
-
-</div>
-<div id="property_uuid" class="property item inherited">
-    <h3 class="name"><code>uuid</code></h3>
-    <span class="type">String</span>
-
-
-
-
-
-    <div class="meta">
-                <p>Inherited from
-                <a href="../classes/Shareable.html#property_uuid">Shareable</a>:
-        <a href="../files/src_davinci-eight_core_Shareable.ts.html#l92"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Shareable.ts:92</code></a>
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_visual_Box.ts.html#l226"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Box.ts:226</code></a>
         </p>
 
 
@@ -1395,7 +1140,7 @@ object.</p>
 
 
 </div>
-<div id="property_visible" class="property item inherited">
+<div id="property_visible" class="property item">
     <h3 class="name"><code>visible</code></h3>
     <span class="type">Boolean</span>
 
@@ -1404,9 +1149,9 @@ object.</p>
 
 
     <div class="meta">
-                <p>Inherited from
-                <a href="../classes/Drawable.html#property_visible">Drawable</a>:
-        <a href="../files/src_davinci-eight_core_Drawable.ts.html#l201"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Drawable.ts:201</code></a>
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_visual_Box.ts.html#l237"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Box.ts:237</code></a>
         </p>
 
 
@@ -1416,7 +1161,6 @@ object.</p>
         
     </div>
 
-        <p><strong>Default:</strong> true</p>
 
 
 </div>
@@ -1431,7 +1175,7 @@ object.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_visual_Box.ts.html#l41"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Box.ts:41</code></a>
+        <a href="../files/src_davinci-eight_visual_Box.ts.html#l248"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Box.ts:248</code></a>
         </p>
 
 

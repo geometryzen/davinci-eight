@@ -22,6 +22,7 @@ export default class Drawable extends ShareableContextListener {
      * @type {Geometry}
      * @private
      */
+    // FIXME: Make this private again (Sphere)
     protected _geometry: Geometry;
 
     /**
@@ -29,6 +30,7 @@ export default class Drawable extends ShareableContextListener {
      * @type {Material}
      * @private
      */
+    // FIXME: Make this private again (Sphere)
     protected _material: Material;
 
     /**

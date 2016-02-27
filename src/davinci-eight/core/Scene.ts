@@ -1,6 +1,6 @@
 import Facet from '../core/Facet';
 import IContextProvider from '../core/IContextProvider';
-import Drawable from './Drawable';
+import IDrawable from './IDrawable';
 import ShareableArray from '../collections/ShareableArray';
 import mustBeObject from '../checks/mustBeObject';
 import Geometry from './Geometry';
@@ -26,12 +26,12 @@ class ScenePart extends Shareable {
     /**
      * Keep track of the 'parent' mesh.
      */
-    private _mesh: Drawable;
+    private _mesh: IDrawable;
 
     /**
      *
      */
-    constructor(geometry: Geometry, mesh: Drawable) {
+    constructor(geometry: Geometry, mesh: IDrawable) {
         super('ScenePart')
         this._geometry = geometry
         this._geometry.addRef()
@@ -75,7 +75,7 @@ class ScenePart extends Shareable {
     }
 }
 
-function partsFromMesh(mesh: Drawable): ShareableArray<ScenePart> {
+function partsFromMesh(mesh: IDrawable): ShareableArray<ScenePart> {
     mustBeObject('mesh', mesh)
     const parts = new ShareableArray<ScenePart>()
     const geometry = mesh.geometry
@@ -103,7 +103,7 @@ function partsFromMesh(mesh: Drawable): ShareableArray<ScenePart> {
  */
 export default class Scene extends ShareableContextListener {
 
-    private _meshes: ShareableArray<Drawable>;
+    private _meshes: ShareableArray<IDrawable>;
     private _parts: ShareableArray<ScenePart>;
 
     // FIXME: Do I need the collection, or can I be fooled into thinking there is one monitor?
@@ -118,7 +118,7 @@ export default class Scene extends ShareableContextListener {
      */
     constructor() {
         super('Scene')
-        this._meshes = new ShareableArray<Drawable>()
+        this._meshes = new ShareableArray<IDrawable>()
         this._parts = new ShareableArray<ScenePart>()
     }
 
@@ -139,13 +139,13 @@ export default class Scene extends ShareableContextListener {
      * Adds the <code>mesh</code> to this <code>Scene</code>.
      * </p>
      * @method add
-     * @param mesh {Drawable}
+     * @param mesh {IDrawable}
      * @return {Void}
      * <p>
      * This method returns <code>undefined</code>.
      * </p>
      */
-    add(mesh: Drawable): void {
+    add(mesh: IDrawable): void {
         mustBeObject('mesh', mesh)
         this._meshes.push(mesh)
 
@@ -162,10 +162,10 @@ export default class Scene extends ShareableContextListener {
 
     /**
      * @method contains
-     * @param mesh {Drawable}
+     * @param mesh {IDrawable}
      * @return {boolean}
      */
-    contains(mesh: Drawable): boolean {
+    contains(mesh: IDrawable): boolean {
         mustBeObject('mesh', mesh)
         return this._meshes.indexOf(mesh) >= 0
     }
@@ -189,28 +189,28 @@ export default class Scene extends ShareableContextListener {
 
     /**
      * @method find
-     * @param match {(mesh: Drawable) => boolean}
+     * @param match {(mesh: IDrawable) => boolean}
      * @return {ShareableArray}
      */
-    find(match: (mesh: Drawable) => boolean): ShareableArray<Drawable> {
+    find(match: (mesh: IDrawable) => boolean): ShareableArray<IDrawable> {
         return this._meshes.find(match)
     }
 
     /**
      * @method findOne
-     * @param match {(mesh: Drawable) => boolean}
-     * @return {Drawable}
+     * @param match {(mesh: IDrawable) => boolean}
+     * @return {IDrawable}
      */
-    findOne(match: (mesh: Drawable) => boolean): Drawable {
+    findOne(match: (mesh: IDrawable) => boolean): IDrawable {
         return this._meshes.findOne(match)
     }
 
     /**
      * @method findOneByName
      * @param name {string}
-     * @return {Drawable}
+     * @return {IDrawable}
      */
-    findOneByName(name: string): Drawable {
+    findOneByName(name: string): IDrawable {
         return this.findOne(function(mesh) { return mesh.name === name })
     }
 
@@ -219,7 +219,7 @@ export default class Scene extends ShareableContextListener {
      * @param name {string}
      * @return {ShareableArray}
      */
-    findByName(name: string): ShareableArray<Drawable> {
+    findByName(name: string): ShareableArray<IDrawable> {
         return this.find(function(mesh) { return mesh.name === name })
     }
 
@@ -229,10 +229,10 @@ export default class Scene extends ShareableContextListener {
      * </p>
      *
      * @method remove
-     * @param mesh {Drawable}
+     * @param mesh {IDrawable}
      * @return {void}
      */
-    remove(mesh: Drawable): void {
+    remove(mesh: IDrawable): void {
         // TODO: Remove the appropriate parts from the scene.
         mustBeObject('mesh', mesh)
         const index = this._meshes.indexOf(mesh)

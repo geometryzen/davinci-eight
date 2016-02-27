@@ -4,16 +4,16 @@ import core from '../core'
 import Box from './Box'
 import Cylinder from './Cylinder'
 import CylinderOptions from './CylinderOptions'
-import RigidBody from './RigidBody'
 import DrawList from './DrawList'
 import Facet from '../core/Facet'
+import Geometric3 from '../math/Geometric3'
 import isDefined from '../checks/isDefined'
 import AmbientLight from '../facets/AmbientLight'
 import Drawable from '../core/Drawable'
-import Mesh from '../core/Mesh'
 import mustBeNumber from '../checks/mustBeNumber'
 import CameraControls from '../controls/CameraControls'
 import readOnly from '../i18n/readOnly'
+import RigidBody from './RigidBody'
 import Shareable from '../core/Shareable'
 import Sphere from './Sphere'
 import VectorE3 from '../math/VectorE3'
@@ -25,7 +25,7 @@ function updateAxis(body: RigidBody, options: { axis?: VectorE3 }): void {
     }
 }
 
-function updateColor(body: Mesh, options: { color?: Color }): void {
+function updateColor(body: {color: Color}, options: { color?: Color }): void {
     if (options.color) {
         body.color.copy(options.color)
     }
@@ -34,7 +34,7 @@ function updateColor(body: Mesh, options: { color?: Color }): void {
     }
 }
 
-function updatePosition(body: Mesh, options: { pos?: VectorE3 }): void {
+function updatePosition(body: {position: Geometric3}, options: { pos?: VectorE3 }): void {
     if (options.pos) {
         body.position.copyVector(options.pos)
     }

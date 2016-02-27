@@ -32,7 +32,7 @@ export default class Sphere extends RigidBody {
      * @return {void}
      * @protected
      */
-    protected destructor(): void {
+    public destructor(): void {
         super.destructor()
     }
 

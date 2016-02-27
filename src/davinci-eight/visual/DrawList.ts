@@ -2,18 +2,18 @@ import Facet from '../core/Facet'
 import IContextProvider from '../core/IContextProvider'
 import ShareableArray from '../collections/ShareableArray'
 import ShareableContextListener from '../core/ShareableContextListener'
-import Drawable from '../core/Drawable'
+import IDrawable from '../core/IDrawable'
 
 /**
- * A simple list of meshes that does not bypass the draw method of the Drawable.
- * This allows the Drawable to override the draw method to produce history and draw trails.
+ * A simple list of meshes that does not bypass the draw method of the IDrawable.
+ * This allows the IDrawable to override the draw method to produce history and draw trails.
  */
 export default class DrawList extends ShareableContextListener {
-    private _meshes: ShareableArray<Drawable>
+    private _meshes: ShareableArray<IDrawable>
 
     constructor() {
         super('DrawList')
-        this._meshes = new ShareableArray<Drawable>()
+        this._meshes = new ShareableArray<IDrawable>()
     }
 
     protected destructor(): void {
@@ -21,7 +21,7 @@ export default class DrawList extends ShareableContextListener {
         super.destructor()
     }
 
-    add(mesh: Drawable): void {
+    add(mesh: IDrawable): void {
         // Don't return the index because we don't want to guarantee the order.
         this._meshes.push(mesh)
     }

@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.199.0</em>
+            <em>API Docs for: 2.200.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -100,6 +100,10 @@
                                 <li><a href="../classes/IContextListener.html">IContextListener</a></li>
                                 <li><a href="../classes/IContextProgramConsumer.html">IContextProgramConsumer</a></li>
                                 <li><a href="../classes/IContextProvider.html">IContextProvider</a></li>
+                                <li><a href="../classes/IDrawable.html">IDrawable</a></li>
+                                <li><a href="../classes/IGeometric3RigidBody.html">IGeometric3RigidBody</a></li>
+                                <li><a href="../classes/IMaterial.html">IMaterial</a></li>
+                                <li><a href="../classes/IMesh.html">IMesh</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
@@ -237,7 +241,7 @@
         </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l48"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:48</code></a>
+            Defined in: <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l47"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:47</code></a>
         </div>
 
             Module: <a href="../modules/EIGHT.html">EIGHT</a>
@@ -270,7 +274,7 @@
                         <code>deviation</code>
                 </li>
                 <li class="arg">
-                        <code>direction</code>
+                        <code>initialAxis</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
@@ -285,7 +289,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l48"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:48</code></a>
+        <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l47"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:47</code></a>
         </p>
 
 
@@ -342,7 +346,7 @@
 
                 </li>
                 <li class="param">
-                        <code class="param-name">direction</code>
+                        <code class="param-name">initialAxis</code>
                         <span class="type"><a href="../classes/VectorE3.html" class="crosslink">VectorE3</a></span>
 
 
@@ -423,10 +427,6 @@
                     <h3>Properties</h3>
 
                     <ul class="index-list properties extends">
-                            <li class="index-item property private">
-                                <a href="#property__direction">_direction</a>
-
-                            </li>
                             <li class="index-item property private inherited">
                                 <a href="#property__facets">_facets</a>
 
@@ -461,6 +461,10 @@
                             </li>
                             <li class="index-item property inherited">
                                 <a href="#property_geometry">geometry</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_initialAxis">initialAxis</a>
 
                             </li>
                             <li class="index-item property">
@@ -579,7 +583,7 @@ Notifies this instance that something is referencing it.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Drawable.html#method_contextFree">Drawable</a>:
-        <a href="../files/src_davinci-eight_core_Drawable.ts.html#l123"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Drawable.ts:123</code></a>
+        <a href="../files/src_davinci-eight_core_Drawable.ts.html#l125"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Drawable.ts:125</code></a>
         </p>
 
 
@@ -641,7 +645,7 @@ Notifies this instance that something is referencing it.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Drawable.html#method_contextGain">Drawable</a>:
-        <a href="../files/src_davinci-eight_core_Drawable.ts.html#l133"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Drawable.ts:133</code></a>
+        <a href="../files/src_davinci-eight_core_Drawable.ts.html#l135"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Drawable.ts:135</code></a>
         </p>
 
 
@@ -697,7 +701,7 @@ Notifies this instance that something is referencing it.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Drawable.html#method_contextLost">Drawable</a>:
-        <a href="../files/src_davinci-eight_core_Drawable.ts.html#l143"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Drawable.ts:143</code></a>
+        <a href="../files/src_davinci-eight_core_Drawable.ts.html#l145"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Drawable.ts:145</code></a>
         </p>
 
 
@@ -741,7 +745,7 @@ Notifies this instance that something is referencing it.
                 Shareable
             </a>
             but overwritten in
-        <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l63"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:63</code></a>
+        <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l62"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:62</code></a>
         </p>
 
 
@@ -787,7 +791,7 @@ Notifies this instance that something is referencing it.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Drawable.html#method_draw">Drawable</a>:
-        <a href="../files/src_davinci-eight_core_Drawable.ts.html#l100"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Drawable.ts:100</code></a>
+        <a href="../files/src_davinci-eight_core_Drawable.ts.html#l102"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Drawable.ts:102</code></a>
         </p>
 
 
@@ -849,7 +853,7 @@ Notifies this instance that something is referencing it.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Drawable.html#method_getFacet">Drawable</a>:
-        <a href="../files/src_davinci-eight_core_Drawable.ts.html#l152"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Drawable.ts:152</code></a>
+        <a href="../files/src_davinci-eight_core_Drawable.ts.html#l154"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Drawable.ts:154</code></a>
         </p>
 
 
@@ -961,7 +965,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Drawable.html#method_setFacet">Drawable</a>:
-        <a href="../files/src_davinci-eight_core_Drawable.ts.html#l161"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Drawable.ts:161</code></a>
+        <a href="../files/src_davinci-eight_core_Drawable.ts.html#l163"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Drawable.ts:163</code></a>
         </p>
 
 
@@ -1027,7 +1031,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Drawable.html#method_setUniforms">Drawable</a>:
-        <a href="../files/src_davinci-eight_core_Drawable.ts.html#l83"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Drawable.ts:83</code></a>
+        <a href="../files/src_davinci-eight_core_Drawable.ts.html#l85"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Drawable.ts:85</code></a>
         </p>
 
 
@@ -1054,33 +1058,6 @@ Notifies this instance that something is dereferencing it.
             <div id="properties" class="api-class-tabpanel">
                 <h2 class="off-left">Properties</h2>
 
-<div id="property__direction" class="property item private">
-    <h3 class="name"><code>_direction</code></h3>
-    <span class="type"><a href="../classes/R3.html" class="crosslink">R3</a></span>
-
-
-        <span class="flag private">private</span>
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l38"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:38</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>Cache the initial axis value so that we can compute the axis at any
-time by rotating the initial axis using the Mesh attitude.</p>
-
-    </div>
-
-
-
-</div>
 <div id="property__facets" class="property item private inherited">
     <h3 class="name"><code>_facets</code></h3>
     <span class="type">Unknown</span>
@@ -1093,7 +1070,7 @@ time by rotating the initial axis using the Mesh attitude.</p>
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Drawable.html#property__facets">Drawable</a>:
-        <a href="../files/src_davinci-eight_core_Drawable.ts.html#l48"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Drawable.ts:48</code></a>
+        <a href="../files/src_davinci-eight_core_Drawable.ts.html#l50"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Drawable.ts:50</code></a>
         </p>
 
 
@@ -1143,7 +1120,7 @@ time by rotating the initial axis using the Mesh attitude.</p>
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Drawable.html#property__material">Drawable</a>:
-        <a href="../files/src_davinci-eight_core_Drawable.ts.html#l27"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Drawable.ts:27</code></a>
+        <a href="../files/src_davinci-eight_core_Drawable.ts.html#l28"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Drawable.ts:28</code></a>
         </p>
 
 
@@ -1168,7 +1145,7 @@ time by rotating the initial axis using the Mesh attitude.</p>
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Drawable.html#property__visible">Drawable</a>:
-        <a href="../files/src_davinci-eight_core_Drawable.ts.html#l41"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Drawable.ts:41</code></a>
+        <a href="../files/src_davinci-eight_core_Drawable.ts.html#l43"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Drawable.ts:43</code></a>
         </p>
 
 
@@ -1217,7 +1194,7 @@ time by rotating the initial axis using the Mesh attitude.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l72"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:72</code></a>
+        <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l71"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:71</code></a>
         </p>
 
 
@@ -1293,7 +1270,7 @@ object.</p>
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Drawable.html#property_geometry">Drawable</a>:
-        <a href="../files/src_davinci-eight_core_Drawable.ts.html#l171"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Drawable.ts:171</code></a>
+        <a href="../files/src_davinci-eight_core_Drawable.ts.html#l173"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Drawable.ts:173</code></a>
         </p>
 
 
@@ -1301,6 +1278,32 @@ object.</p>
 
     <div class="description">
         <p>Provides a reference counted reference to the graphics buffers property.</p>
+
+    </div>
+
+
+
+</div>
+<div id="property_initialAxis" class="property item">
+    <h3 class="name"><code>initialAxis</code></h3>
+    <span class="type"><a href="../classes/R3.html" class="crosslink">R3</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l38"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:38</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>Cache the initial axis value so that we can compute the axis at any
+time by rotating the initial axis using the Mesh attitude.</p>
 
     </div>
 
@@ -1344,7 +1347,7 @@ object.</p>
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Drawable.html#property_material">Drawable</a>:
-        <a href="../files/src_davinci-eight_core_Drawable.ts.html#l186"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Drawable.ts:186</code></a>
+        <a href="../files/src_davinci-eight_core_Drawable.ts.html#l188"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Drawable.ts:188</code></a>
         </p>
 
 
@@ -1419,7 +1422,7 @@ object.</p>
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Drawable.html#property_name">Drawable</a>:
-        <a href="../files/src_davinci-eight_core_Drawable.ts.html#l34"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Drawable.ts:34</code></a>
+        <a href="../files/src_davinci-eight_core_Drawable.ts.html#l36"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Drawable.ts:36</code></a>
         </p>
 
 
@@ -1517,7 +1520,7 @@ object.</p>
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Drawable.html#property_visible">Drawable</a>:
-        <a href="../files/src_davinci-eight_core_Drawable.ts.html#l201"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Drawable.ts:201</code></a>
+        <a href="../files/src_davinci-eight_core_Drawable.ts.html#l203"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Drawable.ts:203</code></a>
         </p>
 
 

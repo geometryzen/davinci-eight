@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.199.0</em>
+            <em>API Docs for: 2.200.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -100,6 +100,10 @@
                                 <li><a href="../classes/IContextListener.html">IContextListener</a></li>
                                 <li><a href="../classes/IContextProgramConsumer.html">IContextProgramConsumer</a></li>
                                 <li><a href="../classes/IContextProvider.html">IContextProvider</a></li>
+                                <li><a href="../classes/IDrawable.html">IDrawable</a></li>
+                                <li><a href="../classes/IGeometric3RigidBody.html">IGeometric3RigidBody</a></li>
+                                <li><a href="../classes/IMaterial.html">IMaterial</a></li>
+                                <li><a href="../classes/IMesh.html">IMesh</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
@@ -239,16 +243,16 @@ import core from &#x27;../core&#x27;
 import Box from &#x27;./Box&#x27;
 import Cylinder from &#x27;./Cylinder&#x27;
 import CylinderOptions from &#x27;./CylinderOptions&#x27;
-import RigidBody from &#x27;./RigidBody&#x27;
 import DrawList from &#x27;./DrawList&#x27;
 import Facet from &#x27;../core/Facet&#x27;
+import Geometric3 from &#x27;../math/Geometric3&#x27;
 import isDefined from &#x27;../checks/isDefined&#x27;
 import AmbientLight from &#x27;../facets/AmbientLight&#x27;
 import Drawable from &#x27;../core/Drawable&#x27;
-import Mesh from &#x27;../core/Mesh&#x27;
 import mustBeNumber from &#x27;../checks/mustBeNumber&#x27;
 import CameraControls from &#x27;../controls/CameraControls&#x27;
 import readOnly from &#x27;../i18n/readOnly&#x27;
+import RigidBody from &#x27;./RigidBody&#x27;
 import Shareable from &#x27;../core/Shareable&#x27;
 import Sphere from &#x27;./Sphere&#x27;
 import VectorE3 from &#x27;../math/VectorE3&#x27;
@@ -260,7 +264,7 @@ function updateAxis(body: RigidBody, options: { axis?: VectorE3 }): void {
     }
 }
 
-function updateColor(body: Mesh, options: { color?: Color }): void {
+function updateColor(body: {color: Color}, options: { color?: Color }): void {
     if (options.color) {
         body.color.copy(options.color)
     }
@@ -269,7 +273,7 @@ function updateColor(body: Mesh, options: { color?: Color }): void {
     }
 }
 
-function updatePosition(body: Mesh, options: { pos?: VectorE3 }): void {
+function updatePosition(body: {position: Geometric3}, options: { pos?: VectorE3 }): void {
     if (options.pos) {
         body.position.copyVector(options.pos)
     }

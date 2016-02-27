@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.199.0</em>
+            <em>API Docs for: 2.200.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -100,6 +100,10 @@
                                 <li><a href="../classes/IContextListener.html">IContextListener</a></li>
                                 <li><a href="../classes/IContextProgramConsumer.html">IContextProgramConsumer</a></li>
                                 <li><a href="../classes/IContextProvider.html">IContextProvider</a></li>
+                                <li><a href="../classes/IDrawable.html">IDrawable</a></li>
+                                <li><a href="../classes/IGeometric3RigidBody.html">IGeometric3RigidBody</a></li>
+                                <li><a href="../classes/IMaterial.html">IMaterial</a></li>
+                                <li><a href="../classes/IMesh.html">IMesh</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
@@ -235,7 +239,7 @@
     <pre class="code prettyprint linenums">
 import Facet from &#x27;../core/Facet&#x27;;
 import IContextProvider from &#x27;../core/IContextProvider&#x27;;
-import Drawable from &#x27;./Drawable&#x27;;
+import IDrawable from &#x27;./IDrawable&#x27;;
 import ShareableArray from &#x27;../collections/ShareableArray&#x27;;
 import mustBeObject from &#x27;../checks/mustBeObject&#x27;;
 import Geometry from &#x27;./Geometry&#x27;;
@@ -261,12 +265,12 @@ class ScenePart extends Shareable {
     /**
      * Keep track of the &#x27;parent&#x27; mesh.
      */
-    private _mesh: Drawable;
+    private _mesh: IDrawable;
 
     /**
      *
      */
-    constructor(geometry: Geometry, mesh: Drawable) {
+    constructor(geometry: Geometry, mesh: IDrawable) {
         super(&#x27;ScenePart&#x27;)
         this._geometry = geometry
         this._geometry.addRef()
@@ -310,7 +314,7 @@ class ScenePart extends Shareable {
     }
 }
 
-function partsFromMesh(mesh: Drawable): ShareableArray&lt;ScenePart&gt; {
+function partsFromMesh(mesh: IDrawable): ShareableArray&lt;ScenePart&gt; {
     mustBeObject(&#x27;mesh&#x27;, mesh)
     const parts = new ShareableArray&lt;ScenePart&gt;()
     const geometry = mesh.geometry
@@ -338,7 +342,7 @@ function partsFromMesh(mesh: Drawable): ShareableArray&lt;ScenePart&gt; {
  */
 export default class Scene extends ShareableContextListener {
 
-    private _meshes: ShareableArray&lt;Drawable&gt;;
+    private _meshes: ShareableArray&lt;IDrawable&gt;;
     private _parts: ShareableArray&lt;ScenePart&gt;;
 
     // FIXME: Do I need the collection, or can I be fooled into thinking there is one monitor?
@@ -353,7 +357,7 @@ export default class Scene extends ShareableContextListener {
      */
     constructor() {
         super(&#x27;Scene&#x27;)
-        this._meshes = new ShareableArray&lt;Drawable&gt;()
+        this._meshes = new ShareableArray&lt;IDrawable&gt;()
         this._parts = new ShareableArray&lt;ScenePart&gt;()
     }
 
@@ -374,13 +378,13 @@ export default class Scene extends ShareableContextListener {
      * Adds the &lt;code&gt;mesh&lt;/code&gt; to this &lt;code&gt;Scene&lt;/code&gt;.
      * &lt;/p&gt;
      * @method add
-     * @param mesh {Drawable}
+     * @param mesh {IDrawable}
      * @return {Void}
      * &lt;p&gt;
      * This method returns &lt;code&gt;undefined&lt;/code&gt;.
      * &lt;/p&gt;
      */
-    add(mesh: Drawable): void {
+    add(mesh: IDrawable): void {
         mustBeObject(&#x27;mesh&#x27;, mesh)
         this._meshes.push(mesh)
 
@@ -397,10 +401,10 @@ export default class Scene extends ShareableContextListener {
 
     /**
      * @method contains
-     * @param mesh {Drawable}
+     * @param mesh {IDrawable}
      * @return {boolean}
      */
-    contains(mesh: Drawable): boolean {
+    contains(mesh: IDrawable): boolean {
         mustBeObject(&#x27;mesh&#x27;, mesh)
         return this._meshes.indexOf(mesh) &gt;= 0
     }
@@ -424,28 +428,28 @@ export default class Scene extends ShareableContextListener {
 
     /**
      * @method find
-     * @param match {(mesh: Drawable) =&gt; boolean}
+     * @param match {(mesh: IDrawable) =&gt; boolean}
      * @return {ShareableArray}
      */
-    find(match: (mesh: Drawable) =&gt; boolean): ShareableArray&lt;Drawable&gt; {
+    find(match: (mesh: IDrawable) =&gt; boolean): ShareableArray&lt;IDrawable&gt; {
         return this._meshes.find(match)
     }
 
     /**
      * @method findOne
-     * @param match {(mesh: Drawable) =&gt; boolean}
-     * @return {Drawable}
+     * @param match {(mesh: IDrawable) =&gt; boolean}
+     * @return {IDrawable}
      */
-    findOne(match: (mesh: Drawable) =&gt; boolean): Drawable {
+    findOne(match: (mesh: IDrawable) =&gt; boolean): IDrawable {
         return this._meshes.findOne(match)
     }
 
     /**
      * @method findOneByName
      * @param name {string}
-     * @return {Drawable}
+     * @return {IDrawable}
      */
-    findOneByName(name: string): Drawable {
+    findOneByName(name: string): IDrawable {
         return this.findOne(function(mesh) { return mesh.name === name })
     }
 
@@ -454,7 +458,7 @@ export default class Scene extends ShareableContextListener {
      * @param name {string}
      * @return {ShareableArray}
      */
-    findByName(name: string): ShareableArray&lt;Drawable&gt; {
+    findByName(name: string): ShareableArray&lt;IDrawable&gt; {
         return this.find(function(mesh) { return mesh.name === name })
     }
 
@@ -464,10 +468,10 @@ export default class Scene extends ShareableContextListener {
      * &lt;/p&gt;
      *
      * @method remove
-     * @param mesh {Drawable}
+     * @param mesh {IDrawable}
      * @return {void}
      */
-    remove(mesh: Drawable): void {
+    remove(mesh: IDrawable): void {
         // TODO: Remove the appropriate parts from the scene.
         mustBeObject(&#x27;mesh&#x27;, mesh)
         const index = this._meshes.indexOf(mesh)

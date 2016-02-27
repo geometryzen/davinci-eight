@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.199.0</em>
+            <em>API Docs for: 2.200.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -100,6 +100,10 @@
                                 <li><a href="../classes/IContextListener.html">IContextListener</a></li>
                                 <li><a href="../classes/IContextProgramConsumer.html">IContextProgramConsumer</a></li>
                                 <li><a href="../classes/IContextProvider.html">IContextProvider</a></li>
+                                <li><a href="../classes/IDrawable.html">IDrawable</a></li>
+                                <li><a href="../classes/IGeometric3RigidBody.html">IGeometric3RigidBody</a></li>
+                                <li><a href="../classes/IMaterial.html">IMaterial</a></li>
+                                <li><a href="../classes/IMesh.html">IMesh</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
@@ -237,18 +241,18 @@ import Facet from &#x27;../core/Facet&#x27;
 import IContextProvider from &#x27;../core/IContextProvider&#x27;
 import ShareableArray from &#x27;../collections/ShareableArray&#x27;
 import ShareableContextListener from &#x27;../core/ShareableContextListener&#x27;
-import Drawable from &#x27;../core/Drawable&#x27;
+import IDrawable from &#x27;../core/IDrawable&#x27;
 
 /**
- * A simple list of meshes that does not bypass the draw method of the Drawable.
- * This allows the Drawable to override the draw method to produce history and draw trails.
+ * A simple list of meshes that does not bypass the draw method of the IDrawable.
+ * This allows the IDrawable to override the draw method to produce history and draw trails.
  */
 export default class DrawList extends ShareableContextListener {
-    private _meshes: ShareableArray&lt;Drawable&gt;
+    private _meshes: ShareableArray&lt;IDrawable&gt;
 
     constructor() {
         super(&#x27;DrawList&#x27;)
-        this._meshes = new ShareableArray&lt;Drawable&gt;()
+        this._meshes = new ShareableArray&lt;IDrawable&gt;()
     }
 
     protected destructor(): void {
@@ -256,7 +260,7 @@ export default class DrawList extends ShareableContextListener {
         super.destructor()
     }
 
-    add(mesh: Drawable): void {
+    add(mesh: IDrawable): void {
         // Don&#x27;t return the index because we don&#x27;t want to guarantee the order.
         this._meshes.push(mesh)
     }

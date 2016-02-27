@@ -1,5 +1,5 @@
 import IContextConsumer from './IContextConsumer'
-import Material from './Material'
+import IMaterial from './IMaterial'
 
 /**
  * @class Geometry
@@ -35,10 +35,10 @@ interface Geometry extends IContextConsumer {
 
     /**
      * @method draw
-     * @param material {Material}
+     * @param material {IMaterial}
      * @return {void}
      */
-    draw(material: Material): void
+    draw(material: IMaterial): void
 
     /**
      * @method isLeaf

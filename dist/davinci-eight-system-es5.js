@@ -3911,7 +3911,7 @@ System.register("davinci-eight/visual/Arrow.js", ["./deviation", "./direction", 
   };
 });
 
-System.register("davinci-eight/visual/Box.js", ["../checks/isDefined", "../checks/mustBeNumber", "./visualCache", "../core/Mesh"], function(exports_1) {
+System.register("davinci-eight/visual/Box.js", ["../checks/isDefined", "../checks/mustBeNumber", "./RigidBody", "../math/Spinor3", "../core/Shareable", "../math/Vector3", "./visualCache"], function(exports_1) {
   var __extends = (this && this.__extends) || function(d, b) {
     for (var p in b)
       if (b.hasOwnProperty(p))
@@ -3923,18 +3923,27 @@ System.register("davinci-eight/visual/Box.js", ["../checks/isDefined", "../check
   };
   var isDefined_1,
       mustBeNumber_1,
-      visualCache_1,
-      Mesh_1;
+      RigidBody_1,
+      Spinor3_1,
+      Shareable_1,
+      Vector3_1,
+      visualCache_1;
   var Box;
   return {
     setters: [function(isDefined_1_1) {
       isDefined_1 = isDefined_1_1;
     }, function(mustBeNumber_1_1) {
       mustBeNumber_1 = mustBeNumber_1_1;
+    }, function(RigidBody_1_1) {
+      RigidBody_1 = RigidBody_1_1;
+    }, function(Spinor3_1_1) {
+      Spinor3_1 = Spinor3_1_1;
+    }, function(Shareable_1_1) {
+      Shareable_1 = Shareable_1_1;
+    }, function(Vector3_1_1) {
+      Vector3_1 = Vector3_1_1;
     }, function(visualCache_1_1) {
       visualCache_1 = visualCache_1_1;
-    }, function(Mesh_1_1) {
-      Mesh_1 = Mesh_1_1;
     }],
     execute: function() {
       Box = (function(_super) {
@@ -3943,51 +3952,212 @@ System.register("davinci-eight/visual/Box.js", ["../checks/isDefined", "../check
           if (options === void 0) {
             options = {};
           }
-          _super.call(this, visualCache_1.default.box(options), visualCache_1.default.material(), 'Box');
-          this._geometry.release();
-          this._material.release();
+          _super.call(this, 'Box');
+          var geometry = visualCache_1.default.box(options);
+          var material = visualCache_1.default.material();
+          var deviation = Spinor3_1.default.one();
+          var direction = Vector3_1.default.vector(0, 1, 0);
+          this.inner = new RigidBody_1.default(geometry, material, 'Box', deviation, direction);
+          geometry.release();
+          material.release();
           this.width = isDefined_1.default(options.width) ? mustBeNumber_1.default('width', options.width) : 1;
           this.height = isDefined_1.default(options.height) ? mustBeNumber_1.default('height', options.height) : 1;
           this.depth = isDefined_1.default(options.depth) ? mustBeNumber_1.default('depth', options.depth) : 1;
         }
         Box.prototype.destructor = function() {
+          this.inner.release();
           _super.prototype.destructor.call(this);
         };
-        Object.defineProperty(Box.prototype, "width", {
+        Object.defineProperty(Box.prototype, "attitude", {
           get: function() {
-            return this.scale.x;
+            return this.inner.attitude;
           },
-          set: function(width) {
-            mustBeNumber_1.default('width', width);
-            this.scale.x = width;
+          set: function(attitude) {
+            this.inner.attitude = attitude;
           },
           enumerable: true,
           configurable: true
         });
-        Object.defineProperty(Box.prototype, "height", {
+        Object.defineProperty(Box.prototype, "axis", {
           get: function() {
-            return this.scale.y;
+            return this.inner.axis;
           },
-          set: function(height) {
-            mustBeNumber_1.default('height', height);
-            this.scale.y = height;
+          set: function(axis) {
+            this.inner.axis = axis;
+          },
+          enumerable: true,
+          configurable: true
+        });
+        Object.defineProperty(Box.prototype, "color", {
+          get: function() {
+            return this.inner.color;
+          },
+          set: function(color) {
+            this.inner.color = color;
           },
           enumerable: true,
           configurable: true
         });
         Object.defineProperty(Box.prototype, "depth", {
           get: function() {
-            return this.scale.z;
+            return this.inner.scale.z;
           },
           set: function(depth) {
             mustBeNumber_1.default('depth', depth);
-            this.scale.z = depth;
+            this.inner.scale.z = depth;
           },
           enumerable: true,
           configurable: true
         });
+        Object.defineProperty(Box.prototype, "deviation", {
+          get: function() {
+            return this.inner.deviation;
+          },
+          set: function(deviation) {
+            this.inner.deviation = deviation;
+          },
+          enumerable: true,
+          configurable: true
+        });
+        Object.defineProperty(Box.prototype, "geometry", {
+          get: function() {
+            return this.inner.geometry;
+          },
+          set: function(geometry) {
+            this.inner.geometry = geometry;
+          },
+          enumerable: true,
+          configurable: true
+        });
+        Object.defineProperty(Box.prototype, "height", {
+          get: function() {
+            return this.inner.scale.y;
+          },
+          set: function(height) {
+            mustBeNumber_1.default('height', height);
+            this.inner.scale.y = height;
+          },
+          enumerable: true,
+          configurable: true
+        });
+        Object.defineProperty(Box.prototype, "initialAxis", {
+          get: function() {
+            return this.inner.initialAxis;
+          },
+          set: function(initialAxis) {
+            this.inner.initialAxis = initialAxis;
+          },
+          enumerable: true,
+          configurable: true
+        });
+        Object.defineProperty(Box.prototype, "mass", {
+          get: function() {
+            return this.inner.mass;
+          },
+          set: function(mass) {
+            this.inner.mass = mass;
+          },
+          enumerable: true,
+          configurable: true
+        });
+        Object.defineProperty(Box.prototype, "material", {
+          get: function() {
+            return this.inner.material;
+          },
+          set: function(material) {
+            this.inner.material = material;
+          },
+          enumerable: true,
+          configurable: true
+        });
+        Object.defineProperty(Box.prototype, "matrix", {
+          get: function() {
+            return this.inner.matrix;
+          },
+          set: function(matrix) {
+            this.inner.matrix = matrix;
+          },
+          enumerable: true,
+          configurable: true
+        });
+        Object.defineProperty(Box.prototype, "momentum", {
+          get: function() {
+            return this.inner.momentum;
+          },
+          set: function(momentum) {
+            this.inner.momentum = momentum;
+          },
+          enumerable: true,
+          configurable: true
+        });
+        Object.defineProperty(Box.prototype, "name", {
+          get: function() {
+            return this.inner.name;
+          },
+          set: function(name) {
+            this.inner.name = name;
+          },
+          enumerable: true,
+          configurable: true
+        });
+        Object.defineProperty(Box.prototype, "position", {
+          get: function() {
+            return this.inner.position;
+          },
+          set: function(position) {
+            this.inner.position = position;
+          },
+          enumerable: true,
+          configurable: true
+        });
+        Object.defineProperty(Box.prototype, "scale", {
+          get: function() {
+            return this.inner.scale;
+          },
+          set: function(scale) {
+            this.inner.scale = scale;
+          },
+          enumerable: true,
+          configurable: true
+        });
+        Object.defineProperty(Box.prototype, "visible", {
+          get: function() {
+            return this.inner.visible;
+          },
+          set: function(visible) {
+            this.inner.visible = visible;
+          },
+          enumerable: true,
+          configurable: true
+        });
+        Object.defineProperty(Box.prototype, "width", {
+          get: function() {
+            return this.inner.scale.x;
+          },
+          set: function(width) {
+            mustBeNumber_1.default('width', width);
+            this.inner.scale.x = width;
+          },
+          enumerable: true,
+          configurable: true
+        });
+        Box.prototype.contextFree = function(context) {
+          return this.inner.contextFree(context);
+        };
+        Box.prototype.contextGain = function(context) {
+          return this.inner.contextGain(context);
+        };
+        Box.prototype.contextLost = function() {
+          return this.inner.contextLost();
+        };
+        Box.prototype.draw = function(ambients) {
+          return this.inner.draw(ambients);
+        };
+        Box.prototype.setUniforms = function() {
+          return this.inner.setUniforms();
+        };
         return Box;
-      })(Mesh_1.default);
+      })(Shareable_1.default);
       exports_1("default", Box);
     }
   };
@@ -5684,11 +5854,11 @@ System.register("davinci-eight/visual/RigidBody.js", ["../math/Geometric3", "../
     execute: function() {
       RigidBody = (function(_super) {
         __extends(RigidBody, _super);
-        function RigidBody(geometry, material, type, deviation, direction) {
+        function RigidBody(geometry, material, type, deviation, initialAxis) {
           _super.call(this, geometry, material, type);
           this.mass = 1;
           this.momentum = Geometric3_1.default.zero();
-          this._direction = R3_1.default.fromVector(direction, Unit_1.default.ONE);
+          this.initialAxis = R3_1.default.fromVector(initialAxis, Unit_1.default.ONE);
           this.deviation.copy(deviation);
         }
         RigidBody.prototype.destructor = function() {
@@ -5696,11 +5866,11 @@ System.register("davinci-eight/visual/RigidBody.js", ["../math/Geometric3", "../
         };
         Object.defineProperty(RigidBody.prototype, "axis", {
           get: function() {
-            return Geometric3_1.default.fromVector(this._direction).rotate(this.attitude);
+            return Geometric3_1.default.fromVector(this.initialAxis).rotate(this.attitude);
           },
           set: function(axis) {
             mustBeObject_1.default('axis', axis);
-            this.attitude.rotorFromDirections(this._direction, axis);
+            this.attitude.rotorFromDirections(this.initialAxis, axis);
           },
           enumerable: true,
           configurable: true
@@ -20119,10 +20289,10 @@ System.register("davinci-eight/core.js", [], function(exports_1) {
           this.safemode = true;
           this.strict = false;
           this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-          this.LAST_MODIFIED = '2016-02-26';
+          this.LAST_MODIFIED = '2016-02-27';
           this.NAMESPACE = 'EIGHT';
           this.verbose = false;
-          this.VERSION = '2.199.0';
+          this.VERSION = '2.200.0';
           this.logging = {};
         }
         return Eight;

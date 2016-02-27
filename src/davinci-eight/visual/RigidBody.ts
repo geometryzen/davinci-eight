@@ -39,11 +39,10 @@ export default class RigidBody extends Mesh implements IRigidBody<number, Geomet
      * Cache the initial axis value so that we can compute the axis at any
      * time by rotating the initial axis using the Mesh attitude.
      *
-     * @property _direction
+     * @property initialAxis
      * @type R3
-     * @private
      */
-    private _direction: R3;
+    public initialAxis: R3;
 
     /**
      * @class RigidBody
@@ -52,11 +51,11 @@ export default class RigidBody extends Mesh implements IRigidBody<number, Geomet
      * @param material {Material}
      * @param type {string}
      * @param deviation {SpinorE3} The deviation from the scaling reference frame.
-     * @param direction {VectorE3} The initial direction of the symmetry axis
+     * @param initialAxis {VectorE3} The initial direction of the symmetry axis
      */
-    constructor(geometry: Geometry, material: Material, type: string, deviation: SpinorE3, direction: VectorE3) {
+    constructor(geometry: Geometry, material: Material, type: string, deviation: SpinorE3, initialAxis: VectorE3) {
         super(geometry, material, type)
-        this._direction = R3.fromVector(direction, Unit.ONE)
+        this.initialAxis = R3.fromVector(initialAxis, Unit.ONE)
         this.deviation.copy(deviation)
     }
 
@@ -74,10 +73,10 @@ export default class RigidBody extends Mesh implements IRigidBody<number, Geomet
      * @type Geometric3
      */
     get axis(): Geometric3 {
-        return Geometric3.fromVector(this._direction).rotate(this.attitude)
+        return Geometric3.fromVector(this.initialAxis).rotate(this.attitude)
     }
     set axis(axis: Geometric3) {
         mustBeObject('axis', axis)
-        this.attitude.rotorFromDirections(this._direction, axis)
+        this.attitude.rotorFromDirections(this.initialAxis, axis)
     }
 }
