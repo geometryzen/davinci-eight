@@ -2163,10 +2163,10 @@ define('davinci-eight/core',["require", "exports"], function (require, exports) 
             this.safemode = true;
             this.strict = false;
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-            this.LAST_MODIFIED = '2016-02-23';
+            this.LAST_MODIFIED = '2016-02-26';
             this.NAMESPACE = 'EIGHT';
             this.verbose = false;
-            this.VERSION = '2.197.0';
+            this.VERSION = '2.198.0';
             this.logging = {};
         }
         return Eight;
