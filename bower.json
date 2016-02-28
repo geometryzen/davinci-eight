@@ -2,41 +2,32 @@
   "name": "davinci-eight",
   "version": "2.200.0",
   "description": "WebGL library for mathematical physics using Geometric Algebra",
-  "author":
-  {
+  "author": {
     "name": "David Holmes",
     "email": "david.geo.holmes@gmail.com"
   },
   "main": "./dist/davinci-eight.min.js",
-  "repository":
-  {
+  "repository": {
     "type": "git",
     "url": "git://github.com/geometryzen/davinci-eight.git"
   },
-  "bugs":
-  {
+  "bugs": {
     "url": "https://github.com/geometryzen/davinci-eight/issues"
   },
-  "licenses":
-  [
+  "licenses": [
     {
       "type": "MIT",
       "url": "https://github.com/geometryzen/davinci-eight/blob/master/LICENSE"
     }
   ],
-  "dependencies":
-  {
-  },
-  "devDependencies":
-  {
+  "devDependencies": {
     "jasmine": "~2.4.1",
     "almond": "~0.3.1",
     "r.js": "~2.1.22",
     "requirejs": "~2.1.22",
     "jscover": "http://github.com/tntim96/JSCover.git"
   },
-  "ignore":
-  [
+  "ignore": [
     ".settings",
     "node_modules",
     "test",

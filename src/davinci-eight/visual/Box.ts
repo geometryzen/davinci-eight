@@ -30,7 +30,7 @@ export default class Box extends RigidBody {
         // The options don't currently include an offset.
         const offset = Vector3.zero()
 
-        const geometry = visualCache.box(stress, tilt, offset)
+        const geometry = visualCache.box(stress, tilt, offset, options)
         this.geometry = geometry
         geometry.release()
 

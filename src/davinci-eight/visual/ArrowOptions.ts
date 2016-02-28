@@ -1,3 +1,4 @@
+import Color from '../core/Color'
 import VectorE3 from '../math/VectorE3'
 
 /**
@@ -6,10 +7,27 @@ import VectorE3 from '../math/VectorE3'
 interface ArrowOptions {
 
     /**
-     * @property axis
+     * @attribute axis
      * @type VectorE3
+     * @optional
+     * @default e2
      */
     axis?: VectorE3
+
+    /**
+     * @attribute color
+     * @type Color
+     * @optional
+     */
+    color?: Color
+
+    /**
+     * @attribute position
+     * @type VectorE3
+     * @optional
+     * @default 0
+     */
+    position?: VectorE3
 }
 
 export default ArrowOptions

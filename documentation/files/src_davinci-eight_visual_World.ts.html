@@ -50,8 +50,11 @@
                                 <li><a href="../classes/Attribute.html">Attribute</a></li>
                                 <li><a href="../classes/AxialPrimitivesBuilder.html">AxialPrimitivesBuilder</a></li>
                                 <li><a href="../classes/BlendFactor.html">BlendFactor</a></li>
+                                <li><a href="../classes/BootstrapOptions.html">BootstrapOptions</a></li>
                                 <li><a href="../classes/Box.html">Box</a></li>
                                 <li><a href="../classes/BoxGeometry.html">BoxGeometry</a></li>
+                                <li><a href="../classes/BoxGeometryOptions.html">BoxGeometryOptions</a></li>
+                                <li><a href="../classes/BoxOptions.html">BoxOptions</a></li>
                                 <li><a href="../classes/CameraControls.html">CameraControls</a></li>
                                 <li><a href="../classes/Capability.html">Capability</a></li>
                                 <li><a href="../classes/CC.html">CC</a></li>
@@ -149,6 +152,7 @@
                                 <li><a href="../classes/Sphere.html">Sphere</a></li>
                                 <li><a href="../classes/SphereBuilder.html">SphereBuilder</a></li>
                                 <li><a href="../classes/SphereGeometry.html">SphereGeometry</a></li>
+                                <li><a href="../classes/SphereOptions.html">SphereOptions</a></li>
                                 <li><a href="../classes/Spinor2.html">Spinor2</a></li>
                                 <li><a href="../classes/Spinor3.html">Spinor3</a></li>
                                 <li><a href="../classes/SpinorE1.html">SpinorE1</a></li>
@@ -237,14 +241,15 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 import Arrow from &#x27;./Arrow&#x27;
+import ArrowOptions from &#x27;./ArrowOptions&#x27;
 import Color from &#x27;../core/Color&#x27;
 import core from &#x27;../core&#x27;
 import Box from &#x27;./Box&#x27;
+import BoxOptions from &#x27;./BoxOptions&#x27;
 import Cylinder from &#x27;./Cylinder&#x27;
 import CylinderOptions from &#x27;./CylinderOptions&#x27;
 import DrawList from &#x27;./DrawList&#x27;
 import Facet from &#x27;../core/Facet&#x27;
-import Geometric3 from &#x27;../math/Geometric3&#x27;
 import isDefined from &#x27;../checks/isDefined&#x27;
 import AmbientLight from &#x27;../facets/AmbientLight&#x27;
 import Drawable from &#x27;../core/Drawable&#x27;
@@ -254,27 +259,15 @@ import readOnly from &#x27;../i18n/readOnly&#x27;
 import RigidBody from &#x27;./RigidBody&#x27;
 import Shareable from &#x27;../core/Shareable&#x27;
 import Sphere from &#x27;./Sphere&#x27;
+import SphereOptions from &#x27;./SphereOptions&#x27;
 import VectorE3 from &#x27;../math/VectorE3&#x27;
 import WebGLRenderer from &#x27;../core/WebGLRenderer&#x27;
+
+
 
 function updateAxis(body: RigidBody, options: { axis?: VectorE3 }): void {
     if (options.axis) {
         body.axis.copyVector(options.axis).direction()
-    }
-}
-
-function updateColor(body: {color: Color}, options: { color?: Color }): void {
-    if (options.color) {
-        body.color.copy(options.color)
-    }
-    else {
-        body.color = Color.fromRGB(0.6, 0.6, 0.6)
-    }
-}
-
-function updatePosition(body: {position: Geometric3}, options: { pos?: VectorE3 }): void {
-    if (options.pos) {
-        body.position.copyVector(options.pos)
     }
 }
 
@@ -378,18 +371,17 @@ export default class World extends Shareable {
      * @method arrow
      * @return {Arrow}
      */
-    arrow(
-        options: {
-            axis?: VectorE3;
-            color?: Color;
-            pos?: VectorE3;
-        } = {}): Arrow {
+    arrow(options: ArrowOptions = {}): Arrow {
         const arrow = new Arrow(options)
         updateAxis(arrow, options)
-        updateColor(arrow, options)
-        updatePosition(arrow, options)
+        if (options.color) {
+            arrow.color.copy(options.color)
+        }
+        if (isDefined(options.position)) {
+            arrow.position.copyVector(options.position)
+        }
+        //      arrow.length = isDefined(options.length) ? mustBeNumber(&#x27;length&#x27;, options.length) : 1.0
         this.drawList.add(arrow)
-        arrow.release()
         return arrow
     }
 
@@ -397,20 +389,18 @@ export default class World extends Shareable {
      * @method box
      * @return {Box}
      */
-    box(
-        options: {
-            axis?: VectorE3;
-            color?: Color;
-            pos?: VectorE3;
-            width?: number;
-            height?: number;
-            depth?: number;
-        } = {}): Box {
+    box(options: BoxOptions = {}): Box {
         const box = new Box(options)
-        updateColor(box, options)
-        updatePosition(box, options)
+        if (options.color) {
+            box.color.copy(options.color)
+        }
+        if (options.position) {
+            box.position.copyVector(options.position)
+        }
+        box.width = isDefined(options.width) ? mustBeNumber(&#x27;width&#x27;, options.width) : 1.0
+        box.height = isDefined(options.height) ? mustBeNumber(&#x27;height&#x27;, options.height) : 1.0
+        box.depth = isDefined(options.depth) ? mustBeNumber(&#x27;depth&#x27;, options.depth) : 1.0
         this.drawList.add(box)
-        box.release()
         return box
     }
 
@@ -422,11 +412,15 @@ export default class World extends Shareable {
     cylinder(options: CylinderOptions = {}): Cylinder {
         const cylinder = new Cylinder(options)
         updateAxis(cylinder, options)
-        updateColor(cylinder, options)
-        updatePosition(cylinder, options)
+        if (options.color) {
+            cylinder.color.copy(options.color)
+        }
+        if (options.position) {
+            cylinder.position.copyVector(options.position)
+        }
         cylinder.radius = isDefined(options.radius) ? mustBeNumber(&#x27;radius&#x27;, options.radius) : 0.5
+        cylinder.length = isDefined(options.length) ? mustBeNumber(&#x27;length&#x27;, options.length) : 1.0
         this.drawList.add(cylinder)
-        cylinder.release()
         return cylinder
     }
 
@@ -434,18 +428,16 @@ export default class World extends Shareable {
      * @method sphere
      * @return {Sphere}
      */
-    sphere(
-        options: {
-            color?: Color;
-            pos?: VectorE3;
-            radius?: number;
-        } = {}): Sphere {
+    sphere(options: SphereOptions = {}): Sphere {
         const sphere = new Sphere()
-        updateColor(sphere, options)
-        updatePosition(sphere, options)
+        if (options.color) {
+            sphere.color.copy(options.color)
+        }
+        if (options.position) {
+            sphere.position.copyVector(options.position)
+        }
         sphere.radius = isDefined(options.radius) ? mustBeNumber(&#x27;radius&#x27;, options.radius) : 0.5
         this.drawList.add(sphere)
-        sphere.release()
         return sphere
     }
 }

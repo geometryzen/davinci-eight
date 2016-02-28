@@ -1,5 +1,7 @@
 import ArrowGeometry from '../geometries/ArrowGeometry'
 import BoxGeometry from '../geometries/BoxGeometry'
+import BoxGeometryOptions from '../geometries/BoxGeometryOptions'
+import BoxOptions from './BoxOptions'
 import CylinderGeometry from '../geometries/CylinderGeometry'
 import Geometry from '../core/Geometry'
 import Material from '../core/Material'
@@ -24,8 +26,18 @@ class VisualCache {
     arrow(stress: VectorE3, tilt: SpinorE3, offset: VectorE3): Geometry {
         return new ArrowGeometry()
     }
-    box(stress: VectorE3, tilt: SpinorE3, offset: VectorE3): Geometry {
-        return new BoxGeometry()
+    box(stress: VectorE3, tilt: SpinorE3, offset: VectorE3, boxOptions: BoxOptions): Geometry {
+        const geoOptions: BoxGeometryOptions = {}
+
+        // Ignore the width, height, and depth in creating the Geometry.
+        // Instead, create a unit cube and achieve the correct size through scaling.
+        // geoOptions.width = boxOptions.width
+        // geoOptions.height = boxOptions.height
+        // geoOptions.depth = boxOptions.depth
+
+        geoOptions.offset = boxOptions.offset
+
+        return new BoxGeometry(geoOptions)
     }
     cylinder(stress: VectorE3, tilt: SpinorE3, offset: VectorE3): Geometry {
         return new CylinderGeometry()

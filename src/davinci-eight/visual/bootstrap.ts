@@ -1,3 +1,4 @@
+import BootstrapOptions from './BootstrapOptions'
 import Color from '../core/Color'
 import R3 from '../math/R3'
 import DirectionalLight from '../facets/DirectionalLight'
@@ -6,6 +7,7 @@ import isDefined from '../checks/isDefined'
 import mustBeBoolean from '../checks/mustBeBoolean'
 import mustBeFunction from '../checks/mustBeFunction'
 import mustBeNumber from '../checks/mustBeNumber'
+import mustBeObject from '../checks/mustBeObject'
 import mustBeString from '../checks/mustBeString'
 import DrawList from './DrawList'
 import PerspectiveCamera from '../facets/PerspectiveCamera'
@@ -17,19 +19,14 @@ import WebGLRenderer from '../core/WebGLRenderer'
 export default function(
     canvasId: string,
     animate: (timestamp: number) => any,
-    options: {
-        height?: number;
-        memcheck?: boolean;
-        onload?: () => any;
-        onunload?: () => any;
-        width?: number;
-    } = {}): World {
+    options: BootstrapOptions = {}): World {
 
     mustBeString('canvasId', canvasId)
     mustBeFunction('animate', animate)
+    mustBeObject('options', options)
 
     options.height = isDefined(options.height) ? mustBeNumber('options.height', options.height) : void 0
-    options.memcheck = isDefined(options.memcheck) ? mustBeBoolean('options.memcheck', options.memcheck) : false
+    options.memcheck = isDefined(options.memcheck) ? mustBeBoolean('options.memcheck', options.memcheck) : true
     options.onload = isDefined(options.onload) ? mustBeFunction('options.onload', options.onload) : void 0
     options.onunload = isDefined(options.onunload) ? mustBeFunction('options.onunload', options.onunload) : void 0
     options.width = isDefined(options.width) ? mustBeNumber('options.width', options.width) : void 0
@@ -116,7 +113,6 @@ export default function(
         }
 
         controls.release()
-        world.release()
         drawList.release()
         renderer.release()
 

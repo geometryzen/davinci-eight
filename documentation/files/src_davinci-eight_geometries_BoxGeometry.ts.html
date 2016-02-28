@@ -50,8 +50,11 @@
                                 <li><a href="../classes/Attribute.html">Attribute</a></li>
                                 <li><a href="../classes/AxialPrimitivesBuilder.html">AxialPrimitivesBuilder</a></li>
                                 <li><a href="../classes/BlendFactor.html">BlendFactor</a></li>
+                                <li><a href="../classes/BootstrapOptions.html">BootstrapOptions</a></li>
                                 <li><a href="../classes/Box.html">Box</a></li>
                                 <li><a href="../classes/BoxGeometry.html">BoxGeometry</a></li>
+                                <li><a href="../classes/BoxGeometryOptions.html">BoxGeometryOptions</a></li>
+                                <li><a href="../classes/BoxOptions.html">BoxOptions</a></li>
                                 <li><a href="../classes/CameraControls.html">CameraControls</a></li>
                                 <li><a href="../classes/Capability.html">Capability</a></li>
                                 <li><a href="../classes/CC.html">CC</a></li>
@@ -149,6 +152,7 @@
                                 <li><a href="../classes/Sphere.html">Sphere</a></li>
                                 <li><a href="../classes/SphereBuilder.html">SphereBuilder</a></li>
                                 <li><a href="../classes/SphereGeometry.html">SphereGeometry</a></li>
+                                <li><a href="../classes/SphereOptions.html">SphereOptions</a></li>
                                 <li><a href="../classes/Spinor2.html">Spinor2</a></li>
                                 <li><a href="../classes/Spinor3.html">Spinor3</a></li>
                                 <li><a href="../classes/SpinorE1.html">SpinorE1</a></li>
@@ -236,41 +240,19 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
+import BoxGeometryOptions from &#x27;./BoxGeometryOptions&#x27;
 import GeometryContainer from &#x27;../core/GeometryContainer&#x27;
 import GeometryBuffers from &#x27;../core/GeometryBuffers&#x27;
 import isDefined from &#x27;../checks/isDefined&#x27;
-import Primitive from &#x27;../core/Primitive&#x27;
-import mustBeBoolean from &#x27;../checks/mustBeBoolean&#x27;
 import mustBeNumber from &#x27;../checks/mustBeNumber&#x27;
 import notSupported from &#x27;../i18n/notSupported&#x27;
-import CuboidPrimitivesBuilder from &#x27;./CuboidPrimitivesBuilder&#x27;;
-import CuboidSimplexPrimitivesBuilder from &#x27;./CuboidSimplexPrimitivesBuilder&#x27;
-import R3 from &#x27;../math/R3&#x27;
-import Simplex from &#x27;./Simplex&#x27;
+import CuboidPrimitivesBuilder from &#x27;./CuboidPrimitivesBuilder&#x27;
 import vertexArraysFromPrimitive from &#x27;../core/vertexArraysFromPrimitive&#x27;
 
 /**
  * @module EIGHT
  * @submodule geometries
  */
-
-function primitives(width: number, height: number, depth: number, wireFrame: boolean): Primitive[] {
-    mustBeNumber(&#x27;width&#x27;, width)
-    mustBeNumber(&#x27;height&#x27;, height)
-    mustBeNumber(&#x27;depth&#x27;, depth)
-    mustBeBoolean(&#x27;wireFrame&#x27;, wireFrame)
-    if (wireFrame) {
-        const builder = new CuboidSimplexPrimitivesBuilder(R3.e1, R3.e2, R3.e3, Simplex.LINE, 0, 1)
-        return builder.toPrimitives()
-    }
-    else {
-        const builder = new CuboidPrimitivesBuilder()
-        builder.width = width
-        builder.height = height
-        builder.depth = depth
-        return builder.toPrimitives()
-    }
-}
 
 /**
  * A convenience class for creating a BoxGeometry.
@@ -283,15 +265,20 @@ export default class BoxGeometry extends GeometryContainer {
     /**
      * @class BoxGeometry
      * @constructor
-     * @param [options = {}] {{ width?: number; height?: number; depth?: number }}
+     * @param [options = {}] {BoxGeometryOptions}
      */
-    constructor(options: { width?: number; height?: number; depth?: number, wireFrame?: boolean } = {}) {
+    constructor(options: BoxGeometryOptions = {}) {
         super(&#x27;BoxGeometry&#x27;)
-        const width = isDefined(options.width) ? mustBeNumber(&#x27;width&#x27;, options.width) : 1
-        const height = isDefined(options.height) ? mustBeNumber(&#x27;height&#x27;, options.height) : 1
-        const depth = isDefined(options.depth) ? mustBeNumber(&#x27;depth&#x27;, options.depth) : 1
-        const wireFrame = isDefined(options.wireFrame) ? mustBeBoolean(&#x27;wireFrame&#x27;, options.wireFrame) : false
-        const ps = primitives(width, height, depth, wireFrame)
+
+        const builder = new CuboidPrimitivesBuilder()
+        builder.width = isDefined(options.width) ? mustBeNumber(&#x27;width&#x27;, options.width) : 1
+        builder.height = isDefined(options.height) ? mustBeNumber(&#x27;height&#x27;, options.height) : 1
+        builder.depth = isDefined(options.depth) ? mustBeNumber(&#x27;depth&#x27;, options.depth) : 1
+        if (isDefined(options.offset)) {
+            builder.offset.copy(options.offset)
+        }
+        const ps = builder.toPrimitives()
+
         const iLen = ps.length
         for (let i = 0; i &lt; iLen; i++) {
             const dataSource = ps[i]

@@ -13,6 +13,12 @@ import vertexArraysFromPrimitive from '../core/vertexArraysFromPrimitive'
 /**
  * A convenience class for creating a Cylinder.
  *
+ * @example
+ *   const geometry = new EIGHT.CylinderGeometry()
+ *   const material = new EIGHT.MeshMaterial()
+ *   const cylinder = new EIGHT.Mesh()
+ *   scene.add(cylinder)
+ *
  * @class CylinderGeometry
  * @extends GeometryContainer
  */

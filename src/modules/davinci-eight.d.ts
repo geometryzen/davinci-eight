@@ -3543,7 +3543,10 @@ declare module EIGHT {
         width: number;
         height: number;
         depth: number;
-        constructor(options?: { axis?: VectorE3 })
+        constructor(
+          options?: {
+            axis?: VectorE3
+          })
     }
 
     class Cylinder extends RigidBody {
@@ -3600,29 +3603,30 @@ declare module EIGHT {
             options?: {
                 axis?: VectorE3;
                 color?: Color;
-                pos?: VectorE3;
+                position?: VectorE3;
             }): Arrow
         box(
             options?: {
-                axis?: VectorE3;
-                color?: Color;
-                pos?: VectorE3;
-                width?: number;
-                height?: number;
                 depth?: number;
+                color?: Color;
+                height?: number;
+                offset?: VectorE3;
+                position?: VectorE3;
+                width?: number;
             }): Box
         sphere(
             options?: {
-                axis?: VectorE3;
                 color?: Color;
-                pos?: VectorE3;
+                offset?: VectorE3;
+                position?: VectorE3;
                 radius?: number;
             }): Sphere
         cylinder(
             options?: {
                 axis?: VectorE3;
                 color?: Color;
-                pos?: VectorE3;
+                length?: number;
+                position?: VectorE3;
                 radius?: number;
             }): Cylinder
         ambients: Facet[]

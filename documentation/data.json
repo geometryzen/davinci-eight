@@ -779,6 +779,15 @@
             "fors": {},
             "namespaces": {}
         },
+        "src/davinci-eight/geometries/BoxGeometryOptions.ts": {
+            "name": "src/davinci-eight/geometries/BoxGeometryOptions.ts",
+            "modules": {},
+            "classes": {
+                "BoxGeometryOptions": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "src/davinci-eight/geometries/ConicalShellBuilder.ts": {
             "name": "src/davinci-eight/geometries/ConicalShellBuilder.ts",
             "modules": {},
@@ -1719,11 +1728,29 @@
             "fors": {},
             "namespaces": {}
         },
+        "src/davinci-eight/visual/BootstrapOptions.ts": {
+            "name": "src/davinci-eight/visual/BootstrapOptions.ts",
+            "modules": {},
+            "classes": {
+                "BootstrapOptions": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "src/davinci-eight/visual/Box.ts": {
             "name": "src/davinci-eight/visual/Box.ts",
             "modules": {},
             "classes": {
                 "Box": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/visual/BoxOptions.ts": {
+            "name": "src/davinci-eight/visual/BoxOptions.ts",
+            "modules": {},
+            "classes": {
+                "BoxOptions": 1
             },
             "fors": {},
             "namespaces": {}
@@ -1792,6 +1819,15 @@
             "modules": {},
             "classes": {
                 "Sphere": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/visual/SphereOptions.ts": {
+            "name": "src/davinci-eight/visual/SphereOptions.ts",
+            "modules": {},
+            "classes": {
+                "SphereOptions": 1
             },
             "fors": {},
             "namespaces": {}
@@ -1944,6 +1980,7 @@
                 "ArrowGeometry": 1,
                 "AxialPrimitivesBuilder": 1,
                 "BoxGeometry": 1,
+                "BoxGeometryOptions": 1,
                 "ConicalShellBuilder": 1,
                 "CuboidPrimitivesBuilder": 1,
                 "CylinderBuilder": 1,
@@ -2005,13 +2042,16 @@
                 "VectorN": 1,
                 "Arrow": 1,
                 "ArrowOptions": 1,
+                "BootstrapOptions": 1,
                 "Box": 1,
+                "BoxOptions": 1,
                 "Cylinder": 1,
                 "CylinderOptions": 1,
                 "IGeometric3RigidBody": 1,
                 "RigidBody": 1,
                 "RigidBodyWithUnits": 1,
                 "Sphere": 1,
+                "SphereOptions": 1,
                 "Tetrahedron": 1,
                 "Trail": 1,
                 "World": 1
@@ -2019,7 +2059,7 @@
             "fors": {},
             "namespaces": {},
             "file": "src/davinci-eight/visual/World.ts",
-            "line": 59
+            "line": 48
         },
         "controls": {
             "name": "controls",
@@ -2209,7 +2249,7 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/visual/World.ts",
-            "line": 59,
+            "line": 48,
             "description": "Convenient abstractions for Physics modeling."
         }
     },
@@ -3789,17 +3829,30 @@
             "submodule": "geometries",
             "namespace": "",
             "file": "src/davinci-eight/geometries/BoxGeometry.ts",
-            "line": 45,
+            "line": 23,
             "description": "A convenience class for creating a BoxGeometry.",
             "extends": "Geometry",
             "is_constructor": 1,
             "params": [
                 {
                     "name": "options ",
-                    "description": "{{ width?: number; height?: number; depth?: number }}",
+                    "description": "{BoxGeometryOptions}",
                     "optional": true
                 }
             ]
+        },
+        "BoxGeometryOptions": {
+            "name": "BoxGeometryOptions",
+            "shortname": "BoxGeometryOptions",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/geometries/BoxGeometryOptions.ts",
+            "line": 3
         },
         "ConicalShellBuilder": {
             "name": "ConicalShellBuilder",
@@ -3891,8 +3944,11 @@
             "submodule": "geometries",
             "namespace": "",
             "file": "src/davinci-eight/geometries/CylinderGeometry.ts",
-            "line": 21,
+            "line": 27,
             "description": "A convenience class for creating a Cylinder.",
+            "example": [
+                "\n  const geometry = new EIGHT.CylinderGeometry()\n  const material = new EIGHT.MeshMaterial()\n  const cylinder = new EIGHT.Mesh()\n  scene.add(cylinder)"
+            ],
             "extends": "GeometryContainer",
             "is_constructor": 1,
             "params": [
@@ -5089,7 +5145,20 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/visual/ArrowOptions.ts",
-            "line": 3
+            "line": 4
+        },
+        "BootstrapOptions": {
+            "name": "BootstrapOptions",
+            "shortname": "BootstrapOptions",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/visual/BootstrapOptions.ts",
+            "line": 1
         },
         "Box": {
             "name": "Box",
@@ -5113,6 +5182,19 @@
                     "optional": true
                 }
             ]
+        },
+        "BoxOptions": {
+            "name": "BoxOptions",
+            "shortname": "BoxOptions",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/visual/BoxOptions.ts",
+            "line": 4
         },
         "Cylinder": {
             "name": "Cylinder",
@@ -5252,6 +5334,20 @@
                 }
             ]
         },
+        "SphereOptions": {
+            "name": "SphereOptions",
+            "shortname": "SphereOptions",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/visual/SphereOptions.ts",
+            "line": 5,
+            "description": "The options for creating a Sphere."
+        },
         "Tetrahedron": {
             "name": "Tetrahedron",
             "shortname": "Tetrahedron",
@@ -5311,7 +5407,7 @@
             "submodule": "visual",
             "namespace": "",
             "file": "src/davinci-eight/visual/World.ts",
-            "line": 59,
+            "line": 48,
             "extends": "Shareable",
             "is_constructor": 1
         }
@@ -13619,7 +13715,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/BoxGeometry.ts",
-            "line": 66,
+            "line": 49,
             "itemtype": "method",
             "name": "getPrincipalScale",
             "params": [
@@ -13639,7 +13735,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/BoxGeometry.ts",
-            "line": 91,
+            "line": 74,
             "itemtype": "method",
             "name": "setPrincipalScale",
             "params": [
@@ -13661,6 +13757,49 @@
             "class": "BoxGeometry",
             "module": "EIGHT",
             "submodule": "geometries"
+        },
+        {
+            "file": "src/davinci-eight/geometries/BoxGeometryOptions.ts",
+            "line": 8,
+            "itemtype": "property",
+            "name": "depth",
+            "type": "number",
+            "optional": 1,
+            "default": "1",
+            "class": "BoxGeometryOptions",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/BoxGeometryOptions.ts",
+            "line": 16,
+            "itemtype": "property",
+            "name": "height",
+            "type": "number",
+            "optional": 1,
+            "default": "1",
+            "class": "BoxGeometryOptions",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/BoxGeometryOptions.ts",
+            "line": 24,
+            "itemtype": "property",
+            "name": "offset",
+            "type": "VectorE3",
+            "default": "0",
+            "class": "BoxGeometryOptions",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/BoxGeometryOptions.ts",
+            "line": 31,
+            "itemtype": "property",
+            "name": "width",
+            "type": "number",
+            "optional": 1,
+            "default": "1",
+            "class": "BoxGeometryOptions",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/geometries/ConicalShellBuilder.ts",
@@ -13844,7 +13983,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/CylinderGeometry.ts",
-            "line": 44,
+            "line": 50,
             "itemtype": "property",
             "name": "radius",
             "type": "number",
@@ -13854,7 +13993,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/CylinderGeometry.ts",
-            "line": 55,
+            "line": 61,
             "itemtype": "property",
             "name": "length",
             "type": "number",
@@ -13864,7 +14003,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/CylinderGeometry.ts",
-            "line": 66,
+            "line": 72,
             "itemtype": "method",
             "name": "getPrincipalScale",
             "params": [
@@ -13884,7 +14023,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/CylinderGeometry.ts",
-            "line": 87,
+            "line": 93,
             "itemtype": "method",
             "name": "setPrincipalScale",
             "params": [
@@ -30634,10 +30773,33 @@
         },
         {
             "file": "src/davinci-eight/visual/ArrowOptions.ts",
-            "line": 8,
-            "itemtype": "property",
+            "line": 9,
+            "itemtype": "attribute",
             "name": "axis",
             "type": "VectorE3",
+            "optional": 1,
+            "default": "e2",
+            "class": "ArrowOptions",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/visual/ArrowOptions.ts",
+            "line": 17,
+            "itemtype": "attribute",
+            "name": "color",
+            "type": "Color",
+            "optional": 1,
+            "class": "ArrowOptions",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/visual/ArrowOptions.ts",
+            "line": 24,
+            "itemtype": "attribute",
+            "name": "position",
+            "type": "VectorE3",
+            "optional": 1,
+            "default": "0",
             "class": "ArrowOptions",
             "module": "EIGHT"
         },
@@ -30688,6 +30850,71 @@
             "submodule": "visual"
         },
         {
+            "file": "src/davinci-eight/visual/BoxOptions.ts",
+            "line": 9,
+            "itemtype": "attribute",
+            "name": "color",
+            "type": "Color",
+            "optional": 1,
+            "class": "BoxOptions",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/visual/BoxOptions.ts",
+            "line": 16,
+            "itemtype": "attribute",
+            "name": "depth",
+            "type": "number",
+            "optional": 1,
+            "default": "1",
+            "class": "BoxOptions",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/visual/BoxOptions.ts",
+            "line": 24,
+            "itemtype": "attribute",
+            "name": "height",
+            "type": "number",
+            "optional": 1,
+            "default": "1",
+            "class": "BoxOptions",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/visual/BoxOptions.ts",
+            "line": 32,
+            "itemtype": "attribute",
+            "name": "offset",
+            "type": "VectorE3",
+            "optional": 1,
+            "default": "0",
+            "class": "BoxOptions",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/visual/BoxOptions.ts",
+            "line": 40,
+            "itemtype": "attribute",
+            "name": "position",
+            "type": "VectorE3",
+            "optional": 1,
+            "default": "0",
+            "class": "BoxOptions",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/visual/BoxOptions.ts",
+            "line": 48,
+            "itemtype": "attribute",
+            "name": "width",
+            "type": "number",
+            "optional": 1,
+            "default": "1",
+            "class": "BoxOptions",
+            "module": "EIGHT"
+        },
+        {
             "file": "src/davinci-eight/visual/Cylinder.ts",
             "line": 43,
             "itemtype": "method",
@@ -30725,7 +30952,55 @@
         },
         {
             "file": "src/davinci-eight/visual/CylinderOptions.ts",
-            "line": 8,
+            "line": 9,
+            "itemtype": "attribute",
+            "name": "axis",
+            "type": "VectorE3",
+            "optional": 1,
+            "default": "e2",
+            "class": "CylinderOptions",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/visual/CylinderOptions.ts",
+            "line": 17,
+            "itemtype": "attribute",
+            "name": "color",
+            "type": "Color",
+            "optional": 1,
+            "class": "CylinderOptions",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/visual/CylinderOptions.ts",
+            "line": 24,
+            "itemtype": "attribute",
+            "name": "position",
+            "type": "VectorE3",
+            "optional": 1,
+            "default": "0",
+            "class": "CylinderOptions",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/visual/CylinderOptions.ts",
+            "line": 32,
+            "itemtype": "attribute",
+            "name": "radius",
+            "type": "number",
+            "optional": 1,
+            "default": "1",
+            "class": "CylinderOptions",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/visual/CylinderOptions.ts",
+            "line": 40,
+            "itemtype": "attribute",
+            "name": "length",
+            "type": "number",
+            "optional": 1,
+            "default": "1",
             "class": "CylinderOptions",
             "module": "EIGHT"
         },
@@ -30938,6 +31213,49 @@
             "submodule": "visual"
         },
         {
+            "file": "src/davinci-eight/visual/SphereOptions.ts",
+            "line": 12,
+            "itemtype": "attribute",
+            "name": "color",
+            "type": "ColorRGB",
+            "optional": 1,
+            "class": "SphereOptions",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/visual/SphereOptions.ts",
+            "line": 19,
+            "itemtype": "attribute",
+            "name": "offset",
+            "type": "VectorE3",
+            "optional": 1,
+            "default": "0",
+            "class": "SphereOptions",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/visual/SphereOptions.ts",
+            "line": 27,
+            "itemtype": "attribute",
+            "name": "position",
+            "type": "VectorE3",
+            "optional": 1,
+            "default": "0",
+            "class": "SphereOptions",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/visual/SphereOptions.ts",
+            "line": 35,
+            "itemtype": "attribute",
+            "name": "radius",
+            "type": "number",
+            "optional": 1,
+            "default": "0.5",
+            "class": "SphereOptions",
+            "module": "EIGHT"
+        },
+        {
             "file": "src/davinci-eight/visual/Tetrahedron.ts",
             "line": 31,
             "itemtype": "method",
@@ -31083,7 +31401,7 @@
         },
         {
             "file": "src/davinci-eight/visual/World.ts",
-            "line": 81,
+            "line": 70,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -31098,7 +31416,7 @@
         },
         {
             "file": "src/davinci-eight/visual/World.ts",
-            "line": 94,
+            "line": 83,
             "itemtype": "property",
             "name": "ambients",
             "type": "Facet[]",
@@ -31109,7 +31427,7 @@
         },
         {
             "file": "src/davinci-eight/visual/World.ts",
-            "line": 106,
+            "line": 95,
             "itemtype": "property",
             "name": "canvas",
             "type": "HTMLCanvasElement",
@@ -31120,7 +31438,7 @@
         },
         {
             "file": "src/davinci-eight/visual/World.ts",
-            "line": 118,
+            "line": 107,
             "itemtype": "property",
             "name": "controls",
             "type": "CameraControls",
@@ -31131,7 +31449,7 @@
         },
         {
             "file": "src/davinci-eight/visual/World.ts",
-            "line": 139,
+            "line": 128,
             "itemtype": "method",
             "name": "arrow",
             "return": {
@@ -31144,7 +31462,7 @@
         },
         {
             "file": "src/davinci-eight/visual/World.ts",
-            "line": 158,
+            "line": 146,
             "itemtype": "method",
             "name": "box",
             "return": {
@@ -31157,7 +31475,7 @@
         },
         {
             "file": "src/davinci-eight/visual/World.ts",
-            "line": 179,
+            "line": 165,
             "itemtype": "method",
             "name": "cylinder",
             "params": [
@@ -31177,7 +31495,7 @@
         },
         {
             "file": "src/davinci-eight/visual/World.ts",
-            "line": 195,
+            "line": 185,
             "itemtype": "method",
             "name": "sphere",
             "return": {
@@ -32205,10 +32523,6 @@
         {
             "message": "Missing item type\nA map from property name to a list of properties of the property value.\nIt should be possible to animate many properties of a target at once.\nHowever, a given property should only be animated in one way at a given time.\nFor these reasons, we structure the data as map from property name to a queue of animations.",
             "line": " src/davinci-eight/slideshow/Slide.ts:197"
-        },
-        {
-            "message": "Missing item type",
-            "line": " src/davinci-eight/visual/CylinderOptions.ts:8"
         },
         {
             "message": "Missing item type\nA simple list of meshes that does not bypass the draw method of the IDrawable.\nThis allows the IDrawable to override the draw method to produce history and draw trails.",
