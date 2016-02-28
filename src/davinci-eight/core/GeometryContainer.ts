@@ -1,9 +1,11 @@
-import IContextProvider from './IContextProvider';
-import ShareableArray from '../collections/ShareableArray';
+import IContextProvider from './IContextProvider'
+import ShareableArray from '../collections/ShareableArray'
 import Material from './Material'
+import Matrix4 from '../math/Matrix4'
 import Geometry from './Geometry'
-import readOnly from '../i18n/readOnly';
-import Shareable from '../core/Shareable';
+import readOnly from '../i18n/readOnly'
+import Shareable from '../core/Shareable'
+import shouldBeImplementedBy from '../i18n/shouldBeImplementedBy'
 
 /**
  * @module EIGHT
@@ -13,6 +15,8 @@ import Shareable from '../core/Shareable';
 /**
  * A collection of Geometry(s) with functions
  * that reflect the dependency on the WebGL context events.
+ * This class is designed to be extended in order to implement the scaling methods.
+ *
  * @class GeometryContainer
  * @extends Shareable
  */
@@ -25,11 +29,19 @@ export default class GeometryContainer extends Shareable implements Geometry {
     private _parts: ShareableArray<Geometry>;
 
     /**
+     * @property scaling
+     * @type Matrix4
+     * @default diag(1, 1, 1, 1)
+     */
+    public scaling = Matrix4.one()
+
+    /**
      * @class GeometryContainer
      * @constructor
+     * @param type {string}
      */
-    constructor() {
-        super('GeometryContainer');
+    constructor(type: string) {
+        super(type)
         this._parts = new ShareableArray<Geometry>()
     }
 
@@ -104,5 +116,33 @@ export default class GeometryContainer extends Shareable implements Geometry {
         this._parts.forEach(function(buffer) {
             buffer.contextLost()
         })
+    }
+
+    /**
+     * @method hasPrincipalScale
+     * @param name {string}
+     * @return {boolean}
+     */
+    public hasPrincipalScale(name: string): boolean {
+        throw new Error(shouldBeImplementedBy('hasPrincipalScale', this._type).message)
+    }
+
+    /**
+     * @method getPrincipalScale
+     * @param name {string}
+     * @return {number}
+     */
+    public getPrincipalScale(name: string): number {
+        throw new Error(shouldBeImplementedBy('getPrincipalScale', this._type).message)
+    }
+
+    /**
+     * @method setPrincipalScale
+     * @param name {string}
+     * @param value {number}
+     * @return {void}
+     */
+    public setPrincipalScale(name: string, value: number): void {
+        throw new Error(shouldBeImplementedBy('setPrincipalScale', this._type).message)
     }
 }

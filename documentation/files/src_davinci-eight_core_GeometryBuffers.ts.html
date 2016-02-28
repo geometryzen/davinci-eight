@@ -43,7 +43,6 @@
                                 <li><a href="../classes/Approximation.html">Approximation</a></li>
                                 <li><a href="../classes/Arrow.html">Arrow</a></li>
                                 <li><a href="../classes/ArrowBuilder.html">ArrowBuilder</a></li>
-                                <li><a href="../classes/ArrowConfig.html">ArrowConfig</a></li>
                                 <li><a href="../classes/ArrowGeometry.html">ArrowGeometry</a></li>
                                 <li><a href="../classes/ArrowOptions.html">ArrowOptions</a></li>
                                 <li><a href="../classes/AttribLocation.html">AttribLocation</a></li>
@@ -240,11 +239,13 @@
 import drawModeToGL from &#x27;./drawModeToGL&#x27;
 import DrawMode from &#x27;./DrawMode&#x27;
 import IContextProvider from &#x27;../core/IContextProvider&#x27;
-import notSupported from &#x27;../i18n/notSupported&#x27;;
+import notImplemented from &#x27;../i18n/notImplemented&#x27;
+import notSupported from &#x27;../i18n/notSupported&#x27;
 import Material from &#x27;./Material&#x27;
+import Matrix4 from &#x27;../math/Matrix4&#x27;
 import VertexAttribPointer from &#x27;./VertexAttribPointer&#x27;
 import Geometry from &#x27;./Geometry&#x27;
-import readOnly from &#x27;../i18n/readOnly&#x27;;
+import readOnly from &#x27;../i18n/readOnly&#x27;
 import ShareableContextListener from &#x27;./ShareableContextListener&#x27;
 import VertexArrays from &#x27;./VertexArrays&#x27;
 
@@ -314,6 +315,13 @@ export default class GeometryBuffers extends ShareableContextListener implements
     }
     set partsLength(unused) {
         throw new Error(readOnly(&#x27;partsLength&#x27;).message)
+    }
+
+    get scaling() {
+        throw new Error(notImplemented(&#x27;get scaling&#x27;).message)
+    }
+    set scaling(scaling: Matrix4) {
+        throw new Error(notImplemented(&#x27;set scaling&#x27;).message)
     }
 
     /**
@@ -416,6 +424,37 @@ export default class GeometryBuffers extends ShareableContextListener implements
         gl.drawElements(this.mode, this.count, gl.UNSIGNED_SHORT, this.offset)
         gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, void 0)
         gl.bindBuffer(gl.ARRAY_BUFFER, void 0)
+    }
+
+    /**
+     * @method hasPrincipalScale
+     * @param name {string}
+     * @return {boolean}
+     */
+    hasPrincipalScale(name: string): boolean {
+        // TODO
+        throw new Error(notImplemented(&#x60;hasPrincipalScale(${name})&#x60;).message)
+    }
+
+    /**
+     * @method getPrincipalScale
+     * @param name {string}
+     * @return {number}
+     */
+    public getPrincipalScale(name: string): number {
+        // TODO
+        throw new Error(notImplemented(&#x27;getPrincipalScale&#x27;).message)
+    }
+
+    /**
+     * @method setPrincipalScale
+     * @param name {string}
+     * @param value {number}
+     * @return {void}
+     */
+    public setPrincipalScale(name: string, value: number): void {
+        // TODO
+        throw new Error(notImplemented(&#x27;setPrincipalScale&#x27;).message)
     }
 }
 

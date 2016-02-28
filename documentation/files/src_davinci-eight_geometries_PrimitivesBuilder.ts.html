@@ -43,7 +43,6 @@
                                 <li><a href="../classes/Approximation.html">Approximation</a></li>
                                 <li><a href="../classes/Arrow.html">Arrow</a></li>
                                 <li><a href="../classes/ArrowBuilder.html">ArrowBuilder</a></li>
-                                <li><a href="../classes/ArrowConfig.html">ArrowConfig</a></li>
                                 <li><a href="../classes/ArrowGeometry.html">ArrowGeometry</a></li>
                                 <li><a href="../classes/ArrowOptions.html">ArrowOptions</a></li>
                                 <li><a href="../classes/AttribLocation.html">AttribLocation</a></li>
@@ -336,11 +335,14 @@ export default class PrimitivesBuilder implements GeometryBuilder {
 
     /**
      * @method toGeometry
+     * @param type {string}
      * @return {Geometry}
      * @beta
      */
-    toGeometry(): Geometry {
-        const container = new GeometryContainer();
+    toGeometry(type: string): Geometry {
+        // FIXME: This method probably should not exist because the 
+        // container must be overridden to provide scaling methods.
+        const container = new GeometryContainer(type);
         const ps = this.toPrimitives()
         const iLen = ps.length
         for (let i = 0; i &lt; iLen; i++) {

@@ -1,7 +1,6 @@
 import Mesh from '../core/Mesh'
-import mustBeNumber from '../checks/mustBeNumber';
-import TetrahedronOptions from './TetrahedronOptions';
-import visualCache from './visualCache';
+import TetrahedronOptions from './TetrahedronOptions'
+import visualCache from './visualCache'
 
 /**
  * @module EIGHT
@@ -44,12 +43,9 @@ export default class Tetrahedron extends Mesh {
      * @default 1
      */
     get radius(): number {
-        return this.scale.x
+        return this.getPrincipalScale('radius')
     }
     set radius(radius: number) {
-        mustBeNumber('radius', radius)
-        this.scale.x = radius
-        this.scale.y = radius
-        this.scale.z = radius
+        this.setPrincipalScale('radius', radius)
     }
 }

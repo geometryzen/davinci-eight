@@ -43,7 +43,6 @@
                                 <li><a href="../classes/Approximation.html">Approximation</a></li>
                                 <li><a href="../classes/Arrow.html">Arrow</a></li>
                                 <li><a href="../classes/ArrowBuilder.html">ArrowBuilder</a></li>
-                                <li><a href="../classes/ArrowConfig.html">ArrowConfig</a></li>
                                 <li><a href="../classes/ArrowGeometry.html">ArrowGeometry</a></li>
                                 <li><a href="../classes/ArrowOptions.html">ArrowOptions</a></li>
                                 <li><a href="../classes/AttribLocation.html">AttribLocation</a></li>
@@ -237,9 +236,7 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import deviation from &#x27;./deviation&#x27;
 import direction from &#x27;./direction&#x27;
-import mustBeNumber from &#x27;../checks/mustBeNumber&#x27;
 import RigidBody from &#x27;./RigidBody&#x27;
 import SphereOptions from &#x27;./SphereOptions&#x27;
 import visualCache from &#x27;./visualCache&#x27;
@@ -261,7 +258,7 @@ export default class Sphere extends RigidBody {
      * @param [options] {SphereOptions}
      */
     constructor(options: SphereOptions = {}) {
-        super(&#x27;Sphere&#x27;, deviation(direction(options)), direction(options))
+        super(&#x27;Sphere&#x27;, direction(options))
         const geometry = visualCache.sphere(options)
         this.geometry = geometry
         geometry.release()
@@ -285,13 +282,10 @@ export default class Sphere extends RigidBody {
      * @default 1
      */
     get radius(): number {
-        return this.scale.x
+        return this.getPrincipalScale(&#x27;radius&#x27;)
     }
     set radius(radius: number) {
-        mustBeNumber(&#x27;radius&#x27;, radius)
-        this.scale.x = radius
-        this.scale.y = radius
-        this.scale.z = radius
+        this.setPrincipalScale(&#x27;radius&#x27;, radius)
     }
 }
 

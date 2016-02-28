@@ -43,7 +43,6 @@
                                 <li><a href="../classes/Approximation.html">Approximation</a></li>
                                 <li><a href="../classes/Arrow.html">Arrow</a></li>
                                 <li><a href="../classes/ArrowBuilder.html">ArrowBuilder</a></li>
-                                <li><a href="../classes/ArrowConfig.html">ArrowConfig</a></li>
                                 <li><a href="../classes/ArrowGeometry.html">ArrowGeometry</a></li>
                                 <li><a href="../classes/ArrowOptions.html">ArrowOptions</a></li>
                                 <li><a href="../classes/AttribLocation.html">AttribLocation</a></li>
@@ -482,19 +481,24 @@ export default class Vector3 extends Coords implements ColumnVector&lt;Matrix3, 
 
     /**
      * &lt;p&gt;
-     * &lt;code&gt;this ⟼ copy(v)&lt;/code&gt;
+     * &lt;code&gt;this ⟼ copy(source)&lt;/code&gt;
      * &lt;/p&gt;
      *
      * @method copy
-     * @param v {VectorE3}
+     * @param source {VectorE3}
      * @return {Vector3} &lt;code&gt;this&lt;/code&gt;
      * @chainable
      */
-    copy(v: VectorE3) {
-        this.x = v.x
-        this.y = v.y
-        this.z = v.z
-        return this;
+    copy(source: VectorE3): Vector3 {
+        if (source) {
+            this.x = source.x
+            this.y = source.y
+            this.z = source.z
+            return this
+        }
+        else {
+            throw new Error(&quot;source for copy must be a vector&quot;)
+        }
     }
 
     /**

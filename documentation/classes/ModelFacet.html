@@ -43,7 +43,6 @@
                                 <li><a href="../classes/Approximation.html">Approximation</a></li>
                                 <li><a href="../classes/Arrow.html">Arrow</a></li>
                                 <li><a href="../classes/ArrowBuilder.html">ArrowBuilder</a></li>
-                                <li><a href="../classes/ArrowConfig.html">ArrowConfig</a></li>
                                 <li><a href="../classes/ArrowGeometry.html">ArrowGeometry</a></li>
                                 <li><a href="../classes/ArrowOptions.html">ArrowOptions</a></li>
                                 <li><a href="../classes/AttribLocation.html">AttribLocation</a></li>
@@ -241,7 +240,7 @@
         </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_facets_ModelFacet.ts.html#l57"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ModelFacet.ts:57</code></a>
+            Defined in: <a href="../files/src_davinci-eight_facets_ModelFacet.ts.html#l36"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ModelFacet.ts:36</code></a>
         </div>
 
             Module: <a href="../modules/facets.html">facets</a><br>
@@ -283,7 +282,7 @@ Constructs a ModelFacet at the origin and with unity attitude.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_facets_ModelFacet.ts.html#l57"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ModelFacet.ts:57</code></a>
+        <a href="../files/src_davinci-eight_facets_ModelFacet.ts.html#l36"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ModelFacet.ts:36</code></a>
         </p>
 
 
@@ -351,24 +350,16 @@ Constructs a ModelFacet at the origin and with unity attitude.
                                 <a href="#property__position">_position</a>
 
                             </li>
-                            <li class="index-item property private">
-                                <a href="#property__stress">_stress</a>
-
-                            </li>
-                            <li class="index-item property private">
-                                <a href="#property__tilt">_tilt</a>
-
-                            </li>
                             <li class="index-item property inherited">
                                 <a href="#property_attitude">attitude</a>
 
                             </li>
-                            <li class="index-item property private">
-                                <a href="#property_matK">matK</a>
-
-                            </li>
                             <li class="index-item property">
                                 <a href="#property_matrix">matrix</a>
+
+                            </li>
+                            <li class="index-item property private">
+                                <a href="#property_matS">matS</a>
 
                             </li>
                             <li class="index-item property inherited">
@@ -376,11 +367,7 @@ Constructs a ModelFacet at the origin and with unity attitude.
 
                             </li>
                             <li class="index-item property">
-                                <a href="#property_scale">scale</a>
-
-                            </li>
-                            <li class="index-item property">
-                                <a href="#property_tilt">tilt</a>
+                                <a href="#property_stress">stress</a>
 
                             </li>
                     </ul>
@@ -485,7 +472,7 @@ Constructs a ModelFacet at the origin and with unity attitude.
                 ModelE3
             </a>
             but overwritten in
-        <a href="../files/src_davinci-eight_facets_ModelFacet.ts.html#l161"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ModelFacet.ts:161</code></a>
+        <a href="../files/src_davinci-eight_facets_ModelFacet.ts.html#l120"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ModelFacet.ts:120</code></a>
         </p>
 
 
@@ -557,7 +544,7 @@ Constructs a ModelFacet at the origin and with unity attitude.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_facets_ModelFacet.ts.html#l120"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ModelFacet.ts:120</code></a>
+        <a href="../files/src_davinci-eight_facets_ModelFacet.ts.html#l84"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ModelFacet.ts:84</code></a>
         </p>
 
 
@@ -702,60 +689,6 @@ Constructs a ModelFacet at the origin and with unity attitude.
 
 
 </div>
-<div id="property__stress" class="property item private">
-    <h3 class="name"><code>_stress</code></h3>
-    <span class="type"><a href="../classes/Vector3.html" class="crosslink">Vector3</a></span>
-
-
-        <span class="flag private">private</span>
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_facets_ModelFacet.ts.html#l25"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ModelFacet.ts:25</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-
-</div>
-<div id="property__tilt" class="property item private">
-    <h3 class="name"><code>_tilt</code></h3>
-    <span class="type"><a href="../classes/Spinor3.html" class="crosslink">Spinor3</a></span>
-
-
-        <span class="flag private">private</span>
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_facets_ModelFacet.ts.html#l32"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ModelFacet.ts:32</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>The tilt is the spinor that rotates the object from
-the coordinate frame used for scaling to the local coordinate
-frame of the object. We want the scaling to work relative to the
-local coordinate frame of the object.</p>
-
-    </div>
-
-
-
-</div>
 <div id="property_attitude" class="property item inherited">
     <h3 class="name"><code>attitude</code></h3>
     <span class="type"><a href="../classes/Geometric3.html" class="crosslink">Geometric3</a></span>
@@ -780,19 +713,18 @@ local coordinate frame of the object.</p>
 
 
 </div>
-<div id="property_matK" class="property item private">
-    <h3 class="name"><code>matK</code></h3>
+<div id="property_matrix" class="property item">
+    <h3 class="name"><code>matrix</code></h3>
     <span class="type"><a href="../classes/Matrix4.html" class="crosslink">Matrix4</a></span>
 
 
-        <span class="flag private">private</span>
 
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_facets_ModelFacet.ts.html#l50"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ModelFacet.ts:50</code></a>
+        <a href="../files/src_davinci-eight_facets_ModelFacet.ts.html#l72"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ModelFacet.ts:72</code></a>
         </p>
 
 
@@ -805,18 +737,19 @@ local coordinate frame of the object.</p>
 
 
 </div>
-<div id="property_matrix" class="property item">
-    <h3 class="name"><code>matrix</code></h3>
+<div id="property_matS" class="property item private">
+    <h3 class="name"><code>matS</code></h3>
     <span class="type"><a href="../classes/Matrix4.html" class="crosslink">Matrix4</a></span>
 
 
+        <span class="flag private">private</span>
 
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_facets_ModelFacet.ts.html#l108"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ModelFacet.ts:108</code></a>
+        <a href="../files/src_davinci-eight_facets_ModelFacet.ts.html#l23"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ModelFacet.ts:23</code></a>
         </p>
 
 
@@ -826,6 +759,7 @@ local coordinate frame of the object.</p>
         
     </div>
 
+        <p><strong>Default:</strong> diag(1, 1, 1, 1)</p>
 
 
 </div>
@@ -853,9 +787,9 @@ local coordinate frame of the object.</p>
 
 
 </div>
-<div id="property_scale" class="property item">
-    <h3 class="name"><code>scale</code></h3>
-    <span class="type"><a href="../classes/Vector3.html" class="crosslink">Vector3</a></span>
+<div id="property_stress" class="property item">
+    <h3 class="name"><code>stress</code></h3>
+    <span class="type"><a href="../classes/Matrix4.html" class="crosslink">Matrix4</a></span>
 
 
 
@@ -864,7 +798,7 @@ local coordinate frame of the object.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_facets_ModelFacet.ts.html#l96"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ModelFacet.ts:96</code></a>
+        <a href="../files/src_davinci-eight_facets_ModelFacet.ts.html#l60"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ModelFacet.ts:60</code></a>
         </p>
 
 
@@ -872,32 +806,6 @@ local coordinate frame of the object.</p>
 
     <div class="description">
         
-    </div>
-
-
-
-</div>
-<div id="property_tilt" class="property item">
-    <h3 class="name"><code>tilt</code></h3>
-    <span class="type"><a href="../classes/Spinor3.html" class="crosslink">Spinor3</a></span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_facets_ModelFacet.ts.html#l81"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ModelFacet.ts:81</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>The spinor that rotates the object from the 'XYZ' frame used for scaling
-to the reference (initial) frame of the object.</p>
-
     </div>
 
 

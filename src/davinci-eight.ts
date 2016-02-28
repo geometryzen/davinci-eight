@@ -82,7 +82,6 @@ import cube from 'davinci-eight/geometries/cube';
 import quadrilateral from 'davinci-eight/geometries/quadrilateral';
 import square from 'davinci-eight/geometries/square';
 import triangle from 'davinci-eight/geometries/triangle';
-import ArrowConfig from 'davinci-eight/geometries/ArrowConfig';
 import ArrowGeometry from 'davinci-eight/geometries/ArrowGeometry';
 import BoxGeometry from 'davinci-eight/geometries/BoxGeometry';
 import CylinderGeometry from 'davinci-eight/geometries/CylinderGeometry';
@@ -293,7 +292,6 @@ const eight = {
 
     // geometries
     get ArrowBuilder() { return ArrowBuilder },
-    get ArrowConfig() { return ArrowConfig },
     get ArrowGeometry() { return ArrowGeometry },
     get BoxGeometry() { return BoxGeometry },
     get ConicalShellBuilder() { return ConicalShellBuilder },

@@ -6,7 +6,6 @@ YUI.add("yuidoc-meta", function(Y) {
         "Approximation",
         "Arrow",
         "ArrowBuilder",
-        "ArrowConfig",
         "ArrowGeometry",
         "ArrowOptions",
         "AttribLocation",

@@ -1,11 +1,13 @@
 import drawModeToGL from './drawModeToGL'
 import DrawMode from './DrawMode'
 import IContextProvider from '../core/IContextProvider'
-import notSupported from '../i18n/notSupported';
+import notImplemented from '../i18n/notImplemented'
+import notSupported from '../i18n/notSupported'
 import Material from './Material'
+import Matrix4 from '../math/Matrix4'
 import VertexAttribPointer from './VertexAttribPointer'
 import Geometry from './Geometry'
-import readOnly from '../i18n/readOnly';
+import readOnly from '../i18n/readOnly'
 import ShareableContextListener from './ShareableContextListener'
 import VertexArrays from './VertexArrays'
 
@@ -75,6 +77,13 @@ export default class GeometryBuffers extends ShareableContextListener implements
     }
     set partsLength(unused) {
         throw new Error(readOnly('partsLength').message)
+    }
+
+    get scaling() {
+        throw new Error(notImplemented('get scaling').message)
+    }
+    set scaling(scaling: Matrix4) {
+        throw new Error(notImplemented('set scaling').message)
     }
 
     /**
@@ -177,5 +186,36 @@ export default class GeometryBuffers extends ShareableContextListener implements
         gl.drawElements(this.mode, this.count, gl.UNSIGNED_SHORT, this.offset)
         gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, void 0)
         gl.bindBuffer(gl.ARRAY_BUFFER, void 0)
+    }
+
+    /**
+     * @method hasPrincipalScale
+     * @param name {string}
+     * @return {boolean}
+     */
+    hasPrincipalScale(name: string): boolean {
+        // TODO
+        throw new Error(notImplemented(`hasPrincipalScale(${name})`).message)
+    }
+
+    /**
+     * @method getPrincipalScale
+     * @param name {string}
+     * @return {number}
+     */
+    public getPrincipalScale(name: string): number {
+        // TODO
+        throw new Error(notImplemented('getPrincipalScale').message)
+    }
+
+    /**
+     * @method setPrincipalScale
+     * @param name {string}
+     * @param value {number}
+     * @return {void}
+     */
+    public setPrincipalScale(name: string, value: number): void {
+        // TODO
+        throw new Error(notImplemented('setPrincipalScale').message)
     }
 }

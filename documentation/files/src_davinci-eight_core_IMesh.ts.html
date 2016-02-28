@@ -43,7 +43,6 @@
                                 <li><a href="../classes/Approximation.html">Approximation</a></li>
                                 <li><a href="../classes/Arrow.html">Arrow</a></li>
                                 <li><a href="../classes/ArrowBuilder.html">ArrowBuilder</a></li>
-                                <li><a href="../classes/ArrowConfig.html">ArrowConfig</a></li>
                                 <li><a href="../classes/ArrowGeometry.html">ArrowGeometry</a></li>
                                 <li><a href="../classes/ArrowOptions.html">ArrowOptions</a></li>
                                 <li><a href="../classes/AttribLocation.html">AttribLocation</a></li>
@@ -241,8 +240,6 @@ import IDrawable from &#x27;./IDrawable&#x27;
 import Color from &#x27;./Color&#x27;
 import Geometric3 from &#x27;../math/Geometric3&#x27;
 import Matrix4 from &#x27;../math/Matrix4&#x27;
-import Spinor3 from &#x27;../math/Spinor3&#x27;
-import Vector3 from &#x27;../math/Vector3&#x27;
 
 /**
  * @class IMesh
@@ -255,10 +252,24 @@ interface IMesh extends IDrawable {
      * @type Geometric3
      */
     attitude: Geometric3
+
+    /**
+     * @property color
+     * @type Color
+     */
     color: Color
-    tilt: Spinor3
-    matrix: Matrix4
-    scale: Vector3
+
+    /**
+     * @property position
+     * @type Geometric3
+     */
+    position: Geometric3
+
+    /**
+     * @property stress
+     * @type Matrix4
+     */
+    stress: Matrix4
 }
 
 export default IMesh

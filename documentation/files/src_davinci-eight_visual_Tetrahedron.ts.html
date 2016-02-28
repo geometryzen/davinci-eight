@@ -43,7 +43,6 @@
                                 <li><a href="../classes/Approximation.html">Approximation</a></li>
                                 <li><a href="../classes/Arrow.html">Arrow</a></li>
                                 <li><a href="../classes/ArrowBuilder.html">ArrowBuilder</a></li>
-                                <li><a href="../classes/ArrowConfig.html">ArrowConfig</a></li>
                                 <li><a href="../classes/ArrowGeometry.html">ArrowGeometry</a></li>
                                 <li><a href="../classes/ArrowOptions.html">ArrowOptions</a></li>
                                 <li><a href="../classes/AttribLocation.html">AttribLocation</a></li>
@@ -238,9 +237,8 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 import Mesh from &#x27;../core/Mesh&#x27;
-import mustBeNumber from &#x27;../checks/mustBeNumber&#x27;;
-import TetrahedronOptions from &#x27;./TetrahedronOptions&#x27;;
-import visualCache from &#x27;./visualCache&#x27;;
+import TetrahedronOptions from &#x27;./TetrahedronOptions&#x27;
+import visualCache from &#x27;./visualCache&#x27;
 
 /**
  * @module EIGHT
@@ -283,13 +281,10 @@ export default class Tetrahedron extends Mesh {
      * @default 1
      */
     get radius(): number {
-        return this.scale.x
+        return this.getPrincipalScale(&#x27;radius&#x27;)
     }
     set radius(radius: number) {
-        mustBeNumber(&#x27;radius&#x27;, radius)
-        this.scale.x = radius
-        this.scale.y = radius
-        this.scale.z = radius
+        this.setPrincipalScale(&#x27;radius&#x27;, radius)
     }
 }
 

@@ -43,7 +43,6 @@
                                 <li><a href="../classes/Approximation.html">Approximation</a></li>
                                 <li><a href="../classes/Arrow.html">Arrow</a></li>
                                 <li><a href="../classes/ArrowBuilder.html">ArrowBuilder</a></li>
-                                <li><a href="../classes/ArrowConfig.html">ArrowConfig</a></li>
                                 <li><a href="../classes/ArrowGeometry.html">ArrowGeometry</a></li>
                                 <li><a href="../classes/ArrowOptions.html">ArrowOptions</a></li>
                                 <li><a href="../classes/AttribLocation.html">AttribLocation</a></li>
@@ -237,14 +236,15 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import GeometryContainer from &#x27;../core/GeometryContainer&#x27;;
-import GeometryBuffers from &#x27;../core/GeometryBuffers&#x27;;
+import GeometryContainer from &#x27;../core/GeometryContainer&#x27;
+import GeometryBuffers from &#x27;../core/GeometryBuffers&#x27;
 import isDefined from &#x27;../checks/isDefined&#x27;
-import Primitive from &#x27;../core/Primitive&#x27;;
-import mustBeBoolean from &#x27;../checks/mustBeBoolean&#x27;;
-import mustBeNumber from &#x27;../checks/mustBeNumber&#x27;;
+import Primitive from &#x27;../core/Primitive&#x27;
+import mustBeBoolean from &#x27;../checks/mustBeBoolean&#x27;
+import mustBeNumber from &#x27;../checks/mustBeNumber&#x27;
+import notSupported from &#x27;../i18n/notSupported&#x27;
 import CuboidPrimitivesBuilder from &#x27;./CuboidPrimitivesBuilder&#x27;;
-import CuboidSimplexPrimitivesBuilder from &#x27;./CuboidSimplexPrimitivesBuilder&#x27;;
+import CuboidSimplexPrimitivesBuilder from &#x27;./CuboidSimplexPrimitivesBuilder&#x27;
 import R3 from &#x27;../math/R3&#x27;
 import Simplex from &#x27;./Simplex&#x27;
 import vertexArraysFromPrimitive from &#x27;../core/vertexArraysFromPrimitive&#x27;
@@ -279,13 +279,14 @@ function primitives(width: number, height: number, depth: number, wireFrame: boo
  * @extends Geometry
  */
 export default class BoxGeometry extends GeometryContainer {
+
     /**
      * @class BoxGeometry
      * @constructor
      * @param [options = {}] {{ width?: number; height?: number; depth?: number }}
      */
     constructor(options: { width?: number; height?: number; depth?: number, wireFrame?: boolean } = {}) {
-        super()
+        super(&#x27;BoxGeometry&#x27;)
         const width = isDefined(options.width) ? mustBeNumber(&#x27;width&#x27;, options.width) : 1
         const height = isDefined(options.height) ? mustBeNumber(&#x27;height&#x27;, options.height) : 1
         const depth = isDefined(options.depth) ? mustBeNumber(&#x27;depth&#x27;, options.depth) : 1
@@ -297,6 +298,58 @@ export default class BoxGeometry extends GeometryContainer {
             const geometry = new GeometryBuffers(vertexArraysFromPrimitive(dataSource))
             this.addPart(geometry)
             geometry.release()
+        }
+    }
+
+    /**
+     * @method getPrincipalScale
+     * @param name {string}
+     * @return {number}
+     */
+    getPrincipalScale(name: string): number {
+        switch (name) {
+            case &#x27;width&#x27;: {
+                return this.scaling.getElement(0, 0)
+            }
+                break
+            case &#x27;height&#x27;: {
+                return this.scaling.getElement(1, 1)
+            }
+                break
+            case &#x27;depth&#x27;: {
+                return this.scaling.getElement(2, 2)
+            }
+                break
+            default: {
+                throw new Error(notSupported(&#x60;getPrincipalScale(&#x27;${name}&#x27;)&#x60;).message)
+            }
+        }
+    }
+
+    /**
+     * @method setPrincipalScale
+     * @param name {string}
+     * @param value {number}
+     * @return {void}
+     */
+    setPrincipalScale(name: string, value: number): void {
+        // TODO: Validation goes here.
+        switch (name) {
+            case &#x27;width&#x27;: {
+                this.scaling.setElement(0, 0, value)
+            }
+                break
+            case &#x27;height&#x27;: {
+                this.scaling.setElement(1, 1, value)
+            }
+                break
+            case &#x27;depth&#x27;: {
+                this.scaling.setElement(2, 2, value)
+            }
+                break
+            default: {
+                throw new Error(notSupported(&#x60;setPrincipalScale(&#x27;${name}&#x27;)&#x60;).message)
+            }
         }
     }
 }

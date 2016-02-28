@@ -37,7 +37,7 @@ export default class TetrahedronGeometry extends GeometryContainer {
      * @param [radius = 1] {number}
      */
     constructor(radius = 1) {
-        super()
+        super('TetrahedronGeometry')
         const ps = primitives(radius)
         const iLen = ps.length
         for (let i = 0; i < iLen; i++) {

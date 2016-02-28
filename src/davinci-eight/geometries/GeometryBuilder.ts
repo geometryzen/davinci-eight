@@ -29,9 +29,10 @@ interface GeometryBuilder {
 
     /**
      * @method toGeometry
+     * @param type {string}
      * @return {Geometry}
      */
-    toGeometry(): Geometry
+    toGeometry(type: string): Geometry
 
     /**
      * @method toPrimitives

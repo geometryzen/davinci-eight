@@ -43,7 +43,6 @@
                                 <li><a href="../classes/Approximation.html">Approximation</a></li>
                                 <li><a href="../classes/Arrow.html">Arrow</a></li>
                                 <li><a href="../classes/ArrowBuilder.html">ArrowBuilder</a></li>
-                                <li><a href="../classes/ArrowConfig.html">ArrowConfig</a></li>
                                 <li><a href="../classes/ArrowGeometry.html">ArrowGeometry</a></li>
                                 <li><a href="../classes/ArrowOptions.html">ArrowOptions</a></li>
                                 <li><a href="../classes/AttribLocation.html">AttribLocation</a></li>
@@ -239,6 +238,7 @@
     <pre class="code prettyprint linenums">
 import IContextConsumer from &#x27;./IContextConsumer&#x27;
 import IMaterial from &#x27;./IMaterial&#x27;
+import Matrix4 from &#x27;../math/Matrix4&#x27;
 
 /**
  * @class Geometry
@@ -250,6 +250,13 @@ interface Geometry extends IContextConsumer {
      * @readOnly
      */
     partsLength: number
+
+    /**
+     * @property scaling
+     * @type Matrix4
+     * @readOnly
+     */
+    scaling: Matrix4
 
     /**
      * @method addPart
@@ -287,6 +294,28 @@ interface Geometry extends IContextConsumer {
 
     // TODO: Move this to IUnknown
     isZombie(): boolean
+
+    /**
+     * @method hasPrincipalScale
+     * @param name {string}
+     * @return {boolean}
+     */
+    hasPrincipalScale(name: string): boolean
+
+    /**
+     * @method getPrincipalScale
+     * @param name {string}
+     * @return {number}
+     */
+    getPrincipalScale(name: string): number
+
+    /**
+     * @method setPrincipalScale
+     * @param name {string}
+     * @param value {number}
+     * @return {void}
+     */
+    setPrincipalScale(name: string, value: number): void
 }
 
 export default Geometry

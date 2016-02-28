@@ -1,11 +1,9 @@
-import ArrowBuilder from '../geometries/ArrowBuilder'
+import ArrowGeometry from '../geometries/ArrowGeometry'
 import BoxGeometry from '../geometries/BoxGeometry'
-import BoxOptions from './BoxOptions'
 import CylinderGeometry from '../geometries/CylinderGeometry'
 import Geometry from '../core/Geometry'
 import Material from '../core/Material'
 import MeshMaterial from '../materials/MeshMaterial'
-import R3 from '../math/R3'
 import SphereGeometry from '../geometries/SphereGeometry'
 import SphereOptions from './SphereOptions'
 import SpinorE3 from '../math/SpinorE3'
@@ -24,26 +22,19 @@ class VisualCache {
         // Do nothing yet.
     }
     arrow(stress: VectorE3, tilt: SpinorE3, offset: VectorE3): Geometry {
-        const builder = new ArrowBuilder(R3.e2, R3.e3, false)
-        builder.stress.copy(stress)
-        builder.tilt.copy(tilt)
-        builder.offset.copy(offset)
-        return builder.toGeometry()
+        return new ArrowGeometry()
     }
-    box(options: BoxOptions): Geometry {
-        // FIXME: Replace with Builder pattern.
-        return new BoxGeometry({ width: 1, height: 1, depth: 1 })
+    box(stress: VectorE3, tilt: SpinorE3, offset: VectorE3): Geometry {
+        return new BoxGeometry()
     }
     cylinder(stress: VectorE3, tilt: SpinorE3, offset: VectorE3): Geometry {
-        return new CylinderGeometry(R3.e2, R3.e3, false, stress, tilt, offset);
+        return new CylinderGeometry()
     }
     sphere(options: SphereOptions): Geometry {
-        // FIXME: Replace with Builder pattern.
         return new SphereGeometry()
     }
     tetrahedron(options: TetrahedronOptions): Geometry {
-        // FIXME: Replace with Builder pattern.
-        return new TetrahedronGeometry();
+        return new TetrahedronGeometry()
     }
     material(): Material {
         return new MeshMaterial()

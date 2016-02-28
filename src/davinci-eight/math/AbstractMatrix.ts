@@ -58,6 +58,18 @@ export default class AbstractMatrix<T extends { elements: Float32Array }> implem
     }
 
     /**
+     * @property dimensions
+     * @type {number}
+     * @readOnly
+     */
+    get dimensions(): number {
+        return this._dimensions
+    }
+    set dimensions(unused) {
+        throw new Error(readOnly('dimensions').message)
+    }
+
+    /**
      * @property elements
      * @type {Float32Array}
      */
@@ -81,14 +93,23 @@ export default class AbstractMatrix<T extends { elements: Float32Array }> implem
     }
 
     /**
-     * @property dimensions
-     * @type {number}
-     * @readOnly
+     * @method getElement
+     * @param row {number} The zero-based row.
+     * @param column {number} The zero-based column.
+     * @return {number}
      */
-    get dimensions(): number {
-        return this._dimensions
+    getElement(row: number, column: number): number {
+        return this.elements[row + column * this._dimensions]
     }
-    set dimensions(unused) {
-        throw new Error(readOnly('dimensions').message)
+
+    /**
+     * @method setElement
+     * @param row {number} The zero-based row.
+     * @param column {number} The zero-based column.
+     * @param value {number} The value of the element.
+     * @return {void}
+     */
+    setElement(row: number, column: number, value: number): void {
+        this.elements[row + column * this._dimensions] = value
     }
 }

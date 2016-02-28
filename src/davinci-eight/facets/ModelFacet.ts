@@ -1,15 +1,13 @@
-import Facet from '../core/Facet';
-import FacetVisitor from '../core/FacetVisitor';
-import Matrix3 from '../math/Matrix3';
-import Matrix4 from '../math/Matrix4';
-import ModelE3 from './ModelE3';
-import mustBeArray from '../checks/mustBeArray';
-import mustBeObject from '../checks/mustBeObject';
-import mustBeString from '../checks/mustBeString';
-import Spinor3 from '../math/Spinor3';
-import Vector3 from '../math/Vector3';
-import readOnly from '../i18n/readOnly';
-import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
+import Facet from '../core/Facet'
+import FacetVisitor from '../core/FacetVisitor'
+import Matrix3 from '../math/Matrix3'
+import Matrix4 from '../math/Matrix4'
+import ModelE3 from './ModelE3'
+import mustBeArray from '../checks/mustBeArray'
+import mustBeObject from '../checks/mustBeObject'
+import mustBeString from '../checks/mustBeString'
+import readOnly from '../i18n/readOnly'
+import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols'
 
 /**
  * @module EIGHT
@@ -23,36 +21,17 @@ import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
 export default class ModelFacet extends ModelE3 implements Facet {
 
     /**
-     * @property _stress
-     * @type Vector3
-     * @private
-     */
-    private _stress: Vector3 = new Vector3([1, 1, 1]);
-
-    /**
-     * The tilt is the spinor that rotates the object from
-     * the coordinate frame used for scaling to the local coordinate
-     * frame of the object. We want the scaling to work relative to the
-     * local coordinate frame of the object.
-     *
-     * @property _tilt
-     * @type Spinor3
-     * @private
-     */
-    private _tilt = Spinor3.one();
-
-    private _matM = Matrix4.one();
-    private _matN = Matrix3.one();
-    private matR = Matrix4.one();
-    private matS = Matrix4.one();
-    private matT = Matrix4.one();
-
-    /**
-     * @property matK
+     * @property matS
      * @type Matrix4
+     * @default diag(1, 1, 1, 1)
      * @private
      */
-    private matK = Matrix4.one();
+    private matS: Matrix4 = Matrix4.one();
+
+    private _matM = Matrix4.one()
+    private _matN = Matrix3.one()
+    private matR = Matrix4.one()
+    private matT = Matrix4.one()
 
     /**
      * <p>
@@ -75,34 +54,19 @@ export default class ModelFacet extends ModelE3 implements Facet {
         super()
         this.position.modified = true
         this.attitude.modified = true
-        this._stress.modified = true
+        this.matS.modified = true
     }
 
     /**
-     * The spinor that rotates the object from the 'XYZ' frame used for scaling
-     * to the reference (initial) frame of the object.
-     *
-     * @property tilt
-     * @type Spinor3
+     * @property stress
+     * @type Matrix4
      */
-    get tilt(): Spinor3 {
-        return this._tilt
+    get stress(): Matrix4 {
+        return this.matS
     }
-    set tilt(tilt: Spinor3) {
-        mustBeObject('tilt', tilt)
-        this._tilt.copy(tilt)
-    }
-
-    /**
-     * @property scale
-     * @type Vector3
-     */
-    get scale(): Vector3 {
-        return this._stress
-    }
-    set scale(scale: Vector3) {
-        mustBeObject('scale', scale)
-        this._stress.copy(scale)
+    set stress(stress: Matrix4) {
+        mustBeObject('stress', stress)
+        this.matS.copy(stress)
     }
 
     /**
@@ -142,12 +106,7 @@ export default class ModelFacet extends ModelE3 implements Facet {
             this.attitude.modified = false
             modified = true
         }
-        if (this._stress.modified || this.tilt.modified) {
-            this.matK.rotation(this.tilt)
-            this.matS.scaling(this._stress)
-            this.matS.mul2(this.matK, this.matS).mul(this.matK.inv())
-            this._stress.modified = false
-            this.tilt.modified = true
+        if (this.matS.modified) {
             modified = true
         }
 

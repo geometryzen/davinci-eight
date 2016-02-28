@@ -223,20 +223,24 @@ export default class Spinor3 extends Coords implements SpinorE3, Mutable<number[
 
     /**
      * <p>
-     * <code>this ⟼ copy(spinor)</code>
+     * <code>this ⟼ copy(source)</code>
      * </p>
      * @method copy
-     * @param spinor {SpinorE3}
+     * @param source {SpinorE3}
      * @return {Spinor3} <code>this</code>
      * @chainable
      */
-    copy(spinor: SpinorE3): Spinor3 {
-        mustBeObject('spinor', spinor)
-        this.yz = mustBeNumber('spinor.yz', spinor.yz)
-        this.zx = mustBeNumber('spinor.zx', spinor.zx)
-        this.xy = mustBeNumber('spinor.xy', spinor.xy)
-        this.α = mustBeNumber('spinor.α', spinor.α)
-        return this;
+    copy(source: SpinorE3): Spinor3 {
+        if (source) {
+            this.yz = source.yz
+            this.zx = source.zx
+            this.xy = source.xy
+            this.α = source.α
+            return this
+        }
+        else {
+            throw new Error("source for copy must be a spinor")
+        }
     }
 
     /**

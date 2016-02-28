@@ -43,7 +43,6 @@
                                 <li><a href="../classes/Approximation.html">Approximation</a></li>
                                 <li><a href="../classes/Arrow.html">Arrow</a></li>
                                 <li><a href="../classes/ArrowBuilder.html">ArrowBuilder</a></li>
-                                <li><a href="../classes/ArrowConfig.html">ArrowConfig</a></li>
                                 <li><a href="../classes/ArrowGeometry.html">ArrowGeometry</a></li>
                                 <li><a href="../classes/ArrowOptions.html">ArrowOptions</a></li>
                                 <li><a href="../classes/AttribLocation.html">AttribLocation</a></li>
@@ -239,6 +238,7 @@
     <pre class="code prettyprint linenums">
 import GeometryContainer from &#x27;../core/GeometryContainer&#x27;
 import GeometryBuffers from &#x27;../core/GeometryBuffers&#x27;
+import notSupported from &#x27;../i18n/notSupported&#x27;
 import Primitive from &#x27;../core/Primitive&#x27;
 import SphereBuilder from &#x27;./SphereBuilder&#x27;
 import R3 from &#x27;../math/R3&#x27;
@@ -279,12 +279,13 @@ function primitives(options: { k?: number }): Primitive[] {
  * @extends Geometry
  */
 export default class SphereGeometry extends GeometryContainer {
+
     /**
      * @class SphereGeometry
      * @constructor
      */
     constructor(options: { k?: number } = {}) {
-        super()
+        super(&#x27;SphereGeometry&#x27;)
         const ps = primitives(options)
         const iLen = ps.length
         for (let i = 0; i &lt; iLen; i++) {
@@ -293,6 +294,46 @@ export default class SphereGeometry extends GeometryContainer {
             this.addPart(geometry)
             geometry.release()
         }
+    }
+
+    /**
+     * @property radius
+     * @type {number}
+     */
+    get radius(): number {
+        return this.getPrincipalScale(&#x27;radius&#x27;)
+    }
+    set radius(radius: number) {
+        this.setPrincipalScale(&#x27;radius&#x27;, radius)
+    }
+
+    /**
+     * @method getPrincipalScale
+     * @param name {string}
+     * @return {number}
+     */
+    getPrincipalScale(name: string): number {
+        switch (name) {
+            case &#x27;radius&#x27;: {
+                return this.scaling.getElement(0, 0)
+            }
+                break
+            default: {
+                throw new Error(notSupported(&#x60;getPrincipalScale(&#x27;${name}&#x27;)&#x60;).message)
+            }
+        }
+    }
+
+    /**
+     * @method setPrincipalScale
+     * @param name {string}
+     * @param value {number}
+     * @return {void}
+     */
+    setPrincipalScale(name: string, value: number): void {
+        this.scaling.setElement(0, 0, value)
+        this.scaling.setElement(1, 1, value)
+        this.scaling.setElement(2, 2, value)
     }
 }
 

@@ -1,16 +1,14 @@
 import RigidBody from './RigidBody'
 import SphereGeometry from '../geometries/SphereGeometry'
 import MeshMaterial from '../materials/MeshMaterial'
-import Spinor3 from '../math/Spinor3'
 import Vector3 from '../math/Vector3'
 
 describe('RigidBody', function() {
     it("should be shareable", function() {
         const geometry = new SphereGeometry()
         const material = new MeshMaterial()
-        const deviation = new Spinor3()
         const direction = new Vector3()
-        const sphere = new RigidBody('Foo', deviation, direction)
+        const sphere = new RigidBody('Foo', direction)
         sphere.geometry = geometry
         sphere.material = material
         expect(sphere.isZombie()).toBe(false)
@@ -20,9 +18,8 @@ describe('RigidBody', function() {
     it("mass should default to 1", function() {
         const geometry = new SphereGeometry()
         const material = new MeshMaterial()
-        const deviation = new Spinor3()
         const direction = new Vector3()
-        const sphere = new RigidBody('Foo', deviation, direction)
+        const sphere = new RigidBody('Foo', direction)
         sphere.geometry = geometry
         sphere.material = material
         expect(sphere.mass).toBe(1)
@@ -31,9 +28,8 @@ describe('RigidBody', function() {
     it("momentum should default to 0", function() {
         const geometry = new SphereGeometry()
         const material = new MeshMaterial()
-        const deviation = new Spinor3()
         const direction = new Vector3()
-        const sphere = new RigidBody('Foo', deviation, direction)
+        const sphere = new RigidBody('Foo', direction)
         sphere.geometry = geometry
         sphere.material = material
         expect(sphere.momentum.α).toBe(0)

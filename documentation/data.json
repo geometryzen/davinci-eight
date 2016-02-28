@@ -750,15 +750,6 @@
             "fors": {},
             "namespaces": {}
         },
-        "src/davinci-eight/geometries/ArrowConfig.ts": {
-            "name": "src/davinci-eight/geometries/ArrowConfig.ts",
-            "modules": {},
-            "classes": {
-                "ArrowConfig": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
         "src/davinci-eight/geometries/ArrowGeometry.ts": {
             "name": "src/davinci-eight/geometries/ArrowGeometry.ts",
             "modules": {
@@ -1950,7 +1941,6 @@
                 "TextureCoords": 1,
                 "Translation": 1,
                 "ArrowBuilder": 1,
-                "ArrowConfig": 1,
                 "ArrowGeometry": 1,
                 "AxialPrimitivesBuilder": 1,
                 "BoxGeometry": 1,
@@ -2694,7 +2684,7 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/core/Geometry.ts",
-            "line": 4
+            "line": 5
         },
         "GeometryBuffers": {
             "name": "GeometryBuffers",
@@ -2708,7 +2698,7 @@
             "submodule": "core",
             "namespace": "",
             "file": "src/davinci-eight/core/GeometryBuffers.ts",
-            "line": 36,
+            "line": 38,
             "description": "A Geometry that supports interleaved vertex buffers.",
             "extends": "ShareableContextListener",
             "is_constructor": 1,
@@ -2732,10 +2722,17 @@
             "submodule": "core",
             "namespace": "",
             "file": "src/davinci-eight/core/GeometryContainer.ts",
-            "line": 27,
-            "description": "A collection of Geometry(s) with functions\nthat reflect the dependency on the WebGL context events.",
+            "line": 38,
+            "description": "A collection of Geometry(s) with functions\nthat reflect the dependency on the WebGL context events.\nThis class is designed to be extended in order to implement the scaling methods.",
             "extends": "Shareable",
-            "is_constructor": 1
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "type",
+                    "description": "",
+                    "type": "String"
+                }
+            ]
         },
         "GraphicsProgramSymbols": {
             "name": "GraphicsProgramSymbols",
@@ -2849,7 +2846,7 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/core/IMesh.ts",
-            "line": 8,
+            "line": 6,
             "extends": "IDrawable"
         },
         "IUnknown": {
@@ -2912,7 +2909,7 @@
             "submodule": "core",
             "namespace": "",
             "file": "src/davinci-eight/core/Mesh.ts",
-            "line": 30,
+            "line": 29,
             "extends": "Drawable",
             "is_constructor": 1,
             "params": [
@@ -3247,7 +3244,7 @@
             "submodule": "facets",
             "namespace": "",
             "file": "src/davinci-eight/facets/ModelFacet.ts",
-            "line": 57,
+            "line": 36,
             "extends": "ModelE3",
             "description": "<p>\nA collection of properties governing GLSL uniforms for Rigid Body Modeling.\n</p>\n<p>\nIn Physics, the composite object may represent a rigid body.\nIn Computer Graphics, the composite object is a collection of drawing primitives.\n</p>\n<p>\nModelFacet implements Facet required for manipulating a composite object.\n</p>\n<p>\nConstructs a ModelFacet at the origin and with unity attitude.\n</p>",
             "is_constructor": 1
@@ -3739,21 +3736,6 @@
             "extends": "AxialPrimitivesBuilder",
             "is_constructor": 1
         },
-        "ArrowConfig": {
-            "name": "ArrowConfig",
-            "shortname": "ArrowConfig",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "EIGHT",
-            "namespace": "",
-            "file": "src/davinci-eight/geometries/ArrowConfig.ts",
-            "line": 3,
-            "deprecated": true,
-            "deprecationMessage": "Use ArrowBuilder instead."
-        },
         "ArrowGeometry": {
             "name": "ArrowGeometry",
             "shortname": "ArrowGeometry",
@@ -3766,7 +3748,7 @@
             "submodule": "geometries",
             "namespace": "",
             "file": "src/davinci-eight/geometries/ArrowGeometry.ts",
-            "line": 32,
+            "line": 27,
             "description": "A convenience class for creating an arrow.",
             "extends": "Geometry",
             "deprecated": true,
@@ -3774,9 +3756,9 @@
             "is_constructor": 1,
             "params": [
                 {
-                    "name": "config",
-                    "description": "The initial axis of the arrow.",
-                    "type": "ArrowConfig"
+                    "name": "options ",
+                    "description": "{} The initial axis of the arrow.",
+                    "optional": true
                 }
             ]
         },
@@ -3807,7 +3789,7 @@
             "submodule": "geometries",
             "namespace": "",
             "file": "src/davinci-eight/geometries/BoxGeometry.ts",
-            "line": 43,
+            "line": 45,
             "description": "A convenience class for creating a BoxGeometry.",
             "extends": "Geometry",
             "is_constructor": 1,
@@ -3909,40 +3891,15 @@
             "submodule": "geometries",
             "namespace": "",
             "file": "src/davinci-eight/geometries/CylinderGeometry.ts",
-            "line": 35,
+            "line": 21,
             "description": "A convenience class for creating a Cylinder.",
             "extends": "GeometryContainer",
             "is_constructor": 1,
             "params": [
                 {
-                    "name": "e",
-                    "description": "",
-                    "type": "VectorE3"
-                },
-                {
-                    "name": "cutLine",
-                    "description": "",
-                    "type": "VectorE3"
-                },
-                {
-                    "name": "clockwise",
-                    "description": "",
-                    "type": "Boolean"
-                },
-                {
-                    "name": "stress",
-                    "description": "",
-                    "type": "VectorE3"
-                },
-                {
-                    "name": "tilt",
-                    "description": "",
-                    "type": "SpinorE3"
-                },
-                {
-                    "name": "offset",
-                    "description": "",
-                    "type": "VectorE3"
+                    "name": "options ",
+                    "description": "{}",
+                    "optional": true
                 }
             ]
         },
@@ -4123,7 +4080,7 @@
             "submodule": "geometries",
             "namespace": "",
             "file": "src/davinci-eight/geometries/SphereGeometry.ts",
-            "line": 43,
+            "line": 45,
             "description": "A convenience class for creating a sphere.",
             "extends": "Geometry",
             "is_constructor": 1
@@ -5110,7 +5067,7 @@
             "submodule": "visual",
             "namespace": "",
             "file": "src/davinci-eight/visual/Arrow.ts",
-            "line": 21,
+            "line": 19,
             "extends": "RigidBody",
             "is_constructor": 1,
             "params": [
@@ -5146,8 +5103,8 @@
             "submodule": "visual",
             "namespace": "",
             "file": "src/davinci-eight/visual/Box.ts",
-            "line": 38,
-            "extends": "IGeometric3RigidBody",
+            "line": 19,
+            "extends": "RigidBody",
             "is_constructor": 1,
             "params": [
                 {
@@ -5169,7 +5126,7 @@
             "submodule": "visual",
             "namespace": "",
             "file": "src/davinci-eight/visual/Cylinder.ts",
-            "line": 21,
+            "line": 19,
             "extends": "RigidBody",
             "is_constructor": 1,
             "params": [
@@ -5218,7 +5175,7 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/visual/RigidBody.ts",
-            "line": 45,
+            "line": 44,
             "description": "Decorates the Mesh by adding properties for physical modeling.",
             "extends": "Mesh",
             "is_constructor": 1,
@@ -5227,11 +5184,6 @@
                     "name": "type",
                     "description": "",
                     "type": "String"
-                },
-                {
-                    "name": "tilt",
-                    "description": "The tilt from the scaling reference frame.",
-                    "type": "SpinorE3"
                 },
                 {
                     "name": "initialAxis",
@@ -5288,7 +5240,7 @@
             "submodule": "visual",
             "namespace": "",
             "file": "src/davinci-eight/visual/Sphere.ts",
-            "line": 19,
+            "line": 17,
             "extends": "RigidBody",
             "is_constructor": 1,
             "params": [
@@ -5312,7 +5264,7 @@
             "submodule": "visual",
             "namespace": "",
             "file": "src/davinci-eight/visual/Tetrahedron.ts",
-            "line": 17,
+            "line": 16,
             "extends": "Mesh",
             "is_constructor": 1,
             "params": [
@@ -8062,7 +8014,7 @@
         },
         {
             "file": "src/davinci-eight/core/Geometry.ts",
-            "line": 8,
+            "line": 9,
             "itemtype": "property",
             "name": "partsLength",
             "type": "number",
@@ -8072,7 +8024,17 @@
         },
         {
             "file": "src/davinci-eight/core/Geometry.ts",
-            "line": 15,
+            "line": 16,
+            "itemtype": "property",
+            "name": "scaling",
+            "type": "Matrix4",
+            "readonly": "",
+            "class": "Geometry",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/core/Geometry.ts",
+            "line": 23,
             "itemtype": "method",
             "name": "addPart",
             "params": [
@@ -8091,7 +8053,7 @@
         },
         {
             "file": "src/davinci-eight/core/Geometry.ts",
-            "line": 22,
+            "line": 30,
             "itemtype": "method",
             "name": "removePart",
             "params": [
@@ -8110,7 +8072,7 @@
         },
         {
             "file": "src/davinci-eight/core/Geometry.ts",
-            "line": 29,
+            "line": 37,
             "itemtype": "method",
             "name": "getPart",
             "params": [
@@ -8129,7 +8091,7 @@
         },
         {
             "file": "src/davinci-eight/core/Geometry.ts",
-            "line": 36,
+            "line": 44,
             "itemtype": "method",
             "name": "draw",
             "params": [
@@ -8148,7 +8110,7 @@
         },
         {
             "file": "src/davinci-eight/core/Geometry.ts",
-            "line": 43,
+            "line": 51,
             "itemtype": "method",
             "name": "isLeaf",
             "return": {
@@ -8159,8 +8121,70 @@
             "module": "EIGHT"
         },
         {
+            "file": "src/davinci-eight/core/Geometry.ts",
+            "line": 60,
+            "itemtype": "method",
+            "name": "hasPrincipalScale",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "class": "Geometry",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/core/Geometry.ts",
+            "line": 67,
+            "itemtype": "method",
+            "name": "getPrincipalScale",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "class": "Geometry",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/core/Geometry.ts",
+            "line": 74,
+            "itemtype": "method",
+            "name": "setPrincipalScale",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "value",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "Geometry",
+            "module": "EIGHT"
+        },
+        {
             "file": "src/davinci-eight/core/GeometryBuffers.ts",
-            "line": 51,
+            "line": 53,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -8175,7 +8199,7 @@
         },
         {
             "file": "src/davinci-eight/core/GeometryBuffers.ts",
-            "line": 60,
+            "line": 62,
             "itemtype": "method",
             "name": "isLeaf",
             "return": {
@@ -8188,7 +8212,7 @@
         },
         {
             "file": "src/davinci-eight/core/GeometryBuffers.ts",
-            "line": 68,
+            "line": 70,
             "itemtype": "property",
             "name": "partsLength",
             "type": "number",
@@ -8199,7 +8223,7 @@
         },
         {
             "file": "src/davinci-eight/core/GeometryBuffers.ts",
-            "line": 80,
+            "line": 89,
             "itemtype": "method",
             "name": "addPart",
             "params": [
@@ -8219,7 +8243,7 @@
         },
         {
             "file": "src/davinci-eight/core/GeometryBuffers.ts",
-            "line": 89,
+            "line": 98,
             "itemtype": "method",
             "name": "removePart",
             "params": [
@@ -8239,7 +8263,7 @@
         },
         {
             "file": "src/davinci-eight/core/GeometryBuffers.ts",
-            "line": 98,
+            "line": 107,
             "itemtype": "method",
             "name": "getPart",
             "params": [
@@ -8259,7 +8283,7 @@
         },
         {
             "file": "src/davinci-eight/core/GeometryBuffers.ts",
-            "line": 107,
+            "line": 116,
             "itemtype": "method",
             "name": "contextFree",
             "params": [
@@ -8279,7 +8303,7 @@
         },
         {
             "file": "src/davinci-eight/core/GeometryBuffers.ts",
-            "line": 125,
+            "line": 134,
             "itemtype": "method",
             "name": "contextGain",
             "params": [
@@ -8299,7 +8323,7 @@
         },
         {
             "file": "src/davinci-eight/core/GeometryBuffers.ts",
-            "line": 148,
+            "line": 157,
             "itemtype": "method",
             "name": "contextLost",
             "return": {
@@ -8312,7 +8336,7 @@
         },
         {
             "file": "src/davinci-eight/core/GeometryBuffers.ts",
-            "line": 158,
+            "line": 167,
             "itemtype": "method",
             "name": "draw",
             "params": [
@@ -8331,8 +8355,73 @@
             "submodule": "core"
         },
         {
+            "file": "src/davinci-eight/core/GeometryBuffers.ts",
+            "line": 191,
+            "itemtype": "method",
+            "name": "hasPrincipalScale",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "class": "GeometryBuffers",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/GeometryBuffers.ts",
+            "line": 201,
+            "itemtype": "method",
+            "name": "getPrincipalScale",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "class": "GeometryBuffers",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/GeometryBuffers.ts",
+            "line": 211,
+            "itemtype": "method",
+            "name": "setPrincipalScale",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "value",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "GeometryBuffers",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
             "file": "src/davinci-eight/core/GeometryContainer.ts",
-            "line": 21,
+            "line": 25,
             "itemtype": "property",
             "name": "_parts",
             "access": "private",
@@ -8343,7 +8432,18 @@
         },
         {
             "file": "src/davinci-eight/core/GeometryContainer.ts",
-            "line": 36,
+            "line": 31,
+            "itemtype": "property",
+            "name": "scaling",
+            "type": "Matrix4",
+            "default": "diag(1, 1, 1, 1)",
+            "class": "GeometryContainer",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/GeometryContainer.ts",
+            "line": 48,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -8358,7 +8458,7 @@
         },
         {
             "file": "src/davinci-eight/core/GeometryContainer.ts",
-            "line": 78,
+            "line": 90,
             "itemtype": "method",
             "name": "contextFree",
             "params": [],
@@ -8368,7 +8468,7 @@
         },
         {
             "file": "src/davinci-eight/core/GeometryContainer.ts",
-            "line": 88,
+            "line": 100,
             "itemtype": "method",
             "name": "contextGain",
             "params": [
@@ -8388,9 +8488,74 @@
         },
         {
             "file": "src/davinci-eight/core/GeometryContainer.ts",
-            "line": 99,
+            "line": 111,
             "itemtype": "method",
             "name": "contextLost",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "GeometryContainer",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/GeometryContainer.ts",
+            "line": 121,
+            "itemtype": "method",
+            "name": "hasPrincipalScale",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "class": "GeometryContainer",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/GeometryContainer.ts",
+            "line": 130,
+            "itemtype": "method",
+            "name": "getPrincipalScale",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "class": "GeometryContainer",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/GeometryContainer.ts",
+            "line": 139,
+            "itemtype": "method",
+            "name": "setPrincipalScale",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "value",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
             "return": {
                 "description": "",
                 "type": "Void"
@@ -8838,10 +9003,37 @@
         },
         {
             "file": "src/davinci-eight/core/IMesh.ts",
-            "line": 14,
+            "line": 12,
             "itemtype": "property",
             "name": "attitude",
             "type": "Geometric3",
+            "class": "IMesh",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/core/IMesh.ts",
+            "line": 18,
+            "itemtype": "property",
+            "name": "color",
+            "type": "Color",
+            "class": "IMesh",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/core/IMesh.ts",
+            "line": 24,
+            "itemtype": "property",
+            "name": "position",
+            "type": "Geometric3",
+            "class": "IMesh",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/core/IMesh.ts",
+            "line": 30,
+            "itemtype": "property",
+            "name": "stress",
+            "type": "Matrix4",
             "class": "IMesh",
             "module": "EIGHT"
         },
@@ -9558,7 +9750,7 @@
         },
         {
             "file": "src/davinci-eight/core/Mesh.ts",
-            "line": 45,
+            "line": 44,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -9573,7 +9765,7 @@
         },
         {
             "file": "src/davinci-eight/core/Mesh.ts",
-            "line": 54,
+            "line": 53,
             "description": "Attitude (spinor)",
             "itemtype": "property",
             "name": "attitude",
@@ -9584,7 +9776,7 @@
         },
         {
             "file": "src/davinci-eight/core/Mesh.ts",
-            "line": 79,
+            "line": 78,
             "description": "Color",
             "itemtype": "property",
             "name": "color",
@@ -9595,18 +9787,7 @@
         },
         {
             "file": "src/davinci-eight/core/Mesh.ts",
-            "line": 104,
-            "description": "The spinor that rotates the object from the frame\nin which scaling is defined to the initial frame of the\nobject.",
-            "itemtype": "property",
-            "name": "tilt",
-            "type": "Spinor3",
-            "class": "Mesh",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/Mesh.ts",
-            "line": 131,
+            "line": 103,
             "itemtype": "property",
             "name": "matrix",
             "type": "Matrix4",
@@ -9617,7 +9798,7 @@
         },
         {
             "file": "src/davinci-eight/core/Mesh.ts",
-            "line": 143,
+            "line": 115,
             "description": "Position (vector)",
             "itemtype": "property",
             "name": "position",
@@ -9628,11 +9809,57 @@
         },
         {
             "file": "src/davinci-eight/core/Mesh.ts",
-            "line": 168,
-            "description": "Scale (vector)",
+            "line": 140,
             "itemtype": "property",
-            "name": "scale",
-            "type": "Vector3",
+            "name": "stress",
+            "type": "Matrix4",
+            "class": "Mesh",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/Mesh.ts",
+            "line": 163,
+            "itemtype": "method",
+            "name": "getPrincipalScale",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "class": "Mesh",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/Mesh.ts",
+            "line": 175,
+            "itemtype": "method",
+            "name": "setPrincipalScale",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "value",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "access": "protected",
+            "tagname": "",
             "class": "Mesh",
             "module": "EIGHT",
             "submodule": "core"
@@ -11851,35 +12078,11 @@
         },
         {
             "file": "src/davinci-eight/facets/ModelFacet.ts",
-            "line": 25,
+            "line": 23,
             "itemtype": "property",
-            "name": "_stress",
-            "type": "Vector3",
-            "access": "private",
-            "tagname": "",
-            "class": "ModelFacet",
-            "module": "EIGHT",
-            "submodule": "facets"
-        },
-        {
-            "file": "src/davinci-eight/facets/ModelFacet.ts",
-            "line": 32,
-            "description": "The tilt is the spinor that rotates the object from\nthe coordinate frame used for scaling to the local coordinate\nframe of the object. We want the scaling to work relative to the\nlocal coordinate frame of the object.",
-            "itemtype": "property",
-            "name": "_tilt",
-            "type": "Spinor3",
-            "access": "private",
-            "tagname": "",
-            "class": "ModelFacet",
-            "module": "EIGHT",
-            "submodule": "facets"
-        },
-        {
-            "file": "src/davinci-eight/facets/ModelFacet.ts",
-            "line": 50,
-            "itemtype": "property",
-            "name": "matK",
+            "name": "matS",
             "type": "Matrix4",
+            "default": "diag(1, 1, 1, 1)",
             "access": "private",
             "tagname": "",
             "class": "ModelFacet",
@@ -11888,28 +12091,17 @@
         },
         {
             "file": "src/davinci-eight/facets/ModelFacet.ts",
-            "line": 81,
-            "description": "The spinor that rotates the object from the 'XYZ' frame used for scaling\nto the reference (initial) frame of the object.",
+            "line": 60,
             "itemtype": "property",
-            "name": "tilt",
-            "type": "Spinor3",
+            "name": "stress",
+            "type": "Matrix4",
             "class": "ModelFacet",
             "module": "EIGHT",
             "submodule": "facets"
         },
         {
             "file": "src/davinci-eight/facets/ModelFacet.ts",
-            "line": 96,
-            "itemtype": "property",
-            "name": "scale",
-            "type": "Vector3",
-            "class": "ModelFacet",
-            "module": "EIGHT",
-            "submodule": "facets"
-        },
-        {
-            "file": "src/davinci-eight/facets/ModelFacet.ts",
-            "line": 108,
+            "line": 72,
             "itemtype": "property",
             "name": "matrix",
             "type": "Matrix4",
@@ -11920,7 +12112,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ModelFacet.ts",
-            "line": 120,
+            "line": 84,
             "itemtype": "method",
             "name": "setUniforms",
             "params": [
@@ -11940,7 +12132,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ModelFacet.ts",
-            "line": 161,
+            "line": 120,
             "itemtype": "method",
             "name": "setProperty",
             "params": [
@@ -13370,34 +13562,49 @@
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/geometries/ArrowConfig.ts",
-            "line": 9,
-            "itemtype": "property",
-            "name": "stress",
-            "type": "{Geometric3} (vector)",
-            "default": "vector(1, 1, 1)",
-            "class": "ArrowConfig",
-            "module": "EIGHT"
+            "file": "src/davinci-eight/geometries/ArrowGeometry.ts",
+            "line": 51,
+            "itemtype": "method",
+            "name": "getPrincipalScale",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "class": "ArrowGeometry",
+            "module": "EIGHT",
+            "submodule": "geometries"
         },
         {
-            "file": "src/davinci-eight/geometries/ArrowConfig.ts",
-            "line": 16,
-            "itemtype": "property",
-            "name": "tilt",
-            "type": "{Geometric3} (spinor)",
-            "default": "1",
-            "class": "ArrowConfig",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/geometries/ArrowConfig.ts",
-            "line": 23,
-            "itemtype": "property",
-            "name": "offset",
-            "type": "{Geometric3}",
-            "default": "0",
-            "class": "ArrowConfig",
-            "module": "EIGHT"
+            "file": "src/davinci-eight/geometries/ArrowGeometry.ts",
+            "line": 60,
+            "itemtype": "method",
+            "name": "setPrincipalScale",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "value",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "ArrowGeometry",
+            "module": "EIGHT",
+            "submodule": "geometries"
         },
         {
             "file": "src/davinci-eight/geometries/AxialPrimitivesBuilder.ts",
@@ -13409,6 +13616,51 @@
             "default": "2 * Math.PI",
             "class": "AxialPrimitivesBuilder",
             "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/BoxGeometry.ts",
+            "line": 66,
+            "itemtype": "method",
+            "name": "getPrincipalScale",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "class": "BoxGeometry",
+            "module": "EIGHT",
+            "submodule": "geometries"
+        },
+        {
+            "file": "src/davinci-eight/geometries/BoxGeometry.ts",
+            "line": 91,
+            "itemtype": "method",
+            "name": "setPrincipalScale",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "value",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "BoxGeometry",
+            "module": "EIGHT",
+            "submodule": "geometries"
         },
         {
             "file": "src/davinci-eight/geometries/ConicalShellBuilder.ts",
@@ -13591,6 +13843,71 @@
             "module": "EIGHT"
         },
         {
+            "file": "src/davinci-eight/geometries/CylinderGeometry.ts",
+            "line": 44,
+            "itemtype": "property",
+            "name": "radius",
+            "type": "number",
+            "class": "CylinderGeometry",
+            "module": "EIGHT",
+            "submodule": "geometries"
+        },
+        {
+            "file": "src/davinci-eight/geometries/CylinderGeometry.ts",
+            "line": 55,
+            "itemtype": "property",
+            "name": "length",
+            "type": "number",
+            "class": "CylinderGeometry",
+            "module": "EIGHT",
+            "submodule": "geometries"
+        },
+        {
+            "file": "src/davinci-eight/geometries/CylinderGeometry.ts",
+            "line": 66,
+            "itemtype": "method",
+            "name": "getPrincipalScale",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "class": "CylinderGeometry",
+            "module": "EIGHT",
+            "submodule": "geometries"
+        },
+        {
+            "file": "src/davinci-eight/geometries/CylinderGeometry.ts",
+            "line": 87,
+            "itemtype": "method",
+            "name": "setPrincipalScale",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "value",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "CylinderGeometry",
+            "module": "EIGHT",
+            "submodule": "geometries"
+        },
+        {
             "file": "src/davinci-eight/geometries/CylindricalShellBuilder.ts",
             "line": 28,
             "itemtype": "property",
@@ -13688,6 +14005,13 @@
             "line": 30,
             "itemtype": "method",
             "name": "toGeometry",
+            "params": [
+                {
+                    "name": "type",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
             "return": {
                 "description": "",
                 "type": "Geometry"
@@ -13697,7 +14021,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/GeometryBuilder.ts",
-            "line": 36,
+            "line": 37,
             "itemtype": "method",
             "name": "toPrimitives",
             "return": {
@@ -13709,7 +14033,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/GeometryBuilder.ts",
-            "line": 42,
+            "line": 43,
             "itemtype": "method",
             "name": "toVertexArrays",
             "return": {
@@ -13906,6 +14230,13 @@
             "line": 98,
             "itemtype": "method",
             "name": "toGeometry",
+            "params": [
+                {
+                    "name": "type",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
             "return": {
                 "description": "",
                 "type": "Geometry"
@@ -13916,7 +14247,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/PrimitivesBuilder.ts",
-            "line": 116,
+            "line": 119,
             "itemtype": "method",
             "name": "toVertexArrays",
             "return": {
@@ -13929,7 +14260,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/PrimitivesBuilder.ts",
-            "line": 131,
+            "line": 134,
             "itemtype": "method",
             "name": "toPrimitives",
             "type": "Primitive[]",
@@ -14123,6 +14454,61 @@
             "type": "number",
             "class": "SphereBuilder",
             "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/SphereGeometry.ts",
+            "line": 61,
+            "itemtype": "property",
+            "name": "radius",
+            "type": "{number}",
+            "class": "SphereGeometry",
+            "module": "EIGHT",
+            "submodule": "geometries"
+        },
+        {
+            "file": "src/davinci-eight/geometries/SphereGeometry.ts",
+            "line": 72,
+            "itemtype": "method",
+            "name": "getPrincipalScale",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "class": "SphereGeometry",
+            "module": "EIGHT",
+            "submodule": "geometries"
+        },
+        {
+            "file": "src/davinci-eight/geometries/SphereGeometry.ts",
+            "line": 89,
+            "itemtype": "method",
+            "name": "setPrincipalScale",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "value",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "SphereGeometry",
+            "module": "EIGHT",
+            "submodule": "geometries"
         },
         {
             "file": "src/davinci-eight/geometries/TriangleStrip.ts",
@@ -14559,6 +14945,17 @@
             "file": "src/davinci-eight/math/AbstractMatrix.ts",
             "line": 60,
             "itemtype": "property",
+            "name": "dimensions",
+            "type": "{number}",
+            "readonly": "",
+            "class": "AbstractMatrix",
+            "module": "EIGHT",
+            "submodule": "math"
+        },
+        {
+            "file": "src/davinci-eight/math/AbstractMatrix.ts",
+            "line": 72,
+            "itemtype": "property",
             "name": "elements",
             "type": "{Float32Array}",
             "class": "AbstractMatrix",
@@ -14567,7 +14964,7 @@
         },
         {
             "file": "src/davinci-eight/math/AbstractMatrix.ts",
-            "line": 72,
+            "line": 84,
             "itemtype": "method",
             "name": "copy",
             "params": [
@@ -14588,11 +14985,55 @@
         },
         {
             "file": "src/davinci-eight/math/AbstractMatrix.ts",
-            "line": 83,
-            "itemtype": "property",
-            "name": "dimensions",
-            "type": "{number}",
-            "readonly": "",
+            "line": 95,
+            "itemtype": "method",
+            "name": "getElement",
+            "params": [
+                {
+                    "name": "row",
+                    "description": "The zero-based row.",
+                    "type": "Number"
+                },
+                {
+                    "name": "column",
+                    "description": "The zero-based column.",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "class": "AbstractMatrix",
+            "module": "EIGHT",
+            "submodule": "math"
+        },
+        {
+            "file": "src/davinci-eight/math/AbstractMatrix.ts",
+            "line": 105,
+            "itemtype": "method",
+            "name": "setElement",
+            "params": [
+                {
+                    "name": "row",
+                    "description": "The zero-based row.",
+                    "type": "Number"
+                },
+                {
+                    "name": "column",
+                    "description": "The zero-based column.",
+                    "type": "Number"
+                },
+                {
+                    "name": "value",
+                    "description": "The value of the element.",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
             "class": "AbstractMatrix",
             "module": "EIGHT",
             "submodule": "math"
@@ -26463,12 +26904,12 @@
         {
             "file": "src/davinci-eight/math/Spinor3.ts",
             "line": 224,
-            "description": "<p>\n<code>this ⟼ copy(spinor)</code>\n</p>",
+            "description": "<p>\n<code>this ⟼ copy(source)</code>\n</p>",
             "itemtype": "method",
             "name": "copy",
             "params": [
                 {
-                    "name": "spinor",
+                    "name": "source",
                     "description": "",
                     "type": "SpinorE3"
                 }
@@ -26484,7 +26925,7 @@
         },
         {
             "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 242,
+            "line": 246,
             "description": "Sets this spinor to the value of the scalar, <code>α</code>.",
             "itemtype": "method",
             "name": "copyScalar",
@@ -26506,7 +26947,7 @@
         },
         {
             "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 253,
+            "line": 257,
             "description": "Intentionally undocumented.",
             "class": "Spinor3",
             "module": "EIGHT",
@@ -26514,7 +26955,7 @@
         },
         {
             "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 260,
+            "line": 264,
             "description": "Intentionally undocumented.",
             "class": "Spinor3",
             "module": "EIGHT",
@@ -26522,7 +26963,7 @@
         },
         {
             "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 267,
+            "line": 271,
             "description": "<p>\n<code>this ⟼ this / s</code>\n</p>",
             "itemtype": "method",
             "name": "div",
@@ -26544,7 +26985,7 @@
         },
         {
             "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 280,
+            "line": 284,
             "description": "<p>\n<code>this ⟼ a / b</code>\n</p>",
             "itemtype": "method",
             "name": "div2",
@@ -26571,7 +27012,7 @@
         },
         {
             "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 309,
+            "line": 313,
             "description": "<p>\n<code>this ⟼ this / α</code>\n</p>",
             "itemtype": "method",
             "name": "divByScalar",
@@ -26593,7 +27034,7 @@
         },
         {
             "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 326,
+            "line": 330,
             "description": "<p>\n<code>this ⟼ dual(v) = I * v</code>\n</p>",
             "itemtype": "method",
             "name": "dual",
@@ -26620,7 +27061,7 @@
         },
         {
             "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 347,
+            "line": 351,
             "description": "<p>\n<code>this ⟼ e<sup>this</sup></code>\n</p>",
             "itemtype": "method",
             "name": "exp",
@@ -26635,7 +27076,7 @@
         },
         {
             "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 372,
+            "line": 376,
             "description": "<p>\n<code>this ⟼ conj(this) / quad(this)</code>\n</p>",
             "itemtype": "method",
             "name": "inv",
@@ -26650,7 +27091,7 @@
         },
         {
             "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 396,
+            "line": 400,
             "description": "<p>\n<code>this ⟼ this + α * (target - this)</code>\n</p>",
             "itemtype": "method",
             "name": "lerp",
@@ -26677,7 +27118,7 @@
         },
         {
             "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 417,
+            "line": 421,
             "description": "<p>\n<code>this ⟼ a + α * (b - a)</code>\n<p>",
             "itemtype": "method",
             "name": "lerp2",
@@ -26709,7 +27150,7 @@
         },
         {
             "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 432,
+            "line": 436,
             "description": "<p>\n<code>this ⟼ log(this)</code>\n</p>",
             "itemtype": "method",
             "name": "log",
@@ -26724,7 +27165,7 @@
         },
         {
             "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 460,
+            "line": 464,
             "description": "Computes the <em>square root</em> of the <em>squared norm</em>.",
             "itemtype": "method",
             "name": "magnitude",
@@ -26738,7 +27179,7 @@
         },
         {
             "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 473,
+            "line": 477,
             "description": "<p>\n<code>this ⟼ this * rhs</code>\n</p>",
             "itemtype": "method",
             "name": "mul",
@@ -26760,7 +27201,7 @@
         },
         {
             "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 497,
+            "line": 501,
             "description": "<p>\n<code>this ⟼ a * b</code>\n</p>",
             "itemtype": "method",
             "name": "mul2",
@@ -26787,7 +27228,7 @@
         },
         {
             "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 521,
+            "line": 525,
             "itemtype": "method",
             "name": "neg",
             "return": {
@@ -26801,7 +27242,7 @@
         },
         {
             "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 534,
+            "line": 538,
             "description": "<p>\n<code>this ⟼ sqrt(this * conj(this))</code>\n</p>",
             "itemtype": "method",
             "name": "norm",
@@ -26816,7 +27257,7 @@
         },
         {
             "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 547,
+            "line": 551,
             "description": "<p>\n<code>this ⟼ this / magnitude(this)</code>\n</p>",
             "itemtype": "method",
             "name": "direction",
@@ -26831,7 +27272,7 @@
         },
         {
             "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 565,
+            "line": 569,
             "description": "Sets this spinor to the identity element for multiplication, <b>1</b>.",
             "return": {
                 "description": "<code>this</code>",
@@ -26844,7 +27285,7 @@
         },
         {
             "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 578,
+            "line": 582,
             "description": "<p>\n<code>this ⟼ this * conj(this)</code>\n</p>",
             "itemtype": "method",
             "name": "quad",
@@ -26859,7 +27300,7 @@
         },
         {
             "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 590,
+            "line": 594,
             "itemtype": "method",
             "name": "squaredNorm",
             "return": {
@@ -26873,7 +27314,7 @@
         },
         {
             "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 600,
+            "line": 604,
             "description": "Intentionally undocumented.",
             "class": "Spinor3",
             "module": "EIGHT",
@@ -26881,7 +27322,7 @@
         },
         {
             "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 607,
+            "line": 611,
             "itemtype": "method",
             "name": "stress",
             "params": [
@@ -26902,7 +27343,7 @@
         },
         {
             "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 631,
+            "line": 635,
             "description": "<p>\n<code>this = (w, B) ⟼ (w, -B)</code>\n</p>",
             "itemtype": "method",
             "name": "reverse",
@@ -26917,7 +27358,7 @@
         },
         {
             "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 645,
+            "line": 649,
             "description": "Sets this Spinor to the value of its reflection in the plane orthogonal to n.\nThe geometric formula for bivector reflection is B' = n * B * n.",
             "itemtype": "method",
             "name": "reflect",
@@ -26939,7 +27380,7 @@
         },
         {
             "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 670,
+            "line": 674,
             "description": "<p>\n<code>this = ⟼ R * this * rev(R)</code>\n</p>",
             "itemtype": "method",
             "name": "rotate",
@@ -26961,7 +27402,7 @@
         },
         {
             "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 688,
+            "line": 692,
             "description": "<p>\nComputes a rotor, R, from two vectors, where\nR = (abs(b) * abs(a) + b * a) / sqrt(2 * (quad(b) * quad(a) + abs(b) * abs(a) * b << a))\n</p>",
             "itemtype": "method",
             "name": "rotor",
@@ -26988,7 +27429,7 @@
         },
         {
             "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 704,
+            "line": 708,
             "description": "<p>\n<code>this = ⟼ exp(- dual(a) * θ / 2)</code>\n</p>",
             "itemtype": "method",
             "name": "rotorFromAxisAngle",
@@ -27014,7 +27455,7 @@
         },
         {
             "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 723,
+            "line": 727,
             "description": "<p>\n<code>this = ⟼ exp(- B * θ / 2)</code>\n</p>",
             "itemtype": "method",
             "name": "rotorFromGeneratorAngle",
@@ -27040,7 +27481,7 @@
         },
         {
             "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 750,
+            "line": 754,
             "description": "<p>\n<code>this ⟼ this * α</code>\n</p>",
             "itemtype": "method",
             "name": "scale",
@@ -27061,7 +27502,7 @@
         },
         {
             "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 778,
+            "line": 782,
             "description": "<p>\n<code>this ⟼ this - s * α</code>\n</p>",
             "itemtype": "method",
             "name": "sub",
@@ -27090,7 +27531,7 @@
         },
         {
             "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 797,
+            "line": 801,
             "description": "<p>\n<code>this ⟼ a - b</code>\n</p>",
             "itemtype": "method",
             "name": "sub2",
@@ -27117,7 +27558,7 @@
         },
         {
             "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 814,
+            "line": 818,
             "description": "<p>\n<code>this ⟼ a * b</code>\n</p>\nSets this Spinor3 to the geometric product a * b of the vector arguments.",
             "itemtype": "method",
             "name": "versor",
@@ -27143,7 +27584,7 @@
         },
         {
             "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 873,
+            "line": 877,
             "itemtype": "method",
             "name": "toString",
             "return": {
@@ -27156,7 +27597,7 @@
         },
         {
             "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 889,
+            "line": 893,
             "description": "Sets this spinor to the identity element for addition, <b>0</b>.",
             "return": {
                 "description": "<code>this</code>",
@@ -27169,7 +27610,7 @@
         },
         {
             "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 902,
+            "line": 906,
             "itemtype": "method",
             "name": "copy",
             "params": [
@@ -27191,7 +27632,7 @@
         },
         {
             "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 913,
+            "line": 917,
             "description": "Computes I * <code>v</code>, the dual of <code>v</code>.",
             "itemtype": "method",
             "name": "dual",
@@ -27219,7 +27660,7 @@
         },
         {
             "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 926,
+            "line": 930,
             "itemtype": "method",
             "name": "lerp",
             "params": [
@@ -27251,7 +27692,7 @@
         },
         {
             "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 939,
+            "line": 943,
             "itemtype": "method",
             "name": "one",
             "return": {
@@ -27266,7 +27707,7 @@
         },
         {
             "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 949,
+            "line": 953,
             "description": "Computes the rotor that rotates vector <code>a</code> to vector <code>b</code>.",
             "itemtype": "method",
             "name": "rotorFromDirections",
@@ -27294,7 +27735,7 @@
         },
         {
             "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 962,
+            "line": 966,
             "itemtype": "method",
             "name": "spinor",
             "params": [
@@ -28967,12 +29408,12 @@
         {
             "file": "src/davinci-eight/math/Vector3.ts",
             "line": 244,
-            "description": "<p>\n<code>this ⟼ copy(v)</code>\n</p>",
+            "description": "<p>\n<code>this ⟼ copy(source)</code>\n</p>",
             "itemtype": "method",
             "name": "copy",
             "params": [
                 {
-                    "name": "v",
+                    "name": "source",
                     "description": "",
                     "type": "VectorE3"
                 }
@@ -28988,7 +29429,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 261,
+            "line": 266,
             "description": "Copies the coordinate values into this <code>Vector3</code>.",
             "itemtype": "method",
             "name": "copyCoordinates",
@@ -29010,7 +29451,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 276,
+            "line": 281,
             "description": "<p>\n<code>this ⟼ this ✕ v</code>\n</p>",
             "itemtype": "method",
             "name": "cross",
@@ -29032,7 +29473,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 288,
+            "line": 293,
             "description": "<p>\n<code>this ⟼ a ✕ b</code>\n</p>",
             "itemtype": "method",
             "name": "cross2",
@@ -29059,7 +29500,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 309,
+            "line": 314,
             "itemtype": "method",
             "name": "distanceTo",
             "params": [
@@ -29079,7 +29520,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 322,
+            "line": 327,
             "itemtype": "method",
             "name": "quadranceTo",
             "params": [
@@ -29099,7 +29540,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 338,
+            "line": 343,
             "description": "<p>\n<code>this ⟼ this / α</code>\n</p>",
             "itemtype": "method",
             "name": "divByScalar",
@@ -29121,7 +29562,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 361,
+            "line": 366,
             "itemtype": "method",
             "name": "dot",
             "params": [
@@ -29141,7 +29582,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 369,
+            "line": 374,
             "description": "Computes the <em>square root</em> of the <em>squared norm</em>.",
             "itemtype": "method",
             "name": "magnitude",
@@ -29155,7 +29596,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 377,
+            "line": 382,
             "itemtype": "method",
             "name": "neg",
             "return": {
@@ -29169,7 +29610,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 389,
+            "line": 394,
             "description": "<p>\n<code>this ⟼ this + α * (target - this)</code>\n</p>",
             "itemtype": "method",
             "name": "lerp",
@@ -29196,7 +29637,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 405,
+            "line": 410,
             "description": "<p>\n<code>this ⟼ a + α * (b - a)</code>\n</p>",
             "itemtype": "method",
             "name": "lerp2",
@@ -29228,7 +29669,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 420,
+            "line": 425,
             "description": "<p>\n<code>this ⟼ this / norm(this)</code>\n</p>",
             "itemtype": "method",
             "name": "direction",
@@ -29243,7 +29684,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 432,
+            "line": 437,
             "description": "<p>\n<code>this ⟼ this * α</code>\n</p>",
             "itemtype": "method",
             "name": "scale",
@@ -29260,7 +29701,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 446,
+            "line": 451,
             "itemtype": "method",
             "name": "stress",
             "params": [
@@ -29279,7 +29720,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 458,
+            "line": 463,
             "description": "<p>\n<code>this ⟼ this</code>, with components modified.\n</p>",
             "itemtype": "method",
             "name": "set",
@@ -29312,7 +29753,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 477,
+            "line": 482,
             "itemtype": "method",
             "name": "setY",
             "params": [
@@ -29329,7 +29770,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 492,
+            "line": 497,
             "description": "Returns the (Euclidean) inner product of this vector with itself.",
             "itemtype": "method",
             "name": "squaredNorm",
@@ -29343,7 +29784,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 503,
+            "line": 508,
             "description": "<p>\n<code>this ⟼ this - v</code>\n</p>",
             "itemtype": "method",
             "name": "sub",
@@ -29372,7 +29813,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 520,
+            "line": 525,
             "description": "<p>\n<code>this ⟼ a - b</code>\n</p>",
             "itemtype": "method",
             "name": "sub2",
@@ -29401,7 +29842,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 538,
+            "line": 543,
             "itemtype": "method",
             "name": "toExponential",
             "return": {
@@ -29414,7 +29855,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 547,
+            "line": 552,
             "itemtype": "method",
             "name": "toFixed",
             "params": [
@@ -29435,7 +29876,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 557,
+            "line": 562,
             "itemtype": "method",
             "name": "toString",
             "return": {
@@ -29448,7 +29889,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 566,
+            "line": 571,
             "description": "Sets this vector to the identity element for addition, <b>0</b>.",
             "itemtype": "method",
             "name": "zero",
@@ -29463,7 +29904,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 596,
+            "line": 601,
             "itemtype": "method",
             "name": "mul",
             "params": [
@@ -29485,7 +29926,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 611,
+            "line": 616,
             "itemtype": "method",
             "name": "rmul",
             "params": [
@@ -29507,7 +29948,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 629,
+            "line": 634,
             "itemtype": "method",
             "name": "copy",
             "params": [
@@ -29529,7 +29970,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 640,
+            "line": 645,
             "description": "Constructs a vector which is the dual of the supplied bivector, B.\nThe convention used is dual(m) = I * m.\nIf a sign change is desired from this convention,\nset the <code>changeSign</code> to <code>true</code>.",
             "itemtype": "method",
             "name": "dual",
@@ -29556,7 +29997,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 661,
+            "line": 666,
             "itemtype": "method",
             "name": "lerp",
             "params": [
@@ -29588,7 +30029,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 674,
+            "line": 679,
             "itemtype": "method",
             "name": "random",
             "return": {
@@ -29603,7 +30044,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 684,
+            "line": 689,
             "itemtype": "method",
             "name": "vector",
             "params": [
@@ -29635,7 +30076,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 697,
+            "line": 702,
             "itemtype": "method",
             "name": "zero",
             "return": {
@@ -30167,7 +30608,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Arrow.ts",
-            "line": 42,
+            "line": 40,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -30182,7 +30623,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Arrow.ts",
-            "line": 51,
+            "line": 49,
             "itemtype": "property",
             "name": "length",
             "type": "number",
@@ -30202,19 +30643,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Box.ts",
-            "line": 31,
-            "itemtype": "property",
-            "name": "inner",
-            "type": "RigidBody",
-            "access": "private",
-            "tagname": "",
-            "class": "Box",
-            "module": "EIGHT",
-            "submodule": "visual"
-        },
-        {
-            "file": "src/davinci-eight/visual/Box.ts",
-            "line": 63,
+            "line": 43,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -30229,67 +30658,18 @@
         },
         {
             "file": "src/davinci-eight/visual/Box.ts",
-            "line": 73,
+            "line": 52,
             "itemtype": "property",
-            "name": "attitude",
-            "type": "Geometric3",
-            "class": "Box",
-            "module": "EIGHT",
-            "submodule": "visual"
-        },
-        {
-            "file": "src/davinci-eight/visual/Box.ts",
-            "line": 84,
-            "itemtype": "property",
-            "name": "axis",
-            "type": "Geometric3",
-            "class": "Box",
-            "module": "EIGHT",
-            "submodule": "visual"
-        },
-        {
-            "file": "src/davinci-eight/visual/Box.ts",
-            "line": 95,
-            "itemtype": "property",
-            "name": "color",
-            "type": "Color",
-            "class": "Box",
-            "module": "EIGHT",
-            "submodule": "visual"
-        },
-        {
-            "file": "src/davinci-eight/visual/Box.ts",
-            "line": 106,
-            "itemtype": "property",
-            "name": "depth",
+            "name": "width",
             "type": "number",
+            "default": "1",
             "class": "Box",
             "module": "EIGHT",
             "submodule": "visual"
         },
         {
             "file": "src/davinci-eight/visual/Box.ts",
-            "line": 118,
-            "itemtype": "property",
-            "name": "tilt",
-            "type": "Spinor3",
-            "class": "Box",
-            "module": "EIGHT",
-            "submodule": "visual"
-        },
-        {
-            "file": "src/davinci-eight/visual/Box.ts",
-            "line": 129,
-            "itemtype": "property",
-            "name": "geometry",
-            "type": "Geometry",
-            "class": "Box",
-            "module": "EIGHT",
-            "submodule": "visual"
-        },
-        {
-            "file": "src/davinci-eight/visual/Box.ts",
-            "line": 140,
+            "line": 64,
             "itemtype": "property",
             "name": "height",
             "type": "number",
@@ -30299,193 +30679,17 @@
         },
         {
             "file": "src/davinci-eight/visual/Box.ts",
-            "line": 152,
+            "line": 75,
             "itemtype": "property",
-            "name": "initialAxis",
-            "type": "R3",
-            "class": "Box",
-            "module": "EIGHT",
-            "submodule": "visual"
-        },
-        {
-            "file": "src/davinci-eight/visual/Box.ts",
-            "line": 163,
-            "itemtype": "property",
-            "name": "mass",
+            "name": "depth",
             "type": "number",
-            "class": "Box",
-            "module": "EIGHT",
-            "submodule": "visual"
-        },
-        {
-            "file": "src/davinci-eight/visual/Box.ts",
-            "line": 174,
-            "itemtype": "property",
-            "name": "material",
-            "type": "IMaterial",
-            "class": "Box",
-            "module": "EIGHT",
-            "submodule": "visual"
-        },
-        {
-            "file": "src/davinci-eight/visual/Box.ts",
-            "line": 185,
-            "itemtype": "property",
-            "name": "matrix",
-            "type": "Matrix4",
-            "class": "Box",
-            "module": "EIGHT",
-            "submodule": "visual"
-        },
-        {
-            "file": "src/davinci-eight/visual/Box.ts",
-            "line": 196,
-            "itemtype": "property",
-            "name": "momentum",
-            "type": "number",
-            "class": "Box",
-            "module": "EIGHT",
-            "submodule": "visual"
-        },
-        {
-            "file": "src/davinci-eight/visual/Box.ts",
-            "line": 207,
-            "itemtype": "property",
-            "name": "name",
-            "type": "string",
-            "class": "Box",
-            "module": "EIGHT",
-            "submodule": "visual"
-        },
-        {
-            "file": "src/davinci-eight/visual/Box.ts",
-            "line": 218,
-            "itemtype": "property",
-            "name": "position",
-            "type": "Geometric3",
-            "class": "Box",
-            "module": "EIGHT",
-            "submodule": "visual"
-        },
-        {
-            "file": "src/davinci-eight/visual/Box.ts",
-            "line": 229,
-            "itemtype": "property",
-            "name": "scale",
-            "type": "Vector3",
-            "class": "Box",
-            "module": "EIGHT",
-            "submodule": "visual"
-        },
-        {
-            "file": "src/davinci-eight/visual/Box.ts",
-            "line": 240,
-            "itemtype": "property",
-            "name": "visible",
-            "type": "boolean",
-            "class": "Box",
-            "module": "EIGHT",
-            "submodule": "visual"
-        },
-        {
-            "file": "src/davinci-eight/visual/Box.ts",
-            "line": 251,
-            "itemtype": "property",
-            "name": "width",
-            "type": "number",
-            "class": "Box",
-            "module": "EIGHT",
-            "submodule": "visual"
-        },
-        {
-            "file": "src/davinci-eight/visual/Box.ts",
-            "line": 263,
-            "itemtype": "method",
-            "name": "contextFree",
-            "params": [
-                {
-                    "name": "context",
-                    "description": "",
-                    "type": "IContextProvider"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "Box",
-            "module": "EIGHT",
-            "submodule": "visual"
-        },
-        {
-            "file": "src/davinci-eight/visual/Box.ts",
-            "line": 272,
-            "itemtype": "method",
-            "name": "contextGain",
-            "params": [
-                {
-                    "name": "context",
-                    "description": "",
-                    "type": "IContextProvider"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "Box",
-            "module": "EIGHT",
-            "submodule": "visual"
-        },
-        {
-            "file": "src/davinci-eight/visual/Box.ts",
-            "line": 281,
-            "itemtype": "method",
-            "name": "contextLost",
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "Box",
-            "module": "EIGHT",
-            "submodule": "visual"
-        },
-        {
-            "file": "src/davinci-eight/visual/Box.ts",
-            "line": 289,
-            "itemtype": "method",
-            "name": "draw",
-            "params": [
-                {
-                    "name": "ambients",
-                    "description": "",
-                    "type": "Facet[]"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "Box",
-            "module": "EIGHT",
-            "submodule": "visual"
-        },
-        {
-            "file": "src/davinci-eight/visual/Box.ts",
-            "line": 298,
-            "itemtype": "method",
-            "name": "setUniforms",
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
             "class": "Box",
             "module": "EIGHT",
             "submodule": "visual"
         },
         {
             "file": "src/davinci-eight/visual/Cylinder.ts",
-            "line": 45,
+            "line": 43,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -30500,7 +30704,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Cylinder.ts",
-            "line": 54,
+            "line": 52,
             "itemtype": "property",
             "name": "length",
             "type": "number",
@@ -30511,7 +30715,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Cylinder.ts",
-            "line": 68,
+            "line": 64,
             "itemtype": "property",
             "name": "radius",
             "type": "number",
@@ -30550,7 +30754,7 @@
         },
         {
             "file": "src/davinci-eight/visual/RigidBody.ts",
-            "line": 18,
+            "line": 17,
             "description": "The (dimensionless) mass of the <code>RigidBody</code>.",
             "itemtype": "property",
             "name": "mass",
@@ -30561,7 +30765,7 @@
         },
         {
             "file": "src/davinci-eight/visual/RigidBody.ts",
-            "line": 27,
+            "line": 26,
             "description": "The (dimensionless) momentum of the <code>RigidBody</code>",
             "itemtype": "property",
             "name": "momentum",
@@ -30572,7 +30776,7 @@
         },
         {
             "file": "src/davinci-eight/visual/RigidBody.ts",
-            "line": 36,
+            "line": 35,
             "description": "Cache the initial axis value so that we can compute the axis at any\ntime by rotating the initial axis using the Mesh attitude.",
             "itemtype": "property",
             "name": "initialAxis",
@@ -30582,7 +30786,7 @@
         },
         {
             "file": "src/davinci-eight/visual/RigidBody.ts",
-            "line": 58,
+            "line": 55,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -30596,7 +30800,7 @@
         },
         {
             "file": "src/davinci-eight/visual/RigidBody.ts",
-            "line": 67,
+            "line": 64,
             "itemtype": "property",
             "name": "axis",
             "type": "Geometric3",
@@ -30709,7 +30913,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Sphere.ts",
-            "line": 34,
+            "line": 32,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -30724,7 +30928,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Sphere.ts",
-            "line": 43,
+            "line": 41,
             "itemtype": "property",
             "name": "radius",
             "type": "number",
@@ -30735,7 +30939,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Tetrahedron.ts",
-            "line": 32,
+            "line": 31,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -30750,7 +30954,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Tetrahedron.ts",
-            "line": 41,
+            "line": 40,
             "itemtype": "property",
             "name": "radius",
             "type": "number",
@@ -31012,7 +31216,7 @@
         },
         {
             "message": "param name/type/descript missing",
-            "line": " src/davinci-eight/core/GeometryContainer.ts:78"
+            "line": " src/davinci-eight/core/GeometryContainer.ts:90"
         },
         {
             "message": "replacing incorrect tag: function with method",
@@ -31028,11 +31232,7 @@
         },
         {
             "message": "param name missing: {number}",
-            "line": " src/davinci-eight/math/Vector3.ts:477"
-        },
-        {
-            "message": "replacing incorrect tag: parm with param",
-            "line": " src/davinci-eight/visual/Box.ts:289"
+            "line": " src/davinci-eight/math/Vector3.ts:482"
         },
         {
             "message": "Missing item type\nEssentially constructs the ShareableArray without incrementing the\nreference count of the elements, and without creating zombies.",
@@ -31872,23 +32072,23 @@
         },
         {
             "message": "Missing item type\nIntentionally undocumented.",
-            "line": " src/davinci-eight/math/Spinor3.ts:253"
+            "line": " src/davinci-eight/math/Spinor3.ts:257"
         },
         {
             "message": "Missing item type\nIntentionally undocumented.",
-            "line": " src/davinci-eight/math/Spinor3.ts:260"
+            "line": " src/davinci-eight/math/Spinor3.ts:264"
         },
         {
             "message": "Missing item type\nSets this spinor to the identity element for multiplication, <b>1</b>.",
-            "line": " src/davinci-eight/math/Spinor3.ts:565"
+            "line": " src/davinci-eight/math/Spinor3.ts:569"
         },
         {
             "message": "Missing item type\nIntentionally undocumented.",
-            "line": " src/davinci-eight/math/Spinor3.ts:600"
+            "line": " src/davinci-eight/math/Spinor3.ts:604"
         },
         {
             "message": "Missing item type\nSets this spinor to the identity element for addition, <b>0</b>.",
-            "line": " src/davinci-eight/math/Spinor3.ts:889"
+            "line": " src/davinci-eight/math/Spinor3.ts:893"
         },
         {
             "message": "Missing item type\nThe <em>bivector</em> yz-coordinate as a <code>number</code>.",

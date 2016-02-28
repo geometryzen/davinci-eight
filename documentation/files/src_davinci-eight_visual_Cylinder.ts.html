@@ -43,7 +43,6 @@
                                 <li><a href="../classes/Approximation.html">Approximation</a></li>
                                 <li><a href="../classes/Arrow.html">Arrow</a></li>
                                 <li><a href="../classes/ArrowBuilder.html">ArrowBuilder</a></li>
-                                <li><a href="../classes/ArrowConfig.html">ArrowConfig</a></li>
                                 <li><a href="../classes/ArrowGeometry.html">ArrowGeometry</a></li>
                                 <li><a href="../classes/ArrowOptions.html">ArrowOptions</a></li>
                                 <li><a href="../classes/AttribLocation.html">AttribLocation</a></li>
@@ -240,8 +239,6 @@
 import deviation from &#x27;./deviation&#x27;
 import direction from &#x27;./direction&#x27;
 import CylinderOptions from &#x27;./CylinderOptions&#x27;
-import mustBeGE from &#x27;../checks/mustBeGE&#x27;
-import mustBeNumber from &#x27;../checks/mustBeNumber&#x27;
 import RigidBody from &#x27;./RigidBody&#x27;
 import Vector3 from &#x27;../math/Vector3&#x27;
 import visualCache from &#x27;./visualCache&#x27;
@@ -263,7 +260,7 @@ export default class Cylinder extends RigidBody {
      * @param [options={}] {CylinderOptions}
      */
     constructor(options: CylinderOptions = {}) {
-        super(&#x27;Cylinder&#x27;, deviation(direction(options)), direction(options))
+        super(&#x27;Cylinder&#x27;, direction(options))
         // The shape is created un-stressed and then parameters drive the scaling.
         // The scaling matrix takes into account the initial tilt from the standard configuration.
         const stress = Vector3.vector(1, 1, 1)
@@ -296,12 +293,10 @@ export default class Cylinder extends RigidBody {
      * @default 1
      */
     get length() {
-        return this.scale.y
+        return this.getPrincipalScale(&#x27;length&#x27;)
     }
     set length(length: number) {
-        mustBeNumber(&#x27;length&#x27;, length)
-        mustBeGE(&#x27;length&#x27;, length, 0)
-        this.scale.y = length
+        this.setPrincipalScale(&#x27;length&#x27;, length)
     }
 
     /**
@@ -309,13 +304,10 @@ export default class Cylinder extends RigidBody {
      * @type number
      */
     get radius() {
-        return this.scale.x
+        return this.getPrincipalScale(&#x27;radius&#x27;)
     }
     set radius(radius: number) {
-        mustBeNumber(&#x27;radius&#x27;, radius)
-        mustBeGE(&#x27;radius&#x27;, radius, 0)
-        this.scale.x = radius
-        this.scale.z = radius
+        this.setPrincipalScale(&#x27;radius&#x27;, radius)
     }
 }
 

@@ -43,7 +43,6 @@
                                 <li><a href="../classes/Approximation.html">Approximation</a></li>
                                 <li><a href="../classes/Arrow.html">Arrow</a></li>
                                 <li><a href="../classes/ArrowBuilder.html">ArrowBuilder</a></li>
-                                <li><a href="../classes/ArrowConfig.html">ArrowConfig</a></li>
                                 <li><a href="../classes/ArrowGeometry.html">ArrowGeometry</a></li>
                                 <li><a href="../classes/ArrowOptions.html">ArrowOptions</a></li>
                                 <li><a href="../classes/AttribLocation.html">AttribLocation</a></li>
@@ -241,7 +240,7 @@
         </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_visual_Sphere.ts.html#l19"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Sphere.ts:19</code></a>
+            Defined in: <a href="../files/src_davinci-eight_visual_Sphere.ts.html#l17"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Sphere.ts:17</code></a>
         </div>
 
             Module: <a href="../modules/visual.html">visual</a><br>
@@ -277,7 +276,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_visual_Sphere.ts.html#l19"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Sphere.ts:19</code></a>
+        <a href="../files/src_davinci-eight_visual_Sphere.ts.html#l17"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Sphere.ts:17</code></a>
         </p>
 
 
@@ -355,12 +354,20 @@
                                 <a href="#method_getFacet">getFacet</a>
 
                             </li>
+                            <li class="index-item method inherited">
+                                <a href="#method_getPrincipalScale">getPrincipalScale</a>
+
+                            </li>
                             <li class="index-item method inherited inherited">
                                 <a href="#method_release">release</a>
 
                             </li>
                             <li class="index-item method inherited">
                                 <a href="#method_setFacet">setFacet</a>
+
+                            </li>
+                            <li class="index-item method protected inherited">
+                                <a href="#method_setPrincipalScale">setPrincipalScale</a>
 
                             </li>
                             <li class="index-item method inherited">
@@ -439,11 +446,7 @@
 
                             </li>
                             <li class="index-item property inherited">
-                                <a href="#property_scale">scale</a>
-
-                            </li>
-                            <li class="index-item property inherited">
-                                <a href="#property_tilt">tilt</a>
+                                <a href="#property_stress">stress</a>
 
                             </li>
                             <li class="index-item property inherited">
@@ -696,7 +699,7 @@ Notifies this instance that something is referencing it.
                 Shareable
             </a>
             but overwritten in
-        <a href="../files/src_davinci-eight_visual_Sphere.ts.html#l34"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Sphere.ts:34</code></a>
+        <a href="../files/src_davinci-eight_visual_Sphere.ts.html#l32"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Sphere.ts:32</code></a>
         </p>
 
 
@@ -842,6 +845,68 @@ Notifies this instance that something is referencing it.
 
 
 </div>
+<div id="method_getPrincipalScale" class="method item inherited">
+    <h3 class="name"><code>getPrincipalScale</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>name</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">Number</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/Mesh.html#method_getPrincipalScale">Mesh</a>:
+        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l163"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:163</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">name</code>
+                        <span class="type">String</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Number</span>:
+            </div>
+        </div>
+
+
+</div>
 <div id="method_release" class="method item inherited">
     <h3 class="name"><code>release</code></h3>
 
@@ -944,6 +1009,82 @@ Notifies this instance that something is dereferencing it.
                 <li class="param">
                         <code class="param-name">facet</code>
                         <span class="type"><a href="../classes/Facet.html" class="crosslink">Facet</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Void</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_setPrincipalScale" class="method item protected inherited">
+    <h3 class="name"><code>setPrincipalScale</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>name</code>
+                </li>
+                <li class="arg">
+                        <code>value</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+
+
+        <span class="flag protected">protected</span>
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/Mesh.html#method_setPrincipalScale">Mesh</a>:
+        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l175"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:175</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">name</code>
+                        <span class="type">String</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">value</code>
+                        <span class="type">Number</span>
 
 
                     <div class="param-description">
@@ -1120,7 +1261,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Mesh.html#property_attitude">Mesh</a>:
-        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l54"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:54</code></a>
+        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l53"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:53</code></a>
         </p>
 
 
@@ -1145,7 +1286,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/RigidBody.html#property_axis">RigidBody</a>:
-        <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l67"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:67</code></a>
+        <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l64"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:64</code></a>
         </p>
 
 
@@ -1169,7 +1310,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Mesh.html#property_color">Mesh</a>:
-        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l79"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:79</code></a>
+        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l78"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:78</code></a>
         </p>
 
 
@@ -1219,7 +1360,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/RigidBody.html#property_initialAxis">RigidBody</a>:
-        <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l36"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:36</code></a>
+        <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l35"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:35</code></a>
         </p>
 
 
@@ -1245,7 +1386,7 @@ time by rotating the initial axis using the Mesh attitude.</p>
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/RigidBody.html#property_mass">RigidBody</a>:
-        <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l18"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:18</code></a>
+        <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l17"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:17</code></a>
         </p>
 
 
@@ -1296,7 +1437,7 @@ time by rotating the initial axis using the Mesh attitude.</p>
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Mesh.html#property_matrix">Mesh</a>:
-        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l131"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:131</code></a>
+        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l103"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:103</code></a>
         </p>
 
 
@@ -1320,7 +1461,7 @@ time by rotating the initial axis using the Mesh attitude.</p>
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/RigidBody.html#property_momentum">RigidBody</a>:
-        <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l27"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:27</code></a>
+        <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l26"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:26</code></a>
         </p>
 
 
@@ -1370,7 +1511,7 @@ time by rotating the initial axis using the Mesh attitude.</p>
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Mesh.html#property_position">Mesh</a>:
-        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l143"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:143</code></a>
+        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l115"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:115</code></a>
         </p>
 
 
@@ -1395,7 +1536,7 @@ time by rotating the initial axis using the Mesh attitude.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_visual_Sphere.ts.html#l43"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Sphere.ts:43</code></a>
+        <a href="../files/src_davinci-eight_visual_Sphere.ts.html#l41"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Sphere.ts:41</code></a>
         </p>
 
 
@@ -1409,9 +1550,9 @@ time by rotating the initial axis using the Mesh attitude.</p>
 
 
 </div>
-<div id="property_scale" class="property item inherited">
-    <h3 class="name"><code>scale</code></h3>
-    <span class="type"><a href="../classes/Vector3.html" class="crosslink">Vector3</a></span>
+<div id="property_stress" class="property item inherited">
+    <h3 class="name"><code>stress</code></h3>
+    <span class="type"><a href="../classes/Matrix4.html" class="crosslink">Matrix4</a></span>
 
 
 
@@ -1419,43 +1560,15 @@ time by rotating the initial axis using the Mesh attitude.</p>
 
     <div class="meta">
                 <p>Inherited from
-                <a href="../classes/Mesh.html#property_scale">Mesh</a>:
-        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l168"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:168</code></a>
+                <a href="../classes/Mesh.html#property_stress">Mesh</a>:
+        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l140"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:140</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        <p>Scale (vector)</p>
-
-    </div>
-
-
-
-</div>
-<div id="property_tilt" class="property item inherited">
-    <h3 class="name"><code>tilt</code></h3>
-    <span class="type"><a href="../classes/Spinor3.html" class="crosslink">Spinor3</a></span>
-
-
-
-
-
-    <div class="meta">
-                <p>Inherited from
-                <a href="../classes/Mesh.html#property_tilt">Mesh</a>:
-        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l104"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:104</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>The spinor that rotates the object from the frame
-in which scaling is defined to the initial frame of the
-object.</p>
-
+        
     </div>
 
 

@@ -43,7 +43,6 @@
                                 <li><a href="../classes/Approximation.html">Approximation</a></li>
                                 <li><a href="../classes/Arrow.html">Arrow</a></li>
                                 <li><a href="../classes/ArrowBuilder.html">ArrowBuilder</a></li>
-                                <li><a href="../classes/ArrowConfig.html">ArrowConfig</a></li>
                                 <li><a href="../classes/ArrowGeometry.html">ArrowGeometry</a></li>
                                 <li><a href="../classes/ArrowOptions.html">ArrowOptions</a></li>
                                 <li><a href="../classes/AttribLocation.html">AttribLocation</a></li>
@@ -238,15 +237,14 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 import Color from &#x27;./Color&#x27;;
-import ColorFacet from &#x27;../facets/ColorFacet&#x27;;
+import ColorFacet from &#x27;../facets/ColorFacet&#x27;
 import Drawable from &#x27;./Drawable&#x27;
 import Geometric3 from &#x27;../math/Geometric3&#x27;
+import IMesh from &#x27;../core/IMesh&#x27;
 import Matrix4 from &#x27;../math/Matrix4&#x27;
-import ModelFacet from &#x27;../facets/ModelFacet&#x27;;
+import ModelFacet from &#x27;../facets/ModelFacet&#x27;
 import notSupported from &#x27;../i18n/notSupported&#x27;
-import readOnly from &#x27;../i18n/readOnly&#x27;;
-import Spinor3 from &#x27;../math/Spinor3&#x27;
-import Vector3 from &#x27;../math/Vector3&#x27;
+import readOnly from &#x27;../i18n/readOnly&#x27;
 
 const COLOR_FACET_NAME = &#x27;color&#x27;
 const MODEL_FACET_NAME = &#x27;model&#x27;
@@ -264,7 +262,7 @@ const MODEL_FACET_NAME = &#x27;model&#x27;
  * @class Mesh
  * @extends Drawable
  */
-export default class Mesh extends Drawable {
+export default class Mesh extends Drawable implements IMesh {
 
     /**
      * @class Mesh
@@ -341,33 +339,6 @@ export default class Mesh extends Drawable {
     }
 
     /**
-     * The spinor that rotates the object from the frame
-     * in which scaling is defined to the initial frame of the
-     * object.
-     *
-     * @property tilt
-     * @type Spinor3
-     */
-    get tilt(): Spinor3 {
-        const facet = &lt;ModelFacet&gt;this.getFacet(MODEL_FACET_NAME)
-        if (facet) {
-            return facet.tilt
-        }
-        else {
-            throw new Error(notSupported(&#x27;tilt&#x27;).message)
-        }
-    }
-    set tilt(tilt: Spinor3) {
-        const facet = &lt;ModelFacet&gt;this.getFacet(MODEL_FACET_NAME)
-        if (facet) {
-            facet.tilt.copy(tilt)
-        }
-        else {
-            throw new Error(notSupported(&#x27;tilt&#x27;).message)
-        }
-    }
-
-    /**
      * @property matrix
      * @type Matrix4
      * @readOnly
@@ -405,28 +376,53 @@ export default class Mesh extends Drawable {
     }
 
     /**
-     * Scale (vector)
-     *
-     * @property scale
-     * @type Vector3
+     * @property stress
+     * @type Matrix4
      */
-    get scale(): Vector3 {
+    get stress(): Matrix4 {
         const facet = &lt;ModelFacet&gt;this.getFacet(MODEL_FACET_NAME)
         if (facet) {
-            return facet.scale
+            return facet.stress
         }
         else {
-            throw new Error(notSupported(&#x27;scale&#x27;).message)
+            throw new Error(notSupported(&#x27;stress&#x27;).message)
         }
     }
-    set scale(scale: Vector3) {
+    set stress(stress: Matrix4) {
         const facet = &lt;ModelFacet&gt;this.getFacet(MODEL_FACET_NAME)
         if (facet) {
-            facet.scale.copy(scale)
+            facet.stress.copy(stress)
         }
         else {
-            throw new Error(notSupported(&#x27;scale&#x27;).message)
+            throw new Error(notSupported(&#x27;stress&#x27;).message)
         }
+    }
+
+    /**
+     * @method getPrincipalScale
+     * @param name {string}
+     * @return {number}
+     */
+    protected getPrincipalScale(name: string): number {
+        const geometry = this.geometry
+        const value = geometry.getPrincipalScale(name)
+        geometry.release()
+        return value
+    }
+
+    /**
+     * @method setPrincipalScale
+     * @param name {string}
+     * @param value {number}
+     * @return {void}
+     * @protected
+     */
+    protected setPrincipalScale(name: string, value: number): void {
+        const geometry = this.geometry
+        geometry.setPrincipalScale(name, value)
+        const scaling = geometry.scaling
+        this.stress.copy(scaling)
+        geometry.release()
     }
 }
 

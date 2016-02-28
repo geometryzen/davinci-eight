@@ -43,7 +43,6 @@
                                 <li><a href="../classes/Approximation.html">Approximation</a></li>
                                 <li><a href="../classes/Arrow.html">Arrow</a></li>
                                 <li><a href="../classes/ArrowBuilder.html">ArrowBuilder</a></li>
-                                <li><a href="../classes/ArrowConfig.html">ArrowConfig</a></li>
                                 <li><a href="../classes/ArrowGeometry.html">ArrowGeometry</a></li>
                                 <li><a href="../classes/ArrowOptions.html">ArrowOptions</a></li>
                                 <li><a href="../classes/AttribLocation.html">AttribLocation</a></li>
@@ -348,6 +347,10 @@ The elements are stored in column-major order:
                                 <a href="#method_det">det</a>
 
                             </li>
+                            <li class="index-item method inherited">
+                                <a href="#method_getElement">getElement</a>
+
+                            </li>
                             <li class="index-item method">
                                 <a href="#method_inv">inv</a>
 
@@ -375,20 +378,20 @@ The elements are stored in column-major order:
                             <li class="index-item method">
                                 <a href="#method_one">one</a>
 
+                                    <span class="flag static">static</span>
                             </li>
                             <li class="index-item method">
                                 <a href="#method_one">one</a>
 
-                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_reflection">reflection</a>
+
                             </li>
                             <li class="index-item method">
                                 <a href="#method_reflection">reflection</a>
 
                                     <span class="flag static">static</span>
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_reflection">reflection</a>
-
                             </li>
                             <li class="index-item method">
                                 <a href="#method_row">row</a>
@@ -400,6 +403,10 @@ The elements are stored in column-major order:
                             </li>
                             <li class="index-item method">
                                 <a href="#method_set">set</a>
+
+                            </li>
+                            <li class="index-item method inherited">
+                                <a href="#method_setElement">setElement</a>
 
                             </li>
                             <li class="index-item method">
@@ -635,7 +642,7 @@ The elements are stored in column-major order:
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/AbstractMatrix.html#method_copy">AbstractMatrix</a>:
-        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l72"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:72</code></a>
+        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l84"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:84</code></a>
         </p>
 
 
@@ -703,6 +710,83 @@ The elements are stored in column-major order:
 
     </div>
 
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Number</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_getElement" class="method item inherited">
+    <h3 class="name"><code>getElement</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>row</code>
+                </li>
+                <li class="arg">
+                        <code>column</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">Number</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/AbstractMatrix.html#method_getElement">AbstractMatrix</a>:
+        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l95"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:95</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">row</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                        <p>The zero-based row.</p>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">column</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                        <p>The zero-based column.</p>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
 
         <div class="returns">
             <h4>Returns:</h4>
@@ -1027,48 +1111,6 @@ The elements are stored in column-major order:
 
 
 
-
-        <span class="flag chainable">chainable</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l166"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:166</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>Sets this matrix to the identity element for multiplication, <b>1</b>.</p>
-
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/Matrix2.html" class="crosslink">Matrix2</a></span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_one" class="method item">
-    <h3 class="name"><code>one</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/Matrix2.html" class="crosslink">Matrix2</a></span>
-        </span>
-
-
-
-
         <span class="flag static">static</span>
 
         <span class="flag chainable">chainable</span>
@@ -1101,16 +1143,10 @@ Creates a new matrix with all elements zero except those along the main diagonal
 
 
 </div>
-<div id="method_reflection" class="method item">
-    <h3 class="name"><code>reflection</code></h3>
+<div id="method_one" class="method item">
+    <h3 class="name"><code>one</code></h3>
 
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>n</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
+        <span class="paren">()</span>
 
         <span class="returns-inline">
             <span class="type"><a href="../classes/Matrix2.html" class="crosslink">Matrix2</a></span>
@@ -1119,7 +1155,6 @@ Creates a new matrix with all elements zero except those along the main diagonal
 
 
 
-        <span class="flag static">static</span>
 
         <span class="flag chainable">chainable</span>
 
@@ -1127,7 +1162,7 @@ Creates a new matrix with all elements zero except those along the main diagonal
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l421"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:421</code></a>
+        <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l166"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:166</code></a>
         </p>
 
 
@@ -1135,25 +1170,10 @@ Creates a new matrix with all elements zero except those along the main diagonal
     </div>
 
     <div class="description">
-        
+        <p>Sets this matrix to the identity element for multiplication, <b>1</b>.</p>
+
     </div>
 
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">n</code>
-                        <span class="type"><a href="../classes/VectorE1.html" class="crosslink">VectorE1</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
 
         <div class="returns">
             <h4>Returns:</h4>
@@ -1203,6 +1223,70 @@ reflection in the line normal to the unit vector <code>n</code>.</p>
 <p>
 this ⟼ reflection(<b>n</b>) = I - 2 * <b>n</b><sup>T</sup> * <b>n</b>
 </p>
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">n</code>
+                        <span class="type"><a href="../classes/VectorE1.html" class="crosslink">VectorE1</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Matrix2.html" class="crosslink">Matrix2</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_reflection" class="method item">
+    <h3 class="name"><code>reflection</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>n</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Matrix2.html" class="crosslink">Matrix2</a></span>
+        </span>
+
+
+
+
+        <span class="flag static">static</span>
+
+        <span class="flag chainable">chainable</span>
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l421"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:421</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
     </div>
 
         <div class="params">
@@ -1456,6 +1540,97 @@ this ⟼ reflection(<b>n</b>) = I - 2 * <b>n</b><sup>T</sup> * <b>n</b>
 
             <div class="returns-description">
                         <span class="type"><a href="../classes/Matrix2.html" class="crosslink">Matrix2</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_setElement" class="method item inherited">
+    <h3 class="name"><code>setElement</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>row</code>
+                </li>
+                <li class="arg">
+                        <code>column</code>
+                </li>
+                <li class="arg">
+                        <code>value</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/AbstractMatrix.html#method_setElement">AbstractMatrix</a>:
+        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l105"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:105</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">row</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                        <p>The zero-based row.</p>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">column</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                        <p>The zero-based column.</p>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">value</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                        <p>The value of the element.</p>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Void</span>:
             </div>
         </div>
 
@@ -1907,7 +2082,7 @@ Creates a new matrix with all elements zero.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/AbstractMatrix.html#property_dimensions">AbstractMatrix</a>:
-        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l83"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:83</code></a>
+        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l60"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:60</code></a>
         </p>
 
 
@@ -1931,7 +2106,7 @@ Creates a new matrix with all elements zero.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/AbstractMatrix.html#property_elements">AbstractMatrix</a>:
-        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l60"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:60</code></a>
+        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l72"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:72</code></a>
         </p>
 
 

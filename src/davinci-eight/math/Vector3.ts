@@ -243,19 +243,24 @@ export default class Vector3 extends Coords implements ColumnVector<Matrix3, Vec
 
     /**
      * <p>
-     * <code>this ⟼ copy(v)</code>
+     * <code>this ⟼ copy(source)</code>
      * </p>
      *
      * @method copy
-     * @param v {VectorE3}
+     * @param source {VectorE3}
      * @return {Vector3} <code>this</code>
      * @chainable
      */
-    copy(v: VectorE3) {
-        this.x = v.x
-        this.y = v.y
-        this.z = v.z
-        return this;
+    copy(source: VectorE3): Vector3 {
+        if (source) {
+            this.x = source.x
+            this.y = source.y
+            this.z = source.z
+            return this
+        }
+        else {
+            throw new Error("source for copy must be a vector")
+        }
     }
 
     /**

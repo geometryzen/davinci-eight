@@ -1,13 +1,12 @@
 import Color from './Color';
-import ColorFacet from '../facets/ColorFacet';
+import ColorFacet from '../facets/ColorFacet'
 import Drawable from './Drawable'
 import Geometric3 from '../math/Geometric3'
+import IMesh from '../core/IMesh'
 import Matrix4 from '../math/Matrix4'
-import ModelFacet from '../facets/ModelFacet';
+import ModelFacet from '../facets/ModelFacet'
 import notSupported from '../i18n/notSupported'
-import readOnly from '../i18n/readOnly';
-import Spinor3 from '../math/Spinor3'
-import Vector3 from '../math/Vector3'
+import readOnly from '../i18n/readOnly'
 
 const COLOR_FACET_NAME = 'color'
 const MODEL_FACET_NAME = 'model'
@@ -25,7 +24,7 @@ const MODEL_FACET_NAME = 'model'
  * @class Mesh
  * @extends Drawable
  */
-export default class Mesh extends Drawable {
+export default class Mesh extends Drawable implements IMesh {
 
     /**
      * @class Mesh
@@ -102,33 +101,6 @@ export default class Mesh extends Drawable {
     }
 
     /**
-     * The spinor that rotates the object from the frame
-     * in which scaling is defined to the initial frame of the
-     * object.
-     *
-     * @property tilt
-     * @type Spinor3
-     */
-    get tilt(): Spinor3 {
-        const facet = <ModelFacet>this.getFacet(MODEL_FACET_NAME)
-        if (facet) {
-            return facet.tilt
-        }
-        else {
-            throw new Error(notSupported('tilt').message)
-        }
-    }
-    set tilt(tilt: Spinor3) {
-        const facet = <ModelFacet>this.getFacet(MODEL_FACET_NAME)
-        if (facet) {
-            facet.tilt.copy(tilt)
-        }
-        else {
-            throw new Error(notSupported('tilt').message)
-        }
-    }
-
-    /**
      * @property matrix
      * @type Matrix4
      * @readOnly
@@ -166,27 +138,52 @@ export default class Mesh extends Drawable {
     }
 
     /**
-     * Scale (vector)
-     *
-     * @property scale
-     * @type Vector3
+     * @property stress
+     * @type Matrix4
      */
-    get scale(): Vector3 {
+    get stress(): Matrix4 {
         const facet = <ModelFacet>this.getFacet(MODEL_FACET_NAME)
         if (facet) {
-            return facet.scale
+            return facet.stress
         }
         else {
-            throw new Error(notSupported('scale').message)
+            throw new Error(notSupported('stress').message)
         }
     }
-    set scale(scale: Vector3) {
+    set stress(stress: Matrix4) {
         const facet = <ModelFacet>this.getFacet(MODEL_FACET_NAME)
         if (facet) {
-            facet.scale.copy(scale)
+            facet.stress.copy(stress)
         }
         else {
-            throw new Error(notSupported('scale').message)
+            throw new Error(notSupported('stress').message)
         }
+    }
+
+    /**
+     * @method getPrincipalScale
+     * @param name {string}
+     * @return {number}
+     */
+    protected getPrincipalScale(name: string): number {
+        const geometry = this.geometry
+        const value = geometry.getPrincipalScale(name)
+        geometry.release()
+        return value
+    }
+
+    /**
+     * @method setPrincipalScale
+     * @param name {string}
+     * @param value {number}
+     * @return {void}
+     * @protected
+     */
+    protected setPrincipalScale(name: string, value: number): void {
+        const geometry = this.geometry
+        geometry.setPrincipalScale(name, value)
+        const scaling = geometry.scaling
+        this.stress.copy(scaling)
+        geometry.release()
     }
 }

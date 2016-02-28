@@ -1,8 +1,6 @@
 import deviation from './deviation'
 import direction from './direction'
 import CylinderOptions from './CylinderOptions'
-import mustBeGE from '../checks/mustBeGE'
-import mustBeNumber from '../checks/mustBeNumber'
 import RigidBody from './RigidBody'
 import Vector3 from '../math/Vector3'
 import visualCache from './visualCache'
@@ -24,7 +22,7 @@ export default class Cylinder extends RigidBody {
      * @param [options={}] {CylinderOptions}
      */
     constructor(options: CylinderOptions = {}) {
-        super('Cylinder', deviation(direction(options)), direction(options))
+        super('Cylinder', direction(options))
         // The shape is created un-stressed and then parameters drive the scaling.
         // The scaling matrix takes into account the initial tilt from the standard configuration.
         const stress = Vector3.vector(1, 1, 1)
@@ -57,12 +55,10 @@ export default class Cylinder extends RigidBody {
      * @default 1
      */
     get length() {
-        return this.scale.y
+        return this.getPrincipalScale('length')
     }
     set length(length: number) {
-        mustBeNumber('length', length)
-        mustBeGE('length', length, 0)
-        this.scale.y = length
+        this.setPrincipalScale('length', length)
     }
 
     /**
@@ -70,12 +66,9 @@ export default class Cylinder extends RigidBody {
      * @type number
      */
     get radius() {
-        return this.scale.x
+        return this.getPrincipalScale('radius')
     }
     set radius(radius: number) {
-        mustBeNumber('radius', radius)
-        mustBeGE('radius', radius, 0)
-        this.scale.x = radius
-        this.scale.z = radius
+        this.setPrincipalScale('radius', radius)
     }
 }

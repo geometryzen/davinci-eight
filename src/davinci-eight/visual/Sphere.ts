@@ -1,6 +1,4 @@
-import deviation from './deviation'
 import direction from './direction'
-import mustBeNumber from '../checks/mustBeNumber'
 import RigidBody from './RigidBody'
 import SphereOptions from './SphereOptions'
 import visualCache from './visualCache'
@@ -22,7 +20,7 @@ export default class Sphere extends RigidBody {
      * @param [options] {SphereOptions}
      */
     constructor(options: SphereOptions = {}) {
-        super('Sphere', deviation(direction(options)), direction(options))
+        super('Sphere', direction(options))
         const geometry = visualCache.sphere(options)
         this.geometry = geometry
         geometry.release()
@@ -46,12 +44,9 @@ export default class Sphere extends RigidBody {
      * @default 1
      */
     get radius(): number {
-        return this.scale.x
+        return this.getPrincipalScale('radius')
     }
     set radius(radius: number) {
-        mustBeNumber('radius', radius)
-        this.scale.x = radius
-        this.scale.y = radius
-        this.scale.z = radius
+        this.setPrincipalScale('radius', radius)
     }
 }

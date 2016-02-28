@@ -1,5 +1,6 @@
 import GeometryContainer from '../core/GeometryContainer'
 import GeometryBuffers from '../core/GeometryBuffers'
+import notSupported from '../i18n/notSupported'
 import Primitive from '../core/Primitive'
 import SphereBuilder from './SphereBuilder'
 import R3 from '../math/R3'
@@ -40,12 +41,13 @@ function primitives(options: { k?: number }): Primitive[] {
  * @extends Geometry
  */
 export default class SphereGeometry extends GeometryContainer {
+
     /**
      * @class SphereGeometry
      * @constructor
      */
     constructor(options: { k?: number } = {}) {
-        super()
+        super('SphereGeometry')
         const ps = primitives(options)
         const iLen = ps.length
         for (let i = 0; i < iLen; i++) {
@@ -54,5 +56,45 @@ export default class SphereGeometry extends GeometryContainer {
             this.addPart(geometry)
             geometry.release()
         }
+    }
+
+    /**
+     * @property radius
+     * @type {number}
+     */
+    get radius(): number {
+        return this.getPrincipalScale('radius')
+    }
+    set radius(radius: number) {
+        this.setPrincipalScale('radius', radius)
+    }
+
+    /**
+     * @method getPrincipalScale
+     * @param name {string}
+     * @return {number}
+     */
+    getPrincipalScale(name: string): number {
+        switch (name) {
+            case 'radius': {
+                return this.scaling.getElement(0, 0)
+            }
+                break
+            default: {
+                throw new Error(notSupported(`getPrincipalScale('${name}')`).message)
+            }
+        }
+    }
+
+    /**
+     * @method setPrincipalScale
+     * @param name {string}
+     * @param value {number}
+     * @return {void}
+     */
+    setPrincipalScale(name: string, value: number): void {
+        this.scaling.setElement(0, 0, value)
+        this.scaling.setElement(1, 1, value)
+        this.scaling.setElement(2, 2, value)
     }
 }

@@ -43,7 +43,6 @@
                                 <li><a href="../classes/Approximation.html">Approximation</a></li>
                                 <li><a href="../classes/Arrow.html">Arrow</a></li>
                                 <li><a href="../classes/ArrowBuilder.html">ArrowBuilder</a></li>
-                                <li><a href="../classes/ArrowConfig.html">ArrowConfig</a></li>
                                 <li><a href="../classes/ArrowGeometry.html">ArrowGeometry</a></li>
                                 <li><a href="../classes/ArrowOptions.html">ArrowOptions</a></li>
                                 <li><a href="../classes/AttribLocation.html">AttribLocation</a></li>
@@ -241,7 +240,7 @@
         </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_core_GeometryContainer.ts.html#l27"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryContainer.ts:27</code></a>
+            Defined in: <a href="../files/src_davinci-eight_core_GeometryContainer.ts.html#l38"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryContainer.ts:38</code></a>
         </div>
 
             Module: <a href="../modules/core.html">core</a><br>
@@ -252,7 +251,8 @@
 
 <div class="box intro">
     <p>A collection of Geometry(s) with functions
-that reflect the dependency on the WebGL context events.</p>
+that reflect the dependency on the WebGL context events.
+This class is designed to be extended in order to implement the scaling methods.</p>
 
 </div>
 
@@ -261,7 +261,13 @@ that reflect the dependency on the WebGL context events.</p>
 <div id="method_GeometryContainer" class="method item">
     <h3 class="name"><code>GeometryContainer</code></h3>
 
-        <span class="paren">()</span>
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>type</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
 
 
 
@@ -273,7 +279,7 @@ that reflect the dependency on the WebGL context events.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_GeometryContainer.ts.html#l27"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryContainer.ts:27</code></a>
+        <a href="../files/src_davinci-eight_core_GeometryContainer.ts.html#l38"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryContainer.ts:38</code></a>
         </p>
 
 
@@ -284,6 +290,22 @@ that reflect the dependency on the WebGL context events.</p>
         
     </div>
 
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">type</code>
+                        <span class="type">String</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
 
 
 
@@ -326,8 +348,20 @@ that reflect the dependency on the WebGL context events.</p>
                                 <a href="#method_destructor">destructor</a>
 
                             </li>
+                            <li class="index-item method">
+                                <a href="#method_getPrincipalScale">getPrincipalScale</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_hasPrincipalScale">hasPrincipalScale</a>
+
+                            </li>
                             <li class="index-item method inherited inherited">
                                 <a href="#method_release">release</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_setPrincipalScale">setPrincipalScale</a>
 
                             </li>
                     </ul>
@@ -339,6 +373,10 @@ that reflect the dependency on the WebGL context events.</p>
                     <ul class="index-list properties extends">
                             <li class="index-item property private">
                                 <a href="#property__parts">_parts</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_scaling">scaling</a>
 
                             </li>
                             <li class="index-item property inherited">
@@ -415,7 +453,7 @@ Notifies this instance that something is referencing it.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_GeometryContainer.ts.html#l78"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryContainer.ts:78</code></a>
+        <a href="../files/src_davinci-eight_core_GeometryContainer.ts.html#l90"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryContainer.ts:90</code></a>
         </p>
 
 
@@ -454,7 +492,7 @@ Notifies this instance that something is referencing it.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_GeometryContainer.ts.html#l88"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryContainer.ts:88</code></a>
+        <a href="../files/src_davinci-eight_core_GeometryContainer.ts.html#l100"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryContainer.ts:100</code></a>
         </p>
 
 
@@ -510,7 +548,7 @@ Notifies this instance that something is referencing it.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_GeometryContainer.ts.html#l99"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryContainer.ts:99</code></a>
+        <a href="../files/src_davinci-eight_core_GeometryContainer.ts.html#l111"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryContainer.ts:111</code></a>
         </p>
 
 
@@ -554,7 +592,7 @@ Notifies this instance that something is referencing it.
                 Shareable
             </a>
             but overwritten in
-        <a href="../files/src_davinci-eight_core_GeometryContainer.ts.html#l36"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryContainer.ts:36</code></a>
+        <a href="../files/src_davinci-eight_core_GeometryContainer.ts.html#l48"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryContainer.ts:48</code></a>
         </p>
 
 
@@ -571,6 +609,130 @@ Notifies this instance that something is referencing it.
 
             <div class="returns-description">
                         <span class="type">Void</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_getPrincipalScale" class="method item">
+    <h3 class="name"><code>getPrincipalScale</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>name</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">Number</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_core_GeometryContainer.ts.html#l130"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryContainer.ts:130</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">name</code>
+                        <span class="type">String</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Number</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_hasPrincipalScale" class="method item">
+    <h3 class="name"><code>hasPrincipalScale</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>name</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">Boolean</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_core_GeometryContainer.ts.html#l121"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryContainer.ts:121</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">name</code>
+                        <span class="type">String</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Boolean</span>:
             </div>
         </div>
 
@@ -622,6 +784,81 @@ Notifies this instance that something is dereferencing it.
 
 
 </div>
+<div id="method_setPrincipalScale" class="method item">
+    <h3 class="name"><code>setPrincipalScale</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>name</code>
+                </li>
+                <li class="arg">
+                        <code>value</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_core_GeometryContainer.ts.html#l139"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryContainer.ts:139</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">name</code>
+                        <span class="type">String</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">value</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Void</span>:
+            </div>
+        </div>
+
+
+</div>
             </div>
 
             <div id="properties" class="api-class-tabpanel">
@@ -639,7 +876,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_GeometryContainer.ts.html#l21"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryContainer.ts:21</code></a>
+        <a href="../files/src_davinci-eight_core_GeometryContainer.ts.html#l25"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryContainer.ts:25</code></a>
         </p>
 
 
@@ -649,6 +886,31 @@ Notifies this instance that something is dereferencing it.
         
     </div>
 
+
+
+</div>
+<div id="property_scaling" class="property item">
+    <h3 class="name"><code>scaling</code></h3>
+    <span class="type"><a href="../classes/Matrix4.html" class="crosslink">Matrix4</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_core_GeometryContainer.ts.html#l31"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryContainer.ts:31</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <p><strong>Default:</strong> diag(1, 1, 1, 1)</p>
 
 
 </div>
