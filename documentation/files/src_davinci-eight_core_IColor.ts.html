@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>ColorRGBA - davinci-eight</title>
+    <title>src/davinci-eight/core/IColor.ts - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.200.0</em>
+            <em>API Docs for: 2.201.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -60,8 +60,6 @@
                                 <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
-                                <li><a href="../classes/ColorRGB.html">ColorRGB</a></li>
-                                <li><a href="../classes/ColorRGBA.html">ColorRGBA</a></li>
                                 <li><a href="../classes/ConeTransform.html">ConeTransform</a></li>
                                 <li><a href="../classes/ConicalShellBuilder.html">ConicalShellBuilder</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
@@ -98,6 +96,7 @@
                                 <li><a href="../classes/GeometryPrimitive.html">GeometryPrimitive</a></li>
                                 <li><a href="../classes/GraphicsProgramSymbols.html">GraphicsProgramSymbols</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
+                                <li><a href="../classes/IColor.html">IColor</a></li>
                                 <li><a href="../classes/IContextConsumer.html">IContextConsumer</a></li>
                                 <li><a href="../classes/IContextListener.html">IContextListener</a></li>
                                 <li><a href="../classes/IContextProgramConsumer.html">IContextProgramConsumer</a></li>
@@ -162,6 +161,7 @@
                                 <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
                                 <li><a href="../classes/Tetrahedron.html">Tetrahedron</a></li>
                                 <li><a href="../classes/TetrahedronGeometry.html">TetrahedronGeometry</a></li>
+                                <li><a href="../classes/TetrahedronGeometryOptions.html">TetrahedronGeometryOptions</a></li>
                                 <li><a href="../classes/TextureCoords.html">TextureCoords</a></li>
                                 <li><a href="../classes/Trail.html">Trail</a></li>
                                 <li><a href="../classes/Translation.html">Translation</a></li>
@@ -236,174 +236,48 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1>ColorRGBA Class</h1>
-<div class="box meta">
-
-        <div class="extends">
-            Extends <a href="../classes/ColorRGB.html" class="crosslink">ColorRGB</a>
-        </div>
-
-        <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_core_ColorRGBA.ts.html#l8"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ColorRGBA.ts:8</code></a>
-        </div>
-
-            Module: <a href="../modules/core.html">core</a><br>
-            Parent Module: <a href="../modules/EIGHT.html">EIGHT</a>
-
-</div>
-
-
-<div class="box intro">
-    
-</div>
-
-
-<div id="classdocs" class="tabview">
-    <ul class="api-class-tabs">
-        <li class="api-class-tab index"><a href="#index">Index</a></li>
-
-            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
-    </ul>
-
-    <div>
-        <div id="index" class="api-class-tabpanel index">
-            <h2 class="off-left">Item Index</h2>
-
-
-                <div class="index-section properties">
-                    <h3>Properties</h3>
-
-                    <ul class="index-list properties extends">
-                            <li class="index-item property inherited">
-                                <a href="#property_b">b</a>
-
-                            </li>
-                            <li class="index-item property inherited">
-                                <a href="#property_g">g</a>
-
-                            </li>
-                            <li class="index-item property inherited">
-                                <a href="#property_r">r</a>
-
-                            </li>
-                            <li class="index-item property">
-                                <a href="#property_α">α</a>
-
-                            </li>
-                    </ul>
-                </div>
-
-
-        </div>
-
-
-            <div id="properties" class="api-class-tabpanel">
-                <h2 class="off-left">Properties</h2>
-
-<div id="property_b" class="property item inherited">
-    <h3 class="name"><code>b</code></h3>
-    <span class="type">Number</span>
-
-
-
-
-
-    <div class="meta">
-                <p>Inherited from
-                <a href="../classes/ColorRGB.html#property_b">ColorRGB</a>:
-        <a href="../files/src_davinci-eight_core_ColorRGB.ts.html#l22"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ColorRGB.ts:22</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>The blue component of the color.</p>
-
-    </div>
-
-
-
-</div>
-<div id="property_g" class="property item inherited">
-    <h3 class="name"><code>g</code></h3>
-    <span class="type">Number</span>
-
-
-
-
-
-    <div class="meta">
-                <p>Inherited from
-                <a href="../classes/ColorRGB.html#property_g">ColorRGB</a>:
-        <a href="../files/src_davinci-eight_core_ColorRGB.ts.html#l16"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ColorRGB.ts:16</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>The green component of the color.</p>
-
-    </div>
-
-
-
-</div>
-<div id="property_r" class="property item inherited">
-    <h3 class="name"><code>r</code></h3>
-    <span class="type">Number</span>
-
-
-
-
-
-    <div class="meta">
-                <p>Inherited from
-                <a href="../classes/ColorRGB.html#property_r">ColorRGB</a>:
-        <a href="../files/src_davinci-eight_core_ColorRGB.ts.html#l10"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ColorRGB.ts:10</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>The red component of the color.</p>
-
-    </div>
-
-
-
-</div>
-<div id="property_α" class="property item">
-    <h3 class="name"><code>α</code></h3>
-    <span class="type">Number</span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_core_ColorRGBA.ts.html#l13"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ColorRGBA.ts:13</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>The <em>alpha</em> component of the color.</p>
-
-    </div>
-
-
-
-</div>
-            </div>
-
-
-    </div>
+<h1 class="file-heading">File: src/davinci-eight/core/IColor.ts</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+/**
+ * @module EIGHT
+ * @submodule core
+ */
+
+/**
+ * @class IColor
+ */
+interface IColor {
+
+    /**
+     * The red component of the color.
+     *
+     * @property r
+     * @type {number}
+     */
+    r: number;
+
+    /**
+     * The green component of the color.
+     *
+     * @property g
+     * @type {number}
+     */
+    g: number;
+
+    /**
+     * The blue component of the color.
+     *
+     * @property b
+     * @type {number}
+     */
+    b: number;
+}
+
+export default IColor;
+
+    </pre>
 </div>
                     </div>
                 </div>

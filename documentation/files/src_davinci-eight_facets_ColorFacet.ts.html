@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.200.0</em>
+            <em>API Docs for: 2.201.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -60,8 +60,6 @@
                                 <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
-                                <li><a href="../classes/ColorRGB.html">ColorRGB</a></li>
-                                <li><a href="../classes/ColorRGBA.html">ColorRGBA</a></li>
                                 <li><a href="../classes/ConeTransform.html">ConeTransform</a></li>
                                 <li><a href="../classes/ConicalShellBuilder.html">ConicalShellBuilder</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
@@ -98,6 +96,7 @@
                                 <li><a href="../classes/GeometryPrimitive.html">GeometryPrimitive</a></li>
                                 <li><a href="../classes/GraphicsProgramSymbols.html">GraphicsProgramSymbols</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
+                                <li><a href="../classes/IColor.html">IColor</a></li>
                                 <li><a href="../classes/IContextConsumer.html">IContextConsumer</a></li>
                                 <li><a href="../classes/IContextListener.html">IContextListener</a></li>
                                 <li><a href="../classes/IContextProgramConsumer.html">IContextProgramConsumer</a></li>
@@ -162,6 +161,7 @@
                                 <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
                                 <li><a href="../classes/Tetrahedron.html">Tetrahedron</a></li>
                                 <li><a href="../classes/TetrahedronGeometry.html">TetrahedronGeometry</a></li>
+                                <li><a href="../classes/TetrahedronGeometryOptions.html">TetrahedronGeometryOptions</a></li>
                                 <li><a href="../classes/TextureCoords.html">TextureCoords</a></li>
                                 <li><a href="../classes/Trail.html">Trail</a></li>
                                 <li><a href="../classes/Translation.html">Translation</a></li>
@@ -269,7 +269,7 @@ function checkPropertyName(name: string): void {
     switch (name) {
         case ColorFacet.PROP_RGB: return;
         default: {
-            const msg = &#x60;ColorFacet property &#x27;name&#x27; must be one of ${[ColorFacet.PROP_RGB, ColorFacet.PROP_RGBA, ColorFacet.PROP_RED, ColorFacet.PROP_GREEN, ColorFacet.PROP_BLUE, ColorFacet.PROP_ALPHA]}.&#x60;;
+            const msg = &#x60;ColorFacet property &#x27;name&#x27; must be one of ${[ColorFacet.PROP_RGB, ColorFacet.PROP_RED, ColorFacet.PROP_GREEN, ColorFacet.PROP_BLUE]}.&#x60;;
             if (core.strict) {
                 throw new Error(msg);
             }
@@ -290,13 +290,6 @@ export default class ColorFacet implements Facet {
      * @static
      */
     public static PROP_RGB = &#x27;rgb&#x27;;
-
-    /**
-     * property PROP_RGBA
-     * @type {string}
-     * @static
-     */
-    public static PROP_RGBA = &#x27;rgba&#x27;;
 
     /**
      * property PROP_RED
@@ -320,33 +313,11 @@ export default class ColorFacet implements Facet {
     public static PROP_BLUE = &#x27;b&#x27;;
 
     /**
-     * property PROP_ALPHA
-     * @type {string}
-     * @static
-     */
-    public static PROP_ALPHA = &#x27;a&#x27;;
-
-    /**
      * @property color
      * @type {Color}
      * @public
      */
     public color = Color.fromRGB(1, 1, 1);
-
-    /**
-     * @property a
-     * @type {number}
-     * @private
-     */
-    private a: number = 1;
-
-    /**
-     * The name of the GLSL uniform variable that will be set.
-     * @property uAlphaName
-     * @type {string}
-     * @optional
-     */
-    public uAlphaName: string;
 
     /**
      * @property uColorName
@@ -361,7 +332,6 @@ export default class ColorFacet implements Facet {
      */
     constructor() {
         this.uColorName = GraphicsProgramSymbols.UNIFORM_COLOR
-        this.uAlphaName = GraphicsProgramSymbols.UNIFORM_ALPHA
     }
 
     /**
@@ -404,18 +374,6 @@ export default class ColorFacet implements Facet {
     }
 
     /**
-     * The alpha component of the color.
-     * @property α
-     * @type {number}
-     */
-    get α(): number {
-        return this.a
-    }
-    set α(α: number) {
-        this.a = α
-    }
-
-    /**
      * @method scaleRGB
      * @param α {number}
      * @return {ColorFacet}
@@ -425,20 +383,6 @@ export default class ColorFacet implements Facet {
         this.r *= α
         this.g *= α
         this.b *= α
-        return this
-    }
-
-    /**
-     * @method scaleRGBA
-     * @param α {number}
-     * @return {ColorFacet}
-     * @chainable
-     */
-    scaleRGBA(α: number): ColorFacet {
-        this.r *= α
-        this.g *= α
-        this.b *= α
-        this.α *= α
         return this
     }
 
@@ -454,24 +398,6 @@ export default class ColorFacet implements Facet {
         this.r = red
         this.g = green
         this.b = blue
-        return this
-    }
-
-
-    /**
-     * @method setRGBA
-     * @param red {number}
-     * @param green {number}
-     * @param blue {number}
-     * @param α {number}
-     * @return {ColorFacet}
-     * @chainable
-     */
-    setRGBA(red: number, green: number, blue: number, α: number): ColorFacet {
-        this.r = red
-        this.g = green
-        this.b = blue
-        this.α = α
         return this
     }
 
@@ -536,9 +462,6 @@ export default class ColorFacet implements Facet {
     setUniforms(visitor: FacetVisitor): void {
         if (this.uColorName) {
             visitor.vector3(this.uColorName, this.color.coords)
-        }
-        if (this.uAlphaName) {
-            visitor.uniform1f(this.uAlphaName, this.a)
         }
     }
 }

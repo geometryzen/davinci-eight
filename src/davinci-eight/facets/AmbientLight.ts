@@ -1,5 +1,5 @@
 import Color from '../core/Color';
-import ColorRGB from '../core/ColorRGB';
+import IColor from '../core/IColor';
 import Facet from '../core/Facet';
 import FacetVisitor from '../core/FacetVisitor';
 import mustBeArray from '../checks/mustBeArray';
@@ -33,7 +33,7 @@ export default class AmbientLight implements Facet {
      * @class AmbientLight
      * @constructor
      */
-    constructor(color: ColorRGB) {
+    constructor(color: IColor) {
         mustBeObject('color', color)
         // FIXME: Need some kind of locking for constants
         this.color = Color.white.clone()

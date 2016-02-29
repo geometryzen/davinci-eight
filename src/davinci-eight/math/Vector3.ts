@@ -134,25 +134,25 @@ export default class Vector3 extends Coords implements ColumnVector<Matrix3, Vec
 
     /**
      * <p>
-     * <code>this ⟼ m * this<sup>T</sup></code>
+     * <code>this ⟼ σ * this<sup>T</sup></code>
      * </p>
      * @method applyMatrix
-     * @param m {Matrix3}
+     * @param σ {Matrix3}
      * @return {Vector3} <code>this</code>
      * @chainable
      */
-    applyMatrix(m: Matrix3): Vector3 {
-        let x = this.x;
-        let y = this.y;
-        let z = this.z;
+    applyMatrix(σ: Matrix3): Vector3 {
+        const x = this.x
+        const y = this.y
+        const z = this.z
 
-        let e = m.elements;
+        const e = σ.elements
 
-        this.x = e[0x0] * x + e[0x3] * y + e[0x6] * z;
-        this.y = e[0x1] * x + e[0x4] * y + e[0x7] * z;
-        this.z = e[0x2] * x + e[0x5] * y + e[0x8] * z;
+        this.x = e[0x0] * x + e[0x3] * y + e[0x6] * z
+        this.y = e[0x1] * x + e[0x4] * y + e[0x7] * z
+        this.z = e[0x2] * x + e[0x5] * y + e[0x8] * z
 
-        return this;
+        return this
     }
 
     /**
@@ -161,16 +161,17 @@ export default class Vector3 extends Coords implements ColumnVector<Matrix3, Vec
      * Strictly speaking, this method does not make much sense because the dimensions
      * of the square matrix and column vector don't match.
      * TODO: Used by TubeSimplexGeometry.
+     *
      * @method applyMatrix4
-     * @param m The 4x4 matrix that pre-multiplies this column vector.
+     * @param σ The 4x4 matrix that pre-multiplies this column vector.
      * @return {Vector3} <code>this</code>
      * @chainable
      */
-    applyMatrix4(m: Matrix4): Vector3 {
+    applyMatrix4(σ: Matrix4): Vector3 {
 
         var x = this.x, y = this.y, z = this.z;
 
-        var e = m.elements;
+        var e = σ.elements;
 
         this.x = e[0x0] * x + e[0x4] * y + e[0x8] * z + e[0xC];
         this.y = e[0x1] * x + e[0x5] * y + e[0x9] * z + e[0xD];

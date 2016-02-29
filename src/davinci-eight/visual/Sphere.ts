@@ -1,7 +1,11 @@
 import direction from './direction'
+import isDefined from '../checks/isDefined'
+import MeshMaterial from '../materials/MeshMaterial'
+import mustBeNumber from '../checks/mustBeNumber'
 import RigidBody from './RigidBody'
 import SphereOptions from './SphereOptions'
-import visualCache from './visualCache'
+import SphereGeometry from '../geometries/SphereGeometry'
+import SphereGeometryOptions from '../geometries/SphereGeometryOptions'
 
 /**
  * @module EIGHT
@@ -21,12 +25,21 @@ export default class Sphere extends RigidBody {
      */
     constructor(options: SphereOptions = {}) {
         super('Sphere', direction(options))
-        const geometry = visualCache.sphere(options)
+
+        const geoOptions: SphereGeometryOptions = {}
+        const geometry = new SphereGeometry(geoOptions)
         this.geometry = geometry
         geometry.release()
-        const material = visualCache.material()
+        const material = new MeshMaterial()
         this.material = material
         material.release()
+        if (options.color) {
+            this.color.copy(options.color)
+        }
+        if (options.position) {
+            this.position.copyVector(options.position)
+        }
+        this.radius = isDefined(options.radius) ? mustBeNumber('radius', options.radius) : 1.0
     }
 
     /**

@@ -1,9 +1,11 @@
-import deviation from './deviation'
 import direction from './direction'
+import CylinderGeometry from '../geometries/CylinderGeometry'
+import CylinderGeometryOptions from '../geometries/CylinderGeometryOptions'
 import CylinderOptions from './CylinderOptions'
+import isDefined from '../checks/isDefined'
+import MeshMaterial from '../materials/MeshMaterial'
+import mustBeNumber from '../checks/mustBeNumber'
 import RigidBody from './RigidBody'
-import Vector3 from '../math/Vector3'
-import visualCache from './visualCache'
 
 /**
  * @module EIGHT
@@ -19,24 +21,34 @@ export default class Cylinder extends RigidBody {
     /**
      * @class Cylinder
      * @constructor
-     * @param [options={}] {CylinderOptions}
+     * @param [options] {CylinderOptions}
      */
     constructor(options: CylinderOptions = {}) {
         super('Cylinder', direction(options))
         // The shape is created un-stressed and then parameters drive the scaling.
         // The scaling matrix takes into account the initial tilt from the standard configuration.
-        const stress = Vector3.vector(1, 1, 1)
-        const tilt = deviation(direction(options))
+        // const stress = Vector3.vector(1, 1, 1)
+        // const tilt = deviation(direction(options))
         // The options don't currently include an offset.
-        const offset = Vector3.zero()
+        // const offset = Vector3.zero()
 
-        const geometry = visualCache.cylinder(stress, tilt, offset)
+        const geoOptions: CylinderGeometryOptions = {}
+        const geometry = new CylinderGeometry(geoOptions)
         this.geometry = geometry
         geometry.release()
 
-        const material = visualCache.material()
+        const material = new MeshMaterial()
         this.material = material
         material.release()
+
+        if (options.color) {
+            this.color.copy(options.color)
+        }
+        if (options.position) {
+            this.position.copyVector(options.position)
+        }
+        this.radius = isDefined(options.radius) ? mustBeNumber('radius', options.radius) : 0.5
+        this.length = isDefined(options.length) ? mustBeNumber('length', options.length) : 1.0
     }
 
 

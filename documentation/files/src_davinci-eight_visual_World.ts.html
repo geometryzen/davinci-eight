@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.200.0</em>
+            <em>API Docs for: 2.201.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -60,8 +60,6 @@
                                 <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
-                                <li><a href="../classes/ColorRGB.html">ColorRGB</a></li>
-                                <li><a href="../classes/ColorRGBA.html">ColorRGBA</a></li>
                                 <li><a href="../classes/ConeTransform.html">ConeTransform</a></li>
                                 <li><a href="../classes/ConicalShellBuilder.html">ConicalShellBuilder</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
@@ -98,6 +96,7 @@
                                 <li><a href="../classes/GeometryPrimitive.html">GeometryPrimitive</a></li>
                                 <li><a href="../classes/GraphicsProgramSymbols.html">GraphicsProgramSymbols</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
+                                <li><a href="../classes/IColor.html">IColor</a></li>
                                 <li><a href="../classes/IContextConsumer.html">IContextConsumer</a></li>
                                 <li><a href="../classes/IContextListener.html">IContextListener</a></li>
                                 <li><a href="../classes/IContextProgramConsumer.html">IContextProgramConsumer</a></li>
@@ -162,6 +161,7 @@
                                 <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
                                 <li><a href="../classes/Tetrahedron.html">Tetrahedron</a></li>
                                 <li><a href="../classes/TetrahedronGeometry.html">TetrahedronGeometry</a></li>
+                                <li><a href="../classes/TetrahedronGeometryOptions.html">TetrahedronGeometryOptions</a></li>
                                 <li><a href="../classes/TextureCoords.html">TextureCoords</a></li>
                                 <li><a href="../classes/Trail.html">Trail</a></li>
                                 <li><a href="../classes/Translation.html">Translation</a></li>
@@ -240,36 +240,15 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import Arrow from &#x27;./Arrow&#x27;
-import ArrowOptions from &#x27;./ArrowOptions&#x27;
 import Color from &#x27;../core/Color&#x27;
-import core from &#x27;../core&#x27;
-import Box from &#x27;./Box&#x27;
-import BoxOptions from &#x27;./BoxOptions&#x27;
-import Cylinder from &#x27;./Cylinder&#x27;
-import CylinderOptions from &#x27;./CylinderOptions&#x27;
 import DrawList from &#x27;./DrawList&#x27;
 import Facet from &#x27;../core/Facet&#x27;
-import isDefined from &#x27;../checks/isDefined&#x27;
 import AmbientLight from &#x27;../facets/AmbientLight&#x27;
-import Drawable from &#x27;../core/Drawable&#x27;
-import mustBeNumber from &#x27;../checks/mustBeNumber&#x27;
+import IDrawable from &#x27;../core/IDrawable&#x27;
 import CameraControls from &#x27;../controls/CameraControls&#x27;
 import readOnly from &#x27;../i18n/readOnly&#x27;
-import RigidBody from &#x27;./RigidBody&#x27;
 import Shareable from &#x27;../core/Shareable&#x27;
-import Sphere from &#x27;./Sphere&#x27;
-import SphereOptions from &#x27;./SphereOptions&#x27;
-import VectorE3 from &#x27;../math/VectorE3&#x27;
 import WebGLRenderer from &#x27;../core/WebGLRenderer&#x27;
-
-
-
-function updateAxis(body: RigidBody, options: { axis?: VectorE3 }): void {
-    if (options.axis) {
-        body.axis.copyVector(options.axis).direction()
-    }
-}
 
 /**
  * @module EIGHT
@@ -335,6 +314,17 @@ export default class World extends Shareable {
     }
 
     /**
+     * @property ambientLight
+     * @type AmbientLight
+     */
+    get ambientLight(): AmbientLight {
+        return this._ambientLight;
+    }
+    set ambientLight(unused: AmbientLight) {
+        throw new Error(readOnly(&#x27;ambientLight&#x27;).message)
+    }
+
+    /**
      * @property canvas
      * @type HTMLCanvasElement
      * @readOnly
@@ -358,87 +348,13 @@ export default class World extends Shareable {
         throw new Error(readOnly(&#x27;controls&#x27;).message)
     }
 
-    add(mesh: Drawable): void {
-        if (core.safemode) {
-            if (!(mesh instanceof Drawable)) {
-                throw new Error(&quot;mesh must be an instance of Drawable&quot;)
-            }
-        }
-        this.drawList.add(mesh)
-    }
-
     /**
-     * @method arrow
-     * @return {Arrow}
+     * @method add
+     * @param drawable {IDrawable}
+     * @return {void}
      */
-    arrow(options: ArrowOptions = {}): Arrow {
-        const arrow = new Arrow(options)
-        updateAxis(arrow, options)
-        if (options.color) {
-            arrow.color.copy(options.color)
-        }
-        if (isDefined(options.position)) {
-            arrow.position.copyVector(options.position)
-        }
-        //      arrow.length = isDefined(options.length) ? mustBeNumber(&#x27;length&#x27;, options.length) : 1.0
-        this.drawList.add(arrow)
-        return arrow
-    }
-
-    /**
-     * @method box
-     * @return {Box}
-     */
-    box(options: BoxOptions = {}): Box {
-        const box = new Box(options)
-        if (options.color) {
-            box.color.copy(options.color)
-        }
-        if (options.position) {
-            box.position.copyVector(options.position)
-        }
-        box.width = isDefined(options.width) ? mustBeNumber(&#x27;width&#x27;, options.width) : 1.0
-        box.height = isDefined(options.height) ? mustBeNumber(&#x27;height&#x27;, options.height) : 1.0
-        box.depth = isDefined(options.depth) ? mustBeNumber(&#x27;depth&#x27;, options.depth) : 1.0
-        this.drawList.add(box)
-        return box
-    }
-
-    /**
-     * @method cylinder
-     * @param [options = {}] {CylinderOptions}
-     * @return {Cylinder}
-     */
-    cylinder(options: CylinderOptions = {}): Cylinder {
-        const cylinder = new Cylinder(options)
-        updateAxis(cylinder, options)
-        if (options.color) {
-            cylinder.color.copy(options.color)
-        }
-        if (options.position) {
-            cylinder.position.copyVector(options.position)
-        }
-        cylinder.radius = isDefined(options.radius) ? mustBeNumber(&#x27;radius&#x27;, options.radius) : 0.5
-        cylinder.length = isDefined(options.length) ? mustBeNumber(&#x27;length&#x27;, options.length) : 1.0
-        this.drawList.add(cylinder)
-        return cylinder
-    }
-
-    /**
-     * @method sphere
-     * @return {Sphere}
-     */
-    sphere(options: SphereOptions = {}): Sphere {
-        const sphere = new Sphere()
-        if (options.color) {
-            sphere.color.copy(options.color)
-        }
-        if (options.position) {
-            sphere.position.copyVector(options.position)
-        }
-        sphere.radius = isDefined(options.radius) ? mustBeNumber(&#x27;radius&#x27;, options.radius) : 0.5
-        this.drawList.add(sphere)
-        return sphere
+    add(drawable: IDrawable): void {
+        this.drawList.add(drawable)
     }
 }
 

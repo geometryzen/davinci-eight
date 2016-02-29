@@ -9,53 +9,53 @@ import IDrawable from '../core/IDrawable'
  * This allows the IDrawable to override the draw method to produce history and draw trails.
  */
 export default class DrawList extends ShareableContextListener {
-    private _meshes: ShareableArray<IDrawable>
+    private things: ShareableArray<IDrawable>
 
     constructor() {
         super('DrawList')
-        this._meshes = new ShareableArray<IDrawable>()
+        this.things = new ShareableArray<IDrawable>()
     }
 
     protected destructor(): void {
-        this._meshes.release()
+        this.things.release()
         super.destructor()
     }
 
-    add(mesh: IDrawable): void {
+    add(drawable: IDrawable): void {
         // Don't return the index because we don't want to guarantee the order.
-        this._meshes.push(mesh)
+        this.things.push(drawable)
     }
 
     draw(ambients: Facet[]) {
-        const iLen = this._meshes.length
+        const iLen = this.things.length
         for (let i = 0; i < iLen; i++) {
-            const mesh = this._meshes.getWeakRef(i)
+            const mesh = this.things.getWeakRef(i)
             mesh.draw(ambients)
         }
     }
 
     contextFree(context: IContextProvider): void {
-        const iLen = this._meshes.length
+        const iLen = this.things.length
         for (let i = 0; i < iLen; i++) {
-            const mesh = this._meshes.getWeakRef(i)
+            const mesh = this.things.getWeakRef(i)
             mesh.contextFree(context)
         }
         super.contextFree(context)
     }
 
     contextGain(context: IContextProvider): void {
-        const iLen = this._meshes.length
+        const iLen = this.things.length
         for (let i = 0; i < iLen; i++) {
-            const mesh = this._meshes.getWeakRef(i)
+            const mesh = this.things.getWeakRef(i)
             mesh.contextGain(context)
         }
         super.contextGain(context)
     }
 
     contextLost(): void {
-        const iLen = this._meshes.length
+        const iLen = this.things.length
         for (let i = 0; i < iLen; i++) {
-            const mesh = this._meshes.getWeakRef(i)
+            const mesh = this.things.getWeakRef(i)
             mesh.contextLost()
         }
         super.contextLost()

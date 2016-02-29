@@ -1,4 +1,4 @@
-import ColorRGB from '../core/ColorRGB'
+import IColor from '../core/IColor'
 import SpinorE3 from '../math/SpinorE3'
 import VectorE3 from '../math/VectorE3'
 
@@ -11,10 +11,10 @@ interface SphereOptions {
 
     /**
      * @attribute color
-     * @type ColorRGB
+     * @type IColor
      * @optional
      */
-    color?: ColorRGB
+    color?: IColor
 
     /**
      * @attribute offset

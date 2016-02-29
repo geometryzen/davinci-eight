@@ -1611,7 +1611,7 @@ declare module EIGHT {
         constructor(coords?: number[], modified?: boolean)
         add(v: VectorE2): Vector2
         add2(a: VectorE2, b: VectorE2): Vector2
-        applyMatrix(m: Matrix2): Vector2
+        applyMatrix(σ: Matrix2): Vector2
         clone(): Vector2
         copy(v: VectorE2): Vector2
         cubicBezier(t: number, controlBegin: VectorE2, endPoint: VectorE2): Vector2
@@ -2364,8 +2364,8 @@ declare module EIGHT {
          */
         add(vector: VectorE3, α?: number): Vector3;
         add2(a: VectorE3, b: VectorE3): Vector3;
-        applyMatrix4(m: Matrix4): Vector3;
-        applyMatrix(m: Matrix3): Vector3;
+        applyMatrix4(σ: Matrix4): Vector3;
+        applyMatrix(σ: Matrix3): Vector3;
         clone(): Vector3;
         copy(v: VectorE3): Vector3;
         static copy(vector: VectorE3): Vector3;
@@ -2449,7 +2449,7 @@ declare module EIGHT {
         z: number
         w: number
         constructor(coords?: number[], modified?: boolean)
-        applyMatrix(m: Matrix4): Vector4
+        applyMatrix(σ: Matrix4): Vector4
         clone(): Vector4
         copy(v: VectorE4): Vector4
     }
@@ -2484,7 +2484,7 @@ declare module EIGHT {
     /**
      *
      */
-    interface ColorRGB {
+    interface IColor {
         r: number;
         g: number;
         b: number;
@@ -2493,14 +2493,7 @@ declare module EIGHT {
     /**
      *
      */
-    interface ColorRGBA extends ColorRGB {
-        α: number;
-    }
-
-    /**
-     *
-     */
-    class Color extends VectorN<number> implements ColorRGB {
+    class Color extends VectorN<number> implements IColor {
         static black: Color;
         static blue: Color;
         static green: Color;
@@ -2515,13 +2508,13 @@ declare module EIGHT {
         luminance: number;
         constructor(r: number, g: number, b: number);
         clone(): Color;
-        interpolate(target: ColorRGB, alpha: number): Color;
+        interpolate(target: IColor, alpha: number): Color;
 
-        static fromColor(color: ColorRGB): Color;
+        static fromColor(color: IColor): Color;
         static fromCoords(coords: number[]): Color;
         static fromHSL(H: number, S: number, L: number): Color;
         static fromRGB(red: number, green: number, blue: number): Color;
-        static interpolate(a: ColorRGB, b: ColorRGB, alpha: number): Color;
+        static interpolate(a: IColor, b: IColor, alpha: number): Color;
     }
 
     /**
@@ -3166,13 +3159,13 @@ declare module EIGHT {
 
     class AmbientLight extends AbstractFacet {
         color: Color;
-        constructor(color: ColorRGB);
+        constructor(color: IColor);
     }
 
     /**
      *
      */
-    class ColorFacet extends AbstractFacet implements ColorRGBA {
+    class ColorFacet extends AbstractFacet implements IColor {
         r: number;
         g: number;
         b: number;
@@ -3180,8 +3173,7 @@ declare module EIGHT {
         constructor(name?: string);
         scaleRGB(α: number): ColorFacet;
         scaleRGBA(α: number): ColorFacet;
-        setColorRGB(color: ColorRGB): ColorFacet;
-        setColorRGBA(color: ColorRGBA): ColorFacet;
+        setColorRGB(color: IColor): ColorFacet;
         setRGB(red: number, green: number, blue: number): ColorFacet;
         setRGBA(red: number, green: number, blue: number, alpha: number): ColorFacet;
     }
@@ -3205,7 +3197,7 @@ declare module EIGHT {
          * @param direction The initial direction.
          * @param color The initial color.
          */
-        constructor(direction: VectorE3, color: ColorRGB);
+        constructor(direction: VectorE3, color: IColor);
         /**
          * Sets the <code>direction</code> property by copying a vector.
          * The direction is normalized to be a unit vector.
@@ -3536,7 +3528,12 @@ declare module EIGHT {
 
     class Arrow extends RigidBody {
         length: number
-        constructor(options?: {axis?: VectorE3})
+        constructor(
+            options?: {
+                axis?: VectorE3;
+                color?: Color;
+                position?: VectorE3;
+            })
     }
 
     class Box extends Mesh {
@@ -3544,20 +3541,38 @@ declare module EIGHT {
         height: number;
         depth: number;
         constructor(
-          options?: {
-            axis?: VectorE3
-          })
+            options?: {
+                color?: Color;
+                depth?: number;
+                height?: number;
+                offset?: VectorE3;
+                position?: VectorE3;
+                width?: number;
+            })
     }
 
     class Cylinder extends RigidBody {
         length: number;
         radius: number;
-        constructor(options?: {axis?: VectorE3})
+        constructor(
+            options?: {
+                axis?: VectorE3;
+                color?: Color;
+                length?: number;
+                position?: VectorE3;
+                radius?: number;
+            })
     }
 
     class Sphere extends RigidBody {
         radius: number;
-        constructor(options?: { axis?: VectorE3 })
+        constructor(
+            options?: {
+                color?: IColor;
+                offset?: VectorE3;
+                position?: VectorE3;
+                radius?: number;
+            })
     }
 
     class Tetrahedron extends Mesh {
@@ -3599,36 +3614,6 @@ declare module EIGHT {
      */
     interface World extends IUnknown {
         add(mesh: Drawable): void
-        arrow(
-            options?: {
-                axis?: VectorE3;
-                color?: Color;
-                position?: VectorE3;
-            }): Arrow
-        box(
-            options?: {
-                depth?: number;
-                color?: Color;
-                height?: number;
-                offset?: VectorE3;
-                position?: VectorE3;
-                width?: number;
-            }): Box
-        sphere(
-            options?: {
-                color?: Color;
-                offset?: VectorE3;
-                position?: VectorE3;
-                radius?: number;
-            }): Sphere
-        cylinder(
-            options?: {
-                axis?: VectorE3;
-                color?: Color;
-                length?: number;
-                position?: VectorE3;
-                radius?: number;
-            }): Cylinder
         ambients: Facet[]
         canvas: HTMLCanvasElement
     }

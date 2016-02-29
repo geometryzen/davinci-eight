@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.200.0</em>
+            <em>API Docs for: 2.201.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -60,8 +60,6 @@
                                 <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
-                                <li><a href="../classes/ColorRGB.html">ColorRGB</a></li>
-                                <li><a href="../classes/ColorRGBA.html">ColorRGBA</a></li>
                                 <li><a href="../classes/ConeTransform.html">ConeTransform</a></li>
                                 <li><a href="../classes/ConicalShellBuilder.html">ConicalShellBuilder</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
@@ -98,6 +96,7 @@
                                 <li><a href="../classes/GeometryPrimitive.html">GeometryPrimitive</a></li>
                                 <li><a href="../classes/GraphicsProgramSymbols.html">GraphicsProgramSymbols</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
+                                <li><a href="../classes/IColor.html">IColor</a></li>
                                 <li><a href="../classes/IContextConsumer.html">IContextConsumer</a></li>
                                 <li><a href="../classes/IContextListener.html">IContextListener</a></li>
                                 <li><a href="../classes/IContextProgramConsumer.html">IContextProgramConsumer</a></li>
@@ -162,6 +161,7 @@
                                 <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
                                 <li><a href="../classes/Tetrahedron.html">Tetrahedron</a></li>
                                 <li><a href="../classes/TetrahedronGeometry.html">TetrahedronGeometry</a></li>
+                                <li><a href="../classes/TetrahedronGeometryOptions.html">TetrahedronGeometryOptions</a></li>
                                 <li><a href="../classes/TextureCoords.html">TextureCoords</a></li>
                                 <li><a href="../classes/Trail.html">Trail</a></li>
                                 <li><a href="../classes/Translation.html">Translation</a></li>
@@ -240,12 +240,14 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import deviation from &#x27;./deviation&#x27;
 import direction from &#x27;./direction&#x27;
+import CylinderGeometry from &#x27;../geometries/CylinderGeometry&#x27;
+import CylinderGeometryOptions from &#x27;../geometries/CylinderGeometryOptions&#x27;
 import CylinderOptions from &#x27;./CylinderOptions&#x27;
+import isDefined from &#x27;../checks/isDefined&#x27;
+import MeshMaterial from &#x27;../materials/MeshMaterial&#x27;
+import mustBeNumber from &#x27;../checks/mustBeNumber&#x27;
 import RigidBody from &#x27;./RigidBody&#x27;
-import Vector3 from &#x27;../math/Vector3&#x27;
-import visualCache from &#x27;./visualCache&#x27;
 
 /**
  * @module EIGHT
@@ -261,24 +263,34 @@ export default class Cylinder extends RigidBody {
     /**
      * @class Cylinder
      * @constructor
-     * @param [options={}] {CylinderOptions}
+     * @param [options] {CylinderOptions}
      */
     constructor(options: CylinderOptions = {}) {
         super(&#x27;Cylinder&#x27;, direction(options))
         // The shape is created un-stressed and then parameters drive the scaling.
         // The scaling matrix takes into account the initial tilt from the standard configuration.
-        const stress = Vector3.vector(1, 1, 1)
-        const tilt = deviation(direction(options))
+        // const stress = Vector3.vector(1, 1, 1)
+        // const tilt = deviation(direction(options))
         // The options don&#x27;t currently include an offset.
-        const offset = Vector3.zero()
+        // const offset = Vector3.zero()
 
-        const geometry = visualCache.cylinder(stress, tilt, offset)
+        const geoOptions: CylinderGeometryOptions = {}
+        const geometry = new CylinderGeometry(geoOptions)
         this.geometry = geometry
         geometry.release()
 
-        const material = visualCache.material()
+        const material = new MeshMaterial()
         this.material = material
         material.release()
+
+        if (options.color) {
+            this.color.copy(options.color)
+        }
+        if (options.position) {
+            this.position.copyVector(options.position)
+        }
+        this.radius = isDefined(options.radius) ? mustBeNumber(&#x27;radius&#x27;, options.radius) : 0.5
+        this.length = isDefined(options.length) ? mustBeNumber(&#x27;length&#x27;, options.length) : 1.0
     }
 
 

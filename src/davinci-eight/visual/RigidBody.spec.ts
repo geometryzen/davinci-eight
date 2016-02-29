@@ -8,38 +8,38 @@ describe('RigidBody', function() {
         const geometry = new SphereGeometry()
         const material = new MeshMaterial()
         const direction = new Vector3()
-        const sphere = new RigidBody('Foo', direction)
-        sphere.geometry = geometry
-        sphere.material = material
-        expect(sphere.isZombie()).toBe(false)
-        sphere.release()
-        expect(sphere.isZombie()).toBe(true)
+        const rigidBody = new RigidBody('Foo', direction)
+        rigidBody.geometry = geometry
+        rigidBody.material = material
+        expect(rigidBody.isZombie()).toBe(false)
+        rigidBody.release()
+        expect(rigidBody.isZombie()).toBe(true)
     })
     it("mass should default to 1", function() {
         const geometry = new SphereGeometry()
         const material = new MeshMaterial()
         const direction = new Vector3()
-        const sphere = new RigidBody('Foo', direction)
-        sphere.geometry = geometry
-        sphere.material = material
-        expect(sphere.mass).toBe(1)
-        sphere.release()
+        const rigidBody = new RigidBody('Foo', direction)
+        rigidBody.geometry = geometry
+        rigidBody.material = material
+        expect(rigidBody.mass).toBe(1)
+        rigidBody.release()
     })
     it("momentum should default to 0", function() {
         const geometry = new SphereGeometry()
         const material = new MeshMaterial()
         const direction = new Vector3()
-        const sphere = new RigidBody('Foo', direction)
-        sphere.geometry = geometry
-        sphere.material = material
-        expect(sphere.momentum.α).toBe(0)
-        expect(sphere.momentum.x).toBe(0)
-        expect(sphere.momentum.y).toBe(0)
-        expect(sphere.momentum.z).toBe(0)
-        expect(sphere.momentum.xy).toBe(0)
-        expect(sphere.momentum.yz).toBe(0)
-        expect(sphere.momentum.zx).toBe(0)
-        expect(sphere.momentum.β).toBe(0)
-        sphere.release()
+        const rigidBody = new RigidBody('Foo', direction)
+        rigidBody.geometry = geometry
+        rigidBody.material = material
+        expect(rigidBody.momentum.α).toBe(0)
+        expect(rigidBody.momentum.x).toBe(0)
+        expect(rigidBody.momentum.y).toBe(0)
+        expect(rigidBody.momentum.z).toBe(0)
+        expect(rigidBody.momentum.xy).toBe(0)
+        expect(rigidBody.momentum.yz).toBe(0)
+        expect(rigidBody.momentum.zx).toBe(0)
+        expect(rigidBody.momentum.β).toBe(0)
+        rigidBody.release()
     })
 })

@@ -1,4 +1,4 @@
-import Color from '../core/Color'
+import IColor from '../core/IColor'
 import VectorE3 from '../math/VectorE3'
 
 /**
@@ -16,10 +16,10 @@ interface CylinderOptions {
 
     /**
      * @attribute color
-     * @type Color
+     * @type IColor
      * @optional
      */
-    color?: Color
+    color?: IColor
 
     /**
      * @attribute position

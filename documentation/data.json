@@ -2,7 +2,7 @@
     "project": {
         "name": "davinci-eight",
         "description": "WebGL library for mathematical physics using Geometric Algebra",
-        "version": "2.200.0",
+        "version": "2.201.0",
         "url": ""
     },
     "files": {
@@ -179,24 +179,6 @@
             "fors": {},
             "namespaces": {}
         },
-        "src/davinci-eight/core/ColorRGB.ts": {
-            "name": "src/davinci-eight/core/ColorRGB.ts",
-            "modules": {},
-            "classes": {
-                "ColorRGB": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
-        "src/davinci-eight/core/ColorRGBA.ts": {
-            "name": "src/davinci-eight/core/ColorRGBA.ts",
-            "modules": {},
-            "classes": {
-                "ColorRGBA": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
         "src/davinci-eight/core/DrawMode.ts": {
             "name": "src/davinci-eight/core/DrawMode.ts",
             "modules": {},
@@ -265,6 +247,15 @@
             "modules": {},
             "classes": {
                 "GraphicsProgramSymbols": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/core/IColor.ts": {
+            "name": "src/davinci-eight/core/IColor.ts",
+            "modules": {},
+            "classes": {
+                "IColor": 1
             },
             "fors": {},
             "namespaces": {}
@@ -966,6 +957,15 @@
             "modules": {},
             "classes": {
                 "TetrahedronGeometry": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/geometries/TetrahedronGeometryOptions.ts": {
+            "name": "src/davinci-eight/geometries/TetrahedronGeometryOptions.ts",
+            "modules": {},
+            "classes": {
+                "TetrahedronGeometryOptions": 1
             },
             "fors": {},
             "namespaces": {}
@@ -1920,8 +1920,6 @@
                 "AttribMetaInfo": 1,
                 "Attribute": 1,
                 "Color": 1,
-                "ColorRGB": 1,
-                "ColorRGBA": 1,
                 "DrawMode": 1,
                 "Drawable": 1,
                 "Facet": 1,
@@ -1930,6 +1928,7 @@
                 "GeometryBuffers": 1,
                 "GeometryContainer": 1,
                 "GraphicsProgramSymbols": 1,
+                "IColor": 1,
                 "IContextConsumer": 1,
                 "IContextListener": 1,
                 "IContextProgramConsumer": 1,
@@ -1995,6 +1994,7 @@
                 "SphereBuilder": 1,
                 "SphereGeometry": 1,
                 "TetrahedronGeometry": 1,
+                "TetrahedronGeometryOptions": 1,
                 "TriangleStrip": 1,
                 "Vertex": 1,
                 "VertexAttributeMap": 1,
@@ -2059,7 +2059,7 @@
             "fors": {},
             "namespaces": {},
             "file": "src/davinci-eight/visual/World.ts",
-            "line": 48
+            "line": 27
         },
         "controls": {
             "name": "controls",
@@ -2087,8 +2087,6 @@
                 "AttribMetaInfo": 1,
                 "Attribute": 1,
                 "Color": 1,
-                "ColorRGB": 1,
-                "ColorRGBA": 1,
                 "DrawMode": 1,
                 "Drawable": 1,
                 "Facet": 1,
@@ -2096,6 +2094,7 @@
                 "GeometryBuffers": 1,
                 "GeometryContainer": 1,
                 "GraphicsProgramSymbols": 1,
+                "IColor": 1,
                 "IContextConsumer": 1,
                 "IContextListener": 1,
                 "IContextProgramConsumer": 1,
@@ -2249,7 +2248,7 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/visual/World.ts",
-            "line": 48,
+            "line": 27,
             "description": "Convenient abstractions for Physics modeling."
         }
     },
@@ -2592,10 +2591,10 @@
             "submodule": "core",
             "namespace": "",
             "file": "src/davinci-eight/core/Color.ts",
-            "line": 86,
+            "line": 96,
             "description": "<p>\nA mutable type representing a color through its RGB components.\n</p>\n<p>\nWARNING: In many object-oriented designs, types representing values are completely immutable.\nIn a graphics library where data changes rapidly and garbage collection might become an issue,\nit is common to use reference types, such as in this design. This mutability can lead to\ndifficult bugs because it is hard to reason about where a color may have changed. \n</p>",
-            "extends": "VectorN",
-            "implements": "ColorRGB",
+            "extends": "Coords",
+            "implements": "IColor",
             "is_constructor": 1,
             "params": [
                 {
@@ -2614,35 +2613,6 @@
                     "type": "Number"
                 }
             ]
-        },
-        "ColorRGB": {
-            "name": "ColorRGB",
-            "shortname": "ColorRGB",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "EIGHT",
-            "submodule": "core",
-            "namespace": "",
-            "file": "src/davinci-eight/core/ColorRGB.ts",
-            "line": 6
-        },
-        "ColorRGBA": {
-            "name": "ColorRGBA",
-            "shortname": "ColorRGBA",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "EIGHT",
-            "submodule": "core",
-            "namespace": "",
-            "file": "src/davinci-eight/core/ColorRGBA.ts",
-            "line": 8,
-            "extends": "ColorRGB"
         },
         "DrawMode": {
             "name": "DrawMode",
@@ -2788,6 +2758,20 @@
             "file": "src/davinci-eight/core/GraphicsProgramSymbols.ts",
             "line": 6,
             "description": "<p>\nCanonical variable names, which also act as semantic identifiers for name overrides.\nThese names must be stable to avoid breaking custom vertex and fragment shaders.\n</p>"
+        },
+        "IColor": {
+            "name": "IColor",
+            "shortname": "IColor",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "submodule": "core",
+            "namespace": "",
+            "file": "src/davinci-eight/core/IColor.ts",
+            "line": 6
         },
         "IContextConsumer": {
             "name": "IContextConsumer",
@@ -3197,7 +3181,7 @@
             "submodule": "facets",
             "namespace": "",
             "file": "src/davinci-eight/facets/ColorFacet.ts",
-            "line": 116,
+            "line": 87,
             "is_constructor": 1
         },
         "DirectionalLight": {
@@ -3223,7 +3207,7 @@
                 {
                     "name": "color",
                     "description": "",
-                    "type": "ColorRGB"
+                    "type": "IColor"
                 }
             ]
         },
@@ -4153,19 +4137,30 @@
             "submodule": "geometries",
             "namespace": "",
             "file": "src/davinci-eight/geometries/TetrahedronGeometry.ts",
-            "line": 34,
+            "line": 29,
             "description": "A convenience class for creating a tetrahedron geometry.",
             "extends": "Geometry",
             "is_constructor": 1,
             "params": [
                 {
-                    "name": "radius ",
-                    "description": "",
-                    "type": "Number",
-                    "optional": true,
-                    "optdefault": " 1"
+                    "name": "options ",
+                    "description": "{TetrahedronGeometryOptions}",
+                    "optional": true
                 }
             ]
+        },
+        "TetrahedronGeometryOptions": {
+            "name": "TetrahedronGeometryOptions",
+            "shortname": "TetrahedronGeometryOptions",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/geometries/TetrahedronGeometryOptions.ts",
+            "line": 1
         },
         "TriangleStrip": {
             "name": "TriangleStrip",
@@ -5172,7 +5167,7 @@
             "submodule": "visual",
             "namespace": "",
             "file": "src/davinci-eight/visual/Box.ts",
-            "line": 19,
+            "line": 21,
             "extends": "RigidBody",
             "is_constructor": 1,
             "params": [
@@ -5208,13 +5203,14 @@
             "submodule": "visual",
             "namespace": "",
             "file": "src/davinci-eight/visual/Cylinder.ts",
-            "line": 19,
+            "line": 21,
             "extends": "RigidBody",
             "is_constructor": 1,
             "params": [
                 {
                     "name": "options",
-                    "description": "{CylinderOptions}",
+                    "description": "",
+                    "type": "CylinderOptions",
                     "optional": true
                 }
             ]
@@ -5322,7 +5318,7 @@
             "submodule": "visual",
             "namespace": "",
             "file": "src/davinci-eight/visual/Sphere.ts",
-            "line": 17,
+            "line": 21,
             "extends": "RigidBody",
             "is_constructor": 1,
             "params": [
@@ -5360,7 +5356,7 @@
             "submodule": "visual",
             "namespace": "",
             "file": "src/davinci-eight/visual/Tetrahedron.ts",
-            "line": 16,
+            "line": 18,
             "extends": "Mesh",
             "is_constructor": 1,
             "params": [
@@ -5407,7 +5403,7 @@
             "submodule": "visual",
             "namespace": "",
             "file": "src/davinci-eight/visual/World.ts",
-            "line": 48,
+            "line": 27,
             "extends": "Shareable",
             "is_constructor": 1
         }
@@ -6954,7 +6950,7 @@
         },
         {
             "file": "src/davinci-eight/core/Color.ts",
-            "line": 37,
+            "line": 40,
             "itemtype": "property",
             "name": "black",
             "type": "{Color}",
@@ -6965,7 +6961,7 @@
         },
         {
             "file": "src/davinci-eight/core/Color.ts",
-            "line": 43,
+            "line": 47,
             "itemtype": "property",
             "name": "blue",
             "type": "{Color}",
@@ -6976,7 +6972,7 @@
         },
         {
             "file": "src/davinci-eight/core/Color.ts",
-            "line": 49,
+            "line": 54,
             "itemtype": "property",
             "name": "green",
             "type": "{Color}",
@@ -6987,7 +6983,7 @@
         },
         {
             "file": "src/davinci-eight/core/Color.ts",
-            "line": 55,
+            "line": 61,
             "itemtype": "property",
             "name": "cyan",
             "type": "{Color}",
@@ -6998,7 +6994,7 @@
         },
         {
             "file": "src/davinci-eight/core/Color.ts",
-            "line": 61,
+            "line": 68,
             "itemtype": "property",
             "name": "red",
             "type": "{Color}",
@@ -7009,7 +7005,7 @@
         },
         {
             "file": "src/davinci-eight/core/Color.ts",
-            "line": 67,
+            "line": 75,
             "itemtype": "property",
             "name": "magenta",
             "type": "{Color}",
@@ -7020,7 +7016,7 @@
         },
         {
             "file": "src/davinci-eight/core/Color.ts",
-            "line": 73,
+            "line": 82,
             "itemtype": "property",
             "name": "yellow",
             "type": "{Color}",
@@ -7031,7 +7027,7 @@
         },
         {
             "file": "src/davinci-eight/core/Color.ts",
-            "line": 79,
+            "line": 89,
             "itemtype": "property",
             "name": "white",
             "type": "{Color}",
@@ -7042,7 +7038,7 @@
         },
         {
             "file": "src/davinci-eight/core/Color.ts",
-            "line": 106,
+            "line": 116,
             "itemtype": "property",
             "name": "r",
             "type": "{number}",
@@ -7052,7 +7048,7 @@
         },
         {
             "file": "src/davinci-eight/core/Color.ts",
-            "line": 117,
+            "line": 127,
             "itemtype": "property",
             "name": "g",
             "type": "{number}",
@@ -7062,7 +7058,7 @@
         },
         {
             "file": "src/davinci-eight/core/Color.ts",
-            "line": 128,
+            "line": 138,
             "itemtype": "property",
             "name": "b",
             "type": "{number}",
@@ -7072,7 +7068,7 @@
         },
         {
             "file": "src/davinci-eight/core/Color.ts",
-            "line": 139,
+            "line": 161,
             "itemtype": "method",
             "name": "clone",
             "return": {
@@ -7086,14 +7082,14 @@
         },
         {
             "file": "src/davinci-eight/core/Color.ts",
-            "line": 148,
+            "line": 170,
             "itemtype": "method",
             "name": "copy",
             "params": [
                 {
                     "name": "color",
                     "description": "",
-                    "type": "ColorRGB"
+                    "type": "IColor"
                 }
             ],
             "return": {
@@ -7107,14 +7103,14 @@
         },
         {
             "file": "src/davinci-eight/core/Color.ts",
-            "line": 161,
+            "line": 187,
             "itemtype": "method",
-            "name": "interpolate",
+            "name": "lerp",
             "params": [
                 {
                     "name": "target",
                     "description": "",
-                    "type": "ColorRGB"
+                    "type": "IColor"
                 },
                 {
                     "name": "α",
@@ -7133,7 +7129,7 @@
         },
         {
             "file": "src/davinci-eight/core/Color.ts",
-            "line": 175,
+            "line": 201,
             "itemtype": "property",
             "name": "luminance",
             "type": "{number}",
@@ -7144,7 +7140,7 @@
         },
         {
             "file": "src/davinci-eight/core/Color.ts",
-            "line": 184,
+            "line": 250,
             "itemtype": "method",
             "name": "toString",
             "return": {
@@ -7157,7 +7153,7 @@
         },
         {
             "file": "src/davinci-eight/core/Color.ts",
-            "line": 193,
+            "line": 263,
             "itemtype": "method",
             "name": "luminance",
             "params": [
@@ -7188,14 +7184,14 @@
         },
         {
             "file": "src/davinci-eight/core/Color.ts",
-            "line": 209,
+            "line": 280,
             "itemtype": "method",
             "name": "fromColor",
             "params": [
                 {
                     "name": "color",
                     "description": "",
-                    "type": "ColorRGB"
+                    "type": "IColor"
                 }
             ],
             "return": {
@@ -7210,7 +7206,7 @@
         },
         {
             "file": "src/davinci-eight/core/Color.ts",
-            "line": 220,
+            "line": 291,
             "itemtype": "method",
             "name": "fromCoords",
             "params": [
@@ -7231,7 +7227,7 @@
         },
         {
             "file": "src/davinci-eight/core/Color.ts",
-            "line": 234,
+            "line": 305,
             "description": "Converts an angle, radius, height to a color on a color wheel.",
             "itemtype": "method",
             "name": "fromHSL",
@@ -7264,7 +7260,7 @@
         },
         {
             "file": "src/davinci-eight/core/Color.ts",
-            "line": 249,
+            "line": 320,
             "description": "This function captures C and L",
             "class": "Color",
             "module": "EIGHT",
@@ -7272,7 +7268,7 @@
         },
         {
             "file": "src/davinci-eight/core/Color.ts",
-            "line": 282,
+            "line": 353,
             "itemtype": "method",
             "name": "fromRGB",
             "params": [
@@ -7304,19 +7300,19 @@
         },
         {
             "file": "src/davinci-eight/core/Color.ts",
-            "line": 298,
+            "line": 369,
             "itemtype": "method",
-            "name": "interpolate",
+            "name": "lerp",
             "params": [
                 {
                     "name": "a",
                     "description": "",
-                    "type": "ColorRGB"
+                    "type": "IColor"
                 },
                 {
                     "name": "b",
                     "description": "",
-                    "type": "ColorRGB"
+                    "type": "IColor"
                 },
                 {
                     "name": "α",
@@ -7331,50 +7327,6 @@
             "static": 1,
             "chainable": 1,
             "class": "Color",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/ColorRGB.ts",
-            "line": 10,
-            "description": "The red component of the color.",
-            "itemtype": "property",
-            "name": "r",
-            "type": "{number}",
-            "class": "ColorRGB",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/ColorRGB.ts",
-            "line": 16,
-            "description": "The green component of the color.",
-            "itemtype": "property",
-            "name": "g",
-            "type": "{number}",
-            "class": "ColorRGB",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/ColorRGB.ts",
-            "line": 22,
-            "description": "The blue component of the color.",
-            "itemtype": "property",
-            "name": "b",
-            "type": "{number}",
-            "class": "ColorRGB",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/ColorRGBA.ts",
-            "line": 13,
-            "description": "The <em>alpha</em> component of the color.",
-            "itemtype": "property",
-            "name": "α",
-            "type": "{number}",
-            "class": "ColorRGBA",
             "module": "EIGHT",
             "submodule": "core"
         },
@@ -8925,6 +8877,39 @@
             "submodule": "core"
         },
         {
+            "file": "src/davinci-eight/core/IColor.ts",
+            "line": 11,
+            "description": "The red component of the color.",
+            "itemtype": "property",
+            "name": "r",
+            "type": "{number}",
+            "class": "IColor",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/IColor.ts",
+            "line": 19,
+            "description": "The green component of the color.",
+            "itemtype": "property",
+            "name": "g",
+            "type": "{number}",
+            "class": "IColor",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/IColor.ts",
+            "line": 27,
+            "description": "The blue component of the color.",
+            "itemtype": "property",
+            "name": "b",
+            "type": "{number}",
+            "class": "IColor",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
             "file": "src/davinci-eight/core/IContextConsumer.ts",
             "line": 20,
             "description": "Called to request the consumer to free any WebGL resources acquired and owned.\nThe consumer may assume that its cached context is still valid in order\nto properly dispose of any cached resources. In the case of shared objects, this\nmethod may be called multiple times for what is logically the same context. In such\ncases the consumer must be idempotent and respond only to the first request.",
@@ -10256,7 +10241,7 @@
             "name": "remove",
             "params": [
                 {
-                    "name": "mesh",
+                    "name": "drawable",
                     "description": "",
                     "type": "IDrawable"
                 }
@@ -11334,16 +11319,6 @@
         {
             "file": "src/davinci-eight/facets/ColorFacet.ts",
             "line": 52,
-            "description": "property PROP_RGBA",
-            "type": "{string}",
-            "static": 1,
-            "class": "ColorFacet",
-            "module": "EIGHT",
-            "submodule": "facets"
-        },
-        {
-            "file": "src/davinci-eight/facets/ColorFacet.ts",
-            "line": 59,
             "description": "property PROP_RED",
             "type": "{string}",
             "static": 1,
@@ -11353,7 +11328,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ColorFacet.ts",
-            "line": 66,
+            "line": 59,
             "description": "property PROP_GREEN",
             "type": "{string}",
             "static": 1,
@@ -11363,7 +11338,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ColorFacet.ts",
-            "line": 73,
+            "line": 66,
             "description": "property PROP_BLUE",
             "type": "{string}",
             "static": 1,
@@ -11373,17 +11348,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ColorFacet.ts",
-            "line": 80,
-            "description": "property PROP_ALPHA",
-            "type": "{string}",
-            "static": 1,
-            "class": "ColorFacet",
-            "module": "EIGHT",
-            "submodule": "facets"
-        },
-        {
-            "file": "src/davinci-eight/facets/ColorFacet.ts",
-            "line": 87,
+            "line": 73,
             "itemtype": "property",
             "name": "color",
             "type": "{Color}",
@@ -11395,31 +11360,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ColorFacet.ts",
-            "line": 94,
-            "itemtype": "property",
-            "name": "a",
-            "type": "{number}",
-            "access": "private",
-            "tagname": "",
-            "class": "ColorFacet",
-            "module": "EIGHT",
-            "submodule": "facets"
-        },
-        {
-            "file": "src/davinci-eight/facets/ColorFacet.ts",
-            "line": 101,
-            "description": "The name of the GLSL uniform variable that will be set.",
-            "itemtype": "property",
-            "name": "uAlphaName",
-            "type": "{string}",
-            "optional": 1,
-            "class": "ColorFacet",
-            "module": "EIGHT",
-            "submodule": "facets"
-        },
-        {
-            "file": "src/davinci-eight/facets/ColorFacet.ts",
-            "line": 109,
+            "line": 80,
             "itemtype": "property",
             "name": "uColorName",
             "type": "{string}",
@@ -11430,7 +11371,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ColorFacet.ts",
-            "line": 125,
+            "line": 95,
             "description": "The red component of the color.",
             "itemtype": "property",
             "name": "r",
@@ -11441,7 +11382,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ColorFacet.ts",
-            "line": 138,
+            "line": 108,
             "description": "The green component of the color.",
             "itemtype": "property",
             "name": "g",
@@ -11452,7 +11393,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ColorFacet.ts",
-            "line": 151,
+            "line": 121,
             "description": "The blue component of the color.",
             "itemtype": "property",
             "name": "b",
@@ -11463,18 +11404,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ColorFacet.ts",
-            "line": 164,
-            "description": "The alpha component of the color.",
-            "itemtype": "property",
-            "name": "α",
-            "type": "{number}",
-            "class": "ColorFacet",
-            "module": "EIGHT",
-            "submodule": "facets"
-        },
-        {
-            "file": "src/davinci-eight/facets/ColorFacet.ts",
-            "line": 176,
+            "line": 134,
             "itemtype": "method",
             "name": "scaleRGB",
             "params": [
@@ -11495,28 +11425,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ColorFacet.ts",
-            "line": 189,
-            "itemtype": "method",
-            "name": "scaleRGBA",
-            "params": [
-                {
-                    "name": "α",
-                    "description": "",
-                    "type": "Number"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "ColorFacet"
-            },
-            "chainable": 1,
-            "class": "ColorFacet",
-            "module": "EIGHT",
-            "submodule": "facets"
-        },
-        {
-            "file": "src/davinci-eight/facets/ColorFacet.ts",
-            "line": 203,
+            "line": 147,
             "itemtype": "method",
             "name": "setRGB",
             "params": [
@@ -11547,43 +11456,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ColorFacet.ts",
-            "line": 219,
-            "itemtype": "method",
-            "name": "setRGBA",
-            "params": [
-                {
-                    "name": "red",
-                    "description": "",
-                    "type": "Number"
-                },
-                {
-                    "name": "green",
-                    "description": "",
-                    "type": "Number"
-                },
-                {
-                    "name": "blue",
-                    "description": "",
-                    "type": "Number"
-                },
-                {
-                    "name": "α",
-                    "description": "",
-                    "type": "Number"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "ColorFacet"
-            },
-            "chainable": 1,
-            "class": "ColorFacet",
-            "module": "EIGHT",
-            "submodule": "facets"
-        },
-        {
-            "file": "src/davinci-eight/facets/ColorFacet.ts",
-            "line": 236,
+            "line": 162,
             "itemtype": "method",
             "name": "getProperty",
             "params": [
@@ -11603,7 +11476,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ColorFacet.ts",
-            "line": 262,
+            "line": 188,
             "itemtype": "method",
             "name": "setProperty",
             "params": [
@@ -11629,7 +11502,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ColorFacet.ts",
-            "line": 289,
+            "line": 215,
             "itemtype": "method",
             "name": "setUniforms",
             "params": [
@@ -11749,7 +11622,7 @@
                 {
                     "name": "color",
                     "description": "",
-                    "type": "ColorRGB"
+                    "type": "IColor"
                 }
             ],
             "return": {
@@ -14648,6 +14521,17 @@
             "class": "SphereGeometry",
             "module": "EIGHT",
             "submodule": "geometries"
+        },
+        {
+            "file": "src/davinci-eight/geometries/TetrahedronGeometryOptions.ts",
+            "line": 5,
+            "itemtype": "attribute",
+            "name": "radius",
+            "type": "number",
+            "optional": 1,
+            "default": "1",
+            "class": "TetrahedronGeometryOptions",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/geometries/TriangleStrip.ts",
@@ -28816,12 +28700,12 @@
         {
             "file": "src/davinci-eight/math/Vector2.ts",
             "line": 88,
-            "description": "<p>\n<code>this ⟼ m * this<sup>T</sup></code>\n</p>",
+            "description": "<p>\n<code>this ⟼ σ * this<sup>T</sup></code>\n</p>",
             "itemtype": "method",
             "name": "applyMatrix",
             "params": [
                 {
-                    "name": "m",
+                    "name": "σ",
                     "description": "",
                     "type": "Matrix2"
                 }
@@ -29447,12 +29331,12 @@
         {
             "file": "src/davinci-eight/math/Vector3.ts",
             "line": 135,
-            "description": "<p>\n<code>this ⟼ m * this<sup>T</sup></code>\n</p>",
+            "description": "<p>\n<code>this ⟼ σ * this<sup>T</sup></code>\n</p>",
             "itemtype": "method",
             "name": "applyMatrix",
             "params": [
                 {
-                    "name": "m",
+                    "name": "σ",
                     "description": "",
                     "type": "Matrix3"
                 }
@@ -29474,7 +29358,7 @@
             "name": "applyMatrix4",
             "params": [
                 {
-                    "name": "m",
+                    "name": "σ",
                     "description": "The 4x4 matrix that pre-multiplies this column vector."
                 }
             ],
@@ -29489,7 +29373,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 182,
+            "line": 183,
             "description": "<p>\n<code>this ⟼ - n * this * n</code>\n</p>",
             "itemtype": "method",
             "name": "reflect",
@@ -29511,7 +29395,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 204,
+            "line": 205,
             "description": "<p>\n<code>this ⟼ R * this * rev(R)</code>\n</p>",
             "itemtype": "method",
             "name": "rotate",
@@ -29533,7 +29417,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 234,
+            "line": 235,
             "itemtype": "method",
             "name": "clone",
             "return": {
@@ -29546,7 +29430,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 244,
+            "line": 245,
             "description": "<p>\n<code>this ⟼ copy(source)</code>\n</p>",
             "itemtype": "method",
             "name": "copy",
@@ -29568,7 +29452,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 266,
+            "line": 267,
             "description": "Copies the coordinate values into this <code>Vector3</code>.",
             "itemtype": "method",
             "name": "copyCoordinates",
@@ -29590,7 +29474,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 281,
+            "line": 282,
             "description": "<p>\n<code>this ⟼ this ✕ v</code>\n</p>",
             "itemtype": "method",
             "name": "cross",
@@ -29612,7 +29496,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 293,
+            "line": 294,
             "description": "<p>\n<code>this ⟼ a ✕ b</code>\n</p>",
             "itemtype": "method",
             "name": "cross2",
@@ -29639,7 +29523,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 314,
+            "line": 315,
             "itemtype": "method",
             "name": "distanceTo",
             "params": [
@@ -29659,7 +29543,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 327,
+            "line": 328,
             "itemtype": "method",
             "name": "quadranceTo",
             "params": [
@@ -29679,7 +29563,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 343,
+            "line": 344,
             "description": "<p>\n<code>this ⟼ this / α</code>\n</p>",
             "itemtype": "method",
             "name": "divByScalar",
@@ -29701,7 +29585,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 366,
+            "line": 367,
             "itemtype": "method",
             "name": "dot",
             "params": [
@@ -29721,7 +29605,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 374,
+            "line": 375,
             "description": "Computes the <em>square root</em> of the <em>squared norm</em>.",
             "itemtype": "method",
             "name": "magnitude",
@@ -29735,7 +29619,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 382,
+            "line": 383,
             "itemtype": "method",
             "name": "neg",
             "return": {
@@ -29749,7 +29633,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 394,
+            "line": 395,
             "description": "<p>\n<code>this ⟼ this + α * (target - this)</code>\n</p>",
             "itemtype": "method",
             "name": "lerp",
@@ -29776,7 +29660,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 410,
+            "line": 411,
             "description": "<p>\n<code>this ⟼ a + α * (b - a)</code>\n</p>",
             "itemtype": "method",
             "name": "lerp2",
@@ -29808,7 +29692,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 425,
+            "line": 426,
             "description": "<p>\n<code>this ⟼ this / norm(this)</code>\n</p>",
             "itemtype": "method",
             "name": "direction",
@@ -29823,7 +29707,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 437,
+            "line": 438,
             "description": "<p>\n<code>this ⟼ this * α</code>\n</p>",
             "itemtype": "method",
             "name": "scale",
@@ -29840,7 +29724,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 451,
+            "line": 452,
             "itemtype": "method",
             "name": "stress",
             "params": [
@@ -29859,7 +29743,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 463,
+            "line": 464,
             "description": "<p>\n<code>this ⟼ this</code>, with components modified.\n</p>",
             "itemtype": "method",
             "name": "set",
@@ -29892,7 +29776,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 482,
+            "line": 483,
             "itemtype": "method",
             "name": "setY",
             "params": [
@@ -29909,7 +29793,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 497,
+            "line": 498,
             "description": "Returns the (Euclidean) inner product of this vector with itself.",
             "itemtype": "method",
             "name": "squaredNorm",
@@ -29923,7 +29807,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 508,
+            "line": 509,
             "description": "<p>\n<code>this ⟼ this - v</code>\n</p>",
             "itemtype": "method",
             "name": "sub",
@@ -29952,7 +29836,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 525,
+            "line": 526,
             "description": "<p>\n<code>this ⟼ a - b</code>\n</p>",
             "itemtype": "method",
             "name": "sub2",
@@ -29981,7 +29865,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 543,
+            "line": 544,
             "itemtype": "method",
             "name": "toExponential",
             "return": {
@@ -29994,7 +29878,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 552,
+            "line": 553,
             "itemtype": "method",
             "name": "toFixed",
             "params": [
@@ -30015,7 +29899,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 562,
+            "line": 563,
             "itemtype": "method",
             "name": "toString",
             "return": {
@@ -30028,7 +29912,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 571,
+            "line": 572,
             "description": "Sets this vector to the identity element for addition, <b>0</b>.",
             "itemtype": "method",
             "name": "zero",
@@ -30043,7 +29927,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 601,
+            "line": 602,
             "itemtype": "method",
             "name": "mul",
             "params": [
@@ -30065,7 +29949,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 616,
+            "line": 617,
             "itemtype": "method",
             "name": "rmul",
             "params": [
@@ -30087,7 +29971,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 634,
+            "line": 635,
             "itemtype": "method",
             "name": "copy",
             "params": [
@@ -30109,7 +29993,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 645,
+            "line": 646,
             "description": "Constructs a vector which is the dual of the supplied bivector, B.\nThe convention used is dual(m) = I * m.\nIf a sign change is desired from this convention,\nset the <code>changeSign</code> to <code>true</code>.",
             "itemtype": "method",
             "name": "dual",
@@ -30136,7 +30020,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 666,
+            "line": 667,
             "itemtype": "method",
             "name": "lerp",
             "params": [
@@ -30168,7 +30052,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 679,
+            "line": 680,
             "itemtype": "method",
             "name": "random",
             "return": {
@@ -30183,7 +30067,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 689,
+            "line": 690,
             "itemtype": "method",
             "name": "vector",
             "params": [
@@ -30215,7 +30099,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 702,
+            "line": 703,
             "itemtype": "method",
             "name": "zero",
             "return": {
@@ -30276,7 +30160,7 @@
             "name": "applyMatrix",
             "params": [
                 {
-                    "name": "m",
+                    "name": "σ",
                     "description": "The 4x4 matrix that pre-multiplies this column vector."
                 }
             ],
@@ -30747,7 +30631,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Arrow.ts",
-            "line": 40,
+            "line": 52,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -30762,7 +30646,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Arrow.ts",
-            "line": 49,
+            "line": 61,
             "itemtype": "property",
             "name": "length",
             "type": "number",
@@ -30787,7 +30671,7 @@
             "line": 17,
             "itemtype": "attribute",
             "name": "color",
-            "type": "Color",
+            "type": "IColor",
             "optional": 1,
             "class": "ArrowOptions",
             "module": "EIGHT"
@@ -30804,8 +30688,24 @@
             "module": "EIGHT"
         },
         {
+            "file": "src/davinci-eight/visual/BootstrapOptions.ts",
+            "line": 5,
+            "itemtype": "attribute",
+            "name": "height",
+            "type": "number",
+            "optional": 1,
+            "class": "BootstrapOptions",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/visual/BootstrapOptions.ts",
+            "line": 15,
+            "class": "BootstrapOptions",
+            "module": "EIGHT"
+        },
+        {
             "file": "src/davinci-eight/visual/Box.ts",
-            "line": 43,
+            "line": 57,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -30820,7 +30720,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Box.ts",
-            "line": 52,
+            "line": 66,
             "itemtype": "property",
             "name": "width",
             "type": "number",
@@ -30831,7 +30731,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Box.ts",
-            "line": 64,
+            "line": 78,
             "itemtype": "property",
             "name": "height",
             "type": "number",
@@ -30841,7 +30741,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Box.ts",
-            "line": 75,
+            "line": 89,
             "itemtype": "property",
             "name": "depth",
             "type": "number",
@@ -30916,7 +30816,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Cylinder.ts",
-            "line": 43,
+            "line": 55,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -30931,7 +30831,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Cylinder.ts",
-            "line": 52,
+            "line": 64,
             "itemtype": "property",
             "name": "length",
             "type": "number",
@@ -30942,7 +30842,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Cylinder.ts",
-            "line": 64,
+            "line": 76,
             "itemtype": "property",
             "name": "radius",
             "type": "number",
@@ -30966,7 +30866,7 @@
             "line": 17,
             "itemtype": "attribute",
             "name": "color",
-            "type": "Color",
+            "type": "IColor",
             "optional": 1,
             "class": "CylinderOptions",
             "module": "EIGHT"
@@ -31188,7 +31088,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Sphere.ts",
-            "line": 32,
+            "line": 45,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -31203,7 +31103,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Sphere.ts",
-            "line": 41,
+            "line": 54,
             "itemtype": "property",
             "name": "radius",
             "type": "number",
@@ -31217,7 +31117,7 @@
             "line": 12,
             "itemtype": "attribute",
             "name": "color",
-            "type": "ColorRGB",
+            "type": "IColor",
             "optional": 1,
             "class": "SphereOptions",
             "module": "EIGHT"
@@ -31257,7 +31157,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Tetrahedron.ts",
-            "line": 31,
+            "line": 34,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -31272,7 +31172,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Tetrahedron.ts",
-            "line": 40,
+            "line": 43,
             "itemtype": "property",
             "name": "radius",
             "type": "number",
@@ -31401,7 +31301,7 @@
         },
         {
             "file": "src/davinci-eight/visual/World.ts",
-            "line": 70,
+            "line": 49,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -31416,7 +31316,7 @@
         },
         {
             "file": "src/davinci-eight/visual/World.ts",
-            "line": 83,
+            "line": 62,
             "itemtype": "property",
             "name": "ambients",
             "type": "Facet[]",
@@ -31427,7 +31327,17 @@
         },
         {
             "file": "src/davinci-eight/visual/World.ts",
-            "line": 95,
+            "line": 74,
+            "itemtype": "property",
+            "name": "ambientLight",
+            "type": "AmbientLight",
+            "class": "World",
+            "module": "EIGHT",
+            "submodule": "visual"
+        },
+        {
+            "file": "src/davinci-eight/visual/World.ts",
+            "line": 85,
             "itemtype": "property",
             "name": "canvas",
             "type": "HTMLCanvasElement",
@@ -31438,7 +31348,7 @@
         },
         {
             "file": "src/davinci-eight/visual/World.ts",
-            "line": 107,
+            "line": 97,
             "itemtype": "property",
             "name": "controls",
             "type": "CameraControls",
@@ -31449,58 +31359,19 @@
         },
         {
             "file": "src/davinci-eight/visual/World.ts",
-            "line": 128,
+            "line": 109,
             "itemtype": "method",
-            "name": "arrow",
-            "return": {
-                "description": "",
-                "type": "Arrow"
-            },
-            "class": "World",
-            "module": "EIGHT",
-            "submodule": "visual"
-        },
-        {
-            "file": "src/davinci-eight/visual/World.ts",
-            "line": 146,
-            "itemtype": "method",
-            "name": "box",
-            "return": {
-                "description": "",
-                "type": "Box"
-            },
-            "class": "World",
-            "module": "EIGHT",
-            "submodule": "visual"
-        },
-        {
-            "file": "src/davinci-eight/visual/World.ts",
-            "line": 165,
-            "itemtype": "method",
-            "name": "cylinder",
+            "name": "add",
             "params": [
                 {
-                    "name": "options ",
-                    "description": "{CylinderOptions}",
-                    "optional": true
+                    "name": "drawable",
+                    "description": "",
+                    "type": "IDrawable"
                 }
             ],
             "return": {
                 "description": "",
-                "type": "Cylinder"
-            },
-            "class": "World",
-            "module": "EIGHT",
-            "submodule": "visual"
-        },
-        {
-            "file": "src/davinci-eight/visual/World.ts",
-            "line": 185,
-            "itemtype": "method",
-            "name": "sphere",
-            "return": {
-                "description": "",
-                "type": "Sphere"
+                "type": "Void"
             },
             "class": "World",
             "module": "EIGHT",
@@ -31550,7 +31421,7 @@
         },
         {
             "message": "param name missing: {number}",
-            "line": " src/davinci-eight/math/Vector3.ts:482"
+            "line": " src/davinci-eight/math/Vector3.ts:483"
         },
         {
             "message": "Missing item type\nEssentially constructs the ShareableArray without incrementing the\nreference count of the elements, and without creating zombies.",
@@ -31658,7 +31529,7 @@
         },
         {
             "message": "Missing item type\nThis function captures C and L",
-            "line": " src/davinci-eight/core/Color.ts:249"
+            "line": " src/davinci-eight/core/Color.ts:320"
         },
         {
             "message": "Missing item type\nThe parts of a scene are the smallest components that\nare heuristically sorted in order to optimize rendering.",
@@ -31717,24 +31588,16 @@
             "line": " src/davinci-eight/facets/ColorFacet.ts:45"
         },
         {
-            "message": "Missing item type\nproperty PROP_RGBA",
+            "message": "Missing item type\nproperty PROP_RED",
             "line": " src/davinci-eight/facets/ColorFacet.ts:52"
         },
         {
-            "message": "Missing item type\nproperty PROP_RED",
+            "message": "Missing item type\nproperty PROP_GREEN",
             "line": " src/davinci-eight/facets/ColorFacet.ts:59"
         },
         {
-            "message": "Missing item type\nproperty PROP_GREEN",
-            "line": " src/davinci-eight/facets/ColorFacet.ts:66"
-        },
-        {
             "message": "Missing item type\nproperty PROP_BLUE",
-            "line": " src/davinci-eight/facets/ColorFacet.ts:73"
-        },
-        {
-            "message": "Missing item type\nproperty PROP_ALPHA",
-            "line": " src/davinci-eight/facets/ColorFacet.ts:80"
+            "line": " src/davinci-eight/facets/ColorFacet.ts:66"
         },
         {
             "message": "Missing item type",
@@ -32523,6 +32386,10 @@
         {
             "message": "Missing item type\nA map from property name to a list of properties of the property value.\nIt should be possible to animate many properties of a target at once.\nHowever, a given property should only be animated in one way at a given time.\nFor these reasons, we structure the data as map from property name to a queue of animations.",
             "line": " src/davinci-eight/slideshow/Slide.ts:197"
+        },
+        {
+            "message": "Missing item type",
+            "line": " src/davinci-eight/visual/BootstrapOptions.ts:15"
         },
         {
             "message": "Missing item type\nA simple list of meshes that does not bypass the draw method of the IDrawable.\nThis allows the IDrawable to override the draw method to produce history and draw trails.",

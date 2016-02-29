@@ -1,6 +1,8 @@
 import Mesh from '../core/Mesh'
+import MeshMaterial from '../materials/MeshMaterial'
 import TetrahedronOptions from './TetrahedronOptions'
-import visualCache from './visualCache'
+import TetrahedronGeometryOptions from '../geometries//TetrahedronGeometryOptions'
+import TetrahedronGeometry from '../geometries/TetrahedronGeometry'
 
 /**
  * @module EIGHT
@@ -20,8 +22,9 @@ export default class Tetrahedron extends Mesh {
      */
     constructor(options: TetrahedronOptions) {
         super('Tetrahedron')
-        const geometry = visualCache.tetrahedron(options)
-        const material = visualCache.material()
+        const geoOptions: TetrahedronGeometryOptions = {}
+        const geometry = new TetrahedronGeometry(geoOptions)
+        const material = new MeshMaterial()
         this.geometry = geometry
         this.material = material
         geometry.release()

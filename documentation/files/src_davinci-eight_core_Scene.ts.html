@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.200.0</em>
+            <em>API Docs for: 2.201.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -60,8 +60,6 @@
                                 <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
-                                <li><a href="../classes/ColorRGB.html">ColorRGB</a></li>
-                                <li><a href="../classes/ColorRGBA.html">ColorRGBA</a></li>
                                 <li><a href="../classes/ConeTransform.html">ConeTransform</a></li>
                                 <li><a href="../classes/ConicalShellBuilder.html">ConicalShellBuilder</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
@@ -98,6 +96,7 @@
                                 <li><a href="../classes/GeometryPrimitive.html">GeometryPrimitive</a></li>
                                 <li><a href="../classes/GraphicsProgramSymbols.html">GraphicsProgramSymbols</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
+                                <li><a href="../classes/IColor.html">IColor</a></li>
                                 <li><a href="../classes/IContextConsumer.html">IContextConsumer</a></li>
                                 <li><a href="../classes/IContextListener.html">IContextListener</a></li>
                                 <li><a href="../classes/IContextProgramConsumer.html">IContextProgramConsumer</a></li>
@@ -162,6 +161,7 @@
                                 <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
                                 <li><a href="../classes/Tetrahedron.html">Tetrahedron</a></li>
                                 <li><a href="../classes/TetrahedronGeometry.html">TetrahedronGeometry</a></li>
+                                <li><a href="../classes/TetrahedronGeometryOptions.html">TetrahedronGeometryOptions</a></li>
                                 <li><a href="../classes/TextureCoords.html">TextureCoords</a></li>
                                 <li><a href="../classes/Trail.html">Trail</a></li>
                                 <li><a href="../classes/Translation.html">Translation</a></li>
@@ -322,18 +322,18 @@ function partsFromMesh(mesh: IDrawable): ShareableArray&lt;ScenePart&gt; {
     const parts = new ShareableArray&lt;ScenePart&gt;()
     const geometry = mesh.geometry
     if (geometry.isLeaf()) {
-      const scenePart = new ScenePart(geometry, mesh)
-      parts.pushWeakRef(scenePart)
+        const scenePart = new ScenePart(geometry, mesh)
+        parts.pushWeakRef(scenePart)
     }
     else {
-      const iLen = geometry.partsLength
-      for (let i = 0; i &lt; iLen; i++) {
-          const geometryPart = geometry.getPart(i)
-          // FIXME: This needs to go down to the leaves.
-          const scenePart = new ScenePart(geometryPart, mesh)
-          geometryPart.release()
-          parts.pushWeakRef(scenePart)
-      }
+        const iLen = geometry.partsLength
+        for (let i = 0; i &lt; iLen; i++) {
+            const geometryPart = geometry.getPart(i)
+            // FIXME: This needs to go down to the leaves.
+            const scenePart = new ScenePart(geometryPart, mesh)
+            geometryPart.release()
+            parts.pushWeakRef(scenePart)
+        }
     }
     geometry.release()
     return parts
@@ -345,7 +345,7 @@ function partsFromMesh(mesh: IDrawable): ShareableArray&lt;ScenePart&gt; {
  */
 export default class Scene extends ShareableContextListener {
 
-    private _meshes: ShareableArray&lt;IDrawable&gt;;
+    private _drawables: ShareableArray&lt;IDrawable&gt;;
     private _parts: ShareableArray&lt;ScenePart&gt;;
 
     // FIXME: Do I need the collection, or can I be fooled into thinking there is one monitor?
@@ -360,7 +360,7 @@ export default class Scene extends ShareableContextListener {
      */
     constructor() {
         super(&#x27;Scene&#x27;)
-        this._meshes = new ShareableArray&lt;IDrawable&gt;()
+        this._drawables = new ShareableArray&lt;IDrawable&gt;()
         this._parts = new ShareableArray&lt;ScenePart&gt;()
     }
 
@@ -371,7 +371,7 @@ export default class Scene extends ShareableContextListener {
      */
     protected destructor(): void {
         this.unsubscribe()
-        this._meshes.release()
+        this._drawables.release()
         this._parts.release()
         super.destructor()
     }
@@ -389,7 +389,7 @@ export default class Scene extends ShareableContextListener {
      */
     add(mesh: IDrawable): void {
         mustBeObject(&#x27;mesh&#x27;, mesh)
-        this._meshes.push(mesh)
+        this._drawables.push(mesh)
 
         // TODO: Control the ordering for optimization.
         const drawParts = partsFromMesh(mesh)
@@ -409,7 +409,7 @@ export default class Scene extends ShareableContextListener {
      */
     contains(mesh: IDrawable): boolean {
         mustBeObject(&#x27;mesh&#x27;, mesh)
-        return this._meshes.indexOf(mesh) &gt;= 0
+        return this._drawables.indexOf(mesh) &gt;= 0
     }
 
     /**
@@ -435,7 +435,7 @@ export default class Scene extends ShareableContextListener {
      * @return {ShareableArray}
      */
     find(match: (mesh: IDrawable) =&gt; boolean): ShareableArray&lt;IDrawable&gt; {
-        return this._meshes.find(match)
+        return this._drawables.find(match)
     }
 
     /**
@@ -444,7 +444,7 @@ export default class Scene extends ShareableContextListener {
      * @return {IDrawable}
      */
     findOne(match: (mesh: IDrawable) =&gt; boolean): IDrawable {
-        return this._meshes.findOne(match)
+        return this._drawables.findOne(match)
     }
 
     /**
@@ -471,15 +471,15 @@ export default class Scene extends ShareableContextListener {
      * &lt;/p&gt;
      *
      * @method remove
-     * @param mesh {IDrawable}
+     * @param drawable {IDrawable}
      * @return {void}
      */
-    remove(mesh: IDrawable): void {
+    remove(drawable: IDrawable): void {
         // TODO: Remove the appropriate parts from the scene.
-        mustBeObject(&#x27;mesh&#x27;, mesh)
-        const index = this._meshes.indexOf(mesh)
+        mustBeObject(&#x27;drawable&#x27;, drawable)
+        const index = this._drawables.indexOf(drawable)
         if (index &gt;= 0) {
-            this._meshes.splice(index, 1).release()
+            this._drawables.splice(index, 1).release()
         }
     }
 
@@ -489,8 +489,8 @@ export default class Scene extends ShareableContextListener {
      * @return {void}
      */
     contextFree(context: IContextProvider): void {
-        for (let i = 0; i &lt; this._meshes.length; i++) {
-            const mesh = this._meshes.getWeakRef(i)
+        for (let i = 0; i &lt; this._drawables.length; i++) {
+            const mesh = this._drawables.getWeakRef(i)
             mesh.contextFree(context)
         }
         super.contextFree(context)
@@ -502,8 +502,8 @@ export default class Scene extends ShareableContextListener {
      * @return {void}
      */
     contextGain(context: IContextProvider): void {
-        for (let i = 0; i &lt; this._meshes.length; i++) {
-            const mesh = this._meshes.getWeakRef(i)
+        for (let i = 0; i &lt; this._drawables.length; i++) {
+            const mesh = this._drawables.getWeakRef(i)
             mesh.contextGain(context)
         }
         super.contextGain(context)
@@ -514,8 +514,8 @@ export default class Scene extends ShareableContextListener {
      * @return {void}
      */
     contextLost(): void {
-        for (let i = 0; i &lt; this._meshes.length; i++) {
-            const mesh = this._meshes.getWeakRef(i)
+        for (let i = 0; i &lt; this._drawables.length; i++) {
+            const mesh = this._drawables.getWeakRef(i)
             mesh.contextLost()
         }
         super.contextLost()

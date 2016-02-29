@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.200.0</em>
+            <em>API Docs for: 2.201.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -60,8 +60,6 @@
                                 <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
-                                <li><a href="../classes/ColorRGB.html">ColorRGB</a></li>
-                                <li><a href="../classes/ColorRGBA.html">ColorRGBA</a></li>
                                 <li><a href="../classes/ConeTransform.html">ConeTransform</a></li>
                                 <li><a href="../classes/ConicalShellBuilder.html">ConicalShellBuilder</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
@@ -98,6 +96,7 @@
                                 <li><a href="../classes/GeometryPrimitive.html">GeometryPrimitive</a></li>
                                 <li><a href="../classes/GraphicsProgramSymbols.html">GraphicsProgramSymbols</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
+                                <li><a href="../classes/IColor.html">IColor</a></li>
                                 <li><a href="../classes/IContextConsumer.html">IContextConsumer</a></li>
                                 <li><a href="../classes/IContextListener.html">IContextListener</a></li>
                                 <li><a href="../classes/IContextProgramConsumer.html">IContextProgramConsumer</a></li>
@@ -162,6 +161,7 @@
                                 <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
                                 <li><a href="../classes/Tetrahedron.html">Tetrahedron</a></li>
                                 <li><a href="../classes/TetrahedronGeometry.html">TetrahedronGeometry</a></li>
+                                <li><a href="../classes/TetrahedronGeometryOptions.html">TetrahedronGeometryOptions</a></li>
                                 <li><a href="../classes/TextureCoords.html">TextureCoords</a></li>
                                 <li><a href="../classes/Trail.html">Trail</a></li>
                                 <li><a href="../classes/Translation.html">Translation</a></li>
@@ -251,53 +251,53 @@ import IDrawable from &#x27;../core/IDrawable&#x27;
  * This allows the IDrawable to override the draw method to produce history and draw trails.
  */
 export default class DrawList extends ShareableContextListener {
-    private _meshes: ShareableArray&lt;IDrawable&gt;
+    private things: ShareableArray&lt;IDrawable&gt;
 
     constructor() {
         super(&#x27;DrawList&#x27;)
-        this._meshes = new ShareableArray&lt;IDrawable&gt;()
+        this.things = new ShareableArray&lt;IDrawable&gt;()
     }
 
     protected destructor(): void {
-        this._meshes.release()
+        this.things.release()
         super.destructor()
     }
 
-    add(mesh: IDrawable): void {
+    add(drawable: IDrawable): void {
         // Don&#x27;t return the index because we don&#x27;t want to guarantee the order.
-        this._meshes.push(mesh)
+        this.things.push(drawable)
     }
 
     draw(ambients: Facet[]) {
-        const iLen = this._meshes.length
+        const iLen = this.things.length
         for (let i = 0; i &lt; iLen; i++) {
-            const mesh = this._meshes.getWeakRef(i)
+            const mesh = this.things.getWeakRef(i)
             mesh.draw(ambients)
         }
     }
 
     contextFree(context: IContextProvider): void {
-        const iLen = this._meshes.length
+        const iLen = this.things.length
         for (let i = 0; i &lt; iLen; i++) {
-            const mesh = this._meshes.getWeakRef(i)
+            const mesh = this.things.getWeakRef(i)
             mesh.contextFree(context)
         }
         super.contextFree(context)
     }
 
     contextGain(context: IContextProvider): void {
-        const iLen = this._meshes.length
+        const iLen = this.things.length
         for (let i = 0; i &lt; iLen; i++) {
-            const mesh = this._meshes.getWeakRef(i)
+            const mesh = this.things.getWeakRef(i)
             mesh.contextGain(context)
         }
         super.contextGain(context)
     }
 
     contextLost(): void {
-        const iLen = this._meshes.length
+        const iLen = this.things.length
         for (let i = 0; i &lt; iLen; i++) {
-            const mesh = this._meshes.getWeakRef(i)
+            const mesh = this.things.getWeakRef(i)
             mesh.contextLost()
         }
         super.contextLost()

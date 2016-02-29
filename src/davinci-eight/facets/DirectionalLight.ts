@@ -1,5 +1,5 @@
 import Color from '../core/Color';
-import ColorRGB from '../core/ColorRGB';
+import IColor from '../core/IColor';
 import Facet from '../core/Facet';
 import FacetVisitor from '../core/FacetVisitor';
 import mustBeObject from '../checks/mustBeObject';
@@ -59,9 +59,9 @@ export default class DirectionalLight implements Facet {
      * @class DirectionalLight
      * @constructor
      * @param direction {VectorE3}
-     * @param color {ColorRGB}
+     * @param color {IColor}
      */
-    constructor(direction: VectorE3, color: ColorRGB) {
+    constructor(direction: VectorE3, color: IColor) {
         mustBeObject('direction', direction)
         mustBeObject('color', color)
         this.direction = Vector3.copy(direction).direction()
@@ -117,11 +117,11 @@ export default class DirectionalLight implements Facet {
 
     /**
      * @method setColor
-     * @param color {ColorRGB}
+     * @param color {IColor}
      * @return {DirectionalLight}
      * @chainable
      */
-    setColor(color: ColorRGB): DirectionalLight {
+    setColor(color: IColor): DirectionalLight {
         mustBeObject('color', color)
         this.color.copy(color)
         return this

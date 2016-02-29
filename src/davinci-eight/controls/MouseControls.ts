@@ -352,15 +352,15 @@ export default class MouseControls extends Shareable {
             // this.screen.height = window.innerHeight;
         }
         else {
-            const box = this.domElement.getBoundingClientRect()
+            const boundingRect = this.domElement.getBoundingClientRect()
             // adjustments come from similar code in the jquery offset() function
             const domElement = this.domElement.ownerDocument.documentElement
-            this.screenLoc.x = box.left + window.pageXOffset - domElement.clientLeft
-            this.screenLoc.y = -(box.top + window.pageYOffset - domElement.clientTop)
-            this.circleExt.x = box.width;
-            this.circleExt.y = -box.height;
-            this.screenExt.x = box.width;
-            this.screenExt.y = box.height;
+            this.screenLoc.x = boundingRect.left + window.pageXOffset - domElement.clientLeft
+            this.screenLoc.y = -(boundingRect.top + window.pageYOffset - domElement.clientTop)
+            this.circleExt.x = boundingRect.width;
+            this.circleExt.y = -boundingRect.height;
+            this.screenExt.x = boundingRect.width;
+            this.screenExt.y = boundingRect.height;
         }
     }
 }

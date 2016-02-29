@@ -27,7 +27,7 @@ function checkPropertyName(name: string): void {
     switch (name) {
         case ColorFacet.PROP_RGB: return;
         default: {
-            const msg = `ColorFacet property 'name' must be one of ${[ColorFacet.PROP_RGB, ColorFacet.PROP_RGBA, ColorFacet.PROP_RED, ColorFacet.PROP_GREEN, ColorFacet.PROP_BLUE, ColorFacet.PROP_ALPHA]}.`;
+            const msg = `ColorFacet property 'name' must be one of ${[ColorFacet.PROP_RGB, ColorFacet.PROP_RED, ColorFacet.PROP_GREEN, ColorFacet.PROP_BLUE]}.`;
             if (core.strict) {
                 throw new Error(msg);
             }
@@ -48,13 +48,6 @@ export default class ColorFacet implements Facet {
      * @static
      */
     public static PROP_RGB = 'rgb';
-
-    /**
-     * property PROP_RGBA
-     * @type {string}
-     * @static
-     */
-    public static PROP_RGBA = 'rgba';
 
     /**
      * property PROP_RED
@@ -78,33 +71,11 @@ export default class ColorFacet implements Facet {
     public static PROP_BLUE = 'b';
 
     /**
-     * property PROP_ALPHA
-     * @type {string}
-     * @static
-     */
-    public static PROP_ALPHA = 'a';
-
-    /**
      * @property color
      * @type {Color}
      * @public
      */
     public color = Color.fromRGB(1, 1, 1);
-
-    /**
-     * @property a
-     * @type {number}
-     * @private
-     */
-    private a: number = 1;
-
-    /**
-     * The name of the GLSL uniform variable that will be set.
-     * @property uAlphaName
-     * @type {string}
-     * @optional
-     */
-    public uAlphaName: string;
 
     /**
      * @property uColorName
@@ -119,7 +90,6 @@ export default class ColorFacet implements Facet {
      */
     constructor() {
         this.uColorName = GraphicsProgramSymbols.UNIFORM_COLOR
-        this.uAlphaName = GraphicsProgramSymbols.UNIFORM_ALPHA
     }
 
     /**
@@ -162,18 +132,6 @@ export default class ColorFacet implements Facet {
     }
 
     /**
-     * The alpha component of the color.
-     * @property α
-     * @type {number}
-     */
-    get α(): number {
-        return this.a
-    }
-    set α(α: number) {
-        this.a = α
-    }
-
-    /**
      * @method scaleRGB
      * @param α {number}
      * @return {ColorFacet}
@@ -183,20 +141,6 @@ export default class ColorFacet implements Facet {
         this.r *= α
         this.g *= α
         this.b *= α
-        return this
-    }
-
-    /**
-     * @method scaleRGBA
-     * @param α {number}
-     * @return {ColorFacet}
-     * @chainable
-     */
-    scaleRGBA(α: number): ColorFacet {
-        this.r *= α
-        this.g *= α
-        this.b *= α
-        this.α *= α
         return this
     }
 
@@ -212,24 +156,6 @@ export default class ColorFacet implements Facet {
         this.r = red
         this.g = green
         this.b = blue
-        return this
-    }
-
-
-    /**
-     * @method setRGBA
-     * @param red {number}
-     * @param green {number}
-     * @param blue {number}
-     * @param α {number}
-     * @return {ColorFacet}
-     * @chainable
-     */
-    setRGBA(red: number, green: number, blue: number, α: number): ColorFacet {
-        this.r = red
-        this.g = green
-        this.b = blue
-        this.α = α
         return this
     }
 
@@ -294,9 +220,6 @@ export default class ColorFacet implements Facet {
     setUniforms(visitor: FacetVisitor): void {
         if (this.uColorName) {
             visitor.vector3(this.uColorName, this.color.coords)
-        }
-        if (this.uAlphaName) {
-            visitor.uniform1f(this.uAlphaName, this.a)
         }
     }
 }

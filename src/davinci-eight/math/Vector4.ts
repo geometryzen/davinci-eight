@@ -99,18 +99,18 @@ export default class Vector4 extends VectorN<number> implements ColumnVector<Mat
      * The result is applied to this vector.
      *
      * @method applyMatrix
-     * @param m The 4x4 matrix that pre-multiplies this column vector.
+     * @param σ The 4x4 matrix that pre-multiplies this column vector.
      * @return {Vector4} <code>this</code>
      * @chainable
      */
-    applyMatrix(m: Matrix4): Vector4 {
+    applyMatrix(σ: Matrix4): Vector4 {
 
         const x = this.x
         const y = this.y
         const z = this.z
         const w = this.w
 
-        const e = m.elements;
+        const e = σ.elements;
 
         this.x = e[0x0] * x + e[0x4] * y + e[0x8] * z + e[0xC] * w
         this.y = e[0x1] * x + e[0x5] * y + e[0x9] * z + e[0xD] * w

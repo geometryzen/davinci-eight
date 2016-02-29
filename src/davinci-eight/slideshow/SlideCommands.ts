@@ -6,7 +6,7 @@ import ISlideCommand from '../slideshow/ISlideCommand';
 import ShareableArray from '../collections/ShareableArray';
 import Shareable from '../core/Shareable';
 
-import ColorRGB from '../core/ColorRGB';
+import IColor from '../core/IColor';
 import ColorAnimation from '../slideshow/animations/ColorAnimation';
 
 import VectorE3 from '../math/VectorE3';

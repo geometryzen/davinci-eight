@@ -1,4 +1,4 @@
-import ColorRGBA from '../../core/ColorRGBA';
+import IColor from '../../core/IColor';
 import IAnimation from '../../slideshow/IAnimation';
 import IAnimationTarget from '../../slideshow/IAnimationTarget';
 import Shareable from '../../core/Shareable';
@@ -18,7 +18,7 @@ export default class ColorAnimation extends Shareable implements IAnimation {
     private fraction: number;
     private callback: () => void;
     private ease: string;
-    constructor(color: ColorRGBA, duration: number = 300, callback?: () => void, ease?: string) {
+    constructor(color: IColor, duration: number = 300, callback?: () => void, ease?: string) {
         super('ColorAnimation')
         this.from = void 0
         this.to = Color.fromColor(color)
@@ -72,7 +72,7 @@ export default class ColorAnimation extends Shareable implements IAnimation {
                 rolloff = 0.5 - 0.5 * Math.cos(fraction * Math.PI)
                 break
         }
-        target.setProperty(propName, Color.interpolate(from, to, rolloff).coords)
+        target.setProperty(propName, Color.lerp(from, to, rolloff).coords)
     }
     hurry(factor: number): void {
         this.duration = this.duration * this.fraction + this.duration * (1 - this.fraction) / factor;

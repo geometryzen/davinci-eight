@@ -80,18 +80,18 @@ function partsFromMesh(mesh: IDrawable): ShareableArray<ScenePart> {
     const parts = new ShareableArray<ScenePart>()
     const geometry = mesh.geometry
     if (geometry.isLeaf()) {
-      const scenePart = new ScenePart(geometry, mesh)
-      parts.pushWeakRef(scenePart)
+        const scenePart = new ScenePart(geometry, mesh)
+        parts.pushWeakRef(scenePart)
     }
     else {
-      const iLen = geometry.partsLength
-      for (let i = 0; i < iLen; i++) {
-          const geometryPart = geometry.getPart(i)
-          // FIXME: This needs to go down to the leaves.
-          const scenePart = new ScenePart(geometryPart, mesh)
-          geometryPart.release()
-          parts.pushWeakRef(scenePart)
-      }
+        const iLen = geometry.partsLength
+        for (let i = 0; i < iLen; i++) {
+            const geometryPart = geometry.getPart(i)
+            // FIXME: This needs to go down to the leaves.
+            const scenePart = new ScenePart(geometryPart, mesh)
+            geometryPart.release()
+            parts.pushWeakRef(scenePart)
+        }
     }
     geometry.release()
     return parts
@@ -103,7 +103,7 @@ function partsFromMesh(mesh: IDrawable): ShareableArray<ScenePart> {
  */
 export default class Scene extends ShareableContextListener {
 
-    private _meshes: ShareableArray<IDrawable>;
+    private _drawables: ShareableArray<IDrawable>;
     private _parts: ShareableArray<ScenePart>;
 
     // FIXME: Do I need the collection, or can I be fooled into thinking there is one monitor?
@@ -118,7 +118,7 @@ export default class Scene extends ShareableContextListener {
      */
     constructor() {
         super('Scene')
-        this._meshes = new ShareableArray<IDrawable>()
+        this._drawables = new ShareableArray<IDrawable>()
         this._parts = new ShareableArray<ScenePart>()
     }
 
@@ -129,7 +129,7 @@ export default class Scene extends ShareableContextListener {
      */
     protected destructor(): void {
         this.unsubscribe()
-        this._meshes.release()
+        this._drawables.release()
         this._parts.release()
         super.destructor()
     }
@@ -147,7 +147,7 @@ export default class Scene extends ShareableContextListener {
      */
     add(mesh: IDrawable): void {
         mustBeObject('mesh', mesh)
-        this._meshes.push(mesh)
+        this._drawables.push(mesh)
 
         // TODO: Control the ordering for optimization.
         const drawParts = partsFromMesh(mesh)
@@ -167,7 +167,7 @@ export default class Scene extends ShareableContextListener {
      */
     contains(mesh: IDrawable): boolean {
         mustBeObject('mesh', mesh)
-        return this._meshes.indexOf(mesh) >= 0
+        return this._drawables.indexOf(mesh) >= 0
     }
 
     /**
@@ -193,7 +193,7 @@ export default class Scene extends ShareableContextListener {
      * @return {ShareableArray}
      */
     find(match: (mesh: IDrawable) => boolean): ShareableArray<IDrawable> {
-        return this._meshes.find(match)
+        return this._drawables.find(match)
     }
 
     /**
@@ -202,7 +202,7 @@ export default class Scene extends ShareableContextListener {
      * @return {IDrawable}
      */
     findOne(match: (mesh: IDrawable) => boolean): IDrawable {
-        return this._meshes.findOne(match)
+        return this._drawables.findOne(match)
     }
 
     /**
@@ -229,15 +229,15 @@ export default class Scene extends ShareableContextListener {
      * </p>
      *
      * @method remove
-     * @param mesh {IDrawable}
+     * @param drawable {IDrawable}
      * @return {void}
      */
-    remove(mesh: IDrawable): void {
+    remove(drawable: IDrawable): void {
         // TODO: Remove the appropriate parts from the scene.
-        mustBeObject('mesh', mesh)
-        const index = this._meshes.indexOf(mesh)
+        mustBeObject('drawable', drawable)
+        const index = this._drawables.indexOf(drawable)
         if (index >= 0) {
-            this._meshes.splice(index, 1).release()
+            this._drawables.splice(index, 1).release()
         }
     }
 
@@ -247,8 +247,8 @@ export default class Scene extends ShareableContextListener {
      * @return {void}
      */
     contextFree(context: IContextProvider): void {
-        for (let i = 0; i < this._meshes.length; i++) {
-            const mesh = this._meshes.getWeakRef(i)
+        for (let i = 0; i < this._drawables.length; i++) {
+            const mesh = this._drawables.getWeakRef(i)
             mesh.contextFree(context)
         }
         super.contextFree(context)
@@ -260,8 +260,8 @@ export default class Scene extends ShareableContextListener {
      * @return {void}
      */
     contextGain(context: IContextProvider): void {
-        for (let i = 0; i < this._meshes.length; i++) {
-            const mesh = this._meshes.getWeakRef(i)
+        for (let i = 0; i < this._drawables.length; i++) {
+            const mesh = this._drawables.getWeakRef(i)
             mesh.contextGain(context)
         }
         super.contextGain(context)
@@ -272,8 +272,8 @@ export default class Scene extends ShareableContextListener {
      * @return {void}
      */
     contextLost(): void {
-        for (let i = 0; i < this._meshes.length; i++) {
-            const mesh = this._meshes.getWeakRef(i)
+        for (let i = 0; i < this._drawables.length; i++) {
+            const mesh = this._drawables.getWeakRef(i)
             mesh.contextLost()
         }
         super.contextLost()

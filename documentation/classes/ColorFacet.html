@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.200.0</em>
+            <em>API Docs for: 2.201.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -60,8 +60,6 @@
                                 <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
-                                <li><a href="../classes/ColorRGB.html">ColorRGB</a></li>
-                                <li><a href="../classes/ColorRGBA.html">ColorRGBA</a></li>
                                 <li><a href="../classes/ConeTransform.html">ConeTransform</a></li>
                                 <li><a href="../classes/ConicalShellBuilder.html">ConicalShellBuilder</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
@@ -98,6 +96,7 @@
                                 <li><a href="../classes/GeometryPrimitive.html">GeometryPrimitive</a></li>
                                 <li><a href="../classes/GraphicsProgramSymbols.html">GraphicsProgramSymbols</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
+                                <li><a href="../classes/IColor.html">IColor</a></li>
                                 <li><a href="../classes/IContextConsumer.html">IContextConsumer</a></li>
                                 <li><a href="../classes/IContextListener.html">IContextListener</a></li>
                                 <li><a href="../classes/IContextProgramConsumer.html">IContextProgramConsumer</a></li>
@@ -162,6 +161,7 @@
                                 <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
                                 <li><a href="../classes/Tetrahedron.html">Tetrahedron</a></li>
                                 <li><a href="../classes/TetrahedronGeometry.html">TetrahedronGeometry</a></li>
+                                <li><a href="../classes/TetrahedronGeometryOptions.html">TetrahedronGeometryOptions</a></li>
                                 <li><a href="../classes/TextureCoords.html">TextureCoords</a></li>
                                 <li><a href="../classes/Trail.html">Trail</a></li>
                                 <li><a href="../classes/Translation.html">Translation</a></li>
@@ -241,7 +241,7 @@
 
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_facets_ColorFacet.ts.html#l116"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ColorFacet.ts:116</code></a>
+            Defined in: <a href="../files/src_davinci-eight_facets_ColorFacet.ts.html#l87"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ColorFacet.ts:87</code></a>
         </div>
 
             Module: <a href="../modules/facets.html">facets</a><br>
@@ -271,7 +271,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_facets_ColorFacet.ts.html#l116"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ColorFacet.ts:116</code></a>
+        <a href="../files/src_davinci-eight_facets_ColorFacet.ts.html#l87"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ColorFacet.ts:87</code></a>
         </p>
 
 
@@ -313,19 +313,11 @@
 
                             </li>
                             <li class="index-item method">
-                                <a href="#method_scaleRGBA">scaleRGBA</a>
-
-                            </li>
-                            <li class="index-item method">
                                 <a href="#method_setProperty">setProperty</a>
 
                             </li>
                             <li class="index-item method">
                                 <a href="#method_setRGB">setRGB</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_setRGBA">setRGBA</a>
 
                             </li>
                             <li class="index-item method">
@@ -339,10 +331,6 @@
                     <h3>Properties</h3>
 
                     <ul class="index-list properties">
-                            <li class="index-item property private">
-                                <a href="#property_a">a</a>
-
-                            </li>
                             <li class="index-item property">
                                 <a href="#property_b">b</a>
 
@@ -360,15 +348,7 @@
 
                             </li>
                             <li class="index-item property">
-                                <a href="#property_uAlphaName">uAlphaName</a>
-
-                            </li>
-                            <li class="index-item property">
                                 <a href="#property_uColorName">uColorName</a>
-
-                            </li>
-                            <li class="index-item property">
-                                <a href="#property_α">α</a>
 
                             </li>
                     </ul>
@@ -404,7 +384,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_facets_ColorFacet.ts.html#l236"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ColorFacet.ts:236</code></a>
+        <a href="../files/src_davinci-eight_facets_ColorFacet.ts.html#l162"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ColorFacet.ts:162</code></a>
         </p>
 
 
@@ -467,70 +447,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_facets_ColorFacet.ts.html#l176"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ColorFacet.ts:176</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">α</code>
-                        <span class="type">Number</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/ColorFacet.html" class="crosslink">ColorFacet</a></span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_scaleRGBA" class="method item">
-    <h3 class="name"><code>scaleRGBA</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>α</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/ColorFacet.html" class="crosslink">ColorFacet</a></span>
-        </span>
-
-
-
-
-
-        <span class="flag chainable">chainable</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_facets_ColorFacet.ts.html#l189"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ColorFacet.ts:189</code></a>
+        <a href="../files/src_davinci-eight_facets_ColorFacet.ts.html#l134"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ColorFacet.ts:134</code></a>
         </p>
 
 
@@ -596,7 +513,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_facets_ColorFacet.ts.html#l262"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ColorFacet.ts:262</code></a>
+        <a href="../files/src_davinci-eight_facets_ColorFacet.ts.html#l188"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ColorFacet.ts:188</code></a>
         </p>
 
 
@@ -675,7 +592,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_facets_ColorFacet.ts.html#l203"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ColorFacet.ts:203</code></a>
+        <a href="../files/src_davinci-eight_facets_ColorFacet.ts.html#l147"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ColorFacet.ts:147</code></a>
         </p>
 
 
@@ -712,108 +629,6 @@
                 </li>
                 <li class="param">
                         <code class="param-name">blue</code>
-                        <span class="type">Number</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/ColorFacet.html" class="crosslink">ColorFacet</a></span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_setRGBA" class="method item">
-    <h3 class="name"><code>setRGBA</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>red</code>
-                </li>
-                <li class="arg">
-                        <code>green</code>
-                </li>
-                <li class="arg">
-                        <code>blue</code>
-                </li>
-                <li class="arg">
-                        <code>α</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/ColorFacet.html" class="crosslink">ColorFacet</a></span>
-        </span>
-
-
-
-
-
-        <span class="flag chainable">chainable</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_facets_ColorFacet.ts.html#l219"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ColorFacet.ts:219</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">red</code>
-                        <span class="type">Number</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">green</code>
-                        <span class="type">Number</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">blue</code>
-                        <span class="type">Number</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">α</code>
                         <span class="type">Number</span>
 
 
@@ -859,7 +674,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_facets_ColorFacet.ts.html#l289"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ColorFacet.ts:289</code></a>
+        <a href="../files/src_davinci-eight_facets_ColorFacet.ts.html#l215"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ColorFacet.ts:215</code></a>
         </p>
 
 
@@ -902,31 +717,6 @@
             <div id="properties" class="api-class-tabpanel">
                 <h2 class="off-left">Properties</h2>
 
-<div id="property_a" class="property item private">
-    <h3 class="name"><code>a</code></h3>
-    <span class="type">Number</span>
-
-
-        <span class="flag private">private</span>
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_facets_ColorFacet.ts.html#l94"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ColorFacet.ts:94</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-
-</div>
 <div id="property_b" class="property item">
     <h3 class="name"><code>b</code></h3>
     <span class="type">Number</span>
@@ -938,7 +728,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_facets_ColorFacet.ts.html#l151"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ColorFacet.ts:151</code></a>
+        <a href="../files/src_davinci-eight_facets_ColorFacet.ts.html#l121"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ColorFacet.ts:121</code></a>
         </p>
 
 
@@ -964,7 +754,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_facets_ColorFacet.ts.html#l87"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ColorFacet.ts:87</code></a>
+        <a href="../files/src_davinci-eight_facets_ColorFacet.ts.html#l73"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ColorFacet.ts:73</code></a>
         </p>
 
 
@@ -988,7 +778,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_facets_ColorFacet.ts.html#l138"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ColorFacet.ts:138</code></a>
+        <a href="../files/src_davinci-eight_facets_ColorFacet.ts.html#l108"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ColorFacet.ts:108</code></a>
         </p>
 
 
@@ -1013,7 +803,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_facets_ColorFacet.ts.html#l125"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ColorFacet.ts:125</code></a>
+        <a href="../files/src_davinci-eight_facets_ColorFacet.ts.html#l95"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ColorFacet.ts:95</code></a>
         </p>
 
 
@@ -1021,31 +811,6 @@
 
     <div class="description">
         <p>The red component of the color.</p>
-
-    </div>
-
-
-
-</div>
-<div id="property_uAlphaName" class="property item">
-    <h3 class="name"><code>uAlphaName</code></h3>
-    <span class="type">String</span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_facets_ColorFacet.ts.html#l101"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ColorFacet.ts:101</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>The name of the GLSL uniform variable that will be set.</p>
 
     </div>
 
@@ -1063,7 +828,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_facets_ColorFacet.ts.html#l109"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ColorFacet.ts:109</code></a>
+        <a href="../files/src_davinci-eight_facets_ColorFacet.ts.html#l80"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ColorFacet.ts:80</code></a>
         </p>
 
 
@@ -1071,31 +836,6 @@
 
     <div class="description">
         
-    </div>
-
-
-
-</div>
-<div id="property_α" class="property item">
-    <h3 class="name"><code>α</code></h3>
-    <span class="type">Number</span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_facets_ColorFacet.ts.html#l164"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ColorFacet.ts:164</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>The alpha component of the color.</p>
-
     </div>
 
 

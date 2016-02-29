@@ -1,18 +1,20 @@
-import clamp from '../math/clamp';
-import mustBeArray from '../checks/mustBeArray';
-import mustBeGE from '../checks/mustBeGE';
-import mustBeLE from '../checks/mustBeLE';
-import mustBeNumber from '../checks/mustBeNumber';
-import principalAngle from './principalAngle';
-import ColorRGB from './ColorRGB';
-import VectorN from '../math/VectorN';
+import clamp from '../math/clamp'
+import ColumnVector from '../math/ColumnVector'
+import Coords from '../math/Coords'
+import IColor from './IColor'
+import Matrix3 from '../math/Matrix3'
+import MutableLinearElement from '../math/MutableLinearElement'
+import mustBeArray from '../checks/mustBeArray'
+import mustBeGE from '../checks/mustBeGE'
+import mustBeLE from '../checks/mustBeLE'
+import mustBeNumber from '../checks/mustBeNumber'
+import principalAngle from './principalAngle'
+import SpinorE3 from '../math/SpinorE3'
 
 /**
  * @module EIGHT
  * @submodule core
  */
-
-const pow = Math.pow
 
 const COORD_R = 0
 const COORD_G = 1
@@ -30,58 +32,66 @@ const COORD_B = 2
  * </p>
  *
  * @class Color
- * @extends VectorN
- * @implements ColorRGB
+ * @extends Coords
+ * @implements IColor
  */
-export default class Color extends VectorN<number> implements ColorRGB {
+export default class Color extends Coords implements IColor, ColumnVector<Matrix3, Color>, MutableLinearElement<IColor, Color, SpinorE3, IColor> {
+
     /**
      * @property black
      * @type {Color}
      * @static
      */
-    public static black = new Color(0, 0, 0);
+    public static black = new Color(0, 0, 0)
+
     /**
      * @property blue
      * @type {Color}
      * @static
      */
-    public static blue = new Color(0, 0, 1);
+    public static blue = new Color(0, 0, 1)
+
     /**
      * @property green
      * @type {Color}
      * @static
      */
-    public static green = new Color(0, 1, 0);
+    public static green = new Color(0, 1, 0)
+
     /**
      * @property cyan
      * @type {Color}
      * @static
      */
-    public static cyan = new Color(0, 1, 1);
+    public static cyan = new Color(0, 1, 1)
+
     /**
      * @property red
      * @type {Color}
      * @static
      */
-    public static red = new Color(1, 0, 0);
+    public static red = new Color(1, 0, 0)
+
     /**
      * @property magenta
      * @type {Color}
      * @static
      */
-    public static magenta = new Color(1, 0, 1);
+    public static magenta = new Color(1, 0, 1)
+
     /**
      * @property yellow
      * @type {Color}
      * @static
      */
-    public static yellow = new Color(1, 1, 0);
+    public static yellow = new Color(1, 1, 0)
+
     /**
      * @property white
      * @type {Color}
      * @static
      */
-    public static white = new Color(1, 1, 1);
+    public static white = new Color(1, 1, 1)
 
     /**
      * @class Color
@@ -136,6 +146,18 @@ export default class Color extends VectorN<number> implements ColorRGB {
         this.coords[COORD_B] = clamp(b, 0, 1)
     }
 
+    public add(rhs: IColor): Color {
+        return this
+    }
+
+    public add2(a: IColor, b: IColor): Color {
+        return this
+    }
+
+    public applyMatrix(σ: Matrix3): Color {
+        return this
+    }
+
     /**
      * @method clone
      * @return {Color}
@@ -147,29 +169,33 @@ export default class Color extends VectorN<number> implements ColorRGB {
 
     /**
      * @method copy
-     * @param color {ColorRGB}
+     * @param color {IColor}
      * @return {Color}
      * @chainable
      */
-    public copy(color: ColorRGB): Color {
+    public copy(color: IColor): Color {
         this.r = color.r
         this.g = color.g
         this.b = color.b
         return this
     }
 
+    public divByScalar(α: number): Color {
+        return this
+    }
+
     /**
-     * @method interpolate
-     * @param target {ColorRGB}
+     * @method lerp
+     * @param target {IColor}
      * @param α {number}
      * @return {Color}
      * @chainable
      */
-    public interpolate(target: ColorRGB, α: number): Color {
+    public lerp(target: IColor, α: number): Color {
         this.r += (target.r - this.r) * α
         this.g += (target.g - this.g) * α
         this.b += (target.b - this.b) * α
-        return this;
+        return this
     }
 
     /**
@@ -181,6 +207,46 @@ export default class Color extends VectorN<number> implements ColorRGB {
         return Color.luminance(this.r, this.g, this.b);
     }
 
+    public neg(): Color {
+        return this
+    }
+
+    public reflect(n: IColor): Color {
+        return this
+    }
+
+    public rotate(R: SpinorE3): Color {
+        return this
+    }
+
+    public scale(α: number): Color {
+        return this
+    }
+
+    public slerp(target: IColor, α: number): Color {
+        return this
+    }
+
+    public stress(σ: IColor): Color {
+        return this
+    }
+
+    public sub(rhs: IColor): Color {
+        return this
+    }
+
+    public sub2(a: IColor, b: IColor): Color {
+        return this
+    }
+
+    public toExponential(): string {
+        return this.toString()
+    }
+
+    public toFixed(fractionDigits?: number): string {
+        return this.toString()
+    }
+
     /**
      * @method toString
      * @return {string}
@@ -188,6 +254,10 @@ export default class Color extends VectorN<number> implements ColorRGB {
     public toString(): string {
         // FIXME: Use vector stuff
         return "Color(" + this.r + ", " + this.g + ", " + this.b + ")"
+    }
+
+    public zero(): Color {
+        return this
     }
 
     /**
@@ -202,18 +272,19 @@ export default class Color extends VectorN<number> implements ColorRGB {
         mustBeNumber('r', r)
         mustBeNumber('g', g)
         mustBeNumber('b', b)
-        var γ = 2.2
+        const pow = Math.pow
+        const γ = 2.2
         return 0.2126 * pow(r, γ) + 0.7152 * pow(b, γ) + 0.0722 * pow(b, γ)
     }
 
     /**
      * @method fromColor
-     * @param color {ColorRGB}
+     * @param color {IColor}
      * @return {Color}
      * @static
      * @chainable
      */
-    public static fromColor(color: ColorRGB): Color {
+    public static fromColor(color: IColor): Color {
         return new Color(color.r, color.g, color.b)
     }
 
@@ -296,15 +367,15 @@ export default class Color extends VectorN<number> implements ColorRGB {
     }
 
     /**
-     * @method interpolate
-     * @param a {ColorRGB}
-     * @param b {ColorRGB}
+     * @method lerp
+     * @param a {IColor}
+     * @param b {IColor}
      * @param α {number}
      * @return {Color}
      * @static
      * @chainable
      */
-    public static interpolate(a: ColorRGB, b: ColorRGB, α: number): Color {
-        return Color.fromColor(a).interpolate(b, α)
+    public static lerp(a: IColor, b: IColor, α: number): Color {
+        return Color.fromColor(a).lerp(b, α)
     }
 }

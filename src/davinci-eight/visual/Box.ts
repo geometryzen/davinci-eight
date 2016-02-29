@@ -1,9 +1,11 @@
-import deviation from './deviation'
-import direction from './direction'
 import BoxOptions from './BoxOptions'
+import BoxGeometry from '../geometries/BoxGeometry'
+import BoxGeometryOptions from '../geometries/BoxGeometryOptions'
+import direction from './direction'
+import isDefined from '../checks/isDefined'
+import MeshMaterial from '../materials/MeshMaterial'
+import mustBeNumber from '../checks/mustBeNumber'
 import RigidBody from './RigidBody'
-import Vector3 from '../math/Vector3'
-import visualCache from './visualCache'
 
 /**
  * @module EIGHT
@@ -25,18 +27,30 @@ export default class Box extends RigidBody {
         super('Box', direction(options))
         // The shape is created un-stressed and then parameters drive the scaling.
         // The scaling matrix takes into account the initial tilt from the standard configuration.
-        const stress = Vector3.vector(1, 1, 1)
-        const tilt = deviation(direction(options))
+        // const stress = Vector3.vector(1, 1, 1)
+        // const tilt = deviation(direction(options))
         // The options don't currently include an offset.
-        const offset = Vector3.zero()
+        // const offset = Vector3.zero()
 
-        const geometry = visualCache.box(stress, tilt, offset, options)
+        const geoOptions: BoxGeometryOptions = {}
+        const geometry = new BoxGeometry(geoOptions)
         this.geometry = geometry
         geometry.release()
 
-        const material = visualCache.material()
+        const material = new MeshMaterial()
         this.material = material
         material.release()
+
+        if (options.color) {
+            this.color.copy(options.color)
+        }
+        if (options.position) {
+            this.position.copyVector(options.position)
+        }
+
+        this.width = isDefined(options.width) ? mustBeNumber('width', options.width) : 1.0
+        this.height = isDefined(options.height) ? mustBeNumber('height', options.height) : 1.0
+        this.depth = isDefined(options.depth) ? mustBeNumber('depth', options.depth) : 1.0
     }
 
 

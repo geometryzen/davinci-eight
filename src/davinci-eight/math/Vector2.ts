@@ -87,24 +87,24 @@ export default class Vector2 extends Coords implements ColumnVector<Matrix2, Vec
 
     /**
      * <p>
-     * <code>this ⟼ m * this<sup>T</sup></code>
+     * <code>this ⟼ σ * this<sup>T</sup></code>
      * </p>
      *
      * @method applyMatrix
-     * @param m {Matrix2}
+     * @param σ {Matrix2}
      * @return {Vector2} <code>this</code>
      * @chainable
      */
-    applyMatrix(m: Matrix2): Vector2 {
-        let x = this.x;
-        let y = this.y;
+    applyMatrix(σ: Matrix2): Vector2 {
+        const x = this.x
+        const y = this.y
 
-        let e = m.elements;
+        const e = σ.elements
 
-        this.x = e[0x0] * x + e[0x2] * y;
-        this.y = e[0x1] * x + e[0x3] * y;
+        this.x = e[0x0] * x + e[0x2] * y
+        this.y = e[0x1] * x + e[0x3] * y
 
-        return this;
+        return this
     }
 
     /**

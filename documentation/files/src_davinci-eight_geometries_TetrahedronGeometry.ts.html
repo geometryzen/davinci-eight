@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.200.0</em>
+            <em>API Docs for: 2.201.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -60,8 +60,6 @@
                                 <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
-                                <li><a href="../classes/ColorRGB.html">ColorRGB</a></li>
-                                <li><a href="../classes/ColorRGBA.html">ColorRGBA</a></li>
                                 <li><a href="../classes/ConeTransform.html">ConeTransform</a></li>
                                 <li><a href="../classes/ConicalShellBuilder.html">ConicalShellBuilder</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
@@ -98,6 +96,7 @@
                                 <li><a href="../classes/GeometryPrimitive.html">GeometryPrimitive</a></li>
                                 <li><a href="../classes/GraphicsProgramSymbols.html">GraphicsProgramSymbols</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
+                                <li><a href="../classes/IColor.html">IColor</a></li>
                                 <li><a href="../classes/IContextConsumer.html">IContextConsumer</a></li>
                                 <li><a href="../classes/IContextListener.html">IContextListener</a></li>
                                 <li><a href="../classes/IContextProgramConsumer.html">IContextProgramConsumer</a></li>
@@ -162,6 +161,7 @@
                                 <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
                                 <li><a href="../classes/Tetrahedron.html">Tetrahedron</a></li>
                                 <li><a href="../classes/TetrahedronGeometry.html">TetrahedronGeometry</a></li>
+                                <li><a href="../classes/TetrahedronGeometryOptions.html">TetrahedronGeometryOptions</a></li>
                                 <li><a href="../classes/TextureCoords.html">TextureCoords</a></li>
                                 <li><a href="../classes/Trail.html">Trail</a></li>
                                 <li><a href="../classes/Translation.html">Translation</a></li>
@@ -242,9 +242,10 @@
     <pre class="code prettyprint linenums">
 import GeometryContainer from &#x27;../core/GeometryContainer&#x27;;
 import GeometryBuffers from &#x27;../core/GeometryBuffers&#x27;;
-import Primitive from &#x27;../core/Primitive&#x27;;
+import isDefined from &#x27;../checks/isDefined&#x27;
 import mustBeNumber from &#x27;../checks/mustBeNumber&#x27;;
 import PolyhedronBuilder from &#x27;../geometries/PolyhedronBuilder&#x27;;
+import TetrahedronGeometryOptions from &#x27;./TetrahedronGeometryOptions&#x27;
 import vertexArraysFromPrimitive from &#x27;../core/vertexArraysFromPrimitive&#x27;
 
 /**
@@ -260,12 +261,6 @@ const indices = [
     2, 1, 0, 0, 3, 2, 1, 3, 0, 2, 3, 1
 ];
 
-function primitives(radius: number): Primitive[] {
-    mustBeNumber(&#x27;radius&#x27;, radius)
-    const builder = new PolyhedronBuilder(vertices, indices, radius)
-    return builder.toPrimitives()
-}
-
 /**
  * A convenience class for creating a tetrahedron geometry.
  *
@@ -276,11 +271,13 @@ export default class TetrahedronGeometry extends GeometryContainer {
     /**
      * @class TetrahedronGeometry
      * @constructor
-     * @param [radius = 1] {number}
+     * @param [options = {}] {TetrahedronGeometryOptions}
      */
-    constructor(radius = 1) {
+    constructor(options: TetrahedronGeometryOptions = {}) {
         super(&#x27;TetrahedronGeometry&#x27;)
-        const ps = primitives(radius)
+        const radius = isDefined(options.radius) ? mustBeNumber(&#x27;radius&#x27;, options.radius) : 1.0
+        const builder = new PolyhedronBuilder(vertices, indices, radius)
+        const ps = builder.toPrimitives()
         const iLen = ps.length
         for (let i = 0; i &lt; iLen; i++) {
             const p = ps[i]
