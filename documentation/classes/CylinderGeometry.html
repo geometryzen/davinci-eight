@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.201.0</em>
+            <em>API Docs for: 2.202.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -60,6 +60,7 @@
                                 <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
+                                <li><a href="../classes/CommonOptions.html">CommonOptions</a></li>
                                 <li><a href="../classes/ConeTransform.html">ConeTransform</a></li>
                                 <li><a href="../classes/ConicalShellBuilder.html">ConicalShellBuilder</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
@@ -69,6 +70,7 @@
                                 <li><a href="../classes/Cylinder.html">Cylinder</a></li>
                                 <li><a href="../classes/CylinderBuilder.html">CylinderBuilder</a></li>
                                 <li><a href="../classes/CylinderGeometry.html">CylinderGeometry</a></li>
+                                <li><a href="../classes/CylinderGeometryOptions.html">CylinderGeometryOptions</a></li>
                                 <li><a href="../classes/CylinderOptions.html">CylinderOptions</a></li>
                                 <li><a href="../classes/CylinderTransform.html">CylinderTransform</a></li>
                                 <li><a href="../classes/CylindricalShellBuilder.html">CylindricalShellBuilder</a></li>
@@ -93,6 +95,7 @@
                                 <li><a href="../classes/GeometryBuffers.html">GeometryBuffers</a></li>
                                 <li><a href="../classes/GeometryBuilder.html">GeometryBuilder</a></li>
                                 <li><a href="../classes/GeometryContainer.html">GeometryContainer</a></li>
+                                <li><a href="../classes/GeometryOptions.html">GeometryOptions</a></li>
                                 <li><a href="../classes/GeometryPrimitive.html">GeometryPrimitive</a></li>
                                 <li><a href="../classes/GraphicsProgramSymbols.html">GraphicsProgramSymbols</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
@@ -244,7 +247,7 @@
         </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_geometries_CylinderGeometry.ts.html#l27"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;CylinderGeometry.ts:27</code></a>
+            Defined in: <a href="../files/src_davinci-eight_geometries_CylinderGeometry.ts.html#l46"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;CylinderGeometry.ts:46</code></a>
         </div>
 
             Module: <a href="../modules/geometries.html">geometries</a><br>
@@ -254,7 +257,7 @@
 
 
 <div class="box intro">
-    <p>A convenience class for creating a Cylinder.</p>
+    <p>A geometry for a Cylinder.</p>
 
 </div>
 
@@ -266,7 +269,7 @@
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
-                        <code class="optional">[options ]</code>
+                        <code class="optional">[options]</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
@@ -281,7 +284,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_geometries_CylinderGeometry.ts.html#l27"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;CylinderGeometry.ts:27</code></a>
+        <a href="../files/src_davinci-eight_geometries_CylinderGeometry.ts.html#l46"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;CylinderGeometry.ts:46</code></a>
         </p>
 
 
@@ -297,14 +300,13 @@
 
             <ul class="params-list">
                 <li class="param">
-                        <code class="param-name optional">[options ]</code>
-                        <span class="type">Object</span>
+                        <code class="param-name optional">[options]</code>
+                        <span class="type"><a href="../classes/CylinderGeometryOptions.html" class="crosslink">CylinderGeometryOptions</a></span>
                         <span class="flag optional" title="This parameter is optional.">optional</span>
 
 
                     <div class="param-description">
-                        <p>{}</p>
-
+                         
                     </div>
 
                 </li>
@@ -379,6 +381,10 @@ scene.add(cylinder)</p>
                                 <a href="#method_setPrincipalScale">setPrincipalScale</a>
 
                             </li>
+                            <li class="index-item method protected inherited">
+                                <a href="#method_setScale">setScale</a>
+
+                            </li>
                     </ul>
                 </div>
 
@@ -386,8 +392,16 @@ scene.add(cylinder)</p>
                     <h3>Properties</h3>
 
                     <ul class="index-list properties extends">
+                            <li class="index-item property private">
+                                <a href="#property__length">_length</a>
+
+                            </li>
                             <li class="index-item property private inherited">
                                 <a href="#property__parts">_parts</a>
+
+                            </li>
+                            <li class="index-item property private">
+                                <a href="#property__radius">_radius</a>
 
                             </li>
                             <li class="index-item property">
@@ -477,7 +491,7 @@ Notifies this instance that something is referencing it.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/GeometryContainer.html#method_contextFree">GeometryContainer</a>:
-        <a href="../files/src_davinci-eight_core_GeometryContainer.ts.html#l90"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryContainer.ts:90</code></a>
+        <a href="../files/src_davinci-eight_core_GeometryContainer.ts.html#l102"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryContainer.ts:102</code></a>
         </p>
 
 
@@ -516,7 +530,7 @@ Notifies this instance that something is referencing it.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/GeometryContainer.html#method_contextGain">GeometryContainer</a>:
-        <a href="../files/src_davinci-eight_core_GeometryContainer.ts.html#l100"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryContainer.ts:100</code></a>
+        <a href="../files/src_davinci-eight_core_GeometryContainer.ts.html#l112"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryContainer.ts:112</code></a>
         </p>
 
 
@@ -572,7 +586,7 @@ Notifies this instance that something is referencing it.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/GeometryContainer.html#method_contextLost">GeometryContainer</a>:
-        <a href="../files/src_davinci-eight_core_GeometryContainer.ts.html#l111"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryContainer.ts:111</code></a>
+        <a href="../files/src_davinci-eight_core_GeometryContainer.ts.html#l123"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryContainer.ts:123</code></a>
         </p>
 
 
@@ -616,7 +630,7 @@ Notifies this instance that something is referencing it.
                 Shareable
             </a>
             but overwritten in
-        <a href="../files/src_davinci-eight_core_GeometryContainer.ts.html#l48"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryContainer.ts:48</code></a>
+        <a href="../files/src_davinci-eight_core_GeometryContainer.ts.html#l60"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryContainer.ts:60</code></a>
         </p>
 
 
@@ -665,7 +679,7 @@ Notifies this instance that something is referencing it.
                 GeometryContainer
             </a>
             but overwritten in
-        <a href="../files/src_davinci-eight_geometries_CylinderGeometry.ts.html#l72"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;CylinderGeometry.ts:72</code></a>
+        <a href="../files/src_davinci-eight_geometries_CylinderGeometry.ts.html#l107"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;CylinderGeometry.ts:107</code></a>
         </p>
 
 
@@ -727,7 +741,7 @@ Notifies this instance that something is referencing it.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/GeometryContainer.html#method_hasPrincipalScale">GeometryContainer</a>:
-        <a href="../files/src_davinci-eight_core_GeometryContainer.ts.html#l121"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryContainer.ts:121</code></a>
+        <a href="../files/src_davinci-eight_core_GeometryContainer.ts.html#l133"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryContainer.ts:133</code></a>
         </p>
 
 
@@ -842,7 +856,7 @@ Notifies this instance that something is dereferencing it.
                 GeometryContainer
             </a>
             but overwritten in
-        <a href="../files/src_davinci-eight_geometries_CylinderGeometry.ts.html#l93"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;CylinderGeometry.ts:93</code></a>
+        <a href="../files/src_davinci-eight_geometries_CylinderGeometry.ts.html#l126"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;CylinderGeometry.ts:126</code></a>
         </p>
 
 
@@ -890,11 +904,126 @@ Notifies this instance that something is dereferencing it.
 
 
 </div>
+<div id="method_setScale" class="method item protected inherited">
+    <h3 class="name"><code>setScale</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>x</code>
+                </li>
+                <li class="arg">
+                        <code>y</code>
+                </li>
+                <li class="arg">
+                        <code>z</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+
+
+        <span class="flag protected">protected</span>
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/GeometryContainer.html#method_setScale">GeometryContainer</a>:
+        <a href="../files/src_davinci-eight_core_GeometryContainer.ts.html#l161"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryContainer.ts:161</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">x</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">y</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">z</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Void</span>:
+            </div>
+        </div>
+
+
+</div>
             </div>
 
             <div id="properties" class="api-class-tabpanel">
                 <h2 class="off-left">Properties</h2>
 
+<div id="property__length" class="property item private">
+    <h3 class="name"><code>_length</code></h3>
+    <span class="type">Number</span>
+
+
+        <span class="flag private">private</span>
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_geometries_CylinderGeometry.ts.html#l30"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;CylinderGeometry.ts:30</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <p><strong>Default:</strong> 1</p>
+
+
+</div>
 <div id="property__parts" class="property item private inherited">
     <h3 class="name"><code>_parts</code></h3>
     <span class="type">Unknown</span>
@@ -907,7 +1036,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/GeometryContainer.html#property__parts">GeometryContainer</a>:
-        <a href="../files/src_davinci-eight_core_GeometryContainer.ts.html#l25"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryContainer.ts:25</code></a>
+        <a href="../files/src_davinci-eight_core_GeometryContainer.ts.html#l27"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryContainer.ts:27</code></a>
         </p>
 
 
@@ -917,6 +1046,32 @@ Notifies this instance that something is dereferencing it.
         
     </div>
 
+
+
+</div>
+<div id="property__radius" class="property item private">
+    <h3 class="name"><code>_radius</code></h3>
+    <span class="type">Number</span>
+
+
+        <span class="flag private">private</span>
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_geometries_CylinderGeometry.ts.html#l38"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;CylinderGeometry.ts:38</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <p><strong>Default:</strong> 1</p>
 
 
 </div>
@@ -931,7 +1086,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_geometries_CylinderGeometry.ts.html#l61"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;CylinderGeometry.ts:61</code></a>
+        <a href="../files/src_davinci-eight_geometries_CylinderGeometry.ts.html#l95"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;CylinderGeometry.ts:95</code></a>
         </p>
 
 
@@ -955,7 +1110,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_geometries_CylinderGeometry.ts.html#l50"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;CylinderGeometry.ts:50</code></a>
+        <a href="../files/src_davinci-eight_geometries_CylinderGeometry.ts.html#l83"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;CylinderGeometry.ts:83</code></a>
         </p>
 
 
@@ -979,7 +1134,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/GeometryContainer.html#property_scaling">GeometryContainer</a>:
-        <a href="../files/src_davinci-eight_core_GeometryContainer.ts.html#l31"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryContainer.ts:31</code></a>
+        <a href="../files/src_davinci-eight_core_GeometryContainer.ts.html#l33"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryContainer.ts:33</code></a>
         </p>
 
 

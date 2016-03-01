@@ -6,6 +6,8 @@ import Geometry from './Geometry'
 import readOnly from '../i18n/readOnly'
 import Shareable from '../core/Shareable'
 import shouldBeImplementedBy from '../i18n/shouldBeImplementedBy'
+import Spinor3 from '../math/Spinor3'
+import SpinorE3 from '../math/SpinorE3'
 
 /**
  * @module EIGHT
@@ -34,15 +36,25 @@ export default class GeometryContainer extends Shareable implements Geometry {
      * @default diag(1, 1, 1, 1)
      */
     public scaling = Matrix4.one()
+    private canonicalScale = Matrix4.one()
+    private K = Matrix4.one()
+    private Kinv = Matrix4.one()
+    private Kidentity = true
 
     /**
      * @class GeometryContainer
      * @constructor
      * @param type {string}
+     * @param tilt {SpinorE3}
      */
-    constructor(type: string) {
+    constructor(type: string, tilt: SpinorE3) {
         super(type)
         this._parts = new ShareableArray<Geometry>()
+        if (tilt && !Spinor3.isOne(tilt)) {
+            this.Kidentity = false
+            this.K.rotation(tilt)
+            this.Kinv.copy(this.K).inv()
+        }
     }
 
     /**
@@ -144,5 +156,28 @@ export default class GeometryContainer extends Shareable implements Geometry {
      */
     public setPrincipalScale(name: string, value: number): void {
         throw new Error(shouldBeImplementedBy('setPrincipalScale', this._type).message)
+    }
+
+    /**
+     * @method setScale
+     * @param x {number}
+     * @param y {number}
+     * @param z {number}
+     * @return {void}
+     * @protected
+     */
+    protected setScale(x: number, y: number, z: number): void {
+        if (this.Kidentity) {
+            this.scaling.setElement(0, 0, x)
+            this.scaling.setElement(1, 1, y)
+            this.scaling.setElement(2, 2, z)
+        }
+        else {
+            this.canonicalScale.copy(this.Kinv).mul(this.scaling).mul(this.K)
+            this.canonicalScale.setElement(0, 0, x)
+            this.canonicalScale.setElement(1, 1, y)
+            this.canonicalScale.setElement(2, 2, z)
+            this.scaling.copy(this.K).mul(this.canonicalScale).mul(this.Kinv)
+        }
     }
 }

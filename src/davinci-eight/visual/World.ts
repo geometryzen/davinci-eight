@@ -22,6 +22,12 @@ export default class World extends Shareable {
     private renderer: WebGLRenderer
     private _ambients: Facet[]
     private _controls: CameraControls
+
+    /**
+     * @property _ambientLight
+     * @type AmbientLight
+     * @private
+     */
     private _ambientLight = new AmbientLight(Color.fromRGB(0.3, 0.3, 0.3))
 
     /**

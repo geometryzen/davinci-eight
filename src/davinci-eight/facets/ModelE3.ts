@@ -44,7 +44,7 @@ export default class ModelE3 {
      * @type {Geometric3}
      * @private
      */
-    private _attitude = Geometric3.one();
+    private _attitude: Geometric3 = Geometric3.one()
 
     /**
      * Used for exchanging number[] data to achieve integrity and avoid lots of temporaries.
@@ -52,7 +52,7 @@ export default class ModelE3 {
      * @type {Vector3}
      * @private
      */
-    private _posCache = new Vector3();
+    private _posCache: Vector3 = Vector3.zero();
 
     /**
      * Used for exchanging number[] data to achieve integrity and avoid lots of temporaries.
@@ -60,7 +60,7 @@ export default class ModelE3 {
      * @type {Spinor3}
      * @private
      */
-    private _attCache = new Spinor3();
+    private _attCache: Spinor3 = Spinor3.one()
 
     /**
      * <p>

@@ -1,10 +1,11 @@
-import IColor from '../core/IColor'
+import CommonOptions from './CommonOptions'
 import VectorE3 from '../math/VectorE3'
 
 /**
  * @class CylinderOptions
+ * @extends CommonOptions
  */
-interface CylinderOptions {
+interface CylinderOptions extends CommonOptions {
 
     /**
      * @attribute axis
@@ -15,19 +16,37 @@ interface CylinderOptions {
     axis?: VectorE3
 
     /**
-     * @attribute color
-     * @type IColor
+     * @attribute length
+     * @type number
      * @optional
+     * @default 1
      */
-    color?: IColor
+    length?: number
 
     /**
-     * @attribute position
-     * @type VectorE3
+     * @attribute openBase
+     * @type boolean
      * @optional
-     * @default 0
+     * @default false
      */
-    position?: VectorE3
+    openBase?: boolean
+
+    /**
+     * @attribute openCap
+     * @type boolean
+     * @optional
+     * @default false
+     */
+    openCap?: boolean
+
+    /**
+     * @attribute openWall
+     * @type boolean
+     * @optional
+     * @default false
+     */
+    openWall?: boolean
+
 
     /**
      * @attribute radius
@@ -36,14 +55,6 @@ interface CylinderOptions {
      * @default 1
      */
     radius?: number
-
-    /**
-     * @attribute length
-     * @type number
-     * @optional
-     * @default 1
-     */
-    length?: number
 }
 
 export default CylinderOptions

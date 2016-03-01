@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.201.0</em>
+            <em>API Docs for: 2.202.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -60,6 +60,7 @@
                                 <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
+                                <li><a href="../classes/CommonOptions.html">CommonOptions</a></li>
                                 <li><a href="../classes/ConeTransform.html">ConeTransform</a></li>
                                 <li><a href="../classes/ConicalShellBuilder.html">ConicalShellBuilder</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
@@ -69,6 +70,7 @@
                                 <li><a href="../classes/Cylinder.html">Cylinder</a></li>
                                 <li><a href="../classes/CylinderBuilder.html">CylinderBuilder</a></li>
                                 <li><a href="../classes/CylinderGeometry.html">CylinderGeometry</a></li>
+                                <li><a href="../classes/CylinderGeometryOptions.html">CylinderGeometryOptions</a></li>
                                 <li><a href="../classes/CylinderOptions.html">CylinderOptions</a></li>
                                 <li><a href="../classes/CylinderTransform.html">CylinderTransform</a></li>
                                 <li><a href="../classes/CylindricalShellBuilder.html">CylindricalShellBuilder</a></li>
@@ -93,6 +95,7 @@
                                 <li><a href="../classes/GeometryBuffers.html">GeometryBuffers</a></li>
                                 <li><a href="../classes/GeometryBuilder.html">GeometryBuilder</a></li>
                                 <li><a href="../classes/GeometryContainer.html">GeometryContainer</a></li>
+                                <li><a href="../classes/GeometryOptions.html">GeometryOptions</a></li>
                                 <li><a href="../classes/GeometryPrimitive.html">GeometryPrimitive</a></li>
                                 <li><a href="../classes/GraphicsProgramSymbols.html">GraphicsProgramSymbols</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
@@ -243,38 +246,14 @@
 import GeometryContainer from &#x27;../core/GeometryContainer&#x27;
 import GeometryBuffers from &#x27;../core/GeometryBuffers&#x27;
 import notSupported from &#x27;../i18n/notSupported&#x27;
-import Primitive from &#x27;../core/Primitive&#x27;
 import SphereBuilder from &#x27;./SphereBuilder&#x27;
-import R3 from &#x27;../math/R3&#x27;
-import Simplex from &#x27;./Simplex&#x27;
-import isDefined from &#x27;../checks/isDefined&#x27;
-import mustBeInteger from &#x27;../checks/mustBeInteger&#x27;
+import SphereGeometryOptions from &#x27;./SphereGeometryOptions&#x27;
 import vertexArraysFromPrimitive from &#x27;../core/vertexArraysFromPrimitive&#x27;
-
-function k(options: { k?: number }): number {
-    if (isDefined(options.k)) {
-        return mustBeInteger(&#x27;k&#x27;, options.k)
-    }
-    else {
-        return Simplex.TRIANGLE
-    }
-}
 
 /**
  * @module EIGHT
  * @submodule geometries
  */
-
-function primitives(options: { k?: number }): Primitive[] {
-    const builder = new SphereBuilder()
-    // We know that the standard configuration is for a sphere of radius 1,
-    // at the origin, with a spherical polar axis aligned with e3, and the
-    // azimuth aligned with e1.
-    // FIXME: The scale, tilt, offset should be parameters.
-    builder.tilt.rotorFromDirections(R3.e3, R3.e2)
-    builder.k = k(options)
-    return builder.toPrimitives()
-}
 
 /**
  * A convenience class for creating a sphere.
@@ -284,61 +263,78 @@ function primitives(options: { k?: number }): Primitive[] {
  */
 export default class SphereGeometry extends GeometryContainer {
 
-    /**
-     * @class SphereGeometry
-     * @constructor
-     */
-    constructor(options: { k?: number } = {}) {
-        super(&#x27;SphereGeometry&#x27;)
-        const ps = primitives(options)
-        const iLen = ps.length
-        for (let i = 0; i &lt; iLen; i++) {
-            const p = ps[i]
-            const geometry = new GeometryBuffers(vertexArraysFromPrimitive(p))
-            this.addPart(geometry)
-            geometry.release()
-        }
-    }
+  /**
+   * @property _radius
+   * @type number
+   * @default 1
+   * @private
+   */
+  private _radius = 1
 
-    /**
-     * @property radius
-     * @type {number}
-     */
-    get radius(): number {
-        return this.getPrincipalScale(&#x27;radius&#x27;)
+  /**
+   * @class SphereGeometry
+   * @constructor
+   * @param [options] {SphereGeometryOptions}
+   */
+  constructor(options: SphereGeometryOptions = {}) {
+    super(&#x27;SphereGeometry&#x27;, void 0)
+    const builder = new SphereBuilder()
+    const ps = builder.toPrimitives()
+    const iLen = ps.length
+    for (let i = 0; i &lt; iLen; i++) {
+      const p = ps[i]
+      const geometry = new GeometryBuffers(vertexArraysFromPrimitive(p))
+      this.addPart(geometry)
+      geometry.release()
     }
-    set radius(radius: number) {
-        this.setPrincipalScale(&#x27;radius&#x27;, radius)
-    }
+  }
 
-    /**
-     * @method getPrincipalScale
-     * @param name {string}
-     * @return {number}
-     */
-    getPrincipalScale(name: string): number {
-        switch (name) {
-            case &#x27;radius&#x27;: {
-                return this.scaling.getElement(0, 0)
-            }
-                break
-            default: {
-                throw new Error(notSupported(&#x60;getPrincipalScale(&#x27;${name}&#x27;)&#x60;).message)
-            }
-        }
-    }
+  /**
+   * @property radius
+   * @type {number}
+   */
+  get radius(): number {
+    return this._radius
+  }
+  set radius(radius: number) {
+    this._radius = radius
+    this.setPrincipalScale(&#x27;radius&#x27;, radius)
+  }
 
-    /**
-     * @method setPrincipalScale
-     * @param name {string}
-     * @param value {number}
-     * @return {void}
-     */
-    setPrincipalScale(name: string, value: number): void {
-        this.scaling.setElement(0, 0, value)
-        this.scaling.setElement(1, 1, value)
-        this.scaling.setElement(2, 2, value)
+  /**
+   * @method getPrincipalScale
+   * @param name {string}
+   * @return {number}
+   */
+  getPrincipalScale(name: string): number {
+    switch (name) {
+      case &#x27;radius&#x27;: {
+        return this._radius
+      }
+      default: {
+        throw new Error(notSupported(&#x60;getPrincipalScale(&#x27;${name}&#x27;)&#x60;).message)
+      }
     }
+  }
+
+  /**
+   * @method setPrincipalScale
+   * @param name {string}
+   * @param value {number}
+   * @return {void}
+   */
+  setPrincipalScale(name: string, value: number): void {
+    switch (name) {
+      case &#x27;radius&#x27;: {
+        this._radius = value
+      }
+        break
+      default: {
+        throw new Error(notSupported(&#x60;setPrincipalScale(&#x27;${name}&#x27;)&#x60;).message)
+      }
+    }
+    this.setScale(this._radius, this._radius, this._radius)
+  }
 }
 
     </pre>

@@ -32,7 +32,7 @@ export default class RevolutionSimplexPrimitivesBuilder extends SimplexPrimitive
         var il: number;
         var jl: number;
 
-        var R: Spinor3 = new Spinor3()
+        var R: Spinor3 = Spinor3.one()
 
         for (i = 0, il = halfPlanes; i < il; i++) {
 

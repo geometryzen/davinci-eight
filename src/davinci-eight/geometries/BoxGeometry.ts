@@ -2,6 +2,7 @@ import BoxGeometryOptions from './BoxGeometryOptions'
 import GeometryContainer from '../core/GeometryContainer'
 import GeometryBuffers from '../core/GeometryBuffers'
 import isDefined from '../checks/isDefined'
+import mustBeBoolean from '../checks/mustBeBoolean'
 import mustBeNumber from '../checks/mustBeNumber'
 import notSupported from '../i18n/notSupported'
 import CuboidPrimitivesBuilder from './CuboidPrimitivesBuilder'
@@ -19,6 +20,9 @@ import vertexArraysFromPrimitive from '../core/vertexArraysFromPrimitive'
  * @extends Geometry
  */
 export default class BoxGeometry extends GeometryContainer {
+    private w = 1
+    private h = 1
+    private d = 1
 
     /**
      * @class BoxGeometry
@@ -26,13 +30,36 @@ export default class BoxGeometry extends GeometryContainer {
      * @param [options = {}] {BoxGeometryOptions}
      */
     constructor(options: BoxGeometryOptions = {}) {
-        super('BoxGeometry')
+        super('BoxGeometry', options.tilt)
 
         const builder = new CuboidPrimitivesBuilder()
         builder.width = isDefined(options.width) ? mustBeNumber('width', options.width) : 1
         builder.height = isDefined(options.height) ? mustBeNumber('height', options.height) : 1
         builder.depth = isDefined(options.depth) ? mustBeNumber('depth', options.depth) : 1
-        if (isDefined(options.offset)) {
+
+        if (isDefined(options.openBack)) {
+            builder.openBack = mustBeBoolean('openBack', options.openBack)
+        }
+        if (isDefined(options.openBase)) {
+            builder.openBase = mustBeBoolean('openBase', options.openBase)
+        }
+        if (isDefined(options.openFront)) {
+            builder.openFront = mustBeBoolean('openFront', options.openFront)
+        }
+        if (isDefined(options.openLeft)) {
+            builder.openLeft = mustBeBoolean('openLeft', options.openLeft)
+        }
+        if (isDefined(options.openRight)) {
+            builder.openRight = mustBeBoolean('openRight', options.openRight)
+        }
+        if (isDefined(options.openCap)) {
+            builder.openCap = mustBeBoolean('openCap', options.openCap)
+        }
+
+        if (options.tilt) {
+            builder.tilt.copy(options.tilt)
+        }
+        if (options.offset) {
             builder.offset.copy(options.offset)
         }
         const ps = builder.toPrimitives()
@@ -54,17 +81,14 @@ export default class BoxGeometry extends GeometryContainer {
     getPrincipalScale(name: string): number {
         switch (name) {
             case 'width': {
-                return this.scaling.getElement(0, 0)
+                return this.w
             }
-                break
             case 'height': {
-                return this.scaling.getElement(1, 1)
+                return this.h
             }
-                break
             case 'depth': {
-                return this.scaling.getElement(2, 2)
+                return this.d
             }
-                break
             default: {
                 throw new Error(notSupported(`getPrincipalScale('${name}')`).message)
             }
@@ -78,23 +102,23 @@ export default class BoxGeometry extends GeometryContainer {
      * @return {void}
      */
     setPrincipalScale(name: string, value: number): void {
-        // TODO: Validation goes here.
         switch (name) {
             case 'width': {
-                this.scaling.setElement(0, 0, value)
+                this.w = value
             }
                 break
             case 'height': {
-                this.scaling.setElement(1, 1, value)
+                this.h = value
             }
                 break
             case 'depth': {
-                this.scaling.setElement(2, 2, value)
+                this.d = value
             }
                 break
             default: {
                 throw new Error(notSupported(`setPrincipalScale('${name}')`).message)
             }
         }
+        this.setScale(this.w, this.h, this.d)
     }
 }

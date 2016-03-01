@@ -2204,51 +2204,75 @@ declare module EIGHT {
         xy: number;
 
         /**
-         * The scalar component.
+         * The coordinate corresponding to the 1 basis scalar.
          */
         α: number;
+
+        /**
+         * The coordinate corresponding to the 1 basis scalar.
+         */
         alpha: number;
 
         /**
-         * Constructs a <code>Spin3</code> with value <em>1</em>
-         */
-        constructor();
-        /**
          * this ⟼ this + spinor * α
          */
-        add(spinor: SpinorE3, α?: number): Spinor3;
+        add(spinor: SpinorE3, α?: number): Spinor3
 
-        add2(a: SpinorE3, b: SpinorE3): Spinor3;
+        add2(a: SpinorE3, b: SpinorE3): Spinor3
+
+        addScalar(α: number): Spinor3
+
+        adj(): Spinor3
 
         /**
          * The bivector whose area (magnitude) is θ/2, where θ is the radian measure. 
          */
-        angle(): Spinor3;
+        angle(): Spinor3
+
+        approx(n: number): Spinor3
 
         /**
          * Computes a copy of this spinor.
          */
-        clone(): Spinor3;
+        clone(): Spinor3
+
+        conj(): Spinor3
 
         /**
          * Sets this spinor to be a copy of the <code>spinor</code> argument.
          * this ⟼ copy(spinor)
          */
-        copy(spinor: SpinorE3): Spinor3;
+        copy(spinor: SpinorE3): Spinor3
 
-        divByScalar(scalar: number): Spinor3;
+        copyScalar(α: number): Spinor3
+
+        direction(): Spinor3
+
+        div(s: SpinorE3): Spinor3
+
+        div2(a: SpinorE3, b: SpinorE3): Spinor3
+
+        divByScalar(α: number): Spinor3
 
         /**
          * this ⟼ dual(v) = I * v
          */
-        dual(v: VectorE3): Spinor3;
+        dual(v: VectorE3, changeSign: boolean): Spinor3
 
         /**
          * this ⟼ exp(this)
          */
-        exp(): Spinor3;
-        inv(): Spinor3;
+        exp(): Spinor3
+
+        grade(grade: number): Spinor3
+
+        inv(): Spinor3
+
+        lco(rhs: SpinorE3): Spinor3
+
         lerp(target: SpinorE3, α: number): Spinor3;
+
+        lerp2(a: SpinorE3, b: SpinorE3, α: number): Spinor3;
 
         /**
          * <p>
@@ -2257,43 +2281,36 @@ declare module EIGHT {
          */
         log(): Spinor3;
 
-        magnitude(): Spinor3;
+        magnitude(): Spinor3
 
-        mul(rhs: SpinorE3): Spinor3;
+        mul(rhs: SpinorE3): Spinor3
 
         /**
          * Sets this Spinor3 to the geometric product of the vectors a and b, a * b.
          */
-        mul2(a: SpinorE3, b: SpinorE3): Spinor3;
+        mul2(a: SpinorE3, b: SpinorE3): Spinor3
 
-        /**
-         * this ⟼ this / magnitude(this)
-         * <em>s.direction()</em> scales the target spinor, <em>s</em>, so that it has unit magnitude.
-         */
-        direction(): Spinor3;
+        neg(): Spinor3
 
-        /**
-         * this ⟼ this * α
-         */
-        scale(α: number): Spinor3;
+        norm(): Spinor3
 
-        squaredNorm(): Spinor3;
+        quad(): Spinor3
 
-        rev(): Spinor3;
+        reflect(n: VectorE3): Spinor3
 
-        reflect(n: VectorE3): Spinor3;
+        rev(): Spinor3
 
         /**
          * this ⟼ R * this * rev(R)
          */
-        rotate(R: SpinorE3): Spinor3;
+        rotate(R: SpinorE3): Spinor3
 
         /**
          * this ⟼ exp(- dual(axis) * θ / 2)
          * <code>axis</code> The direction (unit vector) of the rotation.
          * <code>θ</code> The angle of the rotation, measured in radians.
          */
-        rotorFromAxisAngle(axis: VectorE3, θ: number): Spinor3;
+        rotorFromAxisAngle(axis: VectorE3, θ: number): Spinor3
 
         /**
          * <p>
@@ -2303,7 +2320,7 @@ declare module EIGHT {
          * @param a {VectorE3} The <em>from</em> vector.
          * @param b {VectorE3} The <em>to</em> vector.
          */
-        rotorFromDirections(a: VectorE3, b: VectorE3): Spinor3;
+        rotorFromDirections(a: VectorE3, b: VectorE3): Spinor3
 
         /**
          * <p>
@@ -2312,22 +2329,46 @@ declare module EIGHT {
          * @param B {SpinorE3}
          * @param θ {number}
          */
-        rotorFromGeneratorAngle(B: SpinorE3, θ: number): Spinor3;
+        rotorFromGeneratorAngle(B: SpinorE3, θ: number): Spinor3
+
+        /**
+         * this ⟼ this * α
+         */
+        scale(α: number): Spinor3
+
+        squaredNorm(): Spinor3
+
+        stress(σ: VectorE3): Spinor3
 
         /**
          * this ⟼ this - spinor * α
          */
-        sub(spinor: SpinorE3, α?: number): Spinor3;
+        sub(spinor: SpinorE3, α?: number): Spinor3
+
         /**
          *
          */
-        sub2(a: SpinorE3, b: SpinorE3): Spinor3;
-        toString(): string;
+        sub2(a: SpinorE3, b: SpinorE3): Spinor3
+
+        toExponential(): string
+
+        toFixed(digits?: number): string
+
+        toString(): string
 
         /**
          * this ⟼ a * b
+         *
+         * Sets this Spinor3 to the geometric product, a * b,  of the vector arguments
          */
-        versor(a: VectorE3, b: VectorE3): Spinor3;
+        versor(a: VectorE3, b: VectorE3): Spinor3
+        static copy(spinor: SpinorE3): Spinor3
+        static dual(vector: VectorE3, changeSign: boolean): Spinor3
+        static lerp(a: SpinorE3, b: SpinorE3, α: number): Spinor3
+        static one(): Spinor3
+        static rotorFromDirections(a: VectorE3, b: VectorE3): Spinor3
+        static spinor(yz: number, zx: number, xy: number, α: number): Spinor3
+        static zero(): Spinor3
     }
 
     /**
@@ -2965,8 +3006,8 @@ declare module EIGHT {
 
     class CylinderBuilder implements GeometryBuilder {
         offset: Vector3
-        openBottom: boolean
-        openTop: boolean
+        openBase: boolean
+        openCap: boolean
         sliceAngle: number
         stress: Vector3
         tilt: Spinor3
@@ -3523,7 +3564,7 @@ declare module EIGHT {
          */
         public momentum: Geometric3
 
-        constructor(geometry: Geometry, material: Material, type: string, deviation: SpinorE3, direction: VectorE3)
+        constructor(type: string, initialAxis: VectorE3)
     }
 
     class Arrow extends RigidBody {
@@ -3542,11 +3583,19 @@ declare module EIGHT {
         depth: number;
         constructor(
             options?: {
+                attitude?: SpinorE3;
                 color?: Color;
                 depth?: number;
                 height?: number;
                 offset?: VectorE3;
+                openCap?: boolean;
+                openBack?: boolean;
+                openBase?: boolean;
+                openFront?: boolean;
+                openLeft?: boolean;
+                openRight?: boolean;
                 position?: VectorE3;
+                tilt?: SpinorE3;
                 width?: number;
             })
     }
@@ -3559,7 +3608,12 @@ declare module EIGHT {
                 axis?: VectorE3;
                 color?: Color;
                 length?: number;
+                offset?: VectorE3;
+                openBase?: boolean;
+                openCap?: boolean;
+                openWall?: boolean;
                 position?: VectorE3;
+                tilt?: SpinorE3;
                 radius?: number;
             })
     }
@@ -3613,9 +3667,10 @@ declare module EIGHT {
      *
      */
     interface World extends IUnknown {
-        add(mesh: Drawable): void
-        ambients: Facet[]
-        canvas: HTMLCanvasElement
+        ambientLight: AmbientLight;
+        ambients: Facet[];
+        canvas: HTMLCanvasElement;
+        add(mesh: Drawable): void; 
     }
 
     /**

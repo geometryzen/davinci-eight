@@ -1,14 +1,20 @@
-import G3 from '../math/G3';
-import TriangleStrip from './TriangleStrip';
-import PrimitivesBuilder from './PrimitivesBuilder';
-import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
-import mustBeNumber from '../checks/mustBeNumber';
-import Primitive from '../core/Primitive';
-import Vector3 from '../math/Vector3';
-import Vector2 from '../math/Vector2';
+import G3 from '../math/G3'
+import TriangleStrip from './TriangleStrip'
+import PrimitivesBuilder from './PrimitivesBuilder'
+import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols'
+import mustBeNumber from '../checks/mustBeNumber'
+import Primitive from '../core/Primitive'
+import Spinor3 from '../math/Spinor3'
+import Vector3 from '../math/Vector3'
+import Vector2 from '../math/Vector2'
 
-function side(basis: Vector3[], uSegments: number, vSegments: number): TriangleStrip {
-    const normal = Vector3.copy(basis[0]).cross(basis[1]).direction()
+function side(tilt: Spinor3, offset: Vector3, basis: Vector3[], uSegments: number, vSegments: number): TriangleStrip {
+
+    // The normal will be the same for all vertices in the side, so we compute it once here.
+    // Perform the stress ant tilt transformations on the tangent bivector before computing the normal.
+    const tangent = Spinor3.wedge(basis[0], basis[1]).rotate(tilt)
+    const normal = Vector3.dual(tangent, true).direction()
+
     const aNeg = Vector3.copy(basis[0]).scale(-0.5)
     const aPos = Vector3.copy(basis[0]).scale(+0.5)
     const bNeg = Vector3.copy(basis[1]).scale(-0.5)
@@ -22,7 +28,14 @@ function side(basis: Vector3[], uSegments: number, vSegments: number): TriangleS
             const a = Vector3.copy(aNeg).lerp(aPos, u)
             const b = Vector3.copy(bNeg).lerp(bPos, v)
             const vertex = side.vertex(uIndex, vIndex)
-            vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = Vector3.copy(a).add(b).add(cPos)
+
+            const position = Vector3.copy(a).add(b).add(cPos)
+
+            // Perform the stress, tilt, offset transformations (in that order)
+            position.rotate(tilt)
+            position.add(offset)
+
+            vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = position
             vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = normal
             vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORD] = new Vector2([u, v])
         }
@@ -30,14 +43,81 @@ function side(basis: Vector3[], uSegments: number, vSegments: number): TriangleS
     return side
 }
 
+/**
+ * @class CuboidPrimitivesBuilder
+ * @extends PrimitivesBuilder
+ */
 export default class CuboidPrimitivesBuilder extends PrimitivesBuilder {
+
+    /**
+     * @property iSegments
+     * @type number
+     * @default 1
+     */
     public iSegments: number = 1;
+
+    /**
+     * @property jSegments
+     * @type number
+     * @default 1
+     */
     public jSegments: number = 1;
+
+    /**
+     * @property kSegments
+     * @type number
+     * @default 1
+     */
     public kSegments: number = 1;
+
+    /**
+     * @property openBack
+     * @type boolean
+     * @default false
+     */
+    public openBack = false;
+
+    /**
+     * @property openBase
+     * @type boolean
+     * @default false
+     */
+    public openBase = false;
+
+    /**
+     * @property openFront
+     * @type boolean
+     * @default false
+     */
+    public openFront = false;
+
+    /**
+     * @property openLeft
+     * @type boolean
+     * @default false
+     */
+    public openLeft = false;
+
+    /**
+     * @property openRight
+     * @type boolean
+     * @default false
+     */
+    public openRight = false;
+
+    /**
+     * @property openCap
+     * @type boolean
+     * @default false
+     */
+    public openCap = false;
+
     private _a: Vector3 = Vector3.copy(G3.e1);
     private _b: Vector3 = Vector3.copy(G3.e2);
     private _c: Vector3 = Vector3.copy(G3.e3);
+
     private sides: TriangleStrip[];
+
     /**
      * @class CuboidPrimitivesBuilder
      * @constructor
@@ -46,6 +126,7 @@ export default class CuboidPrimitivesBuilder extends PrimitivesBuilder {
         super()
         this.sides = []
     }
+
     /**
      * @property width
      * @type {number}
@@ -57,6 +138,7 @@ export default class CuboidPrimitivesBuilder extends PrimitivesBuilder {
         mustBeNumber('width', width)
         this._a.direction().scale(width)
     }
+
     /**
      * @property height
      * @type {number}
@@ -68,6 +150,7 @@ export default class CuboidPrimitivesBuilder extends PrimitivesBuilder {
         mustBeNumber('height', height)
         this._b.direction().scale(height)
     }
+
     /**
      * @property depth
      * @type {number}
@@ -79,20 +162,36 @@ export default class CuboidPrimitivesBuilder extends PrimitivesBuilder {
         mustBeNumber('depth', depth)
         this._c.direction().scale(depth)
     }
+
+    /**
+     * Creates six TRIANGLE_STRIP faces using the TriangleStrip helper.
+     *
+     * @method regenerate
+     * @return {void}
+     * @private
+     */
     private regenerate(): void {
         this.sides = []
-        // front
-        this.sides.push(side([this._a, this._b, this._c], this.iSegments, this.jSegments))
-        // right
-        this.sides.push(side([Vector3.copy(this._c).scale(-1), this._b, this._a], this.kSegments, this.jSegments))
-        // left
-        this.sides.push(side([this._c, this._b, Vector3.copy(this._a).scale(-1)], this.kSegments, this.jSegments))
-        // back
-        this.sides.push(side([Vector3.copy(this._a).scale(-1), this._b, Vector3.copy(this._c).scale(-1)], this.iSegments, this.jSegments))
-        // top
-        this.sides.push(side([this._a, Vector3.copy(this._c).scale(-1), this._b], this.iSegments, this.kSegments))
-        // bottom
-        this.sides.push(side([this._a, this._c, Vector3.copy(this._b).scale(-1)], this.iSegments, this.kSegments))
+        const t = this.tilt
+        const o = this.offset
+        if (!this.openFront) {
+            this.sides.push(side(t, o, [this._a, this._b, this._c], this.iSegments, this.jSegments))
+        }
+        if (!this.openRight) {
+            this.sides.push(side(t, o, [Vector3.copy(this._c).scale(-1), this._b, this._a], this.kSegments, this.jSegments))
+        }
+        if (!this.openLeft) {
+            this.sides.push(side(t, o, [this._c, this._b, Vector3.copy(this._a).scale(-1)], this.kSegments, this.jSegments))
+        }
+        if (!this.openBack) {
+            this.sides.push(side(t, o, [Vector3.copy(this._a).scale(-1), this._b, Vector3.copy(this._c).scale(-1)], this.iSegments, this.jSegments))
+        }
+        if (!this.openCap) {
+            this.sides.push(side(t, o, [this._a, Vector3.copy(this._c).scale(-1), this._b], this.iSegments, this.kSegments))
+        }
+        if (!this.openBase) {
+            this.sides.push(side(t, o, [this._a, this._c, Vector3.copy(this._b).scale(-1)], this.iSegments, this.kSegments))
+        }
     }
 
     /**
@@ -101,6 +200,7 @@ export default class CuboidPrimitivesBuilder extends PrimitivesBuilder {
      */
     public toPrimitives(): Primitive[] {
         this.regenerate()
+        // TODO: Stitch the strips together into one TRIANGLE_STRIP.
         return this.sides.map((side) => { return side.toPrimitive() })
     }
 }

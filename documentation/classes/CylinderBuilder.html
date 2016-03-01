@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.201.0</em>
+            <em>API Docs for: 2.202.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -60,6 +60,7 @@
                                 <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
+                                <li><a href="../classes/CommonOptions.html">CommonOptions</a></li>
                                 <li><a href="../classes/ConeTransform.html">ConeTransform</a></li>
                                 <li><a href="../classes/ConicalShellBuilder.html">ConicalShellBuilder</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
@@ -69,6 +70,7 @@
                                 <li><a href="../classes/Cylinder.html">Cylinder</a></li>
                                 <li><a href="../classes/CylinderBuilder.html">CylinderBuilder</a></li>
                                 <li><a href="../classes/CylinderGeometry.html">CylinderGeometry</a></li>
+                                <li><a href="../classes/CylinderGeometryOptions.html">CylinderGeometryOptions</a></li>
                                 <li><a href="../classes/CylinderOptions.html">CylinderOptions</a></li>
                                 <li><a href="../classes/CylinderTransform.html">CylinderTransform</a></li>
                                 <li><a href="../classes/CylindricalShellBuilder.html">CylindricalShellBuilder</a></li>
@@ -93,6 +95,7 @@
                                 <li><a href="../classes/GeometryBuffers.html">GeometryBuffers</a></li>
                                 <li><a href="../classes/GeometryBuilder.html">GeometryBuilder</a></li>
                                 <li><a href="../classes/GeometryContainer.html">GeometryContainer</a></li>
+                                <li><a href="../classes/GeometryOptions.html">GeometryOptions</a></li>
                                 <li><a href="../classes/GeometryPrimitive.html">GeometryPrimitive</a></li>
                                 <li><a href="../classes/GraphicsProgramSymbols.html">GraphicsProgramSymbols</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
@@ -244,7 +247,7 @@
         </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_geometries_CylinderBuilder.ts.html#l87"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;CylinderBuilder.ts:87</code></a>
+            Defined in: <a href="../files/src_davinci-eight_geometries_CylinderBuilder.ts.html#l128"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;CylinderBuilder.ts:128</code></a>
         </div>
 
             Module: <a href="../modules/EIGHT.html">EIGHT</a>
@@ -285,7 +288,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_geometries_CylinderBuilder.ts.html#l87"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;CylinderBuilder.ts:87</code></a>
+        <a href="../files/src_davinci-eight_geometries_CylinderBuilder.ts.html#l128"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;CylinderBuilder.ts:128</code></a>
         </p>
 
 
@@ -385,6 +388,14 @@
                                 <a href="#property_curvedSegments">curvedSegments</a>
 
                             </li>
+                            <li class="index-item property private">
+                                <a href="#property_cutLine">cutLine</a>
+
+                            </li>
+                            <li class="index-item property private">
+                                <a href="#property_e">e</a>
+
+                            </li>
                             <li class="index-item property inherited">
                                 <a href="#property_flatSegments">flatSegments</a>
 
@@ -394,11 +405,15 @@
 
                             </li>
                             <li class="index-item property">
-                                <a href="#property_openBottom">openBottom</a>
+                                <a href="#property_openBase">openBase</a>
 
                             </li>
                             <li class="index-item property">
-                                <a href="#property_openTop">openTop</a>
+                                <a href="#property_openCap">openCap</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_openWall">openWall</a>
 
                             </li>
                             <li class="index-item property inherited">
@@ -527,7 +542,7 @@
                 SimplexPrimitivesBuilder
             </a>
             but overwritten in
-        <a href="../files/src_davinci-eight_geometries_CylinderBuilder.ts.html#l102"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;CylinderBuilder.ts:102</code></a>
+        <a href="../files/src_davinci-eight_geometries_CylinderBuilder.ts.html#l143"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;CylinderBuilder.ts:143</code></a>
         </p>
 
 
@@ -711,6 +726,57 @@
 
 
 </div>
+<div id="property_cutLine" class="property item private">
+    <h3 class="name"><code>cutLine</code></h3>
+    <span class="type"><a href="../classes/R3.html" class="crosslink">R3</a></span>
+
+
+        <span class="flag private">private</span>
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_geometries_CylinderBuilder.ts.html#l95"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;CylinderBuilder.ts:95</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_e" class="property item private">
+    <h3 class="name"><code>e</code></h3>
+    <span class="type"><a href="../classes/R3.html" class="crosslink">R3</a></span>
+
+
+        <span class="flag private">private</span>
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_geometries_CylinderBuilder.ts.html#l86"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;CylinderBuilder.ts:86</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>The symmetry axis of the cylinder.</p>
+
+    </div>
+
+
+
+</div>
 <div id="property_flatSegments" class="property item inherited">
     <h3 class="name"><code>flatSegments</code></h3>
     <span class="type">Number</span>
@@ -761,8 +827,8 @@
 
 
 </div>
-<div id="property_openBottom" class="property item">
-    <h3 class="name"><code>openBottom</code></h3>
+<div id="property_openBase" class="property item">
+    <h3 class="name"><code>openBase</code></h3>
     <span class="type">Boolean</span>
 
 
@@ -772,7 +838,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_geometries_CylinderBuilder.ts.html#l80"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;CylinderBuilder.ts:80</code></a>
+        <a href="../files/src_davinci-eight_geometries_CylinderBuilder.ts.html#l107"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;CylinderBuilder.ts:107</code></a>
         </p>
 
 
@@ -786,8 +852,8 @@
 
 
 </div>
-<div id="property_openTop" class="property item">
-    <h3 class="name"><code>openTop</code></h3>
+<div id="property_openCap" class="property item">
+    <h3 class="name"><code>openCap</code></h3>
     <span class="type">Boolean</span>
 
 
@@ -797,7 +863,32 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_geometries_CylinderBuilder.ts.html#l73"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;CylinderBuilder.ts:73</code></a>
+        <a href="../files/src_davinci-eight_geometries_CylinderBuilder.ts.html#l114"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;CylinderBuilder.ts:114</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <p><strong>Default:</strong> false</p>
+
+
+</div>
+<div id="property_openWall" class="property item">
+    <h3 class="name"><code>openWall</code></h3>
+    <span class="type">Boolean</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_geometries_CylinderBuilder.ts.html#l121"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;CylinderBuilder.ts:121</code></a>
         </p>
 
 

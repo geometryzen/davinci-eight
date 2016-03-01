@@ -17,6 +17,7 @@
   ],
   "files": [
     "src/davinci-eight/core/Color.spec.ts",
+    "src/davinci-eight/core/GeometryContainer.spec.ts",
     "src/davinci-eight/core/Shareable.spec.ts",
 
     "src/davinci-eight/geometries/ArrowGeometry.spec.ts",

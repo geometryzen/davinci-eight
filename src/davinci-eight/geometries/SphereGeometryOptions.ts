@@ -1,4 +1,6 @@
-interface SphereGeometryOptions {
+import GeometryOptions from './GeometryOptions'
+
+interface SphereGeometryOptions extends GeometryOptions {
 
 }
 

@@ -1241,7 +1241,7 @@ export default class Geometric3 extends Coords implements GeometricE3, MutableGe
      * <p>
      * <code>this ⟼ this ^ m</code>
      * </p>
-     * @method wedge
+     * @method ext
      * @param m {GeometricE3}
      * @return {Geometric3} <code>this</code>
      * @chainable

@@ -1,17 +1,10 @@
-import Color from '../core/Color'
-import VectorE3 from '../math/VectorE3'
+import CommonOptions from './CommonOptions'
 
 /**
  * @class BoxOptions
+ * @extends CommonOptions
  */
-interface BoxOptions {
-
-    /**
-     * @attribute color
-     * @type Color
-     * @optional
-     */
-    color?: Color
+interface BoxOptions extends CommonOptions {
 
     /**
      * @attribute depth
@@ -30,20 +23,52 @@ interface BoxOptions {
     height?: number;
 
     /**
-     * @attribute offset
-     * @type VectorE3
+     * @attribute openBack
+     * @type boolean
      * @optional
-     * @default 0
+     * @default false
      */
-    offset?: VectorE3;
+    openBack?: boolean;
 
     /**
-     * @attribute position
-     * @type VectorE3
+     * @attribute openBase
+     * @type boolean
      * @optional
-     * @default 0
+     * @default false
      */
-    position?: VectorE3;
+    openBase?: boolean;
+
+    /**
+     * @attribute openFront
+     * @type boolean
+     * @optional
+     * @default false
+     */
+    openFront?: boolean;
+
+    /**
+     * @attribute openLeft
+     * @type boolean
+     * @optional
+     * @default false
+     */
+    openLeft?: boolean;
+
+    /**
+     * @attribute openRight
+     * @type boolean
+     * @optional
+     * @default false
+     */
+    openRight?: boolean;
+
+    /**
+     * @attribute openCap
+     * @type boolean
+     * @optional
+     * @default false
+     */
+    openCap?: boolean;
 
     /**
      * @attribute width

@@ -1,4 +1,7 @@
 import CylinderBuilder from './CylinderBuilder'
+import CylinderGeometryOptions from './CylinderGeometryOptions'
+import isDefined from '../checks/isDefined'
+import mustBeBoolean from '../checks/mustBeBoolean'
 import notSupported from '../i18n/notSupported'
 import GeometryContainer from '../core/GeometryContainer'
 import GeometryBuffers from '../core/GeometryBuffers'
@@ -11,32 +14,62 @@ import vertexArraysFromPrimitive from '../core/vertexArraysFromPrimitive'
  */
 
 /**
- * A convenience class for creating a Cylinder.
+ * A geometry for a Cylinder.
+ *
+ * @class CylinderGeometry
+ * @extends GeometryContainer
  *
  * @example
  *   const geometry = new EIGHT.CylinderGeometry()
  *   const material = new EIGHT.MeshMaterial()
  *   const cylinder = new EIGHT.Mesh()
  *   scene.add(cylinder)
- *
- * @class CylinderGeometry
- * @extends GeometryContainer
  */
 export default class CylinderGeometry extends GeometryContainer {
 
     /**
+     * @property _length
+     * @type number
+     * @default 1
+     * @private
+     */
+    private _length = 1
+
+    /**
+     * @property _radius
+     * @type number
+     * @default 1
+     * @private
+     */
+    private _radius = 1
+
+    /**
      * @class CylinderGeometry
      * @constructor
-     * @param [options = {}] {}
+     * @param [options] {CylinderGeometryOptions}
      */
-    constructor(options: {} = {}) {
-        super('CylinderGeometry')
+    constructor(options: CylinderGeometryOptions = {}) {
+        super('CylinderGeometry', options.tilt)
+
         const builder = new CylinderBuilder(R3.e2, R3.e3, false)
-        builder.openBottom = false
-        builder.openTop = false
+
+        if (isDefined(options.openBase)) {
+            builder.openBase = mustBeBoolean('openBase', options.openBase)
+        }
+        if (isDefined(options.openCap)) {
+            builder.openCap = mustBeBoolean('openCap', options.openCap)
+        }
+        if (isDefined(options.openWall)) {
+            builder.openWall = mustBeBoolean('openWall', options.openWall)
+        }
+
         //        builder.stress.copy(stress)
-        //        builder.tilt.copy(tilt)
-        //        builder.offset.copy(offset)
+        if (options.tilt) {
+            builder.tilt.copy(options.tilt)
+        }
+        if (options.offset) {
+            builder.offset.copy(options.offset)
+        }
         const ps = builder.toPrimitives()
         const iLen = ps.length
         for (let i = 0; i < iLen; i++) {
@@ -52,9 +85,10 @@ export default class CylinderGeometry extends GeometryContainer {
      * @type number
      */
     get radius(): number {
-        return this.getPrincipalScale('radius')
+        return this._radius
     }
     set radius(radius: number) {
+        this._radius = radius
         this.setPrincipalScale('radius', radius)
     }
 
@@ -63,9 +97,10 @@ export default class CylinderGeometry extends GeometryContainer {
      * @type number
      */
     get length(): number {
-        return this.getPrincipalScale('length')
+        return this._length
     }
     set length(length: number) {
+        this._length = length
         this.setPrincipalScale('length', length)
     }
 
@@ -77,13 +112,11 @@ export default class CylinderGeometry extends GeometryContainer {
     getPrincipalScale(name: string): number {
         switch (name) {
             case 'length': {
-                return this.scaling.getElement(1, 1)
+                return this._length
             }
-                break
             case 'radius': {
-                return this.scaling.getElement(0, 0)
+                return this._radius
             }
-                break
             default: {
                 throw new Error(notSupported(`getPrincipalScale('${name}')`).message)
             }
@@ -99,17 +132,17 @@ export default class CylinderGeometry extends GeometryContainer {
     setPrincipalScale(name: string, value: number): void {
         switch (name) {
             case 'length': {
-                this.scaling.setElement(1, 1, value)
+                this._length = value
             }
                 break
             case 'radius': {
-                this.scaling.setElement(0, 0, value)
-                this.scaling.setElement(2, 2, value)
+                this._radius = value
             }
                 break
             default: {
                 throw new Error(notSupported(`getPrincipalScale('${name}')`).message)
             }
         }
+        this.setScale(this._radius, this._length, this._radius)
     }
 }

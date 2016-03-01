@@ -26,9 +26,6 @@ export default class Arrow extends RigidBody {
         // The shape is created un-stressed and then parameters drive the scaling.
         // The scaling matrix takes into account the initial tilt from the standard configuration.
         // const stress = Vector3.vector(1, 1, 1)
-        // const tilt = deviation(direction(options))
-        // The options don't currently include an offset.
-        // const offset = Vector3.zero()
 
         const geoOptions: ArrowGeometryOptions = {}
         const geometry = new ArrowGeometry(geoOptions)

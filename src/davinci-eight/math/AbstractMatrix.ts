@@ -103,6 +103,31 @@ export default class AbstractMatrix<T extends { elements: Float32Array }> implem
     }
 
     /**
+     * Determines whether this matrix is the identity matrix.
+     *
+     * @method isOne
+     * @return {boolean}
+     */
+    isOne(): boolean {
+        for (let i = 0; i < this._dimensions; i++) {
+            for (let j = 0; j < this._dimensions; j++) {
+                const value = this.getElement(i, j)
+                if (i === j) {
+                    if (value !== 1) {
+                        return false
+                    }
+                }
+                else {
+                    if (value !== 0) {
+                        return false
+                    }
+                }
+            }
+        }
+        return true
+    }
+
+    /**
      * @method setElement
      * @param row {number} The zero-based row.
      * @param column {number} The zero-based column.

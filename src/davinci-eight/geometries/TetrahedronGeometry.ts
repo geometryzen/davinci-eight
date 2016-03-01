@@ -32,7 +32,7 @@ export default class TetrahedronGeometry extends GeometryContainer {
      * @param [options = {}] {TetrahedronGeometryOptions}
      */
     constructor(options: TetrahedronGeometryOptions = {}) {
-        super('TetrahedronGeometry')
+        super('TetrahedronGeometry', options.tilt)
         const radius = isDefined(options.radius) ? mustBeNumber('radius', options.radius) : 1.0
         const builder = new PolyhedronBuilder(vertices, indices, radius)
         const ps = builder.toPrimitives()

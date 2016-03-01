@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.201.0</em>
+            <em>API Docs for: 2.202.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -60,6 +60,7 @@
                                 <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
+                                <li><a href="../classes/CommonOptions.html">CommonOptions</a></li>
                                 <li><a href="../classes/ConeTransform.html">ConeTransform</a></li>
                                 <li><a href="../classes/ConicalShellBuilder.html">ConicalShellBuilder</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
@@ -69,6 +70,7 @@
                                 <li><a href="../classes/Cylinder.html">Cylinder</a></li>
                                 <li><a href="../classes/CylinderBuilder.html">CylinderBuilder</a></li>
                                 <li><a href="../classes/CylinderGeometry.html">CylinderGeometry</a></li>
+                                <li><a href="../classes/CylinderGeometryOptions.html">CylinderGeometryOptions</a></li>
                                 <li><a href="../classes/CylinderOptions.html">CylinderOptions</a></li>
                                 <li><a href="../classes/CylinderTransform.html">CylinderTransform</a></li>
                                 <li><a href="../classes/CylindricalShellBuilder.html">CylindricalShellBuilder</a></li>
@@ -93,6 +95,7 @@
                                 <li><a href="../classes/GeometryBuffers.html">GeometryBuffers</a></li>
                                 <li><a href="../classes/GeometryBuilder.html">GeometryBuilder</a></li>
                                 <li><a href="../classes/GeometryContainer.html">GeometryContainer</a></li>
+                                <li><a href="../classes/GeometryOptions.html">GeometryOptions</a></li>
                                 <li><a href="../classes/GeometryPrimitive.html">GeometryPrimitive</a></li>
                                 <li><a href="../classes/GraphicsProgramSymbols.html">GraphicsProgramSymbols</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
@@ -358,6 +361,10 @@ Constructs a Matrix4 by wrapping a Float32Array.</p>
 
                                     <span class="flag deprecated">deprecated</span>
                             </li>
+                            <li class="index-item method inherited">
+                                <a href="#method_isOne">isOne</a>
+
+                            </li>
                             <li class="index-item method">
                                 <a href="#method_mul">mul</a>
 
@@ -369,11 +376,11 @@ Constructs a Matrix4 by wrapping a Float32Array.</p>
                             <li class="index-item method">
                                 <a href="#method_one">one</a>
 
-                                    <span class="flag static">static</span>
                             </li>
                             <li class="index-item method">
                                 <a href="#method_one">one</a>
 
+                                    <span class="flag static">static</span>
                             </li>
                             <li class="index-item method">
                                 <a href="#method_reflection">reflection</a>
@@ -415,11 +422,11 @@ Constructs a Matrix4 by wrapping a Float32Array.</p>
                             <li class="index-item method">
                                 <a href="#method_scaling">scaling</a>
 
-                                    <span class="flag static">static</span>
                             </li>
                             <li class="index-item method">
                                 <a href="#method_scaling">scaling</a>
 
+                                    <span class="flag static">static</span>
                             </li>
                             <li class="index-item method">
                                 <a href="#method_set">set</a>
@@ -1317,6 +1324,47 @@ Constructs a Matrix4 by wrapping a Float32Array.</p>
 
 
 </div>
+<div id="method_isOne" class="method item inherited">
+    <h3 class="name"><code>isOne</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">Boolean</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/AbstractMatrix.html#method_isOne">AbstractMatrix</a>:
+        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l105"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:105</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Determines whether this matrix is the identity matrix.</p>
+
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Boolean</span>:
+            </div>
+        </div>
+
+
+</div>
 <div id="method_mul" class="method item">
     <h3 class="name"><code>mul</code></h3>
 
@@ -1468,7 +1516,6 @@ Constructs a Matrix4 by wrapping a Float32Array.</p>
 
 
 
-        <span class="flag static">static</span>
 
         <span class="flag chainable">chainable</span>
 
@@ -1476,7 +1523,7 @@ Constructs a Matrix4 by wrapping a Float32Array.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Matrix4.ts.html#l38"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix4.ts:38</code></a>
+        <a href="../files/src_davinci-eight_math_Matrix4.ts.html#l211"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix4.ts:211</code></a>
         </p>
 
 
@@ -1484,9 +1531,8 @@ Constructs a Matrix4 by wrapping a Float32Array.</p>
     </div>
 
     <div class="description">
-        <p>
-Creates a new matrix with all elements zero except those along the main diagonal which have the value unity.
-</p>
+        <p>Sets this matrix to the identity element for multiplication, <b>1</b>.</p>
+
     </div>
 
 
@@ -1512,6 +1558,7 @@ Creates a new matrix with all elements zero except those along the main diagonal
 
 
 
+        <span class="flag static">static</span>
 
         <span class="flag chainable">chainable</span>
 
@@ -1519,7 +1566,7 @@ Creates a new matrix with all elements zero except those along the main diagonal
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Matrix4.ts.html#l211"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix4.ts:211</code></a>
+        <a href="../files/src_davinci-eight_math_Matrix4.ts.html#l38"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix4.ts:38</code></a>
         </p>
 
 
@@ -1527,8 +1574,9 @@ Creates a new matrix with all elements zero except those along the main diagonal
     </div>
 
     <div class="description">
-        <p>Sets this matrix to the identity element for multiplication, <b>1</b>.</p>
-
+        <p>
+Creates a new matrix with all elements zero except those along the main diagonal which have the value unity.
+</p>
     </div>
 
 
@@ -2150,7 +2198,6 @@ reflection in the plane normal to the unit vector <code>n</code>.</p>
 
 
 
-        <span class="flag static">static</span>
 
         <span class="flag chainable">chainable</span>
 
@@ -2158,7 +2205,7 @@ reflection in the plane normal to the unit vector <code>n</code>.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Matrix4.ts.html#l64"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix4.ts:64</code></a>
+        <a href="../files/src_davinci-eight_math_Matrix4.ts.html#l460"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix4.ts:460</code></a>
         </p>
 
 
@@ -2214,6 +2261,7 @@ reflection in the plane normal to the unit vector <code>n</code>.</p>
 
 
 
+        <span class="flag static">static</span>
 
         <span class="flag chainable">chainable</span>
 
@@ -2221,7 +2269,7 @@ reflection in the plane normal to the unit vector <code>n</code>.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Matrix4.ts.html#l460"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix4.ts:460</code></a>
+        <a href="../files/src_davinci-eight_math_Matrix4.ts.html#l64"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix4.ts:64</code></a>
         </p>
 
 
@@ -2330,7 +2378,7 @@ reflection in the plane normal to the unit vector <code>n</code>.</p>
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/AbstractMatrix.html#method_setElement">AbstractMatrix</a>:
-        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l105"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:105</code></a>
+        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l130"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:130</code></a>
         </p>
 
 

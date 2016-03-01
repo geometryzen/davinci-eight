@@ -28,11 +28,16 @@ export default class Box extends RigidBody {
         // The shape is created un-stressed and then parameters drive the scaling.
         // The scaling matrix takes into account the initial tilt from the standard configuration.
         // const stress = Vector3.vector(1, 1, 1)
-        // const tilt = deviation(direction(options))
-        // The options don't currently include an offset.
-        // const offset = Vector3.zero()
 
         const geoOptions: BoxGeometryOptions = {}
+        geoOptions.tilt = options.tilt
+        geoOptions.offset = options.offset
+        geoOptions.openBack = options.openBack
+        geoOptions.openBase = options.openBase
+        geoOptions.openFront = options.openFront
+        geoOptions.openLeft = options.openLeft
+        geoOptions.openRight = options.openRight
+        geoOptions.openCap = options.openCap
         const geometry = new BoxGeometry(geoOptions)
         this.geometry = geometry
         geometry.release()
@@ -46,6 +51,9 @@ export default class Box extends RigidBody {
         }
         if (options.position) {
             this.position.copyVector(options.position)
+        }
+        if (options.attitude) {
+            this.attitude.copySpinor(options.attitude)
         }
 
         this.width = isDefined(options.width) ? mustBeNumber('width', options.width) : 1.0

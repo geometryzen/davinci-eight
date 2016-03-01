@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.201.0</em>
+            <em>API Docs for: 2.202.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -60,6 +60,7 @@
                                 <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
+                                <li><a href="../classes/CommonOptions.html">CommonOptions</a></li>
                                 <li><a href="../classes/ConeTransform.html">ConeTransform</a></li>
                                 <li><a href="../classes/ConicalShellBuilder.html">ConicalShellBuilder</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
@@ -69,6 +70,7 @@
                                 <li><a href="../classes/Cylinder.html">Cylinder</a></li>
                                 <li><a href="../classes/CylinderBuilder.html">CylinderBuilder</a></li>
                                 <li><a href="../classes/CylinderGeometry.html">CylinderGeometry</a></li>
+                                <li><a href="../classes/CylinderGeometryOptions.html">CylinderGeometryOptions</a></li>
                                 <li><a href="../classes/CylinderOptions.html">CylinderOptions</a></li>
                                 <li><a href="../classes/CylinderTransform.html">CylinderTransform</a></li>
                                 <li><a href="../classes/CylindricalShellBuilder.html">CylindricalShellBuilder</a></li>
@@ -93,6 +95,7 @@
                                 <li><a href="../classes/GeometryBuffers.html">GeometryBuffers</a></li>
                                 <li><a href="../classes/GeometryBuilder.html">GeometryBuilder</a></li>
                                 <li><a href="../classes/GeometryContainer.html">GeometryContainer</a></li>
+                                <li><a href="../classes/GeometryOptions.html">GeometryOptions</a></li>
                                 <li><a href="../classes/GeometryPrimitive.html">GeometryPrimitive</a></li>
                                 <li><a href="../classes/GraphicsProgramSymbols.html">GraphicsProgramSymbols</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
@@ -240,13 +243,14 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import IColor from &#x27;../core/IColor&#x27;
+import CommonOptions from &#x27;./CommonOptions&#x27;
 import VectorE3 from &#x27;../math/VectorE3&#x27;
 
 /**
  * @class CylinderOptions
+ * @extends CommonOptions
  */
-interface CylinderOptions {
+interface CylinderOptions extends CommonOptions {
 
     /**
      * @attribute axis
@@ -257,19 +261,37 @@ interface CylinderOptions {
     axis?: VectorE3
 
     /**
-     * @attribute color
-     * @type IColor
+     * @attribute length
+     * @type number
      * @optional
+     * @default 1
      */
-    color?: IColor
+    length?: number
 
     /**
-     * @attribute position
-     * @type VectorE3
+     * @attribute openBase
+     * @type boolean
      * @optional
-     * @default 0
+     * @default false
      */
-    position?: VectorE3
+    openBase?: boolean
+
+    /**
+     * @attribute openCap
+     * @type boolean
+     * @optional
+     * @default false
+     */
+    openCap?: boolean
+
+    /**
+     * @attribute openWall
+     * @type boolean
+     * @optional
+     * @default false
+     */
+    openWall?: boolean
+
 
     /**
      * @attribute radius
@@ -278,14 +300,6 @@ interface CylinderOptions {
      * @default 1
      */
     radius?: number
-
-    /**
-     * @attribute length
-     * @type number
-     * @optional
-     * @default 1
-     */
-    length?: number
 }
 
 export default CylinderOptions

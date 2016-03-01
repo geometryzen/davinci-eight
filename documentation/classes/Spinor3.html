@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.201.0</em>
+            <em>API Docs for: 2.202.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -60,6 +60,7 @@
                                 <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
+                                <li><a href="../classes/CommonOptions.html">CommonOptions</a></li>
                                 <li><a href="../classes/ConeTransform.html">ConeTransform</a></li>
                                 <li><a href="../classes/ConicalShellBuilder.html">ConicalShellBuilder</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
@@ -69,6 +70,7 @@
                                 <li><a href="../classes/Cylinder.html">Cylinder</a></li>
                                 <li><a href="../classes/CylinderBuilder.html">CylinderBuilder</a></li>
                                 <li><a href="../classes/CylinderGeometry.html">CylinderGeometry</a></li>
+                                <li><a href="../classes/CylinderGeometryOptions.html">CylinderGeometryOptions</a></li>
                                 <li><a href="../classes/CylinderOptions.html">CylinderOptions</a></li>
                                 <li><a href="../classes/CylinderTransform.html">CylinderTransform</a></li>
                                 <li><a href="../classes/CylindricalShellBuilder.html">CylindricalShellBuilder</a></li>
@@ -93,6 +95,7 @@
                                 <li><a href="../classes/GeometryBuffers.html">GeometryBuffers</a></li>
                                 <li><a href="../classes/GeometryBuilder.html">GeometryBuilder</a></li>
                                 <li><a href="../classes/GeometryContainer.html">GeometryContainer</a></li>
+                                <li><a href="../classes/GeometryOptions.html">GeometryOptions</a></li>
                                 <li><a href="../classes/GeometryPrimitive.html">GeometryPrimitive</a></li>
                                 <li><a href="../classes/GraphicsProgramSymbols.html">GraphicsProgramSymbols</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
@@ -254,44 +257,10 @@
 
 
 <div class="box intro">
-    <p>Constructs a <code>Spinor3</code> from a <code>number[]</code>.
-For a <em>geometric</em> implementation, use the static methods.</p>
+    <p>A <em>mutable</em> Geometric Number representing the even sub-algebra of G3.</p>
 
 </div>
 
-    <div class="constructor">
-        <h2>Constructor</h2>
-<div id="method_Spinor3" class="method item">
-    <h3 class="name"><code>Spinor3</code></h3>
-
-        <span class="paren">()</span>
-
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l47"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:47</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-
-
-</div>
-    </div>
 
 <div id="classdocs" class="tabview">
     <ul class="api-class-tabs">
@@ -341,14 +310,18 @@ For a <em>geometric</em> implementation, use the static methods.</p>
                                 <a href="#method_conj">conj</a>
 
                             </li>
-                            <li class="index-item method">
-                                <a href="#method_copy">copy</a>
+                            <li class="index-item method private">
+                                <a href="#method_constructor">constructor</a>
 
                             </li>
                             <li class="index-item method">
                                 <a href="#method_copy">copy</a>
 
                                     <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_copy">copy</a>
+
                             </li>
                             <li class="index-item method">
                                 <a href="#method_copyScalar">copyScalar</a>
@@ -384,7 +357,20 @@ For a <em>geometric</em> implementation, use the static methods.</p>
 
                             </li>
                             <li class="index-item method">
+                                <a href="#method_grade">grade</a>
+
+                            </li>
+                            <li class="index-item method">
                                 <a href="#method_inv">inv</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_isOne">isOne</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_lco">lco</a>
 
                             </li>
                             <li class="index-item method">
@@ -438,15 +424,11 @@ For a <em>geometric</em> implementation, use the static methods.</p>
 
                             </li>
                             <li class="index-item method">
-                                <a href="#method_reverse">reverse</a>
+                                <a href="#method_rev">rev</a>
 
                             </li>
                             <li class="index-item method">
                                 <a href="#method_rotate">rotate</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_rotor">rotor</a>
 
                             </li>
                             <li class="index-item method">
@@ -459,6 +441,10 @@ For a <em>geometric</em> implementation, use the static methods.</p>
                                     <span class="flag static">static</span>
                             </li>
                             <li class="index-item method">
+                                <a href="#method_rotorFromDirections">rotorFromDirections</a>
+
+                            </li>
+                            <li class="index-item method">
                                 <a href="#method_rotorFromGeneratorAngle">rotorFromGeneratorAngle</a>
 
                             </li>
@@ -469,6 +455,7 @@ For a <em>geometric</em> implementation, use the static methods.</p>
                             <li class="index-item method">
                                 <a href="#method_spinor">spinor</a>
 
+                                    <span class="flag static">static</span>
                             </li>
                             <li class="index-item method">
                                 <a href="#method_squaredNorm">squaredNorm</a>
@@ -487,12 +474,34 @@ For a <em>geometric</em> implementation, use the static methods.</p>
 
                             </li>
                             <li class="index-item method">
+                                <a href="#method_toExponential">toExponential</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_toFixed">toFixed</a>
+
+                            </li>
+                            <li class="index-item method">
                                 <a href="#method_toString">toString</a>
 
                             </li>
                             <li class="index-item method">
                                 <a href="#method_versor">versor</a>
 
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_wedge">wedge</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_wedge">wedge</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_zero">zero</a>
+
+                                    <span class="flag static">static</span>
                             </li>
                     </ul>
                 </div>
@@ -558,7 +567,7 @@ For a <em>geometric</em> implementation, use the static methods.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l122"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:122</code></a>
+        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l143"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:143</code></a>
         </p>
 
 
@@ -639,7 +648,7 @@ For a <em>geometric</em> implementation, use the static methods.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l142"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:142</code></a>
+        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l163"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:163</code></a>
         </p>
 
 
@@ -716,7 +725,7 @@ For a <em>geometric</em> implementation, use the static methods.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l168"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:168</code></a>
+        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l189"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:189</code></a>
         </p>
 
 
@@ -764,46 +773,6 @@ For a <em>geometric</em> implementation, use the static methods.</p>
         <span class="paren">()</span>
 
         <span class="returns-inline">
-            <span class="type">Number</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l183"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:183</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Number</span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_angle" class="method item">
-    <h3 class="name"><code>angle</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
             <span class="type"><a href="../classes/Spinor3.html" class="crosslink">Spinor3</a></span>
         </span>
 
@@ -811,12 +780,13 @@ For a <em>geometric</em> implementation, use the static methods.</p>
 
 
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l192"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:192</code></a>
+        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l204"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:204</code></a>
         </p>
 
 
@@ -838,7 +808,48 @@ For a <em>geometric</em> implementation, use the static methods.</p>
 
 
 </div>
-<div id="method_approx" class="method item inherited">
+<div id="method_angle" class="method item">
+    <h3 class="name"><code>angle</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Spinor3.html" class="crosslink">Spinor3</a></span>
+        </span>
+
+
+
+
+
+        <span class="flag chainable">chainable</span>
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l214"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:214</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Spinor3.html" class="crosslink">Spinor3</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_approx" class="method item">
     <h3 class="name"><code>approx</code></h3>
 
         <div class="args">
@@ -850,19 +861,23 @@ For a <em>geometric</em> implementation, use the static methods.</p>
         </div>
 
         <span class="returns-inline">
-            <span class="type">Void</span>
+            <span class="type"><a href="../classes/Spinor3.html" class="crosslink">Spinor3</a></span>
         </span>
 
 
 
 
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
-                <p>Inherited from
-                <a href="../classes/Coords.html#method_approx">Coords</a>:
-        <a href="../files/src_davinci-eight_math_Coords.ts.html#l18"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Coords.ts:18</code></a>
+            <p>Inherited from
+            <a href="../classes/Coords.html#method_approx">
+                Coords
+            </a>
+            but overwritten in
+        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l223"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:223</code></a>
         </p>
 
 
@@ -894,7 +909,7 @@ For a <em>geometric</em> implementation, use the static methods.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type">Void</span>:
+                        <span class="type"><a href="../classes/Spinor3.html" class="crosslink">Spinor3</a></span>:
             </div>
         </div>
 
@@ -919,7 +934,7 @@ For a <em>geometric</em> implementation, use the static methods.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l200"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:200</code></a>
+        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l234"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:234</code></a>
         </p>
 
 
@@ -962,7 +977,7 @@ For a <em>geometric</em> implementation, use the static methods.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l209"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:209</code></a>
+        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l243"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:243</code></a>
         </p>
 
 
@@ -982,6 +997,138 @@ For a <em>geometric</em> implementation, use the static methods.</p>
             <div class="returns-description">
                         <span class="type"><a href="../classes/Spinor3.html" class="crosslink">Spinor3</a></span>:
                     <p><code>this</code></p>
+
+            </div>
+        </div>
+
+
+</div>
+<div id="method_constructor" class="method item private">
+    <h3 class="name"><code>constructor</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>coordinates</code>
+                </li>
+                <li class="arg">
+                        <code>code</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+
+
+        <span class="flag private">private</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l55"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:55</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">coordinates</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">code</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+
+
+</div>
+<div id="method_copy" class="method item">
+    <h3 class="name"><code>copy</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>spinor</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Spinor3.html" class="crosslink">Spinor3</a></span>
+        </span>
+
+
+
+
+        <span class="flag static">static</span>
+
+        <span class="flag chainable">chainable</span>
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l1048"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:1048</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">spinor</code>
+                        <span class="type"><a href="../classes/SpinorE3.html" class="crosslink">SpinorE3</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Spinor3.html" class="crosslink">Spinor3</a></span>:
+                    <p>A copy of the <code>spinor</code> argument.</p>
 
             </div>
         </div>
@@ -1013,7 +1160,7 @@ For a <em>geometric</em> implementation, use the static methods.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l224"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:224</code></a>
+        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l259"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:259</code></a>
         </p>
 
 
@@ -1055,72 +1202,6 @@ For a <em>geometric</em> implementation, use the static methods.</p>
 
 
 </div>
-<div id="method_copy" class="method item">
-    <h3 class="name"><code>copy</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>spinor</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/Spinor3.html" class="crosslink">Spinor3</a></span>
-        </span>
-
-
-
-
-        <span class="flag static">static</span>
-
-        <span class="flag chainable">chainable</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l906"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:906</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">spinor</code>
-                        <span class="type"><a href="../classes/SpinorE3.html" class="crosslink">SpinorE3</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/Spinor3.html" class="crosslink">Spinor3</a></span>:
-                    <p>A copy of the <code>spinor</code> argument.</p>
-
-            </div>
-        </div>
-
-
-</div>
 <div id="method_copyScalar" class="method item">
     <h3 class="name"><code>copyScalar</code></h3>
 
@@ -1146,7 +1227,7 @@ For a <em>geometric</em> implementation, use the static methods.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l246"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:246</code></a>
+        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l282"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:282</code></a>
         </p>
 
 
@@ -1205,7 +1286,7 @@ For a <em>geometric</em> implementation, use the static methods.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l551"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:551</code></a>
+        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l620"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:620</code></a>
         </p>
 
 
@@ -1256,7 +1337,7 @@ For a <em>geometric</em> implementation, use the static methods.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l271"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:271</code></a>
+        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l308"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:308</code></a>
         </p>
 
 
@@ -1326,7 +1407,7 @@ For a <em>geometric</em> implementation, use the static methods.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l284"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:284</code></a>
+        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l322"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:322</code></a>
         </p>
 
 
@@ -1403,7 +1484,7 @@ For a <em>geometric</em> implementation, use the static methods.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l313"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:313</code></a>
+        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l353"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:353</code></a>
         </p>
 
 
@@ -1473,7 +1554,7 @@ For a <em>geometric</em> implementation, use the static methods.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l330"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:330</code></a>
+        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l371"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:371</code></a>
         </p>
 
 
@@ -1555,7 +1636,7 @@ For a <em>geometric</em> implementation, use the static methods.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l917"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:917</code></a>
+        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l1061"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:1061</code></a>
         </p>
 
 
@@ -1623,7 +1704,7 @@ For a <em>geometric</em> implementation, use the static methods.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l351"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:351</code></a>
+        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l393"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:393</code></a>
         </p>
 
 
@@ -1649,6 +1730,69 @@ For a <em>geometric</em> implementation, use the static methods.</p>
 
 
 </div>
+<div id="method_grade" class="method item">
+    <h3 class="name"><code>grade</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>grade</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Spinor3.html" class="crosslink">Spinor3</a></span>
+        </span>
+
+
+
+
+
+        <span class="flag chainable">chainable</span>
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l967"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:967</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">grade</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Spinor3.html" class="crosslink">Spinor3</a></span>:
+            </div>
+        </div>
+
+
+</div>
 <div id="method_inv" class="method item">
     <h3 class="name"><code>inv</code></h3>
 
@@ -1668,7 +1812,7 @@ For a <em>geometric</em> implementation, use the static methods.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l376"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:376</code></a>
+        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l420"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:420</code></a>
         </p>
 
 
@@ -1689,6 +1833,132 @@ For a <em>geometric</em> implementation, use the static methods.</p>
                         <span class="type"><a href="../classes/Spinor3.html" class="crosslink">Spinor3</a></span>:
                     <p><code>this</code></p>
 
+            </div>
+        </div>
+
+
+</div>
+<div id="method_isOne" class="method item">
+    <h3 class="name"><code>isOne</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>spinor</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">Boolean</span>
+        </span>
+
+
+
+
+        <span class="flag static">static</span>
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l1075"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:1075</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">spinor</code>
+                        <span class="type"><a href="../classes/SpinorE3.html" class="crosslink">SpinorE3</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Boolean</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_lco" class="method item">
+    <h3 class="name"><code>lco</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>rhs</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Spinor3.html" class="crosslink">Spinor3</a></span>
+        </span>
+
+
+
+
+
+        <span class="flag chainable">chainable</span>
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l435"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:435</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">rhs</code>
+                        <span class="type"><a href="../classes/Spinor3.html" class="crosslink">Spinor3</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Spinor3.html" class="crosslink">Spinor3</a></span>:
             </div>
         </div>
 
@@ -1722,7 +1992,7 @@ For a <em>geometric</em> implementation, use the static methods.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l400"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:400</code></a>
+        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l454"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:454</code></a>
         </p>
 
 
@@ -1806,7 +2076,7 @@ For a <em>geometric</em> implementation, use the static methods.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l930"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:930</code></a>
+        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l1085"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:1085</code></a>
         </p>
 
 
@@ -1897,7 +2167,7 @@ For a <em>geometric</em> implementation, use the static methods.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l421"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:421</code></a>
+        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l477"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:477</code></a>
         </p>
 
 
@@ -1978,7 +2248,7 @@ For a <em>geometric</em> implementation, use the static methods.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l436"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:436</code></a>
+        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l494"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:494</code></a>
         </p>
 
 
@@ -2017,12 +2287,13 @@ For a <em>geometric</em> implementation, use the static methods.</p>
 
 
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l464"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:464</code></a>
+        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l523"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:523</code></a>
         </p>
 
 
@@ -2070,7 +2341,7 @@ For a <em>geometric</em> implementation, use the static methods.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l477"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:477</code></a>
+        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l541"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:541</code></a>
         </p>
 
 
@@ -2140,7 +2411,7 @@ For a <em>geometric</em> implementation, use the static methods.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l501"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:501</code></a>
+        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l566"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:566</code></a>
         </p>
 
 
@@ -2211,7 +2482,7 @@ For a <em>geometric</em> implementation, use the static methods.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l525"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:525</code></a>
+        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l592"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:592</code></a>
         </p>
 
 
@@ -2254,7 +2525,7 @@ For a <em>geometric</em> implementation, use the static methods.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l538"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:538</code></a>
+        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l606"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:606</code></a>
         </p>
 
 
@@ -2300,7 +2571,7 @@ For a <em>geometric</em> implementation, use the static methods.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l943"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:943</code></a>
+        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l1098"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:1098</code></a>
         </p>
 
 
@@ -2341,7 +2612,7 @@ For a <em>geometric</em> implementation, use the static methods.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l582"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:582</code></a>
+        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l653"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:653</code></a>
         </p>
 
 
@@ -2392,7 +2663,7 @@ For a <em>geometric</em> implementation, use the static methods.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l649"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:649</code></a>
+        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l723"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:723</code></a>
         </p>
 
 
@@ -2434,8 +2705,8 @@ The geometric formula for bivector reflection is B' = n * B * n.</p>
 
 
 </div>
-<div id="method_reverse" class="method item">
-    <h3 class="name"><code>reverse</code></h3>
+<div id="method_rev" class="method item">
+    <h3 class="name"><code>rev</code></h3>
 
         <span class="paren">()</span>
 
@@ -2453,7 +2724,7 @@ The geometric formula for bivector reflection is B' = n * B * n.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l635"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:635</code></a>
+        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l707"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:707</code></a>
         </p>
 
 
@@ -2504,7 +2775,7 @@ The geometric formula for bivector reflection is B' = n * B * n.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l674"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:674</code></a>
+        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l749"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:749</code></a>
         </p>
 
 
@@ -2546,89 +2817,6 @@ The geometric formula for bivector reflection is B' = n * B * n.</p>
 
 
 </div>
-<div id="method_rotor" class="method item">
-    <h3 class="name"><code>rotor</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>a</code>
-                </li>
-                <li class="arg">
-                        <code>b</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/Spinor3.html" class="crosslink">Spinor3</a></span>
-        </span>
-
-
-
-
-
-        <span class="flag chainable">chainable</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l692"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:692</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-Computes a rotor, R, from two vectors, where
-R = (abs(b) * abs(a) + b * a) / sqrt(2 * (quad(b) * quad(a) + abs(b) * abs(a) * b << a))
-</p>
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">a</code>
-                        <span class="type"><a href="../classes/VectorE3.html" class="crosslink">VectorE3</a></span>
-
-
-                    <div class="param-description">
-                        <p>The <em>from</em> vector.</p>
-
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">b</code>
-                        <span class="type"><a href="../classes/VectorE3.html" class="crosslink">VectorE3</a></span>
-
-
-                    <div class="param-description">
-                        <p>The <em>to</em> vector.</p>
-
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/Spinor3.html" class="crosslink">Spinor3</a></span>:
-                    <p><code>this</code> The rotor representing a rotation from a to b.</p>
-
-            </div>
-        </div>
-
-
-</div>
 <div id="method_rotorFromAxisAngle" class="method item">
     <h3 class="name"><code>rotorFromAxisAngle</code></h3>
 
@@ -2651,12 +2839,13 @@ R = (abs(b) * abs(a) + b * a) / sqrt(2 * (quad(b) * quad(a) + abs(b) * abs(a) * 
 
 
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l708"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:708</code></a>
+        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l785"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:785</code></a>
         </p>
 
 
@@ -2737,7 +2926,7 @@ R = (abs(b) * abs(a) + b * a) / sqrt(2 * (quad(b) * quad(a) + abs(b) * abs(a) * 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l953"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:953</code></a>
+        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l1108"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:1108</code></a>
         </p>
 
 
@@ -2788,6 +2977,89 @@ R = (abs(b) * abs(a) + b * a) / sqrt(2 * (quad(b) * quad(a) + abs(b) * abs(a) * 
 
 
 </div>
+<div id="method_rotorFromDirections" class="method item">
+    <h3 class="name"><code>rotorFromDirections</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>a</code>
+                </li>
+                <li class="arg">
+                        <code>b</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Spinor3.html" class="crosslink">Spinor3</a></span>
+        </span>
+
+
+
+
+
+        <span class="flag chainable">chainable</span>
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l768"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:768</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>
+Computes a rotor, R, from two vectors, where
+R = (abs(b) * abs(a) + b * a) / sqrt(2 * (quad(b) * quad(a) + abs(b) * abs(a) * b << a))
+</p>
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">a</code>
+                        <span class="type"><a href="../classes/VectorE3.html" class="crosslink">VectorE3</a></span>
+
+
+                    <div class="param-description">
+                        <p>The <em>from</em> vector.</p>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">b</code>
+                        <span class="type"><a href="../classes/VectorE3.html" class="crosslink">VectorE3</a></span>
+
+
+                    <div class="param-description">
+                        <p>The <em>to</em> vector.</p>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Spinor3.html" class="crosslink">Spinor3</a></span>:
+                    <p><code>this</code> The rotor representing a rotation from a to b.</p>
+
+            </div>
+        </div>
+
+
+</div>
 <div id="method_rotorFromGeneratorAngle" class="method item">
     <h3 class="name"><code>rotorFromGeneratorAngle</code></h3>
 
@@ -2810,12 +3082,13 @@ R = (abs(b) * abs(a) + b * a) / sqrt(2 * (quad(b) * quad(a) + abs(b) * abs(a) * 
 
 
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l727"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:727</code></a>
+        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l806"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:806</code></a>
         </p>
 
 
@@ -2886,12 +3159,13 @@ R = (abs(b) * abs(a) + b * a) / sqrt(2 * (quad(b) * quad(a) + abs(b) * abs(a) * 
 
 
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l754"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:754</code></a>
+        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l837"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:837</code></a>
         </p>
 
 
@@ -2960,6 +3234,7 @@ R = (abs(b) * abs(a) + b * a) / sqrt(2 * (quad(b) * quad(a) + abs(b) * abs(a) * 
 
 
 
+        <span class="flag static">static</span>
 
         <span class="flag chainable">chainable</span>
 
@@ -2967,7 +3242,7 @@ R = (abs(b) * abs(a) + b * a) / sqrt(2 * (quad(b) * quad(a) + abs(b) * abs(a) * 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l966"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:966</code></a>
+        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l1122"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:1122</code></a>
         </p>
 
 
@@ -3054,7 +3329,7 @@ R = (abs(b) * abs(a) + b * a) / sqrt(2 * (quad(b) * quad(a) + abs(b) * abs(a) * 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l594"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:594</code></a>
+        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l666"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:666</code></a>
         </p>
 
 
@@ -3103,7 +3378,7 @@ R = (abs(b) * abs(a) + b * a) / sqrt(2 * (quad(b) * quad(a) + abs(b) * abs(a) * 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l611"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:611</code></a>
+        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l683"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:683</code></a>
         </p>
 
 
@@ -3169,7 +3444,7 @@ R = (abs(b) * abs(a) + b * a) / sqrt(2 * (quad(b) * quad(a) + abs(b) * abs(a) * 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l782"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:782</code></a>
+        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l867"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:867</code></a>
         </p>
 
 
@@ -3250,7 +3525,7 @@ R = (abs(b) * abs(a) + b * a) / sqrt(2 * (quad(b) * quad(a) + abs(b) * abs(a) * 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l801"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:801</code></a>
+        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l888"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:888</code></a>
         </p>
 
 
@@ -3302,6 +3577,109 @@ R = (abs(b) * abs(a) + b * a) / sqrt(2 * (quad(b) * quad(a) + abs(b) * abs(a) * 
 
 
 </div>
+<div id="method_toExponential" class="method item">
+    <h3 class="name"><code>toExponential</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">String</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l996"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:996</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">String</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_toFixed" class="method item">
+    <h3 class="name"><code>toFixed</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code class="optional">[fractionDigits]</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">String</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l1005"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:1005</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name optional">[fractionDigits]</code>
+                        <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">String</span>:
+            </div>
+        </div>
+
+
+</div>
 <div id="method_toString" class="method item">
     <h3 class="name"><code>toString</code></h3>
 
@@ -3320,7 +3698,7 @@ R = (abs(b) * abs(a) + b * a) / sqrt(2 * (quad(b) * quad(a) + abs(b) * abs(a) * 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l877"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:877</code></a>
+        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l1015"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:1015</code></a>
         </p>
 
 
@@ -3366,12 +3744,13 @@ R = (abs(b) * abs(a) + b * a) / sqrt(2 * (quad(b) * quad(a) + abs(b) * abs(a) * 
 
 
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l818"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:818</code></a>
+        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l907"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:907</code></a>
         </p>
 
 
@@ -3382,7 +3761,8 @@ R = (abs(b) * abs(a) + b * a) / sqrt(2 * (quad(b) * quad(a) + abs(b) * abs(a) * 
         <p>
 <code>this ⟼ a * b</code>
 </p>
-Sets this Spinor3 to the geometric product a * b of the vector arguments.
+<p>Sets this Spinor3 to the geometric product, a * b, of the vector arguments.</p>
+
     </div>
 
         <div class="params">
@@ -3422,6 +3802,204 @@ Sets this Spinor3 to the geometric product a * b of the vector arguments.
 
 
 </div>
+<div id="method_wedge" class="method item">
+    <h3 class="name"><code>wedge</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>a</code>
+                </li>
+                <li class="arg">
+                        <code>b</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Spinor3.html" class="crosslink">Spinor3</a></span>
+        </span>
+
+
+
+
+
+        <span class="flag chainable">chainable</span>
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l937"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:937</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>
+<code>this ⟼ a ^ b</code>
+</p>
+<p>Sets this Spinor3 to the exterior product, a ^ b, of the vector arguments.</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">a</code>
+                        <span class="type"><a href="../classes/VectorE3.html" class="crosslink">VectorE3</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">b</code>
+                        <span class="type"><a href="../classes/VectorE3.html" class="crosslink">VectorE3</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Spinor3.html" class="crosslink">Spinor3</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_wedge" class="method item">
+    <h3 class="name"><code>wedge</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>a</code>
+                </li>
+                <li class="arg">
+                        <code>b</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Spinor3.html" class="crosslink">Spinor3</a></span>
+        </span>
+
+
+
+
+        <span class="flag static">static</span>
+
+        <span class="flag chainable">chainable</span>
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l1136"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:1136</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">a</code>
+                        <span class="type"><a href="../classes/VectorE3.html" class="crosslink">VectorE3</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">b</code>
+                        <span class="type"><a href="../classes/VectorE3.html" class="crosslink">VectorE3</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Spinor3.html" class="crosslink">Spinor3</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_zero" class="method item">
+    <h3 class="name"><code>zero</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Spinor3.html" class="crosslink">Spinor3</a></span>
+        </span>
+
+
+
+
+        <span class="flag static">static</span>
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l1160"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:1160</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Spinor3.html" class="crosslink">Spinor3</a></span>:
+            </div>
+        </div>
+
+
+</div>
             </div>
 
             <div id="properties" class="api-class-tabpanel">
@@ -3438,14 +4016,15 @@ Sets this Spinor3 to the geometric product a * b of the vector arguments.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l96"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:96</code></a>
+        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l113"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:113</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        
+        <p>The coordinate corresponding to the <b>1</b> basis scalar.</p>
+
     </div>
 
 
@@ -3462,14 +4041,15 @@ Sets this Spinor3 to the geometric product a * b of the vector arguments.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l83"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:83</code></a>
+        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l98"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:98</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        
+        <p>The coordinate corresponding to the <b>e</b><sub>12</sub> basis bivector.</p>
+
     </div>
 
 
@@ -3486,14 +4066,15 @@ Sets this Spinor3 to the geometric product a * b of the vector arguments.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l57"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:57</code></a>
+        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l68"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:68</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        
+        <p>The coordinate corresponding to the <b>e</b><sub>23</sub> basis bivector.</p>
+
     </div>
 
 
@@ -3510,14 +4091,15 @@ Sets this Spinor3 to the geometric product a * b of the vector arguments.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l70"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:70</code></a>
+        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l83"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:83</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        
+        <p>The coordinate corresponding to the <b>e</b><sub>31</sub> basis bivector.</p>
+
     </div>
 
 
@@ -3534,14 +4116,15 @@ Sets this Spinor3 to the geometric product a * b of the vector arguments.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l109"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:109</code></a>
+        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l128"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:128</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        
+        <p>The coordinate corresponding to the <b>1</b> basis scalar.</p>
+
     </div>
 
 

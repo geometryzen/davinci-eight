@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.201.0</em>
+            <em>API Docs for: 2.202.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -60,6 +60,7 @@
                                 <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
+                                <li><a href="../classes/CommonOptions.html">CommonOptions</a></li>
                                 <li><a href="../classes/ConeTransform.html">ConeTransform</a></li>
                                 <li><a href="../classes/ConicalShellBuilder.html">ConicalShellBuilder</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
@@ -69,6 +70,7 @@
                                 <li><a href="../classes/Cylinder.html">Cylinder</a></li>
                                 <li><a href="../classes/CylinderBuilder.html">CylinderBuilder</a></li>
                                 <li><a href="../classes/CylinderGeometry.html">CylinderGeometry</a></li>
+                                <li><a href="../classes/CylinderGeometryOptions.html">CylinderGeometryOptions</a></li>
                                 <li><a href="../classes/CylinderOptions.html">CylinderOptions</a></li>
                                 <li><a href="../classes/CylinderTransform.html">CylinderTransform</a></li>
                                 <li><a href="../classes/CylindricalShellBuilder.html">CylindricalShellBuilder</a></li>
@@ -93,6 +95,7 @@
                                 <li><a href="../classes/GeometryBuffers.html">GeometryBuffers</a></li>
                                 <li><a href="../classes/GeometryBuilder.html">GeometryBuilder</a></li>
                                 <li><a href="../classes/GeometryContainer.html">GeometryContainer</a></li>
+                                <li><a href="../classes/GeometryOptions.html">GeometryOptions</a></li>
                                 <li><a href="../classes/GeometryPrimitive.html">GeometryPrimitive</a></li>
                                 <li><a href="../classes/GraphicsProgramSymbols.html">GraphicsProgramSymbols</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
@@ -248,6 +251,8 @@ import Geometry from &#x27;./Geometry&#x27;
 import readOnly from &#x27;../i18n/readOnly&#x27;
 import Shareable from &#x27;../core/Shareable&#x27;
 import shouldBeImplementedBy from &#x27;../i18n/shouldBeImplementedBy&#x27;
+import Spinor3 from &#x27;../math/Spinor3&#x27;
+import SpinorE3 from &#x27;../math/SpinorE3&#x27;
 
 /**
  * @module EIGHT
@@ -276,15 +281,25 @@ export default class GeometryContainer extends Shareable implements Geometry {
      * @default diag(1, 1, 1, 1)
      */
     public scaling = Matrix4.one()
+    private canonicalScale = Matrix4.one()
+    private K = Matrix4.one()
+    private Kinv = Matrix4.one()
+    private Kidentity = true
 
     /**
      * @class GeometryContainer
      * @constructor
      * @param type {string}
+     * @param tilt {SpinorE3}
      */
-    constructor(type: string) {
+    constructor(type: string, tilt: SpinorE3) {
         super(type)
         this._parts = new ShareableArray&lt;Geometry&gt;()
+        if (tilt &amp;&amp; !Spinor3.isOne(tilt)) {
+            this.Kidentity = false
+            this.K.rotation(tilt)
+            this.Kinv.copy(this.K).inv()
+        }
     }
 
     /**
@@ -386,6 +401,29 @@ export default class GeometryContainer extends Shareable implements Geometry {
      */
     public setPrincipalScale(name: string, value: number): void {
         throw new Error(shouldBeImplementedBy(&#x27;setPrincipalScale&#x27;, this._type).message)
+    }
+
+    /**
+     * @method setScale
+     * @param x {number}
+     * @param y {number}
+     * @param z {number}
+     * @return {void}
+     * @protected
+     */
+    protected setScale(x: number, y: number, z: number): void {
+        if (this.Kidentity) {
+            this.scaling.setElement(0, 0, x)
+            this.scaling.setElement(1, 1, y)
+            this.scaling.setElement(2, 2, z)
+        }
+        else {
+            this.canonicalScale.copy(this.Kinv).mul(this.scaling).mul(this.K)
+            this.canonicalScale.setElement(0, 0, x)
+            this.canonicalScale.setElement(1, 1, y)
+            this.canonicalScale.setElement(2, 2, z)
+            this.scaling.copy(this.K).mul(this.canonicalScale).mul(this.Kinv)
+        }
     }
 }
 

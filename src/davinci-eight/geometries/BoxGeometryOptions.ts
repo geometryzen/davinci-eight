@@ -1,40 +1,82 @@
-import VectorE3 from '../math/VectorE3'
+import GeometryOptions from './GeometryOptions'
 
 /**
  * @class BoxGeometryOptions
+ * @extends GeometryOptions
  */
-interface BoxGeometryOptions {
+interface BoxGeometryOptions extends GeometryOptions {
 
-  /**
-   * @property depth
-   * @type number
-   * @optional
-   * @default 1
-   */
-  depth?: number
+    /**
+     * @attribute depth
+     * @type number
+     * @optional
+     * @default 1
+     */
+    depth?: number
 
-  /**
-   * @property height
-   * @type number
-   * @optional
-   * @default 1
-   */
-  height?: number
+    /**
+     * @attribute height
+     * @type number
+     * @optional
+     * @default 1
+     */
+    height?: number
 
-  /**
-   * @property offset
-   * @type VectorE3
-   * @default 0
-   */
-  offset?: VectorE3
+    /**
+     * @attribute openBack
+     * @type boolean
+     * @optional
+     * @default false
+     */
+    openBack?: boolean
 
-  /**
-   * @property width
-   * @type number
-   * @optional
-   * @default 1
-   */
-  width?: number
+    /**
+     * @attribute openBase
+     * @type boolean
+     * @optional
+     * @default false
+     */
+    openBase?: boolean
+
+    /**
+     * @attribute openFront
+     * @type boolean
+     * @optional
+     * @default false
+     */
+    openFront?: boolean
+
+    /**
+     * @attribute openLeft
+     * @type boolean
+     * @optional
+     * @default false
+     */
+    openLeft?: boolean
+
+    /**
+     * @attribute openRight
+     * @type boolean
+     * @optional
+     * @default false
+     */
+    openRight?: boolean
+
+    /**
+     * @attribute openCap
+     * @type boolean
+     * @optional
+     * @default false
+     */
+    openCap?: boolean
+
+    /**
+     * @attribute width
+     * @type number
+     * @optional
+     * @default 1
+     */
+    width?: number
 }
 
 export default BoxGeometryOptions

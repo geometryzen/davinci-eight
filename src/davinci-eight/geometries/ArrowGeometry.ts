@@ -30,7 +30,7 @@ export default class ArrowGeometry extends GeometryContainer {
      * @param [options = {}] {} The initial axis of the arrow.
      */
     constructor(options: { stress?: VectorE3; tilt?: SpinorE3; offset?: VectorE3 } = {}) {
-        super('ArrowGeometry')
+        super('ArrowGeometry', options.tilt)
         mustBeObject('options', options)
 
         const builder = new ArrowBuilder(R3.e2, R3.e3, false)

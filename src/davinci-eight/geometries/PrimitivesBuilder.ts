@@ -104,7 +104,7 @@ export default class PrimitivesBuilder implements GeometryBuilder {
     toGeometry(type: string): Geometry {
         // FIXME: This method probably should not exist because the 
         // container must be overridden to provide scaling methods.
-        const container = new GeometryContainer(type);
+        const container = new GeometryContainer(type, this.tilt)
         const ps = this.toPrimitives()
         const iLen = ps.length
         for (let i = 0; i < iLen; i++) {

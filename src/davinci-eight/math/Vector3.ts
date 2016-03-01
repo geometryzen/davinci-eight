@@ -291,6 +291,7 @@ export default class Vector3 extends Coords implements ColumnVector<Matrix3, Vec
     cross(v: VectorE3): Vector3 {
         return this.cross2(this, v);
     }
+
     /**
      * <p>
      * <code>this ⟼ a ✕ b</code>
@@ -372,6 +373,35 @@ export default class Vector3 extends Coords implements ColumnVector<Matrix3, Vec
     dot(v: VectorE3): number {
         return Vector3.dot(this, v);
     }
+
+    /**
+     * <p>
+     * <code>this ⟼ I * B</code>
+     * </p>
+     *
+     * Sets this vector to the dual of the bivector, B.
+     * If changeSign is <code>true</code>, the direction of the resulting vector is reversed.
+     *
+     * @method dual
+     * @param B {SpinorE3}
+     * @param changeSign {boolean}
+     * @return {Vector3}
+     * @chainable
+     */
+    dual(B: SpinorE3, changeSign: boolean): Vector3 {
+        if (changeSign) {
+            this.x = B.yz
+            this.y = B.zx
+            this.z = B.xy
+        }
+        else {
+            this.x = -B.yz
+            this.y = -B.zx
+            this.z = -B.xy
+        }
+        return this
+    }
+
     /**
      * Computes the <em>square root</em> of the <em>squared norm</em>.
      * @method magnitude

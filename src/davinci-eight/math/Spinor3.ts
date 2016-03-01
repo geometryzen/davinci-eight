@@ -12,6 +12,7 @@ import Mutable from '../math/Mutable';
 import quadSpinor from '../math/quadSpinorE3';
 import rotorFromDirections from '../math/rotorFromDirectionsE3';
 import SpinorE3 from '../math/SpinorE3';
+import toStringCustom from './toStringCustom';
 import VectorE3 from '../math/VectorE3';
 import wedgeXY from '../math/wedgeXY';
 import wedgeYZ from '../math/wedgeYZ';
@@ -22,16 +23,18 @@ import wedgeZX from '../math/wedgeZX';
  * @submodule math
  */
 
-// GraphicsProgramSymbols constants for the coordinate indices into the coords array.
+// Constants for the coordinate indices into the coords array.
 const COORD_YZ = 0
 const COORD_ZX = 1
 const COORD_XY = 2
 const COORD_SCALAR = 3
+const BASIS_LABELS = ['e23', 'e31', 'e12', '1']
 
-function one(): number[] {
-    const coords = [0, 0, 0, 0]
-    coords[COORD_SCALAR] = 1
-    return coords
+/**
+ * Coordinates corresponding to basis labels.
+ */
+function coordinates(m: SpinorE3): number[] {
+    return [m.yz, m.zx, m.xy, m.α]
 }
 
 const exp = Math.exp
@@ -39,22 +42,32 @@ const cos = Math.cos
 const sin = Math.sin
 const sqrt = Math.sqrt
 
+const magicCode = Math.random()
+
 /**
+ * A <em>mutable</em> Geometric Number representing the even sub-algebra of G3.
+ *
  * @class Spinor3
  * @extends Coords
  */
 export default class Spinor3 extends Coords implements SpinorE3, Mutable<number[]>, MutableGeometricElement3D<SpinorE3, Spinor3, Spinor3, VectorE3> {
+
     /**
-     * Constructs a <code>Spinor3</code> from a <code>number[]</code>.
-     * For a <em>geometric</em> implementation, use the static methods.
-     * @class Spinor3
-     * @constructor
+     * @method constructor
+     * @param coordinates {number[]}
+     * @param code {number}
+     * @private
      */
-    constructor(coordinates = one(), modified = false) {
-        super(coordinates, modified, 4)
+    constructor(coordinates: number[], code: number) {
+        super(coordinates, false, 4)
+        if (code !== magicCode) {
+            throw new Error("Use the static creation methods instead of the constructor")
+        }
     }
 
     /**
+     * The coordinate corresponding to the <b>e</b><sub>23</sub> basis bivector.
+     *
      * @property yz
      * @type Number
      */
@@ -68,6 +81,8 @@ export default class Spinor3 extends Coords implements SpinorE3, Mutable<number[
     }
 
     /**
+     * The coordinate corresponding to the <b>e</b><sub>31</sub> basis bivector.
+     *
      * @property zx
      * @type Number
      */
@@ -81,6 +96,8 @@ export default class Spinor3 extends Coords implements SpinorE3, Mutable<number[
     }
 
     /**
+     * The coordinate corresponding to the <b>e</b><sub>12</sub> basis bivector.
+     *
      * @property xy
      * @type Number
      */
@@ -94,6 +111,8 @@ export default class Spinor3 extends Coords implements SpinorE3, Mutable<number[
     }
 
     /**
+     * The coordinate corresponding to the <b>1</b> basis scalar.
+     *
      * @property alpha
      * @type Number
      */
@@ -107,6 +126,8 @@ export default class Spinor3 extends Coords implements SpinorE3, Mutable<number[
     }
 
     /**
+     * The coordinate corresponding to the <b>1</b> basis scalar.
+     *
      * @property α
      * @type Number
      */
@@ -182,7 +203,8 @@ export default class Spinor3 extends Coords implements SpinorE3, Mutable<number[
 
     /**
      * @method adj
-     * @return {number}
+     * @return {Spinor3}
+     * @chainable
      * @beta
      */
     adj(): Spinor3 {
@@ -192,9 +214,21 @@ export default class Spinor3 extends Coords implements SpinorE3, Mutable<number[
     /**
      * @method angle
      * @return {Spinor3}
+     * @chainable
      */
     angle(): Spinor3 {
         return this.log().grade(2);
+    }
+
+    /**
+     * @method approx
+     * @param n {number}
+     * @return {Spinor3}
+     * @chainable
+     */
+    approx(n: number): Spinor3 {
+        super.approx(n)
+        return this
     }
 
     /**
@@ -210,6 +244,7 @@ export default class Spinor3 extends Coords implements SpinorE3, Mutable<number[
      * <p>
      * <code>this ⟼ (w, -B)</code>
      * </p>
+     *
      * @method conj
      * @return {Spinor3} <code>this</code>
      * @chainable
@@ -225,6 +260,7 @@ export default class Spinor3 extends Coords implements SpinorE3, Mutable<number[
      * <p>
      * <code>this ⟼ copy(source)</code>
      * </p>
+     *
      * @method copy
      * @param source {SpinorE3}
      * @return {Spinor3} <code>this</code>
@@ -245,6 +281,7 @@ export default class Spinor3 extends Coords implements SpinorE3, Mutable<number[
 
     /**
      * Sets this spinor to the value of the scalar, <code>α</code>.
+     *
      * @method copyScalar
      * @param α {number} The scalar to be copied.
      * @return {Spinor3}
@@ -272,6 +309,7 @@ export default class Spinor3 extends Coords implements SpinorE3, Mutable<number[
      * <p>
      * <code>this ⟼ this / s</code>
      * </p>
+     *
      * @method div
      * @param s {SpinorE3}
      * @return {Spinor3} <code>this</code>
@@ -285,6 +323,7 @@ export default class Spinor3 extends Coords implements SpinorE3, Mutable<number[
      * <p>
      * <code>this ⟼ a / b</code>
      * </p>
+     *
      * @method div2
      * @param a {SpinorE3}
      * @param b {SpinorE3}
@@ -310,10 +349,12 @@ export default class Spinor3 extends Coords implements SpinorE3, Mutable<number[
         this.xy = a0 * b3 - a1 * b2 + a2 * b1 + a3 * b0;
         return this;
     }
+
     /**
      * <p>
      * <code>this ⟼ this / α</code>
      * </p>
+     *
      * @method divByScalar
      * @param α {number}
      * @return {Spinor3} <code>this</code>
@@ -331,6 +372,7 @@ export default class Spinor3 extends Coords implements SpinorE3, Mutable<number[
      * <p>
      * <code>this ⟼ dual(v) = I * v</code>
      * </p>
+     *
      * @method dual
      * @param v {VectorE3} The vector whose dual will be used to set this spinor.
      * @param changeSign {boolean}
@@ -352,6 +394,7 @@ export default class Spinor3 extends Coords implements SpinorE3, Mutable<number[
      * <p>
      * <code>this ⟼ e<sup>this</sup></code>
      * </p>
+     *
      * @method exp
      * @return {Spinor3} <code>this</code>
      * @chainable
@@ -373,10 +416,12 @@ export default class Spinor3 extends Coords implements SpinorE3, Mutable<number[
         this.xy = z * s;
         return this;
     }
+
     /**
      * <p>
      * <code>this ⟼ conj(this) / quad(this)</code>
      * </p>
+     *
      * @method inv
      * @return {Spinor3} <code>this</code>
      * @chainable
@@ -387,10 +432,19 @@ export default class Spinor3 extends Coords implements SpinorE3, Mutable<number[
         return this
     }
 
+    /**
+     * @method lco
+     * @param rhs {Spinor3}
+     * @return {Spinor3}
+     * @chainable
+     */
     lco(rhs: SpinorE3): Spinor3 {
         return this.lco2(this, rhs)
     }
 
+    /**
+     *
+     */
     lco2(a: SpinorE3, b: SpinorE3): Spinor3 {
         // FIXME: How to leverage? Maybe break up? Don't want performance hit.
         // scpG3(a, b, this)
@@ -401,6 +455,7 @@ export default class Spinor3 extends Coords implements SpinorE3, Mutable<number[
      * <p>
      * <code>this ⟼ this + α * (target - this)</code>
      * </p>
+     *
      * @method lerp
      * @param target {SpinorE3}
      * @param α {number}
@@ -418,10 +473,12 @@ export default class Spinor3 extends Coords implements SpinorE3, Mutable<number[
         this.copy(R)
         return this
     }
+
     /**
      * <p>
      * <code>this ⟼ a + α * (b - a)</code>
      * <p>
+     *
      * @method lerp2
      * @param a {SpinorE3}
      * @param b {SpinorE3}
@@ -433,10 +490,12 @@ export default class Spinor3 extends Coords implements SpinorE3, Mutable<number[
         this.sub2(b, a).scale(α).add(a)
         return this
     }
+
     /**
      * <p>
      * <code>this ⟼ log(this)</code>
      * </p>
+     *
      * @method log
      * @return {Spinor3} <code>this</code>
      * @chainable
@@ -463,13 +522,18 @@ export default class Spinor3 extends Coords implements SpinorE3, Mutable<number[
 
     /**
      * Computes the <em>square root</em> of the <em>squared norm</em>.
+     *
      * @method magnitude
      * @return {Spinor3}
+     * @chainable
      */
     magnitude(): Spinor3 {
         return this.norm();
     }
 
+    /**
+     * Intentionally undocumented.
+     */
     magnitudeSansUnits(): number {
         return sqrt(this.squaredNormSansUnits());
     }
@@ -478,6 +542,7 @@ export default class Spinor3 extends Coords implements SpinorE3, Mutable<number[
      * <p>
      * <code>this ⟼ this * rhs</code>
      * </p>
+     *
      * @method mul
      * @param rhs {SpinorE3}
      * @return {Spinor3} <code>this</code>
@@ -502,6 +567,7 @@ export default class Spinor3 extends Coords implements SpinorE3, Mutable<number[
      * <p>
      * <code>this ⟼ a * b</code>
      * </p>
+     *
      * @method mul2
      * @param a {SpinorE3}
      * @param b {SpinorE3}
@@ -522,8 +588,10 @@ export default class Spinor3 extends Coords implements SpinorE3, Mutable<number[
 
         return this
     }
+
     /**
      * @method neg
+     *
      * @return {Spinor3} <code>this</code>
      * @chainable
      */
@@ -539,6 +607,7 @@ export default class Spinor3 extends Coords implements SpinorE3, Mutable<number[
      * <p>
      * <code>this ⟼ sqrt(this * conj(this))</code>
      * </p>
+     *
      * @method norm
      * @return {Spinor3} <code>this</code>
      * @chainable
@@ -552,6 +621,7 @@ export default class Spinor3 extends Coords implements SpinorE3, Mutable<number[
      * <p>
      * <code>this ⟼ this / magnitude(this)</code>
      * </p>
+     *
      * @method direction
      * @return {Spinor3} <code>this</code>
      * @chainable
@@ -568,6 +638,7 @@ export default class Spinor3 extends Coords implements SpinorE3, Mutable<number[
 
     /**
      * Sets this spinor to the identity element for multiplication, <b>1</b>.
+     *
      * @return {Spinor3} <code>this</code>
      * @chainable
      */
@@ -583,6 +654,7 @@ export default class Spinor3 extends Coords implements SpinorE3, Mutable<number[
      * <p>
      * <code>this ⟼ this * conj(this)</code>
      * </p>
+     *
      * @method quad
      * @return {Spinor3} <code>this</code>
      * @chainable
@@ -636,7 +708,8 @@ export default class Spinor3 extends Coords implements SpinorE3, Mutable<number[
      * <p>
      * <code>this = (w, B) ⟼ (w, -B)</code>
      * </p>
-     * @method reverse
+     *
+     * @method rev
      * @return {Spinor3} <code>this</code>
      * @chainable
      */
@@ -646,9 +719,11 @@ export default class Spinor3 extends Coords implements SpinorE3, Mutable<number[
         this.xy *= - 1;
         return this;
     }
+
     /**
      * Sets this Spinor to the value of its reflection in the plane orthogonal to n.
      * The geometric formula for bivector reflection is B' = n * B * n.
+     *
      * @method reflect
      * @param n {VectorE3}
      * @return {Spinor3} <code>this</code>
@@ -675,6 +750,7 @@ export default class Spinor3 extends Coords implements SpinorE3, Mutable<number[
      * <p>
      * <code>this = ⟼ R * this * rev(R)</code>
      * </p>
+     *
      * @method rotate
      * @param R {SpinorE3}
      * @return {Spinor3} <code>this</code>
@@ -694,7 +770,8 @@ export default class Spinor3 extends Coords implements SpinorE3, Mutable<number[
      * Computes a rotor, R, from two vectors, where
      * R = (abs(b) * abs(a) + b * a) / sqrt(2 * (quad(b) * quad(a) + abs(b) * abs(a) * b << a))
      * </p>
-     * @method rotor
+     *
+     * @method rotorFromDirections
      * @param a {VectorE3} The <em>from</em> vector.
      * @param b {VectorE3} The <em>to</em> vector.
      * @return {Spinor3} <code>this</code> The rotor representing a rotation from a to b.
@@ -709,10 +786,12 @@ export default class Spinor3 extends Coords implements SpinorE3, Mutable<number[
      * <p>
      * <code>this = ⟼ exp(- dual(a) * θ / 2)</code>
      * </p>
+     *
      * @method rotorFromAxisAngle
      * @param axis {VectorE3}
      * @param θ {number}
      * @return {Spinor3} <code>this</code>
+     * @chainable
      */
     rotorFromAxisAngle(axis: VectorE3, θ: number): Spinor3 {
         let φ = θ / 2
@@ -728,10 +807,12 @@ export default class Spinor3 extends Coords implements SpinorE3, Mutable<number[
      * <p>
      * <code>this = ⟼ exp(- B * θ / 2)</code>
      * </p>
+     *
      * @method rotorFromGeneratorAngle
      * @param B {SpinorE3}
      * @param θ {number}
      * @return {Spinor3} <code>this</code>
+     * @chainable
      */
     rotorFromGeneratorAngle(B: SpinorE3, θ: number): Spinor3 {
         let φ = θ / 2
@@ -746,18 +827,22 @@ export default class Spinor3 extends Coords implements SpinorE3, Mutable<number[
     scp(rhs: SpinorE3): Spinor3 {
         return this.scp2(this, rhs)
     }
+
     scp2(a: SpinorE3, b: SpinorE3): Spinor3 {
         // FIXME: How to leverage? Maybe break up? Don't want performance hit.
         // scpG3(a, b, this)
         return this
     }
+
     /**
      * <p>
      * <code>this ⟼ this * α</code>
      * </p>
+     *
      * @method scale
      * @param α {number}
      * @return {Spinor3} <code>this</code>
+     * @chainable
      */
     scale(α: number): Spinor3 {
         mustBeNumber('α', α)
@@ -783,6 +868,7 @@ export default class Spinor3 extends Coords implements SpinorE3, Mutable<number[
      * <p>
      * <code>this ⟼ this - s * α</code>
      * </p>
+     *
      * @method sub
      * @param s {SpinorE3}
      * @param [α = 1] {number}
@@ -798,10 +884,12 @@ export default class Spinor3 extends Coords implements SpinorE3, Mutable<number[
         this.α -= s.α * α
         return this
     }
+
     /**
      * <p>
      * <code>this ⟼ a - b</code>
      * </p>
+     *
      * @method sub2
      * @param a {SpinorE3}
      * @param b {SpinorE3}
@@ -815,18 +903,21 @@ export default class Spinor3 extends Coords implements SpinorE3, Mutable<number[
         this.α = a.α - b.α
         return this;
     }
+
     /**
      * <p>
      * <code>this ⟼ a * b</code>
      * </p>
-     * Sets this Spinor3 to the geometric product a * b of the vector arguments.
+     *
+     * Sets this Spinor3 to the geometric product, a * b, of the vector arguments.
      *
      * @method versor
      * @param a {VectorE3}
      * @param b {VectorE3}
      * @return {Spinor3}
+     * @chainable
      */
-    versor(a: VectorE3, b: VectorE3) {
+    versor(a: VectorE3, b: VectorE3): Spinor3 {
 
         const ax = a.x
         const ay = a.y
@@ -843,6 +934,42 @@ export default class Spinor3 extends Coords implements SpinorE3, Mutable<number[
         return this
     }
 
+    /**
+     * <p>
+     * <code>this ⟼ a ^ b</code>
+     * </p>
+     *
+     * Sets this Spinor3 to the exterior product, a ^ b, of the vector arguments.
+     *
+     * @method wedge
+     * @param a {VectorE3}
+     * @param b {VectorE3}
+     * @return {Spinor3}
+     * @chainable
+     */
+    wedge(a: VectorE3, b: VectorE3): Spinor3 {
+
+        const ax = a.x
+        const ay = a.y
+        const az = a.z
+        const bx = b.x
+        const by = b.y
+        const bz = b.z
+
+        this.α = 0
+        this.yz = wedgeYZ(ax, ay, az, bx, by, bz)
+        this.zx = wedgeZX(ax, ay, az, bx, by, bz)
+        this.xy = wedgeXY(ax, ay, az, bx, by, bz)
+
+        return this
+    }
+
+    /**
+     * @method grade
+     * @param grade {number}
+     * @return {Spinor3}
+     * @chainable
+     */
     grade(grade: number): Spinor3 {
         mustBeInteger('grade', grade)
         switch (grade) {
@@ -866,24 +993,38 @@ export default class Spinor3 extends Coords implements SpinorE3, Mutable<number[
         return this;
     }
 
+    /**
+     * @method toExponential
+     * @return {string}
+     */
     toExponential(): string {
-        // FIXME: Do like others.
-        return this.toString()
+        const coordToString = function(coord: number): string { return coord.toExponential() }
+        return toStringCustom(coordinates(this), void 0, coordToString, BASIS_LABELS)
     }
-    toFixed(digits?: number): string {
-        // FIXME: Do like others.
-        return this.toString()
+
+    /**
+     * @method toFixed
+     * @param [fractionDigits] {number}
+     * @return {string}
+     */
+    toFixed(fractionDigits?: number): string {
+        const coordToString = function(coord: number): string { return coord.toFixed(fractionDigits) }
+        return toStringCustom(coordinates(this), void 0, coordToString, BASIS_LABELS)
     }
+
     /**
      * @method toString
      * @return {string} A non-normative string representation of the target.
      */
     toString(): string {
-        return "Spinor3({yz: " + this.yz + ", zx: " + this.zx + ", xy: " + this.xy + ", w: " + this.α + "})"
+        const coordToString = function(coord: number): string { return coord.toString() }
+        return toStringCustom(coordinates(this), void 0, coordToString, BASIS_LABELS)
     }
+
     ext(rhs: SpinorE3): Spinor3 {
         return this.ext2(this, rhs)
     }
+
     ext2(a: SpinorE3, b: SpinorE3): Spinor3 {
         // FIXME: How to leverage? Maybe break up? Don't want performance hit.
         // scpG3(a, b, this)
@@ -892,6 +1033,7 @@ export default class Spinor3 extends Coords implements SpinorE3, Mutable<number[
 
     /**
      * Sets this spinor to the identity element for addition, <b>0</b>.
+     *
      * @return {Spinor3} <code>this</code>
      * @chainable
      */
@@ -911,11 +1053,14 @@ export default class Spinor3 extends Coords implements SpinorE3, Mutable<number[
      * @chainable
      */
     static copy(spinor: SpinorE3): Spinor3 {
-        return new Spinor3().copy(spinor)
+        const s = Spinor3.zero().copy(spinor)
+        s.modified = false
+        return s
     }
 
     /**
      * Computes I * <code>v</code>, the dual of <code>v</code>.
+     *
      * @method dual
      * @param v {VectorE3}
      * @param changeSign {boolean}
@@ -924,7 +1069,17 @@ export default class Spinor3 extends Coords implements SpinorE3, Mutable<number[
      * @chainable
      */
     static dual(v: VectorE3, changeSign: boolean): Spinor3 {
-        return new Spinor3().dual(v, changeSign)
+        return Spinor3.zero().dual(v, changeSign)
+    }
+
+    /**
+     * @method isOne
+     * @param spinor {SpinorE3}
+     * @return {boolean}
+     * @static
+     */
+    static isOne(spinor: SpinorE3): boolean {
+        return spinor.α === 1 && spinor.yz === 0 && spinor.zx === 0 && spinor.xy === 0
     }
 
     /**
@@ -947,11 +1102,12 @@ export default class Spinor3 extends Coords implements SpinorE3, Mutable<number[
      * @chainable
      */
     static one(): Spinor3 {
-        return new Spinor3([0, 0, 0, 1])
+        return Spinor3.spinor(0, 0, 0, 1)
     }
 
     /**
      * Computes the rotor that rotates vector <code>a</code> to vector <code>b</code>.
+     *
      * @method rotorFromDirections
      * @param a {VectorE3} The <em>from</em> vector.
      * @param b {VectorE3} The <em>to</em> vector.
@@ -960,7 +1116,7 @@ export default class Spinor3 extends Coords implements SpinorE3, Mutable<number[
      * @chainable
      */
     static rotorFromDirections(a: VectorE3, b: VectorE3): Spinor3 {
-        return new Spinor3().rotorFromDirections(a, b)
+        return Spinor3.zero().rotorFromDirections(a, b)
     }
 
     /**
@@ -970,9 +1126,44 @@ export default class Spinor3 extends Coords implements SpinorE3, Mutable<number[
      * @param xy {number}
      * @param α {number}
      * @return {Spinor3}
+     * @static
      * @chainable
      */
     static spinor(yz: number, zx: number, xy: number, α: number): Spinor3 {
-        return new Spinor3([yz, zx, xy, α])
+        return new Spinor3([yz, zx, xy, α], magicCode)
+    }
+
+    /**
+     * @method wedge
+     * @param a {VectorE3}
+     * @param b {VectorE3}
+     * @return {Spinor3}
+     * @static
+     * @chainable
+     */
+    static wedge(a: VectorE3, b: VectorE3): Spinor3 {
+
+        const ax = a.x
+        const ay = a.y
+        const az = a.z
+        const bx = b.x
+        const by = b.y
+        const bz = b.z
+
+        const yz = wedgeYZ(ax, ay, az, bx, by, bz)
+        const zx = wedgeZX(ax, ay, az, bx, by, bz)
+        const xy = wedgeXY(ax, ay, az, bx, by, bz)
+
+        return Spinor3.spinor(yz, zx, xy, 0)
+    }
+
+    /**
+     * @method zero
+     * @return {Spinor3}
+     * @static
+     * #chainable
+     */
+    static zero(): Spinor3 {
+        return Spinor3.spinor(0, 0, 0, 0)
     }
 }

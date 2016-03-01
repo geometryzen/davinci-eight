@@ -1,7 +1,9 @@
+import GeometryOptions from './GeometryOptions'
+
 /**
  * @class TetrahedronGeometryOptions
  */
-interface TetrahedronGeometryOptions {
+interface TetrahedronGeometryOptions extends GeometryOptions {
     /**
      * @attribute radius
      * @type number

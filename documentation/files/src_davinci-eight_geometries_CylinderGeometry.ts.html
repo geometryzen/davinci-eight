@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.201.0</em>
+            <em>API Docs for: 2.202.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -60,6 +60,7 @@
                                 <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
+                                <li><a href="../classes/CommonOptions.html">CommonOptions</a></li>
                                 <li><a href="../classes/ConeTransform.html">ConeTransform</a></li>
                                 <li><a href="../classes/ConicalShellBuilder.html">ConicalShellBuilder</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
@@ -69,6 +70,7 @@
                                 <li><a href="../classes/Cylinder.html">Cylinder</a></li>
                                 <li><a href="../classes/CylinderBuilder.html">CylinderBuilder</a></li>
                                 <li><a href="../classes/CylinderGeometry.html">CylinderGeometry</a></li>
+                                <li><a href="../classes/CylinderGeometryOptions.html">CylinderGeometryOptions</a></li>
                                 <li><a href="../classes/CylinderOptions.html">CylinderOptions</a></li>
                                 <li><a href="../classes/CylinderTransform.html">CylinderTransform</a></li>
                                 <li><a href="../classes/CylindricalShellBuilder.html">CylindricalShellBuilder</a></li>
@@ -93,6 +95,7 @@
                                 <li><a href="../classes/GeometryBuffers.html">GeometryBuffers</a></li>
                                 <li><a href="../classes/GeometryBuilder.html">GeometryBuilder</a></li>
                                 <li><a href="../classes/GeometryContainer.html">GeometryContainer</a></li>
+                                <li><a href="../classes/GeometryOptions.html">GeometryOptions</a></li>
                                 <li><a href="../classes/GeometryPrimitive.html">GeometryPrimitive</a></li>
                                 <li><a href="../classes/GraphicsProgramSymbols.html">GraphicsProgramSymbols</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
@@ -241,6 +244,9 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 import CylinderBuilder from &#x27;./CylinderBuilder&#x27;
+import CylinderGeometryOptions from &#x27;./CylinderGeometryOptions&#x27;
+import isDefined from &#x27;../checks/isDefined&#x27;
+import mustBeBoolean from &#x27;../checks/mustBeBoolean&#x27;
 import notSupported from &#x27;../i18n/notSupported&#x27;
 import GeometryContainer from &#x27;../core/GeometryContainer&#x27;
 import GeometryBuffers from &#x27;../core/GeometryBuffers&#x27;
@@ -253,32 +259,62 @@ import vertexArraysFromPrimitive from &#x27;../core/vertexArraysFromPrimitive&#x
  */
 
 /**
- * A convenience class for creating a Cylinder.
+ * A geometry for a Cylinder.
+ *
+ * @class CylinderGeometry
+ * @extends GeometryContainer
  *
  * @example
  *   const geometry = new EIGHT.CylinderGeometry()
  *   const material = new EIGHT.MeshMaterial()
  *   const cylinder = new EIGHT.Mesh()
  *   scene.add(cylinder)
- *
- * @class CylinderGeometry
- * @extends GeometryContainer
  */
 export default class CylinderGeometry extends GeometryContainer {
 
     /**
+     * @property _length
+     * @type number
+     * @default 1
+     * @private
+     */
+    private _length = 1
+
+    /**
+     * @property _radius
+     * @type number
+     * @default 1
+     * @private
+     */
+    private _radius = 1
+
+    /**
      * @class CylinderGeometry
      * @constructor
-     * @param [options = {}] {}
+     * @param [options] {CylinderGeometryOptions}
      */
-    constructor(options: {} = {}) {
-        super(&#x27;CylinderGeometry&#x27;)
+    constructor(options: CylinderGeometryOptions = {}) {
+        super(&#x27;CylinderGeometry&#x27;, options.tilt)
+
         const builder = new CylinderBuilder(R3.e2, R3.e3, false)
-        builder.openBottom = false
-        builder.openTop = false
+
+        if (isDefined(options.openBase)) {
+            builder.openBase = mustBeBoolean(&#x27;openBase&#x27;, options.openBase)
+        }
+        if (isDefined(options.openCap)) {
+            builder.openCap = mustBeBoolean(&#x27;openCap&#x27;, options.openCap)
+        }
+        if (isDefined(options.openWall)) {
+            builder.openWall = mustBeBoolean(&#x27;openWall&#x27;, options.openWall)
+        }
+
         //        builder.stress.copy(stress)
-        //        builder.tilt.copy(tilt)
-        //        builder.offset.copy(offset)
+        if (options.tilt) {
+            builder.tilt.copy(options.tilt)
+        }
+        if (options.offset) {
+            builder.offset.copy(options.offset)
+        }
         const ps = builder.toPrimitives()
         const iLen = ps.length
         for (let i = 0; i &lt; iLen; i++) {
@@ -294,9 +330,10 @@ export default class CylinderGeometry extends GeometryContainer {
      * @type number
      */
     get radius(): number {
-        return this.getPrincipalScale(&#x27;radius&#x27;)
+        return this._radius
     }
     set radius(radius: number) {
+        this._radius = radius
         this.setPrincipalScale(&#x27;radius&#x27;, radius)
     }
 
@@ -305,9 +342,10 @@ export default class CylinderGeometry extends GeometryContainer {
      * @type number
      */
     get length(): number {
-        return this.getPrincipalScale(&#x27;length&#x27;)
+        return this._length
     }
     set length(length: number) {
+        this._length = length
         this.setPrincipalScale(&#x27;length&#x27;, length)
     }
 
@@ -319,13 +357,11 @@ export default class CylinderGeometry extends GeometryContainer {
     getPrincipalScale(name: string): number {
         switch (name) {
             case &#x27;length&#x27;: {
-                return this.scaling.getElement(1, 1)
+                return this._length
             }
-                break
             case &#x27;radius&#x27;: {
-                return this.scaling.getElement(0, 0)
+                return this._radius
             }
-                break
             default: {
                 throw new Error(notSupported(&#x60;getPrincipalScale(&#x27;${name}&#x27;)&#x60;).message)
             }
@@ -341,18 +377,18 @@ export default class CylinderGeometry extends GeometryContainer {
     setPrincipalScale(name: string, value: number): void {
         switch (name) {
             case &#x27;length&#x27;: {
-                this.scaling.setElement(1, 1, value)
+                this._length = value
             }
                 break
             case &#x27;radius&#x27;: {
-                this.scaling.setElement(0, 0, value)
-                this.scaling.setElement(2, 2, value)
+                this._radius = value
             }
                 break
             default: {
                 throw new Error(notSupported(&#x60;getPrincipalScale(&#x27;${name}&#x27;)&#x60;).message)
             }
         }
+        this.setScale(this._radius, this._length, this._radius)
     }
 }
 

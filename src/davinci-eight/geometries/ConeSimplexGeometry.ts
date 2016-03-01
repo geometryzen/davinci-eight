@@ -8,24 +8,24 @@ export default class ConeSimplexGeometry extends SliceSimplexPrimitivesBuilder {
     public radiusTop: number;
     public radius: number;
     public height: number;
-    public openTop: boolean;
-    public openBottom: boolean;
+    public openCap: boolean;
+    public openBase: boolean;
     public thetaStart: number;
     constructor(
         radius = 0.5,
         height = 1,
         axis: VectorE3,
         radiusTop = 0.0,
-        openTop = false,
-        openBottom = false,
+        openCap = false,
+        openBase = false,
         thetaStart = 0) {
 
         super()
         this.radiusTop = radiusTop
         this.radius = radius
         this.height = height
-        this.openTop = openTop
-        this.openBottom = openBottom
+        this.openCap = openCap
+        this.openBase = openBase
         this.thetaStart = thetaStart
     }
 
@@ -35,8 +35,8 @@ export default class ConeSimplexGeometry extends SliceSimplexPrimitivesBuilder {
         let height = this.height
         let heightSegments = this.flatSegments
         let radialSegments = this.curvedSegments
-        let openTop = this.openTop
-        let openBottom = this.openBottom
+        let openCap = this.openCap
+        let openBase = this.openBase
         let thetaStart = this.thetaStart
         let sliceAngle = this.sliceAngle
 
@@ -100,7 +100,7 @@ export default class ConeSimplexGeometry extends SliceSimplexPrimitivesBuilder {
         }
 
         // top cap
-        if (!openTop && radiusTop > 0) {
+        if (!openCap && radiusTop > 0) {
             points.push(Vector3.copy(G3.e2).scale(heightHalf));
             for (x = 0; x < radialSegments; x++) {
                 let v1: number = vertices[0][x];
@@ -117,7 +117,7 @@ export default class ConeSimplexGeometry extends SliceSimplexPrimitivesBuilder {
         }
 
         // bottom cap
-        if (!openBottom && radiusBottom > 0) {
+        if (!openBase && radiusBottom > 0) {
             points.push(Vector3.copy(G3.e2).scale(-heightHalf));
             for (x = 0; x < radialSegments; x++) {
                 let v1: number = vertices[heightSegments][x + 1];
