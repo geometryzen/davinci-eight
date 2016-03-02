@@ -1,5 +1,6 @@
 import GraphicsProgramBuilder from '../materials/GraphicsProgramBuilder'
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols'
+import LineMaterialOptions from './LineMaterialOptions'
 import Material from '../core/Material'
 
 /**
@@ -7,25 +8,26 @@ import Material from '../core/Material'
  * @submodule materials
  */
 
-function builder() {
-    const gpb = new GraphicsProgramBuilder()
+function builder(options: LineMaterialOptions) {
+  const gpb = new GraphicsProgramBuilder()
 
-    gpb.attribute(GraphicsProgramSymbols.ATTRIBUTE_POSITION, 3)
+  gpb.attribute(GraphicsProgramSymbols.ATTRIBUTE_POSITION, 3)
+  gpb.attribute(GraphicsProgramSymbols.ATTRIBUTE_COLOR, 3)
 
-    gpb.uniform(GraphicsProgramSymbols.UNIFORM_COLOR, 'vec3')
-    gpb.uniform(GraphicsProgramSymbols.UNIFORM_MODEL_MATRIX, 'mat4')
-    gpb.uniform(GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX, 'mat4')
-    gpb.uniform(GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX, 'mat4')
+  gpb.uniform(GraphicsProgramSymbols.UNIFORM_COLOR, 'vec3')
+  gpb.uniform(GraphicsProgramSymbols.UNIFORM_MODEL_MATRIX, 'mat4')
+  gpb.uniform(GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX, 'mat4')
+  gpb.uniform(GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX, 'mat4')
 
-    return gpb
+  return gpb
 }
 
-function vertexShader(): string {
-    return builder().vertexShader()
+function vertexShader(options: LineMaterialOptions): string {
+  return builder(options).vertexShader()
 }
 
-function fragmentShader(): string {
-    return builder().fragmentShader()
+function fragmentShader(options: LineMaterialOptions): string {
+  return builder(options).fragmentShader()
 }
 
 /**
@@ -33,11 +35,12 @@ function fragmentShader(): string {
  * @extends Material
  */
 export default class LineMaterial extends Material {
-    /**
-     * @class LineMaterial
-     * @constructor
-     */
-    constructor() {
-        super(vertexShader(), fragmentShader())
-    }
+  /**
+   * @class LineMaterial
+   * @constructor
+   * @param [options] {LineMaterialOptions}
+   */
+  constructor(options: LineMaterialOptions = {}) {
+    super(vertexShader(options), fragmentShader(options))
+  }
 }

@@ -1,5 +1,5 @@
-import Simplex from '../geometries/Simplex';
-import Vertex from '../geometries/Vertex';
+import Simplex from './Simplex';
+import Vertex from './primitives/Vertex';
 
 // This function has the important side-effect of setting the vertex index property.
 export default function computeUniqueVertices(geometry: Simplex[]): Vertex[] {

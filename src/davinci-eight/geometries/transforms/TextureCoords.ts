@@ -1,7 +1,7 @@
 import GraphicsProgramSymbols from '../../core/GraphicsProgramSymbols'
 import mustBeBoolean from '../../checks/mustBeBoolean'
 import Vector2 from '../../math/Vector2'
-import Vertex from '../Vertex'
+import Vertex from '../primitives/Vertex'
 import Transform from './Transform'
 
 /**

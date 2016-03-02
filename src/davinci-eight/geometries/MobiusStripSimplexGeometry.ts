@@ -1,4 +1,4 @@
-import GridBuilder from '../geometries/GridBuilder';
+import GridSimplexBuilder from '../geometries/GridSimplexBuilder';
 import Vector3 from '../math/Vector3';
 
 let cos = Math.cos;
@@ -25,7 +25,7 @@ function mobius(u: number, v: number): Vector3 {
     return point;
 }
 
-export default class MobiusStripSimplexGeometry extends GridBuilder {
+export default class MobiusStripSimplexGeometry extends GridSimplexBuilder {
     constructor(uSegments: number, vSegments: number) {
         super(mobius, uSegments, vSegments);
     }

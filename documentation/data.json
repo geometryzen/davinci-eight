@@ -2,7 +2,7 @@
     "project": {
         "name": "davinci-eight",
         "description": "WebGL library for mathematical physics using Geometric Algebra",
-        "version": "2.202.0",
+        "version": "2.203.0",
         "url": ""
     },
     "files": {
@@ -649,6 +649,115 @@
             "fors": {},
             "namespaces": {}
         },
+        "src/davinci-eight/geometries/primitives/DrawAttribute.ts": {
+            "name": "src/davinci-eight/geometries/primitives/DrawAttribute.ts",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/geometries/primitives/DrawPrimitive.ts": {
+            "name": "src/davinci-eight/geometries/primitives/DrawPrimitive.ts",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/geometries/primitives/GeometryPrimitive.ts": {
+            "name": "src/davinci-eight/geometries/primitives/GeometryPrimitive.ts",
+            "modules": {},
+            "classes": {
+                "GeometryPrimitive": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/geometries/primitives/GridLines.spec.ts": {
+            "name": "src/davinci-eight/geometries/primitives/GridLines.spec.ts",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/geometries/primitives/GridLines.ts": {
+            "name": "src/davinci-eight/geometries/primitives/GridLines.ts",
+            "modules": {},
+            "classes": {
+                "GridLines": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/geometries/primitives/GridPoints.spec.ts": {
+            "name": "src/davinci-eight/geometries/primitives/GridPoints.spec.ts",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/geometries/primitives/GridPoints.ts": {
+            "name": "src/davinci-eight/geometries/primitives/GridPoints.ts",
+            "modules": {},
+            "classes": {
+                "GridPoints": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/geometries/primitives/GridPrimitive.ts": {
+            "name": "src/davinci-eight/geometries/primitives/GridPrimitive.ts",
+            "modules": {
+                "primitives": 1
+            },
+            "classes": {
+                "GridPrimitive": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/geometries/primitives/GridTriangleStrip.ts": {
+            "name": "src/davinci-eight/geometries/primitives/GridTriangleStrip.ts",
+            "modules": {
+                "geometries": 1
+            },
+            "classes": {
+                "GridTriangleStrip": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/geometries/primitives/Vertex.ts": {
+            "name": "src/davinci-eight/geometries/primitives/Vertex.ts",
+            "modules": {},
+            "classes": {
+                "Vertex": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/geometries/primitives/VertexAttributeMap.ts": {
+            "name": "src/davinci-eight/geometries/primitives/VertexAttributeMap.ts",
+            "modules": {},
+            "classes": {
+                "VertexAttributeMap": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/geometries/primitives/numPostsForFence.ts": {
+            "name": "src/davinci-eight/geometries/primitives/numPostsForFence.ts",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/geometries/primitives/numVerticesForGrid.ts": {
+            "name": "src/davinci-eight/geometries/primitives/numVerticesForGrid.ts",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
         "src/davinci-eight/geometries/transforms/Approximation.ts": {
             "name": "src/davinci-eight/geometries/transforms/Approximation.ts",
             "modules": {},
@@ -750,9 +859,7 @@
         },
         "src/davinci-eight/geometries/ArrowGeometry.ts": {
             "name": "src/davinci-eight/geometries/ArrowGeometry.ts",
-            "modules": {
-                "geometries": 1
-            },
+            "modules": {},
             "classes": {
                 "ArrowGeometry": 1
             },
@@ -840,20 +947,6 @@
             "fors": {},
             "namespaces": {}
         },
-        "src/davinci-eight/geometries/DrawAttribute.ts": {
-            "name": "src/davinci-eight/geometries/DrawAttribute.ts",
-            "modules": {},
-            "classes": {},
-            "fors": {},
-            "namespaces": {}
-        },
-        "src/davinci-eight/geometries/DrawPrimitive.ts": {
-            "name": "src/davinci-eight/geometries/DrawPrimitive.ts",
-            "modules": {},
-            "classes": {},
-            "fors": {},
-            "namespaces": {}
-        },
         "src/davinci-eight/geometries/GeometryBuilder.ts": {
             "name": "src/davinci-eight/geometries/GeometryBuilder.ts",
             "modules": {},
@@ -879,17 +972,24 @@
             "fors": {},
             "namespaces": {}
         },
-        "src/davinci-eight/geometries/GeometryPrimitive.ts": {
-            "name": "src/davinci-eight/geometries/GeometryPrimitive.ts",
+        "src/davinci-eight/geometries/GridGeometry.ts": {
+            "name": "src/davinci-eight/geometries/GridGeometry.ts",
             "modules": {},
             "classes": {
-                "GeometryPrimitive": 1
+                "GridGeometry": 1
             },
             "fors": {},
             "namespaces": {}
         },
-        "src/davinci-eight/geometries/GridBuilder.ts": {
-            "name": "src/davinci-eight/geometries/GridBuilder.ts",
+        "src/davinci-eight/geometries/GridGeometryOptions.ts": {
+            "name": "src/davinci-eight/geometries/GridGeometryOptions.ts",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/geometries/GridSimplexBuilder.ts": {
+            "name": "src/davinci-eight/geometries/GridSimplexBuilder.ts",
             "modules": {},
             "classes": {},
             "fors": {},
@@ -995,33 +1095,6 @@
             "fors": {},
             "namespaces": {}
         },
-        "src/davinci-eight/geometries/TriangleStrip.ts": {
-            "name": "src/davinci-eight/geometries/TriangleStrip.ts",
-            "modules": {},
-            "classes": {
-                "TriangleStrip": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
-        "src/davinci-eight/geometries/Vertex.ts": {
-            "name": "src/davinci-eight/geometries/Vertex.ts",
-            "modules": {},
-            "classes": {
-                "Vertex": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
-        "src/davinci-eight/geometries/VertexAttributeMap.ts": {
-            "name": "src/davinci-eight/geometries/VertexAttributeMap.ts",
-            "modules": {},
-            "classes": {
-                "VertexAttributeMap": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
         "src/davinci-eight/geometries/arc3.ts": {
             "name": "src/davinci-eight/geometries/arc3.ts",
             "modules": {},
@@ -1108,6 +1181,15 @@
             "modules": {},
             "classes": {
                 "LineMaterial": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/materials/LineMaterialOptions.ts": {
+            "name": "src/davinci-eight/materials/LineMaterialOptions.ts",
+            "modules": {},
+            "classes": {
+                "LineMaterialOptions": 1
             },
             "fors": {},
             "namespaces": {}
@@ -1814,6 +1896,24 @@
             "fors": {},
             "namespaces": {}
         },
+        "src/davinci-eight/visual/Grid.ts": {
+            "name": "src/davinci-eight/visual/Grid.ts",
+            "modules": {},
+            "classes": {
+                "Grid": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/visual/GridOptions.ts": {
+            "name": "src/davinci-eight/visual/GridOptions.ts",
+            "modules": {},
+            "classes": {
+                "GridOptions": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "src/davinci-eight/visual/IGeometric3RigidBody.ts": {
             "name": "src/davinci-eight/visual/IGeometric3RigidBody.ts",
             "modules": {},
@@ -1922,6 +2022,7 @@
                 "controls": 1,
                 "core": 1,
                 "facets": 1,
+                "primitives": 1,
                 "geometries": 1,
                 "materials": 1,
                 "math": 1,
@@ -1992,6 +2093,13 @@
                 "Vector3Facet": 1,
                 "View": 1,
                 "createView": 1,
+                "GeometryPrimitive": 1,
+                "GridLines": 1,
+                "GridPoints": 1,
+                "GridPrimitive": 1,
+                "GridTriangleStrip": 1,
+                "Vertex": 1,
+                "VertexAttributeMap": 1,
                 "Approximation": 1,
                 "ConeTransform": 1,
                 "CylinderTransform": 1,
@@ -2015,7 +2123,7 @@
                 "CylindricalShellBuilder": 1,
                 "GeometryBuilder": 1,
                 "GeometryOptions": 1,
-                "GeometryPrimitive": 1,
+                "GridGeometry": 1,
                 "PrimitivesBuilder": 1,
                 "RingBuilder": 1,
                 "SimplexPrimitivesBuilder": 1,
@@ -2024,11 +2132,9 @@
                 "SphereGeometry": 1,
                 "TetrahedronGeometry": 1,
                 "TetrahedronGeometryOptions": 1,
-                "TriangleStrip": 1,
-                "Vertex": 1,
-                "VertexAttributeMap": 1,
                 "HTMLScriptsMaterial": 1,
                 "LineMaterial": 1,
+                "LineMaterialOptions": 1,
                 "MeshMaterial": 1,
                 "MeshNormalMaterial": 1,
                 "PointMaterial": 1,
@@ -2077,6 +2183,8 @@
                 "CommonOptions": 1,
                 "Cylinder": 1,
                 "CylinderOptions": 1,
+                "Grid": 1,
+                "GridOptions": 1,
                 "IGeometric3RigidBody": 1,
                 "RigidBody": 1,
                 "RigidBodyWithUnits": 1,
@@ -2181,28 +2289,44 @@
             "line": 11,
             "description": "Common abstractions for computing shader uniform variables."
         },
-        "geometries": {
-            "name": "geometries",
+        "primitives": {
+            "name": "primitives",
             "submodules": {},
             "elements": {},
             "classes": {
-                "ArrowGeometry": 1,
-                "BoxGeometry": 1,
-                "CylinderGeometry": 1,
-                "SphereGeometry": 1,
-                "TetrahedronGeometry": 1,
-                "TriangleStrip": 1,
-                "Vertex": 1,
-                "VertexAttributeMap": 1
+                "GridPrimitive": 1
             },
             "fors": {},
             "is_submodule": 1,
             "namespaces": {},
             "module": "EIGHT",
             "namespace": "",
-            "file": "src/davinci-eight/geometries/VertexAttributeMap.ts",
-            "line": 8,
-            "description": "A convenience class for creating an arrow."
+            "file": "src/davinci-eight/geometries/primitives/GridPrimitive.ts",
+            "line": 39,
+            "description": "Used for creating TRIANGLE_STRIP primitives.\nThe vertices generated have coordinates (u, v) and the traversal creates\ncounter-clockwise orientation when increasing u is the first direction and\nincreasing v the second direction."
+        },
+        "geometries": {
+            "name": "geometries",
+            "submodules": {},
+            "elements": {},
+            "classes": {
+                "GridTriangleStrip": 1,
+                "Vertex": 1,
+                "VertexAttributeMap": 1,
+                "ArrowGeometry": 1,
+                "BoxGeometry": 1,
+                "CylinderGeometry": 1,
+                "SphereGeometry": 1,
+                "TetrahedronGeometry": 1
+            },
+            "fors": {},
+            "is_submodule": 1,
+            "namespaces": {},
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/geometries/TetrahedronGeometry.ts",
+            "line": 29,
+            "description": "Used for creating TRIANGLE_STRIP primitives.\nThe vertices generated have coordinates (u, v) and the traversal creates\ncounter-clockwise orientation when increasing u is the first direction and\nincreasing v the second direction."
         },
         "materials": {
             "name": "materials",
@@ -2968,7 +3092,7 @@
             "submodule": "core",
             "namespace": "",
             "file": "src/davinci-eight/core/Mesh.ts",
-            "line": 29,
+            "line": 31,
             "extends": "Drawable",
             "is_constructor": 1,
             "params": [
@@ -3382,7 +3506,7 @@
             "submodule": "facets",
             "namespace": "",
             "file": "src/davinci-eight/facets/PointSizeFacet.ts",
-            "line": 29,
+            "line": 30,
             "is_constructor": 1,
             "params": [
                 {
@@ -3492,6 +3616,180 @@
             "file": "src/davinci-eight/facets/createView.ts",
             "line": 14,
             "is_constructor": 1
+        },
+        "GeometryPrimitive": {
+            "name": "GeometryPrimitive",
+            "shortname": "GeometryPrimitive",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/geometries/primitives/GeometryPrimitive.ts",
+            "line": 81,
+            "description": "Constructs a GeometryPrimitive and initializes the vertices property with the required number of vertices.",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "mode",
+                    "description": "",
+                    "type": "DrawMode"
+                },
+                {
+                    "name": "numVertices",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "numCoordinates",
+                    "description": "The number of coordinates required to label each vertex.",
+                    "type": "Number"
+                }
+            ]
+        },
+        "GridLines": {
+            "name": "GridLines",
+            "shortname": "GridLines",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/geometries/primitives/GridLines.ts",
+            "line": 43,
+            "extends": "GeometryPrimitive",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "uSegments",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "vSegments",
+                    "description": "",
+                    "type": "Number"
+                }
+            ]
+        },
+        "GridPoints": {
+            "name": "GridPoints",
+            "shortname": "GridPoints",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/geometries/primitives/GridPoints.ts",
+            "line": 33,
+            "extends": "GeometryPrimitive",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "uSegments",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "vSegments",
+                    "description": "",
+                    "type": "Number"
+                }
+            ]
+        },
+        "GridPrimitive": {
+            "name": "GridPrimitive",
+            "shortname": "GridPrimitive",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "submodule": "primitives",
+            "namespace": "",
+            "file": "src/davinci-eight/geometries/primitives/GridPrimitive.ts",
+            "line": 39,
+            "description": "Used for creating TRIANGLE_STRIP primitives.\nThe vertices generated have coordinates (u, v) and the traversal creates\ncounter-clockwise orientation when increasing u is the first direction and\nincreasing v the second direction.",
+            "extends": "GeometryPrimitive",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "uSegments",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "vSegments",
+                    "description": "",
+                    "type": "Number"
+                }
+            ]
+        },
+        "GridTriangleStrip": {
+            "name": "GridTriangleStrip",
+            "shortname": "GridTriangleStrip",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "submodule": "geometries",
+            "namespace": "",
+            "file": "src/davinci-eight/geometries/primitives/GridTriangleStrip.ts",
+            "line": 72,
+            "description": "Used for creating TRIANGLE_STRIP primitives.\nThe vertices generated have coordinates (u, v) and the traversal creates\ncounter-clockwise orientation when increasing u is the first direction and\nincreasing v the second direction.",
+            "extends": "GeometryPrimitive",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "uSegments",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "vSegments",
+                    "description": "",
+                    "type": "Number"
+                }
+            ]
+        },
+        "Vertex": {
+            "name": "Vertex",
+            "shortname": "Vertex",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "submodule": "geometries",
+            "namespace": "",
+            "file": "src/davinci-eight/geometries/primitives/Vertex.ts",
+            "line": 56,
+            "is_constructor": 1
+        },
+        "VertexAttributeMap": {
+            "name": "VertexAttributeMap",
+            "shortname": "VertexAttributeMap",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "submodule": "geometries",
+            "namespace": "",
+            "file": "src/davinci-eight/geometries/primitives/VertexAttributeMap.ts",
+            "line": 8,
+            "description": "A mapping from the name of an attribute to VectorN parameterized by number.\nUsing VectorN allows Geometric2, Geometric3, Vector1, Vector2, Vector3, Vector4, Spinor2, Spinor3."
         },
         "Approximation": {
             "name": "Approximation",
@@ -4054,9 +4352,9 @@
             "file": "src/davinci-eight/geometries/GeometryOptions.ts",
             "line": 4
         },
-        "GeometryPrimitive": {
-            "name": "GeometryPrimitive",
-            "shortname": "GeometryPrimitive",
+        "GridGeometry": {
+            "name": "GridGeometry",
+            "shortname": "GridGeometry",
             "classitems": [],
             "plugins": [],
             "extensions": [],
@@ -4064,20 +4362,16 @@
             "extension_for": [],
             "module": "EIGHT",
             "namespace": "",
-            "file": "src/davinci-eight/geometries/GeometryPrimitive.ts",
-            "line": 77,
-            "description": "Constructs a GeometryPrimitive and initializes the vertices property with the required number of vertices.",
+            "file": "src/davinci-eight/geometries/GridGeometry.ts",
+            "line": 88,
+            "extends": "GeometryBuffers",
             "is_constructor": 1,
             "params": [
                 {
-                    "name": "mode",
+                    "name": "options",
                     "description": "",
-                    "type": "DrawMode"
-                },
-                {
-                    "name": "numVertices",
-                    "description": "",
-                    "type": "Number"
+                    "type": "GridGeometryOptions",
+                    "optional": true
                 }
             ]
         },
@@ -4235,65 +4529,6 @@
             "file": "src/davinci-eight/geometries/TetrahedronGeometryOptions.ts",
             "line": 3
         },
-        "TriangleStrip": {
-            "name": "TriangleStrip",
-            "shortname": "TriangleStrip",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "EIGHT",
-            "submodule": "geometries",
-            "namespace": "",
-            "file": "src/davinci-eight/geometries/TriangleStrip.ts",
-            "line": 99,
-            "description": "Used for creating TRIANGLE_STRIP primitives.\nThe vertices generated have coordinates (u, v) and the traversal creates\ncounter-clockwise orientation when increasing u is the first direction and\nincreasing v the second direction.",
-            "extends": "GeometryPrimitive",
-            "is_constructor": 1,
-            "params": [
-                {
-                    "name": "uSegments",
-                    "description": "",
-                    "type": "Number"
-                },
-                {
-                    "name": "vSegments",
-                    "description": "",
-                    "type": "Number"
-                }
-            ]
-        },
-        "Vertex": {
-            "name": "Vertex",
-            "shortname": "Vertex",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "EIGHT",
-            "submodule": "geometries",
-            "namespace": "",
-            "file": "src/davinci-eight/geometries/Vertex.ts",
-            "line": 42,
-            "is_constructor": 1
-        },
-        "VertexAttributeMap": {
-            "name": "VertexAttributeMap",
-            "shortname": "VertexAttributeMap",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "EIGHT",
-            "submodule": "geometries",
-            "namespace": "",
-            "file": "src/davinci-eight/geometries/VertexAttributeMap.ts",
-            "line": 8,
-            "description": "A mapping from the name of an attribute to VectorN parameterized by number.\nUsing VectorN allows Geometric2, Geometric3, Vector1, Vector2, Vector3, Vector4, Spinor2, Spinor3."
-        },
         "HTMLScriptsMaterial": {
             "name": "HTMLScriptsMaterial",
             "shortname": "HTMLScriptsMaterial",
@@ -4334,9 +4569,30 @@
             "submodule": "materials",
             "namespace": "",
             "file": "src/davinci-eight/materials/LineMaterial.ts",
-            "line": 36,
+            "line": 38,
             "extends": "Material",
-            "is_constructor": 1
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "options",
+                    "description": "",
+                    "type": "LineMaterialOptions",
+                    "optional": true
+                }
+            ]
+        },
+        "LineMaterialOptions": {
+            "name": "LineMaterialOptions",
+            "shortname": "LineMaterialOptions",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/materials/LineMaterialOptions.ts",
+            "line": 1
         },
         "MeshMaterial": {
             "name": "MeshMaterial",
@@ -5314,6 +5570,42 @@
             "file": "src/davinci-eight/visual/CylinderOptions.ts",
             "line": 4,
             "extends": "CommonOptions"
+        },
+        "Grid": {
+            "name": "Grid",
+            "shortname": "Grid",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/visual/Grid.ts",
+            "line": 133,
+            "extends": "Mesh",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "options",
+                    "description": "",
+                    "type": "GridOptions",
+                    "optional": true
+                }
+            ]
+        },
+        "GridOptions": {
+            "name": "GridOptions",
+            "shortname": "GridOptions",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/visual/GridOptions.ts",
+            "line": 5
         },
         "IGeometric3RigidBody": {
             "name": "IGeometric3RigidBody",
@@ -7242,6 +7534,28 @@
             "file": "src/davinci-eight/core/Color.ts",
             "line": 263,
             "itemtype": "method",
+            "name": "copy",
+            "params": [
+                {
+                    "name": "color",
+                    "description": "",
+                    "type": "IColor"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Color"
+            },
+            "static": 1,
+            "chainable": 1,
+            "class": "Color",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/Color.ts",
+            "line": 274,
+            "itemtype": "method",
             "name": "luminance",
             "params": [
                 {
@@ -7265,28 +7579,6 @@
                 "type": "Number"
             },
             "static": 1,
-            "class": "Color",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/Color.ts",
-            "line": 280,
-            "itemtype": "method",
-            "name": "fromColor",
-            "params": [
-                {
-                    "name": "color",
-                    "description": "",
-                    "type": "IColor"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Color"
-            },
-            "static": 1,
-            "chainable": 1,
             "class": "Color",
             "module": "EIGHT",
             "submodule": "core"
@@ -7347,7 +7639,7 @@
         },
         {
             "file": "src/davinci-eight/core/Color.ts",
-            "line": 320,
+            "line": 321,
             "description": "This function captures C and L",
             "class": "Color",
             "module": "EIGHT",
@@ -7355,7 +7647,7 @@
         },
         {
             "file": "src/davinci-eight/core/Color.ts",
-            "line": 353,
+            "line": 354,
             "itemtype": "method",
             "name": "fromRGB",
             "params": [
@@ -7387,7 +7679,7 @@
         },
         {
             "file": "src/davinci-eight/core/Color.ts",
-            "line": 369,
+            "line": 370,
             "itemtype": "method",
             "name": "lerp",
             "params": [
@@ -7727,7 +8019,7 @@
         },
         {
             "file": "src/davinci-eight/core/Facet.ts",
-            "line": 12,
+            "line": 13,
             "itemtype": "method",
             "name": "setUniforms",
             "params": [
@@ -7747,7 +8039,7 @@
         },
         {
             "file": "src/davinci-eight/core/Facet.ts",
-            "line": 19,
+            "line": 20,
             "itemtype": "method",
             "name": "setProperty",
             "params": [
@@ -9971,7 +10263,7 @@
         },
         {
             "file": "src/davinci-eight/core/Mesh.ts",
-            "line": 44,
+            "line": 49,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -9986,7 +10278,7 @@
         },
         {
             "file": "src/davinci-eight/core/Mesh.ts",
-            "line": 53,
+            "line": 58,
             "description": "Attitude (spinor)",
             "itemtype": "property",
             "name": "attitude",
@@ -9997,7 +10289,7 @@
         },
         {
             "file": "src/davinci-eight/core/Mesh.ts",
-            "line": 78,
+            "line": 83,
             "description": "Color",
             "itemtype": "property",
             "name": "color",
@@ -10008,7 +10300,7 @@
         },
         {
             "file": "src/davinci-eight/core/Mesh.ts",
-            "line": 103,
+            "line": 108,
             "itemtype": "property",
             "name": "matrix",
             "type": "Matrix4",
@@ -10019,7 +10311,7 @@
         },
         {
             "file": "src/davinci-eight/core/Mesh.ts",
-            "line": 115,
+            "line": 120,
             "description": "Position (vector)",
             "itemtype": "property",
             "name": "position",
@@ -10030,7 +10322,7 @@
         },
         {
             "file": "src/davinci-eight/core/Mesh.ts",
-            "line": 140,
+            "line": 145,
             "itemtype": "property",
             "name": "stress",
             "type": "Matrix4",
@@ -10040,7 +10332,7 @@
         },
         {
             "file": "src/davinci-eight/core/Mesh.ts",
-            "line": 163,
+            "line": 168,
             "itemtype": "method",
             "name": "getPrincipalScale",
             "params": [
@@ -10060,7 +10352,7 @@
         },
         {
             "file": "src/davinci-eight/core/Mesh.ts",
-            "line": 175,
+            "line": 180,
             "itemtype": "method",
             "name": "setPrincipalScale",
             "params": [
@@ -11730,7 +12022,7 @@
         },
         {
             "file": "src/davinci-eight/facets/DirectionalLight.ts",
-            "line": 93,
+            "line": 91,
             "itemtype": "method",
             "name": "setProperty",
             "params": [
@@ -11755,7 +12047,7 @@
         },
         {
             "file": "src/davinci-eight/facets/DirectionalLight.ts",
-            "line": 118,
+            "line": 116,
             "itemtype": "method",
             "name": "setColor",
             "params": [
@@ -11776,7 +12068,7 @@
         },
         {
             "file": "src/davinci-eight/facets/DirectionalLight.ts",
-            "line": 130,
+            "line": 128,
             "itemtype": "method",
             "name": "setDirection",
             "params": [
@@ -11797,7 +12089,7 @@
         },
         {
             "file": "src/davinci-eight/facets/DirectionalLight.ts",
-            "line": 142,
+            "line": 140,
             "itemtype": "method",
             "name": "setUniforms",
             "params": [
@@ -12679,7 +12971,7 @@
         },
         {
             "file": "src/davinci-eight/facets/PointSizeFacet.ts",
-            "line": 23,
+            "line": 24,
             "itemtype": "property",
             "name": "pointSize",
             "type": "{number}",
@@ -13072,6 +13364,365 @@
                 "type": "View"
             },
             "class": "createView",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/primitives/DrawAttribute.ts",
+            "line": 30,
+            "description": "A convenience class for implementing the Attribute interface.",
+            "class": "GeometryPrimitive",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/primitives/DrawPrimitive.ts",
+            "line": 10,
+            "description": "A convenience class for implementing the Primitive interface.",
+            "class": "GeometryPrimitive",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/primitives/GeometryPrimitive.ts",
+            "line": 14,
+            "description": "This helper function converts Vertex (VectorN) attributes into the Primitive (number[]) format.\nThere is some mahic in the conversion of various types (Geometric2, Geometric3, Vector2, Vector3)\nto number[], but the basic rule is that the vector grade is extracted and used in a way that is\nconsistent with the linear dimension (2,3), so there should be no surprises.",
+            "class": "GeometryPrimitive",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/primitives/GeometryPrimitive.ts",
+            "line": 60,
+            "itemtype": "property",
+            "name": "mode",
+            "type": "DrawMode",
+            "access": "private",
+            "tagname": "",
+            "class": "GeometryPrimitive",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/primitives/GeometryPrimitive.ts",
+            "line": 67,
+            "itemtype": "property",
+            "name": "elements",
+            "type": "number[]",
+            "access": "protected",
+            "tagname": "",
+            "class": "GeometryPrimitive",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/primitives/GeometryPrimitive.ts",
+            "line": 74,
+            "itemtype": "property",
+            "name": "vertices",
+            "type": "Vertex",
+            "access": "protected",
+            "tagname": "",
+            "class": "GeometryPrimitive",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/primitives/GeometryPrimitive.ts",
+            "line": 102,
+            "itemtype": "method",
+            "name": "toPrimitive",
+            "return": {
+                "description": "",
+                "type": "Primitive"
+            },
+            "class": "GeometryPrimitive",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/primitives/GeometryPrimitive.ts",
+            "line": 113,
+            "itemtype": "method",
+            "name": "toVertexArrays",
+            "params": [
+                {
+                    "name": "names",
+                    "description": "Optional. Allows the attributes to be filtered and ordered.",
+                    "type": "String[]",
+                    "optional": true
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "VertexArrays"
+            },
+            "class": "GeometryPrimitive",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/primitives/GridLines.spec.ts",
+            "line": 11,
+            "description": "2---3\n|   |\n0---1",
+            "class": "GridLines",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/primitives/GridLines.ts",
+            "line": 7,
+            "description": "Computes the vertex index from integer coordinates.\nBoth lengths are included for symmetry!",
+            "class": "GridLines",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/primitives/GridLines.ts",
+            "line": 63,
+            "itemtype": "method",
+            "name": "vertex",
+            "params": [
+                {
+                    "name": "i",
+                    "description": "An integer. 0 <= i < uLength",
+                    "type": "Number"
+                },
+                {
+                    "name": "j",
+                    "description": "An integer. 0 <= j < vLength",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Vertex"
+            },
+            "class": "GridLines",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/primitives/GridPoints.spec.ts",
+            "line": 11,
+            "description": "2---3\n|   |\n0---1",
+            "class": "GridPoints",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/primitives/GridPoints.ts",
+            "line": 7,
+            "description": "Computes the vertex index from integer coordinates.\nBoth lengths are included for symmetry!",
+            "class": "GridPoints",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/primitives/GridPoints.ts",
+            "line": 53,
+            "itemtype": "method",
+            "name": "vertex",
+            "params": [
+                {
+                    "name": "i",
+                    "description": "An integer. 0 <= i < uLength",
+                    "type": "Number"
+                },
+                {
+                    "name": "j",
+                    "description": "An integer. 0 <= j < vLength",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Vertex"
+            },
+            "class": "GridPoints",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/primitives/GridPrimitive.ts",
+            "line": 25,
+            "itemtype": "property",
+            "name": "_uSegments",
+            "type": "number",
+            "access": "private",
+            "tagname": "",
+            "class": "GridPrimitive",
+            "module": "EIGHT",
+            "submodule": "primitives"
+        },
+        {
+            "file": "src/davinci-eight/geometries/primitives/GridPrimitive.ts",
+            "line": 32,
+            "itemtype": "property",
+            "name": "_vSegments",
+            "type": "number",
+            "access": "private",
+            "tagname": "",
+            "class": "GridPrimitive",
+            "module": "EIGHT",
+            "submodule": "primitives"
+        },
+        {
+            "file": "src/davinci-eight/geometries/primitives/GridPrimitive.ts",
+            "line": 51,
+            "itemtype": "property",
+            "name": "uSegments",
+            "type": "number",
+            "readonly": "",
+            "class": "GridPrimitive",
+            "module": "EIGHT",
+            "submodule": "primitives"
+        },
+        {
+            "file": "src/davinci-eight/geometries/primitives/GridPrimitive.ts",
+            "line": 63,
+            "description": "uLength = uSegments + 1",
+            "itemtype": "property",
+            "name": "uLength",
+            "type": "number",
+            "readonly": "",
+            "class": "GridPrimitive",
+            "module": "EIGHT",
+            "submodule": "primitives"
+        },
+        {
+            "file": "src/davinci-eight/geometries/primitives/GridPrimitive.ts",
+            "line": 77,
+            "itemtype": "property",
+            "name": "vSegments",
+            "type": "number",
+            "readonly": "",
+            "class": "GridPrimitive",
+            "module": "EIGHT",
+            "submodule": "primitives"
+        },
+        {
+            "file": "src/davinci-eight/geometries/primitives/GridPrimitive.ts",
+            "line": 89,
+            "description": "vLength = vSegments + 1",
+            "itemtype": "property",
+            "name": "vLength",
+            "type": "number",
+            "readonly": "",
+            "class": "GridPrimitive",
+            "module": "EIGHT",
+            "submodule": "primitives"
+        },
+        {
+            "file": "src/davinci-eight/geometries/primitives/GridPrimitive.ts",
+            "line": 103,
+            "description": "Derived classes must override.",
+            "itemtype": "method",
+            "name": "vertex",
+            "params": [
+                {
+                    "name": "i",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "j",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Vertex"
+            },
+            "class": "GridPrimitive",
+            "module": "EIGHT",
+            "submodule": "primitives"
+        },
+        {
+            "file": "src/davinci-eight/geometries/primitives/GridTriangleStrip.ts",
+            "line": 20,
+            "description": "The number of elements needed if we executed a strip per row.\nRemark Notice the asymmetry. Could be a performance impact.",
+            "class": "GridTriangleStrip",
+            "module": "EIGHT",
+            "submodule": "geometries"
+        },
+        {
+            "file": "src/davinci-eight/geometries/primitives/GridTriangleStrip.ts",
+            "line": 25,
+            "description": "Index for TRIANGLE_STRIP array.",
+            "class": "GridTriangleStrip",
+            "module": "EIGHT",
+            "submodule": "geometries"
+        },
+        {
+            "file": "src/davinci-eight/geometries/primitives/GridTriangleStrip.ts",
+            "line": 83,
+            "itemtype": "method",
+            "name": "vertex",
+            "params": [
+                {
+                    "name": "uIndex",
+                    "description": "An integer. 0 <= uIndex < uLength",
+                    "type": "Number"
+                },
+                {
+                    "name": "vIndex",
+                    "description": "An integer. 0 <= vIndex < vLength",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Vertex"
+            },
+            "class": "GridTriangleStrip",
+            "module": "EIGHT",
+            "submodule": "geometries"
+        },
+        {
+            "file": "src/davinci-eight/geometries/primitives/Vertex.ts",
+            "line": 35,
+            "itemtype": "property",
+            "name": "attributes",
+            "type": "VertexAttributeMap",
+            "class": "Vertex",
+            "module": "EIGHT",
+            "submodule": "geometries"
+        },
+        {
+            "file": "src/davinci-eight/geometries/primitives/Vertex.ts",
+            "line": 41,
+            "description": "The abstract cordinates that label the vertex.",
+            "itemtype": "property",
+            "name": "coords",
+            "type": "Coords",
+            "class": "Vertex",
+            "module": "EIGHT",
+            "submodule": "geometries"
+        },
+        {
+            "file": "src/davinci-eight/geometries/primitives/Vertex.ts",
+            "line": 49,
+            "itemtype": "property",
+            "name": "index",
+            "type": "number",
+            "deprecated": true,
+            "deprecationMessage": "(Maybe)",
+            "class": "Vertex",
+            "module": "EIGHT",
+            "submodule": "geometries"
+        },
+        {
+            "file": "src/davinci-eight/geometries/primitives/Vertex.ts",
+            "line": 69,
+            "itemtype": "method",
+            "name": "toString",
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "class": "Vertex",
+            "module": "EIGHT",
+            "submodule": "geometries"
+        },
+        {
+            "file": "src/davinci-eight/geometries/primitives/numPostsForFence.ts",
+            "line": 3,
+            "description": "Computes the number of posts to build a fence from the number of segments.",
+            "class": "Approximation",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/primitives/numVerticesForGrid.ts",
+            "line": 3,
+            "description": "Computes the number of vertices required to construct a grid.",
+            "class": "Approximation",
             "module": "EIGHT"
         },
         {
@@ -14042,7 +14693,7 @@
         {
             "file": "src/davinci-eight/geometries/CuboidPrimitivesBuilder.ts",
             "line": 166,
-            "description": "Creates six TRIANGLE_STRIP faces using the TriangleStrip helper.",
+            "description": "Creates six TRIANGLE_STRIP faces using the GridTriangleStrip helper.",
             "itemtype": "method",
             "name": "regenerate",
             "return": {
@@ -14371,20 +15022,6 @@
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/geometries/DrawAttribute.ts",
-            "line": 30,
-            "description": "A convenience class for implementing the Attribute interface.",
-            "class": "GeometryBuilder",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/geometries/DrawPrimitive.ts",
-            "line": 8,
-            "description": "A convenience class for implementing the Primitive interface.",
-            "class": "GeometryBuilder",
-            "module": "EIGHT"
-        },
-        {
             "file": "src/davinci-eight/geometries/GeometryBuilder.ts",
             "line": 12,
             "itemtype": "property",
@@ -14481,79 +15118,106 @@
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/geometries/GeometryPrimitive.ts",
-            "line": 12,
-            "description": "This helper function converts Vertex (VectorN) attributes into the Primitive (number[]) format.\nThere is some mahic in the conversion of various types (Geometric2, Geometric3, Vector2, Vector3)\nto number[], but the basic rule is that the vector grade is extracted and used in a way that is\nconsistent with the linear dimension (2,3), so there should be no surprises.",
-            "class": "GeometryPrimitive",
+            "file": "src/davinci-eight/geometries/GridGeometryOptions.ts",
+            "line": 7,
+            "description": "A parametric function determining the positions of points in the grid.\n\n0 <= u <= 1\n0 <= v <= 1",
+            "itemtype": "attribute",
+            "name": "aPosition",
+            "type": "(u: number, v: number) => VectorE3",
+            "optional": 1,
+            "default": "() => (u, v, 0)",
+            "class": "PrimitivesBuilder",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/geometries/GeometryPrimitive.ts",
-            "line": 58,
-            "itemtype": "property",
-            "name": "mode",
+            "file": "src/davinci-eight/geometries/GridGeometryOptions.ts",
+            "line": 22,
+            "itemtype": "attribute",
+            "name": "aColor",
+            "type": "(u: number, v: number) => IColor",
+            "optional": 1,
+            "class": "PrimitivesBuilder",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/GridGeometryOptions.ts",
+            "line": 29,
+            "itemtype": "attribute",
+            "name": "draeMode",
             "type": "DrawMode",
-            "access": "private",
-            "tagname": "",
-            "class": "GeometryPrimitive",
+            "optional": 1,
+            "default": "DrawMode.LINES",
+            "class": "PrimitivesBuilder",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/geometries/GeometryPrimitive.ts",
-            "line": 64,
-            "itemtype": "property",
-            "name": "elements",
-            "type": "number[]",
-            "access": "protected",
-            "tagname": "",
-            "class": "GeometryPrimitive",
+            "file": "src/davinci-eight/geometries/GridGeometryOptions.ts",
+            "line": 37,
+            "itemtype": "attribute",
+            "name": "uMin",
+            "type": "number",
+            "optional": 1,
+            "default": "0",
+            "class": "PrimitivesBuilder",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/geometries/GeometryPrimitive.ts",
-            "line": 70,
-            "itemtype": "property",
-            "name": "vertices",
-            "type": "Vertex",
-            "access": "protected",
-            "tagname": "",
-            "class": "GeometryPrimitive",
+            "file": "src/davinci-eight/geometries/GridGeometryOptions.ts",
+            "line": 45,
+            "itemtype": "attribute",
+            "name": "uMax",
+            "type": "number",
+            "optional": 1,
+            "default": "1",
+            "class": "PrimitivesBuilder",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/geometries/GeometryPrimitive.ts",
-            "line": 94,
-            "itemtype": "method",
-            "name": "toPrimitive",
-            "return": {
-                "description": "",
-                "type": "Primitive"
-            },
-            "class": "GeometryPrimitive",
+            "file": "src/davinci-eight/geometries/GridGeometryOptions.ts",
+            "line": 53,
+            "itemtype": "attribute",
+            "name": "uSegments",
+            "type": "number",
+            "optional": 1,
+            "default": "1",
+            "class": "PrimitivesBuilder",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/geometries/GeometryPrimitive.ts",
-            "line": 102,
-            "itemtype": "method",
-            "name": "toVertexArrays",
-            "params": [
-                {
-                    "name": "names",
-                    "description": "Optional. Allows the attributes to be filtered and ordered.",
-                    "type": "String[]",
-                    "optional": true
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "VertexArrays"
-            },
-            "class": "GeometryPrimitive",
+            "file": "src/davinci-eight/geometries/GridGeometryOptions.ts",
+            "line": 61,
+            "itemtype": "attribute",
+            "name": "vMin",
+            "type": "number",
+            "optional": 1,
+            "default": "0",
+            "class": "PrimitivesBuilder",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/geometries/GridBuilder.ts",
+            "file": "src/davinci-eight/geometries/GridGeometryOptions.ts",
+            "line": 69,
+            "itemtype": "attribute",
+            "name": "uMax",
+            "type": "number",
+            "optional": 1,
+            "default": "1",
+            "class": "PrimitivesBuilder",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/GridGeometryOptions.ts",
+            "line": 77,
+            "itemtype": "attribute",
+            "name": "vSegments",
+            "type": "number",
+            "optional": 1,
+            "default": "1",
+            "class": "PrimitivesBuilder",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/GridSimplexBuilder.ts",
             "line": 16,
             "description": "Temporary array of points.",
             "class": "PrimitivesBuilder",
@@ -14966,152 +15630,6 @@
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/geometries/TriangleStrip.ts",
-            "line": 36,
-            "description": "The number of elements needed if we executed a strip per row.\nRemark Notice the asymmetry. Could be a performance impact.",
-            "class": "TriangleStrip",
-            "module": "EIGHT",
-            "submodule": "geometries"
-        },
-        {
-            "file": "src/davinci-eight/geometries/TriangleStrip.ts",
-            "line": 41,
-            "description": "Index for triangle strip array.",
-            "class": "TriangleStrip",
-            "module": "EIGHT",
-            "submodule": "geometries"
-        },
-        {
-            "file": "src/davinci-eight/geometries/TriangleStrip.ts",
-            "line": 87,
-            "itemtype": "property",
-            "name": "_uSegments",
-            "type": "number",
-            "access": "private",
-            "tagname": "",
-            "class": "TriangleStrip",
-            "module": "EIGHT",
-            "submodule": "geometries"
-        },
-        {
-            "file": "src/davinci-eight/geometries/TriangleStrip.ts",
-            "line": 93,
-            "itemtype": "property",
-            "name": "_vSegments",
-            "type": "number",
-            "access": "private",
-            "tagname": "",
-            "class": "TriangleStrip",
-            "module": "EIGHT",
-            "submodule": "geometries"
-        },
-        {
-            "file": "src/davinci-eight/geometries/TriangleStrip.ts",
-            "line": 111,
-            "itemtype": "property",
-            "name": "uSegments",
-            "type": "number",
-            "readonly": "",
-            "class": "TriangleStrip",
-            "module": "EIGHT",
-            "submodule": "geometries"
-        },
-        {
-            "file": "src/davinci-eight/geometries/TriangleStrip.ts",
-            "line": 122,
-            "description": "uLength = uSegments + 1",
-            "itemtype": "property",
-            "name": "uLength",
-            "type": "number",
-            "readonly": "",
-            "class": "TriangleStrip",
-            "module": "EIGHT",
-            "submodule": "geometries"
-        },
-        {
-            "file": "src/davinci-eight/geometries/TriangleStrip.ts",
-            "line": 136,
-            "itemtype": "property",
-            "name": "vSegments",
-            "type": "number",
-            "readonly": "",
-            "class": "TriangleStrip",
-            "module": "EIGHT",
-            "submodule": "geometries"
-        },
-        {
-            "file": "src/davinci-eight/geometries/TriangleStrip.ts",
-            "line": 148,
-            "description": "vLength = vSegments + 1",
-            "itemtype": "property",
-            "name": "vLength",
-            "type": "number",
-            "readonly": "",
-            "class": "TriangleStrip",
-            "module": "EIGHT",
-            "submodule": "geometries"
-        },
-        {
-            "file": "src/davinci-eight/geometries/TriangleStrip.ts",
-            "line": 162,
-            "itemtype": "method",
-            "name": "vertex",
-            "params": [
-                {
-                    "name": "uIndex",
-                    "description": "An integer. 0 <= uIndex < uLength",
-                    "type": "Number"
-                },
-                {
-                    "name": "vIndex",
-                    "description": "An integer. 0 <= vIndex < vLength",
-                    "type": "Number"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Vertex"
-            },
-            "class": "TriangleStrip",
-            "module": "EIGHT",
-            "submodule": "geometries"
-        },
-        {
-            "file": "src/davinci-eight/geometries/Vertex.ts",
-            "line": 31,
-            "itemtype": "property",
-            "name": "attributes",
-            "type": "VertexAttributeMap",
-            "class": "Vertex",
-            "module": "EIGHT",
-            "submodule": "geometries"
-        },
-        {
-            "file": "src/davinci-eight/geometries/Vertex.ts",
-            "line": 36,
-            "itemtype": "property",
-            "name": "index",
-            "type": "number",
-            "deprecated": true,
-            "deprecationMessage": "(Maybe)",
-            "class": "Vertex",
-            "module": "EIGHT",
-            "submodule": "geometries"
-        },
-        {
-            "file": "src/davinci-eight/geometries/Vertex.ts",
-            "line": 49,
-            "itemtype": "method",
-            "name": "toString",
-            "return": {
-                "description": "",
-                "type": "String"
-            },
-            "class": "Vertex",
-            "module": "EIGHT",
-            "submodule": "geometries"
-        },
-        {
             "file": "src/davinci-eight/geometries/arc3.ts",
             "line": 9,
             "description": "Computes a list of points corresponding to an arc centered on the origin.\nbegin {VectorE3} The begin position.\nangle: {number} The angle of the rotation.\ngenerator {SpinorE3} The generator of the rotation.\nsegments {number} The number of segments.",
@@ -15251,6 +15769,26 @@
             "line": 266,
             "description": "Symbol obtained from the symbol lookup table.",
             "class": "HTMLScriptsMaterial",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/materials/LineMaterialOptions.ts",
+            "line": 6,
+            "itemtype": "attribute",
+            "name": "attributes",
+            "type": "{[name: string]: number}",
+            "optional": 1,
+            "class": "LineMaterialOptions",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/materials/LineMaterialOptions.ts",
+            "line": 13,
+            "itemtype": "attribute",
+            "name": "uniforms",
+            "type": "{[name: string]: string}",
+            "optional": 1,
+            "class": "LineMaterialOptions",
             "module": "EIGHT"
         },
         {
@@ -31726,7 +32264,120 @@
             "file": "src/davinci-eight/visual/DrawList.ts",
             "line": 7,
             "description": "A simple list of meshes that does not bypass the draw method of the IDrawable.\nThis allows the IDrawable to override the draw method to produce history and draw trails.",
-            "class": "IGeometric3RigidBody",
+            "class": "Grid",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/visual/GridOptions.ts",
+            "line": 10,
+            "description": "<p>\nA parametric function determining the positions of points in the grid.\n</p>\n<p>\nu<sub>min</sub> <= u <= u<sub>max</sub>\n</p>\n<p>\nv<sub>min</sub> <= v <= v<sub>max</sub>\n</p>",
+            "itemtype": "attribute",
+            "name": "aPosition",
+            "type": "(u: number, v: number) => VectorE3",
+            "optional": 1,
+            "default": "(u: number, v: number) => u * e1 + v * e2",
+            "class": "GridOptions",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/visual/GridOptions.ts",
+            "line": 28,
+            "itemtype": "attribute",
+            "name": "aNormal",
+            "type": "(u: number, v: number) => VectorE3",
+            "optional": 1,
+            "default": "(u: number, v: number) => e3",
+            "class": "GridOptions",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/visual/GridOptions.ts",
+            "line": 36,
+            "itemtype": "attribute",
+            "name": "aColor",
+            "type": "(u: number, v: number) => IColor",
+            "optional": 1,
+            "class": "GridOptions",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/visual/GridOptions.ts",
+            "line": 43,
+            "description": "Specifies the required Geometric Primitive Type.\nImplementations may choose the nearest type.",
+            "itemtype": "attribute",
+            "name": "drawMode",
+            "type": "DrawMode",
+            "optional": 1,
+            "default": "DrawMode.LINES",
+            "class": "GridOptions",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/visual/GridOptions.ts",
+            "line": 54,
+            "itemtype": "attribute",
+            "name": "uMin",
+            "type": "number",
+            "optional": 1,
+            "default": "-0.5",
+            "class": "GridOptions",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/visual/GridOptions.ts",
+            "line": 62,
+            "itemtype": "attribute",
+            "name": "uMax",
+            "type": "number",
+            "optional": 1,
+            "default": "+0.5",
+            "class": "GridOptions",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/visual/GridOptions.ts",
+            "line": 70,
+            "description": "The number of segments for the u coordinate.",
+            "itemtype": "attribute",
+            "name": "uSegments",
+            "type": "number",
+            "optional": 1,
+            "default": "1",
+            "class": "GridOptions",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/visual/GridOptions.ts",
+            "line": 80,
+            "itemtype": "attribute",
+            "name": "vMin",
+            "type": "number",
+            "optional": 1,
+            "default": "-0.5",
+            "class": "GridOptions",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/visual/GridOptions.ts",
+            "line": 88,
+            "itemtype": "attribute",
+            "name": "vMax",
+            "type": "number",
+            "optional": 1,
+            "default": "+0.5",
+            "class": "GridOptions",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/visual/GridOptions.ts",
+            "line": 96,
+            "description": "The number of segments for the v coordinate.",
+            "itemtype": "attribute",
+            "name": "vSegments",
+            "type": "number",
+            "optional": 1,
+            "default": "1",
+            "class": "GridOptions",
             "module": "EIGHT"
         },
         {
@@ -32352,7 +33003,7 @@
         },
         {
             "message": "Missing item type\nThis function captures C and L",
-            "line": " src/davinci-eight/core/Color.ts:320"
+            "line": " src/davinci-eight/core/Color.ts:321"
         },
         {
             "message": "Missing item type\nMock the Geometry so that we can call the protected setScale method.\nThis, incidentally, is the pattern for geometry implementations.",
@@ -32437,6 +33088,50 @@
         {
             "message": "Missing item type",
             "line": " src/davinci-eight/facets/Perspective.ts:30"
+        },
+        {
+            "message": "Missing item type\nA convenience class for implementing the Attribute interface.",
+            "line": " src/davinci-eight/geometries/primitives/DrawAttribute.ts:30"
+        },
+        {
+            "message": "Missing item type\nA convenience class for implementing the Primitive interface.",
+            "line": " src/davinci-eight/geometries/primitives/DrawPrimitive.ts:10"
+        },
+        {
+            "message": "Missing item type\nThis helper function converts Vertex (VectorN) attributes into the Primitive (number[]) format.\nThere is some mahic in the conversion of various types (Geometric2, Geometric3, Vector2, Vector3)\nto number[], but the basic rule is that the vector grade is extracted and used in a way that is\nconsistent with the linear dimension (2,3), so there should be no surprises.",
+            "line": " src/davinci-eight/geometries/primitives/GeometryPrimitive.ts:14"
+        },
+        {
+            "message": "Missing item type\n2---3\n|   |\n0---1",
+            "line": " src/davinci-eight/geometries/primitives/GridLines.spec.ts:11"
+        },
+        {
+            "message": "Missing item type\nComputes the vertex index from integer coordinates.\nBoth lengths are included for symmetry!",
+            "line": " src/davinci-eight/geometries/primitives/GridLines.ts:7"
+        },
+        {
+            "message": "Missing item type\n2---3\n|   |\n0---1",
+            "line": " src/davinci-eight/geometries/primitives/GridPoints.spec.ts:11"
+        },
+        {
+            "message": "Missing item type\nComputes the vertex index from integer coordinates.\nBoth lengths are included for symmetry!",
+            "line": " src/davinci-eight/geometries/primitives/GridPoints.ts:7"
+        },
+        {
+            "message": "Missing item type\nThe number of elements needed if we executed a strip per row.\nRemark Notice the asymmetry. Could be a performance impact.",
+            "line": " src/davinci-eight/geometries/primitives/GridTriangleStrip.ts:20"
+        },
+        {
+            "message": "Missing item type\nIndex for TRIANGLE_STRIP array.",
+            "line": " src/davinci-eight/geometries/primitives/GridTriangleStrip.ts:25"
+        },
+        {
+            "message": "Missing item type\nComputes the number of posts to build a fence from the number of segments.",
+            "line": " src/davinci-eight/geometries/primitives/numPostsForFence.ts:3"
+        },
+        {
+            "message": "Missing item type\nComputes the number of vertices required to construct a grid.",
+            "line": " src/davinci-eight/geometries/primitives/numVerticesForGrid.ts:3"
         },
         {
             "message": "Missing item type\nUnit vector for the minor axis of the cone.\nWe compute this so that the grid wraps around the cone with\nu increasing with θ and v increasing toward the apex of the cone.",
@@ -32527,24 +33222,12 @@
             "line": " src/davinci-eight/geometries/CylinderBuilder.ts:169"
         },
         {
-            "message": "Missing item type\nA convenience class for implementing the Attribute interface.",
-            "line": " src/davinci-eight/geometries/DrawAttribute.ts:30"
-        },
-        {
-            "message": "Missing item type\nA convenience class for implementing the Primitive interface.",
-            "line": " src/davinci-eight/geometries/DrawPrimitive.ts:8"
-        },
-        {
             "message": "Missing item type",
             "line": " src/davinci-eight/geometries/GeometryMeta.ts:1"
         },
         {
-            "message": "Missing item type\nThis helper function converts Vertex (VectorN) attributes into the Primitive (number[]) format.\nThere is some mahic in the conversion of various types (Geometric2, Geometric3, Vector2, Vector3)\nto number[], but the basic rule is that the vector grade is extracted and used in a way that is\nconsistent with the linear dimension (2,3), so there should be no surprises.",
-            "line": " src/davinci-eight/geometries/GeometryPrimitive.ts:12"
-        },
-        {
             "message": "Missing item type\nTemporary array of points.",
-            "line": " src/davinci-eight/geometries/GridBuilder.ts:16"
+            "line": " src/davinci-eight/geometries/GridSimplexBuilder.ts:16"
         },
         {
             "message": "Missing item type\nradius",
@@ -32589,14 +33272,6 @@
         {
             "message": "Missing item type\nDisplacement that we need to add (in the axis direction) to each arc point to get the\ndistance position parallel to the axis correct.",
             "line": " src/davinci-eight/geometries/SphereBuilder.ts:27"
-        },
-        {
-            "message": "Missing item type\nThe number of elements needed if we executed a strip per row.\nRemark Notice the asymmetry. Could be a performance impact.",
-            "line": " src/davinci-eight/geometries/TriangleStrip.ts:36"
-        },
-        {
-            "message": "Missing item type\nIndex for triangle strip array.",
-            "line": " src/davinci-eight/geometries/TriangleStrip.ts:41"
         },
         {
             "message": "Missing item type\nComputes a list of points corresponding to an arc centered on the origin.\nbegin {VectorE3} The begin position.\nangle: {number} The angle of the rotation.\ngenerator {SpinorE3} The generator of the rotation.\nsegments {number} The number of segments.",

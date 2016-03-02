@@ -9,6 +9,7 @@ import FacetVisitor from './FacetVisitor';
  * @class Facet
  */
 interface Facet {
+
     /**
      * @method setUniforms
      * @param visitor {FacetVisitor}

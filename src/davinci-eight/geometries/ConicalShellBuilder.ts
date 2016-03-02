@@ -3,7 +3,7 @@ import Direction from './transforms/Direction'
 import Duality from './transforms/Duality'
 import GeometryBuilder from './GeometryBuilder';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
-import TriangleStrip from './TriangleStrip';
+import GridTriangleStrip from './primitives/GridTriangleStrip';
 import AxialPrimitivesBuilder from './AxialPrimitivesBuilder';
 import Primitive from '../core/Primitive';
 import ConeTransform from './transforms/ConeTransform'
@@ -103,7 +103,7 @@ export default class ConicalShellBuilder extends AxialPrimitivesBuilder implemen
             this.transforms.push(new TextureCoords(false, false, false))
         }
 
-        const grid = new TriangleStrip(this.thetaSegments, this.radialSegments)
+        const grid = new GridTriangleStrip(this.thetaSegments, this.radialSegments)
 
         const iLength = grid.uLength
         for (let i = 0; i < iLength; i++) {

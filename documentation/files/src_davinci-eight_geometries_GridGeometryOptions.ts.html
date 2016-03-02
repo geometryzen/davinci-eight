@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src/davinci-eight/geometries/DrawPrimitive.ts - davinci-eight</title>
+    <title>src/davinci-eight/geometries/GridGeometryOptions.ts - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.202.0</em>
+            <em>API Docs for: 2.203.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -98,6 +98,13 @@
                                 <li><a href="../classes/GeometryOptions.html">GeometryOptions</a></li>
                                 <li><a href="../classes/GeometryPrimitive.html">GeometryPrimitive</a></li>
                                 <li><a href="../classes/GraphicsProgramSymbols.html">GraphicsProgramSymbols</a></li>
+                                <li><a href="../classes/Grid.html">Grid</a></li>
+                                <li><a href="../classes/GridGeometry.html">GridGeometry</a></li>
+                                <li><a href="../classes/GridLines.html">GridLines</a></li>
+                                <li><a href="../classes/GridOptions.html">GridOptions</a></li>
+                                <li><a href="../classes/GridPoints.html">GridPoints</a></li>
+                                <li><a href="../classes/GridPrimitive.html">GridPrimitive</a></li>
+                                <li><a href="../classes/GridTriangleStrip.html">GridTriangleStrip</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
                                 <li><a href="../classes/IColor.html">IColor</a></li>
                                 <li><a href="../classes/IContextConsumer.html">IContextConsumer</a></li>
@@ -110,6 +117,7 @@
                                 <li><a href="../classes/IMesh.html">IMesh</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
+                                <li><a href="../classes/LineMaterialOptions.html">LineMaterialOptions</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
                                 <li><a href="../classes/Matrix2.html">Matrix2</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
@@ -168,7 +176,6 @@
                                 <li><a href="../classes/TextureCoords.html">TextureCoords</a></li>
                                 <li><a href="../classes/Trail.html">Trail</a></li>
                                 <li><a href="../classes/Translation.html">Translation</a></li>
-                                <li><a href="../classes/TriangleStrip.html">TriangleStrip</a></li>
                                 <li><a href="../classes/UniformLocation.html">UniformLocation</a></li>
                                 <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
                                 <li><a href="../classes/Unit.html">Unit</a></li>
@@ -205,6 +212,7 @@
                                 <li><a href="../modules/geometries.html">geometries</a></li>
                                 <li><a href="../modules/materials.html">materials</a></li>
                                 <li><a href="../modules/math.html">math</a></li>
+                                <li><a href="../modules/primitives.html">primitives</a></li>
                                 <li><a href="../modules/visual.html">visual</a></li>
                             </ul>
                         </div>
@@ -239,30 +247,96 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: src/davinci-eight/geometries/DrawPrimitive.ts</h1>
+<h1 class="file-heading">File: src/davinci-eight/geometries/GridGeometryOptions.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import Attribute from &#x27;../core/Attribute&#x27;;
-import DrawMode from &#x27;../core/DrawMode&#x27;;
-import mustBeArray from &#x27;../checks/mustBeArray&#x27;;
-import mustBeInteger from &#x27;../checks/mustBeInteger&#x27;;
-import mustBeObject from &#x27;../checks/mustBeObject&#x27;;
-import Primitive from &#x27;../core/Primitive&#x27;;
+import DrawMode from &#x27;../core/DrawMode&#x27;
+import IColor from &#x27;../core/IColor&#x27;
+import VectorE3 from &#x27;../math/VectorE3&#x27;
 
-/**
- * A convenience class for implementing the Primitive interface.
- */
-export default class DrawPrimitive implements Primitive {
-    public mode: DrawMode;
-    public indices: number[];
-    public attributes: { [name: string]: Attribute } = {};
-    constructor(mode: DrawMode, indices: number[], attributes: { [name: string]: Attribute }) {
-        this.mode = mustBeInteger(&#x27;mode&#x27;, mode)
-        this.indices = mustBeArray(&#x27;indices&#x27;, indices)
-        this.attributes = mustBeObject(&#x27;attributes&#x27;, attributes)
-    }
+interface GridGeometryOptions {
+
+  /**
+   * A parametric function determining the positions of points in the grid.
+   *
+   * 0 &lt;= u &lt;= 1
+   * 0 &lt;= v &lt;= 1
+   *
+   * @attribute aPosition
+   * @type (u: number, v: number) =&gt; VectorE3
+   * @optional
+   * @default () =&gt; (u, v, 0)
+   */
+  aPosition?: (u: number, v: number) =&gt; VectorE3
+
+  aNormal?: (u: number, v: number) =&gt; VectorE3
+
+  /**
+   * @attribute aColor
+   * @type (u: number, v: number) =&gt; IColor
+   * @optional
+   */
+  aColor?: (u: number, v: number) =&gt; IColor
+
+  /**
+   * @attribute draeMode
+   * @type DrawMode
+   * @optional
+   * @default DrawMode.LINES
+   */
+  drawMode?: DrawMode
+
+  /**
+   * @attribute uMin
+   * @type number
+   * @optional
+   * @default 0
+   */
+  uMin?: number
+
+  /**
+   * @attribute uMax
+   * @type number
+   * @optional
+   * @default 1
+   */
+  uMax?: number
+
+  /**
+   * @attribute uSegments
+   * @type number
+   * @optional
+   * @default 1
+   */
+  uSegments?: number
+
+  /**
+   * @attribute vMin
+   * @type number
+   * @optional
+   * @default 0
+   */
+  vMin?: number
+
+  /**
+   * @attribute uMax
+   * @type number
+   * @optional
+   * @default 1
+   */
+  vMax?: number
+
+  /**
+   * @attribute vSegments
+   * @type number
+   * @optional
+   * @default 1
+   */
+  vSegments?: number
 }
+
+export default GridGeometryOptions
 
     </pre>
 </div>

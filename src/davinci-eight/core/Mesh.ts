@@ -5,11 +5,13 @@ import Geometric3 from '../math/Geometric3'
 import IMesh from '../core/IMesh'
 import Matrix4 from '../math/Matrix4'
 import ModelFacet from '../facets/ModelFacet'
+import PointSizeFacet from '../facets/PointSizeFacet'
 import notSupported from '../i18n/notSupported'
 import readOnly from '../i18n/readOnly'
 
 const COLOR_FACET_NAME = 'color'
 const MODEL_FACET_NAME = 'model'
+const POINT_FACET_NAME = 'point'
 
 /**
  * @module EIGHT
@@ -39,6 +41,9 @@ export default class Mesh extends Drawable implements IMesh {
 
         const colorFacet = new ColorFacet()
         this.setFacet(COLOR_FACET_NAME, colorFacet)
+
+        const pointFacet = new PointSizeFacet()
+        this.setFacet(POINT_FACET_NAME, pointFacet)
     }
 
     /**

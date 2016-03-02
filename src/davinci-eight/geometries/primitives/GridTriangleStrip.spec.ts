@@ -1,17 +1,17 @@
-import DrawMode from '../core/DrawMode'
-import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols'
-import TriangleStrip from './TriangleStrip'
-import Vector2 from '../math/Vector2'
-import Vector3 from '../math/Vector3'
+import DrawMode from '../../core/DrawMode'
+import GraphicsProgramSymbols from '../../core/GraphicsProgramSymbols'
+import GridTriangleStrip from './GridTriangleStrip'
+import Vector2 from '../../math/Vector2'
+import Vector3 from '../../math/Vector3'
 
-describe("TriangleStrip", function() {
+describe("GridTriangleStrip", function() {
 
     describe("constructor", function() {
         describe("(0,0)", function() {
 
             var uSegments = 0
             var vSegments = 0
-            var strip = new TriangleStrip(uSegments, vSegments)
+            var strip = new GridTriangleStrip(uSegments, vSegments)
             it("should have correct uSegments", function() {
                 expect(strip.uSegments).toBe(uSegments)
             })
@@ -34,7 +34,7 @@ describe("TriangleStrip", function() {
 
             const uSegments = 1
             const vSegments = 1
-            const strip = new TriangleStrip(uSegments, vSegments)
+            const strip = new GridTriangleStrip(uSegments, vSegments)
             strip.vertex(0, 0).attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORD] = new Vector2([0, 0])
             strip.vertex(0, 1).attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORD] = new Vector2([0, 1])
             strip.vertex(1, 0).attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORD] = new Vector2([1, 0])

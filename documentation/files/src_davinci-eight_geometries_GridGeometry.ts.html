@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src/davinci-eight/geometries/TriangleStrip.ts - davinci-eight</title>
+    <title>src/davinci-eight/geometries/GridGeometry.ts - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.202.0</em>
+            <em>API Docs for: 2.203.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -98,6 +98,13 @@
                                 <li><a href="../classes/GeometryOptions.html">GeometryOptions</a></li>
                                 <li><a href="../classes/GeometryPrimitive.html">GeometryPrimitive</a></li>
                                 <li><a href="../classes/GraphicsProgramSymbols.html">GraphicsProgramSymbols</a></li>
+                                <li><a href="../classes/Grid.html">Grid</a></li>
+                                <li><a href="../classes/GridGeometry.html">GridGeometry</a></li>
+                                <li><a href="../classes/GridLines.html">GridLines</a></li>
+                                <li><a href="../classes/GridOptions.html">GridOptions</a></li>
+                                <li><a href="../classes/GridPoints.html">GridPoints</a></li>
+                                <li><a href="../classes/GridPrimitive.html">GridPrimitive</a></li>
+                                <li><a href="../classes/GridTriangleStrip.html">GridTriangleStrip</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
                                 <li><a href="../classes/IColor.html">IColor</a></li>
                                 <li><a href="../classes/IContextConsumer.html">IContextConsumer</a></li>
@@ -110,6 +117,7 @@
                                 <li><a href="../classes/IMesh.html">IMesh</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
+                                <li><a href="../classes/LineMaterialOptions.html">LineMaterialOptions</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
                                 <li><a href="../classes/Matrix2.html">Matrix2</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
@@ -168,7 +176,6 @@
                                 <li><a href="../classes/TextureCoords.html">TextureCoords</a></li>
                                 <li><a href="../classes/Trail.html">Trail</a></li>
                                 <li><a href="../classes/Translation.html">Translation</a></li>
-                                <li><a href="../classes/TriangleStrip.html">TriangleStrip</a></li>
                                 <li><a href="../classes/UniformLocation.html">UniformLocation</a></li>
                                 <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
                                 <li><a href="../classes/Unit.html">Unit</a></li>
@@ -205,6 +212,7 @@
                                 <li><a href="../modules/geometries.html">geometries</a></li>
                                 <li><a href="../modules/materials.html">materials</a></li>
                                 <li><a href="../modules/math.html">math</a></li>
+                                <li><a href="../modules/primitives.html">primitives</a></li>
                                 <li><a href="../modules/visual.html">visual</a></li>
                             </ul>
                         </div>
@@ -239,182 +247,105 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: src/davinci-eight/geometries/TriangleStrip.ts</h1>
+<h1 class="file-heading">File: src/davinci-eight/geometries/GridGeometry.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import DrawMode from &#x27;../core/DrawMode&#x27;;
-import isDefined from &#x27;../checks/isDefined&#x27;;
-import GeometryPrimitive from &#x27;./GeometryPrimitive&#x27;;
-import mustBeArray from &#x27;../checks/mustBeArray&#x27;;
-import mustBeInteger from &#x27;../checks/mustBeInteger&#x27;;
-import readOnly from &#x27;../i18n/readOnly&#x27;;
-import Vertex from &#x27;../geometries/Vertex&#x27;;
+import Color from &#x27;../core/Color&#x27;
+import DrawMode from &#x27;../core/DrawMode&#x27;
+import GeometryBuffers from &#x27;../core/GeometryBuffers&#x27;
+import GraphicsProgramSymbols from &#x27;../core/GraphicsProgramSymbols&#x27;
+import GridLines from &#x27;./primitives/GridLines&#x27;
+import GridGeometryOptions from &#x27;./GridGeometryOptions&#x27;
+import GridPoints from &#x27;./primitives/GridPoints&#x27;
+import GridPrimitive from &#x27;./primitives/GridPrimitive&#x27;
+import GridTriangleStrip from &#x27;./primitives/GridTriangleStrip&#x27;
+import isDefined from &#x27;../checks/isDefined&#x27;
+import mustBeNumber from &#x27;../checks/mustBeNumber&#x27;
+import R3 from &#x27;../math/R3&#x27;
+import Unit from &#x27;../math/Unit&#x27;
+import Vector3 from &#x27;../math/Vector3&#x27;
+import VertexArrays from &#x27;../core/VertexArrays&#x27;
+
+function aPositionDefault(u: number, v: number): R3 {
+  return R3.vector(u, v, 0, Unit.ONE)
+}
+
+function aNormalDefault(u: number, v: number): R3 {
+  return R3.e3
+}
+
+function topology(drawMode: DrawMode, uSegments: number, vSegments: number): GridPrimitive {
+  switch (drawMode) {
+    case DrawMode.POINTS: {
+      return new GridPoints(uSegments, vSegments)
+    }
+    case DrawMode.LINES: {
+      return new GridLines(uSegments, vSegments)
+    }
+    case DrawMode.TRIANGLE_STRIP: {
+      return new GridTriangleStrip(uSegments, vSegments)
+    }
+    default: {
+      throw new Error(&#x60;drawMode must be POINTS, LINES or TRIANGLE_STRIP&#x60;)
+    }
+  }
+}
+
+function dataSource(options: GridGeometryOptions): VertexArrays {
+
+  const uMin: number = isDefined(options.uMin) ? mustBeNumber(&#x27;uMin&#x27;, options.uMin) : 0
+  const uMax: number = isDefined(options.uMax) ? mustBeNumber(&#x27;uMax&#x27;, options.uMax) : 1
+  const uSegments = isDefined(options.uSegments) ? options.uSegments : 1
+
+  const vMin: number = isDefined(options.vMin) ? mustBeNumber(&#x27;vMin&#x27;, options.vMin) : 0
+  const vMax: number = isDefined(options.vMax) ? mustBeNumber(&#x27;vMax&#x27;, options.vMax) : 1
+  const vSegments = isDefined(options.vSegments) ? options.vSegments : 1
+
+  const aPosition = isDefined(options.aPosition) ? options.aPosition : aPositionDefault
+  const aNormal = isDefined(options.aNormal) ? options.aNormal : aNormalDefault
+  const aColor = isDefined(options.aColor) ? options.aColor : void 0
+
+  const drawMode = isDefined(options.drawMode) ? options.drawMode : DrawMode.LINES
+  const grid: GridPrimitive = topology(drawMode, uSegments, vSegments)
+
+  const iLen = grid.uLength
+  const jLen = grid.vLength
+
+  for (let i = 0; i &lt; iLen; i++) {
+    for (let j = 0; j &lt; jLen; j++) {
+      const vertex = grid.vertex(i, j)
+      const u = uMin + (uMax - uMin) * i / uSegments
+      const v = vMin + (vMax - vMin) * j / vSegments
+
+      if (aPosition) {
+        vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = Vector3.copy(aPosition(u, v))
+      }
+      if (aNormal) {
+        vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = Vector3.copy(aNormal(u, v))
+      }
+      if (aColor) {
+        vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_COLOR] = Color.copy(aColor(u, v))
+      }
+    }
+  }
+  return grid.toVertexArrays()
+}
 
 /**
- * @module EIGHT
- * @submodule geometries
+ * @class GridGeometry
+ * @extends GeometryBuffers
  */
+export default class GridGeometry extends GeometryBuffers {
 
-function numPostsForFence(segmentCount: number): number {
-    mustBeInteger(&#x27;segmentCount&#x27;, segmentCount)
-    return segmentCount + 1
-}
-
-function dimensionsForGrid(segmentCounts: number[]): number[] {
-    mustBeArray(&#x27;segmentCounts&#x27;, segmentCounts)
-    return segmentCounts.map(numPostsForFence)
-}
-
-function numVerticesForGrid(uSegments: number, vSegments: number): number {
-    mustBeInteger(&#x27;uSegments&#x27;, uSegments)
-    mustBeInteger(&#x27;vSegments&#x27;, vSegments)
-    return dimensionsForGrid([uSegments, vSegments]).reduce((a: number, b: number) =&gt; { return a * b }, 1)
-}
-
-function triangleStripForGrid(uSegments: number, vSegments: number, elements?: number[]): number[] {
-    // Make sure that we have somewhere valid to store the result.
-    elements = isDefined(elements) ? mustBeArray(&#x27;elements&#x27;, elements) : []
-
-    const uLength = numPostsForFence(uSegments)
-    const lastVertex = uSegments + uLength * vSegments
-    /**
-     * The number of elements needed if we executed a strip per row.
-     * Remark Notice the asymmetry. Could be a performance impact.
-     */
-    const eSimple = 2 * uLength * vSegments
-    /**
-     * Index for triangle strip array.
-     */
-    let j = 0;
-    // FIXME: Loop 0 &lt;= i &lt; eSimple (Edsger W. Dijksta)
-    // For this algorithm, imagine a little vertical loop containing two dots.
-    // The uppermost dot we shall call the &#x60;top&#x60; and the lowermost the &#x60;bottom&#x60;.
-    // Advancing i by two each time corresponds to advancing this loop one place to the right.
-    for (let i = 1; i &lt;= eSimple; i += 2) {
-        // const k = (i - 1) / 2 // etc
-        // top element
-        elements[j] = (i - 1) / 2
-        // bottom element
-        elements[j + 1] = elements[j] + uLength
-        // check for end of column
-        if (elements[j + 1] % uLength === uSegments) {
-            // Don&#x27;t add degenerate triangles if we are on either
-            // 1. the last vertex of the first row
-            // 2. the last vertex of the last row.
-            if (elements[j + 1] !== uSegments &amp;&amp; elements[j + 1] !== lastVertex) {
-                // additional vertex degenerate triangle
-                // The next point is the same as the one before
-                elements[j + 2] = elements[j + 1]
-                // additional vertex degenerate triangle
-                // 
-                elements[j + 3] = (1 + i) / 2;
-                // Increment j for the two duplicate vertices
-                j += 2;
-            }
-        }
-        // Increment j for this step.
-        j += 2;
-    }
-    return elements
-}
-
-/**
- * Used for creating TRIANGLE_STRIP primitives.
- * The vertices generated have coordinates (u, v) and the traversal creates
- * counter-clockwise orientation when increasing u is the first direction and
- * increasing v the second direction.
- *
- * @class TriangleStrip
- * @extends GeometryPrimitive
- */
-export default class TriangleStrip extends GeometryPrimitive {
-    /**
-     * @property _uSegments
-     * @type number
-     * @private
-     */
-    private _uSegments: number;
-    /**
-     * @property _vSegments
-     * @type number
-     * @private
-     */
-    private _vSegments: number;
-    /**
-     * @class TriangleStrip
-     * @constructor
-     * @param uSegments {number}
-     * @param vSegments {number}
-     */
-    constructor(uSegments: number, vSegments: number) {
-        super(DrawMode.TRIANGLE_STRIP, numVerticesForGrid(uSegments, vSegments))
-        this.elements = triangleStripForGrid(uSegments, vSegments)
-        this._uSegments = uSegments
-        this._vSegments = vSegments
-    }
-    /**
-     * @property uSegments
-     * @type number
-     * @readOnly
-     */
-    get uSegments(): number {
-        return this._uSegments
-    }
-    set uSegments(unused: number) {
-        throw new Error(readOnly(&#x27;uSegments&#x27;).message)
-    }
-    /**
-     * uLength = uSegments + 1
-     *
-     * @property uLength
-     * @type number
-     * @readOnly
-     */
-    get uLength(): number {
-        return numPostsForFence(this._uSegments)
-    }
-    set uLength(unused: number) {
-        throw new Error(readOnly(&#x27;uLength&#x27;).message)
-    }
-
-    /**
-     * @property vSegments
-     * @type number
-     * @readOnly
-     */
-    get vSegments(): number {
-        return this._vSegments
-    }
-    set vSegments(unused: number) {
-        throw new Error(readOnly(&#x27;vSegments&#x27;).message)
-    }
-
-    /**
-     * vLength = vSegments + 1
-     *
-     * @property vLength
-     * @type number
-     * @readOnly
-     */
-    get vLength(): number {
-        return numPostsForFence(this._vSegments)
-    }
-    set vLength(unused: number) {
-        throw new Error(readOnly(&#x27;vLength&#x27;).message)
-    }
-
-    /**
-     * @method vertex
-     * @param uIndex {number} An integer. 0 &lt;= uIndex &lt; uLength
-     * @param vIndex {number} An integer. 0 &lt;= vIndex &lt; vLength
-     * @return {Vertex}
-     */
-    vertex(uIndex: number, vIndex: number): Vertex {
-        mustBeInteger(&#x27;uIndex&#x27;, uIndex)
-        mustBeInteger(&#x27;vIndex&#x27;, vIndex)
-        return this.vertices[(this._vSegments - vIndex) * this.uLength + uIndex]
-    }
+  /**
+   * @class GridGeometry
+   * @constructor
+   * @param [options] {GridGeometryOptions}
+   */
+  constructor(options: GridGeometryOptions = {}) {
+    super(dataSource(options))
+  }
 }
 
     </pre>

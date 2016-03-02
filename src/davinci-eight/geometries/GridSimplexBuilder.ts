@@ -1,13 +1,13 @@
 import VectorE3 from '../math/VectorE3';
-import Simplex from '../geometries/Simplex';
-import SimplexPrimitivesBuilder from '../geometries/SimplexPrimitivesBuilder';
+import Simplex from './Simplex';
+import SimplexPrimitivesBuilder from './SimplexPrimitivesBuilder';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
 import Vector2 from '../math/Vector2';
 import Vector3 from '../math/Vector3';
 import mustBeFunction from '../checks/mustBeFunction';
 import mustBeInteger from '../checks/mustBeInteger';
 
-export default class GridBuilder extends SimplexPrimitivesBuilder {
+export default class GridSimplexBuilder extends SimplexPrimitivesBuilder {
     constructor(parametricFunction: (u: number, v: number) => VectorE3, uSegments: number, vSegments: number) {
         super();
         mustBeFunction('parametricFunction', parametricFunction)
@@ -16,39 +16,36 @@ export default class GridBuilder extends SimplexPrimitivesBuilder {
         /**
          * Temporary array of points.
          */
-        let points: Vector3[] = [];
+        const points: Vector3[] = [];
 
-        var i: number;
-        var j: number;
+        const sliceCount = uSegments + 1;
 
-        let sliceCount = uSegments + 1;
+        for (let i = 0; i <= vSegments; i++) {
 
-        for (i = 0; i <= vSegments; i++) {
+            const v: number = i / vSegments;
 
-            let v: number = i / vSegments;
+            for (let j = 0; j <= uSegments; j++) {
 
-            for (j = 0; j <= uSegments; j++) {
+                const u: number = j / uSegments;
 
-                let u: number = j / uSegments;
-
-                let point: VectorE3 = parametricFunction(u, v);
+                const point: VectorE3 = parametricFunction(u, v);
                 // Make a copy just in case the function is returning mutable references.
                 points.push(Vector3.copy(point));
             }
         }
 
-        var a: number;
-        var b: number;
-        var c: number;
-        var d: number;
-        var uva: Vector2;
-        var uvb: Vector2;
-        var uvc: Vector2;
-        var uvd: Vector2;
+        let a: number;
+        let b: number;
+        let c: number;
+        let d: number;
+        let uva: Vector2;
+        let uvb: Vector2;
+        let uvc: Vector2;
+        let uvd: Vector2;
 
-        for (i = 0; i < vSegments; i++) {
+        for (let i = 0; i < vSegments; i++) {
 
-            for (j = 0; j < uSegments; j++) {
+            for (let j = 0; j < uSegments; j++) {
 
                 a = i * sliceCount + j;
                 b = i * sliceCount + j + 1;

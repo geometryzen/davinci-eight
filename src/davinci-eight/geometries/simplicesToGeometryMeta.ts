@@ -1,9 +1,9 @@
-import dataLength from '../geometries/dataLength';
+import dataLength from './dataLength';
 import expectArg from '../checks/expectArg';
 import isDefined from '../checks/isDefined';
-import GeometryMeta from '../geometries/GeometryMeta';
-import Simplex from '../geometries/Simplex';
-import Vertex from '../geometries/Vertex';
+import GeometryMeta from './GeometryMeta';
+import Simplex from './Simplex';
+import Vertex from './primitives/Vertex';
 import VectorN from '../math/VectorN';
 
 function stringify(thing: any, space: any): string {

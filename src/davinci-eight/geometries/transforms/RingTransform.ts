@@ -3,7 +3,7 @@ import mustBeString from '../../checks/mustBeString'
 import Spinor3 from '../../math/Spinor3'
 import Vector3 from '../../math/Vector3'
 import VectorE3 from '../../math/VectorE3'
-import Vertex from '../Vertex'
+import Vertex from '../primitives/Vertex'
 import Transform from './Transform'
 
 /**

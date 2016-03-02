@@ -1,17 +1,17 @@
 import Attribute from '../core/Attribute';
 import copyToArray from '../collections/copyToArray';
-import dataFromVectorN from '../geometries/dataFromVectorN';
-import DrawAttribute from '../geometries/DrawAttribute';
+import dataFromVectorN from './dataFromVectorN';
+import DrawAttribute from './primitives/DrawAttribute';
 import DrawMode from '../core/DrawMode';
-import DrawPrimitive from '../geometries/DrawPrimitive';
-import simplicesToGeometryMeta from '../geometries/simplicesToGeometryMeta';
-import computeUniqueVertices from '../geometries/computeUniqueVertices';
+import DrawPrimitive from './primitives/DrawPrimitive';
+import simplicesToGeometryMeta from './simplicesToGeometryMeta';
+import computeUniqueVertices from './computeUniqueVertices';
 import expectArg from '../checks/expectArg';
-import GeometryMeta from '../geometries/GeometryMeta';
+import GeometryMeta from './GeometryMeta';
 import Primitive from '../core/Primitive';
-import Simplex from '../geometries/Simplex';
+import Simplex from './Simplex';
 import VectorN from '../math/VectorN';
-import Vertex from '../geometries/Vertex';
+import Vertex from './primitives/Vertex';
 
 function numberList(size: number, value: number): number[] {
     let data: number[] = [];

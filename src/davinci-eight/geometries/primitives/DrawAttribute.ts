@@ -1,4 +1,4 @@
-import Attribute from '../core/Attribute';
+import Attribute from '../../core/Attribute';
 
 function isVectorN(values: number[]): boolean {
     return true

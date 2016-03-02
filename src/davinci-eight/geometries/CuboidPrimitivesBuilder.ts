@@ -1,5 +1,5 @@
 import G3 from '../math/G3'
-import TriangleStrip from './TriangleStrip'
+import GridTriangleStrip from './primitives/GridTriangleStrip'
 import PrimitivesBuilder from './PrimitivesBuilder'
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols'
 import mustBeNumber from '../checks/mustBeNumber'
@@ -8,7 +8,7 @@ import Spinor3 from '../math/Spinor3'
 import Vector3 from '../math/Vector3'
 import Vector2 from '../math/Vector2'
 
-function side(tilt: Spinor3, offset: Vector3, basis: Vector3[], uSegments: number, vSegments: number): TriangleStrip {
+function side(tilt: Spinor3, offset: Vector3, basis: Vector3[], uSegments: number, vSegments: number): GridTriangleStrip {
 
     // The normal will be the same for all vertices in the side, so we compute it once here.
     // Perform the stress ant tilt transformations on the tangent bivector before computing the normal.
@@ -20,7 +20,7 @@ function side(tilt: Spinor3, offset: Vector3, basis: Vector3[], uSegments: numbe
     const bNeg = Vector3.copy(basis[1]).scale(-0.5)
     const bPos = Vector3.copy(basis[1]).scale(+0.5)
     const cPos = Vector3.copy(basis[2]).scale(+0.5)
-    const side = new TriangleStrip(uSegments, vSegments)
+    const side = new GridTriangleStrip(uSegments, vSegments)
     for (let uIndex = 0; uIndex < side.uLength; uIndex++) {
         for (let vIndex = 0; vIndex < side.vLength; vIndex++) {
             const u = uIndex / uSegments
@@ -116,7 +116,7 @@ export default class CuboidPrimitivesBuilder extends PrimitivesBuilder {
     private _b: Vector3 = Vector3.copy(G3.e2);
     private _c: Vector3 = Vector3.copy(G3.e3);
 
-    private sides: TriangleStrip[];
+    private sides: GridTriangleStrip[];
 
     /**
      * @class CuboidPrimitivesBuilder
@@ -164,7 +164,7 @@ export default class CuboidPrimitivesBuilder extends PrimitivesBuilder {
     }
 
     /**
-     * Creates six TRIANGLE_STRIP faces using the TriangleStrip helper.
+     * Creates six TRIANGLE_STRIP faces using the GridTriangleStrip helper.
      *
      * @method regenerate
      * @return {void}

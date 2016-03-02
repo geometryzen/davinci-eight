@@ -21,7 +21,7 @@ export default class ColorAnimation extends Shareable implements IAnimation {
     constructor(color: IColor, duration: number = 300, callback?: () => void, ease?: string) {
         super('ColorAnimation')
         this.from = void 0
-        this.to = Color.fromColor(color)
+        this.to = Color.copy(color)
         this.duration = duration
         this.start = 0
         this.fraction = 0

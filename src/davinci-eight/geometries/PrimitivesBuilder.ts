@@ -5,7 +5,7 @@ import GeometryContainer from '../core/GeometryContainer'
 import Primitive from '../core/Primitive';
 import Spinor3 from '../math/Spinor3';
 import Vector3 from '../math/Vector3';
-import Vertex from './Vertex';
+import Vertex from './primitives/Vertex';
 import VertexArrays from '../core/VertexArrays';
 import vertexArraysFromPrimitive from '../core/vertexArraysFromPrimitive'
 import Transform from './transforms/Transform'

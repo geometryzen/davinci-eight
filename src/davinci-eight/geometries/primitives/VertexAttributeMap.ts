@@ -1,4 +1,4 @@
-import VectorN from '../math/VectorN'
+import VectorN from '../../math/VectorN'
 
 /**
  * @module EIGHT

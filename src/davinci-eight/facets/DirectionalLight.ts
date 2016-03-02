@@ -65,7 +65,7 @@ export default class DirectionalLight implements Facet {
         mustBeObject('direction', direction)
         mustBeObject('color', color)
         this.direction = Vector3.copy(direction).direction()
-        this.color = Color.fromColor(color)
+        this.color = Color.copy(color)
     }
 
     /**
@@ -79,11 +79,9 @@ export default class DirectionalLight implements Facet {
             case DirectionalLight.PROP_COLOR: {
                 return this.color.coords;
             }
-                break;
             case DirectionalLight.PROP_DIRECTION: {
                 return this.direction.coords
             }
-                break;
             default: {
                 console.warn("unknown property: " + name);
             }

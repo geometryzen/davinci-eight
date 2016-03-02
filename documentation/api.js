@@ -60,6 +60,13 @@ YUI.add("yuidoc-meta", function(Y) {
         "GeometryOptions",
         "GeometryPrimitive",
         "GraphicsProgramSymbols",
+        "Grid",
+        "GridGeometry",
+        "GridLines",
+        "GridOptions",
+        "GridPoints",
+        "GridPrimitive",
+        "GridTriangleStrip",
         "HTMLScriptsMaterial",
         "IColor",
         "IContextConsumer",
@@ -72,6 +79,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "IMesh",
         "IUnknown",
         "LineMaterial",
+        "LineMaterialOptions",
         "Material",
         "Matrix2",
         "Matrix3",
@@ -130,7 +138,6 @@ YUI.add("yuidoc-meta", function(Y) {
         "TextureCoords",
         "Trail",
         "Translation",
-        "TriangleStrip",
         "UniformLocation",
         "UniformMetaInfo",
         "Unit",
@@ -166,6 +173,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "geometries",
         "materials",
         "math",
+        "primitives",
         "visual"
     ],
     "allModules": [
@@ -190,7 +198,7 @@ YUI.add("yuidoc-meta", function(Y) {
         {
             "displayName": "geometries",
             "name": "geometries",
-            "description": "A convenience class for creating an arrow."
+            "description": "Used for creating TRIANGLE_STRIP primitives.\nThe vertices generated have coordinates (u, v) and the traversal creates\ncounter-clockwise orientation when increasing u is the first direction and\nincreasing v the second direction."
         },
         {
             "displayName": "materials",
@@ -201,6 +209,11 @@ YUI.add("yuidoc-meta", function(Y) {
             "displayName": "math",
             "name": "math",
             "description": "Geometric Algebra and Mathematical abstractions."
+        },
+        {
+            "displayName": "primitives",
+            "name": "primitives",
+            "description": "Used for creating TRIANGLE_STRIP primitives.\nThe vertices generated have coordinates (u, v) and the traversal creates\ncounter-clockwise orientation when increasing u is the first direction and\nincreasing v the second direction."
         },
         {
             "displayName": "visual",

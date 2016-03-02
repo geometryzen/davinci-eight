@@ -37,345 +37,346 @@ const COORD_B = 2
  */
 export default class Color extends Coords implements IColor, ColumnVector<Matrix3, Color>, MutableLinearElement<IColor, Color, SpinorE3, IColor> {
 
+  /**
+   * @property black
+   * @type {Color}
+   * @static
+   */
+  public static black = new Color(0, 0, 0)
+
+  /**
+   * @property blue
+   * @type {Color}
+   * @static
+   */
+  public static blue = new Color(0, 0, 1)
+
+  /**
+   * @property green
+   * @type {Color}
+   * @static
+   */
+  public static green = new Color(0, 1, 0)
+
+  /**
+   * @property cyan
+   * @type {Color}
+   * @static
+   */
+  public static cyan = new Color(0, 1, 1)
+
+  /**
+   * @property red
+   * @type {Color}
+   * @static
+   */
+  public static red = new Color(1, 0, 0)
+
+  /**
+   * @property magenta
+   * @type {Color}
+   * @static
+   */
+  public static magenta = new Color(1, 0, 1)
+
+  /**
+   * @property yellow
+   * @type {Color}
+   * @static
+   */
+  public static yellow = new Color(1, 1, 0)
+
+  /**
+   * @property white
+   * @type {Color}
+   * @static
+   */
+  public static white = new Color(1, 1, 1)
+
+  /**
+   * @class Color
+   * @constructor
+   * @param r {number}
+   * @param g {number}
+   * @param b {number}
+   */
+  constructor(r: number, g: number, b: number) {
+    super([r, g, b], false, 3)
+
+    mustBeGE('r', r, 0)
+    mustBeLE('r', r, 1)
+
+    mustBeGE('g', g, 0)
+    mustBeLE('g', g, 1)
+
+    mustBeGE('b', b, 0)
+    mustBeLE('b', b, 1)
+  }
+
+  /**
+   * @property r
+   * @type {number}
+   */
+  get r(): number {
+    return this.coords[COORD_R]
+  }
+  set r(r: number) {
+    this.coords[COORD_R] = clamp(r, 0, 1)
+  }
+
+  /**
+   * @property g
+   * @type {number}
+   */
+  get g(): number {
+    return this.coords[COORD_G]
+  }
+  set g(g: number) {
+    this.coords[COORD_G] = clamp(g, 0, 1)
+  }
+
+  /**
+   * @property b
+   * @type {number}
+   */
+  get b(): number {
+    return this.coords[COORD_B]
+  }
+  set b(b: number) {
+    this.coords[COORD_B] = clamp(b, 0, 1)
+  }
+
+  public add(rhs: IColor): Color {
+    return this
+  }
+
+  public add2(a: IColor, b: IColor): Color {
+    return this
+  }
+
+  public applyMatrix(σ: Matrix3): Color {
+    return this
+  }
+
+  /**
+   * @method clone
+   * @return {Color}
+   * @chainable
+   */
+  public clone(): Color {
+    return new Color(this.r, this.g, this.b)
+  }
+
+  /**
+   * @method copy
+   * @param color {IColor}
+   * @return {Color}
+   * @chainable
+   */
+  public copy(color: IColor): Color {
+    this.r = color.r
+    this.g = color.g
+    this.b = color.b
+    return this
+  }
+
+  public divByScalar(α: number): Color {
+    return this
+  }
+
+  /**
+   * @method lerp
+   * @param target {IColor}
+   * @param α {number}
+   * @return {Color}
+   * @chainable
+   */
+  public lerp(target: IColor, α: number): Color {
+    this.r += (target.r - this.r) * α
+    this.g += (target.g - this.g) * α
+    this.b += (target.b - this.b) * α
+    return this
+  }
+
+  /**
+   * @property luminance
+   * @type {number}
+   * @readOnly
+   */
+  get luminance(): number {
+    return Color.luminance(this.r, this.g, this.b);
+  }
+
+  public neg(): Color {
+    return this
+  }
+
+  public reflect(n: IColor): Color {
+    return this
+  }
+
+  public rotate(R: SpinorE3): Color {
+    return this
+  }
+
+  public scale(α: number): Color {
+    return this
+  }
+
+  public slerp(target: IColor, α: number): Color {
+    return this
+  }
+
+  public stress(σ: IColor): Color {
+    return this
+  }
+
+  public sub(rhs: IColor): Color {
+    return this
+  }
+
+  public sub2(a: IColor, b: IColor): Color {
+    return this
+  }
+
+  public toExponential(): string {
+    return this.toString()
+  }
+
+  public toFixed(fractionDigits?: number): string {
+    return this.toString()
+  }
+
+  /**
+   * @method toString
+   * @return {string}
+   */
+  public toString(): string {
+    // FIXME: Use vector stuff
+    return "Color(" + this.r + ", " + this.g + ", " + this.b + ")"
+  }
+
+  public zero(): Color {
+    return this
+  }
+
+  /**
+   * @method copy
+   * @param color {IColor}
+   * @return {Color}
+   * @static
+   * @chainable
+   */
+  public static copy(color: IColor): Color {
+    return new Color(color.r, color.g, color.b)
+  }
+
+  /**
+   * @method luminance
+   * @param r {number}
+   * @param g {number}
+   * @param b {number}
+   * @return {number}
+   * @static
+   */
+  public static luminance(r: number, g: number, b: number): number {
+    mustBeNumber('r', r)
+    mustBeNumber('g', g)
+    mustBeNumber('b', b)
+    const pow = Math.pow
+    const γ = 2.2
+    return 0.2126 * pow(r, γ) + 0.7152 * pow(b, γ) + 0.0722 * pow(b, γ)
+  }
+
+  /**
+   * @method fromCoords
+   * @param coords {number[]}
+   * @return {Color}
+   * @chainable
+   */
+  public static fromCoords(coords: number[]): Color {
+    mustBeArray('coords', coords)
+    const r = mustBeNumber('r', coords[COORD_R])
+    const g = mustBeNumber('g', coords[COORD_G])
+    const b = mustBeNumber('b', coords[COORD_B])
+    return new Color(r, g, b)
+  }
+
+  /**
+   * Converts an angle, radius, height to a color on a color wheel.
+   *
+   * @method fromHSL
+   * @param H {number}
+   * @param S {number}
+   * @param L {number}
+   * @return {Color}
+   * @static
+   * @chainable
+   */
+  public static fromHSL(H: number, S: number, L: number): Color {
+    mustBeNumber('H', H)
+    mustBeNumber('S', S)
+    mustBeNumber('L', L)
+    const C = (1 - Math.abs(2 * L - 1)) * S
     /**
-     * @property black
-     * @type {Color}
-     * @static
+     * This function captures C and L
      */
-    public static black = new Color(0, 0, 0)
-
-    /**
-     * @property blue
-     * @type {Color}
-     * @static
-     */
-    public static blue = new Color(0, 0, 1)
-
-    /**
-     * @property green
-     * @type {Color}
-     * @static
-     */
-    public static green = new Color(0, 1, 0)
-
-    /**
-     * @property cyan
-     * @type {Color}
-     * @static
-     */
-    public static cyan = new Color(0, 1, 1)
-
-    /**
-     * @property red
-     * @type {Color}
-     * @static
-     */
-    public static red = new Color(1, 0, 0)
-
-    /**
-     * @property magenta
-     * @type {Color}
-     * @static
-     */
-    public static magenta = new Color(1, 0, 1)
-
-    /**
-     * @property yellow
-     * @type {Color}
-     * @static
-     */
-    public static yellow = new Color(1, 1, 0)
-
-    /**
-     * @property white
-     * @type {Color}
-     * @static
-     */
-    public static white = new Color(1, 1, 1)
-
-    /**
-     * @class Color
-     * @constructor
-     * @param r {number}
-     * @param g {number}
-     * @param b {number}
-     */
-    constructor(r: number, g: number, b: number) {
-        super([r, g, b], false, 3)
-
-        mustBeGE('r', r, 0)
-        mustBeLE('r', r, 1)
-
-        mustBeGE('g', g, 0)
-        mustBeLE('g', g, 1)
-
-        mustBeGE('b', b, 0)
-        mustBeLE('b', b, 1)
+    function matchLightness(R: number, G: number, B: number): Color {
+      // var x = Color.luminance(R, G, B)
+      const m = L - 0.5 * C
+      return new Color(R + m, G + m, B + m)
     }
+    const sextant = ((principalAngle(H) / Math.PI) * 3) % 6;
+    const X = C * (1 - Math.abs(sextant % 2 - 1));
+    if (sextant >= 0 && sextant < 1) {
+      return matchLightness(C, X/*C*(sextant-0)*/, 0);
+    }
+    else if (sextant >= 1 && sextant < 2) {
+      return matchLightness(X/*C*(2-sextant)*/, C, 0);
+    }
+    else if (sextant >= 2 && sextant < 3) {
+      return matchLightness(0, C, C * (sextant - 2))
+    }
+    else if (sextant >= 3 && sextant < 4) {
+      return matchLightness(0, C * (4 - sextant), C)
+    }
+    else if (sextant >= 4 && sextant < 5) {
+      return matchLightness(X, 0, C)
+    }
+    else if (sextant >= 5 && sextant < 6) {
+      return matchLightness(C, 0, X)
+    }
+    else {
+      return matchLightness(0, 0, 0)
+    }
+  }
 
-    /**
-     * @property r
-     * @type {number}
-     */
-    get r(): number {
-        return this.coords[COORD_R]
-    }
-    set r(r: number) {
-        this.coords[COORD_R] = clamp(r, 0, 1)
-    }
+  /**
+   * @method fromRGB
+   * @param r {number}
+   * @param g {number}
+   * @param b {number}
+   * @return {Color}
+   * @static
+   * @chainable
+   */
+  public static fromRGB(r: number, g: number, b: number): Color {
+    mustBeNumber('r', r)
+    mustBeNumber('g', g)
+    mustBeNumber('b', b)
+    return new Color(clamp(r, 0, 1), clamp(g, 0, 1), clamp(b, 0, 1))
+  }
 
-    /**
-     * @property g
-     * @type {number}
-     */
-    get g(): number {
-        return this.coords[COORD_G]
-    }
-    set g(g: number) {
-        this.coords[COORD_G] = clamp(g, 0, 1)
-    }
-
-    /**
-     * @property b
-     * @type {number}
-     */
-    get b(): number {
-        return this.coords[COORD_B]
-    }
-    set b(b: number) {
-        this.coords[COORD_B] = clamp(b, 0, 1)
-    }
-
-    public add(rhs: IColor): Color {
-        return this
-    }
-
-    public add2(a: IColor, b: IColor): Color {
-        return this
-    }
-
-    public applyMatrix(σ: Matrix3): Color {
-        return this
-    }
-
-    /**
-     * @method clone
-     * @return {Color}
-     * @chainable
-     */
-    public clone(): Color {
-        return new Color(this.r, this.g, this.b)
-    }
-
-    /**
-     * @method copy
-     * @param color {IColor}
-     * @return {Color}
-     * @chainable
-     */
-    public copy(color: IColor): Color {
-        this.r = color.r
-        this.g = color.g
-        this.b = color.b
-        return this
-    }
-
-    public divByScalar(α: number): Color {
-        return this
-    }
-
-    /**
-     * @method lerp
-     * @param target {IColor}
-     * @param α {number}
-     * @return {Color}
-     * @chainable
-     */
-    public lerp(target: IColor, α: number): Color {
-        this.r += (target.r - this.r) * α
-        this.g += (target.g - this.g) * α
-        this.b += (target.b - this.b) * α
-        return this
-    }
-
-    /**
-     * @property luminance
-     * @type {number}
-     * @readOnly
-     */
-    get luminance(): number {
-        return Color.luminance(this.r, this.g, this.b);
-    }
-
-    public neg(): Color {
-        return this
-    }
-
-    public reflect(n: IColor): Color {
-        return this
-    }
-
-    public rotate(R: SpinorE3): Color {
-        return this
-    }
-
-    public scale(α: number): Color {
-        return this
-    }
-
-    public slerp(target: IColor, α: number): Color {
-        return this
-    }
-
-    public stress(σ: IColor): Color {
-        return this
-    }
-
-    public sub(rhs: IColor): Color {
-        return this
-    }
-
-    public sub2(a: IColor, b: IColor): Color {
-        return this
-    }
-
-    public toExponential(): string {
-        return this.toString()
-    }
-
-    public toFixed(fractionDigits?: number): string {
-        return this.toString()
-    }
-
-    /**
-     * @method toString
-     * @return {string}
-     */
-    public toString(): string {
-        // FIXME: Use vector stuff
-        return "Color(" + this.r + ", " + this.g + ", " + this.b + ")"
-    }
-
-    public zero(): Color {
-        return this
-    }
-
-    /**
-     * @method luminance
-     * @param r {number}
-     * @param g {number}
-     * @param b {number}
-     * @return {number}
-     * @static
-     */
-    public static luminance(r: number, g: number, b: number): number {
-        mustBeNumber('r', r)
-        mustBeNumber('g', g)
-        mustBeNumber('b', b)
-        const pow = Math.pow
-        const γ = 2.2
-        return 0.2126 * pow(r, γ) + 0.7152 * pow(b, γ) + 0.0722 * pow(b, γ)
-    }
-
-    /**
-     * @method fromColor
-     * @param color {IColor}
-     * @return {Color}
-     * @static
-     * @chainable
-     */
-    public static fromColor(color: IColor): Color {
-        return new Color(color.r, color.g, color.b)
-    }
-
-    /**
-     * @method fromCoords
-     * @param coords {number[]}
-     * @return {Color}
-     * @chainable
-     */
-    public static fromCoords(coords: number[]): Color {
-        mustBeArray('coords', coords)
-        var r = mustBeNumber('r', coords[COORD_R])
-        var g = mustBeNumber('g', coords[COORD_G])
-        var b = mustBeNumber('b', coords[COORD_B])
-        return new Color(r, g, b)
-    }
-
-    /**
-     * Converts an angle, radius, height to a color on a color wheel.
-     * @method fromHSL
-     * @param H {number}
-     * @param S {number}
-     * @param L {number}
-     * @return {Color}
-     * @static
-     * @chainable
-     */
-    public static fromHSL(H: number, S: number, L: number): Color {
-        mustBeNumber('H', H)
-        mustBeNumber('S', S)
-        mustBeNumber('L', L)
-        var C = (1 - Math.abs(2 * L - 1)) * S
-        /**
-         * This function captures C and L
-         */
-        function matchLightness(R: number, G: number, B: number): Color {
-            // var x = Color.luminance(R, G, B)
-            var m = L - 0.5 * C
-            return new Color(R + m, G + m, B + m)
-        }
-        var sextant = ((principalAngle(H) / Math.PI) * 3) % 6;
-        var X = C * (1 - Math.abs(sextant % 2 - 1));
-        if (sextant >= 0 && sextant < 1) {
-            return matchLightness(C, X/*C*(sextant-0)*/, 0);
-        }
-        else if (sextant >= 1 && sextant < 2) {
-            return matchLightness(X/*C*(2-sextant)*/, C, 0);
-        }
-        else if (sextant >= 2 && sextant < 3) {
-            return matchLightness(0, C, C * (sextant - 2))
-        }
-        else if (sextant >= 3 && sextant < 4) {
-            return matchLightness(0, C * (4 - sextant), C)
-        }
-        else if (sextant >= 4 && sextant < 5) {
-            return matchLightness(X, 0, C)
-        }
-        else if (sextant >= 5 && sextant < 6) {
-            return matchLightness(C, 0, X)
-        }
-        else {
-            return matchLightness(0, 0, 0)
-        }
-    }
-
-    /**
-     * @method fromRGB
-     * @param r {number}
-     * @param g {number}
-     * @param b {number}
-     * @return {Color}
-     * @static
-     * @chainable
-     */
-    public static fromRGB(r: number, g: number, b: number): Color {
-        mustBeNumber('r', r)
-        mustBeNumber('g', g)
-        mustBeNumber('b', b)
-        return new Color(r, g, b)
-    }
-
-    /**
-     * @method lerp
-     * @param a {IColor}
-     * @param b {IColor}
-     * @param α {number}
-     * @return {Color}
-     * @static
-     * @chainable
-     */
-    public static lerp(a: IColor, b: IColor, α: number): Color {
-        return Color.fromColor(a).lerp(b, α)
-    }
+  /**
+   * @method lerp
+   * @param a {IColor}
+   * @param b {IColor}
+   * @param α {number}
+   * @return {Color}
+   * @static
+   * @chainable
+   */
+  public static lerp(a: IColor, b: IColor, α: number): Color {
+    return Color.copy(a).lerp(b, clamp(α, 0, 1))
+  }
 }

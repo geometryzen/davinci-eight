@@ -20,12 +20,14 @@
     "src/davinci-eight/core/GeometryContainer.spec.ts",
     "src/davinci-eight/core/Shareable.spec.ts",
 
+    "src/davinci-eight/geometries/primitives/GridLines.spec.ts",
+    "src/davinci-eight/geometries/primitives/GridPoints.spec.ts",
+    "src/davinci-eight/geometries/primitives/GridTriangleStrip.spec.ts",
     "src/davinci-eight/geometries/ArrowGeometry.spec.ts",
     "src/davinci-eight/geometries/BoxGeometry.spec.ts",
     "src/davinci-eight/geometries/CylinderGeometry.spec.ts",
     "src/davinci-eight/geometries/Simplex.spec.ts",
     "src/davinci-eight/geometries/SphereGeometry.spec.ts",
-    "src/davinci-eight/geometries/TriangleStrip.spec.ts",
     "src/davinci-eight/geometries/cube.spec.ts",
     "src/davinci-eight/geometries/triangles.spec.ts",
 

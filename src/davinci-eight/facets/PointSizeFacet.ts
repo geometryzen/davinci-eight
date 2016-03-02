@@ -20,6 +20,7 @@ function contextBuilder() {
  * @class PointSizeFacet
  */
 export default class PointSizeFacet implements Facet {
+
     /**
      * @property pointSize
      * @type {number}
