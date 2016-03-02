@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.203.0</em>
+            <em>API Docs for: 2.204.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -124,6 +124,7 @@
                                 <li><a href="../classes/Matrix4.html">Matrix4</a></li>
                                 <li><a href="../classes/Mesh.html">Mesh</a></li>
                                 <li><a href="../classes/MeshMaterial.html">MeshMaterial</a></li>
+                                <li><a href="../classes/MeshMaterialOptions.html">MeshMaterialOptions</a></li>
                                 <li><a href="../classes/MeshNormalMaterial.html">MeshNormalMaterial</a></li>
                                 <li><a href="../classes/ModelE2.html">ModelE2</a></li>
                                 <li><a href="../classes/ModelE3.html">ModelE3</a></li>
@@ -134,6 +135,7 @@
                                 <li><a href="../classes/Perspective.html">Perspective</a></li>
                                 <li><a href="../classes/PerspectiveCamera.html">PerspectiveCamera</a></li>
                                 <li><a href="../classes/PointMaterial.html">PointMaterial</a></li>
+                                <li><a href="../classes/PointMaterialOptions.html">PointMaterialOptions</a></li>
                                 <li><a href="../classes/PointSizeFacet.html">PointSizeFacet</a></li>
                                 <li><a href="../classes/Primitive.html">Primitive</a></li>
                                 <li><a href="../classes/PrimitiveBuffers.html">PrimitiveBuffers</a></li>
@@ -193,6 +195,7 @@
                                 <li><a href="../classes/VectorN.html">VectorN</a></li>
                                 <li><a href="../classes/VersionLogger.html">VersionLogger</a></li>
                                 <li><a href="../classes/Vertex.html">Vertex</a></li>
+                                <li><a href="../classes/VertexArrays.html">VertexArrays</a></li>
                                 <li><a href="../classes/VertexAttributeMap.html">VertexAttributeMap</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
                                 <li><a href="../classes/WebGLBlendFunc.html">WebGLBlendFunc</a></li>
@@ -277,200 +280,214 @@ import VertexArrays from &#x27;./VertexArrays&#x27;
  */
 export default class GeometryBuffers extends ShareableContextListener implements Geometry {
 
-    private drawMode: DrawMode
-    private mode: number
-    private count: number
-    private offset = 0
-    private ia: Uint16Array
-    private va: Float32Array
-    private ibo: WebGLBuffer
-    private vbo: WebGLBuffer
-    private stride: number
-    private pointers: VertexAttribPointer[]
+  private drawMode: DrawMode
+  private mode: number
+  private count: number
+  private offset = 0
+  private ia: Uint16Array
+  private va: Float32Array
+  private ibo: WebGLBuffer
+  private vbo: WebGLBuffer
+  private stride: number
+  private pointers: VertexAttribPointer[]
+  private _data: VertexArrays
 
-    /**
-     * @class GeometryBuffers
-     * @constructor
-     * @param dataSource {VertexArrays}
-     */
-    constructor(dataSource: VertexArrays) {
-        super(&#x27;GeometryBuffers&#x27;)
-        this.drawMode = dataSource.drawMode;
-        this.count = dataSource.indices.length
-        this.ia = new Uint16Array(dataSource.indices)
-        this.va = new Float32Array(dataSource.attributes)
-        this.stride = dataSource.stride
-        this.pointers = dataSource.pointers
-    }
+  /**
+   * @class GeometryBuffers
+   * @constructor
+   * @param data {VertexArrays}
+   */
+  constructor(data: VertexArrays) {
+    super(&#x27;GeometryBuffers&#x27;)
+    this.drawMode = data.drawMode;
+    this.count = data.indices.length
+    this.ia = new Uint16Array(data.indices)
+    this.va = new Float32Array(data.attributes)
+    this.stride = data.stride
+    this.pointers = data.pointers
+    this._data = data
+  }
 
-    /**
-     * @method destructor
-     * @return {void}
-     * @protected
-     */
-    protected destructor(): void {
-        super.destructor()
-    }
+  /**
+   * @property data
+   * @type VertexArrays
+   * @readOnly
+   */
+  get data(): VertexArrays {
+    return this._data
+  }
+  set data(data: VertexArrays) {
+    throw new Error(readOnly(&#x27;data&#x27;).message)
+  }
 
-    /**
-     * @method isLeaf
-     * @return {boolean}
-     */
-    public isLeaf(): boolean {
-        return true
-    }
+  /**
+   * @method destructor
+   * @return {void}
+   * @protected
+   */
+  protected destructor(): void {
+    super.destructor()
+  }
 
-    /**
-     * @property partsLength
-     * @type number
-     * @readOnly
-     */
-    get partsLength(): number {
-        return 0
-    }
-    set partsLength(unused) {
-        throw new Error(readOnly(&#x27;partsLength&#x27;).message)
-    }
+  /**
+   * @method isLeaf
+   * @return {boolean}
+   */
+  public isLeaf(): boolean {
+    return true
+  }
 
-    get scaling() {
-        throw new Error(notImplemented(&#x27;get scaling&#x27;).message)
-    }
-    set scaling(scaling: Matrix4) {
-        throw new Error(notImplemented(&#x27;set scaling&#x27;).message)
-    }
+  /**
+   * @property partsLength
+   * @type number
+   * @readOnly
+   */
+  get partsLength(): number {
+    return 0
+  }
+  set partsLength(unused) {
+    throw new Error(readOnly(&#x27;partsLength&#x27;).message)
+  }
 
-    /**
-     * @method addPart
-     * @param geometry {Geometry}
-     * @return {void}
-     */
-    addPart(geometry: Geometry): void {
-        throw new Error(notSupported(&#x27;addPart&#x27;).message)
-    }
+  get scaling() {
+    throw new Error(notImplemented(&#x27;get scaling&#x27;).message)
+  }
+  set scaling(scaling: Matrix4) {
+    throw new Error(notImplemented(&#x27;set scaling&#x27;).message)
+  }
 
-    /**
-     * @method removePart
-     * @param index {number}
-     * @return {void}
-     */
-    removePart(index: number): void {
-        throw new Error(notSupported(&#x27;removePart&#x27;).message)
-    }
+  /**
+   * @method addPart
+   * @param geometry {Geometry}
+   * @return {void}
+   */
+  addPart(geometry: Geometry): void {
+    throw new Error(notSupported(&#x27;addPart&#x27;).message)
+  }
 
-    /**
-     * @method getPart
-     * @param index {number}
-     * @return {Geometry}
-     */
-    getPart(index: number): Geometry {
-        throw new Error(notSupported(&#x27;getPart&#x27;).message)
-    }
+  /**
+   * @method removePart
+   * @param index {number}
+   * @return {void}
+   */
+  removePart(index: number): void {
+    throw new Error(notSupported(&#x27;removePart&#x27;).message)
+  }
 
-    /**
-     * @method contextFree
-     * @param context {IContextProvider}
-     * @return {void}
-     */
-    public contextFree(context: IContextProvider): void {
-        const gl = context.gl
-        if (this.ibo) {
-            gl.deleteBuffer(this.ibo)
-            this.ibo = void 0
-        }
-        if (this.vbo) {
-            gl.deleteBuffer(this.vbo)
-            this.vbo = void 0
-        }
-        super.contextFree(context)
-    }
+  /**
+   * @method getPart
+   * @param index {number}
+   * @return {Geometry}
+   */
+  getPart(index: number): Geometry {
+    throw new Error(notSupported(&#x27;getPart&#x27;).message)
+  }
 
-    /**
-     * @method contextGain
-     * @param context {IContextProvider}
-     * @return {void}
-     */
-    public contextGain(context: IContextProvider): void {
-        const gl = context.gl
-        this.mode = drawModeToGL(this.drawMode, gl)
-        if (!this.ibo) {
-            this.ibo = gl.createBuffer()
-            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.ibo)
-            gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, this.ia, gl.STATIC_DRAW)
-            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, void 0)
-        }
-        if (!this.vbo) {
-            this.vbo = gl.createBuffer()
-            gl.bindBuffer(gl.ARRAY_BUFFER, this.vbo)
-            gl.bufferData(gl.ARRAY_BUFFER, this.va, gl.STATIC_DRAW)
-            gl.bindBuffer(gl.ARRAY_BUFFER, void 0)
-        }
-        super.contextGain(context)
+  /**
+   * @method contextFree
+   * @param context {IContextProvider}
+   * @return {void}
+   */
+  public contextFree(context: IContextProvider): void {
+    const gl = context.gl
+    if (this.ibo) {
+      gl.deleteBuffer(this.ibo)
+      this.ibo = void 0
     }
+    if (this.vbo) {
+      gl.deleteBuffer(this.vbo)
+      this.vbo = void 0
+    }
+    super.contextFree(context)
+  }
 
-    /**
-     * @method contextLost
-     * @return {void}
-     */
-    public contextLost(): void {
-        this.ibo = void 0
-        this.vbo = void 0
-        super.contextLost()
+  /**
+   * @method contextGain
+   * @param context {IContextProvider}
+   * @return {void}
+   */
+  public contextGain(context: IContextProvider): void {
+    const gl = context.gl
+    this.mode = drawModeToGL(this.drawMode, gl)
+    if (!this.ibo) {
+      this.ibo = gl.createBuffer()
+      gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.ibo)
+      gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, this.ia, gl.STATIC_DRAW)
+      gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, void 0)
     }
+    if (!this.vbo) {
+      this.vbo = gl.createBuffer()
+      gl.bindBuffer(gl.ARRAY_BUFFER, this.vbo)
+      gl.bufferData(gl.ARRAY_BUFFER, this.va, gl.STATIC_DRAW)
+      gl.bindBuffer(gl.ARRAY_BUFFER, void 0)
+    }
+    super.contextGain(context)
+  }
 
-    /**
-     * @method draw
-     * @param material {Material}
-     * @return {void}
-     */
-    draw(material: Material): void {
-        const gl: WebGLRenderingContext = this.mirror.gl
-        gl.bindBuffer(gl.ARRAY_BUFFER, this.vbo)
-        for (let i = 0; i &lt; this.pointers.length; i++) {
-            const pointer = this.pointers[i]
-            const attribLoc = material.getAttribLocation(pointer.name)
-            if (attribLoc &gt;= 0) {
-                gl.vertexAttribPointer(attribLoc, pointer.size, gl.FLOAT, pointer.normalized, this.stride, pointer.offset)
-                gl.enableVertexAttribArray(attribLoc)
-            }
-        }
-        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.ibo)
-        // At present we manage our own buffers. In future we might delegate this task to
-        // to the mirror layer which would return the offset.
-        gl.drawElements(this.mode, this.count, gl.UNSIGNED_SHORT, this.offset)
-        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, void 0)
-        gl.bindBuffer(gl.ARRAY_BUFFER, void 0)
-    }
+  /**
+   * @method contextLost
+   * @return {void}
+   */
+  public contextLost(): void {
+    this.ibo = void 0
+    this.vbo = void 0
+    super.contextLost()
+  }
 
-    /**
-     * @method hasPrincipalScale
-     * @param name {string}
-     * @return {boolean}
-     */
-    hasPrincipalScale(name: string): boolean {
-        // TODO
-        throw new Error(notImplemented(&#x60;hasPrincipalScale(${name})&#x60;).message)
+  /**
+   * @method draw
+   * @param material {Material}
+   * @return {void}
+   */
+  draw(material: Material): void {
+    const gl: WebGLRenderingContext = this.mirror.gl
+    gl.bindBuffer(gl.ARRAY_BUFFER, this.vbo)
+    for (let i = 0; i &lt; this.pointers.length; i++) {
+      const pointer = this.pointers[i]
+      const attribLoc = material.getAttribLocation(pointer.name)
+      if (attribLoc &gt;= 0) {
+        gl.vertexAttribPointer(attribLoc, pointer.size, gl.FLOAT, pointer.normalized, this.stride, pointer.offset)
+        gl.enableVertexAttribArray(attribLoc)
+      }
     }
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.ibo)
+    // At present we manage our own buffers. In future we might delegate this task to
+    // to the mirror layer which would return the offset.
+    gl.drawElements(this.mode, this.count, gl.UNSIGNED_SHORT, this.offset)
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, void 0)
+    gl.bindBuffer(gl.ARRAY_BUFFER, void 0)
+  }
 
-    /**
-     * @method getPrincipalScale
-     * @param name {string}
-     * @return {number}
-     */
-    public getPrincipalScale(name: string): number {
-        // TODO
-        throw new Error(notImplemented(&#x27;getPrincipalScale&#x27;).message)
-    }
+  /**
+   * @method hasPrincipalScale
+   * @param name {string}
+   * @return {boolean}
+   */
+  hasPrincipalScale(name: string): boolean {
+    // TODO
+    throw new Error(notImplemented(&#x60;hasPrincipalScale(${name})&#x60;).message)
+  }
 
-    /**
-     * @method setPrincipalScale
-     * @param name {string}
-     * @param value {number}
-     * @return {void}
-     */
-    public setPrincipalScale(name: string, value: number): void {
-        // TODO
-        throw new Error(notImplemented(&#x27;setPrincipalScale&#x27;).message)
-    }
+  /**
+   * @method getPrincipalScale
+   * @param name {string}
+   * @return {number}
+   */
+  public getPrincipalScale(name: string): number {
+    // TODO
+    throw new Error(notImplemented(&#x27;getPrincipalScale&#x27;).message)
+  }
+
+  /**
+   * @method setPrincipalScale
+   * @param name {string}
+   * @param value {number}
+   * @return {void}
+   */
+  public setPrincipalScale(name: string, value: number): void {
+    // TODO
+    throw new Error(notImplemented(&#x27;setPrincipalScale&#x27;).message)
+  }
 }
 
     </pre>

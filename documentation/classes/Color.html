@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.203.0</em>
+            <em>API Docs for: 2.204.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -124,6 +124,7 @@
                                 <li><a href="../classes/Matrix4.html">Matrix4</a></li>
                                 <li><a href="../classes/Mesh.html">Mesh</a></li>
                                 <li><a href="../classes/MeshMaterial.html">MeshMaterial</a></li>
+                                <li><a href="../classes/MeshMaterialOptions.html">MeshMaterialOptions</a></li>
                                 <li><a href="../classes/MeshNormalMaterial.html">MeshNormalMaterial</a></li>
                                 <li><a href="../classes/ModelE2.html">ModelE2</a></li>
                                 <li><a href="../classes/ModelE3.html">ModelE3</a></li>
@@ -134,6 +135,7 @@
                                 <li><a href="../classes/Perspective.html">Perspective</a></li>
                                 <li><a href="../classes/PerspectiveCamera.html">PerspectiveCamera</a></li>
                                 <li><a href="../classes/PointMaterial.html">PointMaterial</a></li>
+                                <li><a href="../classes/PointMaterialOptions.html">PointMaterialOptions</a></li>
                                 <li><a href="../classes/PointSizeFacet.html">PointSizeFacet</a></li>
                                 <li><a href="../classes/Primitive.html">Primitive</a></li>
                                 <li><a href="../classes/PrimitiveBuffers.html">PrimitiveBuffers</a></li>
@@ -193,6 +195,7 @@
                                 <li><a href="../classes/VectorN.html">VectorN</a></li>
                                 <li><a href="../classes/VersionLogger.html">VersionLogger</a></li>
                                 <li><a href="../classes/Vertex.html">Vertex</a></li>
+                                <li><a href="../classes/VertexArrays.html">VertexArrays</a></li>
                                 <li><a href="../classes/VertexAttributeMap.html">VertexAttributeMap</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
                                 <li><a href="../classes/WebGLBlendFunc.html">WebGLBlendFunc</a></li>
@@ -255,7 +258,7 @@
         </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_core_Color.ts.html#l96"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Color.ts:96</code></a>
+            Defined in: <a href="../files/src_davinci-eight_core_Color.ts.html#l104"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Color.ts:104</code></a>
         </div>
 
             Module: <a href="../modules/core.html">core</a><br>
@@ -305,7 +308,7 @@ difficult bugs because it is hard to reason about where a color may have changed
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Color.ts.html#l96"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Color.ts:96</code></a>
+        <a href="../files/src_davinci-eight_core_Color.ts.html#l104"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Color.ts:104</code></a>
         </p>
 
 
@@ -385,15 +388,16 @@ difficult bugs because it is hard to reason about where a color may have changed
                             <li class="index-item method">
                                 <a href="#method_copy">copy</a>
 
-                                    <span class="flag static">static</span>
                             </li>
                             <li class="index-item method">
                                 <a href="#method_copy">copy</a>
 
+                                    <span class="flag static">static</span>
                             </li>
                             <li class="index-item method">
                                 <a href="#method_fromCoords">fromCoords</a>
 
+                                    <span class="flag static">static</span>
                             </li>
                             <li class="index-item method">
                                 <a href="#method_fromHSL">fromHSL</a>
@@ -454,6 +458,11 @@ difficult bugs because it is hard to reason about where a color may have changed
 
                             </li>
                             <li class="index-item property">
+                                <a href="#property_gray">gray</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item property">
                                 <a href="#property_green">green</a>
 
                                     <span class="flag static">static</span>
@@ -495,7 +504,7 @@ difficult bugs because it is hard to reason about where a color may have changed
             <div id="methods" class="api-class-tabpanel">
                 <h2 class="off-left">Methods</h2>
 
-<div id="method_approx" class="method item inherited">
+<div id="method_approx" class="method item">
     <h3 class="name"><code>approx</code></h3>
 
         <div class="args">
@@ -507,19 +516,23 @@ difficult bugs because it is hard to reason about where a color may have changed
         </div>
 
         <span class="returns-inline">
-            <span class="type">Void</span>
+            <span class="type"><a href="../classes/Color.html" class="crosslink">Color</a></span>
         </span>
 
 
 
 
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
-                <p>Inherited from
-                <a href="../classes/Coords.html#method_approx">Coords</a>:
-        <a href="../files/src_davinci-eight_math_Coords.ts.html#l18"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Coords.ts:18</code></a>
+            <p>Inherited from
+            <a href="../classes/Coords.html#method_approx">
+                Coords
+            </a>
+            but overwritten in
+        <a href="../files/src_davinci-eight_core_Color.ts.html#l169"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Color.ts:169</code></a>
         </p>
 
 
@@ -551,7 +564,7 @@ difficult bugs because it is hard to reason about where a color may have changed
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type">Void</span>:
+                        <span class="type"><a href="../classes/Color.html" class="crosslink">Color</a></span>:
             </div>
         </div>
 
@@ -576,7 +589,7 @@ difficult bugs because it is hard to reason about where a color may have changed
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Color.ts.html#l161"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Color.ts:161</code></a>
+        <a href="../files/src_davinci-eight_core_Color.ts.html#l180"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Color.ts:180</code></a>
         </p>
 
 
@@ -616,7 +629,6 @@ difficult bugs because it is hard to reason about where a color may have changed
 
 
 
-        <span class="flag static">static</span>
 
         <span class="flag chainable">chainable</span>
 
@@ -624,7 +636,7 @@ difficult bugs because it is hard to reason about where a color may have changed
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Color.ts.html#l263"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Color.ts:263</code></a>
+        <a href="../files/src_davinci-eight_core_Color.ts.html#l189"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Color.ts:189</code></a>
         </p>
 
 
@@ -680,6 +692,7 @@ difficult bugs because it is hard to reason about where a color may have changed
 
 
 
+        <span class="flag static">static</span>
 
         <span class="flag chainable">chainable</span>
 
@@ -687,7 +700,7 @@ difficult bugs because it is hard to reason about where a color may have changed
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Color.ts.html#l170"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Color.ts:170</code></a>
+        <a href="../files/src_davinci-eight_core_Color.ts.html#l290"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Color.ts:290</code></a>
         </p>
 
 
@@ -743,6 +756,7 @@ difficult bugs because it is hard to reason about where a color may have changed
 
 
 
+        <span class="flag static">static</span>
 
         <span class="flag chainable">chainable</span>
 
@@ -750,7 +764,7 @@ difficult bugs because it is hard to reason about where a color may have changed
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Color.ts.html#l291"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Color.ts:291</code></a>
+        <a href="../files/src_davinci-eight_core_Color.ts.html#l318"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Color.ts:318</code></a>
         </p>
 
 
@@ -820,7 +834,7 @@ difficult bugs because it is hard to reason about where a color may have changed
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Color.ts.html#l305"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Color.ts:305</code></a>
+        <a href="../files/src_davinci-eight_core_Color.ts.html#l333"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Color.ts:333</code></a>
         </p>
 
 
@@ -911,7 +925,7 @@ difficult bugs because it is hard to reason about where a color may have changed
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Color.ts.html#l354"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Color.ts:354</code></a>
+        <a href="../files/src_davinci-eight_core_Color.ts.html#l382"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Color.ts:382</code></a>
         </p>
 
 
@@ -997,7 +1011,7 @@ difficult bugs because it is hard to reason about where a color may have changed
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Color.ts.html#l187"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Color.ts:187</code></a>
+        <a href="../files/src_davinci-eight_core_Color.ts.html#l214"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Color.ts:214</code></a>
         </p>
 
 
@@ -1077,7 +1091,7 @@ difficult bugs because it is hard to reason about where a color may have changed
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Color.ts.html#l370"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Color.ts:370</code></a>
+        <a href="../files/src_davinci-eight_core_Color.ts.html#l398"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Color.ts:398</code></a>
         </p>
 
 
@@ -1166,7 +1180,7 @@ difficult bugs because it is hard to reason about where a color may have changed
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Color.ts.html#l274"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Color.ts:274</code></a>
+        <a href="../files/src_davinci-eight_core_Color.ts.html#l301"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Color.ts:301</code></a>
         </p>
 
 
@@ -1242,7 +1256,7 @@ difficult bugs because it is hard to reason about where a color may have changed
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Color.ts.html#l250"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Color.ts:250</code></a>
+        <a href="../files/src_davinci-eight_core_Color.ts.html#l277"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Color.ts:277</code></a>
         </p>
 
 
@@ -1280,7 +1294,7 @@ difficult bugs because it is hard to reason about where a color may have changed
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Color.ts.html#l138"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Color.ts:138</code></a>
+        <a href="../files/src_davinci-eight_core_Color.ts.html#l146"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Color.ts:146</code></a>
         </p>
 
 
@@ -1305,7 +1319,7 @@ difficult bugs because it is hard to reason about where a color may have changed
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Color.ts.html#l40"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Color.ts:40</code></a>
+        <a href="../files/src_davinci-eight_core_Color.ts.html#l41"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Color.ts:41</code></a>
         </p>
 
 
@@ -1330,7 +1344,7 @@ difficult bugs because it is hard to reason about where a color may have changed
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Color.ts.html#l47"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Color.ts:47</code></a>
+        <a href="../files/src_davinci-eight_core_Color.ts.html#l48"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Color.ts:48</code></a>
         </p>
 
 
@@ -1355,7 +1369,7 @@ difficult bugs because it is hard to reason about where a color may have changed
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Color.ts.html#l61"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Color.ts:61</code></a>
+        <a href="../files/src_davinci-eight_core_Color.ts.html#l62"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Color.ts:62</code></a>
         </p>
 
 
@@ -1379,7 +1393,32 @@ difficult bugs because it is hard to reason about where a color may have changed
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Color.ts.html#l127"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Color.ts:127</code></a>
+        <a href="../files/src_davinci-eight_core_Color.ts.html#l135"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Color.ts:135</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_gray" class="property item">
+    <h3 class="name"><code>gray</code></h3>
+    <span class="type"><a href="../classes/Color.html" class="crosslink">Color</a></span>
+
+
+
+
+        <span class="flag static">static</span>
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_core_Color.ts.html#l97"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Color.ts:97</code></a>
         </p>
 
 
@@ -1404,7 +1443,7 @@ difficult bugs because it is hard to reason about where a color may have changed
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Color.ts.html#l54"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Color.ts:54</code></a>
+        <a href="../files/src_davinci-eight_core_Color.ts.html#l55"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Color.ts:55</code></a>
         </p>
 
 
@@ -1428,7 +1467,7 @@ difficult bugs because it is hard to reason about where a color may have changed
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Color.ts.html#l201"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Color.ts:201</code></a>
+        <a href="../files/src_davinci-eight_core_Color.ts.html#l228"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Color.ts:228</code></a>
         </p>
 
 
@@ -1453,7 +1492,7 @@ difficult bugs because it is hard to reason about where a color may have changed
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Color.ts.html#l75"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Color.ts:75</code></a>
+        <a href="../files/src_davinci-eight_core_Color.ts.html#l76"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Color.ts:76</code></a>
         </p>
 
 
@@ -1477,7 +1516,7 @@ difficult bugs because it is hard to reason about where a color may have changed
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Color.ts.html#l116"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Color.ts:116</code></a>
+        <a href="../files/src_davinci-eight_core_Color.ts.html#l124"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Color.ts:124</code></a>
         </p>
 
 
@@ -1502,7 +1541,7 @@ difficult bugs because it is hard to reason about where a color may have changed
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Color.ts.html#l68"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Color.ts:68</code></a>
+        <a href="../files/src_davinci-eight_core_Color.ts.html#l69"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Color.ts:69</code></a>
         </p>
 
 
@@ -1527,7 +1566,7 @@ difficult bugs because it is hard to reason about where a color may have changed
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Color.ts.html#l89"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Color.ts:89</code></a>
+        <a href="../files/src_davinci-eight_core_Color.ts.html#l90"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Color.ts:90</code></a>
         </p>
 
 
@@ -1552,7 +1591,7 @@ difficult bugs because it is hard to reason about where a color may have changed
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Color.ts.html#l82"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Color.ts:82</code></a>
+        <a href="../files/src_davinci-eight_core_Color.ts.html#l83"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Color.ts:83</code></a>
         </p>
 
 

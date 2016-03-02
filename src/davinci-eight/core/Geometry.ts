@@ -1,11 +1,20 @@
 import IContextConsumer from './IContextConsumer'
 import IMaterial from './IMaterial'
 import Matrix4 from '../math/Matrix4'
+import VertexArrays from './VertexArrays'
 
 /**
  * @class Geometry
  */
 interface Geometry extends IContextConsumer {
+
+    /**
+     * @property data
+     * @type VertexArrays
+     * @readOnly
+     */
+    data: VertexArrays
+
     /**
      * @property partsLength
      * @type number

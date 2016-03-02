@@ -18,12 +18,6 @@ import vertexArraysFromPrimitive from '../core/vertexArraysFromPrimitive'
  *
  * @class CylinderGeometry
  * @extends GeometryContainer
- *
- * @example
- *   const geometry = new EIGHT.CylinderGeometry()
- *   const material = new EIGHT.MeshMaterial()
- *   const cylinder = new EIGHT.Mesh()
- *   scene.add(cylinder)
  */
 export default class CylinderGeometry extends GeometryContainer {
 

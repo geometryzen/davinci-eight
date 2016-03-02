@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.203.0</em>
+            <em>API Docs for: 2.204.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -124,6 +124,7 @@
                                 <li><a href="../classes/Matrix4.html">Matrix4</a></li>
                                 <li><a href="../classes/Mesh.html">Mesh</a></li>
                                 <li><a href="../classes/MeshMaterial.html">MeshMaterial</a></li>
+                                <li><a href="../classes/MeshMaterialOptions.html">MeshMaterialOptions</a></li>
                                 <li><a href="../classes/MeshNormalMaterial.html">MeshNormalMaterial</a></li>
                                 <li><a href="../classes/ModelE2.html">ModelE2</a></li>
                                 <li><a href="../classes/ModelE3.html">ModelE3</a></li>
@@ -134,6 +135,7 @@
                                 <li><a href="../classes/Perspective.html">Perspective</a></li>
                                 <li><a href="../classes/PerspectiveCamera.html">PerspectiveCamera</a></li>
                                 <li><a href="../classes/PointMaterial.html">PointMaterial</a></li>
+                                <li><a href="../classes/PointMaterialOptions.html">PointMaterialOptions</a></li>
                                 <li><a href="../classes/PointSizeFacet.html">PointSizeFacet</a></li>
                                 <li><a href="../classes/Primitive.html">Primitive</a></li>
                                 <li><a href="../classes/PrimitiveBuffers.html">PrimitiveBuffers</a></li>
@@ -193,6 +195,7 @@
                                 <li><a href="../classes/VectorN.html">VectorN</a></li>
                                 <li><a href="../classes/VersionLogger.html">VersionLogger</a></li>
                                 <li><a href="../classes/Vertex.html">Vertex</a></li>
+                                <li><a href="../classes/VertexArrays.html">VertexArrays</a></li>
                                 <li><a href="../classes/VertexAttributeMap.html">VertexAttributeMap</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
                                 <li><a href="../classes/WebGLBlendFunc.html">WebGLBlendFunc</a></li>
@@ -252,17 +255,23 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 import DrawMode from &#x27;../core/DrawMode&#x27;
+import GraphicsProgramSymbols from &#x27;../core/GraphicsProgramSymbols&#x27;
 import GridGeometry from &#x27;../geometries/GridGeometry&#x27;
 import GridGeometryOptions from &#x27;../geometries/GridGeometryOptions&#x27;
 import GridOptions from &#x27;./GridOptions&#x27;
 import isDefined from &#x27;../checks/isDefined&#x27;
+import isFunction from &#x27;../checks/isFunction&#x27;
+import isNull from &#x27;../checks/isNull&#x27;
+import isUndefined from &#x27;../checks/isUndefined&#x27;
 import LineMaterial from &#x27;../materials/LineMaterial&#x27;
+import LineMaterialOptions from &#x27;../materials/LineMaterialOptions&#x27;
 import Mesh from &#x27;../core/Mesh&#x27;
 import MeshMaterial from &#x27;../materials/MeshMaterial&#x27;
+import MeshMaterialOptions from &#x27;../materials/MeshMaterialOptions&#x27;
 import mustBeGE from &#x27;../checks/mustBeGE&#x27;
-import mustBeFunction from &#x27;../checks/mustBeFunction&#x27;
 import mustBeNumber from &#x27;../checks/mustBeNumber&#x27;
 import PointMaterial from &#x27;../materials/PointMaterial&#x27;
+import PointMaterialOptions from &#x27;../materials/PointMaterialOptions&#x27;
 import R3 from &#x27;../math/R3&#x27;
 import Unit from &#x27;../math/Unit&#x27;
 
@@ -274,24 +283,44 @@ function aNormalDefault(u: number, v: number): R3 {
   return R3.e3
 }
 
+function isFunctionOrNull(x: any): boolean {
+  return isFunction(x) || isNull(x)
+}
+
+function isFunctionOrUndefined(x: any): boolean {
+  return isFunction(x) || isUndefined(x)
+}
+
 function transferGeometryOptions(options: GridOptions, geoOptions: GridGeometryOptions): void {
 
-  if (options.aPosition) {
-    geoOptions.aPosition = mustBeFunction(&#x27;aPosition&#x27;, options.aPosition)
+  if (isFunctionOrNull(options.aPosition)) {
+    geoOptions.aPosition = options.aPosition
   }
-  else {
+  else if (isUndefined(options.aPosition)) {
     geoOptions.aPosition = aPositionDefault
   }
-
-  if (options.aNormal) {
-    geoOptions.aNormal = mustBeFunction(&#x27;aNormal&#x27;, options.aNormal)
-  }
   else {
+    throw new Error(&quot;aPosition must be one of function, null, or undefined.&quot;)
+  }
+
+  if (isFunctionOrNull(options.aNormal)) {
+    geoOptions.aNormal = options.aNormal
+  }
+  else if (isUndefined(options.aNormal)) {
     geoOptions.aNormal = aNormalDefault
   }
+  else {
+    throw new Error(&quot;aNormal must be one of function, null, or undefined.&quot;)
+  }
 
-  if (options.aColor) {
-    geoOptions.aColor = mustBeFunction(&#x27;aColor&#x27;, options.aColor)
+  if (isFunctionOrNull(options.aColor)) {
+    geoOptions.aColor = options.aColor
+  }
+  else if (isUndefined(options.aColor)) {
+    // Do nothing.
+  }
+  else {
+    throw new Error(&quot;aColor must be one of function, null, or undefined.&quot;)
   }
 
   if (isDefined(options.uMax)) {
@@ -345,7 +374,31 @@ function configPoints(options: GridOptions, grid: Grid) {
   grid.geometry = geometry
   geometry.release()
 
-  const material = new PointMaterial()
+  const matOptions: PointMaterialOptions = { attributes: {}, uniforms: {} }
+
+  if (isFunctionOrUndefined(options.aPosition)) {
+    matOptions.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = 3
+  }
+  else if (isNull(options.aPosition)) {
+    // We&#x27;re being instructed not to have a position attribute.
+  }
+  else {
+    throw new Error()
+  }
+
+  if (isFunction(options.aColor)) {
+    matOptions.attributes[GraphicsProgramSymbols.ATTRIBUTE_COLOR] = 3
+  }
+  else {
+    matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_COLOR] = &#x27;vec3&#x27;
+  }
+
+  matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_MODEL_MATRIX] = &#x27;mat4&#x27;
+  matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX] = &#x27;mat4&#x27;
+  matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX] = &#x27;mat4&#x27;
+  matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_POINT_SIZE] = &#x27;float&#x27;
+
+  const material = new PointMaterial(matOptions)
   grid.material = material
   material.release()
 }
@@ -358,7 +411,33 @@ function configLines(options: GridOptions, grid: Grid) {
   grid.geometry = geometry
   geometry.release()
 
-  const material = new LineMaterial()
+  const matOptions: LineMaterialOptions = { attributes: {}, uniforms: {} }
+
+  if (isFunctionOrUndefined(options.aPosition)) {
+    matOptions.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = 3
+  }
+  else if (isNull(options.aPosition)) {
+    // We&#x27;re being instructed not to have a position attribute.
+  }
+  else {
+    throw new Error()
+  }
+
+  if (isFunction(options.aNormal)) {
+    matOptions.attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = 3
+  }
+  if (isFunction(options.aColor)) {
+    matOptions.attributes[GraphicsProgramSymbols.ATTRIBUTE_COLOR] = 3
+  }
+  else {
+    matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_COLOR] = &#x27;vec3&#x27;
+  }
+
+  matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_MODEL_MATRIX] = &#x27;mat4&#x27;
+  matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX] = &#x27;mat4&#x27;
+  matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX] = &#x27;mat4&#x27;
+
+  const material = new LineMaterial(matOptions)
   grid.material = material
   material.release()
 }
@@ -371,7 +450,52 @@ function configMesh(options: GridOptions, grid: Grid) {
   grid.geometry = geometry
   geometry.release()
 
-  const material = new MeshMaterial()
+  const matOptions: MeshMaterialOptions = { attributes: {}, uniforms: {} }
+
+  if (isFunctionOrUndefined(options.aPosition)) {
+    matOptions.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = 3
+  }
+  else if (isNull(options.aPosition)) {
+    // We&#x27;re being instructed not to have the aPosition attribute.
+  }
+  else {
+    throw new Error()
+  }
+
+  if (isFunctionOrUndefined(options.aNormal)) {
+    matOptions.attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = 3
+    matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_NORMAL_MATRIX] = &#x27;mat3&#x27;
+    matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_COLOR] = &#x27;vec3&#x27;
+    matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION] = &#x27;vec3&#x27;
+  }
+  else if (isNull(options.aNormal)) {
+    // We&#x27;re being instructed not to have the aNormal attribute.
+  }
+  else {
+    throw new Error()
+  }
+
+  if (isFunction(options.aColor)) {
+    matOptions.attributes[GraphicsProgramSymbols.ATTRIBUTE_COLOR] = 3
+  }
+  else if (isNull(options.aColor)) {
+    // We&#x27;re being instructed not to have the aColor attribute.
+    matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_COLOR] = &#x27;vec3&#x27;
+  }
+  else if (isUndefined(options.aColor)) {
+    matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_COLOR] = &#x27;vec3&#x27;
+  }
+  else {
+    throw new Error()
+  }
+
+  matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_MODEL_MATRIX] = &#x27;mat4&#x27;
+  matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX] = &#x27;mat4&#x27;
+  matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX] = &#x27;mat4&#x27;
+
+  matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_AMBIENT_LIGHT] = &#x27;vec3&#x27;
+
+  const material = new MeshMaterial(matOptions)
   grid.material = material
   material.release()
 }

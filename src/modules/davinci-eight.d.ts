@@ -187,6 +187,24 @@ declare module EIGHT {
   }
 
   /**
+   * The ErrorMode provides some control over how the system responds to illegal inputs.
+   */
+  enum ErrorMode {
+    /**
+     * The implementation will respond to illegal inputs by throwing exceptions.
+     */
+    STRICT,
+    /**
+     * The implementation will quietly ignore illegal inputs by ignoring the request.
+     */
+    IGNORE,
+    /**
+     * The implementation will provide warning at the console and may improvise responses.
+     */
+    WARNME
+  }
+
+  /**
    * An array of attribute values associated with meta data describing how to interpret the values.
    * {values: number[]; size: number;}
    */
@@ -2535,27 +2553,32 @@ declare module EIGHT {
    *
    */
   class Color extends VectorN<number> implements IColor {
-    static black: Color;
-    static blue: Color;
-    static green: Color;
-    static cyan: Color;
-    static red: Color;
-    static magenta: Color;
-    static yellow: Color;
-    static white: Color;
     r: number;
     g: number;
     b: number;
     luminance: number;
     constructor(r: number, g: number, b: number);
+    approx(n: number): Color;
     clone(): Color;
-    interpolate(target: IColor, alpha: number): Color;
+    copy(color: IColor): Color;
+    lerp(target: IColor, α: number): Color;
+    toString(): string;
 
-    static fromColor(color: IColor): Color;
+    static black: Color;
+    static blue: Color;
+    static cyan: Color;
+    static green: Color;
+    static red: Color;
+    static magenta: Color;
+    static yellow: Color;
+    static white: Color;
+    static gray: Color;
+    static copy(color: IColor): Color;
     static fromCoords(coords: number[]): Color;
     static fromHSL(H: number, S: number, L: number): Color;
     static fromRGB(red: number, green: number, blue: number): Color;
-    static interpolate(a: IColor, b: IColor, alpha: number): Color;
+    static lerp(a: IColor, b: IColor, α: number): Color;
+    static luminance(r: number, g: number, b: number): number
   }
 
   /**
@@ -2909,26 +2932,6 @@ declare module EIGHT {
     viewport(x: number, y: number, width: number, height: number): WebGLRenderer;
   }
 
-  interface Geometry extends IContextConsumer {
-    partsLength: number;
-    addPart(geometry: Geometry): void;
-    removePart(index: number): void;
-    getPart(index: number): Geometry;
-    draw(material: Material): void;
-  }
-
-  class GeometryContainer extends Shareable implements Geometry {
-    constructor();
-    partsLength: number;
-    addPart(geometry: Geometry): void;
-    removePart(index: number): void;
-    draw(material: Material): void;
-    getPart(index: number): Geometry;
-    contextFree(context: IContextProvider): void;
-    contextGain(context: IContextProvider): void;
-    contextLost(): void;
-  }
-
   interface VertexAttribPointer {
     /**
      * The name of the vertex attribute.
@@ -2956,9 +2959,32 @@ declare module EIGHT {
     pointers: VertexAttribPointer[]
   }
 
-  class GeometryBuffers extends ShareableContextListener implements Geometry {
-    constructor(dataSource: VertexArrays);
+  interface Geometry extends IContextConsumer {
+    data: VertexArrays;
     partsLength: number;
+    addPart(geometry: Geometry): void;
+    removePart(index: number): void;
+    getPart(index: number): Geometry;
+    draw(material: Material): void;
+  }
+
+  class GeometryContainer extends Shareable implements Geometry {
+    data: VertexArrays;
+    partsLength: number;
+    constructor();
+    addPart(geometry: Geometry): void;
+    removePart(index: number): void;
+    draw(material: Material): void;
+    getPart(index: number): Geometry;
+    contextFree(context: IContextProvider): void;
+    contextGain(context: IContextProvider): void;
+    contextLost(): void;
+  }
+
+  class GeometryBuffers extends ShareableContextListener implements Geometry {
+    data: VertexArrays;
+    partsLength: number;
+    constructor(data: VertexArrays);
     addPart(geometry: Geometry): void;
     removePart(index: number): void;
     getPart(index: number): Geometry;
@@ -3621,8 +3647,9 @@ declare module EIGHT {
   class Grid extends Mesh {
     constructor(
       options?: {
-        aPosition?: (u: number, v: number) => VectorE3
         aColor?: (u: number, v: number) => IColor
+        aNormal?: (u: number, v: number) => VectorE3
+        aPosition?: (u: number, v: number) => VectorE3
         drawMode?: DrawMode
         uMax?: number
         uMin?: number

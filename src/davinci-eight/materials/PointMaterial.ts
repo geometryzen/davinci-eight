@@ -1,32 +1,60 @@
-import GraphicsProgramBuilder from '../materials/GraphicsProgramBuilder';
-import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
-import Material from '../core/Material';
+import GraphicsProgramBuilder from '../materials/GraphicsProgramBuilder'
+import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols'
+import isDefined from '../checks/isDefined'
+import Material from '../core/Material'
+import mustBeObject from '../checks/mustBeObject'
+import PointMaterialOptions from './PointMaterialOptions'
 
 /**
  * @module EIGHT
  * @submodule materials
  */
 
-function builder() {
-    const gpb = new GraphicsProgramBuilder();
+function builder(options: PointMaterialOptions) {
+  if (isDefined(options)) {
+    mustBeObject('options', options)
+  }
+  else {
+    options = { attributes: {}, uniforms: {} }
 
-    gpb.attribute(GraphicsProgramSymbols.ATTRIBUTE_POSITION, 3);
+    options.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = 3
 
-    gpb.uniform(GraphicsProgramSymbols.UNIFORM_COLOR, 'vec3');
-    gpb.uniform(GraphicsProgramSymbols.UNIFORM_MODEL_MATRIX, 'mat4');
-    gpb.uniform(GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX, 'mat4');
-    gpb.uniform(GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX, 'mat4');
-    gpb.uniform(GraphicsProgramSymbols.UNIFORM_POINT_SIZE, 'float');
+    options.uniforms[GraphicsProgramSymbols.UNIFORM_COLOR] = 'vec3'
+    options.uniforms[GraphicsProgramSymbols.UNIFORM_MODEL_MATRIX] = 'mat4'
+    options.uniforms[GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX] = 'mat4'
+    options.uniforms[GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX] = 'mat4'
 
-    return gpb
+    options.uniforms[GraphicsProgramSymbols.UNIFORM_POINT_SIZE] = 'float'
+  }
+
+  const attributes: { [name: string]: number } = isDefined(options.attributes) ? options.attributes : {}
+  const uniforms: { [name: string]: string } = isDefined(options.uniforms) ? options.uniforms : {}
+
+  const gpb = new GraphicsProgramBuilder()
+
+  const aNames = Object.keys(attributes)
+  for (let a = 0; a < aNames.length; a++) {
+    const aName = aNames[a]
+    const size: number = attributes[aName]
+    gpb.attribute(aName, size)
+  }
+
+  const uNames = Object.keys(uniforms)
+  for (let u = 0; u < uNames.length; u++) {
+    const uName = uNames[u]
+    const type: string = uniforms[uName]
+    gpb.uniform(uName, type)
+  }
+
+  return gpb
 }
 
-function vertexShader(): string {
-    return builder().vertexShader();
+function vertexShader(options?: PointMaterialOptions): string {
+  return builder(options).vertexShader()
 }
 
-function fragmentShader(): string {
-    return builder().fragmentShader();
+function fragmentShader(options?: PointMaterialOptions): string {
+  return builder(options).fragmentShader()
 }
 
 /**
@@ -34,11 +62,12 @@ function fragmentShader(): string {
  * @extends Material
  */
 export default class PointMaterial extends Material {
-    /**
-     * @class PointMaterial
-     * @constructor
-     */
-    constructor() {
-        super(vertexShader(), fragmentShader());
-    }
+  /**
+   * @class PointMaterial
+   * @constructor
+   * @param [options] {PointMaterialOptions}
+   */
+  constructor(options?: PointMaterialOptions) {
+    super(vertexShader(options), fragmentShader(options))
+  }
 }

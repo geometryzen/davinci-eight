@@ -2,6 +2,33 @@ import DrawMode from '../../core/DrawMode'
 import GridPoints from './GridPoints'
 
 describe("GridPoints", function() {
+  //
+  // A single point is not so trivial.
+  //
+  describe("(0, 0)", function() {
+    const gridLines = new GridPoints(0, 0)
+    it("should have the correct length and segment properties", function() {
+      expect(gridLines.uSegments).toBe(0)
+      expect(gridLines.uLength).toBe(1)
+      expect(gridLines.vSegments).toBe(0)
+      expect(gridLines.vLength).toBe(1)
+    })
+    it("vertex(0, 0) should have the correct vertex labels", function() {
+      expect(gridLines.vertex(0, 0).coords.length).toBe(2)
+      expect(gridLines.vertex(0, 0).coords.getComponent(0)).toBe(0)
+      expect(gridLines.vertex(0, 0).coords.getComponent(1)).toBe(0)
+    })
+    const vas = gridLines.toVertexArrays()
+    it("drawMode should be POINTS", function() {
+      expect(vas.drawMode).toBe(DrawMode.POINTS)
+    })
+    it("should consist of 1 points", function() {
+      expect(vas.indices.length).toBe(1)
+    })
+    it("that point is 0", function() {
+      expect(vas.indices[0]).toBe(0)
+    })
+  })
 
   // TODO: It would be nice to simply specify:
   // 1) There must be four unique lines
@@ -13,7 +40,7 @@ describe("GridPoints", function() {
    * |   |
    * 0---1
    */
-  describe("(1,1)", function() {
+  describe("(1, 1)", function() {
     const gridLines = new GridPoints(1, 1)
     it("should have the correct length and segment properties", function() {
       expect(gridLines.uSegments).toBe(1)

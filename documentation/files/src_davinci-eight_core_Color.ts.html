@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.203.0</em>
+            <em>API Docs for: 2.204.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -124,6 +124,7 @@
                                 <li><a href="../classes/Matrix4.html">Matrix4</a></li>
                                 <li><a href="../classes/Mesh.html">Mesh</a></li>
                                 <li><a href="../classes/MeshMaterial.html">MeshMaterial</a></li>
+                                <li><a href="../classes/MeshMaterialOptions.html">MeshMaterialOptions</a></li>
                                 <li><a href="../classes/MeshNormalMaterial.html">MeshNormalMaterial</a></li>
                                 <li><a href="../classes/ModelE2.html">ModelE2</a></li>
                                 <li><a href="../classes/ModelE3.html">ModelE3</a></li>
@@ -134,6 +135,7 @@
                                 <li><a href="../classes/Perspective.html">Perspective</a></li>
                                 <li><a href="../classes/PerspectiveCamera.html">PerspectiveCamera</a></li>
                                 <li><a href="../classes/PointMaterial.html">PointMaterial</a></li>
+                                <li><a href="../classes/PointMaterialOptions.html">PointMaterialOptions</a></li>
                                 <li><a href="../classes/PointSizeFacet.html">PointSizeFacet</a></li>
                                 <li><a href="../classes/Primitive.html">Primitive</a></li>
                                 <li><a href="../classes/PrimitiveBuffers.html">PrimitiveBuffers</a></li>
@@ -193,6 +195,7 @@
                                 <li><a href="../classes/VectorN.html">VectorN</a></li>
                                 <li><a href="../classes/VersionLogger.html">VersionLogger</a></li>
                                 <li><a href="../classes/Vertex.html">Vertex</a></li>
+                                <li><a href="../classes/VertexArrays.html">VertexArrays</a></li>
                                 <li><a href="../classes/VertexAttributeMap.html">VertexAttributeMap</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
                                 <li><a href="../classes/WebGLBlendFunc.html">WebGLBlendFunc</a></li>
@@ -255,6 +258,7 @@ import clamp from &#x27;../math/clamp&#x27;
 import ColumnVector from &#x27;../math/ColumnVector&#x27;
 import Coords from &#x27;../math/Coords&#x27;
 import IColor from &#x27;./IColor&#x27;
+import isDefined from &#x27;../checks/isDefined&#x27;
 import Matrix3 from &#x27;../math/Matrix3&#x27;
 import MutableLinearElement from &#x27;../math/MutableLinearElement&#x27;
 import mustBeArray from &#x27;../checks/mustBeArray&#x27;
@@ -347,6 +351,13 @@ export default class Color extends Coords implements IColor, ColumnVector&lt;Mat
   public static white = new Color(1, 1, 1)
 
   /**
+   * @property gray
+   * @type {Color}
+   * @static
+   */
+  public static gray = new Color(0.5, 0.5, 0.5)
+
+  /**
    * @class Color
    * @constructor
    * @param r {number}
@@ -412,6 +423,17 @@ export default class Color extends Coords implements IColor, ColumnVector&lt;Mat
   }
 
   /**
+   * @method approx
+   * @param n {number}
+   * @return {Color}
+   * @chainable
+   */
+  public approx(n: number): Color {
+    super.approx(n)
+    return this
+  }
+
+  /**
    * @method clone
    * @return {Color}
    * @chainable
@@ -427,10 +449,18 @@ export default class Color extends Coords implements IColor, ColumnVector&lt;Mat
    * @chainable
    */
   public copy(color: IColor): Color {
-    this.r = color.r
-    this.g = color.g
-    this.b = color.b
-    return this
+    if (isDefined(color)) {
+      this.r = color.r
+      this.g = color.g
+      this.b = color.b
+      return this
+    }
+    else {
+      // We can choose what to do based upon a global setting?
+      this.r = Math.random()
+      this.g = Math.random()
+      this.b = Math.random()
+    }
   }
 
   public divByScalar(α: number): Color {
@@ -545,6 +575,7 @@ export default class Color extends Coords implements IColor, ColumnVector&lt;Mat
    * @method fromCoords
    * @param coords {number[]}
    * @return {Color}
+   * @static
    * @chainable
    */
   public static fromCoords(coords: number[]): Color {

@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.203.0</em>
+            <em>API Docs for: 2.204.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -124,6 +124,7 @@
                                 <li><a href="../classes/Matrix4.html">Matrix4</a></li>
                                 <li><a href="../classes/Mesh.html">Mesh</a></li>
                                 <li><a href="../classes/MeshMaterial.html">MeshMaterial</a></li>
+                                <li><a href="../classes/MeshMaterialOptions.html">MeshMaterialOptions</a></li>
                                 <li><a href="../classes/MeshNormalMaterial.html">MeshNormalMaterial</a></li>
                                 <li><a href="../classes/ModelE2.html">ModelE2</a></li>
                                 <li><a href="../classes/ModelE3.html">ModelE3</a></li>
@@ -134,6 +135,7 @@
                                 <li><a href="../classes/Perspective.html">Perspective</a></li>
                                 <li><a href="../classes/PerspectiveCamera.html">PerspectiveCamera</a></li>
                                 <li><a href="../classes/PointMaterial.html">PointMaterial</a></li>
+                                <li><a href="../classes/PointMaterialOptions.html">PointMaterialOptions</a></li>
                                 <li><a href="../classes/PointSizeFacet.html">PointSizeFacet</a></li>
                                 <li><a href="../classes/Primitive.html">Primitive</a></li>
                                 <li><a href="../classes/PrimitiveBuffers.html">PrimitiveBuffers</a></li>
@@ -193,6 +195,7 @@
                                 <li><a href="../classes/VectorN.html">VectorN</a></li>
                                 <li><a href="../classes/VersionLogger.html">VersionLogger</a></li>
                                 <li><a href="../classes/Vertex.html">Vertex</a></li>
+                                <li><a href="../classes/VertexArrays.html">VertexArrays</a></li>
                                 <li><a href="../classes/VertexAttributeMap.html">VertexAttributeMap</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
                                 <li><a href="../classes/WebGLBlendFunc.html">WebGLBlendFunc</a></li>
@@ -251,86 +254,9 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import Color from &#x27;../core/Color&#x27;
-import DrawMode from &#x27;../core/DrawMode&#x27;
 import GeometryBuffers from &#x27;../core/GeometryBuffers&#x27;
-import GraphicsProgramSymbols from &#x27;../core/GraphicsProgramSymbols&#x27;
-import GridLines from &#x27;./primitives/GridLines&#x27;
 import GridGeometryOptions from &#x27;./GridGeometryOptions&#x27;
-import GridPoints from &#x27;./primitives/GridPoints&#x27;
-import GridPrimitive from &#x27;./primitives/GridPrimitive&#x27;
-import GridTriangleStrip from &#x27;./primitives/GridTriangleStrip&#x27;
-import isDefined from &#x27;../checks/isDefined&#x27;
-import mustBeNumber from &#x27;../checks/mustBeNumber&#x27;
-import R3 from &#x27;../math/R3&#x27;
-import Unit from &#x27;../math/Unit&#x27;
-import Vector3 from &#x27;../math/Vector3&#x27;
-import VertexArrays from &#x27;../core/VertexArrays&#x27;
-
-function aPositionDefault(u: number, v: number): R3 {
-  return R3.vector(u, v, 0, Unit.ONE)
-}
-
-function aNormalDefault(u: number, v: number): R3 {
-  return R3.e3
-}
-
-function topology(drawMode: DrawMode, uSegments: number, vSegments: number): GridPrimitive {
-  switch (drawMode) {
-    case DrawMode.POINTS: {
-      return new GridPoints(uSegments, vSegments)
-    }
-    case DrawMode.LINES: {
-      return new GridLines(uSegments, vSegments)
-    }
-    case DrawMode.TRIANGLE_STRIP: {
-      return new GridTriangleStrip(uSegments, vSegments)
-    }
-    default: {
-      throw new Error(&#x60;drawMode must be POINTS, LINES or TRIANGLE_STRIP&#x60;)
-    }
-  }
-}
-
-function dataSource(options: GridGeometryOptions): VertexArrays {
-
-  const uMin: number = isDefined(options.uMin) ? mustBeNumber(&#x27;uMin&#x27;, options.uMin) : 0
-  const uMax: number = isDefined(options.uMax) ? mustBeNumber(&#x27;uMax&#x27;, options.uMax) : 1
-  const uSegments = isDefined(options.uSegments) ? options.uSegments : 1
-
-  const vMin: number = isDefined(options.vMin) ? mustBeNumber(&#x27;vMin&#x27;, options.vMin) : 0
-  const vMax: number = isDefined(options.vMax) ? mustBeNumber(&#x27;vMax&#x27;, options.vMax) : 1
-  const vSegments = isDefined(options.vSegments) ? options.vSegments : 1
-
-  const aPosition = isDefined(options.aPosition) ? options.aPosition : aPositionDefault
-  const aNormal = isDefined(options.aNormal) ? options.aNormal : aNormalDefault
-  const aColor = isDefined(options.aColor) ? options.aColor : void 0
-
-  const drawMode = isDefined(options.drawMode) ? options.drawMode : DrawMode.LINES
-  const grid: GridPrimitive = topology(drawMode, uSegments, vSegments)
-
-  const iLen = grid.uLength
-  const jLen = grid.vLength
-
-  for (let i = 0; i &lt; iLen; i++) {
-    for (let j = 0; j &lt; jLen; j++) {
-      const vertex = grid.vertex(i, j)
-      const u = uMin + (uMax - uMin) * i / uSegments
-      const v = vMin + (vMax - vMin) * j / vSegments
-
-      if (aPosition) {
-        vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = Vector3.copy(aPosition(u, v))
-      }
-      if (aNormal) {
-        vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = Vector3.copy(aNormal(u, v))
-      }
-      if (aColor) {
-        vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_COLOR] = Color.copy(aColor(u, v))
-      }
-    }
-  }
-  return grid.toVertexArrays()
-}
+import gridVertexArrays from &#x27;./gridVertexArrays&#x27;
 
 /**
  * @class GridGeometry
@@ -344,7 +270,7 @@ export default class GridGeometry extends GeometryBuffers {
    * @param [options] {GridGeometryOptions}
    */
   constructor(options: GridGeometryOptions = {}) {
-    super(dataSource(options))
+    super(gridVertexArrays(options))
   }
 }
 

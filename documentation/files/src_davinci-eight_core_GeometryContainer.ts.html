@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.203.0</em>
+            <em>API Docs for: 2.204.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -124,6 +124,7 @@
                                 <li><a href="../classes/Matrix4.html">Matrix4</a></li>
                                 <li><a href="../classes/Mesh.html">Mesh</a></li>
                                 <li><a href="../classes/MeshMaterial.html">MeshMaterial</a></li>
+                                <li><a href="../classes/MeshMaterialOptions.html">MeshMaterialOptions</a></li>
                                 <li><a href="../classes/MeshNormalMaterial.html">MeshNormalMaterial</a></li>
                                 <li><a href="../classes/ModelE2.html">ModelE2</a></li>
                                 <li><a href="../classes/ModelE3.html">ModelE3</a></li>
@@ -134,6 +135,7 @@
                                 <li><a href="../classes/Perspective.html">Perspective</a></li>
                                 <li><a href="../classes/PerspectiveCamera.html">PerspectiveCamera</a></li>
                                 <li><a href="../classes/PointMaterial.html">PointMaterial</a></li>
+                                <li><a href="../classes/PointMaterialOptions.html">PointMaterialOptions</a></li>
                                 <li><a href="../classes/PointSizeFacet.html">PointSizeFacet</a></li>
                                 <li><a href="../classes/Primitive.html">Primitive</a></li>
                                 <li><a href="../classes/PrimitiveBuffers.html">PrimitiveBuffers</a></li>
@@ -193,6 +195,7 @@
                                 <li><a href="../classes/VectorN.html">VectorN</a></li>
                                 <li><a href="../classes/VersionLogger.html">VersionLogger</a></li>
                                 <li><a href="../classes/Vertex.html">Vertex</a></li>
+                                <li><a href="../classes/VertexArrays.html">VertexArrays</a></li>
                                 <li><a href="../classes/VertexAttributeMap.html">VertexAttributeMap</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
                                 <li><a href="../classes/WebGLBlendFunc.html">WebGLBlendFunc</a></li>
@@ -255,12 +258,14 @@ import IContextProvider from &#x27;./IContextProvider&#x27;
 import ShareableArray from &#x27;../collections/ShareableArray&#x27;
 import Material from &#x27;./Material&#x27;
 import Matrix4 from &#x27;../math/Matrix4&#x27;
+import notSupported from &#x27;../i18n/notSupported&#x27;
 import Geometry from &#x27;./Geometry&#x27;
 import readOnly from &#x27;../i18n/readOnly&#x27;
 import Shareable from &#x27;../core/Shareable&#x27;
 import shouldBeImplementedBy from &#x27;../i18n/shouldBeImplementedBy&#x27;
 import Spinor3 from &#x27;../math/Spinor3&#x27;
 import SpinorE3 from &#x27;../math/SpinorE3&#x27;
+import VertexArrays from &#x27;./VertexArrays&#x27;
 
 /**
  * @module EIGHT
@@ -277,162 +282,173 @@ import SpinorE3 from &#x27;../math/SpinorE3&#x27;
  */
 export default class GeometryContainer extends Shareable implements Geometry {
 
-    /**
-     * @property _parts
-     * @private
-     */
-    private _parts: ShareableArray&lt;Geometry&gt;;
+  /**
+   * @property _parts
+   * @private
+   */
+  private _parts: ShareableArray&lt;Geometry&gt;;
 
-    /**
-     * @property scaling
-     * @type Matrix4
-     * @default diag(1, 1, 1, 1)
-     */
-    public scaling = Matrix4.one()
-    private canonicalScale = Matrix4.one()
-    private K = Matrix4.one()
-    private Kinv = Matrix4.one()
-    private Kidentity = true
+  /**
+   * @property scaling
+   * @type Matrix4
+   * @default diag(1, 1, 1, 1)
+   */
+  public scaling = Matrix4.one()
+  private canonicalScale = Matrix4.one()
+  private K = Matrix4.one()
+  private Kinv = Matrix4.one()
+  private Kidentity = true
 
-    /**
-     * @class GeometryContainer
-     * @constructor
-     * @param type {string}
-     * @param tilt {SpinorE3}
-     */
-    constructor(type: string, tilt: SpinorE3) {
-        super(type)
-        this._parts = new ShareableArray&lt;Geometry&gt;()
-        if (tilt &amp;&amp; !Spinor3.isOne(tilt)) {
-            this.Kidentity = false
-            this.K.rotation(tilt)
-            this.Kinv.copy(this.K).inv()
-        }
+  /**
+   * @class GeometryContainer
+   * @constructor
+   * @param type {string}
+   * @param tilt {SpinorE3}
+   */
+  constructor(type: string, tilt: SpinorE3) {
+    super(type)
+    this._parts = new ShareableArray&lt;Geometry&gt;()
+    if (tilt &amp;&amp; !Spinor3.isOne(tilt)) {
+      this.Kidentity = false
+      this.K.rotation(tilt)
+      this.Kinv.copy(this.K).inv()
     }
+  }
 
-    /**
-     * @method destructor
-     * @return {void}
-     * @protected
-     */
-    protected destructor(): void {
-        this._parts.release()
-        this._parts = void 0
-        super.destructor()
-    }
+  /**
+   * @method destructor
+   * @return {void}
+   * @protected
+   */
+  protected destructor(): void {
+    this._parts.release()
+    this._parts = void 0
+    super.destructor()
+  }
 
-    public isLeaf(): boolean {
-        return false
-    }
+  /**
+   * @property data
+   * @type VertexArrays
+   */
+  get data(): VertexArrays {
+    throw new Error(notSupported(&#x27;data&#x27;).message)
+  }
+  set data(data: VertexArrays) {
+    throw new Error(notSupported(&#x27;data&#x27;).message)
+  }
 
-    get partsLength(): number {
-        return this._parts.length;
-    }
-    set partsLength(unused) {
-        throw new Error(readOnly(&#x27;partsLength&#x27;).message)
-    }
+  public isLeaf(): boolean {
+    return false
+  }
 
-    addPart(geometry: Geometry): void {
-        this._parts.push(geometry)
-    }
+  get partsLength(): number {
+    return this._parts.length;
+  }
+  set partsLength(unused) {
+    throw new Error(readOnly(&#x27;partsLength&#x27;).message)
+  }
 
-    removePart(index: number): void {
-        const removals = this._parts.splice(index, 1)
-        removals.release()
-    }
+  addPart(geometry: Geometry): void {
+    this._parts.push(geometry)
+  }
 
-    getPart(index: number): Geometry {
-        return this._parts.get(index)
-    }
+  removePart(index: number): void {
+    const removals = this._parts.splice(index, 1)
+    removals.release()
+  }
 
-    draw(material: Material): void {
-        // FIXME: Use for loop.
-        this._parts.forEach(function(buffer) {
-            buffer.draw(material)
-        })
-    }
+  getPart(index: number): Geometry {
+    return this._parts.get(index)
+  }
 
-    /**
-     * @method contextFree
-     * @param 
-     */
-    contextFree(manager: IContextProvider): void {
-        this._parts.forEach(function(buffer) {
-            buffer.contextFree(manager)
-        })
-    }
+  draw(material: Material): void {
+    // FIXME: Use for loop.
+    this._parts.forEach(function(buffer) {
+      buffer.draw(material)
+    })
+  }
 
-    /**
-     * @method contextGain
-     * @param manager {IContextProvider}
-     * @return {void}
-     */
-    contextGain(manager: IContextProvider): void {
-        this._parts.forEach(function(buffer) {
-            buffer.contextGain(manager)
-        })
-    }
+  /**
+   * @method contextFree
+   * @param 
+   */
+  contextFree(manager: IContextProvider): void {
+    this._parts.forEach(function(buffer) {
+      buffer.contextFree(manager)
+    })
+  }
 
-    /**
-     * @method contextLost
-     * @return {void}
-     */
-    contextLost(): void {
-        this._parts.forEach(function(buffer) {
-            buffer.contextLost()
-        })
-    }
+  /**
+   * @method contextGain
+   * @param manager {IContextProvider}
+   * @return {void}
+   */
+  contextGain(manager: IContextProvider): void {
+    this._parts.forEach(function(buffer) {
+      buffer.contextGain(manager)
+    })
+  }
 
-    /**
-     * @method hasPrincipalScale
-     * @param name {string}
-     * @return {boolean}
-     */
-    public hasPrincipalScale(name: string): boolean {
-        throw new Error(shouldBeImplementedBy(&#x27;hasPrincipalScale&#x27;, this._type).message)
-    }
+  /**
+   * @method contextLost
+   * @return {void}
+   */
+  contextLost(): void {
+    this._parts.forEach(function(buffer) {
+      buffer.contextLost()
+    })
+  }
 
-    /**
-     * @method getPrincipalScale
-     * @param name {string}
-     * @return {number}
-     */
-    public getPrincipalScale(name: string): number {
-        throw new Error(shouldBeImplementedBy(&#x27;getPrincipalScale&#x27;, this._type).message)
-    }
+  /**
+   * @method hasPrincipalScale
+   * @param name {string}
+   * @return {boolean}
+   */
+  public hasPrincipalScale(name: string): boolean {
+    throw new Error(shouldBeImplementedBy(&#x27;hasPrincipalScale&#x27;, this._type).message)
+  }
 
-    /**
-     * @method setPrincipalScale
-     * @param name {string}
-     * @param value {number}
-     * @return {void}
-     */
-    public setPrincipalScale(name: string, value: number): void {
-        throw new Error(shouldBeImplementedBy(&#x27;setPrincipalScale&#x27;, this._type).message)
-    }
+  /**
+   * @method getPrincipalScale
+   * @param name {string}
+   * @return {number}
+   */
+  public getPrincipalScale(name: string): number {
+    throw new Error(shouldBeImplementedBy(&#x27;getPrincipalScale&#x27;, this._type).message)
+  }
 
-    /**
-     * @method setScale
-     * @param x {number}
-     * @param y {number}
-     * @param z {number}
-     * @return {void}
-     * @protected
-     */
-    protected setScale(x: number, y: number, z: number): void {
-        if (this.Kidentity) {
-            this.scaling.setElement(0, 0, x)
-            this.scaling.setElement(1, 1, y)
-            this.scaling.setElement(2, 2, z)
-        }
-        else {
-            this.canonicalScale.copy(this.Kinv).mul(this.scaling).mul(this.K)
-            this.canonicalScale.setElement(0, 0, x)
-            this.canonicalScale.setElement(1, 1, y)
-            this.canonicalScale.setElement(2, 2, z)
-            this.scaling.copy(this.K).mul(this.canonicalScale).mul(this.Kinv)
-        }
+  /**
+   * @method setPrincipalScale
+   * @param name {string}
+   * @param value {number}
+   * @return {void}
+   */
+  public setPrincipalScale(name: string, value: number): void {
+    throw new Error(shouldBeImplementedBy(&#x27;setPrincipalScale&#x27;, this._type).message)
+  }
+
+  /**
+   * @method setScale
+   * @param x {number}
+   * @param y {number}
+   * @param z {number}
+   * @return {void}
+   * @protected
+   */
+  protected setScale(x: number, y: number, z: number): void {
+    if (this.Kidentity) {
+      this.scaling.setElement(0, 0, x)
+      this.scaling.setElement(1, 1, y)
+      this.scaling.setElement(2, 2, z)
     }
+    else {
+      this.canonicalScale.copy(this.Kinv).mul(this.scaling).mul(this.K)
+      this.canonicalScale.setElement(0, 0, x)
+      this.canonicalScale.setElement(1, 1, y)
+      this.canonicalScale.setElement(2, 2, z)
+      this.scaling.copy(this.K).mul(this.canonicalScale).mul(this.Kinv)
+    }
+  }
 }
 
     </pre>

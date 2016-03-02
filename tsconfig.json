@@ -16,9 +16,12 @@
     "node_modules"
   ],
   "files": [
+    "src/davinci-eight/checks/isNull.spec.ts",
+
     "src/davinci-eight/core/Color.spec.ts",
     "src/davinci-eight/core/GeometryContainer.spec.ts",
     "src/davinci-eight/core/Shareable.spec.ts",
+    "src/davinci-eight/core/computeAttributes.spec.ts",
 
     "src/davinci-eight/geometries/primitives/GridLines.spec.ts",
     "src/davinci-eight/geometries/primitives/GridPoints.spec.ts",
@@ -29,6 +32,7 @@
     "src/davinci-eight/geometries/Simplex.spec.ts",
     "src/davinci-eight/geometries/SphereGeometry.spec.ts",
     "src/davinci-eight/geometries/cube.spec.ts",
+    "src/davinci-eight/geometries/gridVertexArrays.spec.ts",
     "src/davinci-eight/geometries/triangles.spec.ts",
 
     "src/davinci-eight/glsl/NodeWalker.spec.ts",

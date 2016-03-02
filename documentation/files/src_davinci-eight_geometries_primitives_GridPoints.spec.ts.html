@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.203.0</em>
+            <em>API Docs for: 2.204.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -124,6 +124,7 @@
                                 <li><a href="../classes/Matrix4.html">Matrix4</a></li>
                                 <li><a href="../classes/Mesh.html">Mesh</a></li>
                                 <li><a href="../classes/MeshMaterial.html">MeshMaterial</a></li>
+                                <li><a href="../classes/MeshMaterialOptions.html">MeshMaterialOptions</a></li>
                                 <li><a href="../classes/MeshNormalMaterial.html">MeshNormalMaterial</a></li>
                                 <li><a href="../classes/ModelE2.html">ModelE2</a></li>
                                 <li><a href="../classes/ModelE3.html">ModelE3</a></li>
@@ -134,6 +135,7 @@
                                 <li><a href="../classes/Perspective.html">Perspective</a></li>
                                 <li><a href="../classes/PerspectiveCamera.html">PerspectiveCamera</a></li>
                                 <li><a href="../classes/PointMaterial.html">PointMaterial</a></li>
+                                <li><a href="../classes/PointMaterialOptions.html">PointMaterialOptions</a></li>
                                 <li><a href="../classes/PointSizeFacet.html">PointSizeFacet</a></li>
                                 <li><a href="../classes/Primitive.html">Primitive</a></li>
                                 <li><a href="../classes/PrimitiveBuffers.html">PrimitiveBuffers</a></li>
@@ -193,6 +195,7 @@
                                 <li><a href="../classes/VectorN.html">VectorN</a></li>
                                 <li><a href="../classes/VersionLogger.html">VersionLogger</a></li>
                                 <li><a href="../classes/Vertex.html">Vertex</a></li>
+                                <li><a href="../classes/VertexArrays.html">VertexArrays</a></li>
                                 <li><a href="../classes/VertexAttributeMap.html">VertexAttributeMap</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
                                 <li><a href="../classes/WebGLBlendFunc.html">WebGLBlendFunc</a></li>
@@ -255,6 +258,33 @@ import DrawMode from &#x27;../../core/DrawMode&#x27;
 import GridPoints from &#x27;./GridPoints&#x27;
 
 describe(&quot;GridPoints&quot;, function() {
+  //
+  // A single point is not so trivial.
+  //
+  describe(&quot;(0, 0)&quot;, function() {
+    const gridLines = new GridPoints(0, 0)
+    it(&quot;should have the correct length and segment properties&quot;, function() {
+      expect(gridLines.uSegments).toBe(0)
+      expect(gridLines.uLength).toBe(1)
+      expect(gridLines.vSegments).toBe(0)
+      expect(gridLines.vLength).toBe(1)
+    })
+    it(&quot;vertex(0, 0) should have the correct vertex labels&quot;, function() {
+      expect(gridLines.vertex(0, 0).coords.length).toBe(2)
+      expect(gridLines.vertex(0, 0).coords.getComponent(0)).toBe(0)
+      expect(gridLines.vertex(0, 0).coords.getComponent(1)).toBe(0)
+    })
+    const vas = gridLines.toVertexArrays()
+    it(&quot;drawMode should be POINTS&quot;, function() {
+      expect(vas.drawMode).toBe(DrawMode.POINTS)
+    })
+    it(&quot;should consist of 1 points&quot;, function() {
+      expect(vas.indices.length).toBe(1)
+    })
+    it(&quot;that point is 0&quot;, function() {
+      expect(vas.indices[0]).toBe(0)
+    })
+  })
 
   // TODO: It would be nice to simply specify:
   // 1) There must be four unique lines
@@ -266,7 +296,7 @@ describe(&quot;GridPoints&quot;, function() {
    * |   |
    * 0---1
    */
-  describe(&quot;(1,1)&quot;, function() {
+  describe(&quot;(1, 1)&quot;, function() {
     const gridLines = new GridPoints(1, 1)
     it(&quot;should have the correct length and segment properties&quot;, function() {
       expect(gridLines.uSegments).toBe(1)

@@ -1,15 +1,21 @@
 import DrawMode from '../core/DrawMode'
+import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols'
 import GridGeometry from '../geometries/GridGeometry'
 import GridGeometryOptions from '../geometries/GridGeometryOptions'
 import GridOptions from './GridOptions'
 import isDefined from '../checks/isDefined'
+import isFunction from '../checks/isFunction'
+import isNull from '../checks/isNull'
+import isUndefined from '../checks/isUndefined'
 import LineMaterial from '../materials/LineMaterial'
+import LineMaterialOptions from '../materials/LineMaterialOptions'
 import Mesh from '../core/Mesh'
 import MeshMaterial from '../materials/MeshMaterial'
+import MeshMaterialOptions from '../materials/MeshMaterialOptions'
 import mustBeGE from '../checks/mustBeGE'
-import mustBeFunction from '../checks/mustBeFunction'
 import mustBeNumber from '../checks/mustBeNumber'
 import PointMaterial from '../materials/PointMaterial'
+import PointMaterialOptions from '../materials/PointMaterialOptions'
 import R3 from '../math/R3'
 import Unit from '../math/Unit'
 
@@ -21,24 +27,44 @@ function aNormalDefault(u: number, v: number): R3 {
   return R3.e3
 }
 
+function isFunctionOrNull(x: any): boolean {
+  return isFunction(x) || isNull(x)
+}
+
+function isFunctionOrUndefined(x: any): boolean {
+  return isFunction(x) || isUndefined(x)
+}
+
 function transferGeometryOptions(options: GridOptions, geoOptions: GridGeometryOptions): void {
 
-  if (options.aPosition) {
-    geoOptions.aPosition = mustBeFunction('aPosition', options.aPosition)
+  if (isFunctionOrNull(options.aPosition)) {
+    geoOptions.aPosition = options.aPosition
   }
-  else {
+  else if (isUndefined(options.aPosition)) {
     geoOptions.aPosition = aPositionDefault
   }
-
-  if (options.aNormal) {
-    geoOptions.aNormal = mustBeFunction('aNormal', options.aNormal)
-  }
   else {
+    throw new Error("aPosition must be one of function, null, or undefined.")
+  }
+
+  if (isFunctionOrNull(options.aNormal)) {
+    geoOptions.aNormal = options.aNormal
+  }
+  else if (isUndefined(options.aNormal)) {
     geoOptions.aNormal = aNormalDefault
   }
+  else {
+    throw new Error("aNormal must be one of function, null, or undefined.")
+  }
 
-  if (options.aColor) {
-    geoOptions.aColor = mustBeFunction('aColor', options.aColor)
+  if (isFunctionOrNull(options.aColor)) {
+    geoOptions.aColor = options.aColor
+  }
+  else if (isUndefined(options.aColor)) {
+    // Do nothing.
+  }
+  else {
+    throw new Error("aColor must be one of function, null, or undefined.")
   }
 
   if (isDefined(options.uMax)) {
@@ -92,7 +118,31 @@ function configPoints(options: GridOptions, grid: Grid) {
   grid.geometry = geometry
   geometry.release()
 
-  const material = new PointMaterial()
+  const matOptions: PointMaterialOptions = { attributes: {}, uniforms: {} }
+
+  if (isFunctionOrUndefined(options.aPosition)) {
+    matOptions.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = 3
+  }
+  else if (isNull(options.aPosition)) {
+    // We're being instructed not to have a position attribute.
+  }
+  else {
+    throw new Error()
+  }
+
+  if (isFunction(options.aColor)) {
+    matOptions.attributes[GraphicsProgramSymbols.ATTRIBUTE_COLOR] = 3
+  }
+  else {
+    matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_COLOR] = 'vec3'
+  }
+
+  matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_MODEL_MATRIX] = 'mat4'
+  matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX] = 'mat4'
+  matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX] = 'mat4'
+  matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_POINT_SIZE] = 'float'
+
+  const material = new PointMaterial(matOptions)
   grid.material = material
   material.release()
 }
@@ -105,7 +155,33 @@ function configLines(options: GridOptions, grid: Grid) {
   grid.geometry = geometry
   geometry.release()
 
-  const material = new LineMaterial()
+  const matOptions: LineMaterialOptions = { attributes: {}, uniforms: {} }
+
+  if (isFunctionOrUndefined(options.aPosition)) {
+    matOptions.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = 3
+  }
+  else if (isNull(options.aPosition)) {
+    // We're being instructed not to have a position attribute.
+  }
+  else {
+    throw new Error()
+  }
+
+  if (isFunction(options.aNormal)) {
+    matOptions.attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = 3
+  }
+  if (isFunction(options.aColor)) {
+    matOptions.attributes[GraphicsProgramSymbols.ATTRIBUTE_COLOR] = 3
+  }
+  else {
+    matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_COLOR] = 'vec3'
+  }
+
+  matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_MODEL_MATRIX] = 'mat4'
+  matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX] = 'mat4'
+  matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX] = 'mat4'
+
+  const material = new LineMaterial(matOptions)
   grid.material = material
   material.release()
 }
@@ -118,7 +194,52 @@ function configMesh(options: GridOptions, grid: Grid) {
   grid.geometry = geometry
   geometry.release()
 
-  const material = new MeshMaterial()
+  const matOptions: MeshMaterialOptions = { attributes: {}, uniforms: {} }
+
+  if (isFunctionOrUndefined(options.aPosition)) {
+    matOptions.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = 3
+  }
+  else if (isNull(options.aPosition)) {
+    // We're being instructed not to have the aPosition attribute.
+  }
+  else {
+    throw new Error()
+  }
+
+  if (isFunctionOrUndefined(options.aNormal)) {
+    matOptions.attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = 3
+    matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_NORMAL_MATRIX] = 'mat3'
+    matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_COLOR] = 'vec3'
+    matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION] = 'vec3'
+  }
+  else if (isNull(options.aNormal)) {
+    // We're being instructed not to have the aNormal attribute.
+  }
+  else {
+    throw new Error()
+  }
+
+  if (isFunction(options.aColor)) {
+    matOptions.attributes[GraphicsProgramSymbols.ATTRIBUTE_COLOR] = 3
+  }
+  else if (isNull(options.aColor)) {
+    // We're being instructed not to have the aColor attribute.
+    matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_COLOR] = 'vec3'
+  }
+  else if (isUndefined(options.aColor)) {
+    matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_COLOR] = 'vec3'
+  }
+  else {
+    throw new Error()
+  }
+
+  matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_MODEL_MATRIX] = 'mat4'
+  matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX] = 'mat4'
+  matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX] = 'mat4'
+
+  matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_AMBIENT_LIGHT] = 'vec3'
+
+  const material = new MeshMaterial(matOptions)
   grid.material = material
   material.release()
 }

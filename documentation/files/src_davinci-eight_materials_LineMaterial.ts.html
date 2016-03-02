@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.203.0</em>
+            <em>API Docs for: 2.204.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -124,6 +124,7 @@
                                 <li><a href="../classes/Matrix4.html">Matrix4</a></li>
                                 <li><a href="../classes/Mesh.html">Mesh</a></li>
                                 <li><a href="../classes/MeshMaterial.html">MeshMaterial</a></li>
+                                <li><a href="../classes/MeshMaterialOptions.html">MeshMaterialOptions</a></li>
                                 <li><a href="../classes/MeshNormalMaterial.html">MeshNormalMaterial</a></li>
                                 <li><a href="../classes/ModelE2.html">ModelE2</a></li>
                                 <li><a href="../classes/ModelE3.html">ModelE3</a></li>
@@ -134,6 +135,7 @@
                                 <li><a href="../classes/Perspective.html">Perspective</a></li>
                                 <li><a href="../classes/PerspectiveCamera.html">PerspectiveCamera</a></li>
                                 <li><a href="../classes/PointMaterial.html">PointMaterial</a></li>
+                                <li><a href="../classes/PointMaterialOptions.html">PointMaterialOptions</a></li>
                                 <li><a href="../classes/PointSizeFacet.html">PointSizeFacet</a></li>
                                 <li><a href="../classes/Primitive.html">Primitive</a></li>
                                 <li><a href="../classes/PrimitiveBuffers.html">PrimitiveBuffers</a></li>
@@ -193,6 +195,7 @@
                                 <li><a href="../classes/VectorN.html">VectorN</a></li>
                                 <li><a href="../classes/VersionLogger.html">VersionLogger</a></li>
                                 <li><a href="../classes/Vertex.html">Vertex</a></li>
+                                <li><a href="../classes/VertexArrays.html">VertexArrays</a></li>
                                 <li><a href="../classes/VertexAttributeMap.html">VertexAttributeMap</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
                                 <li><a href="../classes/WebGLBlendFunc.html">WebGLBlendFunc</a></li>
@@ -253,37 +256,71 @@
     <pre class="code prettyprint linenums">
 import GraphicsProgramBuilder from &#x27;../materials/GraphicsProgramBuilder&#x27;
 import GraphicsProgramSymbols from &#x27;../core/GraphicsProgramSymbols&#x27;
+import isDefined from &#x27;../checks/isDefined&#x27;
 import LineMaterialOptions from &#x27;./LineMaterialOptions&#x27;
 import Material from &#x27;../core/Material&#x27;
+import mustBeObject from &#x27;../checks/mustBeObject&#x27;
 
 /**
  * @module EIGHT
  * @submodule materials
  */
 
-function builder(options: LineMaterialOptions) {
+function builder(options?: LineMaterialOptions) {
+
+  if (isDefined(options)) {
+    mustBeObject(&#x27;options&#x27;, options)
+  }
+  else {
+    options = { attributes: {}, uniforms: {} }
+
+    options.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = 3
+
+    options.uniforms[GraphicsProgramSymbols.UNIFORM_COLOR] = &#x27;vec3&#x27;
+    options.uniforms[GraphicsProgramSymbols.UNIFORM_MODEL_MATRIX] = &#x27;mat4&#x27;
+    options.uniforms[GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX] = &#x27;mat4&#x27;
+    options.uniforms[GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX] = &#x27;mat4&#x27;
+  }
+
+  const attributes: { [name: string]: number } = isDefined(options.attributes) ? options.attributes : {}
+  const uniforms: { [name: string]: string } = isDefined(options.uniforms) ? options.uniforms : {}
+
   const gpb = new GraphicsProgramBuilder()
 
-  gpb.attribute(GraphicsProgramSymbols.ATTRIBUTE_POSITION, 3)
-  gpb.attribute(GraphicsProgramSymbols.ATTRIBUTE_COLOR, 3)
+  const aNames = Object.keys(attributes)
+  for (let a = 0; a &lt; aNames.length; a++) {
+    const aName = aNames[a]
+    const size: number = attributes[aName]
+    gpb.attribute(aName, size)
+  }
 
-  gpb.uniform(GraphicsProgramSymbols.UNIFORM_COLOR, &#x27;vec3&#x27;)
-  gpb.uniform(GraphicsProgramSymbols.UNIFORM_MODEL_MATRIX, &#x27;mat4&#x27;)
-  gpb.uniform(GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX, &#x27;mat4&#x27;)
-  gpb.uniform(GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX, &#x27;mat4&#x27;)
+  const uNames = Object.keys(uniforms)
+  for (let u = 0; u &lt; uNames.length; u++) {
+    const uName = uNames[u]
+    const type: string = uniforms[uName]
+    gpb.uniform(uName, type)
+  }
 
   return gpb
 }
 
-function vertexShader(options: LineMaterialOptions): string {
+function vertexShader(options?: LineMaterialOptions): string {
   return builder(options).vertexShader()
 }
 
-function fragmentShader(options: LineMaterialOptions): string {
+function fragmentShader(options?: LineMaterialOptions): string {
   return builder(options).fragmentShader()
 }
 
 /**
+ * Generates a WebGLProgram suitable for use with LINES, LINE_STRIP, and LINE_LOOP.
+ *
+ * &lt;table&gt;
+ * &lt;tr&gt;
+ * &lt;td&gt;attribute&lt;/td&gt;&lt;td&gt;vec3&lt;/td&gt;&lt;td&gt;aPosition&lt;/td&gt;
+ * &lt;/tr&gt;
+ * &lt;/table&gt;
+ *
  * @class LineMaterial
  * @extends Material
  */
@@ -293,7 +330,7 @@ export default class LineMaterial extends Material {
    * @constructor
    * @param [options] {LineMaterialOptions}
    */
-  constructor(options: LineMaterialOptions = {}) {
+  constructor(options?: LineMaterialOptions) {
     super(vertexShader(options), fragmentShader(options))
   }
 }

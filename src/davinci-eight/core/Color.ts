@@ -2,6 +2,7 @@ import clamp from '../math/clamp'
 import ColumnVector from '../math/ColumnVector'
 import Coords from '../math/Coords'
 import IColor from './IColor'
+import isDefined from '../checks/isDefined'
 import Matrix3 from '../math/Matrix3'
 import MutableLinearElement from '../math/MutableLinearElement'
 import mustBeArray from '../checks/mustBeArray'
@@ -94,6 +95,13 @@ export default class Color extends Coords implements IColor, ColumnVector<Matrix
   public static white = new Color(1, 1, 1)
 
   /**
+   * @property gray
+   * @type {Color}
+   * @static
+   */
+  public static gray = new Color(0.5, 0.5, 0.5)
+
+  /**
    * @class Color
    * @constructor
    * @param r {number}
@@ -159,6 +167,17 @@ export default class Color extends Coords implements IColor, ColumnVector<Matrix
   }
 
   /**
+   * @method approx
+   * @param n {number}
+   * @return {Color}
+   * @chainable
+   */
+  public approx(n: number): Color {
+    super.approx(n)
+    return this
+  }
+
+  /**
    * @method clone
    * @return {Color}
    * @chainable
@@ -174,10 +193,18 @@ export default class Color extends Coords implements IColor, ColumnVector<Matrix
    * @chainable
    */
   public copy(color: IColor): Color {
-    this.r = color.r
-    this.g = color.g
-    this.b = color.b
-    return this
+    if (isDefined(color)) {
+      this.r = color.r
+      this.g = color.g
+      this.b = color.b
+      return this
+    }
+    else {
+      // We can choose what to do based upon a global setting?
+      this.r = Math.random()
+      this.g = Math.random()
+      this.b = Math.random()
+    }
   }
 
   public divByScalar(α: number): Color {
@@ -292,6 +319,7 @@ export default class Color extends Coords implements IColor, ColumnVector<Matrix
    * @method fromCoords
    * @param coords {number[]}
    * @return {Color}
+   * @static
    * @chainable
    */
   public static fromCoords(coords: number[]): Color {
