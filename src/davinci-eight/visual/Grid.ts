@@ -257,7 +257,7 @@ export default class Grid extends Mesh {
    * @param [options] {GridOptions}
    */
   constructor(options: GridOptions = {}) {
-    super()
+    super('Grid', void 0, void 0)
 
     const drawMode: DrawMode = isDefined(options.drawMode) ? options.drawMode : DrawMode.LINES
     switch (drawMode) {

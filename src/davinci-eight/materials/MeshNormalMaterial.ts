@@ -1,6 +1,6 @@
 import GraphicsProgramBuilder from '../materials/GraphicsProgramBuilder'
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols'
-import Material from '../core/Material'
+import MaterialBase from './MaterialBase'
 
 function builder() {
     const gpb = new GraphicsProgramBuilder()
@@ -37,9 +37,9 @@ function fragmentShader(): string {
 
 /**
  * @class MeshNormalMaterial
- * @extends Material
+ * @extends MaterialBase
  */
-export default class MeshNormalMaterial extends Material {
+export default class MeshNormalMaterial extends MaterialBase {
     /**
      * 
      * @class MeshNormalMaterial

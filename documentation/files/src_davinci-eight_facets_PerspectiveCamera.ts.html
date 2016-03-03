@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.204.0</em>
+            <em>API Docs for: 2.205.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -81,6 +81,7 @@
                                 <li><a href="../classes/DrawMode.html">DrawMode</a></li>
                                 <li><a href="../classes/Duality.html">Duality</a></li>
                                 <li><a href="../classes/EIGHTLogger.html">EIGHTLogger</a></li>
+                                <li><a href="../classes/ErrorMode.html">ErrorMode</a></li>
                                 <li><a href="../classes/Facet.html">Facet</a></li>
                                 <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
@@ -113,12 +114,12 @@
                                 <li><a href="../classes/IContextProvider.html">IContextProvider</a></li>
                                 <li><a href="../classes/IDrawable.html">IDrawable</a></li>
                                 <li><a href="../classes/IGeometric3RigidBody.html">IGeometric3RigidBody</a></li>
-                                <li><a href="../classes/IMaterial.html">IMaterial</a></li>
                                 <li><a href="../classes/IMesh.html">IMesh</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
                                 <li><a href="../classes/LineMaterialOptions.html">LineMaterialOptions</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
+                                <li><a href="../classes/MaterialBase.html">MaterialBase</a></li>
                                 <li><a href="../classes/Matrix2.html">Matrix2</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
                                 <li><a href="../classes/Matrix4.html">Matrix4</a></li>
@@ -203,7 +204,6 @@
                                 <li><a href="../classes/WebGLDisable.html">WebGLDisable</a></li>
                                 <li><a href="../classes/WebGLEnable.html">WebGLEnable</a></li>
                                 <li><a href="../classes/WebGLRenderer.html">WebGLRenderer</a></li>
-                                <li><a href="../classes/World.html">World</a></li>
                             </ul>
                 
                 
@@ -262,11 +262,12 @@ import mustBeLE from &#x27;../checks/mustBeLE&#x27;;
 import mustBeNumber from &#x27;../checks/mustBeNumber&#x27;;
 import mustBeString from &#x27;../checks/mustBeString&#x27;;
 import Perspective from &#x27;./Perspective&#x27;;
+import R3 from &#x27;../math/R3&#x27;;
 import Facet from &#x27;../core/Facet&#x27;;
 import FacetVisitor from &#x27;../core/FacetVisitor&#x27;;
 import Vector3 from &#x27;../math/Vector3&#x27;;
 import VectorE3 from &#x27;../math/VectorE3&#x27;;
-import Matrix4 from &#x27;../math/Matrix4&#x27;
+import Matrix4 from &#x27;../math/Matrix4&#x27;;
 
 /**
  * Common abstractions for computing shader uniform variables.
@@ -276,274 +277,298 @@ import Matrix4 from &#x27;../math/Matrix4&#x27;
  */
 
 /**
+ * &lt;p&gt;
+ * The &lt;code&gt;PerspectiveCamera&lt;/code&gt; provides projection matrix and view matrix uniforms to the
+ * current &lt;code&gt;Material&lt;/code&gt;.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * The &lt;code&gt;PerspectiveCamera&lt;/code&gt; plays the role of a host in the &lt;em&gt;Visitor&lt;/em&gt; pattern.
+ * The &lt;code&gt;FacetVistor&lt;/code&gt; will normally be a &lt;code&gt;Material&lt;/code&gt; implementation. The  accepting
+ * method is called &lt;code&gt;setUniforms&lt;/code&gt;.
+ * &lt;p&gt;
+ *
+ * @example
+ *     const ambients: Facet[] = []
+ *
+ *     const camera = new EIGHT.PerspectiveCamera()
+ *     camera.aspect = canvas.clientWidth / canvas.clientHeight
+ *     camera.position = Vector3.copy(R3.e3)
+ *     ambients.push(camera)
+ *
+ *     scene.draw(ambients)
+ *
+ * The camera is initially positioned at 10 * e3
+ *
  * @class PerspectiveCamera
+ * @extends Perspective
+ * @extends Facet
  */
 export default class PerspectiveCamera implements Perspective, Facet {
-    /**
-     * The name of the property that designates the position.
-     * @property PROP_POSITION
-     * @type {string}
-     * @default &#x27;X&#x27;
-     * @static
-     * @readOnly
-     */
-    public static PROP_POSITION = &#x27;X&#x27;;
-    public static PROP_EYE = &#x27;eye&#x27;;
 
-    /**
-     * @property name
-     * @type {string}
-     * @optional
-     */
-    public name: string;
+  /**
+   * The name of the property that designates the position.
+   *
+   * @property PROP_POSITION
+   * @type {string}
+   * @default &#x27;X&#x27;
+   * @static
+   * @readOnly
+   */
+  public static PROP_POSITION = &#x27;X&#x27;;
+  public static PROP_EYE = &#x27;eye&#x27;;
 
-    /**
-     * @property inner
-     * @type {Perspective}
-     * @private
-     */
-    private inner: Perspective;
+  /**
+   * @property name
+   * @type {string}
+   */
+  public name: string;
 
-    /**
-     * @class PerspectiveCamera
-     * @constructor
-     * @param [fov = 45 * Math.PI / 180] {number}
-     * @param [aspect=1] {number}
-     * @param [near=0.1] {number}
-     * @param [far=2000] {number}
-     * @example
-     *   var camera = new EIGHT.PerspectiveCamera()
-     *   camera.setAspect(canvas.clientWidth / canvas.clientHeight)
-     *   camera.setFov(3.0 * e3)
-     */
-    constructor(fov = 45 * Math.PI / 180, aspect = 1, near = 0.1, far = 2000) {
-        mustBeNumber(&#x27;fov&#x27;, fov);
-        mustBeGE(&#x27;fov&#x27;, fov, 0)
-        mustBeLE(&#x27;fov&#x27;, fov, Math.PI)
+  /**
+   * @property inner
+   * @type {Perspective}
+   * @private
+   */
+  private inner: Perspective;
 
-        mustBeNumber(&#x27;aspect&#x27;, aspect);
-        mustBeGE(&#x27;aspect&#x27;, aspect, 0)
+  /**
+   * @class PerspectiveCamera
+   * @constructor
+   * @param [fov = 45 * Math.PI / 180] {number} The field of view.
+   * @param [aspect=1] {number} The aspect is the ratio width / height.
+   * @param [near=0.1] {number} The distance of the near plane from the camera.
+   * @param [far=2000] {number} The distance of the far plane from the camera. 
+   */
+  constructor(fov = 45 * Math.PI / 180, aspect = 1, near = 0.1, far = 2000) {
 
-        mustBeNumber(&#x27;near&#x27;, near);
-        mustBeGE(&#x27;near&#x27;, near, 0)
+    mustBeNumber(&#x27;fov&#x27;, fov)
+    mustBeGE(&#x27;fov&#x27;, fov, 0)
+    mustBeLE(&#x27;fov&#x27;, fov, Math.PI)
 
-        mustBeNumber(&#x27;far&#x27;, far);
-        mustBeGE(&#x27;far&#x27;, far, 0)
+    mustBeNumber(&#x27;aspect&#x27;, aspect)
+    mustBeGE(&#x27;aspect&#x27;, aspect, 0)
 
-        this.inner = createPerspective({ fov: fov, aspect: aspect, near: near, far: far });
-    }
+    mustBeNumber(&#x27;near&#x27;, near)
+    mustBeGE(&#x27;near&#x27;, near, 0)
 
-    /**
-     * @method setUniforms
-     * @param visitor {FacetVisitor}
-     * @return {void}
-     */
-    setUniforms(visitor: FacetVisitor): void {
-        this.inner.setNear(this.near);
-        this.inner.setFar(this.far);
-        this.inner.setUniforms(visitor);
-    }
+    mustBeNumber(&#x27;far&#x27;, far)
+    mustBeGE(&#x27;far&#x27;, far, 0)
 
-    /**
-     * @method getProperty
-     * @param name {string}
-     * @return {number[]}
-     */
-    getProperty(name: string): number[] {
-        mustBeString(&#x27;name&#x27;, name);
-        switch (name) {
-            case PerspectiveCamera.PROP_EYE:
-            case PerspectiveCamera.PROP_POSITION: {
-                return this.eye.coords;
-            }
-                break;
-            default: {
-                // TODO
-            }
-        }
-    }
+    this.inner = createPerspective({ fov: fov, aspect: aspect, near: near, far: far })
 
-    /**
-     * @method setProperty
-     * @param name {string}
-     * @param value {number[]}
-     * @return {PerspectiveCamera}
-     * @chainable
-     */
-    setProperty(name: string, value: number[]): PerspectiveCamera {
-        mustBeString(&#x27;name&#x27;, name);
-        mustBeObject(&#x27;value&#x27;, value);
-        switch (name) {
-            case PerspectiveCamera.PROP_EYE:
-            case PerspectiveCamera.PROP_POSITION: {
-                this.eye.copyCoordinates(value);
-            }
-                break;
-            default: {
-                // TODO
-            }
-        }
-        return this;
-    }
+    this.position.copy(R3.e3).scale(10)
+  }
 
-    /**
-     * The aspect ratio (width / height) of the camera viewport.
-     * @property aspect
-     * @type {number}
-     * @readOnly
-     */
-    get aspect(): number {
-        return this.inner.aspect;
-    }
+  /**
+   * @method setUniforms
+   * @param visitor {FacetVisitor}
+   * @return {void}
+   */
+  setUniforms(visitor: FacetVisitor): void {
+    // Synchronize the near and far properties before delegating.
+    this.inner.setNear(this.near)
+    this.inner.setFar(this.far)
+    this.inner.setUniforms(visitor)
+  }
 
-    /**
-     * @method setAspect
-     * @param aspect {number}
-     * @return {PerspectiveCamera} &#x60;this&#x60; instance without incrementing the reference count.
-     * @chainable
-     */
-    setAspect(aspect: number): PerspectiveCamera {
-        this.inner.aspect = aspect;
-        return this;
+  /**
+   * @method getProperty
+   * @param name {string}
+   * @return {number[]}
+   */
+  getProperty(name: string): number[] {
+    mustBeString(&#x27;name&#x27;, name);
+    switch (name) {
+      case PerspectiveCamera.PROP_EYE:
+      case PerspectiveCamera.PROP_POSITION: {
+        return this.eye.coords;
+      }
+      default: {
+        // TODO
+      }
     }
+  }
 
-    /**
-     * The position of the camera.
-     * @property eye
-     * @type {Vector3}
-     * @readOnly
-     */
-    get eye(): Vector3 {
-        return this.inner.eye;
+  /**
+   * @method setProperty
+   * @param name {string}
+   * @param value {number[]}
+   * @return {PerspectiveCamera}
+   * @chainable
+   */
+  setProperty(name: string, value: number[]): PerspectiveCamera {
+    mustBeString(&#x27;name&#x27;, name);
+    mustBeObject(&#x27;value&#x27;, value);
+    switch (name) {
+      case PerspectiveCamera.PROP_EYE:
+      case PerspectiveCamera.PROP_POSITION: {
+        this.eye.copyCoordinates(value);
+      }
+        break;
+      default: {
+        // TODO
+      }
     }
-    set eye(eye: Vector3) {
-        this.inner.eye.copy(eye);
-    }
+    return this;
+  }
 
-    /**
-     * The position of the camera.
-     * @property position
-     * @type {Vector3}
-     * @readOnly
-     */
-    get position(): Vector3 {
-        return this.inner.eye;
-    }
-    set position(position: Vector3) {
-        this.inner.eye.copy(position);
-    }
+  /**
+   * The aspect ratio (width / height) of the camera viewport.
+   *
+   * @property aspect
+   * @type {number}
+   * @readOnly
+   */
+  get aspect(): number {
+    return this.inner.aspect;
+  }
 
-    /**
-     * @method setEye
-     * @param eye {VectorE3}
-     * @return {PerspectiveCamera} &#x60;this&#x60; instance without incrementing the reference count.
-     * @chainable
-     */
-    setEye(eye: VectorE3): PerspectiveCamera {
-        this.inner.setEye(eye);
-        return this;
-    }
+  /**
+   * @method setAspect
+   * @param aspect {number}
+   * @return {PerspectiveCamera}
+   * @chainable
+   */
+  setAspect(aspect: number): PerspectiveCamera {
+    this.inner.aspect = aspect;
+    return this;
+  }
 
-    /**
-     * The field of view is the (planar) angle (magnitude) in the camera horizontal plane that encloses object that can be seen.
-     * Measured in radians.
-     * @property fov
-     * @type {number}
-     * @readOnly
-     */
-    // TODO: Field of view could be specified as an Aspect + Magnitude of a Spinor3!?
-    get fov(): number {
-        return this.inner.fov;
-    }
-    set fov(unused: number) {
-        throw new Error(readOnly(&#x27;fov&#x27;).message);
-    }
-    /**
-     * @method setFov
-     * @param fov {number}
-     * @return {PerspectiveCamera} &#x60;this&#x60; instance without incrementing the reference count.
-     * @chainable
-     */
-    setFov(fov: number): PerspectiveCamera {
-        mustBeNumber(&#x27;fov&#x27;, fov);
-        this.inner.fov = fov;
-        return this;
-    }
+  /**
+   * The position of the camera.
+   * @property eye
+   * @type {Vector3}
+   */
+  get eye(): Vector3 {
+    return this.inner.eye;
+  }
+  set eye(eye: Vector3) {
+    this.inner.eye.copy(eye);
+  }
 
-    get look(): Vector3 {
-        return this.inner.look;
-    }
-    setLook(look: VectorE3): PerspectiveCamera {
-        this.inner.setLook(look);
-        return this;
-    }
+  /**
+   * The position of the camera.
+   * @property position
+   * @type {Vector3}
+   * @readOnly
+   */
+  get position(): Vector3 {
+    return this.inner.eye;
+  }
+  set position(position: Vector3) {
+    this.inner.eye.copy(position);
+  }
 
-    /**
-     * The distance to the near plane.
-     * @property near
-     * @type {number}
-     * @readOnly
-     */
-    get near(): number {
-        return this.inner.near;
-    }
-    set near(unused) {
-        throw new Error(readOnly(&#x27;near&#x27;).message);
-    }
+  /**
+   * @method setEye
+   * @param eye {VectorE3}
+   * @return {PerspectiveCamera}
+   * @chainable
+   */
+  setEye(eye: VectorE3): PerspectiveCamera {
+    this.inner.setEye(eye);
+    return this;
+  }
 
-    /**
-     * @method setNear
-     * @param near {number}
-     * @return {PerspectiveCamera} &lt;p&gt;&lt;code&gt;this&lt;/code&gt; instance, &lt;em&gt;without incrementing the reference count&lt;/em&gt;.&lt;/p&gt;
-     * @chainable
-     */
-    setNear(near: number): PerspectiveCamera {
-        this.inner.setNear(near);
-        return this;
-    }
+  /**
+   * The field of view is the (planar) angle (magnitude) in the camera horizontal plane that encloses object that can be seen.
+   * Measured in radians.
+   * @property fov
+   * @type {number}
+   * @readOnly
+   */
+  // TODO: Field of view could be specified as an Aspect + Magnitude of a Spinor3!?
+  get fov(): number {
+    return this.inner.fov;
+  }
+  set fov(unused: number) {
+    throw new Error(readOnly(&#x27;fov&#x27;).message);
+  }
+  /**
+   * @method setFov
+   * @param fov {number}
+   * @return {PerspectiveCamera}
+   * @chainable
+   */
+  setFov(fov: number): PerspectiveCamera {
+    mustBeNumber(&#x27;fov&#x27;, fov);
+    this.inner.fov = fov;
+    return this;
+  }
 
-    get far(): number {
-        return this.inner.far;
-    }
-    set far(far: number) {
-        this.inner.far = far;
-    }
+  get look(): Vector3 {
+    return this.inner.look;
+  }
+  setLook(look: VectorE3): PerspectiveCamera {
+    this.inner.setLook(look);
+    return this;
+  }
 
-    setFar(far: number): PerspectiveCamera {
-        this.inner.setFar(far);
-        return this;
-    }
+  /**
+   * The distance to the near plane.
+   * @property near
+   * @type {number}
+   * @readOnly
+   */
+  get near(): number {
+    return this.inner.near;
+  }
+  set near(unused) {
+    throw new Error(readOnly(&#x27;near&#x27;).message);
+  }
 
-    get up(): Vector3 {
-        return this.inner.up;
-    }
-    set up(unused) {
-        throw new Error(readOnly(&#x27;up&#x27;).message);
-    }
+  /**
+   * @method setNear
+   * @param near {number}
+   * @return {PerspectiveCamera}
+   * @chainable
+   */
+  setNear(near: number): PerspectiveCamera {
+    this.inner.setNear(near);
+    return this;
+  }
 
-    setUp(up: VectorE3): PerspectiveCamera {
-        this.inner.setUp(up);
-        return this;
-    }
+  get far(): number {
+    return this.inner.far;
+  }
+  set far(far: number) {
+    this.inner.far = far;
+  }
 
-    get projectionMatrix(): Matrix4 {
-        return this.inner.projectionMatrix
-    }
-    set projectionMatrix(projectionMatrix: Matrix4) {
-        throw new Error(readOnly(&#x27;projectionMatrix&#x27;).message);
-    }
+  setFar(far: number): PerspectiveCamera {
+    this.inner.setFar(far);
+    return this;
+  }
 
-    /**
-     * @property viewMatrix
-     * @type Matrix4
-     * @readOnly
-     */
-    get viewMatrix(): Matrix4 {
-        return this.inner.viewMatrix
-    }
-    set viewMatrix(viewMatrix: Matrix4) {
-        this.inner.viewMatrix = viewMatrix
-    }
+  get up(): Vector3 {
+    return this.inner.up;
+  }
+  set up(unused) {
+    throw new Error(readOnly(&#x27;up&#x27;).message);
+  }
+
+  setUp(up: VectorE3): PerspectiveCamera {
+    this.inner.setUp(up);
+    return this;
+  }
+
+  get projectionMatrix(): Matrix4 {
+    return this.inner.projectionMatrix
+  }
+  set projectionMatrix(projectionMatrix: Matrix4) {
+    throw new Error(readOnly(&#x27;projectionMatrix&#x27;).message);
+  }
+
+  /**
+   * @property viewMatrix
+   * @type Matrix4
+   * @readOnly
+   */
+  get viewMatrix(): Matrix4 {
+    return this.inner.viewMatrix
+  }
+  set viewMatrix(viewMatrix: Matrix4) {
+    this.inner.viewMatrix = viewMatrix
+  }
 }
 
     </pre>

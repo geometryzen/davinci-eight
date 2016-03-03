@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.204.0</em>
+            <em>API Docs for: 2.205.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -81,6 +81,7 @@
                                 <li><a href="../classes/DrawMode.html">DrawMode</a></li>
                                 <li><a href="../classes/Duality.html">Duality</a></li>
                                 <li><a href="../classes/EIGHTLogger.html">EIGHTLogger</a></li>
+                                <li><a href="../classes/ErrorMode.html">ErrorMode</a></li>
                                 <li><a href="../classes/Facet.html">Facet</a></li>
                                 <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
@@ -113,12 +114,12 @@
                                 <li><a href="../classes/IContextProvider.html">IContextProvider</a></li>
                                 <li><a href="../classes/IDrawable.html">IDrawable</a></li>
                                 <li><a href="../classes/IGeometric3RigidBody.html">IGeometric3RigidBody</a></li>
-                                <li><a href="../classes/IMaterial.html">IMaterial</a></li>
                                 <li><a href="../classes/IMesh.html">IMesh</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
                                 <li><a href="../classes/LineMaterialOptions.html">LineMaterialOptions</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
+                                <li><a href="../classes/MaterialBase.html">MaterialBase</a></li>
                                 <li><a href="../classes/Matrix2.html">Matrix2</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
                                 <li><a href="../classes/Matrix4.html">Matrix4</a></li>
@@ -203,7 +204,6 @@
                                 <li><a href="../classes/WebGLDisable.html">WebGLDisable</a></li>
                                 <li><a href="../classes/WebGLEnable.html">WebGLEnable</a></li>
                                 <li><a href="../classes/WebGLRenderer.html">WebGLRenderer</a></li>
-                                <li><a href="../classes/World.html">World</a></li>
                             </ul>
                 
                 
@@ -255,7 +255,7 @@
 
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_facets_DirectionalLight.ts.html#l58"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;DirectionalLight.ts:58</code></a>
+            Defined in: <a href="../files/src_davinci-eight_facets_DirectionalLight.ts.html#l61"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;DirectionalLight.ts:61</code></a>
         </div>
 
             Module: <a href="../modules/facets.html">facets</a><br>
@@ -276,10 +276,10 @@
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
-                        <code>direction</code>
+                        <code class="optional">[direction = -e3]</code>
                 </li>
                 <li class="arg">
-                        <code>color</code>
+                        <code class="optional">[color = white]</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
@@ -294,7 +294,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_facets_DirectionalLight.ts.html#l58"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;DirectionalLight.ts:58</code></a>
+        <a href="../files/src_davinci-eight_facets_DirectionalLight.ts.html#l61"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;DirectionalLight.ts:61</code></a>
         </p>
 
 
@@ -310,8 +310,9 @@
 
             <ul class="params-list">
                 <li class="param">
-                        <code class="param-name">direction</code>
+                        <code class="param-name optional">[direction = -e3]</code>
                         <span class="type"><a href="../classes/VectorE3.html" class="crosslink">VectorE3</a></span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
 
 
                     <div class="param-description">
@@ -320,8 +321,9 @@
 
                 </li>
                 <li class="param">
-                        <code class="param-name">color</code>
+                        <code class="param-name optional">[color = white]</code>
                         <span class="type"><a href="../classes/IColor.html" class="crosslink">IColor</a></span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
 
 
                     <div class="param-description">
@@ -380,6 +382,14 @@
                     <h3>Properties</h3>
 
                     <ul class="index-list properties">
+                            <li class="index-item property private">
+                                <a href="#property__color">_color</a>
+
+                            </li>
+                            <li class="index-item property private">
+                                <a href="#property__direction">_direction</a>
+
+                            </li>
                             <li class="index-item property">
                                 <a href="#property_color">color</a>
 
@@ -431,7 +441,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_facets_DirectionalLight.ts.html#l71"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;DirectionalLight.ts:71</code></a>
+        <a href="../files/src_davinci-eight_facets_DirectionalLight.ts.html#l101"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;DirectionalLight.ts:101</code></a>
         </p>
 
 
@@ -494,7 +504,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_facets_DirectionalLight.ts.html#l116"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;DirectionalLight.ts:116</code></a>
+        <a href="../files/src_davinci-eight_facets_DirectionalLight.ts.html#l147"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;DirectionalLight.ts:147</code></a>
         </p>
 
 
@@ -557,7 +567,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_facets_DirectionalLight.ts.html#l128"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;DirectionalLight.ts:128</code></a>
+        <a href="../files/src_davinci-eight_facets_DirectionalLight.ts.html#l159"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;DirectionalLight.ts:159</code></a>
         </p>
 
 
@@ -617,12 +627,13 @@
 
 
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_facets_DirectionalLight.ts.html#l91"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;DirectionalLight.ts:91</code></a>
+        <a href="../files/src_davinci-eight_facets_DirectionalLight.ts.html#l121"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;DirectionalLight.ts:121</code></a>
         </p>
 
 
@@ -694,7 +705,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_facets_DirectionalLight.ts.html#l140"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;DirectionalLight.ts:140</code></a>
+        <a href="../files/src_davinci-eight_facets_DirectionalLight.ts.html#l171"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;DirectionalLight.ts:171</code></a>
         </p>
 
 
@@ -737,6 +748,56 @@
             <div id="properties" class="api-class-tabpanel">
                 <h2 class="off-left">Properties</h2>
 
+<div id="property__color" class="property item private">
+    <h3 class="name"><code>_color</code></h3>
+    <span class="type"><a href="../classes/Color.html" class="crosslink">Color</a></span>
+
+
+        <span class="flag private">private</span>
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_facets_DirectionalLight.ts.html#l54"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;DirectionalLight.ts:54</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property__direction" class="property item private">
+    <h3 class="name"><code>_direction</code></h3>
+    <span class="type"><a href="../classes/Vector3.html" class="crosslink">Vector3</a></span>
+
+
+        <span class="flag private">private</span>
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_facets_DirectionalLight.ts.html#l47"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;DirectionalLight.ts:47</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
 <div id="property_color" class="property item">
     <h3 class="name"><code>color</code></h3>
     <span class="type"><a href="../classes/Color.html" class="crosslink">Color</a></span>
@@ -748,7 +809,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_facets_DirectionalLight.ts.html#l52"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;DirectionalLight.ts:52</code></a>
+        <a href="../files/src_davinci-eight_facets_DirectionalLight.ts.html#l74"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;DirectionalLight.ts:74</code></a>
         </p>
 
 
@@ -772,7 +833,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_facets_DirectionalLight.ts.html#l46"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;DirectionalLight.ts:46</code></a>
+        <a href="../files/src_davinci-eight_facets_DirectionalLight.ts.html#l85"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;DirectionalLight.ts:85</code></a>
         </p>
 
 
@@ -797,7 +858,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_facets_DirectionalLight.ts.html#l26"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;DirectionalLight.ts:26</code></a>
+        <a href="../files/src_davinci-eight_facets_DirectionalLight.ts.html#l27"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;DirectionalLight.ts:27</code></a>
         </p>
 
 
@@ -824,7 +885,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_facets_DirectionalLight.ts.html#l36"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;DirectionalLight.ts:36</code></a>
+        <a href="../files/src_davinci-eight_facets_DirectionalLight.ts.html#l37"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;DirectionalLight.ts:37</code></a>
         </p>
 
 

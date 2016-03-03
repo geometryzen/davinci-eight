@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.204.0</em>
+            <em>API Docs for: 2.205.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -81,6 +81,7 @@
                                 <li><a href="../classes/DrawMode.html">DrawMode</a></li>
                                 <li><a href="../classes/Duality.html">Duality</a></li>
                                 <li><a href="../classes/EIGHTLogger.html">EIGHTLogger</a></li>
+                                <li><a href="../classes/ErrorMode.html">ErrorMode</a></li>
                                 <li><a href="../classes/Facet.html">Facet</a></li>
                                 <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
@@ -113,12 +114,12 @@
                                 <li><a href="../classes/IContextProvider.html">IContextProvider</a></li>
                                 <li><a href="../classes/IDrawable.html">IDrawable</a></li>
                                 <li><a href="../classes/IGeometric3RigidBody.html">IGeometric3RigidBody</a></li>
-                                <li><a href="../classes/IMaterial.html">IMaterial</a></li>
                                 <li><a href="../classes/IMesh.html">IMesh</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
                                 <li><a href="../classes/LineMaterialOptions.html">LineMaterialOptions</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
+                                <li><a href="../classes/MaterialBase.html">MaterialBase</a></li>
                                 <li><a href="../classes/Matrix2.html">Matrix2</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
                                 <li><a href="../classes/Matrix4.html">Matrix4</a></li>
@@ -203,7 +204,6 @@
                                 <li><a href="../classes/WebGLDisable.html">WebGLDisable</a></li>
                                 <li><a href="../classes/WebGLEnable.html">WebGLEnable</a></li>
                                 <li><a href="../classes/WebGLRenderer.html">WebGLRenderer</a></li>
-                                <li><a href="../classes/World.html">World</a></li>
                             </ul>
                 
                 
@@ -255,7 +255,7 @@
 
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l46"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:46</code></a>
+            Defined in: <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l47"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:47</code></a>
         </div>
 
             Module: <a href="../modules/math.html">math</a><br>
@@ -266,7 +266,7 @@
 
 <div class="box intro">
     <p>Base class for matrices with the expectation that they will be used with WebGL.
-The underlying data storage is Float32Array.</p>
+The underlying data storage is a <code>Float32Array</code>.</p>
 
 </div>
 
@@ -296,7 +296,7 @@ The underlying data storage is Float32Array.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l46"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:46</code></a>
+        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l47"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:47</code></a>
         </p>
 
 
@@ -436,7 +436,7 @@ The underlying data storage is Float32Array.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l84"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:84</code></a>
+        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l85"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:85</code></a>
         </p>
 
 
@@ -501,7 +501,7 @@ The underlying data storage is Float32Array.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l95"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:95</code></a>
+        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l96"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:96</code></a>
         </p>
 
 
@@ -569,7 +569,7 @@ The underlying data storage is Float32Array.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l105"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:105</code></a>
+        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l106"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:106</code></a>
         </p>
 
 
@@ -622,7 +622,7 @@ The underlying data storage is Float32Array.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l130"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:130</code></a>
+        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l131"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:131</code></a>
         </p>
 
 
@@ -700,7 +700,7 @@ The underlying data storage is Float32Array.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l33"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:33</code></a>
+        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l34"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:34</code></a>
         </p>
 
 
@@ -725,7 +725,7 @@ The underlying data storage is Float32Array.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l19"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:19</code></a>
+        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l20"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:20</code></a>
         </p>
 
 
@@ -750,7 +750,7 @@ The underlying data storage is Float32Array.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l26"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:26</code></a>
+        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l27"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:27</code></a>
         </p>
 
 
@@ -774,7 +774,7 @@ The underlying data storage is Float32Array.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l60"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:60</code></a>
+        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l61"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:61</code></a>
         </p>
 
 
@@ -798,7 +798,7 @@ The underlying data storage is Float32Array.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l72"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:72</code></a>
+        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l73"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:73</code></a>
         </p>
 
 
@@ -822,7 +822,7 @@ The underlying data storage is Float32Array.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l40"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:40</code></a>
+        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l41"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:41</code></a>
         </p>
 
 

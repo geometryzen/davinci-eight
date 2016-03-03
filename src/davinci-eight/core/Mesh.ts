@@ -2,6 +2,8 @@ import Color from './Color';
 import ColorFacet from '../facets/ColorFacet'
 import Drawable from './Drawable'
 import Geometric3 from '../math/Geometric3'
+import Geometry from './Geometry'
+import Material from './Material'
 import IMesh from '../core/IMesh'
 import Matrix4 from '../math/Matrix4'
 import ModelFacet from '../facets/ModelFacet'
@@ -28,167 +30,169 @@ const POINT_FACET_NAME = 'point'
  */
 export default class Mesh extends Drawable implements IMesh {
 
-    /**
-     * @class Mesh
-     * @constructor
-     * @param [type = 'Mesh'] {string}
-     */
-    constructor(type = 'Mesh') {
-        super(type)
+  /**
+   * @class Mesh
+   * @constructor
+   * @param [type = 'Mesh'] {string}
+   * @param [geometry] {Geometry}
+   * @param [material] {Material}
+   */
+  constructor(type: string/* = 'Mesh'*/, geometry: Geometry, material: Material) {
+    super(type, geometry, material)
 
-        const modelFacet = new ModelFacet()
-        this.setFacet(MODEL_FACET_NAME, modelFacet)
+    const modelFacet = new ModelFacet()
+    this.setFacet(MODEL_FACET_NAME, modelFacet)
 
-        const colorFacet = new ColorFacet()
-        this.setFacet(COLOR_FACET_NAME, colorFacet)
+    const colorFacet = new ColorFacet()
+    this.setFacet(COLOR_FACET_NAME, colorFacet)
 
-        const pointFacet = new PointSizeFacet()
-        this.setFacet(POINT_FACET_NAME, pointFacet)
-    }
+    const pointFacet = new PointSizeFacet()
+    this.setFacet(POINT_FACET_NAME, pointFacet)
+  }
 
-    /**
-     * @method destructor
-     * @return {void}
-     * @protected
-     */
-    protected destructor(): void {
-        super.destructor()
-    }
+  /**
+   * @method destructor
+   * @return {void}
+   * @protected
+   */
+  protected destructor(): void {
+    super.destructor()
+  }
 
-    /**
-     * Attitude (spinor)
-     *
-     * @property attitude
-     * @type Geometric3
-     */
-    get attitude(): Geometric3 {
-        const facet = <ModelFacet>this.getFacet(MODEL_FACET_NAME)
-        if (facet) {
-            return facet.attitude
-        }
-        else {
-            throw new Error(notSupported('attitude').message)
-        }
+  /**
+   * Attitude (spinor)
+   *
+   * @property attitude
+   * @type Geometric3
+   */
+  get attitude(): Geometric3 {
+    const facet = <ModelFacet>this.getFacet(MODEL_FACET_NAME)
+    if (facet) {
+      return facet.attitude
     }
-    set attitude(attitude: Geometric3) {
-        const facet = <ModelFacet>this.getFacet(MODEL_FACET_NAME)
-        if (facet) {
-            facet.attitude.copySpinor(attitude)
-        }
-        else {
-            throw new Error(notSupported('attitude').message)
-        }
+    else {
+      throw new Error(notSupported('attitude').message)
     }
+  }
+  set attitude(attitude: Geometric3) {
+    const facet = <ModelFacet>this.getFacet(MODEL_FACET_NAME)
+    if (facet) {
+      facet.attitude.copySpinor(attitude)
+    }
+    else {
+      throw new Error(notSupported('attitude').message)
+    }
+  }
 
-    /**
-     * Color
-     *
-     * @property color
-     * @type Color
-     */
-    get color(): Color {
-        const facet = <ColorFacet>this.getFacet(COLOR_FACET_NAME)
-        if (facet) {
-            return facet.color
-        }
-        else {
-            throw new Error(notSupported('color').message)
-        }
+  /**
+   * Color
+   *
+   * @property color
+   * @type Color
+   */
+  get color(): Color {
+    const facet = <ColorFacet>this.getFacet(COLOR_FACET_NAME)
+    if (facet) {
+      return facet.color
     }
-    set color(color: Color) {
-        const facet = <ColorFacet>this.getFacet(COLOR_FACET_NAME)
-        if (facet) {
-            facet.color.copy(color)
-        }
-        else {
-            throw new Error(notSupported('color').message)
-        }
+    else {
+      throw new Error(notSupported('color').message)
     }
+  }
+  set color(color: Color) {
+    const facet = <ColorFacet>this.getFacet(COLOR_FACET_NAME)
+    if (facet) {
+      facet.color.copy(color)
+    }
+    else {
+      throw new Error(notSupported('color').message)
+    }
+  }
 
-    /**
-     * @property matrix
-     * @type Matrix4
-     * @readOnly
-     */
-    get matrix(): Matrix4 {
-        return (<ModelFacet>this.getFacet(MODEL_FACET_NAME)).matrix
-    }
-    set matrix(unused: Matrix4) {
-        throw new Error(readOnly('matrix').message)
-    }
+  /**
+   * @property matrix
+   * @type Matrix4
+   * @readOnly
+   */
+  get matrix(): Matrix4 {
+    return (<ModelFacet>this.getFacet(MODEL_FACET_NAME)).matrix
+  }
+  set matrix(unused: Matrix4) {
+    throw new Error(readOnly('matrix').message)
+  }
 
-    /**
-     * Position (vector)
-     *
-     * @property position
-     * @type Geometric3
-     */
-    get position(): Geometric3 {
-        const facet = <ModelFacet>this.getFacet(MODEL_FACET_NAME)
-        if (facet) {
-            return facet.position
-        }
-        else {
-            throw new Error(notSupported('position').message)
-        }
+  /**
+   * Position (vector)
+   *
+   * @property position
+   * @type Geometric3
+   */
+  get position(): Geometric3 {
+    const facet = <ModelFacet>this.getFacet(MODEL_FACET_NAME)
+    if (facet) {
+      return facet.position
     }
-    set position(position: Geometric3) {
-        const facet = <ModelFacet>this.getFacet(MODEL_FACET_NAME)
-        if (facet) {
-            facet.position.copyVector(position)
-        }
-        else {
-            throw new Error(notSupported('position').message)
-        }
+    else {
+      throw new Error(notSupported('position').message)
     }
+  }
+  set position(position: Geometric3) {
+    const facet = <ModelFacet>this.getFacet(MODEL_FACET_NAME)
+    if (facet) {
+      facet.position.copyVector(position)
+    }
+    else {
+      throw new Error(notSupported('position').message)
+    }
+  }
 
-    /**
-     * @property stress
-     * @type Matrix4
-     */
-    get stress(): Matrix4 {
-        const facet = <ModelFacet>this.getFacet(MODEL_FACET_NAME)
-        if (facet) {
-            return facet.stress
-        }
-        else {
-            throw new Error(notSupported('stress').message)
-        }
+  /**
+   * @property stress
+   * @type Matrix4
+   */
+  get stress(): Matrix4 {
+    const facet = <ModelFacet>this.getFacet(MODEL_FACET_NAME)
+    if (facet) {
+      return facet.stress
     }
-    set stress(stress: Matrix4) {
-        const facet = <ModelFacet>this.getFacet(MODEL_FACET_NAME)
-        if (facet) {
-            facet.stress.copy(stress)
-        }
-        else {
-            throw new Error(notSupported('stress').message)
-        }
+    else {
+      throw new Error(notSupported('stress').message)
     }
+  }
+  set stress(stress: Matrix4) {
+    const facet = <ModelFacet>this.getFacet(MODEL_FACET_NAME)
+    if (facet) {
+      facet.stress.copy(stress)
+    }
+    else {
+      throw new Error(notSupported('stress').message)
+    }
+  }
 
-    /**
-     * @method getPrincipalScale
-     * @param name {string}
-     * @return {number}
-     */
-    protected getPrincipalScale(name: string): number {
-        const geometry = this.geometry
-        const value = geometry.getPrincipalScale(name)
-        geometry.release()
-        return value
-    }
+  /**
+   * @method getPrincipalScale
+   * @param name {string}
+   * @return {number}
+   */
+  protected getPrincipalScale(name: string): number {
+    const geometry = this.geometry
+    const value = geometry.getPrincipalScale(name)
+    geometry.release()
+    return value
+  }
 
-    /**
-     * @method setPrincipalScale
-     * @param name {string}
-     * @param value {number}
-     * @return {void}
-     * @protected
-     */
-    protected setPrincipalScale(name: string, value: number): void {
-        const geometry = this.geometry
-        geometry.setPrincipalScale(name, value)
-        const scaling = geometry.scaling
-        this.stress.copy(scaling)
-        geometry.release()
-    }
+  /**
+   * @method setPrincipalScale
+   * @param name {string}
+   * @param value {number}
+   * @return {void}
+   * @protected
+   */
+  protected setPrincipalScale(name: string, value: number): void {
+    const geometry = this.geometry
+    geometry.setPrincipalScale(name, value)
+    const scaling = geometry.scaling
+    this.stress.copy(scaling)
+    geometry.release()
+  }
 }

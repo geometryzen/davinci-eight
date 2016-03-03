@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.204.0</em>
+            <em>API Docs for: 2.205.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -81,6 +81,7 @@
                                 <li><a href="../classes/DrawMode.html">DrawMode</a></li>
                                 <li><a href="../classes/Duality.html">Duality</a></li>
                                 <li><a href="../classes/EIGHTLogger.html">EIGHTLogger</a></li>
+                                <li><a href="../classes/ErrorMode.html">ErrorMode</a></li>
                                 <li><a href="../classes/Facet.html">Facet</a></li>
                                 <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
@@ -113,12 +114,12 @@
                                 <li><a href="../classes/IContextProvider.html">IContextProvider</a></li>
                                 <li><a href="../classes/IDrawable.html">IDrawable</a></li>
                                 <li><a href="../classes/IGeometric3RigidBody.html">IGeometric3RigidBody</a></li>
-                                <li><a href="../classes/IMaterial.html">IMaterial</a></li>
                                 <li><a href="../classes/IMesh.html">IMesh</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
                                 <li><a href="../classes/LineMaterialOptions.html">LineMaterialOptions</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
+                                <li><a href="../classes/MaterialBase.html">MaterialBase</a></li>
                                 <li><a href="../classes/Matrix2.html">Matrix2</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
                                 <li><a href="../classes/Matrix4.html">Matrix4</a></li>
@@ -203,7 +204,6 @@
                                 <li><a href="../classes/WebGLDisable.html">WebGLDisable</a></li>
                                 <li><a href="../classes/WebGLEnable.html">WebGLEnable</a></li>
                                 <li><a href="../classes/WebGLRenderer.html">WebGLRenderer</a></li>
-                                <li><a href="../classes/World.html">World</a></li>
                             </ul>
                 
                 
@@ -255,9 +255,7 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 import Capability from &#x27;../commands/Capability&#x27;;
-import core from &#x27;../core&#x27;;
-import EIGHTLogger from &#x27;../commands/EIGHTLogger&#x27;
-import IContextProvider from &#x27;./IContextProvider&#x27;;
+import EIGHTLogger from &#x27;../commands/EIGHTLogger&#x27;;
 import IContextConsumer from &#x27;./IContextConsumer&#x27;;
 import ShareableArray from &#x27;../collections/ShareableArray&#x27;;
 import initWebGL from &#x27;./initWebGL&#x27;;
@@ -270,6 +268,7 @@ import VersionLogger from &#x27;../commands/VersionLogger&#x27;
 import WebGLClearColor from &#x27;../commands/WebGLClearColor&#x27;;
 import WebGLEnable from &#x27;../commands/WebGLEnable&#x27;;
 import WebGLDisable from &#x27;../commands/WebGLDisable&#x27;;
+import WebGLContextProvider from &#x27;./WebGLContextProvider&#x27;;
 
 /**
  * Fundamental abstractions in the architecture.
@@ -278,367 +277,367 @@ import WebGLDisable from &#x27;../commands/WebGLDisable&#x27;;
  * @submodule core
  */
 
-class WebGLContextProvider extends Shareable implements IContextProvider {
-    private _renderer: WebGLRenderer
-
-    constructor(renderer: WebGLRenderer) {
-        super(&#x27;WebGLContextProvider&#x27;)
-        this._renderer = renderer
-    }
-    protected destructor(): void {
-        super.destructor()
-    }
-    get gl() {
-        return this._renderer.gl
-    }
-    set gl(unused) {
-        throw new Error(readOnly(&#x27;gl&#x27;).message)
-    }
-}
-
 /**
+ * @example
+ *     // Anytime before calling the start method...
+ *     const renderer = new EIGHT.WebGLRenderer()
+ *
+ *     // When the canvas is available, usually in the window.onload function...
+ *     renderer.start(canvas)
+ *
+ *     // At the start of each animation frame, before drawing...
+ *     renderer.clear()
+ *
+ *     // When no longer needed, usually in the window.onunload function...
+ *     renderer.release()
+ *
  * @class WebGLRenderer
  * @extends Shareable
  */
 export default class WebGLRenderer extends Shareable {
 
-    /**
-     * @property _gl
-     * @type WebGLRenderingContext
-     * @private
-     */
-    private _gl: WebGLRenderingContext
+  /**
+   * @property _gl
+   * @type WebGLRenderingContext
+   * @private
+   */
+  private _gl: WebGLRenderingContext
 
-    /**
-     * @property _canvas
-     * @type HTMLCanvasElement
-     * @private
-     */
-    private _canvas: HTMLCanvasElement
+  /**
+   * @property _canvas
+   * @type HTMLCanvasElement
+   * @private
+   */
+  private _canvas: HTMLCanvasElement
 
-    private _attributes: WebGLContextAttributes
+  private _attributes: WebGLContextAttributes
 
-    // Remark: We only hold weak references to users so that the lifetime of resource
-    // objects is not affected by the fact that they are listening for gl events.
-    // Users should automatically add themselves upon construction and remove upon release.
-    private _users: IContextConsumer[] = []
+  // Remark: We only hold weak references to users so that the lifetime of resource
+  // objects is not affected by the fact that they are listening for gl events.
+  // Users should automatically add themselves upon construction and remove upon release.
+  private _users: IContextConsumer[] = []
 
-    private _webGLContextLost: (event: Event) =&gt; any
-    private _webGLContextRestored: (event: Event) =&gt; any
+  private _webGLContextLost: (event: Event) =&gt; any
+  private _webGLContextRestored: (event: Event) =&gt; any
 
-    private _commands = new ShareableArray&lt;IContextConsumer&gt;([])
+  private _commands = new ShareableArray&lt;IContextConsumer&gt;([])
 
-    private _contextProvider: WebGLContextProvider
+  private _contextProvider: WebGLContextProvider
 
-    /**
-     * @class WebGLRenderer
-     * @constructor
-     * @param [attributes] {WebGLContextAttributes} Allow the context to be configured.
-     */
-    constructor(attributes?: WebGLContextAttributes) {
-        super(&#x27;WebGLRenderer&#x27;)
+  /**
+   * @class WebGLRenderer
+   * @constructor
+   * @param [attributes] {WebGLContextAttributes} Allows the context to be configured.
+   */
+  constructor(attributes?: WebGLContextAttributes) {
+    super(&#x27;WebGLRenderer&#x27;)
 
-        this._attributes = attributes;
+    this._attributes = attributes;
 
-        this._commands.pushWeakRef(new EIGHTLogger())
-        this._commands.pushWeakRef(new VersionLogger())
+    this._commands.pushWeakRef(new EIGHTLogger())
+    this._commands.pushWeakRef(new VersionLogger())
 
-        this._contextProvider = new WebGLContextProvider(this)
+    this._contextProvider = new WebGLContextProvider(this)
 
-        // For convenience.
-        this.enable(Capability.DEPTH_TEST);
+    // For convenience.
+    this.enable(Capability.DEPTH_TEST)
+    this.clearColor(0.1, 0.1, 0.1, 1.0)
 
-        this._webGLContextLost = (event: Event) =&gt; {
-            if (isDefined(this._canvas)) {
-                event.preventDefault()
-                this._gl = void 0
-                this._users.forEach((user: IContextConsumer) =&gt; {
-                    user.contextLost()
-                })
-            }
-        }
-
-        this._webGLContextRestored = (event: Event) =&gt; {
-            if (isDefined(this._canvas)) {
-                event.preventDefault()
-                this._gl = initWebGL(this._canvas, attributes)
-                this._users.forEach((user: IContextConsumer) =&gt; {
-                    user.contextGain(this._contextProvider)
-                })
-            }
-        }
-    }
-
-    /**
-     * @method destructor
-     * return {void}
-     * @protected
-     */
-    protected destructor(): void {
-        this.stop();
-        this._contextProvider.release()
-        while (this._users.length &gt; 0) {
-            this._users.pop();
-        }
-        this._commands.release();
-        super.destructor()
-    }
-
-    /**
-     * @method addContextListener
-     * @param user {IContextConsumer}
-     * @return {void}
-     */
-    addContextListener(user: IContextConsumer): void {
-        mustBeObject(&#x27;user&#x27;, user)
-        let index = this._users.indexOf(user)
-        if (index &lt; 0) {
-            this._users.push(user)
-        }
-        else {
-            console.warn(&quot;user already exists for addContextListener&quot;)
-        }
-    }
-
-    /**
-     * @property canvas
-     * @type {HTMLCanvasElement}
-     */
-    get canvas(): HTMLCanvasElement {
-        // FIXME: Retract this implicit starting behavior.
-        if (!this._canvas) {
-            this.start(document.createElement(&#x27;canvas&#x27;))
-        }
-        return this._canvas;
-    }
-    set canvas(canvas: HTMLCanvasElement) {
-        throw new Error(readOnly(&#x27;canvas&#x27;).message)
-    }
-
-    /**
-     * @property commands
-     * @type {ShareableArray}
-     * @beta
-     * @readOnly
-     */
-    get commands(): ShareableArray&lt;IContextConsumer&gt; {
-        this._commands.addRef();
-        return this._commands;
-    }
-    set commands(unused) {
-        throw new Error(readOnly(&#x27;commands&#x27;).message)
-    }
-
-    /**
-     * &lt;p&gt;
-     * Specifies color values to use by the &lt;code&gt;clear&lt;/code&gt; method to clear the color buffer.
-     * &lt;p&gt;
-     * @method clearColor
-     * @param red {number}
-     * @param green {number}
-     * @param blue {number}
-     * @param alpha {number}
-     * @return {WebGLRenderer}
-     * @chainable
-     */
-    clearColor(red: number, green: number, blue: number, alpha: number): WebGLRenderer {
-        this._commands.pushWeakRef(new WebGLClearColor(red, green, blue, alpha))
-        if (this._gl) {
-            this._gl.clearColor(red, green, blue, alpha)
-        }
-        return this
-    }
-
-    /**
-     * Turns off specific WebGL capabilities for this context.
-     * @method disable
-     * @param capability {Capability}
-     * @return {WebGLRenderer}
-     * @chainable
-     */
-    disable(capability: Capability): WebGLRenderer {
-        this._commands.pushWeakRef(new WebGLDisable(capability))
-        return this
-    }
-
-    /**
-     * Turns on specific WebGL capabilities for this context.
-     * @method enable
-     * @param capability {Capability}
-     * @return {WebGLRenderer}
-     * @chainable
-     */
-    enable(capability: Capability): WebGLRenderer {
-        this._commands.pushWeakRef(new WebGLEnable(capability))
-        return this
-    }
-
-    /**
-     * @property gl
-     * @type {WebGLRenderingContext}
-     * @readOnly
-     */
-    get gl(): WebGLRenderingContext {
-        if (this._gl) {
-            return this._gl
-        }
-        else {
-            return void 0
-        }
-    }
-    set gl(unused) {
-        throw new Error(readOnly(&#x27;gl&#x27;).message)
-    }
-
-    /**
-     * @method removeContextListener
-     * @param user {IContextConsumer}
-     * @return {void}
-     */
-    removeContextListener(user: IContextConsumer): void {
-        mustBeObject(&#x27;user&#x27;, user)
-        const index = this._users.indexOf(user)
-        if (index &gt;= 0) {
-            this._users.splice(index, 1)
-        }
-    }
-
-    /**
-     * @method clear
-     * @return {void}
-     */
-    clear(): void {
-        const gl = this._gl
-        if (gl) {
-            gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
-        }
-    }
-
-    /**
-     * Defines what part of the canvas will be used in rendering the drawing buffer.
-     * @method viewport
-     * @param x {number}
-     * @param y {number}
-     * @param width {number}
-     * @param height {number}
-     * @return {WebGLRenderer}
-     * @chainable
-     */
-    viewport(x: number, y: number, width: number, height: number): WebGLRenderer {
-        const gl = this._gl;
-        if (gl) {
-            this._gl.viewport(x, y, width, height)
-        }
-        else {
-            console.warn(&#x60;${this._type}.viewport() ignored because no context.&#x60;)
-        }
-        return this
-    }
-
-    /**
-     * Initializes the WebGL context for the specified &lt;code&gt;canvas&lt;/code&gt;.
-     * @method start
-     * @param canvas {HTMLCanvasElement} The HTML canvas element.
-     * @return {WebGLRenderer}
-     * @chainable
-     */
-    start(canvas: HTMLCanvasElement): WebGLRenderer {
-        if (!(canvas instanceof HTMLCanvasElement)) {
-            console.warn(&quot;canvas must be an HTMLCanvasElement to start the context.&quot;)
-            return this
-        }
-        mustBeDefined(&#x27;canvas&#x27;, canvas)
-        const alreadyStarted = isDefined(this._canvas)
-        if (!alreadyStarted) {
-            // cache the arguments
-            this._canvas = canvas
-        }
-        else {
-            // We&#x27;ll just be idempotent and ignore the call because we&#x27;ve already been started.
-            // To use the canvas might conflict with one we have dynamically created.
-            if (core.verbose) {
-                console.warn(&#x60;${this._type} Ignoring start() because already started.&#x60;)
-            }
-            return
-        }
-        // What if we were given a &quot;no-op&quot; canvasBuilder that returns undefined for the canvas.
-        // To not complain is the way of the hyper-functional warrior.
-        if (isDefined(this._canvas)) {
-            this._gl = initWebGL(this._canvas, this._attributes);
-            this.emitStartEvent()
-            this._canvas.addEventListener(&#x27;webglcontextlost&#x27;, this._webGLContextLost, false)
-            this._canvas.addEventListener(&#x27;webglcontextrestored&#x27;, this._webGLContextRestored, false)
-        }
-        return this
-    }
-
-    /**
-     * @method stop
-     * @return {WebGLRenderer}
-     * @chainable
-     */
-    stop(): WebGLRenderer {
-        if (isDefined(this._canvas)) {
-            this._canvas.removeEventListener(&#x27;webglcontextrestored&#x27;, this._webGLContextRestored, false)
-            this._canvas.removeEventListener(&#x27;webglcontextlost&#x27;, this._webGLContextLost, false)
-            if (this._gl) {
-                this.emitStopEvent()
-                this._gl = void 0
-            }
-            this._canvas = void 0
-        }
-        return this
-    }
-
-    private emitStartEvent() {
+    this._webGLContextLost = (event: Event) =&gt; {
+      if (isDefined(this._canvas)) {
+        event.preventDefault()
+        this._gl = void 0
         this._users.forEach((user: IContextConsumer) =&gt; {
-            this.emitContextGain(user)
+          user.contextLost()
         })
-        this._commands.forEach((command) =&gt; {
-            this.emitContextGain(command)
-        })
+      }
     }
 
-    private emitContextGain(consumer: IContextConsumer): void {
-        if (this._gl.isContextLost()) {
-            consumer.contextLost()
-        }
-        else {
-            consumer.contextGain(this._contextProvider)
-        }
-    }
-
-    private emitStopEvent() {
+    this._webGLContextRestored = (event: Event) =&gt; {
+      if (isDefined(this._canvas)) {
+        event.preventDefault()
+        this._gl = initWebGL(this._canvas, attributes)
         this._users.forEach((user: IContextConsumer) =&gt; {
-            this.emitContextFree(user)
+          user.contextGain(this._contextProvider)
         })
-        this._commands.forEach((command) =&gt; {
-            this.emitContextFree(command);
-        })
+      }
     }
+  }
 
-    private emitContextFree(consumer: IContextConsumer): void {
-        if (this._gl.isContextLost()) {
-            consumer.contextLost()
-        }
-        else {
-            consumer.contextFree(this._contextProvider)
-        }
+  /**
+   * @method destructor
+   * return {void}
+   * @protected
+   */
+  protected destructor(): void {
+    this.stop();
+    this._contextProvider.release()
+    while (this._users.length &gt; 0) {
+      this._users.pop();
     }
+    this._commands.release();
+    super.destructor()
+  }
 
-    /**
-     * @method synchronize
-     * @param consumer {IContextConsumer}
-     * @return {void}
-     */
-    synchronize(consumer: IContextConsumer): void {
-        if (this._gl) {
-            this.emitContextGain(consumer)
-        }
-        else {
-            // FIXME: Broken symmetry.
-        }
+  /**
+   * @method addContextListener
+   * @param user {IContextConsumer}
+   * @return {void}
+   */
+  addContextListener(user: IContextConsumer): void {
+    mustBeObject(&#x27;user&#x27;, user)
+    let index = this._users.indexOf(user)
+    if (index &lt; 0) {
+      this._users.push(user)
     }
+    else {
+      console.warn(&quot;user already exists for addContextListener&quot;)
+    }
+  }
+
+  /**
+   * @property canvas
+   * @type {HTMLCanvasElement}
+   * @readOnly
+   */
+  get canvas(): HTMLCanvasElement {
+    // FIXME: Retract this implicit starting behavior.
+    if (!this._canvas) {
+      this.start(document.createElement(&#x27;canvas&#x27;))
+    }
+    return this._canvas;
+  }
+  set canvas(canvas: HTMLCanvasElement) {
+    throw new Error(readOnly(&#x27;canvas&#x27;).message)
+  }
+
+  /**
+   * @property commands
+   * @type {ShareableArray}
+   * @beta
+   * @readOnly
+   */
+  get commands(): ShareableArray&lt;IContextConsumer&gt; {
+    this._commands.addRef();
+    return this._commands;
+  }
+  set commands(unused) {
+    throw new Error(readOnly(&#x27;commands&#x27;).message)
+  }
+
+  /**
+   * &lt;p&gt;
+   * Specifies color values to use by the &lt;code&gt;clear&lt;/code&gt; method to clear the color buffer.
+   * &lt;p&gt;
+   *
+   * @method clearColor
+   * @param red {number}
+   * @param green {number}
+   * @param blue {number}
+   * @param alpha {number}
+   * @return {WebGLRenderer}
+   * @chainable
+   */
+  clearColor(red: number, green: number, blue: number, alpha: number): WebGLRenderer {
+    this._commands.pushWeakRef(new WebGLClearColor(red, green, blue, alpha))
+    if (this._gl) {
+      this._gl.clearColor(red, green, blue, alpha)
+    }
+    return this
+  }
+
+  /**
+   * Turns off a specific WebGL capability for this context.
+   *
+   * @method disable
+   * @param capability {Capability}
+   * @return {WebGLRenderer}
+   * @chainable
+   */
+  disable(capability: Capability): WebGLRenderer {
+    this._commands.pushWeakRef(new WebGLDisable(capability))
+    return this
+  }
+
+  /**
+   * Turns on a specific WebGL capability for this context.
+   *
+   * @method enable
+   * @param capability {Capability}
+   * @return {WebGLRenderer}
+   * @chainable
+   */
+  enable(capability: Capability): WebGLRenderer {
+    this._commands.pushWeakRef(new WebGLEnable(capability))
+    return this
+  }
+
+  /**
+   * @property gl
+   * @type {WebGLRenderingContext}
+   * @readOnly
+   */
+  get gl(): WebGLRenderingContext {
+    if (this._gl) {
+      return this._gl
+    }
+    else {
+      return void 0
+    }
+  }
+  set gl(unused) {
+    throw new Error(readOnly(&#x27;gl&#x27;).message)
+  }
+
+  /**
+   * @method removeContextListener
+   * @param user {IContextConsumer}
+   * @return {void}
+   */
+  removeContextListener(user: IContextConsumer): void {
+    mustBeObject(&#x27;user&#x27;, user)
+    const index = this._users.indexOf(user)
+    if (index &gt;= 0) {
+      this._users.splice(index, 1)
+    }
+  }
+
+  /**
+   * @method clear
+   * @return {void}
+   */
+  clear(): void {
+    const gl = this._gl
+    if (gl) {
+      gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
+    }
+  }
+
+  /**
+   * Defines what part of the canvas will be used in rendering the drawing buffer.
+   *
+   * @method viewport
+   * @param x {number}
+   * @param y {number}
+   * @param width {number}
+   * @param height {number}
+   * @return {WebGLRenderer}
+   * @chainable
+   */
+  viewport(x: number, y: number, width: number, height: number): WebGLRenderer {
+    const gl = this._gl;
+    if (gl) {
+      this._gl.viewport(x, y, width, height)
+    }
+    else {
+      console.warn(&#x60;${this._type}.viewport() ignored because no context.&#x60;)
+    }
+    return this
+  }
+
+  /**
+   * Initializes the &lt;code&gt;WebGLRenderingContext&lt;/code&gt; for the specified &lt;code&gt;HTMLCanvasElement&lt;/code&gt;.
+   *
+   * @method start
+   * @param canvas {HTMLCanvasElement} The HTML canvas element.
+   * @return {WebGLRenderer}
+   * @chainable
+   */
+  start(canvas: HTMLCanvasElement): WebGLRenderer {
+    if (!(canvas instanceof HTMLCanvasElement)) {
+      console.warn(&quot;canvas must be an HTMLCanvasElement to start the context.&quot;)
+      return this
+    }
+    mustBeDefined(&#x27;canvas&#x27;, canvas)
+    const alreadyStarted = isDefined(this._canvas)
+    if (!alreadyStarted) {
+      // cache the arguments
+      this._canvas = canvas
+    }
+    else {
+      // We&#x27;ll just be idempotent and ignore the call because we&#x27;ve already been started.
+      // To use the canvas might conflict with one we have dynamically created.
+      console.warn(&#x60;${this._type} Ignoring start() because already started.&#x60;)
+      return
+    }
+    // What if we were given a &quot;no-op&quot; canvasBuilder that returns undefined for the canvas.
+    // To not complain is the way of the hyper-functional warrior.
+    if (isDefined(this._canvas)) {
+      this._gl = initWebGL(this._canvas, this._attributes);
+      this.emitStartEvent()
+      this._canvas.addEventListener(&#x27;webglcontextlost&#x27;, this._webGLContextLost, false)
+      this._canvas.addEventListener(&#x27;webglcontextrestored&#x27;, this._webGLContextRestored, false)
+    }
+    return this
+  }
+
+  /**
+   * @method stop
+   * @return {WebGLRenderer}
+   * @chainable
+   */
+  stop(): WebGLRenderer {
+    if (isDefined(this._canvas)) {
+      this._canvas.removeEventListener(&#x27;webglcontextrestored&#x27;, this._webGLContextRestored, false)
+      this._canvas.removeEventListener(&#x27;webglcontextlost&#x27;, this._webGLContextLost, false)
+      if (this._gl) {
+        this.emitStopEvent()
+        this._gl = void 0
+      }
+      this._canvas = void 0
+    }
+    return this
+  }
+
+  private emitStartEvent() {
+    this._users.forEach((user: IContextConsumer) =&gt; {
+      this.emitContextGain(user)
+    })
+    this._commands.forEach((command) =&gt; {
+      this.emitContextGain(command)
+    })
+  }
+
+  private emitContextGain(consumer: IContextConsumer): void {
+    if (this._gl.isContextLost()) {
+      consumer.contextLost()
+    }
+    else {
+      consumer.contextGain(this._contextProvider)
+    }
+  }
+
+  private emitStopEvent() {
+    this._users.forEach((user: IContextConsumer) =&gt; {
+      this.emitContextFree(user)
+    })
+    this._commands.forEach((command) =&gt; {
+      this.emitContextFree(command);
+    })
+  }
+
+  private emitContextFree(consumer: IContextConsumer): void {
+    if (this._gl.isContextLost()) {
+      consumer.contextLost()
+    }
+    else {
+      consumer.contextFree(this._contextProvider)
+    }
+  }
+
+  /**
+   * @method synchronize
+   * @param consumer {IContextConsumer}
+   * @return {void}
+   */
+  synchronize(consumer: IContextConsumer): void {
+    if (this._gl) {
+      this.emitContextGain(consumer)
+    }
+    else {
+      // FIXME: Broken symmetry.
+    }
+  }
 }
 
     </pre>

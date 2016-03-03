@@ -1,7 +1,7 @@
 import GraphicsProgramBuilder from '../materials/GraphicsProgramBuilder'
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols'
 import isDefined from '../checks/isDefined'
-import Material from '../core/Material'
+import MaterialBase from './MaterialBase'
 import MeshMaterialOptions from './MeshMaterialOptions'
 import mustBeObject from '../checks/mustBeObject'
 
@@ -64,9 +64,9 @@ function fragmentShader(options?: MeshMaterialOptions): string {
 
 /**
  * @class MeshMaterial
- * @extends Material
+ * @extends MaterialBase
  */
-export default class MeshMaterial extends Material {
+export default class MeshMaterial extends MaterialBase {
   /**
    * 
    * @class MeshMaterial

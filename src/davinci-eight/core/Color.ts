@@ -1,6 +1,8 @@
 import clamp from '../math/clamp'
 import ColumnVector from '../math/ColumnVector'
 import Coords from '../math/Coords'
+import core from '../core'
+import ErrorMode from '../core/ErrorMode'
 import IColor from './IColor'
 import isDefined from '../checks/isDefined'
 import Matrix3 from '../math/Matrix3'
@@ -396,6 +398,16 @@ export default class Color extends Coords implements IColor, ColumnVector<Matrix
   }
 
   /**
+   * @method isInstance
+   * @param x {any}
+   * @return {boolean}
+   * @static
+   */
+  public static isInstance(x: any): boolean {
+    return x instanceof Color
+  }
+
+  /**
    * @method lerp
    * @param a {IColor}
    * @param b {IColor}
@@ -406,5 +418,43 @@ export default class Color extends Coords implements IColor, ColumnVector<Matrix
    */
   public static lerp(a: IColor, b: IColor, α: number): Color {
     return Color.copy(a).lerp(b, clamp(α, 0, 1))
+  }
+
+  /**
+   * @method mustBe
+   * @param name {string}
+   * @param color {Color}
+   * @return {Color}
+   * @static
+   * @chainable
+   */
+  public static mustBe(name: string, color: Color): Color {
+    if (Color.isInstance(color)) {
+      return color
+    }
+    else {
+      switch (core.errorMode) {
+        case ErrorMode.IGNORE: {
+          return Color.random()
+        }
+        case ErrorMode.WARNME: {
+          console.warn(`${name} must be a Color.`)
+          return Color.random()
+        }
+        default: {
+          throw new Error(`${name} must be a Color.`)
+        }
+      }
+    }
+  }
+
+  /**
+   * @method random
+   * @return {Color}
+   * @static
+   * @chainable
+   */
+  public static random(): Color {
+    return Color.fromRGB(Math.random(), Math.random(), Math.random())
   }
 }

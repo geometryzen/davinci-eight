@@ -1,6 +1,6 @@
 import IContextConsumer from './IContextConsumer'
 import Geometry from './Geometry'
-import IMaterial from './IMaterial'
+import Material from './Material'
 import IUnknown from './IUnknown'
 import Facet from './Facet'
 
@@ -25,9 +25,9 @@ interface IDrawable extends IUnknown, IContextConsumer {
 
     /**
      * @property material
-     * @type IMaterial
+     * @type Material
      */
-    material: IMaterial
+    material: Material
 
     /**
      * @property visible

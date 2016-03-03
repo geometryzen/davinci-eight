@@ -1,6 +1,6 @@
 import mustBeObject from '../checks/mustBeObject';
 import mustBeString from '../checks/mustBeString';
-import Material from '../core/Material';
+import MaterialBase from './MaterialBase';
 
 /**
  * @module EIGHT
@@ -33,9 +33,9 @@ function fragmentShader(scriptIds: string[], dom: Document): string {
 
 /**
  * @class HTMLScriptsMaterial
- * @extends Material
+ * @extends MaterialBase
  */
-export default class HTMLScriptsMaterial extends Material {
+export default class HTMLScriptsMaterial extends MaterialBase {
     /**
      * @class HTMLScriptsMaterial
      * @constructor

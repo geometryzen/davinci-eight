@@ -7,23 +7,32 @@ import Vector3 from '../math/Vector3'
 /**
  * @module EIGHT
  * @submodule controls
- *
+ */
+
+/**
  * @class CameraControls
  * @extends Shareable
  */
 export default class CameraControls extends MouseControls {
-    /**
-     *
-     */
-    public rotateSpeed = 1
 
     /**
-     *
+     * @property rotateSpeed
+     * @type number
+     * @default 6
      */
-    public zoomSpeed = 1
+    public rotateSpeed = 6
 
     /**
-     *
+     * @property zoomSpeed
+     * @type number
+     * @default 4
+     */
+    public zoomSpeed = 4
+
+    /**
+     * @property panSpeed
+     * @type number
+     * @default 1
      */
     public panSpeed = 1
 
@@ -91,9 +100,10 @@ export default class CameraControls extends MouseControls {
     }
 
     /**
-     *
+     * @method reset
+     * @return {void}
      */
-    public reset() {
+    public reset(): void {
         this.target.copy(this.target0)
         this.camera.position.copy(this.position0)
         this.camera.up.copy(this.up0)

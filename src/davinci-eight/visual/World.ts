@@ -9,13 +9,8 @@ import Shareable from '../core/Shareable'
 import WebGLRenderer from '../core/WebGLRenderer'
 
 /**
- * @module EIGHT
- * @submodule visual
- */
-
-/**
- * @class World
- * @extends Shareable
+ * Intentionally undocumented.
+ * The concept of creating a quick setup violates the Explicit over Implicit principle.
  */
 export default class World extends Shareable {
     private drawList: DrawList
@@ -23,17 +18,8 @@ export default class World extends Shareable {
     private _ambients: Facet[]
     private _controls: CameraControls
 
-    /**
-     * @property _ambientLight
-     * @type AmbientLight
-     * @private
-     */
     private _ambientLight = new AmbientLight(Color.fromRGB(0.3, 0.3, 0.3))
 
-    /**
-     * @class World
-     * @constructor
-     */
     constructor(renderer: WebGLRenderer, drawList: DrawList, ambients: Facet[], controls: CameraControls) {
         super('World')
 
@@ -52,11 +38,6 @@ export default class World extends Shareable {
         this._controls = controls
     }
 
-    /**
-     * @method destructor
-     * @return {void}
-     * @protected
-     */
     destructor(): void {
         this.controls.release()
         this.drawList.unsubscribe()
@@ -65,11 +46,6 @@ export default class World extends Shareable {
         super.destructor()
     }
 
-    /**
-     * @property ambients
-     * @type Facet[]
-     * @readOnly
-     */
     get ambients(): Facet[] {
         return this._ambients;
     }
@@ -77,10 +53,6 @@ export default class World extends Shareable {
         throw new Error(readOnly('ambients').message)
     }
 
-    /**
-     * @property ambientLight
-     * @type AmbientLight
-     */
     get ambientLight(): AmbientLight {
         return this._ambientLight;
     }
@@ -88,11 +60,6 @@ export default class World extends Shareable {
         throw new Error(readOnly('ambientLight').message)
     }
 
-    /**
-     * @property canvas
-     * @type HTMLCanvasElement
-     * @readOnly
-     */
     get canvas(): HTMLCanvasElement {
         return this.renderer.canvas
     }
@@ -100,11 +67,6 @@ export default class World extends Shareable {
         throw new Error(readOnly('canvas').message)
     }
 
-    /**
-     * @property controls
-     * @type CameraControls
-     * @readOnly
-     */
     get controls(): CameraControls {
         return this._controls;
     }
@@ -112,11 +74,6 @@ export default class World extends Shareable {
         throw new Error(readOnly('controls').message)
     }
 
-    /**
-     * @method add
-     * @param drawable {IDrawable}
-     * @return {void}
-     */
     add(drawable: IDrawable): void {
         this.drawList.add(drawable)
     }

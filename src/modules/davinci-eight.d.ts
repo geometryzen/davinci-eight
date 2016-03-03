@@ -140,6 +140,11 @@ declare module EIGHT {
     unsubscribe(): void;
   }
 
+  interface Material extends FacetVisitor, IContextConsumer {
+    getAttribLocation(name: string): number
+    use(): void
+  }
+
   /**
    *
    */
@@ -194,15 +199,22 @@ declare module EIGHT {
      * The implementation will respond to illegal inputs by throwing exceptions.
      */
     STRICT,
+
     /**
      * The implementation will quietly ignore illegal inputs by ignoring the request.
      */
     IGNORE,
+
     /**
      * The implementation will provide warning at the console and may improvise responses.
      */
     WARNME
   }
+
+  /**
+   * The current mode that determines how errors are handled.
+   */
+  var errorMode: ErrorMode
 
   /**
    * An array of attribute values associated with meta data describing how to interpret the values.
@@ -3080,7 +3092,7 @@ declare module EIGHT {
   /**
    *
    */
-  class Material {
+  class MaterialBase {
     program: WebGLProgram;
     programId: string;
     vertexShader: string;
@@ -3181,7 +3193,7 @@ declare module EIGHT {
   /**
    * A <code>Material</code> based upon scripts in a DOM.
    */
-  class HTMLScriptsMaterial extends Material {
+  class HTMLScriptsMaterial extends MaterialBase {
     /**
      * Constructs a <code>Material</code> using scripts in a Document Object Model (DOM).
      * scriptIds: The id properties of the script elements. Defaults to [].
@@ -3193,28 +3205,28 @@ declare module EIGHT {
   /**
    *
    */
-  class PointMaterial extends Material {
+  class PointMaterial extends MaterialBase {
     constructor();
   }
 
   /**
    *
    */
-  class LineMaterial extends Material {
+  class LineMaterial extends MaterialBase {
     constructor();
   }
 
   /**
    *
    */
-  class MeshMaterial extends Material {
+  class MeshMaterial extends MaterialBase {
     constructor();
   }
 
   /**
    *
    */
-  class MeshNormalMaterial extends Material {
+  class MeshNormalMaterial extends MaterialBase {
     constructor();
   }
 
@@ -3261,10 +3273,10 @@ declare module EIGHT {
     color: Color;
     /**
      * Constructs a <code>DirectionalLight</code>.
-     * @param direction The initial direction.
-     * @param color The initial color.
+     * [direction = -e3] The initial direction.
+     * [color = white] The initial color.
      */
-    constructor(direction: VectorE3, color: IColor);
+    constructor(direction?: VectorE3, color?: IColor);
     /**
      * Sets the <code>direction</code> property by copying a vector.
      * The direction is normalized to be a unit vector.

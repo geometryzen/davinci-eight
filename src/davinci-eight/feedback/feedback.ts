@@ -3,7 +3,7 @@ import LocalizableMessage from '../i18n/LocalizableMessage';
 
 var feedback = {
   warn(message: LocalizableMessage) {
-    if (core.strict) {
+    if (core..strict) {
       throw new Error(message.message)
     }
     else {

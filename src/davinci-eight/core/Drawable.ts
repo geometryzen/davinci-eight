@@ -1,7 +1,7 @@
 import IContextProvider from '../core/IContextProvider';
 import mustBeBoolean from '../checks/mustBeBoolean'
 import Geometry from './Geometry';
-import IMaterial from '../core/IMaterial';
+import Material from '../core/Material';
 import ShareableContextListener from '../core/ShareableContextListener';
 import Facet from '../core/Facet';
 
@@ -25,10 +25,10 @@ export default class Drawable extends ShareableContextListener {
 
     /**
      * @property _material
-     * @type {IMaterial}
+     * @type {Material}
      * @private
      */
-    private _material: IMaterial
+    private _material: Material
 
     /**
      * @property name
@@ -54,9 +54,13 @@ export default class Drawable extends ShareableContextListener {
      * @class Drawable
      * @constructor
      * @param [type = 'Drawable'] {string}
+     * @param [geometry] {Geometry}
+     * @param [material] {Material}
      */
-    constructor(type = 'Drawable') {
+    constructor(type: string/* = 'Drawable'*/, geometry: Geometry, material: Material) {
         super(type)
+        this.geometry = geometry
+        this.material = material
         this._facets = {}
     }
 
@@ -166,7 +170,6 @@ export default class Drawable extends ShareableContextListener {
      *
      * @property geometry
      * @type {Geometry}
-     * @readOnly
      */
     get geometry(): Geometry {
         this._geometry.addRef()
@@ -180,7 +183,7 @@ export default class Drawable extends ShareableContextListener {
         if (geometry) {
             geometry.addRef()
             this._geometry = geometry
-            // TODO: How to synchronize the geometry with the context.
+            // TODO: Synchronize the geometry with the context.
         }
     }
 
@@ -188,13 +191,13 @@ export default class Drawable extends ShareableContextListener {
      * Provides a reference counted reference to the graphics program property.
      *
      * @property material
-     * @type {IMaterial}
+     * @type {Material}
      */
-    get material(): IMaterial {
+    get material(): Material {
         this._material.addRef()
         return this._material
     }
-    set material(material: IMaterial) {
+    set material(material: Material) {
         if (this._material) {
             this._material.release()
             this._material = void 0
@@ -202,7 +205,7 @@ export default class Drawable extends ShareableContextListener {
         if (material) {
             material.addRef()
             this._material = material
-            // TODO: How to synchronize the material with the context.
+            // TODO: Synchronize the material with the context.
         }
     }
 

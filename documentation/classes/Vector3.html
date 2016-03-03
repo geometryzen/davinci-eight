@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.204.0</em>
+            <em>API Docs for: 2.205.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -81,6 +81,7 @@
                                 <li><a href="../classes/DrawMode.html">DrawMode</a></li>
                                 <li><a href="../classes/Duality.html">Duality</a></li>
                                 <li><a href="../classes/EIGHTLogger.html">EIGHTLogger</a></li>
+                                <li><a href="../classes/ErrorMode.html">ErrorMode</a></li>
                                 <li><a href="../classes/Facet.html">Facet</a></li>
                                 <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
@@ -113,12 +114,12 @@
                                 <li><a href="../classes/IContextProvider.html">IContextProvider</a></li>
                                 <li><a href="../classes/IDrawable.html">IDrawable</a></li>
                                 <li><a href="../classes/IGeometric3RigidBody.html">IGeometric3RigidBody</a></li>
-                                <li><a href="../classes/IMaterial.html">IMaterial</a></li>
                                 <li><a href="../classes/IMesh.html">IMesh</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
                                 <li><a href="../classes/LineMaterialOptions.html">LineMaterialOptions</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
+                                <li><a href="../classes/MaterialBase.html">MaterialBase</a></li>
                                 <li><a href="../classes/Matrix2.html">Matrix2</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
                                 <li><a href="../classes/Matrix4.html">Matrix4</a></li>
@@ -203,7 +204,6 @@
                                 <li><a href="../classes/WebGLDisable.html">WebGLDisable</a></li>
                                 <li><a href="../classes/WebGLEnable.html">WebGLEnable</a></li>
                                 <li><a href="../classes/WebGLRenderer.html">WebGLRenderer</a></li>
-                                <li><a href="../classes/World.html">World</a></li>
                             </ul>
                 
                 
@@ -432,6 +432,11 @@
                             <li class="index-item method">
                                 <a href="#method_dual">dual</a>
 
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_isInstance">isInstance</a>
+
+                                    <span class="flag static">static</span>
                             </li>
                             <li class="index-item method">
                                 <a href="#method_lerp">lerp</a>
@@ -1653,7 +1658,7 @@ TODO: Used by TubeSimplexGeometry.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l676"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:676</code></a>
+        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l377"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:377</code></a>
         </p>
 
 
@@ -1661,10 +1666,11 @@ TODO: Used by TubeSimplexGeometry.</p>
     </div>
 
     <div class="description">
-        <p>Constructs a vector which is the dual of the supplied bivector, B.
-The convention used is dual(m) = I * m.
-If a sign change is desired from this convention,
-set the <code>changeSign</code> to <code>true</code>.</p>
+        <p>
+<code>this ⟼ I * B</code>
+</p>
+<p>Sets this vector to the dual of the bivector, B.
+If changeSign is <code>true</code>, the direction of the resulting vector is reversed.</p>
 
     </div>
 
@@ -1733,7 +1739,7 @@ set the <code>changeSign</code> to <code>true</code>.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l377"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:377</code></a>
+        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l676"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:676</code></a>
         </p>
 
 
@@ -1741,11 +1747,10 @@ set the <code>changeSign</code> to <code>true</code>.</p>
     </div>
 
     <div class="description">
-        <p>
-<code>this ⟼ I * B</code>
-</p>
-<p>Sets this vector to the dual of the bivector, B.
-If changeSign is <code>true</code>, the direction of the resulting vector is reversed.</p>
+        <p>Constructs a vector which is the dual of the supplied bivector, B.
+The convention used is dual(m) = I * m.
+If a sign change is desired from this convention,
+set the <code>changeSign</code> to <code>true</code>.</p>
 
     </div>
 
@@ -1781,6 +1786,69 @@ If changeSign is <code>true</code>, the direction of the resulting vector is rev
 
             <div class="returns-description">
                         <span class="type"><a href="../classes/Vector3.html" class="crosslink">Vector3</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_isInstance" class="method item">
+    <h3 class="name"><code>isInstance</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>x</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">Boolean</span>
+        </span>
+
+
+
+
+        <span class="flag static">static</span>
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l697"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:697</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">x</code>
+                        <span class="type">Any</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Boolean</span>:
             </div>
         </div>
 
@@ -1898,7 +1966,7 @@ If changeSign is <code>true</code>, the direction of the resulting vector is rev
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l697"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:697</code></a>
+        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l707"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:707</code></a>
         </p>
 
 
@@ -2280,7 +2348,7 @@ If changeSign is <code>true</code>, the direction of the resulting vector is rev
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l710"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:710</code></a>
+        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l720"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:720</code></a>
         </p>
 
 
@@ -3144,7 +3212,7 @@ If changeSign is <code>true</code>, the direction of the resulting vector is rev
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l720"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:720</code></a>
+        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l730"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:730</code></a>
         </p>
 
 
@@ -3264,7 +3332,7 @@ If changeSign is <code>true</code>, the direction of the resulting vector is rev
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l733"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:733</code></a>
+        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l743"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:743</code></a>
         </p>
 
 

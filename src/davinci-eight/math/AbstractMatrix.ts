@@ -11,11 +11,12 @@ import readOnly from '../i18n/readOnly';
 
 /**
  * Base class for matrices with the expectation that they will be used with WebGL.
- * The underlying data storage is Float32Array.
+ * The underlying data storage is a <code>Float32Array</code>.
  *
  * @class AbstractMatrix
  */
 export default class AbstractMatrix<T extends { elements: Float32Array }> implements MutableMatrix<Float32Array> {
+
     /**
      * @property _elements
      * @type {Float32Array}

@@ -1,12 +1,13 @@
-import Color from '../core/Color';
-import IColor from '../core/IColor';
-import Facet from '../core/Facet';
-import FacetVisitor from '../core/FacetVisitor';
-import mustBeObject from '../checks/mustBeObject';
-import mustBeString from '../checks/mustBeString';
-import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
-import Vector3 from '../math/Vector3';
-import VectorE3 from '../math/VectorE3';
+import Color from '../core/Color'
+import IColor from '../core/IColor'
+import Facet from '../core/Facet'
+import FacetVisitor from '../core/FacetVisitor'
+import mustBeObject from '../checks/mustBeObject'
+import mustBeString from '../checks/mustBeString'
+import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols'
+import R3 from '../math/R3'
+import Vector3 from '../math/Vector3'
+import VectorE3 from '../math/VectorE3'
 
 /**
  * @module EIGHT
@@ -16,135 +17,165 @@ import VectorE3 from '../math/VectorE3';
 const LOGGING_NAME = 'DirectionalLight'
 
 function contextBuilder() {
-    return LOGGING_NAME
+  return LOGGING_NAME
 }
 
 /**
  * @class DirectionalLight
  */
 export default class DirectionalLight implements Facet {
-    /**
-     * The name of the property that designates the color.
-     * @property PROP_COLOR
-     * @type {string}
-     * @default 'color'
-     * @static
-     * @readOnly
-     */
-    public static PROP_COLOR = 'color';
+  /**
+   * The name of the property that designates the color.
+   * @property PROP_COLOR
+   * @type {string}
+   * @default 'color'
+   * @static
+   * @readOnly
+   */
+  public static PROP_COLOR = 'color';
 
-    /**
-     * The name of the property that designates the direction.
-     * @property PROP_DIRECTION
-     * @type {string}
-     * @default 'direction'
-     * @static
-     * @readOnly
-     */
-    public static PROP_DIRECTION = 'direction';
+  /**
+   * The name of the property that designates the direction.
+   * @property PROP_DIRECTION
+   * @type {string}
+   * @default 'direction'
+   * @static
+   * @readOnly
+   */
+  public static PROP_DIRECTION = 'direction';
 
-    /**
-     * @property direction
-     * @type {Vector3}
-     */
-    public direction: Vector3;
+  /**
+   * @property _direction
+   * @type {Vector3}
+   * @private
+   */
+  private _direction: Vector3;
 
-    /**
-     * @property color
-     * @type {Color}
-     */
-    public color: Color;
+  /**
+   * @property _color
+   * @type {Color}
+   * @private
+   */
+  public _color: Color;
 
-    /**
-     * @class DirectionalLight
-     * @constructor
-     * @param direction {VectorE3}
-     * @param color {IColor}
-     */
-    constructor(direction: VectorE3, color: IColor) {
-        mustBeObject('direction', direction)
-        mustBeObject('color', color)
-        this.direction = Vector3.copy(direction).direction()
-        this.color = Color.copy(color)
+  /**
+   * @class DirectionalLight
+   * @constructor
+   * @param [direction = -e3] {VectorE3}
+   * @param [color = white] {IColor}
+   */
+  constructor(direction: VectorE3 = R3.e3.neg(), color: IColor = Color.white) {
+    mustBeObject('direction', direction)
+    mustBeObject('color', color)
+    this._direction = Vector3.copy(direction).direction()
+    this._color = Color.copy(color)
+  }
+
+  /**
+   * @property color
+   * @type {Color}
+   */
+  get color(): Color {
+    return this._color
+  }
+  set color(color: Color) {
+    this._color.copy(Color.mustBe('color', color))
+  }
+
+  /**
+   * @property direction
+   * @type {Vector3}
+   */
+  get direction(): Vector3 {
+    return this._direction
+  }
+  set direction(direction: Vector3) {
+    if (Vector3.isInstance(direction)) {
+      this._direction.copy(direction)
     }
-
-    /**
-     * @method getProperty
-     * @param name {string}
-     * @return {number[]}
-     */
-    getProperty(name: string): number[] {
-        mustBeString('name', name, contextBuilder)
-        switch (name) {
-            case DirectionalLight.PROP_COLOR: {
-                return this.color.coords;
-            }
-            case DirectionalLight.PROP_DIRECTION: {
-                return this.direction.coords
-            }
-            default: {
-                console.warn("unknown property: " + name);
-            }
-        }
+    else {
+      throw new Error(`${DirectionalLight.PROP_DIRECTION} must be a Vector3.`)
     }
+  }
 
-    /**
-     * @method setProperty
-     * @param name {string}
-     * @param value {number[]}
-     * @return {DirectionalLight}
-     */
-    setProperty(name: string, value: number[]): DirectionalLight {
-        mustBeString('name', name, contextBuilder);
-        mustBeObject('value', value, contextBuilder);
-        switch (name) {
-            case DirectionalLight.PROP_COLOR: {
-                this.color.coords = value;
-            }
-                break;
-            case DirectionalLight.PROP_DIRECTION: {
-                this.direction.coords = value;
-            }
-                break;
-            default: {
-                console.warn("unknown property: " + name)
-            }
-        }
-        return this;
+  /**
+   * @method getProperty
+   * @param name {string}
+   * @return {number[]}
+   */
+  getProperty(name: string): number[] {
+    mustBeString('name', name, contextBuilder)
+    switch (name) {
+      case DirectionalLight.PROP_COLOR: {
+        return this._color.coords;
+      }
+      case DirectionalLight.PROP_DIRECTION: {
+        return this._direction.coords
+      }
+      default: {
+        console.warn("unknown property: " + name);
+      }
     }
+  }
 
-    /**
-     * @method setColor
-     * @param color {IColor}
-     * @return {DirectionalLight}
-     * @chainable
-     */
-    setColor(color: IColor): DirectionalLight {
-        mustBeObject('color', color)
-        this.color.copy(color)
-        return this
+  /**
+   * @method setProperty
+   * @param name {string}
+   * @param value {number[]}
+   * @return {DirectionalLight}
+   * @chainable
+   */
+  setProperty(name: string, value: number[]): DirectionalLight {
+    mustBeString('name', name, contextBuilder);
+    mustBeObject('value', value, contextBuilder);
+    switch (name) {
+      case DirectionalLight.PROP_COLOR: {
+        this._color.coords = value;
+      }
+        break;
+      case DirectionalLight.PROP_DIRECTION: {
+        this._direction.coords = value;
+      }
+        break;
+      default: {
+        console.warn("unknown property: " + name)
+      }
     }
+    return this;
+  }
 
-    /**
-     * @method setDirection
-     * @param direction {VectorE3}
-     * @return {DirectionalLight}
-     * @chainable
-     */
-    setDirection(direction: VectorE3): DirectionalLight {
-        mustBeObject('direction', direction)
-        this.direction.copy(direction).direction()
-        return this
-    }
+  /**
+   * @method setColor
+   * @param color {IColor}
+   * @return {DirectionalLight}
+   * @chainable
+   */
+  setColor(color: IColor): DirectionalLight {
+    mustBeObject('color', color)
+    this._color.copy(color)
+    return this
+  }
 
-    /**
-     * @method setUniforms
-     * @param visitor {FacetVisitor}
-     * @return {void}
-     */
-    setUniforms(visitor: FacetVisitor): void {
-        visitor.vector3(GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION, this.direction.coords)
-        var coords = [this.color.r, this.color.g, this.color.b]
-        visitor.vector3(GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_COLOR, coords)
-    }
+  /**
+   * @method setDirection
+   * @param direction {VectorE3}
+   * @return {DirectionalLight}
+   * @chainable
+   */
+  setDirection(direction: VectorE3): DirectionalLight {
+    mustBeObject('direction', direction)
+    this._direction.copy(direction).direction()
+    return this
+  }
+
+  /**
+   * @method setUniforms
+   * @param visitor {FacetVisitor}
+   * @return {void}
+   */
+  setUniforms(visitor: FacetVisitor): void {
+    visitor.vector3(GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION, this._direction.coords)
+    const rgb = [this._color.r, this._color.g, this._color.b]
+    visitor.vector3(GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_COLOR, rgb)
+  }
 }

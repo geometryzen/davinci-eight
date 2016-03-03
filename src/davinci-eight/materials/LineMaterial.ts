@@ -2,7 +2,7 @@ import GraphicsProgramBuilder from '../materials/GraphicsProgramBuilder'
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols'
 import isDefined from '../checks/isDefined'
 import LineMaterialOptions from './LineMaterialOptions'
-import Material from '../core/Material'
+import MaterialBase from './MaterialBase'
 import mustBeObject from '../checks/mustBeObject'
 
 /**
@@ -66,9 +66,9 @@ function fragmentShader(options?: LineMaterialOptions): string {
  * </table>
  *
  * @class LineMaterial
- * @extends Material
+ * @extends MaterialBase
  */
-export default class LineMaterial extends Material {
+export default class LineMaterial extends MaterialBase {
   /**
    * @class LineMaterial
    * @constructor

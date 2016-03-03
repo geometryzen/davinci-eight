@@ -1,5 +1,5 @@
 import IContextConsumer from './IContextConsumer'
-import IMaterial from './IMaterial'
+import Material from './Material'
 import Matrix4 from '../math/Matrix4'
 import VertexArrays from './VertexArrays'
 
@@ -52,10 +52,10 @@ interface Geometry extends IContextConsumer {
 
     /**
      * @method draw
-     * @param material {IMaterial}
+     * @param material {Material}
      * @return {void}
      */
-    draw(material: IMaterial): void
+    draw(material: Material): void
 
     /**
      * @method isLeaf

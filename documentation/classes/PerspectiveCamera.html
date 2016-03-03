@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.204.0</em>
+            <em>API Docs for: 2.205.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -81,6 +81,7 @@
                                 <li><a href="../classes/DrawMode.html">DrawMode</a></li>
                                 <li><a href="../classes/Duality.html">Duality</a></li>
                                 <li><a href="../classes/EIGHTLogger.html">EIGHTLogger</a></li>
+                                <li><a href="../classes/ErrorMode.html">ErrorMode</a></li>
                                 <li><a href="../classes/Facet.html">Facet</a></li>
                                 <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
@@ -113,12 +114,12 @@
                                 <li><a href="../classes/IContextProvider.html">IContextProvider</a></li>
                                 <li><a href="../classes/IDrawable.html">IDrawable</a></li>
                                 <li><a href="../classes/IGeometric3RigidBody.html">IGeometric3RigidBody</a></li>
-                                <li><a href="../classes/IMaterial.html">IMaterial</a></li>
                                 <li><a href="../classes/IMesh.html">IMesh</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
                                 <li><a href="../classes/LineMaterialOptions.html">LineMaterialOptions</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
+                                <li><a href="../classes/MaterialBase.html">MaterialBase</a></li>
                                 <li><a href="../classes/Matrix2.html">Matrix2</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
                                 <li><a href="../classes/Matrix4.html">Matrix4</a></li>
@@ -203,7 +204,6 @@
                                 <li><a href="../classes/WebGLDisable.html">WebGLDisable</a></li>
                                 <li><a href="../classes/WebGLEnable.html">WebGLEnable</a></li>
                                 <li><a href="../classes/WebGLRenderer.html">WebGLRenderer</a></li>
-                                <li><a href="../classes/World.html">World</a></li>
                             </ul>
                 
                 
@@ -253,9 +253,12 @@
 <h1>PerspectiveCamera Class</h1>
 <div class="box meta">
 
+        <div class="extends">
+            Extends <a href="../classes/Facet.html" class="crosslink">Facet</a>
+        </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_facets_PerspectiveCamera.ts.html#l51"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;PerspectiveCamera.ts:51</code></a>
+            Defined in: <a href="../files/src_davinci-eight_facets_PerspectiveCamera.ts.html#l77"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;PerspectiveCamera.ts:77</code></a>
         </div>
 
             Module: <a href="../modules/facets.html">facets</a><br>
@@ -265,7 +268,15 @@
 
 
 <div class="box intro">
-    
+    <p>
+The <code>PerspectiveCamera</code> provides projection matrix and view matrix uniforms to the
+current <code>Material</code>.
+</p>
+<p>
+The <code>PerspectiveCamera</code> plays the role of a host in the <em>Visitor</em> pattern.
+The <code>FacetVistor</code> will normally be a <code>Material</code> implementation. The  accepting
+method is called <code>setUniforms</code>.
+<p>
 </div>
 
     <div class="constructor">
@@ -300,7 +311,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_facets_PerspectiveCamera.ts.html#l51"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;PerspectiveCamera.ts:51</code></a>
+        <a href="../files/src_davinci-eight_facets_PerspectiveCamera.ts.html#l77"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;PerspectiveCamera.ts:77</code></a>
         </p>
 
 
@@ -322,7 +333,8 @@
 
 
                     <div class="param-description">
-                         
+                        <p>The field of view.</p>
+
                     </div>
 
                 </li>
@@ -333,7 +345,8 @@
 
 
                     <div class="param-description">
-                         
+                        <p>The aspect is the ratio width / height.</p>
+
                     </div>
 
                 </li>
@@ -344,7 +357,8 @@
 
 
                     <div class="param-description">
-                         
+                        <p>The distance of the near plane from the camera.</p>
+
                     </div>
 
                 </li>
@@ -355,7 +369,8 @@
 
 
                     <div class="param-description">
-                         
+                        <p>The distance of the far plane from the camera.</p>
+
                     </div>
 
                 </li>
@@ -368,9 +383,16 @@
             <h4>Example:</h4>
 
             <div class="example-content">
-                <p>var camera = new EIGHT.PerspectiveCamera()
-camera.setAspect(canvas.clientWidth / canvas.clientHeight)
-camera.setFov(3.0 * e3)</p>
+                <pre class="code prettyprint"><code>const ambients: Facet[] = []
+
+const camera = new EIGHT.PerspectiveCamera()
+camera.aspect = canvas.clientWidth / canvas.clientHeight
+camera.position = Vector3.copy(R3.e3)
+ambients.push(camera)
+
+scene.draw(ambients)
+</code></pre>
+<p>The camera is initially positioned at 10 * e3</p>
 
             </div>
         </div>
@@ -392,7 +414,7 @@ camera.setFov(3.0 * e3)</p>
                 <div class="index-section methods">
                     <h3>Methods</h3>
 
-                    <ul class="index-list methods">
+                    <ul class="index-list methods extends">
                             <li class="index-item method">
                                 <a href="#method_getProperty">getProperty</a>
 
@@ -413,11 +435,11 @@ camera.setFov(3.0 * e3)</p>
                                 <a href="#method_setNear">setNear</a>
 
                             </li>
-                            <li class="index-item method">
+                            <li class="index-item method inherited">
                                 <a href="#method_setProperty">setProperty</a>
 
                             </li>
-                            <li class="index-item method">
+                            <li class="index-item method inherited">
                                 <a href="#method_setUniforms">setUniforms</a>
 
                             </li>
@@ -427,7 +449,7 @@ camera.setFov(3.0 * e3)</p>
                 <div class="index-section properties">
                     <h3>Properties</h3>
 
-                    <ul class="index-list properties">
+                    <ul class="index-list properties extends">
                             <li class="index-item property">
                                 <a href="#property_aspect">aspect</a>
 
@@ -498,7 +520,7 @@ camera.setFov(3.0 * e3)</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_facets_PerspectiveCamera.ts.html#l91"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;PerspectiveCamera.ts:91</code></a>
+        <a href="../files/src_davinci-eight_facets_PerspectiveCamera.ts.html#l117"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;PerspectiveCamera.ts:117</code></a>
         </p>
 
 
@@ -561,7 +583,7 @@ camera.setFov(3.0 * e3)</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_facets_PerspectiveCamera.ts.html#l143"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;PerspectiveCamera.ts:143</code></a>
+        <a href="../files/src_davinci-eight_facets_PerspectiveCamera.ts.html#l169"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;PerspectiveCamera.ts:169</code></a>
         </p>
 
 
@@ -594,8 +616,6 @@ camera.setFov(3.0 * e3)</p>
 
             <div class="returns-description">
                         <span class="type"><a href="../classes/PerspectiveCamera.html" class="crosslink">PerspectiveCamera</a></span>:
-                    <p><code>this</code> instance without incrementing the reference count.</p>
-
             </div>
         </div>
 
@@ -608,71 +628,6 @@ camera.setFov(3.0 * e3)</p>
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
                         <code>eye</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/PerspectiveCamera.html" class="crosslink">PerspectiveCamera</a></span>
-        </span>
-
-
-
-
-
-        <span class="flag chainable">chainable</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_facets_PerspectiveCamera.ts.html#l180"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;PerspectiveCamera.ts:180</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">eye</code>
-                        <span class="type"><a href="../classes/VectorE3.html" class="crosslink">VectorE3</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/PerspectiveCamera.html" class="crosslink">PerspectiveCamera</a></span>:
-                    <p><code>this</code> instance without incrementing the reference count.</p>
-
-            </div>
-        </div>
-
-
-</div>
-<div id="method_setFov" class="method item">
-    <h3 class="name"><code>setFov</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>fov</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
@@ -707,6 +662,69 @@ camera.setFov(3.0 * e3)</p>
 
             <ul class="params-list">
                 <li class="param">
+                        <code class="param-name">eye</code>
+                        <span class="type"><a href="../classes/VectorE3.html" class="crosslink">VectorE3</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/PerspectiveCamera.html" class="crosslink">PerspectiveCamera</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_setFov" class="method item">
+    <h3 class="name"><code>setFov</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>fov</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/PerspectiveCamera.html" class="crosslink">PerspectiveCamera</a></span>
+        </span>
+
+
+
+
+
+        <span class="flag chainable">chainable</span>
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_facets_PerspectiveCamera.ts.html#l230"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;PerspectiveCamera.ts:230</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
                         <code class="param-name">fov</code>
                         <span class="type">Number</span>
 
@@ -724,8 +742,6 @@ camera.setFov(3.0 * e3)</p>
 
             <div class="returns-description">
                         <span class="type"><a href="../classes/PerspectiveCamera.html" class="crosslink">PerspectiveCamera</a></span>:
-                    <p><code>this</code> instance without incrementing the reference count.</p>
-
             </div>
         </div>
 
@@ -756,7 +772,7 @@ camera.setFov(3.0 * e3)</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_facets_PerspectiveCamera.ts.html#l238"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;PerspectiveCamera.ts:238</code></a>
+        <a href="../files/src_davinci-eight_facets_PerspectiveCamera.ts.html#l263"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;PerspectiveCamera.ts:263</code></a>
         </p>
 
 
@@ -789,7 +805,6 @@ camera.setFov(3.0 * e3)</p>
 
             <div class="returns-description">
                         <span class="type"><a href="../classes/PerspectiveCamera.html" class="crosslink">PerspectiveCamera</a></span>:
-                    <p><code>this</code> instance, <em>without incrementing the reference count</em>.</p>
             </div>
         </div>
 
@@ -821,9 +836,12 @@ camera.setFov(3.0 * e3)</p>
 
 
     <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_facets_PerspectiveCamera.ts.html#l110"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;PerspectiveCamera.ts:110</code></a>
+            <p>Inherited from
+            <a href="../classes/Facet.html#method_setProperty">
+                Facet
+            </a>
+            but overwritten in
+        <a href="../files/src_davinci-eight_facets_PerspectiveCamera.ts.html#l135"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;PerspectiveCamera.ts:135</code></a>
         </p>
 
 
@@ -893,9 +911,12 @@ camera.setFov(3.0 * e3)</p>
 
 
     <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_facets_PerspectiveCamera.ts.html#l80"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;PerspectiveCamera.ts:80</code></a>
+            <p>Inherited from
+            <a href="../classes/Facet.html#method_setUniforms">
+                Facet
+            </a>
+            but overwritten in
+        <a href="../files/src_davinci-eight_facets_PerspectiveCamera.ts.html#l105"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;PerspectiveCamera.ts:105</code></a>
         </p>
 
 
@@ -949,7 +970,7 @@ camera.setFov(3.0 * e3)</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_facets_PerspectiveCamera.ts.html#l133"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;PerspectiveCamera.ts:133</code></a>
+        <a href="../files/src_davinci-eight_facets_PerspectiveCamera.ts.html#l158"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;PerspectiveCamera.ts:158</code></a>
         </p>
 
 
@@ -974,7 +995,7 @@ camera.setFov(3.0 * e3)</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_facets_PerspectiveCamera.ts.html#l154"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;PerspectiveCamera.ts:154</code></a>
+        <a href="../files/src_davinci-eight_facets_PerspectiveCamera.ts.html#l180"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;PerspectiveCamera.ts:180</code></a>
         </p>
 
 
@@ -999,7 +1020,7 @@ camera.setFov(3.0 * e3)</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_facets_PerspectiveCamera.ts.html#l191"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;PerspectiveCamera.ts:191</code></a>
+        <a href="../files/src_davinci-eight_facets_PerspectiveCamera.ts.html#l216"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;PerspectiveCamera.ts:216</code></a>
         </p>
 
 
@@ -1026,7 +1047,7 @@ Measured in radians.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_facets_PerspectiveCamera.ts.html#l44"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;PerspectiveCamera.ts:44</code></a>
+        <a href="../files/src_davinci-eight_facets_PerspectiveCamera.ts.html#l70"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;PerspectiveCamera.ts:70</code></a>
         </p>
 
 
@@ -1050,7 +1071,7 @@ Measured in radians.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_facets_PerspectiveCamera.ts.html#l37"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;PerspectiveCamera.ts:37</code></a>
+        <a href="../files/src_davinci-eight_facets_PerspectiveCamera.ts.html#l64"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;PerspectiveCamera.ts:64</code></a>
         </p>
 
 
@@ -1074,7 +1095,7 @@ Measured in radians.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_facets_PerspectiveCamera.ts.html#l225"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;PerspectiveCamera.ts:225</code></a>
+        <a href="../files/src_davinci-eight_facets_PerspectiveCamera.ts.html#l250"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;PerspectiveCamera.ts:250</code></a>
         </p>
 
 
@@ -1099,7 +1120,7 @@ Measured in radians.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_facets_PerspectiveCamera.ts.html#l167"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;PerspectiveCamera.ts:167</code></a>
+        <a href="../files/src_davinci-eight_facets_PerspectiveCamera.ts.html#l192"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;PerspectiveCamera.ts:192</code></a>
         </p>
 
 
@@ -1125,7 +1146,7 @@ Measured in radians.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_facets_PerspectiveCamera.ts.html#l26"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;PerspectiveCamera.ts:26</code></a>
+        <a href="../files/src_davinci-eight_facets_PerspectiveCamera.ts.html#l52"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;PerspectiveCamera.ts:52</code></a>
         </p>
 
 
@@ -1151,7 +1172,7 @@ Measured in radians.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_facets_PerspectiveCamera.ts.html#l280"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;PerspectiveCamera.ts:280</code></a>
+        <a href="../files/src_davinci-eight_facets_PerspectiveCamera.ts.html#l305"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;PerspectiveCamera.ts:305</code></a>
         </p>
 
 

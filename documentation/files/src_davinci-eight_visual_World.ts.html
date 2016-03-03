@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.204.0</em>
+            <em>API Docs for: 2.205.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -81,6 +81,7 @@
                                 <li><a href="../classes/DrawMode.html">DrawMode</a></li>
                                 <li><a href="../classes/Duality.html">Duality</a></li>
                                 <li><a href="../classes/EIGHTLogger.html">EIGHTLogger</a></li>
+                                <li><a href="../classes/ErrorMode.html">ErrorMode</a></li>
                                 <li><a href="../classes/Facet.html">Facet</a></li>
                                 <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
@@ -113,12 +114,12 @@
                                 <li><a href="../classes/IContextProvider.html">IContextProvider</a></li>
                                 <li><a href="../classes/IDrawable.html">IDrawable</a></li>
                                 <li><a href="../classes/IGeometric3RigidBody.html">IGeometric3RigidBody</a></li>
-                                <li><a href="../classes/IMaterial.html">IMaterial</a></li>
                                 <li><a href="../classes/IMesh.html">IMesh</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
                                 <li><a href="../classes/LineMaterialOptions.html">LineMaterialOptions</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
+                                <li><a href="../classes/MaterialBase.html">MaterialBase</a></li>
                                 <li><a href="../classes/Matrix2.html">Matrix2</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
                                 <li><a href="../classes/Matrix4.html">Matrix4</a></li>
@@ -203,7 +204,6 @@
                                 <li><a href="../classes/WebGLDisable.html">WebGLDisable</a></li>
                                 <li><a href="../classes/WebGLEnable.html">WebGLEnable</a></li>
                                 <li><a href="../classes/WebGLRenderer.html">WebGLRenderer</a></li>
-                                <li><a href="../classes/World.html">World</a></li>
                             </ul>
                 
                 
@@ -265,13 +265,8 @@ import Shareable from &#x27;../core/Shareable&#x27;
 import WebGLRenderer from &#x27;../core/WebGLRenderer&#x27;
 
 /**
- * @module EIGHT
- * @submodule visual
- */
-
-/**
- * @class World
- * @extends Shareable
+ * Intentionally undocumented.
+ * The concept of creating a quick setup violates the Explicit over Implicit principle.
  */
 export default class World extends Shareable {
     private drawList: DrawList
@@ -279,17 +274,8 @@ export default class World extends Shareable {
     private _ambients: Facet[]
     private _controls: CameraControls
 
-    /**
-     * @property _ambientLight
-     * @type AmbientLight
-     * @private
-     */
     private _ambientLight = new AmbientLight(Color.fromRGB(0.3, 0.3, 0.3))
 
-    /**
-     * @class World
-     * @constructor
-     */
     constructor(renderer: WebGLRenderer, drawList: DrawList, ambients: Facet[], controls: CameraControls) {
         super(&#x27;World&#x27;)
 
@@ -308,11 +294,6 @@ export default class World extends Shareable {
         this._controls = controls
     }
 
-    /**
-     * @method destructor
-     * @return {void}
-     * @protected
-     */
     destructor(): void {
         this.controls.release()
         this.drawList.unsubscribe()
@@ -321,11 +302,6 @@ export default class World extends Shareable {
         super.destructor()
     }
 
-    /**
-     * @property ambients
-     * @type Facet[]
-     * @readOnly
-     */
     get ambients(): Facet[] {
         return this._ambients;
     }
@@ -333,10 +309,6 @@ export default class World extends Shareable {
         throw new Error(readOnly(&#x27;ambients&#x27;).message)
     }
 
-    /**
-     * @property ambientLight
-     * @type AmbientLight
-     */
     get ambientLight(): AmbientLight {
         return this._ambientLight;
     }
@@ -344,11 +316,6 @@ export default class World extends Shareable {
         throw new Error(readOnly(&#x27;ambientLight&#x27;).message)
     }
 
-    /**
-     * @property canvas
-     * @type HTMLCanvasElement
-     * @readOnly
-     */
     get canvas(): HTMLCanvasElement {
         return this.renderer.canvas
     }
@@ -356,11 +323,6 @@ export default class World extends Shareable {
         throw new Error(readOnly(&#x27;canvas&#x27;).message)
     }
 
-    /**
-     * @property controls
-     * @type CameraControls
-     * @readOnly
-     */
     get controls(): CameraControls {
         return this._controls;
     }
@@ -368,11 +330,6 @@ export default class World extends Shareable {
         throw new Error(readOnly(&#x27;controls&#x27;).message)
     }
 
-    /**
-     * @method add
-     * @param drawable {IDrawable}
-     * @return {void}
-     */
     add(drawable: IDrawable): void {
         this.drawList.add(drawable)
     }

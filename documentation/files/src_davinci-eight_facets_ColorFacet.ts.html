@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.204.0</em>
+            <em>API Docs for: 2.205.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -81,6 +81,7 @@
                                 <li><a href="../classes/DrawMode.html">DrawMode</a></li>
                                 <li><a href="../classes/Duality.html">Duality</a></li>
                                 <li><a href="../classes/EIGHTLogger.html">EIGHTLogger</a></li>
+                                <li><a href="../classes/ErrorMode.html">ErrorMode</a></li>
                                 <li><a href="../classes/Facet.html">Facet</a></li>
                                 <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
@@ -113,12 +114,12 @@
                                 <li><a href="../classes/IContextProvider.html">IContextProvider</a></li>
                                 <li><a href="../classes/IDrawable.html">IDrawable</a></li>
                                 <li><a href="../classes/IGeometric3RigidBody.html">IGeometric3RigidBody</a></li>
-                                <li><a href="../classes/IMaterial.html">IMaterial</a></li>
                                 <li><a href="../classes/IMesh.html">IMesh</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
                                 <li><a href="../classes/LineMaterialOptions.html">LineMaterialOptions</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
+                                <li><a href="../classes/MaterialBase.html">MaterialBase</a></li>
                                 <li><a href="../classes/Matrix2.html">Matrix2</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
                                 <li><a href="../classes/Matrix4.html">Matrix4</a></li>
@@ -203,7 +204,6 @@
                                 <li><a href="../classes/WebGLDisable.html">WebGLDisable</a></li>
                                 <li><a href="../classes/WebGLEnable.html">WebGLEnable</a></li>
                                 <li><a href="../classes/WebGLRenderer.html">WebGLRenderer</a></li>
-                                <li><a href="../classes/World.html">World</a></li>
                             </ul>
                 
                 
@@ -271,213 +271,208 @@ const COORD_G = 1
 const COORD_B = 2
 
 function checkPropertyName(name: string): void {
-    if (typeof name !== &#x27;string&#x27;) {
-        const msg = &quot;ColorFacet property &#x27;name&#x27; must be a string.&quot;;
-        if (core.strict) {
-            throw new TypeError(msg);
-        }
-        else {
-            console.warn(msg);
-        }
+  if (typeof name !== &#x27;string&#x27;) {
+    const msg = &quot;ColorFacet property &#x27;name&#x27; must be a string.&quot;;
+    throw new TypeError(msg);
+  }
+  switch (name) {
+    case ColorFacet.PROP_RGB: return;
+    default: {
+      const msg = &#x60;ColorFacet property &#x27;name&#x27; must be one of ${[ColorFacet.PROP_RGB, ColorFacet.PROP_RED, ColorFacet.PROP_GREEN, ColorFacet.PROP_BLUE]}.&#x60;;
+      if (core.strict) {
+        throw new Error(msg);
+      }
+      else {
+        console.warn(msg);
+      }
     }
-    switch (name) {
-        case ColorFacet.PROP_RGB: return;
-        default: {
-            const msg = &#x60;ColorFacet property &#x27;name&#x27; must be one of ${[ColorFacet.PROP_RGB, ColorFacet.PROP_RED, ColorFacet.PROP_GREEN, ColorFacet.PROP_BLUE]}.&#x60;;
-            if (core.strict) {
-                throw new Error(msg);
-            }
-            else {
-                console.warn(msg);
-            }
-        }
-    }
+  }
 }
 
 /**
  * @class ColorFacet
  */
 export default class ColorFacet implements Facet {
-    /**
-     * property PROP_RGB
-     * @type {string}
-     * @static
-     */
-    public static PROP_RGB = &#x27;rgb&#x27;;
+  /**
+   * property PROP_RGB
+   * @type {string}
+   * @static
+   */
+  public static PROP_RGB = &#x27;rgb&#x27;;
 
-    /**
-     * property PROP_RED
-     * @type {string}
-     * @static
-     */
-    public static PROP_RED = &#x27;r&#x27;;
+  /**
+   * property PROP_RED
+   * @type {string}
+   * @static
+   */
+  public static PROP_RED = &#x27;r&#x27;;
 
-    /**
-     * property PROP_GREEN
-     * @type {string}
-     * @static
-     */
-    public static PROP_GREEN = &#x27;g&#x27;;
+  /**
+   * property PROP_GREEN
+   * @type {string}
+   * @static
+   */
+  public static PROP_GREEN = &#x27;g&#x27;;
 
-    /**
-     * property PROP_BLUE
-     * @type {string}
-     * @static
-     */
-    public static PROP_BLUE = &#x27;b&#x27;;
+  /**
+   * property PROP_BLUE
+   * @type {string}
+   * @static
+   */
+  public static PROP_BLUE = &#x27;b&#x27;;
 
-    /**
-     * @property color
-     * @type {Color}
-     * @public
-     */
-    public color = Color.fromRGB(1, 1, 1);
+  /**
+   * @property color
+   * @type {Color}
+   * @public
+   */
+  public color = Color.fromRGB(1, 1, 1);
 
-    /**
-     * @property uColorName
-     * @type {string}
-     * @optional
-     */
-    public uColorName: string;
+  /**
+   * @property uColorName
+   * @type {string}
+   * @optional
+   */
+  public uColorName: string;
 
-    /**
-     * @class ColorFacet
-     * @constructor
-     */
-    constructor() {
-        this.uColorName = GraphicsProgramSymbols.UNIFORM_COLOR
+  /**
+   * @class ColorFacet
+   * @constructor
+   */
+  constructor() {
+    this.uColorName = GraphicsProgramSymbols.UNIFORM_COLOR
+  }
+
+  /**
+   * The red component of the color.
+   * @property r
+   * @type {number}
+   */
+  get r(): number {
+    return this.color.r;
+  }
+  set r(red: number) {
+    mustBeNumber(&#x27;red&#x27;, red);
+    this.color.r = red;
+  }
+
+  /**
+   * The green component of the color.
+   * @property g
+   * @type {number}
+   */
+  get g(): number {
+    return this.color.g
+  }
+  set g(green: number) {
+    mustBeNumber(&#x27;green&#x27;, green);
+    this.color.g = green;
+  }
+
+  /**
+   * The blue component of the color.
+   * @property b
+   * @type {number}
+   */
+  get b(): number {
+    return this.color.b;
+  }
+  set b(blue: number) {
+    mustBeNumber(&#x27;blue&#x27;, blue);
+    this.color.b = blue;
+  }
+
+  /**
+   * @method scaleRGB
+   * @param α {number}
+   * @return {ColorFacet}
+   * @chainable
+   */
+  scaleRGB(α: number): ColorFacet {
+    this.r *= α
+    this.g *= α
+    this.b *= α
+    return this
+  }
+
+  /**
+   * @method setRGB
+   * @param red {number}
+   * @param green {number}
+   * @param blue {number}
+   * @return {ColorFacet}
+   * @chainable
+   */
+  setRGB(red: number, green: number, blue: number): ColorFacet {
+    this.r = red
+    this.g = green
+    this.b = blue
+    return this
+  }
+
+  /**
+   * @method getProperty
+   * @param name {string}
+   * @return {number[]}
+   */
+  getProperty(name: string): number[] {
+    checkPropertyName(name);
+    switch (name) {
+      case ColorFacet.PROP_RGB: {
+        return [this.r, this.g, this.b]
+      }
+        break;
+      case ColorFacet.PROP_RED: {
+        return [this.r]
+      }
+        break;
+      case ColorFacet.PROP_GREEN: {
+        return [this.g]
+      }
+        break;
+      default: {
+        return void 0
+      }
     }
+  }
 
-    /**
-     * The red component of the color.
-     * @property r
-     * @type {number}
-     */
-    get r(): number {
-        return this.color.r;
+  /**
+   * @method setProperty
+   * @param name {string}
+   * @param data {number[]}
+   * @return {ColorFacet}
+   * @chainable
+   */
+  setProperty(name: string, data: number[]): ColorFacet {
+    checkPropertyName(name);
+    switch (name) {
+      case ColorFacet.PROP_RGB: {
+        this.r = data[COORD_R]
+        this.g = data[COORD_G]
+        this.b = data[COORD_B]
+      }
+        break;
+      case ColorFacet.PROP_RED: {
+        this.r = data[COORD_R]
+      }
+        break;
+      default: {
+        // Do nothing.
+      }
     }
-    set r(red: number) {
-        mustBeNumber(&#x27;red&#x27;, red);
-        this.color.r = red;
-    }
+    return this;
+  }
 
-    /**
-     * The green component of the color.
-     * @property g
-     * @type {number}
-     */
-    get g(): number {
-        return this.color.g
+  /**
+   * @method setUniforms
+   * @param visitor {FacetVisitor}
+   * @return {void}
+   */
+  setUniforms(visitor: FacetVisitor): void {
+    if (this.uColorName) {
+      visitor.vector3(this.uColorName, this.color.coords)
     }
-    set g(green: number) {
-        mustBeNumber(&#x27;green&#x27;, green);
-        this.color.g = green;
-    }
-
-    /**
-     * The blue component of the color.
-     * @property b
-     * @type {number}
-     */
-    get b(): number {
-        return this.color.b;
-    }
-    set b(blue: number) {
-        mustBeNumber(&#x27;blue&#x27;, blue);
-        this.color.b = blue;
-    }
-
-    /**
-     * @method scaleRGB
-     * @param α {number}
-     * @return {ColorFacet}
-     * @chainable
-     */
-    scaleRGB(α: number): ColorFacet {
-        this.r *= α
-        this.g *= α
-        this.b *= α
-        return this
-    }
-
-    /**
-     * @method setRGB
-     * @param red {number}
-     * @param green {number}
-     * @param blue {number}
-     * @return {ColorFacet}
-     * @chainable
-     */
-    setRGB(red: number, green: number, blue: number): ColorFacet {
-        this.r = red
-        this.g = green
-        this.b = blue
-        return this
-    }
-
-    /**
-     * @method getProperty
-     * @param name {string}
-     * @return {number[]}
-     */
-    getProperty(name: string): number[] {
-        checkPropertyName(name);
-        switch (name) {
-            case ColorFacet.PROP_RGB: {
-                return [this.r, this.g, this.b]
-            }
-                break;
-            case ColorFacet.PROP_RED: {
-                return [this.r]
-            }
-                break;
-            case ColorFacet.PROP_GREEN: {
-                return [this.g]
-            }
-                break;
-            default: {
-                return void 0
-            }
-        }
-    }
-
-    /**
-     * @method setProperty
-     * @param name {string}
-     * @param data {number[]}
-     * @return {ColorFacet}
-     * @chainable
-     */
-    setProperty(name: string, data: number[]): ColorFacet {
-        checkPropertyName(name);
-        switch (name) {
-            case ColorFacet.PROP_RGB: {
-                this.r = data[COORD_R]
-                this.g = data[COORD_G]
-                this.b = data[COORD_B]
-            }
-                break;
-            case ColorFacet.PROP_RED: {
-                this.r = data[COORD_R]
-            }
-                break;
-            default: {
-                // Do nothing.
-            }
-        }
-        return this;
-    }
-
-    /**
-     * @method setUniforms
-     * @param visitor {FacetVisitor}
-     * @return {void}
-     */
-    setUniforms(visitor: FacetVisitor): void {
-        if (this.uColorName) {
-            visitor.vector3(this.uColorName, this.color.coords)
-        }
-    }
+  }
 }
 
     </pre>

@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.204.0</em>
+            <em>API Docs for: 2.205.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -81,6 +81,7 @@
                                 <li><a href="../classes/DrawMode.html">DrawMode</a></li>
                                 <li><a href="../classes/Duality.html">Duality</a></li>
                                 <li><a href="../classes/EIGHTLogger.html">EIGHTLogger</a></li>
+                                <li><a href="../classes/ErrorMode.html">ErrorMode</a></li>
                                 <li><a href="../classes/Facet.html">Facet</a></li>
                                 <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
@@ -113,12 +114,12 @@
                                 <li><a href="../classes/IContextProvider.html">IContextProvider</a></li>
                                 <li><a href="../classes/IDrawable.html">IDrawable</a></li>
                                 <li><a href="../classes/IGeometric3RigidBody.html">IGeometric3RigidBody</a></li>
-                                <li><a href="../classes/IMaterial.html">IMaterial</a></li>
                                 <li><a href="../classes/IMesh.html">IMesh</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
                                 <li><a href="../classes/LineMaterialOptions.html">LineMaterialOptions</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
+                                <li><a href="../classes/MaterialBase.html">MaterialBase</a></li>
                                 <li><a href="../classes/Matrix2.html">Matrix2</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
                                 <li><a href="../classes/Matrix4.html">Matrix4</a></li>
@@ -203,7 +204,6 @@
                                 <li><a href="../classes/WebGLDisable.html">WebGLDisable</a></li>
                                 <li><a href="../classes/WebGLEnable.html">WebGLEnable</a></li>
                                 <li><a href="../classes/WebGLRenderer.html">WebGLRenderer</a></li>
-                                <li><a href="../classes/World.html">World</a></li>
                             </ul>
                 
                 
@@ -285,7 +285,7 @@ const BASIS_LABELS = [&#x27;e1&#x27;, &#x27;e2&#x27;, &#x27;e3&#x27;]
  * Coordinates corresponding to basis labels.
  */
 function coordinates(m: VectorE3): number[] {
-    return [m.x, m.y, m.z]
+  return [m.x, m.y, m.z]
 }
 
 /**
@@ -294,707 +294,717 @@ function coordinates(m: VectorE3): number[] {
  */
 export default class Vector3 extends Coords implements ColumnVector&lt;Matrix3, Vector3&gt;, VectorE3, MutableLinearElement&lt;VectorE3, Vector3, SpinorE3, VectorE3&gt; {
 
-    /**
-     * @method dot
-     * @param a {VectorE3}
-     * @param b {VectorE3}
-     * @return {number}
-     * @static
-     */
-    public static dot(a: VectorE3, b: VectorE3): number {
-        // FIXME: Since vectors may now have units, the return type should be a unit.
-        return a.x * b.x + a.y * b.y + a.z * b.z;
-    }
+  /**
+   * @method dot
+   * @param a {VectorE3}
+   * @param b {VectorE3}
+   * @return {number}
+   * @static
+   */
+  public static dot(a: VectorE3, b: VectorE3): number {
+    // FIXME: Since vectors may now have units, the return type should be a unit.
+    return a.x * b.x + a.y * b.y + a.z * b.z;
+  }
 
-    /**
-     * @class Vector3
-     * @constructor
-     * @param [data = [0, 0, 0]] {number[]}
-     * @param modified [boolean = false]
-     */
-    constructor(data: number[] = [0, 0, 0], modified = false) {
-        // FIXME : Where is the uom, even if it is optional.
-        super(data, modified, 3);
-    }
+  /**
+   * @class Vector3
+   * @constructor
+   * @param [data = [0, 0, 0]] {number[]}
+   * @param modified [boolean = false]
+   */
+  constructor(data: number[] = [0, 0, 0], modified = false) {
+    // FIXME : Where is the uom, even if it is optional.
+    super(data, modified, 3);
+  }
 
-    /**
-     * @property x
-     * @type {number}
-     */
-    get x(): number {
-        return this.coords[COORD_X];
-    }
-    set x(value: number) {
-        this.modified = this.modified || this.x !== value;
-        this.coords[COORD_X] = value;
-    }
+  /**
+   * @property x
+   * @type {number}
+   */
+  get x(): number {
+    return this.coords[COORD_X];
+  }
+  set x(value: number) {
+    this.modified = this.modified || this.x !== value;
+    this.coords[COORD_X] = value;
+  }
 
-    /**
-     * @property y
-     * @type Number
-     */
-    get y(): number {
-        return this.coords[COORD_Y];
+  /**
+   * @property y
+   * @type Number
+   */
+  get y(): number {
+    return this.coords[COORD_Y];
+  }
+  set y(value: number) {
+    this.modified = this.modified || this.y !== value;
+    this.coords[COORD_Y] = value;
+  }
+
+  /**
+   * @property z
+   * @type Number
+   */
+  get z(): number {
+    return this.coords[COORD_Z];
+  }
+  set z(value: number) {
+    this.modified = this.modified || this.z !== value;
+    this.coords[COORD_Z] = value;
+  }
+
+  /**
+   * &lt;p&gt;
+   * &lt;code&gt;this ⟼ this + vector * α&lt;/code&gt;
+   * &lt;/p&gt;
+   * @method add
+   * @param vector {Vector3}
+   * @param [α = 1] {number}
+   * @return {Vector3} &lt;code&gt;this&lt;/code&gt;
+   * @chainable
+   */
+  add(vector: VectorE3, α = 1) {
+    this.x += vector.x * α
+    this.y += vector.y * α
+    this.z += vector.z * α
+    return this
+  }
+
+  /**
+   * &lt;p&gt;
+   * &lt;code&gt;this ⟼ a + b&lt;/code&gt;
+   * &lt;/p&gt;
+   * @method add2
+   * @param a {VectorE3}
+   * @param b {VectorE3}
+   * @return {Vector3} &lt;code&gt;this&lt;/code&gt;
+   * @chainable
+   * @deprecated Use copy(a).add(b) instead.
+   */
+  add2(a: VectorE3, b: VectorE3): Vector3 {
+    this.x = a.x + b.x
+    this.y = a.y + b.y
+    this.z = a.z + b.z
+    return this
+  }
+
+  /**
+   * &lt;p&gt;
+   * &lt;code&gt;this ⟼ σ * this&lt;sup&gt;T&lt;/sup&gt;&lt;/code&gt;
+   * &lt;/p&gt;
+   * @method applyMatrix
+   * @param σ {Matrix3}
+   * @return {Vector3} &lt;code&gt;this&lt;/code&gt;
+   * @chainable
+   */
+  applyMatrix(σ: Matrix3): Vector3 {
+    const x = this.x
+    const y = this.y
+    const z = this.z
+
+    const e = σ.elements
+
+    this.x = e[0x0] * x + e[0x3] * y + e[0x6] * z
+    this.y = e[0x1] * x + e[0x4] * y + e[0x7] * z
+    this.z = e[0x2] * x + e[0x5] * y + e[0x8] * z
+
+    return this
+  }
+
+  /**
+   * Pre-multiplies the column vector corresponding to this vector by the matrix.
+   * The result is applied to this vector.
+   * Strictly speaking, this method does not make much sense because the dimensions
+   * of the square matrix and column vector don&#x27;t match.
+   * TODO: Used by TubeSimplexGeometry.
+   *
+   * @method applyMatrix4
+   * @param σ The 4x4 matrix that pre-multiplies this column vector.
+   * @return {Vector3} &lt;code&gt;this&lt;/code&gt;
+   * @chainable
+   */
+  applyMatrix4(σ: Matrix4): Vector3 {
+
+    var x = this.x, y = this.y, z = this.z;
+
+    var e = σ.elements;
+
+    this.x = e[0x0] * x + e[0x4] * y + e[0x8] * z + e[0xC];
+    this.y = e[0x1] * x + e[0x5] * y + e[0x9] * z + e[0xD];
+    this.z = e[0x2] * x + e[0x6] * y + e[0xA] * z + e[0xE];
+
+    return this;
+  }
+
+  /**
+   * &lt;p&gt;
+   * &lt;code&gt;this ⟼ - n * this * n&lt;/code&gt;
+   * &lt;/p&gt;
+   * @method reflect
+   * @param n {VectorE3}
+   * @return {Vector3} &lt;code&gt;this&lt;/code&gt;
+   * @chainable
+   */
+  reflect(n: VectorE3) {
+    const ax = this.x;
+    const ay = this.y;
+    const az = this.z;
+    const nx = n.x;
+    const ny = n.y;
+    const nz = n.z;
+    const dot2 = (ax * nx + ay * ny + az * nz) * 2;
+    this.x = ax - dot2 * nx;
+    this.y = ay - dot2 * ny;
+    this.z = az - dot2 * nz;
+    return this;
+  }
+  /**
+   * &lt;p&gt;
+   * &lt;code&gt;this ⟼ R * this * rev(R)&lt;/code&gt;
+   * &lt;/p&gt;
+   * @method rotate
+   * @param R {SpinorE3}
+   * @return {Vector3} &lt;code&gt;this&lt;/code&gt;
+   * @chainable
+   */
+  rotate(R: SpinorE3): Vector3 {
+    const x = this.x;
+    const y = this.y;
+    const z = this.z;
+
+    const a = R.xy;
+    const b = R.yz;
+    const c = R.zx;
+    const w = R.α;
+
+    const ix = w * x - c * z + a * y;
+    const iy = w * y - a * x + b * z;
+    const iz = w * z - b * y + c * x;
+    const iw = b * x + c * y + a * z;
+
+    this.x = ix * w + iw * b + iy * a - iz * c;
+    this.y = iy * w + iw * c + iz * b - ix * a;
+    this.z = iz * w + iw * a + ix * c - iy * b;
+
+    return this;
+  }
+  /**
+   * @method clone
+   * @return {Vector3} &lt;code&gt;copy(this)&lt;/code&gt;
+   */
+  clone() {
+    // FIXME: uom is not being carried.
+    // FIXME: modidied flaf should be replicated
+    return new Vector3([this.x, this.y, this.z]);
+  }
+
+  /**
+   * &lt;p&gt;
+   * &lt;code&gt;this ⟼ copy(source)&lt;/code&gt;
+   * &lt;/p&gt;
+   *
+   * @method copy
+   * @param source {VectorE3}
+   * @return {Vector3} &lt;code&gt;this&lt;/code&gt;
+   * @chainable
+   */
+  copy(source: VectorE3): Vector3 {
+    if (source) {
+      this.x = source.x
+      this.y = source.y
+      this.z = source.z
+      return this
     }
-    set y(value: number) {
-        this.modified = this.modified || this.y !== value;
-        this.coords[COORD_Y] = value;
+    else {
+      throw new Error(&quot;source for copy must be a vector&quot;)
     }
+  }
 
-    /**
-     * @property z
-     * @type Number
-     */
-    get z(): number {
-        return this.coords[COORD_Z];
+  /**
+   * Copies the coordinate values into this &lt;code&gt;Vector3&lt;/code&gt;.
+   * @method copyCoordinates
+   * @param coordinates {number[]}
+   * @return {Vector3} &lt;code&gt;this&lt;/code&gt;
+   * @chainable
+   */
+  copyCoordinates(coordinates: number[]): Vector3 {
+    // Copy using the setters so that the modified flag is updated.
+    this.x = coordinates[COORD_X];
+    this.y = coordinates[COORD_Y];
+    this.z = coordinates[COORD_Z];
+    return this
+  }
+
+  /**
+   * &lt;p&gt;
+   * &lt;code&gt;this ⟼ this ✕ v&lt;/code&gt;
+   * &lt;/p&gt;
+   * @method cross
+   * @param v {VectorE3}
+   * @return {Vector3} &lt;code&gt;this&lt;/code&gt;
+   * @chainable
+   */
+  cross(v: VectorE3): Vector3 {
+    return this.cross2(this, v);
+  }
+
+  /**
+   * &lt;p&gt;
+   * &lt;code&gt;this ⟼ a ✕ b&lt;/code&gt;
+   * &lt;/p&gt;
+   * @method cross2
+   * @param a {VectorE3}
+   * @param b {VectorE3}
+   * @return {Vector3} &lt;code&gt;this&lt;/code&gt;
+   * @chainable
+   */
+  cross2(a: VectorE3, b: VectorE3): Vector3 {
+
+    const ax = a.x, ay = a.y, az = a.z;
+    const bx = b.x, by = b.y, bz = b.z;
+
+    this.x = wedgeYZ(ax, ay, az, bx, by, bz);
+    this.y = wedgeZX(ax, ay, az, bx, by, bz);
+    this.z = wedgeXY(ax, ay, az, bx, by, bz);
+    return this;
+  }
+
+  /**
+   * @method distanceTo
+   * @param point {VectorE3}
+   * @return {number}
+   */
+  distanceTo(point: VectorE3): number {
+    if (isDefined(point)) {
+      return sqrt(this.quadranceTo(point));
     }
-    set z(value: number) {
-        this.modified = this.modified || this.z !== value;
-        this.coords[COORD_Z] = value;
+    else {
+      return void 0
     }
-
-    /**
-     * &lt;p&gt;
-     * &lt;code&gt;this ⟼ this + vector * α&lt;/code&gt;
-     * &lt;/p&gt;
-     * @method add
-     * @param vector {Vector3}
-     * @param [α = 1] {number}
-     * @return {Vector3} &lt;code&gt;this&lt;/code&gt;
-     * @chainable
-     */
-    add(vector: VectorE3, α = 1) {
-        this.x += vector.x * α
-        this.y += vector.y * α
-        this.z += vector.z * α
-        return this
+  }
+  /**
+   * @method quadranceTo
+   * @param point {VectorE3}
+   * @return {number}
+   */
+  quadranceTo(point: VectorE3): number {
+    if (isDefined(point)) {
+      var dx = this.x - point.x;
+      var dy = this.y - point.y;
+      var dz = this.z - point.z;
+      return dx * dx + dy * dy + dz * dz;
     }
-
-    /**
-     * &lt;p&gt;
-     * &lt;code&gt;this ⟼ a + b&lt;/code&gt;
-     * &lt;/p&gt;
-     * @method add2
-     * @param a {VectorE3}
-     * @param b {VectorE3}
-     * @return {Vector3} &lt;code&gt;this&lt;/code&gt;
-     * @chainable
-     * @deprecated Use copy(a).add(b) instead.
-     */
-    add2(a: VectorE3, b: VectorE3): Vector3 {
-        this.x = a.x + b.x
-        this.y = a.y + b.y
-        this.z = a.z + b.z
-        return this
+    else {
+      return void 0
     }
-
-    /**
-     * &lt;p&gt;
-     * &lt;code&gt;this ⟼ σ * this&lt;sup&gt;T&lt;/sup&gt;&lt;/code&gt;
-     * &lt;/p&gt;
-     * @method applyMatrix
-     * @param σ {Matrix3}
-     * @return {Vector3} &lt;code&gt;this&lt;/code&gt;
-     * @chainable
-     */
-    applyMatrix(σ: Matrix3): Vector3 {
-        const x = this.x
-        const y = this.y
-        const z = this.z
-
-        const e = σ.elements
-
-        this.x = e[0x0] * x + e[0x3] * y + e[0x6] * z
-        this.y = e[0x1] * x + e[0x4] * y + e[0x7] * z
-        this.z = e[0x2] * x + e[0x5] * y + e[0x8] * z
-
-        return this
+  }
+  /**
+   * &lt;p&gt;
+   * &lt;code&gt;this ⟼ this / α&lt;/code&gt;
+   * &lt;/p&gt;
+   * @method divByScalar
+   * @param α {number}
+   * @return {Vector3} &lt;code&gt;this&lt;/code&gt;
+   * @chainable
+   */
+  divByScalar(α: number) {
+    if (α !== 0) {
+      let invScalar = 1 / α;
+      this.x *= invScalar;
+      this.y *= invScalar;
+      this.z *= invScalar;
     }
-
-    /**
-     * Pre-multiplies the column vector corresponding to this vector by the matrix.
-     * The result is applied to this vector.
-     * Strictly speaking, this method does not make much sense because the dimensions
-     * of the square matrix and column vector don&#x27;t match.
-     * TODO: Used by TubeSimplexGeometry.
-     *
-     * @method applyMatrix4
-     * @param σ The 4x4 matrix that pre-multiplies this column vector.
-     * @return {Vector3} &lt;code&gt;this&lt;/code&gt;
-     * @chainable
-     */
-    applyMatrix4(σ: Matrix4): Vector3 {
-
-        var x = this.x, y = this.y, z = this.z;
-
-        var e = σ.elements;
-
-        this.x = e[0x0] * x + e[0x4] * y + e[0x8] * z + e[0xC];
-        this.y = e[0x1] * x + e[0x5] * y + e[0x9] * z + e[0xD];
-        this.z = e[0x2] * x + e[0x6] * y + e[0xA] * z + e[0xE];
-
-        return this;
+    else {
+      this.x = 0;
+      this.y = 0;
+      this.z = 0;
     }
+    return this;
+  }
+  /**
+   * @method dot
+   * @param v {VectorE3}
+   * @return {number}
+   */
+  dot(v: VectorE3): number {
+    return Vector3.dot(this, v);
+  }
 
-    /**
-     * &lt;p&gt;
-     * &lt;code&gt;this ⟼ - n * this * n&lt;/code&gt;
-     * &lt;/p&gt;
-     * @method reflect
-     * @param n {VectorE3}
-     * @return {Vector3} &lt;code&gt;this&lt;/code&gt;
-     * @chainable
-     */
-    reflect(n: VectorE3) {
-        const ax = this.x;
-        const ay = this.y;
-        const az = this.z;
-        const nx = n.x;
-        const ny = n.y;
-        const nz = n.z;
-        const dot2 = (ax * nx + ay * ny + az * nz) * 2;
-        this.x = ax - dot2 * nx;
-        this.y = ay - dot2 * ny;
-        this.z = az - dot2 * nz;
-        return this;
+  /**
+   * &lt;p&gt;
+   * &lt;code&gt;this ⟼ I * B&lt;/code&gt;
+   * &lt;/p&gt;
+   *
+   * Sets this vector to the dual of the bivector, B.
+   * If changeSign is &lt;code&gt;true&lt;/code&gt;, the direction of the resulting vector is reversed.
+   *
+   * @method dual
+   * @param B {SpinorE3}
+   * @param changeSign {boolean}
+   * @return {Vector3}
+   * @chainable
+   */
+  dual(B: SpinorE3, changeSign: boolean): Vector3 {
+    if (changeSign) {
+      this.x = B.yz
+      this.y = B.zx
+      this.z = B.xy
     }
-    /**
-     * &lt;p&gt;
-     * &lt;code&gt;this ⟼ R * this * rev(R)&lt;/code&gt;
-     * &lt;/p&gt;
-     * @method rotate
-     * @param R {SpinorE3}
-     * @return {Vector3} &lt;code&gt;this&lt;/code&gt;
-     * @chainable
-     */
-    rotate(R: SpinorE3): Vector3 {
-        const x = this.x;
-        const y = this.y;
-        const z = this.z;
+    else {
+      this.x = -B.yz
+      this.y = -B.zx
+      this.z = -B.xy
+    }
+    return this
+  }
 
-        const a = R.xy;
-        const b = R.yz;
-        const c = R.zx;
-        const w = R.α;
+  /**
+   * Computes the &lt;em&gt;square root&lt;/em&gt; of the &lt;em&gt;squared norm&lt;/em&gt;.
+   * @method magnitude
+   * @return {number}
+   */
+  magnitude(): number {
+    return sqrt(this.squaredNorm());
+  }
+  /**
+   * @method neg
+   * @return {Vector3} &lt;code&gt;this&lt;/code&gt;
+   * @chainable
+   */
+  neg() {
+    this.x = -this.x
+    this.y = -this.y
+    this.z = -this.z
+    return this
+  }
 
-        const ix = w * x - c * z + a * y;
-        const iy = w * y - a * x + b * z;
-        const iz = w * z - b * y + c * x;
-        const iw = b * x + c * y + a * z;
+  /**
+   * &lt;p&gt;
+   * &lt;code&gt;this ⟼ this + α * (target - this)&lt;/code&gt;
+   * &lt;/p&gt;
+   * @method lerp
+   * @param target {VectorE3}
+   * @param α {number}
+   * @return {Vector3} &lt;code&gt;this&lt;/code&gt;
+   * @chainable
+   */
+  lerp(target: VectorE3, α: number) {
+    this.x += (target.x - this.x) * α;
+    this.y += (target.y - this.y) * α;
+    this.z += (target.z - this.z) * α;
+    return this;
+  }
+  /**
+   * &lt;p&gt;
+   * &lt;code&gt;this ⟼ a + α * (b - a)&lt;/code&gt;
+   * &lt;/p&gt;
+   * @method lerp2
+   * @param a {VectorE3}
+   * @param b {VectorE3}
+   * @param α {number}
+   * @return {Vector3} &lt;code&gt;this&lt;/code&gt;
+   * @chainable
+   */
+  lerp2(a: VectorE3, b: VectorE3, α: number) {
+    this.copy(a).lerp(b, α)
+    return this
+  }
+  /**
+   * &lt;p&gt;
+   * &lt;code&gt;this ⟼ this / norm(this)&lt;/code&gt;
+   * &lt;/p&gt;
+   * @method direction
+   * @return {Vector3} &lt;code&gt;this&lt;/code&gt;
+   * @chainable
+   */
+  direction(): Vector3 {
+    return this.divByScalar(this.magnitude());
+  }
 
-        this.x = ix * w + iw * b + iy * a - iz * c;
-        this.y = iy * w + iw * c + iz * b - ix * a;
-        this.z = iz * w + iw * a + ix * c - iy * b;
+  /**
+   * &lt;p&gt;
+   * &lt;code&gt;this ⟼ this * α&lt;/code&gt;
+   * &lt;/p&gt;
+   * @method scale
+   * @param α {number} 
+   */
+  scale(α: number): Vector3 {
+    this.x *= α
+    this.y *= α
+    this.z *= α
+    return this
+  }
 
-        return this;
-    }
-    /**
-     * @method clone
-     * @return {Vector3} &lt;code&gt;copy(this)&lt;/code&gt;
-     */
-    clone() {
-        // FIXME: uom is not being carried.
-        // FIXME: modidied flaf should be replicated
-        return new Vector3([this.x, this.y, this.z]);
-    }
+  /**
+   * @method stress
+   * @param σ {VectorE3}
+   * @return Vector3
+   */
+  stress(σ: VectorE3) {
+    this.x *= σ.x
+    this.y *= σ.y
+    this.z *= σ.z
+    return this
+  }
 
-    /**
-     * &lt;p&gt;
-     * &lt;code&gt;this ⟼ copy(source)&lt;/code&gt;
-     * &lt;/p&gt;
-     *
-     * @method copy
-     * @param source {VectorE3}
-     * @return {Vector3} &lt;code&gt;this&lt;/code&gt;
-     * @chainable
-     */
-    copy(source: VectorE3): Vector3 {
-        if (source) {
-            this.x = source.x
-            this.y = source.y
-            this.z = source.z
-            return this
-        }
-        else {
-            throw new Error(&quot;source for copy must be a vector&quot;)
-        }
-    }
+  /**
+   * &lt;p&gt;
+   * &lt;code&gt;this ⟼ this&lt;/code&gt;, with components modified.
+   * &lt;/p&gt;
+   * @method set
+   * @param x {number}
+   * @param y {number}
+   * @param z {number}
+   * @return {Vector3} &lt;code&gt;this&lt;/code&gt;
+   * @chainable
+   * @deprecated
+   */
+  setXYZ(x: number, y: number, z: number) {
+    this.x = x
+    this.y = y
+    this.z = z
+    return this
+  }
 
-    /**
-     * Copies the coordinate values into this &lt;code&gt;Vector3&lt;/code&gt;.
-     * @method copyCoordinates
-     * @param coordinates {number[]}
-     * @return {Vector3} &lt;code&gt;this&lt;/code&gt;
-     * @chainable
-     */
-    copyCoordinates(coordinates: number[]): Vector3 {
-        // Copy using the setters so that the modified flag is updated.
-        this.x = coordinates[COORD_X];
-        this.y = coordinates[COORD_Y];
-        this.z = coordinates[COORD_Z];
-        return this
-    }
+  /**
+   * @method setY
+   * @param {number}
+   * @deprecated
+   */
+  // FIXME: This is used by Cone and Cylinder Simplex PrimitivesBuilder
+  setY(y: number): Vector3 {
+    this.y = y;
+    return this;
+  }
 
-    /**
-     * &lt;p&gt;
-     * &lt;code&gt;this ⟼ this ✕ v&lt;/code&gt;
-     * &lt;/p&gt;
-     * @method cross
-     * @param v {VectorE3}
-     * @return {Vector3} &lt;code&gt;this&lt;/code&gt;
-     * @chainable
-     */
-    cross(v: VectorE3): Vector3 {
-        return this.cross2(this, v);
-    }
+  slerp(target: VectorE3, α: number) {
+    return this;
+  }
 
-    /**
-     * &lt;p&gt;
-     * &lt;code&gt;this ⟼ a ✕ b&lt;/code&gt;
-     * &lt;/p&gt;
-     * @method cross2
-     * @param a {VectorE3}
-     * @param b {VectorE3}
-     * @return {Vector3} &lt;code&gt;this&lt;/code&gt;
-     * @chainable
-     */
-    cross2(a: VectorE3, b: VectorE3): Vector3 {
+  /**
+   * Returns the (Euclidean) inner product of this vector with itself.
+   * @method squaredNorm
+   * @return {number} &lt;code&gt;this ⋅ this&lt;/code&gt; or &lt;code&gt;norm(this) * norm(this)&lt;/code&gt;
+   */
+  squaredNorm(): number {
+    // quad = scp(v, rev(v)) = scp(v, v)
+    // TODO: This is correct but could be optimized.
+    return dotVectorE3(this, this)
+  }
 
-        const ax = a.x, ay = a.y, az = a.z;
-        const bx = b.x, by = b.y, bz = b.z;
+  /**
+   * &lt;p&gt;
+   * &lt;code&gt;this ⟼ this - v&lt;/code&gt;
+   * &lt;/p&gt;
+   * @method sub
+   * @param v {VectorE3}
+   * @param [α = 1] {number}
+   * @return {Vector3} &lt;code&gt;this&lt;/code&gt;
+   * @chainable
+   */
+  sub(v: VectorE3, α = 1): Vector3 {
+    this.x -= v.x * α
+    this.y -= v.y * α
+    this.z -= v.z * α
+    return this
+  }
 
-        this.x = wedgeYZ(ax, ay, az, bx, by, bz);
-        this.y = wedgeZX(ax, ay, az, bx, by, bz);
-        this.z = wedgeXY(ax, ay, az, bx, by, bz);
-        return this;
-    }
+  /**
+   * &lt;p&gt;
+   * &lt;code&gt;this ⟼ a - b&lt;/code&gt;
+   * &lt;/p&gt;
+   * @method sub2
+   * @param a {VectorE3}
+   * @param b {VectorE3}
+   * @return {Vector3} &lt;code&gt;this&lt;/code&gt;
+   * @chainable
+   * @deprecated Use copy(a).sub(b) instead.
+   */
+  sub2(a: VectorE3, b: VectorE3) {
+    this.x = a.x - b.x
+    this.y = a.y - b.y
+    this.z = a.z - b.z
+    return this
+  }
 
-    /**
-     * @method distanceTo
-     * @param point {VectorE3}
-     * @return {number}
-     */
-    distanceTo(point: VectorE3): number {
-        if (isDefined(point)) {
-            return sqrt(this.quadranceTo(point));
-        }
-        else {
-            return void 0
-        }
-    }
-    /**
-     * @method quadranceTo
-     * @param point {VectorE3}
-     * @return {number}
-     */
-    quadranceTo(point: VectorE3): number {
-        if (isDefined(point)) {
-            var dx = this.x - point.x;
-            var dy = this.y - point.y;
-            var dz = this.z - point.z;
-            return dx * dx + dy * dy + dz * dz;
-        }
-        else {
-            return void 0
-        }
-    }
-    /**
-     * &lt;p&gt;
-     * &lt;code&gt;this ⟼ this / α&lt;/code&gt;
-     * &lt;/p&gt;
-     * @method divByScalar
-     * @param α {number}
-     * @return {Vector3} &lt;code&gt;this&lt;/code&gt;
-     * @chainable
-     */
-    divByScalar(α: number) {
-        if (α !== 0) {
-            let invScalar = 1 / α;
-            this.x *= invScalar;
-            this.y *= invScalar;
-            this.z *= invScalar;
-        }
-        else {
-            this.x = 0;
-            this.y = 0;
-            this.z = 0;
-        }
-        return this;
-    }
-    /**
-     * @method dot
-     * @param v {VectorE3}
-     * @return {number}
-     */
-    dot(v: VectorE3): number {
-        return Vector3.dot(this, v);
-    }
+  /**
+   * @method toExponential
+   * @return {string}
+   */
+  toExponential(): string {
+    var coordToString = function(coord: number): string { return coord.toExponential() };
+    return toStringCustom(coordinates(this), void 0, coordToString, BASIS_LABELS)
+  }
 
-    /**
-     * &lt;p&gt;
-     * &lt;code&gt;this ⟼ I * B&lt;/code&gt;
-     * &lt;/p&gt;
-     *
-     * Sets this vector to the dual of the bivector, B.
-     * If changeSign is &lt;code&gt;true&lt;/code&gt;, the direction of the resulting vector is reversed.
-     *
-     * @method dual
-     * @param B {SpinorE3}
-     * @param changeSign {boolean}
-     * @return {Vector3}
-     * @chainable
-     */
-    dual(B: SpinorE3, changeSign: boolean): Vector3 {
-        if (changeSign) {
-            this.x = B.yz
-            this.y = B.zx
-            this.z = B.xy
-        }
-        else {
-            this.x = -B.yz
-            this.y = -B.zx
-            this.z = -B.xy
-        }
-        return this
-    }
+  /**
+   * @method toFixed
+   * @param [digits] {number}
+   * @return {string}
+   */
+  toFixed(digits?: number): string {
+    var coordToString = function(coord: number): string { return coord.toFixed(digits) };
+    return toStringCustom(coordinates(this), void 0, coordToString, BASIS_LABELS)
+  }
 
-    /**
-     * Computes the &lt;em&gt;square root&lt;/em&gt; of the &lt;em&gt;squared norm&lt;/em&gt;.
-     * @method magnitude
-     * @return {number}
-     */
-    magnitude(): number {
-        return sqrt(this.squaredNorm());
-    }
-    /**
-     * @method neg
-     * @return {Vector3} &lt;code&gt;this&lt;/code&gt;
-     * @chainable
-     */
-    neg() {
-        this.x = -this.x
-        this.y = -this.y
-        this.z = -this.z
-        return this
-    }
+  /**
+   * @method toString
+   * @return {string}
+   */
+  toString(): string {
+    var coordToString = function(coord: number): string { return coord.toString() };
+    return toStringCustom(coordinates(this), void 0, coordToString, BASIS_LABELS)
+  }
 
-    /**
-     * &lt;p&gt;
-     * &lt;code&gt;this ⟼ this + α * (target - this)&lt;/code&gt;
-     * &lt;/p&gt;
-     * @method lerp
-     * @param target {VectorE3}
-     * @param α {number}
-     * @return {Vector3} &lt;code&gt;this&lt;/code&gt;
-     * @chainable
-     */
-    lerp(target: VectorE3, α: number) {
-        this.x += (target.x - this.x) * α;
-        this.y += (target.y - this.y) * α;
-        this.z += (target.z - this.z) * α;
-        return this;
-    }
-    /**
-     * &lt;p&gt;
-     * &lt;code&gt;this ⟼ a + α * (b - a)&lt;/code&gt;
-     * &lt;/p&gt;
-     * @method lerp2
-     * @param a {VectorE3}
-     * @param b {VectorE3}
-     * @param α {number}
-     * @return {Vector3} &lt;code&gt;this&lt;/code&gt;
-     * @chainable
-     */
-    lerp2(a: VectorE3, b: VectorE3, α: number) {
-        this.copy(a).lerp(b, α)
-        return this
-    }
-    /**
-     * &lt;p&gt;
-     * &lt;code&gt;this ⟼ this / norm(this)&lt;/code&gt;
-     * &lt;/p&gt;
-     * @method direction
-     * @return {Vector3} &lt;code&gt;this&lt;/code&gt;
-     * @chainable
-     */
-    direction(): Vector3 {
-        return this.divByScalar(this.magnitude());
-    }
+  /**
+   * Sets this vector to the identity element for addition, &lt;b&gt;0&lt;/b&gt;.
+   * @method zero
+   * @return {Vector3}
+   * @chainable
+   */
+  zero(): Vector3 {
+    this.x = 0;
+    this.y = 0;
+    this.z = 0;
+    return this;
+  }
 
-    /**
-     * &lt;p&gt;
-     * &lt;code&gt;this ⟼ this * α&lt;/code&gt;
-     * &lt;/p&gt;
-     * @method scale
-     * @param α {number} 
-     */
-    scale(α: number): Vector3 {
-        this.x *= α
-        this.y *= α
-        this.z *= α
-        return this
+  __add__(rhs: Vector3): Vector3 {
+    if (rhs instanceof Vector3) {
+      return this.clone().add(rhs, 1.0);
     }
+    else {
+      return void 0;
+    }
+  }
+  __sub__(rhs: Vector3): Vector3 {
+    if (rhs instanceof Vector3) {
+      return this.clone().sub(rhs);
+    }
+    else {
+      return void 0;
+    }
+  }
 
-    /**
-     * @method stress
-     * @param σ {VectorE3}
-     * @return Vector3
-     */
-    stress(σ: VectorE3) {
-        this.x *= σ.x
-        this.y *= σ.y
-        this.z *= σ.z
-        return this
+  /**
+   * @method mul
+   * @param rhs {number}
+   * @return {Vector3}
+   * @private
+   */
+  __mul__(rhs: number): Vector3 {
+    if (isNumber(rhs)) {
+      return this.clone().scale(rhs);
     }
+    else {
+      return void 0;
+    }
+  }
 
-    /**
-     * &lt;p&gt;
-     * &lt;code&gt;this ⟼ this&lt;/code&gt;, with components modified.
-     * &lt;/p&gt;
-     * @method set
-     * @param x {number}
-     * @param y {number}
-     * @param z {number}
-     * @return {Vector3} &lt;code&gt;this&lt;/code&gt;
-     * @chainable
-     * @deprecated
-     */
-    setXYZ(x: number, y: number, z: number) {
-        this.x = x
-        this.y = y
-        this.z = z
-        return this
+  /**
+   * @method rmul
+   * @param lhs {number | Matrix3}
+   * @return {Vector3}
+   * @private
+   */
+  __rmul__(lhs: number | Matrix3): Vector3 {
+    if (typeof lhs === &#x27;number&#x27;) {
+      return this.clone().scale(lhs);
     }
+    else if (lhs instanceof Matrix3) {
+      return this.clone().applyMatrix(lhs);
+    }
+    else {
+      return void 0;
+    }
+  }
 
-    /**
-     * @method setY
-     * @param {number}
-     * @deprecated
-     */
-    // FIXME: This is used by Cone and Cylinder Simplex PrimitivesBuilder
-    setY(y: number): Vector3 {
-        this.y = y;
-        return this;
-    }
+  /**
+   * @method copy
+   * @param vector {VectorE3}
+   * @return {Vector3}
+   * @static
+   * @chainable
+   */
+  static copy(vector: VectorE3): Vector3 {
+    return new Vector3([vector.x, vector.y, vector.z])
+  }
 
-    slerp(target: VectorE3, α: number) {
-        return this;
+  /**
+   * Constructs a vector which is the dual of the supplied bivector, B.
+   * The convention used is dual(m) = I * m.
+   * If a sign change is desired from this convention,
+   * set the &lt;code&gt;changeSign&lt;/code&gt; to &lt;code&gt;true&lt;/code&gt;.
+   *
+   * @method dual
+   * @param B {SpinorE3}
+   * @param changeSign {boolean}
+   * @return {Vector3}
+   * @chainable
+   */
+  static dual(B: SpinorE3, changeSign: boolean): Vector3 {
+    if (changeSign) {
+      return new Vector3([B.yz, B.zx, B.xy])
     }
+    else {
+      return new Vector3([-B.yz, -B.zx, -B.xy])
+    }
+  }
 
-    /**
-     * Returns the (Euclidean) inner product of this vector with itself.
-     * @method squaredNorm
-     * @return {number} &lt;code&gt;this ⋅ this&lt;/code&gt; or &lt;code&gt;norm(this) * norm(this)&lt;/code&gt;
-     */
-    squaredNorm(): number {
-        // quad = scp(v, rev(v)) = scp(v, v)
-        // TODO: This is correct but could be optimized.
-        return dotVectorE3(this, this)
-    }
+  /**
+   * @method isInstance
+   * @param x {any}
+   * @return {boolean}
+   * @static
+   */
+  static isInstance(x: any): boolean {
+    return x instanceof Vector3
+  }
 
-    /**
-     * &lt;p&gt;
-     * &lt;code&gt;this ⟼ this - v&lt;/code&gt;
-     * &lt;/p&gt;
-     * @method sub
-     * @param v {VectorE3}
-     * @param [α = 1] {number}
-     * @return {Vector3} &lt;code&gt;this&lt;/code&gt;
-     * @chainable
-     */
-    sub(v: VectorE3, α = 1): Vector3 {
-        this.x -= v.x * α
-        this.y -= v.y * α
-        this.z -= v.z * α
-        return this
-    }
+  /**
+   * @method lerp
+   * @param a {VectorE3}
+   * @param b {VectorE3}
+   * @param α {number}
+   * @return {Vector3} &lt;code&gt;a + α * (b - a)&lt;/code&gt;
+   * @static
+   * @chainable
+   */
+  static lerp(a: VectorE3, b: VectorE3, α: number): Vector3 {
+    return Vector3.copy(b).sub(a).scale(α).add(a)
+  }
 
-    /**
-     * &lt;p&gt;
-     * &lt;code&gt;this ⟼ a - b&lt;/code&gt;
-     * &lt;/p&gt;
-     * @method sub2
-     * @param a {VectorE3}
-     * @param b {VectorE3}
-     * @return {Vector3} &lt;code&gt;this&lt;/code&gt;
-     * @chainable
-     * @deprecated Use copy(a).sub(b) instead.
-     */
-    sub2(a: VectorE3, b: VectorE3) {
-        this.x = a.x - b.x
-        this.y = a.y - b.y
-        this.z = a.z - b.z
-        return this
-    }
+  /**
+   * @method random
+   * @return {Vector3}
+   * @static
+   * @chainable
+   */
+  static random(): Vector3 {
+    return new Vector3([Math.random(), Math.random(), Math.random()])
+  }
 
-    /**
-     * @method toExponential
-     * @return {string}
-     */
-    toExponential(): string {
-        var coordToString = function(coord: number): string { return coord.toExponential() };
-        return toStringCustom(coordinates(this), void 0, coordToString, BASIS_LABELS)
-    }
+  /**
+   * @method vector
+   * @param x {number}
+   * @param y {number}
+   * @param z {number}
+   * @return {Vector3}
+   * @static
+   * @chainable
+   */
+  static vector(x: number, y: number, z: number): Vector3 {
+    return new Vector3([x, y, z])
+  }
 
-    /**
-     * @method toFixed
-     * @param [digits] {number}
-     * @return {string}
-     */
-    toFixed(digits?: number): string {
-        var coordToString = function(coord: number): string { return coord.toFixed(digits) };
-        return toStringCustom(coordinates(this), void 0, coordToString, BASIS_LABELS)
-    }
-
-    /**
-     * @method toString
-     * @return {string}
-     */
-    toString(): string {
-        var coordToString = function(coord: number): string { return coord.toString() };
-        return toStringCustom(coordinates(this), void 0, coordToString, BASIS_LABELS)
-    }
-
-    /**
-     * Sets this vector to the identity element for addition, &lt;b&gt;0&lt;/b&gt;.
-     * @method zero
-     * @return {Vector3}
-     * @chainable
-     */
-    zero(): Vector3 {
-        this.x = 0;
-        this.y = 0;
-        this.z = 0;
-        return this;
-    }
-
-    __add__(rhs: Vector3): Vector3 {
-        if (rhs instanceof Vector3) {
-            return this.clone().add(rhs, 1.0);
-        }
-        else {
-            return void 0;
-        }
-    }
-    __sub__(rhs: Vector3): Vector3 {
-        if (rhs instanceof Vector3) {
-            return this.clone().sub(rhs);
-        }
-        else {
-            return void 0;
-        }
-    }
-
-    /**
-     * @method mul
-     * @param rhs {number}
-     * @return {Vector3}
-     * @private
-     */
-    __mul__(rhs: number): Vector3 {
-        if (isNumber(rhs)) {
-            return this.clone().scale(rhs);
-        }
-        else {
-            return void 0;
-        }
-    }
-
-    /**
-     * @method rmul
-     * @param lhs {number | Matrix3}
-     * @return {Vector3}
-     * @private
-     */
-    __rmul__(lhs: number | Matrix3): Vector3 {
-        if (typeof lhs === &#x27;number&#x27;) {
-            return this.clone().scale(lhs);
-        }
-        else if (lhs instanceof Matrix3) {
-            return this.clone().applyMatrix(lhs);
-        }
-        else {
-            return void 0;
-        }
-    }
-
-    /**
-     * @method copy
-     * @param vector {VectorE3}
-     * @return {Vector3}
-     * @static
-     * @chainable
-     */
-    static copy(vector: VectorE3): Vector3 {
-        return new Vector3([vector.x, vector.y, vector.z])
-    }
-
-    /**
-     * Constructs a vector which is the dual of the supplied bivector, B.
-     * The convention used is dual(m) = I * m.
-     * If a sign change is desired from this convention,
-     * set the &lt;code&gt;changeSign&lt;/code&gt; to &lt;code&gt;true&lt;/code&gt;.
-     *
-     * @method dual
-     * @param B {SpinorE3}
-     * @param changeSign {boolean}
-     * @return {Vector3}
-     * @chainable
-     */
-    static dual(B: SpinorE3, changeSign: boolean): Vector3 {
-        if (changeSign) {
-            return new Vector3([B.yz, B.zx, B.xy])
-        }
-        else {
-            return new Vector3([-B.yz, -B.zx, -B.xy])
-        }
-    }
-
-    /**
-     * @method lerp
-     * @param a {VectorE3}
-     * @param b {VectorE3}
-     * @param α {number}
-     * @return {Vector3} &lt;code&gt;a + α * (b - a)&lt;/code&gt;
-     * @static
-     * @chainable
-     */
-    static lerp(a: VectorE3, b: VectorE3, α: number): Vector3 {
-        return Vector3.copy(b).sub(a).scale(α).add(a)
-    }
-
-    /**
-     * @method random
-     * @return {Vector3}
-     * @static
-     * @chainable
-     */
-    static random(): Vector3 {
-        return new Vector3([Math.random(), Math.random(), Math.random()])
-    }
-
-    /**
-     * @method vector
-     * @param x {number}
-     * @param y {number}
-     * @param z {number}
-     * @return {Vector3}
-     * @static
-     * @chainable
-     */
-    static vector(x: number, y: number, z: number): Vector3 {
-        return new Vector3([x, y, z])
-    }
-
-    /**
-     * @method zero
-     * @return {Vector3}
-     * @static
-     * @chainable
-     */
-    static zero(): Vector3 {
-        return new Vector3([0, 0, 0])
-    }
+  /**
+   * @method zero
+   * @return {Vector3}
+   * @static
+   * @chainable
+   */
+  static zero(): Vector3 {
+    return new Vector3([0, 0, 0])
+  }
 }
 
     </pre>

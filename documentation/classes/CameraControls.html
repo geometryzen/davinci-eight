@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.204.0</em>
+            <em>API Docs for: 2.205.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -81,6 +81,7 @@
                                 <li><a href="../classes/DrawMode.html">DrawMode</a></li>
                                 <li><a href="../classes/Duality.html">Duality</a></li>
                                 <li><a href="../classes/EIGHTLogger.html">EIGHTLogger</a></li>
+                                <li><a href="../classes/ErrorMode.html">ErrorMode</a></li>
                                 <li><a href="../classes/Facet.html">Facet</a></li>
                                 <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
@@ -113,12 +114,12 @@
                                 <li><a href="../classes/IContextProvider.html">IContextProvider</a></li>
                                 <li><a href="../classes/IDrawable.html">IDrawable</a></li>
                                 <li><a href="../classes/IGeometric3RigidBody.html">IGeometric3RigidBody</a></li>
-                                <li><a href="../classes/IMaterial.html">IMaterial</a></li>
                                 <li><a href="../classes/IMesh.html">IMesh</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
                                 <li><a href="../classes/LineMaterialOptions.html">LineMaterialOptions</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
+                                <li><a href="../classes/MaterialBase.html">MaterialBase</a></li>
                                 <li><a href="../classes/Matrix2.html">Matrix2</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
                                 <li><a href="../classes/Matrix4.html">Matrix4</a></li>
@@ -203,7 +204,6 @@
                                 <li><a href="../classes/WebGLDisable.html">WebGLDisable</a></li>
                                 <li><a href="../classes/WebGLEnable.html">WebGLEnable</a></li>
                                 <li><a href="../classes/WebGLRenderer.html">WebGLRenderer</a></li>
-                                <li><a href="../classes/World.html">World</a></li>
                             </ul>
                 
                 
@@ -253,9 +253,12 @@
 <h1>CameraControls Class</h1>
 <div class="box meta">
 
+        <div class="extends">
+            Extends <a href="../classes/Shareable.html" class="crosslink">Shareable</a>
+        </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_controls_CameraControls.ts.html#l65"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;CameraControls.ts:65</code></a>
+            Defined in: <a href="../files/src_davinci-eight_controls_CameraControls.ts.html#l74"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;CameraControls.ts:74</code></a>
         </div>
 
             Module: <a href="../modules/controls.html">controls</a><br>
@@ -291,7 +294,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_controls_CameraControls.ts.html#l65"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;CameraControls.ts:65</code></a>
+        <a href="../files/src_davinci-eight_controls_CameraControls.ts.html#l74"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;CameraControls.ts:74</code></a>
         </p>
 
 
@@ -329,6 +332,7 @@
         <li class="api-class-tab index"><a href="#index">Index</a></li>
 
             <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
+            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
     </ul>
 
     <div>
@@ -338,13 +342,25 @@
                 <div class="index-section methods">
                     <h3>Methods</h3>
 
-                    <ul class="index-list methods">
-                            <li class="index-item method protected">
+                    <ul class="index-list methods extends">
+                            <li class="index-item method inherited inherited">
+                                <a href="#method_addRef">addRef</a>
+
+                            </li>
+                            <li class="index-item method protected inherited">
                                 <a href="#method_destructor">destructor</a>
 
                             </li>
                             <li class="index-item method private">
                                 <a href="#method_panCamera">panCamera</a>
+
+                            </li>
+                            <li class="index-item method inherited inherited">
+                                <a href="#method_release">release</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_reset">reset</a>
 
                             </li>
                             <li class="index-item method private">
@@ -362,6 +378,28 @@
                     </ul>
                 </div>
 
+                <div class="index-section properties">
+                    <h3>Properties</h3>
+
+                    <ul class="index-list properties extends">
+                            <li class="index-item property">
+                                <a href="#property_panSpeed">panSpeed</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_rotateSpeed">rotateSpeed</a>
+
+                            </li>
+                            <li class="index-item property inherited">
+                                <a href="#property_uuid">uuid</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_zoomSpeed">zoomSpeed</a>
+
+                            </li>
+                    </ul>
+                </div>
 
 
         </div>
@@ -369,6 +407,52 @@
             <div id="methods" class="api-class-tabpanel">
                 <h2 class="off-left">Methods</h2>
 
+<div id="method_addRef" class="method item inherited">
+    <h3 class="name"><code>addRef</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">Number</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+            <p>Inherited from
+            <a href="../classes/IUnknown.html#method_addRef">
+                IUnknown
+            </a>
+            but overwritten in
+        <a href="../files/src_davinci-eight_core_Shareable.ts.html#l34"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Shareable.ts:34</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>
+Notifies this instance that something is referencing it.
+</p>
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Number</span>:
+                    The new value of the reference count.
+            </div>
+        </div>
+
+
+</div>
 <div id="method_destructor" class="method item protected">
     <h3 class="name"><code>destructor</code></h3>
 
@@ -386,9 +470,12 @@
 
 
     <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_controls_CameraControls.ts.html#l84"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;CameraControls.ts:84</code></a>
+            <p>Inherited from
+            <a href="../classes/Shareable.html#method_destructor">
+                Shareable
+            </a>
+            but overwritten in
+        <a href="../files/src_davinci-eight_controls_CameraControls.ts.html#l93"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;CameraControls.ts:93</code></a>
         </p>
 
 
@@ -429,7 +516,93 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_controls_CameraControls.ts.html#l193"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;CameraControls.ts:193</code></a>
+        <a href="../files/src_davinci-eight_controls_CameraControls.ts.html#l203"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;CameraControls.ts:203</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Void</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_release" class="method item inherited">
+    <h3 class="name"><code>release</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">Number</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+            <p>Inherited from
+            <a href="../classes/IUnknown.html#method_release">
+                IUnknown
+            </a>
+            but overwritten in
+        <a href="../files/src_davinci-eight_core_Shareable.ts.html#l48"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Shareable.ts:48</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>
+Notifies this instance that something is dereferencing it.
+</p>
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Number</span>:
+                    The new value of the reference count.
+            </div>
+        </div>
+
+
+</div>
+<div id="method_reset" class="method item">
+    <h3 class="name"><code>reset</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_controls_CameraControls.ts.html#l102"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;CameraControls.ts:102</code></a>
         </p>
 
 
@@ -470,7 +643,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_controls_CameraControls.ts.html#l134"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;CameraControls.ts:134</code></a>
+        <a href="../files/src_davinci-eight_controls_CameraControls.ts.html#l144"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;CameraControls.ts:144</code></a>
         </p>
 
 
@@ -510,7 +683,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_controls_CameraControls.ts.html#l106"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;CameraControls.ts:106</code></a>
+        <a href="../files/src_davinci-eight_controls_CameraControls.ts.html#l116"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;CameraControls.ts:116</code></a>
         </p>
 
 
@@ -554,7 +727,7 @@ We also want to avoid temporary object creation in this and called methods by re
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_controls_CameraControls.ts.html#l180"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;CameraControls.ts:180</code></a>
+        <a href="../files/src_davinci-eight_controls_CameraControls.ts.html#l190"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;CameraControls.ts:190</code></a>
         </p>
 
 
@@ -578,6 +751,109 @@ We also want to avoid temporary object creation in this and called methods by re
 </div>
             </div>
 
+            <div id="properties" class="api-class-tabpanel">
+                <h2 class="off-left">Properties</h2>
+
+<div id="property_panSpeed" class="property item">
+    <h3 class="name"><code>panSpeed</code></h3>
+    <span class="type">Number</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_controls_CameraControls.ts.html#l32"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;CameraControls.ts:32</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <p><strong>Default:</strong> 1</p>
+
+
+</div>
+<div id="property_rotateSpeed" class="property item">
+    <h3 class="name"><code>rotateSpeed</code></h3>
+    <span class="type">Number</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_controls_CameraControls.ts.html#l18"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;CameraControls.ts:18</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <p><strong>Default:</strong> 6</p>
+
+
+</div>
+<div id="property_uuid" class="property item inherited">
+    <h3 class="name"><code>uuid</code></h3>
+    <span class="type">String</span>
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/Shareable.html#property_uuid">Shareable</a>:
+        <a href="../files/src_davinci-eight_core_Shareable.ts.html#l92"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Shareable.ts:92</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_zoomSpeed" class="property item">
+    <h3 class="name"><code>zoomSpeed</code></h3>
+    <span class="type">Number</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_controls_CameraControls.ts.html#l25"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;CameraControls.ts:25</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <p><strong>Default:</strong> 4</p>
+
+
+</div>
+            </div>
 
 
     </div>
