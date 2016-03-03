@@ -8164,7 +8164,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/controls/CameraControls',["require", "exports", '../math/Geometric3', './MouseControls', '../math/Vector2', '../math/Vector3'], function (require, exports, Geometric3_1, MouseControls_1, Vector2_1, Vector3_1) {
+define('davinci-eight/controls/CameraControls',["require", "exports", '../math/Geometric3', './MouseControls', '../checks/mustBeObject', '../math/Vector2', '../math/Vector3'], function (require, exports, Geometric3_1, MouseControls_1, mustBeObject_1, Vector2_1, Vector3_1) {
     var CameraControls = (function (_super) {
         __extends(CameraControls, _super);
         function CameraControls(camera) {
@@ -8183,6 +8183,7 @@ define('davinci-eight/controls/CameraControls',["require", "exports", '../math/G
             this.mouseChange = new Vector2_1.default();
             this.pan = new Vector3_1.default();
             this.objectUp = new Vector3_1.default();
+            mustBeObject_1.default('camera', camera);
             this.camera = camera;
             this.target0 = this.target.clone();
             this.position0 = this.camera.position.clone();
@@ -8334,14 +8335,33 @@ define('davinci-eight/core/ErrorMode',["require", "exports"], function (require,
 define('davinci-eight/core',["require", "exports", './core/ErrorMode'], function (require, exports, ErrorMode_1) {
     var Eight = (function () {
         function Eight() {
-            this.errorMode = ErrorMode_1.default.STRICT;
-            this.strict = false;
+            this._errorMode = ErrorMode_1.default.STRICT;
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
             this.LAST_MODIFIED = '2016-03-03';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '2.205.0';
-            this.logging = {};
+            this.VERSION = '2.206.0';
         }
+        Object.defineProperty(Eight.prototype, "errorMode", {
+            get: function () {
+                return this._errorMode;
+            },
+            set: function (errorMode) {
+                switch (errorMode) {
+                    case ErrorMode_1.default.IGNORE:
+                    case ErrorMode_1.default.STRICT:
+                    case ErrorMode_1.default.WARNME:
+                        {
+                            this._errorMode = errorMode;
+                        }
+                        break;
+                    default: {
+                        throw new Error("errorMode must be one of IGNORE, STRICT, or WARNME.");
+                    }
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
         return Eight;
     })();
     var core = new Eight();
@@ -10259,7 +10279,7 @@ define('davinci-eight/core/GraphicsProgramSymbols',["require", "exports"], funct
     exports.default = GraphicsProgramSymbols;
 });
 
-define('davinci-eight/facets/ColorFacet',["require", "exports", '../core/Color', '../core', '../checks/mustBeNumber', '../core/GraphicsProgramSymbols'], function (require, exports, Color_1, core_1, mustBeNumber_1, GraphicsProgramSymbols_1) {
+define('davinci-eight/facets/ColorFacet',["require", "exports", '../core/Color', '../checks/mustBeNumber', '../core/GraphicsProgramSymbols'], function (require, exports, Color_1, mustBeNumber_1, GraphicsProgramSymbols_1) {
     var COORD_R = 0;
     var COORD_G = 1;
     var COORD_B = 2;
@@ -10272,12 +10292,7 @@ define('davinci-eight/facets/ColorFacet',["require", "exports", '../core/Color',
             case ColorFacet.PROP_RGB: return;
             default: {
                 var msg = "ColorFacet property 'name' must be one of " + [ColorFacet.PROP_RGB, ColorFacet.PROP_RED, ColorFacet.PROP_GREEN, ColorFacet.PROP_BLUE] + ".";
-                if (core_1.default.strict) {
-                    throw new Error(msg);
-                }
-                else {
-                    console.warn(msg);
-                }
+                throw new Error(msg);
             }
         }
     }
@@ -10334,21 +10349,15 @@ define('davinci-eight/facets/ColorFacet',["require", "exports", '../core/Color',
         ColorFacet.prototype.getProperty = function (name) {
             checkPropertyName(name);
             switch (name) {
-                case ColorFacet.PROP_RGB:
-                    {
-                        return [this.r, this.g, this.b];
-                    }
-                    break;
-                case ColorFacet.PROP_RED:
-                    {
-                        return [this.r];
-                    }
-                    break;
-                case ColorFacet.PROP_GREEN:
-                    {
-                        return [this.g];
-                    }
-                    break;
+                case ColorFacet.PROP_RGB: {
+                    return [this.r, this.g, this.b];
+                }
+                case ColorFacet.PROP_RED: {
+                    return [this.r];
+                }
+                case ColorFacet.PROP_GREEN: {
+                    return [this.g];
+                }
                 default: {
                     return void 0;
                 }
@@ -18485,14 +18494,42 @@ define('davinci-eight/visual/Tetrahedron',["require", "exports", '../core/Mesh',
     exports.default = Tetrahedron;
 });
 
-define('davinci-eight/visual/TrailConfig',["require", "exports"], function (require, exports) {
+define('davinci-eight/visual/TrailConfig',["require", "exports", '../core', '../core/ErrorMode', '../checks/isBoolean', '../checks/mustBeBoolean'], function (require, exports, core_1, ErrorMode_1, isBoolean_1, mustBeBoolean_1) {
     'use strict';
     var TrailConfig = (function () {
         function TrailConfig() {
-            this.enabled = false;
+            this._enabled = true;
             this.interval = 10;
             this.retain = 10;
         }
+        Object.defineProperty(TrailConfig.prototype, "enabled", {
+            get: function () {
+                return this._enabled;
+            },
+            set: function (enabled) {
+                if (isBoolean_1.default(enabled)) {
+                    this._enabled = enabled;
+                }
+                else {
+                    switch (core_1.default.errorMode) {
+                        case ErrorMode_1.default.IGNORE:
+                            {
+                            }
+                            break;
+                        case ErrorMode_1.default.WARNME:
+                            {
+                                console.warn("TrailConfig.enabled must be a boolean");
+                            }
+                            break;
+                        default: {
+                            mustBeBoolean_1.default('enabled', enabled);
+                        }
+                    }
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
         return TrailConfig;
     })();
     Object.defineProperty(exports, "__esModule", { value: true });
@@ -18522,28 +18559,36 @@ define('davinci-eight/visual/Trail',["require", "exports", '../checks/mustBeObje
             this.mesh = void 0;
             _super.prototype.destructor.call(this);
         };
+        Trail.prototype.erase = function () {
+            this.Xs = [];
+            this.Rs = [];
+        };
         Trail.prototype.snapshot = function () {
-            if (this.counter % this.config.interval === 0) {
-                this.Xs.unshift(this.mesh.position.clone());
-                this.Rs.unshift(this.mesh.attitude.clone());
+            if (this.config.enabled) {
+                if (this.counter % this.config.interval === 0) {
+                    this.Xs.unshift(this.mesh.position.clone());
+                    this.Rs.unshift(this.mesh.attitude.clone());
+                }
+                while (this.Xs.length > this.config.retain) {
+                    this.Xs.pop();
+                    this.Rs.pop();
+                }
+                this.counter++;
             }
-            while (this.Xs.length > this.config.retain) {
-                this.Xs.pop();
-                this.Rs.pop();
-            }
-            this.counter++;
         };
         Trail.prototype.draw = function (ambients) {
-            var X = this.mesh.position.clone();
-            var R = this.mesh.attitude.clone();
-            var iLength = this.Xs.length;
-            for (var i = 0; i < iLength; i++) {
-                this.mesh.position.copyVector(this.Xs[i]);
-                this.mesh.attitude.copySpinor(this.Rs[i]);
-                this.mesh.draw(ambients);
+            if (this.config.enabled) {
+                var X = this.mesh.position.clone();
+                var R = this.mesh.attitude.clone();
+                var iLength = this.Xs.length;
+                for (var i = 0; i < iLength; i++) {
+                    this.mesh.position.copyVector(this.Xs[i]);
+                    this.mesh.attitude.copySpinor(this.Rs[i]);
+                    this.mesh.draw(ambients);
+                }
+                this.mesh.position.copy(X);
+                this.mesh.attitude.copy(R);
             }
-            this.mesh.position.copy(X);
-            this.mesh.attitude.copy(R);
         };
         return Trail;
     })(Shareable_1.default);

@@ -140,6 +140,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "TetrahedronGeometryOptions",
         "TextureCoords",
         "Trail",
+        "TrailConfig",
         "Translation",
         "UniformLocation",
         "UniformMetaInfo",
@@ -182,7 +183,8 @@ YUI.add("yuidoc-meta", function(Y) {
     "allModules": [
         {
             "displayName": "controls",
-            "name": "controls"
+            "name": "controls",
+            "description": "<p>\nAllows a camera to be manipulated using mouse controls.\n</p>"
         },
         {
             "displayName": "core",

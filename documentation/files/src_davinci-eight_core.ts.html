@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.205.0</em>
+            <em>API Docs for: 2.206.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -178,6 +178,7 @@
                                 <li><a href="../classes/TetrahedronGeometryOptions.html">TetrahedronGeometryOptions</a></li>
                                 <li><a href="../classes/TextureCoords.html">TextureCoords</a></li>
                                 <li><a href="../classes/Trail.html">Trail</a></li>
+                                <li><a href="../classes/TrailConfig.html">TrailConfig</a></li>
                                 <li><a href="../classes/Translation.html">Translation</a></li>
                                 <li><a href="../classes/UniformLocation.html">UniformLocation</a></li>
                                 <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
@@ -257,22 +258,34 @@
 import ErrorMode from &#x27;./core/ErrorMode&#x27;
 
 class Eight {
-    errorMode: ErrorMode;
-    strict: boolean;
+    private _errorMode: ErrorMode;
     GITHUB: string;
     LAST_MODIFIED: string;
     NAMESPACE: string;
     VERSION: string;
-    logging: { [name: string]: number };
 
     constructor() {
-        this.errorMode = ErrorMode.STRICT;
-        this.strict = false;
+        this._errorMode = ErrorMode.STRICT;
         this.GITHUB = &#x27;https://github.com/geometryzen/davinci-eight&#x27;;
         this.LAST_MODIFIED = &#x27;2016-03-03&#x27;;
         this.NAMESPACE = &#x27;EIGHT&#x27;;
-        this.VERSION = &#x27;2.205.0&#x27;;
-        this.logging = {};
+        this.VERSION = &#x27;2.206.0&#x27;;
+    }
+    get errorMode() {
+      return this._errorMode
+    }
+    set errorMode(errorMode: ErrorMode) {
+      switch(errorMode) {
+        case ErrorMode.IGNORE:
+        case ErrorMode.STRICT:
+        case ErrorMode.WARNME: {
+          this._errorMode = errorMode
+        }
+        break;
+        default: {
+          throw new Error(&quot;errorMode must be one of IGNORE, STRICT, or WARNME.&quot;)
+        }
+      }
     }
 }
 

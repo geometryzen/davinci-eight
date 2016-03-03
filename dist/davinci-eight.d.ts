@@ -3689,7 +3689,7 @@ declare module EIGHT {
   }
 
   interface TrailConfig {
-    enable: boolean;
+    enabled: boolean;
     interval: number;
     retain: number;
   }
@@ -3707,14 +3707,19 @@ declare module EIGHT {
     constructor(mesh: Mesh);
 
     /**
-     * Records the graphics model variables.
+     * Erases the trail history.
      */
-    snapshot(): void;
+    erase(): void;
 
     /**
      * Draws the mesh in its historical positions and attitudes.
      */
     draw(ambients: Facet[]): void;
+
+    /**
+     * Records the graphics model variables.
+     */
+    snapshot(): void;
   }
 
   /**
@@ -3743,17 +3748,39 @@ declare module EIGHT {
 
   ///////////////////////////////////////////////////////////////////////////////
   class CameraControls extends Shareable {
+
+    public panSpeed: number
     public rotateSpeed: number
     public zoomSpeed: number
-    public panSpeed: number
+
     constructor(camera: PerspectiveCamera)
     protected destructor(): void
-    public subscribe(domElement: HTMLElement): void
-    public unsubscribe()
+
+    /**
+     * This should be called whenever the window is resized.
+     */
     public handleResize()
+
+    /**
+     * Resets the camera position and attitude.
+     */
+    public reset(): void
+
+    /**
+     * Start listening to mouse events from the specified HTMLElement.
+     */
+    public subscribe(domElement: HTMLElement): void
+
+    /**
+     * Stop listening to mouse events.
+     */
+    public unsubscribe()
+
+    /**
+     * Updates the camera position and attitude based upon movement of the mouse controls.
+     */
     public update()
   }
-  ///////////////////////////////////////////////////////////////////////////////
   ///////////////////////////////////////////////////////////////////////////////
   function cos<T>(x: T): T;
   function cosh<T>(x: T): T;

@@ -1,22 +1,34 @@
 import ErrorMode from './core/ErrorMode'
 
 class Eight {
-    errorMode: ErrorMode;
-    strict: boolean;
+    private _errorMode: ErrorMode;
     GITHUB: string;
     LAST_MODIFIED: string;
     NAMESPACE: string;
     VERSION: string;
-    logging: { [name: string]: number };
 
     constructor() {
-        this.errorMode = ErrorMode.STRICT;
-        this.strict = false;
+        this._errorMode = ErrorMode.STRICT;
         this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
         this.LAST_MODIFIED = '2016-03-03';
         this.NAMESPACE = 'EIGHT';
-        this.VERSION = '2.205.0';
-        this.logging = {};
+        this.VERSION = '2.206.0';
+    }
+    get errorMode() {
+      return this._errorMode
+    }
+    set errorMode(errorMode: ErrorMode) {
+      switch(errorMode) {
+        case ErrorMode.IGNORE:
+        case ErrorMode.STRICT:
+        case ErrorMode.WARNME: {
+          this._errorMode = errorMode
+        }
+        break;
+        default: {
+          throw new Error("errorMode must be one of IGNORE, STRICT, or WARNME.")
+        }
+      }
     }
 }
 

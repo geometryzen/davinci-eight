@@ -1,5 +1,4 @@
 import Color from '../core/Color';
-import core from '../core';
 import mustBeNumber from '../checks/mustBeNumber';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
 import Facet from '../core/Facet';
@@ -23,12 +22,7 @@ function checkPropertyName(name: string): void {
     case ColorFacet.PROP_RGB: return;
     default: {
       const msg = `ColorFacet property 'name' must be one of ${[ColorFacet.PROP_RGB, ColorFacet.PROP_RED, ColorFacet.PROP_GREEN, ColorFacet.PROP_BLUE]}.`;
-      if (core.strict) {
-        throw new Error(msg);
-      }
-      else {
-        console.warn(msg);
-      }
+      throw new Error(msg);
     }
   }
 }
@@ -37,6 +31,7 @@ function checkPropertyName(name: string): void {
  * @class ColorFacet
  */
 export default class ColorFacet implements Facet {
+
   /**
    * property PROP_RGB
    * @type {string}
@@ -165,15 +160,12 @@ export default class ColorFacet implements Facet {
       case ColorFacet.PROP_RGB: {
         return [this.r, this.g, this.b]
       }
-        break;
       case ColorFacet.PROP_RED: {
         return [this.r]
       }
-        break;
       case ColorFacet.PROP_GREEN: {
         return [this.g]
       }
-        break;
       default: {
         return void 0
       }

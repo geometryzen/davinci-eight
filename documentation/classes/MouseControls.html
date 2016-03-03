@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.205.0</em>
+            <em>API Docs for: 2.206.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -178,6 +178,7 @@
                                 <li><a href="../classes/TetrahedronGeometryOptions.html">TetrahedronGeometryOptions</a></li>
                                 <li><a href="../classes/TextureCoords.html">TextureCoords</a></li>
                                 <li><a href="../classes/Trail.html">Trail</a></li>
+                                <li><a href="../classes/TrailConfig.html">TrailConfig</a></li>
                                 <li><a href="../classes/Translation.html">Translation</a></li>
                                 <li><a href="../classes/UniformLocation.html">UniformLocation</a></li>
                                 <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
@@ -253,9 +254,12 @@
 <h1>MouseControls Class</h1>
 <div class="box meta">
 
+        <div class="extends">
+            Extends <a href="../classes/Shareable.html" class="crosslink">Shareable</a>
+        </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_controls_MouseControls.ts.html#l107"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;MouseControls.ts:107</code></a>
+            Defined in: <a href="../files/src_davinci-eight_controls_MouseControls.ts.html#l116"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;MouseControls.ts:116</code></a>
         </div>
 
             Module: <a href="../modules/controls.html">controls</a><br>
@@ -291,7 +295,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_controls_MouseControls.ts.html#l107"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;MouseControls.ts:107</code></a>
+        <a href="../files/src_davinci-eight_controls_MouseControls.ts.html#l116"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;MouseControls.ts:116</code></a>
         </p>
 
 
@@ -339,13 +343,25 @@
                 <div class="index-section methods">
                     <h3>Methods</h3>
 
-                    <ul class="index-list methods">
-                            <li class="index-item method protected">
+                    <ul class="index-list methods extends">
+                            <li class="index-item method inherited inherited">
+                                <a href="#method_addRef">addRef</a>
+
+                            </li>
+                            <li class="index-item method protected inherited">
                                 <a href="#method_destructor">destructor</a>
 
                             </li>
                             <li class="index-item method">
                                 <a href="#method_handleResize">handleResize</a>
+
+                            </li>
+                            <li class="index-item method inherited inherited">
+                                <a href="#method_release">release</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_reset">reset</a>
 
                             </li>
                             <li class="index-item method">
@@ -370,7 +386,11 @@
                 <div class="index-section properties">
                     <h3>Properties</h3>
 
-                    <ul class="index-list properties">
+                    <ul class="index-list properties extends">
+                            <li class="index-item property private">
+                                <a href="#property_domElement">domElement</a>
+
+                            </li>
                             <li class="index-item property">
                                 <a href="#property_enabled">enabled</a>
 
@@ -399,6 +419,10 @@
                                 <a href="#property_screenLoc">screenLoc</a>
 
                             </li>
+                            <li class="index-item property inherited">
+                                <a href="#property_uuid">uuid</a>
+
+                            </li>
                     </ul>
                 </div>
 
@@ -408,6 +432,52 @@
             <div id="methods" class="api-class-tabpanel">
                 <h2 class="off-left">Methods</h2>
 
+<div id="method_addRef" class="method item inherited">
+    <h3 class="name"><code>addRef</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">Number</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+            <p>Inherited from
+            <a href="../classes/IUnknown.html#method_addRef">
+                IUnknown
+            </a>
+            but overwritten in
+        <a href="../files/src_davinci-eight_core_Shareable.ts.html#l34"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Shareable.ts:34</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>
+Notifies this instance that something is referencing it.
+</p>
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Number</span>:
+                    The new value of the reference count.
+            </div>
+        </div>
+
+
+</div>
 <div id="method_destructor" class="method item protected">
     <h3 class="name"><code>destructor</code></h3>
 
@@ -425,9 +495,12 @@
 
 
     <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_controls_MouseControls.ts.html#l286"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;MouseControls.ts:286</code></a>
+            <p>Inherited from
+            <a href="../classes/Shareable.html#method_destructor">
+                Shareable
+            </a>
+            but overwritten in
+        <a href="../files/src_davinci-eight_controls_MouseControls.ts.html#l296"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;MouseControls.ts:296</code></a>
         </p>
 
 
@@ -467,7 +540,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_controls_MouseControls.ts.html#l341"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;MouseControls.ts:341</code></a>
+        <a href="../files/src_davinci-eight_controls_MouseControls.ts.html#l355"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;MouseControls.ts:355</code></a>
         </p>
 
 
@@ -475,8 +548,94 @@
     </div>
 
     <div class="description">
-        <p>This must be called whenever the window is resized</p>
+        <p>This should be called whenever the window is resized</p>
 
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Void</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_release" class="method item inherited">
+    <h3 class="name"><code>release</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">Number</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+            <p>Inherited from
+            <a href="../classes/IUnknown.html#method_release">
+                IUnknown
+            </a>
+            but overwritten in
+        <a href="../files/src_davinci-eight_core_Shareable.ts.html#l48"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Shareable.ts:48</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>
+Notifies this instance that something is dereferencing it.
+</p>
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Number</span>:
+                    The new value of the reference count.
+            </div>
+        </div>
+
+
+</div>
+<div id="method_reset" class="method item">
+    <h3 class="name"><code>reset</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_controls_MouseControls.ts.html#l311"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;MouseControls.ts:311</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
     </div>
 
 
@@ -514,7 +673,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_controls_MouseControls.ts.html#l250"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;MouseControls.ts:250</code></a>
+        <a href="../files/src_davinci-eight_controls_MouseControls.ts.html#l260"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;MouseControls.ts:260</code></a>
         </p>
 
 
@@ -535,7 +694,7 @@
 
 
                     <div class="param-description">
-                         
+                        
                     </div>
 
                 </li>
@@ -570,7 +729,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_controls_MouseControls.ts.html#l270"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;MouseControls.ts:270</code></a>
+        <a href="../files/src_davinci-eight_controls_MouseControls.ts.html#l280"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;MouseControls.ts:280</code></a>
         </p>
 
 
@@ -617,7 +776,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_controls_MouseControls.ts.html#l305"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;MouseControls.ts:305</code></a>
+        <a href="../files/src_davinci-eight_controls_MouseControls.ts.html#l319"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;MouseControls.ts:319</code></a>
         </p>
 
 
@@ -642,7 +801,7 @@ Updates the mouseOnCircle property.</p>
 
 
                     <div class="param-description">
-                         
+                        
                     </div>
 
                 </li>
@@ -684,7 +843,7 @@ Updates the mouseOnCircle property.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_controls_MouseControls.ts.html#l322"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;MouseControls.ts:322</code></a>
+        <a href="../files/src_davinci-eight_controls_MouseControls.ts.html#l336"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;MouseControls.ts:336</code></a>
         </p>
 
 
@@ -709,7 +868,7 @@ Updates the mouseOnScreen property.</p>
 
 
                     <div class="param-description">
-                         
+                        
                     </div>
 
                 </li>
@@ -731,6 +890,31 @@ Updates the mouseOnScreen property.</p>
             <div id="properties" class="api-class-tabpanel">
                 <h2 class="off-left">Properties</h2>
 
+<div id="property_domElement" class="property item private">
+    <h3 class="name"><code>domElement</code></h3>
+    <span class="type">HTMLElement</span>
+
+
+        <span class="flag private">private</span>
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_controls_MouseControls.ts.html#l64"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;MouseControls.ts:64</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
 <div id="property_enabled" class="property item">
     <h3 class="name"><code>enabled</code></h3>
     <span class="type">Boolean</span>
@@ -742,7 +926,7 @@ Updates the mouseOnScreen property.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_controls_MouseControls.ts.html#l20"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;MouseControls.ts:20</code></a>
+        <a href="../files/src_davinci-eight_controls_MouseControls.ts.html#l23"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;MouseControls.ts:23</code></a>
         </p>
 
 
@@ -766,7 +950,7 @@ Updates the mouseOnScreen property.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_controls_MouseControls.ts.html#l54"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;MouseControls.ts:54</code></a>
+        <a href="../files/src_davinci-eight_controls_MouseControls.ts.html#l57"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;MouseControls.ts:57</code></a>
         </p>
 
 
@@ -791,7 +975,7 @@ Updates the mouseOnScreen property.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_controls_MouseControls.ts.html#l47"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;MouseControls.ts:47</code></a>
+        <a href="../files/src_davinci-eight_controls_MouseControls.ts.html#l50"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;MouseControls.ts:50</code></a>
         </p>
 
 
@@ -816,7 +1000,7 @@ Updates the mouseOnScreen property.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_controls_MouseControls.ts.html#l26"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;MouseControls.ts:26</code></a>
+        <a href="../files/src_davinci-eight_controls_MouseControls.ts.html#l29"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;MouseControls.ts:29</code></a>
         </p>
 
 
@@ -841,7 +1025,7 @@ Updates the mouseOnScreen property.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_controls_MouseControls.ts.html#l40"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;MouseControls.ts:40</code></a>
+        <a href="../files/src_davinci-eight_controls_MouseControls.ts.html#l43"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;MouseControls.ts:43</code></a>
         </p>
 
 
@@ -866,7 +1050,7 @@ Updates the mouseOnScreen property.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_controls_MouseControls.ts.html#l33"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;MouseControls.ts:33</code></a>
+        <a href="../files/src_davinci-eight_controls_MouseControls.ts.html#l36"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;MouseControls.ts:36</code></a>
         </p>
 
 
@@ -892,7 +1076,7 @@ Updates the mouseOnScreen property.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_controls_MouseControls.ts.html#l79"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;MouseControls.ts:79</code></a>
+        <a href="../files/src_davinci-eight_controls_MouseControls.ts.html#l88"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;MouseControls.ts:88</code></a>
         </p>
 
 
@@ -901,6 +1085,30 @@ Updates the mouseOnScreen property.</p>
     <div class="description">
         <p>Initialized by calling handleResize</p>
 
+    </div>
+
+
+
+</div>
+<div id="property_uuid" class="property item inherited">
+    <h3 class="name"><code>uuid</code></h3>
+    <span class="type">String</span>
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/Shareable.html#property_uuid">Shareable</a>:
+        <a href="../files/src_davinci-eight_core_Shareable.ts.html#l92"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Shareable.ts:92</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
     </div>
 
 

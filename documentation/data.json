@@ -2,7 +2,7 @@
     "project": {
         "name": "davinci-eight",
         "description": "WebGL library for mathematical physics using Geometric Algebra",
-        "version": "2.205.0",
+        "version": "2.206.0",
         "url": ""
     },
     "files": {
@@ -2044,7 +2044,9 @@
         "src/davinci-eight/visual/TrailConfig.ts": {
             "name": "src/davinci-eight/visual/TrailConfig.ts",
             "modules": {},
-            "classes": {},
+            "classes": {
+                "TrailConfig": 1
+            },
             "fors": {},
             "namespaces": {}
         },
@@ -2250,12 +2252,13 @@
                 "Sphere": 1,
                 "SphereOptions": 1,
                 "Tetrahedron": 1,
-                "Trail": 1
+                "Trail": 1,
+                "TrailConfig": 1
             },
             "fors": {},
             "namespaces": {},
-            "file": "src/davinci-eight/visual/Trail.ts",
-            "line": 64
+            "file": "src/davinci-eight/visual/TrailConfig.ts",
+            "line": 7
         },
         "controls": {
             "name": "controls",
@@ -2271,8 +2274,8 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/controls/MouseControls.ts",
-            "line": 107,
-            "extends": "Shareable"
+            "line": 116,
+            "description": "<p>\nAllows a camera to be manipulated using mouse controls.\n</p>"
         },
         "core": {
             "name": "core",
@@ -2709,13 +2712,18 @@
             "submodule": "controls",
             "namespace": "",
             "file": "src/davinci-eight/controls/CameraControls.ts",
-            "line": 74,
-            "extends": "Shareable",
+            "line": 99,
+            "description": "<p>\nAllows a camera to be manipulated using mouse controls.\n</p>",
+            "example": [
+                "\n    const camera = new EIGHT.PerspectiveCamera()\n\n    // Create CameraControls anytime.\n    const controls = new EIGHT.CameraControls(camera)\n\n    // Subscribe to mouse events, usually in the window.onload function.\n    controls.subscribe(canvas)\n\n    // Update the camera position, usually in the animate function.\n    controls.update()\n\n    // Stop listening to mouse events.\n    controls.unsubscribe()\n\n    // Inform the controls they are no longer needed, usually in the window.onunload function.\n    controls.release()\n\nYou may decide to update directional lighting to synchronize with the camera."
+            ],
+            "extends": "MouseControls",
             "is_constructor": 1,
             "params": [
                 {
                     "name": "camera",
-                    "description": ""
+                    "description": "",
+                    "type": "PerspectiveCamera"
                 }
             ]
         },
@@ -2731,7 +2739,8 @@
             "submodule": "controls",
             "namespace": "",
             "file": "src/davinci-eight/controls/MouseControls.ts",
-            "line": 107,
+            "line": 116,
+            "extends": "Shareable",
             "is_constructor": 1,
             "params": [
                 {
@@ -3423,7 +3432,7 @@
             "submodule": "facets",
             "namespace": "",
             "file": "src/davinci-eight/facets/ColorFacet.ts",
-            "line": 82,
+            "line": 77,
             "is_constructor": 1
         },
         "DirectionalLight": {
@@ -5933,6 +5942,19 @@
                     "type": "Mesh"
                 }
             ]
+        },
+        "TrailConfig": {
+            "name": "TrailConfig",
+            "shortname": "TrailConfig",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/visual/TrailConfig.ts",
+            "line": 7
         }
     },
     "elements": {},
@@ -6808,7 +6830,7 @@
         },
         {
             "file": "src/davinci-eight/controls/CameraControls.ts",
-            "line": 18,
+            "line": 43,
             "itemtype": "property",
             "name": "rotateSpeed",
             "type": "number",
@@ -6819,7 +6841,7 @@
         },
         {
             "file": "src/davinci-eight/controls/CameraControls.ts",
-            "line": 25,
+            "line": 50,
             "itemtype": "property",
             "name": "zoomSpeed",
             "type": "number",
@@ -6830,7 +6852,7 @@
         },
         {
             "file": "src/davinci-eight/controls/CameraControls.ts",
-            "line": 32,
+            "line": 57,
             "itemtype": "property",
             "name": "panSpeed",
             "type": "number",
@@ -6841,7 +6863,7 @@
         },
         {
             "file": "src/davinci-eight/controls/CameraControls.ts",
-            "line": 39,
+            "line": 64,
             "description": "The camera object is what we will be moving.",
             "class": "CameraControls",
             "module": "EIGHT",
@@ -6849,7 +6871,7 @@
         },
         {
             "file": "src/davinci-eight/controls/CameraControls.ts",
-            "line": 44,
+            "line": 69,
             "description": "The eye vector is the position of the camera relative to the target position vector.\nSo, camera.position = target + eye, or, eye = camera.position - target.",
             "class": "CameraControls",
             "module": "EIGHT",
@@ -6857,7 +6879,7 @@
         },
         {
             "file": "src/davinci-eight/controls/CameraControls.ts",
-            "line": 50,
+            "line": 75,
             "description": "The position that we look at.",
             "class": "CameraControls",
             "module": "EIGHT",
@@ -6865,7 +6887,7 @@
         },
         {
             "file": "src/davinci-eight/controls/CameraControls.ts",
-            "line": 55,
+            "line": 80,
             "description": "The initial position, look and up of the camera.\nWe cache these so that we can reset the camera.",
             "class": "CameraControls",
             "module": "EIGHT",
@@ -6873,7 +6895,7 @@
         },
         {
             "file": "src/davinci-eight/controls/CameraControls.ts",
-            "line": 93,
+            "line": 119,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -6888,7 +6910,7 @@
         },
         {
             "file": "src/davinci-eight/controls/CameraControls.ts",
-            "line": 102,
+            "line": 128,
             "itemtype": "method",
             "name": "reset",
             "return": {
@@ -6901,7 +6923,7 @@
         },
         {
             "file": "src/davinci-eight/controls/CameraControls.ts",
-            "line": 116,
+            "line": 142,
             "description": "This should be called inside the animation frame to update the camera location.\nNotice that the movement of the mouse controls is decoupled from the effect.\nWe also want to avoid temporary object creation in this and called methods by recycling variables.",
             "itemtype": "method",
             "name": "update",
@@ -6915,7 +6937,7 @@
         },
         {
             "file": "src/davinci-eight/controls/CameraControls.ts",
-            "line": 144,
+            "line": 170,
             "itemtype": "method",
             "name": "rotateCamera",
             "return": {
@@ -6930,7 +6952,7 @@
         },
         {
             "file": "src/davinci-eight/controls/CameraControls.ts",
-            "line": 190,
+            "line": 216,
             "itemtype": "method",
             "name": "zoomCamera",
             "return": {
@@ -6945,7 +6967,7 @@
         },
         {
             "file": "src/davinci-eight/controls/CameraControls.ts",
-            "line": 203,
+            "line": 229,
             "itemtype": "method",
             "name": "panCamera",
             "return": {
@@ -6960,7 +6982,7 @@
         },
         {
             "file": "src/davinci-eight/controls/CameraControls.ts",
-            "line": 221,
+            "line": 247,
             "description": "Restricts the position of the camera to certain distance range",
             "class": "CameraControls",
             "module": "EIGHT",
@@ -6975,7 +6997,7 @@
         },
         {
             "file": "src/davinci-eight/controls/MouseControls.ts",
-            "line": 20,
+            "line": 23,
             "itemtype": "property",
             "name": "enabled",
             "type": "boolean",
@@ -6985,7 +7007,7 @@
         },
         {
             "file": "src/davinci-eight/controls/MouseControls.ts",
-            "line": 26,
+            "line": 29,
             "itemtype": "property",
             "name": "noRotate",
             "type": "boolean",
@@ -6996,7 +7018,7 @@
         },
         {
             "file": "src/davinci-eight/controls/MouseControls.ts",
-            "line": 33,
+            "line": 36,
             "itemtype": "property",
             "name": "noZoom",
             "type": "boolean",
@@ -7007,7 +7029,7 @@
         },
         {
             "file": "src/davinci-eight/controls/MouseControls.ts",
-            "line": 40,
+            "line": 43,
             "itemtype": "property",
             "name": "noRotate",
             "type": "boolean",
@@ -7018,7 +7040,7 @@
         },
         {
             "file": "src/davinci-eight/controls/MouseControls.ts",
-            "line": 47,
+            "line": 50,
             "itemtype": "property",
             "name": "minDistance",
             "type": "number",
@@ -7029,7 +7051,7 @@
         },
         {
             "file": "src/davinci-eight/controls/MouseControls.ts",
-            "line": 54,
+            "line": 57,
             "itemtype": "property",
             "name": "maxDistance",
             "type": "number",
@@ -7040,7 +7062,19 @@
         },
         {
             "file": "src/davinci-eight/controls/MouseControls.ts",
-            "line": 63,
+            "line": 64,
+            "itemtype": "property",
+            "name": "domElement",
+            "type": "HTMLElement",
+            "access": "private",
+            "tagname": "",
+            "class": "MouseControls",
+            "module": "EIGHT",
+            "submodule": "controls"
+        },
+        {
+            "file": "src/davinci-eight/controls/MouseControls.ts",
+            "line": 71,
             "description": "The mouse controls operate modally. You can only do one thing (rotate, zoom, or pan) at a time.",
             "class": "MouseControls",
             "module": "EIGHT",
@@ -7048,7 +7082,7 @@
         },
         {
             "file": "src/davinci-eight/controls/MouseControls.ts",
-            "line": 67,
+            "line": 76,
             "description": "Using the keyboard allows us to change modes, so we keep this so that we can revert.",
             "class": "MouseControls",
             "module": "EIGHT",
@@ -7056,7 +7090,7 @@
         },
         {
             "file": "src/davinci-eight/controls/MouseControls.ts",
-            "line": 79,
+            "line": 88,
             "description": "Initialized by calling handleResize",
             "itemtype": "property",
             "name": "screenLoc",
@@ -7069,7 +7103,7 @@
         },
         {
             "file": "src/davinci-eight/controls/MouseControls.ts",
-            "line": 87,
+            "line": 96,
             "description": "Think of this vector as running from the top left corner of the screen.",
             "class": "MouseControls",
             "module": "EIGHT",
@@ -7077,7 +7111,7 @@
         },
         {
             "file": "src/davinci-eight/controls/MouseControls.ts",
-            "line": 91,
+            "line": 100,
             "description": "Think of this vector as running from the bottom left corner of the screen.",
             "class": "MouseControls",
             "module": "EIGHT",
@@ -7085,56 +7119,56 @@
         },
         {
             "file": "src/davinci-eight/controls/MouseControls.ts",
-            "line": 114,
+            "line": 124,
             "class": "MouseControls",
             "module": "EIGHT",
             "submodule": "controls"
         },
         {
             "file": "src/davinci-eight/controls/MouseControls.ts",
-            "line": 145,
+            "line": 155,
             "class": "MouseControls",
             "module": "EIGHT",
             "submodule": "controls"
         },
         {
             "file": "src/davinci-eight/controls/MouseControls.ts",
-            "line": 169,
+            "line": 179,
             "class": "MouseControls",
             "module": "EIGHT",
             "submodule": "controls"
         },
         {
             "file": "src/davinci-eight/controls/MouseControls.ts",
-            "line": 183,
+            "line": 193,
             "class": "MouseControls",
             "module": "EIGHT",
             "submodule": "controls"
         },
         {
             "file": "src/davinci-eight/controls/MouseControls.ts",
-            "line": 203,
+            "line": 213,
             "class": "MouseControls",
             "module": "EIGHT",
             "submodule": "controls"
         },
         {
             "file": "src/davinci-eight/controls/MouseControls.ts",
-            "line": 231,
+            "line": 241,
             "class": "MouseControls",
             "module": "EIGHT",
             "submodule": "controls"
         },
         {
             "file": "src/davinci-eight/controls/MouseControls.ts",
-            "line": 242,
+            "line": 252,
             "class": "MouseControls",
             "module": "EIGHT",
             "submodule": "controls"
         },
         {
             "file": "src/davinci-eight/controls/MouseControls.ts",
-            "line": 250,
+            "line": 260,
             "itemtype": "method",
             "name": "subscribe",
             "params": [
@@ -7154,7 +7188,7 @@
         },
         {
             "file": "src/davinci-eight/controls/MouseControls.ts",
-            "line": 270,
+            "line": 280,
             "itemtype": "method",
             "name": "unsubscribe",
             "return": {
@@ -7167,7 +7201,7 @@
         },
         {
             "file": "src/davinci-eight/controls/MouseControls.ts",
-            "line": 286,
+            "line": 296,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -7182,7 +7216,20 @@
         },
         {
             "file": "src/davinci-eight/controls/MouseControls.ts",
-            "line": 305,
+            "line": 311,
+            "itemtype": "method",
+            "name": "reset",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "MouseControls",
+            "module": "EIGHT",
+            "submodule": "controls"
+        },
+        {
+            "file": "src/davinci-eight/controls/MouseControls.ts",
+            "line": 319,
             "description": "Computes coordinates in the range [-1,+1] in both e1 and e2 directions.\ne1 goes to the RIGHT\ne2 goes UP\nUpdates the mouseOnCircle property.",
             "itemtype": "method",
             "name": "updateMouseOnCircle",
@@ -7205,7 +7252,7 @@
         },
         {
             "file": "src/davinci-eight/controls/MouseControls.ts",
-            "line": 322,
+            "line": 336,
             "description": "Computes coordinates in the range [0,1] in both e1 and e2 directions.\ne1 goes to the RIGHT\ne2 goes DOWN\nUpdates the mouseOnScreen property.",
             "itemtype": "method",
             "name": "updateMouseOnScreen",
@@ -7228,8 +7275,8 @@
         },
         {
             "file": "src/davinci-eight/controls/MouseControls.ts",
-            "line": 341,
-            "description": "This must be called whenever the window is resized",
+            "line": 355,
+            "description": "This should be called whenever the window is resized",
             "itemtype": "method",
             "name": "handleResize",
             "return": {
@@ -11470,7 +11517,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ColorFacet.ts",
-            "line": 40,
+            "line": 35,
             "description": "property PROP_RGB",
             "type": "{string}",
             "static": 1,
@@ -11480,7 +11527,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ColorFacet.ts",
-            "line": 47,
+            "line": 42,
             "description": "property PROP_RED",
             "type": "{string}",
             "static": 1,
@@ -11490,7 +11537,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ColorFacet.ts",
-            "line": 54,
+            "line": 49,
             "description": "property PROP_GREEN",
             "type": "{string}",
             "static": 1,
@@ -11500,7 +11547,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ColorFacet.ts",
-            "line": 61,
+            "line": 56,
             "description": "property PROP_BLUE",
             "type": "{string}",
             "static": 1,
@@ -11510,7 +11557,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ColorFacet.ts",
-            "line": 68,
+            "line": 63,
             "itemtype": "property",
             "name": "color",
             "type": "{Color}",
@@ -11522,7 +11569,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ColorFacet.ts",
-            "line": 75,
+            "line": 70,
             "itemtype": "property",
             "name": "uColorName",
             "type": "{string}",
@@ -11533,7 +11580,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ColorFacet.ts",
-            "line": 90,
+            "line": 85,
             "description": "The red component of the color.",
             "itemtype": "property",
             "name": "r",
@@ -11544,7 +11591,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ColorFacet.ts",
-            "line": 103,
+            "line": 98,
             "description": "The green component of the color.",
             "itemtype": "property",
             "name": "g",
@@ -11555,7 +11602,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ColorFacet.ts",
-            "line": 116,
+            "line": 111,
             "description": "The blue component of the color.",
             "itemtype": "property",
             "name": "b",
@@ -11566,7 +11613,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ColorFacet.ts",
-            "line": 129,
+            "line": 124,
             "itemtype": "method",
             "name": "scaleRGB",
             "params": [
@@ -11587,7 +11634,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ColorFacet.ts",
-            "line": 142,
+            "line": 137,
             "itemtype": "method",
             "name": "setRGB",
             "params": [
@@ -11618,7 +11665,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ColorFacet.ts",
-            "line": 157,
+            "line": 152,
             "itemtype": "method",
             "name": "getProperty",
             "params": [
@@ -11638,7 +11685,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ColorFacet.ts",
-            "line": 183,
+            "line": 175,
             "itemtype": "method",
             "name": "setProperty",
             "params": [
@@ -11664,7 +11711,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ColorFacet.ts",
-            "line": 210,
+            "line": 202,
             "itemtype": "method",
             "name": "setUniforms",
             "params": [
@@ -33227,6 +33274,20 @@
         {
             "file": "src/davinci-eight/visual/Trail.ts",
             "line": 87,
+            "description": "Erases the trail history.",
+            "itemtype": "method",
+            "name": "erase",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "Trail",
+            "module": "EIGHT",
+            "submodule": "visual"
+        },
+        {
+            "file": "src/davinci-eight/visual/Trail.ts",
+            "line": 98,
             "description": "Records the Mesh variables according to the interval property.",
             "itemtype": "method",
             "name": "snapshot()",
@@ -33240,7 +33301,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Trail.ts",
-            "line": 105,
+            "line": 118,
             "itemtype": "method",
             "name": "draw",
             "params": [
@@ -33260,9 +33321,12 @@
         },
         {
             "file": "src/davinci-eight/visual/TrailConfig.ts",
-            "line": 3,
-            "description": "Intentionally undocumented.",
-            "class": "",
+            "line": 11,
+            "itemtype": "property",
+            "name": "_enabled",
+            "type": "boolean",
+            "default": "true",
+            "class": "TrailConfig",
             "module": "EIGHT"
         },
         {
@@ -33281,7 +33345,7 @@
         },
         {
             "file": "src/davinci-eight/core.ts",
-            "line": 23,
+            "line": 35,
             "class": "",
             "module": "EIGHT"
         }
@@ -33321,23 +33385,23 @@
         },
         {
             "message": "Missing item type\nThe camera object is what we will be moving.",
-            "line": " src/davinci-eight/controls/CameraControls.ts:39"
+            "line": " src/davinci-eight/controls/CameraControls.ts:64"
         },
         {
             "message": "Missing item type\nThe eye vector is the position of the camera relative to the target position vector.\nSo, camera.position = target + eye, or, eye = camera.position - target.",
-            "line": " src/davinci-eight/controls/CameraControls.ts:44"
+            "line": " src/davinci-eight/controls/CameraControls.ts:69"
         },
         {
             "message": "Missing item type\nThe position that we look at.",
-            "line": " src/davinci-eight/controls/CameraControls.ts:50"
+            "line": " src/davinci-eight/controls/CameraControls.ts:75"
         },
         {
             "message": "Missing item type\nThe initial position, look and up of the camera.\nWe cache these so that we can reset the camera.",
-            "line": " src/davinci-eight/controls/CameraControls.ts:55"
+            "line": " src/davinci-eight/controls/CameraControls.ts:80"
         },
         {
             "message": "Missing item type\nRestricts the position of the camera to certain distance range",
-            "line": " src/davinci-eight/controls/CameraControls.ts:221"
+            "line": " src/davinci-eight/controls/CameraControls.ts:247"
         },
         {
             "message": "Missing item type\nThe index into the keys array is ROTATE=0, ZOOM=1, PAN=2",
@@ -33345,47 +33409,47 @@
         },
         {
             "message": "Missing item type\nThe mouse controls operate modally. You can only do one thing (rotate, zoom, or pan) at a time.",
-            "line": " src/davinci-eight/controls/MouseControls.ts:63"
+            "line": " src/davinci-eight/controls/MouseControls.ts:71"
         },
         {
             "message": "Missing item type\nUsing the keyboard allows us to change modes, so we keep this so that we can revert.",
-            "line": " src/davinci-eight/controls/MouseControls.ts:67"
+            "line": " src/davinci-eight/controls/MouseControls.ts:76"
         },
         {
             "message": "Missing item type\nThink of this vector as running from the top left corner of the screen.",
-            "line": " src/davinci-eight/controls/MouseControls.ts:87"
+            "line": " src/davinci-eight/controls/MouseControls.ts:96"
         },
         {
             "message": "Missing item type\nThink of this vector as running from the bottom left corner of the screen.",
-            "line": " src/davinci-eight/controls/MouseControls.ts:91"
+            "line": " src/davinci-eight/controls/MouseControls.ts:100"
         },
         {
             "message": "Missing item type",
-            "line": " src/davinci-eight/controls/MouseControls.ts:114"
+            "line": " src/davinci-eight/controls/MouseControls.ts:124"
         },
         {
             "message": "Missing item type",
-            "line": " src/davinci-eight/controls/MouseControls.ts:145"
+            "line": " src/davinci-eight/controls/MouseControls.ts:155"
         },
         {
             "message": "Missing item type",
-            "line": " src/davinci-eight/controls/MouseControls.ts:169"
+            "line": " src/davinci-eight/controls/MouseControls.ts:179"
         },
         {
             "message": "Missing item type",
-            "line": " src/davinci-eight/controls/MouseControls.ts:183"
+            "line": " src/davinci-eight/controls/MouseControls.ts:193"
         },
         {
             "message": "Missing item type",
-            "line": " src/davinci-eight/controls/MouseControls.ts:203"
+            "line": " src/davinci-eight/controls/MouseControls.ts:213"
         },
         {
             "message": "Missing item type",
-            "line": " src/davinci-eight/controls/MouseControls.ts:231"
+            "line": " src/davinci-eight/controls/MouseControls.ts:241"
         },
         {
             "message": "Missing item type",
-            "line": " src/davinci-eight/controls/MouseControls.ts:242"
+            "line": " src/davinci-eight/controls/MouseControls.ts:252"
         },
         {
             "message": "Missing item type\nA cross-browser compatible, geometric, implementation of scroolX and scrollY.\n\nSee https://developer.mozilla.org/en-US/docs/Web/API/Window/scrollX",
@@ -33493,19 +33557,19 @@
         },
         {
             "message": "Missing item type\nproperty PROP_RGB",
-            "line": " src/davinci-eight/facets/ColorFacet.ts:40"
+            "line": " src/davinci-eight/facets/ColorFacet.ts:35"
         },
         {
             "message": "Missing item type\nproperty PROP_RED",
-            "line": " src/davinci-eight/facets/ColorFacet.ts:47"
+            "line": " src/davinci-eight/facets/ColorFacet.ts:42"
         },
         {
             "message": "Missing item type\nproperty PROP_GREEN",
-            "line": " src/davinci-eight/facets/ColorFacet.ts:54"
+            "line": " src/davinci-eight/facets/ColorFacet.ts:49"
         },
         {
             "message": "Missing item type\nproperty PROP_BLUE",
-            "line": " src/davinci-eight/facets/ColorFacet.ts:61"
+            "line": " src/davinci-eight/facets/ColorFacet.ts:56"
         },
         {
             "message": "Missing item type",
@@ -34348,10 +34412,6 @@
             "line": " src/davinci-eight/visual/IRigidBody.ts:1"
         },
         {
-            "message": "Missing item type\nIntentionally undocumented.",
-            "line": " src/davinci-eight/visual/TrailConfig.ts:3"
-        },
-        {
             "message": "Missing item type\nIntentionally undocumented.\nThe concept of creating a quick setup violates the Explicit over Implicit principle.",
             "line": " src/davinci-eight/visual/World.ts:11"
         },
@@ -34361,7 +34421,7 @@
         },
         {
             "message": "Missing item type",
-            "line": " src/davinci-eight/core.ts:23"
+            "line": " src/davinci-eight/core.ts:35"
         }
     ]
 }
