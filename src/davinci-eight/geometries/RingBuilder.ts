@@ -10,7 +10,7 @@ import RingTransform from './transforms/RingTransform'
 import Rotation from './transforms/Rotation'
 import Scaling from './transforms/Scaling'
 import Translation from './transforms/Translation'
-import TextureCoords from './transforms/TextureCoords'
+import CoordsTransform2D from './transforms/CoordsTransform2D'
 import VectorE3 from '../math/VectorE3'
 import Vector3 from '../math/Vector3'
 
@@ -92,7 +92,7 @@ export default class RingBuilder extends AxialPrimitivesBuilder implements Geome
         this.transforms.push(new Approximation(9, [aPosition, aNormal]))
 
         if (this.useTextureCoord) {
-            this.transforms.push(new TextureCoords(false, false, false))
+            this.transforms.push(new CoordsTransform2D(false, false, false))
         }
 
         const grid = new GridTriangleStrip(this.thetaSegments, this.radialSegments)

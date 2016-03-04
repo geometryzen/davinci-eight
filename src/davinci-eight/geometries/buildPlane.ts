@@ -90,17 +90,17 @@ function buildPlane(
 
       face.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = points[a + offset];
       face.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = normal;
-      face.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORD] = uva;
+      face.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_COORDS] = uva;
       face.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_GEOMETRY_INDEX] = geometryIndex;
 
       face.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = points[b + offset];
       face.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = normal;
-      face.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORD] = uvb;
+      face.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_COORDS] = uvb;
       face.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_GEOMETRY_INDEX] = geometryIndex;
 
       face.vertices[2].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = points[d + offset];
       face.vertices[2].attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = normal;
-      face.vertices[2].attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORD] = uvd;
+      face.vertices[2].attributes[GraphicsProgramSymbols.ATTRIBUTE_COORDS] = uvd;
       face.vertices[2].attributes[GraphicsProgramSymbols.ATTRIBUTE_GEOMETRY_INDEX] = geometryIndex;
 
       faces.push( face );
@@ -109,17 +109,17 @@ function buildPlane(
 
       face.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = points[b + offset];
       face.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = normal;
-      face.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORD] = uvb;
+      face.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_COORDS] = uvb;
       face.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_GEOMETRY_INDEX] = geometryIndex;
 
       face.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = points[c + offset];
       face.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = normal;
-      face.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORD] = uvc;
+      face.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_COORDS] = uvc;
       face.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_GEOMETRY_INDEX] = geometryIndex;
 
       face.vertices[2].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = points[d + offset];
       face.vertices[2].attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = normal;
-      face.vertices[2].attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORD] = uvd;
+      face.vertices[2].attributes[GraphicsProgramSymbols.ATTRIBUTE_COORDS] = uvd;
       face.vertices[2].attributes[GraphicsProgramSymbols.ATTRIBUTE_GEOMETRY_INDEX] = geometryIndex;
 
       faces.push( face );

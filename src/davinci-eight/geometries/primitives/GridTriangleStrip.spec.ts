@@ -35,10 +35,10 @@ describe("GridTriangleStrip", function() {
             const uSegments = 1
             const vSegments = 1
             const strip = new GridTriangleStrip(uSegments, vSegments)
-            strip.vertex(0, 0).attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORD] = new Vector2([0, 0])
-            strip.vertex(0, 1).attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORD] = new Vector2([0, 1])
-            strip.vertex(1, 0).attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORD] = new Vector2([1, 0])
-            strip.vertex(1, 1).attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORD] = new Vector2([1, 1])
+            strip.vertex(0, 0).attributes[GraphicsProgramSymbols.ATTRIBUTE_COORDS] = new Vector2([0, 0])
+            strip.vertex(0, 1).attributes[GraphicsProgramSymbols.ATTRIBUTE_COORDS] = new Vector2([0, 1])
+            strip.vertex(1, 0).attributes[GraphicsProgramSymbols.ATTRIBUTE_COORDS] = new Vector2([1, 0])
+            strip.vertex(1, 1).attributes[GraphicsProgramSymbols.ATTRIBUTE_COORDS] = new Vector2([1, 1])
             it("should have correct uSegments", function() {
                 expect(strip.uSegments).toBe(uSegments)
             })
@@ -69,7 +69,7 @@ describe("GridTriangleStrip", function() {
                 })
                 describe("attributes", function() {
                     const attributes = primitive.attributes
-                    const coords = attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORD]
+                    const coords = attributes[GraphicsProgramSymbols.ATTRIBUTE_COORDS]
                     const values = coords.values
                     it("should have size 2", function() {
                         expect(coords.size).toBe(2)

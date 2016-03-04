@@ -14,7 +14,7 @@ describe("GridLines", function() {
    * 0---1
    */
   describe("(1,1)", function() {
-    const gridLines = new GridLines(1, 1)
+    const gridLines = new GridLines(1, false, 1, false)
     it("should have the correct length and segment properties", function() {
       expect(gridLines.uSegments).toBe(1)
       expect(gridLines.uLength).toBe(2)

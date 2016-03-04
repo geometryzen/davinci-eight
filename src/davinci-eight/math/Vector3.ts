@@ -57,7 +57,6 @@ export default class Vector3 extends Coords implements ColumnVector<Matrix3, Vec
    * @param modified [boolean = false]
    */
   constructor(data: number[] = [0, 0, 0], modified = false) {
-    // FIXME : Where is the uom, even if it is optional.
     super(data, modified, 3);
   }
 

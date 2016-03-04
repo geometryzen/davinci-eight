@@ -1,7 +1,10 @@
 import Vertex from '../primitives/Vertex'
 
+/**
+ * @class Transform
+ */
 interface Transform {
-    exec(vertex: Vertex, i: number, j: number, iLength: number, jLength: number): void
+    exec(vertex: Vertex, u: number, v: number, uLength: number, vLength: number): void
 }
 
 export default Transform

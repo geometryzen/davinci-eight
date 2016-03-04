@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.207.0</em>
+            <em>API Docs for: 2.208.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -65,8 +65,14 @@
                                 <li><a href="../classes/ConicalShellBuilder.html">ConicalShellBuilder</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
                                 <li><a href="../classes/Coords.html">Coords</a></li>
+                                <li><a href="../classes/CoordsTransform1D.html">CoordsTransform1D</a></li>
+                                <li><a href="../classes/CoordsTransform2D.html">CoordsTransform2D</a></li>
                                 <li><a href="../classes/createView.html">createView</a></li>
                                 <li><a href="../classes/CuboidPrimitivesBuilder.html">CuboidPrimitivesBuilder</a></li>
+                                <li><a href="../classes/Curve.html">Curve</a></li>
+                                <li><a href="../classes/CurveGeometry.html">CurveGeometry</a></li>
+                                <li><a href="../classes/CurveOptions.html">CurveOptions</a></li>
+                                <li><a href="../classes/CurvePrimitive.html">CurvePrimitive</a></li>
                                 <li><a href="../classes/Cylinder.html">Cylinder</a></li>
                                 <li><a href="../classes/CylinderBuilder.html">CylinderBuilder</a></li>
                                 <li><a href="../classes/CylinderGeometry.html">CylinderGeometry</a></li>
@@ -118,6 +124,8 @@
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
                                 <li><a href="../classes/LineMaterialOptions.html">LineMaterialOptions</a></li>
+                                <li><a href="../classes/LinePoints.html">LinePoints</a></li>
+                                <li><a href="../classes/LineStrip.html">LineStrip</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
                                 <li><a href="../classes/MaterialBase.html">MaterialBase</a></li>
                                 <li><a href="../classes/Matrix2.html">Matrix2</a></li>
@@ -177,9 +185,9 @@
                                 <li><a href="../classes/TetrahedronGeometry.html">TetrahedronGeometry</a></li>
                                 <li><a href="../classes/TetrahedronGeometryOptions.html">TetrahedronGeometryOptions</a></li>
                                 <li><a href="../classes/TetrahedronOptions.html">TetrahedronOptions</a></li>
-                                <li><a href="../classes/TextureCoords.html">TextureCoords</a></li>
                                 <li><a href="../classes/Trail.html">Trail</a></li>
                                 <li><a href="../classes/TrailConfig.html">TrailConfig</a></li>
+                                <li><a href="../classes/Transform.html">Transform</a></li>
                                 <li><a href="../classes/Translation.html">Translation</a></li>
                                 <li><a href="../classes/UniformLocation.html">UniformLocation</a></li>
                                 <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
@@ -296,6 +304,11 @@ These names must be stable to avoid breaking custom vertex and fragment shaders.
                                     <span class="flag static">static</span>
                             </li>
                             <li class="index-item property">
+                                <a href="#property_ATTRIBUTE_COORDS">ATTRIBUTE_COORDS</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item property">
                                 <a href="#property_ATTRIBUTE_GEOMETRY_INDEX">ATTRIBUTE_GEOMETRY_INDEX</a>
 
                                     <span class="flag static">static</span>
@@ -312,11 +325,6 @@ These names must be stable to avoid breaking custom vertex and fragment shaders.
                             </li>
                             <li class="index-item property">
                                 <a href="#property_ATTRIBUTE_TANGENT">ATTRIBUTE_TANGENT</a>
-
-                                    <span class="flag static">static</span>
-                            </li>
-                            <li class="index-item property">
-                                <a href="#property_ATTRIBUTE_TEXTURE_COORD">ATTRIBUTE_TEXTURE_COORD</a>
 
                                     <span class="flag static">static</span>
                             </li>
@@ -436,6 +444,32 @@ These names must be stable to avoid breaking custom vertex and fragment shaders.
 
 
 </div>
+<div id="property_ATTRIBUTE_COORDS" class="property item">
+    <h3 class="name"><code>ATTRIBUTE_COORDS</code></h3>
+    <span class="type">String</span>
+
+
+
+
+        <span class="flag static">static</span>
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_core_GraphicsProgramSymbols.ts.html#l57"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GraphicsProgramSymbols.ts:57</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>'aCoords'</p>
+
+    </div>
+
+
+
+</div>
 <div id="property_ATTRIBUTE_GEOMETRY_INDEX" class="property item">
     <h3 class="name"><code>ATTRIBUTE_GEOMETRY_INDEX</code></h3>
     <span class="type">String</span>
@@ -534,32 +568,6 @@ These names must be stable to avoid breaking custom vertex and fragment shaders.
 
     <div class="description">
         <p>'aTangent'</p>
-
-    </div>
-
-
-
-</div>
-<div id="property_ATTRIBUTE_TEXTURE_COORD" class="property item">
-    <h3 class="name"><code>ATTRIBUTE_TEXTURE_COORD</code></h3>
-    <span class="type">String</span>
-
-
-
-
-        <span class="flag static">static</span>
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_core_GraphicsProgramSymbols.ts.html#l57"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GraphicsProgramSymbols.ts:57</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>'aTextureCoord'</p>
 
     </div>
 

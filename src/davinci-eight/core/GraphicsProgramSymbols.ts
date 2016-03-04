@@ -55,12 +55,12 @@ export default class GraphicsProgramSymbols {
     public static ATTRIBUTE_TANGENT: string = 'aTangent';
 
     /**
-     * 'aTextureCoord'
-     * @property ATTRIBUTE_TEXTURE_COORD
+     * 'aCoords'
+     * @property ATTRIBUTE_COORDS
      * @type {string}
      * @static
      */
-    public static ATTRIBUTE_TEXTURE_COORD: string = 'aTextureCoord';
+    public static ATTRIBUTE_COORDS: string = 'aCoords';
 
     /**
      * 'uAlpha'

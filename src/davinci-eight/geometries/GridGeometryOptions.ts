@@ -27,7 +27,7 @@ interface GridGeometryOptions {
   aColor?: (u: number, v: number) => IColor
 
   /**
-   * @attribute draeMode
+   * @attribute drawMode
    * @type DrawMode
    * @optional
    * @default DrawMode.LINES

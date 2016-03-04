@@ -2748,7 +2748,7 @@ declare module EIGHT {
     /**
      * 'aTextureCoords'
      */
-    static ATTRIBUTE_TEXTURE_COORD: string;
+    static ATTRIBUTE_COORDS: string;
 
     static UNIFORM_AMBIENT_LIGHT: string;
     static UNIFORM_COLOR: string;
@@ -3680,6 +3680,18 @@ declare module EIGHT {
         position?: VectorE3;
         tilt?: SpinorE3;
         radius?: number;
+      })
+  }
+
+  class Curve extends Mesh {
+    constructor(
+      options?: {
+        aColor?: (u: number) => IColor
+        aPosition?: (u: number) => VectorE3
+        drawMode?: DrawMode
+        uMax?: number
+        uMin?: number
+        uSegments?: number
       })
   }
 

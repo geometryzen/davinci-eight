@@ -5,7 +5,9 @@ import DrawPrimitive from './DrawPrimitive';
 import mustBeArray from '../../checks/mustBeArray';
 import mustBeGE from '../../checks/mustBeGE';
 import mustBeInteger from '../../checks/mustBeInteger';
+import notSupported from '../../i18n/notSupported';
 import Primitive from '../../core/Primitive';
+import Transform from './Transform';
 import vertexArraysFromPrimitive from '../../core/vertexArraysFromPrimitive';
 import Vertex from './Vertex';
 import VertexArrays from '../../core/VertexArrays';
@@ -97,6 +99,11 @@ export default class GeometryPrimitive {
     for (var i = 0; i < numVertices; i++) {
       this.vertices.push(new Vertex(numCoordinates))
     }
+  }
+
+  public vertexTransform(transform: Transform): void {
+    // Derived classes must implement in order to supply correct ranges.
+    throw new Error(notSupported('vertexTransform').message)
   }
 
   /**

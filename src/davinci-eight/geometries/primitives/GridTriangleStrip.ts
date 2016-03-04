@@ -15,7 +15,7 @@ function triangleStripForGrid(uSegments: number, vSegments: number, elements?: n
   // Make sure that we have somewhere valid to store the result.
   elements = isDefined(elements) ? mustBeArray('elements', elements) : []
 
-  const uLength = numPostsForFence(uSegments)
+  const uLength = numPostsForFence(uSegments, false/* open */)
   const lastVertex = uSegments + uLength * vSegments
   /**
    * The number of elements needed if we executed a strip per row.

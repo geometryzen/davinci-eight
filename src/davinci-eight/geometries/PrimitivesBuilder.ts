@@ -8,7 +8,7 @@ import Vector3 from '../math/Vector3';
 import Vertex from './primitives/Vertex';
 import VertexArrays from '../core/VertexArrays';
 import vertexArraysFromPrimitive from '../core/vertexArraysFromPrimitive'
-import Transform from './transforms/Transform'
+import Transform from './primitives/Transform'
 
 /**
  * A GeometryBuilder that takes building Primitive arrays as primary.

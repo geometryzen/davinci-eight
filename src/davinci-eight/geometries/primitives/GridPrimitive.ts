@@ -4,6 +4,7 @@ import numPostsForFence from './numPostsForFence'
 import numVerticesForGrid from './numVerticesForGrid'
 import notSupported from '../../i18n/notSupported'
 import readOnly from '../../i18n/readOnly'
+import Transform from './Transform'
 import Vertex from './Vertex'
 
 /**
@@ -28,6 +29,7 @@ export default class GridPrimitive extends GeometryPrimitive {
    * @private
    */
   private _uSegments: number;
+  private _uClosed = false;
 
   /**
    * @property _vSegments
@@ -35,6 +37,7 @@ export default class GridPrimitive extends GeometryPrimitive {
    * @private
    */
   private _vSegments: number;
+  private _vClosed = false;
 
   /**
    * @class GridPrimitive
@@ -68,7 +71,7 @@ export default class GridPrimitive extends GeometryPrimitive {
    * @readOnly
    */
   get uLength(): number {
-    return numPostsForFence(this._uSegments)
+    return numPostsForFence(this._uSegments, this._uClosed)
   }
   set uLength(unused: number) {
     throw new Error(readOnly('uLength').message)
@@ -94,10 +97,20 @@ export default class GridPrimitive extends GeometryPrimitive {
    * @readOnly
    */
   get vLength(): number {
-    return numPostsForFence(this._vSegments)
+    return numPostsForFence(this._vSegments, this._vClosed)
   }
   set vLength(unused: number) {
     throw new Error(readOnly('vLength').message)
+  }
+
+  public vertexTransform(transform: Transform): void {
+    const iLen = this.vertices.length
+    for (var i = 0; i < iLen; i++) {
+      const vertex = this.vertices[i]
+      const u = vertex.coords.getComponent(0)
+      const v = vertex.coords.getComponent(1)
+      transform.exec(vertex, u, v, this.uLength, this.vLength)
+    }
   }
 
   /**

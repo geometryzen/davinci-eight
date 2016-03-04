@@ -37,7 +37,7 @@ function side(tilt: Spinor3, offset: Vector3, basis: Vector3[], uSegments: numbe
 
             vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = position
             vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = normal
-            vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORD] = new Vector2([u, v])
+            vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_COORDS] = new Vector2([u, v])
         }
     }
     return side

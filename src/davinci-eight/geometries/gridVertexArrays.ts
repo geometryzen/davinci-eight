@@ -8,7 +8,6 @@ import GridPrimitive from './primitives/GridPrimitive'
 import GridTriangleStrip from './primitives/GridTriangleStrip'
 import isDefined from '../checks/isDefined'
 import isFunction from '../checks/isFunction'
-// import isNull from '../checks/isNull'
 import mustBeNumber from '../checks/mustBeNumber'
 import R3 from '../math/R3'
 import Unit from '../math/Unit'
@@ -24,13 +23,13 @@ function aNormalDefault(u: number, v: number): R3 {
   return R3.e3
 }
 
-function topology(drawMode: DrawMode, uSegments: number, vSegments: number): GridPrimitive {
+function topology(drawMode: DrawMode, uSegments: number, uClosed: boolean, vSegments: number, vClosed: boolean): GridPrimitive {
   switch (drawMode) {
     case DrawMode.POINTS: {
-      return new GridPoints(uSegments, vSegments)
+      return new GridPoints(uSegments, uClosed, vSegments, vClosed)
     }
     case DrawMode.LINES: {
-      return new GridLines(uSegments, vSegments)
+      return new GridLines(uSegments, uClosed, vSegments, vClosed)
     }
     case DrawMode.TRIANGLE_STRIP: {
       return new GridTriangleStrip(uSegments, vSegments)
@@ -69,7 +68,8 @@ export default function(options: GridGeometryOptions): VertexArrays {
   const vSegments = isDefined(options.vSegments) ? options.vSegments : 1
 
   const drawMode = isDefined(options.drawMode) ? options.drawMode : DrawMode.LINES
-  const grid: GridPrimitive = topology(drawMode, uSegments, vSegments)
+  // Working on the assumption that the grid is open in both directions.
+  const grid: GridPrimitive = topology(drawMode, uSegments, false, vSegments, false)
 
   const iLen = grid.uLength
   const jLen = grid.vLength

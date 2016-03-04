@@ -12,9 +12,9 @@ function vertexIndex(i: number, j: number, iLength: number, jLength: number): nu
   return j * iLength + i
 }
 
-function pointsForGrid(uSegments: number, vSegments: number): number[] {
-  const iLength = numPostsForFence(uSegments)
-  const jLength = numPostsForFence(vSegments)
+function pointsForGrid(uSegments: number, uClosed: boolean, vSegments: number, vClosed: boolean): number[] {
+  const iLength = numPostsForFence(uSegments, uClosed)
+  const jLength = numPostsForFence(vSegments, vClosed)
   const elements: number[] = []
   for (let i = 0; i < iLength; i++) {
     for (let j = 0; j < jLength; j++) {
@@ -34,13 +34,15 @@ export default class GridPoints extends GridPrimitive {
    * @class GridPoints
    * @constructor
    * @param uSegments {number}
+   * @param uClosed {boolean}
    * @param vSegments {number}
+   * @param vClosed {boolean}
    */
-  constructor(uSegments: number, vSegments: number) {
+  constructor(uSegments: number, uClosed: boolean, vSegments: number, vClosed: boolean) {
     super(DrawMode.POINTS, uSegments, vSegments)
-    this.elements = pointsForGrid(uSegments, vSegments)
-    const iLength = numPostsForFence(uSegments)
-    const jLength = numPostsForFence(vSegments)
+    this.elements = pointsForGrid(uSegments, uClosed, vSegments, vClosed)
+    const iLength = numPostsForFence(uSegments, uClosed)
+    const jLength = numPostsForFence(vSegments, vClosed)
     for (let i = 0; i < iLength; i++) {
       for (let j = 0; j < jLength; j++) {
         const coords = this.vertex(i, j).coords

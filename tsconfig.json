@@ -28,6 +28,8 @@
     "src/davinci-eight/geometries/primitives/GridLines.spec.ts",
     "src/davinci-eight/geometries/primitives/GridPoints.spec.ts",
     "src/davinci-eight/geometries/primitives/GridTriangleStrip.spec.ts",
+    "src/davinci-eight/geometries/primitives/LineStrip.spec.ts",
+
     "src/davinci-eight/geometries/ArrowGeometry.spec.ts",
     "src/davinci-eight/geometries/BoxGeometry.spec.ts",
     "src/davinci-eight/geometries/CylinderGeometry.spec.ts",

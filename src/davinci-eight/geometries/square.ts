@@ -31,7 +31,7 @@ export default function square(size = 1): Simplex[] {
 
     let attributes: { [name: string]: VectorN<number>[] } = {};
 
-    attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORD] = coords;
+    attributes[GraphicsProgramSymbols.ATTRIBUTE_COORDS] = coords;
 
     return quadrilateral(vec0, vec1, vec2, vec3, attributes);
 }

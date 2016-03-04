@@ -6,7 +6,7 @@ describe("GridPoints", function() {
   // A single point is not so trivial.
   //
   describe("(0, 0)", function() {
-    const gridLines = new GridPoints(0, 0)
+    const gridLines = new GridPoints(0, false, 0, false)
     it("should have the correct length and segment properties", function() {
       expect(gridLines.uSegments).toBe(0)
       expect(gridLines.uLength).toBe(1)
@@ -41,7 +41,7 @@ describe("GridPoints", function() {
    * 0---1
    */
   describe("(1, 1)", function() {
-    const gridLines = new GridPoints(1, 1)
+    const gridLines = new GridPoints(1, false, 1, false)
     it("should have the correct length and segment properties", function() {
       expect(gridLines.uSegments).toBe(1)
       expect(gridLines.uLength).toBe(2)

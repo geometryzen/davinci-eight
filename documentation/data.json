@@ -2,7 +2,7 @@
     "project": {
         "name": "davinci-eight",
         "description": "WebGL library for mathematical physics using Geometric Algebra",
-        "version": "2.207.0",
+        "version": "2.208.0",
         "url": ""
     },
     "files": {
@@ -679,6 +679,17 @@
             "fors": {},
             "namespaces": {}
         },
+        "src/davinci-eight/geometries/primitives/CurvePrimitive.ts": {
+            "name": "src/davinci-eight/geometries/primitives/CurvePrimitive.ts",
+            "modules": {
+                "primitives": 1
+            },
+            "classes": {
+                "CurvePrimitive": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "src/davinci-eight/geometries/primitives/DrawAttribute.ts": {
             "name": "src/davinci-eight/geometries/primitives/DrawAttribute.ts",
             "modules": {},
@@ -736,9 +747,7 @@
         },
         "src/davinci-eight/geometries/primitives/GridPrimitive.ts": {
             "name": "src/davinci-eight/geometries/primitives/GridPrimitive.ts",
-            "modules": {
-                "primitives": 1
-            },
+            "modules": {},
             "classes": {
                 "GridPrimitive": 1
             },
@@ -751,6 +760,31 @@
             "classes": {
                 "GridTriangleStrip": 1
             },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/geometries/primitives/LinePoints.ts": {
+            "name": "src/davinci-eight/geometries/primitives/LinePoints.ts",
+            "modules": {},
+            "classes": {
+                "LinePoints": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/geometries/primitives/LineStrip.ts": {
+            "name": "src/davinci-eight/geometries/primitives/LineStrip.ts",
+            "modules": {},
+            "classes": {
+                "LineStrip": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/geometries/primitives/Transform.ts": {
+            "name": "src/davinci-eight/geometries/primitives/Transform.ts",
+            "modules": {},
+            "classes": {},
             "fors": {},
             "namespaces": {}
         },
@@ -779,6 +813,13 @@
             "fors": {},
             "namespaces": {}
         },
+        "src/davinci-eight/geometries/primitives/numVerticesForCurve.ts": {
+            "name": "src/davinci-eight/geometries/primitives/numVerticesForCurve.ts",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
         "src/davinci-eight/geometries/primitives/numVerticesForGrid.ts": {
             "name": "src/davinci-eight/geometries/primitives/numVerticesForGrid.ts",
             "modules": {},
@@ -800,6 +841,24 @@
             "modules": {},
             "classes": {
                 "ConeTransform": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/geometries/transforms/CoordsTransform1D.ts": {
+            "name": "src/davinci-eight/geometries/transforms/CoordsTransform1D.ts",
+            "modules": {},
+            "classes": {
+                "CoordsTransform1D": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/geometries/transforms/CoordsTransform2D.ts": {
+            "name": "src/davinci-eight/geometries/transforms/CoordsTransform2D.ts",
+            "modules": {},
+            "classes": {
+                "CoordsTransform2D": 1
             },
             "fors": {},
             "namespaces": {}
@@ -858,11 +917,11 @@
             "fors": {},
             "namespaces": {}
         },
-        "src/davinci-eight/geometries/transforms/TextureCoords.ts": {
-            "name": "src/davinci-eight/geometries/transforms/TextureCoords.ts",
+        "src/davinci-eight/geometries/transforms/Transform.ts": {
+            "name": "src/davinci-eight/geometries/transforms/Transform.ts",
             "modules": {},
             "classes": {
-                "TextureCoords": 1
+                "Transform": 1
             },
             "fors": {},
             "namespaces": {}
@@ -938,6 +997,22 @@
             "classes": {
                 "CuboidPrimitivesBuilder": 1
             },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/geometries/CurveGeometry.ts": {
+            "name": "src/davinci-eight/geometries/CurveGeometry.ts",
+            "modules": {},
+            "classes": {
+                "CurveGeometry": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/geometries/CurveGeometryOptions.ts": {
+            "name": "src/davinci-eight/geometries/CurveGeometryOptions.ts",
+            "modules": {},
+            "classes": {},
             "fors": {},
             "namespaces": {}
         },
@@ -1935,6 +2010,24 @@
             "fors": {},
             "namespaces": {}
         },
+        "src/davinci-eight/visual/Curve.ts": {
+            "name": "src/davinci-eight/visual/Curve.ts",
+            "modules": {},
+            "classes": {
+                "Curve": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/visual/CurveOptions.ts": {
+            "name": "src/davinci-eight/visual/CurveOptions.ts",
+            "modules": {},
+            "classes": {
+                "CurveOptions": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "src/davinci-eight/visual/Cylinder.ts": {
             "name": "src/davinci-eight/visual/Cylinder.ts",
             "modules": {},
@@ -2167,22 +2260,27 @@
                 "Vector3Facet": 1,
                 "View": 1,
                 "createView": 1,
+                "CurvePrimitive": 1,
                 "GeometryPrimitive": 1,
                 "GridLines": 1,
                 "GridPoints": 1,
                 "GridPrimitive": 1,
                 "GridTriangleStrip": 1,
+                "LinePoints": 1,
+                "LineStrip": 1,
+                "Transform": 1,
                 "Vertex": 1,
                 "VertexAttributeMap": 1,
                 "Approximation": 1,
                 "ConeTransform": 1,
+                "CoordsTransform1D": 1,
+                "CoordsTransform2D": 1,
                 "CylinderTransform": 1,
                 "Direction": 1,
                 "Duality": 1,
                 "RingTransform": 1,
                 "Rotation": 1,
                 "Scaling": 1,
-                "TextureCoords": 1,
                 "Translation": 1,
                 "ArrowBuilder": 1,
                 "ArrowGeometry": 1,
@@ -2191,6 +2289,7 @@
                 "BoxGeometryOptions": 1,
                 "ConicalShellBuilder": 1,
                 "CuboidPrimitivesBuilder": 1,
+                "CurveGeometry": 1,
                 "CylinderBuilder": 1,
                 "CylinderGeometry": 1,
                 "CylinderGeometryOptions": 1,
@@ -2258,6 +2357,8 @@
                 "Box": 1,
                 "BoxOptions": 1,
                 "CommonOptions": 1,
+                "Curve": 1,
+                "CurveOptions": 1,
                 "Cylinder": 1,
                 "CylinderOptions": 1,
                 "Grid": 1,
@@ -2372,8 +2473,11 @@
             "submodules": {},
             "elements": {},
             "classes": {
+                "CurvePrimitive": 1,
                 "GridPrimitive": 1,
                 "GridTriangleStrip": 1,
+                "LinePoints": 1,
+                "LineStrip": 1,
                 "Vertex": 1,
                 "VertexAttributeMap": 1
             },
@@ -2472,6 +2576,8 @@
                 "Box": 1,
                 "BoxOptions": 1,
                 "CommonOptions": 1,
+                "Curve": 1,
+                "CurveOptions": 1,
                 "Cylinder": 1,
                 "CylinderOptions": 1,
                 "Grid": 1,
@@ -3742,6 +3848,39 @@
             "line": 14,
             "is_constructor": 1
         },
+        "CurvePrimitive": {
+            "name": "CurvePrimitive",
+            "shortname": "CurvePrimitive",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "submodule": "primitives",
+            "namespace": "",
+            "file": "src/davinci-eight/geometries/primitives/CurvePrimitive.ts",
+            "line": 38,
+            "extends": "GeometryPrimitive",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "mode",
+                    "description": "",
+                    "type": "DrawMode"
+                },
+                {
+                    "name": "uSegments",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "uClosed",
+                    "description": "",
+                    "type": "Boolean"
+                }
+            ]
+        },
         "GeometryPrimitive": {
             "name": "GeometryPrimitive",
             "shortname": "GeometryPrimitive",
@@ -3753,7 +3892,7 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/geometries/primitives/GeometryPrimitive.ts",
-            "line": 81,
+            "line": 83,
             "description": "Constructs a GeometryPrimitive and initializes the vertices property with the required number of vertices.",
             "is_constructor": 1,
             "params": [
@@ -3795,9 +3934,19 @@
                     "type": "Number"
                 },
                 {
+                    "name": "uClosed",
+                    "description": "",
+                    "type": "Boolean"
+                },
+                {
                     "name": "vSegments",
                     "description": "",
                     "type": "Number"
+                },
+                {
+                    "name": "vClosed",
+                    "description": "",
+                    "type": "Boolean"
                 }
             ]
         },
@@ -3822,9 +3971,19 @@
                     "type": "Number"
                 },
                 {
+                    "name": "uClosed",
+                    "description": "",
+                    "type": "Boolean"
+                },
+                {
                     "name": "vSegments",
                     "description": "",
                     "type": "Number"
+                },
+                {
+                    "name": "vClosed",
+                    "description": "",
+                    "type": "Boolean"
                 }
             ]
         },
@@ -3840,7 +3999,7 @@
             "submodule": "primitives",
             "namespace": "",
             "file": "src/davinci-eight/geometries/primitives/GridPrimitive.ts",
-            "line": 39,
+            "line": 42,
             "description": "Used for creating TRIANGLE_STRIP primitives.\nThe vertices generated have coordinates (u, v) and the traversal creates\ncounter-clockwise orientation when increasing u is the first direction and\nincreasing v the second direction.",
             "extends": "GeometryPrimitive",
             "is_constructor": 1,
@@ -3885,6 +4044,63 @@
                     "type": "Number"
                 }
             ]
+        },
+        "LinePoints": {
+            "name": "LinePoints",
+            "shortname": "LinePoints",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "submodule": "primitives",
+            "namespace": "",
+            "file": "src/davinci-eight/geometries/primitives/LinePoints.ts",
+            "line": 16,
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "uSegments",
+                    "description": "",
+                    "type": "Number"
+                }
+            ]
+        },
+        "LineStrip": {
+            "name": "LineStrip",
+            "shortname": "LineStrip",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "submodule": "primitives",
+            "namespace": "",
+            "file": "src/davinci-eight/geometries/primitives/LineStrip.ts",
+            "line": 16,
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "uSegments",
+                    "description": "",
+                    "type": "Number"
+                }
+            ]
+        },
+        "Transform": {
+            "name": "Transform",
+            "shortname": "Transform",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/geometries/transforms/Transform.ts",
+            "line": 3
         },
         "Vertex": {
             "name": "Vertex",
@@ -3987,6 +4203,34 @@
                     "type": "String"
                 }
             ]
+        },
+        "CoordsTransform1D": {
+            "name": "CoordsTransform1D",
+            "shortname": "CoordsTransform1D",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/geometries/transforms/CoordsTransform1D.ts",
+            "line": 7,
+            "description": "Applies coordinates to a line."
+        },
+        "CoordsTransform2D": {
+            "name": "CoordsTransform2D",
+            "shortname": "CoordsTransform2D",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/geometries/transforms/CoordsTransform2D.ts",
+            "line": 7,
+            "description": "Applies coordinates to a surface."
         },
         "CylinderTransform": {
             "name": "CylinderTransform",
@@ -4162,20 +4406,6 @@
                 }
             ]
         },
-        "TextureCoords": {
-            "name": "TextureCoords",
-            "shortname": "TextureCoords",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "EIGHT",
-            "namespace": "",
-            "file": "src/davinci-eight/geometries/transforms/TextureCoords.ts",
-            "line": 7,
-            "description": "Applies texture coordinates to a vertex."
-        },
         "Translation": {
             "name": "Translation",
             "shortname": "Translation",
@@ -4343,6 +4573,29 @@
             "line": 121,
             "extends": "PrimitivesBuilder",
             "is_constructor": 1
+        },
+        "CurveGeometry": {
+            "name": "CurveGeometry",
+            "shortname": "CurveGeometry",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/geometries/CurveGeometry.ts",
+            "line": 11,
+            "extends": "GeometryBuffers",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "options",
+                    "description": "",
+                    "type": "CurveGeometryOptions",
+                    "optional": true
+                }
+            ]
         },
         "CylinderBuilder": {
             "name": "CylinderBuilder",
@@ -5749,6 +6002,44 @@
             "submodule": "visual",
             "namespace": "",
             "file": "src/davinci-eight/visual/CommonOptions.ts",
+            "line": 10
+        },
+        "Curve": {
+            "name": "Curve",
+            "shortname": "Curve",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "submodule": "visual",
+            "namespace": "",
+            "file": "src/davinci-eight/visual/Curve.ts",
+            "line": 161,
+            "extends": "Mesh",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "options",
+                    "description": "",
+                    "type": "CurveOptions",
+                    "optional": true
+                }
+            ]
+        },
+        "CurveOptions": {
+            "name": "CurveOptions",
+            "shortname": "CurveOptions",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "submodule": "visual",
+            "namespace": "",
+            "file": "src/davinci-eight/visual/CurveOptions.ts",
             "line": 10
         },
         "Cylinder": {
@@ -9562,9 +9853,9 @@
         {
             "file": "src/davinci-eight/core/GraphicsProgramSymbols.ts",
             "line": 57,
-            "description": "'aTextureCoord'",
+            "description": "'aCoords'",
             "itemtype": "property",
-            "name": "ATTRIBUTE_TEXTURE_COORD",
+            "name": "ATTRIBUTE_COORDS",
             "type": "{string}",
             "static": 1,
             "class": "GraphicsProgramSymbols",
@@ -13294,6 +13585,93 @@
             "module": "EIGHT"
         },
         {
+            "file": "src/davinci-eight/geometries/primitives/CurvePrimitive.ts",
+            "line": 24,
+            "itemtype": "property",
+            "name": "_uSegments",
+            "type": "number",
+            "access": "private",
+            "tagname": "",
+            "class": "CurvePrimitive",
+            "module": "EIGHT",
+            "submodule": "primitives"
+        },
+        {
+            "file": "src/davinci-eight/geometries/primitives/CurvePrimitive.ts",
+            "line": 31,
+            "itemtype": "property",
+            "name": "_uClosed",
+            "type": "boolean",
+            "access": "private",
+            "tagname": "",
+            "class": "CurvePrimitive",
+            "module": "EIGHT",
+            "submodule": "primitives"
+        },
+        {
+            "file": "src/davinci-eight/geometries/primitives/CurvePrimitive.ts",
+            "line": 59,
+            "itemtype": "property",
+            "name": "uSegments",
+            "type": "number",
+            "readonly": "",
+            "class": "CurvePrimitive",
+            "module": "EIGHT",
+            "submodule": "primitives"
+        },
+        {
+            "file": "src/davinci-eight/geometries/primitives/CurvePrimitive.ts",
+            "line": 71,
+            "description": "uLength = uSegments + 1",
+            "itemtype": "property",
+            "name": "uLength",
+            "type": "number",
+            "readonly": "",
+            "class": "CurvePrimitive",
+            "module": "EIGHT",
+            "submodule": "primitives"
+        },
+        {
+            "file": "src/davinci-eight/geometries/primitives/CurvePrimitive.ts",
+            "line": 85,
+            "itemtype": "method",
+            "name": "vertexTransform",
+            "params": [
+                {
+                    "name": "transform",
+                    "description": "",
+                    "type": "Transform"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "CurvePrimitive",
+            "module": "EIGHT",
+            "submodule": "primitives"
+        },
+        {
+            "file": "src/davinci-eight/geometries/primitives/CurvePrimitive.ts",
+            "line": 99,
+            "itemtype": "method",
+            "name": "vertex",
+            "params": [
+                {
+                    "name": "uIndex",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Vertex"
+            },
+            "class": "CurvePrimitive",
+            "module": "EIGHT",
+            "submodule": "primitives"
+        },
+        {
             "file": "src/davinci-eight/geometries/primitives/DrawAttribute.ts",
             "line": 30,
             "description": "A convenience class for implementing the Attribute interface.",
@@ -13309,14 +13687,14 @@
         },
         {
             "file": "src/davinci-eight/geometries/primitives/GeometryPrimitive.ts",
-            "line": 14,
+            "line": 16,
             "description": "This helper function converts Vertex (VectorN) attributes into the Primitive (number[]) format.\nThere is some mahic in the conversion of various types (Geometric2, Geometric3, Vector2, Vector3)\nto number[], but the basic rule is that the vector grade is extracted and used in a way that is\nconsistent with the linear dimension (2,3), so there should be no surprises.",
             "class": "GeometryPrimitive",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/geometries/primitives/GeometryPrimitive.ts",
-            "line": 60,
+            "line": 62,
             "itemtype": "property",
             "name": "mode",
             "type": "DrawMode",
@@ -13327,7 +13705,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/primitives/GeometryPrimitive.ts",
-            "line": 67,
+            "line": 69,
             "itemtype": "property",
             "name": "elements",
             "type": "number[]",
@@ -13338,7 +13716,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/primitives/GeometryPrimitive.ts",
-            "line": 74,
+            "line": 76,
             "itemtype": "property",
             "name": "vertices",
             "type": "Vertex",
@@ -13349,7 +13727,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/primitives/GeometryPrimitive.ts",
-            "line": 102,
+            "line": 109,
             "itemtype": "method",
             "name": "toPrimitive",
             "return": {
@@ -13361,7 +13739,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/primitives/GeometryPrimitive.ts",
-            "line": 113,
+            "line": 120,
             "itemtype": "method",
             "name": "toVertexArrays",
             "params": [
@@ -13395,7 +13773,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/primitives/GridLines.ts",
-            "line": 63,
+            "line": 65,
             "itemtype": "method",
             "name": "vertex",
             "params": [
@@ -13433,7 +13811,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/primitives/GridPoints.ts",
-            "line": 53,
+            "line": 55,
             "itemtype": "method",
             "name": "vertex",
             "params": [
@@ -13457,7 +13835,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/primitives/GridPrimitive.ts",
-            "line": 25,
+            "line": 26,
             "itemtype": "property",
             "name": "_uSegments",
             "type": "number",
@@ -13469,7 +13847,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/primitives/GridPrimitive.ts",
-            "line": 32,
+            "line": 34,
             "itemtype": "property",
             "name": "_vSegments",
             "type": "number",
@@ -13481,7 +13859,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/primitives/GridPrimitive.ts",
-            "line": 51,
+            "line": 54,
             "itemtype": "property",
             "name": "uSegments",
             "type": "number",
@@ -13492,7 +13870,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/primitives/GridPrimitive.ts",
-            "line": 63,
+            "line": 66,
             "description": "uLength = uSegments + 1",
             "itemtype": "property",
             "name": "uLength",
@@ -13504,7 +13882,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/primitives/GridPrimitive.ts",
-            "line": 77,
+            "line": 80,
             "itemtype": "property",
             "name": "vSegments",
             "type": "number",
@@ -13515,7 +13893,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/primitives/GridPrimitive.ts",
-            "line": 89,
+            "line": 92,
             "description": "vLength = vSegments + 1",
             "itemtype": "property",
             "name": "vLength",
@@ -13527,7 +13905,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/primitives/GridPrimitive.ts",
-            "line": 103,
+            "line": 116,
             "description": "Derived classes must override.",
             "itemtype": "method",
             "name": "vertex",
@@ -13593,6 +13971,46 @@
             "submodule": "primitives"
         },
         {
+            "file": "src/davinci-eight/geometries/primitives/LinePoints.ts",
+            "line": 27,
+            "itemtype": "method",
+            "name": "vertex",
+            "params": [
+                {
+                    "name": "uIndex",
+                    "description": "An integer. 0 <= uIndex < uLength",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Vertex"
+            },
+            "class": "LinePoints",
+            "module": "EIGHT",
+            "submodule": "primitives"
+        },
+        {
+            "file": "src/davinci-eight/geometries/primitives/LineStrip.ts",
+            "line": 27,
+            "itemtype": "method",
+            "name": "vertex",
+            "params": [
+                {
+                    "name": "uIndex",
+                    "description": "An integer. 0 <= uIndex < uLength",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Vertex"
+            },
+            "class": "LineStrip",
+            "module": "EIGHT",
+            "submodule": "primitives"
+        },
+        {
             "file": "src/davinci-eight/geometries/primitives/Vertex.ts",
             "line": 35,
             "itemtype": "property",
@@ -13640,8 +14058,15 @@
         },
         {
             "file": "src/davinci-eight/geometries/primitives/numPostsForFence.ts",
-            "line": 3,
+            "line": 5,
             "description": "Computes the number of posts to build a fence from the number of segments.",
+            "class": "Approximation",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/primitives/numVerticesForCurve.ts",
+            "line": 3,
+            "description": "Computes the number of vertices required to construct a curve.",
             "class": "Approximation",
             "module": "EIGHT"
         },
@@ -13764,6 +14189,76 @@
             "line": 91,
             "description": "Point on the standard cone at uIndex, vIndex.",
             "class": "ConeTransform",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/transforms/CoordsTransform1D.ts",
+            "line": 18,
+            "itemtype": "method",
+            "name": "exec",
+            "params": [
+                {
+                    "name": "vertex",
+                    "description": "",
+                    "type": "Vertex"
+                },
+                {
+                    "name": "i",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "j",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "iLength",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "jLength",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "class": "CoordsTransform1D",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/transforms/CoordsTransform2D.ts",
+            "line": 22,
+            "itemtype": "method",
+            "name": "exec",
+            "params": [
+                {
+                    "name": "vertex",
+                    "description": "",
+                    "type": "Vertex"
+                },
+                {
+                    "name": "i",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "j",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "iLength",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "jLength",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "class": "CoordsTransform2D",
             "module": "EIGHT"
         },
         {
@@ -14051,41 +14546,6 @@
                 }
             ],
             "class": "Scaling",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/geometries/transforms/TextureCoords.ts",
-            "line": 21,
-            "itemtype": "method",
-            "name": "exec",
-            "params": [
-                {
-                    "name": "vertex",
-                    "description": "",
-                    "type": "Vertex"
-                },
-                {
-                    "name": "i",
-                    "description": "",
-                    "type": "Number"
-                },
-                {
-                    "name": "j",
-                    "description": "",
-                    "type": "Number"
-                },
-                {
-                    "name": "iLength",
-                    "description": "",
-                    "type": "Number"
-                },
-                {
-                    "name": "jLength",
-                    "description": "",
-                    "type": "Number"
-                }
-            ],
-            "class": "TextureCoords",
             "module": "EIGHT"
         },
         {
@@ -14645,6 +15105,72 @@
             "module": "EIGHT"
         },
         {
+            "file": "src/davinci-eight/geometries/CurveGeometryOptions.ts",
+            "line": 7,
+            "description": "A parametric function determining the positions of points on the curve.\n\n0 <= u <= 1",
+            "itemtype": "attribute",
+            "name": "aPosition",
+            "type": "(u: number) => VectorE3",
+            "optional": 1,
+            "default": "() => (u, 0)",
+            "class": "CylinderBuilder",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/CurveGeometryOptions.ts",
+            "line": 19,
+            "itemtype": "attribute",
+            "name": "aColor",
+            "type": "(u: number) => IColor",
+            "optional": 1,
+            "class": "CylinderBuilder",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/CurveGeometryOptions.ts",
+            "line": 26,
+            "itemtype": "attribute",
+            "name": "drawMode",
+            "type": "DrawMode",
+            "optional": 1,
+            "default": "DrawMode.LINES",
+            "class": "CylinderBuilder",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/CurveGeometryOptions.ts",
+            "line": 34,
+            "itemtype": "attribute",
+            "name": "uMin",
+            "type": "number",
+            "optional": 1,
+            "default": "0",
+            "class": "CylinderBuilder",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/CurveGeometryOptions.ts",
+            "line": 42,
+            "itemtype": "attribute",
+            "name": "uMax",
+            "type": "number",
+            "optional": 1,
+            "default": "1",
+            "class": "CylinderBuilder",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/CurveGeometryOptions.ts",
+            "line": 50,
+            "itemtype": "attribute",
+            "name": "uSegments",
+            "type": "number",
+            "optional": 1,
+            "default": "1",
+            "class": "CylinderBuilder",
+            "module": "EIGHT"
+        },
+        {
             "file": "src/davinci-eight/geometries/CylinderBuilder.ts",
             "line": 11,
             "class": "CylinderBuilder",
@@ -15070,7 +15596,7 @@
             "file": "src/davinci-eight/geometries/GridGeometryOptions.ts",
             "line": 29,
             "itemtype": "attribute",
-            "name": "draeMode",
+            "name": "drawMode",
             "type": "DrawMode",
             "optional": 1,
             "default": "DrawMode.LINES",
@@ -31146,7 +31672,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 64,
+            "line": 63,
             "itemtype": "property",
             "name": "x",
             "type": "{number}",
@@ -31156,7 +31682,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 76,
+            "line": 75,
             "itemtype": "property",
             "name": "y",
             "type": "Number",
@@ -31166,7 +31692,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 88,
+            "line": 87,
             "itemtype": "property",
             "name": "z",
             "type": "Number",
@@ -31176,7 +31702,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 100,
+            "line": 99,
             "description": "<p>\n<code>this ⟼ this + vector * α</code>\n</p>",
             "itemtype": "method",
             "name": "add",
@@ -31205,7 +31731,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 117,
+            "line": 116,
             "description": "<p>\n<code>this ⟼ a + b</code>\n</p>",
             "itemtype": "method",
             "name": "add2",
@@ -31234,7 +31760,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 135,
+            "line": 134,
             "description": "<p>\n<code>this ⟼ σ * this<sup>T</sup></code>\n</p>",
             "itemtype": "method",
             "name": "applyMatrix",
@@ -31256,7 +31782,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 158,
+            "line": 157,
             "description": "Pre-multiplies the column vector corresponding to this vector by the matrix.\nThe result is applied to this vector.\nStrictly speaking, this method does not make much sense because the dimensions\nof the square matrix and column vector don't match.\nTODO: Used by TubeSimplexGeometry.",
             "itemtype": "method",
             "name": "applyMatrix4",
@@ -31277,7 +31803,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 183,
+            "line": 182,
             "description": "<p>\n<code>this ⟼ - n * this * n</code>\n</p>",
             "itemtype": "method",
             "name": "reflect",
@@ -31299,7 +31825,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 205,
+            "line": 204,
             "description": "<p>\n<code>this ⟼ R * this * rev(R)</code>\n</p>",
             "itemtype": "method",
             "name": "rotate",
@@ -31321,7 +31847,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 235,
+            "line": 234,
             "itemtype": "method",
             "name": "clone",
             "return": {
@@ -31334,7 +31860,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 245,
+            "line": 244,
             "description": "<p>\n<code>this ⟼ copy(source)</code>\n</p>",
             "itemtype": "method",
             "name": "copy",
@@ -31356,7 +31882,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 267,
+            "line": 266,
             "description": "Copies the coordinate values into this <code>Vector3</code>.",
             "itemtype": "method",
             "name": "copyCoordinates",
@@ -31378,7 +31904,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 282,
+            "line": 281,
             "description": "<p>\n<code>this ⟼ this ✕ v</code>\n</p>",
             "itemtype": "method",
             "name": "cross",
@@ -31400,7 +31926,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 295,
+            "line": 294,
             "description": "<p>\n<code>this ⟼ a ✕ b</code>\n</p>",
             "itemtype": "method",
             "name": "cross2",
@@ -31427,7 +31953,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 316,
+            "line": 315,
             "itemtype": "method",
             "name": "distanceTo",
             "params": [
@@ -31447,7 +31973,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 329,
+            "line": 328,
             "itemtype": "method",
             "name": "quadranceTo",
             "params": [
@@ -31467,7 +31993,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 345,
+            "line": 344,
             "description": "<p>\n<code>this ⟼ this / α</code>\n</p>",
             "itemtype": "method",
             "name": "divByScalar",
@@ -31489,7 +32015,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 368,
+            "line": 367,
             "itemtype": "method",
             "name": "dot",
             "params": [
@@ -31509,7 +32035,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 377,
+            "line": 376,
             "description": "<p>\n<code>this ⟼ I * B</code>\n</p>\n\nSets this vector to the dual of the bivector, B.\nIf changeSign is <code>true</code>, the direction of the resulting vector is reversed.",
             "itemtype": "method",
             "name": "dual",
@@ -31536,7 +32062,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 405,
+            "line": 404,
             "description": "Computes the <em>square root</em> of the <em>squared norm</em>.",
             "itemtype": "method",
             "name": "magnitude",
@@ -31550,7 +32076,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 413,
+            "line": 412,
             "itemtype": "method",
             "name": "neg",
             "return": {
@@ -31564,7 +32090,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 425,
+            "line": 424,
             "description": "<p>\n<code>this ⟼ this + α * (target - this)</code>\n</p>",
             "itemtype": "method",
             "name": "lerp",
@@ -31591,7 +32117,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 441,
+            "line": 440,
             "description": "<p>\n<code>this ⟼ a + α * (b - a)</code>\n</p>",
             "itemtype": "method",
             "name": "lerp2",
@@ -31623,7 +32149,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 456,
+            "line": 455,
             "description": "<p>\n<code>this ⟼ this / norm(this)</code>\n</p>",
             "itemtype": "method",
             "name": "direction",
@@ -31638,7 +32164,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 468,
+            "line": 467,
             "description": "<p>\n<code>this ⟼ this * α</code>\n</p>",
             "itemtype": "method",
             "name": "scale",
@@ -31655,7 +32181,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 482,
+            "line": 481,
             "itemtype": "method",
             "name": "stress",
             "params": [
@@ -31674,7 +32200,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 494,
+            "line": 493,
             "description": "<p>\n<code>this ⟼ this</code>, with components modified.\n</p>",
             "itemtype": "method",
             "name": "set",
@@ -31707,7 +32233,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 513,
+            "line": 512,
             "itemtype": "method",
             "name": "setY",
             "params": [
@@ -31724,7 +32250,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 528,
+            "line": 527,
             "description": "Returns the (Euclidean) inner product of this vector with itself.",
             "itemtype": "method",
             "name": "squaredNorm",
@@ -31738,7 +32264,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 539,
+            "line": 538,
             "description": "<p>\n<code>this ⟼ this - v</code>\n</p>",
             "itemtype": "method",
             "name": "sub",
@@ -31767,7 +32293,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 556,
+            "line": 555,
             "description": "<p>\n<code>this ⟼ a - b</code>\n</p>",
             "itemtype": "method",
             "name": "sub2",
@@ -31796,7 +32322,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 574,
+            "line": 573,
             "itemtype": "method",
             "name": "toExponential",
             "return": {
@@ -31809,7 +32335,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 583,
+            "line": 582,
             "itemtype": "method",
             "name": "toFixed",
             "params": [
@@ -31830,7 +32356,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 593,
+            "line": 592,
             "itemtype": "method",
             "name": "toString",
             "return": {
@@ -31843,7 +32369,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 602,
+            "line": 601,
             "description": "Sets this vector to the identity element for addition, <b>0</b>.",
             "itemtype": "method",
             "name": "zero",
@@ -31858,7 +32384,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 632,
+            "line": 631,
             "itemtype": "method",
             "name": "mul",
             "params": [
@@ -31880,7 +32406,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 647,
+            "line": 646,
             "itemtype": "method",
             "name": "rmul",
             "params": [
@@ -31902,7 +32428,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 665,
+            "line": 664,
             "itemtype": "method",
             "name": "copy",
             "params": [
@@ -31924,7 +32450,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 676,
+            "line": 675,
             "description": "Constructs a vector which is the dual of the supplied bivector, B.\nThe convention used is dual(m) = I * m.\nIf a sign change is desired from this convention,\nset the <code>changeSign</code> to <code>true</code>.",
             "itemtype": "method",
             "name": "dual",
@@ -31951,7 +32477,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 697,
+            "line": 696,
             "itemtype": "method",
             "name": "isInstance",
             "params": [
@@ -31972,7 +32498,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 707,
+            "line": 706,
             "itemtype": "method",
             "name": "lerp",
             "params": [
@@ -32004,7 +32530,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 720,
+            "line": 719,
             "itemtype": "method",
             "name": "random",
             "return": {
@@ -32019,7 +32545,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 730,
+            "line": 729,
             "itemtype": "method",
             "name": "vector",
             "params": [
@@ -32051,7 +32577,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 743,
+            "line": 742,
             "itemtype": "method",
             "name": "zero",
             "return": {
@@ -32874,6 +33400,80 @@
             "submodule": "visual"
         },
         {
+            "file": "src/davinci-eight/visual/CurveOptions.ts",
+            "line": 15,
+            "description": "<p>\nA parametric function determining the positions of points on the curve.\n</p>\n<p>\nu<sub>min</sub> <= u <= u<sub>max</sub>\n</p>",
+            "itemtype": "attribute",
+            "name": "aPosition",
+            "type": "(u: number, v: number) => VectorE3",
+            "optional": 1,
+            "default": "(u: number) => u * e1 + v * e2",
+            "class": "CurveOptions",
+            "module": "EIGHT",
+            "submodule": "visual"
+        },
+        {
+            "file": "src/davinci-eight/visual/CurveOptions.ts",
+            "line": 30,
+            "itemtype": "attribute",
+            "name": "aColor",
+            "type": "(u: number) => IColor",
+            "optional": 1,
+            "class": "CurveOptions",
+            "module": "EIGHT",
+            "submodule": "visual"
+        },
+        {
+            "file": "src/davinci-eight/visual/CurveOptions.ts",
+            "line": 37,
+            "description": "Specifies the required Geometric Primitive Type.\nImplementations may choose the nearest type.",
+            "itemtype": "attribute",
+            "name": "drawMode",
+            "type": "DrawMode",
+            "optional": 1,
+            "default": "DrawMode.LINES",
+            "class": "CurveOptions",
+            "module": "EIGHT",
+            "submodule": "visual"
+        },
+        {
+            "file": "src/davinci-eight/visual/CurveOptions.ts",
+            "line": 48,
+            "itemtype": "attribute",
+            "name": "uMin",
+            "type": "number",
+            "optional": 1,
+            "default": "-0.5",
+            "class": "CurveOptions",
+            "module": "EIGHT",
+            "submodule": "visual"
+        },
+        {
+            "file": "src/davinci-eight/visual/CurveOptions.ts",
+            "line": 56,
+            "itemtype": "attribute",
+            "name": "uMax",
+            "type": "number",
+            "optional": 1,
+            "default": "+0.5",
+            "class": "CurveOptions",
+            "module": "EIGHT",
+            "submodule": "visual"
+        },
+        {
+            "file": "src/davinci-eight/visual/CurveOptions.ts",
+            "line": 64,
+            "description": "The number of segments for the u coordinate.",
+            "itemtype": "attribute",
+            "name": "uSegments",
+            "type": "number",
+            "optional": 1,
+            "default": "1",
+            "class": "CurveOptions",
+            "module": "EIGHT",
+            "submodule": "visual"
+        },
+        {
             "file": "src/davinci-eight/visual/Cylinder.ts",
             "line": 60,
             "itemtype": "method",
@@ -33575,7 +34175,7 @@
         },
         {
             "message": "param name missing: {number}",
-            "line": " src/davinci-eight/math/Vector3.ts:513"
+            "line": " src/davinci-eight/math/Vector3.ts:512"
         },
         {
             "message": "Missing item type\nEssentially constructs the ShareableArray without incrementing the\nreference count of the elements, and without creating zombies.",
@@ -33783,7 +34383,7 @@
         },
         {
             "message": "Missing item type\nThis helper function converts Vertex (VectorN) attributes into the Primitive (number[]) format.\nThere is some mahic in the conversion of various types (Geometric2, Geometric3, Vector2, Vector3)\nto number[], but the basic rule is that the vector grade is extracted and used in a way that is\nconsistent with the linear dimension (2,3), so there should be no surprises.",
-            "line": " src/davinci-eight/geometries/primitives/GeometryPrimitive.ts:14"
+            "line": " src/davinci-eight/geometries/primitives/GeometryPrimitive.ts:16"
         },
         {
             "message": "Missing item type\n2---3\n|   |\n0---1",
@@ -33811,7 +34411,11 @@
         },
         {
             "message": "Missing item type\nComputes the number of posts to build a fence from the number of segments.",
-            "line": " src/davinci-eight/geometries/primitives/numPostsForFence.ts:3"
+            "line": " src/davinci-eight/geometries/primitives/numPostsForFence.ts:5"
+        },
+        {
+            "message": "Missing item type\nComputes the number of vertices required to construct a curve.",
+            "line": " src/davinci-eight/geometries/primitives/numVerticesForCurve.ts:3"
         },
         {
             "message": "Missing item type\nComputes the number of vertices required to construct a grid.",

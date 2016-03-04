@@ -41,8 +41,6 @@ import UniformMetaInfo from './davinci-eight/core/UniformMetaInfo';
 import WebGLRenderer from './davinci-eight/core/WebGLRenderer';
 import initWebGL from './davinci-eight/core/initWebGL';
 
-// curves
-import Curve from './davinci-eight/curves/Curve';
 // devices
 import Keyboard from './davinci-eight/devices/Keyboard';
 
@@ -186,6 +184,7 @@ import Sphere from './davinci-eight/visual/Sphere';
 import Box from './davinci-eight/visual/Box';
 import RigidBodyWithUnits from './davinci-eight/visual/RigidBodyWithUnits';
 import Cylinder from './davinci-eight/visual/Cylinder';
+import Curve from './davinci-eight/visual/Curve';
 import Grid from './davinci-eight/visual/Grid';
 import Tetrahedron from './davinci-eight/visual/Tetrahedron';
 import Trail from './davinci-eight/visual/Trail';
@@ -314,7 +313,6 @@ const eight = {
   get Vector3() { return Vector3 },
   get Vector4() { return Vector4 },
   get VectorN() { return VectorN },
-  get Curve() { return Curve },
 
   get GraphicsProgramSymbols() { return GraphicsProgramSymbols },
   get GeometryContainer() { return GeometryContainer },
@@ -353,6 +351,7 @@ const eight = {
   get Mesh() { return Mesh },
   get RigidBodyWithUnits() { return RigidBodyWithUnits },
   get Cylinder() { return Cylinder },
+  get Curve() { return Curve },
   get Grid() { return Grid },
   get Tetrahedron() { return Tetrahedron },
   get Trail() { return Trail },
