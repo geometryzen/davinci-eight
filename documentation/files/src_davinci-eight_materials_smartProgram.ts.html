@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.206.0</em>
+            <em>API Docs for: 2.207.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -176,6 +176,7 @@
                                 <li><a href="../classes/Tetrahedron.html">Tetrahedron</a></li>
                                 <li><a href="../classes/TetrahedronGeometry.html">TetrahedronGeometry</a></li>
                                 <li><a href="../classes/TetrahedronGeometryOptions.html">TetrahedronGeometryOptions</a></li>
+                                <li><a href="../classes/TetrahedronOptions.html">TetrahedronOptions</a></li>
                                 <li><a href="../classes/TextureCoords.html">TextureCoords</a></li>
                                 <li><a href="../classes/Trail.html">Trail</a></li>
                                 <li><a href="../classes/TrailConfig.html">TrailConfig</a></li>
@@ -256,28 +257,28 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 import AttribMetaInfo from &#x27;../core/AttribMetaInfo&#x27;;
-import fragmentShader from &#x27;./fragmentShader&#x27;;
+import fragmentShaderSrc from &#x27;./fragmentShaderSrc&#x27;;
 import mergeStringMapList from &#x27;../utils/mergeStringMapList&#x27;;
 import mustBeDefined from &#x27;../checks/mustBeDefined&#x27;;
 import MaterialBase from &#x27;./MaterialBase&#x27;;
 import UniformMetaInfo from &#x27;../core/UniformMetaInfo&#x27;;
 import vColorRequired from &#x27;./vColorRequired&#x27;;
-import vertexShader from &#x27;./vertexShader&#x27;;
+import vertexShaderSrc from &#x27;./vertexShaderSrc&#x27;;
 import vLightRequired from &#x27;./vLightRequired&#x27;;
 
 /**
  *
  */
 export default function smartProgram(attributes: { [name: string]: AttribMetaInfo }, uniformsList: { [name: string]: UniformMetaInfo }[], bindings: string[]): MaterialBase {
-    mustBeDefined(&#x27;attributes&#x27;, attributes);
-    mustBeDefined(&#x27;uniformsList&#x27;, uniformsList);
+  mustBeDefined(&#x27;attributes&#x27;, attributes);
+  mustBeDefined(&#x27;uniformsList&#x27;, uniformsList);
 
-    const uniforms = mergeStringMapList(uniformsList);
+  const uniforms = mergeStringMapList(uniformsList);
 
-    const vColor: boolean = vColorRequired(attributes, uniforms);
-    const vLight: boolean = vLightRequired(attributes, uniforms);
+  const vColor: boolean = vColorRequired(attributes, uniforms);
+  const vLight: boolean = vLightRequired(attributes, uniforms);
 
-    return new MaterialBase(vertexShader(attributes, uniforms, vColor, vLight), fragmentShader(attributes, uniforms, vColor, vLight), bindings);
+  return new MaterialBase(vertexShaderSrc(attributes, uniforms, vColor, vLight), fragmentShaderSrc(attributes, uniforms, vColor, vLight), bindings, &#x27;smartProgram&#x27;);
 }
 
     </pre>

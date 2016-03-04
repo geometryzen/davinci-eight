@@ -1,4 +1,9 @@
 /**
+ * @module EIGHT
+ * @submodule visual
+ */
+
+/**
  * @class BootstrapOptions
  */
 interface BootstrapOptions {

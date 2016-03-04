@@ -54,12 +54,12 @@ function builder(options?: MeshMaterialOptions) {
  * @submodule materials
  */
 
-function vertexShader(options?: MeshMaterialOptions): string {
-  return builder(options).vertexShader()
+function vertexShaderSrc(options?: MeshMaterialOptions): string {
+  return builder(options).vertexShaderSrc()
 }
 
-function fragmentShader(options?: MeshMaterialOptions): string {
-  return builder(options).fragmentShader()
+function fragmentShaderSrc(options?: MeshMaterialOptions): string {
+  return builder(options).fragmentShaderSrc()
 }
 
 /**
@@ -74,6 +74,6 @@ export default class MeshMaterial extends MaterialBase {
    * @param [options] {MeshMaterialOptions}
    */
   constructor(options?: MeshMaterialOptions) {
-    super(vertexShader(options), fragmentShader(options))
+    super(vertexShaderSrc(options), fragmentShaderSrc(options), [], 'MeshMaterial')
   }
 }

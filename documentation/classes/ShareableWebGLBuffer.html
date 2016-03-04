@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.206.0</em>
+            <em>API Docs for: 2.207.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -176,6 +176,7 @@
                                 <li><a href="../classes/Tetrahedron.html">Tetrahedron</a></li>
                                 <li><a href="../classes/TetrahedronGeometry.html">TetrahedronGeometry</a></li>
                                 <li><a href="../classes/TetrahedronGeometryOptions.html">TetrahedronGeometryOptions</a></li>
+                                <li><a href="../classes/TetrahedronOptions.html">TetrahedronOptions</a></li>
                                 <li><a href="../classes/TextureCoords.html">TextureCoords</a></li>
                                 <li><a href="../classes/Trail.html">Trail</a></li>
                                 <li><a href="../classes/TrailConfig.html">TrailConfig</a></li>
@@ -254,9 +255,12 @@
 <h1>ShareableWebGLBuffer Class</h1>
 <div class="box meta">
 
+        <div class="extends">
+            Extends <a href="../classes/Shareable.html" class="crosslink">Shareable</a>
+        </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_core_ShareableWebGLBuffer.ts.html#l37"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableWebGLBuffer.ts:37</code></a>
+            Defined in: <a href="../files/src_davinci-eight_core_ShareableWebGLBuffer.ts.html#l40"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableWebGLBuffer.ts:40</code></a>
         </div>
 
             Module: <a href="../modules/core.html">core</a><br>
@@ -295,7 +299,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_ShareableWebGLBuffer.ts.html#l37"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableWebGLBuffer.ts:37</code></a>
+        <a href="../files/src_davinci-eight_core_ShareableWebGLBuffer.ts.html#l40"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableWebGLBuffer.ts:40</code></a>
         </p>
 
 
@@ -353,13 +357,21 @@
                 <div class="index-section methods">
                     <h3>Methods</h3>
 
-                    <ul class="index-list methods">
+                    <ul class="index-list methods extends">
+                            <li class="index-item method inherited inherited">
+                                <a href="#method_addRef">addRef</a>
+
+                            </li>
                             <li class="index-item method">
                                 <a href="#method_bind">bind</a>
 
                             </li>
-                            <li class="index-item method protected">
+                            <li class="index-item method protected inherited">
                                 <a href="#method_destructor">destructor</a>
+
+                            </li>
+                            <li class="index-item method inherited inherited">
+                                <a href="#method_release">release</a>
 
                             </li>
                             <li class="index-item method">
@@ -372,7 +384,7 @@
                 <div class="index-section properties">
                     <h3>Properties</h3>
 
-                    <ul class="index-list properties">
+                    <ul class="index-list properties extends">
                             <li class="index-item property private">
                                 <a href="#property__buffer">_buffer</a>
 
@@ -385,6 +397,10 @@
                                 <a href="#property__target">_target</a>
 
                             </li>
+                            <li class="index-item property inherited">
+                                <a href="#property_uuid">uuid</a>
+
+                            </li>
                     </ul>
                 </div>
 
@@ -394,6 +410,53 @@
             <div id="methods" class="api-class-tabpanel">
                 <h2 class="off-left">Methods</h2>
 
+<div id="method_addRef" class="method item inherited">
+    <h3 class="name"><code>addRef</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">Number</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+            <p>Inherited from
+            <a href="../classes/IUnknown.html#method_addRef">
+                IUnknown
+            </a>
+            but overwritten in
+        <a href="../files/src_davinci-eight_core_Shareable.ts.html#l34"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Shareable.ts:34</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>
+Notifies this instance that something is referencing it.
+</p>
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Number</span>:
+                    <p>The new value of the reference count.</p>
+
+            </div>
+        </div>
+
+
+</div>
 <div id="method_bind" class="method item">
     <h3 class="name"><code>bind</code></h3>
 
@@ -412,7 +475,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_ShareableWebGLBuffer.ts.html#l98"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableWebGLBuffer.ts:98</code></a>
+        <a href="../files/src_davinci-eight_core_ShareableWebGLBuffer.ts.html#l101"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableWebGLBuffer.ts:101</code></a>
         </p>
 
 
@@ -451,9 +514,12 @@
 
 
     <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_core_ShareableWebGLBuffer.ts.html#l48"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableWebGLBuffer.ts:48</code></a>
+            <p>Inherited from
+            <a href="../classes/Shareable.html#method_destructor">
+                Shareable
+            </a>
+            but overwritten in
+        <a href="../files/src_davinci-eight_core_ShareableWebGLBuffer.ts.html#l51"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableWebGLBuffer.ts:51</code></a>
         </p>
 
 
@@ -470,6 +536,53 @@
 
             <div class="returns-description">
                         <span class="type">Void</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_release" class="method item inherited">
+    <h3 class="name"><code>release</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">Number</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+            <p>Inherited from
+            <a href="../classes/IUnknown.html#method_release">
+                IUnknown
+            </a>
+            but overwritten in
+        <a href="../files/src_davinci-eight_core_Shareable.ts.html#l48"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Shareable.ts:48</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>
+Notifies this instance that something is dereferencing it.
+</p>
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Number</span>:
+                    <p>The new value of the reference count.</p>
+
             </div>
         </div>
 
@@ -493,7 +606,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_ShareableWebGLBuffer.ts.html#l112"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableWebGLBuffer.ts:112</code></a>
+        <a href="../files/src_davinci-eight_core_ShareableWebGLBuffer.ts.html#l115"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableWebGLBuffer.ts:115</code></a>
         </p>
 
 
@@ -532,7 +645,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_ShareableWebGLBuffer.ts.html#l15"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableWebGLBuffer.ts:15</code></a>
+        <a href="../files/src_davinci-eight_core_ShareableWebGLBuffer.ts.html#l18"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableWebGLBuffer.ts:18</code></a>
         </p>
 
 
@@ -557,7 +670,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_ShareableWebGLBuffer.ts.html#l22"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableWebGLBuffer.ts:22</code></a>
+        <a href="../files/src_davinci-eight_core_ShareableWebGLBuffer.ts.html#l25"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableWebGLBuffer.ts:25</code></a>
         </p>
 
 
@@ -582,7 +695,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_ShareableWebGLBuffer.ts.html#l29"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableWebGLBuffer.ts:29</code></a>
+        <a href="../files/src_davinci-eight_core_ShareableWebGLBuffer.ts.html#l32"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableWebGLBuffer.ts:32</code></a>
         </p>
 
 
@@ -591,6 +704,30 @@
     <div class="description">
         <p>Cache the target when we have a context.</p>
 
+    </div>
+
+
+
+</div>
+<div id="property_uuid" class="property item inherited">
+    <h3 class="name"><code>uuid</code></h3>
+    <span class="type">String</span>
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/Shareable.html#property_uuid">Shareable</a>:
+        <a href="../files/src_davinci-eight_core_Shareable.ts.html#l92"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Shareable.ts:92</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
     </div>
 
 

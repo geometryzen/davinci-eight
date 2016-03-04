@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.206.0</em>
+            <em>API Docs for: 2.207.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -176,6 +176,7 @@
                                 <li><a href="../classes/Tetrahedron.html">Tetrahedron</a></li>
                                 <li><a href="../classes/TetrahedronGeometry.html">TetrahedronGeometry</a></li>
                                 <li><a href="../classes/TetrahedronGeometryOptions.html">TetrahedronGeometryOptions</a></li>
+                                <li><a href="../classes/TetrahedronOptions.html">TetrahedronOptions</a></li>
                                 <li><a href="../classes/TextureCoords.html">TextureCoords</a></li>
                                 <li><a href="../classes/Trail.html">Trail</a></li>
                                 <li><a href="../classes/TrailConfig.html">TrailConfig</a></li>
@@ -255,18 +256,16 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import IContextConsumer from &#x27;./IContextConsumer&#x27;
-import Geometry from &#x27;./Geometry&#x27;
-import Material from &#x27;./Material&#x27;
-import IUnknown from &#x27;./IUnknown&#x27;
 import Facet from &#x27;./Facet&#x27;
+import Geometry from &#x27;./Geometry&#x27;
+import IContextConsumer from &#x27;./IContextConsumer&#x27;
+import Material from &#x27;./Material&#x27;
 
 /**
  * @class IDrawable
- * @extends IUnknown
  * @extends IContextConsumer
  */
-interface IDrawable extends IUnknown, IContextConsumer {
+interface IDrawable extends IContextConsumer {
 
     /**
      * @property name
@@ -275,18 +274,60 @@ interface IDrawable extends IUnknown, IContextConsumer {
     name: string
 
     /**
+     * &lt;p&gt;
+     * A shortcut to the &lt;code&gt;material.fragmentShaderSrc&lt;/code&gt; property.
+     * &lt;/p&gt;
+     *
+     * @property fragmentShaderSrc
+     * @type string
+     */
+    fragmentShaderSrc: string
+
+    /**
+     * &lt;p&gt;
+     * The &lt;code&gt;Geometry&lt;/code&gt; that provides the buffered vertex attributes for this &lt;code&gt;IDrawable&lt;/code&gt;.
+     * &lt;/p&gt;
+     *
+     * &lt;p&gt;
+     * Geometry is a shareable WebGL resource and so is reference counted.
+     * Consequently, accessing the &lt;code&gt;geometry&lt;/code&gt; property increments the &lt;code&gt;Geometry&lt;/code&gt; instance reference count.
+     * &lt;em&gt;Be sure to call &lt;code&gt;release()&lt;/code&gt; on shareable WebGL resources in order to prevent memory leaks.&lt;/em&gt;
+     * &lt;/p&gt;
+     *
      * @property geometry
      * @type Geometry
      */
     geometry: Geometry
 
     /**
+     * &lt;p&gt;
+     * The &lt;code&gt;Material&lt;/code&gt; that provides the WebGLProgram for this &lt;code&gt;IDrawable&lt;/code&gt;.
+     * &lt;/p&gt;
+     *
+     * &lt;p&gt;
+     * Material is a shareable WebGL resource and so is reference counted.
+     * Consequently, accessing the &lt;code&gt;material&lt;/code&gt; property increments the &lt;code&gt;Material&lt;/code&gt; instance reference count.
+     * &lt;em&gt;Be sure to call &lt;code&gt;release()&lt;/code&gt; on shareable WebGL resources in order to prevent memory leaks.&lt;/em&gt;
+     * &lt;/p&gt;
+     *
      * @property material
      * @type Material
      */
     material: Material
 
     /**
+     * &lt;p&gt;
+     * A shortcut to the &lt;code&gt;material.vertexShaderSrc&lt;/code&gt; property.
+     * &lt;/p&gt;
+     *
+     * @property vertexShaderSrc
+     * @type string
+     */
+    vertexShaderSrc: string
+
+    /**
+     * Determines whether this &lt;code&gt;IDrawable&lt;/code&gt; will be drawn.
+     *
      * @property visible
      * @type boolean
      */

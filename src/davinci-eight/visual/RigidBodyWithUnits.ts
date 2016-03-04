@@ -9,7 +9,7 @@ import VectorE3 from '../math/VectorE3';
 const UNIT_MOMENTUM = Unit.KILOGRAM.mul(Unit.METER).div(Unit.SECOND)
 
 /**
- * Convenient abstractions for Physics modeling.
+ * Physics modeling.
  *
  * @module EIGHT
  * @submodule visual

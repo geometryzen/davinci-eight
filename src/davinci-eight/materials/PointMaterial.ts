@@ -49,12 +49,12 @@ function builder(options: PointMaterialOptions) {
   return gpb
 }
 
-function vertexShader(options?: PointMaterialOptions): string {
-  return builder(options).vertexShader()
+function vertexShaderSrc(options?: PointMaterialOptions): string {
+  return builder(options).vertexShaderSrc()
 }
 
-function fragmentShader(options?: PointMaterialOptions): string {
-  return builder(options).fragmentShader()
+function fragmentShaderSrc(options?: PointMaterialOptions): string {
+  return builder(options).fragmentShaderSrc()
 }
 
 /**
@@ -68,6 +68,6 @@ export default class PointMaterial extends MaterialBase {
    * @param [options] {PointMaterialOptions}
    */
   constructor(options?: PointMaterialOptions) {
-    super(vertexShader(options), fragmentShader(options))
+    super(vertexShaderSrc(options), fragmentShaderSrc(options), [], 'PointMaterial')
   }
 }

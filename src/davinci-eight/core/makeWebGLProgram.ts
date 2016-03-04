@@ -1,9 +1,9 @@
 import makeWebGLShader from './makeWebGLShader';
 
-export default function makeWebGLProgram(ctx: WebGLRenderingContext, vertexShader: string, fragmentShader: string, attribs: string[]): WebGLProgram {
+export default function makeWebGLProgram(ctx: WebGLRenderingContext, vertexShaderSrc: string, fragmentShaderSrc: string, attribs: string[]): WebGLProgram {
     // create our shaders
-    const vs: WebGLShader = makeWebGLShader(ctx, vertexShader, ctx.VERTEX_SHADER);
-    const fs: WebGLShader = makeWebGLShader(ctx, fragmentShader, ctx.FRAGMENT_SHADER);
+    const vs: WebGLShader = makeWebGLShader(ctx, vertexShaderSrc, ctx.VERTEX_SHADER);
+    const fs: WebGLShader = makeWebGLShader(ctx, fragmentShaderSrc, ctx.FRAGMENT_SHADER);
 
     // Create the program object.
     const program: WebGLProgram = ctx.createProgram();

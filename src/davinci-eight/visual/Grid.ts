@@ -19,6 +19,11 @@ import PointMaterialOptions from '../materials/PointMaterialOptions'
 import R3 from '../math/R3'
 import Unit from '../math/Unit'
 
+/**
+ * @module EIGHT
+ * @submodule visual
+ */
+
 function aPositionDefault(u: number, v: number): R3 {
   return R3.vector(u, v, 0, Unit.ONE)
 }

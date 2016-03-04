@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.206.0</em>
+            <em>API Docs for: 2.207.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -176,6 +176,7 @@
                                 <li><a href="../classes/Tetrahedron.html">Tetrahedron</a></li>
                                 <li><a href="../classes/TetrahedronGeometry.html">TetrahedronGeometry</a></li>
                                 <li><a href="../classes/TetrahedronGeometryOptions.html">TetrahedronGeometryOptions</a></li>
+                                <li><a href="../classes/TetrahedronOptions.html">TetrahedronOptions</a></li>
                                 <li><a href="../classes/TextureCoords.html">TextureCoords</a></li>
                                 <li><a href="../classes/Trail.html">Trail</a></li>
                                 <li><a href="../classes/TrailConfig.html">TrailConfig</a></li>
@@ -268,24 +269,24 @@ import MaterialBase from &#x27;./MaterialBase&#x27;;
  * [attribs = []] The attribute indices (implied by order of the name in the array).
  */
 export default function programFromScripts(vsId: string, fsId: string, dom: Document, attribs: string[] = []): MaterialBase {
-    mustBeString(&#x27;vsId&#x27;, vsId)
-    mustBeString(&#x27;fsId&#x27;, fsId)
-    mustBeObject(&#x27;dom&#x27;, dom)
+  mustBeString(&#x27;vsId&#x27;, vsId)
+  mustBeString(&#x27;fsId&#x27;, fsId)
+  mustBeObject(&#x27;dom&#x27;, dom)
 
-    // shortcut function for getElementById, capturing the dom parameter value (argument value).
-    function $(id: string): HTMLElement {
-        let element = dom.getElementById(mustBeString(&#x27;id&#x27;, id))
-        if (element) {
-            return element;
-        }
-        else {
-            throw new Error(id + &quot; is not a valid DOM element identifier.&quot;);
-        }
+  // shortcut function for getElementById, capturing the dom parameter value (argument value).
+  function $(elementId: string): HTMLElement {
+    const element = dom.getElementById(mustBeString(&#x27;elementId&#x27;, elementId))
+    if (element) {
+      return element
     }
+    else {
+      throw new Error(&#x60;${elementId} is not a valid DOM element identifier.&#x60;)
+    }
+  }
 
-    const vertexShader: string = $(vsId).textContent;
-    const fragmentShader: string = $(fsId).textContent;
-    return new MaterialBase(vertexShader, fragmentShader, attribs);
+  const vertexShaderSrc: string = $(vsId).textContent
+  const fragmentShaderSrc: string = $(fsId).textContent
+  return new MaterialBase(vertexShaderSrc, fragmentShaderSrc, attribs, &#x27;programFromScripts&#x27;)
 }
 
     </pre>

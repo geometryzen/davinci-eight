@@ -184,7 +184,8 @@ export default class GeometryBuffers extends ShareableContextListener implements
    * @return {void}
    */
   draw(material: Material): void {
-    const gl: WebGLRenderingContext = this.mirror.gl
+    // FIXME: Make the buffer a wrapper and contextProvider private or encapsulating WebGL.
+    const gl: WebGLRenderingContext = this.contextProvider.gl
     gl.bindBuffer(gl.ARRAY_BUFFER, this.vbo)
     for (let i = 0; i < this.pointers.length; i++) {
       const pointer = this.pointers[i]

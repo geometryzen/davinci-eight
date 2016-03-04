@@ -3,23 +3,23 @@ import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols'
 import MaterialBase from './MaterialBase'
 
 function builder() {
-    const gpb = new GraphicsProgramBuilder()
+  const gpb = new GraphicsProgramBuilder()
 
-    gpb.attribute(GraphicsProgramSymbols.ATTRIBUTE_POSITION, 3)
-    gpb.attribute(GraphicsProgramSymbols.ATTRIBUTE_NORMAL, 3)
-    // gpb.attribute(GraphicsProgramSymbols.ATTRIBUTE_COLOR, 3);
+  gpb.attribute(GraphicsProgramSymbols.ATTRIBUTE_POSITION, 3)
+  gpb.attribute(GraphicsProgramSymbols.ATTRIBUTE_NORMAL, 3)
+  // gpb.attribute(GraphicsProgramSymbols.ATTRIBUTE_COLOR, 3);
 
-    gpb.uniform(GraphicsProgramSymbols.UNIFORM_COLOR, 'vec3')
-    gpb.uniform(GraphicsProgramSymbols.UNIFORM_MODEL_MATRIX, 'mat4')
-    gpb.uniform(GraphicsProgramSymbols.UNIFORM_NORMAL_MATRIX, 'mat3')
-    gpb.uniform(GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX, 'mat4')
-    gpb.uniform(GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX, 'mat4')
+  gpb.uniform(GraphicsProgramSymbols.UNIFORM_COLOR, 'vec3')
+  gpb.uniform(GraphicsProgramSymbols.UNIFORM_MODEL_MATRIX, 'mat4')
+  gpb.uniform(GraphicsProgramSymbols.UNIFORM_NORMAL_MATRIX, 'mat3')
+  gpb.uniform(GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX, 'mat4')
+  gpb.uniform(GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX, 'mat4')
 
-    gpb.uniform(GraphicsProgramSymbols.UNIFORM_AMBIENT_LIGHT, 'vec3')
-    gpb.uniform(GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_COLOR, 'vec3')
-    gpb.uniform(GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION, 'vec3')
+  gpb.uniform(GraphicsProgramSymbols.UNIFORM_AMBIENT_LIGHT, 'vec3')
+  gpb.uniform(GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_COLOR, 'vec3')
+  gpb.uniform(GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION, 'vec3')
 
-    return gpb
+  return gpb
 }
 
 /**
@@ -27,12 +27,12 @@ function builder() {
  * @submodule materials
  */
 
-function vertexShader(): string {
-    return builder().vertexShader()
+function vertexShaderSrc(): string {
+  return builder().vertexShaderSrc()
 }
 
-function fragmentShader(): string {
-    return builder().fragmentShader()
+function fragmentShaderSrc(): string {
+  return builder().fragmentShaderSrc()
 }
 
 /**
@@ -40,12 +40,12 @@ function fragmentShader(): string {
  * @extends MaterialBase
  */
 export default class MeshNormalMaterial extends MaterialBase {
-    /**
-     * 
-     * @class MeshNormalMaterial
-     * @constructor
-     */
-    constructor() {
-        super(vertexShader(), fragmentShader())
-    }
+  /**
+   * 
+   * @class MeshNormalMaterial
+   * @constructor
+   */
+  constructor() {
+    super(vertexShaderSrc(), fragmentShaderSrc(), [], 'MeshNormalMaterial')
+  }
 }

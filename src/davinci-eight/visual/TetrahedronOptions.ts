@@ -1,3 +1,12 @@
+
+/**
+ * @module EIGHT
+ * @submodule visual
+ */
+
+/**
+ * @class TetrahedronOptions
+ */
 interface TetrahedronOptions {
 
 }

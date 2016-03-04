@@ -1,6 +1,11 @@
 import CommonOptions from './CommonOptions'
 
 /**
+ * @module EIGHT
+ * @submodule visual
+ */
+
+/**
  * @class BoxOptions
  * @extends CommonOptions
  */

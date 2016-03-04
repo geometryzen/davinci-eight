@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.206.0</em>
+            <em>API Docs for: 2.207.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -176,6 +176,7 @@
                                 <li><a href="../classes/Tetrahedron.html">Tetrahedron</a></li>
                                 <li><a href="../classes/TetrahedronGeometry.html">TetrahedronGeometry</a></li>
                                 <li><a href="../classes/TetrahedronGeometryOptions.html">TetrahedronGeometryOptions</a></li>
+                                <li><a href="../classes/TetrahedronOptions.html">TetrahedronOptions</a></li>
                                 <li><a href="../classes/TextureCoords.html">TextureCoords</a></li>
                                 <li><a href="../classes/Trail.html">Trail</a></li>
                                 <li><a href="../classes/TrailConfig.html">TrailConfig</a></li>
@@ -270,7 +271,7 @@ import Shareable from &#x27;./Shareable&#x27;;
  */
 export default class ShareableContextListener extends Shareable implements IContextListener {
     private _context: WebGLRenderer
-    protected mirror: IContextProvider
+    protected contextProvider: IContextProvider
 
     /**
      * @class ShareableContextListener
@@ -294,19 +295,19 @@ export default class ShareableContextListener extends Shareable implements ICont
      * Instructs the consumer to subscribe to context events.
      *
      * @method subscribe
-     * @param visual {WebGLRenderer}
+     * @param context {WebGLRenderer}
      * @return {void}
      */
-    subscribe(visual: WebGLRenderer): void {
+    subscribe(context: WebGLRenderer): void {
         if (!this._context) {
-            visual.addRef()
-            this._context = visual
-            visual.addContextListener(this)
-            visual.synchronize(this)
+            context.addRef()
+            this._context = context
+            context.addContextListener(this)
+            context.synchronize(this)
         }
         else {
             this.unsubscribe()
-            this.subscribe(visual)
+            this.subscribe(context)
         }
     }
 
@@ -317,8 +318,8 @@ export default class ShareableContextListener extends Shareable implements ICont
      * @return {void}
      */
     unsubscribe(): void {
-        if (this.mirror) {
-            cleanUp(this.mirror, this)
+        if (this.contextProvider) {
+            cleanUp(this.contextProvider, this)
         }
         if (this._context) {
             this._context.removeContextListener(this)
@@ -328,20 +329,20 @@ export default class ShareableContextListener extends Shareable implements ICont
     }
 
     contextFree(context: IContextProvider): void {
-        this.mirror = void 0
+        this.contextProvider = void 0
     }
 
     contextGain(context: IContextProvider): void {
-        this.mirror = context
+        this.contextProvider = context
     }
 
     contextLost(): void {
-        this.mirror = void 0
+        this.contextProvider = void 0
     }
 
     get gl(): WebGLRenderingContext {
-        if (this.mirror) {
-            return this.mirror.gl
+        if (this.contextProvider) {
+            return this.contextProvider.gl
         }
         else {
             return void 0

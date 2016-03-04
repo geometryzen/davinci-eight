@@ -1,14 +1,17 @@
-import fragmentShader from './fragmentShader';
+import fragmentShaderSrc from './fragmentShaderSrc';
 import MaterialBase from './MaterialBase';
-import vertexShader from './vertexShader';
+import vertexShaderSrc from './vertexShaderSrc';
 
+/**
+ *
+ */
 export default class SmartGraphicsProgram extends MaterialBase {
-    constructor(
-        aParams: { [name: string]: { glslType: string } },
-        uParams: { [name: string]: { glslType: string } },
-        vColor: boolean,
-        vLight: boolean
-    ) {
-        super(vertexShader(aParams, uParams, vColor, vLight), fragmentShader(aParams, uParams, vColor, vLight));
-    }
+  constructor(
+    aParams: { [name: string]: { glslType: string } },
+    uParams: { [name: string]: { glslType: string } },
+    vColor: boolean,
+    vLight: boolean
+  ) {
+    super(vertexShaderSrc(aParams, uParams, vColor, vLight), fragmentShaderSrc(aParams, uParams, vColor, vLight), [], 'SmartGraphicsProgram')
+  }
 }

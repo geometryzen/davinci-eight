@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.206.0</em>
+            <em>API Docs for: 2.207.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -176,6 +176,7 @@
                                 <li><a href="../classes/Tetrahedron.html">Tetrahedron</a></li>
                                 <li><a href="../classes/TetrahedronGeometry.html">TetrahedronGeometry</a></li>
                                 <li><a href="../classes/TetrahedronGeometryOptions.html">TetrahedronGeometryOptions</a></li>
+                                <li><a href="../classes/TetrahedronOptions.html">TetrahedronOptions</a></li>
                                 <li><a href="../classes/TextureCoords.html">TextureCoords</a></li>
                                 <li><a href="../classes/Trail.html">Trail</a></li>
                                 <li><a href="../classes/TrailConfig.html">TrailConfig</a></li>
@@ -255,8 +256,12 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
+import IContextProvider from &#x27;../core/IContextProvider&#x27;;
+import isString from &#x27;../checks/isString&#x27;;
+import mustBeArray from &#x27;../checks/mustBeArray&#x27;;
 import mustBeObject from &#x27;../checks/mustBeObject&#x27;;
 import mustBeString from &#x27;../checks/mustBeString&#x27;;
+import mustSatisfy from &#x27;../checks/mustSatisfy&#x27;;
 import MaterialBase from &#x27;./MaterialBase&#x27;;
 
 /**
@@ -264,44 +269,123 @@ import MaterialBase from &#x27;./MaterialBase&#x27;;
  * @submodule materials
  */
 
-function $(id: string, dom: Document): HTMLElement {
-    const element = dom.getElementById(mustBeString(&#x27;id&#x27;, id))
-    if (element) {
-        return element;
-    }
-    else {
-        throw new Error(id + &quot; is not a valid DOM element identifier.&quot;);
-    }
+function getHTMLElementById(elementId: string, dom: Document): HTMLElement {
+  const element = dom.getElementById(mustBeString(&#x27;elementId&#x27;, elementId))
+  if (element) {
+    return element;
+  }
+  else {
+    throw new Error(&#x60;&#x27;${elementId}&#x27; is not a valid element identifier.&#x60;);
+  }
 }
 
-function vertexShader(scriptIds: string[], dom: Document): string {
-    const vsId = scriptIds[0]
-    mustBeString(&#x27;vsId&#x27;, vsId)
-    mustBeObject(&#x27;dom&#x27;, dom)
-    return $(vsId, dom).textContent;
+function vertexShaderSrc(vsId: string, dom: Document): string {
+  mustBeString(&#x27;vsId&#x27;, vsId)
+  mustBeObject(&#x27;dom&#x27;, dom)
+  return getHTMLElementById(vsId, dom).textContent
 }
 
-function fragmentShader(scriptIds: string[], dom: Document): string {
-    const fsId = scriptIds[1]
-    mustBeString(&#x27;fsId&#x27;, fsId)
-    mustBeObject(&#x27;dom&#x27;, dom)
-    return $(fsId, dom).textContent;
+function fragmentShaderSrc(fsId: string, dom: Document): string {
+  mustBeString(&#x27;fsId&#x27;, fsId)
+  mustBeObject(&#x27;dom&#x27;, dom)
+  return getHTMLElementById(fsId, dom).textContent
+}
+
+function assign(elementId: string, dom: Document, result: string[]): void {
+  const htmlElement = dom.getElementById(elementId)
+  if (htmlElement instanceof HTMLScriptElement) {
+    const script = &lt;HTMLScriptElement&gt;htmlElement
+    if (isString(script.type)) {
+      if (script.type.indexOf(&#x27;vertex&#x27;) &gt;= 0) {
+        result[0] = elementId
+      }
+      else if (script.type.indexOf(&#x27;fragment&#x27;) &gt;= 0) {
+        result[1] = elementId
+      }
+      else {
+        // Do nothing
+      }
+    }
+    if (isString(script.textContent)) {
+      if (script.textContent.indexOf(&#x27;gl_Position&#x27;) &gt;= 0) {
+        result[0] = elementId
+      }
+      else if (script.textContent.indexOf(&#x27;gl_FragColor&#x27;) &gt;= 0) {
+        result[1] = elementId
+      }
+      else {
+        // Do nothing
+      }
+    }
+  }
+}
+
+function detectShaderType(scriptIds: string[], dom: Document): string[] {
+  const result = [scriptIds[0], scriptIds[1]]
+  assign(scriptIds[0], dom, result)
+  assign(scriptIds[1], dom, result)
+  return result
 }
 
 /**
+ * &lt;p&gt;
+ * A shareable WebGL program based upon shader source code in HTML script elements.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * This class provides a convenient way of creating custom GLSL programs.
+ * The scripts are lazily loaded so that the constructor may be called before
+ * the DOM has finished loading.
+ * &lt;/p&gt;
+ *
+ * @example
+ *     // Replace the material in the drawable with our own custom shaders.
+ *     const material = new EIGHT.HTMLScriptsMaterial([&#x27;vs&#x27;, &#x27;fs&#x27;], document, [])
+ *     drawable.material = material
+ *     material.release()
+ *
  * @class HTMLScriptsMaterial
  * @extends MaterialBase
  */
 export default class HTMLScriptsMaterial extends MaterialBase {
-    /**
-     * @class HTMLScriptsMaterial
-     * @constructor
-     * @param scriptIds {string[]}
-     * @param dom {Document}
-     */
-    constructor(scriptIds: string[] = [], dom: Document = document) {
-        super(vertexShader(scriptIds, dom), fragmentShader(scriptIds, dom));
+  private scriptIds: string[];
+  private dom: Document;
+  private loaded: boolean = false;
+
+  /**
+   * @class HTMLScriptsMaterial
+   * @constructor
+   * @param scriptIds {string[]} The element identifiers for the vertex and fragment shader respectively.
+   * @param dom {Document} The document object model that owns the script elements.
+   * @param attribs {string[]} An array of strings containing the order of attributes.
+   */
+  constructor(scriptIds: string[], dom: Document, attribs: string[]) {
+    super(void 0, void 0, attribs, &#x27;HTMLScriptsMaterial&#x27;)
+    mustBeArray(&#x27;scriptIds&#x27;, scriptIds)
+    mustSatisfy(&#x27;scriptIds&#x27;, scriptIds.length === 2, () =&gt; { return &#x27;&#x27; })
+    this.scriptIds = [scriptIds[0], scriptIds[1]]
+    this.dom = dom;
+  }
+
+  /**
+   * &lt;p&gt;
+   * Overridden to provide lazy loading of the script contents.
+   * This allows the &lt;code&gt;HTMLScriptsMaterial&lt;/code&gt; to be constructed
+   * before the DOM has completed loading.
+   * &lt;/p&gt;
+   *
+   * @method contextGain
+   * @param contextProvider {IContextProvider}
+   * @return {void}
+   */
+  contextGain(contextProvider: IContextProvider): void {
+    if (!this.loaded) {
+      const scriptIds = detectShaderType(this.scriptIds, this.dom)
+      this.vertexShaderSrc = vertexShaderSrc(scriptIds[0], this.dom)
+      this.fragmentShaderSrc = fragmentShaderSrc(scriptIds[1], this.dom)
+      this.loaded = true
     }
+    super.contextGain(contextProvider)
+  }
 }
 
     </pre>

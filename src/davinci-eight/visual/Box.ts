@@ -21,7 +21,7 @@ export default class Box extends RigidBody {
     /**
      * @class Box
      * @constructor
-     * @param [options={}] {BoxOptions}
+     * @param [options] {BoxOptions}
      */
     constructor(options: BoxOptions = {}) {
         super('Box', direction(options))

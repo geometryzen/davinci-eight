@@ -19,7 +19,7 @@ export default class Arrow extends RigidBody {
     /**
      * @class Arrow
      * @constructor
-     * @param [options={}] {ArrowOptions}
+     * @param [options] {ArrowOptions}
      */
     constructor(options: ArrowOptions = {}) {
         super('Arrow', direction(options))

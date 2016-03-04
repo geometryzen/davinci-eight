@@ -2,8 +2,13 @@ import core from '../core'
 import ErrorMode from '../core/ErrorMode'
 import isBoolean from '../checks/isBoolean';
 import mustBeBoolean from '../checks/mustBeBoolean';
-// import mustBeGE from '../checks/mustBeGE';
 'use strict';
+
+/**
+ * @module EIGHT
+ * @submodule visual
+ */
+
 /**
  * @class TrailConfig
  */

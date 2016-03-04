@@ -8,7 +8,7 @@ import Vertex from './Vertex'
 
 /**
  * @module EIGHT
- * @submodule geometries
+ * @submodule primitives
  */
 
 function triangleStripForGrid(uSegments: number, vSegments: number, elements?: number[]): number[] {

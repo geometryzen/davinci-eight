@@ -3,7 +3,7 @@ import DebugNodeEventHandler from './DebugNodeEventHandler'
 import DefaultNodeEventHandler from './DefaultNodeEventHandler'
 import parse from './parse'
 
-const vertexShader = [
+const vertexShaderSrc = [
     "attribute vec3 aVertexPosition, aVertexThing;",
     "attribute vec3 aVertexColor;",
     "attribute vec3 aVertexNormal;",
@@ -24,7 +24,7 @@ describe("NodeWalker", function() {
     it("constructor", function() {
         const walker = new NodeWalker()
         const handler = new DefaultNodeEventHandler()
-        const program = parse(vertexShader)
+        const program = parse(vertexShaderSrc)
         walker.walk(program, handler)
         expect(1).toBe(1)
     })

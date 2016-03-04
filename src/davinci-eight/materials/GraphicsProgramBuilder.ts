@@ -6,8 +6,8 @@ import Primitive from '../core/Primitive';
 import SmartGraphicsProgram from '../materials/SmartGraphicsProgram';
 import vColorRequired from './vColorRequired';
 import vLightRequired from './vLightRequired';
-import fragmentShader from './fragmentShader';
-import vertexShader from './vertexShader';
+import fragmentShaderSrc from './fragmentShaderSrc';
+import vertexShaderSrc from './vertexShaderSrc';
 
 function computeAttribParams(values: { [key: string]: { size: number, name?: string } }) {
     const result: { [key: string]: { glslType: string, name?: string } } = {}
@@ -65,17 +65,17 @@ export default class GraphicsProgramBuilder {
         return new SmartGraphicsProgram(aParams, this.uParams, vColor, vLight)
     }
 
-    public vertexShader(): string {
+    public vertexShaderSrc(): string {
         const aParams = computeAttribParams(this.aMeta)
         const vColor = vColorRequired(aParams, this.uParams)
         const vLight = vLightRequired(aParams, this.uParams)
-        return vertexShader(aParams, this.uParams, vColor, vLight)
+        return vertexShaderSrc(aParams, this.uParams, vColor, vLight)
     }
 
-    public fragmentShader(): string {
+    public fragmentShaderSrc(): string {
         const aParams = computeAttribParams(this.aMeta)
         const vColor = vColorRequired(aParams, this.uParams)
         const vLight = vLightRequired(aParams, this.uParams)
-        return fragmentShader(aParams, this.uParams, vColor, vLight)
+        return fragmentShaderSrc(aParams, this.uParams, vColor, vLight)
     }
 }

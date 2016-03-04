@@ -4,6 +4,11 @@ import IRigidBody from './IRigidBody'
 import R3 from '../math/R3'
 
 /**
+ * @module EIGHT
+ * @submodule visual
+ */
+
+/**
  * @class IGeometric3RigidBody
  * @extends IMesh
  * @extends IRigidBody

@@ -635,7 +635,7 @@ System.register("davinci-eight/facets/ModelE2.js", ["../math/Geometric2", "../ma
   };
 });
 
-System.register("davinci-eight/materials/HTMLScriptsMaterial.js", ["../checks/mustBeObject", "../checks/mustBeString", "./MaterialBase"], function(exports_1) {
+System.register("davinci-eight/materials/HTMLScriptsMaterial.js", ["../checks/isString", "../checks/mustBeArray", "../checks/mustBeObject", "../checks/mustBeString", "../checks/mustSatisfy", "./MaterialBase"], function(exports_1) {
   var __extends = (this && this.__extends) || function(d, b) {
     for (var p in b)
       if (b.hasOwnProperty(p))
@@ -645,50 +645,93 @@ System.register("davinci-eight/materials/HTMLScriptsMaterial.js", ["../checks/mu
     }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
   };
-  var mustBeObject_1,
+  var isString_1,
+      mustBeArray_1,
+      mustBeObject_1,
       mustBeString_1,
+      mustSatisfy_1,
       MaterialBase_1;
   var HTMLScriptsMaterial;
-  function $(id, dom) {
-    var element = dom.getElementById(mustBeString_1.default('id', id));
+  function getHTMLElementById(elementId, dom) {
+    var element = dom.getElementById(mustBeString_1.default('elementId', elementId));
     if (element) {
       return element;
     } else {
-      throw new Error(id + " is not a valid DOM element identifier.");
+      throw new Error("'" + elementId + "' is not a valid element identifier.");
     }
   }
-  function vertexShader(scriptIds, dom) {
-    var vsId = scriptIds[0];
+  function vertexShaderSrc(vsId, dom) {
     mustBeString_1.default('vsId', vsId);
     mustBeObject_1.default('dom', dom);
-    return $(vsId, dom).textContent;
+    return getHTMLElementById(vsId, dom).textContent;
   }
-  function fragmentShader(scriptIds, dom) {
-    var fsId = scriptIds[1];
+  function fragmentShaderSrc(fsId, dom) {
     mustBeString_1.default('fsId', fsId);
     mustBeObject_1.default('dom', dom);
-    return $(fsId, dom).textContent;
+    return getHTMLElementById(fsId, dom).textContent;
+  }
+  function assign(elementId, dom, result) {
+    var htmlElement = dom.getElementById(elementId);
+    if (htmlElement instanceof HTMLScriptElement) {
+      var script = htmlElement;
+      if (isString_1.default(script.type)) {
+        if (script.type.indexOf('vertex') >= 0) {
+          result[0] = elementId;
+        } else if (script.type.indexOf('fragment') >= 0) {
+          result[1] = elementId;
+        } else {}
+      }
+      if (isString_1.default(script.textContent)) {
+        if (script.textContent.indexOf('gl_Position') >= 0) {
+          result[0] = elementId;
+        } else if (script.textContent.indexOf('gl_FragColor') >= 0) {
+          result[1] = elementId;
+        } else {}
+      }
+    }
+  }
+  function detectShaderType(scriptIds, dom) {
+    var result = [scriptIds[0], scriptIds[1]];
+    assign(scriptIds[0], dom, result);
+    assign(scriptIds[1], dom, result);
+    return result;
   }
   return {
-    setters: [function(mustBeObject_1_1) {
+    setters: [function(isString_1_1) {
+      isString_1 = isString_1_1;
+    }, function(mustBeArray_1_1) {
+      mustBeArray_1 = mustBeArray_1_1;
+    }, function(mustBeObject_1_1) {
       mustBeObject_1 = mustBeObject_1_1;
     }, function(mustBeString_1_1) {
       mustBeString_1 = mustBeString_1_1;
+    }, function(mustSatisfy_1_1) {
+      mustSatisfy_1 = mustSatisfy_1_1;
     }, function(MaterialBase_1_1) {
       MaterialBase_1 = MaterialBase_1_1;
     }],
     execute: function() {
       HTMLScriptsMaterial = (function(_super) {
         __extends(HTMLScriptsMaterial, _super);
-        function HTMLScriptsMaterial(scriptIds, dom) {
-          if (scriptIds === void 0) {
-            scriptIds = [];
-          }
-          if (dom === void 0) {
-            dom = document;
-          }
-          _super.call(this, vertexShader(scriptIds, dom), fragmentShader(scriptIds, dom));
+        function HTMLScriptsMaterial(scriptIds, dom, attribs) {
+          _super.call(this, void 0, void 0, attribs, 'HTMLScriptsMaterial');
+          this.loaded = false;
+          mustBeArray_1.default('scriptIds', scriptIds);
+          mustSatisfy_1.default('scriptIds', scriptIds.length === 2, function() {
+            return '';
+          });
+          this.scriptIds = [scriptIds[0], scriptIds[1]];
+          this.dom = dom;
         }
+        HTMLScriptsMaterial.prototype.contextGain = function(contextProvider) {
+          if (!this.loaded) {
+            var scriptIds = detectShaderType(this.scriptIds, this.dom);
+            this.vertexShaderSrc = vertexShaderSrc(scriptIds[0], this.dom);
+            this.fragmentShaderSrc = fragmentShaderSrc(scriptIds[1], this.dom);
+            this.loaded = true;
+          }
+          _super.prototype.contextGain.call(this, contextProvider);
+        };
         return HTMLScriptsMaterial;
       })(MaterialBase_1.default);
       exports_1("default", HTMLScriptsMaterial);
@@ -724,11 +767,11 @@ System.register("davinci-eight/materials/MeshNormalMaterial.js", ["../materials/
     gpb.uniform(GraphicsProgramSymbols_1.default.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION, 'vec3');
     return gpb;
   }
-  function vertexShader() {
-    return builder().vertexShader();
+  function vertexShaderSrc() {
+    return builder().vertexShaderSrc();
   }
-  function fragmentShader() {
-    return builder().fragmentShader();
+  function fragmentShaderSrc() {
+    return builder().fragmentShaderSrc();
   }
   return {
     setters: [function(GraphicsProgramBuilder_1_1) {
@@ -742,7 +785,7 @@ System.register("davinci-eight/materials/MeshNormalMaterial.js", ["../materials/
       MeshNormalMaterial = (function(_super) {
         __extends(MeshNormalMaterial, _super);
         function MeshNormalMaterial() {
-          _super.call(this, vertexShader(), fragmentShader());
+          _super.call(this, vertexShaderSrc(), fragmentShaderSrc(), [], 'MeshNormalMaterial');
         }
         return MeshNormalMaterial;
       })(MaterialBase_1.default);
@@ -772,13 +815,13 @@ System.register("davinci-eight/utils/mergeStringMapList.js", [], function(export
   };
 });
 
-System.register("davinci-eight/materials/smartProgram.js", ["./fragmentShader", "../utils/mergeStringMapList", "../checks/mustBeDefined", "./MaterialBase", "./vColorRequired", "./vertexShader", "./vLightRequired"], function(exports_1) {
-  var fragmentShader_1,
+System.register("davinci-eight/materials/smartProgram.js", ["./fragmentShaderSrc", "../utils/mergeStringMapList", "../checks/mustBeDefined", "./MaterialBase", "./vColorRequired", "./vertexShaderSrc", "./vLightRequired"], function(exports_1) {
+  var fragmentShaderSrc_1,
       mergeStringMapList_1,
       mustBeDefined_1,
       MaterialBase_1,
       vColorRequired_1,
-      vertexShader_1,
+      vertexShaderSrc_1,
       vLightRequired_1;
   function smartProgram(attributes, uniformsList, bindings) {
     mustBeDefined_1.default('attributes', attributes);
@@ -786,12 +829,12 @@ System.register("davinci-eight/materials/smartProgram.js", ["./fragmentShader", 
     var uniforms = mergeStringMapList_1.default(uniformsList);
     var vColor = vColorRequired_1.default(attributes, uniforms);
     var vLight = vLightRequired_1.default(attributes, uniforms);
-    return new MaterialBase_1.default(vertexShader_1.default(attributes, uniforms, vColor, vLight), fragmentShader_1.default(attributes, uniforms, vColor, vLight), bindings);
+    return new MaterialBase_1.default(vertexShaderSrc_1.default(attributes, uniforms, vColor, vLight), fragmentShaderSrc_1.default(attributes, uniforms, vColor, vLight), bindings, 'smartProgram');
   }
   exports_1("default", smartProgram);
   return {
-    setters: [function(fragmentShader_1_1) {
-      fragmentShader_1 = fragmentShader_1_1;
+    setters: [function(fragmentShaderSrc_1_1) {
+      fragmentShaderSrc_1 = fragmentShaderSrc_1_1;
     }, function(mergeStringMapList_1_1) {
       mergeStringMapList_1 = mergeStringMapList_1_1;
     }, function(mustBeDefined_1_1) {
@@ -800,8 +843,8 @@ System.register("davinci-eight/materials/smartProgram.js", ["./fragmentShader", 
       MaterialBase_1 = MaterialBase_1_1;
     }, function(vColorRequired_1_1) {
       vColorRequired_1 = vColorRequired_1_1;
-    }, function(vertexShader_1_1) {
-      vertexShader_1 = vertexShader_1_1;
+    }, function(vertexShaderSrc_1_1) {
+      vertexShaderSrc_1 = vertexShaderSrc_1_1;
     }, function(vLightRequired_1_1) {
       vLightRequired_1 = vLightRequired_1_1;
     }],
@@ -820,17 +863,17 @@ System.register("davinci-eight/materials/programFromScripts.js", ["../checks/mus
     mustBeString_1.default('vsId', vsId);
     mustBeString_1.default('fsId', fsId);
     mustBeObject_1.default('dom', dom);
-    function $(id) {
-      var element = dom.getElementById(mustBeString_1.default('id', id));
+    function $(elementId) {
+      var element = dom.getElementById(mustBeString_1.default('elementId', elementId));
       if (element) {
         return element;
       } else {
-        throw new Error(id + " is not a valid DOM element identifier.");
+        throw new Error(elementId + " is not a valid DOM element identifier.");
       }
     }
-    var vertexShader = $(vsId).textContent;
-    var fragmentShader = $(fsId).textContent;
-    return new MaterialBase_1.default(vertexShader, fragmentShader, attribs);
+    var vertexShaderSrc = $(vsId).textContent;
+    var fragmentShaderSrc = $(fsId).textContent;
+    return new MaterialBase_1.default(vertexShaderSrc, fragmentShaderSrc, attribs, 'programFromScripts');
   }
   exports_1("default", programFromScripts);
   return {
@@ -5756,17 +5799,6 @@ System.register("davinci-eight/geometries/GridGeometry.js", ["../core/GeometryBu
   };
 });
 
-System.register("davinci-eight/checks/isNull.js", [], function(exports_1) {
-  function default_1(x) {
-    return x === null;
-  }
-  exports_1("default", default_1);
-  return {
-    setters: [],
-    execute: function() {}
-  };
-});
-
 System.register("davinci-eight/materials/LineMaterial.js", ["../materials/GraphicsProgramBuilder", "../core/GraphicsProgramSymbols", "../checks/isDefined", "./MaterialBase", "../checks/mustBeObject"], function(exports_1) {
   var __extends = (this && this.__extends) || function(d, b) {
     for (var p in b)
@@ -5814,11 +5846,11 @@ System.register("davinci-eight/materials/LineMaterial.js", ["../materials/Graphi
     }
     return gpb;
   }
-  function vertexShader(options) {
-    return builder(options).vertexShader();
+  function vertexShaderSrc(options) {
+    return builder(options).vertexShaderSrc();
   }
-  function fragmentShader(options) {
-    return builder(options).fragmentShader();
+  function fragmentShaderSrc(options) {
+    return builder(options).fragmentShaderSrc();
   }
   return {
     setters: [function(GraphicsProgramBuilder_1_1) {
@@ -5836,7 +5868,7 @@ System.register("davinci-eight/materials/LineMaterial.js", ["../materials/Graphi
       LineMaterial = (function(_super) {
         __extends(LineMaterial, _super);
         function LineMaterial(options) {
-          _super.call(this, vertexShader(options), fragmentShader(options));
+          _super.call(this, vertexShaderSrc(options), fragmentShaderSrc(options), [], 'LineMaterial');
         }
         return LineMaterial;
       })(MaterialBase_1.default);
@@ -5893,11 +5925,11 @@ System.register("davinci-eight/materials/PointMaterial.js", ["../materials/Graph
     }
     return gpb;
   }
-  function vertexShader(options) {
-    return builder(options).vertexShader();
+  function vertexShaderSrc(options) {
+    return builder(options).vertexShaderSrc();
   }
-  function fragmentShader(options) {
-    return builder(options).fragmentShader();
+  function fragmentShaderSrc(options) {
+    return builder(options).fragmentShaderSrc();
   }
   return {
     setters: [function(GraphicsProgramBuilder_1_1) {
@@ -5915,7 +5947,7 @@ System.register("davinci-eight/materials/PointMaterial.js", ["../materials/Graph
       PointMaterial = (function(_super) {
         __extends(PointMaterial, _super);
         function PointMaterial(options) {
-          _super.call(this, vertexShader(options), fragmentShader(options));
+          _super.call(this, vertexShaderSrc(options), fragmentShaderSrc(options), [], 'PointMaterial');
         }
         return PointMaterial;
       })(MaterialBase_1.default);
@@ -6366,6 +6398,42 @@ System.register("davinci-eight/core/Drawable.js", ["../checks/mustBeBoolean", ".
           this._material = void 0;
           _super.prototype.destructor.call(this);
         };
+        Object.defineProperty(Drawable.prototype, "fragmentShaderSrc", {
+          get: function() {
+            if (this._material) {
+              return this._material.fragmentShaderSrc;
+            } else {
+              return void 0;
+            }
+          },
+          set: function(fragmentShaderSrc) {
+            if (this._material) {
+              this._material.fragmentShaderSrc = fragmentShaderSrc;
+            } else {
+              throw new Error("Unable to set fragmentShaderSrc because " + this._type + ".material is not defined.");
+            }
+          },
+          enumerable: true,
+          configurable: true
+        });
+        Object.defineProperty(Drawable.prototype, "vertexShaderSrc", {
+          get: function() {
+            if (this._material) {
+              return this._material.vertexShaderSrc;
+            } else {
+              return void 0;
+            }
+          },
+          set: function(vertexShaderSrc) {
+            if (this._material) {
+              this._material.vertexShaderSrc = vertexShaderSrc;
+            } else {
+              throw new Error("Unableto  set vertexShaderSrc because " + this._type + ".material is not defined.");
+            }
+          },
+          enumerable: true,
+          configurable: true
+        });
         Drawable.prototype.setUniforms = function() {
           var material = this._material;
           var facets = this._facets;
@@ -6393,14 +6461,17 @@ System.register("davinci-eight/core/Drawable.js", ["../checks/mustBeBoolean", ".
         Drawable.prototype.contextFree = function(context) {
           this._geometry.contextFree(context);
           this._material.contextFree(context);
+          _super.prototype.contextFree.call(this, context);
         };
         Drawable.prototype.contextGain = function(context) {
           this._geometry.contextGain(context);
           this._material.contextGain(context);
+          _super.prototype.contextGain.call(this, context);
         };
         Drawable.prototype.contextLost = function() {
           this._geometry.contextLost();
           this._material.contextLost();
+          _super.prototype.contextLost.call(this);
         };
         Drawable.prototype.getFacet = function(name) {
           return this._facets[name];
@@ -6421,6 +6492,9 @@ System.register("davinci-eight/core/Drawable.js", ["../checks/mustBeBoolean", ".
             if (geometry) {
               geometry.addRef();
               this._geometry = geometry;
+              if (this.contextProvider) {
+                this._geometry.contextGain(this.contextProvider);
+              }
             }
           },
           enumerable: true,
@@ -6439,6 +6513,9 @@ System.register("davinci-eight/core/Drawable.js", ["../checks/mustBeBoolean", ".
             if (material) {
               material.addRef();
               this._material = material;
+              if (this.contextProvider) {
+                this._material.contextGain(this.contextProvider);
+              }
             }
           },
           enumerable: true,
@@ -6938,7 +7015,7 @@ System.register("davinci-eight/materials/glslAttribType.js", ["../core/GraphicsP
   };
 });
 
-System.register("davinci-eight/materials/SmartGraphicsProgram.js", ["./fragmentShader", "./MaterialBase", "./vertexShader"], function(exports_1) {
+System.register("davinci-eight/materials/SmartGraphicsProgram.js", ["./fragmentShaderSrc", "./MaterialBase", "./vertexShaderSrc"], function(exports_1) {
   var __extends = (this && this.__extends) || function(d, b) {
     for (var p in b)
       if (b.hasOwnProperty(p))
@@ -6948,23 +7025,23 @@ System.register("davinci-eight/materials/SmartGraphicsProgram.js", ["./fragmentS
     }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
   };
-  var fragmentShader_1,
+  var fragmentShaderSrc_1,
       MaterialBase_1,
-      vertexShader_1;
+      vertexShaderSrc_1;
   var SmartGraphicsProgram;
   return {
-    setters: [function(fragmentShader_1_1) {
-      fragmentShader_1 = fragmentShader_1_1;
+    setters: [function(fragmentShaderSrc_1_1) {
+      fragmentShaderSrc_1 = fragmentShaderSrc_1_1;
     }, function(MaterialBase_1_1) {
       MaterialBase_1 = MaterialBase_1_1;
-    }, function(vertexShader_1_1) {
-      vertexShader_1 = vertexShader_1_1;
+    }, function(vertexShaderSrc_1_1) {
+      vertexShaderSrc_1 = vertexShaderSrc_1_1;
     }],
     execute: function() {
       SmartGraphicsProgram = (function(_super) {
         __extends(SmartGraphicsProgram, _super);
         function SmartGraphicsProgram(aParams, uParams, vColor, vLight) {
-          _super.call(this, vertexShader_1.default(aParams, uParams, vColor, vLight), fragmentShader_1.default(aParams, uParams, vColor, vLight));
+          _super.call(this, vertexShaderSrc_1.default(aParams, uParams, vColor, vLight), fragmentShaderSrc_1.default(aParams, uParams, vColor, vLight), [], 'SmartGraphicsProgram');
         }
         return SmartGraphicsProgram;
       })(MaterialBase_1.default);
@@ -7006,17 +7083,19 @@ System.register("davinci-eight/materials/vLightRequired.js", ["../checks/mustBeD
   };
 });
 
-System.register("davinci-eight/materials/fragmentShader.js", ["../checks/mustBeBoolean", "../checks/mustBeDefined"], function(exports_1) {
-  var mustBeBoolean_1,
+System.register("davinci-eight/materials/fragmentShaderSrc.js", ["../core", "../checks/mustBeBoolean", "../checks/mustBeDefined"], function(exports_1) {
+  var core_1,
+      mustBeBoolean_1,
       mustBeDefined_1;
-  function fragmentShader(attributes, uniforms, vColor, vLight) {
+  var emitFragmentPrecision;
+  function default_1(attributes, uniforms, vColor, vLight) {
     mustBeDefined_1.default('attributes', attributes);
     mustBeDefined_1.default('uniforms', uniforms);
     mustBeBoolean_1.default('vColor', vColor);
     mustBeBoolean_1.default('vLight', vLight);
     var lines = [];
-    lines.push("// fragment shader generated by EIGHT");
-    if (false) {
+    lines.push("// fragment shader generated by " + core_1.default.NAMESPACE + " " + core_1.default.VERSION);
+    if (emitFragmentPrecision) {
       lines.push("#ifdef GL_ES");
       lines.push("#  ifdef GL_FRAGMENT_PRECISION_HIGH");
       lines.push("precision highp float;");
@@ -7046,17 +7125,22 @@ System.register("davinci-eight/materials/fragmentShader.js", ["../checks/mustBeB
       }
     }
     lines.push("}");
+    lines.push("");
     var code = lines.join("\n");
     return code;
   }
-  exports_1("default", fragmentShader);
+  exports_1("default", default_1);
   return {
-    setters: [function(mustBeBoolean_1_1) {
+    setters: [function(core_1_1) {
+      core_1 = core_1_1;
+    }, function(mustBeBoolean_1_1) {
       mustBeBoolean_1 = mustBeBoolean_1_1;
     }, function(mustBeDefined_1_1) {
       mustBeDefined_1 = mustBeDefined_1_1;
     }],
-    execute: function() {}
+    execute: function() {
+      emitFragmentPrecision = false;
+    }
   };
 });
 
@@ -7101,8 +7185,9 @@ System.register("davinci-eight/core/getUniformVarName.js", ["../checks/isDefined
   };
 });
 
-System.register("davinci-eight/materials/vertexShader.js", ["../core/getAttribVarName", "../core/getUniformVarName", "../checks/mustBeBoolean", "../checks/mustBeDefined", "../core/GraphicsProgramSymbols"], function(exports_1) {
-  var getAttribVarName_1,
+System.register("davinci-eight/materials/vertexShaderSrc.js", ["../core", "../core/getAttribVarName", "../core/getUniformVarName", "../checks/mustBeBoolean", "../checks/mustBeDefined", "../core/GraphicsProgramSymbols"], function(exports_1) {
+  var core_1,
+      getAttribVarName_1,
       getUniformVarName_1,
       mustBeBoolean_1,
       mustBeDefined_1,
@@ -7120,13 +7205,13 @@ System.register("davinci-eight/materials/vertexShader.js", ["../core/getAttribVa
   function getUniformCodeName(uniforms, name) {
     return getUniformVarName_1.default(uniforms[name], name);
   }
-  function vertexShader(attributes, uniforms, vColor, vLight) {
+  function default_1(attributes, uniforms, vColor, vLight) {
     mustBeDefined_1.default('attributes', attributes);
     mustBeDefined_1.default('uniforms', uniforms);
     mustBeBoolean_1.default('vColor', vColor);
     mustBeBoolean_1.default('vLight', vLight);
     var lines = [];
-    lines.push("// vertex shader generated by EIGHT");
+    lines.push("// vertex shader generated by " + core_1.default.NAMESPACE + " " + core_1.default.VERSION);
     for (var aName in attributes) {
       if (attributes.hasOwnProperty(aName)) {
         lines.push(ATTRIBUTE + attributes[aName].glslType + SPACE + getAttribVarName_1.default(attributes[aName], aName) + SEMICOLON);
@@ -7281,12 +7366,15 @@ System.register("davinci-eight/materials/vertexShader.js", ["../core/getAttribVa
       }
     }
     lines.push("}");
+    lines.push("");
     var code = lines.join("\n");
     return code;
   }
-  exports_1("default", vertexShader);
+  exports_1("default", default_1);
   return {
-    setters: [function(getAttribVarName_1_1) {
+    setters: [function(core_1_1) {
+      core_1 = core_1_1;
+    }, function(getAttribVarName_1_1) {
       getAttribVarName_1 = getAttribVarName_1_1;
     }, function(getUniformVarName_1_1) {
       getUniformVarName_1 = getUniformVarName_1_1;
@@ -7312,7 +7400,7 @@ System.register("davinci-eight/materials/vertexShader.js", ["../core/getAttribVa
   };
 });
 
-System.register("davinci-eight/materials/GraphicsProgramBuilder.js", ["../core/getAttribVarName", "./glslAttribType", "../checks/mustBeInteger", "../checks/mustBeString", "../materials/SmartGraphicsProgram", "./vColorRequired", "./vLightRequired", "./fragmentShader", "./vertexShader"], function(exports_1) {
+System.register("davinci-eight/materials/GraphicsProgramBuilder.js", ["../core/getAttribVarName", "./glslAttribType", "../checks/mustBeInteger", "../checks/mustBeString", "../materials/SmartGraphicsProgram", "./vColorRequired", "./vLightRequired", "./fragmentShaderSrc", "./vertexShaderSrc"], function(exports_1) {
   var getAttribVarName_1,
       glslAttribType_1,
       mustBeInteger_1,
@@ -7320,8 +7408,8 @@ System.register("davinci-eight/materials/GraphicsProgramBuilder.js", ["../core/g
       SmartGraphicsProgram_1,
       vColorRequired_1,
       vLightRequired_1,
-      fragmentShader_1,
-      vertexShader_1;
+      fragmentShaderSrc_1,
+      vertexShaderSrc_1;
   var GraphicsProgramBuilder;
   function computeAttribParams(values) {
     var result = {};
@@ -7351,10 +7439,10 @@ System.register("davinci-eight/materials/GraphicsProgramBuilder.js", ["../core/g
       vColorRequired_1 = vColorRequired_1_1;
     }, function(vLightRequired_1_1) {
       vLightRequired_1 = vLightRequired_1_1;
-    }, function(fragmentShader_1_1) {
-      fragmentShader_1 = fragmentShader_1_1;
-    }, function(vertexShader_1_1) {
-      vertexShader_1 = vertexShader_1_1;
+    }, function(fragmentShaderSrc_1_1) {
+      fragmentShaderSrc_1 = fragmentShaderSrc_1_1;
+    }, function(vertexShaderSrc_1_1) {
+      vertexShaderSrc_1 = vertexShaderSrc_1_1;
     }],
     execute: function() {
       GraphicsProgramBuilder = (function() {
@@ -7390,17 +7478,17 @@ System.register("davinci-eight/materials/GraphicsProgramBuilder.js", ["../core/g
           var vLight = vLightRequired_1.default(aParams, this.uParams);
           return new SmartGraphicsProgram_1.default(aParams, this.uParams, vColor, vLight);
         };
-        GraphicsProgramBuilder.prototype.vertexShader = function() {
+        GraphicsProgramBuilder.prototype.vertexShaderSrc = function() {
           var aParams = computeAttribParams(this.aMeta);
           var vColor = vColorRequired_1.default(aParams, this.uParams);
           var vLight = vLightRequired_1.default(aParams, this.uParams);
-          return vertexShader_1.default(aParams, this.uParams, vColor, vLight);
+          return vertexShaderSrc_1.default(aParams, this.uParams, vColor, vLight);
         };
-        GraphicsProgramBuilder.prototype.fragmentShader = function() {
+        GraphicsProgramBuilder.prototype.fragmentShaderSrc = function() {
           var aParams = computeAttribParams(this.aMeta);
           var vColor = vColorRequired_1.default(aParams, this.uParams);
           var vLight = vLightRequired_1.default(aParams, this.uParams);
-          return fragmentShader_1.default(aParams, this.uParams, vColor, vLight);
+          return fragmentShaderSrc_1.default(aParams, this.uParams, vColor, vLight);
         };
         return GraphicsProgramBuilder;
       })();
@@ -7471,6 +7559,17 @@ System.register("davinci-eight/core/AttribLocation.js", ["../i18n/readOnly"], fu
   };
 });
 
+System.register("davinci-eight/checks/isNull.js", [], function(exports_1) {
+  function default_1(x) {
+    return x === null;
+  }
+  exports_1("default", default_1);
+  return {
+    setters: [],
+    execute: function() {}
+  };
+});
+
 System.register("davinci-eight/core/makeWebGLShader.js", [], function(exports_1) {
   function makeWebGLShader(gl, source, type) {
     var shader = gl.createShader(type);
@@ -7498,9 +7597,9 @@ System.register("davinci-eight/core/makeWebGLShader.js", [], function(exports_1)
 
 System.register("davinci-eight/core/makeWebGLProgram.js", ["./makeWebGLShader"], function(exports_1) {
   var makeWebGLShader_1;
-  function makeWebGLProgram(ctx, vertexShader, fragmentShader, attribs) {
-    var vs = makeWebGLShader_1.default(ctx, vertexShader, ctx.VERTEX_SHADER);
-    var fs = makeWebGLShader_1.default(ctx, fragmentShader, ctx.FRAGMENT_SHADER);
+  function makeWebGLProgram(ctx, vertexShaderSrc, fragmentShaderSrc, attribs) {
+    var vs = makeWebGLShader_1.default(ctx, vertexShaderSrc, ctx.VERTEX_SHADER);
+    var fs = makeWebGLShader_1.default(ctx, fragmentShaderSrc, ctx.FRAGMENT_SHADER);
     var program = ctx.createProgram();
     ctx.attachShader(program, vs);
     ctx.attachShader(program, fs);
@@ -7642,7 +7741,7 @@ System.register("davinci-eight/core/UniformLocation.js", [], function(exports_1)
   };
 });
 
-System.register("davinci-eight/materials/MaterialBase.js", ["../core/AttribLocation", "../core/makeWebGLProgram", "../checks/mustBeArray", "../checks/mustBeString", "../checks/mustBeUndefined", "../i18n/readOnly", "../core/ShareableContextListener", "../core/UniformLocation"], function(exports_1) {
+System.register("davinci-eight/materials/MaterialBase.js", ["../core/AttribLocation", "../checks/isDefined", "../checks/isString", "../checks/isNull", "../core/makeWebGLProgram", "../checks/mustBeArray", "../checks/mustBeString", "../checks/mustBeUndefined", "../i18n/readOnly", "../core/ShareableContextListener", "../core/UniformLocation"], function(exports_1) {
   var __extends = (this && this.__extends) || function(d, b) {
     for (var p in b)
       if (b.hasOwnProperty(p))
@@ -7653,6 +7752,9 @@ System.register("davinci-eight/materials/MaterialBase.js", ["../core/AttribLocat
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
   };
   var AttribLocation_1,
+      isDefined_1,
+      isString_1,
+      isNull_1,
       makeWebGLProgram_1,
       mustBeArray_1,
       mustBeString_1,
@@ -7664,6 +7766,12 @@ System.register("davinci-eight/materials/MaterialBase.js", ["../core/AttribLocat
   return {
     setters: [function(AttribLocation_1_1) {
       AttribLocation_1 = AttribLocation_1_1;
+    }, function(isDefined_1_1) {
+      isDefined_1 = isDefined_1_1;
+    }, function(isString_1_1) {
+      isString_1 = isString_1_1;
+    }, function(isNull_1_1) {
+      isNull_1 = isNull_1_1;
     }, function(makeWebGLProgram_1_1) {
       makeWebGLProgram_1 = makeWebGLProgram_1_1;
     }, function(mustBeArray_1_1) {
@@ -7682,15 +7790,16 @@ System.register("davinci-eight/materials/MaterialBase.js", ["../core/AttribLocat
     execute: function() {
       MaterialBase = (function(_super) {
         __extends(MaterialBase, _super);
-        function MaterialBase(vertexShader, fragmentShader, attribs) {
-          if (attribs === void 0) {
-            attribs = [];
-          }
-          _super.call(this, 'MaterialBase');
+        function MaterialBase(vertexShaderSrc, fragmentShaderSrc, attribs, type) {
+          _super.call(this, type);
           this._attributes = {};
           this._uniforms = {};
-          this._vertexShader = mustBeString_1.default('vertexShader', vertexShader);
-          this._fragmentShader = mustBeString_1.default('fragmentShader', fragmentShader);
+          if (isDefined_1.default(vertexShaderSrc) && !isNull_1.default(vertexShaderSrc)) {
+            this._vertexShaderSrc = mustBeString_1.default('vertexShaderSrc', vertexShaderSrc);
+          }
+          if (isDefined_1.default(fragmentShaderSrc) && !isNull_1.default(fragmentShaderSrc)) {
+            this._fragmentShaderSrc = mustBeString_1.default('fragmentShaderSrc', fragmentShaderSrc);
+          }
           this._attribs = mustBeArray_1.default('attribs', attribs);
         }
         MaterialBase.prototype.destructor = function() {
@@ -7699,8 +7808,8 @@ System.register("davinci-eight/materials/MaterialBase.js", ["../core/AttribLocat
         };
         MaterialBase.prototype.contextGain = function(context) {
           var gl = context.gl;
-          if (!this._program) {
-            this._program = makeWebGLProgram_1.default(gl, this._vertexShader, this._fragmentShader, this._attribs);
+          if (!this._program && isString_1.default(this._vertexShaderSrc) && isString_1.default(this._fragmentShaderSrc)) {
+            this._program = makeWebGLProgram_1.default(gl, this._vertexShaderSrc, this._fragmentShaderSrc, this._attribs);
             this._attributes = {};
             this._uniforms = {};
             var aLen = gl.getProgramParameter(this._program, gl.ACTIVE_ATTRIBUTES);
@@ -7772,22 +7881,42 @@ System.register("davinci-eight/materials/MaterialBase.js", ["../core/AttribLocat
             console.warn(this._type + ".use() missing WebGL rendering context.");
           }
         };
-        Object.defineProperty(MaterialBase.prototype, "vertexShader", {
+        Object.defineProperty(MaterialBase.prototype, "vertexShaderSrc", {
           get: function() {
-            return this._vertexShader;
+            return this._vertexShaderSrc;
           },
-          set: function(unused) {
-            throw new Error(readOnly_1.default('vertexShader').message);
+          set: function(vertexShaderSrc) {
+            this._vertexShaderSrc = mustBeString_1.default('vertexShaderSrc', vertexShaderSrc);
+            if (this.contextProvider) {
+              this.contextProvider.addRef();
+              var contextProvider = this.contextProvider;
+              try {
+                this.contextFree(contextProvider);
+                this.contextGain(contextProvider);
+              } finally {
+                contextProvider.release();
+              }
+            }
           },
           enumerable: true,
           configurable: true
         });
-        Object.defineProperty(MaterialBase.prototype, "fragmentShader", {
+        Object.defineProperty(MaterialBase.prototype, "fragmentShaderSrc", {
           get: function() {
-            return this._fragmentShader;
+            return this._fragmentShaderSrc;
           },
-          set: function(unused) {
-            throw new Error(readOnly_1.default('fragmentShader').message);
+          set: function(fragmentShaderSrc) {
+            this._fragmentShaderSrc = mustBeString_1.default('fragmentShaderSrc', fragmentShaderSrc);
+            if (this.contextProvider) {
+              this.contextProvider.addRef();
+              var contextProvider = this.contextProvider;
+              try {
+                this.contextFree(contextProvider);
+                this.contextGain(contextProvider);
+              } finally {
+                contextProvider.release();
+              }
+            }
           },
           enumerable: true,
           configurable: true
@@ -7988,11 +8117,11 @@ System.register("davinci-eight/materials/MeshMaterial.js", ["../materials/Graphi
     }
     return gpb;
   }
-  function vertexShader(options) {
-    return builder(options).vertexShader();
+  function vertexShaderSrc(options) {
+    return builder(options).vertexShaderSrc();
   }
-  function fragmentShader(options) {
-    return builder(options).fragmentShader();
+  function fragmentShaderSrc(options) {
+    return builder(options).fragmentShaderSrc();
   }
   return {
     setters: [function(GraphicsProgramBuilder_1_1) {
@@ -8010,7 +8139,7 @@ System.register("davinci-eight/materials/MeshMaterial.js", ["../materials/Graphi
       MeshMaterial = (function(_super) {
         __extends(MeshMaterial, _super);
         function MeshMaterial(options) {
-          _super.call(this, vertexShader(options), fragmentShader(options));
+          _super.call(this, vertexShaderSrc(options), fragmentShaderSrc(options), [], 'MeshMaterial');
         }
         return MeshMaterial;
       })(MaterialBase_1.default);
@@ -8172,7 +8301,7 @@ System.register("davinci-eight/core/GeometryBuffers.js", ["./drawModeToGL", "../
           _super.prototype.contextLost.call(this);
         };
         GeometryBuffers.prototype.draw = function(material) {
-          var gl = this.mirror.gl;
+          var gl = this.contextProvider.gl;
           gl.bindBuffer(gl.ARRAY_BUFFER, this.vbo);
           for (var i = 0; i < this.pointers.length; i++) {
             var pointer = this.pointers[i];
@@ -10700,20 +10829,20 @@ System.register("davinci-eight/core/ShareableContextListener.js", ["./cleanUp", 
           this.unsubscribe();
           _super.prototype.destructor.call(this);
         };
-        ShareableContextListener.prototype.subscribe = function(visual) {
+        ShareableContextListener.prototype.subscribe = function(context) {
           if (!this._context) {
-            visual.addRef();
-            this._context = visual;
-            visual.addContextListener(this);
-            visual.synchronize(this);
+            context.addRef();
+            this._context = context;
+            context.addContextListener(this);
+            context.synchronize(this);
           } else {
             this.unsubscribe();
-            this.subscribe(visual);
+            this.subscribe(context);
           }
         };
         ShareableContextListener.prototype.unsubscribe = function() {
-          if (this.mirror) {
-            cleanUp_1.default(this.mirror, this);
+          if (this.contextProvider) {
+            cleanUp_1.default(this.contextProvider, this);
           }
           if (this._context) {
             this._context.removeContextListener(this);
@@ -10722,18 +10851,18 @@ System.register("davinci-eight/core/ShareableContextListener.js", ["./cleanUp", 
           }
         };
         ShareableContextListener.prototype.contextFree = function(context) {
-          this.mirror = void 0;
+          this.contextProvider = void 0;
         };
         ShareableContextListener.prototype.contextGain = function(context) {
-          this.mirror = context;
+          this.contextProvider = context;
         };
         ShareableContextListener.prototype.contextLost = function() {
-          this.mirror = void 0;
+          this.contextProvider = void 0;
         };
         Object.defineProperty(ShareableContextListener.prototype, "gl", {
           get: function() {
-            if (this.mirror) {
-              return this.mirror.gl;
+            if (this.contextProvider) {
+              return this.contextProvider.gl;
             } else {
               return void 0;
             }
@@ -20906,9 +21035,9 @@ System.register("davinci-eight/core.js", ["./core/ErrorMode"], function(exports_
         function Eight() {
           this._errorMode = ErrorMode_1.default.STRICT;
           this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-          this.LAST_MODIFIED = '2016-03-03';
+          this.LAST_MODIFIED = '2016-03-04';
           this.NAMESPACE = 'EIGHT';
-          this.VERSION = '2.206.0';
+          this.VERSION = '2.207.0';
         }
         Object.defineProperty(Eight.prototype, "errorMode", {
           get: function() {

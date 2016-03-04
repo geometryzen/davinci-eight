@@ -2,6 +2,11 @@ import CommonOptions from './CommonOptions'
 import VectorE3 from '../math/VectorE3'
 
 /**
+ * @module EIGHT
+ * @submodule visual
+ */
+
+/**
  * @class CylinderOptions
  * @extends CommonOptions
  */

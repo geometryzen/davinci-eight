@@ -6,7 +6,7 @@ import VertexAttributeMap from './VertexAttributeMap'
 
 /**
  * @module EIGHT
- * @submodule geometries
+ * @submodule primitives
  */
 
 function stringVectorN(name: string, vector: VectorN<number>): string {

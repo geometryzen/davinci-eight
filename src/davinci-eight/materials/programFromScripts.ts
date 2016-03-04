@@ -11,22 +11,22 @@ import MaterialBase from './MaterialBase';
  * [attribs = []] The attribute indices (implied by order of the name in the array).
  */
 export default function programFromScripts(vsId: string, fsId: string, dom: Document, attribs: string[] = []): MaterialBase {
-    mustBeString('vsId', vsId)
-    mustBeString('fsId', fsId)
-    mustBeObject('dom', dom)
+  mustBeString('vsId', vsId)
+  mustBeString('fsId', fsId)
+  mustBeObject('dom', dom)
 
-    // shortcut function for getElementById, capturing the dom parameter value (argument value).
-    function $(id: string): HTMLElement {
-        let element = dom.getElementById(mustBeString('id', id))
-        if (element) {
-            return element;
-        }
-        else {
-            throw new Error(id + " is not a valid DOM element identifier.");
-        }
+  // shortcut function for getElementById, capturing the dom parameter value (argument value).
+  function $(elementId: string): HTMLElement {
+    const element = dom.getElementById(mustBeString('elementId', elementId))
+    if (element) {
+      return element
     }
+    else {
+      throw new Error(`${elementId} is not a valid DOM element identifier.`)
+    }
+  }
 
-    const vertexShader: string = $(vsId).textContent;
-    const fragmentShader: string = $(fsId).textContent;
-    return new MaterialBase(vertexShader, fragmentShader, attribs);
+  const vertexShaderSrc: string = $(vsId).textContent
+  const fragmentShaderSrc: string = $(fsId).textContent
+  return new MaterialBase(vertexShaderSrc, fragmentShaderSrc, attribs, 'programFromScripts')
 }

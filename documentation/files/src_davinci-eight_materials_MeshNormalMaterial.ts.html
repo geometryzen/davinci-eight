@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.206.0</em>
+            <em>API Docs for: 2.207.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -176,6 +176,7 @@
                                 <li><a href="../classes/Tetrahedron.html">Tetrahedron</a></li>
                                 <li><a href="../classes/TetrahedronGeometry.html">TetrahedronGeometry</a></li>
                                 <li><a href="../classes/TetrahedronGeometryOptions.html">TetrahedronGeometryOptions</a></li>
+                                <li><a href="../classes/TetrahedronOptions.html">TetrahedronOptions</a></li>
                                 <li><a href="../classes/TextureCoords.html">TextureCoords</a></li>
                                 <li><a href="../classes/Trail.html">Trail</a></li>
                                 <li><a href="../classes/TrailConfig.html">TrailConfig</a></li>
@@ -260,23 +261,23 @@ import GraphicsProgramSymbols from &#x27;../core/GraphicsProgramSymbols&#x27;
 import MaterialBase from &#x27;./MaterialBase&#x27;
 
 function builder() {
-    const gpb = new GraphicsProgramBuilder()
+  const gpb = new GraphicsProgramBuilder()
 
-    gpb.attribute(GraphicsProgramSymbols.ATTRIBUTE_POSITION, 3)
-    gpb.attribute(GraphicsProgramSymbols.ATTRIBUTE_NORMAL, 3)
-    // gpb.attribute(GraphicsProgramSymbols.ATTRIBUTE_COLOR, 3);
+  gpb.attribute(GraphicsProgramSymbols.ATTRIBUTE_POSITION, 3)
+  gpb.attribute(GraphicsProgramSymbols.ATTRIBUTE_NORMAL, 3)
+  // gpb.attribute(GraphicsProgramSymbols.ATTRIBUTE_COLOR, 3);
 
-    gpb.uniform(GraphicsProgramSymbols.UNIFORM_COLOR, &#x27;vec3&#x27;)
-    gpb.uniform(GraphicsProgramSymbols.UNIFORM_MODEL_MATRIX, &#x27;mat4&#x27;)
-    gpb.uniform(GraphicsProgramSymbols.UNIFORM_NORMAL_MATRIX, &#x27;mat3&#x27;)
-    gpb.uniform(GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX, &#x27;mat4&#x27;)
-    gpb.uniform(GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX, &#x27;mat4&#x27;)
+  gpb.uniform(GraphicsProgramSymbols.UNIFORM_COLOR, &#x27;vec3&#x27;)
+  gpb.uniform(GraphicsProgramSymbols.UNIFORM_MODEL_MATRIX, &#x27;mat4&#x27;)
+  gpb.uniform(GraphicsProgramSymbols.UNIFORM_NORMAL_MATRIX, &#x27;mat3&#x27;)
+  gpb.uniform(GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX, &#x27;mat4&#x27;)
+  gpb.uniform(GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX, &#x27;mat4&#x27;)
 
-    gpb.uniform(GraphicsProgramSymbols.UNIFORM_AMBIENT_LIGHT, &#x27;vec3&#x27;)
-    gpb.uniform(GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_COLOR, &#x27;vec3&#x27;)
-    gpb.uniform(GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION, &#x27;vec3&#x27;)
+  gpb.uniform(GraphicsProgramSymbols.UNIFORM_AMBIENT_LIGHT, &#x27;vec3&#x27;)
+  gpb.uniform(GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_COLOR, &#x27;vec3&#x27;)
+  gpb.uniform(GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION, &#x27;vec3&#x27;)
 
-    return gpb
+  return gpb
 }
 
 /**
@@ -284,12 +285,12 @@ function builder() {
  * @submodule materials
  */
 
-function vertexShader(): string {
-    return builder().vertexShader()
+function vertexShaderSrc(): string {
+  return builder().vertexShaderSrc()
 }
 
-function fragmentShader(): string {
-    return builder().fragmentShader()
+function fragmentShaderSrc(): string {
+  return builder().fragmentShaderSrc()
 }
 
 /**
@@ -297,14 +298,14 @@ function fragmentShader(): string {
  * @extends MaterialBase
  */
 export default class MeshNormalMaterial extends MaterialBase {
-    /**
-     * 
-     * @class MeshNormalMaterial
-     * @constructor
-     */
-    constructor() {
-        super(vertexShader(), fragmentShader())
-    }
+  /**
+   * 
+   * @class MeshNormalMaterial
+   * @constructor
+   */
+  constructor() {
+    super(vertexShaderSrc(), fragmentShaderSrc(), [], &#x27;MeshNormalMaterial&#x27;)
+  }
 }
 
     </pre>

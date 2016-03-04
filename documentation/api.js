@@ -138,6 +138,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "Tetrahedron",
         "TetrahedronGeometry",
         "TetrahedronGeometryOptions",
+        "TetrahedronOptions",
         "TextureCoords",
         "Trail",
         "TrailConfig",
@@ -203,7 +204,7 @@ YUI.add("yuidoc-meta", function(Y) {
         {
             "displayName": "geometries",
             "name": "geometries",
-            "description": "Used for creating TRIANGLE_STRIP primitives.\nThe vertices generated have coordinates (u, v) and the traversal creates\ncounter-clockwise orientation when increasing u is the first direction and\nincreasing v the second direction."
+            "description": "A convenience class for creating an arrow."
         },
         {
             "displayName": "materials",
@@ -223,7 +224,7 @@ YUI.add("yuidoc-meta", function(Y) {
         {
             "displayName": "visual",
             "name": "visual",
-            "description": "Convenient abstractions for Physics modeling."
+            "description": "Physics modeling."
         }
     ],
     "elements": []

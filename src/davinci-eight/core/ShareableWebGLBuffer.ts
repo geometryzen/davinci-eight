@@ -7,6 +7,9 @@ import ShareableContextListener from './ShareableContextListener';
 /**
  * @module EIGHT
  * @submodule core
+ */
+
+/**
  * @class ShareableWebGLBuffer
  * @extends Shareable
  */

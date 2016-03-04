@@ -7,6 +7,11 @@ import Unit from '../math/Unit'
 import VectorE3 from '../math/VectorE3'
 
 /**
+ * @module EIGHT
+ * @submodule visual
+ */
+
+/**
  * Decorates the Mesh by adding properties for physical modeling.
  *
  * @class RigidBody

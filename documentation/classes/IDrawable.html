@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.206.0</em>
+            <em>API Docs for: 2.207.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -176,6 +176,7 @@
                                 <li><a href="../classes/Tetrahedron.html">Tetrahedron</a></li>
                                 <li><a href="../classes/TetrahedronGeometry.html">TetrahedronGeometry</a></li>
                                 <li><a href="../classes/TetrahedronGeometryOptions.html">TetrahedronGeometryOptions</a></li>
+                                <li><a href="../classes/TetrahedronOptions.html">TetrahedronOptions</a></li>
                                 <li><a href="../classes/TextureCoords.html">TextureCoords</a></li>
                                 <li><a href="../classes/Trail.html">Trail</a></li>
                                 <li><a href="../classes/TrailConfig.html">TrailConfig</a></li>
@@ -259,7 +260,7 @@
         </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_core_IDrawable.ts.html#l7"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IDrawable.ts:7</code></a>
+            Defined in: <a href="../files/src_davinci-eight_core_IDrawable.ts.html#l6"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IDrawable.ts:6</code></a>
         </div>
 
             Module: <a href="../modules/EIGHT.html">EIGHT</a>
@@ -324,6 +325,10 @@
 
                     <ul class="index-list properties extends">
                             <li class="index-item property">
+                                <a href="#property_fragmentShaderSrc">fragmentShaderSrc</a>
+
+                            </li>
+                            <li class="index-item property">
                                 <a href="#property_geometry">geometry</a>
 
                             </li>
@@ -333,6 +338,10 @@
                             </li>
                             <li class="index-item property">
                                 <a href="#property_name">name</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_vertexShaderSrc">vertexShaderSrc</a>
 
                             </li>
                             <li class="index-item property">
@@ -573,7 +582,7 @@ The dependent should reset its state to that for which there is no context.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_IDrawable.ts.html#l38"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IDrawable.ts:38</code></a>
+        <a href="../files/src_davinci-eight_core_IDrawable.ts.html#l78"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IDrawable.ts:78</code></a>
         </p>
 
 
@@ -674,7 +683,7 @@ The new reference count. This value is intended to be used only for test purpose
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_IDrawable.ts.html#l45"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IDrawable.ts:45</code></a>
+        <a href="../files/src_davinci-eight_core_IDrawable.ts.html#l85"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IDrawable.ts:85</code></a>
         </p>
 
 
@@ -701,6 +710,32 @@ The new reference count. This value is intended to be used only for test purpose
             <div id="properties" class="api-class-tabpanel">
                 <h2 class="off-left">Properties</h2>
 
+<div id="property_fragmentShaderSrc" class="property item">
+    <h3 class="name"><code>fragmentShaderSrc</code></h3>
+    <span class="type">String</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_core_IDrawable.ts.html#l18"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IDrawable.ts:18</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>
+A shortcut to the <code>material.fragmentShaderSrc</code> property.
+</p>
+    </div>
+
+
+
+</div>
 <div id="property_geometry" class="property item">
     <h3 class="name"><code>geometry</code></h3>
     <span class="type"><a href="../classes/Geometry.html" class="crosslink">Geometry</a></span>
@@ -712,14 +747,21 @@ The new reference count. This value is intended to be used only for test purpose
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_IDrawable.ts.html#l20"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IDrawable.ts:20</code></a>
+        <a href="../files/src_davinci-eight_core_IDrawable.ts.html#l28"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IDrawable.ts:28</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        
+        <p>
+The <code>Geometry</code> that provides the buffered vertex attributes for this <code>IDrawable</code>.
+</p>
+<p>
+Geometry is a shareable WebGL resource and so is reference counted.
+Consequently, accessing the <code>geometry</code> property increments the <code>Geometry</code> instance reference count.
+<em>Be sure to call <code>release()</code> on shareable WebGL resources in order to prevent memory leaks.</em>
+</p>
     </div>
 
 
@@ -736,14 +778,21 @@ The new reference count. This value is intended to be used only for test purpose
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_IDrawable.ts.html#l26"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IDrawable.ts:26</code></a>
+        <a href="../files/src_davinci-eight_core_IDrawable.ts.html#l44"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IDrawable.ts:44</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        
+        <p>
+The <code>Material</code> that provides the WebGLProgram for this <code>IDrawable</code>.
+</p>
+<p>
+Material is a shareable WebGL resource and so is reference counted.
+Consequently, accessing the <code>material</code> property increments the <code>Material</code> instance reference count.
+<em>Be sure to call <code>release()</code> on shareable WebGL resources in order to prevent memory leaks.</em>
+</p>
     </div>
 
 
@@ -760,7 +809,7 @@ The new reference count. This value is intended to be used only for test purpose
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_IDrawable.ts.html#l14"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IDrawable.ts:14</code></a>
+        <a href="../files/src_davinci-eight_core_IDrawable.ts.html#l12"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IDrawable.ts:12</code></a>
         </p>
 
 
@@ -768,6 +817,32 @@ The new reference count. This value is intended to be used only for test purpose
 
     <div class="description">
         
+    </div>
+
+
+
+</div>
+<div id="property_vertexShaderSrc" class="property item">
+    <h3 class="name"><code>vertexShaderSrc</code></h3>
+    <span class="type">String</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_core_IDrawable.ts.html#l60"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IDrawable.ts:60</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>
+A shortcut to the <code>material.vertexShaderSrc</code> property.
+</p>
     </div>
 
 
@@ -784,14 +859,15 @@ The new reference count. This value is intended to be used only for test purpose
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_IDrawable.ts.html#l32"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IDrawable.ts:32</code></a>
+        <a href="../files/src_davinci-eight_core_IDrawable.ts.html#l70"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IDrawable.ts:70</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        
+        <p>Determines whether this <code>IDrawable</code> will be drawn.</p>
+
     </div>
 
 

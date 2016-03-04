@@ -2,7 +2,7 @@ import VectorN from '../../math/VectorN'
 
 /**
  * @module EIGHT
- * @submodule geometries
+ * @submodule primitives
  */
 
 /**

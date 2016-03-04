@@ -2,6 +2,11 @@ import IColor from '../core/IColor'
 import VectorE3 from '../math/VectorE3'
 
 /**
+ * @module EIGHT
+ * @submodule visual
+ */
+
+/**
  * @class ArrowOptions
  */
 interface ArrowOptions {

@@ -48,12 +48,12 @@ function builder(options?: LineMaterialOptions) {
   return gpb
 }
 
-function vertexShader(options?: LineMaterialOptions): string {
-  return builder(options).vertexShader()
+function vertexShaderSrc(options?: LineMaterialOptions): string {
+  return builder(options).vertexShaderSrc()
 }
 
-function fragmentShader(options?: LineMaterialOptions): string {
-  return builder(options).fragmentShader()
+function fragmentShaderSrc(options?: LineMaterialOptions): string {
+  return builder(options).fragmentShaderSrc()
 }
 
 /**
@@ -75,6 +75,6 @@ export default class LineMaterial extends MaterialBase {
    * @param [options] {LineMaterialOptions}
    */
   constructor(options?: LineMaterialOptions) {
-    super(vertexShader(options), fragmentShader(options))
+    super(vertexShaderSrc(options), fragmentShaderSrc(options), [], 'LineMaterial')
   }
 }

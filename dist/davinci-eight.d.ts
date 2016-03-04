@@ -128,19 +128,21 @@ declare module EIGHT {
   }
 
   interface IContextListener extends IContextConsumer {
-    subscribe(visual: WebGLRenderer): void;
+    subscribe(context: WebGLRenderer): void;
     unsubscribe(): void;
   }
 
   class ShareableContextListener extends Shareable implements IContextListener {
-    contextFree(context: IContextProvider): void;
-    contextGain(context: IContextProvider): void;
+    contextFree(contextProvider: IContextProvider): void;
+    contextGain(contextProvider: IContextProvider): void;
     contextLost(): void;
-    subscribe(visual: WebGLRenderer): void;
+    subscribe(context: WebGLRenderer): void;
     unsubscribe(): void;
   }
 
   interface Material extends FacetVisitor, IContextConsumer {
+    vertexShaderSrc: string
+    fragmentShaderSrc: string
     getAttribLocation(name: string): number
     use(): void
   }
@@ -2783,7 +2785,7 @@ declare module EIGHT {
     findByName(name: string): ShareableArray<Drawable>
     release(): number
     remove(mesh: Drawable): void
-    subscribe(visual: WebGLRenderer): void
+    subscribe(context: WebGLRenderer): void
     traverse(callback: (mesh: Drawable) => void): void
     unsubscribe(): void
   }
@@ -3092,35 +3094,44 @@ declare module EIGHT {
   /**
    *
    */
-  class MaterialBase {
-    program: WebGLProgram;
-    programId: string;
-    vertexShader: string;
-    fragmentShader: string;
-    addRef(): number;
-    attributes(): { [name: string]: AttribLocation };
+  class MaterialBase extends ShareableContextListener implements Material {
+    attributeNames: string[];
+    fragmentShaderSrc: string;
+    vertexShaderSrc: string;
+    constructor(vertexShaderSrc: string, fragmentShaderSrc: string, attribs?: string[]);
     contextFree(manager: IContextProvider): void;
     contextGain(manager: IContextProvider): void;
     contextLost(): void;
-    constructor(vertexShader: string, fragmentShader: string, attribs?: string[]);
     disableAttrib(name: string): void;
+    disableAttribs(): void;
     enableAttrib(name: string): void;
-    release(): number;
+    enableAttribs(): void;
+    getAttribLocation(name: string): number;
+    mat2(name: string, matrix: Matrix2, transpose: boolean): void;
+    mat3(name: string, matrix: Matrix3, transpose: boolean): void;
+    mat4(name: string, matrix: Matrix4, transpose: boolean): void;
     uniform1f(name: string, x: number): void;
     uniform2f(name: string, x: number, y: number): void;
     uniform3f(name: string, x: number, y: number, z: number): void;
     uniform4f(name: string, x: number, y: number, z: number, w: number): void;
-    mat2(name: string, matrix: Matrix2, transpose: boolean): void;
-    mat3(name: string, matrix: Matrix3, transpose: boolean): void;
-    mat4(name: string, matrix: Matrix4, transpose: boolean): void;
     uniforms(): { [name: string]: UniformLocation };
+    use(): void;
     vec2(name: string, vector: VectorE2): void;
     vec3(name: string, vector: VectorE3): void;
     vec4(name: string, vector: VectorE4): void;
-    use(): void;
     vector2(name: string, coords: number[]): void;
     vector3(name: string, coords: number[]): void;
     vector4(name: string, coords: number[]): void;
+    vertexPointer(name: string, size: number, normalized: boolean, stride: number, offset: number): void;
+  }
+
+  interface IDrawable extends IContextConsumer {
+    fragmentShaderSrc: string;
+    geometry: Geometry;
+    material: Material;
+    name: string;
+    vertexShaderSrc: string;
+    visible: boolean;
   }
 
 
@@ -3129,7 +3140,12 @@ declare module EIGHT {
    * The primitives provide attribute arguments to the graphics program.
    * The facets provide uniform arguments to the graphics program. 
    */
-  class Drawable extends Shareable {
+  class Drawable extends Shareable implements IDrawable {
+
+    /**
+     *
+     */
+    fragmentShaderSrc: string;
 
     /**
      *
@@ -3147,6 +3163,11 @@ declare module EIGHT {
     name: string;
 
     /**
+     *
+     */
+    vertexShaderSrc: string;
+
+    /**
      * Determines whether this Drawable will be rendered.
      */
     visible: boolean;
@@ -3154,12 +3175,12 @@ declare module EIGHT {
     /**
      *
      */
-    constructor(geometry: Geometry, material: Material, type?: string);
+    constructor(type: string, geometry: Geometry, material: Material);
 
     /**
      *
      */
-    subscribe(visual: WebGLRenderer): void;
+    subscribe(context: WebGLRenderer): void;
 
     /**
      *
@@ -3191,15 +3212,13 @@ declare module EIGHT {
   }
 
   /**
-   * A <code>Material</code> based upon scripts in a DOM.
+   * A Material based upon scripts in a DOM.
    */
   class HTMLScriptsMaterial extends MaterialBase {
     /**
-     * Constructs a <code>Material</code> using scripts in a Document Object Model (DOM).
-     * scriptIds: The id properties of the script elements. Defaults to [].
-     * dom:       The document object model. Defaults to document.
+     *
      */
-    constructor(scriptIds?: string[], dom?: Document);
+    constructor(scriptIds: string[], dom: Document, attribs: string[]);
   }
 
   /**
@@ -3549,12 +3568,19 @@ declare module EIGHT {
 
   ///////////////////////////////////////////////////////////////////////////////
 
+  interface IMesh extends IDrawable {
+    attitude: Geometric3;
+    color: Color;
+    position: Geometric3;
+    stress: Matrix4;
+  }
+
   /**
    * A Mesh is a Decorator for a Drawable.
    * A Mesh adds attitude, color, position, and scale properties to a Drawable
    * which are implemented as Facet(s).
    */
-  class Mesh extends Drawable {
+  class Mesh extends Drawable implements IMesh {
     /**
      *
      */
@@ -3563,6 +3589,7 @@ declare module EIGHT {
     matrix: Matrix4
     position: Geometric3
     scale: Vector3
+    stress: Matrix4
     tilt: Spinor3
 
     /**

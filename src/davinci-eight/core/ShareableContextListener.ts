@@ -13,7 +13,7 @@ import Shareable from './Shareable';
  */
 export default class ShareableContextListener extends Shareable implements IContextListener {
     private _context: WebGLRenderer
-    protected mirror: IContextProvider
+    protected contextProvider: IContextProvider
 
     /**
      * @class ShareableContextListener
@@ -37,19 +37,19 @@ export default class ShareableContextListener extends Shareable implements ICont
      * Instructs the consumer to subscribe to context events.
      *
      * @method subscribe
-     * @param visual {WebGLRenderer}
+     * @param context {WebGLRenderer}
      * @return {void}
      */
-    subscribe(visual: WebGLRenderer): void {
+    subscribe(context: WebGLRenderer): void {
         if (!this._context) {
-            visual.addRef()
-            this._context = visual
-            visual.addContextListener(this)
-            visual.synchronize(this)
+            context.addRef()
+            this._context = context
+            context.addContextListener(this)
+            context.synchronize(this)
         }
         else {
             this.unsubscribe()
-            this.subscribe(visual)
+            this.subscribe(context)
         }
     }
 
@@ -60,8 +60,8 @@ export default class ShareableContextListener extends Shareable implements ICont
      * @return {void}
      */
     unsubscribe(): void {
-        if (this.mirror) {
-            cleanUp(this.mirror, this)
+        if (this.contextProvider) {
+            cleanUp(this.contextProvider, this)
         }
         if (this._context) {
             this._context.removeContextListener(this)
@@ -71,20 +71,20 @@ export default class ShareableContextListener extends Shareable implements ICont
     }
 
     contextFree(context: IContextProvider): void {
-        this.mirror = void 0
+        this.contextProvider = void 0
     }
 
     contextGain(context: IContextProvider): void {
-        this.mirror = context
+        this.contextProvider = context
     }
 
     contextLost(): void {
-        this.mirror = void 0
+        this.contextProvider = void 0
     }
 
     get gl(): WebGLRenderingContext {
-        if (this.mirror) {
-            return this.mirror.gl
+        if (this.contextProvider) {
+            return this.contextProvider.gl
         }
         else {
             return void 0
