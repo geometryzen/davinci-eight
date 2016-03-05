@@ -1,6 +1,6 @@
-import IUnknown from '../core/IUnknown';
+import Shareable from '../core/Shareable';
 
-interface IKeyboardHandler extends IUnknown {
+interface IKeyboardHandler extends Shareable {
     keyDown(event: KeyboardEvent): void;
     keyUp(event: KeyboardEvent): void;
 }

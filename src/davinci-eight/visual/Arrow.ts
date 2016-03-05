@@ -11,6 +11,21 @@ import RigidBody from './RigidBody'
  */
 
 /**
+ * A <code>RigidBody</code> that may be used to represent a vector quantity.
+ *
+ * @example
+ *     // Construct the arrow at any time and add it to the scene.
+ *     const arrow = new EIGHT.Arrow({color: white})
+ *     scene.add(arrow)
+ *
+ *     // Update the arrow configuration, usually inside the animation function.
+ *     arrow.position = ...
+ *     arrow.axis = ...
+ *     arrow.length = ...
+ *
+ *     // Release the arrow when no longer required.
+ *     arrow.release()
+ *
  * @class Arrow
  * @extends RigidBody
  */

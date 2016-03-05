@@ -1,13 +1,13 @@
 import Capability from '../commands/Capability';
 import EIGHTLogger from '../commands/EIGHTLogger';
-import IContextConsumer from './IContextConsumer';
+import ContextConsumer from './ContextConsumer';
 import ShareableArray from '../collections/ShareableArray';
 import initWebGL from './initWebGL';
 import isDefined from '../checks/isDefined';
 import mustBeDefined from '../checks/mustBeDefined';
 import mustBeObject from '../checks/mustBeObject';
 import readOnly from '../i18n/readOnly';
-import Shareable from './Shareable';
+import ShareableBase from './ShareableBase';
 import VersionLogger from '../commands/VersionLogger'
 import WebGLClearColor from '../commands/WebGLClearColor';
 import WebGLEnable from '../commands/WebGLEnable';
@@ -36,9 +36,9 @@ import DefaultContextProvider from './DefaultContextProvider';
  *     renderer.release()
  *
  * @class Engine
- * @extends Shareable
+ * @extends ShareableBase
  */
-export default class Engine extends Shareable {
+export default class Engine extends ShareableBase {
 
   /**
    * @property _gl
@@ -59,12 +59,12 @@ export default class Engine extends Shareable {
   // Remark: We only hold weak references to users so that the lifetime of resource
   // objects is not affected by the fact that they are listening for gl events.
   // Users should automatically add themselves upon construction and remove upon release.
-  private _users: IContextConsumer[] = []
+  private _users: ContextConsumer[] = []
 
   private _webGLContextLost: (event: Event) => any
   private _webGLContextRestored: (event: Event) => any
 
-  private _commands = new ShareableArray<IContextConsumer>([])
+  private _commands = new ShareableArray<ContextConsumer>([])
 
   private _contextProvider: DefaultContextProvider
 
@@ -91,7 +91,7 @@ export default class Engine extends Shareable {
       if (isDefined(this._canvas)) {
         event.preventDefault()
         this._gl = void 0
-        this._users.forEach((user: IContextConsumer) => {
+        this._users.forEach((user: ContextConsumer) => {
           user.contextLost()
         })
       }
@@ -101,7 +101,7 @@ export default class Engine extends Shareable {
       if (isDefined(this._canvas)) {
         event.preventDefault()
         this._gl = initWebGL(this._canvas, attributes)
-        this._users.forEach((user: IContextConsumer) => {
+        this._users.forEach((user: ContextConsumer) => {
           user.contextGain(this._contextProvider)
         })
       }
@@ -125,10 +125,10 @@ export default class Engine extends Shareable {
 
   /**
    * @method addContextListener
-   * @param user {IContextConsumer}
+   * @param user {ContextConsumer}
    * @return {void}
    */
-  addContextListener(user: IContextConsumer): void {
+  addContextListener(user: ContextConsumer): void {
     mustBeObject('user', user)
     let index = this._users.indexOf(user)
     if (index < 0) {
@@ -161,7 +161,7 @@ export default class Engine extends Shareable {
    * @beta
    * @readOnly
    */
-  get commands(): ShareableArray<IContextConsumer> {
+  get commands(): ShareableArray<ContextConsumer> {
     this._commands.addRef();
     return this._commands;
   }
@@ -235,10 +235,10 @@ export default class Engine extends Shareable {
 
   /**
    * @method removeContextListener
-   * @param user {IContextConsumer}
+   * @param user {ContextConsumer}
    * @return {void}
    */
-  removeContextListener(user: IContextConsumer): void {
+  removeContextListener(user: ContextConsumer): void {
     mustBeObject('user', user)
     const index = this._users.indexOf(user)
     if (index >= 0) {
@@ -334,7 +334,7 @@ export default class Engine extends Shareable {
   }
 
   private emitStartEvent() {
-    this._users.forEach((user: IContextConsumer) => {
+    this._users.forEach((user: ContextConsumer) => {
       this.emitContextGain(user)
     })
     this._commands.forEach((command) => {
@@ -342,7 +342,7 @@ export default class Engine extends Shareable {
     })
   }
 
-  private emitContextGain(consumer: IContextConsumer): void {
+  private emitContextGain(consumer: ContextConsumer): void {
     if (this._gl.isContextLost()) {
       consumer.contextLost()
     }
@@ -352,7 +352,7 @@ export default class Engine extends Shareable {
   }
 
   private emitStopEvent() {
-    this._users.forEach((user: IContextConsumer) => {
+    this._users.forEach((user: ContextConsumer) => {
       this.emitContextFree(user)
     })
     this._commands.forEach((command) => {
@@ -360,7 +360,7 @@ export default class Engine extends Shareable {
     })
   }
 
-  private emitContextFree(consumer: IContextConsumer): void {
+  private emitContextFree(consumer: ContextConsumer): void {
     if (this._gl.isContextLost()) {
       consumer.contextLost()
     }
@@ -371,10 +371,10 @@ export default class Engine extends Shareable {
 
   /**
    * @method synchronize
-   * @param consumer {IContextConsumer}
+   * @param consumer {ContextConsumer}
    * @return {void}
    */
-  synchronize(consumer: IContextConsumer): void {
+  synchronize(consumer: ContextConsumer): void {
     if (this._gl) {
       this.emitContextGain(consumer)
     }

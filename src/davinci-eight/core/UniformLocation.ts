@@ -1,4 +1,4 @@
-import IContextProgramConsumer from './IContextProgramConsumer';
+import ContextProgramConsumer from './ContextProgramConsumer';
 import Matrix2 from '../math/Matrix2';
 import Matrix3 from '../math/Matrix3';
 import Matrix4 from '../math/Matrix4';
@@ -12,7 +12,7 @@ import VectorE4 from '../math/VectorE4';
  * @submodule core
  * @class UniformLocation
  */
-export default class UniformLocation implements IContextProgramConsumer {
+export default class UniformLocation implements ContextProgramConsumer {
     private _context: WebGLRenderingContext;
     private _location: WebGLUniformLocation;
     private _name: string;

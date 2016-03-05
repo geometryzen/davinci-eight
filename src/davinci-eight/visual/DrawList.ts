@@ -1,19 +1,19 @@
 import Facet from '../core/Facet'
-import IContextProvider from '../core/IContextProvider'
+import ContextProvider from '../core/ContextProvider'
 import ShareableArray from '../collections/ShareableArray'
-import ShareableContextListener from '../core/ShareableContextListener'
-import IDrawable from '../core/IDrawable'
+import ShareableContextConsumer from '../core/ShareableContextConsumer'
+import AbstractDrawable from '../core/AbstractDrawable'
 
 /**
- * A simple list of meshes that does not bypass the draw method of the IDrawable.
- * This allows the IDrawable to override the draw method to produce history and draw trails.
+ * A simple list of meshes that does not bypass the draw method of the AbstractDrawable.
+ * This allows the AbstractDrawable to override the draw method to produce history and draw trails.
  */
-export default class DrawList extends ShareableContextListener {
-    private things: ShareableArray<IDrawable>
+export default class DrawList extends ShareableContextConsumer {
+    private things: ShareableArray<AbstractDrawable>
 
     constructor() {
         super('DrawList')
-        this.things = new ShareableArray<IDrawable>()
+        this.things = new ShareableArray<AbstractDrawable>()
     }
 
     protected destructor(): void {
@@ -21,7 +21,7 @@ export default class DrawList extends ShareableContextListener {
         super.destructor()
     }
 
-    add(drawable: IDrawable): void {
+    add(drawable: AbstractDrawable): void {
         // Don't return the index because we don't want to guarantee the order.
         this.things.push(drawable)
     }
@@ -34,7 +34,7 @@ export default class DrawList extends ShareableContextListener {
         }
     }
 
-    contextFree(context: IContextProvider): void {
+    contextFree(context: ContextProvider): void {
         const iLen = this.things.length
         for (let i = 0; i < iLen; i++) {
             const mesh = this.things.getWeakRef(i)
@@ -43,7 +43,7 @@ export default class DrawList extends ShareableContextListener {
         super.contextFree(context)
     }
 
-    contextGain(context: IContextProvider): void {
+    contextGain(context: ContextProvider): void {
         const iLen = this.things.length
         for (let i = 0; i < iLen; i++) {
             const mesh = this.things.getWeakRef(i)

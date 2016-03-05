@@ -1,9 +1,9 @@
-import IContextProvider from '../core/IContextProvider';
+import ContextProvider from '../core/ContextProvider';
 import mustBeBoolean from '../checks/mustBeBoolean'
 import Geometry from './Geometry';
-import IDrawable from './IDrawable'
-import Material from './Material';
-import ShareableContextListener from '../core/ShareableContextListener';
+import AbstractDrawable from './AbstractDrawable'
+import AbstractMaterial from './AbstractMaterial';
+import ShareableContextConsumer from '../core/ShareableContextConsumer';
 import Facet from '../core/Facet';
 
 /**
@@ -13,9 +13,10 @@ import Facet from '../core/Facet';
 
 /**
  * @class Drawable
- * @extends Shareable
+ * @extends ShareableContextConsumer
+ * @extends AbstractDrawable
  */
-export default class Drawable extends ShareableContextListener implements IDrawable {
+export default class Drawable extends ShareableContextConsumer implements AbstractDrawable {
 
   /**
    * @property _geometry
@@ -26,10 +27,10 @@ export default class Drawable extends ShareableContextListener implements IDrawa
 
   /**
    * @property _material
-   * @type {Material}
+   * @type {AbstractMaterial}
    * @private
    */
-  private _material: Material
+  private _material: AbstractMaterial
 
   /**
    * @property name
@@ -56,9 +57,9 @@ export default class Drawable extends ShareableContextListener implements IDrawa
    * @constructor
    * @param type {string}
    * @param geometry {Geometry}
-   * @param material {Material}
+   * @param material {AbstractMaterial}
    */
-  constructor(type: string, geometry: Geometry, material: Material) {
+  constructor(type: string, geometry: Geometry, material: AbstractMaterial) {
     super(type)
     this.geometry = geometry
     this.material = material
@@ -164,10 +165,10 @@ export default class Drawable extends ShareableContextListener implements IDrawa
 
   /**
    * @method contextFree
-   * @param context {IContextProvider}
+   * @param context {ContextProvider}
    * @return {void}
    */
-  contextFree(context: IContextProvider): void {
+  contextFree(context: ContextProvider): void {
     this._geometry.contextFree(context)
     this._material.contextFree(context)
     super.contextFree(context)
@@ -175,10 +176,10 @@ export default class Drawable extends ShareableContextListener implements IDrawa
 
   /**
    * @method contextGain
-   * @param context {IContextProvider}
+   * @param context {ContextProvider}
    * @return {void}
    */
-  contextGain(context: IContextProvider): void {
+  contextGain(context: ContextProvider): void {
     this._geometry.contextGain(context)
     this._material.contextGain(context)
     super.contextGain(context)
@@ -241,13 +242,13 @@ export default class Drawable extends ShareableContextListener implements IDrawa
    * Provides a reference counted reference to the graphics program property.
    *
    * @property material
-   * @type {Material}
+   * @type {AbstractMaterial}
    */
-  get material(): Material {
+  get material(): AbstractMaterial {
     this._material.addRef()
     return this._material
   }
-  set material(material: Material) {
+  set material(material: AbstractMaterial) {
     if (this._material) {
       this._material.release()
       this._material = void 0

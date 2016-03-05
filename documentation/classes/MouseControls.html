@@ -38,7 +38,11 @@
                 
                         <div id="api-tabview-panel">
                             <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/AbstractColor.html">AbstractColor</a></li>
+                                <li><a href="../classes/AbstractDrawable.html">AbstractDrawable</a></li>
+                                <li><a href="../classes/AbstractMaterial.html">AbstractMaterial</a></li>
                                 <li><a href="../classes/AbstractMatrix.html">AbstractMatrix</a></li>
+                                <li><a href="../classes/AbstractMesh.html">AbstractMesh</a></li>
                                 <li><a href="../classes/AmbientLight.html">AmbientLight</a></li>
                                 <li><a href="../classes/Approximation.html">Approximation</a></li>
                                 <li><a href="../classes/Arrow.html">Arrow</a></li>
@@ -50,7 +54,6 @@
                                 <li><a href="../classes/Attribute.html">Attribute</a></li>
                                 <li><a href="../classes/AxialPrimitivesBuilder.html">AxialPrimitivesBuilder</a></li>
                                 <li><a href="../classes/BlendFactor.html">BlendFactor</a></li>
-                                <li><a href="../classes/BootstrapOptions.html">BootstrapOptions</a></li>
                                 <li><a href="../classes/Box.html">Box</a></li>
                                 <li><a href="../classes/BoxGeometry.html">BoxGeometry</a></li>
                                 <li><a href="../classes/BoxGeometryOptions.html">BoxGeometryOptions</a></li>
@@ -64,6 +67,9 @@
                                 <li><a href="../classes/ConeTransform.html">ConeTransform</a></li>
                                 <li><a href="../classes/ConicalShellBuilder.html">ConicalShellBuilder</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
+                                <li><a href="../classes/ContextConsumer.html">ContextConsumer</a></li>
+                                <li><a href="../classes/ContextProgramConsumer.html">ContextProgramConsumer</a></li>
+                                <li><a href="../classes/ContextProvider.html">ContextProvider</a></li>
                                 <li><a href="../classes/Coords.html">Coords</a></li>
                                 <li><a href="../classes/CoordsTransform1D.html">CoordsTransform1D</a></li>
                                 <li><a href="../classes/CoordsTransform2D.html">CoordsTransform2D</a></li>
@@ -114,21 +120,11 @@
                                 <li><a href="../classes/GridPrimitive.html">GridPrimitive</a></li>
                                 <li><a href="../classes/GridTriangleStrip.html">GridTriangleStrip</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
-                                <li><a href="../classes/IColor.html">IColor</a></li>
-                                <li><a href="../classes/IContextConsumer.html">IContextConsumer</a></li>
-                                <li><a href="../classes/IContextListener.html">IContextListener</a></li>
-                                <li><a href="../classes/IContextProgramConsumer.html">IContextProgramConsumer</a></li>
-                                <li><a href="../classes/IContextProvider.html">IContextProvider</a></li>
-                                <li><a href="../classes/IDrawable.html">IDrawable</a></li>
-                                <li><a href="../classes/IGeometric3RigidBody.html">IGeometric3RigidBody</a></li>
-                                <li><a href="../classes/IMesh.html">IMesh</a></li>
-                                <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
                                 <li><a href="../classes/LineMaterialOptions.html">LineMaterialOptions</a></li>
                                 <li><a href="../classes/LinePoints.html">LinePoints</a></li>
                                 <li><a href="../classes/LineStrip.html">LineStrip</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
-                                <li><a href="../classes/MaterialBase.html">MaterialBase</a></li>
                                 <li><a href="../classes/Matrix2.html">Matrix2</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
                                 <li><a href="../classes/Matrix4.html">Matrix4</a></li>
@@ -165,7 +161,8 @@
                                 <li><a href="../classes/Scene.html">Scene</a></li>
                                 <li><a href="../classes/Shareable.html">Shareable</a></li>
                                 <li><a href="../classes/ShareableArray.html">ShareableArray</a></li>
-                                <li><a href="../classes/ShareableContextListener.html">ShareableContextListener</a></li>
+                                <li><a href="../classes/ShareableBase.html">ShareableBase</a></li>
+                                <li><a href="../classes/ShareableContextConsumer.html">ShareableContextConsumer</a></li>
                                 <li><a href="../classes/ShareableWebGLBuffer.html">ShareableWebGLBuffer</a></li>
                                 <li><a href="../classes/ShareableWebGLShader.html">ShareableWebGLShader</a></li>
                                 <li><a href="../classes/ShareableWebGLTexture.html">ShareableWebGLTexture</a></li>
@@ -264,7 +261,7 @@
 <div class="box meta">
 
         <div class="extends">
-            Extends <a href="../classes/Shareable.html" class="crosslink">Shareable</a>
+            Extends <a href="../classes/ShareableBase.html" class="crosslink">ShareableBase</a>
         </div>
 
         <div class="foundat">
@@ -458,11 +455,11 @@
 
     <div class="meta">
             <p>Inherited from
-            <a href="../classes/IUnknown.html#method_addRef">
-                IUnknown
+            <a href="../classes/Shareable.html#method_addRef">
+                Shareable
             </a>
             but overwritten in
-        <a href="../files/src_davinci-eight_core_Shareable.ts.html#l34"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Shareable.ts:34</code></a>
+        <a href="../files/src_davinci-eight_core_ShareableBase.ts.html#l34"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableBase.ts:34</code></a>
         </p>
 
 
@@ -505,8 +502,8 @@ Notifies this instance that something is referencing it.
 
     <div class="meta">
             <p>Inherited from
-            <a href="../classes/Shareable.html#method_destructor">
-                Shareable
+            <a href="../classes/ShareableBase.html#method_destructor">
+                ShareableBase
             </a>
             but overwritten in
         <a href="../files/src_davinci-eight_controls_MouseControls.ts.html#l296"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;MouseControls.ts:296</code></a>
@@ -589,11 +586,11 @@ Notifies this instance that something is referencing it.
 
     <div class="meta">
             <p>Inherited from
-            <a href="../classes/IUnknown.html#method_release">
-                IUnknown
+            <a href="../classes/Shareable.html#method_release">
+                Shareable
             </a>
             but overwritten in
-        <a href="../files/src_davinci-eight_core_Shareable.ts.html#l48"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Shareable.ts:48</code></a>
+        <a href="../files/src_davinci-eight_core_ShareableBase.ts.html#l48"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableBase.ts:48</code></a>
         </p>
 
 
@@ -1109,8 +1106,8 @@ Updates the mouseOnScreen property.</p>
 
     <div class="meta">
                 <p>Inherited from
-                <a href="../classes/Shareable.html#property_uuid">Shareable</a>:
-        <a href="../files/src_davinci-eight_core_Shareable.ts.html#l92"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Shareable.ts:92</code></a>
+                <a href="../classes/ShareableBase.html#property_uuid">ShareableBase</a>:
+        <a href="../files/src_davinci-eight_core_ShareableBase.ts.html#l92"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableBase.ts:92</code></a>
         </p>
 
 

@@ -38,7 +38,11 @@
                 
                         <div id="api-tabview-panel">
                             <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/AbstractColor.html">AbstractColor</a></li>
+                                <li><a href="../classes/AbstractDrawable.html">AbstractDrawable</a></li>
+                                <li><a href="../classes/AbstractMaterial.html">AbstractMaterial</a></li>
                                 <li><a href="../classes/AbstractMatrix.html">AbstractMatrix</a></li>
+                                <li><a href="../classes/AbstractMesh.html">AbstractMesh</a></li>
                                 <li><a href="../classes/AmbientLight.html">AmbientLight</a></li>
                                 <li><a href="../classes/Approximation.html">Approximation</a></li>
                                 <li><a href="../classes/Arrow.html">Arrow</a></li>
@@ -50,7 +54,6 @@
                                 <li><a href="../classes/Attribute.html">Attribute</a></li>
                                 <li><a href="../classes/AxialPrimitivesBuilder.html">AxialPrimitivesBuilder</a></li>
                                 <li><a href="../classes/BlendFactor.html">BlendFactor</a></li>
-                                <li><a href="../classes/BootstrapOptions.html">BootstrapOptions</a></li>
                                 <li><a href="../classes/Box.html">Box</a></li>
                                 <li><a href="../classes/BoxGeometry.html">BoxGeometry</a></li>
                                 <li><a href="../classes/BoxGeometryOptions.html">BoxGeometryOptions</a></li>
@@ -64,6 +67,9 @@
                                 <li><a href="../classes/ConeTransform.html">ConeTransform</a></li>
                                 <li><a href="../classes/ConicalShellBuilder.html">ConicalShellBuilder</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
+                                <li><a href="../classes/ContextConsumer.html">ContextConsumer</a></li>
+                                <li><a href="../classes/ContextProgramConsumer.html">ContextProgramConsumer</a></li>
+                                <li><a href="../classes/ContextProvider.html">ContextProvider</a></li>
                                 <li><a href="../classes/Coords.html">Coords</a></li>
                                 <li><a href="../classes/CoordsTransform1D.html">CoordsTransform1D</a></li>
                                 <li><a href="../classes/CoordsTransform2D.html">CoordsTransform2D</a></li>
@@ -114,21 +120,11 @@
                                 <li><a href="../classes/GridPrimitive.html">GridPrimitive</a></li>
                                 <li><a href="../classes/GridTriangleStrip.html">GridTriangleStrip</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
-                                <li><a href="../classes/IColor.html">IColor</a></li>
-                                <li><a href="../classes/IContextConsumer.html">IContextConsumer</a></li>
-                                <li><a href="../classes/IContextListener.html">IContextListener</a></li>
-                                <li><a href="../classes/IContextProgramConsumer.html">IContextProgramConsumer</a></li>
-                                <li><a href="../classes/IContextProvider.html">IContextProvider</a></li>
-                                <li><a href="../classes/IDrawable.html">IDrawable</a></li>
-                                <li><a href="../classes/IGeometric3RigidBody.html">IGeometric3RigidBody</a></li>
-                                <li><a href="../classes/IMesh.html">IMesh</a></li>
-                                <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
                                 <li><a href="../classes/LineMaterialOptions.html">LineMaterialOptions</a></li>
                                 <li><a href="../classes/LinePoints.html">LinePoints</a></li>
                                 <li><a href="../classes/LineStrip.html">LineStrip</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
-                                <li><a href="../classes/MaterialBase.html">MaterialBase</a></li>
                                 <li><a href="../classes/Matrix2.html">Matrix2</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
                                 <li><a href="../classes/Matrix4.html">Matrix4</a></li>
@@ -165,7 +161,8 @@
                                 <li><a href="../classes/Scene.html">Scene</a></li>
                                 <li><a href="../classes/Shareable.html">Shareable</a></li>
                                 <li><a href="../classes/ShareableArray.html">ShareableArray</a></li>
-                                <li><a href="../classes/ShareableContextListener.html">ShareableContextListener</a></li>
+                                <li><a href="../classes/ShareableBase.html">ShareableBase</a></li>
+                                <li><a href="../classes/ShareableContextConsumer.html">ShareableContextConsumer</a></li>
                                 <li><a href="../classes/ShareableWebGLBuffer.html">ShareableWebGLBuffer</a></li>
                                 <li><a href="../classes/ShareableWebGLShader.html">ShareableWebGLShader</a></li>
                                 <li><a href="../classes/ShareableWebGLTexture.html">ShareableWebGLTexture</a></li>
@@ -264,109 +261,37 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import mustBeString from &#x27;../checks/mustBeString&#x27;;
-import readOnly from &#x27;../i18n/readOnly&#x27;;
-import refChange from &#x27;./refChange&#x27;;
-import IUnknown from &#x27;../core/IUnknown&#x27;;
-import uuid4 from &#x27;./uuid4&#x27;;
-
 /**
  * @module EIGHT
  * @submodule core
  * @class Shareable
  */
-export default class Shareable implements IUnknown {
-    private _refCount: number = 1
-    protected _type: string
-    private _uuid = uuid4().generate()
+interface Shareable {
     /**
      * &lt;p&gt;
-     * Convenient base class for derived classes implementing &lt;code&gt;IUnknown&lt;/code&gt;.
+     * Increments the reference count of an Shareable instance.
      * &lt;/p&gt;
-     * @class Shareable
-     * @extends IUnknown
-     * @constructor
-     * @param type {string} The human-readable name of the derived type.
-     */
-    constructor(type: string) {
-        this._type = mustBeString(&#x27;type&#x27;, type)
-        refChange(this._uuid, type, +1)
-    }
-
-    isZombie(): boolean {
-        return typeof this._refCount === &#x27;undefined&#x27;;
-    }
-
-    /**
-     * &lt;p&gt;
-     * Notifies this instance that something is referencing it.
-     * &lt;/p&gt;
-     *
      * @method addRef
-     * @return {number} The new value of the reference count.
+     * @return {number}
+     * &lt;p&gt;
+     * The new reference count. This value is intended to be used only for test purposes.
+     * &lt;/p&gt;
      */
-    addRef(): number {
-        this._refCount++
-        refChange(this._uuid, this._type, +1)
-        return this._refCount
-    }
-
+    addRef(): number;
     /**
      * &lt;p&gt;
-     * Notifies this instance that something is dereferencing it.
+     * Decrements the reference count of an Shareable instance.
      * &lt;/p&gt;
-     *
      * @method release
-     * @return {number} The new value of the reference count.
-     */
-    release(): number {
-        this._refCount--
-        refChange(this._uuid, this._type, -1)
-        const refCount = this._refCount
-        if (refCount === 0) {
-            // destructor called with &#x60;true&#x60; means grumble if the method has not been overridden.
-            this.destructor(true)
-            // refCount is used to indicate zombie status so let that go to undefined.
-            this._refCount = void 0
-            // Keep the type and uuid around for debugging reference count problems.
-            // this._type = void 0
-            // this._uuid = void 0
-        }
-        return refCount;
-    }
-
-    /**
+     * @return {number}
      * &lt;p&gt;
-     * Outputs a warning to the console that this method should be implemented by the derived class.
+     * The new reference count. This value is intended to be used only for test purposes.
      * &lt;/p&gt;
-     * &lt;p&gt;
-     * &lt;em&gt;This method should be implemented by derived classes.&lt;/em&gt;
-     * &lt;/p&gt;
-     * &lt;p&gt;
-     * &lt;em&gt;Not implementing this method in a derived class risks leaking resources allocated by the derived class.&lt;/em&gt;
-     * &lt;/p&gt;
-     * @method destructor
-     * @return {void}
-     * @protected
      */
-    protected destructor(grumble = false): void {
-        if (grumble) {
-            console.warn(&quot;&#x60;protected destructor(): void&#x60; method should be implemented by &#x60;&quot; + this._type + &quot;&#x60;.&quot;)
-        }
-    }
-
-    /**
-     * @property uuid
-     * @type {string}
-     * @readOnly
-     */
-    get uuid(): string {
-        return this._uuid
-    }
-    set uuid(unused: string) {
-        throw new Error(readOnly(&#x27;uuid&#x27;).message)
-    }
+    release(): number;
 }
+
+export default Shareable;
 
     </pre>
 </div>

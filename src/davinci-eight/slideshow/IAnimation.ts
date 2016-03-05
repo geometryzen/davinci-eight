@@ -1,7 +1,7 @@
 import IAnimationTarget from '../slideshow/IAnimationTarget';
-import IUnknown from '../core/IUnknown';
+import Shareable from '../core/Shareable';
 
-interface IAnimation extends IUnknown {
+interface IAnimation extends Shareable {
     apply(target: IAnimationTarget, propName: string, now: number, offset: number): void;
     skip(target: IAnimationTarget, propName: string): void;
     hurry(factor: number): void;

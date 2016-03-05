@@ -1,7 +1,7 @@
-import IColor from '../../core/IColor';
+import AbstractColor from '../../core/AbstractColor';
 import IAnimation from '../../slideshow/IAnimation';
 import IAnimationTarget from '../../slideshow/IAnimationTarget';
-import Shareable from '../../core/Shareable';
+import ShareableBase from '../../core/ShareableBase';
 import Color from '../../core/Color';
 
 function loop(n: number, callback: (i: number) => void) {
@@ -10,7 +10,7 @@ function loop(n: number, callback: (i: number) => void) {
     }
 }
 
-export default class ColorAnimation extends Shareable implements IAnimation {
+export default class ColorAnimation extends ShareableBase implements IAnimation {
     private from: Color;
     private to: Color;
     private duration: number;
@@ -18,7 +18,7 @@ export default class ColorAnimation extends Shareable implements IAnimation {
     private fraction: number;
     private callback: () => void;
     private ease: string;
-    constructor(color: IColor, duration: number = 300, callback?: () => void, ease?: string) {
+    constructor(color: AbstractColor, duration: number = 300, callback?: () => void, ease?: string) {
         super('ColorAnimation')
         this.from = void 0
         this.to = Color.copy(color)

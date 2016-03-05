@@ -2,17 +2,17 @@ import Color from '../core/Color'
 import DrawList from './DrawList'
 import Facet from '../core/Facet'
 import AmbientLight from '../facets/AmbientLight'
-import IDrawable from '../core/IDrawable'
+import AbstractDrawable from '../core/AbstractDrawable'
 import CameraControls from '../controls/CameraControls'
 import readOnly from '../i18n/readOnly'
-import Shareable from '../core/Shareable'
+import ShareableBase from '../core/ShareableBase'
 import Engine from '../core/Engine'
 
 /**
  * Intentionally undocumented.
  * The concept of creating a quick setup violates the Explicit over Implicit principle.
  */
-export default class World extends Shareable {
+export default class World extends ShareableBase {
     private drawList: DrawList
     private renderer: Engine
     private _ambients: Facet[]
@@ -74,7 +74,7 @@ export default class World extends Shareable {
         throw new Error(readOnly('controls').message)
     }
 
-    add(drawable: IDrawable): void {
+    add(drawable: AbstractDrawable): void {
         this.drawList.add(drawable)
     }
 }

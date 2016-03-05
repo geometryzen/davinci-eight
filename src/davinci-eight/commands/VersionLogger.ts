@@ -1,13 +1,13 @@
-import IContextProvider from '../core/IContextProvider';
-import Shareable from '../core/Shareable';
+import ContextProvider from '../core/ContextProvider';
+import ShareableBase from '../core/ShareableBase';
 
 let QUALIFIED_NAME = 'EIGHT.VersionLogger'
 
 /**
  * @class VersionLogger
- * @extends Shareable
+ * @extends ShareableBase
  */
-export default class VersionLogger extends Shareable {
+export default class VersionLogger extends ShareableBase {
     /**
      * <p>
      * Displays details about the WegGL version to the console.
@@ -29,10 +29,10 @@ export default class VersionLogger extends Shareable {
      * Logs the WebGL <code>VERSION</code> parameter to the console.
      * </p>
      * @method contextGain
-     * @param manager {IContextProvider}
+     * @param manager {ContextProvider}
      * @return {void}
      */
-    contextGain(manager: IContextProvider): void {
+    contextGain(manager: ContextProvider): void {
         const gl = manager.gl
         console.log(gl.getParameter(gl.VERSION))
     }

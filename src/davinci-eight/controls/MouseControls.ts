@@ -1,6 +1,6 @@
 import Geometric2 from '../math/Geometric2'
 import MouseCoordinates from './MouseCoordinates'
-import Shareable from '../core/Shareable'
+import ShareableBase from '../core/ShareableBase'
 
 const MODE = { NONE: -1, ROTATE: 0, ZOOM: 1, PAN: 2, TOUCH_ROTATE: 3, TOUCH_ZOOM_PAN: 4 }
 
@@ -16,9 +16,9 @@ const keys = [65 /*A*/, 83 /*S*/, 68 /*D*/]
 
 /**
  * @class MouseControls
- * @extends Shareable
+ * @extends ShareableBase
  */
-export default class MouseControls extends Shareable {
+export default class MouseControls extends ShareableBase {
 
   /**
    * @property enabled

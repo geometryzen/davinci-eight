@@ -5,7 +5,7 @@ import getDimensions from '../utils/getDimensions'
 import mustBeString from '../checks/mustBeString'
 import mustBeObject from '../checks/mustBeObject'
 import NoRenderer from './renderers/NoRenderer'
-import Shareable from '../core/Shareable'
+import ShareableBase from '../core/ShareableBase'
 import SVGRenderer from './renderers/SVGRenderer'
 import Text from './base/Text'
 import VMLRenderer from './renderers/VMLRenderer'
@@ -38,7 +38,7 @@ function initRenderer(elementId: string, dimensions: WidthAndHeight, doc: Docume
     }
 }
 
-export default class Overlay extends Shareable {
+export default class Overlay extends ShareableBase {
     private renderer: AbstractRenderer
     private board: Board
     constructor(elementId: string, options: {} = {}) {

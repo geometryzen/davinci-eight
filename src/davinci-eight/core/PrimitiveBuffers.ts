@@ -1,5 +1,5 @@
-import Material from './Material';
-import IUnknown from './IUnknown';
+import AbstractMaterial from './AbstractMaterial';
+import Shareable from './Shareable';
 
 /**
  * @module EIGHT
@@ -8,9 +8,9 @@ import IUnknown from './IUnknown';
 
 /**
  * @class PrimitiveBuffers
- * @extends IUnknown
+ * @extends Shareable
  */
-interface PrimitiveBuffers extends IUnknown {
+interface PrimitiveBuffers extends Shareable {
 
     /**
      * @property uuid
@@ -20,10 +20,10 @@ interface PrimitiveBuffers extends IUnknown {
 
     /**
      * @method bind
-     * @param material {Material}
+     * @param material {AbstractMaterial}
      * @return {void}
      */
-    bind(material: Material): void;
+    bind(material: AbstractMaterial): void;
 
     /**
      * @method draw

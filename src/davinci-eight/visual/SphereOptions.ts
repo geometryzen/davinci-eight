@@ -1,4 +1,4 @@
-import IColor from '../core/IColor'
+import AbstractColor from '../core/AbstractColor'
 import SpinorE3 from '../math/SpinorE3'
 import VectorE3 from '../math/VectorE3'
 
@@ -16,10 +16,10 @@ interface SphereOptions {
 
     /**
      * @attribute color
-     * @type IColor
+     * @type AbstractColor
      * @optional
      */
-    color?: IColor
+    color?: AbstractColor
 
     /**
      * @attribute offset

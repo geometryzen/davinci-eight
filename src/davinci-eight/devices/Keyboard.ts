@@ -1,5 +1,5 @@
 import IKeyboardHandler from '../devices/IKeyboardHandler';
-import Shareable from '../core/Shareable';
+import ShareableBase from '../core/ShareableBase';
 
 function makeKeyDownHandler(keyboard: Keyboard, handler: IKeyboardHandler) {
     return function(event: KeyboardEvent) {
@@ -15,7 +15,7 @@ function makeKeyUpHandler(keyboard: Keyboard, handler: IKeyboardHandler) {
     }
 }
 
-export default class Keyboard extends Shareable {
+export default class Keyboard extends ShareableBase {
     private handler: IKeyboardHandler;
     private document: Document;
     private useCapture: boolean;

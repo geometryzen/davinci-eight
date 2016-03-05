@@ -1,6 +1,6 @@
 import IAnimation from '../../slideshow/IAnimation';
 import IAnimationTarget from '../../slideshow/IAnimationTarget';
-import Shareable from '../../core/Shareable';
+import ShareableBase from '../../core/ShareableBase';
 import Spinor3 from '../../math/Spinor3';
 import SpinorE3 from '../../math/SpinorE3';
 
@@ -10,7 +10,7 @@ function loop(n: number, callback: (i: number) => void) {
     }
 }
 
-export default class Spinor3Animation extends Shareable implements IAnimation {
+export default class Spinor3Animation extends ShareableBase implements IAnimation {
     private from: Spinor3;
     private to: Spinor3;
     private duration: number;

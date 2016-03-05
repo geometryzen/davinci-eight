@@ -1,19 +1,19 @@
 import Capability from '../commands/Capability';
 import glCapability from '../commands/glCapability';
-import IContextConsumer from '../core/IContextConsumer';
-import IContextProvider from '../core/IContextProvider';
+import ContextConsumer from '../core/ContextConsumer';
+import ContextProvider from '../core/ContextProvider';
 import mustBeNumber from '../checks/mustBeNumber';
-import Shareable from '../core/Shareable';
+import ShareableBase from '../core/ShareableBase';
 
 /**
  * <p>
  * disable(capability: Capability): void
  * <p> 
  * @class WebGLDisable
- * @extends Shareable
- * @implements IContextConsumer
+ * @extends ShareableBase
+ * @implements ContextConsumer
  */
-export default class WebGLDisable extends Shareable implements IContextConsumer {
+export default class WebGLDisable extends ShareableBase implements ContextConsumer {
     private _capability: Capability;
     /**
      * @class WebGLDisable
@@ -25,11 +25,11 @@ export default class WebGLDisable extends Shareable implements IContextConsumer 
         this._capability = mustBeNumber('capability', capability)
     }
 
-    contextFree(manager: IContextProvider): void {
+    contextFree(manager: ContextProvider): void {
         // do nothing
     }
 
-    contextGain(manager: IContextProvider): void {
+    contextGain(manager: ContextProvider): void {
         manager.gl.disable(glCapability(this._capability, manager.gl))
     }
 

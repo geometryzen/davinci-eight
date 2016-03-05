@@ -3,8 +3,8 @@ import ColorFacet from '../facets/ColorFacet'
 import Drawable from './Drawable'
 import Geometric3 from '../math/Geometric3'
 import Geometry from './Geometry'
-import Material from './Material'
-import IMesh from '../core/IMesh'
+import AbstractMaterial from './AbstractMaterial'
+import AbstractMesh from '../core/AbstractMesh'
 import Matrix4 from '../math/Matrix4'
 import ModelFacet from '../facets/ModelFacet'
 import PointSizeFacet from '../facets/PointSizeFacet'
@@ -28,16 +28,16 @@ const POINT_FACET_NAME = 'point'
  * @class Mesh
  * @extends Drawable
  */
-export default class Mesh extends Drawable implements IMesh {
+export default class Mesh extends Drawable implements AbstractMesh {
 
   /**
    * @class Mesh
    * @constructor
    * @param [type = 'Mesh'] {string}
    * @param [geometry] {Geometry}
-   * @param [material] {Material}
+   * @param [material] {AbstractMaterial}
    */
-  constructor(type: string/* = 'Mesh'*/, geometry: Geometry, material: Material) {
+  constructor(type: string/* = 'Mesh'*/, geometry: Geometry, material: AbstractMaterial) {
     super(type, geometry, material)
 
     const modelFacet = new ModelFacet()

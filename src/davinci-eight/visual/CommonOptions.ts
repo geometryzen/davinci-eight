@@ -13,7 +13,7 @@ import VectorE3 from '../math/VectorE3'
 interface CommonOptions {
 
     /**
-     * @attribute tilt
+     * @attribute attitude
      * @type SpinorE3
      * @optional
      * @default 1

@@ -1,5 +1,5 @@
 import DrawMode from '../core/DrawMode'
-import IColor from '../core/IColor'
+import AbstractColor from '../core/AbstractColor'
 import VectorE3 from '../math/VectorE3'
 
 interface CurveGeometryOptions {
@@ -18,10 +18,10 @@ interface CurveGeometryOptions {
 
   /**
    * @attribute aColor
-   * @type (u: number) => IColor
+   * @type (u: number) => AbstractColor
    * @optional
    */
-  aColor?: (u: number) => IColor
+  aColor?: (u: number) => AbstractColor
 
   /**
    * @attribute drawMode

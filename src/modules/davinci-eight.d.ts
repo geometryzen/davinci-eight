@@ -11,9 +11,9 @@
 declare module EIGHT {
 
   /**
-   * Enables clients of IUnknown instances to declare their references.
+   * Enables clients of Shareable instances to declare their references.
    */
-  interface IUnknown {
+  interface Shareable {
     /**
      * Notifies this instance that something is referencing it.
      */
@@ -24,10 +24,10 @@ declare module EIGHT {
     release(): number;
   }
 
-  class ShareableArray<T extends IUnknown> extends Shareable {
+  class ShareableArray<T extends Shareable> extends ShareableBase {
     length: number;
     /**
-     * Collection class for maintaining an array of types derived from IUnknown.
+     * Collection class for maintaining an array of types derived from Shareable.
      * Provides a safer way to maintain reference counts than a native array.
      */
     constructor(elements?: T[]);
@@ -50,7 +50,7 @@ declare module EIGHT {
     shift(): T;
   }
 
-  class NumberIUnknownMap<V extends IUnknown> extends Shareable {
+  class NumberIUnknownMap<V extends Shareable> extends ShareableBase {
     keys: number[];
     constructor()
     exists(key: number): boolean
@@ -62,7 +62,7 @@ declare module EIGHT {
     remove(key: number): void
   }
 
-  class StringIUnknownMap<V extends IUnknown> extends Shareable {
+  class StringIUnknownMap<V extends Shareable> extends ShareableBase {
     keys: string[];
     constructor()
     exists(key: string): boolean
@@ -77,7 +77,7 @@ declare module EIGHT {
   /**
    * Convenience base class for classes requiring reference counting.
    */
-  class Shareable implements IUnknown {
+  class ShareableBase implements Shareable {
     /**
      * Unique identifier for this instance.
      */
@@ -103,7 +103,7 @@ declare module EIGHT {
   /**
    *
    */
-  interface IContextConsumer extends IUnknown {
+  interface ContextConsumer extends Shareable {
     /**
      * Called to request the dependent to free any WebGL resources acquired and owned.
      * The dependent may assume that its cached context is still valid in order
@@ -111,13 +111,13 @@ declare module EIGHT {
      * method may be called multiple times for what is logically the same context. In such
      * cases the dependent must be idempotent and respond only to the first request.
      */
-    contextFree(context: IContextProvider): void;
+    contextFree(context: ContextProvider): void;
     /**
      * Called to inform the dependent of a new WebGL rendering context.
      * The implementation should ignore the notification if it has already
      * received the same context.
      */
-    contextGain(context: IContextProvider): void;
+    contextGain(context: ContextProvider): void;
     /**
      * Called to inform the dependent of a loss of WebGL rendering context.
      * The dependent must assume that any cached context is invalid.
@@ -127,20 +127,15 @@ declare module EIGHT {
     contextLost(): void;
   }
 
-  interface IContextListener extends IContextConsumer {
-    subscribe(context: Engine): void;
-    unsubscribe(): void;
-  }
-
-  class ShareableContextListener extends Shareable implements IContextListener {
-    contextFree(contextProvider: IContextProvider): void;
-    contextGain(contextProvider: IContextProvider): void;
+  class ShareableContextConsumer extends ShareableBase implements ContextConsumer {
+    contextFree(contextProvider: ContextProvider): void;
+    contextGain(contextProvider: ContextProvider): void;
     contextLost(): void;
-    subscribe(context: Engine): void;
+    subscribe(engine: Engine): void;
     unsubscribe(): void;
   }
 
-  interface Material extends FacetVisitor, IContextConsumer {
+  interface AbstractMaterial extends FacetVisitor, ContextConsumer {
     vertexShaderSrc: string
     fragmentShaderSrc: string
     getAttribLocation(name: string): number
@@ -150,9 +145,9 @@ declare module EIGHT {
   /**
    *
    */
-  interface PrimitiveBuffers extends IUnknown {
+  interface PrimitiveBuffers extends Shareable {
     uuid: string;
-    bind(material: Material, aNameToKeyName?: { [name: string]: string }): void;
+    bind(material: AbstractMaterial, aNameToKeyName?: { [name: string]: string }): void;
     draw(): void;
     unbind(): void;
   }
@@ -256,7 +251,7 @@ declare module EIGHT {
   /**
    *
    */
-  interface IContextProgramConsumer {
+  interface ContextProgramConsumer {
     contextFree(): void;
     contextGain(gl: WebGLRenderingContext, program: WebGLProgram): void;
     contextLost(): void;
@@ -265,7 +260,7 @@ declare module EIGHT {
   /**
    * Manages the lifecycle of an attribute used in a vertex shader.
    */
-  class AttribLocation implements IContextProgramConsumer {
+  class AttribLocation implements ContextProgramConsumer {
     index: number;
     contextFree(): void;
     contextGain(gl: WebGLRenderingContext, program: WebGLProgram): void;
@@ -278,7 +273,7 @@ declare module EIGHT {
   /**
    * Utility class for managing a shader uniform variable.
    */
-  class UniformLocation implements IContextProgramConsumer {
+  class UniformLocation implements ContextProgramConsumer {
     contextFree(): void;
     contextGain(gl: WebGLRenderingContext, program: WebGLProgram): void;
     contextLost(): void;
@@ -324,7 +319,7 @@ declare module EIGHT {
   /**
    *
    */
-  interface ITexture extends IContextConsumer {
+  interface ITexture extends ContextConsumer {
     bind(): void;
     unbind(): void;
   }
@@ -2557,7 +2552,7 @@ declare module EIGHT {
   /**
    *
    */
-  interface IColor {
+  interface AbstractColor {
     r: number;
     g: number;
     b: number;
@@ -2566,7 +2561,7 @@ declare module EIGHT {
   /**
    *
    */
-  class Color extends VectorN<number> implements IColor {
+  class Color extends VectorN<number> implements AbstractColor {
     r: number;
     g: number;
     b: number;
@@ -2574,8 +2569,8 @@ declare module EIGHT {
     constructor(r: number, g: number, b: number);
     approx(n: number): Color;
     clone(): Color;
-    copy(color: IColor): Color;
-    lerp(target: IColor, α: number): Color;
+    copy(color: AbstractColor): Color;
+    lerp(target: AbstractColor, α: number): Color;
     toString(): string;
 
     static black: Color;
@@ -2587,22 +2582,22 @@ declare module EIGHT {
     static yellow: Color;
     static white: Color;
     static gray: Color;
-    static copy(color: IColor): Color;
+    static copy(color: AbstractColor): Color;
     static fromCoords(coords: number[]): Color;
     static fromHSL(H: number, S: number, L: number): Color;
     static fromRGB(red: number, green: number, blue: number): Color;
-    static lerp(a: IColor, b: IColor, α: number): Color;
+    static lerp(a: AbstractColor, b: AbstractColor, α: number): Color;
     static luminance(r: number, g: number, b: number): number
   }
 
   /**
    * A collection of primitives, one for each canvas.
    */
-  interface IGraphicsBuffers extends IContextConsumer {
+  interface IGraphicsBuffers extends ContextConsumer {
     /**
      *
      */
-    draw(program: Material): void;
+    draw(program: AbstractMaterial): void;
   }
 
   /**
@@ -2632,14 +2627,14 @@ declare module EIGHT {
   /**
    *
    */
-  interface IContextProvider extends IUnknown {
+  interface ContextProvider extends Shareable {
     gl: WebGLRenderingContext;
   }
 
   /**
    * A set of <em>state variables</em> for graphics modeling in Euclidean 2D space.
    */
-  class ModelE2 extends Shareable {
+  class ModelE2 extends ShareableBase {
     /**
      * The <em>position</em>, a vector. Initialized to <em>0</em>
      */
@@ -2776,8 +2771,8 @@ declare module EIGHT {
     constructor(engine: Engine)
     add(mesh: Drawable): void
     addRef(): number
-    contextFree(context: IContextProvider): void
-    contextGain(context: IContextProvider): void
+    contextFree(context: ContextProvider): void
+    contextGain(context: ContextProvider): void
     contextLost(): void
     draw(ambients: Facet[]): void
     findOne(match: (mesh: Drawable) => boolean): Drawable
@@ -2863,7 +2858,7 @@ declare module EIGHT {
     setUniforms(visitor: FacetVisitor): void
   }
 
-  class Engine implements IUnknown {
+  class Engine implements Shareable {
     addRef(): number;
     release(): number;
     /**
@@ -2877,7 +2872,7 @@ declare module EIGHT {
     /**
      *
      */
-    commands: ShareableArray<IContextConsumer>;
+    commands: ShareableArray<ContextConsumer>;
 
     /**
      * @param gl The underlying <code>WebGLRenderingContext</code>.
@@ -2892,7 +2887,7 @@ declare module EIGHT {
     /**
      *
      */
-    addContextListener(user: IContextConsumer): void;
+    addContextListener(user: ContextConsumer): void;
 
     /**
      * <p>
@@ -2919,7 +2914,7 @@ declare module EIGHT {
     /**
      *
      */
-    removeContextListener(user: IContextConsumer): void;
+    removeContextListener(user: ContextConsumer): void;
 
     /**
      * Initializes the WebGL context for the specified <code>canvas</code>.
@@ -2934,7 +2929,7 @@ declare module EIGHT {
     /**
      *
      */
-    synchronize(user: IContextConsumer): void;
+    synchronize(user: ContextConsumer): void;
 
     /**
      * Defines what part of the canvas will be used in rendering the drawing buffer.
@@ -2973,36 +2968,36 @@ declare module EIGHT {
     pointers: VertexAttribPointer[]
   }
 
-  interface Geometry extends IContextConsumer {
+  interface Geometry extends ContextConsumer {
     data: VertexArrays;
     partsLength: number;
     addPart(geometry: Geometry): void;
     removePart(index: number): void;
     getPart(index: number): Geometry;
-    draw(material: Material): void;
+    draw(material: AbstractMaterial): void;
   }
 
-  class GeometryContainer extends Shareable implements Geometry {
+  class GeometryContainer extends ShareableBase implements Geometry {
     data: VertexArrays;
     partsLength: number;
     constructor();
     addPart(geometry: Geometry): void;
     removePart(index: number): void;
-    draw(material: Material): void;
+    draw(material: AbstractMaterial): void;
     getPart(index: number): Geometry;
-    contextFree(context: IContextProvider): void;
-    contextGain(context: IContextProvider): void;
+    contextFree(context: ContextProvider): void;
+    contextGain(context: ContextProvider): void;
     contextLost(): void;
   }
 
-  class GeometryBuffers extends ShareableContextListener implements Geometry {
+  class GeometryBuffers extends ShareableContextConsumer implements Geometry {
     data: VertexArrays;
     partsLength: number;
     constructor(data: VertexArrays);
     addPart(geometry: Geometry): void;
     removePart(index: number): void;
     getPart(index: number): Geometry;
-    draw(material: Material): void;
+    draw(material: AbstractMaterial): void;
   }
 
   interface GeometryBuilder {
@@ -3094,13 +3089,13 @@ declare module EIGHT {
   /**
    *
    */
-  class MaterialBase extends ShareableContextListener implements Material {
+  class Material extends ShareableContextConsumer implements AbstractMaterial {
     attributeNames: string[];
     fragmentShaderSrc: string;
     vertexShaderSrc: string;
     constructor(vertexShaderSrc: string, fragmentShaderSrc: string, attribs?: string[]);
-    contextFree(manager: IContextProvider): void;
-    contextGain(manager: IContextProvider): void;
+    contextFree(manager: ContextProvider): void;
+    contextGain(manager: ContextProvider): void;
     contextLost(): void;
     disableAttrib(name: string): void;
     disableAttribs(): void;
@@ -3125,10 +3120,10 @@ declare module EIGHT {
     vertexPointer(name: string, size: number, normalized: boolean, stride: number, offset: number): void;
   }
 
-  interface IDrawable extends IContextConsumer {
+  interface AbstractDrawable extends ContextConsumer {
     fragmentShaderSrc: string;
     geometry: Geometry;
-    material: Material;
+    material: AbstractMaterial;
     name: string;
     vertexShaderSrc: string;
     visible: boolean;
@@ -3140,7 +3135,7 @@ declare module EIGHT {
    * The primitives provide attribute arguments to the graphics program.
    * The facets provide uniform arguments to the graphics program. 
    */
-  class Drawable extends Shareable implements IDrawable {
+  class Drawable extends ShareableBase implements AbstractDrawable {
 
     /**
      *
@@ -3155,7 +3150,7 @@ declare module EIGHT {
     /**
      *
      */
-    material: Material;
+    material: AbstractMaterial;
 
     /**
      * A user-assigned name that allows the composite object to be found.
@@ -3175,7 +3170,7 @@ declare module EIGHT {
     /**
      *
      */
-    constructor(type: string, geometry: Geometry, material: Material);
+    constructor(type: string, geometry: Geometry, material: AbstractMaterial);
 
     /**
      *
@@ -3194,8 +3189,8 @@ declare module EIGHT {
      */
     draw(ambients: Facet[]): void;
 
-    contextFree(manager: IContextProvider): void;
-    contextGain(manager: IContextProvider): void;
+    contextFree(manager: ContextProvider): void;
+    contextGain(manager: ContextProvider): void;
     contextLost(): void;
 
     /**
@@ -3212,9 +3207,9 @@ declare module EIGHT {
   }
 
   /**
-   * A Material based upon scripts in a DOM.
+   * A AbstractMaterial based upon scripts in a DOM.
    */
-  class HTMLScriptsMaterial extends MaterialBase {
+  class HTMLScriptsMaterial extends Material {
     /**
      *
      */
@@ -3224,28 +3219,28 @@ declare module EIGHT {
   /**
    *
    */
-  class PointMaterial extends MaterialBase {
+  class PointMaterial extends Material {
     constructor();
   }
 
   /**
    *
    */
-  class LineMaterial extends MaterialBase {
+  class LineMaterial extends Material {
     constructor();
   }
 
   /**
    *
    */
-  class MeshMaterial extends MaterialBase {
+  class MeshMaterial extends Material {
     constructor();
   }
 
   /**
    *
    */
-  class MeshNormalMaterial extends MaterialBase {
+  class MeshNormalMaterial extends Material {
     constructor();
   }
 
@@ -3257,13 +3252,13 @@ declare module EIGHT {
 
   class AmbientLight extends AbstractFacet {
     color: Color;
-    constructor(color: IColor);
+    constructor(color: AbstractColor);
   }
 
   /**
    *
    */
-  class ColorFacet extends AbstractFacet implements IColor {
+  class ColorFacet extends AbstractFacet implements AbstractColor {
     r: number;
     g: number;
     b: number;
@@ -3271,7 +3266,7 @@ declare module EIGHT {
     constructor(name?: string);
     scaleRGB(α: number): ColorFacet;
     scaleRGBA(α: number): ColorFacet;
-    setColorRGB(color: IColor): ColorFacet;
+    setColorRGB(color: AbstractColor): ColorFacet;
     setRGB(red: number, green: number, blue: number): ColorFacet;
     setRGBA(red: number, green: number, blue: number, alpha: number): ColorFacet;
   }
@@ -3295,7 +3290,7 @@ declare module EIGHT {
      * [direction = -e3] The initial direction.
      * [color = white] The initial color.
      */
-    constructor(direction?: VectorE3, color?: IColor);
+    constructor(direction?: VectorE3, color?: AbstractColor);
     /**
      * Sets the <code>direction</code> property by copying a vector.
      * The direction is normalized to be a unit vector.
@@ -3320,7 +3315,7 @@ declare module EIGHT {
   /**
    *
    */
-  class ReflectionFacetE2 extends Shareable implements Facet {
+  class ReflectionFacetE2 extends ShareableBase implements Facet {
     /**
      * The vector perpendicular to the (hyper-)plane of reflection.
      */
@@ -3351,7 +3346,7 @@ declare module EIGHT {
   /**
    *
    */
-  class ReflectionFacetE3 extends Shareable implements Facet {
+  class ReflectionFacetE3 extends ShareableBase implements Facet {
     /**
      * The vector perpendicular to the (hyper-)plane of reflection.
      *
@@ -3448,7 +3443,7 @@ declare module EIGHT {
   /**
    * `blendFunc(sfactor: number, dfactor: number): void`
    */
-  class WebGLBlendFunc extends Shareable {
+  class WebGLBlendFunc extends ShareableBase {
     sfactor: BlendFactor;
     dfactor: BlendFactor;
     constructor(sfactor: BlendFactor, dfactor: BlendFactor);
@@ -3456,12 +3451,12 @@ declare module EIGHT {
     /**
      *
      */
-    contextFree(manager: IContextProvider): void;
+    contextFree(manager: ContextProvider): void;
 
     /**
      *
      */
-    contextGain(manager: IContextProvider): void;
+    contextGain(manager: ContextProvider): void;
 
     /**
      *
@@ -3472,7 +3467,7 @@ declare module EIGHT {
   /**
    * `clearColor(red: number, green: number, blue: number, alpha: number): void`
    */
-  class WebGLClearColor extends Shareable {
+  class WebGLClearColor extends ShareableBase {
     red: number;
     green: number;
     blue: number;
@@ -3481,11 +3476,11 @@ declare module EIGHT {
     /**
      *
      */
-    contextFree(manager: IContextProvider): void;
+    contextFree(manager: ContextProvider): void;
     /**
      *
      */
-    contextGain(manager: IContextProvider): void;
+    contextGain(manager: ContextProvider): void;
     /**
      *
      */
@@ -3525,7 +3520,7 @@ declare module EIGHT {
   /**
    * `disable(capability: number): void`
    */
-  class WebGLDisable extends Shareable {
+  class WebGLDisable extends ShareableBase {
     /**
      *
      */
@@ -3533,11 +3528,11 @@ declare module EIGHT {
     /**
      *
      */
-    contextFree(manager: IContextProvider): void;
+    contextFree(manager: ContextProvider): void;
     /**
      *
      */
-    contextGain(manager: IContextProvider): void;
+    contextGain(manager: ContextProvider): void;
     /**
      *
      */
@@ -3547,7 +3542,7 @@ declare module EIGHT {
   /**
    * `enable(capability: number): void`
    */
-  class WebGLEnable extends Shareable {
+  class WebGLEnable extends ShareableBase {
     /**
      *
      */
@@ -3555,11 +3550,11 @@ declare module EIGHT {
     /**
      *
      */
-    contextFree(manager: IContextProvider): void;
+    contextFree(manager: ContextProvider): void;
     /**
      *
      */
-    contextGain(manager: IContextProvider): void;
+    contextGain(manager: ContextProvider): void;
     /**
      *
      */
@@ -3568,7 +3563,7 @@ declare module EIGHT {
 
   ///////////////////////////////////////////////////////////////////////////////
 
-  interface IMesh extends IDrawable {
+  interface AbstractMesh extends AbstractDrawable {
     attitude: Geometric3;
     color: Color;
     position: Geometric3;
@@ -3580,7 +3575,7 @@ declare module EIGHT {
    * A Mesh adds attitude, color, position, and scale properties to a Drawable
    * which are implemented as Facet(s).
    */
-  class Mesh extends Drawable implements IMesh {
+  class Mesh extends Drawable implements AbstractMesh {
     /**
      *
      */
@@ -3595,13 +3590,13 @@ declare module EIGHT {
     /**
      *
      */
-    constructor(geometry: Geometry, material: Material, type?: string)
+    constructor(geometry: Geometry, material: AbstractMaterial, type?: string)
   }
 
   /**
    *
    */
-  class RigidBodyWithUnits extends Shareable {
+  class RigidBodyWithUnits extends ShareableBase {
     attitude: G3
     axis: G3
     mass: G3
@@ -3686,7 +3681,7 @@ declare module EIGHT {
   class Curve extends Mesh {
     constructor(
       options?: {
-        aColor?: (u: number) => IColor
+        aColor?: (u: number) => AbstractColor
         aPosition?: (u: number) => VectorE3
         drawMode?: DrawMode
         uMax?: number
@@ -3698,7 +3693,7 @@ declare module EIGHT {
   class Grid extends Mesh {
     constructor(
       options?: {
-        aColor?: (u: number, v: number) => IColor
+        aColor?: (u: number, v: number) => AbstractColor
         aNormal?: (u: number, v: number) => VectorE3
         aPosition?: (u: number, v: number) => VectorE3
         drawMode?: DrawMode
@@ -3715,7 +3710,7 @@ declare module EIGHT {
     radius: number;
     constructor(
       options?: {
-        color?: IColor;
+        color?: AbstractColor;
         offset?: VectorE3;
         position?: VectorE3;
         radius?: number;
@@ -3733,7 +3728,7 @@ declare module EIGHT {
     retain: number;
   }
 
-  class Trail extends Shareable {
+  class Trail extends ShareableBase {
 
     /**
      *
@@ -3764,7 +3759,7 @@ declare module EIGHT {
   /**
    *
    */
-  interface World extends IUnknown {
+  interface World extends Shareable {
     ambientLight: AmbientLight;
     ambients: Facet[];
     canvas: HTMLCanvasElement;
@@ -3786,7 +3781,7 @@ declare module EIGHT {
     }): World;
 
   ///////////////////////////////////////////////////////////////////////////////
-  class CameraControls extends Shareable {
+  class CameraControls extends ShareableBase {
 
     public panSpeed: number
     public rotateSpeed: number

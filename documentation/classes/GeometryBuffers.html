@@ -38,7 +38,11 @@
                 
                         <div id="api-tabview-panel">
                             <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/AbstractColor.html">AbstractColor</a></li>
+                                <li><a href="../classes/AbstractDrawable.html">AbstractDrawable</a></li>
+                                <li><a href="../classes/AbstractMaterial.html">AbstractMaterial</a></li>
                                 <li><a href="../classes/AbstractMatrix.html">AbstractMatrix</a></li>
+                                <li><a href="../classes/AbstractMesh.html">AbstractMesh</a></li>
                                 <li><a href="../classes/AmbientLight.html">AmbientLight</a></li>
                                 <li><a href="../classes/Approximation.html">Approximation</a></li>
                                 <li><a href="../classes/Arrow.html">Arrow</a></li>
@@ -50,7 +54,6 @@
                                 <li><a href="../classes/Attribute.html">Attribute</a></li>
                                 <li><a href="../classes/AxialPrimitivesBuilder.html">AxialPrimitivesBuilder</a></li>
                                 <li><a href="../classes/BlendFactor.html">BlendFactor</a></li>
-                                <li><a href="../classes/BootstrapOptions.html">BootstrapOptions</a></li>
                                 <li><a href="../classes/Box.html">Box</a></li>
                                 <li><a href="../classes/BoxGeometry.html">BoxGeometry</a></li>
                                 <li><a href="../classes/BoxGeometryOptions.html">BoxGeometryOptions</a></li>
@@ -64,6 +67,9 @@
                                 <li><a href="../classes/ConeTransform.html">ConeTransform</a></li>
                                 <li><a href="../classes/ConicalShellBuilder.html">ConicalShellBuilder</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
+                                <li><a href="../classes/ContextConsumer.html">ContextConsumer</a></li>
+                                <li><a href="../classes/ContextProgramConsumer.html">ContextProgramConsumer</a></li>
+                                <li><a href="../classes/ContextProvider.html">ContextProvider</a></li>
                                 <li><a href="../classes/Coords.html">Coords</a></li>
                                 <li><a href="../classes/CoordsTransform1D.html">CoordsTransform1D</a></li>
                                 <li><a href="../classes/CoordsTransform2D.html">CoordsTransform2D</a></li>
@@ -114,21 +120,11 @@
                                 <li><a href="../classes/GridPrimitive.html">GridPrimitive</a></li>
                                 <li><a href="../classes/GridTriangleStrip.html">GridTriangleStrip</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
-                                <li><a href="../classes/IColor.html">IColor</a></li>
-                                <li><a href="../classes/IContextConsumer.html">IContextConsumer</a></li>
-                                <li><a href="../classes/IContextListener.html">IContextListener</a></li>
-                                <li><a href="../classes/IContextProgramConsumer.html">IContextProgramConsumer</a></li>
-                                <li><a href="../classes/IContextProvider.html">IContextProvider</a></li>
-                                <li><a href="../classes/IDrawable.html">IDrawable</a></li>
-                                <li><a href="../classes/IGeometric3RigidBody.html">IGeometric3RigidBody</a></li>
-                                <li><a href="../classes/IMesh.html">IMesh</a></li>
-                                <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
                                 <li><a href="../classes/LineMaterialOptions.html">LineMaterialOptions</a></li>
                                 <li><a href="../classes/LinePoints.html">LinePoints</a></li>
                                 <li><a href="../classes/LineStrip.html">LineStrip</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
-                                <li><a href="../classes/MaterialBase.html">MaterialBase</a></li>
                                 <li><a href="../classes/Matrix2.html">Matrix2</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
                                 <li><a href="../classes/Matrix4.html">Matrix4</a></li>
@@ -165,7 +161,8 @@
                                 <li><a href="../classes/Scene.html">Scene</a></li>
                                 <li><a href="../classes/Shareable.html">Shareable</a></li>
                                 <li><a href="../classes/ShareableArray.html">ShareableArray</a></li>
-                                <li><a href="../classes/ShareableContextListener.html">ShareableContextListener</a></li>
+                                <li><a href="../classes/ShareableBase.html">ShareableBase</a></li>
+                                <li><a href="../classes/ShareableContextConsumer.html">ShareableContextConsumer</a></li>
                                 <li><a href="../classes/ShareableWebGLBuffer.html">ShareableWebGLBuffer</a></li>
                                 <li><a href="../classes/ShareableWebGLShader.html">ShareableWebGLShader</a></li>
                                 <li><a href="../classes/ShareableWebGLTexture.html">ShareableWebGLTexture</a></li>
@@ -264,7 +261,7 @@
 <div class="box meta">
 
         <div class="extends">
-            Extends <a href="../classes/ShareableContextListener.html" class="crosslink">ShareableContextListener</a>
+            Extends <a href="../classes/ShareableContextConsumer.html" class="crosslink">ShareableContextConsumer</a>
         </div>
 
         <div class="foundat">
@@ -358,15 +355,19 @@
                                 <a href="#method_addPart">addPart</a>
 
                             </li>
-                            <li class="index-item method">
+                            <li class="index-item method inherited">
+                                <a href="#method_addRef">addRef</a>
+
+                            </li>
+                            <li class="index-item method inherited">
                                 <a href="#method_contextFree">contextFree</a>
 
                             </li>
-                            <li class="index-item method">
+                            <li class="index-item method inherited">
                                 <a href="#method_contextGain">contextGain</a>
 
                             </li>
-                            <li class="index-item method">
+                            <li class="index-item method inherited">
                                 <a href="#method_contextLost">contextLost</a>
 
                             </li>
@@ -394,6 +395,10 @@
                                 <a href="#method_isLeaf">isLeaf</a>
 
                             </li>
+                            <li class="index-item method inherited">
+                                <a href="#method_release">release</a>
+
+                            </li>
                             <li class="index-item method">
                                 <a href="#method_removePart">removePart</a>
 
@@ -417,9 +422,22 @@
                     <h3>Properties</h3>
 
                     <ul class="index-list properties extends">
+                            <li class="index-item property protected inherited">
+                                <a href="#property_contextProvider">contextProvider</a>
+
+                            </li>
                             <li class="index-item property">
                                 <a href="#property_data">data</a>
 
+                            </li>
+                            <li class="index-item property private inherited">
+                                <a href="#property_engine">engine</a>
+
+                            </li>
+                            <li class="index-item property deprecated inherited">
+                                <a href="#property_gl">gl</a>
+
+                                    <span class="flag deprecated">deprecated</span>
                             </li>
                             <li class="index-item property">
                                 <a href="#property_partsLength">partsLength</a>
@@ -496,6 +514,51 @@
 
 
 </div>
+<div id="method_addRef" class="method item inherited">
+    <h3 class="name"><code>addRef</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">Number</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/Shareable.html#method_addRef">Shareable</a>:
+        <a href="../files/src_davinci-eight_core_Shareable.ts.html#l7"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Shareable.ts:7</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>
+Increments the reference count of an Shareable instance.
+</p>
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Number</span>:
+                    <p>
+The new reference count. This value is intended to be used only for test purposes.
+</p>
+            </div>
+        </div>
+
+
+</div>
 <div id="method_contextFree" class="method item">
     <h3 class="name"><code>contextFree</code></h3>
 
@@ -518,8 +581,11 @@
 
 
     <div class="meta">
-                <p>
-                Defined in
+            <p>Inherited from
+            <a href="../classes/ContextConsumer.html#method_contextFree">
+                ContextConsumer
+            </a>
+            but overwritten in
         <a href="../files/src_davinci-eight_core_GeometryBuffers.ts.html#l130"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryBuffers.ts:130</code></a>
         </p>
 
@@ -537,7 +603,7 @@
             <ul class="params-list">
                 <li class="param">
                         <code class="param-name">context</code>
-                        <span class="type"><a href="../classes/IContextProvider.html" class="crosslink">IContextProvider</a></span>
+                        <span class="type"><a href="../classes/ContextProvider.html" class="crosslink">ContextProvider</a></span>
 
 
                     <div class="param-description">
@@ -580,8 +646,11 @@
 
 
     <div class="meta">
-                <p>
-                Defined in
+            <p>Inherited from
+            <a href="../classes/ContextConsumer.html#method_contextGain">
+                ContextConsumer
+            </a>
+            but overwritten in
         <a href="../files/src_davinci-eight_core_GeometryBuffers.ts.html#l148"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryBuffers.ts:148</code></a>
         </p>
 
@@ -599,7 +668,7 @@
             <ul class="params-list">
                 <li class="param">
                         <code class="param-name">context</code>
-                        <span class="type"><a href="../classes/IContextProvider.html" class="crosslink">IContextProvider</a></span>
+                        <span class="type"><a href="../classes/ContextProvider.html" class="crosslink">ContextProvider</a></span>
 
 
                     <div class="param-description">
@@ -636,8 +705,11 @@
 
 
     <div class="meta">
-                <p>
-                Defined in
+            <p>Inherited from
+            <a href="../classes/ContextConsumer.html#method_contextLost">
+                ContextConsumer
+            </a>
+            but overwritten in
         <a href="../files/src_davinci-eight_core_GeometryBuffers.ts.html#l171"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryBuffers.ts:171</code></a>
         </p>
 
@@ -678,8 +750,8 @@
 
     <div class="meta">
             <p>Inherited from
-            <a href="../classes/ShareableContextListener.html#method_destructor">
-                ShareableContextListener
+            <a href="../classes/ShareableContextConsumer.html#method_destructor">
+                ShareableContextConsumer
             </a>
             but overwritten in
         <a href="../files/src_davinci-eight_core_GeometryBuffers.ts.html#l67"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryBuffers.ts:67</code></a>
@@ -745,7 +817,7 @@
             <ul class="params-list">
                 <li class="param">
                         <code class="param-name">material</code>
-                        <span class="type"><a href="../classes/Material.html" class="crosslink">Material</a></span>
+                        <span class="type"><a href="../classes/AbstractMaterial.html" class="crosslink">AbstractMaterial</a></span>
 
 
                     <div class="param-description">
@@ -992,6 +1064,51 @@
 
 
 </div>
+<div id="method_release" class="method item inherited">
+    <h3 class="name"><code>release</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">Number</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/Shareable.html#method_release">Shareable</a>:
+        <a href="../files/src_davinci-eight_core_Shareable.ts.html#l18"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Shareable.ts:18</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>
+Decrements the reference count of an Shareable instance.
+</p>
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Number</span>:
+                    <p>
+The new reference count. This value is intended to be used only for test purposes.
+</p>
+            </div>
+        </div>
+
+
+</div>
 <div id="method_removePart" class="method item">
     <h3 class="name"><code>removePart</code></h3>
 
@@ -1135,7 +1252,7 @@
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
-                        <code>context</code>
+                        <code>engine</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
@@ -1152,8 +1269,8 @@
 
     <div class="meta">
                 <p>Inherited from
-                <a href="../classes/ShareableContextListener.html#method_subscribe">ShareableContextListener</a>:
-        <a href="../files/src_davinci-eight_core_ShareableContextListener.ts.html#l36"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableContextListener.ts:36</code></a>
+                <a href="../classes/ShareableContextConsumer.html#method_subscribe">ShareableContextConsumer</a>:
+        <a href="../files/src_davinci-eight_core_ShareableContextConsumer.ts.html#l71"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableContextConsumer.ts:71</code></a>
         </p>
 
 
@@ -1161,7 +1278,9 @@
     </div>
 
     <div class="description">
-        Instructs the consumer to subscribe to context events.
+        <p>
+Instructs the consumer to subscribe to context events.
+</p>
     </div>
 
         <div class="params">
@@ -1169,7 +1288,7 @@
 
             <ul class="params-list">
                 <li class="param">
-                        <code class="param-name">context</code>
+                        <code class="param-name">engine</code>
                         <span class="type"><a href="../classes/Engine.html" class="crosslink">Engine</a></span>
 
 
@@ -1208,8 +1327,8 @@
 
     <div class="meta">
                 <p>Inherited from
-                <a href="../classes/ShareableContextListener.html#method_unsubscribe">ShareableContextListener</a>:
-        <a href="../files/src_davinci-eight_core_ShareableContextListener.ts.html#l56"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableContextListener.ts:56</code></a>
+                <a href="../classes/ShareableContextConsumer.html#method_unsubscribe">ShareableContextConsumer</a>:
+        <a href="../files/src_davinci-eight_core_ShareableContextConsumer.ts.html#l94"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableContextConsumer.ts:94</code></a>
         </p>
 
 
@@ -1236,6 +1355,31 @@
             <div id="properties" class="api-class-tabpanel">
                 <h2 class="off-left">Properties</h2>
 
+<div id="property_contextProvider" class="property item protected inherited">
+    <h3 class="name"><code>contextProvider</code></h3>
+    <span class="type"><a href="../classes/ContextProvider.html" class="crosslink">ContextProvider</a></span>
+
+
+        <span class="flag protected">protected</span>
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/ShareableContextConsumer.html#property_contextProvider">ShareableContextConsumer</a>:
+        <a href="../files/src_davinci-eight_core_ShareableContextConsumer.ts.html#l46"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableContextConsumer.ts:46</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
 <div id="property_data" class="property item">
     <h3 class="name"><code>data</code></h3>
     <span class="type"><a href="../classes/VertexArrays.html" class="crosslink">VertexArrays</a></span>
@@ -1255,6 +1399,61 @@
 
     <div class="description">
         
+    </div>
+
+
+
+</div>
+<div id="property_engine" class="property item private inherited">
+    <h3 class="name"><code>engine</code></h3>
+    <span class="type"><a href="../classes/Engine.html" class="crosslink">Engine</a></span>
+
+
+        <span class="flag private">private</span>
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/ShareableContextConsumer.html#property_engine">ShareableContextConsumer</a>:
+        <a href="../files/src_davinci-eight_core_ShareableContextConsumer.ts.html#l39"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableContextConsumer.ts:39</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_gl" class="property item deprecated inherited">
+    <h3 class="name"><code>gl</code></h3>
+    <span class="type">WebGLRenderingContext</span>
+
+        <span class="flag deprecated">deprecated</span>
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/ShareableContextConsumer.html#property_gl">ShareableContextConsumer</a>:
+        <a href="../files/src_davinci-eight_core_ShareableContextConsumer.ts.html#l137"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableContextConsumer.ts:137</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>
+Provides access to the underlying WebGL context.
+</p>
+<p>
+This property is deprecated to encourage access throught the <code>ContextProvider</code>.
+</p>
     </div>
 
 

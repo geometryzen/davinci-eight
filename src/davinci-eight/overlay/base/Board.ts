@@ -1,7 +1,7 @@
 import AbstractRenderer from '../renderers/AbstractRenderer'
-import Shareable from '../../core/Shareable'
+import ShareableBase from '../../core/ShareableBase'
 
-export default class Board extends Shareable {
+export default class Board extends ShareableBase {
     private container: string
     private renderer: AbstractRenderer;
     constructor(container: string, renderer: AbstractRenderer) {

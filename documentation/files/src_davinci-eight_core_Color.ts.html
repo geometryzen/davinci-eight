@@ -38,7 +38,11 @@
                 
                         <div id="api-tabview-panel">
                             <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/AbstractColor.html">AbstractColor</a></li>
+                                <li><a href="../classes/AbstractDrawable.html">AbstractDrawable</a></li>
+                                <li><a href="../classes/AbstractMaterial.html">AbstractMaterial</a></li>
                                 <li><a href="../classes/AbstractMatrix.html">AbstractMatrix</a></li>
+                                <li><a href="../classes/AbstractMesh.html">AbstractMesh</a></li>
                                 <li><a href="../classes/AmbientLight.html">AmbientLight</a></li>
                                 <li><a href="../classes/Approximation.html">Approximation</a></li>
                                 <li><a href="../classes/Arrow.html">Arrow</a></li>
@@ -50,7 +54,6 @@
                                 <li><a href="../classes/Attribute.html">Attribute</a></li>
                                 <li><a href="../classes/AxialPrimitivesBuilder.html">AxialPrimitivesBuilder</a></li>
                                 <li><a href="../classes/BlendFactor.html">BlendFactor</a></li>
-                                <li><a href="../classes/BootstrapOptions.html">BootstrapOptions</a></li>
                                 <li><a href="../classes/Box.html">Box</a></li>
                                 <li><a href="../classes/BoxGeometry.html">BoxGeometry</a></li>
                                 <li><a href="../classes/BoxGeometryOptions.html">BoxGeometryOptions</a></li>
@@ -64,6 +67,9 @@
                                 <li><a href="../classes/ConeTransform.html">ConeTransform</a></li>
                                 <li><a href="../classes/ConicalShellBuilder.html">ConicalShellBuilder</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
+                                <li><a href="../classes/ContextConsumer.html">ContextConsumer</a></li>
+                                <li><a href="../classes/ContextProgramConsumer.html">ContextProgramConsumer</a></li>
+                                <li><a href="../classes/ContextProvider.html">ContextProvider</a></li>
                                 <li><a href="../classes/Coords.html">Coords</a></li>
                                 <li><a href="../classes/CoordsTransform1D.html">CoordsTransform1D</a></li>
                                 <li><a href="../classes/CoordsTransform2D.html">CoordsTransform2D</a></li>
@@ -114,21 +120,11 @@
                                 <li><a href="../classes/GridPrimitive.html">GridPrimitive</a></li>
                                 <li><a href="../classes/GridTriangleStrip.html">GridTriangleStrip</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
-                                <li><a href="../classes/IColor.html">IColor</a></li>
-                                <li><a href="../classes/IContextConsumer.html">IContextConsumer</a></li>
-                                <li><a href="../classes/IContextListener.html">IContextListener</a></li>
-                                <li><a href="../classes/IContextProgramConsumer.html">IContextProgramConsumer</a></li>
-                                <li><a href="../classes/IContextProvider.html">IContextProvider</a></li>
-                                <li><a href="../classes/IDrawable.html">IDrawable</a></li>
-                                <li><a href="../classes/IGeometric3RigidBody.html">IGeometric3RigidBody</a></li>
-                                <li><a href="../classes/IMesh.html">IMesh</a></li>
-                                <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
                                 <li><a href="../classes/LineMaterialOptions.html">LineMaterialOptions</a></li>
                                 <li><a href="../classes/LinePoints.html">LinePoints</a></li>
                                 <li><a href="../classes/LineStrip.html">LineStrip</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
-                                <li><a href="../classes/MaterialBase.html">MaterialBase</a></li>
                                 <li><a href="../classes/Matrix2.html">Matrix2</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
                                 <li><a href="../classes/Matrix4.html">Matrix4</a></li>
@@ -165,7 +161,8 @@
                                 <li><a href="../classes/Scene.html">Scene</a></li>
                                 <li><a href="../classes/Shareable.html">Shareable</a></li>
                                 <li><a href="../classes/ShareableArray.html">ShareableArray</a></li>
-                                <li><a href="../classes/ShareableContextListener.html">ShareableContextListener</a></li>
+                                <li><a href="../classes/ShareableBase.html">ShareableBase</a></li>
+                                <li><a href="../classes/ShareableContextConsumer.html">ShareableContextConsumer</a></li>
                                 <li><a href="../classes/ShareableWebGLBuffer.html">ShareableWebGLBuffer</a></li>
                                 <li><a href="../classes/ShareableWebGLShader.html">ShareableWebGLShader</a></li>
                                 <li><a href="../classes/ShareableWebGLTexture.html">ShareableWebGLTexture</a></li>
@@ -269,7 +266,7 @@ import ColumnVector from &#x27;../math/ColumnVector&#x27;
 import Coords from &#x27;../math/Coords&#x27;
 import core from &#x27;../core&#x27;
 import ErrorMode from &#x27;../core/ErrorMode&#x27;
-import IColor from &#x27;./IColor&#x27;
+import AbstractColor from &#x27;./AbstractColor&#x27;
 import isDefined from &#x27;../checks/isDefined&#x27;
 import Matrix3 from &#x27;../math/Matrix3&#x27;
 import MutableLinearElement from &#x27;../math/MutableLinearElement&#x27;
@@ -302,9 +299,9 @@ const COORD_B = 2
  *
  * @class Color
  * @extends Coords
- * @implements IColor
+ * @implements AbstractColor
  */
-export default class Color extends Coords implements IColor, ColumnVector&lt;Matrix3, Color&gt;, MutableLinearElement&lt;IColor, Color, SpinorE3, IColor&gt; {
+export default class Color extends Coords implements AbstractColor, ColumnVector&lt;Matrix3, Color&gt;, MutableLinearElement&lt;AbstractColor, Color, SpinorE3, AbstractColor&gt; {
 
   /**
    * @property black
@@ -422,11 +419,11 @@ export default class Color extends Coords implements IColor, ColumnVector&lt;Mat
     this.coords[COORD_B] = clamp(b, 0, 1)
   }
 
-  public add(rhs: IColor): Color {
+  public add(rhs: AbstractColor): Color {
     return this
   }
 
-  public add2(a: IColor, b: IColor): Color {
+  public add2(a: AbstractColor, b: AbstractColor): Color {
     return this
   }
 
@@ -456,11 +453,11 @@ export default class Color extends Coords implements IColor, ColumnVector&lt;Mat
 
   /**
    * @method copy
-   * @param color {IColor}
+   * @param color {AbstractColor}
    * @return {Color}
    * @chainable
    */
-  public copy(color: IColor): Color {
+  public copy(color: AbstractColor): Color {
     if (isDefined(color)) {
       this.r = color.r
       this.g = color.g
@@ -481,12 +478,12 @@ export default class Color extends Coords implements IColor, ColumnVector&lt;Mat
 
   /**
    * @method lerp
-   * @param target {IColor}
+   * @param target {AbstractColor}
    * @param α {number}
    * @return {Color}
    * @chainable
    */
-  public lerp(target: IColor, α: number): Color {
+  public lerp(target: AbstractColor, α: number): Color {
     this.r += (target.r - this.r) * α
     this.g += (target.g - this.g) * α
     this.b += (target.b - this.b) * α
@@ -506,7 +503,7 @@ export default class Color extends Coords implements IColor, ColumnVector&lt;Mat
     return this
   }
 
-  public reflect(n: IColor): Color {
+  public reflect(n: AbstractColor): Color {
     return this
   }
 
@@ -518,19 +515,19 @@ export default class Color extends Coords implements IColor, ColumnVector&lt;Mat
     return this
   }
 
-  public slerp(target: IColor, α: number): Color {
+  public slerp(target: AbstractColor, α: number): Color {
     return this
   }
 
-  public stress(σ: IColor): Color {
+  public stress(σ: AbstractColor): Color {
     return this
   }
 
-  public sub(rhs: IColor): Color {
+  public sub(rhs: AbstractColor): Color {
     return this
   }
 
-  public sub2(a: IColor, b: IColor): Color {
+  public sub2(a: AbstractColor, b: AbstractColor): Color {
     return this
   }
 
@@ -557,12 +554,12 @@ export default class Color extends Coords implements IColor, ColumnVector&lt;Mat
 
   /**
    * @method copy
-   * @param color {IColor}
+   * @param color {AbstractColor}
    * @return {Color}
    * @static
    * @chainable
    */
-  public static copy(color: IColor): Color {
+  public static copy(color: AbstractColor): Color {
     return new Color(color.r, color.g, color.b)
   }
 
@@ -675,14 +672,14 @@ export default class Color extends Coords implements IColor, ColumnVector&lt;Mat
 
   /**
    * @method lerp
-   * @param a {IColor}
-   * @param b {IColor}
+   * @param a {AbstractColor}
+   * @param b {AbstractColor}
    * @param α {number}
    * @return {Color}
    * @static
    * @chainable
    */
-  public static lerp(a: IColor, b: IColor, α: number): Color {
+  public static lerp(a: AbstractColor, b: AbstractColor, α: number): Color {
     return Color.copy(a).lerp(b, clamp(α, 0, 1))
   }
 

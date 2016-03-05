@@ -1,8 +1,8 @@
-import IContextProvider from './IContextProvider';
+import ContextProvider from './ContextProvider';
 import mustBeBoolean from '../checks/mustBeBoolean';
 import mustBeObject from '../checks/mustBeObject';
 import mustBeUndefined from '../checks/mustBeUndefined';
-import ShareableContextListener from './ShareableContextListener';
+import ShareableContextConsumer from './ShareableContextConsumer';
 
 /**
  * @module EIGHT
@@ -11,9 +11,9 @@ import ShareableContextListener from './ShareableContextListener';
 
 /**
  * @class ShareableWebGLBuffer
- * @extends Shareable
+ * @extends ShareableBase
  */
-export default class ShareableWebGLBuffer extends ShareableContextListener {
+export default class ShareableWebGLBuffer extends ShareableContextConsumer {
 
     /**
      * @property _buffer
@@ -40,7 +40,7 @@ export default class ShareableWebGLBuffer extends ShareableContextListener {
     /**
      * @class ShareableWebGLBuffer
      * @constructor
-     * @param manager {IContextProvider}
+     * @param manager {ContextProvider}
      * @param isElements {boolean}
      */
     constructor(isElements: boolean) {
@@ -60,7 +60,7 @@ export default class ShareableWebGLBuffer extends ShareableContextListener {
         mustBeUndefined(this._type, this._buffer)
     }
 
-    contextFree(context: IContextProvider): void {
+    contextFree(context: ContextProvider): void {
         mustBeObject('context', context)
         if (this._buffer) {
             const gl = context.gl
@@ -79,7 +79,7 @@ export default class ShareableWebGLBuffer extends ShareableContextListener {
         super.contextFree(context)
     }
 
-    contextGain(context: IContextProvider): void {
+    contextGain(context: ContextProvider): void {
         mustBeObject('context', context)
         const gl = context.gl
         if (!this._buffer) {

@@ -1,11 +1,11 @@
-import IUnknown from '../core/IUnknown';
 import Shareable from '../core/Shareable';
+import ShareableBase from '../core/ShareableBase';
 
 /**
  * Essentially constructs the ShareableArray without incrementing the
  * reference count of the elements, and without creating zombies.
  */
-function transferOwnership<T extends IUnknown>(data: T[]): ShareableArray<T> {
+function transferOwnership<T extends Shareable>(data: T[]): ShareableArray<T> {
     if (data) {
         var result = new ShareableArray<T>(data)
         // The result has now taken ownership of the elements, so we can release.
@@ -24,9 +24,9 @@ function transferOwnership<T extends IUnknown>(data: T[]): ShareableArray<T> {
 
 /**
  * @class ShareableArray
- * @extends Shareable
+ * @extends ShareableBase
  */
-export default class ShareableArray<T extends IUnknown> extends Shareable {
+export default class ShareableArray<T extends Shareable> extends ShareableBase {
     /**
      * @property _elements
      * @type {T[]}
@@ -34,7 +34,7 @@ export default class ShareableArray<T extends IUnknown> extends Shareable {
      */
     private _elements: T[];
     /**
-     * Collection class for maintaining an array of types derived from IUnknown.
+     * Collection class for maintaining an array of types derived from Shareable.
      * Provides a safer way to maintain reference counts than a native array.
      * @class ShareableArray
      * @constructor

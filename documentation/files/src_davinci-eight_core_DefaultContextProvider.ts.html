@@ -38,7 +38,11 @@
                 
                         <div id="api-tabview-panel">
                             <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/AbstractColor.html">AbstractColor</a></li>
+                                <li><a href="../classes/AbstractDrawable.html">AbstractDrawable</a></li>
+                                <li><a href="../classes/AbstractMaterial.html">AbstractMaterial</a></li>
                                 <li><a href="../classes/AbstractMatrix.html">AbstractMatrix</a></li>
+                                <li><a href="../classes/AbstractMesh.html">AbstractMesh</a></li>
                                 <li><a href="../classes/AmbientLight.html">AmbientLight</a></li>
                                 <li><a href="../classes/Approximation.html">Approximation</a></li>
                                 <li><a href="../classes/Arrow.html">Arrow</a></li>
@@ -50,7 +54,6 @@
                                 <li><a href="../classes/Attribute.html">Attribute</a></li>
                                 <li><a href="../classes/AxialPrimitivesBuilder.html">AxialPrimitivesBuilder</a></li>
                                 <li><a href="../classes/BlendFactor.html">BlendFactor</a></li>
-                                <li><a href="../classes/BootstrapOptions.html">BootstrapOptions</a></li>
                                 <li><a href="../classes/Box.html">Box</a></li>
                                 <li><a href="../classes/BoxGeometry.html">BoxGeometry</a></li>
                                 <li><a href="../classes/BoxGeometryOptions.html">BoxGeometryOptions</a></li>
@@ -64,6 +67,9 @@
                                 <li><a href="../classes/ConeTransform.html">ConeTransform</a></li>
                                 <li><a href="../classes/ConicalShellBuilder.html">ConicalShellBuilder</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
+                                <li><a href="../classes/ContextConsumer.html">ContextConsumer</a></li>
+                                <li><a href="../classes/ContextProgramConsumer.html">ContextProgramConsumer</a></li>
+                                <li><a href="../classes/ContextProvider.html">ContextProvider</a></li>
                                 <li><a href="../classes/Coords.html">Coords</a></li>
                                 <li><a href="../classes/CoordsTransform1D.html">CoordsTransform1D</a></li>
                                 <li><a href="../classes/CoordsTransform2D.html">CoordsTransform2D</a></li>
@@ -114,21 +120,11 @@
                                 <li><a href="../classes/GridPrimitive.html">GridPrimitive</a></li>
                                 <li><a href="../classes/GridTriangleStrip.html">GridTriangleStrip</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
-                                <li><a href="../classes/IColor.html">IColor</a></li>
-                                <li><a href="../classes/IContextConsumer.html">IContextConsumer</a></li>
-                                <li><a href="../classes/IContextListener.html">IContextListener</a></li>
-                                <li><a href="../classes/IContextProgramConsumer.html">IContextProgramConsumer</a></li>
-                                <li><a href="../classes/IContextProvider.html">IContextProvider</a></li>
-                                <li><a href="../classes/IDrawable.html">IDrawable</a></li>
-                                <li><a href="../classes/IGeometric3RigidBody.html">IGeometric3RigidBody</a></li>
-                                <li><a href="../classes/IMesh.html">IMesh</a></li>
-                                <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
                                 <li><a href="../classes/LineMaterialOptions.html">LineMaterialOptions</a></li>
                                 <li><a href="../classes/LinePoints.html">LinePoints</a></li>
                                 <li><a href="../classes/LineStrip.html">LineStrip</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
-                                <li><a href="../classes/MaterialBase.html">MaterialBase</a></li>
                                 <li><a href="../classes/Matrix2.html">Matrix2</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
                                 <li><a href="../classes/Matrix4.html">Matrix4</a></li>
@@ -165,7 +161,8 @@
                                 <li><a href="../classes/Scene.html">Scene</a></li>
                                 <li><a href="../classes/Shareable.html">Shareable</a></li>
                                 <li><a href="../classes/ShareableArray.html">ShareableArray</a></li>
-                                <li><a href="../classes/ShareableContextListener.html">ShareableContextListener</a></li>
+                                <li><a href="../classes/ShareableBase.html">ShareableBase</a></li>
+                                <li><a href="../classes/ShareableContextConsumer.html">ShareableContextConsumer</a></li>
                                 <li><a href="../classes/ShareableWebGLBuffer.html">ShareableWebGLBuffer</a></li>
                                 <li><a href="../classes/ShareableWebGLShader.html">ShareableWebGLShader</a></li>
                                 <li><a href="../classes/ShareableWebGLTexture.html">ShareableWebGLTexture</a></li>
@@ -264,15 +261,15 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import IContextProvider from &#x27;./IContextProvider&#x27;;
+import ContextProvider from &#x27;./ContextProvider&#x27;;
 import readOnly from &#x27;../i18n/readOnly&#x27;;
-import Shareable from &#x27;./Shareable&#x27;;
+import ShareableBase from &#x27;./ShareableBase&#x27;;
 import Engine from &#x27;./Engine&#x27;;
 
 /**
  * Intentionally undocumented.
  */
-export default class DefaultContextProvider extends Shareable implements IContextProvider {
+export default class DefaultContextProvider extends ShareableBase implements ContextProvider {
 
   private _renderer: Engine
 

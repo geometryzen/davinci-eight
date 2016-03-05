@@ -1,4 +1,4 @@
-import IContextProgramConsumer from  '../core/IContextProgramConsumer';
+import ContextProgramConsumer from  '../core/ContextProgramConsumer';
 import readOnly from  '../i18n/readOnly';
 
 /**
@@ -6,7 +6,7 @@ import readOnly from  '../i18n/readOnly';
  * @submodule core
  * @class AttribLocation
  */
-export default class AttribLocation implements IContextProgramConsumer {
+export default class AttribLocation implements ContextProgramConsumer {
 
     /**
      * The name of the attribute in the GLSL program.

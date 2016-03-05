@@ -1,15 +1,15 @@
 import core from '../core';
-import IContextProvider from '../core/IContextProvider';
-import Shareable from '../core/Shareable';
+import ContextProvider from '../core/ContextProvider';
+import ShareableBase from '../core/ShareableBase';
 
 /**
  * <p>
  * Displays details about EIGHT to the console.
  * <p> 
  * @class EIGHTLogger
- * @extends Shareable
+ * @extends ShareableBase
  */
-export default class EIGHTLogger extends Shareable {
+export default class EIGHTLogger extends ShareableBase {
     /**
      * <p>
      * Initializes <b>the</b> `type` property to 'EIGHTLogger'.
@@ -20,7 +20,7 @@ export default class EIGHTLogger extends Shareable {
     constructor() {
         super('EIGHTLogger');
     }
-    contextFree(manager: IContextProvider): void {
+    contextFree(manager: ContextProvider): void {
         // Do nothing.
     }
     /**
@@ -28,7 +28,7 @@ export default class EIGHTLogger extends Shareable {
      * @method execute
      * @param unused WebGLRenderingContext
      */
-    contextGain(manager: IContextProvider): void {
+    contextGain(manager: ContextProvider): void {
         console.log(`${core.NAMESPACE} ${core.VERSION} (${core.GITHUB}) ${core.LAST_MODIFIED}`);
     }
     contextLost(): void {

@@ -1,7 +1,7 @@
 import VectorE2 from '../../math/VectorE2';
 import IAnimation from '../../slideshow/IAnimation';
 import IAnimationTarget from '../../slideshow/IAnimationTarget';
-import Shareable from '../../core/Shareable';
+import ShareableBase from '../../core/ShareableBase';
 import Vector2 from '../../math/Vector2';
 
 function loop(n: number, callback: (i: number) => void) {
@@ -10,7 +10,7 @@ function loop(n: number, callback: (i: number) => void) {
     }
 }
 
-export default class Vector2Animation extends Shareable implements IAnimation {
+export default class Vector2Animation extends ShareableBase implements IAnimation {
     private from: Vector2;
     private to: Vector2;
     private duration: number;

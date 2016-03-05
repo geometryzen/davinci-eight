@@ -141,11 +141,47 @@
             "fors": {},
             "namespaces": {}
         },
-        "src/davinci-eight/core/AttribLocation.ts": {
-            "name": "src/davinci-eight/core/AttribLocation.ts",
+        "src/davinci-eight/core/AbstractColor.ts": {
+            "name": "src/davinci-eight/core/AbstractColor.ts",
             "modules": {
                 "core": 1
             },
+            "classes": {
+                "AbstractColor": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/core/AbstractDrawable.ts": {
+            "name": "src/davinci-eight/core/AbstractDrawable.ts",
+            "modules": {},
+            "classes": {
+                "AbstractDrawable": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/core/AbstractMaterial.ts": {
+            "name": "src/davinci-eight/core/AbstractMaterial.ts",
+            "modules": {},
+            "classes": {
+                "AbstractMaterial": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/core/AbstractMesh.ts": {
+            "name": "src/davinci-eight/core/AbstractMesh.ts",
+            "modules": {},
+            "classes": {
+                "AbstractMesh": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/core/AttribLocation.ts": {
+            "name": "src/davinci-eight/core/AttribLocation.ts",
+            "modules": {},
             "classes": {
                 "AttribLocation": 1
             },
@@ -175,6 +211,33 @@
             "modules": {},
             "classes": {
                 "Color": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/core/ContextConsumer.ts": {
+            "name": "src/davinci-eight/core/ContextConsumer.ts",
+            "modules": {},
+            "classes": {
+                "ContextConsumer": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/core/ContextProgramConsumer.ts": {
+            "name": "src/davinci-eight/core/ContextProgramConsumer.ts",
+            "modules": {},
+            "classes": {
+                "ContextProgramConsumer": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/core/ContextProvider.ts": {
+            "name": "src/davinci-eight/core/ContextProvider.ts",
+            "modules": {},
+            "classes": {
+                "ContextProvider": 1
             },
             "fors": {},
             "namespaces": {}
@@ -283,87 +346,6 @@
             "fors": {},
             "namespaces": {}
         },
-        "src/davinci-eight/core/IColor.ts": {
-            "name": "src/davinci-eight/core/IColor.ts",
-            "modules": {},
-            "classes": {
-                "IColor": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
-        "src/davinci-eight/core/IContextConsumer.ts": {
-            "name": "src/davinci-eight/core/IContextConsumer.ts",
-            "modules": {},
-            "classes": {
-                "IContextConsumer": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
-        "src/davinci-eight/core/IContextListener.ts": {
-            "name": "src/davinci-eight/core/IContextListener.ts",
-            "modules": {},
-            "classes": {
-                "IContextListener": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
-        "src/davinci-eight/core/IContextProgramConsumer.ts": {
-            "name": "src/davinci-eight/core/IContextProgramConsumer.ts",
-            "modules": {},
-            "classes": {
-                "IContextProgramConsumer": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
-        "src/davinci-eight/core/IContextProvider.ts": {
-            "name": "src/davinci-eight/core/IContextProvider.ts",
-            "modules": {},
-            "classes": {
-                "IContextProvider": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
-        "src/davinci-eight/core/IDrawable.ts": {
-            "name": "src/davinci-eight/core/IDrawable.ts",
-            "modules": {},
-            "classes": {
-                "IDrawable": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
-        "src/davinci-eight/core/IMesh.ts": {
-            "name": "src/davinci-eight/core/IMesh.ts",
-            "modules": {},
-            "classes": {
-                "IMesh": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
-        "src/davinci-eight/core/IUnknown.ts": {
-            "name": "src/davinci-eight/core/IUnknown.ts",
-            "modules": {},
-            "classes": {
-                "IUnknown": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
-        "src/davinci-eight/core/Material.ts": {
-            "name": "src/davinci-eight/core/Material.ts",
-            "modules": {},
-            "classes": {
-                "Material": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
         "src/davinci-eight/core/Mesh.ts": {
             "name": "src/davinci-eight/core/Mesh.ts",
             "modules": {},
@@ -409,11 +391,20 @@
             "fors": {},
             "namespaces": {}
         },
-        "src/davinci-eight/core/ShareableContextListener.ts": {
-            "name": "src/davinci-eight/core/ShareableContextListener.ts",
+        "src/davinci-eight/core/ShareableBase.ts": {
+            "name": "src/davinci-eight/core/ShareableBase.ts",
             "modules": {},
             "classes": {
-                "ShareableContextListener": 1
+                "ShareableBase": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/core/ShareableContextConsumer.ts": {
+            "name": "src/davinci-eight/core/ShareableContextConsumer.ts",
+            "modules": {},
+            "classes": {
+                "ShareableContextConsumer": 1
             },
             "fors": {},
             "namespaces": {}
@@ -1299,11 +1290,11 @@
             "fors": {},
             "namespaces": {}
         },
-        "src/davinci-eight/materials/MaterialBase.ts": {
-            "name": "src/davinci-eight/materials/MaterialBase.ts",
+        "src/davinci-eight/materials/Material.ts": {
+            "name": "src/davinci-eight/materials/Material.ts",
             "modules": {},
             "classes": {
-                "MaterialBase": 1
+                "Material": 1
             },
             "fors": {},
             "namespaces": {}
@@ -1984,9 +1975,7 @@
         "src/davinci-eight/visual/BootstrapOptions.ts": {
             "name": "src/davinci-eight/visual/BootstrapOptions.ts",
             "modules": {},
-            "classes": {
-                "BootstrapOptions": 1
-            },
+            "classes": {},
             "fors": {},
             "namespaces": {}
         },
@@ -2081,9 +2070,7 @@
         "src/davinci-eight/visual/IGeometric3RigidBody.ts": {
             "name": "src/davinci-eight/visual/IGeometric3RigidBody.ts",
             "modules": {},
-            "classes": {
-                "IGeometric3RigidBody": 1
-            },
+            "classes": {},
             "fors": {},
             "namespaces": {}
         },
@@ -2217,10 +2204,17 @@
                 "WebGLEnable": 1,
                 "CameraControls": 1,
                 "MouseControls": 1,
+                "AbstractColor": 1,
+                "AbstractDrawable": 1,
+                "AbstractMaterial": 1,
+                "AbstractMesh": 1,
                 "AttribLocation": 1,
                 "AttribMetaInfo": 1,
                 "Attribute": 1,
                 "Color": 1,
+                "ContextConsumer": 1,
+                "ContextProgramConsumer": 1,
+                "ContextProvider": 1,
                 "DrawMode": 1,
                 "Drawable": 1,
                 "Engine": 1,
@@ -2231,21 +2225,13 @@
                 "GeometryBuffers": 1,
                 "GeometryContainer": 1,
                 "GraphicsProgramSymbols": 1,
-                "IColor": 1,
-                "IContextConsumer": 1,
-                "IContextListener": 1,
-                "IContextProgramConsumer": 1,
-                "IContextProvider": 1,
-                "IDrawable": 1,
-                "IMesh": 1,
-                "IUnknown": 1,
-                "Material": 1,
                 "Mesh": 1,
                 "Primitive": 1,
                 "PrimitiveBuffers": 1,
                 "Scene": 1,
                 "Shareable": 1,
-                "ShareableContextListener": 1,
+                "ShareableBase": 1,
+                "ShareableContextConsumer": 1,
                 "ShareableWebGLBuffer": 1,
                 "ShareableWebGLShader": 1,
                 "ShareableWebGLTexture": 1,
@@ -2315,7 +2301,7 @@
                 "HTMLScriptsMaterial": 1,
                 "LineMaterial": 1,
                 "LineMaterialOptions": 1,
-                "MaterialBase": 1,
+                "Material": 1,
                 "MeshMaterial": 1,
                 "MeshMaterialOptions": 1,
                 "MeshNormalMaterial": 1,
@@ -2360,7 +2346,6 @@
                 "VectorN": 1,
                 "Arrow": 1,
                 "ArrowOptions": 1,
-                "BootstrapOptions": 1,
                 "Box": 1,
                 "BoxOptions": 1,
                 "CommonOptions": 1,
@@ -2370,7 +2355,6 @@
                 "CylinderOptions": 1,
                 "Grid": 1,
                 "GridOptions": 1,
-                "IGeometric3RigidBody": 1,
                 "RigidBody": 1,
                 "RigidBodyWithUnits": 1,
                 "Sphere": 1,
@@ -2407,10 +2391,14 @@
             "submodules": {},
             "elements": {},
             "classes": {
+                "AbstractColor": 1,
                 "AttribLocation": 1,
                 "AttribMetaInfo": 1,
                 "Attribute": 1,
                 "Color": 1,
+                "ContextConsumer": 1,
+                "ContextProgramConsumer": 1,
+                "ContextProvider": 1,
                 "DrawMode": 1,
                 "Drawable": 1,
                 "Engine": 1,
@@ -2420,18 +2408,13 @@
                 "GeometryBuffers": 1,
                 "GeometryContainer": 1,
                 "GraphicsProgramSymbols": 1,
-                "IColor": 1,
-                "IContextConsumer": 1,
-                "IContextListener": 1,
-                "IContextProgramConsumer": 1,
-                "IContextProvider": 1,
-                "IUnknown": 1,
                 "Mesh": 1,
                 "Primitive": 1,
                 "PrimitiveBuffers": 1,
                 "Scene": 1,
                 "Shareable": 1,
-                "ShareableContextListener": 1,
+                "ShareableBase": 1,
+                "ShareableContextConsumer": 1,
                 "ShareableWebGLBuffer": 1,
                 "ShareableWebGLShader": 1,
                 "ShareableWebGLTexture": 1,
@@ -2445,8 +2428,8 @@
             "namespace": "",
             "file": "src/davinci-eight/core/UniformMetaInfo.ts",
             "line": 1,
-            "description": "Fundamental abstractions in the architecture.",
-            "extends": "IContextConsumer"
+            "extends": "Shareable",
+            "description": "Fundamental abstractions in the architecture."
         },
         "facets": {
             "name": "facets",
@@ -2524,7 +2507,7 @@
             "classes": {
                 "HTMLScriptsMaterial": 1,
                 "LineMaterial": 1,
-                "MaterialBase": 1,
+                "Material": 1,
                 "MeshMaterial": 1,
                 "MeshNormalMaterial": 1,
                 "PointMaterial": 1
@@ -2579,7 +2562,6 @@
             "classes": {
                 "Arrow": 1,
                 "ArrowOptions": 1,
-                "BootstrapOptions": 1,
                 "Box": 1,
                 "BoxOptions": 1,
                 "CommonOptions": 1,
@@ -2589,7 +2571,6 @@
                 "CylinderOptions": 1,
                 "Grid": 1,
                 "GridOptions": 1,
-                "IGeometric3RigidBody": 1,
                 "RigidBody": 1,
                 "RigidBodyWithUnits": 1,
                 "Sphere": 1,
@@ -2621,7 +2602,7 @@
             "module": "EIGHT",
             "file": "src/davinci-eight/collections/NumberIUnknownMap.ts",
             "line": 16,
-            "extends": "Shareable",
+            "extends": "ShareableBase",
             "is_constructor": 1
         },
         "ShareableArray": {
@@ -2635,8 +2616,8 @@
             "module": "EIGHT",
             "file": "src/davinci-eight/collections/ShareableArray.ts",
             "line": 36,
-            "extends": "Shareable",
-            "description": "Collection class for maintaining an array of types derived from IUnknown.\nProvides a safer way to maintain reference counts than a native array.",
+            "extends": "ShareableBase",
+            "description": "Collection class for maintaining an array of types derived from Shareable.\nProvides a safer way to maintain reference counts than a native array.",
             "is_constructor": 1
         },
         "StringIUnknownMap": {
@@ -2650,8 +2631,8 @@
             "module": "EIGHT",
             "file": "src/davinci-eight/collections/StringIUnknownMap.ts",
             "line": 14,
-            "extends": "Shareable",
-            "description": "<p>\nA map of <code>string</code> to <code>V extends IUnknown</code>.\n</p>",
+            "extends": "ShareableBase",
+            "description": "<p>\nA map of <code>string</code> to <code>V extends Shareable</code>.\n</p>",
             "is_constructor": 1
         },
         "BlendFactor": {
@@ -2692,7 +2673,7 @@
             "file": "src/davinci-eight/commands/ContextAttributesLogger.ts",
             "line": 13,
             "description": "<p>\nDisplays details about the WegGL version to the console.\n<p>",
-            "extends": "Shareable",
+            "extends": "ShareableBase",
             "is_constructor": 1
         },
         "EIGHTLogger": {
@@ -2707,7 +2688,7 @@
             "file": "src/davinci-eight/commands/EIGHTLogger.ts",
             "line": 13,
             "description": "<p>\nInitializes <b>the</b> `type` property to 'EIGHTLogger'.\n</p>",
-            "extends": "Shareable",
+            "extends": "ShareableBase",
             "is_constructor": 1
         },
         "VersionLogger": {
@@ -2721,7 +2702,7 @@
             "module": "EIGHT",
             "file": "src/davinci-eight/commands/VersionLogger.ts",
             "line": 11,
-            "extends": "Shareable",
+            "extends": "ShareableBase",
             "description": "<p>\nDisplays details about the WegGL version to the console.\n</p> \n<p>\nInitializes the <code>type</code> property to <code>'VersionLogger'</code> for reference count tracking.\n</p>",
             "is_constructor": 1
         },
@@ -2736,7 +2717,7 @@
             "module": "EIGHT",
             "file": "src/davinci-eight/commands/WebGLBlendFunc.ts",
             "line": 45,
-            "extends": "Shareable",
+            "extends": "ShareableBase",
             "is_constructor": 1,
             "params": [
                 {
@@ -2763,7 +2744,7 @@
             "file": "src/davinci-eight/commands/WebGLClearColor.ts",
             "line": 18,
             "description": "<p>\nclearColor(red: number, green: number, blue: number, alpha: number): void\n<p>",
-            "extends": "Shareable",
+            "extends": "ShareableBase",
             "is_constructor": 1,
             "params": [
                 {
@@ -2808,8 +2789,8 @@
             "file": "src/davinci-eight/commands/WebGLDisable.ts",
             "line": 18,
             "description": "<p>\ndisable(capability: Capability): void\n<p>",
-            "extends": "Shareable",
-            "implements": "IContextConsumer",
+            "extends": "ShareableBase",
+            "implements": "ContextConsumer",
             "is_constructor": 1,
             "params": [
                 {
@@ -2831,8 +2812,8 @@
             "file": "src/davinci-eight/commands/WebGLEnable.ts",
             "line": 18,
             "description": "<p>\nenable(capability: Capability): void\n<p>",
-            "extends": "Shareable",
-            "implements": "IContextConsumer",
+            "extends": "ShareableBase",
+            "implements": "ContextConsumer",
             "is_constructor": 1,
             "params": [
                 {
@@ -2882,7 +2863,7 @@
             "namespace": "",
             "file": "src/davinci-eight/controls/MouseControls.ts",
             "line": 116,
-            "extends": "Shareable",
+            "extends": "ShareableBase",
             "is_constructor": 1,
             "params": [
                 {
@@ -2891,6 +2872,63 @@
                     "type": "String"
                 }
             ]
+        },
+        "AbstractColor": {
+            "name": "AbstractColor",
+            "shortname": "AbstractColor",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "submodule": "core",
+            "namespace": "",
+            "file": "src/davinci-eight/core/AbstractColor.ts",
+            "line": 6
+        },
+        "AbstractDrawable": {
+            "name": "AbstractDrawable",
+            "shortname": "AbstractDrawable",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/core/AbstractDrawable.ts",
+            "line": 6,
+            "extends": "ContextConsumer"
+        },
+        "AbstractMaterial": {
+            "name": "AbstractMaterial",
+            "shortname": "AbstractMaterial",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/core/AbstractMaterial.ts",
+            "line": 4,
+            "description": "<p>\n<code>AbstractMaterial</code> is an object-oriented wrapper around a <code>WebGLProgram</code>\n<p/>",
+            "extends": "ContextConsumer"
+        },
+        "AbstractMesh": {
+            "name": "AbstractMesh",
+            "shortname": "AbstractMesh",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/core/AbstractMesh.ts",
+            "line": 6,
+            "extends": "AbstractDrawable"
         },
         "AttribLocation": {
             "name": "AttribLocation",
@@ -2958,7 +2996,7 @@
             "line": 106,
             "description": "<p>\nA mutable type representing a color through its RGB components.\n</p>\n<p>\nWARNING: In many object-oriented designs, types representing values are completely immutable.\nIn a graphics library where data changes rapidly and garbage collection might become an issue,\nit is common to use reference types, such as in this design. This mutability can lead to\ndifficult bugs because it is hard to reason about where a color may have changed. \n</p>",
             "extends": "Coords",
-            "implements": "IColor",
+            "implements": "AbstractColor",
             "is_constructor": 1,
             "params": [
                 {
@@ -2977,6 +3015,50 @@
                     "type": "Number"
                 }
             ]
+        },
+        "ContextConsumer": {
+            "name": "ContextConsumer",
+            "shortname": "ContextConsumer",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "submodule": "core",
+            "namespace": "",
+            "file": "src/davinci-eight/core/ContextConsumer.ts",
+            "line": 9,
+            "description": "This interface standardizes the concept of an implementation being dependent upon\na WebGL rendering context. The notification methods for context gain, loss, and free\nallow the implementation to participate in the dynamic and volatile environment\nwhereupon a browser may reset its WebGL rendering contexts.",
+            "extends": "Shareable"
+        },
+        "ContextProgramConsumer": {
+            "name": "ContextProgramConsumer",
+            "shortname": "ContextProgramConsumer",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "submodule": "core",
+            "namespace": "",
+            "file": "src/davinci-eight/core/ContextProgramConsumer.ts",
+            "line": 1
+        },
+        "ContextProvider": {
+            "name": "ContextProvider",
+            "shortname": "ContextProvider",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "submodule": "core",
+            "namespace": "",
+            "file": "src/davinci-eight/core/ContextProvider.ts",
+            "line": 3
         },
         "DrawMode": {
             "name": "DrawMode",
@@ -3005,8 +3087,8 @@
             "submodule": "core",
             "namespace": "",
             "file": "src/davinci-eight/core/Drawable.ts",
-            "line": 54,
-            "extends": "Shareable",
+            "line": 55,
+            "extends": "AbstractDrawable",
             "is_constructor": 1,
             "params": [
                 {
@@ -3022,7 +3104,7 @@
                 {
                     "name": "material",
                     "description": "",
-                    "type": "Material"
+                    "type": "AbstractMaterial"
                 }
             ]
         },
@@ -3042,7 +3124,7 @@
             "example": [
                 "\n    // Anytime before calling the start method...\n    const renderer = new EIGHT.Engine()\n\n    // When the canvas is available, usually in the window.onload function...\n    renderer.start(canvas)\n\n    // At the start of each animation frame, before drawing...\n    renderer.clear()\n\n    // When no longer needed, usually in the window.onunload function...\n    renderer.release()"
             ],
-            "extends": "Shareable",
+            "extends": "ShareableBase",
             "is_constructor": 1,
             "params": [
                 {
@@ -3127,7 +3209,7 @@
             "file": "src/davinci-eight/core/GeometryBuffers.ts",
             "line": 39,
             "description": "A Geometry that supports interleaved vertex buffers.",
-            "extends": "ShareableContextListener",
+            "extends": "ShareableContextConsumer",
             "is_constructor": 1,
             "params": [
                 {
@@ -3151,7 +3233,7 @@
             "file": "src/davinci-eight/core/GeometryContainer.ts",
             "line": 46,
             "description": "A collection of Geometry(s) with functions\nthat reflect the dependency on the WebGL context events.\nThis class is designed to be extended in order to implement the scaling methods.",
-            "extends": "Shareable",
+            "extends": "ShareableBase",
             "is_constructor": 1,
             "params": [
                 {
@@ -3180,135 +3262,6 @@
             "file": "src/davinci-eight/core/GraphicsProgramSymbols.ts",
             "line": 6,
             "description": "<p>\nCanonical variable names, which also act as semantic identifiers for name overrides.\nThese names must be stable to avoid breaking custom vertex and fragment shaders.\n</p>"
-        },
-        "IColor": {
-            "name": "IColor",
-            "shortname": "IColor",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "EIGHT",
-            "submodule": "core",
-            "namespace": "",
-            "file": "src/davinci-eight/core/IColor.ts",
-            "line": 6
-        },
-        "IContextConsumer": {
-            "name": "IContextConsumer",
-            "shortname": "IContextConsumer",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "EIGHT",
-            "submodule": "core",
-            "namespace": "",
-            "file": "src/davinci-eight/core/IContextConsumer.ts",
-            "line": 9,
-            "description": "This interface standardizes the concept of an implementation being dependent upon\na WebGL rendering context. The notification methods for context gain, loss, and free\nallow the implementation to participate in the dynamic and volatile environment\nwhereupon a browser may reset its WebGL rendering contexts.",
-            "extends": "IUnknown"
-        },
-        "IContextListener": {
-            "name": "IContextListener",
-            "shortname": "IContextListener",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "EIGHT",
-            "submodule": "core",
-            "namespace": "",
-            "file": "src/davinci-eight/core/IContextListener.ts",
-            "line": 4
-        },
-        "IContextProgramConsumer": {
-            "name": "IContextProgramConsumer",
-            "shortname": "IContextProgramConsumer",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "EIGHT",
-            "submodule": "core",
-            "namespace": "",
-            "file": "src/davinci-eight/core/IContextProgramConsumer.ts",
-            "line": 1
-        },
-        "IContextProvider": {
-            "name": "IContextProvider",
-            "shortname": "IContextProvider",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "EIGHT",
-            "submodule": "core",
-            "namespace": "",
-            "file": "src/davinci-eight/core/IContextProvider.ts",
-            "line": 3
-        },
-        "IDrawable": {
-            "name": "IDrawable",
-            "shortname": "IDrawable",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "EIGHT",
-            "namespace": "",
-            "file": "src/davinci-eight/core/IDrawable.ts",
-            "line": 6,
-            "extends": "IContextConsumer"
-        },
-        "IMesh": {
-            "name": "IMesh",
-            "shortname": "IMesh",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "EIGHT",
-            "namespace": "",
-            "file": "src/davinci-eight/core/IMesh.ts",
-            "line": 6,
-            "extends": "IDrawable"
-        },
-        "IUnknown": {
-            "name": "IUnknown",
-            "shortname": "IUnknown",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "EIGHT",
-            "submodule": "core",
-            "namespace": "",
-            "file": "src/davinci-eight/core/IUnknown.ts",
-            "line": 1
-        },
-        "Material": {
-            "name": "Material",
-            "shortname": "Material",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "EIGHT",
-            "namespace": "",
-            "file": "src/davinci-eight/core/Material.ts",
-            "line": 4,
-            "description": "<p>\n<code>Material</code> is an object-oriented wrapper around a <code>WebGLProgram</code>\n<p/>",
-            "extends": "IContextConsumer"
         },
         "Mesh": {
             "name": "Mesh",
@@ -3342,7 +3295,7 @@
                 {
                     "name": "material",
                     "description": "",
-                    "type": "Material",
+                    "type": "AbstractMaterial",
                     "optional": true
                 }
             ]
@@ -3374,7 +3327,7 @@
             "namespace": "",
             "file": "src/davinci-eight/core/PrimitiveBuffers.ts",
             "line": 9,
-            "extends": "IUnknown"
+            "extends": "Shareable"
         },
         "Scene": {
             "name": "Scene",
@@ -3389,7 +3342,7 @@
             "namespace": "",
             "file": "src/davinci-eight/core/Scene.ts",
             "line": 111,
-            "extends": "Shareable",
+            "extends": "ShareableBase",
             "description": "<p>\nA <code>Scene</code> is a collection of mesh instances arranged in some order.\nThe precise order is implementation defined.\nThe collection may be traversed for general processing using callback/visitor functions.\n</p>",
             "is_constructor": 1,
             "params": [
@@ -3412,9 +3365,23 @@
             "submodule": "core",
             "namespace": "",
             "file": "src/davinci-eight/core/Shareable.ts",
+            "line": 1
+        },
+        "ShareableBase": {
+            "name": "ShareableBase",
+            "shortname": "ShareableBase",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "submodule": "core",
+            "namespace": "",
+            "file": "src/davinci-eight/core/ShareableBase.ts",
             "line": 16,
-            "description": "<p>\nConvenient base class for derived classes implementing <code>IUnknown</code>.\n</p>",
-            "extends": "IUnknown",
+            "description": "<p>\nConvenient base class for derived classes implementing <code>Shareable</code>.\n</p>",
+            "extends": "Shareable",
             "is_constructor": 1,
             "params": [
                 {
@@ -3424,9 +3391,9 @@
                 }
             ]
         },
-        "ShareableContextListener": {
-            "name": "ShareableContextListener",
-            "shortname": "ShareableContextListener",
+        "ShareableContextConsumer": {
+            "name": "ShareableContextConsumer",
+            "shortname": "ShareableContextConsumer",
             "classitems": [],
             "plugins": [],
             "extensions": [],
@@ -3435,8 +3402,13 @@
             "module": "EIGHT",
             "submodule": "core",
             "namespace": "",
-            "file": "src/davinci-eight/core/ShareableContextListener.ts",
-            "line": 18,
+            "file": "src/davinci-eight/core/ShareableContextConsumer.ts",
+            "line": 53,
+            "description": "<p>\nA base <code>class</class> for <code>ContextConsumer</code>(s).\n</p>\n<p>\nUsing this base <code>class</code> provides a standard and reliable way to\nsubscribe to <code>Engine</code> events.\n</p>",
+            "example": [
+                "\n    class MyContextConsumer extends EIGHT.ShareableContextConsumer {\n      constructor('MyContextConsumer') {\n        // Allocate your own resources here or on-demand.\n      }\n      protected destructor(): void {\n        // Deallocate your own resources here.\n        super.destructor()\n      }\n    }"
+            ],
+            "extends": "ContextConsumer",
             "is_constructor": 1,
             "params": [
                 {
@@ -3459,13 +3431,13 @@
             "namespace": "",
             "file": "src/davinci-eight/core/ShareableWebGLBuffer.ts",
             "line": 40,
-            "extends": "Shareable",
+            "extends": "ShareableBase",
             "is_constructor": 1,
             "params": [
                 {
                     "name": "manager",
                     "description": "",
-                    "type": "IContextProvider"
+                    "type": "ContextProvider"
                 },
                 {
                     "name": "isElements",
@@ -3607,7 +3579,7 @@
                 {
                     "name": "color ",
                     "description": "",
-                    "type": "IColor",
+                    "type": "AbstractColor",
                     "optional": true,
                     "optdefault": " white"
                 }
@@ -3702,7 +3674,7 @@
             "namespace": "",
             "file": "src/davinci-eight/facets/PerspectiveCamera.ts",
             "line": 77,
-            "description": "<p>\nThe <code>PerspectiveCamera</code> provides projection matrix and view matrix uniforms to the\ncurrent <code>Material</code>.\n</p>\n<p>\nThe <code>PerspectiveCamera</code> plays the role of a host in the <em>Visitor</em> pattern.\nThe <code>FacetVistor</code> will normally be a <code>Material</code> implementation. The  accepting\nmethod is called <code>setUniforms</code>.\n<p>",
+            "description": "<p>\nThe <code>PerspectiveCamera</code> provides projection matrix and view matrix uniforms to the\ncurrent <code>AbstractMaterial</code>.\n</p>\n<p>\nThe <code>PerspectiveCamera</code> plays the role of a host in the <em>Visitor</em> pattern.\nThe <code>FacetVistor</code> will normally be a <code>AbstractMaterial</code> implementation. The  accepting\nmethod is called <code>setUniforms</code>.\n<p>",
             "example": [
                 "\n    const ambients: Facet[] = []\n\n    const camera = new EIGHT.PerspectiveCamera()\n    camera.aspect = canvas.clientWidth / canvas.clientHeight\n    camera.position = Vector3.copy(R3.e3)\n    ambients.push(camera)\n\n    scene.draw(ambients)\n\nThe camera is initially positioned at 10 * e3"
             ],
@@ -4935,7 +4907,7 @@
             "example": [
                 "\n    // Replace the material in the drawable with our own custom shaders.\n    const material = new EIGHT.HTMLScriptsMaterial(['vs', 'fs'], document, [])\n    drawable.material = material\n    material.release()"
             ],
-            "extends": "MaterialBase",
+            "extends": "Material",
             "is_constructor": 1,
             "params": [
                 {
@@ -4969,7 +4941,7 @@
             "file": "src/davinci-eight/materials/LineMaterial.ts",
             "line": 72,
             "description": "Generates a WebGLProgram suitable for use with LINES, LINE_STRIP, and LINE_LOOP.\n\n<table>\n<tr>\n<td>attribute</td><td>vec3</td><td>aPosition</td>\n</tr>\n</table>",
-            "extends": "MaterialBase",
+            "extends": "Material",
             "is_constructor": 1,
             "params": [
                 {
@@ -4993,9 +4965,9 @@
             "file": "src/davinci-eight/materials/LineMaterialOptions.ts",
             "line": 1
         },
-        "MaterialBase": {
-            "name": "MaterialBase",
-            "shortname": "MaterialBase",
+        "Material": {
+            "name": "Material",
+            "shortname": "Material",
             "classitems": [],
             "plugins": [],
             "extensions": [],
@@ -5004,9 +4976,9 @@
             "module": "EIGHT",
             "submodule": "materials",
             "namespace": "",
-            "file": "src/davinci-eight/materials/MaterialBase.ts",
+            "file": "src/davinci-eight/materials/Material.ts",
             "line": 74,
-            "extends": "ShareableContextListener",
+            "extends": "ShareableContextConsumer",
             "is_constructor": 1,
             "params": [
                 {
@@ -5044,7 +5016,7 @@
             "namespace": "",
             "file": "src/davinci-eight/materials/MeshMaterial.ts",
             "line": 70,
-            "extends": "MaterialBase",
+            "extends": "Material",
             "is_constructor": 1,
             "params": [
                 {
@@ -5081,7 +5053,7 @@
             "namespace": "",
             "file": "src/davinci-eight/materials/MeshNormalMaterial.ts",
             "line": 43,
-            "extends": "MaterialBase",
+            "extends": "Material",
             "is_constructor": 1
         },
         "PointMaterial": {
@@ -5097,7 +5069,7 @@
             "namespace": "",
             "file": "src/davinci-eight/materials/PointMaterial.ts",
             "line": 65,
-            "extends": "MaterialBase",
+            "extends": "Material",
             "is_constructor": 1,
             "params": [
                 {
@@ -5925,7 +5897,11 @@
             "submodule": "visual",
             "namespace": "",
             "file": "src/davinci-eight/visual/Arrow.ts",
-            "line": 19,
+            "line": 34,
+            "description": "A <code>RigidBody</code> that may be used to represent a vector quantity.",
+            "example": [
+                "\n    // Construct the arrow at any time and add it to the scene.\n    const arrow = new EIGHT.Arrow({color: white})\n    scene.add(arrow)\n\n    // Update the arrow configuration, usually inside the animation function.\n    arrow.position = ...\n    arrow.axis = ...\n    arrow.length = ...\n\n    // Release the arrow when no longer required.\n    arrow.release()"
+            ],
             "extends": "RigidBody",
             "is_constructor": 1,
             "params": [
@@ -5950,20 +5926,6 @@
             "namespace": "",
             "file": "src/davinci-eight/visual/ArrowOptions.ts",
             "line": 9
-        },
-        "BootstrapOptions": {
-            "name": "BootstrapOptions",
-            "shortname": "BootstrapOptions",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "EIGHT",
-            "submodule": "visual",
-            "namespace": "",
-            "file": "src/davinci-eight/visual/BootstrapOptions.ts",
-            "line": 6
         },
         "Box": {
             "name": "Box",
@@ -6133,21 +6095,6 @@
             "file": "src/davinci-eight/visual/GridOptions.ts",
             "line": 10
         },
-        "IGeometric3RigidBody": {
-            "name": "IGeometric3RigidBody",
-            "shortname": "IGeometric3RigidBody",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "EIGHT",
-            "submodule": "visual",
-            "namespace": "",
-            "file": "src/davinci-eight/visual/IGeometric3RigidBody.ts",
-            "line": 11,
-            "extends": "IRigidBody"
-        },
         "RigidBody": {
             "name": "RigidBody",
             "shortname": "RigidBody",
@@ -6191,7 +6138,7 @@
             "file": "src/davinci-eight/visual/RigidBodyWithUnits.ts",
             "line": 52,
             "description": "Provides descriptive variables for translational and rotational motion.\nThis class is intended to be used as a base for bodies in the __visual__ module.",
-            "extends": "Shareable",
+            "extends": "ShareableBase",
             "is_constructor": 1,
             "params": [
                 {
@@ -6301,9 +6248,12 @@
             "submodule": "visual",
             "namespace": "",
             "file": "src/davinci-eight/visual/Trail.ts",
-            "line": 64,
-            "description": "Records the position and attitude history of a Mesh allowing the\nMesh to be drawn in its historical configuration.",
-            "extends": "Shareable",
+            "line": 88,
+            "description": "<p>\nRecords the position and attitude history of a <code>Mesh</code> allowing the\n<code>Mesh</code> to be drawn in multiple historical configurations.\n<p>\n<p>\nThis class is refererce counted because it maintains a reference to a <code>Mesh</code>.\nYou should call the <code>release</code> method when the trail is no longer required.\n</p>",
+            "example": [
+                "\n    // The trail is constructed, at any time, on an existing mesh.\n    const trail = new EIGHT.Trail(mesh)\n\n    // Configure the Trail object, or use the defaults.\n    trail.config.enabled = true\n    trail.config.interval = 30\n    trail.config.retain = 5\n\n    // Take a snapshot of the ball position and attitude, usually each animation frame.\n    trail.snapshot()\n\n    // Draw the trail during the animation frame.\n    trail.draw(ambients)\n\n    // Release the trail when no longer required, usually in the window.onunload function.\n    trail.release()"
+            ],
+            "extends": "ShareableBase",
             "is_constructor": 1,
             "params": [
                 {
@@ -7045,7 +6995,7 @@
                 {
                     "name": "manager",
                     "description": "",
-                    "type": "IContextProvider"
+                    "type": "ContextProvider"
                 }
             ],
             "return": {
@@ -7063,7 +7013,7 @@
                 {
                     "name": "manager",
                     "description": "",
-                    "type": "IContextProvider"
+                    "type": "ContextProvider"
                 }
             ],
             "return": {
@@ -7129,7 +7079,7 @@
                 {
                     "name": "manager",
                     "description": "",
-                    "type": "IContextProvider"
+                    "type": "ContextProvider"
                 }
             ],
             "return": {
@@ -7662,7 +7612,215 @@
             "file": "src/davinci-eight/controls/scrolled.ts",
             "line": 20,
             "description": "A cross-browser compatible, geometric, implementation of scroolX and scrollY.\n\nSee https://developer.mozilla.org/en-US/docs/Web/API/Window/scrollX",
-            "class": "AttribLocation",
+            "class": "AbstractColor",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/core/AbstractColor.ts",
+            "line": 11,
+            "description": "The red component of the color.",
+            "itemtype": "property",
+            "name": "r",
+            "type": "{number}",
+            "class": "AbstractColor",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/AbstractColor.ts",
+            "line": 19,
+            "description": "The green component of the color.",
+            "itemtype": "property",
+            "name": "g",
+            "type": "{number}",
+            "class": "AbstractColor",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/AbstractColor.ts",
+            "line": 27,
+            "description": "The blue component of the color.",
+            "itemtype": "property",
+            "name": "b",
+            "type": "{number}",
+            "class": "AbstractColor",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/AbstractDrawable.ts",
+            "line": 12,
+            "itemtype": "property",
+            "name": "name",
+            "type": "string",
+            "class": "AbstractDrawable",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/core/AbstractDrawable.ts",
+            "line": 18,
+            "description": "<p>\nA shortcut to the <code>material.fragmentShaderSrc</code> property.\n</p>",
+            "itemtype": "property",
+            "name": "fragmentShaderSrc",
+            "type": "string",
+            "class": "AbstractDrawable",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/core/AbstractDrawable.ts",
+            "line": 28,
+            "description": "<p>\nThe <code>Geometry</code> that provides the buffered vertex attributes for this <code>AbstractDrawable</code>.\n</p>\n\n<p>\nGeometry is a shareable WebGL resource and so is reference counted.\nConsequently, accessing the <code>geometry</code> property increments the <code>Geometry</code> instance reference count.\n<em>Be sure to call <code>release()</code> on shareable WebGL resources in order to prevent memory leaks.</em>\n</p>",
+            "itemtype": "property",
+            "name": "geometry",
+            "type": "Geometry",
+            "class": "AbstractDrawable",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/core/AbstractDrawable.ts",
+            "line": 44,
+            "description": "<p>\nThe <code>AbstractMaterial</code> that provides the WebGLProgram for this <code>AbstractDrawable</code>.\n</p>\n\n<p>\nAbstractMaterial is a shareable WebGL resource and so is reference counted.\nConsequently, accessing the <code>material</code> property increments the <code>AbstractMaterial</code> instance reference count.\n<em>Be sure to call <code>release()</code> on shareable WebGL resources in order to prevent memory leaks.</em>\n</p>",
+            "itemtype": "property",
+            "name": "material",
+            "type": "AbstractMaterial",
+            "class": "AbstractDrawable",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/core/AbstractDrawable.ts",
+            "line": 60,
+            "description": "<p>\nA shortcut to the <code>material.vertexShaderSrc</code> property.\n</p>",
+            "itemtype": "property",
+            "name": "vertexShaderSrc",
+            "type": "string",
+            "class": "AbstractDrawable",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/core/AbstractDrawable.ts",
+            "line": 70,
+            "description": "Determines whether this <code>AbstractDrawable</code> will be drawn.",
+            "itemtype": "property",
+            "name": "visible",
+            "type": "boolean",
+            "class": "AbstractDrawable",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/core/AbstractDrawable.ts",
+            "line": 78,
+            "itemtype": "method",
+            "name": "draw",
+            "params": [
+                {
+                    "name": "ambients",
+                    "description": "",
+                    "type": "Facet[]"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "AbstractDrawable",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/core/AbstractDrawable.ts",
+            "line": 85,
+            "itemtype": "method",
+            "name": "setUniforms",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "AbstractDrawable",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/core/AbstractMaterial.ts",
+            "line": 15,
+            "itemtype": "property",
+            "name": "vertexShaderSrc",
+            "type": "string",
+            "class": "AbstractMaterial",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/core/AbstractMaterial.ts",
+            "line": 21,
+            "itemtype": "property",
+            "name": "fragmentShaderSrc",
+            "type": "string",
+            "class": "AbstractMaterial",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/core/AbstractMaterial.ts",
+            "line": 27,
+            "itemtype": "method",
+            "name": "getAttribLocation",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "class": "AbstractMaterial",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/core/AbstractMaterial.ts",
+            "line": 34,
+            "itemtype": "method",
+            "name": "use",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "AbstractMaterial",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/core/AbstractMesh.ts",
+            "line": 12,
+            "itemtype": "property",
+            "name": "attitude",
+            "type": "Geometric3",
+            "class": "AbstractMesh",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/core/AbstractMesh.ts",
+            "line": 18,
+            "itemtype": "property",
+            "name": "color",
+            "type": "Color",
+            "class": "AbstractMesh",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/core/AbstractMesh.ts",
+            "line": 24,
+            "itemtype": "property",
+            "name": "position",
+            "type": "Geometric3",
+            "class": "AbstractMesh",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/core/AbstractMesh.ts",
+            "line": 30,
+            "itemtype": "property",
+            "name": "stress",
+            "type": "Matrix4",
+            "class": "AbstractMesh",
             "module": "EIGHT"
         },
         {
@@ -8084,7 +8242,7 @@
                 {
                     "name": "color",
                     "description": "",
-                    "type": "IColor"
+                    "type": "AbstractColor"
                 }
             ],
             "return": {
@@ -8105,7 +8263,7 @@
                 {
                     "name": "target",
                     "description": "",
-                    "type": "IColor"
+                    "type": "AbstractColor"
                 },
                 {
                     "name": "α",
@@ -8155,7 +8313,7 @@
                 {
                     "name": "color",
                     "description": "",
-                    "type": "IColor"
+                    "type": "AbstractColor"
                 }
             ],
             "return": {
@@ -8324,12 +8482,12 @@
                 {
                     "name": "a",
                     "description": "",
-                    "type": "IColor"
+                    "type": "AbstractColor"
                 },
                 {
                     "name": "b",
                     "description": "",
-                    "type": "IColor"
+                    "type": "AbstractColor"
                 },
                 {
                     "name": "α",
@@ -8386,6 +8544,65 @@
             "static": 1,
             "chainable": 1,
             "class": "Color",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/ContextConsumer.ts",
+            "line": 20,
+            "description": "Called to request the consumer to free any WebGL resources acquired and owned.\nThe consumer may assume that its cached context is still valid in order\nto properly dispose of any cached resources. In the case of shared objects, this\nmethod may be called multiple times for what is logically the same context. In such\ncases the consumer must be idempotent and respond only to the first request.",
+            "itemtype": "method",
+            "name": "contextFree",
+            "params": [
+                {
+                    "name": "contextProvider",
+                    "description": "",
+                    "type": "ContextProvider"
+                }
+            ],
+            "class": "ContextConsumer",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/ContextConsumer.ts",
+            "line": 32,
+            "description": "Called to inform the dependent of a new WebGL rendering context.\nThe implementation should ignore the notification if it has already\nreceived the same context.",
+            "itemtype": "method",
+            "name": "contextGain",
+            "params": [
+                {
+                    "name": "contextProvider",
+                    "description": "",
+                    "type": "ContextProvider"
+                }
+            ],
+            "class": "ContextConsumer",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/ContextConsumer.ts",
+            "line": 42,
+            "description": "Called to inform the dependent of a loss of WebGL rendering context.\nThe dependent must assume that any cached context is invalid.\nThe dependent must not try to use and cached context to free resources.\nThe dependent should reset its state to that for which there is no context.",
+            "itemtype": "method",
+            "name": "contextLost",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "ContextConsumer",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/ContextProvider.ts",
+            "line": 10,
+            "itemtype": "property",
+            "name": "gl",
+            "type": "{WebGLRenderingContext}",
+            "readonly": "",
+            "class": "ContextProvider",
             "module": "EIGHT",
             "submodule": "core"
         },
@@ -8468,7 +8685,7 @@
         },
         {
             "file": "src/davinci-eight/core/Drawable.ts",
-            "line": 20,
+            "line": 21,
             "itemtype": "property",
             "name": "_geometry",
             "type": "{Geometry}",
@@ -8480,10 +8697,10 @@
         },
         {
             "file": "src/davinci-eight/core/Drawable.ts",
-            "line": 27,
+            "line": 28,
             "itemtype": "property",
             "name": "_material",
-            "type": "{Material}",
+            "type": "{AbstractMaterial}",
             "access": "private",
             "tagname": "",
             "class": "Drawable",
@@ -8492,7 +8709,7 @@
         },
         {
             "file": "src/davinci-eight/core/Drawable.ts",
-            "line": 34,
+            "line": 35,
             "itemtype": "property",
             "name": "name",
             "type": "{string}",
@@ -8503,7 +8720,7 @@
         },
         {
             "file": "src/davinci-eight/core/Drawable.ts",
-            "line": 41,
+            "line": 42,
             "itemtype": "property",
             "name": "_visible",
             "type": "boolean",
@@ -8515,7 +8732,7 @@
         },
         {
             "file": "src/davinci-eight/core/Drawable.ts",
-            "line": 48,
+            "line": 49,
             "itemtype": "property",
             "name": "_facets",
             "access": "private",
@@ -8526,7 +8743,7 @@
         },
         {
             "file": "src/davinci-eight/core/Drawable.ts",
-            "line": 68,
+            "line": 69,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -8541,7 +8758,7 @@
         },
         {
             "file": "src/davinci-eight/core/Drawable.ts",
-            "line": 81,
+            "line": 82,
             "itemtype": "property",
             "name": "fragmentShaderSrc",
             "type": "string",
@@ -8551,7 +8768,7 @@
         },
         {
             "file": "src/davinci-eight/core/Drawable.ts",
-            "line": 103,
+            "line": 104,
             "itemtype": "property",
             "name": "vertexShaderSrc",
             "type": "string",
@@ -8561,7 +8778,7 @@
         },
         {
             "file": "src/davinci-eight/core/Drawable.ts",
-            "line": 125,
+            "line": 126,
             "itemtype": "method",
             "name": "setUniforms",
             "return": {
@@ -8574,7 +8791,7 @@
         },
         {
             "file": "src/davinci-eight/core/Drawable.ts",
-            "line": 142,
+            "line": 143,
             "itemtype": "method",
             "name": "draw",
             "params": [
@@ -8594,14 +8811,14 @@
         },
         {
             "file": "src/davinci-eight/core/Drawable.ts",
-            "line": 165,
+            "line": 166,
             "itemtype": "method",
             "name": "contextFree",
             "params": [
                 {
                     "name": "context",
                     "description": "",
-                    "type": "IContextProvider"
+                    "type": "ContextProvider"
                 }
             ],
             "return": {
@@ -8614,14 +8831,14 @@
         },
         {
             "file": "src/davinci-eight/core/Drawable.ts",
-            "line": 176,
+            "line": 177,
             "itemtype": "method",
             "name": "contextGain",
             "params": [
                 {
                     "name": "context",
                     "description": "",
-                    "type": "IContextProvider"
+                    "type": "ContextProvider"
                 }
             ],
             "return": {
@@ -8634,7 +8851,7 @@
         },
         {
             "file": "src/davinci-eight/core/Drawable.ts",
-            "line": 187,
+            "line": 188,
             "itemtype": "method",
             "name": "contextLost",
             "return": {
@@ -8647,7 +8864,7 @@
         },
         {
             "file": "src/davinci-eight/core/Drawable.ts",
-            "line": 197,
+            "line": 198,
             "itemtype": "method",
             "name": "getFacet",
             "params": [
@@ -8667,7 +8884,7 @@
         },
         {
             "file": "src/davinci-eight/core/Drawable.ts",
-            "line": 206,
+            "line": 207,
             "itemtype": "method",
             "name": "setFacet",
             "params": [
@@ -8692,7 +8909,7 @@
         },
         {
             "file": "src/davinci-eight/core/Drawable.ts",
-            "line": 216,
+            "line": 217,
             "description": "Provides a reference counted reference to the graphics buffers property.",
             "itemtype": "property",
             "name": "geometry",
@@ -8703,18 +8920,18 @@
         },
         {
             "file": "src/davinci-eight/core/Drawable.ts",
-            "line": 240,
+            "line": 241,
             "description": "Provides a reference counted reference to the graphics program property.",
             "itemtype": "property",
             "name": "material",
-            "type": "{Material}",
+            "type": "{AbstractMaterial}",
             "class": "Drawable",
             "module": "EIGHT",
             "submodule": "core"
         },
         {
             "file": "src/davinci-eight/core/Drawable.ts",
-            "line": 264,
+            "line": 265,
             "itemtype": "property",
             "name": "visible",
             "type": "boolean",
@@ -8768,7 +8985,7 @@
                 {
                     "name": "user",
                     "description": "",
-                    "type": "IContextConsumer"
+                    "type": "ContextConsumer"
                 }
             ],
             "return": {
@@ -8903,7 +9120,7 @@
                 {
                     "name": "user",
                     "description": "",
-                    "type": "IContextConsumer"
+                    "type": "ContextConsumer"
                 }
             ],
             "return": {
@@ -9009,7 +9226,7 @@
                 {
                     "name": "consumer",
                     "description": "",
-                    "type": "IContextConsumer"
+                    "type": "ContextConsumer"
                 }
             ],
             "return": {
@@ -9568,7 +9785,7 @@
                 {
                     "name": "material",
                     "description": "",
-                    "type": "Material"
+                    "type": "AbstractMaterial"
                 }
             ],
             "return": {
@@ -9771,7 +9988,7 @@
                 {
                     "name": "context",
                     "description": "",
-                    "type": "IContextProvider"
+                    "type": "ContextProvider"
                 }
             ],
             "return": {
@@ -9791,7 +10008,7 @@
                 {
                     "name": "context",
                     "description": "",
-                    "type": "IContextProvider"
+                    "type": "ContextProvider"
                 }
             ],
             "return": {
@@ -9824,7 +10041,7 @@
                 {
                     "name": "material",
                     "description": "",
-                    "type": "Material"
+                    "type": "AbstractMaterial"
                 }
             ],
             "return": {
@@ -9987,7 +10204,7 @@
                 {
                     "name": "manager",
                     "description": "",
-                    "type": "IContextProvider"
+                    "type": "ContextProvider"
                 }
             ],
             "return": {
@@ -10373,336 +10590,6 @@
             "submodule": "core"
         },
         {
-            "file": "src/davinci-eight/core/IColor.ts",
-            "line": 11,
-            "description": "The red component of the color.",
-            "itemtype": "property",
-            "name": "r",
-            "type": "{number}",
-            "class": "IColor",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/IColor.ts",
-            "line": 19,
-            "description": "The green component of the color.",
-            "itemtype": "property",
-            "name": "g",
-            "type": "{number}",
-            "class": "IColor",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/IColor.ts",
-            "line": 27,
-            "description": "The blue component of the color.",
-            "itemtype": "property",
-            "name": "b",
-            "type": "{number}",
-            "class": "IColor",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/IContextConsumer.ts",
-            "line": 20,
-            "description": "Called to request the consumer to free any WebGL resources acquired and owned.\nThe consumer may assume that its cached context is still valid in order\nto properly dispose of any cached resources. In the case of shared objects, this\nmethod may be called multiple times for what is logically the same context. In such\ncases the consumer must be idempotent and respond only to the first request.",
-            "itemtype": "method",
-            "name": "contextFree",
-            "params": [
-                {
-                    "name": "manager",
-                    "description": "",
-                    "type": "IContextProvider"
-                }
-            ],
-            "class": "IContextConsumer",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/IContextConsumer.ts",
-            "line": 31,
-            "description": "Called to inform the dependent of a new WebGL rendering context.\nThe implementation should ignore the notification if it has already\nreceived the same context.",
-            "itemtype": "method",
-            "name": "contextGain",
-            "params": [
-                {
-                    "name": "manager",
-                    "description": "",
-                    "type": "IContextProvider"
-                }
-            ],
-            "class": "IContextConsumer",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/IContextConsumer.ts",
-            "line": 40,
-            "description": "Called to inform the dependent of a loss of WebGL rendering context.\nThe dependent must assume that any cached context is invalid.\nThe dependent must not try to use and cached context to free resources.\nThe dependent should reset its state to that for which there is no context.",
-            "itemtype": "method",
-            "name": "contextLost",
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "IContextConsumer",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/IContextListener.ts",
-            "line": 12,
-            "description": "Instructs the consumer to subscribe to context events.",
-            "itemtype": "method",
-            "name": "subscribe",
-            "params": [
-                {
-                    "name": "visual",
-                    "description": "",
-                    "type": "Engine"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "IContextListener",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/IContextListener.ts",
-            "line": 21,
-            "description": "Instructs the consumer to unsubscribe from context events.",
-            "itemtype": "method",
-            "name": "unsubscribe",
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "IContextListener",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/IContextProvider.ts",
-            "line": 10,
-            "itemtype": "property",
-            "name": "gl",
-            "type": "{WebGLRenderingContext}",
-            "readonly": "",
-            "class": "IContextProvider",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/IDrawable.ts",
-            "line": 12,
-            "itemtype": "property",
-            "name": "name",
-            "type": "string",
-            "class": "IDrawable",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/core/IDrawable.ts",
-            "line": 18,
-            "description": "<p>\nA shortcut to the <code>material.fragmentShaderSrc</code> property.\n</p>",
-            "itemtype": "property",
-            "name": "fragmentShaderSrc",
-            "type": "string",
-            "class": "IDrawable",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/core/IDrawable.ts",
-            "line": 28,
-            "description": "<p>\nThe <code>Geometry</code> that provides the buffered vertex attributes for this <code>IDrawable</code>.\n</p>\n\n<p>\nGeometry is a shareable WebGL resource and so is reference counted.\nConsequently, accessing the <code>geometry</code> property increments the <code>Geometry</code> instance reference count.\n<em>Be sure to call <code>release()</code> on shareable WebGL resources in order to prevent memory leaks.</em>\n</p>",
-            "itemtype": "property",
-            "name": "geometry",
-            "type": "Geometry",
-            "class": "IDrawable",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/core/IDrawable.ts",
-            "line": 44,
-            "description": "<p>\nThe <code>Material</code> that provides the WebGLProgram for this <code>IDrawable</code>.\n</p>\n\n<p>\nMaterial is a shareable WebGL resource and so is reference counted.\nConsequently, accessing the <code>material</code> property increments the <code>Material</code> instance reference count.\n<em>Be sure to call <code>release()</code> on shareable WebGL resources in order to prevent memory leaks.</em>\n</p>",
-            "itemtype": "property",
-            "name": "material",
-            "type": "Material",
-            "class": "IDrawable",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/core/IDrawable.ts",
-            "line": 60,
-            "description": "<p>\nA shortcut to the <code>material.vertexShaderSrc</code> property.\n</p>",
-            "itemtype": "property",
-            "name": "vertexShaderSrc",
-            "type": "string",
-            "class": "IDrawable",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/core/IDrawable.ts",
-            "line": 70,
-            "description": "Determines whether this <code>IDrawable</code> will be drawn.",
-            "itemtype": "property",
-            "name": "visible",
-            "type": "boolean",
-            "class": "IDrawable",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/core/IDrawable.ts",
-            "line": 78,
-            "itemtype": "method",
-            "name": "draw",
-            "params": [
-                {
-                    "name": "ambients",
-                    "description": "",
-                    "type": "Facet[]"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "IDrawable",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/core/IDrawable.ts",
-            "line": 85,
-            "itemtype": "method",
-            "name": "setUniforms",
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "IDrawable",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/core/IMesh.ts",
-            "line": 12,
-            "itemtype": "property",
-            "name": "attitude",
-            "type": "Geometric3",
-            "class": "IMesh",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/core/IMesh.ts",
-            "line": 18,
-            "itemtype": "property",
-            "name": "color",
-            "type": "Color",
-            "class": "IMesh",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/core/IMesh.ts",
-            "line": 24,
-            "itemtype": "property",
-            "name": "position",
-            "type": "Geometric3",
-            "class": "IMesh",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/core/IMesh.ts",
-            "line": 30,
-            "itemtype": "property",
-            "name": "stress",
-            "type": "Matrix4",
-            "class": "IMesh",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/core/IUnknown.ts",
-            "line": 7,
-            "description": "<p>\nIncrements the reference count of an IUnknown instance.\n</p>",
-            "itemtype": "method",
-            "name": "addRef",
-            "return": {
-                "description": "<p>\nThe new reference count. This value is intended to be used only for test purposes.\n</p>",
-                "type": "Number"
-            },
-            "class": "IUnknown",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/IUnknown.ts",
-            "line": 18,
-            "description": "<p>\nDecrements the reference count of an IUnknown instance.\n</p>",
-            "itemtype": "method",
-            "name": "release",
-            "return": {
-                "description": "<p>\nThe new reference count. This value is intended to be used only for test purposes.\n</p>",
-                "type": "Number"
-            },
-            "class": "IUnknown",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/Material.ts",
-            "line": 15,
-            "itemtype": "property",
-            "name": "vertexShaderSrc",
-            "type": "string",
-            "class": "Material",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/core/Material.ts",
-            "line": 21,
-            "itemtype": "property",
-            "name": "fragmentShaderSrc",
-            "type": "string",
-            "class": "Material",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/core/Material.ts",
-            "line": 27,
-            "itemtype": "method",
-            "name": "getAttribLocation",
-            "params": [
-                {
-                    "name": "name",
-                    "description": "",
-                    "type": "String"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Number"
-            },
-            "class": "Material",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/core/Material.ts",
-            "line": 34,
-            "itemtype": "method",
-            "name": "use",
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "Material",
-            "module": "EIGHT"
-        },
-        {
             "file": "src/davinci-eight/core/Mesh.ts",
             "line": 53,
             "itemtype": "method",
@@ -10867,7 +10754,7 @@
                 {
                     "name": "material",
                     "description": "",
-                    "type": "Material"
+                    "type": "AbstractMaterial"
                 }
             ],
             "return": {
@@ -10973,7 +10860,7 @@
                 {
                     "name": "mesh",
                     "description": "",
-                    "type": "IDrawable"
+                    "type": "AbstractDrawable"
                 }
             ],
             "return": {
@@ -10993,7 +10880,7 @@
                 {
                     "name": "mesh",
                     "description": "",
-                    "type": "IDrawable"
+                    "type": "AbstractDrawable"
                 }
             ],
             "return": {
@@ -11035,7 +10922,7 @@
                 {
                     "name": "match",
                     "description": "",
-                    "type": "(mesh: IDrawable) => boolean"
+                    "type": "(mesh: AbstractDrawable) => boolean"
                 }
             ],
             "return": {
@@ -11055,12 +10942,12 @@
                 {
                     "name": "match",
                     "description": "",
-                    "type": "(mesh: IDrawable) => boolean"
+                    "type": "(mesh: AbstractDrawable) => boolean"
                 }
             ],
             "return": {
                 "description": "",
-                "type": "IDrawable"
+                "type": "AbstractDrawable"
             },
             "class": "Scene",
             "module": "EIGHT",
@@ -11080,7 +10967,7 @@
             ],
             "return": {
                 "description": "",
-                "type": "IDrawable"
+                "type": "AbstractDrawable"
             },
             "class": "Scene",
             "module": "EIGHT",
@@ -11116,7 +11003,7 @@
                 {
                     "name": "drawable",
                     "description": "",
-                    "type": "IDrawable"
+                    "type": "AbstractDrawable"
                 }
             ],
             "return": {
@@ -11136,7 +11023,7 @@
                 {
                     "name": "context",
                     "description": "",
-                    "type": "IContextProvider"
+                    "type": "ContextProvider"
                 }
             ],
             "return": {
@@ -11156,7 +11043,7 @@
                 {
                     "name": "context",
                     "description": "",
-                    "type": "IContextProvider"
+                    "type": "ContextProvider"
                 }
             ],
             "return": {
@@ -11182,6 +11069,34 @@
         },
         {
             "file": "src/davinci-eight/core/Shareable.ts",
+            "line": 7,
+            "description": "<p>\nIncrements the reference count of an Shareable instance.\n</p>",
+            "itemtype": "method",
+            "name": "addRef",
+            "return": {
+                "description": "<p>\nThe new reference count. This value is intended to be used only for test purposes.\n</p>",
+                "type": "Number"
+            },
+            "class": "Shareable",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/Shareable.ts",
+            "line": 18,
+            "description": "<p>\nDecrements the reference count of an Shareable instance.\n</p>",
+            "itemtype": "method",
+            "name": "release",
+            "return": {
+                "description": "<p>\nThe new reference count. This value is intended to be used only for test purposes.\n</p>",
+                "type": "Number"
+            },
+            "class": "Shareable",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/ShareableBase.ts",
             "line": 34,
             "description": "<p>\nNotifies this instance that something is referencing it.\n</p>",
             "itemtype": "method",
@@ -11190,12 +11105,12 @@
                 "description": "The new value of the reference count.",
                 "type": "Number"
             },
-            "class": "Shareable",
+            "class": "ShareableBase",
             "module": "EIGHT",
             "submodule": "core"
         },
         {
-            "file": "src/davinci-eight/core/Shareable.ts",
+            "file": "src/davinci-eight/core/ShareableBase.ts",
             "line": 48,
             "description": "<p>\nNotifies this instance that something is dereferencing it.\n</p>",
             "itemtype": "method",
@@ -11204,12 +11119,12 @@
                 "description": "The new value of the reference count.",
                 "type": "Number"
             },
-            "class": "Shareable",
+            "class": "ShareableBase",
             "module": "EIGHT",
             "submodule": "core"
         },
         {
-            "file": "src/davinci-eight/core/Shareable.ts",
+            "file": "src/davinci-eight/core/ShareableBase.ts",
             "line": 72,
             "description": "<p>\nOutputs a warning to the console that this method should be implemented by the derived class.\n</p>\n<p>\n<em>This method should be implemented by derived classes.</em>\n</p>\n<p>\n<em>Not implementing this method in a derived class risks leaking resources allocated by the derived class.</em>\n</p>",
             "itemtype": "method",
@@ -11220,43 +11135,67 @@
             },
             "access": "protected",
             "tagname": "",
-            "class": "Shareable",
+            "class": "ShareableBase",
             "module": "EIGHT",
             "submodule": "core"
         },
         {
-            "file": "src/davinci-eight/core/Shareable.ts",
+            "file": "src/davinci-eight/core/ShareableBase.ts",
             "line": 92,
             "itemtype": "property",
             "name": "uuid",
             "type": "{string}",
             "readonly": "",
-            "class": "Shareable",
+            "class": "ShareableBase",
             "module": "EIGHT",
             "submodule": "core"
         },
         {
-            "file": "src/davinci-eight/core/ShareableContextListener.ts",
-            "line": 27,
+            "file": "src/davinci-eight/core/ShareableContextConsumer.ts",
+            "line": 39,
+            "itemtype": "property",
+            "name": "engine",
+            "type": "Engine",
+            "access": "private",
+            "tagname": "",
+            "class": "ShareableContextConsumer",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/ShareableContextConsumer.ts",
+            "line": 46,
+            "itemtype": "property",
+            "name": "contextProvider",
+            "type": "{ContextProvider}",
+            "access": "protected",
+            "tagname": "",
+            "class": "ShareableContextConsumer",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/ShareableContextConsumer.ts",
+            "line": 62,
             "itemtype": "method",
             "name": "destructor",
             "return": {
                 "description": "",
                 "type": "Void"
             },
-            "class": "ShareableContextListener",
+            "class": "ShareableContextConsumer",
             "module": "EIGHT",
             "submodule": "core"
         },
         {
-            "file": "src/davinci-eight/core/ShareableContextListener.ts",
-            "line": 36,
-            "description": "Instructs the consumer to subscribe to context events.",
+            "file": "src/davinci-eight/core/ShareableContextConsumer.ts",
+            "line": 71,
+            "description": "<p>\nInstructs the consumer to subscribe to context events.\n</p>",
             "itemtype": "method",
             "name": "subscribe",
             "params": [
                 {
-                    "name": "context",
+                    "name": "engine",
                     "description": "",
                     "type": "Engine"
                 }
@@ -11265,13 +11204,13 @@
                 "description": "",
                 "type": "Void"
             },
-            "class": "ShareableContextListener",
+            "class": "ShareableContextConsumer",
             "module": "EIGHT",
             "submodule": "core"
         },
         {
-            "file": "src/davinci-eight/core/ShareableContextListener.ts",
-            "line": 56,
+            "file": "src/davinci-eight/core/ShareableContextConsumer.ts",
+            "line": 94,
             "description": "Instructs the consumer to unsubscribe from context events.",
             "itemtype": "method",
             "name": "unsubscribe",
@@ -11279,7 +11218,73 @@
                 "description": "",
                 "type": "Void"
             },
-            "class": "ShareableContextListener",
+            "class": "ShareableContextConsumer",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/ShareableContextConsumer.ts",
+            "line": 111,
+            "itemtype": "method",
+            "name": "contextFree",
+            "params": [
+                {
+                    "name": "contextProvider",
+                    "description": "",
+                    "type": "ContextProvider"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "ShareableContextConsumer",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/ShareableContextConsumer.ts",
+            "line": 120,
+            "itemtype": "method",
+            "name": "contextGain",
+            "params": [
+                {
+                    "name": "contextProvider",
+                    "description": "",
+                    "type": "ContextProvider"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "ShareableContextConsumer",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/ShareableContextConsumer.ts",
+            "line": 129,
+            "itemtype": "method",
+            "name": "contextLost",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "ShareableContextConsumer",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/ShareableContextConsumer.ts",
+            "line": 137,
+            "description": "<p>\nProvides access to the underlying WebGL context.\n</p>\n<p>\nThis property is deprecated to encourage access throught the <code>ContextProvider</code>.\n</p>",
+            "itemtype": "property",
+            "name": "gl",
+            "type": "WebGLRenderingContext",
+            "readonly": "",
+            "deprecated": true,
+            "class": "ShareableContextConsumer",
             "module": "EIGHT",
             "submodule": "core"
         },
@@ -12288,7 +12293,7 @@
                 {
                     "name": "color",
                     "description": "",
-                    "type": "IColor"
+                    "type": "AbstractColor"
                 }
             ],
             "return": {
@@ -15135,7 +15140,7 @@
             "line": 19,
             "itemtype": "attribute",
             "name": "aColor",
-            "type": "(u: number) => IColor",
+            "type": "(u: number) => AbstractColor",
             "optional": 1,
             "class": "CylinderBuilder",
             "module": "EIGHT"
@@ -15601,7 +15606,7 @@
             "line": 22,
             "itemtype": "attribute",
             "name": "aColor",
-            "type": "(u: number, v: number) => IColor",
+            "type": "(u: number, v: number) => AbstractColor",
             "optional": 1,
             "class": "PrimitivesBuilder",
             "module": "EIGHT"
@@ -16248,7 +16253,7 @@
                 {
                     "name": "contextProvider",
                     "description": "",
-                    "type": "IContextProvider"
+                    "type": "ContextProvider"
                 }
             ],
             "return": {
@@ -16280,79 +16285,79 @@
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/materials/MaterialBase.ts",
+            "file": "src/davinci-eight/materials/Material.ts",
             "line": 32,
             "itemtype": "property",
             "name": "_vertexShaderSrc",
             "type": "string",
             "access": "private",
             "tagname": "",
-            "class": "MaterialBase",
+            "class": "Material",
             "module": "EIGHT",
             "submodule": "materials"
         },
         {
-            "file": "src/davinci-eight/materials/MaterialBase.ts",
+            "file": "src/davinci-eight/materials/Material.ts",
             "line": 39,
             "itemtype": "property",
             "name": "_fragmentShaderSrc",
             "type": "string",
             "access": "private",
             "tagname": "",
-            "class": "MaterialBase",
+            "class": "Material",
             "module": "EIGHT",
             "submodule": "materials"
         },
         {
-            "file": "src/davinci-eight/materials/MaterialBase.ts",
+            "file": "src/davinci-eight/materials/Material.ts",
             "line": 46,
             "itemtype": "property",
             "name": "_attribs",
             "type": "string[]",
             "access": "private",
             "tagname": "",
-            "class": "MaterialBase",
+            "class": "Material",
             "module": "EIGHT",
             "submodule": "materials"
         },
         {
-            "file": "src/davinci-eight/materials/MaterialBase.ts",
+            "file": "src/davinci-eight/materials/Material.ts",
             "line": 53,
             "itemtype": "property",
             "name": "_program",
             "type": "WebGLProgram",
             "access": "private",
             "tagname": "",
-            "class": "MaterialBase",
+            "class": "Material",
             "module": "EIGHT",
             "submodule": "materials"
         },
         {
-            "file": "src/davinci-eight/materials/MaterialBase.ts",
+            "file": "src/davinci-eight/materials/Material.ts",
             "line": 60,
             "itemtype": "property",
             "name": "_attributes",
             "type": "{[name: string]: AttribLocation}",
             "access": "private",
             "tagname": "",
-            "class": "MaterialBase",
+            "class": "Material",
             "module": "EIGHT",
             "submodule": "materials"
         },
         {
-            "file": "src/davinci-eight/materials/MaterialBase.ts",
+            "file": "src/davinci-eight/materials/Material.ts",
             "line": 67,
             "itemtype": "property",
             "name": "_uniforms",
             "type": "{{[name: string]: UniformLocation}}",
             "access": "private",
             "tagname": "",
-            "class": "MaterialBase",
+            "class": "Material",
             "module": "EIGHT",
             "submodule": "materials"
         },
         {
-            "file": "src/davinci-eight/materials/MaterialBase.ts",
+            "file": "src/davinci-eight/materials/Material.ts",
             "line": 93,
             "itemtype": "method",
             "name": "destructor",
@@ -16362,12 +16367,12 @@
             },
             "access": "protected",
             "tagname": "",
-            "class": "MaterialBase",
+            "class": "Material",
             "module": "EIGHT",
             "submodule": "materials"
         },
         {
-            "file": "src/davinci-eight/materials/MaterialBase.ts",
+            "file": "src/davinci-eight/materials/Material.ts",
             "line": 103,
             "itemtype": "method",
             "name": "contextGain",
@@ -16375,19 +16380,19 @@
                 {
                     "name": "context",
                     "description": "",
-                    "type": "IContextProvider"
+                    "type": "ContextProvider"
                 }
             ],
             "return": {
                 "description": "",
                 "type": "Void"
             },
-            "class": "MaterialBase",
+            "class": "Material",
             "module": "EIGHT",
             "submodule": "materials"
         },
         {
-            "file": "src/davinci-eight/materials/MaterialBase.ts",
+            "file": "src/davinci-eight/materials/Material.ts",
             "line": 141,
             "itemtype": "method",
             "name": "contextLost",
@@ -16395,12 +16400,12 @@
                 "description": "",
                 "type": "Void"
             },
-            "class": "MaterialBase",
+            "class": "Material",
             "module": "EIGHT",
             "submodule": "materials"
         },
         {
-            "file": "src/davinci-eight/materials/MaterialBase.ts",
+            "file": "src/davinci-eight/materials/Material.ts",
             "line": 160,
             "itemtype": "method",
             "name": "contextFree",
@@ -16408,19 +16413,19 @@
                 {
                     "name": "context",
                     "description": "",
-                    "type": "IContextProvider"
+                    "type": "ContextProvider"
                 }
             ],
             "return": {
                 "description": "",
                 "type": "Void"
             },
-            "class": "MaterialBase",
+            "class": "Material",
             "module": "EIGHT",
             "submodule": "materials"
         },
         {
-            "file": "src/davinci-eight/materials/MaterialBase.ts",
+            "file": "src/davinci-eight/materials/Material.ts",
             "line": 194,
             "itemtype": "method",
             "name": "use",
@@ -16428,43 +16433,43 @@
                 "description": "",
                 "type": "Void"
             },
-            "class": "MaterialBase",
+            "class": "Material",
             "module": "EIGHT",
             "submodule": "materials"
         },
         {
-            "file": "src/davinci-eight/materials/MaterialBase.ts",
+            "file": "src/davinci-eight/materials/Material.ts",
             "line": 208,
             "itemtype": "property",
             "name": "vertexShaderSrc",
             "type": "string",
-            "class": "MaterialBase",
+            "class": "Material",
             "module": "EIGHT",
             "submodule": "materials"
         },
         {
-            "file": "src/davinci-eight/materials/MaterialBase.ts",
+            "file": "src/davinci-eight/materials/Material.ts",
             "line": 230,
             "itemtype": "property",
             "name": "fragmentShaderSrc",
             "type": "string",
-            "class": "MaterialBase",
+            "class": "Material",
             "module": "EIGHT",
             "submodule": "materials"
         },
         {
-            "file": "src/davinci-eight/materials/MaterialBase.ts",
+            "file": "src/davinci-eight/materials/Material.ts",
             "line": 252,
             "itemtype": "property",
             "name": "attributeNames",
             "type": "string[]",
             "readonly": "",
-            "class": "MaterialBase",
+            "class": "Material",
             "module": "EIGHT",
             "submodule": "materials"
         },
         {
-            "file": "src/davinci-eight/materials/MaterialBase.ts",
+            "file": "src/davinci-eight/materials/Material.ts",
             "line": 270,
             "itemtype": "method",
             "name": "enableAttrib",
@@ -16479,12 +16484,12 @@
                 "description": "",
                 "type": "Void"
             },
-            "class": "MaterialBase",
+            "class": "Material",
             "module": "EIGHT",
             "submodule": "materials"
         },
         {
-            "file": "src/davinci-eight/materials/MaterialBase.ts",
+            "file": "src/davinci-eight/materials/Material.ts",
             "line": 282,
             "itemtype": "method",
             "name": "enableAttribs",
@@ -16492,12 +16497,12 @@
                 "description": "",
                 "type": "Void"
             },
-            "class": "MaterialBase",
+            "class": "Material",
             "module": "EIGHT",
             "submodule": "materials"
         },
         {
-            "file": "src/davinci-eight/materials/MaterialBase.ts",
+            "file": "src/davinci-eight/materials/Material.ts",
             "line": 297,
             "itemtype": "method",
             "name": "disableAttrib",
@@ -16512,12 +16517,12 @@
                 "description": "",
                 "type": "Void"
             },
-            "class": "MaterialBase",
+            "class": "Material",
             "module": "EIGHT",
             "submodule": "materials"
         },
         {
-            "file": "src/davinci-eight/materials/MaterialBase.ts",
+            "file": "src/davinci-eight/materials/Material.ts",
             "line": 309,
             "itemtype": "method",
             "name": "disableAttribs",
@@ -16525,12 +16530,12 @@
                 "description": "",
                 "type": "Void"
             },
-            "class": "MaterialBase",
+            "class": "Material",
             "module": "EIGHT",
             "submodule": "materials"
         },
         {
-            "file": "src/davinci-eight/materials/MaterialBase.ts",
+            "file": "src/davinci-eight/materials/Material.ts",
             "line": 324,
             "description": "Returns the location (index) of the attribute with the specified name.\nReturns <code>-1</code> if the name does not correspond to an attribute.",
             "itemtype": "method",
@@ -16546,12 +16551,12 @@
                 "description": "",
                 "type": "Number"
             },
-            "class": "MaterialBase",
+            "class": "Material",
             "module": "EIGHT",
             "submodule": "materials"
         },
         {
-            "file": "src/davinci-eight/materials/MaterialBase.ts",
+            "file": "src/davinci-eight/materials/Material.ts",
             "line": 342,
             "itemtype": "method",
             "name": "vertexPointer",
@@ -16586,12 +16591,12 @@
                 "description": "",
                 "type": "Void"
             },
-            "class": "MaterialBase",
+            "class": "Material",
             "module": "EIGHT",
             "submodule": "materials"
         },
         {
-            "file": "src/davinci-eight/materials/MaterialBase.ts",
+            "file": "src/davinci-eight/materials/Material.ts",
             "line": 356,
             "itemtype": "method",
             "name": "uniform1f",
@@ -16611,12 +16616,12 @@
                 "description": "",
                 "type": "Void"
             },
-            "class": "MaterialBase",
+            "class": "Material",
             "module": "EIGHT",
             "submodule": "materials"
         },
         {
-            "file": "src/davinci-eight/materials/MaterialBase.ts",
+            "file": "src/davinci-eight/materials/Material.ts",
             "line": 369,
             "itemtype": "method",
             "name": "uniform2f",
@@ -16641,12 +16646,12 @@
                 "description": "",
                 "type": "Void"
             },
-            "class": "MaterialBase",
+            "class": "Material",
             "module": "EIGHT",
             "submodule": "materials"
         },
         {
-            "file": "src/davinci-eight/materials/MaterialBase.ts",
+            "file": "src/davinci-eight/materials/Material.ts",
             "line": 383,
             "itemtype": "method",
             "name": "uniform3f",
@@ -16676,12 +16681,12 @@
                 "description": "",
                 "type": "Void"
             },
-            "class": "MaterialBase",
+            "class": "Material",
             "module": "EIGHT",
             "submodule": "materials"
         },
         {
-            "file": "src/davinci-eight/materials/MaterialBase.ts",
+            "file": "src/davinci-eight/materials/Material.ts",
             "line": 398,
             "itemtype": "method",
             "name": "uniform4f",
@@ -16716,12 +16721,12 @@
                 "description": "",
                 "type": "Void"
             },
-            "class": "MaterialBase",
+            "class": "Material",
             "module": "EIGHT",
             "submodule": "materials"
         },
         {
-            "file": "src/davinci-eight/materials/MaterialBase.ts",
+            "file": "src/davinci-eight/materials/Material.ts",
             "line": 414,
             "itemtype": "method",
             "name": "mat2",
@@ -16746,12 +16751,12 @@
                 "description": "",
                 "type": "Void"
             },
-            "class": "MaterialBase",
+            "class": "Material",
             "module": "EIGHT",
             "submodule": "materials"
         },
         {
-            "file": "src/davinci-eight/materials/MaterialBase.ts",
+            "file": "src/davinci-eight/materials/Material.ts",
             "line": 428,
             "itemtype": "method",
             "name": "mat3",
@@ -16776,12 +16781,12 @@
                 "description": "",
                 "type": "Void"
             },
-            "class": "MaterialBase",
+            "class": "Material",
             "module": "EIGHT",
             "submodule": "materials"
         },
         {
-            "file": "src/davinci-eight/materials/MaterialBase.ts",
+            "file": "src/davinci-eight/materials/Material.ts",
             "line": 442,
             "itemtype": "method",
             "name": "mat4",
@@ -16806,12 +16811,12 @@
                 "description": "",
                 "type": "Void"
             },
-            "class": "MaterialBase",
+            "class": "Material",
             "module": "EIGHT",
             "submodule": "materials"
         },
         {
-            "file": "src/davinci-eight/materials/MaterialBase.ts",
+            "file": "src/davinci-eight/materials/Material.ts",
             "line": 456,
             "itemtype": "method",
             "name": "vec2",
@@ -16831,12 +16836,12 @@
                 "description": "",
                 "type": "Void"
             },
-            "class": "MaterialBase",
+            "class": "Material",
             "module": "EIGHT",
             "submodule": "materials"
         },
         {
-            "file": "src/davinci-eight/materials/MaterialBase.ts",
+            "file": "src/davinci-eight/materials/Material.ts",
             "line": 469,
             "itemtype": "method",
             "name": "vec3",
@@ -16856,12 +16861,12 @@
                 "description": "",
                 "type": "Void"
             },
-            "class": "MaterialBase",
+            "class": "Material",
             "module": "EIGHT",
             "submodule": "materials"
         },
         {
-            "file": "src/davinci-eight/materials/MaterialBase.ts",
+            "file": "src/davinci-eight/materials/Material.ts",
             "line": 482,
             "itemtype": "method",
             "name": "vec4",
@@ -16881,12 +16886,12 @@
                 "description": "",
                 "type": "Void"
             },
-            "class": "MaterialBase",
+            "class": "Material",
             "module": "EIGHT",
             "submodule": "materials"
         },
         {
-            "file": "src/davinci-eight/materials/MaterialBase.ts",
+            "file": "src/davinci-eight/materials/Material.ts",
             "line": 495,
             "itemtype": "method",
             "name": "vector2",
@@ -16906,12 +16911,12 @@
                 "description": "",
                 "type": "Void"
             },
-            "class": "MaterialBase",
+            "class": "Material",
             "module": "EIGHT",
             "submodule": "materials"
         },
         {
-            "file": "src/davinci-eight/materials/MaterialBase.ts",
+            "file": "src/davinci-eight/materials/Material.ts",
             "line": 508,
             "itemtype": "method",
             "name": "vector3",
@@ -16931,12 +16936,12 @@
                 "description": "",
                 "type": "Void"
             },
-            "class": "MaterialBase",
+            "class": "Material",
             "module": "EIGHT",
             "submodule": "materials"
         },
         {
-            "file": "src/davinci-eight/materials/MaterialBase.ts",
+            "file": "src/davinci-eight/materials/Material.ts",
             "line": 521,
             "itemtype": "method",
             "name": "vector4",
@@ -16956,7 +16961,7 @@
                 "description": "",
                 "type": "Void"
             },
-            "class": "MaterialBase",
+            "class": "Material",
             "module": "EIGHT",
             "submodule": "materials"
         },
@@ -17023,7 +17028,7 @@
         {
             "file": "src/davinci-eight/materials/programFromScripts.ts",
             "line": 5,
-            "description": "Helper function for creating a <code>MaterialBase</code> from HTML script element content.\nParameters:\nvsId The vertex shader script element identifier.\nfsId The fragment shader script element identifier.\ndom The DOM document containing the script elements.\n[attribs = []] The attribute indices (implied by order of the name in the array).",
+            "description": "Helper function for creating a <code>Material</code> from HTML script element content.\nParameters:\nvsId The vertex shader script element identifier.\nfsId The fragment shader script element identifier.\ndom The DOM document containing the script elements.\n[attribs = []] The attribute indices (implied by order of the name in the array).",
             "class": "AbstractMatrix",
             "module": "EIGHT"
         },
@@ -33130,7 +33135,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Arrow.ts",
-            "line": 49,
+            "line": 64,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -33145,7 +33150,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Arrow.ts",
-            "line": 58,
+            "line": 73,
             "itemtype": "property",
             "name": "length",
             "type": "number",
@@ -33171,7 +33176,7 @@
             "line": 22,
             "itemtype": "attribute",
             "name": "color",
-            "type": "IColor",
+            "type": "AbstractColor",
             "optional": 1,
             "class": "ArrowOptions",
             "module": "EIGHT",
@@ -33191,21 +33196,10 @@
         },
         {
             "file": "src/davinci-eight/visual/BootstrapOptions.ts",
-            "line": 10,
-            "itemtype": "attribute",
-            "name": "height",
-            "type": "number",
-            "optional": 1,
-            "class": "BootstrapOptions",
-            "module": "EIGHT",
-            "submodule": "visual"
-        },
-        {
-            "file": "src/davinci-eight/visual/BootstrapOptions.ts",
-            "line": 20,
-            "class": "BootstrapOptions",
-            "module": "EIGHT",
-            "submodule": "visual"
+            "line": 1,
+            "description": "Intentionally undocumented.",
+            "class": "Box",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/visual/Box.ts",
@@ -33365,7 +33359,7 @@
             "file": "src/davinci-eight/visual/CommonOptions.ts",
             "line": 15,
             "itemtype": "attribute",
-            "name": "tilt",
+            "name": "attitude",
             "type": "SpinorE3",
             "optional": 1,
             "default": "1",
@@ -33438,7 +33432,7 @@
             "line": 30,
             "itemtype": "attribute",
             "name": "aColor",
-            "type": "(u: number) => IColor",
+            "type": "(u: number) => AbstractColor",
             "optional": 1,
             "class": "CurveOptions",
             "module": "EIGHT",
@@ -33605,7 +33599,7 @@
         {
             "file": "src/davinci-eight/visual/DrawList.ts",
             "line": 7,
-            "description": "A simple list of meshes that does not bypass the draw method of the IDrawable.\nThis allows the IDrawable to override the draw method to produce history and draw trails.",
+            "description": "A simple list of meshes that does not bypass the draw method of the AbstractDrawable.\nThis allows the AbstractDrawable to override the draw method to produce history and draw trails.",
             "class": "Grid",
             "module": "EIGHT"
         },
@@ -33639,7 +33633,7 @@
             "line": 41,
             "itemtype": "attribute",
             "name": "aColor",
-            "type": "(u: number, v: number) => IColor",
+            "type": "(u: number, v: number) => AbstractColor",
             "optional": 1,
             "class": "GridOptions",
             "module": "EIGHT",
@@ -33734,18 +33728,15 @@
         },
         {
             "file": "src/davinci-eight/visual/IGeometric3RigidBody.ts",
-            "line": 18,
-            "itemtype": "property",
-            "name": "initialAxis",
-            "type": "R3",
-            "class": "IGeometric3RigidBody",
-            "module": "EIGHT",
-            "submodule": "visual"
+            "line": 6,
+            "description": "Intentionally undocumented.",
+            "class": "RigidBody",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/visual/IRigidBody.ts",
             "line": 1,
-            "description": "Enforce naming (but not type) consistency between implementations.",
+            "description": "Intentionally undocumented.\nEnforce naming (but not type) consistency between implementations.",
             "class": "RigidBody",
             "module": "EIGHT"
         },
@@ -33944,7 +33935,7 @@
             "line": 17,
             "itemtype": "attribute",
             "name": "color",
-            "type": "IColor",
+            "type": "AbstractColor",
             "optional": 1,
             "class": "SphereOptions",
             "module": "EIGHT",
@@ -34014,7 +34005,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Trail.ts",
-            "line": 22,
+            "line": 46,
             "description": "The underlying Mesh.",
             "itemtype": "property",
             "name": "mesh",
@@ -34027,7 +34018,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Trail.ts",
-            "line": 31,
+            "line": 55,
             "description": "The position history.",
             "itemtype": "property",
             "name": "Xs",
@@ -34040,7 +34031,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Trail.ts",
-            "line": 40,
+            "line": 64,
             "description": "The attitude history.",
             "itemtype": "property",
             "name": "Rs",
@@ -34053,7 +34044,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Trail.ts",
-            "line": 49,
+            "line": 73,
             "description": "The configuration that determines how the history is recorded.",
             "itemtype": "property",
             "name": "config",
@@ -34064,7 +34055,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Trail.ts",
-            "line": 57,
+            "line": 81,
             "itemtype": "property",
             "name": "counter",
             "type": "number",
@@ -34076,7 +34067,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Trail.ts",
-            "line": 76,
+            "line": 100,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -34091,7 +34082,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Trail.ts",
-            "line": 87,
+            "line": 111,
             "description": "Erases the trail history.",
             "itemtype": "method",
             "name": "erase",
@@ -34105,7 +34096,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Trail.ts",
-            "line": 98,
+            "line": 122,
             "description": "Records the Mesh variables according to the interval property.",
             "itemtype": "method",
             "name": "snapshot()",
@@ -34119,7 +34110,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Trail.ts",
-            "line": 118,
+            "line": 142,
             "itemtype": "method",
             "name": "draw",
             "params": [
@@ -34139,9 +34130,55 @@
         },
         {
             "file": "src/davinci-eight/visual/TrailConfig.ts",
-            "line": 16,
+            "line": 17,
             "itemtype": "property",
             "name": "_enabled",
+            "type": "boolean",
+            "default": "true",
+            "access": "private",
+            "tagname": "",
+            "class": "TrailConfig",
+            "module": "EIGHT",
+            "submodule": "visual"
+        },
+        {
+            "file": "src/davinci-eight/visual/TrailConfig.ts",
+            "line": 25,
+            "description": "Determines the number of animation frames between the recording of events.",
+            "itemtype": "property",
+            "name": "interval",
+            "type": "number",
+            "default": "10",
+            "class": "TrailConfig",
+            "module": "EIGHT",
+            "submodule": "visual"
+        },
+        {
+            "file": "src/davinci-eight/visual/TrailConfig.ts",
+            "line": 34,
+            "description": "Determines the maximum number of historical events that form the trail.",
+            "itemtype": "property",
+            "name": "retain",
+            "type": "number",
+            "default": "10",
+            "class": "TrailConfig",
+            "module": "EIGHT",
+            "submodule": "visual"
+        },
+        {
+            "file": "src/davinci-eight/visual/TrailConfig.ts",
+            "line": 43,
+            "description": "Intentionally undocumented.",
+            "class": "TrailConfig",
+            "module": "EIGHT",
+            "submodule": "visual"
+        },
+        {
+            "file": "src/davinci-eight/visual/TrailConfig.ts",
+            "line": 50,
+            "description": "Determines whether the trail will record historical events and draw them.",
+            "itemtype": "property",
+            "name": "enabled",
             "type": "boolean",
             "default": "true",
             "class": "TrailConfig",
@@ -34667,7 +34704,7 @@
             "line": " src/davinci-eight/materials/makeWebGLShader.ts:9"
         },
         {
-            "message": "Missing item type\nHelper function for creating a <code>MaterialBase</code> from HTML script element content.\nParameters:\nvsId The vertex shader script element identifier.\nfsId The fragment shader script element identifier.\ndom The DOM document containing the script elements.\n[attribs = []] The attribute indices (implied by order of the name in the array).",
+            "message": "Missing item type\nHelper function for creating a <code>Material</code> from HTML script element content.\nParameters:\nvsId The vertex shader script element identifier.\nfsId The fragment shader script element identifier.\ndom The DOM document containing the script elements.\n[attribs = []] The attribute indices (implied by order of the name in the array).",
             "line": " src/davinci-eight/materials/programFromScripts.ts:5"
         },
         {
@@ -35231,16 +35268,24 @@
             "line": " src/davinci-eight/utils/randomColor.ts:12"
         },
         {
-            "message": "Missing item type",
-            "line": " src/davinci-eight/visual/BootstrapOptions.ts:20"
+            "message": "Missing item type\nIntentionally undocumented.",
+            "line": " src/davinci-eight/visual/BootstrapOptions.ts:1"
         },
         {
-            "message": "Missing item type\nA simple list of meshes that does not bypass the draw method of the IDrawable.\nThis allows the IDrawable to override the draw method to produce history and draw trails.",
+            "message": "Missing item type\nA simple list of meshes that does not bypass the draw method of the AbstractDrawable.\nThis allows the AbstractDrawable to override the draw method to produce history and draw trails.",
             "line": " src/davinci-eight/visual/DrawList.ts:7"
         },
         {
-            "message": "Missing item type\nEnforce naming (but not type) consistency between implementations.",
+            "message": "Missing item type\nIntentionally undocumented.",
+            "line": " src/davinci-eight/visual/IGeometric3RigidBody.ts:6"
+        },
+        {
+            "message": "Missing item type\nIntentionally undocumented.\nEnforce naming (but not type) consistency between implementations.",
             "line": " src/davinci-eight/visual/IRigidBody.ts:1"
+        },
+        {
+            "message": "Missing item type\nIntentionally undocumented.",
+            "line": " src/davinci-eight/visual/TrailConfig.ts:43"
         },
         {
             "message": "Missing item type\nIntentionally undocumented.\nThe concept of creating a quick setup violates the Explicit over Implicit principle.",

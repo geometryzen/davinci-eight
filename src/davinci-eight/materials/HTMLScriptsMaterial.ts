@@ -1,10 +1,10 @@
-import IContextProvider from '../core/IContextProvider';
+import ContextProvider from '../core/ContextProvider';
 import isString from '../checks/isString';
 import mustBeArray from '../checks/mustBeArray';
 import mustBeObject from '../checks/mustBeObject';
 import mustBeString from '../checks/mustBeString';
 import mustSatisfy from '../checks/mustSatisfy';
-import MaterialBase from './MaterialBase';
+import Material from './Material';
 
 /**
  * @module EIGHT
@@ -86,9 +86,9 @@ function detectShaderType(scriptIds: string[], dom: Document): string[] {
  *     material.release()
  *
  * @class HTMLScriptsMaterial
- * @extends MaterialBase
+ * @extends Material
  */
-export default class HTMLScriptsMaterial extends MaterialBase {
+export default class HTMLScriptsMaterial extends Material {
   private scriptIds: string[];
   private dom: Document;
   private loaded: boolean = false;
@@ -116,10 +116,10 @@ export default class HTMLScriptsMaterial extends MaterialBase {
    * </p>
    *
    * @method contextGain
-   * @param contextProvider {IContextProvider}
+   * @param contextProvider {ContextProvider}
    * @return {void}
    */
-  contextGain(contextProvider: IContextProvider): void {
+  contextGain(contextProvider: ContextProvider): void {
     if (!this.loaded) {
       const scriptIds = detectShaderType(this.scriptIds, this.dom)
       this.vertexShaderSrc = vertexShaderSrc(scriptIds[0], this.dom)

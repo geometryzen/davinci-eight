@@ -2,7 +2,7 @@ import G3 from '../math/G3';
 import IRigidBody from './IRigidBody'
 import mustBeObject from '../checks/mustBeObject';
 import Mesh from '../core/Mesh';
-import Shareable from '../core/Shareable';
+import ShareableBase from '../core/ShareableBase';
 import Unit from '../math/Unit';
 import VectorE3 from '../math/VectorE3';
 
@@ -19,9 +19,9 @@ const UNIT_MOMENTUM = Unit.KILOGRAM.mul(Unit.METER).div(Unit.SECOND)
  * A RigidBodyWithUnits is an Adapter for a Mesh.
  *
  * @class RigidBodyWithUnits
- * @extends Shareable
+ * @extends ShareableBase
  */
-export default class RigidBodyWithUnits extends Shareable implements IRigidBody<G3, G3> {
+export default class RigidBodyWithUnits extends ShareableBase implements IRigidBody<G3, G3> {
 
     /**
      * The underlying Mesh.

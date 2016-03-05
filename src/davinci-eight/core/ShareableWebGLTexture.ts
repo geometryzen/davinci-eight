@@ -1,14 +1,14 @@
-import IContextProvider from './IContextProvider';
+import ContextProvider from './ContextProvider';
 import mustBeUndefined from '../checks/mustBeUndefined';
-import ShareableContextListener from './ShareableContextListener';
+import ShareableContextConsumer from './ShareableContextConsumer';
 
 /**
  * @module EIGHT
  * @submodule core
  * @class ShareableWebGLTexture
- * @extends ShareableContextListener
+ * @extends ShareableContextConsumer
  */
-export default class ShareableWebGLTexture extends ShareableContextListener {
+export default class ShareableWebGLTexture extends ShareableContextConsumer {
     private _texture: WebGLTexture
     private _target: number
     constructor(target: number) {
@@ -19,14 +19,14 @@ export default class ShareableWebGLTexture extends ShareableContextListener {
         super.destructor()
         mustBeUndefined(this._type, this._texture)
     }
-    contextFree(context: IContextProvider) {
+    contextFree(context: ContextProvider) {
         if (this._texture) {
             this.gl.deleteTexture(this._texture)
             this._texture = void 0
         }
         super.contextFree(context)
     }
-    contextGain(context: IContextProvider) {
+    contextGain(context: ContextProvider) {
         this._texture = context.gl.createTexture()
         super.contextGain(context)
     }

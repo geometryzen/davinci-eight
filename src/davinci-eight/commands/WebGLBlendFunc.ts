@@ -1,6 +1,6 @@
 import BlendFactor from '../commands/BlendFactor';
-import IContextProvider from '../core/IContextProvider';
-import Shareable from '../core/Shareable';
+import ContextProvider from '../core/ContextProvider';
+import ShareableBase from '../core/ShareableBase';
 
 const factors = [
     BlendFactor.DST_ALPHA,
@@ -37,9 +37,9 @@ function factor(factor: BlendFactor, gl: WebGLRenderingContext): number {
 
 /**
  * @class WebGLBlendFunc
- * @extends Shareable
+ * @extends ShareableBase
  */
-export default class WebGLBlendFunc extends Shareable {
+export default class WebGLBlendFunc extends ShareableBase {
     public sfactor: BlendFactor;
     public dfactor: BlendFactor;
     /**
@@ -54,11 +54,11 @@ export default class WebGLBlendFunc extends Shareable {
         this.dfactor = mustBeFactor('dfactor', dfactor)
     }
 
-    contextFree(manager: IContextProvider): void {
+    contextFree(manager: ContextProvider): void {
         // do nothing
     }
 
-    contextGain(manager: IContextProvider): void {
+    contextGain(manager: ContextProvider): void {
         this.execute(manager.gl)
     }
 

@@ -1,12 +1,12 @@
-import IContextConsumer from './IContextConsumer'
-import Material from './Material'
+import ContextConsumer from './ContextConsumer'
+import AbstractMaterial from './AbstractMaterial'
 import Matrix4 from '../math/Matrix4'
 import VertexArrays from './VertexArrays'
 
 /**
  * @class Geometry
  */
-interface Geometry extends IContextConsumer {
+interface Geometry extends ContextConsumer {
 
     /**
      * @property data
@@ -52,10 +52,10 @@ interface Geometry extends IContextConsumer {
 
     /**
      * @method draw
-     * @param material {Material}
+     * @param material {AbstractMaterial}
      * @return {void}
      */
-    draw(material: Material): void
+    draw(material: AbstractMaterial): void
 
     /**
      * @method isLeaf
@@ -63,7 +63,7 @@ interface Geometry extends IContextConsumer {
      */
     isLeaf(): boolean
 
-    // TODO: Move this to IUnknown
+    // TODO: Move this to Shareable
     isZombie(): boolean
 
     /**

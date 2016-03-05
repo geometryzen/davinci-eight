@@ -1,4 +1,4 @@
-import IColor from '../core/IColor'
+import AbstractColor from '../core/AbstractColor'
 import VectorE3 from '../math/VectorE3'
 
 /**
@@ -21,10 +21,10 @@ interface ArrowOptions {
 
     /**
      * @attribute color
-     * @type IColor
+     * @type AbstractColor
      * @optional
      */
-    color?: IColor
+    color?: AbstractColor
 
     /**
      * @attribute position

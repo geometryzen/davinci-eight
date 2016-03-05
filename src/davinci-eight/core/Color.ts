@@ -3,7 +3,7 @@ import ColumnVector from '../math/ColumnVector'
 import Coords from '../math/Coords'
 import core from '../core'
 import ErrorMode from '../core/ErrorMode'
-import IColor from './IColor'
+import AbstractColor from './AbstractColor'
 import isDefined from '../checks/isDefined'
 import Matrix3 from '../math/Matrix3'
 import MutableLinearElement from '../math/MutableLinearElement'
@@ -36,9 +36,9 @@ const COORD_B = 2
  *
  * @class Color
  * @extends Coords
- * @implements IColor
+ * @implements AbstractColor
  */
-export default class Color extends Coords implements IColor, ColumnVector<Matrix3, Color>, MutableLinearElement<IColor, Color, SpinorE3, IColor> {
+export default class Color extends Coords implements AbstractColor, ColumnVector<Matrix3, Color>, MutableLinearElement<AbstractColor, Color, SpinorE3, AbstractColor> {
 
   /**
    * @property black
@@ -156,11 +156,11 @@ export default class Color extends Coords implements IColor, ColumnVector<Matrix
     this.coords[COORD_B] = clamp(b, 0, 1)
   }
 
-  public add(rhs: IColor): Color {
+  public add(rhs: AbstractColor): Color {
     return this
   }
 
-  public add2(a: IColor, b: IColor): Color {
+  public add2(a: AbstractColor, b: AbstractColor): Color {
     return this
   }
 
@@ -190,11 +190,11 @@ export default class Color extends Coords implements IColor, ColumnVector<Matrix
 
   /**
    * @method copy
-   * @param color {IColor}
+   * @param color {AbstractColor}
    * @return {Color}
    * @chainable
    */
-  public copy(color: IColor): Color {
+  public copy(color: AbstractColor): Color {
     if (isDefined(color)) {
       this.r = color.r
       this.g = color.g
@@ -215,12 +215,12 @@ export default class Color extends Coords implements IColor, ColumnVector<Matrix
 
   /**
    * @method lerp
-   * @param target {IColor}
+   * @param target {AbstractColor}
    * @param α {number}
    * @return {Color}
    * @chainable
    */
-  public lerp(target: IColor, α: number): Color {
+  public lerp(target: AbstractColor, α: number): Color {
     this.r += (target.r - this.r) * α
     this.g += (target.g - this.g) * α
     this.b += (target.b - this.b) * α
@@ -240,7 +240,7 @@ export default class Color extends Coords implements IColor, ColumnVector<Matrix
     return this
   }
 
-  public reflect(n: IColor): Color {
+  public reflect(n: AbstractColor): Color {
     return this
   }
 
@@ -252,19 +252,19 @@ export default class Color extends Coords implements IColor, ColumnVector<Matrix
     return this
   }
 
-  public slerp(target: IColor, α: number): Color {
+  public slerp(target: AbstractColor, α: number): Color {
     return this
   }
 
-  public stress(σ: IColor): Color {
+  public stress(σ: AbstractColor): Color {
     return this
   }
 
-  public sub(rhs: IColor): Color {
+  public sub(rhs: AbstractColor): Color {
     return this
   }
 
-  public sub2(a: IColor, b: IColor): Color {
+  public sub2(a: AbstractColor, b: AbstractColor): Color {
     return this
   }
 
@@ -291,12 +291,12 @@ export default class Color extends Coords implements IColor, ColumnVector<Matrix
 
   /**
    * @method copy
-   * @param color {IColor}
+   * @param color {AbstractColor}
    * @return {Color}
    * @static
    * @chainable
    */
-  public static copy(color: IColor): Color {
+  public static copy(color: AbstractColor): Color {
     return new Color(color.r, color.g, color.b)
   }
 
@@ -409,14 +409,14 @@ export default class Color extends Coords implements IColor, ColumnVector<Matrix
 
   /**
    * @method lerp
-   * @param a {IColor}
-   * @param b {IColor}
+   * @param a {AbstractColor}
+   * @param b {AbstractColor}
    * @param α {number}
    * @return {Color}
    * @static
    * @chainable
    */
-  public static lerp(a: IColor, b: IColor, α: number): Color {
+  public static lerp(a: AbstractColor, b: AbstractColor, α: number): Color {
     return Color.copy(a).lerp(b, clamp(α, 0, 1))
   }
 

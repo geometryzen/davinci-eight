@@ -1,8 +1,8 @@
 import IAnimation from '../../slideshow/IAnimation';
 import IAnimationTarget from '../../slideshow/IAnimationTarget';
-import Shareable from '../../core/Shareable';
+import ShareableBase from '../../core/ShareableBase';
 
-export default class WaitAnimation extends Shareable implements IAnimation {
+export default class WaitAnimation extends ShareableBase implements IAnimation {
     public start: number;
     public duration: number;
     public fraction: number;

@@ -1,11 +1,11 @@
 import Facet from '../core/Facet';
-import IContextProvider from '../core/IContextProvider';
-import IDrawable from './IDrawable';
+import ContextProvider from '../core/ContextProvider';
+import AbstractDrawable from './AbstractDrawable';
 import ShareableArray from '../collections/ShareableArray';
 import mustBeObject from '../checks/mustBeObject';
 import Geometry from './Geometry';
-import Shareable from '../core/Shareable';
-import ShareableContextListener from '../core/ShareableContextListener';
+import ShareableBase from '../core/ShareableBase';
+import ShareableContextConsumer from '../core/ShareableContextConsumer';
 import Engine from './Engine';
 
 /**
@@ -17,7 +17,7 @@ import Engine from './Engine';
  * The parts of a scene are the smallest components that
  * are heuristically sorted in order to optimize rendering.
  */
-class ScenePart extends Shareable {
+class ScenePart extends ShareableBase {
 
   /**
    *
@@ -27,12 +27,12 @@ class ScenePart extends Shareable {
   /**
    * Keep track of the 'parent' mesh.
    */
-  private _mesh: IDrawable;
+  private _mesh: AbstractDrawable;
 
   /**
    *
    */
-  constructor(geometry: Geometry, mesh: IDrawable) {
+  constructor(geometry: Geometry, mesh: AbstractDrawable) {
     super('ScenePart')
     this._geometry = geometry
     this._geometry.addRef()
@@ -76,7 +76,7 @@ class ScenePart extends Shareable {
   }
 }
 
-function partsFromMesh(mesh: IDrawable): ShareableArray<ScenePart> {
+function partsFromMesh(mesh: AbstractDrawable): ShareableArray<ScenePart> {
   mustBeObject('mesh', mesh)
   const parts = new ShareableArray<ScenePart>()
   const geometry = mesh.geometry
@@ -100,11 +100,11 @@ function partsFromMesh(mesh: IDrawable): ShareableArray<ScenePart> {
 
 /**
  * @class Scene
- * @extends Shareable
+ * @extends ShareableBase
  */
-export default class Scene extends ShareableContextListener {
+export default class Scene extends ShareableContextConsumer {
 
-  private _drawables: ShareableArray<IDrawable>;
+  private _drawables: ShareableArray<AbstractDrawable>;
   private _parts: ShareableArray<ScenePart>;
 
   // FIXME: Do I need the collection, or can I be fooled into thinking there is one monitor?
@@ -121,7 +121,7 @@ export default class Scene extends ShareableContextListener {
   constructor(engine: Engine) {
     super('Scene')
     mustBeObject('engine', engine)
-    this._drawables = new ShareableArray<IDrawable>()
+    this._drawables = new ShareableArray<AbstractDrawable>()
     this._parts = new ShareableArray<ScenePart>()
     this.subscribe(engine)
   }
@@ -143,13 +143,13 @@ export default class Scene extends ShareableContextListener {
    * Adds the <code>mesh</code> to this <code>Scene</code>.
    * </p>
    * @method add
-   * @param mesh {IDrawable}
+   * @param mesh {AbstractDrawable}
    * @return {Void}
    * <p>
    * This method returns <code>undefined</code>.
    * </p>
    */
-  add(mesh: IDrawable): void {
+  add(mesh: AbstractDrawable): void {
     mustBeObject('mesh', mesh)
     this._drawables.push(mesh)
 
@@ -166,10 +166,10 @@ export default class Scene extends ShareableContextListener {
 
   /**
    * @method contains
-   * @param mesh {IDrawable}
+   * @param mesh {AbstractDrawable}
    * @return {boolean}
    */
-  contains(mesh: IDrawable): boolean {
+  contains(mesh: AbstractDrawable): boolean {
     mustBeObject('mesh', mesh)
     return this._drawables.indexOf(mesh) >= 0
   }
@@ -193,28 +193,28 @@ export default class Scene extends ShareableContextListener {
 
   /**
    * @method find
-   * @param match {(mesh: IDrawable) => boolean}
+   * @param match {(mesh: AbstractDrawable) => boolean}
    * @return {ShareableArray}
    */
-  find(match: (mesh: IDrawable) => boolean): ShareableArray<IDrawable> {
+  find(match: (mesh: AbstractDrawable) => boolean): ShareableArray<AbstractDrawable> {
     return this._drawables.find(match)
   }
 
   /**
    * @method findOne
-   * @param match {(mesh: IDrawable) => boolean}
-   * @return {IDrawable}
+   * @param match {(mesh: AbstractDrawable) => boolean}
+   * @return {AbstractDrawable}
    */
-  findOne(match: (mesh: IDrawable) => boolean): IDrawable {
+  findOne(match: (mesh: AbstractDrawable) => boolean): AbstractDrawable {
     return this._drawables.findOne(match)
   }
 
   /**
    * @method findOneByName
    * @param name {string}
-   * @return {IDrawable}
+   * @return {AbstractDrawable}
    */
-  findOneByName(name: string): IDrawable {
+  findOneByName(name: string): AbstractDrawable {
     return this.findOne(function(mesh) { return mesh.name === name })
   }
 
@@ -223,7 +223,7 @@ export default class Scene extends ShareableContextListener {
    * @param name {string}
    * @return {ShareableArray}
    */
-  findByName(name: string): ShareableArray<IDrawable> {
+  findByName(name: string): ShareableArray<AbstractDrawable> {
     return this.find(function(mesh) { return mesh.name === name })
   }
 
@@ -233,10 +233,10 @@ export default class Scene extends ShareableContextListener {
    * </p>
    *
    * @method remove
-   * @param drawable {IDrawable}
+   * @param drawable {AbstractDrawable}
    * @return {void}
    */
-  remove(drawable: IDrawable): void {
+  remove(drawable: AbstractDrawable): void {
     // TODO: Remove the appropriate parts from the scene.
     mustBeObject('drawable', drawable)
     const index = this._drawables.indexOf(drawable)
@@ -247,10 +247,10 @@ export default class Scene extends ShareableContextListener {
 
   /**
    * @method contextFree
-   * @param context {IContextProvider}
+   * @param context {ContextProvider}
    * @return {void}
    */
-  contextFree(context: IContextProvider): void {
+  contextFree(context: ContextProvider): void {
     for (let i = 0; i < this._drawables.length; i++) {
       const mesh = this._drawables.getWeakRef(i)
       mesh.contextFree(context)
@@ -260,10 +260,10 @@ export default class Scene extends ShareableContextListener {
 
   /**
    * @method contextGain
-   * @param context {IContextProvider}
+   * @param context {ContextProvider}
    * @return {void}
    */
-  contextGain(context: IContextProvider): void {
+  contextGain(context: ContextProvider): void {
     for (let i = 0; i < this._drawables.length; i++) {
       const mesh = this._drawables.getWeakRef(i)
       mesh.contextGain(context)

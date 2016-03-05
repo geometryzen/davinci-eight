@@ -1,4 +1,5 @@
 /**
+ * Intentionally undocumented.
  * Enforce naming (but not type) consistency between implementations.
  */
 interface IRigidBody<MASS, MV> {

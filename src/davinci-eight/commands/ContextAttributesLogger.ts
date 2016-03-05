@@ -1,15 +1,15 @@
-import IContextProvider from '../core/IContextProvider';
+import ContextProvider from '../core/ContextProvider';
 import readOnly from '../i18n/readOnly';
-import Shareable from '../core/Shareable';
+import ShareableBase from '../core/ShareableBase';
 
 /**
  * <p>
  * Displays details about the WegGL version to the console.
  * <p> 
  * @class ContextAttributesLogger
- * @extends Shareable
+ * @extends ShareableBase
  */
-export default class ContextAttributesLogger extends Shareable {
+export default class ContextAttributesLogger extends ShareableBase {
     /**
      * @class ContextAttributesLogger
      * @constructor
@@ -28,19 +28,19 @@ export default class ContextAttributesLogger extends Shareable {
 
     /**
      * @method contextFree
-     * @param manager {IContextProvider}
+     * @param manager {ContextProvider}
      * @return {void}
      */
-    contextFree(manager: IContextProvider): void {
+    contextFree(manager: ContextProvider): void {
         // Do nothing.
     }
 
     /**
      * @method contextGain
-     * @param manager {IContextProvider}
+     * @param manager {ContextProvider}
      * @return {void}
      */
-    contextGain(manager: IContextProvider): void {
+    contextGain(manager: ContextProvider): void {
         const gl = manager.gl
         const attributes: WebGLContextAttributes = gl.getContextAttributes()
         console.log("alpha                 => " + attributes.alpha)

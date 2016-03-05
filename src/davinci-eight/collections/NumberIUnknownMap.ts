@@ -1,11 +1,11 @@
-import IUnknown from '../core/IUnknown';
 import Shareable from '../core/Shareable';
+import ShareableBase from '../core/ShareableBase';
 
 /**
  * @class NumberIUnknownMap
- * @extends Shareable
+ * @extends ShareableBase
  */
-export default class NumberIUnknownMap<V extends IUnknown> extends Shareable implements IUnknown {
+export default class NumberIUnknownMap<V extends Shareable> extends ShareableBase implements Shareable {
 
     /**
      * @property _elements

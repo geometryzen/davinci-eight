@@ -2,7 +2,7 @@ import Facet from '../core/Facet';
 import Geometric3 from '../math/Geometric3'
 import Mesh from '../core/Mesh';
 import mustBeObject from '../checks/mustBeObject';
-import Shareable from '../core/Shareable';
+import ShareableBase from '../core/ShareableBase';
 import TrailConfig from './TrailConfig';
 
 /**
@@ -11,13 +11,37 @@ import TrailConfig from './TrailConfig';
  */
 
 /**
- * Records the position and attitude history of a Mesh allowing the
- * Mesh to be drawn in its historical configuration.
+ * <p>
+ * Records the position and attitude history of a <code>Mesh</code> allowing the
+ * <code>Mesh</code> to be drawn in multiple historical configurations.
+ * <p>
+ * <p>
+ * This class is refererce counted because it maintains a reference to a <code>Mesh</code>.
+ * You should call the <code>release</code> method when the trail is no longer required.
+ * </p>
+ *
+ * @example
+ *     // The trail is constructed, at any time, on an existing mesh.
+ *     const trail = new EIGHT.Trail(mesh)
+ *
+ *     // Configure the Trail object, or use the defaults.
+ *     trail.config.enabled = true
+ *     trail.config.interval = 30
+ *     trail.config.retain = 5
+ *
+ *     // Take a snapshot of the ball position and attitude, usually each animation frame.
+ *     trail.snapshot()
+ *
+ *     // Draw the trail during the animation frame.
+ *     trail.draw(ambients)
+ *
+ *     // Release the trail when no longer required, usually in the window.onunload function.
+ *     trail.release()
  *
  * @class Trail
- * @extends Shareable
+ * @extends ShareableBase
  */
-export default class Trail extends Shareable {
+export default class Trail extends ShareableBase {
 
   /**
    * The underlying Mesh.

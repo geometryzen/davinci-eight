@@ -1,7 +1,7 @@
-import IContextConsumer from './IContextConsumer';
-import IContextProvider from './IContextProvider';
+import ContextConsumer from './ContextConsumer';
+import ContextProvider from './ContextProvider';
 
-export default function cleanUp(context: IContextProvider, consumer: IContextConsumer) {
+export default function cleanUp(context: ContextProvider, consumer: ContextConsumer) {
     if (context) {
         const gl = context.gl
         if (gl) {

@@ -4,9 +4,9 @@ import ISlide from '../slideshow/ISlide';
 
 import ISlideCommand from '../slideshow/ISlideCommand';
 import ShareableArray from '../collections/ShareableArray';
-import Shareable from '../core/Shareable';
+import ShareableBase from '../core/ShareableBase';
 
-import IColor from '../core/IColor';
+import AbstractColor from '../core/AbstractColor';
 import ColorAnimation from '../slideshow/animations/ColorAnimation';
 
 import VectorE3 from '../math/VectorE3';
@@ -15,7 +15,7 @@ import Vector3Animation from '../slideshow/animations/Vector3Animation';
 import SpinorE3 from '../math/SpinorE3';
 import Spinor3Animation from '../slideshow/animations/Spinor3Animation';
 
-export default class SlideCommands extends Shareable implements ISlideCommand {
+export default class SlideCommands extends ShareableBase implements ISlideCommand {
     private commands: ShareableArray<ISlideCommand>;
     constructor() {
         super('SlideCommands')

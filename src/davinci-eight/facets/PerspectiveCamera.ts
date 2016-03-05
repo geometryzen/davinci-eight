@@ -23,11 +23,11 @@ import Matrix4 from '../math/Matrix4';
 /**
  * <p>
  * The <code>PerspectiveCamera</code> provides projection matrix and view matrix uniforms to the
- * current <code>Material</code>.
+ * current <code>AbstractMaterial</code>.
  * </p>
  * <p>
  * The <code>PerspectiveCamera</code> plays the role of a host in the <em>Visitor</em> pattern.
- * The <code>FacetVistor</code> will normally be a <code>Material</code> implementation. The  accepting
+ * The <code>FacetVistor</code> will normally be a <code>AbstractMaterial</code> implementation. The  accepting
  * method is called <code>setUniforms</code>.
  * <p>
  *

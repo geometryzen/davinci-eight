@@ -1,8 +1,8 @@
 import ISlide from '../slideshow/ISlide';
 import IDirector from '../slideshow/IDirector';
-import IUnknown from '../core/IUnknown';
+import Shareable from '../core/Shareable';
 
-interface ISlideCommand extends IUnknown {
+interface ISlideCommand extends Shareable {
     redo(slide: ISlide, director: IDirector): void;
     undo(slide: ISlide, director: IDirector): void;
 }

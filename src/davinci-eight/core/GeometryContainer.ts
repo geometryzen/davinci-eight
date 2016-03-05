@@ -1,11 +1,11 @@
-import IContextProvider from './IContextProvider'
+import ContextProvider from './ContextProvider'
 import ShareableArray from '../collections/ShareableArray'
-import Material from './Material'
+import AbstractMaterial from './AbstractMaterial'
 import Matrix4 from '../math/Matrix4'
 import notSupported from '../i18n/notSupported'
 import Geometry from './Geometry'
 import readOnly from '../i18n/readOnly'
-import Shareable from '../core/Shareable'
+import ShareableBase from '../core/ShareableBase'
 import shouldBeImplementedBy from '../i18n/shouldBeImplementedBy'
 import Spinor3 from '../math/Spinor3'
 import SpinorE3 from '../math/SpinorE3'
@@ -22,9 +22,9 @@ import VertexArrays from './VertexArrays'
  * This class is designed to be extended in order to implement the scaling methods.
  *
  * @class GeometryContainer
- * @extends Shareable
+ * @extends ShareableBase
  */
-export default class GeometryContainer extends Shareable implements Geometry {
+export default class GeometryContainer extends ShareableBase implements Geometry {
 
   /**
    * @property _parts
@@ -105,7 +105,7 @@ export default class GeometryContainer extends Shareable implements Geometry {
     return this._parts.get(index)
   }
 
-  draw(material: Material): void {
+  draw(material: AbstractMaterial): void {
     // FIXME: Use for loop.
     this._parts.forEach(function(buffer) {
       buffer.draw(material)
@@ -116,7 +116,7 @@ export default class GeometryContainer extends Shareable implements Geometry {
    * @method contextFree
    * @param 
    */
-  contextFree(manager: IContextProvider): void {
+  contextFree(manager: ContextProvider): void {
     this._parts.forEach(function(buffer) {
       buffer.contextFree(manager)
     })
@@ -124,10 +124,10 @@ export default class GeometryContainer extends Shareable implements Geometry {
 
   /**
    * @method contextGain
-   * @param manager {IContextProvider}
+   * @param manager {ContextProvider}
    * @return {void}
    */
-  contextGain(manager: IContextProvider): void {
+  contextGain(manager: ContextProvider): void {
     this._parts.forEach(function(buffer) {
       buffer.contextGain(manager)
     })

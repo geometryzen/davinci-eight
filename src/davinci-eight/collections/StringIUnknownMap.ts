@@ -1,11 +1,11 @@
-import IUnknown from '../core/IUnknown';
 import Shareable from '../core/Shareable';
+import ShareableBase from '../core/ShareableBase';
 
 /**
  * @class StringIUnknownMap
- * @extends Shareable
+ * @extends ShareableBase
  */
-export default class StringIUnknownMap<V extends IUnknown> extends Shareable implements IUnknown {
+export default class StringIUnknownMap<V extends Shareable> extends ShareableBase implements Shareable {
     /**
      * @property elements
      * @type {{[key: string]: V}}
@@ -13,7 +13,7 @@ export default class StringIUnknownMap<V extends IUnknown> extends Shareable imp
     private elements: { [key: string]: V } = {};
     /**
      * <p>
-     * A map of <code>string</code> to <code>V extends IUnknown</code>.
+     * A map of <code>string</code> to <code>V extends Shareable</code>.
      * </p>
      * @class StringIUnknownMap
      * @constructor

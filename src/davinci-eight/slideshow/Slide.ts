@@ -3,15 +3,15 @@ import IAnimationTarget from '../slideshow/IAnimationTarget';
 import IDirector from '../slideshow/IDirector';
 import ISlide from '../slideshow/ISlide';
 import ISlideCommand from '../slideshow/ISlideCommand';
-import IUnknown from '../core/IUnknown';
+import Shareable from '../core/Shareable';
 import ShareableArray from '../collections/ShareableArray';
 import mustBeNumber from '../checks/mustBeNumber';
-import Shareable from '../core/Shareable';
+import ShareableBase from '../core/ShareableBase';
 import SlideCommands from '../slideshow/SlideCommands';
 import StringIUnknownMap from '../collections/StringIUnknownMap';
 import WaitAnimation from '../slideshow/animations/WaitAnimation';
 
-export default class Slide extends Shareable implements ISlide {
+export default class Slide extends ShareableBase implements ISlide {
     public prolog: SlideCommands;
     public epilog: SlideCommands;
     /**
@@ -130,7 +130,7 @@ export default class Slide extends Shareable implements ISlide {
     }
 }
 
-class AnimationLane extends Shareable {
+class AnimationLane extends ShareableBase {
     private completed: ShareableArray<IAnimation>;
     private remaining: ShareableArray<IAnimation>;
     constructor() {
@@ -193,7 +193,7 @@ class AnimationLane extends Shareable {
 /**
  * The companion to a target: IAnimationTarget containing animation state.
  */
-class Mirror extends Shareable {
+class Mirror extends ShareableBase {
     /**
      * A map from property name to a list of properties of the property value.
      * It should be possible to animate many properties of a target at once.

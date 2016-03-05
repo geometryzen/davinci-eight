@@ -1,14 +1,14 @@
 import drawModeToGL from './drawModeToGL'
 import DrawMode from './DrawMode'
-import IContextProvider from '../core/IContextProvider'
+import ContextProvider from '../core/ContextProvider'
 import notImplemented from '../i18n/notImplemented'
 import notSupported from '../i18n/notSupported'
-import Material from './Material'
+import AbstractMaterial from './AbstractMaterial'
 import Matrix4 from '../math/Matrix4'
 import VertexAttribPointer from './VertexAttribPointer'
 import Geometry from './Geometry'
 import readOnly from '../i18n/readOnly'
-import ShareableContextListener from './ShareableContextListener'
+import ShareableContextConsumer from './ShareableContextConsumer'
 import VertexArrays from './VertexArrays'
 
 /**
@@ -20,9 +20,10 @@ import VertexArrays from './VertexArrays'
  * A Geometry that supports interleaved vertex buffers.
  *
  * @class GeometryBuffers
- * @extends ShareableContextListener
+ * @extends ShareableContextConsumer
+ * @extends Geometry
  */
-export default class GeometryBuffers extends ShareableContextListener implements Geometry {
+export default class GeometryBuffers extends ShareableContextConsumer implements Geometry {
 
   private drawMode: DrawMode
   private mode: number
@@ -129,10 +130,10 @@ export default class GeometryBuffers extends ShareableContextListener implements
 
   /**
    * @method contextFree
-   * @param context {IContextProvider}
+   * @param context {ContextProvider}
    * @return {void}
    */
-  public contextFree(context: IContextProvider): void {
+  public contextFree(context: ContextProvider): void {
     const gl = context.gl
     if (this.ibo) {
       gl.deleteBuffer(this.ibo)
@@ -147,10 +148,10 @@ export default class GeometryBuffers extends ShareableContextListener implements
 
   /**
    * @method contextGain
-   * @param context {IContextProvider}
+   * @param context {ContextProvider}
    * @return {void}
    */
-  public contextGain(context: IContextProvider): void {
+  public contextGain(context: ContextProvider): void {
     const gl = context.gl
     this.mode = drawModeToGL(this.drawMode, gl)
     if (!this.ibo) {
@@ -180,10 +181,10 @@ export default class GeometryBuffers extends ShareableContextListener implements
 
   /**
    * @method draw
-   * @param material {Material}
+   * @param material {AbstractMaterial}
    * @return {void}
    */
-  draw(material: Material): void {
+  draw(material: AbstractMaterial): void {
     // FIXME: Make the buffer a wrapper and contextProvider private or encapsulating WebGL.
     const gl: WebGLRenderingContext = this.contextProvider.gl
     gl.bindBuffer(gl.ARRAY_BUFFER, this.vbo)

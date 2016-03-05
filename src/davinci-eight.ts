@@ -28,9 +28,9 @@ import core from './davinci-eight/core';
 import Drawable from './davinci-eight/core/Drawable';
 import DrawMode from './davinci-eight/core/DrawMode';
 import ErrorMode from './davinci-eight/core/ErrorMode';
-import IContextConsumer from './davinci-eight/core/IContextConsumer';
-import IContextProgramConsumer from './davinci-eight/core/IContextProgramConsumer';
-import IContextProvider from './davinci-eight/core/IContextProvider';
+import ContextConsumer from './davinci-eight/core/ContextConsumer';
+import ContextProgramConsumer from './davinci-eight/core/ContextProgramConsumer';
+import ContextProvider from './davinci-eight/core/ContextProvider';
 import GeometryContainer from './davinci-eight/core/GeometryContainer';
 import GeometryBuffers from './davinci-eight/core/GeometryBuffers';
 import GraphicsProgramSymbols from './davinci-eight/core/GraphicsProgramSymbols';
@@ -119,7 +119,7 @@ import arc3 from './davinci-eight/geometries/arc3';
 // materials
 import HTMLScriptsMaterial from './davinci-eight/materials/HTMLScriptsMaterial';
 import LineMaterial from './davinci-eight/materials/LineMaterial';
-import MaterialBase from './davinci-eight/materials/MaterialBase';
+import Material from './davinci-eight/materials/Material';
 import MeshMaterial from './davinci-eight/materials/MeshMaterial';
 import MeshNormalMaterial from './davinci-eight/materials/MeshNormalMaterial';
 import PointMaterial from './davinci-eight/materials/PointMaterial';
@@ -175,7 +175,7 @@ import ShareableArray from './davinci-eight/collections/ShareableArray';
 import loadImageTexture from './davinci-eight/utils/loadImageTexture';
 import NumberIUnknownMap from './davinci-eight/collections/NumberIUnknownMap';
 import refChange from './davinci-eight/core/refChange';
-import Shareable from './davinci-eight/core/Shareable';
+import ShareableBase from './davinci-eight/core/ShareableBase';
 import StringIUnknownMap from './davinci-eight/collections/StringIUnknownMap';
 import WindowAnimationRunner from './davinci-eight/utils/WindowAnimationRunner';
 import animation from './davinci-eight/utils/animation';
@@ -333,7 +333,7 @@ const eight = {
   get ShareableArray() { return ShareableArray },
   get NumberIUnknownMap() { return NumberIUnknownMap },
   get refChange() { return refChange },
-  get Shareable() { return Shareable },
+  get ShareableBase() { return ShareableBase },
   get StringIUnknownMap() { return StringIUnknownMap },
 
   // universal math functions

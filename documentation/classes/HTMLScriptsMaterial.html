@@ -38,7 +38,11 @@
                 
                         <div id="api-tabview-panel">
                             <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/AbstractColor.html">AbstractColor</a></li>
+                                <li><a href="../classes/AbstractDrawable.html">AbstractDrawable</a></li>
+                                <li><a href="../classes/AbstractMaterial.html">AbstractMaterial</a></li>
                                 <li><a href="../classes/AbstractMatrix.html">AbstractMatrix</a></li>
+                                <li><a href="../classes/AbstractMesh.html">AbstractMesh</a></li>
                                 <li><a href="../classes/AmbientLight.html">AmbientLight</a></li>
                                 <li><a href="../classes/Approximation.html">Approximation</a></li>
                                 <li><a href="../classes/Arrow.html">Arrow</a></li>
@@ -50,7 +54,6 @@
                                 <li><a href="../classes/Attribute.html">Attribute</a></li>
                                 <li><a href="../classes/AxialPrimitivesBuilder.html">AxialPrimitivesBuilder</a></li>
                                 <li><a href="../classes/BlendFactor.html">BlendFactor</a></li>
-                                <li><a href="../classes/BootstrapOptions.html">BootstrapOptions</a></li>
                                 <li><a href="../classes/Box.html">Box</a></li>
                                 <li><a href="../classes/BoxGeometry.html">BoxGeometry</a></li>
                                 <li><a href="../classes/BoxGeometryOptions.html">BoxGeometryOptions</a></li>
@@ -64,6 +67,9 @@
                                 <li><a href="../classes/ConeTransform.html">ConeTransform</a></li>
                                 <li><a href="../classes/ConicalShellBuilder.html">ConicalShellBuilder</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
+                                <li><a href="../classes/ContextConsumer.html">ContextConsumer</a></li>
+                                <li><a href="../classes/ContextProgramConsumer.html">ContextProgramConsumer</a></li>
+                                <li><a href="../classes/ContextProvider.html">ContextProvider</a></li>
                                 <li><a href="../classes/Coords.html">Coords</a></li>
                                 <li><a href="../classes/CoordsTransform1D.html">CoordsTransform1D</a></li>
                                 <li><a href="../classes/CoordsTransform2D.html">CoordsTransform2D</a></li>
@@ -114,21 +120,11 @@
                                 <li><a href="../classes/GridPrimitive.html">GridPrimitive</a></li>
                                 <li><a href="../classes/GridTriangleStrip.html">GridTriangleStrip</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
-                                <li><a href="../classes/IColor.html">IColor</a></li>
-                                <li><a href="../classes/IContextConsumer.html">IContextConsumer</a></li>
-                                <li><a href="../classes/IContextListener.html">IContextListener</a></li>
-                                <li><a href="../classes/IContextProgramConsumer.html">IContextProgramConsumer</a></li>
-                                <li><a href="../classes/IContextProvider.html">IContextProvider</a></li>
-                                <li><a href="../classes/IDrawable.html">IDrawable</a></li>
-                                <li><a href="../classes/IGeometric3RigidBody.html">IGeometric3RigidBody</a></li>
-                                <li><a href="../classes/IMesh.html">IMesh</a></li>
-                                <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
                                 <li><a href="../classes/LineMaterialOptions.html">LineMaterialOptions</a></li>
                                 <li><a href="../classes/LinePoints.html">LinePoints</a></li>
                                 <li><a href="../classes/LineStrip.html">LineStrip</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
-                                <li><a href="../classes/MaterialBase.html">MaterialBase</a></li>
                                 <li><a href="../classes/Matrix2.html">Matrix2</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
                                 <li><a href="../classes/Matrix4.html">Matrix4</a></li>
@@ -165,7 +161,8 @@
                                 <li><a href="../classes/Scene.html">Scene</a></li>
                                 <li><a href="../classes/Shareable.html">Shareable</a></li>
                                 <li><a href="../classes/ShareableArray.html">ShareableArray</a></li>
-                                <li><a href="../classes/ShareableContextListener.html">ShareableContextListener</a></li>
+                                <li><a href="../classes/ShareableBase.html">ShareableBase</a></li>
+                                <li><a href="../classes/ShareableContextConsumer.html">ShareableContextConsumer</a></li>
                                 <li><a href="../classes/ShareableWebGLBuffer.html">ShareableWebGLBuffer</a></li>
                                 <li><a href="../classes/ShareableWebGLShader.html">ShareableWebGLShader</a></li>
                                 <li><a href="../classes/ShareableWebGLTexture.html">ShareableWebGLTexture</a></li>
@@ -264,7 +261,7 @@
 <div class="box meta">
 
         <div class="extends">
-            Extends <a href="../classes/MaterialBase.html" class="crosslink">MaterialBase</a>
+            Extends <a href="../classes/Material.html" class="crosslink">Material</a>
         </div>
 
         <div class="foundat">
@@ -401,6 +398,10 @@ material.release()</code></pre>
 
                     <ul class="index-list methods extends">
                             <li class="index-item method inherited">
+                                <a href="#method_addRef">addRef</a>
+
+                            </li>
+                            <li class="index-item method inherited inherited">
                                 <a href="#method_contextFree">contextFree</a>
 
                             </li>
@@ -408,7 +409,7 @@ material.release()</code></pre>
                                 <a href="#method_contextGain">contextGain</a>
 
                             </li>
-                            <li class="index-item method inherited">
+                            <li class="index-item method inherited inherited">
                                 <a href="#method_contextLost">contextLost</a>
 
                             </li>
@@ -446,6 +447,10 @@ material.release()</code></pre>
                             </li>
                             <li class="index-item method inherited">
                                 <a href="#method_mat4">mat4</a>
+
+                            </li>
+                            <li class="index-item method inherited">
+                                <a href="#method_release">release</a>
 
                             </li>
                             <li class="index-item method inherited">
@@ -539,9 +544,22 @@ material.release()</code></pre>
                                 <a href="#property_attributeNames">attributeNames</a>
 
                             </li>
+                            <li class="index-item property protected inherited">
+                                <a href="#property_contextProvider">contextProvider</a>
+
+                            </li>
+                            <li class="index-item property private inherited">
+                                <a href="#property_engine">engine</a>
+
+                            </li>
                             <li class="index-item property inherited">
                                 <a href="#property_fragmentShaderSrc">fragmentShaderSrc</a>
 
+                            </li>
+                            <li class="index-item property deprecated inherited">
+                                <a href="#property_gl">gl</a>
+
+                                    <span class="flag deprecated">deprecated</span>
                             </li>
                             <li class="index-item property inherited">
                                 <a href="#property_vertexShaderSrc">vertexShaderSrc</a>
@@ -556,6 +574,51 @@ material.release()</code></pre>
             <div id="methods" class="api-class-tabpanel">
                 <h2 class="off-left">Methods</h2>
 
+<div id="method_addRef" class="method item inherited">
+    <h3 class="name"><code>addRef</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">Number</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/Shareable.html#method_addRef">Shareable</a>:
+        <a href="../files/src_davinci-eight_core_Shareable.ts.html#l7"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Shareable.ts:7</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>
+Increments the reference count of an Shareable instance.
+</p>
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Number</span>:
+                    <p>
+The new reference count. This value is intended to be used only for test purposes.
+</p>
+            </div>
+        </div>
+
+
+</div>
 <div id="method_contextFree" class="method item inherited">
     <h3 class="name"><code>contextFree</code></h3>
 
@@ -578,9 +641,12 @@ material.release()</code></pre>
 
 
     <div class="meta">
-                <p>Inherited from
-                <a href="../classes/MaterialBase.html#method_contextFree">MaterialBase</a>:
-        <a href="../files/src_davinci-eight_materials_MaterialBase.ts.html#l160"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;MaterialBase.ts:160</code></a>
+            <p>Inherited from
+            <a href="../classes/ContextConsumer.html#method_contextFree">
+                ContextConsumer
+            </a>
+            but overwritten in
+        <a href="../files/src_davinci-eight_materials_Material.ts.html#l160"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:160</code></a>
         </p>
 
 
@@ -597,7 +663,7 @@ material.release()</code></pre>
             <ul class="params-list">
                 <li class="param">
                         <code class="param-name">context</code>
-                        <span class="type"><a href="../classes/IContextProvider.html" class="crosslink">IContextProvider</a></span>
+                        <span class="type"><a href="../classes/ContextProvider.html" class="crosslink">ContextProvider</a></span>
 
 
                     <div class="param-description">
@@ -641,8 +707,8 @@ material.release()</code></pre>
 
     <div class="meta">
             <p>Inherited from
-            <a href="../classes/MaterialBase.html#method_contextGain">
-                MaterialBase
+            <a href="../classes/ContextConsumer.html#method_contextGain">
+                ContextConsumer
             </a>
             but overwritten in
         <a href="../files/src_davinci-eight_materials_HTMLScriptsMaterial.ts.html#l111"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;HTMLScriptsMaterial.ts:111</code></a>
@@ -666,7 +732,7 @@ before the DOM has completed loading.
             <ul class="params-list">
                 <li class="param">
                         <code class="param-name">contextProvider</code>
-                        <span class="type"><a href="../classes/IContextProvider.html" class="crosslink">IContextProvider</a></span>
+                        <span class="type"><a href="../classes/ContextProvider.html" class="crosslink">ContextProvider</a></span>
 
 
                     <div class="param-description">
@@ -703,9 +769,12 @@ before the DOM has completed loading.
 
 
     <div class="meta">
-                <p>Inherited from
-                <a href="../classes/MaterialBase.html#method_contextLost">MaterialBase</a>:
-        <a href="../files/src_davinci-eight_materials_MaterialBase.ts.html#l141"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;MaterialBase.ts:141</code></a>
+            <p>Inherited from
+            <a href="../classes/ContextConsumer.html#method_contextLost">
+                ContextConsumer
+            </a>
+            but overwritten in
+        <a href="../files/src_davinci-eight_materials_Material.ts.html#l141"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:141</code></a>
         </p>
 
 
@@ -745,11 +814,11 @@ before the DOM has completed loading.
 
     <div class="meta">
             <p>Inherited from
-            <a href="../classes/ShareableContextListener.html#method_destructor">
-                ShareableContextListener
+            <a href="../classes/ShareableContextConsumer.html#method_destructor">
+                ShareableContextConsumer
             </a>
             but overwritten in
-        <a href="../files/src_davinci-eight_materials_MaterialBase.ts.html#l93"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;MaterialBase.ts:93</code></a>
+        <a href="../files/src_davinci-eight_materials_Material.ts.html#l93"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:93</code></a>
         </p>
 
 
@@ -794,8 +863,8 @@ before the DOM has completed loading.
 
     <div class="meta">
                 <p>Inherited from
-                <a href="../classes/MaterialBase.html#method_disableAttrib">MaterialBase</a>:
-        <a href="../files/src_davinci-eight_materials_MaterialBase.ts.html#l297"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;MaterialBase.ts:297</code></a>
+                <a href="../classes/Material.html#method_disableAttrib">Material</a>:
+        <a href="../files/src_davinci-eight_materials_Material.ts.html#l297"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:297</code></a>
         </p>
 
 
@@ -850,8 +919,8 @@ before the DOM has completed loading.
 
     <div class="meta">
                 <p>Inherited from
-                <a href="../classes/MaterialBase.html#method_disableAttribs">MaterialBase</a>:
-        <a href="../files/src_davinci-eight_materials_MaterialBase.ts.html#l309"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;MaterialBase.ts:309</code></a>
+                <a href="../classes/Material.html#method_disableAttribs">Material</a>:
+        <a href="../files/src_davinci-eight_materials_Material.ts.html#l309"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:309</code></a>
         </p>
 
 
@@ -896,8 +965,8 @@ before the DOM has completed loading.
 
     <div class="meta">
                 <p>Inherited from
-                <a href="../classes/MaterialBase.html#method_enableAttrib">MaterialBase</a>:
-        <a href="../files/src_davinci-eight_materials_MaterialBase.ts.html#l270"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;MaterialBase.ts:270</code></a>
+                <a href="../classes/Material.html#method_enableAttrib">Material</a>:
+        <a href="../files/src_davinci-eight_materials_Material.ts.html#l270"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:270</code></a>
         </p>
 
 
@@ -952,8 +1021,8 @@ before the DOM has completed loading.
 
     <div class="meta">
                 <p>Inherited from
-                <a href="../classes/MaterialBase.html#method_enableAttribs">MaterialBase</a>:
-        <a href="../files/src_davinci-eight_materials_MaterialBase.ts.html#l282"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;MaterialBase.ts:282</code></a>
+                <a href="../classes/Material.html#method_enableAttribs">Material</a>:
+        <a href="../files/src_davinci-eight_materials_Material.ts.html#l282"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:282</code></a>
         </p>
 
 
@@ -998,8 +1067,8 @@ before the DOM has completed loading.
 
     <div class="meta">
                 <p>Inherited from
-                <a href="../classes/MaterialBase.html#method_getAttribLocation">MaterialBase</a>:
-        <a href="../files/src_davinci-eight_materials_MaterialBase.ts.html#l324"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;MaterialBase.ts:324</code></a>
+                <a href="../classes/Material.html#method_getAttribLocation">Material</a>:
+        <a href="../files/src_davinci-eight_materials_Material.ts.html#l324"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:324</code></a>
         </p>
 
 
@@ -1067,8 +1136,8 @@ Returns <code>-1</code> if the name does not correspond to an attribute.
 
     <div class="meta">
                 <p>Inherited from
-                <a href="../classes/MaterialBase.html#method_mat2">MaterialBase</a>:
-        <a href="../files/src_davinci-eight_materials_MaterialBase.ts.html#l414"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;MaterialBase.ts:414</code></a>
+                <a href="../classes/Material.html#method_mat2">Material</a>:
+        <a href="../files/src_davinci-eight_materials_Material.ts.html#l414"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:414</code></a>
         </p>
 
 
@@ -1155,8 +1224,8 @@ Returns <code>-1</code> if the name does not correspond to an attribute.
 
     <div class="meta">
                 <p>Inherited from
-                <a href="../classes/MaterialBase.html#method_mat3">MaterialBase</a>:
-        <a href="../files/src_davinci-eight_materials_MaterialBase.ts.html#l428"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;MaterialBase.ts:428</code></a>
+                <a href="../classes/Material.html#method_mat3">Material</a>:
+        <a href="../files/src_davinci-eight_materials_Material.ts.html#l428"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:428</code></a>
         </p>
 
 
@@ -1243,8 +1312,8 @@ Returns <code>-1</code> if the name does not correspond to an attribute.
 
     <div class="meta">
                 <p>Inherited from
-                <a href="../classes/MaterialBase.html#method_mat4">MaterialBase</a>:
-        <a href="../files/src_davinci-eight_materials_MaterialBase.ts.html#l442"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;MaterialBase.ts:442</code></a>
+                <a href="../classes/Material.html#method_mat4">Material</a>:
+        <a href="../files/src_davinci-eight_materials_Material.ts.html#l442"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:442</code></a>
         </p>
 
 
@@ -1302,13 +1371,58 @@ Returns <code>-1</code> if the name does not correspond to an attribute.
 
 
 </div>
+<div id="method_release" class="method item inherited">
+    <h3 class="name"><code>release</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">Number</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/Shareable.html#method_release">Shareable</a>:
+        <a href="../files/src_davinci-eight_core_Shareable.ts.html#l18"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Shareable.ts:18</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>
+Decrements the reference count of an Shareable instance.
+</p>
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Number</span>:
+                    <p>
+The new reference count. This value is intended to be used only for test purposes.
+</p>
+            </div>
+        </div>
+
+
+</div>
 <div id="method_subscribe" class="method item inherited">
     <h3 class="name"><code>subscribe</code></h3>
 
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
-                        <code>context</code>
+                        <code>engine</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
@@ -1325,8 +1439,8 @@ Returns <code>-1</code> if the name does not correspond to an attribute.
 
     <div class="meta">
                 <p>Inherited from
-                <a href="../classes/ShareableContextListener.html#method_subscribe">ShareableContextListener</a>:
-        <a href="../files/src_davinci-eight_core_ShareableContextListener.ts.html#l36"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableContextListener.ts:36</code></a>
+                <a href="../classes/ShareableContextConsumer.html#method_subscribe">ShareableContextConsumer</a>:
+        <a href="../files/src_davinci-eight_core_ShareableContextConsumer.ts.html#l71"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableContextConsumer.ts:71</code></a>
         </p>
 
 
@@ -1334,8 +1448,9 @@ Returns <code>-1</code> if the name does not correspond to an attribute.
     </div>
 
     <div class="description">
-        <p>Instructs the consumer to subscribe to context events.</p>
-
+        <p>
+Instructs the consumer to subscribe to context events.
+</p>
     </div>
 
         <div class="params">
@@ -1343,7 +1458,7 @@ Returns <code>-1</code> if the name does not correspond to an attribute.
 
             <ul class="params-list">
                 <li class="param">
-                        <code class="param-name">context</code>
+                        <code class="param-name">engine</code>
                         <span class="type"><a href="../classes/Engine.html" class="crosslink">Engine</a></span>
 
 
@@ -1391,8 +1506,8 @@ Returns <code>-1</code> if the name does not correspond to an attribute.
 
     <div class="meta">
                 <p>Inherited from
-                <a href="../classes/MaterialBase.html#method_uniform1f">MaterialBase</a>:
-        <a href="../files/src_davinci-eight_materials_MaterialBase.ts.html#l356"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;MaterialBase.ts:356</code></a>
+                <a href="../classes/Material.html#method_uniform1f">Material</a>:
+        <a href="../files/src_davinci-eight_materials_Material.ts.html#l356"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:356</code></a>
         </p>
 
 
@@ -1469,8 +1584,8 @@ Returns <code>-1</code> if the name does not correspond to an attribute.
 
     <div class="meta">
                 <p>Inherited from
-                <a href="../classes/MaterialBase.html#method_uniform2f">MaterialBase</a>:
-        <a href="../files/src_davinci-eight_materials_MaterialBase.ts.html#l369"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;MaterialBase.ts:369</code></a>
+                <a href="../classes/Material.html#method_uniform2f">Material</a>:
+        <a href="../files/src_davinci-eight_materials_Material.ts.html#l369"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:369</code></a>
         </p>
 
 
@@ -1560,8 +1675,8 @@ Returns <code>-1</code> if the name does not correspond to an attribute.
 
     <div class="meta">
                 <p>Inherited from
-                <a href="../classes/MaterialBase.html#method_uniform3f">MaterialBase</a>:
-        <a href="../files/src_davinci-eight_materials_MaterialBase.ts.html#l383"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;MaterialBase.ts:383</code></a>
+                <a href="../classes/Material.html#method_uniform3f">Material</a>:
+        <a href="../files/src_davinci-eight_materials_Material.ts.html#l383"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:383</code></a>
         </p>
 
 
@@ -1664,8 +1779,8 @@ Returns <code>-1</code> if the name does not correspond to an attribute.
 
     <div class="meta">
                 <p>Inherited from
-                <a href="../classes/MaterialBase.html#method_uniform4f">MaterialBase</a>:
-        <a href="../files/src_davinci-eight_materials_MaterialBase.ts.html#l398"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;MaterialBase.ts:398</code></a>
+                <a href="../classes/Material.html#method_uniform4f">Material</a>:
+        <a href="../files/src_davinci-eight_materials_Material.ts.html#l398"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:398</code></a>
         </p>
 
 
@@ -1760,8 +1875,8 @@ Returns <code>-1</code> if the name does not correspond to an attribute.
 
     <div class="meta">
                 <p>Inherited from
-                <a href="../classes/ShareableContextListener.html#method_unsubscribe">ShareableContextListener</a>:
-        <a href="../files/src_davinci-eight_core_ShareableContextListener.ts.html#l56"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableContextListener.ts:56</code></a>
+                <a href="../classes/ShareableContextConsumer.html#method_unsubscribe">ShareableContextConsumer</a>:
+        <a href="../files/src_davinci-eight_core_ShareableContextConsumer.ts.html#l94"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableContextConsumer.ts:94</code></a>
         </p>
 
 
@@ -1801,8 +1916,8 @@ Returns <code>-1</code> if the name does not correspond to an attribute.
 
     <div class="meta">
                 <p>Inherited from
-                <a href="../classes/MaterialBase.html#method_use">MaterialBase</a>:
-        <a href="../files/src_davinci-eight_materials_MaterialBase.ts.html#l194"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;MaterialBase.ts:194</code></a>
+                <a href="../classes/Material.html#method_use">Material</a>:
+        <a href="../files/src_davinci-eight_materials_Material.ts.html#l194"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:194</code></a>
         </p>
 
 
@@ -1850,8 +1965,8 @@ Returns <code>-1</code> if the name does not correspond to an attribute.
 
     <div class="meta">
                 <p>Inherited from
-                <a href="../classes/MaterialBase.html#method_vec2">MaterialBase</a>:
-        <a href="../files/src_davinci-eight_materials_MaterialBase.ts.html#l456"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;MaterialBase.ts:456</code></a>
+                <a href="../classes/Material.html#method_vec2">Material</a>:
+        <a href="../files/src_davinci-eight_materials_Material.ts.html#l456"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:456</code></a>
         </p>
 
 
@@ -1925,8 +2040,8 @@ Returns <code>-1</code> if the name does not correspond to an attribute.
 
     <div class="meta">
                 <p>Inherited from
-                <a href="../classes/MaterialBase.html#method_vec3">MaterialBase</a>:
-        <a href="../files/src_davinci-eight_materials_MaterialBase.ts.html#l469"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;MaterialBase.ts:469</code></a>
+                <a href="../classes/Material.html#method_vec3">Material</a>:
+        <a href="../files/src_davinci-eight_materials_Material.ts.html#l469"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:469</code></a>
         </p>
 
 
@@ -2000,8 +2115,8 @@ Returns <code>-1</code> if the name does not correspond to an attribute.
 
     <div class="meta">
                 <p>Inherited from
-                <a href="../classes/MaterialBase.html#method_vec4">MaterialBase</a>:
-        <a href="../files/src_davinci-eight_materials_MaterialBase.ts.html#l482"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;MaterialBase.ts:482</code></a>
+                <a href="../classes/Material.html#method_vec4">Material</a>:
+        <a href="../files/src_davinci-eight_materials_Material.ts.html#l482"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:482</code></a>
         </p>
 
 
@@ -2075,8 +2190,8 @@ Returns <code>-1</code> if the name does not correspond to an attribute.
 
     <div class="meta">
                 <p>Inherited from
-                <a href="../classes/MaterialBase.html#method_vector2">MaterialBase</a>:
-        <a href="../files/src_davinci-eight_materials_MaterialBase.ts.html#l495"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;MaterialBase.ts:495</code></a>
+                <a href="../classes/Material.html#method_vector2">Material</a>:
+        <a href="../files/src_davinci-eight_materials_Material.ts.html#l495"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:495</code></a>
         </p>
 
 
@@ -2150,8 +2265,8 @@ Returns <code>-1</code> if the name does not correspond to an attribute.
 
     <div class="meta">
                 <p>Inherited from
-                <a href="../classes/MaterialBase.html#method_vector3">MaterialBase</a>:
-        <a href="../files/src_davinci-eight_materials_MaterialBase.ts.html#l508"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;MaterialBase.ts:508</code></a>
+                <a href="../classes/Material.html#method_vector3">Material</a>:
+        <a href="../files/src_davinci-eight_materials_Material.ts.html#l508"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:508</code></a>
         </p>
 
 
@@ -2225,8 +2340,8 @@ Returns <code>-1</code> if the name does not correspond to an attribute.
 
     <div class="meta">
                 <p>Inherited from
-                <a href="../classes/MaterialBase.html#method_vector4">MaterialBase</a>:
-        <a href="../files/src_davinci-eight_materials_MaterialBase.ts.html#l521"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;MaterialBase.ts:521</code></a>
+                <a href="../classes/Material.html#method_vector4">Material</a>:
+        <a href="../files/src_davinci-eight_materials_Material.ts.html#l521"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:521</code></a>
         </p>
 
 
@@ -2309,8 +2424,8 @@ Returns <code>-1</code> if the name does not correspond to an attribute.
 
     <div class="meta">
                 <p>Inherited from
-                <a href="../classes/MaterialBase.html#method_vertexPointer">MaterialBase</a>:
-        <a href="../files/src_davinci-eight_materials_MaterialBase.ts.html#l342"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;MaterialBase.ts:342</code></a>
+                <a href="../classes/Material.html#method_vertexPointer">Material</a>:
+        <a href="../files/src_davinci-eight_materials_Material.ts.html#l342"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:342</code></a>
         </p>
 
 
@@ -2404,8 +2519,8 @@ Returns <code>-1</code> if the name does not correspond to an attribute.
 
     <div class="meta">
                 <p>Inherited from
-                <a href="../classes/MaterialBase.html#property__attribs">MaterialBase</a>:
-        <a href="../files/src_davinci-eight_materials_MaterialBase.ts.html#l46"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;MaterialBase.ts:46</code></a>
+                <a href="../classes/Material.html#property__attribs">Material</a>:
+        <a href="../files/src_davinci-eight_materials_Material.ts.html#l46"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:46</code></a>
         </p>
 
 
@@ -2429,8 +2544,8 @@ Returns <code>-1</code> if the name does not correspond to an attribute.
 
     <div class="meta">
                 <p>Inherited from
-                <a href="../classes/MaterialBase.html#property__attributes">MaterialBase</a>:
-        <a href="../files/src_davinci-eight_materials_MaterialBase.ts.html#l60"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;MaterialBase.ts:60</code></a>
+                <a href="../classes/Material.html#property__attributes">Material</a>:
+        <a href="../files/src_davinci-eight_materials_Material.ts.html#l60"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:60</code></a>
         </p>
 
 
@@ -2454,8 +2569,8 @@ Returns <code>-1</code> if the name does not correspond to an attribute.
 
     <div class="meta">
                 <p>Inherited from
-                <a href="../classes/MaterialBase.html#property__fragmentShaderSrc">MaterialBase</a>:
-        <a href="../files/src_davinci-eight_materials_MaterialBase.ts.html#l39"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;MaterialBase.ts:39</code></a>
+                <a href="../classes/Material.html#property__fragmentShaderSrc">Material</a>:
+        <a href="../files/src_davinci-eight_materials_Material.ts.html#l39"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:39</code></a>
         </p>
 
 
@@ -2479,8 +2594,8 @@ Returns <code>-1</code> if the name does not correspond to an attribute.
 
     <div class="meta">
                 <p>Inherited from
-                <a href="../classes/MaterialBase.html#property__program">MaterialBase</a>:
-        <a href="../files/src_davinci-eight_materials_MaterialBase.ts.html#l53"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;MaterialBase.ts:53</code></a>
+                <a href="../classes/Material.html#property__program">Material</a>:
+        <a href="../files/src_davinci-eight_materials_Material.ts.html#l53"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:53</code></a>
         </p>
 
 
@@ -2504,8 +2619,8 @@ Returns <code>-1</code> if the name does not correspond to an attribute.
 
     <div class="meta">
                 <p>Inherited from
-                <a href="../classes/MaterialBase.html#property__uniforms">MaterialBase</a>:
-        <a href="../files/src_davinci-eight_materials_MaterialBase.ts.html#l67"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;MaterialBase.ts:67</code></a>
+                <a href="../classes/Material.html#property__uniforms">Material</a>:
+        <a href="../files/src_davinci-eight_materials_Material.ts.html#l67"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:67</code></a>
         </p>
 
 
@@ -2529,8 +2644,8 @@ Returns <code>-1</code> if the name does not correspond to an attribute.
 
     <div class="meta">
                 <p>Inherited from
-                <a href="../classes/MaterialBase.html#property__vertexShaderSrc">MaterialBase</a>:
-        <a href="../files/src_davinci-eight_materials_MaterialBase.ts.html#l32"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;MaterialBase.ts:32</code></a>
+                <a href="../classes/Material.html#property__vertexShaderSrc">Material</a>:
+        <a href="../files/src_davinci-eight_materials_Material.ts.html#l32"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:32</code></a>
         </p>
 
 
@@ -2553,8 +2668,58 @@ Returns <code>-1</code> if the name does not correspond to an attribute.
 
     <div class="meta">
                 <p>Inherited from
-                <a href="../classes/MaterialBase.html#property_attributeNames">MaterialBase</a>:
-        <a href="../files/src_davinci-eight_materials_MaterialBase.ts.html#l252"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;MaterialBase.ts:252</code></a>
+                <a href="../classes/Material.html#property_attributeNames">Material</a>:
+        <a href="../files/src_davinci-eight_materials_Material.ts.html#l252"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:252</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_contextProvider" class="property item protected inherited">
+    <h3 class="name"><code>contextProvider</code></h3>
+    <span class="type"><a href="../classes/ContextProvider.html" class="crosslink">ContextProvider</a></span>
+
+
+        <span class="flag protected">protected</span>
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/ShareableContextConsumer.html#property_contextProvider">ShareableContextConsumer</a>:
+        <a href="../files/src_davinci-eight_core_ShareableContextConsumer.ts.html#l46"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableContextConsumer.ts:46</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_engine" class="property item private inherited">
+    <h3 class="name"><code>engine</code></h3>
+    <span class="type"><a href="../classes/Engine.html" class="crosslink">Engine</a></span>
+
+
+        <span class="flag private">private</span>
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/ShareableContextConsumer.html#property_engine">ShareableContextConsumer</a>:
+        <a href="../files/src_davinci-eight_core_ShareableContextConsumer.ts.html#l39"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableContextConsumer.ts:39</code></a>
         </p>
 
 
@@ -2577,8 +2742,8 @@ Returns <code>-1</code> if the name does not correspond to an attribute.
 
     <div class="meta">
                 <p>Inherited from
-                <a href="../classes/MaterialBase.html#property_fragmentShaderSrc">MaterialBase</a>:
-        <a href="../files/src_davinci-eight_materials_MaterialBase.ts.html#l230"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;MaterialBase.ts:230</code></a>
+                <a href="../classes/Material.html#property_fragmentShaderSrc">Material</a>:
+        <a href="../files/src_davinci-eight_materials_Material.ts.html#l230"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:230</code></a>
         </p>
 
 
@@ -2586,6 +2751,36 @@ Returns <code>-1</code> if the name does not correspond to an attribute.
 
     <div class="description">
         
+    </div>
+
+
+
+</div>
+<div id="property_gl" class="property item deprecated inherited">
+    <h3 class="name"><code>gl</code></h3>
+    <span class="type">WebGLRenderingContext</span>
+
+        <span class="flag deprecated">deprecated</span>
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/ShareableContextConsumer.html#property_gl">ShareableContextConsumer</a>:
+        <a href="../files/src_davinci-eight_core_ShareableContextConsumer.ts.html#l137"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableContextConsumer.ts:137</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>
+Provides access to the underlying WebGL context.
+</p>
+<p>
+This property is deprecated to encourage access throught the <code>ContextProvider</code>.
+</p>
     </div>
 
 
@@ -2601,8 +2796,8 @@ Returns <code>-1</code> if the name does not correspond to an attribute.
 
     <div class="meta">
                 <p>Inherited from
-                <a href="../classes/MaterialBase.html#property_vertexShaderSrc">MaterialBase</a>:
-        <a href="../files/src_davinci-eight_materials_MaterialBase.ts.html#l208"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;MaterialBase.ts:208</code></a>
+                <a href="../classes/Material.html#property_vertexShaderSrc">Material</a>:
+        <a href="../files/src_davinci-eight_materials_Material.ts.html#l208"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:208</code></a>
         </p>
 
 

@@ -1,12 +1,12 @@
-import IContextProvider from './IContextProvider';
+import ContextProvider from './ContextProvider';
 import readOnly from '../i18n/readOnly';
-import Shareable from './Shareable';
+import ShareableBase from './ShareableBase';
 import Engine from './Engine';
 
 /**
  * Intentionally undocumented.
  */
-export default class DefaultContextProvider extends Shareable implements IContextProvider {
+export default class DefaultContextProvider extends ShareableBase implements ContextProvider {
 
   private _renderer: Engine
 

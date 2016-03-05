@@ -1,15 +1,15 @@
-import IContextProvider from '../core/IContextProvider';
+import ContextProvider from '../core/ContextProvider';
 import mustBeNumber from '../checks/mustBeNumber';
-import Shareable from '../core/Shareable';
+import ShareableBase from '../core/ShareableBase';
 
 /**
  * <p>
  * clearColor(red: number, green: number, blue: number, alpha: number): void
  * <p> 
  * @class WebGLClearColor
- * @extends Shareable
+ * @extends ShareableBase
  */
-export default class WebGLClearColor extends Shareable {
+export default class WebGLClearColor extends ShareableBase {
     public red: number;
     public green: number;
     public blue: number;
@@ -43,11 +43,11 @@ export default class WebGLClearColor extends Shareable {
         super.destructor()
     }
 
-    contextFree(manager: IContextProvider): void {
+    contextFree(manager: ContextProvider): void {
         // Do nothing;
     }
 
-    contextGain(manager: IContextProvider): void {
+    contextGain(manager: ContextProvider): void {
         mustBeNumber('red', this.red)
         mustBeNumber('green', this.green)
         mustBeNumber('blue', this.blue)

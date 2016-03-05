@@ -6,10 +6,10 @@ import ShareableArray from '../collections/ShareableArray';
 import mustBeDefined from '../checks/mustBeDefined';
 import mustBeString from '../checks/mustBeString';
 import NumberIUnknownMap from '../collections/NumberIUnknownMap';
-import Shareable from '../core/Shareable';
+import ShareableBase from '../core/ShareableBase';
 import StringIUnknownMap from '../collections/StringIUnknownMap';
 
-export default class Director extends Shareable implements IDirector {
+export default class Director extends ShareableBase implements IDirector {
     private step: number;
     public slides: ShareableArray<Slide>;
     private facets: { [name: string]: IAnimationTarget };

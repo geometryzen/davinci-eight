@@ -1,5 +1,5 @@
-import Shareable from '../../core/Shareable'
-export default class GeometryElement extends Shareable {
+import ShareableBase from '../../core/ShareableBase'
+export default class GeometryElement extends ShareableBase {
     constructor(type: string) {
         super(type)
     }

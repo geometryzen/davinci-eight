@@ -1,5 +1,5 @@
 import DrawMode from '../core/DrawMode'
-import IColor from '../core/IColor'
+import AbstractColor from '../core/AbstractColor'
 import VectorE3 from '../math/VectorE3'
 
 /**
@@ -40,10 +40,10 @@ interface GridOptions {
 
   /**
    * @attribute aColor
-   * @type (u: number, v: number) => IColor
+   * @type (u: number, v: number) => AbstractColor
    * @optional
    */
-  aColor?: (u: number, v: number) => IColor
+  aColor?: (u: number, v: number) => AbstractColor
 
   /**
    * Specifies the required Geometric Primitive Type.
