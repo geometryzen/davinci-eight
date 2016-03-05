@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>WebGLRenderer - davinci-eight</title>
+    <title>Engine - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.208.0</em>
+            <em>API Docs for: 2.209.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -87,6 +87,7 @@
                                 <li><a href="../classes/DrawMode.html">DrawMode</a></li>
                                 <li><a href="../classes/Duality.html">Duality</a></li>
                                 <li><a href="../classes/EIGHTLogger.html">EIGHTLogger</a></li>
+                                <li><a href="../classes/Engine.html">Engine</a></li>
                                 <li><a href="../classes/ErrorMode.html">ErrorMode</a></li>
                                 <li><a href="../classes/Facet.html">Facet</a></li>
                                 <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
@@ -213,7 +214,6 @@
                                 <li><a href="../classes/WebGLClearColor.html">WebGLClearColor</a></li>
                                 <li><a href="../classes/WebGLDisable.html">WebGLDisable</a></li>
                                 <li><a href="../classes/WebGLEnable.html">WebGLEnable</a></li>
-                                <li><a href="../classes/WebGLRenderer.html">WebGLRenderer</a></li>
                             </ul>
                 
                 
@@ -260,7 +260,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1>WebGLRenderer Class</h1>
+<h1>Engine Class</h1>
 <div class="box meta">
 
         <div class="extends">
@@ -268,7 +268,7 @@
         </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_core_WebGLRenderer.ts.html#l71"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;WebGLRenderer.ts:71</code></a>
+            Defined in: <a href="../files/src_davinci-eight_core_Engine.ts.html#l71"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:71</code></a>
         </div>
 
             Module: <a href="../modules/core.html">core</a><br>
@@ -283,8 +283,8 @@
 
     <div class="constructor">
         <h2>Constructor</h2>
-<div id="method_WebGLRenderer" class="method item">
-    <h3 class="name"><code>WebGLRenderer</code></h3>
+<div id="method_Engine" class="method item">
+    <h3 class="name"><code>Engine</code></h3>
 
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
@@ -304,7 +304,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_WebGLRenderer.ts.html#l71"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;WebGLRenderer.ts:71</code></a>
+        <a href="../files/src_davinci-eight_core_Engine.ts.html#l71"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:71</code></a>
         </p>
 
 
@@ -341,7 +341,7 @@
 
             <div class="example-content">
                 <pre class="code prettyprint"><code>// Anytime before calling the start method...
-const renderer = new EIGHT.WebGLRenderer()
+const renderer = new EIGHT.Engine()
 
 // When the canvas is available, usually in the window.onload function...
 renderer.start(canvas)
@@ -493,7 +493,7 @@ renderer.release()</code></pre>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_WebGLRenderer.ts.html#l126"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;WebGLRenderer.ts:126</code></a>
+        <a href="../files/src_davinci-eight_core_Engine.ts.html#l126"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:126</code></a>
         </p>
 
 
@@ -571,8 +571,7 @@ Notifies this instance that something is referencing it.
 
             <div class="returns-description">
                         <span class="type">Number</span>:
-                    <p>The new value of the reference count.</p>
-
+                    The new value of the reference count.
             </div>
         </div>
 
@@ -596,7 +595,7 @@ Notifies this instance that something is referencing it.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_WebGLRenderer.ts.html#l249"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;WebGLRenderer.ts:249</code></a>
+        <a href="../files/src_davinci-eight_core_Engine.ts.html#l249"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:249</code></a>
         </p>
 
 
@@ -639,7 +638,7 @@ Notifies this instance that something is referencing it.
         </div>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/WebGLRenderer.html" class="crosslink">WebGLRenderer</a></span>
+            <span class="type"><a href="../classes/Engine.html" class="crosslink">Engine</a></span>
         </span>
 
 
@@ -652,7 +651,7 @@ Notifies this instance that something is referencing it.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_WebGLRenderer.ts.html#l172"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;WebGLRenderer.ts:172</code></a>
+        <a href="../files/src_davinci-eight_core_Engine.ts.html#l172"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:172</code></a>
         </p>
 
 
@@ -716,7 +715,7 @@ Specifies color values to use by the <code>clear</code> method to clear the colo
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/WebGLRenderer.html" class="crosslink">WebGLRenderer</a></span>:
+                        <span class="type"><a href="../classes/Engine.html" class="crosslink">Engine</a></span>:
             </div>
         </div>
 
@@ -787,7 +786,7 @@ Outputs a warning to the console that this method should be implemented by the d
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_WebGLRenderer.ts.html#l111"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;WebGLRenderer.ts:111</code></a>
+        <a href="../files/src_davinci-eight_core_Engine.ts.html#l111"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:111</code></a>
         </p>
 
 
@@ -814,7 +813,7 @@ Outputs a warning to the console that this method should be implemented by the d
         </div>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/WebGLRenderer.html" class="crosslink">WebGLRenderer</a></span>
+            <span class="type"><a href="../classes/Engine.html" class="crosslink">Engine</a></span>
         </span>
 
 
@@ -827,7 +826,7 @@ Outputs a warning to the console that this method should be implemented by the d
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_WebGLRenderer.ts.html#l193"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;WebGLRenderer.ts:193</code></a>
+        <a href="../files/src_davinci-eight_core_Engine.ts.html#l193"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:193</code></a>
         </p>
 
 
@@ -860,7 +859,7 @@ Outputs a warning to the console that this method should be implemented by the d
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/WebGLRenderer.html" class="crosslink">WebGLRenderer</a></span>:
+                        <span class="type"><a href="../classes/Engine.html" class="crosslink">Engine</a></span>:
             </div>
         </div>
 
@@ -878,7 +877,7 @@ Outputs a warning to the console that this method should be implemented by the d
         </div>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/WebGLRenderer.html" class="crosslink">WebGLRenderer</a></span>
+            <span class="type"><a href="../classes/Engine.html" class="crosslink">Engine</a></span>
         </span>
 
 
@@ -891,7 +890,7 @@ Outputs a warning to the console that this method should be implemented by the d
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_WebGLRenderer.ts.html#l206"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;WebGLRenderer.ts:206</code></a>
+        <a href="../files/src_davinci-eight_core_Engine.ts.html#l206"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:206</code></a>
         </p>
 
 
@@ -924,7 +923,7 @@ Outputs a warning to the console that this method should be implemented by the d
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/WebGLRenderer.html" class="crosslink">WebGLRenderer</a></span>:
+                        <span class="type"><a href="../classes/Engine.html" class="crosslink">Engine</a></span>:
             </div>
         </div>
 
@@ -970,8 +969,7 @@ Notifies this instance that something is dereferencing it.
 
             <div class="returns-description">
                         <span class="type">Number</span>:
-                    <p>The new value of the reference count.</p>
-
+                    The new value of the reference count.
             </div>
         </div>
 
@@ -1001,7 +999,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_WebGLRenderer.ts.html#l236"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;WebGLRenderer.ts:236</code></a>
+        <a href="../files/src_davinci-eight_core_Engine.ts.html#l236"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:236</code></a>
         </p>
 
 
@@ -1051,7 +1049,7 @@ Notifies this instance that something is dereferencing it.
         </div>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/WebGLRenderer.html" class="crosslink">WebGLRenderer</a></span>
+            <span class="type"><a href="../classes/Engine.html" class="crosslink">Engine</a></span>
         </span>
 
 
@@ -1064,7 +1062,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_WebGLRenderer.ts.html#l282"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;WebGLRenderer.ts:282</code></a>
+        <a href="../files/src_davinci-eight_core_Engine.ts.html#l282"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:282</code></a>
         </p>
 
 
@@ -1098,7 +1096,7 @@ Notifies this instance that something is dereferencing it.
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/WebGLRenderer.html" class="crosslink">WebGLRenderer</a></span>:
+                        <span class="type"><a href="../classes/Engine.html" class="crosslink">Engine</a></span>:
             </div>
         </div>
 
@@ -1110,7 +1108,7 @@ Notifies this instance that something is dereferencing it.
         <span class="paren">()</span>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/WebGLRenderer.html" class="crosslink">WebGLRenderer</a></span>
+            <span class="type"><a href="../classes/Engine.html" class="crosslink">Engine</a></span>
         </span>
 
 
@@ -1123,7 +1121,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_WebGLRenderer.ts.html#l318"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;WebGLRenderer.ts:318</code></a>
+        <a href="../files/src_davinci-eight_core_Engine.ts.html#l318"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:318</code></a>
         </p>
 
 
@@ -1139,7 +1137,7 @@ Notifies this instance that something is dereferencing it.
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/WebGLRenderer.html" class="crosslink">WebGLRenderer</a></span>:
+                        <span class="type"><a href="../classes/Engine.html" class="crosslink">Engine</a></span>:
             </div>
         </div>
 
@@ -1169,7 +1167,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_WebGLRenderer.ts.html#l372"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;WebGLRenderer.ts:372</code></a>
+        <a href="../files/src_davinci-eight_core_Engine.ts.html#l372"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:372</code></a>
         </p>
 
 
@@ -1228,7 +1226,7 @@ Notifies this instance that something is dereferencing it.
         </div>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/WebGLRenderer.html" class="crosslink">WebGLRenderer</a></span>
+            <span class="type"><a href="../classes/Engine.html" class="crosslink">Engine</a></span>
         </span>
 
 
@@ -1241,7 +1239,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_WebGLRenderer.ts.html#l260"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;WebGLRenderer.ts:260</code></a>
+        <a href="../files/src_davinci-eight_core_Engine.ts.html#l260"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:260</code></a>
         </p>
 
 
@@ -1304,7 +1302,7 @@ Notifies this instance that something is dereferencing it.
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/WebGLRenderer.html" class="crosslink">WebGLRenderer</a></span>:
+                        <span class="type"><a href="../classes/Engine.html" class="crosslink">Engine</a></span>:
             </div>
         </div>
 
@@ -1327,7 +1325,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_WebGLRenderer.ts.html#l50"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;WebGLRenderer.ts:50</code></a>
+        <a href="../files/src_davinci-eight_core_Engine.ts.html#l50"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:50</code></a>
         </p>
 
 
@@ -1352,7 +1350,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_WebGLRenderer.ts.html#l43"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;WebGLRenderer.ts:43</code></a>
+        <a href="../files/src_davinci-eight_core_Engine.ts.html#l43"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:43</code></a>
         </p>
 
 
@@ -1376,7 +1374,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_WebGLRenderer.ts.html#l142"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;WebGLRenderer.ts:142</code></a>
+        <a href="../files/src_davinci-eight_core_Engine.ts.html#l142"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:142</code></a>
         </p>
 
 
@@ -1400,7 +1398,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_WebGLRenderer.ts.html#l158"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;WebGLRenderer.ts:158</code></a>
+        <a href="../files/src_davinci-eight_core_Engine.ts.html#l158"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:158</code></a>
         </p>
 
 
@@ -1424,7 +1422,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_WebGLRenderer.ts.html#l219"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;WebGLRenderer.ts:219</code></a>
+        <a href="../files/src_davinci-eight_core_Engine.ts.html#l219"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:219</code></a>
         </p>
 
 

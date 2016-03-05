@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.208.0</em>
+            <em>API Docs for: 2.209.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -87,6 +87,7 @@
                                 <li><a href="../classes/DrawMode.html">DrawMode</a></li>
                                 <li><a href="../classes/Duality.html">Duality</a></li>
                                 <li><a href="../classes/EIGHTLogger.html">EIGHTLogger</a></li>
+                                <li><a href="../classes/Engine.html">Engine</a></li>
                                 <li><a href="../classes/ErrorMode.html">ErrorMode</a></li>
                                 <li><a href="../classes/Facet.html">Facet</a></li>
                                 <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
@@ -213,7 +214,6 @@
                                 <li><a href="../classes/WebGLClearColor.html">WebGLClearColor</a></li>
                                 <li><a href="../classes/WebGLDisable.html">WebGLDisable</a></li>
                                 <li><a href="../classes/WebGLEnable.html">WebGLEnable</a></li>
-                                <li><a href="../classes/WebGLRenderer.html">WebGLRenderer</a></li>
                             </ul>
                 
                 
@@ -266,7 +266,7 @@
     <pre class="code prettyprint linenums">
 import cleanUp from &#x27;./cleanUp&#x27;;
 import IContextListener from &#x27;./IContextListener&#x27;
-import WebGLRenderer from &#x27;./WebGLRenderer&#x27;
+import Engine from &#x27;./Engine&#x27;
 import IContextProvider from &#x27;./IContextProvider&#x27;
 import readOnly from &#x27;../i18n/readOnly&#x27;;
 import Shareable from &#x27;./Shareable&#x27;;
@@ -278,7 +278,7 @@ import Shareable from &#x27;./Shareable&#x27;;
  * @extends Shareable
  */
 export default class ShareableContextListener extends Shareable implements IContextListener {
-    private _context: WebGLRenderer
+    private _context: Engine
     protected contextProvider: IContextProvider
 
     /**
@@ -303,10 +303,10 @@ export default class ShareableContextListener extends Shareable implements ICont
      * Instructs the consumer to subscribe to context events.
      *
      * @method subscribe
-     * @param context {WebGLRenderer}
+     * @param context {Engine}
      * @return {void}
      */
-    subscribe(context: WebGLRenderer): void {
+    subscribe(context: Engine): void {
         if (!this._context) {
             context.addRef()
             this._context = context

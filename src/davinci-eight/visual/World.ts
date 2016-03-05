@@ -6,7 +6,7 @@ import IDrawable from '../core/IDrawable'
 import CameraControls from '../controls/CameraControls'
 import readOnly from '../i18n/readOnly'
 import Shareable from '../core/Shareable'
-import WebGLRenderer from '../core/WebGLRenderer'
+import Engine from '../core/Engine'
 
 /**
  * Intentionally undocumented.
@@ -14,13 +14,13 @@ import WebGLRenderer from '../core/WebGLRenderer'
  */
 export default class World extends Shareable {
     private drawList: DrawList
-    private renderer: WebGLRenderer
+    private renderer: Engine
     private _ambients: Facet[]
     private _controls: CameraControls
 
     private _ambientLight = new AmbientLight(Color.fromRGB(0.3, 0.3, 0.3))
 
-    constructor(renderer: WebGLRenderer, drawList: DrawList, ambients: Facet[], controls: CameraControls) {
+    constructor(renderer: Engine, drawList: DrawList, ambients: Facet[], controls: CameraControls) {
         super('World')
 
         renderer.addRef()

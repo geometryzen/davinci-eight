@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.208.0</em>
+            <em>API Docs for: 2.209.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -87,6 +87,7 @@
                                 <li><a href="../classes/DrawMode.html">DrawMode</a></li>
                                 <li><a href="../classes/Duality.html">Duality</a></li>
                                 <li><a href="../classes/EIGHTLogger.html">EIGHTLogger</a></li>
+                                <li><a href="../classes/Engine.html">Engine</a></li>
                                 <li><a href="../classes/ErrorMode.html">ErrorMode</a></li>
                                 <li><a href="../classes/Facet.html">Facet</a></li>
                                 <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
@@ -213,7 +214,6 @@
                                 <li><a href="../classes/WebGLClearColor.html">WebGLClearColor</a></li>
                                 <li><a href="../classes/WebGLDisable.html">WebGLDisable</a></li>
                                 <li><a href="../classes/WebGLEnable.html">WebGLEnable</a></li>
-                                <li><a href="../classes/WebGLRenderer.html">WebGLRenderer</a></li>
                             </ul>
                 
                 
@@ -272,6 +272,7 @@ import mustBeObject from &#x27;../checks/mustBeObject&#x27;;
 import Geometry from &#x27;./Geometry&#x27;;
 import Shareable from &#x27;../core/Shareable&#x27;;
 import ShareableContextListener from &#x27;../core/ShareableContextListener&#x27;;
+import Engine from &#x27;./Engine&#x27;;
 
 /**
  * @module EIGHT
@@ -284,83 +285,83 @@ import ShareableContextListener from &#x27;../core/ShareableContextListener&#x27
  */
 class ScenePart extends Shareable {
 
-    /**
-     *
-     */
-    private _geometry: Geometry;
+  /**
+   *
+   */
+  private _geometry: Geometry;
 
-    /**
-     * Keep track of the &#x27;parent&#x27; mesh.
-     */
-    private _mesh: IDrawable;
+  /**
+   * Keep track of the &#x27;parent&#x27; mesh.
+   */
+  private _mesh: IDrawable;
 
-    /**
-     *
-     */
-    constructor(geometry: Geometry, mesh: IDrawable) {
-        super(&#x27;ScenePart&#x27;)
-        this._geometry = geometry
-        this._geometry.addRef()
-        this._mesh = mesh
-        this._mesh.addRef()
-    }
+  /**
+   *
+   */
+  constructor(geometry: Geometry, mesh: IDrawable) {
+    super(&#x27;ScenePart&#x27;)
+    this._geometry = geometry
+    this._geometry.addRef()
+    this._mesh = mesh
+    this._mesh.addRef()
+  }
 
-    /**
-     *
-     */
-    protected destructor(): void {
-        this._geometry.release()
-        this._mesh.release()
-        this._geometry = void 0;
-        this._mesh = void 0
-        super.destructor()
-    }
+  /**
+   *
+   */
+  protected destructor(): void {
+    this._geometry.release()
+    this._mesh.release()
+    this._geometry = void 0;
+    this._mesh = void 0
+    super.destructor()
+  }
 
-    /**
-     *
-     */
-    draw(ambients: Facet[]) {
-        if (this._mesh.visible) {
-            const material = this._mesh.material
+  /**
+   *
+   */
+  draw(ambients: Facet[]) {
+    if (this._mesh.visible) {
+      const material = this._mesh.material
 
-            material.use()
+      material.use()
 
-            if (ambients) {
-                const aLength = ambients.length
-                for (let a = 0; a &lt; aLength; a++) {
-                    const ambient = ambients[a]
-                    ambient.setUniforms(material)
-                }
-            }
-
-            this._mesh.setUniforms();
-
-            this._geometry.draw(material)
-            material.release()
+      if (ambients) {
+        const aLength = ambients.length
+        for (let a = 0; a &lt; aLength; a++) {
+          const ambient = ambients[a]
+          ambient.setUniforms(material)
         }
+      }
+
+      this._mesh.setUniforms();
+
+      this._geometry.draw(material)
+      material.release()
     }
+  }
 }
 
 function partsFromMesh(mesh: IDrawable): ShareableArray&lt;ScenePart&gt; {
-    mustBeObject(&#x27;mesh&#x27;, mesh)
-    const parts = new ShareableArray&lt;ScenePart&gt;()
-    const geometry = mesh.geometry
-    if (geometry.isLeaf()) {
-        const scenePart = new ScenePart(geometry, mesh)
-        parts.pushWeakRef(scenePart)
+  mustBeObject(&#x27;mesh&#x27;, mesh)
+  const parts = new ShareableArray&lt;ScenePart&gt;()
+  const geometry = mesh.geometry
+  if (geometry.isLeaf()) {
+    const scenePart = new ScenePart(geometry, mesh)
+    parts.pushWeakRef(scenePart)
+  }
+  else {
+    const iLen = geometry.partsLength
+    for (let i = 0; i &lt; iLen; i++) {
+      const geometryPart = geometry.getPart(i)
+      // FIXME: This needs to go down to the leaves.
+      const scenePart = new ScenePart(geometryPart, mesh)
+      geometryPart.release()
+      parts.pushWeakRef(scenePart)
     }
-    else {
-        const iLen = geometry.partsLength
-        for (let i = 0; i &lt; iLen; i++) {
-            const geometryPart = geometry.getPart(i)
-            // FIXME: This needs to go down to the leaves.
-            const scenePart = new ScenePart(geometryPart, mesh)
-            geometryPart.release()
-            parts.pushWeakRef(scenePart)
-        }
-    }
-    geometry.release()
-    return parts
+  }
+  geometry.release()
+  return parts
 }
 
 /**
@@ -369,181 +370,184 @@ function partsFromMesh(mesh: IDrawable): ShareableArray&lt;ScenePart&gt; {
  */
 export default class Scene extends ShareableContextListener {
 
-    private _drawables: ShareableArray&lt;IDrawable&gt;;
-    private _parts: ShareableArray&lt;ScenePart&gt;;
+  private _drawables: ShareableArray&lt;IDrawable&gt;;
+  private _parts: ShareableArray&lt;ScenePart&gt;;
 
-    // FIXME: Do I need the collection, or can I be fooled into thinking there is one monitor?
-    /**
-     * &lt;p&gt;
-     * A &lt;code&gt;Scene&lt;/code&gt; is a collection of mesh instances arranged in some order.
-     * The precise order is implementation defined.
-     * The collection may be traversed for general processing using callback/visitor functions.
-     * &lt;/p&gt;
-     * @class Scene
-     * @constructor
-     */
-    constructor() {
-        super(&#x27;Scene&#x27;)
-        this._drawables = new ShareableArray&lt;IDrawable&gt;()
-        this._parts = new ShareableArray&lt;ScenePart&gt;()
+  // FIXME: Do I need the collection, or can I be fooled into thinking there is one monitor?
+  /**
+   * &lt;p&gt;
+   * A &lt;code&gt;Scene&lt;/code&gt; is a collection of mesh instances arranged in some order.
+   * The precise order is implementation defined.
+   * The collection may be traversed for general processing using callback/visitor functions.
+   * &lt;/p&gt;
+   * @class Scene
+   * @constructor
+   * @param engine {Engine}
+   */
+  constructor(engine: Engine) {
+    super(&#x27;Scene&#x27;)
+    mustBeObject(&#x27;engine&#x27;, engine)
+    this._drawables = new ShareableArray&lt;IDrawable&gt;()
+    this._parts = new ShareableArray&lt;ScenePart&gt;()
+    this.subscribe(engine)
+  }
+
+  /**
+   * @method destructor
+   * @return {void}
+   * @protected
+   */
+  protected destructor(): void {
+    this.unsubscribe()
+    this._drawables.release()
+    this._parts.release()
+    super.destructor()
+  }
+
+  /**
+   * &lt;p&gt;
+   * Adds the &lt;code&gt;mesh&lt;/code&gt; to this &lt;code&gt;Scene&lt;/code&gt;.
+   * &lt;/p&gt;
+   * @method add
+   * @param mesh {IDrawable}
+   * @return {Void}
+   * &lt;p&gt;
+   * This method returns &lt;code&gt;undefined&lt;/code&gt;.
+   * &lt;/p&gt;
+   */
+  add(mesh: IDrawable): void {
+    mustBeObject(&#x27;mesh&#x27;, mesh)
+    this._drawables.push(mesh)
+
+    // TODO: Control the ordering for optimization.
+    const drawParts = partsFromMesh(mesh)
+    const iLen = drawParts.length;
+    for (let i = 0; i &lt; iLen; i++) {
+      const part = drawParts.get(i)
+      this._parts.push(part)
+      part.release()
     }
+    drawParts.release()
+  }
 
-    /**
-     * @method destructor
-     * @return {void}
-     * @protected
-     */
-    protected destructor(): void {
-        this.unsubscribe()
-        this._drawables.release()
-        this._parts.release()
-        super.destructor()
+  /**
+   * @method contains
+   * @param mesh {IDrawable}
+   * @return {boolean}
+   */
+  contains(mesh: IDrawable): boolean {
+    mustBeObject(&#x27;mesh&#x27;, mesh)
+    return this._drawables.indexOf(mesh) &gt;= 0
+  }
+
+  /**
+   * &lt;p&gt;
+   * Traverses the collection of scene parts drawing each one.
+   * &lt;/p&gt;
+   * @method draw
+   * @param ambients {Facet[]}
+   * @return {void}
+   * @beta
+   */
+  draw(ambients: Facet[]): void {
+    const parts = this._parts
+    const iLen = parts.length
+    for (let i = 0; i &lt; iLen; i++) {
+      parts.getWeakRef(i).draw(ambients)
     }
+  }
 
-    /**
-     * &lt;p&gt;
-     * Adds the &lt;code&gt;mesh&lt;/code&gt; to this &lt;code&gt;Scene&lt;/code&gt;.
-     * &lt;/p&gt;
-     * @method add
-     * @param mesh {IDrawable}
-     * @return {Void}
-     * &lt;p&gt;
-     * This method returns &lt;code&gt;undefined&lt;/code&gt;.
-     * &lt;/p&gt;
-     */
-    add(mesh: IDrawable): void {
-        mustBeObject(&#x27;mesh&#x27;, mesh)
-        this._drawables.push(mesh)
+  /**
+   * @method find
+   * @param match {(mesh: IDrawable) =&gt; boolean}
+   * @return {ShareableArray}
+   */
+  find(match: (mesh: IDrawable) =&gt; boolean): ShareableArray&lt;IDrawable&gt; {
+    return this._drawables.find(match)
+  }
 
-        // TODO: Control the ordering for optimization.
-        const drawParts = partsFromMesh(mesh)
-        const iLen = drawParts.length;
-        for (let i = 0; i &lt; iLen; i++) {
-            const part = drawParts.get(i)
-            this._parts.push(part)
-            part.release()
-        }
-        drawParts.release()
+  /**
+   * @method findOne
+   * @param match {(mesh: IDrawable) =&gt; boolean}
+   * @return {IDrawable}
+   */
+  findOne(match: (mesh: IDrawable) =&gt; boolean): IDrawable {
+    return this._drawables.findOne(match)
+  }
+
+  /**
+   * @method findOneByName
+   * @param name {string}
+   * @return {IDrawable}
+   */
+  findOneByName(name: string): IDrawable {
+    return this.findOne(function(mesh) { return mesh.name === name })
+  }
+
+  /**
+   * @method findByName
+   * @param name {string}
+   * @return {ShareableArray}
+   */
+  findByName(name: string): ShareableArray&lt;IDrawable&gt; {
+    return this.find(function(mesh) { return mesh.name === name })
+  }
+
+  /**
+   * &lt;p&gt;
+   * Removes the &lt;code&gt;mesh&lt;/code&gt; from this &lt;code&gt;Scene&lt;/code&gt;.
+   * &lt;/p&gt;
+   *
+   * @method remove
+   * @param drawable {IDrawable}
+   * @return {void}
+   */
+  remove(drawable: IDrawable): void {
+    // TODO: Remove the appropriate parts from the scene.
+    mustBeObject(&#x27;drawable&#x27;, drawable)
+    const index = this._drawables.indexOf(drawable)
+    if (index &gt;= 0) {
+      this._drawables.splice(index, 1).release()
     }
+  }
 
-    /**
-     * @method contains
-     * @param mesh {IDrawable}
-     * @return {boolean}
-     */
-    contains(mesh: IDrawable): boolean {
-        mustBeObject(&#x27;mesh&#x27;, mesh)
-        return this._drawables.indexOf(mesh) &gt;= 0
+  /**
+   * @method contextFree
+   * @param context {IContextProvider}
+   * @return {void}
+   */
+  contextFree(context: IContextProvider): void {
+    for (let i = 0; i &lt; this._drawables.length; i++) {
+      const mesh = this._drawables.getWeakRef(i)
+      mesh.contextFree(context)
     }
+    super.contextFree(context)
+  }
 
-    /**
-     * &lt;p&gt;
-     * Traverses the collection of scene parts drawing each one.
-     * &lt;/p&gt;
-     * @method draw
-     * @param ambients {Facet[]}
-     * @return {void}
-     * @beta
-     */
-    draw(ambients: Facet[]): void {
-        const parts = this._parts
-        const iLen = parts.length
-        for (let i = 0; i &lt; iLen; i++) {
-            parts.getWeakRef(i).draw(ambients)
-        }
+  /**
+   * @method contextGain
+   * @param context {IContextProvider}
+   * @return {void}
+   */
+  contextGain(context: IContextProvider): void {
+    for (let i = 0; i &lt; this._drawables.length; i++) {
+      const mesh = this._drawables.getWeakRef(i)
+      mesh.contextGain(context)
     }
+    super.contextGain(context)
+  }
 
-    /**
-     * @method find
-     * @param match {(mesh: IDrawable) =&gt; boolean}
-     * @return {ShareableArray}
-     */
-    find(match: (mesh: IDrawable) =&gt; boolean): ShareableArray&lt;IDrawable&gt; {
-        return this._drawables.find(match)
+  /**
+   * @method contextLost
+   * @return {void}
+   */
+  contextLost(): void {
+    for (let i = 0; i &lt; this._drawables.length; i++) {
+      const mesh = this._drawables.getWeakRef(i)
+      mesh.contextLost()
     }
-
-    /**
-     * @method findOne
-     * @param match {(mesh: IDrawable) =&gt; boolean}
-     * @return {IDrawable}
-     */
-    findOne(match: (mesh: IDrawable) =&gt; boolean): IDrawable {
-        return this._drawables.findOne(match)
-    }
-
-    /**
-     * @method findOneByName
-     * @param name {string}
-     * @return {IDrawable}
-     */
-    findOneByName(name: string): IDrawable {
-        return this.findOne(function(mesh) { return mesh.name === name })
-    }
-
-    /**
-     * @method findByName
-     * @param name {string}
-     * @return {ShareableArray}
-     */
-    findByName(name: string): ShareableArray&lt;IDrawable&gt; {
-        return this.find(function(mesh) { return mesh.name === name })
-    }
-
-    /**
-     * &lt;p&gt;
-     * Removes the &lt;code&gt;mesh&lt;/code&gt; from this &lt;code&gt;Scene&lt;/code&gt;.
-     * &lt;/p&gt;
-     *
-     * @method remove
-     * @param drawable {IDrawable}
-     * @return {void}
-     */
-    remove(drawable: IDrawable): void {
-        // TODO: Remove the appropriate parts from the scene.
-        mustBeObject(&#x27;drawable&#x27;, drawable)
-        const index = this._drawables.indexOf(drawable)
-        if (index &gt;= 0) {
-            this._drawables.splice(index, 1).release()
-        }
-    }
-
-    /**
-     * @method contextFree
-     * @param context {IContextProvider}
-     * @return {void}
-     */
-    contextFree(context: IContextProvider): void {
-        for (let i = 0; i &lt; this._drawables.length; i++) {
-            const mesh = this._drawables.getWeakRef(i)
-            mesh.contextFree(context)
-        }
-        super.contextFree(context)
-    }
-
-    /**
-     * @method contextGain
-     * @param context {IContextProvider}
-     * @return {void}
-     */
-    contextGain(context: IContextProvider): void {
-        for (let i = 0; i &lt; this._drawables.length; i++) {
-            const mesh = this._drawables.getWeakRef(i)
-            mesh.contextGain(context)
-        }
-        super.contextGain(context)
-    }
-
-    /**
-     * @method contextLost
-     * @return {void}
-     */
-    contextLost(): void {
-        for (let i = 0; i &lt; this._drawables.length; i++) {
-            const mesh = this._drawables.getWeakRef(i)
-            mesh.contextLost()
-        }
-        super.contextLost()
-    }
+    super.contextLost()
+  }
 }
 
     </pre>

@@ -12,7 +12,7 @@ import VersionLogger from '../commands/VersionLogger'
 import WebGLClearColor from '../commands/WebGLClearColor';
 import WebGLEnable from '../commands/WebGLEnable';
 import WebGLDisable from '../commands/WebGLDisable';
-import WebGLContextProvider from './WebGLContextProvider';
+import DefaultContextProvider from './DefaultContextProvider';
 
 /**
  * Fundamental abstractions in the architecture.
@@ -24,7 +24,7 @@ import WebGLContextProvider from './WebGLContextProvider';
 /**
  * @example
  *     // Anytime before calling the start method...
- *     const renderer = new EIGHT.WebGLRenderer()
+ *     const renderer = new EIGHT.Engine()
  *
  *     // When the canvas is available, usually in the window.onload function...
  *     renderer.start(canvas)
@@ -35,10 +35,10 @@ import WebGLContextProvider from './WebGLContextProvider';
  *     // When no longer needed, usually in the window.onunload function...
  *     renderer.release()
  *
- * @class WebGLRenderer
+ * @class Engine
  * @extends Shareable
  */
-export default class WebGLRenderer extends Shareable {
+export default class Engine extends Shareable {
 
   /**
    * @property _gl
@@ -66,22 +66,22 @@ export default class WebGLRenderer extends Shareable {
 
   private _commands = new ShareableArray<IContextConsumer>([])
 
-  private _contextProvider: WebGLContextProvider
+  private _contextProvider: DefaultContextProvider
 
   /**
-   * @class WebGLRenderer
+   * @class Engine
    * @constructor
    * @param [attributes] {WebGLContextAttributes} Allows the context to be configured.
    */
   constructor(attributes?: WebGLContextAttributes) {
-    super('WebGLRenderer')
+    super('Engine')
 
     this._attributes = attributes;
 
     this._commands.pushWeakRef(new EIGHTLogger())
     this._commands.pushWeakRef(new VersionLogger())
 
-    this._contextProvider = new WebGLContextProvider(this)
+    this._contextProvider = new DefaultContextProvider(this)
 
     // For convenience.
     this.enable(Capability.DEPTH_TEST)
@@ -179,10 +179,10 @@ export default class WebGLRenderer extends Shareable {
    * @param green {number}
    * @param blue {number}
    * @param alpha {number}
-   * @return {WebGLRenderer}
+   * @return {Engine}
    * @chainable
    */
-  clearColor(red: number, green: number, blue: number, alpha: number): WebGLRenderer {
+  clearColor(red: number, green: number, blue: number, alpha: number): Engine {
     this._commands.pushWeakRef(new WebGLClearColor(red, green, blue, alpha))
     if (this._gl) {
       this._gl.clearColor(red, green, blue, alpha)
@@ -195,10 +195,10 @@ export default class WebGLRenderer extends Shareable {
    *
    * @method disable
    * @param capability {Capability}
-   * @return {WebGLRenderer}
+   * @return {Engine}
    * @chainable
    */
-  disable(capability: Capability): WebGLRenderer {
+  disable(capability: Capability): Engine {
     this._commands.pushWeakRef(new WebGLDisable(capability))
     return this
   }
@@ -208,10 +208,10 @@ export default class WebGLRenderer extends Shareable {
    *
    * @method enable
    * @param capability {Capability}
-   * @return {WebGLRenderer}
+   * @return {Engine}
    * @chainable
    */
-  enable(capability: Capability): WebGLRenderer {
+  enable(capability: Capability): Engine {
     this._commands.pushWeakRef(new WebGLEnable(capability))
     return this
   }
@@ -265,10 +265,10 @@ export default class WebGLRenderer extends Shareable {
    * @param y {number}
    * @param width {number}
    * @param height {number}
-   * @return {WebGLRenderer}
+   * @return {Engine}
    * @chainable
    */
-  viewport(x: number, y: number, width: number, height: number): WebGLRenderer {
+  viewport(x: number, y: number, width: number, height: number): Engine {
     const gl = this._gl;
     if (gl) {
       this._gl.viewport(x, y, width, height)
@@ -284,10 +284,10 @@ export default class WebGLRenderer extends Shareable {
    *
    * @method start
    * @param canvas {HTMLCanvasElement} The HTML canvas element.
-   * @return {WebGLRenderer}
+   * @return {Engine}
    * @chainable
    */
-  start(canvas: HTMLCanvasElement): WebGLRenderer {
+  start(canvas: HTMLCanvasElement): Engine {
     if (!(canvas instanceof HTMLCanvasElement)) {
       console.warn("canvas must be an HTMLCanvasElement to start the context.")
       return this
@@ -317,10 +317,10 @@ export default class WebGLRenderer extends Shareable {
 
   /**
    * @method stop
-   * @return {WebGLRenderer}
+   * @return {Engine}
    * @chainable
    */
-  stop(): WebGLRenderer {
+  stop(): Engine {
     if (isDefined(this._canvas)) {
       this._canvas.removeEventListener('webglcontextrestored', this._webGLContextRestored, false)
       this._canvas.removeEventListener('webglcontextlost', this._webGLContextLost, false)

@@ -49,6 +49,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "Drawable",
         "Duality",
         "EIGHTLogger",
+        "Engine",
         "ErrorMode",
         "Facet",
         "FacetVisitor",
@@ -175,7 +176,6 @@ YUI.add("yuidoc-meta", function(Y) {
         "WebGLClearColor",
         "WebGLDisable",
         "WebGLEnable",
-        "WebGLRenderer",
         "createView"
     ],
     "modules": [

@@ -16,8 +16,10 @@ import WebGLClearColor from './davinci-eight/commands/WebGLClearColor';
 import Capability from './davinci-eight/commands/Capability';
 import WebGLDisable from './davinci-eight/commands/WebGLDisable';
 import WebGLEnable from './davinci-eight/commands/WebGLEnable';
+
 // controls
 import CameraControls from './davinci-eight/controls/CameraControls'
+
 // core
 import AttribLocation from './davinci-eight/core/AttribLocation';
 import AttribMetaInfo from './davinci-eight/core/AttribMetaInfo';
@@ -38,7 +40,7 @@ import Mesh from './davinci-eight/core/Mesh';
 import Scene from './davinci-eight/core/Scene';
 import UniformLocation from './davinci-eight/core/UniformLocation';
 import UniformMetaInfo from './davinci-eight/core/UniformMetaInfo';
-import WebGLRenderer from './davinci-eight/core/WebGLRenderer';
+import Engine from './davinci-eight/core/Engine';
 import initWebGL from './davinci-eight/core/initWebGL';
 
 // devices
@@ -177,6 +179,7 @@ import Shareable from './davinci-eight/core/Shareable';
 import StringIUnknownMap from './davinci-eight/collections/StringIUnknownMap';
 import WindowAnimationRunner from './davinci-eight/utils/WindowAnimationRunner';
 import animation from './davinci-eight/utils/animation';
+import randomColor from './davinci-eight/utils/randomColor';
 
 // visual
 import Arrow from './davinci-eight/visual/Arrow';
@@ -260,7 +263,7 @@ const eight = {
   get Drawable() { return Drawable },
   get PerspectiveCamera() { return PerspectiveCamera },
   get getCanvasElementById() { return getCanvasElementById },
-  get WebGLRenderer() { return WebGLRenderer },
+  get Engine() { return Engine },
   get animation() { return animation },
   get DrawMode() { return DrawMode },
   get ErrorMode() { return ErrorMode },

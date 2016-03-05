@@ -299,12 +299,9 @@ export default class MouseControls extends Shareable {
    * @protected
    */
   protected destructor(): void {
-    this.domElement.removeEventListener('contextmenu', this.contextmenu, false)
-    this.domElement.removeEventListener('mousedown', this.mousedown, false)
-    this.domElement.removeEventListener('mousewheel', this.mousewheel, false)
-    this.domElement.removeEventListener('DOMMouseScroll', this.mousewheel, false) // Firefox
-    window.removeEventListener('keydown', this.keydown, false)
-    window.removeEventListener('keyup', this.keydown, false)
+    if (this.domElement) {
+      this.unsubscribe()
+    }
     super.destructor()
   }
 

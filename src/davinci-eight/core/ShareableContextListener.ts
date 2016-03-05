@@ -1,6 +1,6 @@
 import cleanUp from './cleanUp';
 import IContextListener from './IContextListener'
-import WebGLRenderer from './WebGLRenderer'
+import Engine from './Engine'
 import IContextProvider from './IContextProvider'
 import readOnly from '../i18n/readOnly';
 import Shareable from './Shareable';
@@ -12,7 +12,7 @@ import Shareable from './Shareable';
  * @extends Shareable
  */
 export default class ShareableContextListener extends Shareable implements IContextListener {
-    private _context: WebGLRenderer
+    private _context: Engine
     protected contextProvider: IContextProvider
 
     /**
@@ -37,10 +37,10 @@ export default class ShareableContextListener extends Shareable implements ICont
      * Instructs the consumer to subscribe to context events.
      *
      * @method subscribe
-     * @param context {WebGLRenderer}
+     * @param context {Engine}
      * @return {void}
      */
-    subscribe(context: WebGLRenderer): void {
+    subscribe(context: Engine): void {
         if (!this._context) {
             context.addRef()
             this._context = context

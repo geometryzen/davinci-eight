@@ -14,7 +14,7 @@ import PerspectiveCamera from '../facets/PerspectiveCamera'
 import refChange from '../core/refChange'
 import CameraControls from '../controls/CameraControls'
 import World from './World'
-import WebGLRenderer from '../core/WebGLRenderer'
+import Engine from '../core/Engine'
 
 export default function(
     canvasId: string,
@@ -35,7 +35,7 @@ export default function(
         refChange('start', 'bootstrap')
     }
 
-    const renderer = new WebGLRenderer()
+    const renderer = new Engine()
     renderer.clearColor(0.1, 0.1, 0.1, 1.0)
 
     const drawList = new DrawList()

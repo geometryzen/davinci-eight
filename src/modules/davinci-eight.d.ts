@@ -128,7 +128,7 @@ declare module EIGHT {
   }
 
   interface IContextListener extends IContextConsumer {
-    subscribe(context: WebGLRenderer): void;
+    subscribe(context: Engine): void;
     unsubscribe(): void;
   }
 
@@ -136,7 +136,7 @@ declare module EIGHT {
     contextFree(contextProvider: IContextProvider): void;
     contextGain(contextProvider: IContextProvider): void;
     contextLost(): void;
-    subscribe(context: WebGLRenderer): void;
+    subscribe(context: Engine): void;
     unsubscribe(): void;
   }
 
@@ -2773,7 +2773,7 @@ declare module EIGHT {
    *
    */
   class Scene {
-    constructor()
+    constructor(engine: Engine)
     add(mesh: Drawable): void
     addRef(): number
     contextFree(context: IContextProvider): void
@@ -2785,7 +2785,7 @@ declare module EIGHT {
     findByName(name: string): ShareableArray<Drawable>
     release(): number
     remove(mesh: Drawable): void
-    subscribe(context: WebGLRenderer): void
+    subscribe(context: Engine): void
     traverse(callback: (mesh: Drawable) => void): void
     unsubscribe(): void
   }
@@ -2863,13 +2863,13 @@ declare module EIGHT {
     setUniforms(visitor: FacetVisitor): void
   }
 
-  class WebGLRenderer implements IUnknown {
+  class Engine implements IUnknown {
     addRef(): number;
     release(): number;
     /**
      * If the canvas property has not been initialized by calling `start()`,
      * then any attempt to access this property will trigger the construction of
-     * a new HTML canvas element which will remain in effect for this WebGLRenderer
+     * a new HTML canvas element which will remain in effect for this Engine
      * until `stop()` is called.
      */
     canvas: HTMLCanvasElement;
@@ -2885,7 +2885,7 @@ declare module EIGHT {
     gl: WebGLRenderingContext;
 
     /**
-     * Constructs a <code>WebGLRenderer</code> using <code>WebGLContextAttributes</code>.
+     * Constructs an <code>Engine</code> using <code>WebGLContextAttributes</code>.
      */
     constructor(attributes?: WebGLContextAttributes);
 
@@ -2899,17 +2899,17 @@ declare module EIGHT {
      * Specifies color values to use by the <code>clear</code> method to clear the color buffer.
      * <p>
      */
-    clearColor(red: number, green: number, blue: number, alpha: number): WebGLRenderer;
+    clearColor(red: number, green: number, blue: number, alpha: number): Engine;
 
     /**
      * Turns off specific WebGL capabilities for this context.
      */
-    disable(capability: Capability): WebGLRenderer;
+    disable(capability: Capability): Engine;
 
     /**
      * Turns on specific WebGL capabilities for this context.
      */
-    enable(capability: Capability): WebGLRenderer;
+    enable(capability: Capability): Engine;
 
     /**
      *
@@ -2924,12 +2924,12 @@ declare module EIGHT {
     /**
      * Initializes the WebGL context for the specified <code>canvas</code>.
      */
-    start(canvas: HTMLCanvasElement): WebGLRenderer;
+    start(canvas: HTMLCanvasElement): Engine;
 
     /**
      * Terminates the <code>WebGLRenderingContext</code> for the underlying canvas.
      */
-    stop(): WebGLRenderer;
+    stop(): Engine;
 
     /**
      *
@@ -2943,7 +2943,7 @@ declare module EIGHT {
      * @param width
      * @param height
      */
-    viewport(x: number, y: number, width: number, height: number): WebGLRenderer;
+    viewport(x: number, y: number, width: number, height: number): Engine;
   }
 
   interface VertexAttribPointer {
@@ -3180,7 +3180,7 @@ declare module EIGHT {
     /**
      *
      */
-    subscribe(context: WebGLRenderer): void;
+    subscribe(context: Engine): void;
 
     /**
      *

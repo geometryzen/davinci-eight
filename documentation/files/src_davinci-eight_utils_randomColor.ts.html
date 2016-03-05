@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src/davinci-eight/core/WebGLRenderer.ts - davinci-eight</title>
+    <title>src/davinci-eight/utils/randomColor.ts - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.208.0</em>
+            <em>API Docs for: 2.209.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -87,6 +87,7 @@
                                 <li><a href="../classes/DrawMode.html">DrawMode</a></li>
                                 <li><a href="../classes/Duality.html">Duality</a></li>
                                 <li><a href="../classes/EIGHTLogger.html">EIGHTLogger</a></li>
+                                <li><a href="../classes/Engine.html">Engine</a></li>
                                 <li><a href="../classes/ErrorMode.html">ErrorMode</a></li>
                                 <li><a href="../classes/Facet.html">Facet</a></li>
                                 <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
@@ -213,7 +214,6 @@
                                 <li><a href="../classes/WebGLClearColor.html">WebGLClearColor</a></li>
                                 <li><a href="../classes/WebGLDisable.html">WebGLDisable</a></li>
                                 <li><a href="../classes/WebGLEnable.html">WebGLEnable</a></li>
-                                <li><a href="../classes/WebGLRenderer.html">WebGLRenderer</a></li>
                             </ul>
                 
                 
@@ -260,394 +260,425 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: src/davinci-eight/core/WebGLRenderer.ts</h1>
+<h1 class="file-heading">File: src/davinci-eight/utils/randomColor.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import Capability from &#x27;../commands/Capability&#x27;;
-import EIGHTLogger from &#x27;../commands/EIGHTLogger&#x27;;
-import IContextConsumer from &#x27;./IContextConsumer&#x27;;
-import ShareableArray from &#x27;../collections/ShareableArray&#x27;;
-import initWebGL from &#x27;./initWebGL&#x27;;
-import isDefined from &#x27;../checks/isDefined&#x27;;
-import mustBeDefined from &#x27;../checks/mustBeDefined&#x27;;
-import mustBeObject from &#x27;../checks/mustBeObject&#x27;;
-import readOnly from &#x27;../i18n/readOnly&#x27;;
-import Shareable from &#x27;./Shareable&#x27;;
-import VersionLogger from &#x27;../commands/VersionLogger&#x27;
-import WebGLClearColor from &#x27;../commands/WebGLClearColor&#x27;;
-import WebGLEnable from &#x27;../commands/WebGLEnable&#x27;;
-import WebGLDisable from &#x27;../commands/WebGLDisable&#x27;;
-import WebGLContextProvider from &#x27;./WebGLContextProvider&#x27;;
+// randomColor by David Merfield under the MIT license
+// https://github.com/davidmerfield/randomColor/
+// Ported to TypeScript by David Geo Holmes
+
+interface ColorEntry {
+  hueRange: number[];
+  lowerBounds: number[][];
+  saturationRange: number[];
+  brightnessRange: number[];
+}
 
 /**
- * Fundamental abstractions in the architecture.
- *
- * @module EIGHT
- * @submodule core
+ * This isn&#x27;t know to the TypeScript d.ts
  */
+const MAX_SAFE_INTEGER = Math.pow(2, 53) - 1; // 9007199254740991
 
-/**
- * @example
- *     // Anytime before calling the start method...
- *     const renderer = new EIGHT.WebGLRenderer()
- *
- *     // When the canvas is available, usually in the window.onload function...
- *     renderer.start(canvas)
- *
- *     // At the start of each animation frame, before drawing...
- *     renderer.clear()
- *
- *     // When no longer needed, usually in the window.onunload function...
- *     renderer.release()
- *
- * @class WebGLRenderer
- * @extends Shareable
- */
-export default class WebGLRenderer extends Shareable {
+// Seed to get repeatable colors
+let seed: number = null;
 
-  /**
-   * @property _gl
-   * @type WebGLRenderingContext
-   * @private
-   */
-  private _gl: WebGLRenderingContext
+// Shared color dictionary
+const colorDictionary: { [name: string]: ColorEntry } = {};
 
-  /**
-   * @property _canvas
-   * @type HTMLCanvasElement
-   * @private
-   */
-  private _canvas: HTMLCanvasElement
+// Populate the color dictionary
+loadColorBounds();
 
-  private _attributes: WebGLContextAttributes
+export default function randomColor(options: { count?: number, format?: string, hue?: string, luminosity?: string, seed?: any } = {}): number[] {
 
-  // Remark: We only hold weak references to users so that the lifetime of resource
-  // objects is not affected by the fact that they are listening for gl events.
-  // Users should automatically add themselves upon construction and remove upon release.
-  private _users: IContextConsumer[] = []
+  // Check if there is a seed and ensure it&#x27;s an
+  // integer. Otherwise, reset the seed value.
+  if (options.seed &amp;&amp; options.seed === parseInt(options.seed, 10)) {
+    seed = options.seed;
 
-  private _webGLContextLost: (event: Event) =&gt; any
-  private _webGLContextRestored: (event: Event) =&gt; any
+    // A string was passed as a seed
+  }
+  else if (typeof options.seed === &#x27;string&#x27;) {
+    seed = stringToInteger(options.seed);
+    // Something was passed as a seed but it wasn&#x27;t an integer or string
+  }
+  else if (options.seed !== undefined &amp;&amp; options.seed !== null) {
+    throw new TypeError(&#x27;The seed value must be an integer&#x27;);
+    // No seed, reset the value outside.
+  }
+  else {
+    seed = null;
+  }
 
-  private _commands = new ShareableArray&lt;IContextConsumer&gt;([])
+  /*
+  // Check if we need to generate multiple colors
+  if (options.count !== null &amp;&amp; options.count !== undefined) {
 
-  private _contextProvider: WebGLContextProvider
+    const totalColors = options.count
+    const colors: number[] = [];
 
-  /**
-   * @class WebGLRenderer
-   * @constructor
-   * @param [attributes] {WebGLContextAttributes} Allows the context to be configured.
-   */
-  constructor(attributes?: WebGLContextAttributes) {
-    super(&#x27;WebGLRenderer&#x27;)
+    options.count = null;
 
-    this._attributes = attributes;
+    while (totalColors &gt; colors.length) {
 
-    this._commands.pushWeakRef(new EIGHTLogger())
-    this._commands.pushWeakRef(new VersionLogger())
+      // Since we&#x27;re generating multiple colors,
+      // incremement the seed. Otherwise we&#x27;d just
+      // generate the same color each time...
+      if (seed &amp;&amp; options.seed) options.seed += 1;
 
-    this._contextProvider = new WebGLContextProvider(this)
-
-    // For convenience.
-    this.enable(Capability.DEPTH_TEST)
-    this.clearColor(0.1, 0.1, 0.1, 1.0)
-
-    this._webGLContextLost = (event: Event) =&gt; {
-      if (isDefined(this._canvas)) {
-        event.preventDefault()
-        this._gl = void 0
-        this._users.forEach((user: IContextConsumer) =&gt; {
-          user.contextLost()
-        })
-      }
+      colors.push(randomColor(options));
     }
 
-    this._webGLContextRestored = (event: Event) =&gt; {
-      if (isDefined(this._canvas)) {
-        event.preventDefault()
-        this._gl = initWebGL(this._canvas, attributes)
-        this._users.forEach((user: IContextConsumer) =&gt; {
-          user.contextGain(this._contextProvider)
-        })
-      }
+    options.count = totalColors;
+
+    return colors;
+  }
+  */
+
+  // First we pick a hue (H)
+  const H = pickHue(options);
+
+  // Then use H to determine saturation (S)
+  const S = pickSaturation(H, options);
+
+  // Then use S and H to determine brightness (B).
+  const B = pickBrightness(H, S, options);
+
+  // Then we return the HSB color in the desired format
+  return setFormatArray([H, S, B], options);
+}
+
+function pickHue(options: { hue?: string }): number {
+
+  const hueRange = getHueRange(options.hue)
+  let hue = randomWithin(hueRange);
+
+  // Instead of storing red as two seperate ranges,
+  // we group them, using negative numbers
+  if (hue &lt; 0) { hue = 360 + hue; }
+
+  return hue;
+}
+
+function pickSaturation(hue: number, options: { hue?: string; luminosity?: string }) {
+
+  if (options.luminosity === &#x27;random&#x27;) {
+    return randomWithin([0, 100]);
+  }
+
+  if (options.hue === &#x27;monochrome&#x27;) {
+    return 0;
+  }
+
+  var saturationRange = getSaturationRange(hue);
+
+  var sMin = saturationRange[0],
+    sMax = saturationRange[1];
+
+  switch (options.luminosity) {
+
+    case &#x27;bright&#x27;:
+      sMin = 55;
+      break;
+
+    case &#x27;dark&#x27;:
+      sMin = sMax - 10;
+      break;
+
+    case &#x27;light&#x27;:
+      sMax = 55;
+      break;
+  }
+
+  return randomWithin([sMin, sMax]);
+}
+
+function pickBrightness(H: number, S: number, options: { luminosity?: string }): number {
+
+  var bMin = getMinimumBrightness(H, S),
+    bMax = 100;
+
+  switch (options.luminosity) {
+
+    case &#x27;dark&#x27;:
+      bMax = bMin + 20;
+      break;
+
+    case &#x27;light&#x27;:
+      bMin = (bMax + bMin) / 2;
+      break;
+
+    case &#x27;random&#x27;:
+      bMin = 0;
+      bMax = 100;
+      break;
+  }
+
+  return randomWithin([bMin, bMax]);
+}
+
+function setFormatString(hsv: number[], options: { format?: string }): string {
+
+  switch (options.format) {
+
+    case &#x27;hsl&#x27;:
+      var hsl = HSVtoHSL(hsv);
+      return &#x27;hsl(&#x27; + hsl[0] + &#x27;, &#x27; + hsl[1] + &#x27;%, &#x27; + hsl[2] + &#x27;%)&#x27;;
+
+    case &#x27;hsla&#x27;:
+      var hslColor = HSVtoHSL(hsv);
+      return &#x27;hsla(&#x27; + hslColor[0] + &#x27;, &#x27; + hslColor[1] + &#x27;%, &#x27; + hslColor[2] + &#x27;%, &#x27; + Math.random() + &#x27;)&#x27;;
+
+    case &#x27;rgb&#x27;:
+      var rgb = HSVtoRGB(hsv);
+      return &#x27;rgb(&#x27; + rgb.join(&#x27;, &#x27;) + &#x27;)&#x27;;
+
+    case &#x27;rgba&#x27;:
+      var rgbColor = HSVtoRGB(hsv);
+      return &#x27;rgba(&#x27; + rgbColor.join(&#x27;, &#x27;) + &#x27;, &#x27; + Math.random() + &#x27;)&#x27;;
+
+    default:
+      return HSVtoHex(hsv);
+  }
+}
+
+function setFormatArray(hsv: number[], options: { format?: string }): number[] {
+
+  switch (options.format) {
+
+    case &#x27;hsvArray&#x27;:
+      return hsv;
+
+    case &#x27;hslArray&#x27;:
+      return HSVtoHSL(hsv);
+
+    case &#x27;rgbArray&#x27;:
+      return HSVtoRGB(hsv);
+
+    default:
+      throw new Error()
+  }
+}
+
+function getMinimumBrightness(H: number, S: number): number {
+
+  var lowerBounds = getColorInfo(H).lowerBounds;
+
+  for (var i = 0; i &lt; lowerBounds.length - 1; i++) {
+
+    var s1 = lowerBounds[i][0],
+      v1 = lowerBounds[i][1];
+
+    var s2 = lowerBounds[i + 1][0],
+      v2 = lowerBounds[i + 1][1];
+
+    if (S &gt;= s1 &amp;&amp; S &lt;= s2) {
+
+      var m = (v2 - v1) / (s2 - s1),
+        b = v1 - m * s1;
+
+      return m * S + b;
+    }
+
+  }
+
+  return 0;
+}
+
+function getHueRange(colorInput: string): number[] {
+
+  if (typeof parseInt(colorInput) === &#x27;number&#x27;) {
+
+    var number = parseInt(colorInput);
+
+    if (number &lt; 360 &amp;&amp; number &gt; 0) {
+      return [number, number];
+    }
+
+  }
+
+  if (typeof colorInput === &#x27;string&#x27;) {
+
+    if (colorDictionary[colorInput]) {
+      var color = colorDictionary[colorInput];
+      if (color.hueRange) { return color.hueRange; }
     }
   }
 
-  /**
-   * @method destructor
-   * return {void}
-   * @protected
-   */
-  protected destructor(): void {
-    this.stop();
-    this._contextProvider.release()
-    while (this._users.length &gt; 0) {
-      this._users.pop();
-    }
-    this._commands.release();
-    super.destructor()
+  return [0, 360];
+}
+
+function getSaturationRange(hue: number): number[] {
+  return getColorInfo(hue).saturationRange;
+}
+
+function getColorInfo(hue: number): ColorEntry {
+
+  // Maps red colors to make picking hue easier
+  if (hue &gt;= 334 &amp;&amp; hue &lt;= 360) {
+    hue -= 360;
   }
 
-  /**
-   * @method addContextListener
-   * @param user {IContextConsumer}
-   * @return {void}
-   */
-  addContextListener(user: IContextConsumer): void {
-    mustBeObject(&#x27;user&#x27;, user)
-    let index = this._users.indexOf(user)
-    if (index &lt; 0) {
-      this._users.push(user)
+  for (var colorName in colorDictionary) {
+    const color = colorDictionary[colorName];
+    if (color.hueRange &amp;&amp;
+      hue &gt;= color.hueRange[0] &amp;&amp;
+      hue &lt;= color.hueRange[1]) {
+      return colorDictionary[colorName];
     }
-    else {
-      console.warn(&quot;user already exists for addContextListener&quot;)
-    }
+  }
+  throw new Error(&#x60;Color with hue ${hue} not found&#x60;);
+}
+
+function randomWithin(range: number[]): number {
+  if (seed === null) {
+    return Math.floor(range[0] + Math.random() * (range[1] + 1 - range[0]));
+  } else {
+    //Seeded random algorithm from http://indiegamr.com/generate-repeatable-random-numbers-in-js/
+    var max = range[1] || 1;
+    var min = range[0] || 0;
+    seed = (seed * 9301 + 49297) % 233280;
+    var rnd = seed / 233280.0;
+    return Math.floor(min + rnd * (max - min));
+  }
+}
+
+function HSVtoHex(hsv: number[]): string {
+
+  const rgb: number[] = HSVtoRGB(hsv);
+
+  function componentToHex(c: number): string {
+    var hex = c.toString(16);
+    return hex.length == 1 ? &#x27;0&#x27; + hex : hex;
   }
 
-  /**
-   * @property canvas
-   * @type {HTMLCanvasElement}
-   * @readOnly
-   */
-  get canvas(): HTMLCanvasElement {
-    // FIXME: Retract this implicit starting behavior.
-    if (!this._canvas) {
-      this.start(document.createElement(&#x27;canvas&#x27;))
-    }
-    return this._canvas;
-  }
-  set canvas(canvas: HTMLCanvasElement) {
-    throw new Error(readOnly(&#x27;canvas&#x27;).message)
+  const hex = &#x27;#&#x27; + componentToHex(rgb[0]) + componentToHex(rgb[1]) + componentToHex(rgb[2]);
+
+  return hex;
+}
+
+function defineColor(name: string, hueRange: number[], lowerBounds: number[][]): void {
+
+  const sMin = lowerBounds[0][0];
+  const sMax = lowerBounds[lowerBounds.length - 1][0];
+
+  const bMin = lowerBounds[lowerBounds.length - 1][1];
+  const bMax = lowerBounds[0][1];
+
+  colorDictionary[name] = {
+    hueRange: hueRange,
+    lowerBounds: lowerBounds,
+    saturationRange: [sMin, sMax],
+    brightnessRange: [bMin, bMax]
+  };
+}
+
+function loadColorBounds() {
+
+  defineColor(
+    &#x27;monochrome&#x27;,
+    null,
+    [[0, 0], [100, 0]]
+  );
+
+  defineColor(
+    &#x27;red&#x27;,
+    [-26, 18],
+    [[20, 100], [30, 92], [40, 89], [50, 85], [60, 78], [70, 70], [80, 60], [90, 55], [100, 50]]
+  );
+
+  defineColor(
+    &#x27;orange&#x27;,
+    [19, 46],
+    [[20, 100], [30, 93], [40, 88], [50, 86], [60, 85], [70, 70], [100, 70]]
+  );
+
+  defineColor(
+    &#x27;yellow&#x27;,
+    [47, 62],
+    [[25, 100], [40, 94], [50, 89], [60, 86], [70, 84], [80, 82], [90, 80], [100, 75]]
+  );
+
+  defineColor(
+    &#x27;green&#x27;,
+    [63, 178],
+    [[30, 100], [40, 90], [50, 85], [60, 81], [70, 74], [80, 64], [90, 50], [100, 40]]
+  );
+
+  defineColor(
+    &#x27;blue&#x27;,
+    [179, 257],
+    [[20, 100], [30, 86], [40, 80], [50, 74], [60, 60], [70, 52], [80, 44], [90, 39], [100, 35]]
+  );
+
+  defineColor(
+    &#x27;purple&#x27;,
+    [258, 282],
+    [[20, 100], [30, 87], [40, 79], [50, 70], [60, 65], [70, 59], [80, 52], [90, 45], [100, 42]]
+  );
+
+  defineColor(
+    &#x27;pink&#x27;,
+    [283, 334],
+    [[20, 100], [30, 90], [40, 86], [60, 84], [80, 80], [90, 75], [100, 73]]
+  );
+}
+
+function HSVtoRGB(hsv: number[]): number[] {
+
+  // this doesn&#x27;t work for the values of 0 and 360
+  // here&#x27;s the hacky fix
+  var h = hsv[0];
+  if (h === 0) { h = 1; }
+  if (h === 360) { h = 359; }
+
+  // Rebase the h,s,v values
+  h = h / 360;
+  var s = hsv[1] / 100,
+    v = hsv[2] / 100;
+
+  var h_i = Math.floor(h * 6),
+    f = h * 6 - h_i,
+    p = v * (1 - s),
+    q = v * (1 - f * s),
+    t = v * (1 - (1 - f) * s),
+    r = 256,
+    g = 256,
+    b = 256;
+
+  switch (h_i) {
+    case 0: r = v; g = t; b = p; break;
+    case 1: r = q; g = v; b = p; break;
+    case 2: r = p; g = v; b = t; break;
+    case 3: r = p; g = q; b = v; break;
+    case 4: r = t; g = p; b = v; break;
+    case 5: r = v; g = p; b = q; break;
   }
 
-  /**
-   * @property commands
-   * @type {ShareableArray}
-   * @beta
-   * @readOnly
-   */
-  get commands(): ShareableArray&lt;IContextConsumer&gt; {
-    this._commands.addRef();
-    return this._commands;
-  }
-  set commands(unused) {
-    throw new Error(readOnly(&#x27;commands&#x27;).message)
-  }
+  var result = [Math.floor(r * 255), Math.floor(g * 255), Math.floor(b * 255)];
+  return result;
+}
 
-  /**
-   * &lt;p&gt;
-   * Specifies color values to use by the &lt;code&gt;clear&lt;/code&gt; method to clear the color buffer.
-   * &lt;p&gt;
-   *
-   * @method clearColor
-   * @param red {number}
-   * @param green {number}
-   * @param blue {number}
-   * @param alpha {number}
-   * @return {WebGLRenderer}
-   * @chainable
-   */
-  clearColor(red: number, green: number, blue: number, alpha: number): WebGLRenderer {
-    this._commands.pushWeakRef(new WebGLClearColor(red, green, blue, alpha))
-    if (this._gl) {
-      this._gl.clearColor(red, green, blue, alpha)
-    }
-    return this
-  }
+function HSVtoHSL(hsv: number[]): number[] {
+  var h = hsv[0],
+    s = hsv[1] / 100,
+    v = hsv[2] / 100,
+    k = (2 - s) * v;
 
-  /**
-   * Turns off a specific WebGL capability for this context.
-   *
-   * @method disable
-   * @param capability {Capability}
-   * @return {WebGLRenderer}
-   * @chainable
-   */
-  disable(capability: Capability): WebGLRenderer {
-    this._commands.pushWeakRef(new WebGLDisable(capability))
-    return this
-  }
+  return [
+    h,
+    Math.round(s * v / (k &lt; 1 ? k : 2 - k) * 10000) / 100,
+    k / 2 * 100
+  ];
+}
 
-  /**
-   * Turns on a specific WebGL capability for this context.
-   *
-   * @method enable
-   * @param capability {Capability}
-   * @return {WebGLRenderer}
-   * @chainable
-   */
-  enable(capability: Capability): WebGLRenderer {
-    this._commands.pushWeakRef(new WebGLEnable(capability))
-    return this
+function stringToInteger(s: string): number {
+  let total = 0
+  for (let i = 0; i !== s.length; i++) {
+    if (total &gt;= MAX_SAFE_INTEGER) break;
+    total += s.charCodeAt(i)
   }
-
-  /**
-   * @property gl
-   * @type {WebGLRenderingContext}
-   * @readOnly
-   */
-  get gl(): WebGLRenderingContext {
-    if (this._gl) {
-      return this._gl
-    }
-    else {
-      return void 0
-    }
-  }
-  set gl(unused) {
-    throw new Error(readOnly(&#x27;gl&#x27;).message)
-  }
-
-  /**
-   * @method removeContextListener
-   * @param user {IContextConsumer}
-   * @return {void}
-   */
-  removeContextListener(user: IContextConsumer): void {
-    mustBeObject(&#x27;user&#x27;, user)
-    const index = this._users.indexOf(user)
-    if (index &gt;= 0) {
-      this._users.splice(index, 1)
-    }
-  }
-
-  /**
-   * @method clear
-   * @return {void}
-   */
-  clear(): void {
-    const gl = this._gl
-    if (gl) {
-      gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
-    }
-  }
-
-  /**
-   * Defines what part of the canvas will be used in rendering the drawing buffer.
-   *
-   * @method viewport
-   * @param x {number}
-   * @param y {number}
-   * @param width {number}
-   * @param height {number}
-   * @return {WebGLRenderer}
-   * @chainable
-   */
-  viewport(x: number, y: number, width: number, height: number): WebGLRenderer {
-    const gl = this._gl;
-    if (gl) {
-      this._gl.viewport(x, y, width, height)
-    }
-    else {
-      console.warn(&#x60;${this._type}.viewport() ignored because no context.&#x60;)
-    }
-    return this
-  }
-
-  /**
-   * Initializes the &lt;code&gt;WebGLRenderingContext&lt;/code&gt; for the specified &lt;code&gt;HTMLCanvasElement&lt;/code&gt;.
-   *
-   * @method start
-   * @param canvas {HTMLCanvasElement} The HTML canvas element.
-   * @return {WebGLRenderer}
-   * @chainable
-   */
-  start(canvas: HTMLCanvasElement): WebGLRenderer {
-    if (!(canvas instanceof HTMLCanvasElement)) {
-      console.warn(&quot;canvas must be an HTMLCanvasElement to start the context.&quot;)
-      return this
-    }
-    mustBeDefined(&#x27;canvas&#x27;, canvas)
-    const alreadyStarted = isDefined(this._canvas)
-    if (!alreadyStarted) {
-      // cache the arguments
-      this._canvas = canvas
-    }
-    else {
-      // We&#x27;ll just be idempotent and ignore the call because we&#x27;ve already been started.
-      // To use the canvas might conflict with one we have dynamically created.
-      console.warn(&#x60;${this._type} Ignoring start() because already started.&#x60;)
-      return
-    }
-    // What if we were given a &quot;no-op&quot; canvasBuilder that returns undefined for the canvas.
-    // To not complain is the way of the hyper-functional warrior.
-    if (isDefined(this._canvas)) {
-      this._gl = initWebGL(this._canvas, this._attributes);
-      this.emitStartEvent()
-      this._canvas.addEventListener(&#x27;webglcontextlost&#x27;, this._webGLContextLost, false)
-      this._canvas.addEventListener(&#x27;webglcontextrestored&#x27;, this._webGLContextRestored, false)
-    }
-    return this
-  }
-
-  /**
-   * @method stop
-   * @return {WebGLRenderer}
-   * @chainable
-   */
-  stop(): WebGLRenderer {
-    if (isDefined(this._canvas)) {
-      this._canvas.removeEventListener(&#x27;webglcontextrestored&#x27;, this._webGLContextRestored, false)
-      this._canvas.removeEventListener(&#x27;webglcontextlost&#x27;, this._webGLContextLost, false)
-      if (this._gl) {
-        this.emitStopEvent()
-        this._gl = void 0
-      }
-      this._canvas = void 0
-    }
-    return this
-  }
-
-  private emitStartEvent() {
-    this._users.forEach((user: IContextConsumer) =&gt; {
-      this.emitContextGain(user)
-    })
-    this._commands.forEach((command) =&gt; {
-      this.emitContextGain(command)
-    })
-  }
-
-  private emitContextGain(consumer: IContextConsumer): void {
-    if (this._gl.isContextLost()) {
-      consumer.contextLost()
-    }
-    else {
-      consumer.contextGain(this._contextProvider)
-    }
-  }
-
-  private emitStopEvent() {
-    this._users.forEach((user: IContextConsumer) =&gt; {
-      this.emitContextFree(user)
-    })
-    this._commands.forEach((command) =&gt; {
-      this.emitContextFree(command);
-    })
-  }
-
-  private emitContextFree(consumer: IContextConsumer): void {
-    if (this._gl.isContextLost()) {
-      consumer.contextLost()
-    }
-    else {
-      consumer.contextFree(this._contextProvider)
-    }
-  }
-
-  /**
-   * @method synchronize
-   * @param consumer {IContextConsumer}
-   * @return {void}
-   */
-  synchronize(consumer: IContextConsumer): void {
-    if (this._gl) {
-      this.emitContextGain(consumer)
-    }
-    else {
-      // FIXME: Broken symmetry.
-    }
-  }
+  return total
 }
 
     </pre>

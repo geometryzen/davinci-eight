@@ -1,17 +1,17 @@
 import IContextProvider from './IContextProvider';
 import readOnly from '../i18n/readOnly';
 import Shareable from './Shareable';
-import WebGLRenderer from './WebGLRenderer';
+import Engine from './Engine';
 
 /**
  * Intentionally undocumented.
  */
-export default class WebGLContextProvider extends Shareable implements IContextProvider {
+export default class DefaultContextProvider extends Shareable implements IContextProvider {
 
-  private _renderer: WebGLRenderer
+  private _renderer: Engine
 
-  constructor(renderer: WebGLRenderer) {
-    super('WebGLContextProvider')
+  constructor(renderer: Engine) {
+    super('DefaultContextProvider')
     this._renderer = renderer
   }
 

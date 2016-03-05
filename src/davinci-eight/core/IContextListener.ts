@@ -1,5 +1,5 @@
 import IContextConsumer from './IContextConsumer';
-import WebGLRenderer from './WebGLRenderer';
+import Engine from './Engine';
 
 /**
  * @module EIGHT
@@ -13,10 +13,10 @@ interface IContextListener extends IContextConsumer {
    * Instructs the consumer to subscribe to context events.
    *
    * @method subscribe
-   * @param visual {WebGLRenderer}
+   * @param visual {Engine}
    * @return {void}
    */
-  subscribe(visual: WebGLRenderer): void;
+  subscribe(visual: Engine): void;
 
   /**
    * Instructs the consumer to unsubscribe from context events.
