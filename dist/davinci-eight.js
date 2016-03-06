@@ -6821,6 +6821,9 @@ define('davinci-eight/math/Geometric2',["require", "exports", '../geometries/b2'
         Geometric2.lerp = function (A, B, α) {
             return Geometric2.copy(A).lerp(B, α);
         };
+        Geometric2.one = function () {
+            return Geometric2.fromScalar(1);
+        };
         Geometric2.rotorFromDirections = function (a, b) {
             return new Geometric2().rotorFromDirections(a, b);
         };
@@ -7271,6 +7274,9 @@ define('davinci-eight/math/Vector2',["require", "exports", '../math/Coords', '..
         Vector2.vector = function (x, y) {
             return new Vector2([x, y]);
         };
+        Vector2.zero = function () {
+            return Vector2.vector(0, 0);
+        };
         return Vector2;
     })(Coords_1.default);
     Object.defineProperty(exports, "__esModule", { value: true });
@@ -7554,11 +7560,12 @@ define('davinci-eight/math/Matrix3',["require", "exports", '../math/AbstractMatr
         Matrix3.prototype.det = function () {
             return det3x3_1.default(this.elements);
         };
-        Matrix3.prototype.getInverse = function (matrix, throwOnInvertible) {
+        Matrix3.prototype.invertUpperLeft = function (matrix, throwOnSingular) {
+            if (throwOnSingular === void 0) { throwOnSingular = false; }
             var me = matrix.elements;
             var te = this.elements;
-            te[0] = me[10] * me[5] - me[6] * me[9];
-            te[1] = -me[10] * me[1] + me[2] * me[9];
+            te[0] = me[0xA] * me[5] - me[6] * me[9];
+            te[1] = -me[0xA] * me[1] + me[2] * me[9];
             te[2] = me[6] * me[1] - me[2] * me[5];
             te[3] = -me[10] * me[4] + me[6] * me[8];
             te[4] = me[10] * me[0] - me[2] * me[8];
@@ -7568,18 +7575,20 @@ define('davinci-eight/math/Matrix3',["require", "exports", '../math/AbstractMatr
             te[8] = me[5] * me[0] - me[1] * me[4];
             var det = me[0] * te[0] + me[1] * te[3] + me[2] * te[6];
             if (det === 0) {
-                var msg = "Matrix3.getInverse(): can't invert matrix, determinant is 0";
-                if (throwOnInvertible || !throwOnInvertible) {
+                var msg = "Matrix3.invertUpperLeft(): can't invert matrix, determinant is 0";
+                if (throwOnSingular) {
                     throw new Error(msg);
                 }
                 else {
                     console.warn(msg);
+                    this.one();
                 }
-                this.one();
                 return this;
             }
-            this.scale(1.0 / det);
-            return this;
+            else {
+                this.scale(1 / det);
+                return this;
+            }
         };
         Matrix3.prototype.inv = function () {
             inv3x3_1.default(this.elements, this.elements);
@@ -7602,6 +7611,10 @@ define('davinci-eight/math/Matrix3',["require", "exports", '../math/AbstractMatr
         Matrix3.prototype.mul = function (rhs) {
             return this.mul2(this, rhs);
         };
+        Matrix3.prototype.rmul = function (lhs) {
+            mul3x3_1.default(lhs.elements, this.elements, this.elements);
+            return this;
+        };
         Matrix3.prototype.mul2 = function (a, b) {
             mul3x3_1.default(a.elements, b.elements, this.elements);
             return this;
@@ -7610,7 +7623,7 @@ define('davinci-eight/math/Matrix3',["require", "exports", '../math/AbstractMatr
             return this.scale(-1);
         };
         Matrix3.prototype.normalFromMatrix4 = function (m) {
-            return this.getInverse(m).transpose();
+            return this.invertUpperLeft(m).transpose();
         };
         Matrix3.prototype.one = function () {
             return this.set(1, 0, 0, 0, 1, 0, 0, 0, 1);
@@ -7627,6 +7640,17 @@ define('davinci-eight/math/Matrix3',["require", "exports", '../math/AbstractMatr
         Matrix3.prototype.row = function (i) {
             var te = this.elements;
             return [te[0 + i], te[3 + i], te[6 + i]];
+        };
+        Matrix3.prototype.rotate = function (spinor) {
+            return this.rmul(Matrix3.rotation(spinor));
+        };
+        Matrix3.prototype.rotation = function (spinor) {
+            var α = spinor.α;
+            var β = spinor.β;
+            var S = α * α - β * β;
+            var A = 2 * α * β;
+            this.set(S, A, 0, -A, S, 0, 0, 0, 1);
+            return this;
         };
         Matrix3.prototype.scale = function (s) {
             var m = this.elements;
@@ -7780,6 +7804,12 @@ define('davinci-eight/math/Matrix3',["require", "exports", '../math/AbstractMatr
         };
         Matrix3.reflection = function (n) {
             return Matrix3.zero().reflection(n);
+        };
+        Matrix3.rotation = function (spinor) {
+            return Matrix3.zero().rotation(spinor);
+        };
+        Matrix3.translation = function (d) {
+            return Matrix3.zero().translation(d);
         };
         Matrix3.zero = function () {
             return new Matrix3(new Float32Array([0, 0, 0, 0, 0, 0, 0, 0, 0]));
@@ -8336,7 +8366,7 @@ define('davinci-eight/core',["require", "exports", './core/ErrorMode'], function
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
             this.LAST_MODIFIED = '2016-03-06';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '2.211.0';
+            this.VERSION = '2.212.0';
         }
         Object.defineProperty(Eight.prototype, "errorMode", {
             get: function () {
@@ -10755,7 +10785,7 @@ define('davinci-eight/core/GeometryElements',["require", "exports", '../core', '
                     this._drawMode = data.drawMode;
                     this.setIndices(data.indices);
                     this._attributes = data.attributes;
-                    this.stride = data.stride;
+                    this._stride = data.stride;
                     if (!isNull_1.default(data.pointers) && !isUndefined_1.default(data.pointers)) {
                         if (isArray_1.default(data.pointers)) {
                             this._pointers = data.pointers;
@@ -10803,7 +10833,7 @@ define('davinci-eight/core/GeometryElements',["require", "exports", '../core', '
                     drawMode: this._drawMode,
                     indices: this._indices,
                     attributes: this._attributes,
-                    stride: this.stride,
+                    stride: this._stride,
                     pointers: this._pointers
                 };
             },
@@ -10860,6 +10890,16 @@ define('davinci-eight/core/GeometryElements',["require", "exports", '../core', '
             enumerable: true,
             configurable: true
         });
+        Object.defineProperty(GeometryElements.prototype, "stride", {
+            get: function () {
+                return this._stride;
+            },
+            set: function (stride) {
+                this._stride = stride;
+            },
+            enumerable: true,
+            configurable: true
+        });
         GeometryElements.prototype.isLeaf = function () {
             return true;
         };
@@ -10910,6 +10950,15 @@ define('davinci-eight/core/GeometryElements',["require", "exports", '../core', '
                     }
                 }
             }
+            if (!isNumber_1.default(this._stride)) {
+                switch (core_1.default.errorMode) {
+                    case ErrorMode_1.default.WARNME: {
+                        console.warn(this._type + ".stride must be a number.");
+                    }
+                    default: {
+                    }
+                }
+            }
             this.ibo.contextGain(contextProvider);
             this.vbo.contextGain(contextProvider);
             _super.prototype.contextGain.call(this, contextProvider);
@@ -10930,7 +10979,7 @@ define('davinci-eight/core/GeometryElements',["require", "exports", '../core', '
                         var pointer = pointers[i];
                         var attribLoc = material.getAttribLocation(pointer.name);
                         if (attribLoc >= 0) {
-                            contextProvider.vertexAttribPointer(attribLoc, pointer.size, pointer.normalized, this.stride, pointer.offset);
+                            contextProvider.vertexAttribPointer(attribLoc, pointer.size, pointer.normalized, this._stride, pointer.offset);
                             contextProvider.enableVertexAttribArray(attribLoc);
                         }
                     }
@@ -12530,6 +12579,12 @@ define('davinci-eight/math/Vector1',["require", "exports", '../math/VectorN'], f
         Vector1.prototype.adj = function () {
             throw new Error('TODO: Vector1.adj');
         };
+        Vector1.prototype.applyMatrix = function (σ) {
+            var x = this.x;
+            var e = σ.elements;
+            this.x = e[0x0] * x;
+            return this;
+        };
         Vector1.prototype.conj = function () {
             return this;
         };
@@ -12720,6 +12775,12 @@ define('davinci-eight/math/Vector1',["require", "exports", '../math/VectorN'], f
         Vector1.prototype.zero = function () {
             this.x = 0;
             return this;
+        };
+        Vector1.random = function () {
+            return new Vector1[Math.random()];
+        };
+        Vector1.zero = function () {
+            return new Vector1[0];
         };
         return Vector1;
     })(VectorN_1.default);

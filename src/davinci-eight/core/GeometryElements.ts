@@ -39,7 +39,21 @@ export default class GeometryElements extends ShareableContextConsumer implement
   private _drawMode: DrawMode;
   private _indices: number[];
   private _attributes: number[];
-  private stride: number;
+
+  /**
+   * <p>
+   * The number of <em>bytes</em> for each element.
+   * </p>
+   * <p>
+   * This is used in the vertexAttribPointer method.
+   * Normally, we will use gl.FLOAT for each number which takes 4 bytes.
+   * </p>
+   *
+   * @property _stride
+   * @type number
+   * @private
+   */
+  private _stride: number;
   private _pointers: VertexAttribPointer[];
 
   private mode: number;
@@ -74,7 +88,7 @@ export default class GeometryElements extends ShareableContextConsumer implement
         this.setIndices(data.indices)
 
         this._attributes = data.attributes;
-        this.stride = data.stride
+        this._stride = data.stride
         if (!isNull(data.pointers) && !isUndefined(data.pointers)) {
           if (isArray(data.pointers)) {
             this._pointers = data.pointers
@@ -131,7 +145,7 @@ export default class GeometryElements extends ShareableContextConsumer implement
       drawMode: this._drawMode,
       indices: this._indices,
       attributes: this._attributes,
-      stride: this.stride,
+      stride: this._stride,
       pointers: this._pointers
     }
   }
@@ -195,6 +209,19 @@ export default class GeometryElements extends ShareableContextConsumer implement
   }
   set pointers(pointers: VertexAttribPointer[]) {
     this._pointers = pointers
+  }
+
+  /**
+   * The total number of <em>bytes</em> for each element.
+   * 
+   * @property stride
+   * @type number
+   */
+  get stride(): number {
+    return this._stride
+  }
+  set stride(stride: number) {
+    this._stride = stride
   }
 
   /**
@@ -281,6 +308,16 @@ export default class GeometryElements extends ShareableContextConsumer implement
         }
       }
     }
+    if (!isNumber(this._stride)) {
+      switch (core.errorMode) {
+        case ErrorMode.WARNME: {
+          console.warn(`${this._type}.stride must be a number.`)
+        }
+        default: {
+          // Do nothing.
+        }
+      }
+    }
     this.ibo.contextGain(contextProvider)
     this.vbo.contextGain(contextProvider)
     super.contextGain(contextProvider)
@@ -312,7 +349,7 @@ export default class GeometryElements extends ShareableContextConsumer implement
           const pointer = pointers[i]
           const attribLoc = material.getAttribLocation(pointer.name)
           if (attribLoc >= 0) {
-            contextProvider.vertexAttribPointer(attribLoc, pointer.size, pointer.normalized, this.stride, pointer.offset)
+            contextProvider.vertexAttribPointer(attribLoc, pointer.size, pointer.normalized, this._stride, pointer.offset)
             contextProvider.enableVertexAttribArray(attribLoc)
           }
         }

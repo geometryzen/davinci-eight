@@ -14,6 +14,13 @@ import VectorE4 from '../math/VectorE4';
  */
 
 /**
+ * <p>
+ * A 4x4 (square) matrix of numbers.
+ * </p>
+ * <p>
+ * An adapter for a <code>Float32Array</code>.
+ * </p>
+ *
  * @class Matrix4
  * @extends AbstractMatrix
  */
@@ -26,8 +33,6 @@ export default class Matrix4 extends AbstractMatrix<Matrix4> implements Matrix<M
     //  2  6 10 14
     //  3  7 11 15
     /**
-     * 4x4 (square) matrix of numbers.
-     * Constructs a Matrix4 by wrapping a Float32Array.
      * @class Matrix4
      * @constructor
      */
