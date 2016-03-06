@@ -343,6 +343,15 @@ export default class Material extends ShareableContextConsumer implements Abstra
   }
 
   /**
+   * @method getUniformLocation
+   * @param name {string}
+   * @return {UniformLocation}
+   */
+  getUniformLocation(name: string): UniformLocation {
+    return this._uniforms[name]
+  }
+
+  /**
    * @method vertexPointer
    * @param name {string}
    * @param size {number}

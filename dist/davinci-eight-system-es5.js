@@ -8440,6 +8440,9 @@ System.register("davinci-eight/materials/Material.js", ["../core/AttribLocation"
             return -1;
           }
         };
+        Material.prototype.getUniformLocation = function(name) {
+          return this._uniforms[name];
+        };
         Material.prototype.vertexPointer = function(name, size, normalized, stride, offset) {
           var attributeLocation = this._attributes[name];
           attributeLocation.vertexPointer(size, normalized, stride, offset);

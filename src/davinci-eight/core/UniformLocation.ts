@@ -10,6 +10,9 @@ import VectorE4 from '../math/VectorE4';
 /**
  * @module EIGHT
  * @submodule core
+ */
+
+/**
  * @class UniformLocation
  */
 export default class UniformLocation implements ContextProgramConsumer {

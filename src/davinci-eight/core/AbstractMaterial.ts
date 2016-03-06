@@ -1,5 +1,6 @@
-import FacetVisitor from './FacetVisitor'
-import ContextConsumer from './ContextConsumer'
+import FacetVisitor from './FacetVisitor';
+import ContextConsumer from './ContextConsumer';
+import UniformLocation from './UniformLocation';
 
 /**
  * <p>
@@ -30,6 +31,13 @@ interface AbstractMaterial extends FacetVisitor, ContextConsumer {
    * @return {number}
    */
   getAttribLocation(name: string): number
+
+  /**
+   * @method getUniformLocation
+   * @param name {string}
+   * @return {UniformLocation}
+   */
+  getUniformLocation(name: string): UniformLocation
 
   /**
    * @method use

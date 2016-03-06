@@ -2959,7 +2959,7 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/core/AbstractMaterial.ts",
-            "line": 4,
+            "line": 5,
             "description": "<p>\n<code>AbstractMaterial</code> is an object-oriented wrapper around a <code>WebGLProgram</code>\n<p/>",
             "extends": "ContextConsumer"
         },
@@ -3545,7 +3545,7 @@
             "submodule": "core",
             "namespace": "",
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 21,
+            "line": 24,
             "is_constructor": 1,
             "params": [
                 {
@@ -7900,7 +7900,7 @@
         },
         {
             "file": "src/davinci-eight/core/AbstractMaterial.ts",
-            "line": 15,
+            "line": 16,
             "itemtype": "property",
             "name": "vertexShaderSrc",
             "type": "string",
@@ -7909,7 +7909,7 @@
         },
         {
             "file": "src/davinci-eight/core/AbstractMaterial.ts",
-            "line": 21,
+            "line": 22,
             "itemtype": "property",
             "name": "fragmentShaderSrc",
             "type": "string",
@@ -7918,7 +7918,7 @@
         },
         {
             "file": "src/davinci-eight/core/AbstractMaterial.ts",
-            "line": 27,
+            "line": 28,
             "itemtype": "method",
             "name": "getAttribLocation",
             "params": [
@@ -7937,7 +7937,26 @@
         },
         {
             "file": "src/davinci-eight/core/AbstractMaterial.ts",
-            "line": 34,
+            "line": 35,
+            "itemtype": "method",
+            "name": "getUniformLocation",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "UniformLocation"
+            },
+            "class": "AbstractMaterial",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/core/AbstractMaterial.ts",
+            "line": 42,
             "itemtype": "method",
             "name": "use",
             "return": {
@@ -11738,7 +11757,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 30,
+            "line": 33,
             "itemtype": "method",
             "name": "contextFree",
             "return": {
@@ -11751,7 +11770,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 38,
+            "line": 41,
             "itemtype": "method",
             "name": "contextGain",
             "params": [
@@ -11776,7 +11795,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 51,
+            "line": 54,
             "itemtype": "method",
             "name": "contextLost",
             "return": {
@@ -11789,7 +11808,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 61,
+            "line": 64,
             "description": "Calls <code>uniform1f</code> on the underlying <code>WebGLUniformLocation</code>.",
             "itemtype": "method",
             "name": "vec1",
@@ -11811,7 +11830,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 73,
+            "line": 76,
             "description": "Calls <code>uniform2f</code> on the underlying <code>WebGLUniformLocation</code>.",
             "itemtype": "method",
             "name": "vec2",
@@ -11833,7 +11852,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 85,
+            "line": 88,
             "description": "Calls <code>uniform3f</code> on the underlying <code>WebGLUniformLocation</code>.",
             "itemtype": "method",
             "name": "vec3",
@@ -11855,7 +11874,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 97,
+            "line": 100,
             "description": "Calls <code>uniform4f</code> on the underlying <code>WebGLUniformLocation</code>.",
             "itemtype": "method",
             "name": "vec4",
@@ -11877,7 +11896,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 109,
+            "line": 112,
             "itemtype": "method",
             "name": "uniform1f",
             "params": [
@@ -11893,7 +11912,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 117,
+            "line": 120,
             "itemtype": "method",
             "name": "uniform2f",
             "params": [
@@ -11914,7 +11933,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 126,
+            "line": 129,
             "itemtype": "method",
             "name": "uniform3f",
             "params": [
@@ -11940,7 +11959,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 136,
+            "line": 139,
             "itemtype": "method",
             "name": "uniform4f",
             "params": [
@@ -11971,7 +11990,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 147,
+            "line": 150,
             "description": "Sets a uniform location of type <code>mat2</code> in the <code>WebGLProgram</code>.",
             "itemtype": "method",
             "name": "mat2",
@@ -12000,7 +12019,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 160,
+            "line": 163,
             "description": "Sets a uniform location of type <code>mat3</code> in the <code>WebGLProgram</code>.",
             "itemtype": "method",
             "name": "mat3",
@@ -12029,7 +12048,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 173,
+            "line": 176,
             "description": "Sets a uniform location of type <code>mat4</code> in the <code>WebGLProgram</code>.",
             "itemtype": "method",
             "name": "mat4",
@@ -12058,7 +12077,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 186,
+            "line": 189,
             "itemtype": "method",
             "name": "vector2",
             "params": [
@@ -12074,7 +12093,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 194,
+            "line": 197,
             "itemtype": "method",
             "name": "vector3",
             "params": [
@@ -12090,7 +12109,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 202,
+            "line": 205,
             "itemtype": "method",
             "name": "vector4",
             "params": [
@@ -12106,7 +12125,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 210,
+            "line": 213,
             "itemtype": "method",
             "name": "toString",
             "class": "UniformLocation",
@@ -17076,6 +17095,26 @@
             "file": "src/davinci-eight/materials/Material.ts",
             "line": 345,
             "itemtype": "method",
+            "name": "getUniformLocation",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "UniformLocation"
+            },
+            "class": "Material",
+            "module": "EIGHT",
+            "submodule": "materials"
+        },
+        {
+            "file": "src/davinci-eight/materials/Material.ts",
+            "line": 354,
+            "itemtype": "method",
             "name": "vertexPointer",
             "params": [
                 {
@@ -17114,7 +17153,7 @@
         },
         {
             "file": "src/davinci-eight/materials/Material.ts",
-            "line": 359,
+            "line": 368,
             "itemtype": "method",
             "name": "uniform1f",
             "params": [
@@ -17139,7 +17178,7 @@
         },
         {
             "file": "src/davinci-eight/materials/Material.ts",
-            "line": 372,
+            "line": 381,
             "itemtype": "method",
             "name": "uniform2f",
             "params": [
@@ -17169,7 +17208,7 @@
         },
         {
             "file": "src/davinci-eight/materials/Material.ts",
-            "line": 386,
+            "line": 395,
             "itemtype": "method",
             "name": "uniform3f",
             "params": [
@@ -17204,7 +17243,7 @@
         },
         {
             "file": "src/davinci-eight/materials/Material.ts",
-            "line": 401,
+            "line": 410,
             "itemtype": "method",
             "name": "uniform4f",
             "params": [
@@ -17244,7 +17283,7 @@
         },
         {
             "file": "src/davinci-eight/materials/Material.ts",
-            "line": 417,
+            "line": 426,
             "itemtype": "method",
             "name": "mat2",
             "params": [
@@ -17274,7 +17313,7 @@
         },
         {
             "file": "src/davinci-eight/materials/Material.ts",
-            "line": 431,
+            "line": 440,
             "itemtype": "method",
             "name": "mat3",
             "params": [
@@ -17304,7 +17343,7 @@
         },
         {
             "file": "src/davinci-eight/materials/Material.ts",
-            "line": 445,
+            "line": 454,
             "itemtype": "method",
             "name": "mat4",
             "params": [
@@ -17334,7 +17373,7 @@
         },
         {
             "file": "src/davinci-eight/materials/Material.ts",
-            "line": 459,
+            "line": 468,
             "itemtype": "method",
             "name": "vec2",
             "params": [
@@ -17359,7 +17398,7 @@
         },
         {
             "file": "src/davinci-eight/materials/Material.ts",
-            "line": 472,
+            "line": 481,
             "itemtype": "method",
             "name": "vec3",
             "params": [
@@ -17384,7 +17423,7 @@
         },
         {
             "file": "src/davinci-eight/materials/Material.ts",
-            "line": 485,
+            "line": 494,
             "itemtype": "method",
             "name": "vec4",
             "params": [
@@ -17409,7 +17448,7 @@
         },
         {
             "file": "src/davinci-eight/materials/Material.ts",
-            "line": 498,
+            "line": 507,
             "itemtype": "method",
             "name": "vector2",
             "params": [
@@ -17434,7 +17473,7 @@
         },
         {
             "file": "src/davinci-eight/materials/Material.ts",
-            "line": 511,
+            "line": 520,
             "itemtype": "method",
             "name": "vector3",
             "params": [
@@ -17459,7 +17498,7 @@
         },
         {
             "file": "src/davinci-eight/materials/Material.ts",
-            "line": 524,
+            "line": 533,
             "itemtype": "method",
             "name": "vector4",
             "params": [

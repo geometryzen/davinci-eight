@@ -149,6 +149,7 @@ declare module EIGHT {
     vertexShaderSrc: string
     fragmentShaderSrc: string
     getAttribLocation(name: string): number
+    getUniformLocation(name: string): UniformLocation
     use(): void
   }
 
@@ -3116,6 +3117,7 @@ declare module EIGHT {
     enableAttrib(name: string): void;
     enableAttribs(): void;
     getAttribLocation(name: string): number;
+    getUniformLocation(name: string): UniformLocation;
     mat2(name: string, matrix: Matrix2, transpose: boolean): void;
     mat3(name: string, matrix: Matrix3, transpose: boolean): void;
     mat4(name: string, matrix: Matrix4, transpose: boolean): void;

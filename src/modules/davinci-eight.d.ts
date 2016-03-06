@@ -149,6 +149,7 @@ declare module EIGHT {
     vertexShaderSrc: string
     fragmentShaderSrc: string
     getAttribLocation(name: string): number
+    getUniformLocation(name: string): UniformLocation
     use(): void
   }
 
@@ -3107,15 +3108,16 @@ declare module EIGHT {
     attributeNames: string[];
     fragmentShaderSrc: string;
     vertexShaderSrc: string;
-    constructor(vertexShaderSrc: string, fragmentShaderSrc: string, attribs?: string[]);
-    contextFree(manager: ContextProvider): void;
-    contextGain(manager: ContextProvider): void;
+    constructor(vertexShaderSrc: string, fragmentShaderSrc: string, attribs: string[], type: string, engine: Engine);
+    contextFree(contextProvider: ContextProvider): void;
+    contextGain(contextProvider: ContextProvider): void;
     contextLost(): void;
     disableAttrib(name: string): void;
     disableAttribs(): void;
     enableAttrib(name: string): void;
     enableAttribs(): void;
     getAttribLocation(name: string): number;
+    getUniformLocation(name: string): UniformLocation;
     mat2(name: string, matrix: Matrix2, transpose: boolean): void;
     mat3(name: string, matrix: Matrix3, transpose: boolean): void;
     mat4(name: string, matrix: Matrix4, transpose: boolean): void;
@@ -3123,7 +3125,6 @@ declare module EIGHT {
     uniform2f(name: string, x: number, y: number): void;
     uniform3f(name: string, x: number, y: number, z: number): void;
     uniform4f(name: string, x: number, y: number, z: number, w: number): void;
-    uniforms(): { [name: string]: UniformLocation };
     use(): void;
     vec2(name: string, vector: VectorE2): void;
     vec3(name: string, vector: VectorE3): void;

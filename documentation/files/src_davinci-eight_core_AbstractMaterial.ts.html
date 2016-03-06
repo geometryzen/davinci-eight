@@ -265,8 +265,9 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import FacetVisitor from &#x27;./FacetVisitor&#x27;
-import ContextConsumer from &#x27;./ContextConsumer&#x27;
+import FacetVisitor from &#x27;./FacetVisitor&#x27;;
+import ContextConsumer from &#x27;./ContextConsumer&#x27;;
+import UniformLocation from &#x27;./UniformLocation&#x27;;
 
 /**
  * &lt;p&gt;
@@ -297,6 +298,13 @@ interface AbstractMaterial extends FacetVisitor, ContextConsumer {
    * @return {number}
    */
   getAttribLocation(name: string): number
+
+  /**
+   * @method getUniformLocation
+   * @param name {string}
+   * @return {UniformLocation}
+   */
+  getUniformLocation(name: string): UniformLocation
 
   /**
    * @method use
