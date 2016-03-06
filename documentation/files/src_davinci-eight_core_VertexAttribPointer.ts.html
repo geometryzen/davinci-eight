@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>ShareableWebGLBuffer - davinci-eight</title>
+    <title>src/davinci-eight/core/VertexAttribPointer.ts - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.209.0</em>
+            <em>API Docs for: 2.210.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -48,6 +48,7 @@
                                 <li><a href="../classes/Arrow.html">Arrow</a></li>
                                 <li><a href="../classes/ArrowBuilder.html">ArrowBuilder</a></li>
                                 <li><a href="../classes/ArrowGeometry.html">ArrowGeometry</a></li>
+                                <li><a href="../classes/ArrowGeometryOptions.html">ArrowGeometryOptions</a></li>
                                 <li><a href="../classes/ArrowOptions.html">ArrowOptions</a></li>
                                 <li><a href="../classes/AttribLocation.html">AttribLocation</a></li>
                                 <li><a href="../classes/AttribMetaInfo.html">AttribMetaInfo</a></li>
@@ -63,7 +64,6 @@
                                 <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
-                                <li><a href="../classes/CommonOptions.html">CommonOptions</a></li>
                                 <li><a href="../classes/ConeTransform.html">ConeTransform</a></li>
                                 <li><a href="../classes/ConicalShellBuilder.html">ConicalShellBuilder</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
@@ -106,9 +106,9 @@
                                 <li><a href="../classes/GeometricE2.html">GeometricE2</a></li>
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
-                                <li><a href="../classes/GeometryBuffers.html">GeometryBuffers</a></li>
                                 <li><a href="../classes/GeometryBuilder.html">GeometryBuilder</a></li>
                                 <li><a href="../classes/GeometryContainer.html">GeometryContainer</a></li>
+                                <li><a href="../classes/GeometryElements.html">GeometryElements</a></li>
                                 <li><a href="../classes/GeometryOptions.html">GeometryOptions</a></li>
                                 <li><a href="../classes/GeometryPrimitive.html">GeometryPrimitive</a></li>
                                 <li><a href="../classes/GraphicsProgramSymbols.html">GraphicsProgramSymbols</a></li>
@@ -120,11 +120,13 @@
                                 <li><a href="../classes/GridPrimitive.html">GridPrimitive</a></li>
                                 <li><a href="../classes/GridTriangleStrip.html">GridTriangleStrip</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
+                                <li><a href="../classes/IndexBuffer.html">IndexBuffer</a></li>
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
                                 <li><a href="../classes/LineMaterialOptions.html">LineMaterialOptions</a></li>
                                 <li><a href="../classes/LinePoints.html">LinePoints</a></li>
                                 <li><a href="../classes/LineStrip.html">LineStrip</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
+                                <li><a href="../classes/MaterialOptions.html">MaterialOptions</a></li>
                                 <li><a href="../classes/Matrix2.html">Matrix2</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
                                 <li><a href="../classes/Matrix4.html">Matrix4</a></li>
@@ -163,7 +165,6 @@
                                 <li><a href="../classes/ShareableArray.html">ShareableArray</a></li>
                                 <li><a href="../classes/ShareableBase.html">ShareableBase</a></li>
                                 <li><a href="../classes/ShareableContextConsumer.html">ShareableContextConsumer</a></li>
-                                <li><a href="../classes/ShareableWebGLBuffer.html">ShareableWebGLBuffer</a></li>
                                 <li><a href="../classes/ShareableWebGLShader.html">ShareableWebGLShader</a></li>
                                 <li><a href="../classes/ShareableWebGLTexture.html">ShareableWebGLTexture</a></li>
                                 <li><a href="../classes/SimplexPrimitivesBuilder.html">SimplexPrimitivesBuilder</a></li>
@@ -205,8 +206,11 @@
                                 <li><a href="../classes/VersionLogger.html">VersionLogger</a></li>
                                 <li><a href="../classes/Vertex.html">Vertex</a></li>
                                 <li><a href="../classes/VertexArrays.html">VertexArrays</a></li>
+                                <li><a href="../classes/VertexAttribPointer.html">VertexAttribPointer</a></li>
                                 <li><a href="../classes/VertexAttributeMap.html">VertexAttributeMap</a></li>
+                                <li><a href="../classes/VertexBuffer.html">VertexBuffer</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
+                                <li><a href="../classes/VisualOptions.html">VisualOptions</a></li>
                                 <li><a href="../classes/WebGLBlendFunc.html">WebGLBlendFunc</a></li>
                                 <li><a href="../classes/WebGLClearColor.html">WebGLClearColor</a></li>
                                 <li><a href="../classes/WebGLDisable.html">WebGLDisable</a></li>
@@ -257,491 +261,48 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1>ShareableWebGLBuffer Class</h1>
-<div class="box meta">
-
-        <div class="extends">
-            Extends <a href="../classes/ShareableBase.html" class="crosslink">ShareableBase</a>
-        </div>
-
-        <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_core_ShareableWebGLBuffer.ts.html#l40"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableWebGLBuffer.ts:40</code></a>
-        </div>
-
-            Module: <a href="../modules/core.html">core</a><br>
-            Parent Module: <a href="../modules/EIGHT.html">EIGHT</a>
-
-</div>
-
-
-<div class="box intro">
-    
-</div>
-
-    <div class="constructor">
-        <h2>Constructor</h2>
-<div id="method_ShareableWebGLBuffer" class="method item">
-    <h3 class="name"><code>ShareableWebGLBuffer</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>manager</code>
-                </li>
-                <li class="arg">
-                        <code>isElements</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_core_ShareableWebGLBuffer.ts.html#l40"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableWebGLBuffer.ts:40</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">manager</code>
-                        <span class="type"><a href="../classes/ContextProvider.html" class="crosslink">ContextProvider</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">isElements</code>
-                        <span class="type">Boolean</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-
-
-</div>
-    </div>
-
-<div id="classdocs" class="tabview">
-    <ul class="api-class-tabs">
-        <li class="api-class-tab index"><a href="#index">Index</a></li>
-
-            <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
-            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
-    </ul>
-
-    <div>
-        <div id="index" class="api-class-tabpanel index">
-            <h2 class="off-left">Item Index</h2>
-
-                <div class="index-section methods">
-                    <h3>Methods</h3>
-
-                    <ul class="index-list methods extends">
-                            <li class="index-item method inherited inherited">
-                                <a href="#method_addRef">addRef</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_bind">bind</a>
-
-                            </li>
-                            <li class="index-item method protected inherited">
-                                <a href="#method_destructor">destructor</a>
-
-                            </li>
-                            <li class="index-item method inherited inherited">
-                                <a href="#method_release">release</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_unbind">unbind</a>
-
-                            </li>
-                    </ul>
-                </div>
-
-                <div class="index-section properties">
-                    <h3>Properties</h3>
-
-                    <ul class="index-list properties extends">
-                            <li class="index-item property private">
-                                <a href="#property__buffer">_buffer</a>
-
-                            </li>
-                            <li class="index-item property private">
-                                <a href="#property__isElements">_isElements</a>
-
-                            </li>
-                            <li class="index-item property private">
-                                <a href="#property__target">_target</a>
-
-                            </li>
-                            <li class="index-item property inherited">
-                                <a href="#property_uuid">uuid</a>
-
-                            </li>
-                    </ul>
-                </div>
-
-
-        </div>
-
-            <div id="methods" class="api-class-tabpanel">
-                <h2 class="off-left">Methods</h2>
-
-<div id="method_addRef" class="method item inherited">
-    <h3 class="name"><code>addRef</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type">Number</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-            <p>Inherited from
-            <a href="../classes/Shareable.html#method_addRef">
-                Shareable
-            </a>
-            but overwritten in
-        <a href="../files/src_davinci-eight_core_ShareableBase.ts.html#l34"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableBase.ts:34</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-Notifies this instance that something is referencing it.
-</p>
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Number</span>:
-                    <p>The new value of the reference count.</p>
-
-            </div>
-        </div>
-
-
-</div>
-<div id="method_bind" class="method item">
-    <h3 class="name"><code>bind</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type">Void</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_core_ShareableWebGLBuffer.ts.html#l101"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableWebGLBuffer.ts:101</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Void</span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_destructor" class="method item protected">
-    <h3 class="name"><code>destructor</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type">Void</span>
-        </span>
-
-
-        <span class="flag protected">protected</span>
-
-
-
-
-
-    <div class="meta">
-            <p>Inherited from
-            <a href="../classes/ShareableBase.html#method_destructor">
-                ShareableBase
-            </a>
-            but overwritten in
-        <a href="../files/src_davinci-eight_core_ShareableWebGLBuffer.ts.html#l51"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableWebGLBuffer.ts:51</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Void</span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_release" class="method item inherited">
-    <h3 class="name"><code>release</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type">Number</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-            <p>Inherited from
-            <a href="../classes/Shareable.html#method_release">
-                Shareable
-            </a>
-            but overwritten in
-        <a href="../files/src_davinci-eight_core_ShareableBase.ts.html#l48"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableBase.ts:48</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-Notifies this instance that something is dereferencing it.
-</p>
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Number</span>:
-                    <p>The new value of the reference count.</p>
-
-            </div>
-        </div>
-
-
-</div>
-<div id="method_unbind" class="method item">
-    <h3 class="name"><code>unbind</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type">Void</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_core_ShareableWebGLBuffer.ts.html#l115"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableWebGLBuffer.ts:115</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Void</span>:
-            </div>
-        </div>
-
-
-</div>
-            </div>
-
-            <div id="properties" class="api-class-tabpanel">
-                <h2 class="off-left">Properties</h2>
-
-<div id="property__buffer" class="property item private">
-    <h3 class="name"><code>_buffer</code></h3>
-    <span class="type">WebGLBuffer</span>
-
-
-        <span class="flag private">private</span>
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_core_ShareableWebGLBuffer.ts.html#l18"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableWebGLBuffer.ts:18</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-
-</div>
-<div id="property__isElements" class="property item private">
-    <h3 class="name"><code>_isElements</code></h3>
-    <span class="type">Boolean</span>
-
-
-        <span class="flag private">private</span>
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_core_ShareableWebGLBuffer.ts.html#l25"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableWebGLBuffer.ts:25</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-
-</div>
-<div id="property__target" class="property item private">
-    <h3 class="name"><code>_target</code></h3>
-    <span class="type">Number</span>
-
-
-        <span class="flag private">private</span>
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_core_ShareableWebGLBuffer.ts.html#l32"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableWebGLBuffer.ts:32</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>Cache the target when we have a context.</p>
-
-    </div>
-
-
-
-</div>
-<div id="property_uuid" class="property item inherited">
-    <h3 class="name"><code>uuid</code></h3>
-    <span class="type">String</span>
-
-
-
-
-
-    <div class="meta">
-                <p>Inherited from
-                <a href="../classes/ShareableBase.html#property_uuid">ShareableBase</a>:
-        <a href="../files/src_davinci-eight_core_ShareableBase.ts.html#l92"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableBase.ts:92</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-
-</div>
-            </div>
-
-
-    </div>
+<h1 class="file-heading">File: src/davinci-eight/core/VertexAttribPointer.ts</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+/**
+ * @module EIGHT
+ * @submodule core
+ */
+
+/**
+ * @class VertexAttribPointer
+ */
+interface VertexAttribPointer {
+
+    /**
+     * @attribute name
+     * @type string
+     */
+    name: string;
+
+    /**
+     * @attribute size
+     * @type number
+     */
+    size: number;
+
+    /**
+     * @attribute normalized
+     * @type boolean
+     */
+    normalized: boolean;
+
+    /**
+     * @attribute offset
+     * @type number
+     */
+    offset: number
+}
+
+export default VertexAttribPointer
+
+    </pre>
 </div>
                     </div>
                 </div>

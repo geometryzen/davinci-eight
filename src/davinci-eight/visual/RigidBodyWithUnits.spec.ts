@@ -10,8 +10,8 @@ describe("RigidBodyWithUnits", function() {
   describe("constructor", function() {
 
     const geometry = new BoxGeometry()
-    const material = new MeshMaterial()
-    const mesh = new Mesh('Mesh', geometry, material)
+    const material = new MeshMaterial(null, null)
+    const mesh = new Mesh('Mesh', geometry, material, null)
     geometry.release()
     material.release()
     const axis = R3.e3

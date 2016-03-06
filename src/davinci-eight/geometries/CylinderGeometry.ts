@@ -4,7 +4,7 @@ import isDefined from '../checks/isDefined'
 import mustBeBoolean from '../checks/mustBeBoolean'
 import notSupported from '../i18n/notSupported'
 import GeometryContainer from '../core/GeometryContainer'
-import GeometryBuffers from '../core/GeometryBuffers'
+import GeometryElements from '../core/GeometryElements'
 import R3 from '../math/R3'
 import vertexArraysFromPrimitive from '../core/vertexArraysFromPrimitive'
 
@@ -68,7 +68,7 @@ export default class CylinderGeometry extends GeometryContainer {
         const iLen = ps.length
         for (let i = 0; i < iLen; i++) {
             const dataSource = ps[i]
-            const geometry = new GeometryBuffers(vertexArraysFromPrimitive(dataSource))
+            const geometry = new GeometryElements(vertexArraysFromPrimitive(dataSource), options.engine)
             this.addPart(geometry)
             geometry.release()
         }

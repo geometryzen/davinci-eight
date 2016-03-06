@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.209.0</em>
+            <em>API Docs for: 2.210.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -48,6 +48,7 @@
                                 <li><a href="../classes/Arrow.html">Arrow</a></li>
                                 <li><a href="../classes/ArrowBuilder.html">ArrowBuilder</a></li>
                                 <li><a href="../classes/ArrowGeometry.html">ArrowGeometry</a></li>
+                                <li><a href="../classes/ArrowGeometryOptions.html">ArrowGeometryOptions</a></li>
                                 <li><a href="../classes/ArrowOptions.html">ArrowOptions</a></li>
                                 <li><a href="../classes/AttribLocation.html">AttribLocation</a></li>
                                 <li><a href="../classes/AttribMetaInfo.html">AttribMetaInfo</a></li>
@@ -63,7 +64,6 @@
                                 <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
-                                <li><a href="../classes/CommonOptions.html">CommonOptions</a></li>
                                 <li><a href="../classes/ConeTransform.html">ConeTransform</a></li>
                                 <li><a href="../classes/ConicalShellBuilder.html">ConicalShellBuilder</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
@@ -106,9 +106,9 @@
                                 <li><a href="../classes/GeometricE2.html">GeometricE2</a></li>
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
-                                <li><a href="../classes/GeometryBuffers.html">GeometryBuffers</a></li>
                                 <li><a href="../classes/GeometryBuilder.html">GeometryBuilder</a></li>
                                 <li><a href="../classes/GeometryContainer.html">GeometryContainer</a></li>
+                                <li><a href="../classes/GeometryElements.html">GeometryElements</a></li>
                                 <li><a href="../classes/GeometryOptions.html">GeometryOptions</a></li>
                                 <li><a href="../classes/GeometryPrimitive.html">GeometryPrimitive</a></li>
                                 <li><a href="../classes/GraphicsProgramSymbols.html">GraphicsProgramSymbols</a></li>
@@ -120,11 +120,13 @@
                                 <li><a href="../classes/GridPrimitive.html">GridPrimitive</a></li>
                                 <li><a href="../classes/GridTriangleStrip.html">GridTriangleStrip</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
+                                <li><a href="../classes/IndexBuffer.html">IndexBuffer</a></li>
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
                                 <li><a href="../classes/LineMaterialOptions.html">LineMaterialOptions</a></li>
                                 <li><a href="../classes/LinePoints.html">LinePoints</a></li>
                                 <li><a href="../classes/LineStrip.html">LineStrip</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
+                                <li><a href="../classes/MaterialOptions.html">MaterialOptions</a></li>
                                 <li><a href="../classes/Matrix2.html">Matrix2</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
                                 <li><a href="../classes/Matrix4.html">Matrix4</a></li>
@@ -163,7 +165,6 @@
                                 <li><a href="../classes/ShareableArray.html">ShareableArray</a></li>
                                 <li><a href="../classes/ShareableBase.html">ShareableBase</a></li>
                                 <li><a href="../classes/ShareableContextConsumer.html">ShareableContextConsumer</a></li>
-                                <li><a href="../classes/ShareableWebGLBuffer.html">ShareableWebGLBuffer</a></li>
                                 <li><a href="../classes/ShareableWebGLShader.html">ShareableWebGLShader</a></li>
                                 <li><a href="../classes/ShareableWebGLTexture.html">ShareableWebGLTexture</a></li>
                                 <li><a href="../classes/SimplexPrimitivesBuilder.html">SimplexPrimitivesBuilder</a></li>
@@ -205,8 +206,11 @@
                                 <li><a href="../classes/VersionLogger.html">VersionLogger</a></li>
                                 <li><a href="../classes/Vertex.html">Vertex</a></li>
                                 <li><a href="../classes/VertexArrays.html">VertexArrays</a></li>
+                                <li><a href="../classes/VertexAttribPointer.html">VertexAttribPointer</a></li>
                                 <li><a href="../classes/VertexAttributeMap.html">VertexAttributeMap</a></li>
+                                <li><a href="../classes/VertexBuffer.html">VertexBuffer</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
+                                <li><a href="../classes/VisualOptions.html">VisualOptions</a></li>
                                 <li><a href="../classes/WebGLBlendFunc.html">WebGLBlendFunc</a></li>
                                 <li><a href="../classes/WebGLClearColor.html">WebGLClearColor</a></li>
                                 <li><a href="../classes/WebGLDisable.html">WebGLDisable</a></li>
@@ -546,6 +550,9 @@
                 <li class="arg">
                         <code>type</code>
                 </li>
+                <li class="arg">
+                        <code>engine</code>
+                </li>
             </ul><span class="paren">)</span>
         </div>
 
@@ -562,7 +569,7 @@
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/PrimitivesBuilder.html#method_toGeometry">PrimitivesBuilder</a>:
-        <a href="../files/src_davinci-eight_geometries_PrimitivesBuilder.ts.html#l98"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;PrimitivesBuilder.ts:98</code></a>
+        <a href="../files/src_davinci-eight_geometries_PrimitivesBuilder.ts.html#l99"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;PrimitivesBuilder.ts:99</code></a>
         </p>
 
 
@@ -580,6 +587,16 @@
                 <li class="param">
                         <code class="param-name">type</code>
                         <span class="type">String</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">engine</code>
+                        <span class="type"><a href="../classes/Engine.html" class="crosslink">Engine</a></span>
 
 
                     <div class="param-description">
@@ -615,7 +632,7 @@
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/PrimitivesBuilder.html#method_toPrimitives">PrimitivesBuilder</a>:
-        <a href="../files/src_davinci-eight_geometries_PrimitivesBuilder.ts.html#l134"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;PrimitivesBuilder.ts:134</code></a>
+        <a href="../files/src_davinci-eight_geometries_PrimitivesBuilder.ts.html#l136"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;PrimitivesBuilder.ts:136</code></a>
         </p>
 
 
@@ -648,7 +665,7 @@
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/PrimitivesBuilder.html#method_toVertexArrays">PrimitivesBuilder</a>:
-        <a href="../files/src_davinci-eight_geometries_PrimitivesBuilder.ts.html#l119"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;PrimitivesBuilder.ts:119</code></a>
+        <a href="../files/src_davinci-eight_geometries_PrimitivesBuilder.ts.html#l121"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;PrimitivesBuilder.ts:121</code></a>
         </p>
 
 
@@ -736,7 +753,7 @@
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/PrimitivesBuilder.html#property_offset">PrimitivesBuilder</a>:
-        <a href="../files/src_davinci-eight_geometries_PrimitivesBuilder.ts.html#l42"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;PrimitivesBuilder.ts:42</code></a>
+        <a href="../files/src_davinci-eight_geometries_PrimitivesBuilder.ts.html#l43"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;PrimitivesBuilder.ts:43</code></a>
         </p>
 
 
@@ -787,7 +804,7 @@
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/PrimitivesBuilder.html#property_stress">PrimitivesBuilder</a>:
-        <a href="../files/src_davinci-eight_geometries_PrimitivesBuilder.ts.html#l20"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;PrimitivesBuilder.ts:20</code></a>
+        <a href="../files/src_davinci-eight_geometries_PrimitivesBuilder.ts.html#l21"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;PrimitivesBuilder.ts:21</code></a>
         </p>
 
 
@@ -816,7 +833,7 @@ reference frame specific transformation.</p>
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/PrimitivesBuilder.html#property_tilt">PrimitivesBuilder</a>:
-        <a href="../files/src_davinci-eight_geometries_PrimitivesBuilder.ts.html#l34"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;PrimitivesBuilder.ts:34</code></a>
+        <a href="../files/src_davinci-eight_geometries_PrimitivesBuilder.ts.html#l35"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;PrimitivesBuilder.ts:35</code></a>
         </p>
 
 
@@ -842,7 +859,7 @@ reference frame specific transformation.</p>
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/PrimitivesBuilder.html#property_transforms">PrimitivesBuilder</a>:
-        <a href="../files/src_davinci-eight_geometries_PrimitivesBuilder.ts.html#l50"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;PrimitivesBuilder.ts:50</code></a>
+        <a href="../files/src_davinci-eight_geometries_PrimitivesBuilder.ts.html#l51"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;PrimitivesBuilder.ts:51</code></a>
         </p>
 
 
@@ -866,7 +883,7 @@ reference frame specific transformation.</p>
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/PrimitivesBuilder.html#property_useNormal">PrimitivesBuilder</a>:
-        <a href="../files/src_davinci-eight_geometries_PrimitivesBuilder.ts.html#l56"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;PrimitivesBuilder.ts:56</code></a>
+        <a href="../files/src_davinci-eight_geometries_PrimitivesBuilder.ts.html#l57"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;PrimitivesBuilder.ts:57</code></a>
         </p>
 
 
@@ -892,7 +909,7 @@ reference frame specific transformation.</p>
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/PrimitivesBuilder.html#property_usePosition">PrimitivesBuilder</a>:
-        <a href="../files/src_davinci-eight_geometries_PrimitivesBuilder.ts.html#l65"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;PrimitivesBuilder.ts:65</code></a>
+        <a href="../files/src_davinci-eight_geometries_PrimitivesBuilder.ts.html#l66"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;PrimitivesBuilder.ts:66</code></a>
         </p>
 
 
@@ -918,7 +935,7 @@ reference frame specific transformation.</p>
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/PrimitivesBuilder.html#property_useTextureCoord">PrimitivesBuilder</a>:
-        <a href="../files/src_davinci-eight_geometries_PrimitivesBuilder.ts.html#l74"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;PrimitivesBuilder.ts:74</code></a>
+        <a href="../files/src_davinci-eight_geometries_PrimitivesBuilder.ts.html#l75"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;PrimitivesBuilder.ts:75</code></a>
         </p>
 
 
@@ -954,7 +971,7 @@ reference frame specific transformation.</p>
                         <div class="meta">
                                     <p>Inherited from
                                     <a href="../classes/PrimitivesBuilder.html#attr_aColor">PrimitivesBuilder</a>:
-                            <a href="../files/src_davinci-eight_geometries_GridGeometryOptions.ts.html#l22"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;GridGeometryOptions.ts:22</code></a>
+                            <a href="../files/src_davinci-eight_geometries_GridGeometryOptions.ts.html#l23"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;GridGeometryOptions.ts:23</code></a>
                             </p>
                     
                     
@@ -983,7 +1000,7 @@ reference frame specific transformation.</p>
                         <div class="meta">
                                     <p>Inherited from
                                     <a href="../classes/PrimitivesBuilder.html#attr_aPosition">PrimitivesBuilder</a>:
-                            <a href="../files/src_davinci-eight_geometries_GridGeometryOptions.ts.html#l7"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;GridGeometryOptions.ts:7</code></a>
+                            <a href="../files/src_davinci-eight_geometries_GridGeometryOptions.ts.html#l8"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;GridGeometryOptions.ts:8</code></a>
                             </p>
                     
                     
@@ -1016,7 +1033,7 @@ reference frame specific transformation.</p>
                         <div class="meta">
                                     <p>Inherited from
                                     <a href="../classes/PrimitivesBuilder.html#attr_drawMode">PrimitivesBuilder</a>:
-                            <a href="../files/src_davinci-eight_geometries_GridGeometryOptions.ts.html#l29"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;GridGeometryOptions.ts:29</code></a>
+                            <a href="../files/src_davinci-eight_geometries_GridGeometryOptions.ts.html#l30"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;GridGeometryOptions.ts:30</code></a>
                             </p>
                     
                     
@@ -1049,7 +1066,7 @@ reference frame specific transformation.</p>
                                     PrimitivesBuilder
                                 </a>
                                 but overwritten in
-                            <a href="../files/src_davinci-eight_geometries_GridGeometryOptions.ts.html#l45"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;GridGeometryOptions.ts:45</code></a>
+                            <a href="../files/src_davinci-eight_geometries_GridGeometryOptions.ts.html#l46"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;GridGeometryOptions.ts:46</code></a>
                             </p>
                     
                     
@@ -1079,7 +1096,7 @@ reference frame specific transformation.</p>
                         <div class="meta">
                                     <p>Inherited from
                                     <a href="../classes/PrimitivesBuilder.html#attr_uMin">PrimitivesBuilder</a>:
-                            <a href="../files/src_davinci-eight_geometries_GridGeometryOptions.ts.html#l37"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;GridGeometryOptions.ts:37</code></a>
+                            <a href="../files/src_davinci-eight_geometries_GridGeometryOptions.ts.html#l38"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;GridGeometryOptions.ts:38</code></a>
                             </p>
                     
                     
@@ -1109,7 +1126,7 @@ reference frame specific transformation.</p>
                         <div class="meta">
                                     <p>Inherited from
                                     <a href="../classes/PrimitivesBuilder.html#attr_uSegments">PrimitivesBuilder</a>:
-                            <a href="../files/src_davinci-eight_geometries_GridGeometryOptions.ts.html#l53"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;GridGeometryOptions.ts:53</code></a>
+                            <a href="../files/src_davinci-eight_geometries_GridGeometryOptions.ts.html#l54"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;GridGeometryOptions.ts:54</code></a>
                             </p>
                     
                     
@@ -1139,7 +1156,7 @@ reference frame specific transformation.</p>
                         <div class="meta">
                                     <p>Inherited from
                                     <a href="../classes/PrimitivesBuilder.html#attr_vMin">PrimitivesBuilder</a>:
-                            <a href="../files/src_davinci-eight_geometries_GridGeometryOptions.ts.html#l61"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;GridGeometryOptions.ts:61</code></a>
+                            <a href="../files/src_davinci-eight_geometries_GridGeometryOptions.ts.html#l62"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;GridGeometryOptions.ts:62</code></a>
                             </p>
                     
                     
@@ -1169,7 +1186,7 @@ reference frame specific transformation.</p>
                         <div class="meta">
                                     <p>Inherited from
                                     <a href="../classes/PrimitivesBuilder.html#attr_vSegments">PrimitivesBuilder</a>:
-                            <a href="../files/src_davinci-eight_geometries_GridGeometryOptions.ts.html#l77"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;GridGeometryOptions.ts:77</code></a>
+                            <a href="../files/src_davinci-eight_geometries_GridGeometryOptions.ts.html#l78"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;GridGeometryOptions.ts:78</code></a>
                             </p>
                     
                     

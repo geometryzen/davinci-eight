@@ -5,6 +5,7 @@ import isString from '../checks/isString';
 import isNull from '../checks/isNull';
 import makeWebGLProgram from '../core/makeWebGLProgram';
 import AbstractMaterial from '../core/AbstractMaterial'
+import Engine from '../core/Engine';
 import Matrix2 from '../math/Matrix2';
 import Matrix3 from '../math/Matrix3';
 import Matrix4 from '../math/Matrix4';
@@ -79,9 +80,10 @@ export default class Material extends ShareableContextConsumer implements Abstra
    * @param fragmentShaderSrc {string} The fragment shader source code.
    * @param attribs {string[]} The attribute ordering.
    * @param type {string} The name of the type.
+   * @param engine {Engine} The <code>Engine</code> to subscribe to or <code>null</code> for deferred subscription.
    */
-  constructor(vertexShaderSrc: string, fragmentShaderSrc: string, attribs: string[], type: string) {
-    super(type)
+  constructor(vertexShaderSrc: string, fragmentShaderSrc: string, attribs: string[], type: string, engine: Engine) {
+    super(type, engine)
     if (isDefined(vertexShaderSrc) && !isNull(vertexShaderSrc)) {
       this._vertexShaderSrc = mustBeString('vertexShaderSrc', vertexShaderSrc)
     }

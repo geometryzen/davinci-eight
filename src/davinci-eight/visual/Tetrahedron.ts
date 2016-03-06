@@ -1,5 +1,6 @@
 import Mesh from '../core/Mesh'
 import MeshMaterial from '../materials/MeshMaterial'
+import MeshMaterialOptions from '../materials/MeshMaterialOptions'
 import TetrahedronOptions from './TetrahedronOptions'
 import TetrahedronGeometryOptions from '../geometries//TetrahedronGeometryOptions'
 import TetrahedronGeometry from '../geometries/TetrahedronGeometry'
@@ -21,10 +22,12 @@ export default class Tetrahedron extends Mesh {
    * @param options {TetrahedronOptions}
    */
   constructor(options: TetrahedronOptions) {
-    super('Tetrahedron', void 0, void 0)
+    super('Tetrahedron', void 0, void 0, options.engine)
     const geoOptions: TetrahedronGeometryOptions = {}
+    geoOptions.engine = options.engine
     const geometry = new TetrahedronGeometry(geoOptions)
-    const material = new MeshMaterial()
+    const matOptions: MeshMaterialOptions = null
+    const material = new MeshMaterial(matOptions, options.engine)
     this.geometry = geometry
     this.material = material
     geometry.release()

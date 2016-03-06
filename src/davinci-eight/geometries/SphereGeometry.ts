@@ -1,5 +1,5 @@
 import GeometryContainer from '../core/GeometryContainer'
-import GeometryBuffers from '../core/GeometryBuffers'
+import GeometryElements from '../core/GeometryElements'
 import notSupported from '../i18n/notSupported'
 import SphereBuilder from './SphereBuilder'
 import SphereGeometryOptions from './SphereGeometryOptions'
@@ -38,7 +38,7 @@ export default class SphereGeometry extends GeometryContainer {
     const iLen = ps.length
     for (let i = 0; i < iLen; i++) {
       const p = ps[i]
-      const geometry = new GeometryBuffers(vertexArraysFromPrimitive(p))
+      const geometry = new GeometryElements(vertexArraysFromPrimitive(p), options.engine)
       this.addPart(geometry)
       geometry.release()
     }

@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.209.0</em>
+            <em>API Docs for: 2.210.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -48,6 +48,7 @@
                                 <li><a href="../classes/Arrow.html">Arrow</a></li>
                                 <li><a href="../classes/ArrowBuilder.html">ArrowBuilder</a></li>
                                 <li><a href="../classes/ArrowGeometry.html">ArrowGeometry</a></li>
+                                <li><a href="../classes/ArrowGeometryOptions.html">ArrowGeometryOptions</a></li>
                                 <li><a href="../classes/ArrowOptions.html">ArrowOptions</a></li>
                                 <li><a href="../classes/AttribLocation.html">AttribLocation</a></li>
                                 <li><a href="../classes/AttribMetaInfo.html">AttribMetaInfo</a></li>
@@ -63,7 +64,6 @@
                                 <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
-                                <li><a href="../classes/CommonOptions.html">CommonOptions</a></li>
                                 <li><a href="../classes/ConeTransform.html">ConeTransform</a></li>
                                 <li><a href="../classes/ConicalShellBuilder.html">ConicalShellBuilder</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
@@ -106,9 +106,9 @@
                                 <li><a href="../classes/GeometricE2.html">GeometricE2</a></li>
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
-                                <li><a href="../classes/GeometryBuffers.html">GeometryBuffers</a></li>
                                 <li><a href="../classes/GeometryBuilder.html">GeometryBuilder</a></li>
                                 <li><a href="../classes/GeometryContainer.html">GeometryContainer</a></li>
+                                <li><a href="../classes/GeometryElements.html">GeometryElements</a></li>
                                 <li><a href="../classes/GeometryOptions.html">GeometryOptions</a></li>
                                 <li><a href="../classes/GeometryPrimitive.html">GeometryPrimitive</a></li>
                                 <li><a href="../classes/GraphicsProgramSymbols.html">GraphicsProgramSymbols</a></li>
@@ -120,11 +120,13 @@
                                 <li><a href="../classes/GridPrimitive.html">GridPrimitive</a></li>
                                 <li><a href="../classes/GridTriangleStrip.html">GridTriangleStrip</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
+                                <li><a href="../classes/IndexBuffer.html">IndexBuffer</a></li>
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
                                 <li><a href="../classes/LineMaterialOptions.html">LineMaterialOptions</a></li>
                                 <li><a href="../classes/LinePoints.html">LinePoints</a></li>
                                 <li><a href="../classes/LineStrip.html">LineStrip</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
+                                <li><a href="../classes/MaterialOptions.html">MaterialOptions</a></li>
                                 <li><a href="../classes/Matrix2.html">Matrix2</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
                                 <li><a href="../classes/Matrix4.html">Matrix4</a></li>
@@ -163,7 +165,6 @@
                                 <li><a href="../classes/ShareableArray.html">ShareableArray</a></li>
                                 <li><a href="../classes/ShareableBase.html">ShareableBase</a></li>
                                 <li><a href="../classes/ShareableContextConsumer.html">ShareableContextConsumer</a></li>
-                                <li><a href="../classes/ShareableWebGLBuffer.html">ShareableWebGLBuffer</a></li>
                                 <li><a href="../classes/ShareableWebGLShader.html">ShareableWebGLShader</a></li>
                                 <li><a href="../classes/ShareableWebGLTexture.html">ShareableWebGLTexture</a></li>
                                 <li><a href="../classes/SimplexPrimitivesBuilder.html">SimplexPrimitivesBuilder</a></li>
@@ -205,8 +206,11 @@
                                 <li><a href="../classes/VersionLogger.html">VersionLogger</a></li>
                                 <li><a href="../classes/Vertex.html">Vertex</a></li>
                                 <li><a href="../classes/VertexArrays.html">VertexArrays</a></li>
+                                <li><a href="../classes/VertexAttribPointer.html">VertexAttribPointer</a></li>
                                 <li><a href="../classes/VertexAttributeMap.html">VertexAttributeMap</a></li>
+                                <li><a href="../classes/VertexBuffer.html">VertexBuffer</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
+                                <li><a href="../classes/VisualOptions.html">VisualOptions</a></li>
                                 <li><a href="../classes/WebGLBlendFunc.html">WebGLBlendFunc</a></li>
                                 <li><a href="../classes/WebGLClearColor.html">WebGLClearColor</a></li>
                                 <li><a href="../classes/WebGLDisable.html">WebGLDisable</a></li>
@@ -303,78 +307,78 @@ function isFunctionOrUndefined(x: any): boolean {
   return isFunction(x) || isUndefined(x)
 }
 
-function transferGeometryOptions(options: GridOptions, geoOptions: GridGeometryOptions): void {
+function transferGeometryOptions(source: GridOptions, target: GridGeometryOptions): void {
 
-  if (isFunctionOrNull(options.aPosition)) {
-    geoOptions.aPosition = options.aPosition
+  if (isFunctionOrNull(source.aPosition)) {
+    target.aPosition = source.aPosition
   }
-  else if (isUndefined(options.aPosition)) {
-    geoOptions.aPosition = aPositionDefault
+  else if (isUndefined(source.aPosition)) {
+    target.aPosition = aPositionDefault
   }
   else {
     throw new Error(&quot;aPosition must be one of function, null, or undefined.&quot;)
   }
 
-  if (isFunctionOrNull(options.aNormal)) {
-    geoOptions.aNormal = options.aNormal
+  if (isFunctionOrNull(source.aNormal)) {
+    target.aNormal = source.aNormal
   }
-  else if (isUndefined(options.aNormal)) {
-    geoOptions.aNormal = aNormalDefault
+  else if (isUndefined(source.aNormal)) {
+    target.aNormal = aNormalDefault
   }
   else {
     throw new Error(&quot;aNormal must be one of function, null, or undefined.&quot;)
   }
 
-  if (isFunctionOrNull(options.aColor)) {
-    geoOptions.aColor = options.aColor
+  if (isFunctionOrNull(source.aColor)) {
+    target.aColor = source.aColor
   }
-  else if (isUndefined(options.aColor)) {
+  else if (isUndefined(source.aColor)) {
     // Do nothing.
   }
   else {
     throw new Error(&quot;aColor must be one of function, null, or undefined.&quot;)
   }
 
-  if (isDefined(options.uMax)) {
-    geoOptions.uMax = mustBeNumber(&#x27;uMax&#x27;, options.uMax)
+  if (isDefined(source.uMax)) {
+    target.uMax = mustBeNumber(&#x27;uMax&#x27;, source.uMax)
   }
   else {
-    geoOptions.uMax = +0.5
+    target.uMax = +0.5
   }
 
-  if (isDefined(options.uMin)) {
-    geoOptions.uMin = mustBeNumber(&#x27;uMin&#x27;, options.uMin)
+  if (isDefined(source.uMin)) {
+    target.uMin = mustBeNumber(&#x27;uMin&#x27;, source.uMin)
   }
   else {
-    geoOptions.uMin = -0.5
+    target.uMin = -0.5
   }
 
-  if (isDefined(options.uSegments)) {
-    geoOptions.uSegments = mustBeGE(&#x27;uSegments&#x27;, options.uSegments, 0)
+  if (isDefined(source.uSegments)) {
+    target.uSegments = mustBeGE(&#x27;uSegments&#x27;, source.uSegments, 0)
   }
   else {
-    geoOptions.uSegments = 1
+    target.uSegments = 1
   }
 
-  if (isDefined(options.vMax)) {
-    geoOptions.vMax = mustBeNumber(&#x27;vMax&#x27;, options.vMax)
+  if (isDefined(source.vMax)) {
+    target.vMax = mustBeNumber(&#x27;vMax&#x27;, source.vMax)
   }
   else {
-    geoOptions.vMax = +0.5
+    target.vMax = +0.5
   }
 
-  if (isDefined(options.vMin)) {
-    geoOptions.vMin = mustBeNumber(&#x27;vMin&#x27;, options.vMin)
+  if (isDefined(source.vMin)) {
+    target.vMin = mustBeNumber(&#x27;vMin&#x27;, source.vMin)
   }
   else {
-    geoOptions.vMin = -0.5
+    target.vMin = -0.5
   }
 
-  if (isDefined(options.vSegments)) {
-    geoOptions.vSegments = mustBeGE(&#x27;vSegments&#x27;, options.vSegments, 0)
+  if (isDefined(source.vSegments)) {
+    target.vSegments = mustBeGE(&#x27;vSegments&#x27;, source.vSegments, 0)
   }
   else {
-    geoOptions.vSegments = 1
+    target.vSegments = 1
   }
 }
 
@@ -410,7 +414,7 @@ function configPoints(options: GridOptions, grid: Grid) {
   matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX] = &#x27;mat4&#x27;
   matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_POINT_SIZE] = &#x27;float&#x27;
 
-  const material = new PointMaterial(matOptions)
+  const material = new PointMaterial(matOptions, options.engine)
   grid.material = material
   material.release()
 }
@@ -449,7 +453,7 @@ function configLines(options: GridOptions, grid: Grid) {
   matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX] = &#x27;mat4&#x27;
   matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX] = &#x27;mat4&#x27;
 
-  const material = new LineMaterial(matOptions)
+  const material = new LineMaterial(matOptions, options.engine)
   grid.material = material
   material.release()
 }
@@ -507,7 +511,7 @@ function configMesh(options: GridOptions, grid: Grid) {
 
   matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_AMBIENT_LIGHT] = &#x27;vec3&#x27;
 
-  const material = new MeshMaterial(matOptions)
+  const material = new MeshMaterial(matOptions, options.engine)
   grid.material = material
   material.release()
 }
@@ -525,7 +529,7 @@ export default class Grid extends Mesh {
    * @param [options] {GridOptions}
    */
   constructor(options: GridOptions = {}) {
-    super(&#x27;Grid&#x27;, void 0, void 0)
+    super(&#x27;Grid&#x27;, void 0, void 0, null)
 
     const drawMode: DrawMode = isDefined(options.drawMode) ? options.drawMode : DrawMode.LINES
     switch (drawMode) {

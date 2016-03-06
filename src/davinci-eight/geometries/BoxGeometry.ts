@@ -1,6 +1,6 @@
 import BoxGeometryOptions from './BoxGeometryOptions'
 import GeometryContainer from '../core/GeometryContainer'
-import GeometryBuffers from '../core/GeometryBuffers'
+import GeometryElements from '../core/GeometryElements'
 import isDefined from '../checks/isDefined'
 import mustBeBoolean from '../checks/mustBeBoolean'
 import mustBeNumber from '../checks/mustBeNumber'
@@ -67,7 +67,7 @@ export default class BoxGeometry extends GeometryContainer {
         const iLen = ps.length
         for (let i = 0; i < iLen; i++) {
             const dataSource = ps[i]
-            const geometry = new GeometryBuffers(vertexArraysFromPrimitive(dataSource))
+            const geometry = new GeometryElements(vertexArraysFromPrimitive(dataSource), options.engine)
             this.addPart(geometry)
             geometry.release()
         }

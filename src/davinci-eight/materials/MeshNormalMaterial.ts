@@ -46,6 +46,7 @@ export default class MeshNormalMaterial extends Material {
    * @constructor
    */
   constructor() {
-    super(vertexShaderSrc(), fragmentShaderSrc(), [], 'MeshNormalMaterial')
+    // FIXME: options
+    super(vertexShaderSrc(), fragmentShaderSrc(), [], 'MeshNormalMaterial', null)
   }
 }

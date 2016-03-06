@@ -1,6 +1,7 @@
 import DrawMode from '../core/DrawMode'
 import AbstractColor from '../core/AbstractColor'
 import VectorE3 from '../math/VectorE3'
+import VisualOptions from './VisualOptions'
 
 /**
  * @module EIGHT
@@ -9,8 +10,9 @@ import VectorE3 from '../math/VectorE3'
 
 /**
  * @class GridOptions
+ * @extends VisualOptions
  */
-interface GridOptions {
+interface GridOptions extends VisualOptions {
 
   /**
    * <p>

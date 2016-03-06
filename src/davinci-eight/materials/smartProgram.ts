@@ -1,4 +1,5 @@
 import AttribMetaInfo from '../core/AttribMetaInfo';
+import Engine from '../core/Engine';
 import fragmentShaderSrc from './fragmentShaderSrc';
 import mergeStringMapList from '../utils/mergeStringMapList';
 import mustBeDefined from '../checks/mustBeDefined';
@@ -11,7 +12,7 @@ import vLightRequired from './vLightRequired';
 /**
  *
  */
-export default function smartProgram(attributes: { [name: string]: AttribMetaInfo }, uniformsList: { [name: string]: UniformMetaInfo }[], bindings: string[]): Material {
+export default function smartProgram(attributes: { [name: string]: AttribMetaInfo }, uniformsList: { [name: string]: UniformMetaInfo }[], bindings: string[], engine: Engine): Material {
   mustBeDefined('attributes', attributes);
   mustBeDefined('uniformsList', uniformsList);
 
@@ -20,5 +21,5 @@ export default function smartProgram(attributes: { [name: string]: AttribMetaInf
   const vColor: boolean = vColorRequired(attributes, uniforms);
   const vLight: boolean = vLightRequired(attributes, uniforms);
 
-  return new Material(vertexShaderSrc(attributes, uniforms, vColor, vLight), fragmentShaderSrc(attributes, uniforms, vColor, vLight), bindings, 'smartProgram');
+  return new Material(vertexShaderSrc(attributes, uniforms, vColor, vLight), fragmentShaderSrc(attributes, uniforms, vColor, vLight), bindings, 'smartProgram', engine);
 }

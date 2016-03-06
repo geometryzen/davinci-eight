@@ -4,6 +4,7 @@ import CylinderGeometryOptions from '../geometries/CylinderGeometryOptions'
 import CylinderOptions from './CylinderOptions'
 import isDefined from '../checks/isDefined'
 import MeshMaterial from '../materials/MeshMaterial'
+import MeshMaterialOptions from '../materials/MeshMaterialOptions'
 import mustBeNumber from '../checks/mustBeNumber'
 import RigidBody from './RigidBody'
 
@@ -30,6 +31,7 @@ export default class Cylinder extends RigidBody {
         // const stress = Vector3.vector(1, 1, 1)
 
         const geoOptions: CylinderGeometryOptions = {}
+        geoOptions.engine = options.engine
         geoOptions.tilt = options.tilt
         geoOptions.offset = options.offset
         geoOptions.openCap = options.openCap
@@ -39,7 +41,8 @@ export default class Cylinder extends RigidBody {
         this.geometry = geometry
         geometry.release()
 
-        const material = new MeshMaterial()
+        const matOptions: MeshMaterialOptions = null
+        const material = new MeshMaterial(matOptions, options.engine)
         this.material = material
         material.release()
 

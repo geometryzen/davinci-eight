@@ -1,15 +1,20 @@
-import GraphicsProgramBuilder from '../materials/GraphicsProgramBuilder'
-import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols'
-import isDefined from '../checks/isDefined'
-import Material from './Material'
-import MeshMaterialOptions from './MeshMaterialOptions'
-import mustBeObject from '../checks/mustBeObject'
+import Engine from '../core/Engine';
+import GraphicsProgramBuilder from '../materials/GraphicsProgramBuilder';
+import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
+import isDefined from '../checks/isDefined';
+import isNull from '../checks/isNull';
+import isUndefined from '../checks/isUndefined';
+import Material from './Material';
+import MeshMaterialOptions from './MeshMaterialOptions';
+import mustBeObject from '../checks/mustBeObject';
+
+/**
+ * @module EIGHT
+ * @submodule materials
+ */
 
 function builder(options?: MeshMaterialOptions) {
-  if (isDefined(options)) {
-    mustBeObject('options', options)
-  }
-  else {
+  if (isUndefined(options) || isNull(options)) {
     options = { attributes: {}, uniforms: {} }
 
     options.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = 3
@@ -25,6 +30,9 @@ function builder(options?: MeshMaterialOptions) {
     options.uniforms[GraphicsProgramSymbols.UNIFORM_AMBIENT_LIGHT] = 'vec3'
     options.uniforms[GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_COLOR] = 'vec3'
     options.uniforms[GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION] = 'vec3'
+  }
+  else {
+    mustBeObject('options', options)
   }
 
   const attributes: { [name: string]: number } = isDefined(options.attributes) ? options.attributes : {}
@@ -71,9 +79,10 @@ export default class MeshMaterial extends Material {
    * 
    * @class MeshMaterial
    * @constructor
-   * @param [options] {MeshMaterialOptions}
+   * @param options {MeshMaterialOptions}
+   * @param engine {Engine}
    */
-  constructor(options?: MeshMaterialOptions) {
-    super(vertexShaderSrc(options), fragmentShaderSrc(options), [], 'MeshMaterial')
+  constructor(options: MeshMaterialOptions, engine: Engine) {
+    super(vertexShaderSrc(options), fragmentShaderSrc(options), [], 'MeshMaterial', engine)
   }
 }

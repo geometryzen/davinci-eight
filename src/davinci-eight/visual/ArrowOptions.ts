@@ -1,5 +1,6 @@
 import AbstractColor from '../core/AbstractColor'
 import VectorE3 from '../math/VectorE3'
+import VisualOptions from './VisualOptions'
 
 /**
  * @module EIGHT
@@ -8,8 +9,9 @@ import VectorE3 from '../math/VectorE3'
 
 /**
  * @class ArrowOptions
+ * @extends VisualOptions
  */
-interface ArrowOptions {
+interface ArrowOptions extends VisualOptions {
 
     /**
      * @attribute axis

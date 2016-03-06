@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.209.0</em>
+            <em>API Docs for: 2.210.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -48,6 +48,7 @@
                                 <li><a href="../classes/Arrow.html">Arrow</a></li>
                                 <li><a href="../classes/ArrowBuilder.html">ArrowBuilder</a></li>
                                 <li><a href="../classes/ArrowGeometry.html">ArrowGeometry</a></li>
+                                <li><a href="../classes/ArrowGeometryOptions.html">ArrowGeometryOptions</a></li>
                                 <li><a href="../classes/ArrowOptions.html">ArrowOptions</a></li>
                                 <li><a href="../classes/AttribLocation.html">AttribLocation</a></li>
                                 <li><a href="../classes/AttribMetaInfo.html">AttribMetaInfo</a></li>
@@ -63,7 +64,6 @@
                                 <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
-                                <li><a href="../classes/CommonOptions.html">CommonOptions</a></li>
                                 <li><a href="../classes/ConeTransform.html">ConeTransform</a></li>
                                 <li><a href="../classes/ConicalShellBuilder.html">ConicalShellBuilder</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
@@ -106,9 +106,9 @@
                                 <li><a href="../classes/GeometricE2.html">GeometricE2</a></li>
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
-                                <li><a href="../classes/GeometryBuffers.html">GeometryBuffers</a></li>
                                 <li><a href="../classes/GeometryBuilder.html">GeometryBuilder</a></li>
                                 <li><a href="../classes/GeometryContainer.html">GeometryContainer</a></li>
+                                <li><a href="../classes/GeometryElements.html">GeometryElements</a></li>
                                 <li><a href="../classes/GeometryOptions.html">GeometryOptions</a></li>
                                 <li><a href="../classes/GeometryPrimitive.html">GeometryPrimitive</a></li>
                                 <li><a href="../classes/GraphicsProgramSymbols.html">GraphicsProgramSymbols</a></li>
@@ -120,11 +120,13 @@
                                 <li><a href="../classes/GridPrimitive.html">GridPrimitive</a></li>
                                 <li><a href="../classes/GridTriangleStrip.html">GridTriangleStrip</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
+                                <li><a href="../classes/IndexBuffer.html">IndexBuffer</a></li>
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
                                 <li><a href="../classes/LineMaterialOptions.html">LineMaterialOptions</a></li>
                                 <li><a href="../classes/LinePoints.html">LinePoints</a></li>
                                 <li><a href="../classes/LineStrip.html">LineStrip</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
+                                <li><a href="../classes/MaterialOptions.html">MaterialOptions</a></li>
                                 <li><a href="../classes/Matrix2.html">Matrix2</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
                                 <li><a href="../classes/Matrix4.html">Matrix4</a></li>
@@ -163,7 +165,6 @@
                                 <li><a href="../classes/ShareableArray.html">ShareableArray</a></li>
                                 <li><a href="../classes/ShareableBase.html">ShareableBase</a></li>
                                 <li><a href="../classes/ShareableContextConsumer.html">ShareableContextConsumer</a></li>
-                                <li><a href="../classes/ShareableWebGLBuffer.html">ShareableWebGLBuffer</a></li>
                                 <li><a href="../classes/ShareableWebGLShader.html">ShareableWebGLShader</a></li>
                                 <li><a href="../classes/ShareableWebGLTexture.html">ShareableWebGLTexture</a></li>
                                 <li><a href="../classes/SimplexPrimitivesBuilder.html">SimplexPrimitivesBuilder</a></li>
@@ -205,8 +206,11 @@
                                 <li><a href="../classes/VersionLogger.html">VersionLogger</a></li>
                                 <li><a href="../classes/Vertex.html">Vertex</a></li>
                                 <li><a href="../classes/VertexArrays.html">VertexArrays</a></li>
+                                <li><a href="../classes/VertexAttribPointer.html">VertexAttribPointer</a></li>
                                 <li><a href="../classes/VertexAttributeMap.html">VertexAttributeMap</a></li>
+                                <li><a href="../classes/VertexBuffer.html">VertexBuffer</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
+                                <li><a href="../classes/VisualOptions.html">VisualOptions</a></li>
                                 <li><a href="../classes/WebGLBlendFunc.html">WebGLBlendFunc</a></li>
                                 <li><a href="../classes/WebGLClearColor.html">WebGLClearColor</a></li>
                                 <li><a href="../classes/WebGLDisable.html">WebGLDisable</a></li>
@@ -267,6 +271,7 @@ import BoxGeometryOptions from &#x27;../geometries/BoxGeometryOptions&#x27;
 import direction from &#x27;./direction&#x27;
 import isDefined from &#x27;../checks/isDefined&#x27;
 import MeshMaterial from &#x27;../materials/MeshMaterial&#x27;
+import MeshMaterialOptions from &#x27;../materials/MeshMaterialOptions&#x27;
 import mustBeNumber from &#x27;../checks/mustBeNumber&#x27;
 import RigidBody from &#x27;./RigidBody&#x27;
 
@@ -281,92 +286,94 @@ import RigidBody from &#x27;./RigidBody&#x27;
  */
 export default class Box extends RigidBody {
 
-    /**
-     * @class Box
-     * @constructor
-     * @param [options] {BoxOptions}
-     */
-    constructor(options: BoxOptions = {}) {
-        super(&#x27;Box&#x27;, direction(options))
-        // The shape is created un-stressed and then parameters drive the scaling.
-        // The scaling matrix takes into account the initial tilt from the standard configuration.
-        // const stress = Vector3.vector(1, 1, 1)
+  /**
+   * @class Box
+   * @constructor
+   * @param [options] {BoxOptions}
+   */
+  constructor(options: BoxOptions = {}) {
+    super(&#x27;Box&#x27;, direction(options))
+    // The shape is created un-stressed and then parameters drive the scaling.
+    // The scaling matrix takes into account the initial tilt from the standard configuration.
+    // const stress = Vector3.vector(1, 1, 1)
 
-        const geoOptions: BoxGeometryOptions = {}
-        geoOptions.tilt = options.tilt
-        geoOptions.offset = options.offset
-        geoOptions.openBack = options.openBack
-        geoOptions.openBase = options.openBase
-        geoOptions.openFront = options.openFront
-        geoOptions.openLeft = options.openLeft
-        geoOptions.openRight = options.openRight
-        geoOptions.openCap = options.openCap
-        const geometry = new BoxGeometry(geoOptions)
-        this.geometry = geometry
-        geometry.release()
+    const geoOptions: BoxGeometryOptions = {}
+    geoOptions.engine = options.engine
+    geoOptions.tilt = options.tilt
+    geoOptions.offset = options.offset
+    geoOptions.openBack = options.openBack
+    geoOptions.openBase = options.openBase
+    geoOptions.openFront = options.openFront
+    geoOptions.openLeft = options.openLeft
+    geoOptions.openRight = options.openRight
+    geoOptions.openCap = options.openCap
+    const geometry = new BoxGeometry(geoOptions)
+    this.geometry = geometry
+    geometry.release()
 
-        const material = new MeshMaterial()
-        this.material = material
-        material.release()
+    const matOptions: MeshMaterialOptions = void 0
+    const material = new MeshMaterial(matOptions, options.engine)
+    this.material = material
+    material.release()
 
-        if (options.color) {
-            this.color.copy(options.color)
-        }
-        if (options.position) {
-            this.position.copyVector(options.position)
-        }
-        if (options.attitude) {
-            this.attitude.copySpinor(options.attitude)
-        }
-
-        this.width = isDefined(options.width) ? mustBeNumber(&#x27;width&#x27;, options.width) : 1.0
-        this.height = isDefined(options.height) ? mustBeNumber(&#x27;height&#x27;, options.height) : 1.0
-        this.depth = isDefined(options.depth) ? mustBeNumber(&#x27;depth&#x27;, options.depth) : 1.0
+    if (options.color) {
+      this.color.copy(options.color)
+    }
+    if (options.position) {
+      this.position.copyVector(options.position)
+    }
+    if (options.attitude) {
+      this.attitude.copySpinor(options.attitude)
     }
 
+    this.width = isDefined(options.width) ? mustBeNumber(&#x27;width&#x27;, options.width) : 1.0
+    this.height = isDefined(options.height) ? mustBeNumber(&#x27;height&#x27;, options.height) : 1.0
+    this.depth = isDefined(options.depth) ? mustBeNumber(&#x27;depth&#x27;, options.depth) : 1.0
+  }
 
-    /**
-     * @method destructor
-     * @return {void}
-     * @protected
-     */
-    protected destructor(): void {
-        super.destructor()
-    }
 
-    /**
-     * @property width
-     * @type number
-     * @default 1
-     */
-    get width() {
-        return this.getPrincipalScale(&#x27;width&#x27;)
-    }
-    set width(width: number) {
-        this.setPrincipalScale(&#x27;width&#x27;, width)
-    }
+  /**
+   * @method destructor
+   * @return {void}
+   * @protected
+   */
+  protected destructor(): void {
+    super.destructor()
+  }
 
-    /**
-     * @property height
-     * @type number
-     */
-    get height() {
-        return this.getPrincipalScale(&#x27;height&#x27;)
-    }
-    set height(height: number) {
-        this.setPrincipalScale(&#x27;height&#x27;, height)
-    }
+  /**
+   * @property width
+   * @type number
+   * @default 1
+   */
+  get width() {
+    return this.getPrincipalScale(&#x27;width&#x27;)
+  }
+  set width(width: number) {
+    this.setPrincipalScale(&#x27;width&#x27;, width)
+  }
 
-    /**
-     * @property depth
-     * @type number
-     */
-    get depth() {
-        return this.getPrincipalScale(&#x27;depth&#x27;)
-    }
-    set depth(depth: number) {
-        this.setPrincipalScale(&#x27;depth&#x27;, depth)
-    }
+  /**
+   * @property height
+   * @type number
+   */
+  get height() {
+    return this.getPrincipalScale(&#x27;height&#x27;)
+  }
+  set height(height: number) {
+    this.setPrincipalScale(&#x27;height&#x27;, height)
+  }
+
+  /**
+   * @property depth
+   * @type number
+   */
+  get depth() {
+    return this.getPrincipalScale(&#x27;depth&#x27;)
+  }
+  set depth(depth: number) {
+    this.setPrincipalScale(&#x27;depth&#x27;, depth)
+  }
 }
 
     </pre>

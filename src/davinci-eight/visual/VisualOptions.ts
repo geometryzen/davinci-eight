@@ -1,4 +1,5 @@
-import Color from '../core/Color'
+import AbstractColor from '../core/AbstractColor'
+import Engine from '../core/Engine'
 import SpinorE3 from '../math/SpinorE3'
 import VectorE3 from '../math/VectorE3'
 
@@ -8,9 +9,9 @@ import VectorE3 from '../math/VectorE3'
  */
 
 /**
- * @class CommonOptions
+ * @class VisualOptions
  */
-interface CommonOptions {
+interface VisualOptions {
 
     /**
      * @attribute attitude
@@ -22,10 +23,17 @@ interface CommonOptions {
 
     /**
      * @attribute color
-     * @type Color
+     * @type AbstractColor
      * @optional
      */
-    color?: Color
+    color?: AbstractColor
+
+    /**
+     * @attribute engine
+     * @type Engine
+     * @optional
+     */
+    engine?: Engine
 
     /**
      * @attribute offset
@@ -52,4 +60,4 @@ interface CommonOptions {
     tilt?: SpinorE3;
 }
 
-export default CommonOptions
+export default VisualOptions

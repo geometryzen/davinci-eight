@@ -1,4 +1,5 @@
 import ContextProvider from '../core/ContextProvider';
+import Engine from '../core/Engine';
 import isString from '../checks/isString';
 import mustBeArray from '../checks/mustBeArray';
 import mustBeObject from '../checks/mustBeObject';
@@ -81,7 +82,7 @@ function detectShaderType(scriptIds: string[], dom: Document): string[] {
  *
  * @example
  *     // Replace the material in the drawable with our own custom shaders.
- *     const material = new EIGHT.HTMLScriptsMaterial(['vs', 'fs'], document, [])
+ *     const material = new EIGHT.HTMLScriptsMaterial(['vs', 'fs'], document, [], engine)
  *     drawable.material = material
  *     material.release()
  *
@@ -99,11 +100,12 @@ export default class HTMLScriptsMaterial extends Material {
    * @param scriptIds {string[]} The element identifiers for the vertex and fragment shader respectively.
    * @param dom {Document} The document object model that owns the script elements.
    * @param attribs {string[]} An array of strings containing the order of attributes.
+   * @param engine {Engine} The 
    */
-  constructor(scriptIds: string[], dom: Document, attribs: string[]) {
-    super(void 0, void 0, attribs, 'HTMLScriptsMaterial')
+  constructor(scriptIds: string[], dom: Document, attribs: string[], engine: Engine) {
+    super(void 0, void 0, attribs, 'HTMLScriptsMaterial', engine)
     mustBeArray('scriptIds', scriptIds)
-    mustSatisfy('scriptIds', scriptIds.length === 2, () => { return '' })
+    mustSatisfy('scriptIds', scriptIds.length === 2, () => { return 'have two script element identifiers.' })
     this.scriptIds = [scriptIds[0], scriptIds[1]]
     this.dom = dom;
   }
@@ -127,5 +129,14 @@ export default class HTMLScriptsMaterial extends Material {
       this.loaded = true
     }
     super.contextGain(contextProvider)
+  }
+
+  /**
+   * @method destructor
+   * @return {void}
+   * @protected
+   */
+  protected destructor(): void {
+    super.destructor()
   }
 }

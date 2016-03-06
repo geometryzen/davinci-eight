@@ -2,7 +2,7 @@
     "project": {
         "name": "davinci-eight",
         "description": "WebGL library for mathematical physics using Geometric Algebra",
-        "version": "2.209.0",
+        "version": "2.210.0",
         "url": ""
     },
     "files": {
@@ -312,15 +312,6 @@
             "fors": {},
             "namespaces": {}
         },
-        "src/davinci-eight/core/GeometryBuffers.ts": {
-            "name": "src/davinci-eight/core/GeometryBuffers.ts",
-            "modules": {},
-            "classes": {
-                "GeometryBuffers": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
         "src/davinci-eight/core/GeometryContainer.spec.ts": {
             "name": "src/davinci-eight/core/GeometryContainer.spec.ts",
             "modules": {},
@@ -337,11 +328,29 @@
             "fors": {},
             "namespaces": {}
         },
+        "src/davinci-eight/core/GeometryElements.ts": {
+            "name": "src/davinci-eight/core/GeometryElements.ts",
+            "modules": {},
+            "classes": {
+                "GeometryElements": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "src/davinci-eight/core/GraphicsProgramSymbols.ts": {
             "name": "src/davinci-eight/core/GraphicsProgramSymbols.ts",
             "modules": {},
             "classes": {
                 "GraphicsProgramSymbols": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/core/IndexBuffer.ts": {
+            "name": "src/davinci-eight/core/IndexBuffer.ts",
+            "modules": {},
+            "classes": {
+                "IndexBuffer": 1
             },
             "fors": {},
             "namespaces": {}
@@ -409,15 +418,6 @@
             "fors": {},
             "namespaces": {}
         },
-        "src/davinci-eight/core/ShareableWebGLBuffer.ts": {
-            "name": "src/davinci-eight/core/ShareableWebGLBuffer.ts",
-            "modules": {},
-            "classes": {
-                "ShareableWebGLBuffer": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
         "src/davinci-eight/core/ShareableWebGLShader.ts": {
             "name": "src/davinci-eight/core/ShareableWebGLShader.ts",
             "modules": {},
@@ -459,6 +459,24 @@
             "modules": {},
             "classes": {
                 "VertexArrays": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/core/VertexAttribPointer.ts": {
+            "name": "src/davinci-eight/core/VertexAttribPointer.ts",
+            "modules": {},
+            "classes": {
+                "VertexAttribPointer": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/core/VertexBuffer.ts": {
+            "name": "src/davinci-eight/core/VertexBuffer.ts",
+            "modules": {},
+            "classes": {
+                "VertexBuffer": 1
             },
             "fors": {},
             "namespaces": {}
@@ -946,6 +964,15 @@
             "fors": {},
             "namespaces": {}
         },
+        "src/davinci-eight/geometries/ArrowGeometryOptions.ts": {
+            "name": "src/davinci-eight/geometries/ArrowGeometryOptions.ts",
+            "modules": {},
+            "classes": {
+                "ArrowGeometryOptions": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "src/davinci-eight/geometries/AxialPrimitivesBuilder.ts": {
             "name": "src/davinci-eight/geometries/AxialPrimitivesBuilder.ts",
             "modules": {},
@@ -1295,6 +1322,15 @@
             "modules": {},
             "classes": {
                 "Material": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/materials/MaterialOptions.ts": {
+            "name": "src/davinci-eight/materials/MaterialOptions.ts",
+            "modules": {},
+            "classes": {
+                "MaterialOptions": 1
             },
             "fors": {},
             "namespaces": {}
@@ -1997,15 +2033,6 @@
             "fors": {},
             "namespaces": {}
         },
-        "src/davinci-eight/visual/CommonOptions.ts": {
-            "name": "src/davinci-eight/visual/CommonOptions.ts",
-            "modules": {},
-            "classes": {
-                "CommonOptions": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
         "src/davinci-eight/visual/Curve.ts": {
             "name": "src/davinci-eight/visual/Curve.ts",
             "modules": {},
@@ -2153,6 +2180,15 @@
             "fors": {},
             "namespaces": {}
         },
+        "src/davinci-eight/visual/VisualOptions.ts": {
+            "name": "src/davinci-eight/visual/VisualOptions.ts",
+            "modules": {},
+            "classes": {
+                "VisualOptions": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "src/davinci-eight/visual/World.ts": {
             "name": "src/davinci-eight/visual/World.ts",
             "modules": {},
@@ -2222,9 +2258,10 @@
                 "Facet": 1,
                 "FacetVisitor": 1,
                 "Geometry": 1,
-                "GeometryBuffers": 1,
                 "GeometryContainer": 1,
+                "GeometryElements": 1,
                 "GraphicsProgramSymbols": 1,
+                "IndexBuffer": 1,
                 "Mesh": 1,
                 "Primitive": 1,
                 "PrimitiveBuffers": 1,
@@ -2232,12 +2269,13 @@
                 "Shareable": 1,
                 "ShareableBase": 1,
                 "ShareableContextConsumer": 1,
-                "ShareableWebGLBuffer": 1,
                 "ShareableWebGLShader": 1,
                 "ShareableWebGLTexture": 1,
                 "UniformLocation": 1,
                 "UniformMetaInfo": 1,
                 "VertexArrays": 1,
+                "VertexAttribPointer": 1,
+                "VertexBuffer": 1,
                 "AmbientLight": 1,
                 "ColorFacet": 1,
                 "DirectionalLight": 1,
@@ -2277,6 +2315,7 @@
                 "Translation": 1,
                 "ArrowBuilder": 1,
                 "ArrowGeometry": 1,
+                "ArrowGeometryOptions": 1,
                 "AxialPrimitivesBuilder": 1,
                 "BoxGeometry": 1,
                 "BoxGeometryOptions": 1,
@@ -2302,6 +2341,7 @@
                 "LineMaterial": 1,
                 "LineMaterialOptions": 1,
                 "Material": 1,
+                "MaterialOptions": 1,
                 "MeshMaterial": 1,
                 "MeshMaterialOptions": 1,
                 "MeshNormalMaterial": 1,
@@ -2348,7 +2388,6 @@
                 "ArrowOptions": 1,
                 "Box": 1,
                 "BoxOptions": 1,
-                "CommonOptions": 1,
                 "Curve": 1,
                 "CurveOptions": 1,
                 "Cylinder": 1,
@@ -2362,12 +2401,13 @@
                 "Tetrahedron": 1,
                 "TetrahedronOptions": 1,
                 "Trail": 1,
-                "TrailConfig": 1
+                "TrailConfig": 1,
+                "VisualOptions": 1
             },
             "fors": {},
             "namespaces": {},
-            "file": "src/davinci-eight/visual/TrailConfig.ts",
-            "line": 12
+            "file": "src/davinci-eight/visual/VisualOptions.ts",
+            "line": 11
         },
         "controls": {
             "name": "controls",
@@ -2405,9 +2445,10 @@
                 "ErrorMode": 1,
                 "Facet": 1,
                 "FacetVisitor": 1,
-                "GeometryBuffers": 1,
                 "GeometryContainer": 1,
+                "GeometryElements": 1,
                 "GraphicsProgramSymbols": 1,
+                "IndexBuffer": 1,
                 "Mesh": 1,
                 "Primitive": 1,
                 "PrimitiveBuffers": 1,
@@ -2415,19 +2456,20 @@
                 "Shareable": 1,
                 "ShareableBase": 1,
                 "ShareableContextConsumer": 1,
-                "ShareableWebGLBuffer": 1,
                 "ShareableWebGLShader": 1,
                 "ShareableWebGLTexture": 1,
                 "UniformLocation": 1,
-                "UniformMetaInfo": 1
+                "UniformMetaInfo": 1,
+                "VertexAttribPointer": 1,
+                "VertexBuffer": 1
             },
             "fors": {},
             "is_submodule": 1,
             "namespaces": {},
             "module": "EIGHT",
             "namespace": "",
-            "file": "src/davinci-eight/core/UniformMetaInfo.ts",
-            "line": 1,
+            "file": "src/davinci-eight/core/VertexBuffer.ts",
+            "line": 52,
             "extends": "Shareable",
             "description": "Fundamental abstractions in the architecture."
         },
@@ -2486,6 +2528,7 @@
             "elements": {},
             "classes": {
                 "ArrowGeometry": 1,
+                "ArrowGeometryOptions": 1,
                 "BoxGeometry": 1,
                 "CylinderGeometry": 1,
                 "SphereGeometry": 1,
@@ -2507,18 +2550,22 @@
             "classes": {
                 "HTMLScriptsMaterial": 1,
                 "LineMaterial": 1,
+                "LineMaterialOptions": 1,
                 "Material": 1,
+                "MaterialOptions": 1,
                 "MeshMaterial": 1,
+                "MeshMaterialOptions": 1,
                 "MeshNormalMaterial": 1,
-                "PointMaterial": 1
+                "PointMaterial": 1,
+                "PointMaterialOptions": 1
             },
             "fors": {},
             "is_submodule": 1,
             "namespaces": {},
             "module": "EIGHT",
             "namespace": "",
-            "file": "src/davinci-eight/materials/PointMaterial.ts",
-            "line": 65,
+            "file": "src/davinci-eight/materials/PointMaterialOptions.ts",
+            "line": 8,
             "description": "Utilities for the construction of WebGLShader code."
         },
         "math": {
@@ -2564,7 +2611,6 @@
                 "ArrowOptions": 1,
                 "Box": 1,
                 "BoxOptions": 1,
-                "CommonOptions": 1,
                 "Curve": 1,
                 "CurveOptions": 1,
                 "Cylinder": 1,
@@ -2578,15 +2624,16 @@
                 "Tetrahedron": 1,
                 "TetrahedronOptions": 1,
                 "Trail": 1,
-                "TrailConfig": 1
+                "TrailConfig": 1,
+                "VisualOptions": 1
             },
             "fors": {},
             "is_submodule": 1,
             "namespaces": {},
             "module": "EIGHT",
             "namespace": "",
-            "file": "src/davinci-eight/visual/TrailConfig.ts",
-            "line": 12,
+            "file": "src/davinci-eight/visual/VisualOptions.ts",
+            "line": 11,
             "description": "Physics modeling."
         }
     },
@@ -3058,7 +3105,7 @@
             "submodule": "core",
             "namespace": "",
             "file": "src/davinci-eight/core/ContextProvider.ts",
-            "line": 3
+            "line": 4
         },
         "DrawMode": {
             "name": "DrawMode",
@@ -3087,7 +3134,7 @@
             "submodule": "core",
             "namespace": "",
             "file": "src/davinci-eight/core/Drawable.ts",
-            "line": 55,
+            "line": 56,
             "extends": "AbstractDrawable",
             "is_constructor": 1,
             "params": [
@@ -3105,6 +3152,11 @@
                     "name": "material",
                     "description": "",
                     "type": "AbstractMaterial"
+                },
+                {
+                    "name": "engine",
+                    "description": "The <code>Engine</code> to subscribe to or <code>null</code> for deferred subscription.",
+                    "type": "Engine"
                 }
             ]
         },
@@ -3195,30 +3247,6 @@
             "file": "src/davinci-eight/core/Geometry.ts",
             "line": 6
         },
-        "GeometryBuffers": {
-            "name": "GeometryBuffers",
-            "shortname": "GeometryBuffers",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "EIGHT",
-            "submodule": "core",
-            "namespace": "",
-            "file": "src/davinci-eight/core/GeometryBuffers.ts",
-            "line": 39,
-            "description": "A Geometry that supports interleaved vertex buffers.",
-            "extends": "ShareableContextConsumer",
-            "is_constructor": 1,
-            "params": [
-                {
-                    "name": "data",
-                    "description": "",
-                    "type": "VertexArrays"
-                }
-            ]
-        },
         "GeometryContainer": {
             "name": "GeometryContainer",
             "shortname": "GeometryContainer",
@@ -3248,6 +3276,35 @@
                 }
             ]
         },
+        "GeometryElements": {
+            "name": "GeometryElements",
+            "shortname": "GeometryElements",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "submodule": "core",
+            "namespace": "",
+            "file": "src/davinci-eight/core/GeometryElements.ts",
+            "line": 42,
+            "description": "A Geometry that supports interleaved vertex buffers.",
+            "extends": "Geometry",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "data",
+                    "description": "",
+                    "type": "VertexArrays"
+                },
+                {
+                    "name": "engine",
+                    "description": "The <code>Engine</code> to subscribe to or <code>null</code> for deferred subscription.",
+                    "type": "Engine"
+                }
+            ]
+        },
         "GraphicsProgramSymbols": {
             "name": "GraphicsProgramSymbols",
             "shortname": "GraphicsProgramSymbols",
@@ -3263,6 +3320,30 @@
             "line": 6,
             "description": "<p>\nCanonical variable names, which also act as semantic identifiers for name overrides.\nThese names must be stable to avoid breaking custom vertex and fragment shaders.\n</p>"
         },
+        "IndexBuffer": {
+            "name": "IndexBuffer",
+            "shortname": "IndexBuffer",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "submodule": "core",
+            "namespace": "",
+            "file": "src/davinci-eight/core/IndexBuffer.ts",
+            "line": 52,
+            "description": "<p>\nA wrapper around a WebGLBuffer with bunding to ELEMENT_ARRAY_BUFFER.\n</p>",
+            "extends": "ShareableContextConsumer",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "engine",
+                    "description": "",
+                    "type": "Engine"
+                }
+            ]
+        },
         "Mesh": {
             "name": "Mesh",
             "shortname": "Mesh",
@@ -3275,28 +3356,29 @@
             "submodule": "core",
             "namespace": "",
             "file": "src/davinci-eight/core/Mesh.ts",
-            "line": 33,
+            "line": 34,
             "extends": "Drawable",
             "is_constructor": 1,
             "params": [
                 {
-                    "name": "type ",
+                    "name": "type",
                     "description": "",
-                    "type": "String",
-                    "optional": true,
-                    "optdefault": " 'Mesh'"
+                    "type": "String"
                 },
                 {
                     "name": "geometry",
                     "description": "",
-                    "type": "Geometry",
-                    "optional": true
+                    "type": "Geometry"
                 },
                 {
                     "name": "material",
                     "description": "",
-                    "type": "AbstractMaterial",
-                    "optional": true
+                    "type": "AbstractMaterial"
+                },
+                {
+                    "name": "engine",
+                    "description": "The <code>Engine</code> to subscribe to or <code>null</code> for deferred subscription.",
+                    "type": "Engine"
                 }
             ]
         },
@@ -3403,46 +3485,23 @@
             "submodule": "core",
             "namespace": "",
             "file": "src/davinci-eight/core/ShareableContextConsumer.ts",
-            "line": 53,
+            "line": 56,
             "description": "<p>\nA base <code>class</class> for <code>ContextConsumer</code>(s).\n</p>\n<p>\nUsing this base <code>class</code> provides a standard and reliable way to\nsubscribe to <code>Engine</code> events.\n</p>",
             "example": [
-                "\n    class MyContextConsumer extends EIGHT.ShareableContextConsumer {\n      constructor('MyContextConsumer') {\n        // Allocate your own resources here or on-demand.\n      }\n      protected destructor(): void {\n        // Deallocate your own resources here.\n        super.destructor()\n      }\n    }"
+                "\n    class MyContextConsumer extends EIGHT.ShareableContextConsumer {\n      constructor(engine: EIGHT.Engine) {\n        // Allocate your own resources here or on-demand.\n        super('MyContextConsumer', engine)\n      }\n      protected destructor(): void {\n        // Deallocate your own resources here.\n        super.destructor()\n      }\n    }"
             ],
             "extends": "ContextConsumer",
             "is_constructor": 1,
             "params": [
                 {
                     "name": "type",
-                    "description": "",
+                    "description": "The name of the derived class for logging purposes.",
                     "type": "String"
-                }
-            ]
-        },
-        "ShareableWebGLBuffer": {
-            "name": "ShareableWebGLBuffer",
-            "shortname": "ShareableWebGLBuffer",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "EIGHT",
-            "submodule": "core",
-            "namespace": "",
-            "file": "src/davinci-eight/core/ShareableWebGLBuffer.ts",
-            "line": 40,
-            "extends": "ShareableBase",
-            "is_constructor": 1,
-            "params": [
-                {
-                    "name": "manager",
-                    "description": "",
-                    "type": "ContextProvider"
                 },
                 {
-                    "name": "isElements",
-                    "description": "",
-                    "type": "Boolean"
+                    "name": "engine",
+                    "description": "The <code>Engine</code> to subscribe to or <code>null</code> for deferred subscription.",
+                    "type": "Engine"
                 }
             ]
         },
@@ -3508,7 +3567,7 @@
             "submodule": "core",
             "namespace": "",
             "file": "src/davinci-eight/core/UniformMetaInfo.ts",
-            "line": 1
+            "line": 6
         },
         "VertexArrays": {
             "name": "VertexArrays",
@@ -3522,6 +3581,44 @@
             "namespace": "",
             "file": "src/davinci-eight/core/VertexArrays.ts",
             "line": 4
+        },
+        "VertexAttribPointer": {
+            "name": "VertexAttribPointer",
+            "shortname": "VertexAttribPointer",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "submodule": "core",
+            "namespace": "",
+            "file": "src/davinci-eight/core/VertexAttribPointer.ts",
+            "line": 6
+        },
+        "VertexBuffer": {
+            "name": "VertexBuffer",
+            "shortname": "VertexBuffer",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "submodule": "core",
+            "namespace": "",
+            "file": "src/davinci-eight/core/VertexBuffer.ts",
+            "line": 52,
+            "description": "<p>\nA wrapper around a WebGLBuffer with bunding to ARRAY_BUFFER.\n</p>",
+            "extends": "ShareableContextConsumer",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "engine",
+                    "description": "",
+                    "type": "Engine"
+                }
+            ]
         },
         "AmbientLight": {
             "name": "AmbientLight",
@@ -4446,7 +4543,7 @@
             "submodule": "geometries",
             "namespace": "",
             "file": "src/davinci-eight/geometries/ArrowGeometry.ts",
-            "line": 27,
+            "line": 26,
             "description": "A convenience class for creating an arrow.",
             "extends": "Geometry",
             "deprecated": true,
@@ -4454,11 +4551,27 @@
             "is_constructor": 1,
             "params": [
                 {
-                    "name": "options ",
-                    "description": "{} The initial axis of the arrow.",
+                    "name": "options",
+                    "description": "The initial axis of the arrow.",
+                    "type": "ArrowGeometryOptios",
                     "optional": true
                 }
             ]
+        },
+        "ArrowGeometryOptions": {
+            "name": "ArrowGeometryOptions",
+            "shortname": "ArrowGeometryOptions",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "submodule": "geometries",
+            "namespace": "",
+            "file": "src/davinci-eight/geometries/ArrowGeometryOptions.ts",
+            "line": 8,
+            "extends": "GeometryOptions"
         },
         "AxialPrimitivesBuilder": {
             "name": "AxialPrimitivesBuilder",
@@ -4572,7 +4685,7 @@
             "namespace": "",
             "file": "src/davinci-eight/geometries/CurveGeometry.ts",
             "line": 11,
-            "extends": "GeometryBuffers",
+            "extends": "GeometryElements",
             "is_constructor": 1,
             "params": [
                 {
@@ -4698,7 +4811,7 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/geometries/GeometryBuilder.ts",
-            "line": 7
+            "line": 8
         },
         "GeometryOptions": {
             "name": "GeometryOptions",
@@ -4711,7 +4824,7 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/geometries/GeometryOptions.ts",
-            "line": 4
+            "line": 5
         },
         "GridGeometry": {
             "name": "GridGeometry",
@@ -4725,7 +4838,7 @@
             "namespace": "",
             "file": "src/davinci-eight/geometries/GridGeometry.ts",
             "line": 11,
-            "extends": "GeometryBuffers",
+            "extends": "GeometryElements",
             "is_constructor": 1,
             "params": [
                 {
@@ -4747,7 +4860,7 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/geometries/PrimitivesBuilder.ts",
-            "line": 83,
+            "line": 84,
             "description": "A GeometryBuilder that takes building Primitive arrays as primary.",
             "is_constructor": 1
         },
@@ -4902,10 +5015,10 @@
             "submodule": "materials",
             "namespace": "",
             "file": "src/davinci-eight/materials/HTMLScriptsMaterial.ts",
-            "line": 96,
+            "line": 97,
             "description": "<p>\nA shareable WebGL program based upon shader source code in HTML script elements.\n</p>\n<p>\nThis class provides a convenient way of creating custom GLSL programs.\nThe scripts are lazily loaded so that the constructor may be called before\nthe DOM has finished loading.\n</p>",
             "example": [
-                "\n    // Replace the material in the drawable with our own custom shaders.\n    const material = new EIGHT.HTMLScriptsMaterial(['vs', 'fs'], document, [])\n    drawable.material = material\n    material.release()"
+                "\n    // Replace the material in the drawable with our own custom shaders.\n    const material = new EIGHT.HTMLScriptsMaterial(['vs', 'fs'], document, [], engine)\n    drawable.material = material\n    material.release()"
             ],
             "extends": "Material",
             "is_constructor": 1,
@@ -4924,6 +5037,11 @@
                     "name": "attribs",
                     "description": "An array of strings containing the order of attributes.",
                     "type": "String[]"
+                },
+                {
+                    "name": "engine",
+                    "description": "The",
+                    "type": "Engine"
                 }
             ]
         },
@@ -4939,7 +5057,7 @@
             "submodule": "materials",
             "namespace": "",
             "file": "src/davinci-eight/materials/LineMaterial.ts",
-            "line": 72,
+            "line": 75,
             "description": "Generates a WebGLProgram suitable for use with LINES, LINE_STRIP, and LINE_LOOP.\n\n<table>\n<tr>\n<td>attribute</td><td>vec3</td><td>aPosition</td>\n</tr>\n</table>",
             "extends": "Material",
             "is_constructor": 1,
@@ -4947,8 +5065,12 @@
                 {
                     "name": "options",
                     "description": "",
-                    "type": "LineMaterialOptions",
-                    "optional": true
+                    "type": "LineMaterialOptions"
+                },
+                {
+                    "name": "engine",
+                    "description": "",
+                    "type": "Engine"
                 }
             ]
         },
@@ -4961,9 +5083,11 @@
             "plugin_for": [],
             "extension_for": [],
             "module": "EIGHT",
+            "submodule": "materials",
             "namespace": "",
             "file": "src/davinci-eight/materials/LineMaterialOptions.ts",
-            "line": 1
+            "line": 8,
+            "extends": "MaterialOptions"
         },
         "Material": {
             "name": "Material",
@@ -4977,8 +5101,8 @@
             "submodule": "materials",
             "namespace": "",
             "file": "src/davinci-eight/materials/Material.ts",
-            "line": 74,
-            "extends": "ShareableContextConsumer",
+            "line": 76,
+            "extends": "AbstractMaterial",
             "is_constructor": 1,
             "params": [
                 {
@@ -5000,8 +5124,27 @@
                     "name": "type",
                     "description": "The name of the type.",
                     "type": "String"
+                },
+                {
+                    "name": "engine",
+                    "description": "The <code>Engine</code> to subscribe to or <code>null</code> for deferred subscription.",
+                    "type": "Engine"
                 }
             ]
+        },
+        "MaterialOptions": {
+            "name": "MaterialOptions",
+            "shortname": "MaterialOptions",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "submodule": "materials",
+            "namespace": "",
+            "file": "src/davinci-eight/materials/MaterialOptions.ts",
+            "line": 6
         },
         "MeshMaterial": {
             "name": "MeshMaterial",
@@ -5015,15 +5158,19 @@
             "submodule": "materials",
             "namespace": "",
             "file": "src/davinci-eight/materials/MeshMaterial.ts",
-            "line": 70,
+            "line": 78,
             "extends": "Material",
             "is_constructor": 1,
             "params": [
                 {
                     "name": "options",
                     "description": "",
-                    "type": "MeshMaterialOptions",
-                    "optional": true
+                    "type": "MeshMaterialOptions"
+                },
+                {
+                    "name": "engine",
+                    "description": "",
+                    "type": "Engine"
                 }
             ]
         },
@@ -5036,9 +5183,11 @@
             "plugin_for": [],
             "extension_for": [],
             "module": "EIGHT",
+            "submodule": "materials",
             "namespace": "",
             "file": "src/davinci-eight/materials/MeshMaterialOptions.ts",
-            "line": 1
+            "line": 8,
+            "extends": "MaterialOptions"
         },
         "MeshNormalMaterial": {
             "name": "MeshNormalMaterial",
@@ -5068,15 +5217,19 @@
             "submodule": "materials",
             "namespace": "",
             "file": "src/davinci-eight/materials/PointMaterial.ts",
-            "line": 65,
+            "line": 68,
             "extends": "Material",
             "is_constructor": 1,
             "params": [
                 {
                     "name": "options",
                     "description": "",
-                    "type": "PointMaterialOptions",
-                    "optional": true
+                    "type": "PointMaterialOptions"
+                },
+                {
+                    "name": "engine",
+                    "description": "",
+                    "type": "Engine"
                 }
             ]
         },
@@ -5089,9 +5242,11 @@
             "plugin_for": [],
             "extension_for": [],
             "module": "EIGHT",
+            "submodule": "materials",
             "namespace": "",
             "file": "src/davinci-eight/materials/PointMaterialOptions.ts",
-            "line": 1
+            "line": 8,
+            "extends": "MaterialOptions"
         },
         "AbstractMatrix": {
             "name": "AbstractMatrix",
@@ -5897,7 +6052,7 @@
             "submodule": "visual",
             "namespace": "",
             "file": "src/davinci-eight/visual/Arrow.ts",
-            "line": 34,
+            "line": 35,
             "description": "A <code>RigidBody</code> that may be used to represent a vector quantity.",
             "example": [
                 "\n    // Construct the arrow at any time and add it to the scene.\n    const arrow = new EIGHT.Arrow({color: white})\n    scene.add(arrow)\n\n    // Update the arrow configuration, usually inside the animation function.\n    arrow.position = ...\n    arrow.axis = ...\n    arrow.length = ...\n\n    // Release the arrow when no longer required.\n    arrow.release()"
@@ -5925,7 +6080,8 @@
             "submodule": "visual",
             "namespace": "",
             "file": "src/davinci-eight/visual/ArrowOptions.ts",
-            "line": 9
+            "line": 10,
+            "extends": "VisualOptions"
         },
         "Box": {
             "name": "Box",
@@ -5939,7 +6095,7 @@
             "submodule": "visual",
             "namespace": "",
             "file": "src/davinci-eight/visual/Box.ts",
-            "line": 21,
+            "line": 22,
             "extends": "RigidBody",
             "is_constructor": 1,
             "params": [
@@ -5964,21 +6120,7 @@
             "namespace": "",
             "file": "src/davinci-eight/visual/BoxOptions.ts",
             "line": 8,
-            "extends": "CommonOptions"
-        },
-        "CommonOptions": {
-            "name": "CommonOptions",
-            "shortname": "CommonOptions",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "EIGHT",
-            "submodule": "visual",
-            "namespace": "",
-            "file": "src/davinci-eight/visual/CommonOptions.ts",
-            "line": 10
+            "extends": "VisualOptions"
         },
         "Curve": {
             "name": "Curve",
@@ -6016,7 +6158,8 @@
             "submodule": "visual",
             "namespace": "",
             "file": "src/davinci-eight/visual/CurveOptions.ts",
-            "line": 10
+            "line": 11,
+            "extends": "VisualOptions"
         },
         "Cylinder": {
             "name": "Cylinder",
@@ -6030,7 +6173,7 @@
             "submodule": "visual",
             "namespace": "",
             "file": "src/davinci-eight/visual/Cylinder.ts",
-            "line": 21,
+            "line": 22,
             "extends": "RigidBody",
             "is_constructor": 1,
             "params": [
@@ -6055,7 +6198,7 @@
             "namespace": "",
             "file": "src/davinci-eight/visual/CylinderOptions.ts",
             "line": 9,
-            "extends": "CommonOptions"
+            "extends": "VisualOptions"
         },
         "Grid": {
             "name": "Grid",
@@ -6093,7 +6236,8 @@
             "submodule": "visual",
             "namespace": "",
             "file": "src/davinci-eight/visual/GridOptions.ts",
-            "line": 10
+            "line": 11,
+            "extends": "VisualOptions"
         },
         "RigidBody": {
             "name": "RigidBody",
@@ -6107,8 +6251,8 @@
             "submodule": "visual",
             "namespace": "",
             "file": "src/davinci-eight/visual/RigidBody.ts",
-            "line": 49,
-            "description": "Decorates the Mesh by adding properties for physical modeling.",
+            "line": 51,
+            "description": "<p>\nDecorates the Mesh by adding properties for physical modeling.\n</p>",
             "extends": "Mesh",
             "is_constructor": 1,
             "params": [
@@ -6172,7 +6316,7 @@
             "submodule": "visual",
             "namespace": "",
             "file": "src/davinci-eight/visual/Sphere.ts",
-            "line": 21,
+            "line": 22,
             "extends": "RigidBody",
             "is_constructor": 1,
             "params": [
@@ -6196,8 +6340,9 @@
             "submodule": "visual",
             "namespace": "",
             "file": "src/davinci-eight/visual/SphereOptions.ts",
-            "line": 10,
-            "description": "The options for creating a Sphere."
+            "line": 11,
+            "description": "The options for creating a Sphere.",
+            "extends": "VisualOptions"
         },
         "Tetrahedron": {
             "name": "Tetrahedron",
@@ -6211,7 +6356,7 @@
             "submodule": "visual",
             "namespace": "",
             "file": "src/davinci-eight/visual/Tetrahedron.ts",
-            "line": 18,
+            "line": 19,
             "extends": "Mesh",
             "is_constructor": 1,
             "params": [
@@ -6234,7 +6379,8 @@
             "submodule": "visual",
             "namespace": "",
             "file": "src/davinci-eight/visual/TetrahedronOptions.ts",
-            "line": 7
+            "line": 8,
+            "extends": "VisualOptions"
         },
         "Trail": {
             "name": "Trail",
@@ -6276,6 +6422,20 @@
             "namespace": "",
             "file": "src/davinci-eight/visual/TrailConfig.ts",
             "line": 12
+        },
+        "VisualOptions": {
+            "name": "VisualOptions",
+            "shortname": "VisualOptions",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "submodule": "visual",
+            "namespace": "",
+            "file": "src/davinci-eight/visual/VisualOptions.ts",
+            "line": 11
         }
     },
     "elements": {},
@@ -8597,7 +8757,7 @@
         },
         {
             "file": "src/davinci-eight/core/ContextProvider.ts",
-            "line": 10,
+            "line": 11,
             "itemtype": "property",
             "name": "gl",
             "type": "{WebGLRenderingContext}",
@@ -8607,8 +8767,138 @@
             "submodule": "core"
         },
         {
+            "file": "src/davinci-eight/core/ContextProvider.ts",
+            "line": 18,
+            "itemtype": "method",
+            "name": "disableVertexAttribArray",
+            "params": [
+                {
+                    "name": "index",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "ContextProvider",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/ContextProvider.ts",
+            "line": 25,
+            "itemtype": "method",
+            "name": "drawElements",
+            "params": [
+                {
+                    "name": "mode",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "count",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "offset",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "ContextProvider",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/ContextProvider.ts",
+            "line": 34,
+            "itemtype": "method",
+            "name": "drawModeToGL",
+            "params": [
+                {
+                    "name": "drawMode",
+                    "description": "",
+                    "type": "DrawMode"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "class": "ContextProvider",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/ContextProvider.ts",
+            "line": 41,
+            "itemtype": "method",
+            "name": "enableVertexAttribArray",
+            "params": [
+                {
+                    "name": "index",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "ContextProvider",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/ContextProvider.ts",
+            "line": 48,
+            "itemtype": "method",
+            "name": "vertexAttribPointer",
+            "params": [
+                {
+                    "name": "index",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "size",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "normalized",
+                    "description": "",
+                    "type": "Boolean"
+                },
+                {
+                    "name": "stride",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "offset",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "ContextProvider",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
             "file": "src/davinci-eight/core/DefaultContextProvider.ts",
-            "line": 6,
+            "line": 8,
             "description": "Intentionally undocumented.",
             "class": "DrawMode",
             "module": "EIGHT"
@@ -8685,7 +8975,7 @@
         },
         {
             "file": "src/davinci-eight/core/Drawable.ts",
-            "line": 21,
+            "line": 22,
             "itemtype": "property",
             "name": "_geometry",
             "type": "{Geometry}",
@@ -8697,7 +8987,7 @@
         },
         {
             "file": "src/davinci-eight/core/Drawable.ts",
-            "line": 28,
+            "line": 29,
             "itemtype": "property",
             "name": "_material",
             "type": "{AbstractMaterial}",
@@ -8709,7 +8999,7 @@
         },
         {
             "file": "src/davinci-eight/core/Drawable.ts",
-            "line": 35,
+            "line": 36,
             "itemtype": "property",
             "name": "name",
             "type": "{string}",
@@ -8720,7 +9010,7 @@
         },
         {
             "file": "src/davinci-eight/core/Drawable.ts",
-            "line": 42,
+            "line": 43,
             "itemtype": "property",
             "name": "_visible",
             "type": "boolean",
@@ -8732,7 +9022,7 @@
         },
         {
             "file": "src/davinci-eight/core/Drawable.ts",
-            "line": 49,
+            "line": 50,
             "itemtype": "property",
             "name": "_facets",
             "access": "private",
@@ -8743,7 +9033,7 @@
         },
         {
             "file": "src/davinci-eight/core/Drawable.ts",
-            "line": 69,
+            "line": 71,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -8758,7 +9048,7 @@
         },
         {
             "file": "src/davinci-eight/core/Drawable.ts",
-            "line": 82,
+            "line": 84,
             "itemtype": "property",
             "name": "fragmentShaderSrc",
             "type": "string",
@@ -8768,7 +9058,7 @@
         },
         {
             "file": "src/davinci-eight/core/Drawable.ts",
-            "line": 104,
+            "line": 106,
             "itemtype": "property",
             "name": "vertexShaderSrc",
             "type": "string",
@@ -8778,7 +9068,7 @@
         },
         {
             "file": "src/davinci-eight/core/Drawable.ts",
-            "line": 126,
+            "line": 128,
             "itemtype": "method",
             "name": "setUniforms",
             "return": {
@@ -8791,7 +9081,7 @@
         },
         {
             "file": "src/davinci-eight/core/Drawable.ts",
-            "line": 143,
+            "line": 145,
             "itemtype": "method",
             "name": "draw",
             "params": [
@@ -8811,7 +9101,7 @@
         },
         {
             "file": "src/davinci-eight/core/Drawable.ts",
-            "line": 166,
+            "line": 168,
             "itemtype": "method",
             "name": "contextFree",
             "params": [
@@ -8831,7 +9121,7 @@
         },
         {
             "file": "src/davinci-eight/core/Drawable.ts",
-            "line": 177,
+            "line": 179,
             "itemtype": "method",
             "name": "contextGain",
             "params": [
@@ -8851,7 +9141,7 @@
         },
         {
             "file": "src/davinci-eight/core/Drawable.ts",
-            "line": 188,
+            "line": 190,
             "itemtype": "method",
             "name": "contextLost",
             "return": {
@@ -8864,7 +9154,7 @@
         },
         {
             "file": "src/davinci-eight/core/Drawable.ts",
-            "line": 198,
+            "line": 200,
             "itemtype": "method",
             "name": "getFacet",
             "params": [
@@ -8884,7 +9174,7 @@
         },
         {
             "file": "src/davinci-eight/core/Drawable.ts",
-            "line": 207,
+            "line": 209,
             "itemtype": "method",
             "name": "setFacet",
             "params": [
@@ -8909,7 +9199,7 @@
         },
         {
             "file": "src/davinci-eight/core/Drawable.ts",
-            "line": 217,
+            "line": 219,
             "description": "Provides a reference counted reference to the graphics buffers property.",
             "itemtype": "property",
             "name": "geometry",
@@ -8920,7 +9210,7 @@
         },
         {
             "file": "src/davinci-eight/core/Drawable.ts",
-            "line": 241,
+            "line": 243,
             "description": "Provides a reference counted reference to the graphics program property.",
             "itemtype": "property",
             "name": "material",
@@ -8931,7 +9221,7 @@
         },
         {
             "file": "src/davinci-eight/core/Drawable.ts",
-            "line": 265,
+            "line": 267,
             "itemtype": "property",
             "name": "visible",
             "type": "boolean",
@@ -9870,254 +10160,6 @@
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/core/GeometryBuffers.ts",
-            "line": 55,
-            "itemtype": "property",
-            "name": "data",
-            "type": "VertexArrays",
-            "readonly": "",
-            "class": "GeometryBuffers",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/GeometryBuffers.ts",
-            "line": 67,
-            "itemtype": "method",
-            "name": "destructor",
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "access": "protected",
-            "tagname": "",
-            "class": "GeometryBuffers",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/GeometryBuffers.ts",
-            "line": 76,
-            "itemtype": "method",
-            "name": "isLeaf",
-            "return": {
-                "description": "",
-                "type": "Boolean"
-            },
-            "class": "GeometryBuffers",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/GeometryBuffers.ts",
-            "line": 84,
-            "itemtype": "property",
-            "name": "partsLength",
-            "type": "number",
-            "readonly": "",
-            "class": "GeometryBuffers",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/GeometryBuffers.ts",
-            "line": 103,
-            "itemtype": "method",
-            "name": "addPart",
-            "params": [
-                {
-                    "name": "geometry",
-                    "description": "",
-                    "type": "Geometry"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "GeometryBuffers",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/GeometryBuffers.ts",
-            "line": 112,
-            "itemtype": "method",
-            "name": "removePart",
-            "params": [
-                {
-                    "name": "index",
-                    "description": "",
-                    "type": "Number"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "GeometryBuffers",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/GeometryBuffers.ts",
-            "line": 121,
-            "itemtype": "method",
-            "name": "getPart",
-            "params": [
-                {
-                    "name": "index",
-                    "description": "",
-                    "type": "Number"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Geometry"
-            },
-            "class": "GeometryBuffers",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/GeometryBuffers.ts",
-            "line": 130,
-            "itemtype": "method",
-            "name": "contextFree",
-            "params": [
-                {
-                    "name": "context",
-                    "description": "",
-                    "type": "ContextProvider"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "GeometryBuffers",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/GeometryBuffers.ts",
-            "line": 148,
-            "itemtype": "method",
-            "name": "contextGain",
-            "params": [
-                {
-                    "name": "context",
-                    "description": "",
-                    "type": "ContextProvider"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "GeometryBuffers",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/GeometryBuffers.ts",
-            "line": 171,
-            "itemtype": "method",
-            "name": "contextLost",
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "GeometryBuffers",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/GeometryBuffers.ts",
-            "line": 181,
-            "itemtype": "method",
-            "name": "draw",
-            "params": [
-                {
-                    "name": "material",
-                    "description": "",
-                    "type": "AbstractMaterial"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "GeometryBuffers",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/GeometryBuffers.ts",
-            "line": 206,
-            "itemtype": "method",
-            "name": "hasPrincipalScale",
-            "params": [
-                {
-                    "name": "name",
-                    "description": "",
-                    "type": "String"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Boolean"
-            },
-            "class": "GeometryBuffers",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/GeometryBuffers.ts",
-            "line": 216,
-            "itemtype": "method",
-            "name": "getPrincipalScale",
-            "params": [
-                {
-                    "name": "name",
-                    "description": "",
-                    "type": "String"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Number"
-            },
-            "class": "GeometryBuffers",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/GeometryBuffers.ts",
-            "line": 226,
-            "itemtype": "method",
-            "name": "setPrincipalScale",
-            "params": [
-                {
-                    "name": "name",
-                    "description": "",
-                    "type": "String"
-                },
-                {
-                    "name": "value",
-                    "description": "",
-                    "type": "Number"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "GeometryBuffers",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
             "file": "src/davinci-eight/core/GeometryContainer.spec.ts",
             "line": 6,
             "description": "Mock the Geometry so that we can call the protected setScale method.\nThis, incidentally, is the pattern for geometry implementations.",
@@ -10322,6 +10364,254 @@
             "access": "protected",
             "tagname": "",
             "class": "GeometryContainer",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/GeometryElements.ts",
+            "line": 64,
+            "itemtype": "method",
+            "name": "destructor",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "access": "protected",
+            "tagname": "",
+            "class": "GeometryElements",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/GeometryElements.ts",
+            "line": 77,
+            "itemtype": "property",
+            "name": "data",
+            "type": "VertexArrays",
+            "readonly": "",
+            "class": "GeometryElements",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/GeometryElements.ts",
+            "line": 96,
+            "itemtype": "method",
+            "name": "isLeaf",
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "class": "GeometryElements",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/GeometryElements.ts",
+            "line": 104,
+            "itemtype": "property",
+            "name": "partsLength",
+            "type": "number",
+            "readonly": "",
+            "class": "GeometryElements",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/GeometryElements.ts",
+            "line": 123,
+            "itemtype": "method",
+            "name": "addPart",
+            "params": [
+                {
+                    "name": "geometry",
+                    "description": "",
+                    "type": "Geometry"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "GeometryElements",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/GeometryElements.ts",
+            "line": 132,
+            "itemtype": "method",
+            "name": "removePart",
+            "params": [
+                {
+                    "name": "index",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "GeometryElements",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/GeometryElements.ts",
+            "line": 141,
+            "itemtype": "method",
+            "name": "getPart",
+            "params": [
+                {
+                    "name": "index",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Geometry"
+            },
+            "class": "GeometryElements",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/GeometryElements.ts",
+            "line": 150,
+            "itemtype": "method",
+            "name": "contextFree",
+            "params": [
+                {
+                    "name": "contextProvider",
+                    "description": "",
+                    "type": "ContextProvider"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "GeometryElements",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/GeometryElements.ts",
+            "line": 161,
+            "itemtype": "method",
+            "name": "contextGain",
+            "params": [
+                {
+                    "name": "contextProvider",
+                    "description": "",
+                    "type": "ContextProvider"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "GeometryElements",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/GeometryElements.ts",
+            "line": 173,
+            "itemtype": "method",
+            "name": "contextLost",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "GeometryElements",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/GeometryElements.ts",
+            "line": 183,
+            "itemtype": "method",
+            "name": "draw",
+            "params": [
+                {
+                    "name": "material",
+                    "description": "",
+                    "type": "AbstractMaterial"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "GeometryElements",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/GeometryElements.ts",
+            "line": 208,
+            "itemtype": "method",
+            "name": "hasPrincipalScale",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "class": "GeometryElements",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/GeometryElements.ts",
+            "line": 217,
+            "itemtype": "method",
+            "name": "getPrincipalScale",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "class": "GeometryElements",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/GeometryElements.ts",
+            "line": 226,
+            "itemtype": "method",
+            "name": "setPrincipalScale",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "value",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "GeometryElements",
             "module": "EIGHT",
             "submodule": "core"
         },
@@ -10590,8 +10880,83 @@
             "submodule": "core"
         },
         {
+            "file": "src/davinci-eight/core/IndexBuffer.ts",
+            "line": 38,
+            "itemtype": "property",
+            "name": "_buffer",
+            "type": "WebGLBuffer",
+            "access": "private",
+            "tagname": "",
+            "class": "IndexBuffer",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/IndexBuffer.ts",
+            "line": 45,
+            "itemtype": "property",
+            "name": "_data",
+            "type": "Uint16Array",
+            "access": "private",
+            "tagname": "",
+            "class": "IndexBuffer",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/IndexBuffer.ts",
+            "line": 61,
+            "itemtype": "method",
+            "name": "destructor",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "access": "protected",
+            "tagname": "",
+            "class": "IndexBuffer",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/IndexBuffer.ts",
+            "line": 71,
+            "itemtype": "property",
+            "name": "data",
+            "type": "Uint16Array",
+            "class": "IndexBuffer",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/IndexBuffer.ts",
+            "line": 122,
+            "itemtype": "method",
+            "name": "bind",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "IndexBuffer",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/IndexBuffer.ts",
+            "line": 136,
+            "itemtype": "method",
+            "name": "unbind",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "IndexBuffer",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
             "file": "src/davinci-eight/core/Mesh.ts",
-            "line": 53,
+            "line": 55,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -10606,7 +10971,7 @@
         },
         {
             "file": "src/davinci-eight/core/Mesh.ts",
-            "line": 62,
+            "line": 64,
             "description": "Attitude (spinor)",
             "itemtype": "property",
             "name": "attitude",
@@ -10617,7 +10982,7 @@
         },
         {
             "file": "src/davinci-eight/core/Mesh.ts",
-            "line": 87,
+            "line": 89,
             "description": "Color",
             "itemtype": "property",
             "name": "color",
@@ -10628,7 +10993,7 @@
         },
         {
             "file": "src/davinci-eight/core/Mesh.ts",
-            "line": 112,
+            "line": 114,
             "itemtype": "property",
             "name": "matrix",
             "type": "Matrix4",
@@ -10639,7 +11004,7 @@
         },
         {
             "file": "src/davinci-eight/core/Mesh.ts",
-            "line": 124,
+            "line": 126,
             "description": "Position (vector)",
             "itemtype": "property",
             "name": "position",
@@ -10650,7 +11015,7 @@
         },
         {
             "file": "src/davinci-eight/core/Mesh.ts",
-            "line": 149,
+            "line": 151,
             "itemtype": "property",
             "name": "stress",
             "type": "Matrix4",
@@ -10660,7 +11025,7 @@
         },
         {
             "file": "src/davinci-eight/core/Mesh.ts",
-            "line": 172,
+            "line": 174,
             "itemtype": "method",
             "name": "getPrincipalScale",
             "params": [
@@ -10680,7 +11045,7 @@
         },
         {
             "file": "src/davinci-eight/core/Mesh.ts",
-            "line": 184,
+            "line": 186,
             "itemtype": "method",
             "name": "setPrincipalScale",
             "params": [
@@ -10837,7 +11202,7 @@
         },
         {
             "file": "src/davinci-eight/core/Scene.ts",
-            "line": 129,
+            "line": 128,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -10852,7 +11217,7 @@
         },
         {
             "file": "src/davinci-eight/core/Scene.ts",
-            "line": 141,
+            "line": 139,
             "description": "<p>\nAdds the <code>mesh</code> to this <code>Scene</code>.\n</p>",
             "itemtype": "method",
             "name": "add",
@@ -10873,7 +11238,7 @@
         },
         {
             "file": "src/davinci-eight/core/Scene.ts",
-            "line": 167,
+            "line": 165,
             "itemtype": "method",
             "name": "contains",
             "params": [
@@ -10893,7 +11258,7 @@
         },
         {
             "file": "src/davinci-eight/core/Scene.ts",
-            "line": 177,
+            "line": 175,
             "description": "<p>\nTraverses the collection of scene parts drawing each one.\n</p>",
             "itemtype": "method",
             "name": "draw",
@@ -10915,7 +11280,7 @@
         },
         {
             "file": "src/davinci-eight/core/Scene.ts",
-            "line": 194,
+            "line": 192,
             "itemtype": "method",
             "name": "find",
             "params": [
@@ -10935,7 +11300,7 @@
         },
         {
             "file": "src/davinci-eight/core/Scene.ts",
-            "line": 203,
+            "line": 201,
             "itemtype": "method",
             "name": "findOne",
             "params": [
@@ -10955,7 +11320,7 @@
         },
         {
             "file": "src/davinci-eight/core/Scene.ts",
-            "line": 212,
+            "line": 210,
             "itemtype": "method",
             "name": "findOneByName",
             "params": [
@@ -10975,7 +11340,7 @@
         },
         {
             "file": "src/davinci-eight/core/Scene.ts",
-            "line": 221,
+            "line": 219,
             "itemtype": "method",
             "name": "findByName",
             "params": [
@@ -10995,7 +11360,7 @@
         },
         {
             "file": "src/davinci-eight/core/Scene.ts",
-            "line": 230,
+            "line": 228,
             "description": "<p>\nRemoves the <code>mesh</code> from this <code>Scene</code>.\n</p>",
             "itemtype": "method",
             "name": "remove",
@@ -11016,7 +11381,7 @@
         },
         {
             "file": "src/davinci-eight/core/Scene.ts",
-            "line": 248,
+            "line": 246,
             "itemtype": "method",
             "name": "contextFree",
             "params": [
@@ -11036,7 +11401,7 @@
         },
         {
             "file": "src/davinci-eight/core/Scene.ts",
-            "line": 261,
+            "line": 259,
             "itemtype": "method",
             "name": "contextGain",
             "params": [
@@ -11056,7 +11421,7 @@
         },
         {
             "file": "src/davinci-eight/core/Scene.ts",
-            "line": 274,
+            "line": 272,
             "itemtype": "method",
             "name": "contextLost",
             "return": {
@@ -11152,7 +11517,7 @@
         },
         {
             "file": "src/davinci-eight/core/ShareableContextConsumer.ts",
-            "line": 39,
+            "line": 42,
             "itemtype": "property",
             "name": "engine",
             "type": "Engine",
@@ -11164,7 +11529,7 @@
         },
         {
             "file": "src/davinci-eight/core/ShareableContextConsumer.ts",
-            "line": 46,
+            "line": 49,
             "itemtype": "property",
             "name": "contextProvider",
             "type": "{ContextProvider}",
@@ -11176,7 +11541,7 @@
         },
         {
             "file": "src/davinci-eight/core/ShareableContextConsumer.ts",
-            "line": 62,
+            "line": 72,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -11189,7 +11554,7 @@
         },
         {
             "file": "src/davinci-eight/core/ShareableContextConsumer.ts",
-            "line": 71,
+            "line": 81,
             "description": "<p>\nInstructs the consumer to subscribe to context events.\n</p>",
             "itemtype": "method",
             "name": "subscribe",
@@ -11210,7 +11575,7 @@
         },
         {
             "file": "src/davinci-eight/core/ShareableContextConsumer.ts",
-            "line": 94,
+            "line": 104,
             "description": "Instructs the consumer to unsubscribe from context events.",
             "itemtype": "method",
             "name": "unsubscribe",
@@ -11224,7 +11589,7 @@
         },
         {
             "file": "src/davinci-eight/core/ShareableContextConsumer.ts",
-            "line": 111,
+            "line": 121,
             "itemtype": "method",
             "name": "contextFree",
             "params": [
@@ -11244,7 +11609,7 @@
         },
         {
             "file": "src/davinci-eight/core/ShareableContextConsumer.ts",
-            "line": 120,
+            "line": 130,
             "itemtype": "method",
             "name": "contextGain",
             "params": [
@@ -11264,7 +11629,7 @@
         },
         {
             "file": "src/davinci-eight/core/ShareableContextConsumer.ts",
-            "line": 129,
+            "line": 139,
             "itemtype": "method",
             "name": "contextLost",
             "return": {
@@ -11277,7 +11642,7 @@
         },
         {
             "file": "src/davinci-eight/core/ShareableContextConsumer.ts",
-            "line": 137,
+            "line": 147,
             "description": "<p>\nProvides access to the underlying WebGL context.\n</p>\n<p>\nThis property is deprecated to encourage access throught the <code>ContextProvider</code>.\n</p>",
             "itemtype": "property",
             "name": "gl",
@@ -11285,84 +11650,6 @@
             "readonly": "",
             "deprecated": true,
             "class": "ShareableContextConsumer",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/ShareableWebGLBuffer.ts",
-            "line": 18,
-            "itemtype": "property",
-            "name": "_buffer",
-            "type": "WebGLBuffer",
-            "access": "private",
-            "tagname": "",
-            "class": "ShareableWebGLBuffer",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/ShareableWebGLBuffer.ts",
-            "line": 25,
-            "itemtype": "property",
-            "name": "_isElements",
-            "type": "boolean",
-            "access": "private",
-            "tagname": "",
-            "class": "ShareableWebGLBuffer",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/ShareableWebGLBuffer.ts",
-            "line": 32,
-            "description": "Cache the target when we have a context.",
-            "itemtype": "property",
-            "name": "_target",
-            "type": "{number}",
-            "access": "private",
-            "tagname": "",
-            "class": "ShareableWebGLBuffer",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/ShareableWebGLBuffer.ts",
-            "line": 51,
-            "itemtype": "method",
-            "name": "destructor",
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "access": "protected",
-            "tagname": "",
-            "class": "ShareableWebGLBuffer",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/ShareableWebGLBuffer.ts",
-            "line": 101,
-            "itemtype": "method",
-            "name": "bind",
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "ShareableWebGLBuffer",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/ShareableWebGLBuffer.ts",
-            "line": 115,
-            "itemtype": "method",
-            "name": "unbind",
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "ShareableWebGLBuffer",
             "module": "EIGHT",
             "submodule": "core"
         },
@@ -11763,7 +12050,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformMetaInfo.ts",
-            "line": 7,
+            "line": 10,
             "description": "Specifies an optional override of the name used as a key.",
             "itemtype": "property",
             "name": "name",
@@ -11775,7 +12062,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformMetaInfo.ts",
-            "line": 14,
+            "line": 17,
             "description": "The type keyword as it appears in the GLSL shader program.",
             "itemtype": "property",
             "name": "glslType",
@@ -11827,6 +12114,121 @@
             "type": "VertexAttribPointer[]",
             "class": "VertexArrays",
             "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/core/VertexAttribPointer.ts",
+            "line": 11,
+            "itemtype": "attribute",
+            "name": "name",
+            "type": "string",
+            "class": "VertexAttribPointer",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/VertexAttribPointer.ts",
+            "line": 17,
+            "itemtype": "attribute",
+            "name": "size",
+            "type": "number",
+            "class": "VertexAttribPointer",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/VertexAttribPointer.ts",
+            "line": 23,
+            "itemtype": "attribute",
+            "name": "normalized",
+            "type": "boolean",
+            "class": "VertexAttribPointer",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/VertexAttribPointer.ts",
+            "line": 29,
+            "itemtype": "attribute",
+            "name": "offset",
+            "type": "number",
+            "class": "VertexAttribPointer",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/VertexBuffer.ts",
+            "line": 38,
+            "itemtype": "property",
+            "name": "_buffer",
+            "type": "WebGLBuffer",
+            "access": "private",
+            "tagname": "",
+            "class": "VertexBuffer",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/VertexBuffer.ts",
+            "line": 45,
+            "itemtype": "property",
+            "name": "_data",
+            "type": "Float32Array",
+            "access": "private",
+            "tagname": "",
+            "class": "VertexBuffer",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/VertexBuffer.ts",
+            "line": 61,
+            "itemtype": "method",
+            "name": "destructor",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "access": "protected",
+            "tagname": "",
+            "class": "VertexBuffer",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/VertexBuffer.ts",
+            "line": 71,
+            "itemtype": "property",
+            "name": "data",
+            "type": "Float32Array",
+            "class": "VertexBuffer",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/VertexBuffer.ts",
+            "line": 122,
+            "itemtype": "method",
+            "name": "bind",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "VertexBuffer",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/VertexBuffer.ts",
+            "line": 136,
+            "itemtype": "method",
+            "name": "unbind",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "VertexBuffer",
+            "module": "EIGHT",
+            "submodule": "core"
         },
         {
             "file": "src/davinci-eight/core/computeAttributes.ts",
@@ -14729,7 +15131,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/ArrowGeometry.ts",
-            "line": 51,
+            "line": 50,
             "itemtype": "method",
             "name": "getPrincipalScale",
             "params": [
@@ -14749,7 +15151,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/ArrowGeometry.ts",
-            "line": 60,
+            "line": 59,
             "itemtype": "method",
             "name": "setPrincipalScale",
             "params": [
@@ -15125,7 +15527,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/CurveGeometryOptions.ts",
-            "line": 7,
+            "line": 8,
             "description": "A parametric function determining the positions of points on the curve.\n\n0 <= u <= 1",
             "itemtype": "attribute",
             "name": "aPosition",
@@ -15137,7 +15539,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/CurveGeometryOptions.ts",
-            "line": 19,
+            "line": 20,
             "itemtype": "attribute",
             "name": "aColor",
             "type": "(u: number) => AbstractColor",
@@ -15147,7 +15549,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/CurveGeometryOptions.ts",
-            "line": 26,
+            "line": 27,
             "itemtype": "attribute",
             "name": "drawMode",
             "type": "DrawMode",
@@ -15158,7 +15560,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/CurveGeometryOptions.ts",
-            "line": 34,
+            "line": 35,
             "itemtype": "attribute",
             "name": "uMin",
             "type": "number",
@@ -15169,7 +15571,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/CurveGeometryOptions.ts",
-            "line": 42,
+            "line": 43,
             "itemtype": "attribute",
             "name": "uMax",
             "type": "number",
@@ -15180,7 +15582,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/CurveGeometryOptions.ts",
-            "line": 50,
+            "line": 51,
             "itemtype": "attribute",
             "name": "uSegments",
             "type": "number",
@@ -15495,7 +15897,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/GeometryBuilder.ts",
-            "line": 12,
+            "line": 13,
             "itemtype": "property",
             "name": "stress",
             "type": "Vector3",
@@ -15504,7 +15906,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/GeometryBuilder.ts",
-            "line": 18,
+            "line": 19,
             "itemtype": "property",
             "name": "tilt",
             "type": "Spinor3",
@@ -15513,7 +15915,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/GeometryBuilder.ts",
-            "line": 24,
+            "line": 25,
             "itemtype": "property",
             "name": "offset",
             "type": "Vector3",
@@ -15522,7 +15924,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/GeometryBuilder.ts",
-            "line": 30,
+            "line": 31,
             "itemtype": "method",
             "name": "toGeometry",
             "params": [
@@ -15530,6 +15932,11 @@
                     "name": "type",
                     "description": "",
                     "type": "String"
+                },
+                {
+                    "name": "engine",
+                    "description": "",
+                    "type": "Engine"
                 }
             ],
             "return": {
@@ -15541,7 +15948,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/GeometryBuilder.ts",
-            "line": 37,
+            "line": 39,
             "itemtype": "method",
             "name": "toPrimitives",
             "return": {
@@ -15553,7 +15960,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/GeometryBuilder.ts",
-            "line": 43,
+            "line": 45,
             "itemtype": "method",
             "name": "toVertexArrays",
             "return": {
@@ -15571,27 +15978,50 @@
         },
         {
             "file": "src/davinci-eight/geometries/GeometryOptions.ts",
-            "line": 9,
+            "line": 10,
+            "itemtype": "attribute",
+            "name": "engine",
+            "type": "Engine",
+            "optional": 1,
+            "class": "GeometryOptions",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/GeometryOptions.ts",
+            "line": 17,
             "itemtype": "attribute",
             "name": "offset",
             "type": "VectorE3",
+            "optional": 1,
             "default": "0",
             "class": "GeometryOptions",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/geometries/GeometryOptions.ts",
-            "line": 16,
+            "line": 25,
+            "itemtype": "attribute",
+            "name": "stress",
+            "type": "VectorE3",
+            "optional": 1,
+            "default": "(1, 1, 1)",
+            "class": "GeometryOptions",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/GeometryOptions.ts",
+            "line": 33,
             "itemtype": "attribute",
             "name": "tilt",
             "type": "SpinorE3",
+            "optional": 1,
             "default": "1",
             "class": "GeometryOptions",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/geometries/GridGeometryOptions.ts",
-            "line": 7,
+            "line": 8,
             "description": "A parametric function determining the positions of points in the grid.\n\n0 <= u <= 1\n0 <= v <= 1",
             "itemtype": "attribute",
             "name": "aPosition",
@@ -15603,7 +16033,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/GridGeometryOptions.ts",
-            "line": 22,
+            "line": 23,
             "itemtype": "attribute",
             "name": "aColor",
             "type": "(u: number, v: number) => AbstractColor",
@@ -15613,7 +16043,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/GridGeometryOptions.ts",
-            "line": 29,
+            "line": 30,
             "itemtype": "attribute",
             "name": "drawMode",
             "type": "DrawMode",
@@ -15624,7 +16054,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/GridGeometryOptions.ts",
-            "line": 37,
+            "line": 38,
             "itemtype": "attribute",
             "name": "uMin",
             "type": "number",
@@ -15635,7 +16065,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/GridGeometryOptions.ts",
-            "line": 45,
+            "line": 46,
             "itemtype": "attribute",
             "name": "uMax",
             "type": "number",
@@ -15646,7 +16076,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/GridGeometryOptions.ts",
-            "line": 53,
+            "line": 54,
             "itemtype": "attribute",
             "name": "uSegments",
             "type": "number",
@@ -15657,7 +16087,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/GridGeometryOptions.ts",
-            "line": 61,
+            "line": 62,
             "itemtype": "attribute",
             "name": "vMin",
             "type": "number",
@@ -15668,7 +16098,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/GridGeometryOptions.ts",
-            "line": 69,
+            "line": 70,
             "itemtype": "attribute",
             "name": "uMax",
             "type": "number",
@@ -15679,7 +16109,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/GridGeometryOptions.ts",
-            "line": 77,
+            "line": 78,
             "itemtype": "attribute",
             "name": "vSegments",
             "type": "number",
@@ -15718,7 +16148,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/PrimitivesBuilder.ts",
-            "line": 20,
+            "line": 21,
             "description": "The scaling to apply to the geometry in the initial configuration.\nThis has a slightly strange sounding name because it involves a\nreference frame specific transformation.\n\nThis may be replaced by a Matrix3 in future.",
             "itemtype": "property",
             "name": "stress",
@@ -15730,7 +16160,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/PrimitivesBuilder.ts",
-            "line": 34,
+            "line": 35,
             "description": "The rotor to apply to the geometry (after scale has been applied).",
             "itemtype": "property",
             "name": "tilt",
@@ -15741,7 +16171,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/PrimitivesBuilder.ts",
-            "line": 42,
+            "line": 43,
             "description": "The translation to apply to the geometry (after tilt has been applied).",
             "itemtype": "property",
             "name": "offset",
@@ -15752,7 +16182,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/PrimitivesBuilder.ts",
-            "line": 50,
+            "line": 51,
             "itemtype": "property",
             "name": "transforms",
             "type": "Transform[]",
@@ -15761,7 +16191,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/PrimitivesBuilder.ts",
-            "line": 56,
+            "line": 57,
             "description": "Determines whether to include normals in the geometry.",
             "itemtype": "property",
             "name": "useNormal",
@@ -15772,7 +16202,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/PrimitivesBuilder.ts",
-            "line": 65,
+            "line": 66,
             "description": "Determines whether to include positions in the geometry.",
             "itemtype": "property",
             "name": "usePosition",
@@ -15783,7 +16213,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/PrimitivesBuilder.ts",
-            "line": 74,
+            "line": 75,
             "description": "Determines whether to include texture coordinates in the geometry.",
             "itemtype": "property",
             "name": "useTextureCoord",
@@ -15794,7 +16224,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/PrimitivesBuilder.ts",
-            "line": 98,
+            "line": 99,
             "itemtype": "method",
             "name": "toGeometry",
             "params": [
@@ -15802,6 +16232,11 @@
                     "name": "type",
                     "description": "",
                     "type": "String"
+                },
+                {
+                    "name": "engine",
+                    "description": "",
+                    "type": "Engine"
                 }
             ],
             "return": {
@@ -15814,7 +16249,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/PrimitivesBuilder.ts",
-            "line": 119,
+            "line": 121,
             "itemtype": "method",
             "name": "toVertexArrays",
             "return": {
@@ -15827,7 +16262,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/PrimitivesBuilder.ts",
-            "line": 134,
+            "line": 136,
             "itemtype": "method",
             "name": "toPrimitives",
             "type": "Primitive[]",
@@ -16245,7 +16680,7 @@
         },
         {
             "file": "src/davinci-eight/materials/HTMLScriptsMaterial.ts",
-            "line": 111,
+            "line": 113,
             "description": "<p>\nOverridden to provide lazy loading of the script contents.\nThis allows the <code>HTMLScriptsMaterial</code> to be constructed\nbefore the DOM has completed loading.\n</p>",
             "itemtype": "method",
             "name": "contextGain",
@@ -16265,28 +16700,45 @@
             "submodule": "materials"
         },
         {
+            "file": "src/davinci-eight/materials/HTMLScriptsMaterial.ts",
+            "line": 134,
+            "itemtype": "method",
+            "name": "destructor",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "access": "protected",
+            "tagname": "",
+            "class": "HTMLScriptsMaterial",
+            "module": "EIGHT",
+            "submodule": "materials"
+        },
+        {
             "file": "src/davinci-eight/materials/LineMaterialOptions.ts",
-            "line": 6,
+            "line": 14,
             "itemtype": "attribute",
             "name": "attributes",
             "type": "{[name: string]: number}",
             "optional": 1,
             "class": "LineMaterialOptions",
-            "module": "EIGHT"
+            "module": "EIGHT",
+            "submodule": "materials"
         },
         {
             "file": "src/davinci-eight/materials/LineMaterialOptions.ts",
-            "line": 13,
+            "line": 21,
             "itemtype": "attribute",
             "name": "uniforms",
             "type": "{[name: string]: string}",
             "optional": 1,
             "class": "LineMaterialOptions",
-            "module": "EIGHT"
+            "module": "EIGHT",
+            "submodule": "materials"
         },
         {
             "file": "src/davinci-eight/materials/Material.ts",
-            "line": 32,
+            "line": 34,
             "itemtype": "property",
             "name": "_vertexShaderSrc",
             "type": "string",
@@ -16298,7 +16750,7 @@
         },
         {
             "file": "src/davinci-eight/materials/Material.ts",
-            "line": 39,
+            "line": 41,
             "itemtype": "property",
             "name": "_fragmentShaderSrc",
             "type": "string",
@@ -16310,7 +16762,7 @@
         },
         {
             "file": "src/davinci-eight/materials/Material.ts",
-            "line": 46,
+            "line": 48,
             "itemtype": "property",
             "name": "_attribs",
             "type": "string[]",
@@ -16322,7 +16774,7 @@
         },
         {
             "file": "src/davinci-eight/materials/Material.ts",
-            "line": 53,
+            "line": 55,
             "itemtype": "property",
             "name": "_program",
             "type": "WebGLProgram",
@@ -16334,7 +16786,7 @@
         },
         {
             "file": "src/davinci-eight/materials/Material.ts",
-            "line": 60,
+            "line": 62,
             "itemtype": "property",
             "name": "_attributes",
             "type": "{[name: string]: AttribLocation}",
@@ -16346,7 +16798,7 @@
         },
         {
             "file": "src/davinci-eight/materials/Material.ts",
-            "line": 67,
+            "line": 69,
             "itemtype": "property",
             "name": "_uniforms",
             "type": "{{[name: string]: UniformLocation}}",
@@ -16358,7 +16810,7 @@
         },
         {
             "file": "src/davinci-eight/materials/Material.ts",
-            "line": 93,
+            "line": 96,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -16373,7 +16825,7 @@
         },
         {
             "file": "src/davinci-eight/materials/Material.ts",
-            "line": 103,
+            "line": 106,
             "itemtype": "method",
             "name": "contextGain",
             "params": [
@@ -16393,7 +16845,7 @@
         },
         {
             "file": "src/davinci-eight/materials/Material.ts",
-            "line": 141,
+            "line": 144,
             "itemtype": "method",
             "name": "contextLost",
             "return": {
@@ -16406,7 +16858,7 @@
         },
         {
             "file": "src/davinci-eight/materials/Material.ts",
-            "line": 160,
+            "line": 163,
             "itemtype": "method",
             "name": "contextFree",
             "params": [
@@ -16426,7 +16878,7 @@
         },
         {
             "file": "src/davinci-eight/materials/Material.ts",
-            "line": 194,
+            "line": 197,
             "itemtype": "method",
             "name": "use",
             "return": {
@@ -16439,7 +16891,7 @@
         },
         {
             "file": "src/davinci-eight/materials/Material.ts",
-            "line": 208,
+            "line": 211,
             "itemtype": "property",
             "name": "vertexShaderSrc",
             "type": "string",
@@ -16449,7 +16901,7 @@
         },
         {
             "file": "src/davinci-eight/materials/Material.ts",
-            "line": 230,
+            "line": 233,
             "itemtype": "property",
             "name": "fragmentShaderSrc",
             "type": "string",
@@ -16459,7 +16911,7 @@
         },
         {
             "file": "src/davinci-eight/materials/Material.ts",
-            "line": 252,
+            "line": 255,
             "itemtype": "property",
             "name": "attributeNames",
             "type": "string[]",
@@ -16470,7 +16922,7 @@
         },
         {
             "file": "src/davinci-eight/materials/Material.ts",
-            "line": 270,
+            "line": 273,
             "itemtype": "method",
             "name": "enableAttrib",
             "params": [
@@ -16490,7 +16942,7 @@
         },
         {
             "file": "src/davinci-eight/materials/Material.ts",
-            "line": 282,
+            "line": 285,
             "itemtype": "method",
             "name": "enableAttribs",
             "return": {
@@ -16503,7 +16955,7 @@
         },
         {
             "file": "src/davinci-eight/materials/Material.ts",
-            "line": 297,
+            "line": 300,
             "itemtype": "method",
             "name": "disableAttrib",
             "params": [
@@ -16523,7 +16975,7 @@
         },
         {
             "file": "src/davinci-eight/materials/Material.ts",
-            "line": 309,
+            "line": 312,
             "itemtype": "method",
             "name": "disableAttribs",
             "return": {
@@ -16536,7 +16988,7 @@
         },
         {
             "file": "src/davinci-eight/materials/Material.ts",
-            "line": 324,
+            "line": 327,
             "description": "Returns the location (index) of the attribute with the specified name.\nReturns <code>-1</code> if the name does not correspond to an attribute.",
             "itemtype": "method",
             "name": "getAttribLocation",
@@ -16557,7 +17009,7 @@
         },
         {
             "file": "src/davinci-eight/materials/Material.ts",
-            "line": 342,
+            "line": 345,
             "itemtype": "method",
             "name": "vertexPointer",
             "params": [
@@ -16597,7 +17049,7 @@
         },
         {
             "file": "src/davinci-eight/materials/Material.ts",
-            "line": 356,
+            "line": 359,
             "itemtype": "method",
             "name": "uniform1f",
             "params": [
@@ -16622,7 +17074,7 @@
         },
         {
             "file": "src/davinci-eight/materials/Material.ts",
-            "line": 369,
+            "line": 372,
             "itemtype": "method",
             "name": "uniform2f",
             "params": [
@@ -16652,7 +17104,7 @@
         },
         {
             "file": "src/davinci-eight/materials/Material.ts",
-            "line": 383,
+            "line": 386,
             "itemtype": "method",
             "name": "uniform3f",
             "params": [
@@ -16687,7 +17139,7 @@
         },
         {
             "file": "src/davinci-eight/materials/Material.ts",
-            "line": 398,
+            "line": 401,
             "itemtype": "method",
             "name": "uniform4f",
             "params": [
@@ -16727,7 +17179,7 @@
         },
         {
             "file": "src/davinci-eight/materials/Material.ts",
-            "line": 414,
+            "line": 417,
             "itemtype": "method",
             "name": "mat2",
             "params": [
@@ -16757,7 +17209,7 @@
         },
         {
             "file": "src/davinci-eight/materials/Material.ts",
-            "line": 428,
+            "line": 431,
             "itemtype": "method",
             "name": "mat3",
             "params": [
@@ -16787,7 +17239,7 @@
         },
         {
             "file": "src/davinci-eight/materials/Material.ts",
-            "line": 442,
+            "line": 445,
             "itemtype": "method",
             "name": "mat4",
             "params": [
@@ -16817,7 +17269,7 @@
         },
         {
             "file": "src/davinci-eight/materials/Material.ts",
-            "line": 456,
+            "line": 459,
             "itemtype": "method",
             "name": "vec2",
             "params": [
@@ -16842,7 +17294,7 @@
         },
         {
             "file": "src/davinci-eight/materials/Material.ts",
-            "line": 469,
+            "line": 472,
             "itemtype": "method",
             "name": "vec3",
             "params": [
@@ -16867,7 +17319,7 @@
         },
         {
             "file": "src/davinci-eight/materials/Material.ts",
-            "line": 482,
+            "line": 485,
             "itemtype": "method",
             "name": "vec4",
             "params": [
@@ -16892,7 +17344,7 @@
         },
         {
             "file": "src/davinci-eight/materials/Material.ts",
-            "line": 495,
+            "line": 498,
             "itemtype": "method",
             "name": "vector2",
             "params": [
@@ -16917,7 +17369,7 @@
         },
         {
             "file": "src/davinci-eight/materials/Material.ts",
-            "line": 508,
+            "line": 511,
             "itemtype": "method",
             "name": "vector3",
             "params": [
@@ -16942,7 +17394,7 @@
         },
         {
             "file": "src/davinci-eight/materials/Material.ts",
-            "line": 521,
+            "line": 524,
             "itemtype": "method",
             "name": "vector4",
             "params": [
@@ -16967,47 +17419,51 @@
         },
         {
             "file": "src/davinci-eight/materials/MeshMaterialOptions.ts",
-            "line": 6,
+            "line": 14,
             "itemtype": "attribute",
             "name": "attributes",
             "type": "{[name: string]: number}",
             "optional": 1,
             "class": "MeshMaterialOptions",
-            "module": "EIGHT"
+            "module": "EIGHT",
+            "submodule": "materials"
         },
         {
             "file": "src/davinci-eight/materials/MeshMaterialOptions.ts",
-            "line": 13,
+            "line": 21,
             "itemtype": "attribute",
             "name": "uniforms",
             "type": "{[name: string]: string}",
             "optional": 1,
             "class": "MeshMaterialOptions",
-            "module": "EIGHT"
+            "module": "EIGHT",
+            "submodule": "materials"
         },
         {
             "file": "src/davinci-eight/materials/PointMaterialOptions.ts",
-            "line": 6,
+            "line": 14,
             "itemtype": "attribute",
             "name": "attributes",
             "type": "{[name: string]: number}",
             "optional": 1,
             "class": "PointMaterialOptions",
-            "module": "EIGHT"
+            "module": "EIGHT",
+            "submodule": "materials"
         },
         {
             "file": "src/davinci-eight/materials/PointMaterialOptions.ts",
-            "line": 13,
+            "line": 21,
             "itemtype": "attribute",
             "name": "uniforms",
             "type": "{[name: string]: string}",
             "optional": 1,
             "class": "PointMaterialOptions",
-            "module": "EIGHT"
+            "module": "EIGHT",
+            "submodule": "materials"
         },
         {
             "file": "src/davinci-eight/materials/SmartGraphicsProgram.ts",
-            "line": 5,
+            "line": 6,
             "class": "AbstractMatrix",
             "module": "EIGHT"
         },
@@ -17027,14 +17483,14 @@
         },
         {
             "file": "src/davinci-eight/materials/programFromScripts.ts",
-            "line": 5,
-            "description": "Helper function for creating a <code>Material</code> from HTML script element content.\nParameters:\nvsId The vertex shader script element identifier.\nfsId The fragment shader script element identifier.\ndom The DOM document containing the script elements.\n[attribs = []] The attribute indices (implied by order of the name in the array).",
+            "line": 6,
+            "description": "Helper function for creating a <code>Material</code> from HTML script element content.\nParameters:\nvsId The vertex shader script element identifier.\nfsId The fragment shader script element identifier.\ndom The DOM document containing the script elements.\n[attribs = []] The attribute indices (implied by order of the name in the array).\nengine",
             "class": "AbstractMatrix",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/materials/smartProgram.ts",
-            "line": 11,
+            "line": 12,
             "class": "AbstractMatrix",
             "module": "EIGHT"
         },
@@ -33135,7 +33591,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Arrow.ts",
-            "line": 64,
+            "line": 67,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -33150,7 +33606,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Arrow.ts",
-            "line": 73,
+            "line": 76,
             "itemtype": "property",
             "name": "length",
             "type": "number",
@@ -33161,7 +33617,7 @@
         },
         {
             "file": "src/davinci-eight/visual/ArrowOptions.ts",
-            "line": 14,
+            "line": 16,
             "itemtype": "attribute",
             "name": "axis",
             "type": "VectorE3",
@@ -33173,7 +33629,7 @@
         },
         {
             "file": "src/davinci-eight/visual/ArrowOptions.ts",
-            "line": 22,
+            "line": 24,
             "itemtype": "attribute",
             "name": "color",
             "type": "AbstractColor",
@@ -33184,7 +33640,7 @@
         },
         {
             "file": "src/davinci-eight/visual/ArrowOptions.ts",
-            "line": 29,
+            "line": 31,
             "itemtype": "attribute",
             "name": "position",
             "type": "VectorE3",
@@ -33203,7 +33659,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Box.ts",
-            "line": 65,
+            "line": 68,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -33218,7 +33674,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Box.ts",
-            "line": 74,
+            "line": 77,
             "itemtype": "property",
             "name": "width",
             "type": "number",
@@ -33229,7 +33685,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Box.ts",
-            "line": 86,
+            "line": 89,
             "itemtype": "property",
             "name": "height",
             "type": "number",
@@ -33239,7 +33695,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Box.ts",
-            "line": 97,
+            "line": 100,
             "itemtype": "property",
             "name": "depth",
             "type": "number",
@@ -33356,67 +33812,8 @@
             "submodule": "visual"
         },
         {
-            "file": "src/davinci-eight/visual/CommonOptions.ts",
-            "line": 15,
-            "itemtype": "attribute",
-            "name": "attitude",
-            "type": "SpinorE3",
-            "optional": 1,
-            "default": "1",
-            "class": "CommonOptions",
-            "module": "EIGHT",
-            "submodule": "visual"
-        },
-        {
-            "file": "src/davinci-eight/visual/CommonOptions.ts",
-            "line": 23,
-            "itemtype": "attribute",
-            "name": "color",
-            "type": "Color",
-            "optional": 1,
-            "class": "CommonOptions",
-            "module": "EIGHT",
-            "submodule": "visual"
-        },
-        {
-            "file": "src/davinci-eight/visual/CommonOptions.ts",
-            "line": 30,
-            "itemtype": "attribute",
-            "name": "offset",
-            "type": "VectorE3",
-            "optional": 1,
-            "default": "0",
-            "class": "CommonOptions",
-            "module": "EIGHT",
-            "submodule": "visual"
-        },
-        {
-            "file": "src/davinci-eight/visual/CommonOptions.ts",
-            "line": 38,
-            "itemtype": "attribute",
-            "name": "position",
-            "type": "VectorE3",
-            "optional": 1,
-            "default": "0",
-            "class": "CommonOptions",
-            "module": "EIGHT",
-            "submodule": "visual"
-        },
-        {
-            "file": "src/davinci-eight/visual/CommonOptions.ts",
-            "line": 46,
-            "itemtype": "attribute",
-            "name": "tilt",
-            "type": "SpinorE3",
-            "optional": 1,
-            "default": "1",
-            "class": "CommonOptions",
-            "module": "EIGHT",
-            "submodule": "visual"
-        },
-        {
             "file": "src/davinci-eight/visual/CurveOptions.ts",
-            "line": 15,
+            "line": 17,
             "description": "<p>\nA parametric function determining the positions of points on the curve.\n</p>\n<p>\nu<sub>min</sub> <= u <= u<sub>max</sub>\n</p>",
             "itemtype": "attribute",
             "name": "aPosition",
@@ -33429,7 +33826,7 @@
         },
         {
             "file": "src/davinci-eight/visual/CurveOptions.ts",
-            "line": 30,
+            "line": 32,
             "itemtype": "attribute",
             "name": "aColor",
             "type": "(u: number) => AbstractColor",
@@ -33440,7 +33837,7 @@
         },
         {
             "file": "src/davinci-eight/visual/CurveOptions.ts",
-            "line": 37,
+            "line": 39,
             "description": "Specifies the required Geometric Primitive Type.\nImplementations may choose the nearest type.",
             "itemtype": "attribute",
             "name": "drawMode",
@@ -33453,7 +33850,7 @@
         },
         {
             "file": "src/davinci-eight/visual/CurveOptions.ts",
-            "line": 48,
+            "line": 50,
             "itemtype": "attribute",
             "name": "uMin",
             "type": "number",
@@ -33465,7 +33862,7 @@
         },
         {
             "file": "src/davinci-eight/visual/CurveOptions.ts",
-            "line": 56,
+            "line": 58,
             "itemtype": "attribute",
             "name": "uMax",
             "type": "number",
@@ -33477,7 +33874,7 @@
         },
         {
             "file": "src/davinci-eight/visual/CurveOptions.ts",
-            "line": 64,
+            "line": 66,
             "description": "The number of segments for the u coordinate.",
             "itemtype": "attribute",
             "name": "uSegments",
@@ -33490,7 +33887,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Cylinder.ts",
-            "line": 60,
+            "line": 63,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -33505,7 +33902,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Cylinder.ts",
-            "line": 69,
+            "line": 72,
             "itemtype": "property",
             "name": "length",
             "type": "number",
@@ -33516,7 +33913,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Cylinder.ts",
-            "line": 81,
+            "line": 84,
             "itemtype": "property",
             "name": "radius",
             "type": "number",
@@ -33598,14 +33995,14 @@
         },
         {
             "file": "src/davinci-eight/visual/DrawList.ts",
-            "line": 7,
+            "line": 8,
             "description": "A simple list of meshes that does not bypass the draw method of the AbstractDrawable.\nThis allows the AbstractDrawable to override the draw method to produce history and draw trails.",
             "class": "Grid",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/visual/GridOptions.ts",
-            "line": 15,
+            "line": 17,
             "description": "<p>\nA parametric function determining the positions of points in the grid.\n</p>\n<p>\nu<sub>min</sub> <= u <= u<sub>max</sub>\n</p>\n<p>\nv<sub>min</sub> <= v <= v<sub>max</sub>\n</p>",
             "itemtype": "attribute",
             "name": "aPosition",
@@ -33618,7 +34015,7 @@
         },
         {
             "file": "src/davinci-eight/visual/GridOptions.ts",
-            "line": 33,
+            "line": 35,
             "itemtype": "attribute",
             "name": "aNormal",
             "type": "(u: number, v: number) => VectorE3",
@@ -33630,7 +34027,7 @@
         },
         {
             "file": "src/davinci-eight/visual/GridOptions.ts",
-            "line": 41,
+            "line": 43,
             "itemtype": "attribute",
             "name": "aColor",
             "type": "(u: number, v: number) => AbstractColor",
@@ -33641,7 +34038,7 @@
         },
         {
             "file": "src/davinci-eight/visual/GridOptions.ts",
-            "line": 48,
+            "line": 50,
             "description": "Specifies the required Geometric Primitive Type.\nImplementations may choose the nearest type.",
             "itemtype": "attribute",
             "name": "drawMode",
@@ -33654,7 +34051,7 @@
         },
         {
             "file": "src/davinci-eight/visual/GridOptions.ts",
-            "line": 59,
+            "line": 61,
             "itemtype": "attribute",
             "name": "uMin",
             "type": "number",
@@ -33666,7 +34063,7 @@
         },
         {
             "file": "src/davinci-eight/visual/GridOptions.ts",
-            "line": 67,
+            "line": 69,
             "itemtype": "attribute",
             "name": "uMax",
             "type": "number",
@@ -33678,7 +34075,7 @@
         },
         {
             "file": "src/davinci-eight/visual/GridOptions.ts",
-            "line": 75,
+            "line": 77,
             "description": "The number of segments for the u coordinate.",
             "itemtype": "attribute",
             "name": "uSegments",
@@ -33691,7 +34088,7 @@
         },
         {
             "file": "src/davinci-eight/visual/GridOptions.ts",
-            "line": 85,
+            "line": 87,
             "itemtype": "attribute",
             "name": "vMin",
             "type": "number",
@@ -33703,7 +34100,7 @@
         },
         {
             "file": "src/davinci-eight/visual/GridOptions.ts",
-            "line": 93,
+            "line": 95,
             "itemtype": "attribute",
             "name": "vMax",
             "type": "number",
@@ -33715,7 +34112,7 @@
         },
         {
             "file": "src/davinci-eight/visual/GridOptions.ts",
-            "line": 101,
+            "line": 103,
             "description": "The number of segments for the v coordinate.",
             "itemtype": "attribute",
             "name": "vSegments",
@@ -33742,7 +34139,7 @@
         },
         {
             "file": "src/davinci-eight/visual/RigidBody.ts",
-            "line": 22,
+            "line": 24,
             "description": "The (dimensionless) mass of the <code>RigidBody</code>.",
             "itemtype": "property",
             "name": "mass",
@@ -33754,7 +34151,7 @@
         },
         {
             "file": "src/davinci-eight/visual/RigidBody.ts",
-            "line": 31,
+            "line": 33,
             "description": "The (dimensionless) momentum of the <code>RigidBody</code>",
             "itemtype": "property",
             "name": "momentum",
@@ -33766,7 +34163,7 @@
         },
         {
             "file": "src/davinci-eight/visual/RigidBody.ts",
-            "line": 40,
+            "line": 42,
             "description": "Cache the initial axis value so that we can compute the axis at any\ntime by rotating the initial axis using the Mesh attitude.",
             "itemtype": "property",
             "name": "initialAxis",
@@ -33777,7 +34174,7 @@
         },
         {
             "file": "src/davinci-eight/visual/RigidBody.ts",
-            "line": 60,
+            "line": 62,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -33792,7 +34189,7 @@
         },
         {
             "file": "src/davinci-eight/visual/RigidBody.ts",
-            "line": 69,
+            "line": 71,
             "itemtype": "property",
             "name": "axis",
             "type": "Geometric3",
@@ -33906,7 +34303,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Sphere.ts",
-            "line": 45,
+            "line": 50,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -33921,7 +34318,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Sphere.ts",
-            "line": 54,
+            "line": 59,
             "itemtype": "property",
             "name": "radius",
             "type": "number",
@@ -33932,7 +34329,7 @@
         },
         {
             "file": "src/davinci-eight/visual/SphereOptions.ts",
-            "line": 17,
+            "line": 19,
             "itemtype": "attribute",
             "name": "color",
             "type": "AbstractColor",
@@ -33943,7 +34340,7 @@
         },
         {
             "file": "src/davinci-eight/visual/SphereOptions.ts",
-            "line": 24,
+            "line": 26,
             "itemtype": "attribute",
             "name": "offset",
             "type": "VectorE3",
@@ -33955,7 +34352,7 @@
         },
         {
             "file": "src/davinci-eight/visual/SphereOptions.ts",
-            "line": 32,
+            "line": 34,
             "itemtype": "attribute",
             "name": "position",
             "type": "VectorE3",
@@ -33967,7 +34364,7 @@
         },
         {
             "file": "src/davinci-eight/visual/SphereOptions.ts",
-            "line": 40,
+            "line": 42,
             "itemtype": "attribute",
             "name": "radius",
             "type": "number",
@@ -33979,7 +34376,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Tetrahedron.ts",
-            "line": 34,
+            "line": 37,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -33994,7 +34391,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Tetrahedron.ts",
-            "line": 43,
+            "line": 46,
             "itemtype": "property",
             "name": "radius",
             "type": "number",
@@ -34186,6 +34583,76 @@
             "submodule": "visual"
         },
         {
+            "file": "src/davinci-eight/visual/VisualOptions.ts",
+            "line": 16,
+            "itemtype": "attribute",
+            "name": "attitude",
+            "type": "SpinorE3",
+            "optional": 1,
+            "default": "1",
+            "class": "VisualOptions",
+            "module": "EIGHT",
+            "submodule": "visual"
+        },
+        {
+            "file": "src/davinci-eight/visual/VisualOptions.ts",
+            "line": 24,
+            "itemtype": "attribute",
+            "name": "color",
+            "type": "AbstractColor",
+            "optional": 1,
+            "class": "VisualOptions",
+            "module": "EIGHT",
+            "submodule": "visual"
+        },
+        {
+            "file": "src/davinci-eight/visual/VisualOptions.ts",
+            "line": 31,
+            "itemtype": "attribute",
+            "name": "engine",
+            "type": "Engine",
+            "optional": 1,
+            "class": "VisualOptions",
+            "module": "EIGHT",
+            "submodule": "visual"
+        },
+        {
+            "file": "src/davinci-eight/visual/VisualOptions.ts",
+            "line": 38,
+            "itemtype": "attribute",
+            "name": "offset",
+            "type": "VectorE3",
+            "optional": 1,
+            "default": "0",
+            "class": "VisualOptions",
+            "module": "EIGHT",
+            "submodule": "visual"
+        },
+        {
+            "file": "src/davinci-eight/visual/VisualOptions.ts",
+            "line": 46,
+            "itemtype": "attribute",
+            "name": "position",
+            "type": "VectorE3",
+            "optional": 1,
+            "default": "0",
+            "class": "VisualOptions",
+            "module": "EIGHT",
+            "submodule": "visual"
+        },
+        {
+            "file": "src/davinci-eight/visual/VisualOptions.ts",
+            "line": 54,
+            "itemtype": "attribute",
+            "name": "tilt",
+            "type": "SpinorE3",
+            "optional": 1,
+            "default": "1",
+            "class": "VisualOptions",
+            "module": "EIGHT",
+            "submodule": "visual"
+        },
+        {
             "file": "src/davinci-eight/visual/World.ts",
             "line": 11,
             "description": "Intentionally undocumented.\nThe concept of creating a quick setup violates the Explicit over Implicit principle.",
@@ -34329,7 +34796,7 @@
         },
         {
             "message": "Missing item type\nIntentionally undocumented.",
-            "line": " src/davinci-eight/core/DefaultContextProvider.ts:6"
+            "line": " src/davinci-eight/core/DefaultContextProvider.ts:8"
         },
         {
             "message": "Missing item type\nMock the Geometry so that we can call the protected setScale method.\nThis, incidentally, is the pattern for geometry implementations.",
@@ -34693,7 +35160,7 @@
         },
         {
             "message": "Missing item type",
-            "line": " src/davinci-eight/materials/SmartGraphicsProgram.ts:5"
+            "line": " src/davinci-eight/materials/SmartGraphicsProgram.ts:6"
         },
         {
             "message": "Missing item type\nGenerates a fragment shader",
@@ -34704,12 +35171,12 @@
             "line": " src/davinci-eight/materials/makeWebGLShader.ts:9"
         },
         {
-            "message": "Missing item type\nHelper function for creating a <code>Material</code> from HTML script element content.\nParameters:\nvsId The vertex shader script element identifier.\nfsId The fragment shader script element identifier.\ndom The DOM document containing the script elements.\n[attribs = []] The attribute indices (implied by order of the name in the array).",
-            "line": " src/davinci-eight/materials/programFromScripts.ts:5"
+            "message": "Missing item type\nHelper function for creating a <code>Material</code> from HTML script element content.\nParameters:\nvsId The vertex shader script element identifier.\nfsId The fragment shader script element identifier.\ndom The DOM document containing the script elements.\n[attribs = []] The attribute indices (implied by order of the name in the array).\nengine",
+            "line": " src/davinci-eight/materials/programFromScripts.ts:6"
         },
         {
             "message": "Missing item type",
-            "line": " src/davinci-eight/materials/smartProgram.ts:11"
+            "line": " src/davinci-eight/materials/smartProgram.ts:12"
         },
         {
             "message": "Missing item type\nGenerates a vertex shader.",
@@ -35273,7 +35740,7 @@
         },
         {
             "message": "Missing item type\nA simple list of meshes that does not bypass the draw method of the AbstractDrawable.\nThis allows the AbstractDrawable to override the draw method to produce history and draw trails.",
-            "line": " src/davinci-eight/visual/DrawList.ts:7"
+            "line": " src/davinci-eight/visual/DrawList.ts:8"
         },
         {
             "message": "Missing item type\nIntentionally undocumented.",

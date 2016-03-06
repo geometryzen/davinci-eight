@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>GeometryBuffers - davinci-eight</title>
+    <title>VertexBuffer - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.209.0</em>
+            <em>API Docs for: 2.210.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -48,6 +48,7 @@
                                 <li><a href="../classes/Arrow.html">Arrow</a></li>
                                 <li><a href="../classes/ArrowBuilder.html">ArrowBuilder</a></li>
                                 <li><a href="../classes/ArrowGeometry.html">ArrowGeometry</a></li>
+                                <li><a href="../classes/ArrowGeometryOptions.html">ArrowGeometryOptions</a></li>
                                 <li><a href="../classes/ArrowOptions.html">ArrowOptions</a></li>
                                 <li><a href="../classes/AttribLocation.html">AttribLocation</a></li>
                                 <li><a href="../classes/AttribMetaInfo.html">AttribMetaInfo</a></li>
@@ -63,7 +64,6 @@
                                 <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
-                                <li><a href="../classes/CommonOptions.html">CommonOptions</a></li>
                                 <li><a href="../classes/ConeTransform.html">ConeTransform</a></li>
                                 <li><a href="../classes/ConicalShellBuilder.html">ConicalShellBuilder</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
@@ -106,9 +106,9 @@
                                 <li><a href="../classes/GeometricE2.html">GeometricE2</a></li>
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
-                                <li><a href="../classes/GeometryBuffers.html">GeometryBuffers</a></li>
                                 <li><a href="../classes/GeometryBuilder.html">GeometryBuilder</a></li>
                                 <li><a href="../classes/GeometryContainer.html">GeometryContainer</a></li>
+                                <li><a href="../classes/GeometryElements.html">GeometryElements</a></li>
                                 <li><a href="../classes/GeometryOptions.html">GeometryOptions</a></li>
                                 <li><a href="../classes/GeometryPrimitive.html">GeometryPrimitive</a></li>
                                 <li><a href="../classes/GraphicsProgramSymbols.html">GraphicsProgramSymbols</a></li>
@@ -120,11 +120,13 @@
                                 <li><a href="../classes/GridPrimitive.html">GridPrimitive</a></li>
                                 <li><a href="../classes/GridTriangleStrip.html">GridTriangleStrip</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
+                                <li><a href="../classes/IndexBuffer.html">IndexBuffer</a></li>
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
                                 <li><a href="../classes/LineMaterialOptions.html">LineMaterialOptions</a></li>
                                 <li><a href="../classes/LinePoints.html">LinePoints</a></li>
                                 <li><a href="../classes/LineStrip.html">LineStrip</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
+                                <li><a href="../classes/MaterialOptions.html">MaterialOptions</a></li>
                                 <li><a href="../classes/Matrix2.html">Matrix2</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
                                 <li><a href="../classes/Matrix4.html">Matrix4</a></li>
@@ -163,7 +165,6 @@
                                 <li><a href="../classes/ShareableArray.html">ShareableArray</a></li>
                                 <li><a href="../classes/ShareableBase.html">ShareableBase</a></li>
                                 <li><a href="../classes/ShareableContextConsumer.html">ShareableContextConsumer</a></li>
-                                <li><a href="../classes/ShareableWebGLBuffer.html">ShareableWebGLBuffer</a></li>
                                 <li><a href="../classes/ShareableWebGLShader.html">ShareableWebGLShader</a></li>
                                 <li><a href="../classes/ShareableWebGLTexture.html">ShareableWebGLTexture</a></li>
                                 <li><a href="../classes/SimplexPrimitivesBuilder.html">SimplexPrimitivesBuilder</a></li>
@@ -205,8 +206,11 @@
                                 <li><a href="../classes/VersionLogger.html">VersionLogger</a></li>
                                 <li><a href="../classes/Vertex.html">Vertex</a></li>
                                 <li><a href="../classes/VertexArrays.html">VertexArrays</a></li>
+                                <li><a href="../classes/VertexAttribPointer.html">VertexAttribPointer</a></li>
                                 <li><a href="../classes/VertexAttributeMap.html">VertexAttributeMap</a></li>
+                                <li><a href="../classes/VertexBuffer.html">VertexBuffer</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
+                                <li><a href="../classes/VisualOptions.html">VisualOptions</a></li>
                                 <li><a href="../classes/WebGLBlendFunc.html">WebGLBlendFunc</a></li>
                                 <li><a href="../classes/WebGLClearColor.html">WebGLClearColor</a></li>
                                 <li><a href="../classes/WebGLDisable.html">WebGLDisable</a></li>
@@ -257,7 +261,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1>GeometryBuffers Class</h1>
+<h1>VertexBuffer Class</h1>
 <div class="box meta">
 
         <div class="extends">
@@ -265,7 +269,7 @@
         </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_core_GeometryBuffers.ts.html#l39"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryBuffers.ts:39</code></a>
+            Defined in: <a href="../files/src_davinci-eight_core_VertexBuffer.ts.html#l52"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;VertexBuffer.ts:52</code></a>
         </div>
 
             Module: <a href="../modules/core.html">core</a><br>
@@ -275,19 +279,20 @@
 
 
 <div class="box intro">
-    <p>A Geometry that supports interleaved vertex buffers.</p>
-
+    <p>
+A wrapper around a WebGLBuffer with bunding to ARRAY_BUFFER.
+</p>
 </div>
 
     <div class="constructor">
         <h2>Constructor</h2>
-<div id="method_GeometryBuffers" class="method item">
-    <h3 class="name"><code>GeometryBuffers</code></h3>
+<div id="method_VertexBuffer" class="method item">
+    <h3 class="name"><code>VertexBuffer</code></h3>
 
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
-                        <code>data</code>
+                        <code>engine</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
@@ -302,7 +307,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_GeometryBuffers.ts.html#l39"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryBuffers.ts:39</code></a>
+        <a href="../files/src_davinci-eight_core_VertexBuffer.ts.html#l52"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;VertexBuffer.ts:52</code></a>
         </p>
 
 
@@ -318,8 +323,8 @@
 
             <ul class="params-list">
                 <li class="param">
-                        <code class="param-name">data</code>
-                        <span class="type"><a href="../classes/VertexArrays.html" class="crosslink">VertexArrays</a></span>
+                        <code class="param-name">engine</code>
+                        <span class="type"><a href="../classes/Engine.html" class="crosslink">Engine</a></span>
 
 
                     <div class="param-description">
@@ -351,23 +356,23 @@
                     <h3>Methods</h3>
 
                     <ul class="index-list methods extends">
-                            <li class="index-item method">
-                                <a href="#method_addPart">addPart</a>
-
-                            </li>
                             <li class="index-item method inherited">
                                 <a href="#method_addRef">addRef</a>
 
                             </li>
-                            <li class="index-item method inherited">
+                            <li class="index-item method">
+                                <a href="#method_bind">bind</a>
+
+                            </li>
+                            <li class="index-item method inherited inherited">
                                 <a href="#method_contextFree">contextFree</a>
 
                             </li>
-                            <li class="index-item method inherited">
+                            <li class="index-item method inherited inherited">
                                 <a href="#method_contextGain">contextGain</a>
 
                             </li>
-                            <li class="index-item method inherited">
+                            <li class="index-item method inherited inherited">
                                 <a href="#method_contextLost">contextLost</a>
 
                             </li>
@@ -375,40 +380,16 @@
                                 <a href="#method_destructor">destructor</a>
 
                             </li>
-                            <li class="index-item method">
-                                <a href="#method_draw">draw</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_getPart">getPart</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_getPrincipalScale">getPrincipalScale</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_hasPrincipalScale">hasPrincipalScale</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_isLeaf">isLeaf</a>
-
-                            </li>
                             <li class="index-item method inherited">
                                 <a href="#method_release">release</a>
 
                             </li>
-                            <li class="index-item method">
-                                <a href="#method_removePart">removePart</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_setPrincipalScale">setPrincipalScale</a>
-
-                            </li>
                             <li class="index-item method inherited">
                                 <a href="#method_subscribe">subscribe</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_unbind">unbind</a>
 
                             </li>
                             <li class="index-item method inherited">
@@ -422,6 +403,14 @@
                     <h3>Properties</h3>
 
                     <ul class="index-list properties extends">
+                            <li class="index-item property private">
+                                <a href="#property__buffer">_buffer</a>
+
+                            </li>
+                            <li class="index-item property private">
+                                <a href="#property__data">_data</a>
+
+                            </li>
                             <li class="index-item property protected inherited">
                                 <a href="#property_contextProvider">contextProvider</a>
 
@@ -439,10 +428,6 @@
 
                                     <span class="flag deprecated">deprecated</span>
                             </li>
-                            <li class="index-item property">
-                                <a href="#property_partsLength">partsLength</a>
-
-                            </li>
                     </ul>
                 </div>
 
@@ -452,68 +437,6 @@
             <div id="methods" class="api-class-tabpanel">
                 <h2 class="off-left">Methods</h2>
 
-<div id="method_addPart" class="method item">
-    <h3 class="name"><code>addPart</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>geometry</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type">Void</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_core_GeometryBuffers.ts.html#l103"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryBuffers.ts:103</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">geometry</code>
-                        <span class="type"><a href="../classes/Geometry.html" class="crosslink">Geometry</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Void</span>:
-            </div>
-        </div>
-
-
-</div>
 <div id="method_addRef" class="method item inherited">
     <h3 class="name"><code>addRef</code></h3>
 
@@ -559,13 +482,53 @@ The new reference count. This value is intended to be used only for test purpose
 
 
 </div>
-<div id="method_contextFree" class="method item">
+<div id="method_bind" class="method item">
+    <h3 class="name"><code>bind</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_core_VertexBuffer.ts.html#l122"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;VertexBuffer.ts:122</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Void</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_contextFree" class="method item inherited">
     <h3 class="name"><code>contextFree</code></h3>
 
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
-                        <code>context</code>
+                        <code>contextProvider</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
@@ -586,7 +549,7 @@ The new reference count. This value is intended to be used only for test purpose
                 ContextConsumer
             </a>
             but overwritten in
-        <a href="../files/src_davinci-eight_core_GeometryBuffers.ts.html#l130"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryBuffers.ts:130</code></a>
+        <a href="../files/src_davinci-eight_core_ShareableContextConsumer.ts.html#l121"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableContextConsumer.ts:121</code></a>
         </p>
 
 
@@ -602,7 +565,7 @@ The new reference count. This value is intended to be used only for test purpose
 
             <ul class="params-list">
                 <li class="param">
-                        <code class="param-name">context</code>
+                        <code class="param-name">contextProvider</code>
                         <span class="type"><a href="../classes/ContextProvider.html" class="crosslink">ContextProvider</a></span>
 
 
@@ -624,13 +587,13 @@ The new reference count. This value is intended to be used only for test purpose
 
 
 </div>
-<div id="method_contextGain" class="method item">
+<div id="method_contextGain" class="method item inherited">
     <h3 class="name"><code>contextGain</code></h3>
 
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
-                        <code>context</code>
+                        <code>contextProvider</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
@@ -651,7 +614,7 @@ The new reference count. This value is intended to be used only for test purpose
                 ContextConsumer
             </a>
             but overwritten in
-        <a href="../files/src_davinci-eight_core_GeometryBuffers.ts.html#l148"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryBuffers.ts:148</code></a>
+        <a href="../files/src_davinci-eight_core_ShareableContextConsumer.ts.html#l130"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableContextConsumer.ts:130</code></a>
         </p>
 
 
@@ -667,7 +630,7 @@ The new reference count. This value is intended to be used only for test purpose
 
             <ul class="params-list">
                 <li class="param">
-                        <code class="param-name">context</code>
+                        <code class="param-name">contextProvider</code>
                         <span class="type"><a href="../classes/ContextProvider.html" class="crosslink">ContextProvider</a></span>
 
 
@@ -689,7 +652,7 @@ The new reference count. This value is intended to be used only for test purpose
 
 
 </div>
-<div id="method_contextLost" class="method item">
+<div id="method_contextLost" class="method item inherited">
     <h3 class="name"><code>contextLost</code></h3>
 
         <span class="paren">()</span>
@@ -710,7 +673,7 @@ The new reference count. This value is intended to be used only for test purpose
                 ContextConsumer
             </a>
             but overwritten in
-        <a href="../files/src_davinci-eight_core_GeometryBuffers.ts.html#l171"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryBuffers.ts:171</code></a>
+        <a href="../files/src_davinci-eight_core_ShareableContextConsumer.ts.html#l139"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableContextConsumer.ts:139</code></a>
         </p>
 
 
@@ -754,7 +717,7 @@ The new reference count. This value is intended to be used only for test purpose
                 ShareableContextConsumer
             </a>
             but overwritten in
-        <a href="../files/src_davinci-eight_core_GeometryBuffers.ts.html#l67"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryBuffers.ts:67</code></a>
+        <a href="../files/src_davinci-eight_core_VertexBuffer.ts.html#l61"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;VertexBuffer.ts:61</code></a>
         </p>
 
 
@@ -771,294 +734,6 @@ The new reference count. This value is intended to be used only for test purpose
 
             <div class="returns-description">
                         <span class="type">Void</span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_draw" class="method item">
-    <h3 class="name"><code>draw</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>material</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type">Void</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_core_GeometryBuffers.ts.html#l181"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryBuffers.ts:181</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">material</code>
-                        <span class="type"><a href="../classes/AbstractMaterial.html" class="crosslink">AbstractMaterial</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Void</span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_getPart" class="method item">
-    <h3 class="name"><code>getPart</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>index</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/Geometry.html" class="crosslink">Geometry</a></span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_core_GeometryBuffers.ts.html#l121"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryBuffers.ts:121</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">index</code>
-                        <span class="type">Number</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/Geometry.html" class="crosslink">Geometry</a></span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_getPrincipalScale" class="method item">
-    <h3 class="name"><code>getPrincipalScale</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>name</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type">Number</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_core_GeometryBuffers.ts.html#l216"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryBuffers.ts:216</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">name</code>
-                        <span class="type">String</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Number</span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_hasPrincipalScale" class="method item">
-    <h3 class="name"><code>hasPrincipalScale</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>name</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type">Boolean</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_core_GeometryBuffers.ts.html#l206"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryBuffers.ts:206</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">name</code>
-                        <span class="type">String</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Boolean</span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_isLeaf" class="method item">
-    <h3 class="name"><code>isLeaf</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type">Boolean</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_core_GeometryBuffers.ts.html#l76"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryBuffers.ts:76</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Boolean</span>:
             </div>
         </div>
 
@@ -1109,143 +784,6 @@ The new reference count. This value is intended to be used only for test purpose
 
 
 </div>
-<div id="method_removePart" class="method item">
-    <h3 class="name"><code>removePart</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>index</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type">Void</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_core_GeometryBuffers.ts.html#l112"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryBuffers.ts:112</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">index</code>
-                        <span class="type">Number</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Void</span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_setPrincipalScale" class="method item">
-    <h3 class="name"><code>setPrincipalScale</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>name</code>
-                </li>
-                <li class="arg">
-                        <code>value</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type">Void</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_core_GeometryBuffers.ts.html#l226"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryBuffers.ts:226</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">name</code>
-                        <span class="type">String</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">value</code>
-                        <span class="type">Number</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Void</span>:
-            </div>
-        </div>
-
-
-</div>
 <div id="method_subscribe" class="method item inherited">
     <h3 class="name"><code>subscribe</code></h3>
 
@@ -1270,7 +808,7 @@ The new reference count. This value is intended to be used only for test purpose
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/ShareableContextConsumer.html#method_subscribe">ShareableContextConsumer</a>:
-        <a href="../files/src_davinci-eight_core_ShareableContextConsumer.ts.html#l71"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableContextConsumer.ts:71</code></a>
+        <a href="../files/src_davinci-eight_core_ShareableContextConsumer.ts.html#l81"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableContextConsumer.ts:81</code></a>
         </p>
 
 
@@ -1310,6 +848,46 @@ Instructs the consumer to subscribe to context events.
 
 
 </div>
+<div id="method_unbind" class="method item">
+    <h3 class="name"><code>unbind</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_core_VertexBuffer.ts.html#l136"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;VertexBuffer.ts:136</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Void</span>:
+            </div>
+        </div>
+
+
+</div>
 <div id="method_unsubscribe" class="method item inherited">
     <h3 class="name"><code>unsubscribe</code></h3>
 
@@ -1328,7 +906,7 @@ Instructs the consumer to subscribe to context events.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/ShareableContextConsumer.html#method_unsubscribe">ShareableContextConsumer</a>:
-        <a href="../files/src_davinci-eight_core_ShareableContextConsumer.ts.html#l94"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableContextConsumer.ts:94</code></a>
+        <a href="../files/src_davinci-eight_core_ShareableContextConsumer.ts.html#l104"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableContextConsumer.ts:104</code></a>
         </p>
 
 
@@ -1336,7 +914,8 @@ Instructs the consumer to subscribe to context events.
     </div>
 
     <div class="description">
-        Instructs the consumer to unsubscribe from context events.
+        <p>Instructs the consumer to unsubscribe from context events.</p>
+
     </div>
 
 
@@ -1355,6 +934,56 @@ Instructs the consumer to subscribe to context events.
             <div id="properties" class="api-class-tabpanel">
                 <h2 class="off-left">Properties</h2>
 
+<div id="property__buffer" class="property item private">
+    <h3 class="name"><code>_buffer</code></h3>
+    <span class="type">WebGLBuffer</span>
+
+
+        <span class="flag private">private</span>
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_core_VertexBuffer.ts.html#l38"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;VertexBuffer.ts:38</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property__data" class="property item private">
+    <h3 class="name"><code>_data</code></h3>
+    <span class="type">Float32Array</span>
+
+
+        <span class="flag private">private</span>
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_core_VertexBuffer.ts.html#l45"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;VertexBuffer.ts:45</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
 <div id="property_contextProvider" class="property item protected inherited">
     <h3 class="name"><code>contextProvider</code></h3>
     <span class="type"><a href="../classes/ContextProvider.html" class="crosslink">ContextProvider</a></span>
@@ -1367,7 +996,7 @@ Instructs the consumer to subscribe to context events.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/ShareableContextConsumer.html#property_contextProvider">ShareableContextConsumer</a>:
-        <a href="../files/src_davinci-eight_core_ShareableContextConsumer.ts.html#l46"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableContextConsumer.ts:46</code></a>
+        <a href="../files/src_davinci-eight_core_ShareableContextConsumer.ts.html#l49"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableContextConsumer.ts:49</code></a>
         </p>
 
 
@@ -1382,7 +1011,7 @@ Instructs the consumer to subscribe to context events.
 </div>
 <div id="property_data" class="property item">
     <h3 class="name"><code>data</code></h3>
-    <span class="type"><a href="../classes/VertexArrays.html" class="crosslink">VertexArrays</a></span>
+    <span class="type">Float32Array</span>
 
 
 
@@ -1391,7 +1020,7 @@ Instructs the consumer to subscribe to context events.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_GeometryBuffers.ts.html#l55"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryBuffers.ts:55</code></a>
+        <a href="../files/src_davinci-eight_core_VertexBuffer.ts.html#l71"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;VertexBuffer.ts:71</code></a>
         </p>
 
 
@@ -1416,7 +1045,7 @@ Instructs the consumer to subscribe to context events.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/ShareableContextConsumer.html#property_engine">ShareableContextConsumer</a>:
-        <a href="../files/src_davinci-eight_core_ShareableContextConsumer.ts.html#l39"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableContextConsumer.ts:39</code></a>
+        <a href="../files/src_davinci-eight_core_ShareableContextConsumer.ts.html#l42"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableContextConsumer.ts:42</code></a>
         </p>
 
 
@@ -1441,7 +1070,7 @@ Instructs the consumer to subscribe to context events.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/ShareableContextConsumer.html#property_gl">ShareableContextConsumer</a>:
-        <a href="../files/src_davinci-eight_core_ShareableContextConsumer.ts.html#l137"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableContextConsumer.ts:137</code></a>
+        <a href="../files/src_davinci-eight_core_ShareableContextConsumer.ts.html#l147"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableContextConsumer.ts:147</code></a>
         </p>
 
 
@@ -1454,30 +1083,6 @@ Provides access to the underlying WebGL context.
 <p>
 This property is deprecated to encourage access throught the <code>ContextProvider</code>.
 </p>
-    </div>
-
-
-
-</div>
-<div id="property_partsLength" class="property item">
-    <h3 class="name"><code>partsLength</code></h3>
-    <span class="type">Number</span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_core_GeometryBuffers.ts.html#l84"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryBuffers.ts:84</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        
     </div>
 
 

@@ -135,6 +135,16 @@ declare module EIGHT {
     unsubscribe(): void;
   }
 
+  /**
+   * A wrapper around a WebGLBuffer with bunding to ARRAY_BUFFER.
+   */
+  class VertexBuffer extends ShareableContextConsumer {
+    data: Float32Array
+    constructor(engine: Engine)
+    bind(): void
+    unbind(): void
+  }
+
   interface AbstractMaterial extends FacetVisitor, ContextConsumer {
     vertexShaderSrc: string
     fragmentShaderSrc: string
@@ -2990,7 +3000,7 @@ declare module EIGHT {
     contextLost(): void;
   }
 
-  class GeometryBuffers extends ShareableContextConsumer implements Geometry {
+  class GeometryElements extends ShareableContextConsumer implements Geometry {
     data: VertexArrays;
     partsLength: number;
     constructor(data: VertexArrays);
@@ -3213,7 +3223,7 @@ declare module EIGHT {
     /**
      *
      */
-    constructor(scriptIds: string[], dom: Document, attribs: string[]);
+    constructor(scriptIds: string[], dom: Document, attribs: string[], engine: Engine);
   }
 
   /**
@@ -3711,6 +3721,7 @@ declare module EIGHT {
     constructor(
       options?: {
         color?: AbstractColor;
+        engine?: Engine;
         offset?: VectorE3;
         position?: VectorE3;
         radius?: number;

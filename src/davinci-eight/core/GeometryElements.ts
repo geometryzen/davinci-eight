@@ -1,5 +1,6 @@
-import drawModeToGL from './drawModeToGL'
 import DrawMode from './DrawMode'
+import Engine from '../core/Engine'
+import VertexBuffer from './VertexBuffer'
 import ContextProvider from '../core/ContextProvider'
 import notImplemented from '../i18n/notImplemented'
 import notSupported from '../i18n/notSupported'
@@ -9,6 +10,7 @@ import VertexAttribPointer from './VertexAttribPointer'
 import Geometry from './Geometry'
 import readOnly from '../i18n/readOnly'
 import ShareableContextConsumer from './ShareableContextConsumer'
+import IndexBuffer from './IndexBuffer'
 import VertexArrays from './VertexArrays'
 
 /**
@@ -19,50 +21,44 @@ import VertexArrays from './VertexArrays'
 /**
  * A Geometry that supports interleaved vertex buffers.
  *
- * @class GeometryBuffers
+ * @class GeometryElements
  * @extends ShareableContextConsumer
  * @extends Geometry
  */
-export default class GeometryBuffers extends ShareableContextConsumer implements Geometry {
+export default class GeometryElements extends ShareableContextConsumer implements Geometry {
 
-  private drawMode: DrawMode
-  private mode: number
-  private count: number
-  private offset = 0
-  private ia: Uint16Array
-  private va: Float32Array
-  private ibo: WebGLBuffer
-  private vbo: WebGLBuffer
-  private stride: number
-  private pointers: VertexAttribPointer[]
-  private _data: VertexArrays
+  private drawMode: DrawMode;
+  private indices: number[];
+  private attributes: number[];
+  private stride: number;
+  private pointers: VertexAttribPointer[];
+
+  private mode: number;
+  private count: number;
+  private offset = 0;
+  private ibo: IndexBuffer;
+  private vbo: VertexBuffer;
 
   /**
-   * @class GeometryBuffers
+   * @class GeometryElements
    * @constructor
    * @param data {VertexArrays}
+   * @param engine {Engine} The <code>Engine</code> to subscribe to or <code>null</code> for deferred subscription.
    */
-  constructor(data: VertexArrays) {
-    super('GeometryBuffers')
+  constructor(data: VertexArrays, engine: Engine) {
+    super('GeometryElements', engine)
+    // FIXME: We should do a deep copy.
     this.drawMode = data.drawMode;
-    this.count = data.indices.length
-    this.ia = new Uint16Array(data.indices)
-    this.va = new Float32Array(data.attributes)
+    this.indices = data.indices;
+    this.attributes = data.attributes;
     this.stride = data.stride
     this.pointers = data.pointers
-    this._data = data
-  }
 
-  /**
-   * @property data
-   * @type VertexArrays
-   * @readOnly
-   */
-  get data(): VertexArrays {
-    return this._data
-  }
-  set data(data: VertexArrays) {
-    throw new Error(readOnly('data').message)
+    this.count = this.indices.length
+    this.ibo = new IndexBuffer(engine)
+    this.ibo.data = new Uint16Array(this.indices)
+    this.vbo = new VertexBuffer(engine)
+    this.vbo.data = new Float32Array(this.attributes)
   }
 
   /**
@@ -71,7 +67,30 @@ export default class GeometryBuffers extends ShareableContextConsumer implements
    * @protected
    */
   protected destructor(): void {
+    this.ibo.release()
+    this.ibo = void 0
+    this.vbo.release()
+    this.vbo = void 0
     super.destructor()
+  }
+
+  /**
+   * @property data
+   * @type VertexArrays
+   * @readOnly
+   */
+  get data(): VertexArrays {
+    // FIXME: This should return a deep copy.
+    return {
+      drawMode: this.drawMode,
+      indices: this.indices,
+      attributes: this.attributes,
+      stride: this.stride,
+      pointers: this.pointers
+    }
+  }
+  set data(data: VertexArrays) {
+    throw new Error(readOnly('data').message)
   }
 
   /**
@@ -130,43 +149,25 @@ export default class GeometryBuffers extends ShareableContextConsumer implements
 
   /**
    * @method contextFree
-   * @param context {ContextProvider}
+   * @param contextProvider {ContextProvider}
    * @return {void}
    */
-  public contextFree(context: ContextProvider): void {
-    const gl = context.gl
-    if (this.ibo) {
-      gl.deleteBuffer(this.ibo)
-      this.ibo = void 0
-    }
-    if (this.vbo) {
-      gl.deleteBuffer(this.vbo)
-      this.vbo = void 0
-    }
-    super.contextFree(context)
+  public contextFree(contextProvider: ContextProvider): void {
+    this.ibo.contextFree(contextProvider)
+    this.vbo.contextFree(contextProvider)
+    super.contextFree(contextProvider)
   }
 
   /**
    * @method contextGain
-   * @param context {ContextProvider}
+   * @param contextProvider {ContextProvider}
    * @return {void}
    */
-  public contextGain(context: ContextProvider): void {
-    const gl = context.gl
-    this.mode = drawModeToGL(this.drawMode, gl)
-    if (!this.ibo) {
-      this.ibo = gl.createBuffer()
-      gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.ibo)
-      gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, this.ia, gl.STATIC_DRAW)
-      gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, void 0)
-    }
-    if (!this.vbo) {
-      this.vbo = gl.createBuffer()
-      gl.bindBuffer(gl.ARRAY_BUFFER, this.vbo)
-      gl.bufferData(gl.ARRAY_BUFFER, this.va, gl.STATIC_DRAW)
-      gl.bindBuffer(gl.ARRAY_BUFFER, void 0)
-    }
-    super.contextGain(context)
+  public contextGain(contextProvider: ContextProvider): void {
+    this.mode = contextProvider.drawModeToGL(this.drawMode)
+    this.ibo.contextGain(contextProvider)
+    this.vbo.contextGain(contextProvider)
+    super.contextGain(contextProvider)
   }
 
   /**
@@ -174,8 +175,8 @@ export default class GeometryBuffers extends ShareableContextConsumer implements
    * @return {void}
    */
   public contextLost(): void {
-    this.ibo = void 0
-    this.vbo = void 0
+    this.ibo.contextLost()
+    this.vbo.contextLost()
     super.contextLost()
   }
 
@@ -185,23 +186,23 @@ export default class GeometryBuffers extends ShareableContextConsumer implements
    * @return {void}
    */
   draw(material: AbstractMaterial): void {
-    // FIXME: Make the buffer a wrapper and contextProvider private or encapsulating WebGL.
-    const gl: WebGLRenderingContext = this.contextProvider.gl
-    gl.bindBuffer(gl.ARRAY_BUFFER, this.vbo)
-    for (let i = 0; i < this.pointers.length; i++) {
-      const pointer = this.pointers[i]
-      const attribLoc = material.getAttribLocation(pointer.name)
-      if (attribLoc >= 0) {
-        gl.vertexAttribPointer(attribLoc, pointer.size, gl.FLOAT, pointer.normalized, this.stride, pointer.offset)
-        gl.enableVertexAttribArray(attribLoc)
+    const contextProvider = this.contextProvider
+    if (contextProvider) {
+      this.vbo.bind()
+      const iLength = this.pointers.length
+      for (let i = 0; i < iLength; i++) {
+        const pointer = this.pointers[i]
+        const attribLoc = material.getAttribLocation(pointer.name)
+        if (attribLoc >= 0) {
+          contextProvider.vertexAttribPointer(attribLoc, pointer.size, pointer.normalized, this.stride, pointer.offset)
+          contextProvider.enableVertexAttribArray(attribLoc)
+        }
       }
+      this.ibo.bind()
+      contextProvider.drawElements(this.mode, this.count, this.offset)
+      this.ibo.unbind()
+      this.vbo.unbind()
     }
-    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.ibo)
-    // At present we manage our own buffers. In future we might delegate this task to
-    // to the mirror layer which would return the offset.
-    gl.drawElements(this.mode, this.count, gl.UNSIGNED_SHORT, this.offset)
-    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, void 0)
-    gl.bindBuffer(gl.ARRAY_BUFFER, void 0)
   }
 
   /**
@@ -210,7 +211,6 @@ export default class GeometryBuffers extends ShareableContextConsumer implements
    * @return {boolean}
    */
   hasPrincipalScale(name: string): boolean {
-    // TODO
     throw new Error(notImplemented(`hasPrincipalScale(${name})`).message)
   }
 
@@ -220,7 +220,6 @@ export default class GeometryBuffers extends ShareableContextConsumer implements
    * @return {number}
    */
   public getPrincipalScale(name: string): number {
-    // TODO
     throw new Error(notImplemented('getPrincipalScale').message)
   }
 
@@ -231,7 +230,6 @@ export default class GeometryBuffers extends ShareableContextConsumer implements
    * @return {void}
    */
   public setPrincipalScale(name: string, value: number): void {
-    // TODO
     throw new Error(notImplemented('setPrincipalScale').message)
   }
 }

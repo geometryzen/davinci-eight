@@ -1,6 +1,7 @@
 import direction from './direction'
 import isDefined from '../checks/isDefined'
 import MeshMaterial from '../materials/MeshMaterial'
+import MeshMaterialOptions from '../materials/MeshMaterialOptions'
 import mustBeNumber from '../checks/mustBeNumber'
 import RigidBody from './RigidBody'
 import SphereOptions from './SphereOptions'
@@ -27,12 +28,16 @@ export default class Sphere extends RigidBody {
         super('Sphere', direction(options))
 
         const geoOptions: SphereGeometryOptions = {}
+        geoOptions.engine = options.engine
         const geometry = new SphereGeometry(geoOptions)
         this.geometry = geometry
         geometry.release()
-        const material = new MeshMaterial()
+
+        const matOptions: MeshMaterialOptions = void 0
+        const material = new MeshMaterial(matOptions, options.engine)
         this.material = material
         material.release()
+
         if (options.color) {
             this.color.copy(options.color)
         }

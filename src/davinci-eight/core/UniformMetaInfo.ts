@@ -1,6 +1,9 @@
 /**
  * @module EIGHT
  * @submodule core
+ */
+
+/**
  * @class UniformMetaInfo
  */
 interface UniformMetaInfo {

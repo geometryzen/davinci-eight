@@ -1,7 +1,15 @@
+import MaterialOptions from './MaterialOptions'
+
+/**
+ * @module EIGHT
+ * @submodule materials
+ */
+
 /**
  * @class MeshMaterialOptions
+ * @extends MaterialOptions
  */
-interface MeshMaterialOptions {
+interface MeshMaterialOptions extends MaterialOptions {
 
   /**
    * @attribute attributes

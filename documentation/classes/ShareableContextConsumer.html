@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.209.0</em>
+            <em>API Docs for: 2.210.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -48,6 +48,7 @@
                                 <li><a href="../classes/Arrow.html">Arrow</a></li>
                                 <li><a href="../classes/ArrowBuilder.html">ArrowBuilder</a></li>
                                 <li><a href="../classes/ArrowGeometry.html">ArrowGeometry</a></li>
+                                <li><a href="../classes/ArrowGeometryOptions.html">ArrowGeometryOptions</a></li>
                                 <li><a href="../classes/ArrowOptions.html">ArrowOptions</a></li>
                                 <li><a href="../classes/AttribLocation.html">AttribLocation</a></li>
                                 <li><a href="../classes/AttribMetaInfo.html">AttribMetaInfo</a></li>
@@ -63,7 +64,6 @@
                                 <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
-                                <li><a href="../classes/CommonOptions.html">CommonOptions</a></li>
                                 <li><a href="../classes/ConeTransform.html">ConeTransform</a></li>
                                 <li><a href="../classes/ConicalShellBuilder.html">ConicalShellBuilder</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
@@ -106,9 +106,9 @@
                                 <li><a href="../classes/GeometricE2.html">GeometricE2</a></li>
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
-                                <li><a href="../classes/GeometryBuffers.html">GeometryBuffers</a></li>
                                 <li><a href="../classes/GeometryBuilder.html">GeometryBuilder</a></li>
                                 <li><a href="../classes/GeometryContainer.html">GeometryContainer</a></li>
+                                <li><a href="../classes/GeometryElements.html">GeometryElements</a></li>
                                 <li><a href="../classes/GeometryOptions.html">GeometryOptions</a></li>
                                 <li><a href="../classes/GeometryPrimitive.html">GeometryPrimitive</a></li>
                                 <li><a href="../classes/GraphicsProgramSymbols.html">GraphicsProgramSymbols</a></li>
@@ -120,11 +120,13 @@
                                 <li><a href="../classes/GridPrimitive.html">GridPrimitive</a></li>
                                 <li><a href="../classes/GridTriangleStrip.html">GridTriangleStrip</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
+                                <li><a href="../classes/IndexBuffer.html">IndexBuffer</a></li>
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
                                 <li><a href="../classes/LineMaterialOptions.html">LineMaterialOptions</a></li>
                                 <li><a href="../classes/LinePoints.html">LinePoints</a></li>
                                 <li><a href="../classes/LineStrip.html">LineStrip</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
+                                <li><a href="../classes/MaterialOptions.html">MaterialOptions</a></li>
                                 <li><a href="../classes/Matrix2.html">Matrix2</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
                                 <li><a href="../classes/Matrix4.html">Matrix4</a></li>
@@ -163,7 +165,6 @@
                                 <li><a href="../classes/ShareableArray.html">ShareableArray</a></li>
                                 <li><a href="../classes/ShareableBase.html">ShareableBase</a></li>
                                 <li><a href="../classes/ShareableContextConsumer.html">ShareableContextConsumer</a></li>
-                                <li><a href="../classes/ShareableWebGLBuffer.html">ShareableWebGLBuffer</a></li>
                                 <li><a href="../classes/ShareableWebGLShader.html">ShareableWebGLShader</a></li>
                                 <li><a href="../classes/ShareableWebGLTexture.html">ShareableWebGLTexture</a></li>
                                 <li><a href="../classes/SimplexPrimitivesBuilder.html">SimplexPrimitivesBuilder</a></li>
@@ -205,8 +206,11 @@
                                 <li><a href="../classes/VersionLogger.html">VersionLogger</a></li>
                                 <li><a href="../classes/Vertex.html">Vertex</a></li>
                                 <li><a href="../classes/VertexArrays.html">VertexArrays</a></li>
+                                <li><a href="../classes/VertexAttribPointer.html">VertexAttribPointer</a></li>
                                 <li><a href="../classes/VertexAttributeMap.html">VertexAttributeMap</a></li>
+                                <li><a href="../classes/VertexBuffer.html">VertexBuffer</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
+                                <li><a href="../classes/VisualOptions.html">VisualOptions</a></li>
                                 <li><a href="../classes/WebGLBlendFunc.html">WebGLBlendFunc</a></li>
                                 <li><a href="../classes/WebGLClearColor.html">WebGLClearColor</a></li>
                                 <li><a href="../classes/WebGLDisable.html">WebGLDisable</a></li>
@@ -265,7 +269,7 @@
         </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_core_ShareableContextConsumer.ts.html#l53"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableContextConsumer.ts:53</code></a>
+            Defined in: <a href="../files/src_davinci-eight_core_ShareableContextConsumer.ts.html#l56"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableContextConsumer.ts:56</code></a>
         </div>
 
             Module: <a href="../modules/core.html">core</a><br>
@@ -294,6 +298,9 @@ subscribe to <code>Engine</code> events.
                 <li class="arg">
                         <code>type</code>
                 </li>
+                <li class="arg">
+                        <code>engine</code>
+                </li>
             </ul><span class="paren">)</span>
         </div>
 
@@ -307,7 +314,7 @@ subscribe to <code>Engine</code> events.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_ShareableContextConsumer.ts.html#l53"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableContextConsumer.ts:53</code></a>
+        <a href="../files/src_davinci-eight_core_ShareableContextConsumer.ts.html#l56"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableContextConsumer.ts:56</code></a>
         </p>
 
 
@@ -328,7 +335,19 @@ subscribe to <code>Engine</code> events.
 
 
                     <div class="param-description">
-                         
+                        <p>The name of the derived class for logging purposes.</p>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">engine</code>
+                        <span class="type"><a href="../classes/Engine.html" class="crosslink">Engine</a></span>
+
+
+                    <div class="param-description">
+                        <p>The <code>Engine</code> to subscribe to or <code>null</code> for deferred subscription.</p>
+
                     </div>
 
                 </li>
@@ -342,8 +361,9 @@ subscribe to <code>Engine</code> events.
 
             <div class="example-content">
                 <pre class="code prettyprint"><code>class MyContextConsumer extends EIGHT.ShareableContextConsumer {
-  constructor('MyContextConsumer') {
+  constructor(engine: EIGHT.Engine) {
     // Allocate your own resources here or on-demand.
+    super('MyContextConsumer', engine)
   }
   protected destructor(): void {
     // Deallocate your own resources here.
@@ -505,7 +525,7 @@ The new reference count. This value is intended to be used only for test purpose
                 ContextConsumer
             </a>
             but overwritten in
-        <a href="../files/src_davinci-eight_core_ShareableContextConsumer.ts.html#l111"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableContextConsumer.ts:111</code></a>
+        <a href="../files/src_davinci-eight_core_ShareableContextConsumer.ts.html#l121"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableContextConsumer.ts:121</code></a>
         </p>
 
 
@@ -570,7 +590,7 @@ The new reference count. This value is intended to be used only for test purpose
                 ContextConsumer
             </a>
             but overwritten in
-        <a href="../files/src_davinci-eight_core_ShareableContextConsumer.ts.html#l120"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableContextConsumer.ts:120</code></a>
+        <a href="../files/src_davinci-eight_core_ShareableContextConsumer.ts.html#l130"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableContextConsumer.ts:130</code></a>
         </p>
 
 
@@ -629,7 +649,7 @@ The new reference count. This value is intended to be used only for test purpose
                 ContextConsumer
             </a>
             but overwritten in
-        <a href="../files/src_davinci-eight_core_ShareableContextConsumer.ts.html#l129"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableContextConsumer.ts:129</code></a>
+        <a href="../files/src_davinci-eight_core_ShareableContextConsumer.ts.html#l139"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableContextConsumer.ts:139</code></a>
         </p>
 
 
@@ -669,7 +689,7 @@ The new reference count. This value is intended to be used only for test purpose
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_ShareableContextConsumer.ts.html#l62"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableContextConsumer.ts:62</code></a>
+        <a href="../files/src_davinci-eight_core_ShareableContextConsumer.ts.html#l72"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableContextConsumer.ts:72</code></a>
         </p>
 
 
@@ -760,7 +780,7 @@ The new reference count. This value is intended to be used only for test purpose
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_ShareableContextConsumer.ts.html#l71"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableContextConsumer.ts:71</code></a>
+        <a href="../files/src_davinci-eight_core_ShareableContextConsumer.ts.html#l81"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableContextConsumer.ts:81</code></a>
         </p>
 
 
@@ -818,7 +838,7 @@ Instructs the consumer to subscribe to context events.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_ShareableContextConsumer.ts.html#l94"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableContextConsumer.ts:94</code></a>
+        <a href="../files/src_davinci-eight_core_ShareableContextConsumer.ts.html#l104"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableContextConsumer.ts:104</code></a>
         </p>
 
 
@@ -858,7 +878,7 @@ Instructs the consumer to subscribe to context events.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_ShareableContextConsumer.ts.html#l46"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableContextConsumer.ts:46</code></a>
+        <a href="../files/src_davinci-eight_core_ShareableContextConsumer.ts.html#l49"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableContextConsumer.ts:49</code></a>
         </p>
 
 
@@ -883,7 +903,7 @@ Instructs the consumer to subscribe to context events.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_ShareableContextConsumer.ts.html#l39"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableContextConsumer.ts:39</code></a>
+        <a href="../files/src_davinci-eight_core_ShareableContextConsumer.ts.html#l42"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableContextConsumer.ts:42</code></a>
         </p>
 
 
@@ -908,7 +928,7 @@ Instructs the consumer to subscribe to context events.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_ShareableContextConsumer.ts.html#l137"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableContextConsumer.ts:137</code></a>
+        <a href="../files/src_davinci-eight_core_ShareableContextConsumer.ts.html#l147"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableContextConsumer.ts:147</code></a>
         </p>
 
 

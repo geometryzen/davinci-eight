@@ -1,4 +1,4 @@
-import CommonOptions from './CommonOptions'
+import VisualOptions from './VisualOptions'
 
 /**
  * @module EIGHT
@@ -7,9 +7,9 @@ import CommonOptions from './CommonOptions'
 
 /**
  * @class BoxOptions
- * @extends CommonOptions
+ * @extends VisualOptions
  */
-interface BoxOptions extends CommonOptions {
+interface BoxOptions extends VisualOptions {
 
     /**
      * @attribute depth

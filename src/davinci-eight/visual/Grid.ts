@@ -40,78 +40,78 @@ function isFunctionOrUndefined(x: any): boolean {
   return isFunction(x) || isUndefined(x)
 }
 
-function transferGeometryOptions(options: GridOptions, geoOptions: GridGeometryOptions): void {
+function transferGeometryOptions(source: GridOptions, target: GridGeometryOptions): void {
 
-  if (isFunctionOrNull(options.aPosition)) {
-    geoOptions.aPosition = options.aPosition
+  if (isFunctionOrNull(source.aPosition)) {
+    target.aPosition = source.aPosition
   }
-  else if (isUndefined(options.aPosition)) {
-    geoOptions.aPosition = aPositionDefault
+  else if (isUndefined(source.aPosition)) {
+    target.aPosition = aPositionDefault
   }
   else {
     throw new Error("aPosition must be one of function, null, or undefined.")
   }
 
-  if (isFunctionOrNull(options.aNormal)) {
-    geoOptions.aNormal = options.aNormal
+  if (isFunctionOrNull(source.aNormal)) {
+    target.aNormal = source.aNormal
   }
-  else if (isUndefined(options.aNormal)) {
-    geoOptions.aNormal = aNormalDefault
+  else if (isUndefined(source.aNormal)) {
+    target.aNormal = aNormalDefault
   }
   else {
     throw new Error("aNormal must be one of function, null, or undefined.")
   }
 
-  if (isFunctionOrNull(options.aColor)) {
-    geoOptions.aColor = options.aColor
+  if (isFunctionOrNull(source.aColor)) {
+    target.aColor = source.aColor
   }
-  else if (isUndefined(options.aColor)) {
+  else if (isUndefined(source.aColor)) {
     // Do nothing.
   }
   else {
     throw new Error("aColor must be one of function, null, or undefined.")
   }
 
-  if (isDefined(options.uMax)) {
-    geoOptions.uMax = mustBeNumber('uMax', options.uMax)
+  if (isDefined(source.uMax)) {
+    target.uMax = mustBeNumber('uMax', source.uMax)
   }
   else {
-    geoOptions.uMax = +0.5
+    target.uMax = +0.5
   }
 
-  if (isDefined(options.uMin)) {
-    geoOptions.uMin = mustBeNumber('uMin', options.uMin)
+  if (isDefined(source.uMin)) {
+    target.uMin = mustBeNumber('uMin', source.uMin)
   }
   else {
-    geoOptions.uMin = -0.5
+    target.uMin = -0.5
   }
 
-  if (isDefined(options.uSegments)) {
-    geoOptions.uSegments = mustBeGE('uSegments', options.uSegments, 0)
+  if (isDefined(source.uSegments)) {
+    target.uSegments = mustBeGE('uSegments', source.uSegments, 0)
   }
   else {
-    geoOptions.uSegments = 1
+    target.uSegments = 1
   }
 
-  if (isDefined(options.vMax)) {
-    geoOptions.vMax = mustBeNumber('vMax', options.vMax)
+  if (isDefined(source.vMax)) {
+    target.vMax = mustBeNumber('vMax', source.vMax)
   }
   else {
-    geoOptions.vMax = +0.5
+    target.vMax = +0.5
   }
 
-  if (isDefined(options.vMin)) {
-    geoOptions.vMin = mustBeNumber('vMin', options.vMin)
+  if (isDefined(source.vMin)) {
+    target.vMin = mustBeNumber('vMin', source.vMin)
   }
   else {
-    geoOptions.vMin = -0.5
+    target.vMin = -0.5
   }
 
-  if (isDefined(options.vSegments)) {
-    geoOptions.vSegments = mustBeGE('vSegments', options.vSegments, 0)
+  if (isDefined(source.vSegments)) {
+    target.vSegments = mustBeGE('vSegments', source.vSegments, 0)
   }
   else {
-    geoOptions.vSegments = 1
+    target.vSegments = 1
   }
 }
 
@@ -147,7 +147,7 @@ function configPoints(options: GridOptions, grid: Grid) {
   matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX] = 'mat4'
   matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_POINT_SIZE] = 'float'
 
-  const material = new PointMaterial(matOptions)
+  const material = new PointMaterial(matOptions, options.engine)
   grid.material = material
   material.release()
 }
@@ -186,7 +186,7 @@ function configLines(options: GridOptions, grid: Grid) {
   matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX] = 'mat4'
   matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX] = 'mat4'
 
-  const material = new LineMaterial(matOptions)
+  const material = new LineMaterial(matOptions, options.engine)
   grid.material = material
   material.release()
 }
@@ -244,7 +244,7 @@ function configMesh(options: GridOptions, grid: Grid) {
 
   matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_AMBIENT_LIGHT] = 'vec3'
 
-  const material = new MeshMaterial(matOptions)
+  const material = new MeshMaterial(matOptions, options.engine)
   grid.material = material
   material.release()
 }
@@ -262,7 +262,7 @@ export default class Grid extends Mesh {
    * @param [options] {GridOptions}
    */
   constructor(options: GridOptions = {}) {
-    super('Grid', void 0, void 0)
+    super('Grid', void 0, void 0, null)
 
     const drawMode: DrawMode = isDefined(options.drawMode) ? options.drawMode : DrawMode.LINES
     switch (drawMode) {

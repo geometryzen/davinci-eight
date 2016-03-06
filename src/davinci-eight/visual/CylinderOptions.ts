@@ -1,4 +1,4 @@
-import CommonOptions from './CommonOptions'
+import VisualOptions from './VisualOptions'
 import VectorE3 from '../math/VectorE3'
 
 /**
@@ -8,9 +8,9 @@ import VectorE3 from '../math/VectorE3'
 
 /**
  * @class CylinderOptions
- * @extends CommonOptions
+ * @extends VisualOptions
  */
-interface CylinderOptions extends CommonOptions {
+interface CylinderOptions extends VisualOptions {
 
     /**
      * @attribute axis

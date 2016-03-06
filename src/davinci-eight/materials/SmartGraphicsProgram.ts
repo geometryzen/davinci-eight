@@ -1,3 +1,4 @@
+import Engine from '../core/Engine';
 import fragmentShaderSrc from './fragmentShaderSrc';
 import Material from './Material';
 import vertexShaderSrc from './vertexShaderSrc';
@@ -10,8 +11,9 @@ export default class SmartGraphicsProgram extends Material {
     aParams: { [name: string]: { glslType: string } },
     uParams: { [name: string]: { glslType: string } },
     vColor: boolean,
-    vLight: boolean
+    vLight: boolean,
+    engine: Engine
   ) {
-    super(vertexShaderSrc(aParams, uParams, vColor, vLight), fragmentShaderSrc(aParams, uParams, vColor, vLight), [], 'SmartGraphicsProgram')
+    super(vertexShaderSrc(aParams, uParams, vColor, vLight), fragmentShaderSrc(aParams, uParams, vColor, vLight), [], 'SmartGraphicsProgram', engine)
   }
 }

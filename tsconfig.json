@@ -46,7 +46,9 @@
     "src/davinci-eight/glsl/parse.spec.ts",
     "src/davinci-eight/glsl/tokenize.spec.ts",
 
+    "src/davinci-eight/materials/LineMaterial.spec.ts",
     "src/davinci-eight/materials/MeshMaterial.spec.ts",
+    "src/davinci-eight/materials/PointMaterial.spec.ts",
 
     "src/davinci-eight/math/CC.spec.ts",
     "src/davinci-eight/math/Dimensions.spec.ts",

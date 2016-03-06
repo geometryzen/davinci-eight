@@ -1,8 +1,9 @@
-import DrawMode from '../core/DrawMode'
 import AbstractColor from '../core/AbstractColor'
+import DrawMode from '../core/DrawMode'
+import GeometryOptions from './GeometryOptions'
 import VectorE3 from '../math/VectorE3'
 
-interface CurveGeometryOptions {
+interface CurveGeometryOptions extends GeometryOptions {
 
   /**
    * A parametric function determining the positions of points on the curve.

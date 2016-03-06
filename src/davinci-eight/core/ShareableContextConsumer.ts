@@ -1,7 +1,9 @@
 import cleanUp from './cleanUp';
-import Engine from './Engine'
-import ContextConsumer from './ContextConsumer'
-import ContextProvider from './ContextProvider'
+import ContextConsumer from './ContextConsumer';
+import ContextProvider from './ContextProvider';
+import Engine from './Engine';
+import isUndefined from '../checks/isUndefined';
+import isNull from '../checks/isNull';
 import readOnly from '../i18n/readOnly';
 import ShareableBase from './ShareableBase';
 
@@ -21,8 +23,9 @@ import ShareableBase from './ShareableBase';
  *
  * @example
  *     class MyContextConsumer extends EIGHT.ShareableContextConsumer {
- *       constructor('MyContextConsumer') {
+ *       constructor(engine: EIGHT.Engine) {
  *         // Allocate your own resources here or on-demand.
+ *         super('MyContextConsumer', engine)
  *       }
  *       protected destructor(): void {
  *         // Deallocate your own resources here.
@@ -53,10 +56,17 @@ export default class ShareableContextConsumer extends ShareableBase implements C
   /**
    * @class ShareableContextConsumer
    * @constructor
-   * @param type {string}
+   * @param type {string} The name of the derived class for logging purposes.
+   * @param engine {Engine} The <code>Engine</code> to subscribe to or <code>null</code> for deferred subscription.
    */
-  constructor(type: string) {
+  constructor(type: string, engine: Engine) {
     super(type)
+    if (engine instanceof Engine) {
+      this.subscribe(engine)
+    }
+    else if (!isNull(engine) && !isUndefined(engine)) {
+      throw new Error(`engine must be an Engine or null or undefined. typeof engine => ${typeof engine}`)
+    }
   }
 
   /**

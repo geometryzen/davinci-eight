@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.209.0</em>
+            <em>API Docs for: 2.210.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -48,6 +48,7 @@
                                 <li><a href="../classes/Arrow.html">Arrow</a></li>
                                 <li><a href="../classes/ArrowBuilder.html">ArrowBuilder</a></li>
                                 <li><a href="../classes/ArrowGeometry.html">ArrowGeometry</a></li>
+                                <li><a href="../classes/ArrowGeometryOptions.html">ArrowGeometryOptions</a></li>
                                 <li><a href="../classes/ArrowOptions.html">ArrowOptions</a></li>
                                 <li><a href="../classes/AttribLocation.html">AttribLocation</a></li>
                                 <li><a href="../classes/AttribMetaInfo.html">AttribMetaInfo</a></li>
@@ -63,7 +64,6 @@
                                 <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
-                                <li><a href="../classes/CommonOptions.html">CommonOptions</a></li>
                                 <li><a href="../classes/ConeTransform.html">ConeTransform</a></li>
                                 <li><a href="../classes/ConicalShellBuilder.html">ConicalShellBuilder</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
@@ -106,9 +106,9 @@
                                 <li><a href="../classes/GeometricE2.html">GeometricE2</a></li>
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
-                                <li><a href="../classes/GeometryBuffers.html">GeometryBuffers</a></li>
                                 <li><a href="../classes/GeometryBuilder.html">GeometryBuilder</a></li>
                                 <li><a href="../classes/GeometryContainer.html">GeometryContainer</a></li>
+                                <li><a href="../classes/GeometryElements.html">GeometryElements</a></li>
                                 <li><a href="../classes/GeometryOptions.html">GeometryOptions</a></li>
                                 <li><a href="../classes/GeometryPrimitive.html">GeometryPrimitive</a></li>
                                 <li><a href="../classes/GraphicsProgramSymbols.html">GraphicsProgramSymbols</a></li>
@@ -120,11 +120,13 @@
                                 <li><a href="../classes/GridPrimitive.html">GridPrimitive</a></li>
                                 <li><a href="../classes/GridTriangleStrip.html">GridTriangleStrip</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
+                                <li><a href="../classes/IndexBuffer.html">IndexBuffer</a></li>
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
                                 <li><a href="../classes/LineMaterialOptions.html">LineMaterialOptions</a></li>
                                 <li><a href="../classes/LinePoints.html">LinePoints</a></li>
                                 <li><a href="../classes/LineStrip.html">LineStrip</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
+                                <li><a href="../classes/MaterialOptions.html">MaterialOptions</a></li>
                                 <li><a href="../classes/Matrix2.html">Matrix2</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
                                 <li><a href="../classes/Matrix4.html">Matrix4</a></li>
@@ -163,7 +165,6 @@
                                 <li><a href="../classes/ShareableArray.html">ShareableArray</a></li>
                                 <li><a href="../classes/ShareableBase.html">ShareableBase</a></li>
                                 <li><a href="../classes/ShareableContextConsumer.html">ShareableContextConsumer</a></li>
-                                <li><a href="../classes/ShareableWebGLBuffer.html">ShareableWebGLBuffer</a></li>
                                 <li><a href="../classes/ShareableWebGLShader.html">ShareableWebGLShader</a></li>
                                 <li><a href="../classes/ShareableWebGLTexture.html">ShareableWebGLTexture</a></li>
                                 <li><a href="../classes/SimplexPrimitivesBuilder.html">SimplexPrimitivesBuilder</a></li>
@@ -205,8 +206,11 @@
                                 <li><a href="../classes/VersionLogger.html">VersionLogger</a></li>
                                 <li><a href="../classes/Vertex.html">Vertex</a></li>
                                 <li><a href="../classes/VertexArrays.html">VertexArrays</a></li>
+                                <li><a href="../classes/VertexAttribPointer.html">VertexAttribPointer</a></li>
                                 <li><a href="../classes/VertexAttributeMap.html">VertexAttributeMap</a></li>
+                                <li><a href="../classes/VertexBuffer.html">VertexBuffer</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
+                                <li><a href="../classes/VisualOptions.html">VisualOptions</a></li>
                                 <li><a href="../classes/WebGLBlendFunc.html">WebGLBlendFunc</a></li>
                                 <li><a href="../classes/WebGLClearColor.html">WebGLClearColor</a></li>
                                 <li><a href="../classes/WebGLDisable.html">WebGLDisable</a></li>
@@ -261,7 +265,7 @@
 <div class="box meta">
 
         <div class="extends">
-            Extends <a href="../classes/GeometryBuffers.html" class="crosslink">GeometryBuffers</a>
+            Extends <a href="../classes/GeometryElements.html" class="crosslink">GeometryElements</a>
         </div>
 
         <div class="foundat">
@@ -350,68 +354,52 @@
                     <h3>Methods</h3>
 
                     <ul class="index-list methods extends">
-                            <li class="index-item method inherited">
+                            <li class="index-item method inherited inherited">
                                 <a href="#method_addPart">addPart</a>
 
                             </li>
                             <li class="index-item method inherited">
-                                <a href="#method_addRef">addRef</a>
-
-                            </li>
-                            <li class="index-item method inherited inherited">
                                 <a href="#method_contextFree">contextFree</a>
 
                             </li>
-                            <li class="index-item method inherited inherited">
+                            <li class="index-item method inherited">
                                 <a href="#method_contextGain">contextGain</a>
 
                             </li>
-                            <li class="index-item method inherited inherited">
+                            <li class="index-item method inherited">
                                 <a href="#method_contextLost">contextLost</a>
 
                             </li>
-                            <li class="index-item method protected inherited inherited">
+                            <li class="index-item method protected inherited">
                                 <a href="#method_destructor">destructor</a>
 
                             </li>
-                            <li class="index-item method inherited">
+                            <li class="index-item method inherited inherited">
                                 <a href="#method_draw">draw</a>
 
                             </li>
-                            <li class="index-item method inherited">
+                            <li class="index-item method inherited inherited">
                                 <a href="#method_getPart">getPart</a>
 
                             </li>
-                            <li class="index-item method inherited">
+                            <li class="index-item method inherited inherited">
                                 <a href="#method_getPrincipalScale">getPrincipalScale</a>
 
                             </li>
-                            <li class="index-item method inherited">
+                            <li class="index-item method inherited inherited">
                                 <a href="#method_hasPrincipalScale">hasPrincipalScale</a>
 
                             </li>
-                            <li class="index-item method inherited">
+                            <li class="index-item method inherited inherited">
                                 <a href="#method_isLeaf">isLeaf</a>
 
                             </li>
-                            <li class="index-item method inherited">
-                                <a href="#method_release">release</a>
-
-                            </li>
-                            <li class="index-item method inherited">
+                            <li class="index-item method inherited inherited">
                                 <a href="#method_removePart">removePart</a>
 
                             </li>
-                            <li class="index-item method inherited">
+                            <li class="index-item method inherited inherited">
                                 <a href="#method_setPrincipalScale">setPrincipalScale</a>
-
-                            </li>
-                            <li class="index-item method inherited">
-                                <a href="#method_subscribe">subscribe</a>
-
-                            </li>
-                            <li class="index-item method inherited">
-                                <a href="#method_unsubscribe">unsubscribe</a>
 
                             </li>
                     </ul>
@@ -421,25 +409,16 @@
                     <h3>Properties</h3>
 
                     <ul class="index-list properties extends">
-                            <li class="index-item property protected inherited">
-                                <a href="#property_contextProvider">contextProvider</a>
-
-                            </li>
-                            <li class="index-item property inherited">
+                            <li class="index-item property inherited inherited">
                                 <a href="#property_data">data</a>
 
                             </li>
-                            <li class="index-item property private inherited">
-                                <a href="#property_engine">engine</a>
+                            <li class="index-item property inherited inherited">
+                                <a href="#property_partsLength">partsLength</a>
 
-                            </li>
-                            <li class="index-item property deprecated inherited">
-                                <a href="#property_gl">gl</a>
-
-                                    <span class="flag deprecated">deprecated</span>
                             </li>
                             <li class="index-item property inherited">
-                                <a href="#property_partsLength">partsLength</a>
+                                <a href="#property_scaling">scaling</a>
 
                             </li>
                     </ul>
@@ -473,9 +452,12 @@
 
 
     <div class="meta">
-                <p>Inherited from
-                <a href="../classes/GeometryBuffers.html#method_addPart">GeometryBuffers</a>:
-        <a href="../files/src_davinci-eight_core_GeometryBuffers.ts.html#l103"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryBuffers.ts:103</code></a>
+            <p>Inherited from
+            <a href="../classes/Geometry.html#method_addPart">
+                Geometry
+            </a>
+            but overwritten in
+        <a href="../files/src_davinci-eight_core_GeometryElements.ts.html#l123"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryElements.ts:123</code></a>
         </p>
 
 
@@ -513,58 +495,13 @@
 
 
 </div>
-<div id="method_addRef" class="method item inherited">
-    <h3 class="name"><code>addRef</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type">Number</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>Inherited from
-                <a href="../classes/Shareable.html#method_addRef">Shareable</a>:
-        <a href="../files/src_davinci-eight_core_Shareable.ts.html#l7"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Shareable.ts:7</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-Increments the reference count of an Shareable instance.
-</p>
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Number</span>:
-                    <p>
-The new reference count. This value is intended to be used only for test purposes.
-</p>
-            </div>
-        </div>
-
-
-</div>
 <div id="method_contextFree" class="method item inherited">
     <h3 class="name"><code>contextFree</code></h3>
 
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
-                        <code>context</code>
+                        <code>contextProvider</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
@@ -580,12 +517,9 @@ The new reference count. This value is intended to be used only for test purpose
 
 
     <div class="meta">
-            <p>Inherited from
-            <a href="../classes/ContextConsumer.html#method_contextFree">
-                ContextConsumer
-            </a>
-            but overwritten in
-        <a href="../files/src_davinci-eight_core_GeometryBuffers.ts.html#l130"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryBuffers.ts:130</code></a>
+                <p>Inherited from
+                <a href="../classes/GeometryElements.html#method_contextFree">GeometryElements</a>:
+        <a href="../files/src_davinci-eight_core_GeometryElements.ts.html#l150"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryElements.ts:150</code></a>
         </p>
 
 
@@ -601,7 +535,7 @@ The new reference count. This value is intended to be used only for test purpose
 
             <ul class="params-list">
                 <li class="param">
-                        <code class="param-name">context</code>
+                        <code class="param-name">contextProvider</code>
                         <span class="type"><a href="../classes/ContextProvider.html" class="crosslink">ContextProvider</a></span>
 
 
@@ -629,7 +563,7 @@ The new reference count. This value is intended to be used only for test purpose
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
-                        <code>context</code>
+                        <code>contextProvider</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
@@ -645,12 +579,9 @@ The new reference count. This value is intended to be used only for test purpose
 
 
     <div class="meta">
-            <p>Inherited from
-            <a href="../classes/ContextConsumer.html#method_contextGain">
-                ContextConsumer
-            </a>
-            but overwritten in
-        <a href="../files/src_davinci-eight_core_GeometryBuffers.ts.html#l148"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryBuffers.ts:148</code></a>
+                <p>Inherited from
+                <a href="../classes/GeometryElements.html#method_contextGain">GeometryElements</a>:
+        <a href="../files/src_davinci-eight_core_GeometryElements.ts.html#l161"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryElements.ts:161</code></a>
         </p>
 
 
@@ -666,7 +597,7 @@ The new reference count. This value is intended to be used only for test purpose
 
             <ul class="params-list">
                 <li class="param">
-                        <code class="param-name">context</code>
+                        <code class="param-name">contextProvider</code>
                         <span class="type"><a href="../classes/ContextProvider.html" class="crosslink">ContextProvider</a></span>
 
 
@@ -704,12 +635,9 @@ The new reference count. This value is intended to be used only for test purpose
 
 
     <div class="meta">
-            <p>Inherited from
-            <a href="../classes/ContextConsumer.html#method_contextLost">
-                ContextConsumer
-            </a>
-            but overwritten in
-        <a href="../files/src_davinci-eight_core_GeometryBuffers.ts.html#l171"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryBuffers.ts:171</code></a>
+                <p>Inherited from
+                <a href="../classes/GeometryElements.html#method_contextLost">GeometryElements</a>:
+        <a href="../files/src_davinci-eight_core_GeometryElements.ts.html#l173"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryElements.ts:173</code></a>
         </p>
 
 
@@ -748,12 +676,9 @@ The new reference count. This value is intended to be used only for test purpose
 
 
     <div class="meta">
-            <p>Inherited from
-            <a href="../classes/ShareableContextConsumer.html#method_destructor">
-                ShareableContextConsumer
-            </a>
-            but overwritten in
-        <a href="../files/src_davinci-eight_core_GeometryBuffers.ts.html#l67"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryBuffers.ts:67</code></a>
+                <p>Inherited from
+                <a href="../classes/GeometryElements.html#method_destructor">GeometryElements</a>:
+        <a href="../files/src_davinci-eight_core_GeometryElements.ts.html#l64"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryElements.ts:64</code></a>
         </p>
 
 
@@ -797,9 +722,12 @@ The new reference count. This value is intended to be used only for test purpose
 
 
     <div class="meta">
-                <p>Inherited from
-                <a href="../classes/GeometryBuffers.html#method_draw">GeometryBuffers</a>:
-        <a href="../files/src_davinci-eight_core_GeometryBuffers.ts.html#l181"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryBuffers.ts:181</code></a>
+            <p>Inherited from
+            <a href="../classes/Geometry.html#method_draw">
+                Geometry
+            </a>
+            but overwritten in
+        <a href="../files/src_davinci-eight_core_GeometryElements.ts.html#l183"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryElements.ts:183</code></a>
         </p>
 
 
@@ -859,9 +787,12 @@ The new reference count. This value is intended to be used only for test purpose
 
 
     <div class="meta">
-                <p>Inherited from
-                <a href="../classes/GeometryBuffers.html#method_getPart">GeometryBuffers</a>:
-        <a href="../files/src_davinci-eight_core_GeometryBuffers.ts.html#l121"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryBuffers.ts:121</code></a>
+            <p>Inherited from
+            <a href="../classes/Geometry.html#method_getPart">
+                Geometry
+            </a>
+            but overwritten in
+        <a href="../files/src_davinci-eight_core_GeometryElements.ts.html#l141"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryElements.ts:141</code></a>
         </p>
 
 
@@ -921,9 +852,12 @@ The new reference count. This value is intended to be used only for test purpose
 
 
     <div class="meta">
-                <p>Inherited from
-                <a href="../classes/GeometryBuffers.html#method_getPrincipalScale">GeometryBuffers</a>:
-        <a href="../files/src_davinci-eight_core_GeometryBuffers.ts.html#l216"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryBuffers.ts:216</code></a>
+            <p>Inherited from
+            <a href="../classes/Geometry.html#method_getPrincipalScale">
+                Geometry
+            </a>
+            but overwritten in
+        <a href="../files/src_davinci-eight_core_GeometryElements.ts.html#l217"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryElements.ts:217</code></a>
         </p>
 
 
@@ -983,9 +917,12 @@ The new reference count. This value is intended to be used only for test purpose
 
 
     <div class="meta">
-                <p>Inherited from
-                <a href="../classes/GeometryBuffers.html#method_hasPrincipalScale">GeometryBuffers</a>:
-        <a href="../files/src_davinci-eight_core_GeometryBuffers.ts.html#l206"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryBuffers.ts:206</code></a>
+            <p>Inherited from
+            <a href="../classes/Geometry.html#method_hasPrincipalScale">
+                Geometry
+            </a>
+            but overwritten in
+        <a href="../files/src_davinci-eight_core_GeometryElements.ts.html#l208"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryElements.ts:208</code></a>
         </p>
 
 
@@ -1039,9 +976,12 @@ The new reference count. This value is intended to be used only for test purpose
 
 
     <div class="meta">
-                <p>Inherited from
-                <a href="../classes/GeometryBuffers.html#method_isLeaf">GeometryBuffers</a>:
-        <a href="../files/src_davinci-eight_core_GeometryBuffers.ts.html#l76"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryBuffers.ts:76</code></a>
+            <p>Inherited from
+            <a href="../classes/Geometry.html#method_isLeaf">
+                Geometry
+            </a>
+            but overwritten in
+        <a href="../files/src_davinci-eight_core_GeometryElements.ts.html#l96"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryElements.ts:96</code></a>
         </p>
 
 
@@ -1058,51 +998,6 @@ The new reference count. This value is intended to be used only for test purpose
 
             <div class="returns-description">
                         <span class="type">Boolean</span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_release" class="method item inherited">
-    <h3 class="name"><code>release</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type">Number</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>Inherited from
-                <a href="../classes/Shareable.html#method_release">Shareable</a>:
-        <a href="../files/src_davinci-eight_core_Shareable.ts.html#l18"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Shareable.ts:18</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-Decrements the reference count of an Shareable instance.
-</p>
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Number</span>:
-                    <p>
-The new reference count. This value is intended to be used only for test purposes.
-</p>
             </div>
         </div>
 
@@ -1130,9 +1025,12 @@ The new reference count. This value is intended to be used only for test purpose
 
 
     <div class="meta">
-                <p>Inherited from
-                <a href="../classes/GeometryBuffers.html#method_removePart">GeometryBuffers</a>:
-        <a href="../files/src_davinci-eight_core_GeometryBuffers.ts.html#l112"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryBuffers.ts:112</code></a>
+            <p>Inherited from
+            <a href="../classes/Geometry.html#method_removePart">
+                Geometry
+            </a>
+            but overwritten in
+        <a href="../files/src_davinci-eight_core_GeometryElements.ts.html#l132"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryElements.ts:132</code></a>
         </p>
 
 
@@ -1195,9 +1093,12 @@ The new reference count. This value is intended to be used only for test purpose
 
 
     <div class="meta">
-                <p>Inherited from
-                <a href="../classes/GeometryBuffers.html#method_setPrincipalScale">GeometryBuffers</a>:
-        <a href="../files/src_davinci-eight_core_GeometryBuffers.ts.html#l226"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryBuffers.ts:226</code></a>
+            <p>Inherited from
+            <a href="../classes/Geometry.html#method_setPrincipalScale">
+                Geometry
+            </a>
+            but overwritten in
+        <a href="../files/src_davinci-eight_core_GeometryElements.ts.html#l226"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryElements.ts:226</code></a>
         </p>
 
 
@@ -1245,141 +1146,11 @@ The new reference count. This value is intended to be used only for test purpose
 
 
 </div>
-<div id="method_subscribe" class="method item inherited">
-    <h3 class="name"><code>subscribe</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>engine</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type">Void</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>Inherited from
-                <a href="../classes/ShareableContextConsumer.html#method_subscribe">ShareableContextConsumer</a>:
-        <a href="../files/src_davinci-eight_core_ShareableContextConsumer.ts.html#l71"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableContextConsumer.ts:71</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-Instructs the consumer to subscribe to context events.
-</p>
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">engine</code>
-                        <span class="type"><a href="../classes/Engine.html" class="crosslink">Engine</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Void</span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_unsubscribe" class="method item inherited">
-    <h3 class="name"><code>unsubscribe</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type">Void</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>Inherited from
-                <a href="../classes/ShareableContextConsumer.html#method_unsubscribe">ShareableContextConsumer</a>:
-        <a href="../files/src_davinci-eight_core_ShareableContextConsumer.ts.html#l94"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableContextConsumer.ts:94</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>Instructs the consumer to unsubscribe from context events.</p>
-
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Void</span>:
-            </div>
-        </div>
-
-
-</div>
             </div>
 
             <div id="properties" class="api-class-tabpanel">
                 <h2 class="off-left">Properties</h2>
 
-<div id="property_contextProvider" class="property item protected inherited">
-    <h3 class="name"><code>contextProvider</code></h3>
-    <span class="type"><a href="../classes/ContextProvider.html" class="crosslink">ContextProvider</a></span>
-
-
-        <span class="flag protected">protected</span>
-
-
-
-    <div class="meta">
-                <p>Inherited from
-                <a href="../classes/ShareableContextConsumer.html#property_contextProvider">ShareableContextConsumer</a>:
-        <a href="../files/src_davinci-eight_core_ShareableContextConsumer.ts.html#l46"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableContextConsumer.ts:46</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-
-</div>
 <div id="property_data" class="property item inherited">
     <h3 class="name"><code>data</code></h3>
     <span class="type"><a href="../classes/VertexArrays.html" class="crosslink">VertexArrays</a></span>
@@ -1389,9 +1160,12 @@ Instructs the consumer to subscribe to context events.
 
 
     <div class="meta">
-                <p>Inherited from
-                <a href="../classes/GeometryBuffers.html#property_data">GeometryBuffers</a>:
-        <a href="../files/src_davinci-eight_core_GeometryBuffers.ts.html#l55"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryBuffers.ts:55</code></a>
+            <p>Inherited from
+            <a href="../classes/Geometry.html#property_data">
+                Geometry
+            </a>
+            but overwritten in
+        <a href="../files/src_davinci-eight_core_GeometryElements.ts.html#l77"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryElements.ts:77</code></a>
         </p>
 
 
@@ -1399,61 +1173,6 @@ Instructs the consumer to subscribe to context events.
 
     <div class="description">
         
-    </div>
-
-
-
-</div>
-<div id="property_engine" class="property item private inherited">
-    <h3 class="name"><code>engine</code></h3>
-    <span class="type"><a href="../classes/Engine.html" class="crosslink">Engine</a></span>
-
-
-        <span class="flag private">private</span>
-
-
-
-    <div class="meta">
-                <p>Inherited from
-                <a href="../classes/ShareableContextConsumer.html#property_engine">ShareableContextConsumer</a>:
-        <a href="../files/src_davinci-eight_core_ShareableContextConsumer.ts.html#l39"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableContextConsumer.ts:39</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-
-</div>
-<div id="property_gl" class="property item deprecated inherited">
-    <h3 class="name"><code>gl</code></h3>
-    <span class="type">WebGLRenderingContext</span>
-
-        <span class="flag deprecated">deprecated</span>
-
-
-
-
-    <div class="meta">
-                <p>Inherited from
-                <a href="../classes/ShareableContextConsumer.html#property_gl">ShareableContextConsumer</a>:
-        <a href="../files/src_davinci-eight_core_ShareableContextConsumer.ts.html#l137"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableContextConsumer.ts:137</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>
-Provides access to the underlying WebGL context.
-</p>
-<p>
-This property is deprecated to encourage access throught the <code>ContextProvider</code>.
-</p>
     </div>
 
 
@@ -1468,9 +1187,36 @@ This property is deprecated to encourage access throught the <code>ContextProvid
 
 
     <div class="meta">
+            <p>Inherited from
+            <a href="../classes/Geometry.html#property_partsLength">
+                Geometry
+            </a>
+            but overwritten in
+        <a href="../files/src_davinci-eight_core_GeometryElements.ts.html#l104"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryElements.ts:104</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_scaling" class="property item inherited">
+    <h3 class="name"><code>scaling</code></h3>
+    <span class="type"><a href="../classes/Matrix4.html" class="crosslink">Matrix4</a></span>
+
+
+
+
+
+    <div class="meta">
                 <p>Inherited from
-                <a href="../classes/GeometryBuffers.html#property_partsLength">GeometryBuffers</a>:
-        <a href="../files/src_davinci-eight_core_GeometryBuffers.ts.html#l84"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryBuffers.ts:84</code></a>
+                <a href="../classes/Geometry.html#property_scaling">Geometry</a>:
+        <a href="../files/src_davinci-eight_core_Geometry.ts.html#l25"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Geometry.ts:25</code></a>
         </p>
 
 

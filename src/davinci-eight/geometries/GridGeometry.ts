@@ -1,12 +1,12 @@
-import GeometryBuffers from '../core/GeometryBuffers'
+import GeometryElements from '../core/GeometryElements'
 import GridGeometryOptions from './GridGeometryOptions'
 import gridVertexArrays from './gridVertexArrays'
 
 /**
  * @class GridGeometry
- * @extends GeometryBuffers
+ * @extends GeometryElements
  */
-export default class GridGeometry extends GeometryBuffers {
+export default class GridGeometry extends GeometryElements {
 
   /**
    * @class GridGeometry
@@ -14,6 +14,6 @@ export default class GridGeometry extends GeometryBuffers {
    * @param [options] {GridGeometryOptions}
    */
   constructor(options: GridGeometryOptions = {}) {
-    super(gridVertexArrays(options))
+    super(gridVertexArrays(options), options.engine)
   }
 }

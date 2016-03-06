@@ -35,10 +35,10 @@ export default function(
         refChange('start', 'bootstrap')
     }
 
-    const renderer = new Engine()
-    renderer.clearColor(0.1, 0.1, 0.1, 1.0)
+    const engine = new Engine()
+    engine.clearColor(0.1, 0.1, 0.1, 1.0)
 
-    const drawList = new DrawList()
+    const drawList = new DrawList(engine)
 
     const ambients: Facet[] = []
 
@@ -53,14 +53,14 @@ export default function(
 
     const controls = new CameraControls(camera)
 
-    const world = new World(renderer, drawList, ambients, controls)
+    const world = new World(engine, drawList, ambients, controls)
 
     let requestId: number;
 
     function step(timestamp: number) {
         requestId = window.requestAnimationFrame(step)
 
-        renderer.clear()
+        engine.clear()
 
         controls.update()
 
@@ -90,7 +90,7 @@ export default function(
         else {
             canvas.width = 600
         }
-        renderer.start(canvas)
+        engine.start(canvas)
 
         controls.subscribe(world.canvas)
         controls.rotateSpeed = 4
@@ -114,7 +114,7 @@ export default function(
 
         controls.release()
         drawList.release()
-        renderer.release()
+        engine.release()
 
         if (options.memcheck) {
             refChange('stop', 'onunload')

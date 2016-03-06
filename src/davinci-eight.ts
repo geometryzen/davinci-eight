@@ -32,7 +32,7 @@ import ContextConsumer from './davinci-eight/core/ContextConsumer';
 import ContextProgramConsumer from './davinci-eight/core/ContextProgramConsumer';
 import ContextProvider from './davinci-eight/core/ContextProvider';
 import GeometryContainer from './davinci-eight/core/GeometryContainer';
-import GeometryBuffers from './davinci-eight/core/GeometryBuffers';
+import GeometryElements from './davinci-eight/core/GeometryElements';
 import GraphicsProgramSymbols from './davinci-eight/core/GraphicsProgramSymbols';
 import Facet from './davinci-eight/core/Facet';
 import FacetVisitor from './davinci-eight/core/FacetVisitor';
@@ -42,6 +42,7 @@ import UniformLocation from './davinci-eight/core/UniformLocation';
 import UniformMetaInfo from './davinci-eight/core/UniformMetaInfo';
 import Engine from './davinci-eight/core/Engine';
 import initWebGL from './davinci-eight/core/initWebGL';
+import VertexBuffer from './davinci-eight/core/VertexBuffer';
 
 // devices
 import Keyboard from './davinci-eight/devices/Keyboard';
@@ -269,6 +270,7 @@ const eight = {
   get ErrorMode() { return ErrorMode },
   get AttribLocation() { return AttribLocation },
   get UniformLocation() { return UniformLocation },
+  get VertexBuffer() { return VertexBuffer },
   get smartProgram() {
     return smartProgram
   },
@@ -319,7 +321,7 @@ const eight = {
 
   get GraphicsProgramSymbols() { return GraphicsProgramSymbols },
   get GeometryContainer() { return GeometryContainer },
-  get GeometryBuffers() { return GeometryBuffers },
+  get GeometryElements() { return GeometryElements },
 
   // overlay
   get Overlay() { return Overlay },

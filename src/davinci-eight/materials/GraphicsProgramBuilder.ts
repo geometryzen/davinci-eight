@@ -1,3 +1,4 @@
+import Engine from '../core/Engine';
 import getAttribVarName from '../core/getAttribVarName';
 import glslAttribType from './glslAttribType';
 import mustBeInteger from '../checks/mustBeInteger';
@@ -55,14 +56,14 @@ export default class GraphicsProgramBuilder {
         return this
     }
 
-    public build(): SmartGraphicsProgram {
+    public build(engine: Engine): SmartGraphicsProgram {
         // FIXME: Push this calculation down into the functions.
         // Then the data structures are based on size.
         // uniforms based on numeric type?
         const aParams = computeAttribParams(this.aMeta)
         const vColor = vColorRequired(aParams, this.uParams)
         const vLight = vLightRequired(aParams, this.uParams)
-        return new SmartGraphicsProgram(aParams, this.uParams, vColor, vLight)
+        return new SmartGraphicsProgram(aParams, this.uParams, vColor, vLight, engine)
     }
 
     public vertexShaderSrc(): string {

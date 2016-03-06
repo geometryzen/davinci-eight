@@ -1,3 +1,4 @@
+import Engine from '../core/Engine'
 import mustBeObject from '../checks/mustBeObject';
 import mustBeString from '../checks/mustBeString';
 import Material from './Material';
@@ -9,8 +10,9 @@ import Material from './Material';
  * fsId The fragment shader script element identifier.
  * dom The DOM document containing the script elements.
  * [attribs = []] The attribute indices (implied by order of the name in the array).
+ * engine
  */
-export default function programFromScripts(vsId: string, fsId: string, dom: Document, attribs: string[] = []): Material {
+export default function programFromScripts(vsId: string, fsId: string, dom: Document, attribs: string[], engine: Engine): Material {
   mustBeString('vsId', vsId)
   mustBeString('fsId', fsId)
   mustBeObject('dom', dom)
@@ -28,5 +30,5 @@ export default function programFromScripts(vsId: string, fsId: string, dom: Docu
 
   const vertexShaderSrc: string = $(vsId).textContent
   const fragmentShaderSrc: string = $(fsId).textContent
-  return new Material(vertexShaderSrc, fragmentShaderSrc, attribs, 'programFromScripts')
+  return new Material(vertexShaderSrc, fragmentShaderSrc, attribs, 'programFromScripts', engine)
 }

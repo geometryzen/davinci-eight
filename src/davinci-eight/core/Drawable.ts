@@ -1,4 +1,5 @@
 import ContextProvider from '../core/ContextProvider';
+import Engine from '../core/Engine';
 import mustBeBoolean from '../checks/mustBeBoolean'
 import Geometry from './Geometry';
 import AbstractDrawable from './AbstractDrawable'
@@ -58,9 +59,10 @@ export default class Drawable extends ShareableContextConsumer implements Abstra
    * @param type {string}
    * @param geometry {Geometry}
    * @param material {AbstractMaterial}
+   * @param engine {Engine} The <code>Engine</code> to subscribe to or <code>null</code> for deferred subscription.
    */
-  constructor(type: string, geometry: Geometry, material: AbstractMaterial) {
-    super(type)
+  constructor(type: string, geometry: Geometry, material: AbstractMaterial, engine: Engine) {
+    super(type, engine)
     this.geometry = geometry
     this.material = material
     this._facets = {}

@@ -1,3 +1,4 @@
+import Engine from '../core/Engine'
 import Geometry from '../core/Geometry'
 import Primitive from '../core/Primitive'
 import Spinor3 from '../math/Spinor3'
@@ -30,9 +31,10 @@ interface GeometryBuilder {
     /**
      * @method toGeometry
      * @param type {string}
+     * @param engine {Engine}
      * @return {Geometry}
      */
-    toGeometry(type: string): Geometry
+    toGeometry(type: string, engine: Engine): Geometry
 
     /**
      * @method toPrimitives

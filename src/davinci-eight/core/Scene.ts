@@ -119,11 +119,10 @@ export default class Scene extends ShareableContextConsumer {
    * @param engine {Engine}
    */
   constructor(engine: Engine) {
-    super('Scene')
+    super('Scene', engine)
     mustBeObject('engine', engine)
     this._drawables = new ShareableArray<AbstractDrawable>()
     this._parts = new ShareableArray<ScenePart>()
-    this.subscribe(engine)
   }
 
   /**
@@ -132,7 +131,6 @@ export default class Scene extends ShareableContextConsumer {
    * @protected
    */
   protected destructor(): void {
-    this.unsubscribe()
     this._drawables.release()
     this._parts.release()
     super.destructor()

@@ -1,7 +1,15 @@
+import MaterialOptions from './MaterialOptions'
+
+/**
+ * @module EIGHT
+ * @submodule materials
+ */
+
 /**
  * @class PointMaterialOptions
+ * @extends MaterialOptions
  */
-interface PointMaterialOptions {
+interface PointMaterialOptions extends MaterialOptions {
 
   /**
    * @attribute attributes

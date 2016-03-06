@@ -1,6 +1,7 @@
+import Engine from '../core/Engine'
 import GeometryBuilder from './GeometryBuilder'
 import Geometry from '../core/Geometry'
-import GeometryBuffers from '../core/GeometryBuffers'
+import GeometryElements from '../core/GeometryElements'
 import GeometryContainer from '../core/GeometryContainer'
 import Primitive from '../core/Primitive';
 import Spinor3 from '../math/Spinor3';
@@ -98,10 +99,11 @@ export default class PrimitivesBuilder implements GeometryBuilder {
     /**
      * @method toGeometry
      * @param type {string}
+     * @param engine {Engine}
      * @return {Geometry}
      * @beta
      */
-    toGeometry(type: string): Geometry {
+    toGeometry(type: string, engine: Engine): Geometry {
         // FIXME: This method probably should not exist because the 
         // container must be overridden to provide scaling methods.
         const container = new GeometryContainer(type, this.tilt)
@@ -109,7 +111,7 @@ export default class PrimitivesBuilder implements GeometryBuilder {
         const iLen = ps.length
         for (let i = 0; i < iLen; i++) {
             const dataSource = ps[i]
-            const geometry = new GeometryBuffers(vertexArraysFromPrimitive(dataSource))
+            const geometry = new GeometryElements(vertexArraysFromPrimitive(dataSource), engine)
             container.addPart(geometry)
             geometry.release()
         }

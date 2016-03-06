@@ -12,7 +12,9 @@ import VectorE3 from '../math/VectorE3'
  */
 
 /**
+ * <p>
  * Decorates the Mesh by adding properties for physical modeling.
+ * </p>
  *
  * @class RigidBody
  * @extends Mesh
@@ -53,7 +55,7 @@ export default class RigidBody extends Mesh implements IRigidBody<number, Geomet
    * @param initialAxis {VectorE3} The initial direction of the symmetry axis
    */
   constructor(type: string, initialAxis: VectorE3) {
-    super(type, void 0, void 0)
+    super(type, void 0, void 0, null)
     this.initialAxis = R3.fromVector(initialAxis, Unit.ONE)
   }
 

@@ -1,6 +1,7 @@
 import Color from './Color';
 import ColorFacet from '../facets/ColorFacet'
 import Drawable from './Drawable'
+import Engine from './Engine'
 import Geometric3 from '../math/Geometric3'
 import Geometry from './Geometry'
 import AbstractMaterial from './AbstractMaterial'
@@ -33,12 +34,13 @@ export default class Mesh extends Drawable implements AbstractMesh {
   /**
    * @class Mesh
    * @constructor
-   * @param [type = 'Mesh'] {string}
-   * @param [geometry] {Geometry}
-   * @param [material] {AbstractMaterial}
+   * @param type {string}
+   * @param geometry {Geometry}
+   * @param material {AbstractMaterial}
+   * @param engine {Engine} The <code>Engine</code> to subscribe to or <code>null</code> for deferred subscription.
    */
-  constructor(type: string/* = 'Mesh'*/, geometry: Geometry, material: AbstractMaterial) {
-    super(type, geometry, material)
+  constructor(type: string, geometry: Geometry, material: AbstractMaterial, engine: Engine) {
+    super(type, geometry, material, engine)
 
     const modelFacet = new ModelFacet()
     this.setFacet(MODEL_FACET_NAME, modelFacet)

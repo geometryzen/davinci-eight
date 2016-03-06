@@ -1,12 +1,12 @@
-import GeometryBuffers from '../core/GeometryBuffers'
+import GeometryElements from '../core/GeometryElements'
 import CurveGeometryOptions from './CurveGeometryOptions'
 import curveVertexArrays from './curveVertexArrays'
 
 /**
  * @class CurveGeometry
- * @extends GeometryBuffers
+ * @extends GeometryElements
  */
-export default class CurveGeometry extends GeometryBuffers {
+export default class CurveGeometry extends GeometryElements {
 
   /**
    * @class CurveGeometry
@@ -14,6 +14,6 @@ export default class CurveGeometry extends GeometryBuffers {
    * @param [options] {CurveGeometryOptions}
    */
   constructor(options: CurveGeometryOptions = {}) {
-    super(curveVertexArrays(options))
+    super(curveVertexArrays(options), options.engine)
   }
 }

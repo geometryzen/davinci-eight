@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src/davinci-eight/core/ShareableWebGLBuffer.ts - davinci-eight</title>
+    <title>src/davinci-eight/core/GeometryElements.ts - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.209.0</em>
+            <em>API Docs for: 2.210.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -48,6 +48,7 @@
                                 <li><a href="../classes/Arrow.html">Arrow</a></li>
                                 <li><a href="../classes/ArrowBuilder.html">ArrowBuilder</a></li>
                                 <li><a href="../classes/ArrowGeometry.html">ArrowGeometry</a></li>
+                                <li><a href="../classes/ArrowGeometryOptions.html">ArrowGeometryOptions</a></li>
                                 <li><a href="../classes/ArrowOptions.html">ArrowOptions</a></li>
                                 <li><a href="../classes/AttribLocation.html">AttribLocation</a></li>
                                 <li><a href="../classes/AttribMetaInfo.html">AttribMetaInfo</a></li>
@@ -63,7 +64,6 @@
                                 <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
-                                <li><a href="../classes/CommonOptions.html">CommonOptions</a></li>
                                 <li><a href="../classes/ConeTransform.html">ConeTransform</a></li>
                                 <li><a href="../classes/ConicalShellBuilder.html">ConicalShellBuilder</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
@@ -106,9 +106,9 @@
                                 <li><a href="../classes/GeometricE2.html">GeometricE2</a></li>
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
-                                <li><a href="../classes/GeometryBuffers.html">GeometryBuffers</a></li>
                                 <li><a href="../classes/GeometryBuilder.html">GeometryBuilder</a></li>
                                 <li><a href="../classes/GeometryContainer.html">GeometryContainer</a></li>
+                                <li><a href="../classes/GeometryElements.html">GeometryElements</a></li>
                                 <li><a href="../classes/GeometryOptions.html">GeometryOptions</a></li>
                                 <li><a href="../classes/GeometryPrimitive.html">GeometryPrimitive</a></li>
                                 <li><a href="../classes/GraphicsProgramSymbols.html">GraphicsProgramSymbols</a></li>
@@ -120,11 +120,13 @@
                                 <li><a href="../classes/GridPrimitive.html">GridPrimitive</a></li>
                                 <li><a href="../classes/GridTriangleStrip.html">GridTriangleStrip</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
+                                <li><a href="../classes/IndexBuffer.html">IndexBuffer</a></li>
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
                                 <li><a href="../classes/LineMaterialOptions.html">LineMaterialOptions</a></li>
                                 <li><a href="../classes/LinePoints.html">LinePoints</a></li>
                                 <li><a href="../classes/LineStrip.html">LineStrip</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
+                                <li><a href="../classes/MaterialOptions.html">MaterialOptions</a></li>
                                 <li><a href="../classes/Matrix2.html">Matrix2</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
                                 <li><a href="../classes/Matrix4.html">Matrix4</a></li>
@@ -163,7 +165,6 @@
                                 <li><a href="../classes/ShareableArray.html">ShareableArray</a></li>
                                 <li><a href="../classes/ShareableBase.html">ShareableBase</a></li>
                                 <li><a href="../classes/ShareableContextConsumer.html">ShareableContextConsumer</a></li>
-                                <li><a href="../classes/ShareableWebGLBuffer.html">ShareableWebGLBuffer</a></li>
                                 <li><a href="../classes/ShareableWebGLShader.html">ShareableWebGLShader</a></li>
                                 <li><a href="../classes/ShareableWebGLTexture.html">ShareableWebGLTexture</a></li>
                                 <li><a href="../classes/SimplexPrimitivesBuilder.html">SimplexPrimitivesBuilder</a></li>
@@ -205,8 +206,11 @@
                                 <li><a href="../classes/VersionLogger.html">VersionLogger</a></li>
                                 <li><a href="../classes/Vertex.html">Vertex</a></li>
                                 <li><a href="../classes/VertexArrays.html">VertexArrays</a></li>
+                                <li><a href="../classes/VertexAttribPointer.html">VertexAttribPointer</a></li>
                                 <li><a href="../classes/VertexAttributeMap.html">VertexAttributeMap</a></li>
+                                <li><a href="../classes/VertexBuffer.html">VertexBuffer</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
+                                <li><a href="../classes/VisualOptions.html">VisualOptions</a></li>
                                 <li><a href="../classes/WebGLBlendFunc.html">WebGLBlendFunc</a></li>
                                 <li><a href="../classes/WebGLClearColor.html">WebGLClearColor</a></li>
                                 <li><a href="../classes/WebGLDisable.html">WebGLDisable</a></li>
@@ -257,15 +261,24 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: src/davinci-eight/core/ShareableWebGLBuffer.ts</h1>
+<h1 class="file-heading">File: src/davinci-eight/core/GeometryElements.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import ContextProvider from &#x27;./ContextProvider&#x27;;
-import mustBeBoolean from &#x27;../checks/mustBeBoolean&#x27;;
-import mustBeObject from &#x27;../checks/mustBeObject&#x27;;
-import mustBeUndefined from &#x27;../checks/mustBeUndefined&#x27;;
-import ShareableContextConsumer from &#x27;./ShareableContextConsumer&#x27;;
+import DrawMode from &#x27;./DrawMode&#x27;
+import Engine from &#x27;../core/Engine&#x27;
+import VertexBuffer from &#x27;./VertexBuffer&#x27;
+import ContextProvider from &#x27;../core/ContextProvider&#x27;
+import notImplemented from &#x27;../i18n/notImplemented&#x27;
+import notSupported from &#x27;../i18n/notSupported&#x27;
+import AbstractMaterial from &#x27;./AbstractMaterial&#x27;
+import Matrix4 from &#x27;../math/Matrix4&#x27;
+import VertexAttribPointer from &#x27;./VertexAttribPointer&#x27;
+import Geometry from &#x27;./Geometry&#x27;
+import readOnly from &#x27;../i18n/readOnly&#x27;
+import ShareableContextConsumer from &#x27;./ShareableContextConsumer&#x27;
+import IndexBuffer from &#x27;./IndexBuffer&#x27;
+import VertexArrays from &#x27;./VertexArrays&#x27;
 
 /**
  * @module EIGHT
@@ -273,121 +286,219 @@ import ShareableContextConsumer from &#x27;./ShareableContextConsumer&#x27;;
  */
 
 /**
- * @class ShareableWebGLBuffer
- * @extends ShareableBase
+ * A Geometry that supports interleaved vertex buffers.
+ *
+ * @class GeometryElements
+ * @extends ShareableContextConsumer
+ * @extends Geometry
  */
-export default class ShareableWebGLBuffer extends ShareableContextConsumer {
+export default class GeometryElements extends ShareableContextConsumer implements Geometry {
 
-    /**
-     * @property _buffer
-     * @type WebGLBuffer
-     * @private
-     */
-    private _buffer: WebGLBuffer;
+  private drawMode: DrawMode;
+  private indices: number[];
+  private attributes: number[];
+  private stride: number;
+  private pointers: VertexAttribPointer[];
 
-    /**
-     * @property _isElements
-     * @type boolean
-     * @private
-     */
-    private _isElements: boolean;
+  private mode: number;
+  private count: number;
+  private offset = 0;
+  private ibo: IndexBuffer;
+  private vbo: VertexBuffer;
 
-    /**
-     * Cache the target when we have a context.
-     * @property _target
-     * @type {number}
-     * @private
-     */
-    private _target: number;
+  /**
+   * @class GeometryElements
+   * @constructor
+   * @param data {VertexArrays}
+   * @param engine {Engine} The &lt;code&gt;Engine&lt;/code&gt; to subscribe to or &lt;code&gt;null&lt;/code&gt; for deferred subscription.
+   */
+  constructor(data: VertexArrays, engine: Engine) {
+    super(&#x27;GeometryElements&#x27;, engine)
+    // FIXME: We should do a deep copy.
+    this.drawMode = data.drawMode;
+    this.indices = data.indices;
+    this.attributes = data.attributes;
+    this.stride = data.stride
+    this.pointers = data.pointers
 
-    /**
-     * @class ShareableWebGLBuffer
-     * @constructor
-     * @param manager {ContextProvider}
-     * @param isElements {boolean}
-     */
-    constructor(isElements: boolean) {
-        super(&#x27;ShareableWebGLBuffer&#x27;)
-        this._isElements = mustBeBoolean(&#x27;isElements&#x27;, isElements)
+    this.count = this.indices.length
+    this.ibo = new IndexBuffer(engine)
+    this.ibo.data = new Uint16Array(this.indices)
+    this.vbo = new VertexBuffer(engine)
+    this.vbo.data = new Float32Array(this.attributes)
+  }
+
+  /**
+   * @method destructor
+   * @return {void}
+   * @protected
+   */
+  protected destructor(): void {
+    this.ibo.release()
+    this.ibo = void 0
+    this.vbo.release()
+    this.vbo = void 0
+    super.destructor()
+  }
+
+  /**
+   * @property data
+   * @type VertexArrays
+   * @readOnly
+   */
+  get data(): VertexArrays {
+    // FIXME: This should return a deep copy.
+    return {
+      drawMode: this.drawMode,
+      indices: this.indices,
+      attributes: this.attributes,
+      stride: this.stride,
+      pointers: this.pointers
     }
+  }
+  set data(data: VertexArrays) {
+    throw new Error(readOnly(&#x27;data&#x27;).message)
+  }
 
-    /**
-     * @method destructor
-     * @return {void}
-     * @protected
-     */
-    protected destructor(): void {
-        this._isElements = void 0
-        this._target = void 0
-        super.destructor()
-        mustBeUndefined(this._type, this._buffer)
-    }
+  /**
+   * @method isLeaf
+   * @return {boolean}
+   */
+  public isLeaf(): boolean {
+    return true
+  }
 
-    contextFree(context: ContextProvider): void {
-        mustBeObject(&#x27;context&#x27;, context)
-        if (this._buffer) {
-            const gl = context.gl
-            if (gl) {
-                gl.deleteBuffer(this._buffer)
-            }
-            else {
-                console.error(&#x60;${this._type} must leak WebGLBuffer because WebGLRenderingContext is &#x60; + typeof gl)
-            }
-            this._buffer = void 0
-            this._target = void 0
-        }
-        else {
-            // It&#x27;s a duplicate, ignore.
-        }
-        super.contextFree(context)
-    }
+  /**
+   * @property partsLength
+   * @type number
+   * @readOnly
+   */
+  get partsLength(): number {
+    return 0
+  }
+  set partsLength(unused) {
+    throw new Error(readOnly(&#x27;partsLength&#x27;).message)
+  }
 
-    contextGain(context: ContextProvider): void {
-        mustBeObject(&#x27;context&#x27;, context)
-        const gl = context.gl
-        if (!this._buffer) {
-            this._buffer = gl.createBuffer()
-            this._target = this._isElements ? gl.ELEMENT_ARRAY_BUFFER : gl.ARRAY_BUFFER
-        }
-        else {
-            // It&#x27;s a duplicate, ignore the call.
-        }
-        super.contextGain(context)
-    }
+  get scaling() {
+    throw new Error(notImplemented(&#x27;get scaling&#x27;).message)
+  }
+  set scaling(scaling: Matrix4) {
+    throw new Error(notImplemented(&#x27;set scaling&#x27;).message)
+  }
 
-    contextLost(): void {
-        this._buffer = void 0
-        this._target = void 0
-        super.contextLost()
-    }
+  /**
+   * @method addPart
+   * @param geometry {Geometry}
+   * @return {void}
+   */
+  addPart(geometry: Geometry): void {
+    throw new Error(notSupported(&#x27;addPart&#x27;).message)
+  }
 
-    /**
-     * @method bind
-     * @return {void}
-     */
-    bind(): void {
-        const gl = this.gl
-        if (gl) {
-            gl.bindBuffer(this._target, this._buffer)
-        }
-        else {
-            console.warn(&#x60;${this._type}.bind() ignored because no context.&#x60;)
-        }
-    }
+  /**
+   * @method removePart
+   * @param index {number}
+   * @return {void}
+   */
+  removePart(index: number): void {
+    throw new Error(notSupported(&#x27;removePart&#x27;).message)
+  }
 
-    /**
-     * @method unbind
-     * @return {void}
-     */
-    unbind() {
-        const gl = this.gl
-        if (gl) {
-            gl.bindBuffer(this._target, null)
+  /**
+   * @method getPart
+   * @param index {number}
+   * @return {Geometry}
+   */
+  getPart(index: number): Geometry {
+    throw new Error(notSupported(&#x27;getPart&#x27;).message)
+  }
+
+  /**
+   * @method contextFree
+   * @param contextProvider {ContextProvider}
+   * @return {void}
+   */
+  public contextFree(contextProvider: ContextProvider): void {
+    this.ibo.contextFree(contextProvider)
+    this.vbo.contextFree(contextProvider)
+    super.contextFree(contextProvider)
+  }
+
+  /**
+   * @method contextGain
+   * @param contextProvider {ContextProvider}
+   * @return {void}
+   */
+  public contextGain(contextProvider: ContextProvider): void {
+    this.mode = contextProvider.drawModeToGL(this.drawMode)
+    this.ibo.contextGain(contextProvider)
+    this.vbo.contextGain(contextProvider)
+    super.contextGain(contextProvider)
+  }
+
+  /**
+   * @method contextLost
+   * @return {void}
+   */
+  public contextLost(): void {
+    this.ibo.contextLost()
+    this.vbo.contextLost()
+    super.contextLost()
+  }
+
+  /**
+   * @method draw
+   * @param material {AbstractMaterial}
+   * @return {void}
+   */
+  draw(material: AbstractMaterial): void {
+    const contextProvider = this.contextProvider
+    if (contextProvider) {
+      this.vbo.bind()
+      const iLength = this.pointers.length
+      for (let i = 0; i &lt; iLength; i++) {
+        const pointer = this.pointers[i]
+        const attribLoc = material.getAttribLocation(pointer.name)
+        if (attribLoc &gt;= 0) {
+          contextProvider.vertexAttribPointer(attribLoc, pointer.size, pointer.normalized, this.stride, pointer.offset)
+          contextProvider.enableVertexAttribArray(attribLoc)
         }
-        else {
-            console.warn(&#x60;${this._type}.unbind() ignored because no context.&#x60;)
-        }
+      }
+      this.ibo.bind()
+      contextProvider.drawElements(this.mode, this.count, this.offset)
+      this.ibo.unbind()
+      this.vbo.unbind()
     }
+  }
+
+  /**
+   * @method hasPrincipalScale
+   * @param name {string}
+   * @return {boolean}
+   */
+  hasPrincipalScale(name: string): boolean {
+    throw new Error(notImplemented(&#x60;hasPrincipalScale(${name})&#x60;).message)
+  }
+
+  /**
+   * @method getPrincipalScale
+   * @param name {string}
+   * @return {number}
+   */
+  public getPrincipalScale(name: string): number {
+    throw new Error(notImplemented(&#x27;getPrincipalScale&#x27;).message)
+  }
+
+  /**
+   * @method setPrincipalScale
+   * @param name {string}
+   * @param value {number}
+   * @return {void}
+   */
+  public setPrincipalScale(name: string, value: number): void {
+    throw new Error(notImplemented(&#x27;setPrincipalScale&#x27;).message)
+  }
 }
 
     </pre>

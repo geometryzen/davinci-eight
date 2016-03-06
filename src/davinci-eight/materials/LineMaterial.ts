@@ -1,6 +1,9 @@
+import Engine from '../core/Engine'
 import GraphicsProgramBuilder from '../materials/GraphicsProgramBuilder'
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols'
 import isDefined from '../checks/isDefined'
+import isNull from '../checks/isNull'
+import isUndefined from '../checks/isUndefined'
 import LineMaterialOptions from './LineMaterialOptions'
 import Material from './Material'
 import mustBeObject from '../checks/mustBeObject'
@@ -12,10 +15,7 @@ import mustBeObject from '../checks/mustBeObject'
 
 function builder(options?: LineMaterialOptions) {
 
-  if (isDefined(options)) {
-    mustBeObject('options', options)
-  }
-  else {
+  if (isNull(options) || isUndefined(options)) {
     options = { attributes: {}, uniforms: {} }
 
     options.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = 3
@@ -24,6 +24,9 @@ function builder(options?: LineMaterialOptions) {
     options.uniforms[GraphicsProgramSymbols.UNIFORM_MODEL_MATRIX] = 'mat4'
     options.uniforms[GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX] = 'mat4'
     options.uniforms[GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX] = 'mat4'
+  }
+  else {
+    mustBeObject('options', options)
   }
 
   const attributes: { [name: string]: number } = isDefined(options.attributes) ? options.attributes : {}
@@ -72,9 +75,10 @@ export default class LineMaterial extends Material {
   /**
    * @class LineMaterial
    * @constructor
-   * @param [options] {LineMaterialOptions}
+   * @param options {LineMaterialOptions}
+   * @param engine {Engine}
    */
-  constructor(options?: LineMaterialOptions) {
-    super(vertexShaderSrc(options), fragmentShaderSrc(options), [], 'LineMaterial')
+  constructor(options: LineMaterialOptions, engine: Engine) {
+    super(vertexShaderSrc(options), fragmentShaderSrc(options), [], 'LineMaterial', engine)
   }
 }

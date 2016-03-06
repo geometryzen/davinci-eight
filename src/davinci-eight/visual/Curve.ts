@@ -110,7 +110,7 @@ function configPoints(options: CurveOptions, curve: Curve) {
   matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX] = 'mat4'
   matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_POINT_SIZE] = 'float'
 
-  const material = new PointMaterial(matOptions)
+  const material = new PointMaterial(matOptions, options.engine)
   curve.material = material
   material.release()
 }
@@ -146,7 +146,7 @@ function configLines(options: CurveOptions, curve: Curve) {
   matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX] = 'mat4'
   matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX] = 'mat4'
 
-  const material = new LineMaterial(matOptions)
+  const material = new LineMaterial(matOptions, options.engine)
   curve.material = material
   material.release()
 }
@@ -164,7 +164,7 @@ export default class Curve extends Mesh {
    * @param [options] {CurveOptions}
    */
   constructor(options: CurveOptions = {}) {
-    super('Curve', void 0, void 0)
+    super('Curve', void 0, void 0, options.engine)
 
     const drawMode: DrawMode = isDefined(options.drawMode) ? options.drawMode : DrawMode.LINES
     switch (drawMode) {
