@@ -17,6 +17,6 @@ export default function(mode: DrawMode, gl: WebGLRenderingContext): number {
         case DrawMode.POINTS:
             return gl.POINTS
         default:
-            throw new Error(`Undexpected mode: ${mode}`)
+            throw new Error(`Unexpected mode: ${mode}`)
     }
 }

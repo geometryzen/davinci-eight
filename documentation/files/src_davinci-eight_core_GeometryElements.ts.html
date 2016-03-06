@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.210.0</em>
+            <em>API Docs for: 2.211.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -265,20 +265,29 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
+import AbstractMaterial from &#x27;./AbstractMaterial&#x27;
+import ContextProvider from &#x27;./ContextProvider&#x27;
+import core from &#x27;../core&#x27;
 import DrawMode from &#x27;./DrawMode&#x27;
-import Engine from &#x27;../core/Engine&#x27;
-import VertexBuffer from &#x27;./VertexBuffer&#x27;
-import ContextProvider from &#x27;../core/ContextProvider&#x27;
+import Engine from &#x27;./Engine&#x27;
+import ErrorMode from &#x27;./ErrorMode&#x27;
+import Geometry from &#x27;./Geometry&#x27;
+import IndexBuffer from &#x27;./IndexBuffer&#x27;
+import isArray from &#x27;../checks/isArray&#x27;
+import isNull from &#x27;../checks/isNull&#x27;
+import isNumber from &#x27;../checks/isNumber&#x27;
+import isObject from &#x27;../checks/isObject&#x27;
+import isUndefined from &#x27;../checks/isUndefined&#x27;
+import Matrix4 from &#x27;../math/Matrix4&#x27;
+import mustBeArray from &#x27;../checks/mustBeArray&#x27;
+import mustBeObject from &#x27;../checks/mustBeObject&#x27;
 import notImplemented from &#x27;../i18n/notImplemented&#x27;
 import notSupported from &#x27;../i18n/notSupported&#x27;
-import AbstractMaterial from &#x27;./AbstractMaterial&#x27;
-import Matrix4 from &#x27;../math/Matrix4&#x27;
-import VertexAttribPointer from &#x27;./VertexAttribPointer&#x27;
-import Geometry from &#x27;./Geometry&#x27;
 import readOnly from &#x27;../i18n/readOnly&#x27;
 import ShareableContextConsumer from &#x27;./ShareableContextConsumer&#x27;
-import IndexBuffer from &#x27;./IndexBuffer&#x27;
 import VertexArrays from &#x27;./VertexArrays&#x27;
+import VertexAttribPointer from &#x27;./VertexAttribPointer&#x27;
+import VertexBuffer from &#x27;./VertexBuffer&#x27;
 
 /**
  * @module EIGHT
@@ -294,14 +303,23 @@ import VertexArrays from &#x27;./VertexArrays&#x27;
  */
 export default class GeometryElements extends ShareableContextConsumer implements Geometry {
 
-  private drawMode: DrawMode;
-  private indices: number[];
-  private attributes: number[];
+  private _drawMode: DrawMode;
+  private _indices: number[];
+  private _attributes: number[];
   private stride: number;
-  private pointers: VertexAttribPointer[];
+  private _pointers: VertexAttribPointer[];
 
   private mode: number;
   private count: number;
+
+  /**
+   * Hard-code to zero right now.
+   * This suggests that the index buffer could be used for several gl.drawElements(...)
+   *
+   * @property offset
+   * @type number
+   * @private
+   */
   private offset = 0;
   private ibo: IndexBuffer;
   private vbo: VertexBuffer;
@@ -314,18 +332,36 @@ export default class GeometryElements extends ShareableContextConsumer implement
    */
   constructor(data: VertexArrays, engine: Engine) {
     super(&#x27;GeometryElements&#x27;, engine)
-    // FIXME: We should do a deep copy.
-    this.drawMode = data.drawMode;
-    this.indices = data.indices;
-    this.attributes = data.attributes;
-    this.stride = data.stride
-    this.pointers = data.pointers
-
-    this.count = this.indices.length
     this.ibo = new IndexBuffer(engine)
-    this.ibo.data = new Uint16Array(this.indices)
     this.vbo = new VertexBuffer(engine)
-    this.vbo.data = new Float32Array(this.attributes)
+
+    if (!isNull(data) &amp;&amp; !isUndefined(data)) {
+      if (isObject(data)) {
+        this._drawMode = data.drawMode;
+        this.setIndices(data.indices)
+
+        this._attributes = data.attributes;
+        this.stride = data.stride
+        if (!isNull(data.pointers) &amp;&amp; !isUndefined(data.pointers)) {
+          if (isArray(data.pointers)) {
+            this._pointers = data.pointers
+          }
+          else {
+            mustBeArray(&#x27;data.pointers&#x27;, data.pointers)
+          }
+        }
+        else {
+          this._pointers = []
+        }
+        this.vbo.data = new Float32Array(data.attributes)
+      }
+      else {
+        mustBeObject(&#x27;data&#x27;, data)
+      }
+    }
+    else {
+      this._pointers = []
+    }
   }
 
   /**
@@ -341,6 +377,16 @@ export default class GeometryElements extends ShareableContextConsumer implement
     super.destructor()
   }
 
+  get attributes(): number[] {
+    return this._attributes
+  }
+  set attributes(attributes: number[]) {
+    if (isArray(attributes)) {
+      this._attributes = attributes
+      this.vbo.data = new Float32Array(attributes)
+    }
+  }
+
   /**
    * @property data
    * @type VertexArrays
@@ -349,15 +395,73 @@ export default class GeometryElements extends ShareableContextConsumer implement
   get data(): VertexArrays {
     // FIXME: This should return a deep copy.
     return {
-      drawMode: this.drawMode,
-      indices: this.indices,
-      attributes: this.attributes,
+      drawMode: this._drawMode,
+      indices: this._indices,
+      attributes: this._attributes,
       stride: this.stride,
-      pointers: this.pointers
+      pointers: this._pointers
     }
   }
   set data(data: VertexArrays) {
     throw new Error(readOnly(&#x27;data&#x27;).message)
+  }
+
+  /**
+   * @property drawMode
+   * @type {DrawMode}
+   */
+  get drawMode(): DrawMode {
+    return this._drawMode
+  }
+  set drawMode(drawMode: DrawMode) {
+    this._drawMode = drawMode
+    if (this.contextProvider) {
+      this.drawMode = this.contextProvider.drawModeToGL(drawMode)
+    }
+  }
+
+  /**
+   * @property indices
+   * @type number[]
+   */
+  get indices(): number[] {
+    return this._indices
+  }
+  set indices(indices: number[]) {
+    this.setIndices(indices)
+  }
+
+  /**
+   * @method setIndices
+   * @param indices {number[]}
+   * @return {void}
+   * @private
+   */
+  private setIndices(indices: number[]): void {
+    if (!isNull(indices) &amp;&amp; !isUndefined(indices)) {
+      if (isArray(indices)) {
+        this._indices = indices;
+        this.count = indices.length
+        this.ibo.data = new Uint16Array(indices)
+      }
+      else {
+        mustBeArray(&#x27;indices&#x27;, indices)
+      }
+    }
+    else {
+      // TBD
+    }
+  }
+
+  /**
+   * @property pointers
+   * @type VertexAttribPointer[]
+   */
+  get pointers(): VertexAttribPointer[] {
+    return this._pointers
+  }
+  set pointers(pointers: VertexAttribPointer[]) {
+    this._pointers = pointers
   }
 
   /**
@@ -431,7 +535,19 @@ export default class GeometryElements extends ShareableContextConsumer implement
    * @return {void}
    */
   public contextGain(contextProvider: ContextProvider): void {
-    this.mode = contextProvider.drawModeToGL(this.drawMode)
+    if (isNumber(this._drawMode)) {
+      this.mode = contextProvider.drawModeToGL(this._drawMode)
+    }
+    else {
+      switch (core.errorMode) {
+        case ErrorMode.WARNME: {
+          console.warn(&#x60;${this._type}.drawMode must be a number.&#x60;)
+        }
+        default: {
+          // Do nothing.
+        }
+      }
+    }
     this.ibo.contextGain(contextProvider)
     this.vbo.contextGain(contextProvider)
     super.contextGain(contextProvider)
@@ -456,17 +572,42 @@ export default class GeometryElements extends ShareableContextConsumer implement
     const contextProvider = this.contextProvider
     if (contextProvider) {
       this.vbo.bind()
-      const iLength = this.pointers.length
-      for (let i = 0; i &lt; iLength; i++) {
-        const pointer = this.pointers[i]
-        const attribLoc = material.getAttribLocation(pointer.name)
-        if (attribLoc &gt;= 0) {
-          contextProvider.vertexAttribPointer(attribLoc, pointer.size, pointer.normalized, this.stride, pointer.offset)
-          contextProvider.enableVertexAttribArray(attribLoc)
+      const pointers = this._pointers
+      if (pointers) {
+        const iLength = pointers.length
+        for (let i = 0; i &lt; iLength; i++) {
+          const pointer = pointers[i]
+          const attribLoc = material.getAttribLocation(pointer.name)
+          if (attribLoc &gt;= 0) {
+            contextProvider.vertexAttribPointer(attribLoc, pointer.size, pointer.normalized, this.stride, pointer.offset)
+            contextProvider.enableVertexAttribArray(attribLoc)
+          }
+        }
+      }
+      else {
+        switch (core.errorMode) {
+          case ErrorMode.WARNME: {
+            console.warn(&#x60;${this._type}.pointers must be an array.&#x60;)
+          }
+          default: {
+            // Do nothing.
+          }
         }
       }
       this.ibo.bind()
-      contextProvider.drawElements(this.mode, this.count, this.offset)
+      if (this.count) {
+        contextProvider.drawElements(this.mode, this.count, this.offset)
+      }
+      else {
+        switch (core.errorMode) {
+          case ErrorMode.WARNME: {
+            console.warn(&#x60;${this._type}.indices must be an array.&#x60;)
+          }
+          default: {
+            // Do nothing.
+          }
+        }
+      }
       this.ibo.unbind()
       this.vbo.unbind()
     }

@@ -8618,133 +8618,6 @@ System.register("davinci-eight/materials/MeshMaterial.js", ["../materials/Graphi
   };
 });
 
-System.register("davinci-eight/core/VertexBuffer.js", ["../checks/mustBeObject", "../checks/mustBeUndefined", "./ShareableContextConsumer"], function(exports_1) {
-  var __extends = (this && this.__extends) || function(d, b) {
-    for (var p in b)
-      if (b.hasOwnProperty(p))
-        d[p] = b[p];
-    function __() {
-      this.constructor = d;
-    }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-  };
-  var mustBeObject_1,
-      mustBeUndefined_1,
-      ShareableContextConsumer_1;
-  var VertexBuffer;
-  function bufferVertexData(contextProvider, buffer, data) {
-    if (contextProvider) {
-      var gl = contextProvider.gl;
-      if (gl) {
-        if (buffer) {
-          gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-          if (data) {
-            gl.bufferData(gl.ARRAY_BUFFER, data, gl.STATIC_DRAW);
-          }
-          gl.bindBuffer(gl.ARRAY_BUFFER, null);
-        }
-      }
-    }
-  }
-  return {
-    setters: [function(mustBeObject_1_1) {
-      mustBeObject_1 = mustBeObject_1_1;
-    }, function(mustBeUndefined_1_1) {
-      mustBeUndefined_1 = mustBeUndefined_1_1;
-    }, function(ShareableContextConsumer_1_1) {
-      ShareableContextConsumer_1 = ShareableContextConsumer_1_1;
-    }],
-    execute: function() {
-      VertexBuffer = (function(_super) {
-        __extends(VertexBuffer, _super);
-        function VertexBuffer(engine) {
-          _super.call(this, 'VertexBuffer', engine);
-        }
-        VertexBuffer.prototype.destructor = function() {
-          _super.prototype.destructor.call(this);
-          mustBeUndefined_1.default(this._type, this._buffer);
-        };
-        Object.defineProperty(VertexBuffer.prototype, "data", {
-          get: function() {
-            return this._data;
-          },
-          set: function(data) {
-            this._data = data;
-            bufferVertexData(this.contextProvider, this._buffer, this._data);
-          },
-          enumerable: true,
-          configurable: true
-        });
-        VertexBuffer.prototype.contextFree = function(contextProvider) {
-          mustBeObject_1.default('contextProvider', contextProvider);
-          if (this._buffer) {
-            var gl = contextProvider.gl;
-            if (gl) {
-              gl.deleteBuffer(this._buffer);
-            } else {
-              console.error((this._type + " must leak WebGLBuffer because WebGLRenderingContext is ") + typeof gl);
-            }
-            this._buffer = void 0;
-          } else {}
-          _super.prototype.contextFree.call(this, contextProvider);
-        };
-        VertexBuffer.prototype.contextGain = function(contextProvider) {
-          mustBeObject_1.default('contextProvider', contextProvider);
-          var gl = contextProvider.gl;
-          if (!this._buffer) {
-            this._buffer = gl.createBuffer();
-            bufferVertexData(contextProvider, this._buffer, this._data);
-          } else {}
-          _super.prototype.contextGain.call(this, contextProvider);
-        };
-        VertexBuffer.prototype.contextLost = function() {
-          this._buffer = void 0;
-          _super.prototype.contextLost.call(this);
-        };
-        VertexBuffer.prototype.bind = function() {
-          var gl = this.gl;
-          if (gl) {
-            gl.bindBuffer(gl.ARRAY_BUFFER, this._buffer);
-          } else {
-            console.warn(this._type + ".bind() ignored because no context.");
-          }
-        };
-        VertexBuffer.prototype.unbind = function() {
-          var gl = this.gl;
-          if (gl) {
-            gl.bindBuffer(gl.ARRAY_BUFFER, null);
-          } else {
-            console.warn(this._type + ".unbind() ignored because no context.");
-          }
-        };
-        return VertexBuffer;
-      })(ShareableContextConsumer_1.default);
-      exports_1("default", VertexBuffer);
-    }
-  };
-});
-
-System.register("davinci-eight/checks/mustBeUndefined.js", ["../checks/mustSatisfy", "../checks/isUndefined"], function(exports_1) {
-  var mustSatisfy_1,
-      isUndefined_1;
-  function beUndefined() {
-    return "be 'undefined'";
-  }
-  function default_1(name, value, contextBuilder) {
-    mustSatisfy_1.default(name, isUndefined_1.default(value), beUndefined, contextBuilder);
-    return value;
-  }
-  exports_1("default", default_1);
-  return {
-    setters: [function(mustSatisfy_1_1) {
-      mustSatisfy_1 = mustSatisfy_1_1;
-    }, function(isUndefined_1_1) {
-      isUndefined_1 = isUndefined_1_1;
-    }],
-    execute: function() {}
-  };
-});
-
 System.register("davinci-eight/core/IndexBuffer.js", ["../checks/mustBeObject", "../checks/mustBeUndefined", "./ShareableContextConsumer"], function(exports_1) {
   var __extends = (this && this.__extends) || function(d, b) {
     for (var p in b)
@@ -8851,7 +8724,28 @@ System.register("davinci-eight/core/IndexBuffer.js", ["../checks/mustBeObject", 
   };
 });
 
-System.register("davinci-eight/core/GeometryElements.js", ["./VertexBuffer", "../i18n/notImplemented", "../i18n/notSupported", "../i18n/readOnly", "./ShareableContextConsumer", "./IndexBuffer"], function(exports_1) {
+System.register("davinci-eight/checks/mustBeUndefined.js", ["../checks/mustSatisfy", "../checks/isUndefined"], function(exports_1) {
+  var mustSatisfy_1,
+      isUndefined_1;
+  function beUndefined() {
+    return "be 'undefined'";
+  }
+  function default_1(name, value, contextBuilder) {
+    mustSatisfy_1.default(name, isUndefined_1.default(value), beUndefined, contextBuilder);
+    return value;
+  }
+  exports_1("default", default_1);
+  return {
+    setters: [function(mustSatisfy_1_1) {
+      mustSatisfy_1 = mustSatisfy_1_1;
+    }, function(isUndefined_1_1) {
+      isUndefined_1 = isUndefined_1_1;
+    }],
+    execute: function() {}
+  };
+});
+
+System.register("davinci-eight/core/VertexBuffer.js", ["../checks/mustBeObject", "../checks/mustBeUndefined", "./ShareableContextConsumer"], function(exports_1) {
   var __extends = (this && this.__extends) || function(d, b) {
     for (var p in b)
       if (b.hasOwnProperty(p))
@@ -8861,16 +8755,149 @@ System.register("davinci-eight/core/GeometryElements.js", ["./VertexBuffer", "..
     }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
   };
-  var VertexBuffer_1,
+  var mustBeObject_1,
+      mustBeUndefined_1,
+      ShareableContextConsumer_1;
+  var VertexBuffer;
+  function bufferVertexData(contextProvider, buffer, data) {
+    if (contextProvider) {
+      var gl = contextProvider.gl;
+      if (gl) {
+        if (buffer) {
+          gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+          if (data) {
+            gl.bufferData(gl.ARRAY_BUFFER, data, gl.STATIC_DRAW);
+          }
+          gl.bindBuffer(gl.ARRAY_BUFFER, null);
+        }
+      }
+    }
+  }
+  return {
+    setters: [function(mustBeObject_1_1) {
+      mustBeObject_1 = mustBeObject_1_1;
+    }, function(mustBeUndefined_1_1) {
+      mustBeUndefined_1 = mustBeUndefined_1_1;
+    }, function(ShareableContextConsumer_1_1) {
+      ShareableContextConsumer_1 = ShareableContextConsumer_1_1;
+    }],
+    execute: function() {
+      VertexBuffer = (function(_super) {
+        __extends(VertexBuffer, _super);
+        function VertexBuffer(engine) {
+          _super.call(this, 'VertexBuffer', engine);
+        }
+        VertexBuffer.prototype.destructor = function() {
+          _super.prototype.destructor.call(this);
+          mustBeUndefined_1.default(this._type, this._buffer);
+        };
+        Object.defineProperty(VertexBuffer.prototype, "data", {
+          get: function() {
+            return this._data;
+          },
+          set: function(data) {
+            this._data = data;
+            bufferVertexData(this.contextProvider, this._buffer, this._data);
+          },
+          enumerable: true,
+          configurable: true
+        });
+        VertexBuffer.prototype.contextFree = function(contextProvider) {
+          mustBeObject_1.default('contextProvider', contextProvider);
+          if (this._buffer) {
+            var gl = contextProvider.gl;
+            if (gl) {
+              gl.deleteBuffer(this._buffer);
+            } else {
+              console.error((this._type + " must leak WebGLBuffer because WebGLRenderingContext is ") + typeof gl);
+            }
+            this._buffer = void 0;
+          } else {}
+          _super.prototype.contextFree.call(this, contextProvider);
+        };
+        VertexBuffer.prototype.contextGain = function(contextProvider) {
+          mustBeObject_1.default('contextProvider', contextProvider);
+          var gl = contextProvider.gl;
+          if (!this._buffer) {
+            this._buffer = gl.createBuffer();
+            bufferVertexData(contextProvider, this._buffer, this._data);
+          } else {}
+          _super.prototype.contextGain.call(this, contextProvider);
+        };
+        VertexBuffer.prototype.contextLost = function() {
+          this._buffer = void 0;
+          _super.prototype.contextLost.call(this);
+        };
+        VertexBuffer.prototype.bind = function() {
+          var gl = this.gl;
+          if (gl) {
+            gl.bindBuffer(gl.ARRAY_BUFFER, this._buffer);
+          } else {
+            console.warn(this._type + ".bind() ignored because no context.");
+          }
+        };
+        VertexBuffer.prototype.unbind = function() {
+          var gl = this.gl;
+          if (gl) {
+            gl.bindBuffer(gl.ARRAY_BUFFER, null);
+          } else {
+            console.warn(this._type + ".unbind() ignored because no context.");
+          }
+        };
+        return VertexBuffer;
+      })(ShareableContextConsumer_1.default);
+      exports_1("default", VertexBuffer);
+    }
+  };
+});
+
+System.register("davinci-eight/core/GeometryElements.js", ["../core", "./ErrorMode", "./IndexBuffer", "../checks/isArray", "../checks/isNull", "../checks/isNumber", "../checks/isObject", "../checks/isUndefined", "../checks/mustBeArray", "../checks/mustBeObject", "../i18n/notImplemented", "../i18n/notSupported", "../i18n/readOnly", "./ShareableContextConsumer", "./VertexBuffer"], function(exports_1) {
+  var __extends = (this && this.__extends) || function(d, b) {
+    for (var p in b)
+      if (b.hasOwnProperty(p))
+        d[p] = b[p];
+    function __() {
+      this.constructor = d;
+    }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+  };
+  var core_1,
+      ErrorMode_1,
+      IndexBuffer_1,
+      isArray_1,
+      isNull_1,
+      isNumber_1,
+      isObject_1,
+      isUndefined_1,
+      mustBeArray_1,
+      mustBeObject_1,
       notImplemented_1,
       notSupported_1,
       readOnly_1,
       ShareableContextConsumer_1,
-      IndexBuffer_1;
+      VertexBuffer_1;
   var GeometryElements;
   return {
-    setters: [function(VertexBuffer_1_1) {
-      VertexBuffer_1 = VertexBuffer_1_1;
+    setters: [function(core_1_1) {
+      core_1 = core_1_1;
+    }, function(ErrorMode_1_1) {
+      ErrorMode_1 = ErrorMode_1_1;
+    }, function(IndexBuffer_1_1) {
+      IndexBuffer_1 = IndexBuffer_1_1;
+    }, function(isArray_1_1) {
+      isArray_1 = isArray_1_1;
+    }, function(isNull_1_1) {
+      isNull_1 = isNull_1_1;
+    }, function(isNumber_1_1) {
+      isNumber_1 = isNumber_1_1;
+    }, function(isObject_1_1) {
+      isObject_1 = isObject_1_1;
+    }, function(isUndefined_1_1) {
+      isUndefined_1 = isUndefined_1_1;
+    }, function(mustBeArray_1_1) {
+      mustBeArray_1 = mustBeArray_1_1;
+    }, function(mustBeObject_1_1) {
+      mustBeObject_1 = mustBeObject_1_1;
     }, function(notImplemented_1_1) {
       notImplemented_1 = notImplemented_1_1;
     }, function(notSupported_1_1) {
@@ -8879,8 +8906,8 @@ System.register("davinci-eight/core/GeometryElements.js", ["./VertexBuffer", "..
       readOnly_1 = readOnly_1_1;
     }, function(ShareableContextConsumer_1_1) {
       ShareableContextConsumer_1 = ShareableContextConsumer_1_1;
-    }, function(IndexBuffer_1_1) {
-      IndexBuffer_1 = IndexBuffer_1_1;
+    }, function(VertexBuffer_1_1) {
+      VertexBuffer_1 = VertexBuffer_1_1;
     }],
     execute: function() {
       GeometryElements = (function(_super) {
@@ -8888,16 +8915,30 @@ System.register("davinci-eight/core/GeometryElements.js", ["./VertexBuffer", "..
         function GeometryElements(data, engine) {
           _super.call(this, 'GeometryElements', engine);
           this.offset = 0;
-          this.drawMode = data.drawMode;
-          this.indices = data.indices;
-          this.attributes = data.attributes;
-          this.stride = data.stride;
-          this.pointers = data.pointers;
-          this.count = this.indices.length;
           this.ibo = new IndexBuffer_1.default(engine);
-          this.ibo.data = new Uint16Array(this.indices);
           this.vbo = new VertexBuffer_1.default(engine);
-          this.vbo.data = new Float32Array(this.attributes);
+          if (!isNull_1.default(data) && !isUndefined_1.default(data)) {
+            if (isObject_1.default(data)) {
+              this._drawMode = data.drawMode;
+              this.setIndices(data.indices);
+              this._attributes = data.attributes;
+              this.stride = data.stride;
+              if (!isNull_1.default(data.pointers) && !isUndefined_1.default(data.pointers)) {
+                if (isArray_1.default(data.pointers)) {
+                  this._pointers = data.pointers;
+                } else {
+                  mustBeArray_1.default('data.pointers', data.pointers);
+                }
+              } else {
+                this._pointers = [];
+              }
+              this.vbo.data = new Float32Array(data.attributes);
+            } else {
+              mustBeObject_1.default('data', data);
+            }
+          } else {
+            this._pointers = [];
+          }
         }
         GeometryElements.prototype.destructor = function() {
           this.ibo.release();
@@ -8906,18 +8947,75 @@ System.register("davinci-eight/core/GeometryElements.js", ["./VertexBuffer", "..
           this.vbo = void 0;
           _super.prototype.destructor.call(this);
         };
+        Object.defineProperty(GeometryElements.prototype, "attributes", {
+          get: function() {
+            return this._attributes;
+          },
+          set: function(attributes) {
+            if (isArray_1.default(attributes)) {
+              this._attributes = attributes;
+              this.vbo.data = new Float32Array(attributes);
+            }
+          },
+          enumerable: true,
+          configurable: true
+        });
         Object.defineProperty(GeometryElements.prototype, "data", {
           get: function() {
             return {
-              drawMode: this.drawMode,
-              indices: this.indices,
-              attributes: this.attributes,
+              drawMode: this._drawMode,
+              indices: this._indices,
+              attributes: this._attributes,
               stride: this.stride,
-              pointers: this.pointers
+              pointers: this._pointers
             };
           },
           set: function(data) {
             throw new Error(readOnly_1.default('data').message);
+          },
+          enumerable: true,
+          configurable: true
+        });
+        Object.defineProperty(GeometryElements.prototype, "drawMode", {
+          get: function() {
+            return this._drawMode;
+          },
+          set: function(drawMode) {
+            this._drawMode = drawMode;
+            if (this.contextProvider) {
+              this.drawMode = this.contextProvider.drawModeToGL(drawMode);
+            }
+          },
+          enumerable: true,
+          configurable: true
+        });
+        Object.defineProperty(GeometryElements.prototype, "indices", {
+          get: function() {
+            return this._indices;
+          },
+          set: function(indices) {
+            this.setIndices(indices);
+          },
+          enumerable: true,
+          configurable: true
+        });
+        GeometryElements.prototype.setIndices = function(indices) {
+          if (!isNull_1.default(indices) && !isUndefined_1.default(indices)) {
+            if (isArray_1.default(indices)) {
+              this._indices = indices;
+              this.count = indices.length;
+              this.ibo.data = new Uint16Array(indices);
+            } else {
+              mustBeArray_1.default('indices', indices);
+            }
+          } else {}
+        };
+        Object.defineProperty(GeometryElements.prototype, "pointers", {
+          get: function() {
+            return this._pointers;
+          },
+          set: function(pointers) {
+            this._pointers = pointers;
           },
           enumerable: true,
           configurable: true
@@ -8960,7 +9058,18 @@ System.register("davinci-eight/core/GeometryElements.js", ["./VertexBuffer", "..
           _super.prototype.contextFree.call(this, contextProvider);
         };
         GeometryElements.prototype.contextGain = function(contextProvider) {
-          this.mode = contextProvider.drawModeToGL(this.drawMode);
+          if (isNumber_1.default(this._drawMode)) {
+            this.mode = contextProvider.drawModeToGL(this._drawMode);
+          } else {
+            switch (core_1.default.errorMode) {
+              case ErrorMode_1.default.WARNME:
+                {
+                  console.warn(this._type + ".drawMode must be a number.");
+                }
+              default:
+                {}
+            }
+          }
           this.ibo.contextGain(contextProvider);
           this.vbo.contextGain(contextProvider);
           _super.prototype.contextGain.call(this, contextProvider);
@@ -8974,17 +9083,40 @@ System.register("davinci-eight/core/GeometryElements.js", ["./VertexBuffer", "..
           var contextProvider = this.contextProvider;
           if (contextProvider) {
             this.vbo.bind();
-            var iLength = this.pointers.length;
-            for (var i = 0; i < iLength; i++) {
-              var pointer = this.pointers[i];
-              var attribLoc = material.getAttribLocation(pointer.name);
-              if (attribLoc >= 0) {
-                contextProvider.vertexAttribPointer(attribLoc, pointer.size, pointer.normalized, this.stride, pointer.offset);
-                contextProvider.enableVertexAttribArray(attribLoc);
+            var pointers = this._pointers;
+            if (pointers) {
+              var iLength = pointers.length;
+              for (var i = 0; i < iLength; i++) {
+                var pointer = pointers[i];
+                var attribLoc = material.getAttribLocation(pointer.name);
+                if (attribLoc >= 0) {
+                  contextProvider.vertexAttribPointer(attribLoc, pointer.size, pointer.normalized, this.stride, pointer.offset);
+                  contextProvider.enableVertexAttribArray(attribLoc);
+                }
+              }
+            } else {
+              switch (core_1.default.errorMode) {
+                case ErrorMode_1.default.WARNME:
+                  {
+                    console.warn(this._type + ".pointers must be an array.");
+                  }
+                default:
+                  {}
               }
             }
             this.ibo.bind();
-            contextProvider.drawElements(this.mode, this.count, this.offset);
+            if (this.count) {
+              contextProvider.drawElements(this.mode, this.count, this.offset);
+            } else {
+              switch (core_1.default.errorMode) {
+                case ErrorMode_1.default.WARNME:
+                  {
+                    console.warn(this._type + ".indices must be an array.");
+                  }
+                default:
+                  {}
+              }
+            }
             this.ibo.unbind();
             this.vbo.unbind();
           }
@@ -21713,9 +21845,9 @@ System.register("davinci-eight/core.js", ["./core/ErrorMode"], function(exports_
         function Eight() {
           this._errorMode = ErrorMode_1.default.STRICT;
           this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-          this.LAST_MODIFIED = '2016-03-05';
+          this.LAST_MODIFIED = '2016-03-06';
           this.NAMESPACE = 'EIGHT';
-          this.VERSION = '2.210.0';
+          this.VERSION = '2.211.0';
         }
         Object.defineProperty(Eight.prototype, "errorMode", {
           get: function() {
@@ -22376,7 +22508,7 @@ System.register("davinci-eight/core/drawModeToGL.js", ["./DrawMode"], function(e
       case DrawMode_1.default.POINTS:
         return gl.POINTS;
       default:
-        throw new Error("Undexpected mode: " + mode);
+        throw new Error("Unexpected mode: " + mode);
     }
   }
   exports_1("default", default_1);

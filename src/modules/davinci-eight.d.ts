@@ -3001,9 +3001,13 @@ declare module EIGHT {
   }
 
   class GeometryElements extends ShareableContextConsumer implements Geometry {
+    attributes: number[];
     data: VertexArrays;
+    drawMode: DrawMode;
+    indices: number[];
     partsLength: number;
-    constructor(data: VertexArrays);
+    pointers: VertexAttribPointer[];
+    constructor(data: VertexArrays, engine: Engine);
     addPart(geometry: Geometry): void;
     removePart(index: number): void;
     getPart(index: number): Geometry;

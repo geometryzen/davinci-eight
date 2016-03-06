@@ -2,7 +2,7 @@
     "project": {
         "name": "davinci-eight",
         "description": "WebGL library for mathematical physics using Geometric Algebra",
-        "version": "2.210.0",
+        "version": "2.211.0",
         "url": ""
     },
     "files": {
@@ -3288,7 +3288,7 @@
             "submodule": "core",
             "namespace": "",
             "file": "src/davinci-eight/core/GeometryElements.ts",
-            "line": 42,
+            "line": 60,
             "description": "A Geometry that supports interleaved vertex buffers.",
             "extends": "Geometry",
             "is_constructor": 1,
@@ -10369,7 +10369,20 @@
         },
         {
             "file": "src/davinci-eight/core/GeometryElements.ts",
-            "line": 64,
+            "line": 48,
+            "description": "Hard-code to zero right now.\nThis suggests that the index buffer could be used for several gl.drawElements(...)",
+            "itemtype": "property",
+            "name": "offset",
+            "type": "number",
+            "access": "private",
+            "tagname": "",
+            "class": "GeometryElements",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/GeometryElements.ts",
+            "line": 100,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -10384,7 +10397,7 @@
         },
         {
             "file": "src/davinci-eight/core/GeometryElements.ts",
-            "line": 77,
+            "line": 123,
             "itemtype": "property",
             "name": "data",
             "type": "VertexArrays",
@@ -10395,7 +10408,59 @@
         },
         {
             "file": "src/davinci-eight/core/GeometryElements.ts",
-            "line": 96,
+            "line": 142,
+            "itemtype": "property",
+            "name": "drawMode",
+            "type": "{DrawMode}",
+            "class": "GeometryElements",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/GeometryElements.ts",
+            "line": 156,
+            "itemtype": "property",
+            "name": "indices",
+            "type": "number[]",
+            "class": "GeometryElements",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/GeometryElements.ts",
+            "line": 167,
+            "itemtype": "method",
+            "name": "setIndices",
+            "params": [
+                {
+                    "name": "indices",
+                    "description": "",
+                    "type": "Number[]"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "GeometryElements",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/GeometryElements.ts",
+            "line": 189,
+            "itemtype": "property",
+            "name": "pointers",
+            "type": "VertexAttribPointer[]",
+            "class": "GeometryElements",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/GeometryElements.ts",
+            "line": 200,
             "itemtype": "method",
             "name": "isLeaf",
             "return": {
@@ -10408,7 +10473,7 @@
         },
         {
             "file": "src/davinci-eight/core/GeometryElements.ts",
-            "line": 104,
+            "line": 208,
             "itemtype": "property",
             "name": "partsLength",
             "type": "number",
@@ -10419,7 +10484,7 @@
         },
         {
             "file": "src/davinci-eight/core/GeometryElements.ts",
-            "line": 123,
+            "line": 227,
             "itemtype": "method",
             "name": "addPart",
             "params": [
@@ -10439,7 +10504,7 @@
         },
         {
             "file": "src/davinci-eight/core/GeometryElements.ts",
-            "line": 132,
+            "line": 236,
             "itemtype": "method",
             "name": "removePart",
             "params": [
@@ -10459,7 +10524,7 @@
         },
         {
             "file": "src/davinci-eight/core/GeometryElements.ts",
-            "line": 141,
+            "line": 245,
             "itemtype": "method",
             "name": "getPart",
             "params": [
@@ -10479,7 +10544,7 @@
         },
         {
             "file": "src/davinci-eight/core/GeometryElements.ts",
-            "line": 150,
+            "line": 254,
             "itemtype": "method",
             "name": "contextFree",
             "params": [
@@ -10499,7 +10564,7 @@
         },
         {
             "file": "src/davinci-eight/core/GeometryElements.ts",
-            "line": 161,
+            "line": 265,
             "itemtype": "method",
             "name": "contextGain",
             "params": [
@@ -10519,7 +10584,7 @@
         },
         {
             "file": "src/davinci-eight/core/GeometryElements.ts",
-            "line": 173,
+            "line": 289,
             "itemtype": "method",
             "name": "contextLost",
             "return": {
@@ -10532,7 +10597,7 @@
         },
         {
             "file": "src/davinci-eight/core/GeometryElements.ts",
-            "line": 183,
+            "line": 299,
             "itemtype": "method",
             "name": "draw",
             "params": [
@@ -10552,7 +10617,7 @@
         },
         {
             "file": "src/davinci-eight/core/GeometryElements.ts",
-            "line": 208,
+            "line": 349,
             "itemtype": "method",
             "name": "hasPrincipalScale",
             "params": [
@@ -10572,7 +10637,7 @@
         },
         {
             "file": "src/davinci-eight/core/GeometryElements.ts",
-            "line": 217,
+            "line": 358,
             "itemtype": "method",
             "name": "getPrincipalScale",
             "params": [
@@ -10592,7 +10657,7 @@
         },
         {
             "file": "src/davinci-eight/core/GeometryElements.ts",
-            "line": 226,
+            "line": 367,
             "itemtype": "method",
             "name": "setPrincipalScale",
             "params": [
