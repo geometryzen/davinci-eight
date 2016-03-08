@@ -30,5 +30,5 @@ export default function programFromScripts(vsId: string, fsId: string, dom: Docu
 
   const vertexShaderSrc: string = $(vsId).textContent
   const fragmentShaderSrc: string = $(fsId).textContent
-  return new Material(vertexShaderSrc, fragmentShaderSrc, attribs, 'programFromScripts', engine)
+  return new Material(vertexShaderSrc, fragmentShaderSrc, attribs, 'programFromScripts', engine, 0)
 }

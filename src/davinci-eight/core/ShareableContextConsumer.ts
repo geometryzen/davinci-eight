@@ -2,8 +2,11 @@ import cleanUp from './cleanUp';
 import ContextConsumer from './ContextConsumer';
 import ContextProvider from './ContextProvider';
 import Engine from './Engine';
+import incLevel from '../base/incLevel';
 import isUndefined from '../checks/isUndefined';
 import isNull from '../checks/isNull';
+import mustBeBoolean from '../checks/mustBeBoolean'
+import mustBeObject from '../checks/mustBeObject'
 import readOnly from '../i18n/readOnly';
 import ShareableBase from './ShareableBase';
 
@@ -18,7 +21,11 @@ import ShareableBase from './ShareableBase';
  * </p>
  * <p>
  * Using this base <code>class</code> provides a standard and reliable way to
- * subscribe to <code>Engine</code> events.
+ * subscribe to <code>Engine</code> events. Extending this class provides automatic
+ * subscribe at construction time and automatic unsubscribe in destruction. However,
+ * it does not provide automatic synchronization (contextGain events) or automatic clean up
+ * (contextFree or contextLost events) as these would violate the principle that the base
+ * class should not call derived class methods during construction or destruction.
  * </p>
  *
  * @example
@@ -58,11 +65,13 @@ export default class ShareableContextConsumer extends ShareableBase implements C
    * @constructor
    * @param type {string} The name of the derived class for logging purposes.
    * @param engine {Engine} The <code>Engine</code> to subscribe to or <code>null</code> for deferred subscription.
+   * @param level {number}
    */
-  constructor(type: string, engine: Engine) {
-    super(type)
+  constructor(type: string, engine: Engine, level: number) {
+    super(type, incLevel(level))
     if (engine instanceof Engine) {
-      this.subscribe(engine)
+      // Don't synchronize as that would violate the Implementation Hierarchy Principle.
+      this.subscribe(engine, false)
     }
     else if (!isNull(engine) && !isUndefined(engine)) {
       throw new Error(`engine must be an Engine or null or undefined. typeof engine => ${typeof engine}`)
@@ -71,47 +80,79 @@ export default class ShareableContextConsumer extends ShareableBase implements C
 
   /**
    * @method destructor
+   * @param level {number}
    * @return {void}
    */
-  protected destructor(): void {
-    this.unsubscribe()
-    super.destructor()
+  protected destructor(level: number): void {
+    this.unsubscribe(false)
+    super.destructor(incLevel(level))
   }
 
   /**
    * <p>
    * Instructs the consumer to subscribe to context events.
    * </p>
-   *
+   * <p>
+   * This method is idempotent; calling it more than once with the same <code>Engine</code> does not change the state.
+   * </p>
    *
    * @method subscribe
    * @param engine {Engine}
+   * @param synchronize {boolean}
    * @return {void}
    */
-  subscribe(engine: Engine): void {
+  subscribe(engine: Engine, synchronize: boolean): void {
+    engine = mustBeObject('engine', engine)
+    synchronize = mustBeBoolean('synchronize', synchronize)
     if (!this.engine) {
       engine.addRef()
       this.engine = engine
       engine.addContextListener(this)
-      engine.synchronize(this)
+      if (synchronize) {
+        engine.synchronize(this)
+      }
     }
     else {
-      this.unsubscribe()
-      this.subscribe(engine)
+      if (this.engine !== engine) {
+        // We can only subscribe to one Engine at at time.
+        this.unsubscribe(synchronize)
+        this.subscribe(engine, synchronize)
+      }
+      else {
+        // We are already subscribed to this engine (Idempotentency)
+      }
     }
   }
 
+  protected synchUp() {
+    const engine = this.engine
+    if (engine) {
+      engine.synchronize(this)
+    }
+  }
+
+  protected cleanUp() {
+    cleanUp(this.contextProvider, this)
+  }
+
   /**
+   * <p>
    * Instructs the consumer to unsubscribe from context events.
+   * </p>
+   * <p>
+   * This method is idempotent; calling it more than once does not change the state.
+   * </p>
    *
    * @method unsubscribe
+   * @param synchronize {boolean} Triggers <code>contextFree()</code> or <code>contextLost()</code>, as appropriate.
    * @return {void}
    */
-  unsubscribe(): void {
-    if (this.contextProvider) {
-      cleanUp(this.contextProvider, this)
-    }
+  unsubscribe(synchronize: boolean): void {
+    synchronize = mustBeBoolean('synchronize', synchronize)
     if (this.engine) {
+      if (synchronize) {
+        cleanUp(this.contextProvider, this)
+      }
       this.engine.removeContextListener(this)
       this.engine.release()
       this.engine = void 0
@@ -124,6 +165,7 @@ export default class ShareableContextConsumer extends ShareableBase implements C
    * @return {void}
    */
   contextFree(contextProvider: ContextProvider): void {
+    this.contextProvider.release()
     this.contextProvider = void 0
   }
 
@@ -133,6 +175,7 @@ export default class ShareableContextConsumer extends ShareableBase implements C
    * @return {void}
    */
   contextGain(contextProvider: ContextProvider): void {
+    contextProvider.addRef()
     this.contextProvider = contextProvider
   }
 
@@ -141,6 +184,7 @@ export default class ShareableContextConsumer extends ShareableBase implements C
    * @return {void}
    */
   contextLost(): void {
+    this.contextProvider.release()
     this.contextProvider = void 0
   }
 

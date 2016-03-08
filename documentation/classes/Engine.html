@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.212.0</em>
+            <em>API Docs for: 2.213.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -106,9 +106,11 @@
                                 <li><a href="../classes/GeometricE2.html">GeometricE2</a></li>
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
+                                <li><a href="../classes/GeometryArrays.html">GeometryArrays</a></li>
                                 <li><a href="../classes/GeometryBuilder.html">GeometryBuilder</a></li>
                                 <li><a href="../classes/GeometryContainer.html">GeometryContainer</a></li>
                                 <li><a href="../classes/GeometryElements.html">GeometryElements</a></li>
+                                <li><a href="../classes/GeometryLeaf.html">GeometryLeaf</a></li>
                                 <li><a href="../classes/GeometryOptions.html">GeometryOptions</a></li>
                                 <li><a href="../classes/GeometryPrimitive.html">GeometryPrimitive</a></li>
                                 <li><a href="../classes/GraphicsProgramSymbols.html">GraphicsProgramSymbols</a></li>
@@ -139,7 +141,7 @@
                                 <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
                                 <li><a href="../classes/MouseControls.html">MouseControls</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
-                                <li><a href="../classes/NumberIUnknownMap.html">NumberIUnknownMap</a></li>
+                                <li><a href="../classes/NumberShareableMap.html">NumberShareableMap</a></li>
                                 <li><a href="../classes/Perspective.html">Perspective</a></li>
                                 <li><a href="../classes/PerspectiveCamera.html">PerspectiveCamera</a></li>
                                 <li><a href="../classes/PointMaterial.html">PointMaterial</a></li>
@@ -179,7 +181,7 @@
                                 <li><a href="../classes/SpinorE2.html">SpinorE2</a></li>
                                 <li><a href="../classes/SpinorE3.html">SpinorE3</a></li>
                                 <li><a href="../classes/SpinorE4.html">SpinorE4</a></li>
-                                <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
+                                <li><a href="../classes/StringShareableMap.html">StringShareableMap</a></li>
                                 <li><a href="../classes/Tetrahedron.html">Tetrahedron</a></li>
                                 <li><a href="../classes/TetrahedronGeometry.html">TetrahedronGeometry</a></li>
                                 <li><a href="../classes/TetrahedronGeometryOptions.html">TetrahedronGeometryOptions</a></li>
@@ -219,6 +221,7 @@
                 
                 
                             <ul id="api-modules" class="apis modules">
+                                <li><a href="../modules/commands.html">commands</a></li>
                                 <li><a href="../modules/controls.html">controls</a></li>
                                 <li><a href="../modules/core.html">core</a></li>
                                 <li><a href="../modules/EIGHT.html">EIGHT</a></li>
@@ -269,7 +272,7 @@
         </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_core_Engine.ts.html#l71"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:71</code></a>
+            Defined in: <a href="../files/src_davinci-eight_core_Engine.ts.html#l80"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:80</code></a>
         </div>
 
             Module: <a href="../modules/core.html">core</a><br>
@@ -292,6 +295,9 @@
                 <li class="arg">
                         <code class="optional">[attributes]</code>
                 </li>
+                <li class="arg">
+                        <code class="optional">[level = 0]</code>
+                </li>
             </ul><span class="paren">)</span>
         </div>
 
@@ -305,7 +311,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Engine.ts.html#l71"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:71</code></a>
+        <a href="../files/src_davinci-eight_core_Engine.ts.html#l80"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:80</code></a>
         </p>
 
 
@@ -329,6 +335,17 @@
                     <div class="param-description">
                         <p>Allows the context to be configured.</p>
 
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name optional">[level = 0]</code>
+                        <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+
+
+                    <div class="param-description">
+                         
                     </div>
 
                 </li>
@@ -394,16 +411,16 @@ renderer.release()</code></pre>
                                 <a href="#method_destructor">destructor</a>
 
                             </li>
-                            <li class="index-item method protected">
-                                <a href="#method_destructor!~YUIDOC_LINE~!return">destructor!~YUIDOC_LINE~!return</a>
-
-                            </li>
                             <li class="index-item method">
                                 <a href="#method_disable">disable</a>
 
                             </li>
                             <li class="index-item method">
                                 <a href="#method_enable">enable</a>
+
+                            </li>
+                            <li class="index-item method inherited">
+                                <a href="#method_isZombie">isZombie</a>
 
                             </li>
                             <li class="index-item method inherited inherited">
@@ -445,6 +462,22 @@ renderer.release()</code></pre>
                                 <a href="#property__gl">_gl</a>
 
                             </li>
+                            <li class="index-item property private inherited">
+                                <a href="#property__level">_level</a>
+
+                            </li>
+                            <li class="index-item property private inherited">
+                                <a href="#property__refCount">_refCount</a>
+
+                            </li>
+                            <li class="index-item property protected inherited">
+                                <a href="#property__type">_type</a>
+
+                            </li>
+                            <li class="index-item property private inherited">
+                                <a href="#property__uuid">_uuid</a>
+
+                            </li>
                             <li class="index-item property">
                                 <a href="#property_canvas">canvas</a>
 
@@ -457,7 +490,11 @@ renderer.release()</code></pre>
                                 <a href="#property_gl">gl</a>
 
                             </li>
-                            <li class="index-item property inherited">
+                            <li class="index-item property private inherited">
+                                <a href="#property_shareLength">shareLength</a>
+
+                            </li>
+                            <li class="index-item property private inherited">
                                 <a href="#property_uuid">uuid</a>
 
                             </li>
@@ -494,7 +531,7 @@ renderer.release()</code></pre>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Engine.ts.html#l126"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:126</code></a>
+        <a href="../files/src_davinci-eight_core_Engine.ts.html#l137"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:137</code></a>
         </p>
 
 
@@ -553,7 +590,7 @@ renderer.release()</code></pre>
                 Shareable
             </a>
             but overwritten in
-        <a href="../files/src_davinci-eight_core_ShareableBase.ts.html#l34"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableBase.ts:34</code></a>
+        <a href="../files/src_davinci-eight_core_ShareableBase.ts.html#l128"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableBase.ts:128</code></a>
         </p>
 
 
@@ -596,7 +633,7 @@ Notifies this instance that something is referencing it.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Engine.ts.html#l249"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:249</code></a>
+        <a href="../files/src_davinci-eight_core_Engine.ts.html#l275"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:275</code></a>
         </p>
 
 
@@ -652,7 +689,7 @@ Notifies this instance that something is referencing it.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Engine.ts.html#l172"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:172</code></a>
+        <a href="../files/src_davinci-eight_core_Engine.ts.html#l183"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:183</code></a>
         </p>
 
 
@@ -722,61 +759,18 @@ Specifies color values to use by the <code>clear</code> method to clear the colo
 
 
 </div>
-<div id="method_destructor" class="method item protected inherited">
+<div id="method_destructor" class="method item protected">
     <h3 class="name"><code>destructor</code></h3>
 
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type">Void</span>
-        </span>
-
-
-        <span class="flag protected">protected</span>
-
-
-
-
-
-    <div class="meta">
-                <p>Inherited from
-                <a href="../classes/ShareableBase.html#method_destructor">ShareableBase</a>:
-        <a href="../files/src_davinci-eight_core_ShareableBase.ts.html#l72"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableBase.ts:72</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-Outputs a warning to the console that this method should be implemented by the derived class.
-</p>
-<p>
-<em>This method should be implemented by derived classes.</em>
-</p>
-<p>
-<em>Not implementing this method in a derived class risks leaking resources allocated by the derived class.</em>
-</p>
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Void</span>:
-            </div>
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>level</code>
+                </li>
+            </ul><span class="paren">)</span>
         </div>
 
 
-</div>
-<div id="method_destructor!~YUIDOC_LINE~!return" class="method item protected">
-    <h3 class="name"><code>destructor!~YUIDOC_LINE~!return</code></h3>
-
-        <span class="paren">()</span>
-
-
 
         <span class="flag protected">protected</span>
 
@@ -785,9 +779,12 @@ Outputs a warning to the console that this method should be implemented by the d
 
 
     <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_core_Engine.ts.html#l111"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:111</code></a>
+            <p>Inherited from
+            <a href="../classes/ShareableBase.html#method_destructor">
+                ShareableBase
+            </a>
+            but overwritten in
+        <a href="../files/src_davinci-eight_core_Engine.ts.html#l121"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:121</code></a>
         </p>
 
 
@@ -798,6 +795,23 @@ Outputs a warning to the console that this method should be implemented by the d
         
     </div>
 
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">level</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                        <p>return {void}</p>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
 
 
 
@@ -827,7 +841,7 @@ Outputs a warning to the console that this method should be implemented by the d
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Engine.ts.html#l193"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:193</code></a>
+        <a href="../files/src_davinci-eight_core_Engine.ts.html#l219"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:219</code></a>
         </p>
 
 
@@ -891,7 +905,7 @@ Outputs a warning to the console that this method should be implemented by the d
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Engine.ts.html#l206"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:206</code></a>
+        <a href="../files/src_davinci-eight_core_Engine.ts.html#l232"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:232</code></a>
         </p>
 
 
@@ -930,6 +944,46 @@ Outputs a warning to the console that this method should be implemented by the d
 
 
 </div>
+<div id="method_isZombie" class="method item inherited">
+    <h3 class="name"><code>isZombie</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">Boolean</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/ShareableBase.html#method_isZombie">ShareableBase</a>:
+        <a href="../files/src_davinci-eight_core_ShareableBase.ts.html#l120"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableBase.ts:120</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Boolean</span>:
+            </div>
+        </div>
+
+
+</div>
 <div id="method_release" class="method item inherited">
     <h3 class="name"><code>release</code></h3>
 
@@ -951,7 +1005,7 @@ Outputs a warning to the console that this method should be implemented by the d
                 Shareable
             </a>
             but overwritten in
-        <a href="../files/src_davinci-eight_core_ShareableBase.ts.html#l48"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableBase.ts:48</code></a>
+        <a href="../files/src_davinci-eight_core_ShareableBase.ts.html#l142"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableBase.ts:142</code></a>
         </p>
 
 
@@ -1000,7 +1054,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Engine.ts.html#l236"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:236</code></a>
+        <a href="../files/src_davinci-eight_core_Engine.ts.html#l262"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:262</code></a>
         </p>
 
 
@@ -1063,7 +1117,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Engine.ts.html#l282"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:282</code></a>
+        <a href="../files/src_davinci-eight_core_Engine.ts.html#l308"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:308</code></a>
         </p>
 
 
@@ -1122,7 +1176,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Engine.ts.html#l318"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:318</code></a>
+        <a href="../files/src_davinci-eight_core_Engine.ts.html#l344"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:344</code></a>
         </p>
 
 
@@ -1168,7 +1222,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Engine.ts.html#l372"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:372</code></a>
+        <a href="../files/src_davinci-eight_core_Engine.ts.html#l398"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:398</code></a>
         </p>
 
 
@@ -1240,7 +1294,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Engine.ts.html#l260"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:260</code></a>
+        <a href="../files/src_davinci-eight_core_Engine.ts.html#l286"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:286</code></a>
         </p>
 
 
@@ -1326,7 +1380,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Engine.ts.html#l50"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:50</code></a>
+        <a href="../files/src_davinci-eight_core_Engine.ts.html#l59"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:59</code></a>
         </p>
 
 
@@ -1351,7 +1405,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Engine.ts.html#l43"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:43</code></a>
+        <a href="../files/src_davinci-eight_core_Engine.ts.html#l52"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:52</code></a>
         </p>
 
 
@@ -1359,6 +1413,115 @@ Notifies this instance that something is dereferencing it.
 
     <div class="description">
         
+    </div>
+
+
+
+</div>
+<div id="property__level" class="property item private inherited">
+    <h3 class="name"><code>_level</code></h3>
+    <span class="type">Number</span>
+
+
+        <span class="flag private">private</span>
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/ShareableBase.html#property__level">ShareableBase</a>:
+        <a href="../files/src_davinci-eight_core_ShareableBase.ts.html#l43"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableBase.ts:43</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>
+Keeps track of the depth in the hierarchy of classes.
+</p>
+<p>
+A class constructed with a shareLength of zero is the most derived class in the hierarchy.
+Such a class calls its' base class constructor with an incremented shareLength.
+</p>
+<p>
+When the destructor chain is invoked, ...
+</p>
+    </div>
+
+
+
+</div>
+<div id="property__refCount" class="property item private inherited">
+    <h3 class="name"><code>_refCount</code></h3>
+    <span class="type">Number</span>
+
+
+        <span class="flag private">private</span>
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/ShareableBase.html#property__refCount">ShareableBase</a>:
+        <a href="../files/src_davinci-eight_core_ShareableBase.ts.html#l20"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableBase.ts:20</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property__type" class="property item protected inherited">
+    <h3 class="name"><code>_type</code></h3>
+    <span class="type">String</span>
+
+
+        <span class="flag protected">protected</span>
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/ShareableBase.html#property__type">ShareableBase</a>:
+        <a href="../files/src_davinci-eight_core_ShareableBase.ts.html#l27"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableBase.ts:27</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property__uuid" class="property item private inherited">
+    <h3 class="name"><code>_uuid</code></h3>
+    <span class="type">String</span>
+
+
+        <span class="flag private">private</span>
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/ShareableBase.html#property__uuid">ShareableBase</a>:
+        <a href="../files/src_davinci-eight_core_ShareableBase.ts.html#l34"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableBase.ts:34</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        The unique identifier used for reference count monitoring.
     </div>
 
 
@@ -1375,7 +1538,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Engine.ts.html#l142"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:142</code></a>
+        <a href="../files/src_davinci-eight_core_Engine.ts.html#l153"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:153</code></a>
         </p>
 
 
@@ -1399,7 +1562,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Engine.ts.html#l158"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:158</code></a>
+        <a href="../files/src_davinci-eight_core_Engine.ts.html#l169"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:169</code></a>
         </p>
 
 
@@ -1423,7 +1586,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Engine.ts.html#l219"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:219</code></a>
+        <a href="../files/src_davinci-eight_core_Engine.ts.html#l245"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:245</code></a>
         </p>
 
 
@@ -1436,18 +1599,46 @@ Notifies this instance that something is dereferencing it.
 
 
 </div>
-<div id="property_uuid" class="property item inherited">
+<div id="property_shareLength" class="property item private inherited">
+    <h3 class="name"><code>shareLength</code></h3>
+    <span class="type">Number</span>
+
+
+        <span class="flag private">private</span>
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/ShareableBase.html#property_shareLength">ShareableBase</a>:
+        <a href="../files/src_davinci-eight_core_ShareableBase.ts.html#l103"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableBase.ts:103</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>
+Returns the total length of the inheritance hierarchy that this instance is involved in.
+</p>
+    </div>
+
+
+
+</div>
+<div id="property_uuid" class="property item private inherited">
     <h3 class="name"><code>uuid</code></h3>
     <span class="type">String</span>
 
 
+        <span class="flag private">private</span>
 
 
 
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/ShareableBase.html#property_uuid">ShareableBase</a>:
-        <a href="../files/src_davinci-eight_core_ShareableBase.ts.html#l92"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableBase.ts:92</code></a>
+        <a href="../files/src_davinci-eight_core_ShareableBase.ts.html#l170"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableBase.ts:170</code></a>
         </p>
 
 

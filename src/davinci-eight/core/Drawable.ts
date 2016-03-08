@@ -1,8 +1,9 @@
 import ContextProvider from '../core/ContextProvider';
 import Engine from '../core/Engine';
-import mustBeBoolean from '../checks/mustBeBoolean'
+import incLevel from '../base/incLevel';
+import mustBeBoolean from '../checks/mustBeBoolean';
 import Geometry from './Geometry';
-import AbstractDrawable from './AbstractDrawable'
+import AbstractDrawable from './AbstractDrawable';
 import AbstractMaterial from './AbstractMaterial';
 import ShareableContextConsumer from '../core/ShareableContextConsumer';
 import Facet from '../core/Facet';
@@ -13,6 +14,10 @@ import Facet from '../core/Facet';
  */
 
 /**
+ * <p>
+ * This class may be used as either a base class or standalone. 
+ * </p>
+ *
  * @class Drawable
  * @extends ShareableContextConsumer
  * @extends AbstractDrawable
@@ -60,25 +65,33 @@ export default class Drawable extends ShareableContextConsumer implements Abstra
    * @param geometry {Geometry}
    * @param material {AbstractMaterial}
    * @param engine {Engine} The <code>Engine</code> to subscribe to or <code>null</code> for deferred subscription.
+   * @param level {number}
    */
-  constructor(type: string, geometry: Geometry, material: AbstractMaterial, engine: Engine) {
-    super(type, engine)
+  constructor(type: string, geometry: Geometry, material: AbstractMaterial, engine: Engine, level: number) {
+    super(type, engine, incLevel(level))
     this.geometry = geometry
     this.material = material
     this._facets = {}
+    if (level === 0) {
+      this.synchUp()
+    }
   }
 
   /**
    * @method destructor
+   * @param level {number}
    * @return {void}
    * @protected
    */
-  protected destructor(): void {
+  protected destructor(level: number): void {
+    if (level === 0) {
+      this.cleanUp()
+    }
     this._geometry.release()
     this._geometry = void 0
     this._material.release()
     this._material = void 0
-    super.destructor()
+    super.destructor(incLevel(level))
   }
 
   /**

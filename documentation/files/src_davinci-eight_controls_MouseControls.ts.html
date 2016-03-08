@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.212.0</em>
+            <em>API Docs for: 2.213.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -106,9 +106,11 @@
                                 <li><a href="../classes/GeometricE2.html">GeometricE2</a></li>
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
+                                <li><a href="../classes/GeometryArrays.html">GeometryArrays</a></li>
                                 <li><a href="../classes/GeometryBuilder.html">GeometryBuilder</a></li>
                                 <li><a href="../classes/GeometryContainer.html">GeometryContainer</a></li>
                                 <li><a href="../classes/GeometryElements.html">GeometryElements</a></li>
+                                <li><a href="../classes/GeometryLeaf.html">GeometryLeaf</a></li>
                                 <li><a href="../classes/GeometryOptions.html">GeometryOptions</a></li>
                                 <li><a href="../classes/GeometryPrimitive.html">GeometryPrimitive</a></li>
                                 <li><a href="../classes/GraphicsProgramSymbols.html">GraphicsProgramSymbols</a></li>
@@ -139,7 +141,7 @@
                                 <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
                                 <li><a href="../classes/MouseControls.html">MouseControls</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
-                                <li><a href="../classes/NumberIUnknownMap.html">NumberIUnknownMap</a></li>
+                                <li><a href="../classes/NumberShareableMap.html">NumberShareableMap</a></li>
                                 <li><a href="../classes/Perspective.html">Perspective</a></li>
                                 <li><a href="../classes/PerspectiveCamera.html">PerspectiveCamera</a></li>
                                 <li><a href="../classes/PointMaterial.html">PointMaterial</a></li>
@@ -179,7 +181,7 @@
                                 <li><a href="../classes/SpinorE2.html">SpinorE2</a></li>
                                 <li><a href="../classes/SpinorE3.html">SpinorE3</a></li>
                                 <li><a href="../classes/SpinorE4.html">SpinorE4</a></li>
-                                <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
+                                <li><a href="../classes/StringShareableMap.html">StringShareableMap</a></li>
                                 <li><a href="../classes/Tetrahedron.html">Tetrahedron</a></li>
                                 <li><a href="../classes/TetrahedronGeometry.html">TetrahedronGeometry</a></li>
                                 <li><a href="../classes/TetrahedronGeometryOptions.html">TetrahedronGeometryOptions</a></li>
@@ -219,6 +221,7 @@
                 
                 
                             <ul id="api-modules" class="apis modules">
+                                <li><a href="../modules/commands.html">commands</a></li>
                                 <li><a href="../modules/controls.html">controls</a></li>
                                 <li><a href="../modules/core.html">core</a></li>
                                 <li><a href="../modules/EIGHT.html">EIGHT</a></li>
@@ -266,6 +269,7 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 import Geometric2 from &#x27;../math/Geometric2&#x27;
+import incLevel from &#x27;../base/incLevel&#x27;
 import MouseCoordinates from &#x27;./MouseCoordinates&#x27;
 import ShareableBase from &#x27;../core/ShareableBase&#x27;
 
@@ -385,8 +389,8 @@ export default class MouseControls extends ShareableBase {
    * @constructor
    * @param type {string}
    */
-  constructor(type: string) {
-    super(type)
+  constructor(type: string, level: number) {
+    super(type, incLevel(level))
 
     /**
      *
@@ -525,6 +529,19 @@ export default class MouseControls extends ShareableBase {
   }
 
   /**
+   * @method destructor
+   * @param level {number}
+   * @return {void}
+   * @protected
+   */
+  protected destructor(level: number): void {
+    if (this.domElement) {
+      this.unsubscribe()
+    }
+    super.destructor(incLevel(level))
+  }
+
+  /**
    * @method subscribe
    * @param domElement {HTMLElement}
    * @return {void}
@@ -558,18 +575,6 @@ export default class MouseControls extends ShareableBase {
       window.removeEventListener(&#x27;keydown&#x27;, this.keydown, false)
       window.removeEventListener(&#x27;keyup&#x27;, this.keydown, false)
     }
-  }
-
-  /**
-   * @method destructor
-   * @return {void}
-   * @protected
-   */
-  protected destructor(): void {
-    if (this.domElement) {
-      this.unsubscribe()
-    }
-    super.destructor()
   }
 
   /**

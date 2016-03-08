@@ -1,6 +1,7 @@
 import ContextProvider from './ContextProvider'
 import ShareableArray from '../collections/ShareableArray'
 import AbstractMaterial from './AbstractMaterial'
+import incLevel from '../base/incLevel'
 import Matrix4 from '../math/Matrix4'
 import notSupported from '../i18n/notSupported'
 import Geometry from './Geometry'
@@ -38,6 +39,7 @@ export default class GeometryContainer extends ShareableBase implements Geometry
    * @default diag(1, 1, 1, 1)
    */
   public scaling = Matrix4.one()
+
   private canonicalScale = Matrix4.one()
   private K = Matrix4.one()
   private Kinv = Matrix4.one()
@@ -48,10 +50,11 @@ export default class GeometryContainer extends ShareableBase implements Geometry
    * @constructor
    * @param type {string}
    * @param tilt {SpinorE3}
+   * @param level {number}
    */
-  constructor(type: string, tilt: SpinorE3) {
-    super(type)
-    this._parts = new ShareableArray<Geometry>()
+  constructor(type: string, tilt: SpinorE3, level: number) {
+    super(type, incLevel(level))
+    this._parts = new ShareableArray<Geometry>([], 0)
     if (tilt && !Spinor3.isOne(tilt)) {
       this.Kidentity = false
       this.K.rotation(tilt)
@@ -61,50 +64,80 @@ export default class GeometryContainer extends ShareableBase implements Geometry
 
   /**
    * @method destructor
+   * @param level {number}
    * @return {void}
    * @protected
    */
-  protected destructor(): void {
+  protected destructor(level: number): void {
     this._parts.release()
     this._parts = void 0
-    super.destructor()
+    super.destructor(incLevel(level))
   }
 
   /**
    * @property data
    * @type VertexArrays
    */
-  get data(): VertexArrays {
+  public get data(): VertexArrays {
     throw new Error(notSupported('data').message)
   }
-  set data(data: VertexArrays) {
+  public set data(data: VertexArrays) {
     throw new Error(notSupported('data').message)
   }
 
+  /**
+   * @method isLeaf
+   * @return {boolean} Returns <code>false</code>.
+   */
   public isLeaf(): boolean {
     return false
   }
 
+  /**
+   * @property partsLength
+   * @return {number}
+   * @readOnly
+   */
   get partsLength(): number {
     return this._parts.length;
   }
-  set partsLength(unused) {
+  set partsLength(unused: number) {
     throw new Error(readOnly('partsLength').message)
   }
 
+  /**
+   * @method addPart
+   * @param geometry {Geometry}
+   * @return {void}
+   */
   addPart(geometry: Geometry): void {
     this._parts.push(geometry)
   }
 
+  /**
+   * @method removePart
+   * @param index {number}
+   * @return {void}
+   */
   removePart(index: number): void {
     const removals = this._parts.splice(index, 1)
     removals.release()
   }
 
+  /**
+   * @method getPart
+   * @param index {number}
+   * @return {Geometry}
+   */
   getPart(index: number): Geometry {
     return this._parts.get(index)
   }
 
+  /**
+   * @method draw
+   * @param material {AbstractMaterial}
+   * @return {void}
+   */
   draw(material: AbstractMaterial): void {
     // FIXME: Use for loop.
     this._parts.forEach(function(buffer) {
@@ -114,22 +147,23 @@ export default class GeometryContainer extends ShareableBase implements Geometry
 
   /**
    * @method contextFree
-   * @param 
+   * @param contextProvider {ContextProvider}
+   * @return {void}
    */
-  contextFree(manager: ContextProvider): void {
+  contextFree(contextProvider: ContextProvider): void {
     this._parts.forEach(function(buffer) {
-      buffer.contextFree(manager)
+      buffer.contextFree(contextProvider)
     })
   }
 
   /**
    * @method contextGain
-   * @param manager {ContextProvider}
+   * @param contextProvider {ContextProvider}
    * @return {void}
    */
-  contextGain(manager: ContextProvider): void {
+  contextGain(contextProvider: ContextProvider): void {
     this._parts.forEach(function(buffer) {
-      buffer.contextGain(manager)
+      buffer.contextGain(contextProvider)
     })
   }
 

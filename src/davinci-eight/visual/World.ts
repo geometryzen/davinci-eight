@@ -4,6 +4,7 @@ import Facet from '../core/Facet'
 import AmbientLight from '../facets/AmbientLight'
 import AbstractDrawable from '../core/AbstractDrawable'
 import CameraControls from '../controls/CameraControls'
+import incLevel from '../base/incLevel';
 import readOnly from '../i18n/readOnly'
 import ShareableBase from '../core/ShareableBase'
 import Engine from '../core/Engine'
@@ -20,8 +21,8 @@ export default class World extends ShareableBase {
 
     private _ambientLight = new AmbientLight(Color.fromRGB(0.3, 0.3, 0.3))
 
-    constructor(renderer: Engine, drawList: DrawList, ambients: Facet[], controls: CameraControls) {
-        super('World')
+    constructor(renderer: Engine, drawList: DrawList, ambients: Facet[], controls: CameraControls, level: number) {
+        super('World', incLevel(level))
 
         renderer.addRef()
         this.renderer = renderer
@@ -29,7 +30,7 @@ export default class World extends ShareableBase {
         drawList.addRef()
         this.drawList = drawList
 
-        this.drawList.subscribe(renderer)
+        this.drawList.subscribe(renderer, true)
 
         this._ambients = ambients
         this._ambients.push(this._ambientLight)
@@ -38,12 +39,12 @@ export default class World extends ShareableBase {
         this._controls = controls
     }
 
-    destructor(): void {
+    destructor(level: number): void {
         this.controls.release()
-        this.drawList.unsubscribe()
+        this.drawList.unsubscribe(true)
         this.drawList.release()
         this.renderer.release()
-        super.destructor()
+        super.destructor(incLevel(level))
     }
 
     get ambients(): Facet[] {

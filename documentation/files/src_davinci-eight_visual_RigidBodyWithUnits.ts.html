@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.212.0</em>
+            <em>API Docs for: 2.213.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -106,9 +106,11 @@
                                 <li><a href="../classes/GeometricE2.html">GeometricE2</a></li>
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
+                                <li><a href="../classes/GeometryArrays.html">GeometryArrays</a></li>
                                 <li><a href="../classes/GeometryBuilder.html">GeometryBuilder</a></li>
                                 <li><a href="../classes/GeometryContainer.html">GeometryContainer</a></li>
                                 <li><a href="../classes/GeometryElements.html">GeometryElements</a></li>
+                                <li><a href="../classes/GeometryLeaf.html">GeometryLeaf</a></li>
                                 <li><a href="../classes/GeometryOptions.html">GeometryOptions</a></li>
                                 <li><a href="../classes/GeometryPrimitive.html">GeometryPrimitive</a></li>
                                 <li><a href="../classes/GraphicsProgramSymbols.html">GraphicsProgramSymbols</a></li>
@@ -139,7 +141,7 @@
                                 <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
                                 <li><a href="../classes/MouseControls.html">MouseControls</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
-                                <li><a href="../classes/NumberIUnknownMap.html">NumberIUnknownMap</a></li>
+                                <li><a href="../classes/NumberShareableMap.html">NumberShareableMap</a></li>
                                 <li><a href="../classes/Perspective.html">Perspective</a></li>
                                 <li><a href="../classes/PerspectiveCamera.html">PerspectiveCamera</a></li>
                                 <li><a href="../classes/PointMaterial.html">PointMaterial</a></li>
@@ -179,7 +181,7 @@
                                 <li><a href="../classes/SpinorE2.html">SpinorE2</a></li>
                                 <li><a href="../classes/SpinorE3.html">SpinorE3</a></li>
                                 <li><a href="../classes/SpinorE4.html">SpinorE4</a></li>
-                                <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
+                                <li><a href="../classes/StringShareableMap.html">StringShareableMap</a></li>
                                 <li><a href="../classes/Tetrahedron.html">Tetrahedron</a></li>
                                 <li><a href="../classes/TetrahedronGeometry.html">TetrahedronGeometry</a></li>
                                 <li><a href="../classes/TetrahedronGeometryOptions.html">TetrahedronGeometryOptions</a></li>
@@ -219,6 +221,7 @@
                 
                 
                             <ul id="api-modules" class="apis modules">
+                                <li><a href="../modules/commands.html">commands</a></li>
                                 <li><a href="../modules/controls.html">controls</a></li>
                                 <li><a href="../modules/core.html">core</a></li>
                                 <li><a href="../modules/EIGHT.html">EIGHT</a></li>
@@ -266,6 +269,7 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 import G3 from &#x27;../math/G3&#x27;;
+import incLevel from &#x27;../base/incLevel&#x27;;
 import IRigidBody from &#x27;./IRigidBody&#x27;
 import mustBeObject from &#x27;../checks/mustBeObject&#x27;;
 import Mesh from &#x27;../core/Mesh&#x27;;
@@ -290,123 +294,125 @@ const UNIT_MOMENTUM = Unit.KILOGRAM.mul(Unit.METER).div(Unit.SECOND)
  */
 export default class RigidBodyWithUnits extends ShareableBase implements IRigidBody&lt;G3, G3&gt; {
 
-    /**
-     * The underlying Mesh.
-     *
-     * @property mesh
-     * @type Mesh
-     * @private
-     */
-    private mesh: Mesh;
-    private base: G3;
+  /**
+   * The underlying Mesh.
+   *
+   * @property mesh
+   * @type Mesh
+   * @private
+   */
+  private mesh: Mesh;
+  private base: G3;
 
-    /**
-     * @property _mass
-     * @type G3
-     * @default one
-     * @private
-     */
-    private _mass = G3.scalar(1, Unit.KILOGRAM)
+  /**
+   * @property _mass
+   * @type G3
+   * @default one
+   * @private
+   */
+  private _mass = G3.scalar(1, Unit.KILOGRAM)
 
-    /**
-     * @property _momentum
-     * @type G3
-     * @default 0 kg·m/s
-     * @private
-     */
-    private _momentum = G3.scalar(0, Unit.KILOGRAM.mul(Unit.METER).div(Unit.SECOND))
+  /**
+   * @property _momentum
+   * @type G3
+   * @default 0 kg·m/s
+   * @private
+   */
+  private _momentum = G3.scalar(0, Unit.KILOGRAM.mul(Unit.METER).div(Unit.SECOND))
 
-    /**
-     * Provides descriptive variables for translational and rotational motion.
-     * This class is intended to be used as a base for bodies in the __visual__ module.
-     *
-     * @class RigidBodyWithUnits
-     * @constructor
-     * @param mesh {Mesh}
-     * @param axis {VectorE3} The axis corresponding to a unit attitude spinor.
-     * @param [type = &#x27;RigidBodyWithUnits&#x27;] {string}
-     */
-    constructor(mesh: Mesh, axis: VectorE3, type = &#x27;RigidBodyWithUnits&#x27;) {
-        super(type)
-        this.mesh = mustBeObject(&#x27;mesh&#x27;, mesh);
-        this.mesh.addRef()
-        this.base = G3.direction(mustBeObject(&#x27;axis&#x27;, axis))
-    }
+  /**
+   * Provides descriptive variables for translational and rotational motion.
+   * This class is intended to be used as a base for bodies in the __visual__ module.
+   *
+   * @class RigidBodyWithUnits
+   * @constructor
+   * @param mesh {Mesh}
+   * @param axis {VectorE3} The axis corresponding to a unit attitude spinor.
+   * @param [type = &#x27;RigidBodyWithUnits&#x27;] {string}
+   * @param level {number}
+   */
+  constructor(mesh: Mesh, axis: VectorE3, type = &#x27;RigidBodyWithUnits&#x27;, level: number) {
+    super(type, incLevel(level))
+    this.mesh = mustBeObject(&#x27;mesh&#x27;, mesh);
+    this.mesh.addRef()
+    this.base = G3.direction(mustBeObject(&#x27;axis&#x27;, axis))
+  }
 
-    /**
-     * @method destructor
-     * @return {void}
-     * @protected
-     */
-    protected destructor(): void {
-        this.mesh.release()
-        this.mesh = void 0
-        super.destructor()
-    }
+  /**
+   * @method destructor
+   * @param level {number}
+   * @return {void}
+   * @protected
+   */
+  protected destructor(level: number): void {
+    this.mesh.release()
+    this.mesh = void 0
+    super.destructor(incLevel(level))
+  }
 
-    /**
-     * @property axis
-     * @type G3
-     */
-    public get axis(): G3 {
-        return this.base.rotate(this.mesh.attitude)
-    }
-    public set axis(axis: G3) {
-        mustBeObject(&#x27;axis&#x27;, axis)
-        this.mesh.attitude.rotorFromDirections(this.base, axis)
-    }
+  /**
+   * @property axis
+   * @type G3
+   */
+  public get axis(): G3 {
+    return this.base.rotate(this.mesh.attitude)
+  }
+  public set axis(axis: G3) {
+    mustBeObject(&#x27;axis&#x27;, axis)
+    this.mesh.attitude.rotorFromDirections(this.base, axis)
+  }
 
-    /**
-     * @property attitude
-     * @type G3
-     */
-    get attitude(): G3 {
-        return G3.fromSpinor(this.mesh.attitude)
-    }
-    set attitude(attitude: G3) {
-        mustBeObject(&#x27;attitude&#x27;, attitude, () =&gt; { return this._type })
-        Unit.compatible(attitude.uom, Unit.ONE)
-        this.mesh.attitude.copySpinor(attitude)
-    }
+  /**
+   * @property attitude
+   * @type G3
+   */
+  get attitude(): G3 {
+    return G3.fromSpinor(this.mesh.attitude)
+  }
+  set attitude(attitude: G3) {
+    mustBeObject(&#x27;attitude&#x27;, attitude, () =&gt; { return this._type })
+    Unit.compatible(attitude.uom, Unit.ONE)
+    this.mesh.attitude.copySpinor(attitude)
+  }
 
-    /**
-     * @property mass
-     * @type G3
-     */
-    get mass(): G3 {
-        return this._mass
-    }
-    set mass(mass: G3) {
-        mustBeObject(&#x27;mass&#x27;, mass, () =&gt; { return this._type })
-        Unit.compatible(mass.uom, Unit.KILOGRAM)
-        this._mass = mass
-    }
+  /**
+   * @property mass
+   * @type G3
+   */
+  get mass(): G3 {
+    return this._mass
+  }
+  set mass(mass: G3) {
+    mustBeObject(&#x27;mass&#x27;, mass, () =&gt; { return this._type })
+    Unit.compatible(mass.uom, Unit.KILOGRAM)
+    this._mass = mass
+  }
 
-    /**
-     * @property momentum
-     * @type G3
-     */
-    get momentum(): G3 {
-        return this._momentum
-    }
-    set momentum(momentum: G3) {
-        mustBeObject(&#x27;momentum&#x27;, momentum, () =&gt; { return this._type })
-        Unit.compatible(momentum.uom, UNIT_MOMENTUM)
-        this._momentum = momentum
-    }
+  /**
+   * @property momentum
+   * @type G3
+   */
+  get momentum(): G3 {
+    return this._momentum
+  }
+  set momentum(momentum: G3) {
+    mustBeObject(&#x27;momentum&#x27;, momentum, () =&gt; { return this._type })
+    Unit.compatible(momentum.uom, UNIT_MOMENTUM)
+    this._momentum = momentum
+  }
 
-    /**
-     * @property position
-     * @type G3
-     */
-    get position(): G3 {
-        return G3.fromVector(this.mesh.position, Unit.METER)
-    }
-    set position(position: G3) {
-        mustBeObject(&#x27;position&#x27;, position, () =&gt; { return this._type })
-        Unit.compatible(position.uom, Unit.METER)
-        this.mesh.position.copy(position)
-    }
+  /**
+   * @property position
+   * @type G3
+   */
+  get position(): G3 {
+    return G3.fromVector(this.mesh.position, Unit.METER)
+  }
+  set position(position: G3) {
+    mustBeObject(&#x27;position&#x27;, position, () =&gt; { return this._type })
+    Unit.compatible(position.uom, Unit.METER)
+    this.mesh.position.copy(position)
+  }
 }
 
     </pre>

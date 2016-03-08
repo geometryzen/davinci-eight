@@ -1,5 +1,6 @@
 import Facet from '../core/Facet';
 import Geometric3 from '../math/Geometric3'
+import incLevel from '../base/incLevel';
 import Mesh from '../core/Mesh';
 import mustBeObject from '../checks/mustBeObject';
 import ShareableBase from '../core/ShareableBase';
@@ -89,9 +90,10 @@ export default class Trail extends ShareableBase {
    * @class Trail
    * @constructor
    * @param mesh {Mesh}
+   * @param [level = 0]
    */
-  constructor(mesh: Mesh) {
-    super('Trail')
+  constructor(mesh: Mesh, level = 0) {
+    super('Trail', incLevel(level))
     mustBeObject('mesh', mesh)
     mesh.addRef()
     this.mesh = mesh
@@ -99,13 +101,14 @@ export default class Trail extends ShareableBase {
 
   /**
    * @method destructor
+   * @param level {number}
    * @return {void}
    * @protected
    */
-  protected destructor(): void {
+  protected destructor(level: number): void {
     this.mesh.release()
     this.mesh = void 0
-    super.destructor()
+    super.destructor(incLevel(level))
   }
 
   /**

@@ -1,5 +1,6 @@
 import AttribLocation from '../core/AttribLocation';
 import ContextProvider from '../core/ContextProvider';
+import incLevel from '../base/incLevel';
 import isDefined from '../checks/isDefined';
 import isString from '../checks/isString';
 import isNull from '../checks/isNull';
@@ -82,8 +83,8 @@ export default class Material extends ShareableContextConsumer implements Abstra
    * @param type {string} The name of the type.
    * @param engine {Engine} The <code>Engine</code> to subscribe to or <code>null</code> for deferred subscription.
    */
-  constructor(vertexShaderSrc: string, fragmentShaderSrc: string, attribs: string[], type: string, engine: Engine) {
-    super(type, engine)
+  constructor(vertexShaderSrc: string, fragmentShaderSrc: string, attribs: string[], type: string, engine: Engine, level: number) {
+    super(type, engine, incLevel(level))
     if (isDefined(vertexShaderSrc) && !isNull(vertexShaderSrc)) {
       this._vertexShaderSrc = mustBeString('vertexShaderSrc', vertexShaderSrc)
     }
@@ -91,16 +92,23 @@ export default class Material extends ShareableContextConsumer implements Abstra
       this._fragmentShaderSrc = mustBeString('fragmentShaderSrc', fragmentShaderSrc)
     }
     this._attribs = mustBeArray('attribs', attribs)
+    if (level === 0) {
+      this.synchUp()
+    }
   }
 
   /**
    * @method destructor
+   * @param level {number}
    * @return {void}
    * @protected
    */
-  protected destructor(): void {
-    super.destructor()
+  protected destructor(level: number): void {
+    if (level === 0) {
+      this.cleanUp()
+    }
     mustBeUndefined(this._type, this._program)
+    super.destructor(incLevel(level))
   }
 
   /**

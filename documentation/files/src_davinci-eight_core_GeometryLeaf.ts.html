@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src/davinci-eight/collections/NumberIUnknownMap.ts - davinci-eight</title>
+    <title>src/davinci-eight/core/GeometryLeaf.ts - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.212.0</em>
+            <em>API Docs for: 2.213.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -106,9 +106,11 @@
                                 <li><a href="../classes/GeometricE2.html">GeometricE2</a></li>
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
+                                <li><a href="../classes/GeometryArrays.html">GeometryArrays</a></li>
                                 <li><a href="../classes/GeometryBuilder.html">GeometryBuilder</a></li>
                                 <li><a href="../classes/GeometryContainer.html">GeometryContainer</a></li>
                                 <li><a href="../classes/GeometryElements.html">GeometryElements</a></li>
+                                <li><a href="../classes/GeometryLeaf.html">GeometryLeaf</a></li>
                                 <li><a href="../classes/GeometryOptions.html">GeometryOptions</a></li>
                                 <li><a href="../classes/GeometryPrimitive.html">GeometryPrimitive</a></li>
                                 <li><a href="../classes/GraphicsProgramSymbols.html">GraphicsProgramSymbols</a></li>
@@ -139,7 +141,7 @@
                                 <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
                                 <li><a href="../classes/MouseControls.html">MouseControls</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
-                                <li><a href="../classes/NumberIUnknownMap.html">NumberIUnknownMap</a></li>
+                                <li><a href="../classes/NumberShareableMap.html">NumberShareableMap</a></li>
                                 <li><a href="../classes/Perspective.html">Perspective</a></li>
                                 <li><a href="../classes/PerspectiveCamera.html">PerspectiveCamera</a></li>
                                 <li><a href="../classes/PointMaterial.html">PointMaterial</a></li>
@@ -179,7 +181,7 @@
                                 <li><a href="../classes/SpinorE2.html">SpinorE2</a></li>
                                 <li><a href="../classes/SpinorE3.html">SpinorE3</a></li>
                                 <li><a href="../classes/SpinorE4.html">SpinorE4</a></li>
-                                <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
+                                <li><a href="../classes/StringShareableMap.html">StringShareableMap</a></li>
                                 <li><a href="../classes/Tetrahedron.html">Tetrahedron</a></li>
                                 <li><a href="../classes/TetrahedronGeometry.html">TetrahedronGeometry</a></li>
                                 <li><a href="../classes/TetrahedronGeometryOptions.html">TetrahedronGeometryOptions</a></li>
@@ -219,6 +221,7 @@
                 
                 
                             <ul id="api-modules" class="apis modules">
+                                <li><a href="../modules/commands.html">commands</a></li>
                                 <li><a href="../modules/controls.html">controls</a></li>
                                 <li><a href="../modules/core.html">core</a></li>
                                 <li><a href="../modules/EIGHT.html">EIGHT</a></li>
@@ -261,140 +264,229 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: src/davinci-eight/collections/NumberIUnknownMap.ts</h1>
+<h1 class="file-heading">File: src/davinci-eight/core/GeometryLeaf.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import Shareable from &#x27;../core/Shareable&#x27;;
-import ShareableBase from &#x27;../core/ShareableBase&#x27;;
+import AbstractMaterial from &#x27;./AbstractMaterial&#x27;
+import ContextProvider from &#x27;./ContextProvider&#x27;
+import core from &#x27;../core&#x27;
+import DrawMode from &#x27;./DrawMode&#x27;
+import Engine from &#x27;./Engine&#x27;
+import ErrorMode from &#x27;./ErrorMode&#x27;
+import Geometry from &#x27;./Geometry&#x27;
+import incLevel from &#x27;../base/incLevel&#x27;
+import isNumber from &#x27;../checks/isNumber&#x27;
+import Matrix4 from &#x27;../math/Matrix4&#x27;
+import notImplemented from &#x27;../i18n/notImplemented&#x27;
+import notSupported from &#x27;../i18n/notSupported&#x27;
+import readOnly from &#x27;../i18n/readOnly&#x27;
+import ShareableContextConsumer from &#x27;./ShareableContextConsumer&#x27;
+import VertexAttribPointer from &#x27;./VertexAttribPointer&#x27;
 
 /**
- * @class NumberIUnknownMap
- * @extends ShareableBase
+ * @class GeometryLeaf
+ * @extends ShareableContextConsumer
  */
-export default class NumberIUnknownMap&lt;V extends Shareable&gt; extends ShareableBase implements Shareable {
+export default class GeometryLeaf extends ShareableContextConsumer implements Geometry {
 
-    /**
-     * @property _elements
-     * @private
-     */
-    private _elements: { [key: number]: V } = {};
+  /**
+   * @property _drawMode
+   * @type DrawMode
+   * @private
+   */
+  private _drawMode: DrawMode;
 
-    /**
-     * @class NumberIUnknownMap
-     * @constructor
-     */
-    constructor() {
-        super(&#x27;NumberIUnknownMap&#x27;)
+  /**
+   * @property mode
+   * @type number
+   * @protected
+   */
+  protected mode: number;
+
+  /**
+   * &lt;p&gt;
+   * The number of &lt;em&gt;bytes&lt;/em&gt; for each element.
+   * &lt;/p&gt;
+   * &lt;p&gt;
+   * This is used in the vertexAttribPointer method.
+   * Normally, we will use gl.FLOAT for each number which takes 4 bytes.
+   * &lt;/p&gt;
+   *
+   * @property _stride
+   * @type number
+   * @protected
+   */
+  protected _stride: number;
+
+  /**
+   * @property _pointers
+   * @type VertexAttribPointer[]
+   * @protected
+   */
+  protected _pointers: VertexAttribPointer[];
+
+  /**
+   * @class GeometryLeaf
+   * @constructor
+   * @param type {string}
+   * @param engine {Engine}
+   * @param level {number}
+   */
+  constructor(type: string, engine: Engine, level: number) {
+    super(type, engine, incLevel(level))
+  }
+
+  /**
+   * @method destructor
+   * @param level {number}
+   * @return {void}
+   * @protected
+   */
+  protected destructor(level: number): void {
+    super.destructor(incLevel(level))
+  }
+
+  /**
+   * @property drawMode
+   * @type {DrawMode}
+   */
+  get drawMode(): DrawMode {
+    return this._drawMode
+  }
+  set drawMode(drawMode: DrawMode) {
+    this._drawMode = drawMode
+    if (this.contextProvider) {
+      this.drawMode = this.contextProvider.drawModeToGL(drawMode)
     }
+  }
 
-    /**
-     * @property destructor
-     * @return {void}
-     * @protected
-     */
-    protected destructor(): void {
-        this.forEach(function(key, value) {
-            if (value) {
-                value.release()
-            }
-        });
-        this._elements = void 0
+  /**
+   * @method isLeaf
+   * @return {boolean}
+   */
+  public isLeaf(): boolean {
+    return true
+  }
+
+  /**
+   * @property partsLength
+   * @type number
+   * @readOnly
+   */
+  get partsLength(): number {
+    return 0
+  }
+  set partsLength(unused) {
+    throw new Error(readOnly(&#x27;partsLength&#x27;).message)
+  }
+
+  /**
+   * @property scaling
+   * @type Matrix4
+   */
+  get scaling(): Matrix4 {
+    throw new Error(notImplemented(&#x27;get scaling&#x27;).message)
+  }
+  set scaling(scaling: Matrix4) {
+    throw new Error(notImplemented(&#x27;set scaling&#x27;).message)
+  }
+
+  /**
+   * @method addPart
+   * @param geometry {Geometry}
+   * @return {void}
+   */
+  addPart(geometry: Geometry): void {
+    throw new Error(notSupported(&#x27;addPart&#x27;).message)
+  }
+
+  /**
+   * @method contextGain
+   * @param contextProvider {ContextProvider}
+   * @return {void}
+   */
+  public contextGain(contextProvider: ContextProvider): void {
+    if (isNumber(this._drawMode)) {
+      this.mode = contextProvider.drawModeToGL(this._drawMode)
     }
-
-    /**
-     * @method exists
-     * @param {number}
-     * @return {boolean}
-     */
-    exists(key: number): boolean {
-        let element = this._elements[key]
-        return element ? true : false
-    }
-
-    /**
-     * @method get
-     * @param key {number}
-     * @return {V}
-     */
-    get(key: number): V {
-        let element = this.getWeakRef(key)
-        if (element) {
-            element.addRef()
+    else {
+      switch (core.errorMode) {
+        case ErrorMode.WARNME: {
+          console.warn(&#x60;${this._type}.drawMode must be a number.&#x60;)
         }
-        return element
-    }
-
-    /**
-     * @method getWeakRef
-     * @param key {number}
-     * @return {V}
-     */
-    getWeakRef(index: number): V {
-        return this._elements[index]
-    }
-
-    /**
-     * @method put
-     * @param key {number}
-     * @param value {V}
-     * @return {void}
-     */
-    put(key: number, value: V): void {
-        if (value) {
-            value.addRef()
+        default: {
+          // Do nothing.
         }
-        this.putWeakRef(key, value)
+      }
     }
-
-    /**
-     * @method putWeakRef
-     * @param key {number}
-     * @param value {V}
-     * @return {void}
-     */
-    putWeakRef(key: number, value: V): void {
-        var elements = this._elements
-        var existing = elements[key]
-        if (existing) {
-            existing.release()
+    if (!isNumber(this._stride)) {
+      switch (core.errorMode) {
+        case ErrorMode.WARNME: {
+          console.warn(&#x60;${this._type}.stride must be a number.&#x60;)
         }
-        elements[key] = value
-    }
-
-    /**
-     * @method forEach
-     * @param callback {(key: number, value: V) =&gt; void}
-     * @return {void}
-     */
-    forEach(callback: (key: number, value: V) =&gt; void) {
-        let keys: number[] = this.keys
-        for (var i = 0, iLength = keys.length; i &lt; iLength; i++) {
-            let key: number = keys[i]
-            let value = this._elements[key]
-            callback(key, value)
+        default: {
+          // Do nothing.
         }
+      }
     }
+    super.contextGain(contextProvider)
+  }
 
-    /**
-     * @property keys
-     * @type {number[]}
-     */
-    get keys(): number[] {
-        // FIXME: cache? Maybe, clients may use this to iterate. forEach is too slow.
-        return Object.keys(this._elements).map(function(keyString) { return parseFloat(keyString) })
-    }
+  /**
+   * @method removePart
+   * @param index {number}
+   * @return {void}
+   */
+  removePart(index: number): void {
+    throw new Error(notSupported(&#x27;removePart&#x27;).message)
+  }
 
-    /**
-     * @method remove
-     * @param key {number}
-     * @return {void}
-     */
-    remove(key: number): void {
-        // Strong or Weak doesn&#x27;t matter because the value is &#x60;undefined&#x60;.
-        this.put(key, void 0)
-        delete this._elements[key]
-    }
+  /**
+   * @method getPart
+   * @param index {number}
+   * @return {Geometry}
+   */
+  getPart(index: number): Geometry {
+    throw new Error(notSupported(&#x27;getPart&#x27;).message)
+  }
+
+  /**
+   * @method draw
+   * @param material {AbstractMaterial}
+   * @return {void}
+   */
+  draw(material: AbstractMaterial): void {
+    throw new Error(notSupported(&#x27;draw&#x27;).message)
+  }
+
+  /**
+   * @method hasPrincipalScale
+   * @param name {string}
+   * @return {boolean}
+   */
+  hasPrincipalScale(name: string): boolean {
+    throw new Error(notImplemented(&#x60;hasPrincipalScale(${name})&#x60;).message)
+  }
+
+  /**
+   * @method getPrincipalScale
+   * @param name {string}
+   * @return {number}
+   */
+  public getPrincipalScale(name: string): number {
+    throw new Error(notImplemented(&#x27;getPrincipalScale&#x27;).message)
+  }
+
+  /**
+   * @method setPrincipalScale
+   * @param name {string}
+   * @param value {number}
+   * @return {void}
+   */
+  public setPrincipalScale(name: string, value: number): void {
+    throw new Error(notImplemented(&#x27;setPrincipalScale&#x27;).message)
+  }
 }
 
     </pre>

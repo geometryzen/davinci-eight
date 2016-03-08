@@ -24,13 +24,45 @@ declare module EIGHT {
     release(): number;
   }
 
+  /**
+   * Convenience base class for classes requiring reference counting.
+   */
+  class ShareableBase implements Shareable {
+
+    /**
+     * type: A human-readable name for the derived class type.
+     */
+    constructor(type: string, level: number);
+
+    /**
+     * Notifies this instance that something is referencing it.
+     */
+    addRef(): number;
+
+    /**
+     *
+     */
+    protected destructor(level: number): void;
+
+    /**
+     *
+     */
+    isZombie(): boolean;
+
+    /**
+     * Notifies this instance that something is dereferencing it.
+     */
+    release(): number;
+  }
+
   class ShareableArray<T extends Shareable> extends ShareableBase {
     length: number;
     /**
      * Collection class for maintaining an array of types derived from Shareable.
      * Provides a safer way to maintain reference counts than a native array.
      */
-    constructor(elements?: T[]);
+    constructor(elements: T[], level: number);
+    forEach(callback: (value: T, index: number) => void): void;
     get(index: number): T;
     /**
      * Gets the element at the specified index without incrementing the reference count.
@@ -38,19 +70,18 @@ declare module EIGHT {
      */
     getWeakRef(index: number): T;
     indexOf(searchElement: T, fromIndex?: number): number;
-    slice(begin?: number, end?: number): ShareableArray<T>;
-    splice(index: number, deleteCount: number): ShareableArray<T>;
-    forEach(callback: (value: T, index: number) => void): void;
+    pop(): T;
     push(element: T): number;
     /**
      * Pushes an element onto the tail of the list without incrementing the element reference count.
      */
     pushWeakRef(element: T): number;
-    pop(): T;
     shift(): T;
+    slice(begin?: number, end?: number): ShareableArray<T>;
+    splice(index: number, deleteCount: number): ShareableArray<T>;
   }
 
-  class NumberIUnknownMap<V extends Shareable> extends ShareableBase {
+  class NumberShareableMap<V extends Shareable> extends ShareableBase {
     keys: number[];
     constructor()
     exists(key: number): boolean
@@ -62,7 +93,7 @@ declare module EIGHT {
     remove(key: number): void
   }
 
-  class StringIUnknownMap<V extends Shareable> extends ShareableBase {
+  class StringShareableMap<V extends Shareable> extends ShareableBase {
     keys: string[];
     constructor()
     exists(key: string): boolean
@@ -72,32 +103,6 @@ declare module EIGHT {
     put(key: string, value: V): void
     putWeakRef(key: string, value: V): void
     remove(key: string): void
-  }
-
-  /**
-   * Convenience base class for classes requiring reference counting.
-   */
-  class ShareableBase implements Shareable {
-    /**
-     * Unique identifier for this instance.
-     */
-    uuid: string;
-    /**
-     * type: A human-readable name for the derived class type.
-     */
-    constructor(type: string);
-    /**
-     *
-     */
-    protected destructor(): void
-    /**
-     * Notifies this instance that something is referencing it.
-     */
-    addRef(): number;
-    /**
-     * Notifies this instance that something is dereferencing it.
-     */
-    release(): number;
   }
 
   /**
@@ -3004,43 +3009,75 @@ declare module EIGHT {
   }
 
   interface Geometry extends ContextConsumer {
-    data: VertexArrays;
     partsLength: number;
+    scaling: Matrix4;
     addPart(geometry: Geometry): void;
-    removePart(index: number): void;
-    getPart(index: number): Geometry;
     draw(material: AbstractMaterial): void;
+    getPart(index: number): Geometry;
+    getPrincipalScale(name: string): number;
+    hasPrincipalScale(name: string): boolean;
+    isLeaf(): boolean;
+    removePart(index: number): void;
+    setPrincipalScale(name: string, value: number): void;
   }
 
   class GeometryContainer extends ShareableBase implements Geometry {
     data: VertexArrays;
     partsLength: number;
+    scaling: Matrix4;
     constructor();
     addPart(geometry: Geometry): void;
-    removePart(index: number): void;
-    draw(material: AbstractMaterial): void;
-    getPart(index: number): Geometry;
     contextFree(context: ContextProvider): void;
     contextGain(context: ContextProvider): void;
     contextLost(): void;
+    draw(material: AbstractMaterial): void;
+    getPart(index: number): Geometry;
+    getPrincipalScale(name: string): number;
+    hasPrincipalScale(name: string): boolean;
+    isLeaf(): boolean;
+    removePart(index: number): void;
+    setPrincipalScale(name: string, value: number): void;
+  }
+
+  class GeometryArrays extends ShareableContextConsumer implements Geometry {
+    drawMode: DrawMode
+    partsLength: number;
+    scaling: Matrix4;
+    constructor(engine: Engine, level: number);
+    protected destructor(): void;
+    addPart(geometry: Geometry): void;
+    draw(material: AbstractMaterial): void;
+    getAttribute(name: string): Attribute;
+    getPart(index: number): Geometry;
+    getPrincipalScale(name: string): number;
+    hasPrincipalScale(name: string): boolean;
+    isLeaf(): boolean;
+    removePart(index: number): void;
+    setAttribute(name: string, attribute: Attribute): void;
+    setPrincipalScale(name: string, value: number): void;
   }
 
   class GeometryElements extends ShareableContextConsumer implements Geometry {
-    attributes: number[];
     data: VertexArrays;
     drawMode: DrawMode;
     indices: number[];
     partsLength: number;
     pointers: VertexAttribPointer[];
+    scaling: Matrix4;
     /**
      * The total number of bytes for each element.
      */
     stride: number;
-    constructor(data: VertexArrays, engine: Engine);
+    constructor(type: string, data: VertexArrays, engine: Engine, level: number);
+    protected destructor(): void;
     addPart(geometry: Geometry): void;
-    removePart(index: number): void;
-    getPart(index: number): Geometry;
     draw(material: AbstractMaterial): void;
+    getPart(index: number): Geometry;
+    getPrincipalScale(name: string): number;
+    hasPrincipalScale(name: string): boolean;
+    isLeaf(): boolean;
+    removePart(index: number): void;
+    setPrincipalScale(name: string, value: number): void;
   }
 
   interface GeometryBuilder {
@@ -3266,11 +3303,28 @@ declare module EIGHT {
     constructor();
   }
 
+  interface LineMaterialOptions {
+
+    /**
+     * @attribute attributes
+     * @type {[name: string]: number}
+     * @optional
+     */
+    attributes?: { [name: string]: number }
+
+    /**
+     * @attribute uniforms
+     * @type {[name: string]: string}
+     * @optional
+     */
+    uniforms?: { [name: string]: string }
+  }
+
   /**
    *
    */
   class LineMaterial extends Material {
-    constructor();
+    constructor(options: LineMaterialOptions, engine: Engine)
   }
 
   /**

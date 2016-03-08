@@ -68,9 +68,11 @@ YUI.add("yuidoc-meta", function(Y) {
         "GeometricE2",
         "GeometricE3",
         "Geometry",
+        "GeometryArrays",
         "GeometryBuilder",
         "GeometryContainer",
         "GeometryElements",
+        "GeometryLeaf",
         "GeometryOptions",
         "GeometryPrimitive",
         "GraphicsProgramSymbols",
@@ -101,7 +103,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "ModelFacet",
         "MouseControls",
         "Mutable",
-        "NumberIUnknownMap",
+        "NumberShareableMap",
         "Perspective",
         "PerspectiveCamera",
         "PointMaterial",
@@ -141,7 +143,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "SpinorE2",
         "SpinorE3",
         "SpinorE4",
-        "StringIUnknownMap",
+        "StringShareableMap",
         "Tetrahedron",
         "TetrahedronGeometry",
         "TetrahedronGeometryOptions",
@@ -181,6 +183,7 @@ YUI.add("yuidoc-meta", function(Y) {
     ],
     "modules": [
         "EIGHT",
+        "commands",
         "controls",
         "core",
         "facets",
@@ -191,6 +194,11 @@ YUI.add("yuidoc-meta", function(Y) {
         "visual"
     ],
     "allModules": [
+        {
+            "displayName": "commands",
+            "name": "commands",
+            "description": "<p>\nInitializes <b>the</b> `type` property to 'EIGHTLogger'.\n</p>"
+        },
         {
             "displayName": "controls",
             "name": "controls",

@@ -59,13 +59,13 @@ describe("computeAttributes", function() {
     ]
   }
   describe("using ['aPosition']", function() {
-    const attributes = computeAttributes(primitive, ['aPosition'])
+    const attributes = computeAttributes(primitive.attributes, ['aPosition'])
     it("should have 24 values", function() {
       expect(attributes.length).toBe(12)
     })
   })
   describe("['aPosition', 'aNormal']", function() {
-    const attributes = computeAttributes(primitive, ['aPosition', 'aNormal'])
+    const attributes = computeAttributes(primitive.attributes, ['aPosition', 'aNormal'])
     it("should have 24 values", function() {
       expect(attributes.length).toBe(24)
     })

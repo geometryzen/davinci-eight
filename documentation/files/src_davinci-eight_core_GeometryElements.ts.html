@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.212.0</em>
+            <em>API Docs for: 2.213.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -106,9 +106,11 @@
                                 <li><a href="../classes/GeometricE2.html">GeometricE2</a></li>
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
+                                <li><a href="../classes/GeometryArrays.html">GeometryArrays</a></li>
                                 <li><a href="../classes/GeometryBuilder.html">GeometryBuilder</a></li>
                                 <li><a href="../classes/GeometryContainer.html">GeometryContainer</a></li>
                                 <li><a href="../classes/GeometryElements.html">GeometryElements</a></li>
+                                <li><a href="../classes/GeometryLeaf.html">GeometryLeaf</a></li>
                                 <li><a href="../classes/GeometryOptions.html">GeometryOptions</a></li>
                                 <li><a href="../classes/GeometryPrimitive.html">GeometryPrimitive</a></li>
                                 <li><a href="../classes/GraphicsProgramSymbols.html">GraphicsProgramSymbols</a></li>
@@ -139,7 +141,7 @@
                                 <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
                                 <li><a href="../classes/MouseControls.html">MouseControls</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
-                                <li><a href="../classes/NumberIUnknownMap.html">NumberIUnknownMap</a></li>
+                                <li><a href="../classes/NumberShareableMap.html">NumberShareableMap</a></li>
                                 <li><a href="../classes/Perspective.html">Perspective</a></li>
                                 <li><a href="../classes/PerspectiveCamera.html">PerspectiveCamera</a></li>
                                 <li><a href="../classes/PointMaterial.html">PointMaterial</a></li>
@@ -179,7 +181,7 @@
                                 <li><a href="../classes/SpinorE2.html">SpinorE2</a></li>
                                 <li><a href="../classes/SpinorE3.html">SpinorE3</a></li>
                                 <li><a href="../classes/SpinorE4.html">SpinorE4</a></li>
-                                <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
+                                <li><a href="../classes/StringShareableMap.html">StringShareableMap</a></li>
                                 <li><a href="../classes/Tetrahedron.html">Tetrahedron</a></li>
                                 <li><a href="../classes/TetrahedronGeometry.html">TetrahedronGeometry</a></li>
                                 <li><a href="../classes/TetrahedronGeometryOptions.html">TetrahedronGeometryOptions</a></li>
@@ -219,6 +221,7 @@
                 
                 
                             <ul id="api-modules" class="apis modules">
+                                <li><a href="../modules/commands.html">commands</a></li>
                                 <li><a href="../modules/controls.html">controls</a></li>
                                 <li><a href="../modules/core.html">core</a></li>
                                 <li><a href="../modules/EIGHT.html">EIGHT</a></li>
@@ -268,23 +271,18 @@
 import AbstractMaterial from &#x27;./AbstractMaterial&#x27;
 import ContextProvider from &#x27;./ContextProvider&#x27;
 import core from &#x27;../core&#x27;
-import DrawMode from &#x27;./DrawMode&#x27;
 import Engine from &#x27;./Engine&#x27;
 import ErrorMode from &#x27;./ErrorMode&#x27;
-import Geometry from &#x27;./Geometry&#x27;
+import GeometryLeaf from &#x27;./GeometryLeaf&#x27;
+import incLevel from &#x27;../base/incLevel&#x27;
 import IndexBuffer from &#x27;./IndexBuffer&#x27;
 import isArray from &#x27;../checks/isArray&#x27;
 import isNull from &#x27;../checks/isNull&#x27;
-import isNumber from &#x27;../checks/isNumber&#x27;
 import isObject from &#x27;../checks/isObject&#x27;
 import isUndefined from &#x27;../checks/isUndefined&#x27;
-import Matrix4 from &#x27;../math/Matrix4&#x27;
 import mustBeArray from &#x27;../checks/mustBeArray&#x27;
 import mustBeObject from &#x27;../checks/mustBeObject&#x27;
-import notImplemented from &#x27;../i18n/notImplemented&#x27;
-import notSupported from &#x27;../i18n/notSupported&#x27;
 import readOnly from &#x27;../i18n/readOnly&#x27;
-import ShareableContextConsumer from &#x27;./ShareableContextConsumer&#x27;
 import VertexArrays from &#x27;./VertexArrays&#x27;
 import VertexAttribPointer from &#x27;./VertexAttribPointer&#x27;
 import VertexBuffer from &#x27;./VertexBuffer&#x27;
@@ -298,32 +296,13 @@ import VertexBuffer from &#x27;./VertexBuffer&#x27;
  * A Geometry that supports interleaved vertex buffers.
  *
  * @class GeometryElements
- * @extends ShareableContextConsumer
- * @extends Geometry
+ * @extends GeometryLeaf
  */
-export default class GeometryElements extends ShareableContextConsumer implements Geometry {
+export default class GeometryElements extends GeometryLeaf {
 
-  private _drawMode: DrawMode;
   private _indices: number[];
   private _attributes: number[];
 
-  /**
-   * &lt;p&gt;
-   * The number of &lt;em&gt;bytes&lt;/em&gt; for each element.
-   * &lt;/p&gt;
-   * &lt;p&gt;
-   * This is used in the vertexAttribPointer method.
-   * Normally, we will use gl.FLOAT for each number which takes 4 bytes.
-   * &lt;/p&gt;
-   *
-   * @property _stride
-   * @type number
-   * @private
-   */
-  private _stride: number;
-  private _pointers: VertexAttribPointer[];
-
-  private mode: number;
   private count: number;
 
   /**
@@ -341,17 +320,19 @@ export default class GeometryElements extends ShareableContextConsumer implement
   /**
    * @class GeometryElements
    * @constructor
+   * @param type {string}
    * @param data {VertexArrays}
    * @param engine {Engine} The &lt;code&gt;Engine&lt;/code&gt; to subscribe to or &lt;code&gt;null&lt;/code&gt; for deferred subscription.
+   * @param level {number}
    */
-  constructor(data: VertexArrays, engine: Engine) {
-    super(&#x27;GeometryElements&#x27;, engine)
-    this.ibo = new IndexBuffer(engine)
-    this.vbo = new VertexBuffer(engine)
+  constructor(type: string, data: VertexArrays, engine: Engine, level: number) {
+    super(type, engine, incLevel(level))
+    this.ibo = new IndexBuffer(engine, 0)
+    this.vbo = new VertexBuffer(engine, 0)
 
     if (!isNull(data) &amp;&amp; !isUndefined(data)) {
       if (isObject(data)) {
-        this._drawMode = data.drawMode;
+        this.drawMode = data.drawMode;
         this.setIndices(data.indices)
 
         this._attributes = data.attributes;
@@ -376,19 +357,26 @@ export default class GeometryElements extends ShareableContextConsumer implement
     else {
       this._pointers = []
     }
+    if (level === 0) {
+      this.synchUp()
+    }
   }
 
   /**
    * @method destructor
+   * @param level {number}
    * @return {void}
    * @protected
    */
-  protected destructor(): void {
+  protected destructor(level: number): void {
+    if (level === 0) {
+      this.cleanUp()
+    }
     this.ibo.release()
     this.ibo = void 0
     this.vbo.release()
     this.vbo = void 0
-    super.destructor()
+    super.destructor(incLevel(level))
   }
 
   get attributes(): number[] {
@@ -409,7 +397,7 @@ export default class GeometryElements extends ShareableContextConsumer implement
   get data(): VertexArrays {
     // FIXME: This should return a deep copy.
     return {
-      drawMode: this._drawMode,
+      drawMode: this.drawMode,
       indices: this._indices,
       attributes: this._attributes,
       stride: this._stride,
@@ -418,20 +406,6 @@ export default class GeometryElements extends ShareableContextConsumer implement
   }
   set data(data: VertexArrays) {
     throw new Error(readOnly(&#x27;data&#x27;).message)
-  }
-
-  /**
-   * @property drawMode
-   * @type {DrawMode}
-   */
-  get drawMode(): DrawMode {
-    return this._drawMode
-  }
-  set drawMode(drawMode: DrawMode) {
-    this._drawMode = drawMode
-    if (this.contextProvider) {
-      this.drawMode = this.contextProvider.drawModeToGL(drawMode)
-    }
   }
 
   /**
@@ -492,60 +466,6 @@ export default class GeometryElements extends ShareableContextConsumer implement
   }
 
   /**
-   * @method isLeaf
-   * @return {boolean}
-   */
-  public isLeaf(): boolean {
-    return true
-  }
-
-  /**
-   * @property partsLength
-   * @type number
-   * @readOnly
-   */
-  get partsLength(): number {
-    return 0
-  }
-  set partsLength(unused) {
-    throw new Error(readOnly(&#x27;partsLength&#x27;).message)
-  }
-
-  get scaling() {
-    throw new Error(notImplemented(&#x27;get scaling&#x27;).message)
-  }
-  set scaling(scaling: Matrix4) {
-    throw new Error(notImplemented(&#x27;set scaling&#x27;).message)
-  }
-
-  /**
-   * @method addPart
-   * @param geometry {Geometry}
-   * @return {void}
-   */
-  addPart(geometry: Geometry): void {
-    throw new Error(notSupported(&#x27;addPart&#x27;).message)
-  }
-
-  /**
-   * @method removePart
-   * @param index {number}
-   * @return {void}
-   */
-  removePart(index: number): void {
-    throw new Error(notSupported(&#x27;removePart&#x27;).message)
-  }
-
-  /**
-   * @method getPart
-   * @param index {number}
-   * @return {Geometry}
-   */
-  getPart(index: number): Geometry {
-    throw new Error(notSupported(&#x27;getPart&#x27;).message)
-  }
-
-  /**
    * @method contextFree
    * @param contextProvider {ContextProvider}
    * @return {void}
@@ -562,29 +482,6 @@ export default class GeometryElements extends ShareableContextConsumer implement
    * @return {void}
    */
   public contextGain(contextProvider: ContextProvider): void {
-    if (isNumber(this._drawMode)) {
-      this.mode = contextProvider.drawModeToGL(this._drawMode)
-    }
-    else {
-      switch (core.errorMode) {
-        case ErrorMode.WARNME: {
-          console.warn(&#x60;${this._type}.drawMode must be a number.&#x60;)
-        }
-        default: {
-          // Do nothing.
-        }
-      }
-    }
-    if (!isNumber(this._stride)) {
-      switch (core.errorMode) {
-        case ErrorMode.WARNME: {
-          console.warn(&#x60;${this._type}.stride must be a number.&#x60;)
-        }
-        default: {
-          // Do nothing.
-        }
-      }
-    }
     this.ibo.contextGain(contextProvider)
     this.vbo.contextGain(contextProvider)
     super.contextGain(contextProvider)
@@ -648,34 +545,6 @@ export default class GeometryElements extends ShareableContextConsumer implement
       this.ibo.unbind()
       this.vbo.unbind()
     }
-  }
-
-  /**
-   * @method hasPrincipalScale
-   * @param name {string}
-   * @return {boolean}
-   */
-  hasPrincipalScale(name: string): boolean {
-    throw new Error(notImplemented(&#x60;hasPrincipalScale(${name})&#x60;).message)
-  }
-
-  /**
-   * @method getPrincipalScale
-   * @param name {string}
-   * @return {number}
-   */
-  public getPrincipalScale(name: string): number {
-    throw new Error(notImplemented(&#x27;getPrincipalScale&#x27;).message)
-  }
-
-  /**
-   * @method setPrincipalScale
-   * @param name {string}
-   * @param value {number}
-   * @return {void}
-   */
-  public setPrincipalScale(name: string, value: number): void {
-    throw new Error(notImplemented(&#x27;setPrincipalScale&#x27;).message)
   }
 }
 

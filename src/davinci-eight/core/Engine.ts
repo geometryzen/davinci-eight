@@ -1,18 +1,27 @@
+// import Attribute from './Attribute'
 import Capability from '../commands/Capability';
 import EIGHTLogger from '../commands/EIGHTLogger';
+// import computeAttributes from './computeAttributes'
+// import computeCount from './computeCount'
+// import computePointers from './computePointers'
+// import computeStride from './computeStride'
 import ContextConsumer from './ContextConsumer';
-import ShareableArray from '../collections/ShareableArray';
+import DefaultContextProvider from '../base/DefaultContextProvider';
+import incLevel from '../base/incLevel';
 import initWebGL from './initWebGL';
 import isDefined from '../checks/isDefined';
 import mustBeDefined from '../checks/mustBeDefined';
 import mustBeObject from '../checks/mustBeObject';
 import readOnly from '../i18n/readOnly';
+import ShareableArray from '../collections/ShareableArray';
 import ShareableBase from './ShareableBase';
-import VersionLogger from '../commands/VersionLogger'
+import VersionLogger from '../commands/VersionLogger';
+// import VertexBuffer from './VertexBuffer';
+import VertexBufferManager from './VertexBufferManager';
+// import VertexBufferPackage from './VertexBufferPackage';
 import WebGLClearColor from '../commands/WebGLClearColor';
 import WebGLEnable from '../commands/WebGLEnable';
 import WebGLDisable from '../commands/WebGLDisable';
-import DefaultContextProvider from './DefaultContextProvider';
 
 /**
  * Fundamental abstractions in the architecture.
@@ -38,7 +47,7 @@ import DefaultContextProvider from './DefaultContextProvider';
  * @class Engine
  * @extends ShareableBase
  */
-export default class Engine extends ShareableBase {
+export default class Engine extends ShareableBase implements VertexBufferManager {
 
   /**
    * @property _gl
@@ -64,7 +73,7 @@ export default class Engine extends ShareableBase {
   private _webGLContextLost: (event: Event) => any
   private _webGLContextRestored: (event: Event) => any
 
-  private _commands = new ShareableArray<ContextConsumer>([])
+  private _commands = new ShareableArray<ContextConsumer>([], 0)
 
   private _contextProvider: DefaultContextProvider
 
@@ -72,16 +81,17 @@ export default class Engine extends ShareableBase {
    * @class Engine
    * @constructor
    * @param [attributes] {WebGLContextAttributes} Allows the context to be configured.
+   * @param [level = 0] {number}
    */
-  constructor(attributes?: WebGLContextAttributes) {
-    super('Engine')
+  constructor(attributes?: WebGLContextAttributes, level = 0) {
+    super('Engine', incLevel(level))
 
     this._attributes = attributes;
 
     this._commands.pushWeakRef(new EIGHTLogger())
     this._commands.pushWeakRef(new VersionLogger())
 
-    this._contextProvider = new DefaultContextProvider(this)
+    this._contextProvider = new DefaultContextProvider(this, 0)
 
     // For convenience.
     this.enable(Capability.DEPTH_TEST)
@@ -110,17 +120,18 @@ export default class Engine extends ShareableBase {
 
   /**
    * @method destructor
+   * @param level {number}
    * return {void}
    * @protected
    */
-  protected destructor(): void {
+  protected destructor(level: number): void {
     this.stop();
     this._contextProvider.release()
     while (this._users.length > 0) {
       this._users.pop();
     }
     this._commands.release();
-    super.destructor()
+    super.destructor(incLevel(level))
   }
 
   /**
@@ -189,6 +200,21 @@ export default class Engine extends ShareableBase {
     }
     return this
   }
+
+  /*
+  createVertexBuffer(attributes: {[name:string]: Attribute}, aNames: string[]): VertexBufferPackage {
+    const first = 0 // This could be different.
+    const count = computeCount(attributes, aNames)
+    const stride = computeStride(attributes, aNames)
+    const pointers = computePointers(attributes, aNames)
+    const array = computeAttributes(attributes, aNames)
+    const vbo = new VertexBuffer(this)
+    vbo.data = new Float32Array(array)
+    const vbp = new VertexBufferPackage(first, vbo, this)
+    vbo.release()
+    return vbp
+  }
+  */
 
   /**
    * Turns off a specific WebGL capability for this context.

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src/davinci-eight/collections/StringIUnknownMap.ts - davinci-eight</title>
+    <title>src/davinci-eight/core/GeometryArrays.ts - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.212.0</em>
+            <em>API Docs for: 2.213.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -106,9 +106,11 @@
                                 <li><a href="../classes/GeometricE2.html">GeometricE2</a></li>
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
+                                <li><a href="../classes/GeometryArrays.html">GeometryArrays</a></li>
                                 <li><a href="../classes/GeometryBuilder.html">GeometryBuilder</a></li>
                                 <li><a href="../classes/GeometryContainer.html">GeometryContainer</a></li>
                                 <li><a href="../classes/GeometryElements.html">GeometryElements</a></li>
+                                <li><a href="../classes/GeometryLeaf.html">GeometryLeaf</a></li>
                                 <li><a href="../classes/GeometryOptions.html">GeometryOptions</a></li>
                                 <li><a href="../classes/GeometryPrimitive.html">GeometryPrimitive</a></li>
                                 <li><a href="../classes/GraphicsProgramSymbols.html">GraphicsProgramSymbols</a></li>
@@ -139,7 +141,7 @@
                                 <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
                                 <li><a href="../classes/MouseControls.html">MouseControls</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
-                                <li><a href="../classes/NumberIUnknownMap.html">NumberIUnknownMap</a></li>
+                                <li><a href="../classes/NumberShareableMap.html">NumberShareableMap</a></li>
                                 <li><a href="../classes/Perspective.html">Perspective</a></li>
                                 <li><a href="../classes/PerspectiveCamera.html">PerspectiveCamera</a></li>
                                 <li><a href="../classes/PointMaterial.html">PointMaterial</a></li>
@@ -179,7 +181,7 @@
                                 <li><a href="../classes/SpinorE2.html">SpinorE2</a></li>
                                 <li><a href="../classes/SpinorE3.html">SpinorE3</a></li>
                                 <li><a href="../classes/SpinorE4.html">SpinorE4</a></li>
-                                <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
+                                <li><a href="../classes/StringShareableMap.html">StringShareableMap</a></li>
                                 <li><a href="../classes/Tetrahedron.html">Tetrahedron</a></li>
                                 <li><a href="../classes/TetrahedronGeometry.html">TetrahedronGeometry</a></li>
                                 <li><a href="../classes/TetrahedronGeometryOptions.html">TetrahedronGeometryOptions</a></li>
@@ -219,6 +221,7 @@
                 
                 
                             <ul id="api-modules" class="apis modules">
+                                <li><a href="../modules/commands.html">commands</a></li>
                                 <li><a href="../modules/controls.html">controls</a></li>
                                 <li><a href="../modules/core.html">core</a></li>
                                 <li><a href="../modules/EIGHT.html">EIGHT</a></li>
@@ -261,144 +264,186 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: src/davinci-eight/collections/StringIUnknownMap.ts</h1>
+<h1 class="file-heading">File: src/davinci-eight/core/GeometryArrays.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import Shareable from &#x27;../core/Shareable&#x27;;
-import ShareableBase from &#x27;../core/ShareableBase&#x27;;
+import AbstractMaterial from &#x27;./AbstractMaterial&#x27;
+import Attribute from &#x27;./Attribute&#x27;
+import computeAttributes from &#x27;./computeAttributes&#x27;
+import computeCount from &#x27;./computeCount&#x27;
+import computePointers from &#x27;./computePointers&#x27;
+import computeStride from &#x27;./computeStride&#x27;
+import ContextProvider from &#x27;./ContextProvider&#x27;
+import core from &#x27;../core&#x27;
+import Engine from &#x27;./Engine&#x27;
+import ErrorMode from &#x27;./ErrorMode&#x27;
+import GeometryLeaf from &#x27;./GeometryLeaf&#x27;
+import incLevel from &#x27;../base/incLevel&#x27;
+import VertexBuffer from &#x27;./VertexBuffer&#x27;
 
 /**
- * @class StringIUnknownMap
- * @extends ShareableBase
+ * @module EIGHT
+ * @submodule core
  */
-export default class StringIUnknownMap&lt;V extends Shareable&gt; extends ShareableBase implements Shareable {
-    /**
-     * @property elements
-     * @type {{[key: string]: V}}
-     */
-    private elements: { [key: string]: V } = {};
-    /**
-     * &lt;p&gt;
-     * A map of &lt;code&gt;string&lt;/code&gt; to &lt;code&gt;V extends Shareable&lt;/code&gt;.
-     * &lt;/p&gt;
-     * @class StringIUnknownMap
-     * @constructor
-     */
-    constructor() {
-        super(&#x27;StringIUnknownMap&#x27;)
-    }
-    /**
-     * @method destructor
-     * @return {void}
-     * @protected
-     */
-    protected destructor(): void {
-        this.forEach((key: string) =&gt; {
-            this.putWeakRef(key, void 0)
-        })
-        super.destructor()
-    }
-    /**
-     * Determines whether the key exists in the map with a defined value.
-     * @method exists
-     * @param key {string}
-     * @return {boolean} &lt;p&gt;&lt;code&gt;true&lt;/code&gt; if there is an element at the specified key.&lt;/p&gt;
-     */
-    public exists(key: string): boolean {
-        const element = this.elements[key];
-        return element ? true : false;
-    }
-    /**
-     * @method get
-     * @param key {string}
-     * @return {V}
-     */
-    public get(key: string): V {
-        const element = this.elements[key];
-        if (element) {
-            element.addRef();
-            return element;
+
+/**
+ * @class GeometryArrays
+ * @extends GeometryLeaf
+ */
+export default class GeometryArrays extends GeometryLeaf {
+
+  /**
+   * The &lt;code&gt;first&lt;/code&gt; parameter in the drawArrays call.
+   * This is currently hard-code to zero because this class only supportes buffering one primitive.
+   *
+   * @property first
+   * @type number
+   * @private
+   */
+  private first: number = 0
+
+  /**
+   * The &lt;code&gt;count&lt;/code&gt; parameter in the drawArrays call.
+   * This is currently maintained at this level because this class only supportes buffering one primitive.
+   *
+   * @property count
+   * @type number
+   * @private
+   */
+  private count: number
+
+  /**
+   *
+   */
+  private attributes: { [name: string]: Attribute }
+
+  /**
+   * @property vbo
+   * @type VertexBuffer
+   * @private
+   */
+  private vbo: VertexBuffer;
+
+  /**
+   * @class GeometryArrays
+   * @constructor
+   * @param engine {Engine}
+   * @param level {number}
+   */
+  constructor(engine: Engine, level: number) {
+    super(&#x27;GeometryArrays&#x27;, engine, incLevel(level))
+    this.attributes = {}
+    this.vbo = new VertexBuffer(engine, 0)
+  }
+
+  /**
+   * @method destructor
+   * @param level {number}
+   * @return {void}
+   * @protected
+   */
+  protected destructor(level: number): void {
+    this.vbo.release()
+    this.vbo = void 0
+    super.destructor(incLevel(level))
+  }
+
+  /**
+   * @method contextFree
+   * @param contextProvider {ContextProvider}
+   * @return {void}
+   */
+  contextFree(contextProvider: ContextProvider): void {
+    this.vbo.contextFree(contextProvider)
+    super.contextFree(contextProvider)
+  }
+
+  /**
+   * @method contextGain
+   * @param contextProvider {ContextProvider}
+   * @return {void}
+   */
+  contextGain(contextProvider: ContextProvider): void {
+    this.vbo.contextGain(contextProvider)
+    super.contextGain(contextProvider)
+  }
+
+  /**
+   * @method contextLost
+   * @return {void}
+   */
+  contextLost(): void {
+    this.vbo.contextLost()
+    super.contextLost()
+  }
+
+  /**
+   * @method draw
+   * @param material {AbstractMaterial}
+   * @return {void}
+   */
+  draw(material: AbstractMaterial): void {
+    const contextProvider = this.contextProvider
+    if (contextProvider) {
+      this.vbo.bind()
+      const pointers = this._pointers
+      if (pointers) {
+        const iLength = pointers.length
+        for (let i = 0; i &lt; iLength; i++) {
+          const pointer = pointers[i]
+          const attribLoc = material.getAttribLocation(pointer.name)
+          if (attribLoc &gt;= 0) {
+            contextProvider.vertexAttribPointer(attribLoc, pointer.size, pointer.normalized, this._stride, pointer.offset)
+            contextProvider.enableVertexAttribArray(attribLoc)
+          }
         }
-        else {
-            return void 0;
+      }
+      else {
+        switch (core.errorMode) {
+          case ErrorMode.WARNME: {
+            console.warn(&#x60;${this._type}.pointers must be an array.&#x60;)
+          }
+          default: {
+            // Do nothing.
+          }
         }
+      }
+      this.contextProvider.drawArrays(this.mode, this.first, this.count)
+      this.vbo.unbind()
     }
-    /**
-     * @method getWeakRef
-     * @param key {string}
-     * @return {V}
-     */
-    public getWeakRef(key: string): V {
-        return this.elements[key];
-    }
-    /**
-     * @method put
-     * @param key {string}
-     * @param value {V}
-     * @return {void}
-     */
-    public put(key: string, value: V): void {
-        if (value) {
-            value.addRef()
-        }
-        this.putWeakRef(key, value)
-    }
-    /**
-     * @method putWeakRef
-     * @param key {string}
-     * @param value {V}
-     * @return {void}
-     */
-    public putWeakRef(key: string, value: V): void {
-        const elements = this.elements
-        const existing = elements[key]
-        if (existing) {
-            existing.release()
-        }
-        elements[key] = value
-    }
-    /**
-     * @method forEach
-     * @param callback {(key: string, value: V) =&gt; void}
-     */
-    public forEach(callback: (key: string, value: V) =&gt; void): void {
-        const keys: string[] = this.keys;
-        for (var i = 0, iLength = keys.length; i &lt; iLength; i++) {
-            let key: string = keys[i];
-            callback(key, this.elements[key]);
-        }
-    }
-    /**
-     * @property keys
-     * @type {string[]}
-     */
-    get keys(): string[] {
-        return Object.keys(this.elements);
-    }
-    /**
-     * @property values
-     * @type {V[]}
-     */
-    get values(): V[] {
-        const values: V[] = []
-        const keys: string[] = this.keys
-        for (var i = 0, iLength = keys.length; i &lt; iLength; i++) {
-            let key: string = keys[i]
-            values.push(this.elements[key])
-        }
-        return values
-    }
-    /**
-     * @method remove
-     * @param key {string}
-     * @return {V}
-     */
-    public remove(key: string): V {
-        const value = this.elements[key]
-        delete this.elements[key]
-        return value
-    }
+  }
+
+  /**
+   * @method getAttribute
+   * @param name {string}
+   * @return {Attribute}
+   */
+  getAttribute(name: string): Attribute {
+    return this.attributes[name]
+  }
+
+  /**
+   * @method setAttribute
+   * @param name {string}
+   * @param attribute {Attribute}
+   * @return {void}
+   */
+  setAttribute(name: string, attribute: Attribute): void {
+    this.attributes[name] = attribute
+    // TODO: I think what should happen here is that we pass
+    // attributes and aNames to a function which returns first, count, stride, pointers
+    // and a VertexBuffer object?
+    const aNames = Object.keys(this.attributes)
+    // const x = this._engine.createVertexBuffer(this.attributes, aNames)
+    // this.first = x.first
+    this.count = computeCount(this.attributes, aNames)
+    this._stride = computeStride(this.attributes, aNames)
+    this._pointers = computePointers(this.attributes, aNames)
+    const array = computeAttributes(this.attributes, aNames)
+    this.vbo.data = new Float32Array(array)
+    // x.release()
+  }
 }
 
     </pre>

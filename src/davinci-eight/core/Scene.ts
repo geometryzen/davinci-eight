@@ -2,6 +2,7 @@ import Facet from '../core/Facet';
 import ContextProvider from '../core/ContextProvider';
 import AbstractDrawable from './AbstractDrawable';
 import ShareableArray from '../collections/ShareableArray';
+import incLevel from '../base/incLevel'
 import mustBeObject from '../checks/mustBeObject';
 import Geometry from './Geometry';
 import ShareableBase from '../core/ShareableBase';
@@ -32,8 +33,8 @@ class ScenePart extends ShareableBase {
   /**
    *
    */
-  constructor(geometry: Geometry, mesh: AbstractDrawable) {
-    super('ScenePart')
+  constructor(geometry: Geometry, mesh: AbstractDrawable, level: number) {
+    super('ScenePart', incLevel(level))
     this._geometry = geometry
     this._geometry.addRef()
     this._mesh = mesh
@@ -43,12 +44,12 @@ class ScenePart extends ShareableBase {
   /**
    *
    */
-  protected destructor(): void {
+  protected destructor(level: number): void {
     this._geometry.release()
     this._mesh.release()
     this._geometry = void 0;
     this._mesh = void 0
-    super.destructor()
+    super.destructor(incLevel(level))
   }
 
   /**
@@ -78,10 +79,10 @@ class ScenePart extends ShareableBase {
 
 function partsFromMesh(mesh: AbstractDrawable): ShareableArray<ScenePart> {
   mustBeObject('mesh', mesh)
-  const parts = new ShareableArray<ScenePart>()
+  const parts = new ShareableArray<ScenePart>([], 0)
   const geometry = mesh.geometry
   if (geometry.isLeaf()) {
-    const scenePart = new ScenePart(geometry, mesh)
+    const scenePart = new ScenePart(geometry, mesh, 0)
     parts.pushWeakRef(scenePart)
   }
   else {
@@ -89,7 +90,7 @@ function partsFromMesh(mesh: AbstractDrawable): ShareableArray<ScenePart> {
     for (let i = 0; i < iLen; i++) {
       const geometryPart = geometry.getPart(i)
       // FIXME: This needs to go down to the leaves.
-      const scenePart = new ScenePart(geometryPart, mesh)
+      const scenePart = new ScenePart(geometryPart, mesh, 0)
       geometryPart.release()
       parts.pushWeakRef(scenePart)
     }
@@ -117,23 +118,27 @@ export default class Scene extends ShareableContextConsumer {
    * @class Scene
    * @constructor
    * @param engine {Engine}
+   * @param [level = 0]
    */
-  constructor(engine: Engine) {
-    super('Scene', engine)
+  constructor(engine: Engine, level = 0) {
+    super('Scene', engine, incLevel(level))
     mustBeObject('engine', engine)
-    this._drawables = new ShareableArray<AbstractDrawable>()
-    this._parts = new ShareableArray<ScenePart>()
+    this._drawables = new ShareableArray<AbstractDrawable>([], 0)
+    this._parts = new ShareableArray<ScenePart>([], 0)
+    this.synchUp()
   }
 
   /**
    * @method destructor
+   * @param level {number}
    * @return {void}
    * @protected
    */
-  protected destructor(): void {
+  protected destructor(level: number): void {
+    this.cleanUp()
     this._drawables.release()
     this._parts.release()
-    super.destructor()
+    super.destructor(incLevel(level))
   }
 
   /**

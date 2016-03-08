@@ -1,6 +1,7 @@
 import GraphicsProgramBuilder from '../materials/GraphicsProgramBuilder'
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols'
 import Material from './Material'
+import mustBeNumber from '../checks/mustBeNumber'
 
 function builder() {
   const gpb = new GraphicsProgramBuilder()
@@ -44,9 +45,17 @@ export default class MeshNormalMaterial extends Material {
    * 
    * @class MeshNormalMaterial
    * @constructor
+   * @param level {number}
    */
-  constructor() {
+  constructor(level: number) {
     // FIXME: options
-    super(vertexShaderSrc(), fragmentShaderSrc(), [], 'MeshNormalMaterial', null)
+    super(
+      vertexShaderSrc(),
+      fragmentShaderSrc(),
+      [],
+      'MeshNormalMaterial',
+      null,
+      mustBeNumber('level', level) + 1
+    )
   }
 }

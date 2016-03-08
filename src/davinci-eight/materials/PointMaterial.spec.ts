@@ -6,7 +6,7 @@ describe("PointMaterial", function() {
   describe("(void 0, null)", function() {
     const matOptions: PointMaterialOptions = void 0
     const engine: Engine = null
-    const material = new PointMaterial(matOptions, engine)
+    const material = new PointMaterial(matOptions, engine, 0)
     it("should contain aPosition", function() {
       expect(material.vertexShaderSrc).toContain("attribute vec3 aPosition;")
     })
@@ -14,7 +14,7 @@ describe("PointMaterial", function() {
   describe("(null, null)", function() {
     const matOptions: PointMaterialOptions = null
     const engine: Engine = null
-    const material = new PointMaterial(matOptions, engine)
+    const material = new PointMaterial(matOptions, engine, 0)
     it("should contain aPosition", function() {
       expect(material.vertexShaderSrc).toContain("attribute vec3 aPosition;")
     })

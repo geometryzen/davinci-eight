@@ -6,9 +6,9 @@ import Vector3 from '../math/Vector3'
 describe('RigidBody', function() {
   it("should be shareable", function() {
     const geometry = new SphereGeometry()
-    const material = new MeshMaterial(null, null)
+    const material = new MeshMaterial(null, null, 0)
     const direction = new Vector3()
-    const rigidBody = new RigidBody('Foo', direction)
+    const rigidBody = new RigidBody('Foo', direction, 0)
     rigidBody.geometry = geometry
     rigidBody.material = material
     expect(rigidBody.isZombie()).toBe(false)
@@ -17,9 +17,9 @@ describe('RigidBody', function() {
   })
   it("mass should default to 1", function() {
     const geometry = new SphereGeometry()
-    const material = new MeshMaterial(null, null)
+    const material = new MeshMaterial(null, null, 0)
     const direction = new Vector3()
-    const rigidBody = new RigidBody('Foo', direction)
+    const rigidBody = new RigidBody('Foo', direction, 0)
     rigidBody.geometry = geometry
     rigidBody.material = material
     expect(rigidBody.mass).toBe(1)
@@ -27,9 +27,9 @@ describe('RigidBody', function() {
   })
   it("momentum should default to 0", function() {
     const geometry = new SphereGeometry()
-    const material = new MeshMaterial(null, null)
+    const material = new MeshMaterial(null, null, 0)
     const direction = new Vector3()
-    const rigidBody = new RigidBody('Foo', direction)
+    const rigidBody = new RigidBody('Foo', direction, 0)
     rigidBody.geometry = geometry
     rigidBody.material = material
     expect(rigidBody.momentum.α).toBe(0)

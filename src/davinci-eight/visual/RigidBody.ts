@@ -1,4 +1,5 @@
 import Geometric3 from '../math/Geometric3'
+import incLevel from '../base/incLevel'
 import IRigidBody from './IRigidBody'
 import Mesh from '../core/Mesh'
 import mustBeObject from '../checks/mustBeObject'
@@ -53,19 +54,27 @@ export default class RigidBody extends Mesh implements IRigidBody<number, Geomet
    * @constructor
    * @param type {string}
    * @param initialAxis {VectorE3} The initial direction of the symmetry axis
+   * @param level {number}
    */
-  constructor(type: string, initialAxis: VectorE3) {
-    super(type, void 0, void 0, null)
+  constructor(type: string, initialAxis: VectorE3, level: number) {
+    super(type, void 0, void 0, null, incLevel(level))
     this.initialAxis = R3.fromVector(initialAxis, Unit.ONE)
+    if (level === 0) {
+      this.synchUp()
+    }
   }
 
   /**
    * @method destructor
+   * @param level {number}
    * @return {void}
    * @protected
    */
-  protected destructor(): void {
-    super.destructor()
+  protected destructor(level: number): void {
+    if (level === 0) {
+      this.cleanUp()
+    }
+    super.destructor(incLevel(level))
   }
 
   /**

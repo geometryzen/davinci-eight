@@ -19,7 +19,7 @@ export default class Spinor3Animation extends ShareableBase implements IAnimatio
     private callback: () => void;
     private ease: string;
     constructor(value: SpinorE3, duration: number = 300, callback?: () => void, ease?: string) {
-        super('Spinor3Animation')
+        super('Spinor3Animation', 1)
         this.from = void 0
         this.to = Spinor3.copy(value)
         this.duration = duration

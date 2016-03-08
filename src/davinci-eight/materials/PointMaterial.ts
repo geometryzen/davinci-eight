@@ -5,6 +5,7 @@ import isDefined from '../checks/isDefined'
 import isNull from '../checks/isNull'
 import isUndefined from '../checks/isUndefined'
 import Material from './Material'
+import mustBeNumber from '../checks/mustBeNumber'
 import mustBeObject from '../checks/mustBeObject'
 import PointMaterialOptions from './PointMaterialOptions'
 
@@ -65,13 +66,26 @@ function fragmentShaderSrc(options?: PointMaterialOptions): string {
  * @extends Material
  */
 export default class PointMaterial extends Material {
+
   /**
    * @class PointMaterial
    * @constructor
    * @param options {PointMaterialOptions}
    * @param engine {Engine}
+   * @param level {number}
    */
-  constructor(options: PointMaterialOptions, engine: Engine) {
-    super(vertexShaderSrc(options), fragmentShaderSrc(options), [], 'PointMaterial', engine)
+  constructor(options: PointMaterialOptions, engine: Engine, level: number) {
+    super(
+      vertexShaderSrc(options),
+      fragmentShaderSrc(options),
+      [],
+      'PointMaterial',
+      engine,
+      mustBeNumber('level', level) + 1
+    )
+    if (level === 0) {
+      this.synchUp()
+    }
   }
+  // FIXME: destructor
 }

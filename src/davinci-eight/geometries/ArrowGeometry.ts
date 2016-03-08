@@ -2,6 +2,7 @@ import ArrowBuilder from './ArrowBuilder'
 import ArrowGeometryOptions from './ArrowGeometryOptions'
 import GeometryContainer from '../core/GeometryContainer'
 import GeometryElements from '../core/GeometryElements'
+import incLevel from '../base/incLevel'
 import isDefined from '../checks/isDefined'
 import mustBeObject from '../checks/mustBeObject'
 import R3 from '../math/R3'
@@ -27,9 +28,10 @@ export default class ArrowGeometry extends GeometryContainer {
    * @class ArrowGeometry
    * @constructor
    * @param [options] {ArrowGeometryOptios} The initial axis of the arrow.
+   * @param [level = 0] {number}
    */
-  constructor(options: ArrowGeometryOptions = {}) {
-    super('ArrowGeometry', options.tilt)
+  constructor(options: ArrowGeometryOptions = {}, level = 0) {
+    super('ArrowGeometry', options.tilt, incLevel(level))
     mustBeObject('options', options)
 
     const builder = new ArrowBuilder(R3.e2, R3.e3, false)
@@ -41,10 +43,20 @@ export default class ArrowGeometry extends GeometryContainer {
     const iLen = ps.length
     for (let i = 0; i < iLen; i++) {
       const dataSource = ps[i]
-      const geometry = new GeometryElements(vertexArraysFromPrimitive(dataSource), options.engine)
+      const geometry = new GeometryElements('ArrowGeometry', vertexArraysFromPrimitive(dataSource), options.engine, 0)
       this.addPart(geometry)
       geometry.release()
     }
+  }
+
+  /**
+   * @method destructor
+   * @param level {number}
+   * @return {void}
+   * @protected
+   */
+  protected destructor(level: number): void {
+    super.destructor(incLevel(level))
   }
 
   /**

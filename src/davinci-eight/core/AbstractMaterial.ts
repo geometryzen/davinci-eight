@@ -3,6 +3,11 @@ import ContextConsumer from './ContextConsumer';
 import UniformLocation from './UniformLocation';
 
 /**
+ * @module EIGHT
+ * @submodule core
+ */
+
+/**
  * <p>
  * <code>AbstractMaterial</code> is an object-oriented wrapper around a <code>WebGLProgram</code>
  * <p/>

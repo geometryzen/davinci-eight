@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.212.0</em>
+            <em>API Docs for: 2.213.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -106,9 +106,11 @@
                                 <li><a href="../classes/GeometricE2.html">GeometricE2</a></li>
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
+                                <li><a href="../classes/GeometryArrays.html">GeometryArrays</a></li>
                                 <li><a href="../classes/GeometryBuilder.html">GeometryBuilder</a></li>
                                 <li><a href="../classes/GeometryContainer.html">GeometryContainer</a></li>
                                 <li><a href="../classes/GeometryElements.html">GeometryElements</a></li>
+                                <li><a href="../classes/GeometryLeaf.html">GeometryLeaf</a></li>
                                 <li><a href="../classes/GeometryOptions.html">GeometryOptions</a></li>
                                 <li><a href="../classes/GeometryPrimitive.html">GeometryPrimitive</a></li>
                                 <li><a href="../classes/GraphicsProgramSymbols.html">GraphicsProgramSymbols</a></li>
@@ -139,7 +141,7 @@
                                 <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
                                 <li><a href="../classes/MouseControls.html">MouseControls</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
-                                <li><a href="../classes/NumberIUnknownMap.html">NumberIUnknownMap</a></li>
+                                <li><a href="../classes/NumberShareableMap.html">NumberShareableMap</a></li>
                                 <li><a href="../classes/Perspective.html">Perspective</a></li>
                                 <li><a href="../classes/PerspectiveCamera.html">PerspectiveCamera</a></li>
                                 <li><a href="../classes/PointMaterial.html">PointMaterial</a></li>
@@ -179,7 +181,7 @@
                                 <li><a href="../classes/SpinorE2.html">SpinorE2</a></li>
                                 <li><a href="../classes/SpinorE3.html">SpinorE3</a></li>
                                 <li><a href="../classes/SpinorE4.html">SpinorE4</a></li>
-                                <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
+                                <li><a href="../classes/StringShareableMap.html">StringShareableMap</a></li>
                                 <li><a href="../classes/Tetrahedron.html">Tetrahedron</a></li>
                                 <li><a href="../classes/TetrahedronGeometry.html">TetrahedronGeometry</a></li>
                                 <li><a href="../classes/TetrahedronGeometryOptions.html">TetrahedronGeometryOptions</a></li>
@@ -219,6 +221,7 @@
                 
                 
                             <ul id="api-modules" class="apis modules">
+                                <li><a href="../modules/commands.html">commands</a></li>
                                 <li><a href="../modules/controls.html">controls</a></li>
                                 <li><a href="../modules/core.html">core</a></li>
                                 <li><a href="../modules/EIGHT.html">EIGHT</a></li>
@@ -270,6 +273,7 @@ import GraphicsProgramSymbols from &#x27;../core/GraphicsProgramSymbols&#x27;
 import GridGeometry from &#x27;../geometries/GridGeometry&#x27;
 import GridGeometryOptions from &#x27;../geometries/GridGeometryOptions&#x27;
 import GridOptions from &#x27;./GridOptions&#x27;
+import incLevel from &#x27;../base/incLevel&#x27;;
 import isDefined from &#x27;../checks/isDefined&#x27;
 import isFunction from &#x27;../checks/isFunction&#x27;
 import isNull from &#x27;../checks/isNull&#x27;
@@ -414,7 +418,7 @@ function configPoints(options: GridOptions, grid: Grid) {
   matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX] = &#x27;mat4&#x27;
   matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_POINT_SIZE] = &#x27;float&#x27;
 
-  const material = new PointMaterial(matOptions, options.engine)
+  const material = new PointMaterial(matOptions, options.engine, 0)
   grid.material = material
   material.release()
 }
@@ -453,7 +457,7 @@ function configLines(options: GridOptions, grid: Grid) {
   matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX] = &#x27;mat4&#x27;
   matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX] = &#x27;mat4&#x27;
 
-  const material = new LineMaterial(matOptions, options.engine)
+  const material = new LineMaterial(matOptions, options.engine, 0)
   grid.material = material
   material.release()
 }
@@ -511,7 +515,7 @@ function configMesh(options: GridOptions, grid: Grid) {
 
   matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_AMBIENT_LIGHT] = &#x27;vec3&#x27;
 
-  const material = new MeshMaterial(matOptions, options.engine)
+  const material = new MeshMaterial(matOptions, options.engine, 0)
   grid.material = material
   material.release()
 }
@@ -527,9 +531,10 @@ export default class Grid extends Mesh {
    * @class Grid
    * @constructor
    * @param [options] {GridOptions}
+   * @param [level = 0] {number}
    */
-  constructor(options: GridOptions = {}) {
-    super(&#x27;Grid&#x27;, void 0, void 0, null)
+  constructor(options: GridOptions = {}, level = 0) {
+    super(&#x27;Grid&#x27;, void 0, void 0, null, incLevel(level))
 
     const drawMode: DrawMode = isDefined(options.drawMode) ? options.drawMode : DrawMode.LINES
     switch (drawMode) {
@@ -553,6 +558,16 @@ export default class Grid extends Mesh {
         throw new Error(&#x60;&#x27;${drawMode}&#x27; is not a valid option for drawMode.&#x60;)
       }
     }
+  }
+
+  /**
+   * @method destructor
+   * @param level {number}
+   * @return {void}
+   * @protected
+   */
+  protected destructor(level: number): void {
+    super.destructor(incLevel(level))
   }
 }
 

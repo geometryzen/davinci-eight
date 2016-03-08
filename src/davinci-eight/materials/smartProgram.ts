@@ -21,5 +21,12 @@ export default function smartProgram(attributes: { [name: string]: AttribMetaInf
   const vColor: boolean = vColorRequired(attributes, uniforms);
   const vLight: boolean = vLightRequired(attributes, uniforms);
 
-  return new Material(vertexShaderSrc(attributes, uniforms, vColor, vLight), fragmentShaderSrc(attributes, uniforms, vColor, vLight), bindings, 'smartProgram', engine);
+  return new Material(
+    vertexShaderSrc(attributes, uniforms, vColor, vLight),
+    fragmentShaderSrc(attributes, uniforms, vColor, vLight),
+    bindings,
+    'smartProgram',
+    engine,
+    0
+  )
 }

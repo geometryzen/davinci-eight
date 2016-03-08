@@ -1,16 +1,19 @@
 import ContextConsumer from './ContextConsumer';
 import ContextProvider from './ContextProvider';
 
-export default function cleanUp(context: ContextProvider, consumer: ContextConsumer) {
-    if (context) {
-        const gl = context.gl
-        if (gl) {
-            if (gl.isContextLost()) {
-                consumer.contextLost()
-            }
-            else {
-                consumer.contextFree(context)
-            }
-        }
+/**
+ * Invokes contextLost or contextFree as appropiate.
+ */
+export default function cleanUp(contextProvider: ContextProvider, consumer: ContextConsumer) {
+  if (contextProvider) {
+    if (contextProvider.isContextLost()) {
+      consumer.contextLost()
     }
+    else {
+      consumer.contextFree(contextProvider)
+    }
+  }
+  else {
+    // There is no contextProvider so resources should already be clean.
+  }
 }

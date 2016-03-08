@@ -226,6 +226,7 @@ export default class Matrix3 extends AbstractMatrix<Matrix3> implements Matrix<M
    * @method normalFromMatrix4
    * @param m {Matrix4}
    * @return {Matrix3}
+   * @chainable
    */
   normalFromMatrix4(m: Matrix4): Matrix3 {
     return this.invertUpperLeft(m).transpose()
@@ -285,8 +286,10 @@ export default class Matrix3 extends AbstractMatrix<Matrix3> implements Matrix<M
    * @method rotate
    * @param spinor {SpinorE2}
    * @return {Matrix3}
+   * @chainable
    */
   rotate(spinor: SpinorE2): Matrix3 {
+    // TODO: This is creating a temporary.
     return this.rmul(Matrix3.rotation(spinor))
   }
 
@@ -309,6 +312,7 @@ export default class Matrix3 extends AbstractMatrix<Matrix3> implements Matrix<M
    * @method scale
    * @param s {number}
    * @return {Matrix3}
+   * @chainable
    */
   scale(s: number): Matrix3 {
     const m = this.elements;
@@ -359,6 +363,7 @@ export default class Matrix3 extends AbstractMatrix<Matrix3> implements Matrix<M
    * @method sub
    * @param rhs {Matrix3}
    * @return {Matrix3}
+   * @chainable
    */
   sub(rhs: Matrix3): Matrix3 {
     const te = this.elements;
@@ -428,10 +433,11 @@ export default class Matrix3 extends AbstractMatrix<Matrix3> implements Matrix<M
   /**
    * @method transpose
    * @return {Matrix3}
+   * @chainable
    */
   transpose(): Matrix3 {
-    var tmp: number;
-    var m = this.elements;
+    let tmp: number;
+    const m = this.elements;
 
     tmp = m[1]; m[1] = m[3]; m[3] = tmp;
     tmp = m[2]; m[2] = m[6]; m[6] = tmp;
@@ -537,6 +543,7 @@ export default class Matrix3 extends AbstractMatrix<Matrix3> implements Matrix<M
    * @method one
    * @return {Matrix3}
    * @static
+   * @chainable
    */
   public static one() {
     return new Matrix3(new Float32Array([1, 0, 0, 0, 1, 0, 0, 0, 1]));
@@ -582,6 +589,7 @@ export default class Matrix3 extends AbstractMatrix<Matrix3> implements Matrix<M
    * @method zero
    * @return {Matrix3}
    * @static
+   * @chainable
    */
   public static zero(): Matrix3 {
     return new Matrix3(new Float32Array([0, 0, 0, 0, 0, 0, 0, 0, 0]));

@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.212.0</em>
+            <em>API Docs for: 2.213.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -106,9 +106,11 @@
                                 <li><a href="../classes/GeometricE2.html">GeometricE2</a></li>
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
+                                <li><a href="../classes/GeometryArrays.html">GeometryArrays</a></li>
                                 <li><a href="../classes/GeometryBuilder.html">GeometryBuilder</a></li>
                                 <li><a href="../classes/GeometryContainer.html">GeometryContainer</a></li>
                                 <li><a href="../classes/GeometryElements.html">GeometryElements</a></li>
+                                <li><a href="../classes/GeometryLeaf.html">GeometryLeaf</a></li>
                                 <li><a href="../classes/GeometryOptions.html">GeometryOptions</a></li>
                                 <li><a href="../classes/GeometryPrimitive.html">GeometryPrimitive</a></li>
                                 <li><a href="../classes/GraphicsProgramSymbols.html">GraphicsProgramSymbols</a></li>
@@ -139,7 +141,7 @@
                                 <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
                                 <li><a href="../classes/MouseControls.html">MouseControls</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
-                                <li><a href="../classes/NumberIUnknownMap.html">NumberIUnknownMap</a></li>
+                                <li><a href="../classes/NumberShareableMap.html">NumberShareableMap</a></li>
                                 <li><a href="../classes/Perspective.html">Perspective</a></li>
                                 <li><a href="../classes/PerspectiveCamera.html">PerspectiveCamera</a></li>
                                 <li><a href="../classes/PointMaterial.html">PointMaterial</a></li>
@@ -179,7 +181,7 @@
                                 <li><a href="../classes/SpinorE2.html">SpinorE2</a></li>
                                 <li><a href="../classes/SpinorE3.html">SpinorE3</a></li>
                                 <li><a href="../classes/SpinorE4.html">SpinorE4</a></li>
-                                <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
+                                <li><a href="../classes/StringShareableMap.html">StringShareableMap</a></li>
                                 <li><a href="../classes/Tetrahedron.html">Tetrahedron</a></li>
                                 <li><a href="../classes/TetrahedronGeometry.html">TetrahedronGeometry</a></li>
                                 <li><a href="../classes/TetrahedronGeometryOptions.html">TetrahedronGeometryOptions</a></li>
@@ -219,6 +221,7 @@
                 
                 
                             <ul id="api-modules" class="apis modules">
+                                <li><a href="../modules/commands.html">commands</a></li>
                                 <li><a href="../modules/controls.html">controls</a></li>
                                 <li><a href="../modules/core.html">core</a></li>
                                 <li><a href="../modules/EIGHT.html">EIGHT</a></li>
@@ -269,7 +272,7 @@
         </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_collections_ShareableArray.ts.html#l36"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;ShareableArray.ts:36</code></a>
+            Defined in: <a href="../files/src_davinci-eight_collections_ShareableArray.ts.html#l47"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;ShareableArray.ts:47</code></a>
         </div>
 
             Module: <a href="../modules/EIGHT.html">EIGHT</a>
@@ -278,9 +281,12 @@
 
 
 <div class="box intro">
-    <p>Collection class for maintaining an array of types derived from Shareable.
-Provides a safer way to maintain reference counts than a native array.</p>
-
+    <p>
+Collection class for maintaining an array of types derived from Shareable.
+</p>
+<p>
+Provides a safer way to maintain reference counts than a native array.
+</p>
 </div>
 
     <div class="constructor">
@@ -288,7 +294,16 @@ Provides a safer way to maintain reference counts than a native array.</p>
 <div id="method_ShareableArray" class="method item">
     <h3 class="name"><code>ShareableArray</code></h3>
 
-        <span class="paren">()</span>
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code class="optional">[elements]</code>
+                </li>
+                <li class="arg">
+                        <code class="optional">[level = 0]</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
 
 
 
@@ -300,7 +315,7 @@ Provides a safer way to maintain reference counts than a native array.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_collections_ShareableArray.ts.html#l36"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;ShareableArray.ts:36</code></a>
+        <a href="../files/src_davinci-eight_collections_ShareableArray.ts.html#l47"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;ShareableArray.ts:47</code></a>
         </p>
 
 
@@ -311,6 +326,34 @@ Provides a safer way to maintain reference counts than a native array.</p>
         
     </div>
 
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name optional">[elements]</code>
+                        <span class="type">T</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name optional">[level = 0]</code>
+                        <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
 
 
 
@@ -342,6 +385,14 @@ Provides a safer way to maintain reference counts than a native array.</p>
 
                             </li>
                             <li class="index-item method">
+                                <a href="#method_find">find</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_findOne">findOne</a>
+
+                            </li>
+                            <li class="index-item method">
                                 <a href="#method_forEach">forEach</a>
 
                             </li>
@@ -355,6 +406,10 @@ Provides a safer way to maintain reference counts than a native array.</p>
                             </li>
                             <li class="index-item method">
                                 <a href="#method_indexOf">indexOf</a>
+
+                            </li>
+                            <li class="index-item method inherited">
+                                <a href="#method_isZombie">isZombie</a>
 
                             </li>
                             <li class="index-item method">
@@ -385,6 +440,14 @@ Provides a safer way to maintain reference counts than a native array.</p>
                                 <a href="#method_splice">splice</a>
 
                             </li>
+                            <li class="index-item method">
+                                <a href="#method_unshift">unshift</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_unshiftWeakRef">unshiftWeakRef</a>
+
+                            </li>
                     </ul>
                 </div>
 
@@ -396,11 +459,31 @@ Provides a safer way to maintain reference counts than a native array.</p>
                                 <a href="#property__elements">_elements</a>
 
                             </li>
+                            <li class="index-item property private inherited">
+                                <a href="#property__level">_level</a>
+
+                            </li>
+                            <li class="index-item property private inherited">
+                                <a href="#property__refCount">_refCount</a>
+
+                            </li>
+                            <li class="index-item property protected inherited">
+                                <a href="#property__type">_type</a>
+
+                            </li>
+                            <li class="index-item property private inherited">
+                                <a href="#property__uuid">_uuid</a>
+
+                            </li>
                             <li class="index-item property">
                                 <a href="#property_length">length</a>
 
                             </li>
-                            <li class="index-item property inherited">
+                            <li class="index-item property private inherited">
+                                <a href="#property_shareLength">shareLength</a>
+
+                            </li>
+                            <li class="index-item property private inherited">
                                 <a href="#property_uuid">uuid</a>
 
                             </li>
@@ -434,7 +517,7 @@ Provides a safer way to maintain reference counts than a native array.</p>
                 Shareable
             </a>
             but overwritten in
-        <a href="../files/src_davinci-eight_core_ShareableBase.ts.html#l34"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableBase.ts:34</code></a>
+        <a href="../files/src_davinci-eight_core_ShareableBase.ts.html#l128"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableBase.ts:128</code></a>
         </p>
 
 
@@ -462,7 +545,13 @@ Notifies this instance that something is referencing it.
 <div id="method_destructor" class="method item protected">
     <h3 class="name"><code>destructor</code></h3>
 
-        <span class="paren">()</span>
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>level</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
 
         <span class="returns-inline">
             <span class="type">Void</span>
@@ -481,7 +570,7 @@ Notifies this instance that something is referencing it.
                 ShareableBase
             </a>
             but overwritten in
-        <a href="../files/src_davinci-eight_collections_ShareableArray.ts.html#l49"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;ShareableArray.ts:49</code></a>
+        <a href="../files/src_davinci-eight_collections_ShareableArray.ts.html#l61"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;ShareableArray.ts:61</code></a>
         </p>
 
 
@@ -492,12 +581,152 @@ Notifies this instance that something is referencing it.
         
     </div>
 
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">level</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
 
         <div class="returns">
             <h4>Returns:</h4>
 
             <div class="returns-description">
                         <span class="type">Void</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_find" class="method item">
+    <h3 class="name"><code>find</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>match</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/ShareableArray.html" class="crosslink">ShareableArray</a></span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_collections_ShareableArray.ts.html#l75"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;ShareableArray.ts:75</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">match</code>
+                        <span class="type">(element: T) => boolean</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/ShareableArray.html" class="crosslink">ShareableArray</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_findOne" class="method item">
+    <h3 class="name"><code>findOne</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>match</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">T</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_collections_ShareableArray.ts.html#l93"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;ShareableArray.ts:93</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">match</code>
+                        <span class="type">(element: T) => boolean</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">T</span>:
             </div>
         </div>
 
@@ -527,7 +756,7 @@ Notifies this instance that something is referencing it.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_collections_ShareableArray.ts.html#l161"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;ShareableArray.ts:161</code></a>
+        <a href="../files/src_davinci-eight_collections_ShareableArray.ts.html#l195"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;ShareableArray.ts:195</code></a>
         </p>
 
 
@@ -590,7 +819,7 @@ Notifies this instance that something is referencing it.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_collections_ShareableArray.ts.html#l88"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;ShareableArray.ts:88</code></a>
+        <a href="../files/src_davinci-eight_collections_ShareableArray.ts.html#l110"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;ShareableArray.ts:110</code></a>
         </p>
 
 
@@ -653,7 +882,7 @@ Notifies this instance that something is referencing it.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_collections_ShareableArray.ts.html#l101"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;ShareableArray.ts:101</code></a>
+        <a href="../files/src_davinci-eight_collections_ShareableArray.ts.html#l124"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;ShareableArray.ts:124</code></a>
         </p>
 
 
@@ -719,7 +948,7 @@ Notifies this instance that something is referencing it.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_collections_ShareableArray.ts.html#l110"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;ShareableArray.ts:110</code></a>
+        <a href="../files/src_davinci-eight_collections_ShareableArray.ts.html#l134"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;ShareableArray.ts:134</code></a>
         </p>
 
 
@@ -768,6 +997,46 @@ Notifies this instance that something is referencing it.
 
 
 </div>
+<div id="method_isZombie" class="method item inherited">
+    <h3 class="name"><code>isZombie</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">Boolean</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/ShareableBase.html#method_isZombie">ShareableBase</a>:
+        <a href="../files/src_davinci-eight_core_ShareableBase.ts.html#l120"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableBase.ts:120</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Boolean</span>:
+            </div>
+        </div>
+
+
+</div>
 <div id="method_pop" class="method item">
     <h3 class="name"><code>pop</code></h3>
 
@@ -786,7 +1055,7 @@ Notifies this instance that something is referencing it.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_collections_ShareableArray.ts.html#l191"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;ShareableArray.ts:191</code></a>
+        <a href="../files/src_davinci-eight_collections_ShareableArray.ts.html#l230"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;ShareableArray.ts:230</code></a>
         </p>
 
 
@@ -832,7 +1101,7 @@ Notifies this instance that something is referencing it.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_collections_ShareableArray.ts.html#l170"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;ShareableArray.ts:170</code></a>
+        <a href="../files/src_davinci-eight_collections_ShareableArray.ts.html#l205"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;ShareableArray.ts:205</code></a>
         </p>
 
 
@@ -840,7 +1109,7 @@ Notifies this instance that something is referencing it.
     </div>
 
     <div class="description">
-        <p>Pushes an element onto the tail of the list and increments the element reference count.</p>
+        <p>Pushes <code>element</code> onto the tail of the list and increments the element reference count.</p>
 
     </div>
 
@@ -895,7 +1164,7 @@ Notifies this instance that something is referencing it.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_collections_ShareableArray.ts.html#l182"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;ShareableArray.ts:182</code></a>
+        <a href="../files/src_davinci-eight_collections_ShareableArray.ts.html#l219"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;ShareableArray.ts:219</code></a>
         </p>
 
 
@@ -903,7 +1172,7 @@ Notifies this instance that something is referencing it.
     </div>
 
     <div class="description">
-        <p>Pushes an element onto the tail of the list without incrementing the element reference count.</p>
+        <p>Pushes <code>element</code> onto the tail of the list <em>without</em> incrementing the <code>element</code> reference count.</p>
 
     </div>
 
@@ -955,7 +1224,7 @@ Notifies this instance that something is referencing it.
                 Shareable
             </a>
             but overwritten in
-        <a href="../files/src_davinci-eight_core_ShareableBase.ts.html#l48"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableBase.ts:48</code></a>
+        <a href="../files/src_davinci-eight_core_ShareableBase.ts.html#l142"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableBase.ts:142</code></a>
         </p>
 
 
@@ -998,7 +1267,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_collections_ShareableArray.ts.html#l153"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;ShareableArray.ts:153</code></a>
+        <a href="../files/src_davinci-eight_collections_ShareableArray.ts.html#l186"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;ShareableArray.ts:186</code></a>
         </p>
 
 
@@ -1034,6 +1303,9 @@ Notifies this instance that something is dereferencing it.
             </ul><span class="paren">)</span>
         </div>
 
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/ShareableArray.html" class="crosslink">ShareableArray</a></span>
+        </span>
 
 
 
@@ -1044,7 +1316,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_collections_ShareableArray.ts.html#l132"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;ShareableArray.ts:132</code></a>
+        <a href="../files/src_davinci-eight_collections_ShareableArray.ts.html#l161"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;ShareableArray.ts:161</code></a>
         </p>
 
 
@@ -1052,8 +1324,8 @@ Notifies this instance that something is dereferencing it.
     </div>
 
     <div class="description">
-        <p>The slice() method returns a shallow copy of a portion of an array into a new array object.
-It does not remove elements from the original array.</p>
+        <p>The slice() method returns a shallow copy of a portion of an array into a new array object.</p>
+<p>It does not remove elements from the original array.</p>
 
     </div>
 
@@ -1086,6 +1358,13 @@ It does not remove elements from the original array.</p>
             </ul>
         </div>
 
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/ShareableArray.html" class="crosslink">ShareableArray</a></span>:
+            </div>
+        </div>
 
 
 </div>
@@ -1104,7 +1383,7 @@ It does not remove elements from the original array.</p>
         </div>
 
         <span class="returns-inline">
-            <span class="type">IUnkownArray<T></span>
+            <span class="type"><a href="../classes/ShareableArray.html" class="crosslink">ShareableArray</a></span>
         </span>
 
 
@@ -1116,7 +1395,7 @@ It does not remove elements from the original array.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_collections_ShareableArray.ts.html#l142"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;ShareableArray.ts:142</code></a>
+        <a href="../files/src_davinci-eight_collections_ShareableArray.ts.html#l173"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;ShareableArray.ts:173</code></a>
         </p>
 
 
@@ -1159,7 +1438,133 @@ It does not remove elements from the original array.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type">IUnkownArray<T></span>:
+                        <span class="type"><a href="../classes/ShareableArray.html" class="crosslink">ShareableArray</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_unshift" class="method item">
+    <h3 class="name"><code>unshift</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>element</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">Number</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_collections_ShareableArray.ts.html#l239"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;ShareableArray.ts:239</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">element</code>
+                        <span class="type">T</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Number</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_unshiftWeakRef" class="method item">
+    <h3 class="name"><code>unshiftWeakRef</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>element</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">Number</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_collections_ShareableArray.ts.html#l249"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;ShareableArray.ts:249</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>
+<code>unshift</code> <em>without</em> incrementing the <code>element</code> reference count.
+</p>
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">element</code>
+                        <span class="type">T</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Number</span>:
             </div>
         </div>
 
@@ -1182,7 +1587,7 @@ It does not remove elements from the original array.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_collections_ShareableArray.ts.html#l30"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;ShareableArray.ts:30</code></a>
+        <a href="../files/src_davinci-eight_collections_ShareableArray.ts.html#l40"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;ShareableArray.ts:40</code></a>
         </p>
 
 
@@ -1190,6 +1595,115 @@ It does not remove elements from the original array.</p>
 
     <div class="description">
         
+    </div>
+
+
+
+</div>
+<div id="property__level" class="property item private inherited">
+    <h3 class="name"><code>_level</code></h3>
+    <span class="type">Number</span>
+
+
+        <span class="flag private">private</span>
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/ShareableBase.html#property__level">ShareableBase</a>:
+        <a href="../files/src_davinci-eight_core_ShareableBase.ts.html#l43"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableBase.ts:43</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>
+Keeps track of the depth in the hierarchy of classes.
+</p>
+<p>
+A class constructed with a shareLength of zero is the most derived class in the hierarchy.
+Such a class calls its' base class constructor with an incremented shareLength.
+</p>
+<p>
+When the destructor chain is invoked, ...
+</p>
+    </div>
+
+
+
+</div>
+<div id="property__refCount" class="property item private inherited">
+    <h3 class="name"><code>_refCount</code></h3>
+    <span class="type">Number</span>
+
+
+        <span class="flag private">private</span>
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/ShareableBase.html#property__refCount">ShareableBase</a>:
+        <a href="../files/src_davinci-eight_core_ShareableBase.ts.html#l20"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableBase.ts:20</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property__type" class="property item protected inherited">
+    <h3 class="name"><code>_type</code></h3>
+    <span class="type">String</span>
+
+
+        <span class="flag protected">protected</span>
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/ShareableBase.html#property__type">ShareableBase</a>:
+        <a href="../files/src_davinci-eight_core_ShareableBase.ts.html#l27"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableBase.ts:27</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property__uuid" class="property item private inherited">
+    <h3 class="name"><code>_uuid</code></h3>
+    <span class="type">String</span>
+
+
+        <span class="flag private">private</span>
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/ShareableBase.html#property__uuid">ShareableBase</a>:
+        <a href="../files/src_davinci-eight_core_ShareableBase.ts.html#l34"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableBase.ts:34</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        The unique identifier used for reference count monitoring.
     </div>
 
 
@@ -1206,7 +1720,7 @@ It does not remove elements from the original array.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_collections_ShareableArray.ts.html#l119"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;ShareableArray.ts:119</code></a>
+        <a href="../files/src_davinci-eight_collections_ShareableArray.ts.html#l144"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;ShareableArray.ts:144</code></a>
         </p>
 
 
@@ -1219,18 +1733,46 @@ It does not remove elements from the original array.</p>
 
 
 </div>
-<div id="property_uuid" class="property item inherited">
+<div id="property_shareLength" class="property item private inherited">
+    <h3 class="name"><code>shareLength</code></h3>
+    <span class="type">Number</span>
+
+
+        <span class="flag private">private</span>
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/ShareableBase.html#property_shareLength">ShareableBase</a>:
+        <a href="../files/src_davinci-eight_core_ShareableBase.ts.html#l103"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableBase.ts:103</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>
+Returns the total length of the inheritance hierarchy that this instance is involved in.
+</p>
+    </div>
+
+
+
+</div>
+<div id="property_uuid" class="property item private inherited">
     <h3 class="name"><code>uuid</code></h3>
     <span class="type">String</span>
 
 
+        <span class="flag private">private</span>
 
 
 
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/ShareableBase.html#property_uuid">ShareableBase</a>:
-        <a href="../files/src_davinci-eight_core_ShareableBase.ts.html#l92"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableBase.ts:92</code></a>
+        <a href="../files/src_davinci-eight_core_ShareableBase.ts.html#l170"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableBase.ts:170</code></a>
         </p>
 
 

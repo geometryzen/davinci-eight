@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.212.0</em>
+            <em>API Docs for: 2.213.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -106,9 +106,11 @@
                                 <li><a href="../classes/GeometricE2.html">GeometricE2</a></li>
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
+                                <li><a href="../classes/GeometryArrays.html">GeometryArrays</a></li>
                                 <li><a href="../classes/GeometryBuilder.html">GeometryBuilder</a></li>
                                 <li><a href="../classes/GeometryContainer.html">GeometryContainer</a></li>
                                 <li><a href="../classes/GeometryElements.html">GeometryElements</a></li>
+                                <li><a href="../classes/GeometryLeaf.html">GeometryLeaf</a></li>
                                 <li><a href="../classes/GeometryOptions.html">GeometryOptions</a></li>
                                 <li><a href="../classes/GeometryPrimitive.html">GeometryPrimitive</a></li>
                                 <li><a href="../classes/GraphicsProgramSymbols.html">GraphicsProgramSymbols</a></li>
@@ -139,7 +141,7 @@
                                 <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
                                 <li><a href="../classes/MouseControls.html">MouseControls</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
-                                <li><a href="../classes/NumberIUnknownMap.html">NumberIUnknownMap</a></li>
+                                <li><a href="../classes/NumberShareableMap.html">NumberShareableMap</a></li>
                                 <li><a href="../classes/Perspective.html">Perspective</a></li>
                                 <li><a href="../classes/PerspectiveCamera.html">PerspectiveCamera</a></li>
                                 <li><a href="../classes/PointMaterial.html">PointMaterial</a></li>
@@ -179,7 +181,7 @@
                                 <li><a href="../classes/SpinorE2.html">SpinorE2</a></li>
                                 <li><a href="../classes/SpinorE3.html">SpinorE3</a></li>
                                 <li><a href="../classes/SpinorE4.html">SpinorE4</a></li>
-                                <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
+                                <li><a href="../classes/StringShareableMap.html">StringShareableMap</a></li>
                                 <li><a href="../classes/Tetrahedron.html">Tetrahedron</a></li>
                                 <li><a href="../classes/TetrahedronGeometry.html">TetrahedronGeometry</a></li>
                                 <li><a href="../classes/TetrahedronGeometryOptions.html">TetrahedronGeometryOptions</a></li>
@@ -219,6 +221,7 @@
                 
                 
                             <ul id="api-modules" class="apis modules">
+                                <li><a href="../modules/commands.html">commands</a></li>
                                 <li><a href="../modules/controls.html">controls</a></li>
                                 <li><a href="../modules/core.html">core</a></li>
                                 <li><a href="../modules/EIGHT.html">EIGHT</a></li>
@@ -265,21 +268,30 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
+// import Attribute from &#x27;./Attribute&#x27;
 import Capability from &#x27;../commands/Capability&#x27;;
 import EIGHTLogger from &#x27;../commands/EIGHTLogger&#x27;;
+// import computeAttributes from &#x27;./computeAttributes&#x27;
+// import computeCount from &#x27;./computeCount&#x27;
+// import computePointers from &#x27;./computePointers&#x27;
+// import computeStride from &#x27;./computeStride&#x27;
 import ContextConsumer from &#x27;./ContextConsumer&#x27;;
-import ShareableArray from &#x27;../collections/ShareableArray&#x27;;
+import DefaultContextProvider from &#x27;../base/DefaultContextProvider&#x27;;
+import incLevel from &#x27;../base/incLevel&#x27;;
 import initWebGL from &#x27;./initWebGL&#x27;;
 import isDefined from &#x27;../checks/isDefined&#x27;;
 import mustBeDefined from &#x27;../checks/mustBeDefined&#x27;;
 import mustBeObject from &#x27;../checks/mustBeObject&#x27;;
 import readOnly from &#x27;../i18n/readOnly&#x27;;
+import ShareableArray from &#x27;../collections/ShareableArray&#x27;;
 import ShareableBase from &#x27;./ShareableBase&#x27;;
-import VersionLogger from &#x27;../commands/VersionLogger&#x27;
+import VersionLogger from &#x27;../commands/VersionLogger&#x27;;
+// import VertexBuffer from &#x27;./VertexBuffer&#x27;;
+import VertexBufferManager from &#x27;./VertexBufferManager&#x27;;
+// import VertexBufferPackage from &#x27;./VertexBufferPackage&#x27;;
 import WebGLClearColor from &#x27;../commands/WebGLClearColor&#x27;;
 import WebGLEnable from &#x27;../commands/WebGLEnable&#x27;;
 import WebGLDisable from &#x27;../commands/WebGLDisable&#x27;;
-import DefaultContextProvider from &#x27;./DefaultContextProvider&#x27;;
 
 /**
  * Fundamental abstractions in the architecture.
@@ -305,7 +317,7 @@ import DefaultContextProvider from &#x27;./DefaultContextProvider&#x27;;
  * @class Engine
  * @extends ShareableBase
  */
-export default class Engine extends ShareableBase {
+export default class Engine extends ShareableBase implements VertexBufferManager {
 
   /**
    * @property _gl
@@ -331,7 +343,7 @@ export default class Engine extends ShareableBase {
   private _webGLContextLost: (event: Event) =&gt; any
   private _webGLContextRestored: (event: Event) =&gt; any
 
-  private _commands = new ShareableArray&lt;ContextConsumer&gt;([])
+  private _commands = new ShareableArray&lt;ContextConsumer&gt;([], 0)
 
   private _contextProvider: DefaultContextProvider
 
@@ -339,16 +351,17 @@ export default class Engine extends ShareableBase {
    * @class Engine
    * @constructor
    * @param [attributes] {WebGLContextAttributes} Allows the context to be configured.
+   * @param [level = 0] {number}
    */
-  constructor(attributes?: WebGLContextAttributes) {
-    super(&#x27;Engine&#x27;)
+  constructor(attributes?: WebGLContextAttributes, level = 0) {
+    super(&#x27;Engine&#x27;, incLevel(level))
 
     this._attributes = attributes;
 
     this._commands.pushWeakRef(new EIGHTLogger())
     this._commands.pushWeakRef(new VersionLogger())
 
-    this._contextProvider = new DefaultContextProvider(this)
+    this._contextProvider = new DefaultContextProvider(this, 0)
 
     // For convenience.
     this.enable(Capability.DEPTH_TEST)
@@ -377,17 +390,18 @@ export default class Engine extends ShareableBase {
 
   /**
    * @method destructor
+   * @param level {number}
    * return {void}
    * @protected
    */
-  protected destructor(): void {
+  protected destructor(level: number): void {
     this.stop();
     this._contextProvider.release()
     while (this._users.length &gt; 0) {
       this._users.pop();
     }
     this._commands.release();
-    super.destructor()
+    super.destructor(incLevel(level))
   }
 
   /**
@@ -456,6 +470,21 @@ export default class Engine extends ShareableBase {
     }
     return this
   }
+
+  /*
+  createVertexBuffer(attributes: {[name:string]: Attribute}, aNames: string[]): VertexBufferPackage {
+    const first = 0 // This could be different.
+    const count = computeCount(attributes, aNames)
+    const stride = computeStride(attributes, aNames)
+    const pointers = computePointers(attributes, aNames)
+    const array = computeAttributes(attributes, aNames)
+    const vbo = new VertexBuffer(this)
+    vbo.data = new Float32Array(array)
+    const vbp = new VertexBufferPackage(first, vbo, this)
+    vbo.release()
+    return vbp
+  }
+  */
 
   /**
    * Turns off a specific WebGL capability for this context.

@@ -4,6 +4,11 @@ import ContextConsumer from './ContextConsumer'
 import AbstractMaterial from './AbstractMaterial'
 
 /**
+ * @module EIGHT
+ * @submodule core
+ */
+
+/**
  * @class AbstractDrawable
  * @extends ContextConsumer
  */

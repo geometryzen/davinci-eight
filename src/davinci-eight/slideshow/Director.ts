@@ -2,27 +2,29 @@ import Slide from '../slideshow/Slide';
 import IAnimationTarget from '../slideshow/IAnimationTarget';
 import isDefined from '../checks/isDefined';
 import IDirector from '../slideshow/IDirector';
+import incLevel from '../base/incLevel';
 import ShareableArray from '../collections/ShareableArray';
 import mustBeDefined from '../checks/mustBeDefined';
 import mustBeString from '../checks/mustBeString';
-import NumberIUnknownMap from '../collections/NumberIUnknownMap';
+import NumberShareableMap from '../collections/NumberShareableMap';
 import ShareableBase from '../core/ShareableBase';
-import StringIUnknownMap from '../collections/StringIUnknownMap';
+import StringShareableMap from '../collections/StringShareableMap';
 
 export default class Director extends ShareableBase implements IDirector {
     private step: number;
     public slides: ShareableArray<Slide>;
     private facets: { [name: string]: IAnimationTarget };
-    constructor() {
-        super('Director')
+    constructor(level: number) {
+        super('Director', incLevel(level))
         this.step = -1 // Position before the first slide.
-        this.slides = new ShareableArray<Slide>([])
+        this.slides = new ShareableArray<Slide>([], 0)
         this.facets = {}
     }
-    destructor(): void {
+    destructor(level: number): void {
         this.slides.release()
         this.slides = void 0
         this.facets = void 0
+        super.destructor(incLevel(level))
     }
     addFacet(facet: IAnimationTarget, facetName: string): void {
         this.facets[facetName] = facet
@@ -36,7 +38,7 @@ export default class Director extends ShareableBase implements IDirector {
         return facet
     }
     createSlide(): Slide {
-        return new Slide()
+        return new Slide(0)
     }
     go(step: number, instant: boolean = false): void {
         if (this.slides.length === 0) {

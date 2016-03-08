@@ -106,12 +106,12 @@ export default class PrimitivesBuilder implements GeometryBuilder {
     toGeometry(type: string, engine: Engine): Geometry {
         // FIXME: This method probably should not exist because the 
         // container must be overridden to provide scaling methods.
-        const container = new GeometryContainer(type, this.tilt)
+        const container = new GeometryContainer(type, this.tilt, 0)
         const ps = this.toPrimitives()
         const iLen = ps.length
         for (let i = 0; i < iLen; i++) {
             const dataSource = ps[i]
-            const geometry = new GeometryElements(vertexArraysFromPrimitive(dataSource), engine)
+            const geometry = new GeometryElements('PrimitivesBuilder', vertexArraysFromPrimitive(dataSource), engine, 0)
             container.addPart(geometry)
             geometry.release()
         }

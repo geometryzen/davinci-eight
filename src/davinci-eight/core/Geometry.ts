@@ -1,19 +1,17 @@
 import ContextConsumer from './ContextConsumer'
 import AbstractMaterial from './AbstractMaterial'
 import Matrix4 from '../math/Matrix4'
-import VertexArrays from './VertexArrays'
+
+/**
+ * @module EIGHT
+ * @submodule core
+ */
 
 /**
  * @class Geometry
+ * @extends ContextConsumer
  */
 interface Geometry extends ContextConsumer {
-
-    /**
-     * @property data
-     * @type VertexArrays
-     * @readOnly
-     */
-    data: VertexArrays
 
     /**
      * @property partsLength

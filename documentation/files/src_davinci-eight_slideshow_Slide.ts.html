@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.212.0</em>
+            <em>API Docs for: 2.213.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -106,9 +106,11 @@
                                 <li><a href="../classes/GeometricE2.html">GeometricE2</a></li>
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
+                                <li><a href="../classes/GeometryArrays.html">GeometryArrays</a></li>
                                 <li><a href="../classes/GeometryBuilder.html">GeometryBuilder</a></li>
                                 <li><a href="../classes/GeometryContainer.html">GeometryContainer</a></li>
                                 <li><a href="../classes/GeometryElements.html">GeometryElements</a></li>
+                                <li><a href="../classes/GeometryLeaf.html">GeometryLeaf</a></li>
                                 <li><a href="../classes/GeometryOptions.html">GeometryOptions</a></li>
                                 <li><a href="../classes/GeometryPrimitive.html">GeometryPrimitive</a></li>
                                 <li><a href="../classes/GraphicsProgramSymbols.html">GraphicsProgramSymbols</a></li>
@@ -139,7 +141,7 @@
                                 <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
                                 <li><a href="../classes/MouseControls.html">MouseControls</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
-                                <li><a href="../classes/NumberIUnknownMap.html">NumberIUnknownMap</a></li>
+                                <li><a href="../classes/NumberShareableMap.html">NumberShareableMap</a></li>
                                 <li><a href="../classes/Perspective.html">Perspective</a></li>
                                 <li><a href="../classes/PerspectiveCamera.html">PerspectiveCamera</a></li>
                                 <li><a href="../classes/PointMaterial.html">PointMaterial</a></li>
@@ -179,7 +181,7 @@
                                 <li><a href="../classes/SpinorE2.html">SpinorE2</a></li>
                                 <li><a href="../classes/SpinorE3.html">SpinorE3</a></li>
                                 <li><a href="../classes/SpinorE4.html">SpinorE4</a></li>
-                                <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
+                                <li><a href="../classes/StringShareableMap.html">StringShareableMap</a></li>
                                 <li><a href="../classes/Tetrahedron.html">Tetrahedron</a></li>
                                 <li><a href="../classes/TetrahedronGeometry.html">TetrahedronGeometry</a></li>
                                 <li><a href="../classes/TetrahedronGeometryOptions.html">TetrahedronGeometryOptions</a></li>
@@ -219,6 +221,7 @@
                 
                 
                             <ul id="api-modules" class="apis modules">
+                                <li><a href="../modules/commands.html">commands</a></li>
                                 <li><a href="../modules/controls.html">controls</a></li>
                                 <li><a href="../modules/core.html">core</a></li>
                                 <li><a href="../modules/EIGHT.html">EIGHT</a></li>
@@ -268,6 +271,7 @@
 import IAnimation from &#x27;../slideshow/IAnimation&#x27;;
 import IAnimationTarget from &#x27;../slideshow/IAnimationTarget&#x27;;
 import IDirector from &#x27;../slideshow/IDirector&#x27;;
+import incLevel from &#x27;../base/incLevel&#x27;;
 import ISlide from &#x27;../slideshow/ISlide&#x27;;
 import ISlideCommand from &#x27;../slideshow/ISlideCommand&#x27;;
 import Shareable from &#x27;../core/Shareable&#x27;;
@@ -275,214 +279,214 @@ import ShareableArray from &#x27;../collections/ShareableArray&#x27;;
 import mustBeNumber from &#x27;../checks/mustBeNumber&#x27;;
 import ShareableBase from &#x27;../core/ShareableBase&#x27;;
 import SlideCommands from &#x27;../slideshow/SlideCommands&#x27;;
-import StringIUnknownMap from &#x27;../collections/StringIUnknownMap&#x27;;
+import StringShareableMap from &#x27;../collections/StringShareableMap&#x27;;
 import WaitAnimation from &#x27;../slideshow/animations/WaitAnimation&#x27;;
 
 export default class Slide extends ShareableBase implements ISlide {
-    public prolog: SlideCommands;
-    public epilog: SlideCommands;
-    /**
-     * The objects that we are going to manipulate.
-     */
-    private targets: IAnimationTarget[];
-    /**
-     * The companions to each target that maintain animation state.
-     */
-    private mirrors: StringIUnknownMap&lt;Mirror&gt;;
-    /**
-     * The time standard for this Slide.
-     */
-    private now = 0;
-    constructor() {
-        super(&#x27;Slide&#x27;)
-        this.prolog = new SlideCommands()
-        this.epilog = new SlideCommands()
-        this.targets = []
-        this.mirrors = new StringIUnknownMap&lt;Mirror&gt;()
-    }
-    protected destructor(): void {
-        this.prolog.release()
-        this.prolog = void 0
-        this.epilog.release()
-        this.epilog = void 0
-        this.targets = void 0
-        this.mirrors.release()
-        this.mirrors = void 0
+  public prolog: SlideCommands;
+  public epilog: SlideCommands;
+  /**
+   * The objects that we are going to manipulate.
+   */
+  private targets: IAnimationTarget[];
+  /**
+   * The companions to each target that maintain animation state.
+   */
+  private mirrors: StringShareableMap&lt;Mirror&gt;;
+  /**
+   * The time standard for this Slide.
+   */
+  private now = 0;
+  constructor(level: number) {
+    super(&#x27;Slide&#x27;, incLevel(level))
+    this.prolog = new SlideCommands(0)
+    this.epilog = new SlideCommands(0)
+    this.targets = []
+    this.mirrors = new StringShareableMap&lt;Mirror&gt;()
+  }
+  protected destructor(level: number): void {
+    this.prolog.release()
+    this.prolog = void 0
+    this.epilog.release()
+    this.epilog = void 0
+    this.targets = void 0
+    this.mirrors.release()
+    this.mirrors = void 0
 
-        super.destructor()
+    super.destructor(incLevel(level))
+  }
+  private ensureTarget(target: IAnimationTarget) {
+    if (this.targets.indexOf(target) &lt; 0) {
+      this.targets.push(target)
     }
-    private ensureTarget(target: IAnimationTarget) {
-        if (this.targets.indexOf(target) &lt; 0) {
-            this.targets.push(target)
-        }
+  }
+  private ensureMirror(target: IAnimationTarget) {
+    if (!this.mirrors.exists(target.uuid)) {
+      this.mirrors.putWeakRef(target.uuid, new Mirror())
     }
-    private ensureMirror(target: IAnimationTarget) {
-        if (!this.mirrors.exists(target.uuid)) {
-            this.mirrors.putWeakRef(target.uuid, new Mirror())
-        }
-    }
-    pushAnimation(target: IAnimationTarget, propName: string, animation: IAnimation) {
-        this.ensureTarget(target)
-        this.ensureMirror(target)
+  }
+  pushAnimation(target: IAnimationTarget, propName: string, animation: IAnimation) {
+    this.ensureTarget(target)
+    this.ensureMirror(target)
 
-        var mirror = this.mirrors.getWeakRef(target.uuid)
+    var mirror = this.mirrors.getWeakRef(target.uuid)
 
-        mirror.ensureAnimationLane(propName)
+    mirror.ensureAnimationLane(propName)
 
+    var animationLane = mirror.animationLanes.getWeakRef(propName)
+
+    animationLane.push(animation)
+  }
+  popAnimation(target: IAnimationTarget, propName: string): IAnimation {
+
+    var mirror = this.mirrors.getWeakRef(target.uuid)
+
+    var animationLane = mirror.animationLanes.getWeakRef(propName)
+
+    return animationLane.pop()
+  }
+
+  /**
+   * Update all currently running animations.
+   * Essentially calls &#x60;apply&#x60; on each IAnimation in the queues of active objects.
+   */
+  advance(interval: number): void {
+    this.now += interval
+
+    for (var i = 0, iLength = this.targets.length; i &lt; iLength; i++) {
+      var target = this.targets[i]
+      /**
+       * &#x60;offset&#x60; is variable used to keep things running on schedule.
+       * If an animation finishes before the interval, it reports the
+       * duration &#x60;extra&#x60; that brings the tome to &#x60;now&#x60;. Subsequent animations
+       * get a head start by considering their start time to be now - offset.
+       */
+      var offset = 0
+      var mirror = this.mirrors.getWeakRef(target.uuid)
+      var names = mirror.animationLanes.keys;
+      for (var j = 0; j &lt; names.length; j++) {
+        var propName = names[j]
         var animationLane = mirror.animationLanes.getWeakRef(propName)
-
-        animationLane.push(animation)
+        offset = animationLane.apply(target, propName, this.now, offset)
+      }
     }
-    popAnimation(target: IAnimationTarget, propName: string): IAnimation {
-
-        var mirror = this.mirrors.getWeakRef(target.uuid)
-
+  }
+  doProlog(director: IDirector, forward: boolean): void {
+    if (forward) {
+      this.prolog.redo(this, director)
+    }
+    else {
+      this.prolog.undo(this, director)
+    }
+  }
+  doEpilog(director: IDirector, forward: boolean): void {
+    if (forward) {
+      this.epilog.redo(this, director)
+    }
+    else {
+      this.epilog.undo(this, director)
+    }
+  }
+  undo(director: IDirector): void {
+    for (var i = 0, iLength = this.targets.length; i &lt; iLength; i++) {
+      var target = this.targets[i]
+      var mirror = this.mirrors.getWeakRef(target.uuid)
+      var names = mirror.animationLanes.keys;
+      for (var j = 0; j &lt; names.length; j++) {
+        var propName = names[j]
         var animationLane = mirror.animationLanes.getWeakRef(propName)
-
-        return animationLane.pop()
+        animationLane.undo(target, propName)
+      }
     }
-
-    /**
-     * Update all currently running animations.
-     * Essentially calls &#x60;apply&#x60; on each IAnimation in the queues of active objects.
-     */
-    advance(interval: number): void {
-        this.now += interval
-
-        for (var i = 0, iLength = this.targets.length; i &lt; iLength; i++) {
-            var target = this.targets[i]
-            /**
-             * &#x60;offset&#x60; is variable used to keep things running on schedule.
-             * If an animation finishes before the interval, it reports the
-             * duration &#x60;extra&#x60; that brings the tome to &#x60;now&#x60;. Subsequent animations
-             * get a head start by considering their start time to be now - offset.
-             */
-            var offset = 0
-            var mirror = this.mirrors.getWeakRef(target.uuid)
-            var names = mirror.animationLanes.keys;
-            for (var j = 0; j &lt; names.length; j++) {
-                var propName = names[j]
-                var animationLane = mirror.animationLanes.getWeakRef(propName)
-                offset = animationLane.apply(target, propName, this.now, offset)
-            }
-        }
-    }
-    doProlog(director: IDirector, forward: boolean): void {
-        if (forward) {
-            this.prolog.redo(this, director)
-        }
-        else {
-            this.prolog.undo(this, director)
-        }
-    }
-    doEpilog(director: IDirector, forward: boolean): void {
-        if (forward) {
-            this.epilog.redo(this, director)
-        }
-        else {
-            this.epilog.undo(this, director)
-        }
-    }
-    undo(director: IDirector): void {
-        for (var i = 0, iLength = this.targets.length; i &lt; iLength; i++) {
-            var target = this.targets[i]
-            var mirror = this.mirrors.getWeakRef(target.uuid)
-            var names = mirror.animationLanes.keys;
-            for (var j = 0; j &lt; names.length; j++) {
-                var propName = names[j]
-                var animationLane = mirror.animationLanes.getWeakRef(propName)
-                animationLane.undo(target, propName)
-            }
-        }
-    }
+  }
 }
 
 class AnimationLane extends ShareableBase {
-    private completed: ShareableArray&lt;IAnimation&gt;;
-    private remaining: ShareableArray&lt;IAnimation&gt;;
-    constructor() {
-        super(&#x27;AnimationLane&#x27;)
-        this.completed = new ShareableArray&lt;IAnimation&gt;()
-        this.remaining = new ShareableArray&lt;IAnimation&gt;()
+  private completed: ShareableArray&lt;IAnimation&gt;;
+  private remaining: ShareableArray&lt;IAnimation&gt;;
+  constructor(level: number) {
+    super(&#x27;AnimationLane&#x27;, incLevel(level))
+    this.completed = new ShareableArray&lt;IAnimation&gt;([], 0)
+    this.remaining = new ShareableArray&lt;IAnimation&gt;([], 0)
+  }
+  protected destructor(level: number): void {
+    this.completed.release()
+    this.completed = void 0
+    this.remaining.release()
+    this.remaining = void 0
+    super.destructor(incLevel(level))
+  }
+  pop(): IAnimation {
+    if (this.remaining.length &gt; 0) {
+      return this.remaining.pop()
     }
-    protected destructor(): void {
-        this.completed.release()
-        this.completed = void 0
-        this.remaining.release()
-        this.remaining = void 0
-        super.destructor()
+    else {
+      return this.completed.pop()
     }
-    pop(): IAnimation {
-        if (this.remaining.length &gt; 0) {
-            return this.remaining.pop()
+  }
+  push(animation: IAnimation): number {
+    return this.remaining.push(animation)
+  }
+  pushWeakRef(animation: IAnimation): number {
+    return this.remaining.pushWeakRef(animation)
+  }
+  apply(target: IAnimationTarget, propName: string, now: number, offset: number): number {
+    var done = false;
+    while (!done) {
+      if (this.remaining.length &gt; 0) {
+        var animation = this.remaining.getWeakRef(0)
+        animation.apply(target, propName, now, offset)
+        if (animation.done(target, propName)) {
+          offset = animation.extra(now)
+          this.completed.push(this.remaining.shift())
         }
         else {
-            return this.completed.pop()
+          done = true;
         }
+      }
+      else {
+        done = true;
+      }
     }
-    push(animation: IAnimation): number {
-        return this.remaining.push(animation)
+    return offset;
+  }
+  undo(target: IAnimationTarget, propName: string): void {
+    while (this.completed.length &gt; 0) {
+      this.remaining.unshift(this.completed.pop())
     }
-    pushWeakRef(animation: IAnimation): number {
-        return this.remaining.pushWeakRef(animation)
+    for (var i = this.remaining.length - 1; i &gt;= 0; i--) {
+      var animation = this.remaining.getWeakRef(i)
+      animation.undo(target, propName)
     }
-    apply(target: IAnimationTarget, propName: string, now: number, offset: number): number {
-        var done = false;
-        while (!done) {
-            if (this.remaining.length &gt; 0) {
-                var animation = this.remaining.getWeakRef(0)
-                animation.apply(target, propName, now, offset)
-                if (animation.done(target, propName)) {
-                    offset = animation.extra(now)
-                    this.completed.push(this.remaining.shift())
-                }
-                else {
-                    done = true;
-                }
-            }
-            else {
-                done = true;
-            }
-        }
-        return offset;
-    }
-    undo(target: IAnimationTarget, propName: string): void {
-        while (this.completed.length &gt; 0) {
-            this.remaining.unshift(this.completed.pop())
-        }
-        for (var i = this.remaining.length - 1; i &gt;= 0; i--) {
-            var animation = this.remaining.getWeakRef(i)
-            animation.undo(target, propName)
-        }
-    }
+  }
 }
 
 /**
  * The companion to a target: IAnimationTarget containing animation state.
  */
 class Mirror extends ShareableBase {
-    /**
-     * A map from property name to a list of properties of the property value.
-     * It should be possible to animate many properties of a target at once.
-     * However, a given property should only be animated in one way at a given time.
-     * For these reasons, we structure the data as map from property name to a queue of animations.
-     */
-    public animationLanes: StringIUnknownMap&lt;AnimationLane&gt;;
-    constructor() {
-        super(&#x27;Mirror&#x27;)
-        this.animationLanes = new StringIUnknownMap&lt;AnimationLane&gt;()
-    }
+  /**
+   * A map from property name to a list of properties of the property value.
+   * It should be possible to animate many properties of a target at once.
+   * However, a given property should only be animated in one way at a given time.
+   * For these reasons, we structure the data as map from property name to a queue of animations.
+   */
+  public animationLanes: StringShareableMap&lt;AnimationLane&gt;;
+  constructor() {
+    super(&#x27;Mirror&#x27;, 1)
+    this.animationLanes = new StringShareableMap&lt;AnimationLane&gt;()
+  }
 
-    protected destructor(): void {
-        this.animationLanes.release()
-        this.animationLanes = void 0
-        super.destructor()
+  protected destructor(level: number): void {
+    this.animationLanes.release()
+    this.animationLanes = void 0
+    super.destructor(incLevel(level))
+  }
+  ensureAnimationLane(key: string): void {
+    if (!this.animationLanes.exists(key)) {
+      this.animationLanes.putWeakRef(key, new AnimationLane(0))
     }
-    ensureAnimationLane(key: string): void {
-        if (!this.animationLanes.exists(key)) {
-            this.animationLanes.putWeakRef(key, new AnimationLane())
-        }
-    }
+  }
 }
 
     </pre>

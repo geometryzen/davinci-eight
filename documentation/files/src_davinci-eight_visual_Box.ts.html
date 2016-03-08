@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.212.0</em>
+            <em>API Docs for: 2.213.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -106,9 +106,11 @@
                                 <li><a href="../classes/GeometricE2.html">GeometricE2</a></li>
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
+                                <li><a href="../classes/GeometryArrays.html">GeometryArrays</a></li>
                                 <li><a href="../classes/GeometryBuilder.html">GeometryBuilder</a></li>
                                 <li><a href="../classes/GeometryContainer.html">GeometryContainer</a></li>
                                 <li><a href="../classes/GeometryElements.html">GeometryElements</a></li>
+                                <li><a href="../classes/GeometryLeaf.html">GeometryLeaf</a></li>
                                 <li><a href="../classes/GeometryOptions.html">GeometryOptions</a></li>
                                 <li><a href="../classes/GeometryPrimitive.html">GeometryPrimitive</a></li>
                                 <li><a href="../classes/GraphicsProgramSymbols.html">GraphicsProgramSymbols</a></li>
@@ -139,7 +141,7 @@
                                 <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
                                 <li><a href="../classes/MouseControls.html">MouseControls</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
-                                <li><a href="../classes/NumberIUnknownMap.html">NumberIUnknownMap</a></li>
+                                <li><a href="../classes/NumberShareableMap.html">NumberShareableMap</a></li>
                                 <li><a href="../classes/Perspective.html">Perspective</a></li>
                                 <li><a href="../classes/PerspectiveCamera.html">PerspectiveCamera</a></li>
                                 <li><a href="../classes/PointMaterial.html">PointMaterial</a></li>
@@ -179,7 +181,7 @@
                                 <li><a href="../classes/SpinorE2.html">SpinorE2</a></li>
                                 <li><a href="../classes/SpinorE3.html">SpinorE3</a></li>
                                 <li><a href="../classes/SpinorE4.html">SpinorE4</a></li>
-                                <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
+                                <li><a href="../classes/StringShareableMap.html">StringShareableMap</a></li>
                                 <li><a href="../classes/Tetrahedron.html">Tetrahedron</a></li>
                                 <li><a href="../classes/TetrahedronGeometry.html">TetrahedronGeometry</a></li>
                                 <li><a href="../classes/TetrahedronGeometryOptions.html">TetrahedronGeometryOptions</a></li>
@@ -219,6 +221,7 @@
                 
                 
                             <ul id="api-modules" class="apis modules">
+                                <li><a href="../modules/commands.html">commands</a></li>
                                 <li><a href="../modules/controls.html">controls</a></li>
                                 <li><a href="../modules/core.html">core</a></li>
                                 <li><a href="../modules/EIGHT.html">EIGHT</a></li>
@@ -269,6 +272,7 @@ import BoxOptions from &#x27;./BoxOptions&#x27;
 import BoxGeometry from &#x27;../geometries/BoxGeometry&#x27;
 import BoxGeometryOptions from &#x27;../geometries/BoxGeometryOptions&#x27;
 import direction from &#x27;./direction&#x27;
+import incLevel from &#x27;../base/incLevel&#x27;
 import isDefined from &#x27;../checks/isDefined&#x27;
 import MeshMaterial from &#x27;../materials/MeshMaterial&#x27;
 import MeshMaterialOptions from &#x27;../materials/MeshMaterialOptions&#x27;
@@ -290,9 +294,10 @@ export default class Box extends RigidBody {
    * @class Box
    * @constructor
    * @param [options] {BoxOptions}
+   * @param [level = 0] {number}
    */
-  constructor(options: BoxOptions = {}) {
-    super(&#x27;Box&#x27;, direction(options))
+  constructor(options: BoxOptions = {}, level = 0) {
+    super(&#x27;Box&#x27;, direction(options), incLevel(level))
     // The shape is created un-stressed and then parameters drive the scaling.
     // The scaling matrix takes into account the initial tilt from the standard configuration.
     // const stress = Vector3.vector(1, 1, 1)
@@ -312,7 +317,7 @@ export default class Box extends RigidBody {
     geometry.release()
 
     const matOptions: MeshMaterialOptions = void 0
-    const material = new MeshMaterial(matOptions, options.engine)
+    const material = new MeshMaterial(matOptions, options.engine, 0)
     this.material = material
     material.release()
 
@@ -329,16 +334,24 @@ export default class Box extends RigidBody {
     this.width = isDefined(options.width) ? mustBeNumber(&#x27;width&#x27;, options.width) : 1.0
     this.height = isDefined(options.height) ? mustBeNumber(&#x27;height&#x27;, options.height) : 1.0
     this.depth = isDefined(options.depth) ? mustBeNumber(&#x27;depth&#x27;, options.depth) : 1.0
+
+    if (level === 0) {
+      this.synchUp()
+    }
   }
 
 
   /**
    * @method destructor
+   * @param level {number}
    * @return {void}
    * @protected
    */
-  protected destructor(): void {
-    super.destructor()
+  protected destructor(level: number): void {
+    if (level === 0) {
+      this.cleanUp()
+    }
+    super.destructor(incLevel(level))
   }
 
   /**

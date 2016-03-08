@@ -1,6 +1,7 @@
 import VectorE2 from '../../math/VectorE2';
 import IAnimation from '../../slideshow/IAnimation';
 import IAnimationTarget from '../../slideshow/IAnimationTarget';
+import incLevel from '../../base/incLevel';
 import ShareableBase from '../../core/ShareableBase';
 import Vector2 from '../../math/Vector2';
 
@@ -18,16 +19,16 @@ export default class Vector2Animation extends ShareableBase implements IAnimatio
     private fraction: number;
     private callback: () => void;
     private ease: string;
-    constructor(value: VectorE2, duration: number = 300, callback?: () => void, ease?: string) {
-        super('Vector2Animation')
+    constructor(value: VectorE2, duration: number = 300, callback?: () => void, ease?: string, level = 0) {
+        super('Vector2Animation', incLevel(level))
         this.to = Vector2.copy(value)
         this.duration = duration
         this.fraction = 0;
         this.callback = callback
         this.ease = ease
     }
-    protected destructor(): void {
-        super.destructor()
+    protected destructor(level: number): void {
+        super.destructor(incLevel(level))
     }
     apply(target: IAnimationTarget, propName: string, now: number, offset: number) {
         if (!this.start) {

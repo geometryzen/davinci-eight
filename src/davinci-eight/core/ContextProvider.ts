@@ -23,6 +23,17 @@ interface ContextProvider extends Shareable {
   disableVertexAttribArray(index: number): void;
 
   /**
+   * Render geometric primitives from bound and enabled vertex data.
+   *
+   * @method drawArrays
+   * @param mode {number} Specifies the kind of geometric primitives to render from a given set of vertex attributes.
+   * @param first {number} The first element to render in the array of vector points.
+   * @param count {number} The number of vector points to render. For example, a triangle would be 3.
+   * @return {void}
+   */
+  drawArrays(mode: number, first: number, count: number): void
+
+  /**
    * @method drawElements
    * @param mode {number}
    * @param count {number}
@@ -44,6 +55,12 @@ interface ContextProvider extends Shareable {
    * @return {void}
    */
   enableVertexAttribArray(index: number): void;
+
+  /**
+   * @method isContextLost
+   * @return boolean
+   */
+  isContextLost(): boolean;
 
   /**
    * @method vertexAttribPointer

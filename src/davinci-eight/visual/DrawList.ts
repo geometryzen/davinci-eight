@@ -1,6 +1,7 @@
 import Engine from '../core/Engine'
 import Facet from '../core/Facet'
 import ContextProvider from '../core/ContextProvider'
+import incLevel from '../base/incLevel';
 import ShareableArray from '../collections/ShareableArray'
 import ShareableContextConsumer from '../core/ShareableContextConsumer'
 import AbstractDrawable from '../core/AbstractDrawable'
@@ -12,14 +13,14 @@ import AbstractDrawable from '../core/AbstractDrawable'
 export default class DrawList extends ShareableContextConsumer {
   private things: ShareableArray<AbstractDrawable>
 
-  constructor(engine: Engine) {
-    super('DrawList', engine)
-    this.things = new ShareableArray<AbstractDrawable>()
+  constructor(engine: Engine, level: number) {
+    super('DrawList', engine, incLevel(level))
+    this.things = new ShareableArray<AbstractDrawable>([], 0)
   }
 
-  protected destructor(): void {
+  protected destructor(level: number): void {
     this.things.release()
-    super.destructor()
+    super.destructor(incLevel(level))
   }
 
   add(drawable: AbstractDrawable): void {

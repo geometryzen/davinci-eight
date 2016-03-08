@@ -16,9 +16,18 @@
     "node_modules"
   ],
   "files": [
+    "src/davinci-eight/base/DefaultContextProvider.spec.ts",
+
     "src/davinci-eight/checks/isNull.spec.ts",
 
+    "src/davinci-eight/collections/NumberShareableMap.spec.ts",
+    "src/davinci-eight/collections/ShareableArray.spec.ts",
+
+    "src/davinci-eight/commands/EIGHTLogger.spec.ts",
+    "src/davinci-eight/commands/VersionLogger.spec.ts",
+
     "src/davinci-eight/core/Color.spec.ts",
+    "src/davinci-eight/core/Engine.spec.ts",
     "src/davinci-eight/core/GeometryContainer.spec.ts",
     "src/davinci-eight/core/ShareableBase.spec.ts",
     "src/davinci-eight/core/computeAttributes.spec.ts",
@@ -32,7 +41,9 @@
 
     "src/davinci-eight/geometries/ArrowGeometry.spec.ts",
     "src/davinci-eight/geometries/BoxGeometry.spec.ts",
+    "src/davinci-eight/geometries/CurveGeometry.spec.ts",
     "src/davinci-eight/geometries/CylinderGeometry.spec.ts",
+    "src/davinci-eight/geometries/GridGeometry.spec.ts",
     "src/davinci-eight/geometries/Simplex.spec.ts",
     "src/davinci-eight/geometries/SphereGeometry.spec.ts",
     "src/davinci-eight/geometries/cube.spec.ts",
@@ -71,6 +82,7 @@
     "src/davinci-eight/math/gauss.spec.ts",
 
     "src/davinci-eight/visual/Box.spec.ts",
+    "src/davinci-eight/visual/Curve.spec.ts",
     "src/davinci-eight/visual/RigidBody.spec.ts",
     "src/davinci-eight/visual/RigidBodyWithUnits.spec.ts",
     "src/davinci-eight/visual/Sphere.spec.ts",

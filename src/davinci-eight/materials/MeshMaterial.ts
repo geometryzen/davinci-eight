@@ -1,6 +1,7 @@
 import Engine from '../core/Engine';
 import GraphicsProgramBuilder from '../materials/GraphicsProgramBuilder';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
+import incLevel from '../base/incLevel'
 import isDefined from '../checks/isDefined';
 import isNull from '../checks/isNull';
 import isUndefined from '../checks/isUndefined';
@@ -75,14 +76,41 @@ function fragmentShaderSrc(options?: MeshMaterialOptions): string {
  * @extends Material
  */
 export default class MeshMaterial extends Material {
+
   /**
    * 
    * @class MeshMaterial
    * @constructor
    * @param options {MeshMaterialOptions}
    * @param engine {Engine}
+   * @param level {number}
    */
-  constructor(options: MeshMaterialOptions, engine: Engine) {
-    super(vertexShaderSrc(options), fragmentShaderSrc(options), [], 'MeshMaterial', engine)
+  constructor(options: MeshMaterialOptions, engine: Engine, level: number) {
+    super(
+      vertexShaderSrc(options),
+      fragmentShaderSrc(options),
+      [],
+      'MeshMaterial',
+      engine,
+      incLevel(level)
+    )
+    if (level === 0) {
+      this.synchUp()
+    }
   }
+
+  /**
+   * @method destructor
+   * @param level {number}
+   * @return {void}
+   * @protected
+   */
+  protected destructor(level: number): void {
+    if (level === 0) {
+      this.cleanUp()
+    }
+    super.destructor(incLevel(level))
+  }
+
+  // FIXME: destructor
 }

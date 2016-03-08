@@ -38,7 +38,7 @@ export default function(
     const engine = new Engine()
     engine.clearColor(0.1, 0.1, 0.1, 1.0)
 
-    const drawList = new DrawList(engine)
+    const drawList = new DrawList(engine, 0)
 
     const ambients: Facet[] = []
 
@@ -53,7 +53,7 @@ export default function(
 
     const controls = new CameraControls(camera)
 
-    const world = new World(engine, drawList, ambients, controls)
+    const world = new World(engine, drawList, ambients, controls, 0)
 
     let requestId: number;
 

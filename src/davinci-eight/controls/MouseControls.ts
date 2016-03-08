@@ -1,4 +1,5 @@
 import Geometric2 from '../math/Geometric2'
+import incLevel from '../base/incLevel'
 import MouseCoordinates from './MouseCoordinates'
 import ShareableBase from '../core/ShareableBase'
 
@@ -118,8 +119,8 @@ export default class MouseControls extends ShareableBase {
    * @constructor
    * @param type {string}
    */
-  constructor(type: string) {
-    super(type)
+  constructor(type: string, level: number) {
+    super(type, incLevel(level))
 
     /**
      *
@@ -258,6 +259,19 @@ export default class MouseControls extends ShareableBase {
   }
 
   /**
+   * @method destructor
+   * @param level {number}
+   * @return {void}
+   * @protected
+   */
+  protected destructor(level: number): void {
+    if (this.domElement) {
+      this.unsubscribe()
+    }
+    super.destructor(incLevel(level))
+  }
+
+  /**
    * @method subscribe
    * @param domElement {HTMLElement}
    * @return {void}
@@ -291,18 +305,6 @@ export default class MouseControls extends ShareableBase {
       window.removeEventListener('keydown', this.keydown, false)
       window.removeEventListener('keyup', this.keydown, false)
     }
-  }
-
-  /**
-   * @method destructor
-   * @return {void}
-   * @protected
-   */
-  protected destructor(): void {
-    if (this.domElement) {
-      this.unsubscribe()
-    }
-    super.destructor()
   }
 
   /**

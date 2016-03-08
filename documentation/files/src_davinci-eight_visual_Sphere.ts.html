@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.212.0</em>
+            <em>API Docs for: 2.213.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -106,9 +106,11 @@
                                 <li><a href="../classes/GeometricE2.html">GeometricE2</a></li>
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
+                                <li><a href="../classes/GeometryArrays.html">GeometryArrays</a></li>
                                 <li><a href="../classes/GeometryBuilder.html">GeometryBuilder</a></li>
                                 <li><a href="../classes/GeometryContainer.html">GeometryContainer</a></li>
                                 <li><a href="../classes/GeometryElements.html">GeometryElements</a></li>
+                                <li><a href="../classes/GeometryLeaf.html">GeometryLeaf</a></li>
                                 <li><a href="../classes/GeometryOptions.html">GeometryOptions</a></li>
                                 <li><a href="../classes/GeometryPrimitive.html">GeometryPrimitive</a></li>
                                 <li><a href="../classes/GraphicsProgramSymbols.html">GraphicsProgramSymbols</a></li>
@@ -139,7 +141,7 @@
                                 <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
                                 <li><a href="../classes/MouseControls.html">MouseControls</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
-                                <li><a href="../classes/NumberIUnknownMap.html">NumberIUnknownMap</a></li>
+                                <li><a href="../classes/NumberShareableMap.html">NumberShareableMap</a></li>
                                 <li><a href="../classes/Perspective.html">Perspective</a></li>
                                 <li><a href="../classes/PerspectiveCamera.html">PerspectiveCamera</a></li>
                                 <li><a href="../classes/PointMaterial.html">PointMaterial</a></li>
@@ -179,7 +181,7 @@
                                 <li><a href="../classes/SpinorE2.html">SpinorE2</a></li>
                                 <li><a href="../classes/SpinorE3.html">SpinorE3</a></li>
                                 <li><a href="../classes/SpinorE4.html">SpinorE4</a></li>
-                                <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
+                                <li><a href="../classes/StringShareableMap.html">StringShareableMap</a></li>
                                 <li><a href="../classes/Tetrahedron.html">Tetrahedron</a></li>
                                 <li><a href="../classes/TetrahedronGeometry.html">TetrahedronGeometry</a></li>
                                 <li><a href="../classes/TetrahedronGeometryOptions.html">TetrahedronGeometryOptions</a></li>
@@ -219,6 +221,7 @@
                 
                 
                             <ul id="api-modules" class="apis modules">
+                                <li><a href="../modules/commands.html">commands</a></li>
                                 <li><a href="../modules/controls.html">controls</a></li>
                                 <li><a href="../modules/core.html">core</a></li>
                                 <li><a href="../modules/EIGHT.html">EIGHT</a></li>
@@ -266,6 +269,7 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 import direction from &#x27;./direction&#x27;
+import incLevel from &#x27;../base/incLevel&#x27;
 import isDefined from &#x27;../checks/isDefined&#x27;
 import MeshMaterial from &#x27;../materials/MeshMaterial&#x27;
 import MeshMaterialOptions from &#x27;../materials/MeshMaterialOptions&#x27;
@@ -286,54 +290,62 @@ import SphereGeometryOptions from &#x27;../geometries/SphereGeometryOptions&#x27
  */
 export default class Sphere extends RigidBody {
 
-    /**
-     * @class Sphere
-     * @constructor
-     * @param [options] {SphereOptions}
-     */
-    constructor(options: SphereOptions = {}) {
-        super(&#x27;Sphere&#x27;, direction(options))
+  /**
+   * @class Sphere
+   * @constructor
+   * @param [options] {SphereOptions}
+   * @param [level = 0] {number}
+   */
+  constructor(options: SphereOptions = {}, level = 0) {
+    super(&#x27;Sphere&#x27;, direction(options), incLevel(level))
 
-        const geoOptions: SphereGeometryOptions = {}
-        geoOptions.engine = options.engine
-        const geometry = new SphereGeometry(geoOptions)
-        this.geometry = geometry
-        geometry.release()
+    const geoOptions: SphereGeometryOptions = {}
+    geoOptions.engine = options.engine
+    const geometry = new SphereGeometry(geoOptions)
+    this.geometry = geometry
+    geometry.release()
 
-        const matOptions: MeshMaterialOptions = void 0
-        const material = new MeshMaterial(matOptions, options.engine)
-        this.material = material
-        material.release()
+    const matOptions: MeshMaterialOptions = void 0
+    const material = new MeshMaterial(matOptions, options.engine, 0)
+    this.material = material
+    material.release()
 
-        if (options.color) {
-            this.color.copy(options.color)
-        }
-        if (options.position) {
-            this.position.copyVector(options.position)
-        }
-        this.radius = isDefined(options.radius) ? mustBeNumber(&#x27;radius&#x27;, options.radius) : 1.0
+    if (options.color) {
+      this.color.copy(options.color)
     }
+    if (options.position) {
+      this.position.copyVector(options.position)
+    }
+    this.radius = isDefined(options.radius) ? mustBeNumber(&#x27;radius&#x27;, options.radius) : 1.0
+    if (level === 0) {
+      this.synchUp()
+    }
+  }
 
-    /**
-     * @method destructor
-     * @return {void}
-     * @protected
-     */
-    public destructor(): void {
-        super.destructor()
+  /**
+   * @method destructor
+   * @param level {number}
+   * @return {void}
+   * @protected
+   */
+  public destructor(level: number): void {
+    if (level === 0) {
+      this.cleanUp()
     }
+    super.destructor(incLevel(level))
+  }
 
-    /**
-     * @property radius
-     * @type number
-     * @default 1
-     */
-    get radius(): number {
-        return this.getPrincipalScale(&#x27;radius&#x27;)
-    }
-    set radius(radius: number) {
-        this.setPrincipalScale(&#x27;radius&#x27;, radius)
-    }
+  /**
+   * @property radius
+   * @type number
+   * @default 1
+   */
+  get radius(): number {
+    return this.getPrincipalScale(&#x27;radius&#x27;)
+  }
+  set radius(radius: number) {
+    this.setPrincipalScale(&#x27;radius&#x27;, radius)
+  }
 }
 
     </pre>

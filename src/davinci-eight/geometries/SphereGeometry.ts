@@ -1,5 +1,6 @@
 import GeometryContainer from '../core/GeometryContainer'
 import GeometryElements from '../core/GeometryElements'
+import incLevel from '../base/incLevel'
 import notSupported from '../i18n/notSupported'
 import SphereBuilder from './SphereBuilder'
 import SphereGeometryOptions from './SphereGeometryOptions'
@@ -30,18 +31,29 @@ export default class SphereGeometry extends GeometryContainer {
    * @class SphereGeometry
    * @constructor
    * @param [options] {SphereGeometryOptions}
+   * @param [level = 0] {number}
    */
-  constructor(options: SphereGeometryOptions = {}) {
-    super('SphereGeometry', void 0)
+  constructor(options: SphereGeometryOptions = {}, level = 0) {
+    super('SphereGeometry', void 0, incLevel(level))
     const builder = new SphereBuilder()
     const ps = builder.toPrimitives()
     const iLen = ps.length
     for (let i = 0; i < iLen; i++) {
       const p = ps[i]
-      const geometry = new GeometryElements(vertexArraysFromPrimitive(p), options.engine)
+      const geometry = new GeometryElements('SphereGeometry', vertexArraysFromPrimitive(p), options.engine, 0)
       this.addPart(geometry)
       geometry.release()
     }
+  }
+
+  /**
+   * @method destructor
+   * @param level {number}
+   * @return {void}
+   * @protected
+   */
+  protected destructor(level: number): void {
+    super.destructor(incLevel(level))
   }
 
   /**

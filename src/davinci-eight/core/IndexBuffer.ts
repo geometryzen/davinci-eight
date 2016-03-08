@@ -1,5 +1,6 @@
 import ContextProvider from './ContextProvider';
-import Engine from './Engine'
+import Engine from './Engine';
+import incLevel from '../base/incLevel';
 import mustBeObject from '../checks/mustBeObject';
 import mustBeUndefined from '../checks/mustBeUndefined';
 import ShareableContextConsumer from './ShareableContextConsumer';
@@ -53,19 +54,28 @@ export default class IndexBuffer extends ShareableContextConsumer {
    * @class IndexBuffer
    * @constructor
    * @param engine {Engine}
+   * @param level {number} Set to zero if this is the last class in a hierachy.
    */
-  constructor(engine: Engine) {
-    super('IndexBuffer', engine)
+  constructor(engine: Engine, level: number) {
+    super('IndexBuffer', engine, incLevel(level))
+    if (level === 0) {
+      this.synchUp()
+    }
   }
 
   /**
    * @method destructor
+   * @param level {number}
    * @return {void}
    * @protected
    */
-  protected destructor(): void {
-    super.destructor()
+  protected destructor(level: number): void {
+    if (level === 0) {
+      this.cleanUp()
+    }
+    // Verify that the cleanUp did its work.
     mustBeUndefined(this._type, this._buffer)
+    super.destructor(incLevel(level))
   }
 
   /**

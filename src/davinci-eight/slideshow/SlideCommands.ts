@@ -1,5 +1,6 @@
 import IAnimation from '../slideshow/IAnimation';
 import IDirector from '../slideshow/IDirector';
+import incLevel from '../base/incLevel';
 import ISlide from '../slideshow/ISlide';
 
 import ISlideCommand from '../slideshow/ISlideCommand';
@@ -16,28 +17,28 @@ import SpinorE3 from '../math/SpinorE3';
 import Spinor3Animation from '../slideshow/animations/Spinor3Animation';
 
 export default class SlideCommands extends ShareableBase implements ISlideCommand {
-    private commands: ShareableArray<ISlideCommand>;
-    constructor() {
-        super('SlideCommands')
-        this.commands = new ShareableArray<ISlideCommand>()
+  private commands: ShareableArray<ISlideCommand>;
+  constructor(level: number) {
+    super('SlideCommands', incLevel(level))
+    this.commands = new ShareableArray<ISlideCommand>([], 0)
+  }
+  protected destructor(level: number): void {
+    this.commands.release()
+    this.commands = void 0
+    super.destructor(incLevel(level))
+  }
+  pushWeakRef(command: ISlideCommand): number {
+    return this.commands.pushWeakRef(command)
+  }
+  redo(slide: ISlide, director: IDirector): void {
+    for (var i = 0, iLength = this.commands.length; i < iLength; i++) {
+      this.commands.getWeakRef(i).redo(slide, director)
     }
-    protected destructor(): void {
-        this.commands.release()
-        this.commands = void 0
-        super.destructor()
-    }
-    pushWeakRef(command: ISlideCommand): number {
-        return this.commands.pushWeakRef(command)
-    }
-    redo(slide: ISlide, director: IDirector): void {
-        for (var i = 0, iLength = this.commands.length; i < iLength; i++) {
-            this.commands.getWeakRef(i).redo(slide, director)
-        }
 
+  }
+  undo(slide: ISlide, director: IDirector): void {
+    for (var i = this.commands.length - 1; i >= 0; i--) {
+      this.commands.getWeakRef(i).undo(slide, director)
     }
-    undo(slide: ISlide, director: IDirector): void {
-        for (var i = this.commands.length - 1; i >= 0; i--) {
-            this.commands.getWeakRef(i).undo(slide, director)
-        }
-    }
+  }
 }

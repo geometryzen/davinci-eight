@@ -31,6 +31,7 @@ import ErrorMode from './davinci-eight/core/ErrorMode';
 import ContextConsumer from './davinci-eight/core/ContextConsumer';
 import ContextProgramConsumer from './davinci-eight/core/ContextProgramConsumer';
 import ContextProvider from './davinci-eight/core/ContextProvider';
+import GeometryArrays from './davinci-eight/core/GeometryArrays';
 import GeometryContainer from './davinci-eight/core/GeometryContainer';
 import GeometryElements from './davinci-eight/core/GeometryElements';
 import GraphicsProgramSymbols from './davinci-eight/core/GraphicsProgramSymbols';
@@ -174,10 +175,10 @@ import Framerate from './davinci-eight/utils/Framerate';
 import getCanvasElementById from './davinci-eight/utils/getCanvasElementById';
 import ShareableArray from './davinci-eight/collections/ShareableArray';
 import loadImageTexture from './davinci-eight/utils/loadImageTexture';
-import NumberIUnknownMap from './davinci-eight/collections/NumberIUnknownMap';
+import NumberShareableMap from './davinci-eight/collections/NumberShareableMap';
 import refChange from './davinci-eight/core/refChange';
 import ShareableBase from './davinci-eight/core/ShareableBase';
-import StringIUnknownMap from './davinci-eight/collections/StringIUnknownMap';
+import StringShareableMap from './davinci-eight/collections/StringShareableMap';
 import WindowAnimationRunner from './davinci-eight/utils/WindowAnimationRunner';
 import animation from './davinci-eight/utils/animation';
 import randomColor from './davinci-eight/utils/randomColor';
@@ -320,6 +321,7 @@ const eight = {
   get VectorN() { return VectorN },
 
   get GraphicsProgramSymbols() { return GraphicsProgramSymbols },
+  get GeometryArrays() { return GeometryArrays },
   get GeometryContainer() { return GeometryContainer },
   get GeometryElements() { return GeometryElements },
 
@@ -333,10 +335,10 @@ const eight = {
 
   // utils
   get ShareableArray() { return ShareableArray },
-  get NumberIUnknownMap() { return NumberIUnknownMap },
+  get NumberShareableMap() { return NumberShareableMap },
   get refChange() { return refChange },
   get ShareableBase() { return ShareableBase },
-  get StringIUnknownMap() { return StringIUnknownMap },
+  get StringShareableMap() { return StringShareableMap },
 
   // universal math functions
   get cos() { return mathcore.cos },

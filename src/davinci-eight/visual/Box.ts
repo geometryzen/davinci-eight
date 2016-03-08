@@ -2,6 +2,7 @@ import BoxOptions from './BoxOptions'
 import BoxGeometry from '../geometries/BoxGeometry'
 import BoxGeometryOptions from '../geometries/BoxGeometryOptions'
 import direction from './direction'
+import incLevel from '../base/incLevel'
 import isDefined from '../checks/isDefined'
 import MeshMaterial from '../materials/MeshMaterial'
 import MeshMaterialOptions from '../materials/MeshMaterialOptions'
@@ -23,9 +24,10 @@ export default class Box extends RigidBody {
    * @class Box
    * @constructor
    * @param [options] {BoxOptions}
+   * @param [level = 0] {number}
    */
-  constructor(options: BoxOptions = {}) {
-    super('Box', direction(options))
+  constructor(options: BoxOptions = {}, level = 0) {
+    super('Box', direction(options), incLevel(level))
     // The shape is created un-stressed and then parameters drive the scaling.
     // The scaling matrix takes into account the initial tilt from the standard configuration.
     // const stress = Vector3.vector(1, 1, 1)
@@ -45,7 +47,7 @@ export default class Box extends RigidBody {
     geometry.release()
 
     const matOptions: MeshMaterialOptions = void 0
-    const material = new MeshMaterial(matOptions, options.engine)
+    const material = new MeshMaterial(matOptions, options.engine, 0)
     this.material = material
     material.release()
 
@@ -62,16 +64,24 @@ export default class Box extends RigidBody {
     this.width = isDefined(options.width) ? mustBeNumber('width', options.width) : 1.0
     this.height = isDefined(options.height) ? mustBeNumber('height', options.height) : 1.0
     this.depth = isDefined(options.depth) ? mustBeNumber('depth', options.depth) : 1.0
+
+    if (level === 0) {
+      this.synchUp()
+    }
   }
 
 
   /**
    * @method destructor
+   * @param level {number}
    * @return {void}
    * @protected
    */
-  protected destructor(): void {
-    super.destructor()
+  protected destructor(level: number): void {
+    if (level === 0) {
+      this.cleanUp()
+    }
+    super.destructor(incLevel(level))
   }
 
   /**

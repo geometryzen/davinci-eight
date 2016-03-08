@@ -14,36 +14,36 @@ import ShareableBase from '../core/ShareableBase';
  * @implements ContextConsumer
  */
 export default class WebGLDisable extends ShareableBase implements ContextConsumer {
-    private _capability: Capability;
-    /**
-     * @class WebGLDisable
-     * @constructor
-     * @param capability {string} The name of the WebGLRenderingContext property to be disabled.
-     */
-    constructor(capability: Capability) {
-        super('WebGLDisable')
-        this._capability = mustBeNumber('capability', capability)
-    }
+  private _capability: Capability;
+  /**
+   * @class WebGLDisable
+   * @constructor
+   * @param capability {string} The name of the WebGLRenderingContext property to be disabled.
+   */
+  constructor(capability: Capability) {
+    super('WebGLDisable', 1)
+    this._capability = mustBeNumber('capability', capability)
+  }
 
-    contextFree(manager: ContextProvider): void {
-        // do nothing
-    }
+  /**
+   * @method destructor
+   * @return {void}
+   * @protected
+   */
+  protected destructor(): void {
+    this._capability = void 0
+    super.destructor(0)
+  }
 
-    contextGain(manager: ContextProvider): void {
-        manager.gl.disable(glCapability(this._capability, manager.gl))
-    }
+  contextFree(manager: ContextProvider): void {
+    // do nothing
+  }
 
-    contextLost(): void {
-        // do nothing
-    }
+  contextGain(manager: ContextProvider): void {
+    manager.gl.disable(glCapability(this._capability, manager.gl))
+  }
 
-    /**
-     * @method destructor
-     * @return {void}
-     * @protected
-     */
-    protected destructor(): void {
-        this._capability = void 0
-        super.destructor()
-    }
+  contextLost(): void {
+    // do nothing
+  }
 }

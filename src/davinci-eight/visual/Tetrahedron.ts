@@ -1,3 +1,4 @@
+import incLevel from '../base/incLevel';
 import Mesh from '../core/Mesh'
 import MeshMaterial from '../materials/MeshMaterial'
 import MeshMaterialOptions from '../materials/MeshMaterialOptions'
@@ -20,14 +21,15 @@ export default class Tetrahedron extends Mesh {
    * @class Tetrahedron
    * @constructor
    * @param options {TetrahedronOptions}
+   * @param [level = 0] {number}
    */
-  constructor(options: TetrahedronOptions) {
-    super('Tetrahedron', void 0, void 0, options.engine)
+  constructor(options: TetrahedronOptions, level = 0) {
+    super('Tetrahedron', void 0, void 0, options.engine, incLevel(level))
     const geoOptions: TetrahedronGeometryOptions = {}
     geoOptions.engine = options.engine
     const geometry = new TetrahedronGeometry(geoOptions)
     const matOptions: MeshMaterialOptions = null
-    const material = new MeshMaterial(matOptions, options.engine)
+    const material = new MeshMaterial(matOptions, options.engine, 0)
     this.geometry = geometry
     this.material = material
     geometry.release()
@@ -36,11 +38,12 @@ export default class Tetrahedron extends Mesh {
 
   /**
    * @method destructor
+   * @param level {number}
    * @return {void}
    * @protected
    */
-  protected destructor(): void {
-    super.destructor()
+  protected destructor(level: number): void {
+    super.destructor(incLevel(level))
   }
 
   /**

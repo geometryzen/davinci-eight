@@ -2,6 +2,7 @@ import direction from './direction'
 import CylinderGeometry from '../geometries/CylinderGeometry'
 import CylinderGeometryOptions from '../geometries/CylinderGeometryOptions'
 import CylinderOptions from './CylinderOptions'
+import incLevel from '../base/incLevel';
 import isDefined from '../checks/isDefined'
 import MeshMaterial from '../materials/MeshMaterial'
 import MeshMaterialOptions from '../materials/MeshMaterialOptions'
@@ -19,76 +20,78 @@ import RigidBody from './RigidBody'
  */
 export default class Cylinder extends RigidBody {
 
-    /**
-     * @class Cylinder
-     * @constructor
-     * @param [options] {CylinderOptions}
-     */
-    constructor(options: CylinderOptions = {}) {
-        super('Cylinder', direction(options))
-        // The shape is created un-stressed and then parameters drive the scaling.
-        // The scaling matrix takes into account the initial tilt from the standard configuration.
-        // const stress = Vector3.vector(1, 1, 1)
+  /**
+   * @class Cylinder
+   * @constructor
+   * @param [options] {CylinderOptions}
+   * @param [level = 0] {number}
+   */
+  constructor(options: CylinderOptions = {}, level = 0) {
+    super('Cylinder', direction(options), incLevel(level))
+    // The shape is created un-stressed and then parameters drive the scaling.
+    // The scaling matrix takes into account the initial tilt from the standard configuration.
+    // const stress = Vector3.vector(1, 1, 1)
 
-        const geoOptions: CylinderGeometryOptions = {}
-        geoOptions.engine = options.engine
-        geoOptions.tilt = options.tilt
-        geoOptions.offset = options.offset
-        geoOptions.openCap = options.openCap
-        geoOptions.openBase = options.openBase
-        geoOptions.openWall = options.openWall
-        const geometry = new CylinderGeometry(geoOptions)
-        this.geometry = geometry
-        geometry.release()
+    const geoOptions: CylinderGeometryOptions = {}
+    geoOptions.engine = options.engine
+    geoOptions.tilt = options.tilt
+    geoOptions.offset = options.offset
+    geoOptions.openCap = options.openCap
+    geoOptions.openBase = options.openBase
+    geoOptions.openWall = options.openWall
+    const geometry = new CylinderGeometry(geoOptions)
+    this.geometry = geometry
+    geometry.release()
 
-        const matOptions: MeshMaterialOptions = null
-        const material = new MeshMaterial(matOptions, options.engine)
-        this.material = material
-        material.release()
+    const matOptions: MeshMaterialOptions = null
+    const material = new MeshMaterial(matOptions, options.engine, 0)
+    this.material = material
+    material.release()
 
-        if (options.color) {
-            this.color.copy(options.color)
-        }
-        if (options.position) {
-            this.position.copyVector(options.position)
-        }
-        if (options.attitude) {
-            this.attitude.copySpinor(options.attitude)
-        }
-        this.radius = isDefined(options.radius) ? mustBeNumber('radius', options.radius) : 0.5
-        this.length = isDefined(options.length) ? mustBeNumber('length', options.length) : 1.0
+    if (options.color) {
+      this.color.copy(options.color)
     }
+    if (options.position) {
+      this.position.copyVector(options.position)
+    }
+    if (options.attitude) {
+      this.attitude.copySpinor(options.attitude)
+    }
+    this.radius = isDefined(options.radius) ? mustBeNumber('radius', options.radius) : 0.5
+    this.length = isDefined(options.length) ? mustBeNumber('length', options.length) : 1.0
+  }
 
 
-    /**
-     * @method destructor
-     * @return {void}
-     * @protected
-     */
-    protected destructor(): void {
-        super.destructor()
-    }
+  /**
+   * @method destructor
+   * @param level {number}
+   * @return {void}
+   * @protected
+   */
+  protected destructor(level: number): void {
+    super.destructor(incLevel(level))
+  }
 
-    /**
-     * @property length
-     * @type number
-     * @default 1
-     */
-    get length() {
-        return this.getPrincipalScale('length')
-    }
-    set length(length: number) {
-        this.setPrincipalScale('length', length)
-    }
+  /**
+   * @property length
+   * @type number
+   * @default 1
+   */
+  get length() {
+    return this.getPrincipalScale('length')
+  }
+  set length(length: number) {
+    this.setPrincipalScale('length', length)
+  }
 
-    /**
-     * @property radius
-     * @type number
-     */
-    get radius() {
-        return this.getPrincipalScale('radius')
-    }
-    set radius(radius: number) {
-        this.setPrincipalScale('radius', radius)
-    }
+  /**
+   * @property radius
+   * @type number
+   */
+  get radius() {
+    return this.getPrincipalScale('radius')
+  }
+  set radius(radius: number) {
+    this.setPrincipalScale('radius', radius)
+  }
 }

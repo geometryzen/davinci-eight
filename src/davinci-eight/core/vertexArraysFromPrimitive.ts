@@ -11,9 +11,9 @@ export default function(primitive: Primitive, order?: string[]): VertexArrays {
     const that: VertexArrays = {
         drawMode: primitive.mode,
         indices: primitive.indices,
-        attributes: computeAttributes(primitive, keys),
-        stride: computeStride(primitive, keys),
-        pointers: computePointers(primitive, keys)
+        attributes: computeAttributes(primitive.attributes, keys),
+        stride: computeStride(primitive.attributes, keys),
+        pointers: computePointers(primitive.attributes, keys)
     }
 
     return that
