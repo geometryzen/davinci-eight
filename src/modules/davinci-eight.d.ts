@@ -3049,7 +3049,7 @@ declare module EIGHT {
   }
 
   class GeometryElements extends ShareableContextConsumer implements Geometry {
-    data: VertexArrays;
+    attributes: number[]
     drawMode: DrawMode;
     indices: number[];
     partsLength: number;

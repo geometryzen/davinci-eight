@@ -8412,7 +8412,7 @@ define('davinci-eight/core',["require", "exports", './core/ErrorMode'], function
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
             this.LAST_MODIFIED = '2016-03-07';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '2.214.0';
+            this.VERSION = '2.215.0';
         }
         Object.defineProperty(Eight.prototype, "errorMode", {
             get: function () {
