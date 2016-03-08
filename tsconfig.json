@@ -22,6 +22,7 @@
 
     "src/davinci-eight/collections/NumberShareableMap.spec.ts",
     "src/davinci-eight/collections/ShareableArray.spec.ts",
+    "src/davinci-eight/collections/StringShareableMap.spec.ts",
 
     "src/davinci-eight/commands/EIGHTLogger.spec.ts",
     "src/davinci-eight/commands/VersionLogger.spec.ts",

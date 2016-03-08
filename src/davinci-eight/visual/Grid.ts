@@ -273,14 +273,12 @@ export default class Grid extends Mesh {
       }
         break
       case DrawMode.LINES:
-      case DrawMode.LINE_LOOP:
       case DrawMode.LINE_STRIP: {
         configLines(options, this)
       }
         break
       case DrawMode.TRIANGLE_STRIP:
-      case DrawMode.TRIANGLES:
-      case DrawMode.TRIANGLE_FAN: {
+      case DrawMode.TRIANGLES: {
         configMesh(options, this)
       }
         break

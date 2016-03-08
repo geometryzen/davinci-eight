@@ -2,7 +2,7 @@
     "project": {
         "name": "davinci-eight",
         "description": "WebGL library for mathematical physics using Geometric Algebra",
-        "version": "2.213.0",
+        "version": "2.214.0",
         "url": ""
     },
     "files": {
@@ -22,7 +22,9 @@
         },
         "src/davinci-eight/collections/NumberShareableMap.ts": {
             "name": "src/davinci-eight/collections/NumberShareableMap.ts",
-            "modules": {},
+            "modules": {
+                "collections": 1
+            },
             "classes": {
                 "NumberShareableMap": 1
             },
@@ -2263,6 +2265,7 @@
         "EIGHT": {
             "name": "EIGHT",
             "submodules": {
+                "collections": 1,
                 "commands": 1,
                 "controls": 1,
                 "core": 1,
@@ -2459,6 +2462,24 @@
             "namespaces": {},
             "file": "src/davinci-eight/visual/VisualOptions.ts",
             "line": 11
+        },
+        "collections": {
+            "name": "collections",
+            "submodules": {},
+            "elements": {},
+            "classes": {
+                "NumberShareableMap": 1,
+                "ShareableArray": 1,
+                "StringShareableMap": 1
+            },
+            "fors": {},
+            "is_submodule": 1,
+            "namespaces": {},
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/collections/StringShareableMap.ts",
+            "line": 22,
+            "description": "<p>\nCollection class for maintaining an array of types derived from Shareable.\n</p>\n<p>\nProvides a safer way to maintain reference counts than a native array.\n</p>"
         },
         "commands": {
             "name": "commands",
@@ -2718,8 +2739,10 @@
             "plugin_for": [],
             "extension_for": [],
             "module": "EIGHT",
+            "submodule": "collections",
+            "namespace": "",
             "file": "src/davinci-eight/collections/NumberShareableMap.ts",
-            "line": 17,
+            "line": 22,
             "extends": "ShareableBase",
             "is_constructor": 1,
             "params": [
@@ -2741,8 +2764,10 @@
             "plugin_for": [],
             "extension_for": [],
             "module": "EIGHT",
+            "submodule": "collections",
+            "namespace": "",
             "file": "src/davinci-eight/collections/ShareableArray.ts",
-            "line": 47,
+            "line": 52,
             "description": "<p>\nCollection class for maintaining an array of types derived from Shareable.\n</p>\n<p>\nProvides a safer way to maintain reference counts than a native array.\n</p>",
             "extends": "ShareableBase",
             "is_constructor": 1,
@@ -2771,8 +2796,10 @@
             "plugin_for": [],
             "extension_for": [],
             "module": "EIGHT",
+            "submodule": "collections",
+            "namespace": "",
             "file": "src/davinci-eight/collections/StringShareableMap.ts",
-            "line": 17,
+            "line": 22,
             "extends": "ShareableBase",
             "description": "<p>\nA map of <code>string</code> to <code>V extends Shareable</code>.\n</p>",
             "is_constructor": 1,
@@ -2795,6 +2822,7 @@
             "plugin_for": [],
             "extension_for": [],
             "module": "EIGHT",
+            "namespace": "",
             "file": "src/davinci-eight/commands/BlendFactor.ts",
             "line": 1,
             "description": "<p>\nThe enumerated blending factors for use with <code>WebGLBlendFunc</code>.\n</p>\n<p>\nThese values correspond to the values required for <code>gl.blendFunc</code>\nbut are not the same values.\n</p>\n<p>\nAssuming destination with RGBA values of (R<sub>d</sub>, G<sub>d</sub>, B<sub>d</sub>, A<sub>d</sub>),\nand source fragment with values (R<sub>s</sub>, G<sub>s</sub>, B<sub>s</sub>, A<sub>s</sub>),\n<ul>\n<li>R<sub>result</sub> = R<sub>s</sub> * S<sub>r</sub> + R<sub>d</sub> * D<sub>r</sub></li>\n</ul>\n</p>"
@@ -2808,6 +2836,7 @@
             "plugin_for": [],
             "extension_for": [],
             "module": "EIGHT",
+            "namespace": "",
             "file": "src/davinci-eight/commands/Capability.ts",
             "line": 1,
             "description": "A capability that may be enabled or disabled for a <code>WebGLRenderingContext</code>."
@@ -2821,6 +2850,7 @@
             "plugin_for": [],
             "extension_for": [],
             "module": "EIGHT",
+            "namespace": "",
             "file": "src/davinci-eight/commands/ContextAttributesLogger.ts",
             "line": 13,
             "description": "<p>\nDisplays details about the WegGL version to the console.\n<p>",
@@ -3486,7 +3516,7 @@
             "submodule": "core",
             "namespace": "",
             "file": "src/davinci-eight/core/GeometryElements.ts",
-            "line": 50,
+            "line": 78,
             "description": "A Geometry that supports interleaved vertex buffers.",
             "extends": "GeometryLeaf",
             "is_constructor": 1,
@@ -5383,7 +5413,7 @@
             "namespace": "",
             "file": "src/davinci-eight/materials/LineMaterial.ts",
             "line": 77,
-            "description": "Generates a WebGLProgram suitable for use with LINES, LINE_STRIP, and LINE_LOOP.\n\n<table>\n<tr>\n<td>attribute</td><td>vec3</td><td>aPosition</td>\n</tr>\n</table>",
+            "description": "Generates a WebGLProgram suitable for use with LINES, and LINE_STRIP.\n\n<table>\n<tr>\n<td>attribute</td><td>vec3</td><td>aPosition</td>\n</tr>\n</table>",
             "extends": "Material",
             "is_constructor": 1,
             "params": [
@@ -6873,16 +6903,18 @@
         },
         {
             "file": "src/davinci-eight/collections/NumberShareableMap.ts",
-            "line": 11,
+            "line": 16,
             "itemtype": "property",
             "name": "_elements",
             "access": "private",
             "tagname": "",
-            "class": "NumberShareableMap"
+            "class": "NumberShareableMap",
+            "module": "EIGHT",
+            "submodule": "collections"
         },
         {
             "file": "src/davinci-eight/collections/NumberShareableMap.ts",
-            "line": 26,
+            "line": 31,
             "itemtype": "property",
             "name": "destructor",
             "return": {
@@ -6892,6 +6924,8 @@
             "access": "protected",
             "tagname": "",
             "class": "NumberShareableMap",
+            "module": "EIGHT",
+            "submodule": "collections",
             "subprops": [
                 {
                     "name": "level",
@@ -6902,7 +6936,7 @@
         },
         {
             "file": "src/davinci-eight/collections/NumberShareableMap.ts",
-            "line": 42,
+            "line": 47,
             "itemtype": "method",
             "name": "exists",
             "params": [
@@ -6916,11 +6950,13 @@
                 "description": "",
                 "type": "Boolean"
             },
-            "class": "NumberShareableMap"
+            "class": "NumberShareableMap",
+            "module": "EIGHT",
+            "submodule": "collections"
         },
         {
             "file": "src/davinci-eight/collections/NumberShareableMap.ts",
-            "line": 52,
+            "line": 57,
             "itemtype": "method",
             "name": "get",
             "params": [
@@ -6934,11 +6970,13 @@
                 "description": "",
                 "type": "V"
             },
-            "class": "NumberShareableMap"
+            "class": "NumberShareableMap",
+            "module": "EIGHT",
+            "submodule": "collections"
         },
         {
             "file": "src/davinci-eight/collections/NumberShareableMap.ts",
-            "line": 65,
+            "line": 70,
             "itemtype": "method",
             "name": "getWeakRef",
             "params": [
@@ -6952,11 +6990,13 @@
                 "description": "",
                 "type": "V"
             },
-            "class": "NumberShareableMap"
+            "class": "NumberShareableMap",
+            "module": "EIGHT",
+            "submodule": "collections"
         },
         {
             "file": "src/davinci-eight/collections/NumberShareableMap.ts",
-            "line": 74,
+            "line": 79,
             "itemtype": "method",
             "name": "put",
             "params": [
@@ -6975,11 +7015,13 @@
                 "description": "",
                 "type": "Void"
             },
-            "class": "NumberShareableMap"
+            "class": "NumberShareableMap",
+            "module": "EIGHT",
+            "submodule": "collections"
         },
         {
             "file": "src/davinci-eight/collections/NumberShareableMap.ts",
-            "line": 87,
+            "line": 92,
             "itemtype": "method",
             "name": "putWeakRef",
             "params": [
@@ -6998,11 +7040,13 @@
                 "description": "",
                 "type": "Void"
             },
-            "class": "NumberShareableMap"
+            "class": "NumberShareableMap",
+            "module": "EIGHT",
+            "submodule": "collections"
         },
         {
             "file": "src/davinci-eight/collections/NumberShareableMap.ts",
-            "line": 102,
+            "line": 107,
             "itemtype": "method",
             "name": "forEach",
             "params": [
@@ -7016,19 +7060,23 @@
                 "description": "",
                 "type": "Void"
             },
-            "class": "NumberShareableMap"
+            "class": "NumberShareableMap",
+            "module": "EIGHT",
+            "submodule": "collections"
         },
         {
             "file": "src/davinci-eight/collections/NumberShareableMap.ts",
-            "line": 116,
+            "line": 121,
             "itemtype": "property",
             "name": "keys",
             "type": "{number[]}",
-            "class": "NumberShareableMap"
+            "class": "NumberShareableMap",
+            "module": "EIGHT",
+            "submodule": "collections"
         },
         {
             "file": "src/davinci-eight/collections/NumberShareableMap.ts",
-            "line": 125,
+            "line": 130,
             "itemtype": "method",
             "name": "remove",
             "params": [
@@ -7042,27 +7090,33 @@
                 "description": "",
                 "type": "Void"
             },
-            "class": "NumberShareableMap"
+            "class": "NumberShareableMap",
+            "module": "EIGHT",
+            "submodule": "collections"
         },
         {
             "file": "src/davinci-eight/collections/ShareableArray.ts",
-            "line": 6,
+            "line": 11,
             "description": "Essentially constructs the ShareableArray without incrementing the\nreference count of the elements, and without creating zombies.",
-            "class": "ShareableArray"
+            "class": "ShareableArray",
+            "module": "EIGHT",
+            "submodule": "collections"
         },
         {
             "file": "src/davinci-eight/collections/ShareableArray.ts",
-            "line": 40,
+            "line": 45,
             "itemtype": "property",
             "name": "_elements",
             "type": "{T[]}",
             "access": "private",
             "tagname": "",
-            "class": "ShareableArray"
+            "class": "ShareableArray",
+            "module": "EIGHT",
+            "submodule": "collections"
         },
         {
             "file": "src/davinci-eight/collections/ShareableArray.ts",
-            "line": 61,
+            "line": 66,
             "itemtype": "method",
             "name": "destructor",
             "params": [
@@ -7078,11 +7132,13 @@
             },
             "access": "protected",
             "tagname": "",
-            "class": "ShareableArray"
+            "class": "ShareableArray",
+            "module": "EIGHT",
+            "submodule": "collections"
         },
         {
             "file": "src/davinci-eight/collections/ShareableArray.ts",
-            "line": 75,
+            "line": 80,
             "itemtype": "method",
             "name": "find",
             "params": [
@@ -7096,11 +7152,13 @@
                 "description": "",
                 "type": "ShareableArray"
             },
-            "class": "ShareableArray"
+            "class": "ShareableArray",
+            "module": "EIGHT",
+            "submodule": "collections"
         },
         {
             "file": "src/davinci-eight/collections/ShareableArray.ts",
-            "line": 93,
+            "line": 98,
             "itemtype": "method",
             "name": "findOne",
             "params": [
@@ -7114,11 +7172,13 @@
                 "description": "",
                 "type": "T"
             },
-            "class": "ShareableArray"
+            "class": "ShareableArray",
+            "module": "EIGHT",
+            "submodule": "collections"
         },
         {
             "file": "src/davinci-eight/collections/ShareableArray.ts",
-            "line": 110,
+            "line": 115,
             "description": "Gets the element at the specified index, incrementing the reference count.",
             "itemtype": "method",
             "name": "get",
@@ -7133,11 +7193,13 @@
                 "description": "",
                 "type": "T"
             },
-            "class": "ShareableArray"
+            "class": "ShareableArray",
+            "module": "EIGHT",
+            "submodule": "collections"
         },
         {
             "file": "src/davinci-eight/collections/ShareableArray.ts",
-            "line": 124,
+            "line": 129,
             "description": "Gets the element at the specified index, without incrementing the reference count.",
             "itemtype": "method",
             "name": "getWeakRef",
@@ -7152,11 +7214,13 @@
                 "description": "",
                 "type": "T"
             },
-            "class": "ShareableArray"
+            "class": "ShareableArray",
+            "module": "EIGHT",
+            "submodule": "collections"
         },
         {
             "file": "src/davinci-eight/collections/ShareableArray.ts",
-            "line": 134,
+            "line": 139,
             "itemtype": "method",
             "name": "indexOf",
             "params": [
@@ -7175,22 +7239,26 @@
                 "description": "",
                 "type": "Number"
             },
-            "class": "ShareableArray"
+            "class": "ShareableArray",
+            "module": "EIGHT",
+            "submodule": "collections"
         },
         {
             "file": "src/davinci-eight/collections/ShareableArray.ts",
-            "line": 144,
+            "line": 149,
             "itemtype": "property",
             "name": "length",
             "return": {
                 "description": "",
                 "type": "Number"
             },
-            "class": "ShareableArray"
+            "class": "ShareableArray",
+            "module": "EIGHT",
+            "submodule": "collections"
         },
         {
             "file": "src/davinci-eight/collections/ShareableArray.ts",
-            "line": 161,
+            "line": 166,
             "description": "The slice() method returns a shallow copy of a portion of an array into a new array object.\n\nIt does not remove elements from the original array.",
             "itemtype": "method",
             "name": "slice",
@@ -7212,11 +7280,13 @@
                 "description": "",
                 "type": "ShareableArray"
             },
-            "class": "ShareableArray"
+            "class": "ShareableArray",
+            "module": "EIGHT",
+            "submodule": "collections"
         },
         {
             "file": "src/davinci-eight/collections/ShareableArray.ts",
-            "line": 173,
+            "line": 178,
             "description": "The splice() method changes the content of an array by removing existing elements and/or adding new elements.",
             "itemtype": "method",
             "name": "splice",
@@ -7236,22 +7306,26 @@
                 "description": "",
                 "type": "ShareableArray"
             },
-            "class": "ShareableArray"
+            "class": "ShareableArray",
+            "module": "EIGHT",
+            "submodule": "collections"
         },
         {
             "file": "src/davinci-eight/collections/ShareableArray.ts",
-            "line": 186,
+            "line": 191,
             "itemtype": "method",
             "name": "shift",
             "return": {
                 "description": "",
                 "type": "T"
             },
-            "class": "ShareableArray"
+            "class": "ShareableArray",
+            "module": "EIGHT",
+            "submodule": "collections"
         },
         {
             "file": "src/davinci-eight/collections/ShareableArray.ts",
-            "line": 195,
+            "line": 200,
             "description": "Traverse without Reference Counting",
             "itemtype": "method",
             "name": "forEach",
@@ -7266,11 +7340,13 @@
                 "description": "",
                 "type": "Void"
             },
-            "class": "ShareableArray"
+            "class": "ShareableArray",
+            "module": "EIGHT",
+            "submodule": "collections"
         },
         {
             "file": "src/davinci-eight/collections/ShareableArray.ts",
-            "line": 205,
+            "line": 210,
             "description": "Pushes <code>element</code> onto the tail of the list and increments the element reference count.",
             "itemtype": "method",
             "name": "push",
@@ -7285,11 +7361,13 @@
                 "description": "",
                 "type": "Number"
             },
-            "class": "ShareableArray"
+            "class": "ShareableArray",
+            "module": "EIGHT",
+            "submodule": "collections"
         },
         {
             "file": "src/davinci-eight/collections/ShareableArray.ts",
-            "line": 219,
+            "line": 224,
             "description": "Pushes <code>element</code> onto the tail of the list <em>without</em> incrementing the <code>element</code> reference count.",
             "itemtype": "method",
             "name": "pushWeakRef",
@@ -7304,22 +7382,26 @@
                 "description": "",
                 "type": "Number"
             },
-            "class": "ShareableArray"
+            "class": "ShareableArray",
+            "module": "EIGHT",
+            "submodule": "collections"
         },
         {
             "file": "src/davinci-eight/collections/ShareableArray.ts",
-            "line": 230,
+            "line": 235,
             "itemtype": "method",
             "name": "pop",
             "return": {
                 "description": "",
                 "type": "T"
             },
-            "class": "ShareableArray"
+            "class": "ShareableArray",
+            "module": "EIGHT",
+            "submodule": "collections"
         },
         {
             "file": "src/davinci-eight/collections/ShareableArray.ts",
-            "line": 239,
+            "line": 244,
             "itemtype": "method",
             "name": "unshift",
             "params": [
@@ -7333,11 +7415,13 @@
                 "description": "",
                 "type": "Number"
             },
-            "class": "ShareableArray"
+            "class": "ShareableArray",
+            "module": "EIGHT",
+            "submodule": "collections"
         },
         {
             "file": "src/davinci-eight/collections/ShareableArray.ts",
-            "line": 249,
+            "line": 254,
             "description": "<p>\n<code>unshift</code> <em>without</em> incrementing the <code>element</code> reference count.\n</p>",
             "itemtype": "method",
             "name": "unshiftWeakRef",
@@ -7352,19 +7436,23 @@
                 "description": "",
                 "type": "Number"
             },
-            "class": "ShareableArray"
+            "class": "ShareableArray",
+            "module": "EIGHT",
+            "submodule": "collections"
         },
         {
             "file": "src/davinci-eight/collections/StringShareableMap.ts",
-            "line": 11,
+            "line": 16,
             "itemtype": "property",
             "name": "elements",
             "type": "{{[key: string]: V}}",
-            "class": "StringShareableMap"
+            "class": "StringShareableMap",
+            "module": "EIGHT",
+            "submodule": "collections"
         },
         {
             "file": "src/davinci-eight/collections/StringShareableMap.ts",
-            "line": 29,
+            "line": 34,
             "itemtype": "method",
             "name": "destructor",
             "params": [
@@ -7380,11 +7468,13 @@
             },
             "access": "protected",
             "tagname": "",
-            "class": "StringShareableMap"
+            "class": "StringShareableMap",
+            "module": "EIGHT",
+            "submodule": "collections"
         },
         {
             "file": "src/davinci-eight/collections/StringShareableMap.ts",
-            "line": 42,
+            "line": 47,
             "description": "Determines whether the key exists in the map with a defined value.",
             "itemtype": "method",
             "name": "exists",
@@ -7399,11 +7489,13 @@
                 "description": "<p><code>true</code> if there is an element at the specified key.</p>",
                 "type": "Boolean"
             },
-            "class": "StringShareableMap"
+            "class": "StringShareableMap",
+            "module": "EIGHT",
+            "submodule": "collections"
         },
         {
             "file": "src/davinci-eight/collections/StringShareableMap.ts",
-            "line": 54,
+            "line": 59,
             "itemtype": "method",
             "name": "get",
             "params": [
@@ -7417,11 +7509,13 @@
                 "description": "",
                 "type": "V"
             },
-            "class": "StringShareableMap"
+            "class": "StringShareableMap",
+            "module": "EIGHT",
+            "submodule": "collections"
         },
         {
             "file": "src/davinci-eight/collections/StringShareableMap.ts",
-            "line": 70,
+            "line": 75,
             "itemtype": "method",
             "name": "getWeakRef",
             "params": [
@@ -7435,11 +7529,13 @@
                 "description": "",
                 "type": "V"
             },
-            "class": "StringShareableMap"
+            "class": "StringShareableMap",
+            "module": "EIGHT",
+            "submodule": "collections"
         },
         {
             "file": "src/davinci-eight/collections/StringShareableMap.ts",
-            "line": 79,
+            "line": 84,
             "itemtype": "method",
             "name": "put",
             "params": [
@@ -7458,11 +7554,13 @@
                 "description": "",
                 "type": "Void"
             },
-            "class": "StringShareableMap"
+            "class": "StringShareableMap",
+            "module": "EIGHT",
+            "submodule": "collections"
         },
         {
             "file": "src/davinci-eight/collections/StringShareableMap.ts",
-            "line": 92,
+            "line": 97,
             "itemtype": "method",
             "name": "putWeakRef",
             "params": [
@@ -7481,11 +7579,13 @@
                 "description": "",
                 "type": "Void"
             },
-            "class": "StringShareableMap"
+            "class": "StringShareableMap",
+            "module": "EIGHT",
+            "submodule": "collections"
         },
         {
             "file": "src/davinci-eight/collections/StringShareableMap.ts",
-            "line": 107,
+            "line": 112,
             "itemtype": "method",
             "name": "forEach",
             "params": [
@@ -7499,27 +7599,33 @@
                 "description": "",
                 "type": "Void"
             },
-            "class": "StringShareableMap"
+            "class": "StringShareableMap",
+            "module": "EIGHT",
+            "submodule": "collections"
         },
         {
             "file": "src/davinci-eight/collections/StringShareableMap.ts",
-            "line": 120,
+            "line": 125,
             "itemtype": "property",
             "name": "keys",
             "type": "{string[]}",
-            "class": "StringShareableMap"
+            "class": "StringShareableMap",
+            "module": "EIGHT",
+            "submodule": "collections"
         },
         {
             "file": "src/davinci-eight/collections/StringShareableMap.ts",
-            "line": 128,
+            "line": 133,
             "itemtype": "property",
             "name": "values",
             "type": "{V[]}",
-            "class": "StringShareableMap"
+            "class": "StringShareableMap",
+            "module": "EIGHT",
+            "submodule": "collections"
         },
         {
             "file": "src/davinci-eight/collections/StringShareableMap.ts",
-            "line": 142,
+            "line": 147,
             "itemtype": "method",
             "name": "remove",
             "params": [
@@ -7533,7 +7639,9 @@
                 "description": "",
                 "type": "V"
             },
-            "class": "StringShareableMap"
+            "class": "StringShareableMap",
+            "module": "EIGHT",
+            "submodule": "collections"
         },
         {
             "file": "src/davinci-eight/commands/BlendFactor.ts",
@@ -7541,7 +7649,8 @@
             "itemtype": "property",
             "name": "DST_ALPHA",
             "type": "{BlendFactor}",
-            "class": "BlendFactor"
+            "class": "BlendFactor",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/commands/BlendFactor.ts",
@@ -7549,7 +7658,8 @@
             "itemtype": "property",
             "name": "DST_COLOR",
             "type": "{BlendFactor}",
-            "class": "BlendFactor"
+            "class": "BlendFactor",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/commands/BlendFactor.ts",
@@ -7557,7 +7667,8 @@
             "itemtype": "property",
             "name": "ONE",
             "type": "{BlendFactor}",
-            "class": "BlendFactor"
+            "class": "BlendFactor",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/commands/BlendFactor.ts",
@@ -7565,7 +7676,8 @@
             "itemtype": "property",
             "name": "ONE_MINUS_DST_ALPHA",
             "type": "{BlendFactor}",
-            "class": "BlendFactor"
+            "class": "BlendFactor",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/commands/BlendFactor.ts",
@@ -7573,7 +7685,8 @@
             "itemtype": "property",
             "name": "ONE_MINUS_DST_COLOR",
             "type": "{BlendFactor}",
-            "class": "BlendFactor"
+            "class": "BlendFactor",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/commands/BlendFactor.ts",
@@ -7581,7 +7694,8 @@
             "itemtype": "property",
             "name": "ONE_MINUS_SRC_ALPHA",
             "type": "{BlendFactor}",
-            "class": "BlendFactor"
+            "class": "BlendFactor",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/commands/BlendFactor.ts",
@@ -7589,7 +7703,8 @@
             "itemtype": "property",
             "name": "ONE_MINUS_SRC_COLOR",
             "type": "{BlendFactor}",
-            "class": "BlendFactor"
+            "class": "BlendFactor",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/commands/BlendFactor.ts",
@@ -7597,7 +7712,8 @@
             "itemtype": "property",
             "name": "SRC_ALPHA",
             "type": "{BlendFactor}",
-            "class": "BlendFactor"
+            "class": "BlendFactor",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/commands/BlendFactor.ts",
@@ -7605,7 +7721,8 @@
             "itemtype": "property",
             "name": "SRC_ALPHA_SATURATE",
             "type": "{BlendFactor}",
-            "class": "BlendFactor"
+            "class": "BlendFactor",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/commands/BlendFactor.ts",
@@ -7613,7 +7730,8 @@
             "itemtype": "property",
             "name": "SRC_COLOR",
             "type": "{BlendFactor}",
-            "class": "BlendFactor"
+            "class": "BlendFactor",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/commands/BlendFactor.ts",
@@ -7621,7 +7739,8 @@
             "itemtype": "property",
             "name": "ZERO",
             "type": "{BlendFactor}",
-            "class": "BlendFactor"
+            "class": "BlendFactor",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/commands/Capability.ts",
@@ -7630,7 +7749,8 @@
             "itemtype": "property",
             "name": "BLEND",
             "type": "{Capability}",
-            "class": "Capability"
+            "class": "Capability",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/commands/Capability.ts",
@@ -7639,7 +7759,8 @@
             "itemtype": "property",
             "name": "CULL_FACE",
             "type": "{Capability}",
-            "class": "Capability"
+            "class": "Capability",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/commands/Capability.ts",
@@ -7648,7 +7769,8 @@
             "itemtype": "property",
             "name": "DEPTH_TEST",
             "type": "{Capability}",
-            "class": "Capability"
+            "class": "Capability",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/commands/Capability.ts",
@@ -7657,7 +7779,8 @@
             "itemtype": "property",
             "name": "POLYGON_OFFSET_FILL",
             "type": "{Capability}",
-            "class": "Capability"
+            "class": "Capability",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/commands/Capability.ts",
@@ -7666,7 +7789,8 @@
             "itemtype": "property",
             "name": "SCISSOR_TEST",
             "type": "{Capability}",
-            "class": "Capability"
+            "class": "Capability",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/commands/ContextAttributesLogger.ts",
@@ -7677,7 +7801,8 @@
                 "description": "",
                 "type": "Void"
             },
-            "class": "ContextAttributesLogger"
+            "class": "ContextAttributesLogger",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/commands/ContextAttributesLogger.ts",
@@ -7695,7 +7820,8 @@
                 "description": "",
                 "type": "Void"
             },
-            "class": "ContextAttributesLogger"
+            "class": "ContextAttributesLogger",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/commands/ContextAttributesLogger.ts",
@@ -7713,7 +7839,8 @@
                 "description": "",
                 "type": "Void"
             },
-            "class": "ContextAttributesLogger"
+            "class": "ContextAttributesLogger",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/commands/ContextAttributesLogger.ts",
@@ -7724,7 +7851,8 @@
                 "description": "",
                 "type": "Void"
             },
-            "class": "ContextAttributesLogger"
+            "class": "ContextAttributesLogger",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/commands/ContextAttributesLogger.ts",
@@ -7733,7 +7861,8 @@
             "name": "name",
             "type": "string",
             "readonly": "",
-            "class": "ContextAttributesLogger"
+            "class": "ContextAttributesLogger",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/commands/EIGHTLogger.ts",
@@ -9609,7 +9738,7 @@
             "file": "src/davinci-eight/core/DrawMode.ts",
             "line": 29,
             "itemtype": "property",
-            "name": "LINE_LOOP",
+            "name": "TRIANGLES",
             "type": "{DrawMode}",
             "class": "DrawMode",
             "module": "EIGHT",
@@ -9619,27 +9748,7 @@
             "file": "src/davinci-eight/core/DrawMode.ts",
             "line": 35,
             "itemtype": "property",
-            "name": "TRIANGLES",
-            "type": "{DrawMode}",
-            "class": "DrawMode",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/DrawMode.ts",
-            "line": 41,
-            "itemtype": "property",
             "name": "TRIANGLE_STRIP",
-            "type": "{DrawMode}",
-            "class": "DrawMode",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/DrawMode.ts",
-            "line": 47,
-            "itemtype": "property",
-            "name": "TRIANGLE_FAN",
             "type": "{DrawMode}",
             "class": "DrawMode",
             "module": "EIGHT",
@@ -11370,7 +11479,43 @@
         },
         {
             "file": "src/davinci-eight/core/GeometryElements.ts",
-            "line": 38,
+            "line": 33,
+            "itemtype": "property",
+            "name": "_indices",
+            "type": "number[]",
+            "access": "private",
+            "tagname": "",
+            "class": "GeometryElements",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/GeometryElements.ts",
+            "line": 40,
+            "itemtype": "property",
+            "name": "_attributes",
+            "type": "number[]",
+            "access": "private",
+            "tagname": "",
+            "class": "GeometryElements",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/GeometryElements.ts",
+            "line": 47,
+            "itemtype": "property",
+            "name": "count",
+            "type": "number",
+            "access": "private",
+            "tagname": "",
+            "class": "GeometryElements",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/GeometryElements.ts",
+            "line": 54,
             "description": "Hard-code to zero right now.\nThis suggests that the index buffer could be used for several gl.drawElements(...)",
             "itemtype": "property",
             "name": "offset",
@@ -11383,7 +11528,31 @@
         },
         {
             "file": "src/davinci-eight/core/GeometryElements.ts",
-            "line": 95,
+            "line": 64,
+            "itemtype": "property",
+            "name": "ibo",
+            "type": "IndexBuffer",
+            "access": "private",
+            "tagname": "",
+            "class": "GeometryElements",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/GeometryElements.ts",
+            "line": 71,
+            "itemtype": "property",
+            "name": "vbo",
+            "type": "VertexBuffer",
+            "access": "private",
+            "tagname": "",
+            "class": "GeometryElements",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/GeometryElements.ts",
+            "line": 123,
             "itemtype": "method",
             "name": "destructor",
             "params": [
@@ -11405,10 +11574,22 @@
         },
         {
             "file": "src/davinci-eight/core/GeometryElements.ts",
-            "line": 122,
+            "line": 140,
+            "itemtype": "property",
+            "name": "attributes",
+            "type": "number[]",
+            "class": "GeometryElements",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/GeometryElements.ts",
+            "line": 154,
             "itemtype": "property",
             "name": "data",
             "type": "VertexArrays",
+            "access": "private",
+            "tagname": "",
             "readonly": "",
             "class": "GeometryElements",
             "module": "EIGHT",
@@ -11416,7 +11597,7 @@
         },
         {
             "file": "src/davinci-eight/core/GeometryElements.ts",
-            "line": 141,
+            "line": 174,
             "itemtype": "property",
             "name": "indices",
             "type": "number[]",
@@ -11426,7 +11607,7 @@
         },
         {
             "file": "src/davinci-eight/core/GeometryElements.ts",
-            "line": 152,
+            "line": 185,
             "itemtype": "method",
             "name": "setIndices",
             "params": [
@@ -11448,7 +11629,7 @@
         },
         {
             "file": "src/davinci-eight/core/GeometryElements.ts",
-            "line": 174,
+            "line": 207,
             "itemtype": "property",
             "name": "pointers",
             "type": "VertexAttribPointer[]",
@@ -11458,7 +11639,7 @@
         },
         {
             "file": "src/davinci-eight/core/GeometryElements.ts",
-            "line": 185,
+            "line": 218,
             "description": "The total number of <em>bytes</em> for each element.",
             "itemtype": "property",
             "name": "stride",
@@ -11469,7 +11650,7 @@
         },
         {
             "file": "src/davinci-eight/core/GeometryElements.ts",
-            "line": 198,
+            "line": 231,
             "itemtype": "method",
             "name": "contextFree",
             "params": [
@@ -11489,7 +11670,7 @@
         },
         {
             "file": "src/davinci-eight/core/GeometryElements.ts",
-            "line": 209,
+            "line": 242,
             "itemtype": "method",
             "name": "contextGain",
             "params": [
@@ -11509,7 +11690,7 @@
         },
         {
             "file": "src/davinci-eight/core/GeometryElements.ts",
-            "line": 220,
+            "line": 253,
             "itemtype": "method",
             "name": "contextLost",
             "return": {
@@ -11522,7 +11703,7 @@
         },
         {
             "file": "src/davinci-eight/core/GeometryElements.ts",
-            "line": 230,
+            "line": 263,
             "itemtype": "method",
             "name": "draw",
             "params": [
@@ -35578,7 +35759,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Curve.ts",
-            "line": 189,
+            "line": 188,
             "itemtype": "method",
             "name": "destructor",
             "params": [
@@ -35796,7 +35977,7 @@
         },
         {
             "file": "src/davinci-eight/visual/Grid.ts",
-            "line": 293,
+            "line": 291,
             "itemtype": "method",
             "name": "destructor",
             "params": [
@@ -36527,7 +36708,7 @@
     "warnings": [
         {
             "message": "param name missing: {number}",
-            "line": " src/davinci-eight/collections/NumberShareableMap.ts:42"
+            "line": " src/davinci-eight/collections/NumberShareableMap.ts:47"
         },
         {
             "message": "unknown tag: ttribute",
@@ -36559,7 +36740,7 @@
         },
         {
             "message": "Missing item type\nEssentially constructs the ShareableArray without incrementing the\nreference count of the elements, and without creating zombies.",
-            "line": " src/davinci-eight/collections/ShareableArray.ts:6"
+            "line": " src/davinci-eight/collections/ShareableArray.ts:11"
         },
         {
             "message": "Missing item type\nThe camera object is what we will be moving.",

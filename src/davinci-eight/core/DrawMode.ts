@@ -27,12 +27,6 @@ enum DrawMode {
     LINE_STRIP,
 
     /**
-     * @property LINE_LOOP
-     * @type {DrawMode}
-     */
-    LINE_LOOP,
-
-    /**
      * @property TRIANGLES
      * @type {DrawMode}
      */
@@ -42,13 +36,7 @@ enum DrawMode {
      * @property TRIANGLE_STRIP
      * @type {DrawMode}
      */
-    TRIANGLE_STRIP,
-
-    /**
-     * @property TRIANGLE_FAN
-     * @type {DrawMode}
-     */
-    TRIANGLE_FAN
+    TRIANGLE_STRIP
 }
 
 export default DrawMode;

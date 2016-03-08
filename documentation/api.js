@@ -183,6 +183,7 @@ YUI.add("yuidoc-meta", function(Y) {
     ],
     "modules": [
         "EIGHT",
+        "collections",
         "commands",
         "controls",
         "core",
@@ -194,6 +195,11 @@ YUI.add("yuidoc-meta", function(Y) {
         "visual"
     ],
     "allModules": [
+        {
+            "displayName": "collections",
+            "name": "collections",
+            "description": "<p>\nCollection class for maintaining an array of types derived from Shareable.\n</p>\n<p>\nProvides a safer way to maintain reference counts than a native array.\n</p>"
+        },
         {
             "displayName": "commands",
             "name": "commands",

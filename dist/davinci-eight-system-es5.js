@@ -5935,7 +5935,6 @@ System.register("davinci-eight/visual/Curve.js", ["../core/DrawMode", "../core/G
               }
               break;
             case DrawMode_1.default.LINES:
-            case DrawMode_1.default.LINE_LOOP:
             case DrawMode_1.default.LINE_STRIP:
               {
                 configLines(options, this);
@@ -6996,7 +6995,6 @@ System.register("davinci-eight/visual/Grid.js", ["../core/DrawMode", "../core/Gr
               }
               break;
             case DrawMode_1.default.LINES:
-            case DrawMode_1.default.LINE_LOOP:
             case DrawMode_1.default.LINE_STRIP:
               {
                 configLines(options, this);
@@ -7004,7 +7002,6 @@ System.register("davinci-eight/visual/Grid.js", ["../core/DrawMode", "../core/Gr
               break;
             case DrawMode_1.default.TRIANGLE_STRIP:
             case DrawMode_1.default.TRIANGLES:
-            case DrawMode_1.default.TRIANGLE_FAN:
               {
                 configMesh(options, this);
               }
@@ -22407,7 +22404,7 @@ System.register("davinci-eight/core.js", ["./core/ErrorMode"], function(exports_
           this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
           this.LAST_MODIFIED = '2016-03-07';
           this.NAMESPACE = 'EIGHT';
-          this.VERSION = '2.213.0';
+          this.VERSION = '2.214.0';
         }
         Object.defineProperty(Eight.prototype, "errorMode", {
           get: function() {
@@ -22501,10 +22498,8 @@ System.register("davinci-eight/core/DrawMode.js", [], function(exports_1) {
         DrawMode[DrawMode["POINTS"] = 0] = "POINTS";
         DrawMode[DrawMode["LINES"] = 1] = "LINES";
         DrawMode[DrawMode["LINE_STRIP"] = 2] = "LINE_STRIP";
-        DrawMode[DrawMode["LINE_LOOP"] = 3] = "LINE_LOOP";
-        DrawMode[DrawMode["TRIANGLES"] = 4] = "TRIANGLES";
-        DrawMode[DrawMode["TRIANGLE_STRIP"] = 5] = "TRIANGLE_STRIP";
-        DrawMode[DrawMode["TRIANGLE_FAN"] = 6] = "TRIANGLE_FAN";
+        DrawMode[DrawMode["TRIANGLES"] = 3] = "TRIANGLES";
+        DrawMode[DrawMode["TRIANGLE_STRIP"] = 4] = "TRIANGLE_STRIP";
       })(DrawMode || (DrawMode = {}));
       exports_1("default", DrawMode);
     }
@@ -22517,14 +22512,10 @@ System.register("davinci-eight/core/drawModeToGL.js", ["./DrawMode"], function(e
     switch (mode) {
       case DrawMode_1.default.TRIANGLE_STRIP:
         return gl.TRIANGLE_STRIP;
-      case DrawMode_1.default.TRIANGLE_FAN:
-        return gl.TRIANGLE_FAN;
       case DrawMode_1.default.TRIANGLES:
         return gl.TRIANGLES;
       case DrawMode_1.default.LINE_STRIP:
         return gl.LINE_STRIP;
-      case DrawMode_1.default.LINE_LOOP:
-        return gl.LINE_LOOP;
       case DrawMode_1.default.LINES:
         return gl.LINES;
       case DrawMode_1.default.POINTS:

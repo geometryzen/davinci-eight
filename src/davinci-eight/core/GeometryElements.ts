@@ -30,9 +30,25 @@ import VertexBuffer from './VertexBuffer'
  */
 export default class GeometryElements extends GeometryLeaf {
 
+  /**
+   * @property _indices
+   * @type number[]
+   * @private
+   */
   private _indices: number[];
+
+  /**
+   * @property _attributes
+   * @type number[]
+   * @private
+   */
   private _attributes: number[];
 
+  /**
+   * @property count
+   * @type number
+   * @private
+   */
   private count: number;
 
   /**
@@ -44,7 +60,19 @@ export default class GeometryElements extends GeometryLeaf {
    * @private
    */
   private offset = 0;
+
+  /**
+   * @property ibo
+   * @type IndexBuffer
+   * @private
+   */
   private ibo: IndexBuffer;
+
+  /**
+   * @property vbo
+   * @type VertexBuffer
+   * @private
+   */
   private vbo: VertexBuffer;
 
   /**
@@ -109,10 +137,14 @@ export default class GeometryElements extends GeometryLeaf {
     super.destructor(incLevel(level))
   }
 
-  get attributes(): number[] {
+  /**
+   * @property attributes
+   * @type number[]
+   */
+  public get attributes(): number[] {
     return this._attributes
   }
-  set attributes(attributes: number[]) {
+  public set attributes(attributes: number[]) {
     if (isArray(attributes)) {
       this._attributes = attributes
       this.vbo.data = new Float32Array(attributes)
@@ -122,9 +154,10 @@ export default class GeometryElements extends GeometryLeaf {
   /**
    * @property data
    * @type VertexArrays
+   * @private
    * @readOnly
    */
-  get data(): VertexArrays {
+  private get data(): VertexArrays {
     // FIXME: This should return a deep copy.
     return {
       drawMode: this.drawMode,
@@ -134,7 +167,7 @@ export default class GeometryElements extends GeometryLeaf {
       pointers: this._pointers
     }
   }
-  set data(data: VertexArrays) {
+  private set data(data: VertexArrays) {
     throw new Error(readOnly('data').message)
   }
 
@@ -142,10 +175,10 @@ export default class GeometryElements extends GeometryLeaf {
    * @property indices
    * @type number[]
    */
-  get indices(): number[] {
+  public get indices(): number[] {
     return this._indices
   }
-  set indices(indices: number[]) {
+  public set indices(indices: number[]) {
     this.setIndices(indices)
   }
 
@@ -175,10 +208,10 @@ export default class GeometryElements extends GeometryLeaf {
    * @property pointers
    * @type VertexAttribPointer[]
    */
-  get pointers(): VertexAttribPointer[] {
+  public get pointers(): VertexAttribPointer[] {
     return this._pointers
   }
-  set pointers(pointers: VertexAttribPointer[]) {
+  public set pointers(pointers: VertexAttribPointer[]) {
     this._pointers = pointers
   }
 
@@ -188,10 +221,10 @@ export default class GeometryElements extends GeometryLeaf {
    * @property stride
    * @type number
    */
-  get stride(): number {
+  public get stride(): number {
     return this._stride
   }
-  set stride(stride: number) {
+  public set stride(stride: number) {
     this._stride = stride
   }
 

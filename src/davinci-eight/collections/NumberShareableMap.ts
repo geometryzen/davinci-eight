@@ -3,6 +3,11 @@ import Shareable from '../core/Shareable';
 import ShareableBase from '../core/ShareableBase';
 
 /**
+ * @module EIGHT
+ * @submodule collections
+ */
+
+/**
  * @class NumberShareableMap
  * @extends ShareableBase
  */

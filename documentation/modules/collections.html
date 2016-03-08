@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src/davinci-eight/geometries/TetrahedronGeometry.ts - davinci-eight</title>
+    <title>collections - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -265,61 +265,53 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: src/davinci-eight/geometries/TetrahedronGeometry.ts</h1>
+<h1>collections Module</h1>
+<div class="box clearfix meta">
 
-<div class="file">
-    <pre class="code prettyprint linenums">
-import GeometryContainer from &#x27;../core/GeometryContainer&#x27;;
-import GeometryElements from &#x27;../core/GeometryElements&#x27;;
-import incLevel from &#x27;../base/incLevel&#x27;;
-import isDefined from &#x27;../checks/isDefined&#x27;
-import mustBeNumber from &#x27;../checks/mustBeNumber&#x27;;
-import PolyhedronBuilder from &#x27;../geometries/PolyhedronBuilder&#x27;;
-import TetrahedronGeometryOptions from &#x27;./TetrahedronGeometryOptions&#x27;
-import vertexArraysFromPrimitive from &#x27;../core/vertexArraysFromPrimitive&#x27;
 
-/**
- * @module EIGHT
- * @submodule geometries
- */
+        <div class="foundat">
+            Defined in: <a href="../files/src_davinci-eight_collections_StringShareableMap.ts.html#l22"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;StringShareableMap.ts:22</code></a>
+        </div>
 
-const vertices = [
-  1, 1, 1, - 1, - 1, 1, - 1, 1, - 1, 1, - 1, - 1
-];
+</div>
 
-const indices = [
-  2, 1, 0, 0, 3, 2, 1, 3, 0, 2, 3, 1
-];
 
-/**
- * A convenience class for creating a tetrahedron geometry.
- *
- * @class TetrahedronGeometry
- * @extends Geometry
- */
-export default class TetrahedronGeometry extends GeometryContainer {
-  /**
-   * @class TetrahedronGeometry
-   * @constructor
-   * @param [options = {}] {TetrahedronGeometryOptions}
-   * @param [level = 0] {number}
-   */
-  constructor(options: TetrahedronGeometryOptions = {}, level = 0) {
-    super(&#x27;TetrahedronGeometry&#x27;, options.tilt, incLevel(level))
-    const radius = isDefined(options.radius) ? mustBeNumber(&#x27;radius&#x27;, options.radius) : 1.0
-    const builder = new PolyhedronBuilder(vertices, indices, radius)
-    const ps = builder.toPrimitives()
-    const iLen = ps.length
-    for (let i = 0; i &lt; iLen; i++) {
-      const p = ps[i]
-      const geometry = new GeometryElements(&#x27;TetrahedronGeometry&#x27;, vertexArraysFromPrimitive(p), options.engine, 0)
-      this.addPart(geometry)
-      geometry.release()
-    }
-  }
-}
+<div class="box intro">
+    <p>
+Collection class for maintaining an array of types derived from Shareable.
+</p>
+<p>
+Provides a safer way to maintain reference counts than a native array.
+</p>
+</div>
 
-    </pre>
+
+<div class="yui3-g">
+    <div class="yui3-u-1-2">
+            <p>This module provides the following classes:</p>
+
+            <ul class="module-classes">
+                <li class="module-class">
+                    <a href="../classes/NumberShareableMap.html">
+                        NumberShareableMap
+                    </a>
+                </li>
+                <li class="module-class">
+                    <a href="../classes/ShareableArray.html">
+                        ShareableArray
+                    </a>
+                </li>
+                <li class="module-class">
+                    <a href="../classes/StringShareableMap.html">
+                        StringShareableMap
+                    </a>
+                </li>
+            </ul>
+    </div>
+
+
+    <div class="yui3-u-1-2">
+    </div>
 </div>
                     </div>
                 </div>

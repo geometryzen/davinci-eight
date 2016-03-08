@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.213.0</em>
+            <em>API Docs for: 2.214.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -221,6 +221,7 @@
                 
                 
                             <ul id="api-modules" class="apis modules">
+                                <li><a href="../modules/collections.html">collections</a></li>
                                 <li><a href="../modules/commands.html">commands</a></li>
                                 <li><a href="../modules/controls.html">controls</a></li>
                                 <li><a href="../modules/core.html">core</a></li>
@@ -272,7 +273,7 @@
         </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_core_GeometryElements.ts.html#l50"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryElements.ts:50</code></a>
+            Defined in: <a href="../files/src_davinci-eight_core_GeometryElements.ts.html#l78"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryElements.ts:78</code></a>
         </div>
 
             Module: <a href="../modules/core.html">core</a><br>
@@ -318,7 +319,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_GeometryElements.ts.html#l50"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryElements.ts:50</code></a>
+        <a href="../files/src_davinci-eight_core_GeometryElements.ts.html#l78"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryElements.ts:78</code></a>
         </p>
 
 
@@ -473,8 +474,16 @@
                     <h3>Properties</h3>
 
                     <ul class="index-list properties extends">
+                            <li class="index-item property private">
+                                <a href="#property__attributes">_attributes</a>
+
+                            </li>
                             <li class="index-item property private inherited">
                                 <a href="#property__drawMode">_drawMode</a>
+
+                            </li>
+                            <li class="index-item property private">
+                                <a href="#property__indices">_indices</a>
 
                             </li>
                             <li class="index-item property protected inherited">
@@ -485,11 +494,19 @@
                                 <a href="#property__stride">_stride</a>
 
                             </li>
+                            <li class="index-item property">
+                                <a href="#property_attributes">attributes</a>
+
+                            </li>
                             <li class="index-item property protected inherited">
                                 <a href="#property_contextProvider">contextProvider</a>
 
                             </li>
-                            <li class="index-item property">
+                            <li class="index-item property private">
+                                <a href="#property_count">count</a>
+
+                            </li>
+                            <li class="index-item property private">
                                 <a href="#property_data">data</a>
 
                             </li>
@@ -505,6 +522,10 @@
                                 <a href="#property_gl">gl</a>
 
                                     <span class="flag deprecated">deprecated</span>
+                            </li>
+                            <li class="index-item property private">
+                                <a href="#property_ibo">ibo</a>
+
                             </li>
                             <li class="index-item property">
                                 <a href="#property_indices">indices</a>
@@ -532,6 +553,10 @@
                             </li>
                             <li class="index-item property">
                                 <a href="#property_stride">stride</a>
+
+                            </li>
+                            <li class="index-item property private">
+                                <a href="#property_vbo">vbo</a>
 
                             </li>
                     </ul>
@@ -677,7 +702,7 @@ The new reference count. This value is intended to be used only for test purpose
                 ContextConsumer
             </a>
             but overwritten in
-        <a href="../files/src_davinci-eight_core_GeometryElements.ts.html#l198"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryElements.ts:198</code></a>
+        <a href="../files/src_davinci-eight_core_GeometryElements.ts.html#l231"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryElements.ts:231</code></a>
         </p>
 
 
@@ -742,7 +767,7 @@ The new reference count. This value is intended to be used only for test purpose
                 ContextConsumer
             </a>
             but overwritten in
-        <a href="../files/src_davinci-eight_core_GeometryElements.ts.html#l209"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryElements.ts:209</code></a>
+        <a href="../files/src_davinci-eight_core_GeometryElements.ts.html#l242"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryElements.ts:242</code></a>
         </p>
 
 
@@ -801,7 +826,7 @@ The new reference count. This value is intended to be used only for test purpose
                 ContextConsumer
             </a>
             but overwritten in
-        <a href="../files/src_davinci-eight_core_GeometryElements.ts.html#l220"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryElements.ts:220</code></a>
+        <a href="../files/src_davinci-eight_core_GeometryElements.ts.html#l253"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryElements.ts:253</code></a>
         </p>
 
 
@@ -851,7 +876,7 @@ The new reference count. This value is intended to be used only for test purpose
                 ShareableContextConsumer
             </a>
             but overwritten in
-        <a href="../files/src_davinci-eight_core_GeometryElements.ts.html#l95"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryElements.ts:95</code></a>
+        <a href="../files/src_davinci-eight_core_GeometryElements.ts.html#l123"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryElements.ts:123</code></a>
         </p>
 
 
@@ -916,7 +941,7 @@ The new reference count. This value is intended to be used only for test purpose
                 GeometryLeaf
             </a>
             but overwritten in
-        <a href="../files/src_davinci-eight_core_GeometryElements.ts.html#l230"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryElements.ts:230</code></a>
+        <a href="../files/src_davinci-eight_core_GeometryElements.ts.html#l263"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryElements.ts:263</code></a>
         </p>
 
 
@@ -1312,7 +1337,7 @@ The new reference count. This value is intended to be used only for test purpose
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_GeometryElements.ts.html#l152"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryElements.ts:152</code></a>
+        <a href="../files/src_davinci-eight_core_GeometryElements.ts.html#l185"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryElements.ts:185</code></a>
         </p>
 
 
@@ -1577,6 +1602,31 @@ This method is idempotent; calling it more than once does not change the state.
             <div id="properties" class="api-class-tabpanel">
                 <h2 class="off-left">Properties</h2>
 
+<div id="property__attributes" class="property item private">
+    <h3 class="name"><code>_attributes</code></h3>
+    <span class="type">Number</span>
+
+
+        <span class="flag private">private</span>
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_core_GeometryElements.ts.html#l40"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryElements.ts:40</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
 <div id="property__drawMode" class="property item private inherited">
     <h3 class="name"><code>_drawMode</code></h3>
     <span class="type"><a href="../classes/DrawMode.html" class="crosslink">DrawMode</a></span>
@@ -1590,6 +1640,31 @@ This method is idempotent; calling it more than once does not change the state.
                 <p>Inherited from
                 <a href="../classes/GeometryLeaf.html#property__drawMode">GeometryLeaf</a>:
         <a href="../files/src_davinci-eight_core_GeometryLeaf.ts.html#l23"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryLeaf.ts:23</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property__indices" class="property item private">
+    <h3 class="name"><code>_indices</code></h3>
+    <span class="type">Number</span>
+
+
+        <span class="flag private">private</span>
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_core_GeometryElements.ts.html#l33"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryElements.ts:33</code></a>
         </p>
 
 
@@ -1658,6 +1733,30 @@ Normally, we will use gl.FLOAT for each number which takes 4 bytes.
 
 
 </div>
+<div id="property_attributes" class="property item">
+    <h3 class="name"><code>attributes</code></h3>
+    <span class="type">Number</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_core_GeometryElements.ts.html#l140"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryElements.ts:140</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
 <div id="property_contextProvider" class="property item protected inherited">
     <h3 class="name"><code>contextProvider</code></h3>
     <span class="type"><a href="../classes/ContextProvider.html" class="crosslink">ContextProvider</a></span>
@@ -1683,18 +1782,44 @@ Normally, we will use gl.FLOAT for each number which takes 4 bytes.
 
 
 </div>
-<div id="property_data" class="property item">
-    <h3 class="name"><code>data</code></h3>
-    <span class="type"><a href="../classes/VertexArrays.html" class="crosslink">VertexArrays</a></span>
+<div id="property_count" class="property item private">
+    <h3 class="name"><code>count</code></h3>
+    <span class="type">Number</span>
 
 
+        <span class="flag private">private</span>
 
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_GeometryElements.ts.html#l122"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryElements.ts:122</code></a>
+        <a href="../files/src_davinci-eight_core_GeometryElements.ts.html#l47"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryElements.ts:47</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_data" class="property item private">
+    <h3 class="name"><code>data</code></h3>
+    <span class="type"><a href="../classes/VertexArrays.html" class="crosslink">VertexArrays</a></span>
+
+
+        <span class="flag private">private</span>
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_core_GeometryElements.ts.html#l154"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryElements.ts:154</code></a>
         </p>
 
 
@@ -1786,6 +1911,31 @@ This property is deprecated to encourage access throught the <code>ContextProvid
 
 
 </div>
+<div id="property_ibo" class="property item private">
+    <h3 class="name"><code>ibo</code></h3>
+    <span class="type"><a href="../classes/IndexBuffer.html" class="crosslink">IndexBuffer</a></span>
+
+
+        <span class="flag private">private</span>
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_core_GeometryElements.ts.html#l64"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryElements.ts:64</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
 <div id="property_indices" class="property item">
     <h3 class="name"><code>indices</code></h3>
     <span class="type">Number</span>
@@ -1797,7 +1947,7 @@ This property is deprecated to encourage access throught the <code>ContextProvid
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_GeometryElements.ts.html#l141"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryElements.ts:141</code></a>
+        <a href="../files/src_davinci-eight_core_GeometryElements.ts.html#l174"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryElements.ts:174</code></a>
         </p>
 
 
@@ -1847,7 +1997,7 @@ This property is deprecated to encourage access throught the <code>ContextProvid
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_GeometryElements.ts.html#l38"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryElements.ts:38</code></a>
+        <a href="../files/src_davinci-eight_core_GeometryElements.ts.html#l54"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryElements.ts:54</code></a>
         </p>
 
 
@@ -1897,7 +2047,7 @@ This suggests that the index buffer could be used for several gl.drawElements(..
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_GeometryElements.ts.html#l174"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryElements.ts:174</code></a>
+        <a href="../files/src_davinci-eight_core_GeometryElements.ts.html#l207"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryElements.ts:207</code></a>
         </p>
 
 
@@ -1945,7 +2095,7 @@ This suggests that the index buffer could be used for several gl.drawElements(..
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_GeometryElements.ts.html#l185"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryElements.ts:185</code></a>
+        <a href="../files/src_davinci-eight_core_GeometryElements.ts.html#l218"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryElements.ts:218</code></a>
         </p>
 
 
@@ -1954,6 +2104,31 @@ This suggests that the index buffer could be used for several gl.drawElements(..
     <div class="description">
         <p>The total number of <em>bytes</em> for each element.</p>
 
+    </div>
+
+
+
+</div>
+<div id="property_vbo" class="property item private">
+    <h3 class="name"><code>vbo</code></h3>
+    <span class="type"><a href="../classes/VertexBuffer.html" class="crosslink">VertexBuffer</a></span>
+
+
+        <span class="flag private">private</span>
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_core_GeometryElements.ts.html#l71"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;GeometryElements.ts:71</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
     </div>
 
 

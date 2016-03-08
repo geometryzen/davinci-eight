@@ -185,10 +185,6 @@ declare module EIGHT {
      */
     LINE_STRIP,
     /**
-     * Similar to LINE_STRIP except that the last vertex is connected back to the first.
-     */
-    LINE_LOOP,
-    /**
      * Vertices are consumed in groups of three to form triangles.
      */
     TRIANGLES,
@@ -196,12 +192,7 @@ declare module EIGHT {
      * After the first triangle, each subsequent point make a new triangle
      * using the previous two points.
      */
-    TRIANGLE_STRIP,
-    /**
-     * After the first triangle, each subsequent point makes a new triangle
-     * that incorporates the previous point and the very first point.
-     */
-    TRIANGLE_FAN
+    TRIANGLE_STRIP
   }
 
   /**

@@ -4,15 +4,20 @@ import Shareable from '../core/Shareable';
 import ShareableBase from '../core/ShareableBase';
 
 /**
+ * @module EIGHT
+ * @submodule collections
+ */
+
+/**
  * Essentially constructs the ShareableArray without incrementing the
  * reference count of the elements, and without creating zombies.
  */
 function transferOwnership<T extends Shareable>(data: T[]): ShareableArray<T> {
   if (data) {
-    var result = new ShareableArray<T>(data, 0)
+    const result = new ShareableArray<T>(data, 0)
     // The result has now taken ownership of the elements, so we can release.
-    for (var i = 0, iLength = data.length; i < iLength; i++) {
-      var element = data[i]
+    for (let i = 0, iLength = data.length; i < iLength; i++) {
+      const element = data[i]
       if (element) {
         element.release()
       }

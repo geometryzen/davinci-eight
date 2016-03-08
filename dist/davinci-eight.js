@@ -8412,7 +8412,7 @@ define('davinci-eight/core',["require", "exports", './core/ErrorMode'], function
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
             this.LAST_MODIFIED = '2016-03-07';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '2.213.0';
+            this.VERSION = '2.214.0';
         }
         Object.defineProperty(Eight.prototype, "errorMode", {
             get: function () {
@@ -8801,10 +8801,8 @@ define('davinci-eight/core/DrawMode',["require", "exports"], function (require, 
         DrawMode[DrawMode["POINTS"] = 0] = "POINTS";
         DrawMode[DrawMode["LINES"] = 1] = "LINES";
         DrawMode[DrawMode["LINE_STRIP"] = 2] = "LINE_STRIP";
-        DrawMode[DrawMode["LINE_LOOP"] = 3] = "LINE_LOOP";
-        DrawMode[DrawMode["TRIANGLES"] = 4] = "TRIANGLES";
-        DrawMode[DrawMode["TRIANGLE_STRIP"] = 5] = "TRIANGLE_STRIP";
-        DrawMode[DrawMode["TRIANGLE_FAN"] = 6] = "TRIANGLE_FAN";
+        DrawMode[DrawMode["TRIANGLES"] = 3] = "TRIANGLES";
+        DrawMode[DrawMode["TRIANGLE_STRIP"] = 4] = "TRIANGLE_STRIP";
     })(DrawMode || (DrawMode = {}));
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = DrawMode;
@@ -8815,14 +8813,10 @@ define('davinci-eight/core/drawModeToGL',["require", "exports", './DrawMode'], f
         switch (mode) {
             case DrawMode_1.default.TRIANGLE_STRIP:
                 return gl.TRIANGLE_STRIP;
-            case DrawMode_1.default.TRIANGLE_FAN:
-                return gl.TRIANGLE_FAN;
             case DrawMode_1.default.TRIANGLES:
                 return gl.TRIANGLES;
             case DrawMode_1.default.LINE_STRIP:
                 return gl.LINE_STRIP;
-            case DrawMode_1.default.LINE_LOOP:
-                return gl.LINE_LOOP;
             case DrawMode_1.default.LINES:
                 return gl.LINES;
             case DrawMode_1.default.POINTS:
@@ -19288,7 +19282,6 @@ define('davinci-eight/visual/Curve',["require", "exports", '../core/DrawMode', '
                     }
                     break;
                 case DrawMode_1.default.LINES:
-                case DrawMode_1.default.LINE_LOOP:
                 case DrawMode_1.default.LINE_STRIP:
                     {
                         configLines(options, this);
@@ -19513,7 +19506,6 @@ define('davinci-eight/visual/Grid',["require", "exports", '../core/DrawMode', '.
                     }
                     break;
                 case DrawMode_1.default.LINES:
-                case DrawMode_1.default.LINE_LOOP:
                 case DrawMode_1.default.LINE_STRIP:
                     {
                         configLines(options, this);
@@ -19521,7 +19513,6 @@ define('davinci-eight/visual/Grid',["require", "exports", '../core/DrawMode', '.
                     break;
                 case DrawMode_1.default.TRIANGLE_STRIP:
                 case DrawMode_1.default.TRIANGLES:
-                case DrawMode_1.default.TRIANGLE_FAN:
                     {
                         configMesh(options, this);
                     }

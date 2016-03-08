@@ -61,7 +61,7 @@ function fragmentShaderSrc(options?: LineMaterialOptions): string {
 }
 
 /**
- * Generates a WebGLProgram suitable for use with LINES, LINE_STRIP, and LINE_LOOP.
+ * Generates a WebGLProgram suitable for use with LINES, and LINE_STRIP.
  *
  * <table>
  * <tr>
