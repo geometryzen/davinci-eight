@@ -2,7 +2,7 @@
     "project": {
         "name": "davinci-eight",
         "description": "WebGL library for mathematical physics using Geometric Algebra",
-        "version": "2.215.0",
+        "version": "2.216.0",
         "url": ""
     },
     "files": {
@@ -13104,7 +13104,7 @@
         },
         {
             "file": "src/davinci-eight/core/ShareableContextConsumer.ts",
-            "line": 172,
+            "line": 174,
             "itemtype": "method",
             "name": "contextGain",
             "params": [
@@ -13124,7 +13124,7 @@
         },
         {
             "file": "src/davinci-eight/core/ShareableContextConsumer.ts",
-            "line": 182,
+            "line": 190,
             "itemtype": "method",
             "name": "contextLost",
             "return": {
@@ -13137,7 +13137,7 @@
         },
         {
             "file": "src/davinci-eight/core/ShareableContextConsumer.ts",
-            "line": 191,
+            "line": 201,
             "description": "<p>\nProvides access to the underlying WebGL context.\n</p>\n<p>\nThis property is deprecated to encourage access throught the <code>ContextProvider</code>.\n</p>",
             "itemtype": "property",
             "name": "gl",

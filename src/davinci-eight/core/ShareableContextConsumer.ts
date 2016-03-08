@@ -165,8 +165,10 @@ export default class ShareableContextConsumer extends ShareableBase implements C
    * @return {void}
    */
   contextFree(contextProvider: ContextProvider): void {
-    this.contextProvider.release()
-    this.contextProvider = void 0
+    if (this.contextProvider) {
+      this.contextProvider.release()
+      this.contextProvider = void 0
+    }
   }
 
   /**
@@ -175,8 +177,14 @@ export default class ShareableContextConsumer extends ShareableBase implements C
    * @return {void}
    */
   contextGain(contextProvider: ContextProvider): void {
-    contextProvider.addRef()
-    this.contextProvider = contextProvider
+    if (this.contextProvider !== contextProvider) {
+      if (this.contextProvider) {
+        this.contextProvider.release()
+        this.contextProvider = void 0
+      }
+      contextProvider.addRef()
+      this.contextProvider = contextProvider
+    }
   }
 
   /**
@@ -184,8 +192,10 @@ export default class ShareableContextConsumer extends ShareableBase implements C
    * @return {void}
    */
   contextLost(): void {
-    this.contextProvider.release()
-    this.contextProvider = void 0
+    if (this.contextProvider) {
+      this.contextProvider.release()
+      this.contextProvider = void 0
+    }
   }
 
   /**
