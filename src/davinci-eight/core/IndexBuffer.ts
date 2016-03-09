@@ -37,11 +37,11 @@ function bufferIndexData(contextProvider: ContextProvider, buffer: WebGLBuffer, 
 export default class IndexBuffer extends ShareableContextConsumer {
 
   /**
-   * @property _buffer
+   * @property webGLBuffer
    * @type WebGLBuffer
    * @private
    */
-  private _buffer: WebGLBuffer;
+  private webGLBuffer: WebGLBuffer;
 
   /**
    * @property _data
@@ -54,9 +54,9 @@ export default class IndexBuffer extends ShareableContextConsumer {
    * @class IndexBuffer
    * @constructor
    * @param engine {Engine}
-   * @param level {number} Set to zero if this is the last class in a hierachy.
+   * @param [level = 0] {number} Set to zero if this is the last class in a hierachy.
    */
-  constructor(engine: Engine, level: number) {
+  constructor(engine: Engine, level = 0) {
     super('IndexBuffer', engine, incLevel(level))
     if (level === 0) {
       this.synchUp()
@@ -74,7 +74,7 @@ export default class IndexBuffer extends ShareableContextConsumer {
       this.cleanUp()
     }
     // Verify that the cleanUp did its work.
-    mustBeUndefined(this._type, this._buffer)
+    mustBeUndefined(this._type, this.webGLBuffer)
     super.destructor(incLevel(level))
   }
 
@@ -90,20 +90,25 @@ export default class IndexBuffer extends ShareableContextConsumer {
     // But how do we know that we haven't been unbound?
     // Centralizin in the contextProvider might help?
     this._data = data
-    bufferIndexData(this.contextProvider, this._buffer, this._data)
+    bufferIndexData(this.contextProvider, this.webGLBuffer, this._data)
   }
 
+  /**
+   * @method contextFree
+   * @param contextProvider {ContextProvider}
+   * @return {void}
+   */
   contextFree(contextProvider: ContextProvider): void {
     mustBeObject('contextProvider', contextProvider)
-    if (this._buffer) {
+    if (this.webGLBuffer) {
       const gl = contextProvider.gl
       if (gl) {
-        gl.deleteBuffer(this._buffer)
+        gl.deleteBuffer(this.webGLBuffer)
       }
       else {
         console.error(`${this._type} must leak WebGLBuffer because WebGLRenderingContext is ` + typeof gl)
       }
-      this._buffer = void 0
+      this.webGLBuffer = void 0
     }
     else {
       // It's a duplicate, ignore.
@@ -111,12 +116,17 @@ export default class IndexBuffer extends ShareableContextConsumer {
     super.contextFree(contextProvider)
   }
 
+  /**
+   * @method contextGain
+   * @param contextProvider {ContextProvider}
+   * @return {void}
+   */
   contextGain(contextProvider: ContextProvider): void {
     mustBeObject('contextProvider', contextProvider)
     const gl = contextProvider.gl
-    if (!this._buffer) {
-      this._buffer = gl.createBuffer()
-      bufferIndexData(contextProvider, this._buffer, this._data)
+    if (!this.webGLBuffer) {
+      this.webGLBuffer = gl.createBuffer()
+      bufferIndexData(contextProvider, this.webGLBuffer, this._data)
     }
     else {
       // It's a duplicate, ignore the call.
@@ -124,8 +134,12 @@ export default class IndexBuffer extends ShareableContextConsumer {
     super.contextGain(contextProvider)
   }
 
+  /**
+   * @method contextLost
+   * @return {void}
+   */
   contextLost(): void {
-    this._buffer = void 0
+    this.webGLBuffer = void 0
     super.contextLost()
   }
 
@@ -136,7 +150,7 @@ export default class IndexBuffer extends ShareableContextConsumer {
   bind(): void {
     const gl = this.gl
     if (gl) {
-      gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this._buffer)
+      gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.webGLBuffer)
     }
     else {
       console.warn(`${this._type}.bind() ignored because no context.`)

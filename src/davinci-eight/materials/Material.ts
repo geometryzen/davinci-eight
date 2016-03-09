@@ -1,4 +1,5 @@
 import AttribLocation from '../core/AttribLocation';
+import config from '../core';
 import ContextProvider from '../core/ContextProvider';
 import incLevel from '../base/incLevel';
 import isDefined from '../checks/isDefined';
@@ -7,6 +8,7 @@ import isNull from '../checks/isNull';
 import makeWebGLProgram from '../core/makeWebGLProgram';
 import AbstractMaterial from '../core/AbstractMaterial'
 import Engine from '../core/Engine';
+import ErrorMode from '../core/ErrorMode';
 import Matrix2 from '../math/Matrix2';
 import Matrix3 from '../math/Matrix3';
 import Matrix4 from '../math/Matrix4';
@@ -351,12 +353,52 @@ export default class Material extends ShareableContextConsumer implements Abstra
   }
 
   /**
+   * <p>
+   * Returns a <code>UniformLocation</code> object corresponding to the <code>uniform</code>
+   * parameter of the same name in the shader code. If a uniform parameter of the specified name
+   * does not exist, this method throws a descriptive <code>Error</code>.
+   * </p>
+   *
    * @method getUniformLocation
    * @param name {string}
-   * @return {UniformLocation}
+   * @return {UniformLocation} The location object bound to the specified name.
    */
   getUniformLocation(name: string): UniformLocation {
-    return this._uniforms[name]
+    const uniforms = this._uniforms
+    if (uniforms[name]) {
+      return this._uniforms[name]
+    }
+    else {
+      const msg = `uniform ${name} not found.`
+      switch (config.errorMode) {
+        case ErrorMode.WARNME: {
+          console.warn(msg)
+          return new UniformLocation(null)
+        }
+        case ErrorMode.IGNORE: {
+          return new UniformLocation(null)
+        }
+        default: {
+          // In STRICT mode, throwing an Error is consistent with the the other modes
+          // returning a null-like UniformLocation. Returning void 0 would be inconsistent
+          // even though it allows testing for the existence of a uniform. 
+          throw new Error(msg)
+        }
+      }
+    }
+  }
+
+  /**
+   * <p>
+   * Determines whether a <code>uniform</code> with the specified <code>name</code> exists in the <code>WebGLProgram</code>.
+   * </p>
+   *
+   * @method hasUniformLocation
+   * @param name {string}
+   * @return {boolean}
+   */
+  hasUniformLocation(name: string): boolean {
+    return isDefined(this._uniforms[name])
   }
 
   /**
@@ -441,7 +483,7 @@ export default class Material extends ShareableContextConsumer implements Abstra
   mat2(name: string, matrix: Matrix2, transpose: boolean): void {
     const uniformLoc = this._uniforms[name]
     if (uniformLoc) {
-      uniformLoc.mat2(matrix, transpose)
+      uniformLoc.matrix2fv(transpose, matrix.elements)
     }
   }
 
@@ -455,7 +497,7 @@ export default class Material extends ShareableContextConsumer implements Abstra
   mat3(name: string, matrix: Matrix3, transpose: boolean) {
     const uniformLoc = this._uniforms[name]
     if (uniformLoc) {
-      uniformLoc.mat3(matrix, transpose)
+      uniformLoc.matrix3fv(transpose, matrix.elements)
     }
   }
 
@@ -469,7 +511,7 @@ export default class Material extends ShareableContextConsumer implements Abstra
   mat4(name: string, matrix: Matrix4, transpose: boolean) {
     const uniformLoc = this._uniforms[name]
     if (uniformLoc) {
-      uniformLoc.mat4(matrix, transpose)
+      uniformLoc.matrix4fv(transpose, matrix.elements)
     }
   }
 
@@ -482,7 +524,7 @@ export default class Material extends ShareableContextConsumer implements Abstra
   vec2(name: string, vector: VectorE2) {
     const uniformLoc = this._uniforms[name]
     if (uniformLoc) {
-      uniformLoc.vec2(vector)
+      uniformLoc.uniform2f(vector.x, vector.y)
     }
   }
 
@@ -495,7 +537,7 @@ export default class Material extends ShareableContextConsumer implements Abstra
   vec3(name: string, vector: VectorE3) {
     const uniformLoc = this._uniforms[name]
     if (uniformLoc) {
-      uniformLoc.vec3(vector)
+      uniformLoc.uniform3f(vector.x, vector.y, vector.z)
     }
   }
 
@@ -508,46 +550,46 @@ export default class Material extends ShareableContextConsumer implements Abstra
   vec4(name: string, vector: VectorE4) {
     const uniformLoc = this._uniforms[name]
     if (uniformLoc) {
-      uniformLoc.vec4(vector)
+      uniformLoc.uniform4f(vector.x, vector.y, vector.z, vector.w)
     }
   }
 
   /**
-   * @method vector2
+   * @method vector2fv
    * @param name {string}
-   * @param data {number[]}
+   * @param data {Float32Array}
    * @return {void}
    */
-  vector2(name: string, data: number[]): void {
+  vector2fv(name: string, data: Float32Array): void {
     const uniformLoc = this._uniforms[name]
     if (uniformLoc) {
-      uniformLoc.vector2(data)
+      uniformLoc.uniform2fv(data)
     }
   }
 
   /**
-   * @method vector3
+   * @method vector3fv
    * @param name {string}
-   * @param data {number[]}
+   * @param data {Float32Array}
    * @return {void}
    */
-  vector3(name: string, data: number[]): void {
+  vector3fv(name: string, data: Float32Array): void {
     const uniformLoc = this._uniforms[name]
     if (uniformLoc) {
-      uniformLoc.vector3(data)
+      uniformLoc.uniform3fv(data)
     }
   }
 
   /**
-   * @method vector4
+   * @method vector4fv
    * @param name {string}
-   * @param data {number[]}
+   * @param data {Float32Array}
    * @return {void}
    */
-  vector4(name: string, data: number[]): void {
+  vector4fv(name: string, data: Float32Array): void {
     const uniformLoc = this._uniforms[name]
     if (uniformLoc) {
-      uniformLoc.vector4(data)
+      uniformLoc.uniform4fv(data)
     }
   }
 }

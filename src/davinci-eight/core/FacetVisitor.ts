@@ -17,44 +17,6 @@ import Matrix4 from '../math/Matrix4';
 interface FacetVisitor {
 
     /**
-     * @method uniform1f
-     * @param name {string}
-     * @param x {number}
-     * @return {void}
-     */
-    uniform1f(name: string, x: number): void;
-
-    /**
-     * @method uniform2f
-     * @param name {string}
-     * @param x {number}
-     * @param y {number}
-     * @return {void}
-     */
-    uniform2f(name: string, x: number, y: number): void;
-
-    /**
-     * @method uniform3f
-     * @param name {string}
-     * @param x {number}
-     * @param y {number}
-     * @param z {number}
-     * @return {void}
-     */
-    uniform3f(name: string, x: number, y: number, z: number): void;
-
-    /**
-     * @method uniform3f
-     * @param name {string}
-     * @param x {number}
-     * @param y {number}
-     * @param z {number}
-     * @param w {number}
-     * @return {void}
-     */
-    uniform4f(name: string, x: number, y: number, z: number, w: number): void;
-
-    /**
      * @method mat2
      * @param name {string}
      * @param matrix {Matrix2}
@@ -82,6 +44,44 @@ interface FacetVisitor {
     mat4(name: string, matrix: Matrix4, transpose: boolean): void;
 
     /**
+     * @method uniform1f
+     * @param name {string}
+     * @param x {number}
+     * @return {void}
+     */
+    uniform1f(name: string, x: number): void;
+
+    /**
+     * @method uniform2f
+     * @param name {string}
+     * @param x {number}
+     * @param y {number}
+     * @return {void}
+     */
+    uniform2f(name: string, x: number, y: number): void;
+
+    /**
+     * @method uniform3f
+     * @param name {string}
+     * @param x {number}
+     * @param y {number}
+     * @param z {number}
+     * @return {void}
+     */
+    uniform3f(name: string, x: number, y: number, z: number): void;
+
+    /**
+     * @method uniform4f
+     * @param name {string}
+     * @param x {number}
+     * @param y {number}
+     * @param z {number}
+     * @param w {number}
+     * @return {void}
+     */
+    uniform4f(name: string, x: number, y: number, z: number, w: number): void;
+
+    /**
      * @method vec2
      * @param name {string}
      * @param vector {VectorE2}
@@ -106,28 +106,28 @@ interface FacetVisitor {
     vec4(name: string, vector: VectorE4): void;
 
     /**
-     * @method vector2
+     * @method vector2fv
      * @param name {string}
-     * @param data {number[]}
+     * @param data {Float32Array}
      * @return {void}
      */
-    vector2(name: string, data: number[]): void;
+    vector2fv(name: string, data: Float32Array): void;
 
     /**
-     * @method vector3
+     * @method vector3fv
      * @param name {string}
-     * @param data {number[]}
+     * @param data {Float32Array}
      * @return {void}
      */
-    vector3(name: string, data: number[]): void;
+    vector3fv(name: string, data: Float32Array): void;
 
     /**
-     * @method vector4
+     * @method vector4fv
      * @param name {string}
-     * @param data {number[]}
+     * @param data {Float32Array}
      * @return {void}
      */
-    vector4(name: string, data: number[]): void;
+    vector4fv(name: string, data: Float32Array): void;
 }
 
 export default FacetVisitor;

@@ -85,8 +85,8 @@ export default class GeometryElements extends GeometryLeaf {
    */
   constructor(type: string, data: VertexArrays, engine: Engine, level: number) {
     super(type, engine, incLevel(level))
-    this.ibo = new IndexBuffer(engine, 0)
-    this.vbo = new VertexBuffer(engine, 0)
+    this.ibo = new IndexBuffer(engine)
+    this.vbo = new VertexBuffer(engine)
 
     if (!isNull(data) && !isUndefined(data)) {
       if (isObject(data)) {

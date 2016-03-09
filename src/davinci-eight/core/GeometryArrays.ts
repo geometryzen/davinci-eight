@@ -18,6 +18,19 @@ import VertexBuffer from './VertexBuffer'
  */
 
 /**
+ *
+ * @example
+ *     const engine = new EIGHT.Engine()
+ *
+ *     const geometry = new EIGHT.GeometryArrays(engine)
+ *     geometry.drawMode = EIGHT.DrawMode.LINES
+ *     geometry.setAttribute('aPosition', {values: [0, 0, 1, 0, 0, 0, 0, 1], size: 2})
+ *     geometry.setAttribute('aColor', {values: [0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0], size: 3})
+ *
+ *     geometry.draw(material)
+ *
+ *     geometry.release()
+ *
  * @class GeometryArrays
  * @extends GeometryLeaf
  */
@@ -59,12 +72,12 @@ export default class GeometryArrays extends GeometryLeaf {
    * @class GeometryArrays
    * @constructor
    * @param engine {Engine}
-   * @param level {number}
+   * @param [level = 0] {number}
    */
-  constructor(engine: Engine, level: number) {
+  constructor(engine: Engine, level = 0) {
     super('GeometryArrays', engine, incLevel(level))
     this.attributes = {}
-    this.vbo = new VertexBuffer(engine, 0)
+    this.vbo = new VertexBuffer(engine)
   }
 
   /**

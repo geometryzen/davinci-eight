@@ -20,6 +20,7 @@ function contextBuilder() {
 }
 
 /**
+ * Constructs a white light in the -e3 direction.
  * @class AmbientLight
  */
 export default class AmbientLight implements Facet {
@@ -28,8 +29,8 @@ export default class AmbientLight implements Facet {
      * @type {Color}
      */
     public color: Color;
+
     /**
-     * Constructs a white light in the -e3 direction.
      * @class AmbientLight
      * @constructor
      */
@@ -54,9 +55,9 @@ export default class AmbientLight implements Facet {
      * @chainable
      */
     setProperty(name: string, value: number[]): AmbientLight {
-        mustBeString('name', name, contextBuilder);
-        mustBeArray('value', value, contextBuilder);
-        return this;
+        mustBeString('name', name, contextBuilder)
+        mustBeArray('value', value, contextBuilder)
+        return this
     }
 
     /**
@@ -65,7 +66,7 @@ export default class AmbientLight implements Facet {
      * @return {void}
      */
     setUniforms(visitor: FacetVisitor): void {
-        var coords = [this.color.r, this.color.g, this.color.b]
-        visitor.vector3(GraphicsProgramSymbols.UNIFORM_AMBIENT_LIGHT, coords)
+        const color = this.color
+        visitor.uniform3f(GraphicsProgramSymbols.UNIFORM_AMBIENT_LIGHT, color.r, color.g, color.b)
     }
 }

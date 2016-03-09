@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.216.0</em>
+            <em>API Docs for: 2.217.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -289,6 +289,19 @@ import VertexBuffer from &#x27;./VertexBuffer&#x27;
  */
 
 /**
+ *
+ * @example
+ *     const engine = new EIGHT.Engine()
+ *
+ *     const geometry = new EIGHT.GeometryArrays(engine)
+ *     geometry.drawMode = EIGHT.DrawMode.LINES
+ *     geometry.setAttribute(&#x27;aPosition&#x27;, {values: [0, 0, 1, 0, 0, 0, 0, 1], size: 2})
+ *     geometry.setAttribute(&#x27;aColor&#x27;, {values: [0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0], size: 3})
+ *
+ *     geometry.draw(material)
+ *
+ *     geometry.release()
+ *
  * @class GeometryArrays
  * @extends GeometryLeaf
  */
@@ -330,12 +343,12 @@ export default class GeometryArrays extends GeometryLeaf {
    * @class GeometryArrays
    * @constructor
    * @param engine {Engine}
-   * @param level {number}
+   * @param [level = 0] {number}
    */
-  constructor(engine: Engine, level: number) {
+  constructor(engine: Engine, level = 0) {
     super(&#x27;GeometryArrays&#x27;, engine, incLevel(level))
     this.attributes = {}
-    this.vbo = new VertexBuffer(engine, 0)
+    this.vbo = new VertexBuffer(engine)
   }
 
   /**

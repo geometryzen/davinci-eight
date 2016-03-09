@@ -150,6 +150,62 @@ declare module EIGHT {
     unbind(): void
   }
 
+  /**
+   * Utility class for managing a shader uniform variable.
+   */
+  class UniformLocation implements ContextProgramConsumer {
+    constructor(info: WebGLActiveInfo);
+
+    contextFree(): void;
+    contextGain(gl: WebGLRenderingContext, program: WebGLProgram): void;
+    contextLost(): void;
+
+    /**
+     * Sets the uniform location to the value of the specified matrix.
+     */
+    matrix2fv(transpose: boolean, value: Float32Array): void;
+
+    /**
+     * Sets the uniform location to the value of the specified matrix.
+     */
+    matrix3fv(transpose: boolean, value: Float32Array): void;
+
+    /**
+     * Sets the uniform location to the value of the specified matrix.
+     */
+    matrix4fv(transpose: boolean, value: Float32Array): void;
+
+    toString(): string;
+
+    uniform1f(x: number): void;
+    uniform1fv(data: Float32Array): void;
+    uniform2f(x: number, y: number): void;
+    uniform2fv(data: Float32Array): void;
+    uniform3f(x: number, y: number, z: number): void;
+    uniform3fv(data: Float32Array): void;
+    uniform4f(x: number, y: number, z: number, w: number): void;
+    uniform4fv(data: Float32Array): void;
+  }
+
+  /**
+   *
+   */
+  interface FacetVisitor {
+    mat2(name: string, matrix: Matrix2, transpose: boolean): void;
+    mat3(name: string, matrix: Matrix3, transpose: boolean): void;
+    mat4(name: string, matrix: Matrix4, transpose: boolean): void;
+    uniform1f(name: string, x: number): void;
+    uniform2f(name: string, x: number, y: number): void;
+    uniform3f(name: string, x: number, y: number, z: number): void;
+    uniform4f(name: string, x: number, y: number, z: number, w: number): void;
+    vec2(name: string, vector: VectorE2): void;
+    vec3(name: string, vector: VectorE3): void;
+    vec4(name: string, vector: VectorE4): void;
+    vector2fv(name: string, data: Float32Array): void;
+    vector3fv(name: string, data: Float32Array): void;
+    vector4fv(name: string, data: Float32Array): void;
+  }
+
   interface AbstractMaterial extends FacetVisitor, ContextConsumer {
     vertexShaderSrc: string
     fragmentShaderSrc: string
@@ -275,52 +331,6 @@ declare module EIGHT {
     enable(): void;
     disable(): void;
     vertexPointer(size: number, normalized?: boolean, stride?: number, offset?: number): void;
-  }
-
-  /**
-   * Utility class for managing a shader uniform variable.
-   */
-  class UniformLocation implements ContextProgramConsumer {
-    contextFree(): void;
-    contextGain(gl: WebGLRenderingContext, program: WebGLProgram): void;
-    contextLost(): void;
-    uniform1f(x: number): void;
-    uniform2f(x: number, y: number): void;
-    uniform3f(x: number, y: number, z: number): void;
-    uniform4f(x: number, y: number, z: number, w: number): void;
-    /**
-     * Sets the uniform location to the value of the specified vector.
-     */
-    vec1(coords: VectorE1): UniformLocation;
-    /**
-     * Sets the uniform location to the value of the specified vector.
-     */
-    vec2(coords: VectorE2): UniformLocation;
-    /**
-     * Sets the uniform location to the value of the specified vector.
-     */
-    vec3(coords: VectorE3): UniformLocation;
-    /**
-     * Sets the uniform location to the value of the specified vector.
-     */
-    vec4(coords: VectorE4): UniformLocation;
-    /**
-     * Sets the uniform location to the value of the specified matrix.
-     */
-    mat2(matrix: Matrix2, transpose?: boolean): UniformLocation;
-    /**
-     * Sets the uniform location to the value of the specified matrix.
-     */
-    mat3(matrix: Matrix3, transpose?: boolean): UniformLocation;
-    /**
-     * Sets the uniform location to the value of the specified matrix.
-     */
-    mat4(matrix: Matrix4, transpose?: boolean): UniformLocation;
-
-    vector2(coords: number[]): void;
-    vector3(coords: number[]): void;
-    vector4(coords: number[]): void;
-    toString(): string;
   }
 
   /**
@@ -1164,66 +1174,81 @@ declare module EIGHT {
      * You can also use Unicode symbols
      * 
      */
-    static BASIS_LABELS: string[][];
-    // FIXME: When TypeScript has been upgraded we can do this...
-    // static BASIS_LABELS: (string | string[])[];
+    static BASIS_LABELS: (string | string[])[];
+
+    static BASIS_LABELS_COMPASS: (string | string[])[];
+    static BASIS_LABELS_GEOMETRIC: (string | string[])[];
+    static BASIS_LABELS_STANDARD: (string | string[])[];
 
     /**
      * Constructs a <code>Geometric2</code>.
      * The multivector is initialized to zero.
      */
     constructor();
+
     /**
      * The coordinate corresponding to the unit standard basis scalar.
      */
     α: number
+
+    /**
+     * The coordinate corresponding to the unit standard basis scalar.
+     */
     alpha: number
+
     /**
      * The coordinate corresponding to the <b>e</b><sub>1</sub> standard basis vector.
      */
     x: number;
+
     /**
      * The coordinate corresponding to the <b>e</b><sub>2</sub> standard basis vector.
      */
     y: number;
+
     /**
      * The coordinate corresponding to the <b>e</b><sub>1</sub><b>e</b><sub>2</sub> standard basis bivector.
      */
     β: number;
+
+    /**
+     * The coordinate corresponding to the <b>e</b><sub>1</sub><b>e</b><sub>2</sub> standard basis bivector.
+     */
     beta: number;
-    xy: number;
 
     /**
      * <p>
      * <code>this ⟼ this + M * α</code>
      * </p>
-     * @param M
-     * @param α
      */
     add(M: GeometricE2, α?: number): Geometric2;
 
     /**
      * <p>
-     * <code>this ⟼ this + v * α</code>
+     * <code>this ⟼ a + b</code>
      * </p>
-     * @param v
-     * @param α
      */
-    addVector(v: VectorE2, α?: number): Geometric2;
+    add2(a: GeometricE2, b: GeometricE2): Geometric2;
+
+    addPseudo(β: number): Geometric2;
+
+    addScalar(α: number): Geometric2;
 
     /**
      * <p>
-     * <code>this ⟼ a + b</code>
+     * <code>this ⟼ this + v * α</code>
      * </p>
-     * @param a
-     * @param b
      */
-    add2(a: GeometricE2, b: GeometricE2): Geometric2;
+    addVector(v: VectorE2, α?: number): Geometric2;
+
+    adj(): Geometric2;
 
     /**
      * The bivector whose area (magnitude) is θ/2, where θ is the radian measure. 
      */
     angle(): Geometric2;
+
+    approx(n: number): Geometric2;
 
     /**
      *
@@ -1243,61 +1268,73 @@ declare module EIGHT {
      * <p>
      * <code>this ⟼ copy(M)</code>
      * </p>
-     * @param M
      */
     copy(M: GeometricE2): Geometric2;
+
+    copyScalar(α: number): Geometric2;
 
     /**
      * Sets this multivector to be a copy of a spinor.
      * <p>
      * <code>this ⟼ copy(spinor)</code>
      * </p>
-     * @param spinor
      */
     copySpinor(spinor: SpinorE2): Geometric2;
+
     /**
      * Sets this multivector to be a copy of a vector.
      * <p>
      * <code>this ⟼ copyVector(vector)</code>
      * </p>
-     * @param vector
      */
     copyVector(vector: VectorE2): Geometric2;
+
+    cos(): Geometric2;
+
+    cosh(): Geometric2;
+
+    cubicBezier(t: number, controlBegin: GeometricE2, controlEnd: GeometricE2, endPoint: GeometricE2): Geometric2;
+
+    /**
+     * <p>
+     * <code>this ⟼ this / magnitude(this)</code>
+     * </p>
+     */
+    direction(): Geometric2;
+
+    distanceTo(M: GeometricE2): number;
 
     /**
      * Sets this multivector to the result of division by another multivector.
      * <p>
      * <code>this ⟼ this / m</code>
      * </p>
-     * @param m
      */
     div(m: GeometricE2): Geometric2;
 
     /**
      * <p>
-     * <code>this ⟼ this / α</code>
+     * <code>this ⟼ a / b</code>
      * </p>
-     * @param α
      */
-    divByScalar(α: number): Geometric2;
+    div2(a: GeometricE2, b: GeometricE2): Geometric2;
 
     /**
      * <p>
-     * <code>this ⟼ a / b</code>
+     * <code>this ⟼ this / α</code>
      * </p>
-     * @param a
-     * @param b
      */
-    div2(a: SpinorE2, b: SpinorE2): Geometric2;
+    divByScalar(α: number): Geometric2;
 
     /**
      * <p>
      * <code>this ⟼ dual(m) = I * m</code>
      * </p>
      * Notice that the dual of a vector is related to the spinor by the right-hand rule.
-     * @param m The vector whose dual will be used to set this spinor.
      */
-    dual(m: VectorE2): Geometric2;
+    dual(m: GeometricE2): Geometric2;
+
+    equals(M: GeometricE2): boolean;
 
     /**
      * <p>
@@ -1310,7 +1347,6 @@ declare module EIGHT {
      * <p>
      * <code>this ⟼ this ^ m</code>
      * </p>
-     * @param m
      */
     ext(m: GeometricE2): Geometric2;
 
@@ -1318,10 +1354,10 @@ declare module EIGHT {
      * <p>
      * <code>this ⟼ a ^ b</code>
      * </p>
-     * @param a
-     * @param b
      */
     ext2(a: GeometricE2, b: GeometricE2): Geometric2;
+
+    grade(grade: number): Geometric2;
 
     /**
      * <p>
@@ -1330,12 +1366,15 @@ declare module EIGHT {
      */
     inv(): Geometric2;
 
+    isOne(): boolean;
+
+    isZero(): boolean;
+
     /**
      * Sets this multivector to the left contraction with another multivector.
      * <p>
      * <code>this ⟼ this << m</code>
      * </p>
-     * @param m
      */
     lco(m: GeometricE2): Geometric2;
 
@@ -1344,8 +1383,6 @@ declare module EIGHT {
      * <p>
      * <code>this ⟼ a << b</code>
      * </p>
-     * @param a
-     * @param b
      */
     lco2(a: GeometricE2, b: GeometricE2): Geometric2;
 
@@ -1353,8 +1390,6 @@ declare module EIGHT {
      * <p>
      * <code>this ⟼ this + α * (target - this)</code>
      * </p>
-     * @param target
-     * @param α
      */
     lerp(target: GeometricE2, α: number): Geometric2;
 
@@ -1362,9 +1397,6 @@ declare module EIGHT {
      * <p>
      * <code>this ⟼ a + α * (b - a)</code>
      * </p>
-     * @param a
-     * @param b
-     * @param α
      */
     lerp2(a: GeometricE2, b: GeometricE2, α: number): Geometric2;
 
@@ -1384,7 +1416,6 @@ declare module EIGHT {
      * <p>
      * <code>this ⟼ this * s</code>
      * </p>
-     * @param m
      */
     mul(m: GeometricE2): Geometric2;
 
@@ -1392,8 +1423,6 @@ declare module EIGHT {
      * <p>
      * <code>this ⟼ a * b</code>
      * </p>
-     * @param a
-     * @param b
      */
     mul2(a: GeometricE2, b: GeometricE2): Geometric2;
 
@@ -1411,12 +1440,9 @@ declare module EIGHT {
      */
     norm(): Geometric2;
 
-    /**
-     * <p>
-     * <code>this ⟼ this / magnitude(this)</code>
-     * </p>
-     */
-    direction(): Geometric2;
+    one(): Geometric2;
+
+    pow(): Geometric2;
 
     /**
      * <p>
@@ -1425,17 +1451,13 @@ declare module EIGHT {
      */
     quad(): Geometric2;
 
-    /**
-     * Computes the squared norm, scp(A, rev(A)).
-     */
-    squaredNorm(): Geometric2;
+    quadraticBezier(t: number, controlPoint: GeometricE2, endPoint: GeometricE2): Geometric2;
 
     /**
      * Sets this multivector to the right contraction with another multivector.
      * <p>
      * <code>this ⟼ this >> m</code>
      * </p>
-     * @param m
      */
     rco(m: GeometricE2): Geometric2;
 
@@ -1444,8 +1466,6 @@ declare module EIGHT {
      * <p>
      * <code>this ⟼ a >> b</code>
      * </p>
-     * @param a
-     * @param b
      */
     rco2(a: GeometricE2, b: GeometricE2): Geometric2;
 
@@ -1453,7 +1473,6 @@ declare module EIGHT {
      * <p>
      * <code>this ⟼ - n * this * n</code>
      * </p>
-     * @param n
      */
     reflect(n: VectorE2): Geometric2;
 
@@ -1468,7 +1487,6 @@ declare module EIGHT {
      * <p>
      * <code>this ⟼ R * this * rev(R)</code>
      * </p>
-     * @param R
      */
     rotate(R: SpinorE2): Geometric2;
 
@@ -1477,8 +1495,6 @@ declare module EIGHT {
      * Sets this multivector to a rotor representing a rotation from a to b.
      * R = (|b||a| + b * a) / sqrt(2 * |b||a|(|b||a| + b << a))
      * </p>
-     * @param a The <em>from</em> vector.
-     * @param b The <em>to</em> vector.
      */
     rotorFromDirections(a: VectorE2, b: VectorE2): Geometric2;
 
@@ -1486,8 +1502,6 @@ declare module EIGHT {
      * <p>
      * <code>this = ⟼ exp(- B * θ / 2)</code>
      * </p>
-     * @param B
-     * @param θ
      */
     rotorFromGeneratorAngle(B: SpinorE2, θ: number): Geometric2;
 
@@ -1495,7 +1509,6 @@ declare module EIGHT {
      * <p>
      * <code>this ⟼ this * α</code>
      * </p>
-     * @param α
      */
     scale(α: number): Geometric2;
 
@@ -1503,7 +1516,6 @@ declare module EIGHT {
      * <p>
      * <code>this ⟼ scp(this, m)</code>
      * </p>
-     * @param m
      */
     scp(m: GeometricE2): Geometric2;
 
@@ -1511,47 +1523,43 @@ declare module EIGHT {
      * <p>
      * <code>this ⟼ scp(a, b)</code>
      * </p>
-     * @param a
-     * @param b
      */
     scp2(a: GeometricE2, b: GeometricE2): Geometric2;
 
+    sin(): Geometric2;
+
+    sinh(): Geometric2;
+
+    slerp(target: GeometricE2, α: number): Geometric2;
+
     /**
-     * <p>
-     * <code>this ⟼ a * b = a · b + a ^ b</code>
-     * </p>
-     * Sets this Geometric2 to the geometric product a * b of the vector arguments.
-     * @param a
-     * @param b
+     * Computes the squared norm, scp(A, rev(A)).
      */
-    versor(a: VectorE2, b: VectorE2): Geometric2;
+    squaredNorm(): Geometric2;
+
+    stress(σ: VectorE2): Geometric2;
 
     /**
      * <p>
      * <code>this ⟼ this - M * α</code>
      * </p>
-     * @param M
-     * @param α
      */
     sub(M: GeometricE2, α?: number): Geometric2;
+
     /**
      * <p>
      * <code>this ⟼ a - b</code>
      * </p>
-     * @param a
-     * @param b
      */
     sub2(a: GeometricE2, b: GeometricE2): Geometric2;
 
     /**
      * Returns a string representing the number in exponential notation.
-     * @param fractionDigits
      */
     toExponential(): string;
 
     /**
      * Returns a string representing the number in fixed-point notation.
-     * @param fractionDigits
      */
     toFixed(fractionDigits?: number): string;
 
@@ -1561,9 +1569,58 @@ declare module EIGHT {
     toString(): string;
 
     /**
+     * <p>
+     * <code>this ⟼ a * b = a · b + a ^ b</code>
+     * </p>
+     * Sets this Geometric2 to the geometric product a * b of the vector arguments.
+     */
+    versor(a: VectorE2, b: VectorE2): Geometric2;
+
+    zero(): Geometric2;
+
+    /**
+     * Creates a copy of a multivector.
+     */
+    static copy(M: GeometricE2): Geometric2;
+
+    /**
      * The identity element for addition, <b>0</b>.
      */
-    static zero: Geometric2;
+    static zero(): Geometric2;
+
+    /**
+     * Basis vector corresponding to the <code>x</code> coordinate.
+     */
+    static e1(): Geometric2;
+
+    /**
+     * Basis vector corresponding to the <code>y</code> coordinate.
+     */
+    static e2(): Geometric2;
+
+    static fromCartesian(α: number, x: number, y: number, β: number): Geometric2;
+
+    /**
+     * Creates a copy of a spinor.
+     */
+    static fromSpinor(spinor: SpinorE2): Geometric2;
+
+    /**
+     * Creates a copy of a vector.
+     */
+    static fromVector(vector: VectorE2): Geometric2;
+
+    /**
+     * Basis vector corresponding to the <code>β</code> coordinate.
+     */
+    static I(): Geometric2;
+
+    /**
+     * Linear interpolation of two multivectors.
+     *
+     * A + α * (B - A)
+     */
+    static lerp(A: GeometricE2, B: GeometricE2, α: number): Geometric2;
 
     /**
      * The identity element for multiplication, 1.
@@ -1572,64 +1629,26 @@ declare module EIGHT {
     static one(): Geometric2;
 
     /**
-     * Basis vector corresponding to the <code>x</code> coordinate.
+     * Computes the rotor corresponding to a rotation from vector <code>a</code> to vector <code>b</code>.
      */
-    static e1: Geometric2;
+    static rotorFromDirections(a: VectorE2, b: VectorE2): Geometric2;
 
     /**
-     * Basis vector corresponding to the <code>y</code> coordinate.
+     * Creates a copy of a pseudoscalar.
      */
-    static e2: Geometric2;
-
-    /**
-     * Basis vector corresponding to the <code>β</code> coordinate.
-     */
-    static I: Geometric2;
-
-    /**
-     * Creates a copy of a multivector.  
-     * @param M
-     */
-    static copy(M: GeometricE2): Geometric2;
+    static scalar(β: number): Geometric2;
 
     /**
      * Creates a copy of a scalar.
-     * @param α
      */
-    static fromScalar(α: number): Geometric2
-
-    /**
-     * Creates a copy of a spinor.
-     * @param spinor
-     */
-    static fromSpinor(spinor: SpinorE2): Geometric2
-
-    /**
-     * Creates a copy of a vector.
-     * @param vector
-     */
-    static fromVector(vector: VectorE2): Geometric2
-
-    /**
-     * Linear interpolation of two multivectors.
-     * <code>A + α * (B - A)</code>
-     * @param A
-     * @param B
-     * @param α
-     */
-    static lerp(A: GeometricE2, B: GeometricE2, α: number): Geometric2
-
-    /**
-     * Computes the rotor corresponding to a rotation from vector <code>a</code> to vector <code>b</code>.
-     * @param a
-     * @param b
-     */
-    static rotorFromDirections(a: VectorE2, b: VectorE2): Geometric2
+    static scalar(α: number): Geometric2;
 
     /**
      * Creates a vector from Cartesian coordinates
      */
-    static vector(x: number, y: number): Geometric2
+    static vector(x: number, y: number): Geometric2;
+
+    static zero(): Geometric2;
   }
 
   /**
@@ -2554,25 +2573,6 @@ declare module EIGHT {
   }
 
   /**
-   *
-   */
-  interface FacetVisitor {
-    uniform1f(name: string, x: number): void;
-    uniform2f(name: string, x: number, y: number): void;
-    uniform3f(name: string, x: number, y: number, z: number): void;
-    uniform4f(name: string, x: number, y: number, z: number, w: number): void;
-    mat2(name: string, matrix: Matrix2, transpose: boolean): void;
-    mat3(name: string, matrix: Matrix3, transpose: boolean): void;
-    mat4(name: string, matrix: Matrix4, transpose: boolean): void;
-    vec2(name: string, vector: VectorE2): void;
-    vec3(name: string, vector: VectorE3): void;
-    vec4(name: string, vector: VectorE4): void;
-    vector2(name: string, coords: number[]): void;
-    vector3(name: string, coords: number[]): void;
-    vector4(name: string, coords: number[]): void;
-  }
-
-  /**
    * A provider of a collection of 'uniform' variables for use in a WebGL program.
    */
   interface Facet {
@@ -3030,11 +3030,17 @@ declare module EIGHT {
     setPrincipalScale(name: string, value: number): void;
   }
 
+  /**
+   * A Geometry for supporting drawArrays.
+   */
   class GeometryArrays extends ShareableContextConsumer implements Geometry {
     drawMode: DrawMode
     partsLength: number;
     scaling: Matrix4;
-    constructor(engine: Engine, level: number);
+    /**
+     *
+     */
+    constructor(engine: Engine, level?: number);
     protected destructor(): void;
     addPart(geometry: Geometry): void;
     draw(material: AbstractMaterial): void;
@@ -3174,6 +3180,7 @@ declare module EIGHT {
     enableAttribs(): void;
     getAttribLocation(name: string): number;
     getUniformLocation(name: string): UniformLocation;
+    hasUniformLocation(name: string): boolean;
     mat2(name: string, matrix: Matrix2, transpose: boolean): void;
     mat3(name: string, matrix: Matrix3, transpose: boolean): void;
     mat4(name: string, matrix: Matrix4, transpose: boolean): void;
@@ -3185,9 +3192,9 @@ declare module EIGHT {
     vec2(name: string, vector: VectorE2): void;
     vec3(name: string, vector: VectorE3): void;
     vec4(name: string, vector: VectorE4): void;
-    vector2(name: string, coords: number[]): void;
-    vector3(name: string, coords: number[]): void;
-    vector4(name: string, coords: number[]): void;
+    vector2fv(name: string, data: Float32Array): void;
+    vector3fv(name: string, data: Float32Array): void;
+    vector4fv(name: string, data: Float32Array): void;
     vertexPointer(name: string, size: number, normalized: boolean, stride: number, offset: number): void;
   }
 

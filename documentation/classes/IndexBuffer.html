@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.216.0</em>
+            <em>API Docs for: 2.217.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -299,7 +299,7 @@ A wrapper around a WebGLBuffer with bunding to ELEMENT_ARRAY_BUFFER.
                         <code>engine</code>
                 </li>
                 <li class="arg">
-                        <code>level</code>
+                        <code class="optional">[level = 0]</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
@@ -340,8 +340,9 @@ A wrapper around a WebGLBuffer with bunding to ELEMENT_ARRAY_BUFFER.
 
                 </li>
                 <li class="param">
-                        <code class="param-name">level</code>
+                        <code class="param-name optional">[level = 0]</code>
                         <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
 
 
                     <div class="param-description">
@@ -382,15 +383,15 @@ A wrapper around a WebGLBuffer with bunding to ELEMENT_ARRAY_BUFFER.
                                 <a href="#method_bind">bind</a>
 
                             </li>
-                            <li class="index-item method inherited inherited">
+                            <li class="index-item method inherited">
                                 <a href="#method_contextFree">contextFree</a>
 
                             </li>
-                            <li class="index-item method inherited inherited">
+                            <li class="index-item method inherited">
                                 <a href="#method_contextGain">contextGain</a>
 
                             </li>
-                            <li class="index-item method inherited inherited">
+                            <li class="index-item method inherited">
                                 <a href="#method_contextLost">contextLost</a>
 
                             </li>
@@ -422,10 +423,6 @@ A wrapper around a WebGLBuffer with bunding to ELEMENT_ARRAY_BUFFER.
 
                     <ul class="index-list properties extends">
                             <li class="index-item property private">
-                                <a href="#property__buffer">_buffer</a>
-
-                            </li>
-                            <li class="index-item property private">
                                 <a href="#property__data">_data</a>
 
                             </li>
@@ -445,6 +442,10 @@ A wrapper around a WebGLBuffer with bunding to ELEMENT_ARRAY_BUFFER.
                                 <a href="#property_gl">gl</a>
 
                                     <span class="flag deprecated">deprecated</span>
+                            </li>
+                            <li class="index-item property private">
+                                <a href="#property_webGLBuffer">webGLBuffer</a>
+
                             </li>
                     </ul>
                 </div>
@@ -518,7 +519,7 @@ The new reference count. This value is intended to be used only for test purpose
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_IndexBuffer.ts.html#l132"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IndexBuffer.ts:132</code></a>
+        <a href="../files/src_davinci-eight_core_IndexBuffer.ts.html#l146"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IndexBuffer.ts:146</code></a>
         </p>
 
 
@@ -540,7 +541,7 @@ The new reference count. This value is intended to be used only for test purpose
 
 
 </div>
-<div id="method_contextFree" class="method item inherited">
+<div id="method_contextFree" class="method item">
     <h3 class="name"><code>contextFree</code></h3>
 
         <div class="args">
@@ -567,7 +568,7 @@ The new reference count. This value is intended to be used only for test purpose
                 ContextConsumer
             </a>
             but overwritten in
-        <a href="../files/src_davinci-eight_core_ShareableContextConsumer.ts.html#l162"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableContextConsumer.ts:162</code></a>
+        <a href="../files/src_davinci-eight_core_IndexBuffer.ts.html#l96"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IndexBuffer.ts:96</code></a>
         </p>
 
 
@@ -605,7 +606,7 @@ The new reference count. This value is intended to be used only for test purpose
 
 
 </div>
-<div id="method_contextGain" class="method item inherited">
+<div id="method_contextGain" class="method item">
     <h3 class="name"><code>contextGain</code></h3>
 
         <div class="args">
@@ -632,7 +633,7 @@ The new reference count. This value is intended to be used only for test purpose
                 ContextConsumer
             </a>
             but overwritten in
-        <a href="../files/src_davinci-eight_core_ShareableContextConsumer.ts.html#l174"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableContextConsumer.ts:174</code></a>
+        <a href="../files/src_davinci-eight_core_IndexBuffer.ts.html#l119"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IndexBuffer.ts:119</code></a>
         </p>
 
 
@@ -670,7 +671,7 @@ The new reference count. This value is intended to be used only for test purpose
 
 
 </div>
-<div id="method_contextLost" class="method item inherited">
+<div id="method_contextLost" class="method item">
     <h3 class="name"><code>contextLost</code></h3>
 
         <span class="paren">()</span>
@@ -691,7 +692,7 @@ The new reference count. This value is intended to be used only for test purpose
                 ContextConsumer
             </a>
             but overwritten in
-        <a href="../files/src_davinci-eight_core_ShareableContextConsumer.ts.html#l190"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableContextConsumer.ts:190</code></a>
+        <a href="../files/src_davinci-eight_core_IndexBuffer.ts.html#l137"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IndexBuffer.ts:137</code></a>
         </p>
 
 
@@ -922,7 +923,7 @@ This method is idempotent; calling it more than once with the same <code>Engine<
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_IndexBuffer.ts.html#l146"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IndexBuffer.ts:146</code></a>
+        <a href="../files/src_davinci-eight_core_IndexBuffer.ts.html#l160"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IndexBuffer.ts:160</code></a>
         </p>
 
 
@@ -1016,31 +1017,6 @@ This method is idempotent; calling it more than once does not change the state.
             <div id="properties" class="api-class-tabpanel">
                 <h2 class="off-left">Properties</h2>
 
-<div id="property__buffer" class="property item private">
-    <h3 class="name"><code>_buffer</code></h3>
-    <span class="type">WebGLBuffer</span>
-
-
-        <span class="flag private">private</span>
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_core_IndexBuffer.ts.html#l39"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IndexBuffer.ts:39</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-
-</div>
 <div id="property__data" class="property item private">
     <h3 class="name"><code>_data</code></h3>
     <span class="type">Uint16Array</span>
@@ -1165,6 +1141,31 @@ Provides access to the underlying WebGL context.
 <p>
 This property is deprecated to encourage access throught the <code>ContextProvider</code>.
 </p>
+    </div>
+
+
+
+</div>
+<div id="property_webGLBuffer" class="property item private">
+    <h3 class="name"><code>webGLBuffer</code></h3>
+    <span class="type">WebGLBuffer</span>
+
+
+        <span class="flag private">private</span>
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_core_IndexBuffer.ts.html#l39"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IndexBuffer.ts:39</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
     </div>
 
 

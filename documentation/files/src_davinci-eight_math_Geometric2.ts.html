@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.216.0</em>
+            <em>API Docs for: 2.217.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -275,6 +275,7 @@ import Coords from &#x27;./Coords&#x27;;
 import dotVector from &#x27;./dotVectorE2&#x27;;
 import G2 from &#x27;./G2&#x27;;
 import extE2 from &#x27;./extE2&#x27;;
+import gauss from &#x27;./gauss&#x27;
 import GeometricE2 from &#x27;./GeometricE2&#x27;;
 import isDefined from &#x27;../checks/isDefined&#x27;;
 import isNumber from &#x27;../checks/isNumber&#x27;;
@@ -287,13 +288,13 @@ import mustBeInteger from &#x27;../checks/mustBeInteger&#x27;;
 import mustBeNumber from &#x27;../checks/mustBeNumber&#x27;;
 import mustBeObject from &#x27;../checks/mustBeObject&#x27;;
 import MutableGeometricElement from &#x27;./MutableGeometricElement&#x27;;
+import notImplemented from &#x27;../i18n/notImplemented&#x27;;
 import notSupported from &#x27;../i18n/notSupported&#x27;;
 import rcoE2 from &#x27;./rcoE2&#x27;;
 import rotorFromDirections from &#x27;./rotorFromDirectionsE2&#x27;;
 import scpE2 from &#x27;./scpE2&#x27;;
 import SpinorE2 from &#x27;./SpinorE2&#x27;;
 import stringFromCoordinates from &#x27;./stringFromCoordinates&#x27;;
-import Unit from &#x27;./Unit&#x27;;
 import VectorE2 from &#x27;./VectorE2&#x27;;
 import wedgeXY from &#x27;./wedgeXY&#x27;;
 
@@ -316,15 +317,15 @@ const cos = Math.cos
 const sin = Math.sin
 const sqrt = Math.sqrt
 
-// const LEFTWARDS_ARROW = &quot;←&quot;
-// const RIGHTWARDS_ARROW = &quot;→&quot;
-// const UPWARDS_ARROW = &quot;↑&quot;
-// const DOWNWARDS_ARROW = &quot;↓&quot;
-// const BULLSEYE = &quot;◎&quot;
-// const CLOCKWISE_OPEN_CIRCLE_ARROW = &quot;↻&quot;
-// const ANTICLOCKWISE_OPEN_CIRCLE_ARROW = &quot;↺&quot;
+const LEFTWARDS_ARROW = &quot;←&quot;
+const RIGHTWARDS_ARROW = &quot;→&quot;
+const UPWARDS_ARROW = &quot;↑&quot;
+const DOWNWARDS_ARROW = &quot;↓&quot;
+const CLOCKWISE_OPEN_CIRCLE_ARROW = &quot;↻&quot;
+const ANTICLOCKWISE_OPEN_CIRCLE_ARROW = &quot;↺&quot;
 
-// const ARROW_LABELS = [&quot;1&quot;, [LEFTWARDS_ARROW, RIGHTWARDS_ARROW], [DOWNWARDS_ARROW, UPWARDS_ARROW], [CLOCKWISE_OPEN_CIRCLE_ARROW, ANTICLOCKWISE_OPEN_CIRCLE_ARROW]]
+const ARROW_LABELS = [&quot;1&quot;, [LEFTWARDS_ARROW, RIGHTWARDS_ARROW], [DOWNWARDS_ARROW, UPWARDS_ARROW], [CLOCKWISE_OPEN_CIRCLE_ARROW, ANTICLOCKWISE_OPEN_CIRCLE_ARROW]]
+const COMPASS_LABELS = [&quot;1&quot;, [&#x27;W&#x27;, &#x27;E&#x27;], [&#x27;S&#x27;, &#x27;N&#x27;], [CLOCKWISE_OPEN_CIRCLE_ARROW, ANTICLOCKWISE_OPEN_CIRCLE_ARROW]]
 const STANDARD_LABELS = [&quot;1&quot;, &quot;e1&quot;, &quot;e2&quot;, &quot;I&quot;]
 
 /**
@@ -339,7 +340,7 @@ function coordinates(m: GeometricE2): number[] {
  */
 function duckCopy(value: any): Geometric2 {
   if (isObject(value)) {
-    let m = &lt;GeometricE2&gt;value
+    const m = &lt;GeometricE2&gt;value
     if (isNumber(m.x) &amp;&amp; isNumber(m.y)) {
       if (isNumber(m.α) &amp;&amp; isNumber(m.β)) {
         console.warn(&quot;Copying GeometricE2 to Geometric2&quot;)
@@ -366,30 +367,56 @@ function duckCopy(value: any): Geometric2 {
 }
 
 /**
+ * &lt;p&gt;
+ * A &lt;em&gt;mutable&lt;/em&gt; multivector for the &lt;em&gt;Euclidean&lt;/em&gt; plane with &lt;em&gt;Cartesian&lt;/em&gt; coordinates.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * The mutable nature of this class makes it suitable for high-preformance applications by avoiding temporary object creation.
+ * Danger Will Robinson! It&#x27;s easy to accidentally mutate a &lt;code&gt;Geometric2&lt;/code&gt; quantity!
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * &lt;/p&gt;
+ *
+ * @example
+ *     // The constructor creates the zero multivector, a quantity with all components equal to zero.
+ *     const M = new EIGHT.Geometric2()
+ *
  * @class Geometric2
  * @extends Coords
  * @beta
  */
 export default class Geometric2 extends Coords implements GeometricE2, Measure&lt;Geometric2&gt;, MutableGeometricElement&lt;GeometricE2, Geometric2, SpinorE2, VectorE2&gt;, GeometricOperators&lt;Geometric2&gt; {
+
   /**
    * @property BASIS_LABELS
    * @type {(string | string[])[]}
+   * @static
    */
-  static BASIS_LABELS: (string | string[])[] = STANDARD_LABELS
+  static BASIS_LABELS = STANDARD_LABELS
 
   /**
-   * The optional unit of measure.
-   * @property uom
-   * @type {Unit}
-   * @beta
+   * @property BASIS_LABELS_COMPASS
+   * @type {(string | string[])[]}
+   * @static
    */
-  uom: Unit;
+  static BASIS_LABELS_COMPASS = COMPASS_LABELS
 
   /**
-   * Constructs a &lt;code&gt;Geometric2&lt;/code&gt;.
-   * The multivector is initialized to zero.
+   * @property BASIS_LABELS_GEOMETRIC
+   * @type {(string | string[])[]}
+   * @static
+   */
+  static BASIS_LABELS_GEOMETRIC = ARROW_LABELS
+
+  /**
+   * @property BASIS_LABELS_STANDARD
+   * @type {(string | string[])[]}
+   * @static
+   */
+  static BASIS_LABELS_STANDARD = STANDARD_LABELS
+
+  /**
    * @class Geometric2
-   * @beta
    * @constructor
    */
   constructor() {
@@ -397,7 +424,13 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
   }
 
   /**
-   * The coordinate corresponding to the unit standard basis scalar.
+   * &lt;p&gt;
+   * The coordinate corresponding to &lt;b&gt;1&lt;/b&gt; a.k.a. the unit standard basis scalar.
+   * &lt;/p&gt;
+   * &lt;p&gt;
+   * This is a shorthand alias for the &lt;code&gt;alpha&lt;/code&gt; property.
+   * &lt;/p&gt;
+   *
    * @property α
    * @type {number}
    */
@@ -410,7 +443,13 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
   }
 
   /**
-   * The coordinate corresponding to the unit standard basis scalar.
+   * &lt;p&gt;
+   * The coordinate corresponding to &lt;b&gt;1&lt;/b&gt; a.k.a. the unit standard basis scalar.
+   * &lt;/p&gt;
+   * &lt;p&gt;
+   * This is a longhand alias for the &lt;code&gt;α&lt;/code&gt; property (suitable for conventional keyboards).
+   * &lt;/p&gt;
+   *
    * @property alpha
    * @type {number}
    */
@@ -423,7 +462,10 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
   }
 
   /**
+   * &lt;p&gt;
    * The coordinate corresponding to the &lt;b&gt;e&lt;/b&gt;&lt;sub&gt;1&lt;/sub&gt; standard basis vector.
+   * &lt;/p&gt;
+   *
    * @property x
    * @type {number}
    */
@@ -436,7 +478,10 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
   }
 
   /**
+   * &lt;p&gt;
    * The coordinate corresponding to the &lt;b&gt;e&lt;/b&gt;&lt;sub&gt;2&lt;/sub&gt; standard basis vector.
+   * &lt;/p&gt;
+   *
    * @property y
    * @type {number}
    */
@@ -449,7 +494,13 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
   }
 
   /**
+   * &lt;p&gt;
    * The coordinate corresponding to the &lt;b&gt;e&lt;/b&gt;&lt;sub&gt;1&lt;/sub&gt;&lt;b&gt;e&lt;/b&gt;&lt;sub&gt;2&lt;/sub&gt; standard basis bivector.
+   * &lt;/p&gt;
+   * &lt;p&gt;
+   * This is a shorthand alias for the &lt;code&gt;beta&lt;/code&gt; property.
+   * &lt;/p&gt;
+   *
    * @property β
    * @type {number}
    */
@@ -462,7 +513,13 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
   }
 
   /**
+   * &lt;p&gt;
    * The coordinate corresponding to the &lt;b&gt;e&lt;/b&gt;&lt;sub&gt;1&lt;/sub&gt;&lt;b&gt;e&lt;/b&gt;&lt;sub&gt;2&lt;/sub&gt; standard basis bivector.
+   * &lt;/p&gt;
+   * &lt;p&gt;
+   * This is a longhand alias for the &lt;code&gt;β&lt;/code&gt; property (suitable for conventional keyboards).
+   * &lt;/p&gt;
+   *
    * @property beta
    * @type {number}
    */
@@ -474,10 +531,15 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
     this.coords[COORD_PSEUDO] = beta
   }
 
-  get xy(): number {
+  /**
+   * @property xy
+   * @type number
+   * @private
+   */
+  private get xy(): number {
     return this.coords[COORD_PSEUDO]
   }
-  set xy(xy: number) {
+  private set xy(xy: number) {
     this.modified = this.modified || this.coords[COORD_PSEUDO] !== xy
     this.coords[COORD_PSEUDO] = xy
   }
@@ -486,6 +548,7 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
    * &lt;p&gt;
    * &lt;code&gt;this ⟼ this + M * α&lt;/code&gt;
    * &lt;/p&gt;
+   *
    * @method add
    * @param M {GeometricE2}
    * @param [α = 1] {number}
@@ -506,6 +569,7 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
    * &lt;p&gt;
    * &lt;code&gt;this ⟼ a + b&lt;/code&gt;
    * &lt;/p&gt;
+   *
    * @method add2
    * @param a {GeometricE2}
    * @param b {GeometricE2}
@@ -526,6 +590,7 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
    * &lt;p&gt;
    * &lt;code&gt;this ⟼ this + Iβ&lt;/code&gt;
    * &lt;/p&gt;
+   *
    * @method addPseudo
    * @param β {number}
    * @return {Geometric2} &lt;code&gt;this&lt;/code&gt;
@@ -541,6 +606,7 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
    * &lt;p&gt;
    * &lt;code&gt;this ⟼ this + α&lt;/code&gt;
    * &lt;/p&gt;
+   *
    * @method addScalar
    * @param α {number}
    * @return {Geometric2} &lt;code&gt;this&lt;/code&gt;
@@ -556,6 +622,7 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
    * &lt;p&gt;
    * &lt;code&gt;this ⟼ this + v * α&lt;/code&gt;
    * &lt;/p&gt;
+   *
    * @method addVector
    * @param v {VectorE2}
    * @param [α = 1] {number}
@@ -570,14 +637,20 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
     return this
   }
 
+  /**
+   * @method adj
+   * @return {Geometric2}
+   * @chainable
+   */
   adj(): Geometric2 {
-    throw new Error(&#x27;TODO: Geometric2.adj&#x27;)
+    throw new Error(notImplemented(&#x27;adj&#x27;).message)
   }
 
   /**
    * &lt;p&gt;
    * &lt;code&gt;this ⟼ log(this).grade(2)&lt;/code&gt;
    * &lt;/p&gt;
+   *
    * @method angle
    * @return {Geometric2} &lt;code&gt;this&lt;/code&gt;
    * @chainable
@@ -592,7 +665,7 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
    * @chainable
    */
   clone(): Geometric2 {
-    let m = new Geometric2()
+    const m = new Geometric2()
     m.copy(this)
     return m
   }
@@ -601,6 +674,7 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
    * &lt;p&gt;
    * &lt;code&gt;this ⟼ conjugate(this)&lt;/code&gt;
    * &lt;/p&gt;
+   *
    * @method conj
    * @return {Geometric2} &lt;code&gt;this&lt;/code&gt;
    * @chainable
@@ -612,26 +686,45 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
     return this
   }
 
+  /**
+   * @method cos
+   * @return {Geometric2}
+   */
   cos(): Geometric2 {
-    throw new Error(&quot;TODO: Geometric2.cos&quot;)
+    throw new Error(notImplemented(&#x27;cos&#x27;).message)
   }
 
+  /**
+   * @method cosh
+   * @return {Geometric2}
+   */
   cosh(): Geometric2 {
-    throw new Error(&quot;TODO: Geometric2.cosh&quot;)
+    throw new Error(notImplemented(&#x27;cosh&#x27;).message)
   }
 
-  distanceTo(point: GeometricE2): number {
-    throw new Error(&quot;TODO: Geometric2.distanceTo&quot;)
+  /**
+   * @method distanceTo
+   * @param M {GeometricE2}
+   * @return {number}
+   */
+  distanceTo(M: GeometricE2): number {
+    throw new Error(notImplemented(&#x27;distanceTo&#x27;).message)
   }
 
-  equals(point: GeometricE2): boolean {
-    throw new Error(&quot;TODO: Geometric2.equals&quot;)
+  /**
+   * @method equals
+   * @param M {GeometricE2}
+   * @return {boolean}
+   */
+  equals(M: GeometricE2): boolean {
+    throw new Error(notImplemented(&#x27;equals&#x27;).message)
   }
 
   /**
    * &lt;p&gt;
    * &lt;code&gt;this ⟼ copy(M)&lt;/code&gt;
    * &lt;/p&gt;
+   *
    * @method copy
    * @param M {GeometricE2}
    * @return {Geometric2} &lt;code&gt;this&lt;/code&gt;
@@ -648,7 +741,9 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
 
   /**
    * Sets this multivector to the value of the scalar, &lt;code&gt;α&lt;/code&gt;.
+   *
    * @method copyScalar
+   * @param α {number}
    * @return {Geometric2} &lt;code&gt;this&lt;/code&gt;
    * @chainable
    */
@@ -660,6 +755,7 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
    * &lt;p&gt;
    * &lt;code&gt;this ⟼ copy(spinor)&lt;/code&gt;
    * &lt;/p&gt;
+   *
    * @method copySpinor
    * @param spinor {SpinorE2}
    * @return {Geometric2} &lt;code&gt;this&lt;/code&gt;
@@ -678,6 +774,7 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
    * &lt;p&gt;
    * &lt;code&gt;this ⟼ copyVector(vector)&lt;/code&gt;
    * &lt;/p&gt;
+   *
    * @method copyVector
    * @param vector {VectorE2}
    * @return {Geometric2} &lt;code&gt;this&lt;/code&gt;
@@ -717,6 +814,7 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
    * &lt;p&gt;
    * &lt;code&gt;this ⟼ this / magnitude(this)&lt;/code&gt;
    * &lt;/p&gt;
+   *
    * @method direction
    * @return {Geometric2} &lt;code&gt;this&lt;/code&gt;
    * @chainable
@@ -734,6 +832,7 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
    * &lt;p&gt;
    * &lt;code&gt;this ⟼ this / m&lt;/code&gt;
    * &lt;/p&gt;
+   *
    * @method div
    * @param m {GeometricE2}
    * @return {Geometric2} &lt;code&gt;this&lt;/code&gt;
@@ -747,21 +846,37 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
    * &lt;p&gt;
    * &lt;code&gt;this ⟼ a / b&lt;/code&gt;
    * &lt;/p&gt;
+   *
    * @method div2
    * @param a {GeometricE2}
    * @param b {GeometricE2}
    * @return {Geometric2} &lt;code&gt;this&lt;/code&gt;
    * @chainable
    */
-  div2(a: SpinorE2, b: SpinorE2): Geometric2 {
-    // FIXME: Generalize
-    return this;
+  div2(a: GeometricE2, b: GeometricE2): Geometric2 {
+    // Invert b using this then multiply, being careful to account for the case
+    // when a and this are the same instance by getting a&#x27;s coordinates first.
+    const a0 = a.α
+    const a1 = a.x
+    const a2 = a.y
+    const a3 = a.β
+    this.copy(b).inv()
+    const b0 = this.α
+    const b1 = this.x
+    const b2 = this.y
+    const b3 = this.β
+    this.α = mulE2(a0, a1, a2, a3, b0, b1, b2, b3, 0)
+    this.x = mulE2(a0, a1, a2, a3, b0, b1, b2, b3, 1)
+    this.y = mulE2(a0, a1, a2, a3, b0, b1, b2, b3, 2)
+    this.β = mulE2(a0, a1, a2, a3, b0, b1, b2, b3, 3)
+    return this
   }
 
   /**
    * &lt;p&gt;
    * &lt;code&gt;this ⟼ this / α&lt;/code&gt;
    * &lt;/p&gt;
+   *
    * @method divByScalar
    * @param α {number}
    * @return {Geometric2} &lt;code&gt;this&lt;/code&gt;
@@ -780,6 +895,7 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
    * &lt;p&gt;
    * &lt;code&gt;this ⟼ dual(m) = I * m&lt;/code&gt;
    * &lt;/p&gt;
+   *
    * @method dual
    * @param m {GeometricE2}
    * @return {Geometric2} &lt;code&gt;this&lt;/code&gt;
@@ -802,18 +918,19 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
    * &lt;p&gt;
    * &lt;code&gt;this ⟼ e&lt;sup&gt;this&lt;/sup&gt;&lt;/code&gt;
    * &lt;/p&gt;
+   *
    * @method exp
    * @return {Geometric2} &lt;code&gt;this&lt;/code&gt;
    * @chainable
    */
   exp() {
-    let w = this.α
-    let z = this.β
-    let expW = exp(w)
+    const w = this.α
+    const z = this.β
+    const expW = exp(w)
     // φ is actually the absolute value of one half the rotation angle.
     // The orientation of the rotation gets carried in the bivector components.
-    let φ = sqrt(z * z)
-    let s = expW * (φ !== 0 ? sin(φ) / φ : 1)
+    const φ = sqrt(z * z)
+    const s = expW * (φ !== 0 ? sin(φ) / φ : 1)
     this.α = expW * cos(φ)
     this.β = z * s
     return this
@@ -823,6 +940,7 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
    * &lt;p&gt;
    * &lt;code&gt;this ⟼ this ^ m&lt;/code&gt;
    * &lt;/p&gt;
+   *
    * @method ext
    * @param m {GeometricE2}
    * @return {Geometric2} &lt;code&gt;this&lt;/code&gt;
@@ -836,6 +954,7 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
    * &lt;p&gt;
    * &lt;code&gt;this ⟼ a ^ b&lt;/code&gt;
    * &lt;/p&gt;
+   *
    * @method ext2
    * @param a {GeometricE2}
    * @param b {GeometricE2}
@@ -843,14 +962,14 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
    * @chainable
    */
   ext2(a: GeometricE2, b: GeometricE2): Geometric2 {
-    let a0 = a.α
-    let a1 = a.x
-    let a2 = a.y
-    let a3 = a.β
-    let b0 = b.α
-    let b1 = b.x
-    let b2 = b.y
-    let b3 = b.β
+    const a0 = a.α
+    const a1 = a.x
+    const a2 = a.y
+    const a3 = a.β
+    const b0 = b.α
+    const b1 = b.x
+    const b2 = b.y
+    const b3 = b.β
     this.α = extE2(a0, a1, a2, a3, b0, b1, b2, b3, 0)
     this.x = extE2(a0, a1, a2, a3, b0, b1, b2, b3, 1)
     this.y = extE2(a0, a1, a2, a3, b0, b1, b2, b3, 2)
@@ -859,17 +978,37 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
   }
 
   /**
-   * &lt;p&gt;
-   * &lt;code&gt;this ⟼ conj(this) / quad(this)&lt;/code&gt;
-   * &lt;/p&gt;
+   * Sets this multivector to its inverse, if it exists.
+   *
    * @method inv
    * @return {Geometric2} &lt;code&gt;this&lt;/code&gt;
    * @chainable
    */
   inv(): Geometric2 {
-    // FIXME: TODO
-    this.conj()
-    // this.divByScalar(this.squaredNorm());
+    // We convert the mutivector/geometric product into a tensor
+    // representation with the consequence that inverting the multivector
+    // is equivalent to solving a matrix equation, AX = b for X.
+    const α = this.α
+    const x = this.x
+    const y = this.y
+    const β = this.β
+
+    const A = [
+      [α, x, y, -β],
+      [x, α, β, -y],
+      [y, -β, α, x],
+      [β, -y, x, α]
+    ]
+
+    const b = [1, 0, 0, 0]
+
+    const X = gauss(A, b)
+
+    this.α = X[0]
+    this.x = X[1]
+    this.y = X[2]
+    this.β = X[3]
+
     return this
   }
 
@@ -893,6 +1032,7 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
    * &lt;p&gt;
    * &lt;code&gt;this ⟼ this &lt;&lt; m&lt;/code&gt;
    * &lt;/p&gt;
+   *
    * @method lco
    * @param m {GeometricE2}
    * @return {Geometric2} &lt;code&gt;this&lt;/code&gt;
@@ -906,6 +1046,7 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
    * &lt;p&gt;
    * &lt;code&gt;this ⟼ a &lt;&lt; b&lt;/code&gt;
    * &lt;/p&gt;
+   *
    * @method lco2
    * @param a {GeometricE2}
    * @param b {GeometricE2}
@@ -913,14 +1054,14 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
    * @chainable
    */
   lco2(a: GeometricE2, b: GeometricE2): Geometric2 {
-    let a0 = a.α
-    let a1 = a.x
-    let a2 = a.y
-    let a3 = a.β
-    let b0 = b.α
-    let b1 = b.x
-    let b2 = b.y
-    let b3 = b.β
+    const a0 = a.α
+    const a1 = a.x
+    const a2 = a.y
+    const a3 = a.β
+    const b0 = b.α
+    const b1 = b.x
+    const b2 = b.y
+    const b3 = b.β
     this.α = lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 0)
     this.x = lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 1)
     this.y = lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 2)
@@ -932,6 +1073,7 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
    * &lt;p&gt;
    * &lt;code&gt;this ⟼ this + α * (target - this)&lt;/code&gt;
    * &lt;/p&gt;
+   *
    * @method lerp
    * @param target {GeometricE2}
    * @param α {number}
@@ -952,6 +1094,7 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
    * &lt;p&gt;
    * &lt;code&gt;this ⟼ a + α * (b - a)&lt;/code&gt;
    * &lt;/p&gt;
+   *
    * @method lerp2
    * @param a {GeometricE2}
    * @param b {GeometricE2}
@@ -971,14 +1114,15 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
    * &lt;p&gt;
    * &lt;code&gt;this ⟼ log(sqrt(w * w + β * β)) + &lt;b&gt;e&lt;/b&gt;&lt;sub&gt;1&lt;/sub&gt;&lt;b&gt;e&lt;/b&gt;&lt;sub&gt;2&lt;/sub&gt; * atan2(β, w)&lt;/code&gt;
    * &lt;/p&gt;
+   *
    * @method log
    * @return {Geometric2} &lt;code&gt;this&lt;/code&gt;
    * @chainable
    */
-  log() {
+  log(): Geometric2 {
     // FIXME: This only handles the spinor components.
-    let α = this.α
-    let β = this.β
+    const α = this.α
+    const β = this.β
     this.α = log(sqrt(α * α + β * β))
     this.x = 0
     this.y = 0
@@ -988,6 +1132,7 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
 
   /**
    * Computes the &lt;em&gt;square root&lt;/em&gt; of the &lt;em&gt;squared norm&lt;/em&gt;.
+   *
    * @method magnitude
    * @return {Geometric2}
    */
@@ -995,6 +1140,9 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
     return this.norm();
   }
 
+  /**
+   * Intentionally undocumented.
+   */
   magnitudeSansUnits(): number {
     return sqrt(this.squaredNormSansUnits());
   }
@@ -1003,6 +1151,7 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
    * &lt;p&gt;
    * &lt;code&gt;this ⟼ this * s&lt;/code&gt;
    * &lt;/p&gt;
+   *
    * @method mul
    * @param m {GeometricE2}
    * @return {Geometric2} &lt;code&gt;this&lt;/code&gt;
@@ -1016,21 +1165,22 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
    * &lt;p&gt;
    * &lt;code&gt;this ⟼ a * b&lt;/code&gt;
    * &lt;/p&gt;
+   *
    * @method mul2
    * @param a {GeometricE2}
    * @param b {GeometricE2}
    * @return {Geometric2} &lt;code&gt;this&lt;/code&gt;
    * @chainable
    */
-  mul2(a: GeometricE2, b: GeometricE2) {
-    let a0 = a.α
-    let a1 = a.x
-    let a2 = a.y
-    let a3 = a.β
-    let b0 = b.α
-    let b1 = b.x
-    let b2 = b.y
-    let b3 = b.β
+  mul2(a: GeometricE2, b: GeometricE2): Geometric2 {
+    const a0 = a.α
+    const a1 = a.x
+    const a2 = a.y
+    const a3 = a.β
+    const b0 = b.α
+    const b1 = b.x
+    const b2 = b.y
+    const b3 = b.β
     this.α = mulE2(a0, a1, a2, a3, b0, b1, b2, b3, 0)
     this.x = mulE2(a0, a1, a2, a3, b0, b1, b2, b3, 1)
     this.y = mulE2(a0, a1, a2, a3, b0, b1, b2, b3, 2)
@@ -1042,22 +1192,24 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
    * &lt;p&gt;
    * &lt;code&gt;this ⟼ -1 * this&lt;/code&gt;
    * &lt;/p&gt;
+   *
    * @method neg
    * @return {Geometric2} &lt;code&gt;this&lt;/code&gt;
    * @chainable
    */
-  neg() {
+  neg(): Geometric2 {
     this.α = -this.α
     this.x = -this.x
     this.y = -this.y
     this.β = -this.β
-    return this;
+    return this
   }
 
   /**
    * &lt;p&gt;
    * &lt;code&gt;this ⟼ sqrt(this * conj(this))&lt;/code&gt;
    * &lt;/p&gt;
+   *
    * @method norm
    * @return {Geometric2} &lt;code&gt;this&lt;/code&gt;
    * @chainable
@@ -1072,6 +1224,7 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
 
   /**
    * Sets this multivector to the identity element for multiplication, &lt;b&gt;1&lt;/b&gt;.
+   *
    * @method one
    * @return {Geometric2}
    * @chainable
@@ -1084,8 +1237,12 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
     return this
   }
 
-  pow(): Geometric2 {
-    throw new Error(&quot;TODO: Geometric2.pow&quot;)
+  /**
+   * @method pow
+   * @return {Geometric2}
+   */
+  pow(M: GeometricE2): Geometric2 {
+    throw new Error(notImplemented(&#x27;pow&#x27;).message)
   }
 
   /**
@@ -1095,6 +1252,7 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
    * &lt;p&gt;
    * &lt;code&gt;this ⟼ scp(this, rev(this)) = this | ~this&lt;/code&gt;
    * &lt;/p&gt;
+   *
    * @method quad
    * @return {Geometric2} &lt;code&gt;this&lt;/code&gt;
    * @chainable
@@ -1130,6 +1288,7 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
    * &lt;p&gt;
    * &lt;code&gt;this ⟼ this &gt;&gt; m&lt;/code&gt;
    * &lt;/p&gt;
+   *
    * @method rco
    * @param m {GeometricE2}
    * @return {Geometric2} &lt;code&gt;this&lt;/code&gt;
@@ -1143,6 +1302,7 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
    * &lt;p&gt;
    * &lt;code&gt;this ⟼ a &gt;&gt; b&lt;/code&gt;
    * &lt;/p&gt;
+   *
    * @method rco2
    * @param a {GeometricE2}
    * @param b {GeometricE2}
@@ -1150,14 +1310,14 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
    * @chainable
    */
   rco2(a: GeometricE2, b: GeometricE2): Geometric2 {
-    let a0 = a.α
-    let a1 = a.x
-    let a2 = a.y
-    let a3 = a.β
-    let b0 = b.α
-    let b1 = b.x
-    let b2 = b.y
-    let b3 = b.β
+    const a0 = a.α
+    const a1 = a.x
+    const a2 = a.y
+    const a3 = a.β
+    const b0 = b.α
+    const b1 = b.x
+    const b2 = b.y
+    const b3 = b.β
     this.α = rcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 0)
     this.x = rcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 1)
     this.y = rcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 2)
@@ -1169,6 +1329,7 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
    * &lt;p&gt;
    * &lt;code&gt;this ⟼ - n * this * n&lt;/code&gt;
    * &lt;/p&gt;
+   *
    * @method reflect
    * @param n {VectorE2}
    * @return {Geometric2} &lt;code&gt;this&lt;/code&gt;
@@ -1176,19 +1337,20 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
    */
   reflect(n: VectorE2): Geometric2 {
     // TODO: Optimize.
-    mustBeObject(&#x27;n&#x27;, n);
-    let N = G2.fromVectorE2(n);
-    let M = G2.copy(this);
-    let R = N.mul(M).mul(N).scale(-1);
-    this.copy(R);
-    return this;
+    mustBeObject(&#x27;n&#x27;, n)
+    const N = G2.fromVectorE2(n)
+    const M = G2.copy(this)
+    const R = N.mul(M).mul(N).scale(-1)
+    this.copy(R)
+    return this
   }
 
   /**
    * &lt;p&gt;
    * &lt;code&gt;this ⟼ rev(this)&lt;/code&gt;
    * &lt;/p&gt;
-   * @method reverse
+   *
+   * @method rev
    * @return {Geometric2} &lt;code&gt;this&lt;/code&gt;
    * @chainable
    */
@@ -1201,18 +1363,27 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
     return this
   }
 
+  /**
+   * @method sin
+   * @return {Geometric2}
+   */
   sin(): Geometric2 {
-    throw new Error(&quot;Geometric2.sin&quot;)
+    throw new Error(notImplemented(&#x27;sin&#x27;).message)
   }
 
+  /**
+   * @method sinh
+   * @return {Geometric2}
+   */
   sinh(): Geometric2 {
-    throw new Error(&quot;Geometric2.sinh&quot;)
+    throw new Error(notImplemented(&#x27;sinh&#x27;).message)
   }
 
   /**
    * &lt;p&gt;
    * &lt;code&gt;this ⟼ R * this * rev(R)&lt;/code&gt;
    * &lt;/p&gt;
+   *
    * @method rotate
    * @param R {SpinorE2}
    * @return {Geometric2} &lt;code&gt;this&lt;/code&gt;
@@ -1254,6 +1425,7 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
    * &lt;p&gt;
    * &lt;code&gt;this = ⟼ exp(- B * θ / 2)&lt;/code&gt;
    * &lt;/p&gt;
+   *
    * @method rotorFromGeneratorAngle
    * @param B {SpinorE2}
    * @param θ {number}
@@ -1291,6 +1463,7 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
    * &lt;p&gt;
    * &lt;code&gt;this ⟼ scp(this, m)&lt;/code&gt;
    * &lt;/p&gt;
+   *
    * @method scp
    * @param m {GeometricE2}
    * @return {Geometric2} &lt;code&gt;this&lt;/code&gt;
@@ -1304,6 +1477,7 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
    * &lt;p&gt;
    * &lt;code&gt;this ⟼ scp(a, b)&lt;/code&gt;
    * &lt;/p&gt;
+   *
    * @method scp2
    * @param a {GeometricE2}
    * @param b {GeometricE2}
@@ -1322,6 +1496,7 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
    * &lt;p&gt;
    * &lt;code&gt;this ⟼ this * α&lt;/code&gt;
    * &lt;/p&gt;
+   *
    * @method scale
    * @param α {number} 
    */
@@ -1334,12 +1509,23 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
     return this
   }
 
+  /**
+   * @method slerp
+   * @param target {GeometricE2}
+   * @param α {number}
+   * @return {Geometric2}
+   */
   slerp(target: GeometricE2, α: number): Geometric2 {
-    mustBeObject(&#x27;target&#x27;, target)
-    mustBeNumber(&#x27;α&#x27;, α)
-    return this;
+    // mustBeObject(&#x27;target&#x27;, target)
+    // mustBeNumber(&#x27;α&#x27;, α)
+    throw new Error(notImplemented(&#x27;slerp&#x27;).message)
   }
 
+  /**
+   * @method stress
+   * @param σ {VectorE2}
+   * @return {Geometric2}
+   */
   stress(σ: VectorE2): Geometric2 {
     throw new Error(notSupported(&#x27;stress&#x27;).message)
   }
@@ -1348,6 +1534,7 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
    * &lt;p&gt;
    * &lt;code&gt;this ⟼ a * b = a · b + a ^ b&lt;/code&gt;
    * &lt;/p&gt;
+   *
    * Sets this Geometric2 to the geometric product a * b of the vector arguments.
    *
    * @method versor
@@ -1355,7 +1542,7 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
    * @param b {VectorE2}
    * @return {Geometric2} &lt;code&gt;this&lt;/code&gt;
    */
-  versor(a: VectorE2, b: VectorE2) {
+  versor(a: VectorE2, b: VectorE2): Geometric2 {
     const ax = a.x
     const ay = a.y
     const bx = b.x
@@ -1370,7 +1557,8 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
   }
 
   /**
-   * Computes the &lt;em&gt;squared norm&lt;/em&gt; of this &lt;code&gt;Geometric2&lt;/code&gt; multivector. 
+   * Computes the &lt;em&gt;squared norm&lt;/em&gt; of this &lt;code&gt;Geometric2&lt;/code&gt; multivector.
+   *
    * @method squaredNorm
    * @return {number} &lt;code&gt;this | ~this&lt;/code&gt;
    */
@@ -1382,6 +1570,9 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
     return this
   }
 
+  /**
+   * Intentionally undocumented.
+   */
   squaredNormSansUnits(): number {
     let w = this.α
     let x = this.x
@@ -1394,6 +1585,7 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
    * &lt;p&gt;
    * &lt;code&gt;this ⟼ this - M * α&lt;/code&gt;
    * &lt;/p&gt;
+   *
    * @method sub
    * @param M {GeometricE2}
    * @param [α = 1] {number}
@@ -1414,6 +1606,7 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
    * &lt;p&gt;
    * &lt;code&gt;this ⟼ a - b&lt;/code&gt;
    * &lt;/p&gt;
+   *
    * @method sub2
    * @param a {GeometricE2}
    * @param b {GeometricE2}
@@ -1432,6 +1625,7 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
 
   /**
    * Returns a string representing the number in exponential notation.
+   *
    * @method toExponential
    * @return {string}
    */
@@ -1442,6 +1636,7 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
 
   /**
    * Returns a string representing the number in fixed-point notation.
+   *
    * @method toFixed
    * @param [fractionDigits] {number}
    * @return {string}
@@ -1453,6 +1648,7 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
 
   /**
    * Returns a string representation of the number.
+   *
    * @method toString
    * @return {string} 
    */
@@ -1499,6 +1695,7 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
 
   /**
    * Sets this multivector to the identity element for addition, &lt;b&gt;0&lt;/b&gt;.
+   *
    * @method zero
    * @return {Geometric2}
    * @chainable
@@ -1523,10 +1720,10 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
     }
     else if (typeof rhs === &#x27;number&#x27;) {
       // Addition commutes, but addScalar might be useful.
-      return Geometric2.fromScalar(rhs).add(this)
+      return Geometric2.scalar(rhs).add(this)
     }
     else {
-      let rhsCopy = duckCopy(rhs)
+      const rhsCopy = duckCopy(rhs)
       if (rhsCopy) {
         // rhs is a copy and addition commutes.
         return rhsCopy.add(this)
@@ -1566,7 +1763,7 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
       return Geometric2.copy(lhs).div(this)
     }
     else if (typeof lhs === &#x27;number&#x27;) {
-      return Geometric2.fromScalar(lhs).div(this)
+      return Geometric2.scalar(lhs).div(this)
     }
     else {
       return void 0
@@ -1613,7 +1810,7 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
       return Geometric2.copy(this).scale(lhs)
     }
     else {
-      let lhsCopy = duckCopy(lhs)
+      const lhsCopy = duckCopy(lhs)
       if (lhsCopy) {
         // lhs is a copy, so we can mutate it, and use it on the left.
         return lhsCopy.mul(this)
@@ -1635,10 +1832,10 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
       return Geometric2.copy(lhs).add(this)
     }
     else if (typeof lhs === &#x27;number&#x27;) {
-      return Geometric2.fromScalar(lhs).add(this)
+      return Geometric2.scalar(lhs).add(this)
     }
     else {
-      let lhsCopy = duckCopy(lhs)
+      const lhsCopy = duckCopy(lhs)
       if (lhsCopy) {
         // lhs is a copy, so we can mutate it.
         return lhsCopy.add(this)
@@ -1660,7 +1857,7 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
       return Geometric2.copy(this).sub(rhs)
     }
     else if (typeof rhs === &#x27;number&#x27;) {
-      return Geometric2.fromScalar(-rhs).add(this)
+      return Geometric2.scalar(-rhs).add(this)
     }
     else {
       return void 0
@@ -1678,7 +1875,7 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
       return Geometric2.copy(lhs).sub(this)
     }
     else if (typeof lhs === &#x27;number&#x27;) {
-      return Geometric2.fromScalar(lhs).sub(this)
+      return Geometric2.scalar(lhs).sub(this)
     }
     else {
       return void 0
@@ -1734,7 +1931,7 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
       return Geometric2.copy(this).lco(rhs)
     }
     else if (typeof rhs === &#x27;number&#x27;) {
-      return Geometric2.copy(this).lco(Geometric2.fromScalar(rhs))
+      return Geometric2.copy(this).lco(Geometric2.scalar(rhs))
     }
     else {
       return void 0
@@ -1752,7 +1949,7 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
       return Geometric2.copy(lhs).lco(this)
     }
     else if (typeof lhs === &#x27;number&#x27;) {
-      return Geometric2.fromScalar(lhs).lco(this)
+      return Geometric2.scalar(lhs).lco(this)
     }
     else {
       return void 0
@@ -1770,7 +1967,7 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
       return Geometric2.copy(this).rco(rhs)
     }
     else if (typeof rhs === &#x27;number&#x27;) {
-      return Geometric2.copy(this).rco(Geometric2.fromScalar(rhs))
+      return Geometric2.copy(this).rco(Geometric2.scalar(rhs))
     }
     else {
       return void 0
@@ -1788,7 +1985,7 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
       return Geometric2.copy(lhs).rco(this)
     }
     else if (typeof lhs === &#x27;number&#x27;) {
-      return Geometric2.fromScalar(lhs).rco(this)
+      return Geometric2.scalar(lhs).rco(this)
     }
     else {
       return void 0
@@ -1806,7 +2003,7 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
       return Geometric2.copy(this).scp(rhs)
     }
     else if (typeof rhs === &#x27;number&#x27;) {
-      return Geometric2.copy(this).scp(Geometric2.fromScalar(rhs))
+      return Geometric2.copy(this).scp(Geometric2.scalar(rhs))
     }
     else {
       return void 0
@@ -1824,7 +2021,7 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
       return Geometric2.copy(lhs).scp(this)
     }
     else if (typeof lhs === &#x27;number&#x27;) {
-      return Geometric2.fromScalar(lhs).scp(this)
+      return Geometric2.scalar(lhs).scp(this)
     }
     else {
       return void 0
@@ -1873,19 +2070,6 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
   }
 
   /**
-   * Intentionally undocumented.
-   */
-  static fromCartesian(α: number, x: number, y: number, β: number, uom?: Unit): Geometric2 {
-    const m = new Geometric2()
-    m.α = α
-    m.x = x
-    m.y = y
-    m.β = β
-    m.uom = uom
-    return m
-  }
-
-  /**
    * @method copy
    * @param M {GeometricE2}
    * @return {Geometric2}
@@ -1902,14 +2086,41 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
   }
 
   /**
-   * @method fromScalar
-   * @param α {number}
+   * @method e1
    * @return {Geometric2}
    * @static
    * @chainable
    */
-  static fromScalar(α: number): Geometric2 {
-    return new Geometric2().addScalar(α)
+  static e1(): Geometric2 {
+    return Geometric2.vector(1, 0)
+  }
+
+  /**
+   * @method e2
+   * @return {Geometric2}
+   * @static
+   * @chainable
+   */
+  static e2(): Geometric2 {
+    return Geometric2.vector(0, 1)
+  }
+
+  /**
+   * @method fromCartesian
+   * @param α {number} The scalar coordinate.
+   * @param x {number} The x coordinate.
+   * @param y {number} The y coordinate.
+   * @param β {number} The pseudoscalar coordinate.
+   * @return {Geometric2}
+   * @static
+   */
+  static fromCartesian(α: number, x: number, y: number, β: number): Geometric2 {
+    const m = new Geometric2()
+    m.α = α
+    m.x = x
+    m.y = y
+    m.β = β
+    return m
   }
 
   /**
@@ -1941,6 +2152,16 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
   }
 
   /**
+   * @method I
+   * @return {Geometric2}
+   * @static
+   * @chainable
+   */
+  static I(): Geometric2 {
+    return Geometric2.pseudo(1)
+  }
+
+  /**
    * @method lerp
    * @param A {GeometricE2}
    * @param B {GeometricE2}
@@ -1961,11 +2182,12 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
    * @chainable
    */
   static one(): Geometric2 {
-    return Geometric2.fromScalar(1)
+    return Geometric2.scalar(1)
   }
 
   /**
    * Computes the rotor that rotates vector &lt;code&gt;a&lt;/code&gt; to vector &lt;code&gt;b&lt;/code&gt;.
+   *
    * @method rotorFromDirections
    * @param a {VectorE2} The &lt;em&gt;from&lt;/em&gt; vector.
    * @param b {VectorE2} The &lt;em&gt;to&lt;/em&gt; vector.
@@ -1978,14 +2200,47 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
   }
 
   /**
+   * @method pseudo
+   * @param β {number}
+   * @return {Geometric2}
+   * @static
+   * @chainable
+   */
+  static pseudo(β: number): Geometric2 {
+    return Geometric2.fromCartesian(0, 0, 0, β)
+  }
+
+  /**
+   * @method scalar
+   * @param α {number}
+   * @return {Geometric2}
+   * @static
+   * @chainable
+   */
+  static scalar(α: number): Geometric2 {
+    return Geometric2.fromCartesian(α, 0, 0, 0)
+  }
+
+  /**
    * @method vector
    * @param x {number}
    * @param y {number}
    * @return {Geometric2}
    * @static
+   * @chainable
    */
   static vector(x: number, y: number): Geometric2 {
-    return this.fromCartesian(0, x, y, 0)
+    return Geometric2.fromCartesian(0, x, y, 0)
+  }
+
+  /**
+   * @method zero
+   * @return {Geometric2}
+   * @static
+   * @chainable
+   */
+  static zero(): Geometric2 {
+    return Geometric2.scalar(0)
   }
 }
 

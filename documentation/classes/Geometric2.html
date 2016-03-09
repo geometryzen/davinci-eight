@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.216.0</em>
+            <em>API Docs for: 2.217.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -273,7 +273,7 @@
         </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l117"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:117</code></a>
+            Defined in: <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l147"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:147</code></a>
         </div>
 
             Module: <a href="../modules/math.html">math</a><br>
@@ -283,9 +283,15 @@
 
 
 <div class="box intro">
-    <p>Constructs a <code>Geometric2</code>.
-The multivector is initialized to zero.</p>
-
+    <p>
+A <em>mutable</em> multivector for the <em>Euclidean</em> plane with <em>Cartesian</em> coordinates.
+</p>
+<p>
+The mutable nature of this class makes it suitable for high-preformance applications by avoiding temporary object creation.
+Danger Will Robinson! It's easy to accidentally mutate a <code>Geometric2</code> quantity!
+</p>
+<p>
+</p>
 </div>
 
     <div class="constructor">
@@ -305,7 +311,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l117"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:117</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l147"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:147</code></a>
         </p>
 
 
@@ -319,6 +325,15 @@ The multivector is initialized to zero.</p>
 
 
 
+        <div class="example">
+            <h4>Example:</h4>
+
+            <div class="example-content">
+                <pre class="code prettyprint"><code>// The constructor creates the zero multivector, a quantity with all components equal to zero.
+const M = new EIGHT.Geometric2()</code></pre>
+
+            </div>
+        </div>
 </div>
     </div>
 
@@ -439,6 +454,10 @@ The multivector is initialized to zero.</p>
 
                             </li>
                             <li class="index-item method">
+                                <a href="#method_adj">adj</a>
+
+                            </li>
+                            <li class="index-item method">
                                 <a href="#method_angle">angle</a>
 
                             </li>
@@ -457,11 +476,11 @@ The multivector is initialized to zero.</p>
                             <li class="index-item method">
                                 <a href="#method_copy">copy</a>
 
-                                    <span class="flag static">static</span>
                             </li>
                             <li class="index-item method">
                                 <a href="#method_copy">copy</a>
 
+                                    <span class="flag static">static</span>
                             </li>
                             <li class="index-item method">
                                 <a href="#method_copyScalar">copyScalar</a>
@@ -476,11 +495,23 @@ The multivector is initialized to zero.</p>
 
                             </li>
                             <li class="index-item method">
+                                <a href="#method_cos">cos</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_cosh">cosh</a>
+
+                            </li>
+                            <li class="index-item method">
                                 <a href="#method_cubicBezier">cubicBezier</a>
 
                             </li>
                             <li class="index-item method">
                                 <a href="#method_direction">direction</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_distanceTo">distanceTo</a>
 
                             </li>
                             <li class="index-item method">
@@ -500,6 +531,20 @@ The multivector is initialized to zero.</p>
 
                             </li>
                             <li class="index-item method">
+                                <a href="#method_e1">e1</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_e2">e2</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_equals">equals</a>
+
+                            </li>
+                            <li class="index-item method">
                                 <a href="#method_exp">exp</a>
 
                             </li>
@@ -512,7 +557,7 @@ The multivector is initialized to zero.</p>
 
                             </li>
                             <li class="index-item method">
-                                <a href="#method_fromScalar">fromScalar</a>
+                                <a href="#method_fromCartesian">fromCartesian</a>
 
                                     <span class="flag static">static</span>
                             </li>
@@ -529,6 +574,11 @@ The multivector is initialized to zero.</p>
                             <li class="index-item method">
                                 <a href="#method_grade">grade</a>
 
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_I">I</a>
+
+                                    <span class="flag static">static</span>
                             </li>
                             <li class="index-item method">
                                 <a href="#method_inv">inv</a>
@@ -553,11 +603,11 @@ The multivector is initialized to zero.</p>
                             <li class="index-item method">
                                 <a href="#method_lerp">lerp</a>
 
+                                    <span class="flag static">static</span>
                             </li>
                             <li class="index-item method">
                                 <a href="#method_lerp">lerp</a>
 
-                                    <span class="flag static">static</span>
                             </li>
                             <li class="index-item method">
                                 <a href="#method_lerp2">lerp2</a>
@@ -597,6 +647,15 @@ The multivector is initialized to zero.</p>
 
                             </li>
                             <li class="index-item method">
+                                <a href="#method_pow">pow</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_pseudo">pseudo</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item method">
                                 <a href="#method_quad">quad</a>
 
                             </li>
@@ -617,7 +676,7 @@ The multivector is initialized to zero.</p>
 
                             </li>
                             <li class="index-item method">
-                                <a href="#method_reverse">reverse</a>
+                                <a href="#method_rev">rev</a>
 
                             </li>
                             <li class="index-item method">
@@ -638,6 +697,11 @@ The multivector is initialized to zero.</p>
 
                             </li>
                             <li class="index-item method">
+                                <a href="#method_scalar">scalar</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item method">
                                 <a href="#method_scale">scale</a>
 
                             </li>
@@ -650,7 +714,23 @@ The multivector is initialized to zero.</p>
 
                             </li>
                             <li class="index-item method">
+                                <a href="#method_sin">sin</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_sinh">sinh</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_slerp">slerp</a>
+
+                            </li>
+                            <li class="index-item method">
                                 <a href="#method_squaredNorm">squaredNorm</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_stress">stress</a>
 
                             </li>
                             <li class="index-item method">
@@ -686,6 +766,11 @@ The multivector is initialized to zero.</p>
                                 <a href="#method_zero">zero</a>
 
                             </li>
+                            <li class="index-item method">
+                                <a href="#method_zero">zero</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
                     </ul>
                 </div>
 
@@ -700,17 +785,33 @@ The multivector is initialized to zero.</p>
                             <li class="index-item property">
                                 <a href="#property_BASIS_LABELS">BASIS_LABELS</a>
 
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_BASIS_LABELS_COMPASS">BASIS_LABELS_COMPASS</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_BASIS_LABELS_GEOMETRIC">BASIS_LABELS_GEOMETRIC</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_BASIS_LABELS_STANDARD">BASIS_LABELS_STANDARD</a>
+
+                                    <span class="flag static">static</span>
                             </li>
                             <li class="index-item property">
                                 <a href="#property_beta">beta</a>
 
                             </li>
                             <li class="index-item property">
-                                <a href="#property_uom">uom</a>
+                                <a href="#property_x">x</a>
 
                             </li>
-                            <li class="index-item property">
-                                <a href="#property_x">x</a>
+                            <li class="index-item property private">
+                                <a href="#property_xy">xy</a>
 
                             </li>
                             <li class="index-item property">
@@ -759,7 +860,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1243"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1243</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1440"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1440</code></a>
         </p>
 
 
@@ -817,7 +918,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1563"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1563</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1760"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1760</code></a>
         </p>
 
 
@@ -864,7 +965,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1269"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1269</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1466"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1466</code></a>
         </p>
 
 
@@ -927,7 +1028,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1455"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1455</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1652"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1652</code></a>
         </p>
 
 
@@ -990,7 +1091,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1305"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1305</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1502"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1502</code></a>
         </p>
 
 
@@ -1048,7 +1149,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1594"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1594</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1791"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1791</code></a>
         </p>
 
 
@@ -1090,7 +1191,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1583"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1583</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1780"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1780</code></a>
         </p>
 
 
@@ -1137,7 +1238,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1356"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1356</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1553"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1553</code></a>
         </p>
 
 
@@ -1200,7 +1301,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1287"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1287</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1484"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1484</code></a>
         </p>
 
 
@@ -1263,7 +1364,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1473"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1473</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1670"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1670</code></a>
         </p>
 
 
@@ -1326,7 +1427,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1331"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1331</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1528"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1528</code></a>
         </p>
 
 
@@ -1389,7 +1490,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1509"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1509</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1706"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1706</code></a>
         </p>
 
 
@@ -1452,7 +1553,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1491"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1491</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1688"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1688</code></a>
         </p>
 
 
@@ -1515,7 +1616,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1399"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1399</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1596"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1596</code></a>
         </p>
 
 
@@ -1578,7 +1679,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1545"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1545</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1742"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1742</code></a>
         </p>
 
 
@@ -1641,7 +1742,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1436"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1436</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1633"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1633</code></a>
         </p>
 
 
@@ -1704,7 +1805,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1381"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1381</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1578"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1578</code></a>
         </p>
 
 
@@ -1762,7 +1863,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1573"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1573</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1770"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1770</code></a>
         </p>
 
 
@@ -1809,7 +1910,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1527"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1527</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1724"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1724</code></a>
         </p>
 
 
@@ -1872,7 +1973,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1417"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1417</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1614"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1614</code></a>
         </p>
 
 
@@ -1938,7 +2039,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l214"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:214</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l276"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:276</code></a>
         </p>
 
 
@@ -2019,7 +2120,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l234"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:234</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l297"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:297</code></a>
         </p>
 
 
@@ -2096,7 +2197,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l254"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:254</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l318"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:318</code></a>
         </p>
 
 
@@ -2163,7 +2264,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l269"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:269</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l334"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:334</code></a>
         </p>
 
 
@@ -2233,7 +2334,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l284"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:284</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l350"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:350</code></a>
         </p>
 
 
@@ -2286,6 +2387,47 @@ The multivector is initialized to zero.</p>
 
 
 </div>
+<div id="method_adj" class="method item">
+    <h3 class="name"><code>adj</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
+        </span>
+
+
+
+
+
+        <span class="flag chainable">chainable</span>
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l369"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:369</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
+            </div>
+        </div>
+
+
+</div>
 <div id="method_angle" class="method item">
     <h3 class="name"><code>angle</code></h3>
 
@@ -2305,7 +2447,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l306"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:306</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l378"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:378</code></a>
         </p>
 
 
@@ -2412,7 +2554,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l318"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:318</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l391"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:391</code></a>
         </p>
 
 
@@ -2455,7 +2597,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l329"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:329</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l402"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:402</code></a>
         </p>
 
 
@@ -2499,7 +2641,6 @@ The multivector is initialized to zero.</p>
 
 
 
-        <span class="flag static">static</span>
 
         <span class="flag chainable">chainable</span>
 
@@ -2507,70 +2648,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1617"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1617</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">M</code>
-                        <span class="type"><a href="../classes/GeometricE2.html" class="crosslink">GeometricE2</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_copy" class="method item">
-    <h3 class="name"><code>copy</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>M</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
-        </span>
-
-
-
-
-
-        <span class="flag chainable">chainable</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l360"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:360</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l452"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:452</code></a>
         </p>
 
 
@@ -2612,10 +2690,80 @@ The multivector is initialized to zero.</p>
 
 
 </div>
+<div id="method_copy" class="method item">
+    <h3 class="name"><code>copy</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>M</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
+        </span>
+
+
+
+
+        <span class="flag static">static</span>
+
+        <span class="flag chainable">chainable</span>
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1801"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1801</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">M</code>
+                        <span class="type"><a href="../classes/GeometricE2.html" class="crosslink">GeometricE2</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
+            </div>
+        </div>
+
+
+</div>
 <div id="method_copyScalar" class="method item">
     <h3 class="name"><code>copyScalar</code></h3>
 
-        <span class="paren">()</span>
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>α</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
 
         <span class="returns-inline">
             <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
@@ -2631,7 +2779,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l378"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:378</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l471"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:471</code></a>
         </p>
 
 
@@ -2643,6 +2791,22 @@ The multivector is initialized to zero.</p>
 
     </div>
 
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">α</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
 
         <div class="returns">
             <h4>Returns:</h4>
@@ -2681,7 +2845,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l388"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:388</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l483"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:483</code></a>
         </p>
 
 
@@ -2748,7 +2912,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l406"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:406</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l502"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:502</code></a>
         </p>
 
 
@@ -2790,6 +2954,86 @@ The multivector is initialized to zero.</p>
 
 
 </div>
+<div id="method_cos" class="method item">
+    <h3 class="name"><code>cos</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l418"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:418</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_cosh" class="method item">
+    <h3 class="name"><code>cosh</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l426"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:426</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
+            </div>
+        </div>
+
+
+</div>
 <div id="method_cubicBezier" class="method item">
     <h3 class="name"><code>cubicBezier</code></h3>
 
@@ -2824,7 +3068,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l424"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:424</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l521"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:521</code></a>
         </p>
 
 
@@ -2913,7 +3157,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l445"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:445</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l542"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:542</code></a>
         </p>
 
 
@@ -2934,6 +3178,68 @@ The multivector is initialized to zero.</p>
                         <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
                     <p><code>this</code></p>
 
+            </div>
+        </div>
+
+
+</div>
+<div id="method_distanceTo" class="method item">
+    <h3 class="name"><code>distanceTo</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>M</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">Number</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l434"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:434</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">M</code>
+                        <span class="type"><a href="../classes/GeometricE2.html" class="crosslink">GeometricE2</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Number</span>:
             </div>
         </div>
 
@@ -2964,7 +3270,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l462"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:462</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l560"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:560</code></a>
         </p>
 
 
@@ -3034,7 +3340,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l475"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:475</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l574"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:574</code></a>
         </p>
 
 
@@ -3111,7 +3417,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l490"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:490</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l604"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:604</code></a>
         </p>
 
 
@@ -3178,7 +3484,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l508"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:508</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l623"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:623</code></a>
         </p>
 
 
@@ -3220,6 +3526,152 @@ The multivector is initialized to zero.</p>
 
 
 </div>
+<div id="method_e1" class="method item">
+    <h3 class="name"><code>e1</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
+        </span>
+
+
+
+
+        <span class="flag static">static</span>
+
+        <span class="flag chainable">chainable</span>
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1817"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1817</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_e2" class="method item">
+    <h3 class="name"><code>e2</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
+        </span>
+
+
+
+
+        <span class="flag static">static</span>
+
+        <span class="flag chainable">chainable</span>
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1827"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1827</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_equals" class="method item">
+    <h3 class="name"><code>equals</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>M</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">Boolean</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l443"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:443</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">M</code>
+                        <span class="type"><a href="../classes/GeometricE2.html" class="crosslink">GeometricE2</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Boolean</span>:
+            </div>
+        </div>
+
+
+</div>
 <div id="method_exp" class="method item">
     <h3 class="name"><code>exp</code></h3>
 
@@ -3239,7 +3691,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l530"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:530</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l646"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:646</code></a>
         </p>
 
 
@@ -3290,7 +3742,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l551"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:551</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l668"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:668</code></a>
         </p>
 
 
@@ -3360,7 +3812,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l564"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:564</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l682"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:682</code></a>
         </p>
 
 
@@ -3412,13 +3864,22 @@ The multivector is initialized to zero.</p>
 
 
 </div>
-<div id="method_fromScalar" class="method item">
-    <h3 class="name"><code>fromScalar</code></h3>
+<div id="method_fromCartesian" class="method item">
+    <h3 class="name"><code>fromCartesian</code></h3>
 
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
                         <code>α</code>
+                </li>
+                <li class="arg">
+                        <code>x</code>
+                </li>
+                <li class="arg">
+                        <code>y</code>
+                </li>
+                <li class="arg">
+                        <code>β</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
@@ -3432,13 +3893,12 @@ The multivector is initialized to zero.</p>
 
         <span class="flag static">static</span>
 
-        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1633"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1633</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1837"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1837</code></a>
         </p>
 
 
@@ -3459,7 +3919,41 @@ The multivector is initialized to zero.</p>
 
 
                     <div class="param-description">
-                         
+                        <p>The scalar coordinate.</p>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">x</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                        <p>The x coordinate.</p>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">y</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                        <p>The y coordinate.</p>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">β</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                        <p>The pseudoscalar coordinate.</p>
+
                     </div>
 
                 </li>
@@ -3502,7 +3996,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1644"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1644</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1855"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1855</code></a>
         </p>
 
 
@@ -3566,7 +4060,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1655"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1655</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1866"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1866</code></a>
         </p>
 
 
@@ -3629,7 +4123,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1193"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1193</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1389"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1389</code></a>
         </p>
 
 
@@ -3669,6 +4163,48 @@ The multivector is initialized to zero.</p>
 
 
 </div>
+<div id="method_I" class="method item">
+    <h3 class="name"><code>I</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
+        </span>
+
+
+
+
+        <span class="flag static">static</span>
+
+        <span class="flag chainable">chainable</span>
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1883"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1883</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
+            </div>
+        </div>
+
+
+</div>
 <div id="method_inv" class="method item">
     <h3 class="name"><code>inv</code></h3>
 
@@ -3688,7 +4224,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l590"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:590</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l709"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:709</code></a>
         </p>
 
 
@@ -3696,9 +4232,8 @@ The multivector is initialized to zero.</p>
     </div>
 
     <div class="description">
-        <p>
-<code>this ⟼ conj(this) / quad(this)</code>
-</p>
+        <p>Sets this multivector to its inverse, if it exists.</p>
+
     </div>
 
 
@@ -3732,7 +4267,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l605"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:605</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l744"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:744</code></a>
         </p>
 
 
@@ -3772,7 +4307,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l613"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:613</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l752"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:752</code></a>
         </p>
 
 
@@ -3819,7 +4354,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l621"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:621</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l760"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:760</code></a>
         </p>
 
 
@@ -3889,7 +4424,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l634"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:634</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l774"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:774</code></a>
         </p>
 
 
@@ -3947,86 +4482,6 @@ The multivector is initialized to zero.</p>
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
-                        <code>target</code>
-                </li>
-                <li class="arg">
-                        <code>α</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
-        </span>
-
-
-
-
-
-        <span class="flag chainable">chainable</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l660"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:660</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-<code>this ⟼ this + α * (target - this)</code>
-</p>
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">target</code>
-                        <span class="type"><a href="../classes/GeometricE2.html" class="crosslink">GeometricE2</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">α</code>
-                        <span class="type">Number</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
-                    <p><code>this</code></p>
-
-            </div>
-        </div>
-
-
-</div>
-<div id="method_lerp" class="method item">
-    <h3 class="name"><code>lerp</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
                         <code>A</code>
                 </li>
                 <li class="arg">
@@ -4053,7 +4508,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1672"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1672</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1893"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1893</code></a>
         </p>
 
 
@@ -4113,6 +4568,86 @@ The multivector is initialized to zero.</p>
 
 
 </div>
+<div id="method_lerp" class="method item">
+    <h3 class="name"><code>lerp</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>target</code>
+                </li>
+                <li class="arg">
+                        <code>α</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
+        </span>
+
+
+
+
+
+        <span class="flag chainable">chainable</span>
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l801"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:801</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>
+<code>this ⟼ this + α * (target - this)</code>
+</p>
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">target</code>
+                        <span class="type"><a href="../classes/GeometricE2.html" class="crosslink">GeometricE2</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">α</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
+                    <p><code>this</code></p>
+
+            </div>
+        </div>
+
+
+</div>
 <div id="method_lerp2" class="method item">
     <h3 class="name"><code>lerp2</code></h3>
 
@@ -4144,7 +4679,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l680"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:680</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l822"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:822</code></a>
         </p>
 
 
@@ -4225,7 +4760,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l699"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:699</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l842"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:842</code></a>
         </p>
 
 
@@ -4269,7 +4804,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l718"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:718</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l862"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:862</code></a>
         </p>
 
 
@@ -4317,7 +4852,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l731"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:731</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l879"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:879</code></a>
         </p>
 
 
@@ -4387,7 +4922,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l744"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:744</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l893"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:893</code></a>
         </p>
 
 
@@ -4458,7 +4993,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l770"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:770</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l920"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:920</code></a>
         </p>
 
 
@@ -4503,7 +5038,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l786"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:786</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l937"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:937</code></a>
         </p>
 
 
@@ -4549,7 +5084,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1686"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1686</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1907"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1907</code></a>
         </p>
 
 
@@ -4590,7 +5125,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l802"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:802</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l954"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:954</code></a>
         </p>
 
 
@@ -4602,6 +5137,110 @@ The multivector is initialized to zero.</p>
 
     </div>
 
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_pow" class="method item">
+    <h3 class="name"><code>pow</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l969"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:969</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_pseudo" class="method item">
+    <h3 class="name"><code>pseudo</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>β</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
+        </span>
+
+
+
+
+        <span class="flag static">static</span>
+
+        <span class="flag chainable">chainable</span>
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1931"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1931</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">β</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
 
         <div class="returns">
             <h4>Returns:</h4>
@@ -4632,7 +5271,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l820"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:820</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l977"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:977</code></a>
         </p>
 
 
@@ -4691,7 +5330,7 @@ Updates <code>this</code> target to be the <em>quad</em> or <em>squared norm</em
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l839"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:839</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l997"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:997</code></a>
         </p>
 
 
@@ -4774,7 +5413,7 @@ Updates <code>this</code> target to be the <em>quad</em> or <em>squared norm</em
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l858"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:858</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1016"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1016</code></a>
         </p>
 
 
@@ -4844,7 +5483,7 @@ Updates <code>this</code> target to be the <em>quad</em> or <em>squared norm</em
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l871"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:871</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1030"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1030</code></a>
         </p>
 
 
@@ -4921,7 +5560,7 @@ Updates <code>this</code> target to be the <em>quad</em> or <em>squared norm</em
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l897"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:897</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1057"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1057</code></a>
         </p>
 
 
@@ -4963,8 +5602,8 @@ Updates <code>this</code> target to be the <em>quad</em> or <em>squared norm</em
 
 
 </div>
-<div id="method_reverse" class="method item">
-    <h3 class="name"><code>reverse</code></h3>
+<div id="method_rev" class="method item">
+    <h3 class="name"><code>rev</code></h3>
 
         <span class="paren">()</span>
 
@@ -4982,7 +5621,7 @@ Updates <code>this</code> target to be the <em>quad</em> or <em>squared norm</em
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l916"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:916</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1077"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1077</code></a>
         </p>
 
 
@@ -5033,7 +5672,7 @@ Updates <code>this</code> target to be the <em>quad</em> or <em>squared norm</em
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l941"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:941</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1111"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1111</code></a>
         </p>
 
 
@@ -5103,7 +5742,7 @@ Updates <code>this</code> target to be the <em>quad</em> or <em>squared norm</em
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l968"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:968</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1139"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1139</code></a>
         </p>
 
 
@@ -5185,7 +5824,7 @@ Updates <code>this</code> target to be the <em>quad</em> or <em>squared norm</em
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1696"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1696</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1917"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1917</code></a>
         </p>
 
 
@@ -5263,7 +5902,7 @@ Updates <code>this</code> target to be the <em>quad</em> or <em>squared norm</em
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l982"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:982</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1153"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1153</code></a>
         </p>
 
 
@@ -5315,6 +5954,70 @@ Updates <code>this</code> target to be the <em>quad</em> or <em>squared norm</em
 
 
 </div>
+<div id="method_scalar" class="method item">
+    <h3 class="name"><code>scalar</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>α</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
+        </span>
+
+
+
+
+        <span class="flag static">static</span>
+
+        <span class="flag chainable">chainable</span>
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1942"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1942</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">α</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
+            </div>
+        </div>
+
+
+</div>
 <div id="method_scale" class="method item">
     <h3 class="name"><code>scale</code></h3>
 
@@ -5336,7 +6039,7 @@ Updates <code>this</code> target to be the <em>quad</em> or <em>squared norm</em
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1050"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1050</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1224"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1224</code></a>
         </p>
 
 
@@ -5394,7 +6097,7 @@ Updates <code>this</code> target to be the <em>quad</em> or <em>squared norm</em
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1019"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1019</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1191"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1191</code></a>
         </p>
 
 
@@ -5464,7 +6167,7 @@ Updates <code>this</code> target to be the <em>quad</em> or <em>squared norm</em
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1032"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1032</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1205"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1205</code></a>
         </p>
 
 
@@ -5516,6 +6219,161 @@ Updates <code>this</code> target to be the <em>quad</em> or <em>squared norm</em
 
 
 </div>
+<div id="method_sin" class="method item">
+    <h3 class="name"><code>sin</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1095"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1095</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_sinh" class="method item">
+    <h3 class="name"><code>sinh</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1103"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1103</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_slerp" class="method item">
+    <h3 class="name"><code>slerp</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>target</code>
+                </li>
+                <li class="arg">
+                        <code>α</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1241"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1241</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">target</code>
+                        <span class="type"><a href="../classes/GeometricE2.html" class="crosslink">GeometricE2</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">α</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
+            </div>
+        </div>
+
+
+</div>
 <div id="method_squaredNorm" class="method item">
     <h3 class="name"><code>squaredNorm</code></h3>
 
@@ -5534,7 +6392,7 @@ Updates <code>this</code> target to be the <em>quad</em> or <em>squared norm</em
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1101"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1101</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1288"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1288</code></a>
         </p>
 
 
@@ -5554,6 +6412,68 @@ Updates <code>this</code> target to be the <em>quad</em> or <em>squared norm</em
                         <span class="type">Number</span>:
                     <p><code>this | ~this</code></p>
 
+            </div>
+        </div>
+
+
+</div>
+<div id="method_stress" class="method item">
+    <h3 class="name"><code>stress</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>σ</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1253"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1253</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">σ</code>
+                        <span class="type"><a href="../classes/VectorE2.html" class="crosslink">VectorE2</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
             </div>
         </div>
 
@@ -5587,7 +6507,7 @@ Updates <code>this</code> target to be the <em>quad</em> or <em>squared norm</em
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1122"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1122</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1313"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1313</code></a>
         </p>
 
 
@@ -5668,7 +6588,7 @@ Updates <code>this</code> target to be the <em>quad</em> or <em>squared norm</em
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1142"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1142</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1334"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1334</code></a>
         </p>
 
 
@@ -5738,7 +6658,7 @@ Updates <code>this</code> target to be the <em>quad</em> or <em>squared norm</em
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1162"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1162</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1355"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1355</code></a>
         </p>
 
 
@@ -5785,7 +6705,7 @@ Updates <code>this</code> target to be the <em>quad</em> or <em>squared norm</em
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1172"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1172</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1366"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1366</code></a>
         </p>
 
 
@@ -5843,7 +6763,7 @@ Updates <code>this</code> target to be the <em>quad</em> or <em>squared norm</em
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1183"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1183</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1378"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1378</code></a>
         </p>
 
 
@@ -5889,12 +6809,13 @@ Updates <code>this</code> target to be the <em>quad</em> or <em>squared norm</em
 
         <span class="flag static">static</span>
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1709"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1709</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1953"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1953</code></a>
         </p>
 
 
@@ -5969,7 +6890,7 @@ Updates <code>this</code> target to be the <em>quad</em> or <em>squared norm</em
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1076"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1076</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1262"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1262</code></a>
         </p>
 
 
@@ -5980,7 +6901,8 @@ Updates <code>this</code> target to be the <em>quad</em> or <em>squared norm</em
         <p>
 <code>this ⟼ a * b = a · b + a ^ b</code>
 </p>
-Sets this Geometric2 to the geometric product a * b of the vector arguments.
+<p>Sets this Geometric2 to the geometric product a * b of the vector arguments.</p>
+
     </div>
 
         <div class="params">
@@ -6041,7 +6963,7 @@ Sets this Geometric2 to the geometric product a * b of the vector arguments.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1229"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1229</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1425"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1425</code></a>
         </p>
 
 
@@ -6051,6 +6973,48 @@ Sets this Geometric2 to the geometric product a * b of the vector arguments.
     <div class="description">
         <p>Sets this multivector to the identity element for addition, <b>0</b>.</p>
 
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_zero" class="method item">
+    <h3 class="name"><code>zero</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
+        </span>
+
+
+
+
+        <span class="flag static">static</span>
+
+        <span class="flag chainable">chainable</span>
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l1965"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:1965</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
     </div>
 
 
@@ -6080,15 +7044,19 @@ Sets this Geometric2 to the geometric product a * b of the vector arguments.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l141"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:141</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l174"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:174</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        <p>The coordinate corresponding to the unit standard basis scalar.</p>
-
+        <p>
+The coordinate corresponding to <b>1</b> a.k.a. the unit standard basis scalar.
+</p>
+<p>
+This is a longhand alias for the <code>α</code> property (suitable for conventional keyboards).
+</p>
     </div>
 
 
@@ -6101,11 +7069,87 @@ Sets this Geometric2 to the geometric product a * b of the vector arguments.
 
 
 
+        <span class="flag static">static</span>
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l103"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:103</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l119"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:119</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_BASIS_LABELS_COMPASS" class="property item">
+    <h3 class="name"><code>BASIS_LABELS_COMPASS</code></h3>
+    <span class="type">(string | string)[]</span>
+
+
+
+
+        <span class="flag static">static</span>
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l126"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:126</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_BASIS_LABELS_GEOMETRIC" class="property item">
+    <h3 class="name"><code>BASIS_LABELS_GEOMETRIC</code></h3>
+    <span class="type">(string | string)[]</span>
+
+
+
+
+        <span class="flag static">static</span>
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l133"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:133</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_BASIS_LABELS_STANDARD" class="property item">
+    <h3 class="name"><code>BASIS_LABELS_STANDARD</code></h3>
+    <span class="type">(string | string)[]</span>
+
+
+
+
+        <span class="flag static">static</span>
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l140"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:140</code></a>
         </p>
 
 
@@ -6129,40 +7173,19 @@ Sets this Geometric2 to the geometric product a * b of the vector arguments.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l193"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:193</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l244"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:244</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        <p>The coordinate corresponding to the <b>e</b><sub>1</sub><b>e</b><sub>2</sub> standard basis bivector.</p>
-
-    </div>
-
-
-
-</div>
-<div id="property_uom" class="property item">
-    <h3 class="name"><code>uom</code></h3>
-    <span class="type"><a href="../classes/Unit.html" class="crosslink">Unit</a></span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l109"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:109</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>The optional unit of measure.</p>
-
+        <p>
+The coordinate corresponding to the <b>e</b><sub>1</sub><b>e</b><sub>2</sub> standard basis bivector.
+</p>
+<p>
+This is a longhand alias for the <code>β</code> property (suitable for conventional keyboards).
+</p>
     </div>
 
 
@@ -6179,15 +7202,41 @@ Sets this Geometric2 to the geometric product a * b of the vector arguments.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l154"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:154</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l193"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:193</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        <p>The coordinate corresponding to the <b>e</b><sub>1</sub> standard basis vector.</p>
+        <p>
+The coordinate corresponding to the <b>e</b><sub>1</sub> standard basis vector.
+</p>
+    </div>
 
+
+
+</div>
+<div id="property_xy" class="property item private">
+    <h3 class="name"><code>xy</code></h3>
+    <span class="type">Number</span>
+
+
+        <span class="flag private">private</span>
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l263"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:263</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
     </div>
 
 
@@ -6204,15 +7253,16 @@ Sets this Geometric2 to the geometric product a * b of the vector arguments.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l167"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:167</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l209"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:209</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        <p>The coordinate corresponding to the <b>e</b><sub>2</sub> standard basis vector.</p>
-
+        <p>
+The coordinate corresponding to the <b>e</b><sub>2</sub> standard basis vector.
+</p>
     </div>
 
 
@@ -6229,15 +7279,19 @@ Sets this Geometric2 to the geometric product a * b of the vector arguments.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l128"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:128</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l155"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:155</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        <p>The coordinate corresponding to the unit standard basis scalar.</p>
-
+        <p>
+The coordinate corresponding to <b>1</b> a.k.a. the unit standard basis scalar.
+</p>
+<p>
+This is a shorthand alias for the <code>alpha</code> property.
+</p>
     </div>
 
 
@@ -6254,15 +7308,19 @@ Sets this Geometric2 to the geometric product a * b of the vector arguments.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l180"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:180</code></a>
+        <a href="../files/src_davinci-eight_math_Geometric2.ts.html#l225"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Geometric2.ts:225</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        <p>The coordinate corresponding to the <b>e</b><sub>1</sub><b>e</b><sub>2</sub> standard basis bivector.</p>
-
+        <p>
+The coordinate corresponding to the <b>e</b><sub>1</sub><b>e</b><sub>2</sub> standard basis bivector.
+</p>
+<p>
+This is a shorthand alias for the <code>beta</code> property.
+</p>
     </div>
 
 

@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.216.0</em>
+            <em>API Docs for: 2.217.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -272,43 +272,47 @@
 import ErrorMode from &#x27;./core/ErrorMode&#x27;
 
 class Eight {
-    private _errorMode: ErrorMode;
-    GITHUB: string;
-    LAST_MODIFIED: string;
-    NAMESPACE: string;
-    VERSION: string;
+  private _errorMode: ErrorMode;
+  GITHUB: string;
+  LAST_MODIFIED: string;
+  NAMESPACE: string;
+  VERSION: string;
 
-    constructor() {
-        this._errorMode = ErrorMode.STRICT;
-        this.GITHUB = &#x27;https://github.com/geometryzen/davinci-eight&#x27;;
-        this.LAST_MODIFIED = &#x27;2016-03-07&#x27;;
-        this.NAMESPACE = &#x27;EIGHT&#x27;;
-        this.VERSION = &#x27;2.216.0&#x27;;
-    }
-    get errorMode() {
-      return this._errorMode
-    }
-    set errorMode(errorMode: ErrorMode) {
-      switch(errorMode) {
-        case ErrorMode.IGNORE:
-        case ErrorMode.STRICT:
-        case ErrorMode.WARNME: {
-          this._errorMode = errorMode
-        }
+  constructor() {
+    this._errorMode = ErrorMode.STRICT;
+    this.GITHUB = &#x27;https://github.com/geometryzen/davinci-eight&#x27;;
+    this.LAST_MODIFIED = &#x27;2016-03-08&#x27;;
+    this.NAMESPACE = &#x27;EIGHT&#x27;;
+    this.VERSION = &#x27;2.217.0&#x27;;
+  }
+  get errorMode() {
+    return this._errorMode
+  }
+  set errorMode(errorMode: ErrorMode) {
+    switch (errorMode) {
+      case ErrorMode.IGNORE:
+      case ErrorMode.STRICT:
+      case ErrorMode.WARNME: {
+        this._errorMode = errorMode
+      }
         break;
-        default: {
-          throw new Error(&quot;errorMode must be one of IGNORE, STRICT, or WARNME.&quot;)
-        }
+      default: {
+        throw new Error(&quot;errorMode must be one of IGNORE, STRICT, or WARNME.&quot;)
       }
     }
+  }
+  warn(message?: any, ...optionalParams: any[]): void {
+    // This should allow us to unit test and run in environments without a console.
+    console.warn(message)
+  }
 }
 
 /**
  *
  */
-const core = new Eight()
+const config = new Eight()
 
-export default core;
+export default config;
 
     </pre>
 </div>

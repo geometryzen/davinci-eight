@@ -139,10 +139,13 @@ System.register("davinci-eight/core/GeometryArrays.js", ["./computeAttributes", 
       GeometryArrays = (function(_super) {
         __extends(GeometryArrays, _super);
         function GeometryArrays(engine, level) {
+          if (level === void 0) {
+            level = 0;
+          }
           _super.call(this, 'GeometryArrays', engine, incLevel_1.default(level));
           this.first = 0;
           this.attributes = {};
-          this.vbo = new VertexBuffer_1.default(engine, 0);
+          this.vbo = new VertexBuffer_1.default(engine);
         }
         GeometryArrays.prototype.destructor = function(level) {
           this.vbo.release();
@@ -532,7 +535,8 @@ System.register("davinci-eight/facets/Vector3Facet.js", ["../checks/mustBeObject
           return this;
         };
         Vector3Facet.prototype.setUniforms = function(visitor) {
-          visitor.vec3(this._name, this._vector);
+          var v = this._vector;
+          visitor.uniform3f(this._name, v.x, v.y, v.z);
         };
         return Vector3Facet;
       })();
@@ -7149,8 +7153,10 @@ System.register("davinci-eight/facets/ColorFacet.js", ["../core/Color", "../chec
           return this;
         };
         ColorFacet.prototype.setUniforms = function(visitor) {
-          if (this.uColorName) {
-            visitor.vector3(this.uColorName, this.color.coords);
+          var name = this.uColorName;
+          if (name) {
+            var color = this.color;
+            visitor.uniform3f(name, color.r, color.g, color.b);
           }
         };
         ColorFacet.PROP_RGB = 'rgb';
@@ -8379,7 +8385,18 @@ System.register("davinci-eight/core/AttribLocation.js", ["../i18n/readOnly"], fu
   };
 });
 
-System.register("davinci-eight/core/makeWebGLShader.js", [], function(exports_1) {
+System.register("davinci-eight/core/makeWebGLShader.js", ["../core", "./ErrorMode"], function(exports_1) {
+  var core_1,
+      ErrorMode_1;
+  function decodeType(gl, type) {
+    if (type === gl.VERTEX_SHADER) {
+      return "VERTEX_SHADER";
+    } else if (type === gl.FRAGMENT_SHADER) {
+      return "FRAGMENT_SHADER";
+    } else {
+      return "type => " + type + " shader";
+    }
+  }
   function makeWebGLShader(gl, source, type) {
     var shader = gl.createShader(type);
     gl.shaderSource(shader, source);
@@ -8391,15 +8408,25 @@ System.register("davinci-eight/core/makeWebGLShader.js", [], function(exports_1)
       if (!gl.isContextLost()) {
         var message = gl.getShaderInfoLog(shader);
         gl.deleteShader(shader);
-        throw new Error("Error compiling shader: " + message);
+        switch (core_1.default.errorMode) {
+          case ErrorMode_1.default.WARNME:
+            {
+              core_1.default.warn("Error compiling " + decodeType(gl, type) + ". Cause: " + message + ".");
+            }
+        }
+        throw new Error(message);
       } else {
-        throw new Error("Context lost while compiling shader");
+        throw new Error("Context lost while compiling " + decodeType(gl, type) + ".");
       }
     }
   }
   exports_1("default", makeWebGLShader);
   return {
-    setters: [],
+    setters: [function(core_1_1) {
+      core_1 = core_1_1;
+    }, function(ErrorMode_1_1) {
+      ErrorMode_1 = ErrorMode_1_1;
+    }],
     execute: function() {}
   };
 });
@@ -8438,89 +8465,100 @@ System.register("davinci-eight/core/makeWebGLProgram.js", ["./makeWebGLShader"],
   };
 });
 
-System.register("davinci-eight/core/UniformLocation.js", [], function(exports_1) {
+System.register("davinci-eight/core/UniformLocation.js", ["../core", "../core/ErrorMode", "../checks/isNull", "../checks/mustBeObject"], function(exports_1) {
+  var core_1,
+      ErrorMode_1,
+      isNull_1,
+      mustBeObject_1;
   var UniformLocation;
   return {
-    setters: [],
+    setters: [function(core_1_1) {
+      core_1 = core_1_1;
+    }, function(ErrorMode_1_1) {
+      ErrorMode_1 = ErrorMode_1_1;
+    }, function(isNull_1_1) {
+      isNull_1 = isNull_1_1;
+    }, function(mustBeObject_1_1) {
+      mustBeObject_1 = mustBeObject_1_1;
+    }],
     execute: function() {
       UniformLocation = (function() {
         function UniformLocation(info) {
-          this._name = info.name;
+          if (!isNull_1.default(info)) {
+            mustBeObject_1.default('info', info);
+            this.name = info.name;
+          } else {
+            var msg = "UniformLocation constructor called with null info: WebGLActiveInfo.";
+            switch (core_1.default.errorMode) {
+              case ErrorMode_1.default.IGNORE:
+                {
+                  this.name = null;
+                }
+                break;
+              case ErrorMode_1.default.WARNME:
+                {
+                  console.warn(msg);
+                  this.name = null;
+                }
+                break;
+              default:
+                {
+                  throw new Error(msg);
+                }
+            }
+          }
         }
         UniformLocation.prototype.contextFree = function() {
           this.contextLost();
         };
-        UniformLocation.prototype.contextGain = function(context, program) {
+        UniformLocation.prototype.contextGain = function(gl, program) {
           this.contextLost();
-          this._context = context;
-          this._location = context.getUniformLocation(program, this._name);
-          this._program = program;
+          this.gl = gl;
+          if (!isNull_1.default(this.name)) {
+            this.location = gl.getUniformLocation(program, this.name);
+          } else {
+            this.location = null;
+          }
         };
         UniformLocation.prototype.contextLost = function() {
-          this._context = void 0;
-          this._location = void 0;
-          this._program = void 0;
-        };
-        UniformLocation.prototype.vec1 = function(coords) {
-          this._context.uniform1f(this._location, coords.x);
-          return this;
-        };
-        UniformLocation.prototype.vec2 = function(coords) {
-          this._context.uniform2f(this._location, coords.x, coords.y);
-          return this;
-        };
-        UniformLocation.prototype.vec3 = function(coords) {
-          this._context.uniform3f(this._location, coords.x, coords.y, coords.z);
-          return this;
-        };
-        UniformLocation.prototype.vec4 = function(coords) {
-          this._context.uniform4f(this._location, coords.x, coords.y, coords.z, coords.w);
-          return this;
+          this.gl = void 0;
+          this.location = void 0;
         };
         UniformLocation.prototype.uniform1f = function(x) {
-          this._context.uniform1f(this._location, x);
+          this.gl.uniform1f(this.location, x);
         };
         UniformLocation.prototype.uniform2f = function(x, y) {
-          this._context.uniform2f(this._location, x, y);
+          this.gl.uniform2f(this.location, x, y);
         };
         UniformLocation.prototype.uniform3f = function(x, y, z) {
-          this._context.uniform3f(this._location, x, y, z);
+          this.gl.uniform3f(this.location, x, y, z);
         };
         UniformLocation.prototype.uniform4f = function(x, y, z, w) {
-          this._context.uniform4f(this._location, x, y, z, w);
+          this.gl.uniform4f(this.location, x, y, z, w);
         };
-        UniformLocation.prototype.mat2 = function(matrix, transpose) {
-          if (transpose === void 0) {
-            transpose = false;
-          }
-          this._context.uniformMatrix2fv(this._location, transpose, matrix.elements);
-          return this;
+        UniformLocation.prototype.matrix2fv = function(transpose, value) {
+          this.gl.uniformMatrix2fv(this.location, transpose, value);
         };
-        UniformLocation.prototype.mat3 = function(matrix, transpose) {
-          if (transpose === void 0) {
-            transpose = false;
-          }
-          this._context.uniformMatrix3fv(this._location, transpose, matrix.elements);
-          return this;
+        UniformLocation.prototype.matrix3fv = function(transpose, value) {
+          this.gl.uniformMatrix3fv(this.location, transpose, value);
         };
-        UniformLocation.prototype.mat4 = function(matrix, transpose) {
-          if (transpose === void 0) {
-            transpose = false;
-          }
-          this._context.uniformMatrix4fv(this._location, transpose, matrix.elements);
-          return this;
+        UniformLocation.prototype.matrix4fv = function(transpose, value) {
+          this.gl.uniformMatrix4fv(this.location, transpose, value);
         };
-        UniformLocation.prototype.vector2 = function(data) {
-          this._context.uniform2fv(this._location, data);
+        UniformLocation.prototype.uniform1fv = function(data) {
+          this.gl.uniform1fv(this.location, data);
         };
-        UniformLocation.prototype.vector3 = function(data) {
-          this._context.uniform3fv(this._location, data);
+        UniformLocation.prototype.uniform2fv = function(data) {
+          this.gl.uniform2fv(this.location, data);
         };
-        UniformLocation.prototype.vector4 = function(data) {
-          this._context.uniform4fv(this._location, data);
+        UniformLocation.prototype.uniform3fv = function(data) {
+          this.gl.uniform3fv(this.location, data);
+        };
+        UniformLocation.prototype.uniform4fv = function(data) {
+          this.gl.uniform4fv(this.location, data);
         };
         UniformLocation.prototype.toString = function() {
-          return ['uniform', this._name].join(' ');
+          return ['uniform', this.name].join(' ');
         };
         return UniformLocation;
       })();
@@ -8529,7 +8567,7 @@ System.register("davinci-eight/core/UniformLocation.js", [], function(exports_1)
   };
 });
 
-System.register("davinci-eight/materials/Material.js", ["../core/AttribLocation", "../base/incLevel", "../checks/isDefined", "../checks/isString", "../checks/isNull", "../core/makeWebGLProgram", "../checks/mustBeArray", "../checks/mustBeString", "../checks/mustBeUndefined", "../i18n/readOnly", "../core/ShareableContextConsumer", "../core/UniformLocation"], function(exports_1) {
+System.register("davinci-eight/materials/Material.js", ["../core/AttribLocation", "../core", "../base/incLevel", "../checks/isDefined", "../checks/isString", "../checks/isNull", "../core/makeWebGLProgram", "../core/ErrorMode", "../checks/mustBeArray", "../checks/mustBeString", "../checks/mustBeUndefined", "../i18n/readOnly", "../core/ShareableContextConsumer", "../core/UniformLocation"], function(exports_1) {
   var __extends = (this && this.__extends) || function(d, b) {
     for (var p in b)
       if (b.hasOwnProperty(p))
@@ -8540,11 +8578,13 @@ System.register("davinci-eight/materials/Material.js", ["../core/AttribLocation"
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
   };
   var AttribLocation_1,
+      core_1,
       incLevel_1,
       isDefined_1,
       isString_1,
       isNull_1,
       makeWebGLProgram_1,
+      ErrorMode_1,
       mustBeArray_1,
       mustBeString_1,
       mustBeUndefined_1,
@@ -8555,6 +8595,8 @@ System.register("davinci-eight/materials/Material.js", ["../core/AttribLocation"
   return {
     setters: [function(AttribLocation_1_1) {
       AttribLocation_1 = AttribLocation_1_1;
+    }, function(core_1_1) {
+      core_1 = core_1_1;
     }, function(incLevel_1_1) {
       incLevel_1 = incLevel_1_1;
     }, function(isDefined_1_1) {
@@ -8565,6 +8607,8 @@ System.register("davinci-eight/materials/Material.js", ["../core/AttribLocation"
       isNull_1 = isNull_1_1;
     }, function(makeWebGLProgram_1_1) {
       makeWebGLProgram_1 = makeWebGLProgram_1_1;
+    }, function(ErrorMode_1_1) {
+      ErrorMode_1 = ErrorMode_1_1;
     }, function(mustBeArray_1_1) {
       mustBeArray_1 = mustBeArray_1_1;
     }, function(mustBeString_1_1) {
@@ -8774,7 +8818,30 @@ System.register("davinci-eight/materials/Material.js", ["../core/AttribLocation"
           }
         };
         Material.prototype.getUniformLocation = function(name) {
-          return this._uniforms[name];
+          var uniforms = this._uniforms;
+          if (uniforms[name]) {
+            return this._uniforms[name];
+          } else {
+            var msg = "uniform " + name + " not found.";
+            switch (core_1.default.errorMode) {
+              case ErrorMode_1.default.WARNME:
+                {
+                  console.warn(msg);
+                  return new UniformLocation_1.default(null);
+                }
+              case ErrorMode_1.default.IGNORE:
+                {
+                  return new UniformLocation_1.default(null);
+                }
+              default:
+                {
+                  throw new Error(msg);
+                }
+            }
+          }
+        };
+        Material.prototype.hasUniformLocation = function(name) {
+          return isDefined_1.default(this._uniforms[name]);
         };
         Material.prototype.vertexPointer = function(name, size, normalized, stride, offset) {
           var attributeLocation = this._attributes[name];
@@ -8807,55 +8874,55 @@ System.register("davinci-eight/materials/Material.js", ["../core/AttribLocation"
         Material.prototype.mat2 = function(name, matrix, transpose) {
           var uniformLoc = this._uniforms[name];
           if (uniformLoc) {
-            uniformLoc.mat2(matrix, transpose);
+            uniformLoc.matrix2fv(transpose, matrix.elements);
           }
         };
         Material.prototype.mat3 = function(name, matrix, transpose) {
           var uniformLoc = this._uniforms[name];
           if (uniformLoc) {
-            uniformLoc.mat3(matrix, transpose);
+            uniformLoc.matrix3fv(transpose, matrix.elements);
           }
         };
         Material.prototype.mat4 = function(name, matrix, transpose) {
           var uniformLoc = this._uniforms[name];
           if (uniformLoc) {
-            uniformLoc.mat4(matrix, transpose);
+            uniformLoc.matrix4fv(transpose, matrix.elements);
           }
         };
         Material.prototype.vec2 = function(name, vector) {
           var uniformLoc = this._uniforms[name];
           if (uniformLoc) {
-            uniformLoc.vec2(vector);
+            uniformLoc.uniform2f(vector.x, vector.y);
           }
         };
         Material.prototype.vec3 = function(name, vector) {
           var uniformLoc = this._uniforms[name];
           if (uniformLoc) {
-            uniformLoc.vec3(vector);
+            uniformLoc.uniform3f(vector.x, vector.y, vector.z);
           }
         };
         Material.prototype.vec4 = function(name, vector) {
           var uniformLoc = this._uniforms[name];
           if (uniformLoc) {
-            uniformLoc.vec4(vector);
+            uniformLoc.uniform4f(vector.x, vector.y, vector.z, vector.w);
           }
         };
-        Material.prototype.vector2 = function(name, data) {
+        Material.prototype.vector2fv = function(name, data) {
           var uniformLoc = this._uniforms[name];
           if (uniformLoc) {
-            uniformLoc.vector2(data);
+            uniformLoc.uniform2fv(data);
           }
         };
-        Material.prototype.vector3 = function(name, data) {
+        Material.prototype.vector3fv = function(name, data) {
           var uniformLoc = this._uniforms[name];
           if (uniformLoc) {
-            uniformLoc.vector3(data);
+            uniformLoc.uniform3fv(data);
           }
         };
-        Material.prototype.vector4 = function(name, data) {
+        Material.prototype.vector4fv = function(name, data) {
           var uniformLoc = this._uniforms[name];
           if (uniformLoc) {
-            uniformLoc.vector4(data);
+            uniformLoc.uniform4fv(data);
           }
         };
         return Material;
@@ -9144,6 +9211,9 @@ System.register("davinci-eight/core/IndexBuffer.js", ["../base/incLevel", "../ch
       IndexBuffer = (function(_super) {
         __extends(IndexBuffer, _super);
         function IndexBuffer(engine, level) {
+          if (level === void 0) {
+            level = 0;
+          }
           _super.call(this, 'IndexBuffer', engine, incLevel_1.default(level));
           if (level === 0) {
             this.synchUp();
@@ -9153,7 +9223,7 @@ System.register("davinci-eight/core/IndexBuffer.js", ["../base/incLevel", "../ch
           if (level === 0) {
             this.cleanUp();
           }
-          mustBeUndefined_1.default(this._type, this._buffer);
+          mustBeUndefined_1.default(this._type, this.webGLBuffer);
           _super.prototype.destructor.call(this, incLevel_1.default(level));
         };
         Object.defineProperty(IndexBuffer.prototype, "data", {
@@ -9162,41 +9232,41 @@ System.register("davinci-eight/core/IndexBuffer.js", ["../base/incLevel", "../ch
           },
           set: function(data) {
             this._data = data;
-            bufferIndexData(this.contextProvider, this._buffer, this._data);
+            bufferIndexData(this.contextProvider, this.webGLBuffer, this._data);
           },
           enumerable: true,
           configurable: true
         });
         IndexBuffer.prototype.contextFree = function(contextProvider) {
           mustBeObject_1.default('contextProvider', contextProvider);
-          if (this._buffer) {
+          if (this.webGLBuffer) {
             var gl = contextProvider.gl;
             if (gl) {
-              gl.deleteBuffer(this._buffer);
+              gl.deleteBuffer(this.webGLBuffer);
             } else {
               console.error((this._type + " must leak WebGLBuffer because WebGLRenderingContext is ") + typeof gl);
             }
-            this._buffer = void 0;
+            this.webGLBuffer = void 0;
           } else {}
           _super.prototype.contextFree.call(this, contextProvider);
         };
         IndexBuffer.prototype.contextGain = function(contextProvider) {
           mustBeObject_1.default('contextProvider', contextProvider);
           var gl = contextProvider.gl;
-          if (!this._buffer) {
-            this._buffer = gl.createBuffer();
-            bufferIndexData(contextProvider, this._buffer, this._data);
+          if (!this.webGLBuffer) {
+            this.webGLBuffer = gl.createBuffer();
+            bufferIndexData(contextProvider, this.webGLBuffer, this._data);
           } else {}
           _super.prototype.contextGain.call(this, contextProvider);
         };
         IndexBuffer.prototype.contextLost = function() {
-          this._buffer = void 0;
+          this.webGLBuffer = void 0;
           _super.prototype.contextLost.call(this);
         };
         IndexBuffer.prototype.bind = function() {
           var gl = this.gl;
           if (gl) {
-            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this._buffer);
+            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.webGLBuffer);
           } else {
             console.warn(this._type + ".bind() ignored because no context.");
           }
@@ -9280,6 +9350,9 @@ System.register("davinci-eight/core/VertexBuffer.js", ["../base/incLevel", "../c
       VertexBuffer = (function(_super) {
         __extends(VertexBuffer, _super);
         function VertexBuffer(engine, level) {
+          if (level === void 0) {
+            level = 0;
+          }
           _super.call(this, 'VertexBuffer', engine, incLevel_1.default(level));
           if (level === 0) {
             this.synchUp();
@@ -9289,7 +9362,7 @@ System.register("davinci-eight/core/VertexBuffer.js", ["../base/incLevel", "../c
           if (level === 0) {
             this.cleanUp();
           }
-          mustBeUndefined_1.default(this._type, this._buffer);
+          mustBeUndefined_1.default(this._type, this.webGLBuffer);
           _super.prototype.destructor.call(this, incLevel_1.default(level));
         };
         Object.defineProperty(VertexBuffer.prototype, "data", {
@@ -9298,41 +9371,41 @@ System.register("davinci-eight/core/VertexBuffer.js", ["../base/incLevel", "../c
           },
           set: function(data) {
             this._data = data;
-            bufferVertexData(this.contextProvider, this._buffer, this._data);
+            bufferVertexData(this.contextProvider, this.webGLBuffer, this._data);
           },
           enumerable: true,
           configurable: true
         });
         VertexBuffer.prototype.contextFree = function(contextProvider) {
           mustBeObject_1.default('contextProvider', contextProvider);
-          if (this._buffer) {
+          if (this.webGLBuffer) {
             var gl = contextProvider.gl;
             if (gl) {
-              gl.deleteBuffer(this._buffer);
+              gl.deleteBuffer(this.webGLBuffer);
             } else {
               console.error((this._type + " must leak WebGLBuffer because WebGLRenderingContext is ") + typeof gl);
             }
-            this._buffer = void 0;
+            this.webGLBuffer = void 0;
           } else {}
           _super.prototype.contextFree.call(this, contextProvider);
         };
         VertexBuffer.prototype.contextGain = function(contextProvider) {
           mustBeObject_1.default('contextProvider', contextProvider);
           var gl = contextProvider.gl;
-          if (!this._buffer) {
-            this._buffer = gl.createBuffer();
-            bufferVertexData(contextProvider, this._buffer, this._data);
+          if (!this.webGLBuffer) {
+            this.webGLBuffer = gl.createBuffer();
+            bufferVertexData(contextProvider, this.webGLBuffer, this._data);
           } else {}
           _super.prototype.contextGain.call(this, contextProvider);
         };
         VertexBuffer.prototype.contextLost = function() {
-          this._buffer = void 0;
+          this.webGLBuffer = void 0;
           _super.prototype.contextLost.call(this);
         };
         VertexBuffer.prototype.bind = function() {
           var gl = this.gl;
           if (gl) {
-            gl.bindBuffer(gl.ARRAY_BUFFER, this._buffer);
+            gl.bindBuffer(gl.ARRAY_BUFFER, this.webGLBuffer);
           } else {
             console.warn(this._type + ".bind() ignored because no context.");
           }
@@ -9410,8 +9483,8 @@ System.register("davinci-eight/core/GeometryElements.js", ["../core", "./ErrorMo
         function GeometryElements(type, data, engine, level) {
           _super.call(this, type, engine, incLevel_1.default(level));
           this.offset = 0;
-          this.ibo = new IndexBuffer_1.default(engine, 0);
-          this.vbo = new VertexBuffer_1.default(engine, 0);
+          this.ibo = new IndexBuffer_1.default(engine);
+          this.vbo = new VertexBuffer_1.default(engine);
           if (!isNull_1.default(data) && !isUndefined_1.default(data)) {
             if (isObject_1.default(data)) {
               this.drawMode = data.drawMode;
@@ -11962,9 +12035,10 @@ System.register("davinci-eight/facets/DirectionalLight.js", ["../core/Color", ".
           return this;
         };
         DirectionalLight.prototype.setUniforms = function(visitor) {
-          visitor.vector3(GraphicsProgramSymbols_1.default.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION, this._direction.coords);
-          var rgb = [this._color.r, this._color.g, this._color.b];
-          visitor.vector3(GraphicsProgramSymbols_1.default.UNIFORM_DIRECTIONAL_LIGHT_COLOR, rgb);
+          var direction = this._direction;
+          visitor.uniform3f(GraphicsProgramSymbols_1.default.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION, direction.x, direction.y, direction.z);
+          var color = this.color;
+          visitor.uniform3f(GraphicsProgramSymbols_1.default.UNIFORM_DIRECTIONAL_LIGHT_COLOR, color.r, color.g, color.b);
         };
         DirectionalLight.PROP_COLOR = 'color';
         DirectionalLight.PROP_DIRECTION = 'direction';
@@ -16754,78 +16828,6 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./dotVectorE3"
   };
 });
 
-System.register("davinci-eight/math/gauss.js", [], function(exports_1) {
-  var abs;
-  function makeColumnVector(n, v) {
-    var a = [];
-    for (var i = 0; i < n; i++) {
-      a.push(v);
-    }
-    return a;
-  }
-  function rowWithMaximumInColumn(A, column, N) {
-    var biggest = abs(A[column][column]);
-    var maxRow = column;
-    for (var row = column + 1; row < N; row++) {
-      if (abs(A[row][column]) > biggest) {
-        biggest = abs(A[row][column]);
-        maxRow = row;
-      }
-    }
-    return maxRow;
-  }
-  function swapRows(A, i, j, N) {
-    var colLength = N + 1;
-    for (var column = i; column < colLength; column++) {
-      var temp = A[j][column];
-      A[j][column] = A[i][column];
-      A[i][column] = temp;
-    }
-  }
-  function makeZeroBelow(A, i, N) {
-    for (var row = i + 1; row < N; row++) {
-      var c = -A[row][i] / A[i][i];
-      for (var column = i; column < N + 1; column++) {
-        if (i === column) {
-          A[row][column] = 0;
-        } else {
-          A[row][column] += c * A[i][column];
-        }
-      }
-    }
-  }
-  function solve(A, N) {
-    var x = makeColumnVector(N, 0);
-    for (var i = N - 1; i > -1; i--) {
-      x[i] = A[i][N] / A[i][i];
-      for (var k = i - 1; k > -1; k--) {
-        A[k][N] -= A[k][i] * x[i];
-      }
-    }
-    return x;
-  }
-  function gauss(A, b) {
-    var N = A.length;
-    for (var i = 0; i < N; i++) {
-      var Ai = A[i];
-      var bi = b[i];
-      Ai.push(bi);
-    }
-    for (var j = 0; j < N; j++) {
-      swapRows(A, j, rowWithMaximumInColumn(A, j, N), N);
-      makeZeroBelow(A, j, N);
-    }
-    return solve(A, N);
-  }
-  exports_1("default", gauss);
-  return {
-    setters: [],
-    execute: function() {
-      abs = Math.abs;
-    }
-  };
-});
-
 System.register("davinci-eight/math/QQ.js", ["../checks/mustBeInteger", "../i18n/readOnly"], function(exports_1) {
   var mustBeInteger_1,
       readOnly_1;
@@ -18508,6 +18510,78 @@ System.register("davinci-eight/math/extE2.js", [], function(exports_1) {
   };
 });
 
+System.register("davinci-eight/math/gauss.js", [], function(exports_1) {
+  var abs;
+  function makeColumnVector(n, v) {
+    var a = [];
+    for (var i = 0; i < n; i++) {
+      a.push(v);
+    }
+    return a;
+  }
+  function rowWithMaximumInColumn(A, column, N) {
+    var biggest = abs(A[column][column]);
+    var maxRow = column;
+    for (var row = column + 1; row < N; row++) {
+      if (abs(A[row][column]) > biggest) {
+        biggest = abs(A[row][column]);
+        maxRow = row;
+      }
+    }
+    return maxRow;
+  }
+  function swapRows(A, i, j, N) {
+    var colLength = N + 1;
+    for (var column = i; column < colLength; column++) {
+      var temp = A[j][column];
+      A[j][column] = A[i][column];
+      A[i][column] = temp;
+    }
+  }
+  function makeZeroBelow(A, i, N) {
+    for (var row = i + 1; row < N; row++) {
+      var c = -A[row][i] / A[i][i];
+      for (var column = i; column < N + 1; column++) {
+        if (i === column) {
+          A[row][column] = 0;
+        } else {
+          A[row][column] += c * A[i][column];
+        }
+      }
+    }
+  }
+  function solve(A, N) {
+    var x = makeColumnVector(N, 0);
+    for (var i = N - 1; i > -1; i--) {
+      x[i] = A[i][N] / A[i][i];
+      for (var k = i - 1; k > -1; k--) {
+        A[k][N] -= A[k][i] * x[i];
+      }
+    }
+    return x;
+  }
+  function gauss(A, b) {
+    var N = A.length;
+    for (var i = 0; i < N; i++) {
+      var Ai = A[i];
+      var bi = b[i];
+      Ai.push(bi);
+    }
+    for (var j = 0; j < N; j++) {
+      swapRows(A, j, rowWithMaximumInColumn(A, j, N), N);
+      makeZeroBelow(A, j, N);
+    }
+    return solve(A, N);
+  }
+  exports_1("default", gauss);
+  return {
+    setters: [],
+    execute: function() {
+      abs = Math.abs;
+    }
+  };
+});
+
 System.register("davinci-eight/math/lcoE2.js", [], function(exports_1) {
   function lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, index) {
     a0 = +a0;
@@ -18781,7 +18855,7 @@ System.register("davinci-eight/math/scpE2.js", [], function(exports_1) {
   };
 });
 
-System.register("davinci-eight/math/Geometric2.js", ["../geometries/b2", "../geometries/b3", "./Coords", "./dotVectorE2", "./G2", "./extE2", "../checks/isDefined", "../checks/isNumber", "../checks/isObject", "./lcoE2", "./mulE2", "../checks/mustBeInteger", "../checks/mustBeNumber", "../checks/mustBeObject", "../i18n/notSupported", "./rcoE2", "./rotorFromDirectionsE2", "./scpE2", "./stringFromCoordinates", "./wedgeXY"], function(exports_1) {
+System.register("davinci-eight/math/Geometric2.js", ["../geometries/b2", "../geometries/b3", "./Coords", "./dotVectorE2", "./G2", "./extE2", "./gauss", "../checks/isDefined", "../checks/isNumber", "../checks/isObject", "./lcoE2", "./mulE2", "../checks/mustBeInteger", "../checks/mustBeNumber", "../checks/mustBeObject", "../i18n/notImplemented", "../i18n/notSupported", "./rcoE2", "./rotorFromDirectionsE2", "./scpE2", "./stringFromCoordinates", "./wedgeXY"], function(exports_1) {
   var __extends = (this && this.__extends) || function(d, b) {
     for (var p in b)
       if (b.hasOwnProperty(p))
@@ -18797,6 +18871,7 @@ System.register("davinci-eight/math/Geometric2.js", ["../geometries/b2", "../geo
       dotVectorE2_1,
       G2_1,
       extE2_1,
+      gauss_1,
       isDefined_1,
       isNumber_1,
       isObject_1,
@@ -18805,6 +18880,7 @@ System.register("davinci-eight/math/Geometric2.js", ["../geometries/b2", "../geo
       mustBeInteger_1,
       mustBeNumber_1,
       mustBeObject_1,
+      notImplemented_1,
       notSupported_1,
       rcoE2_1,
       rotorFromDirectionsE2_1,
@@ -18822,6 +18898,14 @@ System.register("davinci-eight/math/Geometric2.js", ["../geometries/b2", "../geo
       cos,
       sin,
       sqrt,
+      LEFTWARDS_ARROW,
+      RIGHTWARDS_ARROW,
+      UPWARDS_ARROW,
+      DOWNWARDS_ARROW,
+      CLOCKWISE_OPEN_CIRCLE_ARROW,
+      ANTICLOCKWISE_OPEN_CIRCLE_ARROW,
+      ARROW_LABELS,
+      COMPASS_LABELS,
       STANDARD_LABELS,
       Geometric2;
   function coordinates(m) {
@@ -18863,6 +18947,8 @@ System.register("davinci-eight/math/Geometric2.js", ["../geometries/b2", "../geo
       G2_1 = G2_1_1;
     }, function(extE2_1_1) {
       extE2_1 = extE2_1_1;
+    }, function(gauss_1_1) {
+      gauss_1 = gauss_1_1;
     }, function(isDefined_1_1) {
       isDefined_1 = isDefined_1_1;
     }, function(isNumber_1_1) {
@@ -18879,6 +18965,8 @@ System.register("davinci-eight/math/Geometric2.js", ["../geometries/b2", "../geo
       mustBeNumber_1 = mustBeNumber_1_1;
     }, function(mustBeObject_1_1) {
       mustBeObject_1 = mustBeObject_1_1;
+    }, function(notImplemented_1_1) {
+      notImplemented_1 = notImplemented_1_1;
     }, function(notSupported_1_1) {
       notSupported_1 = notSupported_1_1;
     }, function(rcoE2_1_1) {
@@ -18904,6 +18992,14 @@ System.register("davinci-eight/math/Geometric2.js", ["../geometries/b2", "../geo
       cos = Math.cos;
       sin = Math.sin;
       sqrt = Math.sqrt;
+      LEFTWARDS_ARROW = "←";
+      RIGHTWARDS_ARROW = "→";
+      UPWARDS_ARROW = "↑";
+      DOWNWARDS_ARROW = "↓";
+      CLOCKWISE_OPEN_CIRCLE_ARROW = "↻";
+      ANTICLOCKWISE_OPEN_CIRCLE_ARROW = "↺";
+      ARROW_LABELS = ["1", [LEFTWARDS_ARROW, RIGHTWARDS_ARROW], [DOWNWARDS_ARROW, UPWARDS_ARROW], [CLOCKWISE_OPEN_CIRCLE_ARROW, ANTICLOCKWISE_OPEN_CIRCLE_ARROW]];
+      COMPASS_LABELS = ["1", ['W', 'E'], ['S', 'N'], [CLOCKWISE_OPEN_CIRCLE_ARROW, ANTICLOCKWISE_OPEN_CIRCLE_ARROW]];
       STANDARD_LABELS = ["1", "e1", "e2", "I"];
       Geometric2 = (function(_super) {
         __extends(Geometric2, _super);
@@ -19029,7 +19125,7 @@ System.register("davinci-eight/math/Geometric2.js", ["../geometries/b2", "../geo
           return this;
         };
         Geometric2.prototype.adj = function() {
-          throw new Error('TODO: Geometric2.adj');
+          throw new Error(notImplemented_1.default('adj').message);
         };
         Geometric2.prototype.angle = function() {
           return this.log().grade(2);
@@ -19044,16 +19140,16 @@ System.register("davinci-eight/math/Geometric2.js", ["../geometries/b2", "../geo
           return this;
         };
         Geometric2.prototype.cos = function() {
-          throw new Error("TODO: Geometric2.cos");
+          throw new Error(notImplemented_1.default('cos').message);
         };
         Geometric2.prototype.cosh = function() {
-          throw new Error("TODO: Geometric2.cosh");
+          throw new Error(notImplemented_1.default('cosh').message);
         };
-        Geometric2.prototype.distanceTo = function(point) {
-          throw new Error("TODO: Geometric2.distanceTo");
+        Geometric2.prototype.distanceTo = function(M) {
+          throw new Error(notImplemented_1.default('distanceTo').message);
         };
-        Geometric2.prototype.equals = function(point) {
-          throw new Error("TODO: Geometric2.equals");
+        Geometric2.prototype.equals = function(M) {
+          throw new Error(notImplemented_1.default('equals').message);
         };
         Geometric2.prototype.copy = function(M) {
           mustBeObject_1.default('M', M);
@@ -19105,6 +19201,19 @@ System.register("davinci-eight/math/Geometric2.js", ["../geometries/b2", "../geo
           return this.div2(this, m);
         };
         Geometric2.prototype.div2 = function(a, b) {
+          var a0 = a.α;
+          var a1 = a.x;
+          var a2 = a.y;
+          var a3 = a.β;
+          this.copy(b).inv();
+          var b0 = this.α;
+          var b1 = this.x;
+          var b2 = this.y;
+          var b3 = this.β;
+          this.α = mulE2_1.default(a0, a1, a2, a3, b0, b1, b2, b3, 0);
+          this.x = mulE2_1.default(a0, a1, a2, a3, b0, b1, b2, b3, 1);
+          this.y = mulE2_1.default(a0, a1, a2, a3, b0, b1, b2, b3, 2);
+          this.β = mulE2_1.default(a0, a1, a2, a3, b0, b1, b2, b3, 3);
           return this;
         };
         Geometric2.prototype.divByScalar = function(α) {
@@ -19155,7 +19264,17 @@ System.register("davinci-eight/math/Geometric2.js", ["../geometries/b2", "../geo
           return this;
         };
         Geometric2.prototype.inv = function() {
-          this.conj();
+          var α = this.α;
+          var x = this.x;
+          var y = this.y;
+          var β = this.β;
+          var A = [[α, x, y, -β], [x, α, β, -y], [y, -β, α, x], [β, -y, x, α]];
+          var b = [1, 0, 0, 0];
+          var X = gauss_1.default(A, b);
+          this.α = X[0];
+          this.x = X[1];
+          this.y = X[2];
+          this.β = X[3];
           return this;
         };
         Geometric2.prototype.isOne = function() {
@@ -19252,8 +19371,8 @@ System.register("davinci-eight/math/Geometric2.js", ["../geometries/b2", "../geo
           this.β = 0;
           return this;
         };
-        Geometric2.prototype.pow = function() {
-          throw new Error("TODO: Geometric2.pow");
+        Geometric2.prototype.pow = function(M) {
+          throw new Error(notImplemented_1.default('pow').message);
         };
         Geometric2.prototype.quad = function() {
           this.α = this.squaredNormSansUnits();
@@ -19307,10 +19426,10 @@ System.register("davinci-eight/math/Geometric2.js", ["../geometries/b2", "../geo
           return this;
         };
         Geometric2.prototype.sin = function() {
-          throw new Error("Geometric2.sin");
+          throw new Error(notImplemented_1.default('sin').message);
         };
         Geometric2.prototype.sinh = function() {
-          throw new Error("Geometric2.sinh");
+          throw new Error(notImplemented_1.default('sinh').message);
         };
         Geometric2.prototype.rotate = function(R) {
           mustBeObject_1.default('R', R);
@@ -19358,9 +19477,7 @@ System.register("davinci-eight/math/Geometric2.js", ["../geometries/b2", "../geo
           return this;
         };
         Geometric2.prototype.slerp = function(target, α) {
-          mustBeObject_1.default('target', target);
-          mustBeNumber_1.default('α', α);
-          return this;
+          throw new Error(notImplemented_1.default('slerp').message);
         };
         Geometric2.prototype.stress = function(σ) {
           throw new Error(notSupported_1.default('stress').message);
@@ -19473,7 +19590,7 @@ System.register("davinci-eight/math/Geometric2.js", ["../geometries/b2", "../geo
           if (rhs instanceof Geometric2) {
             return Geometric2.copy(this).add(rhs);
           } else if (typeof rhs === 'number') {
-            return Geometric2.fromScalar(rhs).add(this);
+            return Geometric2.scalar(rhs).add(this);
           } else {
             var rhsCopy = duckCopy(rhs);
             if (rhsCopy) {
@@ -19496,7 +19613,7 @@ System.register("davinci-eight/math/Geometric2.js", ["../geometries/b2", "../geo
           if (lhs instanceof Geometric2) {
             return Geometric2.copy(lhs).div(this);
           } else if (typeof lhs === 'number') {
-            return Geometric2.fromScalar(lhs).div(this);
+            return Geometric2.scalar(lhs).div(this);
           } else {
             return void 0;
           }
@@ -19533,7 +19650,7 @@ System.register("davinci-eight/math/Geometric2.js", ["../geometries/b2", "../geo
           if (lhs instanceof Geometric2) {
             return Geometric2.copy(lhs).add(this);
           } else if (typeof lhs === 'number') {
-            return Geometric2.fromScalar(lhs).add(this);
+            return Geometric2.scalar(lhs).add(this);
           } else {
             var lhsCopy = duckCopy(lhs);
             if (lhsCopy) {
@@ -19547,7 +19664,7 @@ System.register("davinci-eight/math/Geometric2.js", ["../geometries/b2", "../geo
           if (rhs instanceof Geometric2) {
             return Geometric2.copy(this).sub(rhs);
           } else if (typeof rhs === 'number') {
-            return Geometric2.fromScalar(-rhs).add(this);
+            return Geometric2.scalar(-rhs).add(this);
           } else {
             return void 0;
           }
@@ -19556,7 +19673,7 @@ System.register("davinci-eight/math/Geometric2.js", ["../geometries/b2", "../geo
           if (lhs instanceof Geometric2) {
             return Geometric2.copy(lhs).sub(this);
           } else if (typeof lhs === 'number') {
-            return Geometric2.fromScalar(lhs).sub(this);
+            return Geometric2.scalar(lhs).sub(this);
           } else {
             return void 0;
           }
@@ -19583,7 +19700,7 @@ System.register("davinci-eight/math/Geometric2.js", ["../geometries/b2", "../geo
           if (rhs instanceof Geometric2) {
             return Geometric2.copy(this).lco(rhs);
           } else if (typeof rhs === 'number') {
-            return Geometric2.copy(this).lco(Geometric2.fromScalar(rhs));
+            return Geometric2.copy(this).lco(Geometric2.scalar(rhs));
           } else {
             return void 0;
           }
@@ -19592,7 +19709,7 @@ System.register("davinci-eight/math/Geometric2.js", ["../geometries/b2", "../geo
           if (lhs instanceof Geometric2) {
             return Geometric2.copy(lhs).lco(this);
           } else if (typeof lhs === 'number') {
-            return Geometric2.fromScalar(lhs).lco(this);
+            return Geometric2.scalar(lhs).lco(this);
           } else {
             return void 0;
           }
@@ -19601,7 +19718,7 @@ System.register("davinci-eight/math/Geometric2.js", ["../geometries/b2", "../geo
           if (rhs instanceof Geometric2) {
             return Geometric2.copy(this).rco(rhs);
           } else if (typeof rhs === 'number') {
-            return Geometric2.copy(this).rco(Geometric2.fromScalar(rhs));
+            return Geometric2.copy(this).rco(Geometric2.scalar(rhs));
           } else {
             return void 0;
           }
@@ -19610,7 +19727,7 @@ System.register("davinci-eight/math/Geometric2.js", ["../geometries/b2", "../geo
           if (lhs instanceof Geometric2) {
             return Geometric2.copy(lhs).rco(this);
           } else if (typeof lhs === 'number') {
-            return Geometric2.fromScalar(lhs).rco(this);
+            return Geometric2.scalar(lhs).rco(this);
           } else {
             return void 0;
           }
@@ -19619,7 +19736,7 @@ System.register("davinci-eight/math/Geometric2.js", ["../geometries/b2", "../geo
           if (rhs instanceof Geometric2) {
             return Geometric2.copy(this).scp(rhs);
           } else if (typeof rhs === 'number') {
-            return Geometric2.copy(this).scp(Geometric2.fromScalar(rhs));
+            return Geometric2.copy(this).scp(Geometric2.scalar(rhs));
           } else {
             return void 0;
           }
@@ -19628,7 +19745,7 @@ System.register("davinci-eight/math/Geometric2.js", ["../geometries/b2", "../geo
           if (lhs instanceof Geometric2) {
             return Geometric2.copy(lhs).scp(this);
           } else if (typeof lhs === 'number') {
-            return Geometric2.fromScalar(lhs).scp(this);
+            return Geometric2.scalar(lhs).scp(this);
           } else {
             return void 0;
           }
@@ -19645,15 +19762,6 @@ System.register("davinci-eight/math/Geometric2.js", ["../geometries/b2", "../geo
         Geometric2.prototype.__neg__ = function() {
           return Geometric2.copy(this).neg();
         };
-        Geometric2.fromCartesian = function(α, x, y, β, uom) {
-          var m = new Geometric2();
-          m.α = α;
-          m.x = x;
-          m.y = y;
-          m.β = β;
-          m.uom = uom;
-          return m;
-        };
         Geometric2.copy = function(M) {
           var copy = new Geometric2();
           copy.α = M.α;
@@ -19662,8 +19770,19 @@ System.register("davinci-eight/math/Geometric2.js", ["../geometries/b2", "../geo
           copy.β = M.β;
           return copy;
         };
-        Geometric2.fromScalar = function(α) {
-          return new Geometric2().addScalar(α);
+        Geometric2.e1 = function() {
+          return Geometric2.vector(1, 0);
+        };
+        Geometric2.e2 = function() {
+          return Geometric2.vector(0, 1);
+        };
+        Geometric2.fromCartesian = function(α, x, y, β) {
+          var m = new Geometric2();
+          m.α = α;
+          m.x = x;
+          m.y = y;
+          m.β = β;
+          return m;
         };
         Geometric2.fromSpinor = function(spinor) {
           return new Geometric2().copySpinor(spinor);
@@ -19675,19 +19794,34 @@ System.register("davinci-eight/math/Geometric2.js", ["../geometries/b2", "../geo
             return void 0;
           }
         };
+        Geometric2.I = function() {
+          return Geometric2.pseudo(1);
+        };
         Geometric2.lerp = function(A, B, α) {
           return Geometric2.copy(A).lerp(B, α);
         };
         Geometric2.one = function() {
-          return Geometric2.fromScalar(1);
+          return Geometric2.scalar(1);
         };
         Geometric2.rotorFromDirections = function(a, b) {
           return new Geometric2().rotorFromDirections(a, b);
         };
+        Geometric2.pseudo = function(β) {
+          return Geometric2.fromCartesian(0, 0, 0, β);
+        };
+        Geometric2.scalar = function(α) {
+          return Geometric2.fromCartesian(α, 0, 0, 0);
+        };
         Geometric2.vector = function(x, y) {
-          return this.fromCartesian(0, x, y, 0);
+          return Geometric2.fromCartesian(0, x, y, 0);
+        };
+        Geometric2.zero = function() {
+          return Geometric2.scalar(0);
         };
         Geometric2.BASIS_LABELS = STANDARD_LABELS;
+        Geometric2.BASIS_LABELS_COMPASS = COMPASS_LABELS;
+        Geometric2.BASIS_LABELS_GEOMETRIC = ARROW_LABELS;
+        Geometric2.BASIS_LABELS_STANDARD = STANDARD_LABELS;
         return Geometric2;
       })(Coords_1.default);
       exports_1("default", Geometric2);
@@ -22273,8 +22407,8 @@ System.register("davinci-eight/facets/AmbientLight.js", ["../core/Color", "../ch
           return this;
         };
         AmbientLight.prototype.setUniforms = function(visitor) {
-          var coords = [this.color.r, this.color.g, this.color.b];
-          visitor.vector3(GraphicsProgramSymbols_1.default.UNIFORM_AMBIENT_LIGHT, coords);
+          var color = this.color;
+          visitor.uniform3f(GraphicsProgramSymbols_1.default.UNIFORM_AMBIENT_LIGHT, color.r, color.g, color.b);
         };
         return AmbientLight;
       })();
@@ -22402,7 +22536,7 @@ System.register("davinci-eight/core/ErrorMode.js", [], function(exports_1) {
 System.register("davinci-eight/core.js", ["./core/ErrorMode"], function(exports_1) {
   var ErrorMode_1;
   var Eight,
-      core;
+      config;
   return {
     setters: [function(ErrorMode_1_1) {
       ErrorMode_1 = ErrorMode_1_1;
@@ -22412,9 +22546,9 @@ System.register("davinci-eight/core.js", ["./core/ErrorMode"], function(exports_
         function Eight() {
           this._errorMode = ErrorMode_1.default.STRICT;
           this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-          this.LAST_MODIFIED = '2016-03-07';
+          this.LAST_MODIFIED = '2016-03-08';
           this.NAMESPACE = 'EIGHT';
-          this.VERSION = '2.216.0';
+          this.VERSION = '2.217.0';
         }
         Object.defineProperty(Eight.prototype, "errorMode", {
           get: function() {
@@ -22438,10 +22572,17 @@ System.register("davinci-eight/core.js", ["./core/ErrorMode"], function(exports_
           enumerable: true,
           configurable: true
         });
+        Eight.prototype.warn = function(message) {
+          var optionalParams = [];
+          for (var _i = 1; _i < arguments.length; _i++) {
+            optionalParams[_i - 1] = arguments[_i];
+          }
+          console.warn(message);
+        };
         return Eight;
       })();
-      core = new Eight();
-      exports_1("default", core);
+      config = new Eight();
+      exports_1("default", config);
     }
   };
 });

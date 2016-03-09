@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.216.0</em>
+            <em>API Docs for: 2.217.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -291,6 +291,7 @@ function contextBuilder() {
 }
 
 /**
+ * Constructs a white light in the -e3 direction.
  * @class AmbientLight
  */
 export default class AmbientLight implements Facet {
@@ -299,8 +300,8 @@ export default class AmbientLight implements Facet {
      * @type {Color}
      */
     public color: Color;
+
     /**
-     * Constructs a white light in the -e3 direction.
      * @class AmbientLight
      * @constructor
      */
@@ -325,9 +326,9 @@ export default class AmbientLight implements Facet {
      * @chainable
      */
     setProperty(name: string, value: number[]): AmbientLight {
-        mustBeString(&#x27;name&#x27;, name, contextBuilder);
-        mustBeArray(&#x27;value&#x27;, value, contextBuilder);
-        return this;
+        mustBeString(&#x27;name&#x27;, name, contextBuilder)
+        mustBeArray(&#x27;value&#x27;, value, contextBuilder)
+        return this
     }
 
     /**
@@ -336,8 +337,8 @@ export default class AmbientLight implements Facet {
      * @return {void}
      */
     setUniforms(visitor: FacetVisitor): void {
-        var coords = [this.color.r, this.color.g, this.color.b]
-        visitor.vector3(GraphicsProgramSymbols.UNIFORM_AMBIENT_LIGHT, coords)
+        const color = this.color
+        visitor.uniform3f(GraphicsProgramSymbols.UNIFORM_AMBIENT_LIGHT, color.r, color.g, color.b)
     }
 }
 

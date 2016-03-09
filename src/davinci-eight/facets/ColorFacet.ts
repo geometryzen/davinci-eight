@@ -205,8 +205,10 @@ export default class ColorFacet implements Facet {
    * @return {void}
    */
   setUniforms(visitor: FacetVisitor): void {
-    if (this.uColorName) {
-      visitor.vector3(this.uColorName, this.color.coords)
+    const name = this.uColorName
+    if (name) {
+      const color = this.color
+      visitor.uniform3f(name, color.r, color.g, color.b)
     }
   }
 }

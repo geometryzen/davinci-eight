@@ -174,8 +174,9 @@ export default class DirectionalLight implements Facet {
    * @return {void}
    */
   setUniforms(visitor: FacetVisitor): void {
-    visitor.vector3(GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION, this._direction.coords)
-    const rgb = [this._color.r, this._color.g, this._color.b]
-    visitor.vector3(GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_COLOR, rgb)
+    const direction = this._direction
+    visitor.uniform3f(GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION, direction.x, direction.y, direction.z)
+    const color = this.color
+    visitor.uniform3f(GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_COLOR, color.r, color.g, color.b)
   }
 }

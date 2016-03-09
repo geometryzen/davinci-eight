@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.216.0</em>
+            <em>API Docs for: 2.217.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -278,6 +278,10 @@
  * &lt;p&gt;
  * Symbolic constants for the &lt;code&gt;EIGHT.errorMode&lt;/code&gt; property.
  * &lt;/p&gt;
+ * &lt;p&gt;
+ * The setting of &lt;code&gt;EIGHT.errorMode&lt;/code&gt; determines how the &lt;code&gt;EIGHT&lt;/code&gt;
+ * implementation handles error conditions. Choose the mode that best suits your workflow.
+ * &lt;/p&gt;
  *
  * @class ErrorMode
  *
@@ -285,19 +289,31 @@
  *     EIGHT.errorMode = EIGHT.ErrorMode.WARNME
  */
 enum ErrorMode {
+
   /**
+   * In &lt;code&gt;STRICT&lt;/code&gt; mode, the implementation will &lt;/code&gt;throw&lt;/code&gt; &lt;code&gt;Error&lt;/code&gt;s.
+   * The implementation will operate according to the API specification.
+   *
    * @attribute STRICT
    * @type number
    */
   STRICT,
 
   /**
+   * In &lt;code&gt;IGNORE&lt;/code&gt; mode, the implementation will try to continue.
+   * The results may be unpredictable.
+   * The implementation will not report errors to the &lt;/code&gt;console&lt;/code&gt;.
+   *
    * @attribute IGNORE
    * @type number
    */
   IGNORE,
 
   /**
+   * In &lt;code&gt;WARNME&lt;/code&gt; mode, the implementaion will try to continue.
+   * The results may be unpredictable.
+   * The implementation &lt;em&gt;will&lt;/em&gt; report warnings to the &lt;/code&gt;console&lt;/code&gt;.
+   *
    * @attribute WARNME
    * @type number
    */

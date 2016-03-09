@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.216.0</em>
+            <em>API Docs for: 2.217.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -283,45 +283,70 @@ import Vector3 from &#x27;../math/Vector3&#x27;;
 var LOGGING_NAME = &#x27;Vector3Facet&#x27;
 
 function contextBuilder() {
-    return LOGGING_NAME
+  return LOGGING_NAME
 }
 
 /**
+ * Updates a &lt;code&gt;uniform vec3&lt;/code&gt; shader parameter from a &lt;code&gt;Vector3&lt;/code&gt;.
+ *
  * @class Vector3Facet
  */
 export default class Vector3Facet implements Facet {
-    private _name: string;
-    private _vector: Vector3;
-    /**
-     * @class Vector3Facet
-     * @constructor
-     * @param name {string}
-     * @param vector {Vector3}
-     */
-    constructor(name: string, vector: Vector3) {
-        this._name = mustBeString(&#x27;name&#x27;, name, contextBuilder)
-        this._vector = mustBeObject(&#x27;vector&#x27;, vector, contextBuilder)
-    }
 
-    getProperty(name: string): number[] {
-        return void 0;
-    }
+  /**
+   * @property _name
+   * @type string
+   * @private
+   */
+  private _name: string;
 
-    /**
-     * @method setProperty
-     * @param name {string}
-     * @param value {number[]}
-     * @return {Vector3Facet}
-     * @chainable
-     */
-    setProperty(name: string, value: number[]): Vector3Facet {
-        return this;
-    }
+  /**
+   * @property _vector
+   * @type Vector3
+   * @private
+   */
+  private _vector: Vector3;
 
+  /**
+   * @class Vector3Facet
+   * @constructor
+   * @param name {string}
+   * @param vector {Vector3}
+   */
+  constructor(name: string, vector: Vector3) {
+    this._name = mustBeString(&#x27;name&#x27;, name, contextBuilder)
+    this._vector = mustBeObject(&#x27;vector&#x27;, vector, contextBuilder)
+  }
 
-    setUniforms(visitor: FacetVisitor): void {
-        visitor.vec3(this._name, this._vector)
-    }
+  /**
+   * @method getProperty
+   * @param name {string}
+   * @return {number[]}
+   */
+  getProperty(name: string): number[] {
+    return void 0
+  }
+
+  /**
+   * @method setProperty
+   * @param name {string}
+   * @param value {number[]}
+   * @return {Vector3Facet}
+   * @chainable
+   */
+  setProperty(name: string, value: number[]): Vector3Facet {
+    return this
+  }
+
+  /**
+   * @method setUniforms
+   * @param visitor {FacetVisitor}
+   * @return {void}
+   */
+  setUniforms(visitor: FacetVisitor): void {
+    const v = this._vector
+    visitor.uniform3f(this._name, v.x, v.y, v.z)
+  }
 }
 
     </pre>
