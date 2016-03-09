@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.217.0</em>
+            <em>API Docs for: 2.218.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -40,7 +40,6 @@
                             <ul id="api-classes" class="apis classes">
                                 <li><a href="../classes/AbstractColor.html">AbstractColor</a></li>
                                 <li><a href="../classes/AbstractDrawable.html">AbstractDrawable</a></li>
-                                <li><a href="../classes/AbstractMaterial.html">AbstractMaterial</a></li>
                                 <li><a href="../classes/AbstractMatrix.html">AbstractMatrix</a></li>
                                 <li><a href="../classes/AbstractMesh.html">AbstractMesh</a></li>
                                 <li><a href="../classes/AmbientLight.html">AmbientLight</a></li>
@@ -128,6 +127,7 @@
                                 <li><a href="../classes/LinePoints.html">LinePoints</a></li>
                                 <li><a href="../classes/LineStrip.html">LineStrip</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
+                                <li><a href="../classes/MaterialBase.html">MaterialBase</a></li>
                                 <li><a href="../classes/MaterialOptions.html">MaterialOptions</a></li>
                                 <li><a href="../classes/Matrix2.html">Matrix2</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
@@ -273,7 +273,7 @@
         </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_core_ShareableContextConsumer.ts.html#l63"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableContextConsumer.ts:63</code></a>
+            Defined in: <a href="../files/src_davinci-eight_core_ShareableContextConsumer.ts.html#l64"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableContextConsumer.ts:64</code></a>
         </div>
 
             Module: <a href="../modules/core.html">core</a><br>
@@ -304,13 +304,7 @@ class should not call derived class methods during construction or destruction.
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
-                        <code>type</code>
-                </li>
-                <li class="arg">
                         <code>engine</code>
-                </li>
-                <li class="arg">
-                        <code>level</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
@@ -325,7 +319,7 @@ class should not call derived class methods during construction or destruction.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_ShareableContextConsumer.ts.html#l63"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableContextConsumer.ts:63</code></a>
+        <a href="../files/src_davinci-eight_core_ShareableContextConsumer.ts.html#l64"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableContextConsumer.ts:64</code></a>
         </p>
 
 
@@ -341,17 +335,6 @@ class should not call derived class methods during construction or destruction.
 
             <ul class="params-list">
                 <li class="param">
-                        <code class="param-name">type</code>
-                        <span class="type">String</span>
-
-
-                    <div class="param-description">
-                        <p>The name of the derived class for logging purposes.</p>
-
-                    </div>
-
-                </li>
-                <li class="param">
                         <code class="param-name">engine</code>
                         <span class="type"><a href="../classes/Engine.html" class="crosslink">Engine</a></span>
 
@@ -359,16 +342,6 @@ class should not call derived class methods during construction or destruction.
                     <div class="param-description">
                         <p>The <code>Engine</code> to subscribe to or <code>null</code> for deferred subscription.</p>
 
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">level</code>
-                        <span class="type">Number</span>
-
-
-                    <div class="param-description">
-                         
                     </div>
 
                 </li>
@@ -384,11 +357,12 @@ class should not call derived class methods during construction or destruction.
                 <pre class="code prettyprint"><code>class MyContextConsumer extends EIGHT.ShareableContextConsumer {
   constructor(engine: EIGHT.Engine) {
     // Allocate your own resources here or on-demand.
-    super('MyContextConsumer', engine)
+    super(engine)
+    this.setLoggingName('MyContextConsumer')
   }
-  protected destructor(): void {
+  protected destructor(level: number): void {
     // Deallocate your own resources here.
-    super.destructor()
+    super.destructor(level + 1)
   }
 }</code></pre>
 
@@ -567,7 +541,7 @@ The new reference count. This value is intended to be used only for test purpose
 
 
                     <div class="param-description">
-                         
+                        
                     </div>
 
                 </li>
@@ -964,7 +938,7 @@ This method is idempotent; calling it more than once does not change the state.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_ShareableContextConsumer.ts.html#l56"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableContextConsumer.ts:56</code></a>
+        <a href="../files/src_davinci-eight_core_ShareableContextConsumer.ts.html#l57"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableContextConsumer.ts:57</code></a>
         </p>
 
 
@@ -989,7 +963,7 @@ This method is idempotent; calling it more than once does not change the state.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_ShareableContextConsumer.ts.html#l49"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableContextConsumer.ts:49</code></a>
+        <a href="../files/src_davinci-eight_core_ShareableContextConsumer.ts.html#l50"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableContextConsumer.ts:50</code></a>
         </p>
 
 

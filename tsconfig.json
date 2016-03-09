@@ -62,6 +62,7 @@
     "src/davinci-eight/materials/LineMaterial.spec.ts",
     "src/davinci-eight/materials/MeshMaterial.spec.ts",
     "src/davinci-eight/materials/PointMaterial.spec.ts",
+    "src/davinci-eight/materials/SmartGraphicsProgram.spec.ts",
 
     "src/davinci-eight/math/CC.spec.ts",
     "src/davinci-eight/math/Dimensions.spec.ts",
@@ -83,11 +84,15 @@
     "src/davinci-eight/math/VectorN.spec.ts",
     "src/davinci-eight/math/gauss.spec.ts",
 
+    "src/davinci-eight/visual/Arrow.spec.ts",
     "src/davinci-eight/visual/Box.spec.ts",
     "src/davinci-eight/visual/Curve.spec.ts",
+    "src/davinci-eight/visual/Cylinder.spec.ts",
+    "src/davinci-eight/visual/Grid.spec.ts",
     "src/davinci-eight/visual/RigidBody.spec.ts",
     "src/davinci-eight/visual/RigidBodyWithUnits.spec.ts",
     "src/davinci-eight/visual/Sphere.spec.ts",
+    "src/davinci-eight/visual/Tetrahedron.spec.ts",
 
     "typings/jasmine/jasmine.d.ts"
   ]

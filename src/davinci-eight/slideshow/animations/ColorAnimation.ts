@@ -19,8 +19,9 @@ export default class ColorAnimation extends ShareableBase implements IAnimation 
   private fraction: number;
   private callback: () => void;
   private ease: string;
-  constructor(color: AbstractColor, duration: number = 300, callback?: () => void, ease?: string, level = 0) {
-    super('ColorAnimation', incLevel(level))
+  constructor(color: AbstractColor, duration: number = 300, callback?: () => void, ease?: string) {
+    super()
+    this.setLoggingName('ColorAnimation')
     this.from = void 0
     this.to = Color.copy(color)
     this.duration = duration

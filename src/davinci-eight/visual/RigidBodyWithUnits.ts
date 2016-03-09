@@ -58,11 +58,10 @@ export default class RigidBodyWithUnits extends ShareableBase implements IRigidB
    * @constructor
    * @param mesh {Mesh}
    * @param axis {VectorE3} The axis corresponding to a unit attitude spinor.
-   * @param [type = 'RigidBodyWithUnits'] {string}
-   * @param level {number}
    */
-  constructor(mesh: Mesh, axis: VectorE3, type = 'RigidBodyWithUnits', level: number) {
-    super(type, incLevel(level))
+  constructor(mesh: Mesh, axis: VectorE3) {
+    super()
+    this.setLoggingName('RigidBodyWithUnits')
     this.mesh = mustBeObject('mesh', mesh);
     this.mesh.addRef()
     this.base = G3.direction(mustBeObject('axis', axis))

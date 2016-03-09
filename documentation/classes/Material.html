@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.217.0</em>
+            <em>API Docs for: 2.218.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -40,7 +40,6 @@
                             <ul id="api-classes" class="apis classes">
                                 <li><a href="../classes/AbstractColor.html">AbstractColor</a></li>
                                 <li><a href="../classes/AbstractDrawable.html">AbstractDrawable</a></li>
-                                <li><a href="../classes/AbstractMaterial.html">AbstractMaterial</a></li>
                                 <li><a href="../classes/AbstractMatrix.html">AbstractMatrix</a></li>
                                 <li><a href="../classes/AbstractMesh.html">AbstractMesh</a></li>
                                 <li><a href="../classes/AmbientLight.html">AmbientLight</a></li>
@@ -128,6 +127,7 @@
                                 <li><a href="../classes/LinePoints.html">LinePoints</a></li>
                                 <li><a href="../classes/LineStrip.html">LineStrip</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
+                                <li><a href="../classes/MaterialBase.html">MaterialBase</a></li>
                                 <li><a href="../classes/MaterialOptions.html">MaterialOptions</a></li>
                                 <li><a href="../classes/Matrix2.html">Matrix2</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
@@ -269,135 +269,25 @@
 <div class="box meta">
 
         <div class="extends">
-            Extends <a href="../classes/AbstractMaterial.html" class="crosslink">AbstractMaterial</a>
+            Extends <a href="../classes/ContextConsumer.html" class="crosslink">ContextConsumer</a>
         </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_materials_Material.ts.html#l79"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:79</code></a>
+            Defined in: <a href="../files/src_davinci-eight_core_Material.ts.html#l10"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Material.ts:10</code></a>
         </div>
 
-            Module: <a href="../modules/materials.html">materials</a><br>
+            Module: <a href="../modules/core.html">core</a><br>
             Parent Module: <a href="../modules/EIGHT.html">EIGHT</a>
 
 </div>
 
 
 <div class="box intro">
-    
+    <p>
+<code>Material</code> is an object-oriented wrapper around a <code>WebGLProgram</code>
+<p/>
 </div>
 
-    <div class="constructor">
-        <h2>Constructor</h2>
-<div id="method_Material" class="method item">
-    <h3 class="name"><code>Material</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>vertexShaderSrc</code>
-                </li>
-                <li class="arg">
-                        <code>fragmentShaderSrc</code>
-                </li>
-                <li class="arg">
-                        <code>attribs</code>
-                </li>
-                <li class="arg">
-                        <code>type</code>
-                </li>
-                <li class="arg">
-                        <code>engine</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_materials_Material.ts.html#l79"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:79</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">vertexShaderSrc</code>
-                        <span class="type">String</span>
-
-
-                    <div class="param-description">
-                        <p>The vertex shader source code.</p>
-
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">fragmentShaderSrc</code>
-                        <span class="type">String</span>
-
-
-                    <div class="param-description">
-                        <p>The fragment shader source code.</p>
-
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">attribs</code>
-                        <span class="type">String</span>
-
-
-                    <div class="param-description">
-                        <p>The attribute ordering.</p>
-
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">type</code>
-                        <span class="type">String</span>
-
-
-                    <div class="param-description">
-                        <p>The name of the type.</p>
-
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">engine</code>
-                        <span class="type"><a href="../classes/Engine.html" class="crosslink">Engine</a></span>
-
-
-                    <div class="param-description">
-                        <p>The <code>Engine</code> to subscribe to or <code>null</code> for deferred subscription.</p>
-
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-
-
-</div>
-    </div>
 
 <div id="classdocs" class="tabview">
     <ul class="api-class-tabs">
@@ -431,48 +321,12 @@
                                 <a href="#method_contextLost">contextLost</a>
 
                             </li>
-                            <li class="index-item method protected">
-                                <a href="#method_destructor">destructor</a>
-
-                            </li>
                             <li class="index-item method">
-                                <a href="#method_disableAttrib">disableAttrib</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_disableAttribs">disableAttribs</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_enableAttrib">enableAttrib</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_enableAttribs">enableAttribs</a>
-
-                            </li>
-                            <li class="index-item method inherited">
                                 <a href="#method_getAttribLocation">getAttribLocation</a>
 
                             </li>
-                            <li class="index-item method inherited">
+                            <li class="index-item method">
                                 <a href="#method_getUniformLocation">getUniformLocation</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_hasUniformLocation">hasUniformLocation</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_mat2">mat2</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_mat3">mat3</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_mat4">mat4</a>
 
                             </li>
                             <li class="index-item method inherited">
@@ -480,51 +334,7 @@
 
                             </li>
                             <li class="index-item method">
-                                <a href="#method_uniform1f">uniform1f</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_uniform2f">uniform2f</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_uniform3f">uniform3f</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_uniform4f">uniform4f</a>
-
-                            </li>
-                            <li class="index-item method inherited">
                                 <a href="#method_use">use</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_vec2">vec2</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_vec3">vec3</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_vec4">vec4</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_vector2fv">vector2fv</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_vector3fv">vector3fv</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_vector4fv">vector4fv</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_vertexPointer">vertexPointer</a>
 
                             </li>
                     </ul>
@@ -534,39 +344,11 @@
                     <h3>Properties</h3>
 
                     <ul class="index-list properties extends">
-                            <li class="index-item property private">
-                                <a href="#property__attribs">_attribs</a>
-
-                            </li>
-                            <li class="index-item property private">
-                                <a href="#property__attributes">_attributes</a>
-
-                            </li>
-                            <li class="index-item property private">
-                                <a href="#property__fragmentShaderSrc">_fragmentShaderSrc</a>
-
-                            </li>
-                            <li class="index-item property private">
-                                <a href="#property__program">_program</a>
-
-                            </li>
-                            <li class="index-item property private">
-                                <a href="#property__uniforms">_uniforms</a>
-
-                            </li>
-                            <li class="index-item property private">
-                                <a href="#property__vertexShaderSrc">_vertexShaderSrc</a>
-
-                            </li>
                             <li class="index-item property">
-                                <a href="#property_attributeNames">attributeNames</a>
-
-                            </li>
-                            <li class="index-item property inherited">
                                 <a href="#property_fragmentShaderSrc">fragmentShaderSrc</a>
 
                             </li>
-                            <li class="index-item property inherited">
+                            <li class="index-item property">
                                 <a href="#property_vertexShaderSrc">vertexShaderSrc</a>
 
                             </li>
@@ -624,20 +406,17 @@ The new reference count. This value is intended to be used only for test purpose
 
 
 </div>
-<div id="method_contextFree" class="method item">
+<div id="method_contextFree" class="method item inherited">
     <h3 class="name"><code>contextFree</code></h3>
 
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
-                        <code>context</code>
+                        <code>contextProvider</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
 
-        <span class="returns-inline">
-            <span class="type">Void</span>
-        </span>
 
 
 
@@ -646,12 +425,9 @@ The new reference count. This value is intended to be used only for test purpose
 
 
     <div class="meta">
-            <p>Inherited from
-            <a href="../classes/ContextConsumer.html#method_contextFree">
-                ContextConsumer
-            </a>
-            but overwritten in
-        <a href="../files/src_davinci-eight_materials_Material.ts.html#l173"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:173</code></a>
+                <p>Inherited from
+                <a href="../classes/ContextConsumer.html#method_contextFree">ContextConsumer</a>:
+        <a href="../files/src_davinci-eight_core_ContextConsumer.ts.html#l20"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ContextConsumer.ts:20</code></a>
         </p>
 
 
@@ -659,7 +435,12 @@ The new reference count. This value is intended to be used only for test purpose
     </div>
 
     <div class="description">
-        
+        <p>Called to request the consumer to free any WebGL resources acquired and owned.
+The consumer may assume that its cached context is still valid in order
+to properly dispose of any cached resources. In the case of shared objects, this
+method may be called multiple times for what is logically the same context. In such
+cases the consumer must be idempotent and respond only to the first request.</p>
+
     </div>
 
         <div class="params">
@@ -667,42 +448,32 @@ The new reference count. This value is intended to be used only for test purpose
 
             <ul class="params-list">
                 <li class="param">
-                        <code class="param-name">context</code>
+                        <code class="param-name">contextProvider</code>
                         <span class="type"><a href="../classes/ContextProvider.html" class="crosslink">ContextProvider</a></span>
 
 
                     <div class="param-description">
-                        
+                         
                     </div>
 
                 </li>
             </ul>
         </div>
 
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Void</span>:
-            </div>
-        </div>
 
 
 </div>
-<div id="method_contextGain" class="method item">
+<div id="method_contextGain" class="method item inherited">
     <h3 class="name"><code>contextGain</code></h3>
 
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
-                        <code>context</code>
+                        <code>contextProvider</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
 
-        <span class="returns-inline">
-            <span class="type">Void</span>
-        </span>
 
 
 
@@ -711,12 +482,9 @@ The new reference count. This value is intended to be used only for test purpose
 
 
     <div class="meta">
-            <p>Inherited from
-            <a href="../classes/ContextConsumer.html#method_contextGain">
-                ContextConsumer
-            </a>
-            but overwritten in
-        <a href="../files/src_davinci-eight_materials_Material.ts.html#l116"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:116</code></a>
+                <p>Inherited from
+                <a href="../classes/ContextConsumer.html#method_contextGain">ContextConsumer</a>:
+        <a href="../files/src_davinci-eight_core_ContextConsumer.ts.html#l32"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ContextConsumer.ts:32</code></a>
         </p>
 
 
@@ -724,7 +492,10 @@ The new reference count. This value is intended to be used only for test purpose
     </div>
 
     <div class="description">
-        
+        <p>Called to inform the dependent of a new WebGL rendering context.
+The implementation should ignore the notification if it has already
+received the same context.</p>
+
     </div>
 
         <div class="params">
@@ -732,29 +503,22 @@ The new reference count. This value is intended to be used only for test purpose
 
             <ul class="params-list">
                 <li class="param">
-                        <code class="param-name">context</code>
+                        <code class="param-name">contextProvider</code>
                         <span class="type"><a href="../classes/ContextProvider.html" class="crosslink">ContextProvider</a></span>
 
 
                     <div class="param-description">
-                        
+                         
                     </div>
 
                 </li>
             </ul>
         </div>
 
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Void</span>:
-            </div>
-        </div>
 
 
 </div>
-<div id="method_contextLost" class="method item">
+<div id="method_contextLost" class="method item inherited">
     <h3 class="name"><code>contextLost</code></h3>
 
         <span class="paren">()</span>
@@ -770,12 +534,9 @@ The new reference count. This value is intended to be used only for test purpose
 
 
     <div class="meta">
-            <p>Inherited from
-            <a href="../classes/ContextConsumer.html#method_contextLost">
-                ContextConsumer
-            </a>
-            but overwritten in
-        <a href="../files/src_davinci-eight_materials_Material.ts.html#l154"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:154</code></a>
+                <p>Inherited from
+                <a href="../classes/ContextConsumer.html#method_contextLost">ContextConsumer</a>:
+        <a href="../files/src_davinci-eight_core_ContextConsumer.ts.html#l42"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ContextConsumer.ts:42</code></a>
         </p>
 
 
@@ -783,274 +544,11 @@ The new reference count. This value is intended to be used only for test purpose
     </div>
 
     <div class="description">
-        
-    </div>
+        <p>Called to inform the dependent of a loss of WebGL rendering context.
+The dependent must assume that any cached context is invalid.
+The dependent must not try to use and cached context to free resources.
+The dependent should reset its state to that for which there is no context.</p>
 
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Void</span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_destructor" class="method item protected">
-    <h3 class="name"><code>destructor</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>level</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type">Void</span>
-        </span>
-
-
-        <span class="flag protected">protected</span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_materials_Material.ts.html#l102"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:102</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">level</code>
-                        <span class="type">Number</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Void</span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_disableAttrib" class="method item">
-    <h3 class="name"><code>disableAttrib</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>name</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type">Void</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_materials_Material.ts.html#l310"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:310</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">name</code>
-                        <span class="type">String</span>
-
-
-                    <div class="param-description">
-                        
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Void</span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_disableAttribs" class="method item">
-    <h3 class="name"><code>disableAttribs</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type">Void</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_materials_Material.ts.html#l322"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:322</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Void</span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_enableAttrib" class="method item">
-    <h3 class="name"><code>enableAttrib</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>name</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type">Void</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_materials_Material.ts.html#l283"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:283</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">name</code>
-                        <span class="type">String</span>
-
-
-                    <div class="param-description">
-                        
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Void</span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_enableAttribs" class="method item">
-    <h3 class="name"><code>enableAttribs</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type">Void</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_materials_Material.ts.html#l295"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:295</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
     </div>
 
 
@@ -1086,12 +584,9 @@ The new reference count. This value is intended to be used only for test purpose
 
 
     <div class="meta">
-            <p>Inherited from
-            <a href="../classes/AbstractMaterial.html#method_getAttribLocation">
-                AbstractMaterial
-            </a>
-            but overwritten in
-        <a href="../files/src_davinci-eight_materials_Material.ts.html#l337"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:337</code></a>
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_core_Material.ts.html#l33"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Material.ts:33</code></a>
         </p>
 
 
@@ -1099,9 +594,7 @@ The new reference count. This value is intended to be used only for test purpose
     </div>
 
     <div class="description">
-        <p>Returns the location (index) of the attribute with the specified name.
-Returns <code>-1</code> if the name does not correspond to an attribute.</p>
-
+        
     </div>
 
         <div class="params">
@@ -1114,7 +607,7 @@ Returns <code>-1</code> if the name does not correspond to an attribute.</p>
 
 
                     <div class="param-description">
-                        
+                         
                     </div>
 
                 </li>
@@ -1153,12 +646,9 @@ Returns <code>-1</code> if the name does not correspond to an attribute.</p>
 
 
     <div class="meta">
-            <p>Inherited from
-            <a href="../classes/AbstractMaterial.html#method_getUniformLocation">
-                AbstractMaterial
-            </a>
-            but overwritten in
-        <a href="../files/src_davinci-eight_materials_Material.ts.html#l355"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:355</code></a>
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_core_Material.ts.html#l40"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Material.ts:40</code></a>
         </p>
 
 
@@ -1166,11 +656,7 @@ Returns <code>-1</code> if the name does not correspond to an attribute.</p>
     </div>
 
     <div class="description">
-        <p>
-Returns a <code>UniformLocation</code> object corresponding to the <code>uniform</code>
-parameter of the same name in the shader code. If a uniform parameter of the specified name
-does not exist, this method throws a descriptive <code>Error</code>.
-</p>
+        
     </div>
 
         <div class="params">
@@ -1183,7 +669,7 @@ does not exist, this method throws a descriptive <code>Error</code>.
 
 
                     <div class="param-description">
-                        
+                         
                     </div>
 
                 </li>
@@ -1195,336 +681,6 @@ does not exist, this method throws a descriptive <code>Error</code>.
 
             <div class="returns-description">
                         <span class="type"><a href="../classes/UniformLocation.html" class="crosslink">UniformLocation</a></span>:
-                    <p>The location object bound to the specified name.</p>
-
-            </div>
-        </div>
-
-
-</div>
-<div id="method_hasUniformLocation" class="method item">
-    <h3 class="name"><code>hasUniformLocation</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>name</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type">Boolean</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_materials_Material.ts.html#l391"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:391</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-Determines whether a <code>uniform</code> with the specified <code>name</code> exists in the <code>WebGLProgram</code>.
-</p>
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">name</code>
-                        <span class="type">String</span>
-
-
-                    <div class="param-description">
-                        
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Boolean</span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_mat2" class="method item">
-    <h3 class="name"><code>mat2</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>name</code>
-                </li>
-                <li class="arg">
-                        <code>matrix</code>
-                </li>
-                <li class="arg">
-                        <code>transpose</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type">Void</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_materials_Material.ts.html#l476"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:476</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">name</code>
-                        <span class="type">String</span>
-
-
-                    <div class="param-description">
-                        
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">matrix</code>
-                        <span class="type"><a href="../classes/Matrix2.html" class="crosslink">Matrix2</a></span>
-
-
-                    <div class="param-description">
-                        
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">transpose</code>
-                        <span class="type">Boolean</span>
-
-
-                    <div class="param-description">
-                        
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Void</span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_mat3" class="method item">
-    <h3 class="name"><code>mat3</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>name</code>
-                </li>
-                <li class="arg">
-                        <code>matrix</code>
-                </li>
-                <li class="arg">
-                        <code>transpose</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type">Void</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_materials_Material.ts.html#l490"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:490</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">name</code>
-                        <span class="type">String</span>
-
-
-                    <div class="param-description">
-                        
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">matrix</code>
-                        <span class="type"><a href="../classes/Matrix3.html" class="crosslink">Matrix3</a></span>
-
-
-                    <div class="param-description">
-                        
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">transpose</code>
-                        <span class="type">Boolean</span>
-
-
-                    <div class="param-description">
-                        
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Void</span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_mat4" class="method item">
-    <h3 class="name"><code>mat4</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>name</code>
-                </li>
-                <li class="arg">
-                        <code>matrix</code>
-                </li>
-                <li class="arg">
-                        <code>transpose</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type">Void</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_materials_Material.ts.html#l504"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:504</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">name</code>
-                        <span class="type">String</span>
-
-
-                    <div class="param-description">
-                        
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">matrix</code>
-                        <span class="type"><a href="../classes/Matrix4.html" class="crosslink">Matrix4</a></span>
-
-
-                    <div class="param-description">
-                        
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">transpose</code>
-                        <span class="type">Boolean</span>
-
-
-                    <div class="param-description">
-                        
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Void</span>:
             </div>
         </div>
 
@@ -1575,384 +731,6 @@ The new reference count. This value is intended to be used only for test purpose
 
 
 </div>
-<div id="method_uniform1f" class="method item">
-    <h3 class="name"><code>uniform1f</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>name</code>
-                </li>
-                <li class="arg">
-                        <code>x</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type">Void</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_materials_Material.ts.html#l418"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:418</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">name</code>
-                        <span class="type">String</span>
-
-
-                    <div class="param-description">
-                        
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">x</code>
-                        <span class="type">Number</span>
-
-
-                    <div class="param-description">
-                        
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Void</span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_uniform2f" class="method item">
-    <h3 class="name"><code>uniform2f</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>name</code>
-                </li>
-                <li class="arg">
-                        <code>x</code>
-                </li>
-                <li class="arg">
-                        <code>y</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type">Void</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_materials_Material.ts.html#l431"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:431</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">name</code>
-                        <span class="type">String</span>
-
-
-                    <div class="param-description">
-                        
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">x</code>
-                        <span class="type">Number</span>
-
-
-                    <div class="param-description">
-                        
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">y</code>
-                        <span class="type">Number</span>
-
-
-                    <div class="param-description">
-                        
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Void</span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_uniform3f" class="method item">
-    <h3 class="name"><code>uniform3f</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>name</code>
-                </li>
-                <li class="arg">
-                        <code>x</code>
-                </li>
-                <li class="arg">
-                        <code>y</code>
-                </li>
-                <li class="arg">
-                        <code>z</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type">Void</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_materials_Material.ts.html#l445"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:445</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">name</code>
-                        <span class="type">String</span>
-
-
-                    <div class="param-description">
-                        
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">x</code>
-                        <span class="type">Number</span>
-
-
-                    <div class="param-description">
-                        
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">y</code>
-                        <span class="type">Number</span>
-
-
-                    <div class="param-description">
-                        
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">z</code>
-                        <span class="type">Number</span>
-
-
-                    <div class="param-description">
-                        
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Void</span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_uniform4f" class="method item">
-    <h3 class="name"><code>uniform4f</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>name</code>
-                </li>
-                <li class="arg">
-                        <code>x</code>
-                </li>
-                <li class="arg">
-                        <code>y</code>
-                </li>
-                <li class="arg">
-                        <code>z</code>
-                </li>
-                <li class="arg">
-                        <code>w</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type">Void</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_materials_Material.ts.html#l460"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:460</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">name</code>
-                        <span class="type">String</span>
-
-
-                    <div class="param-description">
-                        
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">x</code>
-                        <span class="type">Number</span>
-
-
-                    <div class="param-description">
-                        
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">y</code>
-                        <span class="type">Number</span>
-
-
-                    <div class="param-description">
-                        
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">z</code>
-                        <span class="type">Number</span>
-
-
-                    <div class="param-description">
-                        
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">w</code>
-                        <span class="type">Number</span>
-
-
-                    <div class="param-description">
-                        
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Void</span>:
-            </div>
-        </div>
-
-
-</div>
 <div id="method_use" class="method item">
     <h3 class="name"><code>use</code></h3>
 
@@ -1969,61 +747,9 @@ The new reference count. This value is intended to be used only for test purpose
 
 
     <div class="meta">
-            <p>Inherited from
-            <a href="../classes/AbstractMaterial.html#method_use">
-                AbstractMaterial
-            </a>
-            but overwritten in
-        <a href="../files/src_davinci-eight_materials_Material.ts.html#l207"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:207</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Void</span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_vec2" class="method item">
-    <h3 class="name"><code>vec2</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>name</code>
-                </li>
-                <li class="arg">
-                        <code>vector</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type">Void</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_materials_Material.ts.html#l518"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:518</code></a>
+        <a href="../files/src_davinci-eight_core_Material.ts.html#l47"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Material.ts:47</code></a>
         </p>
 
 
@@ -2034,521 +760,6 @@ The new reference count. This value is intended to be used only for test purpose
         
     </div>
 
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">name</code>
-                        <span class="type">String</span>
-
-
-                    <div class="param-description">
-                        
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">vector</code>
-                        <span class="type"><a href="../classes/VectorE2.html" class="crosslink">VectorE2</a></span>
-
-
-                    <div class="param-description">
-                        
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Void</span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_vec3" class="method item">
-    <h3 class="name"><code>vec3</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>name</code>
-                </li>
-                <li class="arg">
-                        <code>vector</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type">Void</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_materials_Material.ts.html#l531"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:531</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">name</code>
-                        <span class="type">String</span>
-
-
-                    <div class="param-description">
-                        
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">vector</code>
-                        <span class="type"><a href="../classes/VectorE3.html" class="crosslink">VectorE3</a></span>
-
-
-                    <div class="param-description">
-                        
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Void</span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_vec4" class="method item">
-    <h3 class="name"><code>vec4</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>name</code>
-                </li>
-                <li class="arg">
-                        <code>vector</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type">Void</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_materials_Material.ts.html#l544"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:544</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">name</code>
-                        <span class="type">String</span>
-
-
-                    <div class="param-description">
-                        
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">vector</code>
-                        <span class="type"><a href="../classes/VectorE4.html" class="crosslink">VectorE4</a></span>
-
-
-                    <div class="param-description">
-                        
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Void</span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_vector2fv" class="method item">
-    <h3 class="name"><code>vector2fv</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>name</code>
-                </li>
-                <li class="arg">
-                        <code>data</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type">Void</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_materials_Material.ts.html#l557"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:557</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">name</code>
-                        <span class="type">String</span>
-
-
-                    <div class="param-description">
-                        
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">data</code>
-                        <span class="type">Float32Array</span>
-
-
-                    <div class="param-description">
-                        
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Void</span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_vector3fv" class="method item">
-    <h3 class="name"><code>vector3fv</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>name</code>
-                </li>
-                <li class="arg">
-                        <code>data</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type">Void</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_materials_Material.ts.html#l570"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:570</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">name</code>
-                        <span class="type">String</span>
-
-
-                    <div class="param-description">
-                        
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">data</code>
-                        <span class="type">Float32Array</span>
-
-
-                    <div class="param-description">
-                        
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Void</span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_vector4fv" class="method item">
-    <h3 class="name"><code>vector4fv</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>name</code>
-                </li>
-                <li class="arg">
-                        <code>data</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type">Void</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_materials_Material.ts.html#l583"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:583</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">name</code>
-                        <span class="type">String</span>
-
-
-                    <div class="param-description">
-                        
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">data</code>
-                        <span class="type">Float32Array</span>
-
-
-                    <div class="param-description">
-                        
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Void</span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_vertexPointer" class="method item">
-    <h3 class="name"><code>vertexPointer</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>name</code>
-                </li>
-                <li class="arg">
-                        <code>size</code>
-                </li>
-                <li class="arg">
-                        <code>normalized</code>
-                </li>
-                <li class="arg">
-                        <code>stride</code>
-                </li>
-                <li class="arg">
-                        <code>offset</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type">Void</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_materials_Material.ts.html#l404"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:404</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">name</code>
-                        <span class="type">String</span>
-
-
-                    <div class="param-description">
-                        
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">size</code>
-                        <span class="type">Number</span>
-
-
-                    <div class="param-description">
-                        
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">normalized</code>
-                        <span class="type">Boolean</span>
-
-
-                    <div class="param-description">
-                        
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">stride</code>
-                        <span class="type">Number</span>
-
-
-                    <div class="param-description">
-                        
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">offset</code>
-                        <span class="type">Number</span>
-
-
-                    <div class="param-description">
-                        
-                    </div>
-
-                </li>
-            </ul>
-        </div>
 
         <div class="returns">
             <h4>Returns:</h4>
@@ -2565,180 +776,6 @@ The new reference count. This value is intended to be used only for test purpose
             <div id="properties" class="api-class-tabpanel">
                 <h2 class="off-left">Properties</h2>
 
-<div id="property__attribs" class="property item private">
-    <h3 class="name"><code>_attribs</code></h3>
-    <span class="type">String</span>
-
-
-        <span class="flag private">private</span>
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_materials_Material.ts.html#l51"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:51</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-
-</div>
-<div id="property__attributes" class="property item private">
-    <h3 class="name"><code>_attributes</code></h3>
-    <span class="type">name: string: AttribLocation</span>
-
-
-        <span class="flag private">private</span>
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_materials_Material.ts.html#l65"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:65</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-
-</div>
-<div id="property__fragmentShaderSrc" class="property item private">
-    <h3 class="name"><code>_fragmentShaderSrc</code></h3>
-    <span class="type">String</span>
-
-
-        <span class="flag private">private</span>
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_materials_Material.ts.html#l44"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:44</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-
-</div>
-<div id="property__program" class="property item private">
-    <h3 class="name"><code>_program</code></h3>
-    <span class="type">WebGLProgram</span>
-
-
-        <span class="flag private">private</span>
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_materials_Material.ts.html#l58"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:58</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-
-</div>
-<div id="property__uniforms" class="property item private">
-    <h3 class="name"><code>_uniforms</code></h3>
-    <span class="type">name: string: UniformLocation</span>
-
-
-        <span class="flag private">private</span>
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_materials_Material.ts.html#l72"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:72</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-
-</div>
-<div id="property__vertexShaderSrc" class="property item private">
-    <h3 class="name"><code>_vertexShaderSrc</code></h3>
-    <span class="type">String</span>
-
-
-        <span class="flag private">private</span>
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_materials_Material.ts.html#l37"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:37</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-
-</div>
-<div id="property_attributeNames" class="property item">
-    <h3 class="name"><code>attributeNames</code></h3>
-    <span class="type">String</span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_materials_Material.ts.html#l265"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:265</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-
-</div>
 <div id="property_fragmentShaderSrc" class="property item">
     <h3 class="name"><code>fragmentShaderSrc</code></h3>
     <span class="type">String</span>
@@ -2748,12 +785,9 @@ The new reference count. This value is intended to be used only for test purpose
 
 
     <div class="meta">
-            <p>Inherited from
-            <a href="../classes/AbstractMaterial.html#property_fragmentShaderSrc">
-                AbstractMaterial
-            </a>
-            but overwritten in
-        <a href="../files/src_davinci-eight_materials_Material.ts.html#l243"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:243</code></a>
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_core_Material.ts.html#l27"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Material.ts:27</code></a>
         </p>
 
 
@@ -2775,12 +809,9 @@ The new reference count. This value is intended to be used only for test purpose
 
 
     <div class="meta">
-            <p>Inherited from
-            <a href="../classes/AbstractMaterial.html#property_vertexShaderSrc">
-                AbstractMaterial
-            </a>
-            but overwritten in
-        <a href="../files/src_davinci-eight_materials_Material.ts.html#l221"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:221</code></a>
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_core_Material.ts.html#l21"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Material.ts:21</code></a>
         </p>
 
 

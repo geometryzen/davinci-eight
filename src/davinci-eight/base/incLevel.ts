@@ -2,8 +2,8 @@ import mustBeInteger from '../checks/mustBeInteger'
 
 /**
  * Increments the level after asserting that it is an integer.
- * This should be used in constructors derived from ShareableBase.
+ * deprecated. Just compute levelUp + 1.
  */
-export default function(level: number): number {
-  return mustBeInteger('level', level) + 1
+export default function(levelUp: number): number {
+  return mustBeInteger('levelUp', levelUp) + 1
 }

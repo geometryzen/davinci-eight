@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.217.0</em>
+            <em>API Docs for: 2.218.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -40,7 +40,6 @@
                             <ul id="api-classes" class="apis classes">
                                 <li><a href="../classes/AbstractColor.html">AbstractColor</a></li>
                                 <li><a href="../classes/AbstractDrawable.html">AbstractDrawable</a></li>
-                                <li><a href="../classes/AbstractMaterial.html">AbstractMaterial</a></li>
                                 <li><a href="../classes/AbstractMatrix.html">AbstractMatrix</a></li>
                                 <li><a href="../classes/AbstractMesh.html">AbstractMesh</a></li>
                                 <li><a href="../classes/AmbientLight.html">AmbientLight</a></li>
@@ -128,6 +127,7 @@
                                 <li><a href="../classes/LinePoints.html">LinePoints</a></li>
                                 <li><a href="../classes/LineStrip.html">LineStrip</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
+                                <li><a href="../classes/MaterialBase.html">MaterialBase</a></li>
                                 <li><a href="../classes/MaterialOptions.html">MaterialOptions</a></li>
                                 <li><a href="../classes/Matrix2.html">Matrix2</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
@@ -295,10 +295,10 @@ export default class Cylinder extends RigidBody {
    * @class Cylinder
    * @constructor
    * @param [options] {CylinderOptions}
-   * @param [level = 0] {number}
    */
-  constructor(options: CylinderOptions = {}, level = 0) {
-    super(&#x27;Cylinder&#x27;, direction(options), incLevel(level))
+  constructor(options: CylinderOptions = {}) {
+    super(void 0, void 0, options.engine, direction(options))
+    this.setLoggingName(&#x27;Cylinder&#x27;)
     // The shape is created un-stressed and then parameters drive the scaling.
     // The scaling matrix takes into account the initial tilt from the standard configuration.
     // const stress = Vector3.vector(1, 1, 1)
@@ -315,7 +315,7 @@ export default class Cylinder extends RigidBody {
     geometry.release()
 
     const matOptions: MeshMaterialOptions = null
-    const material = new MeshMaterial(matOptions, options.engine, 0)
+    const material = new MeshMaterial(matOptions, options.engine)
     this.material = material
     material.release()
 

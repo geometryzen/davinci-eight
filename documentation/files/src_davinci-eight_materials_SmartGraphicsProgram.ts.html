@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.217.0</em>
+            <em>API Docs for: 2.218.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -40,7 +40,6 @@
                             <ul id="api-classes" class="apis classes">
                                 <li><a href="../classes/AbstractColor.html">AbstractColor</a></li>
                                 <li><a href="../classes/AbstractDrawable.html">AbstractDrawable</a></li>
-                                <li><a href="../classes/AbstractMaterial.html">AbstractMaterial</a></li>
                                 <li><a href="../classes/AbstractMatrix.html">AbstractMatrix</a></li>
                                 <li><a href="../classes/AbstractMesh.html">AbstractMesh</a></li>
                                 <li><a href="../classes/AmbientLight.html">AmbientLight</a></li>
@@ -128,6 +127,7 @@
                                 <li><a href="../classes/LinePoints.html">LinePoints</a></li>
                                 <li><a href="../classes/LineStrip.html">LineStrip</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
+                                <li><a href="../classes/MaterialBase.html">MaterialBase</a></li>
                                 <li><a href="../classes/MaterialOptions.html">MaterialOptions</a></li>
                                 <li><a href="../classes/Matrix2.html">Matrix2</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
@@ -270,36 +270,32 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 import Engine from &#x27;../core/Engine&#x27;;
-import fragmentShaderSrc from &#x27;./fragmentShaderSrc&#x27;;
-import Material from &#x27;./Material&#x27;;
-import mustBeNumber from &#x27;../checks/mustBeNumber&#x27;;
-import vertexShaderSrc from &#x27;./vertexShaderSrc&#x27;;
+import fShaderSrc from &#x27;./fragmentShaderSrc&#x27;;
+import MaterialBase from &#x27;./MaterialBase&#x27;;
+import vShaderSrc from &#x27;./vertexShaderSrc&#x27;;
 
 /**
  *
  */
-export default class SmartGraphicsProgram extends Material {
+export default class SmartGraphicsProgram extends MaterialBase {
   constructor(
     aParams: { [name: string]: { glslType: string } },
     uParams: { [name: string]: { glslType: string } },
     vColor: boolean,
     vLight: boolean,
-    engine: Engine,
-    level: number
+    engine: Engine
   ) {
     super(
-      vertexShaderSrc(aParams, uParams, vColor, vLight),
-      fragmentShaderSrc(aParams, uParams, vColor, vLight),
+      vShaderSrc(aParams, uParams, vColor, vLight),
+      fShaderSrc(aParams, uParams, vColor, vLight),
       [],
-      &#x27;SmartGraphicsProgram&#x27;,
-      engine,
-      mustBeNumber(&#x27;level&#x27;, level) + 1
+      engine
     )
-    if (level === 0) {
-      this.synchUp()
-    }
+    this.setLoggingName(&#x27;SmartGraphicsProgram&#x27;)
   }
-  // FIXME: destructor
+  protected destructor(levelUp: number): void {
+    super.destructor(levelUp + 1)
+  }
 }
 
     </pre>

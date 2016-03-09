@@ -1,10 +1,10 @@
 import Engine from '../core/Engine'
 import mustBeObject from '../checks/mustBeObject';
 import mustBeString from '../checks/mustBeString';
-import Material from './Material';
+import MaterialBase from './MaterialBase';
 
 /**
- * Helper function for creating a <code>Material</code> from HTML script element content.
+ * Helper function for creating a <code>MaterialBase</code> from HTML script element content.
  * Parameters:
  * vsId The vertex shader script element identifier.
  * fsId The fragment shader script element identifier.
@@ -12,7 +12,7 @@ import Material from './Material';
  * [attribs = []] The attribute indices (implied by order of the name in the array).
  * engine
  */
-export default function programFromScripts(vsId: string, fsId: string, dom: Document, attribs: string[], engine: Engine): Material {
+export default function programFromScripts(vsId: string, fsId: string, dom: Document, attribs: string[], engine: Engine): MaterialBase {
   mustBeString('vsId', vsId)
   mustBeString('fsId', fsId)
   mustBeObject('dom', dom)
@@ -30,5 +30,5 @@ export default function programFromScripts(vsId: string, fsId: string, dom: Docu
 
   const vertexShaderSrc: string = $(vsId).textContent
   const fragmentShaderSrc: string = $(fsId).textContent
-  return new Material(vertexShaderSrc, fragmentShaderSrc, attribs, 'programFromScripts', engine, 0)
+  return new MaterialBase(vertexShaderSrc, fragmentShaderSrc, attribs, engine)
 }

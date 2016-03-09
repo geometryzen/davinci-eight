@@ -90,10 +90,10 @@ export default class Trail extends ShareableBase {
    * @class Trail
    * @constructor
    * @param mesh {Mesh}
-   * @param [level = 0]
    */
-  constructor(mesh: Mesh, level = 0) {
-    super('Trail', incLevel(level))
+  constructor(mesh: Mesh) {
+    super()
+    this.setLoggingName('Trail')
     mustBeObject('mesh', mesh)
     mesh.addRef()
     this.mesh = mesh

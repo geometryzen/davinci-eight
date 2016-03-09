@@ -1,6 +1,6 @@
 import ContextProvider from './ContextProvider'
 import ShareableArray from '../collections/ShareableArray'
-import AbstractMaterial from './AbstractMaterial'
+import Material from './Material'
 import incLevel from '../base/incLevel'
 import Matrix4 from '../math/Matrix4'
 import notSupported from '../i18n/notSupported'
@@ -48,13 +48,12 @@ export default class GeometryContainer extends ShareableBase implements Geometry
   /**
    * @class GeometryContainer
    * @constructor
-   * @param type {string}
    * @param tilt {SpinorE3}
-   * @param level {number}
    */
-  constructor(type: string, tilt: SpinorE3, level: number) {
-    super(type, incLevel(level))
-    this._parts = new ShareableArray<Geometry>([], 0)
+  constructor(tilt: SpinorE3) {
+    super()
+    this.setLoggingName('GeometryContainer')
+    this._parts = new ShareableArray<Geometry>([])
     if (tilt && !Spinor3.isOne(tilt)) {
       this.Kidentity = false
       this.K.rotation(tilt)
@@ -135,10 +134,10 @@ export default class GeometryContainer extends ShareableBase implements Geometry
 
   /**
    * @method draw
-   * @param material {AbstractMaterial}
+   * @param material {Material}
    * @return {void}
    */
-  draw(material: AbstractMaterial): void {
+  draw(material: Material): void {
     // FIXME: Use for loop.
     this._parts.forEach(function(buffer) {
       buffer.draw(material)

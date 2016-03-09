@@ -24,10 +24,10 @@ export default class Cylinder extends RigidBody {
    * @class Cylinder
    * @constructor
    * @param [options] {CylinderOptions}
-   * @param [level = 0] {number}
    */
-  constructor(options: CylinderOptions = {}, level = 0) {
-    super('Cylinder', direction(options), incLevel(level))
+  constructor(options: CylinderOptions = {}) {
+    super(void 0, void 0, options.engine, direction(options))
+    this.setLoggingName('Cylinder')
     // The shape is created un-stressed and then parameters drive the scaling.
     // The scaling matrix takes into account the initial tilt from the standard configuration.
     // const stress = Vector3.vector(1, 1, 1)
@@ -44,7 +44,7 @@ export default class Cylinder extends RigidBody {
     geometry.release()
 
     const matOptions: MeshMaterialOptions = null
-    const material = new MeshMaterial(matOptions, options.engine, 0)
+    const material = new MeshMaterial(matOptions, options.engine)
     this.material = material
     material.release()
 

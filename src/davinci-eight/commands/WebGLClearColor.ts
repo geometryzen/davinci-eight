@@ -1,5 +1,4 @@
 import ContextProvider from '../core/ContextProvider';
-import incLevel from '../base/incLevel'
 import mustBeNumber from '../checks/mustBeNumber';
 import ShareableBase from '../core/ShareableBase';
 
@@ -23,10 +22,10 @@ export default class WebGLClearColor extends ShareableBase {
    * @param [green = 0] {number}
    * @param [blue = 0] {number}
    * @param [alpha = 1] {number}
-   * @param [level = 0] {level}
    */
-  constructor(red = 0, green = 0, blue = 0, alpha = 1, level = 0) {
-    super('WebGLClearColor', incLevel(level))
+  constructor(red = 0, green = 0, blue = 0, alpha = 1) {
+    super()
+    this.setLoggingName('WebGLClearColor')
     this.red = mustBeNumber('red', red)
     this.green = mustBeNumber('green', green)
     this.blue = mustBeNumber('blue', blue)
@@ -35,15 +34,15 @@ export default class WebGLClearColor extends ShareableBase {
 
   /**
    * @method destructor
-   * @param level {number}
+   * @param levelUp {number}
    * @return {void}
    */
-  destructor(level: number): void {
+  destructor(levelUp: number): void {
     this.red = void 0
     this.green = void 0
     this.blue = void 0
     this.alpha = void 0
-    super.destructor(incLevel(level))
+    super.destructor(levelUp + 1)
   }
 
   contextFree(manager: ContextProvider): void {

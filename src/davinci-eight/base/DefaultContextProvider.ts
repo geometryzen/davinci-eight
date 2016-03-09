@@ -1,7 +1,6 @@
 import ContextProvider from '../core/ContextProvider';
 import DrawMode from '../core/DrawMode';
 import drawModeToGL from '../core/drawModeToGL';
-import incLevel from '../base/incLevel';
 import mustBeInteger from '../checks/mustBeInteger';
 import readOnly from '../i18n/readOnly';
 import ShareableBase from '../core/ShareableBase';
@@ -14,16 +13,17 @@ export default class DefaultContextProvider extends ShareableBase implements Con
 
   private engine: Engine
 
-  constructor(engine: Engine, level: number) {
-    super('DefaultContextProvider', incLevel(level))
+  constructor(engine: Engine) {
+    super()
+    this.setLoggingName('DefaultContextProvider')
     // We don't reference count the engine in order to avoid creating a loop.
     // Our lifetime is controlled by the Engine itself.
     this.engine = engine
   }
 
-  protected destructor(level: number): void {
+  protected destructor(levelUp: number): void {
     this.engine = void 0
-    super.destructor(incLevel(level))
+    super.destructor(levelUp + 1)
   }
 
   get gl() {

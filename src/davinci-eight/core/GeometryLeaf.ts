@@ -1,4 +1,4 @@
-import AbstractMaterial from './AbstractMaterial'
+import Material from './Material'
 import ContextProvider from './ContextProvider'
 import core from '../core'
 import DrawMode from './DrawMode'
@@ -59,12 +59,11 @@ export default class GeometryLeaf extends ShareableContextConsumer implements Ge
   /**
    * @class GeometryLeaf
    * @constructor
-   * @param type {string}
    * @param engine {Engine}
-   * @param level {number}
    */
-  constructor(type: string, engine: Engine, level: number) {
-    super(type, engine, incLevel(level))
+  constructor(engine: Engine) {
+    super(engine)
+    this.setLoggingName('GeometryLeaf')
   }
 
   /**
@@ -183,10 +182,10 @@ export default class GeometryLeaf extends ShareableContextConsumer implements Ge
 
   /**
    * @method draw
-   * @param material {AbstractMaterial}
+   * @param material {Material}
    * @return {void}
    */
-  draw(material: AbstractMaterial): void {
+  draw(material: Material): void {
     throw new Error(notSupported('draw').message)
   }
 

@@ -6,7 +6,7 @@ import isDefined from '../checks/isDefined';
 import isString from '../checks/isString';
 import isNull from '../checks/isNull';
 import makeWebGLProgram from '../core/makeWebGLProgram';
-import AbstractMaterial from '../core/AbstractMaterial'
+import Material from '../core/Material'
 import Engine from '../core/Engine';
 import ErrorMode from '../core/ErrorMode';
 import Matrix2 from '../math/Matrix2';
@@ -28,11 +28,10 @@ import VectorE4 from '../math/VectorE4';
  */
 
 /**
- * @class Material
+ * @class MaterialBase
  * @extends ShareableContextConsumer
- * @extends AbstractMaterial
  */
-export default class Material extends ShareableContextConsumer implements AbstractMaterial {
+export default class MaterialBase extends ShareableContextConsumer implements Material {
 
   /**
    * @property _vertexShaderSrc
@@ -77,16 +76,16 @@ export default class Material extends ShareableContextConsumer implements Abstra
   private _uniforms: { [name: string]: UniformLocation } = {}
 
   /**
-   * @class Material
+   * @class MaterialBase
    * @constructor
    * @param vertexShaderSrc {string} The vertex shader source code.
    * @param fragmentShaderSrc {string} The fragment shader source code.
    * @param attribs {string[]} The attribute ordering.
-   * @param type {string} The name of the type.
    * @param engine {Engine} The <code>Engine</code> to subscribe to or <code>null</code> for deferred subscription.
    */
-  constructor(vertexShaderSrc: string, fragmentShaderSrc: string, attribs: string[], type: string, engine: Engine, level: number) {
-    super(type, engine, incLevel(level))
+  constructor(vertexShaderSrc: string, fragmentShaderSrc: string, attribs: string[], engine: Engine) {
+    super(engine)
+    this.setLoggingName('MaterialBase')
     if (isDefined(vertexShaderSrc) && !isNull(vertexShaderSrc)) {
       this._vertexShaderSrc = mustBeString('vertexShaderSrc', vertexShaderSrc)
     }
@@ -94,9 +93,6 @@ export default class Material extends ShareableContextConsumer implements Abstra
       this._fragmentShaderSrc = mustBeString('fragmentShaderSrc', fragmentShaderSrc)
     }
     this._attribs = mustBeArray('attribs', attribs)
-    if (level === 0) {
-      this.synchUp()
-    }
   }
 
   /**

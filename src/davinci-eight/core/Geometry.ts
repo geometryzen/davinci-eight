@@ -1,5 +1,5 @@
 import ContextConsumer from './ContextConsumer'
-import AbstractMaterial from './AbstractMaterial'
+import Material from './Material'
 import Matrix4 from '../math/Matrix4'
 
 /**
@@ -50,10 +50,10 @@ interface Geometry extends ContextConsumer {
 
     /**
      * @method draw
-     * @param material {AbstractMaterial}
+     * @param material {Material}
      * @return {void}
      */
-    draw(material: AbstractMaterial): void
+    draw(material: Material): void
 
     /**
      * @method isLeaf

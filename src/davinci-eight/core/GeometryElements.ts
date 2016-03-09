@@ -1,4 +1,4 @@
-import AbstractMaterial from './AbstractMaterial'
+import Material from './Material'
 import ContextProvider from './ContextProvider'
 import core from '../core'
 import Engine from './Engine'
@@ -78,13 +78,12 @@ export default class GeometryElements extends GeometryLeaf {
   /**
    * @class GeometryElements
    * @constructor
-   * @param type {string}
    * @param data {VertexArrays}
    * @param engine {Engine} The <code>Engine</code> to subscribe to or <code>null</code> for deferred subscription.
-   * @param level {number}
    */
-  constructor(type: string, data: VertexArrays, engine: Engine, level: number) {
-    super(type, engine, incLevel(level))
+  constructor(data: VertexArrays, engine: Engine) {
+    super(engine)
+    this.setLoggingName('GeometryElements')
     this.ibo = new IndexBuffer(engine)
     this.vbo = new VertexBuffer(engine)
 
@@ -115,9 +114,6 @@ export default class GeometryElements extends GeometryLeaf {
     else {
       this._pointers = []
     }
-    if (level === 0) {
-      this.synchUp()
-    }
   }
 
   /**
@@ -127,9 +123,6 @@ export default class GeometryElements extends GeometryLeaf {
    * @protected
    */
   protected destructor(level: number): void {
-    if (level === 0) {
-      this.cleanUp()
-    }
     this.ibo.release()
     this.ibo = void 0
     this.vbo.release()
@@ -262,10 +255,10 @@ export default class GeometryElements extends GeometryLeaf {
 
   /**
    * @method draw
-   * @param material {AbstractMaterial}
+   * @param material {Material}
    * @return {void}
    */
-  draw(material: AbstractMaterial): void {
+  draw(material: Material): void {
     const contextProvider = this.contextProvider
     if (contextProvider) {
       this.vbo.bind()

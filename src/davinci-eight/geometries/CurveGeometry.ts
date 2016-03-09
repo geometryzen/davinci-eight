@@ -1,7 +1,6 @@
 import GeometryElements from '../core/GeometryElements'
 import CurveGeometryOptions from './CurveGeometryOptions'
 import curveVertexArrays from './curveVertexArrays'
-import incLevel from '../base/incLevel'
 
 /**
  * @class CurveGeometry
@@ -13,19 +12,19 @@ export default class CurveGeometry extends GeometryElements {
    * @class CurveGeometry
    * @constructor
    * @param [options] {CurveGeometryOptions}
-   * @param [level = 0] {number}
    */
-  constructor(options: CurveGeometryOptions = {}, level = 0) {
-    super('CurveGeometry', curveVertexArrays(options), options.engine, incLevel(level))
+  constructor(options: CurveGeometryOptions = {}) {
+    super(curveVertexArrays(options), options.engine)
+    this.setLoggingName('CurveGeometry')
   }
 
   /**
    * @method destructor
-   * @param level {number}
+   * @param levelUp {number}
    * @return {void}
    * @protected
    */
-  protected destructor(level: number): void {
-    super.destructor(incLevel(level))
+  protected destructor(levelUp: number): void {
+    super.destructor(levelUp + 1)
   }
 }

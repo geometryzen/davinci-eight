@@ -1,6 +1,8 @@
+import Engine from '../core/Engine'
 import Geometric3 from '../math/Geometric3'
-import incLevel from '../base/incLevel'
+import Geometry from '../core/Geometry'
 import IRigidBody from './IRigidBody'
+import Material from '../core/Material'
 import Mesh from '../core/Mesh'
 import mustBeObject from '../checks/mustBeObject'
 import R3 from '../math/R3'
@@ -52,16 +54,15 @@ export default class RigidBody extends Mesh implements IRigidBody<number, Geomet
   /**
    * @class RigidBody
    * @constructor
-   * @param type {string}
+   * @param geometry {Geometry}
+   * @param material {Material}
+   * @param engine {Engine}
    * @param initialAxis {VectorE3} The initial direction of the symmetry axis
-   * @param level {number}
    */
-  constructor(type: string, initialAxis: VectorE3, level: number) {
-    super(type, void 0, void 0, null, incLevel(level))
+  constructor(geometry: Geometry, material: Material, engine: Engine, initialAxis: VectorE3) {
+    super(geometry, material, engine)
+    this.setLoggingName('RigidBody')
     this.initialAxis = R3.fromVector(initialAxis, Unit.ONE)
-    if (level === 0) {
-      this.synchUp()
-    }
   }
 
   /**
@@ -70,11 +71,11 @@ export default class RigidBody extends Mesh implements IRigidBody<number, Geomet
    * @return {void}
    * @protected
    */
-  protected destructor(level: number): void {
-    if (level === 0) {
+  protected destructor(levelUp: number): void {
+    if (levelUp === 0) {
       this.cleanUp()
     }
-    super.destructor(incLevel(level))
+    super.destructor(levelUp + 1)
   }
 
   /**

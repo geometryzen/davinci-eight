@@ -117,10 +117,10 @@ export default class MouseControls extends ShareableBase {
   /**
    * @class MouseControls
    * @constructor
-   * @param type {string}
    */
-  constructor(type: string, level: number) {
-    super(type, incLevel(level))
+  constructor() {
+    super()
+    this.setLoggingName('MouseControls')
 
     /**
      *

@@ -5,7 +5,7 @@ import Engine from './Engine'
 import Geometric3 from '../math/Geometric3'
 import Geometry from './Geometry'
 import incLevel from '../base/incLevel'
-import AbstractMaterial from './AbstractMaterial'
+import Material from './Material'
 import AbstractMesh from '../core/AbstractMesh'
 import Matrix4 from '../math/Matrix4'
 import ModelFacet from '../facets/ModelFacet'
@@ -35,14 +35,13 @@ export default class Mesh extends Drawable implements AbstractMesh {
   /**
    * @class Mesh
    * @constructor
-   * @param type {string}
    * @param geometry {Geometry}
-   * @param material {AbstractMaterial}
+   * @param material {Material}
    * @param engine {Engine} The <code>Engine</code> to subscribe to or <code>null</code> for deferred subscription.
-   * @param level {number}
    */
-  constructor(type: string, geometry: Geometry, material: AbstractMaterial, engine: Engine, level: number) {
-    super(type, geometry, material, engine, incLevel(level))
+  constructor(geometry: Geometry, material: Material, engine: Engine) {
+    super(geometry, material, engine)
+    this.setLoggingName('Mesh')
 
     const modelFacet = new ModelFacet()
     this.setFacet(MODEL_FACET_NAME, modelFacet)

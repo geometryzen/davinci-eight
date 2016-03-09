@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.217.0</em>
+            <em>API Docs for: 2.218.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -40,7 +40,6 @@
                             <ul id="api-classes" class="apis classes">
                                 <li><a href="../classes/AbstractColor.html">AbstractColor</a></li>
                                 <li><a href="../classes/AbstractDrawable.html">AbstractDrawable</a></li>
-                                <li><a href="../classes/AbstractMaterial.html">AbstractMaterial</a></li>
                                 <li><a href="../classes/AbstractMatrix.html">AbstractMatrix</a></li>
                                 <li><a href="../classes/AbstractMesh.html">AbstractMesh</a></li>
                                 <li><a href="../classes/AmbientLight.html">AmbientLight</a></li>
@@ -128,6 +127,7 @@
                                 <li><a href="../classes/LinePoints.html">LinePoints</a></li>
                                 <li><a href="../classes/LineStrip.html">LineStrip</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
+                                <li><a href="../classes/MaterialBase.html">MaterialBase</a></li>
                                 <li><a href="../classes/MaterialOptions.html">MaterialOptions</a></li>
                                 <li><a href="../classes/Matrix2.html">Matrix2</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
@@ -277,7 +277,7 @@ import mustBeArray from &#x27;../checks/mustBeArray&#x27;;
 import mustBeObject from &#x27;../checks/mustBeObject&#x27;;
 import mustBeString from &#x27;../checks/mustBeString&#x27;;
 import mustSatisfy from &#x27;../checks/mustSatisfy&#x27;;
-import Material from &#x27;./Material&#x27;;
+import MaterialBase from &#x27;./MaterialBase&#x27;;
 
 /**
  * @module EIGHT
@@ -359,9 +359,9 @@ function detectShaderType(scriptIds: string[], dom: Document): string[] {
  *     material.release()
  *
  * @class HTMLScriptsMaterial
- * @extends Material
+ * @extends MaterialBase
  */
-export default class HTMLScriptsMaterial extends Material {
+export default class HTMLScriptsMaterial extends MaterialBase {
   private scriptIds: string[];
   private dom: Document;
   private loaded: boolean = false;
@@ -373,10 +373,10 @@ export default class HTMLScriptsMaterial extends Material {
    * @param dom {Document} The document object model that owns the script elements.
    * @param attribs {string[]} An array of strings containing the order of attributes.
    * @param engine {Engine}
-   * @param level {number}
    */
-  constructor(scriptIds: string[], dom: Document, attribs: string[], engine: Engine, level = 0) {
-    super(void 0, void 0, attribs, &#x27;HTMLScriptsMaterial&#x27;, engine, incLevel(level))
+  constructor(scriptIds: string[], dom: Document, attribs: string[], engine: Engine) {
+    super(void 0, void 0, attribs, engine)
+    this.setLoggingName(&#x27;HTMLScriptsMaterial&#x27;)
     mustBeArray(&#x27;scriptIds&#x27;, scriptIds)
     mustSatisfy(&#x27;scriptIds&#x27;, scriptIds.length === 2, () =&gt; { return &#x27;have two script element identifiers.&#x27; })
     this.scriptIds = [scriptIds[0], scriptIds[1]]

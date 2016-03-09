@@ -2,7 +2,6 @@ import Capability from '../commands/Capability';
 import glCapability from '../commands/glCapability';
 import ContextConsumer from '../core/ContextConsumer';
 import ContextProvider from '../core/ContextProvider';
-import incLevel from '../base/incLevel';
 import mustBeNumber from '../checks/mustBeNumber';
 import ShareableBase from '../core/ShareableBase';
 
@@ -22,20 +21,21 @@ export default class WebGLEnable extends ShareableBase implements ContextConsume
    * @constructor
    * @param capability {Capability} The capability to be enabled.
    */
-  constructor(capability: Capability, level = 0) {
-    super('WebGLEnable', incLevel(level))
+  constructor(capability: Capability) {
+    super()
+    this.setLoggingName('WebGLEnable')
     this._capability = mustBeNumber('capability', capability)
   }
 
   /**
    * @method destructor
-   * @param level {number}
+   * @param levelUp {number}
    * @return {void}
    * @protected
    */
-  protected destructor(level: number): void {
+  protected destructor(levelUp: number): void {
     this._capability = void 0
-    super.destructor(incLevel(level))
+    super.destructor(levelUp + 1)
   }
 
   contextFree(manager: ContextProvider): void {

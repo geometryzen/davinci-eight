@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.217.0</em>
+            <em>API Docs for: 2.218.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -40,7 +40,6 @@
                             <ul id="api-classes" class="apis classes">
                                 <li><a href="../classes/AbstractColor.html">AbstractColor</a></li>
                                 <li><a href="../classes/AbstractDrawable.html">AbstractDrawable</a></li>
-                                <li><a href="../classes/AbstractMaterial.html">AbstractMaterial</a></li>
                                 <li><a href="../classes/AbstractMatrix.html">AbstractMatrix</a></li>
                                 <li><a href="../classes/AbstractMesh.html">AbstractMesh</a></li>
                                 <li><a href="../classes/AmbientLight.html">AmbientLight</a></li>
@@ -128,6 +127,7 @@
                                 <li><a href="../classes/LinePoints.html">LinePoints</a></li>
                                 <li><a href="../classes/LineStrip.html">LineStrip</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
+                                <li><a href="../classes/MaterialBase.html">MaterialBase</a></li>
                                 <li><a href="../classes/MaterialOptions.html">MaterialOptions</a></li>
                                 <li><a href="../classes/Matrix2.html">Matrix2</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
@@ -313,10 +313,10 @@ export default class CylinderGeometry extends GeometryContainer {
    * @class CylinderGeometry
    * @constructor
    * @param [options] {CylinderGeometryOptions}
-   * @param [level = 0] {number}
    */
-  constructor(options: CylinderGeometryOptions = {}, level = 0) {
-    super(&#x27;CylinderGeometry&#x27;, options.tilt, incLevel(level))
+  constructor(options: CylinderGeometryOptions = {}) {
+    super(options.tilt)
+    this.setLoggingName(&#x27;CylinderGeometry&#x27;)
 
     const builder = new CylinderBuilder(R3.e2, R3.e3, false)
 
@@ -341,7 +341,7 @@ export default class CylinderGeometry extends GeometryContainer {
     const iLen = ps.length
     for (let i = 0; i &lt; iLen; i++) {
       const dataSource = ps[i]
-      const geometry = new GeometryElements(&#x27;CylinderGeometry&#x27;, vertexArraysFromPrimitive(dataSource), options.engine, 0)
+      const geometry = new GeometryElements(vertexArraysFromPrimitive(dataSource), options.engine)
       this.addPart(geometry)
       geometry.release()
     }

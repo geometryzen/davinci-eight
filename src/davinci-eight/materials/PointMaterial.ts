@@ -4,8 +4,7 @@ import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols'
 import isDefined from '../checks/isDefined'
 import isNull from '../checks/isNull'
 import isUndefined from '../checks/isUndefined'
-import Material from './Material'
-import mustBeNumber from '../checks/mustBeNumber'
+import MaterialBase from './MaterialBase'
 import mustBeObject from '../checks/mustBeObject'
 import PointMaterialOptions from './PointMaterialOptions'
 
@@ -63,29 +62,33 @@ function fragmentShaderSrc(options?: PointMaterialOptions): string {
 
 /**
  * @class PointMaterial
- * @extends Material
+ * @extends MaterialBase
  */
-export default class PointMaterial extends Material {
+export default class PointMaterial extends MaterialBase {
 
   /**
    * @class PointMaterial
    * @constructor
    * @param options {PointMaterialOptions}
    * @param engine {Engine}
-   * @param level {number}
    */
-  constructor(options: PointMaterialOptions, engine: Engine, level: number) {
+  constructor(options: PointMaterialOptions, engine: Engine) {
     super(
       vertexShaderSrc(options),
       fragmentShaderSrc(options),
       [],
-      'PointMaterial',
-      engine,
-      mustBeNumber('level', level) + 1
+      engine
     )
-    if (level === 0) {
-      this.synchUp()
-    }
+    this.setLoggingName('PointMaterial')
   }
-  // FIXME: destructor
+
+  /**
+   * @method destructor
+   * @param levelUp {number}
+   * @return {void}
+   * @protected
+   */
+  protected destructor(levelUp: number): void {
+    super.destructor(levelUp + 1)
+  }
 }

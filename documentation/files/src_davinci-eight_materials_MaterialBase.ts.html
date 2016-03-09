@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src/davinci-eight/materials/Material.ts - davinci-eight</title>
+    <title>src/davinci-eight/materials/MaterialBase.ts - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.217.0</em>
+            <em>API Docs for: 2.218.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -40,7 +40,6 @@
                             <ul id="api-classes" class="apis classes">
                                 <li><a href="../classes/AbstractColor.html">AbstractColor</a></li>
                                 <li><a href="../classes/AbstractDrawable.html">AbstractDrawable</a></li>
-                                <li><a href="../classes/AbstractMaterial.html">AbstractMaterial</a></li>
                                 <li><a href="../classes/AbstractMatrix.html">AbstractMatrix</a></li>
                                 <li><a href="../classes/AbstractMesh.html">AbstractMesh</a></li>
                                 <li><a href="../classes/AmbientLight.html">AmbientLight</a></li>
@@ -128,6 +127,7 @@
                                 <li><a href="../classes/LinePoints.html">LinePoints</a></li>
                                 <li><a href="../classes/LineStrip.html">LineStrip</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
+                                <li><a href="../classes/MaterialBase.html">MaterialBase</a></li>
                                 <li><a href="../classes/MaterialOptions.html">MaterialOptions</a></li>
                                 <li><a href="../classes/Matrix2.html">Matrix2</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
@@ -265,7 +265,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: src/davinci-eight/materials/Material.ts</h1>
+<h1 class="file-heading">File: src/davinci-eight/materials/MaterialBase.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -277,7 +277,7 @@ import isDefined from &#x27;../checks/isDefined&#x27;;
 import isString from &#x27;../checks/isString&#x27;;
 import isNull from &#x27;../checks/isNull&#x27;;
 import makeWebGLProgram from &#x27;../core/makeWebGLProgram&#x27;;
-import AbstractMaterial from &#x27;../core/AbstractMaterial&#x27;
+import Material from &#x27;../core/Material&#x27;
 import Engine from &#x27;../core/Engine&#x27;;
 import ErrorMode from &#x27;../core/ErrorMode&#x27;;
 import Matrix2 from &#x27;../math/Matrix2&#x27;;
@@ -299,11 +299,10 @@ import VectorE4 from &#x27;../math/VectorE4&#x27;;
  */
 
 /**
- * @class Material
+ * @class MaterialBase
  * @extends ShareableContextConsumer
- * @extends AbstractMaterial
  */
-export default class Material extends ShareableContextConsumer implements AbstractMaterial {
+export default class MaterialBase extends ShareableContextConsumer implements Material {
 
   /**
    * @property _vertexShaderSrc
@@ -348,16 +347,16 @@ export default class Material extends ShareableContextConsumer implements Abstra
   private _uniforms: { [name: string]: UniformLocation } = {}
 
   /**
-   * @class Material
+   * @class MaterialBase
    * @constructor
    * @param vertexShaderSrc {string} The vertex shader source code.
    * @param fragmentShaderSrc {string} The fragment shader source code.
    * @param attribs {string[]} The attribute ordering.
-   * @param type {string} The name of the type.
    * @param engine {Engine} The &lt;code&gt;Engine&lt;/code&gt; to subscribe to or &lt;code&gt;null&lt;/code&gt; for deferred subscription.
    */
-  constructor(vertexShaderSrc: string, fragmentShaderSrc: string, attribs: string[], type: string, engine: Engine, level: number) {
-    super(type, engine, incLevel(level))
+  constructor(vertexShaderSrc: string, fragmentShaderSrc: string, attribs: string[], engine: Engine) {
+    super(engine)
+    this.setLoggingName(&#x27;MaterialBase&#x27;)
     if (isDefined(vertexShaderSrc) &amp;&amp; !isNull(vertexShaderSrc)) {
       this._vertexShaderSrc = mustBeString(&#x27;vertexShaderSrc&#x27;, vertexShaderSrc)
     }
@@ -365,9 +364,6 @@ export default class Material extends ShareableContextConsumer implements Abstra
       this._fragmentShaderSrc = mustBeString(&#x27;fragmentShaderSrc&#x27;, fragmentShaderSrc)
     }
     this._attribs = mustBeArray(&#x27;attribs&#x27;, attribs)
-    if (level === 0) {
-      this.synchUp()
-    }
   }
 
   /**

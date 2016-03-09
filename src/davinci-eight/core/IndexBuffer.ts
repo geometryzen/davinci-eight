@@ -54,13 +54,11 @@ export default class IndexBuffer extends ShareableContextConsumer {
    * @class IndexBuffer
    * @constructor
    * @param engine {Engine}
-   * @param [level = 0] {number} Set to zero if this is the last class in a hierachy.
    */
-  constructor(engine: Engine, level = 0) {
-    super('IndexBuffer', engine, incLevel(level))
-    if (level === 0) {
-      this.synchUp()
-    }
+  constructor(engine: Engine) {
+    super(engine)
+    this.setLoggingName('IndexBuffer')
+    this.synchUp()
   }
 
   /**
@@ -70,9 +68,7 @@ export default class IndexBuffer extends ShareableContextConsumer {
    * @protected
    */
   protected destructor(level: number): void {
-    if (level === 0) {
-      this.cleanUp()
-    }
+    this.cleanUp()
     // Verify that the cleanUp did its work.
     mustBeUndefined(this._type, this.webGLBuffer)
     super.destructor(incLevel(level))

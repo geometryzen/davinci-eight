@@ -1,32 +1,28 @@
 import Engine from '../core/Engine';
-import fragmentShaderSrc from './fragmentShaderSrc';
-import Material from './Material';
-import mustBeNumber from '../checks/mustBeNumber';
-import vertexShaderSrc from './vertexShaderSrc';
+import fShaderSrc from './fragmentShaderSrc';
+import MaterialBase from './MaterialBase';
+import vShaderSrc from './vertexShaderSrc';
 
 /**
  *
  */
-export default class SmartGraphicsProgram extends Material {
+export default class SmartGraphicsProgram extends MaterialBase {
   constructor(
     aParams: { [name: string]: { glslType: string } },
     uParams: { [name: string]: { glslType: string } },
     vColor: boolean,
     vLight: boolean,
-    engine: Engine,
-    level: number
+    engine: Engine
   ) {
     super(
-      vertexShaderSrc(aParams, uParams, vColor, vLight),
-      fragmentShaderSrc(aParams, uParams, vColor, vLight),
+      vShaderSrc(aParams, uParams, vColor, vLight),
+      fShaderSrc(aParams, uParams, vColor, vLight),
       [],
-      'SmartGraphicsProgram',
-      engine,
-      mustBeNumber('level', level) + 1
+      engine
     )
-    if (level === 0) {
-      this.synchUp()
-    }
+    this.setLoggingName('SmartGraphicsProgram')
   }
-  // FIXME: destructor
+  protected destructor(levelUp: number): void {
+    super.destructor(levelUp + 1)
+  }
 }

@@ -37,10 +37,10 @@ export default class Arrow extends RigidBody {
    * @class Arrow
    * @constructor
    * @param [options] {ArrowOptions}
-   * @param [level = 0] {number}
    */
-  constructor(options: ArrowOptions = {}, level = 0) {
-    super('Arrow', direction(options), incLevel(level))
+  constructor(options: ArrowOptions = {}) {
+    super(void 0, void 0, options.engine, direction(options))
+    this.setLoggingName('Arrow')
     // The shape is created un-stressed and then parameters drive the scaling.
     // The scaling matrix takes into account the initial tilt from the standard configuration.
     // const stress = Vector3.vector(1, 1, 1)
@@ -50,7 +50,7 @@ export default class Arrow extends RigidBody {
     const geometry = new ArrowGeometry(geoOptions)
 
     const matOptions: MeshMaterialOptions = void 0
-    const material = new MeshMaterial(matOptions, options.engine, 0)
+    const material = new MeshMaterial(matOptions, options.engine)
 
     this.geometry = geometry
     this.material = material

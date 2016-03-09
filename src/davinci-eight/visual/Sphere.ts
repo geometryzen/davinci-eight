@@ -24,10 +24,10 @@ export default class Sphere extends RigidBody {
    * @class Sphere
    * @constructor
    * @param [options] {SphereOptions}
-   * @param [level = 0] {number}
    */
-  constructor(options: SphereOptions = {}, level = 0) {
-    super('Sphere', direction(options), incLevel(level))
+  constructor(options: SphereOptions = {}) {
+    super(void 0, void 0, options.engine, direction(options))
+    this.setLoggingName('Sphere')
 
     const geoOptions: SphereGeometryOptions = {}
     geoOptions.engine = options.engine
@@ -36,7 +36,7 @@ export default class Sphere extends RigidBody {
     geometry.release()
 
     const matOptions: MeshMaterialOptions = void 0
-    const material = new MeshMaterial(matOptions, options.engine, 0)
+    const material = new MeshMaterial(matOptions, options.engine)
     this.material = material
     material.release()
 
@@ -47,9 +47,6 @@ export default class Sphere extends RigidBody {
       this.position.copyVector(options.position)
     }
     this.radius = isDefined(options.radius) ? mustBeNumber('radius', options.radius) : 1.0
-    if (level === 0) {
-      this.synchUp()
-    }
   }
 
   /**

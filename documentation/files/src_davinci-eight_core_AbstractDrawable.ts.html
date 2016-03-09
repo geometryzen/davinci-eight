@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.217.0</em>
+            <em>API Docs for: 2.218.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -40,7 +40,6 @@
                             <ul id="api-classes" class="apis classes">
                                 <li><a href="../classes/AbstractColor.html">AbstractColor</a></li>
                                 <li><a href="../classes/AbstractDrawable.html">AbstractDrawable</a></li>
-                                <li><a href="../classes/AbstractMaterial.html">AbstractMaterial</a></li>
                                 <li><a href="../classes/AbstractMatrix.html">AbstractMatrix</a></li>
                                 <li><a href="../classes/AbstractMesh.html">AbstractMesh</a></li>
                                 <li><a href="../classes/AmbientLight.html">AmbientLight</a></li>
@@ -128,6 +127,7 @@
                                 <li><a href="../classes/LinePoints.html">LinePoints</a></li>
                                 <li><a href="../classes/LineStrip.html">LineStrip</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
+                                <li><a href="../classes/MaterialBase.html">MaterialBase</a></li>
                                 <li><a href="../classes/MaterialOptions.html">MaterialOptions</a></li>
                                 <li><a href="../classes/Matrix2.html">Matrix2</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
@@ -272,7 +272,7 @@
 import Facet from &#x27;./Facet&#x27;
 import Geometry from &#x27;./Geometry&#x27;
 import ContextConsumer from &#x27;./ContextConsumer&#x27;
-import AbstractMaterial from &#x27;./AbstractMaterial&#x27;
+import Material from &#x27;./Material&#x27;
 
 /**
  * @module EIGHT
@@ -319,19 +319,19 @@ interface AbstractDrawable extends ContextConsumer {
 
     /**
      * &lt;p&gt;
-     * The &lt;code&gt;AbstractMaterial&lt;/code&gt; that provides the WebGLProgram for this &lt;code&gt;AbstractDrawable&lt;/code&gt;.
+     * The &lt;code&gt;Material&lt;/code&gt; that provides the WebGLProgram for this &lt;code&gt;AbstractDrawable&lt;/code&gt;.
      * &lt;/p&gt;
      *
      * &lt;p&gt;
-     * AbstractMaterial is a shareable WebGL resource and so is reference counted.
-     * Consequently, accessing the &lt;code&gt;material&lt;/code&gt; property increments the &lt;code&gt;AbstractMaterial&lt;/code&gt; instance reference count.
+     * Material is a shareable WebGL resource and so is reference counted.
+     * Consequently, accessing the &lt;code&gt;material&lt;/code&gt; property increments the &lt;code&gt;Material&lt;/code&gt; instance reference count.
      * &lt;em&gt;Be sure to call &lt;code&gt;release()&lt;/code&gt; on shareable WebGL resources in order to prevent memory leaks.&lt;/em&gt;
      * &lt;/p&gt;
      *
      * @property material
-     * @type AbstractMaterial
+     * @type Material
      */
-    material: AbstractMaterial
+    material: Material
 
     /**
      * &lt;p&gt;

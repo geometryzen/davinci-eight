@@ -10,12 +10,12 @@ describe("RigidBodyWithUnits", function() {
   describe("constructor", function() {
 
     const geometry = new BoxGeometry()
-    const material = new MeshMaterial(null, null, 0)
-    const mesh = new Mesh('Mesh', geometry, material, null, 0)
+    const material = new MeshMaterial(null, null)
+    const mesh = new Mesh(geometry, material, null)
     geometry.release()
     material.release()
     const axis = R3.e3
-    const rigidBody = new RigidBodyWithUnits(mesh, R3.e3, 'Foo', 0)
+    const rigidBody = new RigidBodyWithUnits(mesh, R3.e3)
 
     it("should have mass 1 kg", function() {
       expect(rigidBody.mass.toString()).toBe("1 kg")

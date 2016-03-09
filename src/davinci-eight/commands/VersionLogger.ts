@@ -1,5 +1,4 @@
 import ContextProvider from '../core/ContextProvider';
-import incLevel from '../base/incLevel'
 import ShareableBase from '../core/ShareableBase';
 
 const QUALIFIED_NAME = 'EIGHT.VersionLogger'
@@ -18,20 +17,20 @@ export default class VersionLogger extends ShareableBase {
    * </p>
    * @class VersionLogger
    * @constructor
-   * @param [level = 0] {number}
    */
-  constructor(level = 0) {
-    super(QUALIFIED_NAME, incLevel(level))
+  constructor() {
+    super()
+    this.setLoggingName(QUALIFIED_NAME)
   }
 
   /**
    * @method destructor
-   * @param level {number}
+   * @param levelUp {number}
    * @return {void}
    * @protected
    */
-  protected destructor(level: number): void {
-    super.destructor(incLevel(level))
+  protected destructor(levelUp: number): void {
+    super.destructor(levelUp + 1)
   }
 
   contextFree(): void {

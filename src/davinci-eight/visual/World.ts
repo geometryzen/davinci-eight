@@ -21,8 +21,9 @@ export default class World extends ShareableBase {
 
     private _ambientLight = new AmbientLight(Color.fromRGB(0.3, 0.3, 0.3))
 
-    constructor(renderer: Engine, drawList: DrawList, ambients: Facet[], controls: CameraControls, level: number) {
-        super('World', incLevel(level))
+    constructor(renderer: Engine, drawList: DrawList, ambients: Facet[], controls: CameraControls) {
+        super()
+        this.setLoggingName('World')
 
         renderer.addRef()
         this.renderer = renderer

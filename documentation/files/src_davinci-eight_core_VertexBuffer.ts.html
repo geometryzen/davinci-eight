@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.217.0</em>
+            <em>API Docs for: 2.218.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -40,7 +40,6 @@
                             <ul id="api-classes" class="apis classes">
                                 <li><a href="../classes/AbstractColor.html">AbstractColor</a></li>
                                 <li><a href="../classes/AbstractDrawable.html">AbstractDrawable</a></li>
-                                <li><a href="../classes/AbstractMaterial.html">AbstractMaterial</a></li>
                                 <li><a href="../classes/AbstractMatrix.html">AbstractMatrix</a></li>
                                 <li><a href="../classes/AbstractMesh.html">AbstractMesh</a></li>
                                 <li><a href="../classes/AmbientLight.html">AmbientLight</a></li>
@@ -128,6 +127,7 @@
                                 <li><a href="../classes/LinePoints.html">LinePoints</a></li>
                                 <li><a href="../classes/LineStrip.html">LineStrip</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
+                                <li><a href="../classes/MaterialBase.html">MaterialBase</a></li>
                                 <li><a href="../classes/MaterialOptions.html">MaterialOptions</a></li>
                                 <li><a href="../classes/Matrix2.html">Matrix2</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
@@ -271,7 +271,6 @@
     <pre class="code prettyprint linenums">
 import ContextProvider from &#x27;./ContextProvider&#x27;;
 import Engine from &#x27;./Engine&#x27;;
-import incLevel from &#x27;../base/incLevel&#x27;;
 import mustBeObject from &#x27;../checks/mustBeObject&#x27;;
 import mustBeUndefined from &#x27;../checks/mustBeUndefined&#x27;;
 import ShareableContextConsumer from &#x27;./ShareableContextConsumer&#x27;;
@@ -325,27 +324,23 @@ export default class VertexBuffer extends ShareableContextConsumer {
    * @class VertexBuffer
    * @constructor
    * @param engine {Engine}
-   * @param [level=0] {number}
    */
-  constructor(engine: Engine, level = 0) {
-    super(&#x27;VertexBuffer&#x27;, engine, incLevel(level))
-    if (level === 0) {
-      this.synchUp()
-    }
+  constructor(engine: Engine) {
+    super(engine)
+    this.setLoggingName(&#x27;VertexBuffer&#x27;)
+    this.synchUp()
   }
 
   /**
    * @method destructor
-   * @param level {number}
+   * @param levelUp {number}
    * @return {void}
    * @protected
    */
-  protected destructor(level: number): void {
-    if (level === 0) {
-      this.cleanUp()
-    }
+  protected destructor(levelUp: number): void {
+    this.cleanUp()
     mustBeUndefined(this._type, this.webGLBuffer)
-    super.destructor(incLevel(level))
+    super.destructor(levelUp + 1)
   }
 
   /**

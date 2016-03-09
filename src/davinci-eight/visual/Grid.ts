@@ -148,7 +148,7 @@ function configPoints(options: GridOptions, grid: Grid) {
   matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX] = 'mat4'
   matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_POINT_SIZE] = 'float'
 
-  const material = new PointMaterial(matOptions, options.engine, 0)
+  const material = new PointMaterial(matOptions, options.engine)
   grid.material = material
   material.release()
 }
@@ -187,7 +187,7 @@ function configLines(options: GridOptions, grid: Grid) {
   matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX] = 'mat4'
   matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX] = 'mat4'
 
-  const material = new LineMaterial(matOptions, options.engine, 0)
+  const material = new LineMaterial(matOptions, options.engine)
   grid.material = material
   material.release()
 }
@@ -245,7 +245,7 @@ function configMesh(options: GridOptions, grid: Grid) {
 
   matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_AMBIENT_LIGHT] = 'vec3'
 
-  const material = new MeshMaterial(matOptions, options.engine, 0)
+  const material = new MeshMaterial(matOptions, options.engine)
   grid.material = material
   material.release()
 }
@@ -261,10 +261,10 @@ export default class Grid extends Mesh {
    * @class Grid
    * @constructor
    * @param [options] {GridOptions}
-   * @param [level = 0] {number}
    */
-  constructor(options: GridOptions = {}, level = 0) {
-    super('Grid', void 0, void 0, null, incLevel(level))
+  constructor(options: GridOptions = {}) {
+    super(void 0, void 0, null)
+    this.setLoggingName('Grid')
 
     const drawMode: DrawMode = isDefined(options.drawMode) ? options.drawMode : DrawMode.LINES
     switch (drawMode) {

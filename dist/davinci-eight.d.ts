@@ -30,9 +30,9 @@ declare module EIGHT {
   class ShareableBase implements Shareable {
 
     /**
-     * type: A human-readable name for the derived class type.
+     *
      */
-    constructor(type: string, level: number);
+    constructor();
 
     /**
      * Notifies this instance that something is referencing it.
@@ -42,7 +42,12 @@ declare module EIGHT {
     /**
      *
      */
-    protected destructor(level: number): void;
+    protected destructor(levelUp: number): void;
+
+    /**
+     *
+     */
+    getLoggingName(): string;
 
     /**
      *
@@ -53,6 +58,11 @@ declare module EIGHT {
      * Notifies this instance that something is dereferencing it.
      */
     release(): number;
+
+    /**
+     *
+     */
+    protected setLoggingName(name: string): void;
   }
 
   class ShareableArray<T extends Shareable> extends ShareableBase {
@@ -61,7 +71,7 @@ declare module EIGHT {
      * Collection class for maintaining an array of types derived from Shareable.
      * Provides a safer way to maintain reference counts than a native array.
      */
-    constructor(elements: T[], level: number);
+    constructor(elements: T[]);
     forEach(callback: (value: T, index: number) => void): void;
     get(index: number): T;
     /**
@@ -206,7 +216,7 @@ declare module EIGHT {
     vector4fv(name: string, data: Float32Array): void;
   }
 
-  interface AbstractMaterial extends FacetVisitor, ContextConsumer {
+  interface Material extends FacetVisitor, ContextConsumer {
     vertexShaderSrc: string
     fragmentShaderSrc: string
     getAttribLocation(name: string): number
@@ -219,7 +229,7 @@ declare module EIGHT {
    */
   interface PrimitiveBuffers extends Shareable {
     uuid: string;
-    bind(material: AbstractMaterial, aNameToKeyName?: { [name: string]: string }): void;
+    bind(material: Material, aNameToKeyName?: { [name: string]: string }): void;
     draw(): void;
     unbind(): void;
   }
@@ -359,7 +369,7 @@ declare module EIGHT {
 
   /**
    * The QQ class represents a rational number.
-   * The QQ implementation is that of an immutable (value) type.
+   * The QQ implementation is that of an immutable value.
    * The numerator and denominator are reduced to their lowest form.
    * Construct new instances using the static valueOf method.
    */
@@ -2628,7 +2638,7 @@ declare module EIGHT {
     /**
      *
      */
-    draw(program: AbstractMaterial): void;
+    draw(program: Material): void;
   }
 
   /**
@@ -3003,7 +3013,7 @@ declare module EIGHT {
     partsLength: number;
     scaling: Matrix4;
     addPart(geometry: Geometry): void;
-    draw(material: AbstractMaterial): void;
+    draw(material: Material): void;
     getPart(index: number): Geometry;
     getPrincipalScale(name: string): number;
     hasPrincipalScale(name: string): boolean;
@@ -3021,7 +3031,7 @@ declare module EIGHT {
     contextFree(context: ContextProvider): void;
     contextGain(context: ContextProvider): void;
     contextLost(): void;
-    draw(material: AbstractMaterial): void;
+    draw(material: Material): void;
     getPart(index: number): Geometry;
     getPrincipalScale(name: string): number;
     hasPrincipalScale(name: string): boolean;
@@ -3040,10 +3050,10 @@ declare module EIGHT {
     /**
      *
      */
-    constructor(engine: Engine, level?: number);
-    protected destructor(): void;
+    constructor(engine: Engine);
+    protected destructor(levelUp: number): void;
     addPart(geometry: Geometry): void;
-    draw(material: AbstractMaterial): void;
+    draw(material: Material): void;
     getAttribute(name: string): Attribute;
     getPart(index: number): Geometry;
     getPrincipalScale(name: string): number;
@@ -3065,10 +3075,10 @@ declare module EIGHT {
      * The total number of bytes for each element.
      */
     stride: number;
-    constructor(type: string, data: VertexArrays, engine: Engine, level: number);
-    protected destructor(): void;
+    constructor(data: VertexArrays, engine: Engine);
+    protected destructor(levelUp: number): void;
     addPart(geometry: Geometry): void;
-    draw(material: AbstractMaterial): void;
+    draw(material: Material): void;
     getPart(index: number): Geometry;
     getPrincipalScale(name: string): number;
     hasPrincipalScale(name: string): boolean;
@@ -3166,14 +3176,15 @@ declare module EIGHT {
   /**
    *
    */
-  class Material extends ShareableContextConsumer implements AbstractMaterial {
+  class MaterialBase extends ShareableContextConsumer implements Material {
     attributeNames: string[];
     fragmentShaderSrc: string;
     vertexShaderSrc: string;
-    constructor(vertexShaderSrc: string, fragmentShaderSrc: string, attribs: string[], type: string, engine: Engine);
+    constructor(vertexShaderSrc: string, fragmentShaderSrc: string, attribs: string[], engine: Engine);
     contextFree(contextProvider: ContextProvider): void;
     contextGain(contextProvider: ContextProvider): void;
     contextLost(): void;
+    protected destructor(levelUp: number): void;
     disableAttrib(name: string): void;
     disableAttribs(): void;
     enableAttrib(name: string): void;
@@ -3201,7 +3212,7 @@ declare module EIGHT {
   interface AbstractDrawable extends ContextConsumer {
     fragmentShaderSrc: string;
     geometry: Geometry;
-    material: AbstractMaterial;
+    material: Material;
     name: string;
     vertexShaderSrc: string;
     visible: boolean;
@@ -3213,7 +3224,7 @@ declare module EIGHT {
    * The primitives provide attribute arguments to the graphics program.
    * The facets provide uniform arguments to the graphics program. 
    */
-  class Drawable extends ShareableBase implements AbstractDrawable {
+  class Drawable extends ShareableContextConsumer implements AbstractDrawable {
 
     /**
      *
@@ -3228,7 +3239,7 @@ declare module EIGHT {
     /**
      *
      */
-    material: AbstractMaterial;
+    material: Material;
 
     /**
      * A user-assigned name that allows the composite object to be found.
@@ -3248,28 +3259,15 @@ declare module EIGHT {
     /**
      *
      */
-    constructor(type: string, geometry: Geometry, material: AbstractMaterial);
-
-    /**
-     *
-     */
-    subscribe(context: Engine): void;
-
-    /**
-     *
-     */
-    unsubscribe(): void;
-
-    setUniforms(): void;
-
-    /**
-     *
-     */
-    draw(ambients: Facet[]): void;
+    constructor(geometry: Geometry, material: Material, engine: Engine);
 
     contextFree(manager: ContextProvider): void;
     contextGain(manager: ContextProvider): void;
     contextLost(): void;
+
+    protected destructor(levelUp: number): void;
+
+    draw(ambients: Facet[]): void;
 
     /**
      * Gets a facet of this composite object by name.
@@ -3282,38 +3280,30 @@ declare module EIGHT {
      * Facets provide uniform arguments to the graphics program.
      */
     setFacet(name: string, facet: Facet): void;
+
+    setUniforms(): void;
   }
 
   /**
-   * A AbstractMaterial based upon scripts in a DOM.
+   * A material based upon scripts in a DOM.
    */
-  class HTMLScriptsMaterial extends Material {
+  class HTMLScriptsMaterial extends MaterialBase {
     /**
      *
      */
     constructor(scriptIds: string[], dom: Document, attribs: string[], engine: Engine);
+    protected destructor(levelUp: number): void;
   }
 
-  /**
-   *
-   */
-  class PointMaterial extends Material {
-    constructor();
-  }
-
-  interface LineMaterialOptions {
+  interface PointMaterialOptions {
 
     /**
-     * @attribute attributes
-     * @type {[name: string]: number}
-     * @optional
+     *
      */
     attributes?: { [name: string]: number }
 
     /**
-     * @attribute uniforms
-     * @type {[name: string]: string}
-     * @optional
+     *
      */
     uniforms?: { [name: string]: string }
   }
@@ -3321,21 +3311,57 @@ declare module EIGHT {
   /**
    *
    */
-  class LineMaterial extends Material {
+  class PointMaterial extends MaterialBase {
+    constructor(options: PointMaterialOptions, engine: Engine);
+    protected destructor(levelUp: number): void;
+  }
+
+  interface LineMaterialOptions {
+
+    /**
+     *
+     */
+    attributes?: { [name: string]: number }
+
+    /**
+     *
+     */
+    uniforms?: { [name: string]: string }
+  }
+
+  /**
+   *
+   */
+  class LineMaterial extends MaterialBase {
     constructor(options: LineMaterialOptions, engine: Engine)
+    protected destructor(levelUp: number): void;
+  }
+
+  interface MeshMaterialOptions {
+
+    /**
+     *
+     */
+    attributes?: { [name: string]: number }
+
+    /**
+     *
+     */
+    uniforms?: { [name: string]: string }
   }
 
   /**
    *
    */
-  class MeshMaterial extends Material {
-    constructor();
+  class MeshMaterial extends MaterialBase {
+    constructor(options: MeshMaterialOptions, engine: Engine);
+    protected destructor(levelUp: number): void;
   }
 
   /**
    *
    */
-  class MeshNormalMaterial extends Material {
+  class MeshNormalMaterial extends MaterialBase {
     constructor();
   }
 
@@ -3671,21 +3697,41 @@ declare module EIGHT {
    * which are implemented as Facet(s).
    */
   class Mesh extends Drawable implements AbstractMesh {
-    /**
-     *
-     */
-    attitude: Geometric3
-    color: Color
-    matrix: Matrix4
-    position: Geometric3
-    scale: Vector3
-    stress: Matrix4
-    tilt: Spinor3
 
     /**
      *
      */
-    constructor(geometry: Geometry, material: AbstractMaterial, type?: string)
+    attitude: Geometric3;
+
+    /**
+     *
+     */
+    color: Color;
+
+    /**
+     *
+     */
+    matrix: Matrix4;
+
+    /**
+     *
+     */
+    position: Geometric3;
+
+    /**
+     *
+     */
+    stress: Matrix4;
+
+    /**
+     *
+     */
+    constructor(geometry: Geometry, material: Material, engine: Engine);
+  
+    /**
+     *
+     */
+    protected destructor(levelUp: number): void;
   }
 
   /**
@@ -3700,35 +3746,43 @@ declare module EIGHT {
     /**
      *
      */
-    constructor(mesh: Mesh, axis: VectorE3, type?: string)
+    constructor(mesh: Mesh, axis: VectorE3);
+    protected destructor(levelUp: number): void;
   }
 
   class RigidBody extends Mesh {
     /**
      * The axis of the RigidBody.
      */
-    public axis: Geometric3
+    public axis: Geometric3;
+
+    public initialAxis: R3;
 
     /**
      * The (dimensionless) mass of the RigidBody.
      */
-    public mass: number
+    public mass: number;
 
     /**
      * The (dimensionless) momentum of the RigidBody.
      */
-    public momentum: Geometric3
+    public momentum: Geometric3;
 
-    constructor(type: string, initialAxis: VectorE3)
+    constructor(geometry: Geometry, material: Material, engine: Engine, initialAxis: VectorE3);
+    protected destructor(levelUp: number): void;
   }
 
   class Arrow extends RigidBody {
-    length: number
+    length: number;
     constructor(
       options?: {
+        attitude?: SpinorE3;
         axis?: VectorE3;
-        color?: Color;
+        color?: AbstractColor;
+        engine?: Engine;
+        offset?: VectorE3;
         position?: VectorE3;
+        tilt?: SpinorE3;
       })
   }
 
@@ -3739,13 +3793,14 @@ declare module EIGHT {
     constructor(
       options?: {
         attitude?: SpinorE3;
-        color?: Color;
+        color?: AbstractColor;
         depth?: number;
+        engine?: Engine;
         height?: number;
         offset?: VectorE3;
-        openCap?: boolean;
         openBack?: boolean;
         openBase?: boolean;
+        openCap?: boolean;
         openFront?: boolean;
         openLeft?: boolean;
         openRight?: boolean;
@@ -3760,44 +3815,58 @@ declare module EIGHT {
     radius: number;
     constructor(
       options?: {
+        attitude?: SpinorE3;
         axis?: VectorE3;
-        color?: Color;
+        color?: AbstractColor;
+        engine?: Engine;
         length?: number;
         offset?: VectorE3;
         openBase?: boolean;
         openCap?: boolean;
         openWall?: boolean;
         position?: VectorE3;
-        tilt?: SpinorE3;
         radius?: number;
+        tilt?: SpinorE3;
       })
   }
 
   class Curve extends Mesh {
     constructor(
       options?: {
-        aColor?: (u: number) => AbstractColor
-        aPosition?: (u: number) => VectorE3
-        drawMode?: DrawMode
-        uMax?: number
-        uMin?: number
-        uSegments?: number
+        aColor?: (u: number) => AbstractColor;
+        aPosition?: (u: number) => VectorE3;
+        attitude: SpinorE3;
+        color?: AbstractColor;
+        drawMode?: DrawMode;
+        engine?: Engine;
+        offset?: VectorE3;
+        position?: VectorE3;
+        tilt?: SpinorE3;
+        uMax?: number;
+        uMin?: number;
+        uSegments?: number;
       })
   }
 
   class Grid extends Mesh {
     constructor(
       options?: {
-        aColor?: (u: number, v: number) => AbstractColor
-        aNormal?: (u: number, v: number) => VectorE3
-        aPosition?: (u: number, v: number) => VectorE3
-        drawMode?: DrawMode
-        uMax?: number
-        uMin?: number
-        uSegments?: number
-        vMax?: number
-        vMin?: number
-        vSegments?: number
+        aColor?: (u: number, v: number) => AbstractColor;
+        aNormal?: (u: number, v: number) => VectorE3;
+        aPosition?: (u: number, v: number) => VectorE3;
+        attitude?: SpinorE3;
+        color?: AbstractColor;
+        drawMode?: DrawMode;
+        engine?: Engine;
+        offset?: VectorE3;
+        position?: VectorE3;
+        tilt?: SpinorE3;
+        uMax?: number;
+        uMin?: number;
+        uSegments?: number;
+        vMax?: number;
+        vMin?: number;
+        vSegments?: number;
       })
   }
 
@@ -3805,17 +3874,28 @@ declare module EIGHT {
     radius: number;
     constructor(
       options?: {
+        attitude?: SpinorE3;
         color?: AbstractColor;
         engine?: Engine;
         offset?: VectorE3;
         position?: VectorE3;
         radius?: number;
+        tilt?: SpinorE3;
       })
   }
 
   class Tetrahedron extends Mesh {
     radius: number;
-    constructor(options?: { axis?: VectorE3 })
+    constructor(
+      options?: {
+        attitude?: SpinorE3;
+        color?: AbstractColor;
+        engine?: Engine;
+        offset?: VectorE3;
+        position?: VectorE3;
+        tilt?: SpinorE3;
+      })
+    protected destructor(levelUp: number): void;
   }
 
   interface TrailConfig {

@@ -6,7 +6,7 @@ import isDefined from '../checks/isDefined'
 import isNull from '../checks/isNull'
 import isUndefined from '../checks/isUndefined'
 import LineMaterialOptions from './LineMaterialOptions'
-import Material from './Material'
+import MaterialBase from './MaterialBase'
 import mustBeObject from '../checks/mustBeObject'
 
 /**
@@ -70,29 +70,24 @@ function fragmentShaderSrc(options?: LineMaterialOptions): string {
  * </table>
  *
  * @class LineMaterial
- * @extends Material
+ * @extends MaterialBase
  */
-export default class LineMaterial extends Material {
+export default class LineMaterial extends MaterialBase {
 
   /**
    * @class LineMaterial
    * @constructor
    * @param options {LineMaterialOptions}
    * @param engine {Engine}
-   * @param level {number}
    */
-  constructor(options: LineMaterialOptions, engine: Engine, level: number) {
+  constructor(options: LineMaterialOptions, engine: Engine) {
     super(
       vertexShaderSrc(options),
       fragmentShaderSrc(options),
       [],
-      'LineMaterial',
-      engine,
-      incLevel(level)
+      engine
     )
-    if (level === 0) {
-      this.synchUp()
-    }
+    this.setLoggingName('LineMaterial')
   }
 
   /**

@@ -63,7 +63,7 @@ export default class GraphicsProgramBuilder {
         const aParams = computeAttribParams(this.aMeta)
         const vColor = vColorRequired(aParams, this.uParams)
         const vLight = vLightRequired(aParams, this.uParams)
-        return new SmartGraphicsProgram(aParams, this.uParams, vColor, vLight, engine, 0)
+        return new SmartGraphicsProgram(aParams, this.uParams, vColor, vLight, engine)
     }
 
     public vertexShaderSrc(): string {

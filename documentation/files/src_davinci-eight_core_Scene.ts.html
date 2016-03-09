@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.217.0</em>
+            <em>API Docs for: 2.218.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -40,7 +40,6 @@
                             <ul id="api-classes" class="apis classes">
                                 <li><a href="../classes/AbstractColor.html">AbstractColor</a></li>
                                 <li><a href="../classes/AbstractDrawable.html">AbstractDrawable</a></li>
-                                <li><a href="../classes/AbstractMaterial.html">AbstractMaterial</a></li>
                                 <li><a href="../classes/AbstractMatrix.html">AbstractMatrix</a></li>
                                 <li><a href="../classes/AbstractMesh.html">AbstractMesh</a></li>
                                 <li><a href="../classes/AmbientLight.html">AmbientLight</a></li>
@@ -128,6 +127,7 @@
                                 <li><a href="../classes/LinePoints.html">LinePoints</a></li>
                                 <li><a href="../classes/LineStrip.html">LineStrip</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
+                                <li><a href="../classes/MaterialBase.html">MaterialBase</a></li>
                                 <li><a href="../classes/MaterialOptions.html">MaterialOptions</a></li>
                                 <li><a href="../classes/Matrix2.html">Matrix2</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
@@ -304,8 +304,9 @@ class ScenePart extends ShareableBase {
   /**
    *
    */
-  constructor(geometry: Geometry, mesh: AbstractDrawable, level: number) {
-    super(&#x27;ScenePart&#x27;, incLevel(level))
+  constructor(geometry: Geometry, mesh: AbstractDrawable) {
+    super()
+    this.setLoggingName(&#x27;ScenePart&#x27;)
     this._geometry = geometry
     this._geometry.addRef()
     this._mesh = mesh
@@ -350,10 +351,10 @@ class ScenePart extends ShareableBase {
 
 function partsFromMesh(mesh: AbstractDrawable): ShareableArray&lt;ScenePart&gt; {
   mustBeObject(&#x27;mesh&#x27;, mesh)
-  const parts = new ShareableArray&lt;ScenePart&gt;([], 0)
+  const parts = new ShareableArray&lt;ScenePart&gt;([])
   const geometry = mesh.geometry
   if (geometry.isLeaf()) {
-    const scenePart = new ScenePart(geometry, mesh, 0)
+    const scenePart = new ScenePart(geometry, mesh)
     parts.pushWeakRef(scenePart)
   }
   else {
@@ -361,7 +362,7 @@ function partsFromMesh(mesh: AbstractDrawable): ShareableArray&lt;ScenePart&gt; 
     for (let i = 0; i &lt; iLen; i++) {
       const geometryPart = geometry.getPart(i)
       // FIXME: This needs to go down to the leaves.
-      const scenePart = new ScenePart(geometryPart, mesh, 0)
+      const scenePart = new ScenePart(geometryPart, mesh)
       geometryPart.release()
       parts.pushWeakRef(scenePart)
     }
@@ -386,16 +387,17 @@ export default class Scene extends ShareableContextConsumer {
    * The precise order is implementation defined.
    * The collection may be traversed for general processing using callback/visitor functions.
    * &lt;/p&gt;
+   *
    * @class Scene
    * @constructor
    * @param engine {Engine}
-   * @param [level = 0]
    */
-  constructor(engine: Engine, level = 0) {
-    super(&#x27;Scene&#x27;, engine, incLevel(level))
+  constructor(engine: Engine) {
+    super(engine)
+    this.setLoggingName(&#x27;Scene&#x27;)
     mustBeObject(&#x27;engine&#x27;, engine)
-    this._drawables = new ShareableArray&lt;AbstractDrawable&gt;([], 0)
-    this._parts = new ShareableArray&lt;ScenePart&gt;([], 0)
+    this._drawables = new ShareableArray&lt;AbstractDrawable&gt;([])
+    this._parts = new ShareableArray&lt;ScenePart&gt;([])
     this.synchUp()
   }
 

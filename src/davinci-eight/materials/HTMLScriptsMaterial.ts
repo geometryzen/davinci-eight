@@ -6,7 +6,7 @@ import mustBeArray from '../checks/mustBeArray';
 import mustBeObject from '../checks/mustBeObject';
 import mustBeString from '../checks/mustBeString';
 import mustSatisfy from '../checks/mustSatisfy';
-import Material from './Material';
+import MaterialBase from './MaterialBase';
 
 /**
  * @module EIGHT
@@ -88,9 +88,9 @@ function detectShaderType(scriptIds: string[], dom: Document): string[] {
  *     material.release()
  *
  * @class HTMLScriptsMaterial
- * @extends Material
+ * @extends MaterialBase
  */
-export default class HTMLScriptsMaterial extends Material {
+export default class HTMLScriptsMaterial extends MaterialBase {
   private scriptIds: string[];
   private dom: Document;
   private loaded: boolean = false;
@@ -102,10 +102,10 @@ export default class HTMLScriptsMaterial extends Material {
    * @param dom {Document} The document object model that owns the script elements.
    * @param attribs {string[]} An array of strings containing the order of attributes.
    * @param engine {Engine}
-   * @param level {number}
    */
-  constructor(scriptIds: string[], dom: Document, attribs: string[], engine: Engine, level = 0) {
-    super(void 0, void 0, attribs, 'HTMLScriptsMaterial', engine, incLevel(level))
+  constructor(scriptIds: string[], dom: Document, attribs: string[], engine: Engine) {
+    super(void 0, void 0, attribs, engine)
+    this.setLoggingName('HTMLScriptsMaterial')
     mustBeArray('scriptIds', scriptIds)
     mustSatisfy('scriptIds', scriptIds.length === 2, () => { return 'have two script element identifiers.' })
     this.scriptIds = [scriptIds[0], scriptIds[1]]

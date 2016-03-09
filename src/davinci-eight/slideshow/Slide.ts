@@ -27,10 +27,11 @@ export default class Slide extends ShareableBase implements ISlide {
    * The time standard for this Slide.
    */
   private now = 0;
-  constructor(level: number) {
-    super('Slide', incLevel(level))
-    this.prolog = new SlideCommands(0)
-    this.epilog = new SlideCommands(0)
+  constructor() {
+    super()
+    this.setLoggingName('Slide')
+    this.prolog = new SlideCommands()
+    this.epilog = new SlideCommands()
     this.targets = []
     this.mirrors = new StringShareableMap<Mirror>()
   }
@@ -134,10 +135,11 @@ export default class Slide extends ShareableBase implements ISlide {
 class AnimationLane extends ShareableBase {
   private completed: ShareableArray<IAnimation>;
   private remaining: ShareableArray<IAnimation>;
-  constructor(level: number) {
-    super('AnimationLane', incLevel(level))
-    this.completed = new ShareableArray<IAnimation>([], 0)
-    this.remaining = new ShareableArray<IAnimation>([], 0)
+  constructor() {
+    super()
+    this.setLoggingName('AnimationLane')
+    this.completed = new ShareableArray<IAnimation>([])
+    this.remaining = new ShareableArray<IAnimation>([])
   }
   protected destructor(level: number): void {
     this.completed.release()
@@ -203,7 +205,8 @@ class Mirror extends ShareableBase {
    */
   public animationLanes: StringShareableMap<AnimationLane>;
   constructor() {
-    super('Mirror', 1)
+    super()
+    this.setLoggingName('Mirror')
     this.animationLanes = new StringShareableMap<AnimationLane>()
   }
 
@@ -214,7 +217,7 @@ class Mirror extends ShareableBase {
   }
   ensureAnimationLane(key: string): void {
     if (!this.animationLanes.exists(key)) {
-      this.animationLanes.putWeakRef(key, new AnimationLane(0))
+      this.animationLanes.putWeakRef(key, new AnimationLane())
     }
   }
 }

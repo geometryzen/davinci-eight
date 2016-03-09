@@ -23,8 +23,9 @@ export default class Keyboard extends ShareableBase {
   private keyDownHandler: (event: KeyboardEvent) => any;
   private keyUpHandler: (event: KeyboardEvent) => any;
   public currentlyPressedKeys: boolean[] = [];
-  constructor(handler: IKeyboardHandler, document: Document = window.document, level = 0) {
-    super('Keyboard', incLevel(level))
+  constructor(handler: IKeyboardHandler, document: Document = window.document) {
+    super()
+    this.setLoggingName('Keyboard')
     this.attach(handler, document)
   }
   protected destructor(level: number): void {

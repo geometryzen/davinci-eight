@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.217.0</em>
+            <em>API Docs for: 2.218.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -40,7 +40,6 @@
                             <ul id="api-classes" class="apis classes">
                                 <li><a href="../classes/AbstractColor.html">AbstractColor</a></li>
                                 <li><a href="../classes/AbstractDrawable.html">AbstractDrawable</a></li>
-                                <li><a href="../classes/AbstractMaterial.html">AbstractMaterial</a></li>
                                 <li><a href="../classes/AbstractMatrix.html">AbstractMatrix</a></li>
                                 <li><a href="../classes/AbstractMesh.html">AbstractMesh</a></li>
                                 <li><a href="../classes/AmbientLight.html">AmbientLight</a></li>
@@ -128,6 +127,7 @@
                                 <li><a href="../classes/LinePoints.html">LinePoints</a></li>
                                 <li><a href="../classes/LineStrip.html">LineStrip</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
+                                <li><a href="../classes/MaterialBase.html">MaterialBase</a></li>
                                 <li><a href="../classes/MaterialOptions.html">MaterialOptions</a></li>
                                 <li><a href="../classes/Matrix2.html">Matrix2</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
@@ -285,7 +285,7 @@ import ShareableBase from &#x27;../core/ShareableBase&#x27;;
  */
 function transferOwnership&lt;T extends Shareable&gt;(data: T[]): ShareableArray&lt;T&gt; {
   if (data) {
-    const result = new ShareableArray&lt;T&gt;(data, 0)
+    const result = new ShareableArray&lt;T&gt;(data)
     // The result has now taken ownership of the elements, so we can release.
     for (let i = 0, iLength = data.length; i &lt; iLength; i++) {
       const element = data[i]
@@ -324,10 +324,10 @@ export default class ShareableArray&lt;T extends Shareable&gt; extends Shareable
    * @class ShareableArray
    * @constructor
    * @param [elements] {T[]}
-   * @param [level = 0] {number}
    */
-  constructor(elements: T[] = [], level = 0) {
-    super(&#x27;ShareableArray&#x27;, incLevel(level))
+  constructor(elements: T[] = []) {
+    super()
+    this.setLoggingName(&#x27;ShareableArray&#x27;)
     this._elements = elements
     for (let i = 0, l = this._elements.length; i &lt; l; i++) {
       this._elements[i].addRef()
@@ -354,7 +354,7 @@ export default class ShareableArray&lt;T extends Shareable&gt; extends Shareable
    * @return {ShareableArray}
    */
   find(match: (element: T) =&gt; boolean): ShareableArray&lt;T&gt; {
-    const result = new ShareableArray&lt;T&gt;([], 0)
+    const result = new ShareableArray&lt;T&gt;([])
     const elements = this._elements
     const iLen = elements.length
     for (let i = 0; i &lt; iLen; i++) {
@@ -444,7 +444,7 @@ export default class ShareableArray&lt;T extends Shareable&gt; extends Shareable
    * @return {ShareableArray}
    */
   slice(begin?: number, end?: number): ShareableArray&lt;T&gt; {
-    return new ShareableArray&lt;T&gt;(this._elements.slice(begin, end), 0)
+    return new ShareableArray&lt;T&gt;(this._elements.slice(begin, end))
   }
   /**
    * The splice() method changes the content of an array by removing existing elements and/or adding new elements.

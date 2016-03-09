@@ -33,8 +33,9 @@ class ScenePart extends ShareableBase {
   /**
    *
    */
-  constructor(geometry: Geometry, mesh: AbstractDrawable, level: number) {
-    super('ScenePart', incLevel(level))
+  constructor(geometry: Geometry, mesh: AbstractDrawable) {
+    super()
+    this.setLoggingName('ScenePart')
     this._geometry = geometry
     this._geometry.addRef()
     this._mesh = mesh
@@ -79,10 +80,10 @@ class ScenePart extends ShareableBase {
 
 function partsFromMesh(mesh: AbstractDrawable): ShareableArray<ScenePart> {
   mustBeObject('mesh', mesh)
-  const parts = new ShareableArray<ScenePart>([], 0)
+  const parts = new ShareableArray<ScenePart>([])
   const geometry = mesh.geometry
   if (geometry.isLeaf()) {
-    const scenePart = new ScenePart(geometry, mesh, 0)
+    const scenePart = new ScenePart(geometry, mesh)
     parts.pushWeakRef(scenePart)
   }
   else {
@@ -90,7 +91,7 @@ function partsFromMesh(mesh: AbstractDrawable): ShareableArray<ScenePart> {
     for (let i = 0; i < iLen; i++) {
       const geometryPart = geometry.getPart(i)
       // FIXME: This needs to go down to the leaves.
-      const scenePart = new ScenePart(geometryPart, mesh, 0)
+      const scenePart = new ScenePart(geometryPart, mesh)
       geometryPart.release()
       parts.pushWeakRef(scenePart)
     }
@@ -115,16 +116,17 @@ export default class Scene extends ShareableContextConsumer {
    * The precise order is implementation defined.
    * The collection may be traversed for general processing using callback/visitor functions.
    * </p>
+   *
    * @class Scene
    * @constructor
    * @param engine {Engine}
-   * @param [level = 0]
    */
-  constructor(engine: Engine, level = 0) {
-    super('Scene', engine, incLevel(level))
+  constructor(engine: Engine) {
+    super(engine)
+    this.setLoggingName('Scene')
     mustBeObject('engine', engine)
-    this._drawables = new ShareableArray<AbstractDrawable>([], 0)
-    this._parts = new ShareableArray<ScenePart>([], 0)
+    this._drawables = new ShareableArray<AbstractDrawable>([])
+    this._parts = new ShareableArray<ScenePart>([])
     this.synchUp()
   }
 

@@ -24,10 +24,10 @@ export default class Box extends RigidBody {
    * @class Box
    * @constructor
    * @param [options] {BoxOptions}
-   * @param [level = 0] {number}
    */
-  constructor(options: BoxOptions = {}, level = 0) {
-    super('Box', direction(options), incLevel(level))
+  constructor(options: BoxOptions = {}) {
+    super(void 0, void 0, options.engine, direction(options))
+    this.setLoggingName('Box')
     // The shape is created un-stressed and then parameters drive the scaling.
     // The scaling matrix takes into account the initial tilt from the standard configuration.
     // const stress = Vector3.vector(1, 1, 1)
@@ -47,7 +47,7 @@ export default class Box extends RigidBody {
     geometry.release()
 
     const matOptions: MeshMaterialOptions = void 0
-    const material = new MeshMaterial(matOptions, options.engine, 0)
+    const material = new MeshMaterial(matOptions, options.engine)
     this.material = material
     material.release()
 
@@ -64,10 +64,6 @@ export default class Box extends RigidBody {
     this.width = isDefined(options.width) ? mustBeNumber('width', options.width) : 1.0
     this.height = isDefined(options.height) ? mustBeNumber('height', options.height) : 1.0
     this.depth = isDefined(options.depth) ? mustBeNumber('depth', options.depth) : 1.0
-
-    if (level === 0) {
-      this.synchUp()
-    }
   }
 
 

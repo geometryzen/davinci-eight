@@ -1,4 +1,4 @@
-import AbstractMaterial from './AbstractMaterial';
+import Material from './Material';
 import Shareable from './Shareable';
 
 /**
@@ -20,10 +20,10 @@ interface PrimitiveBuffers extends Shareable {
 
     /**
      * @method bind
-     * @param material {AbstractMaterial}
+     * @param material {Material}
      * @return {void}
      */
-    bind(material: AbstractMaterial): void;
+    bind(material: Material): void;
 
     /**
      * @method draw

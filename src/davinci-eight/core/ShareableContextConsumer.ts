@@ -32,11 +32,12 @@ import ShareableBase from './ShareableBase';
  *     class MyContextConsumer extends EIGHT.ShareableContextConsumer {
  *       constructor(engine: EIGHT.Engine) {
  *         // Allocate your own resources here or on-demand.
- *         super('MyContextConsumer', engine)
+ *         super(engine)
+ *         this.setLoggingName('MyContextConsumer')
  *       }
- *       protected destructor(): void {
+ *       protected destructor(level: number): void {
  *         // Deallocate your own resources here.
- *         super.destructor()
+ *         super.destructor(level + 1)
  *       }
  *     }
  *
@@ -63,12 +64,11 @@ export default class ShareableContextConsumer extends ShareableBase implements C
   /**
    * @class ShareableContextConsumer
    * @constructor
-   * @param type {string} The name of the derived class for logging purposes.
    * @param engine {Engine} The <code>Engine</code> to subscribe to or <code>null</code> for deferred subscription.
-   * @param level {number}
    */
-  constructor(type: string, engine: Engine, level: number) {
-    super(type, incLevel(level))
+  constructor(engine: Engine) {
+    super()
+    this.setLoggingName('ShareableContextConsumer')
     if (engine instanceof Engine) {
       // Don't synchronize as that would violate the Implementation Hierarchy Principle.
       this.subscribe(engine, false)

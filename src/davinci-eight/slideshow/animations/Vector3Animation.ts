@@ -19,8 +19,9 @@ export default class Vector3Animation extends ShareableBase implements IAnimatio
   private fraction: number;
   private callback: () => void;
   private ease: string;
-  constructor(value: VectorE3, duration: number = 300, callback?: () => void, ease?: string, level = 0) {
-    super('Vector3Animation', incLevel(level))
+  constructor(value: VectorE3, duration: number = 300, callback?: () => void, ease?: string) {
+    super()
+    this.setLoggingName('Vector3Animation')
     this.to = Vector3.copy(value)
     this.duration = duration
     this.fraction = 0;

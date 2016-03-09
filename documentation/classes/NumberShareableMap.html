@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.217.0</em>
+            <em>API Docs for: 2.218.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -40,7 +40,6 @@
                             <ul id="api-classes" class="apis classes">
                                 <li><a href="../classes/AbstractColor.html">AbstractColor</a></li>
                                 <li><a href="../classes/AbstractDrawable.html">AbstractDrawable</a></li>
-                                <li><a href="../classes/AbstractMaterial.html">AbstractMaterial</a></li>
                                 <li><a href="../classes/AbstractMatrix.html">AbstractMatrix</a></li>
                                 <li><a href="../classes/AbstractMesh.html">AbstractMesh</a></li>
                                 <li><a href="../classes/AmbientLight.html">AmbientLight</a></li>
@@ -128,6 +127,7 @@
                                 <li><a href="../classes/LinePoints.html">LinePoints</a></li>
                                 <li><a href="../classes/LineStrip.html">LineStrip</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
+                                <li><a href="../classes/MaterialBase.html">MaterialBase</a></li>
                                 <li><a href="../classes/MaterialOptions.html">MaterialOptions</a></li>
                                 <li><a href="../classes/Matrix2.html">Matrix2</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
@@ -273,7 +273,7 @@
         </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_collections_NumberShareableMap.ts.html#l22"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;NumberShareableMap.ts:22</code></a>
+            Defined in: <a href="../files/src_davinci-eight_collections_NumberShareableMap.ts.html#l21"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;NumberShareableMap.ts:21</code></a>
         </div>
 
             Module: <a href="../modules/collections.html">collections</a><br>
@@ -291,13 +291,7 @@
 <div id="method_NumberShareableMap" class="method item">
     <h3 class="name"><code>NumberShareableMap</code></h3>
 
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code class="optional">[level = 0]</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
+        <span class="paren">()</span>
 
 
 
@@ -309,7 +303,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_collections_NumberShareableMap.ts.html#l22"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;NumberShareableMap.ts:22</code></a>
+        <a href="../files/src_davinci-eight_collections_NumberShareableMap.ts.html#l21"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;NumberShareableMap.ts:21</code></a>
         </p>
 
 
@@ -320,23 +314,6 @@
         
     </div>
 
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name optional">[level = 0]</code>
-                        <span class="type">Number</span>
-                        <span class="flag optional" title="This parameter is optional.">optional</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
 
 
 
@@ -379,6 +356,10 @@
                                 <a href="#method_get">get</a>
 
                             </li>
+                            <li class="index-item method inherited">
+                                <a href="#method_getLoggingName">getLoggingName</a>
+
+                            </li>
                             <li class="index-item method">
                                 <a href="#method_getWeakRef">getWeakRef</a>
 
@@ -403,6 +384,10 @@
                                 <a href="#method_remove">remove</a>
 
                             </li>
+                            <li class="index-item method protected inherited">
+                                <a href="#method_setLoggingName">setLoggingName</a>
+
+                            </li>
                     </ul>
                 </div>
 
@@ -415,7 +400,7 @@
 
                             </li>
                             <li class="index-item property private inherited">
-                                <a href="#property__level">_level</a>
+                                <a href="#property__levelUp">_levelUp</a>
 
                             </li>
                             <li class="index-item property private inherited">
@@ -439,7 +424,7 @@
 
                             </li>
                             <li class="index-item property private inherited">
-                                <a href="#property_shareLength">shareLength</a>
+                                <a href="#property_levelUp">levelUp</a>
 
                             </li>
                             <li class="index-item property private inherited">
@@ -476,7 +461,7 @@
                 Shareable
             </a>
             but overwritten in
-        <a href="../files/src_davinci-eight_core_ShareableBase.ts.html#l128"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableBase.ts:128</code></a>
+        <a href="../files/src_davinci-eight_core_ShareableBase.ts.html#l143"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableBase.ts:143</code></a>
         </p>
 
 
@@ -507,7 +492,7 @@ Notifies this instance that something is referencing it.
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
-                        <code>level</code>
+                        <code>levelUp</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
@@ -526,7 +511,7 @@ Notifies this instance that something is referencing it.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/ShareableBase.html#method_destructor">ShareableBase</a>:
-        <a href="../files/src_davinci-eight_core_ShareableBase.ts.html#l76"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableBase.ts:76</code></a>
+        <a href="../files/src_davinci-eight_core_ShareableBase.ts.html#l90"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableBase.ts:90</code></a>
         </p>
 
 
@@ -550,7 +535,7 @@ Outputs a warning to the console that this method should be implemented by the d
 
             <ul class="params-list">
                 <li class="param">
-                        <code class="param-name">level</code>
+                        <code class="param-name">levelUp</code>
                         <span class="type">Number</span>
 
 
@@ -596,7 +581,7 @@ Outputs a warning to the console that this method should be implemented by the d
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_collections_NumberShareableMap.ts.html#l47"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;NumberShareableMap.ts:47</code></a>
+        <a href="../files/src_davinci-eight_collections_NumberShareableMap.ts.html#l46"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;NumberShareableMap.ts:46</code></a>
         </p>
 
 
@@ -658,7 +643,7 @@ Outputs a warning to the console that this method should be implemented by the d
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_collections_NumberShareableMap.ts.html#l107"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;NumberShareableMap.ts:107</code></a>
+        <a href="../files/src_davinci-eight_collections_NumberShareableMap.ts.html#l106"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;NumberShareableMap.ts:106</code></a>
         </p>
 
 
@@ -720,7 +705,7 @@ Outputs a warning to the console that this method should be implemented by the d
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_collections_NumberShareableMap.ts.html#l57"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;NumberShareableMap.ts:57</code></a>
+        <a href="../files/src_davinci-eight_collections_NumberShareableMap.ts.html#l56"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;NumberShareableMap.ts:56</code></a>
         </p>
 
 
@@ -758,6 +743,46 @@ Outputs a warning to the console that this method should be implemented by the d
 
 
 </div>
+<div id="method_getLoggingName" class="method item inherited">
+    <h3 class="name"><code>getLoggingName</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">String</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/ShareableBase.html#method_getLoggingName">ShareableBase</a>:
+        <a href="../files/src_davinci-eight_core_ShareableBase.ts.html#l157"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableBase.ts:157</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">String</span>:
+            </div>
+        </div>
+
+
+</div>
 <div id="method_getWeakRef" class="method item">
     <h3 class="name"><code>getWeakRef</code></h3>
 
@@ -782,7 +807,7 @@ Outputs a warning to the console that this method should be implemented by the d
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_collections_NumberShareableMap.ts.html#l70"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;NumberShareableMap.ts:70</code></a>
+        <a href="../files/src_davinci-eight_collections_NumberShareableMap.ts.html#l69"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;NumberShareableMap.ts:69</code></a>
         </p>
 
 
@@ -838,7 +863,7 @@ Outputs a warning to the console that this method should be implemented by the d
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/ShareableBase.html#method_isZombie">ShareableBase</a>:
-        <a href="../files/src_davinci-eight_core_ShareableBase.ts.html#l120"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableBase.ts:120</code></a>
+        <a href="../files/src_davinci-eight_core_ShareableBase.ts.html#l135"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableBase.ts:135</code></a>
         </p>
 
 
@@ -887,7 +912,7 @@ Outputs a warning to the console that this method should be implemented by the d
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_collections_NumberShareableMap.ts.html#l79"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;NumberShareableMap.ts:79</code></a>
+        <a href="../files/src_davinci-eight_collections_NumberShareableMap.ts.html#l78"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;NumberShareableMap.ts:78</code></a>
         </p>
 
 
@@ -962,7 +987,7 @@ Outputs a warning to the console that this method should be implemented by the d
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_collections_NumberShareableMap.ts.html#l92"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;NumberShareableMap.ts:92</code></a>
+        <a href="../files/src_davinci-eight_collections_NumberShareableMap.ts.html#l91"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;NumberShareableMap.ts:91</code></a>
         </p>
 
 
@@ -1031,7 +1056,7 @@ Outputs a warning to the console that this method should be implemented by the d
                 Shareable
             </a>
             but overwritten in
-        <a href="../files/src_davinci-eight_core_ShareableBase.ts.html#l142"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableBase.ts:142</code></a>
+        <a href="../files/src_davinci-eight_core_ShareableBase.ts.html#l192"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableBase.ts:192</code></a>
         </p>
 
 
@@ -1080,7 +1105,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_collections_NumberShareableMap.ts.html#l130"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;NumberShareableMap.ts:130</code></a>
+        <a href="../files/src_davinci-eight_collections_NumberShareableMap.ts.html#l129"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;NumberShareableMap.ts:129</code></a>
         </p>
 
 
@@ -1118,6 +1143,83 @@ Notifies this instance that something is dereferencing it.
 
 
 </div>
+<div id="method_setLoggingName" class="method item protected inherited">
+    <h3 class="name"><code>setLoggingName</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>name</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+
+
+        <span class="flag protected">protected</span>
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/ShareableBase.html#method_setLoggingName">ShareableBase</a>:
+        <a href="../files/src_davinci-eight_core_ShareableBase.ts.html#l165"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableBase.ts:165</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>
+This method is for use within constructors.
+<p>
+<p>
+Immediately after a call to the super class constructor, make a call to <code>setLoggingName</code>.
+This will have the effect of refining the name used for reporting reference counts.
+</p>
+<p>
+This method has the secondary purpose of enabling a tally of the number of classes
+in the constructor chain. This enables the runtime architecture to verify that destructor
+chains are consistent with constructor chains, which is a good practice for cleaning up resources.
+</p>
+<p>
+Notice that this method is intentionally protected to discourage it from being called outside of the constructor.
+</p>
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">name</code>
+                        <span class="type">String</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Void</span>:
+            </div>
+        </div>
+
+
+</div>
             </div>
 
             <div id="properties" class="api-class-tabpanel">
@@ -1135,7 +1237,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_collections_NumberShareableMap.ts.html#l16"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;NumberShareableMap.ts:16</code></a>
+        <a href="../files/src_davinci-eight_collections_NumberShareableMap.ts.html#l15"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;NumberShareableMap.ts:15</code></a>
         </p>
 
 
@@ -1148,8 +1250,8 @@ Notifies this instance that something is dereferencing it.
 
 
 </div>
-<div id="property__level" class="property item private inherited">
-    <h3 class="name"><code>_level</code></h3>
+<div id="property__levelUp" class="property item private inherited">
+    <h3 class="name"><code>_levelUp</code></h3>
     <span class="type">Number</span>
 
 
@@ -1159,8 +1261,8 @@ Notifies this instance that something is dereferencing it.
 
     <div class="meta">
                 <p>Inherited from
-                <a href="../classes/ShareableBase.html#property__level">ShareableBase</a>:
-        <a href="../files/src_davinci-eight_core_ShareableBase.ts.html#l43"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableBase.ts:43</code></a>
+                <a href="../classes/ShareableBase.html#property__levelUp">ShareableBase</a>:
+        <a href="../files/src_davinci-eight_core_ShareableBase.ts.html#l69"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableBase.ts:69</code></a>
         </p>
 
 
@@ -1168,14 +1270,7 @@ Notifies this instance that something is dereferencing it.
 
     <div class="description">
         <p>
-Keeps track of the depth in the hierarchy of classes.
-</p>
-<p>
-A class constructed with a shareLength of zero is the most derived class in the hierarchy.
-Such a class calls its' base class constructor with an incremented shareLength.
-</p>
-<p>
-When the destructor chain is invoked, ...
+Keeps track of the level in the hierarchy of classes.
 </p>
     </div>
 
@@ -1194,7 +1289,7 @@ When the destructor chain is invoked, ...
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/ShareableBase.html#property__refCount">ShareableBase</a>:
-        <a href="../files/src_davinci-eight_core_ShareableBase.ts.html#l20"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableBase.ts:20</code></a>
+        <a href="../files/src_davinci-eight_core_ShareableBase.ts.html#l46"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableBase.ts:46</code></a>
         </p>
 
 
@@ -1219,7 +1314,7 @@ When the destructor chain is invoked, ...
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/ShareableBase.html#property__type">ShareableBase</a>:
-        <a href="../files/src_davinci-eight_core_ShareableBase.ts.html#l27"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableBase.ts:27</code></a>
+        <a href="../files/src_davinci-eight_core_ShareableBase.ts.html#l53"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableBase.ts:53</code></a>
         </p>
 
 
@@ -1244,7 +1339,7 @@ When the destructor chain is invoked, ...
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/ShareableBase.html#property__uuid">ShareableBase</a>:
-        <a href="../files/src_davinci-eight_core_ShareableBase.ts.html#l34"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableBase.ts:34</code></a>
+        <a href="../files/src_davinci-eight_core_ShareableBase.ts.html#l60"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableBase.ts:60</code></a>
         </p>
 
 
@@ -1269,7 +1364,7 @@ When the destructor chain is invoked, ...
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_collections_NumberShareableMap.ts.html#l31"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;NumberShareableMap.ts:31</code></a>
+        <a href="../files/src_davinci-eight_collections_NumberShareableMap.ts.html#l30"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;NumberShareableMap.ts:30</code></a>
         </p>
 
 
@@ -1285,7 +1380,7 @@ When the destructor chain is invoked, ...
 
         <ul class="params-list">
             <li class="param">
-                    <code class="param-name">level</code>
+                    <code class="param-name">levelUp</code>
                     <span class="type">Number</span>
 
                 <div class="param-description">
@@ -1306,7 +1401,7 @@ When the destructor chain is invoked, ...
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_collections_NumberShareableMap.ts.html#l121"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;NumberShareableMap.ts:121</code></a>
+        <a href="../files/src_davinci-eight_collections_NumberShareableMap.ts.html#l120"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;NumberShareableMap.ts:120</code></a>
         </p>
 
 
@@ -1319,8 +1414,8 @@ When the destructor chain is invoked, ...
 
 
 </div>
-<div id="property_shareLength" class="property item private inherited">
-    <h3 class="name"><code>shareLength</code></h3>
+<div id="property_levelUp" class="property item private inherited">
+    <h3 class="name"><code>levelUp</code></h3>
     <span class="type">Number</span>
 
 
@@ -1330,8 +1425,8 @@ When the destructor chain is invoked, ...
 
     <div class="meta">
                 <p>Inherited from
-                <a href="../classes/ShareableBase.html#property_shareLength">ShareableBase</a>:
-        <a href="../files/src_davinci-eight_core_ShareableBase.ts.html#l103"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableBase.ts:103</code></a>
+                <a href="../classes/ShareableBase.html#property_levelUp">ShareableBase</a>:
+        <a href="../files/src_davinci-eight_core_ShareableBase.ts.html#l117"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableBase.ts:117</code></a>
         </p>
 
 
@@ -1358,7 +1453,7 @@ Returns the total length of the inheritance hierarchy that this instance is invo
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/ShareableBase.html#property_uuid">ShareableBase</a>:
-        <a href="../files/src_davinci-eight_core_ShareableBase.ts.html#l170"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableBase.ts:170</code></a>
+        <a href="../files/src_davinci-eight_core_ShareableBase.ts.html#l220"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableBase.ts:220</code></a>
         </p>
 
 

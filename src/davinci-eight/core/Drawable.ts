@@ -4,7 +4,7 @@ import incLevel from '../base/incLevel';
 import mustBeBoolean from '../checks/mustBeBoolean';
 import Geometry from './Geometry';
 import AbstractDrawable from './AbstractDrawable';
-import AbstractMaterial from './AbstractMaterial';
+import Material from './Material';
 import ShareableContextConsumer from '../core/ShareableContextConsumer';
 import Facet from '../core/Facet';
 
@@ -20,7 +20,6 @@ import Facet from '../core/Facet';
  *
  * @class Drawable
  * @extends ShareableContextConsumer
- * @extends AbstractDrawable
  */
 export default class Drawable extends ShareableContextConsumer implements AbstractDrawable {
 
@@ -33,10 +32,10 @@ export default class Drawable extends ShareableContextConsumer implements Abstra
 
   /**
    * @property _material
-   * @type {AbstractMaterial}
+   * @type {Material}
    * @private
    */
-  private _material: AbstractMaterial
+  private _material: Material
 
   /**
    * @property name
@@ -61,20 +60,16 @@ export default class Drawable extends ShareableContextConsumer implements Abstra
   /**
    * @class Drawable
    * @constructor
-   * @param type {string}
    * @param geometry {Geometry}
-   * @param material {AbstractMaterial}
+   * @param material {Material}
    * @param engine {Engine} The <code>Engine</code> to subscribe to or <code>null</code> for deferred subscription.
-   * @param level {number}
    */
-  constructor(type: string, geometry: Geometry, material: AbstractMaterial, engine: Engine, level: number) {
-    super(type, engine, incLevel(level))
+  constructor(geometry: Geometry, material: Material, engine: Engine) {
+    super(engine)
+    this.setLoggingName('Drawable')
     this.geometry = geometry
     this.material = material
     this._facets = {}
-    if (level === 0) {
-      this.synchUp()
-    }
   }
 
   /**
@@ -84,9 +79,6 @@ export default class Drawable extends ShareableContextConsumer implements Abstra
    * @protected
    */
   protected destructor(level: number): void {
-    if (level === 0) {
-      this.cleanUp()
-    }
     this._geometry.release()
     this._geometry = void 0
     this._material.release()
@@ -257,13 +249,13 @@ export default class Drawable extends ShareableContextConsumer implements Abstra
    * Provides a reference counted reference to the graphics program property.
    *
    * @property material
-   * @type {AbstractMaterial}
+   * @type {Material}
    */
-  get material(): AbstractMaterial {
+  get material(): Material {
     this._material.addRef()
     return this._material
   }
-  set material(material: AbstractMaterial) {
+  set material(material: Material) {
     if (this._material) {
       this._material.release()
       this._material = void 0

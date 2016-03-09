@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.217.0</em>
+            <em>API Docs for: 2.218.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -40,7 +40,6 @@
                             <ul id="api-classes" class="apis classes">
                                 <li><a href="../classes/AbstractColor.html">AbstractColor</a></li>
                                 <li><a href="../classes/AbstractDrawable.html">AbstractDrawable</a></li>
-                                <li><a href="../classes/AbstractMaterial.html">AbstractMaterial</a></li>
                                 <li><a href="../classes/AbstractMatrix.html">AbstractMatrix</a></li>
                                 <li><a href="../classes/AbstractMesh.html">AbstractMesh</a></li>
                                 <li><a href="../classes/AmbientLight.html">AmbientLight</a></li>
@@ -128,6 +127,7 @@
                                 <li><a href="../classes/LinePoints.html">LinePoints</a></li>
                                 <li><a href="../classes/LineStrip.html">LineStrip</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
+                                <li><a href="../classes/MaterialBase.html">MaterialBase</a></li>
                                 <li><a href="../classes/MaterialOptions.html">MaterialOptions</a></li>
                                 <li><a href="../classes/Matrix2.html">Matrix2</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
@@ -296,9 +296,6 @@
                 <li class="arg">
                         <code class="optional">[options]</code>
                 </li>
-                <li class="arg">
-                        <code class="optional">[level = 0]</code>
-                </li>
             </ul><span class="paren">)</span>
         </div>
 
@@ -330,17 +327,6 @@
                 <li class="param">
                         <code class="param-name optional">[options]</code>
                         <span class="type"><a href="../classes/SphereOptions.html" class="crosslink">SphereOptions</a></span>
-                        <span class="flag optional" title="This parameter is optional.">optional</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name optional">[level = 0]</code>
-                        <span class="type">Number</span>
                         <span class="flag optional" title="This parameter is optional.">optional</span>
 
 
@@ -393,7 +379,7 @@
                                 <a href="#method_destructor">destructor</a>
 
                             </li>
-                            <li class="index-item method inherited inherited">
+                            <li class="index-item method inherited">
                                 <a href="#method_draw">draw</a>
 
                             </li>
@@ -417,8 +403,16 @@
                                 <a href="#method_setPrincipalScale">setPrincipalScale</a>
 
                             </li>
-                            <li class="index-item method inherited inherited">
+                            <li class="index-item method inherited">
                                 <a href="#method_setUniforms">setUniforms</a>
+
+                            </li>
+                            <li class="index-item method inherited">
+                                <a href="#method_subscribe">subscribe</a>
+
+                            </li>
+                            <li class="index-item method inherited">
+                                <a href="#method_unsubscribe">unsubscribe</a>
 
                             </li>
                     </ul>
@@ -456,13 +450,26 @@
                                 <a href="#property_color">color</a>
 
                             </li>
-                            <li class="index-item property inherited inherited">
+                            <li class="index-item property protected inherited">
+                                <a href="#property_contextProvider">contextProvider</a>
+
+                            </li>
+                            <li class="index-item property private inherited">
+                                <a href="#property_engine">engine</a>
+
+                            </li>
+                            <li class="index-item property inherited">
                                 <a href="#property_fragmentShaderSrc">fragmentShaderSrc</a>
 
                             </li>
-                            <li class="index-item property inherited inherited">
+                            <li class="index-item property inherited">
                                 <a href="#property_geometry">geometry</a>
 
+                            </li>
+                            <li class="index-item property deprecated inherited">
+                                <a href="#property_gl">gl</a>
+
+                                    <span class="flag deprecated">deprecated</span>
                             </li>
                             <li class="index-item property inherited">
                                 <a href="#property_initialAxis">initialAxis</a>
@@ -472,7 +479,7 @@
                                 <a href="#property_mass">mass</a>
 
                             </li>
-                            <li class="index-item property inherited inherited">
+                            <li class="index-item property inherited">
                                 <a href="#property_material">material</a>
 
                             </li>
@@ -484,7 +491,7 @@
                                 <a href="#property_momentum">momentum</a>
 
                             </li>
-                            <li class="index-item property inherited inherited">
+                            <li class="index-item property inherited">
                                 <a href="#property_name">name</a>
 
                             </li>
@@ -500,11 +507,11 @@
                                 <a href="#property_stress">stress</a>
 
                             </li>
-                            <li class="index-item property inherited inherited">
+                            <li class="index-item property inherited">
                                 <a href="#property_vertexShaderSrc">vertexShaderSrc</a>
 
                             </li>
-                            <li class="index-item property inherited inherited">
+                            <li class="index-item property inherited">
                                 <a href="#property_visible">visible</a>
 
                             </li>
@@ -589,7 +596,7 @@ The new reference count. This value is intended to be used only for test purpose
                 ContextConsumer
             </a>
             but overwritten in
-        <a href="../files/src_davinci-eight_core_Drawable.ts.html#l181"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Drawable.ts:181</code></a>
+        <a href="../files/src_davinci-eight_core_Drawable.ts.html#l173"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Drawable.ts:173</code></a>
         </p>
 
 
@@ -654,7 +661,7 @@ The new reference count. This value is intended to be used only for test purpose
                 ContextConsumer
             </a>
             but overwritten in
-        <a href="../files/src_davinci-eight_core_Drawable.ts.html#l192"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Drawable.ts:192</code></a>
+        <a href="../files/src_davinci-eight_core_Drawable.ts.html#l184"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Drawable.ts:184</code></a>
         </p>
 
 
@@ -713,7 +720,7 @@ The new reference count. This value is intended to be used only for test purpose
                 ContextConsumer
             </a>
             but overwritten in
-        <a href="../files/src_davinci-eight_core_Drawable.ts.html#l203"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Drawable.ts:203</code></a>
+        <a href="../files/src_davinci-eight_core_Drawable.ts.html#l195"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Drawable.ts:195</code></a>
         </p>
 
 
@@ -759,11 +766,11 @@ The new reference count. This value is intended to be used only for test purpose
 
     <div class="meta">
             <p>Inherited from
-            <a href="../classes/Drawable.html#method_destructor">
-                Drawable
+            <a href="../classes/ShareableContextConsumer.html#method_destructor">
+                ShareableContextConsumer
             </a>
             but overwritten in
-        <a href="../files/src_davinci-eight_visual_Sphere.ts.html#l55"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Sphere.ts:55</code></a>
+        <a href="../files/src_davinci-eight_visual_Sphere.ts.html#l52"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Sphere.ts:52</code></a>
         </p>
 
 
@@ -823,12 +830,9 @@ The new reference count. This value is intended to be used only for test purpose
 
 
     <div class="meta">
-            <p>Inherited from
-            <a href="../classes/AbstractDrawable.html#method_draw">
-                AbstractDrawable
-            </a>
-            but overwritten in
-        <a href="../files/src_davinci-eight_core_Drawable.ts.html#l158"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Drawable.ts:158</code></a>
+                <p>Inherited from
+                <a href="../classes/Drawable.html#method_draw">Drawable</a>:
+        <a href="../files/src_davinci-eight_core_Drawable.ts.html#l150"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Drawable.ts:150</code></a>
         </p>
 
 
@@ -890,7 +894,7 @@ The new reference count. This value is intended to be used only for test purpose
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Drawable.html#method_getFacet">Drawable</a>:
-        <a href="../files/src_davinci-eight_core_Drawable.ts.html#l213"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Drawable.ts:213</code></a>
+        <a href="../files/src_davinci-eight_core_Drawable.ts.html#l205"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Drawable.ts:205</code></a>
         </p>
 
 
@@ -952,7 +956,7 @@ The new reference count. This value is intended to be used only for test purpose
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Mesh.html#method_getPrincipalScale">Mesh</a>:
-        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l177"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:177</code></a>
+        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l176"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:176</code></a>
         </p>
 
 
@@ -1062,7 +1066,7 @@ The new reference count. This value is intended to be used only for test purpose
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Drawable.html#method_setFacet">Drawable</a>:
-        <a href="../files/src_davinci-eight_core_Drawable.ts.html#l222"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Drawable.ts:222</code></a>
+        <a href="../files/src_davinci-eight_core_Drawable.ts.html#l214"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Drawable.ts:214</code></a>
         </p>
 
 
@@ -1138,7 +1142,7 @@ The new reference count. This value is intended to be used only for test purpose
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Mesh.html#method_setPrincipalScale">Mesh</a>:
-        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l189"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:189</code></a>
+        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l188"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:188</code></a>
         </p>
 
 
@@ -1202,12 +1206,9 @@ The new reference count. This value is intended to be used only for test purpose
 
 
     <div class="meta">
-            <p>Inherited from
-            <a href="../classes/AbstractDrawable.html#method_setUniforms">
-                AbstractDrawable
-            </a>
-            but overwritten in
-        <a href="../files/src_davinci-eight_core_Drawable.ts.html#l141"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Drawable.ts:141</code></a>
+                <p>Inherited from
+                <a href="../classes/Drawable.html#method_setUniforms">Drawable</a>:
+        <a href="../files/src_davinci-eight_core_Drawable.ts.html#l133"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Drawable.ts:133</code></a>
         </p>
 
 
@@ -1218,6 +1219,154 @@ The new reference count. This value is intended to be used only for test purpose
         
     </div>
 
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Void</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_subscribe" class="method item inherited">
+    <h3 class="name"><code>subscribe</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>engine</code>
+                </li>
+                <li class="arg">
+                        <code>synchronize</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/ShareableContextConsumer.html#method_subscribe">ShareableContextConsumer</a>:
+        <a href="../files/src_davinci-eight_core_ShareableContextConsumer.ts.html#l91"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableContextConsumer.ts:91</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>
+Instructs the consumer to subscribe to context events.
+</p>
+<p>
+This method is idempotent; calling it more than once with the same <code>Engine</code> does not change the state.
+</p>
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">engine</code>
+                        <span class="type"><a href="../classes/Engine.html" class="crosslink">Engine</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">synchronize</code>
+                        <span class="type">Boolean</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Void</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_unsubscribe" class="method item inherited">
+    <h3 class="name"><code>unsubscribe</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>synchronize</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/ShareableContextConsumer.html#method_unsubscribe">ShareableContextConsumer</a>:
+        <a href="../files/src_davinci-eight_core_ShareableContextConsumer.ts.html#l138"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableContextConsumer.ts:138</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>
+Instructs the consumer to unsubscribe from context events.
+</p>
+<p>
+This method is idempotent; calling it more than once does not change the state.
+</p>
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">synchronize</code>
+                        <span class="type">Boolean</span>
+
+
+                    <div class="param-description">
+                        <p>Triggers <code>contextFree()</code> or <code>contextLost()</code>, as appropriate.</p>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
 
         <div class="returns">
             <h4>Returns:</h4>
@@ -1246,7 +1395,7 @@ The new reference count. This value is intended to be used only for test purpose
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Drawable.html#property__facets">Drawable</a>:
-        <a href="../files/src_davinci-eight_core_Drawable.ts.html#l55"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Drawable.ts:55</code></a>
+        <a href="../files/src_davinci-eight_core_Drawable.ts.html#l54"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Drawable.ts:54</code></a>
         </p>
 
 
@@ -1271,7 +1420,7 @@ The new reference count. This value is intended to be used only for test purpose
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Drawable.html#property__geometry">Drawable</a>:
-        <a href="../files/src_davinci-eight_core_Drawable.ts.html#l27"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Drawable.ts:27</code></a>
+        <a href="../files/src_davinci-eight_core_Drawable.ts.html#l26"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Drawable.ts:26</code></a>
         </p>
 
 
@@ -1286,7 +1435,7 @@ The new reference count. This value is intended to be used only for test purpose
 </div>
 <div id="property__material" class="property item private inherited">
     <h3 class="name"><code>_material</code></h3>
-    <span class="type"><a href="../classes/AbstractMaterial.html" class="crosslink">AbstractMaterial</a></span>
+    <span class="type"><a href="../classes/Material.html" class="crosslink">Material</a></span>
 
 
         <span class="flag private">private</span>
@@ -1296,7 +1445,7 @@ The new reference count. This value is intended to be used only for test purpose
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Drawable.html#property__material">Drawable</a>:
-        <a href="../files/src_davinci-eight_core_Drawable.ts.html#l34"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Drawable.ts:34</code></a>
+        <a href="../files/src_davinci-eight_core_Drawable.ts.html#l33"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Drawable.ts:33</code></a>
         </p>
 
 
@@ -1321,7 +1470,7 @@ The new reference count. This value is intended to be used only for test purpose
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Drawable.html#property__visible">Drawable</a>:
-        <a href="../files/src_davinci-eight_core_Drawable.ts.html#l48"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Drawable.ts:48</code></a>
+        <a href="../files/src_davinci-eight_core_Drawable.ts.html#l47"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Drawable.ts:47</code></a>
         </p>
 
 
@@ -1345,7 +1494,7 @@ The new reference count. This value is intended to be used only for test purpose
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Mesh.html#property_attitude">Mesh</a>:
-        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l67"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:67</code></a>
+        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l66"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:66</code></a>
         </p>
 
 
@@ -1370,7 +1519,7 @@ The new reference count. This value is intended to be used only for test purpose
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/RigidBody.html#property_axis">RigidBody</a>:
-        <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l80"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:80</code></a>
+        <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l81"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:81</code></a>
         </p>
 
 
@@ -1394,7 +1543,7 @@ The new reference count. This value is intended to be used only for test purpose
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Mesh.html#property_color">Mesh</a>:
-        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l92"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:92</code></a>
+        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l91"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:91</code></a>
         </p>
 
 
@@ -1403,6 +1552,56 @@ The new reference count. This value is intended to be used only for test purpose
     <div class="description">
         <p>Color</p>
 
+    </div>
+
+
+
+</div>
+<div id="property_contextProvider" class="property item protected inherited">
+    <h3 class="name"><code>contextProvider</code></h3>
+    <span class="type"><a href="../classes/ContextProvider.html" class="crosslink">ContextProvider</a></span>
+
+
+        <span class="flag protected">protected</span>
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/ShareableContextConsumer.html#property_contextProvider">ShareableContextConsumer</a>:
+        <a href="../files/src_davinci-eight_core_ShareableContextConsumer.ts.html#l57"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableContextConsumer.ts:57</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_engine" class="property item private inherited">
+    <h3 class="name"><code>engine</code></h3>
+    <span class="type"><a href="../classes/Engine.html" class="crosslink">Engine</a></span>
+
+
+        <span class="flag private">private</span>
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/ShareableContextConsumer.html#property_engine">ShareableContextConsumer</a>:
+        <a href="../files/src_davinci-eight_core_ShareableContextConsumer.ts.html#l50"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableContextConsumer.ts:50</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
     </div>
 
 
@@ -1417,12 +1616,9 @@ The new reference count. This value is intended to be used only for test purpose
 
 
     <div class="meta">
-            <p>Inherited from
-            <a href="../classes/AbstractDrawable.html#property_fragmentShaderSrc">
-                AbstractDrawable
-            </a>
-            but overwritten in
-        <a href="../files/src_davinci-eight_core_Drawable.ts.html#l97"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Drawable.ts:97</code></a>
+                <p>Inherited from
+                <a href="../classes/Drawable.html#property_fragmentShaderSrc">Drawable</a>:
+        <a href="../files/src_davinci-eight_core_Drawable.ts.html#l89"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Drawable.ts:89</code></a>
         </p>
 
 
@@ -1444,12 +1640,9 @@ The new reference count. This value is intended to be used only for test purpose
 
 
     <div class="meta">
-            <p>Inherited from
-            <a href="../classes/AbstractDrawable.html#property_geometry">
-                AbstractDrawable
-            </a>
-            but overwritten in
-        <a href="../files/src_davinci-eight_core_Drawable.ts.html#l232"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Drawable.ts:232</code></a>
+                <p>Inherited from
+                <a href="../classes/Drawable.html#property_geometry">Drawable</a>:
+        <a href="../files/src_davinci-eight_core_Drawable.ts.html#l224"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Drawable.ts:224</code></a>
         </p>
 
 
@@ -1458,6 +1651,36 @@ The new reference count. This value is intended to be used only for test purpose
     <div class="description">
         <p>Provides a reference counted reference to the graphics buffers property.</p>
 
+    </div>
+
+
+
+</div>
+<div id="property_gl" class="property item deprecated inherited">
+    <h3 class="name"><code>gl</code></h3>
+    <span class="type">WebGLRenderingContext</span>
+
+        <span class="flag deprecated">deprecated</span>
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/ShareableContextConsumer.html#property_gl">ShareableContextConsumer</a>:
+        <a href="../files/src_davinci-eight_core_ShareableContextConsumer.ts.html#l201"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableContextConsumer.ts:201</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>
+Provides access to the underlying WebGL context.
+</p>
+<p>
+This property is deprecated to encourage access throught the <code>ContextProvider</code>.
+</p>
     </div>
 
 
@@ -1474,7 +1697,7 @@ The new reference count. This value is intended to be used only for test purpose
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/RigidBody.html#property_initialAxis">RigidBody</a>:
-        <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l43"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:43</code></a>
+        <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l45"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:45</code></a>
         </p>
 
 
@@ -1500,7 +1723,7 @@ time by rotating the initial axis using the Mesh attitude.</p>
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/RigidBody.html#property_mass">RigidBody</a>:
-        <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l25"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:25</code></a>
+        <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l27"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:27</code></a>
         </p>
 
 
@@ -1517,19 +1740,16 @@ time by rotating the initial axis using the Mesh attitude.</p>
 </div>
 <div id="property_material" class="property item inherited">
     <h3 class="name"><code>material</code></h3>
-    <span class="type"><a href="../classes/AbstractMaterial.html" class="crosslink">AbstractMaterial</a></span>
+    <span class="type"><a href="../classes/Material.html" class="crosslink">Material</a></span>
 
 
 
 
 
     <div class="meta">
-            <p>Inherited from
-            <a href="../classes/AbstractDrawable.html#property_material">
-                AbstractDrawable
-            </a>
-            but overwritten in
-        <a href="../files/src_davinci-eight_core_Drawable.ts.html#l256"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Drawable.ts:256</code></a>
+                <p>Inherited from
+                <a href="../classes/Drawable.html#property_material">Drawable</a>:
+        <a href="../files/src_davinci-eight_core_Drawable.ts.html#l248"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Drawable.ts:248</code></a>
         </p>
 
 
@@ -1554,7 +1774,7 @@ time by rotating the initial axis using the Mesh attitude.</p>
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Mesh.html#property_matrix">Mesh</a>:
-        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l117"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:117</code></a>
+        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l116"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:116</code></a>
         </p>
 
 
@@ -1578,7 +1798,7 @@ time by rotating the initial axis using the Mesh attitude.</p>
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/RigidBody.html#property_momentum">RigidBody</a>:
-        <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l34"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:34</code></a>
+        <a href="../files/src_davinci-eight_visual_RigidBody.ts.html#l36"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBody.ts:36</code></a>
         </p>
 
 
@@ -1602,12 +1822,9 @@ time by rotating the initial axis using the Mesh attitude.</p>
 
 
     <div class="meta">
-            <p>Inherited from
-            <a href="../classes/AbstractDrawable.html#property_name">
-                AbstractDrawable
-            </a>
-            but overwritten in
-        <a href="../files/src_davinci-eight_core_Drawable.ts.html#l41"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Drawable.ts:41</code></a>
+                <p>Inherited from
+                <a href="../classes/Drawable.html#property_name">Drawable</a>:
+        <a href="../files/src_davinci-eight_core_Drawable.ts.html#l40"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Drawable.ts:40</code></a>
         </p>
 
 
@@ -1631,7 +1848,7 @@ time by rotating the initial axis using the Mesh attitude.</p>
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Mesh.html#property_position">Mesh</a>:
-        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l129"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:129</code></a>
+        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l128"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:128</code></a>
         </p>
 
 
@@ -1656,7 +1873,7 @@ time by rotating the initial axis using the Mesh attitude.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_visual_Sphere.ts.html#l68"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Sphere.ts:68</code></a>
+        <a href="../files/src_davinci-eight_visual_Sphere.ts.html#l65"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Sphere.ts:65</code></a>
         </p>
 
 
@@ -1681,7 +1898,7 @@ time by rotating the initial axis using the Mesh attitude.</p>
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Mesh.html#property_stress">Mesh</a>:
-        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l154"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:154</code></a>
+        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l153"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:153</code></a>
         </p>
 
 
@@ -1703,12 +1920,9 @@ time by rotating the initial axis using the Mesh attitude.</p>
 
 
     <div class="meta">
-            <p>Inherited from
-            <a href="../classes/AbstractDrawable.html#property_vertexShaderSrc">
-                AbstractDrawable
-            </a>
-            but overwritten in
-        <a href="../files/src_davinci-eight_core_Drawable.ts.html#l119"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Drawable.ts:119</code></a>
+                <p>Inherited from
+                <a href="../classes/Drawable.html#property_vertexShaderSrc">Drawable</a>:
+        <a href="../files/src_davinci-eight_core_Drawable.ts.html#l111"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Drawable.ts:111</code></a>
         </p>
 
 
@@ -1730,12 +1944,9 @@ time by rotating the initial axis using the Mesh attitude.</p>
 
 
     <div class="meta">
-            <p>Inherited from
-            <a href="../classes/AbstractDrawable.html#property_visible">
-                AbstractDrawable
-            </a>
-            but overwritten in
-        <a href="../files/src_davinci-eight_core_Drawable.ts.html#l280"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Drawable.ts:280</code></a>
+                <p>Inherited from
+                <a href="../classes/Drawable.html#property_visible">Drawable</a>:
+        <a href="../files/src_davinci-eight_core_Drawable.ts.html#l272"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Drawable.ts:272</code></a>
         </p>
 
 

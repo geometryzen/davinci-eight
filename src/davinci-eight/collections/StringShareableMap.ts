@@ -25,10 +25,10 @@ export default class StringShareableMap<V extends Shareable> extends ShareableBa
    * </p>
    * @class StringShareableMap
    * @constructor
-   * @param [level = 0] {integer}
    */
-  constructor(level = 0) {
-    super('StringShareableMap', incLevel(level))
+  constructor() {
+    super()
+    this.setLoggingName('StringShareableMap')
   }
 
   /**

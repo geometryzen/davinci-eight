@@ -14,10 +14,11 @@ export default class Director extends ShareableBase implements IDirector {
     private step: number;
     public slides: ShareableArray<Slide>;
     private facets: { [name: string]: IAnimationTarget };
-    constructor(level: number) {
-        super('Director', incLevel(level))
+    constructor() {
+        super()
+        this.setLoggingName('Director')
         this.step = -1 // Position before the first slide.
-        this.slides = new ShareableArray<Slide>([], 0)
+        this.slides = new ShareableArray<Slide>([])
         this.facets = {}
     }
     destructor(level: number): void {
@@ -38,7 +39,7 @@ export default class Director extends ShareableBase implements IDirector {
         return facet
     }
     createSlide(): Slide {
-        return new Slide(0)
+        return new Slide()
     }
     go(step: number, instant: boolean = false): void {
         if (this.slides.length === 0) {

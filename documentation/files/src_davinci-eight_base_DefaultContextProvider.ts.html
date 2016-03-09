@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.217.0</em>
+            <em>API Docs for: 2.218.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -40,7 +40,6 @@
                             <ul id="api-classes" class="apis classes">
                                 <li><a href="../classes/AbstractColor.html">AbstractColor</a></li>
                                 <li><a href="../classes/AbstractDrawable.html">AbstractDrawable</a></li>
-                                <li><a href="../classes/AbstractMaterial.html">AbstractMaterial</a></li>
                                 <li><a href="../classes/AbstractMatrix.html">AbstractMatrix</a></li>
                                 <li><a href="../classes/AbstractMesh.html">AbstractMesh</a></li>
                                 <li><a href="../classes/AmbientLight.html">AmbientLight</a></li>
@@ -128,6 +127,7 @@
                                 <li><a href="../classes/LinePoints.html">LinePoints</a></li>
                                 <li><a href="../classes/LineStrip.html">LineStrip</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
+                                <li><a href="../classes/MaterialBase.html">MaterialBase</a></li>
                                 <li><a href="../classes/MaterialOptions.html">MaterialOptions</a></li>
                                 <li><a href="../classes/Matrix2.html">Matrix2</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
@@ -272,7 +272,6 @@
 import ContextProvider from &#x27;../core/ContextProvider&#x27;;
 import DrawMode from &#x27;../core/DrawMode&#x27;;
 import drawModeToGL from &#x27;../core/drawModeToGL&#x27;;
-import incLevel from &#x27;../base/incLevel&#x27;;
 import mustBeInteger from &#x27;../checks/mustBeInteger&#x27;;
 import readOnly from &#x27;../i18n/readOnly&#x27;;
 import ShareableBase from &#x27;../core/ShareableBase&#x27;;
@@ -285,16 +284,17 @@ export default class DefaultContextProvider extends ShareableBase implements Con
 
   private engine: Engine
 
-  constructor(engine: Engine, level: number) {
-    super(&#x27;DefaultContextProvider&#x27;, incLevel(level))
+  constructor(engine: Engine) {
+    super()
+    this.setLoggingName(&#x27;DefaultContextProvider&#x27;)
     // We don&#x27;t reference count the engine in order to avoid creating a loop.
     // Our lifetime is controlled by the Engine itself.
     this.engine = engine
   }
 
-  protected destructor(level: number): void {
+  protected destructor(levelUp: number): void {
     this.engine = void 0
-    super.destructor(incLevel(level))
+    super.destructor(levelUp + 1)
   }
 
   get gl() {

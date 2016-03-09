@@ -1,4 +1,3 @@
-import incLevel from '../base/incLevel';
 import Shareable from '../core/Shareable';
 import ShareableBase from '../core/ShareableBase';
 
@@ -22,26 +21,26 @@ export default class NumberShareableMap<V extends Shareable> extends ShareableBa
   /**
    * @class NumberShareableMap
    * @constructor
-   * @param [level = 0] {number}
    */
-  constructor(level = 0) {
-    super('NumberShareableMap', incLevel(level))
+  constructor() {
+    super()
+    this.setLoggingName('NumberShareableMap')
   }
 
   /**
    * @property destructor
-   * @param level {number}
+   * @param levelUp {number}
    * @return {void}
    * @protected
    */
-  protected destructor(level: number): void {
+  protected destructor(levelUp: number): void {
     this.forEach(function(key, value) {
       if (value) {
         value.release()
       }
     });
     this._elements = void 0
-    super.destructor(incLevel(level))
+    super.destructor(levelUp + 1)
   }
 
   /**

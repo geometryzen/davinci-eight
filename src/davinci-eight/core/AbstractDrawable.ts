@@ -1,7 +1,7 @@
 import Facet from './Facet'
 import Geometry from './Geometry'
 import ContextConsumer from './ContextConsumer'
-import AbstractMaterial from './AbstractMaterial'
+import Material from './Material'
 
 /**
  * @module EIGHT
@@ -48,19 +48,19 @@ interface AbstractDrawable extends ContextConsumer {
 
     /**
      * <p>
-     * The <code>AbstractMaterial</code> that provides the WebGLProgram for this <code>AbstractDrawable</code>.
+     * The <code>Material</code> that provides the WebGLProgram for this <code>AbstractDrawable</code>.
      * </p>
      *
      * <p>
-     * AbstractMaterial is a shareable WebGL resource and so is reference counted.
-     * Consequently, accessing the <code>material</code> property increments the <code>AbstractMaterial</code> instance reference count.
+     * Material is a shareable WebGL resource and so is reference counted.
+     * Consequently, accessing the <code>material</code> property increments the <code>Material</code> instance reference count.
      * <em>Be sure to call <code>release()</code> on shareable WebGL resources in order to prevent memory leaks.</em>
      * </p>
      *
      * @property material
-     * @type AbstractMaterial
+     * @type Material
      */
-    material: AbstractMaterial
+    material: Material
 
     /**
      * <p>

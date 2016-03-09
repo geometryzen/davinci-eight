@@ -9,14 +9,14 @@ import UniformLocation from './UniformLocation';
 
 /**
  * <p>
- * <code>AbstractMaterial</code> is an object-oriented wrapper around a <code>WebGLProgram</code>
+ * <code>Material</code> is an object-oriented wrapper around a <code>WebGLProgram</code>
  * <p/>
  *
- * @class AbstractMaterial
+ * @class Material
  * @extends FacetVisitor
  * @extends ContextConsumer
  */
-interface AbstractMaterial extends FacetVisitor, ContextConsumer {
+interface Material extends FacetVisitor, ContextConsumer {
 
   /**
    * @property vertexShaderSrc
@@ -51,4 +51,4 @@ interface AbstractMaterial extends FacetVisitor, ContextConsumer {
   use(): void
 }
 
-export default AbstractMaterial
+export default Material

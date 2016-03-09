@@ -18,9 +18,10 @@ import Spinor3Animation from '../slideshow/animations/Spinor3Animation';
 
 export default class SlideCommands extends ShareableBase implements ISlideCommand {
   private commands: ShareableArray<ISlideCommand>;
-  constructor(level: number) {
-    super('SlideCommands', incLevel(level))
-    this.commands = new ShareableArray<ISlideCommand>([], 0)
+  constructor() {
+    super()
+    this.setLoggingName('SlideCommands')
+    this.commands = new ShareableArray<ISlideCommand>([])
   }
   protected destructor(level: number): void {
     this.commands.release()

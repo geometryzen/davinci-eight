@@ -5,8 +5,9 @@ import ShareableBase from '../core/ShareableBase';
 
 export default class DirectorKeyboardHandler extends ShareableBase implements IKeyboardHandler {
   private director: Director;
-  constructor(director: Director, level: number) {
-    super('DirectorKeyboardHandler', incLevel(level))
+  constructor(director: Director) {
+    super()
+    this.setLoggingName('DirectorKeyboardHandler')
     this.director = director
     this.director.addRef()
   }

@@ -13,10 +13,10 @@ export default class GridGeometry extends GeometryElements {
    * @class GridGeometry
    * @constructor
    * @param [options] {GridGeometryOptions}
-   * @param [level = 0] {number}
    */
-  constructor(options: GridGeometryOptions = {}, level = 0) {
-    super('GridGeometry', gridVertexArrays(options), options.engine, incLevel(level))
+  constructor(options: GridGeometryOptions = {}) {
+    super(gridVertexArrays(options), options.engine)
+    this.setLoggingName('GridGeometry')
   }
 
   /**

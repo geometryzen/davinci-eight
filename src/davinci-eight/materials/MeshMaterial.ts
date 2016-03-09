@@ -5,7 +5,7 @@ import incLevel from '../base/incLevel'
 import isDefined from '../checks/isDefined';
 import isNull from '../checks/isNull';
 import isUndefined from '../checks/isUndefined';
-import Material from './Material';
+import MaterialBase from './MaterialBase';
 import MeshMaterialOptions from './MeshMaterialOptions';
 import mustBeObject from '../checks/mustBeObject';
 
@@ -73,9 +73,9 @@ function fragmentShaderSrc(options?: MeshMaterialOptions): string {
 
 /**
  * @class MeshMaterial
- * @extends Material
+ * @extends MaterialBase
  */
-export default class MeshMaterial extends Material {
+export default class MeshMaterial extends MaterialBase {
 
   /**
    * 
@@ -83,20 +83,15 @@ export default class MeshMaterial extends Material {
    * @constructor
    * @param options {MeshMaterialOptions}
    * @param engine {Engine}
-   * @param level {number}
    */
-  constructor(options: MeshMaterialOptions, engine: Engine, level: number) {
+  constructor(options: MeshMaterialOptions, engine: Engine) {
     super(
       vertexShaderSrc(options),
       fragmentShaderSrc(options),
       [],
-      'MeshMaterial',
-      engine,
-      incLevel(level)
+      engine
     )
-    if (level === 0) {
-      this.synchUp()
-    }
+    this.setLoggingName('MeshMaterial')
   }
 
   /**
@@ -111,6 +106,4 @@ export default class MeshMaterial extends Material {
     }
     super.destructor(incLevel(level))
   }
-
-  // FIXME: destructor
 }

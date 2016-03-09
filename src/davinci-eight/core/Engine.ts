@@ -73,7 +73,7 @@ export default class Engine extends ShareableBase implements VertexBufferManager
   private _webGLContextLost: (event: Event) => any
   private _webGLContextRestored: (event: Event) => any
 
-  private _commands = new ShareableArray<ContextConsumer>([], 0)
+  private _commands = new ShareableArray<ContextConsumer>([])
 
   private _contextProvider: DefaultContextProvider
 
@@ -81,17 +81,17 @@ export default class Engine extends ShareableBase implements VertexBufferManager
    * @class Engine
    * @constructor
    * @param [attributes] {WebGLContextAttributes} Allows the context to be configured.
-   * @param [level = 0] {number}
    */
-  constructor(attributes?: WebGLContextAttributes, level = 0) {
-    super('Engine', incLevel(level))
+  constructor(attributes?: WebGLContextAttributes) {
+    super()
+    this.setLoggingName('Engine')
 
     this._attributes = attributes;
 
     this._commands.pushWeakRef(new EIGHTLogger())
     this._commands.pushWeakRef(new VersionLogger())
 
-    this._contextProvider = new DefaultContextProvider(this, 0)
+    this._contextProvider = new DefaultContextProvider(this)
 
     // For convenience.
     this.enable(Capability.DEPTH_TEST)

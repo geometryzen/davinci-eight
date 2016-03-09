@@ -42,8 +42,9 @@ function initRenderer(elementId: string, dimensions: WidthAndHeight, doc: Docume
 export default class Overlay extends ShareableBase {
   private renderer: AbstractRenderer
   private board: Board
-  constructor(elementId: string, options: {} = {}, level = 0) {
-    super('Overlay', incLevel(level))
+  constructor(elementId: string, options: {} = {}) {
+    super()
+    this.setLoggingName('Overlay')
     const dimensions = getDimensions(elementId, document)
     this.renderer = initRenderer(elementId, dimensions, document, 'svg')
     this.board = new Board(elementId, this.renderer)

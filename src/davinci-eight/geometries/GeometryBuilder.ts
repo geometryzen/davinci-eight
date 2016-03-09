@@ -30,11 +30,10 @@ interface GeometryBuilder {
 
     /**
      * @method toGeometry
-     * @param type {string}
      * @param engine {Engine}
      * @return {Geometry}
      */
-    toGeometry(type: string, engine: Engine): Geometry
+    toGeometry(engine: Engine): Geometry
 
     /**
      * @method toPrimitives

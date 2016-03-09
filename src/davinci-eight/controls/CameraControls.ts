@@ -1,5 +1,4 @@
 import Geometric3 from '../math/Geometric3'
-import incLevel from '../base/incLevel'
 import MouseControls from './MouseControls'
 import mustBeObject from '../checks/mustBeObject'
 import PerspectiveCamera from '../facets/PerspectiveCamera'
@@ -101,10 +100,10 @@ export default class CameraControls extends MouseControls {
    * @class CameraControls
    * @constructor
    * @param camera {PerspectiveCamera}
-   * @param level {number}
    */
-  constructor(camera: PerspectiveCamera, level = 0) {
-    super('CameraControls', incLevel(level))
+  constructor(camera: PerspectiveCamera) {
+    super()
+    this.setLoggingName('CameraControls')
     mustBeObject('camera', camera)
     this.camera = camera
 
@@ -120,12 +119,12 @@ export default class CameraControls extends MouseControls {
 
   /**
    * @method destructor
-   * @param level {number}
+   * @param levelUp {number}
    * @return {void}
    * @protected
    */
-  protected destructor(level: number): void {
-    super.destructor(incLevel(level))
+  protected destructor(levelUp: number): void {
+    super.destructor(levelUp + 1)
   }
 
   /**

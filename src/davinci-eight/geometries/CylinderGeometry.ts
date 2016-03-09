@@ -42,10 +42,10 @@ export default class CylinderGeometry extends GeometryContainer {
    * @class CylinderGeometry
    * @constructor
    * @param [options] {CylinderGeometryOptions}
-   * @param [level = 0] {number}
    */
-  constructor(options: CylinderGeometryOptions = {}, level = 0) {
-    super('CylinderGeometry', options.tilt, incLevel(level))
+  constructor(options: CylinderGeometryOptions = {}) {
+    super(options.tilt)
+    this.setLoggingName('CylinderGeometry')
 
     const builder = new CylinderBuilder(R3.e2, R3.e3, false)
 
@@ -70,7 +70,7 @@ export default class CylinderGeometry extends GeometryContainer {
     const iLen = ps.length
     for (let i = 0; i < iLen; i++) {
       const dataSource = ps[i]
-      const geometry = new GeometryElements('CylinderGeometry', vertexArraysFromPrimitive(dataSource), options.engine, 0)
+      const geometry = new GeometryElements(vertexArraysFromPrimitive(dataSource), options.engine)
       this.addPart(geometry)
       geometry.release()
     }

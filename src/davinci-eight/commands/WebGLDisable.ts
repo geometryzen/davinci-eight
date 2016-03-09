@@ -21,18 +21,20 @@ export default class WebGLDisable extends ShareableBase implements ContextConsum
    * @param capability {string} The name of the WebGLRenderingContext property to be disabled.
    */
   constructor(capability: Capability) {
-    super('WebGLDisable', 1)
+    super()
+    this.setLoggingName('WebGLDisable')
     this._capability = mustBeNumber('capability', capability)
   }
 
   /**
    * @method destructor
+   * @param levelUp {number}
    * @return {void}
    * @protected
    */
-  protected destructor(): void {
+  protected destructor(levelUp: number): void {
     this._capability = void 0
-    super.destructor(0)
+    super.destructor(levelUp + 1)
   }
 
   contextFree(manager: ContextProvider): void {

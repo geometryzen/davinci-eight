@@ -14,7 +14,7 @@ import ShareableBase from '../core/ShareableBase';
  */
 function transferOwnership<T extends Shareable>(data: T[]): ShareableArray<T> {
   if (data) {
-    const result = new ShareableArray<T>(data, 0)
+    const result = new ShareableArray<T>(data)
     // The result has now taken ownership of the elements, so we can release.
     for (let i = 0, iLength = data.length; i < iLength; i++) {
       const element = data[i]
@@ -53,10 +53,10 @@ export default class ShareableArray<T extends Shareable> extends ShareableBase {
    * @class ShareableArray
    * @constructor
    * @param [elements] {T[]}
-   * @param [level = 0] {number}
    */
-  constructor(elements: T[] = [], level = 0) {
-    super('ShareableArray', incLevel(level))
+  constructor(elements: T[] = []) {
+    super()
+    this.setLoggingName('ShareableArray')
     this._elements = elements
     for (let i = 0, l = this._elements.length; i < l; i++) {
       this._elements[i].addRef()
@@ -83,7 +83,7 @@ export default class ShareableArray<T extends Shareable> extends ShareableBase {
    * @return {ShareableArray}
    */
   find(match: (element: T) => boolean): ShareableArray<T> {
-    const result = new ShareableArray<T>([], 0)
+    const result = new ShareableArray<T>([])
     const elements = this._elements
     const iLen = elements.length
     for (let i = 0; i < iLen; i++) {
@@ -173,7 +173,7 @@ export default class ShareableArray<T extends Shareable> extends ShareableBase {
    * @return {ShareableArray}
    */
   slice(begin?: number, end?: number): ShareableArray<T> {
-    return new ShareableArray<T>(this._elements.slice(begin, end), 0)
+    return new ShareableArray<T>(this._elements.slice(begin, end))
   }
   /**
    * The splice() method changes the content of an array by removing existing elements and/or adding new elements.

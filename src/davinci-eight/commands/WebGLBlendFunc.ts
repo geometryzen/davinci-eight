@@ -48,10 +48,10 @@ export default class WebGLBlendFunc extends ShareableBase {
    * @constructor
    * @param sfactor {BlendFactor}
    * @param dfactor {BlendFactor}
-   * @param [level = 0] {number}
    */
-  constructor(sfactor: BlendFactor, dfactor: BlendFactor, level = 0) {
-    super('WebGLBlendFunc', incLevel(level))
+  constructor(sfactor: BlendFactor, dfactor: BlendFactor) {
+    super()
+    this.setLoggingName('WebGLBlendFunc')
     this.sfactor = mustBeFactor('sfactor', sfactor)
     this.dfactor = mustBeFactor('dfactor', dfactor)
   }

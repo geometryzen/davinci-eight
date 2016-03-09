@@ -13,9 +13,10 @@ import AbstractDrawable from '../core/AbstractDrawable'
 export default class DrawList extends ShareableContextConsumer {
   private things: ShareableArray<AbstractDrawable>
 
-  constructor(engine: Engine, level: number) {
-    super('DrawList', engine, incLevel(level))
-    this.things = new ShareableArray<AbstractDrawable>([], 0)
+  constructor(engine: Engine) {
+    super(engine)
+    this.setLoggingName('DrawList')
+    this.things = new ShareableArray<AbstractDrawable>([])
   }
 
   protected destructor(level: number): void {

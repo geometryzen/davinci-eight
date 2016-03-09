@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.217.0</em>
+            <em>API Docs for: 2.218.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -40,7 +40,6 @@
                             <ul id="api-classes" class="apis classes">
                                 <li><a href="../classes/AbstractColor.html">AbstractColor</a></li>
                                 <li><a href="../classes/AbstractDrawable.html">AbstractDrawable</a></li>
-                                <li><a href="../classes/AbstractMaterial.html">AbstractMaterial</a></li>
                                 <li><a href="../classes/AbstractMatrix.html">AbstractMatrix</a></li>
                                 <li><a href="../classes/AbstractMesh.html">AbstractMesh</a></li>
                                 <li><a href="../classes/AmbientLight.html">AmbientLight</a></li>
@@ -128,6 +127,7 @@
                                 <li><a href="../classes/LinePoints.html">LinePoints</a></li>
                                 <li><a href="../classes/LineStrip.html">LineStrip</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
+                                <li><a href="../classes/MaterialBase.html">MaterialBase</a></li>
                                 <li><a href="../classes/MaterialOptions.html">MaterialOptions</a></li>
                                 <li><a href="../classes/Matrix2.html">Matrix2</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
@@ -271,23 +271,38 @@
     <pre class="code prettyprint linenums">
 import GeometryContainer from &#x27;../core/GeometryContainer&#x27;;
 import GeometryElements from &#x27;../core/GeometryElements&#x27;;
-import incLevel from &#x27;../base/incLevel&#x27;;
-import isDefined from &#x27;../checks/isDefined&#x27;
+import isDefined from &#x27;../checks/isDefined&#x27;;
 import mustBeNumber from &#x27;../checks/mustBeNumber&#x27;;
 import PolyhedronBuilder from &#x27;../geometries/PolyhedronBuilder&#x27;;
-import TetrahedronGeometryOptions from &#x27;./TetrahedronGeometryOptions&#x27;
-import vertexArraysFromPrimitive from &#x27;../core/vertexArraysFromPrimitive&#x27;
+import TetrahedronGeometryOptions from &#x27;./TetrahedronGeometryOptions&#x27;;
+import vertexArraysFromPrimitive from &#x27;../core/vertexArraysFromPrimitive&#x27;;
 
 /**
  * @module EIGHT
  * @submodule geometries
  */
 
-const vertices = [
-  1, 1, 1, - 1, - 1, 1, - 1, 1, - 1, 1, - 1, - 1
-];
+//
+// Imagine 4 vertices sitting on some of the vertices of a cube of side-length 2.
+// The vertices are:
+// [0] (+1, +1, +1)
+// [1] (-1, -1, +1)
+// [2] (-1, +1, -1)
+// [3] (+1, -1, -1)
+//
+// This is seen to form a tetrahedron because all of the side lengths are
+// the same, sqrt(8), because the side length of the cube is 2. So we have
+// four equilateral triangles stiched together to form a tetrahedron.
+//
+const vertices: number[] = [
+  +1, +1, +1, -1, -1, +1, -1, +1, -1, +1, -1, -1
+]
 
-const indices = [
+//
+// The following 12 indices comprise four triangles.
+// Each triangle is traversed counter-clockwise as seen from the outside. 
+//
+const indices: number[] = [
   2, 1, 0, 0, 3, 2, 1, 3, 0, 2, 3, 1
 ];
 
@@ -298,24 +313,35 @@ const indices = [
  * @extends Geometry
  */
 export default class TetrahedronGeometry extends GeometryContainer {
+
   /**
    * @class TetrahedronGeometry
    * @constructor
    * @param [options = {}] {TetrahedronGeometryOptions}
-   * @param [level = 0] {number}
    */
-  constructor(options: TetrahedronGeometryOptions = {}, level = 0) {
-    super(&#x27;TetrahedronGeometry&#x27;, options.tilt, incLevel(level))
+  constructor(options: TetrahedronGeometryOptions = {}) {
+    super(options.tilt)
+    this.setLoggingName(&#x27;TetrahedronGeometry&#x27;)
     const radius = isDefined(options.radius) ? mustBeNumber(&#x27;radius&#x27;, options.radius) : 1.0
     const builder = new PolyhedronBuilder(vertices, indices, radius)
     const ps = builder.toPrimitives()
     const iLen = ps.length
     for (let i = 0; i &lt; iLen; i++) {
       const p = ps[i]
-      const geometry = new GeometryElements(&#x27;TetrahedronGeometry&#x27;, vertexArraysFromPrimitive(p), options.engine, 0)
+      const geometry = new GeometryElements(vertexArraysFromPrimitive(p), options.engine)
       this.addPart(geometry)
       geometry.release()
     }
+  }
+
+  /**
+   * @method destructor
+   * @param levelUp {number}
+   * @return {void}
+   * @protected
+   */
+  protected destructor(levelUp: number): void {
+    super.destructor(levelUp + 1)
   }
 }
 

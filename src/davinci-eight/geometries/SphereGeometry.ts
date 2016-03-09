@@ -31,16 +31,16 @@ export default class SphereGeometry extends GeometryContainer {
    * @class SphereGeometry
    * @constructor
    * @param [options] {SphereGeometryOptions}
-   * @param [level = 0] {number}
    */
-  constructor(options: SphereGeometryOptions = {}, level = 0) {
-    super('SphereGeometry', void 0, incLevel(level))
+  constructor(options: SphereGeometryOptions = {}) {
+    super(void 0)
+    this.setLoggingName('SphereGeometry')
     const builder = new SphereBuilder()
     const ps = builder.toPrimitives()
     const iLen = ps.length
     for (let i = 0; i < iLen; i++) {
       const p = ps[i]
-      const geometry = new GeometryElements('SphereGeometry', vertexArraysFromPrimitive(p), options.engine, 0)
+      const geometry = new GeometryElements(vertexArraysFromPrimitive(p), options.engine)
       this.addPart(geometry)
       geometry.release()
     }

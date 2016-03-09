@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.217.0</em>
+            <em>API Docs for: 2.218.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -40,7 +40,6 @@
                             <ul id="api-classes" class="apis classes">
                                 <li><a href="../classes/AbstractColor.html">AbstractColor</a></li>
                                 <li><a href="../classes/AbstractDrawable.html">AbstractDrawable</a></li>
-                                <li><a href="../classes/AbstractMaterial.html">AbstractMaterial</a></li>
                                 <li><a href="../classes/AbstractMatrix.html">AbstractMatrix</a></li>
                                 <li><a href="../classes/AbstractMesh.html">AbstractMesh</a></li>
                                 <li><a href="../classes/AmbientLight.html">AmbientLight</a></li>
@@ -128,6 +127,7 @@
                                 <li><a href="../classes/LinePoints.html">LinePoints</a></li>
                                 <li><a href="../classes/LineStrip.html">LineStrip</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
+                                <li><a href="../classes/MaterialBase.html">MaterialBase</a></li>
                                 <li><a href="../classes/MaterialOptions.html">MaterialOptions</a></li>
                                 <li><a href="../classes/Matrix2.html">Matrix2</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
@@ -277,7 +277,7 @@ import isDefined from &#x27;../checks/isDefined&#x27;
 import isNull from &#x27;../checks/isNull&#x27;
 import isUndefined from &#x27;../checks/isUndefined&#x27;
 import LineMaterialOptions from &#x27;./LineMaterialOptions&#x27;
-import Material from &#x27;./Material&#x27;
+import MaterialBase from &#x27;./MaterialBase&#x27;
 import mustBeObject from &#x27;../checks/mustBeObject&#x27;
 
 /**
@@ -341,29 +341,24 @@ function fragmentShaderSrc(options?: LineMaterialOptions): string {
  * &lt;/table&gt;
  *
  * @class LineMaterial
- * @extends Material
+ * @extends MaterialBase
  */
-export default class LineMaterial extends Material {
+export default class LineMaterial extends MaterialBase {
 
   /**
    * @class LineMaterial
    * @constructor
    * @param options {LineMaterialOptions}
    * @param engine {Engine}
-   * @param level {number}
    */
-  constructor(options: LineMaterialOptions, engine: Engine, level: number) {
+  constructor(options: LineMaterialOptions, engine: Engine) {
     super(
       vertexShaderSrc(options),
       fragmentShaderSrc(options),
       [],
-      &#x27;LineMaterial&#x27;,
-      engine,
-      incLevel(level)
+      engine
     )
-    if (level === 0) {
-      this.synchUp()
-    }
+    this.setLoggingName(&#x27;LineMaterial&#x27;)
   }
 
   /**

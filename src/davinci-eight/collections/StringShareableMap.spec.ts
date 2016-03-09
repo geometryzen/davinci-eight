@@ -1,13 +1,13 @@
-import incLevel from '../base/incLevel'
 import StringShareableMap from './StringShareableMap'
 import ShareableBase from '../core/ShareableBase'
 
 class Foo extends ShareableBase {
-  constructor(level: number) {
-    super('Foo', incLevel(level))
+  constructor() {
+    super()
+    this.setLoggingName('Foo')
   }
-  destructor(level: number) {
-    super.destructor(incLevel(level))
+  destructor(levelUp: number) {
+    super.destructor(levelUp + 1)
   }
 }
 

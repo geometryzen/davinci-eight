@@ -28,10 +28,10 @@ export default class ArrowGeometry extends GeometryContainer {
    * @class ArrowGeometry
    * @constructor
    * @param [options] {ArrowGeometryOptios} The initial axis of the arrow.
-   * @param [level = 0] {number}
    */
-  constructor(options: ArrowGeometryOptions = {}, level = 0) {
-    super('ArrowGeometry', options.tilt, incLevel(level))
+  constructor(options: ArrowGeometryOptions = {}) {
+    super(options.tilt)
+    this.setLoggingName('ArrowGeometry')
     mustBeObject('options', options)
 
     const builder = new ArrowBuilder(R3.e2, R3.e3, false)
@@ -43,7 +43,7 @@ export default class ArrowGeometry extends GeometryContainer {
     const iLen = ps.length
     for (let i = 0; i < iLen; i++) {
       const dataSource = ps[i]
-      const geometry = new GeometryElements('ArrowGeometry', vertexArraysFromPrimitive(dataSource), options.engine, 0)
+      const geometry = new GeometryElements(vertexArraysFromPrimitive(dataSource), options.engine)
       this.addPart(geometry)
       geometry.release()
     }

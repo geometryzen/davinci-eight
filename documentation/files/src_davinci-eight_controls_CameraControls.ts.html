@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.217.0</em>
+            <em>API Docs for: 2.218.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -40,7 +40,6 @@
                             <ul id="api-classes" class="apis classes">
                                 <li><a href="../classes/AbstractColor.html">AbstractColor</a></li>
                                 <li><a href="../classes/AbstractDrawable.html">AbstractDrawable</a></li>
-                                <li><a href="../classes/AbstractMaterial.html">AbstractMaterial</a></li>
                                 <li><a href="../classes/AbstractMatrix.html">AbstractMatrix</a></li>
                                 <li><a href="../classes/AbstractMesh.html">AbstractMesh</a></li>
                                 <li><a href="../classes/AmbientLight.html">AmbientLight</a></li>
@@ -128,6 +127,7 @@
                                 <li><a href="../classes/LinePoints.html">LinePoints</a></li>
                                 <li><a href="../classes/LineStrip.html">LineStrip</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
+                                <li><a href="../classes/MaterialBase.html">MaterialBase</a></li>
                                 <li><a href="../classes/MaterialOptions.html">MaterialOptions</a></li>
                                 <li><a href="../classes/Matrix2.html">Matrix2</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
@@ -270,7 +270,6 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 import Geometric3 from &#x27;../math/Geometric3&#x27;
-import incLevel from &#x27;../base/incLevel&#x27;
 import MouseControls from &#x27;./MouseControls&#x27;
 import mustBeObject from &#x27;../checks/mustBeObject&#x27;
 import PerspectiveCamera from &#x27;../facets/PerspectiveCamera&#x27;
@@ -372,10 +371,10 @@ export default class CameraControls extends MouseControls {
    * @class CameraControls
    * @constructor
    * @param camera {PerspectiveCamera}
-   * @param level {number}
    */
-  constructor(camera: PerspectiveCamera, level = 0) {
-    super(&#x27;CameraControls&#x27;, incLevel(level))
+  constructor(camera: PerspectiveCamera) {
+    super()
+    this.setLoggingName(&#x27;CameraControls&#x27;)
     mustBeObject(&#x27;camera&#x27;, camera)
     this.camera = camera
 
@@ -391,12 +390,12 @@ export default class CameraControls extends MouseControls {
 
   /**
    * @method destructor
-   * @param level {number}
+   * @param levelUp {number}
    * @return {void}
    * @protected
    */
-  protected destructor(level: number): void {
-    super.destructor(incLevel(level))
+  protected destructor(levelUp: number): void {
+    super.destructor(levelUp + 1)
   }
 
   /**

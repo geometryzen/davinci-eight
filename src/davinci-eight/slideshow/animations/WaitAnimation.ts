@@ -7,8 +7,9 @@ export default class WaitAnimation extends ShareableBase implements IAnimation {
   public start: number;
   public duration: number;
   public fraction: number;
-  constructor(duration: number, level = 0) {
-    super('WaitAnimation', incLevel(level))
+  constructor(duration: number) {
+    super()
+    this.setLoggingName('WaitAnimation')
     this.duration = duration
     this.fraction = 0
   }

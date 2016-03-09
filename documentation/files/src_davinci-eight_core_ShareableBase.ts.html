@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.217.0</em>
+            <em>API Docs for: 2.218.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -40,7 +40,6 @@
                             <ul id="api-classes" class="apis classes">
                                 <li><a href="../classes/AbstractColor.html">AbstractColor</a></li>
                                 <li><a href="../classes/AbstractDrawable.html">AbstractDrawable</a></li>
-                                <li><a href="../classes/AbstractMaterial.html">AbstractMaterial</a></li>
                                 <li><a href="../classes/AbstractMatrix.html">AbstractMatrix</a></li>
                                 <li><a href="../classes/AbstractMesh.html">AbstractMesh</a></li>
                                 <li><a href="../classes/AmbientLight.html">AmbientLight</a></li>
@@ -128,6 +127,7 @@
                                 <li><a href="../classes/LinePoints.html">LinePoints</a></li>
                                 <li><a href="../classes/LineStrip.html">LineStrip</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
+                                <li><a href="../classes/MaterialBase.html">MaterialBase</a></li>
                                 <li><a href="../classes/MaterialOptions.html">MaterialOptions</a></li>
                                 <li><a href="../classes/Matrix2.html">Matrix2</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
@@ -284,6 +284,32 @@ import uuid4 from &#x27;./uuid4&#x27;;
  */
 
 /**
+ * &lt;p&gt;
+ * Convenient base class for derived classes implementing &lt;code&gt;Shareable&lt;/code&gt;.
+ * &lt;/p&gt;
+ *
+ * @example
+ *     class MyShareableClass extends ShareableBase {
+ *       constructor() {
+ *         // First thing you do is call super to invoke constructors up the chain.
+ *         super()
+ *         // Setting the logging name is both a good practice and increments the tally
+ *         // of constructors in the constructor chain. The runtime architecture will
+ *         // verify that the number of destructor calls matches these logging name calls.
+ *         this.setLoggingName(&#x27;MyShareableClass&#x27;)
+ *         // Finally, your initialization code here.
+ *         // addRef and shared resources, maybe create owned resources.
+ *       }
+ *       protected destructor(levelUp: number): void {
+ *         // Firstly, your termination code here.
+ *         // Release any shared resources and/or delete any owned resources.
+ *         // Last thing you do is to call the super destructor, incrementing the level.
+ *         // The runtime architecture will verify that the destructor count matches the
+ *         // constructor count.
+ *         super.destructor(levelUp + 1)
+ *       }
+ *     }
+ *
  * @class ShareableBase
  */
 export default class ShareableBase implements Shareable {
@@ -313,35 +339,23 @@ export default class ShareableBase implements Shareable {
 
   /**
    * &lt;p&gt;
-   * Keeps track of the depth in the hierarchy of classes.
+   * Keeps track of the level in the hierarchy of classes.
    * &lt;/p&gt;
-   * &lt;p&gt;
-   * A class constructed with a shareLength of zero is the most derived class in the hierarchy.
-   * Such a class calls its&#x27; base class constructor with an incremented shareLength.
-   * &lt;/p&gt;
-   * &lt;p&gt;
-   * When the destructor chain is invoked, ...
-   * &lt;/p&gt;
-   * @property _level
+   *
+   * @property _levelUp
    * @type number
    * @private
    */
-  private _level: number
+  private _levelUp: number = -1
 
   /**
-   * &lt;p&gt;
-   * Convenient base class for derived classes implementing &lt;code&gt;Shareable&lt;/code&gt;.
-   * &lt;/p&gt;
    * @class ShareableBase
    * @extends Shareable
    * @constructor
-   * @param type {string} The human-readable name of the derived type.
-   * @param level {number} a number that should be incremented for each super.constructor call.
    */
-  constructor(type: string, level: number) {
-    this._type = mustBeString(&#x27;type&#x27;, type)
-    this._level = mustBeInteger(&#x27;level&#x27;, level)
-    refChange(this._uuid, type, +1)
+  constructor() {
+    this.setLoggingName(&#x27;ShareableBase&#x27;)
+    refChange(this._uuid, this._type, +1)
   }
 
   /**
@@ -356,19 +370,19 @@ export default class ShareableBase implements Shareable {
    * &lt;/p&gt;
    *
    * @method destructor
-   * @param level {number} A number that should be incremented for each destructor call.
+   * @param levelUp {number} A number that should be incremented for each destructor call.
    * @return {void}
    * @protected
    */
-  protected destructor(level: number, grumble = false): void {
-    mustBeInteger(&#x27;level&#x27;, level)
-    mustBeEQ(&#x60;${this._type} constructor-destructor chain mismatch: destructor index ${level}&#x60;, level, this._level)
+  protected destructor(levelUp: number, grumble = false): void {
+    mustBeInteger(&#x27;levelUp&#x27;, levelUp)
+    mustBeEQ(&#x60;${this._type} constructor-destructor chain mismatch: destructor index ${levelUp}&#x60;, levelUp, this._levelUp)
     if (grumble) {
       console.warn(&quot;&#x60;protected destructor(): void&#x60; method should be implemented by &#x60;&quot; + this._type + &quot;&#x60;.&quot;)
     }
     // This is the sentinel that this destructor was eventually called.
     // We can check this invariant in the final release method.
-    this._level = void 0
+    this._levelUp = void 0
   }
 
   /**
@@ -376,16 +390,17 @@ export default class ShareableBase implements Shareable {
    * Returns the total length of the inheritance hierarchy that this instance is involved in.
    * &lt;/p&gt;
    *
-   * @property shareLength
+   * @property levelUp
    * @type number
    * @readOnly
    * @private
    */
-  private get shareLength(): number {
-    return this._level + 1
+  private get levelUp(): number {
+    return this._levelUp
   }
-  private set shareLength(shareLength: number) {
-    throw new Error(readOnly(&#x27;shareLength&#x27;).message)
+  private set levelUp(levelUp: number) {
+    // The only way the level gets changed is through setLoggingName.
+    throw new Error(readOnly(&#x27;levelUp&#x27;).message)
   }
 
   /**
@@ -411,6 +426,41 @@ export default class ShareableBase implements Shareable {
   }
 
   /**
+   * @method getLoggingName
+   * @return {string}
+   */
+  public getLoggingName(): string {
+    return this._type
+  }
+
+  /**
+   * &lt;p&gt;
+   * This method is for use within constructors.
+   * &lt;p&gt;
+   * &lt;p&gt;
+   * Immediately after a call to the super class constructor, make a call to &lt;code&gt;setLoggingName&lt;/code&gt;.
+   * This will have the effect of refining the name used for reporting reference counts.
+   * &lt;/p&gt;
+   * &lt;p&gt;
+   * This method has the secondary purpose of enabling a tally of the number of classes
+   * in the constructor chain. This enables the runtime architecture to verify that destructor
+   * chains are consistent with constructor chains, which is a good practice for cleaning up resources.
+   * &lt;/p&gt;
+   * &lt;p&gt;
+   * Notice that this method is intentionally protected to discourage it from being called outside of the constructor.
+   * &lt;/p&gt;
+   *
+   * @method setLoggingName
+   * @param name {string}
+   * @return {void}
+   * @protected
+   */
+  protected setLoggingName(name: string): void {
+    this._type = mustBeString(&#x27;name&#x27;, name)
+    this._levelUp += 1
+  }
+
+  /**
    * &lt;p&gt;
    * Notifies this instance that something is dereferencing it.
    * &lt;/p&gt;
@@ -431,7 +481,7 @@ export default class ShareableBase implements Shareable {
       // Keep the type and uuid around for debugging reference count problems.
       // this._type = void 0
       // this._uuid = void 0
-      if (isDefined(this._level)) {
+      if (isDefined(this._levelUp)) {
         throw new Error(&#x60;${this._type}.destructor method is not calling all the way up the chain.&#x60;)
       }
     }

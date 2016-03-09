@@ -1,5 +1,4 @@
 import GeometryContainer from './GeometryContainer'
-import mustBeNumber from '../checks/mustBeNumber'
 import R3 from '../math/R3'
 import SpinorE3 from '../math/SpinorE3'
 import Spinor3 from '../math/Spinor3'
@@ -19,8 +18,9 @@ class MockGeometry extends GeometryContainer {
   /**
    * For this mock class we'll assume nobody is going to extend from us.
    */
-  constructor(tilt: SpinorE3, level = 0) {
-    super('Foo', tilt, mustBeNumber('level', level) + 1)
+  constructor(tilt: SpinorE3) {
+    super(tilt)
+    this.setLoggingName('MockGeometry')
   }
 
   /**

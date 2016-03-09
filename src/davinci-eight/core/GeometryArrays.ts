@@ -1,4 +1,4 @@
-import AbstractMaterial from './AbstractMaterial'
+import Material from './Material'
 import Attribute from './Attribute'
 import computeAttributes from './computeAttributes'
 import computeCount from './computeCount'
@@ -72,10 +72,10 @@ export default class GeometryArrays extends GeometryLeaf {
    * @class GeometryArrays
    * @constructor
    * @param engine {Engine}
-   * @param [level = 0] {number}
    */
-  constructor(engine: Engine, level = 0) {
-    super('GeometryArrays', engine, incLevel(level))
+  constructor(engine: Engine) {
+    super(engine)
+    this.setLoggingName('GeometryArrays')
     this.attributes = {}
     this.vbo = new VertexBuffer(engine)
   }
@@ -123,10 +123,10 @@ export default class GeometryArrays extends GeometryLeaf {
 
   /**
    * @method draw
-   * @param material {AbstractMaterial}
+   * @param material {Material}
    * @return {void}
    */
-  draw(material: AbstractMaterial): void {
+  draw(material: Material): void {
     const contextProvider = this.contextProvider
     if (contextProvider) {
       this.vbo.bind()

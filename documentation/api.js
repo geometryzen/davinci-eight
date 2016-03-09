@@ -3,7 +3,6 @@ YUI.add("yuidoc-meta", function(Y) {
     "classes": [
         "AbstractColor",
         "AbstractDrawable",
-        "AbstractMaterial",
         "AbstractMatrix",
         "AbstractMesh",
         "AmbientLight",
@@ -90,6 +89,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "LinePoints",
         "LineStrip",
         "Material",
+        "MaterialBase",
         "MaterialOptions",
         "Matrix2",
         "Matrix3",

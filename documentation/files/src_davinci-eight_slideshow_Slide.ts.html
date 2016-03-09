@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.217.0</em>
+            <em>API Docs for: 2.218.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -40,7 +40,6 @@
                             <ul id="api-classes" class="apis classes">
                                 <li><a href="../classes/AbstractColor.html">AbstractColor</a></li>
                                 <li><a href="../classes/AbstractDrawable.html">AbstractDrawable</a></li>
-                                <li><a href="../classes/AbstractMaterial.html">AbstractMaterial</a></li>
                                 <li><a href="../classes/AbstractMatrix.html">AbstractMatrix</a></li>
                                 <li><a href="../classes/AbstractMesh.html">AbstractMesh</a></li>
                                 <li><a href="../classes/AmbientLight.html">AmbientLight</a></li>
@@ -128,6 +127,7 @@
                                 <li><a href="../classes/LinePoints.html">LinePoints</a></li>
                                 <li><a href="../classes/LineStrip.html">LineStrip</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
+                                <li><a href="../classes/MaterialBase.html">MaterialBase</a></li>
                                 <li><a href="../classes/MaterialOptions.html">MaterialOptions</a></li>
                                 <li><a href="../classes/Matrix2.html">Matrix2</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
@@ -298,10 +298,11 @@ export default class Slide extends ShareableBase implements ISlide {
    * The time standard for this Slide.
    */
   private now = 0;
-  constructor(level: number) {
-    super(&#x27;Slide&#x27;, incLevel(level))
-    this.prolog = new SlideCommands(0)
-    this.epilog = new SlideCommands(0)
+  constructor() {
+    super()
+    this.setLoggingName(&#x27;Slide&#x27;)
+    this.prolog = new SlideCommands()
+    this.epilog = new SlideCommands()
     this.targets = []
     this.mirrors = new StringShareableMap&lt;Mirror&gt;()
   }
@@ -405,10 +406,11 @@ export default class Slide extends ShareableBase implements ISlide {
 class AnimationLane extends ShareableBase {
   private completed: ShareableArray&lt;IAnimation&gt;;
   private remaining: ShareableArray&lt;IAnimation&gt;;
-  constructor(level: number) {
-    super(&#x27;AnimationLane&#x27;, incLevel(level))
-    this.completed = new ShareableArray&lt;IAnimation&gt;([], 0)
-    this.remaining = new ShareableArray&lt;IAnimation&gt;([], 0)
+  constructor() {
+    super()
+    this.setLoggingName(&#x27;AnimationLane&#x27;)
+    this.completed = new ShareableArray&lt;IAnimation&gt;([])
+    this.remaining = new ShareableArray&lt;IAnimation&gt;([])
   }
   protected destructor(level: number): void {
     this.completed.release()
@@ -474,7 +476,8 @@ class Mirror extends ShareableBase {
    */
   public animationLanes: StringShareableMap&lt;AnimationLane&gt;;
   constructor() {
-    super(&#x27;Mirror&#x27;, 1)
+    super()
+    this.setLoggingName(&#x27;Mirror&#x27;)
     this.animationLanes = new StringShareableMap&lt;AnimationLane&gt;()
   }
 
@@ -485,7 +488,7 @@ class Mirror extends ShareableBase {
   }
   ensureAnimationLane(key: string): void {
     if (!this.animationLanes.exists(key)) {
-      this.animationLanes.putWeakRef(key, new AnimationLane(0))
+      this.animationLanes.putWeakRef(key, new AnimationLane())
     }
   }
 }

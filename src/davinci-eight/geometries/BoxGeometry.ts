@@ -29,10 +29,10 @@ export default class BoxGeometry extends GeometryContainer {
    * @class BoxGeometry
    * @constructor
    * @param [options = {}] {BoxGeometryOptions}
-   * @param [level = 0] {number}
    */
-  constructor(options: BoxGeometryOptions = {}, level = 0) {
-    super('BoxGeometry', options.tilt, incLevel(level))
+  constructor(options: BoxGeometryOptions = {}) {
+    super(options.tilt)
+    this.setLoggingName('BoxGeometry')
 
     const builder = new CuboidPrimitivesBuilder()
     builder.width = isDefined(options.width) ? mustBeNumber('width', options.width) : 1
@@ -69,7 +69,7 @@ export default class BoxGeometry extends GeometryContainer {
     const iLen = ps.length
     for (let i = 0; i < iLen; i++) {
       const dataSource = ps[i]
-      const geometry = new GeometryElements('BoxGeometry', vertexArraysFromPrimitive(dataSource), options.engine, 0)
+      const geometry = new GeometryElements(vertexArraysFromPrimitive(dataSource), options.engine)
       this.addPart(geometry)
       geometry.release()
     }

@@ -1,6 +1,5 @@
 import core from '../core';
 import ContextProvider from '../core/ContextProvider';
-import incLevel from '../base/incLevel';
 import ShareableBase from '../core/ShareableBase';
 
 /**
@@ -23,20 +22,20 @@ export default class EIGHTLogger extends ShareableBase {
    * </p>
    * @class EIGHTLogger
    * @constructor
-   * @param [level = 0] {number}
    */
-  constructor(level = 0) {
-    super('EIGHTLogger', incLevel(level))
+  constructor() {
+    super()
+    this.setLoggingName('EIGHTLogger')
   }
 
   /**
    * @method destructor
-   * @param level {number}
+   * @param levelUp {number}
    * @return void
    * @protected
    */
-  protected destructor(level: number): void {
-    super.destructor(incLevel(level))
+  protected destructor(levelUp: number): void {
+    super.destructor(levelUp + 1)
   }
 
   /**

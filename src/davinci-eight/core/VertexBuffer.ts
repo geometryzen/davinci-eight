@@ -1,6 +1,5 @@
 import ContextProvider from './ContextProvider';
 import Engine from './Engine';
-import incLevel from '../base/incLevel';
 import mustBeObject from '../checks/mustBeObject';
 import mustBeUndefined from '../checks/mustBeUndefined';
 import ShareableContextConsumer from './ShareableContextConsumer';
@@ -54,27 +53,23 @@ export default class VertexBuffer extends ShareableContextConsumer {
    * @class VertexBuffer
    * @constructor
    * @param engine {Engine}
-   * @param [level=0] {number}
    */
-  constructor(engine: Engine, level = 0) {
-    super('VertexBuffer', engine, incLevel(level))
-    if (level === 0) {
-      this.synchUp()
-    }
+  constructor(engine: Engine) {
+    super(engine)
+    this.setLoggingName('VertexBuffer')
+    this.synchUp()
   }
 
   /**
    * @method destructor
-   * @param level {number}
+   * @param levelUp {number}
    * @return {void}
    * @protected
    */
-  protected destructor(level: number): void {
-    if (level === 0) {
-      this.cleanUp()
-    }
+  protected destructor(levelUp: number): void {
+    this.cleanUp()
     mustBeUndefined(this._type, this.webGLBuffer)
-    super.destructor(incLevel(level))
+    super.destructor(levelUp + 1)
   }
 
   /**

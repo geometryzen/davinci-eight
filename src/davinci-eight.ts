@@ -106,7 +106,7 @@ import KleinBottleSimplexGeometry from './davinci-eight/geometries/KleinBottleSi
 import Lattice2Geometry from './davinci-eight/geometries/Lattice2Geometry';
 import Simplex1Geometry from './davinci-eight/geometries/Simplex1Geometry';
 import MobiusStripSimplexGeometry from './davinci-eight/geometries/MobiusStripSimplexGeometry';
-import OctahedronSimplexGeometry from './davinci-eight/geometries/OctahedronSimplexGeometry';
+import OctahedronBuilder from './davinci-eight/geometries/OctahedronBuilder';
 import SliceSimplexPrimitivesBuilder from './davinci-eight/geometries/SliceSimplexPrimitivesBuilder';
 import GridSimplexBuilder from './davinci-eight/geometries/GridSimplexBuilder';
 import PolyhedronBuilder from './davinci-eight/geometries/PolyhedronBuilder';
@@ -121,7 +121,7 @@ import arc3 from './davinci-eight/geometries/arc3';
 // materials
 import HTMLScriptsMaterial from './davinci-eight/materials/HTMLScriptsMaterial';
 import LineMaterial from './davinci-eight/materials/LineMaterial';
-import Material from './davinci-eight/materials/Material';
+import MaterialBase from './davinci-eight/materials/MaterialBase';
 import MeshMaterial from './davinci-eight/materials/MeshMaterial';
 import MeshNormalMaterial from './davinci-eight/materials/MeshNormalMaterial';
 import PointMaterial from './davinci-eight/materials/PointMaterial';
@@ -187,6 +187,7 @@ import randomColor from './davinci-eight/utils/randomColor';
 import Arrow from './davinci-eight/visual/Arrow';
 import Sphere from './davinci-eight/visual/Sphere';
 import Box from './davinci-eight/visual/Box';
+import RigidBody from './davinci-eight/visual/RigidBody';
 import RigidBodyWithUnits from './davinci-eight/visual/RigidBodyWithUnits';
 import Cylinder from './davinci-eight/visual/Cylinder';
 import Curve from './davinci-eight/visual/Curve';
@@ -356,6 +357,7 @@ const eight = {
   get Sphere() { return Sphere },
   get Box() { return Box },
   get Mesh() { return Mesh },
+  get RigidBody() { return RigidBody },
   get RigidBodyWithUnits() { return RigidBodyWithUnits },
   get Cylinder() { return Cylinder },
   get Curve() { return Curve },
