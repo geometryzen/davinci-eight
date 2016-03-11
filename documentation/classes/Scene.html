@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.219.0</em>
+            <em>API Docs for: 2.220.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -58,6 +58,7 @@
                                 <li><a href="../classes/BoxGeometry.html">BoxGeometry</a></li>
                                 <li><a href="../classes/BoxGeometryOptions.html">BoxGeometryOptions</a></li>
                                 <li><a href="../classes/BoxOptions.html">BoxOptions</a></li>
+                                <li><a href="../classes/BrowserApp.html">BrowserApp</a></li>
                                 <li><a href="../classes/CameraControls.html">CameraControls</a></li>
                                 <li><a href="../classes/Capability.html">Capability</a></li>
                                 <li><a href="../classes/CC.html">CC</a></li>
@@ -93,6 +94,7 @@
                                 <li><a href="../classes/Duality.html">Duality</a></li>
                                 <li><a href="../classes/EIGHTLogger.html">EIGHTLogger</a></li>
                                 <li><a href="../classes/Engine.html">Engine</a></li>
+                                <li><a href="../classes/EngineApp.html">EngineApp</a></li>
                                 <li><a href="../classes/ErrorMode.html">ErrorMode</a></li>
                                 <li><a href="../classes/Facet.html">Facet</a></li>
                                 <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
@@ -103,6 +105,7 @@
                                 <li><a href="../classes/Geometric3.html">Geometric3</a></li>
                                 <li><a href="../classes/GeometricE2.html">GeometricE2</a></li>
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
+                                <li><a href="../classes/GeometricNumber.html">GeometricNumber</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
                                 <li><a href="../classes/GeometryArrays.html">GeometryArrays</a></li>
                                 <li><a href="../classes/GeometryBuilder.html">GeometryBuilder</a></li>
@@ -121,6 +124,7 @@
                                 <li><a href="../classes/GridTriangleStrip.html">GridTriangleStrip</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
                                 <li><a href="../classes/IndexBuffer.html">IndexBuffer</a></li>
+                                <li><a href="../classes/LinearNumber.html">LinearNumber</a></li>
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
                                 <li><a href="../classes/LineMaterialOptions.html">LineMaterialOptions</a></li>
                                 <li><a href="../classes/LinePoints.html">LinePoints</a></li>
@@ -211,6 +215,7 @@
                                 <li><a href="../classes/VertexAttributeMap.html">VertexAttributeMap</a></li>
                                 <li><a href="../classes/VertexBuffer.html">VertexBuffer</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
+                                <li><a href="../classes/VisualApp.html">VisualApp</a></li>
                                 <li><a href="../classes/VisualOptions.html">VisualOptions</a></li>
                                 <li><a href="../classes/WebGLBlendFunc.html">WebGLBlendFunc</a></li>
                                 <li><a href="../classes/WebGLClearColor.html">WebGLClearColor</a></li>
@@ -283,7 +288,7 @@
 
 <div class="box intro">
     <p>
-A <code>Scene</code> is a collection of mesh instances arranged in some order.
+A <code>Scene</code> is a collection of drawable instances arranged in some order.
 The precise order is implementation defined.
 The collection may be traversed for general processing using callback/visitor functions.
 </p>
@@ -475,7 +480,7 @@ The collection may be traversed for general processing using callback/visitor fu
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
-                        <code>mesh</code>
+                        <code>drawable</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
@@ -502,7 +507,7 @@ The collection may be traversed for general processing using callback/visitor fu
 
     <div class="description">
         <p>
-Adds the <code>mesh</code> to this <code>Scene</code>.
+Adds the <code>drawable</code> to this <code>Scene</code>.
 </p>
     </div>
 
@@ -511,7 +516,7 @@ Adds the <code>mesh</code> to this <code>Scene</code>.
 
             <ul class="params-list">
                 <li class="param">
-                        <code class="param-name">mesh</code>
+                        <code class="param-name">drawable</code>
                         <span class="type"><a href="../classes/AbstractDrawable.html" class="crosslink">AbstractDrawable</a></span>
 
 
@@ -588,7 +593,7 @@ Notifies this instance that something is referencing it.
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
-                        <code>mesh</code>
+                        <code>drawable</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
@@ -622,7 +627,7 @@ Notifies this instance that something is referencing it.
 
             <ul class="params-list">
                 <li class="param">
-                        <code class="param-name">mesh</code>
+                        <code class="param-name">drawable</code>
                         <span class="type"><a href="../classes/AbstractDrawable.html" class="crosslink">AbstractDrawable</a></span>
 
 
@@ -814,7 +819,7 @@ Notifies this instance that something is referencing it.
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
-                        <code>level</code>
+                        <code>levelUp</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
@@ -852,7 +857,7 @@ Notifies this instance that something is referencing it.
 
             <ul class="params-list">
                 <li class="param">
-                        <code class="param-name">level</code>
+                        <code class="param-name">levelUp</code>
                         <span class="type">Number</span>
 
 
@@ -979,7 +984,7 @@ Traverses the collection of scene parts drawing each one.
             <ul class="params-list">
                 <li class="param">
                         <code class="param-name">match</code>
-                        <span class="type">(mesh: AbstractDrawable) => boolean</span>
+                        <span class="type">(drawable: AbstractDrawable) => boolean</span>
 
 
                     <div class="param-description">
@@ -1103,7 +1108,7 @@ Traverses the collection of scene parts drawing each one.
             <ul class="params-list">
                 <li class="param">
                         <code class="param-name">match</code>
-                        <span class="type">(mesh: AbstractDrawable) => boolean</span>
+                        <span class="type">(drawable: AbstractDrawable) => boolean</span>
 
 
                     <div class="param-description">
@@ -1345,7 +1350,7 @@ Notifies this instance that something is dereferencing it.
 
     <div class="description">
         <p>
-Removes the <code>mesh</code> from this <code>Scene</code>.
+Removes the <code>drawable</code> from this <code>Scene</code>.
 </p>
     </div>
 

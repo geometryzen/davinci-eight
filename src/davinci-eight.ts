@@ -1,3 +1,7 @@
+// base
+import BrowserApp from './davinci-eight/base/BrowserApp';
+import EngineApp from './davinci-eight/base/EngineApp';
+
 // slideshow
 import Slide from './davinci-eight/slideshow/Slide';
 import Director from './davinci-eight/slideshow/Director';
@@ -142,8 +146,8 @@ import GeometricE1 from './davinci-eight/math/GeometricE1';
 import G2 from './davinci-eight/math/G2';
 import G3 from './davinci-eight/math/G3';
 import gauss from './davinci-eight/math/gauss';
-import GeometricElement from './davinci-eight/math/GeometricElement';
-import LinearElement from './davinci-eight/math/LinearElement';
+import GeometricNumber from './davinci-eight/math/GeometricNumber';
+import LinearNumber from './davinci-eight/math/LinearNumber';
 import mathcore from './davinci-eight/math/mathcore';
 import Vector1 from './davinci-eight/math/Vector1';
 import Matrix2 from './davinci-eight/math/Matrix2';
@@ -237,7 +241,11 @@ const eight = {
    * @readOnly
    */
   get VERSION() { return core.VERSION },
-  // TODO: Arrange in alphabetical order in order to assess width of API.
+
+  // base
+  get BrowserApp() { return BrowserApp },
+  get EngineApp() { return EngineApp },
+
   // materials
   get HTMLScriptsMaterial() { return HTMLScriptsMaterial },
   get LineMaterial() { return LineMaterial },

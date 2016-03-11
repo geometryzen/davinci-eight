@@ -7,7 +7,11 @@
  * For linear quantities with units, you may use Unit.
  * For geometric quantities with units, you may use the quantity itself because it can represent a scalar.
  */
-interface LinearElement<I, M, S, V, MAGNITUDE, SCALAR> {
+
+/**
+ * @class LinearNumber
+ */
+interface LinearNumber<I, M, S, V, MAGNITUDE, SCALAR> {
   add(rhs: I, α?: number): M;
   divByScalar(α: SCALAR): M;
   lerp(target: I, α: number): M;
@@ -24,4 +28,4 @@ interface LinearElement<I, M, S, V, MAGNITUDE, SCALAR> {
   toString(radix?: number): string;
 }
 
-export default LinearElement;
+export default LinearNumber;

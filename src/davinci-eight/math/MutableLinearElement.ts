@@ -1,10 +1,10 @@
-import LinearElement from '../math/LinearElement';
+import LinearNumber from '../math/LinearNumber';
 
 /**
  * This interface is provided to ensure consistency.
  * It is not part of the documented API.
  */
-interface MutableLinearElement<I, M, S, V, MAGNITUDE, SCALING> extends LinearElement<I, M, S, V, MAGNITUDE, SCALING> {
+interface MutableLinearElement<I, M, S, V, MAGNITUDE, SCALING> extends LinearNumber<I, M, S, V, MAGNITUDE, SCALING> {
 
     /**
      * <p>

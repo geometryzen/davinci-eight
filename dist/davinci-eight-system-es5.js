@@ -1,3 +1,156 @@
+System.register("davinci-eight/base/BrowserApp.js", ["../checks/isDefined", "../checks/isFunction", "../checks/isUndefined", "../collections/ShareableArray", "../checks/mustBeFunction", "../checks/mustBeObject", "../checks/mustBeUndefined", "../core/refChange"], function(exports_1) {
+  var isDefined_1,
+      isFunction_1,
+      isUndefined_1,
+      ShareableArray_1,
+      mustBeFunction_1,
+      mustBeObject_1,
+      mustBeUndefined_1,
+      refChange_1;
+  var BrowserApp;
+  return {
+    setters: [function(isDefined_1_1) {
+      isDefined_1 = isDefined_1_1;
+    }, function(isFunction_1_1) {
+      isFunction_1 = isFunction_1_1;
+    }, function(isUndefined_1_1) {
+      isUndefined_1 = isUndefined_1_1;
+    }, function(ShareableArray_1_1) {
+      ShareableArray_1 = ShareableArray_1_1;
+    }, function(mustBeFunction_1_1) {
+      mustBeFunction_1 = mustBeFunction_1_1;
+    }, function(mustBeObject_1_1) {
+      mustBeObject_1 = mustBeObject_1_1;
+    }, function(mustBeUndefined_1_1) {
+      mustBeUndefined_1 = mustBeUndefined_1_1;
+    }, function(refChange_1_1) {
+      refChange_1 = refChange_1_1;
+    }],
+    execute: function() {
+      BrowserApp = (function() {
+        function BrowserApp(wnd) {
+          var _this = this;
+          if (wnd === void 0) {
+            wnd = window;
+          }
+          refChange_1.default('start');
+          this.window = wnd;
+          this.domLoaded = function() {
+            _this.window.document.removeEventListener('DOMContentLoaded', _this.domLoaded);
+            _this.domLoaded = void 0;
+            _this.shutDown = function(ev) {
+              wnd.removeEventListener('unload', _this.shutDown);
+              _this.shutDown = void 0;
+              mustBeUndefined_1.default('shutDown', _this.shutDown);
+              mustBeUndefined_1.default('domLoaded', _this.domLoaded);
+              _this.destructor();
+              if (isDefined_1.default(_this.managed)) {
+                console.warn("You must call super.destructor() as the last statement in your BroswerApp-derived class.");
+                _this.managed.release();
+                _this.managed = void 0;
+              }
+            };
+            mustBeObject_1.default('window', _this.window);
+            mustBeFunction_1.default('shutDown', _this.shutDown);
+            mustBeUndefined_1.default('domLoaded', _this.domLoaded);
+            _this.window.addEventListener('unload', _this.shutDown);
+            _this.initialize();
+          };
+          mustBeObject_1.default('window', this.window);
+          mustBeUndefined_1.default('shutDown', this.shutDown);
+          mustBeFunction_1.default('domLoaded', this.domLoaded);
+          wnd.document.addEventListener('DOMContentLoaded', this.domLoaded);
+        }
+        BrowserApp.prototype.isWaiting = function() {
+          return isFunction_1.default(this.domLoaded);
+        };
+        BrowserApp.prototype.isRunning = function() {
+          return isFunction_1.default(this.shutDown);
+        };
+        BrowserApp.prototype.isZombie = function() {
+          return isUndefined_1.default(this.shutDown) && isUndefined_1.default(this.domLoaded);
+        };
+        BrowserApp.prototype.manage = function(managed) {
+          if (this.managed) {
+            this.managed.pushWeakRef(managed);
+          } else {
+            throw new Error("You must call super.initialize() as the first statement in your BroswerApp-derived initialize method.");
+          }
+        };
+        BrowserApp.prototype.initialize = function() {
+          if (isUndefined_1.default(this.managed)) {
+            this.managed = new ShareableArray_1.default();
+          }
+        };
+        BrowserApp.prototype.destructor = function() {
+          if (this.managed) {
+            this.managed.release();
+            this.managed = void 0;
+          }
+          refChange_1.default('stop');
+          refChange_1.default('dump');
+        };
+        return BrowserApp;
+      })();
+      exports_1("default", BrowserApp);
+    }
+  };
+});
+
+System.register("davinci-eight/base/EngineApp.js", ["./BrowserApp", "../core/Engine", "../checks/mustBeString"], function(exports_1) {
+  var __extends = (this && this.__extends) || function(d, b) {
+    for (var p in b)
+      if (b.hasOwnProperty(p))
+        d[p] = b[p];
+    function __() {
+      this.constructor = d;
+    }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+  };
+  var BrowserApp_1,
+      Engine_1,
+      mustBeString_1;
+  var EngineApp;
+  return {
+    setters: [function(BrowserApp_1_1) {
+      BrowserApp_1 = BrowserApp_1_1;
+    }, function(Engine_1_1) {
+      Engine_1 = Engine_1_1;
+    }, function(mustBeString_1_1) {
+      mustBeString_1 = mustBeString_1_1;
+    }],
+    execute: function() {
+      EngineApp = (function(_super) {
+        __extends(EngineApp, _super);
+        function EngineApp(canvasId, wnd) {
+          _super.call(this, wnd);
+          this.engine = new Engine_1.default();
+          this.canvasId = mustBeString_1.default('canvasId', canvasId);
+        }
+        EngineApp.prototype.destructor = function() {
+          if (this.engine) {
+            this.engine.stop();
+            this.engine.release();
+            this.engine = void 0;
+          }
+          _super.prototype.destructor.call(this);
+        };
+        EngineApp.prototype.initialize = function() {
+          _super.prototype.initialize.call(this);
+          this.canvas = this.window.document.getElementById(this.canvasId);
+          if (this.canvas) {
+            this.engine.start(this.canvas);
+          } else {
+            throw new Error(this.canvasId + " must be the elementId of a canvas element.");
+          }
+        };
+        return EngineApp;
+      })(BrowserApp_1.default);
+      exports_1("default", EngineApp);
+    }
+  };
+});
+
 System.register("davinci-eight/commands/BlendFactor.js", [], function(exports_1) {
   var BlendFactor;
   return {
@@ -225,18 +378,18 @@ System.register("davinci-eight/core/Scene.js", ["../collections/ShareableArray",
       ShareableContextConsumer_1;
   var ScenePart,
       Scene;
-  function partsFromMesh(mesh) {
-    mustBeObject_1.default('mesh', mesh);
+  function partsFromMesh(drawable) {
+    mustBeObject_1.default('drawable', drawable);
     var parts = new ShareableArray_1.default([]);
-    var geometry = mesh.geometry;
+    var geometry = drawable.geometry;
     if (geometry.isLeaf()) {
-      var scenePart = new ScenePart(geometry, mesh);
+      var scenePart = new ScenePart(geometry, drawable);
       parts.pushWeakRef(scenePart);
     } else {
       var iLen = geometry.partsLength;
       for (var i = 0; i < iLen; i++) {
         var geometryPart = geometry.getPart(i);
-        var scenePart = new ScenePart(geometryPart, mesh);
+        var scenePart = new ScenePart(geometryPart, drawable);
         geometryPart.release();
         parts.pushWeakRef(scenePart);
       }
@@ -259,24 +412,24 @@ System.register("davinci-eight/core/Scene.js", ["../collections/ShareableArray",
     execute: function() {
       ScenePart = (function(_super) {
         __extends(ScenePart, _super);
-        function ScenePart(geometry, mesh) {
+        function ScenePart(geometry, drawable) {
           _super.call(this);
           this.setLoggingName('ScenePart');
           this._geometry = geometry;
           this._geometry.addRef();
-          this._mesh = mesh;
-          this._mesh.addRef();
+          this._drawable = drawable;
+          this._drawable.addRef();
         }
         ScenePart.prototype.destructor = function(level) {
           this._geometry.release();
-          this._mesh.release();
+          this._drawable.release();
           this._geometry = void 0;
-          this._mesh = void 0;
+          this._drawable = void 0;
           _super.prototype.destructor.call(this, incLevel_1.default(level));
         };
         ScenePart.prototype.draw = function(ambients) {
-          if (this._mesh.visible) {
-            var material = this._mesh.material;
+          if (this._drawable.visible) {
+            var material = this._drawable.material;
             material.use();
             if (ambients) {
               var aLength = ambients.length;
@@ -285,7 +438,7 @@ System.register("davinci-eight/core/Scene.js", ["../collections/ShareableArray",
                 ambient.setUniforms(material);
               }
             }
-            this._mesh.setUniforms();
+            this._drawable.setUniforms();
             this._geometry.draw(material);
             material.release();
           }
@@ -302,16 +455,16 @@ System.register("davinci-eight/core/Scene.js", ["../collections/ShareableArray",
           this._parts = new ShareableArray_1.default([]);
           this.synchUp();
         }
-        Scene.prototype.destructor = function(level) {
+        Scene.prototype.destructor = function(levelUp) {
           this.cleanUp();
           this._drawables.release();
           this._parts.release();
-          _super.prototype.destructor.call(this, incLevel_1.default(level));
+          _super.prototype.destructor.call(this, levelUp + 1);
         };
-        Scene.prototype.add = function(mesh) {
-          mustBeObject_1.default('mesh', mesh);
-          this._drawables.push(mesh);
-          var drawParts = partsFromMesh(mesh);
+        Scene.prototype.add = function(drawable) {
+          mustBeObject_1.default('drawable', drawable);
+          this._drawables.push(drawable);
+          var drawParts = partsFromMesh(drawable);
           var iLen = drawParts.length;
           for (var i = 0; i < iLen; i++) {
             var part = drawParts.get(i);
@@ -320,9 +473,9 @@ System.register("davinci-eight/core/Scene.js", ["../collections/ShareableArray",
           }
           drawParts.release();
         };
-        Scene.prototype.contains = function(mesh) {
-          mustBeObject_1.default('mesh', mesh);
-          return this._drawables.indexOf(mesh) >= 0;
+        Scene.prototype.contains = function(drawable) {
+          mustBeObject_1.default('drawable', drawable);
+          return this._drawables.indexOf(drawable) >= 0;
         };
         Scene.prototype.draw = function(ambients) {
           var parts = this._parts;
@@ -338,13 +491,13 @@ System.register("davinci-eight/core/Scene.js", ["../collections/ShareableArray",
           return this._drawables.findOne(match);
         };
         Scene.prototype.findOneByName = function(name) {
-          return this.findOne(function(mesh) {
-            return mesh.name === name;
+          return this.findOne(function(drawable) {
+            return drawable.name === name;
           });
         };
         Scene.prototype.findByName = function(name) {
-          return this.find(function(mesh) {
-            return mesh.name === name;
+          return this.find(function(drawable) {
+            return drawable.name === name;
           });
         };
         Scene.prototype.remove = function(drawable) {
@@ -356,22 +509,22 @@ System.register("davinci-eight/core/Scene.js", ["../collections/ShareableArray",
         };
         Scene.prototype.contextFree = function(context) {
           for (var i = 0; i < this._drawables.length; i++) {
-            var mesh = this._drawables.getWeakRef(i);
-            mesh.contextFree(context);
+            var drawable = this._drawables.getWeakRef(i);
+            drawable.contextFree(context);
           }
           _super.prototype.contextFree.call(this, context);
         };
         Scene.prototype.contextGain = function(context) {
           for (var i = 0; i < this._drawables.length; i++) {
-            var mesh = this._drawables.getWeakRef(i);
-            mesh.contextGain(context);
+            var drawable = this._drawables.getWeakRef(i);
+            drawable.contextGain(context);
           }
           _super.prototype.contextGain.call(this, context);
         };
         Scene.prototype.contextLost = function() {
           for (var i = 0; i < this._drawables.length; i++) {
-            var mesh = this._drawables.getWeakRef(i);
-            mesh.contextLost();
+            var drawable = this._drawables.getWeakRef(i);
+            drawable.contextLost();
           }
           _super.prototype.contextLost.call(this);
         };
@@ -22769,7 +22922,7 @@ System.register("davinci-eight/core.js", ["./core/ErrorMode"], function(exports_
           this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
           this.LAST_MODIFIED = '2016-03-11';
           this.NAMESPACE = 'EIGHT';
-          this.VERSION = '2.219.0';
+          this.VERSION = '2.220.0';
         }
         Object.defineProperty(Eight.prototype, "errorMode", {
           get: function() {
@@ -24364,8 +24517,10 @@ System.register("davinci-eight/visual/bootstrap.js", ["../core/Color", "../math/
   };
 });
 
-System.register("davinci-eight.js", ["./davinci-eight/commands/BlendFactor", "./davinci-eight/commands/WebGLBlendFunc", "./davinci-eight/commands/WebGLClearColor", "./davinci-eight/commands/Capability", "./davinci-eight/commands/WebGLDisable", "./davinci-eight/commands/WebGLEnable", "./davinci-eight/controls/CameraControls", "./davinci-eight/core/AttribLocation", "./davinci-eight/core/Color", "./davinci-eight/core", "./davinci-eight/core/Drawable", "./davinci-eight/core/DrawMode", "./davinci-eight/core/ErrorMode", "./davinci-eight/core/GeometryArrays", "./davinci-eight/core/GeometryContainer", "./davinci-eight/core/GeometryElements", "./davinci-eight/core/GraphicsProgramSymbols", "./davinci-eight/core/Mesh", "./davinci-eight/core/Scene", "./davinci-eight/core/UniformLocation", "./davinci-eight/core/Engine", "./davinci-eight/core/VertexBuffer", "./davinci-eight/facets/AmbientLight", "./davinci-eight/facets/ColorFacet", "./davinci-eight/facets/DirectionalLight", "./davinci-eight/facets/ModelFacet", "./davinci-eight/facets/PointSizeFacet", "./davinci-eight/facets/ReflectionFacetE2", "./davinci-eight/facets/ReflectionFacetE3", "./davinci-eight/facets/Vector3Facet", "./davinci-eight/facets/frustumMatrix", "./davinci-eight/facets/PerspectiveCamera", "./davinci-eight/facets/perspectiveMatrix", "./davinci-eight/facets/viewMatrix", "./davinci-eight/facets/ModelE2", "./davinci-eight/facets/ModelE3", "./davinci-eight/geometries/primitives/DrawAttribute", "./davinci-eight/geometries/primitives/DrawPrimitive", "./davinci-eight/geometries/Simplex", "./davinci-eight/geometries/primitives/Vertex", "./davinci-eight/geometries/ArrowGeometry", "./davinci-eight/geometries/BoxGeometry", "./davinci-eight/geometries/CylinderGeometry", "./davinci-eight/geometries/GridGeometry", "./davinci-eight/geometries/SphereGeometry", "./davinci-eight/geometries/TetrahedronGeometry", "./davinci-eight/geometries/ArrowBuilder", "./davinci-eight/geometries/ConicalShellBuilder", "./davinci-eight/geometries/CylindricalShellBuilder", "./davinci-eight/geometries/CylinderBuilder", "./davinci-eight/geometries/RingBuilder", "./davinci-eight/materials/HTMLScriptsMaterial", "./davinci-eight/materials/LineMaterial", "./davinci-eight/materials/MeshMaterial", "./davinci-eight/materials/MeshNormalMaterial", "./davinci-eight/materials/PointMaterial", "./davinci-eight/materials/GraphicsProgramBuilder", "./davinci-eight/materials/smartProgram", "./davinci-eight/materials/programFromScripts", "./davinci-eight/math/Dimensions", "./davinci-eight/math/G2", "./davinci-eight/math/G3", "./davinci-eight/math/mathcore", "./davinci-eight/math/Vector1", "./davinci-eight/math/Matrix2", "./davinci-eight/math/Matrix3", "./davinci-eight/math/Matrix4", "./davinci-eight/math/QQ", "./davinci-eight/math/R3", "./davinci-eight/math/Unit", "./davinci-eight/math/Geometric2", "./davinci-eight/math/Geometric3", "./davinci-eight/math/Spinor2", "./davinci-eight/math/Spinor3", "./davinci-eight/math/Vector2", "./davinci-eight/math/Vector3", "./davinci-eight/math/Vector4", "./davinci-eight/math/VectorN", "./davinci-eight/overlay/Overlay", "./davinci-eight/utils/getCanvasElementById", "./davinci-eight/collections/ShareableArray", "./davinci-eight/collections/NumberShareableMap", "./davinci-eight/core/refChange", "./davinci-eight/core/ShareableBase", "./davinci-eight/collections/StringShareableMap", "./davinci-eight/utils/animation", "./davinci-eight/visual/Arrow", "./davinci-eight/visual/Sphere", "./davinci-eight/visual/Box", "./davinci-eight/visual/RigidBody", "./davinci-eight/visual/RigidBodyWithUnits", "./davinci-eight/visual/Cylinder", "./davinci-eight/visual/Curve", "./davinci-eight/visual/Grid", "./davinci-eight/visual/Tetrahedron", "./davinci-eight/visual/Trail", "./davinci-eight/visual/bootstrap"], function(exports_1) {
-  var BlendFactor_1,
+System.register("davinci-eight.js", ["./davinci-eight/base/BrowserApp", "./davinci-eight/base/EngineApp", "./davinci-eight/commands/BlendFactor", "./davinci-eight/commands/WebGLBlendFunc", "./davinci-eight/commands/WebGLClearColor", "./davinci-eight/commands/Capability", "./davinci-eight/commands/WebGLDisable", "./davinci-eight/commands/WebGLEnable", "./davinci-eight/controls/CameraControls", "./davinci-eight/core/AttribLocation", "./davinci-eight/core/Color", "./davinci-eight/core", "./davinci-eight/core/Drawable", "./davinci-eight/core/DrawMode", "./davinci-eight/core/ErrorMode", "./davinci-eight/core/GeometryArrays", "./davinci-eight/core/GeometryContainer", "./davinci-eight/core/GeometryElements", "./davinci-eight/core/GraphicsProgramSymbols", "./davinci-eight/core/Mesh", "./davinci-eight/core/Scene", "./davinci-eight/core/UniformLocation", "./davinci-eight/core/Engine", "./davinci-eight/core/VertexBuffer", "./davinci-eight/facets/AmbientLight", "./davinci-eight/facets/ColorFacet", "./davinci-eight/facets/DirectionalLight", "./davinci-eight/facets/ModelFacet", "./davinci-eight/facets/PointSizeFacet", "./davinci-eight/facets/ReflectionFacetE2", "./davinci-eight/facets/ReflectionFacetE3", "./davinci-eight/facets/Vector3Facet", "./davinci-eight/facets/frustumMatrix", "./davinci-eight/facets/PerspectiveCamera", "./davinci-eight/facets/perspectiveMatrix", "./davinci-eight/facets/viewMatrix", "./davinci-eight/facets/ModelE2", "./davinci-eight/facets/ModelE3", "./davinci-eight/geometries/primitives/DrawAttribute", "./davinci-eight/geometries/primitives/DrawPrimitive", "./davinci-eight/geometries/Simplex", "./davinci-eight/geometries/primitives/Vertex", "./davinci-eight/geometries/ArrowGeometry", "./davinci-eight/geometries/BoxGeometry", "./davinci-eight/geometries/CylinderGeometry", "./davinci-eight/geometries/GridGeometry", "./davinci-eight/geometries/SphereGeometry", "./davinci-eight/geometries/TetrahedronGeometry", "./davinci-eight/geometries/ArrowBuilder", "./davinci-eight/geometries/ConicalShellBuilder", "./davinci-eight/geometries/CylindricalShellBuilder", "./davinci-eight/geometries/CylinderBuilder", "./davinci-eight/geometries/RingBuilder", "./davinci-eight/materials/HTMLScriptsMaterial", "./davinci-eight/materials/LineMaterial", "./davinci-eight/materials/MeshMaterial", "./davinci-eight/materials/MeshNormalMaterial", "./davinci-eight/materials/PointMaterial", "./davinci-eight/materials/GraphicsProgramBuilder", "./davinci-eight/materials/smartProgram", "./davinci-eight/materials/programFromScripts", "./davinci-eight/math/Dimensions", "./davinci-eight/math/G2", "./davinci-eight/math/G3", "./davinci-eight/math/mathcore", "./davinci-eight/math/Vector1", "./davinci-eight/math/Matrix2", "./davinci-eight/math/Matrix3", "./davinci-eight/math/Matrix4", "./davinci-eight/math/QQ", "./davinci-eight/math/R3", "./davinci-eight/math/Unit", "./davinci-eight/math/Geometric2", "./davinci-eight/math/Geometric3", "./davinci-eight/math/Spinor2", "./davinci-eight/math/Spinor3", "./davinci-eight/math/Vector2", "./davinci-eight/math/Vector3", "./davinci-eight/math/Vector4", "./davinci-eight/math/VectorN", "./davinci-eight/overlay/Overlay", "./davinci-eight/utils/getCanvasElementById", "./davinci-eight/collections/ShareableArray", "./davinci-eight/collections/NumberShareableMap", "./davinci-eight/core/refChange", "./davinci-eight/core/ShareableBase", "./davinci-eight/collections/StringShareableMap", "./davinci-eight/utils/animation", "./davinci-eight/visual/Arrow", "./davinci-eight/visual/Sphere", "./davinci-eight/visual/Box", "./davinci-eight/visual/RigidBody", "./davinci-eight/visual/RigidBodyWithUnits", "./davinci-eight/visual/Cylinder", "./davinci-eight/visual/Curve", "./davinci-eight/visual/Grid", "./davinci-eight/visual/Tetrahedron", "./davinci-eight/visual/Trail", "./davinci-eight/visual/bootstrap"], function(exports_1) {
+  var BrowserApp_1,
+      EngineApp_1,
+      BlendFactor_1,
       WebGLBlendFunc_1,
       WebGLClearColor_1,
       Capability_1,
@@ -24464,7 +24619,11 @@ System.register("davinci-eight.js", ["./davinci-eight/commands/BlendFactor", "./
       bootstrap_1;
   var eight;
   return {
-    setters: [function(BlendFactor_1_1) {
+    setters: [function(BrowserApp_1_1) {
+      BrowserApp_1 = BrowserApp_1_1;
+    }, function(EngineApp_1_1) {
+      EngineApp_1 = EngineApp_1_1;
+    }, function(BlendFactor_1_1) {
       BlendFactor_1 = BlendFactor_1_1;
     }, function(WebGLBlendFunc_1_1) {
       WebGLBlendFunc_1 = WebGLBlendFunc_1_1;
@@ -24676,6 +24835,12 @@ System.register("davinci-eight.js", ["./davinci-eight/commands/BlendFactor", "./
         },
         get VERSION() {
           return core_1.default.VERSION;
+        },
+        get BrowserApp() {
+          return BrowserApp_1.default;
+        },
+        get EngineApp() {
+          return EngineApp_1.default;
         },
         get HTMLScriptsMaterial() {
           return HTMLScriptsMaterial_1.default;

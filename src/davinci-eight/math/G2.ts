@@ -2,7 +2,7 @@ import b2 from '../geometries/b2';
 import b3 from '../geometries/b3';
 import extE2 from './extE2';
 import gauss from './gauss';
-import GeometricElement from './GeometricElement';
+import GeometricNumber from './GeometricNumber';
 import GeometricOperators from './GeometricOperators';
 import GeometricE2 from './GeometricE2';
 import lcoE2 from './lcoE2';
@@ -128,7 +128,7 @@ function subE2(a0: number, a1: number, a2: number, a3: number, b0: number, b1: n
  *
  * @class G2
  */
-export default class G2 implements ImmutableMeasure<G2>, GeometricE2, GeometricElement<G2, G2, SpinorE2, VectorE2, G2, number, Unit>, GeometricOperators<G2, Unit>, TrigMethods<G2> {
+export default class G2 implements ImmutableMeasure<G2>, GeometricE2, GeometricNumber<G2, G2, SpinorE2, VectorE2, G2, number, Unit>, GeometricOperators<G2, Unit>, TrigMethods<G2> {
 
   /**
    * The coordinate values are stored in a number array.

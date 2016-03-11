@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.219.0</em>
+            <em>API Docs for: 2.220.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -58,6 +58,7 @@
                                 <li><a href="../classes/BoxGeometry.html">BoxGeometry</a></li>
                                 <li><a href="../classes/BoxGeometryOptions.html">BoxGeometryOptions</a></li>
                                 <li><a href="../classes/BoxOptions.html">BoxOptions</a></li>
+                                <li><a href="../classes/BrowserApp.html">BrowserApp</a></li>
                                 <li><a href="../classes/CameraControls.html">CameraControls</a></li>
                                 <li><a href="../classes/Capability.html">Capability</a></li>
                                 <li><a href="../classes/CC.html">CC</a></li>
@@ -93,6 +94,7 @@
                                 <li><a href="../classes/Duality.html">Duality</a></li>
                                 <li><a href="../classes/EIGHTLogger.html">EIGHTLogger</a></li>
                                 <li><a href="../classes/Engine.html">Engine</a></li>
+                                <li><a href="../classes/EngineApp.html">EngineApp</a></li>
                                 <li><a href="../classes/ErrorMode.html">ErrorMode</a></li>
                                 <li><a href="../classes/Facet.html">Facet</a></li>
                                 <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
@@ -103,6 +105,7 @@
                                 <li><a href="../classes/Geometric3.html">Geometric3</a></li>
                                 <li><a href="../classes/GeometricE2.html">GeometricE2</a></li>
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
+                                <li><a href="../classes/GeometricNumber.html">GeometricNumber</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
                                 <li><a href="../classes/GeometryArrays.html">GeometryArrays</a></li>
                                 <li><a href="../classes/GeometryBuilder.html">GeometryBuilder</a></li>
@@ -121,6 +124,7 @@
                                 <li><a href="../classes/GridTriangleStrip.html">GridTriangleStrip</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
                                 <li><a href="../classes/IndexBuffer.html">IndexBuffer</a></li>
+                                <li><a href="../classes/LinearNumber.html">LinearNumber</a></li>
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
                                 <li><a href="../classes/LineMaterialOptions.html">LineMaterialOptions</a></li>
                                 <li><a href="../classes/LinePoints.html">LinePoints</a></li>
@@ -211,6 +215,7 @@
                                 <li><a href="../classes/VertexAttributeMap.html">VertexAttributeMap</a></li>
                                 <li><a href="../classes/VertexBuffer.html">VertexBuffer</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
+                                <li><a href="../classes/VisualApp.html">VisualApp</a></li>
                                 <li><a href="../classes/VisualOptions.html">VisualOptions</a></li>
                                 <li><a href="../classes/WebGLBlendFunc.html">WebGLBlendFunc</a></li>
                                 <li><a href="../classes/WebGLClearColor.html">WebGLClearColor</a></li>
@@ -296,20 +301,20 @@ class ScenePart extends ShareableBase {
   private _geometry: Geometry;
 
   /**
-   * Keep track of the &#x27;parent&#x27; mesh.
+   * Keep track of the &#x27;parent&#x27; drawable.
    */
-  private _mesh: AbstractDrawable;
+  private _drawable: AbstractDrawable;
 
   /**
    *
    */
-  constructor(geometry: Geometry, mesh: AbstractDrawable) {
+  constructor(geometry: Geometry, drawable: AbstractDrawable) {
     super()
     this.setLoggingName(&#x27;ScenePart&#x27;)
     this._geometry = geometry
     this._geometry.addRef()
-    this._mesh = mesh
-    this._mesh.addRef()
+    this._drawable = drawable
+    this._drawable.addRef()
   }
 
   /**
@@ -317,9 +322,9 @@ class ScenePart extends ShareableBase {
    */
   protected destructor(level: number): void {
     this._geometry.release()
-    this._mesh.release()
+    this._drawable.release()
     this._geometry = void 0;
-    this._mesh = void 0
+    this._drawable = void 0
     super.destructor(incLevel(level))
   }
 
@@ -327,8 +332,8 @@ class ScenePart extends ShareableBase {
    *
    */
   draw(ambients: Facet[]) {
-    if (this._mesh.visible) {
-      const material = this._mesh.material
+    if (this._drawable.visible) {
+      const material = this._drawable.material
 
       material.use()
 
@@ -340,7 +345,7 @@ class ScenePart extends ShareableBase {
         }
       }
 
-      this._mesh.setUniforms();
+      this._drawable.setUniforms();
 
       this._geometry.draw(material)
       material.release()
@@ -348,12 +353,12 @@ class ScenePart extends ShareableBase {
   }
 }
 
-function partsFromMesh(mesh: AbstractDrawable): ShareableArray&lt;ScenePart&gt; {
-  mustBeObject(&#x27;mesh&#x27;, mesh)
+function partsFromMesh(drawable: AbstractDrawable): ShareableArray&lt;ScenePart&gt; {
+  mustBeObject(&#x27;drawable&#x27;, drawable)
   const parts = new ShareableArray&lt;ScenePart&gt;([])
-  const geometry = mesh.geometry
+  const geometry = drawable.geometry
   if (geometry.isLeaf()) {
-    const scenePart = new ScenePart(geometry, mesh)
+    const scenePart = new ScenePart(geometry, drawable)
     parts.pushWeakRef(scenePart)
   }
   else {
@@ -361,7 +366,7 @@ function partsFromMesh(mesh: AbstractDrawable): ShareableArray&lt;ScenePart&gt; 
     for (let i = 0; i &lt; iLen; i++) {
       const geometryPart = geometry.getPart(i)
       // FIXME: This needs to go down to the leaves.
-      const scenePart = new ScenePart(geometryPart, mesh)
+      const scenePart = new ScenePart(geometryPart, drawable)
       geometryPart.release()
       parts.pushWeakRef(scenePart)
     }
@@ -382,7 +387,7 @@ export default class Scene extends ShareableContextConsumer {
   // FIXME: Do I need the collection, or can I be fooled into thinking there is one monitor?
   /**
    * &lt;p&gt;
-   * A &lt;code&gt;Scene&lt;/code&gt; is a collection of mesh instances arranged in some order.
+   * A &lt;code&gt;Scene&lt;/code&gt; is a collection of drawable instances arranged in some order.
    * The precise order is implementation defined.
    * The collection may be traversed for general processing using callback/visitor functions.
    * &lt;/p&gt;
@@ -402,34 +407,34 @@ export default class Scene extends ShareableContextConsumer {
 
   /**
    * @method destructor
-   * @param level {number}
+   * @param levelUp {number}
    * @return {void}
    * @protected
    */
-  protected destructor(level: number): void {
+  protected destructor(levelUp: number): void {
     this.cleanUp()
     this._drawables.release()
     this._parts.release()
-    super.destructor(incLevel(level))
+    super.destructor(levelUp + 1)
   }
 
   /**
    * &lt;p&gt;
-   * Adds the &lt;code&gt;mesh&lt;/code&gt; to this &lt;code&gt;Scene&lt;/code&gt;.
+   * Adds the &lt;code&gt;drawable&lt;/code&gt; to this &lt;code&gt;Scene&lt;/code&gt;.
    * &lt;/p&gt;
    * @method add
-   * @param mesh {AbstractDrawable}
+   * @param drawable {AbstractDrawable}
    * @return {Void}
    * &lt;p&gt;
    * This method returns &lt;code&gt;undefined&lt;/code&gt;.
    * &lt;/p&gt;
    */
-  add(mesh: AbstractDrawable): void {
-    mustBeObject(&#x27;mesh&#x27;, mesh)
-    this._drawables.push(mesh)
+  add(drawable: AbstractDrawable): void {
+    mustBeObject(&#x27;drawable&#x27;, drawable)
+    this._drawables.push(drawable)
 
     // TODO: Control the ordering for optimization.
-    const drawParts = partsFromMesh(mesh)
+    const drawParts = partsFromMesh(drawable)
     const iLen = drawParts.length;
     for (let i = 0; i &lt; iLen; i++) {
       const part = drawParts.get(i)
@@ -441,12 +446,12 @@ export default class Scene extends ShareableContextConsumer {
 
   /**
    * @method contains
-   * @param mesh {AbstractDrawable}
+   * @param drawable {AbstractDrawable}
    * @return {boolean}
    */
-  contains(mesh: AbstractDrawable): boolean {
-    mustBeObject(&#x27;mesh&#x27;, mesh)
-    return this._drawables.indexOf(mesh) &gt;= 0
+  contains(drawable: AbstractDrawable): boolean {
+    mustBeObject(&#x27;drawable&#x27;, drawable)
+    return this._drawables.indexOf(drawable) &gt;= 0
   }
 
   /**
@@ -468,19 +473,19 @@ export default class Scene extends ShareableContextConsumer {
 
   /**
    * @method find
-   * @param match {(mesh: AbstractDrawable) =&gt; boolean}
+   * @param match {(drawable: AbstractDrawable) =&gt; boolean}
    * @return {ShareableArray}
    */
-  find(match: (mesh: AbstractDrawable) =&gt; boolean): ShareableArray&lt;AbstractDrawable&gt; {
+  find(match: (drawable: AbstractDrawable) =&gt; boolean): ShareableArray&lt;AbstractDrawable&gt; {
     return this._drawables.find(match)
   }
 
   /**
    * @method findOne
-   * @param match {(mesh: AbstractDrawable) =&gt; boolean}
+   * @param match {(drawable: AbstractDrawable) =&gt; boolean}
    * @return {AbstractDrawable}
    */
-  findOne(match: (mesh: AbstractDrawable) =&gt; boolean): AbstractDrawable {
+  findOne(match: (drawable: AbstractDrawable) =&gt; boolean): AbstractDrawable {
     return this._drawables.findOne(match)
   }
 
@@ -490,7 +495,7 @@ export default class Scene extends ShareableContextConsumer {
    * @return {AbstractDrawable}
    */
   findOneByName(name: string): AbstractDrawable {
-    return this.findOne(function(mesh) { return mesh.name === name })
+    return this.findOne(function(drawable) { return drawable.name === name })
   }
 
   /**
@@ -499,12 +504,12 @@ export default class Scene extends ShareableContextConsumer {
    * @return {ShareableArray}
    */
   findByName(name: string): ShareableArray&lt;AbstractDrawable&gt; {
-    return this.find(function(mesh) { return mesh.name === name })
+    return this.find(function(drawable) { return drawable.name === name })
   }
 
   /**
    * &lt;p&gt;
-   * Removes the &lt;code&gt;mesh&lt;/code&gt; from this &lt;code&gt;Scene&lt;/code&gt;.
+   * Removes the &lt;code&gt;drawable&lt;/code&gt; from this &lt;code&gt;Scene&lt;/code&gt;.
    * &lt;/p&gt;
    *
    * @method remove
@@ -527,8 +532,8 @@ export default class Scene extends ShareableContextConsumer {
    */
   contextFree(context: ContextProvider): void {
     for (let i = 0; i &lt; this._drawables.length; i++) {
-      const mesh = this._drawables.getWeakRef(i)
-      mesh.contextFree(context)
+      const drawable = this._drawables.getWeakRef(i)
+      drawable.contextFree(context)
     }
     super.contextFree(context)
   }
@@ -540,8 +545,8 @@ export default class Scene extends ShareableContextConsumer {
    */
   contextGain(context: ContextProvider): void {
     for (let i = 0; i &lt; this._drawables.length; i++) {
-      const mesh = this._drawables.getWeakRef(i)
-      mesh.contextGain(context)
+      const drawable = this._drawables.getWeakRef(i)
+      drawable.contextGain(context)
     }
     super.contextGain(context)
   }
@@ -552,8 +557,8 @@ export default class Scene extends ShareableContextConsumer {
    */
   contextLost(): void {
     for (let i = 0; i &lt; this._drawables.length; i++) {
-      const mesh = this._drawables.getWeakRef(i)
-      mesh.contextLost()
+      const drawable = this._drawables.getWeakRef(i)
+      drawable.contextLost()
     }
     super.contextLost()
   }

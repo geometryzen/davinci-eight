@@ -1,4 +1,4 @@
-import LinearElement from '../math/LinearElement';
+import LinearNumber from '../math/LinearNumber';
 /**
  * This interface is provided to ensure consistency.
  * It is not part of the documented API.
@@ -9,7 +9,60 @@ import LinearElement from '../math/LinearElement';
  * V: The lightweight interface form of the vector.
  * MAGNITUDE: The type for methods that compute magnitudes.
  */
-interface GeometricElement<I, M, S, V, MAGNITUDE, SCALING, UNIT> extends LinearElement<I, M, S, V, MAGNITUDE, SCALING> {
+
+/**
+ * <h1>
+ * Which Geometric Number do I use?
+ * </h1>
+ *
+ * <h2>
+ * Introduction
+ * </h2>
+ * <p>
+ * <code>GeometricNumber</code> is an <code>interface</code> used to enforce consistency of the design
+ * of various geometric numbers.
+ * </p>
+ *
+ * <p>
+ * </p>
+ *
+ * <table>
+ *   <tr>
+ *     <th>Usage:</th>
+ *     <th>Calculations</th>
+ *     <th>Graphics</th>
+ *     <th>WebGL</th>
+ *   </tr>
+ *   <tr>
+ *     <th>Design:</th>
+ *     <td>Immutable</td>
+ *     <td>Mutable</td>
+ *     <td>Mutable</td>
+ *   </tr>
+ *   <tr>
+ *     <th>Euclidean Line:</th>
+ *     <td><b>G1</b>, R1</td>
+ *     <td><b>Geometric1</b>, Vector1</td>
+ *     <td><b>Matrix2</b></td>
+ *   </tr>
+ *   <tr>
+ *     <th>Euclidean Plane:</th>
+ *     <td><b>G2</b>, R2</td>
+ *     <td><b>Geometric2</b>, Vector2, Spinor2</td>
+ *     <td><b>Matrix3</b></td>
+ *   </tr>
+ *   <tr>
+ *     <th>Euclidean Space:</th>
+ *     <td><b>G3</b>, R3</td>
+ *     <td><b>Geometric3</b>, Vector3, Spinor3</td>
+ *     <td><b>Matrix4</b></td>
+ *   </tr>
+ * </table>
+ *
+ * @class GeometricNumber
+ * @extends LinearNumber
+ */
+interface GeometricNumber<I, M, S, V, MAGNITUDE, SCALING, UNIT> extends LinearNumber<I, M, S, V, MAGNITUDE, SCALING> {
 
     /**
      * Addition of a scalar.
@@ -109,4 +162,4 @@ interface GeometricElement<I, M, S, V, MAGNITUDE, SCALING, UNIT> extends LinearE
     scp(rhs: I): M;
 }
 
-export default GeometricElement;
+export default GeometricNumber;

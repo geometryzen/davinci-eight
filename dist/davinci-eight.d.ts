@@ -115,6 +115,25 @@ declare module EIGHT {
     remove(key: string): void
   }
 
+  class BrowserApp {
+    protected window: Window;
+    constructor(wnd?: Window);
+    protected destructor(): void;
+    protected initialize(): void;
+    public isRunning(): boolean;
+    public isWaiting(): boolean;
+    public isZombie(): boolean;
+    public manage(managed: Shareable): void;
+  }
+
+  class EngineApp extends BrowserApp {
+    protected canvas: HTMLCanvasElement;
+    protected engine: Engine;
+    constructor(canvasId: string, wnd?: Window);
+    protected destructor(): void;
+    protected initialize(): void;
+  }
+
   /**
    *
    */
@@ -143,10 +162,12 @@ declare module EIGHT {
   }
 
   class ShareableContextConsumer extends ShareableBase implements ContextConsumer {
+    cleanUp(): void;
     contextFree(contextProvider: ContextProvider): void;
     contextGain(contextProvider: ContextProvider): void;
     contextLost(): void;
     subscribe(engine: Engine): void;
+    synchUp(): void;
     unsubscribe(): void;
   }
 
@@ -2840,22 +2861,20 @@ declare module EIGHT {
   /**
    *
    */
-  class Scene {
+  class Scene extends ShareableContextConsumer {
     constructor(engine: Engine)
-    add(mesh: Drawable): void
-    addRef(): number
-    contextFree(context: ContextProvider): void
-    contextGain(context: ContextProvider): void
+    add(drawable: AbstractDrawable): void
+    contains(drawable: AbstractDrawable)
+    contextFree(contextProvider: ContextProvider): void
+    contextGain(contextProvider: ContextProvider): void
     contextLost(): void
+    protected destructor(): void
     draw(ambients: Facet[]): void
-    findOne(match: (mesh: Drawable) => boolean): Drawable
-    findOneByName(name: string): Drawable
-    findByName(name: string): ShareableArray<Drawable>
-    release(): number
-    remove(mesh: Drawable): void
-    subscribe(context: Engine): void
-    traverse(callback: (mesh: Drawable) => void): void
-    unsubscribe(): void
+    find(match: (drawable: AbstractDrawable) => boolean): ShareableArray<AbstractDrawable>
+    findByName(name: string): ShareableArray<AbstractDrawable>
+    findOne(match: (drawable: AbstractDrawable) => boolean): AbstractDrawable
+    findOneByName(name: string): AbstractDrawable
+    remove(drawable: AbstractDrawable): void
   }
 
   /**

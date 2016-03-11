@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src/davinci-eight/math/GeometricElement.ts - davinci-eight</title>
+    <title>GeometricNumber - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.219.0</em>
+            <em>API Docs for: 2.220.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -58,6 +58,7 @@
                                 <li><a href="../classes/BoxGeometry.html">BoxGeometry</a></li>
                                 <li><a href="../classes/BoxGeometryOptions.html">BoxGeometryOptions</a></li>
                                 <li><a href="../classes/BoxOptions.html">BoxOptions</a></li>
+                                <li><a href="../classes/BrowserApp.html">BrowserApp</a></li>
                                 <li><a href="../classes/CameraControls.html">CameraControls</a></li>
                                 <li><a href="../classes/Capability.html">Capability</a></li>
                                 <li><a href="../classes/CC.html">CC</a></li>
@@ -93,6 +94,7 @@
                                 <li><a href="../classes/Duality.html">Duality</a></li>
                                 <li><a href="../classes/EIGHTLogger.html">EIGHTLogger</a></li>
                                 <li><a href="../classes/Engine.html">Engine</a></li>
+                                <li><a href="../classes/EngineApp.html">EngineApp</a></li>
                                 <li><a href="../classes/ErrorMode.html">ErrorMode</a></li>
                                 <li><a href="../classes/Facet.html">Facet</a></li>
                                 <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
@@ -103,6 +105,7 @@
                                 <li><a href="../classes/Geometric3.html">Geometric3</a></li>
                                 <li><a href="../classes/GeometricE2.html">GeometricE2</a></li>
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
+                                <li><a href="../classes/GeometricNumber.html">GeometricNumber</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
                                 <li><a href="../classes/GeometryArrays.html">GeometryArrays</a></li>
                                 <li><a href="../classes/GeometryBuilder.html">GeometryBuilder</a></li>
@@ -121,6 +124,7 @@
                                 <li><a href="../classes/GridTriangleStrip.html">GridTriangleStrip</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
                                 <li><a href="../classes/IndexBuffer.html">IndexBuffer</a></li>
+                                <li><a href="../classes/LinearNumber.html">LinearNumber</a></li>
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
                                 <li><a href="../classes/LineMaterialOptions.html">LineMaterialOptions</a></li>
                                 <li><a href="../classes/LinePoints.html">LinePoints</a></li>
@@ -211,6 +215,7 @@
                                 <li><a href="../classes/VertexAttributeMap.html">VertexAttributeMap</a></li>
                                 <li><a href="../classes/VertexBuffer.html">VertexBuffer</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
+                                <li><a href="../classes/VisualApp.html">VisualApp</a></li>
                                 <li><a href="../classes/VisualOptions.html">VisualOptions</a></li>
                                 <li><a href="../classes/WebGLBlendFunc.html">WebGLBlendFunc</a></li>
                                 <li><a href="../classes/WebGLClearColor.html">WebGLClearColor</a></li>
@@ -264,124 +269,89 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: src/davinci-eight/math/GeometricElement.ts</h1>
+<h1>GeometricNumber Class</h1>
+<div class="box meta">
 
-<div class="file">
-    <pre class="code prettyprint linenums">
-import LinearElement from &#x27;../math/LinearElement&#x27;;
-/**
- * This interface is provided to ensure consistency.
- * It is not part of the documented API.
- * Notice that the effect on the target depends upon whether the target class in mutable.
- * I: The lightweight interface form of the concreate class, usually just coordinates.
- * M: The concrete class
- * S: The lightweight interface form of the spinor.
- * V: The lightweight interface form of the vector.
- * MAGNITUDE: The type for methods that compute magnitudes.
- */
-interface GeometricElement&lt;I, M, S, V, MAGNITUDE, SCALING, UNIT&gt; extends LinearElement&lt;I, M, S, V, MAGNITUDE, SCALING&gt; {
+        <div class="extends">
+            Extends <a href="../classes/LinearNumber.html" class="crosslink">LinearNumber</a>
+        </div>
 
-    /**
-     * Addition of a scalar.
-     */
-    addScalar(α: UNIT): M;
+        <div class="foundat">
+            Defined in: <a href="../files/src_davinci-eight_math_GeometricNumber.ts.html#l13"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;GeometricNumber.ts:13</code></a>
+        </div>
 
-    /**
-     * conjugate multiplied by norm (similar to inv)
-     */
-    adj(): M;
+            Module: <a href="../modules/EIGHT.html">EIGHT</a>
 
-    /**
-     * Assumes a spinor as the multivector.
-     * angle(M) = log(M).grade(2)
-     * In other words, throw away the scalar part of the result which is the scaling.
-     */
-    angle(): M;
+</div>
 
-    /**
-     * Conjugate
-     */
-    conj(): M;
 
-    /**
-     * Left contraction
-     */
-    lco(rhs: I): M;
+<div class="box intro">
+    <h1>
+Which Geometric Number do I use?
+</h1>
+<h2>
+Introduction
+</h2>
+<p>
+<code>GeometricNumber</code> is an <code>interface</code> used to enforce consistency of the design
+of various geometric numbers. But why so many implementations? To be continued...
+</p>
+<p>
+</p>
+<table>
+  <tr>
+    <th>Usage:</th>
+    <th>Calculations</th>
+    <th>Graphics</th>
+    <th>WebGL</th>
+  </tr>
+  <tr>
+    <th>Design:</th>
+    <td>Immutable</td>
+    <td>Mutable</td>
+    <td>Mutable</td>
+  </tr>
+  <tr>
+    <th>Euclidean Line:</th>
+    <td><b>G1</b>, R1</td>
+    <td><b>Geometric1</b>, Vector1</td>
+    <td><b>Matrix2</b></td>
+  </tr>
+  <tr>
+    <th>Euclidean Plane:</th>
+    <td><b>G2</b>, R2</td>
+    <td><b>Geometric2</b>, Vector2, Spinor2</td>
+    <td><b>Matrix3</b></td>
+  </tr>
+  <tr>
+    <th>Euclidean Space:</th>
+    <td><b>G3</b>, R3</td>
+    <td><b>Geometric3</b>, Vector3, Spinor3</td>
+    <td><b>Matrix4</b></td>
+  </tr>
+</table>
+</div>
 
-    /**
-     * divide really only applies to division algebras, may not be defined.
-     */
-    div(rhs: I): M;
 
-    /**
-     * Exponential
-     */
-    exp(): M;
+<div id="classdocs" class="tabview">
+    <ul class="api-class-tabs">
+        <li class="api-class-tab index"><a href="#index">Index</a></li>
 
-    /**
-     * Exterior or Outer Product.
-     */
-    ext(rhs: I): M;
+    </ul>
 
-    /**
-     * extraction of grade.
-     */
-    grade(grade: number): M;
+    <div>
+        <div id="index" class="api-class-tabpanel index">
+            <h2 class="off-left">Item Index</h2>
 
-    /**
-     * Inverse (may not exist).
-     */
-    inv(): M;
 
-    /**
-     * Natural logarithm.
-     */
-    log(): M;
 
-    /**
-     * Computes the square root of the squared norm.
-     */
-    magnitude(): MAGNITUDE;
 
-    /**
-     * Multiplication.
-     */
-    mul(rhs: I): M;
+        </div>
 
-    /**
-     * norm, ||x|| = sqrt(scp(x, rev(x)))
-     */
-    norm(): M;
 
-    /**
-     * squared norm, scp(x, rev(x))
-     */
-    quad(): M;
 
-    /**
-     * Right contraction
-     */
-    rco(rhs: I): M;
 
-    /**
-     * Reverse
-     */
-    rev(): M;
-
-    /**
-     * squared norm, scp(x, rev(x))
-     */
-    squaredNorm(): MAGNITUDE;
-
-    /**
-     * Scalar Product
-     */
-    scp(rhs: I): M;
-}
-
-export default GeometricElement;
-
-    </pre>
+    </div>
 </div>
                     </div>
                 </div>

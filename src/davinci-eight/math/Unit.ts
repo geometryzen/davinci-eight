@@ -1,6 +1,6 @@
 import DivisionRingOperators from '../math/DivisionRingOperators';
 import Dimensions from '../math/Dimensions';
-import LinearElement from '../math/LinearElement';
+import LinearNumber from '../math/LinearNumber';
 import notImplemented from '../i18n/notImplemented';
 import notSupported from '../i18n/notSupported';
 import QQ from '../math/QQ';
@@ -160,7 +160,7 @@ function div(lhs: Unit, rhs: Unit): Unit {
  *
  * @class Unit
  */
-export default class Unit implements DivisionRingOperators<Unit, Unit>, LinearElement<Unit, Unit, Unit, Unit, number, number> {
+export default class Unit implements DivisionRingOperators<Unit, Unit>, LinearNumber<Unit, Unit, Unit, Unit, number, number> {
 
   /**
    * @property ONE

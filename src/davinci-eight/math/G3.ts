@@ -8,7 +8,7 @@ import GeometricOperators from './GeometricOperators';
 import ImmutableMeasure from './ImmutableMeasure';
 import mulG3 from './mulG3';
 import gauss from './gauss';
-import GeometricElement from './GeometricElement';
+import GeometricNumber from './GeometricNumber';
 import notImplemented from '../i18n/notImplemented';
 import notSupported from '../i18n/notSupported';
 import quadSpinorE3 from './quadSpinorE3'
@@ -91,7 +91,7 @@ function compute(
  *
  * @class G3
  */
-export default class G3 implements ImmutableMeasure<G3>, GeometricE3, GeometricElement<G3, G3, SpinorE3, VectorE3, G3, number, Unit>, GeometricOperators<G3, Unit>, TrigMethods<G3> {
+export default class G3 implements ImmutableMeasure<G3>, GeometricE3, GeometricNumber<G3, G3, SpinorE3, VectorE3, G3, number, Unit>, GeometricOperators<G3, Unit>, TrigMethods<G3> {
   static get BASIS_LABELS_GEOMETRIC(): string[][] { return BASIS_LABELS_G3_GEOMETRIC };
   static get BASIS_LABELS_HAMILTON(): string[][] { return BASIS_LABELS_G3_HAMILTON };
   static get BASIS_LABELS_STANDARD(): string[][] { return BASIS_LABELS_G3_STANDARD };

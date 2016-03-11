@@ -1,5 +1,5 @@
 import GeometricE1 from './GeometricE1';
-import GeometricElement from './GeometricElement';
+import GeometricNumber from './GeometricNumber';
 import ImmutableMeasure from './ImmutableMeasure';
 import mustBeInteger from '../checks/mustBeInteger';
 import notImplemented from '../i18n/notImplemented';
@@ -35,7 +35,7 @@ function assertArgUnitOrUndefined(name: string, uom: Unit): Unit {
   }
 }
 
-export default class G1 implements ImmutableMeasure<G1>, GeometricE1, GeometricElement<G1, G1, SpinorE1, VectorE1, G1, number, Unit> {
+export default class G1 implements ImmutableMeasure<G1>, GeometricE1, GeometricNumber<G1, G1, SpinorE1, VectorE1, G1, number, Unit> {
   private w: number;
   private _x: number;
   public uom: Unit;

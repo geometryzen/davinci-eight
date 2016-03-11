@@ -340,7 +340,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('testAll', ['exec:test', 'test']);
 
-  grunt.registerTask('docs', ['clean', 'compile', 'copy', 'yuidoc']);
+  grunt.registerTask('docs', ['clean', 'copy', 'yuidoc']);
 
   grunt.registerTask('system', ['ts:systemES5', 'bundle']);
 

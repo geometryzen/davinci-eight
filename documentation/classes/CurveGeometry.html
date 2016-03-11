@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.219.0</em>
+            <em>API Docs for: 2.220.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -58,6 +58,7 @@
                                 <li><a href="../classes/BoxGeometry.html">BoxGeometry</a></li>
                                 <li><a href="../classes/BoxGeometryOptions.html">BoxGeometryOptions</a></li>
                                 <li><a href="../classes/BoxOptions.html">BoxOptions</a></li>
+                                <li><a href="../classes/BrowserApp.html">BrowserApp</a></li>
                                 <li><a href="../classes/CameraControls.html">CameraControls</a></li>
                                 <li><a href="../classes/Capability.html">Capability</a></li>
                                 <li><a href="../classes/CC.html">CC</a></li>
@@ -93,6 +94,7 @@
                                 <li><a href="../classes/Duality.html">Duality</a></li>
                                 <li><a href="../classes/EIGHTLogger.html">EIGHTLogger</a></li>
                                 <li><a href="../classes/Engine.html">Engine</a></li>
+                                <li><a href="../classes/EngineApp.html">EngineApp</a></li>
                                 <li><a href="../classes/ErrorMode.html">ErrorMode</a></li>
                                 <li><a href="../classes/Facet.html">Facet</a></li>
                                 <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
@@ -103,6 +105,7 @@
                                 <li><a href="../classes/Geometric3.html">Geometric3</a></li>
                                 <li><a href="../classes/GeometricE2.html">GeometricE2</a></li>
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
+                                <li><a href="../classes/GeometricNumber.html">GeometricNumber</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
                                 <li><a href="../classes/GeometryArrays.html">GeometryArrays</a></li>
                                 <li><a href="../classes/GeometryBuilder.html">GeometryBuilder</a></li>
@@ -121,6 +124,7 @@
                                 <li><a href="../classes/GridTriangleStrip.html">GridTriangleStrip</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
                                 <li><a href="../classes/IndexBuffer.html">IndexBuffer</a></li>
+                                <li><a href="../classes/LinearNumber.html">LinearNumber</a></li>
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
                                 <li><a href="../classes/LineMaterialOptions.html">LineMaterialOptions</a></li>
                                 <li><a href="../classes/LinePoints.html">LinePoints</a></li>
@@ -211,6 +215,7 @@
                                 <li><a href="../classes/VertexAttributeMap.html">VertexAttributeMap</a></li>
                                 <li><a href="../classes/VertexBuffer.html">VertexBuffer</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
+                                <li><a href="../classes/VisualApp.html">VisualApp</a></li>
                                 <li><a href="../classes/VisualOptions.html">VisualOptions</a></li>
                                 <li><a href="../classes/WebGLBlendFunc.html">WebGLBlendFunc</a></li>
                                 <li><a href="../classes/WebGLClearColor.html">WebGLClearColor</a></li>
@@ -365,6 +370,10 @@
                                 <a href="#method_addRef">addRef</a>
 
                             </li>
+                            <li class="index-item method inherited">
+                                <a href="#method_cleanUp">cleanUp</a>
+
+                            </li>
                             <li class="index-item method inherited inherited">
                                 <a href="#method_contextFree">contextFree</a>
 
@@ -419,6 +428,10 @@
                             </li>
                             <li class="index-item method inherited">
                                 <a href="#method_subscribe">subscribe</a>
+
+                            </li>
+                            <li class="index-item method inherited">
+                                <a href="#method_synchUp">synchUp</a>
 
                             </li>
                             <li class="index-item method inherited">
@@ -628,6 +641,46 @@ Increments the reference count of an Shareable instance.
                     <p>
 The new reference count. This value is intended to be used only for test purposes.
 </p>
+            </div>
+        </div>
+
+
+</div>
+<div id="method_cleanUp" class="method item inherited">
+    <h3 class="name"><code>cleanUp</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/ShareableContextConsumer.html#method_cleanUp">ShareableContextConsumer</a>:
+        <a href="../files/src_davinci-eight_core_ShareableContextConsumer.ts.html#l138"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableContextConsumer.ts:138</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Void</span>:
             </div>
         </div>
 
@@ -1488,6 +1541,46 @@ This method is idempotent; calling it more than once with the same <code>Engine<
 
 
 </div>
+<div id="method_synchUp" class="method item inherited">
+    <h3 class="name"><code>synchUp</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/ShareableContextConsumer.html#method_synchUp">ShareableContextConsumer</a>:
+        <a href="../files/src_davinci-eight_core_ShareableContextConsumer.ts.html#l127"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableContextConsumer.ts:127</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Void</span>:
+            </div>
+        </div>
+
+
+</div>
 <div id="method_unsubscribe" class="method item inherited">
     <h3 class="name"><code>unsubscribe</code></h3>
 
@@ -1512,7 +1605,7 @@ This method is idempotent; calling it more than once with the same <code>Engine<
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/ShareableContextConsumer.html#method_unsubscribe">ShareableContextConsumer</a>:
-        <a href="../files/src_davinci-eight_core_ShareableContextConsumer.ts.html#l138"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableContextConsumer.ts:138</code></a>
+        <a href="../files/src_davinci-eight_core_ShareableContextConsumer.ts.html#l146"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableContextConsumer.ts:146</code></a>
         </p>
 
 
@@ -1852,7 +1945,7 @@ Normally, we will use gl.FLOAT for each number which takes 4 bytes.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/ShareableContextConsumer.html#property_gl">ShareableContextConsumer</a>:
-        <a href="../files/src_davinci-eight_core_ShareableContextConsumer.ts.html#l201"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableContextConsumer.ts:201</code></a>
+        <a href="../files/src_davinci-eight_core_ShareableContextConsumer.ts.html#l209"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShareableContextConsumer.ts:209</code></a>
         </p>
 
 

@@ -2,14 +2,46 @@
     "project": {
         "name": "davinci-eight",
         "description": "WebGL library for mathematical physics using Geometric Algebra",
-        "version": "2.219.0",
+        "version": "2.220.0",
         "url": ""
     },
     "files": {
+        "src/davinci-eight/base/BrowserApp.ts": {
+            "name": "src/davinci-eight/base/BrowserApp.ts",
+            "modules": {},
+            "classes": {
+                "BrowserApp": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/base/BrowserDocument.ts": {
+            "name": "src/davinci-eight/base/BrowserDocument.ts",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/base/BrowserWindow.ts": {
+            "name": "src/davinci-eight/base/BrowserWindow.ts",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
         "src/davinci-eight/base/DefaultContextProvider.ts": {
             "name": "src/davinci-eight/base/DefaultContextProvider.ts",
             "modules": {},
             "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/base/EngineApp.ts": {
+            "name": "src/davinci-eight/base/EngineApp.ts",
+            "modules": {},
+            "classes": {
+                "EngineApp": 1
+            },
             "fors": {},
             "namespaces": {}
         },
@@ -1571,10 +1603,12 @@
             "fors": {},
             "namespaces": {}
         },
-        "src/davinci-eight/math/GeometricElement.ts": {
-            "name": "src/davinci-eight/math/GeometricElement.ts",
+        "src/davinci-eight/math/GeometricNumber.ts": {
+            "name": "src/davinci-eight/math/GeometricNumber.ts",
             "modules": {},
-            "classes": {},
+            "classes": {
+                "GeometricNumber": 1
+            },
             "fors": {},
             "namespaces": {}
         },
@@ -1585,10 +1619,12 @@
             "fors": {},
             "namespaces": {}
         },
-        "src/davinci-eight/math/LinearElement.ts": {
-            "name": "src/davinci-eight/math/LinearElement.ts",
+        "src/davinci-eight/math/LinearNumber.ts": {
+            "name": "src/davinci-eight/math/LinearNumber.ts",
             "modules": {},
-            "classes": {},
+            "classes": {
+                "LinearNumber": 1
+            },
             "fors": {},
             "namespaces": {}
         },
@@ -2228,6 +2264,15 @@
             "fors": {},
             "namespaces": {}
         },
+        "src/davinci-eight/visual/VisualApp.ts": {
+            "name": "src/davinci-eight/visual/VisualApp.ts",
+            "modules": {},
+            "classes": {
+                "VisualApp": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "src/davinci-eight/visual/VisualOptions.ts": {
             "name": "src/davinci-eight/visual/VisualOptions.ts",
             "modules": {},
@@ -2276,6 +2321,8 @@
             },
             "elements": {},
             "classes": {
+                "BrowserApp": 1,
+                "EngineApp": 1,
                 "NumberShareableMap": 1,
                 "ShareableArray": 1,
                 "StringShareableMap": 1,
@@ -2409,6 +2456,8 @@
                 "Geometric3": 1,
                 "GeometricE2": 1,
                 "GeometricE3": 1,
+                "GeometricNumber": 1,
+                "LinearNumber": 1,
                 "Matrix2": 1,
                 "Matrix3": 1,
                 "Matrix4": 1,
@@ -2453,6 +2502,7 @@
                 "TetrahedronOptions": 1,
                 "Trail": 1,
                 "TrailConfig": 1,
+                "VisualApp": 1,
                 "VisualOptions": 1
             },
             "fors": {},
@@ -2727,6 +2777,56 @@
         }
     },
     "classes": {
+        "BrowserApp": {
+            "name": "BrowserApp",
+            "shortname": "BrowserApp",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "file": "src/davinci-eight/base/BrowserApp.ts",
+            "line": 33,
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "wnd ",
+                    "description": "",
+                    "type": "Window",
+                    "optional": true,
+                    "optdefault": " window"
+                }
+            ]
+        },
+        "EngineApp": {
+            "name": "EngineApp",
+            "shortname": "EngineApp",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "file": "src/davinci-eight/base/EngineApp.ts",
+            "line": 36,
+            "extends": "BrowserApp",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "canvasId",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "wnd ",
+                    "description": "",
+                    "type": "Window",
+                    "optional": true,
+                    "optdefault": " window"
+                }
+            ]
+        },
         "NumberShareableMap": {
             "name": "NumberShareableMap",
             "shortname": "NumberShareableMap",
@@ -3569,7 +3669,7 @@
             "file": "src/davinci-eight/core/Scene.ts",
             "line": 113,
             "extends": "ShareableBase",
-            "description": "<p>\nA <code>Scene</code> is a collection of mesh instances arranged in some order.\nThe precise order is implementation defined.\nThe collection may be traversed for general processing using callback/visitor functions.\n</p>",
+            "description": "<p>\nA <code>Scene</code> is a collection of drawable instances arranged in some order.\nThe precise order is implementation defined.\nThe collection may be traversed for general processing using callback/visitor functions.\n</p>",
             "is_constructor": 1,
             "params": [
                 {
@@ -5717,6 +5817,34 @@
             "line": 6,
             "extends": "VectorE3"
         },
+        "GeometricNumber": {
+            "name": "GeometricNumber",
+            "shortname": "GeometricNumber",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/math/GeometricNumber.ts",
+            "line": 13,
+            "description": "<h1>\nWhich Geometric Number do I use?\n</h1>\n\n<h2>\nIntroduction\n</h2>\n<p>\n<code>GeometricNumber</code> is an <code>interface</code> used to enforce consistency of the design\nof various geometric numbers. But why so many implementations? To be continued...\n</p>\n\n<p>\n</p>\n\n<table>\n  <tr>\n    <th>Usage:</th>\n    <th>Calculations</th>\n    <th>Graphics</th>\n    <th>WebGL</th>\n  </tr>\n  <tr>\n    <th>Design:</th>\n    <td>Immutable</td>\n    <td>Mutable</td>\n    <td>Mutable</td>\n  </tr>\n  <tr>\n    <th>Euclidean Line:</th>\n    <td><b>G1</b>, R1</td>\n    <td><b>Geometric1</b>, Vector1</td>\n    <td><b>Matrix2</b></td>\n  </tr>\n  <tr>\n    <th>Euclidean Plane:</th>\n    <td><b>G2</b>, R2</td>\n    <td><b>Geometric2</b>, Vector2, Spinor2</td>\n    <td><b>Matrix3</b></td>\n  </tr>\n  <tr>\n    <th>Euclidean Space:</th>\n    <td><b>G3</b>, R3</td>\n    <td><b>Geometric3</b>, Vector3, Spinor3</td>\n    <td><b>Matrix4</b></td>\n  </tr>\n</table>",
+            "extends": "LinearNumber"
+        },
+        "LinearNumber": {
+            "name": "LinearNumber",
+            "shortname": "LinearNumber",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/math/LinearNumber.ts",
+            "line": 11
+        },
         "Matrix2": {
             "name": "Matrix2",
             "shortname": "Matrix2",
@@ -6605,6 +6733,35 @@
             "file": "src/davinci-eight/visual/TrailConfig.ts",
             "line": 12
         },
+        "VisualApp": {
+            "name": "VisualApp",
+            "shortname": "VisualApp",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/visual/VisualApp.ts",
+            "line": 10,
+            "extends": "EngineApp",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "canvasId",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "wnd ",
+                    "description": "",
+                    "type": "Window",
+                    "optional": true,
+                    "optdefault": " window"
+                }
+            ]
+        },
         "VisualOptions": {
             "name": "VisualOptions",
             "shortname": "VisualOptions",
@@ -6623,10 +6780,178 @@
     "elements": {},
     "classitems": [
         {
+            "file": "src/davinci-eight/base/BrowserApp.ts",
+            "line": 17,
+            "itemtype": "property",
+            "name": "window",
+            "type": "Window",
+            "access": "protected",
+            "tagname": "",
+            "class": "BrowserApp"
+        },
+        {
+            "file": "src/davinci-eight/base/BrowserApp.ts",
+            "line": 26,
+            "itemtype": "property",
+            "name": "managed",
+            "type": "ShareableArray",
+            "access": "private",
+            "tagname": "",
+            "class": "BrowserApp"
+        },
+        {
+            "file": "src/davinci-eight/base/BrowserApp.ts",
+            "line": 72,
+            "itemtype": "method",
+            "name": "isWaiting",
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "class": "BrowserApp"
+        },
+        {
+            "file": "src/davinci-eight/base/BrowserApp.ts",
+            "line": 80,
+            "itemtype": "method",
+            "name": "isRunning",
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "class": "BrowserApp"
+        },
+        {
+            "file": "src/davinci-eight/base/BrowserApp.ts",
+            "line": 88,
+            "itemtype": "method",
+            "name": "isZombie",
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "class": "BrowserApp"
+        },
+        {
+            "file": "src/davinci-eight/base/BrowserApp.ts",
+            "line": 96,
+            "description": "<p>\nTransfers ownership of the shareable object to this <code>BrowserApp</code>.\n</p>\n<p>\nAll managed objects will be released in the <code>BrowserApp.destructor</code> method.\n</p>\n<p>\nYou must not call <code>release()</code> on the object you are transferring.\n</p>",
+            "itemtype": "method",
+            "name": "manage",
+            "params": [
+                {
+                    "name": "managed",
+                    "description": "",
+                    "type": "Shareable"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "BrowserApp"
+        },
+        {
+            "file": "src/davinci-eight/base/BrowserApp.ts",
+            "line": 120,
+            "itemtype": "method",
+            "name": "initialize",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "access": "protected",
+            "tagname": "",
+            "class": "BrowserApp"
+        },
+        {
+            "file": "src/davinci-eight/base/BrowserApp.ts",
+            "line": 131,
+            "itemtype": "method",
+            "name": "destructor",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "access": "protected",
+            "tagname": "",
+            "class": "BrowserApp"
+        },
+        {
+            "file": "src/davinci-eight/base/BrowserDocument.ts",
+            "line": 1,
+            "description": "Intentionally undocumented.\nThis interface is defined to enable mocking in tests.",
+            "class": "EngineApp"
+        },
+        {
+            "file": "src/davinci-eight/base/BrowserWindow.ts",
+            "line": 2,
+            "description": "Intentionally undocumented.\nThis interface is defined to enable mocking in tests.",
+            "class": "EngineApp"
+        },
+        {
             "file": "src/davinci-eight/base/DefaultContextProvider.ts",
             "line": 9,
             "description": "Intentionally undocumented.",
-            "class": "NumberShareableMap"
+            "class": "EngineApp"
+        },
+        {
+            "file": "src/davinci-eight/base/EngineApp.ts",
+            "line": 11,
+            "description": "The <code>engine</code> is immediately available to derived classes.",
+            "itemtype": "property",
+            "name": "engine",
+            "type": "Engine",
+            "access": "protected",
+            "tagname": "",
+            "class": "EngineApp"
+        },
+        {
+            "file": "src/davinci-eight/base/EngineApp.ts",
+            "line": 20,
+            "description": "The <code>canvas</code> is only available after the <code>initialize</code> method.",
+            "itemtype": "property",
+            "name": "canvas",
+            "type": "HTMLCanvasElement",
+            "access": "protected",
+            "tagname": "",
+            "class": "EngineApp"
+        },
+        {
+            "file": "src/davinci-eight/base/EngineApp.ts",
+            "line": 29,
+            "itemtype": "property",
+            "name": "canvasId",
+            "type": "string",
+            "access": "private",
+            "tagname": "",
+            "class": "EngineApp"
+        },
+        {
+            "file": "src/davinci-eight/base/EngineApp.ts",
+            "line": 48,
+            "itemtype": "method",
+            "name": "destructor",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "access": "protected",
+            "tagname": "",
+            "class": "EngineApp"
+        },
+        {
+            "file": "src/davinci-eight/base/EngineApp.ts",
+            "line": 62,
+            "itemtype": "method",
+            "name": "initialize",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "access": "protected",
+            "tagname": "",
+            "class": "EngineApp"
         },
         {
             "file": "src/davinci-eight/base/incLevel.ts",
@@ -12353,7 +12678,7 @@
         {
             "file": "src/davinci-eight/core/Scene.ts",
             "line": 28,
-            "description": "Keep track of the 'parent' mesh.",
+            "description": "Keep track of the 'parent' drawable.",
             "class": "Scene",
             "module": "EIGHT",
             "submodule": "core"
@@ -12386,7 +12711,7 @@
             "name": "destructor",
             "params": [
                 {
-                    "name": "level",
+                    "name": "levelUp",
                     "description": "",
                     "type": "Number"
                 }
@@ -12404,12 +12729,12 @@
         {
             "file": "src/davinci-eight/core/Scene.ts",
             "line": 146,
-            "description": "<p>\nAdds the <code>mesh</code> to this <code>Scene</code>.\n</p>",
+            "description": "<p>\nAdds the <code>drawable</code> to this <code>Scene</code>.\n</p>",
             "itemtype": "method",
             "name": "add",
             "params": [
                 {
-                    "name": "mesh",
+                    "name": "drawable",
                     "description": "",
                     "type": "AbstractDrawable"
                 }
@@ -12429,7 +12754,7 @@
             "name": "contains",
             "params": [
                 {
-                    "name": "mesh",
+                    "name": "drawable",
                     "description": "",
                     "type": "AbstractDrawable"
                 }
@@ -12473,7 +12798,7 @@
                 {
                     "name": "match",
                     "description": "",
-                    "type": "(mesh: AbstractDrawable) => boolean"
+                    "type": "(drawable: AbstractDrawable) => boolean"
                 }
             ],
             "return": {
@@ -12493,7 +12818,7 @@
                 {
                     "name": "match",
                     "description": "",
-                    "type": "(mesh: AbstractDrawable) => boolean"
+                    "type": "(drawable: AbstractDrawable) => boolean"
                 }
             ],
             "return": {
@@ -12547,7 +12872,7 @@
         {
             "file": "src/davinci-eight/core/Scene.ts",
             "line": 235,
-            "description": "<p>\nRemoves the <code>mesh</code> from this <code>Scene</code>.\n</p>",
+            "description": "<p>\nRemoves the <code>drawable</code> from this <code>Scene</code>.\n</p>",
             "itemtype": "method",
             "name": "remove",
             "params": [
@@ -12895,7 +13220,33 @@
         },
         {
             "file": "src/davinci-eight/core/ShareableContextConsumer.ts",
+            "line": 127,
+            "itemtype": "method",
+            "name": "synchUp",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "ShareableContextConsumer",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/ShareableContextConsumer.ts",
             "line": 138,
+            "itemtype": "method",
+            "name": "cleanUp",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "ShareableContextConsumer",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/ShareableContextConsumer.ts",
+            "line": 146,
             "description": "<p>\nInstructs the consumer to unsubscribe from context events.\n</p>\n<p>\nThis method is idempotent; calling it more than once does not change the state.\n</p>",
             "itemtype": "method",
             "name": "unsubscribe",
@@ -12916,7 +13267,7 @@
         },
         {
             "file": "src/davinci-eight/core/ShareableContextConsumer.ts",
-            "line": 162,
+            "line": 170,
             "itemtype": "method",
             "name": "contextFree",
             "params": [
@@ -12936,7 +13287,7 @@
         },
         {
             "file": "src/davinci-eight/core/ShareableContextConsumer.ts",
-            "line": 174,
+            "line": 182,
             "itemtype": "method",
             "name": "contextGain",
             "params": [
@@ -12956,7 +13307,7 @@
         },
         {
             "file": "src/davinci-eight/core/ShareableContextConsumer.ts",
-            "line": 190,
+            "line": 198,
             "itemtype": "method",
             "name": "contextLost",
             "return": {
@@ -12969,7 +13320,7 @@
         },
         {
             "file": "src/davinci-eight/core/ShareableContextConsumer.ts",
-            "line": 201,
+            "line": 209,
             "description": "<p>\nProvides access to the underlying WebGL context.\n</p>\n<p>\nThis property is deprecated to encourage access throught the <code>ContextProvider</code>.\n</p>",
             "itemtype": "property",
             "name": "gl",
@@ -28319,171 +28670,171 @@
             "submodule": "math"
         },
         {
-            "file": "src/davinci-eight/math/GeometricElement.ts",
+            "file": "src/davinci-eight/math/GeometricNumber.ts",
             "line": 2,
             "description": "This interface is provided to ensure consistency.\nIt is not part of the documented API.\nNotice that the effect on the target depends upon whether the target class in mutable.\nI: The lightweight interface form of the concreate class, usually just coordinates.\nM: The concrete class\nS: The lightweight interface form of the spinor.\nV: The lightweight interface form of the vector.\nMAGNITUDE: The type for methods that compute magnitudes.",
-            "class": "Matrix2",
+            "class": "GeometricNumber",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/math/GeometricElement.ts",
-            "line": 14,
+            "file": "src/davinci-eight/math/GeometricNumber.ts",
+            "line": 67,
             "description": "Addition of a scalar.",
-            "class": "Matrix2",
+            "class": "GeometricNumber",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/math/GeometricElement.ts",
-            "line": 19,
+            "file": "src/davinci-eight/math/GeometricNumber.ts",
+            "line": 72,
             "description": "conjugate multiplied by norm (similar to inv)",
-            "class": "Matrix2",
+            "class": "GeometricNumber",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/math/GeometricElement.ts",
-            "line": 24,
+            "file": "src/davinci-eight/math/GeometricNumber.ts",
+            "line": 77,
             "description": "Assumes a spinor as the multivector.\nangle(M) = log(M).grade(2)\nIn other words, throw away the scalar part of the result which is the scaling.",
-            "class": "Matrix2",
+            "class": "GeometricNumber",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/math/GeometricElement.ts",
-            "line": 31,
+            "file": "src/davinci-eight/math/GeometricNumber.ts",
+            "line": 84,
             "description": "Conjugate",
-            "class": "Matrix2",
+            "class": "GeometricNumber",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/math/GeometricElement.ts",
-            "line": 36,
+            "file": "src/davinci-eight/math/GeometricNumber.ts",
+            "line": 89,
             "description": "Left contraction",
-            "class": "Matrix2",
+            "class": "GeometricNumber",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/math/GeometricElement.ts",
-            "line": 41,
+            "file": "src/davinci-eight/math/GeometricNumber.ts",
+            "line": 94,
             "description": "divide really only applies to division algebras, may not be defined.",
-            "class": "Matrix2",
+            "class": "GeometricNumber",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/math/GeometricElement.ts",
-            "line": 46,
+            "file": "src/davinci-eight/math/GeometricNumber.ts",
+            "line": 99,
             "description": "Exponential",
-            "class": "Matrix2",
+            "class": "GeometricNumber",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/math/GeometricElement.ts",
-            "line": 51,
+            "file": "src/davinci-eight/math/GeometricNumber.ts",
+            "line": 104,
             "description": "Exterior or Outer Product.",
-            "class": "Matrix2",
+            "class": "GeometricNumber",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/math/GeometricElement.ts",
-            "line": 56,
+            "file": "src/davinci-eight/math/GeometricNumber.ts",
+            "line": 109,
             "description": "extraction of grade.",
-            "class": "Matrix2",
+            "class": "GeometricNumber",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/math/GeometricElement.ts",
-            "line": 61,
+            "file": "src/davinci-eight/math/GeometricNumber.ts",
+            "line": 114,
             "description": "Inverse (may not exist).",
-            "class": "Matrix2",
+            "class": "GeometricNumber",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/math/GeometricElement.ts",
-            "line": 66,
+            "file": "src/davinci-eight/math/GeometricNumber.ts",
+            "line": 119,
             "description": "Natural logarithm.",
-            "class": "Matrix2",
+            "class": "GeometricNumber",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/math/GeometricElement.ts",
-            "line": 71,
+            "file": "src/davinci-eight/math/GeometricNumber.ts",
+            "line": 124,
             "description": "Computes the square root of the squared norm.",
-            "class": "Matrix2",
+            "class": "GeometricNumber",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/math/GeometricElement.ts",
-            "line": 76,
+            "file": "src/davinci-eight/math/GeometricNumber.ts",
+            "line": 129,
             "description": "Multiplication.",
-            "class": "Matrix2",
+            "class": "GeometricNumber",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/math/GeometricElement.ts",
-            "line": 81,
+            "file": "src/davinci-eight/math/GeometricNumber.ts",
+            "line": 134,
             "description": "norm, ||x|| = sqrt(scp(x, rev(x)))",
-            "class": "Matrix2",
+            "class": "GeometricNumber",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/math/GeometricElement.ts",
-            "line": 86,
+            "file": "src/davinci-eight/math/GeometricNumber.ts",
+            "line": 139,
             "description": "squared norm, scp(x, rev(x))",
-            "class": "Matrix2",
+            "class": "GeometricNumber",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/math/GeometricElement.ts",
-            "line": 91,
+            "file": "src/davinci-eight/math/GeometricNumber.ts",
+            "line": 144,
             "description": "Right contraction",
-            "class": "Matrix2",
+            "class": "GeometricNumber",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/math/GeometricElement.ts",
-            "line": 96,
+            "file": "src/davinci-eight/math/GeometricNumber.ts",
+            "line": 149,
             "description": "Reverse",
-            "class": "Matrix2",
+            "class": "GeometricNumber",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/math/GeometricElement.ts",
-            "line": 101,
+            "file": "src/davinci-eight/math/GeometricNumber.ts",
+            "line": 154,
             "description": "squared norm, scp(x, rev(x))",
-            "class": "Matrix2",
+            "class": "GeometricNumber",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/math/GeometricElement.ts",
-            "line": 106,
+            "file": "src/davinci-eight/math/GeometricNumber.ts",
+            "line": 159,
             "description": "Scalar Product",
-            "class": "Matrix2",
+            "class": "GeometricNumber",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/GeometricOperators.ts",
             "line": 4,
             "description": "Special methods for operators on elements of geometric spaces.",
-            "class": "Matrix2",
+            "class": "LinearNumber",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/GeometricOperators.ts",
             "line": 23,
             "description": "!x = x.inv()",
-            "class": "Matrix2",
+            "class": "LinearNumber",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/GeometricOperators.ts",
             "line": 28,
             "description": "Inverse (may not exist).",
-            "class": "Matrix2",
+            "class": "LinearNumber",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/math/LinearElement.ts",
+            "file": "src/davinci-eight/math/LinearNumber.ts",
             "line": 1,
             "description": "This interface is provided to ensure consistency.\nIt is not part of the documented API.\nNotice that the effect on the target depends upon whether the target class in mutable.\nMAGNITUDE is the chosen type for the magnitude method and scaling.\nFor dimensionless quantities without units, use number.\nFor linear quantities with units, you may use Unit.\nFor geometric quantities with units, you may use the quantity itself because it can represent a scalar.",
-            "class": "Matrix2",
+            "class": "LinearNumber",
             "module": "EIGHT"
         },
         {
@@ -38364,6 +38715,34 @@
             "submodule": "visual"
         },
         {
+            "file": "src/davinci-eight/visual/VisualApp.ts",
+            "line": 21,
+            "itemtype": "method",
+            "name": "initialize",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "access": "protected",
+            "tagname": "",
+            "class": "VisualApp",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/visual/VisualApp.ts",
+            "line": 31,
+            "itemtype": "method",
+            "name": "destructor",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "access": "protected",
+            "tagname": "",
+            "class": "VisualApp",
+            "module": "EIGHT"
+        },
+        {
             "file": "src/davinci-eight/visual/VisualOptions.ts",
             "line": 16,
             "itemtype": "attribute",
@@ -38478,6 +38857,14 @@
         {
             "message": "param name missing: {number}",
             "line": " src/davinci-eight/math/Vector3.ts:512"
+        },
+        {
+            "message": "Missing item type\nIntentionally undocumented.\nThis interface is defined to enable mocking in tests.",
+            "line": " src/davinci-eight/base/BrowserDocument.ts:1"
+        },
+        {
+            "message": "Missing item type\nIntentionally undocumented.\nThis interface is defined to enable mocking in tests.",
+            "line": " src/davinci-eight/base/BrowserWindow.ts:2"
         },
         {
             "message": "Missing item type\nIntentionally undocumented.",
@@ -38596,7 +38983,7 @@
             "line": " src/davinci-eight/core/Scene.ts:23"
         },
         {
-            "message": "Missing item type\nKeep track of the 'parent' mesh.",
+            "message": "Missing item type\nKeep track of the 'parent' drawable.",
             "line": " src/davinci-eight/core/Scene.ts:28"
         },
         {
@@ -39101,83 +39488,83 @@
         },
         {
             "message": "Missing item type\nThis interface is provided to ensure consistency.\nIt is not part of the documented API.\nNotice that the effect on the target depends upon whether the target class in mutable.\nI: The lightweight interface form of the concreate class, usually just coordinates.\nM: The concrete class\nS: The lightweight interface form of the spinor.\nV: The lightweight interface form of the vector.\nMAGNITUDE: The type for methods that compute magnitudes.",
-            "line": " src/davinci-eight/math/GeometricElement.ts:2"
+            "line": " src/davinci-eight/math/GeometricNumber.ts:2"
         },
         {
             "message": "Missing item type\nAddition of a scalar.",
-            "line": " src/davinci-eight/math/GeometricElement.ts:14"
+            "line": " src/davinci-eight/math/GeometricNumber.ts:67"
         },
         {
             "message": "Missing item type\nconjugate multiplied by norm (similar to inv)",
-            "line": " src/davinci-eight/math/GeometricElement.ts:19"
+            "line": " src/davinci-eight/math/GeometricNumber.ts:72"
         },
         {
             "message": "Missing item type\nAssumes a spinor as the multivector.\nangle(M) = log(M).grade(2)\nIn other words, throw away the scalar part of the result which is the scaling.",
-            "line": " src/davinci-eight/math/GeometricElement.ts:24"
+            "line": " src/davinci-eight/math/GeometricNumber.ts:77"
         },
         {
             "message": "Missing item type\nConjugate",
-            "line": " src/davinci-eight/math/GeometricElement.ts:31"
+            "line": " src/davinci-eight/math/GeometricNumber.ts:84"
         },
         {
             "message": "Missing item type\nLeft contraction",
-            "line": " src/davinci-eight/math/GeometricElement.ts:36"
+            "line": " src/davinci-eight/math/GeometricNumber.ts:89"
         },
         {
             "message": "Missing item type\ndivide really only applies to division algebras, may not be defined.",
-            "line": " src/davinci-eight/math/GeometricElement.ts:41"
+            "line": " src/davinci-eight/math/GeometricNumber.ts:94"
         },
         {
             "message": "Missing item type\nExponential",
-            "line": " src/davinci-eight/math/GeometricElement.ts:46"
+            "line": " src/davinci-eight/math/GeometricNumber.ts:99"
         },
         {
             "message": "Missing item type\nExterior or Outer Product.",
-            "line": " src/davinci-eight/math/GeometricElement.ts:51"
+            "line": " src/davinci-eight/math/GeometricNumber.ts:104"
         },
         {
             "message": "Missing item type\nextraction of grade.",
-            "line": " src/davinci-eight/math/GeometricElement.ts:56"
+            "line": " src/davinci-eight/math/GeometricNumber.ts:109"
         },
         {
             "message": "Missing item type\nInverse (may not exist).",
-            "line": " src/davinci-eight/math/GeometricElement.ts:61"
+            "line": " src/davinci-eight/math/GeometricNumber.ts:114"
         },
         {
             "message": "Missing item type\nNatural logarithm.",
-            "line": " src/davinci-eight/math/GeometricElement.ts:66"
+            "line": " src/davinci-eight/math/GeometricNumber.ts:119"
         },
         {
             "message": "Missing item type\nComputes the square root of the squared norm.",
-            "line": " src/davinci-eight/math/GeometricElement.ts:71"
+            "line": " src/davinci-eight/math/GeometricNumber.ts:124"
         },
         {
             "message": "Missing item type\nMultiplication.",
-            "line": " src/davinci-eight/math/GeometricElement.ts:76"
+            "line": " src/davinci-eight/math/GeometricNumber.ts:129"
         },
         {
             "message": "Missing item type\nnorm, ||x|| = sqrt(scp(x, rev(x)))",
-            "line": " src/davinci-eight/math/GeometricElement.ts:81"
+            "line": " src/davinci-eight/math/GeometricNumber.ts:134"
         },
         {
             "message": "Missing item type\nsquared norm, scp(x, rev(x))",
-            "line": " src/davinci-eight/math/GeometricElement.ts:86"
+            "line": " src/davinci-eight/math/GeometricNumber.ts:139"
         },
         {
             "message": "Missing item type\nRight contraction",
-            "line": " src/davinci-eight/math/GeometricElement.ts:91"
+            "line": " src/davinci-eight/math/GeometricNumber.ts:144"
         },
         {
             "message": "Missing item type\nReverse",
-            "line": " src/davinci-eight/math/GeometricElement.ts:96"
+            "line": " src/davinci-eight/math/GeometricNumber.ts:149"
         },
         {
             "message": "Missing item type\nsquared norm, scp(x, rev(x))",
-            "line": " src/davinci-eight/math/GeometricElement.ts:101"
+            "line": " src/davinci-eight/math/GeometricNumber.ts:154"
         },
         {
             "message": "Missing item type\nScalar Product",
-            "line": " src/davinci-eight/math/GeometricElement.ts:106"
+            "line": " src/davinci-eight/math/GeometricNumber.ts:159"
         },
         {
             "message": "Missing item type\nSpecial methods for operators on elements of geometric spaces.",
@@ -39193,7 +39580,7 @@
         },
         {
             "message": "Missing item type\nThis interface is provided to ensure consistency.\nIt is not part of the documented API.\nNotice that the effect on the target depends upon whether the target class in mutable.\nMAGNITUDE is the chosen type for the magnitude method and scaling.\nFor dimensionless quantities without units, use number.\nFor linear quantities with units, you may use Unit.\nFor geometric quantities with units, you may use the quantity itself because it can represent a scalar.",
-            "line": " src/davinci-eight/math/LinearElement.ts:1"
+            "line": " src/davinci-eight/math/LinearNumber.ts:1"
         },
         {
             "message": "Missing item type\nSpecial methods for operators on elements of linear spaces.\nThis is provided for interface consistency.\nIt may not adhere to strict mathematical definitions.",

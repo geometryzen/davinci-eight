@@ -1,4 +1,4 @@
-import GeometricElement from '../math/GeometricElement';
+import GeometricNumber from '../math/GeometricNumber';
 import MutableLinearElement from '../math/MutableLinearElement';
 import MutableRingElement from '../math/MutableRingElement';
 
@@ -6,7 +6,7 @@ import MutableRingElement from '../math/MutableRingElement';
  * This interface is provided to ensure consistency.
  * It is not part of the documented API.
  */
-interface MutableGeometricElement<I, M, S, V, MAGNITUDE, SCALING, UNIT> extends GeometricElement<I, M, S, V, MAGNITUDE, SCALING, UNIT>, MutableLinearElement<I, M, S, V, MAGNITUDE, SCALING>, MutableRingElement<M> {
+interface MutableGeometricElement<I, M, S, V, MAGNITUDE, SCALING, UNIT> extends GeometricNumber<I, M, S, V, MAGNITUDE, SCALING, UNIT>, MutableLinearElement<I, M, S, V, MAGNITUDE, SCALING>, MutableRingElement<M> {
 
     /**
      * Sets this multivector to the left contraction of the multivectors.

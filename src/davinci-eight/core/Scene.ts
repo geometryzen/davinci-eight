@@ -26,20 +26,20 @@ class ScenePart extends ShareableBase {
   private _geometry: Geometry;
 
   /**
-   * Keep track of the 'parent' mesh.
+   * Keep track of the 'parent' drawable.
    */
-  private _mesh: AbstractDrawable;
+  private _drawable: AbstractDrawable;
 
   /**
    *
    */
-  constructor(geometry: Geometry, mesh: AbstractDrawable) {
+  constructor(geometry: Geometry, drawable: AbstractDrawable) {
     super()
     this.setLoggingName('ScenePart')
     this._geometry = geometry
     this._geometry.addRef()
-    this._mesh = mesh
-    this._mesh.addRef()
+    this._drawable = drawable
+    this._drawable.addRef()
   }
 
   /**
@@ -47,9 +47,9 @@ class ScenePart extends ShareableBase {
    */
   protected destructor(level: number): void {
     this._geometry.release()
-    this._mesh.release()
+    this._drawable.release()
     this._geometry = void 0;
-    this._mesh = void 0
+    this._drawable = void 0
     super.destructor(incLevel(level))
   }
 
@@ -57,8 +57,8 @@ class ScenePart extends ShareableBase {
    *
    */
   draw(ambients: Facet[]) {
-    if (this._mesh.visible) {
-      const material = this._mesh.material
+    if (this._drawable.visible) {
+      const material = this._drawable.material
 
       material.use()
 
@@ -70,7 +70,7 @@ class ScenePart extends ShareableBase {
         }
       }
 
-      this._mesh.setUniforms();
+      this._drawable.setUniforms();
 
       this._geometry.draw(material)
       material.release()
@@ -78,12 +78,12 @@ class ScenePart extends ShareableBase {
   }
 }
 
-function partsFromMesh(mesh: AbstractDrawable): ShareableArray<ScenePart> {
-  mustBeObject('mesh', mesh)
+function partsFromMesh(drawable: AbstractDrawable): ShareableArray<ScenePart> {
+  mustBeObject('drawable', drawable)
   const parts = new ShareableArray<ScenePart>([])
-  const geometry = mesh.geometry
+  const geometry = drawable.geometry
   if (geometry.isLeaf()) {
-    const scenePart = new ScenePart(geometry, mesh)
+    const scenePart = new ScenePart(geometry, drawable)
     parts.pushWeakRef(scenePart)
   }
   else {
@@ -91,7 +91,7 @@ function partsFromMesh(mesh: AbstractDrawable): ShareableArray<ScenePart> {
     for (let i = 0; i < iLen; i++) {
       const geometryPart = geometry.getPart(i)
       // FIXME: This needs to go down to the leaves.
-      const scenePart = new ScenePart(geometryPart, mesh)
+      const scenePart = new ScenePart(geometryPart, drawable)
       geometryPart.release()
       parts.pushWeakRef(scenePart)
     }
@@ -112,7 +112,7 @@ export default class Scene extends ShareableContextConsumer {
   // FIXME: Do I need the collection, or can I be fooled into thinking there is one monitor?
   /**
    * <p>
-   * A <code>Scene</code> is a collection of mesh instances arranged in some order.
+   * A <code>Scene</code> is a collection of drawable instances arranged in some order.
    * The precise order is implementation defined.
    * The collection may be traversed for general processing using callback/visitor functions.
    * </p>
@@ -132,34 +132,34 @@ export default class Scene extends ShareableContextConsumer {
 
   /**
    * @method destructor
-   * @param level {number}
+   * @param levelUp {number}
    * @return {void}
    * @protected
    */
-  protected destructor(level: number): void {
+  protected destructor(levelUp: number): void {
     this.cleanUp()
     this._drawables.release()
     this._parts.release()
-    super.destructor(incLevel(level))
+    super.destructor(levelUp + 1)
   }
 
   /**
    * <p>
-   * Adds the <code>mesh</code> to this <code>Scene</code>.
+   * Adds the <code>drawable</code> to this <code>Scene</code>.
    * </p>
    * @method add
-   * @param mesh {AbstractDrawable}
+   * @param drawable {AbstractDrawable}
    * @return {Void}
    * <p>
    * This method returns <code>undefined</code>.
    * </p>
    */
-  add(mesh: AbstractDrawable): void {
-    mustBeObject('mesh', mesh)
-    this._drawables.push(mesh)
+  add(drawable: AbstractDrawable): void {
+    mustBeObject('drawable', drawable)
+    this._drawables.push(drawable)
 
     // TODO: Control the ordering for optimization.
-    const drawParts = partsFromMesh(mesh)
+    const drawParts = partsFromMesh(drawable)
     const iLen = drawParts.length;
     for (let i = 0; i < iLen; i++) {
       const part = drawParts.get(i)
@@ -171,12 +171,12 @@ export default class Scene extends ShareableContextConsumer {
 
   /**
    * @method contains
-   * @param mesh {AbstractDrawable}
+   * @param drawable {AbstractDrawable}
    * @return {boolean}
    */
-  contains(mesh: AbstractDrawable): boolean {
-    mustBeObject('mesh', mesh)
-    return this._drawables.indexOf(mesh) >= 0
+  contains(drawable: AbstractDrawable): boolean {
+    mustBeObject('drawable', drawable)
+    return this._drawables.indexOf(drawable) >= 0
   }
 
   /**
@@ -198,19 +198,19 @@ export default class Scene extends ShareableContextConsumer {
 
   /**
    * @method find
-   * @param match {(mesh: AbstractDrawable) => boolean}
+   * @param match {(drawable: AbstractDrawable) => boolean}
    * @return {ShareableArray}
    */
-  find(match: (mesh: AbstractDrawable) => boolean): ShareableArray<AbstractDrawable> {
+  find(match: (drawable: AbstractDrawable) => boolean): ShareableArray<AbstractDrawable> {
     return this._drawables.find(match)
   }
 
   /**
    * @method findOne
-   * @param match {(mesh: AbstractDrawable) => boolean}
+   * @param match {(drawable: AbstractDrawable) => boolean}
    * @return {AbstractDrawable}
    */
-  findOne(match: (mesh: AbstractDrawable) => boolean): AbstractDrawable {
+  findOne(match: (drawable: AbstractDrawable) => boolean): AbstractDrawable {
     return this._drawables.findOne(match)
   }
 
@@ -220,7 +220,7 @@ export default class Scene extends ShareableContextConsumer {
    * @return {AbstractDrawable}
    */
   findOneByName(name: string): AbstractDrawable {
-    return this.findOne(function(mesh) { return mesh.name === name })
+    return this.findOne(function(drawable) { return drawable.name === name })
   }
 
   /**
@@ -229,12 +229,12 @@ export default class Scene extends ShareableContextConsumer {
    * @return {ShareableArray}
    */
   findByName(name: string): ShareableArray<AbstractDrawable> {
-    return this.find(function(mesh) { return mesh.name === name })
+    return this.find(function(drawable) { return drawable.name === name })
   }
 
   /**
    * <p>
-   * Removes the <code>mesh</code> from this <code>Scene</code>.
+   * Removes the <code>drawable</code> from this <code>Scene</code>.
    * </p>
    *
    * @method remove
@@ -257,8 +257,8 @@ export default class Scene extends ShareableContextConsumer {
    */
   contextFree(context: ContextProvider): void {
     for (let i = 0; i < this._drawables.length; i++) {
-      const mesh = this._drawables.getWeakRef(i)
-      mesh.contextFree(context)
+      const drawable = this._drawables.getWeakRef(i)
+      drawable.contextFree(context)
     }
     super.contextFree(context)
   }
@@ -270,8 +270,8 @@ export default class Scene extends ShareableContextConsumer {
    */
   contextGain(context: ContextProvider): void {
     for (let i = 0; i < this._drawables.length; i++) {
-      const mesh = this._drawables.getWeakRef(i)
-      mesh.contextGain(context)
+      const drawable = this._drawables.getWeakRef(i)
+      drawable.contextGain(context)
     }
     super.contextGain(context)
   }
@@ -282,8 +282,8 @@ export default class Scene extends ShareableContextConsumer {
    */
   contextLost(): void {
     for (let i = 0; i < this._drawables.length; i++) {
-      const mesh = this._drawables.getWeakRef(i)
-      mesh.contextLost()
+      const drawable = this._drawables.getWeakRef(i)
+      drawable.contextLost()
     }
     super.contextLost()
   }

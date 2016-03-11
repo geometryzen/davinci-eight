@@ -124,14 +124,22 @@ export default class ShareableContextConsumer extends ShareableBase implements C
     }
   }
 
-  protected synchUp() {
+  /**
+   * @method synchUp
+   * @return {void}
+   */
+  public synchUp() {
     const engine = this.engine
     if (engine) {
       engine.synchronize(this)
     }
   }
 
-  protected cleanUp() {
+  /**
+   * @method cleanUp
+   * @return {void}
+   */
+  public cleanUp(): void {
     cleanUp(this.contextProvider, this)
   }
 
