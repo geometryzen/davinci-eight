@@ -572,15 +572,25 @@ declare module EIGHT {
     beta: number
     uom: Unit
     constructor(α?: number, x?: number, y?: number, β?: number, uom?: Unit)
+    add(rhs: G2): G2
+    addPseudo(β: Unit): G2
+    addScalar(α: Unit): G2
+    angle(): G2
+    copy(M: GeometricE2): G2
     direction(): G2
+    exp(): G2
     inv(): G2
+    isPinor(): boolean
     isZero(): boolean
     magnitude(): G2
-    scp(rhs: G2): G2
+    reflect(n: VectorE2): G2
     rotate(spinor: SpinorE2): G2
-    toExponential(): string;
-    toFixed(digits?: number): string;
-    toString(): string;
+    squaredNorm(): G2
+    scp(rhs: G2): G2
+    toExponential(fractionDigits?: number): string;
+    toFixed(fractionDigits?: number): string;
+    toPrecision(precision?: number): string;
+    toString(radix?: number): string;
     static ampere: G2
     static candela: G2
     static coulomb: G2
@@ -594,6 +604,7 @@ declare module EIGHT {
     static one: G2
     static second: G2
     static zero: G2
+    static fromVectorE2(vector: VectorE2): G2
     /**
      * Creates a vector from Cartesian coordinates and an optional unit of measure.
      */
@@ -665,8 +676,8 @@ declare module EIGHT {
     uom: Unit;
     constructor(α: number, x: number, y: number, z: number, xy: number, yz: number, zx: number, β: number, uom?: Unit)
     add(rhs: G3): G3;
-    addPseudo(β: number): G3;
-    addScalar(α: number): G3;
+    addPseudo(β: Unit): G3;
+    addScalar(α: Unit): G3;
     adj(): G3;
     angle(); G3;
     conj(): G3;
@@ -711,9 +722,10 @@ declare module EIGHT {
     sqrt(): G3;
     squaredNorm(): G3;
     sub(rhs: G3): G3;
-    toExponential(): string;
-    toFixed(digits?: number): string;
-    toString(): string;
+    toExponential(fractionDigits?: number): string;
+    toFixed(fractionDigits?: number): string;
+    toPrecision(precision?: number): string;
+    toString(radix?: number): string;
     direction(): G3;
     static fromSpinor(spinor: SpinorE3): G3;
     static fromVector(vector: VectorE3): G3;
@@ -831,17 +843,22 @@ declare module EIGHT {
     /**
      * Computes a string representation of this matrix in exponential notation.
      */
-    toExponential(): string;
+    toExponential(fractionDigits?: number): string;
 
     /**
      * Computes a string representation of this matrix with a fixed number of digits.
      */
-    toFixed(digits?: number): string;
+    toFixed(fractionDigits?: number): string;
+
+    /**
+     *
+     */
+    toPrecision(precision?: number): string;
 
     /**
      * Computes a string representation of this matrix.
      */
-    toString(): string;
+    toString(radix?: number): string;
 
     /**
      * Sets this matrix to the additive identity, <em>0</em>. 
@@ -1092,12 +1109,22 @@ declare module EIGHT {
     /**
      *
      */
-    toFixed(digits?: number): string;
+    toExponential(fractionDigits?: number): string;
 
     /**
      *
      */
-    toString(): string;
+    toFixed(fractionDigits?: number): string;
+
+    /**
+     *
+     */
+    toPrecision(precision?: number): string;
+
+    /**
+     *
+     */
+    toString(radix?: number): string;
 
     /**
      *
@@ -1310,7 +1337,7 @@ declare module EIGHT {
      * <code>this ⟼ this / magnitude(this)</code>
      * </p>
      */
-    direction(): Geometric2;
+    normalize(): Geometric2;
 
     distanceTo(M: GeometricE2): number;
 
@@ -1420,7 +1447,7 @@ declare module EIGHT {
     /**
      * Computes the <em>square root</em> of the <em>squared norm</em>.
      */
-    magnitude(): Geometric2;
+    magnitude(): number;
 
     /**
      * <p>
@@ -1566,7 +1593,7 @@ declare module EIGHT {
     /**
      * Returns a string representing the number in exponential notation.
      */
-    toExponential(): string;
+    toExponential(fractionDigits?: number): string;
 
     /**
      * Returns a string representing the number in fixed-point notation.
@@ -1574,9 +1601,14 @@ declare module EIGHT {
     toFixed(fractionDigits?: number): string;
 
     /**
+     *
+     */
+    toPrecision(precision?: number): string;
+
+    /**
      * Returns a string representation of the number.
      */
-    toString(): string;
+    toString(radix?: number): string;
 
     /**
      * <p>
@@ -1711,9 +1743,10 @@ declare module EIGHT {
     set(x: number, y: number): Vector2
     sub(v: VectorE2): Vector2
     sub2(a: VectorE2, b: VectorE2): Vector2
-    toExponential(): string
+    toExponential(fractionDigits?: number): string
     toFixed(fractionDigits?: number): string
-    toString(): string
+    toPrecision(precision?: number): string
+    toString(radix?: number): string
     zero(): Vector2
     static copy(v: VectorE2): Vector2
     static lerp(a: VectorE2, b: VectorE2, α: number): Vector2
@@ -1752,16 +1785,6 @@ declare module EIGHT {
      * The bivector component in the <b>e</b><sub>1</sub><b>e</b><sub>2</sub> plane.
      */
     xy: number;
-
-    /**
-     * Computes the <em>square root</em> of the <em>squared norm</em>.
-     */
-    magnitude(): SpinorE3;
-
-    /**
-     * The <em>squared norm</em>, as a <code>number</code>.
-     */
-    squaredNorm(): SpinorE3;
   }
 
   /**
@@ -1894,7 +1917,7 @@ declare module EIGHT {
     /**
      * this ⟼ this / magnitude(this)
      */
-    direction(): Geometric3;
+    normalize(): Geometric3;
 
     /**
      * Sets this multivector to the result of division by another multivector.
@@ -2020,7 +2043,7 @@ declare module EIGHT {
     /**
      * Computes the <em>square root</em> of the <em>squared norm</em>.
      */
-    magnitude(): Geometric3;
+    magnitude(): number;
 
     /**
      * <p>
@@ -2183,7 +2206,7 @@ declare module EIGHT {
     /**
      * Returns a string representing the number in exponential notation.
      */
-    toExponential(): string;
+    toExponential(fractionDigits?: number): string;
 
     /**
      * Returns a string representing the number in fixed-point notation.
@@ -2192,9 +2215,14 @@ declare module EIGHT {
     toFixed(fractionDigits?: number): string;
 
     /**
+     *
+     */
+    toPrecision(precision?: number): string;
+
+    /**
      * Returns a string representation of the number.
      */
-    toString(): string;
+    toString(radix?: number): string;
 
     /**
      * <p>
@@ -2333,7 +2361,7 @@ declare module EIGHT {
 
     copyScalar(α: number): Spinor3
 
-    direction(): Spinor3
+    normalize(): Spinor3
 
     div(s: SpinorE3): Spinor3
 
@@ -2366,9 +2394,9 @@ declare module EIGHT {
      * <code>this ⟼ log(this)</code>
      * </p>
      */
-    log(): Spinor3;
+    log(): Spinor3
 
-    magnitude(): Spinor3
+    magnitude(): number
 
     mul(rhs: SpinorE3): Spinor3
 
@@ -2437,11 +2465,13 @@ declare module EIGHT {
      */
     sub2(a: SpinorE3, b: SpinorE3): Spinor3
 
-    toExponential(): string
+    toExponential(fractionDigits?: number): string
 
-    toFixed(digits?: number): string
+    toFixed(fractionDigits?: number): string
 
-    toString(): string
+    toPrecision(precision?: number): string
+
+    toString(radix?: number): string
 
     /**
      * this ⟼ a * b
@@ -2512,7 +2542,7 @@ declare module EIGHT {
      */
     magnitude(): number;
     neg(): Vector3;
-    direction(): Vector3;
+    normalize(): Vector3;
     quadranceTo(point: VectorE3): number;
     static random(): Vector3;
     reflect(n: VectorE3): Vector3;
@@ -2522,9 +2552,10 @@ declare module EIGHT {
     squaredNorm(): number;
     sub(rhs: VectorE3): Vector3;
     sub2(a: VectorE3, b: VectorE3): Vector3;
-    toExponential(): string;
-    toFixed(digits?: number): string;
-    toString(): string;
+    toExponential(fractionDigits?: number): string;
+    toFixed(fractionDigits?: number): string;
+    toPrecision(precision?: number): string;
+    toString(radix?: number): string;
   }
 
   /**
@@ -2547,9 +2578,10 @@ declare module EIGHT {
     slerp(target: R3, α: number): R3
     squaredNorm(): Unit
     sub(rhs: R3, α: number): R3
-    toExponential(): string
+    toExponential(fractionDigits?: number): string
     toFixed(fractionDigits?: number): string
-    toString(): string
+    toPrecision(precision?: number): string
+    toString(radix?: number): string
     static direction(vector: VectorE3): R3
     static fromVector(vector: VectorE3, uom: Unit): R3
     static e1: R3
@@ -3727,7 +3759,7 @@ declare module EIGHT {
      *
      */
     constructor(geometry: Geometry, material: Material, engine: Engine);
-  
+
     /**
      *
      */
@@ -3772,18 +3804,24 @@ declare module EIGHT {
     protected destructor(levelUp: number): void;
   }
 
-  class Arrow extends RigidBody {
-    length: number;
+  class Arrow extends Mesh {
+
+    /**
+     * The vector from the tail of the Arrow to the head of the Arrow.
+     */
+    h: Geometric3;
+
     constructor(
       options?: {
         attitude?: SpinorE3;
-        axis?: VectorE3;
         color?: AbstractColor;
         engine?: Engine;
         offset?: VectorE3;
         position?: VectorE3;
         tilt?: SpinorE3;
-      })
+        vector?: VectorE3;
+      });
+    protected destructor(levelUp: number): void;
   }
 
   class Box extends Mesh {
@@ -3835,7 +3873,7 @@ declare module EIGHT {
       options?: {
         aColor?: (u: number) => AbstractColor;
         aPosition?: (u: number) => VectorE3;
-        attitude: SpinorE3;
+        attitude?: SpinorE3;
         color?: AbstractColor;
         drawMode?: DrawMode;
         engine?: Engine;

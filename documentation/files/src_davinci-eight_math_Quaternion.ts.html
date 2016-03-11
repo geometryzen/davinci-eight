@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>G1 - davinci-eight</title>
+    <title>src/davinci-eight/math/Quaternion.ts - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.218.0</em>
+            <em>API Docs for: 2.219.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -97,7 +97,6 @@
                                 <li><a href="../classes/Facet.html">Facet</a></li>
                                 <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
-                                <li><a href="../classes/G1.html">G1</a></li>
                                 <li><a href="../classes/G2.html">G2</a></li>
                                 <li><a href="../classes/G3.html">G3</a></li>
                                 <li><a href="../classes/Geometric2.html">Geometric2</a></li>
@@ -265,281 +264,531 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1>G1 Class</h1>
-<div class="box meta">
-
-
-        <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_math_G1.ts.html#l41"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G1.ts:41</code></a>
-        </div>
-
-            Module: <a href="../modules/EIGHT.html">EIGHT</a>
-
-</div>
-
-
-<div class="box intro">
-    <p>The G1 class represents a multivector for a 1-dimensional linear space with a Euclidean metric.</p>
-
-</div>
-
-    <div class="constructor">
-        <h2>Constructor</h2>
-<div id="method_G1" class="method item">
-    <h3 class="name"><code>G1</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>α</code>
-                </li>
-                <li class="arg">
-                        <code>β</code>
-                </li>
-                <li class="arg">
-                        <code>uom</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G1.ts.html#l41"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G1.ts:41</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">α</code>
-                        <span class="type">Number</span>
-
-
-                    <div class="param-description">
-                        <p>The grade zero part of the multivector.</p>
-
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">β</code>
-                        <span class="type">Number</span>
-
-
-                    <div class="param-description">
-                        <p>The vector component of the multivector.</p>
-
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">uom</code>
-                        <span class="type">Object</span>
-
-
-                    <div class="param-description">
-                        <p>The optional unit of measure.</p>
-
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-
-
-</div>
-    </div>
-
-<div id="classdocs" class="tabview">
-    <ul class="api-class-tabs">
-        <li class="api-class-tab index"><a href="#index">Index</a></li>
-
-            <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
-            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
-    </ul>
-
-    <div>
-        <div id="index" class="api-class-tabpanel index">
-            <h2 class="off-left">Item Index</h2>
-
-                <div class="index-section methods">
-                    <h3>Methods</h3>
-
-                    <ul class="index-list methods">
-                            <li class="index-item method">
-                                <a href="#method_angle">angle</a>
-
-                            </li>
-                    </ul>
-                </div>
-
-                <div class="index-section properties">
-                    <h3>Properties</h3>
-
-                    <ul class="index-list properties">
-                            <li class="index-item property">
-                                <a href="#property_beta">beta</a>
-
-                            </li>
-                            <li class="index-item property">
-                                <a href="#property_α">α</a>
-
-                            </li>
-                            <li class="index-item property">
-                                <a href="#property_β">β</a>
-
-                            </li>
-                    </ul>
-                </div>
-
-
-        </div>
-
-            <div id="methods" class="api-class-tabpanel">
-                <h2 class="off-left">Methods</h2>
-
-<div id="method_angle" class="method item">
-    <h3 class="name"><code>angle</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/G1.html" class="crosslink">G1</a></span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G1.ts.html#l122"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G1.ts:122</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/G1.html" class="crosslink">G1</a></span>:
-            </div>
-        </div>
-
-
-</div>
-            </div>
-
-            <div id="properties" class="api-class-tabpanel">
-                <h2 class="off-left">Properties</h2>
-
-<div id="property_beta" class="property item">
-    <h3 class="name"><code>beta</code></h3>
-    <span class="type">Unknown</span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G1.ts.html#l86"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G1.ts:86</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>The pseudoscalar part of this multivector.</p>
-
-    </div>
-
-
-
-</div>
-<div id="property_α" class="property item">
-    <h3 class="name"><code>α</code></h3>
-    <span class="type">Unknown</span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G1.ts.html#l62"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G1.ts:62</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>The scalar part of this multivector.</p>
-
-    </div>
-
-
-
-</div>
-<div id="property_β" class="property item">
-    <h3 class="name"><code>β</code></h3>
-    <span class="type">Unknown</span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G1.ts.html#l74"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G1.ts:74</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>The pseudoscalar part of this multivector.</p>
-
-    </div>
-
-
-
-</div>
-            </div>
-
-
-    </div>
+<h1 class="file-heading">File: src/davinci-eight/math/Quaternion.ts</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+import dotVectorCartesianE3 from &#x27;../math/dotVectorCartesianE3&#x27;;
+import G3 from &#x27;../math/G3&#x27;;
+import dotVector from &#x27;../math/dotVectorE3&#x27;;
+import MutableGeometricElement3D from &#x27;../math/MutableGeometricElement3D&#x27;;
+import Matrix4 from &#x27;../math/Matrix4&#x27;;
+import mustBeInteger from &#x27;../checks/mustBeInteger&#x27;;
+import mustBeNumber from &#x27;../checks/mustBeNumber&#x27;;
+import mustBeObject from &#x27;../checks/mustBeObject&#x27;;
+import notImplemented from &#x27;../i18n/notImplemented&#x27;;
+import Vector3 from &#x27;../math/Vector3&#x27;;
+import TrigMethods from &#x27;../math/TrigMethods&#x27;;
+import VectorE3 from &#x27;../math/VectorE3&#x27;;
+
+/**
+ * @module EIGHT
+ * @submodule math
+ */
+
+const cos = Math.cos
+const sin = Math.sin
+const exp = Math.exp
+
+const EPS = 0.000001;
+
+// This class is for reference only and will remain undocumented and internal.
+// Notice that it is mutable, betraying a usage with animation loops.
+// But there we want to use the Spinor3 spinor, or the full multivector, Geometric3.
+// For comparison QQ and CC are immutable.
+export default class Quaternion implements MutableGeometricElement3D&lt;Quaternion, Quaternion, Quaternion, VectorE3, number, number, number&gt;, TrigMethods&lt;Quaternion&gt; {
+  private x: number;
+  private y: number;
+  private z: number;
+  public t: number;
+  constructor(t = 1, v: VectorE3 = G3.zero) {
+    this.t = mustBeNumber(&#x27;t&#x27;, t)
+    mustBeObject(&#x27;v&#x27;, v)
+    this.x = mustBeNumber(&#x27;v.x&#x27;, v.x)
+    this.y = mustBeNumber(&#x27;v.y&#x27;, v.y)
+    this.z = mustBeNumber(&#x27;v.z&#x27;, v.z)
+  }
+  get v(): VectorE3 {
+    return new G3(0, this.x, this.y, this.z, 0, 0, 0, 0)
+  }
+
+  add(q: Quaternion, α = 1): Quaternion {
+    mustBeObject(&#x27;q&#x27;, q)
+    mustBeNumber(&#x27;α&#x27;, α)
+    this.t += q.t * α
+    this.x += q.x * α
+    this.y += q.y * α
+    this.z += q.z * α
+    return this
+  }
+
+  /**
+   * Intentionally undocumented.
+   */
+  addPseudo(β: number): Quaternion {
+    mustBeNumber(&#x27;β&#x27;, β)
+    return this
+  }
+
+  addScalar(α: number): Quaternion {
+    mustBeNumber(&#x27;α&#x27;, α)
+    this.t += α
+    return this
+  }
+
+  add2(a: Quaternion, b: Quaternion): Quaternion {
+    mustBeObject(&#x27;a&#x27;, a)
+    mustBeObject(&#x27;b&#x27;, b)
+    this.t = a.t + b.t
+    this.x = a.x + b.x
+    this.y = a.y + b.y
+    this.z = a.z + b.z
+    return this
+  }
+
+  adj(): Quaternion {
+    throw new Error(&#x27;TODO: Quaternion.adj&#x27;)
+  }
+
+  angle(): Quaternion {
+    return this.log().grade(2);
+  }
+
+  dual(vector: VectorE3): Quaternion {
+    // TODO
+    return this
+  }
+  clone(): Quaternion {
+    return new Quaternion(this.t, new G3(0, this.x, this.y, this.z, 0, 0, 0, 0))
+  }
+  lco(rhs: Quaternion): Quaternion {
+    return this.lco2(this, rhs)
+  }
+  lco2(a: Quaternion, b: Quaternion): Quaternion {
+    return this
+  }
+  rco(rhs: Quaternion): Quaternion {
+    return this.rco2(this, rhs)
+  }
+  rco2(a: Quaternion, b: Quaternion): Quaternion {
+    return this
+  }
+  conj(): Quaternion {
+    this.x *= -1
+    this.y *= -1
+    this.z *= -1
+    return this;
+  }
+  get coords(): number[] {
+    return []
+  }
+  copy(quaternion: Quaternion): Quaternion {
+    this.x = quaternion.x;
+    this.y = quaternion.y;
+    this.z = quaternion.z;
+    this.t = quaternion.t;
+    return this;
+  }
+  copyScalar(α: number): Quaternion {
+    return this.zero().addScalar(α)
+  }
+  copySpinor(spinor: Quaternion) {
+    this.x = spinor.x
+    this.y = spinor.y
+    this.z = spinor.z
+    this.t = spinor.t
+    return this
+  }
+  copyVector(vector: VectorE3) {
+    return this.zero()
+  }
+  cos(): Quaternion {
+    return this;
+  }
+  cosh(): Quaternion {
+    return this;
+  }
+  div(q: Quaternion): Quaternion {
+    return this.div2(this, q);
+  }
+  div2(a: Quaternion, b: Quaternion): Quaternion {
+    let qax = a.x, qay = a.y, qaz = a.z, qaw = a.t;
+    let qbx = b.x, qby = b.y, qbz = b.z, qbw = b.t;
+    this.x = qax * qbw + qaw * qbx + qay * qbz - qaz * qby;
+    this.y = qay * qbw + qaw * qby + qaz * qbx - qax * qbz;
+    this.z = qaz * qbw + qaw * qbz + qax * qby - qay * qbx;
+    this.t = qaw * qbw - qax * qbx - qay * qby - qaz * qbz;
+    return this;
+  }
+  divByScalar(scalar: number) {
+    return this;
+  }
+  dot(v: Quaternion): number {
+    return this.x * v.x + this.y * v.y + this.z * v.z + this.t * v.t;
+  }
+  exp(): Quaternion {
+    let expT = exp(this.t)
+    let m = dotVectorCartesianE3(this.x, this.y, this.z, this.x, this.y, this.z)
+    let s = m !== 0 ? sin(m) / m : 1
+    this.t = expT * cos(m)
+    this.x = expT * this.x * s
+    this.y = expT * this.y * s
+    this.z = expT * this.z * s
+    return this;
+  }
+  inv(): Quaternion {
+    return this.conj().normalize()
+  }
+  lerp(target: Quaternion, α: number): Quaternion {
+    this.x += (target.x - this.x) * α
+    this.y += (target.y - this.y) * α
+    this.z += (target.z - this.z) * α
+    this.t += (target.t - this.t) * α
+    return this;
+  }
+  lerp2(a: Quaternion, b: Quaternion, α: number): Quaternion {
+    this.copy(a).lerp(b, α)
+    return this
+  }
+  log(): Quaternion {
+    return this
+  }
+
+  magnitude(): number {
+    return Math.sqrt(this.squaredNormSansUnits());
+  }
+
+  magnitudeSansUnits(): number {
+    return Math.sqrt(this.squaredNormSansUnits());
+  }
+
+  mul(q: Quaternion): Quaternion {
+    return this.mul2(this, q);
+  }
+  mul2(a: Quaternion, b: Quaternion): Quaternion {
+    let qax = a.x, qay = a.y, qaz = a.z, qaw = a.t;
+    let qbx = b.x, qby = b.y, qbz = b.z, qbw = b.t;
+    this.x = qax * qbw + qaw * qbx + qay * qbz - qaz * qby;
+    this.y = qay * qbw + qaw * qby + qaz * qbx - qax * qbz;
+    this.z = qaz * qbw + qaw * qbz + qax * qby - qay * qbx;
+    this.t = qaw * qbw - qax * qbx - qay * qby - qaz * qbz;
+    return this;
+  }
+  norm(): Quaternion {
+    this.t = this.squaredNormSansUnits()
+    this.x = 0
+    this.y = 0
+    this.z = 0
+    return this
+  }
+  scale(α: number): Quaternion {
+    mustBeNumber(&#x27;α&#x27;, α)
+    this.t *= α
+    this.x *= α
+    this.y *= α
+    this.z *= α
+    return this;
+  }
+  sin(): Quaternion {
+    return this;
+  }
+  sinh(): Quaternion {
+    return this;
+  }
+  neg(): Quaternion {
+    this.t = -this.t
+    this.x = -this.x
+    this.y = -this.y
+    this.z = -this.z
+    return this;
+  }
+  normalize(): Quaternion {
+    const m = this.magnitudeSansUnits();
+    this.x = this.x / m
+    this.y = this.y / m
+    this.z = this.z / m
+    this.t = this.t / m
+    return this;
+  }
+
+  one(): Quaternion {
+    this.t = 1
+    this.x = 0
+    this.y = 0
+    this.z = 0
+    return this
+  }
+
+  quad(): Quaternion {
+    this.t = this.squaredNormSansUnits()
+    this.x = 0
+    this.y = 0
+    this.z = 0
+    return this
+  }
+
+  squaredNorm(): number {
+    return this.squaredNormSansUnits()
+  }
+
+  squaredNormSansUnits(): number {
+    return this.x * this.x + this.y * this.y + this.z * this.z + this.t * this.t;
+  }
+
+  stress(σ: VectorE3): Quaternion {
+    throw new Error(notImplemented(&#x27;stress&#x27;).message);
+  }
+  reflect(n: VectorE3): Quaternion {
+    throw new Error(&quot;TODO: Quaternion.reflect&quot;);
+  }
+  rev(): Quaternion {
+    this.x *= -1
+    this.y *= -1
+    this.z *= -1
+    return this
+  }
+  rotate(rotor: Quaternion): Quaternion {
+    // FIXME: This would require creating a temporary so we fall back to components.
+    return this.mul2(rotor, this);
+  }
+  rotorFromDirections(a: VectorE3, b: VectorE3): Quaternion {
+    throw new Error(notImplemented(&#x27;rotorFromDirections&#x27;).message);
+  }
+  rotorFromAxisAngle(axis: VectorE3, θ: number): Quaternion {
+    let φ = θ / 2
+    let s = sin(φ)
+    this.x = axis.x * s
+    this.y = axis.y * s
+    this.z = axis.z * s
+    this.t = cos(φ)
+    return this;
+  }
+  rotorFromGeneratorAngle(B: Quaternion, θ: number): Quaternion {
+    let φ = θ / 2
+    let s = sin(φ)
+    this.x = B.x * s
+    this.y = B.y * s
+    this.z = B.z * s
+    this.t = cos(φ)
+    return this;
+  }
+  setFromRotationMatrix(m: Matrix4): Quaternion {
+    // http://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToQuaternion/index.htm
+    // assumes the upper 3x3 of m is a pure rotation matrix (i.e, unscaled)
+    var te = m.elements,
+
+      m11 = te[0], m12 = te[4], m13 = te[8],
+      m21 = te[1], m22 = te[5], m23 = te[9],
+      m31 = te[2], m32 = te[6], m33 = te[10],
+
+      trace = m11 + m22 + m33,
+      s: number;
+
+    if (trace &gt; 0) {
+      s = 0.5 / Math.sqrt(trace + 1.0);
+      this.t = 0.25 / s;
+      this.x = (m32 - m23) * s;
+      this.y = (m13 - m31) * s;
+      this.z = (m21 - m12) * s;
+    }
+    else if (m11 &gt; m22 &amp;&amp; m11 &gt; m33) {
+      s = 2.0 * Math.sqrt(1.0 + m11 - m22 - m33);
+      this.t = (m32 - m23) / s;
+      this.x = 0.25 * s;
+      this.y = (m12 + m21) / s;
+      this.z = (m13 + m31) / s;
+    }
+    else if (m22 &gt; m33) {
+      s = 2.0 * Math.sqrt(1.0 + m22 - m11 - m33);
+      this.t = (m13 - m31) / s;
+      this.x = (m12 + m21) / s;
+      this.y = 0.25 * s;
+      this.z = (m23 + m32) / s;
+    }
+    else {
+      s = 2.0 * Math.sqrt(1.0 + m33 - m11 - m22);
+      this.t = (m21 - m12) / s;
+      this.x = (m13 + m31) / s;
+      this.y = (m23 + m32) / s;
+      this.z = 0.25 * s;
+    }
+    return this;
+  }
+
+  versor(a: VectorE3, b: VectorE3): Quaternion {
+    // TODO: Could create circularity problems.
+    let v1 = new Vector3();
+
+    var r: number = dotVector(a, b) + 1;
+
+    if (r &lt; EPS) {
+      r = 0;
+      if (Math.abs(a.x) &gt; Math.abs(a.z)) {
+        v1.setXYZ(-a.y, a.x, 0);
+      }
+      else {
+        v1.setXYZ(0, -a.z, a.y);
+      }
+    }
+    else {
+      v1.cross2(a, b);
+    }
+    this.x = v1.x;
+    this.y = v1.y;
+    this.z = v1.z;
+    this.t = r;
+    this.normalize();
+    return this;
+  }
+
+  slerp(qb: Quaternion, t: number): Quaternion {
+    if (t === 0) return this;
+    if (t === 1) return this.copy(qb);
+    var x = this.x, y = this.y, z = this.z, w = this.t;
+
+    // http://www.euclideanspace.com/maths/algebra/realNormedAlgebra/quaternions/slerp/
+
+    var cosHHalfTheta = w * qb.t + x * qb.x + y * qb.y + z * qb.z;
+
+    if (cosHHalfTheta &lt; 0) {
+
+      this.t = - qb.t;
+      this.x = - qb.x;
+      this.y = - qb.y;
+      this.z = - qb.z;
+
+      cosHHalfTheta = - cosHHalfTheta;
+
+    }
+    else {
+      this.copy(qb);
+    }
+    if (cosHHalfTheta &gt;= 1.0) {
+      this.t = w;
+      this.x = x;
+      this.y = y;
+      this.z = z;
+      return this;
+    }
+    var halfTheta = Math.acos(cosHHalfTheta);
+    var sinHHalfTheta = Math.sqrt(1.0 - cosHHalfTheta * cosHHalfTheta);
+    if (Math.abs(sinHHalfTheta) &lt; 0.001) {
+      this.t = 0.5 * (w + this.t);
+      this.x = 0.5 * (x + this.x);
+      this.y = 0.5 * (y + this.y);
+      this.z = 0.5 * (z + this.z);
+      return this;
+    }
+    var ratioA = Math.sin((1 - t) * halfTheta) / sinHHalfTheta,
+      ratioB = Math.sin(t * halfTheta) / sinHHalfTheta;
+    this.t = (w * ratioA + this.t * ratioB);
+    this.x = (x * ratioA + this.x * ratioB);
+    this.y = (y * ratioA + this.y * ratioB);
+    this.z = (z * ratioA + this.z * ratioB);
+    return this;
+  }
+  scp(rhs: Quaternion): Quaternion {
+    return this.scp2(this, rhs)
+  }
+  scp2(a: Quaternion, b: Quaternion): Quaternion {
+    return this
+  }
+  sub(q: Quaternion, α = 1) {
+    this.x -= q.x * α
+    this.y -= q.y * α
+    this.z -= q.z * α
+    this.t -= q.t * α
+    return this;
+  }
+  sub2(a: Quaternion, b: Quaternion): Quaternion {
+    this.x = a.x - b.x
+    this.y = a.y - b.y
+    this.z = a.z - b.z
+    this.t = a.t - b.t
+    return this;
+  }
+
+  tan(): Quaternion {
+    return this.sin().div(this.cos())
+  }
+
+  grade(grade: number): Quaternion {
+    mustBeInteger(&#x27;grade&#x27;, grade)
+    switch (grade) {
+      case 0: {
+        this.x = 0;
+        this.y = 0;
+        this.z = 0;
+      }
+        break;
+      case 2: {
+        this.t = 0;
+      }
+        break;
+      default: {
+        this.t = 0;
+        this.x = 0;
+        this.y = 0;
+        this.z = 0;
+      }
+    }
+    return this;
+  }
+
+  toExponential(): string {
+    // FIXME
+    return &quot;TODO Quaternion.toExponential&quot;;
+  }
+  toFixed(fractionDigits?: number): string {
+    // FIXME
+    return &quot;TODO Quaternion.toFixed&quot;;
+  }
+  toPrecision(precision?: number): string {
+    // FIXME
+    return &quot;TODO Quaternion.toPrecision&quot;;
+  }
+  toString(radix?: number): string {
+    // FIXME
+    return &quot;TODO Quaternion.toString&quot;;
+  }
+  equals(quaternion: Quaternion) {
+    return (quaternion.x === this.x) &amp;&amp; (quaternion.y === this.y) &amp;&amp; (quaternion.z === this.z) &amp;&amp; (quaternion.t === this.t);
+  }
+  fromArray(array: number[], offset = 0): Quaternion {
+    this.x = array[offset];
+    this.y = array[offset + 1];
+    this.z = array[offset + 2];
+    this.t = array[offset + 3];
+    return this;
+  }
+  toArray(array: number[] = [], offset = 0): number[] {
+    array[offset] = this.x;
+    array[offset + 1] = this.y;
+    array[offset + 2] = this.z;
+    array[offset + 3] = this.t;
+    return array;
+  }
+  ext(rhs: Quaternion): Quaternion {
+    return this.ext2(this, rhs)
+  }
+  ext2(a: Quaternion, b: Quaternion): Quaternion {
+    return this
+  }
+
+  zero(): Quaternion {
+    this.t = 0
+    this.x = 0
+    this.y = 0
+    this.z = 0
+    return this
+  }
+
+  public static slerp(qa: Quaternion, qb: Quaternion, qm: Quaternion, t: number): Quaternion {
+    return qm.copy(qa).slerp(qb, t);
+  }
+}
+
+    </pre>
 </div>
                     </div>
                 </div>

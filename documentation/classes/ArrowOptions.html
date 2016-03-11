@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.218.0</em>
+            <em>API Docs for: 2.219.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -97,7 +97,6 @@
                                 <li><a href="../classes/Facet.html">Facet</a></li>
                                 <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
-                                <li><a href="../classes/G1.html">G1</a></li>
                                 <li><a href="../classes/G2.html">G2</a></li>
                                 <li><a href="../classes/G3.html">G3</a></li>
                                 <li><a href="../classes/Geometric2.html">Geometric2</a></li>
@@ -273,7 +272,7 @@
         </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_visual_ArrowOptions.ts.html#l10"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;ArrowOptions.ts:10</code></a>
+            Defined in: <a href="../files/src_davinci-eight_visual_ArrowOptions.ts.html#l9"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;ArrowOptions.ts:9</code></a>
         </div>
 
             Module: <a href="../modules/visual.html">visual</a><br>
@@ -307,9 +306,6 @@
                             <li class="index-item attr inherited">
                                 <a href="#attr_attitude">attitude</a>
                             </li>
-                            <li class="index-item attr">
-                                <a href="#attr_axis">axis</a>
-                            </li>
                             <li class="index-item attr inherited">
                                 <a href="#attr_color">color</a>
                             </li>
@@ -324,6 +320,9 @@
                             </li>
                             <li class="index-item attr inherited">
                                 <a href="#attr_tilt">tilt</a>
+                            </li>
+                            <li class="index-item attr">
+                                <a href="#attr_vector">vector</a>
                             </li>
                     </ul>
                 </div>
@@ -365,37 +364,7 @@
                     
                     
                     </div>
-                    <div id="attr_axis" class="attr item">
-                        <a name="config_axis"></a> 
-                        <h3 class="name"><code>axis</code></h3>
-                        <span class="type"><a href="../classes/VectorE3.html" class="crosslink">VectorE3</a></span>
-                    
-                    
-                    
-                    
-                    
-                            <span class="flag optional">optional</span>
-                    
-                    
-                    
-                        <div class="meta">
-                                    <p>
-                                    Defined in
-                            <a href="../files/src_davinci-eight_visual_ArrowOptions.ts.html#l16"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;ArrowOptions.ts:16</code></a>
-                            </p>
-                    
-                    
-                        </div>
-                    
-                        <div class="description">
-                            
-                        </div>
-                    
-                            <p><strong>Default:</strong> e2</p>
-                    
-                    
-                    </div>
-                    <div id="attr_color" class="attr item">
+                    <div id="attr_color" class="attr item inherited">
                         <a name="config_color"></a> 
                         <h3 class="name"><code>color</code></h3>
                         <span class="type"><a href="../classes/AbstractColor.html" class="crosslink">AbstractColor</a></span>
@@ -409,12 +378,9 @@
                     
                     
                         <div class="meta">
-                                <p>Inherited from
-                                <a href="../classes/VisualOptions.html#attr_color">
-                                    VisualOptions
-                                </a>
-                                but overwritten in
-                            <a href="../files/src_davinci-eight_visual_ArrowOptions.ts.html#l24"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;ArrowOptions.ts:24</code></a>
+                                    <p>Inherited from
+                                    <a href="../classes/VisualOptions.html#attr_color">VisualOptions</a>:
+                            <a href="../files/src_davinci-eight_visual_VisualOptions.ts.html#l24"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;VisualOptions.ts:24</code></a>
                             </p>
                     
                     
@@ -486,7 +452,7 @@
                     
                     
                     </div>
-                    <div id="attr_position" class="attr item">
+                    <div id="attr_position" class="attr item inherited">
                         <a name="config_position"></a> 
                         <h3 class="name"><code>position</code></h3>
                         <span class="type"><a href="../classes/VectorE3.html" class="crosslink">VectorE3</a></span>
@@ -500,12 +466,9 @@
                     
                     
                         <div class="meta">
-                                <p>Inherited from
-                                <a href="../classes/VisualOptions.html#attr_position">
-                                    VisualOptions
-                                </a>
-                                but overwritten in
-                            <a href="../files/src_davinci-eight_visual_ArrowOptions.ts.html#l31"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;ArrowOptions.ts:31</code></a>
+                                    <p>Inherited from
+                                    <a href="../classes/VisualOptions.html#attr_position">VisualOptions</a>:
+                            <a href="../files/src_davinci-eight_visual_VisualOptions.ts.html#l46"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;VisualOptions.ts:46</code></a>
                             </p>
                     
                     
@@ -546,6 +509,36 @@
                         </div>
                     
                             <p><strong>Default:</strong> 1</p>
+                    
+                    
+                    </div>
+                    <div id="attr_vector" class="attr item">
+                        <a name="config_vector"></a> 
+                        <h3 class="name"><code>vector</code></h3>
+                        <span class="type"><a href="../classes/VectorE3.html" class="crosslink">VectorE3</a></span>
+                    
+                    
+                    
+                    
+                    
+                            <span class="flag optional">optional</span>
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/src_davinci-eight_visual_ArrowOptions.ts.html#l15"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;ArrowOptions.ts:15</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            
+                        </div>
+                    
+                            <p><strong>Default:</strong> e2</p>
                     
                     
                     </div>

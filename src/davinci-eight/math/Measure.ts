@@ -30,9 +30,10 @@ interface Measure<T> {
     pow(exponent: T): T;
     quad(): T;
     rco(rhs: T): T;
-    toExponential(): string;
-    toFixed(digits?: number): string;
-    toString(): string;
+    toExponential(fractionDigits?: number): string;
+    toFixed(fractionDigits?: number): string;
+    toPrecision(precision?: number): string;
+    toString(radix?: number): string;
     // When the underlying ring is commutative we don't have to specify left or right.
     scale(α: number): T;
     scp(rhs: T): T;

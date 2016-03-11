@@ -13,7 +13,7 @@ function side(tilt: Spinor3, offset: Vector3, basis: Vector3[], uSegments: numbe
     // The normal will be the same for all vertices in the side, so we compute it once here.
     // Perform the stress ant tilt transformations on the tangent bivector before computing the normal.
     const tangent = Spinor3.wedge(basis[0], basis[1]).rotate(tilt)
-    const normal = Vector3.dual(tangent, true).direction()
+    const normal = Vector3.dual(tangent, true).normalize()
 
     const aNeg = Vector3.copy(basis[0]).scale(-0.5)
     const aPos = Vector3.copy(basis[0]).scale(+0.5)
@@ -136,7 +136,7 @@ export default class CuboidPrimitivesBuilder extends PrimitivesBuilder {
     }
     set width(width: number) {
         mustBeNumber('width', width)
-        this._a.direction().scale(width)
+        this._a.normalize().scale(width)
     }
 
     /**
@@ -148,7 +148,7 @@ export default class CuboidPrimitivesBuilder extends PrimitivesBuilder {
     }
     set height(height: number) {
         mustBeNumber('height', height)
-        this._b.direction().scale(height)
+        this._b.normalize().scale(height)
     }
 
     /**
@@ -160,7 +160,7 @@ export default class CuboidPrimitivesBuilder extends PrimitivesBuilder {
     }
     set depth(depth: number) {
         mustBeNumber('depth', depth)
-        this._c.direction().scale(depth)
+        this._c.normalize().scale(depth)
     }
 
     /**

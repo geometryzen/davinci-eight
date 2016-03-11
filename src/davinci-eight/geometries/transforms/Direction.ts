@@ -42,22 +42,22 @@ export default class Direction implements Transform {
         const v = vertex.attributes[this.sourceName]
         if (v) {
             if (v instanceof Vector3) {
-                vertex.attributes[this.sourceName] = v.direction()
+                vertex.attributes[this.sourceName] = v.normalize()
             }
             else if (v instanceof Spinor3) {
-                vertex.attributes[this.sourceName] = v.direction()
+                vertex.attributes[this.sourceName] = v.normalize()
             }
             else if (v instanceof Vector2) {
-                vertex.attributes[this.sourceName] = v.direction()
+                vertex.attributes[this.sourceName] = v.normalize()
             }
             else if (v instanceof Spinor2) {
-                vertex.attributes[this.sourceName] = v.direction()
+                vertex.attributes[this.sourceName] = v.normalize()
             }
             else if (v instanceof Geometric3) {
-                vertex.attributes[this.sourceName] = v.direction()
+                vertex.attributes[this.sourceName] = v.normalize()
             }
             else if (v instanceof Geometric2) {
-                vertex.attributes[this.sourceName] = v.direction()
+                vertex.attributes[this.sourceName] = v.normalize()
             }
             else {
                 throw new Error(`Expecting ${this.sourceName} to be a Vector, Spinor, or Geometric`)

@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.218.0</em>
+            <em>API Docs for: 2.219.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -97,7 +97,6 @@
                                 <li><a href="../classes/Facet.html">Facet</a></li>
                                 <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
-                                <li><a href="../classes/G1.html">G1</a></li>
                                 <li><a href="../classes/G2.html">G2</a></li>
                                 <li><a href="../classes/G3.html">G3</a></li>
                                 <li><a href="../classes/Geometric2.html">Geometric2</a></li>
@@ -276,34 +275,56 @@ import VectorN from &#x27;./VectorN&#x27;
  */
 export default class Coords extends VectorN&lt;number&gt; {
 
-    /**
-     * @class Coords
-     * @param data {number[]}
-     * @param [modified] {boolean}
-     * @param [size] {number}
-     */
-    constructor(data: number[], modified?: boolean, size?: number) {
-        super(data, modified, size)
-    }
+  /**
+   * @class Coords
+   * @param data {number[]}
+   * @param [modified] {boolean}
+   * @param [size] {number}
+   */
+  constructor(data: number[], modified?: boolean, size?: number) {
+    super(data, modified, size)
+  }
 
-    /**
-     * @method approx
-     * @param n {number}
-     * @return {void}
-     */
-    approx(n: number): void {
-        let max = 0
-        const iLen = this._coords.length
-        for (let i = 0; i &lt; iLen; i++) {
-            max = Math.max(max, Math.abs(this._coords[i]))
-        }
-        const threshold = max * Math.pow(10, -n)
-        for (let i = 0; i &lt; iLen; i++) {
-            if (Math.abs(this._coords[i]) &lt; threshold) {
-                this._coords[i] = 0
-            }
-        }
+  /**
+   * @method approx
+   * @param n {number}
+   * @return {void}
+   */
+  approx(n: number): void {
+    let max = 0
+    const iLen = this._coords.length
+    for (let i = 0; i &lt; iLen; i++) {
+      max = Math.max(max, Math.abs(this._coords[i]))
     }
+    const threshold = max * Math.pow(10, -n)
+    for (let i = 0; i &lt; iLen; i++) {
+      if (Math.abs(this._coords[i]) &lt; threshold) {
+        this._coords[i] = 0
+      }
+    }
+  }
+
+  /**
+   * @method equals
+   * @param coords {any}
+   * @return boolean
+   */
+  equals(coords: any): boolean {
+    if (coords instanceof Coords) {
+      const iLen = this._coords.length
+      for (let i = 0; i &lt; iLen; i++) {
+        if (this.coords[i] !== coords[i]) {
+          console.log(&#x60;${i} is different&#x60;)
+          return false
+        }
+      }
+      return true
+    }
+    else {
+      console.log(&#x60;It&#x27;s not a Coords&#x60;)
+      return false
+    }
+  }
 }
 
     </pre>

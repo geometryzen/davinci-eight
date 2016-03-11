@@ -59,7 +59,6 @@ YUI.add("yuidoc-meta", function(Y) {
         "Facet",
         "FacetVisitor",
         "Frustum",
-        "G1",
         "G2",
         "G3",
         "Geometric2",
@@ -227,7 +226,7 @@ YUI.add("yuidoc-meta", function(Y) {
         {
             "displayName": "geometries",
             "name": "geometries",
-            "description": "A convenience class for creating an arrow."
+            "description": "<p>\nA convenience class for creating an arrow.\n</p>\n<p>\nThe initial axis unit vector defaults to <b>e<b><sub>2</sub>\n</p>\n<p>\nThe cutLine unit vector defaults to <b>e<b><sub>3</sub>\n</p>"
         },
         {
             "displayName": "materials",

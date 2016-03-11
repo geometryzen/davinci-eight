@@ -38,7 +38,7 @@ const COORD_B = 2
  * @extends Coords
  * @implements AbstractColor
  */
-export default class Color extends Coords implements AbstractColor, ColumnVector<Matrix3, Color>, MutableLinearElement<AbstractColor, Color, SpinorE3, AbstractColor> {
+export default class Color extends Coords implements AbstractColor, ColumnVector<Matrix3, Color>, MutableLinearElement<AbstractColor, Color, SpinorE3, AbstractColor, number, number> {
 
   /**
    * @property black
@@ -268,11 +268,15 @@ export default class Color extends Coords implements AbstractColor, ColumnVector
     return this
   }
 
-  public toExponential(): string {
+  public toExponential(fractionDigits?: number): string {
     return this.toString()
   }
 
   public toFixed(fractionDigits?: number): string {
+    return this.toString()
+  }
+
+  public toPrecision(precision?: number): string {
     return this.toString()
   }
 

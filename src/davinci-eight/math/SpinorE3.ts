@@ -6,14 +6,17 @@ import Scalar from '../math/Scalar';
  * @extends Scalar
  */
 interface SpinorE3 extends Scalar {
+
     /**
      * The <em>bivector</em> yz-coordinate as a <code>number</code>.
      */
     yz: number;
+
     /**
      * The <em>bivector</em> zx-coordinate as a <code>number</code>.
      */
     zx: number;
+
     /**
      * The <em>bivector</em> xy-coordinate as a <code>number</code>.
      */

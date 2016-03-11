@@ -36,7 +36,7 @@ import VectorE3 from '../math/VectorE3';
  * @class Matrix3
  * @extends AbstractMatrix
  */
-export default class Matrix3 extends AbstractMatrix<Matrix3> implements Matrix<Matrix3, VectorE3, VectorE2>, Ring<Matrix3>, RingOperators<Matrix3> {
+export default class Matrix3 extends AbstractMatrix<Matrix3> implements Matrix<Matrix3, VectorE3, VectorE2>, Ring<Matrix3>, RingOperators<Matrix3, number> {
 
   /**
    * @class Matrix3
@@ -401,13 +401,53 @@ export default class Matrix3 extends AbstractMatrix<Matrix3> implements Matrix<M
   }
 
   /**
-   * @method toString
+   * @method toExponential
+   * @param [fractionDigits] {number}
    * @return {string}
    */
-  toString(): string {
-    let text: string[] = [];
+  toExponential(fractionDigits?: number): string {
+    const text: string[] = [];
     for (var i = 0; i < this.dimensions; i++) {
-      text.push(this.row(i).map(function(element: number, index: number) { return element.toString() }).join(' '));
+      text.push(this.row(i).map(function(element: number, index: number) { return element.toExponential(fractionDigits) }).join(' '));
+    }
+    return text.join('\n');
+  }
+
+  /**
+   * @method toFixed
+   * @param [fractionDigits] {number}
+   * @return {string}
+   */
+  toFixed(fractionDigits?: number): string {
+    const text: string[] = [];
+    for (var i = 0; i < this.dimensions; i++) {
+      text.push(this.row(i).map(function(element: number, index: number) { return element.toFixed(fractionDigits) }).join(' '));
+    }
+    return text.join('\n');
+  }
+
+  /**
+   * @method toPrecision
+   * @param [precision] {number}
+   * @return {string}
+   */
+  toPrecision(precision?: number): string {
+    const text: string[] = [];
+    for (var i = 0; i < this.dimensions; i++) {
+      text.push(this.row(i).map(function(element: number, index: number) { return element.toPrecision(precision) }).join(' '));
+    }
+    return text.join('\n');
+  }
+
+  /**
+   * @method toString
+   * @param [radix] {number}
+   * @return {string}
+   */
+  toString(radix?: number): string {
+    const text: string[] = [];
+    for (var i = 0; i < this.dimensions; i++) {
+      text.push(this.row(i).map(function(element: number, index: number) { return element.toString(radix) }).join(' '));
     }
     return text.join('\n');
   }

@@ -74,7 +74,7 @@ export default function createView(options?: { viewMatrixName?: string }): View 
             up.x = value.x
             up.y = value.y
             up.z = value.z
-            up.direction()
+            up.normalize()
             return self
         },
         get viewMatrix(): Matrix4 {

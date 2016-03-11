@@ -36,7 +36,7 @@ function coordinates(m: VectorE3): number[] {
  * @class Vector3
  * @extends Coords
  */
-export default class Vector3 extends Coords implements ColumnVector<Matrix3, Vector3>, VectorE3, MutableLinearElement<VectorE3, Vector3, SpinorE3, VectorE3> {
+export default class Vector3 extends Coords implements ColumnVector<Matrix3, Vector3>, VectorE3, MutableLinearElement<VectorE3, Vector3, SpinorE3, VectorE3, number, number> {
 
   /**
    * @method dot
@@ -456,11 +456,11 @@ export default class Vector3 extends Coords implements ColumnVector<Matrix3, Vec
    * <p>
    * <code>this ⟼ this / norm(this)</code>
    * </p>
-   * @method direction
+   * @method normalize
    * @return {Vector3} <code>this</code>
    * @chainable
    */
-  direction(): Vector3 {
+  normalize(): Vector3 {
     return this.divByScalar(this.magnitude());
   }
 
@@ -572,29 +572,41 @@ export default class Vector3 extends Coords implements ColumnVector<Matrix3, Vec
 
   /**
    * @method toExponential
+   * @param [fractionDigits] {number}
    * @return {string}
    */
-  toExponential(): string {
-    var coordToString = function(coord: number): string { return coord.toExponential() };
+  toExponential(fractionDigits?: number): string {
+    var coordToString = function(coord: number): string { return coord.toExponential(fractionDigits) };
     return toStringCustom(coordinates(this), void 0, coordToString, BASIS_LABELS)
   }
 
   /**
    * @method toFixed
-   * @param [digits] {number}
+   * @param [fractionDigits] {number}
    * @return {string}
    */
-  toFixed(digits?: number): string {
-    var coordToString = function(coord: number): string { return coord.toFixed(digits) };
+  toFixed(fractionDigits?: number): string {
+    const coordToString = function(coord: number): string { return coord.toFixed(fractionDigits) };
+    return toStringCustom(coordinates(this), void 0, coordToString, BASIS_LABELS)
+  }
+
+  /**
+   * @method toPrecision
+   * @param [precision] {number}
+   * @return {string}
+   */
+  toPrecision(precision?: number): string {
+    const coordToString = function(coord: number): string { return coord.toPrecision(precision) };
     return toStringCustom(coordinates(this), void 0, coordToString, BASIS_LABELS)
   }
 
   /**
    * @method toString
+   * @param [radix] {number}
    * @return {string}
    */
-  toString(): string {
-    var coordToString = function(coord: number): string { return coord.toString() };
+  toString(radix?: number): string {
+    const coordToString = function(coord: number): string { return coord.toString(radix) };
     return toStringCustom(coordinates(this), void 0, coordToString, BASIS_LABELS)
   }
 

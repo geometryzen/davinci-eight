@@ -9,6 +9,8 @@
 interface Matrix<M, V, P> {
     add(rhs: M): M;
     add2(a: M, b: M): M;
+    clone(): M;
+    copy(m: M): M;
     // copyElements(matrix: {elements: Float32Array; dimensions: number}): M;
     det(): number;
     inv(): M;
@@ -16,7 +18,16 @@ interface Matrix<M, V, P> {
     mul2(a: M, b: M): M;
     one(): M;
     reflection(vector: P): M;
+    // rmul(lhs: M): M;
+    scale(s: number): M;
+    toExponential(fractionDigits?: number): string;
+    toFixed(fractionDigits?: number): string;
+    toPrecision(precision?: number): string;
+    toString(radix?: number): string;
+    // translate(vector: d): M;
     translation(vector: P): M;
+    // transpose(): M;
+    zero(): M;
 }
 
 export default Matrix;

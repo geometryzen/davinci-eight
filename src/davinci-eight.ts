@@ -165,7 +165,7 @@ import Vector2 from './davinci-eight/math/Vector2';
 import Vector3 from './davinci-eight/math/Vector3';
 import Vector4 from './davinci-eight/math/Vector4';
 import VectorN from './davinci-eight/math/VectorN';
-import HH from './davinci-eight/math/HH';
+import Quaternion from './davinci-eight/math/Quaternion';
 
 // overlay
 import Overlay from './davinci-eight/overlay/Overlay';

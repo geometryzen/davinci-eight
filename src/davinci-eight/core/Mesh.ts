@@ -180,9 +180,14 @@ export default class Mesh extends Drawable implements AbstractMesh {
    */
   protected getPrincipalScale(name: string): number {
     const geometry = this.geometry
-    const value = geometry.getPrincipalScale(name)
-    geometry.release()
-    return value
+    if (geometry) {
+      const value = geometry.getPrincipalScale(name)
+      geometry.release()
+      return value
+    }
+    else {
+      throw new Error(`getPrincipalScale('${name}') is not available because geometry is not defined.`)
+    }
   }
 
   /**

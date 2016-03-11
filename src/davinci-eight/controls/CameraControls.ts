@@ -186,17 +186,17 @@ export default class CameraControls extends MouseControls {
 
       this.eye.copy(this.camera.position).sub(this.target)
 
-      this.eyeDirection.copy(this.eye).direction()
+      this.eyeDirection.copy(this.eye).normalize()
       // Compute the unit vector pointing in the camera up direction.
       // We assume (and maintain) that the up direction is aligned with e2 in the mouse coordinate frame.
-      this.objectUpDirection.copy(this.camera.up).direction()
+      this.objectUpDirection.copy(this.camera.up).normalize()
       // Compute the unit vector pointing to the viewers right.
       this.objectSidewaysDirection.copy(this.objectUpDirection).cross(this.eyeDirection)
       // Scale these unit vectors (ahem) according to the mouse movements.
       this.objectUpDirection.scale(this.moveCurr.y - this.movePrev.y)
       this.objectSidewaysDirection.scale(this.moveCurr.x - this.movePrev.x)
       // Compute the move direction from the components.
-      this.moveDirection.copy(this.objectUpDirection).add(this.objectSidewaysDirection).direction()
+      this.moveDirection.copy(this.objectUpDirection).add(this.objectSidewaysDirection).normalize()
       // Compute the axis of rotation. This computation appears to be off by a sign (-1),
       // but that's because the camera will move while the scene stays still.
       this.axis.copy(this.moveDirection).cross(this.eyeDirection)
@@ -237,8 +237,8 @@ export default class CameraControls extends MouseControls {
     this.mouseChange.copy(this.panEnd).sub(this.panStart)
     if (this.mouseChange.squaredNorm()) {
       this.mouseChange.scale(this.eye.magnitude() * this.panSpeed)
-      this.pan.copy(this.eye).cross(this.camera.up).direction().scale(this.mouseChange.x)
-      this.objectUp.copy(this.camera.up).direction().scale(this.mouseChange.y)
+      this.pan.copy(this.eye).cross(this.camera.up).normalize().scale(this.mouseChange.x)
+      this.objectUp.copy(this.camera.up).normalize().scale(this.mouseChange.y)
       this.pan.add(this.objectUp)
       this.camera.position.add(this.pan)
       this.target.addVector(this.pan)

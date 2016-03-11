@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.218.0</em>
+            <em>API Docs for: 2.219.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -97,7 +97,6 @@
                                 <li><a href="../classes/Facet.html">Facet</a></li>
                                 <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
-                                <li><a href="../classes/G1.html">G1</a></li>
                                 <li><a href="../classes/G2.html">G2</a></li>
                                 <li><a href="../classes/G3.html">G3</a></li>
                                 <li><a href="../classes/Geometric2.html">Geometric2</a></li>
@@ -273,7 +272,7 @@
         </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_geometries_ArrowBuilder.ts.html#l49"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;ArrowBuilder.ts:49</code></a>
+            Defined in: <a href="../files/src_davinci-eight_geometries_ArrowBuilder.ts.html#l57"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;ArrowBuilder.ts:57</code></a>
         </div>
 
             Module: <a href="../modules/EIGHT.html">EIGHT</a>
@@ -282,7 +281,12 @@
 
 
 <div class="box intro">
-    
+    <p>
+This class does not default the initial <b>axis</b>.
+</p>
+<p>
+This class does not default the <b>cutLine</b>.
+</p>
 </div>
 
     <div class="constructor">
@@ -290,7 +294,19 @@
 <div id="method_ArrowBuilder" class="method item">
     <h3 class="name"><code>ArrowBuilder</code></h3>
 
-        <span class="paren">()</span>
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>axis</code>
+                </li>
+                <li class="arg">
+                        <code>cutLine</code>
+                </li>
+                <li class="arg">
+                        <code>clockwise</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
 
 
 
@@ -302,7 +318,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_geometries_ArrowBuilder.ts.html#l49"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;ArrowBuilder.ts:49</code></a>
+        <a href="../files/src_davinci-eight_geometries_ArrowBuilder.ts.html#l57"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;ArrowBuilder.ts:57</code></a>
         </p>
 
 
@@ -313,6 +329,45 @@
         
     </div>
 
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">axis</code>
+                        <span class="type"><a href="../classes/VectorE3.html" class="crosslink">VectorE3</a></span>
+
+
+                    <div class="param-description">
+                        <p>The direction of the arrow. The argument is normalized to a unit vector.</p>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">cutLine</code>
+                        <span class="type"><a href="../classes/VectorE3.html" class="crosslink">VectorE3</a></span>
+
+
+                    <div class="param-description">
+                        <p>The direction of the start of the arrow slice. The argument is normalized to a unit vector.</p>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">clockwise</code>
+                        <span class="type">Boolean</span>
+
+
+                    <div class="param-description">
+                        <p>The orientation</p>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
 
 
 
@@ -525,7 +580,7 @@
                 PrimitivesBuilder
             </a>
             but overwritten in
-        <a href="../files/src_davinci-eight_geometries_ArrowBuilder.ts.html#l60"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;ArrowBuilder.ts:60</code></a>
+        <a href="../files/src_davinci-eight_geometries_ArrowBuilder.ts.html#l73"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;ArrowBuilder.ts:73</code></a>
         </p>
 
 
@@ -603,7 +658,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_geometries_ArrowBuilder.ts.html#l17"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;ArrowBuilder.ts:17</code></a>
+        <a href="../files/src_davinci-eight_geometries_ArrowBuilder.ts.html#l25"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;ArrowBuilder.ts:25</code></a>
         </p>
 
 
@@ -653,7 +708,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_geometries_ArrowBuilder.ts.html#l24"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;ArrowBuilder.ts:24</code></a>
+        <a href="../files/src_davinci-eight_geometries_ArrowBuilder.ts.html#l32"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;ArrowBuilder.ts:32</code></a>
         </p>
 
 
@@ -678,7 +733,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_geometries_ArrowBuilder.ts.html#l31"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;ArrowBuilder.ts:31</code></a>
+        <a href="../files/src_davinci-eight_geometries_ArrowBuilder.ts.html#l39"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;ArrowBuilder.ts:39</code></a>
         </p>
 
 
@@ -759,7 +814,7 @@ This may be replaced by a Matrix3 in future.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_geometries_ArrowBuilder.ts.html#l38"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;ArrowBuilder.ts:38</code></a>
+        <a href="../files/src_davinci-eight_geometries_ArrowBuilder.ts.html#l46"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;ArrowBuilder.ts:46</code></a>
         </p>
 
 

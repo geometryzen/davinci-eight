@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.218.0</em>
+            <em>API Docs for: 2.219.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -97,7 +97,6 @@
                                 <li><a href="../classes/Facet.html">Facet</a></li>
                                 <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
-                                <li><a href="../classes/G1.html">G1</a></li>
                                 <li><a href="../classes/G2.html">G2</a></li>
                                 <li><a href="../classes/G3.html">G3</a></li>
                                 <li><a href="../classes/Geometric2.html">Geometric2</a></li>
@@ -291,116 +290,124 @@ import GraphicsProgramSymbols from &#x27;../core/GraphicsProgramSymbols&#x27;
  */
 export default class ModelFacet extends ModelE3 implements Facet {
 
-    /**
-     * @property matS
-     * @type Matrix4
-     * @default diag(1, 1, 1, 1)
-     * @private
-     */
-    private matS: Matrix4 = Matrix4.one();
+  /**
+   * @property matS
+   * @type Matrix4
+   * @default diag(1, 1, 1, 1)
+   * @private
+   */
+  private matS: Matrix4 = Matrix4.one();
 
-    private _matM = Matrix4.one()
-    private _matN = Matrix3.one()
-    private matR = Matrix4.one()
-    private matT = Matrix4.one()
+  private _matM = Matrix4.one()
+  private _matN = Matrix3.one()
+  private matR = Matrix4.one()
+  private matT = Matrix4.one()
 
-    /**
-     * &lt;p&gt;
-     * A collection of properties governing GLSL uniforms for Rigid Body Modeling.
-     * &lt;/p&gt;
-     * &lt;p&gt;
-     * In Physics, the composite object may represent a rigid body.
-     * In Computer Graphics, the composite object is a collection of drawing primitives.
-     * &lt;/p&gt;
-     * &lt;p&gt;
-     * ModelFacet implements Facet required for manipulating a composite object.
-     * &lt;/p&gt;
-     * &lt;p&gt;
-     * Constructs a ModelFacet at the origin and with unity attitude.
-     * &lt;/p&gt;
-     * @class ModelFacet
-     * @constructor
-     */
-    constructor() {
-        super()
-        this.position.modified = true
-        this.attitude.modified = true
-        this.matS.modified = true
+  /**
+   * &lt;p&gt;
+   * A collection of properties governing GLSL uniforms for Rigid Body Modeling.
+   * &lt;/p&gt;
+   * &lt;p&gt;
+   * In Physics, the composite object may represent a rigid body.
+   * In Computer Graphics, the composite object is a collection of drawing primitives.
+   * &lt;/p&gt;
+   * &lt;p&gt;
+   * ModelFacet implements Facet required for manipulating a composite object.
+   * &lt;/p&gt;
+   * &lt;p&gt;
+   * Constructs a ModelFacet at the origin and with unity attitude.
+   * &lt;/p&gt;
+   * @class ModelFacet
+   * @constructor
+   */
+  constructor() {
+    super()
+    this.position.modified = true
+    this.attitude.modified = true
+    this.matS.modified = true
+  }
+
+  /**
+   * @property stress
+   * @type Matrix4
+   */
+  get stress(): Matrix4 {
+    return this.matS
+  }
+  set stress(stress: Matrix4) {
+    mustBeObject(&#x27;stress&#x27;, stress)
+    this.matS.copy(stress)
+  }
+
+  /**
+   * @property matrix
+   * @type Matrix4
+   * @readOnly
+   */
+  get matrix(): Matrix4 {
+    return this._matM
+  }
+  set matrix(unused: Matrix4) {
+    throw new Error(readOnly(&#x27;matrix&#x27;).message)
+  }
+
+  /**
+   * @method setUniforms
+   * @param visitor {FacetVisitor}
+   * @return {void}
+   */
+  setUniforms(visitor: FacetVisitor): void {
+    this.updateMatrices()
+
+    visitor.mat4(GraphicsProgramSymbols.UNIFORM_MODEL_MATRIX, this._matM, false)
+    visitor.mat3(GraphicsProgramSymbols.UNIFORM_NORMAL_MATRIX, this._matN, false)
+  }
+
+  private updateMatrices(): void {
+    let modified = false
+
+    if (this.position.modified) {
+      this.matT.translation(this.position)
+      this.position.modified = false
+      modified = true;
+    }
+    if (this.attitude.modified) {
+      this.matR.rotation(this.attitude)
+      this.attitude.modified = false
+      modified = true
+    }
+    if (this.matS.modified) {
+      modified = true
     }
 
-    /**
-     * @property stress
-     * @type Matrix4
-     */
-    get stress(): Matrix4 {
-        return this.matS
+    if (modified) {
+      this._matM.copy(this.matT).mul(this.matR).mul(this.matS)
+      if (this._matM.det() !== 0) {
+        this._matN.normalFromMatrix4(this._matM)
+      }
+      else {
+        // If the scaling matrix determinant is zero, so too will be the matrix M.
+        // If M is singular then it will not be possible to compute the matrix for transforming normals.
+        // In any case, the geometry not be visible.
+        // So we just set the normals matrix to the identity.
+        this._matN.one()
+      }
     }
-    set stress(stress: Matrix4) {
-        mustBeObject(&#x27;stress&#x27;, stress)
-        this.matS.copy(stress)
-    }
+  }
 
-    /**
-     * @property matrix
-     * @type Matrix4
-     * @readOnly
-     */
-    get matrix(): Matrix4 {
-        return this._matM
-    }
-    set matrix(unused: Matrix4) {
-        throw new Error(readOnly(&#x27;matrix&#x27;).message)
-    }
-
-    /**
-     * @method setUniforms
-     * @param visitor {FacetVisitor}
-     * @return {void}
-     */
-    setUniforms(visitor: FacetVisitor): void {
-        this.updateMatrices()
-
-        visitor.mat4(GraphicsProgramSymbols.UNIFORM_MODEL_MATRIX, this._matM, false)
-        visitor.mat3(GraphicsProgramSymbols.UNIFORM_NORMAL_MATRIX, this._matN, false)
-    }
-
-    private updateMatrices(): void {
-        let modified = false
-
-        if (this.position.modified) {
-            this.matT.translation(this.position)
-            this.position.modified = false
-            modified = true;
-        }
-        if (this.attitude.modified) {
-            this.matR.rotation(this.attitude)
-            this.attitude.modified = false
-            modified = true
-        }
-        if (this.matS.modified) {
-            modified = true
-        }
-
-        if (modified) {
-            this._matM.copy(this.matT).mul(this.matR).mul(this.matS)
-            // The normal matrix is computed directly from the model matrix and cached.
-            this._matN.normalFromMatrix4(this._matM)
-        }
-    }
-
-    /**
-     * @method setProperty
-     * @param name {string}
-     * @param data {number[]}
-     * @return {ModelFacet}
-     * @chainable
-     */
-    setProperty(name: string, data: number[]): ModelFacet {
-        mustBeString(&#x27;name&#x27;, name);
-        mustBeArray(&#x27;data&#x27;, data);
-        super.setProperty(name, data);
-        return this;
-    }
+  /**
+   * @method setProperty
+   * @param name {string}
+   * @param data {number[]}
+   * @return {ModelFacet}
+   * @chainable
+   */
+  setProperty(name: string, data: number[]): ModelFacet {
+    mustBeString(&#x27;name&#x27;, name);
+    mustBeArray(&#x27;data&#x27;, data);
+    super.setProperty(name, data);
+    return this;
+  }
 }
 
     </pre>

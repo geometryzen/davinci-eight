@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.218.0</em>
+            <em>API Docs for: 2.219.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -97,7 +97,6 @@
                                 <li><a href="../classes/Facet.html">Facet</a></li>
                                 <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
-                                <li><a href="../classes/G1.html">G1</a></li>
                                 <li><a href="../classes/G2.html">G2</a></li>
                                 <li><a href="../classes/G3.html">G3</a></li>
                                 <li><a href="../classes/Geometric2.html">Geometric2</a></li>
@@ -269,6 +268,7 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
+import arraysEQ from &#x27;./arraysEQ&#x27;;
 import b2 from &#x27;../geometries/b2&#x27;;
 import b3 from &#x27;../geometries/b3&#x27;;
 import Coords from &#x27;./Coords&#x27;;
@@ -385,7 +385,7 @@ function duckCopy(value: any): Geometric2 {
  * @extends Coords
  * @beta
  */
-export default class Geometric2 extends Coords implements GeometricE2, Measure&lt;Geometric2&gt;, MutableGeometricElement&lt;GeometricE2, Geometric2, SpinorE2, VectorE2&gt;, GeometricOperators&lt;Geometric2&gt; {
+export default class Geometric2 extends Coords implements GeometricE2, Measure&lt;Geometric2&gt;, MutableGeometricElement&lt;GeometricE2, Geometric2, SpinorE2, VectorE2, number, number, number&gt;, GeometricOperators&lt;Geometric2, number&gt; {
 
   /**
    * @property BASIS_LABELS
@@ -712,15 +712,6 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
   }
 
   /**
-   * @method equals
-   * @param M {GeometricE2}
-   * @return {boolean}
-   */
-  equals(M: GeometricE2): boolean {
-    throw new Error(notImplemented(&#x27;equals&#x27;).message)
-  }
-
-  /**
    * &lt;p&gt;
    * &lt;code&gt;this ⟼ copy(M)&lt;/code&gt;
    * &lt;/p&gt;
@@ -815,12 +806,12 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
    * &lt;code&gt;this ⟼ this / magnitude(this)&lt;/code&gt;
    * &lt;/p&gt;
    *
-   * @method direction
+   * @method normalize
    * @return {Geometric2} &lt;code&gt;this&lt;/code&gt;
    * @chainable
    */
-  direction(): Geometric2 {
-    const norm = sqrt(this.squaredNormSansUnits())
+  normalize(): Geometric2 {
+    const norm: number = this.magnitude()
     this.α = this.α / norm
     this.x = this.x / norm
     this.y = this.y / norm
@@ -912,6 +903,21 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
     this.y = y
     this.β = β
     return this
+  }
+
+  /**
+   * @method equals
+   * @param other {any}
+   * @return {boolean}
+   */
+  equals(other: any): boolean {
+    if (other instanceof Geometric2) {
+      const that: Geometric2 = other
+      return arraysEQ(this.coords, that.coords)
+    }
+    else {
+      return false
+    }
   }
 
   /**
@@ -1131,13 +1137,18 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
   }
 
   /**
+   * &lt;p&gt;
    * Computes the &lt;em&gt;square root&lt;/em&gt; of the &lt;em&gt;squared norm&lt;/em&gt;.
+   * &lt;/p&gt;
+   * &lt;p&gt;
+   * This method does not change this multivector.
+   * &lt;/p&gt;
    *
    * @method magnitude
-   * @return {Geometric2}
+   * @return {number}
    */
-  magnitude(): Geometric2 {
-    return this.norm();
+  magnitude(): number {
+    return sqrt(this.squaredNormSansUnits());
   }
 
   /**
@@ -1557,17 +1568,18 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
   }
 
   /**
+   * &lt;p&gt;
    * Computes the &lt;em&gt;squared norm&lt;/em&gt; of this &lt;code&gt;Geometric2&lt;/code&gt; multivector.
+   * &lt;/p&gt;
+   * &lt;p&gt;
+   * This method does not change this multivector.
+   * &lt;/p&gt;
    *
    * @method squaredNorm
-   * @return {number} &lt;code&gt;this | ~this&lt;/code&gt;
+   * @return {number}
    */
-  squaredNorm(): Geometric2 {
-    this.α = this.squaredNormSansUnits()
-    this.x = 0
-    this.y = 0
-    this.β = 0
-    return this
+  squaredNorm(): number {
+    return this.squaredNormSansUnits()
   }
 
   /**
@@ -1627,10 +1639,11 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
    * Returns a string representing the number in exponential notation.
    *
    * @method toExponential
+   * @param [fractionDigits] {number}
    * @return {string}
    */
-  toExponential(): string {
-    var coordToString = function(coord: number): string { return coord.toExponential() };
+  toExponential(fractionDigits?: number): string {
+    var coordToString = function(coord: number): string { return coord.toExponential(fractionDigits) };
     return stringFromCoordinates(coordinates(this), coordToString, Geometric2.BASIS_LABELS)
   }
 
@@ -1647,13 +1660,24 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure&l
   }
 
   /**
+   * @method toPrecision
+   * @param [precision] {number}
+   * @return {string}
+   */
+  toPrecision(precision?: number): string {
+    var coordToString = function(coord: number): string { return coord.toPrecision(precision) };
+    return stringFromCoordinates(coordinates(this), coordToString, Geometric2.BASIS_LABELS)
+  }
+
+  /**
    * Returns a string representation of the number.
    *
    * @method toString
+   * @param [radix] {number}
    * @return {string} 
    */
-  toString(): string {
-    const coordToString = function(coord: number): string { return coord.toString() };
+  toString(radix?: number): string {
+    const coordToString = function(coord: number): string { return coord.toString(radix) };
     return stringFromCoordinates(coordinates(this), coordToString, Geometric2.BASIS_LABELS)
   }
 

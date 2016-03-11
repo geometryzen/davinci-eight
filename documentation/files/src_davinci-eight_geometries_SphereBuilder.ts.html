@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.218.0</em>
+            <em>API Docs for: 2.219.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -97,7 +97,6 @@
                                 <li><a href="../classes/Facet.html">Facet</a></li>
                                 <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
-                                <li><a href="../classes/G1.html">G1</a></li>
                                 <li><a href="../classes/G2.html">G2</a></li>
                                 <li><a href="../classes/G3.html">G3</a></li>
                                 <li><a href="../classes/Geometric2.html">Geometric2</a></li>
@@ -340,10 +339,10 @@ function makeTriangles(points: Vector3[], uvs: Vector2[], radius: number, height
             var v3: number = vertexIndex(qIndex, 3, widthSegments)
 
             // The normal vectors for the sphere are simply the normalized position vectors.
-            var n0: Vector3 = Vector3.copy(points[v0]).direction();
-            var n1: Vector3 = Vector3.copy(points[v1]).direction();
-            var n2: Vector3 = Vector3.copy(points[v2]).direction();
-            var n3: Vector3 = Vector3.copy(points[v3]).direction();
+            var n0: Vector3 = Vector3.copy(points[v0]).normalize();
+            var n1: Vector3 = Vector3.copy(points[v1]).normalize();
+            var n2: Vector3 = Vector3.copy(points[v2]).normalize();
+            var n3: Vector3 = Vector3.copy(points[v3]).normalize();
 
             // Grab the uv coordinates too.
             var uv0: Vector2 = uvs[v0].clone();
@@ -380,10 +379,10 @@ function makeLineSegments(points: Vector3[], uvs: Vector2[], radius: number, hei
             var v3: number = vertexIndex(qIndex, 3, widthSegments)
 
             // The normal vectors for the sphere are simply the normalized position vectors.
-            var n0: Vector3 = Vector3.copy(points[v0]).direction();
-            var n1: Vector3 = Vector3.copy(points[v1]).direction();
-            var n2: Vector3 = Vector3.copy(points[v2]).direction();
-            var n3: Vector3 = Vector3.copy(points[v3]).direction();
+            var n0: Vector3 = Vector3.copy(points[v0]).normalize();
+            var n1: Vector3 = Vector3.copy(points[v1]).normalize();
+            var n2: Vector3 = Vector3.copy(points[v2]).normalize();
+            var n3: Vector3 = Vector3.copy(points[v3]).normalize();
 
             // Grab the uv coordinates too.
             var uv0: Vector2 = uvs[v0].clone();
@@ -421,10 +420,10 @@ function makePoints(points: Vector3[], uvs: Vector2[], radius: number, heightSeg
             var v3: number = vertexIndex(qIndex, 3, widthSegments)
 
             // The normal vectors for the sphere are simply the normalized position vectors.
-            var n0: Vector3 = Vector3.copy(points[v0]).direction();
-            var n1: Vector3 = Vector3.copy(points[v1]).direction();
-            var n2: Vector3 = Vector3.copy(points[v2]).direction();
-            var n3: Vector3 = Vector3.copy(points[v3]).direction();
+            var n0: Vector3 = Vector3.copy(points[v0]).normalize();
+            var n1: Vector3 = Vector3.copy(points[v1]).normalize();
+            var n2: Vector3 = Vector3.copy(points[v2]).normalize();
+            var n3: Vector3 = Vector3.copy(points[v3]).normalize();
 
             // Grab the uv coordinates too.
             var uv0: Vector2 = uvs[v0].clone();

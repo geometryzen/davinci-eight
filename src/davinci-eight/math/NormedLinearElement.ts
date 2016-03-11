@@ -1,6 +1,6 @@
 import LinearElement from './LinearElement'
 
-interface NormedLinearElement<I, M, S, V, MAGNITUDE> extends LinearElement<I, M, S, V, MAGNITUDE> {
+interface NormedLinearElement<I, M, S, V, MAGNITUDE, SCALING> extends LinearElement<I, M, S, V, MAGNITUDE, SCALING> {
     magnitude(): MAGNITUDE
     squaredNorm(): MAGNITUDE
 }

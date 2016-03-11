@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.218.0</em>
+            <em>API Docs for: 2.219.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -97,7 +97,6 @@
                                 <li><a href="../classes/Facet.html">Facet</a></li>
                                 <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
-                                <li><a href="../classes/G1.html">G1</a></li>
                                 <li><a href="../classes/G2.html">G2</a></li>
                                 <li><a href="../classes/G3.html">G3</a></li>
                                 <li><a href="../classes/Geometric2.html">Geometric2</a></li>
@@ -270,7 +269,7 @@
 
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_math_G3.ts.html#l78"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:78</code></a>
+            Defined in: <a href="../files/src_davinci-eight_math_G3.ts.html#l214"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:214</code></a>
         </div>
 
             Module: <a href="../modules/math.html">math</a><br>
@@ -280,9 +279,189 @@
 
 
 <div class="box intro">
-    
+    <p>
+The <code>G3</code> class represents a multivector for a 3-dimensional vector space with a Euclidean metric.
+</p>
+<p>
+The <code>G3</code> class is immutable, making it easy to reason about values.
+</p>
+<p>
+The <code>G3</code> class supports units of measures.
+</p>
+<p>
+The immutable nature of the <p>G3</p> makes it less suitable for high performance graphics applications.
+</p>
 </div>
 
+    <div class="constructor">
+        <h2>Constructor</h2>
+<div id="method_G3" class="method item">
+    <h3 class="name"><code>G3</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>α</code>
+                </li>
+                <li class="arg">
+                        <code>x</code>
+                </li>
+                <li class="arg">
+                        <code>y</code>
+                </li>
+                <li class="arg">
+                        <code>z</code>
+                </li>
+                <li class="arg">
+                        <code>xy</code>
+                </li>
+                <li class="arg">
+                        <code>yz</code>
+                </li>
+                <li class="arg">
+                        <code>zx</code>
+                </li>
+                <li class="arg">
+                        <code>β</code>
+                </li>
+                <li class="arg">
+                        <code class="optional">[uom]</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l214"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:214</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">α</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                        <p>The scalar part of the multivector.</p>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">x</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                        <p>The vector component of the multivector in the x-direction.</p>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">y</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                        <p>The vector component of the multivector in the y-direction.</p>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">z</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                        <p>The vector component of the multivector in the z-direction.</p>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">xy</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                        <p>The bivector component of the multivector in the xy-plane.</p>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">yz</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                        <p>The bivector component of the multivector in the yz-plane.</p>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">zx</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                        <p>The bivector component of the multivector in the zx-plane.</p>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">β</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                        <p>The pseudoscalar part of the multivector.</p>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name optional">[uom]</code>
+                        <span class="type">Object</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+
+
+                    <div class="param-description">
+                        <p>The optional unit of measure.</p>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+
+
+</div>
+    </div>
 
 <div id="classdocs" class="tabview">
     <ul class="api-class-tabs">
@@ -592,6 +771,10 @@
 
                             </li>
                             <li class="index-item method">
+                                <a href="#method_stress">stress</a>
+
+                            </li>
+                            <li class="index-item method">
                                 <a href="#method_sub">sub</a>
 
                             </li>
@@ -605,6 +788,10 @@
                             </li>
                             <li class="index-item method">
                                 <a href="#method_toFixed">toFixed</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_toPrecision">toPrecision</a>
 
                             </li>
                             <li class="index-item method">
@@ -778,7 +965,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l464"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:464</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l477"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:477</code></a>
         </p>
 
 
@@ -795,7 +982,7 @@
             <ul class="params-list">
                 <li class="param">
                         <code class="param-name">rhs</code>
-                        <span class="type">Number | <a href="../classes/G3.html" class="crosslink">G3</a></span>
+                        <span class="type"><a href="../classes/Unit.html" class="crosslink">Unit</a> | <a href="../classes/G3.html" class="crosslink">G3</a></span>
 
 
                     <div class="param-description">
@@ -830,12 +1017,13 @@
 
 
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l874"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:874</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l909"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:909</code></a>
         </p>
 
 
@@ -877,12 +1065,13 @@
 
 
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l661"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:661</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l681"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:681</code></a>
         </p>
 
 
@@ -940,12 +1129,13 @@
 
 
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l793"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:793</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l822"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:822</code></a>
         </p>
 
 
@@ -1008,7 +1198,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l604"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:604</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l621"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:621</code></a>
         </p>
 
 
@@ -1060,12 +1250,13 @@
 
 
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l900"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:900</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l939"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:939</code></a>
         </p>
 
 
@@ -1102,12 +1293,13 @@
 
 
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l883"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:883</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l919"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:919</code></a>
         </p>
 
 
@@ -1155,7 +1347,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l479"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:479</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l492"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:492</code></a>
         </p>
 
 
@@ -1172,7 +1364,7 @@
             <ul class="params-list">
                 <li class="param">
                         <code class="param-name">lhs</code>
-                        <span class="type">Number | <a href="../classes/G3.html" class="crosslink">G3</a></span>
+                        <span class="type"><a href="../classes/Unit.html" class="crosslink">Unit</a> | <a href="../classes/G3.html" class="crosslink">G3</a></span>
 
 
                     <div class="param-description">
@@ -1218,7 +1410,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l676"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:676</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l697"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:697</code></a>
         </p>
 
 
@@ -1276,12 +1468,13 @@
 
 
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l808"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:808</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l838"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:838</code></a>
         </p>
 
 
@@ -1344,7 +1537,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l619"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:619</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l636"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:636</code></a>
         </p>
 
 
@@ -1402,12 +1595,13 @@
 
 
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l849"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:849</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l882"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:882</code></a>
         </p>
 
 
@@ -1465,12 +1659,13 @@
 
 
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l834"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:834</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l866"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:866</code></a>
         </p>
 
 
@@ -1533,7 +1728,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l578"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:578</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l594"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:594</code></a>
         </p>
 
 
@@ -1550,7 +1745,7 @@
             <ul class="params-list">
                 <li class="param">
                         <code class="param-name">lhs</code>
-                        <span class="type">Any</span>
+                        <span class="type"><a href="../classes/Unit.html" class="crosslink">Unit</a> | <a href="../classes/G3.html" class="crosslink">G3</a></span>
 
 
                     <div class="param-description">
@@ -1591,12 +1786,13 @@
 
 
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l737"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:737</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l762"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:762</code></a>
         </p>
 
 
@@ -1654,12 +1850,13 @@
 
 
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l767"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:767</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l794"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:794</code></a>
         </p>
 
 
@@ -1722,7 +1919,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l562"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:562</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l578"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:578</code></a>
         </p>
 
 
@@ -1739,7 +1936,7 @@
             <ul class="params-list">
                 <li class="param">
                         <code class="param-name">rhs</code>
-                        <span class="type">Any</span>
+                        <span class="type"><a href="../classes/Unit.html" class="crosslink">Unit</a> | <a href="../classes/G3.html" class="crosslink">G3</a></span>
 
 
                     <div class="param-description">
@@ -1774,12 +1971,13 @@
 
 
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l918"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:918</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l959"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:959</code></a>
         </p>
 
 
@@ -1822,12 +2020,13 @@
 
 
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l722"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:722</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l746"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:746</code></a>
         </p>
 
 
@@ -1885,12 +2084,13 @@
 
 
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l752"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:752</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l778"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:778</code></a>
         </p>
 
 
@@ -1947,12 +2147,13 @@
 
 
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l424"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:424</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l436"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:436</code></a>
         </p>
 
 
@@ -2019,7 +2220,7 @@ This method does not change this G3.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l441"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:441</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l454"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:454</code></a>
         </p>
 
 
@@ -2037,7 +2238,7 @@ This method does not change this G3.</p>
             <ul class="params-list">
                 <li class="param">
                         <code class="param-name">β</code>
-                        <span class="type">Number</span>
+                        <span class="type"><a href="../classes/Unit.html" class="crosslink">Unit</a></span>
 
 
                     <div class="param-description">
@@ -2053,8 +2254,6 @@ This method does not change this G3.</p>
 
             <div class="returns-description">
                         <span class="type"><a href="../classes/G3.html" class="crosslink">G3</a></span>:
-                    <p><code>this</code></p>
-
             </div>
         </div>
 
@@ -2067,9 +2266,6 @@ This method does not change this G3.</p>
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
                         <code>α</code>
-                </li>
-                <li class="arg">
-                        <code class="optional">[uom]</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
@@ -2088,7 +2284,7 @@ This method does not change this G3.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l452"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:452</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l466"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:466</code></a>
         </p>
 
 
@@ -2106,18 +2302,7 @@ This method does not change this G3.</p>
             <ul class="params-list">
                 <li class="param">
                         <code class="param-name">α</code>
-                        <span class="type">Number</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name optional">[uom]</code>
                         <span class="type"><a href="../classes/Unit.html" class="crosslink">Unit</a></span>
-                        <span class="flag optional" title="This parameter is optional.">optional</span>
 
 
                     <div class="param-description">
@@ -2133,8 +2318,6 @@ This method does not change this G3.</p>
 
             <div class="returns-description">
                         <span class="type"><a href="../classes/G3.html" class="crosslink">G3</a></span>:
-                    <p><code>this</code></p>
-
             </div>
         </div>
 
@@ -2159,7 +2342,7 @@ This method does not change this G3.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l494"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:494</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l507"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:507</code></a>
         </p>
 
 
@@ -2194,12 +2377,13 @@ This method does not change this G3.</p>
 
 
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l504"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:504</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l517"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:517</code></a>
         </p>
 
 
@@ -2216,6 +2400,8 @@ This method does not change this G3.</p>
 
             <div class="returns-description">
                         <span class="type"><a href="../classes/G3.html" class="crosslink">G3</a></span>:
+                    <p>grade(log(M), 2)</p>
+
             </div>
         </div>
 
@@ -2240,7 +2426,7 @@ This method does not change this G3.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l512"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:512</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l526"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:526</code></a>
         </p>
 
 
@@ -2288,7 +2474,7 @@ The grade multiplier is -1<sup>x(x+1)/2</sup></p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l396"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:396</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l408"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:408</code></a>
         </p>
 
 
@@ -2349,12 +2535,13 @@ The grade multiplier is -1<sup>x(x+1)/2</sup></p>
 
         <span class="flag static">static</span>
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l1371"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1371</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l1457"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1457</code></a>
         </p>
 
 
@@ -2416,12 +2603,13 @@ The grade multiplier is -1<sup>x(x+1)/2</sup></p>
 
 
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l1011"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1011</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l1056"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1056</code></a>
         </p>
 
 
@@ -2456,12 +2644,13 @@ The grade multiplier is -1<sup>x(x+1)/2</sup></p>
 
 
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l1022"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1022</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l1068"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1068</code></a>
         </p>
 
 
@@ -2502,12 +2691,13 @@ The grade multiplier is -1<sup>x(x+1)/2</sup></p>
 
 
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l957"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:957</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l1000"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1000</code></a>
         </p>
 
 
@@ -2579,7 +2769,7 @@ The grade multiplier is -1<sup>x(x+1)/2</sup></p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l523"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:523</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l537"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:537</code></a>
         </p>
 
 
@@ -2659,7 +2849,7 @@ The grade multiplier is -1<sup>x(x+1)/2</sup></p>
         </div>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/R3.html" class="crosslink">R3</a></span>
+            <span class="type"><a href="../classes/G3.html" class="crosslink">G3</a></span>
         </span>
 
 
@@ -2667,12 +2857,13 @@ The grade multiplier is -1<sup>x(x+1)/2</sup></p>
 
         <span class="flag static">static</span>
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l1382"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1382</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l1469"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1469</code></a>
         </p>
 
 
@@ -2704,7 +2895,7 @@ The grade multiplier is -1<sup>x(x+1)/2</sup></p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/R3.html" class="crosslink">R3</a></span>:
+                        <span class="type"><a href="../classes/G3.html" class="crosslink">G3</a></span>:
             </div>
         </div>
 
@@ -2723,12 +2914,13 @@ The grade multiplier is -1<sup>x(x+1)/2</sup></p>
 
 
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l539"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:539</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l553"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:553</code></a>
         </p>
 
 
@@ -2774,7 +2966,7 @@ The grade multiplier is -1<sup>x(x+1)/2</sup></p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l1030"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1030</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l1077"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1077</code></a>
         </p>
 
 
@@ -2831,12 +3023,13 @@ The grade multiplier is -1<sup>x(x+1)/2</sup></p>
 
 
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l643"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:643</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l661"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:661</code></a>
         </p>
 
 
@@ -2893,12 +3086,13 @@ The grade multiplier is -1<sup>x(x+1)/2</sup></p>
 
 
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l652"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:652</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l671"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:671</code></a>
         </p>
 
 
@@ -2949,12 +3143,13 @@ The grade multiplier is -1<sup>x(x+1)/2</sup></p>
 
 
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l691"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:691</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l712"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:712</code></a>
         </p>
 
 
@@ -3000,7 +3195,7 @@ The grade multiplier is -1<sup>x(x+1)/2</sup></p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l1043"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1043</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l1090"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1090</code></a>
         </p>
 
 
@@ -3051,12 +3246,13 @@ The grade multiplier is -1<sup>x(x+1)/2</sup></p>
 
 
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l1073"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1073</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l1120"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1120</code></a>
         </p>
 
 
@@ -3097,12 +3293,13 @@ The grade multiplier is -1<sup>x(x+1)/2</sup></p>
 
 
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l711"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:711</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l734"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:734</code></a>
         </p>
 
 
@@ -3190,7 +3387,7 @@ The grade multiplier is -1<sup>x(x+1)/2</sup></p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l369"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:369</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l381"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:381</code></a>
         </p>
 
 
@@ -3329,12 +3526,13 @@ The grade multiplier is -1<sup>x(x+1)/2</sup></p>
 
         <span class="flag static">static</span>
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l1397"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1397</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l1485"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1485</code></a>
         </p>
 
 
@@ -3395,12 +3593,13 @@ The grade multiplier is -1<sup>x(x+1)/2</sup></p>
 
         <span class="flag static">static</span>
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l1413"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1413</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l1502"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1502</code></a>
         </p>
 
 
@@ -3468,12 +3667,13 @@ The grade multiplier is -1<sup>x(x+1)/2</sup></p>
 
 
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l928"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:928</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l970"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:970</code></a>
         </p>
 
 
@@ -3524,12 +3724,13 @@ The grade multiplier is -1<sup>x(x+1)/2</sup></p>
 
 
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l1092"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1092</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l1140"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1140</code></a>
         </p>
 
 
@@ -3570,7 +3771,7 @@ The grade multiplier is -1<sup>x(x+1)/2</sup></p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l985"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:985</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l1029"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1029</code></a>
         </p>
 
 
@@ -3610,7 +3811,7 @@ The grade multiplier is -1<sup>x(x+1)/2</sup></p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l993"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:993</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l1037"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1037</code></a>
         </p>
 
 
@@ -3651,12 +3852,13 @@ The grade multiplier is -1<sup>x(x+1)/2</sup></p>
 
 
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l782"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:782</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l810"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:810</code></a>
         </p>
 
 
@@ -3716,12 +3918,13 @@ The grade multiplier is -1<sup>x(x+1)/2</sup></p>
 
 
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l1001"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1001</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l1045"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1045</code></a>
         </p>
 
 
@@ -3782,12 +3985,13 @@ The grade multiplier is -1<sup>x(x+1)/2</sup></p>
 
 
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l1127"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1127</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l1176"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1176</code></a>
         </p>
 
 
@@ -3822,12 +4026,13 @@ The grade multiplier is -1<sup>x(x+1)/2</sup></p>
 
 
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l1135"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1135</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l1185"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1185</code></a>
         </p>
 
 
@@ -3869,12 +4074,13 @@ The grade multiplier is -1<sup>x(x+1)/2</sup></p>
 
 
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l593"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:593</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l609"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:609</code></a>
         </p>
 
 
@@ -3925,12 +4131,13 @@ The grade multiplier is -1<sup>x(x+1)/2</sup></p>
 
 
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l893"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:893</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l930"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:930</code></a>
         </p>
 
 
@@ -3967,12 +4174,13 @@ The grade multiplier is -1<sup>x(x+1)/2</sup></p>
 
 
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l1148"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1148</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l1202"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1202</code></a>
         </p>
 
 
@@ -4014,12 +4222,13 @@ The grade multiplier is -1<sup>x(x+1)/2</sup></p>
 
 
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l864"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:864</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l898"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:898</code></a>
         </p>
 
 
@@ -4070,12 +4279,13 @@ The grade multiplier is -1<sup>x(x+1)/2</sup></p>
 
 
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l1157"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1157</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l1212"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1212</code></a>
         </p>
 
 
@@ -4123,12 +4333,13 @@ The grade multiplier is -1<sup>x(x+1)/2</sup></p>
 
 
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l1166"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1166</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l1222"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1222</code></a>
         </p>
 
 
@@ -4206,12 +4417,13 @@ The grade multiplier is -1<sup>x(x+1)/2</sup></p>
 
         <span class="flag static">static</span>
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l1429"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1429</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l1519"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1519</code></a>
         </p>
 
 
@@ -4270,12 +4482,13 @@ The grade multiplier is -1<sup>x(x+1)/2</sup></p>
 
 
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l823"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:823</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l854"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:854</code></a>
         </p>
 
 
@@ -4332,12 +4545,13 @@ The grade multiplier is -1<sup>x(x+1)/2</sup></p>
 
 
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l1196"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1196</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l1263"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1263</code></a>
         </p>
 
 
@@ -4389,12 +4603,13 @@ The grade multiplier is -1<sup>x(x+1)/2</sup></p>
 
 
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l910"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:910</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l950"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:950</code></a>
         </p>
 
 
@@ -4435,12 +4650,13 @@ The grade multiplier is -1<sup>x(x+1)/2</sup></p>
 
 
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l1208"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1208</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l1276"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1276</code></a>
         </p>
 
 
@@ -4501,12 +4717,13 @@ The grade multiplier is -1<sup>x(x+1)/2</sup></p>
 
         <span class="flag static">static</span>
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l1439"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1439</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l1530"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1530</code></a>
         </p>
 
 
@@ -4574,12 +4791,13 @@ The grade multiplier is -1<sup>x(x+1)/2</sup></p>
 
 
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l634"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:634</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l651"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:651</code></a>
         </p>
 
 
@@ -4636,12 +4854,13 @@ The grade multiplier is -1<sup>x(x+1)/2</sup></p>
 
 
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l700"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:700</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l722"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:722</code></a>
         </p>
 
 
@@ -4692,12 +4911,13 @@ The grade multiplier is -1<sup>x(x+1)/2</sup></p>
 
 
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l1240"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1240</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l1309"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1309</code></a>
         </p>
 
 
@@ -4732,12 +4952,13 @@ The grade multiplier is -1<sup>x(x+1)/2</sup></p>
 
 
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l1251"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1251</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l1321"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1321</code></a>
         </p>
 
 
@@ -4781,12 +5002,13 @@ The grade multiplier is -1<sup>x(x+1)/2</sup></p>
 
 
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l1259"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1259</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l1330"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1330</code></a>
         </p>
 
 
@@ -4847,12 +5069,13 @@ The grade multiplier is -1<sup>x(x+1)/2</sup></p>
 
 
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l1269"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1269</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l1341"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1341</code></a>
         </p>
 
 
@@ -4887,12 +5110,13 @@ The grade multiplier is -1<sup>x(x+1)/2</sup></p>
 
 
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l1180"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1180</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l1237"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1237</code></a>
         </p>
 
 
@@ -4903,6 +5127,69 @@ The grade multiplier is -1<sup>x(x+1)/2</sup></p>
         
     </div>
 
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/G3.html" class="crosslink">G3</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_stress" class="method item">
+    <h3 class="name"><code>stress</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>σ</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/G3.html" class="crosslink">G3</a></span>
+        </span>
+
+
+
+
+
+        <span class="flag chainable">chainable</span>
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l1253"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1253</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">σ</code>
+                        <span class="type"><a href="../classes/VectorE3.html" class="crosslink">VectorE3</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
 
         <div class="returns">
             <h4>Returns:</h4>
@@ -4933,12 +5220,13 @@ The grade multiplier is -1<sup>x(x+1)/2</sup></p>
 
 
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l547"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:547</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l562"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:562</code></a>
         </p>
 
 
@@ -4989,12 +5277,13 @@ The grade multiplier is -1<sup>x(x+1)/2</sup></p>
 
 
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l1277"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1277</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l1350"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1350</code></a>
         </p>
 
 
@@ -5019,50 +5308,10 @@ The grade multiplier is -1<sup>x(x+1)/2</sup></p>
 <div id="method_toExponential" class="method item">
     <h3 class="name"><code>toExponential</code></h3>
 
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type">String</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l1304"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1304</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">String</span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_toFixed" class="method item">
-    <h3 class="name"><code>toFixed</code></h3>
-
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
-                        <code class="optional">[digits]</code>
+                        <code class="optional">[fractionDigits]</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
@@ -5080,7 +5329,7 @@ The grade multiplier is -1<sup>x(x+1)/2</sup></p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l1313"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1313</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l1378"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1378</code></a>
         </p>
 
 
@@ -5096,7 +5345,133 @@ The grade multiplier is -1<sup>x(x+1)/2</sup></p>
 
             <ul class="params-list">
                 <li class="param">
-                        <code class="param-name optional">[digits]</code>
+                        <code class="param-name optional">[fractionDigits]</code>
+                        <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">String</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_toFixed" class="method item">
+    <h3 class="name"><code>toFixed</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code class="optional">[fractionDigits]</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">String</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l1388"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1388</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name optional">[fractionDigits]</code>
+                        <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">String</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_toPrecision" class="method item">
+    <h3 class="name"><code>toPrecision</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code class="optional">[precision]</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">String</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l1398"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1398</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name optional">[precision]</code>
                         <span class="type">Number</span>
                         <span class="flag optional" title="This parameter is optional.">optional</span>
 
@@ -5122,7 +5497,13 @@ The grade multiplier is -1<sup>x(x+1)/2</sup></p>
 <div id="method_toString" class="method item">
     <h3 class="name"><code>toString</code></h3>
 
-        <span class="paren">()</span>
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code class="optional">[radix]</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
 
         <span class="returns-inline">
             <span class="type">String</span>
@@ -5137,7 +5518,7 @@ The grade multiplier is -1<sup>x(x+1)/2</sup></p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l1323"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1323</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l1408"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1408</code></a>
         </p>
 
 
@@ -5148,6 +5529,23 @@ The grade multiplier is -1<sup>x(x+1)/2</sup></p>
         
     </div>
 
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name optional">[radix]</code>
+                        <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
 
         <div class="returns">
             <h4>Returns:</h4>
@@ -5188,12 +5586,13 @@ The grade multiplier is -1<sup>x(x+1)/2</sup></p>
 
         <span class="flag static">static</span>
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l1450"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1450</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l1542"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1542</code></a>
         </p>
 
 
@@ -5279,7 +5678,7 @@ The grade multiplier is -1<sup>x(x+1)/2</sup></p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l184"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:184</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l197"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:197</code></a>
         </p>
 
 
@@ -5305,7 +5704,7 @@ This should be convenient and efficient for tensor calculations.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l251"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:251</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l263"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:263</code></a>
         </p>
 
 
@@ -5331,7 +5730,7 @@ This should be convenient and efficient for tensor calculations.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l156"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:156</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l169"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:169</code></a>
         </p>
 
 
@@ -5355,7 +5754,7 @@ This should be convenient and efficient for tensor calculations.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l87"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:87</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l100"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:100</code></a>
         </p>
 
 
@@ -5379,7 +5778,7 @@ This should be convenient and efficient for tensor calculations.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l355"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:355</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l367"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:367</code></a>
         </p>
 
 
@@ -5406,7 +5805,7 @@ The pseudoscalar coordinate of this multivector.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l177"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:177</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l190"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:190</code></a>
         </p>
 
 
@@ -5430,7 +5829,7 @@ The pseudoscalar coordinate of this multivector.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l388"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:388</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l400"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:400</code></a>
         </p>
 
 
@@ -5455,7 +5854,7 @@ The pseudoscalar coordinate of this multivector.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l149"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:149</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l162"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:162</code></a>
         </p>
 
 
@@ -5480,7 +5879,7 @@ The pseudoscalar coordinate of this multivector.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l107"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:107</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l120"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:120</code></a>
         </p>
 
 
@@ -5505,7 +5904,7 @@ The pseudoscalar coordinate of this multivector.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l114"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:114</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l127"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:127</code></a>
         </p>
 
 
@@ -5530,7 +5929,7 @@ The pseudoscalar coordinate of this multivector.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l121"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:121</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l134"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:134</code></a>
         </p>
 
 
@@ -5555,7 +5954,7 @@ The pseudoscalar coordinate of this multivector.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l163"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:163</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l176"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:176</code></a>
         </p>
 
 
@@ -5580,7 +5979,7 @@ The pseudoscalar coordinate of this multivector.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l128"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:128</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l141"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:141</code></a>
         </p>
 
 
@@ -5605,7 +6004,7 @@ The pseudoscalar coordinate of this multivector.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l135"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:135</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l148"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:148</code></a>
         </p>
 
 
@@ -5630,7 +6029,7 @@ The pseudoscalar coordinate of this multivector.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l170"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:170</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l183"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:183</code></a>
         </p>
 
 
@@ -5655,7 +6054,7 @@ The pseudoscalar coordinate of this multivector.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l100"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:100</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l113"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:113</code></a>
         </p>
 
 
@@ -5680,7 +6079,7 @@ The pseudoscalar coordinate of this multivector.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l142"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:142</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l155"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:155</code></a>
         </p>
 
 
@@ -5704,7 +6103,7 @@ The pseudoscalar coordinate of this multivector.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l194"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:194</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l207"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:207</code></a>
         </p>
 
 
@@ -5729,7 +6128,7 @@ The pseudoscalar coordinate of this multivector.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l263"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:263</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l275"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:275</code></a>
         </p>
 
 
@@ -5754,7 +6153,7 @@ The pseudoscalar coordinate of this multivector.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l302"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:302</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l314"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:314</code></a>
         </p>
 
 
@@ -5779,7 +6178,7 @@ The pseudoscalar coordinate of this multivector.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l276"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:276</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l288"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:288</code></a>
         </p>
 
 
@@ -5804,7 +6203,7 @@ The pseudoscalar coordinate of this multivector.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l315"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:315</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l327"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:327</code></a>
         </p>
 
 
@@ -5829,7 +6228,7 @@ The pseudoscalar coordinate of this multivector.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l289"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:289</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l301"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:301</code></a>
         </p>
 
 
@@ -5855,7 +6254,7 @@ The pseudoscalar coordinate of this multivector.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l93"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:93</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l106"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:106</code></a>
         </p>
 
 
@@ -5879,7 +6278,7 @@ The pseudoscalar coordinate of this multivector.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l328"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:328</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l340"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:340</code></a>
         </p>
 
 
@@ -5904,7 +6303,7 @@ The pseudoscalar coordinate of this multivector.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l239"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:239</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l251"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:251</code></a>
         </p>
 
 
@@ -5929,7 +6328,7 @@ The pseudoscalar coordinate of this multivector.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l341"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:341</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l353"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:353</code></a>
         </p>
 
 

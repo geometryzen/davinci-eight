@@ -44,7 +44,7 @@ export default class ConeTransform implements Transform {
     constructor(e: VectorE3, cutLine: VectorE3, clockwise: boolean, sliceAngle: number, aPosition: string, aTangent: string) {
         this.e = R3.direction(e)
         this.cutLine = R3.direction(cutLine)
-        this.b = new Vector3().cross2(e, cutLine).direction()
+        this.b = new Vector3().cross2(e, cutLine).normalize()
         this.clockwise = mustBeBoolean('clockwise', clockwise)
         this.sliceAngle = mustBeNumber('sliceAngle', sliceAngle)
         this.aPosition = mustBeString('aPosition', aPosition)

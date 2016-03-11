@@ -182,10 +182,10 @@ export default class CylinderBuilder extends SliceSimplexPrimitivesBuilder {
           const v4: number = vertices[i][j + 1]
 
           // Compute the normals and normalize them
-          const n1 = Vector3.dual(tangents[v1], true).direction()
-          const n2 = Vector3.dual(tangents[v2], true).direction()
-          const n3 = Vector3.dual(tangents[v3], true).direction()
-          const n4 = Vector3.dual(tangents[v4], true).direction()
+          const n1 = Vector3.dual(tangents[v1], true).normalize()
+          const n2 = Vector3.dual(tangents[v2], true).normalize()
+          const n3 = Vector3.dual(tangents[v3], true).normalize()
+          const n4 = Vector3.dual(tangents[v4], true).normalize()
 
           const uv1 = uvs[i][j].clone()
           const uv2 = uvs[i + 1][j].clone()

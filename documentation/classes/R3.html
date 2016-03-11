@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.218.0</em>
+            <em>API Docs for: 2.219.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -97,7 +97,6 @@
                                 <li><a href="../classes/Facet.html">Facet</a></li>
                                 <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
-                                <li><a href="../classes/G1.html">G1</a></li>
                                 <li><a href="../classes/G2.html">G2</a></li>
                                 <li><a href="../classes/G3.html">G3</a></li>
                                 <li><a href="../classes/Geometric2.html">Geometric2</a></li>
@@ -270,7 +269,7 @@
 
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_math_R3.ts.html#l80"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:80</code></a>
+            Defined in: <a href="../files/src_davinci-eight_math_R3.ts.html#l84"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:84</code></a>
         </div>
 
             Module: <a href="../modules/math.html">math</a><br>
@@ -322,7 +321,7 @@ owing to the cost of creating temporary objects and unit computation.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R3.ts.html#l80"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:80</code></a>
+        <a href="../files/src_davinci-eight_math_R3.ts.html#l84"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:84</code></a>
         </p>
 
 
@@ -392,6 +391,10 @@ owing to the cost of creating temporary objects and unit computation.
 
                     <ul class="index-list methods">
                             <li class="index-item method">
+                                <a href="#method___add__">__add__</a>
+
+                            </li>
+                            <li class="index-item method">
                                 <a href="#method_add">add</a>
 
                             </li>
@@ -455,6 +458,10 @@ owing to the cost of creating temporary objects and unit computation.
                             </li>
                             <li class="index-item method">
                                 <a href="#method_toFixed">toFixed</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_toPrecision">toPrecision</a>
 
                             </li>
                             <li class="index-item method">
@@ -526,6 +533,68 @@ owing to the cost of creating temporary objects and unit computation.
             <div id="methods" class="api-class-tabpanel">
                 <h2 class="off-left">Methods</h2>
 
+<div id="method___add__" class="method item">
+    <h3 class="name"><code>__add__</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>rhs</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/R3.html" class="crosslink">R3</a></span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_R3.ts.html#l344"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:344</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">rhs</code>
+                        <span class="type"><a href="../classes/R3.html" class="crosslink">R3</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/R3.html" class="crosslink">R3</a></span>:
+            </div>
+        </div>
+
+
+</div>
 <div id="method_add" class="method item">
     <h3 class="name"><code>add</code></h3>
 
@@ -553,7 +622,7 @@ owing to the cost of creating temporary objects and unit computation.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R3.ts.html#l151"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:151</code></a>
+        <a href="../files/src_davinci-eight_math_R3.ts.html#l155"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:155</code></a>
         </p>
 
 
@@ -628,7 +697,7 @@ owing to the cost of creating temporary objects and unit computation.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R3.ts.html#l340"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:340</code></a>
+        <a href="../files/src_davinci-eight_math_R3.ts.html#l371"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:371</code></a>
         </p>
 
 
@@ -636,8 +705,12 @@ owing to the cost of creating temporary objects and unit computation.
     </div>
 
     <div class="description">
-        <p>Creates a new R3 with the same direction as the supplied vector.</p>
-
+        <p>
+Creates a new R3 with the same direction as the supplied vector.
+</p>
+<p>
+If the input is <code>undefined</code> then the output is <code>undefined</code>.
+</p>
     </div>
 
         <div class="params">
@@ -691,7 +764,7 @@ owing to the cost of creating temporary objects and unit computation.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R3.ts.html#l161"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:161</code></a>
+        <a href="../files/src_davinci-eight_math_R3.ts.html#l165"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:165</code></a>
         </p>
 
 
@@ -758,7 +831,7 @@ owing to the cost of creating temporary objects and unit computation.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R3.ts.html#l328"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:328</code></a>
+        <a href="../files/src_davinci-eight_math_R3.ts.html#l359"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:359</code></a>
         </p>
 
 
@@ -833,7 +906,7 @@ owing to the cost of creating temporary objects and unit computation.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R3.ts.html#l170"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:170</code></a>
+        <a href="../files/src_davinci-eight_math_R3.ts.html#l174"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:174</code></a>
         </p>
 
 
@@ -899,7 +972,7 @@ owing to the cost of creating temporary objects and unit computation.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R3.ts.html#l180"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:180</code></a>
+        <a href="../files/src_davinci-eight_math_R3.ts.html#l184"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:184</code></a>
         </p>
 
 
@@ -939,7 +1012,7 @@ owing to the cost of creating temporary objects and unit computation.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R3.ts.html#l188"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:188</code></a>
+        <a href="../files/src_davinci-eight_math_R3.ts.html#l192"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:192</code></a>
         </p>
 
 
@@ -985,7 +1058,7 @@ owing to the cost of creating temporary objects and unit computation.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R3.ts.html#l196"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:196</code></a>
+        <a href="../files/src_davinci-eight_math_R3.ts.html#l200"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:200</code></a>
         </p>
 
 
@@ -1047,7 +1120,7 @@ owing to the cost of creating temporary objects and unit computation.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R3.ts.html#l205"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:205</code></a>
+        <a href="../files/src_davinci-eight_math_R3.ts.html#l209"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:209</code></a>
         </p>
 
 
@@ -1109,7 +1182,7 @@ owing to the cost of creating temporary objects and unit computation.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R3.ts.html#l232"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:232</code></a>
+        <a href="../files/src_davinci-eight_math_R3.ts.html#l236"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:236</code></a>
         </p>
 
 
@@ -1174,7 +1247,7 @@ owing to the cost of creating temporary objects and unit computation.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R3.ts.html#l241"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:241</code></a>
+        <a href="../files/src_davinci-eight_math_R3.ts.html#l245"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:245</code></a>
         </p>
 
 
@@ -1241,7 +1314,7 @@ owing to the cost of creating temporary objects and unit computation.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R3.ts.html#l251"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:251</code></a>
+        <a href="../files/src_davinci-eight_math_R3.ts.html#l255"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:255</code></a>
         </p>
 
 
@@ -1287,7 +1360,7 @@ owing to the cost of creating temporary objects and unit computation.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R3.ts.html#l262"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:262</code></a>
+        <a href="../files/src_davinci-eight_math_R3.ts.html#l266"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:266</code></a>
         </p>
 
 
@@ -1352,7 +1425,7 @@ owing to the cost of creating temporary objects and unit computation.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R3.ts.html#l271"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:271</code></a>
+        <a href="../files/src_davinci-eight_math_R3.ts.html#l275"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:275</code></a>
         </p>
 
 
@@ -1404,46 +1477,6 @@ owing to the cost of creating temporary objects and unit computation.
 <div id="method_toExponential" class="method item">
     <h3 class="name"><code>toExponential</code></h3>
 
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type">String</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_R3.ts.html#l300"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:300</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">String</span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_toFixed" class="method item">
-    <h3 class="name"><code>toFixed</code></h3>
-
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
@@ -1465,7 +1498,7 @@ owing to the cost of creating temporary objects and unit computation.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R3.ts.html#l309"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:309</code></a>
+        <a href="../files/src_davinci-eight_math_R3.ts.html#l304"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:304</code></a>
         </p>
 
 
@@ -1504,10 +1537,16 @@ owing to the cost of creating temporary objects and unit computation.
 
 
 </div>
-<div id="method_toString" class="method item">
-    <h3 class="name"><code>toString</code></h3>
+<div id="method_toFixed" class="method item">
+    <h3 class="name"><code>toFixed</code></h3>
 
-        <span class="paren">()</span>
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code class="optional">[fractionDigits]</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
 
         <span class="returns-inline">
             <span class="type">String</span>
@@ -1522,7 +1561,7 @@ owing to the cost of creating temporary objects and unit computation.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R3.ts.html#l319"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:319</code></a>
+        <a href="../files/src_davinci-eight_math_R3.ts.html#l314"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:314</code></a>
         </p>
 
 
@@ -1533,6 +1572,149 @@ owing to the cost of creating temporary objects and unit computation.
         
     </div>
 
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name optional">[fractionDigits]</code>
+                        <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">String</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_toPrecision" class="method item">
+    <h3 class="name"><code>toPrecision</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code class="optional">[precision]</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">String</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_R3.ts.html#l324"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:324</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name optional">[precision]</code>
+                        <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">String</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_toString" class="method item">
+    <h3 class="name"><code>toString</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code class="optional">[radix]</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">String</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_R3.ts.html#l334"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:334</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name optional">[radix]</code>
+                        <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
 
         <div class="returns">
             <h4>Returns:</h4>
@@ -1576,7 +1758,7 @@ owing to the cost of creating temporary objects and unit computation.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R3.ts.html#l357"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:357</code></a>
+        <a href="../files/src_davinci-eight_math_R3.ts.html#l398"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:398</code></a>
         </p>
 
 
@@ -1651,7 +1833,7 @@ owing to the cost of creating temporary objects and unit computation.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R3.ts.html#l34"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:34</code></a>
+        <a href="../files/src_davinci-eight_math_R3.ts.html#l38"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:38</code></a>
         </p>
 
 
@@ -1676,7 +1858,7 @@ owing to the cost of creating temporary objects and unit computation.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R3.ts.html#l41"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:41</code></a>
+        <a href="../files/src_davinci-eight_math_R3.ts.html#l45"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:45</code></a>
         </p>
 
 
@@ -1701,7 +1883,7 @@ owing to the cost of creating temporary objects and unit computation.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R3.ts.html#l56"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:56</code></a>
+        <a href="../files/src_davinci-eight_math_R3.ts.html#l60"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:60</code></a>
         </p>
 
 
@@ -1726,7 +1908,7 @@ owing to the cost of creating temporary objects and unit computation.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R3.ts.html#l64"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:64</code></a>
+        <a href="../files/src_davinci-eight_math_R3.ts.html#l68"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:68</code></a>
         </p>
 
 
@@ -1751,7 +1933,7 @@ owing to the cost of creating temporary objects and unit computation.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R3.ts.html#l72"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:72</code></a>
+        <a href="../files/src_davinci-eight_math_R3.ts.html#l76"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:76</code></a>
         </p>
 
 
@@ -1775,7 +1957,7 @@ owing to the cost of creating temporary objects and unit computation.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R3.ts.html#l139"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:139</code></a>
+        <a href="../files/src_davinci-eight_math_R3.ts.html#l143"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:143</code></a>
         </p>
 
 
@@ -1799,7 +1981,7 @@ owing to the cost of creating temporary objects and unit computation.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R3.ts.html#l103"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:103</code></a>
+        <a href="../files/src_davinci-eight_math_R3.ts.html#l107"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:107</code></a>
         </p>
 
 
@@ -1823,7 +2005,7 @@ owing to the cost of creating temporary objects and unit computation.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R3.ts.html#l115"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:115</code></a>
+        <a href="../files/src_davinci-eight_math_R3.ts.html#l119"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:119</code></a>
         </p>
 
 
@@ -1847,7 +2029,7 @@ owing to the cost of creating temporary objects and unit computation.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R3.ts.html#l127"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:127</code></a>
+        <a href="../files/src_davinci-eight_math_R3.ts.html#l131"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:131</code></a>
         </p>
 
 
@@ -1872,7 +2054,7 @@ owing to the cost of creating temporary objects and unit computation.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R3.ts.html#l48"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:48</code></a>
+        <a href="../files/src_davinci-eight_math_R3.ts.html#l52"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:52</code></a>
         </p>
 
 

@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.218.0</em>
+            <em>API Docs for: 2.219.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -97,7 +97,6 @@
                                 <li><a href="../classes/Facet.html">Facet</a></li>
                                 <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
-                                <li><a href="../classes/G1.html">G1</a></li>
                                 <li><a href="../classes/G2.html">G2</a></li>
                                 <li><a href="../classes/G3.html">G3</a></li>
                                 <li><a href="../classes/Geometric2.html">Geometric2</a></li>
@@ -272,145 +271,158 @@
 import AxialPrimitivesBuilder from &#x27;./AxialPrimitivesBuilder&#x27;;
 import ConicalShellBuilder from &#x27;./ConicalShellBuilder&#x27;;
 import CylindricalShellBuilder from &#x27;./CylindricalShellBuilder&#x27;;
-import GeometryBuilder from &#x27;./GeometryBuilder&#x27;
-import Primitive from &#x27;../core/Primitive&#x27;
-import RingBuilder from &#x27;../geometries/RingBuilder&#x27;
-import R3 from &#x27;../math/R3&#x27;
-import Vector3 from &#x27;../math/Vector3&#x27;
-import VectorE3 from &#x27;../math/VectorE3&#x27;
+import GeometryBuilder from &#x27;./GeometryBuilder&#x27;;
+import mustBeDefined from &#x27;../checks/mustBeDefined&#x27;;
+import Primitive from &#x27;../core/Primitive&#x27;;
+import RingBuilder from &#x27;../geometries/RingBuilder&#x27;;
+import R3 from &#x27;../math/R3&#x27;;
+import Vector3 from &#x27;../math/Vector3&#x27;;
+import VectorE3 from &#x27;../math/VectorE3&#x27;;
 
 /**
+ * &lt;p&gt;
+ * This class does not default the initial &lt;b&gt;axis&lt;/b&gt;.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * This class does not default the &lt;b&gt;cutLine&lt;/b&gt;.
+ * &lt;/p&gt;
+ *
  * @class ArrowBuilder
  * @extends AxialPrimitivesBuilder
  */
 export default class ArrowBuilder extends AxialPrimitivesBuilder implements GeometryBuilder {
 
+  /**
+   * @property heightCone
+   * @type number
+   * @default 0.2
+   */
+  public heightCone: number = 0.20;
+
+  /**
+   * @property radiusCone
+   * @type number
+   * @default 0.08
+   */
+  public radiusCone: number = 0.08;
+
+  /**
+   * @property radiusShaft
+   * @type number
+   * @default 0.01
+   */
+  public radiusShaft: number = 0.01;
+
+  /**
+   * @property thetaSegments
+   * @type number
+   * @default 16
+   */
+  public thetaSegments = 16;
+
+  private e: R3;
+  private cutLine: R3;
+  private clockwise: boolean;
+
+  /**
+   * @class ArrowBuilder
+   * @constructor
+   * @param axis {VectorE3} The direction of the arrow. The argument is normalized to a unit vector.
+   * @param cutLine {VectorE3} The direction of the start of the arrow slice. The argument is normalized to a unit vector.
+   * @param clockwise {boolean} The orientation
+   */
+  constructor(axis: VectorE3, cutLine: VectorE3, clockwise: boolean) {
+    super()
+    mustBeDefined(&#x27;axis&#x27;, axis)
+    mustBeDefined(&#x27;cutLine&#x27;, cutLine)
+    this.e = R3.direction(axis)
+    this.cutLine = R3.direction(cutLine)
+    this.clockwise = clockwise
+  }
+
+  /**
+   * @method toPrimitives
+   * @return {Primitive[]}
+   */
+  toPrimitives(): Primitive[] {
+
+    const heightShaft = 1 - this.heightCone
     /**
-     * @property heightCone
-     * @type number
-     * @default 0.2
+     * The opposite direction to the axis.
      */
-    public heightCone: number = 0.20;
+    const back = this.e.neg()
 
     /**
-     * @property radiusCone
-     * @type number
-     * @default 0.08
+     * The neck is the place where the cone meets the shaft. 
      */
-    public radiusCone: number = 0.08;
+    const neck = Vector3.copy(this.e).scale(heightShaft).add(this.offset)
+    neck.rotate(this.tilt)
 
     /**
-     * @property radiusShaft
-     * @type number
-     * @default 0.01
+     * The tail is the the position of the blunt end of the arrow.
      */
-    public radiusShaft: number = 0.01;
+    const tail = Vector3.copy(this.offset)
+    tail.rotate(this.tilt)
 
     /**
-     * @property thetaSegments
-     * @type number
-     * @default 16
+     * The &#x60;cone&#x60; forms the head of the arrow.
      */
-    public thetaSegments = 16;
-
-    private e: R3;
-    private cutLine: R3;
-    private clockwise: boolean;
+    const cone = new ConicalShellBuilder(this.e, this.cutLine, this.clockwise)
+    // Use the radius and height helpers instead of the scale.
+    cone.radius = this.radiusCone
+    cone.height = this.heightCone
+    cone.tilt.mul(this.tilt)
+    cone.offset.copy(neck)
+    cone.sliceAngle = this.sliceAngle
+    cone.thetaSegments = this.thetaSegments
+    cone.useNormal = this.useNormal
+    cone.usePosition = this.usePosition
+    cone.useTextureCoord = this.useTextureCoord
 
     /**
-     * @class ArrowBuilder
-     * @constructor
+     * The &#x60;disc&#x60; fills the space between the cone and the shaft.
      */
-    constructor(e: VectorE3, cutLine: VectorE3, clockwise: boolean) {
-        super()
-        this.e = R3.direction(e)
-        this.cutLine = R3.direction(cutLine)
-        this.clockwise = clockwise
-    }
+    const disc = new RingBuilder(back, this.cutLine, !this.clockwise)
+    disc.innerRadius = this.radiusShaft
+    disc.outerRadius = this.radiusCone
+    disc.tilt.mul(this.tilt)
+    disc.offset.copy(neck)
+    disc.sliceAngle = this.sliceAngle
+    disc.thetaSegments = this.thetaSegments
+    disc.useNormal = this.useNormal
+    disc.usePosition = this.usePosition
+    disc.useTextureCoord = this.useTextureCoord
 
     /**
-     * @method toPrimitives
-     * @return {Primitive[]}
+     * The &#x60;shaft&#x60; is the slim part of the arrow.
      */
-    toPrimitives(): Primitive[] {
+    const shaft = new CylindricalShellBuilder(this.e, this.cutLine, this.clockwise)
+    shaft.radius = this.radiusShaft
+    shaft.height = heightShaft
+    shaft.tilt.mul(this.tilt)
+    shaft.offset.copy(tail)
+    shaft.sliceAngle = this.sliceAngle
+    shaft.thetaSegments = this.thetaSegments
+    shaft.useNormal = this.useNormal
+    shaft.usePosition = this.usePosition
+    shaft.useTextureCoord = this.useTextureCoord
 
-        const heightShaft = 1 - this.heightCone
-        /**
-         * The opposite direction to the axis.
-         */
-        const back = this.e.neg()
+    /**
+     * The &#x60;plug&#x60; fills the end of the shaft.
+     */
+    const plug = new RingBuilder(back, this.cutLine, !this.clockwise)
+    plug.innerRadius = 0
+    plug.outerRadius = this.radiusShaft
+    plug.tilt.mul(this.tilt)
+    plug.offset.copy(tail)
+    plug.sliceAngle = this.sliceAngle
+    plug.thetaSegments = this.thetaSegments
+    plug.useNormal = this.useNormal
+    plug.usePosition = this.usePosition
+    plug.useTextureCoord = this.useTextureCoord
 
-        /**
-         * The neck is the place where the cone meets the shaft. 
-         */
-        const neck = Vector3.copy(this.e).scale(heightShaft).add(this.offset)
-        neck.rotate(this.tilt)
-
-        /**
-         * The tail is the the position of the blunt end of the arrow.
-         */
-        const tail = Vector3.copy(this.offset)
-        tail.rotate(this.tilt)
-
-        /**
-         * The &#x60;cone&#x60; forms the head of the arrow.
-         */
-        const cone = new ConicalShellBuilder(this.e, this.cutLine, this.clockwise)
-        // Use the radius and height helpers instead of the scale.
-        cone.radius = this.radiusCone
-        cone.height = this.heightCone
-        cone.tilt.mul(this.tilt)
-        cone.offset.copy(neck)
-        cone.sliceAngle = this.sliceAngle
-        cone.thetaSegments = this.thetaSegments
-        cone.useNormal = this.useNormal
-        cone.usePosition = this.usePosition
-        cone.useTextureCoord = this.useTextureCoord
-
-        /**
-         * The &#x60;disc&#x60; fills the space between the cone and the shaft.
-         */
-        const disc = new RingBuilder(back, this.cutLine, !this.clockwise)
-        disc.innerRadius = this.radiusShaft
-        disc.outerRadius = this.radiusCone
-        disc.tilt.mul(this.tilt)
-        disc.offset.copy(neck)
-        disc.sliceAngle = this.sliceAngle
-        disc.thetaSegments = this.thetaSegments
-        disc.useNormal = this.useNormal
-        disc.usePosition = this.usePosition
-        disc.useTextureCoord = this.useTextureCoord
-
-        /**
-         * The &#x60;shaft&#x60; is the slim part of the arrow.
-         */
-        const shaft = new CylindricalShellBuilder(this.e, this.cutLine, this.clockwise)
-        shaft.radius = this.radiusShaft
-        shaft.height = heightShaft
-        shaft.tilt.mul(this.tilt)
-        shaft.offset.copy(tail)
-        shaft.sliceAngle = this.sliceAngle
-        shaft.thetaSegments = this.thetaSegments
-        shaft.useNormal = this.useNormal
-        shaft.usePosition = this.usePosition
-        shaft.useTextureCoord = this.useTextureCoord
-
-        /**
-         * The &#x60;plug&#x60; fills the end of the shaft.
-         */
-        const plug = new RingBuilder(back, this.cutLine, !this.clockwise)
-        plug.innerRadius = 0
-        plug.outerRadius = this.radiusShaft
-        plug.tilt.mul(this.tilt)
-        plug.offset.copy(tail)
-        plug.sliceAngle = this.sliceAngle
-        plug.thetaSegments = this.thetaSegments
-        plug.useNormal = this.useNormal
-        plug.usePosition = this.usePosition
-        plug.useTextureCoord = this.useTextureCoord
-
-        return [cone.toPrimitives(), disc.toPrimitives(), shaft.toPrimitives(), plug.toPrimitives()].reduce((a, b) =&gt; { return a.concat(b) }, [])
-    }
+    return [cone.toPrimitives(), disc.toPrimitives(), shaft.toPrimitives(), plug.toPrimitives()].reduce((a, b) =&gt; { return a.concat(b) }, [])
+  }
 }
 
     </pre>

@@ -1,3 +1,4 @@
+import arraysEQ from './arraysEQ';
 import b2 from '../geometries/b2';
 import b3 from '../geometries/b3';
 import Coords from './Coords';
@@ -114,7 +115,7 @@ function duckCopy(value: any): Geometric2 {
  * @extends Coords
  * @beta
  */
-export default class Geometric2 extends Coords implements GeometricE2, Measure<Geometric2>, MutableGeometricElement<GeometricE2, Geometric2, SpinorE2, VectorE2>, GeometricOperators<Geometric2> {
+export default class Geometric2 extends Coords implements GeometricE2, Measure<Geometric2>, MutableGeometricElement<GeometricE2, Geometric2, SpinorE2, VectorE2, number, number, number>, GeometricOperators<Geometric2, number> {
 
   /**
    * @property BASIS_LABELS
@@ -441,15 +442,6 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure<G
   }
 
   /**
-   * @method equals
-   * @param M {GeometricE2}
-   * @return {boolean}
-   */
-  equals(M: GeometricE2): boolean {
-    throw new Error(notImplemented('equals').message)
-  }
-
-  /**
    * <p>
    * <code>this ⟼ copy(M)</code>
    * </p>
@@ -544,12 +536,12 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure<G
    * <code>this ⟼ this / magnitude(this)</code>
    * </p>
    *
-   * @method direction
+   * @method normalize
    * @return {Geometric2} <code>this</code>
    * @chainable
    */
-  direction(): Geometric2 {
-    const norm = sqrt(this.squaredNormSansUnits())
+  normalize(): Geometric2 {
+    const norm: number = this.magnitude()
     this.α = this.α / norm
     this.x = this.x / norm
     this.y = this.y / norm
@@ -641,6 +633,21 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure<G
     this.y = y
     this.β = β
     return this
+  }
+
+  /**
+   * @method equals
+   * @param other {any}
+   * @return {boolean}
+   */
+  equals(other: any): boolean {
+    if (other instanceof Geometric2) {
+      const that: Geometric2 = other
+      return arraysEQ(this.coords, that.coords)
+    }
+    else {
+      return false
+    }
   }
 
   /**
@@ -860,13 +867,18 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure<G
   }
 
   /**
+   * <p>
    * Computes the <em>square root</em> of the <em>squared norm</em>.
+   * </p>
+   * <p>
+   * This method does not change this multivector.
+   * </p>
    *
    * @method magnitude
-   * @return {Geometric2}
+   * @return {number}
    */
-  magnitude(): Geometric2 {
-    return this.norm();
+  magnitude(): number {
+    return sqrt(this.squaredNormSansUnits());
   }
 
   /**
@@ -1286,17 +1298,18 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure<G
   }
 
   /**
+   * <p>
    * Computes the <em>squared norm</em> of this <code>Geometric2</code> multivector.
+   * </p>
+   * <p>
+   * This method does not change this multivector.
+   * </p>
    *
    * @method squaredNorm
-   * @return {number} <code>this | ~this</code>
+   * @return {number}
    */
-  squaredNorm(): Geometric2 {
-    this.α = this.squaredNormSansUnits()
-    this.x = 0
-    this.y = 0
-    this.β = 0
-    return this
+  squaredNorm(): number {
+    return this.squaredNormSansUnits()
   }
 
   /**
@@ -1356,10 +1369,11 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure<G
    * Returns a string representing the number in exponential notation.
    *
    * @method toExponential
+   * @param [fractionDigits] {number}
    * @return {string}
    */
-  toExponential(): string {
-    var coordToString = function(coord: number): string { return coord.toExponential() };
+  toExponential(fractionDigits?: number): string {
+    var coordToString = function(coord: number): string { return coord.toExponential(fractionDigits) };
     return stringFromCoordinates(coordinates(this), coordToString, Geometric2.BASIS_LABELS)
   }
 
@@ -1376,13 +1390,24 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure<G
   }
 
   /**
+   * @method toPrecision
+   * @param [precision] {number}
+   * @return {string}
+   */
+  toPrecision(precision?: number): string {
+    var coordToString = function(coord: number): string { return coord.toPrecision(precision) };
+    return stringFromCoordinates(coordinates(this), coordToString, Geometric2.BASIS_LABELS)
+  }
+
+  /**
    * Returns a string representation of the number.
    *
    * @method toString
+   * @param [radix] {number}
    * @return {string} 
    */
-  toString(): string {
-    const coordToString = function(coord: number): string { return coord.toString() };
+  toString(radix?: number): string {
+    const coordToString = function(coord: number): string { return coord.toString(radix) };
     return stringFromCoordinates(coordinates(this), coordToString, Geometric2.BASIS_LABELS)
   }
 

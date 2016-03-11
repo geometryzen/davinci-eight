@@ -24,7 +24,7 @@ function assertArgRational(name: string, arg: QQ): QQ {
 /**
  * @class Dimensions
  */
-export default class Dimensions implements DivisionRingOperators<Dimensions> {
+export default class Dimensions implements DivisionRingOperators<Dimensions, Dimensions> {
 
     /**
      * @property ONE
@@ -252,10 +252,10 @@ export default class Dimensions implements DivisionRingOperators<Dimensions> {
 
     /**
      * @method __add__
-     * @param rhs {any}
+     * @param rhs {Dimensions}
      * @return {Dimensions}
      */
-    __add__(rhs: any): Dimensions {
+    __add__(rhs: Dimensions): Dimensions {
         if (rhs instanceof Dimensions) {
             return this.compatible(rhs)
         }
@@ -266,10 +266,10 @@ export default class Dimensions implements DivisionRingOperators<Dimensions> {
 
     /**
      * @method __radd__
-     * @param lhs {any}
+     * @param lhs {Dimensions}
      * @return {Dimensions}
      */
-    __radd__(lhs: any): Dimensions {
+    __radd__(lhs: Dimensions): Dimensions {
         if (lhs instanceof Dimensions) {
             return lhs.compatible(this)
         }
@@ -280,10 +280,10 @@ export default class Dimensions implements DivisionRingOperators<Dimensions> {
 
     /**
      * @method __sub__
-     * @param rhs {any}
+     * @param rhs {Dimensions}
      * @return {Dimensions}
      */
-    __sub__(rhs: any): Dimensions {
+    __sub__(rhs: Dimensions): Dimensions {
         if (rhs instanceof Dimensions) {
             return this.compatible(rhs)
         }
@@ -294,10 +294,10 @@ export default class Dimensions implements DivisionRingOperators<Dimensions> {
 
     /**
      * @method __rsub__
-     * @param lhs {any}
+     * @param lhs {Dimensions}
      * @return {Dimensions}
      */
-    __rsub__(lhs: any): Dimensions {
+    __rsub__(lhs: Dimensions): Dimensions {
         if (lhs instanceof Dimensions) {
             return lhs.compatible(this)
         }
@@ -308,10 +308,10 @@ export default class Dimensions implements DivisionRingOperators<Dimensions> {
 
     /**
      * @method __mul__
-     * @param rhs {any}
+     * @param rhs {Dimensions}
      * @return {Dimensions}
      */
-    __mul__(rhs: any): Dimensions {
+    __mul__(rhs: Dimensions): Dimensions {
         if (rhs instanceof Dimensions) {
             return this.mul(rhs)
         }
@@ -322,10 +322,10 @@ export default class Dimensions implements DivisionRingOperators<Dimensions> {
 
     /**
      * @method __rmul__
-     * @param lhs {any}
+     * @param lhs {Dimensions}
      * @return {Dimensions}
      */
-    __rmul__(lhs: any): Dimensions {
+    __rmul__(lhs: Dimensions): Dimensions {
         if (lhs instanceof Dimensions) {
             return lhs.mul(this)
         }
@@ -336,10 +336,10 @@ export default class Dimensions implements DivisionRingOperators<Dimensions> {
 
     /**
      * @method __div__
-     * @param rhs {any}
+     * @param rhs {Dimensions}
      * @return {Dimensions}
      */
-    __div__(rhs: any): Dimensions {
+    __div__(rhs: Dimensions): Dimensions {
         if (rhs instanceof Dimensions) {
             return this.div(rhs)
         }
@@ -350,10 +350,10 @@ export default class Dimensions implements DivisionRingOperators<Dimensions> {
 
     /**
      * @method __rdiv__
-     * @param lhs {any}
+     * @param lhs {Dimensions}
      * @return {Dimensions}
      */
-    __rdiv__(lhs: any): Dimensions {
+    __rdiv__(lhs: Dimensions): Dimensions {
         if (lhs instanceof Dimensions) {
             return lhs.div(this)
         }

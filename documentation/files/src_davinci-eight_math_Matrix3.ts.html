@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.218.0</em>
+            <em>API Docs for: 2.219.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -97,7 +97,6 @@
                                 <li><a href="../classes/Facet.html">Facet</a></li>
                                 <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
-                                <li><a href="../classes/G1.html">G1</a></li>
                                 <li><a href="../classes/G2.html">G2</a></li>
                                 <li><a href="../classes/G3.html">G3</a></li>
                                 <li><a href="../classes/Geometric2.html">Geometric2</a></li>
@@ -307,7 +306,7 @@ import VectorE3 from &#x27;../math/VectorE3&#x27;;
  * @class Matrix3
  * @extends AbstractMatrix
  */
-export default class Matrix3 extends AbstractMatrix&lt;Matrix3&gt; implements Matrix&lt;Matrix3, VectorE3, VectorE2&gt;, Ring&lt;Matrix3&gt;, RingOperators&lt;Matrix3&gt; {
+export default class Matrix3 extends AbstractMatrix&lt;Matrix3&gt; implements Matrix&lt;Matrix3, VectorE3, VectorE2&gt;, Ring&lt;Matrix3&gt;, RingOperators&lt;Matrix3, number&gt; {
 
   /**
    * @class Matrix3
@@ -672,13 +671,53 @@ export default class Matrix3 extends AbstractMatrix&lt;Matrix3&gt; implements Ma
   }
 
   /**
-   * @method toString
+   * @method toExponential
+   * @param [fractionDigits] {number}
    * @return {string}
    */
-  toString(): string {
-    let text: string[] = [];
+  toExponential(fractionDigits?: number): string {
+    const text: string[] = [];
     for (var i = 0; i &lt; this.dimensions; i++) {
-      text.push(this.row(i).map(function(element: number, index: number) { return element.toString() }).join(&#x27; &#x27;));
+      text.push(this.row(i).map(function(element: number, index: number) { return element.toExponential(fractionDigits) }).join(&#x27; &#x27;));
+    }
+    return text.join(&#x27;\n&#x27;);
+  }
+
+  /**
+   * @method toFixed
+   * @param [fractionDigits] {number}
+   * @return {string}
+   */
+  toFixed(fractionDigits?: number): string {
+    const text: string[] = [];
+    for (var i = 0; i &lt; this.dimensions; i++) {
+      text.push(this.row(i).map(function(element: number, index: number) { return element.toFixed(fractionDigits) }).join(&#x27; &#x27;));
+    }
+    return text.join(&#x27;\n&#x27;);
+  }
+
+  /**
+   * @method toPrecision
+   * @param [precision] {number}
+   * @return {string}
+   */
+  toPrecision(precision?: number): string {
+    const text: string[] = [];
+    for (var i = 0; i &lt; this.dimensions; i++) {
+      text.push(this.row(i).map(function(element: number, index: number) { return element.toPrecision(precision) }).join(&#x27; &#x27;));
+    }
+    return text.join(&#x27;\n&#x27;);
+  }
+
+  /**
+   * @method toString
+   * @param [radix] {number}
+   * @return {string}
+   */
+  toString(radix?: number): string {
+    const text: string[] = [];
+    for (var i = 0; i &lt; this.dimensions; i++) {
+      text.push(this.row(i).map(function(element: number, index: number) { return element.toString(radix) }).join(&#x27; &#x27;));
     }
     return text.join(&#x27;\n&#x27;);
   }

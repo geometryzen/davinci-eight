@@ -69,10 +69,10 @@ function makeTriangles(points: Vector3[], uvs: Vector2[], radius: number, height
             var v3: number = vertexIndex(qIndex, 3, widthSegments)
 
             // The normal vectors for the sphere are simply the normalized position vectors.
-            var n0: Vector3 = Vector3.copy(points[v0]).direction();
-            var n1: Vector3 = Vector3.copy(points[v1]).direction();
-            var n2: Vector3 = Vector3.copy(points[v2]).direction();
-            var n3: Vector3 = Vector3.copy(points[v3]).direction();
+            var n0: Vector3 = Vector3.copy(points[v0]).normalize();
+            var n1: Vector3 = Vector3.copy(points[v1]).normalize();
+            var n2: Vector3 = Vector3.copy(points[v2]).normalize();
+            var n3: Vector3 = Vector3.copy(points[v3]).normalize();
 
             // Grab the uv coordinates too.
             var uv0: Vector2 = uvs[v0].clone();
@@ -109,10 +109,10 @@ function makeLineSegments(points: Vector3[], uvs: Vector2[], radius: number, hei
             var v3: number = vertexIndex(qIndex, 3, widthSegments)
 
             // The normal vectors for the sphere are simply the normalized position vectors.
-            var n0: Vector3 = Vector3.copy(points[v0]).direction();
-            var n1: Vector3 = Vector3.copy(points[v1]).direction();
-            var n2: Vector3 = Vector3.copy(points[v2]).direction();
-            var n3: Vector3 = Vector3.copy(points[v3]).direction();
+            var n0: Vector3 = Vector3.copy(points[v0]).normalize();
+            var n1: Vector3 = Vector3.copy(points[v1]).normalize();
+            var n2: Vector3 = Vector3.copy(points[v2]).normalize();
+            var n3: Vector3 = Vector3.copy(points[v3]).normalize();
 
             // Grab the uv coordinates too.
             var uv0: Vector2 = uvs[v0].clone();
@@ -150,10 +150,10 @@ function makePoints(points: Vector3[], uvs: Vector2[], radius: number, heightSeg
             var v3: number = vertexIndex(qIndex, 3, widthSegments)
 
             // The normal vectors for the sphere are simply the normalized position vectors.
-            var n0: Vector3 = Vector3.copy(points[v0]).direction();
-            var n1: Vector3 = Vector3.copy(points[v1]).direction();
-            var n2: Vector3 = Vector3.copy(points[v2]).direction();
-            var n3: Vector3 = Vector3.copy(points[v3]).direction();
+            var n0: Vector3 = Vector3.copy(points[v0]).normalize();
+            var n1: Vector3 = Vector3.copy(points[v1]).normalize();
+            var n2: Vector3 = Vector3.copy(points[v2]).normalize();
+            var n3: Vector3 = Vector3.copy(points[v3]).normalize();
 
             // Grab the uv coordinates too.
             var uv0: Vector2 = uvs[v0].clone();

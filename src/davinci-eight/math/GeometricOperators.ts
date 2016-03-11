@@ -4,7 +4,7 @@ import RingOperators from '../math/RingOperators';
 /**
  * Special methods for operators on elements of geometric spaces.
  */
-interface GeometricOperators<T> extends LinearOperators<T>, RingOperators<T> {
+interface GeometricOperators<T, UNIT> extends LinearOperators<T, UNIT>, RingOperators<T, UNIT> {
     __div__(rhs: any): T
     __rdiv__(lhs: any): T
 

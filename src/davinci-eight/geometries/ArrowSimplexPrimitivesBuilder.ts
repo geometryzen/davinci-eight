@@ -29,11 +29,9 @@ function nearest(direction: Vector3): Vector3 {
         case 0: {
             return new Vector3([orientation(cardinalIndex, direction), 0, 0])
         }
-            break;
         case 1: {
             return new Vector3([0, orientation(cardinalIndex, direction), 0])
         }
-            break;
         case 2: {
             return new Vector3([0, 0, orientation(cardinalIndex, direction)])
         }
@@ -86,7 +84,7 @@ export default class ArrowSimplexPrimitivesBuilder extends RevolutionSimplexPrim
             var generator = Spinor3.dual(nearest(direction), false)
             return { "points": points, "generator": generator }
         }
-        var direction = Vector3.copy(this.vector).direction()
+        var direction = Vector3.copy(this.vector).normalize()
         var arrow = computeArrow(direction)
         // TODO: The directions may be wrong here and need revesing.
         // The convention is that we rotate from a to b.

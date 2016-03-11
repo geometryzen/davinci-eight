@@ -11,7 +11,7 @@ const sqrt = Math.sqrt
 interface Output extends Spinor {
     versor(a: Vector, b: Vector): Output
     addScalar(α: number): Output
-    direction(): Output
+    normalize(): Output
     divByScalar(α: number): Output
     rotorFromGeneratorAngle(G: Spinor, θ: number): Output
     zero(): Output
@@ -50,7 +50,7 @@ export default function(a: Vector, b: Vector, m: Output): void {
         m.yz = wedgeYZ(rx, ry, rz, a.x, a.y, a.z)
         m.zx = wedgeZX(rx, ry, rz, a.x, a.y, a.z)
         m.xy = wedgeXY(rx, ry, rz, a.x, a.y, a.z)
-        m.direction()
+        m.normalize()
         m.rotorFromGeneratorAngle(m, Math.PI)
     }
 }

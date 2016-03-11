@@ -67,7 +67,7 @@ export default class DirectionalLight implements Facet {
   constructor(direction: VectorE3 = R3.e3.neg(), color: AbstractColor = Color.white) {
     mustBeObject('direction', direction)
     mustBeObject('color', color)
-    this._direction = Vector3.copy(direction).direction()
+    this._direction = Vector3.copy(direction).normalize()
     this._color = Color.copy(color)
   }
 
@@ -164,7 +164,7 @@ export default class DirectionalLight implements Facet {
    */
   setDirection(direction: VectorE3): DirectionalLight {
     mustBeObject('direction', direction)
-    this._direction.copy(direction).direction()
+    this._direction.copy(direction).normalize()
     return this
   }
 

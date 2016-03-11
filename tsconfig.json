@@ -82,6 +82,7 @@
     "src/davinci-eight/math/Vector3.spec.ts",
     "src/davinci-eight/math/Vector4.spec.ts",
     "src/davinci-eight/math/VectorN.spec.ts",
+    "src/davinci-eight/math/arraysEQ.spec.ts",
     "src/davinci-eight/math/gauss.spec.ts",
 
     "src/davinci-eight/visual/Arrow.spec.ts",

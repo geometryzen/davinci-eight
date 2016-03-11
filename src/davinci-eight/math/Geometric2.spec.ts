@@ -130,4 +130,13 @@ describe("Geometric2", function() {
       expect(inv.β).toBe(-0.5)
     })
   })
+  describe("magnitude", function() {
+    describe("(1) should be 1", function() {
+      it("should be the number 1", function() {
+        const one: Geometric2 = Geometric2.one()
+        expect(one.magnitude()).toBe(1)
+        expect(one.equals(Geometric2.one())).toBe(true)
+      })
+    })
+  })
 })

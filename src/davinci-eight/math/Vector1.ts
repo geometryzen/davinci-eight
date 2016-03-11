@@ -20,7 +20,7 @@ let COORD_X = 0
 /**
  * @class Vector1
  */
-export default class Vector1 extends VectorN<number> implements VectorE1, MutableLinearElement<VectorE1, Vector1, SpinorE1, VectorE1>, Matrix<Vector1, VectorE1, VectorE0> {
+export default class Vector1 extends VectorN<number> implements VectorE1, MutableLinearElement<VectorE1, Vector1, SpinorE1, VectorE1, number, number>, Matrix<Vector1, VectorE1, VectorE0> {
   /**
    * @class Vector1
    * @constructor
@@ -212,7 +212,7 @@ export default class Vector1 extends VectorN<number> implements VectorE1, Mutabl
     return sqrt(this.squaredNorm());
   }
 
-  direction() {
+  normalize(): Vector1 {
     return this.divByScalar(this.magnitude());
   }
 
@@ -285,11 +285,17 @@ export default class Vector1 extends VectorN<number> implements VectorE1, Mutabl
     array[offset] = this.x;
     return array;
   }
-  toExponential(): string {
+  toExponential(fractionDigits?: number): string {
     return "TODO: Vector1.toExponential";
   }
-  toFixed(digits?: number): string {
+  toFixed(fractionDigits?: number): string {
     return "TODO: Vector1.toFixed";
+  }
+  toPrecision(precision?: number): string {
+    return "TODO: Vector1.toPrecision";
+  }
+  toString(radix?: number): string {
+    return "TODO: Vector1.toString";
   }
 
   /**

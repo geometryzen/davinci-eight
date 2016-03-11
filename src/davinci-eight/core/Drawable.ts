@@ -1,6 +1,6 @@
 import ContextProvider from '../core/ContextProvider';
 import Engine from '../core/Engine';
-import incLevel from '../base/incLevel';
+import isObject from '../checks/isDefined';
 import mustBeBoolean from '../checks/mustBeBoolean';
 import Geometry from './Geometry';
 import AbstractDrawable from './AbstractDrawable';
@@ -67,23 +67,33 @@ export default class Drawable extends ShareableContextConsumer implements Abstra
   constructor(geometry: Geometry, material: Material, engine: Engine) {
     super(engine)
     this.setLoggingName('Drawable')
-    this.geometry = geometry
-    this.material = material
+    if (isObject(geometry)) {
+      geometry.addRef()
+      this.geometry = geometry
+    }
+    if (isObject(material)) {
+      material.addRef()
+      this.material = material
+    }
     this._facets = {}
   }
 
   /**
    * @method destructor
-   * @param level {number}
+   * @param levelUp {number}
    * @return {void}
    * @protected
    */
-  protected destructor(level: number): void {
-    this._geometry.release()
-    this._geometry = void 0
-    this._material.release()
-    this._material = void 0
-    super.destructor(incLevel(level))
+  protected destructor(levelUp: number): void {
+    if (this._geometry) {
+      this._geometry.release()
+      this._geometry = void 0
+    }
+    if (this._material) {
+      this._material.release()
+      this._material = void 0
+    }
+    super.destructor(levelUp + 1)
   }
 
   /**
@@ -122,8 +132,9 @@ export default class Drawable extends ShareableContextConsumer implements Abstra
 
   }
   set vertexShaderSrc(vertexShaderSrc: string) {
-    if (this._material) {
-      this._material.vertexShaderSrc = vertexShaderSrc
+    const material = this._material
+    if (material) {
+      material.vertexShaderSrc = vertexShaderSrc
     }
     else {
       throw new Error(`Unableto  set vertexShaderSrc because ${this._type}.material is not defined.`)
@@ -228,8 +239,13 @@ export default class Drawable extends ShareableContextConsumer implements Abstra
    * @type {Geometry}
    */
   get geometry(): Geometry {
-    this._geometry.addRef()
-    return this._geometry
+    if (this._geometry) {
+      this._geometry.addRef()
+      return this._geometry
+    }
+    else {
+      return void 0
+    }
   }
   set geometry(geometry: Geometry) {
     if (this._geometry) {
@@ -252,8 +268,13 @@ export default class Drawable extends ShareableContextConsumer implements Abstra
    * @type {Material}
    */
   get material(): Material {
-    this._material.addRef()
-    return this._material
+    if (this._material) {
+      this._material.addRef()
+      return this._material
+    }
+    else {
+      return void 0
+    }
   }
   set material(material: Material) {
     if (this._material) {

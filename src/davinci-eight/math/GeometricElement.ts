@@ -3,18 +3,18 @@ import LinearElement from '../math/LinearElement';
  * This interface is provided to ensure consistency.
  * It is not part of the documented API.
  * Notice that the effect on the target depends upon whether the target class in mutable.
+ * I: The lightweight interface form of the concreate class, usually just coordinates.
+ * M: The concrete class
+ * S: The lightweight interface form of the spinor.
+ * V: The lightweight interface form of the vector.
+ * MAGNITUDE: The type for methods that compute magnitudes.
  */
-interface GeometricElement<I, M, S, V> extends LinearElement<I, M, S, V, number> {
-
-    /**
-     * Addition of a pseudoscalar.
-     */
-    addPseudo(β: number): M;
+interface GeometricElement<I, M, S, V, MAGNITUDE, SCALING, UNIT> extends LinearElement<I, M, S, V, MAGNITUDE, SCALING> {
 
     /**
      * Addition of a scalar.
      */
-    addScalar(α: number): M;
+    addScalar(α: UNIT): M;
 
     /**
      * conjugate multiplied by norm (similar to inv)
@@ -71,12 +71,7 @@ interface GeometricElement<I, M, S, V> extends LinearElement<I, M, S, V, number>
     /**
      * Computes the square root of the squared norm.
      */
-    magnitude(): M;
-
-    /**
-     * The magnitude without the units.
-     */
-    magnitudeSansUnits(): number;
+    magnitude(): MAGNITUDE;
 
     /**
      * Multiplication.
@@ -106,12 +101,7 @@ interface GeometricElement<I, M, S, V> extends LinearElement<I, M, S, V, number>
     /**
      * squared norm, scp(x, rev(x))
      */
-    squaredNorm(): M;
-
-    /**
-     * The squared norm without the units.
-     */
-    squaredNormSansUnits(): number;
+    squaredNorm(): MAGNITUDE;
 
     /**
      * Scalar Product

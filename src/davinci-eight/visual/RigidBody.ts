@@ -83,6 +83,7 @@ export default class RigidBody extends Mesh implements IRigidBody<number, Geomet
    * @type Geometric3
    */
   get axis(): Geometric3 {
+    // This is a copy!
     return Geometric3.fromVector(this.initialAxis).rotate(this.attitude)
   }
   set axis(axis: Geometric3) {

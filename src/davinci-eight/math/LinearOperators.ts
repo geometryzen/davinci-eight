@@ -4,7 +4,7 @@ import AbelianOperators from '../math/AbelianOperators';
  * This is provided for interface consistency.
  * It may not adhere to strict mathematical definitions.
  */
-interface LinearOperators<T> extends AbelianOperators<T> {
+interface LinearOperators<T, UNIT> extends AbelianOperators<T, UNIT> {
     /**
      * Unary ~
      */

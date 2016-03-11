@@ -23,7 +23,7 @@ const COORD_Y = 1;
  * @class Vector2
  * @extends Coords
  */
-export default class Vector2 extends Coords implements ColumnVector<Matrix2, Vector2>, VectorE2, MutableLinearElement<VectorE2, Vector2, SpinorE2, VectorE2> {
+export default class Vector2 extends Coords implements ColumnVector<Matrix2, Vector2>, VectorE2, MutableLinearElement<VectorE2, Vector2, SpinorE2, VectorE2, number, number> {
   /**
    * @class Vector2
    * @constructor
@@ -272,7 +272,7 @@ export default class Vector2 extends Coords implements ColumnVector<Matrix2, Vec
     return sqrt(this.squaredNorm());
   }
 
-  direction() {
+  normalize(): Vector2 {
     return this.divByScalar(this.magnitude())
   }
 
@@ -380,10 +380,11 @@ export default class Vector2 extends Coords implements ColumnVector<Matrix2, Vec
 
   /**
    * @method toExponential
+   * @param [fractionDigits] {number}
    * @return {string}
    */
-  toExponential(): string {
-    const coordToString = function(coord: number): string { return coord.toExponential() };
+  toExponential(fractionDigits?: number): string {
+    const coordToString = function(coord: number): string { return coord.toExponential(fractionDigits) };
     return stringFromCoordinates(this.coords, coordToString, ['e1', 'e2'])
   }
 
@@ -398,11 +399,22 @@ export default class Vector2 extends Coords implements ColumnVector<Matrix2, Vec
   }
 
   /**
-   * @method toString
+   * @method toPrecision
+   * @param [precision] {number}
    * @return {string}
    */
-  toString(): string {
-    const coordToString = function(coord: number): string { return coord.toString() };
+  toPrecision(precision?: number): string {
+    const coordToString = function(coord: number): string { return coord.toPrecision(precision) };
+    return stringFromCoordinates(this.coords, coordToString, ['e1', 'e2'])
+  }
+
+  /**
+   * @method toString
+   * @param [radix] {number}
+   * @return {string}
+   */
+  toString(radix?: number): string {
+    const coordToString = function(coord: number): string { return coord.toString(radix) };
     return stringFromCoordinates(this.coords, coordToString, ['e1', 'e2'])
   }
 

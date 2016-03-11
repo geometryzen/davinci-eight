@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.218.0</em>
+            <em>API Docs for: 2.219.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -97,7 +97,6 @@
                                 <li><a href="../classes/Facet.html">Facet</a></li>
                                 <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
-                                <li><a href="../classes/G1.html">G1</a></li>
                                 <li><a href="../classes/G2.html">G2</a></li>
                                 <li><a href="../classes/G3.html">G3</a></li>
                                 <li><a href="../classes/Geometric2.html">Geometric2</a></li>
@@ -420,10 +419,6 @@
 
                             </li>
                             <li class="index-item method">
-                                <a href="#method_direction">direction</a>
-
-                            </li>
-                            <li class="index-item method">
                                 <a href="#method_distanceTo">distanceTo</a>
 
                             </li>
@@ -434,11 +429,11 @@
                             <li class="index-item method">
                                 <a href="#method_dot">dot</a>
 
-                                    <span class="flag static">static</span>
                             </li>
                             <li class="index-item method">
                                 <a href="#method_dot">dot</a>
 
+                                    <span class="flag static">static</span>
                             </li>
                             <li class="index-item method">
                                 <a href="#method_dual">dual</a>
@@ -446,6 +441,10 @@
                             </li>
                             <li class="index-item method">
                                 <a href="#method_dual">dual</a>
+
+                            </li>
+                            <li class="index-item method inherited">
+                                <a href="#method_equals">equals</a>
 
                             </li>
                             <li class="index-item method">
@@ -456,11 +455,11 @@
                             <li class="index-item method">
                                 <a href="#method_lerp">lerp</a>
 
+                                    <span class="flag static">static</span>
                             </li>
                             <li class="index-item method">
                                 <a href="#method_lerp">lerp</a>
 
-                                    <span class="flag static">static</span>
                             </li>
                             <li class="index-item method">
                                 <a href="#method_lerp2">lerp2</a>
@@ -476,6 +475,10 @@
                             </li>
                             <li class="index-item method">
                                 <a href="#method_neg">neg</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_normalize">normalize</a>
 
                             </li>
                             <li class="index-item method">
@@ -539,6 +542,10 @@
 
                             </li>
                             <li class="index-item method">
+                                <a href="#method_toPrecision">toPrecision</a>
+
+                            </li>
+                            <li class="index-item method">
                                 <a href="#method_toString">toString</a>
 
                             </li>
@@ -550,11 +557,11 @@
                             <li class="index-item method">
                                 <a href="#method_zero">zero</a>
 
+                                    <span class="flag static">static</span>
                             </li>
                             <li class="index-item method">
                                 <a href="#method_zero">zero</a>
 
-                                    <span class="flag static">static</span>
                             </li>
                     </ul>
                 </div>
@@ -1015,7 +1022,7 @@ TODO: Used by TubeSimplexGeometry.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l664"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:664</code></a>
+        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l676"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:676</code></a>
         </p>
 
 
@@ -1333,51 +1340,6 @@ TODO: Used by TubeSimplexGeometry.</p>
 
 
 </div>
-<div id="method_direction" class="method item">
-    <h3 class="name"><code>direction</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/Vector3.html" class="crosslink">Vector3</a></span>
-        </span>
-
-
-
-
-
-        <span class="flag chainable">chainable</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l455"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:455</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-<code>this ⟼ this / norm(this)</code>
-</p>
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/Vector3.html" class="crosslink">Vector3</a></span>:
-                    <p><code>this</code></p>
-
-            </div>
-        </div>
-
-
-</div>
 <div id="method_distanceTo" class="method item">
     <h3 class="name"><code>distanceTo</code></h3>
 
@@ -1513,6 +1475,68 @@ TODO: Used by TubeSimplexGeometry.</p>
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
+                        <code>v</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">Number</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l367"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:367</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">v</code>
+                        <span class="type"><a href="../classes/VectorE3.html" class="crosslink">VectorE3</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Number</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_dot" class="method item">
+    <h3 class="name"><code>dot</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
                         <code>a</code>
                 </li>
                 <li class="arg">
@@ -1583,31 +1607,35 @@ TODO: Used by TubeSimplexGeometry.</p>
 
 
 </div>
-<div id="method_dot" class="method item">
-    <h3 class="name"><code>dot</code></h3>
+<div id="method_dual" class="method item">
+    <h3 class="name"><code>dual</code></h3>
 
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
-                        <code>v</code>
+                        <code>B</code>
+                </li>
+                <li class="arg">
+                        <code>changeSign</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
 
         <span class="returns-inline">
-            <span class="type">Number</span>
+            <span class="type"><a href="../classes/Vector3.html" class="crosslink">Vector3</a></span>
         </span>
 
 
 
 
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l367"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:367</code></a>
+        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l687"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:687</code></a>
         </p>
 
 
@@ -1615,7 +1643,11 @@ TODO: Used by TubeSimplexGeometry.</p>
     </div>
 
     <div class="description">
-        
+        <p>Constructs a vector which is the dual of the supplied bivector, B.
+The convention used is dual(m) = I * m.
+If a sign change is desired from this convention,
+set the <code>changeSign</code> to <code>true</code>.</p>
+
     </div>
 
         <div class="params">
@@ -1623,8 +1655,18 @@ TODO: Used by TubeSimplexGeometry.</p>
 
             <ul class="params-list">
                 <li class="param">
-                        <code class="param-name">v</code>
-                        <span class="type"><a href="../classes/VectorE3.html" class="crosslink">VectorE3</a></span>
+                        <code class="param-name">B</code>
+                        <span class="type"><a href="../classes/SpinorE3.html" class="crosslink">SpinorE3</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">changeSign</code>
+                        <span class="type">Boolean</span>
 
 
                     <div class="param-description">
@@ -1639,7 +1681,7 @@ TODO: Used by TubeSimplexGeometry.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type">Number</span>:
+                        <span class="type"><a href="../classes/Vector3.html" class="crosslink">Vector3</a></span>:
             </div>
         </div>
 
@@ -1726,35 +1768,31 @@ If changeSign is <code>true</code>, the direction of the resulting vector is rev
 
 
 </div>
-<div id="method_dual" class="method item">
-    <h3 class="name"><code>dual</code></h3>
+<div id="method_equals" class="method item inherited">
+    <h3 class="name"><code>equals</code></h3>
 
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
-                        <code>B</code>
-                </li>
-                <li class="arg">
-                        <code>changeSign</code>
+                        <code>coords</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/Vector3.html" class="crosslink">Vector3</a></span>
+            <span class="type"></span>
         </span>
 
 
 
 
 
-        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l675"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:675</code></a>
+                <p>Inherited from
+                <a href="../classes/Coords.html#method_equals">Coords</a>:
+        <a href="../files/src_davinci-eight_math_Coords.ts.html#l37"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Coords.ts:37</code></a>
         </p>
 
 
@@ -1762,11 +1800,7 @@ If changeSign is <code>true</code>, the direction of the resulting vector is rev
     </div>
 
     <div class="description">
-        <p>Constructs a vector which is the dual of the supplied bivector, B.
-The convention used is dual(m) = I * m.
-If a sign change is desired from this convention,
-set the <code>changeSign</code> to <code>true</code>.</p>
-
+        
     </div>
 
         <div class="params">
@@ -1774,18 +1808,8 @@ set the <code>changeSign</code> to <code>true</code>.</p>
 
             <ul class="params-list">
                 <li class="param">
-                        <code class="param-name">B</code>
-                        <span class="type"><a href="../classes/SpinorE3.html" class="crosslink">SpinorE3</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">changeSign</code>
-                        <span class="type">Boolean</span>
+                        <code class="param-name">coords</code>
+                        <span class="type">Any</span>
 
 
                     <div class="param-description">
@@ -1800,7 +1824,8 @@ set the <code>changeSign</code> to <code>true</code>.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/Vector3.html" class="crosslink">Vector3</a></span>:
+                    <p>boolean</p>
+
             </div>
         </div>
 
@@ -1831,7 +1856,7 @@ set the <code>changeSign</code> to <code>true</code>.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l696"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:696</code></a>
+        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l708"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:708</code></a>
         </p>
 
 
@@ -1864,6 +1889,98 @@ set the <code>changeSign</code> to <code>true</code>.</p>
 
             <div class="returns-description">
                         <span class="type">Boolean</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_lerp" class="method item">
+    <h3 class="name"><code>lerp</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>a</code>
+                </li>
+                <li class="arg">
+                        <code>b</code>
+                </li>
+                <li class="arg">
+                        <code>α</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Vector3.html" class="crosslink">Vector3</a></span>
+        </span>
+
+
+
+
+        <span class="flag static">static</span>
+
+        <span class="flag chainable">chainable</span>
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l718"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:718</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">a</code>
+                        <span class="type"><a href="../classes/VectorE3.html" class="crosslink">VectorE3</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">b</code>
+                        <span class="type"><a href="../classes/VectorE3.html" class="crosslink">VectorE3</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">α</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Vector3.html" class="crosslink">Vector3</a></span>:
+                    <p><code>a + α * (b - a)</code></p>
+
             </div>
         </div>
 
@@ -1943,98 +2060,6 @@ set the <code>changeSign</code> to <code>true</code>.</p>
             <div class="returns-description">
                         <span class="type"><a href="../classes/Vector3.html" class="crosslink">Vector3</a></span>:
                     <p><code>this</code></p>
-
-            </div>
-        </div>
-
-
-</div>
-<div id="method_lerp" class="method item">
-    <h3 class="name"><code>lerp</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>a</code>
-                </li>
-                <li class="arg">
-                        <code>b</code>
-                </li>
-                <li class="arg">
-                        <code>α</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/Vector3.html" class="crosslink">Vector3</a></span>
-        </span>
-
-
-
-
-        <span class="flag static">static</span>
-
-        <span class="flag chainable">chainable</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l706"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:706</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">a</code>
-                        <span class="type"><a href="../classes/VectorE3.html" class="crosslink">VectorE3</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">b</code>
-                        <span class="type"><a href="../classes/VectorE3.html" class="crosslink">VectorE3</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">α</code>
-                        <span class="type">Number</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/Vector3.html" class="crosslink">Vector3</a></span>:
-                    <p><code>a + α * (b - a)</code></p>
 
             </div>
         </div>
@@ -2200,7 +2225,7 @@ set the <code>changeSign</code> to <code>true</code>.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l631"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:631</code></a>
+        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l643"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:643</code></a>
         </p>
 
 
@@ -2266,6 +2291,51 @@ set the <code>changeSign</code> to <code>true</code>.</p>
 
     <div class="description">
         
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Vector3.html" class="crosslink">Vector3</a></span>:
+                    <p><code>this</code></p>
+
+            </div>
+        </div>
+
+
+</div>
+<div id="method_normalize" class="method item">
+    <h3 class="name"><code>normalize</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Vector3.html" class="crosslink">Vector3</a></span>
+        </span>
+
+
+
+
+
+        <span class="flag chainable">chainable</span>
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l455"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:455</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>
+<code>this ⟼ this / norm(this)</code>
+</p>
     </div>
 
 
@@ -2363,7 +2433,7 @@ set the <code>changeSign</code> to <code>true</code>.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l719"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:719</code></a>
+        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l731"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:731</code></a>
         </p>
 
 
@@ -2477,7 +2547,7 @@ set the <code>changeSign</code> to <code>true</code>.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l646"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:646</code></a>
+        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l658"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:658</code></a>
         </p>
 
 
@@ -3055,7 +3125,13 @@ set the <code>changeSign</code> to <code>true</code>.</p>
 <div id="method_toExponential" class="method item">
     <h3 class="name"><code>toExponential</code></h3>
 
-        <span class="paren">()</span>
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code class="optional">[fractionDigits]</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
 
         <span class="returns-inline">
             <span class="type">String</span>
@@ -3081,6 +3157,23 @@ set the <code>changeSign</code> to <code>true</code>.</p>
         
     </div>
 
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name optional">[fractionDigits]</code>
+                        <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
 
         <div class="returns">
             <h4>Returns:</h4>
@@ -3098,7 +3191,7 @@ set the <code>changeSign</code> to <code>true</code>.</p>
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
-                        <code class="optional">[digits]</code>
+                        <code class="optional">[fractionDigits]</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
@@ -3116,7 +3209,7 @@ set the <code>changeSign</code> to <code>true</code>.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l582"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:582</code></a>
+        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l583"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:583</code></a>
         </p>
 
 
@@ -3132,7 +3225,70 @@ set the <code>changeSign</code> to <code>true</code>.</p>
 
             <ul class="params-list">
                 <li class="param">
-                        <code class="param-name optional">[digits]</code>
+                        <code class="param-name optional">[fractionDigits]</code>
+                        <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">String</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_toPrecision" class="method item">
+    <h3 class="name"><code>toPrecision</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code class="optional">[precision]</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">String</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l593"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:593</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name optional">[precision]</code>
                         <span class="type">Number</span>
                         <span class="flag optional" title="This parameter is optional.">optional</span>
 
@@ -3158,7 +3314,13 @@ set the <code>changeSign</code> to <code>true</code>.</p>
 <div id="method_toString" class="method item">
     <h3 class="name"><code>toString</code></h3>
 
-        <span class="paren">()</span>
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code class="optional">[radix]</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
 
         <span class="returns-inline">
             <span class="type">String</span>
@@ -3173,7 +3335,7 @@ set the <code>changeSign</code> to <code>true</code>.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l592"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:592</code></a>
+        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l603"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:603</code></a>
         </p>
 
 
@@ -3184,6 +3346,23 @@ set the <code>changeSign</code> to <code>true</code>.</p>
         
     </div>
 
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name optional">[radix]</code>
+                        <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
 
         <div class="returns">
             <h4>Returns:</h4>
@@ -3227,7 +3406,7 @@ set the <code>changeSign</code> to <code>true</code>.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l729"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:729</code></a>
+        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l741"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:741</code></a>
         </p>
 
 
@@ -3297,6 +3476,7 @@ set the <code>changeSign</code> to <code>true</code>.</p>
 
 
 
+        <span class="flag static">static</span>
 
         <span class="flag chainable">chainable</span>
 
@@ -3304,7 +3484,7 @@ set the <code>changeSign</code> to <code>true</code>.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l601"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:601</code></a>
+        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l754"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:754</code></a>
         </p>
 
 
@@ -3312,8 +3492,7 @@ set the <code>changeSign</code> to <code>true</code>.</p>
     </div>
 
     <div class="description">
-        <p>Sets this vector to the identity element for addition, <b>0</b>.</p>
-
+        
     </div>
 
 
@@ -3339,7 +3518,6 @@ set the <code>changeSign</code> to <code>true</code>.</p>
 
 
 
-        <span class="flag static">static</span>
 
         <span class="flag chainable">chainable</span>
 
@@ -3347,7 +3525,7 @@ set the <code>changeSign</code> to <code>true</code>.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l742"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:742</code></a>
+        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l613"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:613</code></a>
         </p>
 
 
@@ -3355,7 +3533,8 @@ set the <code>changeSign</code> to <code>true</code>.</p>
     </div>
 
     <div class="description">
-        
+        <p>Sets this vector to the identity element for addition, <b>0</b>.</p>
+
     </div>
 
 

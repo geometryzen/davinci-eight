@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.218.0</em>
+            <em>API Docs for: 2.219.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -97,7 +97,6 @@
                                 <li><a href="../classes/Facet.html">Facet</a></li>
                                 <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
-                                <li><a href="../classes/G1.html">G1</a></li>
                                 <li><a href="../classes/G2.html">G2</a></li>
                                 <li><a href="../classes/G3.html">G3</a></li>
                                 <li><a href="../classes/Geometric2.html">Geometric2</a></li>
@@ -274,18 +273,18 @@ import LinearElement from &#x27;../math/LinearElement&#x27;;
  * This interface is provided to ensure consistency.
  * It is not part of the documented API.
  * Notice that the effect on the target depends upon whether the target class in mutable.
+ * I: The lightweight interface form of the concreate class, usually just coordinates.
+ * M: The concrete class
+ * S: The lightweight interface form of the spinor.
+ * V: The lightweight interface form of the vector.
+ * MAGNITUDE: The type for methods that compute magnitudes.
  */
-interface GeometricElement&lt;I, M, S, V&gt; extends LinearElement&lt;I, M, S, V, number&gt; {
-
-    /**
-     * Addition of a pseudoscalar.
-     */
-    addPseudo(β: number): M;
+interface GeometricElement&lt;I, M, S, V, MAGNITUDE, SCALING, UNIT&gt; extends LinearElement&lt;I, M, S, V, MAGNITUDE, SCALING&gt; {
 
     /**
      * Addition of a scalar.
      */
-    addScalar(α: number): M;
+    addScalar(α: UNIT): M;
 
     /**
      * conjugate multiplied by norm (similar to inv)
@@ -342,12 +341,7 @@ interface GeometricElement&lt;I, M, S, V&gt; extends LinearElement&lt;I, M, S, V
     /**
      * Computes the square root of the squared norm.
      */
-    magnitude(): M;
-
-    /**
-     * The magnitude without the units.
-     */
-    magnitudeSansUnits(): number;
+    magnitude(): MAGNITUDE;
 
     /**
      * Multiplication.
@@ -377,12 +371,7 @@ interface GeometricElement&lt;I, M, S, V&gt; extends LinearElement&lt;I, M, S, V
     /**
      * squared norm, scp(x, rev(x))
      */
-    squaredNorm(): M;
-
-    /**
-     * The squared norm without the units.
-     */
-    squaredNormSansUnits(): number;
+    squaredNorm(): MAGNITUDE;
 
     /**
      * Scalar Product

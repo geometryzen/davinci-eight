@@ -8,7 +8,7 @@ import Vector3 from '../math/Vector3';
 
 function perpendicular(to: VectorE3): G3 {
     var random = new Vector3([Math.random(), Math.random(), Math.random()])
-    random.cross(to).direction()
+    random.cross(to).normalize()
     return new G3(0, random.x, random.y, random.z, 0, 0, 0, 0)
 }
 
@@ -116,7 +116,7 @@ export default class VortexSimplexGeometry extends SimplexPrimitivesBuilder {
                 points.push(vertex);
 
                 uvs.push(new Vector2([i / circleSegments, j / radialSegments]));
-                normals.push(Vector3.copy(r).direction());
+                normals.push(Vector3.copy(r).normalize());
             }
         }
 

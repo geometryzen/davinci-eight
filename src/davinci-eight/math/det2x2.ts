@@ -3,10 +3,8 @@
  */
 export default function(m: Float32Array): number {
 
-    const n11 = m[0x0];
-    const n12 = m[0x2];
-    const n21 = m[0x1];
-    const n22 = m[0x3];
+    const n11 = m[0x0]; const n12 = m[0x2];
+    const n21 = m[0x1]; const n22 = m[0x3];
 
     return n11 * n22 - n12 * n21
 }

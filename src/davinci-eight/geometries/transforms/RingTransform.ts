@@ -35,7 +35,7 @@ export default class RingTransform implements Transform {
         this.outerRadius = mustBeNumber('b', b)
         this.sliceAngle = mustBeNumber('sliceAngle', sliceAngle)
         this.generator = Spinor3.dual(e, clockwise)
-        this.cutLine = Vector3.copy(cutLine).direction()
+        this.cutLine = Vector3.copy(cutLine).normalize()
         this.aPosition = mustBeString('aPosition', aPosition)
         this.aTangent = mustBeString('aTangent', aTangent)
     }

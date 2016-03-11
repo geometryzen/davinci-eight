@@ -3,7 +3,7 @@ import AbelianOperators from '../math/AbelianOperators';
  * A ring is an abelian group with a second binary operation that is associative,
  * is distributive over the abelian group operation and has an identity element.
  */
-interface RingOperators<T> extends AbelianOperators<T> {
+interface RingOperators<T, UNIT> extends AbelianOperators<T, UNIT> {
 
     /**
      * Multiplication of the the target from the right.

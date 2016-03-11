@@ -5,9 +5,9 @@ import isNumber from '../checks/isNumber';
 
 export default function quadVectorE3(vector: VectorE3): number {
     if (isDefined(vector)) {
-        var x = vector.x
-        var y = vector.y
-        var z = vector.z
+        const x = vector.x
+        const y = vector.y
+        const z = vector.z
         if (isNumber(x) && isNumber(y) && isNumber(z)) {
             return dotVectorCartesianE3(x, y, z, x, y, z)
         }

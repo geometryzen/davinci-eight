@@ -16,7 +16,15 @@ import vertexArraysFromPrimitive from '../core/vertexArraysFromPrimitive'
  */
 
 /**
+ * <p>
  * A convenience class for creating an arrow.
+ * </p>
+ * <p>
+ * The initial axis unit vector defaults to <b>e<b><sub>2</sub>
+ * </p>
+ * <p>
+ * The cutLine unit vector defaults to <b>e<b><sub>3</sub>
+ * </p>
  *
  * @class ArrowGeometry
  * @extends Geometry
