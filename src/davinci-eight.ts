@@ -1,4 +1,5 @@
 // base
+import AnimationApp from './davinci-eight/base/AnimationApp';
 import BrowserApp from './davinci-eight/base/BrowserApp';
 import EngineApp from './davinci-eight/base/EngineApp';
 
@@ -28,7 +29,7 @@ import CameraControls from './davinci-eight/controls/CameraControls'
 import AttribLocation from './davinci-eight/core/AttribLocation';
 import AttribMetaInfo from './davinci-eight/core/AttribMetaInfo';
 import Color from './davinci-eight/core/Color';
-import core from './davinci-eight/core';
+import config from './davinci-eight/config';
 import Drawable from './davinci-eight/core/Drawable';
 import DrawMode from './davinci-eight/core/DrawMode';
 import ErrorMode from './davinci-eight/core/ErrorMode';
@@ -199,8 +200,11 @@ import Grid from './davinci-eight/visual/Grid';
 import Tetrahedron from './davinci-eight/visual/Tetrahedron';
 import Trail from './davinci-eight/visual/Trail';
 import vector from './davinci-eight/visual/vector';
+import Viewport from './davinci-eight/visual/Viewport';
 import World from './davinci-eight/visual/World';
 import bootstrap from './davinci-eight/visual/bootstrap';
+import SingleViewApp from './davinci-eight/visual/SingleViewApp';
+import MultiViewApp from './davinci-eight/visual/MultiViewApp';
 
 // glsl
 import tokenizeString from './davinci-eight/glsl/tokenizeString';
@@ -221,14 +225,14 @@ const eight = {
    * @type string
    * @readOnly
    */
-  get LAST_MODIFIED() { return core.LAST_MODIFIED },
+  get LAST_MODIFIED() { return config.LAST_MODIFIED },
 
   get errorMode(): ErrorMode {
-    return core.errorMode;
+    return config.errorMode;
   },
   set errorMode(errorMode: ErrorMode) {
     if (typeof errorMode === 'number') {
-      core.errorMode = errorMode;
+      config.errorMode = errorMode;
     }
     else {
       throw new TypeError('errorMode must be a ErrorMode');
@@ -240,9 +244,10 @@ const eight = {
    * @type string
    * @readOnly
    */
-  get VERSION() { return core.VERSION },
+  get VERSION() { return config.VERSION },
 
   // base
+  get AnimationApp() { return AnimationApp },
   get BrowserApp() { return BrowserApp },
   get EngineApp() { return EngineApp },
 
@@ -372,6 +377,9 @@ const eight = {
   get Grid() { return Grid },
   get Tetrahedron() { return Tetrahedron },
   get Trail() { return Trail },
+  get Viewport() { return Viewport },
+  get SingleViewApp() { return SingleViewApp },
+  get MultiViewApp() { return MultiViewApp },
   get bootstrap() { return bootstrap }
 }
 export default eight;

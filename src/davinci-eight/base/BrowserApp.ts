@@ -19,7 +19,7 @@ export default class BrowserApp {
    * @type Window
    * @protected
    */
-  protected window: BrowserWindow
+  protected window: Window
   private shutDown: (ev: Event) => void
   private domLoaded: EventListener
 
@@ -33,11 +33,12 @@ export default class BrowserApp {
   /**
    * @class BrowserApp
    * @constructor
-   * @param [wnd = window] {Window}
+   * @param [wnd = window] {Window} The window in which the application will be running.
    */
   constructor(wnd: BrowserWindow = window) {
+    refChange('quiet')
     refChange('start')
-    this.window = wnd
+    this.window = <Window>wnd
     this.domLoaded = () => {
       this.window.document.removeEventListener('DOMContentLoaded', this.domLoaded)
       this.domLoaded = void 0

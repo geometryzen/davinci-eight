@@ -1,5 +1,5 @@
 import AttribLocation from '../core/AttribLocation';
-import config from '../core';
+import config from '../config';
 import ContextProvider from '../core/ContextProvider';
 import incLevel from '../base/incLevel';
 import isDefined from '../checks/isDefined';

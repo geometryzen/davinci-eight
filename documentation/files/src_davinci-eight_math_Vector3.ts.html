@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.220.0</em>
+            <em>API Docs for: 2.221.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -43,6 +43,7 @@
                                 <li><a href="../classes/AbstractMatrix.html">AbstractMatrix</a></li>
                                 <li><a href="../classes/AbstractMesh.html">AbstractMesh</a></li>
                                 <li><a href="../classes/AmbientLight.html">AmbientLight</a></li>
+                                <li><a href="../classes/AnimationApp.html">AnimationApp</a></li>
                                 <li><a href="../classes/Approximation.html">Approximation</a></li>
                                 <li><a href="../classes/Arrow.html">Arrow</a></li>
                                 <li><a href="../classes/ArrowBuilder.html">ArrowBuilder</a></li>
@@ -143,6 +144,7 @@
                                 <li><a href="../classes/ModelE3.html">ModelE3</a></li>
                                 <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
                                 <li><a href="../classes/MouseControls.html">MouseControls</a></li>
+                                <li><a href="../classes/MultiViewApp.html">MultiViewApp</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/NumberShareableMap.html">NumberShareableMap</a></li>
                                 <li><a href="../classes/Perspective.html">Perspective</a></li>
@@ -173,6 +175,7 @@
                                 <li><a href="../classes/ShareableWebGLShader.html">ShareableWebGLShader</a></li>
                                 <li><a href="../classes/ShareableWebGLTexture.html">ShareableWebGLTexture</a></li>
                                 <li><a href="../classes/SimplexPrimitivesBuilder.html">SimplexPrimitivesBuilder</a></li>
+                                <li><a href="../classes/SingleViewApp.html">SingleViewApp</a></li>
                                 <li><a href="../classes/SliceSimplexPrimitivesBuilder.html">SliceSimplexPrimitivesBuilder</a></li>
                                 <li><a href="../classes/Sphere.html">Sphere</a></li>
                                 <li><a href="../classes/SphereBuilder.html">SphereBuilder</a></li>
@@ -215,12 +218,13 @@
                                 <li><a href="../classes/VertexAttributeMap.html">VertexAttributeMap</a></li>
                                 <li><a href="../classes/VertexBuffer.html">VertexBuffer</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
-                                <li><a href="../classes/VisualApp.html">VisualApp</a></li>
+                                <li><a href="../classes/Viewport.html">Viewport</a></li>
                                 <li><a href="../classes/VisualOptions.html">VisualOptions</a></li>
                                 <li><a href="../classes/WebGLBlendFunc.html">WebGLBlendFunc</a></li>
                                 <li><a href="../classes/WebGLClearColor.html">WebGLClearColor</a></li>
                                 <li><a href="../classes/WebGLDisable.html">WebGLDisable</a></li>
                                 <li><a href="../classes/WebGLEnable.html">WebGLEnable</a></li>
+                                <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
                             </ul>
                 
                 
@@ -282,6 +286,7 @@ import Matrix3 from &#x27;./Matrix3&#x27;;
 import Matrix4 from &#x27;./Matrix4&#x27;;
 import isDefined from &#x27;../checks/isDefined&#x27;;
 import isNumber from &#x27;../checks/isNumber&#x27;;
+import randomRange from &#x27;./randomRange&#x27;
 import SpinorE3 from &#x27;./SpinorE3&#x27;;
 import toStringCustom from &#x27;./toStringCustom&#x27;;
 import wedgeXY from &#x27;./wedgeXY&#x27;;
@@ -385,24 +390,6 @@ export default class Vector3 extends Coords implements ColumnVector&lt;Matrix3, 
     this.x += vector.x * α
     this.y += vector.y * α
     this.z += vector.z * α
-    return this
-  }
-
-  /**
-   * &lt;p&gt;
-   * &lt;code&gt;this ⟼ a + b&lt;/code&gt;
-   * &lt;/p&gt;
-   * @method add2
-   * @param a {VectorE3}
-   * @param b {VectorE3}
-   * @return {Vector3} &lt;code&gt;this&lt;/code&gt;
-   * @chainable
-   * @deprecated Use copy(a).add(b) instead.
-   */
-  add2(a: VectorE3, b: VectorE3): Vector3 {
-    this.x = a.x + b.x
-    this.y = a.y + b.y
-    this.z = a.z + b.z
     return this
   }
 
@@ -736,7 +723,13 @@ export default class Vector3 extends Coords implements ColumnVector&lt;Matrix3, 
    * @chainable
    */
   normalize(): Vector3 {
-    return this.divByScalar(this.magnitude());
+    const m = this.magnitude()
+    if (m !== 0) {
+      return this.divByScalar(m)
+    }
+    else {
+      return this.zero()
+    }
   }
 
   /**
@@ -824,24 +817,6 @@ export default class Vector3 extends Coords implements ColumnVector&lt;Matrix3, 
     this.x -= v.x * α
     this.y -= v.y * α
     this.z -= v.z * α
-    return this
-  }
-
-  /**
-   * &lt;p&gt;
-   * &lt;code&gt;this ⟼ a - b&lt;/code&gt;
-   * &lt;/p&gt;
-   * @method sub2
-   * @param a {VectorE3}
-   * @param b {VectorE3}
-   * @return {Vector3} &lt;code&gt;this&lt;/code&gt;
-   * @chainable
-   * @deprecated Use copy(a).sub(b) instead.
-   */
-  sub2(a: VectorE3, b: VectorE3) {
-    this.x = a.x - b.x
-    this.y = a.y - b.y
-    this.z = a.z - b.z
     return this
   }
 
@@ -1004,13 +979,17 @@ export default class Vector3 extends Coords implements ColumnVector&lt;Matrix3, 
   }
 
   /**
+   * Computes a unit vector with a random direction.
    * @method random
    * @return {Vector3}
    * @static
    * @chainable
    */
   static random(): Vector3 {
-    return new Vector3([Math.random(), Math.random(), Math.random()])
+    const x = randomRange(-1, 1)
+    const y = randomRange(-1, 1)
+    const z = randomRange(-1, 1)
+    return Vector3.vector(x, y, z).normalize()
   }
 
   /**

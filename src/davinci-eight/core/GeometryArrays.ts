@@ -5,7 +5,7 @@ import computeCount from './computeCount'
 import computePointers from './computePointers'
 import computeStride from './computeStride'
 import ContextProvider from './ContextProvider'
-import core from '../core'
+import config from '../config'
 import Engine from './Engine'
 import ErrorMode from './ErrorMode'
 import GeometryLeaf from './GeometryLeaf'
@@ -143,7 +143,7 @@ export default class GeometryArrays extends GeometryLeaf {
         }
       }
       else {
-        switch (core.errorMode) {
+        switch (config.errorMode) {
           case ErrorMode.WARNME: {
             console.warn(`${this._type}.pointers must be an array.`)
           }

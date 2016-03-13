@@ -167,6 +167,8 @@ export default class Scene extends ShareableContextConsumer {
       part.release()
     }
     drawParts.release()
+
+    this.synchUp()
   }
 
   /**

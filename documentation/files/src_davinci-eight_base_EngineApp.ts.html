@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.220.0</em>
+            <em>API Docs for: 2.221.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -43,6 +43,7 @@
                                 <li><a href="../classes/AbstractMatrix.html">AbstractMatrix</a></li>
                                 <li><a href="../classes/AbstractMesh.html">AbstractMesh</a></li>
                                 <li><a href="../classes/AmbientLight.html">AmbientLight</a></li>
+                                <li><a href="../classes/AnimationApp.html">AnimationApp</a></li>
                                 <li><a href="../classes/Approximation.html">Approximation</a></li>
                                 <li><a href="../classes/Arrow.html">Arrow</a></li>
                                 <li><a href="../classes/ArrowBuilder.html">ArrowBuilder</a></li>
@@ -143,6 +144,7 @@
                                 <li><a href="../classes/ModelE3.html">ModelE3</a></li>
                                 <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
                                 <li><a href="../classes/MouseControls.html">MouseControls</a></li>
+                                <li><a href="../classes/MultiViewApp.html">MultiViewApp</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/NumberShareableMap.html">NumberShareableMap</a></li>
                                 <li><a href="../classes/Perspective.html">Perspective</a></li>
@@ -173,6 +175,7 @@
                                 <li><a href="../classes/ShareableWebGLShader.html">ShareableWebGLShader</a></li>
                                 <li><a href="../classes/ShareableWebGLTexture.html">ShareableWebGLTexture</a></li>
                                 <li><a href="../classes/SimplexPrimitivesBuilder.html">SimplexPrimitivesBuilder</a></li>
+                                <li><a href="../classes/SingleViewApp.html">SingleViewApp</a></li>
                                 <li><a href="../classes/SliceSimplexPrimitivesBuilder.html">SliceSimplexPrimitivesBuilder</a></li>
                                 <li><a href="../classes/Sphere.html">Sphere</a></li>
                                 <li><a href="../classes/SphereBuilder.html">SphereBuilder</a></li>
@@ -215,12 +218,13 @@
                                 <li><a href="../classes/VertexAttributeMap.html">VertexAttributeMap</a></li>
                                 <li><a href="../classes/VertexBuffer.html">VertexBuffer</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
-                                <li><a href="../classes/VisualApp.html">VisualApp</a></li>
+                                <li><a href="../classes/Viewport.html">Viewport</a></li>
                                 <li><a href="../classes/VisualOptions.html">VisualOptions</a></li>
                                 <li><a href="../classes/WebGLBlendFunc.html">WebGLBlendFunc</a></li>
                                 <li><a href="../classes/WebGLClearColor.html">WebGLClearColor</a></li>
                                 <li><a href="../classes/WebGLDisable.html">WebGLDisable</a></li>
                                 <li><a href="../classes/WebGLEnable.html">WebGLEnable</a></li>
+                                <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
                             </ul>
                 
                 
@@ -276,7 +280,11 @@
 import BrowserApp from &#x27;./BrowserApp&#x27;
 import BrowserWindow from &#x27;./BrowserWindow&#x27;
 import Engine from &#x27;../core/Engine&#x27;
+import getCanvasElementById from &#x27;../utils/getCanvasElementById&#x27;
+import getDimensions from &#x27;../utils/getDimensions&#x27;
+import mustBeNumber from &#x27;../checks/mustBeNumber&#x27;
 import mustBeString from &#x27;../checks/mustBeString&#x27;
+import Scene from &#x27;../core/Scene&#x27;
 
 /**
  * @class EngineApp
@@ -311,10 +319,10 @@ export default class EngineApp extends BrowserApp {
   /**
    * @class EngineApp
    * @constructor
-   * @param canvasId {string}
-   * @param [wnd = window] {Window}
+   * @param canvasId {string} The element id of the &lt;code&gt;HTMLCanvasElement&lt;/code&gt;.
+   * @param [wnd = window] {Window} The window in which the application will be running.
    */
-  constructor(canvasId: string, wnd?: BrowserWindow) {
+  constructor(canvasId: string, wnd: BrowserWindow = window) {
     super(wnd)
     this.engine = new Engine()
     this.canvasId = mustBeString(&#x27;canvasId&#x27;, canvasId)
@@ -335,14 +343,27 @@ export default class EngineApp extends BrowserApp {
   }
 
   /**
+   * @method clear
+   * @return {void}
+   * @protected
+   */
+  protected clear(): void {
+    this.engine.clear()
+  }
+
+  /**
    * @method initialize
    * @return {void}
    * @protected
    */
   protected initialize(): void {
     super.initialize()
-    this.canvas = &lt;HTMLCanvasElement&gt;this.window.document.getElementById(this.canvasId)
+    const dom: Document = this.window.document
+    this.canvas = getCanvasElementById(this.canvasId, dom)
     if (this.canvas) {
+      const dimensions = getDimensions(this.canvasId, dom)
+      this.canvas.width = mustBeNumber(&#x27;canvas.width&#x27;, dimensions.width)
+      this.canvas.height = mustBeNumber(&#x27;canvas.height&#x27;, dimensions.height)
       this.engine.start(this.canvas)
     }
     else {

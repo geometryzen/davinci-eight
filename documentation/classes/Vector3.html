@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.220.0</em>
+            <em>API Docs for: 2.221.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -43,6 +43,7 @@
                                 <li><a href="../classes/AbstractMatrix.html">AbstractMatrix</a></li>
                                 <li><a href="../classes/AbstractMesh.html">AbstractMesh</a></li>
                                 <li><a href="../classes/AmbientLight.html">AmbientLight</a></li>
+                                <li><a href="../classes/AnimationApp.html">AnimationApp</a></li>
                                 <li><a href="../classes/Approximation.html">Approximation</a></li>
                                 <li><a href="../classes/Arrow.html">Arrow</a></li>
                                 <li><a href="../classes/ArrowBuilder.html">ArrowBuilder</a></li>
@@ -143,6 +144,7 @@
                                 <li><a href="../classes/ModelE3.html">ModelE3</a></li>
                                 <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
                                 <li><a href="../classes/MouseControls.html">MouseControls</a></li>
+                                <li><a href="../classes/MultiViewApp.html">MultiViewApp</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/NumberShareableMap.html">NumberShareableMap</a></li>
                                 <li><a href="../classes/Perspective.html">Perspective</a></li>
@@ -173,6 +175,7 @@
                                 <li><a href="../classes/ShareableWebGLShader.html">ShareableWebGLShader</a></li>
                                 <li><a href="../classes/ShareableWebGLTexture.html">ShareableWebGLTexture</a></li>
                                 <li><a href="../classes/SimplexPrimitivesBuilder.html">SimplexPrimitivesBuilder</a></li>
+                                <li><a href="../classes/SingleViewApp.html">SingleViewApp</a></li>
                                 <li><a href="../classes/SliceSimplexPrimitivesBuilder.html">SliceSimplexPrimitivesBuilder</a></li>
                                 <li><a href="../classes/Sphere.html">Sphere</a></li>
                                 <li><a href="../classes/SphereBuilder.html">SphereBuilder</a></li>
@@ -215,12 +218,13 @@
                                 <li><a href="../classes/VertexAttributeMap.html">VertexAttributeMap</a></li>
                                 <li><a href="../classes/VertexBuffer.html">VertexBuffer</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
-                                <li><a href="../classes/VisualApp.html">VisualApp</a></li>
+                                <li><a href="../classes/Viewport.html">Viewport</a></li>
                                 <li><a href="../classes/VisualOptions.html">VisualOptions</a></li>
                                 <li><a href="../classes/WebGLBlendFunc.html">WebGLBlendFunc</a></li>
                                 <li><a href="../classes/WebGLClearColor.html">WebGLClearColor</a></li>
                                 <li><a href="../classes/WebGLDisable.html">WebGLDisable</a></li>
                                 <li><a href="../classes/WebGLEnable.html">WebGLEnable</a></li>
+                                <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
                             </ul>
                 
                 
@@ -277,7 +281,7 @@
         </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_math_Vector3.ts.html#l53"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:53</code></a>
+            Defined in: <a href="../files/src_davinci-eight_math_Vector3.ts.html#l54"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:54</code></a>
         </div>
 
             Module: <a href="../modules/math.html">math</a><br>
@@ -316,7 +320,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l53"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:53</code></a>
+        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l54"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:54</code></a>
         </p>
 
 
@@ -380,11 +384,6 @@
                             <li class="index-item method">
                                 <a href="#method_add">add</a>
 
-                            </li>
-                            <li class="index-item method deprecated">
-                                <a href="#method_add2">add2</a>
-
-                                    <span class="flag deprecated">deprecated</span>
                             </li>
                             <li class="index-item method">
                                 <a href="#method_applyMatrix">applyMatrix</a>
@@ -533,11 +532,6 @@
                                 <a href="#method_sub">sub</a>
 
                             </li>
-                            <li class="index-item method deprecated">
-                                <a href="#method_sub2">sub2</a>
-
-                                    <span class="flag deprecated">deprecated</span>
-                            </li>
                             <li class="index-item method">
                                 <a href="#method_toExponential">toExponential</a>
 
@@ -624,7 +618,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l99"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:99</code></a>
+        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l100"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:100</code></a>
         </p>
 
 
@@ -677,88 +671,6 @@
 
 
 </div>
-<div id="method_add2" class="method item deprecated">
-    <h3 class="name"><code>add2</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>a</code>
-                </li>
-                <li class="arg">
-                        <code>b</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/Vector3.html" class="crosslink">Vector3</a></span>
-        </span>
-
-        <span class="flag deprecated" title="Use copy(a).add(b) instead.">deprecated</span>
-
-
-
-
-        <span class="flag chainable">chainable</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l116"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:116</code></a>
-        </p>
-
-
-            <p>Deprecated: Use copy(a).add(b) instead.</p>
-
-    </div>
-
-    <div class="description">
-        <p>
-<code>this ⟼ a + b</code>
-</p>
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">a</code>
-                        <span class="type"><a href="../classes/VectorE3.html" class="crosslink">VectorE3</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">b</code>
-                        <span class="type"><a href="../classes/VectorE3.html" class="crosslink">VectorE3</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/Vector3.html" class="crosslink">Vector3</a></span>:
-                    <p><code>this</code></p>
-
-            </div>
-        </div>
-
-
-</div>
 <div id="method_applyMatrix" class="method item">
     <h3 class="name"><code>applyMatrix</code></h3>
 
@@ -784,7 +696,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l134"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:134</code></a>
+        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l117"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:117</code></a>
         </p>
 
 
@@ -851,7 +763,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l157"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:157</code></a>
+        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l140"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:140</code></a>
         </p>
 
 
@@ -977,7 +889,7 @@ TODO: Used by TubeSimplexGeometry.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l234"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:234</code></a>
+        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l217"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:217</code></a>
         </p>
 
 
@@ -1027,7 +939,7 @@ TODO: Used by TubeSimplexGeometry.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l676"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:676</code></a>
+        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l647"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:647</code></a>
         </p>
 
 
@@ -1090,7 +1002,7 @@ TODO: Used by TubeSimplexGeometry.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l244"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:244</code></a>
+        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l227"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:227</code></a>
         </p>
 
 
@@ -1157,7 +1069,7 @@ TODO: Used by TubeSimplexGeometry.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l266"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:266</code></a>
+        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l249"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:249</code></a>
         </p>
 
 
@@ -1223,7 +1135,7 @@ TODO: Used by TubeSimplexGeometry.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l281"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:281</code></a>
+        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l264"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:264</code></a>
         </p>
 
 
@@ -1293,7 +1205,7 @@ TODO: Used by TubeSimplexGeometry.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l294"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:294</code></a>
+        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l277"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:277</code></a>
         </p>
 
 
@@ -1369,7 +1281,7 @@ TODO: Used by TubeSimplexGeometry.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l315"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:315</code></a>
+        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l298"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:298</code></a>
         </p>
 
 
@@ -1432,7 +1344,7 @@ TODO: Used by TubeSimplexGeometry.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l344"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:344</code></a>
+        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l327"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:327</code></a>
         </p>
 
 
@@ -1498,7 +1410,7 @@ TODO: Used by TubeSimplexGeometry.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l367"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:367</code></a>
+        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l350"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:350</code></a>
         </p>
 
 
@@ -1564,7 +1476,7 @@ TODO: Used by TubeSimplexGeometry.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l41"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:41</code></a>
+        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l42"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:42</code></a>
         </p>
 
 
@@ -1640,7 +1552,7 @@ TODO: Used by TubeSimplexGeometry.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l687"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:687</code></a>
+        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l658"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:658</code></a>
         </p>
 
 
@@ -1720,7 +1632,7 @@ set the <code>changeSign</code> to <code>true</code>.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l376"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:376</code></a>
+        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l359"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:359</code></a>
         </p>
 
 
@@ -1861,7 +1773,7 @@ If changeSign is <code>true</code>, the direction of the resulting vector is rev
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l708"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:708</code></a>
+        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l679"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:679</code></a>
         </p>
 
 
@@ -1931,7 +1843,7 @@ If changeSign is <code>true</code>, the direction of the resulting vector is rev
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l718"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:718</code></a>
+        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l689"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:689</code></a>
         </p>
 
 
@@ -2019,7 +1931,7 @@ If changeSign is <code>true</code>, the direction of the resulting vector is rev
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l424"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:424</code></a>
+        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l407"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:407</code></a>
         </p>
 
 
@@ -2102,7 +2014,7 @@ If changeSign is <code>true</code>, the direction of the resulting vector is rev
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l440"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:440</code></a>
+        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l423"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:423</code></a>
         </p>
 
 
@@ -2182,7 +2094,7 @@ If changeSign is <code>true</code>, the direction of the resulting vector is rev
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l404"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:404</code></a>
+        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l387"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:387</code></a>
         </p>
 
 
@@ -2230,7 +2142,7 @@ If changeSign is <code>true</code>, the direction of the resulting vector is rev
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l643"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:643</code></a>
+        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l614"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:614</code></a>
         </p>
 
 
@@ -2287,7 +2199,7 @@ If changeSign is <code>true</code>, the direction of the resulting vector is rev
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l412"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:412</code></a>
+        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l395"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:395</code></a>
         </p>
 
 
@@ -2330,7 +2242,7 @@ If changeSign is <code>true</code>, the direction of the resulting vector is rev
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l455"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:455</code></a>
+        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l438"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:438</code></a>
         </p>
 
 
@@ -2380,7 +2292,7 @@ If changeSign is <code>true</code>, the direction of the resulting vector is rev
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l328"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:328</code></a>
+        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l311"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:311</code></a>
         </p>
 
 
@@ -2438,7 +2350,7 @@ If changeSign is <code>true</code>, the direction of the resulting vector is rev
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l731"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:731</code></a>
+        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l702"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:702</code></a>
         </p>
 
 
@@ -2446,7 +2358,8 @@ If changeSign is <code>true</code>, the direction of the resulting vector is rev
     </div>
 
     <div class="description">
-        
+        <p>Computes a unit vector with a random direction.</p>
+
     </div>
 
 
@@ -2485,7 +2398,7 @@ If changeSign is <code>true</code>, the direction of the resulting vector is rev
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l182"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:182</code></a>
+        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l165"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:165</code></a>
         </p>
 
 
@@ -2552,7 +2465,7 @@ If changeSign is <code>true</code>, the direction of the resulting vector is rev
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l658"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:658</code></a>
+        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l629"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:629</code></a>
         </p>
 
 
@@ -2615,7 +2528,7 @@ If changeSign is <code>true</code>, the direction of the resulting vector is rev
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l204"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:204</code></a>
+        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l187"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:187</code></a>
         </p>
 
 
@@ -2678,7 +2591,7 @@ If changeSign is <code>true</code>, the direction of the resulting vector is rev
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l467"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:467</code></a>
+        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l456"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:456</code></a>
         </p>
 
 
@@ -2743,7 +2656,7 @@ If changeSign is <code>true</code>, the direction of the resulting vector is rev
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l493"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:493</code></a>
+        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l482"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:482</code></a>
         </p>
 
 
@@ -2827,7 +2740,7 @@ If changeSign is <code>true</code>, the direction of the resulting vector is rev
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l512"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:512</code></a>
+        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l501"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:501</code></a>
         </p>
 
 
@@ -2876,7 +2789,7 @@ If changeSign is <code>true</code>, the direction of the resulting vector is rev
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l527"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:527</code></a>
+        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l516"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:516</code></a>
         </p>
 
 
@@ -2925,7 +2838,7 @@ If changeSign is <code>true</code>, the direction of the resulting vector is rev
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l481"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:481</code></a>
+        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l470"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:470</code></a>
         </p>
 
 
@@ -2992,7 +2905,7 @@ If changeSign is <code>true</code>, the direction of the resulting vector is rev
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l538"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:538</code></a>
+        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l527"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:527</code></a>
         </p>
 
 
@@ -3045,88 +2958,6 @@ If changeSign is <code>true</code>, the direction of the resulting vector is rev
 
 
 </div>
-<div id="method_sub2" class="method item deprecated">
-    <h3 class="name"><code>sub2</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>a</code>
-                </li>
-                <li class="arg">
-                        <code>b</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/Vector3.html" class="crosslink">Vector3</a></span>
-        </span>
-
-        <span class="flag deprecated" title="Use copy(a).sub(b) instead.">deprecated</span>
-
-
-
-
-        <span class="flag chainable">chainable</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l555"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:555</code></a>
-        </p>
-
-
-            <p>Deprecated: Use copy(a).sub(b) instead.</p>
-
-    </div>
-
-    <div class="description">
-        <p>
-<code>this ⟼ a - b</code>
-</p>
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">a</code>
-                        <span class="type"><a href="../classes/VectorE3.html" class="crosslink">VectorE3</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">b</code>
-                        <span class="type"><a href="../classes/VectorE3.html" class="crosslink">VectorE3</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/Vector3.html" class="crosslink">Vector3</a></span>:
-                    <p><code>this</code></p>
-
-            </div>
-        </div>
-
-
-</div>
 <div id="method_toExponential" class="method item">
     <h3 class="name"><code>toExponential</code></h3>
 
@@ -3151,7 +2982,7 @@ If changeSign is <code>true</code>, the direction of the resulting vector is rev
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l573"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:573</code></a>
+        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l544"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:544</code></a>
         </p>
 
 
@@ -3214,7 +3045,7 @@ If changeSign is <code>true</code>, the direction of the resulting vector is rev
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l583"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:583</code></a>
+        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l554"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:554</code></a>
         </p>
 
 
@@ -3277,7 +3108,7 @@ If changeSign is <code>true</code>, the direction of the resulting vector is rev
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l593"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:593</code></a>
+        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l564"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:564</code></a>
         </p>
 
 
@@ -3340,7 +3171,7 @@ If changeSign is <code>true</code>, the direction of the resulting vector is rev
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l603"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:603</code></a>
+        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l574"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:574</code></a>
         </p>
 
 
@@ -3411,7 +3242,7 @@ If changeSign is <code>true</code>, the direction of the resulting vector is rev
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l741"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:741</code></a>
+        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l716"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:716</code></a>
         </p>
 
 
@@ -3489,7 +3320,7 @@ If changeSign is <code>true</code>, the direction of the resulting vector is rev
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l754"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:754</code></a>
+        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l729"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:729</code></a>
         </p>
 
 
@@ -3530,7 +3361,7 @@ If changeSign is <code>true</code>, the direction of the resulting vector is rev
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l613"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:613</code></a>
+        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l584"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:584</code></a>
         </p>
 
 
@@ -3569,7 +3400,7 @@ If changeSign is <code>true</code>, the direction of the resulting vector is rev
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l63"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:63</code></a>
+        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l64"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:64</code></a>
         </p>
 
 
@@ -3593,7 +3424,7 @@ If changeSign is <code>true</code>, the direction of the resulting vector is rev
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l75"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:75</code></a>
+        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l76"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:76</code></a>
         </p>
 
 
@@ -3617,7 +3448,7 @@ If changeSign is <code>true</code>, the direction of the resulting vector is rev
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l87"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:87</code></a>
+        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l88"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:88</code></a>
         </p>
 
 

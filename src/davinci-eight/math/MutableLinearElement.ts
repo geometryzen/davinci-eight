@@ -7,13 +7,6 @@ import LinearNumber from '../math/LinearNumber';
 interface MutableLinearElement<I, M, S, V, MAGNITUDE, SCALING> extends LinearNumber<I, M, S, V, MAGNITUDE, SCALING> {
 
     /**
-     * <p>
-     * <code>this ⟼ a * α + b * β</code>
-     * </p>
-     */
-    add2(a: I, b: I, α?: number, β?: number): M;
-
-    /**
      * Computes a copy of this element.
      */
     clone(): M;
@@ -22,13 +15,6 @@ interface MutableLinearElement<I, M, S, V, MAGNITUDE, SCALING> extends LinearNum
      * Copies the source coordinates onto this element.
      */
     copy(source: I): M;
-
-    /**
-     * <p>
-     * <code>this ⟼ a * α - b * β</code>
-     * </p>
-     */
-    sub2(a: I, b: I): M;
 
     /**
      * Sets this element to the identity element for addition, <b>0</b>.

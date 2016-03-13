@@ -1,4 +1,4 @@
-import core from '../core'
+import config from '../config'
 import ErrorMode from '../core/ErrorMode'
 import isBoolean from '../checks/isBoolean';
 import mustBeBoolean from '../checks/mustBeBoolean';
@@ -62,7 +62,7 @@ export default class TrailConfig {
       this._enabled = enabled
     }
     else {
-      switch (core.errorMode) {
+      switch (config.errorMode) {
         case ErrorMode.IGNORE: {
           // Do nothing.
         }

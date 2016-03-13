@@ -5,6 +5,8 @@ import BrowserDocument from './BrowserDocument'
  */
 interface BrowserWindow extends EventTarget {
   document: BrowserDocument;
+  cancelAnimationFrame(handle: number): void;
+  requestAnimationFrame(callback: FrameRequestCallback): number;
 }
 
 export default BrowserWindow

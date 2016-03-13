@@ -1,4 +1,4 @@
-import core from '../core';
+import config from '../config';
 import ContextProvider from '../core/ContextProvider';
 import ShareableBase from '../core/ShareableBase';
 
@@ -55,7 +55,7 @@ export default class EIGHTLogger extends ShareableBase {
    * @return {void}
    */
   contextGain(contextProvider: ContextProvider): void {
-    console.log(`${core.NAMESPACE} ${core.VERSION} (${core.GITHUB}) ${core.LAST_MODIFIED}`);
+    console.log(`${config.NAMESPACE} ${config.VERSION} (${config.GITHUB}) ${config.LAST_MODIFIED}`);
   }
 
   /**

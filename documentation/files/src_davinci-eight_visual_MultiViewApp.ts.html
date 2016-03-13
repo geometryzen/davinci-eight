@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src/davinci-eight/core.ts - davinci-eight</title>
+    <title>src/davinci-eight/visual/MultiViewApp.ts - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.220.0</em>
+            <em>API Docs for: 2.221.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -43,6 +43,7 @@
                                 <li><a href="../classes/AbstractMatrix.html">AbstractMatrix</a></li>
                                 <li><a href="../classes/AbstractMesh.html">AbstractMesh</a></li>
                                 <li><a href="../classes/AmbientLight.html">AmbientLight</a></li>
+                                <li><a href="../classes/AnimationApp.html">AnimationApp</a></li>
                                 <li><a href="../classes/Approximation.html">Approximation</a></li>
                                 <li><a href="../classes/Arrow.html">Arrow</a></li>
                                 <li><a href="../classes/ArrowBuilder.html">ArrowBuilder</a></li>
@@ -143,6 +144,7 @@
                                 <li><a href="../classes/ModelE3.html">ModelE3</a></li>
                                 <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
                                 <li><a href="../classes/MouseControls.html">MouseControls</a></li>
+                                <li><a href="../classes/MultiViewApp.html">MultiViewApp</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/NumberShareableMap.html">NumberShareableMap</a></li>
                                 <li><a href="../classes/Perspective.html">Perspective</a></li>
@@ -173,6 +175,7 @@
                                 <li><a href="../classes/ShareableWebGLShader.html">ShareableWebGLShader</a></li>
                                 <li><a href="../classes/ShareableWebGLTexture.html">ShareableWebGLTexture</a></li>
                                 <li><a href="../classes/SimplexPrimitivesBuilder.html">SimplexPrimitivesBuilder</a></li>
+                                <li><a href="../classes/SingleViewApp.html">SingleViewApp</a></li>
                                 <li><a href="../classes/SliceSimplexPrimitivesBuilder.html">SliceSimplexPrimitivesBuilder</a></li>
                                 <li><a href="../classes/Sphere.html">Sphere</a></li>
                                 <li><a href="../classes/SphereBuilder.html">SphereBuilder</a></li>
@@ -215,12 +218,13 @@
                                 <li><a href="../classes/VertexAttributeMap.html">VertexAttributeMap</a></li>
                                 <li><a href="../classes/VertexBuffer.html">VertexBuffer</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
-                                <li><a href="../classes/VisualApp.html">VisualApp</a></li>
+                                <li><a href="../classes/Viewport.html">Viewport</a></li>
                                 <li><a href="../classes/VisualOptions.html">VisualOptions</a></li>
                                 <li><a href="../classes/WebGLBlendFunc.html">WebGLBlendFunc</a></li>
                                 <li><a href="../classes/WebGLClearColor.html">WebGLClearColor</a></li>
                                 <li><a href="../classes/WebGLDisable.html">WebGLDisable</a></li>
                                 <li><a href="../classes/WebGLEnable.html">WebGLEnable</a></li>
+                                <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
                             </ul>
                 
                 
@@ -269,54 +273,93 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: src/davinci-eight/core.ts</h1>
+<h1 class="file-heading">File: src/davinci-eight/visual/MultiViewApp.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import ErrorMode from &#x27;./core/ErrorMode&#x27;
-
-class Eight {
-  private _errorMode: ErrorMode;
-  GITHUB: string;
-  LAST_MODIFIED: string;
-  NAMESPACE: string;
-  VERSION: string;
-
-  constructor() {
-    this._errorMode = ErrorMode.STRICT;
-    this.GITHUB = &#x27;https://github.com/geometryzen/davinci-eight&#x27;;
-    this.LAST_MODIFIED = &#x27;2016-03-11&#x27;;
-    this.NAMESPACE = &#x27;EIGHT&#x27;;
-    this.VERSION = &#x27;2.220.0&#x27;;
-  }
-  get errorMode() {
-    return this._errorMode
-  }
-  set errorMode(errorMode: ErrorMode) {
-    switch (errorMode) {
-      case ErrorMode.IGNORE:
-      case ErrorMode.STRICT:
-      case ErrorMode.WARNME: {
-        this._errorMode = errorMode
-      }
-        break;
-      default: {
-        throw new Error(&quot;errorMode must be one of IGNORE, STRICT, or WARNME.&quot;)
-      }
-    }
-  }
-  warn(message?: any, ...optionalParams: any[]): void {
-    // This should allow us to unit test and run in environments without a console.
-    console.warn(message)
-  }
-}
+import AnimationApp from &#x27;../base/AnimationApp&#x27;
+import BrowserWindow from &#x27;../base/BrowserWindow&#x27;
+import mustBeGE from &#x27;../checks/mustBeGE&#x27;
+import mustBeInteger from &#x27;../checks/mustBeInteger&#x27;
+import Scene from &#x27;../core/Scene&#x27;
+import ShareableArray from &#x27;../collections/ShareableArray&#x27;
+import Viewport from &#x27;./Viewport&#x27;
 
 /**
- *
+ * @class MultiViewApp
+ * @extends AnimationApp
  */
-const config = new Eight()
+export default class MultiViewApp extends AnimationApp {
 
-export default config;
+  /**
+   * @property views
+   * @type ShareableArray&lt;Viewport&gt;
+   * @protected
+   */
+  protected views = new ShareableArray&lt;Viewport&gt;()
+
+  /**
+   * @class MultiViewApp
+   * @constructor
+   * @param numViews {number} The initial number of views. Views may be added and removed later.
+   * @param canvasId {string} The element id of the &lt;code&gt;HTMLCanvasElement&lt;/code&gt;.
+   * @param [wnd = window] {Window} The window in which the application will be running.
+   */
+  constructor(numViews: number, canvasId: string, wnd: BrowserWindow = window) {
+    super(canvasId, wnd)
+    mustBeInteger(&#x27;numViews&#x27;, numViews)
+    mustBeGE(&#x27;numViews&#x27;, numViews, 0)
+    for (let i = 0; i &lt; numViews; i++) {
+      this.views.pushWeakRef(new Viewport(this.engine))
+    }
+  }
+
+  /**
+   * @method initialize
+   * @return {void}
+   * @protected
+   */
+  protected initialize(): void {
+    super.initialize()
+
+    const w = this.canvas.width
+    const h = this.canvas.height
+
+    const scene = new Scene(this.engine)
+    const views = this.views
+    const iLen = views.length
+    for (let i = 0; i &lt; iLen; i++) {
+      const view = views.getWeakRef(i)
+      view.scene = scene
+      view.setPortal(0, 0, w, h)
+    }
+    scene.release()
+  }
+
+  /**
+   * @method draw
+   * @return {void}
+   * @protected
+   */
+  protected draw(): void {
+    const views = this.views
+    const iLen = views.length
+    for (let i = 0; i &lt; iLen; i++) {
+      const view = views.getWeakRef(i)
+      view.draw()
+    }
+  }
+
+  /**
+   * @method destructor
+   * @return {void}
+   * @protected
+   */
+  protected destructor(): void {
+    this.views.release()
+    super.destructor()
+  }
+}
 
     </pre>
 </div>

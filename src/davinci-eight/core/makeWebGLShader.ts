@@ -1,4 +1,4 @@
-import config from '../core'
+import config from '../config'
 import ErrorMode from './ErrorMode'
 
 function decodeType(gl: WebGLRenderingContext, type: number): string {

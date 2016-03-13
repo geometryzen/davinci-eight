@@ -1,7 +1,7 @@
 import clamp from '../math/clamp'
 import ColumnVector from '../math/ColumnVector'
 import Coords from '../math/Coords'
-import core from '../core'
+import config from '../config'
 import ErrorMode from '../core/ErrorMode'
 import AbstractColor from './AbstractColor'
 import isDefined from '../checks/isDefined'
@@ -437,7 +437,7 @@ export default class Color extends Coords implements AbstractColor, ColumnVector
       return color
     }
     else {
-      switch (core.errorMode) {
+      switch (config.errorMode) {
         case ErrorMode.IGNORE: {
           return Color.random()
         }

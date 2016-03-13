@@ -7,6 +7,7 @@ import Matrix3 from './Matrix3';
 import Matrix4 from './Matrix4';
 import isDefined from '../checks/isDefined';
 import isNumber from '../checks/isNumber';
+import randomRange from './randomRange'
 import SpinorE3 from './SpinorE3';
 import toStringCustom from './toStringCustom';
 import wedgeXY from './wedgeXY';
@@ -110,24 +111,6 @@ export default class Vector3 extends Coords implements ColumnVector<Matrix3, Vec
     this.x += vector.x * α
     this.y += vector.y * α
     this.z += vector.z * α
-    return this
-  }
-
-  /**
-   * <p>
-   * <code>this ⟼ a + b</code>
-   * </p>
-   * @method add2
-   * @param a {VectorE3}
-   * @param b {VectorE3}
-   * @return {Vector3} <code>this</code>
-   * @chainable
-   * @deprecated Use copy(a).add(b) instead.
-   */
-  add2(a: VectorE3, b: VectorE3): Vector3 {
-    this.x = a.x + b.x
-    this.y = a.y + b.y
-    this.z = a.z + b.z
     return this
   }
 
@@ -461,7 +444,13 @@ export default class Vector3 extends Coords implements ColumnVector<Matrix3, Vec
    * @chainable
    */
   normalize(): Vector3 {
-    return this.divByScalar(this.magnitude());
+    const m = this.magnitude()
+    if (m !== 0) {
+      return this.divByScalar(m)
+    }
+    else {
+      return this.zero()
+    }
   }
 
   /**
@@ -549,24 +538,6 @@ export default class Vector3 extends Coords implements ColumnVector<Matrix3, Vec
     this.x -= v.x * α
     this.y -= v.y * α
     this.z -= v.z * α
-    return this
-  }
-
-  /**
-   * <p>
-   * <code>this ⟼ a - b</code>
-   * </p>
-   * @method sub2
-   * @param a {VectorE3}
-   * @param b {VectorE3}
-   * @return {Vector3} <code>this</code>
-   * @chainable
-   * @deprecated Use copy(a).sub(b) instead.
-   */
-  sub2(a: VectorE3, b: VectorE3) {
-    this.x = a.x - b.x
-    this.y = a.y - b.y
-    this.z = a.z - b.z
     return this
   }
 
@@ -729,13 +700,17 @@ export default class Vector3 extends Coords implements ColumnVector<Matrix3, Vec
   }
 
   /**
+   * Computes a unit vector with a random direction.
    * @method random
    * @return {Vector3}
    * @static
    * @chainable
    */
   static random(): Vector3 {
-    return new Vector3([Math.random(), Math.random(), Math.random()])
+    const x = randomRange(-1, 1)
+    const y = randomRange(-1, 1)
+    const z = randomRange(-1, 1)
+    return Vector3.vector(x, y, z).normalize()
   }
 
   /**

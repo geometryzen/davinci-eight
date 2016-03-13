@@ -1,6 +1,6 @@
 import Material from './Material'
 import ContextProvider from './ContextProvider'
-import core from '../core'
+import config from '../config'
 import Engine from './Engine'
 import ErrorMode from './ErrorMode'
 import GeometryLeaf from './GeometryLeaf'
@@ -275,7 +275,7 @@ export default class GeometryElements extends GeometryLeaf {
         }
       }
       else {
-        switch (core.errorMode) {
+        switch (config.errorMode) {
           case ErrorMode.WARNME: {
             console.warn(`${this._type}.pointers must be an array.`)
           }
@@ -289,7 +289,7 @@ export default class GeometryElements extends GeometryLeaf {
         contextProvider.drawElements(this.mode, this.count, this.offset)
       }
       else {
-        switch (core.errorMode) {
+        switch (config.errorMode) {
           case ErrorMode.WARNME: {
             console.warn(`${this._type}.indices must be an array.`)
           }

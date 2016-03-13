@@ -433,22 +433,6 @@ var requirejs, require, define;
 
 define("../bower_components/almond/almond", function(){});
 
-define('davinci-eight/checks/isDefined',["require", "exports"], function (require, exports) {
-    function isDefined(arg) {
-        return (typeof arg !== 'undefined');
-    }
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = isDefined;
-});
-
-define('davinci-eight/checks/isFunction',["require", "exports"], function (require, exports) {
-    function isFunction(x) {
-        return (typeof x === 'function');
-    }
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = isFunction;
-});
-
 define('davinci-eight/checks/isUndefined',["require", "exports"], function (require, exports) {
     function isUndefined(arg) {
         return (typeof arg === 'undefined');
@@ -475,6 +459,257 @@ define('davinci-eight/checks/isNumber',["require", "exports"], function (require
     }
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = isNumber;
+});
+
+define('davinci-eight/checks/mustBeNumber',["require", "exports", '../checks/mustSatisfy', '../checks/isNumber'], function (require, exports, mustSatisfy_1, isNumber_1) {
+    function beANumber() {
+        return "be a `number`";
+    }
+    function default_1(name, value, contextBuilder) {
+        mustSatisfy_1.default(name, isNumber_1.default(value), beANumber, contextBuilder);
+        return value;
+    }
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = default_1;
+});
+
+define('davinci-eight/checks/expectArg',["require", "exports", '../checks/isUndefined', '../checks/mustBeNumber'], function (require, exports, isUndefined_1, mustBeNumber_1) {
+    function message(standard, override) {
+        return isUndefined_1.default(override) ? standard : override();
+    }
+    function expectArg(name, value) {
+        var arg = {
+            toSatisfy: function (condition, message) {
+                if (isUndefined_1.default(condition)) {
+                    throw new Error("condition must be specified");
+                }
+                if (isUndefined_1.default(message)) {
+                    throw new Error("message must be specified");
+                }
+                if (!condition) {
+                    throw new Error(message);
+                }
+                return arg;
+            },
+            toBeBoolean: function (override) {
+                var typeOfValue = typeof value;
+                if (typeOfValue !== 'boolean') {
+                    throw new Error(message("Expecting argument " + name + ": " + typeOfValue + " to be a boolean.", override));
+                }
+                return arg;
+            },
+            toBeDefined: function () {
+                var typeOfValue = typeof value;
+                if (typeOfValue === 'undefined') {
+                    var message_1 = "Expecting argument " + name + ": " + typeOfValue + " to be defined.";
+                    throw new Error(message_1);
+                }
+                return arg;
+            },
+            toBeInClosedInterval: function (lower, upper) {
+                var something = value;
+                var x = something;
+                mustBeNumber_1.default('x', x);
+                if (x >= lower && x <= upper) {
+                    return arg;
+                }
+                else {
+                    var message_2 = "Expecting argument " + name + " => " + value + " to be in the range [" + lower + ", " + upper + "].";
+                    throw new Error(message_2);
+                }
+            },
+            toBeFunction: function () {
+                var typeOfValue = typeof value;
+                if (typeOfValue !== 'function') {
+                    var message_3 = "Expecting argument " + name + ": " + typeOfValue + " to be a function.";
+                    throw new Error(message_3);
+                }
+                return arg;
+            },
+            toBeNumber: function (override) {
+                var typeOfValue = typeof value;
+                if (typeOfValue !== 'number') {
+                    throw new Error(message("Expecting argument " + name + ": " + typeOfValue + " to be a number.", override));
+                }
+                return arg;
+            },
+            toBeObject: function (override) {
+                var typeOfValue = typeof value;
+                if (typeOfValue !== 'object') {
+                    throw new Error(message("Expecting argument " + name + ": " + typeOfValue + " to be an object.", override));
+                }
+                return arg;
+            },
+            toBeString: function () {
+                var typeOfValue = typeof value;
+                if (typeOfValue !== 'string') {
+                    var message_4 = "Expecting argument " + name + ": " + typeOfValue + " to be a string.";
+                    throw new Error(message_4);
+                }
+                return arg;
+            },
+            toBeUndefined: function () {
+                var typeOfValue = typeof value;
+                if (typeOfValue !== 'undefined') {
+                    var message_5 = "Expecting argument " + name + ": " + typeOfValue + " to be undefined.";
+                    throw new Error(message_5);
+                }
+                return arg;
+            },
+            toNotBeNull: function () {
+                if (value === null) {
+                    var message_6 = "Expecting argument " + name + " to not be null.";
+                    throw new Error(message_6);
+                }
+                else {
+                    return arg;
+                }
+            },
+            get value() {
+                return value;
+            }
+        };
+        return arg;
+    }
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = expectArg;
+});
+
+define('davinci-eight/utils/animation',["require", "exports", '../checks/expectArg'], function (require, exports, expectArg_1) {
+    function defaultSetUp() {
+    }
+    function defaultTearDown(animateException) {
+        if (animateException) {
+            var message = "Exception raised during animate function: " + animateException;
+            console.warn(message);
+        }
+    }
+    function defaultTerminate(time) {
+        return false;
+    }
+    function animation(animate, options) {
+        if (options === void 0) { options = {}; }
+        var STATE_INITIAL = 1;
+        var STATE_RUNNING = 2;
+        var STATE_PAUSED = 3;
+        var $window = expectArg_1.default('options.window', options.window || window).toNotBeNull().value;
+        var setUp = expectArg_1.default('options.setUp', options.setUp || defaultSetUp).value;
+        var tearDown = expectArg_1.default('options.tearDown', options.tearDown || defaultTearDown).value;
+        var terminate = expectArg_1.default('options.terminate', options.terminate || defaultTerminate).toNotBeNull().value;
+        var stopSignal = false;
+        var startTime;
+        var elapsed = 0;
+        var MILLIS_PER_SECOND = 1000;
+        var requestID = null;
+        var animateException;
+        var state = STATE_INITIAL;
+        var frameRequestCallback = function (timestamp) {
+            if (startTime) {
+                elapsed = elapsed + timestamp - startTime;
+            }
+            startTime = timestamp;
+            if (stopSignal || terminate(elapsed / MILLIS_PER_SECOND)) {
+                stopSignal = false;
+                $window.cancelAnimationFrame(requestID);
+                if (publicAPI.isRunning) {
+                    state = STATE_PAUSED;
+                    startTime = void 0;
+                }
+                else {
+                    console.error("stopSignal received while not running.");
+                }
+                $window.document.removeEventListener('keydown', onDocumentKeyDown, false);
+                try {
+                    tearDown(animateException);
+                }
+                catch (e) {
+                    console.warn("Exception raised during tearDown function: " + e);
+                }
+            }
+            else {
+                requestID = $window.requestAnimationFrame(frameRequestCallback);
+                try {
+                    animate(elapsed / MILLIS_PER_SECOND);
+                }
+                catch (e) {
+                    animateException = e;
+                    stopSignal = true;
+                }
+            }
+        };
+        var onDocumentKeyDown = function (event) {
+            if (event.keyCode === 27) {
+                stopSignal = true;
+                event.preventDefault();
+            }
+        };
+        var publicAPI = {
+            start: function () {
+                if (!publicAPI.isRunning) {
+                    setUp();
+                    $window.document.addEventListener('keydown', onDocumentKeyDown, false);
+                    state = STATE_RUNNING;
+                    requestID = $window.requestAnimationFrame(frameRequestCallback);
+                }
+                else {
+                    throw new Error("The `start` method may only be called when not running.");
+                }
+            },
+            stop: function () {
+                if (publicAPI.isRunning) {
+                    stopSignal = true;
+                }
+                else {
+                    throw new Error("The `stop` method may only be called when running.");
+                }
+            },
+            reset: function () {
+                if (publicAPI.isPaused) {
+                    startTime = void 0;
+                    elapsed = 0;
+                    state = STATE_INITIAL;
+                }
+                else {
+                    throw new Error("The `reset` method may only be called when paused.");
+                }
+            },
+            get time() {
+                return elapsed / MILLIS_PER_SECOND;
+            },
+            lap: function () {
+                if (publicAPI.isRunning) {
+                }
+                else {
+                    throw new Error("The `lap` method may only be called when running.");
+                }
+            },
+            get isRunning() {
+                return state === STATE_RUNNING;
+            },
+            get isPaused() {
+                return state === STATE_PAUSED;
+            }
+        };
+        return publicAPI;
+    }
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = animation;
+});
+
+define('davinci-eight/checks/isDefined',["require", "exports"], function (require, exports) {
+    function isDefined(arg) {
+        return (typeof arg !== 'undefined');
+    }
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = isDefined;
+});
+
+define('davinci-eight/checks/isFunction',["require", "exports"], function (require, exports) {
+    function isFunction(x) {
+        return (typeof x === 'function');
+    }
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = isFunction;
 });
 
 define('davinci-eight/checks/isInteger',["require", "exports", '../checks/isNumber'], function (require, exports, isNumber_1) {
@@ -556,8 +791,78 @@ define('davinci-eight/checks/mustBeEQ',["require", "exports", '../checks/mustSat
     exports.default = default_1;
 });
 
-define('davinci-eight/core/refChange',["require", "exports", '../checks/isDefined'], function (require, exports, isDefined_1) {
+define('davinci-eight/core/ErrorMode',["require", "exports"], function (require, exports) {
+    var ErrorMode;
+    (function (ErrorMode) {
+        ErrorMode[ErrorMode["STRICT"] = 0] = "STRICT";
+        ErrorMode[ErrorMode["IGNORE"] = 1] = "IGNORE";
+        ErrorMode[ErrorMode["WARNME"] = 2] = "WARNME";
+    })(ErrorMode || (ErrorMode = {}));
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = ErrorMode;
+});
+
+define('davinci-eight/config',["require", "exports", './core/ErrorMode'], function (require, exports, ErrorMode_1) {
+    var Eight = (function () {
+        function Eight() {
+            this._errorMode = ErrorMode_1.default.STRICT;
+            this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
+            this.LAST_MODIFIED = '2016-03-12';
+            this.NAMESPACE = 'EIGHT';
+            this.VERSION = '2.221.0';
+        }
+        Object.defineProperty(Eight.prototype, "errorMode", {
+            get: function () {
+                return this._errorMode;
+            },
+            set: function (errorMode) {
+                switch (errorMode) {
+                    case ErrorMode_1.default.IGNORE:
+                    case ErrorMode_1.default.STRICT:
+                    case ErrorMode_1.default.WARNME:
+                        {
+                            this._errorMode = errorMode;
+                        }
+                        break;
+                    default: {
+                        throw new Error("errorMode must be one of IGNORE, STRICT, or WARNME.");
+                    }
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Eight.prototype.info = function (message) {
+            var optionalParams = [];
+            for (var _i = 1; _i < arguments.length; _i++) {
+                optionalParams[_i - 1] = arguments[_i];
+            }
+            console.info(message);
+        };
+        Eight.prototype.warn = function (message) {
+            var optionalParams = [];
+            for (var _i = 1; _i < arguments.length; _i++) {
+                optionalParams[_i - 1] = arguments[_i];
+            }
+            console.warn(message);
+        };
+        Eight.prototype.error = function (message) {
+            var optionalParams = [];
+            for (var _i = 1; _i < arguments.length; _i++) {
+                optionalParams[_i - 1] = arguments[_i];
+            }
+            console.error(message);
+        };
+        return Eight;
+    })();
+    var config = new Eight();
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = config;
+});
+
+define('davinci-eight/core/refChange',["require", "exports", '../config', '../checks/isDefined'], function (require, exports, config_1, isDefined_1) {
     var statistics = {};
+    var chatty = true;
     var skip = true;
     var trace = false;
     var traceName = void 0;
@@ -566,13 +871,13 @@ define('davinci-eight/core/refChange',["require", "exports", '../checks/isDefine
         return LOGGING_NAME_REF_CHANGE + ": " + message;
     }
     function log(message) {
-        return console.log(prefix(message));
+        return config_1.default.info(prefix(message));
     }
     function warn(message) {
-        return console.warn(prefix(message));
+        return config_1.default.warn(prefix(message));
     }
     function error(message) {
-        return console.error(prefix(message));
+        return config_1.default.error(prefix(message));
     }
     function garbageCollect() {
         var uuids = Object.keys(statistics);
@@ -601,13 +906,20 @@ define('davinci-eight/core/refChange',["require", "exports", '../checks/isDefine
         garbageCollect();
         return computeOutstanding();
     }
+    function outstandingMessage(outstanding) {
+        return "There are " + outstanding + " outstanding reference counts.";
+    }
     function dump() {
         var outstanding = stop();
         if (outstanding > 0) {
-            warn(JSON.stringify(statistics, null, 2));
+            config_1.default.warn("Memory Leak!");
+            config_1.default.warn(outstandingMessage(outstanding));
+            config_1.default.warn(JSON.stringify(statistics, null, 2));
         }
         else {
-            log("There are " + outstanding + " outstanding reference counts.");
+            if (chatty) {
+                config_1.default.info(outstandingMessage(outstanding));
+            }
         }
         return outstanding;
     }
@@ -638,6 +950,9 @@ define('davinci-eight/core/refChange',["require", "exports", '../checks/isDefine
                 element = { refCount: 0, name: name, zombie: false };
                 statistics[uuid] = element;
             }
+            else {
+                element.name = name;
+            }
             element.refCount += change;
         }
         else if (change === -1) {
@@ -657,30 +972,50 @@ define('davinci-eight/core/refChange',["require", "exports", '../checks/isDefine
         }
         else if (change === 0) {
             var message = isDefined_1.default(name) ? uuid + " @ " + name : uuid;
-            log(message);
             if (uuid === 'stop') {
+                if (chatty) {
+                    log(message);
+                }
                 return stop();
             }
-            if (uuid === 'dump') {
-                return dump();
-            }
-            else if (uuid === 'start') {
-                skip = false;
-                trace = false;
-            }
-            else if (uuid === 'reset') {
-                statistics = {};
-                skip = true;
-                trace = false;
-                traceName = void 0;
-            }
-            else if (uuid === 'trace') {
-                skip = false;
-                trace = true;
-                traceName = name;
-            }
             else {
-                throw new Error(prefix("Unexpected command " + message));
+                if (uuid === 'dump') {
+                    return dump();
+                }
+                else if (uuid === 'verbose') {
+                    chatty = true;
+                }
+                else if (uuid === 'quiet') {
+                    chatty = false;
+                }
+                else if (uuid === 'start') {
+                    if (chatty) {
+                        log(message);
+                    }
+                    skip = false;
+                    trace = false;
+                }
+                else if (uuid === 'reset') {
+                    if (chatty) {
+                        log(message);
+                    }
+                    statistics = {};
+                    chatty = true;
+                    skip = true;
+                    trace = false;
+                    traceName = void 0;
+                }
+                else if (uuid === 'trace') {
+                    if (chatty) {
+                        log(message);
+                    }
+                    skip = false;
+                    trace = true;
+                    traceName = name;
+                }
+                else {
+                    throw new Error(prefix("Unexpected command uuid => " + uuid + ", name => " + name));
+                }
             }
         }
         else {
@@ -766,7 +1101,8 @@ define('davinci-eight/core/ShareableBase',["require", "exports", '../checks/isDe
             this._refCount = 1;
             this._uuid = uuid4_1.default().generate();
             this._levelUp = -1;
-            this.setLoggingName('ShareableBase');
+            this._type = 'ShareableBase';
+            this._levelUp += 1;
             refChange_1.default(this._uuid, this._type, +1);
         }
         ShareableBase.prototype.destructor = function (levelUp, grumble) {
@@ -802,6 +1138,8 @@ define('davinci-eight/core/ShareableBase',["require", "exports", '../checks/isDe
         ShareableBase.prototype.setLoggingName = function (name) {
             this._type = mustBeString_1.default('name', name);
             this._levelUp += 1;
+            refChange_1.default(this._uuid, name, +1);
+            refChange_1.default(this._uuid, name, -1);
         };
         ShareableBase.prototype.release = function () {
             this._refCount--;
@@ -1009,6 +1347,7 @@ define('davinci-eight/base/BrowserApp',["require", "exports", '../checks/isDefin
         function BrowserApp(wnd) {
             var _this = this;
             if (wnd === void 0) { wnd = window; }
+            refChange_1.default('quiet');
             refChange_1.default('start');
             this.window = wnd;
             this.domLoaded = function () {
@@ -1086,67 +1425,12 @@ define('davinci-eight/commands/Capability',["require", "exports"], function (req
     exports.default = Capability;
 });
 
-define('davinci-eight/core/ErrorMode',["require", "exports"], function (require, exports) {
-    var ErrorMode;
-    (function (ErrorMode) {
-        ErrorMode[ErrorMode["STRICT"] = 0] = "STRICT";
-        ErrorMode[ErrorMode["IGNORE"] = 1] = "IGNORE";
-        ErrorMode[ErrorMode["WARNME"] = 2] = "WARNME";
-    })(ErrorMode || (ErrorMode = {}));
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = ErrorMode;
-});
-
-define('davinci-eight/core',["require", "exports", './core/ErrorMode'], function (require, exports, ErrorMode_1) {
-    var Eight = (function () {
-        function Eight() {
-            this._errorMode = ErrorMode_1.default.STRICT;
-            this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-            this.LAST_MODIFIED = '2016-03-11';
-            this.NAMESPACE = 'EIGHT';
-            this.VERSION = '2.220.0';
-        }
-        Object.defineProperty(Eight.prototype, "errorMode", {
-            get: function () {
-                return this._errorMode;
-            },
-            set: function (errorMode) {
-                switch (errorMode) {
-                    case ErrorMode_1.default.IGNORE:
-                    case ErrorMode_1.default.STRICT:
-                    case ErrorMode_1.default.WARNME:
-                        {
-                            this._errorMode = errorMode;
-                        }
-                        break;
-                    default: {
-                        throw new Error("errorMode must be one of IGNORE, STRICT, or WARNME.");
-                    }
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Eight.prototype.warn = function (message) {
-            var optionalParams = [];
-            for (var _i = 1; _i < arguments.length; _i++) {
-                optionalParams[_i - 1] = arguments[_i];
-            }
-            console.warn(message);
-        };
-        return Eight;
-    })();
-    var config = new Eight();
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = config;
-});
-
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/commands/EIGHTLogger',["require", "exports", '../core', '../core/ShareableBase'], function (require, exports, core_1, ShareableBase_1) {
+define('davinci-eight/commands/EIGHTLogger',["require", "exports", '../config', '../core/ShareableBase'], function (require, exports, config_1, ShareableBase_1) {
     var EIGHTLogger = (function (_super) {
         __extends(EIGHTLogger, _super);
         function EIGHTLogger() {
@@ -1159,7 +1443,7 @@ define('davinci-eight/commands/EIGHTLogger',["require", "exports", '../core', '.
         EIGHTLogger.prototype.contextFree = function (contextProvider) {
         };
         EIGHTLogger.prototype.contextGain = function (contextProvider) {
-            console.log(core_1.default.NAMESPACE + " " + core_1.default.VERSION + " (" + core_1.default.GITHUB + ") " + core_1.default.LAST_MODIFIED);
+            console.log(config_1.default.NAMESPACE + " " + config_1.default.VERSION + " (" + config_1.default.GITHUB + ") " + config_1.default.LAST_MODIFIED);
         };
         EIGHTLogger.prototype.contextLost = function () {
         };
@@ -1351,18 +1635,6 @@ define('davinci-eight/commands/VersionLogger',["require", "exports", '../core/Sh
     })(ShareableBase_1.default);
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = VersionLogger;
-});
-
-define('davinci-eight/checks/mustBeNumber',["require", "exports", '../checks/mustSatisfy', '../checks/isNumber'], function (require, exports, mustSatisfy_1, isNumber_1) {
-    function beANumber() {
-        return "be a `number`";
-    }
-    function default_1(name, value, contextBuilder) {
-        mustSatisfy_1.default(name, isNumber_1.default(value), beANumber, contextBuilder);
-        return value;
-    }
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = default_1;
 });
 
 var __extends = (this && this.__extends) || function (d, b) {
@@ -1709,15 +1981,94 @@ define('davinci-eight/core/Engine',["require", "exports", '../commands/Capabilit
     exports.default = Engine;
 });
 
+define('davinci-eight/utils/getCanvasElementById',["require", "exports", '../checks/mustBeString', '../checks/mustBeObject'], function (require, exports, mustBeString_1, mustBeObject_1) {
+    function getCanvasElementById(elementId, dom) {
+        if (dom === void 0) { dom = window.document; }
+        mustBeString_1.default('elementId', elementId);
+        mustBeObject_1.default('document', dom);
+        var element = dom.getElementById(elementId);
+        if (element instanceof HTMLCanvasElement) {
+            return element;
+        }
+        else {
+            throw new Error(elementId + " is not an HTMLCanvasElement.");
+        }
+    }
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = getCanvasElementById;
+});
+
+define('davinci-eight/utils/exists',["require", "exports"], function (require, exports) {
+    function exists(v) {
+        return !(v === void 0 || v === null);
+    }
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = exists;
+});
+
+define('davinci-eight/utils/isBrowser',["require", "exports"], function (require, exports) {
+    function isBrowser() {
+        return typeof window === 'object' && typeof document === 'object';
+    }
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = isBrowser;
+});
+
+define('davinci-eight/utils/getDimensions',["require", "exports", './exists', './isBrowser'], function (require, exports, exists_1, isBrowser_1) {
+    function getDimensions(elementId, doc) {
+        var pixelDimRegExp = /\d+(\.\d*)?px/;
+        if (!isBrowser_1.default() || elementId === null) {
+            return {
+                width: 500,
+                height: 500
+            };
+        }
+        var element = doc.getElementById(elementId);
+        if (!exists_1.default(element)) {
+            throw new Error("\nHTML container element '" + elementId + "' not found.");
+        }
+        var display = element.style.display;
+        if (display !== 'none' && display !== null) {
+            if (element.clientWidth > 0 && element.clientHeight > 0) {
+                return { width: element.clientWidth, height: element.clientHeight };
+            }
+            var style = window.getComputedStyle ? window.getComputedStyle(element) : element.style;
+            return {
+                width: pixelDimRegExp.test(style.width) ? parseFloat(style.width) : 0,
+                height: pixelDimRegExp.test(style.height) ? parseFloat(style.height) : 0
+            };
+        }
+        var els = element.style;
+        var originalVisibility = els.visibility;
+        var originalPosition = els.position;
+        var originalDisplay = els.display;
+        els.visibility = 'hidden';
+        els.position = 'absolute';
+        els.display = 'block';
+        var originalWidth = element.clientWidth;
+        var originalHeight = element.clientHeight;
+        els.display = originalDisplay;
+        els.position = originalPosition;
+        els.visibility = originalVisibility;
+        return {
+            width: originalWidth,
+            height: originalHeight
+        };
+    }
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = getDimensions;
+});
+
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/base/EngineApp',["require", "exports", './BrowserApp', '../core/Engine', '../checks/mustBeString'], function (require, exports, BrowserApp_1, Engine_1, mustBeString_1) {
+define('davinci-eight/base/EngineApp',["require", "exports", './BrowserApp', '../core/Engine', '../utils/getCanvasElementById', '../utils/getDimensions', '../checks/mustBeNumber', '../checks/mustBeString'], function (require, exports, BrowserApp_1, Engine_1, getCanvasElementById_1, getDimensions_1, mustBeNumber_1, mustBeString_1) {
     var EngineApp = (function (_super) {
         __extends(EngineApp, _super);
         function EngineApp(canvasId, wnd) {
+            if (wnd === void 0) { wnd = window; }
             _super.call(this, wnd);
             this.engine = new Engine_1.default();
             this.canvasId = mustBeString_1.default('canvasId', canvasId);
@@ -1730,10 +2081,17 @@ define('davinci-eight/base/EngineApp',["require", "exports", './BrowserApp', '..
             }
             _super.prototype.destructor.call(this);
         };
+        EngineApp.prototype.clear = function () {
+            this.engine.clear();
+        };
         EngineApp.prototype.initialize = function () {
             _super.prototype.initialize.call(this);
-            this.canvas = this.window.document.getElementById(this.canvasId);
+            var dom = this.window.document;
+            this.canvas = getCanvasElementById_1.default(this.canvasId, dom);
             if (this.canvas) {
+                var dimensions = getDimensions_1.default(this.canvasId, dom);
+                this.canvas.width = mustBeNumber_1.default('canvas.width', dimensions.width);
+                this.canvas.height = mustBeNumber_1.default('canvas.height', dimensions.height);
                 this.engine.start(this.canvas);
             }
             else {
@@ -1744,6 +2102,55 @@ define('davinci-eight/base/EngineApp',["require", "exports", './BrowserApp', '..
     })(BrowserApp_1.default);
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = EngineApp;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/base/AnimationApp',["require", "exports", '../utils/animation', './EngineApp'], function (require, exports, animation_1, EngineApp_1) {
+    var AnimationApp = (function (_super) {
+        __extends(AnimationApp, _super);
+        function AnimationApp(canvasId, wnd) {
+            var _this = this;
+            if (wnd === void 0) { wnd = window; }
+            _super.call(this, canvasId, wnd);
+            var options = {};
+            options.window = this.window;
+            var animate = function (time) {
+                _this.animate(time);
+            };
+            this.animation = animation_1.default(animate, options);
+        }
+        AnimationApp.prototype.destructor = function () {
+            _super.prototype.destructor.call(this);
+        };
+        AnimationApp.prototype.initialize = function () {
+            _super.prototype.initialize.call(this);
+        };
+        AnimationApp.prototype.animate = function (time) {
+            throw new Error("derived class must implement the protected animate(time: number): void method.");
+        };
+        AnimationApp.prototype.start = function () {
+            if (!this.animation.isRunning) {
+                this.animation.start();
+            }
+        };
+        AnimationApp.prototype.stop = function () {
+            if (this.animation.isRunning) {
+                this.animation.stop();
+            }
+        };
+        AnimationApp.prototype.reset = function () {
+            if (this.animation.isPaused) {
+                this.animation.reset();
+            }
+        };
+        return AnimationApp;
+    })(EngineApp_1.default);
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = AnimationApp;
 });
 
 define('davinci-eight/commands/BlendFactor',["require", "exports"], function (require, exports) {
@@ -8237,108 +8644,6 @@ define('davinci-eight/math/Vector2',["require", "exports", '../math/Coords', '..
     exports.default = Vector2;
 });
 
-define('davinci-eight/checks/expectArg',["require", "exports", '../checks/isUndefined', '../checks/mustBeNumber'], function (require, exports, isUndefined_1, mustBeNumber_1) {
-    function message(standard, override) {
-        return isUndefined_1.default(override) ? standard : override();
-    }
-    function expectArg(name, value) {
-        var arg = {
-            toSatisfy: function (condition, message) {
-                if (isUndefined_1.default(condition)) {
-                    throw new Error("condition must be specified");
-                }
-                if (isUndefined_1.default(message)) {
-                    throw new Error("message must be specified");
-                }
-                if (!condition) {
-                    throw new Error(message);
-                }
-                return arg;
-            },
-            toBeBoolean: function (override) {
-                var typeOfValue = typeof value;
-                if (typeOfValue !== 'boolean') {
-                    throw new Error(message("Expecting argument " + name + ": " + typeOfValue + " to be a boolean.", override));
-                }
-                return arg;
-            },
-            toBeDefined: function () {
-                var typeOfValue = typeof value;
-                if (typeOfValue === 'undefined') {
-                    var message_1 = "Expecting argument " + name + ": " + typeOfValue + " to be defined.";
-                    throw new Error(message_1);
-                }
-                return arg;
-            },
-            toBeInClosedInterval: function (lower, upper) {
-                var something = value;
-                var x = something;
-                mustBeNumber_1.default('x', x);
-                if (x >= lower && x <= upper) {
-                    return arg;
-                }
-                else {
-                    var message_2 = "Expecting argument " + name + " => " + value + " to be in the range [" + lower + ", " + upper + "].";
-                    throw new Error(message_2);
-                }
-            },
-            toBeFunction: function () {
-                var typeOfValue = typeof value;
-                if (typeOfValue !== 'function') {
-                    var message_3 = "Expecting argument " + name + ": " + typeOfValue + " to be a function.";
-                    throw new Error(message_3);
-                }
-                return arg;
-            },
-            toBeNumber: function (override) {
-                var typeOfValue = typeof value;
-                if (typeOfValue !== 'number') {
-                    throw new Error(message("Expecting argument " + name + ": " + typeOfValue + " to be a number.", override));
-                }
-                return arg;
-            },
-            toBeObject: function (override) {
-                var typeOfValue = typeof value;
-                if (typeOfValue !== 'object') {
-                    throw new Error(message("Expecting argument " + name + ": " + typeOfValue + " to be an object.", override));
-                }
-                return arg;
-            },
-            toBeString: function () {
-                var typeOfValue = typeof value;
-                if (typeOfValue !== 'string') {
-                    var message_4 = "Expecting argument " + name + ": " + typeOfValue + " to be a string.";
-                    throw new Error(message_4);
-                }
-                return arg;
-            },
-            toBeUndefined: function () {
-                var typeOfValue = typeof value;
-                if (typeOfValue !== 'undefined') {
-                    var message_5 = "Expecting argument " + name + ": " + typeOfValue + " to be undefined.";
-                    throw new Error(message_5);
-                }
-                return arg;
-            },
-            toNotBeNull: function () {
-                if (value === null) {
-                    var message_6 = "Expecting argument " + name + " to not be null.";
-                    throw new Error(message_6);
-                }
-                else {
-                    return arg;
-                }
-            },
-            get value() {
-                return value;
-            }
-        };
-        return arg;
-    }
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = expectArg;
-});
-
 define('davinci-eight/math/AbstractMatrix',["require", "exports", '../checks/mustBeDefined', '../checks/mustBeInteger', '../checks/expectArg', '../i18n/readOnly'], function (require, exports, mustBeDefined_1, mustBeInteger_1, expectArg_1, readOnly_1) {
     var AbstractMatrix = (function () {
         function AbstractMatrix(elements, dimensions) {
@@ -8795,6 +9100,14 @@ define('davinci-eight/math/Matrix3',["require", "exports", '../math/AbstractMatr
     exports.default = Matrix3;
 });
 
+define('davinci-eight/math/randomRange',["require", "exports"], function (require, exports) {
+    function default_1(a, b) {
+        return (b - a) * Math.random() + a;
+    }
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = default_1;
+});
+
 define('davinci-eight/math/toStringCustom',["require", "exports", '../math/stringFromCoordinates'], function (require, exports, stringFromCoordinates_1) {
     function toStringCustom(coordinates, uom, coordToString, labels) {
         var quantityString = stringFromCoordinates_1.default(coordinates, coordToString, labels);
@@ -8820,7 +9133,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/math/Vector3',["require", "exports", './Coords', './dotVectorE3', './Matrix3', '../checks/isDefined', '../checks/isNumber', './toStringCustom', './wedgeXY', './wedgeYZ', './wedgeZX'], function (require, exports, Coords_1, dotVectorE3_1, Matrix3_1, isDefined_1, isNumber_1, toStringCustom_1, wedgeXY_1, wedgeYZ_1, wedgeZX_1) {
+define('davinci-eight/math/Vector3',["require", "exports", './Coords', './dotVectorE3', './Matrix3', '../checks/isDefined', '../checks/isNumber', './randomRange', './toStringCustom', './wedgeXY', './wedgeYZ', './wedgeZX'], function (require, exports, Coords_1, dotVectorE3_1, Matrix3_1, isDefined_1, isNumber_1, randomRange_1, toStringCustom_1, wedgeXY_1, wedgeYZ_1, wedgeZX_1) {
     var sqrt = Math.sqrt;
     var COORD_X = 0;
     var COORD_Y = 1;
@@ -8877,12 +9190,6 @@ define('davinci-eight/math/Vector3',["require", "exports", './Coords', './dotVec
             this.x += vector.x * α;
             this.y += vector.y * α;
             this.z += vector.z * α;
-            return this;
-        };
-        Vector3.prototype.add2 = function (a, b) {
-            this.x = a.x + b.x;
-            this.y = a.y + b.y;
-            this.z = a.z + b.z;
             return this;
         };
         Vector3.prototype.applyMatrix = function (σ) {
@@ -9033,7 +9340,13 @@ define('davinci-eight/math/Vector3',["require", "exports", './Coords', './dotVec
             return this;
         };
         Vector3.prototype.normalize = function () {
-            return this.divByScalar(this.magnitude());
+            var m = this.magnitude();
+            if (m !== 0) {
+                return this.divByScalar(m);
+            }
+            else {
+                return this.zero();
+            }
         };
         Vector3.prototype.scale = function (α) {
             this.x *= α;
@@ -9068,12 +9381,6 @@ define('davinci-eight/math/Vector3',["require", "exports", './Coords', './dotVec
             this.x -= v.x * α;
             this.y -= v.y * α;
             this.z -= v.z * α;
-            return this;
-        };
-        Vector3.prototype.sub2 = function (a, b) {
-            this.x = a.x - b.x;
-            this.y = a.y - b.y;
-            this.z = a.z - b.z;
             return this;
         };
         Vector3.prototype.toExponential = function (fractionDigits) {
@@ -9151,7 +9458,10 @@ define('davinci-eight/math/Vector3',["require", "exports", './Coords', './dotVec
             return Vector3.copy(b).sub(a).scale(α).add(a);
         };
         Vector3.random = function () {
-            return new Vector3([Math.random(), Math.random(), Math.random()]);
+            var x = randomRange_1.default(-1, 1);
+            var y = randomRange_1.default(-1, 1);
+            var z = randomRange_1.default(-1, 1);
+            return Vector3.vector(x, y, z).normalize();
         };
         Vector3.vector = function (x, y, z) {
             return new Vector3([x, y, z]);
@@ -9383,7 +9693,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/core/Color',["require", "exports", '../math/clamp', '../math/Coords', '../core', '../core/ErrorMode', '../checks/isDefined', '../checks/mustBeArray', '../checks/mustBeGE', '../checks/mustBeLE', '../checks/mustBeNumber', './principalAngle'], function (require, exports, clamp_1, Coords_1, core_1, ErrorMode_1, isDefined_1, mustBeArray_1, mustBeGE_1, mustBeLE_1, mustBeNumber_1, principalAngle_1) {
+define('davinci-eight/core/Color',["require", "exports", '../math/clamp', '../math/Coords', '../config', '../core/ErrorMode', '../checks/isDefined', '../checks/mustBeArray', '../checks/mustBeGE', '../checks/mustBeLE', '../checks/mustBeNumber', './principalAngle'], function (require, exports, clamp_1, Coords_1, config_1, ErrorMode_1, isDefined_1, mustBeArray_1, mustBeGE_1, mustBeLE_1, mustBeNumber_1, principalAngle_1) {
     var COORD_R = 0;
     var COORD_G = 1;
     var COORD_B = 2;
@@ -9580,7 +9890,7 @@ define('davinci-eight/core/Color',["require", "exports", '../math/clamp', '../ma
                 return color;
             }
             else {
-                switch (core_1.default.errorMode) {
+                switch (config_1.default.errorMode) {
                     case ErrorMode_1.default.IGNORE: {
                         return Color.random();
                     }
@@ -10017,7 +10327,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/core/GeometryLeaf',["require", "exports", '../core', './ErrorMode', '../base/incLevel', '../checks/isNumber', '../i18n/notImplemented', '../i18n/notSupported', '../i18n/readOnly', './ShareableContextConsumer'], function (require, exports, core_1, ErrorMode_1, incLevel_1, isNumber_1, notImplemented_1, notSupported_1, readOnly_1, ShareableContextConsumer_1) {
+define('davinci-eight/core/GeometryLeaf',["require", "exports", '../config', './ErrorMode', '../base/incLevel', '../checks/isNumber', '../i18n/notImplemented', '../i18n/notSupported', '../i18n/readOnly', './ShareableContextConsumer'], function (require, exports, config_1, ErrorMode_1, incLevel_1, isNumber_1, notImplemented_1, notSupported_1, readOnly_1, ShareableContextConsumer_1) {
     var GeometryLeaf = (function (_super) {
         __extends(GeometryLeaf, _super);
         function GeometryLeaf(engine) {
@@ -10071,7 +10381,7 @@ define('davinci-eight/core/GeometryLeaf',["require", "exports", '../core', './Er
                 this.mode = contextProvider.drawModeToGL(this._drawMode);
             }
             else {
-                switch (core_1.default.errorMode) {
+                switch (config_1.default.errorMode) {
                     case ErrorMode_1.default.WARNME: {
                         console.warn(this._type + ".drawMode must be a number.");
                     }
@@ -10080,7 +10390,7 @@ define('davinci-eight/core/GeometryLeaf',["require", "exports", '../core', './Er
                 }
             }
             if (!isNumber_1.default(this._stride)) {
-                switch (core_1.default.errorMode) {
+                switch (config_1.default.errorMode) {
                     case ErrorMode_1.default.WARNME: {
                         console.warn(this._type + ".stride must be a number.");
                     }
@@ -10217,7 +10527,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/core/GeometryArrays',["require", "exports", './computeAttributes', './computeCount', './computePointers', './computeStride', '../core', './ErrorMode', './GeometryLeaf', '../base/incLevel', './VertexBuffer'], function (require, exports, computeAttributes_1, computeCount_1, computePointers_1, computeStride_1, core_1, ErrorMode_1, GeometryLeaf_1, incLevel_1, VertexBuffer_1) {
+define('davinci-eight/core/GeometryArrays',["require", "exports", './computeAttributes', './computeCount', './computePointers', './computeStride', '../config', './ErrorMode', './GeometryLeaf', '../base/incLevel', './VertexBuffer'], function (require, exports, computeAttributes_1, computeCount_1, computePointers_1, computeStride_1, config_1, ErrorMode_1, GeometryLeaf_1, incLevel_1, VertexBuffer_1) {
     var GeometryArrays = (function (_super) {
         __extends(GeometryArrays, _super);
         function GeometryArrays(engine) {
@@ -10261,7 +10571,7 @@ define('davinci-eight/core/GeometryArrays',["require", "exports", './computeAttr
                     }
                 }
                 else {
-                    switch (core_1.default.errorMode) {
+                    switch (config_1.default.errorMode) {
                         case ErrorMode_1.default.WARNME: {
                             console.warn(this._type + ".pointers must be an array.");
                         }
@@ -11497,7 +11807,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/core/GeometryElements',["require", "exports", '../core', './ErrorMode', './GeometryLeaf', '../base/incLevel', './IndexBuffer', '../checks/isArray', '../checks/isNull', '../checks/isObject', '../checks/isUndefined', '../checks/mustBeArray', '../checks/mustBeObject', '../i18n/readOnly', './VertexBuffer'], function (require, exports, core_1, ErrorMode_1, GeometryLeaf_1, incLevel_1, IndexBuffer_1, isArray_1, isNull_1, isObject_1, isUndefined_1, mustBeArray_1, mustBeObject_1, readOnly_1, VertexBuffer_1) {
+define('davinci-eight/core/GeometryElements',["require", "exports", '../config', './ErrorMode', './GeometryLeaf', '../base/incLevel', './IndexBuffer', '../checks/isArray', '../checks/isNull', '../checks/isObject', '../checks/isUndefined', '../checks/mustBeArray', '../checks/mustBeObject', '../i18n/readOnly', './VertexBuffer'], function (require, exports, config_1, ErrorMode_1, GeometryLeaf_1, incLevel_1, IndexBuffer_1, isArray_1, isNull_1, isObject_1, isUndefined_1, mustBeArray_1, mustBeObject_1, readOnly_1, VertexBuffer_1) {
     var GeometryElements = (function (_super) {
         __extends(GeometryElements, _super);
         function GeometryElements(data, engine) {
@@ -11645,7 +11955,7 @@ define('davinci-eight/core/GeometryElements',["require", "exports", '../core', '
                     }
                 }
                 else {
-                    switch (core_1.default.errorMode) {
+                    switch (config_1.default.errorMode) {
                         case ErrorMode_1.default.WARNME: {
                             console.warn(this._type + ".pointers must be an array.");
                         }
@@ -11658,7 +11968,7 @@ define('davinci-eight/core/GeometryElements',["require", "exports", '../core', '
                     contextProvider.drawElements(this.mode, this.count, this.offset);
                 }
                 else {
-                    switch (core_1.default.errorMode) {
+                    switch (config_1.default.errorMode) {
                         case ErrorMode_1.default.WARNME: {
                             console.warn(this._type + ".indices must be an array.");
                         }
@@ -12249,6 +12559,7 @@ define('davinci-eight/core/Scene',["require", "exports", '../collections/Shareab
                 part.release();
             }
             drawParts.release();
+            this.synchUp();
         };
         Scene.prototype.contains = function (drawable) {
             mustBeObject_1.default('drawable', drawable);
@@ -12307,7 +12618,7 @@ define('davinci-eight/core/Scene',["require", "exports", '../collections/Shareab
     exports.default = Scene;
 });
 
-define('davinci-eight/core/UniformLocation',["require", "exports", '../core', '../core/ErrorMode', '../checks/isNull', '../checks/mustBeObject'], function (require, exports, core_1, ErrorMode_1, isNull_1, mustBeObject_1) {
+define('davinci-eight/core/UniformLocation',["require", "exports", '../config', '../core/ErrorMode', '../checks/isNull', '../checks/mustBeObject'], function (require, exports, config_1, ErrorMode_1, isNull_1, mustBeObject_1) {
     var UniformLocation = (function () {
         function UniformLocation(info) {
             if (!isNull_1.default(info)) {
@@ -12316,7 +12627,7 @@ define('davinci-eight/core/UniformLocation',["require", "exports", '../core', '.
             }
             else {
                 var msg = "UniformLocation constructor called with null info: WebGLActiveInfo.";
-                switch (core_1.default.errorMode) {
+                switch (config_1.default.errorMode) {
                     case ErrorMode_1.default.IGNORE:
                         {
                             this.name = null;
@@ -13704,6 +14015,9 @@ define('davinci-eight/facets/PerspectiveCamera',["require", "exports", './create
             get: function () {
                 return this.inner.aspect;
             },
+            set: function (aspect) {
+                this.inner.aspect = aspect;
+            },
             enumerable: true,
             configurable: true
         });
@@ -13754,6 +14068,9 @@ define('davinci-eight/facets/PerspectiveCamera',["require", "exports", './create
             get: function () {
                 return this.inner.look;
             },
+            set: function (look) {
+                this.inner.setLook(look);
+            },
             enumerable: true,
             configurable: true
         });
@@ -13765,8 +14082,8 @@ define('davinci-eight/facets/PerspectiveCamera',["require", "exports", './create
             get: function () {
                 return this.inner.near;
             },
-            set: function (unused) {
-                throw new Error(readOnly_1.default('near').message);
+            set: function (near) {
+                this.inner.near = near;
             },
             enumerable: true,
             configurable: true
@@ -17032,7 +17349,7 @@ define('davinci-eight/geometries/TetrahedronGeometry',["require", "exports", '..
     exports.default = TetrahedronGeometry;
 });
 
-define('davinci-eight/core/makeWebGLShader',["require", "exports", '../core', './ErrorMode'], function (require, exports, core_1, ErrorMode_1) {
+define('davinci-eight/core/makeWebGLShader',["require", "exports", '../config', './ErrorMode'], function (require, exports, config_1, ErrorMode_1) {
     function decodeType(gl, type) {
         if (type === gl.VERTEX_SHADER) {
             return "VERTEX_SHADER";
@@ -17056,9 +17373,9 @@ define('davinci-eight/core/makeWebGLShader',["require", "exports", '../core', '.
             if (!gl.isContextLost()) {
                 var message = gl.getShaderInfoLog(shader);
                 gl.deleteShader(shader);
-                switch (core_1.default.errorMode) {
+                switch (config_1.default.errorMode) {
                     case ErrorMode_1.default.WARNME: {
-                        core_1.default.warn("Error compiling " + decodeType(gl, type) + ". Cause: " + message + ".");
+                        config_1.default.warn("Error compiling " + decodeType(gl, type) + ". Cause: " + message + ".");
                     }
                 }
                 throw new Error(message);
@@ -17106,7 +17423,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/materials/MaterialBase',["require", "exports", '../core/AttribLocation', '../core', '../base/incLevel', '../checks/isDefined', '../checks/isString', '../checks/isNull', '../core/makeWebGLProgram', '../core/ErrorMode', '../checks/mustBeArray', '../checks/mustBeString', '../checks/mustBeUndefined', '../i18n/readOnly', '../core/ShareableContextConsumer', '../core/UniformLocation'], function (require, exports, AttribLocation_1, core_1, incLevel_1, isDefined_1, isString_1, isNull_1, makeWebGLProgram_1, ErrorMode_1, mustBeArray_1, mustBeString_1, mustBeUndefined_1, readOnly_1, ShareableContextConsumer_1, UniformLocation_1) {
+define('davinci-eight/materials/MaterialBase',["require", "exports", '../core/AttribLocation', '../config', '../base/incLevel', '../checks/isDefined', '../checks/isString', '../checks/isNull', '../core/makeWebGLProgram', '../core/ErrorMode', '../checks/mustBeArray', '../checks/mustBeString', '../checks/mustBeUndefined', '../i18n/readOnly', '../core/ShareableContextConsumer', '../core/UniformLocation'], function (require, exports, AttribLocation_1, config_1, incLevel_1, isDefined_1, isString_1, isNull_1, makeWebGLProgram_1, ErrorMode_1, mustBeArray_1, mustBeString_1, mustBeUndefined_1, readOnly_1, ShareableContextConsumer_1, UniformLocation_1) {
     var MaterialBase = (function (_super) {
         __extends(MaterialBase, _super);
         function MaterialBase(vertexShaderSrc, fragmentShaderSrc, attribs, engine) {
@@ -17312,7 +17629,7 @@ define('davinci-eight/materials/MaterialBase',["require", "exports", '../core/At
             }
             else {
                 var msg = "uniform " + name + " not found.";
-                switch (core_1.default.errorMode) {
+                switch (config_1.default.errorMode) {
                     case ErrorMode_1.default.WARNME: {
                         console.warn(msg);
                         return new UniformLocation_1.default(null);
@@ -17560,7 +17877,7 @@ define('davinci-eight/materials/glslAttribType',["require", "exports", '../core/
     exports.default = glslAttribType;
 });
 
-define('davinci-eight/materials/fragmentShaderSrc',["require", "exports", '../core', '../checks/mustBeBoolean', '../checks/mustBeDefined'], function (require, exports, core_1, mustBeBoolean_1, mustBeDefined_1) {
+define('davinci-eight/materials/fragmentShaderSrc',["require", "exports", '../config', '../checks/mustBeBoolean', '../checks/mustBeDefined'], function (require, exports, config_1, mustBeBoolean_1, mustBeDefined_1) {
     var emitFragmentPrecision = false;
     function default_1(attributes, uniforms, vColor, vLight) {
         mustBeDefined_1.default('attributes', attributes);
@@ -17568,7 +17885,7 @@ define('davinci-eight/materials/fragmentShaderSrc',["require", "exports", '../co
         mustBeBoolean_1.default('vColor', vColor);
         mustBeBoolean_1.default('vLight', vLight);
         var lines = [];
-        lines.push("// fragment shader generated by " + core_1.default.NAMESPACE + " " + core_1.default.VERSION);
+        lines.push("// fragment shader generated by " + config_1.default.NAMESPACE + " " + config_1.default.VERSION);
         if (emitFragmentPrecision) {
             lines.push("#ifdef GL_ES");
             lines.push("#  ifdef GL_FRAGMENT_PRECISION_HIGH");
@@ -17620,7 +17937,7 @@ define('davinci-eight/core/getUniformVarName',["require", "exports", '../checks/
     exports.default = getUniformVarName;
 });
 
-define('davinci-eight/materials/vertexShaderSrc',["require", "exports", '../core', '../core/getAttribVarName', '../core/getUniformVarName', '../checks/mustBeBoolean', '../checks/mustBeDefined', '../core/GraphicsProgramSymbols'], function (require, exports, core_1, getAttribVarName_1, getUniformVarName_1, mustBeBoolean_1, mustBeDefined_1, GraphicsProgramSymbols_1) {
+define('davinci-eight/materials/vertexShaderSrc',["require", "exports", '../config', '../core/getAttribVarName', '../core/getUniformVarName', '../checks/mustBeBoolean', '../checks/mustBeDefined', '../core/GraphicsProgramSymbols'], function (require, exports, config_1, getAttribVarName_1, getUniformVarName_1, mustBeBoolean_1, mustBeDefined_1, GraphicsProgramSymbols_1) {
     function getUniformCodeName(uniforms, name) {
         return getUniformVarName_1.default(uniforms[name], name);
     }
@@ -17640,7 +17957,7 @@ define('davinci-eight/materials/vertexShaderSrc',["require", "exports", '../core
         mustBeBoolean_1.default('vColor', vColor);
         mustBeBoolean_1.default('vLight', vLight);
         var lines = [];
-        lines.push("// vertex shader generated by " + core_1.default.NAMESPACE + " " + core_1.default.VERSION);
+        lines.push("// vertex shader generated by " + config_1.default.NAMESPACE + " " + config_1.default.VERSION);
         for (var aName in attributes) {
             if (attributes.hasOwnProperty(aName)) {
                 lines.push(ATTRIBUTE + attributes[aName].glslType + SPACE + getAttribVarName_1.default(attributes[aName], aName) + SEMICOLON);
@@ -18488,67 +18805,6 @@ define('davinci-eight/overlay/renderers/CanvasRenderer',["require", "exports", '
     exports.default = CanvasRenderer;
 });
 
-define('davinci-eight/utils/exists',["require", "exports"], function (require, exports) {
-    function exists(v) {
-        return !(v === void 0 || v === null);
-    }
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = exists;
-});
-
-define('davinci-eight/utils/isBrowser',["require", "exports"], function (require, exports) {
-    function isBrowser() {
-        return typeof window === 'object' && typeof document === 'object';
-    }
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = isBrowser;
-});
-
-define('davinci-eight/utils/getDimensions',["require", "exports", './exists', './isBrowser'], function (require, exports, exists_1, isBrowser_1) {
-    function getDimensions(elementId, doc) {
-        var pixelDimRegExp = /\d+(\.\d*)?px/;
-        if (!isBrowser_1.default() || elementId === null) {
-            return {
-                width: 500,
-                height: 500
-            };
-        }
-        var element = doc.getElementById(elementId);
-        if (!exists_1.default(element)) {
-            throw new Error("\nHTML container element '" + elementId + "' not found.");
-        }
-        var display = element.style.display;
-        if (display !== 'none' && display !== null) {
-            if (element.clientWidth > 0 && element.clientHeight > 0) {
-                return { width: element.clientWidth, height: element.clientHeight };
-            }
-            var style = window.getComputedStyle ? window.getComputedStyle(element) : element.style;
-            return {
-                width: pixelDimRegExp.test(style.width) ? parseFloat(style.width) : 0,
-                height: pixelDimRegExp.test(style.height) ? parseFloat(style.height) : 0
-            };
-        }
-        var els = element.style;
-        var originalVisibility = els.visibility;
-        var originalPosition = els.position;
-        var originalDisplay = els.display;
-        els.visibility = 'hidden';
-        els.position = 'absolute';
-        els.display = 'block';
-        var originalWidth = element.clientWidth;
-        var originalHeight = element.clientHeight;
-        els.display = originalDisplay;
-        els.position = originalPosition;
-        els.visibility = originalVisibility;
-        return {
-            width: originalWidth,
-            height: originalHeight
-        };
-    }
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = getDimensions;
-});
-
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -18692,23 +18948,6 @@ define('davinci-eight/overlay/Overlay',["require", "exports", './base/Board', '.
     })(ShareableBase_1.default);
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = Overlay;
-});
-
-define('davinci-eight/utils/getCanvasElementById',["require", "exports", '../checks/mustBeString', '../checks/mustBeObject'], function (require, exports, mustBeString_1, mustBeObject_1) {
-    function getCanvasElementById(elementId, dom) {
-        if (dom === void 0) { dom = window.document; }
-        mustBeString_1.default('elementId', elementId);
-        mustBeObject_1.default('document', dom);
-        var element = dom.getElementById(elementId);
-        if (element instanceof HTMLCanvasElement) {
-            return element;
-        }
-        else {
-            throw new Error(elementId + " is not an HTMLCanvasElement.");
-        }
-    }
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = getCanvasElementById;
 });
 
 var __extends = (this && this.__extends) || function (d, b) {
@@ -18873,127 +19112,6 @@ define('davinci-eight/collections/StringShareableMap',["require", "exports", '..
     })(ShareableBase_1.default);
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = StringShareableMap;
-});
-
-define('davinci-eight/utils/animation',["require", "exports", '../checks/expectArg'], function (require, exports, expectArg_1) {
-    function defaultSetUp() {
-    }
-    function defaultTearDown(animateException) {
-        if (animateException) {
-            var message = "Exception raised during animate function: " + animateException;
-            console.warn(message);
-        }
-    }
-    function defaultTerminate(time) {
-        return false;
-    }
-    function animation(animate, options) {
-        var STATE_INITIAL = 1;
-        var STATE_RUNNING = 2;
-        var STATE_PAUSED = 3;
-        options = options || {};
-        var $window = expectArg_1.default('options.window', options.window || window).toNotBeNull().value;
-        var setUp = expectArg_1.default('options.setUp', options.setUp || defaultSetUp).value;
-        var tearDown = expectArg_1.default('options.tearDown', options.tearDown || defaultTearDown).value;
-        var terminate = expectArg_1.default('options.terminate', options.terminate || defaultTerminate).toNotBeNull().value;
-        var stopSignal = false;
-        var startTime;
-        var elapsed = 0;
-        var MILLIS_PER_SECOND = 1000;
-        var requestID = null;
-        var animateException;
-        var state = STATE_INITIAL;
-        var frameRequestCallback = function (timestamp) {
-            if (startTime) {
-                elapsed = elapsed + timestamp - startTime;
-            }
-            startTime = timestamp;
-            if (stopSignal || terminate(elapsed / MILLIS_PER_SECOND)) {
-                stopSignal = false;
-                $window.cancelAnimationFrame(requestID);
-                if (publicAPI.isRunning) {
-                    state = STATE_PAUSED;
-                    startTime = void 0;
-                }
-                else {
-                    console.error("stopSignal received while not running.");
-                }
-                $window.document.removeEventListener('keydown', onDocumentKeyDown, false);
-                try {
-                    tearDown(animateException);
-                }
-                catch (e) {
-                    console.warn("Exception raised during tearDown function: " + e);
-                }
-            }
-            else {
-                requestID = $window.requestAnimationFrame(frameRequestCallback);
-                try {
-                    animate(elapsed / MILLIS_PER_SECOND);
-                }
-                catch (e) {
-                    animateException = e;
-                    stopSignal = true;
-                }
-            }
-        };
-        var onDocumentKeyDown = function (event) {
-            if (event.keyCode === 27) {
-                stopSignal = true;
-                event.preventDefault();
-            }
-        };
-        var publicAPI = {
-            start: function () {
-                if (!publicAPI.isRunning) {
-                    setUp();
-                    $window.document.addEventListener('keydown', onDocumentKeyDown, false);
-                    state = STATE_RUNNING;
-                    requestID = $window.requestAnimationFrame(frameRequestCallback);
-                }
-                else {
-                    throw new Error("The `start` method may only be called when not running.");
-                }
-            },
-            stop: function () {
-                if (publicAPI.isRunning) {
-                    stopSignal = true;
-                }
-                else {
-                    throw new Error("The `stop` method may only be called when running.");
-                }
-            },
-            reset: function () {
-                if (publicAPI.isPaused) {
-                    startTime = void 0;
-                    elapsed = 0;
-                    state = STATE_INITIAL;
-                }
-                else {
-                    throw new Error("The `reset` method may only be called when paused.");
-                }
-            },
-            get time() {
-                return elapsed / MILLIS_PER_SECOND;
-            },
-            lap: function () {
-                if (publicAPI.isRunning) {
-                }
-                else {
-                    throw new Error("The `lap` method may only be called when running.");
-                }
-            },
-            get isRunning() {
-                return state === STATE_RUNNING;
-            },
-            get isPaused() {
-                return state === STATE_PAUSED;
-            }
-        };
-        return publicAPI;
-    }
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = animation;
 });
 
 var __extends = (this && this.__extends) || function (d, b) {
@@ -20070,7 +20188,7 @@ define('davinci-eight/visual/Tetrahedron',["require", "exports", '../core/Mesh',
     exports.default = Tetrahedron;
 });
 
-define('davinci-eight/visual/TrailConfig',["require", "exports", '../core', '../core/ErrorMode', '../checks/isBoolean', '../checks/mustBeBoolean'], function (require, exports, core_1, ErrorMode_1, isBoolean_1, mustBeBoolean_1) {
+define('davinci-eight/visual/TrailConfig',["require", "exports", '../config', '../core/ErrorMode', '../checks/isBoolean', '../checks/mustBeBoolean'], function (require, exports, config_1, ErrorMode_1, isBoolean_1, mustBeBoolean_1) {
     'use strict';
     var TrailConfig = (function () {
         function TrailConfig() {
@@ -20087,7 +20205,7 @@ define('davinci-eight/visual/TrailConfig',["require", "exports", '../core', '../
                     this._enabled = enabled;
                 }
                 else {
-                    switch (core_1.default.errorMode) {
+                    switch (config_1.default.errorMode) {
                         case ErrorMode_1.default.IGNORE:
                             {
                             }
@@ -20171,6 +20289,94 @@ define('davinci-eight/visual/Trail',["require", "exports", '../base/incLevel', '
     })(ShareableBase_1.default);
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = Trail;
+});
+
+define('davinci-eight/base/exchange',["require", "exports"], function (require, exports) {
+    function default_1(mine, yours) {
+        if (mine !== yours) {
+            if (yours) {
+                yours.addRef();
+            }
+            if (mine) {
+                mine.release();
+            }
+            return yours;
+        }
+        else {
+            return mine;
+        }
+    }
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = default_1;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/visual/Viewport',["require", "exports", '../facets/AmbientLight', '../core/Color', '../facets/DirectionalLight', '../base/exchange', '../facets/PerspectiveCamera', '../math/R3', '../core/ShareableBase'], function (require, exports, AmbientLight_1, Color_1, DirectionalLight_1, exchange_1, PerspectiveCamera_1, R3_1, ShareableBase_1) {
+    var Viewport = (function (_super) {
+        __extends(Viewport, _super);
+        function Viewport(engine) {
+            _super.call(this);
+            this.ambients = [];
+            this.ambLight = new AmbientLight_1.default(Color_1.default.gray);
+            this.dirLight = new DirectionalLight_1.default(R3_1.default.e3.neg(), Color_1.default.gray);
+            this.camera = new PerspectiveCamera_1.default();
+            this.x = 0;
+            this.y = 0;
+            this.width = 0;
+            this.height = 0;
+            this.setLoggingName('Viewport');
+            if (engine) {
+                engine.addRef();
+                this.engine = engine;
+            }
+            this.ambients.push(this.ambLight);
+            this.ambients.push(this.dirLight);
+            this.ambients.push(this.camera);
+        }
+        Object.defineProperty(Viewport.prototype, "scene", {
+            get: function () {
+                var scene = this._scene;
+                if (scene) {
+                    scene.addRef();
+                    return scene;
+                }
+            },
+            set: function (scene) {
+                this._scene = exchange_1.default(this._scene, scene);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Viewport.prototype.draw = function () {
+            if (this._scene) {
+                if (this.engine) {
+                    this.engine.viewport(this.x, this.y, this.width, this.height);
+                }
+                this._scene.draw(this.ambients);
+            }
+        };
+        Viewport.prototype.setPortal = function (x, y, width, height) {
+            this.x = x;
+            this.y = y;
+            this.width = width;
+            this.height = height;
+            if (this.camera) {
+                this.camera.setAspect(width / height);
+            }
+        };
+        Viewport.prototype.destructor = function (levelUp) {
+            this.engine = exchange_1.default(this.engine, void 0);
+            this._scene = exchange_1.default(this._scene, void 0);
+            _super.prototype.destructor.call(this, levelUp + 1);
+        };
+        return Viewport;
+    })(ShareableBase_1.default);
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = Viewport;
 });
 
 var __extends = (this && this.__extends) || function (d, b) {
@@ -20390,21 +20596,110 @@ define('davinci-eight/visual/bootstrap',["require", "exports", '../core/Color', 
     exports.default = default_1;
 });
 
-define('davinci-eight',["require", "exports", './davinci-eight/base/BrowserApp', './davinci-eight/base/EngineApp', './davinci-eight/commands/BlendFactor', './davinci-eight/commands/WebGLBlendFunc', './davinci-eight/commands/WebGLClearColor', './davinci-eight/commands/Capability', './davinci-eight/commands/WebGLDisable', './davinci-eight/commands/WebGLEnable', './davinci-eight/controls/CameraControls', './davinci-eight/core/AttribLocation', './davinci-eight/core/Color', './davinci-eight/core', './davinci-eight/core/Drawable', './davinci-eight/core/DrawMode', './davinci-eight/core/ErrorMode', './davinci-eight/core/GeometryArrays', './davinci-eight/core/GeometryContainer', './davinci-eight/core/GeometryElements', './davinci-eight/core/GraphicsProgramSymbols', './davinci-eight/core/Mesh', './davinci-eight/core/Scene', './davinci-eight/core/UniformLocation', './davinci-eight/core/Engine', './davinci-eight/core/VertexBuffer', './davinci-eight/facets/AmbientLight', './davinci-eight/facets/ColorFacet', './davinci-eight/facets/DirectionalLight', './davinci-eight/facets/ModelFacet', './davinci-eight/facets/PointSizeFacet', './davinci-eight/facets/ReflectionFacetE2', './davinci-eight/facets/ReflectionFacetE3', './davinci-eight/facets/Vector3Facet', './davinci-eight/facets/frustumMatrix', './davinci-eight/facets/PerspectiveCamera', './davinci-eight/facets/perspectiveMatrix', './davinci-eight/facets/viewMatrix', './davinci-eight/facets/ModelE2', './davinci-eight/facets/ModelE3', './davinci-eight/geometries/primitives/DrawAttribute', './davinci-eight/geometries/primitives/DrawPrimitive', './davinci-eight/geometries/Simplex', './davinci-eight/geometries/primitives/Vertex', './davinci-eight/geometries/ArrowGeometry', './davinci-eight/geometries/BoxGeometry', './davinci-eight/geometries/CylinderGeometry', './davinci-eight/geometries/GridGeometry', './davinci-eight/geometries/SphereGeometry', './davinci-eight/geometries/TetrahedronGeometry', './davinci-eight/geometries/ArrowBuilder', './davinci-eight/geometries/ConicalShellBuilder', './davinci-eight/geometries/CylindricalShellBuilder', './davinci-eight/geometries/CylinderBuilder', './davinci-eight/geometries/RingBuilder', './davinci-eight/materials/HTMLScriptsMaterial', './davinci-eight/materials/LineMaterial', './davinci-eight/materials/MeshMaterial', './davinci-eight/materials/MeshNormalMaterial', './davinci-eight/materials/PointMaterial', './davinci-eight/materials/GraphicsProgramBuilder', './davinci-eight/materials/smartProgram', './davinci-eight/materials/programFromScripts', './davinci-eight/math/Dimensions', './davinci-eight/math/G2', './davinci-eight/math/G3', './davinci-eight/math/mathcore', './davinci-eight/math/Vector1', './davinci-eight/math/Matrix2', './davinci-eight/math/Matrix3', './davinci-eight/math/Matrix4', './davinci-eight/math/QQ', './davinci-eight/math/R3', './davinci-eight/math/Unit', './davinci-eight/math/Geometric2', './davinci-eight/math/Geometric3', './davinci-eight/math/Spinor2', './davinci-eight/math/Spinor3', './davinci-eight/math/Vector2', './davinci-eight/math/Vector3', './davinci-eight/math/Vector4', './davinci-eight/math/VectorN', './davinci-eight/overlay/Overlay', './davinci-eight/utils/getCanvasElementById', './davinci-eight/collections/ShareableArray', './davinci-eight/collections/NumberShareableMap', './davinci-eight/core/refChange', './davinci-eight/core/ShareableBase', './davinci-eight/collections/StringShareableMap', './davinci-eight/utils/animation', './davinci-eight/visual/Arrow', './davinci-eight/visual/Sphere', './davinci-eight/visual/Box', './davinci-eight/visual/RigidBody', './davinci-eight/visual/RigidBodyWithUnits', './davinci-eight/visual/Cylinder', './davinci-eight/visual/Curve', './davinci-eight/visual/Grid', './davinci-eight/visual/Tetrahedron', './davinci-eight/visual/Trail', './davinci-eight/visual/bootstrap'], function (require, exports, BrowserApp_1, EngineApp_1, BlendFactor_1, WebGLBlendFunc_1, WebGLClearColor_1, Capability_1, WebGLDisable_1, WebGLEnable_1, CameraControls_1, AttribLocation_1, Color_1, core_1, Drawable_1, DrawMode_1, ErrorMode_1, GeometryArrays_1, GeometryContainer_1, GeometryElements_1, GraphicsProgramSymbols_1, Mesh_1, Scene_1, UniformLocation_1, Engine_1, VertexBuffer_1, AmbientLight_1, ColorFacet_1, DirectionalLight_1, ModelFacet_1, PointSizeFacet_1, ReflectionFacetE2_1, ReflectionFacetE3_1, Vector3Facet_1, frustumMatrix_1, PerspectiveCamera_1, perspectiveMatrix_1, viewMatrix_1, ModelE2_1, ModelE3_1, DrawAttribute_1, DrawPrimitive_1, Simplex_1, Vertex_1, ArrowGeometry_1, BoxGeometry_1, CylinderGeometry_1, GridGeometry_1, SphereGeometry_1, TetrahedronGeometry_1, ArrowBuilder_1, ConicalShellBuilder_1, CylindricalShellBuilder_1, CylinderBuilder_1, RingBuilder_1, HTMLScriptsMaterial_1, LineMaterial_1, MeshMaterial_1, MeshNormalMaterial_1, PointMaterial_1, GraphicsProgramBuilder_1, smartProgram_1, programFromScripts_1, Dimensions_1, G2_1, G3_1, mathcore_1, Vector1_1, Matrix2_1, Matrix3_1, Matrix4_1, QQ_1, R3_1, Unit_1, Geometric2_1, Geometric3_1, Spinor2_1, Spinor3_1, Vector2_1, Vector3_1, Vector4_1, VectorN_1, Overlay_1, getCanvasElementById_1, ShareableArray_1, NumberShareableMap_1, refChange_1, ShareableBase_1, StringShareableMap_1, animation_1, Arrow_1, Sphere_1, Box_1, RigidBody_1, RigidBodyWithUnits_1, Cylinder_1, Curve_1, Grid_1, Tetrahedron_1, Trail_1, bootstrap_1) {
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/visual/SingleViewApp',["require", "exports", '../base/AnimationApp', '../core/Scene', './Viewport'], function (require, exports, AnimationApp_1, Scene_1, Viewport_1) {
+    var SingleViewApp = (function (_super) {
+        __extends(SingleViewApp, _super);
+        function SingleViewApp(canvasId, wnd) {
+            if (wnd === void 0) { wnd = window; }
+            _super.call(this, canvasId, wnd);
+            this.view = new Viewport_1.default(this.engine);
+        }
+        SingleViewApp.prototype.initialize = function () {
+            _super.prototype.initialize.call(this);
+            var view = this.view;
+            view.setPortal(0, 0, this.canvas.width, this.canvas.height);
+            var scene = new Scene_1.default(this.engine);
+            try {
+                view.scene = scene;
+            }
+            finally {
+                scene.release();
+            }
+        };
+        SingleViewApp.prototype.draw = function () {
+            this.view.draw();
+        };
+        SingleViewApp.prototype.destructor = function () {
+            this.view.release();
+            _super.prototype.destructor.call(this);
+        };
+        return SingleViewApp;
+    })(AnimationApp_1.default);
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = SingleViewApp;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/visual/MultiViewApp',["require", "exports", '../base/AnimationApp', '../checks/mustBeGE', '../checks/mustBeInteger', '../core/Scene', '../collections/ShareableArray', './Viewport'], function (require, exports, AnimationApp_1, mustBeGE_1, mustBeInteger_1, Scene_1, ShareableArray_1, Viewport_1) {
+    var MultiViewApp = (function (_super) {
+        __extends(MultiViewApp, _super);
+        function MultiViewApp(numViews, canvasId, wnd) {
+            if (wnd === void 0) { wnd = window; }
+            _super.call(this, canvasId, wnd);
+            this.views = new ShareableArray_1.default();
+            mustBeInteger_1.default('numViews', numViews);
+            mustBeGE_1.default('numViews', numViews, 0);
+            for (var i = 0; i < numViews; i++) {
+                this.views.pushWeakRef(new Viewport_1.default(this.engine));
+            }
+        }
+        MultiViewApp.prototype.initialize = function () {
+            _super.prototype.initialize.call(this);
+            var w = this.canvas.width;
+            var h = this.canvas.height;
+            var scene = new Scene_1.default(this.engine);
+            var views = this.views;
+            var iLen = views.length;
+            for (var i = 0; i < iLen; i++) {
+                var view = views.getWeakRef(i);
+                view.scene = scene;
+                view.setPortal(0, 0, w, h);
+            }
+            scene.release();
+        };
+        MultiViewApp.prototype.draw = function () {
+            var views = this.views;
+            var iLen = views.length;
+            for (var i = 0; i < iLen; i++) {
+                var view = views.getWeakRef(i);
+                view.draw();
+            }
+        };
+        MultiViewApp.prototype.destructor = function () {
+            this.views.release();
+            _super.prototype.destructor.call(this);
+        };
+        return MultiViewApp;
+    })(AnimationApp_1.default);
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = MultiViewApp;
+});
+
+define('davinci-eight',["require", "exports", './davinci-eight/base/AnimationApp', './davinci-eight/base/BrowserApp', './davinci-eight/base/EngineApp', './davinci-eight/commands/BlendFactor', './davinci-eight/commands/WebGLBlendFunc', './davinci-eight/commands/WebGLClearColor', './davinci-eight/commands/Capability', './davinci-eight/commands/WebGLDisable', './davinci-eight/commands/WebGLEnable', './davinci-eight/controls/CameraControls', './davinci-eight/core/AttribLocation', './davinci-eight/core/Color', './davinci-eight/config', './davinci-eight/core/Drawable', './davinci-eight/core/DrawMode', './davinci-eight/core/ErrorMode', './davinci-eight/core/GeometryArrays', './davinci-eight/core/GeometryContainer', './davinci-eight/core/GeometryElements', './davinci-eight/core/GraphicsProgramSymbols', './davinci-eight/core/Mesh', './davinci-eight/core/Scene', './davinci-eight/core/UniformLocation', './davinci-eight/core/Engine', './davinci-eight/core/VertexBuffer', './davinci-eight/facets/AmbientLight', './davinci-eight/facets/ColorFacet', './davinci-eight/facets/DirectionalLight', './davinci-eight/facets/ModelFacet', './davinci-eight/facets/PointSizeFacet', './davinci-eight/facets/ReflectionFacetE2', './davinci-eight/facets/ReflectionFacetE3', './davinci-eight/facets/Vector3Facet', './davinci-eight/facets/frustumMatrix', './davinci-eight/facets/PerspectiveCamera', './davinci-eight/facets/perspectiveMatrix', './davinci-eight/facets/viewMatrix', './davinci-eight/facets/ModelE2', './davinci-eight/facets/ModelE3', './davinci-eight/geometries/primitives/DrawAttribute', './davinci-eight/geometries/primitives/DrawPrimitive', './davinci-eight/geometries/Simplex', './davinci-eight/geometries/primitives/Vertex', './davinci-eight/geometries/ArrowGeometry', './davinci-eight/geometries/BoxGeometry', './davinci-eight/geometries/CylinderGeometry', './davinci-eight/geometries/GridGeometry', './davinci-eight/geometries/SphereGeometry', './davinci-eight/geometries/TetrahedronGeometry', './davinci-eight/geometries/ArrowBuilder', './davinci-eight/geometries/ConicalShellBuilder', './davinci-eight/geometries/CylindricalShellBuilder', './davinci-eight/geometries/CylinderBuilder', './davinci-eight/geometries/RingBuilder', './davinci-eight/materials/HTMLScriptsMaterial', './davinci-eight/materials/LineMaterial', './davinci-eight/materials/MeshMaterial', './davinci-eight/materials/MeshNormalMaterial', './davinci-eight/materials/PointMaterial', './davinci-eight/materials/GraphicsProgramBuilder', './davinci-eight/materials/smartProgram', './davinci-eight/materials/programFromScripts', './davinci-eight/math/Dimensions', './davinci-eight/math/G2', './davinci-eight/math/G3', './davinci-eight/math/mathcore', './davinci-eight/math/Vector1', './davinci-eight/math/Matrix2', './davinci-eight/math/Matrix3', './davinci-eight/math/Matrix4', './davinci-eight/math/QQ', './davinci-eight/math/R3', './davinci-eight/math/Unit', './davinci-eight/math/Geometric2', './davinci-eight/math/Geometric3', './davinci-eight/math/Spinor2', './davinci-eight/math/Spinor3', './davinci-eight/math/Vector2', './davinci-eight/math/Vector3', './davinci-eight/math/Vector4', './davinci-eight/math/VectorN', './davinci-eight/overlay/Overlay', './davinci-eight/utils/getCanvasElementById', './davinci-eight/collections/ShareableArray', './davinci-eight/collections/NumberShareableMap', './davinci-eight/core/refChange', './davinci-eight/core/ShareableBase', './davinci-eight/collections/StringShareableMap', './davinci-eight/utils/animation', './davinci-eight/visual/Arrow', './davinci-eight/visual/Sphere', './davinci-eight/visual/Box', './davinci-eight/visual/RigidBody', './davinci-eight/visual/RigidBodyWithUnits', './davinci-eight/visual/Cylinder', './davinci-eight/visual/Curve', './davinci-eight/visual/Grid', './davinci-eight/visual/Tetrahedron', './davinci-eight/visual/Trail', './davinci-eight/visual/Viewport', './davinci-eight/visual/bootstrap', './davinci-eight/visual/SingleViewApp', './davinci-eight/visual/MultiViewApp'], function (require, exports, AnimationApp_1, BrowserApp_1, EngineApp_1, BlendFactor_1, WebGLBlendFunc_1, WebGLClearColor_1, Capability_1, WebGLDisable_1, WebGLEnable_1, CameraControls_1, AttribLocation_1, Color_1, config_1, Drawable_1, DrawMode_1, ErrorMode_1, GeometryArrays_1, GeometryContainer_1, GeometryElements_1, GraphicsProgramSymbols_1, Mesh_1, Scene_1, UniformLocation_1, Engine_1, VertexBuffer_1, AmbientLight_1, ColorFacet_1, DirectionalLight_1, ModelFacet_1, PointSizeFacet_1, ReflectionFacetE2_1, ReflectionFacetE3_1, Vector3Facet_1, frustumMatrix_1, PerspectiveCamera_1, perspectiveMatrix_1, viewMatrix_1, ModelE2_1, ModelE3_1, DrawAttribute_1, DrawPrimitive_1, Simplex_1, Vertex_1, ArrowGeometry_1, BoxGeometry_1, CylinderGeometry_1, GridGeometry_1, SphereGeometry_1, TetrahedronGeometry_1, ArrowBuilder_1, ConicalShellBuilder_1, CylindricalShellBuilder_1, CylinderBuilder_1, RingBuilder_1, HTMLScriptsMaterial_1, LineMaterial_1, MeshMaterial_1, MeshNormalMaterial_1, PointMaterial_1, GraphicsProgramBuilder_1, smartProgram_1, programFromScripts_1, Dimensions_1, G2_1, G3_1, mathcore_1, Vector1_1, Matrix2_1, Matrix3_1, Matrix4_1, QQ_1, R3_1, Unit_1, Geometric2_1, Geometric3_1, Spinor2_1, Spinor3_1, Vector2_1, Vector3_1, Vector4_1, VectorN_1, Overlay_1, getCanvasElementById_1, ShareableArray_1, NumberShareableMap_1, refChange_1, ShareableBase_1, StringShareableMap_1, animation_1, Arrow_1, Sphere_1, Box_1, RigidBody_1, RigidBodyWithUnits_1, Cylinder_1, Curve_1, Grid_1, Tetrahedron_1, Trail_1, Viewport_1, bootstrap_1, SingleViewApp_1, MultiViewApp_1) {
     var eight = {
-        get LAST_MODIFIED() { return core_1.default.LAST_MODIFIED; },
+        get LAST_MODIFIED() { return config_1.default.LAST_MODIFIED; },
         get errorMode() {
-            return core_1.default.errorMode;
+            return config_1.default.errorMode;
         },
         set errorMode(errorMode) {
             if (typeof errorMode === 'number') {
-                core_1.default.errorMode = errorMode;
+                config_1.default.errorMode = errorMode;
             }
             else {
                 throw new TypeError('errorMode must be a ErrorMode');
             }
         },
-        get VERSION() { return core_1.default.VERSION; },
+        get VERSION() { return config_1.default.VERSION; },
+        get AnimationApp() { return AnimationApp_1.default; },
         get BrowserApp() { return BrowserApp_1.default; },
         get EngineApp() { return EngineApp_1.default; },
         get HTMLScriptsMaterial() { return HTMLScriptsMaterial_1.default; },
@@ -20512,6 +20807,9 @@ define('davinci-eight',["require", "exports", './davinci-eight/base/BrowserApp',
         get Grid() { return Grid_1.default; },
         get Tetrahedron() { return Tetrahedron_1.default; },
         get Trail() { return Trail_1.default; },
+        get Viewport() { return Viewport_1.default; },
+        get SingleViewApp() { return SingleViewApp_1.default; },
+        get MultiViewApp() { return MultiViewApp_1.default; },
         get bootstrap() { return bootstrap_1.default; }
     };
     Object.defineProperty(exports, "__esModule", { value: true });

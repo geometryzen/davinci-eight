@@ -1,5 +1,5 @@
 import UniformLocation from './UniformLocation'
-import config from '../core'
+import config from '../config'
 import ErrorMode from './ErrorMode'
 
 describe("UniformLocation", function() {

@@ -83,7 +83,8 @@ export default class ShareableBase implements Shareable {
    * @constructor
    */
   constructor() {
-    this.setLoggingName('ShareableBase')
+    this._type = 'ShareableBase'
+    this._levelUp += 1
     refChange(this._uuid, this._type, +1)
   }
 
@@ -187,6 +188,9 @@ export default class ShareableBase implements Shareable {
   protected setLoggingName(name: string): void {
     this._type = mustBeString('name', name)
     this._levelUp += 1
+    // Update the name used by the reference count tracking.
+    refChange(this._uuid, name, +1)
+    refChange(this._uuid, name, -1)
   }
 
   /**

@@ -1,5 +1,5 @@
 import ContextProgramConsumer from './ContextProgramConsumer';
-import config from '../core'
+import config from '../config'
 import ErrorMode from '../core/ErrorMode'
 import isNull from '../checks/isNull';
 import mustBeObject from '../checks/mustBeObject';

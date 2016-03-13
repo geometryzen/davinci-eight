@@ -18,6 +18,7 @@
   "files": [
     "src/davinci-eight/base/BrowserApp.spec.ts",
     "src/davinci-eight/base/DefaultContextProvider.spec.ts",
+    "src/davinci-eight/base/exchange.spec.ts",
 
     "src/davinci-eight/checks/isNull.spec.ts",
 

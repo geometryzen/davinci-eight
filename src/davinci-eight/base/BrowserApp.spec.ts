@@ -28,8 +28,14 @@ class MockWindow implements BrowserWindow {
   addEventListener(type: string, listener: EventListener, useCapture?: boolean): void {
     this.listening[type] = listener
   }
+  cancelAnimationFrame(handle: number): void {
+    return window.cancelAnimationFrame(handle)
+  }
   removeEventListener(type: string, listener: EventListener, useCapture?: boolean): void {
     delete this.listening[type]
+  }
+  requestAnimationFrame(callback: FrameRequestCallback): number {
+    return window.requestAnimationFrame(callback)
   }
   dispatchEvent(evt: Event): boolean {
     throw new Error(`MockWindow.dispatchEvent(${evt.type})`)

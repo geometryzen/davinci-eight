@@ -2,10 +2,19 @@
     "project": {
         "name": "davinci-eight",
         "description": "WebGL library for mathematical physics using Geometric Algebra",
-        "version": "2.220.0",
+        "version": "2.221.0",
         "url": ""
     },
     "files": {
+        "src/davinci-eight/base/AnimationApp.ts": {
+            "name": "src/davinci-eight/base/AnimationApp.ts",
+            "modules": {},
+            "classes": {
+                "AnimationApp": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "src/davinci-eight/base/BrowserApp.ts": {
             "name": "src/davinci-eight/base/BrowserApp.ts",
             "modules": {},
@@ -2009,6 +2018,13 @@
             "fors": {},
             "namespaces": {}
         },
+        "src/davinci-eight/math/randomRange.ts": {
+            "name": "src/davinci-eight/math/randomRange.ts",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
         "src/davinci-eight/math/rotorFromDirectionsE2.ts": {
             "name": "src/davinci-eight/math/rotorFromDirectionsE2.ts",
             "modules": {},
@@ -2062,6 +2078,15 @@
             "name": "src/davinci-eight/slideshow/Slide.ts",
             "modules": {},
             "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/utils/WindowAnimationRunner.ts": {
+            "name": "src/davinci-eight/utils/WindowAnimationRunner.ts",
+            "modules": {},
+            "classes": {
+                "WindowAnimationRunner": 1
+            },
             "fors": {},
             "namespaces": {}
         },
@@ -2192,6 +2217,15 @@
             "fors": {},
             "namespaces": {}
         },
+        "src/davinci-eight/visual/MultiViewApp.ts": {
+            "name": "src/davinci-eight/visual/MultiViewApp.ts",
+            "modules": {},
+            "classes": {
+                "MultiViewApp": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "src/davinci-eight/visual/RigidBody.ts": {
             "name": "src/davinci-eight/visual/RigidBody.ts",
             "modules": {},
@@ -2206,6 +2240,15 @@
             "modules": {},
             "classes": {
                 "RigidBodyWithUnits": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/visual/SingleViewApp.ts": {
+            "name": "src/davinci-eight/visual/SingleViewApp.ts",
+            "modules": {},
+            "classes": {
+                "SingleViewApp": 1
             },
             "fors": {},
             "namespaces": {}
@@ -2264,11 +2307,11 @@
             "fors": {},
             "namespaces": {}
         },
-        "src/davinci-eight/visual/VisualApp.ts": {
-            "name": "src/davinci-eight/visual/VisualApp.ts",
+        "src/davinci-eight/visual/Viewport.ts": {
+            "name": "src/davinci-eight/visual/Viewport.ts",
             "modules": {},
             "classes": {
-                "VisualApp": 1
+                "Viewport": 1
             },
             "fors": {},
             "namespaces": {}
@@ -2296,8 +2339,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "src/davinci-eight/core.ts": {
-            "name": "src/davinci-eight/core.ts",
+        "src/davinci-eight/config.ts": {
+            "name": "src/davinci-eight/config.ts",
             "modules": {},
             "classes": {},
             "fors": {},
@@ -2321,6 +2364,7 @@
             },
             "elements": {},
             "classes": {
+                "AnimationApp": 1,
                 "BrowserApp": 1,
                 "EngineApp": 1,
                 "NumberShareableMap": 1,
@@ -2484,6 +2528,7 @@
                 "VectorE3": 1,
                 "VectorE4": 1,
                 "VectorN": 1,
+                "WindowAnimationRunner": 1,
                 "Arrow": 1,
                 "ArrowOptions": 1,
                 "Box": 1,
@@ -2494,15 +2539,17 @@
                 "CylinderOptions": 1,
                 "Grid": 1,
                 "GridOptions": 1,
+                "MultiViewApp": 1,
                 "RigidBody": 1,
                 "RigidBodyWithUnits": 1,
+                "SingleViewApp": 1,
                 "Sphere": 1,
                 "SphereOptions": 1,
                 "Tetrahedron": 1,
                 "TetrahedronOptions": 1,
                 "Trail": 1,
                 "TrailConfig": 1,
-                "VisualApp": 1,
+                "Viewport": 1,
                 "VisualOptions": 1
             },
             "fors": {},
@@ -2777,6 +2824,34 @@
         }
     },
     "classes": {
+        "AnimationApp": {
+            "name": "AnimationApp",
+            "shortname": "AnimationApp",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "file": "src/davinci-eight/base/AnimationApp.ts",
+            "line": 22,
+            "extends": "EngineApp",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "canvasId",
+                    "description": "The element id of the <code>HTMLCanvasElement</code>.",
+                    "type": "String"
+                },
+                {
+                    "name": "wnd ",
+                    "description": "The window in which the application will be running.",
+                    "type": "Window",
+                    "optional": true,
+                    "optdefault": " window"
+                }
+            ]
+        },
         "BrowserApp": {
             "name": "BrowserApp",
             "shortname": "BrowserApp",
@@ -2792,7 +2867,7 @@
             "params": [
                 {
                     "name": "wnd ",
-                    "description": "",
+                    "description": "The window in which the application will be running.",
                     "type": "Window",
                     "optional": true,
                     "optdefault": " window"
@@ -2809,18 +2884,18 @@
             "extension_for": [],
             "module": "EIGHT",
             "file": "src/davinci-eight/base/EngineApp.ts",
-            "line": 36,
+            "line": 40,
             "extends": "BrowserApp",
             "is_constructor": 1,
             "params": [
                 {
                     "name": "canvasId",
-                    "description": "",
+                    "description": "The element id of the <code>HTMLCanvasElement</code>.",
                     "type": "String"
                 },
                 {
                     "name": "wnd ",
-                    "description": "",
+                    "description": "The window in which the application will be running.",
                     "type": "Window",
                     "optional": true,
                     "optdefault": " window"
@@ -4006,7 +4081,7 @@
             "submodule": "facets",
             "namespace": "",
             "file": "src/davinci-eight/facets/PerspectiveCamera.ts",
-            "line": 77,
+            "line": 81,
             "description": "<p>\nThe <code>PerspectiveCamera</code> provides projection matrix and view matrix uniforms to the\ncurrent <code>Material</code>.\n</p>\n<p>\nThe <code>PerspectiveCamera</code> plays the role of a host in the <em>Visitor</em> pattern.\nThe <code>FacetVistor</code> will normally be a <code>Material</code> implementation. The  accepting\nmethod is called <code>setUniforms</code>.\n<p>",
             "example": [
                 "\n    const ambients: Facet[] = []\n\n    const camera = new EIGHT.PerspectiveCamera()\n    camera.aspect = canvas.clientWidth / canvas.clientHeight\n    camera.position = Vector3.copy(R3.e3)\n    ambients.push(camera)\n\n    scene.draw(ambients)\n\nThe camera is initially positioned at 10 * e3"
@@ -6207,7 +6282,7 @@
             "submodule": "math",
             "namespace": "",
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 53,
+            "line": 54,
             "extends": "Coords",
             "is_constructor": 1,
             "params": [
@@ -6345,6 +6420,19 @@
                     "optional": true
                 }
             ]
+        },
+        "WindowAnimationRunner": {
+            "name": "WindowAnimationRunner",
+            "shortname": "WindowAnimationRunner",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/utils/WindowAnimationRunner.ts",
+            "line": 1
         },
         "Arrow": {
             "name": "Arrow",
@@ -6545,6 +6633,40 @@
             "line": 11,
             "extends": "VisualOptions"
         },
+        "MultiViewApp": {
+            "name": "MultiViewApp",
+            "shortname": "MultiViewApp",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/visual/MultiViewApp.ts",
+            "line": 22,
+            "extends": "AnimationApp",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "numViews",
+                    "description": "The initial number of views. Views may be added and removed later.",
+                    "type": "Number"
+                },
+                {
+                    "name": "canvasId",
+                    "description": "The element id of the <code>HTMLCanvasElement</code>.",
+                    "type": "String"
+                },
+                {
+                    "name": "wnd ",
+                    "description": "The window in which the application will be running.",
+                    "type": "Window",
+                    "optional": true,
+                    "optdefault": " window"
+                }
+            ]
+        },
         "RigidBody": {
             "name": "RigidBody",
             "shortname": "RigidBody",
@@ -6610,6 +6732,35 @@
                     "name": "axis",
                     "description": "The axis corresponding to a unit attitude spinor.",
                     "type": "VectorE3"
+                }
+            ]
+        },
+        "SingleViewApp": {
+            "name": "SingleViewApp",
+            "shortname": "SingleViewApp",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/visual/SingleViewApp.ts",
+            "line": 19,
+            "extends": "AnimationApp",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "canvasId",
+                    "description": "The element id of the <code>HTMLCanvasElement</code>.",
+                    "type": "String"
+                },
+                {
+                    "name": "wnd ",
+                    "description": "The window in which the application will be running.",
+                    "type": "Window",
+                    "optional": true,
+                    "optdefault": " window"
                 }
             ]
         },
@@ -6733,9 +6884,9 @@
             "file": "src/davinci-eight/visual/TrailConfig.ts",
             "line": 12
         },
-        "VisualApp": {
-            "name": "VisualApp",
-            "shortname": "VisualApp",
+        "Viewport": {
+            "name": "Viewport",
+            "shortname": "Viewport",
             "classitems": [],
             "plugins": [],
             "extensions": [],
@@ -6743,22 +6894,16 @@
             "extension_for": [],
             "module": "EIGHT",
             "namespace": "",
-            "file": "src/davinci-eight/visual/VisualApp.ts",
-            "line": 10,
-            "extends": "EngineApp",
+            "file": "src/davinci-eight/visual/Viewport.ts",
+            "line": 68,
+            "description": "A Portal into the WebGL canvas.",
+            "extends": "ShareableBase",
             "is_constructor": 1,
             "params": [
                 {
-                    "name": "canvasId",
+                    "name": "engine",
                     "description": "",
-                    "type": "String"
-                },
-                {
-                    "name": "wnd ",
-                    "description": "",
-                    "type": "Window",
-                    "optional": true,
-                    "optdefault": " window"
+                    "type": "Engine"
                 }
             ]
         },
@@ -6779,6 +6924,99 @@
     },
     "elements": {},
     "classitems": [
+        {
+            "file": "src/davinci-eight/base/AnimationApp.ts",
+            "line": 16,
+            "itemtype": "property",
+            "name": "animation",
+            "type": "WindowAnimationRunner",
+            "class": "AnimationApp"
+        },
+        {
+            "file": "src/davinci-eight/base/AnimationApp.ts",
+            "line": 38,
+            "itemtype": "method",
+            "name": "destructor",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "access": "protected",
+            "tagname": "",
+            "class": "AnimationApp"
+        },
+        {
+            "file": "src/davinci-eight/base/AnimationApp.ts",
+            "line": 47,
+            "itemtype": "method",
+            "name": "initialize",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "access": "protected",
+            "tagname": "",
+            "class": "AnimationApp"
+        },
+        {
+            "file": "src/davinci-eight/base/AnimationApp.ts",
+            "line": 56,
+            "itemtype": "method",
+            "name": "animate",
+            "params": [
+                {
+                    "name": "time",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "access": "protected",
+            "tagname": "",
+            "class": "AnimationApp"
+        },
+        {
+            "file": "src/davinci-eight/base/AnimationApp.ts",
+            "line": 66,
+            "itemtype": "method",
+            "name": "start",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "access": "protected",
+            "tagname": "",
+            "class": "AnimationApp"
+        },
+        {
+            "file": "src/davinci-eight/base/AnimationApp.ts",
+            "line": 77,
+            "itemtype": "method",
+            "name": "stop",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "access": "protected",
+            "tagname": "",
+            "class": "AnimationApp"
+        },
+        {
+            "file": "src/davinci-eight/base/AnimationApp.ts",
+            "line": 88,
+            "itemtype": "method",
+            "name": "reset",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "access": "protected",
+            "tagname": "",
+            "class": "AnimationApp"
+        },
         {
             "file": "src/davinci-eight/base/BrowserApp.ts",
             "line": 17,
@@ -6801,7 +7039,7 @@
         },
         {
             "file": "src/davinci-eight/base/BrowserApp.ts",
-            "line": 72,
+            "line": 73,
             "itemtype": "method",
             "name": "isWaiting",
             "return": {
@@ -6812,7 +7050,7 @@
         },
         {
             "file": "src/davinci-eight/base/BrowserApp.ts",
-            "line": 80,
+            "line": 81,
             "itemtype": "method",
             "name": "isRunning",
             "return": {
@@ -6823,7 +7061,7 @@
         },
         {
             "file": "src/davinci-eight/base/BrowserApp.ts",
-            "line": 88,
+            "line": 89,
             "itemtype": "method",
             "name": "isZombie",
             "return": {
@@ -6834,7 +7072,7 @@
         },
         {
             "file": "src/davinci-eight/base/BrowserApp.ts",
-            "line": 96,
+            "line": 97,
             "description": "<p>\nTransfers ownership of the shareable object to this <code>BrowserApp</code>.\n</p>\n<p>\nAll managed objects will be released in the <code>BrowserApp.destructor</code> method.\n</p>\n<p>\nYou must not call <code>release()</code> on the object you are transferring.\n</p>",
             "itemtype": "method",
             "name": "manage",
@@ -6853,7 +7091,7 @@
         },
         {
             "file": "src/davinci-eight/base/BrowserApp.ts",
-            "line": 120,
+            "line": 121,
             "itemtype": "method",
             "name": "initialize",
             "return": {
@@ -6866,7 +7104,7 @@
         },
         {
             "file": "src/davinci-eight/base/BrowserApp.ts",
-            "line": 131,
+            "line": 132,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -6897,7 +7135,7 @@
         },
         {
             "file": "src/davinci-eight/base/EngineApp.ts",
-            "line": 11,
+            "line": 15,
             "description": "The <code>engine</code> is immediately available to derived classes.",
             "itemtype": "property",
             "name": "engine",
@@ -6908,7 +7146,7 @@
         },
         {
             "file": "src/davinci-eight/base/EngineApp.ts",
-            "line": 20,
+            "line": 24,
             "description": "The <code>canvas</code> is only available after the <code>initialize</code> method.",
             "itemtype": "property",
             "name": "canvas",
@@ -6919,7 +7157,7 @@
         },
         {
             "file": "src/davinci-eight/base/EngineApp.ts",
-            "line": 29,
+            "line": 33,
             "itemtype": "property",
             "name": "canvasId",
             "type": "string",
@@ -6929,7 +7167,7 @@
         },
         {
             "file": "src/davinci-eight/base/EngineApp.ts",
-            "line": 48,
+            "line": 52,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -6942,7 +7180,20 @@
         },
         {
             "file": "src/davinci-eight/base/EngineApp.ts",
-            "line": 62,
+            "line": 66,
+            "itemtype": "method",
+            "name": "clear",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "access": "protected",
+            "tagname": "",
+            "class": "EngineApp"
+        },
+        {
+            "file": "src/davinci-eight/base/EngineApp.ts",
+            "line": 75,
             "itemtype": "method",
             "name": "initialize",
             "return": {
@@ -12749,7 +13000,7 @@
         },
         {
             "file": "src/davinci-eight/core/Scene.ts",
-            "line": 172,
+            "line": 174,
             "itemtype": "method",
             "name": "contains",
             "params": [
@@ -12769,7 +13020,7 @@
         },
         {
             "file": "src/davinci-eight/core/Scene.ts",
-            "line": 182,
+            "line": 184,
             "description": "<p>\nTraverses the collection of scene parts drawing each one.\n</p>",
             "itemtype": "method",
             "name": "draw",
@@ -12791,7 +13042,7 @@
         },
         {
             "file": "src/davinci-eight/core/Scene.ts",
-            "line": 199,
+            "line": 201,
             "itemtype": "method",
             "name": "find",
             "params": [
@@ -12811,7 +13062,7 @@
         },
         {
             "file": "src/davinci-eight/core/Scene.ts",
-            "line": 208,
+            "line": 210,
             "itemtype": "method",
             "name": "findOne",
             "params": [
@@ -12831,7 +13082,7 @@
         },
         {
             "file": "src/davinci-eight/core/Scene.ts",
-            "line": 217,
+            "line": 219,
             "itemtype": "method",
             "name": "findOneByName",
             "params": [
@@ -12851,7 +13102,7 @@
         },
         {
             "file": "src/davinci-eight/core/Scene.ts",
-            "line": 226,
+            "line": 228,
             "itemtype": "method",
             "name": "findByName",
             "params": [
@@ -12871,7 +13122,7 @@
         },
         {
             "file": "src/davinci-eight/core/Scene.ts",
-            "line": 235,
+            "line": 237,
             "description": "<p>\nRemoves the <code>drawable</code> from this <code>Scene</code>.\n</p>",
             "itemtype": "method",
             "name": "remove",
@@ -12892,7 +13143,7 @@
         },
         {
             "file": "src/davinci-eight/core/Scene.ts",
-            "line": 253,
+            "line": 255,
             "itemtype": "method",
             "name": "contextFree",
             "params": [
@@ -12912,7 +13163,7 @@
         },
         {
             "file": "src/davinci-eight/core/Scene.ts",
-            "line": 266,
+            "line": 268,
             "itemtype": "method",
             "name": "contextGain",
             "params": [
@@ -12932,7 +13183,7 @@
         },
         {
             "file": "src/davinci-eight/core/Scene.ts",
-            "line": 279,
+            "line": 281,
             "itemtype": "method",
             "name": "contextLost",
             "return": {
@@ -13023,7 +13274,7 @@
         },
         {
             "file": "src/davinci-eight/core/ShareableBase.ts",
-            "line": 90,
+            "line": 91,
             "description": "<p>\nOutputs a warning to the console that this method should be implemented by the derived class.\n</p>\n<p>\n<em>This method should be implemented by derived classes.</em>\n</p>\n<p>\n<em>Not implementing this method in a derived class risks leaking resources allocated by the derived class.</em>\n</p>",
             "itemtype": "method",
             "name": "destructor",
@@ -13046,7 +13297,7 @@
         },
         {
             "file": "src/davinci-eight/core/ShareableBase.ts",
-            "line": 117,
+            "line": 118,
             "description": "<p>\nReturns the total length of the inheritance hierarchy that this instance is involved in.\n</p>",
             "itemtype": "property",
             "name": "levelUp",
@@ -13060,7 +13311,7 @@
         },
         {
             "file": "src/davinci-eight/core/ShareableBase.ts",
-            "line": 135,
+            "line": 136,
             "itemtype": "method",
             "name": "isZombie",
             "return": {
@@ -13073,7 +13324,7 @@
         },
         {
             "file": "src/davinci-eight/core/ShareableBase.ts",
-            "line": 143,
+            "line": 144,
             "description": "<p>\nNotifies this instance that something is referencing it.\n</p>",
             "itemtype": "method",
             "name": "addRef",
@@ -13087,7 +13338,7 @@
         },
         {
             "file": "src/davinci-eight/core/ShareableBase.ts",
-            "line": 157,
+            "line": 158,
             "itemtype": "method",
             "name": "getLoggingName",
             "return": {
@@ -13100,7 +13351,7 @@
         },
         {
             "file": "src/davinci-eight/core/ShareableBase.ts",
-            "line": 165,
+            "line": 166,
             "description": "<p>\nThis method is for use within constructors.\n<p>\n<p>\nImmediately after a call to the super class constructor, make a call to <code>setLoggingName</code>.\nThis will have the effect of refining the name used for reporting reference counts.\n</p>\n<p>\nThis method has the secondary purpose of enabling a tally of the number of classes\nin the constructor chain. This enables the runtime architecture to verify that destructor\nchains are consistent with constructor chains, which is a good practice for cleaning up resources.\n</p>\n<p>\nNotice that this method is intentionally protected to discourage it from being called outside of the constructor.\n</p>",
             "itemtype": "method",
             "name": "setLoggingName",
@@ -13123,7 +13374,7 @@
         },
         {
             "file": "src/davinci-eight/core/ShareableBase.ts",
-            "line": 192,
+            "line": 196,
             "description": "<p>\nNotifies this instance that something is dereferencing it.\n</p>",
             "itemtype": "method",
             "name": "release",
@@ -13137,7 +13388,7 @@
         },
         {
             "file": "src/davinci-eight/core/ShareableBase.ts",
-            "line": 220,
+            "line": 224,
             "itemtype": "property",
             "name": "uuid",
             "type": "{string}",
@@ -15095,10 +15346,12 @@
             "description": "The name of the property that designates the position.",
             "itemtype": "property",
             "name": "PROP_POSITION",
-            "type": "{string}",
+            "type": "string",
             "default": "'X'",
             "static": 1,
             "readonly": "",
+            "access": "private",
+            "tagname": "",
             "class": "PerspectiveCamera",
             "module": "EIGHT",
             "submodule": "facets"
@@ -15107,15 +15360,20 @@
             "file": "src/davinci-eight/facets/PerspectiveCamera.ts",
             "line": 64,
             "itemtype": "property",
-            "name": "name",
-            "type": "{string}",
+            "name": "PROP_EYE",
+            "type": "string",
+            "default": "'eye'",
+            "static": 1,
+            "readonly": "",
+            "access": "private",
+            "tagname": "",
             "class": "PerspectiveCamera",
             "module": "EIGHT",
             "submodule": "facets"
         },
         {
             "file": "src/davinci-eight/facets/PerspectiveCamera.ts",
-            "line": 70,
+            "line": 74,
             "itemtype": "property",
             "name": "inner",
             "type": "{Perspective}",
@@ -15127,7 +15385,7 @@
         },
         {
             "file": "src/davinci-eight/facets/PerspectiveCamera.ts",
-            "line": 105,
+            "line": 109,
             "itemtype": "method",
             "name": "setUniforms",
             "params": [
@@ -15147,7 +15405,7 @@
         },
         {
             "file": "src/davinci-eight/facets/PerspectiveCamera.ts",
-            "line": 117,
+            "line": 121,
             "itemtype": "method",
             "name": "getProperty",
             "params": [
@@ -15167,7 +15425,7 @@
         },
         {
             "file": "src/davinci-eight/facets/PerspectiveCamera.ts",
-            "line": 135,
+            "line": 139,
             "itemtype": "method",
             "name": "setProperty",
             "params": [
@@ -15193,11 +15451,11 @@
         },
         {
             "file": "src/davinci-eight/facets/PerspectiveCamera.ts",
-            "line": 158,
+            "line": 162,
             "description": "The aspect ratio (width / height) of the camera viewport.",
             "itemtype": "property",
             "name": "aspect",
-            "type": "{number}",
+            "type": "number",
             "readonly": "",
             "class": "PerspectiveCamera",
             "module": "EIGHT",
@@ -15205,7 +15463,7 @@
         },
         {
             "file": "src/davinci-eight/facets/PerspectiveCamera.ts",
-            "line": 169,
+            "line": 176,
             "itemtype": "method",
             "name": "setAspect",
             "params": [
@@ -15226,7 +15484,7 @@
         },
         {
             "file": "src/davinci-eight/facets/PerspectiveCamera.ts",
-            "line": 180,
+            "line": 187,
             "description": "The position of the camera.",
             "itemtype": "property",
             "name": "eye",
@@ -15237,19 +15495,18 @@
         },
         {
             "file": "src/davinci-eight/facets/PerspectiveCamera.ts",
-            "line": 192,
+            "line": 200,
             "description": "The position of the camera.",
             "itemtype": "property",
             "name": "position",
             "type": "{Vector3}",
-            "readonly": "",
             "class": "PerspectiveCamera",
             "module": "EIGHT",
             "submodule": "facets"
         },
         {
             "file": "src/davinci-eight/facets/PerspectiveCamera.ts",
-            "line": 205,
+            "line": 213,
             "itemtype": "method",
             "name": "setEye",
             "params": [
@@ -15270,7 +15527,7 @@
         },
         {
             "file": "src/davinci-eight/facets/PerspectiveCamera.ts",
-            "line": 216,
+            "line": 224,
             "description": "The field of view is the (planar) angle (magnitude) in the camera horizontal plane that encloses object that can be seen.\nMeasured in radians.",
             "itemtype": "property",
             "name": "fov",
@@ -15282,7 +15539,7 @@
         },
         {
             "file": "src/davinci-eight/facets/PerspectiveCamera.ts",
-            "line": 230,
+            "line": 238,
             "itemtype": "method",
             "name": "setFov",
             "params": [
@@ -15304,18 +15561,48 @@
         {
             "file": "src/davinci-eight/facets/PerspectiveCamera.ts",
             "line": 250,
-            "description": "The distance to the near plane.",
             "itemtype": "property",
-            "name": "near",
-            "type": "{number}",
-            "readonly": "",
+            "name": "look",
+            "type": "Vector3",
             "class": "PerspectiveCamera",
             "module": "EIGHT",
             "submodule": "facets"
         },
         {
             "file": "src/davinci-eight/facets/PerspectiveCamera.ts",
-            "line": 263,
+            "line": 261,
+            "itemtype": "method",
+            "name": "setLook",
+            "params": [
+                {
+                    "name": "look",
+                    "description": "",
+                    "type": "VectorE3"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "PerspectiveCamera"
+            },
+            "chainable": 1,
+            "class": "PerspectiveCamera",
+            "module": "EIGHT",
+            "submodule": "facets"
+        },
+        {
+            "file": "src/davinci-eight/facets/PerspectiveCamera.ts",
+            "line": 272,
+            "description": "The distance to the near plane.",
+            "itemtype": "property",
+            "name": "near",
+            "type": "{number}",
+            "class": "PerspectiveCamera",
+            "module": "EIGHT",
+            "submodule": "facets"
+        },
+        {
+            "file": "src/davinci-eight/facets/PerspectiveCamera.ts",
+            "line": 285,
             "itemtype": "method",
             "name": "setNear",
             "params": [
@@ -15336,7 +15623,80 @@
         },
         {
             "file": "src/davinci-eight/facets/PerspectiveCamera.ts",
-            "line": 305,
+            "line": 296,
+            "itemtype": "property",
+            "name": "far",
+            "type": "number",
+            "class": "PerspectiveCamera",
+            "module": "EIGHT",
+            "submodule": "facets"
+        },
+        {
+            "file": "src/davinci-eight/facets/PerspectiveCamera.ts",
+            "line": 307,
+            "itemtype": "method",
+            "name": "setFar",
+            "params": [
+                {
+                    "name": "far",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "PerspectiveCamera"
+            },
+            "chainable": 1,
+            "class": "PerspectiveCamera",
+            "module": "EIGHT",
+            "submodule": "facets"
+        },
+        {
+            "file": "src/davinci-eight/facets/PerspectiveCamera.ts",
+            "line": 318,
+            "itemtype": "property",
+            "name": "up",
+            "type": "Vector3",
+            "class": "PerspectiveCamera",
+            "module": "EIGHT",
+            "submodule": "facets"
+        },
+        {
+            "file": "src/davinci-eight/facets/PerspectiveCamera.ts",
+            "line": 329,
+            "itemtype": "method",
+            "name": "setUp",
+            "params": [
+                {
+                    "name": "up",
+                    "description": "",
+                    "type": "VectorE3"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "PerspectiveCamera"
+            },
+            "chainable": 1,
+            "class": "PerspectiveCamera",
+            "module": "EIGHT",
+            "submodule": "facets"
+        },
+        {
+            "file": "src/davinci-eight/facets/PerspectiveCamera.ts",
+            "line": 340,
+            "itemtype": "property",
+            "name": "projectionMatrix",
+            "type": "Matrix4",
+            "readonly": "",
+            "class": "PerspectiveCamera",
+            "module": "EIGHT",
+            "submodule": "facets"
+        },
+        {
+            "file": "src/davinci-eight/facets/PerspectiveCamera.ts",
+            "line": 352,
             "itemtype": "property",
             "name": "viewMatrix",
             "type": "Matrix4",
@@ -30927,34 +31287,20 @@
         {
             "file": "src/davinci-eight/math/MutableLinearElement.ts",
             "line": 9,
-            "description": "<p>\n<code>this ⟼ a * α + b * β</code>\n</p>",
-            "class": "Pseudo",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/MutableLinearElement.ts",
-            "line": 16,
             "description": "Computes a copy of this element.",
             "class": "Pseudo",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/MutableLinearElement.ts",
-            "line": 21,
+            "line": 14,
             "description": "Copies the source coordinates onto this element.",
             "class": "Pseudo",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/MutableLinearElement.ts",
-            "line": 26,
-            "description": "<p>\n<code>this ⟼ a * α - b * β</code>\n</p>",
-            "class": "Pseudo",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/MutableLinearElement.ts",
-            "line": 33,
+            "line": 19,
             "description": "Sets this element to the identity element for addition, <b>0</b>.",
             "class": "Pseudo",
             "module": "EIGHT"
@@ -36082,7 +36428,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 28,
+            "line": 29,
             "description": "Coordinates corresponding to basis labels.",
             "class": "Vector3",
             "module": "EIGHT",
@@ -36090,7 +36436,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 41,
+            "line": 42,
             "itemtype": "method",
             "name": "dot",
             "params": [
@@ -36116,7 +36462,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 63,
+            "line": 64,
             "itemtype": "property",
             "name": "x",
             "type": "{number}",
@@ -36126,7 +36472,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 75,
+            "line": 76,
             "itemtype": "property",
             "name": "y",
             "type": "Number",
@@ -36136,7 +36482,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 87,
+            "line": 88,
             "itemtype": "property",
             "name": "z",
             "type": "Number",
@@ -36146,7 +36492,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 99,
+            "line": 100,
             "description": "<p>\n<code>this ⟼ this + vector * α</code>\n</p>",
             "itemtype": "method",
             "name": "add",
@@ -36175,36 +36521,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 116,
-            "description": "<p>\n<code>this ⟼ a + b</code>\n</p>",
-            "itemtype": "method",
-            "name": "add2",
-            "params": [
-                {
-                    "name": "a",
-                    "description": "",
-                    "type": "VectorE3"
-                },
-                {
-                    "name": "b",
-                    "description": "",
-                    "type": "VectorE3"
-                }
-            ],
-            "return": {
-                "description": "<code>this</code>",
-                "type": "Vector3"
-            },
-            "chainable": 1,
-            "deprecated": true,
-            "deprecationMessage": "Use copy(a).add(b) instead.",
-            "class": "Vector3",
-            "module": "EIGHT",
-            "submodule": "math"
-        },
-        {
-            "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 134,
+            "line": 117,
             "description": "<p>\n<code>this ⟼ σ * this<sup>T</sup></code>\n</p>",
             "itemtype": "method",
             "name": "applyMatrix",
@@ -36226,7 +36543,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 157,
+            "line": 140,
             "description": "Pre-multiplies the column vector corresponding to this vector by the matrix.\nThe result is applied to this vector.\nStrictly speaking, this method does not make much sense because the dimensions\nof the square matrix and column vector don't match.\nTODO: Used by TubeSimplexGeometry.",
             "itemtype": "method",
             "name": "applyMatrix4",
@@ -36247,7 +36564,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 182,
+            "line": 165,
             "description": "<p>\n<code>this ⟼ - n * this * n</code>\n</p>",
             "itemtype": "method",
             "name": "reflect",
@@ -36269,7 +36586,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 204,
+            "line": 187,
             "description": "<p>\n<code>this ⟼ R * this * rev(R)</code>\n</p>",
             "itemtype": "method",
             "name": "rotate",
@@ -36291,7 +36608,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 234,
+            "line": 217,
             "itemtype": "method",
             "name": "clone",
             "return": {
@@ -36304,7 +36621,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 244,
+            "line": 227,
             "description": "<p>\n<code>this ⟼ copy(source)</code>\n</p>",
             "itemtype": "method",
             "name": "copy",
@@ -36326,7 +36643,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 266,
+            "line": 249,
             "description": "Copies the coordinate values into this <code>Vector3</code>.",
             "itemtype": "method",
             "name": "copyCoordinates",
@@ -36348,7 +36665,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 281,
+            "line": 264,
             "description": "<p>\n<code>this ⟼ this ✕ v</code>\n</p>",
             "itemtype": "method",
             "name": "cross",
@@ -36370,7 +36687,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 294,
+            "line": 277,
             "description": "<p>\n<code>this ⟼ a ✕ b</code>\n</p>",
             "itemtype": "method",
             "name": "cross2",
@@ -36397,7 +36714,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 315,
+            "line": 298,
             "itemtype": "method",
             "name": "distanceTo",
             "params": [
@@ -36417,7 +36734,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 328,
+            "line": 311,
             "itemtype": "method",
             "name": "quadranceTo",
             "params": [
@@ -36437,7 +36754,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 344,
+            "line": 327,
             "description": "<p>\n<code>this ⟼ this / α</code>\n</p>",
             "itemtype": "method",
             "name": "divByScalar",
@@ -36459,7 +36776,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 367,
+            "line": 350,
             "itemtype": "method",
             "name": "dot",
             "params": [
@@ -36479,7 +36796,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 376,
+            "line": 359,
             "description": "<p>\n<code>this ⟼ I * B</code>\n</p>\n\nSets this vector to the dual of the bivector, B.\nIf changeSign is <code>true</code>, the direction of the resulting vector is reversed.",
             "itemtype": "method",
             "name": "dual",
@@ -36506,7 +36823,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 404,
+            "line": 387,
             "description": "Computes the <em>square root</em> of the <em>squared norm</em>.",
             "itemtype": "method",
             "name": "magnitude",
@@ -36520,7 +36837,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 412,
+            "line": 395,
             "itemtype": "method",
             "name": "neg",
             "return": {
@@ -36534,7 +36851,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 424,
+            "line": 407,
             "description": "<p>\n<code>this ⟼ this + α * (target - this)</code>\n</p>",
             "itemtype": "method",
             "name": "lerp",
@@ -36561,7 +36878,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 440,
+            "line": 423,
             "description": "<p>\n<code>this ⟼ a + α * (b - a)</code>\n</p>",
             "itemtype": "method",
             "name": "lerp2",
@@ -36593,7 +36910,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 455,
+            "line": 438,
             "description": "<p>\n<code>this ⟼ this / norm(this)</code>\n</p>",
             "itemtype": "method",
             "name": "normalize",
@@ -36608,7 +36925,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 467,
+            "line": 456,
             "description": "<p>\n<code>this ⟼ this * α</code>\n</p>",
             "itemtype": "method",
             "name": "scale",
@@ -36625,7 +36942,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 481,
+            "line": 470,
             "itemtype": "method",
             "name": "stress",
             "params": [
@@ -36644,7 +36961,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 493,
+            "line": 482,
             "description": "<p>\n<code>this ⟼ this</code>, with components modified.\n</p>",
             "itemtype": "method",
             "name": "set",
@@ -36677,7 +36994,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 512,
+            "line": 501,
             "itemtype": "method",
             "name": "setY",
             "params": [
@@ -36694,7 +37011,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 527,
+            "line": 516,
             "description": "Returns the (Euclidean) inner product of this vector with itself.",
             "itemtype": "method",
             "name": "squaredNorm",
@@ -36708,7 +37025,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 538,
+            "line": 527,
             "description": "<p>\n<code>this ⟼ this - v</code>\n</p>",
             "itemtype": "method",
             "name": "sub",
@@ -36737,36 +37054,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 555,
-            "description": "<p>\n<code>this ⟼ a - b</code>\n</p>",
-            "itemtype": "method",
-            "name": "sub2",
-            "params": [
-                {
-                    "name": "a",
-                    "description": "",
-                    "type": "VectorE3"
-                },
-                {
-                    "name": "b",
-                    "description": "",
-                    "type": "VectorE3"
-                }
-            ],
-            "return": {
-                "description": "<code>this</code>",
-                "type": "Vector3"
-            },
-            "chainable": 1,
-            "deprecated": true,
-            "deprecationMessage": "Use copy(a).sub(b) instead.",
-            "class": "Vector3",
-            "module": "EIGHT",
-            "submodule": "math"
-        },
-        {
-            "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 573,
+            "line": 544,
             "itemtype": "method",
             "name": "toExponential",
             "params": [
@@ -36787,7 +37075,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 583,
+            "line": 554,
             "itemtype": "method",
             "name": "toFixed",
             "params": [
@@ -36808,7 +37096,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 593,
+            "line": 564,
             "itemtype": "method",
             "name": "toPrecision",
             "params": [
@@ -36829,7 +37117,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 603,
+            "line": 574,
             "itemtype": "method",
             "name": "toString",
             "params": [
@@ -36850,7 +37138,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 613,
+            "line": 584,
             "description": "Sets this vector to the identity element for addition, <b>0</b>.",
             "itemtype": "method",
             "name": "zero",
@@ -36865,7 +37153,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 643,
+            "line": 614,
             "itemtype": "method",
             "name": "mul",
             "params": [
@@ -36887,7 +37175,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 658,
+            "line": 629,
             "itemtype": "method",
             "name": "rmul",
             "params": [
@@ -36909,7 +37197,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 676,
+            "line": 647,
             "itemtype": "method",
             "name": "copy",
             "params": [
@@ -36931,7 +37219,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 687,
+            "line": 658,
             "description": "Constructs a vector which is the dual of the supplied bivector, B.\nThe convention used is dual(m) = I * m.\nIf a sign change is desired from this convention,\nset the <code>changeSign</code> to <code>true</code>.",
             "itemtype": "method",
             "name": "dual",
@@ -36958,7 +37246,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 708,
+            "line": 679,
             "itemtype": "method",
             "name": "isInstance",
             "params": [
@@ -36979,7 +37267,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 718,
+            "line": 689,
             "itemtype": "method",
             "name": "lerp",
             "params": [
@@ -37011,7 +37299,8 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 731,
+            "line": 702,
+            "description": "Computes a unit vector with a random direction.",
             "itemtype": "method",
             "name": "random",
             "return": {
@@ -37026,7 +37315,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 741,
+            "line": 716,
             "itemtype": "method",
             "name": "vector",
             "params": [
@@ -37058,7 +37347,7 @@
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 754,
+            "line": 729,
             "itemtype": "method",
             "name": "zero",
             "return": {
@@ -37424,175 +37713,260 @@
             "file": "src/davinci-eight/math/det2x2.ts",
             "line": 1,
             "description": "Computes the determinant of a 2x2 (square) matrix where the elements are assumed to be in column-major order.",
-            "class": "Arrow",
+            "class": "WindowAnimationRunner",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/det3x3.ts",
             "line": 1,
             "description": "Computes the determinant of a 3x3 (square) matrix where the elements are assumed to be in column-major order.",
-            "class": "Arrow",
+            "class": "WindowAnimationRunner",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/det4x4.ts",
             "line": 1,
             "description": "Computes the determinant of a 4x4 (square) matrix where the elements are assumed to be in column-major order.",
-            "class": "Arrow",
+            "class": "WindowAnimationRunner",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/dotVectorCartesianE2.ts",
             "line": 1,
             "description": "Computes the dot product of the Cartesian components in a Euclidean metric",
-            "class": "Arrow",
+            "class": "WindowAnimationRunner",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/dotVectorCartesianE3.ts",
             "line": 1,
             "description": "Computes the dot product of the Cartesian components in a Euclidean metric",
-            "class": "Arrow",
+            "class": "WindowAnimationRunner",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/gauss.ts",
             "line": 61,
             "description": "Gaussian elimination\nAx = b",
-            "class": "Arrow",
+            "class": "WindowAnimationRunner",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/inv2x2.ts",
             "line": 1,
             "description": "Computes the inverse of a 2x2 (square) matrix where the elements are assumed to be in column-major order.",
-            "class": "Arrow",
+            "class": "WindowAnimationRunner",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/inv3x3.ts",
             "line": 3,
             "description": "Computes the inverse of a 2x2 (square) matrix where the elements are assumed to be in column-major order.",
-            "class": "Arrow",
+            "class": "WindowAnimationRunner",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/inv4x4.ts",
             "line": 1,
             "description": "Computes the inverse of a 4x4 (square) matrix where the elements are assumed to be in column-major order.",
-            "class": "Arrow",
+            "class": "WindowAnimationRunner",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/mathcore.ts",
             "line": 12,
             "description": "Determines whether a property name is callable on an object.",
-            "class": "Arrow",
+            "class": "WindowAnimationRunner",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/mulE3.ts",
             "line": 1,
             "description": "Multiplication of Geometric3.\nThis was originally written for asm.",
-            "class": "Arrow",
+            "class": "WindowAnimationRunner",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/randomRange.ts",
+            "line": 1,
+            "description": "Computes a random number within the specified range.",
+            "class": "WindowAnimationRunner",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/rotorFromDirectionsE2.ts",
             "line": 14,
             "description": "Sets this multivector to a rotor representing a rotation from a to b.\nR = (|b||a| + b * a) / sqrt(2 * |b||a|(|b||a| + b << a))\nReturns undefined (void 0) if the vectors are anti-parallel.",
-            "class": "Arrow",
+            "class": "WindowAnimationRunner",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/rotorFromDirectionsE3.ts",
             "line": 20,
             "description": "Sets this multivector to a rotor representing a rotation from a to b.\nR = (|b||a| + b * a) / sqrt(2 * |b||a|(|b||a| + b << a))\nReturns undefined (void 0) if the vectors are anti-parallel.",
-            "class": "Arrow",
+            "class": "WindowAnimationRunner",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/scpE3.ts",
             "line": 1,
             "description": "Scalar Product of Geometric3.\nThis was originally written for asm.\nNote that all componenets except the zeroth are zero and so users can optimize.",
-            "class": "Arrow",
+            "class": "WindowAnimationRunner",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/tauR4.ts",
             "line": 33,
             "description": "Computes Γ<sub>R</sub>(a)",
-            "class": "Arrow",
+            "class": "WindowAnimationRunner",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/wedgeXY.ts",
             "line": 1,
             "description": "Computes the z component of the cross-product of Cartesian vector components.",
-            "class": "Arrow",
+            "class": "WindowAnimationRunner",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/wedgeYZ.ts",
             "line": 1,
             "description": "Computes the x component of the cross-product of Cartesian vector components.",
-            "class": "Arrow",
+            "class": "WindowAnimationRunner",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/wedgeZX.ts",
             "line": 1,
             "description": "Computes the y component of the cross-product of Cartesian vector components.",
-            "class": "Arrow",
+            "class": "WindowAnimationRunner",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/slideshow/Slide.ts",
             "line": 18,
             "description": "The objects that we are going to manipulate.",
-            "class": "Arrow",
+            "class": "WindowAnimationRunner",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/slideshow/Slide.ts",
             "line": 22,
             "description": "The companions to each target that maintain animation state.",
-            "class": "Arrow",
+            "class": "WindowAnimationRunner",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/slideshow/Slide.ts",
             "line": 26,
             "description": "The time standard for this Slide.",
-            "class": "Arrow",
+            "class": "WindowAnimationRunner",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/slideshow/Slide.ts",
             "line": 80,
             "description": "Update all currently running animations.\nEssentially calls `apply` on each IAnimation in the queues of active objects.",
-            "class": "Arrow",
+            "class": "WindowAnimationRunner",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/slideshow/Slide.ts",
             "line": 89,
             "description": "`offset` is variable used to keep things running on schedule.\nIf an animation finishes before the interval, it reports the\nduration `extra` that brings the tome to `now`. Subsequent animations\nget a head start by considering their start time to be now - offset.",
-            "class": "Arrow",
+            "class": "WindowAnimationRunner",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/slideshow/Slide.ts",
             "line": 196,
             "description": "The companion to a target: IAnimationTarget containing animation state.",
-            "class": "Arrow",
+            "class": "WindowAnimationRunner",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/slideshow/Slide.ts",
             "line": 200,
             "description": "A map from property name to a list of properties of the property value.\nIt should be possible to animate many properties of a target at once.\nHowever, a given property should only be animated in one way at a given time.\nFor these reasons, we structure the data as map from property name to a queue of animations.",
-            "class": "Arrow",
+            "class": "WindowAnimationRunner",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/utils/WindowAnimationRunner.ts",
+            "line": 6,
+            "itemtype": "method",
+            "name": "start",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "WindowAnimationRunner",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/utils/WindowAnimationRunner.ts",
+            "line": 12,
+            "itemtype": "method",
+            "name": "stop",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "WindowAnimationRunner",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/utils/WindowAnimationRunner.ts",
+            "line": 18,
+            "itemtype": "method",
+            "name": "reset",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "WindowAnimationRunner",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/utils/WindowAnimationRunner.ts",
+            "line": 24,
+            "itemtype": "method",
+            "name": "lap",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "WindowAnimationRunner",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/utils/WindowAnimationRunner.ts",
+            "line": 30,
+            "itemtype": "property",
+            "name": "time",
+            "type": "number",
+            "readonly": "",
+            "class": "WindowAnimationRunner",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/utils/WindowAnimationRunner.ts",
+            "line": 37,
+            "itemtype": "property",
+            "name": "isRunning",
+            "type": "boolean",
+            "readonly": "",
+            "class": "WindowAnimationRunner",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/utils/WindowAnimationRunner.ts",
+            "line": 44,
+            "itemtype": "property",
+            "name": "isPaused",
+            "type": "boolean",
+            "readonly": "",
+            "class": "WindowAnimationRunner",
             "module": "EIGHT"
         },
         {
@@ -38224,14 +38598,67 @@
             "file": "src/davinci-eight/visual/IGeometric3RigidBody.ts",
             "line": 6,
             "description": "Intentionally undocumented.",
-            "class": "RigidBody",
+            "class": "MultiViewApp",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/visual/IRigidBody.ts",
             "line": 1,
             "description": "Intentionally undocumented.\nEnforce naming (but not type) consistency between implementations.",
-            "class": "RigidBody",
+            "class": "MultiViewApp",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/visual/MultiViewApp.ts",
+            "line": 15,
+            "itemtype": "property",
+            "name": "views",
+            "type": "ShareableArray<Viewport>",
+            "access": "protected",
+            "tagname": "",
+            "class": "MultiViewApp",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/visual/MultiViewApp.ts",
+            "line": 38,
+            "itemtype": "method",
+            "name": "initialize",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "access": "protected",
+            "tagname": "",
+            "class": "MultiViewApp",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/visual/MultiViewApp.ts",
+            "line": 60,
+            "itemtype": "method",
+            "name": "draw",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "access": "protected",
+            "tagname": "",
+            "class": "MultiViewApp",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/visual/MultiViewApp.ts",
+            "line": 74,
+            "itemtype": "method",
+            "name": "destructor",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "access": "protected",
+            "tagname": "",
+            "class": "MultiViewApp",
             "module": "EIGHT"
         },
         {
@@ -38411,6 +38838,59 @@
             "class": "RigidBodyWithUnits",
             "module": "EIGHT",
             "submodule": "visual"
+        },
+        {
+            "file": "src/davinci-eight/visual/SingleViewApp.ts",
+            "line": 12,
+            "itemtype": "property",
+            "name": "view",
+            "type": "Viewport",
+            "access": "protected",
+            "tagname": "",
+            "class": "SingleViewApp",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/visual/SingleViewApp.ts",
+            "line": 29,
+            "itemtype": "method",
+            "name": "initialize",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "access": "protected",
+            "tagname": "",
+            "class": "SingleViewApp",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/visual/SingleViewApp.ts",
+            "line": 48,
+            "itemtype": "method",
+            "name": "draw",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "access": "protected",
+            "tagname": "",
+            "class": "SingleViewApp",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/visual/SingleViewApp.ts",
+            "line": 57,
+            "itemtype": "method",
+            "name": "destructor",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "access": "protected",
+            "tagname": "",
+            "class": "SingleViewApp",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/visual/Sphere.ts",
@@ -38715,31 +39195,142 @@
             "submodule": "visual"
         },
         {
-            "file": "src/davinci-eight/visual/VisualApp.ts",
-            "line": 21,
-            "itemtype": "method",
-            "name": "initialize",
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "access": "protected",
-            "tagname": "",
-            "class": "VisualApp",
+            "file": "src/davinci-eight/visual/Viewport.ts",
+            "line": 26,
+            "itemtype": "property",
+            "name": "ambLight",
+            "type": "AmbientLight",
+            "class": "Viewport",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/visual/VisualApp.ts",
-            "line": 31,
+            "file": "src/davinci-eight/visual/Viewport.ts",
+            "line": 32,
+            "itemtype": "property",
+            "name": "dirLight",
+            "type": "DirectionalLight",
+            "class": "Viewport",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/visual/Viewport.ts",
+            "line": 38,
+            "itemtype": "property",
+            "name": "camera",
+            "type": "PerspectiveCamera",
+            "class": "Viewport",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/visual/Viewport.ts",
+            "line": 44,
+            "itemtype": "property",
+            "name": "x",
+            "type": "number",
+            "class": "Viewport",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/visual/Viewport.ts",
+            "line": 50,
+            "itemtype": "property",
+            "name": "y",
+            "type": "number",
+            "class": "Viewport",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/visual/Viewport.ts",
+            "line": 56,
+            "itemtype": "property",
+            "name": "width",
+            "type": "number",
+            "class": "Viewport",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/visual/Viewport.ts",
+            "line": 62,
+            "itemtype": "property",
+            "name": "height",
+            "type": "number",
+            "class": "Viewport",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/visual/Viewport.ts",
+            "line": 87,
+            "itemtype": "property",
+            "name": "scene",
+            "type": "Scene",
+            "class": "Viewport",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/visual/Viewport.ts",
+            "line": 102,
+            "itemtype": "method",
+            "name": "draw",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "Viewport",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/visual/Viewport.ts",
+            "line": 115,
+            "itemtype": "method",
+            "name": "setPortal",
+            "params": [
+                {
+                    "name": "x",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "y",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "width",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "height",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "Viewport",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/visual/Viewport.ts",
+            "line": 133,
             "itemtype": "method",
             "name": "destructor",
+            "params": [
+                {
+                    "name": "levelUp",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
             "return": {
                 "description": "",
                 "type": "Void"
             },
             "access": "protected",
             "tagname": "",
-            "class": "VisualApp",
+            "class": "Viewport",
             "module": "EIGHT"
         },
         {
@@ -38827,8 +39418,8 @@
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/core.ts",
-            "line": 39,
+            "file": "src/davinci-eight/config.ts",
+            "line": 47,
             "class": "",
             "module": "EIGHT"
         }
@@ -38856,7 +39447,7 @@
         },
         {
             "message": "param name missing: {number}",
-            "line": " src/davinci-eight/math/Vector3.ts:512"
+            "line": " src/davinci-eight/math/Vector3.ts:501"
         },
         {
             "message": "Missing item type\nIntentionally undocumented.\nThis interface is defined to enable mocking in tests.",
@@ -39675,24 +40266,16 @@
             "line": " src/davinci-eight/math/MutableLinearElement.ts:3"
         },
         {
-            "message": "Missing item type\n<p>\n<code>this ⟼ a * α + b * β</code>\n</p>",
+            "message": "Missing item type\nComputes a copy of this element.",
             "line": " src/davinci-eight/math/MutableLinearElement.ts:9"
         },
         {
-            "message": "Missing item type\nComputes a copy of this element.",
-            "line": " src/davinci-eight/math/MutableLinearElement.ts:16"
-        },
-        {
             "message": "Missing item type\nCopies the source coordinates onto this element.",
-            "line": " src/davinci-eight/math/MutableLinearElement.ts:21"
-        },
-        {
-            "message": "Missing item type\n<p>\n<code>this ⟼ a * α - b * β</code>\n</p>",
-            "line": " src/davinci-eight/math/MutableLinearElement.ts:26"
+            "line": " src/davinci-eight/math/MutableLinearElement.ts:14"
         },
         {
             "message": "Missing item type\nSets this element to the identity element for addition, <b>0</b>.",
-            "line": " src/davinci-eight/math/MutableLinearElement.ts:33"
+            "line": " src/davinci-eight/math/MutableLinearElement.ts:19"
         },
         {
             "message": "Missing item type\nIntentionally undocumented",
@@ -39808,7 +40391,7 @@
         },
         {
             "message": "Missing item type\nCoordinates corresponding to basis labels.",
-            "line": " src/davinci-eight/math/Vector3.ts:28"
+            "line": " src/davinci-eight/math/Vector3.ts:29"
         },
         {
             "message": "Missing item type\nComputes the determinant of a 2x2 (square) matrix where the elements are assumed to be in column-major order.",
@@ -39853,6 +40436,10 @@
         {
             "message": "Missing item type\nMultiplication of Geometric3.\nThis was originally written for asm.",
             "line": " src/davinci-eight/math/mulE3.ts:1"
+        },
+        {
+            "message": "Missing item type\nComputes a random number within the specified range.",
+            "line": " src/davinci-eight/math/randomRange.ts:1"
         },
         {
             "message": "Missing item type\nSets this multivector to a rotor representing a rotation from a to b.\nR = (|b||a| + b * a) / sqrt(2 * |b||a|(|b||a| + b << a))\nReturns undefined (void 0) if the vectors are anti-parallel.",
@@ -39952,7 +40539,7 @@
         },
         {
             "message": "Missing item type",
-            "line": " src/davinci-eight/core.ts:39"
+            "line": " src/davinci-eight/config.ts:47"
         }
     ]
 }

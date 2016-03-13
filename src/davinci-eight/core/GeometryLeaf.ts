@@ -1,6 +1,6 @@
 import Material from './Material'
 import ContextProvider from './ContextProvider'
-import core from '../core'
+import config from '../config'
 import DrawMode from './DrawMode'
 import Engine from './Engine'
 import ErrorMode from './ErrorMode'
@@ -140,7 +140,7 @@ export default class GeometryLeaf extends ShareableContextConsumer implements Ge
       this.mode = contextProvider.drawModeToGL(this._drawMode)
     }
     else {
-      switch (core.errorMode) {
+      switch (config.errorMode) {
         case ErrorMode.WARNME: {
           console.warn(`${this._type}.drawMode must be a number.`)
         }
@@ -150,7 +150,7 @@ export default class GeometryLeaf extends ShareableContextConsumer implements Ge
       }
     }
     if (!isNumber(this._stride)) {
-      switch (core.errorMode) {
+      switch (config.errorMode) {
         case ErrorMode.WARNME: {
           console.warn(`${this._type}.stride must be a number.`)
         }

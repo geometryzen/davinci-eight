@@ -53,19 +53,23 @@ export default class PerspectiveCamera implements Perspective, Facet {
    * The name of the property that designates the position.
    *
    * @property PROP_POSITION
-   * @type {string}
+   * @type string
    * @default 'X'
    * @static
    * @readOnly
+   * @private
    */
-  public static PROP_POSITION = 'X';
-  public static PROP_EYE = 'eye';
+  private static PROP_POSITION = 'X';
 
   /**
-   * @property name
-   * @type {string}
+   * @property PROP_EYE
+   * @type string
+   * @default 'eye'
+   * @static
+   * @readOnly
+   * @private
    */
-  public name: string;
+  private static PROP_EYE = 'eye';
 
   /**
    * @property inner
@@ -124,7 +128,7 @@ export default class PerspectiveCamera implements Perspective, Facet {
     switch (name) {
       case PerspectiveCamera.PROP_EYE:
       case PerspectiveCamera.PROP_POSITION: {
-        return this.eye.coords;
+        return this.eye.coords
       }
       default: {
         // TODO
@@ -152,18 +156,21 @@ export default class PerspectiveCamera implements Perspective, Facet {
         // TODO
       }
     }
-    return this;
+    return this
   }
 
   /**
    * The aspect ratio (width / height) of the camera viewport.
    *
    * @property aspect
-   * @type {number}
+   * @type number
    * @readOnly
    */
   get aspect(): number {
-    return this.inner.aspect;
+    return this.inner.aspect
+  }
+  set aspect(aspect: number) {
+    this.inner.aspect = aspect
   }
 
   /**
@@ -179,6 +186,7 @@ export default class PerspectiveCamera implements Perspective, Facet {
 
   /**
    * The position of the camera.
+   *
    * @property eye
    * @type {Vector3}
    */
@@ -191,9 +199,9 @@ export default class PerspectiveCamera implements Perspective, Facet {
 
   /**
    * The position of the camera.
+   *
    * @property position
    * @type {Vector3}
-   * @readOnly
    */
   get position(): Vector3 {
     return this.inner.eye;
@@ -216,11 +224,11 @@ export default class PerspectiveCamera implements Perspective, Facet {
   /**
    * The field of view is the (planar) angle (magnitude) in the camera horizontal plane that encloses object that can be seen.
    * Measured in radians.
+   *
    * @property fov
    * @type {number}
    * @readOnly
    */
-  // TODO: Field of view could be specified as an Aspect + Magnitude of a Spinor3!?
   get fov(): number {
     return this.inner.fov;
   }
@@ -239,9 +247,23 @@ export default class PerspectiveCamera implements Perspective, Facet {
     return this;
   }
 
+  /**
+   * @property look
+   * @type Vector3
+   */
   get look(): Vector3 {
     return this.inner.look;
   }
+  set look(look: Vector3) {
+    this.inner.setLook(look)
+  }
+
+  /**
+   * @method setLook
+   * @param look {VectorE3}
+   * @return {PerspectiveCamera}
+   * @chainable
+   */
   setLook(look: VectorE3): PerspectiveCamera {
     this.inner.setLook(look);
     return this;
@@ -249,15 +271,15 @@ export default class PerspectiveCamera implements Perspective, Facet {
 
   /**
    * The distance to the near plane.
+   *
    * @property near
    * @type {number}
-   * @readOnly
    */
   get near(): number {
     return this.inner.near;
   }
-  set near(unused) {
-    throw new Error(readOnly('near').message);
+  set near(near: number) {
+    this.inner.near = near
   }
 
   /**
@@ -271,6 +293,10 @@ export default class PerspectiveCamera implements Perspective, Facet {
     return this;
   }
 
+  /**
+   * @property far
+   * @type number
+   */
   get far(): number {
     return this.inner.far;
   }
@@ -278,11 +304,21 @@ export default class PerspectiveCamera implements Perspective, Facet {
     this.inner.far = far;
   }
 
+  /**
+   * @method setFar
+   * @param far {number}
+   * @return {PerspectiveCamera}
+   * @chainable
+   */
   setFar(far: number): PerspectiveCamera {
     this.inner.setFar(far);
     return this;
   }
 
+  /**
+   * @property up
+   * @type Vector3
+   */
   get up(): Vector3 {
     return this.inner.up;
   }
@@ -290,11 +326,22 @@ export default class PerspectiveCamera implements Perspective, Facet {
     throw new Error(readOnly('up').message);
   }
 
+  /**
+   * @method setUp
+   * @param up {VectorE3}
+   * @return {PerspectiveCamera}
+   * @chainable
+   */
   setUp(up: VectorE3): PerspectiveCamera {
     this.inner.setUp(up);
     return this;
   }
 
+  /**
+   * @property projectionMatrix
+   * @type Matrix4
+   * @readOnly
+   */
   get projectionMatrix(): Matrix4 {
     return this.inner.projectionMatrix
   }

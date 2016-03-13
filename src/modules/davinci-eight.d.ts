@@ -126,12 +126,61 @@ declare module EIGHT {
     public manage(managed: Shareable): void;
   }
 
+  interface WindowAnimationRunner {
+
+    /**
+     *
+     */
+    start(): void;
+
+    /**
+     *
+     */
+    stop(): void;
+
+    /**
+     *
+     */
+    reset(): void;
+
+    /**
+     *
+     */
+    lap(): void;
+
+    /**
+     *
+     */
+    time: number;
+
+    /**
+     *
+     */
+    isRunning: boolean;
+
+    /**
+     *
+     */
+    isPaused: boolean;
+  }
+
   class EngineApp extends BrowserApp {
     protected canvas: HTMLCanvasElement;
     protected engine: Engine;
     constructor(canvasId: string, wnd?: Window);
+    protected clear(): void;
     protected destructor(): void;
     protected initialize(): void;
+  }
+
+  class AnimationApp extends EngineApp {
+    constructor(canvasId: string, wnd?: Window);
+    protected animate(time: number): void;
+    protected destructor(): void;
+    protected initialize(): void;
+    protected reset(): void;
+    protected start(): void;
+    protected stop(): void;
   }
 
   /**
@@ -2542,21 +2591,18 @@ declare module EIGHT {
      * this += α * vector
      */
     add(vector: VectorE3, α?: number): Vector3;
-    add2(a: VectorE3, b: VectorE3): Vector3;
-    applyMatrix4(σ: Matrix4): Vector3;
     applyMatrix(σ: Matrix3): Vector3;
+    applyMatrix4(σ: Matrix4): Vector3;
     clone(): Vector3;
-    copy(v: VectorE3): Vector3;
-    static copy(vector: VectorE3): Vector3;
+    copy(source: VectorE3): Vector3;
     copyCoordinates(coordinates: number[]): Vector3;
     cross(v: VectorE3): Vector3;
     cross2(a: VectorE3, b: VectorE3): Vector3;
     distanceTo(point: VectorE3): number;
     divByScalar(rhs: number): Vector3;
-    static dot(a: VectorE3, b: VectorE3): number;
     dot(v: VectorE3): number;
+    dual(B: SpinorE3, changeSign: boolean): Vector3;
     lerp(target: VectorE3, α: number): Vector3;
-    static lerp(a: VectorE3, b: VectorE3, α: number): Vector3;
     lerp2(a: VectorE3, b: VectorE3, α: number): Vector3;
     /**
      * Computes the <em>square root</em> of the <em>squared norm</em>.
@@ -2565,18 +2611,25 @@ declare module EIGHT {
     neg(): Vector3;
     normalize(): Vector3;
     quadranceTo(point: VectorE3): number;
-    static random(): Vector3;
     reflect(n: VectorE3): Vector3;
-    rotate(rotor: SpinorE3): Vector3;
+    rotate(R: SpinorE3): Vector3;
     scale(rhs: number): Vector3;
     set(x: number, y: number, z: number): Vector3;
     squaredNorm(): number;
-    sub(rhs: VectorE3): Vector3;
-    sub2(a: VectorE3, b: VectorE3): Vector3;
+    stress(σ: VectorE3): Vector3;
+    sub(vector: VectorE3, α?: number): Vector3;
     toExponential(fractionDigits?: number): string;
     toFixed(fractionDigits?: number): string;
     toPrecision(precision?: number): string;
     toString(radix?: number): string;
+    zero(): Vector3;
+    static copy(vector: VectorE3): Vector3;
+    static dot(a: VectorE3, b: VectorE3): number;
+    static isInstance(x: any): boolean;
+    static lerp(a: VectorE3, b: VectorE3, α: number): Vector3;
+    static random(): Vector3;
+    static vector(x: number, y: number, z: number): Vector3;
+    static zero(): Vector3;
   }
 
   /**
@@ -2881,51 +2934,59 @@ declare module EIGHT {
    *
    */
   class PerspectiveCamera extends AbstractFacet {
+
     /**
      * The aspect ratio of the viewport, i.e., width / height.
      */
     aspect: number;
+
     /**
      * The position of the camera.
      */
     eye: Vector3;
+
     /**
      * The distance to the far plane of the viewport.
      */
     far: number;
+
     /**
      * The field of view is the angle in the camera horizontal plane that the viewport subtends at the camera.
      * The field of view is measured in radians.
      */
     fov: number;
+
     /**
      * The point (position vector) that the camera looks at.
      */
     look: Vector3;
+
     /**
      *The distance to the near plane of the viewport.
      */
     near: number;
+
     /**
      *
      */
     position: Vector3;
-    /**
-     * Optional name used for finding this instance.
-     */
-    name: string;
-    /**
-     * The "guess" direction that is used to generate the upwards direction for the camera. 
-     */
-    up: Vector3;
+
+
     /**
      * The projection matrix
      */
     projectionMatrix: Matrix4;
+
+    /**
+     * The "guess" direction that is used to generate the upwards direction for the camera. 
+     */
+    up: Vector3;
+
     /**
      * The view matrix
      */
     viewMatrix: Matrix4;
+
     /**
      * fov...: The `fov` property.
      * aspect: The `aspect` property.
@@ -2933,21 +2994,16 @@ declare module EIGHT {
      * far...: The `far` property.
      */
     constructor(fov?: number, aspect?: number, near?: number, far?: number);
-    /**
-     *
-     */
-    set(data: { [key: string]: any }, ignore?: boolean): void;
+    getProperty(name: string): number[]
     setAspect(aspect: number): PerspectiveCamera
     setEye(eye: VectorE3): PerspectiveCamera
     setFar(far: number): PerspectiveCamera
     setFov(fov: number): PerspectiveCamera
     setLook(look: VectorE3): PerspectiveCamera
     setNear(near: number): PerspectiveCamera
-    setUp(up: VectorE3): PerspectiveCamera
-    /**
-     *
-     */
+    setProperty(name: string, value: number[]): PerspectiveCamera
     setUniforms(visitor: FacetVisitor): void
+    setUp(up: VectorE3): PerspectiveCamera
   }
 
   class Engine implements Shareable {
@@ -3987,6 +4043,37 @@ declare module EIGHT {
      * Records the graphics model variables.
      */
     snapshot(): void;
+  }
+
+  class Viewport extends ShareableBase {
+    ambLight: AmbientLight;
+    camera: PerspectiveCamera;
+    dirLight: DirectionalLight;
+    height: number;
+    scene: Scene;
+    width: number;
+    x: number;
+    y: number;
+    constructor(engine: Engine);
+    protected destructor(levelUp?: number): void;
+    public draw(): void;
+    public setPortal(x: number, y: number, width: number, height: number): void;
+  }
+
+  class SingleViewApp extends AnimationApp {
+    protected view: Viewport;
+    constructor(canvasId: string, wnd?: Window);
+    protected destructor(): void;
+    protected draw(): void;
+    protected initialize(): void;
+  }
+
+  class MultiViewApp extends AnimationApp {
+    protected views: ShareableArray<Viewport>;
+    constructor(numViews: number, canvasId: string, wnd?: Window);
+    protected destructor(): void;
+    protected draw(): void;
+    protected initialize(): void;
   }
 
   /**

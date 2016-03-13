@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.220.0</em>
+            <em>API Docs for: 2.221.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -43,6 +43,7 @@
                                 <li><a href="../classes/AbstractMatrix.html">AbstractMatrix</a></li>
                                 <li><a href="../classes/AbstractMesh.html">AbstractMesh</a></li>
                                 <li><a href="../classes/AmbientLight.html">AmbientLight</a></li>
+                                <li><a href="../classes/AnimationApp.html">AnimationApp</a></li>
                                 <li><a href="../classes/Approximation.html">Approximation</a></li>
                                 <li><a href="../classes/Arrow.html">Arrow</a></li>
                                 <li><a href="../classes/ArrowBuilder.html">ArrowBuilder</a></li>
@@ -143,6 +144,7 @@
                                 <li><a href="../classes/ModelE3.html">ModelE3</a></li>
                                 <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
                                 <li><a href="../classes/MouseControls.html">MouseControls</a></li>
+                                <li><a href="../classes/MultiViewApp.html">MultiViewApp</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/NumberShareableMap.html">NumberShareableMap</a></li>
                                 <li><a href="../classes/Perspective.html">Perspective</a></li>
@@ -173,6 +175,7 @@
                                 <li><a href="../classes/ShareableWebGLShader.html">ShareableWebGLShader</a></li>
                                 <li><a href="../classes/ShareableWebGLTexture.html">ShareableWebGLTexture</a></li>
                                 <li><a href="../classes/SimplexPrimitivesBuilder.html">SimplexPrimitivesBuilder</a></li>
+                                <li><a href="../classes/SingleViewApp.html">SingleViewApp</a></li>
                                 <li><a href="../classes/SliceSimplexPrimitivesBuilder.html">SliceSimplexPrimitivesBuilder</a></li>
                                 <li><a href="../classes/Sphere.html">Sphere</a></li>
                                 <li><a href="../classes/SphereBuilder.html">SphereBuilder</a></li>
@@ -215,12 +218,13 @@
                                 <li><a href="../classes/VertexAttributeMap.html">VertexAttributeMap</a></li>
                                 <li><a href="../classes/VertexBuffer.html">VertexBuffer</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
-                                <li><a href="../classes/VisualApp.html">VisualApp</a></li>
+                                <li><a href="../classes/Viewport.html">Viewport</a></li>
                                 <li><a href="../classes/VisualOptions.html">VisualOptions</a></li>
                                 <li><a href="../classes/WebGLBlendFunc.html">WebGLBlendFunc</a></li>
                                 <li><a href="../classes/WebGLClearColor.html">WebGLClearColor</a></li>
                                 <li><a href="../classes/WebGLDisable.html">WebGLDisable</a></li>
                                 <li><a href="../classes/WebGLEnable.html">WebGLEnable</a></li>
+                                <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
                             </ul>
                 
                 
@@ -277,7 +281,7 @@
         </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_facets_PerspectiveCamera.ts.html#l77"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;PerspectiveCamera.ts:77</code></a>
+            Defined in: <a href="../files/src_davinci-eight_facets_PerspectiveCamera.ts.html#l81"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;PerspectiveCamera.ts:81</code></a>
         </div>
 
             Module: <a href="../modules/facets.html">facets</a><br>
@@ -330,7 +334,7 @@ method is called <code>setUniforms</code>.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_facets_PerspectiveCamera.ts.html#l77"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;PerspectiveCamera.ts:77</code></a>
+        <a href="../files/src_davinci-eight_facets_PerspectiveCamera.ts.html#l81"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;PerspectiveCamera.ts:81</code></a>
         </p>
 
 
@@ -447,7 +451,15 @@ scene.draw(ambients)
 
                             </li>
                             <li class="index-item method">
+                                <a href="#method_setFar">setFar</a>
+
+                            </li>
+                            <li class="index-item method">
                                 <a href="#method_setFov">setFov</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_setLook">setLook</a>
 
                             </li>
                             <li class="index-item method">
@@ -460,6 +472,10 @@ scene.draw(ambients)
                             </li>
                             <li class="index-item method inherited">
                                 <a href="#method_setUniforms">setUniforms</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_setUp">setUp</a>
 
                             </li>
                     </ul>
@@ -478,6 +494,10 @@ scene.draw(ambients)
 
                             </li>
                             <li class="index-item property">
+                                <a href="#property_far">far</a>
+
+                            </li>
+                            <li class="index-item property">
                                 <a href="#property_fov">fov</a>
 
                             </li>
@@ -486,7 +506,7 @@ scene.draw(ambients)
 
                             </li>
                             <li class="index-item property">
-                                <a href="#property_name">name</a>
+                                <a href="#property_look">look</a>
 
                             </li>
                             <li class="index-item property">
@@ -498,9 +518,22 @@ scene.draw(ambients)
 
                             </li>
                             <li class="index-item property">
+                                <a href="#property_projectionMatrix">projectionMatrix</a>
+
+                            </li>
+                            <li class="index-item property private">
+                                <a href="#property_PROP_EYE">PROP_EYE</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item property private">
                                 <a href="#property_PROP_POSITION">PROP_POSITION</a>
 
                                     <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_up">up</a>
+
                             </li>
                             <li class="index-item property">
                                 <a href="#property_viewMatrix">viewMatrix</a>
@@ -539,7 +572,7 @@ scene.draw(ambients)
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_facets_PerspectiveCamera.ts.html#l117"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;PerspectiveCamera.ts:117</code></a>
+        <a href="../files/src_davinci-eight_facets_PerspectiveCamera.ts.html#l121"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;PerspectiveCamera.ts:121</code></a>
         </p>
 
 
@@ -602,7 +635,7 @@ scene.draw(ambients)
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_facets_PerspectiveCamera.ts.html#l169"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;PerspectiveCamera.ts:169</code></a>
+        <a href="../files/src_davinci-eight_facets_PerspectiveCamera.ts.html#l176"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;PerspectiveCamera.ts:176</code></a>
         </p>
 
 
@@ -665,7 +698,7 @@ scene.draw(ambients)
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_facets_PerspectiveCamera.ts.html#l205"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;PerspectiveCamera.ts:205</code></a>
+        <a href="../files/src_davinci-eight_facets_PerspectiveCamera.ts.html#l213"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;PerspectiveCamera.ts:213</code></a>
         </p>
 
 
@@ -683,6 +716,69 @@ scene.draw(ambients)
                 <li class="param">
                         <code class="param-name">eye</code>
                         <span class="type"><a href="../classes/VectorE3.html" class="crosslink">VectorE3</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/PerspectiveCamera.html" class="crosslink">PerspectiveCamera</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_setFar" class="method item">
+    <h3 class="name"><code>setFar</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>far</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/PerspectiveCamera.html" class="crosslink">PerspectiveCamera</a></span>
+        </span>
+
+
+
+
+
+        <span class="flag chainable">chainable</span>
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_facets_PerspectiveCamera.ts.html#l307"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;PerspectiveCamera.ts:307</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">far</code>
+                        <span class="type">Number</span>
 
 
                     <div class="param-description">
@@ -728,7 +824,7 @@ scene.draw(ambients)
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_facets_PerspectiveCamera.ts.html#l230"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;PerspectiveCamera.ts:230</code></a>
+        <a href="../files/src_davinci-eight_facets_PerspectiveCamera.ts.html#l238"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;PerspectiveCamera.ts:238</code></a>
         </p>
 
 
@@ -746,6 +842,69 @@ scene.draw(ambients)
                 <li class="param">
                         <code class="param-name">fov</code>
                         <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/PerspectiveCamera.html" class="crosslink">PerspectiveCamera</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_setLook" class="method item">
+    <h3 class="name"><code>setLook</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>look</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/PerspectiveCamera.html" class="crosslink">PerspectiveCamera</a></span>
+        </span>
+
+
+
+
+
+        <span class="flag chainable">chainable</span>
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_facets_PerspectiveCamera.ts.html#l261"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;PerspectiveCamera.ts:261</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">look</code>
+                        <span class="type"><a href="../classes/VectorE3.html" class="crosslink">VectorE3</a></span>
 
 
                     <div class="param-description">
@@ -791,7 +950,7 @@ scene.draw(ambients)
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_facets_PerspectiveCamera.ts.html#l263"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;PerspectiveCamera.ts:263</code></a>
+        <a href="../files/src_davinci-eight_facets_PerspectiveCamera.ts.html#l285"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;PerspectiveCamera.ts:285</code></a>
         </p>
 
 
@@ -860,7 +1019,7 @@ scene.draw(ambients)
                 Facet
             </a>
             but overwritten in
-        <a href="../files/src_davinci-eight_facets_PerspectiveCamera.ts.html#l135"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;PerspectiveCamera.ts:135</code></a>
+        <a href="../files/src_davinci-eight_facets_PerspectiveCamera.ts.html#l139"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;PerspectiveCamera.ts:139</code></a>
         </p>
 
 
@@ -935,7 +1094,7 @@ scene.draw(ambients)
                 Facet
             </a>
             but overwritten in
-        <a href="../files/src_davinci-eight_facets_PerspectiveCamera.ts.html#l105"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;PerspectiveCamera.ts:105</code></a>
+        <a href="../files/src_davinci-eight_facets_PerspectiveCamera.ts.html#l109"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;PerspectiveCamera.ts:109</code></a>
         </p>
 
 
@@ -973,6 +1132,69 @@ scene.draw(ambients)
 
 
 </div>
+<div id="method_setUp" class="method item">
+    <h3 class="name"><code>setUp</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>up</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/PerspectiveCamera.html" class="crosslink">PerspectiveCamera</a></span>
+        </span>
+
+
+
+
+
+        <span class="flag chainable">chainable</span>
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_facets_PerspectiveCamera.ts.html#l329"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;PerspectiveCamera.ts:329</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">up</code>
+                        <span class="type"><a href="../classes/VectorE3.html" class="crosslink">VectorE3</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/PerspectiveCamera.html" class="crosslink">PerspectiveCamera</a></span>:
+            </div>
+        </div>
+
+
+</div>
             </div>
 
             <div id="properties" class="api-class-tabpanel">
@@ -989,7 +1211,7 @@ scene.draw(ambients)
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_facets_PerspectiveCamera.ts.html#l158"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;PerspectiveCamera.ts:158</code></a>
+        <a href="../files/src_davinci-eight_facets_PerspectiveCamera.ts.html#l162"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;PerspectiveCamera.ts:162</code></a>
         </p>
 
 
@@ -1014,7 +1236,7 @@ scene.draw(ambients)
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_facets_PerspectiveCamera.ts.html#l180"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;PerspectiveCamera.ts:180</code></a>
+        <a href="../files/src_davinci-eight_facets_PerspectiveCamera.ts.html#l187"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;PerspectiveCamera.ts:187</code></a>
         </p>
 
 
@@ -1023,6 +1245,30 @@ scene.draw(ambients)
     <div class="description">
         <p>The position of the camera.</p>
 
+    </div>
+
+
+
+</div>
+<div id="property_far" class="property item">
+    <h3 class="name"><code>far</code></h3>
+    <span class="type">Number</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_facets_PerspectiveCamera.ts.html#l296"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;PerspectiveCamera.ts:296</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
     </div>
 
 
@@ -1039,7 +1285,7 @@ scene.draw(ambients)
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_facets_PerspectiveCamera.ts.html#l216"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;PerspectiveCamera.ts:216</code></a>
+        <a href="../files/src_davinci-eight_facets_PerspectiveCamera.ts.html#l224"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;PerspectiveCamera.ts:224</code></a>
         </p>
 
 
@@ -1066,7 +1312,7 @@ Measured in radians.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_facets_PerspectiveCamera.ts.html#l70"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;PerspectiveCamera.ts:70</code></a>
+        <a href="../files/src_davinci-eight_facets_PerspectiveCamera.ts.html#l74"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;PerspectiveCamera.ts:74</code></a>
         </p>
 
 
@@ -1079,9 +1325,9 @@ Measured in radians.</p>
 
 
 </div>
-<div id="property_name" class="property item">
-    <h3 class="name"><code>name</code></h3>
-    <span class="type">String</span>
+<div id="property_look" class="property item">
+    <h3 class="name"><code>look</code></h3>
+    <span class="type"><a href="../classes/Vector3.html" class="crosslink">Vector3</a></span>
 
 
 
@@ -1090,7 +1336,7 @@ Measured in radians.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_facets_PerspectiveCamera.ts.html#l64"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;PerspectiveCamera.ts:64</code></a>
+        <a href="../files/src_davinci-eight_facets_PerspectiveCamera.ts.html#l250"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;PerspectiveCamera.ts:250</code></a>
         </p>
 
 
@@ -1114,7 +1360,7 @@ Measured in radians.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_facets_PerspectiveCamera.ts.html#l250"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;PerspectiveCamera.ts:250</code></a>
+        <a href="../files/src_davinci-eight_facets_PerspectiveCamera.ts.html#l272"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;PerspectiveCamera.ts:272</code></a>
         </p>
 
 
@@ -1139,7 +1385,7 @@ Measured in radians.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_facets_PerspectiveCamera.ts.html#l192"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;PerspectiveCamera.ts:192</code></a>
+        <a href="../files/src_davinci-eight_facets_PerspectiveCamera.ts.html#l200"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;PerspectiveCamera.ts:200</code></a>
         </p>
 
 
@@ -1153,11 +1399,63 @@ Measured in radians.</p>
 
 
 </div>
-<div id="property_PROP_POSITION" class="property item">
+<div id="property_projectionMatrix" class="property item">
+    <h3 class="name"><code>projectionMatrix</code></h3>
+    <span class="type"><a href="../classes/Matrix4.html" class="crosslink">Matrix4</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_facets_PerspectiveCamera.ts.html#l340"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;PerspectiveCamera.ts:340</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_PROP_EYE" class="property item private">
+    <h3 class="name"><code>PROP_EYE</code></h3>
+    <span class="type">String</span>
+
+
+        <span class="flag private">private</span>
+
+
+        <span class="flag static">static</span>
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_facets_PerspectiveCamera.ts.html#l64"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;PerspectiveCamera.ts:64</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <p><strong>Default:</strong> &#x27;eye&#x27;</p>
+
+
+</div>
+<div id="property_PROP_POSITION" class="property item private">
     <h3 class="name"><code>PROP_POSITION</code></h3>
     <span class="type">String</span>
 
 
+        <span class="flag private">private</span>
 
 
         <span class="flag static">static</span>
@@ -1180,6 +1478,30 @@ Measured in radians.</p>
 
 
 </div>
+<div id="property_up" class="property item">
+    <h3 class="name"><code>up</code></h3>
+    <span class="type"><a href="../classes/Vector3.html" class="crosslink">Vector3</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_facets_PerspectiveCamera.ts.html#l318"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;PerspectiveCamera.ts:318</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
 <div id="property_viewMatrix" class="property item">
     <h3 class="name"><code>viewMatrix</code></h3>
     <span class="type"><a href="../classes/Matrix4.html" class="crosslink">Matrix4</a></span>
@@ -1191,7 +1513,7 @@ Measured in radians.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_facets_PerspectiveCamera.ts.html#l305"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;PerspectiveCamera.ts:305</code></a>
+        <a href="../files/src_davinci-eight_facets_PerspectiveCamera.ts.html#l352"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;PerspectiveCamera.ts:352</code></a>
         </p>
 
 

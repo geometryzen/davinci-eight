@@ -1,7 +1,11 @@
 import BrowserApp from './BrowserApp'
 import BrowserWindow from './BrowserWindow'
 import Engine from '../core/Engine'
+import getCanvasElementById from '../utils/getCanvasElementById'
+import getDimensions from '../utils/getDimensions'
+import mustBeNumber from '../checks/mustBeNumber'
 import mustBeString from '../checks/mustBeString'
+import Scene from '../core/Scene'
 
 /**
  * @class EngineApp
@@ -36,10 +40,10 @@ export default class EngineApp extends BrowserApp {
   /**
    * @class EngineApp
    * @constructor
-   * @param canvasId {string}
-   * @param [wnd = window] {Window}
+   * @param canvasId {string} The element id of the <code>HTMLCanvasElement</code>.
+   * @param [wnd = window] {Window} The window in which the application will be running.
    */
-  constructor(canvasId: string, wnd?: BrowserWindow) {
+  constructor(canvasId: string, wnd: BrowserWindow = window) {
     super(wnd)
     this.engine = new Engine()
     this.canvasId = mustBeString('canvasId', canvasId)
@@ -60,14 +64,27 @@ export default class EngineApp extends BrowserApp {
   }
 
   /**
+   * @method clear
+   * @return {void}
+   * @protected
+   */
+  protected clear(): void {
+    this.engine.clear()
+  }
+
+  /**
    * @method initialize
    * @return {void}
    * @protected
    */
   protected initialize(): void {
     super.initialize()
-    this.canvas = <HTMLCanvasElement>this.window.document.getElementById(this.canvasId)
+    const dom: Document = this.window.document
+    this.canvas = getCanvasElementById(this.canvasId, dom)
     if (this.canvas) {
+      const dimensions = getDimensions(this.canvasId, dom)
+      this.canvas.width = mustBeNumber('canvas.width', dimensions.width)
+      this.canvas.height = mustBeNumber('canvas.height', dimensions.height)
       this.engine.start(this.canvas)
     }
     else {
