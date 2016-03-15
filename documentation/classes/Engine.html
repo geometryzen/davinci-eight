@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.221.0</em>
+            <em>API Docs for: 2.222.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -60,7 +60,6 @@
                                 <li><a href="../classes/BoxGeometryOptions.html">BoxGeometryOptions</a></li>
                                 <li><a href="../classes/BoxOptions.html">BoxOptions</a></li>
                                 <li><a href="../classes/BrowserApp.html">BrowserApp</a></li>
-                                <li><a href="../classes/CameraControls.html">CameraControls</a></li>
                                 <li><a href="../classes/Capability.html">Capability</a></li>
                                 <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
@@ -71,10 +70,10 @@
                                 <li><a href="../classes/ContextConsumer.html">ContextConsumer</a></li>
                                 <li><a href="../classes/ContextProgramConsumer.html">ContextProgramConsumer</a></li>
                                 <li><a href="../classes/ContextProvider.html">ContextProvider</a></li>
+                                <li><a href="../classes/ControlTarget.html">ControlTarget</a></li>
                                 <li><a href="../classes/Coords.html">Coords</a></li>
                                 <li><a href="../classes/CoordsTransform1D.html">CoordsTransform1D</a></li>
                                 <li><a href="../classes/CoordsTransform2D.html">CoordsTransform2D</a></li>
-                                <li><a href="../classes/createView.html">createView</a></li>
                                 <li><a href="../classes/CuboidPrimitivesBuilder.html">CuboidPrimitivesBuilder</a></li>
                                 <li><a href="../classes/Curve.html">Curve</a></li>
                                 <li><a href="../classes/CurveGeometry.html">CurveGeometry</a></li>
@@ -147,6 +146,7 @@
                                 <li><a href="../classes/MultiViewApp.html">MultiViewApp</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/NumberShareableMap.html">NumberShareableMap</a></li>
+                                <li><a href="../classes/OrbitControls.html">OrbitControls</a></li>
                                 <li><a href="../classes/Perspective.html">Perspective</a></li>
                                 <li><a href="../classes/PerspectiveCamera.html">PerspectiveCamera</a></li>
                                 <li><a href="../classes/PointMaterial.html">PointMaterial</a></li>
@@ -192,6 +192,7 @@
                                 <li><a href="../classes/TetrahedronGeometry.html">TetrahedronGeometry</a></li>
                                 <li><a href="../classes/TetrahedronGeometryOptions.html">TetrahedronGeometryOptions</a></li>
                                 <li><a href="../classes/TetrahedronOptions.html">TetrahedronOptions</a></li>
+                                <li><a href="../classes/TrackballControls.html">TrackballControls</a></li>
                                 <li><a href="../classes/Trail.html">Trail</a></li>
                                 <li><a href="../classes/TrailConfig.html">TrailConfig</a></li>
                                 <li><a href="../classes/Transform.html">Transform</a></li>
@@ -281,7 +282,7 @@
         </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_core_Engine.ts.html#l80"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:80</code></a>
+            Defined in: <a href="../files/src_davinci-eight_core_Engine.ts.html#l96"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:96</code></a>
         </div>
 
             Module: <a href="../modules/core.html">core</a><br>
@@ -317,7 +318,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Engine.ts.html#l80"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:80</code></a>
+        <a href="../files/src_davinci-eight_core_Engine.ts.html#l96"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:96</code></a>
         </p>
 
 
@@ -418,6 +419,14 @@ renderer.release()</code></pre>
                                 <a href="#method_getLoggingName">getLoggingName</a>
 
                             </li>
+                            <li class="index-item method">
+                                <a href="#method_getMaxViewportDims">getMaxViewportDims</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_getViewport">getViewport</a>
+
+                            </li>
                             <li class="index-item method inherited">
                                 <a href="#method_isZombie">isZombie</a>
 
@@ -497,6 +506,10 @@ renderer.release()</code></pre>
                                 <a href="#property_levelUp">levelUp</a>
 
                             </li>
+                            <li class="index-item property">
+                                <a href="#property_mayUseCache">mayUseCache</a>
+
+                            </li>
                             <li class="index-item property private inherited">
                                 <a href="#property_uuid">uuid</a>
 
@@ -534,7 +547,7 @@ renderer.release()</code></pre>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Engine.ts.html#l137"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:137</code></a>
+        <a href="../files/src_davinci-eight_core_Engine.ts.html#l153"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:153</code></a>
         </p>
 
 
@@ -636,7 +649,7 @@ Notifies this instance that something is referencing it.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Engine.ts.html#l275"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:275</code></a>
+        <a href="../files/src_davinci-eight_core_Engine.ts.html#l314"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:314</code></a>
         </p>
 
 
@@ -692,7 +705,7 @@ Notifies this instance that something is referencing it.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Engine.ts.html#l183"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:183</code></a>
+        <a href="../files/src_davinci-eight_core_Engine.ts.html#l221"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:221</code></a>
         </p>
 
 
@@ -768,7 +781,7 @@ Specifies color values to use by the <code>clear</code> method to clear the colo
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
-                        <code>level</code>
+                        <code>levelUp</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
@@ -787,7 +800,7 @@ Specifies color values to use by the <code>clear</code> method to clear the colo
                 ShareableBase
             </a>
             but overwritten in
-        <a href="../files/src_davinci-eight_core_Engine.ts.html#l121"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:121</code></a>
+        <a href="../files/src_davinci-eight_core_Engine.ts.html#l137"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:137</code></a>
         </p>
 
 
@@ -803,7 +816,7 @@ Specifies color values to use by the <code>clear</code> method to clear the colo
 
             <ul class="params-list">
                 <li class="param">
-                        <code class="param-name">level</code>
+                        <code class="param-name">levelUp</code>
                         <span class="type">Number</span>
 
 
@@ -844,7 +857,7 @@ Specifies color values to use by the <code>clear</code> method to clear the colo
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Engine.ts.html#l219"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:219</code></a>
+        <a href="../files/src_davinci-eight_core_Engine.ts.html#l258"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:258</code></a>
         </p>
 
 
@@ -908,7 +921,7 @@ Specifies color values to use by the <code>clear</code> method to clear the colo
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Engine.ts.html#l232"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:232</code></a>
+        <a href="../files/src_davinci-eight_core_Engine.ts.html#l271"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:271</code></a>
         </p>
 
 
@@ -982,6 +995,95 @@ Specifies color values to use by the <code>clear</code> method to clear the colo
 
             <div class="returns-description">
                         <span class="type">String</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_getMaxViewportDims" class="method item">
+    <h3 class="name"><code>getMaxViewportDims</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">Int32Array</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_core_Engine.ts.html#l325"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:325</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>
+The viewport wifth and height are clamped to a range that is
+implementation dependent.
+</p>
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Int32Array</span>:
+                    <p>e.g. Int32Array[16384, 16384]</p>
+
+            </div>
+        </div>
+
+
+</div>
+<div id="method_getViewport" class="method item">
+    <h3 class="name"><code>getViewport</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">Int32Array</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_core_Engine.ts.html#l344"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:344</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>
+Returns the current viewport settings.
+</p>
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Int32Array</span>:
+                    <p>e.g. Int32Array[x, y, width, height]</p>
+
             </div>
         </div>
 
@@ -1097,7 +1199,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Engine.ts.html#l262"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:262</code></a>
+        <a href="../files/src_davinci-eight_core_Engine.ts.html#l301"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:301</code></a>
         </p>
 
 
@@ -1237,7 +1339,7 @@ Notice that this method is intentionally protected to discourage it from being c
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Engine.ts.html#l308"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:308</code></a>
+        <a href="../files/src_davinci-eight_core_Engine.ts.html#l398"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:398</code></a>
         </p>
 
 
@@ -1296,7 +1398,7 @@ Notice that this method is intentionally protected to discourage it from being c
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Engine.ts.html#l344"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:344</code></a>
+        <a href="../files/src_davinci-eight_core_Engine.ts.html#l434"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:434</code></a>
         </p>
 
 
@@ -1342,7 +1444,7 @@ Notice that this method is intentionally protected to discourage it from being c
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Engine.ts.html#l398"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:398</code></a>
+        <a href="../files/src_davinci-eight_core_Engine.ts.html#l488"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:488</code></a>
         </p>
 
 
@@ -1414,7 +1516,7 @@ Notice that this method is intentionally protected to discourage it from being c
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Engine.ts.html#l286"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:286</code></a>
+        <a href="../files/src_davinci-eight_core_Engine.ts.html#l362"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:362</code></a>
         </p>
 
 
@@ -1500,7 +1602,7 @@ Notice that this method is intentionally protected to discourage it from being c
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Engine.ts.html#l59"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:59</code></a>
+        <a href="../files/src_davinci-eight_core_Engine.ts.html#l62"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:62</code></a>
         </p>
 
 
@@ -1525,7 +1627,7 @@ Notice that this method is intentionally protected to discourage it from being c
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Engine.ts.html#l52"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:52</code></a>
+        <a href="../files/src_davinci-eight_core_Engine.ts.html#l55"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:55</code></a>
         </p>
 
 
@@ -1651,7 +1753,7 @@ Keeps track of the level in the hierarchy of classes.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Engine.ts.html#l153"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:153</code></a>
+        <a href="../files/src_davinci-eight_core_Engine.ts.html#l169"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:169</code></a>
         </p>
 
 
@@ -1675,7 +1777,7 @@ Keeps track of the level in the hierarchy of classes.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Engine.ts.html#l169"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:169</code></a>
+        <a href="../files/src_davinci-eight_core_Engine.ts.html#l185"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:185</code></a>
         </p>
 
 
@@ -1699,7 +1801,7 @@ Keeps track of the level in the hierarchy of classes.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Engine.ts.html#l245"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:245</code></a>
+        <a href="../files/src_davinci-eight_core_Engine.ts.html#l284"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:284</code></a>
         </p>
 
 
@@ -1736,6 +1838,39 @@ Returns the total length of the inheritance hierarchy that this instance is invo
 </p>
     </div>
 
+
+
+</div>
+<div id="property_mayUseCache" class="property item">
+    <h3 class="name"><code>mayUseCache</code></h3>
+    <span class="type">Boolean</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_core_Engine.ts.html#l199"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Engine.ts:199</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>
+Determines whether this <code>Engine</code> may use a cache to optimize
+<code>WebGLREnderingContext</code> calls.
+</p>
+<p>
+The default value of this property is <code>true</code>.
+Set this property to <code>false</code> if the WebGL API is being called
+directly (not through <code>Engine</code>).
+</p>
+    </div>
+
+        <p><strong>Default:</strong> true</p>
 
 
 </div>

@@ -1,3 +1,4 @@
+import ControlsTarget from '../controls/ControlsTarget'
 import createPerspective from './createPerspective';
 import readOnly from '../i18n/readOnly';
 import mustBeObject from '../checks/mustBeObject';
@@ -7,6 +8,7 @@ import mustBeNumber from '../checks/mustBeNumber';
 import mustBeString from '../checks/mustBeString';
 import Perspective from './Perspective';
 import R3 from '../math/R3';
+import SpinorE3 from '../math/SpinorE3';
 import Facet from '../core/Facet';
 import FacetVisitor from '../core/FacetVisitor';
 import Vector3 from '../math/Vector3';
@@ -47,7 +49,7 @@ import Matrix4 from '../math/Matrix4';
  * @extends Perspective
  * @extends Facet
  */
-export default class PerspectiveCamera implements Perspective, Facet {
+export default class PerspectiveCamera implements Perspective, Facet, ControlsTarget {
 
   /**
    * The name of the property that designates the position.
@@ -124,7 +126,7 @@ export default class PerspectiveCamera implements Perspective, Facet {
    * @return {number[]}
    */
   getProperty(name: string): number[] {
-    mustBeString('name', name);
+    mustBeString('name', name)
     switch (name) {
       case PerspectiveCamera.PROP_EYE:
       case PerspectiveCamera.PROP_POSITION: {
@@ -144,12 +146,12 @@ export default class PerspectiveCamera implements Perspective, Facet {
    * @chainable
    */
   setProperty(name: string, value: number[]): PerspectiveCamera {
-    mustBeString('name', name);
-    mustBeObject('value', value);
+    mustBeString('name', name)
+    mustBeObject('value', value)
     switch (name) {
       case PerspectiveCamera.PROP_EYE:
       case PerspectiveCamera.PROP_POSITION: {
-        this.eye.copyCoordinates(value);
+        this.eye.copyCoordinates(value)
       }
         break;
       default: {
@@ -180,8 +182,25 @@ export default class PerspectiveCamera implements Perspective, Facet {
    * @chainable
    */
   setAspect(aspect: number): PerspectiveCamera {
-    this.inner.aspect = aspect;
-    return this;
+    this.inner.aspect = aspect
+    return this
+  }
+
+  /**
+   * @method getAttitude
+   * @return SpinorE3
+   */
+  getAttitude(): SpinorE3 {
+    return this.inner.getAttitude()
+  }
+
+  /**
+   * @method setAttitude
+   * @param attitude {SpinorE3}
+   * @return {void}
+   */
+  setAttitude(attitude: SpinorE3): void {
+    return this.inner.setAttitude(attitude)
   }
 
   /**
@@ -191,10 +210,10 @@ export default class PerspectiveCamera implements Perspective, Facet {
    * @type {Vector3}
    */
   get eye(): Vector3 {
-    return this.inner.eye;
+    return this.inner.eye
   }
   set eye(eye: Vector3) {
-    this.inner.eye.copy(eye);
+    this.inner.eye.copy(eye)
   }
 
   /**
@@ -204,10 +223,27 @@ export default class PerspectiveCamera implements Perspective, Facet {
    * @type {Vector3}
    */
   get position(): Vector3 {
-    return this.inner.eye;
+    return this.inner.eye
   }
   set position(position: Vector3) {
-    this.inner.eye.copy(position);
+    this.inner.eye.copy(position)
+  }
+
+  /**
+   * @method getPosition
+   * @return VectorE3
+   */
+  getPosition(): VectorE3 {
+    return this.inner.getPosition()
+  }
+
+  /**
+   * @method setPosition
+   * @param position {VectorE3}
+   * @return {void}
+   */
+  setPosition(position: VectorE3): void {
+    return this.inner.setPosition(position)
   }
 
   /**
@@ -217,8 +253,8 @@ export default class PerspectiveCamera implements Perspective, Facet {
    * @chainable
    */
   setEye(eye: VectorE3): PerspectiveCamera {
-    this.inner.setEye(eye);
-    return this;
+    this.inner.setEye(eye)
+    return this
   }
 
   /**
@@ -230,10 +266,10 @@ export default class PerspectiveCamera implements Perspective, Facet {
    * @readOnly
    */
   get fov(): number {
-    return this.inner.fov;
+    return this.inner.fov
   }
   set fov(unused: number) {
-    throw new Error(readOnly('fov').message);
+    throw new Error(readOnly('fov').message)
   }
   /**
    * @method setFov
@@ -242,9 +278,9 @@ export default class PerspectiveCamera implements Perspective, Facet {
    * @chainable
    */
   setFov(fov: number): PerspectiveCamera {
-    mustBeNumber('fov', fov);
-    this.inner.fov = fov;
-    return this;
+    mustBeNumber('fov', fov)
+    this.inner.fov = fov
+    return this
   }
 
   /**
@@ -252,7 +288,7 @@ export default class PerspectiveCamera implements Perspective, Facet {
    * @type Vector3
    */
   get look(): Vector3 {
-    return this.inner.look;
+    return this.inner.look
   }
   set look(look: Vector3) {
     this.inner.setLook(look)
@@ -265,8 +301,8 @@ export default class PerspectiveCamera implements Perspective, Facet {
    * @chainable
    */
   setLook(look: VectorE3): PerspectiveCamera {
-    this.inner.setLook(look);
-    return this;
+    this.inner.setLook(look)
+    return this
   }
 
   /**
@@ -276,7 +312,7 @@ export default class PerspectiveCamera implements Perspective, Facet {
    * @type {number}
    */
   get near(): number {
-    return this.inner.near;
+    return this.inner.near
   }
   set near(near: number) {
     this.inner.near = near
@@ -289,8 +325,8 @@ export default class PerspectiveCamera implements Perspective, Facet {
    * @chainable
    */
   setNear(near: number): PerspectiveCamera {
-    this.inner.setNear(near);
-    return this;
+    this.inner.setNear(near)
+    return this
   }
 
   /**
@@ -298,10 +334,10 @@ export default class PerspectiveCamera implements Perspective, Facet {
    * @type number
    */
   get far(): number {
-    return this.inner.far;
+    return this.inner.far
   }
   set far(far: number) {
-    this.inner.far = far;
+    this.inner.far = far
   }
 
   /**
@@ -311,8 +347,8 @@ export default class PerspectiveCamera implements Perspective, Facet {
    * @chainable
    */
   setFar(far: number): PerspectiveCamera {
-    this.inner.setFar(far);
-    return this;
+    this.inner.setFar(far)
+    return this
   }
 
   /**
@@ -320,10 +356,10 @@ export default class PerspectiveCamera implements Perspective, Facet {
    * @type Vector3
    */
   get up(): Vector3 {
-    return this.inner.up;
+    return this.inner.up
   }
   set up(unused) {
-    throw new Error(readOnly('up').message);
+    throw new Error(readOnly('up').message)
   }
 
   /**
@@ -333,8 +369,8 @@ export default class PerspectiveCamera implements Perspective, Facet {
    * @chainable
    */
   setUp(up: VectorE3): PerspectiveCamera {
-    this.inner.setUp(up);
-    return this;
+    this.inner.setUp(up)
+    return this
   }
 
   /**
@@ -346,7 +382,7 @@ export default class PerspectiveCamera implements Perspective, Facet {
     return this.inner.projectionMatrix
   }
   set projectionMatrix(projectionMatrix: Matrix4) {
-    throw new Error(readOnly('projectionMatrix').message);
+    throw new Error(readOnly('projectionMatrix').message)
   }
 
   /**

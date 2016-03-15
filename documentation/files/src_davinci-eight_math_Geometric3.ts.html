@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.221.0</em>
+            <em>API Docs for: 2.222.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -60,7 +60,6 @@
                                 <li><a href="../classes/BoxGeometryOptions.html">BoxGeometryOptions</a></li>
                                 <li><a href="../classes/BoxOptions.html">BoxOptions</a></li>
                                 <li><a href="../classes/BrowserApp.html">BrowserApp</a></li>
-                                <li><a href="../classes/CameraControls.html">CameraControls</a></li>
                                 <li><a href="../classes/Capability.html">Capability</a></li>
                                 <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
@@ -71,10 +70,10 @@
                                 <li><a href="../classes/ContextConsumer.html">ContextConsumer</a></li>
                                 <li><a href="../classes/ContextProgramConsumer.html">ContextProgramConsumer</a></li>
                                 <li><a href="../classes/ContextProvider.html">ContextProvider</a></li>
+                                <li><a href="../classes/ControlTarget.html">ControlTarget</a></li>
                                 <li><a href="../classes/Coords.html">Coords</a></li>
                                 <li><a href="../classes/CoordsTransform1D.html">CoordsTransform1D</a></li>
                                 <li><a href="../classes/CoordsTransform2D.html">CoordsTransform2D</a></li>
-                                <li><a href="../classes/createView.html">createView</a></li>
                                 <li><a href="../classes/CuboidPrimitivesBuilder.html">CuboidPrimitivesBuilder</a></li>
                                 <li><a href="../classes/Curve.html">Curve</a></li>
                                 <li><a href="../classes/CurveGeometry.html">CurveGeometry</a></li>
@@ -147,6 +146,7 @@
                                 <li><a href="../classes/MultiViewApp.html">MultiViewApp</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/NumberShareableMap.html">NumberShareableMap</a></li>
+                                <li><a href="../classes/OrbitControls.html">OrbitControls</a></li>
                                 <li><a href="../classes/Perspective.html">Perspective</a></li>
                                 <li><a href="../classes/PerspectiveCamera.html">PerspectiveCamera</a></li>
                                 <li><a href="../classes/PointMaterial.html">PointMaterial</a></li>
@@ -192,6 +192,7 @@
                                 <li><a href="../classes/TetrahedronGeometry.html">TetrahedronGeometry</a></li>
                                 <li><a href="../classes/TetrahedronGeometryOptions.html">TetrahedronGeometryOptions</a></li>
                                 <li><a href="../classes/TetrahedronOptions.html">TetrahedronOptions</a></li>
+                                <li><a href="../classes/TrackballControls.html">TrackballControls</a></li>
                                 <li><a href="../classes/Trail.html">Trail</a></li>
                                 <li><a href="../classes/TrailConfig.html">TrailConfig</a></li>
                                 <li><a href="../classes/Transform.html">Transform</a></li>
@@ -1123,20 +1124,28 @@ export default class Geometric3 extends Coords implements GeometricE3, MutableGe
    * &lt;p&gt;
    * &lt;code&gt;this ⟼ this / magnitude(this)&lt;/code&gt;
    * &lt;/p&gt;
+   * &lt;p&gt;
+   * If the magnitude is zero (a &lt;em&gt;null&lt;/em&gt; multivector), this multivector is unchanged.
+   * Since the metric is Euclidean, this will only happen if the multivector is also the
+   * &lt;em&gt;zero&lt;/em&gt; multivector.
+   * &lt;/p&gt;
+   *
    * @method normalize
    * @return {Geometric3} &lt;code&gt;this&lt;/code&gt;
    * @chainable
    */
   normalize(): Geometric3 {
     const norm: number = this.magnitude()
-    this.α = this.α / norm
-    this.x = this.x / norm
-    this.y = this.y / norm
-    this.z = this.z / norm
-    this.yz = this.yz / norm
-    this.zx = this.zx / norm
-    this.xy = this.xy / norm
-    this.β = this.β / norm
+    if (norm !== 0) {
+      this.α = this.α / norm
+      this.x = this.x / norm
+      this.y = this.y / norm
+      this.z = this.z / norm
+      this.yz = this.yz / norm
+      this.zx = this.zx / norm
+      this.xy = this.xy / norm
+      this.β = this.β / norm
+    }
     return this
   }
 
@@ -1454,6 +1463,23 @@ export default class Geometric3 extends Coords implements GeometricE3, MutableGe
     this.zx -= M.zx * α
     this.xy -= M.xy * α
     this.β -= M.β * α
+    return this
+  }
+
+  /**
+   * &lt;p&gt;
+   * &lt;code&gt;this ⟼ this - v * α&lt;/code&gt;
+   * &lt;/p&gt;
+   * @method subVector
+   * @param v {VectorE3}
+   * @param [α = 1] {number}
+   * @return {Geometric3} &lt;code&gt;this&lt;/code&gt;
+   * @chainable
+   */
+  subVector(v: VectorE3, α = 1): Geometric3 {
+    this.x -= v.x * α
+    this.y -= v.y * α
+    this.z -= v.z * α
     return this
   }
 

@@ -844,20 +844,28 @@ export default class Geometric3 extends Coords implements GeometricE3, MutableGe
    * <p>
    * <code>this ⟼ this / magnitude(this)</code>
    * </p>
+   * <p>
+   * If the magnitude is zero (a <em>null</em> multivector), this multivector is unchanged.
+   * Since the metric is Euclidean, this will only happen if the multivector is also the
+   * <em>zero</em> multivector.
+   * </p>
+   *
    * @method normalize
    * @return {Geometric3} <code>this</code>
    * @chainable
    */
   normalize(): Geometric3 {
     const norm: number = this.magnitude()
-    this.α = this.α / norm
-    this.x = this.x / norm
-    this.y = this.y / norm
-    this.z = this.z / norm
-    this.yz = this.yz / norm
-    this.zx = this.zx / norm
-    this.xy = this.xy / norm
-    this.β = this.β / norm
+    if (norm !== 0) {
+      this.α = this.α / norm
+      this.x = this.x / norm
+      this.y = this.y / norm
+      this.z = this.z / norm
+      this.yz = this.yz / norm
+      this.zx = this.zx / norm
+      this.xy = this.xy / norm
+      this.β = this.β / norm
+    }
     return this
   }
 
@@ -1175,6 +1183,23 @@ export default class Geometric3 extends Coords implements GeometricE3, MutableGe
     this.zx -= M.zx * α
     this.xy -= M.xy * α
     this.β -= M.β * α
+    return this
+  }
+
+  /**
+   * <p>
+   * <code>this ⟼ this - v * α</code>
+   * </p>
+   * @method subVector
+   * @param v {VectorE3}
+   * @param [α = 1] {number}
+   * @return {Geometric3} <code>this</code>
+   * @chainable
+   */
+  subVector(v: VectorE3, α = 1): Geometric3 {
+    this.x -= v.x * α
+    this.y -= v.y * α
+    this.z -= v.z * α
     return this
   }
 

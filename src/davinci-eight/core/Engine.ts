@@ -1,6 +1,8 @@
 // import Attribute from './Attribute'
 import Capability from '../commands/Capability';
+import config from '../config'
 import EIGHTLogger from '../commands/EIGHTLogger';
+import ErrorMode from './ErrorMode'
 // import computeAttributes from './computeAttributes'
 // import computeCount from './computeCount'
 // import computePointers from './computePointers'
@@ -10,6 +12,7 @@ import DefaultContextProvider from '../base/DefaultContextProvider';
 import incLevel from '../base/incLevel';
 import initWebGL from './initWebGL';
 import isDefined from '../checks/isDefined';
+import mustBeBoolean from '../checks/mustBeBoolean';
 import mustBeDefined from '../checks/mustBeDefined';
 import mustBeObject from '../checks/mustBeObject';
 import readOnly from '../i18n/readOnly';
@@ -77,6 +80,19 @@ export default class Engine extends ShareableBase implements VertexBufferManager
 
   private _contextProvider: DefaultContextProvider
 
+  private _mayUseCache = true
+
+  /**
+   * A cache of the parameters used in the last gl.viewport method call.
+   * width and geight must be positive so this cache is initially dirty.
+   */
+  private _viewportArgs: { x: number; y: number; width: number, height: number } = {
+    x: void 0,
+    y: void 0,
+    width: void 0,
+    height: void 0
+  }
+
   /**
    * @class Engine
    * @constructor
@@ -120,18 +136,18 @@ export default class Engine extends ShareableBase implements VertexBufferManager
 
   /**
    * @method destructor
-   * @param level {number}
+   * @param levelUp {number}
    * return {void}
    * @protected
    */
-  protected destructor(level: number): void {
+  protected destructor(levelUp: number): void {
     this.stop();
     this._contextProvider.release()
     while (this._users.length > 0) {
       this._users.pop();
     }
     this._commands.release();
-    super.destructor(incLevel(level))
+    super.destructor(incLevel(levelUp))
   }
 
   /**
@@ -141,7 +157,7 @@ export default class Engine extends ShareableBase implements VertexBufferManager
    */
   addContextListener(user: ContextConsumer): void {
     mustBeObject('user', user)
-    let index = this._users.indexOf(user)
+    const index = this._users.indexOf(user)
     if (index < 0) {
       this._users.push(user)
     }
@@ -182,6 +198,28 @@ export default class Engine extends ShareableBase implements VertexBufferManager
 
   /**
    * <p>
+   * Determines whether this <code>Engine</code> may use a cache to optimize
+   * <code>WebGLREnderingContext</code> calls.
+   * </p>
+   * <p>
+   * The default value of this property is <code>true</code>.
+   * Set this property to <code>false</code> if the WebGL API is being called
+   * directly (not through <code>Engine</code>).
+   * </p>
+   *
+   * @property mayUseCache
+   * @type boolean
+   * @default true
+   */
+  get mayUseCache(): boolean {
+    return this._mayUseCache
+  }
+  set mayUseCache(mayUseCache: boolean) {
+    this._mayUseCache = mustBeBoolean('mayUseCache', mayUseCache)
+  }
+
+  /**
+   * <p>
    * Specifies color values to use by the <code>clear</code> method to clear the color buffer.
    * <p>
    *
@@ -195,8 +233,9 @@ export default class Engine extends ShareableBase implements VertexBufferManager
    */
   clearColor(red: number, green: number, blue: number, alpha: number): Engine {
     this._commands.pushWeakRef(new WebGLClearColor(red, green, blue, alpha))
-    if (this._gl) {
-      this._gl.clearColor(red, green, blue, alpha)
+    const gl = this._gl
+    if (gl) {
+      gl.clearColor(red, green, blue, alpha)
     }
     return this
   }
@@ -284,6 +323,43 @@ export default class Engine extends ShareableBase implements VertexBufferManager
   }
 
   /**
+   * <p>
+   * The viewport wifth and height are clamped to a range that is
+   * implementation dependent.
+   * </p>
+   *
+   * @method getMaxViewportDims
+   * @return {Int32Array} e.g. Int32Array[16384, 16384]
+   */
+  getMaxViewportDims(): Int32Array {
+    const gl = this._gl
+    if (gl) {
+      return gl.getParameter(gl.MAX_VIEWPORT_DIMS)
+    }
+    else {
+      return void 0
+    }
+  }
+
+  /**
+   * <p>
+   * Returns the current viewport settings.
+   * </p>
+   *
+   * @method getViewport
+   * @return {Int32Array} e.g. Int32Array[x, y, width, height]
+   */
+  getViewport(): Int32Array {
+    const gl = this._gl
+    if (gl) {
+      return gl.getParameter(gl.VIEWPORT)
+    }
+    else {
+      return void 0
+    }
+  }
+
+  /**
    * Defines what part of the canvas will be used in rendering the drawing buffer.
    *
    * @method viewport
@@ -297,10 +373,24 @@ export default class Engine extends ShareableBase implements VertexBufferManager
   viewport(x: number, y: number, width: number, height: number): Engine {
     const gl = this._gl;
     if (gl) {
-      this._gl.viewport(x, y, width, height)
+      if (this._mayUseCache) {
+        const args = this._viewportArgs;
+        if (x !== args.x || y !== args.y || width !== args.width || height !== args.height) {
+          gl.viewport(x, y, width, height)
+          args.x = x
+          args.y = y
+          args.width = width
+          args.height = height
+        }
+      }
+      else {
+        gl.viewport(x, y, width, height)
+      }
     }
     else {
-      console.warn(`${this._type}.viewport() ignored because no context.`)
+      if (config.errorMode === ErrorMode.WARNME) {
+        console.warn(`${this._type}.viewport(${x}, ${y}, ${width}, ${height}) ignored because no context.`)
+      }
     }
     return this
   }

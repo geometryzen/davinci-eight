@@ -5,6 +5,7 @@ import b3 from '../geometries/b3';
 import Matrix2 from '../math/Matrix2';
 import MutableLinearElement from '../math/MutableLinearElement';
 import notImplemented from '../i18n/notImplemented';
+import randomRange from './randomRange'
 import SpinorE2 from '../math/SpinorE2';
 import stringFromCoordinates from '../math/stringFromCoordinates';
 import VectorE2 from '../math/VectorE2';
@@ -281,9 +282,9 @@ export default class Vector2 extends Coords implements ColumnVector<Matrix2, Vec
   }
 
   quadranceTo(position: VectorE2) {
-    let dx = this.x - position.x;
-    let dy = this.y - position.y;
-    return dx * dx + dy * dy;
+    const dx = this.x - position.x
+    const dy = this.y - position.y
+    return dx * dx + dy * dy
   }
 
   /**
@@ -470,14 +471,19 @@ export default class Vector2 extends Coords implements ColumnVector<Matrix2, Vec
   }
 
   /**
-   * @method random
+   * <p>
+   * Computes a unit vector with a random direction.
+   * </p>
    *
+   * @method random
    * @return {Vector2}
    * @static
    * @chainable
    */
   static random(): Vector2 {
-    return Vector2.vector(Math.random(), Math.random())
+    const x = randomRange(-1, 1)
+    const y = randomRange(-1, 1)
+    return Vector2.vector(x, y).normalize()
   }
 
   /**

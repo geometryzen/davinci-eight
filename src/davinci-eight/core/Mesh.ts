@@ -1,5 +1,6 @@
 import Color from './Color';
 import ColorFacet from '../facets/ColorFacet'
+import ControlsTarget from '../controls/ControlsTarget'
 import Drawable from './Drawable'
 import Engine from './Engine'
 import Geometric3 from '../math/Geometric3'
@@ -12,6 +13,8 @@ import ModelFacet from '../facets/ModelFacet'
 import PointSizeFacet from '../facets/PointSizeFacet'
 import notSupported from '../i18n/notSupported'
 import readOnly from '../i18n/readOnly'
+import VectorE3 from '../math/VectorE3'
+import SpinorE3 from '../math/SpinorE3'
 
 const COLOR_FACET_NAME = 'color'
 const MODEL_FACET_NAME = 'model'
@@ -30,7 +33,7 @@ const POINT_FACET_NAME = 'point'
  * @class Mesh
  * @extends Drawable
  */
-export default class Mesh extends Drawable implements AbstractMesh {
+export default class Mesh extends Drawable implements AbstractMesh, ControlsTarget {
 
   /**
    * @class Mesh
@@ -79,6 +82,23 @@ export default class Mesh extends Drawable implements AbstractMesh {
     }
   }
   set attitude(attitude: Geometric3) {
+    this.setAttitude(attitude)
+  }
+
+  /**
+   * @method getAttitude
+   * @return {Geometric3}
+   */
+  getAttitude(): Geometric3 {
+    return this.attitude
+  }
+
+  /**
+   * @method setAttitude
+   * @param attitude {SpinorE3}
+   * @return {void}
+   */
+  setAttitude(attitude: SpinorE3): void {
     const facet = <ModelFacet>this.getFacet(MODEL_FACET_NAME)
     if (facet) {
       facet.attitude.copySpinor(attitude)
@@ -141,6 +161,23 @@ export default class Mesh extends Drawable implements AbstractMesh {
     }
   }
   set position(position: Geometric3) {
+    this.setPosition(position)
+  }
+
+  /**
+   * @method getPosition
+   * @return {Geometric3}
+   */
+  getPosition(): Geometric3 {
+    return this.position
+  }
+
+  /**
+   * @method setPosition
+   * @param position {VectorE3}
+   * @return {void}
+   */
+  setPosition(position: VectorE3): void {
     const facet = <ModelFacet>this.getFacet(MODEL_FACET_NAME)
     if (facet) {
       facet.position.copyVector(position)

@@ -3,7 +3,7 @@ import DrawList from './DrawList'
 import Facet from '../core/Facet'
 import AmbientLight from '../facets/AmbientLight'
 import AbstractDrawable from '../core/AbstractDrawable'
-import CameraControls from '../controls/CameraControls'
+import TrackballControls from '../controls/TrackballControls'
 import incLevel from '../base/incLevel';
 import readOnly from '../i18n/readOnly'
 import ShareableBase from '../core/ShareableBase'
@@ -17,11 +17,11 @@ export default class World extends ShareableBase {
     private drawList: DrawList
     private renderer: Engine
     private _ambients: Facet[]
-    private _controls: CameraControls
+    private _controls: TrackballControls
 
     private _ambientLight = new AmbientLight(Color.fromRGB(0.3, 0.3, 0.3))
 
-    constructor(renderer: Engine, drawList: DrawList, ambients: Facet[], controls: CameraControls) {
+    constructor(renderer: Engine, drawList: DrawList, ambients: Facet[], controls: TrackballControls) {
         super()
         this.setLoggingName('World')
 
@@ -69,10 +69,10 @@ export default class World extends ShareableBase {
         throw new Error(readOnly('canvas').message)
     }
 
-    get controls(): CameraControls {
+    get controls(): TrackballControls {
         return this._controls;
     }
-    set controls(unused: CameraControls) {
+    set controls(unused: TrackballControls) {
         throw new Error(readOnly('controls').message)
     }
 

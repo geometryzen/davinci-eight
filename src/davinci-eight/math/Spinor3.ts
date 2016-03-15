@@ -390,6 +390,16 @@ export default class Spinor3 extends Coords implements SpinorE3, Mutable<number[
     return this
   }
 
+  equals(other: any): boolean {
+    if (other instanceof Spinor3) {
+      const that: Spinor3 = other
+      return this.yz === that.yz && this.zx === that.zx && this.xy === that.xy && this.α === that.α
+    }
+    else {
+      return false;
+    }
+  }
+
   /**
    * <p>
    * <code>this ⟼ e<sup>this</sup></code>

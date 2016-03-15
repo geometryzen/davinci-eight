@@ -14,7 +14,7 @@ function prefix(message: string): string {
 }
 
 function log(message: string): void {
-  return config.info(prefix(message))
+  return config.log(prefix(message))
 }
 
 function warn(message: string): void {
@@ -68,7 +68,7 @@ function dump(): number {
   }
   else {
     if (chatty) {
-      config.info(outstandingMessage(outstanding))
+      config.log(outstandingMessage(outstanding))
     }
   }
   return outstanding

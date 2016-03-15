@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>createView - davinci-eight</title>
+    <title>ControlTarget - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.221.0</em>
+            <em>API Docs for: 2.222.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -60,7 +60,6 @@
                                 <li><a href="../classes/BoxGeometryOptions.html">BoxGeometryOptions</a></li>
                                 <li><a href="../classes/BoxOptions.html">BoxOptions</a></li>
                                 <li><a href="../classes/BrowserApp.html">BrowserApp</a></li>
-                                <li><a href="../classes/CameraControls.html">CameraControls</a></li>
                                 <li><a href="../classes/Capability.html">Capability</a></li>
                                 <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
@@ -71,10 +70,10 @@
                                 <li><a href="../classes/ContextConsumer.html">ContextConsumer</a></li>
                                 <li><a href="../classes/ContextProgramConsumer.html">ContextProgramConsumer</a></li>
                                 <li><a href="../classes/ContextProvider.html">ContextProvider</a></li>
+                                <li><a href="../classes/ControlTarget.html">ControlTarget</a></li>
                                 <li><a href="../classes/Coords.html">Coords</a></li>
                                 <li><a href="../classes/CoordsTransform1D.html">CoordsTransform1D</a></li>
                                 <li><a href="../classes/CoordsTransform2D.html">CoordsTransform2D</a></li>
-                                <li><a href="../classes/createView.html">createView</a></li>
                                 <li><a href="../classes/CuboidPrimitivesBuilder.html">CuboidPrimitivesBuilder</a></li>
                                 <li><a href="../classes/Curve.html">Curve</a></li>
                                 <li><a href="../classes/CurveGeometry.html">CurveGeometry</a></li>
@@ -147,6 +146,7 @@
                                 <li><a href="../classes/MultiViewApp.html">MultiViewApp</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/NumberShareableMap.html">NumberShareableMap</a></li>
+                                <li><a href="../classes/OrbitControls.html">OrbitControls</a></li>
                                 <li><a href="../classes/Perspective.html">Perspective</a></li>
                                 <li><a href="../classes/PerspectiveCamera.html">PerspectiveCamera</a></li>
                                 <li><a href="../classes/PointMaterial.html">PointMaterial</a></li>
@@ -192,6 +192,7 @@
                                 <li><a href="../classes/TetrahedronGeometry.html">TetrahedronGeometry</a></li>
                                 <li><a href="../classes/TetrahedronGeometryOptions.html">TetrahedronGeometryOptions</a></li>
                                 <li><a href="../classes/TetrahedronOptions.html">TetrahedronOptions</a></li>
+                                <li><a href="../classes/TrackballControls.html">TrackballControls</a></li>
                                 <li><a href="../classes/Trail.html">Trail</a></li>
                                 <li><a href="../classes/TrailConfig.html">TrailConfig</a></li>
                                 <li><a href="../classes/Transform.html">Transform</a></li>
@@ -273,12 +274,12 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1>createView Class</h1>
+<h1>ControlTarget Class</h1>
 <div class="box meta">
 
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_facets_createView.ts.html#l14"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;createView.ts:14</code></a>
+            Defined in: <a href="../files/src_davinci-eight_controls_ControlsTarget.ts.html#l4"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;ControlsTarget.ts:4</code></a>
         </div>
 
             Module: <a href="../modules/EIGHT.html">EIGHT</a>
@@ -290,39 +291,6 @@
     
 </div>
 
-    <div class="constructor">
-        <h2>Constructor</h2>
-<div id="method_createView" class="method item">
-    <h3 class="name"><code>createView</code></h3>
-
-        <span class="paren">()</span>
-
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_facets_createView.ts.html#l14"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;createView.ts:14</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-
-
-</div>
-    </div>
 
 <div id="classdocs" class="tabview">
     <ul class="api-class-tabs">
@@ -340,15 +308,19 @@
 
                     <ul class="index-list methods">
                             <li class="index-item method">
-                                <a href="#method_createFrustum">createFrustum</a>
+                                <a href="#method_getAttitude">getAttitude</a>
 
                             </li>
                             <li class="index-item method">
-                                <a href="#method_createPerspective">createPerspective</a>
+                                <a href="#method_getPosition">getPosition</a>
 
                             </li>
                             <li class="index-item method">
-                                <a href="#method_setEye">setEye</a>
+                                <a href="#method_setAttitude">setAttitude</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_setPosition">setPosition</a>
 
                             </li>
                     </ul>
@@ -361,13 +333,13 @@
             <div id="methods" class="api-class-tabpanel">
                 <h2 class="off-left">Methods</h2>
 
-<div id="method_createFrustum" class="method item">
-    <h3 class="name"><code>createFrustum</code></h3>
+<div id="method_getAttitude" class="method item">
+    <h3 class="name"><code>getAttitude</code></h3>
 
         <span class="paren">()</span>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/Frustum.html" class="crosslink">Frustum</a></span>
+            <span class="type"><a href="../classes/SpinorE3.html" class="crosslink">SpinorE3</a></span>
         </span>
 
 
@@ -379,7 +351,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_facets_createFrustum.ts.html#l10"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;createFrustum.ts:10</code></a>
+        <a href="../files/src_davinci-eight_controls_ControlsTarget.ts.html#l9"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;ControlsTarget.ts:9</code></a>
         </p>
 
 
@@ -395,34 +367,19 @@
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/Frustum.html" class="crosslink">Frustum</a></span>:
+                        <span class="type"><a href="../classes/SpinorE3.html" class="crosslink">SpinorE3</a></span>:
             </div>
         </div>
 
 
 </div>
-<div id="method_createPerspective" class="method item">
-    <h3 class="name"><code>createPerspective</code></h3>
+<div id="method_getPosition" class="method item">
+    <h3 class="name"><code>getPosition</code></h3>
 
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>fov</code>
-                </li>
-                <li class="arg">
-                        <code>aspect</code>
-                </li>
-                <li class="arg">
-                        <code>near</code>
-                </li>
-                <li class="arg">
-                        <code>far</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
+        <span class="paren">()</span>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/Perspective.html" class="crosslink">Perspective</a></span>
+            <span class="type"><a href="../classes/VectorE3.html" class="crosslink">VectorE3</a></span>
         </span>
 
 
@@ -434,7 +391,53 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_facets_createPerspective.ts.html#l18"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;createPerspective.ts:18</code></a>
+        <a href="../files/src_davinci-eight_controls_ControlsTarget.ts.html#l22"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;ControlsTarget.ts:22</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/VectorE3.html" class="crosslink">VectorE3</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_setAttitude" class="method item">
+    <h3 class="name"><code>setAttitude</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>attitude</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_controls_ControlsTarget.ts.html#l15"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;ControlsTarget.ts:15</code></a>
         </p>
 
 
@@ -450,38 +453,8 @@
 
             <ul class="params-list">
                 <li class="param">
-                        <code class="param-name">fov</code>
-                        <span class="type">Number</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">aspect</code>
-                        <span class="type">Number</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">near</code>
-                        <span class="type">Number</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">far</code>
-                        <span class="type">Number</span>
+                        <code class="param-name">attitude</code>
+                        <span class="type"><a href="../classes/SpinorE3.html" class="crosslink">SpinorE3</a></span>
 
 
                     <div class="param-description">
@@ -496,25 +469,25 @@
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/Perspective.html" class="crosslink">Perspective</a></span>:
+                        <span class="type">Void</span>:
             </div>
         </div>
 
 
 </div>
-<div id="method_setEye" class="method item">
-    <h3 class="name"><code>setEye</code></h3>
+<div id="method_setPosition" class="method item">
+    <h3 class="name"><code>setPosition</code></h3>
 
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
-                        <code>eye</code>
+                        <code>position</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/View.html" class="crosslink">View</a></span>
+            <span class="type"><a href="../classes/VectorE3.html" class="crosslink">VectorE3</a></span>
         </span>
 
 
@@ -526,7 +499,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_facets_createView.ts.html#l41"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;createView.ts:41</code></a>
+        <a href="../files/src_davinci-eight_controls_ControlsTarget.ts.html#l28"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;ControlsTarget.ts:28</code></a>
         </p>
 
 
@@ -542,8 +515,8 @@
 
             <ul class="params-list">
                 <li class="param">
-                        <code class="param-name">eye</code>
-                        <span class="type"><a href="../classes/Vector3.html" class="crosslink">Vector3</a></span>
+                        <code class="param-name">position</code>
+                        <span class="type"><a href="../classes/VectorE3.html" class="crosslink">VectorE3</a></span>
 
 
                     <div class="param-description">
@@ -558,9 +531,7 @@
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/View.html" class="crosslink">View</a></span>:
-                    <p><code>this</code> instance.</p>
-
+                        <span class="type"><a href="../classes/VectorE3.html" class="crosslink">VectorE3</a></span>:
             </div>
         </div>
 

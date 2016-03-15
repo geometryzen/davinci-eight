@@ -1,6 +1,9 @@
+import BrowserHTMLElement from '../base/BrowserHTMLElement'
+import BrowserWindow from '../base/BrowserWindow'
 import Geometric2 from '../math/Geometric2'
 import incLevel from '../base/incLevel'
 import MouseCoordinates from './MouseCoordinates'
+import mustBeObject from '../checks/mustBeObject'
 import ShareableBase from '../core/ShareableBase'
 
 const MODE = { NONE: -1, ROTATE: 0, ZOOM: 1, PAN: 2, TOUCH_ROTATE: 3, TOUCH_ZOOM_PAN: 4 }
@@ -24,6 +27,7 @@ export default class MouseControls extends ShareableBase {
   /**
    * @property enabled
    * @type boolean
+   * @default true
    */
   public enabled = true
 
@@ -42,7 +46,7 @@ export default class MouseControls extends ShareableBase {
   public noZoom = false
 
   /**
-   * @property noRotate
+   * @property noPan
    * @type boolean
    * @default false
    */
@@ -67,7 +71,7 @@ export default class MouseControls extends ShareableBase {
    * @type HTMLElement
    * @private
    */
-  private domElement: HTMLElement
+  private domElement: BrowserHTMLElement
 
   /**
    * The mouse controls operate modally. You can only do one thing (rotate, zoom, or pan) at a time.
@@ -79,11 +83,46 @@ export default class MouseControls extends ShareableBase {
    */
   private prevMode = MODE.NONE
 
+  /**
+   * @property moveCurr
+   * @type Geometric2
+   * @protected
+   */
   protected moveCurr = new Geometric2()
+
+  /**
+   * @property movePrev
+   * @type Geometric2
+   * @protected
+   */
   protected movePrev = new Geometric2()
+
+  /**
+   * @property zoomStart
+   * @type Geometric2
+   * @protected
+   */
   protected zoomStart = new Geometric2()
+
+  /**
+   * @property zoomEnd
+   * @type Geometric2
+   * @protected
+   */
   protected zoomEnd = new Geometric2()
+
+  /**
+   * @property panStart
+   * @type Geometric2
+   * @protected
+   */
   protected panStart = new Geometric2()
+
+  /**
+   * @property panEnd
+   * @type Geometric2
+   * @protected
+   */
   protected panEnd = new Geometric2()
 
   /**
@@ -94,10 +133,12 @@ export default class MouseControls extends ShareableBase {
    * @private
    */
   private screenLoc = new Geometric2()
+
   /**
    * Think of this vector as running from the top left corner of the screen.
    */
   private circleExt = new Geometric2()
+
   /**
    * Think of this vector as running from the bottom left corner of the screen.
    */
@@ -113,14 +154,17 @@ export default class MouseControls extends ShareableBase {
   private keydown: (event: KeyboardEvent) => any
   private keyup: (event: KeyboardEvent) => any
   private contextmenu: (event: PointerEvent) => any
+  private wnd: BrowserWindow;
 
   /**
    * @class MouseControls
    * @constructor
+   * @param wnd {Window}
    */
-  constructor() {
+  constructor(wnd: BrowserWindow) {
     super()
     this.setLoggingName('MouseControls')
+    this.wnd = mustBeObject('wnd', wnd)
 
     /**
      *
@@ -149,8 +193,8 @@ export default class MouseControls extends ShareableBase {
         this.panStart.copy(this.mouseOnScreen)
         this.panEnd.copy(this.mouseOnScreen)
       }
-      document.addEventListener('mousemove', this.mousemove, false)
-      document.addEventListener('mouseup', this.mouseup, false)
+      this.wnd.document.addEventListener('mousemove', this.mousemove, false)
+      this.wnd.document.addEventListener('mouseup', this.mouseup, false)
     }
 
     /**
@@ -187,8 +231,8 @@ export default class MouseControls extends ShareableBase {
       event.preventDefault()
       event.stopPropagation()
       this.mode = MODE.NONE
-      document.removeEventListener('mousemove', this.mousemove)
-      document.removeEventListener('mouseup', this.mouseup)
+      this.wnd.document.removeEventListener('mousemove', this.mousemove)
+      this.wnd.document.removeEventListener('mouseup', this.mouseup)
     }
 
     /**
@@ -218,7 +262,7 @@ export default class MouseControls extends ShareableBase {
       if (!this.enabled) {
         return
       }
-      window.removeEventListener('keydown', this.keydown, false)
+      this.wnd.removeEventListener('keydown', this.keydown, false)
       this.prevMode = this.mode
       if (this.mode !== MODE.NONE) {
         // If we are already in a mode then keydown can't change it.
@@ -247,7 +291,7 @@ export default class MouseControls extends ShareableBase {
         return
       }
       this.mode = this.prevMode
-      window.addEventListener('keydown', this.keydown, false)
+      this.wnd.addEventListener('keydown', this.keydown, false)
     }
 
     /**
@@ -260,15 +304,15 @@ export default class MouseControls extends ShareableBase {
 
   /**
    * @method destructor
-   * @param level {number}
+   * @param levelUp {number}
    * @return {void}
    * @protected
    */
-  protected destructor(level: number): void {
+  protected destructor(levelUp: number): void {
     if (this.domElement) {
       this.unsubscribe()
     }
-    super.destructor(incLevel(level))
+    super.destructor(incLevel(levelUp))
   }
 
   /**
@@ -285,8 +329,8 @@ export default class MouseControls extends ShareableBase {
     this.domElement.addEventListener('mousedown', this.mousedown, false)
     this.domElement.addEventListener('mousewheel', this.mousewheel, false)
     this.domElement.addEventListener('DOMMouseScroll', this.mousewheel, false) // Firefox
-    window.addEventListener('keydown', this.keydown, false)
-    window.addEventListener('keyup', this.keydown, false)
+    this.wnd.addEventListener('keydown', this.keydown, false)
+    this.wnd.addEventListener('keyup', this.keydown, false)
 
     this.handleResize()
   }
@@ -302,8 +346,8 @@ export default class MouseControls extends ShareableBase {
       this.domElement.removeEventListener('mousewheel', this.mousewheel, false)
       this.domElement.removeEventListener('DOMMouseScroll', this.mousewheel, false) // Firefox
       this.domElement = void 0
-      window.removeEventListener('keydown', this.keydown, false)
-      window.removeEventListener('keyup', this.keydown, false)
+      this.wnd.removeEventListener('keydown', this.keydown, false)
+      this.wnd.removeEventListener('keyup', this.keydown, false)
     }
   }
 

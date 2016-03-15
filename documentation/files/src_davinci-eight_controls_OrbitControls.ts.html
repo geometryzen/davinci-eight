@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src/davinci-eight/facets/createPerspective.ts - davinci-eight</title>
+    <title>src/davinci-eight/controls/OrbitControls.ts - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.221.0</em>
+            <em>API Docs for: 2.222.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -60,7 +60,6 @@
                                 <li><a href="../classes/BoxGeometryOptions.html">BoxGeometryOptions</a></li>
                                 <li><a href="../classes/BoxOptions.html">BoxOptions</a></li>
                                 <li><a href="../classes/BrowserApp.html">BrowserApp</a></li>
-                                <li><a href="../classes/CameraControls.html">CameraControls</a></li>
                                 <li><a href="../classes/Capability.html">Capability</a></li>
                                 <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
@@ -71,10 +70,10 @@
                                 <li><a href="../classes/ContextConsumer.html">ContextConsumer</a></li>
                                 <li><a href="../classes/ContextProgramConsumer.html">ContextProgramConsumer</a></li>
                                 <li><a href="../classes/ContextProvider.html">ContextProvider</a></li>
+                                <li><a href="../classes/ControlTarget.html">ControlTarget</a></li>
                                 <li><a href="../classes/Coords.html">Coords</a></li>
                                 <li><a href="../classes/CoordsTransform1D.html">CoordsTransform1D</a></li>
                                 <li><a href="../classes/CoordsTransform2D.html">CoordsTransform2D</a></li>
-                                <li><a href="../classes/createView.html">createView</a></li>
                                 <li><a href="../classes/CuboidPrimitivesBuilder.html">CuboidPrimitivesBuilder</a></li>
                                 <li><a href="../classes/Curve.html">Curve</a></li>
                                 <li><a href="../classes/CurveGeometry.html">CurveGeometry</a></li>
@@ -147,6 +146,7 @@
                                 <li><a href="../classes/MultiViewApp.html">MultiViewApp</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/NumberShareableMap.html">NumberShareableMap</a></li>
+                                <li><a href="../classes/OrbitControls.html">OrbitControls</a></li>
                                 <li><a href="../classes/Perspective.html">Perspective</a></li>
                                 <li><a href="../classes/PerspectiveCamera.html">PerspectiveCamera</a></li>
                                 <li><a href="../classes/PointMaterial.html">PointMaterial</a></li>
@@ -192,6 +192,7 @@
                                 <li><a href="../classes/TetrahedronGeometry.html">TetrahedronGeometry</a></li>
                                 <li><a href="../classes/TetrahedronGeometryOptions.html">TetrahedronGeometryOptions</a></li>
                                 <li><a href="../classes/TetrahedronOptions.html">TetrahedronOptions</a></li>
+                                <li><a href="../classes/TrackballControls.html">TrackballControls</a></li>
                                 <li><a href="../classes/Trail.html">Trail</a></li>
                                 <li><a href="../classes/TrailConfig.html">TrailConfig</a></li>
                                 <li><a href="../classes/Transform.html">Transform</a></li>
@@ -273,161 +274,154 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: src/davinci-eight/facets/createPerspective.ts</h1>
+<h1 class="file-heading">File: src/davinci-eight/controls/OrbitControls.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
-//
-// createPerspective.ts
-//
-import FacetVisitor from &#x27;../core/FacetVisitor&#x27;;
-import Perspective from &#x27;./Perspective&#x27;;
-import View from &#x27;./View&#x27;;
-import createView from &#x27;./createView&#x27;;
-import Matrix4 from &#x27;../math/Matrix4&#x27;;
-import GraphicsProgramSymbols from &#x27;../core/GraphicsProgramSymbols&#x27;;
-import VectorE3 from &#x27;../math/VectorE3&#x27;;
-import readOnly from &#x27;../i18n/readOnly&#x27;;
-import Vector1 from &#x27;../math/Vector1&#x27;;
-import Vector3 from &#x27;../math/Vector3&#x27;;
-import isUndefined from &#x27;../checks/isUndefined&#x27;;
-import mustBeNumber from &#x27;../checks/mustBeNumber&#x27;;
-import computePerspectiveMatrix from &#x27;./perspectiveMatrix&#x27;;
+import BrowserWindow from &#x27;../base/BrowserWindow&#x27;
+import Controller from &#x27;./Controller&#x27;
+import ControlsTarget from &#x27;./ControlsTarget&#x27;
+import MouseControls from &#x27;./MouseControls&#x27;
+import Geometric3 from &#x27;../math/Geometric3&#x27;
+import Vector3 from &#x27;../math/Vector3&#x27;
+import Spinor3 from &#x27;../math/Spinor3&#x27;
+// import R3 from &#x27;../math/R3&#x27;
+
+// Scratch variables to aboid creating temporary objects.
+const a: Geometric3 = Geometric3.zero()
+const b: Geometric3 = Geometric3.zero()
+const d: Geometric3 = Geometric3.zero()
+const B: Geometric3 = Geometric3.one()
+const R: Geometric3 = Geometric3.one()
+const X: Geometric3 = Geometric3.zero()
 
 /**
- * @function createPerspective
- * @constructor
- * @param fov {number}
- * @param aspect {number}
- * @param near {number}
- * @param far {number}
- * @return {Perspective}
+ * &lt;p&gt;
+ * &lt;code&gt;OrbitControls&lt;/code&gt; move a camera over a sphere such that the camera up vector
+ * remains aligned with the local north vector.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * For rotations, the final camera position dictates a new camera local reference frame.
+ * A rotor may be calculated that rotates the camera from its old reference frame to the
+ * new reference frame. This rotor may also be interpolated for animations.
+ * &lt;/p&gt;
+ *
+ * @class OrbitControls
+ * @extends MouseControls
  */
-export default function createPerspective(options?: { fov?: number; aspect?: number; near?: number; far?: number; projectionMatrixName?: string; viewMatrixName?: string; }): Perspective {
+export default class OrbitControls extends MouseControls implements Controller {
 
-    options = options || {};
-    const fov: Vector1 = new Vector1([isUndefined(options.fov) ? 75 * Math.PI / 180 : options.fov]);
-    const aspect: Vector1 = new Vector1([isUndefined(options.aspect) ? 1 : options.aspect]);
-    const near: Vector1 = new Vector1([isUndefined(options.near) ? 0.1 : options.near]);
-    const far: Vector1 = new Vector1([mustBeNumber(&#x27;options.far&#x27;, isUndefined(options.far) ? 2000 : options.far)]);
-    const projectionMatrixName = isUndefined(options.projectionMatrixName) ? GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX : options.projectionMatrixName;
+  /**
+   * The initial position of the target.
+   */
+  private position0 = Vector3.zero()
 
-    const base: View = createView(options)
-    const projectionMatrix: Matrix4 = Matrix4.one()
-    var matrixNeedsUpdate = true
+  /**
+   * The initial attitude of the target.
+   */
+  private attitude0 = Spinor3.one()
 
-    const self: Perspective = {
-        setProperty(name: string, value: number[]): Perspective {
-            return self;
-        },
-        // Delegate to the base camera.
-        get eye(): Vector3 {
-            return base.eye;
-        },
-        set eye(eye: Vector3) {
-            base.eye = eye;
-        },
-        setEye(eye: VectorE3) {
-            base.setEye(eye);
-            return self;
-        },
-        get look(): Vector3 {
-            return base.look;
-        },
-        set look(value: Vector3) {
-            base.look = value;
-        },
-        setLook(look: VectorE3) {
-            base.setLook(look);
-            return self;
-        },
-        get up(): Vector3 {
-            return base.up;
-        },
-        set up(value: Vector3) {
-            base.up = value;
-        },
-        setUp(up: VectorE3) {
-            base.setUp(up);
-            return self;
-        },
-        get fov(): number {
-            return fov.x;
-        },
-        set fov(value: number) {
-            self.setFov(value);
-        },
-        setFov(value: number) {
-            mustBeNumber(&#x27;fov&#x27;, value);
-            matrixNeedsUpdate = matrixNeedsUpdate || fov.x !== value;
-            fov.x = value;
-            return self;
-        },
-        get aspect(): number {
-            return aspect.x;
-        },
-        set aspect(value: number) {
-            self.setAspect(value);
-        },
-        setAspect(value: number) {
-            mustBeNumber(&#x27;aspect&#x27;, value);
-            matrixNeedsUpdate = matrixNeedsUpdate || aspect.x !== value;
-            aspect.x = value;
-            return self;
-        },
-        get near(): number {
-            return near.x;
-        },
-        set near(value: number) {
-            self.setNear(value);
-        },
-        setNear(value: number) {
-            if (value !== near.x) {
-                near.x = value;
-                matrixNeedsUpdate = true;
-            }
-            return self;
-        },
-        get far(): number {
-            return far.x;
-        },
-        set far(value: number) {
-            self.setFar(value);
-        },
-        setFar(value: number) {
-            if (value !== far.x) {
-                far.x = value;
-                matrixNeedsUpdate = true;
-            }
-            return self;
-        },
-        get projectionMatrix(): Matrix4 {
-            if (matrixNeedsUpdate) {
-                computePerspectiveMatrix(fov.x, aspect.x, near.x, far.x, projectionMatrix);
-                matrixNeedsUpdate = false;
-            }
-            return projectionMatrix
-        },
-        set projectionMatrix(projectionMatrix: Matrix4) {
-            throw new Error(readOnly(&#x27;projectionMatrix&#x27;).message)
-        },
-        get viewMatrix(): Matrix4 {
-            return base.viewMatrix
-        },
-        set viewMatrix(viewMatrix: Matrix4) {
-            base.viewMatrix = viewMatrix
-        },
-        setUniforms(visitor: FacetVisitor) {
-            if (matrixNeedsUpdate) {
-                computePerspectiveMatrix(fov.x, aspect.x, near.x, far.x, projectionMatrix);
-                matrixNeedsUpdate = false;
-            }
-            visitor.mat4(projectionMatrixName, projectionMatrix, false);
-            base.setUniforms(visitor);
+  /**
+   * The object that is being controlled.
+   */
+  private target: ControlsTarget;
+
+  /**
+   * @class OrbitControls
+   * @constructor
+   * @param [wnd = window] {Window}
+   */
+  constructor(wnd: BrowserWindow) {
+    super(wnd)
+    this.setLoggingName(&#x27;OrbitControls&#x27;)
+  }
+
+  /**
+   * @method destructor
+   * @param levelUp {number}
+   * @return {void}
+   * @protected
+   */
+  protected destructor(levelUp: number): void {
+    super.destructor(levelUp + 1)
+  }
+
+  /**
+   * @method update
+   * @return {void}
+   */
+  public update(): void {
+    // Think of the mouse movement as moving a plane over a sphere that is free to
+    // rotate at its origin. This model ensures that the rotation of the sphere is
+    // proportional to the distance moved by the mouse.
+    // For a unit sphere, the rotation angle ψ is exactly equal to the magnitude of the displacement.
+    // When moving a camera is suffices to change the position because the camera
+    // will maintain its &#x27;look&#x27; point and &#x27;up&#x27; vector and adjust its attitude accordingly.
+    // TODO: We could check for equality first, rather than compute distance.
+    if (this.target) {
+      const ψ = this.moveCurr.distanceTo(this.movePrev)
+      if (ψ &gt; 0) {
+        // We&#x27;ll need the attitude of the camera in order to convert our mouse motion and
+        // vector from the origin to the screen. Reverse the target attitude to get the
+        // rotor that we must apply to get the true rotation.
+        X.copyVector(this.target.getPosition())
+        R.copySpinor(this.target.getAttitude())
+        a.zero()
+        a.x = this.movePrev.x
+        a.y = this.movePrev.y
+        a.z = 1
+        b.zero()
+        b.x = this.moveCurr.x
+        b.y = this.moveCurr.y
+        b.z = 1
+        d.copy(b).sub(a)
+        // We&#x27;re rotating d and e3 here. Equally, we could rotate the bivector B.
+        d.rotate(R)
+        X.normalize() // or we could have rotated the e3 vector.
+        // B = direction(X ^ d)
+        B.copyVector(X).ext(d).normalize()
+        // R is the rotor that moves the camera from its previous position.
+        // Notice the plus sign, because the camera moves in the opposite orientation.
+        R.copy(B).scale(+ψ / 2).exp()
+        if (this.target) {
+          X.copyVector(this.target.getPosition())
+          X.rotate(R)
+          this.target.setPosition(X)
         }
-    };
+      }
+    }
+    this.movePrev.copy(this.moveCurr)
+  }
 
-    return self;
+  /**
+   * @method reset
+   * @return {void}
+   */
+  public reset(): void {
+    if (this.target) {
+      this.target.setPosition(this.position0)
+      // this.target.setAttitude(this.attitude0)
+      this.attitude0.addScalar(0) // whatever
+    }
+  }
+
+  /**
+   * @method setTarget
+   * @param target {ControlsTarget}
+   * @return {void}
+   */
+  public setTarget(target: ControlsTarget): void {
+    if (target) {
+      // const position = target.getPosition()
+      this.position0.copy(target.getPosition())
+      // const attitude = target.getAttitude()
+      // this.attitude0.copy(target.getAttitude())
+      this.target = target
+    }
+    else {
+      this.target = void 0
+    }
+  }
 }
 
     </pre>

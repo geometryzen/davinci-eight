@@ -163,6 +163,17 @@ export default class Vector3 extends Coords implements ColumnVector<Matrix3, Vec
   }
 
   /**
+   * @method approx
+   * @param n {number}
+   * @return {Vector3}
+   * @chainable
+   */
+  approx(n: number): Vector3 {
+    super.approx(n)
+    return this
+  }
+
+  /**
    * <p>
    * <code>this ⟼ - n * this * n</code>
    * </p>
@@ -308,6 +319,7 @@ export default class Vector3 extends Coords implements ColumnVector<Matrix3, Vec
       return void 0
     }
   }
+
   /**
    * @method quadranceTo
    * @param point {VectorE3}
@@ -315,9 +327,9 @@ export default class Vector3 extends Coords implements ColumnVector<Matrix3, Vec
    */
   quadranceTo(point: VectorE3): number {
     if (isDefined(point)) {
-      var dx = this.x - point.x;
-      var dy = this.y - point.y;
-      var dz = this.z - point.z;
+      const dx = this.x - point.x;
+      const dy = this.y - point.y;
+      const dz = this.z - point.z;
       return dx * dx + dy * dy + dz * dz;
     }
     else {
@@ -382,6 +394,20 @@ export default class Vector3 extends Coords implements ColumnVector<Matrix3, Vec
       this.z = -B.xy
     }
     return this
+  }
+
+  /**
+   * @method equals
+   * @param other {any}
+   * @return {boolean}
+   */
+  equals(other: any): boolean {
+    if (other instanceof Vector3) {
+      return this.x === other.x && this.y === other.y && this.z === other.z
+    }
+    else {
+      return false
+    }
   }
 
   /**
@@ -700,7 +726,10 @@ export default class Vector3 extends Coords implements ColumnVector<Matrix3, Vec
   }
 
   /**
+   * <p>
    * Computes a unit vector with a random direction.
+   * </p>
+   *
    * @method random
    * @return {Vector3}
    * @static

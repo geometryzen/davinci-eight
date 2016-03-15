@@ -1,3 +1,5 @@
+import BrowserWindow from '../base/BrowserWindow'
+import Controller from './Controller'
 import Geometric3 from '../math/Geometric3'
 import MouseControls from './MouseControls'
 import mustBeObject from '../checks/mustBeObject'
@@ -18,8 +20,8 @@ import Vector3 from '../math/Vector3'
  * @example
  *     const camera = new EIGHT.PerspectiveCamera()
  *
- *     // Create CameraControls anytime.
- *     const controls = new EIGHT.CameraControls(camera)
+ *     // Create TrackballControls anytime.
+ *     const controls = new EIGHT.TrackballControls(camera)
  *
  *     // Subscribe to mouse events, usually in the window.onload function.
  *     controls.subscribe(canvas)
@@ -35,10 +37,10 @@ import Vector3 from '../math/Vector3'
  *
  * You may decide to update directional lighting to synchronize with the camera.
  *
- * @class CameraControls
+ * @class TrackballControls
  * @extends MouseControls
  */
-export default class CameraControls extends MouseControls {
+export default class TrackballControls extends MouseControls implements Controller {
 
   /**
    * @property rotateSpeed
@@ -75,7 +77,7 @@ export default class CameraControls extends MouseControls {
   /**
    * The position that we look at.
    */
-  private target = new Geometric3()
+  private look = new Geometric3()
 
   /**
    * The initial position, look and up of the camera.
@@ -97,20 +99,21 @@ export default class CameraControls extends MouseControls {
   private objectUp = new Vector3()
 
   /**
-   * @class CameraControls
+   * @class TrackballControls
    * @constructor
    * @param camera {PerspectiveCamera}
+   * @param [wnd = window] {Window}
    */
-  constructor(camera: PerspectiveCamera) {
-    super()
-    this.setLoggingName('CameraControls')
+  constructor(camera: PerspectiveCamera, wnd: BrowserWindow = window) {
+    super(wnd)
+    this.setLoggingName('TrackballControls')
     mustBeObject('camera', camera)
     this.camera = camera
 
     // Cache camera properties required for a reset.
     // TODO: Why don't we cache the look vector?
     // TODO: I think there is an assumption that the look is the origin.
-    this.target0 = this.target.clone() // ???
+    this.target0 = this.look.clone() // ???
     this.position0 = this.camera.position.clone()
     this.up0 = this.camera.up.clone()
 
@@ -132,12 +135,12 @@ export default class CameraControls extends MouseControls {
    * @return {void}
    */
   public reset(): void {
-    this.target.copy(this.target0)
+    this.look.copy(this.target0)
     this.camera.position.copy(this.position0)
     this.camera.up.copy(this.up0)
 
-    this.eye.copy(this.camera.position).sub(this.target)
-    this.camera.look.copy(this.target)
+    this.eye.copy(this.camera.position).sub(this.look)
+    this.camera.look.copy(this.look)
     super.reset()
   }
 
@@ -151,7 +154,7 @@ export default class CameraControls extends MouseControls {
    */
   public update(): void {
 
-    this.eye.copy(this.camera.position).sub(this.target)
+    this.eye.copy(this.camera.position).sub(this.look)
 
     if (!this.noRotate) {
       this.rotateCamera()
@@ -162,9 +165,9 @@ export default class CameraControls extends MouseControls {
     if (!this.noPan) {
       this.panCamera()
     }
-    this.camera.position.copy(this.target).add(this.eye)
+    this.camera.position.copy(this.look).add(this.eye)
     this.checkDistances()
-    this.camera.look.copy(this.target)
+    this.camera.look.copy(this.look)
     // If the distance from the last position to the camera position is significant,
     // Emit a change event and update the last position with the current camera position.
   }
@@ -181,10 +184,13 @@ export default class CameraControls extends MouseControls {
     // Since the coordinates of the mouse run from -1 to +1 in both directions,
     // The largest mouse movement is 2 * sqrt(2).
     // And so the corresponding angle in degrees is approximately 2 * 81 degrees = 162 degrees.
+    // Update: Actually, this is a nice model of moving a plane over a unit sphere.
+    // The rotation angle is then exactly equal to the magnitide of the displacement
+    // if the radius of the sphere is unity.
     let angle = this.moveDirection.magnitude()
     if (angle) {
 
-      this.eye.copy(this.camera.position).sub(this.target)
+      this.eye.copy(this.camera.position).sub(this.look)
 
       this.eyeDirection.copy(this.eye).normalize()
       // Compute the unit vector pointing in the camera up direction.
@@ -241,7 +247,7 @@ export default class CameraControls extends MouseControls {
       this.objectUp.copy(this.camera.up).normalize().scale(this.mouseChange.y)
       this.pan.add(this.objectUp)
       this.camera.position.add(this.pan)
-      this.target.addVector(this.pan)
+      this.look.addVector(this.pan)
       this.panStart.copy(this.panEnd)
     }
   }

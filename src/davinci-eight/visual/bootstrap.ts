@@ -12,7 +12,7 @@ import mustBeString from '../checks/mustBeString'
 import DrawList from './DrawList'
 import PerspectiveCamera from '../facets/PerspectiveCamera'
 import refChange from '../core/refChange'
-import CameraControls from '../controls/CameraControls'
+import TrackballControls from '../controls/TrackballControls'
 import World from './World'
 import Engine from '../core/Engine'
 
@@ -51,7 +51,7 @@ export default function(
     camera.up.setXYZ(0, 1, 0)
     ambients.push(camera)
 
-    const controls = new CameraControls(camera)
+    const controls = new TrackballControls(camera)
 
     const world = new World(engine, drawList, ambients, controls)
 

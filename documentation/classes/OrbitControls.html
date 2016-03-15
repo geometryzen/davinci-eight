@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>CameraControls - davinci-eight</title>
+    <title>OrbitControls - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.221.0</em>
+            <em>API Docs for: 2.222.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -60,7 +60,6 @@
                                 <li><a href="../classes/BoxGeometryOptions.html">BoxGeometryOptions</a></li>
                                 <li><a href="../classes/BoxOptions.html">BoxOptions</a></li>
                                 <li><a href="../classes/BrowserApp.html">BrowserApp</a></li>
-                                <li><a href="../classes/CameraControls.html">CameraControls</a></li>
                                 <li><a href="../classes/Capability.html">Capability</a></li>
                                 <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
@@ -71,10 +70,10 @@
                                 <li><a href="../classes/ContextConsumer.html">ContextConsumer</a></li>
                                 <li><a href="../classes/ContextProgramConsumer.html">ContextProgramConsumer</a></li>
                                 <li><a href="../classes/ContextProvider.html">ContextProvider</a></li>
+                                <li><a href="../classes/ControlTarget.html">ControlTarget</a></li>
                                 <li><a href="../classes/Coords.html">Coords</a></li>
                                 <li><a href="../classes/CoordsTransform1D.html">CoordsTransform1D</a></li>
                                 <li><a href="../classes/CoordsTransform2D.html">CoordsTransform2D</a></li>
-                                <li><a href="../classes/createView.html">createView</a></li>
                                 <li><a href="../classes/CuboidPrimitivesBuilder.html">CuboidPrimitivesBuilder</a></li>
                                 <li><a href="../classes/Curve.html">Curve</a></li>
                                 <li><a href="../classes/CurveGeometry.html">CurveGeometry</a></li>
@@ -147,6 +146,7 @@
                                 <li><a href="../classes/MultiViewApp.html">MultiViewApp</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/NumberShareableMap.html">NumberShareableMap</a></li>
+                                <li><a href="../classes/OrbitControls.html">OrbitControls</a></li>
                                 <li><a href="../classes/Perspective.html">Perspective</a></li>
                                 <li><a href="../classes/PerspectiveCamera.html">PerspectiveCamera</a></li>
                                 <li><a href="../classes/PointMaterial.html">PointMaterial</a></li>
@@ -192,6 +192,7 @@
                                 <li><a href="../classes/TetrahedronGeometry.html">TetrahedronGeometry</a></li>
                                 <li><a href="../classes/TetrahedronGeometryOptions.html">TetrahedronGeometryOptions</a></li>
                                 <li><a href="../classes/TetrahedronOptions.html">TetrahedronOptions</a></li>
+                                <li><a href="../classes/TrackballControls.html">TrackballControls</a></li>
                                 <li><a href="../classes/Trail.html">Trail</a></li>
                                 <li><a href="../classes/TrailConfig.html">TrailConfig</a></li>
                                 <li><a href="../classes/Transform.html">Transform</a></li>
@@ -273,7 +274,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1>CameraControls Class</h1>
+<h1>OrbitControls Class</h1>
 <div class="box meta">
 
         <div class="extends">
@@ -281,30 +282,35 @@
         </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_controls_CameraControls.ts.html#l99"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;CameraControls.ts:99</code></a>
+            Defined in: <a href="../files/src_davinci-eight_controls_OrbitControls.ts.html#l49"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;OrbitControls.ts:49</code></a>
         </div>
 
-            Module: <a href="../modules/controls.html">controls</a><br>
-            Parent Module: <a href="../modules/EIGHT.html">EIGHT</a>
+            Module: <a href="../modules/EIGHT.html">EIGHT</a>
 
 </div>
 
 
 <div class="box intro">
     <p>
-Allows a camera to be manipulated using mouse controls.
+<code>OrbitControls</code> move a camera over a sphere such that the camera up vector
+remains aligned with the local north vector.
+</p>
+<p>
+For rotations, the final camera position dictates a new camera local reference frame.
+A rotor may be calculated that rotates the camera from its old reference frame to the
+new reference frame. This rotor may also be interpolated for animations.
 </p>
 </div>
 
     <div class="constructor">
         <h2>Constructor</h2>
-<div id="method_CameraControls" class="method item">
-    <h3 class="name"><code>CameraControls</code></h3>
+<div id="method_OrbitControls" class="method item">
+    <h3 class="name"><code>OrbitControls</code></h3>
 
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
-                        <code>camera</code>
+                        <code class="optional">[wnd = window]</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
@@ -319,7 +325,7 @@ Allows a camera to be manipulated using mouse controls.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_controls_CameraControls.ts.html#l99"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;CameraControls.ts:99</code></a>
+        <a href="../files/src_davinci-eight_controls_OrbitControls.ts.html#l49"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;OrbitControls.ts:49</code></a>
         </p>
 
 
@@ -335,8 +341,9 @@ Allows a camera to be manipulated using mouse controls.
 
             <ul class="params-list">
                 <li class="param">
-                        <code class="param-name">camera</code>
-                        <span class="type"><a href="../classes/PerspectiveCamera.html" class="crosslink">PerspectiveCamera</a></span>
+                        <code class="param-name optional">[wnd = window]</code>
+                        <span class="type">Window</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
 
 
                     <div class="param-description">
@@ -349,31 +356,6 @@ Allows a camera to be manipulated using mouse controls.
 
 
 
-        <div class="example">
-            <h4>Example:</h4>
-
-            <div class="example-content">
-                <pre class="code prettyprint"><code>const camera = new EIGHT.PerspectiveCamera()
-
-// Create CameraControls anytime.
-const controls = new EIGHT.CameraControls(camera)
-
-// Subscribe to mouse events, usually in the window.onload function.
-controls.subscribe(canvas)
-
-// Update the camera position, usually in the animate function.
-controls.update()
-
-// Stop listening to mouse events.
-controls.unsubscribe()
-
-// Inform the controls they are no longer needed, usually in the window.onunload function.
-controls.release()
-</code></pre>
-<p>You may decide to update directional lighting to synchronize with the camera.</p>
-
-            </div>
-        </div>
 </div>
     </div>
 
@@ -413,10 +395,6 @@ controls.release()
                                 <a href="#method_isZombie">isZombie</a>
 
                             </li>
-                            <li class="index-item method private">
-                                <a href="#method_panCamera">panCamera</a>
-
-                            </li>
                             <li class="index-item method inherited inherited">
                                 <a href="#method_release">release</a>
 
@@ -425,12 +403,12 @@ controls.release()
                                 <a href="#method_reset">reset</a>
 
                             </li>
-                            <li class="index-item method private">
-                                <a href="#method_rotateCamera">rotateCamera</a>
-
-                            </li>
                             <li class="index-item method protected inherited">
                                 <a href="#method_setLoggingName">setLoggingName</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_setTarget">setTarget</a>
 
                             </li>
                             <li class="index-item method inherited">
@@ -451,10 +429,6 @@ controls.release()
                             </li>
                             <li class="index-item method private inherited">
                                 <a href="#method_updateMouseOnScreen">updateMouseOnScreen</a>
-
-                            </li>
-                            <li class="index-item method private">
-                                <a href="#method_zoomCamera">zoomCamera</a>
 
                             </li>
                     </ul>
@@ -500,7 +474,19 @@ controls.release()
                                 <a href="#property_minDistance">minDistance</a>
 
                             </li>
-                            <li class="index-item property inherited inherited">
+                            <li class="index-item property protected inherited">
+                                <a href="#property_moveCurr">moveCurr</a>
+
+                            </li>
+                            <li class="index-item property protected inherited">
+                                <a href="#property_movePrev">movePrev</a>
+
+                            </li>
+                            <li class="index-item property inherited">
+                                <a href="#property_noPan">noPan</a>
+
+                            </li>
+                            <li class="index-item property inherited">
                                 <a href="#property_noRotate">noRotate</a>
 
                             </li>
@@ -508,12 +494,12 @@ controls.release()
                                 <a href="#property_noZoom">noZoom</a>
 
                             </li>
-                            <li class="index-item property">
-                                <a href="#property_panSpeed">panSpeed</a>
+                            <li class="index-item property protected inherited">
+                                <a href="#property_panEnd">panEnd</a>
 
                             </li>
-                            <li class="index-item property">
-                                <a href="#property_rotateSpeed">rotateSpeed</a>
+                            <li class="index-item property protected inherited">
+                                <a href="#property_panStart">panStart</a>
 
                             </li>
                             <li class="index-item property private inherited">
@@ -524,8 +510,12 @@ controls.release()
                                 <a href="#property_uuid">uuid</a>
 
                             </li>
-                            <li class="index-item property">
-                                <a href="#property_zoomSpeed">zoomSpeed</a>
+                            <li class="index-item property protected inherited">
+                                <a href="#property_zoomEnd">zoomEnd</a>
+
+                            </li>
+                            <li class="index-item property protected inherited">
+                                <a href="#property_zoomStart">zoomStart</a>
 
                             </li>
                     </ul>
@@ -611,7 +601,7 @@ Notifies this instance that something is referencing it.
                 ShareableBase
             </a>
             but overwritten in
-        <a href="../files/src_davinci-eight_controls_CameraControls.ts.html#l120"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;CameraControls.ts:120</code></a>
+        <a href="../files/src_davinci-eight_controls_OrbitControls.ts.html#l59"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;OrbitControls.ts:59</code></a>
         </p>
 
 
@@ -707,7 +697,7 @@ Notifies this instance that something is referencing it.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/MouseControls.html#method_handleResize">MouseControls</a>:
-        <a href="../files/src_davinci-eight_controls_MouseControls.ts.html#l354"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;MouseControls.ts:354</code></a>
+        <a href="../files/src_davinci-eight_controls_MouseControls.ts.html#l398"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;MouseControls.ts:398</code></a>
         </p>
 
 
@@ -715,7 +705,8 @@ Notifies this instance that something is referencing it.
     </div>
 
     <div class="description">
-        This should be called whenever the window is resized
+        <p>This should be called whenever the window is resized</p>
+
     </div>
 
 
@@ -764,47 +755,6 @@ Notifies this instance that something is referencing it.
 
             <div class="returns-description">
                         <span class="type">Boolean</span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_panCamera" class="method item private">
-    <h3 class="name"><code>panCamera</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type">Void</span>
-        </span>
-
-
-        <span class="flag private">private</span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_controls_CameraControls.ts.html#l231"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;CameraControls.ts:231</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Void</span>:
             </div>
         </div>
 
@@ -877,48 +827,7 @@ Notifies this instance that something is dereferencing it.
                 MouseControls
             </a>
             but overwritten in
-        <a href="../files/src_davinci-eight_controls_CameraControls.ts.html#l130"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;CameraControls.ts:130</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Void</span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_rotateCamera" class="method item private">
-    <h3 class="name"><code>rotateCamera</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type">Void</span>
-        </span>
-
-
-        <span class="flag private">private</span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_controls_CameraControls.ts.html#l172"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;CameraControls.ts:172</code></a>
+        <a href="../files/src_davinci-eight_controls_OrbitControls.ts.html#l116"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;OrbitControls.ts:116</code></a>
         </p>
 
 
@@ -1017,6 +926,68 @@ Notice that this method is intentionally protected to discourage it from being c
 
 
 </div>
+<div id="method_setTarget" class="method item">
+    <h3 class="name"><code>setTarget</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>target</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_controls_OrbitControls.ts.html#l128"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;OrbitControls.ts:128</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">target</code>
+                        <span class="type">ControlsTarget</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Void</span>:
+            </div>
+        </div>
+
+
+</div>
 <div id="method_subscribe" class="method item inherited">
     <h3 class="name"><code>subscribe</code></h3>
 
@@ -1041,7 +1012,7 @@ Notice that this method is intentionally protected to discourage it from being c
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/MouseControls.html#method_subscribe">MouseControls</a>:
-        <a href="../files/src_davinci-eight_controls_MouseControls.ts.html#l274"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;MouseControls.ts:274</code></a>
+        <a href="../files/src_davinci-eight_controls_MouseControls.ts.html#l318"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;MouseControls.ts:318</code></a>
         </p>
 
 
@@ -1097,7 +1068,7 @@ Notice that this method is intentionally protected to discourage it from being c
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/MouseControls.html#method_unsubscribe">MouseControls</a>:
-        <a href="../files/src_davinci-eight_controls_MouseControls.ts.html#l294"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;MouseControls.ts:294</code></a>
+        <a href="../files/src_davinci-eight_controls_MouseControls.ts.html#l338"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;MouseControls.ts:338</code></a>
         </p>
 
 
@@ -1137,7 +1108,7 @@ Notice that this method is intentionally protected to discourage it from being c
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_controls_CameraControls.ts.html#l144"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;CameraControls.ts:144</code></a>
+        <a href="../files/src_davinci-eight_controls_OrbitControls.ts.html#l69"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;OrbitControls.ts:69</code></a>
         </p>
 
 
@@ -1145,10 +1116,7 @@ Notice that this method is intentionally protected to discourage it from being c
     </div>
 
     <div class="description">
-        <p>This should be called inside the animation frame to update the camera location.
-Notice that the movement of the mouse controls is decoupled from the effect.
-We also want to avoid temporary object creation in this and called methods by recycling variables.</p>
-
+        
     </div>
 
 
@@ -1187,7 +1155,7 @@ We also want to avoid temporary object creation in this and called methods by re
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/MouseControls.html#method_updateMouseOnCircle">MouseControls</a>:
-        <a href="../files/src_davinci-eight_controls_MouseControls.ts.html#l318"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;MouseControls.ts:318</code></a>
+        <a href="../files/src_davinci-eight_controls_MouseControls.ts.html#l362"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;MouseControls.ts:362</code></a>
         </p>
 
 
@@ -1195,10 +1163,11 @@ We also want to avoid temporary object creation in this and called methods by re
     </div>
 
     <div class="description">
-        Computes coordinates in the range [-1,+1] in both e1 and e2 directions.
+        <p>Computes coordinates in the range [-1,+1] in both e1 and e2 directions.
 e1 goes to the RIGHT
 e2 goes UP
-Updates the mouseOnCircle property.
+Updates the mouseOnCircle property.</p>
+
     </div>
 
         <div class="params">
@@ -1253,7 +1222,7 @@ Updates the mouseOnCircle property.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/MouseControls.html#method_updateMouseOnScreen">MouseControls</a>:
-        <a href="../files/src_davinci-eight_controls_MouseControls.ts.html#l335"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;MouseControls.ts:335</code></a>
+        <a href="../files/src_davinci-eight_controls_MouseControls.ts.html#l379"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;MouseControls.ts:379</code></a>
         </p>
 
 
@@ -1261,10 +1230,11 @@ Updates the mouseOnCircle property.
     </div>
 
     <div class="description">
-        Computes coordinates in the range [0,1] in both e1 and e2 directions.
+        <p>Computes coordinates in the range [0,1] in both e1 and e2 directions.
 e1 goes to the RIGHT
 e2 goes DOWN
-Updates the mouseOnScreen property.
+Updates the mouseOnScreen property.</p>
+
     </div>
 
         <div class="params">
@@ -1283,47 +1253,6 @@ Updates the mouseOnScreen property.
                 </li>
             </ul>
         </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Void</span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_zoomCamera" class="method item private">
-    <h3 class="name"><code>zoomCamera</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type">Void</span>
-        </span>
-
-
-        <span class="flag private">private</span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_controls_CameraControls.ts.html#l218"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;CameraControls.ts:218</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
 
         <div class="returns">
             <h4>Returns:</h4>
@@ -1454,7 +1383,7 @@ Keeps track of the level in the hierarchy of classes.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/MouseControls.html#property_domElement">MouseControls</a>:
-        <a href="../files/src_davinci-eight_controls_MouseControls.ts.html#l65"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;MouseControls.ts:65</code></a>
+        <a href="../files/src_davinci-eight_controls_MouseControls.ts.html#l69"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;MouseControls.ts:69</code></a>
         </p>
 
 
@@ -1478,7 +1407,7 @@ Keeps track of the level in the hierarchy of classes.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/MouseControls.html#property_enabled">MouseControls</a>:
-        <a href="../files/src_davinci-eight_controls_MouseControls.ts.html#l24"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;MouseControls.ts:24</code></a>
+        <a href="../files/src_davinci-eight_controls_MouseControls.ts.html#l27"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;MouseControls.ts:27</code></a>
         </p>
 
 
@@ -1488,6 +1417,7 @@ Keeps track of the level in the hierarchy of classes.
         
     </div>
 
+        <p><strong>Default:</strong> true</p>
 
 
 </div>
@@ -1529,7 +1459,7 @@ Returns the total length of the inheritance hierarchy that this instance is invo
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/MouseControls.html#property_maxDistance">MouseControls</a>:
-        <a href="../files/src_davinci-eight_controls_MouseControls.ts.html#l58"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;MouseControls.ts:58</code></a>
+        <a href="../files/src_davinci-eight_controls_MouseControls.ts.html#l62"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;MouseControls.ts:62</code></a>
         </p>
 
 
@@ -1554,7 +1484,7 @@ Returns the total length of the inheritance hierarchy that this instance is invo
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/MouseControls.html#property_minDistance">MouseControls</a>:
-        <a href="../files/src_davinci-eight_controls_MouseControls.ts.html#l51"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;MouseControls.ts:51</code></a>
+        <a href="../files/src_davinci-eight_controls_MouseControls.ts.html#l55"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;MouseControls.ts:55</code></a>
         </p>
 
 
@@ -1568,6 +1498,81 @@ Returns the total length of the inheritance hierarchy that this instance is invo
 
 
 </div>
+<div id="property_moveCurr" class="property item protected inherited">
+    <h3 class="name"><code>moveCurr</code></h3>
+    <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
+
+
+        <span class="flag protected">protected</span>
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/MouseControls.html#property_moveCurr">MouseControls</a>:
+        <a href="../files/src_davinci-eight_controls_MouseControls.ts.html#l86"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;MouseControls.ts:86</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_movePrev" class="property item protected inherited">
+    <h3 class="name"><code>movePrev</code></h3>
+    <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
+
+
+        <span class="flag protected">protected</span>
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/MouseControls.html#property_movePrev">MouseControls</a>:
+        <a href="../files/src_davinci-eight_controls_MouseControls.ts.html#l93"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;MouseControls.ts:93</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_noPan" class="property item inherited">
+    <h3 class="name"><code>noPan</code></h3>
+    <span class="type">Boolean</span>
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/MouseControls.html#property_noPan">MouseControls</a>:
+        <a href="../files/src_davinci-eight_controls_MouseControls.ts.html#l48"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;MouseControls.ts:48</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <p><strong>Default:</strong> false</p>
+
+
+</div>
 <div id="property_noRotate" class="property item inherited">
     <h3 class="name"><code>noRotate</code></h3>
     <span class="type">Boolean</span>
@@ -1577,12 +1582,9 @@ Returns the total length of the inheritance hierarchy that this instance is invo
 
 
     <div class="meta">
-            <p>Inherited from
-            <a href="../classes/MouseControls.html#property_noRotate">
-                MouseControls
-            </a>
-            but overwritten in
-        <a href="../files/src_davinci-eight_controls_MouseControls.ts.html#l30"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;MouseControls.ts:30</code></a>
+                <p>Inherited from
+                <a href="../classes/MouseControls.html#property_noRotate">MouseControls</a>:
+        <a href="../files/src_davinci-eight_controls_MouseControls.ts.html#l34"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;MouseControls.ts:34</code></a>
         </p>
 
 
@@ -1607,7 +1609,7 @@ Returns the total length of the inheritance hierarchy that this instance is invo
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/MouseControls.html#property_noZoom">MouseControls</a>:
-        <a href="../files/src_davinci-eight_controls_MouseControls.ts.html#l37"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;MouseControls.ts:37</code></a>
+        <a href="../files/src_davinci-eight_controls_MouseControls.ts.html#l41"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;MouseControls.ts:41</code></a>
         </p>
 
 
@@ -1621,18 +1623,19 @@ Returns the total length of the inheritance hierarchy that this instance is invo
 
 
 </div>
-<div id="property_panSpeed" class="property item">
-    <h3 class="name"><code>panSpeed</code></h3>
-    <span class="type">Number</span>
+<div id="property_panEnd" class="property item protected inherited">
+    <h3 class="name"><code>panEnd</code></h3>
+    <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
 
 
+        <span class="flag protected">protected</span>
 
 
 
     <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_controls_CameraControls.ts.html#l57"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;CameraControls.ts:57</code></a>
+                <p>Inherited from
+                <a href="../classes/MouseControls.html#property_panEnd">MouseControls</a>:
+        <a href="../files/src_davinci-eight_controls_MouseControls.ts.html#l121"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;MouseControls.ts:121</code></a>
         </p>
 
 
@@ -1642,22 +1645,22 @@ Returns the total length of the inheritance hierarchy that this instance is invo
         
     </div>
 
-        <p><strong>Default:</strong> 1</p>
 
 
 </div>
-<div id="property_rotateSpeed" class="property item">
-    <h3 class="name"><code>rotateSpeed</code></h3>
-    <span class="type">Number</span>
+<div id="property_panStart" class="property item protected inherited">
+    <h3 class="name"><code>panStart</code></h3>
+    <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
 
 
+        <span class="flag protected">protected</span>
 
 
 
     <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_controls_CameraControls.ts.html#l43"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;CameraControls.ts:43</code></a>
+                <p>Inherited from
+                <a href="../classes/MouseControls.html#property_panStart">MouseControls</a>:
+        <a href="../files/src_davinci-eight_controls_MouseControls.ts.html#l114"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;MouseControls.ts:114</code></a>
         </p>
 
 
@@ -1667,7 +1670,6 @@ Returns the total length of the inheritance hierarchy that this instance is invo
         
     </div>
 
-        <p><strong>Default:</strong> 6</p>
 
 
 </div>
@@ -1683,14 +1685,15 @@ Returns the total length of the inheritance hierarchy that this instance is invo
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/MouseControls.html#property_screenLoc">MouseControls</a>:
-        <a href="../files/src_davinci-eight_controls_MouseControls.ts.html#l89"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;MouseControls.ts:89</code></a>
+        <a href="../files/src_davinci-eight_controls_MouseControls.ts.html#l128"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;MouseControls.ts:128</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        Initialized by calling handleResize
+        <p>Initialized by calling handleResize</p>
+
     </div>
 
 
@@ -1721,18 +1724,19 @@ Returns the total length of the inheritance hierarchy that this instance is invo
 
 
 </div>
-<div id="property_zoomSpeed" class="property item">
-    <h3 class="name"><code>zoomSpeed</code></h3>
-    <span class="type">Number</span>
+<div id="property_zoomEnd" class="property item protected inherited">
+    <h3 class="name"><code>zoomEnd</code></h3>
+    <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
 
 
+        <span class="flag protected">protected</span>
 
 
 
     <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_controls_CameraControls.ts.html#l50"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;CameraControls.ts:50</code></a>
+                <p>Inherited from
+                <a href="../classes/MouseControls.html#property_zoomEnd">MouseControls</a>:
+        <a href="../files/src_davinci-eight_controls_MouseControls.ts.html#l107"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;MouseControls.ts:107</code></a>
         </p>
 
 
@@ -1742,7 +1746,31 @@ Returns the total length of the inheritance hierarchy that this instance is invo
         
     </div>
 
-        <p><strong>Default:</strong> 4</p>
+
+
+</div>
+<div id="property_zoomStart" class="property item protected inherited">
+    <h3 class="name"><code>zoomStart</code></h3>
+    <span class="type"><a href="../classes/Geometric2.html" class="crosslink">Geometric2</a></span>
+
+
+        <span class="flag protected">protected</span>
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/MouseControls.html#property_zoomStart">MouseControls</a>:
+        <a href="../files/src_davinci-eight_controls_MouseControls.ts.html#l100"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;MouseControls.ts:100</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
 
 
 </div>

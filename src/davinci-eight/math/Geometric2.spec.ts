@@ -19,6 +19,32 @@ describe("Geometric2", function() {
       expect(one.β).toBe(0)
     })
   })
+  describe("distanceTo", function() {
+    it("(0, 0) should be zero", function() {
+      const zero: Geometric2 = Geometric2.zero()
+      expect(zero.clone().distanceTo(zero)).toBe(0)
+    })
+    it("(0, e1) should be 1", function() {
+      const zero: Geometric2 = Geometric2.zero()
+      const e1: Geometric2 = Geometric2.vector(1, 0)
+      expect(zero.clone().distanceTo(e1)).toBe(1)
+    })
+    it("(0, e2) should be 1", function() {
+      const zero: Geometric2 = Geometric2.zero()
+      const e2: Geometric2 = Geometric2.vector(0, 1)
+      expect(zero.clone().distanceTo(e2)).toBe(1)
+    })
+    it("(-e2, e2) should be 1", function() {
+      const a: Geometric2 = Geometric2.vector(-1, 0)
+      const b: Geometric2 = Geometric2.vector(+1, 0)
+      expect(a.clone().distanceTo(b)).toBe(2)
+    })
+    it("(0, e1 + e2) should be sqrt(2)", function() {
+      const a: Geometric2 = Geometric2.vector(0, 0)
+      const b: Geometric2 = Geometric2.vector(1, 1)
+      expect(a.clone().distanceTo(b)).toBe(Math.sqrt(2))
+    })
+  })
   describe("div", function() {
     it("1 / 1 should be 1", function() {
       const x: Geometric2 = Geometric2.one()

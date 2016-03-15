@@ -4,26 +4,54 @@ import DirectionalLight from '../facets/DirectionalLight'
 import Engine from '../core/Engine'
 import exchange from '../base/exchange'
 import Facet from '../core/Facet'
+import mustBeInteger from '../checks/mustBeInteger'
 import PerspectiveCamera from '../facets/PerspectiveCamera'
 import R3 from '../math/R3'
 import Scene from '../core/Scene'
 import ShareableBase from '../core/ShareableBase'
 
 /**
+ * <p>
  * A Portal into the WebGL canvas.
+ * </p>
+ * <p>
+ * A viewport specifies the affine transformation of x and y from the
+ * normalized device coordinates to window coordinates.
+ * </p>
  *
  * @class Viewport
  * @extends ShareableBase
  */
 export default class Viewport extends ShareableBase {
 
+  /**
+   * @property engine
+   * @type Engine
+   * @private
+   */
   private engine: Engine
 
+  /**
+   * @property _scene
+   * @type Scene
+   * @private
+   */
   private _scene: Scene
 
-  private ambients: Facet[] = []
+  /**
+   * <p>
+   * The facets that are used when drawing the <code>scene</code>.
+   * </p>
+   *
+   * @property ambients
+   * @type Facet[]
+   */
+  public ambients: Facet[] = []
 
   /**
+   * <p>
+   * </p>
+   *
    * @property ambLight
    * @type AmbientLight
    */
@@ -42,24 +70,42 @@ export default class Viewport extends ShareableBase {
   public camera = new PerspectiveCamera()
 
   /**
+   * <p>
+   * The horizontal coordinate for the lower left corner of the viewport origin.
+   * </p>
+   *
    * @property x
    * @type number
+   * @default 0
    */
   public x = 0
 
   /**
+   * <p>
+   * The vertical coordinate for the lower left corner of the viewport origin.
+   * </p>
+   *
    * @property y
    * @type number
+   * @default 0
    */
   public y = 0
 
   /**
+   * <p>
+   * A positive number specifying the width of the viewport.
+   * </p>
+   *
    * @property width
    * @type number
    */
   public width = 0
 
   /**
+   * <p>
+   * A positive number specifying the height of the viewport.
+   * </p>
+   *
    * @property height
    * @type number
    */
@@ -74,9 +120,12 @@ export default class Viewport extends ShareableBase {
     super()
     this.setLoggingName('Viewport')
 
-    if (engine) {
+    if (engine instanceof Engine) {
       engine.addRef()
       this.engine = engine
+    }
+    else {
+      throw new Error("engine must be an Engine")
     }
 
     this.ambients.push(this.ambLight)
@@ -85,6 +134,16 @@ export default class Viewport extends ShareableBase {
   }
 
   /**
+   * <p>
+   * The <code>Scene</code> associated with this <code>Viewport</code>.
+   * </p>
+   * <p>
+   * The <code>scene</code> may be changed at any time.
+   * </p>
+   * <p>
+   * This property is reference counted.
+   * </p>
+   *
    * @property scene
    * @type Scene
    */
@@ -121,6 +180,10 @@ export default class Viewport extends ShareableBase {
    * @return {void}
    */
   public setPortal(x: number, y: number, width: number, height: number): void {
+    mustBeInteger('x', x)
+    mustBeInteger('y', y)
+    mustBeInteger('width', width)
+    mustBeInteger('width', width)
     this.x = x
     this.y = y
     this.width = width

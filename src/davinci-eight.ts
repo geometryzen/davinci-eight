@@ -23,7 +23,8 @@ import WebGLDisable from './davinci-eight/commands/WebGLDisable';
 import WebGLEnable from './davinci-eight/commands/WebGLEnable';
 
 // controls
-import CameraControls from './davinci-eight/controls/CameraControls'
+import OrbitControls from './davinci-eight/controls/OrbitControls'
+import TrackballControls from './davinci-eight/controls/TrackballControls'
 
 // core
 import AttribLocation from './davinci-eight/core/AttribLocation';
@@ -71,7 +72,7 @@ import View from './davinci-eight/facets/View';
 import frustumMatrix from './davinci-eight/facets/frustumMatrix';
 import PerspectiveCamera from './davinci-eight/facets/PerspectiveCamera';
 import perspectiveMatrix from './davinci-eight/facets/perspectiveMatrix';
-import viewMatrix from './davinci-eight/facets/viewMatrix';
+import viewMatrix from './davinci-eight/facets/viewMatrixFromEyeLookUp';
 import ModelE2 from './davinci-eight/facets/ModelE2';
 import ModelE3 from './davinci-eight/facets/ModelE3';
 
@@ -291,7 +292,8 @@ const eight = {
   },
   get Color() { return Color },
 
-  get CameraControls() { return CameraControls },
+  get OrbitControls() { return OrbitControls },
+  get TrackballControls() { return TrackballControls },
 
   // facets
   get AmbientLight() { return AmbientLight },

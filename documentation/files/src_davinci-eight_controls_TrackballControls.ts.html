@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src/davinci-eight/controls/CameraControls.ts - davinci-eight</title>
+    <title>src/davinci-eight/controls/TrackballControls.ts - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.221.0</em>
+            <em>API Docs for: 2.222.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -60,7 +60,6 @@
                                 <li><a href="../classes/BoxGeometryOptions.html">BoxGeometryOptions</a></li>
                                 <li><a href="../classes/BoxOptions.html">BoxOptions</a></li>
                                 <li><a href="../classes/BrowserApp.html">BrowserApp</a></li>
-                                <li><a href="../classes/CameraControls.html">CameraControls</a></li>
                                 <li><a href="../classes/Capability.html">Capability</a></li>
                                 <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
@@ -71,10 +70,10 @@
                                 <li><a href="../classes/ContextConsumer.html">ContextConsumer</a></li>
                                 <li><a href="../classes/ContextProgramConsumer.html">ContextProgramConsumer</a></li>
                                 <li><a href="../classes/ContextProvider.html">ContextProvider</a></li>
+                                <li><a href="../classes/ControlTarget.html">ControlTarget</a></li>
                                 <li><a href="../classes/Coords.html">Coords</a></li>
                                 <li><a href="../classes/CoordsTransform1D.html">CoordsTransform1D</a></li>
                                 <li><a href="../classes/CoordsTransform2D.html">CoordsTransform2D</a></li>
-                                <li><a href="../classes/createView.html">createView</a></li>
                                 <li><a href="../classes/CuboidPrimitivesBuilder.html">CuboidPrimitivesBuilder</a></li>
                                 <li><a href="../classes/Curve.html">Curve</a></li>
                                 <li><a href="../classes/CurveGeometry.html">CurveGeometry</a></li>
@@ -147,6 +146,7 @@
                                 <li><a href="../classes/MultiViewApp.html">MultiViewApp</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/NumberShareableMap.html">NumberShareableMap</a></li>
+                                <li><a href="../classes/OrbitControls.html">OrbitControls</a></li>
                                 <li><a href="../classes/Perspective.html">Perspective</a></li>
                                 <li><a href="../classes/PerspectiveCamera.html">PerspectiveCamera</a></li>
                                 <li><a href="../classes/PointMaterial.html">PointMaterial</a></li>
@@ -192,6 +192,7 @@
                                 <li><a href="../classes/TetrahedronGeometry.html">TetrahedronGeometry</a></li>
                                 <li><a href="../classes/TetrahedronGeometryOptions.html">TetrahedronGeometryOptions</a></li>
                                 <li><a href="../classes/TetrahedronOptions.html">TetrahedronOptions</a></li>
+                                <li><a href="../classes/TrackballControls.html">TrackballControls</a></li>
                                 <li><a href="../classes/Trail.html">Trail</a></li>
                                 <li><a href="../classes/TrailConfig.html">TrailConfig</a></li>
                                 <li><a href="../classes/Transform.html">Transform</a></li>
@@ -273,10 +274,12 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: src/davinci-eight/controls/CameraControls.ts</h1>
+<h1 class="file-heading">File: src/davinci-eight/controls/TrackballControls.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
+import BrowserWindow from &#x27;../base/BrowserWindow&#x27;
+import Controller from &#x27;./Controller&#x27;
 import Geometric3 from &#x27;../math/Geometric3&#x27;
 import MouseControls from &#x27;./MouseControls&#x27;
 import mustBeObject from &#x27;../checks/mustBeObject&#x27;
@@ -297,8 +300,8 @@ import Vector3 from &#x27;../math/Vector3&#x27;
  * @example
  *     const camera = new EIGHT.PerspectiveCamera()
  *
- *     // Create CameraControls anytime.
- *     const controls = new EIGHT.CameraControls(camera)
+ *     // Create TrackballControls anytime.
+ *     const controls = new EIGHT.TrackballControls(camera)
  *
  *     // Subscribe to mouse events, usually in the window.onload function.
  *     controls.subscribe(canvas)
@@ -314,10 +317,10 @@ import Vector3 from &#x27;../math/Vector3&#x27;
  *
  * You may decide to update directional lighting to synchronize with the camera.
  *
- * @class CameraControls
+ * @class TrackballControls
  * @extends MouseControls
  */
-export default class CameraControls extends MouseControls {
+export default class TrackballControls extends MouseControls implements Controller {
 
   /**
    * @property rotateSpeed
@@ -354,7 +357,7 @@ export default class CameraControls extends MouseControls {
   /**
    * The position that we look at.
    */
-  private target = new Geometric3()
+  private look = new Geometric3()
 
   /**
    * The initial position, look and up of the camera.
@@ -376,20 +379,21 @@ export default class CameraControls extends MouseControls {
   private objectUp = new Vector3()
 
   /**
-   * @class CameraControls
+   * @class TrackballControls
    * @constructor
    * @param camera {PerspectiveCamera}
+   * @param [wnd = window] {Window}
    */
-  constructor(camera: PerspectiveCamera) {
-    super()
-    this.setLoggingName(&#x27;CameraControls&#x27;)
+  constructor(camera: PerspectiveCamera, wnd: BrowserWindow = window) {
+    super(wnd)
+    this.setLoggingName(&#x27;TrackballControls&#x27;)
     mustBeObject(&#x27;camera&#x27;, camera)
     this.camera = camera
 
     // Cache camera properties required for a reset.
     // TODO: Why don&#x27;t we cache the look vector?
     // TODO: I think there is an assumption that the look is the origin.
-    this.target0 = this.target.clone() // ???
+    this.target0 = this.look.clone() // ???
     this.position0 = this.camera.position.clone()
     this.up0 = this.camera.up.clone()
 
@@ -411,12 +415,12 @@ export default class CameraControls extends MouseControls {
    * @return {void}
    */
   public reset(): void {
-    this.target.copy(this.target0)
+    this.look.copy(this.target0)
     this.camera.position.copy(this.position0)
     this.camera.up.copy(this.up0)
 
-    this.eye.copy(this.camera.position).sub(this.target)
-    this.camera.look.copy(this.target)
+    this.eye.copy(this.camera.position).sub(this.look)
+    this.camera.look.copy(this.look)
     super.reset()
   }
 
@@ -430,7 +434,7 @@ export default class CameraControls extends MouseControls {
    */
   public update(): void {
 
-    this.eye.copy(this.camera.position).sub(this.target)
+    this.eye.copy(this.camera.position).sub(this.look)
 
     if (!this.noRotate) {
       this.rotateCamera()
@@ -441,9 +445,9 @@ export default class CameraControls extends MouseControls {
     if (!this.noPan) {
       this.panCamera()
     }
-    this.camera.position.copy(this.target).add(this.eye)
+    this.camera.position.copy(this.look).add(this.eye)
     this.checkDistances()
-    this.camera.look.copy(this.target)
+    this.camera.look.copy(this.look)
     // If the distance from the last position to the camera position is significant,
     // Emit a change event and update the last position with the current camera position.
   }
@@ -460,10 +464,13 @@ export default class CameraControls extends MouseControls {
     // Since the coordinates of the mouse run from -1 to +1 in both directions,
     // The largest mouse movement is 2 * sqrt(2).
     // And so the corresponding angle in degrees is approximately 2 * 81 degrees = 162 degrees.
+    // Update: Actually, this is a nice model of moving a plane over a unit sphere.
+    // The rotation angle is then exactly equal to the magnitide of the displacement
+    // if the radius of the sphere is unity.
     let angle = this.moveDirection.magnitude()
     if (angle) {
 
-      this.eye.copy(this.camera.position).sub(this.target)
+      this.eye.copy(this.camera.position).sub(this.look)
 
       this.eyeDirection.copy(this.eye).normalize()
       // Compute the unit vector pointing in the camera up direction.
@@ -520,7 +527,7 @@ export default class CameraControls extends MouseControls {
       this.objectUp.copy(this.camera.up).normalize().scale(this.mouseChange.y)
       this.pan.add(this.objectUp)
       this.camera.position.add(this.pan)
-      this.target.addVector(this.pan)
+      this.look.addVector(this.pan)
       this.panStart.copy(this.panEnd)
     }
   }

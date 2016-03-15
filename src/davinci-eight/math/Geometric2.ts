@@ -438,7 +438,11 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure<G
    * @return {number}
    */
   distanceTo(M: GeometricE2): number {
-    throw new Error(notImplemented('distanceTo').message)
+    const α = this.α - M.α
+    const x = this.x - M.x
+    const y = this.y - M.y
+    const β = this.β - M.β
+    return Math.sqrt(scpE2(α, x, y, β, α, x, y, β, 0))
   }
 
   /**

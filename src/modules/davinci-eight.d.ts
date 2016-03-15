@@ -164,6 +164,110 @@ declare module EIGHT {
     isPaused: boolean;
   }
 
+  class Engine extends ShareableBase {
+
+    /**
+     * If the canvas property has not been initialized by calling `start()`,
+     * then any attempt to access this property will trigger the construction of
+     * a new HTML canvas element which will remain in effect for this Engine
+     * until `stop()` is called.
+     */
+    canvas: HTMLCanvasElement;
+
+    /**
+     *
+     */
+    commands: ShareableArray<ContextConsumer>;
+
+    /**
+     * The underlying WebGLRenderingContext.
+     */
+    gl: WebGLRenderingContext;
+
+    /**
+     * Determines whether this Engine may use a cache to optimize WebGL API calls.
+     */
+    mayUseCache: boolean;
+
+    /**
+     * Constructs an <code>Engine</code> using <code>WebGLContextAttributes</code>.
+     */
+    constructor(attributes?: WebGLContextAttributes);
+
+    /**
+     * Called when the last reference to this Engine has been released.
+     */
+    protected destructor(levelUp: number): void;
+
+    /**
+     *
+     */
+    addContextListener(user: ContextConsumer): void;
+
+    /**
+     *
+     */
+    clear(): void;
+
+    /**
+     * <p>
+     * Specifies color values to use by the <code>clear</code> method to clear the color buffer.
+     * <p>
+     */
+    clearColor(red: number, green: number, blue: number, alpha: number): Engine;
+
+    /**
+     * Turns off specific WebGL capabilities for this context.
+     */
+    disable(capability: Capability): Engine;
+
+    /**
+     * Turns on specific WebGL capabilities for this context.
+     */
+    enable(capability: Capability): Engine;
+
+    /**
+     * Returns the implementation dependent viewport maximum dimensions.
+     * e.g. Int32Array[maxWidth, maxHeight]
+     */
+    getMaxViewportDims(): Int32Array;
+
+    /**
+     * Returns the current viewport parameters.
+     * e.g. Int32Array[x, y, width, height]
+     */
+    getViewport(): Int32Array;
+
+    /**
+     *
+     */
+    removeContextListener(user: ContextConsumer): void;
+
+    /**
+     * Initializes the WebGL context for the specified <code>canvas</code>.
+     */
+    start(canvas: HTMLCanvasElement): Engine;
+
+    /**
+     * Terminates the <code>WebGLRenderingContext</code> for the underlying canvas.
+     */
+    stop(): Engine;
+
+    /**
+     *
+     */
+    synchronize(user: ContextConsumer): void;
+
+    /**
+     * Defines what part of the canvas will be used in rendering the drawing buffer.
+     * x
+     * y
+     * width
+     * height
+     */
+    viewport(x: number, y: number, width: number, height: number): Engine;
+  }
+
   class EngineApp extends BrowserApp {
     protected canvas: HTMLCanvasElement;
     protected engine: Engine;
@@ -2993,100 +3097,21 @@ declare module EIGHT {
      * near..: The `near` property.
      * far...: The `far` property.
      */
-    constructor(fov?: number, aspect?: number, near?: number, far?: number);
+    constructor(fov?: number, aspect?: number, near?: number, far?: number)
+    getAttitude(): SpinorE3
+    getPosition(): VectorE3
     getProperty(name: string): number[]
     setAspect(aspect: number): PerspectiveCamera
+    setAttitude(attitude: SpinorE3): void
     setEye(eye: VectorE3): PerspectiveCamera
     setFar(far: number): PerspectiveCamera
     setFov(fov: number): PerspectiveCamera
     setLook(look: VectorE3): PerspectiveCamera
     setNear(near: number): PerspectiveCamera
+    setPosition(position: VectorE3): void
     setProperty(name: string, value: number[]): PerspectiveCamera
     setUniforms(visitor: FacetVisitor): void
     setUp(up: VectorE3): PerspectiveCamera
-  }
-
-  class Engine implements Shareable {
-    addRef(): number;
-    release(): number;
-    /**
-     * If the canvas property has not been initialized by calling `start()`,
-     * then any attempt to access this property will trigger the construction of
-     * a new HTML canvas element which will remain in effect for this Engine
-     * until `stop()` is called.
-     */
-    canvas: HTMLCanvasElement;
-
-    /**
-     *
-     */
-    commands: ShareableArray<ContextConsumer>;
-
-    /**
-     * @param gl The underlying <code>WebGLRenderingContext</code>.
-     */
-    gl: WebGLRenderingContext;
-
-    /**
-     * Constructs an <code>Engine</code> using <code>WebGLContextAttributes</code>.
-     */
-    constructor(attributes?: WebGLContextAttributes);
-
-    /**
-     *
-     */
-    addContextListener(user: ContextConsumer): void;
-
-    /**
-     * <p>
-     * Specifies color values to use by the <code>clear</code> method to clear the color buffer.
-     * <p>
-     */
-    clearColor(red: number, green: number, blue: number, alpha: number): Engine;
-
-    /**
-     * Turns off specific WebGL capabilities for this context.
-     */
-    disable(capability: Capability): Engine;
-
-    /**
-     * Turns on specific WebGL capabilities for this context.
-     */
-    enable(capability: Capability): Engine;
-
-    /**
-     *
-     */
-    clear(): void;
-
-    /**
-     *
-     */
-    removeContextListener(user: ContextConsumer): void;
-
-    /**
-     * Initializes the WebGL context for the specified <code>canvas</code>.
-     */
-    start(canvas: HTMLCanvasElement): Engine;
-
-    /**
-     * Terminates the <code>WebGLRenderingContext</code> for the underlying canvas.
-     */
-    stop(): Engine;
-
-    /**
-     *
-     */
-    synchronize(user: ContextConsumer): void;
-
-    /**
-     * Defines what part of the canvas will be used in rendering the drawing buffer.
-     * @param x
-     * @param y
-     * @param width
-     * @param height
-     */
-    viewport(x: number, y: number, width: number, height: number): Engine;
   }
 
   interface VertexAttribPointer {
@@ -3839,6 +3864,12 @@ declare module EIGHT {
      *
      */
     protected destructor(levelUp: number): void;
+    getAttitude(): Geometric3;
+    getPosition(): Geometric3;
+    getPrincipalScale(name: string): number;
+    setAttitude(attitude: SpinorE3): void;
+    setPosition(position: VectorE3): void;
+    protected setPrincipalScale(name: string, value: number): void;
   }
 
   /**
@@ -4046,10 +4077,15 @@ declare module EIGHT {
   }
 
   class Viewport extends ShareableBase {
+    ambients: Facet[];
     ambLight: AmbientLight;
     camera: PerspectiveCamera;
     dirLight: DirectionalLight;
     height: number;
+    /**
+     * The Scene associated with this Viewport.
+     * This property is a strong reference to the Scene.
+     */
     scene: Scene;
     width: number;
     x: number;
@@ -4101,7 +4137,43 @@ declare module EIGHT {
     }): World;
 
   ///////////////////////////////////////////////////////////////////////////////
-  class CameraControls extends ShareableBase {
+  class MouseControls extends ShareableBase {
+    enabled: boolean;
+    maxDistance: number;
+    minDistance: number;
+    protected moveCurr: Geometric2;
+    protected movePrev: Geometric2;
+    noPan: boolean;
+    noRotate: boolean;
+    noZoom: boolean;
+    protected panEnd: Geometric2;
+    protected panStart: Geometric2;
+    protected zoomEnd: Geometric2;
+    protected zoomStart: Geometric2;
+    constructor(wnd: Window);
+    protected destructor(levelUp: number): void;
+    handleResize(): void;
+    reset(): void;
+    subscribe(domElement: HTMLElement): void;
+    unsubscribe(): void;
+  }
+  ///////////////////////////////////////////////////////////////////////////////
+  interface ControlsTarget {
+    getAttitude(): SpinorE3;
+    setAttitude(attitude: SpinorE3): void;
+    getPosition(): VectorE3;
+    setPosition(position: VectorE3): void;
+  }
+  ///////////////////////////////////////////////////////////////////////////////
+  class OrbitControls extends MouseControls {
+    constructor(wnd?: Window);
+    protected destructor(levelUp: number): void;
+    reset(): void;
+    setTarget(target: ControlsTarget): void;
+    update(): void;
+  }
+  ///////////////////////////////////////////////////////////////////////////////
+  class TrackballControls extends MouseControls {
 
     public panSpeed: number
     public rotateSpeed: number

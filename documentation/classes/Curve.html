@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.221.0</em>
+            <em>API Docs for: 2.222.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -60,7 +60,6 @@
                                 <li><a href="../classes/BoxGeometryOptions.html">BoxGeometryOptions</a></li>
                                 <li><a href="../classes/BoxOptions.html">BoxOptions</a></li>
                                 <li><a href="../classes/BrowserApp.html">BrowserApp</a></li>
-                                <li><a href="../classes/CameraControls.html">CameraControls</a></li>
                                 <li><a href="../classes/Capability.html">Capability</a></li>
                                 <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
@@ -71,10 +70,10 @@
                                 <li><a href="../classes/ContextConsumer.html">ContextConsumer</a></li>
                                 <li><a href="../classes/ContextProgramConsumer.html">ContextProgramConsumer</a></li>
                                 <li><a href="../classes/ContextProvider.html">ContextProvider</a></li>
+                                <li><a href="../classes/ControlTarget.html">ControlTarget</a></li>
                                 <li><a href="../classes/Coords.html">Coords</a></li>
                                 <li><a href="../classes/CoordsTransform1D.html">CoordsTransform1D</a></li>
                                 <li><a href="../classes/CoordsTransform2D.html">CoordsTransform2D</a></li>
-                                <li><a href="../classes/createView.html">createView</a></li>
                                 <li><a href="../classes/CuboidPrimitivesBuilder.html">CuboidPrimitivesBuilder</a></li>
                                 <li><a href="../classes/Curve.html">Curve</a></li>
                                 <li><a href="../classes/CurveGeometry.html">CurveGeometry</a></li>
@@ -147,6 +146,7 @@
                                 <li><a href="../classes/MultiViewApp.html">MultiViewApp</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/NumberShareableMap.html">NumberShareableMap</a></li>
+                                <li><a href="../classes/OrbitControls.html">OrbitControls</a></li>
                                 <li><a href="../classes/Perspective.html">Perspective</a></li>
                                 <li><a href="../classes/PerspectiveCamera.html">PerspectiveCamera</a></li>
                                 <li><a href="../classes/PointMaterial.html">PointMaterial</a></li>
@@ -192,6 +192,7 @@
                                 <li><a href="../classes/TetrahedronGeometry.html">TetrahedronGeometry</a></li>
                                 <li><a href="../classes/TetrahedronGeometryOptions.html">TetrahedronGeometryOptions</a></li>
                                 <li><a href="../classes/TetrahedronOptions.html">TetrahedronOptions</a></li>
+                                <li><a href="../classes/TrackballControls.html">TrackballControls</a></li>
                                 <li><a href="../classes/Trail.html">Trail</a></li>
                                 <li><a href="../classes/TrailConfig.html">TrailConfig</a></li>
                                 <li><a href="../classes/Transform.html">Transform</a></li>
@@ -396,7 +397,15 @@
 
                             </li>
                             <li class="index-item method inherited">
+                                <a href="#method_getAttitude">getAttitude</a>
+
+                            </li>
+                            <li class="index-item method inherited">
                                 <a href="#method_getFacet">getFacet</a>
+
+                            </li>
+                            <li class="index-item method inherited">
+                                <a href="#method_getPosition">getPosition</a>
 
                             </li>
                             <li class="index-item method inherited">
@@ -408,7 +417,15 @@
 
                             </li>
                             <li class="index-item method inherited">
+                                <a href="#method_setAttitude">setAttitude</a>
+
+                            </li>
+                            <li class="index-item method inherited">
                                 <a href="#method_setFacet">setFacet</a>
+
+                            </li>
+                            <li class="index-item method inherited">
+                                <a href="#method_setPosition">setPosition</a>
 
                             </li>
                             <li class="index-item method protected inherited">
@@ -906,6 +923,46 @@ The new reference count. This value is intended to be used only for test purpose
 
 
 </div>
+<div id="method_getAttitude" class="method item inherited">
+    <h3 class="name"><code>getAttitude</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Geometric3.html" class="crosslink">Geometric3</a></span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/Mesh.html#method_getAttitude">Mesh</a>:
+        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l88"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:88</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Geometric3.html" class="crosslink">Geometric3</a></span>:
+            </div>
+        </div>
+
+
+</div>
 <div id="method_getFacet" class="method item inherited">
     <h3 class="name"><code>getFacet</code></h3>
 
@@ -968,6 +1025,46 @@ The new reference count. This value is intended to be used only for test purpose
 
 
 </div>
+<div id="method_getPosition" class="method item inherited">
+    <h3 class="name"><code>getPosition</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Geometric3.html" class="crosslink">Geometric3</a></span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/Mesh.html#method_getPosition">Mesh</a>:
+        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l167"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:167</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Geometric3.html" class="crosslink">Geometric3</a></span>:
+            </div>
+        </div>
+
+
+</div>
 <div id="method_getPrincipalScale" class="method item inherited">
     <h3 class="name"><code>getPrincipalScale</code></h3>
 
@@ -992,7 +1089,7 @@ The new reference count. This value is intended to be used only for test purpose
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Mesh.html#method_getPrincipalScale">Mesh</a>:
-        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l176"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:176</code></a>
+        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l213"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:213</code></a>
         </p>
 
 
@@ -1075,6 +1172,68 @@ The new reference count. This value is intended to be used only for test purpose
 
 
 </div>
+<div id="method_setAttitude" class="method item inherited">
+    <h3 class="name"><code>setAttitude</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>attitude</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/Mesh.html#method_setAttitude">Mesh</a>:
+        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l96"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:96</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">attitude</code>
+                        <span class="type"><a href="../classes/SpinorE3.html" class="crosslink">SpinorE3</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Void</span>:
+            </div>
+        </div>
+
+
+</div>
 <div id="method_setFacet" class="method item inherited">
     <h3 class="name"><code>setFacet</code></h3>
 
@@ -1150,6 +1309,68 @@ The new reference count. This value is intended to be used only for test purpose
 
 
 </div>
+<div id="method_setPosition" class="method item inherited">
+    <h3 class="name"><code>setPosition</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>position</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/Mesh.html#method_setPosition">Mesh</a>:
+        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l175"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:175</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">position</code>
+                        <span class="type"><a href="../classes/VectorE3.html" class="crosslink">VectorE3</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Void</span>:
+            </div>
+        </div>
+
+
+</div>
 <div id="method_setPrincipalScale" class="method item protected inherited">
     <h3 class="name"><code>setPrincipalScale</code></h3>
 
@@ -1178,7 +1399,7 @@ The new reference count. This value is intended to be used only for test purpose
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Mesh.html#method_setPrincipalScale">Mesh</a>:
-        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l193"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:193</code></a>
+        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l230"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:230</code></a>
         </p>
 
 
@@ -1570,7 +1791,7 @@ This method is idempotent; calling it more than once does not change the state.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Mesh.html#property_attitude">Mesh</a>:
-        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l66"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:66</code></a>
+        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l69"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:69</code></a>
         </p>
 
 
@@ -1595,7 +1816,7 @@ This method is idempotent; calling it more than once does not change the state.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Mesh.html#property_color">Mesh</a>:
-        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l91"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:91</code></a>
+        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l111"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:111</code></a>
         </p>
 
 
@@ -1774,7 +1995,7 @@ This property is deprecated to encourage access throught the <code>ContextProvid
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Mesh.html#property_matrix">Mesh</a>:
-        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l116"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:116</code></a>
+        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l136"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:136</code></a>
         </p>
 
 
@@ -1822,7 +2043,7 @@ This property is deprecated to encourage access throught the <code>ContextProvid
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Mesh.html#property_position">Mesh</a>:
-        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l128"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:128</code></a>
+        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l148"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:148</code></a>
         </p>
 
 
@@ -1847,7 +2068,7 @@ This property is deprecated to encourage access throught the <code>ContextProvid
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Mesh.html#property_stress">Mesh</a>:
-        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l153"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:153</code></a>
+        <a href="../files/src_davinci-eight_core_Mesh.ts.html#l190"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Mesh.ts:190</code></a>
         </p>
 
 

@@ -1,11 +1,13 @@
 import BrowserApp from './BrowserApp'
 import BrowserWindow from './BrowserWindow'
 import BrowserDocument from './BrowserDocument'
+import BrowserHTMLElement from './BrowserHTMLElement'
 
 const EVENT_TYPE_DCL = 'DOMContentLoaded'
 const EVENT_TYPE_UNLOAD = 'unload'
 
 class MockDocument implements BrowserDocument {
+  public documentElement: BrowserHTMLElement
   public listening: { [type: string]: EventListener } = {}
   addEventListener(type: string, listener: EventListener, useCapture?: boolean): void {
     this.listening[type] = listener

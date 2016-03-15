@@ -24,7 +24,6 @@ YUI.add("yuidoc-meta", function(Y) {
         "BoxOptions",
         "BrowserApp",
         "CC",
-        "CameraControls",
         "Capability",
         "Color",
         "ColorFacet",
@@ -34,6 +33,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "ContextConsumer",
         "ContextProgramConsumer",
         "ContextProvider",
+        "ControlTarget",
         "Coords",
         "CoordsTransform1D",
         "CoordsTransform2D",
@@ -109,6 +109,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "MultiViewApp",
         "Mutable",
         "NumberShareableMap",
+        "OrbitControls",
         "Perspective",
         "PerspectiveCamera",
         "PointMaterial",
@@ -154,6 +155,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "TetrahedronGeometry",
         "TetrahedronGeometryOptions",
         "TetrahedronOptions",
+        "TrackballControls",
         "Trail",
         "TrailConfig",
         "Transform",
@@ -186,8 +188,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "WebGLClearColor",
         "WebGLDisable",
         "WebGLEnable",
-        "WindowAnimationRunner",
-        "createView"
+        "WindowAnimationRunner"
     ],
     "modules": [
         "EIGHT",

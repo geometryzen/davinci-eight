@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.221.0</em>
+            <em>API Docs for: 2.222.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -60,7 +60,6 @@
                                 <li><a href="../classes/BoxGeometryOptions.html">BoxGeometryOptions</a></li>
                                 <li><a href="../classes/BoxOptions.html">BoxOptions</a></li>
                                 <li><a href="../classes/BrowserApp.html">BrowserApp</a></li>
-                                <li><a href="../classes/CameraControls.html">CameraControls</a></li>
                                 <li><a href="../classes/Capability.html">Capability</a></li>
                                 <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
@@ -71,10 +70,10 @@
                                 <li><a href="../classes/ContextConsumer.html">ContextConsumer</a></li>
                                 <li><a href="../classes/ContextProgramConsumer.html">ContextProgramConsumer</a></li>
                                 <li><a href="../classes/ContextProvider.html">ContextProvider</a></li>
+                                <li><a href="../classes/ControlTarget.html">ControlTarget</a></li>
                                 <li><a href="../classes/Coords.html">Coords</a></li>
                                 <li><a href="../classes/CoordsTransform1D.html">CoordsTransform1D</a></li>
                                 <li><a href="../classes/CoordsTransform2D.html">CoordsTransform2D</a></li>
-                                <li><a href="../classes/createView.html">createView</a></li>
                                 <li><a href="../classes/CuboidPrimitivesBuilder.html">CuboidPrimitivesBuilder</a></li>
                                 <li><a href="../classes/Curve.html">Curve</a></li>
                                 <li><a href="../classes/CurveGeometry.html">CurveGeometry</a></li>
@@ -147,6 +146,7 @@
                                 <li><a href="../classes/MultiViewApp.html">MultiViewApp</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/NumberShareableMap.html">NumberShareableMap</a></li>
+                                <li><a href="../classes/OrbitControls.html">OrbitControls</a></li>
                                 <li><a href="../classes/Perspective.html">Perspective</a></li>
                                 <li><a href="../classes/PerspectiveCamera.html">PerspectiveCamera</a></li>
                                 <li><a href="../classes/PointMaterial.html">PointMaterial</a></li>
@@ -192,6 +192,7 @@
                                 <li><a href="../classes/TetrahedronGeometry.html">TetrahedronGeometry</a></li>
                                 <li><a href="../classes/TetrahedronGeometryOptions.html">TetrahedronGeometryOptions</a></li>
                                 <li><a href="../classes/TetrahedronOptions.html">TetrahedronOptions</a></li>
+                                <li><a href="../classes/TrackballControls.html">TrackballControls</a></li>
                                 <li><a href="../classes/Trail.html">Trail</a></li>
                                 <li><a href="../classes/TrailConfig.html">TrailConfig</a></li>
                                 <li><a href="../classes/Transform.html">Transform</a></li>
@@ -281,7 +282,7 @@
         </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_visual_Viewport.ts.html#l68"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Viewport.ts:68</code></a>
+            Defined in: <a href="../files/src_davinci-eight_visual_Viewport.ts.html#l114"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Viewport.ts:114</code></a>
         </div>
 
             Module: <a href="../modules/EIGHT.html">EIGHT</a>
@@ -290,8 +291,13 @@
 
 
 <div class="box intro">
-    <p>A Portal into the WebGL canvas.</p>
-
+    <p>
+A Portal into the WebGL canvas.
+</p>
+<p>
+A viewport specifies the affine transformation of x and y from the
+normalized device coordinates to window coordinates.
+</p>
 </div>
 
     <div class="constructor">
@@ -317,7 +323,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_visual_Viewport.ts.html#l68"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Viewport.ts:68</code></a>
+        <a href="../files/src_davinci-eight_visual_Viewport.ts.html#l114"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Viewport.ts:114</code></a>
         </p>
 
 
@@ -413,12 +419,20 @@
                                 <a href="#property__refCount">_refCount</a>
 
                             </li>
+                            <li class="index-item property private">
+                                <a href="#property__scene">_scene</a>
+
+                            </li>
                             <li class="index-item property protected inherited">
                                 <a href="#property__type">_type</a>
 
                             </li>
                             <li class="index-item property private inherited">
                                 <a href="#property__uuid">_uuid</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_ambients">ambients</a>
 
                             </li>
                             <li class="index-item property">
@@ -431,6 +445,10 @@
                             </li>
                             <li class="index-item property">
                                 <a href="#property_dirLight">dirLight</a>
+
+                            </li>
+                            <li class="index-item property private">
+                                <a href="#property_engine">engine</a>
 
                             </li>
                             <li class="index-item property">
@@ -545,7 +563,7 @@ Notifies this instance that something is referencing it.
                 ShareableBase
             </a>
             but overwritten in
-        <a href="../files/src_davinci-eight_visual_Viewport.ts.html#l133"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Viewport.ts:133</code></a>
+        <a href="../files/src_davinci-eight_visual_Viewport.ts.html#l196"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Viewport.ts:196</code></a>
         </p>
 
 
@@ -601,7 +619,7 @@ Notifies this instance that something is referencing it.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_visual_Viewport.ts.html#l102"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Viewport.ts:102</code></a>
+        <a href="../files/src_davinci-eight_visual_Viewport.ts.html#l161"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Viewport.ts:161</code></a>
         </p>
 
 
@@ -860,7 +878,7 @@ Notice that this method is intentionally protected to discourage it from being c
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_visual_Viewport.ts.html#l115"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Viewport.ts:115</code></a>
+        <a href="../files/src_davinci-eight_visual_Viewport.ts.html#l174"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Viewport.ts:174</code></a>
         </p>
 
 
@@ -985,6 +1003,31 @@ Keeps track of the level in the hierarchy of classes.
 
 
 </div>
+<div id="property__scene" class="property item private">
+    <h3 class="name"><code>_scene</code></h3>
+    <span class="type"><a href="../classes/Scene.html" class="crosslink">Scene</a></span>
+
+
+        <span class="flag private">private</span>
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_visual_Viewport.ts.html#l34"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Viewport.ts:34</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
 <div id="property__type" class="property item protected inherited">
     <h3 class="name"><code>_type</code></h3>
     <span class="type">String</span>
@@ -1036,6 +1079,32 @@ Keeps track of the level in the hierarchy of classes.
 
 
 </div>
+<div id="property_ambients" class="property item">
+    <h3 class="name"><code>ambients</code></h3>
+    <span class="type"><a href="../classes/Facet.html" class="crosslink">Facet[]</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_visual_Viewport.ts.html#l41"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Viewport.ts:41</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>
+The facets that are used when drawing the <code>scene</code>.
+</p>
+    </div>
+
+
+
+</div>
 <div id="property_ambLight" class="property item">
     <h3 class="name"><code>ambLight</code></h3>
     <span class="type"><a href="../classes/AmbientLight.html" class="crosslink">AmbientLight</a></span>
@@ -1047,14 +1116,15 @@ Keeps track of the level in the hierarchy of classes.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_visual_Viewport.ts.html#l26"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Viewport.ts:26</code></a>
+        <a href="../files/src_davinci-eight_visual_Viewport.ts.html#l51"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Viewport.ts:51</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        
+        <p>
+</p>
     </div>
 
 
@@ -1071,7 +1141,7 @@ Keeps track of the level in the hierarchy of classes.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_visual_Viewport.ts.html#l38"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Viewport.ts:38</code></a>
+        <a href="../files/src_davinci-eight_visual_Viewport.ts.html#l66"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Viewport.ts:66</code></a>
         </p>
 
 
@@ -1095,7 +1165,32 @@ Keeps track of the level in the hierarchy of classes.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_visual_Viewport.ts.html#l32"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Viewport.ts:32</code></a>
+        <a href="../files/src_davinci-eight_visual_Viewport.ts.html#l60"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Viewport.ts:60</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_engine" class="property item private">
+    <h3 class="name"><code>engine</code></h3>
+    <span class="type"><a href="../classes/Engine.html" class="crosslink">Engine</a></span>
+
+
+        <span class="flag private">private</span>
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_visual_Viewport.ts.html#l27"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Viewport.ts:27</code></a>
         </p>
 
 
@@ -1119,14 +1214,16 @@ Keeps track of the level in the hierarchy of classes.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_visual_Viewport.ts.html#l62"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Viewport.ts:62</code></a>
+        <a href="../files/src_davinci-eight_visual_Viewport.ts.html#l104"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Viewport.ts:104</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        
+        <p>
+A positive number specifying the height of the viewport.
+</p>
     </div>
 
 
@@ -1170,14 +1267,22 @@ Returns the total length of the inheritance hierarchy that this instance is invo
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_visual_Viewport.ts.html#l87"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Viewport.ts:87</code></a>
+        <a href="../files/src_davinci-eight_visual_Viewport.ts.html#l136"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Viewport.ts:136</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        
+        <p>
+The <code>Scene</code> associated with this <code>Viewport</code>.
+</p>
+<p>
+The <code>scene</code> may be changed at any time.
+</p>
+<p>
+This property is reference counted.
+</p>
     </div>
 
 
@@ -1219,14 +1324,16 @@ Returns the total length of the inheritance hierarchy that this instance is invo
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_visual_Viewport.ts.html#l56"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Viewport.ts:56</code></a>
+        <a href="../files/src_davinci-eight_visual_Viewport.ts.html#l94"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Viewport.ts:94</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        
+        <p>
+A positive number specifying the width of the viewport.
+</p>
     </div>
 
 
@@ -1243,16 +1350,19 @@ Returns the total length of the inheritance hierarchy that this instance is invo
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_visual_Viewport.ts.html#l44"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Viewport.ts:44</code></a>
+        <a href="../files/src_davinci-eight_visual_Viewport.ts.html#l72"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Viewport.ts:72</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        
+        <p>
+The horizontal coordinate for the lower left corner of the viewport origin.
+</p>
     </div>
 
+        <p><strong>Default:</strong> 0</p>
 
 
 </div>
@@ -1267,16 +1377,19 @@ Returns the total length of the inheritance hierarchy that this instance is invo
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_visual_Viewport.ts.html#l50"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Viewport.ts:50</code></a>
+        <a href="../files/src_davinci-eight_visual_Viewport.ts.html#l83"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;Viewport.ts:83</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        
+        <p>
+The vertical coordinate for the lower left corner of the viewport origin.
+</p>
     </div>
 
+        <p><strong>Default:</strong> 0</p>
 
 
 </div>
