@@ -1,5 +1,5 @@
-import ControlsTarget from '../controls/ControlsTarget'
 import createPerspective from './createPerspective';
+import Geometric3 from '../math/Geometric3';
 import readOnly from '../i18n/readOnly';
 import mustBeObject from '../checks/mustBeObject';
 import mustBeGE from '../checks/mustBeGE';
@@ -7,13 +7,9 @@ import mustBeLE from '../checks/mustBeLE';
 import mustBeNumber from '../checks/mustBeNumber';
 import mustBeString from '../checks/mustBeString';
 import Perspective from './Perspective';
-import R3 from '../math/R3';
-import SpinorE3 from '../math/SpinorE3';
 import Facet from '../core/Facet';
 import FacetVisitor from '../core/FacetVisitor';
-import Vector3 from '../math/Vector3';
 import VectorE3 from '../math/VectorE3';
-import Matrix4 from '../math/Matrix4';
 
 /**
  * Common abstractions for computing shader uniform variables.
@@ -38,18 +34,16 @@ import Matrix4 from '../math/Matrix4';
  *
  *     const camera = new EIGHT.PerspectiveCamera()
  *     camera.aspect = canvas.clientWidth / canvas.clientHeight
- *     camera.position = Vector3.copy(R3.e3)
+ *     camera.eye = Geometric3.copyVector(R3.e3)
  *     ambients.push(camera)
  *
  *     scene.draw(ambients)
  *
- * The camera is initially positioned at 10 * e3
+ * The camera is initially positioned at e3
  *
  * @class PerspectiveCamera
- * @extends Perspective
- * @extends Facet
  */
-export default class PerspectiveCamera implements Perspective, Facet, ControlsTarget {
+export default class PerspectiveCamera implements Perspective, Facet {
 
   /**
    * The name of the property that designates the position.
@@ -86,9 +80,9 @@ export default class PerspectiveCamera implements Perspective, Facet, ControlsTa
    * @param [fov = 45 * Math.PI / 180] {number} The field of view.
    * @param [aspect=1] {number} The aspect is the ratio width / height.
    * @param [near=0.1] {number} The distance of the near plane from the camera.
-   * @param [far=2000] {number} The distance of the far plane from the camera. 
+   * @param [far=1000] {number} The distance of the far plane from the camera. 
    */
-  constructor(fov = 45 * Math.PI / 180, aspect = 1, near = 0.1, far = 2000) {
+  constructor(fov = 45 * Math.PI / 180, aspect = 1, near = 0.1, far = 1000) {
 
     mustBeNumber('fov', fov)
     mustBeGE('fov', fov, 0)
@@ -104,8 +98,6 @@ export default class PerspectiveCamera implements Perspective, Facet, ControlsTa
     mustBeGE('far', far, 0)
 
     this.inner = createPerspective({ fov: fov, aspect: aspect, near: near, far: far })
-
-    this.position.copy(R3.e3).scale(10)
   }
 
   /**
@@ -187,63 +179,16 @@ export default class PerspectiveCamera implements Perspective, Facet, ControlsTa
   }
 
   /**
-   * @method getAttitude
-   * @return SpinorE3
-   */
-  getAttitude(): SpinorE3 {
-    return this.inner.getAttitude()
-  }
-
-  /**
-   * @method setAttitude
-   * @param attitude {SpinorE3}
-   * @return {void}
-   */
-  setAttitude(attitude: SpinorE3): void {
-    return this.inner.setAttitude(attitude)
-  }
-
-  /**
-   * The position of the camera.
+   * The position of the camera, a vector.
    *
    * @property eye
-   * @type {Vector3}
+   * @type {Geometric3}
    */
-  get eye(): Vector3 {
+  get eye(): Geometric3 {
     return this.inner.eye
   }
-  set eye(eye: Vector3) {
-    this.inner.eye.copy(eye)
-  }
-
-  /**
-   * The position of the camera.
-   *
-   * @property position
-   * @type {Vector3}
-   */
-  get position(): Vector3 {
-    return this.inner.eye
-  }
-  set position(position: Vector3) {
-    this.inner.eye.copy(position)
-  }
-
-  /**
-   * @method getPosition
-   * @return VectorE3
-   */
-  getPosition(): VectorE3 {
-    return this.inner.getPosition()
-  }
-
-  /**
-   * @method setPosition
-   * @param position {VectorE3}
-   * @return {void}
-   */
-  setPosition(position: VectorE3): void {
-    return this.inner.setPosition(position)
+  set eye(eye: Geometric3) {
+    this.inner.eye.copyVector(eye)
   }
 
   /**
@@ -285,12 +230,12 @@ export default class PerspectiveCamera implements Perspective, Facet, ControlsTa
 
   /**
    * @property look
-   * @type Vector3
+   * @type Geometric3
    */
-  get look(): Vector3 {
+  get look(): Geometric3 {
     return this.inner.look
   }
-  set look(look: Vector3) {
+  set look(look: Geometric3) {
     this.inner.setLook(look)
   }
 
@@ -353,13 +298,13 @@ export default class PerspectiveCamera implements Perspective, Facet, ControlsTa
 
   /**
    * @property up
-   * @type Vector3
+   * @type Geometric3
    */
-  get up(): Vector3 {
+  get up(): Geometric3 {
     return this.inner.up
   }
-  set up(unused) {
-    throw new Error(readOnly('up').message)
+  set up(up: Geometric3) {
+    this.inner.up = up
   }
 
   /**
@@ -371,29 +316,5 @@ export default class PerspectiveCamera implements Perspective, Facet, ControlsTa
   setUp(up: VectorE3): PerspectiveCamera {
     this.inner.setUp(up)
     return this
-  }
-
-  /**
-   * @property projectionMatrix
-   * @type Matrix4
-   * @readOnly
-   */
-  get projectionMatrix(): Matrix4 {
-    return this.inner.projectionMatrix
-  }
-  set projectionMatrix(projectionMatrix: Matrix4) {
-    throw new Error(readOnly('projectionMatrix').message)
-  }
-
-  /**
-   * @property viewMatrix
-   * @type Matrix4
-   * @readOnly
-   */
-  get viewMatrix(): Matrix4 {
-    return this.inner.viewMatrix
-  }
-  set viewMatrix(viewMatrix: Matrix4) {
-    this.inner.viewMatrix = viewMatrix
   }
 }

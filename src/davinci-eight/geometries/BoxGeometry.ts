@@ -59,7 +59,7 @@ export default class BoxGeometry extends GeometryContainer {
     }
 
     if (options.tilt) {
-      builder.tilt.copy(options.tilt)
+      builder.tilt.copySpinor(options.tilt)
     }
     if (options.offset) {
       builder.offset.copy(options.offset)

@@ -117,6 +117,16 @@ interface GeometricNumber<I, M, S, V, MAGNITUDE, SCALING, UNIT> extends LinearNu
     inv(): M;
 
     /**
+     *
+     */
+    isOne(): boolean;
+
+    /**
+     *
+     */
+    isZero(): boolean;
+
+    /**
      * Natural logarithm.
      */
     log(): M;

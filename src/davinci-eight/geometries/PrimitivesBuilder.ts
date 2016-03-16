@@ -1,10 +1,10 @@
 import Engine from '../core/Engine'
+import Geometric3 from '../math/Geometric3';
 import GeometryBuilder from './GeometryBuilder'
 import Geometry from '../core/Geometry'
 import GeometryElements from '../core/GeometryElements'
 import GeometryContainer from '../core/GeometryContainer'
 import Primitive from '../core/Primitive';
-import Spinor3 from '../math/Spinor3';
 import Vector3 from '../math/Vector3';
 import Vertex from './primitives/Vertex';
 import VertexArrays from '../core/VertexArrays';
@@ -35,10 +35,10 @@ export default class PrimitivesBuilder implements GeometryBuilder {
   /**
    * The rotor to apply to the geometry (after scale has been applied).
    * @property tilt
-   * @type Spinor3
+   * @type Geometric3
    * @default 1
    */
-  public tilt = Spinor3.one()
+  public tilt: Geometric3 = Geometric3.one()
 
   /**
    * The translation to apply to the geometry (after tilt has been applied).

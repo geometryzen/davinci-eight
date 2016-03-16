@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.222.0</em>
+            <em>API Docs for: 2.223.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -70,7 +70,6 @@
                                 <li><a href="../classes/ContextConsumer.html">ContextConsumer</a></li>
                                 <li><a href="../classes/ContextProgramConsumer.html">ContextProgramConsumer</a></li>
                                 <li><a href="../classes/ContextProvider.html">ContextProvider</a></li>
-                                <li><a href="../classes/ControlTarget.html">ControlTarget</a></li>
                                 <li><a href="../classes/Coords.html">Coords</a></li>
                                 <li><a href="../classes/CoordsTransform1D.html">CoordsTransform1D</a></li>
                                 <li><a href="../classes/CoordsTransform2D.html">CoordsTransform2D</a></li>
@@ -98,7 +97,6 @@
                                 <li><a href="../classes/ErrorMode.html">ErrorMode</a></li>
                                 <li><a href="../classes/Facet.html">Facet</a></li>
                                 <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
-                                <li><a href="../classes/Frustum.html">Frustum</a></li>
                                 <li><a href="../classes/G2.html">G2</a></li>
                                 <li><a href="../classes/G3.html">G3</a></li>
                                 <li><a href="../classes/Geometric2.html">Geometric2</a></li>
@@ -147,7 +145,6 @@
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/NumberShareableMap.html">NumberShareableMap</a></li>
                                 <li><a href="../classes/OrbitControls.html">OrbitControls</a></li>
-                                <li><a href="../classes/Perspective.html">Perspective</a></li>
                                 <li><a href="../classes/PerspectiveCamera.html">PerspectiveCamera</a></li>
                                 <li><a href="../classes/PointMaterial.html">PointMaterial</a></li>
                                 <li><a href="../classes/PointMaterialOptions.html">PointMaterialOptions</a></li>
@@ -219,6 +216,8 @@
                                 <li><a href="../classes/VertexAttributeMap.html">VertexAttributeMap</a></li>
                                 <li><a href="../classes/VertexBuffer.html">VertexBuffer</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
+                                <li><a href="../classes/ViewController.html">ViewController</a></li>
+                                <li><a href="../classes/ViewControls.html">ViewControls</a></li>
                                 <li><a href="../classes/Viewport.html">Viewport</a></li>
                                 <li><a href="../classes/VisualOptions.html">VisualOptions</a></li>
                                 <li><a href="../classes/WebGLBlendFunc.html">WebGLBlendFunc</a></li>
@@ -278,29 +277,30 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
+import Coords from &#x27;../math/Coords&#x27;;
 import MutableLinearElement from &#x27;../math/MutableLinearElement&#x27;;
 import Matrix from &#x27;../math/Matrix&#x27;;
 import Matrix1 from &#x27;../math/Matrix1&#x27;
 import SpinorE1 from &#x27;../math/SpinorE1&#x27;;
 import VectorE0 from &#x27;../math/VectorE0&#x27;;
 import VectorE1 from &#x27;../math/VectorE1&#x27;;
-import VectorN from &#x27;../math/VectorN&#x27;;
 
 /**
  * @module EIGHT
  * @submodule math
  */
 
-let exp = Math.exp
-let log = Math.log
-let sqrt = Math.sqrt
+const exp = Math.exp
+const log = Math.log
+const sqrt = Math.sqrt
 
-let COORD_X = 0
+const COORD_X = 0
 
 /**
  * @class Vector1
  */
-export default class Vector1 extends VectorN&lt;number&gt; implements VectorE1, MutableLinearElement&lt;VectorE1, Vector1, SpinorE1, VectorE1, number, number&gt;, Matrix&lt;Vector1, VectorE1, VectorE0&gt; {
+export default class Vector1 extends Coords implements VectorE1, MutableLinearElement&lt;VectorE1, Vector1, SpinorE1, VectorE1, number, number&gt;, Matrix&lt;Vector1, VectorE1, VectorE0&gt; {
+
   /**
    * @class Vector1
    * @constructor
@@ -310,6 +310,7 @@ export default class Vector1 extends VectorN&lt;number&gt; implements VectorE1, 
   constructor(data = [0], modified = false) {
     super(data, modified, 1);
   }
+
   /**
    * @property x
    * @type Number
@@ -321,18 +322,22 @@ export default class Vector1 extends VectorN&lt;number&gt; implements VectorE1, 
     this.modified = this.modified || this.x !== value;
     this.coords[COORD_X] = value;
   }
+
   set(x: number): Vector1 {
     this.x = x;
     return this;
   }
+
   add(vector: VectorE1, alpha = 1) {
     this.x += vector.x * alpha
     return this
   }
+
   add2(a: VectorE1, b: VectorE1) {
     this.x = a.x + b.x;
     return this;
   }
+
   scp(v: VectorE1) {
     return this
   }
@@ -358,6 +363,17 @@ export default class Vector1 extends VectorN&lt;number&gt; implements VectorE1, 
 
     this.x = e[0x0] * x
 
+    return this
+  }
+
+  /**
+   * @method approx
+   * @param n {number}
+   * @return {Vector1}
+   * @chainable
+   */
+  approx(n: number): Vector1 {
+    super.approx(n)
     return this
   }
 

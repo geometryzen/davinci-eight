@@ -1,18 +1,12 @@
 import FacetVisitor from '../core/FacetVisitor';
 import Frustum from './Frustum';
+import Geometric3 from '../math/Geometric3';
 import View from './View';
 import createView from './createView';
 import Matrix4 from '../math/Matrix4';
-import SpinorE3 from '../math/SpinorE3';
 import VectorE3 from '../math/VectorE3';
 import Vector1 from '../math/Vector1';
-import Vector3 from '../math/Vector3';
 
-/**
- * @function createFrustum
- * @constructor
- * @return {Frustum}
- */
 export default function createFrustum(viewMatrixName: string, projectionMatrixName: string): Frustum {
 
   const base: View = createView(viewMatrixName)
@@ -35,42 +29,30 @@ export default function createFrustum(viewMatrixName: string, projectionMatrixNa
     setProperty(name: string, value: number[]): Frustum {
       return this
     },
-    getAttitude(): SpinorE3 {
-      return base.getAttitude()
-    },
-    setAttitude(attitude: SpinorE3): void {
-      return base.setAttitude(attitude)
-    },
-    getPosition(): VectorE3 {
-      return base.getPosition()
-    },
-    setPosition(position: VectorE3): void {
-      return base.setPosition(position)
-    },
-    get eye(): Vector3 {
+    get eye(): Geometric3 {
       return base.eye
     },
-    set eye(value: Vector3) {
-      base.eye = value
+    set eye(eye: Geometric3) {
+      base.eye = eye
     },
     setEye(eye: VectorE3) {
       base.setEye(eye)
       return self
     },
-    get look(): Vector3 {
+    get look(): Geometric3 {
       return base.look
     },
-    set look(value: Vector3) {
+    set look(value: Geometric3) {
       base.look = value
     },
     setLook(look: VectorE3) {
       base.setLook(look)
       return self
     },
-    get up(): Vector3 {
+    get up(): Geometric3 {
       return base.up
     },
-    set up(up: Vector3) {
+    set up(up: Geometric3) {
       base.setUp(up)
     },
     setUp(up: VectorE3): Frustum {
@@ -118,12 +100,6 @@ export default function createFrustum(viewMatrixName: string, projectionMatrixNa
     set far(value: number) {
       far.x = value
       updateProjectionMatrix();
-    },
-    get viewMatrix(): Matrix4 {
-      return base.viewMatrix
-    },
-    set viewMatrix(viewMatrix: Matrix4) {
-      base.viewMatrix = viewMatrix
     },
     setUniforms(visitor: FacetVisitor): void {
       visitor.mat4(projectionMatrixName, projectionMatrix, false)

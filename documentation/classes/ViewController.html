@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src/davinci-eight/facets/Perspective.ts - davinci-eight</title>
+    <title>ViewController - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.222.0</em>
+            <em>API Docs for: 2.223.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -70,7 +70,6 @@
                                 <li><a href="../classes/ContextConsumer.html">ContextConsumer</a></li>
                                 <li><a href="../classes/ContextProgramConsumer.html">ContextProgramConsumer</a></li>
                                 <li><a href="../classes/ContextProvider.html">ContextProvider</a></li>
-                                <li><a href="../classes/ControlTarget.html">ControlTarget</a></li>
                                 <li><a href="../classes/Coords.html">Coords</a></li>
                                 <li><a href="../classes/CoordsTransform1D.html">CoordsTransform1D</a></li>
                                 <li><a href="../classes/CoordsTransform2D.html">CoordsTransform2D</a></li>
@@ -98,7 +97,6 @@
                                 <li><a href="../classes/ErrorMode.html">ErrorMode</a></li>
                                 <li><a href="../classes/Facet.html">Facet</a></li>
                                 <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
-                                <li><a href="../classes/Frustum.html">Frustum</a></li>
                                 <li><a href="../classes/G2.html">G2</a></li>
                                 <li><a href="../classes/G3.html">G3</a></li>
                                 <li><a href="../classes/Geometric2.html">Geometric2</a></li>
@@ -147,7 +145,6 @@
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/NumberShareableMap.html">NumberShareableMap</a></li>
                                 <li><a href="../classes/OrbitControls.html">OrbitControls</a></li>
-                                <li><a href="../classes/Perspective.html">Perspective</a></li>
                                 <li><a href="../classes/PerspectiveCamera.html">PerspectiveCamera</a></li>
                                 <li><a href="../classes/PointMaterial.html">PointMaterial</a></li>
                                 <li><a href="../classes/PointMaterialOptions.html">PointMaterialOptions</a></li>
@@ -219,6 +216,8 @@
                                 <li><a href="../classes/VertexAttributeMap.html">VertexAttributeMap</a></li>
                                 <li><a href="../classes/VertexBuffer.html">VertexBuffer</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
+                                <li><a href="../classes/ViewController.html">ViewController</a></li>
+                                <li><a href="../classes/ViewControls.html">ViewControls</a></li>
                                 <li><a href="../classes/Viewport.html">Viewport</a></li>
                                 <li><a href="../classes/VisualOptions.html">VisualOptions</a></li>
                                 <li><a href="../classes/WebGLBlendFunc.html">WebGLBlendFunc</a></li>
@@ -274,90 +273,211 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: src/davinci-eight/facets/Perspective.ts</h1>
+<h1>ViewController Class</h1>
+<div class="box meta">
 
-<div class="file">
-    <pre class="code prettyprint linenums">
-import View from &#x27;./View&#x27;;
-import VectorE3 from &#x27;../math/VectorE3&#x27;;
-import Matrix4 from &#x27;../math/Matrix4&#x27;;
 
-/**
- * @class Perspective
- * @extends View
- */
-interface Perspective extends View {
-    /**
-     * @property fov
-     * @type number
-     */
-    fov: number;
-    /**
-     * @property aspect
-     * @type number
-     */
-    aspect: number;
-    /**
-     * @property near
-     * @type number
-     */
-    near: number;
-    /**
-     * @property far
-     * @type number
-     */
-    far: number;
-    /**
-     *
-     */
-    projectionMatrix: Matrix4
-    /**
-     * Convenience method for setting the fov property allowing chainable method calls.
-     * @method setFov
-     * @param fov {number}
-     */
-    setFov(fov: number): Perspective;
-    /**
-     * Convenience method for setting the aspect property allowing chainable method calls.
-     * @method setAspect
-     * @param aspect {number}
-     */
-    setAspect(aspect: number): Perspective;
-    /**
-     * Convenience method for setting the near property allowing chainable method calls.
-     * @method setNear
-     * @param near {number}
-     */
-    setNear(near: number): Perspective;
-    /**
-     * Convenience method for setting the far property allowing chainable method calls.
-     * @method setFar
-     * @param far {number}
-     */
-    setFar(far: number): Perspective;
-    /**
-     * Convenience method for setting the eye property allowing chainable method calls.
-     * @method setEye
-     * @param eye {VectorE3}
-     */
-    setEye(eye: VectorE3): Perspective;
-    /**
-     * Convenience method for setting the look property allowing chainable method calls.
-     * @method setLook
-     * @param look {VectorE3}
-     */
-    setLook(look: VectorE3): Perspective;
-    /**
-     * Convenience method for setting the up property allowing chainable method calls.
-     * @method setUp
-     * @param up {VectorE3}
-     */
-    setUp(up: VectorE3): Perspective;
-}
+        <div class="foundat">
+            Defined in: <a href="../files/src_davinci-eight_controls_ViewController.ts.html#l3"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;ViewController.ts:3</code></a>
+        </div>
 
-export default Perspective;
+            Module: <a href="../modules/EIGHT.html">EIGHT</a>
 
-    </pre>
+</div>
+
+
+<div class="box intro">
+    
+</div>
+
+
+<div id="classdocs" class="tabview">
+    <ul class="api-class-tabs">
+        <li class="api-class-tab index"><a href="#index">Index</a></li>
+
+            <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
+    </ul>
+
+    <div>
+        <div id="index" class="api-class-tabpanel index">
+            <h2 class="off-left">Item Index</h2>
+
+                <div class="index-section methods">
+                    <h3>Methods</h3>
+
+                    <ul class="index-list methods">
+                            <li class="index-item method">
+                                <a href="#method_reset">reset</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_setView">setView</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_update">update</a>
+
+                            </li>
+                    </ul>
+                </div>
+
+
+
+        </div>
+
+            <div id="methods" class="api-class-tabpanel">
+                <h2 class="off-left">Methods</h2>
+
+<div id="method_reset" class="method item">
+    <h3 class="name"><code>reset</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_controls_ViewController.ts.html#l15"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;ViewController.ts:15</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Called at any time to reset the target.</p>
+
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Void</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_setView" class="method item">
+    <h3 class="name"><code>setView</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>view</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_controls_ViewController.ts.html#l23"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;ViewController.ts:23</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Called at any time to set a view for this controller.</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">view</code>
+                        <span class="type"><a href="../classes/View.html" class="crosslink">View</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Void</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_update" class="method item">
+    <h3 class="name"><code>update</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_controls_ViewController.ts.html#l7"><code>src&#x2F;davinci-eight&#x2F;controls&#x2F;ViewController.ts:7</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Called during the animation loop to update the target.</p>
+
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Void</span>:
+            </div>
+        </div>
+
+
+</div>
+            </div>
+
+
+
+    </div>
 </div>
                     </div>
                 </div>

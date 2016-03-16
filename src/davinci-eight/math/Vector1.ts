@@ -1,26 +1,27 @@
+import Coords from '../math/Coords';
 import MutableLinearElement from '../math/MutableLinearElement';
 import Matrix from '../math/Matrix';
 import Matrix1 from '../math/Matrix1'
 import SpinorE1 from '../math/SpinorE1';
 import VectorE0 from '../math/VectorE0';
 import VectorE1 from '../math/VectorE1';
-import VectorN from '../math/VectorN';
 
 /**
  * @module EIGHT
  * @submodule math
  */
 
-let exp = Math.exp
-let log = Math.log
-let sqrt = Math.sqrt
+const exp = Math.exp
+const log = Math.log
+const sqrt = Math.sqrt
 
-let COORD_X = 0
+const COORD_X = 0
 
 /**
  * @class Vector1
  */
-export default class Vector1 extends VectorN<number> implements VectorE1, MutableLinearElement<VectorE1, Vector1, SpinorE1, VectorE1, number, number>, Matrix<Vector1, VectorE1, VectorE0> {
+export default class Vector1 extends Coords implements VectorE1, MutableLinearElement<VectorE1, Vector1, SpinorE1, VectorE1, number, number>, Matrix<Vector1, VectorE1, VectorE0> {
+
   /**
    * @class Vector1
    * @constructor
@@ -30,6 +31,7 @@ export default class Vector1 extends VectorN<number> implements VectorE1, Mutabl
   constructor(data = [0], modified = false) {
     super(data, modified, 1);
   }
+
   /**
    * @property x
    * @type Number
@@ -41,18 +43,22 @@ export default class Vector1 extends VectorN<number> implements VectorE1, Mutabl
     this.modified = this.modified || this.x !== value;
     this.coords[COORD_X] = value;
   }
+
   set(x: number): Vector1 {
     this.x = x;
     return this;
   }
+
   add(vector: VectorE1, alpha = 1) {
     this.x += vector.x * alpha
     return this
   }
+
   add2(a: VectorE1, b: VectorE1) {
     this.x = a.x + b.x;
     return this;
   }
+
   scp(v: VectorE1) {
     return this
   }
@@ -78,6 +84,17 @@ export default class Vector1 extends VectorN<number> implements VectorE1, Mutabl
 
     this.x = e[0x0] * x
 
+    return this
+  }
+
+  /**
+   * @method approx
+   * @param n {number}
+   * @return {Vector1}
+   * @chainable
+   */
+  approx(n: number): Vector1 {
+    super.approx(n)
     return this
   }
 

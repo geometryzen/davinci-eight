@@ -1,10 +1,10 @@
 import BrowserHTMLElement from '../base/BrowserHTMLElement'
 import BrowserWindow from '../base/BrowserWindow'
-import Geometric2 from '../math/Geometric2'
 import incLevel from '../base/incLevel'
 import MouseCoordinates from './MouseCoordinates'
 import mustBeObject from '../checks/mustBeObject'
 import ShareableBase from '../core/ShareableBase'
+import Vector2 from '../math/Vector2'
 
 const MODE = { NONE: -1, ROTATE: 0, ZOOM: 1, PAN: 2, TOUCH_ROTATE: 3, TOUCH_ZOOM_PAN: 4 }
 
@@ -88,64 +88,60 @@ export default class MouseControls extends ShareableBase {
    * @type Geometric2
    * @protected
    */
-  protected moveCurr = new Geometric2()
+  protected moveCurr = new Vector2()
 
   /**
    * @property movePrev
    * @type Geometric2
    * @protected
    */
-  protected movePrev = new Geometric2()
+  protected movePrev = new Vector2()
 
   /**
    * @property zoomStart
-   * @type Geometric2
+   * @type Vector2
    * @protected
    */
-  protected zoomStart = new Geometric2()
+  protected zoomStart = new Vector2()
 
   /**
    * @property zoomEnd
-   * @type Geometric2
+   * @type Vector2
    * @protected
    */
-  protected zoomEnd = new Geometric2()
+  protected zoomEnd = new Vector2()
 
   /**
    * @property panStart
-   * @type Geometric2
+   * @type Vector2
    * @protected
    */
-  protected panStart = new Geometric2()
+  protected panStart = new Vector2()
 
   /**
    * @property panEnd
-   * @type Geometric2
+   * @type Vector2
    * @protected
    */
-  protected panEnd = new Geometric2()
+  protected panEnd = new Vector2()
 
   /**
    * Initialized by calling handleResize
-   *
-   * @property screenLoc
-   * @type Geometric2
-   * @private
    */
-  private screenLoc = new Geometric2()
+  private screenLoc = new Vector2()
 
   /**
    * Think of this vector as running from the top left corner of the screen.
    */
-  private circleExt = new Geometric2()
+  private circleExt = new Vector2()
 
   /**
    * Think of this vector as running from the bottom left corner of the screen.
    */
-  private screenExt = new Geometric2()
+  private screenExt = new Vector2()
 
-  private mouseOnCircle = new Geometric2()
-  private mouseOnScreen = new Geometric2()
+  private mouseOnCircle = new Vector2()
+  private mouseOnScreen = new Vector2()
 
   private mousedown: (event: MouseEvent) => any
   private mousemove: (event: MouseEvent) => any
@@ -313,6 +309,21 @@ export default class MouseControls extends ShareableBase {
       this.unsubscribe()
     }
     super.destructor(incLevel(levelUp))
+  }
+
+  /**
+   * <p>
+   * Simulates a movement of the mouse in coordinates -1 to +1 in both directions.
+   * </p>
+   *
+   * @method move
+   * @param x {number}
+   * @param y {number}
+   * @return {void}
+   */
+  public move(x: number, y: number): void {
+    this.moveCurr.x = x
+    this.moveCurr.y = y
   }
 
   /**

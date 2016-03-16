@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.222.0</em>
+            <em>API Docs for: 2.223.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -70,7 +70,6 @@
                                 <li><a href="../classes/ContextConsumer.html">ContextConsumer</a></li>
                                 <li><a href="../classes/ContextProgramConsumer.html">ContextProgramConsumer</a></li>
                                 <li><a href="../classes/ContextProvider.html">ContextProvider</a></li>
-                                <li><a href="../classes/ControlTarget.html">ControlTarget</a></li>
                                 <li><a href="../classes/Coords.html">Coords</a></li>
                                 <li><a href="../classes/CoordsTransform1D.html">CoordsTransform1D</a></li>
                                 <li><a href="../classes/CoordsTransform2D.html">CoordsTransform2D</a></li>
@@ -98,7 +97,6 @@
                                 <li><a href="../classes/ErrorMode.html">ErrorMode</a></li>
                                 <li><a href="../classes/Facet.html">Facet</a></li>
                                 <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
-                                <li><a href="../classes/Frustum.html">Frustum</a></li>
                                 <li><a href="../classes/G2.html">G2</a></li>
                                 <li><a href="../classes/G3.html">G3</a></li>
                                 <li><a href="../classes/Geometric2.html">Geometric2</a></li>
@@ -147,7 +145,6 @@
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/NumberShareableMap.html">NumberShareableMap</a></li>
                                 <li><a href="../classes/OrbitControls.html">OrbitControls</a></li>
-                                <li><a href="../classes/Perspective.html">Perspective</a></li>
                                 <li><a href="../classes/PerspectiveCamera.html">PerspectiveCamera</a></li>
                                 <li><a href="../classes/PointMaterial.html">PointMaterial</a></li>
                                 <li><a href="../classes/PointMaterialOptions.html">PointMaterialOptions</a></li>
@@ -219,6 +216,8 @@
                                 <li><a href="../classes/VertexAttributeMap.html">VertexAttributeMap</a></li>
                                 <li><a href="../classes/VertexBuffer.html">VertexBuffer</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
+                                <li><a href="../classes/ViewController.html">ViewController</a></li>
+                                <li><a href="../classes/ViewControls.html">ViewControls</a></li>
                                 <li><a href="../classes/Viewport.html">Viewport</a></li>
                                 <li><a href="../classes/VisualOptions.html">VisualOptions</a></li>
                                 <li><a href="../classes/WebGLBlendFunc.html">WebGLBlendFunc</a></li>
@@ -327,7 +326,7 @@ export default class Spinor2 extends Coords implements SpinorE2, Measure&lt;Spin
    * @class Spinor2
    * @constructor
    */
-  constructor(coordinates = one(), modified = false) {
+  constructor(coordinates: number[] = one(), modified = false) {
     super(coordinates, modified, 2)
   }
 
@@ -478,6 +477,17 @@ export default class Spinor2 extends Coords implements SpinorE2, Measure&lt;Spin
   }
 
   /**
+   * @method approx
+   * @param n {number}
+   * @return {Spinor2}
+   * @chainable
+   */
+  approx(n: number): Spinor2 {
+    super.approx(n)
+    return this
+  }
+
+  /**
    * @method clone
    * @return {Spinor2} A copy of &lt;code&gt;this&lt;/code&gt;.
    * @chainable
@@ -624,6 +634,7 @@ export default class Spinor2 extends Coords implements SpinorE2, Measure&lt;Spin
     this.β = β * s;
     return this;
   }
+
   /**
    * &lt;p&gt;
    * &lt;code&gt;this ⟼ conj(this) / quad(this)&lt;/code&gt;
@@ -636,6 +647,22 @@ export default class Spinor2 extends Coords implements SpinorE2, Measure&lt;Spin
     this.conj()
     this.divByScalar(this.squaredNormSansUnits());
     return this
+  }
+
+  /**
+   * @method isOne
+   * @return {boolean}
+   */
+  isOne(): boolean {
+    return this.α === 1 &amp;&amp; this.β === 0
+  }
+
+  /**
+   * @method isZero
+   * @return {boolean}
+   */
+  isZero(): boolean {
+    return this.α === 0 &amp;&amp; this.β === 0
   }
 
   lco(rhs: SpinorE2): Spinor2 {
@@ -669,6 +696,7 @@ export default class Spinor2 extends Coords implements SpinorE2, Measure&lt;Spin
     this.copy(R)
     return this
   }
+
   /**
    * &lt;p&gt;
    * &lt;code&gt;this ⟼ a + α * (b - a)&lt;/code&gt;
@@ -684,6 +712,7 @@ export default class Spinor2 extends Coords implements SpinorE2, Measure&lt;Spin
     this.sub2(b, a).scale(α).add(a)
     return this
   }
+
   /**
    * &lt;p&gt;
    * &lt;code&gt;this ⟼ log(this)&lt;/code&gt;
@@ -1118,15 +1147,36 @@ export default class Spinor2 extends Coords implements SpinorE2, Measure&lt;Spin
   }
 
   /**
+   * @method one
+   * @return {Spinor2}
+   * @static
+   * @chainable
+   */
+  static one(): Spinor2 {
+    return Spinor2.zero().addScalar(1)
+  }
+
+  /**
    * Computes the rotor that rotates vector &lt;code&gt;a&lt;/code&gt; to vector &lt;code&gt;b&lt;/code&gt;.
    * @method rotorFromDirections
    * @param a {VectorE2} The &lt;em&gt;from&lt;/em&gt; vector.
    * @param b {VectorE2} The &lt;em&gt;to&lt;/em&gt; vector.
    * @return {Spinor2}
    * @static
+   * @chainable
    */
   static rotorFromDirections(a: VectorE2, b: VectorE2): Spinor2 {
     return new Spinor2().rotorFromDirections(a, b)
+  }
+
+  /**
+   * @method zero
+   * @return {Spinor2}
+   * @static
+   * @chainable
+   */
+  static zero(): Spinor2 {
+    return new Spinor2([0, 0], false)
   }
 }
 

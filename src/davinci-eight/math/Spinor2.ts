@@ -47,7 +47,7 @@ export default class Spinor2 extends Coords implements SpinorE2, Measure<Spinor2
    * @class Spinor2
    * @constructor
    */
-  constructor(coordinates = one(), modified = false) {
+  constructor(coordinates: number[] = one(), modified = false) {
     super(coordinates, modified, 2)
   }
 
@@ -198,6 +198,17 @@ export default class Spinor2 extends Coords implements SpinorE2, Measure<Spinor2
   }
 
   /**
+   * @method approx
+   * @param n {number}
+   * @return {Spinor2}
+   * @chainable
+   */
+  approx(n: number): Spinor2 {
+    super.approx(n)
+    return this
+  }
+
+  /**
    * @method clone
    * @return {Spinor2} A copy of <code>this</code>.
    * @chainable
@@ -344,6 +355,7 @@ export default class Spinor2 extends Coords implements SpinorE2, Measure<Spinor2
     this.β = β * s;
     return this;
   }
+
   /**
    * <p>
    * <code>this ⟼ conj(this) / quad(this)</code>
@@ -356,6 +368,22 @@ export default class Spinor2 extends Coords implements SpinorE2, Measure<Spinor2
     this.conj()
     this.divByScalar(this.squaredNormSansUnits());
     return this
+  }
+
+  /**
+   * @method isOne
+   * @return {boolean}
+   */
+  isOne(): boolean {
+    return this.α === 1 && this.β === 0
+  }
+
+  /**
+   * @method isZero
+   * @return {boolean}
+   */
+  isZero(): boolean {
+    return this.α === 0 && this.β === 0
   }
 
   lco(rhs: SpinorE2): Spinor2 {
@@ -389,6 +417,7 @@ export default class Spinor2 extends Coords implements SpinorE2, Measure<Spinor2
     this.copy(R)
     return this
   }
+
   /**
    * <p>
    * <code>this ⟼ a + α * (b - a)</code>
@@ -404,6 +433,7 @@ export default class Spinor2 extends Coords implements SpinorE2, Measure<Spinor2
     this.sub2(b, a).scale(α).add(a)
     return this
   }
+
   /**
    * <p>
    * <code>this ⟼ log(this)</code>
@@ -838,14 +868,35 @@ export default class Spinor2 extends Coords implements SpinorE2, Measure<Spinor2
   }
 
   /**
+   * @method one
+   * @return {Spinor2}
+   * @static
+   * @chainable
+   */
+  static one(): Spinor2 {
+    return Spinor2.zero().addScalar(1)
+  }
+
+  /**
    * Computes the rotor that rotates vector <code>a</code> to vector <code>b</code>.
    * @method rotorFromDirections
    * @param a {VectorE2} The <em>from</em> vector.
    * @param b {VectorE2} The <em>to</em> vector.
    * @return {Spinor2}
    * @static
+   * @chainable
    */
   static rotorFromDirections(a: VectorE2, b: VectorE2): Spinor2 {
     return new Spinor2().rotorFromDirections(a, b)
+  }
+
+  /**
+   * @method zero
+   * @return {Spinor2}
+   * @static
+   * @chainable
+   */
+  static zero(): Spinor2 {
+    return new Spinor2([0, 0], false)
   }
 }

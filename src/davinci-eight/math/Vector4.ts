@@ -1,8 +1,8 @@
 import ColumnVector from '../math/ColumnVector';
+import Coords from '../math/Coords'
 import VectorE4 from '../math/VectorE4'
 import MutableLinearElement from '../math/MutableLinearElement'
 import SpinorE4 from '../math/SpinorE4'
-import VectorN from '../math/VectorN'
 import Matrix4 from '../math/Matrix4'
 
 /**
@@ -13,7 +13,7 @@ import Matrix4 from '../math/Matrix4'
 /**
  * @class Vector4
  */
-export default class Vector4 extends VectorN<number> implements ColumnVector<Matrix4, Vector4>, VectorE4, MutableLinearElement<VectorE4, Vector4, SpinorE4, VectorE4, number, number> {
+export default class Vector4 extends Coords implements ColumnVector<Matrix4, Vector4>, VectorE4, MutableLinearElement<VectorE4, Vector4, SpinorE4, VectorE4, number, number> {
 
   /**
    * @class Vector4
@@ -117,6 +117,17 @@ export default class Vector4 extends VectorN<number> implements ColumnVector<Mat
     this.z = e[0x2] * x + e[0x6] * y + e[0xA] * z + e[0xE] * w
     this.w = e[0x3] * x + e[0x7] * y + e[0xB] * z + e[0xF] * w
 
+    return this
+  }
+
+  /**
+   * @method approx
+   * @param n {number}
+   * @return {Vector4}
+   * @chainable
+   */
+  approx(n: number): Vector4 {
+    super.approx(n)
     return this
   }
 

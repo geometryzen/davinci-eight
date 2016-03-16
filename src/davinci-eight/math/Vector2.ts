@@ -109,6 +109,17 @@ export default class Vector2 extends Coords implements ColumnVector<Matrix2, Vec
   }
 
   /**
+   * @method approx
+   * @param n {number}
+   * @return {Vector2}
+   * @chainable
+   */
+  approx(n: number): Vector2 {
+    super.approx(n)
+    return this
+  }
+
+  /**
    * @method clone
    * @return {Vector2}
    * @chainable

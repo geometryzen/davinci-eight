@@ -2,11 +2,11 @@ import Color from '../core/Color'
 import AbstractColor from '../core/AbstractColor'
 import Facet from '../core/Facet'
 import FacetVisitor from '../core/FacetVisitor'
+import Geometric3 from '../math/Geometric3'
 import mustBeObject from '../checks/mustBeObject'
 import mustBeString from '../checks/mustBeString'
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols'
 import R3 from '../math/R3'
-import Vector3 from '../math/Vector3'
 import VectorE3 from '../math/VectorE3'
 
 /**
@@ -46,10 +46,10 @@ export default class DirectionalLight implements Facet {
 
   /**
    * @property _direction
-   * @type {Vector3}
+   * @type {Geometric3}
    * @private
    */
-  private _direction: Vector3;
+  private _direction: Geometric3;
 
   /**
    * @property _color
@@ -67,7 +67,7 @@ export default class DirectionalLight implements Facet {
   constructor(direction: VectorE3 = R3.e3.neg(), color: AbstractColor = Color.white) {
     mustBeObject('direction', direction)
     mustBeObject('color', color)
-    this._direction = Vector3.copy(direction).normalize()
+    this._direction = Geometric3.fromVector(direction).normalize()
     this._color = Color.copy(color)
   }
 
@@ -84,18 +84,13 @@ export default class DirectionalLight implements Facet {
 
   /**
    * @property direction
-   * @type {Vector3}
+   * @type {Geometric}
    */
-  get direction(): Vector3 {
+  get direction(): Geometric3 {
     return this._direction
   }
-  set direction(direction: Vector3) {
-    if (Vector3.isInstance(direction)) {
-      this._direction.copy(direction)
-    }
-    else {
-      throw new Error(`${DirectionalLight.PROP_DIRECTION} must be a Vector3.`)
-    }
+  set direction(direction: Geometric3) {
+    this._direction.copy(direction)
   }
 
   /**
@@ -164,7 +159,7 @@ export default class DirectionalLight implements Facet {
    */
   setDirection(direction: VectorE3): DirectionalLight {
     mustBeObject('direction', direction)
-    this._direction.copy(direction).normalize()
+    this._direction.copyVector(direction).normalize()
     return this
   }
 

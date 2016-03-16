@@ -7,6 +7,11 @@ import LinearNumber from '../math/LinearNumber';
 interface MutableLinearElement<I, M, S, V, MAGNITUDE, SCALING> extends LinearNumber<I, M, S, V, MAGNITUDE, SCALING> {
 
     /**
+     * Discards coordinates which are significantly smaller than the maximum coordinate.
+     */
+    approx(n: number): M;
+
+    /**
      * Computes a copy of this element.
      */
     clone(): M;

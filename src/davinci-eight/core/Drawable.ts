@@ -68,11 +68,11 @@ export default class Drawable extends ShareableContextConsumer implements Abstra
     super(engine)
     this.setLoggingName('Drawable')
     if (isObject(geometry)) {
-      geometry.addRef()
+      // The assignment takes care of the addRef.
       this.geometry = geometry
     }
     if (isObject(material)) {
-      material.addRef()
+      // The assignment takes care of the addRef.
       this.material = material
     }
     this._facets = {}

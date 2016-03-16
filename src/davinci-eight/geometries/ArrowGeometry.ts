@@ -44,7 +44,7 @@ export default class ArrowGeometry extends GeometryContainer {
 
     const builder = new ArrowBuilder(R3.e2, R3.e3, false)
     builder.stress.copy(isDefined(options.stress) ? options.stress : Vector3.vector(1, 1, 1))
-    builder.tilt.copy(isDefined(options.tilt) ? options.tilt : Spinor3.one())
+    builder.tilt.copySpinor(isDefined(options.tilt) ? options.tilt : Spinor3.one())
     builder.offset.copy(isDefined(options.offset) ? options.offset : Vector3.zero())
     const ps = builder.toPrimitives()
 

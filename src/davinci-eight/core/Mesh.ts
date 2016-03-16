@@ -1,6 +1,5 @@
 import Color from './Color';
 import ColorFacet from '../facets/ColorFacet'
-import ControlsTarget from '../controls/ControlsTarget'
 import Drawable from './Drawable'
 import Engine from './Engine'
 import Geometric3 from '../math/Geometric3'
@@ -33,7 +32,7 @@ const POINT_FACET_NAME = 'point'
  * @class Mesh
  * @extends Drawable
  */
-export default class Mesh extends Drawable implements AbstractMesh, ControlsTarget {
+export default class Mesh extends Drawable implements AbstractMesh {
 
   /**
    * @class Mesh

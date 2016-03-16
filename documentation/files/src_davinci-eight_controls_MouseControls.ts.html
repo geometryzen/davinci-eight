@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.222.0</em>
+            <em>API Docs for: 2.223.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -70,7 +70,6 @@
                                 <li><a href="../classes/ContextConsumer.html">ContextConsumer</a></li>
                                 <li><a href="../classes/ContextProgramConsumer.html">ContextProgramConsumer</a></li>
                                 <li><a href="../classes/ContextProvider.html">ContextProvider</a></li>
-                                <li><a href="../classes/ControlTarget.html">ControlTarget</a></li>
                                 <li><a href="../classes/Coords.html">Coords</a></li>
                                 <li><a href="../classes/CoordsTransform1D.html">CoordsTransform1D</a></li>
                                 <li><a href="../classes/CoordsTransform2D.html">CoordsTransform2D</a></li>
@@ -98,7 +97,6 @@
                                 <li><a href="../classes/ErrorMode.html">ErrorMode</a></li>
                                 <li><a href="../classes/Facet.html">Facet</a></li>
                                 <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
-                                <li><a href="../classes/Frustum.html">Frustum</a></li>
                                 <li><a href="../classes/G2.html">G2</a></li>
                                 <li><a href="../classes/G3.html">G3</a></li>
                                 <li><a href="../classes/Geometric2.html">Geometric2</a></li>
@@ -147,7 +145,6 @@
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/NumberShareableMap.html">NumberShareableMap</a></li>
                                 <li><a href="../classes/OrbitControls.html">OrbitControls</a></li>
-                                <li><a href="../classes/Perspective.html">Perspective</a></li>
                                 <li><a href="../classes/PerspectiveCamera.html">PerspectiveCamera</a></li>
                                 <li><a href="../classes/PointMaterial.html">PointMaterial</a></li>
                                 <li><a href="../classes/PointMaterialOptions.html">PointMaterialOptions</a></li>
@@ -219,6 +216,8 @@
                                 <li><a href="../classes/VertexAttributeMap.html">VertexAttributeMap</a></li>
                                 <li><a href="../classes/VertexBuffer.html">VertexBuffer</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
+                                <li><a href="../classes/ViewController.html">ViewController</a></li>
+                                <li><a href="../classes/ViewControls.html">ViewControls</a></li>
                                 <li><a href="../classes/Viewport.html">Viewport</a></li>
                                 <li><a href="../classes/VisualOptions.html">VisualOptions</a></li>
                                 <li><a href="../classes/WebGLBlendFunc.html">WebGLBlendFunc</a></li>
@@ -280,11 +279,11 @@
     <pre class="code prettyprint linenums">
 import BrowserHTMLElement from &#x27;../base/BrowserHTMLElement&#x27;
 import BrowserWindow from &#x27;../base/BrowserWindow&#x27;
-import Geometric2 from &#x27;../math/Geometric2&#x27;
 import incLevel from &#x27;../base/incLevel&#x27;
 import MouseCoordinates from &#x27;./MouseCoordinates&#x27;
 import mustBeObject from &#x27;../checks/mustBeObject&#x27;
 import ShareableBase from &#x27;../core/ShareableBase&#x27;
+import Vector2 from &#x27;../math/Vector2&#x27;
 
 const MODE = { NONE: -1, ROTATE: 0, ZOOM: 1, PAN: 2, TOUCH_ROTATE: 3, TOUCH_ZOOM_PAN: 4 }
 
@@ -368,64 +367,60 @@ export default class MouseControls extends ShareableBase {
    * @type Geometric2
    * @protected
    */
-  protected moveCurr = new Geometric2()
+  protected moveCurr = new Vector2()
 
   /**
    * @property movePrev
    * @type Geometric2
    * @protected
    */
-  protected movePrev = new Geometric2()
+  protected movePrev = new Vector2()
 
   /**
    * @property zoomStart
-   * @type Geometric2
+   * @type Vector2
    * @protected
    */
-  protected zoomStart = new Geometric2()
+  protected zoomStart = new Vector2()
 
   /**
    * @property zoomEnd
-   * @type Geometric2
+   * @type Vector2
    * @protected
    */
-  protected zoomEnd = new Geometric2()
+  protected zoomEnd = new Vector2()
 
   /**
    * @property panStart
-   * @type Geometric2
+   * @type Vector2
    * @protected
    */
-  protected panStart = new Geometric2()
+  protected panStart = new Vector2()
 
   /**
    * @property panEnd
-   * @type Geometric2
+   * @type Vector2
    * @protected
    */
-  protected panEnd = new Geometric2()
+  protected panEnd = new Vector2()
 
   /**
    * Initialized by calling handleResize
-   *
-   * @property screenLoc
-   * @type Geometric2
-   * @private
    */
-  private screenLoc = new Geometric2()
+  private screenLoc = new Vector2()
 
   /**
    * Think of this vector as running from the top left corner of the screen.
    */
-  private circleExt = new Geometric2()
+  private circleExt = new Vector2()
 
   /**
    * Think of this vector as running from the bottom left corner of the screen.
    */
-  private screenExt = new Geometric2()
+  private screenExt = new Vector2()
 
-  private mouseOnCircle = new Geometric2()
-  private mouseOnScreen = new Geometric2()
+  private mouseOnCircle = new Vector2()
+  private mouseOnScreen = new Vector2()
 
   private mousedown: (event: MouseEvent) =&gt; any
   private mousemove: (event: MouseEvent) =&gt; any
@@ -593,6 +588,21 @@ export default class MouseControls extends ShareableBase {
       this.unsubscribe()
     }
     super.destructor(incLevel(levelUp))
+  }
+
+  /**
+   * &lt;p&gt;
+   * Simulates a movement of the mouse in coordinates -1 to +1 in both directions.
+   * &lt;/p&gt;
+   *
+   * @method move
+   * @param x {number}
+   * @param y {number}
+   * @return {void}
+   */
+  public move(x: number, y: number): void {
+    this.moveCurr.x = x
+    this.moveCurr.y = y
   }
 
   /**

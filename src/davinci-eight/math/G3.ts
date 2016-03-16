@@ -1423,9 +1423,6 @@ export default class G3 implements ImmutableMeasure<G3>, GeometricE3, GeometricN
       set α(α: number) {
         M._coords[COORD_SCALAR] = α
       },
-      set alpha(alpha: number) {
-        M._coords[COORD_SCALAR] = alpha
-      },
       set x(x: number) {
         M._coords[COORD_X] = x
       },
@@ -1446,9 +1443,6 @@ export default class G3 implements ImmutableMeasure<G3>, GeometricE3, GeometricN
       },
       set β(β: number) {
         M._coords[COORD_PSEUDO] = β
-      },
-      set beta(beta: number) {
-        M._coords[COORD_PSEUDO] = beta
       }
     }
     return that

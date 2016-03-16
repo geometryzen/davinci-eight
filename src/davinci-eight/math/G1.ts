@@ -142,6 +142,14 @@ export default class G1 implements ImmutableMeasure<G1>, GeometricE1, GeometricN
     throw new Error('inv')
   }
 
+  isOne(): boolean {
+    return this.α === 1 && this.x === 0
+  }
+
+  isZero(): boolean {
+    return this.α === 0 && this.x === 0
+  }
+
   lco(rhs: G1): G1 {
     // assertArgEuclidean1('rhs', rhs)
     throw new Error('lshift')

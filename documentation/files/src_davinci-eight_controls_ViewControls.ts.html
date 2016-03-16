@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src/davinci-eight/math/MutableGeometricElement3D.ts - davinci-eight</title>
+    <title>src/davinci-eight/controls/ViewControls.ts - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.222.0</em>
+            <em>API Docs for: 2.223.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -70,7 +70,6 @@
                                 <li><a href="../classes/ContextConsumer.html">ContextConsumer</a></li>
                                 <li><a href="../classes/ContextProgramConsumer.html">ContextProgramConsumer</a></li>
                                 <li><a href="../classes/ContextProvider.html">ContextProvider</a></li>
-                                <li><a href="../classes/ControlTarget.html">ControlTarget</a></li>
                                 <li><a href="../classes/Coords.html">Coords</a></li>
                                 <li><a href="../classes/CoordsTransform1D.html">CoordsTransform1D</a></li>
                                 <li><a href="../classes/CoordsTransform2D.html">CoordsTransform2D</a></li>
@@ -98,7 +97,6 @@
                                 <li><a href="../classes/ErrorMode.html">ErrorMode</a></li>
                                 <li><a href="../classes/Facet.html">Facet</a></li>
                                 <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
-                                <li><a href="../classes/Frustum.html">Frustum</a></li>
                                 <li><a href="../classes/G2.html">G2</a></li>
                                 <li><a href="../classes/G3.html">G3</a></li>
                                 <li><a href="../classes/Geometric2.html">Geometric2</a></li>
@@ -147,7 +145,6 @@
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/NumberShareableMap.html">NumberShareableMap</a></li>
                                 <li><a href="../classes/OrbitControls.html">OrbitControls</a></li>
-                                <li><a href="../classes/Perspective.html">Perspective</a></li>
                                 <li><a href="../classes/PerspectiveCamera.html">PerspectiveCamera</a></li>
                                 <li><a href="../classes/PointMaterial.html">PointMaterial</a></li>
                                 <li><a href="../classes/PointMaterialOptions.html">PointMaterialOptions</a></li>
@@ -219,6 +216,8 @@
                                 <li><a href="../classes/VertexAttributeMap.html">VertexAttributeMap</a></li>
                                 <li><a href="../classes/VertexBuffer.html">VertexBuffer</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
+                                <li><a href="../classes/ViewController.html">ViewController</a></li>
+                                <li><a href="../classes/ViewControls.html">ViewControls</a></li>
                                 <li><a href="../classes/Viewport.html">Viewport</a></li>
                                 <li><a href="../classes/VisualOptions.html">VisualOptions</a></li>
                                 <li><a href="../classes/WebGLBlendFunc.html">WebGLBlendFunc</a></li>
@@ -274,25 +273,222 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: src/davinci-eight/math/MutableGeometricElement3D.ts</h1>
+<h1 class="file-heading">File: src/davinci-eight/controls/ViewControls.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import MutableGeometricElement from &#x27;../math/MutableGeometricElement&#x27;;
-import MutableLinearElement from &#x27;../math/MutableLinearElement&#x27;;
+import BrowserWindow from &#x27;../base/BrowserWindow&#x27;
+import MouseControls from &#x27;./MouseControls&#x27;
+import Vector3 from &#x27;../math/Vector3&#x27;
+import View from &#x27;../facets/View&#x27;
+import ViewController from &#x27;./ViewController&#x27;
 
 /**
- * This interface is provided to ensure consistency.
- * It is not part of the documented API.
+ * @class ViewControls
+ * @extends MouseControls
  */
-interface MutableGeometricElement3D&lt;I, M, S, V, MAGNITUDE, SCALING, UNIT&gt; extends MutableGeometricElement&lt;I, M, S, V, MAGNITUDE, SCALING, UNIT&gt;, MutableLinearElement&lt;I, M, S, V, MAGNITUDE, SCALING&gt; {
-    /**
-     * In 3D the dual of the axis is well defined.
-     */
-    rotorFromAxisAngle(axis: V, θ: number): M;
-}
+export default class ViewControls extends MouseControls implements ViewController {
 
-export default MutableGeometricElement3D;
+  /**
+   * @property rotateSpeed
+   * @type number
+   * @default 1
+   */
+  public rotateSpeed = 1
+
+  /**
+   * @property zoomSpeed
+   * @type number
+   * @default 1
+   */
+  public zoomSpeed = 1
+
+  /**
+   * @property panSpeed
+   * @type number
+   * @default 1
+   */
+  public panSpeed = 1
+
+  /**
+   * The view.eye value when the view was acquired by this view controller.
+   *
+   * @property eye0
+   * @type Vector3
+   * @private
+   */
+  private eye0 = Vector3.zero();
+
+  /**
+   * The view.look value when the view was acquired by this view controller.
+   *
+   * @property look0
+   * @type Vector3
+   * @private
+   */
+  private look0 = Vector3.zero();
+
+  /**
+   * The view.up value when the view was acquired by this view controller.
+   *
+   * @property up0
+   * @type Vector3
+   * @private
+   */
+  private up0 = Vector3.zero();
+
+  /**
+   * The view that is being controlled.
+   *
+   * @property view
+   * @type View
+   * @private
+   */
+  private view: View;
+
+  /**
+   * @property eyeMinusLook
+   * @type Vector3
+   * @protected
+   */
+  protected eyeMinusLook = new Vector3()
+
+  /**
+   * @property look
+   * @type Vector3
+   * @protected
+   */
+  protected look = new Vector3()
+
+  /**
+   * @property up
+   * @type Vector3
+   * @protected
+   */
+  protected up = new Vector3()
+
+  /**
+   * @class ViewControls
+   * @constructor
+   * @param view {View}
+   * @param wnd {Window}
+   */
+  constructor(view: View, wnd: BrowserWindow) {
+    super(wnd)
+    this.setLoggingName(&#x27;ViewControls&#x27;)
+    this.setView(view)
+  }
+
+  /**
+   * @method destructor
+   * @param levelUp {number}
+   * @return {void}
+   * @protected
+   */
+  protected destructor(levelUp: number): void {
+    super.destructor(levelUp + 1)
+  }
+
+  /**
+   * @method hasView
+   * @return {boolean}
+   * @protected
+   */
+  protected hasView(): boolean {
+    return !!this.view
+  }
+
+  /**
+   * This should be called inside the animation frame to update the camera location.
+   * Notice that the movement of the mouse controls is decoupled from the effect.
+   * We also want to avoid temporary object creation in this and called methods by recycling variables.
+   *
+   * @method update
+   * @return {void}
+   */
+  public update(): void {
+    if (this.view) {
+      this.eyeMinusLook.copy(this.view.eye).sub(this.view.look)
+      this.look.copy(this.view.look)
+      this.up.copy(this.view.up)
+
+      if (!this.noRotate) {
+        this.rotateCamera()
+      }
+      if (!this.noZoom) {
+        this.zoomCamera()
+      }
+      if (!this.noPan) {
+        this.panCamera()
+      }
+
+      this.view.eye.copyVector(this.look).addVector(this.eyeMinusLook)
+      this.view.look.copyVector(this.look)
+      this.view.up.copyVector(this.up)
+    }
+  }
+
+  /**
+   * @method rotateCamera
+   * @return {void}
+   * @protected
+   */
+  protected rotateCamera(): void {
+    // Do nothing.
+  }
+
+  /**
+   * @method zoomCamera
+   * @return {void}
+   * @protected
+   */
+  protected zoomCamera(): void {
+    const factor = 1 + (this.zoomEnd.y - this.zoomStart.y) * this.zoomSpeed
+    if (factor !== 1 &amp;&amp; factor &gt; 0) {
+      this.eyeMinusLook.scale(factor)
+      this.zoomStart.copy(this.zoomEnd)
+    }
+  }
+
+  /**
+   * @method panCamera
+   * @return {void}
+   * @protected
+   */
+  protected panCamera(): void {
+    // Do nothing
+  }
+
+  /**
+   * @method reset
+   * @return {void}
+   */
+  public reset(): void {
+    if (this.view) {
+      this.view.eye.copyVector(this.eye0)
+      this.view.look.copyVector(this.look0)
+      this.view.up.copyVector(this.up0)
+    }
+    super.reset()
+  }
+
+  /**
+   * @method setView
+   * @param view {View}
+   * @return {void}
+   */
+  public setView(view: View): void {
+    if (view) {
+      this.eye0.copy(view.eye)
+      this.look0.copy(view.look)
+      this.up0.copy(view.up)
+      this.view = view
+    }
+    else {
+      this.view = void 0
+    }
+  }
+}
 
     </pre>
 </div>

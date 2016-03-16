@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.222.0</em>
+            <em>API Docs for: 2.223.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -70,7 +70,6 @@
                                 <li><a href="../classes/ContextConsumer.html">ContextConsumer</a></li>
                                 <li><a href="../classes/ContextProgramConsumer.html">ContextProgramConsumer</a></li>
                                 <li><a href="../classes/ContextProvider.html">ContextProvider</a></li>
-                                <li><a href="../classes/ControlTarget.html">ControlTarget</a></li>
                                 <li><a href="../classes/Coords.html">Coords</a></li>
                                 <li><a href="../classes/CoordsTransform1D.html">CoordsTransform1D</a></li>
                                 <li><a href="../classes/CoordsTransform2D.html">CoordsTransform2D</a></li>
@@ -98,7 +97,6 @@
                                 <li><a href="../classes/ErrorMode.html">ErrorMode</a></li>
                                 <li><a href="../classes/Facet.html">Facet</a></li>
                                 <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
-                                <li><a href="../classes/Frustum.html">Frustum</a></li>
                                 <li><a href="../classes/G2.html">G2</a></li>
                                 <li><a href="../classes/G3.html">G3</a></li>
                                 <li><a href="../classes/Geometric2.html">Geometric2</a></li>
@@ -147,7 +145,6 @@
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/NumberShareableMap.html">NumberShareableMap</a></li>
                                 <li><a href="../classes/OrbitControls.html">OrbitControls</a></li>
-                                <li><a href="../classes/Perspective.html">Perspective</a></li>
                                 <li><a href="../classes/PerspectiveCamera.html">PerspectiveCamera</a></li>
                                 <li><a href="../classes/PointMaterial.html">PointMaterial</a></li>
                                 <li><a href="../classes/PointMaterialOptions.html">PointMaterialOptions</a></li>
@@ -219,6 +216,8 @@
                                 <li><a href="../classes/VertexAttributeMap.html">VertexAttributeMap</a></li>
                                 <li><a href="../classes/VertexBuffer.html">VertexBuffer</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
+                                <li><a href="../classes/ViewController.html">ViewController</a></li>
+                                <li><a href="../classes/ViewControls.html">ViewControls</a></li>
                                 <li><a href="../classes/Viewport.html">Viewport</a></li>
                                 <li><a href="../classes/VisualOptions.html">VisualOptions</a></li>
                                 <li><a href="../classes/WebGLBlendFunc.html">WebGLBlendFunc</a></li>
@@ -281,29 +280,13 @@
 import FacetVisitor from &#x27;../core/FacetVisitor&#x27;;
 import Geometric3 from &#x27;../math/Geometric3&#x27;;
 import G3 from &#x27;../math/G3&#x27;;
-import R3 from &#x27;../math/R3&#x27;;
-import SpinorE3 from &#x27;../math/SpinorE3&#x27;;
 import Vector3 from &#x27;../math/Vector3&#x27;;
 import VectorE3 from &#x27;../math/VectorE3&#x27;;
 import Matrix4 from &#x27;../math/Matrix4&#x27;;
-import mustBeNumber from &#x27;../checks/mustBeNumber&#x27;;
-import mustBeObject from &#x27;../checks/mustBeObject&#x27;;
 import View from &#x27;./View&#x27;;
 import GraphicsProgramSymbols from &#x27;../core/GraphicsProgramSymbols&#x27;;
 import isUndefined from &#x27;../checks/isUndefined&#x27;;
 import viewMatrixFromEyeLookUp from &#x27;./viewMatrixFromEyeLookUp&#x27;;
-import readOnly from &#x27;../i18n/readOnly&#x27;;
-
-// Scratch variables for the view reference frame.
-const u: Geometric3 = Geometric3.zero()
-const v: Geometric3 = Geometric3.zero()
-const n: Geometric3 = Geometric3.zero()
-// Scratch variable for the attitude.
-const R: Geometric3 = Geometric3.one()
-
-const e1: Geometric3 = Geometric3.fromVector(R3.e1)
-const e2: Geometric3 = Geometric3.fromVector(R3.e2)
-const e3: Geometric3 = Geometric3.fromVector(R3.e3)
 
 //
 // In this implementation, the state variables are eye, look, and up.
@@ -326,19 +309,19 @@ export default function createView(options: { viewMatrixName?: string } = {}): V
    * eye is the position vector of the viewing point.
    * Default is e3.
    */
-  const X: Vector3 = Vector3.copy(G3.e3)
+  const eye: Geometric3 = Geometric3.copy(G3.e3)
 
   /**
    * look is the point that we are looking at.
    * Default is 0, the origin.
    */
-  const look: Vector3 = Vector3.copy(G3.zero)
+  const look: Geometric3 = Geometric3.copy(G3.zero)
 
   /**
    * up is the &quot;guess&quot; at where up should be.
    * Default is e2.
    */
-  const up: Vector3 = Vector3.copy(G3.e2)
+  const up: Geometric3 = Geometric3.copy(G3.e2)
 
   /**
    *
@@ -347,7 +330,7 @@ export default function createView(options: { viewMatrixName?: string } = {}): V
   const viewMatrixName = isUndefined(options.viewMatrixName) ? GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX : options.viewMatrixName
 
   // Force an update of the view matrix.
-  X.modified = true
+  eye.modified = true
   look.modified = true
   up.modified = true
 
@@ -355,93 +338,41 @@ export default function createView(options: { viewMatrixName?: string } = {}): V
     setProperty(name: string, value: number[]): View {
       return self
     },
-    getAttitude(): SpinorE3 {
-      // The attitude is obtained by computing the rotor required to rotate
-      // the standard reference frame u, v, n = (e1, e2, e3) to the new reference
-      // frame.
-      // n = direction(X - look)
-      n.copyVector(X).subVector(look).normalize()
-      // u = -(dual(up) &gt;&gt; n) (right contraction turns vector in opposite sense to bivector)
-      u.copyVector(up).dual(u).rco(n).neg()
-      // v = dual(u ^ n)
-      v.copy(u).ext(n).dual(v)
-      // We recover the rotor as follows:
-      // R = ψ / sqrt(ψ * ~ψ), where ψ = 1 + u * e1 + v * e2 + n * e3
-      // We can use e1, e2, e3 as the reciprocal vectors because in an orthogonal
-      // frame they are the same as the standard basis vectors.
-      // We don&#x27;t need u, v, w after we recover the rotor, so use them in the
-      // intermediate calculation
-      R.one().add(u.mul(e1)).add(v.mul(e2)).add(n.mul(e3))
-      R.normalize()
-      return R
+    get eye(): Geometric3 {
+      return eye
     },
-    setAttitude(attitude: SpinorE3): void {
-      // Changing the attitude changes the position (The converse is also true).
-      // We keep the look point and the distance to the look point invariant.
-      // We also leave the up vector unchanged.
-      const d = look.distanceTo(X)
-      R.copySpinor(attitude)
-      u.copy(e1).rotate(R)
-      v.copy(e2).rotate(R)
-      n.copy(e3).rotate(R)
-      X.copy(look).add(n, d)
+    set eye(newEye: Geometric3) {
+      self.setEye(newEye)
     },
-    getPosition(): VectorE3 {
-      return X
-    },
-    setPosition(position: VectorE3) {
-      X.copy(position)
-    },
-    get eye(): Vector3 {
-      return X
-    },
-    set eye(value: Vector3) {
-      self.setEye(value)
-    },
-    setEye(eye_: Vector3): View {
-      mustBeObject(&#x27;eye&#x27;, eye_)
-      X.x = mustBeNumber(&#x27;eye.x&#x27;, eye_.x)
-      X.y = mustBeNumber(&#x27;eye.y&#x27;, eye_.y)
-      X.z = mustBeNumber(&#x27;eye.z&#x27;, eye_.z)
+    setEye(newEye: Vector3): View {
+      eye.copyVector(newEye)
       return self
     },
-    get look(): Vector3 {
+    get look(): Geometric3 {
       return look
     },
-    set look(value: Vector3) {
-      self.setLook(value)
+    set look(newLook: Geometric3) {
+      self.setLook(newLook)
     },
-    setLook(value: VectorE3): View {
-      mustBeObject(&#x27;look&#x27;, value)
-      look.x = value.x
-      look.y = value.y
-      look.z = value.z
+    setLook(newLook: VectorE3): View {
+      look.copyVector(newLook)
       return self
     },
-    get up(): Vector3 {
+    get up(): Geometric3 {
       return up
     },
-    set up(value: Vector3) {
-      self.setUp(value)
+    set up(newUp: Geometric3) {
+      self.setUp(newUp)
     },
-    setUp(value: VectorE3): View {
-      mustBeObject(&#x27;up&#x27;, value)
-      up.x = value.x
-      up.y = value.y
-      up.z = value.z
+    setUp(newUp: VectorE3): View {
+      up.copyVector(newUp)
       up.normalize()
       return self
     },
-    get viewMatrix(): Matrix4 {
-      return viewMatrix
-    },
-    set viewMatrix(unused: Matrix4) {
-      throw new Error(readOnly(&#x27;viewMatrix&#x27;).message)
-    },
     setUniforms(visitor: FacetVisitor): void {
-      if (X.modified || look.modified || up.modified) {
-        viewMatrixFromEyeLookUp(X, look, up, viewMatrix)
-        X.modified = false
+      if (eye.modified || look.modified || up.modified) {
+        viewMatrixFromEyeLookUp(eye, look, up, viewMatrix)
+        eye.modified = false
         look.modified = false
         up.modified = false
       }

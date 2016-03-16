@@ -1,3 +1,4 @@
+import CartesianG3 from './CartesianG3'
 import Coords from './Coords';
 import arraysEQ from './arraysEQ';
 import dotVector from './dotVectorE3';
@@ -7,11 +8,15 @@ import extG3 from './extG3';
 import gauss from './gauss'
 import GeometricE3 from './GeometricE3';
 import GeometricOperators from './GeometricOperators';
-import isScalarG3 from './isScalarG3';
+import isDefined from '../checks/isDefined';
 import lcoG3 from './lcoG3';
+import maskG3 from './maskG3'
+import mulE3 from './mulE3';
 import mulG3 from './mulG3';
-import MutableGeometricElement3D from './MutableGeometricElement3D';
+import MutableGeometricElement from './MutableGeometricElement';
 import notImplemented from '../i18n/notImplemented';
+import randomRange from './randomRange'
+import readOnly from '../i18n/readOnly'
 import rcoG3 from './rcoG3';
 import rotorFromDirections from './rotorFromDirectionsE3';
 import scpG3 from './scpG3';
@@ -63,7 +68,7 @@ const sqrt = Math.sqrt
  * @class Geometric3
  * @extends Coords
  */
-export default class Geometric3 extends Coords implements GeometricE3, MutableGeometricElement3D<GeometricE3, Geometric3, SpinorE3, VectorE3, number, number, number>, GeometricOperators<Geometric3, number> {
+export default class Geometric3 extends Coords implements CartesianG3, GeometricE3, MutableGeometricElement<GeometricE3, Geometric3, SpinorE3, VectorE3, number, number, number>, GeometricOperators<Geometric3, number> {
 
   /**
    * @property eventBus
@@ -76,7 +81,6 @@ export default class Geometric3 extends Coords implements GeometricE3, MutableGe
    * Constructs a <code>Geometric3</code>.
    * The multivector is initialized to zero.
    * @class Geometric3
-   * @beta
    * @constructor
    */
   constructor() {
@@ -224,6 +228,39 @@ export default class Geometric3 extends Coords implements GeometricE3, MutableGe
   set beta(beta: number) {
     this.setCoordinate(COORD_PSEUDO, beta, 'beta');
   }
+  /**
+   * @property maskG3
+   * @type number
+   * @readOnly
+   */
+  get maskG3(): number {
+    const coords = this._coords
+    const α = coords[COORD_SCALAR]
+    const x = coords[COORD_X]
+    const y = coords[COORD_Y]
+    const z = coords[COORD_Z]
+    const yz = coords[COORD_YZ]
+    const zx = coords[COORD_ZX]
+    const xy = coords[COORD_XY]
+    const β = coords[COORD_PSEUDO]
+    let mask = 0x0
+    if (α !== 0) {
+      mask += 0x1
+    }
+    if (x !== 0 || y !== 0 || z !== 0) {
+      mask += 0x2
+    }
+    if (yz !== 0 || zx !== 0 || xy !== 0) {
+      mask += 0x4
+    }
+    if (β !== 0) {
+      mask += 0x8
+    }
+    return mask
+  }
+  set maskG3(unused: number) {
+    throw new Error(readOnly('maskG3').message)
+  }
 
   /**
    * <p>
@@ -327,6 +364,17 @@ export default class Geometric3 extends Coords implements GeometricE3, MutableGe
   }
 
   /**
+   * @method approx
+   * @param n {number}
+   * @return {Geometric3}
+   * @chainable
+   */
+  approx(n: number): Geometric3 {
+    super.approx(n)
+    return this
+  }
+
+  /**
    * @method clone
    * @return {Geometric3} <code>copy(this)</code>
    * @chainable
@@ -350,6 +398,58 @@ export default class Geometric3 extends Coords implements GeometricE3, MutableGe
     this.zx = -this.zx;
     this.xy = -this.xy;
     return this
+  }
+
+  /**
+   * Copies the coordinate values into this <code>Geometric3</code>.
+   *
+   * @method copyCoordinates
+   * @param coordinates {number[]}
+   * @return {Geometric3} <code>this</code>
+   * @chainable
+   */
+  copyCoordinates(coordinates: number[]): Geometric3 {
+    // Copy using the setters so that the modified flag is updated.
+    this.α = coordinates[COORD_SCALAR]
+    this.x = coordinates[COORD_X]
+    this.y = coordinates[COORD_Y]
+    this.z = coordinates[COORD_Z]
+    this.yz = coordinates[COORD_YZ]
+    this.zx = coordinates[COORD_ZX]
+    this.xy = coordinates[COORD_XY]
+    this.β = coordinates[COORD_PSEUDO]
+    return this
+  }
+
+  /**
+   * @method distanceTo
+   * @param point {VectorE3}
+   * @return {number}
+   */
+  distanceTo(point: VectorE3): number {
+    if (isDefined(point)) {
+      return sqrt(this.quadranceTo(point));
+    }
+    else {
+      return void 0
+    }
+  }
+
+  /**
+   * @method quadranceTo
+   * @param point {VectorE3}
+   * @return {number}
+   */
+  quadranceTo(point: VectorE3): number {
+    if (isDefined(point)) {
+      const dx = this.x - point.x
+      const dy = this.y - point.y
+      const dz = this.z - point.z
+      return dx * dx + dy * dy + dz * dz
+    }
+    else {
+      return void 0
+    }
   }
 
   /**
@@ -485,13 +585,68 @@ export default class Geometric3 extends Coords implements GeometricE3, MutableGe
    * @chainable
    */
   div(m: GeometricE3): Geometric3 {
-    // TODO: Generalize (this is implemented in G3)
-    if (isScalarG3(m)) {
-      return this.divByScalar(m.α)
-    }
-    else {
-      throw new Error("division with arbitrary multivectors is not supported")
-    }
+
+    const α = m.α
+    const x = m.x
+    const y = m.y
+    const z = m.z
+    const xy = m.xy
+    const yz = m.yz
+    const zx = m.zx
+    const β = m.β
+
+    const A = [
+      [α, x, y, z, -xy, -yz, -zx, -β],
+      [x, α, xy, -zx, -y, -β, z, -yz],
+      [y, -xy, α, yz, x, -z, -β, -zx],
+      [z, zx, -yz, α, -β, y, -x, -xy],
+      [xy, -y, x, β, α, zx, -yz, z],
+      [yz, β, -z, y, -zx, α, xy, x],
+      [zx, z, β, -x, yz, -xy, α, y],
+      [β, yz, zx, xy, z, x, y, α]
+    ]
+
+    const b = [1, 0, 0, 0, 0, 0, 0, 0]
+
+    const X = gauss(A, b)
+
+    const a0 = this.α
+    const a1 = this.x
+    const a2 = this.y
+    const a3 = this.z
+    const a4 = this.xy
+    const a5 = this.yz
+    const a6 = this.zx
+    const a7 = this.β
+
+    const b0 = X[0]
+    const b1 = X[1]
+    const b2 = X[2]
+    const b3 = X[3]
+    const b4 = X[4]
+    const b5 = X[5]
+    const b6 = X[6]
+    const b7 = X[7]
+
+    const c0 = mulE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 0)
+    const c1 = mulE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 1)
+    const c2 = mulE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 2)
+    const c3 = mulE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 3)
+    const c4 = mulE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 4)
+    const c5 = mulE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 5)
+    const c6 = mulE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 6)
+    const c7 = mulE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 7)
+
+    this.α = c0
+    this.x = c1
+    this.y = c2
+    this.z = c3
+    this.xy = c4
+    this.yz = c5
+    this.zx = c6
+    this.β = c7
+
+    return this
   }
 
   /**
@@ -1020,30 +1175,9 @@ export default class Geometric3 extends Coords implements GeometricE3, MutableGe
 
   /**
    * <p>
-   * <code>this = ⟼ exp(- dual(a) * θ / 2)</code>
+   * <code>this = ⟼ exp(- B * θ / 2) = cos(|B| * θ / 2) - B * sin(|B| * θ / 2) / |B|</code>
    * </p>
-   * @method rotorFromAxisAngle
-   * @param axis {VectorE3}
-   * @param θ {number}
-   * @return {Geometric3} <code>this</code>
-   * @chainable
-   */
-  rotorFromAxisAngle(axis: VectorE3, θ: number): Geometric3 {
-    // FIXME: TODO
-    const φ = θ / 2
-    const s = sin(φ)
-    this.yz = -axis.x * s
-    this.zx = -axis.y * s
-    this.xy = -axis.z * s
-    this.α = cos(φ)
-    // FIXME; Zero out other coordinates
-    return this
-  }
-
-  /**
-   * <p>
-   * <code>this = ⟼ exp(- B * θ / 2)</code>
-   * </p>
+   *
    * @method rotorFromGeneratorAngle
    * @param B {SpinorE3}
    * @param θ {number} The rotation angle when applied on both sides: R M ~R
@@ -1051,13 +1185,21 @@ export default class Geometric3 extends Coords implements GeometricE3, MutableGe
    * @chainable
    */
   rotorFromGeneratorAngle(B: SpinorE3, θ: number): Geometric3 {
-    // FIXME: TODO
     const φ = θ / 2
-    const s = sin(φ)
-    this.yz = -B.yz * s
-    this.zx = -B.zx * s
-    this.xy = -B.xy * s
-    this.α = cos(φ)
+    const yz = B.yz
+    const zx = B.zx
+    const xy = B.xy
+    const quad = yz * yz + zx * zx + xy * xy
+    const m = Math.sqrt(quad)
+    const s = sin(m * φ)
+    this.α = cos(m * φ)
+    this.x = 0
+    this.y = 0
+    this.z = 0
+    this.yz = -yz * s / m
+    this.zx = -zx * s / m
+    this.xy = -xy * s / m
+    this.β = 0
     return this
   }
 
@@ -1374,16 +1516,14 @@ export default class Geometric3 extends Coords implements GeometricE3, MutableGe
 
   /**
    * @method __add__
-   * @param rhs {number | Geometric3}
+   * @param rhs {number | CartesianG3}
    * @return {Geometric3}
    * @private
    */
-  __add__(rhs: number | Geometric3) {
-    if (rhs instanceof Geometric3) {
-      return Geometric3.copy(this).add(rhs)
-    }
-    else if (typeof rhs === 'number') {
-      return Geometric3.copy(this).add(Geometric3.scalar(rhs))
+  __add__(rhs: number | CartesianG3): Geometric3 {
+    const duckR = maskG3(rhs)
+    if (duckR) {
+      return this.clone().add(duckR)
     }
     else {
       return void 0
@@ -1392,16 +1532,14 @@ export default class Geometric3 extends Coords implements GeometricE3, MutableGe
 
   /**
    * @method __div__
-   * @param rhs {number | Geometric3}
+   * @param rhs {number | CartesianG3}
    * @return {Geometric3}
    * @private
    */
-  __div__(rhs: number | Geometric3) {
-    if (rhs instanceof Geometric3) {
-      return Geometric3.copy(this).div(rhs)
-    }
-    else if (typeof rhs === 'number') {
-      return Geometric3.copy(this).divByScalar(rhs)
+  __div__(rhs: number | CartesianG3) {
+    const duckR = maskG3(rhs)
+    if (duckR) {
+      return this.clone().div(duckR)
     }
     else {
       return void 0
@@ -1428,16 +1566,14 @@ export default class Geometric3 extends Coords implements GeometricE3, MutableGe
 
   /**
    * @method __mul__
-   * @param rhs {number | Geometric3}
+   * @param rhs {number | CartesianG3}
    * @return {Geometric3}
    * @private
    */
-  __mul__(rhs: number | Geometric3) {
-    if (rhs instanceof Geometric3) {
-      return Geometric3.copy(this).mul(rhs)
-    }
-    else if (typeof rhs === 'number') {
-      return Geometric3.copy(this).scale(rhs)
+  __mul__(rhs: number | CartesianG3) {
+    const duckR = maskG3(rhs)
+    if (duckR) {
+      return this.clone().mul(duckR)
     }
     else {
       return void 0
@@ -1479,23 +1615,23 @@ export default class Geometric3 extends Coords implements GeometricE3, MutableGe
       return void 0
     }
   }
+
   /**
    * @method __sub__
-   * @param rhs {number | Geometric3}
+   * @param rhs {number | CartesianG3}
    * @return {Geometric3}
    * @private
    */
-  __sub__(rhs: number | Geometric3) {
-    if (rhs instanceof Geometric3) {
-      return Geometric3.copy(this).sub(rhs)
-    }
-    else if (typeof rhs === 'number') {
-      return Geometric3.scalar(rhs).neg().add(this)
+  __sub__(rhs: number | CartesianG3): Geometric3 {
+    const duckR = maskG3(rhs)
+    if (duckR) {
+      return this.clone().sub(duckR)
     }
     else {
       return void 0
     }
   }
+
   /**
    * @method __rsub__
    * @param lhs {number | Geometric3}
@@ -1794,7 +1930,7 @@ export default class Geometric3 extends Coords implements GeometricE3, MutableGe
     const copy = new Geometric3()
     copy.α = spinor.α
     copy.yz = spinor.yz
-    copy.zx = spinor.yz
+    copy.zx = spinor.zx
     copy.xy = spinor.xy
     return copy
   }
@@ -1828,6 +1964,30 @@ export default class Geometric3 extends Coords implements GeometricE3, MutableGe
   }
 
   /**
+   * <p>
+   * Computes a unit multivector with a random direction.
+   * </p>
+   *
+   * @method random
+   * @return {Geometric3}
+   * @static
+   * @chainable
+   */
+  static random(): Geometric3 {
+    const g = new Geometric3()
+    g.α = randomRange(-1, 1)
+    g.x = randomRange(-1, 1)
+    g.y = randomRange(-1, 1)
+    g.z = randomRange(-1, 1)
+    g.yz = randomRange(-1, 1)
+    g.zx = randomRange(-1, 1)
+    g.xy = randomRange(-1, 1)
+    g.β = randomRange(-1, 1)
+    g.normalize()
+    return g
+  }
+
+  /**
    * Computes the rotor that rotates vector <code>a</code> to vector <code>b</code>.
    * @method rotorFromDirections
    * @param a {VectorE3} The <em>from</em> vector.
@@ -1852,6 +2012,26 @@ export default class Geometric3 extends Coords implements GeometricE3, MutableGe
   }
 
   /**
+   * @method spinor
+   * @param yz {number}
+   * @param zx {number}
+   * @param xy {number}
+   * @param α {number}
+   * @return {Geometric3}
+   * @static
+   * @chainable
+   */
+  static spinor(yz: number, zx: number, xy: number, α: number): Geometric3 {
+    const spinor = new Geometric3()
+    spinor.yz = yz
+    spinor.zx = zx
+    spinor.xy = xy
+    spinor.α = α
+    spinor.modified = false
+    return spinor
+  }
+
+  /**
    * @method vector
    * @param x {number}
    * @param y {number}
@@ -1865,6 +2045,31 @@ export default class Geometric3 extends Coords implements GeometricE3, MutableGe
     v.x = x
     v.y = y
     v.z = z
+    v.modified = false
     return v
+  }
+
+  /**
+   * @method wedge
+   * @param a {GeometricE3}
+   * @param b {GeometricE3
+   * @return {Geometric3}
+   * @static
+   * @chainable
+   */
+  static wedge(a: Geometric3, b: Geometric3): Geometric3 {
+
+    const ax = a.x
+    const ay = a.y
+    const az = a.z
+    const bx = b.x
+    const by = b.y
+    const bz = b.z
+
+    const yz = wedgeYZ(ax, ay, az, bx, by, bz)
+    const zx = wedgeZX(ax, ay, az, bx, by, bz)
+    const xy = wedgeXY(ax, ay, az, bx, by, bz)
+
+    return Geometric3.spinor(yz, zx, xy, 0)
   }
 }

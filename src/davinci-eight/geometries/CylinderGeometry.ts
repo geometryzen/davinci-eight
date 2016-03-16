@@ -61,7 +61,7 @@ export default class CylinderGeometry extends GeometryContainer {
 
     //        builder.stress.copy(stress)
     if (options.tilt) {
-      builder.tilt.copy(options.tilt)
+      builder.tilt.copySpinor(options.tilt)
     }
     if (options.offset) {
       builder.offset.copy(options.offset)

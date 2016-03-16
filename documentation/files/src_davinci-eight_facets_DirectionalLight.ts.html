@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.222.0</em>
+            <em>API Docs for: 2.223.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -70,7 +70,6 @@
                                 <li><a href="../classes/ContextConsumer.html">ContextConsumer</a></li>
                                 <li><a href="../classes/ContextProgramConsumer.html">ContextProgramConsumer</a></li>
                                 <li><a href="../classes/ContextProvider.html">ContextProvider</a></li>
-                                <li><a href="../classes/ControlTarget.html">ControlTarget</a></li>
                                 <li><a href="../classes/Coords.html">Coords</a></li>
                                 <li><a href="../classes/CoordsTransform1D.html">CoordsTransform1D</a></li>
                                 <li><a href="../classes/CoordsTransform2D.html">CoordsTransform2D</a></li>
@@ -98,7 +97,6 @@
                                 <li><a href="../classes/ErrorMode.html">ErrorMode</a></li>
                                 <li><a href="../classes/Facet.html">Facet</a></li>
                                 <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
-                                <li><a href="../classes/Frustum.html">Frustum</a></li>
                                 <li><a href="../classes/G2.html">G2</a></li>
                                 <li><a href="../classes/G3.html">G3</a></li>
                                 <li><a href="../classes/Geometric2.html">Geometric2</a></li>
@@ -147,7 +145,6 @@
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/NumberShareableMap.html">NumberShareableMap</a></li>
                                 <li><a href="../classes/OrbitControls.html">OrbitControls</a></li>
-                                <li><a href="../classes/Perspective.html">Perspective</a></li>
                                 <li><a href="../classes/PerspectiveCamera.html">PerspectiveCamera</a></li>
                                 <li><a href="../classes/PointMaterial.html">PointMaterial</a></li>
                                 <li><a href="../classes/PointMaterialOptions.html">PointMaterialOptions</a></li>
@@ -219,6 +216,8 @@
                                 <li><a href="../classes/VertexAttributeMap.html">VertexAttributeMap</a></li>
                                 <li><a href="../classes/VertexBuffer.html">VertexBuffer</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
+                                <li><a href="../classes/ViewController.html">ViewController</a></li>
+                                <li><a href="../classes/ViewControls.html">ViewControls</a></li>
                                 <li><a href="../classes/Viewport.html">Viewport</a></li>
                                 <li><a href="../classes/VisualOptions.html">VisualOptions</a></li>
                                 <li><a href="../classes/WebGLBlendFunc.html">WebGLBlendFunc</a></li>
@@ -282,11 +281,11 @@ import Color from &#x27;../core/Color&#x27;
 import AbstractColor from &#x27;../core/AbstractColor&#x27;
 import Facet from &#x27;../core/Facet&#x27;
 import FacetVisitor from &#x27;../core/FacetVisitor&#x27;
+import Geometric3 from &#x27;../math/Geometric3&#x27;
 import mustBeObject from &#x27;../checks/mustBeObject&#x27;
 import mustBeString from &#x27;../checks/mustBeString&#x27;
 import GraphicsProgramSymbols from &#x27;../core/GraphicsProgramSymbols&#x27;
 import R3 from &#x27;../math/R3&#x27;
-import Vector3 from &#x27;../math/Vector3&#x27;
 import VectorE3 from &#x27;../math/VectorE3&#x27;
 
 /**
@@ -326,10 +325,10 @@ export default class DirectionalLight implements Facet {
 
   /**
    * @property _direction
-   * @type {Vector3}
+   * @type {Geometric3}
    * @private
    */
-  private _direction: Vector3;
+  private _direction: Geometric3;
 
   /**
    * @property _color
@@ -347,7 +346,7 @@ export default class DirectionalLight implements Facet {
   constructor(direction: VectorE3 = R3.e3.neg(), color: AbstractColor = Color.white) {
     mustBeObject(&#x27;direction&#x27;, direction)
     mustBeObject(&#x27;color&#x27;, color)
-    this._direction = Vector3.copy(direction).normalize()
+    this._direction = Geometric3.fromVector(direction).normalize()
     this._color = Color.copy(color)
   }
 
@@ -364,18 +363,13 @@ export default class DirectionalLight implements Facet {
 
   /**
    * @property direction
-   * @type {Vector3}
+   * @type {Geometric}
    */
-  get direction(): Vector3 {
+  get direction(): Geometric3 {
     return this._direction
   }
-  set direction(direction: Vector3) {
-    if (Vector3.isInstance(direction)) {
-      this._direction.copy(direction)
-    }
-    else {
-      throw new Error(&#x60;${DirectionalLight.PROP_DIRECTION} must be a Vector3.&#x60;)
-    }
+  set direction(direction: Geometric3) {
+    this._direction.copy(direction)
   }
 
   /**
@@ -444,7 +438,7 @@ export default class DirectionalLight implements Facet {
    */
   setDirection(direction: VectorE3): DirectionalLight {
     mustBeObject(&#x27;direction&#x27;, direction)
-    this._direction.copy(direction).normalize()
+    this._direction.copyVector(direction).normalize()
     return this
   }
 

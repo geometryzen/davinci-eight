@@ -390,6 +390,17 @@ export default class Geometric2 extends Coords implements GeometricE2, Measure<G
   }
 
   /**
+   * @method approx
+   * @param n {number}
+   * @return {Geometric2}
+   * @chainable
+   */
+  approx(n: number): Geometric2 {
+    super.approx(n)
+    return this
+  }
+
+  /**
    * @method clone
    * @return {Geometric2} <code>copy(this)</code>
    * @chainable

@@ -4,11 +4,12 @@ import PrimitivesBuilder from './PrimitivesBuilder'
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols'
 import mustBeNumber from '../checks/mustBeNumber'
 import Primitive from '../core/Primitive'
+import SpinorE3 from '../math/SpinorE3'
 import Spinor3 from '../math/Spinor3'
 import Vector3 from '../math/Vector3'
 import Vector2 from '../math/Vector2'
 
-function side(tilt: Spinor3, offset: Vector3, basis: Vector3[], uSegments: number, vSegments: number): GridTriangleStrip {
+function side(tilt: SpinorE3, offset: Vector3, basis: Vector3[], uSegments: number, vSegments: number): GridTriangleStrip {
 
     // The normal will be the same for all vertices in the side, so we compute it once here.
     // Perform the stress ant tilt transformations on the tangent bivector before computing the normal.

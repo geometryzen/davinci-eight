@@ -1,7 +1,7 @@
 import dotVectorCartesianE3 from '../math/dotVectorCartesianE3';
 import G3 from '../math/G3';
 import dotVector from '../math/dotVectorE3';
-import MutableGeometricElement3D from '../math/MutableGeometricElement3D';
+import MutableGeometricElement from '../math/MutableGeometricElement';
 import Matrix4 from '../math/Matrix4';
 import mustBeInteger from '../checks/mustBeInteger';
 import mustBeNumber from '../checks/mustBeNumber';
@@ -26,7 +26,7 @@ const EPS = 0.000001;
 // Notice that it is mutable, betraying a usage with animation loops.
 // But there we want to use the Spinor3 spinor, or the full multivector, Geometric3.
 // For comparison QQ and CC are immutable.
-export default class Quaternion implements MutableGeometricElement3D<Quaternion, Quaternion, Quaternion, VectorE3, number, number, number>, TrigMethods<Quaternion> {
+export default class Quaternion implements MutableGeometricElement<Quaternion, Quaternion, Quaternion, VectorE3, number, number, number>, TrigMethods<Quaternion> {
   private x: number;
   private y: number;
   private z: number;
@@ -84,34 +84,46 @@ export default class Quaternion implements MutableGeometricElement3D<Quaternion,
     return this.log().grade(2);
   }
 
+  approx(n: number): Quaternion {
+    return this
+  }
+
   dual(vector: VectorE3): Quaternion {
     // TODO
     return this
   }
+
   clone(): Quaternion {
     return new Quaternion(this.t, new G3(0, this.x, this.y, this.z, 0, 0, 0, 0))
   }
+
   lco(rhs: Quaternion): Quaternion {
     return this.lco2(this, rhs)
   }
+
   lco2(a: Quaternion, b: Quaternion): Quaternion {
     return this
   }
+
   rco(rhs: Quaternion): Quaternion {
     return this.rco2(this, rhs)
   }
+
   rco2(a: Quaternion, b: Quaternion): Quaternion {
     return this
   }
+
   conj(): Quaternion {
     this.x *= -1
     this.y *= -1
     this.z *= -1
     return this;
   }
+
   get coords(): number[] {
     return []
   }
+
   copy(quaternion: Quaternion): Quaternion {
     this.x = quaternion.x;
     this.y = quaternion.y;
@@ -168,6 +180,12 @@ export default class Quaternion implements MutableGeometricElement3D<Quaternion,
   }
   inv(): Quaternion {
     return this.conj().normalize()
+  }
+  isOne(): boolean {
+    return this.t === 1 && this.x === 0 && this.y === 0 && this.z === 0
+  }
+  isZero(): boolean {
+    return this.t === 0 && this.x === 0 && this.y === 0 && this.z === 0
   }
   lerp(target: Quaternion, α: number): Quaternion {
     this.x += (target.x - this.x) * α
@@ -283,15 +301,6 @@ export default class Quaternion implements MutableGeometricElement3D<Quaternion,
   }
   rotorFromDirections(a: VectorE3, b: VectorE3): Quaternion {
     throw new Error(notImplemented('rotorFromDirections').message);
-  }
-  rotorFromAxisAngle(axis: VectorE3, θ: number): Quaternion {
-    let φ = θ / 2
-    let s = sin(φ)
-    this.x = axis.x * s
-    this.y = axis.y * s
-    this.z = axis.z * s
-    this.t = cos(φ)
-    return this;
   }
   rotorFromGeneratorAngle(B: Quaternion, θ: number): Quaternion {
     let φ = θ / 2

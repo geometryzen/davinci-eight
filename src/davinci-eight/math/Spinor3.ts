@@ -1,22 +1,25 @@
-import Coords from '../math/Coords';
-import dotVectorCartesianE3 from '../math/dotVectorCartesianE3';
+import CartesianG3 from './CartesianG3'
+import Coords from './Coords';
+import dotVectorCartesianE3 from './dotVectorCartesianE3';
 import mulSpinorE3YZ from './mulSpinorE3YZ';
 import mulSpinorE3ZX from './mulSpinorE3ZX';
 import mulSpinorE3XY from './mulSpinorE3XY';
 import mulSpinorE3alpha from './mulSpinorE3alpha';
-import MutableGeometricElement3D from '../math/MutableGeometricElement3D';
+import MutableGeometricElement from './MutableGeometricElement';
 import mustBeInteger from '../checks/mustBeInteger';
 import mustBeNumber from '../checks/mustBeNumber';
 import mustBeObject from '../checks/mustBeObject';
-import Mutable from '../math/Mutable';
-import quadSpinor from '../math/quadSpinorE3';
-import rotorFromDirections from '../math/rotorFromDirectionsE3';
+import Mutable from './Mutable';
+import quadSpinor from './quadSpinorE3';
+import randomRange from './randomRange'
+import readOnly from '../i18n/readOnly'
+import rotorFromDirections from './rotorFromDirectionsE3';
 import SpinorE3 from '../math/SpinorE3';
 import toStringCustom from './toStringCustom';
-import VectorE3 from '../math/VectorE3';
-import wedgeXY from '../math/wedgeXY';
-import wedgeYZ from '../math/wedgeYZ';
-import wedgeZX from '../math/wedgeZX';
+import VectorE3 from './VectorE3';
+import wedgeXY from './wedgeXY';
+import wedgeYZ from './wedgeYZ';
+import wedgeZX from './wedgeZX';
 
 /**
  * @module EIGHT
@@ -50,7 +53,7 @@ const magicCode = Math.random()
  * @class Spinor3
  * @extends Coords
  */
-export default class Spinor3 extends Coords implements SpinorE3, Mutable<number[]>, MutableGeometricElement3D<SpinorE3, Spinor3, Spinor3, VectorE3, number, number, number> {
+export default class Spinor3 extends Coords implements CartesianG3, SpinorE3, Mutable<number[]>, MutableGeometricElement<SpinorE3, Spinor3, Spinor3, VectorE3, number, number, number> {
 
   /**
    * @method constructor
@@ -72,12 +75,12 @@ export default class Spinor3 extends Coords implements SpinorE3, Mutable<number[
    * @type Number
    */
   get yz(): number {
-    return this.coords[COORD_YZ]
+    return this._coords[COORD_YZ]
   }
   set yz(yz: number) {
     mustBeNumber('yz', yz)
     this.modified = this.modified || this.yz !== yz
-    this.coords[COORD_YZ] = yz;
+    this._coords[COORD_YZ] = yz;
   }
 
   /**
@@ -87,12 +90,12 @@ export default class Spinor3 extends Coords implements SpinorE3, Mutable<number[
    * @type Number
    */
   get zx(): number {
-    return this.coords[COORD_ZX];
+    return this._coords[COORD_ZX];
   }
   set zx(zx: number) {
     mustBeNumber('zx', zx)
     this.modified = this.modified || this.zx !== zx;
-    this.coords[COORD_ZX] = zx;
+    this._coords[COORD_ZX] = zx;
   }
 
   /**
@@ -102,12 +105,12 @@ export default class Spinor3 extends Coords implements SpinorE3, Mutable<number[
    * @type Number
    */
   get xy(): number {
-    return this.coords[COORD_XY];
+    return this._coords[COORD_XY];
   }
   set xy(xy: number) {
     mustBeNumber('xy', xy)
     this.modified = this.modified || this.xy !== xy;
-    this.coords[COORD_XY] = xy;
+    this._coords[COORD_XY] = xy;
   }
 
   /**
@@ -117,12 +120,12 @@ export default class Spinor3 extends Coords implements SpinorE3, Mutable<number[
    * @type Number
    */
   get alpha(): number {
-    return this.coords[COORD_SCALAR];
+    return this._coords[COORD_SCALAR];
   }
   set alpha(alpha: number) {
     mustBeNumber('alpha', alpha)
     this.modified = this.modified || this.alpha !== alpha;
-    this.coords[COORD_SCALAR] = alpha;
+    this._coords[COORD_SCALAR] = alpha;
   }
 
   /**
@@ -132,12 +135,36 @@ export default class Spinor3 extends Coords implements SpinorE3, Mutable<number[
    * @type Number
    */
   get α(): number {
-    return this.coords[COORD_SCALAR];
+    return this._coords[COORD_SCALAR];
   }
   set α(α: number) {
     mustBeNumber('α', α)
     this.modified = this.modified || this.α !== α;
-    this.coords[COORD_SCALAR] = α;
+    this._coords[COORD_SCALAR] = α;
+  }
+
+  /**
+   * @property maskG3
+   * @type number
+   * @readOnly
+   */
+  get maskG3(): number {
+    const coords = this._coords
+    const α = coords[COORD_SCALAR]
+    const yz = coords[COORD_YZ]
+    const zx = coords[COORD_ZX]
+    const xy = coords[COORD_XY]
+    let m = 0x0
+    if (α !== 0) {
+      m += 0x1
+    }
+    if (yz !== 0 || zx !== 0 || xy !== 0) {
+      m += 0x4
+    }
+    return m
+  }
+  set maskG3(unused: number) {
+    throw new Error(readOnly('maskG3').message)
   }
 
   /**
@@ -440,6 +467,22 @@ export default class Spinor3 extends Coords implements SpinorE3, Mutable<number[
     this.conj()
     this.divByScalar(this.squaredNormSansUnits());
     return this
+  }
+
+  /**
+   * @method isOne
+   * @return {boolean} 
+   */
+  isOne(): boolean {
+    return this.α === 1 && this.xy === 0 && this.yz === 0 && this.zx === 0
+  }
+
+  /**
+   * @method isZero
+   * @return {boolean} 
+   */
+  isZero(): boolean {
+    return this.α === 0 && this.xy === 0 && this.yz === 0 && this.zx === 0
   }
 
   /**
@@ -801,27 +844,6 @@ export default class Spinor3 extends Coords implements SpinorE3, Mutable<number[
 
   /**
    * <p>
-   * <code>this = ⟼ exp(- dual(a) * θ / 2)</code>
-   * </p>
-   *
-   * @method rotorFromAxisAngle
-   * @param axis {VectorE3}
-   * @param θ {number}
-   * @return {Spinor3} <code>this</code>
-   * @chainable
-   */
-  rotorFromAxisAngle(axis: VectorE3, θ: number): Spinor3 {
-    let φ = θ / 2
-    let s = sin(φ)
-    this.yz = -axis.x * s
-    this.zx = -axis.y * s
-    this.xy = -axis.z * s
-    this.α = cos(φ)
-    return this
-  }
-
-  /**
-   * <p>
    * <code>this = ⟼ exp(- B * θ / 2)</code>
    * </p>
    *
@@ -1132,6 +1154,24 @@ export default class Spinor3 extends Coords implements SpinorE3, Mutable<number[
    */
   static one(): Spinor3 {
     return Spinor3.spinor(0, 0, 0, 1)
+  }
+
+  /**
+   * <p>
+   * Computes a unit spinor with a random direction.
+   * </p>
+   *
+   * @method random
+   * @return {Spinor3}
+   * @static
+   * @chainable
+   */
+  static random(): Spinor3 {
+    const yz = randomRange(-1, 1)
+    const zx = randomRange(-1, 1)
+    const xy = randomRange(-1, 1)
+    const α = randomRange(-1, 1)
+    return Spinor3.spinor(yz, zx, xy, α).normalize()
   }
 
   /**

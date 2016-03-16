@@ -79,8 +79,13 @@ export default class ConeSimplexGeometry extends SliceSimplexPrimitivesBuilder {
                 na = Vector3.copy(points[vertices[1][x]]);
                 nb = Vector3.copy(points[vertices[1][x + 1]]);
             }
-            na.setY(Math.sqrt(na.x * na.x + na.z * na.z) * tanTheta).normalize();
-            nb.setY(Math.sqrt(nb.x * nb.x + nb.z * nb.z) * tanTheta).normalize();
+
+            na.y = Math.sqrt(na.x * na.x + na.z * na.z) * tanTheta
+            na.normalize()
+
+            nb.y = Math.sqrt(nb.x * nb.x + nb.z * nb.z) * tanTheta
+            nb.normalize()
+
             for (y = 0; y < heightSegments; y++) {
                 let v1: number = vertices[y][x];
                 let v2: number = vertices[y + 1][x];

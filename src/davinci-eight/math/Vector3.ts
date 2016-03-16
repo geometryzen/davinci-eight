@@ -1,3 +1,4 @@
+import CartesianG3 from './CartesianG3'
 import ColumnVector from './ColumnVector';
 import Coords from './Coords';
 import VectorE3 from './VectorE3';
@@ -8,6 +9,7 @@ import Matrix4 from './Matrix4';
 import isDefined from '../checks/isDefined';
 import isNumber from '../checks/isNumber';
 import randomRange from './randomRange'
+import readOnly from '../i18n/readOnly'
 import SpinorE3 from './SpinorE3';
 import toStringCustom from './toStringCustom';
 import wedgeXY from './wedgeXY';
@@ -37,7 +39,7 @@ function coordinates(m: VectorE3): number[] {
  * @class Vector3
  * @extends Coords
  */
-export default class Vector3 extends Coords implements ColumnVector<Matrix3, Vector3>, VectorE3, MutableLinearElement<VectorE3, Vector3, SpinorE3, VectorE3, number, number> {
+export default class Vector3 extends Coords implements CartesianG3, ColumnVector<Matrix3, Vector3>, VectorE3, MutableLinearElement<VectorE3, Vector3, SpinorE3, VectorE3, number, number> {
 
   /**
    * @method dot
@@ -47,7 +49,6 @@ export default class Vector3 extends Coords implements ColumnVector<Matrix3, Vec
    * @static
    */
   public static dot(a: VectorE3, b: VectorE3): number {
-    // FIXME: Since vectors may now have units, the return type should be a unit.
     return a.x * b.x + a.y * b.y + a.z * b.z;
   }
 
@@ -98,9 +99,22 @@ export default class Vector3 extends Coords implements ColumnVector<Matrix3, Vec
   }
 
   /**
+   * @property maskG3
+   * @type number
+   * @readOnly
+   */
+  get maskG3(): number {
+    return this.isZero() ? 0x0 : 0x2
+  }
+  set maskG3(unused: number) {
+    throw new Error(readOnly('maskG3').message)
+  }
+
+  /**
    * <p>
    * <code>this ⟼ this + vector * α</code>
    * </p>
+   *
    * @method add
    * @param vector {Vector3}
    * @param [α = 1] {number}
@@ -118,6 +132,7 @@ export default class Vector3 extends Coords implements ColumnVector<Matrix3, Vec
    * <p>
    * <code>this ⟼ σ * this<sup>T</sup></code>
    * </p>
+   *
    * @method applyMatrix
    * @param σ {Matrix3}
    * @return {Vector3} <code>this</code>
@@ -177,6 +192,7 @@ export default class Vector3 extends Coords implements ColumnVector<Matrix3, Vec
    * <p>
    * <code>this ⟼ - n * this * n</code>
    * </p>
+   *
    * @method reflect
    * @param n {VectorE3}
    * @return {Vector3} <code>this</code>
@@ -195,10 +211,12 @@ export default class Vector3 extends Coords implements ColumnVector<Matrix3, Vec
     this.z = az - dot2 * nz;
     return this;
   }
+
   /**
    * <p>
    * <code>this ⟼ R * this * rev(R)</code>
    * </p>
+   *
    * @method rotate
    * @param R {SpinorE3}
    * @return {Vector3} <code>this</code>
@@ -225,14 +243,13 @@ export default class Vector3 extends Coords implements ColumnVector<Matrix3, Vec
 
     return this;
   }
+
   /**
    * @method clone
    * @return {Vector3} <code>copy(this)</code>
    */
   clone() {
-    // FIXME: uom is not being carried.
-    // FIXME: modidied flaf should be replicated
-    return new Vector3([this.x, this.y, this.z]);
+    return new Vector3([this.x, this.y, this.z],this.modified)
   }
 
   /**
@@ -276,6 +293,7 @@ export default class Vector3 extends Coords implements ColumnVector<Matrix3, Vec
    * <p>
    * <code>this ⟼ this ✕ v</code>
    * </p>
+   *
    * @method cross
    * @param v {VectorE3}
    * @return {Vector3} <code>this</code>
@@ -336,6 +354,7 @@ export default class Vector3 extends Coords implements ColumnVector<Matrix3, Vec
       return void 0
     }
   }
+
   /**
    * <p>
    * <code>this ⟼ this / α</code>
@@ -411,13 +430,23 @@ export default class Vector3 extends Coords implements ColumnVector<Matrix3, Vec
   }
 
   /**
+   * @method isZero
+   * @return {boolean}
+   */
+  isZero(): boolean {
+    return this.x === 0 && this.y === 0 && this.z === 0
+  }
+
+  /**
    * Computes the <em>square root</em> of the <em>squared norm</em>.
+   *
    * @method magnitude
    * @return {number}
    */
   magnitude(): number {
     return sqrt(this.squaredNorm());
   }
+
   /**
    * @method neg
    * @return {Vector3} <code>this</code>
@@ -434,6 +463,7 @@ export default class Vector3 extends Coords implements ColumnVector<Matrix3, Vec
    * <p>
    * <code>this ⟼ this + α * (target - this)</code>
    * </p>
+   *
    * @method lerp
    * @param target {VectorE3}
    * @param α {number}
@@ -446,6 +476,7 @@ export default class Vector3 extends Coords implements ColumnVector<Matrix3, Vec
     this.z += (target.z - this.z) * α;
     return this;
   }
+
   /**
    * <p>
    * <code>this ⟼ a + α * (b - a)</code>
@@ -461,10 +492,12 @@ export default class Vector3 extends Coords implements ColumnVector<Matrix3, Vec
     this.copy(a).lerp(b, α)
     return this
   }
+
   /**
    * <p>
    * <code>this ⟼ this / norm(this)</code>
    * </p>
+   *
    * @method normalize
    * @return {Vector3} <code>this</code>
    * @chainable
@@ -483,6 +516,7 @@ export default class Vector3 extends Coords implements ColumnVector<Matrix3, Vec
    * <p>
    * <code>this ⟼ this * α</code>
    * </p>
+   *
    * @method scale
    * @param α {number} 
    */
@@ -509,6 +543,7 @@ export default class Vector3 extends Coords implements ColumnVector<Matrix3, Vec
    * <p>
    * <code>this ⟼ this</code>, with components modified.
    * </p>
+   *
    * @method set
    * @param x {number}
    * @param y {number}
@@ -525,22 +560,17 @@ export default class Vector3 extends Coords implements ColumnVector<Matrix3, Vec
   }
 
   /**
-   * @method setY
-   * @param {number}
-   * @deprecated
+   * @method slerp
+   * @param target {VectorE3}
+   * @param α {number}
    */
-  // FIXME: This is used by Cone and Cylinder Simplex PrimitivesBuilder
-  setY(y: number): Vector3 {
-    this.y = y;
-    return this;
-  }
-
   slerp(target: VectorE3, α: number) {
     return this;
   }
 
   /**
    * Returns the (Euclidean) inner product of this vector with itself.
+   *
    * @method squaredNorm
    * @return {number} <code>this ⋅ this</code> or <code>norm(this) * norm(this)</code>
    */
@@ -554,6 +584,7 @@ export default class Vector3 extends Coords implements ColumnVector<Matrix3, Vec
    * <p>
    * <code>this ⟼ this - v</code>
    * </p>
+   *
    * @method sub
    * @param v {VectorE3}
    * @param [α = 1] {number}

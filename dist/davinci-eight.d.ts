@@ -3034,10 +3034,19 @@ declare module EIGHT {
     remove(drawable: AbstractDrawable): void
   }
 
+  interface View {
+    eye: Geometric3;
+    look: Geometric3;
+    up: Geometric3;
+    setEye(eye: VectorE3): View;
+    setLook(look: VectorE3): View;
+    setUp(up: VectorE3): View;
+  }
+
   /**
    *
    */
-  class PerspectiveCamera extends AbstractFacet {
+  class PerspectiveCamera extends AbstractFacet implements View {
 
     /**
      * The aspect ratio of the viewport, i.e., width / height.
@@ -3045,9 +3054,9 @@ declare module EIGHT {
     aspect: number;
 
     /**
-     * The position of the camera.
+     * The position of the camera, a position vector.
      */
-    eye: Vector3;
+    eye: Geometric3;
 
     /**
      * The distance to the far plane of the viewport.
@@ -3063,7 +3072,7 @@ declare module EIGHT {
     /**
      * The point (position vector) that the camera looks at.
      */
-    look: Vector3;
+    look: Geometric3;
 
     /**
      *The distance to the near plane of the viewport.
@@ -3071,44 +3080,18 @@ declare module EIGHT {
     near: number;
 
     /**
-     *
+     * The direction that is used to orient the camera. 
      */
-    position: Vector3;
+    up: Geometric3;
 
-
-    /**
-     * The projection matrix
-     */
-    projectionMatrix: Matrix4;
-
-    /**
-     * The "guess" direction that is used to generate the upwards direction for the camera. 
-     */
-    up: Vector3;
-
-    /**
-     * The view matrix
-     */
-    viewMatrix: Matrix4;
-
-    /**
-     * fov...: The `fov` property.
-     * aspect: The `aspect` property.
-     * near..: The `near` property.
-     * far...: The `far` property.
-     */
     constructor(fov?: number, aspect?: number, near?: number, far?: number)
-    getAttitude(): SpinorE3
-    getPosition(): VectorE3
     getProperty(name: string): number[]
     setAspect(aspect: number): PerspectiveCamera
-    setAttitude(attitude: SpinorE3): void
     setEye(eye: VectorE3): PerspectiveCamera
     setFar(far: number): PerspectiveCamera
     setFov(fov: number): PerspectiveCamera
     setLook(look: VectorE3): PerspectiveCamera
     setNear(near: number): PerspectiveCamera
-    setPosition(position: VectorE3): void
     setProperty(name: string, value: number[]): PerspectiveCamera
     setUniforms(visitor: FacetVisitor): void
     setUp(up: VectorE3): PerspectiveCamera
@@ -3533,7 +3516,7 @@ declare module EIGHT {
     /**
      * The <em>direction</em> (unit vector) in which the light is travelling.
      */
-    direction: Vector3;
+    direction: Geometric3;
     /**
      * The <em>color</em> of the light.
      */
@@ -4153,59 +4136,70 @@ declare module EIGHT {
     constructor(wnd: Window);
     protected destructor(levelUp: number): void;
     handleResize(): void;
+    move(x: number, y: number): void;
     reset(): void;
     subscribe(domElement: HTMLElement): void;
     unsubscribe(): void;
   }
   ///////////////////////////////////////////////////////////////////////////////
-  interface ControlsTarget {
-    getAttitude(): SpinorE3;
-    setAttitude(attitude: SpinorE3): void;
-    getPosition(): VectorE3;
-    setPosition(position: VectorE3): void;
-  }
-  ///////////////////////////////////////////////////////////////////////////////
-  class OrbitControls extends MouseControls {
-    constructor(wnd?: Window);
-    protected destructor(levelUp: number): void;
-    reset(): void;
-    setTarget(target: ControlsTarget): void;
-    update(): void;
-  }
-  ///////////////////////////////////////////////////////////////////////////////
-  class TrackballControls extends MouseControls {
-
-    public panSpeed: number
-    public rotateSpeed: number
-    public zoomSpeed: number
-
-    constructor(camera: PerspectiveCamera)
-    protected destructor(): void
-
+  interface ViewController {
     /**
-     * This should be called whenever the window is resized.
+     * Called during the animation loop to update the target.
      */
-    public handleResize()
-
+    update(): void;
+    /**
+     * Called at any time to reset the view.
+     */
+    reset(): void;
+    /**
+     * Called at any time to set a view for this controller.
+     */
+    setView(view: View): void;
+  }
+  ///////////////////////////////////////////////////////////////////////////////
+  class ViewControls extends MouseControls implements ViewController {
+    protected eyeMinusLook: Geometric3;
+    protected look: Geometric3;
+    public panSpeed: number;
+    public rotateSpeed: number;
+    protected view: View;
+    public zoomSpeed: number;
+    constructor(view: View, wnd: Window);
+    protected destructor(levelUp: number): void;
+    /**
+     *
+     */
+    protected panCamera(): void;
     /**
      * Resets the camera position and attitude.
      */
-    public reset(): void
-
+    reset(): void;
     /**
-     * Start listening to mouse events from the specified HTMLElement.
+     *
      */
-    public subscribe(domElement: HTMLElement): void
-
+    protected rotateCamera(): void;
     /**
-     * Stop listening to mouse events.
+     * Sets the view being controlled vythe view controller.
      */
-    public unsubscribe()
-
+    setView(view: View): void;
     /**
      * Updates the camera position and attitude based upon movement of the mouse controls.
      */
-    public update()
+    update(): void;
+    /**
+     *
+     */
+    protected zoomCamera(): void;
+  }
+  ///////////////////////////////////////////////////////////////////////////////
+  class OrbitControls extends ViewControls {
+    constructor(view: View, wnd: Window);
+    protected destructor(levelUp: number): void;
+  }
+  ///////////////////////////////////////////////////////////////////////////////
+  class TrackballControls extends ViewControls {
+    constructor(view: View, wnd: Window)
+    protected destructor(): void
   }
   ///////////////////////////////////////////////////////////////////////////////
   function cos<T>(x: T): T;

@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.222.0</em>
+            <em>API Docs for: 2.223.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -70,7 +70,6 @@
                                 <li><a href="../classes/ContextConsumer.html">ContextConsumer</a></li>
                                 <li><a href="../classes/ContextProgramConsumer.html">ContextProgramConsumer</a></li>
                                 <li><a href="../classes/ContextProvider.html">ContextProvider</a></li>
-                                <li><a href="../classes/ControlTarget.html">ControlTarget</a></li>
                                 <li><a href="../classes/Coords.html">Coords</a></li>
                                 <li><a href="../classes/CoordsTransform1D.html">CoordsTransform1D</a></li>
                                 <li><a href="../classes/CoordsTransform2D.html">CoordsTransform2D</a></li>
@@ -98,7 +97,6 @@
                                 <li><a href="../classes/ErrorMode.html">ErrorMode</a></li>
                                 <li><a href="../classes/Facet.html">Facet</a></li>
                                 <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
-                                <li><a href="../classes/Frustum.html">Frustum</a></li>
                                 <li><a href="../classes/G2.html">G2</a></li>
                                 <li><a href="../classes/G3.html">G3</a></li>
                                 <li><a href="../classes/Geometric2.html">Geometric2</a></li>
@@ -147,7 +145,6 @@
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/NumberShareableMap.html">NumberShareableMap</a></li>
                                 <li><a href="../classes/OrbitControls.html">OrbitControls</a></li>
-                                <li><a href="../classes/Perspective.html">Perspective</a></li>
                                 <li><a href="../classes/PerspectiveCamera.html">PerspectiveCamera</a></li>
                                 <li><a href="../classes/PointMaterial.html">PointMaterial</a></li>
                                 <li><a href="../classes/PointMaterialOptions.html">PointMaterialOptions</a></li>
@@ -219,6 +216,8 @@
                                 <li><a href="../classes/VertexAttributeMap.html">VertexAttributeMap</a></li>
                                 <li><a href="../classes/VertexBuffer.html">VertexBuffer</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
+                                <li><a href="../classes/ViewController.html">ViewController</a></li>
+                                <li><a href="../classes/ViewControls.html">ViewControls</a></li>
                                 <li><a href="../classes/Viewport.html">Viewport</a></li>
                                 <li><a href="../classes/VisualOptions.html">VisualOptions</a></li>
                                 <li><a href="../classes/WebGLBlendFunc.html">WebGLBlendFunc</a></li>
@@ -278,6 +277,7 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
+import CartesianG3 from &#x27;./CartesianG3&#x27;
 import ColumnVector from &#x27;./ColumnVector&#x27;;
 import Coords from &#x27;./Coords&#x27;;
 import VectorE3 from &#x27;./VectorE3&#x27;;
@@ -288,6 +288,7 @@ import Matrix4 from &#x27;./Matrix4&#x27;;
 import isDefined from &#x27;../checks/isDefined&#x27;;
 import isNumber from &#x27;../checks/isNumber&#x27;;
 import randomRange from &#x27;./randomRange&#x27;
+import readOnly from &#x27;../i18n/readOnly&#x27;
 import SpinorE3 from &#x27;./SpinorE3&#x27;;
 import toStringCustom from &#x27;./toStringCustom&#x27;;
 import wedgeXY from &#x27;./wedgeXY&#x27;;
@@ -317,7 +318,7 @@ function coordinates(m: VectorE3): number[] {
  * @class Vector3
  * @extends Coords
  */
-export default class Vector3 extends Coords implements ColumnVector&lt;Matrix3, Vector3&gt;, VectorE3, MutableLinearElement&lt;VectorE3, Vector3, SpinorE3, VectorE3, number, number&gt; {
+export default class Vector3 extends Coords implements CartesianG3, ColumnVector&lt;Matrix3, Vector3&gt;, VectorE3, MutableLinearElement&lt;VectorE3, Vector3, SpinorE3, VectorE3, number, number&gt; {
 
   /**
    * @method dot
@@ -327,7 +328,6 @@ export default class Vector3 extends Coords implements ColumnVector&lt;Matrix3, 
    * @static
    */
   public static dot(a: VectorE3, b: VectorE3): number {
-    // FIXME: Since vectors may now have units, the return type should be a unit.
     return a.x * b.x + a.y * b.y + a.z * b.z;
   }
 
@@ -378,9 +378,22 @@ export default class Vector3 extends Coords implements ColumnVector&lt;Matrix3, 
   }
 
   /**
+   * @property maskG3
+   * @type number
+   * @readOnly
+   */
+  get maskG3(): number {
+    return this.isZero() ? 0x0 : 0x2
+  }
+  set maskG3(unused: number) {
+    throw new Error(readOnly(&#x27;maskG3&#x27;).message)
+  }
+
+  /**
    * &lt;p&gt;
    * &lt;code&gt;this ⟼ this + vector * α&lt;/code&gt;
    * &lt;/p&gt;
+   *
    * @method add
    * @param vector {Vector3}
    * @param [α = 1] {number}
@@ -398,6 +411,7 @@ export default class Vector3 extends Coords implements ColumnVector&lt;Matrix3, 
    * &lt;p&gt;
    * &lt;code&gt;this ⟼ σ * this&lt;sup&gt;T&lt;/sup&gt;&lt;/code&gt;
    * &lt;/p&gt;
+   *
    * @method applyMatrix
    * @param σ {Matrix3}
    * @return {Vector3} &lt;code&gt;this&lt;/code&gt;
@@ -457,6 +471,7 @@ export default class Vector3 extends Coords implements ColumnVector&lt;Matrix3, 
    * &lt;p&gt;
    * &lt;code&gt;this ⟼ - n * this * n&lt;/code&gt;
    * &lt;/p&gt;
+   *
    * @method reflect
    * @param n {VectorE3}
    * @return {Vector3} &lt;code&gt;this&lt;/code&gt;
@@ -475,10 +490,12 @@ export default class Vector3 extends Coords implements ColumnVector&lt;Matrix3, 
     this.z = az - dot2 * nz;
     return this;
   }
+
   /**
    * &lt;p&gt;
    * &lt;code&gt;this ⟼ R * this * rev(R)&lt;/code&gt;
    * &lt;/p&gt;
+   *
    * @method rotate
    * @param R {SpinorE3}
    * @return {Vector3} &lt;code&gt;this&lt;/code&gt;
@@ -505,14 +522,13 @@ export default class Vector3 extends Coords implements ColumnVector&lt;Matrix3, 
 
     return this;
   }
+
   /**
    * @method clone
    * @return {Vector3} &lt;code&gt;copy(this)&lt;/code&gt;
    */
   clone() {
-    // FIXME: uom is not being carried.
-    // FIXME: modidied flaf should be replicated
-    return new Vector3([this.x, this.y, this.z]);
+    return new Vector3([this.x, this.y, this.z],this.modified)
   }
 
   /**
@@ -556,6 +572,7 @@ export default class Vector3 extends Coords implements ColumnVector&lt;Matrix3, 
    * &lt;p&gt;
    * &lt;code&gt;this ⟼ this ✕ v&lt;/code&gt;
    * &lt;/p&gt;
+   *
    * @method cross
    * @param v {VectorE3}
    * @return {Vector3} &lt;code&gt;this&lt;/code&gt;
@@ -616,6 +633,7 @@ export default class Vector3 extends Coords implements ColumnVector&lt;Matrix3, 
       return void 0
     }
   }
+
   /**
    * &lt;p&gt;
    * &lt;code&gt;this ⟼ this / α&lt;/code&gt;
@@ -691,13 +709,23 @@ export default class Vector3 extends Coords implements ColumnVector&lt;Matrix3, 
   }
 
   /**
+   * @method isZero
+   * @return {boolean}
+   */
+  isZero(): boolean {
+    return this.x === 0 &amp;&amp; this.y === 0 &amp;&amp; this.z === 0
+  }
+
+  /**
    * Computes the &lt;em&gt;square root&lt;/em&gt; of the &lt;em&gt;squared norm&lt;/em&gt;.
+   *
    * @method magnitude
    * @return {number}
    */
   magnitude(): number {
     return sqrt(this.squaredNorm());
   }
+
   /**
    * @method neg
    * @return {Vector3} &lt;code&gt;this&lt;/code&gt;
@@ -714,6 +742,7 @@ export default class Vector3 extends Coords implements ColumnVector&lt;Matrix3, 
    * &lt;p&gt;
    * &lt;code&gt;this ⟼ this + α * (target - this)&lt;/code&gt;
    * &lt;/p&gt;
+   *
    * @method lerp
    * @param target {VectorE3}
    * @param α {number}
@@ -726,6 +755,7 @@ export default class Vector3 extends Coords implements ColumnVector&lt;Matrix3, 
     this.z += (target.z - this.z) * α;
     return this;
   }
+
   /**
    * &lt;p&gt;
    * &lt;code&gt;this ⟼ a + α * (b - a)&lt;/code&gt;
@@ -741,10 +771,12 @@ export default class Vector3 extends Coords implements ColumnVector&lt;Matrix3, 
     this.copy(a).lerp(b, α)
     return this
   }
+
   /**
    * &lt;p&gt;
    * &lt;code&gt;this ⟼ this / norm(this)&lt;/code&gt;
    * &lt;/p&gt;
+   *
    * @method normalize
    * @return {Vector3} &lt;code&gt;this&lt;/code&gt;
    * @chainable
@@ -763,6 +795,7 @@ export default class Vector3 extends Coords implements ColumnVector&lt;Matrix3, 
    * &lt;p&gt;
    * &lt;code&gt;this ⟼ this * α&lt;/code&gt;
    * &lt;/p&gt;
+   *
    * @method scale
    * @param α {number} 
    */
@@ -789,6 +822,7 @@ export default class Vector3 extends Coords implements ColumnVector&lt;Matrix3, 
    * &lt;p&gt;
    * &lt;code&gt;this ⟼ this&lt;/code&gt;, with components modified.
    * &lt;/p&gt;
+   *
    * @method set
    * @param x {number}
    * @param y {number}
@@ -805,22 +839,17 @@ export default class Vector3 extends Coords implements ColumnVector&lt;Matrix3, 
   }
 
   /**
-   * @method setY
-   * @param {number}
-   * @deprecated
+   * @method slerp
+   * @param target {VectorE3}
+   * @param α {number}
    */
-  // FIXME: This is used by Cone and Cylinder Simplex PrimitivesBuilder
-  setY(y: number): Vector3 {
-    this.y = y;
-    return this;
-  }
-
   slerp(target: VectorE3, α: number) {
     return this;
   }
 
   /**
    * Returns the (Euclidean) inner product of this vector with itself.
+   *
    * @method squaredNorm
    * @return {number} &lt;code&gt;this ⋅ this&lt;/code&gt; or &lt;code&gt;norm(this) * norm(this)&lt;/code&gt;
    */
@@ -834,6 +863,7 @@ export default class Vector3 extends Coords implements ColumnVector&lt;Matrix3, 
    * &lt;p&gt;
    * &lt;code&gt;this ⟼ this - v&lt;/code&gt;
    * &lt;/p&gt;
+   *
    * @method sub
    * @param v {VectorE3}
    * @param [α = 1] {number}

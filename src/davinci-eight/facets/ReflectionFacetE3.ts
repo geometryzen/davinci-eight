@@ -22,7 +22,6 @@ export default class ReflectionFacetE3 implements Facet {
      * @type {Geometric3}
      * @private
      */
-    // FIXME: Maybe use an Vector3 here instead?
     public _normal: Geometric3;
 
     /**
