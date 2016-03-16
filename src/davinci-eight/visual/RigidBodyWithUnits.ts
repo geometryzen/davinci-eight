@@ -7,7 +7,8 @@ import ShareableBase from '../core/ShareableBase';
 import Unit from '../math/Unit';
 import VectorE3 from '../math/VectorE3';
 
-const UNIT_MOMENTUM = Unit.KILOGRAM.mul(Unit.METER).div(Unit.SECOND)
+const UNIT_P = Unit.KILOGRAM.mul(Unit.METER).div(Unit.SECOND)
+const UNIT_L = UNIT_P.mul(Unit.METER)
 
 /**
  * Physics modeling.
@@ -22,7 +23,7 @@ const UNIT_MOMENTUM = Unit.KILOGRAM.mul(Unit.METER).div(Unit.SECOND)
  * @class RigidBodyWithUnits
  * @extends ShareableBase
  */
-export default class RigidBodyWithUnits extends ShareableBase implements IRigidBody<G3, G3> {
+export default class RigidBodyWithUnits extends ShareableBase implements IRigidBody<G3, G3, G3> {
 
   /**
    * The underlying Mesh.
@@ -32,6 +33,10 @@ export default class RigidBodyWithUnits extends ShareableBase implements IRigidB
    * @private
    */
   private mesh: Mesh;
+
+  /**
+   * The initial axis (corresponds to attitude = 1).
+   */
   private base: G3;
 
   /**
@@ -43,12 +48,29 @@ export default class RigidBodyWithUnits extends ShareableBase implements IRigidB
   private _mass = G3.scalar(1, Unit.KILOGRAM)
 
   /**
-   * @property _momentum
+   * @property _P
    * @type G3
    * @default 0 kg·m/s
    * @private
    */
-  private _momentum = G3.scalar(0, Unit.KILOGRAM.mul(Unit.METER).div(Unit.SECOND))
+  private _P = G3.scalar(0, UNIT_P)
+
+
+  /**
+   * @property _L
+   * @type G3
+   * @default 0 kg·m ** 2/s
+   * @private
+   */
+  private _L = G3.scalar(0, UNIT_L)
+
+  /**
+   * @property _charge
+   * @type G3
+   * @default 0 C
+   * @private
+   */
+  private _charge = G3.scalar(0, Unit.COULOMB)
 
   /**
    * Provides descriptive variables for translational and rotational motion.
@@ -80,66 +102,120 @@ export default class RigidBodyWithUnits extends ShareableBase implements IRigidB
   }
 
   /**
+   * <p>
+   * Axis (vector)
+   * </p>
+   *
    * @property axis
    * @type G3
    */
   public get axis(): G3 {
-    return this.base.rotate(this.mesh.attitude)
+    return this.base.rotate(this.mesh.R)
   }
   public set axis(axis: G3) {
     mustBeObject('axis', axis)
-    this.mesh.attitude.rotorFromDirections(this.base, axis)
+    this.mesh.R.rotorFromDirections(this.base, axis)
   }
 
   /**
-   * @property attitude
+   * <p>
+   * <em>Attitude</em> (spinor)
+   * </p>
+   *
+   * @property R
    * @type G3
    */
-  get attitude(): G3 {
-    return G3.fromSpinor(this.mesh.attitude)
+  get R(): G3 {
+    return G3.fromSpinor(this.mesh.R)
   }
-  set attitude(attitude: G3) {
-    mustBeObject('attitude', attitude, () => { return this._type })
-    Unit.compatible(attitude.uom, Unit.ONE)
-    this.mesh.attitude.copySpinor(attitude)
+  set R(R: G3) {
+    mustBeObject('R', R, () => { return this._type })
+    Unit.compatible(R.uom, Unit.ONE)
+    this.mesh.R.copySpinor(R)
   }
 
   /**
-   * @property mass
+   * <p>
+   * Angular momentum (bivector)
+   * </p>
+   *
+   * @property L
    * @type G3
    */
-  get mass(): G3 {
+  get L(): G3 {
+    return this._L
+  }
+  set L(L: G3) {
+    mustBeObject('L', L, () => { return this._type })
+    Unit.compatible(L.uom, UNIT_L)
+    this._L = L
+  }
+
+  /**
+   * <p>
+   * Mass (scalar)
+   * </p>
+   *
+   * @property m
+   * @type G3
+   */
+  get m(): G3 {
     return this._mass
   }
-  set mass(mass: G3) {
-    mustBeObject('mass', mass, () => { return this._type })
-    Unit.compatible(mass.uom, Unit.KILOGRAM)
-    this._mass = mass
+  set m(m: G3) {
+    mustBeObject('m', m, () => { return this._type })
+    Unit.compatible(m.uom, Unit.KILOGRAM)
+    this._mass = m
   }
 
   /**
-   * @property momentum
+   * <p>
+   * Momentum (vector)
+   * </p>
+   *
+   * @property P
    * @type G3
    */
-  get momentum(): G3 {
-    return this._momentum
+  get P(): G3 {
+    return this._P
   }
-  set momentum(momentum: G3) {
-    mustBeObject('momentum', momentum, () => { return this._type })
-    Unit.compatible(momentum.uom, UNIT_MOMENTUM)
-    this._momentum = momentum
+  set P(P: G3) {
+    mustBeObject('P', P, () => { return this._type })
+    Unit.compatible(P.uom, UNIT_P)
+    this._P = P
   }
 
   /**
-   * @property position
+   * <p>
+   * Charge
+   * </p>
+   *
+   * @property Q
    * @type G3
    */
-  get position(): G3 {
-    return G3.fromVector(this.mesh.position, Unit.METER)
+  get Q(): G3 {
+    return this._charge
   }
-  set position(position: G3) {
-    mustBeObject('position', position, () => { return this._type })
-    Unit.compatible(position.uom, Unit.METER)
-    this.mesh.position.copy(position)
+  set Q(Q: G3) {
+    mustBeObject('Q', Q, () => { return this._type })
+    Unit.compatible(Q.uom, Unit.COULOMB)
+    this._charge = Q
+  }
+
+  /**
+   * <p>
+   * Position (vector)
+   * </p>
+   *
+   * @property X
+   * @type G3
+   */
+  get X(): G3 {
+    return G3.fromVector(this.mesh.X, Unit.METER)
+  }
+  set X(X: G3) {
+    mustBeObject('X', X, () => { return this._type })
+    Unit.compatible(X.uom, Unit.METER)
+    this.mesh.X.copy(X)
   }
 }

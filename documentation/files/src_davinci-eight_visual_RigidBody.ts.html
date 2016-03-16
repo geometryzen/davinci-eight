@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.223.0</em>
+            <em>API Docs for: 2.224.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -44,6 +44,7 @@
                                 <li><a href="../classes/AbstractMesh.html">AbstractMesh</a></li>
                                 <li><a href="../classes/AmbientLight.html">AmbientLight</a></li>
                                 <li><a href="../classes/AnimationApp.html">AnimationApp</a></li>
+                                <li><a href="../classes/AnimationAppOptions.html">AnimationAppOptions</a></li>
                                 <li><a href="../classes/Approximation.html">Approximation</a></li>
                                 <li><a href="../classes/Arrow.html">Arrow</a></li>
                                 <li><a href="../classes/ArrowBuilder.html">ArrowBuilder</a></li>
@@ -60,6 +61,7 @@
                                 <li><a href="../classes/BoxGeometryOptions.html">BoxGeometryOptions</a></li>
                                 <li><a href="../classes/BoxOptions.html">BoxOptions</a></li>
                                 <li><a href="../classes/BrowserApp.html">BrowserApp</a></li>
+                                <li><a href="../classes/BrowserAppOptions.html">BrowserAppOptions</a></li>
                                 <li><a href="../classes/Capability.html">Capability</a></li>
                                 <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
@@ -94,6 +96,7 @@
                                 <li><a href="../classes/EIGHTLogger.html">EIGHTLogger</a></li>
                                 <li><a href="../classes/Engine.html">Engine</a></li>
                                 <li><a href="../classes/EngineApp.html">EngineApp</a></li>
+                                <li><a href="../classes/EngineAppOptions.html">EngineAppOptions</a></li>
                                 <li><a href="../classes/ErrorMode.html">ErrorMode</a></li>
                                 <li><a href="../classes/Facet.html">Facet</a></li>
                                 <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
@@ -142,6 +145,7 @@
                                 <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
                                 <li><a href="../classes/MouseControls.html">MouseControls</a></li>
                                 <li><a href="../classes/MultiViewApp.html">MultiViewApp</a></li>
+                                <li><a href="../classes/MultiViewAppOptions.html">MultiViewAppOptions</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/NumberShareableMap.html">NumberShareableMap</a></li>
                                 <li><a href="../classes/OrbitControls.html">OrbitControls</a></li>
@@ -301,25 +305,63 @@ import VectorE3 from &#x27;../math/VectorE3&#x27;
  * @class RigidBody
  * @extends Mesh
  */
-export default class RigidBody extends Mesh implements IRigidBody&lt;number, Geometric3&gt; {
+export default class RigidBody extends Mesh implements IRigidBody&lt;number, Geometric3, Geometric3&gt; {
 
   /**
-   * The (dimensionless) mass of the &lt;code&gt;RigidBody&lt;/code&gt;.
+   * &lt;p&gt;
+   * Angular momentum (bivector)
+   * &lt;/p&gt;
+   * &lt;p&gt;
+   * The (dimensionless) angular momentum of the &lt;code&gt;RigidBody&lt;/code&gt;.
+   * &lt;p&gt;
    *
-   * @property mass
-   * @type number
-   * @default 1
-   */
-  public mass = 1
-
-  /**
-   * The (dimensionless) momentum of the &lt;code&gt;RigidBody&lt;/code&gt;
-   *
-   * @property momentum
+   * @property L
    * @type Geometric3
    * @default 0
    */
-  public momentum = Geometric3.zero()
+  public L = Geometric3.zero()
+
+  /**
+   * &lt;p&gt;
+   * Mass (scalar)
+   * &lt;p&gt;
+   * &lt;p&gt;
+   * The (dimensionless) mass of the &lt;code&gt;RigidBody&lt;/code&gt;.
+   * &lt;/p&gt;
+   *
+   * @property m
+   * @type number
+   * @default 1
+   */
+  public m = 1
+
+  /**
+   * &lt;p&gt;
+   * Momentum (vector)
+   * &lt;/p&gt;
+   * &lt;p&gt;
+   * The (dimensionless) momentum of the &lt;code&gt;RigidBody&lt;/code&gt;.
+   * &lt;p&gt;
+   *
+   * @property P
+   * @type Geometric3
+   * @default 0
+   */
+  public P = Geometric3.zero()
+
+  /**
+   * &lt;p&gt;
+   * Charge
+   * &lt;/p&gt;
+   * &lt;p&gt;
+   * The (dimensionless) charge of the &lt;code&gt;RigidBody&lt;/code&gt;.
+   * &lt;/p&gt;
+   *
+   * @property Q
+   * @type Geometric3
+   * @default 0
+   */
+  public Q = Geometric3.zero()
 
   /**
    * Cache the initial axis value so that we can compute the axis at any
@@ -346,7 +388,7 @@ export default class RigidBody extends Mesh implements IRigidBody&lt;number, Geo
 
   /**
    * @method destructor
-   * @param level {number}
+   * @param levelUp {number}
    * @return {void}
    * @protected
    */
@@ -358,16 +400,20 @@ export default class RigidBody extends Mesh implements IRigidBody&lt;number, Geo
   }
 
   /**
+   * &lt;p&gt;
+   * Axis (vector)
+   * &lt;/p&gt;
+   *
    * @property axis
    * @type Geometric3
    */
   get axis(): Geometric3 {
     // This is a copy!
-    return Geometric3.fromVector(this.initialAxis).rotate(this.attitude)
+    return Geometric3.fromVector(this.initialAxis).rotate(this.R)
   }
   set axis(axis: Geometric3) {
     mustBeObject(&#x27;axis&#x27;, axis)
-    this.attitude.rotorFromDirections(this.initialAxis, axis)
+    this.R.rotorFromDirections(this.initialAxis, axis)
   }
 }
 

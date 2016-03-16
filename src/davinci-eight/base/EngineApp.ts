@@ -1,8 +1,11 @@
 import BrowserApp from './BrowserApp'
 import BrowserWindow from './BrowserWindow'
 import Engine from '../core/Engine'
+import EngineAppOptions from './EngineAppOptions'
 import getCanvasElementById from '../utils/getCanvasElementById'
 import getDimensions from '../utils/getDimensions'
+import isString from '../checks/isString'
+import mustBeObject from '../checks/mustBeObject'
 import mustBeNumber from '../checks/mustBeNumber'
 import mustBeString from '../checks/mustBeString'
 import Scene from '../core/Scene'
@@ -40,13 +43,12 @@ export default class EngineApp extends BrowserApp {
   /**
    * @class EngineApp
    * @constructor
-   * @param canvasId {string} The element id of the <code>HTMLCanvasElement</code>.
-   * @param [wnd = window] {Window} The window in which the application will be running.
+   * @param options {EngineAppOptions}
    */
-  constructor(canvasId: string, wnd: BrowserWindow = window) {
-    super(wnd)
+  constructor(options: EngineAppOptions = {}) {
+    super(options)
     this.engine = new Engine()
-    this.canvasId = mustBeString('canvasId', canvasId)
+    this.canvasId = defaultCanvasId(options)
   }
 
   /**
@@ -64,6 +66,13 @@ export default class EngineApp extends BrowserApp {
   }
 
   /**
+   * <p>
+   * Sets the graphics buffers to values preselected by clearColor, clearDepth or clearStencil.
+   * </p>
+   * <p>
+   * This method is a shortcut for <code>engine.clear()</code>.
+   * </p>
+   *
    * @method clear
    * @return {void}
    * @protected
@@ -90,5 +99,14 @@ export default class EngineApp extends BrowserApp {
     else {
       throw new Error(`${this.canvasId} must be the elementId of a canvas element.`)
     }
+  }
+}
+
+function defaultCanvasId(options: EngineAppOptions): string {
+  if (isString(options.canvasId)) {
+    return options.canvasId
+  }
+  else {
+    return 'canvas'
   }
 }

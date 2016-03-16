@@ -5,9 +5,11 @@ import Unit from './Unit'
 import Spinor3 from './Spinor3'
 import Vector3 from './Vector3'
 
+const one = Geometric3.one()
 const e1 = Geometric3.fromVector(R3.e1)
 const e2 = Geometric3.fromVector(R3.e2)
 const e3 = Geometric3.fromVector(R3.e3)
+const I = e1.clone().mul(e2).mul(e3)
 
 describe("Geometric3", function() {
 
@@ -59,6 +61,45 @@ describe("Geometric3", function() {
       expect(key).toBeUndefined()
       expect(value).toBeUndefined()
       expect(source).toBeUndefined()
+    })
+  })
+
+  describe("div", function() {
+    it("1 / 1 should be 1", function() {
+      const numer: Geometric3 = one.clone()
+      const denom: Geometric3 = one.clone()
+      const ratio = numer.clone().div(denom)
+      expect(ratio.isOne()).toBeTruthy()
+    })
+    it("1 / 2 should be 0.5", function() {
+      const numer: Geometric3 = one.clone()
+      const denom: Geometric3 = one.clone().scale(2)
+      const ratio = numer.clone().div(denom)
+      expect(ratio.toString()).toBe(one.clone().divByScalar(2).toString())
+    })
+    it("e1 / 1 should be e1", function() {
+      const numer: Geometric3 = e1.clone()
+      const denom: Geometric3 = one.clone()
+      const ratio = numer.clone().div(denom)
+      expect(ratio.toString()).toBe(e1.toString())
+    })
+    it("e1 / e1 should be 1", function() {
+      const numer: Geometric3 = e1.clone()
+      const denom: Geometric3 = e1.clone()
+      const ratio = numer.clone().div(denom)
+      expect(ratio.toString()).toBe(one.toString())
+    })
+    it("e1 / e2 should be e1 * e2", function() {
+      const numer: Geometric3 = e1.clone()
+      const denom: Geometric3 = e2.clone()
+      const ratio = numer.clone().div(denom)
+      expect(ratio.toString()).toBe(e1.clone().mul(e2).toString())
+    })
+    it("e1 / I should be e3 * e2", function() {
+      const numer: Geometric3 = e1.clone()
+      const denom: Geometric3 = I.clone()
+      const ratio = numer.clone().div(denom)
+      expect(ratio.toString()).toBe(e3.clone().mul(e2).toString())
     })
   })
 

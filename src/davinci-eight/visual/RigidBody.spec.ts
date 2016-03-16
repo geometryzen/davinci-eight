@@ -22,7 +22,7 @@ describe('RigidBody', function() {
     const rigidBody = new RigidBody(void 0, void 0, void 0, direction)
     rigidBody.geometry = geometry
     rigidBody.material = material
-    expect(rigidBody.mass).toBe(1)
+    expect(rigidBody.m).toBe(1)
     rigidBody.release()
   })
   it("momentum should default to 0", function() {
@@ -32,14 +32,25 @@ describe('RigidBody', function() {
     const rigidBody = new RigidBody(void 0, void 0, void 0, direction)
     rigidBody.geometry = geometry
     rigidBody.material = material
-    expect(rigidBody.momentum.α).toBe(0)
-    expect(rigidBody.momentum.x).toBe(0)
-    expect(rigidBody.momentum.y).toBe(0)
-    expect(rigidBody.momentum.z).toBe(0)
-    expect(rigidBody.momentum.xy).toBe(0)
-    expect(rigidBody.momentum.yz).toBe(0)
-    expect(rigidBody.momentum.zx).toBe(0)
-    expect(rigidBody.momentum.β).toBe(0)
+    expect(rigidBody.P.isZero()).toBeTruthy()
+    expect(rigidBody.P.α).toBe(0)
+    expect(rigidBody.P.x).toBe(0)
+    expect(rigidBody.P.y).toBe(0)
+    expect(rigidBody.P.z).toBe(0)
+    expect(rigidBody.P.xy).toBe(0)
+    expect(rigidBody.P.yz).toBe(0)
+    expect(rigidBody.P.zx).toBe(0)
+    expect(rigidBody.P.β).toBe(0)
+    rigidBody.release()
+  })
+  it("charge should default to 0", function() {
+    const geometry = new SphereGeometry()
+    const material = new MeshMaterial(null, null)
+    const direction = new Vector3()
+    const rigidBody = new RigidBody(void 0, void 0, void 0, direction)
+    rigidBody.geometry = geometry
+    rigidBody.material = material
+    expect(rigidBody.Q.isZero()).toBeTruthy()
     rigidBody.release()
   })
 })

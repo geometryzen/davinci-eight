@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.223.0</em>
+            <em>API Docs for: 2.224.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -44,6 +44,7 @@
                                 <li><a href="../classes/AbstractMesh.html">AbstractMesh</a></li>
                                 <li><a href="../classes/AmbientLight.html">AmbientLight</a></li>
                                 <li><a href="../classes/AnimationApp.html">AnimationApp</a></li>
+                                <li><a href="../classes/AnimationAppOptions.html">AnimationAppOptions</a></li>
                                 <li><a href="../classes/Approximation.html">Approximation</a></li>
                                 <li><a href="../classes/Arrow.html">Arrow</a></li>
                                 <li><a href="../classes/ArrowBuilder.html">ArrowBuilder</a></li>
@@ -60,6 +61,7 @@
                                 <li><a href="../classes/BoxGeometryOptions.html">BoxGeometryOptions</a></li>
                                 <li><a href="../classes/BoxOptions.html">BoxOptions</a></li>
                                 <li><a href="../classes/BrowserApp.html">BrowserApp</a></li>
+                                <li><a href="../classes/BrowserAppOptions.html">BrowserAppOptions</a></li>
                                 <li><a href="../classes/Capability.html">Capability</a></li>
                                 <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
@@ -94,6 +96,7 @@
                                 <li><a href="../classes/EIGHTLogger.html">EIGHTLogger</a></li>
                                 <li><a href="../classes/Engine.html">Engine</a></li>
                                 <li><a href="../classes/EngineApp.html">EngineApp</a></li>
+                                <li><a href="../classes/EngineAppOptions.html">EngineAppOptions</a></li>
                                 <li><a href="../classes/ErrorMode.html">ErrorMode</a></li>
                                 <li><a href="../classes/Facet.html">Facet</a></li>
                                 <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
@@ -142,6 +145,7 @@
                                 <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
                                 <li><a href="../classes/MouseControls.html">MouseControls</a></li>
                                 <li><a href="../classes/MultiViewApp.html">MultiViewApp</a></li>
+                                <li><a href="../classes/MultiViewAppOptions.html">MultiViewAppOptions</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/NumberShareableMap.html">NumberShareableMap</a></li>
                                 <li><a href="../classes/OrbitControls.html">OrbitControls</a></li>
@@ -281,7 +285,7 @@
         </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_base_EngineApp.ts.html#l40"><code>src&#x2F;davinci-eight&#x2F;base&#x2F;EngineApp.ts:40</code></a>
+            Defined in: <a href="../files/src_davinci-eight_base_EngineApp.ts.html#l43"><code>src&#x2F;davinci-eight&#x2F;base&#x2F;EngineApp.ts:43</code></a>
         </div>
 
             Module: <a href="../modules/EIGHT.html">EIGHT</a>
@@ -301,10 +305,7 @@
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
-                        <code>canvasId</code>
-                </li>
-                <li class="arg">
-                        <code class="optional">[wnd = window]</code>
+                        <code>options</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
@@ -319,7 +320,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_base_EngineApp.ts.html#l40"><code>src&#x2F;davinci-eight&#x2F;base&#x2F;EngineApp.ts:40</code></a>
+        <a href="../files/src_davinci-eight_base_EngineApp.ts.html#l43"><code>src&#x2F;davinci-eight&#x2F;base&#x2F;EngineApp.ts:43</code></a>
         </p>
 
 
@@ -335,25 +336,12 @@
 
             <ul class="params-list">
                 <li class="param">
-                        <code class="param-name">canvasId</code>
-                        <span class="type">String</span>
+                        <code class="param-name">options</code>
+                        <span class="type"><a href="../classes/EngineAppOptions.html" class="crosslink">EngineAppOptions</a></span>
 
 
                     <div class="param-description">
-                        <p>The element id of the <code>HTMLCanvasElement</code>.</p>
-
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name optional">[wnd = window]</code>
-                        <span class="type">Window</span>
-                        <span class="flag optional" title="This parameter is optional.">optional</span>
-
-
-                    <div class="param-description">
-                        <p>The window in which the application will be running.</p>
-
+                         
                     </div>
 
                 </li>
@@ -424,12 +412,20 @@
                                 <a href="#property_canvasId">canvasId</a>
 
                             </li>
+                            <li class="index-item property private inherited">
+                                <a href="#property_domLoaded">domLoaded</a>
+
+                            </li>
                             <li class="index-item property protected">
                                 <a href="#property_engine">engine</a>
 
                             </li>
                             <li class="index-item property private inherited">
                                 <a href="#property_managed">managed</a>
+
+                            </li>
+                            <li class="index-item property private inherited">
+                                <a href="#property_memcheck">memcheck</a>
 
                             </li>
                             <li class="index-item property protected inherited">
@@ -464,7 +460,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_base_EngineApp.ts.html#l66"><code>src&#x2F;davinci-eight&#x2F;base&#x2F;EngineApp.ts:66</code></a>
+        <a href="../files/src_davinci-eight_base_EngineApp.ts.html#l68"><code>src&#x2F;davinci-eight&#x2F;base&#x2F;EngineApp.ts:68</code></a>
         </p>
 
 
@@ -472,7 +468,12 @@
     </div>
 
     <div class="description">
-        
+        <p>
+Sets the graphics buffers to values preselected by clearColor, clearDepth or clearStencil.
+</p>
+<p>
+This method is a shortcut for <code>engine.clear()</code>.
+</p>
     </div>
 
 
@@ -508,7 +509,7 @@
                 BrowserApp
             </a>
             but overwritten in
-        <a href="../files/src_davinci-eight_base_EngineApp.ts.html#l52"><code>src&#x2F;davinci-eight&#x2F;base&#x2F;EngineApp.ts:52</code></a>
+        <a href="../files/src_davinci-eight_base_EngineApp.ts.html#l54"><code>src&#x2F;davinci-eight&#x2F;base&#x2F;EngineApp.ts:54</code></a>
         </p>
 
 
@@ -552,7 +553,7 @@
                 BrowserApp
             </a>
             but overwritten in
-        <a href="../files/src_davinci-eight_base_EngineApp.ts.html#l75"><code>src&#x2F;davinci-eight&#x2F;base&#x2F;EngineApp.ts:75</code></a>
+        <a href="../files/src_davinci-eight_base_EngineApp.ts.html#l84"><code>src&#x2F;davinci-eight&#x2F;base&#x2F;EngineApp.ts:84</code></a>
         </p>
 
 
@@ -592,7 +593,7 @@
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/BrowserApp.html#method_isRunning">BrowserApp</a>:
-        <a href="../files/src_davinci-eight_base_BrowserApp.ts.html#l81"><code>src&#x2F;davinci-eight&#x2F;base&#x2F;BrowserApp.ts:81</code></a>
+        <a href="../files/src_davinci-eight_base_BrowserApp.ts.html#l106"><code>src&#x2F;davinci-eight&#x2F;base&#x2F;BrowserApp.ts:106</code></a>
         </p>
 
 
@@ -632,7 +633,7 @@
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/BrowserApp.html#method_isWaiting">BrowserApp</a>:
-        <a href="../files/src_davinci-eight_base_BrowserApp.ts.html#l73"><code>src&#x2F;davinci-eight&#x2F;base&#x2F;BrowserApp.ts:73</code></a>
+        <a href="../files/src_davinci-eight_base_BrowserApp.ts.html#l98"><code>src&#x2F;davinci-eight&#x2F;base&#x2F;BrowserApp.ts:98</code></a>
         </p>
 
 
@@ -672,7 +673,7 @@
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/BrowserApp.html#method_isZombie">BrowserApp</a>:
-        <a href="../files/src_davinci-eight_base_BrowserApp.ts.html#l89"><code>src&#x2F;davinci-eight&#x2F;base&#x2F;BrowserApp.ts:89</code></a>
+        <a href="../files/src_davinci-eight_base_BrowserApp.ts.html#l114"><code>src&#x2F;davinci-eight&#x2F;base&#x2F;BrowserApp.ts:114</code></a>
         </p>
 
 
@@ -718,7 +719,7 @@
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/BrowserApp.html#method_manage">BrowserApp</a>:
-        <a href="../files/src_davinci-eight_base_BrowserApp.ts.html#l97"><code>src&#x2F;davinci-eight&#x2F;base&#x2F;BrowserApp.ts:97</code></a>
+        <a href="../files/src_davinci-eight_base_BrowserApp.ts.html#l122"><code>src&#x2F;davinci-eight&#x2F;base&#x2F;BrowserApp.ts:122</code></a>
         </p>
 
 
@@ -781,7 +782,7 @@ You must not call <code>release()</code> on the object you are transferring.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_base_EngineApp.ts.html#l24"><code>src&#x2F;davinci-eight&#x2F;base&#x2F;EngineApp.ts:24</code></a>
+        <a href="../files/src_davinci-eight_base_EngineApp.ts.html#l27"><code>src&#x2F;davinci-eight&#x2F;base&#x2F;EngineApp.ts:27</code></a>
         </p>
 
 
@@ -807,7 +808,32 @@ You must not call <code>release()</code> on the object you are transferring.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_base_EngineApp.ts.html#l33"><code>src&#x2F;davinci-eight&#x2F;base&#x2F;EngineApp.ts:33</code></a>
+        <a href="../files/src_davinci-eight_base_EngineApp.ts.html#l36"><code>src&#x2F;davinci-eight&#x2F;base&#x2F;EngineApp.ts:36</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_domLoaded" class="property item private inherited">
+    <h3 class="name"><code>domLoaded</code></h3>
+    <span class="type">EventListener</span>
+
+
+        <span class="flag private">private</span>
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/BrowserApp.html#property_domLoaded">BrowserApp</a>:
+        <a href="../files/src_davinci-eight_base_BrowserApp.ts.html#l41"><code>src&#x2F;davinci-eight&#x2F;base&#x2F;BrowserApp.ts:41</code></a>
         </p>
 
 
@@ -832,7 +858,7 @@ You must not call <code>release()</code> on the object you are transferring.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_base_EngineApp.ts.html#l15"><code>src&#x2F;davinci-eight&#x2F;base&#x2F;EngineApp.ts:15</code></a>
+        <a href="../files/src_davinci-eight_base_EngineApp.ts.html#l18"><code>src&#x2F;davinci-eight&#x2F;base&#x2F;EngineApp.ts:18</code></a>
         </p>
 
 
@@ -858,7 +884,7 @@ You must not call <code>release()</code> on the object you are transferring.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/BrowserApp.html#property_managed">BrowserApp</a>:
-        <a href="../files/src_davinci-eight_base_BrowserApp.ts.html#l26"><code>src&#x2F;davinci-eight&#x2F;base&#x2F;BrowserApp.ts:26</code></a>
+        <a href="../files/src_davinci-eight_base_BrowserApp.ts.html#l48"><code>src&#x2F;davinci-eight&#x2F;base&#x2F;BrowserApp.ts:48</code></a>
         </p>
 
 
@@ -866,6 +892,33 @@ You must not call <code>release()</code> on the object you are transferring.
 
     <div class="description">
         
+    </div>
+
+
+
+</div>
+<div id="property_memcheck" class="property item private inherited">
+    <h3 class="name"><code>memcheck</code></h3>
+    <span class="type">Boolean</span>
+
+
+        <span class="flag private">private</span>
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/BrowserApp.html#property_memcheck">BrowserApp</a>:
+        <a href="../files/src_davinci-eight_base_BrowserApp.ts.html#l26"><code>src&#x2F;davinci-eight&#x2F;base&#x2F;BrowserApp.ts:26</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>Determines whether we perform reference count checking
+in order to detect memory leaks.</p>
+
     </div>
 
 
@@ -883,7 +936,7 @@ You must not call <code>release()</code> on the object you are transferring.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/BrowserApp.html#property_window">BrowserApp</a>:
-        <a href="../files/src_davinci-eight_base_BrowserApp.ts.html#l17"><code>src&#x2F;davinci-eight&#x2F;base&#x2F;BrowserApp.ts:17</code></a>
+        <a href="../files/src_davinci-eight_base_BrowserApp.ts.html#l19"><code>src&#x2F;davinci-eight&#x2F;base&#x2F;BrowserApp.ts:19</code></a>
         </p>
 
 

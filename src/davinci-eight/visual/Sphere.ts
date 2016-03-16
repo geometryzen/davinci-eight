@@ -44,7 +44,7 @@ export default class Sphere extends RigidBody {
       this.color.copy(options.color)
     }
     if (options.position) {
-      this.position.copyVector(options.position)
+      this.X.copyVector(options.position)
     }
     this.radius = isDefined(options.radius) ? mustBeNumber('radius', options.radius) : 1.0
   }

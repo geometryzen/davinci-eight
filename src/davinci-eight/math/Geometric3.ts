@@ -9,6 +9,7 @@ import gauss from './gauss'
 import GeometricE3 from './GeometricE3';
 import GeometricOperators from './GeometricOperators';
 import isDefined from '../checks/isDefined';
+import isScalarG3 from './isScalarG3';
 import lcoG3 from './lcoG3';
 import maskG3 from './maskG3'
 import mulE3 from './mulE3';
@@ -568,6 +569,7 @@ export default class Geometric3 extends Coords implements CartesianG3, Geometric
    * @chainable
    */
   copyVector(vector: VectorE3) {
+    // FIXME: This fails for copying self
     this.zero()
     this.x = vector.x
     this.y = vector.y
@@ -585,67 +587,70 @@ export default class Geometric3 extends Coords implements CartesianG3, Geometric
    * @chainable
    */
   div(m: GeometricE3): Geometric3 {
+    if (isScalarG3(m)) {
+      return this.divByScalar(m.α)
+    }
+    else {
+      const α = m.α
+      const x = m.x
+      const y = m.y
+      const z = m.z
+      const xy = m.xy
+      const yz = m.yz
+      const zx = m.zx
+      const β = m.β
 
-    const α = m.α
-    const x = m.x
-    const y = m.y
-    const z = m.z
-    const xy = m.xy
-    const yz = m.yz
-    const zx = m.zx
-    const β = m.β
+      const A = [
+        [α, x, y, z, -xy, -yz, -zx, -β],
+        [x, α, xy, -zx, -y, -β, z, -yz],
+        [y, -xy, α, yz, x, -z, -β, -zx],
+        [z, zx, -yz, α, -β, y, -x, -xy],
+        [xy, -y, x, β, α, zx, -yz, z],
+        [yz, β, -z, y, -zx, α, xy, x],
+        [zx, z, β, -x, yz, -xy, α, y],
+        [β, yz, zx, xy, z, x, y, α]
+      ]
 
-    const A = [
-      [α, x, y, z, -xy, -yz, -zx, -β],
-      [x, α, xy, -zx, -y, -β, z, -yz],
-      [y, -xy, α, yz, x, -z, -β, -zx],
-      [z, zx, -yz, α, -β, y, -x, -xy],
-      [xy, -y, x, β, α, zx, -yz, z],
-      [yz, β, -z, y, -zx, α, xy, x],
-      [zx, z, β, -x, yz, -xy, α, y],
-      [β, yz, zx, xy, z, x, y, α]
-    ]
+      const b = [1, 0, 0, 0, 0, 0, 0, 0]
 
-    const b = [1, 0, 0, 0, 0, 0, 0, 0]
+      const X = gauss(A, b)
 
-    const X = gauss(A, b)
+      const a0 = this.α
+      const a1 = this.x
+      const a2 = this.y
+      const a3 = this.z
+      const a4 = this.xy
+      const a5 = this.yz
+      const a6 = this.zx
+      const a7 = this.β
 
-    const a0 = this.α
-    const a1 = this.x
-    const a2 = this.y
-    const a3 = this.z
-    const a4 = this.xy
-    const a5 = this.yz
-    const a6 = this.zx
-    const a7 = this.β
+      const b0 = X[0]
+      const b1 = X[1]
+      const b2 = X[2]
+      const b3 = X[3]
+      const b4 = X[4]
+      const b5 = X[5]
+      const b6 = X[6]
+      const b7 = X[7]
 
-    const b0 = X[0]
-    const b1 = X[1]
-    const b2 = X[2]
-    const b3 = X[3]
-    const b4 = X[4]
-    const b5 = X[5]
-    const b6 = X[6]
-    const b7 = X[7]
+      const c0 = mulE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 0)
+      const c1 = mulE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 1)
+      const c2 = mulE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 2)
+      const c3 = mulE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 3)
+      const c4 = mulE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 4)
+      const c5 = mulE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 5)
+      const c6 = mulE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 6)
+      const c7 = mulE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 7)
 
-    const c0 = mulE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 0)
-    const c1 = mulE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 1)
-    const c2 = mulE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 2)
-    const c3 = mulE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 3)
-    const c4 = mulE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 4)
-    const c5 = mulE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 5)
-    const c6 = mulE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 6)
-    const c7 = mulE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 7)
-
-    this.α = c0
-    this.x = c1
-    this.y = c2
-    this.z = c3
-    this.xy = c4
-    this.yz = c5
-    this.zx = c6
-    this.β = c7
-
+      this.α = c0
+      this.x = c1
+      this.y = c2
+      this.z = c3
+      this.xy = c4
+      this.yz = c5
+      this.zx = c6
+      this.β = c7
+    }
     return this
   }
 

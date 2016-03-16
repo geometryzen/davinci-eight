@@ -1,5 +1,6 @@
 import ContextProvider from '../core/ContextProvider';
 import Engine from '../core/Engine';
+import exchange from '../base/exchange';
 import isObject from '../checks/isDefined';
 import mustBeBoolean from '../checks/mustBeBoolean';
 import Geometry from './Geometry';
@@ -85,14 +86,8 @@ export default class Drawable extends ShareableContextConsumer implements Abstra
    * @protected
    */
   protected destructor(levelUp: number): void {
-    if (this._geometry) {
-      this._geometry.release()
-      this._geometry = void 0
-    }
-    if (this._material) {
-      this._material.release()
-      this._material = void 0
-    }
+    this._geometry = exchange(this._geometry, void 0)
+    this._material = exchange(this._material, void 0)
     super.destructor(levelUp + 1)
   }
 
@@ -248,16 +243,9 @@ export default class Drawable extends ShareableContextConsumer implements Abstra
     }
   }
   set geometry(geometry: Geometry) {
-    if (this._geometry) {
-      this._geometry.release()
-      this._geometry = void 0
-    }
-    if (geometry) {
-      geometry.addRef()
-      this._geometry = geometry
-      if (this.contextProvider) {
-        this._geometry.contextGain(this.contextProvider)
-      }
+    this._geometry = exchange(this._geometry, geometry)
+    if (this._geometry && this.contextProvider) {
+      this._geometry.contextGain(this.contextProvider)
     }
   }
 
@@ -277,16 +265,9 @@ export default class Drawable extends ShareableContextConsumer implements Abstra
     }
   }
   set material(material: Material) {
-    if (this._material) {
-      this._material.release()
-      this._material = void 0
-    }
-    if (material) {
-      material.addRef()
-      this._material = material
-      if (this.contextProvider) {
-        this._material.contextGain(this.contextProvider)
-      }
+    this._material = exchange(this._material, material)
+    if (this._material && this.contextProvider) {
+      this._material.contextGain(this.contextProvider)
     }
   }
 

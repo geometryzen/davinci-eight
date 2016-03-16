@@ -1,4 +1,5 @@
 import animation from '../utils/animation'
+import AnimationAppOptions from './AnimationAppOptions'
 import EngineApp from './EngineApp'
 import BrowserWindow from './BrowserWindow'
 import Engine from '../core/Engine'
@@ -16,23 +17,23 @@ export default class AnimationApp extends EngineApp {
   /**
    * @property animation
    * @type WindowAnimationRunner
+   * @protected
    */
-  private animation: WindowAnimationRunner
+  protected animation: WindowAnimationRunner
 
   /**
    * @class AnimationApp
    * @constructor
-   * @param canvasId {string} The element id of the <code>HTMLCanvasElement</code>.
-   * @param [wnd = window] {Window} The window in which the application will be running.
+   * @param options {AnimationAppOptions} The window in which the application will be running.
    */
-  constructor(canvasId: string, wnd: BrowserWindow = window) {
-    super(canvasId, wnd)
-    const options: WindowAnimationOptions = {}
-    options.window = this.window
+  constructor(options: AnimationAppOptions) {
+    super(options)
+    const winAniOptions: WindowAnimationOptions = {}
+    winAniOptions.window = this.window
     const animate = (time: number): void => {
       this.animate(time)
     }
-    this.animation = animation(animate, options)
+    this.animation = animation(animate, winAniOptions)
   }
 
   /**

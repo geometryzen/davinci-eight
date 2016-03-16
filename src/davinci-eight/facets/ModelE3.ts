@@ -13,6 +13,7 @@ import Spinor3 from '../math/Spinor3';
  * @class ModelE3
  */
 export default class ModelE3 {
+
     /**
      * The name of the property that designates the attitude.
      * @property PROP_ATTITUDE
@@ -22,6 +23,7 @@ export default class ModelE3 {
      * @readOnly
      */
     public static PROP_ATTITUDE = 'R';
+
     /**
      * The name of the property that designates the position.
      * @property PROP_POSITION
@@ -81,24 +83,31 @@ export default class ModelE3 {
     }
 
     /**
-     * @property attitude
+     * <p>
+     * The <em>attitude</em>, a rotor.
+     * </p>
+     *
+     * @property R
      * @type Geometric3
      */
-    get attitude(): Geometric3 {
+    get R(): Geometric3 {
         return this._attitude
     }
-    set attitude(attitude: Geometric3) {
+    set R(attitude: Geometric3) {
         this._attitude.copySpinor(attitude)
     }
 
     /**
-     * @property position
+     * <p>
+     * The <em>position</em>, a vector.
+     * </p>
+     * @property X
      * @type Geometric3
      */
-    get position(): Geometric3 {
+    get X(): Geometric3 {
         return this._position
     }
-    set position(position: Geometric3) {
+    set X(position: Geometric3) {
         this._position.copyVector(position)
     }
 
@@ -112,11 +121,9 @@ export default class ModelE3 {
             case ModelE3.PROP_ATTITUDE: {
                 return this._attCache.copy(this._attitude).coords
             }
-                break;
             case ModelE3.PROP_POSITION: {
                 return this._posCache.copy(this._position).coords
             }
-                break;
             default: {
                 console.warn("ModelE3.getProperty " + name)
                 return void 0

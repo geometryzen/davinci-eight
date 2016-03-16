@@ -10,24 +10,40 @@ import Matrix4 from '../math/Matrix4'
 interface AbstractMesh extends AbstractDrawable {
 
     /**
-     * @property attitude
+     * <p>
+     * Attitude (spinor)
+     * </p>
+     *
+     * @property R
      * @type Geometric3
      */
-    attitude: Geometric3
+    R: Geometric3
 
     /**
+     * <p>
+     * Color
+     * </p>
+     *
      * @property color
      * @type Color
      */
     color: Color
 
     /**
-     * @property position
+     * <p>
+     * Position (vector)
+     * </p>
+     *
+     * @property X
      * @type Geometric3
      */
-    position: Geometric3
+    X: Geometric3
 
     /**
+     * <p>
+     * Stress (tensor)
+     * </p>
+     *
      * @property stress
      * @type Matrix4
      */

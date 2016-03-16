@@ -101,7 +101,7 @@ export default class Arrow extends Mesh {
       this.color.copy(options.color)
     }
     if (options.position) {
-      this.position.copyVector(options.position)
+      this.X.copyVector(options.position)
     }
 
     /**
@@ -111,7 +111,7 @@ export default class Arrow extends Mesh {
     this.vectorChangeHandler = (eventName: string, key: string, value: number, vector: Geometric3) => {
       if (cascade) {
         cascade = false
-        this.attitude.rotorFromDirections(this.direction0, vector)
+        this.R.rotorFromDirections(this.direction0, vector)
         this.setPrincipalScale('length', Math.sqrt(quadVectorE3(vector)))
         // this.length = Math.sqrt(quadVectorE3(vector))
         cascade = true
@@ -120,13 +120,13 @@ export default class Arrow extends Mesh {
     this.attitudeChangeHandler = (eventName: string, key: string, value: number, attitude: Geometric3) => {
       if (cascade) {
         cascade = false
-        this._vector.copyVector(this.direction0).rotate(this.attitude).scale(this.length)
+        this._vector.copyVector(this.direction0).rotate(this.R).scale(this.length)
         cascade = true;
       }
     }
 
     this._vector.on('change', this.vectorChangeHandler)
-    this.attitude.on('change', this.attitudeChangeHandler)
+    this.R.on('change', this.attitudeChangeHandler)
   }
 
   /**
@@ -137,7 +137,7 @@ export default class Arrow extends Mesh {
    */
   protected destructor(levelUp: number): void {
     this._vector.off('change', this.vectorChangeHandler)
-    this.attitude.off('change', this.attitudeChangeHandler)
+    this.R.off('change', this.attitudeChangeHandler)
     super.destructor(levelUp + 1)
   }
 

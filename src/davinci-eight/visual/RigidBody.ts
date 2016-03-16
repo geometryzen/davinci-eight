@@ -22,25 +22,63 @@ import VectorE3 from '../math/VectorE3'
  * @class RigidBody
  * @extends Mesh
  */
-export default class RigidBody extends Mesh implements IRigidBody<number, Geometric3> {
+export default class RigidBody extends Mesh implements IRigidBody<number, Geometric3, Geometric3> {
 
   /**
-   * The (dimensionless) mass of the <code>RigidBody</code>.
+   * <p>
+   * Angular momentum (bivector)
+   * </p>
+   * <p>
+   * The (dimensionless) angular momentum of the <code>RigidBody</code>.
+   * <p>
    *
-   * @property mass
-   * @type number
-   * @default 1
-   */
-  public mass = 1
-
-  /**
-   * The (dimensionless) momentum of the <code>RigidBody</code>
-   *
-   * @property momentum
+   * @property L
    * @type Geometric3
    * @default 0
    */
-  public momentum = Geometric3.zero()
+  public L = Geometric3.zero()
+
+  /**
+   * <p>
+   * Mass (scalar)
+   * <p>
+   * <p>
+   * The (dimensionless) mass of the <code>RigidBody</code>.
+   * </p>
+   *
+   * @property m
+   * @type number
+   * @default 1
+   */
+  public m = 1
+
+  /**
+   * <p>
+   * Momentum (vector)
+   * </p>
+   * <p>
+   * The (dimensionless) momentum of the <code>RigidBody</code>.
+   * <p>
+   *
+   * @property P
+   * @type Geometric3
+   * @default 0
+   */
+  public P = Geometric3.zero()
+
+  /**
+   * <p>
+   * Charge
+   * </p>
+   * <p>
+   * The (dimensionless) charge of the <code>RigidBody</code>.
+   * </p>
+   *
+   * @property Q
+   * @type Geometric3
+   * @default 0
+   */
+  public Q = Geometric3.zero()
 
   /**
    * Cache the initial axis value so that we can compute the axis at any
@@ -67,7 +105,7 @@ export default class RigidBody extends Mesh implements IRigidBody<number, Geomet
 
   /**
    * @method destructor
-   * @param level {number}
+   * @param levelUp {number}
    * @return {void}
    * @protected
    */
@@ -79,15 +117,19 @@ export default class RigidBody extends Mesh implements IRigidBody<number, Geomet
   }
 
   /**
+   * <p>
+   * Axis (vector)
+   * </p>
+   *
    * @property axis
    * @type Geometric3
    */
   get axis(): Geometric3 {
     // This is a copy!
-    return Geometric3.fromVector(this.initialAxis).rotate(this.attitude)
+    return Geometric3.fromVector(this.initialAxis).rotate(this.R)
   }
   set axis(axis: Geometric3) {
     mustBeObject('axis', axis)
-    this.attitude.rotorFromDirections(this.initialAxis, axis)
+    this.R.rotorFromDirections(this.initialAxis, axis)
   }
 }

@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.223.0</em>
+            <em>API Docs for: 2.224.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -44,6 +44,7 @@
                                 <li><a href="../classes/AbstractMesh.html">AbstractMesh</a></li>
                                 <li><a href="../classes/AmbientLight.html">AmbientLight</a></li>
                                 <li><a href="../classes/AnimationApp.html">AnimationApp</a></li>
+                                <li><a href="../classes/AnimationAppOptions.html">AnimationAppOptions</a></li>
                                 <li><a href="../classes/Approximation.html">Approximation</a></li>
                                 <li><a href="../classes/Arrow.html">Arrow</a></li>
                                 <li><a href="../classes/ArrowBuilder.html">ArrowBuilder</a></li>
@@ -60,6 +61,7 @@
                                 <li><a href="../classes/BoxGeometryOptions.html">BoxGeometryOptions</a></li>
                                 <li><a href="../classes/BoxOptions.html">BoxOptions</a></li>
                                 <li><a href="../classes/BrowserApp.html">BrowserApp</a></li>
+                                <li><a href="../classes/BrowserAppOptions.html">BrowserAppOptions</a></li>
                                 <li><a href="../classes/Capability.html">Capability</a></li>
                                 <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
@@ -94,6 +96,7 @@
                                 <li><a href="../classes/EIGHTLogger.html">EIGHTLogger</a></li>
                                 <li><a href="../classes/Engine.html">Engine</a></li>
                                 <li><a href="../classes/EngineApp.html">EngineApp</a></li>
+                                <li><a href="../classes/EngineAppOptions.html">EngineAppOptions</a></li>
                                 <li><a href="../classes/ErrorMode.html">ErrorMode</a></li>
                                 <li><a href="../classes/Facet.html">Facet</a></li>
                                 <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
@@ -142,6 +145,7 @@
                                 <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
                                 <li><a href="../classes/MouseControls.html">MouseControls</a></li>
                                 <li><a href="../classes/MultiViewApp.html">MultiViewApp</a></li>
+                                <li><a href="../classes/MultiViewAppOptions.html">MultiViewAppOptions</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/NumberShareableMap.html">NumberShareableMap</a></li>
                                 <li><a href="../classes/OrbitControls.html">OrbitControls</a></li>
@@ -280,8 +284,11 @@
 import BrowserApp from &#x27;./BrowserApp&#x27;
 import BrowserWindow from &#x27;./BrowserWindow&#x27;
 import Engine from &#x27;../core/Engine&#x27;
+import EngineAppOptions from &#x27;./EngineAppOptions&#x27;
 import getCanvasElementById from &#x27;../utils/getCanvasElementById&#x27;
 import getDimensions from &#x27;../utils/getDimensions&#x27;
+import isString from &#x27;../checks/isString&#x27;
+import mustBeObject from &#x27;../checks/mustBeObject&#x27;
 import mustBeNumber from &#x27;../checks/mustBeNumber&#x27;
 import mustBeString from &#x27;../checks/mustBeString&#x27;
 import Scene from &#x27;../core/Scene&#x27;
@@ -319,13 +326,12 @@ export default class EngineApp extends BrowserApp {
   /**
    * @class EngineApp
    * @constructor
-   * @param canvasId {string} The element id of the &lt;code&gt;HTMLCanvasElement&lt;/code&gt;.
-   * @param [wnd = window] {Window} The window in which the application will be running.
+   * @param options {EngineAppOptions}
    */
-  constructor(canvasId: string, wnd: BrowserWindow = window) {
-    super(wnd)
+  constructor(options: EngineAppOptions = {}) {
+    super(options)
     this.engine = new Engine()
-    this.canvasId = mustBeString(&#x27;canvasId&#x27;, canvasId)
+    this.canvasId = defaultCanvasId(options)
   }
 
   /**
@@ -343,6 +349,13 @@ export default class EngineApp extends BrowserApp {
   }
 
   /**
+   * &lt;p&gt;
+   * Sets the graphics buffers to values preselected by clearColor, clearDepth or clearStencil.
+   * &lt;/p&gt;
+   * &lt;p&gt;
+   * This method is a shortcut for &lt;code&gt;engine.clear()&lt;/code&gt;.
+   * &lt;/p&gt;
+   *
    * @method clear
    * @return {void}
    * @protected
@@ -369,6 +382,15 @@ export default class EngineApp extends BrowserApp {
     else {
       throw new Error(&#x60;${this.canvasId} must be the elementId of a canvas element.&#x60;)
     }
+  }
+}
+
+function defaultCanvasId(options: EngineAppOptions): string {
+  if (isString(options.canvasId)) {
+    return options.canvasId
+  }
+  else {
+    return &#x27;canvas&#x27;
   }
 }
 

@@ -4,16 +4,12 @@ import Drawable from './Drawable'
 import Engine from './Engine'
 import Geometric3 from '../math/Geometric3'
 import Geometry from './Geometry'
-import incLevel from '../base/incLevel'
 import Material from './Material'
 import AbstractMesh from '../core/AbstractMesh'
 import Matrix4 from '../math/Matrix4'
 import ModelFacet from '../facets/ModelFacet'
 import PointSizeFacet from '../facets/PointSizeFacet'
 import notSupported from '../i18n/notSupported'
-import readOnly from '../i18n/readOnly'
-import VectorE3 from '../math/VectorE3'
-import SpinorE3 from '../math/SpinorE3'
 
 const COLOR_FACET_NAME = 'color'
 const MODEL_FACET_NAME = 'model'
@@ -57,53 +53,36 @@ export default class Mesh extends Drawable implements AbstractMesh {
 
   /**
    * @method destructor
-   * @param level {number}
+   * @param levelUp {number}
    * @return {void}
    * @protected
    */
-  protected destructor(level: number): void {
-    super.destructor(incLevel(level))
+  protected destructor(levelUp: number): void {
+    super.destructor(levelUp + 1)
   }
 
   /**
    * Attitude (spinor)
    *
-   * @property attitude
+   * @property R
    * @type Geometric3
    */
-  get attitude(): Geometric3 {
+  get R(): Geometric3 {
     const facet = <ModelFacet>this.getFacet(MODEL_FACET_NAME)
     if (facet) {
-      return facet.attitude
+      return facet.R
     }
     else {
-      throw new Error(notSupported('attitude').message)
+      throw new Error(notSupported('R').message)
     }
   }
-  set attitude(attitude: Geometric3) {
-    this.setAttitude(attitude)
-  }
-
-  /**
-   * @method getAttitude
-   * @return {Geometric3}
-   */
-  getAttitude(): Geometric3 {
-    return this.attitude
-  }
-
-  /**
-   * @method setAttitude
-   * @param attitude {SpinorE3}
-   * @return {void}
-   */
-  setAttitude(attitude: SpinorE3): void {
+  set R(R: Geometric3) {
     const facet = <ModelFacet>this.getFacet(MODEL_FACET_NAME)
     if (facet) {
-      facet.attitude.copySpinor(attitude)
+      facet.R.copySpinor(R)
     }
     else {
-      throw new Error(notSupported('attitude').message)
+      throw new Error(notSupported('R').message)
     }
   }
 
@@ -133,56 +112,27 @@ export default class Mesh extends Drawable implements AbstractMesh {
   }
 
   /**
-   * @property matrix
-   * @type Matrix4
-   * @readOnly
-   */
-  get matrix(): Matrix4 {
-    return (<ModelFacet>this.getFacet(MODEL_FACET_NAME)).matrix
-  }
-  set matrix(unused: Matrix4) {
-    throw new Error(readOnly('matrix').message)
-  }
-
-  /**
    * Position (vector)
    *
-   * @property position
+   * @property X
    * @type Geometric3
    */
-  get position(): Geometric3 {
+  get X(): Geometric3 {
     const facet = <ModelFacet>this.getFacet(MODEL_FACET_NAME)
     if (facet) {
-      return facet.position
+      return facet.X
     }
     else {
-      throw new Error(notSupported('position').message)
+      throw new Error(notSupported('X').message)
     }
   }
-  set position(position: Geometric3) {
-    this.setPosition(position)
-  }
-
-  /**
-   * @method getPosition
-   * @return {Geometric3}
-   */
-  getPosition(): Geometric3 {
-    return this.position
-  }
-
-  /**
-   * @method setPosition
-   * @param position {VectorE3}
-   * @return {void}
-   */
-  setPosition(position: VectorE3): void {
+  set X(X: Geometric3) {
     const facet = <ModelFacet>this.getFacet(MODEL_FACET_NAME)
     if (facet) {
-      facet.position.copyVector(position)
+      facet.X.copyVector(X)
     }
     else {
-      throw new Error(notSupported('position').message)
+      throw new Error(notSupported('X').message)
     }
   }
 

@@ -1,4 +1,5 @@
 import BrowserApp from './BrowserApp'
+import BrowserAppOptions from './BrowserAppOptions'
 import BrowserWindow from './BrowserWindow'
 import BrowserDocument from './BrowserDocument'
 import BrowserHTMLElement from './BrowserHTMLElement'
@@ -45,8 +46,8 @@ class MockWindow implements BrowserWindow {
 }
 
 class MyBrowserApp extends BrowserApp {
-  constructor(wnd?: BrowserWindow) {
-    super(wnd)
+  constructor(options: BrowserAppOptions) {
+    super(options)
   }
   protected run(): void {
   }
@@ -63,7 +64,9 @@ describe("BrowserApp", function() {
     expect(Object.keys(mockDocument.listening).length).toBe(0)
     expect(Object.keys(mockWindow.listening).length).toBe(0)
 
-    const browserApp = new MyBrowserApp(mockWindow)
+    const options: BrowserAppOptions = {}
+    options.window = mockWindow
+    const browserApp = new MyBrowserApp(options)
 
     expect(browserApp.isWaiting()).toBe(true)
     expect(browserApp.isRunning()).toBe(false)

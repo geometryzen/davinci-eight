@@ -1,9 +1,50 @@
 import AnimationApp from '../base/AnimationApp'
-import BrowserWindow from '../base/BrowserWindow'
 import Scene from '../core/Scene'
+import SingleViewAppOptions from './SingleViewAppOptions'
 import Viewport from './Viewport'
 
 /**
+ * <p>
+ * An <code>AnimationApp</code> with a single <code>Viewport</code>.
+ * </p>
+ *
+ * @example
+ *     class MyApp extends EIGHT.SingleViewApp {
+ *       private sphere = new EIGHT.Sphere()
+ *       constructor(canvasId: string) {
+ *         super(canvasId, window)
+ *       }
+ *       protected initialize(): void {
+ *         super.initialize()
+ *         const scene = this.view.scene
+ *         scene.add(this.sphere)
+ *         scene.release()
+ *         this.start()
+ *       }
+ *       //
+ *       //
+ *       //
+ *       protected animate(time: number): void {
+ *         // 
+ *         this.clear()
+ *         // Move your objects around.
+ *
+ *         // 
+ *         this.draw()
+ *       }
+ *       //
+ *       // The destructor will be called when the window is unloading.
+ *       // It is your opportunity to release any resources.
+ *       //
+ *       protected destructor(): void {
+ *         this.sphere.release()
+ *         // Call up the destructor chain as the last call.
+ *         super.destructor()
+ *       }
+ *     }
+ *     // Creating the application starts it listening for DOMContentLoaded events.
+ *     new MyApp('canvas')
+ *
  * @class SingleViewApp
  * @extends AnimationApp
  */
@@ -19,11 +60,10 @@ export default class SingleViewApp extends AnimationApp {
   /**
    * @class SingleViewApp
    * @constructor
-   * @param canvasId {string} The element id of the <code>HTMLCanvasElement</code>.
-   * @param [wnd = window] {Window} The window in which the application will be running.
+   * @param options {SingleViewAppOptions}
    */
-  constructor(canvasId: string, wnd: BrowserWindow = window) {
-    super(canvasId, wnd)
+  constructor(options: SingleViewAppOptions) {
+    super(options)
   }
 
   /**

@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.223.0</em>
+            <em>API Docs for: 2.224.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -44,6 +44,7 @@
                                 <li><a href="../classes/AbstractMesh.html">AbstractMesh</a></li>
                                 <li><a href="../classes/AmbientLight.html">AmbientLight</a></li>
                                 <li><a href="../classes/AnimationApp.html">AnimationApp</a></li>
+                                <li><a href="../classes/AnimationAppOptions.html">AnimationAppOptions</a></li>
                                 <li><a href="../classes/Approximation.html">Approximation</a></li>
                                 <li><a href="../classes/Arrow.html">Arrow</a></li>
                                 <li><a href="../classes/ArrowBuilder.html">ArrowBuilder</a></li>
@@ -60,6 +61,7 @@
                                 <li><a href="../classes/BoxGeometryOptions.html">BoxGeometryOptions</a></li>
                                 <li><a href="../classes/BoxOptions.html">BoxOptions</a></li>
                                 <li><a href="../classes/BrowserApp.html">BrowserApp</a></li>
+                                <li><a href="../classes/BrowserAppOptions.html">BrowserAppOptions</a></li>
                                 <li><a href="../classes/Capability.html">Capability</a></li>
                                 <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
@@ -94,6 +96,7 @@
                                 <li><a href="../classes/EIGHTLogger.html">EIGHTLogger</a></li>
                                 <li><a href="../classes/Engine.html">Engine</a></li>
                                 <li><a href="../classes/EngineApp.html">EngineApp</a></li>
+                                <li><a href="../classes/EngineAppOptions.html">EngineAppOptions</a></li>
                                 <li><a href="../classes/ErrorMode.html">ErrorMode</a></li>
                                 <li><a href="../classes/Facet.html">Facet</a></li>
                                 <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
@@ -142,6 +145,7 @@
                                 <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
                                 <li><a href="../classes/MouseControls.html">MouseControls</a></li>
                                 <li><a href="../classes/MultiViewApp.html">MultiViewApp</a></li>
+                                <li><a href="../classes/MultiViewAppOptions.html">MultiViewAppOptions</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/NumberShareableMap.html">NumberShareableMap</a></li>
                                 <li><a href="../classes/OrbitControls.html">OrbitControls</a></li>
@@ -391,10 +395,6 @@ Constructs a ModelFacet at the origin and with unity attitude.
                                 <a href="#property__position">_position</a>
 
                             </li>
-                            <li class="index-item property inherited">
-                                <a href="#property_attitude">attitude</a>
-
-                            </li>
                             <li class="index-item property">
                                 <a href="#property_matrix">matrix</a>
 
@@ -404,11 +404,15 @@ Constructs a ModelFacet at the origin and with unity attitude.
 
                             </li>
                             <li class="index-item property inherited">
-                                <a href="#property_position">position</a>
+                                <a href="#property_R">R</a>
 
                             </li>
                             <li class="index-item property">
                                 <a href="#property_stress">stress</a>
+
+                            </li>
+                            <li class="index-item property inherited">
+                                <a href="#property_X">X</a>
 
                             </li>
                     </ul>
@@ -444,7 +448,7 @@ Constructs a ModelFacet at the origin and with unity attitude.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/ModelE3.html#method_getProperty">ModelE3</a>:
-        <a href="../files/src_davinci-eight_facets_ModelE3.ts.html#l105"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ModelE3.ts:105</code></a>
+        <a href="../files/src_davinci-eight_facets_ModelE3.ts.html#l114"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ModelE3.ts:114</code></a>
         </p>
 
 
@@ -640,7 +644,7 @@ Constructs a ModelFacet at the origin and with unity attitude.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/ModelE3.html#property__attCache">ModelE3</a>:
-        <a href="../files/src_davinci-eight_facets_ModelE3.ts.html#l57"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ModelE3.ts:57</code></a>
+        <a href="../files/src_davinci-eight_facets_ModelE3.ts.html#l59"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ModelE3.ts:59</code></a>
         </p>
 
 
@@ -666,7 +670,7 @@ Constructs a ModelFacet at the origin and with unity attitude.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/ModelE3.html#property__attitude">ModelE3</a>:
-        <a href="../files/src_davinci-eight_facets_ModelE3.ts.html#l42"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ModelE3.ts:42</code></a>
+        <a href="../files/src_davinci-eight_facets_ModelE3.ts.html#l44"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ModelE3.ts:44</code></a>
         </p>
 
 
@@ -691,7 +695,7 @@ Constructs a ModelFacet at the origin and with unity attitude.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/ModelE3.html#property__posCache">ModelE3</a>:
-        <a href="../files/src_davinci-eight_facets_ModelE3.ts.html#l49"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ModelE3.ts:49</code></a>
+        <a href="../files/src_davinci-eight_facets_ModelE3.ts.html#l51"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ModelE3.ts:51</code></a>
         </p>
 
 
@@ -717,31 +721,7 @@ Constructs a ModelFacet at the origin and with unity attitude.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/ModelE3.html#property__position">ModelE3</a>:
-        <a href="../files/src_davinci-eight_facets_ModelE3.ts.html#l35"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ModelE3.ts:35</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-
-</div>
-<div id="property_attitude" class="property item inherited">
-    <h3 class="name"><code>attitude</code></h3>
-    <span class="type"><a href="../classes/Geometric3.html" class="crosslink">Geometric3</a></span>
-
-
-
-
-
-    <div class="meta">
-                <p>Inherited from
-                <a href="../classes/ModelE3.html#property_attitude">ModelE3</a>:
-        <a href="../files/src_davinci-eight_facets_ModelE3.ts.html#l83"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ModelE3.ts:83</code></a>
+        <a href="../files/src_davinci-eight_facets_ModelE3.ts.html#l37"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ModelE3.ts:37</code></a>
         </p>
 
 
@@ -804,8 +784,8 @@ Constructs a ModelFacet at the origin and with unity attitude.
 
 
 </div>
-<div id="property_position" class="property item inherited">
-    <h3 class="name"><code>position</code></h3>
+<div id="property_R" class="property item inherited">
+    <h3 class="name"><code>R</code></h3>
     <span class="type"><a href="../classes/Geometric3.html" class="crosslink">Geometric3</a></span>
 
 
@@ -814,15 +794,17 @@ Constructs a ModelFacet at the origin and with unity attitude.
 
     <div class="meta">
                 <p>Inherited from
-                <a href="../classes/ModelE3.html#property_position">ModelE3</a>:
-        <a href="../files/src_davinci-eight_facets_ModelE3.ts.html#l94"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ModelE3.ts:94</code></a>
+                <a href="../classes/ModelE3.html#property_R">ModelE3</a>:
+        <a href="../files/src_davinci-eight_facets_ModelE3.ts.html#l85"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ModelE3.ts:85</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        
+        <p>
+The <em>attitude</em>, a rotor.
+</p>
     </div>
 
 
@@ -847,6 +829,32 @@ Constructs a ModelFacet at the origin and with unity attitude.
 
     <div class="description">
         
+    </div>
+
+
+
+</div>
+<div id="property_X" class="property item inherited">
+    <h3 class="name"><code>X</code></h3>
+    <span class="type"><a href="../classes/Geometric3.html" class="crosslink">Geometric3</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/ModelE3.html#property_X">ModelE3</a>:
+        <a href="../files/src_davinci-eight_facets_ModelE3.ts.html#l100"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ModelE3.ts:100</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>
+The <em>position</em>, a vector.
+</p>
     </div>
 
 

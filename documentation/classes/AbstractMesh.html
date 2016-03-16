@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.223.0</em>
+            <em>API Docs for: 2.224.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -44,6 +44,7 @@
                                 <li><a href="../classes/AbstractMesh.html">AbstractMesh</a></li>
                                 <li><a href="../classes/AmbientLight.html">AmbientLight</a></li>
                                 <li><a href="../classes/AnimationApp.html">AnimationApp</a></li>
+                                <li><a href="../classes/AnimationAppOptions.html">AnimationAppOptions</a></li>
                                 <li><a href="../classes/Approximation.html">Approximation</a></li>
                                 <li><a href="../classes/Arrow.html">Arrow</a></li>
                                 <li><a href="../classes/ArrowBuilder.html">ArrowBuilder</a></li>
@@ -60,6 +61,7 @@
                                 <li><a href="../classes/BoxGeometryOptions.html">BoxGeometryOptions</a></li>
                                 <li><a href="../classes/BoxOptions.html">BoxOptions</a></li>
                                 <li><a href="../classes/BrowserApp.html">BrowserApp</a></li>
+                                <li><a href="../classes/BrowserAppOptions.html">BrowserAppOptions</a></li>
                                 <li><a href="../classes/Capability.html">Capability</a></li>
                                 <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
@@ -94,6 +96,7 @@
                                 <li><a href="../classes/EIGHTLogger.html">EIGHTLogger</a></li>
                                 <li><a href="../classes/Engine.html">Engine</a></li>
                                 <li><a href="../classes/EngineApp.html">EngineApp</a></li>
+                                <li><a href="../classes/EngineAppOptions.html">EngineAppOptions</a></li>
                                 <li><a href="../classes/ErrorMode.html">ErrorMode</a></li>
                                 <li><a href="../classes/Facet.html">Facet</a></li>
                                 <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
@@ -142,6 +145,7 @@
                                 <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
                                 <li><a href="../classes/MouseControls.html">MouseControls</a></li>
                                 <li><a href="../classes/MultiViewApp.html">MultiViewApp</a></li>
+                                <li><a href="../classes/MultiViewAppOptions.html">MultiViewAppOptions</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/NumberShareableMap.html">NumberShareableMap</a></li>
                                 <li><a href="../classes/OrbitControls.html">OrbitControls</a></li>
@@ -346,10 +350,6 @@
 
                     <ul class="index-list properties extends">
                             <li class="index-item property">
-                                <a href="#property_attitude">attitude</a>
-
-                            </li>
-                            <li class="index-item property">
                                 <a href="#property_color">color</a>
 
                             </li>
@@ -370,7 +370,7 @@
 
                             </li>
                             <li class="index-item property">
-                                <a href="#property_position">position</a>
+                                <a href="#property_R">R</a>
 
                             </li>
                             <li class="index-item property">
@@ -383,6 +383,10 @@
                             </li>
                             <li class="index-item property inherited">
                                 <a href="#property_visible">visible</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_X">X</a>
 
                             </li>
                     </ul>
@@ -744,30 +748,6 @@ The new reference count. This value is intended to be used only for test purpose
             <div id="properties" class="api-class-tabpanel">
                 <h2 class="off-left">Properties</h2>
 
-<div id="property_attitude" class="property item">
-    <h3 class="name"><code>attitude</code></h3>
-    <span class="type"><a href="../classes/Geometric3.html" class="crosslink">Geometric3</a></span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_core_AbstractMesh.ts.html#l12"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;AbstractMesh.ts:12</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-
-</div>
 <div id="property_color" class="property item">
     <h3 class="name"><code>color</code></h3>
     <span class="type"><a href="../classes/Color.html" class="crosslink">Color</a></span>
@@ -779,14 +759,16 @@ The new reference count. This value is intended to be used only for test purpose
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_AbstractMesh.ts.html#l18"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;AbstractMesh.ts:18</code></a>
+        <a href="../files/src_davinci-eight_core_AbstractMesh.ts.html#l22"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;AbstractMesh.ts:22</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        
+        <p>
+Color
+</p>
     </div>
 
 
@@ -904,8 +886,8 @@ Consequently, accessing the <code>material</code> property increments the <code>
 
 
 </div>
-<div id="property_position" class="property item">
-    <h3 class="name"><code>position</code></h3>
+<div id="property_R" class="property item">
+    <h3 class="name"><code>R</code></h3>
     <span class="type"><a href="../classes/Geometric3.html" class="crosslink">Geometric3</a></span>
 
 
@@ -915,14 +897,16 @@ Consequently, accessing the <code>material</code> property increments the <code>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_AbstractMesh.ts.html#l24"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;AbstractMesh.ts:24</code></a>
+        <a href="../files/src_davinci-eight_core_AbstractMesh.ts.html#l12"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;AbstractMesh.ts:12</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        
+        <p>
+Attitude (spinor)
+</p>
     </div>
 
 
@@ -939,14 +923,16 @@ Consequently, accessing the <code>material</code> property increments the <code>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_AbstractMesh.ts.html#l30"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;AbstractMesh.ts:30</code></a>
+        <a href="../files/src_davinci-eight_core_AbstractMesh.ts.html#l42"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;AbstractMesh.ts:42</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        
+        <p>
+Stress (tensor)
+</p>
     </div>
 
 
@@ -998,6 +984,32 @@ A shortcut to the <code>material.vertexShaderSrc</code> property.
     <div class="description">
         <p>Determines whether this <code>AbstractDrawable</code> will be drawn.</p>
 
+    </div>
+
+
+
+</div>
+<div id="property_X" class="property item">
+    <h3 class="name"><code>X</code></h3>
+    <span class="type"><a href="../classes/Geometric3.html" class="crosslink">Geometric3</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_core_AbstractMesh.ts.html#l32"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;AbstractMesh.ts:32</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>
+Position (vector)
+</p>
     </div>
 
 

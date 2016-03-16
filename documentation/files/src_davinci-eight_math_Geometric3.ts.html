@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.223.0</em>
+            <em>API Docs for: 2.224.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -44,6 +44,7 @@
                                 <li><a href="../classes/AbstractMesh.html">AbstractMesh</a></li>
                                 <li><a href="../classes/AmbientLight.html">AmbientLight</a></li>
                                 <li><a href="../classes/AnimationApp.html">AnimationApp</a></li>
+                                <li><a href="../classes/AnimationAppOptions.html">AnimationAppOptions</a></li>
                                 <li><a href="../classes/Approximation.html">Approximation</a></li>
                                 <li><a href="../classes/Arrow.html">Arrow</a></li>
                                 <li><a href="../classes/ArrowBuilder.html">ArrowBuilder</a></li>
@@ -60,6 +61,7 @@
                                 <li><a href="../classes/BoxGeometryOptions.html">BoxGeometryOptions</a></li>
                                 <li><a href="../classes/BoxOptions.html">BoxOptions</a></li>
                                 <li><a href="../classes/BrowserApp.html">BrowserApp</a></li>
+                                <li><a href="../classes/BrowserAppOptions.html">BrowserAppOptions</a></li>
                                 <li><a href="../classes/Capability.html">Capability</a></li>
                                 <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
@@ -94,6 +96,7 @@
                                 <li><a href="../classes/EIGHTLogger.html">EIGHTLogger</a></li>
                                 <li><a href="../classes/Engine.html">Engine</a></li>
                                 <li><a href="../classes/EngineApp.html">EngineApp</a></li>
+                                <li><a href="../classes/EngineAppOptions.html">EngineAppOptions</a></li>
                                 <li><a href="../classes/ErrorMode.html">ErrorMode</a></li>
                                 <li><a href="../classes/Facet.html">Facet</a></li>
                                 <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
@@ -142,6 +145,7 @@
                                 <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
                                 <li><a href="../classes/MouseControls.html">MouseControls</a></li>
                                 <li><a href="../classes/MultiViewApp.html">MultiViewApp</a></li>
+                                <li><a href="../classes/MultiViewAppOptions.html">MultiViewAppOptions</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/NumberShareableMap.html">NumberShareableMap</a></li>
                                 <li><a href="../classes/OrbitControls.html">OrbitControls</a></li>
@@ -288,6 +292,7 @@ import gauss from &#x27;./gauss&#x27;
 import GeometricE3 from &#x27;./GeometricE3&#x27;;
 import GeometricOperators from &#x27;./GeometricOperators&#x27;;
 import isDefined from &#x27;../checks/isDefined&#x27;;
+import isScalarG3 from &#x27;./isScalarG3&#x27;;
 import lcoG3 from &#x27;./lcoG3&#x27;;
 import maskG3 from &#x27;./maskG3&#x27;
 import mulE3 from &#x27;./mulE3&#x27;;
@@ -847,6 +852,7 @@ export default class Geometric3 extends Coords implements CartesianG3, Geometric
    * @chainable
    */
   copyVector(vector: VectorE3) {
+    // FIXME: This fails for copying self
     this.zero()
     this.x = vector.x
     this.y = vector.y
@@ -864,67 +870,70 @@ export default class Geometric3 extends Coords implements CartesianG3, Geometric
    * @chainable
    */
   div(m: GeometricE3): Geometric3 {
+    if (isScalarG3(m)) {
+      return this.divByScalar(m.α)
+    }
+    else {
+      const α = m.α
+      const x = m.x
+      const y = m.y
+      const z = m.z
+      const xy = m.xy
+      const yz = m.yz
+      const zx = m.zx
+      const β = m.β
 
-    const α = m.α
-    const x = m.x
-    const y = m.y
-    const z = m.z
-    const xy = m.xy
-    const yz = m.yz
-    const zx = m.zx
-    const β = m.β
+      const A = [
+        [α, x, y, z, -xy, -yz, -zx, -β],
+        [x, α, xy, -zx, -y, -β, z, -yz],
+        [y, -xy, α, yz, x, -z, -β, -zx],
+        [z, zx, -yz, α, -β, y, -x, -xy],
+        [xy, -y, x, β, α, zx, -yz, z],
+        [yz, β, -z, y, -zx, α, xy, x],
+        [zx, z, β, -x, yz, -xy, α, y],
+        [β, yz, zx, xy, z, x, y, α]
+      ]
 
-    const A = [
-      [α, x, y, z, -xy, -yz, -zx, -β],
-      [x, α, xy, -zx, -y, -β, z, -yz],
-      [y, -xy, α, yz, x, -z, -β, -zx],
-      [z, zx, -yz, α, -β, y, -x, -xy],
-      [xy, -y, x, β, α, zx, -yz, z],
-      [yz, β, -z, y, -zx, α, xy, x],
-      [zx, z, β, -x, yz, -xy, α, y],
-      [β, yz, zx, xy, z, x, y, α]
-    ]
+      const b = [1, 0, 0, 0, 0, 0, 0, 0]
 
-    const b = [1, 0, 0, 0, 0, 0, 0, 0]
+      const X = gauss(A, b)
 
-    const X = gauss(A, b)
+      const a0 = this.α
+      const a1 = this.x
+      const a2 = this.y
+      const a3 = this.z
+      const a4 = this.xy
+      const a5 = this.yz
+      const a6 = this.zx
+      const a7 = this.β
 
-    const a0 = this.α
-    const a1 = this.x
-    const a2 = this.y
-    const a3 = this.z
-    const a4 = this.xy
-    const a5 = this.yz
-    const a6 = this.zx
-    const a7 = this.β
+      const b0 = X[0]
+      const b1 = X[1]
+      const b2 = X[2]
+      const b3 = X[3]
+      const b4 = X[4]
+      const b5 = X[5]
+      const b6 = X[6]
+      const b7 = X[7]
 
-    const b0 = X[0]
-    const b1 = X[1]
-    const b2 = X[2]
-    const b3 = X[3]
-    const b4 = X[4]
-    const b5 = X[5]
-    const b6 = X[6]
-    const b7 = X[7]
+      const c0 = mulE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 0)
+      const c1 = mulE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 1)
+      const c2 = mulE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 2)
+      const c3 = mulE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 3)
+      const c4 = mulE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 4)
+      const c5 = mulE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 5)
+      const c6 = mulE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 6)
+      const c7 = mulE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 7)
 
-    const c0 = mulE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 0)
-    const c1 = mulE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 1)
-    const c2 = mulE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 2)
-    const c3 = mulE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 3)
-    const c4 = mulE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 4)
-    const c5 = mulE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 5)
-    const c6 = mulE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 6)
-    const c7 = mulE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 7)
-
-    this.α = c0
-    this.x = c1
-    this.y = c2
-    this.z = c3
-    this.xy = c4
-    this.yz = c5
-    this.zx = c6
-    this.β = c7
-
+      this.α = c0
+      this.x = c1
+      this.y = c2
+      this.z = c3
+      this.xy = c4
+      this.yz = c5
+      this.zx = c6
+      this.β = c7
+    }
     return this
   }
 

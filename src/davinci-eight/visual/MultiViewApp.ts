@@ -1,5 +1,6 @@
 import AnimationApp from '../base/AnimationApp'
-import BrowserWindow from '../base/BrowserWindow'
+import isInteger from '../checks/isInteger'
+import MultiViewAppOptions from './MultiViewAppOptions'
 import mustBeGE from '../checks/mustBeGE'
 import mustBeInteger from '../checks/mustBeInteger'
 import Scene from '../core/Scene'
@@ -22,12 +23,11 @@ export default class MultiViewApp extends AnimationApp {
   /**
    * @class MultiViewApp
    * @constructor
-   * @param numViews {number} The initial number of views. Views may be added and removed later.
-   * @param canvasId {string} The element id of the <code>HTMLCanvasElement</code>.
-   * @param [wnd = window] {Window} The window in which the application will be running.
+   * @param options {MultiViewAppOptions}
    */
-  constructor(numViews: number, canvasId: string, wnd: BrowserWindow = window) {
-    super(canvasId, wnd)
+  constructor(options: MultiViewAppOptions = {}) {
+    super(options)
+    const numViews = defaultNumViews(options)
     mustBeInteger('numViews', numViews)
     mustBeGE('numViews', numViews, 0)
     for (let i = 0; i < numViews; i++) {
@@ -79,5 +79,14 @@ export default class MultiViewApp extends AnimationApp {
   protected destructor(): void {
     this.views.release()
     super.destructor()
+  }
+}
+
+function defaultNumViews(options: MultiViewAppOptions): number {
+  if (isInteger(options.numViews)) {
+    return options.numViews
+  }
+  else {
+    return 1
   }
 }

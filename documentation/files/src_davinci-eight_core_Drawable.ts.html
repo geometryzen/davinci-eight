@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.223.0</em>
+            <em>API Docs for: 2.224.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -44,6 +44,7 @@
                                 <li><a href="../classes/AbstractMesh.html">AbstractMesh</a></li>
                                 <li><a href="../classes/AmbientLight.html">AmbientLight</a></li>
                                 <li><a href="../classes/AnimationApp.html">AnimationApp</a></li>
+                                <li><a href="../classes/AnimationAppOptions.html">AnimationAppOptions</a></li>
                                 <li><a href="../classes/Approximation.html">Approximation</a></li>
                                 <li><a href="../classes/Arrow.html">Arrow</a></li>
                                 <li><a href="../classes/ArrowBuilder.html">ArrowBuilder</a></li>
@@ -60,6 +61,7 @@
                                 <li><a href="../classes/BoxGeometryOptions.html">BoxGeometryOptions</a></li>
                                 <li><a href="../classes/BoxOptions.html">BoxOptions</a></li>
                                 <li><a href="../classes/BrowserApp.html">BrowserApp</a></li>
+                                <li><a href="../classes/BrowserAppOptions.html">BrowserAppOptions</a></li>
                                 <li><a href="../classes/Capability.html">Capability</a></li>
                                 <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
@@ -94,6 +96,7 @@
                                 <li><a href="../classes/EIGHTLogger.html">EIGHTLogger</a></li>
                                 <li><a href="../classes/Engine.html">Engine</a></li>
                                 <li><a href="../classes/EngineApp.html">EngineApp</a></li>
+                                <li><a href="../classes/EngineAppOptions.html">EngineAppOptions</a></li>
                                 <li><a href="../classes/ErrorMode.html">ErrorMode</a></li>
                                 <li><a href="../classes/Facet.html">Facet</a></li>
                                 <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
@@ -142,6 +145,7 @@
                                 <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
                                 <li><a href="../classes/MouseControls.html">MouseControls</a></li>
                                 <li><a href="../classes/MultiViewApp.html">MultiViewApp</a></li>
+                                <li><a href="../classes/MultiViewAppOptions.html">MultiViewAppOptions</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/NumberShareableMap.html">NumberShareableMap</a></li>
                                 <li><a href="../classes/OrbitControls.html">OrbitControls</a></li>
@@ -279,6 +283,7 @@
     <pre class="code prettyprint linenums">
 import ContextProvider from &#x27;../core/ContextProvider&#x27;;
 import Engine from &#x27;../core/Engine&#x27;;
+import exchange from &#x27;../base/exchange&#x27;;
 import isObject from &#x27;../checks/isDefined&#x27;;
 import mustBeBoolean from &#x27;../checks/mustBeBoolean&#x27;;
 import Geometry from &#x27;./Geometry&#x27;;
@@ -364,14 +369,8 @@ export default class Drawable extends ShareableContextConsumer implements Abstra
    * @protected
    */
   protected destructor(levelUp: number): void {
-    if (this._geometry) {
-      this._geometry.release()
-      this._geometry = void 0
-    }
-    if (this._material) {
-      this._material.release()
-      this._material = void 0
-    }
+    this._geometry = exchange(this._geometry, void 0)
+    this._material = exchange(this._material, void 0)
     super.destructor(levelUp + 1)
   }
 
@@ -527,16 +526,9 @@ export default class Drawable extends ShareableContextConsumer implements Abstra
     }
   }
   set geometry(geometry: Geometry) {
-    if (this._geometry) {
-      this._geometry.release()
-      this._geometry = void 0
-    }
-    if (geometry) {
-      geometry.addRef()
-      this._geometry = geometry
-      if (this.contextProvider) {
-        this._geometry.contextGain(this.contextProvider)
-      }
+    this._geometry = exchange(this._geometry, geometry)
+    if (this._geometry &amp;&amp; this.contextProvider) {
+      this._geometry.contextGain(this.contextProvider)
     }
   }
 
@@ -556,16 +548,9 @@ export default class Drawable extends ShareableContextConsumer implements Abstra
     }
   }
   set material(material: Material) {
-    if (this._material) {
-      this._material.release()
-      this._material = void 0
-    }
-    if (material) {
-      material.addRef()
-      this._material = material
-      if (this.contextProvider) {
-        this._material.contextGain(this.contextProvider)
-      }
+    this._material = exchange(this._material, material)
+    if (this._material &amp;&amp; this.contextProvider) {
+      this._material.contextGain(this.contextProvider)
     }
   }
 

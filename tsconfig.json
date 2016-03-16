@@ -19,6 +19,7 @@
     "src/davinci-eight/base/BrowserApp.spec.ts",
     "src/davinci-eight/base/DefaultContextProvider.spec.ts",
     "src/davinci-eight/base/exchange.spec.ts",
+    "src/davinci-eight/base/EngineApp.spec.ts",
 
     "src/davinci-eight/checks/isNull.spec.ts",
 
@@ -33,6 +34,7 @@
     "src/davinci-eight/controls/TrackballControls.spec.ts",
 
     "src/davinci-eight/core/Color.spec.ts",
+    "src/davinci-eight/core/Drawable.spec.ts",
     "src/davinci-eight/core/Engine.spec.ts",
     "src/davinci-eight/core/GeometryContainer.spec.ts",
     "src/davinci-eight/core/ShareableBase.spec.ts",

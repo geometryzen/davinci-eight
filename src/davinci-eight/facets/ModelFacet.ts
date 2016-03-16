@@ -52,8 +52,8 @@ export default class ModelFacet extends ModelE3 implements Facet {
    */
   constructor() {
     super()
-    this.position.modified = true
-    this.attitude.modified = true
+    this.X.modified = true
+    this.R.modified = true
     this.matS.modified = true
   }
 
@@ -96,14 +96,14 @@ export default class ModelFacet extends ModelE3 implements Facet {
   private updateMatrices(): void {
     let modified = false
 
-    if (this.position.modified) {
-      this.matT.translation(this.position)
-      this.position.modified = false
+    if (this.X.modified) {
+      this.matT.translation(this.X)
+      this.X.modified = false
       modified = true;
     }
-    if (this.attitude.modified) {
-      this.matR.rotation(this.attitude)
-      this.attitude.modified = false
+    if (this.R.modified) {
+      this.matR.rotation(this.R)
+      this.R.modified = false
       modified = true
     }
     if (this.matS.modified) {

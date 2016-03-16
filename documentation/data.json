@@ -2,7 +2,7 @@
     "project": {
         "name": "davinci-eight",
         "description": "WebGL library for mathematical physics using Geometric Algebra",
-        "version": "2.223.0",
+        "version": "2.224.0",
         "url": ""
     },
     "files": {
@@ -15,11 +15,29 @@
             "fors": {},
             "namespaces": {}
         },
+        "src/davinci-eight/base/AnimationAppOptions.ts": {
+            "name": "src/davinci-eight/base/AnimationAppOptions.ts",
+            "modules": {},
+            "classes": {
+                "AnimationAppOptions": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "src/davinci-eight/base/BrowserApp.ts": {
             "name": "src/davinci-eight/base/BrowserApp.ts",
             "modules": {},
             "classes": {
                 "BrowserApp": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/base/BrowserAppOptions.ts": {
+            "name": "src/davinci-eight/base/BrowserAppOptions.ts",
+            "modules": {},
+            "classes": {
+                "BrowserAppOptions": 1
             },
             "fors": {},
             "namespaces": {}
@@ -50,6 +68,15 @@
             "modules": {},
             "classes": {
                 "EngineApp": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/base/EngineAppOptions.ts": {
+            "name": "src/davinci-eight/base/EngineAppOptions.ts",
+            "modules": {},
+            "classes": {
+                "EngineAppOptions": 1
             },
             "fors": {},
             "namespaces": {}
@@ -2219,6 +2246,15 @@
             "fors": {},
             "namespaces": {}
         },
+        "src/davinci-eight/visual/MultiViewAppOptions.ts": {
+            "name": "src/davinci-eight/visual/MultiViewAppOptions.ts",
+            "modules": {},
+            "classes": {
+                "MultiViewAppOptions": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "src/davinci-eight/visual/RigidBody.ts": {
             "name": "src/davinci-eight/visual/RigidBody.ts",
             "modules": {},
@@ -2358,8 +2394,11 @@
             "elements": {},
             "classes": {
                 "AnimationApp": 1,
+                "AnimationAppOptions": 1,
                 "BrowserApp": 1,
+                "BrowserAppOptions": 1,
                 "EngineApp": 1,
+                "EngineAppOptions": 1,
                 "NumberShareableMap": 1,
                 "ShareableArray": 1,
                 "StringShareableMap": 1,
@@ -2533,6 +2572,7 @@
                 "Grid": 1,
                 "GridOptions": 1,
                 "MultiViewApp": 1,
+                "MultiViewAppOptions": 1,
                 "RigidBody": 1,
                 "RigidBodyWithUnits": 1,
                 "SingleViewApp": 1,
@@ -2827,23 +2867,29 @@
             "extension_for": [],
             "module": "EIGHT",
             "file": "src/davinci-eight/base/AnimationApp.ts",
-            "line": 22,
+            "line": 24,
             "extends": "EngineApp",
             "is_constructor": 1,
             "params": [
                 {
-                    "name": "canvasId",
-                    "description": "The element id of the <code>HTMLCanvasElement</code>.",
-                    "type": "String"
-                },
-                {
-                    "name": "wnd ",
+                    "name": "options",
                     "description": "The window in which the application will be running.",
-                    "type": "Window",
-                    "optional": true,
-                    "optdefault": " window"
+                    "type": "AnimationAppOptions"
                 }
             ]
+        },
+        "AnimationAppOptions": {
+            "name": "AnimationAppOptions",
+            "shortname": "AnimationAppOptions",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "file": "src/davinci-eight/base/AnimationAppOptions.ts",
+            "line": 3,
+            "extends": "EngineAppOptions"
         },
         "BrowserApp": {
             "name": "BrowserApp",
@@ -2855,17 +2901,28 @@
             "extension_for": [],
             "module": "EIGHT",
             "file": "src/davinci-eight/base/BrowserApp.ts",
-            "line": 33,
+            "line": 55,
             "is_constructor": 1,
             "params": [
                 {
-                    "name": "wnd ",
-                    "description": "The window in which the application will be running.",
-                    "type": "Window",
-                    "optional": true,
-                    "optdefault": " window"
+                    "name": "options",
+                    "description": "",
+                    "type": "BrowserAppOptions",
+                    "optional": true
                 }
             ]
+        },
+        "BrowserAppOptions": {
+            "name": "BrowserAppOptions",
+            "shortname": "BrowserAppOptions",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "file": "src/davinci-eight/base/BrowserAppOptions.ts",
+            "line": 3
         },
         "EngineApp": {
             "name": "EngineApp",
@@ -2877,23 +2934,29 @@
             "extension_for": [],
             "module": "EIGHT",
             "file": "src/davinci-eight/base/EngineApp.ts",
-            "line": 40,
+            "line": 43,
             "extends": "BrowserApp",
             "is_constructor": 1,
             "params": [
                 {
-                    "name": "canvasId",
-                    "description": "The element id of the <code>HTMLCanvasElement</code>.",
-                    "type": "String"
-                },
-                {
-                    "name": "wnd ",
-                    "description": "The window in which the application will be running.",
-                    "type": "Window",
-                    "optional": true,
-                    "optdefault": " window"
+                    "name": "options",
+                    "description": "",
+                    "type": "EngineAppOptions"
                 }
             ]
+        },
+        "EngineAppOptions": {
+            "name": "EngineAppOptions",
+            "shortname": "EngineAppOptions",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "file": "src/davinci-eight/base/EngineAppOptions.ts",
+            "line": 3,
+            "extends": "BrowserAppOptions"
         },
         "NumberShareableMap": {
             "name": "NumberShareableMap",
@@ -3474,7 +3537,7 @@
             "submodule": "core",
             "namespace": "",
             "file": "src/davinci-eight/core/Drawable.ts",
-            "line": 60,
+            "line": 61,
             "description": "<p>\nThis class may be used as either a base class or standalone. \n</p>",
             "extends": "ShareableContextConsumer",
             "is_constructor": 1,
@@ -3508,7 +3571,7 @@
             "submodule": "core",
             "namespace": "",
             "file": "src/davinci-eight/core/Engine.ts",
-            "line": 96,
+            "line": 100,
             "example": [
                 "\n    // Anytime before calling the start method...\n    const renderer = new EIGHT.Engine()\n\n    // When the canvas is available, usually in the window.onload function...\n    renderer.start(canvas)\n\n    // At the start of each animation frame, before drawing...\n    renderer.clear()\n\n    // When no longer needed, usually in the window.onunload function...\n    renderer.release()"
             ],
@@ -3753,7 +3816,7 @@
             "submodule": "core",
             "namespace": "",
             "file": "src/davinci-eight/core/Mesh.ts",
-            "line": 37,
+            "line": 33,
             "extends": "Drawable",
             "is_constructor": 1,
             "params": [
@@ -4078,7 +4141,7 @@
             "submodule": "facets",
             "namespace": "",
             "file": "src/davinci-eight/facets/ModelE2.ts",
-            "line": 50,
+            "line": 57,
             "description": "<p>\nA collection of properties for Rigid Body Modeling.\n</p>\n<p>\nModelE2 implements Facet required for manipulating a composite object.\n</p>\n<p>\nConstructs a ModelE2 at the origin and with unity attitude.\n</p>",
             "is_constructor": 1
         },
@@ -4094,7 +4157,7 @@
             "submodule": "facets",
             "namespace": "",
             "file": "src/davinci-eight/facets/ModelE3.ts",
-            "line": 65,
+            "line": 67,
             "description": "<p>\nA collection of properties for Rigid Body Modeling.\n</p>\n<p>\nModelE3 implements Facet required for manipulating a composite object.\n</p>\n<p>\nConstructs a ModelE3 at the origin and with unity attitude.\n</p>",
             "is_constructor": 1
         },
@@ -5890,7 +5953,7 @@
             "submodule": "math",
             "namespace": "",
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 80,
+            "line": 81,
             "extends": "Coords",
             "description": "Constructs a <code>Geometric3</code>.\nThe multivector is initialized to zero.",
             "is_constructor": 1
@@ -6675,28 +6738,30 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/visual/MultiViewApp.ts",
-            "line": 22,
+            "line": 23,
             "extends": "AnimationApp",
             "is_constructor": 1,
             "params": [
                 {
-                    "name": "numViews",
-                    "description": "The initial number of views. Views may be added and removed later.",
-                    "type": "Number"
-                },
-                {
-                    "name": "canvasId",
-                    "description": "The element id of the <code>HTMLCanvasElement</code>.",
-                    "type": "String"
-                },
-                {
-                    "name": "wnd ",
-                    "description": "The window in which the application will be running.",
-                    "type": "Window",
-                    "optional": true,
-                    "optdefault": " window"
+                    "name": "options",
+                    "description": "",
+                    "type": "MultiViewAppOptions"
                 }
             ]
+        },
+        "MultiViewAppOptions": {
+            "name": "MultiViewAppOptions",
+            "shortname": "MultiViewAppOptions",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/visual/MultiViewAppOptions.ts",
+            "line": 3,
+            "extends": "AnimationAppOptions"
         },
         "RigidBody": {
             "name": "RigidBody",
@@ -6710,7 +6775,7 @@
             "submodule": "visual",
             "namespace": "",
             "file": "src/davinci-eight/visual/RigidBody.ts",
-            "line": 54,
+            "line": 92,
             "description": "<p>\nDecorates the Mesh by adding properties for physical modeling.\n</p>",
             "extends": "Mesh",
             "is_constructor": 1,
@@ -6749,7 +6814,7 @@
             "submodule": "visual",
             "namespace": "",
             "file": "src/davinci-eight/visual/RigidBodyWithUnits.ts",
-            "line": 53,
+            "line": 75,
             "description": "Provides descriptive variables for translational and rotational motion.\nThis class is intended to be used as a base for bodies in the __visual__ module.",
             "extends": "ShareableBase",
             "is_constructor": 1,
@@ -6777,21 +6842,18 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/visual/SingleViewApp.ts",
-            "line": 19,
+            "line": 60,
+            "description": "<p>\nAn <code>AnimationApp</code> with a single <code>Viewport</code>.\n</p>",
+            "example": [
+                "\n    class MyApp extends EIGHT.SingleViewApp {\n      private sphere = new EIGHT.Sphere()\n      constructor(canvasId: string) {\n        super(canvasId, window)\n      }\n      protected initialize(): void {\n        super.initialize()\n        const scene = this.view.scene\n        scene.add(this.sphere)\n        scene.release()\n        this.start()\n      }\n      //\n      //\n      //\n      protected animate(time: number): void {\n        // \n        this.clear()\n        // Move your objects around.\n\n        // \n        this.draw()\n      }\n      //\n      // The destructor will be called when the window is unloading.\n      // It is your opportunity to release any resources.\n      //\n      protected destructor(): void {\n        this.sphere.release()\n        // Call up the destructor chain as the last call.\n        super.destructor()\n      }\n    }\n    // Creating the application starts it listening for DOMContentLoaded events.\n    new MyApp('canvas')"
+            ],
             "extends": "AnimationApp",
             "is_constructor": 1,
             "params": [
                 {
-                    "name": "canvasId",
-                    "description": "The element id of the <code>HTMLCanvasElement</code>.",
-                    "type": "String"
-                },
-                {
-                    "name": "wnd ",
-                    "description": "The window in which the application will be running.",
-                    "type": "Window",
-                    "optional": true,
-                    "optdefault": " window"
+                    "name": "options",
+                    "description": "",
+                    "type": "SingleViewAppOptions"
                 }
             ]
         },
@@ -6957,15 +7019,17 @@
     "classitems": [
         {
             "file": "src/davinci-eight/base/AnimationApp.ts",
-            "line": 16,
+            "line": 17,
             "itemtype": "property",
             "name": "animation",
             "type": "WindowAnimationRunner",
+            "access": "protected",
+            "tagname": "",
             "class": "AnimationApp"
         },
         {
             "file": "src/davinci-eight/base/AnimationApp.ts",
-            "line": 38,
+            "line": 39,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -6978,7 +7042,7 @@
         },
         {
             "file": "src/davinci-eight/base/AnimationApp.ts",
-            "line": 47,
+            "line": 48,
             "itemtype": "method",
             "name": "initialize",
             "return": {
@@ -6991,7 +7055,7 @@
         },
         {
             "file": "src/davinci-eight/base/AnimationApp.ts",
-            "line": 56,
+            "line": 57,
             "itemtype": "method",
             "name": "animate",
             "params": [
@@ -7011,7 +7075,7 @@
         },
         {
             "file": "src/davinci-eight/base/AnimationApp.ts",
-            "line": 66,
+            "line": 67,
             "itemtype": "method",
             "name": "start",
             "return": {
@@ -7024,7 +7088,7 @@
         },
         {
             "file": "src/davinci-eight/base/AnimationApp.ts",
-            "line": 77,
+            "line": 78,
             "itemtype": "method",
             "name": "stop",
             "return": {
@@ -7037,7 +7101,7 @@
         },
         {
             "file": "src/davinci-eight/base/AnimationApp.ts",
-            "line": 88,
+            "line": 89,
             "itemtype": "method",
             "name": "reset",
             "return": {
@@ -7050,7 +7114,7 @@
         },
         {
             "file": "src/davinci-eight/base/BrowserApp.ts",
-            "line": 17,
+            "line": 19,
             "itemtype": "property",
             "name": "window",
             "type": "Window",
@@ -7061,6 +7125,32 @@
         {
             "file": "src/davinci-eight/base/BrowserApp.ts",
             "line": 26,
+            "description": "Determines whether we perform reference count checking\nin order to detect memory leaks.",
+            "itemtype": "property",
+            "name": "memcheck",
+            "type": "boolean",
+            "access": "private",
+            "tagname": "",
+            "class": "BrowserApp"
+        },
+        {
+            "file": "src/davinci-eight/base/BrowserApp.ts",
+            "line": 36,
+            "class": "BrowserApp"
+        },
+        {
+            "file": "src/davinci-eight/base/BrowserApp.ts",
+            "line": 41,
+            "itemtype": "property",
+            "name": "domLoaded",
+            "type": "EventListener",
+            "access": "private",
+            "tagname": "",
+            "class": "BrowserApp"
+        },
+        {
+            "file": "src/davinci-eight/base/BrowserApp.ts",
+            "line": 48,
             "itemtype": "property",
             "name": "managed",
             "type": "ShareableArray",
@@ -7070,7 +7160,7 @@
         },
         {
             "file": "src/davinci-eight/base/BrowserApp.ts",
-            "line": 73,
+            "line": 98,
             "itemtype": "method",
             "name": "isWaiting",
             "return": {
@@ -7081,7 +7171,7 @@
         },
         {
             "file": "src/davinci-eight/base/BrowserApp.ts",
-            "line": 81,
+            "line": 106,
             "itemtype": "method",
             "name": "isRunning",
             "return": {
@@ -7092,7 +7182,7 @@
         },
         {
             "file": "src/davinci-eight/base/BrowserApp.ts",
-            "line": 89,
+            "line": 114,
             "itemtype": "method",
             "name": "isZombie",
             "return": {
@@ -7103,7 +7193,7 @@
         },
         {
             "file": "src/davinci-eight/base/BrowserApp.ts",
-            "line": 97,
+            "line": 122,
             "description": "<p>\nTransfers ownership of the shareable object to this <code>BrowserApp</code>.\n</p>\n<p>\nAll managed objects will be released in the <code>BrowserApp.destructor</code> method.\n</p>\n<p>\nYou must not call <code>release()</code> on the object you are transferring.\n</p>",
             "itemtype": "method",
             "name": "manage",
@@ -7122,7 +7212,7 @@
         },
         {
             "file": "src/davinci-eight/base/BrowserApp.ts",
-            "line": 121,
+            "line": 146,
             "itemtype": "method",
             "name": "initialize",
             "return": {
@@ -7135,7 +7225,7 @@
         },
         {
             "file": "src/davinci-eight/base/BrowserApp.ts",
-            "line": 132,
+            "line": 157,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -7145,6 +7235,26 @@
             "access": "protected",
             "tagname": "",
             "class": "BrowserApp"
+        },
+        {
+            "file": "src/davinci-eight/base/BrowserAppOptions.ts",
+            "line": 7,
+            "itemtype": "attribute",
+            "name": "memcheck",
+            "type": "boolean",
+            "optional": 1,
+            "default": "false",
+            "class": "BrowserAppOptions"
+        },
+        {
+            "file": "src/davinci-eight/base/BrowserAppOptions.ts",
+            "line": 15,
+            "itemtype": "attribute",
+            "name": "window",
+            "type": "Window",
+            "optional": 1,
+            "default": "window",
+            "class": "BrowserAppOptions"
         },
         {
             "file": "src/davinci-eight/base/BrowserDocument.ts",
@@ -7166,7 +7276,7 @@
         },
         {
             "file": "src/davinci-eight/base/EngineApp.ts",
-            "line": 15,
+            "line": 18,
             "description": "The <code>engine</code> is immediately available to derived classes.",
             "itemtype": "property",
             "name": "engine",
@@ -7177,7 +7287,7 @@
         },
         {
             "file": "src/davinci-eight/base/EngineApp.ts",
-            "line": 24,
+            "line": 27,
             "description": "The <code>canvas</code> is only available after the <code>initialize</code> method.",
             "itemtype": "property",
             "name": "canvas",
@@ -7188,7 +7298,7 @@
         },
         {
             "file": "src/davinci-eight/base/EngineApp.ts",
-            "line": 33,
+            "line": 36,
             "itemtype": "property",
             "name": "canvasId",
             "type": "string",
@@ -7198,7 +7308,7 @@
         },
         {
             "file": "src/davinci-eight/base/EngineApp.ts",
-            "line": 52,
+            "line": 54,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -7211,7 +7321,8 @@
         },
         {
             "file": "src/davinci-eight/base/EngineApp.ts",
-            "line": 66,
+            "line": 68,
+            "description": "<p>\nSets the graphics buffers to values preselected by clearColor, clearDepth or clearStencil.\n</p>\n<p>\nThis method is a shortcut for <code>engine.clear()</code>.\n</p>",
             "itemtype": "method",
             "name": "clear",
             "return": {
@@ -7224,7 +7335,7 @@
         },
         {
             "file": "src/davinci-eight/base/EngineApp.ts",
-            "line": 75,
+            "line": 84,
             "itemtype": "method",
             "name": "initialize",
             "return": {
@@ -7234,6 +7345,17 @@
             "access": "protected",
             "tagname": "",
             "class": "EngineApp"
+        },
+        {
+            "file": "src/davinci-eight/base/EngineAppOptions.ts",
+            "line": 8,
+            "description": "<p>\nThe element id of the <code>HTMLCanvasElement</code>.\n</p>",
+            "itemtype": "attribute",
+            "name": "canvasId",
+            "type": "string",
+            "optional": 1,
+            "default": "'canvas'",
+            "class": "EngineAppOptions"
         },
         {
             "file": "src/davinci-eight/base/incLevel.ts",
@@ -9313,15 +9435,17 @@
         {
             "file": "src/davinci-eight/core/AbstractMesh.ts",
             "line": 12,
+            "description": "<p>\nAttitude (spinor)\n</p>",
             "itemtype": "property",
-            "name": "attitude",
+            "name": "R",
             "type": "Geometric3",
             "class": "AbstractMesh",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/core/AbstractMesh.ts",
-            "line": 18,
+            "line": 22,
+            "description": "<p>\nColor\n</p>",
             "itemtype": "property",
             "name": "color",
             "type": "Color",
@@ -9330,16 +9454,18 @@
         },
         {
             "file": "src/davinci-eight/core/AbstractMesh.ts",
-            "line": 24,
+            "line": 32,
+            "description": "<p>\nPosition (vector)\n</p>",
             "itemtype": "property",
-            "name": "position",
+            "name": "X",
             "type": "Geometric3",
             "class": "AbstractMesh",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/core/AbstractMesh.ts",
-            "line": 30,
+            "line": 42,
+            "description": "<p>\nStress (tensor)\n</p>",
             "itemtype": "property",
             "name": "stress",
             "type": "Matrix4",
@@ -10330,7 +10456,7 @@
         },
         {
             "file": "src/davinci-eight/core/Drawable.ts",
-            "line": 26,
+            "line": 27,
             "itemtype": "property",
             "name": "_geometry",
             "type": "{Geometry}",
@@ -10342,7 +10468,7 @@
         },
         {
             "file": "src/davinci-eight/core/Drawable.ts",
-            "line": 33,
+            "line": 34,
             "itemtype": "property",
             "name": "_material",
             "type": "{Material}",
@@ -10354,7 +10480,7 @@
         },
         {
             "file": "src/davinci-eight/core/Drawable.ts",
-            "line": 40,
+            "line": 41,
             "itemtype": "property",
             "name": "name",
             "type": "{string}",
@@ -10365,7 +10491,7 @@
         },
         {
             "file": "src/davinci-eight/core/Drawable.ts",
-            "line": 47,
+            "line": 48,
             "itemtype": "property",
             "name": "_visible",
             "type": "boolean",
@@ -10377,7 +10503,7 @@
         },
         {
             "file": "src/davinci-eight/core/Drawable.ts",
-            "line": 54,
+            "line": 55,
             "itemtype": "property",
             "name": "_facets",
             "access": "private",
@@ -10388,7 +10514,7 @@
         },
         {
             "file": "src/davinci-eight/core/Drawable.ts",
-            "line": 81,
+            "line": 82,
             "itemtype": "method",
             "name": "destructor",
             "params": [
@@ -10410,7 +10536,7 @@
         },
         {
             "file": "src/davinci-eight/core/Drawable.ts",
-            "line": 99,
+            "line": 94,
             "itemtype": "property",
             "name": "fragmentShaderSrc",
             "type": "string",
@@ -10420,7 +10546,7 @@
         },
         {
             "file": "src/davinci-eight/core/Drawable.ts",
-            "line": 121,
+            "line": 116,
             "itemtype": "property",
             "name": "vertexShaderSrc",
             "type": "string",
@@ -10430,7 +10556,7 @@
         },
         {
             "file": "src/davinci-eight/core/Drawable.ts",
-            "line": 144,
+            "line": 139,
             "itemtype": "method",
             "name": "setUniforms",
             "return": {
@@ -10443,7 +10569,7 @@
         },
         {
             "file": "src/davinci-eight/core/Drawable.ts",
-            "line": 161,
+            "line": 156,
             "itemtype": "method",
             "name": "draw",
             "params": [
@@ -10463,7 +10589,7 @@
         },
         {
             "file": "src/davinci-eight/core/Drawable.ts",
-            "line": 184,
+            "line": 179,
             "itemtype": "method",
             "name": "contextFree",
             "params": [
@@ -10483,7 +10609,7 @@
         },
         {
             "file": "src/davinci-eight/core/Drawable.ts",
-            "line": 195,
+            "line": 190,
             "itemtype": "method",
             "name": "contextGain",
             "params": [
@@ -10503,7 +10629,7 @@
         },
         {
             "file": "src/davinci-eight/core/Drawable.ts",
-            "line": 206,
+            "line": 201,
             "itemtype": "method",
             "name": "contextLost",
             "return": {
@@ -10516,7 +10642,7 @@
         },
         {
             "file": "src/davinci-eight/core/Drawable.ts",
-            "line": 216,
+            "line": 211,
             "itemtype": "method",
             "name": "getFacet",
             "params": [
@@ -10536,7 +10662,7 @@
         },
         {
             "file": "src/davinci-eight/core/Drawable.ts",
-            "line": 225,
+            "line": 220,
             "itemtype": "method",
             "name": "setFacet",
             "params": [
@@ -10561,7 +10687,7 @@
         },
         {
             "file": "src/davinci-eight/core/Drawable.ts",
-            "line": 235,
+            "line": 230,
             "description": "Provides a reference counted reference to the graphics buffers property.",
             "itemtype": "property",
             "name": "geometry",
@@ -10572,7 +10698,7 @@
         },
         {
             "file": "src/davinci-eight/core/Drawable.ts",
-            "line": 264,
+            "line": 252,
             "description": "Provides a reference counted reference to the graphics program property.",
             "itemtype": "property",
             "name": "material",
@@ -10583,7 +10709,7 @@
         },
         {
             "file": "src/davinci-eight/core/Drawable.ts",
-            "line": 293,
+            "line": 274,
             "itemtype": "property",
             "name": "visible",
             "type": "boolean",
@@ -10594,7 +10720,7 @@
         },
         {
             "file": "src/davinci-eight/core/Engine.ts",
-            "line": 55,
+            "line": 54,
             "itemtype": "property",
             "name": "_gl",
             "type": "WebGLRenderingContext",
@@ -10606,7 +10732,7 @@
         },
         {
             "file": "src/davinci-eight/core/Engine.ts",
-            "line": 62,
+            "line": 61,
             "itemtype": "property",
             "name": "_canvas",
             "type": "HTMLCanvasElement",
@@ -10618,7 +10744,7 @@
         },
         {
             "file": "src/davinci-eight/core/Engine.ts",
-            "line": 85,
+            "line": 89,
             "description": "A cache of the parameters used in the last gl.viewport method call.\nwidth and geight must be positive so this cache is initially dirty.",
             "class": "Engine",
             "module": "EIGHT",
@@ -10626,7 +10752,7 @@
         },
         {
             "file": "src/davinci-eight/core/Engine.ts",
-            "line": 137,
+            "line": 141,
             "itemtype": "method",
             "name": "destructor",
             "params": [
@@ -10644,7 +10770,7 @@
         },
         {
             "file": "src/davinci-eight/core/Engine.ts",
-            "line": 153,
+            "line": 157,
             "itemtype": "method",
             "name": "addContextListener",
             "params": [
@@ -10664,7 +10790,7 @@
         },
         {
             "file": "src/davinci-eight/core/Engine.ts",
-            "line": 169,
+            "line": 173,
             "itemtype": "property",
             "name": "canvas",
             "type": "{HTMLCanvasElement}",
@@ -10675,7 +10801,7 @@
         },
         {
             "file": "src/davinci-eight/core/Engine.ts",
-            "line": 185,
+            "line": 189,
             "itemtype": "property",
             "name": "commands",
             "type": "{ShareableArray}",
@@ -10687,7 +10813,7 @@
         },
         {
             "file": "src/davinci-eight/core/Engine.ts",
-            "line": 199,
+            "line": 203,
             "description": "<p>\nDetermines whether this <code>Engine</code> may use a cache to optimize\n<code>WebGLREnderingContext</code> calls.\n</p>\n<p>\nThe default value of this property is <code>true</code>.\nSet this property to <code>false</code> if the WebGL API is being called\ndirectly (not through <code>Engine</code>).\n</p>",
             "itemtype": "property",
             "name": "mayUseCache",
@@ -10699,7 +10825,7 @@
         },
         {
             "file": "src/davinci-eight/core/Engine.ts",
-            "line": 221,
+            "line": 225,
             "description": "<p>\nSpecifies color values to use by the <code>clear</code> method to clear the color buffer.\n<p>",
             "itemtype": "method",
             "name": "clearColor",
@@ -10736,7 +10862,7 @@
         },
         {
             "file": "src/davinci-eight/core/Engine.ts",
-            "line": 258,
+            "line": 262,
             "description": "Turns off a specific WebGL capability for this context.",
             "itemtype": "method",
             "name": "disable",
@@ -10758,7 +10884,7 @@
         },
         {
             "file": "src/davinci-eight/core/Engine.ts",
-            "line": 271,
+            "line": 275,
             "description": "Turns on a specific WebGL capability for this context.",
             "itemtype": "method",
             "name": "enable",
@@ -10780,7 +10906,7 @@
         },
         {
             "file": "src/davinci-eight/core/Engine.ts",
-            "line": 284,
+            "line": 288,
             "itemtype": "property",
             "name": "gl",
             "type": "{WebGLRenderingContext}",
@@ -10791,7 +10917,7 @@
         },
         {
             "file": "src/davinci-eight/core/Engine.ts",
-            "line": 301,
+            "line": 305,
             "itemtype": "method",
             "name": "removeContextListener",
             "params": [
@@ -10811,7 +10937,8 @@
         },
         {
             "file": "src/davinci-eight/core/Engine.ts",
-            "line": 314,
+            "line": 318,
+            "description": "<p>\nSets the graphics buffers to values preselected by clearColor, clearDepth or clearStencil.\n</p>",
             "itemtype": "method",
             "name": "clear",
             "return": {
@@ -10824,7 +10951,7 @@
         },
         {
             "file": "src/davinci-eight/core/Engine.ts",
-            "line": 325,
+            "line": 333,
             "description": "<p>\nThe viewport wifth and height are clamped to a range that is\nimplementation dependent.\n</p>",
             "itemtype": "method",
             "name": "getMaxViewportDims",
@@ -10838,7 +10965,7 @@
         },
         {
             "file": "src/davinci-eight/core/Engine.ts",
-            "line": 344,
+            "line": 352,
             "description": "<p>\nReturns the current viewport settings.\n</p>",
             "itemtype": "method",
             "name": "getViewport",
@@ -10852,7 +10979,7 @@
         },
         {
             "file": "src/davinci-eight/core/Engine.ts",
-            "line": 362,
+            "line": 370,
             "description": "Defines what part of the canvas will be used in rendering the drawing buffer.",
             "itemtype": "method",
             "name": "viewport",
@@ -10889,7 +11016,7 @@
         },
         {
             "file": "src/davinci-eight/core/Engine.ts",
-            "line": 398,
+            "line": 406,
             "description": "Initializes the <code>WebGLRenderingContext</code> for the specified <code>HTMLCanvasElement</code>.",
             "itemtype": "method",
             "name": "start",
@@ -10911,7 +11038,7 @@
         },
         {
             "file": "src/davinci-eight/core/Engine.ts",
-            "line": 434,
+            "line": 443,
             "itemtype": "method",
             "name": "stop",
             "return": {
@@ -10925,7 +11052,7 @@
         },
         {
             "file": "src/davinci-eight/core/Engine.ts",
-            "line": 488,
+            "line": 497,
             "itemtype": "method",
             "name": "synchronize",
             "params": [
@@ -10939,6 +11066,14 @@
                 "description": "",
                 "type": "Void"
             },
+            "class": "Engine",
+            "module": "EIGHT",
+            "submodule": "core"
+        },
+        {
+            "file": "src/davinci-eight/core/Engine.ts",
+            "line": 512,
+            "description": "Computes the mask required for the WebGL clear method.",
             "class": "Engine",
             "module": "EIGHT",
             "submodule": "core"
@@ -13083,12 +13218,12 @@
         },
         {
             "file": "src/davinci-eight/core/Mesh.ts",
-            "line": 58,
+            "line": 54,
             "itemtype": "method",
             "name": "destructor",
             "params": [
                 {
-                    "name": "level",
+                    "name": "levelUp",
                     "description": "",
                     "type": "Number"
                 }
@@ -13105,10 +13240,10 @@
         },
         {
             "file": "src/davinci-eight/core/Mesh.ts",
-            "line": 68,
+            "line": 64,
             "description": "Attitude (spinor)",
             "itemtype": "property",
-            "name": "attitude",
+            "name": "R",
             "type": "Geometric3",
             "class": "Mesh",
             "module": "EIGHT",
@@ -13116,40 +13251,7 @@
         },
         {
             "file": "src/davinci-eight/core/Mesh.ts",
-            "line": 87,
-            "itemtype": "method",
-            "name": "getAttitude",
-            "return": {
-                "description": "",
-                "type": "Geometric3"
-            },
-            "class": "Mesh",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/Mesh.ts",
-            "line": 95,
-            "itemtype": "method",
-            "name": "setAttitude",
-            "params": [
-                {
-                    "name": "attitude",
-                    "description": "",
-                    "type": "SpinorE3"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "Mesh",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/Mesh.ts",
-            "line": 110,
+            "line": 89,
             "description": "Color",
             "itemtype": "property",
             "name": "color",
@@ -13160,21 +13262,10 @@
         },
         {
             "file": "src/davinci-eight/core/Mesh.ts",
-            "line": 135,
-            "itemtype": "property",
-            "name": "matrix",
-            "type": "Matrix4",
-            "readonly": "",
-            "class": "Mesh",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/Mesh.ts",
-            "line": 147,
+            "line": 114,
             "description": "Position (vector)",
             "itemtype": "property",
-            "name": "position",
+            "name": "X",
             "type": "Geometric3",
             "class": "Mesh",
             "module": "EIGHT",
@@ -13182,40 +13273,7 @@
         },
         {
             "file": "src/davinci-eight/core/Mesh.ts",
-            "line": 166,
-            "itemtype": "method",
-            "name": "getPosition",
-            "return": {
-                "description": "",
-                "type": "Geometric3"
-            },
-            "class": "Mesh",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/Mesh.ts",
-            "line": 174,
-            "itemtype": "method",
-            "name": "setPosition",
-            "params": [
-                {
-                    "name": "position",
-                    "description": "",
-                    "type": "VectorE3"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "Mesh",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/Mesh.ts",
-            "line": 189,
+            "line": 139,
             "itemtype": "property",
             "name": "stress",
             "type": "Matrix4",
@@ -13225,7 +13283,7 @@
         },
         {
             "file": "src/davinci-eight/core/Mesh.ts",
-            "line": 212,
+            "line": 162,
             "itemtype": "method",
             "name": "getPrincipalScale",
             "params": [
@@ -13245,7 +13303,7 @@
         },
         {
             "file": "src/davinci-eight/core/Mesh.ts",
-            "line": 229,
+            "line": 179,
             "itemtype": "method",
             "name": "setPrincipalScale",
             "params": [
@@ -15197,7 +15255,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ModelE2.ts",
-            "line": 24,
+            "line": 25,
             "description": "The name of the property that designates the position.",
             "itemtype": "property",
             "name": "PROP_POSITION",
@@ -15211,7 +15269,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ModelE2.ts",
-            "line": 36,
+            "line": 39,
             "description": "Used for exchanging number[] data to achieve integrity and avoid lots of temporaries.",
             "itemtype": "property",
             "name": "_posCache",
@@ -15224,7 +15282,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ModelE2.ts",
-            "line": 43,
+            "line": 48,
             "description": "Used for exchanging number[] data to achieve integrity and avoid lots of temporaries.",
             "itemtype": "property",
             "name": "_attCache",
@@ -15237,31 +15295,29 @@
         },
         {
             "file": "src/davinci-eight/facets/ModelE2.ts",
-            "line": 68,
+            "line": 76,
             "description": "<p>\nThe <em>attitude</em>, a unitary spinor.\n</p>",
             "itemtype": "property",
             "name": "R",
             "type": "Geometric2",
-            "readonly": "",
             "class": "ModelE2",
             "module": "EIGHT",
             "submodule": "facets"
         },
         {
             "file": "src/davinci-eight/facets/ModelE2.ts",
-            "line": 82,
+            "line": 91,
             "description": "<p>\nThe <em>position</em>, a vector.\nThe vector <b>X</b> designates the center of mass of the body (Physics).\nThe vector <b>X</b> designates the displacement from the local origin (Computer Graphics).\n</p>",
             "itemtype": "property",
             "name": "X",
             "type": "Geometric2",
-            "readonly": "",
             "class": "ModelE2",
             "module": "EIGHT",
             "submodule": "facets"
         },
         {
             "file": "src/davinci-eight/facets/ModelE2.ts",
-            "line": 100,
+            "line": 108,
             "itemtype": "method",
             "name": "getProperty",
             "params": [
@@ -15281,7 +15337,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ModelE2.ts",
-            "line": 122,
+            "line": 128,
             "itemtype": "method",
             "name": "setProperty",
             "params": [
@@ -15307,7 +15363,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ModelE3.ts",
-            "line": 16,
+            "line": 17,
             "description": "The name of the property that designates the attitude.",
             "itemtype": "property",
             "name": "PROP_ATTITUDE",
@@ -15321,7 +15377,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ModelE3.ts",
-            "line": 25,
+            "line": 27,
             "description": "The name of the property that designates the position.",
             "itemtype": "property",
             "name": "PROP_POSITION",
@@ -15335,7 +15391,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ModelE3.ts",
-            "line": 35,
+            "line": 37,
             "itemtype": "property",
             "name": "_position",
             "type": "{Geometric3}",
@@ -15347,7 +15403,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ModelE3.ts",
-            "line": 42,
+            "line": 44,
             "itemtype": "property",
             "name": "_attitude",
             "type": "{Geometric3}",
@@ -15359,7 +15415,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ModelE3.ts",
-            "line": 49,
+            "line": 51,
             "description": "Used for exchanging number[] data to achieve integrity and avoid lots of temporaries.",
             "itemtype": "property",
             "name": "_posCache",
@@ -15372,7 +15428,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ModelE3.ts",
-            "line": 57,
+            "line": 59,
             "description": "Used for exchanging number[] data to achieve integrity and avoid lots of temporaries.",
             "itemtype": "property",
             "name": "_attCache",
@@ -15385,9 +15441,10 @@
         },
         {
             "file": "src/davinci-eight/facets/ModelE3.ts",
-            "line": 83,
+            "line": 85,
+            "description": "<p>\nThe <em>attitude</em>, a rotor.\n</p>",
             "itemtype": "property",
-            "name": "attitude",
+            "name": "R",
             "type": "Geometric3",
             "class": "ModelE3",
             "module": "EIGHT",
@@ -15395,9 +15452,10 @@
         },
         {
             "file": "src/davinci-eight/facets/ModelE3.ts",
-            "line": 94,
+            "line": 100,
+            "description": "<p>\nThe <em>position</em>, a vector.\n</p>",
             "itemtype": "property",
-            "name": "position",
+            "name": "X",
             "type": "Geometric3",
             "class": "ModelE3",
             "module": "EIGHT",
@@ -15405,7 +15463,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ModelE3.ts",
-            "line": 105,
+            "line": 114,
             "itemtype": "method",
             "name": "getProperty",
             "params": [
@@ -15425,7 +15483,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ModelE3.ts",
-            "line": 127,
+            "line": 134,
             "itemtype": "method",
             "name": "setProperty",
             "params": [
@@ -27059,7 +27117,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 51,
+            "line": 52,
             "description": "Coordinates corresponding to basis labels.",
             "class": "Geometric3",
             "module": "EIGHT",
@@ -27067,7 +27125,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 73,
+            "line": 74,
             "itemtype": "property",
             "name": "eventBus",
             "type": "EventEmitter",
@@ -27079,7 +27137,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 99,
+            "line": 100,
             "description": "Consistently set a coordinate value in the most optimized way.",
             "class": "Geometric3",
             "module": "EIGHT",
@@ -27087,7 +27145,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 112,
+            "line": 113,
             "description": "The scalar part of this multivector.",
             "itemtype": "property",
             "name": "α",
@@ -27098,7 +27156,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 124,
+            "line": 125,
             "description": "The scalar part of this multivector.",
             "itemtype": "property",
             "name": "alpha",
@@ -27109,7 +27167,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 136,
+            "line": 137,
             "description": "The coordinate corresponding to the <b>e</b><sub>1</sub> standard basis vector.",
             "itemtype": "property",
             "name": "x",
@@ -27120,7 +27178,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 148,
+            "line": 149,
             "description": "The coordinate corresponding to the <b>e</b><sub>2</sub> standard basis vector.",
             "itemtype": "property",
             "name": "y",
@@ -27131,7 +27189,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 160,
+            "line": 161,
             "description": "The coordinate corresponding to the <b>e</b><sub>3</sub> standard basis vector.",
             "itemtype": "property",
             "name": "z",
@@ -27142,7 +27200,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 172,
+            "line": 173,
             "description": "The coordinate corresponding to the <b>e</b><sub>2</sub><b>e</b><sub>3</sub> standard basis bivector.",
             "itemtype": "property",
             "name": "yz",
@@ -27153,7 +27211,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 184,
+            "line": 185,
             "description": "The coordinate corresponding to the <b>e</b><sub>3</sub><b>e</b><sub>1</sub> standard basis bivector.",
             "itemtype": "property",
             "name": "zx",
@@ -27164,7 +27222,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 196,
+            "line": 197,
             "description": "The coordinate corresponding to the <b>e</b><sub>1</sub><b>e</b><sub>2</sub> standard basis bivector.",
             "itemtype": "property",
             "name": "xy",
@@ -27175,7 +27233,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 208,
+            "line": 209,
             "description": "The pseudoscalar part of this multivector.",
             "itemtype": "property",
             "name": "β",
@@ -27186,7 +27244,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 220,
+            "line": 221,
             "description": "The pseudoscalar part of this multivector.",
             "itemtype": "property",
             "name": "beta",
@@ -27197,7 +27255,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 231,
+            "line": 232,
             "itemtype": "property",
             "name": "maskG3",
             "type": "number",
@@ -27208,7 +27266,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 265,
+            "line": 266,
             "description": "<p>\n<code>this ⟼ this + M * α</code>\n</p>",
             "itemtype": "method",
             "name": "add",
@@ -27237,7 +27295,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 287,
+            "line": 288,
             "description": "<p>\n<code>this ⟼ this + Iβ</code>\n</p>",
             "itemtype": "method",
             "name": "addPseudo",
@@ -27259,7 +27317,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 301,
+            "line": 302,
             "description": "<p>\n<code>this ⟼ this + α</code>\n</p>",
             "itemtype": "method",
             "name": "addScalar",
@@ -27281,7 +27339,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 315,
+            "line": 316,
             "description": "<p>\n<code>this ⟼ this + v * α</code>\n</p>",
             "itemtype": "method",
             "name": "addVector",
@@ -27310,7 +27368,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 332,
+            "line": 333,
             "description": "<p>\n<code>this ⟼ a + b</code>\n</p>",
             "itemtype": "method",
             "name": "add2",
@@ -27337,7 +27395,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 358,
+            "line": 359,
             "itemtype": "method",
             "name": "angle",
             "return": {
@@ -27350,7 +27408,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 366,
+            "line": 367,
             "itemtype": "method",
             "name": "approx",
             "params": [
@@ -27371,7 +27429,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 377,
+            "line": 378,
             "itemtype": "method",
             "name": "clone",
             "return": {
@@ -27385,7 +27443,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 386,
+            "line": 387,
             "description": "<p>\n<code>this ⟼ conjugate(this)</code>\n</p>",
             "itemtype": "method",
             "name": "conj",
@@ -27400,7 +27458,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 403,
+            "line": 404,
             "description": "Copies the coordinate values into this <code>Geometric3</code>.",
             "itemtype": "method",
             "name": "copyCoordinates",
@@ -27422,7 +27480,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 424,
+            "line": 425,
             "itemtype": "method",
             "name": "distanceTo",
             "params": [
@@ -27442,7 +27500,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 438,
+            "line": 439,
             "itemtype": "method",
             "name": "quadranceTo",
             "params": [
@@ -27462,7 +27520,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 455,
+            "line": 456,
             "description": "<p>\n<code>this ⟼ this << m</code>\n</p>",
             "itemtype": "method",
             "name": "lco",
@@ -27484,7 +27542,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 468,
+            "line": 469,
             "description": "<p>\n<code>this ⟼ a << b</code>\n</p>",
             "itemtype": "method",
             "name": "lco2",
@@ -27511,7 +27569,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 482,
+            "line": 483,
             "description": "<p>\n<code>this ⟼ this >> m</code>\n</p>",
             "itemtype": "method",
             "name": "rco",
@@ -27533,7 +27591,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 495,
+            "line": 496,
             "description": "<p>\n<code>this ⟼ a >> b</code>\n</p>",
             "itemtype": "method",
             "name": "rco2",
@@ -27560,7 +27618,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 509,
+            "line": 510,
             "description": "<p>\n<code>this ⟼ copy(v)</code>\n</p>",
             "itemtype": "method",
             "name": "copy",
@@ -27582,7 +27640,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 531,
+            "line": 532,
             "description": "Sets this multivector to the value of the scalar, <code>α</code>.",
             "itemtype": "method",
             "name": "copyScalar",
@@ -27604,7 +27662,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 543,
+            "line": 544,
             "description": "<p>\n<code>this ⟼ copy(spinor)</code>\n</p>",
             "itemtype": "method",
             "name": "copySpinor",
@@ -27626,7 +27684,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 561,
+            "line": 562,
             "description": "<p>\n<code>this ⟼ copyVector(vector)</code>\n</p>",
             "itemtype": "method",
             "name": "copyVector",
@@ -27648,7 +27706,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 578,
+            "line": 580,
             "description": "<p>\n<code>this ⟼ this / m</code>\n</p>",
             "itemtype": "method",
             "name": "div",
@@ -27670,7 +27728,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 652,
+            "line": 657,
             "description": "<p>\n<code>this ⟼ this / α</code>\n</p>",
             "itemtype": "method",
             "name": "divByScalar",
@@ -27692,7 +27750,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 673,
+            "line": 678,
             "description": "<p>\n<code>this ⟼ a / b</code>\n</p>",
             "itemtype": "method",
             "name": "div2",
@@ -27719,7 +27777,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 703,
+            "line": 708,
             "description": "<p>\n<code>this ⟼ dual(m) = I * m</code>\n</p>",
             "itemtype": "method",
             "name": "dual",
@@ -27741,7 +27799,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 734,
+            "line": 739,
             "itemtype": "method",
             "name": "equals",
             "params": [
@@ -27761,7 +27819,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 749,
+            "line": 754,
             "description": "<p>\n<code>this ⟼ e<sup>this</sup></code>\n</p>",
             "itemtype": "method",
             "name": "exp",
@@ -27776,7 +27834,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 788,
+            "line": 793,
             "description": "<p>\nComputes the inverse of this multivector. \n</p>",
             "itemtype": "method",
             "name": "inv",
@@ -27791,7 +27849,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 834,
+            "line": 839,
             "itemtype": "method",
             "name": "isOne",
             "return": {
@@ -27804,7 +27862,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 842,
+            "line": 847,
             "itemtype": "method",
             "name": "isZero",
             "return": {
@@ -27817,7 +27875,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 850,
+            "line": 855,
             "description": "<p>\n<code>this ⟼ this + α * (target - this)</code>\n</p>",
             "itemtype": "method",
             "name": "lerp",
@@ -27844,7 +27902,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 872,
+            "line": 877,
             "description": "<p>\n<code>this ⟼ a + α * (b - a)</code>\n</p>",
             "itemtype": "method",
             "name": "lerp2",
@@ -27876,7 +27934,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 888,
+            "line": 893,
             "description": "<p>\n<code>this ⟼ log(this)</code>\n</p>",
             "itemtype": "method",
             "name": "log",
@@ -27891,7 +27949,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 911,
+            "line": 916,
             "description": "<p>\nComputes the <em>square root</em> of the <em>squared norm</em>.\n</p>",
             "itemtype": "method",
             "name": "magnitude",
@@ -27905,7 +27963,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 923,
+            "line": 928,
             "description": "Intentionally undocumented.",
             "class": "Geometric3",
             "module": "EIGHT",
@@ -27913,7 +27971,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 930,
+            "line": 935,
             "description": "<p>\n<code>this ⟼ this * s</code>\n</p>",
             "itemtype": "method",
             "name": "mul",
@@ -27935,7 +27993,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 943,
+            "line": 948,
             "description": "<p>\n<code>this ⟼ a * b</code>\n</p>",
             "itemtype": "method",
             "name": "mul2",
@@ -27962,7 +28020,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 958,
+            "line": 963,
             "description": "<p>\n<code>this ⟼ -1 * this</code>\n</p>",
             "itemtype": "method",
             "name": "neg",
@@ -27977,7 +28035,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 978,
+            "line": 983,
             "description": "<p>\n<code>this ⟼ sqrt(this * conj(this))</code>\n</p>",
             "itemtype": "method",
             "name": "norm",
@@ -27992,7 +28050,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 998,
+            "line": 1003,
             "description": "<p>\n<code>this ⟼ this / magnitude(this)</code>\n</p>\n<p>\nIf the magnitude is zero (a <em>null</em> multivector), this multivector is unchanged.\nSince the metric is Euclidean, this will only happen if the multivector is also the\n<em>zero</em> multivector.\n</p>",
             "itemtype": "method",
             "name": "normalize",
@@ -28007,7 +28065,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 1027,
+            "line": 1032,
             "description": "Sets this multivector to the identity element for multiplication, <b>1</b>.",
             "itemtype": "method",
             "name": "one",
@@ -28022,7 +28080,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 1045,
+            "line": 1050,
             "description": "<p>\n<code>this ⟼ scp(this, rev(this)) = this | ~this</code>\n</p>",
             "itemtype": "method",
             "name": "quad",
@@ -28037,7 +28095,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 1061,
+            "line": 1066,
             "description": "<p>\nComputes the <em>squared norm</em> of this multivector.\n</p>",
             "itemtype": "method",
             "name": "squaredNorm",
@@ -28051,7 +28109,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 1073,
+            "line": 1078,
             "description": "Intentionally undocumented",
             "class": "Geometric3",
             "module": "EIGHT",
@@ -28059,7 +28117,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 1080,
+            "line": 1085,
             "description": "<p>\n<code>this ⟼ - n * this * n</code>\n</p>",
             "itemtype": "method",
             "name": "reflect",
@@ -28081,7 +28139,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 1098,
+            "line": 1103,
             "description": "<p>\n<code>this ⟼ rev(this)</code>\n</p>",
             "itemtype": "method",
             "name": "reverse",
@@ -28096,7 +28154,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 1119,
+            "line": 1124,
             "itemtype": "method",
             "name": "__tilde__",
             "return": {
@@ -28111,7 +28169,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 1128,
+            "line": 1133,
             "description": "<p>\n<code>this ⟼ R * this * rev(R)</code>\n</p>",
             "itemtype": "method",
             "name": "rotate",
@@ -28133,7 +28191,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 1160,
+            "line": 1165,
             "description": "<p>\nComputes a rotor, R, from two unit vectors, where\nR = (1 + b * a) / sqrt(2 * (1 + b << a))\n</p>",
             "itemtype": "method",
             "name": "rotorFromDirections",
@@ -28160,7 +28218,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 1176,
+            "line": 1181,
             "description": "<p>\n<code>this = ⟼ exp(- B * θ / 2) = cos(|B| * θ / 2) - B * sin(|B| * θ / 2) / |B|</code>\n</p>",
             "itemtype": "method",
             "name": "rotorFromGeneratorAngle",
@@ -28187,7 +28245,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 1206,
+            "line": 1211,
             "description": "<p>\n<code>this ⟼ scp(this, m)</code>\n</p>",
             "itemtype": "method",
             "name": "align",
@@ -28209,7 +28267,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 1219,
+            "line": 1224,
             "description": "<p>\n<code>this ⟼ scp(a, b)</code>\n</p>",
             "itemtype": "method",
             "name": "scp2",
@@ -28236,7 +28294,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 1233,
+            "line": 1238,
             "description": "<p>\n<code>this ⟼ this * α</code>\n</p>",
             "itemtype": "method",
             "name": "scale",
@@ -28253,7 +28311,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 1252,
+            "line": 1257,
             "description": "Not Implemented",
             "itemtype": "method",
             "name": "slerp",
@@ -28280,7 +28338,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 1265,
+            "line": 1270,
             "description": "Applies the diagonal elements of a scaling matrix to this multivector.",
             "itemtype": "method",
             "name": "stress",
@@ -28302,7 +28360,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 1281,
+            "line": 1286,
             "description": "<p>\n<code>this ⟼ a * b</code>\n</p>\nSets this Geometric3 to the geometric product a * b of the vector arguments.",
             "itemtype": "method",
             "name": "versor",
@@ -28328,7 +28386,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 1309,
+            "line": 1314,
             "description": "<p>\n<code>this ⟼ this - M * α</code>\n</p>",
             "itemtype": "method",
             "name": "sub",
@@ -28357,7 +28415,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 1331,
+            "line": 1336,
             "description": "<p>\n<code>this ⟼ this - v * α</code>\n</p>",
             "itemtype": "method",
             "name": "subVector",
@@ -28386,7 +28444,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 1348,
+            "line": 1353,
             "description": "<p>\n<code>this ⟼ a - b</code>\n</p>",
             "itemtype": "method",
             "name": "sub2",
@@ -28413,7 +28471,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 1370,
+            "line": 1375,
             "description": "Returns a string representing the number in exponential notation.",
             "itemtype": "method",
             "name": "toExponential",
@@ -28435,7 +28493,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 1381,
+            "line": 1386,
             "description": "Returns a string representing the number in fixed-point notation.",
             "itemtype": "method",
             "name": "toFixed",
@@ -28457,7 +28515,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 1392,
+            "line": 1397,
             "itemtype": "method",
             "name": "toPrecision",
             "params": [
@@ -28478,7 +28536,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 1402,
+            "line": 1407,
             "description": "Returns a string representation of the number.",
             "itemtype": "method",
             "name": "toString",
@@ -28500,7 +28558,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 1414,
+            "line": 1419,
             "itemtype": "method",
             "name": "grade",
             "params": [
@@ -28521,7 +28579,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 1472,
+            "line": 1477,
             "description": "<p>\n<code>this ⟼ this ^ m</code>\n</p>",
             "itemtype": "method",
             "name": "ext",
@@ -28543,7 +28601,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 1485,
+            "line": 1490,
             "description": "<p>\n<code>this ⟼ a ^ b</code>\n</p>",
             "itemtype": "method",
             "name": "ext2",
@@ -28570,7 +28628,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 1499,
+            "line": 1504,
             "description": "Sets this multivector to the identity element for addition, <b>0</b>.",
             "itemtype": "method",
             "name": "zero",
@@ -28585,7 +28643,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 1517,
+            "line": 1522,
             "itemtype": "method",
             "name": "__add__",
             "params": [
@@ -28607,7 +28665,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 1533,
+            "line": 1538,
             "itemtype": "method",
             "name": "__div__",
             "params": [
@@ -28629,7 +28687,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 1549,
+            "line": 1554,
             "itemtype": "method",
             "name": "__rdiv__",
             "params": [
@@ -28651,7 +28709,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 1567,
+            "line": 1572,
             "itemtype": "method",
             "name": "__mul__",
             "params": [
@@ -28673,7 +28731,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 1583,
+            "line": 1588,
             "itemtype": "method",
             "name": "__rmul__",
             "params": [
@@ -28695,7 +28753,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 1601,
+            "line": 1606,
             "itemtype": "method",
             "name": "__radd__",
             "params": [
@@ -28717,7 +28775,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 1619,
+            "line": 1624,
             "itemtype": "method",
             "name": "__sub__",
             "params": [
@@ -28739,7 +28797,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 1635,
+            "line": 1640,
             "itemtype": "method",
             "name": "__rsub__",
             "params": [
@@ -28761,7 +28819,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 1653,
+            "line": 1658,
             "itemtype": "method",
             "name": "__wedge__",
             "params": [
@@ -28783,7 +28841,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 1672,
+            "line": 1677,
             "itemtype": "method",
             "name": "__rwedge__",
             "params": [
@@ -28805,7 +28863,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 1691,
+            "line": 1696,
             "itemtype": "method",
             "name": "__lshift__",
             "params": [
@@ -28827,7 +28885,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 1709,
+            "line": 1714,
             "itemtype": "method",
             "name": "__rlshift__",
             "params": [
@@ -28849,7 +28907,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 1727,
+            "line": 1732,
             "itemtype": "method",
             "name": "__rshift__",
             "params": [
@@ -28871,7 +28929,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 1745,
+            "line": 1750,
             "itemtype": "method",
             "name": "__rrshift__",
             "params": [
@@ -28893,7 +28951,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 1763,
+            "line": 1768,
             "itemtype": "method",
             "name": "__vbar__",
             "params": [
@@ -28915,7 +28973,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 1781,
+            "line": 1786,
             "itemtype": "method",
             "name": "__rvbar__",
             "params": [
@@ -28937,7 +28995,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 1799,
+            "line": 1804,
             "itemtype": "method",
             "name": "__bang__",
             "return": {
@@ -28953,7 +29011,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 1809,
+            "line": 1814,
             "itemtype": "method",
             "name": "__pos__",
             "return": {
@@ -28969,7 +29027,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 1819,
+            "line": 1824,
             "itemtype": "method",
             "name": "__neg__",
             "return": {
@@ -28985,7 +29043,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 1829,
+            "line": 1834,
             "description": "Constructs a Geometric3 representing the number zero.\nThe identity element for addition, <b>0</b>.",
             "itemtype": "method",
             "name": "zero",
@@ -29001,7 +29059,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 1840,
+            "line": 1845,
             "description": "Constructs a Geometric3 representing the number one.\nThe identity element for multiplication, <b>1</b>.",
             "itemtype": "method",
             "name": "one",
@@ -29017,7 +29075,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 1851,
+            "line": 1856,
             "description": "Constructs a basis vector corresponding to the <code>x</code> coordinate.",
             "itemtype": "method",
             "name": "e1",
@@ -29033,7 +29091,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 1861,
+            "line": 1866,
             "description": "Constructs a basis vector corresponding to the <code>y</code> coordinate.",
             "itemtype": "method",
             "name": "e2",
@@ -29049,7 +29107,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 1871,
+            "line": 1876,
             "description": "Constructs a basis vector corresponding to the <code>z</code> coordinate.",
             "itemtype": "method",
             "name": "e3",
@@ -29065,7 +29123,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 1881,
+            "line": 1886,
             "description": "Constructs a basis vector corresponding to the <code>β</code> coordinate.",
             "itemtype": "method",
             "name": "I",
@@ -29081,7 +29139,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 1891,
+            "line": 1896,
             "itemtype": "method",
             "name": "copy",
             "params": [
@@ -29103,7 +29161,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 1911,
+            "line": 1916,
             "itemtype": "method",
             "name": "fromScalar",
             "params": [
@@ -29125,7 +29183,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 1922,
+            "line": 1927,
             "itemtype": "method",
             "name": "fromSpinor",
             "params": [
@@ -29147,7 +29205,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 1938,
+            "line": 1943,
             "itemtype": "method",
             "name": "fromVector",
             "params": [
@@ -29169,7 +29227,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 1953,
+            "line": 1958,
             "itemtype": "method",
             "name": "lerp",
             "params": [
@@ -29201,7 +29259,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 1966,
+            "line": 1971,
             "description": "<p>\nComputes a unit multivector with a random direction.\n</p>",
             "itemtype": "method",
             "name": "random",
@@ -29217,7 +29275,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 1990,
+            "line": 1995,
             "description": "Computes the rotor that rotates vector <code>a</code> to vector <code>b</code>.",
             "itemtype": "method",
             "name": "rotorFromDirections",
@@ -29245,7 +29303,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 2003,
+            "line": 2008,
             "itemtype": "method",
             "name": "scalar",
             "params": [
@@ -29267,7 +29325,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 2014,
+            "line": 2019,
             "itemtype": "method",
             "name": "spinor",
             "params": [
@@ -29304,7 +29362,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 2034,
+            "line": 2039,
             "itemtype": "method",
             "name": "vector",
             "params": [
@@ -29336,7 +29394,7 @@
         },
         {
             "file": "src/davinci-eight/math/Geometric3.ts",
-            "line": 2052,
+            "line": 2057,
             "itemtype": "method",
             "name": "wedge",
             "params": [
@@ -38917,6 +38975,7 @@
         {
             "file": "src/davinci-eight/visual/Cylinder.ts",
             "line": 87,
+            "description": "<p>\n</p>",
             "itemtype": "property",
             "name": "radius",
             "type": "number",
@@ -39163,8 +39222,57 @@
             "module": "EIGHT"
         },
         {
+            "file": "src/davinci-eight/visual/IRigidBody.ts",
+            "line": 7,
+            "description": "Attitude (spinor)",
+            "class": "MultiViewApp",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/visual/IRigidBody.ts",
+            "line": 12,
+            "description": "Axis (vector)",
+            "class": "MultiViewApp",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/visual/IRigidBody.ts",
+            "line": 17,
+            "description": "Angular momentum (bivector)",
+            "class": "MultiViewApp",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/visual/IRigidBody.ts",
+            "line": 22,
+            "description": "Mass (scalar)",
+            "class": "MultiViewApp",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/visual/IRigidBody.ts",
+            "line": 27,
+            "description": "Momentum (vector)",
+            "class": "MultiViewApp",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/visual/IRigidBody.ts",
+            "line": 32,
+            "description": "Charge",
+            "class": "MultiViewApp",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/visual/IRigidBody.ts",
+            "line": 37,
+            "description": "Position (vector)",
+            "class": "MultiViewApp",
+            "module": "EIGHT"
+        },
+        {
             "file": "src/davinci-eight/visual/MultiViewApp.ts",
-            "line": 15,
+            "line": 16,
             "itemtype": "property",
             "name": "views",
             "type": "ShareableArray<Viewport>",
@@ -39216,23 +39324,23 @@
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/visual/RigidBody.ts",
-            "line": 27,
-            "description": "The (dimensionless) mass of the <code>RigidBody</code>.",
-            "itemtype": "property",
-            "name": "mass",
+            "file": "src/davinci-eight/visual/MultiViewAppOptions.ts",
+            "line": 8,
+            "description": "<p>\nThe initial number of views. Views may be added and removed later.\n</p>",
+            "itemtype": "attribute",
+            "name": "numViews",
             "type": "number",
+            "optional": 1,
             "default": "1",
-            "class": "RigidBody",
-            "module": "EIGHT",
-            "submodule": "visual"
+            "class": "MultiViewAppOptions",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/visual/RigidBody.ts",
-            "line": 36,
-            "description": "The (dimensionless) momentum of the <code>RigidBody</code>",
+            "line": 27,
+            "description": "<p>\nAngular momentum (bivector)\n</p>\n<p>\nThe (dimensionless) angular momentum of the <code>RigidBody</code>.\n<p>",
             "itemtype": "property",
-            "name": "momentum",
+            "name": "L",
             "type": "Geometric3",
             "default": "0",
             "class": "RigidBody",
@@ -39241,7 +39349,43 @@
         },
         {
             "file": "src/davinci-eight/visual/RigidBody.ts",
-            "line": 45,
+            "line": 41,
+            "description": "<p>\nMass (scalar)\n<p>\n<p>\nThe (dimensionless) mass of the <code>RigidBody</code>.\n</p>",
+            "itemtype": "property",
+            "name": "m",
+            "type": "number",
+            "default": "1",
+            "class": "RigidBody",
+            "module": "EIGHT",
+            "submodule": "visual"
+        },
+        {
+            "file": "src/davinci-eight/visual/RigidBody.ts",
+            "line": 55,
+            "description": "<p>\nMomentum (vector)\n</p>\n<p>\nThe (dimensionless) momentum of the <code>RigidBody</code>.\n<p>",
+            "itemtype": "property",
+            "name": "P",
+            "type": "Geometric3",
+            "default": "0",
+            "class": "RigidBody",
+            "module": "EIGHT",
+            "submodule": "visual"
+        },
+        {
+            "file": "src/davinci-eight/visual/RigidBody.ts",
+            "line": 69,
+            "description": "<p>\nCharge\n</p>\n<p>\nThe (dimensionless) charge of the <code>RigidBody</code>.\n</p>",
+            "itemtype": "property",
+            "name": "Q",
+            "type": "Geometric3",
+            "default": "0",
+            "class": "RigidBody",
+            "module": "EIGHT",
+            "submodule": "visual"
+        },
+        {
+            "file": "src/davinci-eight/visual/RigidBody.ts",
+            "line": 83,
             "description": "Cache the initial axis value so that we can compute the axis at any\ntime by rotating the initial axis using the Mesh attitude.",
             "itemtype": "property",
             "name": "initialAxis",
@@ -39252,12 +39396,12 @@
         },
         {
             "file": "src/davinci-eight/visual/RigidBody.ts",
-            "line": 68,
+            "line": 106,
             "itemtype": "method",
             "name": "destructor",
             "params": [
                 {
-                    "name": "level",
+                    "name": "levelUp",
                     "description": "",
                     "type": "Number"
                 }
@@ -39274,7 +39418,8 @@
         },
         {
             "file": "src/davinci-eight/visual/RigidBody.ts",
-            "line": 81,
+            "line": 119,
+            "description": "<p>\nAxis (vector)\n</p>",
             "itemtype": "property",
             "name": "axis",
             "type": "Geometric3",
@@ -39284,7 +39429,7 @@
         },
         {
             "file": "src/davinci-eight/visual/RigidBodyWithUnits.ts",
-            "line": 27,
+            "line": 28,
             "description": "The underlying Mesh.",
             "itemtype": "property",
             "name": "mesh",
@@ -39298,6 +39443,14 @@
         {
             "file": "src/davinci-eight/visual/RigidBodyWithUnits.ts",
             "line": 37,
+            "description": "The initial axis (corresponds to attitude = 1).",
+            "class": "RigidBodyWithUnits",
+            "module": "EIGHT",
+            "submodule": "visual"
+        },
+        {
+            "file": "src/davinci-eight/visual/RigidBodyWithUnits.ts",
+            "line": 42,
             "itemtype": "property",
             "name": "_mass",
             "type": "G3",
@@ -39310,9 +39463,9 @@
         },
         {
             "file": "src/davinci-eight/visual/RigidBodyWithUnits.ts",
-            "line": 45,
+            "line": 50,
             "itemtype": "property",
-            "name": "_momentum",
+            "name": "_P",
             "type": "G3",
             "default": "0 kg·m/s",
             "access": "private",
@@ -39323,7 +39476,33 @@
         },
         {
             "file": "src/davinci-eight/visual/RigidBodyWithUnits.ts",
-            "line": 70,
+            "line": 59,
+            "itemtype": "property",
+            "name": "_L",
+            "type": "G3",
+            "default": "0 kg·m ** 2/s",
+            "access": "private",
+            "tagname": "",
+            "class": "RigidBodyWithUnits",
+            "module": "EIGHT",
+            "submodule": "visual"
+        },
+        {
+            "file": "src/davinci-eight/visual/RigidBodyWithUnits.ts",
+            "line": 67,
+            "itemtype": "property",
+            "name": "_charge",
+            "type": "G3",
+            "default": "0 C",
+            "access": "private",
+            "tagname": "",
+            "class": "RigidBodyWithUnits",
+            "module": "EIGHT",
+            "submodule": "visual"
+        },
+        {
+            "file": "src/davinci-eight/visual/RigidBodyWithUnits.ts",
+            "line": 92,
             "itemtype": "method",
             "name": "destructor",
             "params": [
@@ -39345,7 +39524,8 @@
         },
         {
             "file": "src/davinci-eight/visual/RigidBodyWithUnits.ts",
-            "line": 82,
+            "line": 104,
+            "description": "<p>\nAxis (vector)\n</p>",
             "itemtype": "property",
             "name": "axis",
             "type": "G3",
@@ -39355,29 +39535,10 @@
         },
         {
             "file": "src/davinci-eight/visual/RigidBodyWithUnits.ts",
-            "line": 94,
-            "itemtype": "property",
-            "name": "attitude",
-            "type": "G3",
-            "class": "RigidBodyWithUnits",
-            "module": "EIGHT",
-            "submodule": "visual"
-        },
-        {
-            "file": "src/davinci-eight/visual/RigidBodyWithUnits.ts",
-            "line": 107,
-            "itemtype": "property",
-            "name": "mass",
-            "type": "G3",
-            "class": "RigidBodyWithUnits",
-            "module": "EIGHT",
-            "submodule": "visual"
-        },
-        {
-            "file": "src/davinci-eight/visual/RigidBodyWithUnits.ts",
             "line": 120,
+            "description": "<p>\n<em>Attitude</em> (spinor)\n</p>",
             "itemtype": "property",
-            "name": "momentum",
+            "name": "R",
             "type": "G3",
             "class": "RigidBodyWithUnits",
             "module": "EIGHT",
@@ -39385,9 +39546,54 @@
         },
         {
             "file": "src/davinci-eight/visual/RigidBodyWithUnits.ts",
-            "line": 133,
+            "line": 137,
+            "description": "<p>\nAngular momentum (bivector)\n</p>",
             "itemtype": "property",
-            "name": "position",
+            "name": "L",
+            "type": "G3",
+            "class": "RigidBodyWithUnits",
+            "module": "EIGHT",
+            "submodule": "visual"
+        },
+        {
+            "file": "src/davinci-eight/visual/RigidBodyWithUnits.ts",
+            "line": 154,
+            "description": "<p>\nMass (scalar)\n</p>",
+            "itemtype": "property",
+            "name": "m",
+            "type": "G3",
+            "class": "RigidBodyWithUnits",
+            "module": "EIGHT",
+            "submodule": "visual"
+        },
+        {
+            "file": "src/davinci-eight/visual/RigidBodyWithUnits.ts",
+            "line": 171,
+            "description": "<p>\nMomentum (vector)\n</p>",
+            "itemtype": "property",
+            "name": "P",
+            "type": "G3",
+            "class": "RigidBodyWithUnits",
+            "module": "EIGHT",
+            "submodule": "visual"
+        },
+        {
+            "file": "src/davinci-eight/visual/RigidBodyWithUnits.ts",
+            "line": 188,
+            "description": "<p>\nCharge\n</p>",
+            "itemtype": "property",
+            "name": "Q",
+            "type": "G3",
+            "class": "RigidBodyWithUnits",
+            "module": "EIGHT",
+            "submodule": "visual"
+        },
+        {
+            "file": "src/davinci-eight/visual/RigidBodyWithUnits.ts",
+            "line": 205,
+            "description": "<p>\nPosition (vector)\n</p>",
+            "itemtype": "property",
+            "name": "X",
             "type": "G3",
             "class": "RigidBodyWithUnits",
             "module": "EIGHT",
@@ -39395,7 +39601,7 @@
         },
         {
             "file": "src/davinci-eight/visual/SingleViewApp.ts",
-            "line": 12,
+            "line": 53,
             "itemtype": "property",
             "name": "view",
             "type": "Viewport",
@@ -39406,7 +39612,7 @@
         },
         {
             "file": "src/davinci-eight/visual/SingleViewApp.ts",
-            "line": 29,
+            "line": 69,
             "itemtype": "method",
             "name": "initialize",
             "return": {
@@ -39420,7 +39626,7 @@
         },
         {
             "file": "src/davinci-eight/visual/SingleViewApp.ts",
-            "line": 48,
+            "line": 88,
             "itemtype": "method",
             "name": "draw",
             "return": {
@@ -39434,7 +39640,7 @@
         },
         {
             "file": "src/davinci-eight/visual/SingleViewApp.ts",
-            "line": 57,
+            "line": 97,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -39930,6 +40136,7 @@
         {
             "file": "src/davinci-eight/visual/VisualOptions.ts",
             "line": 16,
+            "description": "<p>\nAttitude (spinor)\n</p>",
             "itemtype": "attribute",
             "name": "attitude",
             "type": "SpinorE3",
@@ -39941,7 +40148,7 @@
         },
         {
             "file": "src/davinci-eight/visual/VisualOptions.ts",
-            "line": 24,
+            "line": 28,
             "itemtype": "attribute",
             "name": "color",
             "type": "AbstractColor",
@@ -39952,7 +40159,7 @@
         },
         {
             "file": "src/davinci-eight/visual/VisualOptions.ts",
-            "line": 31,
+            "line": 35,
             "itemtype": "attribute",
             "name": "engine",
             "type": "Engine",
@@ -39963,7 +40170,7 @@
         },
         {
             "file": "src/davinci-eight/visual/VisualOptions.ts",
-            "line": 38,
+            "line": 42,
             "itemtype": "attribute",
             "name": "offset",
             "type": "VectorE3",
@@ -39975,7 +40182,8 @@
         },
         {
             "file": "src/davinci-eight/visual/VisualOptions.ts",
-            "line": 46,
+            "line": 50,
+            "description": "<p>\nPosition (vector)\n</p>",
             "itemtype": "attribute",
             "name": "position",
             "type": "VectorE3",
@@ -39987,7 +40195,7 @@
         },
         {
             "file": "src/davinci-eight/visual/VisualOptions.ts",
-            "line": 54,
+            "line": 62,
             "itemtype": "attribute",
             "name": "tilt",
             "type": "SpinorE3",
@@ -40030,6 +40238,10 @@
         {
             "message": "unknown tag: properyty",
             "line": " src/davinci-eight/geometries/SimplexPrimitivesBuilder.ts:55"
+        },
+        {
+            "message": "Missing item type",
+            "line": " src/davinci-eight/base/BrowserApp.ts:36"
         },
         {
             "message": "Missing item type\nIntentionally undocumented.\nThis interface is defined to enable mocking in tests.",
@@ -40117,7 +40329,11 @@
         },
         {
             "message": "Missing item type\nA cache of the parameters used in the last gl.viewport method call.\nwidth and geight must be positive so this cache is initially dirty.",
-            "line": " src/davinci-eight/core/Engine.ts:85"
+            "line": " src/davinci-eight/core/Engine.ts:89"
+        },
+        {
+            "message": "Missing item type\nComputes the mask required for the WebGL clear method.",
+            "line": " src/davinci-eight/core/Engine.ts:512"
         },
         {
             "message": "Missing item type",
@@ -40657,19 +40873,19 @@
         },
         {
             "message": "Missing item type\nCoordinates corresponding to basis labels.",
-            "line": " src/davinci-eight/math/Geometric3.ts:51"
+            "line": " src/davinci-eight/math/Geometric3.ts:52"
         },
         {
             "message": "Missing item type\nConsistently set a coordinate value in the most optimized way.",
-            "line": " src/davinci-eight/math/Geometric3.ts:99"
+            "line": " src/davinci-eight/math/Geometric3.ts:100"
         },
         {
             "message": "Missing item type\nIntentionally undocumented.",
-            "line": " src/davinci-eight/math/Geometric3.ts:923"
+            "line": " src/davinci-eight/math/Geometric3.ts:928"
         },
         {
             "message": "Missing item type\nIntentionally undocumented",
-            "line": " src/davinci-eight/math/Geometric3.ts:1073"
+            "line": " src/davinci-eight/math/Geometric3.ts:1078"
         },
         {
             "message": "Missing item type\nThis interface is provided to ensure consistency.\nIt is not part of the documented API.\nNotice that the effect on the target depends upon whether the target class in mutable.\nI: The lightweight interface form of the concreate class, usually just coordinates.\nM: The concrete class\nS: The lightweight interface form of the spinor.\nV: The lightweight interface form of the vector.\nMAGNITUDE: The type for methods that compute magnitudes.",
@@ -41122,6 +41338,38 @@
         {
             "message": "Missing item type\nIntentionally undocumented.\nEnforce naming (but not type) consistency between implementations.",
             "line": " src/davinci-eight/visual/IRigidBody.ts:1"
+        },
+        {
+            "message": "Missing item type\nAttitude (spinor)",
+            "line": " src/davinci-eight/visual/IRigidBody.ts:7"
+        },
+        {
+            "message": "Missing item type\nAxis (vector)",
+            "line": " src/davinci-eight/visual/IRigidBody.ts:12"
+        },
+        {
+            "message": "Missing item type\nAngular momentum (bivector)",
+            "line": " src/davinci-eight/visual/IRigidBody.ts:17"
+        },
+        {
+            "message": "Missing item type\nMass (scalar)",
+            "line": " src/davinci-eight/visual/IRigidBody.ts:22"
+        },
+        {
+            "message": "Missing item type\nMomentum (vector)",
+            "line": " src/davinci-eight/visual/IRigidBody.ts:27"
+        },
+        {
+            "message": "Missing item type\nCharge",
+            "line": " src/davinci-eight/visual/IRigidBody.ts:32"
+        },
+        {
+            "message": "Missing item type\nPosition (vector)",
+            "line": " src/davinci-eight/visual/IRigidBody.ts:37"
+        },
+        {
+            "message": "Missing item type\nThe initial axis (corresponds to attitude = 1).",
+            "line": " src/davinci-eight/visual/RigidBodyWithUnits.ts:37"
         },
         {
             "message": "Missing item type\nIntentionally undocumented.",

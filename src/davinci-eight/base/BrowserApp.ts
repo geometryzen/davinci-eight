@@ -1,4 +1,6 @@
+import BrowserAppOptions from './BrowserAppOptions'
 import BrowserWindow from './BrowserWindow'
+import isBoolean from '../checks/isBoolean'
 import isDefined from '../checks/isDefined'
 import isFunction from '../checks/isFunction'
 import isUndefined from '../checks/isUndefined'
@@ -20,7 +22,27 @@ export default class BrowserApp {
    * @protected
    */
   protected window: Window
+
+  /**
+   * Determines whether we perform reference count checking
+   * in order to detect memory leaks.
+   *
+   * @property memcheck
+   * @type boolean
+   * @private
+   */
+  private memcheck: boolean
+
+  /**
+   *
+   */
   private shutDown: (ev: Event) => void
+
+  /**
+   * @property domLoaded
+   * @type EventListener
+   * @private
+   */
   private domLoaded: EventListener
 
   /**
@@ -33,18 +55,21 @@ export default class BrowserApp {
   /**
    * @class BrowserApp
    * @constructor
-   * @param [wnd = window] {Window} The window in which the application will be running.
+   * @param [options] {BrowserAppOptions}
    */
-  constructor(wnd: BrowserWindow = window) {
-    refChange('quiet')
-    refChange('start')
-    this.window = <Window>wnd
+  constructor(options: BrowserAppOptions = {}) {
+    this.memcheck = defaultMemCheck(options)
+    if (this.memcheck) {
+      refChange('quiet')
+      refChange('start')
+    }
+    this.window = defaultWindow(options)
     this.domLoaded = () => {
       this.window.document.removeEventListener('DOMContentLoaded', this.domLoaded)
       this.domLoaded = void 0
       this.shutDown = (ev: Event) => {
         // The shutDown handler has done its job, remove the listener.
-        wnd.removeEventListener('unload', this.shutDown)
+        this.window.removeEventListener('unload', this.shutDown)
         this.shutDown = void 0
         mustBeUndefined('shutDown', this.shutDown)
         mustBeUndefined('domLoaded', this.domLoaded)
@@ -67,7 +92,7 @@ export default class BrowserApp {
     mustBeObject('window', this.window)
     mustBeUndefined('shutDown', this.shutDown)
     mustBeFunction('domLoaded', this.domLoaded)
-    wnd.document.addEventListener('DOMContentLoaded', this.domLoaded)
+    this.window.document.addEventListener('DOMContentLoaded', this.domLoaded)
   }
 
   /**
@@ -139,7 +164,27 @@ export default class BrowserApp {
       this.managed.release()
       this.managed = void 0
     }
-    refChange('stop')
-    refChange('dump')
+    if (this.memcheck) {
+      refChange('stop')
+      refChange('dump')
+    }
+  }
+}
+
+function defaultMemCheck(options: BrowserAppOptions): boolean {
+  if (isBoolean(options.memcheck)) {
+    return options.memcheck
+  }
+  else {
+    return false
+  }
+}
+
+function defaultWindow(options: BrowserAppOptions): Window {
+  if (options.window) {
+    return <Window>mustBeObject('options.window', options.window)
+  }
+  else {
+    return window
   }
 }

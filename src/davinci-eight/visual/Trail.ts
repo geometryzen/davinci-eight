@@ -131,8 +131,8 @@ export default class Trail extends ShareableBase {
   snapshot(): void {
     if (this.config.enabled) {
       if (this.counter % this.config.interval === 0) {
-        this.Xs.unshift(this.mesh.position.clone())
-        this.Rs.unshift(this.mesh.attitude.clone())
+        this.Xs.unshift(this.mesh.X.clone())
+        this.Rs.unshift(this.mesh.R.clone())
       }
       while (this.Xs.length > this.config.retain) {
         this.Xs.pop()
@@ -150,17 +150,17 @@ export default class Trail extends ShareableBase {
   draw(ambients: Facet[]): void {
     if (this.config.enabled) {
       // Save the mesh position and attitude so that we can restore them later.
-      const X = this.mesh.position.clone()
-      const R = this.mesh.attitude.clone()
+      const X = this.mesh.X.clone()
+      const R = this.mesh.R.clone()
       const iLength: number = this.Xs.length
       for (let i = 0; i < iLength; i++) {
-        this.mesh.position.copyVector(this.Xs[i])
-        this.mesh.attitude.copySpinor(this.Rs[i])
+        this.mesh.X.copyVector(this.Xs[i])
+        this.mesh.R.copySpinor(this.Rs[i])
         this.mesh.draw(ambients)
       }
       // Restore the mesh position and attitude.
-      this.mesh.position.copy(X)
-      this.mesh.attitude.copy(R)
+      this.mesh.X.copy(X)
+      this.mesh.R.copy(R)
     }
   }
 }

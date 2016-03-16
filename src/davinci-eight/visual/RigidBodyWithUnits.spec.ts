@@ -17,20 +17,28 @@ describe("RigidBodyWithUnits", function() {
     const axis = R3.e3
     const rigidBody = new RigidBodyWithUnits(mesh, R3.e3)
 
+    it("should have zero angular momentum and correct units", function() {
+      expect(rigidBody.L.toString()).toBe("0 J·s")
+    })
+
     it("should have mass 1 kg", function() {
-      expect(rigidBody.mass.toString()).toBe("1 kg")
+      expect(rigidBody.m.toString()).toBe("1 kg")
     })
 
     it("should be at the origin with correct units", function() {
-      expect(rigidBody.position.toString()).toBe("0 m")
+      expect(rigidBody.X.toString()).toBe("0 m")
     })
 
     it("should have zero momentum and correct units", function() {
-      expect(rigidBody.momentum.toString()).toBe("0 kg·m/s")
+      expect(rigidBody.P.toString()).toBe("0 kg·m/s")
+    })
+
+    it("should have zero charge and correct units", function() {
+      expect(rigidBody.Q.toString()).toBe("0 C")
     })
 
     it("should have attitude 1", function() {
-      expect(rigidBody.attitude.toString()).toBe("1")
+      expect(rigidBody.R.toString()).toBe("1")
     })
 
     it("should have axis equal to the initial axis", function() {
@@ -38,5 +46,4 @@ describe("RigidBodyWithUnits", function() {
       expect(rigidBody.axis.toString()).toBe(axis.toString())
     })
   })
-
 })

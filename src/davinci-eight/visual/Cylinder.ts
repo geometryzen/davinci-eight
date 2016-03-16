@@ -52,10 +52,10 @@ export default class Cylinder extends RigidBody {
       this.color.copy(options.color)
     }
     if (options.position) {
-      this.position.copyVector(options.position)
+      this.X.copyVector(options.position)
     }
     if (options.attitude) {
-      this.attitude.copySpinor(options.attitude)
+      this.R.copySpinor(options.attitude)
     }
     this.radius = isDefined(options.radius) ? mustBeNumber('radius', options.radius) : 0.5
     this.length = isDefined(options.length) ? mustBeNumber('length', options.length) : 1.0
@@ -85,10 +85,13 @@ export default class Cylinder extends RigidBody {
   }
 
   /**
+   * <p>
+   * </p>
+   *
    * @property radius
    * @type number
    */
-  get radius() {
+  get radius(): number {
     return this.getPrincipalScale('radius')
   }
   set radius(radius: number) {

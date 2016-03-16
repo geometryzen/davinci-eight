@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.223.0</em>
+            <em>API Docs for: 2.224.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -44,6 +44,7 @@
                                 <li><a href="../classes/AbstractMesh.html">AbstractMesh</a></li>
                                 <li><a href="../classes/AmbientLight.html">AmbientLight</a></li>
                                 <li><a href="../classes/AnimationApp.html">AnimationApp</a></li>
+                                <li><a href="../classes/AnimationAppOptions.html">AnimationAppOptions</a></li>
                                 <li><a href="../classes/Approximation.html">Approximation</a></li>
                                 <li><a href="../classes/Arrow.html">Arrow</a></li>
                                 <li><a href="../classes/ArrowBuilder.html">ArrowBuilder</a></li>
@@ -60,6 +61,7 @@
                                 <li><a href="../classes/BoxGeometryOptions.html">BoxGeometryOptions</a></li>
                                 <li><a href="../classes/BoxOptions.html">BoxOptions</a></li>
                                 <li><a href="../classes/BrowserApp.html">BrowserApp</a></li>
+                                <li><a href="../classes/BrowserAppOptions.html">BrowserAppOptions</a></li>
                                 <li><a href="../classes/Capability.html">Capability</a></li>
                                 <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
@@ -94,6 +96,7 @@
                                 <li><a href="../classes/EIGHTLogger.html">EIGHTLogger</a></li>
                                 <li><a href="../classes/Engine.html">Engine</a></li>
                                 <li><a href="../classes/EngineApp.html">EngineApp</a></li>
+                                <li><a href="../classes/EngineAppOptions.html">EngineAppOptions</a></li>
                                 <li><a href="../classes/ErrorMode.html">ErrorMode</a></li>
                                 <li><a href="../classes/Facet.html">Facet</a></li>
                                 <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
@@ -142,6 +145,7 @@
                                 <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
                                 <li><a href="../classes/MouseControls.html">MouseControls</a></li>
                                 <li><a href="../classes/MultiViewApp.html">MultiViewApp</a></li>
+                                <li><a href="../classes/MultiViewAppOptions.html">MultiViewAppOptions</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/NumberShareableMap.html">NumberShareableMap</a></li>
                                 <li><a href="../classes/OrbitControls.html">OrbitControls</a></li>
@@ -283,16 +287,12 @@ import Drawable from &#x27;./Drawable&#x27;
 import Engine from &#x27;./Engine&#x27;
 import Geometric3 from &#x27;../math/Geometric3&#x27;
 import Geometry from &#x27;./Geometry&#x27;
-import incLevel from &#x27;../base/incLevel&#x27;
 import Material from &#x27;./Material&#x27;
 import AbstractMesh from &#x27;../core/AbstractMesh&#x27;
 import Matrix4 from &#x27;../math/Matrix4&#x27;
 import ModelFacet from &#x27;../facets/ModelFacet&#x27;
 import PointSizeFacet from &#x27;../facets/PointSizeFacet&#x27;
 import notSupported from &#x27;../i18n/notSupported&#x27;
-import readOnly from &#x27;../i18n/readOnly&#x27;
-import VectorE3 from &#x27;../math/VectorE3&#x27;
-import SpinorE3 from &#x27;../math/SpinorE3&#x27;
 
 const COLOR_FACET_NAME = &#x27;color&#x27;
 const MODEL_FACET_NAME = &#x27;model&#x27;
@@ -336,53 +336,36 @@ export default class Mesh extends Drawable implements AbstractMesh {
 
   /**
    * @method destructor
-   * @param level {number}
+   * @param levelUp {number}
    * @return {void}
    * @protected
    */
-  protected destructor(level: number): void {
-    super.destructor(incLevel(level))
+  protected destructor(levelUp: number): void {
+    super.destructor(levelUp + 1)
   }
 
   /**
    * Attitude (spinor)
    *
-   * @property attitude
+   * @property R
    * @type Geometric3
    */
-  get attitude(): Geometric3 {
+  get R(): Geometric3 {
     const facet = &lt;ModelFacet&gt;this.getFacet(MODEL_FACET_NAME)
     if (facet) {
-      return facet.attitude
+      return facet.R
     }
     else {
-      throw new Error(notSupported(&#x27;attitude&#x27;).message)
+      throw new Error(notSupported(&#x27;R&#x27;).message)
     }
   }
-  set attitude(attitude: Geometric3) {
-    this.setAttitude(attitude)
-  }
-
-  /**
-   * @method getAttitude
-   * @return {Geometric3}
-   */
-  getAttitude(): Geometric3 {
-    return this.attitude
-  }
-
-  /**
-   * @method setAttitude
-   * @param attitude {SpinorE3}
-   * @return {void}
-   */
-  setAttitude(attitude: SpinorE3): void {
+  set R(R: Geometric3) {
     const facet = &lt;ModelFacet&gt;this.getFacet(MODEL_FACET_NAME)
     if (facet) {
-      facet.attitude.copySpinor(attitude)
+      facet.R.copySpinor(R)
     }
     else {
-      throw new Error(notSupported(&#x27;attitude&#x27;).message)
+      throw new Error(notSupported(&#x27;R&#x27;).message)
     }
   }
 
@@ -412,56 +395,27 @@ export default class Mesh extends Drawable implements AbstractMesh {
   }
 
   /**
-   * @property matrix
-   * @type Matrix4
-   * @readOnly
-   */
-  get matrix(): Matrix4 {
-    return (&lt;ModelFacet&gt;this.getFacet(MODEL_FACET_NAME)).matrix
-  }
-  set matrix(unused: Matrix4) {
-    throw new Error(readOnly(&#x27;matrix&#x27;).message)
-  }
-
-  /**
    * Position (vector)
    *
-   * @property position
+   * @property X
    * @type Geometric3
    */
-  get position(): Geometric3 {
+  get X(): Geometric3 {
     const facet = &lt;ModelFacet&gt;this.getFacet(MODEL_FACET_NAME)
     if (facet) {
-      return facet.position
+      return facet.X
     }
     else {
-      throw new Error(notSupported(&#x27;position&#x27;).message)
+      throw new Error(notSupported(&#x27;X&#x27;).message)
     }
   }
-  set position(position: Geometric3) {
-    this.setPosition(position)
-  }
-
-  /**
-   * @method getPosition
-   * @return {Geometric3}
-   */
-  getPosition(): Geometric3 {
-    return this.position
-  }
-
-  /**
-   * @method setPosition
-   * @param position {VectorE3}
-   * @return {void}
-   */
-  setPosition(position: VectorE3): void {
+  set X(X: Geometric3) {
     const facet = &lt;ModelFacet&gt;this.getFacet(MODEL_FACET_NAME)
     if (facet) {
-      facet.position.copyVector(position)
+      facet.X.copyVector(X)
     }
     else {
-      throw new Error(notSupported(&#x27;position&#x27;).message)
+      throw new Error(notSupported(&#x27;X&#x27;).message)
     }
   }
 

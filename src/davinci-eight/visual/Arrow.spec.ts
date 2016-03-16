@@ -16,14 +16,14 @@ describe("Arrow", function() {
   describe("position", function() {
     it("should be initialized to zero", function() {
       const arrow = new Arrow()
-      expect(arrow.position.isZero()).toBe(true)
+      expect(arrow.X.isZero()).toBe(true)
       arrow.release()
     })
   })
   describe("attitude", function() {
     it("should be initialized to unity", function() {
       const arrow = new Arrow()
-      expect(arrow.attitude.isOne()).toBe(true)
+      expect(arrow.R.isOne()).toBe(true)
       arrow.release()
     })
   })
@@ -53,7 +53,7 @@ describe("Arrow", function() {
         xit("should NOT update the attitude property", function() {
           const arrow = new Arrow()
           // arrow.length = 2
-          expect(arrow.attitude.isOne()).toBe(true)
+          expect(arrow.R.isOne()).toBe(true)
           arrow.release()
         })
       })
@@ -75,7 +75,7 @@ describe("Arrow", function() {
         it("should update the attitude property", function() {
           const arrow = new Arrow()
           arrow.h = e1.clone().scale(2)
-          expect(arrow.attitude.equals(Geometric3.rotorFromDirections(e2, e1))).toBe(true)
+          expect(arrow.R.equals(Geometric3.rotorFromDirections(e2, e1))).toBe(true)
           arrow.release()
         })
       })
@@ -92,7 +92,7 @@ describe("Arrow", function() {
       options.position = options.position
       options.tilt = options.tilt
       const arrow = new Arrow(options)
-      expect(arrow.attitude.isOne()).toBe(true)
+      expect(arrow.R.isOne()).toBe(true)
       arrow.release()
     })
   })

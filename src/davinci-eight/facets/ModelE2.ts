@@ -1,7 +1,6 @@
 import Geometric2 from '../math/Geometric2';
 import Vector2 from '../math/Vector2';
 import Spinor2 from '../math/Spinor2';
-import readOnly from '../i18n/readOnly';
 
 /**
  * @module EIGHT
@@ -12,6 +11,7 @@ import readOnly from '../i18n/readOnly';
  * @class ModelE2
  */
 export default class ModelE2 {
+
     /**
      * The name of the property that designates the attitude.
      * @property PROP_ATTITUDE
@@ -21,6 +21,7 @@ export default class ModelE2 {
      * @readOnly
      */
     public static PROP_ATTITUDE = 'R';
+
     /**
      * The name of the property that designates the position.
      * @property PROP_POSITION
@@ -32,21 +33,27 @@ export default class ModelE2 {
     public static PROP_POSITION = 'X';
 
     private _position = new Geometric2().zero();
+
     private _attitude = new Geometric2().zero().addScalar(1);
+
     /**
      * Used for exchanging number[] data to achieve integrity and avoid lots of temporaries.
+     *
      * @property _posCache
      * @type {Vector2}
      * @private
      */
     private _posCache = new Vector2();
+
     /**
      * Used for exchanging number[] data to achieve integrity and avoid lots of temporaries.
+     *
      * @property _attCache
      * @type {Spinor2}
      * @private
      */
     private _attCache = new Spinor2();
+
     /**
      * <p>
      * A collection of properties for Rigid Body Modeling.
@@ -57,6 +64,7 @@ export default class ModelE2 {
      * <p>
      * Constructs a ModelE2 at the origin and with unity attitude.
      * </p>
+     *
      * @class ModelE2
      * @constructor
      */
@@ -69,16 +77,17 @@ export default class ModelE2 {
      * <p>
      * The <em>attitude</em>, a unitary spinor.
      * </p>
+     *
      * @property R
      * @type Geometric2
-     * @readOnly
      */
     get R(): Geometric2 {
         return this._attitude
     }
-    set R(unused) {
-        throw new Error(readOnly(ModelE2.PROP_ATTITUDE).message)
+    set R(attitude: Geometric2) {
+      this._attitude.copy(attitude)
     }
+
     /**
      * <p>
      * The <em>position</em>, a vector.
@@ -88,13 +97,12 @@ export default class ModelE2 {
      *
      * @property X
      * @type Geometric2
-     * @readOnly
      */
     get X(): Geometric2 {
         return this._position
     }
-    set X(unused) {
-        throw new Error(readOnly(ModelE2.PROP_POSITION).message)
+    set X(position: Geometric2) {
+      this._position.copy(position)
     }
 
     /**
@@ -107,11 +115,9 @@ export default class ModelE2 {
             case ModelE2.PROP_ATTITUDE: {
                 return this._attCache.copy(this._attitude).coords
             }
-                break;
             case ModelE2.PROP_POSITION: {
                 return this._posCache.copy(this._position).coords
             }
-                break;
             default: {
                 console.warn("ModelE2.getProperty " + name)
                 return void 0

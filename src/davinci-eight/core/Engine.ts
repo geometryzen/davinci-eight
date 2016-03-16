@@ -15,13 +15,12 @@ import isDefined from '../checks/isDefined';
 import mustBeBoolean from '../checks/mustBeBoolean';
 import mustBeDefined from '../checks/mustBeDefined';
 import mustBeObject from '../checks/mustBeObject';
+import mustSatisfy from '../checks/mustSatisfy';
 import readOnly from '../i18n/readOnly';
 import ShareableArray from '../collections/ShareableArray';
 import ShareableBase from './ShareableBase';
 import VersionLogger from '../commands/VersionLogger';
-// import VertexBuffer from './VertexBuffer';
 import VertexBufferManager from './VertexBufferManager';
-// import VertexBufferPackage from './VertexBufferPackage';
 import WebGLClearColor from '../commands/WebGLClearColor';
 import WebGLEnable from '../commands/WebGLEnable';
 import WebGLDisable from '../commands/WebGLDisable';
@@ -81,6 +80,11 @@ export default class Engine extends ShareableBase implements VertexBufferManager
   private _contextProvider: DefaultContextProvider
 
   private _mayUseCache = true
+
+  private colorFlag: boolean = true
+  private depthFlag: boolean = true
+  private stencilFlag: boolean = false
+  private clearMask: number = clearMask(this.colorFlag, this.depthFlag, this.stencilFlag, null)
 
   /**
    * A cache of the parameters used in the last gl.viewport method call.
@@ -312,13 +316,17 @@ export default class Engine extends ShareableBase implements VertexBufferManager
   }
 
   /**
+   * <p>
+   * Sets the graphics buffers to values preselected by clearColor, clearDepth or clearStencil.
+   * </p>
+   *
    * @method clear
    * @return {void}
    */
   clear(): void {
     const gl = this._gl
     if (gl) {
-      gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
+      gl.clear(this.clearMask)
     }
   }
 
@@ -423,7 +431,8 @@ export default class Engine extends ShareableBase implements VertexBufferManager
     // What if we were given a "no-op" canvasBuilder that returns undefined for the canvas.
     // To not complain is the way of the hyper-functional warrior.
     if (isDefined(this._canvas)) {
-      this._gl = initWebGL(this._canvas, this._attributes);
+      this._gl = initWebGL(this._canvas, this._attributes)
+      this.clearMask = clearMask(this.colorFlag, this.depthFlag, this.stencilFlag, this._gl)
       this.emitStartEvent()
       this._canvas.addEventListener('webglcontextlost', this._webGLContextLost, false)
       this._canvas.addEventListener('webglcontextrestored', this._webGLContextRestored, false)
@@ -498,4 +507,42 @@ export default class Engine extends ShareableBase implements VertexBufferManager
       // FIXME: Broken symmetry.
     }
   }
+}
+
+/**
+ * Computes the mask required for the WebGL clear method.
+ */
+function clearMask(colorFlag: boolean, depthFlag: boolean, stencilFlag: boolean, gl: WebGLRenderingContext): number {
+  let mask = 0
+  if (colorFlag) {
+    if (gl) {
+      // Experimental code to determine if documented values are correct.
+      mustSatisfy('COLOR_BUFFER_BIT', gl.COLOR_BUFFER_BIT === 0x4000, () => { return 'clearMask' })
+      mask |= gl.COLOR_BUFFER_BIT
+    }
+    else {
+      mask |= 0x4000
+    }
+  }
+  if (depthFlag) {
+    if (gl) {
+      // Experimental code to determine if documented values are correct.
+      mustSatisfy('DEPTH_BUFFER_BIT', gl.DEPTH_BUFFER_BIT === 0x0100, () => { return 'clearMask' })
+      mask |= gl.DEPTH_BUFFER_BIT
+    }
+    else {
+      mask |= 0x0100
+    }
+  }
+  if (stencilFlag) {
+    if (gl) {
+      // Experimental code to determine if documented values are correct.
+      mustSatisfy('STENCIL_BUFFER_BIT', gl.STENCIL_BUFFER_BIT === 0x0400, () => { return 'clearMask' })
+      mask |= gl.STENCIL_BUFFER_BIT
+    }
+    else {
+      mask |= 0x0400
+    }
+  }
+  return mask
 }

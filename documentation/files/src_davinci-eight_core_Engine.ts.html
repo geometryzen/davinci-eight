@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.223.0</em>
+            <em>API Docs for: 2.224.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -44,6 +44,7 @@
                                 <li><a href="../classes/AbstractMesh.html">AbstractMesh</a></li>
                                 <li><a href="../classes/AmbientLight.html">AmbientLight</a></li>
                                 <li><a href="../classes/AnimationApp.html">AnimationApp</a></li>
+                                <li><a href="../classes/AnimationAppOptions.html">AnimationAppOptions</a></li>
                                 <li><a href="../classes/Approximation.html">Approximation</a></li>
                                 <li><a href="../classes/Arrow.html">Arrow</a></li>
                                 <li><a href="../classes/ArrowBuilder.html">ArrowBuilder</a></li>
@@ -60,6 +61,7 @@
                                 <li><a href="../classes/BoxGeometryOptions.html">BoxGeometryOptions</a></li>
                                 <li><a href="../classes/BoxOptions.html">BoxOptions</a></li>
                                 <li><a href="../classes/BrowserApp.html">BrowserApp</a></li>
+                                <li><a href="../classes/BrowserAppOptions.html">BrowserAppOptions</a></li>
                                 <li><a href="../classes/Capability.html">Capability</a></li>
                                 <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
@@ -94,6 +96,7 @@
                                 <li><a href="../classes/EIGHTLogger.html">EIGHTLogger</a></li>
                                 <li><a href="../classes/Engine.html">Engine</a></li>
                                 <li><a href="../classes/EngineApp.html">EngineApp</a></li>
+                                <li><a href="../classes/EngineAppOptions.html">EngineAppOptions</a></li>
                                 <li><a href="../classes/ErrorMode.html">ErrorMode</a></li>
                                 <li><a href="../classes/Facet.html">Facet</a></li>
                                 <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
@@ -142,6 +145,7 @@
                                 <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
                                 <li><a href="../classes/MouseControls.html">MouseControls</a></li>
                                 <li><a href="../classes/MultiViewApp.html">MultiViewApp</a></li>
+                                <li><a href="../classes/MultiViewAppOptions.html">MultiViewAppOptions</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/NumberShareableMap.html">NumberShareableMap</a></li>
                                 <li><a href="../classes/OrbitControls.html">OrbitControls</a></li>
@@ -294,13 +298,12 @@ import isDefined from &#x27;../checks/isDefined&#x27;;
 import mustBeBoolean from &#x27;../checks/mustBeBoolean&#x27;;
 import mustBeDefined from &#x27;../checks/mustBeDefined&#x27;;
 import mustBeObject from &#x27;../checks/mustBeObject&#x27;;
+import mustSatisfy from &#x27;../checks/mustSatisfy&#x27;;
 import readOnly from &#x27;../i18n/readOnly&#x27;;
 import ShareableArray from &#x27;../collections/ShareableArray&#x27;;
 import ShareableBase from &#x27;./ShareableBase&#x27;;
 import VersionLogger from &#x27;../commands/VersionLogger&#x27;;
-// import VertexBuffer from &#x27;./VertexBuffer&#x27;;
 import VertexBufferManager from &#x27;./VertexBufferManager&#x27;;
-// import VertexBufferPackage from &#x27;./VertexBufferPackage&#x27;;
 import WebGLClearColor from &#x27;../commands/WebGLClearColor&#x27;;
 import WebGLEnable from &#x27;../commands/WebGLEnable&#x27;;
 import WebGLDisable from &#x27;../commands/WebGLDisable&#x27;;
@@ -360,6 +363,11 @@ export default class Engine extends ShareableBase implements VertexBufferManager
   private _contextProvider: DefaultContextProvider
 
   private _mayUseCache = true
+
+  private colorFlag: boolean = true
+  private depthFlag: boolean = true
+  private stencilFlag: boolean = false
+  private clearMask: number = clearMask(this.colorFlag, this.depthFlag, this.stencilFlag, null)
 
   /**
    * A cache of the parameters used in the last gl.viewport method call.
@@ -591,13 +599,17 @@ export default class Engine extends ShareableBase implements VertexBufferManager
   }
 
   /**
+   * &lt;p&gt;
+   * Sets the graphics buffers to values preselected by clearColor, clearDepth or clearStencil.
+   * &lt;/p&gt;
+   *
    * @method clear
    * @return {void}
    */
   clear(): void {
     const gl = this._gl
     if (gl) {
-      gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
+      gl.clear(this.clearMask)
     }
   }
 
@@ -702,7 +714,8 @@ export default class Engine extends ShareableBase implements VertexBufferManager
     // What if we were given a &quot;no-op&quot; canvasBuilder that returns undefined for the canvas.
     // To not complain is the way of the hyper-functional warrior.
     if (isDefined(this._canvas)) {
-      this._gl = initWebGL(this._canvas, this._attributes);
+      this._gl = initWebGL(this._canvas, this._attributes)
+      this.clearMask = clearMask(this.colorFlag, this.depthFlag, this.stencilFlag, this._gl)
       this.emitStartEvent()
       this._canvas.addEventListener(&#x27;webglcontextlost&#x27;, this._webGLContextLost, false)
       this._canvas.addEventListener(&#x27;webglcontextrestored&#x27;, this._webGLContextRestored, false)
@@ -777,6 +790,44 @@ export default class Engine extends ShareableBase implements VertexBufferManager
       // FIXME: Broken symmetry.
     }
   }
+}
+
+/**
+ * Computes the mask required for the WebGL clear method.
+ */
+function clearMask(colorFlag: boolean, depthFlag: boolean, stencilFlag: boolean, gl: WebGLRenderingContext): number {
+  let mask = 0
+  if (colorFlag) {
+    if (gl) {
+      // Experimental code to determine if documented values are correct.
+      mustSatisfy(&#x27;COLOR_BUFFER_BIT&#x27;, gl.COLOR_BUFFER_BIT === 0x4000, () =&gt; { return &#x27;clearMask&#x27; })
+      mask |= gl.COLOR_BUFFER_BIT
+    }
+    else {
+      mask |= 0x4000
+    }
+  }
+  if (depthFlag) {
+    if (gl) {
+      // Experimental code to determine if documented values are correct.
+      mustSatisfy(&#x27;DEPTH_BUFFER_BIT&#x27;, gl.DEPTH_BUFFER_BIT === 0x0100, () =&gt; { return &#x27;clearMask&#x27; })
+      mask |= gl.DEPTH_BUFFER_BIT
+    }
+    else {
+      mask |= 0x0100
+    }
+  }
+  if (stencilFlag) {
+    if (gl) {
+      // Experimental code to determine if documented values are correct.
+      mustSatisfy(&#x27;STENCIL_BUFFER_BIT&#x27;, gl.STENCIL_BUFFER_BIT === 0x0400, () =&gt; { return &#x27;clearMask&#x27; })
+      mask |= gl.STENCIL_BUFFER_BIT
+    }
+    else {
+      mask |= 0x0400
+    }
+  }
+  return mask
 }
 
     </pre>

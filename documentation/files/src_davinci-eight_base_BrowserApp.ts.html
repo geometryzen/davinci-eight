@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.223.0</em>
+            <em>API Docs for: 2.224.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -44,6 +44,7 @@
                                 <li><a href="../classes/AbstractMesh.html">AbstractMesh</a></li>
                                 <li><a href="../classes/AmbientLight.html">AmbientLight</a></li>
                                 <li><a href="../classes/AnimationApp.html">AnimationApp</a></li>
+                                <li><a href="../classes/AnimationAppOptions.html">AnimationAppOptions</a></li>
                                 <li><a href="../classes/Approximation.html">Approximation</a></li>
                                 <li><a href="../classes/Arrow.html">Arrow</a></li>
                                 <li><a href="../classes/ArrowBuilder.html">ArrowBuilder</a></li>
@@ -60,6 +61,7 @@
                                 <li><a href="../classes/BoxGeometryOptions.html">BoxGeometryOptions</a></li>
                                 <li><a href="../classes/BoxOptions.html">BoxOptions</a></li>
                                 <li><a href="../classes/BrowserApp.html">BrowserApp</a></li>
+                                <li><a href="../classes/BrowserAppOptions.html">BrowserAppOptions</a></li>
                                 <li><a href="../classes/Capability.html">Capability</a></li>
                                 <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
@@ -94,6 +96,7 @@
                                 <li><a href="../classes/EIGHTLogger.html">EIGHTLogger</a></li>
                                 <li><a href="../classes/Engine.html">Engine</a></li>
                                 <li><a href="../classes/EngineApp.html">EngineApp</a></li>
+                                <li><a href="../classes/EngineAppOptions.html">EngineAppOptions</a></li>
                                 <li><a href="../classes/ErrorMode.html">ErrorMode</a></li>
                                 <li><a href="../classes/Facet.html">Facet</a></li>
                                 <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
@@ -142,6 +145,7 @@
                                 <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
                                 <li><a href="../classes/MouseControls.html">MouseControls</a></li>
                                 <li><a href="../classes/MultiViewApp.html">MultiViewApp</a></li>
+                                <li><a href="../classes/MultiViewAppOptions.html">MultiViewAppOptions</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/NumberShareableMap.html">NumberShareableMap</a></li>
                                 <li><a href="../classes/OrbitControls.html">OrbitControls</a></li>
@@ -277,7 +281,9 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
+import BrowserAppOptions from &#x27;./BrowserAppOptions&#x27;
 import BrowserWindow from &#x27;./BrowserWindow&#x27;
+import isBoolean from &#x27;../checks/isBoolean&#x27;
 import isDefined from &#x27;../checks/isDefined&#x27;
 import isFunction from &#x27;../checks/isFunction&#x27;
 import isUndefined from &#x27;../checks/isUndefined&#x27;
@@ -299,7 +305,27 @@ export default class BrowserApp {
    * @protected
    */
   protected window: Window
+
+  /**
+   * Determines whether we perform reference count checking
+   * in order to detect memory leaks.
+   *
+   * @property memcheck
+   * @type boolean
+   * @private
+   */
+  private memcheck: boolean
+
+  /**
+   *
+   */
   private shutDown: (ev: Event) =&gt; void
+
+  /**
+   * @property domLoaded
+   * @type EventListener
+   * @private
+   */
   private domLoaded: EventListener
 
   /**
@@ -312,18 +338,21 @@ export default class BrowserApp {
   /**
    * @class BrowserApp
    * @constructor
-   * @param [wnd = window] {Window} The window in which the application will be running.
+   * @param [options] {BrowserAppOptions}
    */
-  constructor(wnd: BrowserWindow = window) {
-    refChange(&#x27;quiet&#x27;)
-    refChange(&#x27;start&#x27;)
-    this.window = &lt;Window&gt;wnd
+  constructor(options: BrowserAppOptions = {}) {
+    this.memcheck = defaultMemCheck(options)
+    if (this.memcheck) {
+      refChange(&#x27;quiet&#x27;)
+      refChange(&#x27;start&#x27;)
+    }
+    this.window = defaultWindow(options)
     this.domLoaded = () =&gt; {
       this.window.document.removeEventListener(&#x27;DOMContentLoaded&#x27;, this.domLoaded)
       this.domLoaded = void 0
       this.shutDown = (ev: Event) =&gt; {
         // The shutDown handler has done its job, remove the listener.
-        wnd.removeEventListener(&#x27;unload&#x27;, this.shutDown)
+        this.window.removeEventListener(&#x27;unload&#x27;, this.shutDown)
         this.shutDown = void 0
         mustBeUndefined(&#x27;shutDown&#x27;, this.shutDown)
         mustBeUndefined(&#x27;domLoaded&#x27;, this.domLoaded)
@@ -346,7 +375,7 @@ export default class BrowserApp {
     mustBeObject(&#x27;window&#x27;, this.window)
     mustBeUndefined(&#x27;shutDown&#x27;, this.shutDown)
     mustBeFunction(&#x27;domLoaded&#x27;, this.domLoaded)
-    wnd.document.addEventListener(&#x27;DOMContentLoaded&#x27;, this.domLoaded)
+    this.window.document.addEventListener(&#x27;DOMContentLoaded&#x27;, this.domLoaded)
   }
 
   /**
@@ -418,8 +447,28 @@ export default class BrowserApp {
       this.managed.release()
       this.managed = void 0
     }
-    refChange(&#x27;stop&#x27;)
-    refChange(&#x27;dump&#x27;)
+    if (this.memcheck) {
+      refChange(&#x27;stop&#x27;)
+      refChange(&#x27;dump&#x27;)
+    }
+  }
+}
+
+function defaultMemCheck(options: BrowserAppOptions): boolean {
+  if (isBoolean(options.memcheck)) {
+    return options.memcheck
+  }
+  else {
+    return false
+  }
+}
+
+function defaultWindow(options: BrowserAppOptions): Window {
+  if (options.window) {
+    return &lt;Window&gt;mustBeObject(&#x27;options.window&#x27;, options.window)
+  }
+  else {
+    return window
   }
 }
     </pre>

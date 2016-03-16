@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.223.0</em>
+            <em>API Docs for: 2.224.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -44,6 +44,7 @@
                                 <li><a href="../classes/AbstractMesh.html">AbstractMesh</a></li>
                                 <li><a href="../classes/AmbientLight.html">AmbientLight</a></li>
                                 <li><a href="../classes/AnimationApp.html">AnimationApp</a></li>
+                                <li><a href="../classes/AnimationAppOptions.html">AnimationAppOptions</a></li>
                                 <li><a href="../classes/Approximation.html">Approximation</a></li>
                                 <li><a href="../classes/Arrow.html">Arrow</a></li>
                                 <li><a href="../classes/ArrowBuilder.html">ArrowBuilder</a></li>
@@ -60,6 +61,7 @@
                                 <li><a href="../classes/BoxGeometryOptions.html">BoxGeometryOptions</a></li>
                                 <li><a href="../classes/BoxOptions.html">BoxOptions</a></li>
                                 <li><a href="../classes/BrowserApp.html">BrowserApp</a></li>
+                                <li><a href="../classes/BrowserAppOptions.html">BrowserAppOptions</a></li>
                                 <li><a href="../classes/Capability.html">Capability</a></li>
                                 <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
@@ -94,6 +96,7 @@
                                 <li><a href="../classes/EIGHTLogger.html">EIGHTLogger</a></li>
                                 <li><a href="../classes/Engine.html">Engine</a></li>
                                 <li><a href="../classes/EngineApp.html">EngineApp</a></li>
+                                <li><a href="../classes/EngineAppOptions.html">EngineAppOptions</a></li>
                                 <li><a href="../classes/ErrorMode.html">ErrorMode</a></li>
                                 <li><a href="../classes/Facet.html">Facet</a></li>
                                 <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
@@ -142,6 +145,7 @@
                                 <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
                                 <li><a href="../classes/MouseControls.html">MouseControls</a></li>
                                 <li><a href="../classes/MultiViewApp.html">MultiViewApp</a></li>
+                                <li><a href="../classes/MultiViewAppOptions.html">MultiViewAppOptions</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/NumberShareableMap.html">NumberShareableMap</a></li>
                                 <li><a href="../classes/OrbitControls.html">OrbitControls</a></li>
@@ -280,7 +284,6 @@
 import Geometric2 from &#x27;../math/Geometric2&#x27;;
 import Vector2 from &#x27;../math/Vector2&#x27;;
 import Spinor2 from &#x27;../math/Spinor2&#x27;;
-import readOnly from &#x27;../i18n/readOnly&#x27;;
 
 /**
  * @module EIGHT
@@ -291,6 +294,7 @@ import readOnly from &#x27;../i18n/readOnly&#x27;;
  * @class ModelE2
  */
 export default class ModelE2 {
+
     /**
      * The name of the property that designates the attitude.
      * @property PROP_ATTITUDE
@@ -300,6 +304,7 @@ export default class ModelE2 {
      * @readOnly
      */
     public static PROP_ATTITUDE = &#x27;R&#x27;;
+
     /**
      * The name of the property that designates the position.
      * @property PROP_POSITION
@@ -311,21 +316,27 @@ export default class ModelE2 {
     public static PROP_POSITION = &#x27;X&#x27;;
 
     private _position = new Geometric2().zero();
+
     private _attitude = new Geometric2().zero().addScalar(1);
+
     /**
      * Used for exchanging number[] data to achieve integrity and avoid lots of temporaries.
+     *
      * @property _posCache
      * @type {Vector2}
      * @private
      */
     private _posCache = new Vector2();
+
     /**
      * Used for exchanging number[] data to achieve integrity and avoid lots of temporaries.
+     *
      * @property _attCache
      * @type {Spinor2}
      * @private
      */
     private _attCache = new Spinor2();
+
     /**
      * &lt;p&gt;
      * A collection of properties for Rigid Body Modeling.
@@ -336,6 +347,7 @@ export default class ModelE2 {
      * &lt;p&gt;
      * Constructs a ModelE2 at the origin and with unity attitude.
      * &lt;/p&gt;
+     *
      * @class ModelE2
      * @constructor
      */
@@ -348,16 +360,17 @@ export default class ModelE2 {
      * &lt;p&gt;
      * The &lt;em&gt;attitude&lt;/em&gt;, a unitary spinor.
      * &lt;/p&gt;
+     *
      * @property R
      * @type Geometric2
-     * @readOnly
      */
     get R(): Geometric2 {
         return this._attitude
     }
-    set R(unused) {
-        throw new Error(readOnly(ModelE2.PROP_ATTITUDE).message)
+    set R(attitude: Geometric2) {
+      this._attitude.copy(attitude)
     }
+
     /**
      * &lt;p&gt;
      * The &lt;em&gt;position&lt;/em&gt;, a vector.
@@ -367,13 +380,12 @@ export default class ModelE2 {
      *
      * @property X
      * @type Geometric2
-     * @readOnly
      */
     get X(): Geometric2 {
         return this._position
     }
-    set X(unused) {
-        throw new Error(readOnly(ModelE2.PROP_POSITION).message)
+    set X(position: Geometric2) {
+      this._position.copy(position)
     }
 
     /**
@@ -386,11 +398,9 @@ export default class ModelE2 {
             case ModelE2.PROP_ATTITUDE: {
                 return this._attCache.copy(this._attitude).coords
             }
-                break;
             case ModelE2.PROP_POSITION: {
                 return this._posCache.copy(this._position).coords
             }
-                break;
             default: {
                 console.warn(&quot;ModelE2.getProperty &quot; + name)
                 return void 0

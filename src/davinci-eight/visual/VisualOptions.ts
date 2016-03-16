@@ -14,6 +14,10 @@ import VectorE3 from '../math/VectorE3'
 interface VisualOptions {
 
     /**
+     * <p>
+     * Attitude (spinor)
+     * </p>
+     *
      * @attribute attitude
      * @type SpinorE3
      * @optional
@@ -44,6 +48,10 @@ interface VisualOptions {
     offset?: VectorE3;
 
     /**
+     * <p>
+     * Position (vector)
+     * </p>
+     *
      * @attribute position
      * @type VectorE3
      * @optional

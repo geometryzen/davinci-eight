@@ -55,10 +55,10 @@ export default class Box extends RigidBody {
       this.color.copy(options.color)
     }
     if (options.position) {
-      this.position.copyVector(options.position)
+      this.X.copyVector(options.position)
     }
     if (options.attitude) {
-      this.attitude.copySpinor(options.attitude)
+      this.R.copySpinor(options.attitude)
     }
 
     this.width = isDefined(options.width) ? mustBeNumber('width', options.width) : 1.0

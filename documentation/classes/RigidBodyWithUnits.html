@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.223.0</em>
+            <em>API Docs for: 2.224.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -44,6 +44,7 @@
                                 <li><a href="../classes/AbstractMesh.html">AbstractMesh</a></li>
                                 <li><a href="../classes/AmbientLight.html">AmbientLight</a></li>
                                 <li><a href="../classes/AnimationApp.html">AnimationApp</a></li>
+                                <li><a href="../classes/AnimationAppOptions.html">AnimationAppOptions</a></li>
                                 <li><a href="../classes/Approximation.html">Approximation</a></li>
                                 <li><a href="../classes/Arrow.html">Arrow</a></li>
                                 <li><a href="../classes/ArrowBuilder.html">ArrowBuilder</a></li>
@@ -60,6 +61,7 @@
                                 <li><a href="../classes/BoxGeometryOptions.html">BoxGeometryOptions</a></li>
                                 <li><a href="../classes/BoxOptions.html">BoxOptions</a></li>
                                 <li><a href="../classes/BrowserApp.html">BrowserApp</a></li>
+                                <li><a href="../classes/BrowserAppOptions.html">BrowserAppOptions</a></li>
                                 <li><a href="../classes/Capability.html">Capability</a></li>
                                 <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
@@ -94,6 +96,7 @@
                                 <li><a href="../classes/EIGHTLogger.html">EIGHTLogger</a></li>
                                 <li><a href="../classes/Engine.html">Engine</a></li>
                                 <li><a href="../classes/EngineApp.html">EngineApp</a></li>
+                                <li><a href="../classes/EngineAppOptions.html">EngineAppOptions</a></li>
                                 <li><a href="../classes/ErrorMode.html">ErrorMode</a></li>
                                 <li><a href="../classes/Facet.html">Facet</a></li>
                                 <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
@@ -142,6 +145,7 @@
                                 <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
                                 <li><a href="../classes/MouseControls.html">MouseControls</a></li>
                                 <li><a href="../classes/MultiViewApp.html">MultiViewApp</a></li>
+                                <li><a href="../classes/MultiViewAppOptions.html">MultiViewAppOptions</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/NumberShareableMap.html">NumberShareableMap</a></li>
                                 <li><a href="../classes/OrbitControls.html">OrbitControls</a></li>
@@ -281,7 +285,7 @@
         </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_visual_RigidBodyWithUnits.ts.html#l53"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBodyWithUnits.ts:53</code></a>
+            Defined in: <a href="../files/src_davinci-eight_visual_RigidBodyWithUnits.ts.html#l75"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBodyWithUnits.ts:75</code></a>
         </div>
 
             Module: <a href="../modules/visual.html">visual</a><br>
@@ -322,7 +326,7 @@ This class is intended to be used as a base for bodies in the <strong>visual</st
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_visual_RigidBodyWithUnits.ts.html#l53"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBodyWithUnits.ts:53</code></a>
+        <a href="../files/src_davinci-eight_visual_RigidBodyWithUnits.ts.html#l75"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBodyWithUnits.ts:75</code></a>
         </p>
 
 
@@ -413,6 +417,14 @@ This class is intended to be used as a base for bodies in the <strong>visual</st
                     <h3>Properties</h3>
 
                     <ul class="index-list properties extends">
+                            <li class="index-item property private">
+                                <a href="#property__charge">_charge</a>
+
+                            </li>
+                            <li class="index-item property private">
+                                <a href="#property__L">_L</a>
+
+                            </li>
                             <li class="index-item property private inherited">
                                 <a href="#property__levelUp">_levelUp</a>
 
@@ -422,7 +434,7 @@ This class is intended to be used as a base for bodies in the <strong>visual</st
 
                             </li>
                             <li class="index-item property private">
-                                <a href="#property__momentum">_momentum</a>
+                                <a href="#property__P">_P</a>
 
                             </li>
                             <li class="index-item property private inherited">
@@ -438,11 +450,11 @@ This class is intended to be used as a base for bodies in the <strong>visual</st
 
                             </li>
                             <li class="index-item property">
-                                <a href="#property_attitude">attitude</a>
+                                <a href="#property_axis">axis</a>
 
                             </li>
                             <li class="index-item property">
-                                <a href="#property_axis">axis</a>
+                                <a href="#property_L">L</a>
 
                             </li>
                             <li class="index-item property private inherited">
@@ -450,7 +462,7 @@ This class is intended to be used as a base for bodies in the <strong>visual</st
 
                             </li>
                             <li class="index-item property">
-                                <a href="#property_mass">mass</a>
+                                <a href="#property_m">m</a>
 
                             </li>
                             <li class="index-item property private">
@@ -458,15 +470,23 @@ This class is intended to be used as a base for bodies in the <strong>visual</st
 
                             </li>
                             <li class="index-item property">
-                                <a href="#property_momentum">momentum</a>
+                                <a href="#property_P">P</a>
 
                             </li>
                             <li class="index-item property">
-                                <a href="#property_position">position</a>
+                                <a href="#property_Q">Q</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_R">R</a>
 
                             </li>
                             <li class="index-item property private inherited">
                                 <a href="#property_uuid">uuid</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_X">X</a>
 
                             </li>
                     </ul>
@@ -553,7 +573,7 @@ Notifies this instance that something is referencing it.
                 ShareableBase
             </a>
             but overwritten in
-        <a href="../files/src_davinci-eight_visual_RigidBodyWithUnits.ts.html#l70"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBodyWithUnits.ts:70</code></a>
+        <a href="../files/src_davinci-eight_visual_RigidBodyWithUnits.ts.html#l92"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBodyWithUnits.ts:92</code></a>
         </p>
 
 
@@ -800,6 +820,58 @@ Notice that this method is intentionally protected to discourage it from being c
             <div id="properties" class="api-class-tabpanel">
                 <h2 class="off-left">Properties</h2>
 
+<div id="property__charge" class="property item private">
+    <h3 class="name"><code>_charge</code></h3>
+    <span class="type"><a href="../classes/G3.html" class="crosslink">G3</a></span>
+
+
+        <span class="flag private">private</span>
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_visual_RigidBodyWithUnits.ts.html#l67"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBodyWithUnits.ts:67</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <p><strong>Default:</strong> 0 C</p>
+
+
+</div>
+<div id="property__L" class="property item private">
+    <h3 class="name"><code>_L</code></h3>
+    <span class="type"><a href="../classes/G3.html" class="crosslink">G3</a></span>
+
+
+        <span class="flag private">private</span>
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_visual_RigidBodyWithUnits.ts.html#l59"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBodyWithUnits.ts:59</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <p><strong>Default:</strong> 0 kg·m ** 2/s</p>
+
+
+</div>
 <div id="property__levelUp" class="property item private inherited">
     <h3 class="name"><code>_levelUp</code></h3>
     <span class="type">Number</span>
@@ -839,7 +911,7 @@ Keeps track of the level in the hierarchy of classes.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_visual_RigidBodyWithUnits.ts.html#l37"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBodyWithUnits.ts:37</code></a>
+        <a href="../files/src_davinci-eight_visual_RigidBodyWithUnits.ts.html#l42"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBodyWithUnits.ts:42</code></a>
         </p>
 
 
@@ -853,8 +925,8 @@ Keeps track of the level in the hierarchy of classes.
 
 
 </div>
-<div id="property__momentum" class="property item private">
-    <h3 class="name"><code>_momentum</code></h3>
+<div id="property__P" class="property item private">
+    <h3 class="name"><code>_P</code></h3>
     <span class="type"><a href="../classes/G3.html" class="crosslink">G3</a></span>
 
 
@@ -865,7 +937,7 @@ Keeps track of the level in the hierarchy of classes.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_visual_RigidBodyWithUnits.ts.html#l45"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBodyWithUnits.ts:45</code></a>
+        <a href="../files/src_davinci-eight_visual_RigidBodyWithUnits.ts.html#l50"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBodyWithUnits.ts:50</code></a>
         </p>
 
 
@@ -955,30 +1027,6 @@ Keeps track of the level in the hierarchy of classes.
 
 
 </div>
-<div id="property_attitude" class="property item">
-    <h3 class="name"><code>attitude</code></h3>
-    <span class="type"><a href="../classes/G3.html" class="crosslink">G3</a></span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_visual_RigidBodyWithUnits.ts.html#l94"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBodyWithUnits.ts:94</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-
-</div>
 <div id="property_axis" class="property item">
     <h3 class="name"><code>axis</code></h3>
     <span class="type"><a href="../classes/G3.html" class="crosslink">G3</a></span>
@@ -990,14 +1038,42 @@ Keeps track of the level in the hierarchy of classes.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_visual_RigidBodyWithUnits.ts.html#l82"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBodyWithUnits.ts:82</code></a>
+        <a href="../files/src_davinci-eight_visual_RigidBodyWithUnits.ts.html#l104"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBodyWithUnits.ts:104</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        
+        <p>
+Axis (vector)
+</p>
+    </div>
+
+
+
+</div>
+<div id="property_L" class="property item">
+    <h3 class="name"><code>L</code></h3>
+    <span class="type"><a href="../classes/G3.html" class="crosslink">G3</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_visual_RigidBodyWithUnits.ts.html#l137"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBodyWithUnits.ts:137</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>
+Angular momentum (bivector)
+</p>
     </div>
 
 
@@ -1030,8 +1106,8 @@ Returns the total length of the inheritance hierarchy that this instance is invo
 
 
 </div>
-<div id="property_mass" class="property item">
-    <h3 class="name"><code>mass</code></h3>
+<div id="property_m" class="property item">
+    <h3 class="name"><code>m</code></h3>
     <span class="type"><a href="../classes/G3.html" class="crosslink">G3</a></span>
 
 
@@ -1041,14 +1117,16 @@ Returns the total length of the inheritance hierarchy that this instance is invo
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_visual_RigidBodyWithUnits.ts.html#l107"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBodyWithUnits.ts:107</code></a>
+        <a href="../files/src_davinci-eight_visual_RigidBodyWithUnits.ts.html#l154"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBodyWithUnits.ts:154</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        
+        <p>
+Mass (scalar)
+</p>
     </div>
 
 
@@ -1066,7 +1144,7 @@ Returns the total length of the inheritance hierarchy that this instance is invo
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_visual_RigidBodyWithUnits.ts.html#l27"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBodyWithUnits.ts:27</code></a>
+        <a href="../files/src_davinci-eight_visual_RigidBodyWithUnits.ts.html#l28"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBodyWithUnits.ts:28</code></a>
         </p>
 
 
@@ -1080,8 +1158,60 @@ Returns the total length of the inheritance hierarchy that this instance is invo
 
 
 </div>
-<div id="property_momentum" class="property item">
-    <h3 class="name"><code>momentum</code></h3>
+<div id="property_P" class="property item">
+    <h3 class="name"><code>P</code></h3>
+    <span class="type"><a href="../classes/G3.html" class="crosslink">G3</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_visual_RigidBodyWithUnits.ts.html#l171"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBodyWithUnits.ts:171</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>
+Momentum (vector)
+</p>
+    </div>
+
+
+
+</div>
+<div id="property_Q" class="property item">
+    <h3 class="name"><code>Q</code></h3>
+    <span class="type"><a href="../classes/G3.html" class="crosslink">G3</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_visual_RigidBodyWithUnits.ts.html#l188"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBodyWithUnits.ts:188</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>
+Charge
+</p>
+    </div>
+
+
+
+</div>
+<div id="property_R" class="property item">
+    <h3 class="name"><code>R</code></h3>
     <span class="type"><a href="../classes/G3.html" class="crosslink">G3</a></span>
 
 
@@ -1098,31 +1228,9 @@ Returns the total length of the inheritance hierarchy that this instance is invo
     </div>
 
     <div class="description">
-        
-    </div>
-
-
-
-</div>
-<div id="property_position" class="property item">
-    <h3 class="name"><code>position</code></h3>
-    <span class="type"><a href="../classes/G3.html" class="crosslink">G3</a></span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_visual_RigidBodyWithUnits.ts.html#l133"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBodyWithUnits.ts:133</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        
+        <p>
+<em>Attitude</em> (spinor)
+</p>
     </div>
 
 
@@ -1148,6 +1256,32 @@ Returns the total length of the inheritance hierarchy that this instance is invo
 
     <div class="description">
         
+    </div>
+
+
+
+</div>
+<div id="property_X" class="property item">
+    <h3 class="name"><code>X</code></h3>
+    <span class="type"><a href="../classes/G3.html" class="crosslink">G3</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_visual_RigidBodyWithUnits.ts.html#l205"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;RigidBodyWithUnits.ts:205</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>
+Position (vector)
+</p>
     </div>
 
 
