@@ -38,7 +38,7 @@ export default class ViewControls extends MouseControls implements ViewControlle
    * @type Vector3
    * @private
    */
-  private eye0 = Vector3.zero();
+  private eye0 = Vector3.vector(0, 0, 1);
 
   /**
    * The view.look value when the view was acquired by this view controller.
@@ -56,7 +56,7 @@ export default class ViewControls extends MouseControls implements ViewControlle
    * @type Vector3
    * @private
    */
-  private up0 = Vector3.zero();
+  private up0 = Vector3.vector(0, 1, 0);
 
   /**
    * The view that is being controlled.
@@ -200,13 +200,29 @@ export default class ViewControls extends MouseControls implements ViewControlle
    */
   public setView(view: View): void {
     if (view) {
-      this.eye0.copy(view.eye)
-      this.look0.copy(view.look)
-      this.up0.copy(view.up)
       this.view = view
     }
     else {
       this.view = void 0
+    }
+    this.synchronize()
+  }
+
+  /**
+   * @method synchronize
+   * @return {void}
+   */
+  public synchronize(): void {
+    const view = this.view
+    if (view) {
+      this.eye0.copy(view.eye)
+      this.look0.copy(view.look)
+      this.up0.copy(view.up)
+    }
+    else {
+      this.eye0.setXYZ(0, 0, 1)
+      this.look0.zero()
+      this.up0.setXYZ(0, 1, 0)
     }
   }
 }

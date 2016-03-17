@@ -4259,13 +4259,17 @@ declare module EIGHT {
      */
     update(): void;
     /**
-     * Called at any time to reset the view.
+     * Reset the view to the last synchronization point.
      */
     reset(): void;
     /**
      * Called at any time to set a view for this controller.
      */
     setView(view: View): void;
+    /**
+     * Synchronizes this controller with the view.
+     */
+    synchronize(): void;
   }
   ///////////////////////////////////////////////////////////////////////////////
   /**
@@ -4296,6 +4300,10 @@ declare module EIGHT {
      * Sets the view being controlled vythe view controller.
      */
     setView(view: View): void;
+    /**
+     * Synchronizes this controller with the view.
+     */
+    synchronize(): void;
     /**
      * Updates the camera position and attitude based upon movement of the mouse controls.
      */

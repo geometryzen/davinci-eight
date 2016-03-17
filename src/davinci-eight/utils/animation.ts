@@ -108,16 +108,10 @@ export default function animation(animate: (time: number) => void, options: Wind
         state = STATE_RUNNING;
         requestID = $window.requestAnimationFrame(frameRequestCallback);
       }
-      else {
-        throw new Error("The `start` method may only be called when not running.");
-      }
     },
     stop() {
       if (publicAPI.isRunning) {
         stopSignal = true;
-      }
-      else {
-        throw new Error("The `stop` method may only be called when running.");
       }
     },
     reset: function() {
@@ -126,9 +120,6 @@ export default function animation(animate: (time: number) => void, options: Wind
         elapsed = 0;
         state = STATE_INITIAL;
       }
-      else {
-        throw new Error("The `reset` method may only be called when paused.");
-      }
     },
     get time(): number {
       return elapsed / MILLIS_PER_SECOND;
@@ -136,9 +127,6 @@ export default function animation(animate: (time: number) => void, options: Wind
     lap: function() {
       if (publicAPI.isRunning) {
         // No change of state. We just record the current lap time and save it to some kind of history.
-      }
-      else {
-        throw new Error("The `lap` method may only be called when running.");
       }
     },
     get isRunning(): boolean {

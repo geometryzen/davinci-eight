@@ -651,16 +651,10 @@ define('davinci-eight/utils/animation',["require", "exports", '../checks/expectA
                     state = STATE_RUNNING;
                     requestID = $window.requestAnimationFrame(frameRequestCallback);
                 }
-                else {
-                    throw new Error("The `start` method may only be called when not running.");
-                }
             },
             stop: function () {
                 if (publicAPI.isRunning) {
                     stopSignal = true;
-                }
-                else {
-                    throw new Error("The `stop` method may only be called when running.");
                 }
             },
             reset: function () {
@@ -669,18 +663,12 @@ define('davinci-eight/utils/animation',["require", "exports", '../checks/expectA
                     elapsed = 0;
                     state = STATE_INITIAL;
                 }
-                else {
-                    throw new Error("The `reset` method may only be called when paused.");
-                }
             },
             get time() {
                 return elapsed / MILLIS_PER_SECOND;
             },
             lap: function () {
                 if (publicAPI.isRunning) {
-                }
-                else {
-                    throw new Error("The `lap` method may only be called when running.");
                 }
             },
             get isRunning() {
@@ -817,7 +805,7 @@ define('davinci-eight/config',["require", "exports", './core/ErrorMode'], functi
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
             this.LAST_MODIFIED = '2016-03-16';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '2.224.0';
+            this.VERSION = '2.225.0';
         }
         Object.defineProperty(Eight.prototype, "errorMode", {
             get: function () {
@@ -8727,9 +8715,9 @@ define('davinci-eight/controls/ViewControls',["require", "exports", './MouseCont
             this.rotateSpeed = 1;
             this.zoomSpeed = 1;
             this.panSpeed = 1;
-            this.eye0 = Vector3_1.default.zero();
+            this.eye0 = Vector3_1.default.vector(0, 0, 1);
             this.look0 = Vector3_1.default.zero();
-            this.up0 = Vector3_1.default.zero();
+            this.up0 = Vector3_1.default.vector(0, 1, 0);
             this.eyeMinusLook = new Vector3_1.default();
             this.look = new Vector3_1.default();
             this.up = new Vector3_1.default();
@@ -8782,13 +8770,24 @@ define('davinci-eight/controls/ViewControls',["require", "exports", './MouseCont
         };
         ViewControls.prototype.setView = function (view) {
             if (view) {
-                this.eye0.copy(view.eye);
-                this.look0.copy(view.look);
-                this.up0.copy(view.up);
                 this.view = view;
             }
             else {
                 this.view = void 0;
+            }
+            this.synchronize();
+        };
+        ViewControls.prototype.synchronize = function () {
+            var view = this.view;
+            if (view) {
+                this.eye0.copy(view.eye);
+                this.look0.copy(view.look);
+                this.up0.copy(view.up);
+            }
+            else {
+                this.eye0.setXYZ(0, 0, 1);
+                this.look0.zero();
+                this.up0.setXYZ(0, 1, 0);
             }
         };
         return ViewControls;

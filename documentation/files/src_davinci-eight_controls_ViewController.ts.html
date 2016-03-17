@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.224.0</em>
+            <em>API Docs for: 2.225.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -288,7 +288,9 @@ import View from &#x27;../facets/View&#x27;
  */
 interface ViewController {
   /**
-   * Called during the animation loop to update the target.
+   * &lt;p&gt;
+   * Called during the animation loop to update the target based upon mouse events.
+   * &lt;/p&gt;
    *
    * @method update
    * @return {void}
@@ -296,7 +298,9 @@ interface ViewController {
   update(): void;
 
   /**
-   * Called at any time to reset the target.
+   * &lt;p&gt;
+   * Called at any time to reset the target to the last synchonization point.
+   * &lt;/p&gt;
    *
    * @method reset
    * @return {void}
@@ -304,13 +308,23 @@ interface ViewController {
   reset(): void;
 
   /**
+   * &lt;p&gt;
    * Called at any time to set a view for this controller.
+   * &lt;/p&gt;
+   * This method also synchronizes the controller with the view.
    *
    * @method setView
    * @param view {View}
    * @return {void}
    */
   setView(view: View): void;
+
+  /**
+   * &lt;p&gt;
+   * Called at any time to synchronize the controller with the view state.
+   * &lt;/p&gt;
+   */
+  synchronize(): void;
 }
 
 export default ViewController;

@@ -10,40 +10,29 @@ import Viewport from './Viewport'
  *
  * @example
  *     class MyApp extends EIGHT.SingleViewApp {
- *       private sphere = new EIGHT.Sphere()
- *       constructor(canvasId: string) {
- *         super(canvasId, window)
+ *       private sphere = new EIGHT.Sphere({radius: 0.1})
+ *       constructor() {
+ *         super()
  *       }
  *       protected initialize(): void {
  *         super.initialize()
+ *         this.view.camera.eye = 5 * e3
  *         const scene = this.view.scene
  *         scene.add(this.sphere)
  *         scene.release()
  *         this.start()
  *       }
- *       //
- *       //
- *       //
  *       protected animate(time: number): void {
- *         // 
  *         this.clear()
- *         // Move your objects around.
- *
- *         // 
+ *         // Move your objects around here.
  *         this.draw()
  *       }
- *       //
- *       // The destructor will be called when the window is unloading.
- *       // It is your opportunity to release any resources.
- *       //
  *       protected destructor(): void {
  *         this.sphere.release()
- *         // Call up the destructor chain as the last call.
  *         super.destructor()
  *       }
  *     }
- *     // Creating the application starts it listening for DOMContentLoaded events.
- *     new MyApp('canvas')
+ *     new MyApp()
  *
  * @class SingleViewApp
  * @extends AnimationApp

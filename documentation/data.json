@@ -2,7 +2,7 @@
     "project": {
         "name": "davinci-eight",
         "description": "WebGL library for mathematical physics using Geometric Algebra",
-        "version": "2.224.0",
+        "version": "2.225.0",
         "url": ""
     },
     "files": {
@@ -6842,10 +6842,10 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/visual/SingleViewApp.ts",
-            "line": 60,
+            "line": 49,
             "description": "<p>\nAn <code>AnimationApp</code> with a single <code>Viewport</code>.\n</p>",
             "example": [
-                "\n    class MyApp extends EIGHT.SingleViewApp {\n      private sphere = new EIGHT.Sphere()\n      constructor(canvasId: string) {\n        super(canvasId, window)\n      }\n      protected initialize(): void {\n        super.initialize()\n        const scene = this.view.scene\n        scene.add(this.sphere)\n        scene.release()\n        this.start()\n      }\n      //\n      //\n      //\n      protected animate(time: number): void {\n        // \n        this.clear()\n        // Move your objects around.\n\n        // \n        this.draw()\n      }\n      //\n      // The destructor will be called when the window is unloading.\n      // It is your opportunity to release any resources.\n      //\n      protected destructor(): void {\n        this.sphere.release()\n        // Call up the destructor chain as the last call.\n        super.destructor()\n      }\n    }\n    // Creating the application starts it listening for DOMContentLoaded events.\n    new MyApp('canvas')"
+                "\n    class MyApp extends EIGHT.SingleViewApp {\n      private sphere = new EIGHT.Sphere({radius: 0.1})\n      constructor() {\n        super()\n      }\n      protected initialize(): void {\n        super.initialize()\n        this.view.camera.eye = 5 * e3\n        const scene = this.view.scene\n        scene.add(this.sphere)\n        scene.release()\n        this.start()\n      }\n      protected animate(time: number): void {\n        this.clear()\n        // Move your objects around here.\n        this.draw()\n      }\n      protected destructor(): void {\n        this.sphere.release()\n        super.destructor()\n      }\n    }\n    new MyApp()"
             ],
             "extends": "AnimationApp",
             "is_constructor": 1,
@@ -9019,7 +9019,7 @@
         {
             "file": "src/davinci-eight/controls/ViewController.ts",
             "line": 7,
-            "description": "Called during the animation loop to update the target.",
+            "description": "<p>\nCalled during the animation loop to update the target based upon mouse events.\n</p>",
             "itemtype": "method",
             "name": "update",
             "return": {
@@ -9031,8 +9031,8 @@
         },
         {
             "file": "src/davinci-eight/controls/ViewController.ts",
-            "line": 15,
-            "description": "Called at any time to reset the target.",
+            "line": 17,
+            "description": "<p>\nCalled at any time to reset the target to the last synchonization point.\n</p>",
             "itemtype": "method",
             "name": "reset",
             "return": {
@@ -9044,8 +9044,8 @@
         },
         {
             "file": "src/davinci-eight/controls/ViewController.ts",
-            "line": 23,
-            "description": "Called at any time to set a view for this controller.",
+            "line": 27,
+            "description": "<p>\nCalled at any time to set a view for this controller.\n</p>\nThis method also synchronizes the controller with the view.",
             "itemtype": "method",
             "name": "setView",
             "params": [
@@ -9059,6 +9059,13 @@
                 "description": "",
                 "type": "Void"
             },
+            "class": "ViewController",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/controls/ViewController.ts",
+            "line": 39,
+            "description": "<p>\nCalled at any time to synchronize the controller with the view state.\n</p>",
             "class": "ViewController",
             "module": "EIGHT"
         },
@@ -9287,6 +9294,18 @@
                     "type": "View"
                 }
             ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "ViewControls",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/controls/ViewControls.ts",
+            "line": 211,
+            "itemtype": "method",
+            "name": "synchronize",
             "return": {
                 "description": "",
                 "type": "Void"
@@ -39601,7 +39620,7 @@
         },
         {
             "file": "src/davinci-eight/visual/SingleViewApp.ts",
-            "line": 53,
+            "line": 42,
             "itemtype": "property",
             "name": "view",
             "type": "Viewport",
@@ -39612,7 +39631,7 @@
         },
         {
             "file": "src/davinci-eight/visual/SingleViewApp.ts",
-            "line": 69,
+            "line": 58,
             "itemtype": "method",
             "name": "initialize",
             "return": {
@@ -39626,7 +39645,7 @@
         },
         {
             "file": "src/davinci-eight/visual/SingleViewApp.ts",
-            "line": 88,
+            "line": 77,
             "itemtype": "method",
             "name": "draw",
             "return": {
@@ -39640,7 +39659,7 @@
         },
         {
             "file": "src/davinci-eight/visual/SingleViewApp.ts",
-            "line": 97,
+            "line": 86,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -40318,6 +40337,10 @@
         {
             "message": "Missing item type\nThe bivector for a rotation.",
             "line": " src/davinci-eight/controls/TrackballControls.ts:48"
+        },
+        {
+            "message": "Missing item type\n<p>\nCalled at any time to synchronize the controller with the view state.\n</p>",
+            "line": " src/davinci-eight/controls/ViewController.ts:39"
         },
         {
             "message": "Missing item type\nA cross-browser compatible, geometric, implementation of scroolX and scrollY.\n\nSee https://developer.mozilla.org/en-US/docs/Web/API/Window/scrollX",

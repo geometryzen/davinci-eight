@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.224.0</em>
+            <em>API Docs for: 2.225.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -285,7 +285,7 @@
         </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_visual_SingleViewApp.ts.html#l60"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;SingleViewApp.ts:60</code></a>
+            Defined in: <a href="../files/src_davinci-eight_visual_SingleViewApp.ts.html#l49"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;SingleViewApp.ts:49</code></a>
         </div>
 
             Module: <a href="../modules/EIGHT.html">EIGHT</a>
@@ -322,7 +322,7 @@ An <code>AnimationApp</code> with a single <code>Viewport</code>.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_visual_SingleViewApp.ts.html#l60"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;SingleViewApp.ts:60</code></a>
+        <a href="../files/src_davinci-eight_visual_SingleViewApp.ts.html#l49"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;SingleViewApp.ts:49</code></a>
         </p>
 
 
@@ -357,40 +357,29 @@ An <code>AnimationApp</code> with a single <code>Viewport</code>.
 
             <div class="example-content">
                 <pre class="code prettyprint"><code>class MyApp extends EIGHT.SingleViewApp {
-  private sphere = new EIGHT.Sphere()
-  constructor(canvasId: string) {
-    super(canvasId, window)
+  private sphere = new EIGHT.Sphere({radius: 0.1})
+  constructor() {
+    super()
   }
   protected initialize(): void {
     super.initialize()
+    this.view.camera.eye = 5 * e3
     const scene = this.view.scene
     scene.add(this.sphere)
     scene.release()
     this.start()
   }
-  //
-  //
-  //
   protected animate(time: number): void {
-    // 
     this.clear()
-    // Move your objects around.
-
-    // 
+    // Move your objects around here.
     this.draw()
   }
-  //
-  // The destructor will be called when the window is unloading.
-  // It is your opportunity to release any resources.
-  //
   protected destructor(): void {
     this.sphere.release()
-    // Call up the destructor chain as the last call.
     super.destructor()
   }
 }
-// Creating the application starts it listening for DOMContentLoaded events.
-new MyApp('canvas')</code></pre>
+new MyApp()</code></pre>
 
             </div>
         </div>
@@ -644,7 +633,7 @@ This method is a shortcut for <code>engine.clear()</code>.
                 BrowserApp
             </a>
             but overwritten in
-        <a href="../files/src_davinci-eight_visual_SingleViewApp.ts.html#l97"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;SingleViewApp.ts:97</code></a>
+        <a href="../files/src_davinci-eight_visual_SingleViewApp.ts.html#l86"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;SingleViewApp.ts:86</code></a>
         </p>
 
 
@@ -685,7 +674,7 @@ This method is a shortcut for <code>engine.clear()</code>.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_visual_SingleViewApp.ts.html#l88"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;SingleViewApp.ts:88</code></a>
+        <a href="../files/src_davinci-eight_visual_SingleViewApp.ts.html#l77"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;SingleViewApp.ts:77</code></a>
         </p>
 
 
@@ -729,7 +718,7 @@ This method is a shortcut for <code>engine.clear()</code>.
                 BrowserApp
             </a>
             but overwritten in
-        <a href="../files/src_davinci-eight_visual_SingleViewApp.ts.html#l69"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;SingleViewApp.ts:69</code></a>
+        <a href="../files/src_davinci-eight_visual_SingleViewApp.ts.html#l58"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;SingleViewApp.ts:58</code></a>
         </p>
 
 
@@ -1260,7 +1249,7 @@ in order to detect memory leaks.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_visual_SingleViewApp.ts.html#l53"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;SingleViewApp.ts:53</code></a>
+        <a href="../files/src_davinci-eight_visual_SingleViewApp.ts.html#l42"><code>src&#x2F;davinci-eight&#x2F;visual&#x2F;SingleViewApp.ts:42</code></a>
         </p>
 
 
