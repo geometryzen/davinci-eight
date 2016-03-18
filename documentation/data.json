@@ -2,7 +2,7 @@
     "project": {
         "name": "davinci-eight",
         "description": "WebGL library for mathematical physics using Geometric Algebra",
-        "version": "2.225.0",
+        "version": "2.226.0",
         "url": ""
     },
     "files": {
@@ -19200,7 +19200,7 @@
             "name": "destructor",
             "params": [
                 {
-                    "name": "level",
+                    "name": "levelUp",
                     "description": "",
                     "type": "Number"
                 }
@@ -19217,7 +19217,7 @@
         },
         {
             "file": "src/davinci-eight/materials/HTMLScriptsMaterial.ts",
-            "line": 125,
+            "line": 128,
             "description": "<p>\nOverridden to provide lazy loading of the script contents.\nThis allows the <code>HTMLScriptsMaterial</code> to be constructed\nbefore the DOM has completed loading.\n</p>",
             "itemtype": "method",
             "name": "contextGain",
@@ -19359,7 +19359,7 @@
             "name": "destructor",
             "params": [
                 {
-                    "name": "level",
+                    "name": "levelUp",
                     "description": "",
                     "type": "Number"
                 }

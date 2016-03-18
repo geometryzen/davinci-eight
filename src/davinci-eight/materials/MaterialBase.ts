@@ -97,16 +97,16 @@ export default class MaterialBase extends ShareableContextConsumer implements Ma
 
   /**
    * @method destructor
-   * @param level {number}
+   * @param levelUp {number}
    * @return {void}
    * @protected
    */
-  protected destructor(level: number): void {
-    if (level === 0) {
+  protected destructor(levelUp: number): void {
+    if (levelUp === 0) {
       this.cleanUp()
     }
     mustBeUndefined(this._type, this._program)
-    super.destructor(incLevel(level))
+    super.destructor(incLevel(levelUp))
   }
 
   /**

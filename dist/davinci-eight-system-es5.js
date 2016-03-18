@@ -662,8 +662,11 @@ System.register("davinci-eight/materials/HTMLScriptsMaterial.js", ["../base/incL
           this.scriptIds = [scriptIds[0], scriptIds[1]];
           this.dom = dom;
         }
-        HTMLScriptsMaterial.prototype.destructor = function(level) {
-          _super.prototype.destructor.call(this, incLevel_1.default(level));
+        HTMLScriptsMaterial.prototype.destructor = function(levelUp) {
+          if (levelUp === 0) {
+            this.cleanUp();
+          }
+          _super.prototype.destructor.call(this, incLevel_1.default(levelUp));
         };
         HTMLScriptsMaterial.prototype.contextGain = function(contextProvider) {
           if (!this.loaded) {
@@ -8400,12 +8403,12 @@ System.register("davinci-eight/materials/MaterialBase.js", ["../core/AttribLocat
           }
           this._attribs = mustBeArray_1.default('attribs', attribs);
         }
-        MaterialBase.prototype.destructor = function(level) {
-          if (level === 0) {
+        MaterialBase.prototype.destructor = function(levelUp) {
+          if (levelUp === 0) {
             this.cleanUp();
           }
           mustBeUndefined_1.default(this._type, this._program);
-          _super.prototype.destructor.call(this, incLevel_1.default(level));
+          _super.prototype.destructor.call(this, incLevel_1.default(levelUp));
         };
         MaterialBase.prototype.contextGain = function(context) {
           var gl = context.gl;
@@ -24893,9 +24896,9 @@ System.register("davinci-eight/config.js", ["./core/ErrorMode"], function(export
         function Eight() {
           this._errorMode = ErrorMode_1.default.STRICT;
           this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-          this.LAST_MODIFIED = '2016-03-16';
+          this.LAST_MODIFIED = '2016-03-18';
           this.NAMESPACE = 'EIGHT';
-          this.VERSION = '2.225.0';
+          this.VERSION = '2.226.0';
         }
         Object.defineProperty(Eight.prototype, "errorMode", {
           get: function() {

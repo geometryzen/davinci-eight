@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.225.0</em>
+            <em>API Docs for: 2.226.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -380,16 +380,16 @@ export default class MaterialBase extends ShareableContextConsumer implements Ma
 
   /**
    * @method destructor
-   * @param level {number}
+   * @param levelUp {number}
    * @return {void}
    * @protected
    */
-  protected destructor(level: number): void {
-    if (level === 0) {
+  protected destructor(levelUp: number): void {
+    if (levelUp === 0) {
       this.cleanUp()
     }
     mustBeUndefined(this._type, this._program)
-    super.destructor(incLevel(level))
+    super.destructor(incLevel(levelUp))
   }
 
   /**

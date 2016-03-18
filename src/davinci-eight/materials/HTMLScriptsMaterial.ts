@@ -114,12 +114,15 @@ export default class HTMLScriptsMaterial extends MaterialBase {
 
   /**
    * @method destructor
-   * @param level {number}
+   * @param levelUp {number}
    * @return {void}
    * @protected
    */
-  protected destructor(level: number): void {
-    super.destructor(incLevel(level))
+  protected destructor(levelUp: number): void {
+    if (levelUp === 0) {
+      this.cleanUp()
+    }
+    super.destructor(incLevel(levelUp))
   }
 
   /**
