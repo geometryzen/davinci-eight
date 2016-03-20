@@ -68,12 +68,12 @@ export default class GeometryLeaf extends ShareableContextConsumer implements Ge
 
   /**
    * @method destructor
-   * @param level {number}
+   * @param levelUp {number}
    * @return {void}
    * @protected
    */
-  protected destructor(level: number): void {
-    super.destructor(incLevel(level))
+  protected destructor(levelUp: number): void {
+    super.destructor(incLevel(levelUp))
   }
 
   /**
@@ -136,6 +136,7 @@ export default class GeometryLeaf extends ShareableContextConsumer implements Ge
    * @return {void}
    */
   public contextGain(contextProvider: ContextProvider): void {
+    super.contextGain(contextProvider)
     if (isNumber(this._drawMode)) {
       this.mode = contextProvider.drawModeToGL(this._drawMode)
     }
@@ -159,7 +160,6 @@ export default class GeometryLeaf extends ShareableContextConsumer implements Ge
         }
       }
     }
-    super.contextGain(contextProvider)
   }
 
   /**

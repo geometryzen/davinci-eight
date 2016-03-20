@@ -2,7 +2,7 @@
     "project": {
         "name": "davinci-eight",
         "description": "WebGL library for mathematical physics using Geometric Algebra",
-        "version": "2.226.0",
+        "version": "2.228.0",
         "url": ""
     },
     "files": {
@@ -2688,7 +2688,7 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/core/VertexBuffer.ts",
-            "line": 52,
+            "line": 51,
             "extends": "Shareable",
             "description": "Fundamental abstractions in the architecture."
         },
@@ -3660,7 +3660,7 @@
             "submodule": "core",
             "namespace": "",
             "file": "src/davinci-eight/core/GeometryArrays.ts",
-            "line": 71,
+            "line": 69,
             "example": [
                 "\n     const engine = new EIGHT.Engine()\n    const geometry = new EIGHT.GeometryArrays(engine)\n     geometry.drawMode = EIGHT.DrawMode.LINES\n     geometry.setAttribute('aPosition', {values: [0, 0, 1, 0, 0, 0, 0, 1], size: 2})\n     geometry.setAttribute('aColor', {values: [0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0], size: 3})\n    geometry.draw(material)\n    geometry.release()"
             ],
@@ -3936,10 +3936,10 @@
             "submodule": "core",
             "namespace": "",
             "file": "src/davinci-eight/core/ShareableContextConsumer.ts",
-            "line": 64,
+            "line": 72,
             "description": "<p>\nA base <code>class</class> for <code>ContextConsumer</code>(s).\n</p>\n<p>\nUsing this base <code>class</code> provides a standard and reliable way to\nsubscribe to <code>Engine</code> events. Extending this class provides automatic\nsubscribe at construction time and automatic unsubscribe in destruction. However,\nit does not provide automatic synchronization (contextGain events) or automatic clean up\n(contextFree or contextLost events) as these would violate the principle that the base\nclass should not call derived class methods during construction or destruction.\n</p>",
             "example": [
-                "\n    class MyContextConsumer extends EIGHT.ShareableContextConsumer {\n      constructor(engine: EIGHT.Engine) {\n        // Allocate your own resources here or on-demand.\n        super(engine)\n        this.setLoggingName('MyContextConsumer')\n      }\n      protected destructor(level: number): void {\n        // Deallocate your own resources here.\n        super.destructor(level + 1)\n      }\n    }"
+                "\n    class MyContextConsumer extends EIGHT.ShareableContextConsumer {\n      constructor(engine: EIGHT.Engine) {\n        // Allocate your own resources here or on-demand.\n        super(engine)\n        this.setLoggingName('MyContextConsumer')\n      }\n      protected destructor(levelUp: number): void {\n        // Deallocate your own resources here.\n        super.destructor(levelUp + 1)\n      }\n    }"
             ],
             "extends": "ContextConsumer",
             "is_constructor": 1,
@@ -4055,7 +4055,7 @@
             "submodule": "core",
             "namespace": "",
             "file": "src/davinci-eight/core/VertexBuffer.ts",
-            "line": 52,
+            "line": 51,
             "description": "<p>\nA wrapper around a WebGLBuffer with binding to ARRAY_BUFFER.\n</p>",
             "extends": "ShareableContextConsumer",
             "is_constructor": 1,
@@ -11734,7 +11734,7 @@
         },
         {
             "file": "src/davinci-eight/core/GeometryArrays.ts",
-            "line": 39,
+            "line": 37,
             "description": "The <code>first</code> parameter in the drawArrays call.\nThis is currently hard-code to zero because this class only supportes buffering one primitive.",
             "itemtype": "property",
             "name": "first",
@@ -11747,7 +11747,7 @@
         },
         {
             "file": "src/davinci-eight/core/GeometryArrays.ts",
-            "line": 49,
+            "line": 47,
             "description": "The <code>count</code> parameter in the drawArrays call.\nThis is currently maintained at this level because this class only supportes buffering one primitive.",
             "itemtype": "property",
             "name": "count",
@@ -11760,14 +11760,14 @@
         },
         {
             "file": "src/davinci-eight/core/GeometryArrays.ts",
-            "line": 59,
+            "line": 57,
             "class": "GeometryArrays",
             "module": "EIGHT",
             "submodule": "core"
         },
         {
             "file": "src/davinci-eight/core/GeometryArrays.ts",
-            "line": 64,
+            "line": 62,
             "itemtype": "property",
             "name": "vbo",
             "type": "VertexBuffer",
@@ -11779,12 +11779,12 @@
         },
         {
             "file": "src/davinci-eight/core/GeometryArrays.ts",
-            "line": 83,
+            "line": 81,
             "itemtype": "method",
             "name": "destructor",
             "params": [
                 {
-                    "name": "level",
+                    "name": "levelUp",
                     "description": "",
                     "type": "Number"
                 }
@@ -11801,60 +11801,7 @@
         },
         {
             "file": "src/davinci-eight/core/GeometryArrays.ts",
-            "line": 95,
-            "itemtype": "method",
-            "name": "contextFree",
-            "params": [
-                {
-                    "name": "contextProvider",
-                    "description": "",
-                    "type": "ContextProvider"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "GeometryArrays",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/GeometryArrays.ts",
-            "line": 105,
-            "itemtype": "method",
-            "name": "contextGain",
-            "params": [
-                {
-                    "name": "contextProvider",
-                    "description": "",
-                    "type": "ContextProvider"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "GeometryArrays",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/GeometryArrays.ts",
-            "line": 115,
-            "itemtype": "method",
-            "name": "contextLost",
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "GeometryArrays",
-            "module": "EIGHT",
-            "submodule": "core"
-        },
-        {
-            "file": "src/davinci-eight/core/GeometryArrays.ts",
-            "line": 124,
+            "line": 93,
             "itemtype": "method",
             "name": "draw",
             "params": [
@@ -11874,7 +11821,7 @@
         },
         {
             "file": "src/davinci-eight/core/GeometryArrays.ts",
-            "line": 160,
+            "line": 129,
             "itemtype": "method",
             "name": "getAttribute",
             "params": [
@@ -11894,7 +11841,7 @@
         },
         {
             "file": "src/davinci-eight/core/GeometryArrays.ts",
-            "line": 169,
+            "line": 138,
             "itemtype": "method",
             "name": "setAttribute",
             "params": [
@@ -12552,7 +12499,7 @@
             "name": "destructor",
             "params": [
                 {
-                    "name": "level",
+                    "name": "levelUp",
                     "description": "",
                     "type": "Number"
                 }
@@ -13923,7 +13870,8 @@
         },
         {
             "file": "src/davinci-eight/core/ShareableContextConsumer.ts",
-            "line": 50,
+            "line": 48,
+            "description": "The <code>Engine</code> to which this consumer is subscribed.\nThe existence of this property indicates a subscription.\nTherefore, before releasing this reference, be sure to unsubscribe.",
             "itemtype": "property",
             "name": "engine",
             "type": "Engine",
@@ -13935,7 +13883,8 @@
         },
         {
             "file": "src/davinci-eight/core/ShareableContextConsumer.ts",
-            "line": 57,
+            "line": 59,
+            "description": "We hold onto the context provider after a contextGain event.\nHowever, this is only a convenience for derived classes.\n(Maybe we should not do this).\nWe only need to release this property in our destructor.\nWe must not try to trigger a contextFree as that would violate Implementation Hierarchy Principle.",
             "itemtype": "property",
             "name": "contextProvider",
             "type": "{ContextProvider}",
@@ -13947,12 +13896,12 @@
         },
         {
             "file": "src/davinci-eight/core/ShareableContextConsumer.ts",
-            "line": 81,
+            "line": 88,
             "itemtype": "method",
             "name": "destructor",
             "params": [
                 {
-                    "name": "level",
+                    "name": "levelUp",
                     "description": "",
                     "type": "Number"
                 }
@@ -13967,7 +13916,7 @@
         },
         {
             "file": "src/davinci-eight/core/ShareableContextConsumer.ts",
-            "line": 91,
+            "line": 105,
             "description": "<p>\nInstructs the consumer to subscribe to context events.\n</p>\n<p>\nThis method is idempotent; calling it more than once with the same <code>Engine</code> does not change the state.\n</p>",
             "itemtype": "method",
             "name": "subscribe",
@@ -13976,11 +13925,6 @@
                     "name": "engine",
                     "description": "",
                     "type": "Engine"
-                },
-                {
-                    "name": "synchronize",
-                    "description": "",
-                    "type": "Boolean"
                 }
             ],
             "return": {
@@ -13993,7 +13937,7 @@
         },
         {
             "file": "src/davinci-eight/core/ShareableContextConsumer.ts",
-            "line": 127,
+            "line": 136,
             "itemtype": "method",
             "name": "synchUp",
             "return": {
@@ -14006,7 +13950,7 @@
         },
         {
             "file": "src/davinci-eight/core/ShareableContextConsumer.ts",
-            "line": 138,
+            "line": 147,
             "itemtype": "method",
             "name": "cleanUp",
             "return": {
@@ -14019,17 +13963,10 @@
         },
         {
             "file": "src/davinci-eight/core/ShareableContextConsumer.ts",
-            "line": 146,
+            "line": 155,
             "description": "<p>\nInstructs the consumer to unsubscribe from context events.\n</p>\n<p>\nThis method is idempotent; calling it more than once does not change the state.\n</p>",
             "itemtype": "method",
             "name": "unsubscribe",
-            "params": [
-                {
-                    "name": "synchronize",
-                    "description": "Triggers <code>contextFree()</code> or <code>contextLost()</code>, as appropriate.",
-                    "type": "Boolean"
-                }
-            ],
             "return": {
                 "description": "",
                 "type": "Void"
@@ -14040,7 +13977,7 @@
         },
         {
             "file": "src/davinci-eight/core/ShareableContextConsumer.ts",
-            "line": 170,
+            "line": 174,
             "itemtype": "method",
             "name": "contextFree",
             "params": [
@@ -14060,7 +13997,7 @@
         },
         {
             "file": "src/davinci-eight/core/ShareableContextConsumer.ts",
-            "line": 182,
+            "line": 186,
             "itemtype": "method",
             "name": "contextGain",
             "params": [
@@ -14080,7 +14017,7 @@
         },
         {
             "file": "src/davinci-eight/core/ShareableContextConsumer.ts",
-            "line": 198,
+            "line": 202,
             "itemtype": "method",
             "name": "contextLost",
             "return": {
@@ -14093,7 +14030,7 @@
         },
         {
             "file": "src/davinci-eight/core/ShareableContextConsumer.ts",
-            "line": 209,
+            "line": 213,
             "description": "<p>\nProvides access to the underlying WebGL context.\n</p>\n<p>\nThis property is deprecated to encourage access throught the <code>ContextProvider</code>.\n</p>",
             "itemtype": "property",
             "name": "gl",
@@ -14599,7 +14536,7 @@
         },
         {
             "file": "src/davinci-eight/core/VertexBuffer.ts",
-            "line": 38,
+            "line": 37,
             "itemtype": "property",
             "name": "webGLBuffer",
             "type": "WebGLBuffer",
@@ -14611,7 +14548,7 @@
         },
         {
             "file": "src/davinci-eight/core/VertexBuffer.ts",
-            "line": 45,
+            "line": 44,
             "itemtype": "property",
             "name": "_data",
             "type": "Float32Array",
@@ -14623,7 +14560,7 @@
         },
         {
             "file": "src/davinci-eight/core/VertexBuffer.ts",
-            "line": 63,
+            "line": 62,
             "itemtype": "method",
             "name": "destructor",
             "params": [
@@ -14645,7 +14582,7 @@
         },
         {
             "file": "src/davinci-eight/core/VertexBuffer.ts",
-            "line": 75,
+            "line": 74,
             "itemtype": "property",
             "name": "data",
             "type": "Float32Array",
@@ -14655,7 +14592,7 @@
         },
         {
             "file": "src/davinci-eight/core/VertexBuffer.ts",
-            "line": 90,
+            "line": 89,
             "itemtype": "method",
             "name": "contextFree",
             "params": [
@@ -14675,7 +14612,7 @@
         },
         {
             "file": "src/davinci-eight/core/VertexBuffer.ts",
-            "line": 113,
+            "line": 112,
             "itemtype": "method",
             "name": "contextGain",
             "params": [
@@ -14695,9 +14632,9 @@
         },
         {
             "file": "src/davinci-eight/core/VertexBuffer.ts",
-            "line": 131,
+            "line": 130,
             "itemtype": "method",
-            "name": "contextFree",
+            "name": "contextLost",
             "return": {
                 "description": "",
                 "type": "Void"
@@ -14708,7 +14645,7 @@
         },
         {
             "file": "src/davinci-eight/core/VertexBuffer.ts",
-            "line": 140,
+            "line": 139,
             "itemtype": "method",
             "name": "bind",
             "return": {
@@ -14721,7 +14658,7 @@
         },
         {
             "file": "src/davinci-eight/core/VertexBuffer.ts",
-            "line": 154,
+            "line": 153,
             "itemtype": "method",
             "name": "unbind",
             "return": {
@@ -40360,7 +40297,7 @@
         },
         {
             "message": "Missing item type",
-            "line": " src/davinci-eight/core/GeometryArrays.ts:59"
+            "line": " src/davinci-eight/core/GeometryArrays.ts:57"
         },
         {
             "message": "Missing item type\nMock the Geometry so that we can call the protected setScale method.\nThis, incidentally, is the pattern for geometry implementations.",

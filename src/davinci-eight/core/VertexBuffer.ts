@@ -9,7 +9,6 @@ import ShareableContextConsumer from './ShareableContextConsumer';
  * @submodule core
  */
 
-// TODO: Does this suggest an API for the contextProvider?
 function bufferVertexData(contextProvider: ContextProvider, buffer: WebGLBuffer, data: Float32Array) {
   if (contextProvider) {
     const gl = contextProvider.gl
@@ -116,6 +115,7 @@ export default class VertexBuffer extends ShareableContextConsumer {
    * @return {void}
    */
   contextGain(contextProvider: ContextProvider): void {
+    super.contextGain(contextProvider)
     mustBeObject('contextProvider', contextProvider)
     const gl = contextProvider.gl
     if (!this.webGLBuffer) {
@@ -125,11 +125,10 @@ export default class VertexBuffer extends ShareableContextConsumer {
     else {
       // It's a duplicate, ignore the call.
     }
-    super.contextGain(contextProvider)
   }
 
   /**
-   * @method contextFree
+   * @method contextLost
    * @return {void}
    */
   contextLost(): void {

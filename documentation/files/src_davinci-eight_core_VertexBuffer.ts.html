@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.226.0</em>
+            <em>API Docs for: 2.228.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -292,7 +292,6 @@ import ShareableContextConsumer from &#x27;./ShareableContextConsumer&#x27;;
  * @submodule core
  */
 
-// TODO: Does this suggest an API for the contextProvider?
 function bufferVertexData(contextProvider: ContextProvider, buffer: WebGLBuffer, data: Float32Array) {
   if (contextProvider) {
     const gl = contextProvider.gl
@@ -399,6 +398,7 @@ export default class VertexBuffer extends ShareableContextConsumer {
    * @return {void}
    */
   contextGain(contextProvider: ContextProvider): void {
+    super.contextGain(contextProvider)
     mustBeObject(&#x27;contextProvider&#x27;, contextProvider)
     const gl = contextProvider.gl
     if (!this.webGLBuffer) {
@@ -408,11 +408,10 @@ export default class VertexBuffer extends ShareableContextConsumer {
     else {
       // It&#x27;s a duplicate, ignore the call.
     }
-    super.contextGain(contextProvider)
   }
 
   /**
-   * @method contextFree
+   * @method contextLost
    * @return {void}
    */
   contextLost(): void {

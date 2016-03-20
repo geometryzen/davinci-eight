@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.226.0</em>
+            <em>API Docs for: 2.228.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -285,10 +285,8 @@ import cleanUp from &#x27;./cleanUp&#x27;;
 import ContextConsumer from &#x27;./ContextConsumer&#x27;;
 import ContextProvider from &#x27;./ContextProvider&#x27;;
 import Engine from &#x27;./Engine&#x27;;
-import incLevel from &#x27;../base/incLevel&#x27;;
 import isUndefined from &#x27;../checks/isUndefined&#x27;;
 import isNull from &#x27;../checks/isNull&#x27;;
-import mustBeBoolean from &#x27;../checks/mustBeBoolean&#x27;
 import mustBeObject from &#x27;../checks/mustBeObject&#x27;
 import readOnly from &#x27;../i18n/readOnly&#x27;;
 import ShareableBase from &#x27;./ShareableBase&#x27;;
@@ -318,9 +316,9 @@ import ShareableBase from &#x27;./ShareableBase&#x27;;
  *         super(engine)
  *         this.setLoggingName(&#x27;MyContextConsumer&#x27;)
  *       }
- *       protected destructor(level: number): void {
+ *       protected destructor(levelUp: number): void {
  *         // Deallocate your own resources here.
- *         super.destructor(level + 1)
+ *         super.destructor(levelUp + 1)
  *       }
  *     }
  *
@@ -331,6 +329,10 @@ import ShareableBase from &#x27;./ShareableBase&#x27;;
 export default class ShareableContextConsumer extends ShareableBase implements ContextConsumer {
 
   /**
+   * The &lt;code&gt;Engine&lt;/code&gt; to which this consumer is subscribed.
+   * The existence of this property indicates a subscription.
+   * Therefore, before releasing this reference, be sure to unsubscribe.
+   *
    * @property engine
    * @type Engine
    * @private
@@ -338,6 +340,12 @@ export default class ShareableContextConsumer extends ShareableBase implements C
   private engine: Engine;
 
   /**
+   * We hold onto the context provider after a contextGain event.
+   * However, this is only a convenience for derived classes.
+   * (Maybe we should not do this).
+   * We only need to release this property in our destructor.
+   * We must not try to trigger a contextFree as that would violate Implementation Hierarchy Principle.
+   *
    * @property contextProvider
    * @type {ContextProvider}
    * @protected
@@ -353,8 +361,7 @@ export default class ShareableContextConsumer extends ShareableBase implements C
     super()
     this.setLoggingName(&#x27;ShareableContextConsumer&#x27;)
     if (engine instanceof Engine) {
-      // Don&#x27;t synchronize as that would violate the Implementation Hierarchy Principle.
-      this.subscribe(engine, false)
+      this.subscribe(engine)
     }
     else if (!isNull(engine) &amp;&amp; !isUndefined(engine)) {
       throw new Error(&#x60;engine must be an Engine or null or undefined. typeof engine =&gt; ${typeof engine}&#x60;)
@@ -363,12 +370,19 @@ export default class ShareableContextConsumer extends ShareableBase implements C
 
   /**
    * @method destructor
-   * @param level {number}
+   * @param levelUp {number}
    * @return {void}
    */
-  protected destructor(level: number): void {
-    this.unsubscribe(false)
-    super.destructor(incLevel(level))
+  protected destructor(levelUp: number): void {
+    // The (protected) context provider property was only being maintained
+    // for the benefit of derived classes. Now that they have already executed
+    // their own cleanup in their own destructor, we are allowed to release.
+    if (this.contextProvider) {
+      this.contextProvider.release()
+      this.contextProvider = void 0
+    }
+    this.unsubscribe()
+    super.destructor(levelUp + 1)
   }
 
   /**
@@ -381,25 +395,20 @@ export default class ShareableContextConsumer extends ShareableBase implements C
    *
    * @method subscribe
    * @param engine {Engine}
-   * @param synchronize {boolean}
    * @return {void}
    */
-  subscribe(engine: Engine, synchronize: boolean): void {
+  subscribe(engine: Engine): void {
     engine = mustBeObject(&#x27;engine&#x27;, engine)
-    synchronize = mustBeBoolean(&#x27;synchronize&#x27;, synchronize)
     if (!this.engine) {
       engine.addRef()
       this.engine = engine
       engine.addContextListener(this)
-      if (synchronize) {
-        engine.synchronize(this)
-      }
     }
     else {
       if (this.engine !== engine) {
         // We can only subscribe to one Engine at at time.
-        this.unsubscribe(synchronize)
-        this.subscribe(engine, synchronize)
+        this.unsubscribe()
+        this.subscribe(engine)
       }
       else {
         // We are already subscribed to this engine (Idempotentency)
@@ -435,15 +444,10 @@ export default class ShareableContextConsumer extends ShareableBase implements C
    * &lt;/p&gt;
    *
    * @method unsubscribe
-   * @param synchronize {boolean} Triggers &lt;code&gt;contextFree()&lt;/code&gt; or &lt;code&gt;contextLost()&lt;/code&gt;, as appropriate.
    * @return {void}
    */
-  unsubscribe(synchronize: boolean): void {
-    synchronize = mustBeBoolean(&#x27;synchronize&#x27;, synchronize)
+  unsubscribe(): void {
     if (this.engine) {
-      if (synchronize) {
-        cleanUp(this.contextProvider, this)
-      }
       this.engine.removeContextListener(this)
       this.engine.release()
       this.engine = void 0

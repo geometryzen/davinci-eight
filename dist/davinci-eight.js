@@ -803,9 +803,9 @@ define('davinci-eight/config',["require", "exports", './core/ErrorMode'], functi
         function Eight() {
             this._errorMode = ErrorMode_1.default.STRICT;
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-            this.LAST_MODIFIED = '2016-03-18';
+            this.LAST_MODIFIED = '2016-03-20';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '2.226.0';
+            this.VERSION = '2.228.0';
         }
         Object.defineProperty(Eight.prototype, "errorMode", {
             get: function () {
@@ -2499,14 +2499,12 @@ define('davinci-eight/math/Coords',["require", "exports", './VectorN'], function
                 var iLen = this._coords.length;
                 for (var i = 0; i < iLen; i++) {
                     if (this.coords[i] !== coords[i]) {
-                        console.log(i + " is different");
                         return false;
                     }
                 }
                 return true;
             }
             else {
-                console.log("It's not a Coords");
                 return false;
             }
         };
@@ -9293,38 +9291,38 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/core/ShareableContextConsumer',["require", "exports", './cleanUp', './Engine', '../base/incLevel', '../checks/isUndefined', '../checks/isNull', '../checks/mustBeBoolean', '../checks/mustBeObject', '../i18n/readOnly', './ShareableBase'], function (require, exports, cleanUp_1, Engine_1, incLevel_1, isUndefined_1, isNull_1, mustBeBoolean_1, mustBeObject_1, readOnly_1, ShareableBase_1) {
+define('davinci-eight/core/ShareableContextConsumer',["require", "exports", './cleanUp', './Engine', '../checks/isUndefined', '../checks/isNull', '../checks/mustBeObject', '../i18n/readOnly', './ShareableBase'], function (require, exports, cleanUp_1, Engine_1, isUndefined_1, isNull_1, mustBeObject_1, readOnly_1, ShareableBase_1) {
     var ShareableContextConsumer = (function (_super) {
         __extends(ShareableContextConsumer, _super);
         function ShareableContextConsumer(engine) {
             _super.call(this);
             this.setLoggingName('ShareableContextConsumer');
             if (engine instanceof Engine_1.default) {
-                this.subscribe(engine, false);
+                this.subscribe(engine);
             }
             else if (!isNull_1.default(engine) && !isUndefined_1.default(engine)) {
                 throw new Error("engine must be an Engine or null or undefined. typeof engine => " + typeof engine);
             }
         }
-        ShareableContextConsumer.prototype.destructor = function (level) {
-            this.unsubscribe(false);
-            _super.prototype.destructor.call(this, incLevel_1.default(level));
+        ShareableContextConsumer.prototype.destructor = function (levelUp) {
+            if (this.contextProvider) {
+                this.contextProvider.release();
+                this.contextProvider = void 0;
+            }
+            this.unsubscribe();
+            _super.prototype.destructor.call(this, levelUp + 1);
         };
-        ShareableContextConsumer.prototype.subscribe = function (engine, synchronize) {
+        ShareableContextConsumer.prototype.subscribe = function (engine) {
             engine = mustBeObject_1.default('engine', engine);
-            synchronize = mustBeBoolean_1.default('synchronize', synchronize);
             if (!this.engine) {
                 engine.addRef();
                 this.engine = engine;
                 engine.addContextListener(this);
-                if (synchronize) {
-                    engine.synchronize(this);
-                }
             }
             else {
                 if (this.engine !== engine) {
-                    this.unsubscribe(synchronize);
-                    this.subscribe(engine, synchronize);
+                    this.unsubscribe();
+                    this.subscribe(engine);
                 }
                 else {
                 }
@@ -9339,12 +9337,8 @@ define('davinci-eight/core/ShareableContextConsumer',["require", "exports", './c
         ShareableContextConsumer.prototype.cleanUp = function () {
             cleanUp_1.default(this.contextProvider, this);
         };
-        ShareableContextConsumer.prototype.unsubscribe = function (synchronize) {
-            synchronize = mustBeBoolean_1.default('synchronize', synchronize);
+        ShareableContextConsumer.prototype.unsubscribe = function () {
             if (this.engine) {
-                if (synchronize) {
-                    cleanUp_1.default(this.contextProvider, this);
-                }
                 this.engine.removeContextListener(this);
                 this.engine.release();
                 this.engine = void 0;
@@ -9641,8 +9635,8 @@ define('davinci-eight/core/GeometryLeaf',["require", "exports", '../config', './
             _super.call(this, engine);
             this.setLoggingName('GeometryLeaf');
         }
-        GeometryLeaf.prototype.destructor = function (level) {
-            _super.prototype.destructor.call(this, incLevel_1.default(level));
+        GeometryLeaf.prototype.destructor = function (levelUp) {
+            _super.prototype.destructor.call(this, incLevel_1.default(levelUp));
         };
         Object.defineProperty(GeometryLeaf.prototype, "drawMode", {
             get: function () {
@@ -9684,6 +9678,7 @@ define('davinci-eight/core/GeometryLeaf',["require", "exports", '../config', './
             throw new Error(notSupported_1.default('addPart').message);
         };
         GeometryLeaf.prototype.contextGain = function (contextProvider) {
+            _super.prototype.contextGain.call(this, contextProvider);
             if (isNumber_1.default(this._drawMode)) {
                 this.mode = contextProvider.drawModeToGL(this._drawMode);
             }
@@ -9705,7 +9700,6 @@ define('davinci-eight/core/GeometryLeaf',["require", "exports", '../config', './
                     }
                 }
             }
-            _super.prototype.contextGain.call(this, contextProvider);
         };
         GeometryLeaf.prototype.removePart = function (index) {
             throw new Error(notSupported_1.default('removePart').message);
@@ -9791,6 +9785,7 @@ define('davinci-eight/core/VertexBuffer',["require", "exports", '../checks/mustB
             _super.prototype.contextFree.call(this, contextProvider);
         };
         VertexBuffer.prototype.contextGain = function (contextProvider) {
+            _super.prototype.contextGain.call(this, contextProvider);
             mustBeObject_1.default('contextProvider', contextProvider);
             var gl = contextProvider.gl;
             if (!this.webGLBuffer) {
@@ -9799,7 +9794,6 @@ define('davinci-eight/core/VertexBuffer',["require", "exports", '../checks/mustB
             }
             else {
             }
-            _super.prototype.contextGain.call(this, contextProvider);
         };
         VertexBuffer.prototype.contextLost = function () {
             this.webGLBuffer = void 0;
@@ -9834,7 +9828,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/core/GeometryArrays',["require", "exports", './computeAttributes', './computeCount', './computePointers', './computeStride', '../config', './ErrorMode', './GeometryLeaf', '../base/incLevel', './VertexBuffer'], function (require, exports, computeAttributes_1, computeCount_1, computePointers_1, computeStride_1, config_1, ErrorMode_1, GeometryLeaf_1, incLevel_1, VertexBuffer_1) {
+define('davinci-eight/core/GeometryArrays',["require", "exports", './computeAttributes', './computeCount', './computePointers', './computeStride', '../config', './ErrorMode', './GeometryLeaf', './VertexBuffer'], function (require, exports, computeAttributes_1, computeCount_1, computePointers_1, computeStride_1, config_1, ErrorMode_1, GeometryLeaf_1, VertexBuffer_1) {
     var GeometryArrays = (function (_super) {
         __extends(GeometryArrays, _super);
         function GeometryArrays(engine) {
@@ -9844,22 +9838,10 @@ define('davinci-eight/core/GeometryArrays',["require", "exports", './computeAttr
             this.attributes = {};
             this.vbo = new VertexBuffer_1.default(engine);
         }
-        GeometryArrays.prototype.destructor = function (level) {
+        GeometryArrays.prototype.destructor = function (levelUp) {
             this.vbo.release();
             this.vbo = void 0;
-            _super.prototype.destructor.call(this, incLevel_1.default(level));
-        };
-        GeometryArrays.prototype.contextFree = function (contextProvider) {
-            this.vbo.contextFree(contextProvider);
-            _super.prototype.contextFree.call(this, contextProvider);
-        };
-        GeometryArrays.prototype.contextGain = function (contextProvider) {
-            this.vbo.contextGain(contextProvider);
-            _super.prototype.contextGain.call(this, contextProvider);
-        };
-        GeometryArrays.prototype.contextLost = function () {
-            this.vbo.contextLost();
-            _super.prototype.contextLost.call(this);
+            _super.prototype.destructor.call(this, levelUp + 1);
         };
         GeometryArrays.prototype.draw = function (material) {
             var contextProvider = this.contextProvider;
@@ -20916,26 +20898,26 @@ var __extends = (this && this.__extends) || function (d, b) {
 define('davinci-eight/visual/World',["require", "exports", '../core/Color', '../facets/AmbientLight', '../base/incLevel', '../i18n/readOnly', '../core/ShareableBase'], function (require, exports, Color_1, AmbientLight_1, incLevel_1, readOnly_1, ShareableBase_1) {
     var World = (function (_super) {
         __extends(World, _super);
-        function World(renderer, drawList, ambients, controls) {
+        function World(engine, drawList, ambients, controls) {
             _super.call(this);
             this._ambientLight = new AmbientLight_1.default(Color_1.default.fromRGB(0.3, 0.3, 0.3));
             this.setLoggingName('World');
-            renderer.addRef();
-            this.renderer = renderer;
+            engine.addRef();
+            this.renderer = engine;
             drawList.addRef();
             this.drawList = drawList;
-            this.drawList.subscribe(renderer, true);
+            this.drawList.subscribe(engine);
+            engine.synchronize(this.drawList);
             this._ambients = ambients;
             this._ambients.push(this._ambientLight);
             controls.addRef();
             this._controls = controls;
         }
-        World.prototype.destructor = function (level) {
+        World.prototype.destructor = function (levelUp) {
             this.controls.release();
-            this.drawList.unsubscribe(true);
             this.drawList.release();
             this.renderer.release();
-            _super.prototype.destructor.call(this, incLevel_1.default(level));
+            _super.prototype.destructor.call(this, incLevel_1.default(levelUp));
         };
         Object.defineProperty(World.prototype, "ambients", {
             get: function () {

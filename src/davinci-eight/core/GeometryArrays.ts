@@ -4,12 +4,10 @@ import computeAttributes from './computeAttributes'
 import computeCount from './computeCount'
 import computePointers from './computePointers'
 import computeStride from './computeStride'
-import ContextProvider from './ContextProvider'
 import config from '../config'
 import Engine from './Engine'
 import ErrorMode from './ErrorMode'
 import GeometryLeaf from './GeometryLeaf'
-import incLevel from '../base/incLevel'
 import VertexBuffer from './VertexBuffer'
 
 /**
@@ -82,43 +80,14 @@ export default class GeometryArrays extends GeometryLeaf {
 
   /**
    * @method destructor
-   * @param level {number}
+   * @param levelUp {number}
    * @return {void}
    * @protected
    */
-  protected destructor(level: number): void {
+  protected destructor(levelUp: number): void {
     this.vbo.release()
     this.vbo = void 0
-    super.destructor(incLevel(level))
-  }
-
-  /**
-   * @method contextFree
-   * @param contextProvider {ContextProvider}
-   * @return {void}
-   */
-  contextFree(contextProvider: ContextProvider): void {
-    this.vbo.contextFree(contextProvider)
-    super.contextFree(contextProvider)
-  }
-
-  /**
-   * @method contextGain
-   * @param contextProvider {ContextProvider}
-   * @return {void}
-   */
-  contextGain(contextProvider: ContextProvider): void {
-    this.vbo.contextGain(contextProvider)
-    super.contextGain(contextProvider)
-  }
-
-  /**
-   * @method contextLost
-   * @return {void}
-   */
-  contextLost(): void {
-    this.vbo.contextLost()
-    super.contextLost()
+    super.destructor(levelUp + 1)
   }
 
   /**

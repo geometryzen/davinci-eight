@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.226.0</em>
+            <em>API Docs for: 2.228.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -327,14 +327,12 @@ export default class Coords extends VectorN&lt;number&gt; {
       const iLen = this._coords.length
       for (let i = 0; i &lt; iLen; i++) {
         if (this.coords[i] !== coords[i]) {
-          console.log(&#x60;${i} is different&#x60;)
           return false
         }
       }
       return true
     }
     else {
-      console.log(&#x60;It&#x27;s not a Coords&#x60;)
       return false
     }
   }

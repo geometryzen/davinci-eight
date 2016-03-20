@@ -44,14 +44,12 @@ export default class Coords extends VectorN<number> {
       const iLen = this._coords.length
       for (let i = 0; i < iLen; i++) {
         if (this.coords[i] !== coords[i]) {
-          console.log(`${i} is different`)
           return false
         }
       }
       return true
     }
     else {
-      console.log(`It's not a Coords`)
       return false
     }
   }

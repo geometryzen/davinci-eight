@@ -4147,22 +4147,49 @@ declare module EIGHT {
    *
    */
   class Viewport extends ShareableBase {
+    /**
+     * The ambient Facets used to render each Drawable in the scene.
+     */
     ambients: Facet[];
+    /**
+     * The default AmbientLight for this Viewport.
+     */
     ambLight: AmbientLight;
+    /**
+     * The default View for this Viewport.
+     */
     camera: PerspectiveCamera;
+    /**
+     * The default DirectionalLight for this Viewport.
+     */
     dirLight: DirectionalLight;
+    /**
+     * The height of the viewport in pixels.
+     */
     height: number;
     /**
      * The Scene associated with this Viewport.
-     * This property is a strong reference to the Scene.
+     * This property is a strong reference to the Scene; access increments the Scene reference count.
      */
     scene: Scene;
+    /**
+     * The width of the viewport in pixels.
+     */
     width: number;
+    /**
+     * The x-coordinate of the origin of the viewport.
+     */
     x: number;
+    /**
+     * The y-coordinate of the origin of the viewport.
+     */
     y: number;
     constructor(engine: Engine);
     protected destructor(levelUp?: number): void;
     public draw(): void;
+    /**
+     * Sets the Viewport dimensions and origin.
+     */
     public setPortal(x: number, y: number, width: number, height: number): void;
   }
   ///////////////////////////////////////////////////////////////////////////////
@@ -4173,13 +4200,29 @@ declare module EIGHT {
   }
   ///////////////////////////////////////////////////////////////////////////////
   /**
-   *
+   * A WebGL animation application with a single Viewport.
    */
   class SingleViewApp extends AnimationApp {
+    /**
+     * The singleton Viewport of this animation application.
+     * This property is protected; access does not increment the reference count.
+     */
     protected view: Viewport;
+    /**
+     * Constructs a SingleViewApp with the specified options.
+     */
     constructor(options?: SingleViewAppOptions);
+    /**
+     * Frees resources allocated by the SingleViewApp.
+     */
     protected destructor(): void;
+    /**
+     * Renders the Drawable objects contained in the Scene referenced by the Viewport.
+     */
     protected draw(): void;
+    /**
+     *
+     */
     protected initialize(): void;
   }
   ///////////////////////////////////////////////////////////////////////////////
@@ -4191,7 +4234,7 @@ declare module EIGHT {
   }
   ///////////////////////////////////////////////////////////////////////////////
   /**
-   *
+   * A WebGL animation application with multiple Viewports.
    */
   class MultiViewApp extends AnimationApp {
     protected views: ShareableArray<Viewport>;
@@ -4315,7 +4358,7 @@ declare module EIGHT {
   }
   ///////////////////////////////////////////////////////////////////////////////
   /**
-   *
+   * A ViewController that preserves the View up direction.
    */
   class OrbitControls extends ViewControls {
     constructor(view: View, wnd: Window);
@@ -4323,7 +4366,7 @@ declare module EIGHT {
   }
   ///////////////////////////////////////////////////////////////////////////////
   /**
-   *
+   * A ViewController that does not preserve the View up direction.
    */
   class TrackballControls extends ViewControls {
     constructor(view: View, wnd: Window)
