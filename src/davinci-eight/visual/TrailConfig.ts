@@ -2,7 +2,6 @@ import config from '../config'
 import ErrorMode from '../core/ErrorMode'
 import isBoolean from '../checks/isBoolean';
 import mustBeBoolean from '../checks/mustBeBoolean';
-'use strict';
 
 /**
  * @module EIGHT
@@ -65,12 +64,12 @@ export default class TrailConfig {
       switch (config.errorMode) {
         case ErrorMode.IGNORE: {
           // Do nothing.
+          break
         }
-          break;
         case ErrorMode.WARNME: {
           console.warn("TrailConfig.enabled must be a boolean")
-        }
           break;
+        }
         default: {
           mustBeBoolean('enabled', enabled)
         }

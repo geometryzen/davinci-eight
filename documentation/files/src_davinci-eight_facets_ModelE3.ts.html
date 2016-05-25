@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.228.0</em>
+            <em>API Docs for: 2.229.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -285,8 +285,6 @@ import Geometric3 from &#x27;../math/Geometric3&#x27;
 import Vector3 from &#x27;../math/Vector3&#x27;;
 import Spinor3 from &#x27;../math/Spinor3&#x27;;
 
-&#x27;use strict&#x27;;
-
 /**
  * @module EIGHT
  * @submodule facets
@@ -297,148 +295,148 @@ import Spinor3 from &#x27;../math/Spinor3&#x27;;
  */
 export default class ModelE3 {
 
-    /**
-     * The name of the property that designates the attitude.
-     * @property PROP_ATTITUDE
-     * @type {string}
-     * @default &#x27;R&#x27;
-     * @static
-     * @readOnly
-     */
-    public static PROP_ATTITUDE = &#x27;R&#x27;;
+  /**
+   * The name of the property that designates the attitude.
+   * @property PROP_ATTITUDE
+   * @type {string}
+   * @default &#x27;R&#x27;
+   * @static
+   * @readOnly
+   */
+  public static PROP_ATTITUDE = &#x27;R&#x27;;
 
-    /**
-     * The name of the property that designates the position.
-     * @property PROP_POSITION
-     * @type {string}
-     * @default &#x27;X&#x27;
-     * @static
-     * @readOnly
-     */
-    public static PROP_POSITION = &#x27;X&#x27;;
+  /**
+   * The name of the property that designates the position.
+   * @property PROP_POSITION
+   * @type {string}
+   * @default &#x27;X&#x27;
+   * @static
+   * @readOnly
+   */
+  public static PROP_POSITION = &#x27;X&#x27;;
 
-    /**
-     * @property _position
-     * @type {Geometric3}
-     * @private
-     */
-    private _position = Geometric3.zero();
+  /**
+   * @property _position
+   * @type {Geometric3}
+   * @private
+   */
+  private _position = Geometric3.zero();
 
-    /**
-     * @property _attitude
-     * @type {Geometric3}
-     * @private
-     */
-    private _attitude: Geometric3 = Geometric3.one()
+  /**
+   * @property _attitude
+   * @type {Geometric3}
+   * @private
+   */
+  private _attitude: Geometric3 = Geometric3.one()
 
-    /**
-     * Used for exchanging number[] data to achieve integrity and avoid lots of temporaries.
-     * @property _posCache
-     * @type {Vector3}
-     * @private
-     */
-    private _posCache: Vector3 = Vector3.zero();
+  /**
+   * Used for exchanging number[] data to achieve integrity and avoid lots of temporaries.
+   * @property _posCache
+   * @type {Vector3}
+   * @private
+   */
+  private _posCache: Vector3 = Vector3.zero();
 
-    /**
-     * Used for exchanging number[] data to achieve integrity and avoid lots of temporaries.
-     * @property _attCache
-     * @type {Spinor3}
-     * @private
-     */
-    private _attCache: Spinor3 = Spinor3.one()
+  /**
+   * Used for exchanging number[] data to achieve integrity and avoid lots of temporaries.
+   * @property _attCache
+   * @type {Spinor3}
+   * @private
+   */
+  private _attCache: Spinor3 = Spinor3.one()
 
-    /**
-     * &lt;p&gt;
-     * A collection of properties for Rigid Body Modeling.
-     * &lt;/p&gt;
-     * &lt;p&gt;
-     * ModelE3 implements Facet required for manipulating a composite object.
-     * &lt;/p&gt;
-     * &lt;p&gt;
-     * Constructs a ModelE3 at the origin and with unity attitude.
-     * &lt;/p&gt;
-     * @class ModelE3
-     * @constructor
-     */
-    constructor() {
-        this._position.modified = true
-        this._attitude.modified = true
+  /**
+   * &lt;p&gt;
+   * A collection of properties for Rigid Body Modeling.
+   * &lt;/p&gt;
+   * &lt;p&gt;
+   * ModelE3 implements Facet required for manipulating a composite object.
+   * &lt;/p&gt;
+   * &lt;p&gt;
+   * Constructs a ModelE3 at the origin and with unity attitude.
+   * &lt;/p&gt;
+   * @class ModelE3
+   * @constructor
+   */
+  constructor() {
+    this._position.modified = true
+    this._attitude.modified = true
+  }
+
+  /**
+   * &lt;p&gt;
+   * The &lt;em&gt;attitude&lt;/em&gt;, a rotor.
+   * &lt;/p&gt;
+   *
+   * @property R
+   * @type Geometric3
+   */
+  get R(): Geometric3 {
+    return this._attitude
+  }
+  set R(attitude: Geometric3) {
+    this._attitude.copySpinor(attitude)
+  }
+
+  /**
+   * &lt;p&gt;
+   * The &lt;em&gt;position&lt;/em&gt;, a vector.
+   * &lt;/p&gt;
+   * @property X
+   * @type Geometric3
+   */
+  get X(): Geometric3 {
+    return this._position
+  }
+  set X(position: Geometric3) {
+    this._position.copyVector(position)
+  }
+
+  /**
+   * @method getProperty
+   * @param name {string}
+   * @return {number[]}
+   */
+  getProperty(name: string): number[] {
+    switch (name) {
+      case ModelE3.PROP_ATTITUDE: {
+        return this._attCache.copy(this._attitude).coords
+      }
+      case ModelE3.PROP_POSITION: {
+        return this._posCache.copy(this._position).coords
+      }
+      default: {
+        console.warn(&quot;ModelE3.getProperty &quot; + name)
+        return void 0
+      }
     }
+  }
 
-    /**
-     * &lt;p&gt;
-     * The &lt;em&gt;attitude&lt;/em&gt;, a rotor.
-     * &lt;/p&gt;
-     *
-     * @property R
-     * @type Geometric3
-     */
-    get R(): Geometric3 {
-        return this._attitude
+  /**
+   * @method setProperty
+   * @param name {string}
+   * @param data {number[]}
+   * @return {ModelE3}
+   * @chainable
+   */
+  setProperty(name: string, data: number[]): ModelE3 {
+    switch (name) {
+      case ModelE3.PROP_ATTITUDE: {
+        this._attCache.coords = data
+        this._attitude.copySpinor(this._attCache)
+      }
+        break;
+      case ModelE3.PROP_POSITION: {
+        this._posCache.coords = data
+        this._position.copyVector(this._posCache)
+      }
+        break;
+      default: {
+        console.warn(&quot;ModelE3.setProperty &quot; + name)
+      }
     }
-    set R(attitude: Geometric3) {
-        this._attitude.copySpinor(attitude)
-    }
-
-    /**
-     * &lt;p&gt;
-     * The &lt;em&gt;position&lt;/em&gt;, a vector.
-     * &lt;/p&gt;
-     * @property X
-     * @type Geometric3
-     */
-    get X(): Geometric3 {
-        return this._position
-    }
-    set X(position: Geometric3) {
-        this._position.copyVector(position)
-    }
-
-    /**
-     * @method getProperty
-     * @param name {string}
-     * @return {number[]}
-     */
-    getProperty(name: string): number[] {
-        switch (name) {
-            case ModelE3.PROP_ATTITUDE: {
-                return this._attCache.copy(this._attitude).coords
-            }
-            case ModelE3.PROP_POSITION: {
-                return this._posCache.copy(this._position).coords
-            }
-            default: {
-                console.warn(&quot;ModelE3.getProperty &quot; + name)
-                return void 0
-            }
-        }
-    }
-
-    /**
-     * @method setProperty
-     * @param name {string}
-     * @param data {number[]}
-     * @return {ModelE3}
-     * @chainable
-     */
-    setProperty(name: string, data: number[]): ModelE3 {
-        switch (name) {
-            case ModelE3.PROP_ATTITUDE: {
-                this._attCache.coords = data
-                this._attitude.copySpinor(this._attCache)
-            }
-                break;
-            case ModelE3.PROP_POSITION: {
-                this._posCache.coords = data
-                this._position.copyVector(this._posCache)
-            }
-                break;
-            default: {
-                console.warn(&quot;ModelE3.setProperty &quot; + name)
-            }
-        }
-        return this;
-    }
+    return this;
+  }
 }
 
     </pre>

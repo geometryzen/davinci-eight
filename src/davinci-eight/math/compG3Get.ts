@@ -13,41 +13,33 @@ const COORD_ZX = 6
 const COORD_XYZ = 7
 
 export default function gcompE3(m: GeometricE3, index: number): number {
-    switch (index) {
-        case COORD_W: {
-            return m.α
-        }
-        break
-        case COORD_X: {
-            return m.x
-        }
-        break
-        case COORD_Y: {
-            return m.y
-        }
-        break
-        case COORD_Z: {
-            return m.z
-        }
-        break
-        case COORD_XY: {
-            return m.xy
-        }
-        break
-        case COORD_YZ: {
-            return m.yz
-        }
-        break
-        case COORD_ZX: {
-            return m.zx
-        }
-        break
-        case COORD_XYZ: {
-            return m.β
-        }
-        break
-        default: {
-            throw new Error("index => " + index)
-        }
+  switch (index) {
+    case COORD_W: {
+      return m.α
     }
+    case COORD_X: {
+      return m.x
+    }
+    case COORD_Y: {
+      return m.y
+    }
+    case COORD_Z: {
+      return m.z
+    }
+    case COORD_XY: {
+      return m.xy
+    }
+    case COORD_YZ: {
+      return m.yz
+    }
+    case COORD_ZX: {
+      return m.zx
+    }
+    case COORD_XYZ: {
+      return m.β
+    }
+    default: {
+      throw new Error("index => " + index)
+    }
+  }
 }

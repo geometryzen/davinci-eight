@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="davinci-eight" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.228.0</em>
+            <em>API Docs for: 2.229.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -285,7 +285,6 @@ import config from &#x27;../config&#x27;
 import ErrorMode from &#x27;../core/ErrorMode&#x27;
 import isBoolean from &#x27;../checks/isBoolean&#x27;;
 import mustBeBoolean from &#x27;../checks/mustBeBoolean&#x27;;
-&#x27;use strict&#x27;;
 
 /**
  * @module EIGHT
@@ -348,12 +347,12 @@ export default class TrailConfig {
       switch (config.errorMode) {
         case ErrorMode.IGNORE: {
           // Do nothing.
+          break
         }
-          break;
         case ErrorMode.WARNME: {
           console.warn(&quot;TrailConfig.enabled must be a boolean&quot;)
-        }
           break;
+        }
         default: {
           mustBeBoolean(&#x27;enabled&#x27;, enabled)
         }

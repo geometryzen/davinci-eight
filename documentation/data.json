@@ -2,7 +2,7 @@
     "project": {
         "name": "davinci-eight",
         "description": "WebGL library for mathematical physics using Geometric Algebra",
-        "version": "2.228.0",
+        "version": "2.229.0",
         "url": ""
     },
     "files": {
@@ -4157,7 +4157,7 @@
             "submodule": "facets",
             "namespace": "",
             "file": "src/davinci-eight/facets/ModelE3.ts",
-            "line": 67,
+            "line": 65,
             "description": "<p>\nA collection of properties for Rigid Body Modeling.\n</p>\n<p>\nModelE3 implements Facet required for manipulating a composite object.\n</p>\n<p>\nConstructs a ModelE3 at the origin and with unity attitude.\n</p>",
             "is_constructor": 1
         },
@@ -5363,7 +5363,7 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/geometries/SphereBuilder.ts",
-            "line": 184,
+            "line": 200,
             "extends": "SliceSimplexPrimitivesBuilder"
         },
         "SphereGeometry": {
@@ -6975,7 +6975,7 @@
             "submodule": "visual",
             "namespace": "",
             "file": "src/davinci-eight/visual/TrailConfig.ts",
-            "line": 12
+            "line": 11
         },
         "Viewport": {
             "name": "Viewport",
@@ -15319,7 +15319,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ModelE3.ts",
-            "line": 17,
+            "line": 15,
             "description": "The name of the property that designates the attitude.",
             "itemtype": "property",
             "name": "PROP_ATTITUDE",
@@ -15333,7 +15333,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ModelE3.ts",
-            "line": 27,
+            "line": 25,
             "description": "The name of the property that designates the position.",
             "itemtype": "property",
             "name": "PROP_POSITION",
@@ -15347,7 +15347,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ModelE3.ts",
-            "line": 37,
+            "line": 35,
             "itemtype": "property",
             "name": "_position",
             "type": "{Geometric3}",
@@ -15359,7 +15359,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ModelE3.ts",
-            "line": 44,
+            "line": 42,
             "itemtype": "property",
             "name": "_attitude",
             "type": "{Geometric3}",
@@ -15371,7 +15371,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ModelE3.ts",
-            "line": 51,
+            "line": 49,
             "description": "Used for exchanging number[] data to achieve integrity and avoid lots of temporaries.",
             "itemtype": "property",
             "name": "_posCache",
@@ -15384,7 +15384,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ModelE3.ts",
-            "line": 59,
+            "line": 57,
             "description": "Used for exchanging number[] data to achieve integrity and avoid lots of temporaries.",
             "itemtype": "property",
             "name": "_attCache",
@@ -15397,7 +15397,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ModelE3.ts",
-            "line": 85,
+            "line": 83,
             "description": "<p>\nThe <em>attitude</em>, a rotor.\n</p>",
             "itemtype": "property",
             "name": "R",
@@ -15408,7 +15408,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ModelE3.ts",
-            "line": 100,
+            "line": 98,
             "description": "<p>\nThe <em>position</em>, a vector.\n</p>",
             "itemtype": "property",
             "name": "X",
@@ -15419,7 +15419,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ModelE3.ts",
-            "line": 114,
+            "line": 112,
             "itemtype": "method",
             "name": "getProperty",
             "params": [
@@ -15439,7 +15439,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ModelE3.ts",
-            "line": 134,
+            "line": 132,
             "itemtype": "method",
             "name": "setProperty",
             "params": [
@@ -18858,7 +18858,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/SphereBuilder.ts",
-            "line": 189,
+            "line": 205,
             "itemtype": "property",
             "name": "thetaLength",
             "type": "number",
@@ -39855,7 +39855,7 @@
         },
         {
             "file": "src/davinci-eight/visual/TrailConfig.ts",
-            "line": 17,
+            "line": 16,
             "itemtype": "property",
             "name": "_enabled",
             "type": "boolean",
@@ -39868,7 +39868,7 @@
         },
         {
             "file": "src/davinci-eight/visual/TrailConfig.ts",
-            "line": 25,
+            "line": 24,
             "description": "Determines the number of animation frames between the recording of events.",
             "itemtype": "property",
             "name": "interval",
@@ -39880,7 +39880,7 @@
         },
         {
             "file": "src/davinci-eight/visual/TrailConfig.ts",
-            "line": 34,
+            "line": 33,
             "description": "Determines the maximum number of historical events that form the trail.",
             "itemtype": "property",
             "name": "retain",
@@ -39892,7 +39892,7 @@
         },
         {
             "file": "src/davinci-eight/visual/TrailConfig.ts",
-            "line": 43,
+            "line": 42,
             "description": "Intentionally undocumented.",
             "class": "TrailConfig",
             "module": "EIGHT",
@@ -39900,7 +39900,7 @@
         },
         {
             "file": "src/davinci-eight/visual/TrailConfig.ts",
-            "line": 50,
+            "line": 49,
             "description": "Determines whether the trail will record historical events and draw them.",
             "itemtype": "property",
             "name": "enabled",
@@ -41333,7 +41333,7 @@
         },
         {
             "message": "Missing item type\nIntentionally undocumented.",
-            "line": " src/davinci-eight/visual/TrailConfig.ts:43"
+            "line": " src/davinci-eight/visual/TrailConfig.ts:42"
         },
         {
             "message": "Missing item type\nIntentionally undocumented.\nThe concept of creating a quick setup violates the Explicit over Implicit principle.",
