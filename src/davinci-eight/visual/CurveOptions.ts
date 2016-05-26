@@ -4,13 +4,7 @@ import VectorE3 from '../math/VectorE3'
 import VisualOptions from './VisualOptions'
 
 /**
- * @module EIGHT
- * @submodule visual
- */
-
-/**
- * @class CurveOptions
- * @extends VisualOptions
+ *
  */
 interface CurveOptions extends VisualOptions {
 
@@ -22,17 +16,12 @@ interface CurveOptions extends VisualOptions {
    * u<sub>min</sub> <= u <= u<sub>max</sub>
    * </p>
    *
-   * @attribute aPosition
-   * @type (u: number, v: number) => VectorE3
-   * @optional
    * @default (u: number) => u * e1 + v * e2
    */
   aPosition?: (u: number) => VectorE3
 
   /**
-   * @attribute aColor
-   * @type (u: number) => AbstractColor
-   * @optional
+   *
    */
   aColor?: (u: number) => AbstractColor
 
@@ -40,25 +29,18 @@ interface CurveOptions extends VisualOptions {
    * Specifies the required Geometric Primitive Type.
    * Implementations may choose the nearest type.
    *
-   * @attribute drawMode
-   * @type DrawMode
-   * @optional
    * @default DrawMode.LINES
    */
   drawMode?: DrawMode
 
   /**
-   * @attribute uMin
-   * @type number
-   * @optional
+   *
    * @default -0.5
    */
   uMin?: number
 
   /**
-   * @attribute uMax
-   * @type number
-   * @optional
+   *
    * @default +0.5
    */
   uMax?: number
@@ -66,9 +48,6 @@ interface CurveOptions extends VisualOptions {
   /**
    * The number of segments for the u coordinate.
    *
-   * @attribute uSegments
-   * @type number
-   * @optional
    * @default 1
    */
   uSegments?: number

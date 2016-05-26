@@ -197,6 +197,7 @@ module.exports = function(grunt) {
                 src: [
                     'src/davinci-eight/core/Color.ts',
                     'src/davinci-eight/core/Engine.ts',
+                    'src/davinci-eight/core/Facet.ts',
                     'src/davinci-eight/core/Scene.ts',
                     'src/davinci-eight/facets/AmbientLight.ts',
                     'src/davinci-eight/facets/DirectionalLight.ts',

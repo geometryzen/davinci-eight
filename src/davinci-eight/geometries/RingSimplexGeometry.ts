@@ -6,7 +6,7 @@ import SliceSimplexPrimitivesBuilder from '../geometries/SliceSimplexPrimitivesB
 import Spinor3 from '../math/Spinor3';
 import SpinorE3 from '../math/SpinorE3';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
-import Vector2 from '../math/Vector2';
+import {Vector2} from '../math/Vector2';
 import Vector3 from '../math/Vector3';
 import VectorE3 from '../math/VectorE3';
 

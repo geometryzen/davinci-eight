@@ -1,18 +1,13 @@
 import {Engine} from '../core/Engine'
 import {Geometric3} from '../math/Geometric3'
-import Geometry from '../core/Geometry'
+import {Geometry} from '../core/Geometry'
 import IRigidBody from './IRigidBody'
-import Material from '../core/Material'
+import {Material} from '../core/Material'
 import {Mesh} from '../core/Mesh'
 import mustBeObject from '../checks/mustBeObject'
 import R3 from '../math/R3'
 import {Unit} from '../math/Unit'
 import VectorE3 from '../math/VectorE3'
-
-/**
- * @module EIGHT
- * @submodule visual
- */
 
 /**
  * <p>
@@ -102,7 +97,7 @@ export class RigidBody extends Mesh implements IRigidBody<number, Geometric3, Ge
    * Axis (vector)
    * </p>
    */
-  get axis(): Geometric3 {
+  get axis() {
     // This is a copy!
     return Geometric3.fromVector(this.initialAxis).rotate(this.R)
   }

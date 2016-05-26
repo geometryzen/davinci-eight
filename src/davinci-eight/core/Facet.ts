@@ -1,4 +1,4 @@
-import FacetVisitor from './FacetVisitor';
+import {FacetVisitor} from './FacetVisitor';
 
 /**
  * A `facet` is an adapter between a domain concept and a `uniform` value parameter in a WebGL shader program.

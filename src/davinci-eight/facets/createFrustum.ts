@@ -1,4 +1,4 @@
-import FacetVisitor from '../core/FacetVisitor';
+import {FacetVisitor} from '../core/FacetVisitor';
 import Frustum from './Frustum';
 import {Geometric3} from '../math/Geometric3';
 import View from './View';

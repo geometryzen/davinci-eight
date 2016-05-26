@@ -6,7 +6,7 @@ import mustBeArray from '../checks/mustBeArray';
 import mustBeObject from '../checks/mustBeObject';
 import mustBeString from '../checks/mustBeString';
 import mustSatisfy from '../checks/mustSatisfy';
-import MaterialBase from './MaterialBase';
+import {MaterialBase} from './MaterialBase';
 
 /**
  * @module EIGHT

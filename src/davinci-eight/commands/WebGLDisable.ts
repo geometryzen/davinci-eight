@@ -13,7 +13,7 @@ import {ShareableBase} from '../core/ShareableBase';
  * @extends ShareableBase
  * @implements ContextConsumer
  */
-export default class WebGLDisable extends ShareableBase implements ContextConsumer {
+export class WebGLDisable extends ShareableBase implements ContextConsumer {
   private _capability: Capability;
   /**
    * @class WebGLDisable

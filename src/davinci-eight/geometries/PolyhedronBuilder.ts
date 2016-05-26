@@ -3,7 +3,7 @@ import VectorE3 from '../math/VectorE3';
 import SimplexPrimitivesBuilder from '../geometries/SimplexPrimitivesBuilder';
 import Simplex from '../geometries/Simplex';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
-import Vector2 from '../math/Vector2';
+import {Vector2} from '../math/Vector2';
 import Vector3 from '../math/Vector3';
 
 // Angle around the Y axis, counter-clockwise when looking from above.

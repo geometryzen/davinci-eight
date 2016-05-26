@@ -4,7 +4,7 @@ import {AbstractDrawable} from './AbstractDrawable';
 import ShareableArray from '../collections/ShareableArray';
 import incLevel from '../base/incLevel'
 import mustBeObject from '../checks/mustBeObject';
-import Geometry from './Geometry';
+import {Geometry} from './Geometry';
 import {ShareableBase} from '../core/ShareableBase';
 import {ShareableContextConsumer} from '../core/ShareableContextConsumer';
 import {Engine} from './Engine';
@@ -240,7 +240,7 @@ export class Scene extends ShareableContextConsumer {
     }
 
     /**
-     * @method contextLost
+     *
      */
     contextLost(): void {
         for (let i = 0; i < this._drawables.length; i++) {

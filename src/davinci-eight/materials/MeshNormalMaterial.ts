@@ -1,6 +1,6 @@
 import GraphicsProgramBuilder from '../materials/GraphicsProgramBuilder'
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols'
-import MaterialBase from './MaterialBase'
+import {MaterialBase} from './MaterialBase'
 
 function builder() {
   const gpb = new GraphicsProgramBuilder()

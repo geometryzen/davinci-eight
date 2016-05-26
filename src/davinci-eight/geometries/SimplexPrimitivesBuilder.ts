@@ -10,7 +10,7 @@ import simplicesToGeometryMeta from '../geometries/simplicesToGeometryMeta';
 import Primitive from '../core/Primitive';
 import Vector1 from '../math/Vector1';
 import Vector3 from '../math/Vector3';
-import Vector2 from '../math/Vector2';
+import {Vector2} from '../math/Vector2';
 
 /**
  * @class SimplexPrimitivesBuilder

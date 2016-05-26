@@ -6,7 +6,7 @@ import isDefined from '../checks/isDefined';
 import isString from '../checks/isString';
 import isNull from '../checks/isNull';
 import makeWebGLProgram from '../core/makeWebGLProgram';
-import Material from '../core/Material'
+import {Material} from '../core/Material'
 import {Engine} from '../core/Engine';
 import ErrorMode from '../core/ErrorMode';
 import Matrix2 from '../math/Matrix2';
@@ -23,65 +23,45 @@ import VectorE3 from '../math/VectorE3';
 import VectorE4 from '../math/VectorE4';
 
 /**
- * @module EIGHT
- * @submodule materials
+ *
  */
-
-/**
- * @class MaterialBase
- * @extends ShareableContextConsumer
- */
-export default class MaterialBase extends ShareableContextConsumer implements Material {
+export class MaterialBase extends ShareableContextConsumer implements Material {
 
   /**
-   * @property _vertexShaderSrc
-   * @type string
-   * @private
+   *
    */
   private _vertexShaderSrc: string
 
   /**
-   * @property _fragmentShaderSrc
-   * @type string
-   * @private
+   *
    */
   private _fragmentShaderSrc: string
 
   /**
-   * @property _attribs
-   * @type string[]
-   * @private
+   *
    */
   private _attribs: string[]
 
   /**
-   * @property _program
-   * @type WebGLProgram
-   * @private
+   *
    */
   private _program: WebGLProgram
 
   /**
-   * @property _attributes
-   * @type {[name: string]: AttribLocation}
-   * @private
+   *
    */
   private _attributes: { [name: string]: AttribLocation } = {}
 
   /**
-   * @property _uniforms
-   * @type {{[name: string]: UniformLocation}}
-   * @private
+   *
    */
   private _uniforms: { [name: string]: UniformLocation } = {}
 
   /**
-   * @class MaterialBase
-   * @constructor
-   * @param vertexShaderSrc {string} The vertex shader source code.
-   * @param fragmentShaderSrc {string} The fragment shader source code.
-   * @param attribs {string[]} The attribute ordering.
-   * @param engine {Engine} The <code>Engine</code> to subscribe to or <code>null</code> for deferred subscription.
+   * @param vertexShaderSrc The vertex shader source code.
+   * @param fragmentShaderSrc The fragment shader source code.
+   * @param attribs The attribute ordering.
+   * @param engine The <code>Engine</code> to subscribe to or <code>null</code> for deferred subscription.
    */
   constructor(vertexShaderSrc: string, fragmentShaderSrc: string, attribs: string[], engine: Engine) {
     super(engine)
@@ -96,10 +76,7 @@ export default class MaterialBase extends ShareableContextConsumer implements Ma
   }
 
   /**
-   * @method destructor
-   * @param levelUp {number}
-   * @return {void}
-   * @protected
+   * @param levelUp
    */
   protected destructor(levelUp: number): void {
     if (levelUp === 0) {
@@ -110,9 +87,7 @@ export default class MaterialBase extends ShareableContextConsumer implements Ma
   }
 
   /**
-   * @method contextGain
-   * @param context {ContextProvider}
-   * @return {void}
+   * @param context
    */
   contextGain(context: ContextProvider): void {
     const gl = context.gl
@@ -148,8 +123,7 @@ export default class MaterialBase extends ShareableContextConsumer implements Ma
   }
 
   /**
-   * @method contextLost
-   * @return {void}
+   *
    */
   contextLost(): void {
     this._program = void 0
@@ -167,9 +141,7 @@ export default class MaterialBase extends ShareableContextConsumer implements Ma
   }
 
   /**
-   * @method contextFree
-   * @param context {ContextProvider}
-   * @return {void}
+   * @param context
    */
   contextFree(context: ContextProvider): void {
     if (this._program) {
@@ -201,8 +173,7 @@ export default class MaterialBase extends ShareableContextConsumer implements Ma
   }
 
   /**
-   * @method use
-   * @return {void}
+   *
    */
   use(): void {
     const gl = this.gl
@@ -215,8 +186,7 @@ export default class MaterialBase extends ShareableContextConsumer implements Ma
   }
 
   /**
-   * @property vertexShaderSrc
-   * @type string
+   *
    */
   get vertexShaderSrc(): string {
     return this._vertexShaderSrc
@@ -237,8 +207,7 @@ export default class MaterialBase extends ShareableContextConsumer implements Ma
   }
 
   /**
-   * @property fragmentShaderSrc
-   * @type string
+   *
    */
   get fragmentShaderSrc(): string {
     return this._fragmentShaderSrc
@@ -259,9 +228,7 @@ export default class MaterialBase extends ShareableContextConsumer implements Ma
   }
 
   /**
-   * @property attributeNames
-   * @type string[]
-   * @readOnly
+   *
    */
   get attributeNames(): string[] {
     const attributes = this._attributes
@@ -277,9 +244,7 @@ export default class MaterialBase extends ShareableContextConsumer implements Ma
   }
 
   /**
-   * @method enableAttrib
-   * @param name {string}
-   * @return {void}
+   *
    */
   enableAttrib(name: string): void {
     const attribLoc = this._attributes[name]
@@ -289,8 +254,7 @@ export default class MaterialBase extends ShareableContextConsumer implements Ma
   }
 
   /**
-   * @method enableAttribs
-   * @return {void}
+   *
    */
   enableAttribs(): void {
     const attribLocations = this._attributes
@@ -304,9 +268,7 @@ export default class MaterialBase extends ShareableContextConsumer implements Ma
   }
 
   /**
-   * @method disableAttrib
-   * @param name {string}
-   * @return {void}
+   *
    */
   disableAttrib(name: string): void {
     const attribLoc = this._attributes[name]
@@ -316,8 +278,7 @@ export default class MaterialBase extends ShareableContextConsumer implements Ma
   }
 
   /**
-   * @method disableAttribs
-   * @return {void}
+   *
    */
   disableAttribs(): void {
     const attribLocations = this._attributes
@@ -333,10 +294,6 @@ export default class MaterialBase extends ShareableContextConsumer implements Ma
   /**
    * Returns the location (index) of the attribute with the specified name.
    * Returns <code>-1</code> if the name does not correspond to an attribute.
-   *
-   * @method getAttribLocation
-   * @param name {string}
-   * @return {number}
    */
   getAttribLocation(name: string): number {
     const attribLoc = this._attributes[name]
@@ -355,9 +312,8 @@ export default class MaterialBase extends ShareableContextConsumer implements Ma
    * does not exist, this method throws a descriptive <code>Error</code>.
    * </p>
    *
-   * @method getUniformLocation
-   * @param name {string}
-   * @return {UniformLocation} The location object bound to the specified name.
+   * @param name
+   * @returns The location object bound to the specified name.
    */
   getUniformLocation(name: string): UniformLocation {
     const uniforms = this._uniforms
@@ -388,23 +344,17 @@ export default class MaterialBase extends ShareableContextConsumer implements Ma
    * <p>
    * Determines whether a <code>uniform</code> with the specified <code>name</code> exists in the <code>WebGLProgram</code>.
    * </p>
-   *
-   * @method hasUniformLocation
-   * @param name {string}
-   * @return {boolean}
    */
   hasUniformLocation(name: string): boolean {
     return isDefined(this._uniforms[name])
   }
 
   /**
-   * @method vertexPointer
-   * @param name {string}
-   * @param size {number}
-   * @param normalized {boolean}
-   * @param stride {number}
-   * @param offset {number}
-   * @return {void}
+   * @param name
+   * @param size
+   * @param normalized
+   * @param stride
+   * @param offset
    */
   vertexPointer(name: string, size: number, normalized: boolean, stride: number, offset: number): void {
     const attributeLocation = this._attributes[name]
@@ -412,10 +362,7 @@ export default class MaterialBase extends ShareableContextConsumer implements Ma
   }
 
   /**
-   * @method uniform1f
-   * @param name {string}
-   * @param x {number}
-   * @return {void}
+   *
    */
   uniform1f(name: string, x: number): void {
     const uniformLoc = this._uniforms[name]
@@ -425,11 +372,7 @@ export default class MaterialBase extends ShareableContextConsumer implements Ma
   }
 
   /**
-   * @method uniform2f
-   * @param name {string}
-   * @param x {number}
-   * @param y {number}
-   * @return {void}
+   *
    */
   uniform2f(name: string, x: number, y: number): void {
     const uniformLoc = this._uniforms[name]
@@ -439,12 +382,7 @@ export default class MaterialBase extends ShareableContextConsumer implements Ma
   }
 
   /**
-   * @method uniform3f
-   * @param name {string}
-   * @param x {number}
-   * @param y {number}
-   * @param z {number}
-   * @return {void}
+   *
    */
   uniform3f(name: string, x: number, y: number, z: number): void {
     const uniformLoc = this._uniforms[name]
@@ -454,13 +392,7 @@ export default class MaterialBase extends ShareableContextConsumer implements Ma
   }
 
   /**
-   * @method uniform4f
-   * @param name {string}
-   * @param x {number}
-   * @param y {number}
-   * @param z {number}
-   * @param w {number}
-   * @return {void}
+   *
    */
   uniform4f(name: string, x: number, y: number, z: number, w: number): void {
     const uniformLoc = this._uniforms[name]
@@ -470,11 +402,7 @@ export default class MaterialBase extends ShareableContextConsumer implements Ma
   }
 
   /**
-   * @method mat2
-   * @param name {string}
-   * @param matrix {Matrix2}
-   * @param transpose {boolean}
-   * @return {void}
+   *
    */
   mat2(name: string, matrix: Matrix2, transpose: boolean): void {
     const uniformLoc = this._uniforms[name]
@@ -484,11 +412,7 @@ export default class MaterialBase extends ShareableContextConsumer implements Ma
   }
 
   /**
-   * @method mat3
-   * @param name {string}
-   * @param matrix {Matrix3}
-   * @param transpose {boolean}
-   * @return {void}
+   *
    */
   mat3(name: string, matrix: Matrix3, transpose: boolean) {
     const uniformLoc = this._uniforms[name]
@@ -498,11 +422,7 @@ export default class MaterialBase extends ShareableContextConsumer implements Ma
   }
 
   /**
-   * @method mat4
-   * @param name {string}
-   * @param matrix {Matrix4}
-   * @param transpose {boolean}
-   * @return {void}
+   *
    */
   mat4(name: string, matrix: Matrix4, transpose: boolean) {
     const uniformLoc = this._uniforms[name]
@@ -512,10 +432,7 @@ export default class MaterialBase extends ShareableContextConsumer implements Ma
   }
 
   /**
-   * @method vec2
-   * @param name {string}
-   * @param vector {VectorE2}
-   * @return {void}
+   *
    */
   vec2(name: string, vector: VectorE2) {
     const uniformLoc = this._uniforms[name]
@@ -525,10 +442,7 @@ export default class MaterialBase extends ShareableContextConsumer implements Ma
   }
 
   /**
-   * @method vec3
-   * @param name {string}
-   * @param vector {VectorE3}
-   * @return {void}
+   *
    */
   vec3(name: string, vector: VectorE3) {
     const uniformLoc = this._uniforms[name]
@@ -538,10 +452,7 @@ export default class MaterialBase extends ShareableContextConsumer implements Ma
   }
 
   /**
-   * @method vec4
-   * @param name {string}
-   * @param vector {VectorE4}
-   * @return {void}
+   *
    */
   vec4(name: string, vector: VectorE4) {
     const uniformLoc = this._uniforms[name]
@@ -551,10 +462,7 @@ export default class MaterialBase extends ShareableContextConsumer implements Ma
   }
 
   /**
-   * @method vector2fv
-   * @param name {string}
-   * @param data {Float32Array}
-   * @return {void}
+   *
    */
   vector2fv(name: string, data: Float32Array): void {
     const uniformLoc = this._uniforms[name]
@@ -564,10 +472,7 @@ export default class MaterialBase extends ShareableContextConsumer implements Ma
   }
 
   /**
-   * @method vector3fv
-   * @param name {string}
-   * @param data {Float32Array}
-   * @return {void}
+   *
    */
   vector3fv(name: string, data: Float32Array): void {
     const uniformLoc = this._uniforms[name]
@@ -577,10 +482,7 @@ export default class MaterialBase extends ShareableContextConsumer implements Ma
   }
 
   /**
-   * @method vector4fv
-   * @param name {string}
-   * @param data {Float32Array}
-   * @return {void}
+   *
    */
   vector4fv(name: string, data: Float32Array): void {
     const uniformLoc = this._uniforms[name]

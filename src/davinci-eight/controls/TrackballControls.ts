@@ -1,6 +1,6 @@
 import BrowserWindow from '../base/BrowserWindow'
 import Spinor3 from '../math/Spinor3'
-import Vector2 from '../math/Vector2'
+import {Vector2} from '../math/Vector2'
 import Vector3 from '../math/Vector3'
 import View from '../facets/View'
 import {ViewControls} from './ViewControls'
@@ -10,7 +10,7 @@ import {ViewControls} from './ViewControls'
  * Allows a camera to be manipulated using mouse controls.
  * </p>
  *
- * @example
+ *     // The trackball controls a View implementation such as a camera.
  *     const camera = new EIGHT.PerspectiveCamera()
  *
  *     // Create TrackballControls anytime.

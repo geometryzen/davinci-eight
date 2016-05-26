@@ -821,7 +821,7 @@ define('davinci-eight/config',["require", "exports", './core/ErrorMode'], functi
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
             this.LAST_MODIFIED = '2016-05-26';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '2.231.0';
+            this.VERSION = '2.232.0';
         }
         Object.defineProperty(Eight.prototype, "errorMode", {
             get: function () {
@@ -1836,8 +1836,7 @@ define('davinci-eight/commands/WebGLEnable',["require", "exports", '../commands/
         };
         return WebGLEnable;
     }(ShareableBase_1.ShareableBase));
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = WebGLEnable;
+    exports.WebGLEnable = WebGLEnable;
 });
 
 var __extends = (this && this.__extends) || function (d, b) {
@@ -1867,8 +1866,7 @@ define('davinci-eight/commands/WebGLDisable',["require", "exports", '../commands
         };
         return WebGLDisable;
     }(ShareableBase_1.ShareableBase));
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = WebGLDisable;
+    exports.WebGLDisable = WebGLDisable;
 });
 
 var __extends = (this && this.__extends) || function (d, b) {
@@ -1984,11 +1982,11 @@ define('davinci-eight/core/Engine',["require", "exports", '../commands/Capabilit
             return this;
         };
         Engine.prototype.disable = function (capability) {
-            this._commands.pushWeakRef(new WebGLDisable_1.default(capability));
+            this._commands.pushWeakRef(new WebGLDisable_1.WebGLDisable(capability));
             return this;
         };
         Engine.prototype.enable = function (capability) {
-            this._commands.pushWeakRef(new WebGLEnable_1.default(capability));
+            this._commands.pushWeakRef(new WebGLEnable_1.WebGLEnable(capability));
             return this;
         };
         Object.defineProperty(Engine.prototype, "gl", {
@@ -8578,8 +8576,7 @@ define('davinci-eight/math/Vector2',["require", "exports", '../math/Coords', '..
         };
         return Vector2;
     }(Coords_1.Coords));
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = Vector2;
+    exports.Vector2 = Vector2;
 });
 
 var __extends = (this && this.__extends) || function (d, b) {
@@ -8604,17 +8601,17 @@ define('davinci-eight/controls/MouseControls',["require", "exports", '../base/in
             this.maxDistance = Infinity;
             this.mode = MODE.NONE;
             this.prevMode = MODE.NONE;
-            this.moveCurr = new Vector2_1.default();
-            this.movePrev = new Vector2_1.default();
-            this.zoomStart = new Vector2_1.default();
-            this.zoomEnd = new Vector2_1.default();
-            this.panStart = new Vector2_1.default();
-            this.panEnd = new Vector2_1.default();
-            this.screenLoc = new Vector2_1.default();
-            this.circleExt = new Vector2_1.default();
-            this.screenExt = new Vector2_1.default();
-            this.mouseOnCircle = new Vector2_1.default();
-            this.mouseOnScreen = new Vector2_1.default();
+            this.moveCurr = new Vector2_1.Vector2();
+            this.movePrev = new Vector2_1.Vector2();
+            this.zoomStart = new Vector2_1.Vector2();
+            this.zoomEnd = new Vector2_1.Vector2();
+            this.panStart = new Vector2_1.Vector2();
+            this.panEnd = new Vector2_1.Vector2();
+            this.screenLoc = new Vector2_1.Vector2();
+            this.circleExt = new Vector2_1.Vector2();
+            this.screenExt = new Vector2_1.Vector2();
+            this.mouseOnCircle = new Vector2_1.Vector2();
+            this.mouseOnScreen = new Vector2_1.Vector2();
             this.setLoggingName('MouseControls');
             this.wnd = mustBeObject_1.default('wnd', wnd);
             this.mousedown = function (event) {
@@ -8784,8 +8781,7 @@ define('davinci-eight/controls/MouseControls',["require", "exports", '../base/in
         };
         return MouseControls;
     }(ShareableBase_1.ShareableBase));
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = MouseControls;
+    exports.MouseControls = MouseControls;
 });
 
 var __extends = (this && this.__extends) || function (d, b) {
@@ -8878,7 +8874,7 @@ define('davinci-eight/controls/ViewControls',["require", "exports", './MouseCont
             }
         };
         return ViewControls;
-    }(MouseControls_1.default));
+    }(MouseControls_1.MouseControls));
     exports.ViewControls = ViewControls;
 });
 
@@ -8949,7 +8945,7 @@ define('davinci-eight/controls/TrackballControls',["require", "exports", '../mat
             this.objectSidewaysDirection = new Vector3_1.default();
             this.B = Spinor3_1.default.zero();
             this.rotor = Spinor3_1.default.one();
-            this.mouseChange = new Vector2_1.default();
+            this.mouseChange = new Vector2_1.Vector2();
             this.pan = new Vector3_1.default();
             this.objectUp = new Vector3_1.default();
             this.setLoggingName('TrackballControls');
@@ -11926,7 +11922,7 @@ define('davinci-eight/facets/ReflectionFacetE2',["require", "exports", '../check
         function ReflectionFacetE2(name) {
             this.matrix = Matrix2_1.default.one();
             this.name = mustBeString_1.default('name', name);
-            this._normal = new Vector2_1.default().zero();
+            this._normal = new Vector2_1.Vector2().zero();
             this._normal.modified = true;
         }
         Object.defineProperty(ReflectionFacetE2.prototype, "normal", {
@@ -15153,7 +15149,7 @@ define('davinci-eight/facets/ModelE2',["require", "exports", '../math/Geometric2
         function ModelE2() {
             this._position = new Geometric2_1.Geometric2().zero();
             this._attitude = new Geometric2_1.Geometric2().zero().addScalar(1);
-            this._posCache = new Vector2_1.default();
+            this._posCache = new Vector2_1.Vector2();
             this._attCache = new Spinor2_1.default();
             this._position.modified = true;
             this._attitude.modified = true;
@@ -15606,7 +15602,7 @@ define('davinci-eight/geometries/transforms/Approximation',["require", "exports"
                 else if (v instanceof Spinor3_1.default) {
                     v.approx(this.n);
                 }
-                else if (v instanceof Vector2_1.default) {
+                else if (v instanceof Vector2_1.Vector2) {
                     v.approx(this.n);
                 }
                 else if (v instanceof Spinor2_1.default) {
@@ -15644,7 +15640,7 @@ define('davinci-eight/geometries/transforms/Direction',["require", "exports", '.
                 else if (v instanceof Spinor3_1.default) {
                     vertex.attributes[this.sourceName] = v.normalize();
                 }
-                else if (v instanceof Vector2_1.default) {
+                else if (v instanceof Vector2_1.Vector2) {
                     vertex.attributes[this.sourceName] = v.normalize();
                 }
                 else if (v instanceof Spinor2_1.default) {
@@ -15690,7 +15686,7 @@ define('davinci-eight/geometries/transforms/Duality',["require", "exports", '../
                     var vector = Vector3_1.default.dual(v, this.changeSign);
                     vertex.attributes[this.outputName] = vector;
                 }
-                else if (v instanceof Vector2_1.default) {
+                else if (v instanceof Vector2_1.Vector2) {
                     throw new Error(notImplemented_1.default('dual(vector: Vector2)').message);
                 }
                 else if (v instanceof Spinor2_1.default) {
@@ -15728,7 +15724,7 @@ define('davinci-eight/geometries/dataFromVectorN',["require", "exports", '../mat
             var v3 = source;
             return [v3.x, v3.y, v3.z];
         }
-        else if (source instanceof Vector2_1.default) {
+        else if (source instanceof Vector2_1.Vector2) {
             var v2 = source;
             return [v2.x, v2.y];
         }
@@ -16078,7 +16074,7 @@ define('davinci-eight/geometries/transforms/CoordsTransform2D',["require", "expo
         CoordsTransform2D.prototype.exec = function (vertex, i, j, iLength, jLength) {
             var u = i / (iLength - 1);
             var v = j / (jLength - 1);
-            vertex.attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_COORDS] = new Vector2_1.default([u, v]);
+            vertex.attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_COORDS] = new Vector2_1.Vector2([u, v]);
         };
         return CoordsTransform2D;
     }());
@@ -16479,7 +16475,7 @@ define('davinci-eight/geometries/CuboidPrimitivesBuilder',["require", "exports",
                 position.add(offset);
                 vertex.attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_POSITION] = position;
                 vertex.attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_NORMAL] = normal;
-                vertex.attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_COORDS] = new Vector2_1.default([u, v]);
+                vertex.attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_COORDS] = new Vector2_1.Vector2([u, v]);
             }
         }
         return side;
@@ -16726,7 +16722,7 @@ define('davinci-eight/geometries/dataLength',["require", "exports", '../math/Geo
             }
             return 3;
         }
-        else if (source instanceof Vector2_1.default) {
+        else if (source instanceof Vector2_1.Vector2) {
             if (source.length !== 2) {
                 throw new Error("source.length is expected to be 2");
             }
@@ -17103,7 +17099,7 @@ define('davinci-eight/geometries/CylinderBuilder',["require", "exports", '../geo
                 points.push(point);
                 tangents.push(tangent);
                 verticesRow.push(points.length - 1);
-                uvsRow.push(new Vector2_1.default([u, v]));
+                uvsRow.push(new Vector2_1.Vector2([u, v]));
             }
             vertices.push(verticesRow);
             uvs.push(uvsRow);
@@ -17162,7 +17158,7 @@ define('davinci-eight/geometries/CylinderBuilder',["require", "exports", '../geo
                     var v2 = points.length - 1;
                     var v3 = vertices[heightSegments][j];
                     var uv1 = uvs[heightSegments][j + 1].clone();
-                    var uv2 = new Vector2_1.default([uv1.x, 1]);
+                    var uv2 = new Vector2_1.Vector2([uv1.x, 1]);
                     var uv3 = uvs[heightSegments][j].clone();
                     this.triangle([points[v1], points[v2], points[v3]], [normal, normal, normal], [uv1, uv2, uv3]);
                 }
@@ -17177,7 +17173,7 @@ define('davinci-eight/geometries/CylinderBuilder',["require", "exports", '../geo
                     var v2 = points.length - 1;
                     var v3 = vertices[0][j + 1];
                     var uv1 = uvs[0][j].clone();
-                    var uv2 = new Vector2_1.default([uv1.x, 1]);
+                    var uv2 = new Vector2_1.Vector2([uv1.x, 1]);
                     var uv3 = uvs[0][j + 1].clone();
                     this.triangle([points[v1], points[v2], points[v3]], [normal, normal, normal], [uv1, uv2, uv3]);
                 }
@@ -17534,7 +17530,7 @@ define('davinci-eight/geometries/SphereBuilder',["require", "exports", '../geome
                 point.add(offset);
                 points.push(point.rotate(tilt));
                 var u = j / widthSegments;
-                uvs.push(new Vector2_1.default([u, 1 - v]));
+                uvs.push(new Vector2_1.Vector2([u, 1 - v]));
             }
         }
     }
@@ -17781,14 +17777,14 @@ define('davinci-eight/geometries/PolyhedronBuilder',["require", "exports", '../m
         var u = azimuth(point) / 2 / Math.PI + 0.5;
         var v = inclination(point) / Math.PI + 0.5;
         var something = vertex;
-        something['uv'] = new Vector2_1.default([u, 1 - v]);
+        something['uv'] = new Vector2_1.Vector2([u, 1 - v]);
         return vertex;
     }
     function correctUV(uv, vector, azimuth) {
         if ((azimuth < 0) && (uv.x === 1))
-            uv = new Vector2_1.default([uv.x - 1, uv.y]);
+            uv = new Vector2_1.Vector2([uv.x - 1, uv.y]);
         if ((vector.x === 0) && (vector.z === 0))
-            uv = new Vector2_1.default([azimuth / 2 / Math.PI + 0.5, uv.y]);
+            uv = new Vector2_1.Vector2([azimuth / 2 / Math.PI + 0.5, uv.y]);
         return uv.clone();
     }
     var PolyhedronBuilder = (function (_super) {
@@ -18312,8 +18308,7 @@ define('davinci-eight/materials/MaterialBase',["require", "exports", '../core/At
         };
         return MaterialBase;
     }(ShareableContextConsumer_1.ShareableContextConsumer));
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = MaterialBase;
+    exports.MaterialBase = MaterialBase;
 });
 
 var __extends = (this && this.__extends) || function (d, b) {
@@ -18401,7 +18396,7 @@ define('davinci-eight/materials/HTMLScriptsMaterial',["require", "exports", '../
             _super.prototype.contextGain.call(this, contextProvider);
         };
         return HTMLScriptsMaterial;
-    }(MaterialBase_1.default));
+    }(MaterialBase_1.MaterialBase));
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = HTMLScriptsMaterial;
 });
@@ -18722,9 +18717,8 @@ define('davinci-eight/materials/SmartGraphicsProgram',["require", "exports", './
             _super.prototype.destructor.call(this, levelUp + 1);
         };
         return SmartGraphicsProgram;
-    }(MaterialBase_1.default));
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = SmartGraphicsProgram;
+    }(MaterialBase_1.MaterialBase));
+    exports.SmartGraphicsProgram = SmartGraphicsProgram;
 });
 
 define('davinci-eight/materials/vColorRequired',["require", "exports", '../core/GraphicsProgramSymbols'], function (require, exports, GraphicsProgramSymbols_1) {
@@ -18792,7 +18786,7 @@ define('davinci-eight/materials/GraphicsProgramBuilder',["require", "exports", '
             var aParams = computeAttribParams(this.aMeta);
             var vColor = vColorRequired_1.default(aParams, this.uParams);
             var vLight = vLightRequired_1.default(aParams, this.uParams);
-            return new SmartGraphicsProgram_1.default(aParams, this.uParams, vColor, vLight, engine);
+            return new SmartGraphicsProgram_1.SmartGraphicsProgram(aParams, this.uParams, vColor, vLight, engine);
         };
         GraphicsProgramBuilder.prototype.vertexShaderSrc = function () {
             var aParams = computeAttribParams(this.aMeta);
@@ -18867,9 +18861,8 @@ define('davinci-eight/materials/LineMaterial',["require", "exports", '../materia
             _super.prototype.destructor.call(this, incLevel_1.default(level));
         };
         return LineMaterial;
-    }(MaterialBase_1.default));
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = LineMaterial;
+    }(MaterialBase_1.MaterialBase));
+    exports.LineMaterial = LineMaterial;
 });
 
 var __extends = (this && this.__extends) || function (d, b) {
@@ -18932,9 +18925,8 @@ define('davinci-eight/materials/MeshMaterial',["require", "exports", '../materia
             _super.prototype.destructor.call(this, incLevel_1.default(level));
         };
         return MeshMaterial;
-    }(MaterialBase_1.default));
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = MeshMaterial;
+    }(MaterialBase_1.MaterialBase));
+    exports.MeshMaterial = MeshMaterial;
 });
 
 var __extends = (this && this.__extends) || function (d, b) {
@@ -18971,7 +18963,7 @@ define('davinci-eight/materials/MeshNormalMaterial',["require", "exports", '../m
             this.setLoggingName('MeshNormalMaterial');
         }
         return MeshNormalMaterial;
-    }(MaterialBase_1.default));
+    }(MaterialBase_1.MaterialBase));
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = MeshNormalMaterial;
 });
@@ -19029,9 +19021,8 @@ define('davinci-eight/materials/PointMaterial',["require", "exports", '../materi
             _super.prototype.destructor.call(this, levelUp + 1);
         };
         return PointMaterial;
-    }(MaterialBase_1.default));
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = PointMaterial;
+    }(MaterialBase_1.MaterialBase));
+    exports.PointMaterial = PointMaterial;
 });
 
 define('davinci-eight/utils/mergeStringMapList',["require", "exports"], function (require, exports) {
@@ -19061,7 +19052,7 @@ define('davinci-eight/materials/smartProgram',["require", "exports", './fragment
         var uniforms = mergeStringMapList_1.default(uniformsList);
         var vColor = vColorRequired_1.default(attributes, uniforms);
         var vLight = vLightRequired_1.default(attributes, uniforms);
-        return new MaterialBase_1.default(vertexShaderSrc_1.default(attributes, uniforms, vColor, vLight), fragmentShaderSrc_1.default(attributes, uniforms, vColor, vLight), bindings, engine);
+        return new MaterialBase_1.MaterialBase(vertexShaderSrc_1.default(attributes, uniforms, vColor, vLight), fragmentShaderSrc_1.default(attributes, uniforms, vColor, vLight), bindings, engine);
     }
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = smartProgram;
@@ -19084,7 +19075,7 @@ define('davinci-eight/materials/programFromScripts',["require", "exports", '../c
         }
         var vertexShaderSrc = $(vsId).textContent;
         var fragmentShaderSrc = $(fsId).textContent;
-        return new MaterialBase_1.default(vertexShaderSrc, fragmentShaderSrc, attribs, engine);
+        return new MaterialBase_1.MaterialBase(vertexShaderSrc, fragmentShaderSrc, attribs, engine);
     }
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = programFromScripts;
@@ -19751,7 +19742,7 @@ define('davinci-eight/visual/Arrow',["require", "exports", '../geometries/ArrowG
             geoOptions.engine = options.engine;
             var geometry = new ArrowGeometry_1.default(geoOptions);
             var matOptions = void 0;
-            var material = new MeshMaterial_1.default(matOptions, options.engine);
+            var material = new MeshMaterial_1.MeshMaterial(matOptions, options.engine);
             this.geometry = geometry;
             this.material = material;
             geometry.release();
@@ -19887,7 +19878,7 @@ define('davinci-eight/visual/Sphere',["require", "exports", './direction', '../b
             this.geometry = geometry;
             geometry.release();
             var matOptions = void 0;
-            var material = new MeshMaterial_1.default(matOptions, options.engine);
+            var material = new MeshMaterial_1.MeshMaterial(matOptions, options.engine);
             this.material = material;
             material.release();
             if (options.color) {
@@ -19946,7 +19937,7 @@ define('davinci-eight/visual/Box',["require", "exports", '../geometries/BoxGeome
             this.geometry = geometry;
             geometry.release();
             var matOptions = void 0;
-            var material = new MeshMaterial_1.default(matOptions, options.engine);
+            var material = new MeshMaterial_1.MeshMaterial(matOptions, options.engine);
             this.material = material;
             material.release();
             if (options.color) {
@@ -20149,7 +20140,7 @@ define('davinci-eight/visual/Cylinder',["require", "exports", './direction', '..
             this.geometry = geometry;
             geometry.release();
             var matOptions = null;
-            var material = new MeshMaterial_1.default(matOptions, options.engine);
+            var material = new MeshMaterial_1.MeshMaterial(matOptions, options.engine);
             this.material = material;
             material.release();
             if (options.color) {
@@ -20503,7 +20494,7 @@ define('davinci-eight/visual/Curve',["require", "exports", '../core/DrawMode', '
         matOptions.uniforms[GraphicsProgramSymbols_1.default.UNIFORM_PROJECTION_MATRIX] = 'mat4';
         matOptions.uniforms[GraphicsProgramSymbols_1.default.UNIFORM_VIEW_MATRIX] = 'mat4';
         matOptions.uniforms[GraphicsProgramSymbols_1.default.UNIFORM_POINT_SIZE] = 'float';
-        var material = new PointMaterial_1.default(matOptions, options.engine);
+        var material = new PointMaterial_1.PointMaterial(matOptions, options.engine);
         curve.material = material;
         material.release();
     }
@@ -20532,7 +20523,7 @@ define('davinci-eight/visual/Curve',["require", "exports", '../core/DrawMode', '
         matOptions.uniforms[GraphicsProgramSymbols_1.default.UNIFORM_MODEL_MATRIX] = 'mat4';
         matOptions.uniforms[GraphicsProgramSymbols_1.default.UNIFORM_PROJECTION_MATRIX] = 'mat4';
         matOptions.uniforms[GraphicsProgramSymbols_1.default.UNIFORM_VIEW_MATRIX] = 'mat4';
-        var material = new LineMaterial_1.default(matOptions, options.engine);
+        var material = new LineMaterial_1.LineMaterial(matOptions, options.engine);
         curve.material = material;
         material.release();
     }
@@ -20677,7 +20668,7 @@ define('davinci-eight/visual/Grid',["require", "exports", '../core/DrawMode', '.
         matOptions.uniforms[GraphicsProgramSymbols_1.default.UNIFORM_PROJECTION_MATRIX] = 'mat4';
         matOptions.uniforms[GraphicsProgramSymbols_1.default.UNIFORM_VIEW_MATRIX] = 'mat4';
         matOptions.uniforms[GraphicsProgramSymbols_1.default.UNIFORM_POINT_SIZE] = 'float';
-        var material = new PointMaterial_1.default(matOptions, options.engine);
+        var material = new PointMaterial_1.PointMaterial(matOptions, options.engine);
         grid.material = material;
         material.release();
     }
@@ -20709,7 +20700,7 @@ define('davinci-eight/visual/Grid',["require", "exports", '../core/DrawMode', '.
         matOptions.uniforms[GraphicsProgramSymbols_1.default.UNIFORM_MODEL_MATRIX] = 'mat4';
         matOptions.uniforms[GraphicsProgramSymbols_1.default.UNIFORM_PROJECTION_MATRIX] = 'mat4';
         matOptions.uniforms[GraphicsProgramSymbols_1.default.UNIFORM_VIEW_MATRIX] = 'mat4';
-        var material = new LineMaterial_1.default(matOptions, options.engine);
+        var material = new LineMaterial_1.LineMaterial(matOptions, options.engine);
         grid.material = material;
         material.release();
     }
@@ -20756,7 +20747,7 @@ define('davinci-eight/visual/Grid',["require", "exports", '../core/DrawMode', '.
         matOptions.uniforms[GraphicsProgramSymbols_1.default.UNIFORM_PROJECTION_MATRIX] = 'mat4';
         matOptions.uniforms[GraphicsProgramSymbols_1.default.UNIFORM_VIEW_MATRIX] = 'mat4';
         matOptions.uniforms[GraphicsProgramSymbols_1.default.UNIFORM_AMBIENT_LIGHT] = 'vec3';
-        var material = new MeshMaterial_1.default(matOptions, options.engine);
+        var material = new MeshMaterial_1.MeshMaterial(matOptions, options.engine);
         grid.material = material;
         material.release();
     }
@@ -20815,7 +20806,7 @@ define('davinci-eight/visual/Tetrahedron',["require", "exports", '../core/Mesh',
             geoOptions.engine = options.engine;
             var geometry = new TetrahedronGeometry_1.default(geoOptions);
             var matOptions = null;
-            var material = new MeshMaterial_1.default(matOptions, options.engine);
+            var material = new MeshMaterial_1.MeshMaterial(matOptions, options.engine);
             this.geometry = geometry;
             this.material = material;
             geometry.release();
@@ -21353,17 +21344,17 @@ define('davinci-eight',["require", "exports", './davinci-eight/base/AnimationApp
         get BrowserApp() { return BrowserApp_1.default; },
         get EngineApp() { return EngineApp_1.default; },
         get HTMLScriptsMaterial() { return HTMLScriptsMaterial_1.default; },
-        get LineMaterial() { return LineMaterial_1.default; },
-        get MeshMaterial() { return MeshMaterial_1.default; },
+        get LineMaterial() { return LineMaterial_1.LineMaterial; },
+        get MeshMaterial() { return MeshMaterial_1.MeshMaterial; },
         get MeshNormalMaterial() { return MeshNormalMaterial_1.default; },
-        get PointMaterial() { return PointMaterial_1.default; },
+        get PointMaterial() { return PointMaterial_1.PointMaterial; },
         get GraphicsProgramBuilder() { return GraphicsProgramBuilder_1.default; },
         get BlendFactor() { return BlendFactor_1.default; },
         get Capability() { return Capability_1.default; },
         get WebGLBlendFunc() { return WebGLBlendFunc_1.default; },
         get WebGLClearColor() { return WebGLClearColor_1.WebGLClearColor; },
-        get WebGLDisable() { return WebGLDisable_1.default; },
-        get WebGLEnable() { return WebGLEnable_1.default; },
+        get WebGLDisable() { return WebGLDisable_1.WebGLDisable; },
+        get WebGLEnable() { return WebGLEnable_1.WebGLEnable; },
         get ModelE2() { return ModelE2_1.default; },
         get ModelE3() { return ModelE3_1.default; },
         get ModelFacet() { return ModelFacet_1.ModelFacet; },
@@ -21421,7 +21412,7 @@ define('davinci-eight',["require", "exports", './davinci-eight/base/AnimationApp
         get Vector1() { return Vector1_1.default; },
         get Spinor2() { return Spinor2_1.default; },
         get Spinor3() { return Spinor3_1.default; },
-        get Vector2() { return Vector2_1.default; },
+        get Vector2() { return Vector2_1.Vector2; },
         get Vector3() { return Vector3_1.default; },
         get Vector4() { return Vector4_1.default; },
         get VectorN() { return VectorN_1.VectorN; },

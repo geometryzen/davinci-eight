@@ -8,7 +8,7 @@ import mustBeNumber from '../checks/mustBeNumber';
 import mustBeString from '../checks/mustBeString';
 import Perspective from './Perspective';
 import {Facet} from '../core/Facet';
-import FacetVisitor from '../core/FacetVisitor';
+import {FacetVisitor} from '../core/FacetVisitor';
 import VectorE3 from '../math/VectorE3';
 
 /**

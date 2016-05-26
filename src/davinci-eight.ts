@@ -19,8 +19,8 @@ import BlendFactor from './davinci-eight/commands/BlendFactor';
 import WebGLBlendFunc from './davinci-eight/commands/WebGLBlendFunc';
 import {WebGLClearColor} from './davinci-eight/commands/WebGLClearColor';
 import Capability from './davinci-eight/commands/Capability';
-import WebGLDisable from './davinci-eight/commands/WebGLDisable';
-import WebGLEnable from './davinci-eight/commands/WebGLEnable';
+import {WebGLDisable} from './davinci-eight/commands/WebGLDisable';
+import {WebGLEnable} from './davinci-eight/commands/WebGLEnable';
 
 // controls
 import {OrbitControls} from './davinci-eight/controls/OrbitControls'
@@ -42,7 +42,7 @@ import GeometryContainer from './davinci-eight/core/GeometryContainer';
 import GeometryElements from './davinci-eight/core/GeometryElements';
 import GraphicsProgramSymbols from './davinci-eight/core/GraphicsProgramSymbols';
 import {Facet} from './davinci-eight/core/Facet';
-import FacetVisitor from './davinci-eight/core/FacetVisitor';
+import {FacetVisitor} from './davinci-eight/core/FacetVisitor';
 import {Mesh} from './davinci-eight/core/Mesh';
 import {Scene} from './davinci-eight/core/Scene';
 import UniformLocation from './davinci-eight/core/UniformLocation';
@@ -126,11 +126,11 @@ import arc3 from './davinci-eight/geometries/arc3';
 
 // materials
 import HTMLScriptsMaterial from './davinci-eight/materials/HTMLScriptsMaterial';
-import LineMaterial from './davinci-eight/materials/LineMaterial';
-import MaterialBase from './davinci-eight/materials/MaterialBase';
-import MeshMaterial from './davinci-eight/materials/MeshMaterial';
+import {LineMaterial} from './davinci-eight/materials/LineMaterial';
+import {MaterialBase} from './davinci-eight/materials/MaterialBase';
+import {MeshMaterial} from './davinci-eight/materials/MeshMaterial';
 import MeshNormalMaterial from './davinci-eight/materials/MeshNormalMaterial';
-import PointMaterial from './davinci-eight/materials/PointMaterial';
+import {PointMaterial} from './davinci-eight/materials/PointMaterial';
 import GraphicsProgramBuilder from './davinci-eight/materials/GraphicsProgramBuilder';
 import smartProgram from './davinci-eight/materials/smartProgram';
 import programFromScripts from './davinci-eight/materials/programFromScripts';
@@ -167,7 +167,7 @@ import {Geometric2} from './davinci-eight/math/Geometric2';
 import {Geometric3} from './davinci-eight/math/Geometric3';
 import Spinor2 from './davinci-eight/math/Spinor2';
 import Spinor3 from './davinci-eight/math/Spinor3';
-import Vector2 from './davinci-eight/math/Vector2';
+import {Vector2} from './davinci-eight/math/Vector2';
 import Vector3 from './davinci-eight/math/Vector3';
 import Vector4 from './davinci-eight/math/Vector4';
 import {VectorN} from './davinci-eight/math/VectorN';

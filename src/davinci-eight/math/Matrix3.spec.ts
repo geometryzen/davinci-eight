@@ -1,5 +1,5 @@
 import Matrix3 from './Matrix3'
-import Vector2 from './Vector2'
+import {Vector2} from './Vector2'
 import Vector3 from './Vector3'
 
 // Accept some loss of accuracy due to using Float32Array.

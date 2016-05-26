@@ -6,128 +6,94 @@ import Matrix3 from '../math/Matrix3';
 import Matrix4 from '../math/Matrix4';
 
 /**
- * @module EIGHT
- * @submodule core
+ *
  */
-
-/**
- * @class FacetVisitor
- * @beta
- */
-interface FacetVisitor {
+export interface FacetVisitor {
 
     /**
-     * @method mat2
-     * @param name {string}
-     * @param matrix {Matrix2}
-     * @param [transpose = false] {boolean}
-     * @return {void}
+     * @param name
+     * @param matrix
+     * @param transpose
      */
     mat2(name: string, matrix: Matrix2, transpose: boolean): void;
 
     /**
-     * @method mat3
-     * @param name {string}
-     * @param matrix {Matrix3}
-     * @param [transpose = false] {boolean}
-     * @return {void}
+     * @param name
+     * @param matrix
+     * @param transpose
      */
     mat3(name: string, matrix: Matrix3, transpose: boolean): void;
 
     /**
-     * @method mat4
-     * @param name {string}
-     * @param matrix {Matrix4}
-     * @param [transpose = false] {boolean}
-     * @return {void}
+     * @param name
+     * @param matrix
+     * @param transpose
      */
     mat4(name: string, matrix: Matrix4, transpose: boolean): void;
 
     /**
-     * @method uniform1f
-     * @param name {string}
-     * @param x {number}
-     * @return {void}
+     * @param name
+     * @param x
      */
     uniform1f(name: string, x: number): void;
 
     /**
-     * @method uniform2f
-     * @param name {string}
-     * @param x {number}
-     * @param y {number}
-     * @return {void}
+     * @param name
+     * @param x
+     * @param y
      */
     uniform2f(name: string, x: number, y: number): void;
 
     /**
-     * @method uniform3f
-     * @param name {string}
-     * @param x {number}
-     * @param y {number}
-     * @param z {number}
-     * @return {void}
+     * @param name
+     * @param x
+     * @param y
+     * @param z
      */
     uniform3f(name: string, x: number, y: number, z: number): void;
 
     /**
-     * @method uniform4f
-     * @param name {string}
-     * @param x {number}
-     * @param y {number}
-     * @param z {number}
-     * @param w {number}
-     * @return {void}
+     * @param name
+     * @param x
+     * @param y
+     * @param z
+     * @param w
      */
     uniform4f(name: string, x: number, y: number, z: number, w: number): void;
 
     /**
-     * @method vec2
-     * @param name {string}
-     * @param vector {VectorE2}
-     * @return {void}
+     * @param name
+     * @param vector
      */
     vec2(name: string, vector: VectorE2): void;
 
     /**
-     * @method vec3
-     * @param name {string}
-     * @param vector {VectorE3}
-     * @return {void}
+     * @param name
+     * @param vector
      */
     vec3(name: string, vector: VectorE3): void;
 
     /**
-     * @method vec4
-     * @param name {string}
-     * @param vector {VectorE4}
-     * @return {void}
+     * @param name
+     * @param vector
      */
     vec4(name: string, vector: VectorE4): void;
 
     /**
-     * @method vector2fv
-     * @param name {string}
-     * @param data {Float32Array}
-     * @return {void}
+     * @param name
+     * @param data
      */
     vector2fv(name: string, data: Float32Array): void;
 
     /**
-     * @method vector3fv
-     * @param name {string}
-     * @param data {Float32Array}
-     * @return {void}
+     * @param name
+     * @param data
      */
     vector3fv(name: string, data: Float32Array): void;
 
     /**
-     * @method vector4fv
-     * @param name {string}
-     * @param data {Float32Array}
-     * @return {void}
+     * @param name
+     * @param data
      */
     vector4fv(name: string, data: Float32Array): void;
 }
-
-export default FacetVisitor;

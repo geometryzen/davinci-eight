@@ -17,8 +17,8 @@ import {ShareableBase} from './ShareableBase';
 import VersionLogger from '../commands/VersionLogger';
 import VertexBufferManager from './VertexBufferManager';
 import {WebGLClearColor} from '../commands/WebGLClearColor';
-import WebGLEnable from '../commands/WebGLEnable';
-import WebGLDisable from '../commands/WebGLDisable';
+import {WebGLEnable} from '../commands/WebGLEnable';
+import {WebGLDisable} from '../commands/WebGLDisable';
 
 /**
  *

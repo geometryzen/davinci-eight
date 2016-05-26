@@ -13,7 +13,7 @@ import {ShareableBase} from '../core/ShareableBase';
  * @extends ShareableBase
  * @implements ContextConsumer
  */
-export default class WebGLEnable extends ShareableBase implements ContextConsumer {
+export class WebGLEnable extends ShareableBase implements ContextConsumer {
   private _capability: Capability;
 
   /**

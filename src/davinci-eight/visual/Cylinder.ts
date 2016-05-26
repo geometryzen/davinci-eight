@@ -4,7 +4,7 @@ import CylinderGeometryOptions from '../geometries/CylinderGeometryOptions'
 import CylinderOptions from './CylinderOptions'
 import incLevel from '../base/incLevel';
 import isDefined from '../checks/isDefined'
-import MeshMaterial from '../materials/MeshMaterial'
+import {MeshMaterial} from '../materials/MeshMaterial'
 import MeshMaterialOptions from '../materials/MeshMaterialOptions'
 import mustBeNumber from '../checks/mustBeNumber'
 import {RigidBody} from './RigidBody'

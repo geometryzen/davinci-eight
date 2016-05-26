@@ -2,7 +2,7 @@ import VectorE3 from '../math/VectorE3';
 import Simplex from './Simplex';
 import SimplexPrimitivesBuilder from './SimplexPrimitivesBuilder';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
-import Vector2 from '../math/Vector2';
+import {Vector2} from '../math/Vector2';
 import Vector3 from '../math/Vector3';
 import mustBeFunction from '../checks/mustBeFunction';
 import mustBeInteger from '../checks/mustBeInteger';

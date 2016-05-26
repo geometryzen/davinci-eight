@@ -1,5 +1,5 @@
 import {Engine} from '../core/Engine'
-import MeshMaterial from './MeshMaterial'
+import {MeshMaterial} from './MeshMaterial'
 import MeshMaterialOptions from '../materials/MeshMaterialOptions'
 
 describe("MeshMaterial", function() {

@@ -1,5 +1,5 @@
 import {Engine} from '../core/Engine'
-import Geometry from '../core/Geometry'
+import {Geometry} from '../core/Geometry'
 import Primitive from '../core/Primitive'
 import {Geometric3} from '../math/Geometric3'
 import Vector3 from '../math/Vector3'

@@ -2,7 +2,7 @@ import {Drawable} from './Drawable'
 import {Engine} from './Engine'
 import refChange from './refChange'
 import BoxGeometry from '../geometries/BoxGeometry'
-import MeshMaterial from '../materials/MeshMaterial'
+import {MeshMaterial} from '../materials/MeshMaterial'
 import MeshMaterialOptions from '../materials/MeshMaterialOptions'
 
 describe("Drawable", function() {

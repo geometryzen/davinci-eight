@@ -3,9 +3,9 @@ import {Engine} from '../core/Engine';
 import exchange from '../base/exchange';
 import isObject from '../checks/isDefined';
 import mustBeBoolean from '../checks/mustBeBoolean';
-import Geometry from './Geometry';
+import {Geometry} from './Geometry';
 import {AbstractDrawable} from './AbstractDrawable';
-import Material from './Material';
+import {Material} from './Material';
 import {ShareableContextConsumer} from '../core/ShareableContextConsumer';
 import {Facet} from '../core/Facet';
 

@@ -1,12 +1,12 @@
 import {Engine} from '../core/Engine';
 import fShaderSrc from './fragmentShaderSrc';
-import MaterialBase from './MaterialBase';
+import {MaterialBase} from './MaterialBase';
 import vShaderSrc from './vertexShaderSrc';
 
 /**
  *
  */
-export default class SmartGraphicsProgram extends MaterialBase {
+export class SmartGraphicsProgram extends MaterialBase {
   constructor(
     aParams: { [name: string]: { glslType: string } },
     uParams: { [name: string]: { glslType: string } },

@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>ArrowOptions | EIGHT 2.231.0</title>
+	<title>ArrowOptions | EIGHT 2.232.0</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -23,7 +23,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="../index.html" class="title">EIGHT 2.231.0</a>
+					<a href="../index.html" class="title">EIGHT 2.232.0</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -70,18 +70,6 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<dl class="tsd-comment-tags">
-						<dt>class</dt>
-						<dd><p>ArrowOptions</p>
-						</dd>
-						<dt>extends</dt>
-						<dd><p>VisualOptions</p>
-						</dd>
-					</dl>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -123,7 +111,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_visual_visualoptions_.visualoptions.html">VisualOptions</a>.<a href="_visual_visualoptions_.visualoptions.html#attitude">attitude</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/visual/VisualOptions.ts#L26">visual/VisualOptions.ts:26</a></li>
+							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/visual/VisualOptions.ts#L18">visual/VisualOptions.ts:18</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -133,14 +121,6 @@
 							</p>
 						</div>
 						<dl class="tsd-comment-tags">
-							<dt>attribute</dt>
-							<dd><p>attitude</p>
-							</dd>
-							<dt>type</dt>
-							<dd><p>SpinorE3</p>
-							</dd>
-							<dt>optional</dt>
-							<dd></dd>
 							<dt>default</dt>
 							<dd><p>1</p>
 							</dd>
@@ -154,21 +134,9 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_visual_visualoptions_.visualoptions.html">VisualOptions</a>.<a href="_visual_visualoptions_.visualoptions.html#color">color</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/visual/VisualOptions.ts#L33">visual/VisualOptions.ts:33</a></li>
+							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/visual/VisualOptions.ts#L23">visual/VisualOptions.ts:23</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<dl class="tsd-comment-tags">
-							<dt>attribute</dt>
-							<dd><p>color</p>
-							</dd>
-							<dt>type</dt>
-							<dd><p>AbstractColor</p>
-							</dd>
-							<dt>optional</dt>
-							<dd></dd>
-						</dl>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-not-exported">
 					<a name="engine" class="tsd-anchor"></a>
@@ -177,21 +145,9 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_visual_visualoptions_.visualoptions.html">VisualOptions</a>.<a href="_visual_visualoptions_.visualoptions.html#engine">engine</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/visual/VisualOptions.ts#L40">visual/VisualOptions.ts:40</a></li>
+							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/visual/VisualOptions.ts#L28">visual/VisualOptions.ts:28</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<dl class="tsd-comment-tags">
-							<dt>attribute</dt>
-							<dd><p>engine</p>
-							</dd>
-							<dt>type</dt>
-							<dd><p>Engine</p>
-							</dd>
-							<dt>optional</dt>
-							<dd></dd>
-						</dl>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-not-exported">
 					<a name="offset" class="tsd-anchor"></a>
@@ -200,19 +156,17 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_visual_visualoptions_.visualoptions.html">VisualOptions</a>.<a href="_visual_visualoptions_.visualoptions.html#offset">offset</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/visual/VisualOptions.ts#L48">visual/VisualOptions.ts:48</a></li>
+							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/visual/VisualOptions.ts#L38">visual/VisualOptions.ts:38</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>
+								Displacement (vector) to be applied to the geometry at construction time to establish the reference location.
+								This cannot be changed once the object has been created because it is burned-in to the vertex locations.
+							</p>
+						</div>
 						<dl class="tsd-comment-tags">
-							<dt>attribute</dt>
-							<dd><p>offset</p>
-							</dd>
-							<dt>type</dt>
-							<dd><p>VectorE3</p>
-							</dd>
-							<dt>optional</dt>
-							<dd></dd>
 							<dt>default</dt>
 							<dd><p>0</p>
 							</dd>
@@ -226,7 +180,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_visual_visualoptions_.visualoptions.html">VisualOptions</a>.<a href="_visual_visualoptions_.visualoptions.html#position">position</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/visual/VisualOptions.ts#L60">visual/VisualOptions.ts:60</a></li>
+							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/visual/VisualOptions.ts#L47">visual/VisualOptions.ts:47</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -236,14 +190,6 @@
 							</p>
 						</div>
 						<dl class="tsd-comment-tags">
-							<dt>attribute</dt>
-							<dd><p>position</p>
-							</dd>
-							<dt>type</dt>
-							<dd><p>VectorE3</p>
-							</dd>
-							<dt>optional</dt>
-							<dd></dd>
 							<dt>default</dt>
 							<dd><p>0</p>
 							</dd>
@@ -257,19 +203,17 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_visual_visualoptions_.visualoptions.html">VisualOptions</a>.<a href="_visual_visualoptions_.visualoptions.html#tilt">tilt</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/visual/VisualOptions.ts#L68">visual/VisualOptions.ts:68</a></li>
+							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/visual/VisualOptions.ts#L57">visual/VisualOptions.ts:57</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>
+								Rotation (spinor) to be applied to the geometry at construction time to establish the reference orientation.
+								This cannot be changed once the object has been created because it is burned-in to the vertex locations.
+							</p>
+						</div>
 						<dl class="tsd-comment-tags">
-							<dt>attribute</dt>
-							<dd><p>tilt</p>
-							</dd>
-							<dt>type</dt>
-							<dd><p>SpinorE3</p>
-							</dd>
-							<dt>optional</dt>
-							<dd></dd>
 							<dt>default</dt>
 							<dd><p>1</p>
 							</dd>
@@ -282,21 +226,13 @@
 					<div class="tsd-signature tsd-kind-icon">vector<span class="tsd-signature-symbol">:</span> <a href="_math_vectore3_.vectore3.html" class="tsd-signature-type">VectorE3</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/visual/ArrowOptions.ts#L21">visual/ArrowOptions.ts:21</a></li>
+							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/visual/ArrowOptions.ts#L12">visual/ArrowOptions.ts:12</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<dl class="tsd-comment-tags">
-							<dt>attribute</dt>
-							<dd><p>vector</p>
-							</dd>
-							<dt>type</dt>
-							<dd><p>VectorE3</p>
-							</dd>
-							<dt>optional</dt>
-							<dd></dd>
 							<dt>default</dt>
-							<dd><p>e2</p>
+							<dd><p><b>e</b><sub>2</sub></p>
 							</dd>
 						</dl>
 					</div>

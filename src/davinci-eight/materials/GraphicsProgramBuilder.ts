@@ -4,7 +4,7 @@ import glslAttribType from './glslAttribType';
 import mustBeInteger from '../checks/mustBeInteger';
 import mustBeString from '../checks/mustBeString';
 import Primitive from '../core/Primitive';
-import SmartGraphicsProgram from '../materials/SmartGraphicsProgram';
+import {SmartGraphicsProgram} from '../materials/SmartGraphicsProgram';
 import vColorRequired from './vColorRequired';
 import vLightRequired from './vLightRequired';
 import fragmentShaderSrc from './fragmentShaderSrc';

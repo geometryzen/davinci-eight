@@ -5,7 +5,7 @@ import incLevel from '../base/incLevel'
 import isDefined from '../checks/isDefined';
 import isNull from '../checks/isNull';
 import isUndefined from '../checks/isUndefined';
-import MaterialBase from './MaterialBase';
+import {MaterialBase} from './MaterialBase';
 import MeshMaterialOptions from './MeshMaterialOptions';
 import mustBeObject from '../checks/mustBeObject';
 
@@ -75,7 +75,7 @@ function fragmentShaderSrc(options?: MeshMaterialOptions): string {
  * @class MeshMaterial
  * @extends MaterialBase
  */
-export default class MeshMaterial extends MaterialBase {
+export class MeshMaterial extends MaterialBase {
 
   /**
    * 

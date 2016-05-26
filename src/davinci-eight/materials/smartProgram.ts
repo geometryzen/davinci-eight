@@ -3,7 +3,7 @@ import {Engine} from '../core/Engine';
 import fragmentShaderSrc from './fragmentShaderSrc';
 import mergeStringMapList from '../utils/mergeStringMapList';
 import mustBeDefined from '../checks/mustBeDefined';
-import MaterialBase from './MaterialBase';
+import {MaterialBase} from './MaterialBase';
 import UniformMetaInfo from '../core/UniformMetaInfo';
 import vColorRequired from './vColorRequired';
 import vertexShaderSrc from './vertexShaderSrc';

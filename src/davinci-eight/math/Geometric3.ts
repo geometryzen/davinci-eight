@@ -377,9 +377,8 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3, Muta
   }
 
   /**
-   * @method distanceTo
-   * @param point {VectorE3}
-   * @return {number}
+   * @param point
+   * @returns
    */
   distanceTo(point: VectorE3): number {
     if (isDefined(point)) {
@@ -391,9 +390,8 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3, Muta
   }
 
   /**
-   * @method quadranceTo
-   * @param point {VectorE3}
-   * @return {number}
+   * @param point
+   * @returns
    */
   quadranceTo(point: VectorE3): number {
     if (isDefined(point)) {
@@ -827,7 +825,6 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3, Muta
    * </p>
    *
    * @returns <code>this</code>
-   * @chainable
    */
   log() {
     const α = this.α
@@ -882,7 +879,6 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3, Muta
    * @param a
    * @param b
    * @returns <code>this</code>
-   * @chainable
    */
   mul2(a: GeometricE3, b: GeometricE3): Geometric3 {
     mulG3(a, b, this._coords)
@@ -895,7 +891,6 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3, Muta
    * </p>
    *
    * @returns <code>this</code>
-   * @chainable
    */
   neg() {
     this.α = -this.α
@@ -915,7 +910,6 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3, Muta
    * </p>
    *
    * @returns <code>this</code>
-   * @chainable
    */
   norm(): Geometric3 {
     this.α = this.magnitudeSansUnits()
@@ -940,7 +934,6 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3, Muta
    * </p>
    *
    * @returns <code>this</code>
-   * @chainable
    */
   normalize(): Geometric3 {
     const norm: number = this.magnitude()
@@ -961,7 +954,6 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3, Muta
    * Sets this multivector to the identity element for multiplication, <b>1</b>.
    *
    * @returns
-   * @chainable
    */
   one() {
     this.α = 1
@@ -981,7 +973,6 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3, Muta
    * </p>
    *
    * @returns <code>this</code>
-   * @chainable
    */
   quad(): Geometric3 {
     this.α = this.squaredNormSansUnits()
@@ -1016,9 +1007,8 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3, Muta
    *
    * @param n
    * @returns <code>this</code>
-   * @chainable
    */
-  reflect(n: VectorE3): Geometric3 {
+  reflect(n: VectorE3) {
     // TODO: Optimize.
     let N = G3.fromVector(n);
     let M = G3.copy(this);
@@ -1033,7 +1023,6 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3, Muta
    * </p>
    *
    * @returns <code>this</code>
-   * @chainable
    */
   rev() {
     // reverse has a ++-- structure on the grades.
@@ -1051,7 +1040,7 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3, Muta
   /**
    * @returns
    */
-  __tilde__(): Geometric3 {
+  __tilde__() {
     return Geometric3.copy(this).rev()
   }
 
@@ -1062,7 +1051,6 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3, Muta
    *
    * @param R
    * @returns <code>this</code>
-   * @chainable
    */
   rotate(R: SpinorE3) {
     // FIXME: This only rotates the vector components.
@@ -1096,7 +1084,6 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3, Muta
    * @param a The starting unit vector
    * @param b The ending unit vector
    * @returns <code>this</code> The rotor representing a rotation from a to b.
-   * @chainable
    */
   rotorFromDirections(a: VectorE3, b: VectorE3) {
     rotorFromDirections(a, b, this)
@@ -1111,7 +1098,6 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3, Muta
    * @param B
    * @param θ The rotation angle when applied on both sides: R M ~R
    * @returns <code>this</code>
-   * @chainable
    */
   rotorFromGeneratorAngle(B: SpinorE3, θ: number) {
     const φ = θ / 2
@@ -1139,7 +1125,6 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3, Muta
    *
    * @param m
    * @returns <code>this</code>
-   * @chainable
    */
   scp(m: GeometricE3) {
     return this.scp2(this, m)
@@ -1153,7 +1138,6 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3, Muta
    * @param a
    * @param b
    * @returns <code>this</code>
-   * @chainable
    */
   scp2(a: GeometricE3, b: GeometricE3) {
     return scpG3(a, b, this)
@@ -1184,7 +1168,6 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3, Muta
    * @param target
    * @param α
    * @returns
-   * @chainable
    */
   slerp(target: GeometricE3, α: number) {
     // TODO
@@ -1196,7 +1179,6 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3, Muta
    *
    * @param σ
    * @returns
-   * @chainable
    */
   stress(σ: VectorE3) {
     this.x *= σ.x
@@ -1241,7 +1223,6 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3, Muta
    * @param M
    * @param α
    * @returns <code>this</code>
-   * @chainable
    */
   sub(M: GeometricE3, α = 1) {
     this.α -= M.α * α
@@ -1263,7 +1244,6 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3, Muta
    * @param v
    * @param α
    * @returns <code>this</code>
-   * @chainable
    */
   subVector(v: VectorE3, α = 1) {
     this.x -= v.x * α
@@ -1280,7 +1260,6 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3, Muta
    * @param a
    * @param b
    * @returns <code>this</code>
-   * @chainable
    */
   sub2(a: GeometricE3, b: GeometricE3) {
     this.α = a.α - b.α
@@ -1339,7 +1318,6 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3, Muta
   /**
    * @param grade
    * @returns
-   * @chainable
    */
   grade(grade: number) {
     switch (grade) {
@@ -1400,7 +1378,6 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3, Muta
    *
    * @param m
    * @returns <code>this</code>
-   * @chainable
    */
   ext(m: GeometricE3) {
     return this.ext2(this, m)
@@ -1414,7 +1391,6 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3, Muta
    * @param a
    * @param b
    * @returns <code>this</code>
-   * @chainable
    */
   ext2(a: GeometricE3, b: GeometricE3) {
     return extG3(a, b, this)
@@ -1424,7 +1400,6 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3, Muta
    * Sets this multivector to the identity element for addition, <b>0</b>.
    *
    * @returns
-   * @chainable
    */
   zero() {
     this.α = 0
@@ -1441,9 +1416,8 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3, Muta
   /**
    * @param rhs
    * @returns
-   * @private
    */
-  __add__(rhs: number | CartesianG3): Geometric3 {
+  __add__(rhs: number | CartesianG3) {
     const duckR = maskG3(rhs)
     if (duckR) {
       return this.clone().add(duckR)
@@ -1456,7 +1430,6 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3, Muta
   /**
    * @param rhs
    * @returns
-   * @private
    */
   __div__(rhs: number | CartesianG3) {
     const duckR = maskG3(rhs)
@@ -1471,7 +1444,6 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3, Muta
   /**
    * @param lhs
    * @returns
-   * @private
    */
   __rdiv__(lhs: number | Geometric3) {
     if (lhs instanceof Geometric3) {
@@ -1488,7 +1460,6 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3, Muta
   /**
    * @param rhs
    * @returns
-   * @private
    */
   __mul__(rhs: number | CartesianG3) {
     const duckR = maskG3(rhs)
@@ -1503,7 +1474,6 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3, Muta
   /**
    * @param lhs
    * @returns
-   * @private
    */
   __rmul__(lhs: number | Geometric3) {
     if (lhs instanceof Geometric3) {
@@ -1520,7 +1490,6 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3, Muta
   /**
    * @param lhs
    * @returns
-   * @private
    */
   __radd__(lhs: number | Geometric3) {
     if (lhs instanceof Geometric3) {
@@ -1537,9 +1506,8 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3, Muta
   /**
    * @param rhs
    * @returns
-   * @private
    */
-  __sub__(rhs: number | CartesianG3): Geometric3 {
+  __sub__(rhs: number | CartesianG3) {
     const duckR = maskG3(rhs)
     if (duckR) {
       return this.clone().sub(duckR)
@@ -1552,7 +1520,6 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3, Muta
   /**
    * @param lhs
    * @returns
-   * @private
    */
   __rsub__(lhs: number | Geometric3) {
     if (lhs instanceof Geometric3) {
@@ -1569,7 +1536,6 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3, Muta
   /**
    * @param rhs
    * @returns
-   * @private
    */
   __wedge__(rhs: number | Geometric3) {
     if (rhs instanceof Geometric3) {
@@ -1587,7 +1553,6 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3, Muta
   /**
    * @param lhs
    * @returns
-   * @private
    */
   __rwedge__(lhs: number | Geometric3) {
     if (lhs instanceof Geometric3) {
@@ -1605,7 +1570,6 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3, Muta
   /**
    * @param rhs
    * @returns
-   * @private
    */
   __lshift__(rhs: number | Geometric3) {
     if (rhs instanceof Geometric3) {
@@ -1622,7 +1586,6 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3, Muta
   /**
    * @param other
    * @returns
-   * @private
    */
   __rlshift__(lhs: number | Geometric3) {
     if (lhs instanceof Geometric3) {
@@ -1639,7 +1602,6 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3, Muta
   /**
    * @param rhs
    * @returns
-   * @private
    */
   __rshift__(rhs: number | Geometric3) {
     if (rhs instanceof Geometric3) {
@@ -1656,7 +1618,6 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3, Muta
   /**
    * @param other
    * @returns
-   * @private
    */
   __rrshift__(lhs: number | Geometric3) {
     if (lhs instanceof Geometric3) {
@@ -1673,7 +1634,6 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3, Muta
   /**
    * @param rhs
    * @returns
-   * @private
    */
   __vbar__(rhs: number | Geometric3) {
     if (rhs instanceof Geometric3) {
@@ -1690,7 +1650,6 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3, Muta
   /**
    * @param lhs
    * @returns
-   * @private
    */
   __rvbar__(lhs: number | Geometric3) {
     if (lhs instanceof Geometric3) {
@@ -1706,8 +1665,6 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3, Muta
 
   /**
    * @returns
-   * @private
-   * @chainable
    */
   __bang__(): Geometric3 {
     return Geometric3.copy(this).inv()
@@ -1715,8 +1672,6 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3, Muta
 
   /**
    * @returns
-   * @private
-   * @chainable
    */
   __pos__() {
     return Geometric3.copy(this)/*.pos()*/
@@ -1724,8 +1679,6 @@ export class Geometric3 extends Coords implements CartesianG3, GeometricE3, Muta
 
   /**
    * @returns
-   * @private
-   * @chainable
    */
   __neg__() {
     return Geometric3.copy(this).neg()

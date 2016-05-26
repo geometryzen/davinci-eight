@@ -1,6 +1,6 @@
 import SimplexPrimitivesBuilder from '../geometries/SimplexPrimitivesBuilder';
 import Spinor3 from '../math/Spinor3';
-import Vector2 from '../math/Vector2';
+import {Vector2} from '../math/Vector2';
 import Vector3 from '../math/Vector3';
 
 export default class RevolutionSimplexPrimitivesBuilder extends SimplexPrimitivesBuilder {

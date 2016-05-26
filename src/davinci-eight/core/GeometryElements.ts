@@ -1,4 +1,4 @@
-import Material from './Material'
+import {Material} from './Material'
 import ContextProvider from './ContextProvider'
 import config from '../config'
 import {Engine} from './Engine'

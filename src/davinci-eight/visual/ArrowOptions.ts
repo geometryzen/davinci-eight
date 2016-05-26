@@ -2,21 +2,12 @@ import VectorE3 from '../math/VectorE3'
 import VisualOptions from './VisualOptions'
 
 /**
- * @module EIGHT
- * @submodule visual
- */
-
-/**
- * @class ArrowOptions
- * @extends VisualOptions
+ *
  */
 interface ArrowOptions extends VisualOptions {
 
     /**
-     * @attribute vector
-     * @type VectorE3
-     * @optional
-     * @default e2
+     * @default <b>e</b><sub>2</sub>
      */
     vector?: VectorE3
 }

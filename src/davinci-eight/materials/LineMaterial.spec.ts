@@ -1,5 +1,5 @@
 import {Engine} from '../core/Engine'
-import LineMaterial from './LineMaterial'
+import {LineMaterial} from './LineMaterial'
 import LineMaterialOptions from '../materials/LineMaterialOptions'
 
 describe("LineMaterial", function() {

@@ -3,7 +3,7 @@ import {G3} from '../math/G3';
 import SimplexPrimitivesBuilder from '../geometries/SimplexPrimitivesBuilder';
 import mustBeInteger from '../checks/mustBeInteger';
 import Spinor3 from '../math/Spinor3';
-import Vector2 from '../math/Vector2';
+import {Vector2} from '../math/Vector2';
 import Vector3 from '../math/Vector3';
 
 function perpendicular(to: VectorE3): G3 {

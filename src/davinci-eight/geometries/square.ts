@@ -1,7 +1,7 @@
 import Simplex from '../geometries/Simplex';
 import quadrilateral from '../geometries/quadrilateral';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
-import Vector2 from '../math/Vector2';
+import {Vector2} from '../math/Vector2';
 import Vector3 from '../math/Vector3';
 import {VectorN} from '../math/VectorN';
 

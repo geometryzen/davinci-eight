@@ -1,7 +1,7 @@
 import DrawMode from '../../core/DrawMode'
 import GraphicsProgramSymbols from '../../core/GraphicsProgramSymbols'
 import GridTriangleStrip from './GridTriangleStrip'
-import Vector2 from '../../math/Vector2'
+import {Vector2} from '../../math/Vector2'
 import Vector3 from '../../math/Vector3'
 
 describe("GridTriangleStrip", function() {

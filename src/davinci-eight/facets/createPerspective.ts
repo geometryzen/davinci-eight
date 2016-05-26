@@ -1,4 +1,4 @@
-import FacetVisitor from '../core/FacetVisitor';
+import {FacetVisitor} from '../core/FacetVisitor';
 import Perspective from './Perspective';
 import View from './View';
 import createView from './createView';

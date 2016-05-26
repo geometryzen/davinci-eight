@@ -1,63 +1,45 @@
 import {ContextConsumer} from './ContextConsumer'
-import Material from './Material'
+import {Material} from './Material'
 import Matrix4 from '../math/Matrix4'
 
 /**
- * @module EIGHT
- * @submodule core
+ *
  */
-
-/**
- * @class Geometry
- * @extends ContextConsumer
- */
-interface Geometry extends ContextConsumer {
+export interface Geometry extends ContextConsumer {
 
     /**
-     * @property partsLength
-     * @type number
-     * @readOnly
+     *
      */
     partsLength: number
 
     /**
-     * @property scaling
-     * @type Matrix4
-     * @readOnly
+     *
      */
     scaling: Matrix4
 
     /**
-     * @method addPart
-     * @param geometry {Geometry}
-     * @return {void}
+     * @param geometry
      */
     addPart(geometry: Geometry): void
 
     /**
-     * @method removePart
-     * @param index {number}
-     * @return {void}
+     * @param index
      */
     removePart(index: number): void
 
     /**
-     * @method getPart
-     * @param index {number}
-     * @return {Geometry}
+     * @param index
+     * @returns
      */
     getPart(index: number): Geometry
 
     /**
-     * @method draw
-     * @param material {Material}
-     * @return {void}
+     * @param material
      */
     draw(material: Material): void
 
     /**
-     * @method isLeaf
-     * @return {boolean}
+     * @returns
      */
     isLeaf(): boolean
 
@@ -65,26 +47,20 @@ interface Geometry extends ContextConsumer {
     isZombie(): boolean
 
     /**
-     * @method hasPrincipalScale
-     * @param name {string}
-     * @return {boolean}
+     * @param name
+     * @returns
      */
     hasPrincipalScale(name: string): boolean
 
     /**
-     * @method getPrincipalScale
-     * @param name {string}
-     * @return {number}
+     * @param name
+     * @returns
      */
     getPrincipalScale(name: string): number
 
     /**
-     * @method setPrincipalScale
-     * @param name {string}
-     * @param value {number}
-     * @return {void}
+     * @param name
+     * @param value
      */
     setPrincipalScale(name: string, value: number): void
 }
-
-export default Geometry

@@ -10,34 +10,25 @@ import SpinorE2 from '../math/SpinorE2';
 import stringFromCoordinates from '../math/stringFromCoordinates';
 import VectorE2 from '../math/VectorE2';
 
-/**
- * @module EIGHT
- * @submodule math
- */
-
 const sqrt = Math.sqrt;
 
 const COORD_X = 0;
 const COORD_Y = 1;
 
 /**
- * @class Vector2
- * @extends Coords
+ *
  */
-export default class Vector2 extends Coords implements ColumnVector<Matrix2, Vector2>, VectorE2, MutableLinearElement<VectorE2, Vector2, SpinorE2, VectorE2, number, number> {
+export class Vector2 extends Coords implements ColumnVector<Matrix2, Vector2>, VectorE2, MutableLinearElement<VectorE2, Vector2, SpinorE2, VectorE2, number, number> {
   /**
-   * @class Vector2
-   * @constructor
-   * @param [data = [0, 0]] {number[]} Default is [0, 0].
-   * @param [modified = false] {boolean} Default is false.
+   * @param data
+   * @param modified
    */
   constructor(data = [0, 0], modified = false) {
     super(data, modified, 2);
   }
 
   /**
-   * @property x
-   * @type number
+   *
    */
   get x(): number {
     return this.coords[COORD_X];
@@ -48,8 +39,7 @@ export default class Vector2 extends Coords implements ColumnVector<Matrix2, Vec
   }
 
   /**
-   * @property y
-   * @type number
+   *
    */
   get y(): number {
     return this.coords[COORD_Y];
@@ -61,11 +51,9 @@ export default class Vector2 extends Coords implements ColumnVector<Matrix2, Vec
   }
 
   /**
-   * @method add
-   * @param v {VectorE2}
-   * @param [α = 1] {number}
-   * @return {Vector2}
-   * @chainable
+   * @param v
+   * @param α
+   * @returns
    */
   add(v: VectorE2, α = 1): Vector2 {
     this.x += v.x * α
@@ -74,11 +62,9 @@ export default class Vector2 extends Coords implements ColumnVector<Matrix2, Vec
   }
 
   /**
-   * @method add2
-   * @param a {VectorE2}
-   * @param b {VectorE2}
-   * @return {Vector2}
-   * @chainable
+   * @param a
+   * @param b
+   * @returns
    */
   add2(a: VectorE2, b: VectorE2): Vector2 {
     this.x = a.x + b.x

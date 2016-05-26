@@ -6,7 +6,7 @@ import isDefined from '../checks/isDefined'
 import isNull from '../checks/isNull'
 import isUndefined from '../checks/isUndefined'
 import LineMaterialOptions from './LineMaterialOptions'
-import MaterialBase from './MaterialBase'
+import {MaterialBase} from './MaterialBase'
 import mustBeObject from '../checks/mustBeObject'
 
 /**
@@ -72,7 +72,7 @@ function fragmentShaderSrc(options?: LineMaterialOptions): string {
  * @class LineMaterial
  * @extends MaterialBase
  */
-export default class LineMaterial extends MaterialBase {
+export class LineMaterial extends MaterialBase {
 
   /**
    * @class LineMaterial

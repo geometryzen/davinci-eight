@@ -3,7 +3,7 @@ import Curve = require('../curves/Curve');
 import Face3 = require('../core/Face3');
 import SimplexPrimitivesBuilder = require('../geometries/SimplexPrimitivesBuilder');
 import Matrix4 = require('../math/Matrix4');
-import Vector2 = require('../math/Vector2');
+import {Vector2} = require('../math/Vector2');
 import Vector3 = require('../math/Vector3');
 
 class TubeSimplexGeometry extends SimplexPrimitivesBuilder {

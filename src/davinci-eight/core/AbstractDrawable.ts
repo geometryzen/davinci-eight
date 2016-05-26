@@ -1,7 +1,7 @@
 import {Facet} from './Facet'
-import Geometry from './Geometry'
+import {Geometry} from './Geometry'
 import {ContextConsumer} from './ContextConsumer'
-import Material from './Material'
+import {Material} from './Material'
 
 /**
  *

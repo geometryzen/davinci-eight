@@ -1,8 +1,8 @@
 import {Facet} from '../core/Facet';
-import FacetVisitor from '../core/FacetVisitor';
+import {FacetVisitor} from '../core/FacetVisitor';
 import mustBeArray from '../checks/mustBeArray';
 import mustBeString from '../checks/mustBeString';
-import Vector2 from '../math/Vector2';
+import {Vector2} from '../math/Vector2';
 import Matrix2 from '../math/Matrix2';
 import readOnly from '../i18n/readOnly';
 

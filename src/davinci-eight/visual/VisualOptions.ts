@@ -4,12 +4,7 @@ import SpinorE3 from '../math/SpinorE3'
 import VectorE3 from '../math/VectorE3'
 
 /**
- * @module EIGHT
- * @submodule visual
- */
-
-/**
- * @class VisualOptions
+ *
  */
 interface VisualOptions {
 
@@ -18,31 +13,26 @@ interface VisualOptions {
      * Attitude (spinor)
      * </p>
      *
-     * @attribute attitude
-     * @type SpinorE3
-     * @optional
      * @default 1
      */
     attitude?: SpinorE3;
 
     /**
-     * @attribute color
-     * @type AbstractColor
-     * @optional
+     *
      */
     color?: AbstractColor
 
     /**
-     * @attribute engine
-     * @type Engine
-     * @optional
+     *
      */
     engine?: Engine
 
     /**
-     * @attribute offset
-     * @type VectorE3
-     * @optional
+     * <p>
+     * Displacement (vector) to be applied to the geometry at construction time to establish the reference location.
+     * This cannot be changed once the object has been created because it is burned-in to the vertex locations.
+     * </p>
+     *
      * @default 0
      */
     offset?: VectorE3;
@@ -52,17 +42,16 @@ interface VisualOptions {
      * Position (vector)
      * </p>
      *
-     * @attribute position
-     * @type VectorE3
-     * @optional
      * @default 0
      */
     position?: VectorE3;
 
     /**
-     * @attribute tilt
-     * @type SpinorE3
-     * @optional
+     * <p>
+     * Rotation (spinor) to be applied to the geometry at construction time to establish the reference orientation.
+     * This cannot be changed once the object has been created because it is burned-in to the vertex locations.
+     * </p>
+     *
      * @default 1
      */
     tilt?: SpinorE3;

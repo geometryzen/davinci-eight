@@ -7,7 +7,7 @@ import Primitive from '../core/Primitive'
 import SpinorE3 from '../math/SpinorE3'
 import Spinor3 from '../math/Spinor3'
 import Vector3 from '../math/Vector3'
-import Vector2 from '../math/Vector2'
+import {Vector2} from '../math/Vector2'
 
 function side(tilt: SpinorE3, offset: Vector3, basis: Vector3[], uSegments: number, vSegments: number): GridTriangleStrip {
 

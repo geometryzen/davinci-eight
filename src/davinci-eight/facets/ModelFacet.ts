@@ -1,5 +1,5 @@
 import {Facet} from '../core/Facet'
-import FacetVisitor from '../core/FacetVisitor'
+import {FacetVisitor} from '../core/FacetVisitor'
 import Matrix3 from '../math/Matrix3'
 import Matrix4 from '../math/Matrix4'
 import ModelE3 from './ModelE3'

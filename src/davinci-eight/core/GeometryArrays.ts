@@ -1,4 +1,4 @@
-import Material from './Material'
+import {Material} from './Material'
 import Attribute from './Attribute'
 import computeAttributes from './computeAttributes'
 import computeCount from './computeCount'

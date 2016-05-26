@@ -1,7 +1,7 @@
 import Simplex = require('../geometries/Simplex')
 import GraphicsProgramSymbols = require('../core/GraphicsProgramSymbols')
 import Vector1 = require('../math/Vector1')
-import Vector2 = require('../math/Vector2')
+import {Vector2} = require('../math/Vector2')
 import Vector3 = require('../math/Vector3')
 
 function buildPlane(

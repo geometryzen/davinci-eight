@@ -1,5 +1,5 @@
 import {Facet} from '../core/Facet';
-import FacetVisitor from '../core/FacetVisitor';
+import {FacetVisitor} from '../core/FacetVisitor';
 import mustBeArray from '../checks/mustBeArray';
 import mustBeInteger from '../checks/mustBeInteger';
 import mustBeString from '../checks/mustBeString';

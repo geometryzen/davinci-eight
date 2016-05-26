@@ -1,5 +1,5 @@
 import {Engine} from '../core/Engine'
-import SmartGraphicsProgram from './SmartGraphicsProgram'
+import {SmartGraphicsProgram} from './SmartGraphicsProgram'
 
 describe("SmartGraphicsProgram", function() {
   it("new-release", function() {

@@ -1,7 +1,7 @@
 import {Engine} from '../core/Engine'
 import mustBeObject from '../checks/mustBeObject';
 import mustBeString from '../checks/mustBeString';
-import MaterialBase from './MaterialBase';
+import {MaterialBase} from './MaterialBase';
 
 /**
  * Helper function for creating a <code>MaterialBase</code> from HTML script element content.

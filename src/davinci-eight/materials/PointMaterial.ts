@@ -4,7 +4,7 @@ import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols'
 import isDefined from '../checks/isDefined'
 import isNull from '../checks/isNull'
 import isUndefined from '../checks/isUndefined'
-import MaterialBase from './MaterialBase'
+import {MaterialBase} from './MaterialBase'
 import mustBeObject from '../checks/mustBeObject'
 import PointMaterialOptions from './PointMaterialOptions'
 
@@ -64,7 +64,7 @@ function fragmentShaderSrc(options?: PointMaterialOptions): string {
  * @class PointMaterial
  * @extends MaterialBase
  */
-export default class PointMaterial extends MaterialBase {
+export class PointMaterial extends MaterialBase {
 
   /**
    * @class PointMaterial

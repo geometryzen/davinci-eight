@@ -2,7 +2,7 @@ import {Color} from '../core/Color';
 import mustBeNumber from '../checks/mustBeNumber';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
 import {Facet} from '../core/Facet';
-import FacetVisitor from '../core/FacetVisitor';
+import {FacetVisitor} from '../core/FacetVisitor';
 
 const COORD_R = 0
 const COORD_G = 1
