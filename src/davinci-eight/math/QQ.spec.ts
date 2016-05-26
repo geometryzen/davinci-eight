@@ -1,4 +1,4 @@
-import QQ from './QQ'
+import {QQ} from './QQ'
 
 describe("QQ", function() {
     describe("constructor", function() {

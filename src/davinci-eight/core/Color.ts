@@ -38,7 +38,7 @@ const COORD_B = 2
  * @extends Coords
  * @implements AbstractColor
  */
-export default class Color extends Coords implements AbstractColor, ColumnVector<Matrix3, Color>, MutableLinearElement<AbstractColor, Color, SpinorE3, AbstractColor, number, number> {
+export class Color extends Coords implements AbstractColor, ColumnVector<Matrix3, Color>, MutableLinearElement<AbstractColor, Color, SpinorE3, AbstractColor, number, number> {
 
   /**
    * @property black

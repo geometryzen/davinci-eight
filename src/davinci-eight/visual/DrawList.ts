@@ -1,4 +1,4 @@
-import Engine from '../core/Engine'
+import {Engine} from '../core/Engine'
 import Facet from '../core/Facet'
 import ContextProvider from '../core/ContextProvider'
 import incLevel from '../base/incLevel';

@@ -1,4 +1,4 @@
-import G3 from '../math/G3';
+import {G3} from '../math/G3';
 import SliceSimplexPrimitivesBuilder from '../geometries/SliceSimplexPrimitivesBuilder';
 import Vector2 from '../math/Vector2';
 import VectorE3 from '../math/VectorE3';

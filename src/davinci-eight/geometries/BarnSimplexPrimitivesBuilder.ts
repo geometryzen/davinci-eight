@@ -1,11 +1,11 @@
 import computeFaceNormals from '../geometries/computeFaceNormals';
-import G3 from '../math/G3';
+import {G3} from '../math/G3';
 import SimplexPrimitivesBuilder from '../geometries/SimplexPrimitivesBuilder';
 import quad from '../geometries/quadrilateral';
 import Simplex from '../geometries/Simplex';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
 import triangle from '../geometries/triangle';
-import Geometric3 from '../math/Geometric3';
+import {Geometric3} from '../math/Geometric3';
 
 export default class BarnSimplexPrimitivesBuilder extends SimplexPrimitivesBuilder {
     public a: Geometric3 = Geometric3.fromVector(G3.e1);

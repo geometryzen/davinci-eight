@@ -1,5 +1,5 @@
 import BrowserWindow from '../base/BrowserWindow'
-import Geometric3 from '../math/Geometric3'
+import {Geometric3} from '../math/Geometric3'
 import getViewAttitude from '../facets/getViewAttitude'
 import Spinor3 from '../math/Spinor3'
 import Vector3 from '../math/Vector3'
@@ -28,7 +28,7 @@ const X: Vector3 = Vector3.zero()
  * @class OrbitControls
  * @extends ViewControls
  */
-export default class OrbitControls extends ViewControls {
+export class OrbitControls extends ViewControls {
 
   /**
    * @class OrbitControls

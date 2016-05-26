@@ -1,9 +1,9 @@
 import BoxGeometry from '../geometries/BoxGeometry'
-import Mesh from '../core/Mesh'
+import {Mesh} from '../core/Mesh'
 import MeshMaterial from '../materials/MeshMaterial'
 import RigidBodyWithUnits from './RigidBodyWithUnits'
 import R3 from '../math/R3'
-import G3 from '../math/G3'
+import {G3} from '../math/G3'
 
 describe("RigidBodyWithUnits", function() {
 

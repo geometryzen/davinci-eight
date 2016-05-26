@@ -16,7 +16,7 @@ import scpE2 from './scpE2';
 import SpinorE2 from './SpinorE2';
 import stringFromCoordinates from './stringFromCoordinates';
 import TrigMethods from './TrigMethods';
-import Unit from './Unit';
+import {Unit} from './Unit';
 import VectorE2 from './VectorE2';
 
 /**
@@ -128,7 +128,7 @@ function subE2(a0: number, a1: number, a2: number, a3: number, b0: number, b1: n
  *
  * @class G2
  */
-export default class G2 implements ImmutableMeasure<G2>, GeometricE2, GeometricNumber<G2, G2, SpinorE2, VectorE2, G2, number, Unit>, GeometricOperators<G2, Unit>, TrigMethods<G2> {
+export class G2 implements ImmutableMeasure<G2>, GeometricE2, GeometricNumber<G2, G2, SpinorE2, VectorE2, G2, number, Unit>, GeometricOperators<G2, Unit>, TrigMethods<G2> {
 
   /**
    * The coordinate values are stored in a number array.

@@ -10,7 +10,7 @@ import isNull from '../checks/isNull'
 import isUndefined from '../checks/isUndefined'
 import LineMaterial from '../materials/LineMaterial'
 import LineMaterialOptions from '../materials/LineMaterialOptions'
-import Mesh from '../core/Mesh'
+import {Mesh} from '../core/Mesh'
 import MeshMaterial from '../materials/MeshMaterial'
 import MeshMaterialOptions from '../materials/MeshMaterialOptions'
 import mustBeGE from '../checks/mustBeGE'
@@ -18,7 +18,7 @@ import mustBeNumber from '../checks/mustBeNumber'
 import PointMaterial from '../materials/PointMaterial'
 import PointMaterialOptions from '../materials/PointMaterialOptions'
 import R3 from '../math/R3'
-import Unit from '../math/Unit'
+import {Unit} from '../math/Unit'
 
 /**
  * @module EIGHT
@@ -255,7 +255,7 @@ function configMesh(options: GridOptions, grid: Grid) {
  * @class Grid
  * @extends Mesh
  */
-export default class Grid extends Mesh {
+export class Grid extends Mesh {
 
   /**
    * @class Grid

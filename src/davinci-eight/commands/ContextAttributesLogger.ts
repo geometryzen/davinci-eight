@@ -1,3 +1,4 @@
+import incLevel from '../base/incLevel';
 import ContextProvider from '../core/ContextProvider';
 import readOnly from '../i18n/readOnly';
 import ShareableBase from '../core/ShareableBase';
@@ -15,15 +16,16 @@ export default class ContextAttributesLogger extends ShareableBase {
      * @constructor
      */
     constructor() {
-        super('ContextAttributesLogger')
+        super()
     }
 
     /**
      * @method destructor
+     * @param levelUp {number}
      * @return {void}
      */
-    protected destructor(): void {
-        super.destructor()
+    protected destructor(levelUp: number): void {
+        super.destructor(incLevel(levelUp))
     }
 
     /**

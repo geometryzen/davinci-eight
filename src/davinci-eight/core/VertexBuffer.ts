@@ -1,5 +1,5 @@
 import ContextProvider from './ContextProvider';
-import Engine from './Engine';
+import {Engine} from './Engine';
 import mustBeObject from '../checks/mustBeObject';
 import mustBeUndefined from '../checks/mustBeUndefined';
 import ShareableContextConsumer from './ShareableContextConsumer';

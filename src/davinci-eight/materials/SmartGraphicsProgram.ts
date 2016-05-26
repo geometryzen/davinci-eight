@@ -1,4 +1,4 @@
-import Engine from '../core/Engine';
+import {Engine} from '../core/Engine';
 import fShaderSrc from './fragmentShaderSrc';
 import MaterialBase from './MaterialBase';
 import vShaderSrc from './vertexShaderSrc';

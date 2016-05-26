@@ -1,4 +1,4 @@
-import Curve from './Curve'
+import {Curve} from './Curve'
 
 describe("Curve", function() {
   it("new-release", function() {

@@ -1,4 +1,4 @@
-import Geometric2 from '../math/Geometric2'
+import {Geometric2} from '../math/Geometric2'
 
 function domElement(): HTMLElement {
     const documentElement = document.documentElement
@@ -24,7 +24,7 @@ function domElement(): HTMLElement {
  */
 export default function(out: Geometric2): void {
     out.α = 0
-    out.xy = 0
+    out.β = 0
     if (window.pageXOffset !== void 0 && window.pageYOffset !== void 0) {
         out.x = window.pageXOffset
         out.y = window.pageYOffset

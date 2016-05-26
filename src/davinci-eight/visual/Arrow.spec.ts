@@ -1,6 +1,6 @@
-import Arrow from './Arrow'
+import {Arrow} from './Arrow'
 import ArrowOptions from './ArrowOptions'
-import Geometric3 from '../math/Geometric3'
+import {Geometric3} from '../math/Geometric3'
 
 const e1: Geometric3 = Geometric3.e1()
 const e2: Geometric3 = Geometric3.e2()

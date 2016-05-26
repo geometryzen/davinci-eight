@@ -1,4 +1,4 @@
-import Geometric2 from './Geometric2'
+import {Geometric2} from './Geometric2'
 
 describe("Geometric2", function() {
   describe("()", function() {

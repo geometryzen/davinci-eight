@@ -1,6 +1,6 @@
 import BrowserApp from './BrowserApp'
 import BrowserWindow from './BrowserWindow'
-import Engine from '../core/Engine'
+import {Engine} from '../core/Engine'
 import EngineAppOptions from './EngineAppOptions'
 import getCanvasElementById from '../utils/getCanvasElementById'
 import getDimensions from '../utils/getDimensions'
@@ -8,7 +8,7 @@ import isString from '../checks/isString'
 import mustBeObject from '../checks/mustBeObject'
 import mustBeNumber from '../checks/mustBeNumber'
 import mustBeString from '../checks/mustBeString'
-import Scene from '../core/Scene'
+import {Scene} from '../core/Scene'
 
 /**
  * @class EngineApp

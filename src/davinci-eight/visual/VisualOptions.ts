@@ -1,5 +1,5 @@
 import AbstractColor from '../core/AbstractColor'
-import Engine from '../core/Engine'
+import {Engine} from '../core/Engine'
 import SpinorE3 from '../math/SpinorE3'
 import VectorE3 from '../math/VectorE3'
 

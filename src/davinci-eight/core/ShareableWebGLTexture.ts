@@ -1,4 +1,5 @@
 import ContextProvider from './ContextProvider';
+import {Engine} from './Engine';
 import mustBeUndefined from '../checks/mustBeUndefined';
 import ShareableContextConsumer from './ShareableContextConsumer';
 
@@ -11,12 +12,12 @@ import ShareableContextConsumer from './ShareableContextConsumer';
 export default class ShareableWebGLTexture extends ShareableContextConsumer {
     private _texture: WebGLTexture
     private _target: number
-    constructor(target: number) {
-        super('ShareableWebGLTexture')
+    constructor(target: number, engine: Engine) {
+        super(engine)
         this._target = target
     }
-    protected destructor(): void {
-        super.destructor()
+    protected destructor(levelUp: number): void {
+        super.destructor(levelUp + 1)
         mustBeUndefined(this._type, this._texture)
     }
     contextFree(context: ContextProvider) {

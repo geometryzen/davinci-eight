@@ -1,4 +1,5 @@
 import ContextProvider from './ContextProvider';
+import {Engine} from './Engine';
 import makeWebGLShader from './makeWebGLShader';
 import mustBeUndefined from '../checks/mustBeUndefined';
 import ShareableContextConsumer from './ShareableContextConsumer';
@@ -12,11 +13,16 @@ export default class ShareableWebGLShader extends ShareableContextConsumer {
     private _source: string;
     private _shaderType: number;
     private _shader: WebGLShader;
-    constructor() {
-        super('ShareableWebGLShader')
+    constructor(engine: Engine) {
+        super(engine)
     }
-    destructor(): void {
-        super.destructor()
+    /**
+     * @method destructor
+     * @param levelUp {number}
+     * @return {void}
+     */
+    destructor(levelUp: number): void {
+        super.destructor(levelUp + 1)
         mustBeUndefined(this._type, this._shader)
     }
     contextFree(context: ContextProvider): void {

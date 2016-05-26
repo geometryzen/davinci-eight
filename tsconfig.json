@@ -12,9 +12,6 @@
     "inlineSourceMap": false,
     "inlineSources": false
   },
-  "exclude": [
-    "node_modules"
-  ],
   "files": [
     "src/davinci-eight/base/BrowserApp.spec.ts",
     "src/davinci-eight/base/DefaultContextProvider.spec.ts",

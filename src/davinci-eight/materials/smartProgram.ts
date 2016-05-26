@@ -1,5 +1,5 @@
 import AttribMetaInfo from '../core/AttribMetaInfo';
-import Engine from '../core/Engine';
+import {Engine} from '../core/Engine';
 import fragmentShaderSrc from './fragmentShaderSrc';
 import mergeStringMapList from '../utils/mergeStringMapList';
 import mustBeDefined from '../checks/mustBeDefined';

@@ -1,4 +1,4 @@
-import Cylinder from './Cylinder'
+import {Cylinder} from './Cylinder'
 
 describe("Cylinder", function() {
   it("new-release", function() {

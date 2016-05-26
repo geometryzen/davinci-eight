@@ -1,8 +1,8 @@
-import Color from '../core/Color'
-import DirectionalLight from './DirectionalLight'
-import Geometric3 from '../math/Geometric3'
+import {Color} from '../core/Color'
+import {DirectionalLight} from './DirectionalLight'
+import {Geometric3} from '../math/Geometric3'
 import R3 from '../math/R3'
-import Unit from '../math/Unit'
+import {Unit} from '../math/Unit'
 import Vector3 from '../math/Vector3'
 
 describe("DirectionalLight", function() {

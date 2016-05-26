@@ -3,7 +3,7 @@ import isInteger from '../checks/isInteger'
 import MultiViewAppOptions from './MultiViewAppOptions'
 import mustBeGE from '../checks/mustBeGE'
 import mustBeInteger from '../checks/mustBeInteger'
-import Scene from '../core/Scene'
+import {Scene} from '../core/Scene'
 import ShareableArray from '../collections/ShareableArray'
 import Viewport from './Viewport'
 

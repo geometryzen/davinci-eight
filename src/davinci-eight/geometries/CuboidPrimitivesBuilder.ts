@@ -1,4 +1,4 @@
-import G3 from '../math/G3'
+import {G3} from '../math/G3'
 import GridTriangleStrip from './primitives/GridTriangleStrip'
 import PrimitivesBuilder from './PrimitivesBuilder'
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols'

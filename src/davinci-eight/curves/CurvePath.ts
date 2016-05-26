@@ -1,5 +1,5 @@
 import Curve from '../curves/Curve';
-import G3 from '../math/G3';
+import {G3} from '../math/G3';
 import LineCurve from '../curves/LineCurve';
 
 export default class CurvePath extends Curve {

@@ -1,5 +1,5 @@
 import AnimationApp from '../base/AnimationApp'
-import Scene from '../core/Scene'
+import {Scene} from '../core/Scene'
 import SingleViewAppOptions from './SingleViewAppOptions'
 import Viewport from './Viewport'
 

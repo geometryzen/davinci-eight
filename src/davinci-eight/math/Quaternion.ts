@@ -1,5 +1,5 @@
 import dotVectorCartesianE3 from '../math/dotVectorCartesianE3';
-import G3 from '../math/G3';
+import {G3} from '../math/G3';
 import dotVector from '../math/dotVectorE3';
 import MutableGeometricElement from '../math/MutableGeometricElement';
 import Matrix4 from '../math/Matrix4';

@@ -1,6 +1,6 @@
 import b2 from '../geometries/b2';
 import b3 from '../geometries/b3';
-import G3 from '../math/G3';
+import {G3} from '../math/G3';
 import FontFace from '../geometries/FontFace';
 import Path from '../geometries/Path';
 import Shape from '../geometries/Shape';

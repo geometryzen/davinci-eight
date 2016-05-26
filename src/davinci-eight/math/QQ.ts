@@ -20,7 +20,7 @@ const magicCode = Math.random()
  *
  * @class QQ
  */
-export default class QQ implements DivisionRingOperators<QQ, number> {
+export class QQ implements DivisionRingOperators<QQ, number> {
   /**
    * @property _numer
    * @type {number}

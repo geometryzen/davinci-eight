@@ -1,5 +1,5 @@
 import Facet from '../core/Facet';
-import Geometric3 from '../math/Geometric3';
+import {Geometric3} from '../math/Geometric3';
 import VectorE3 from '../math/VectorE3';
 
 /**

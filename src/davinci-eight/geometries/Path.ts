@@ -1,6 +1,6 @@
 import CubicBezierCurve from '../curves/CubicBezierCurve';
 import CurvePath from '../curves/CurvePath';
-import G3 from '../math/G3';
+import {G3} from '../math/G3';
 import isClockWise from '../geometries/isClockWise';
 import LineCurve from '../curves/LineCurve';
 import PathAction from '../geometries/PathAction';

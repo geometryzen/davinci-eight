@@ -1,5 +1,5 @@
 import DivisionRingOperators from '../math/DivisionRingOperators';
-import QQ from '../math/QQ';
+import {QQ} from '../math/QQ';
 import notSupported from '../i18n/notSupported';
 
 /**
@@ -22,9 +22,9 @@ function assertArgRational(name: string, arg: QQ): QQ {
 }
 
 /**
- * @class Dimensions
+ *
  */
-export default class Dimensions implements DivisionRingOperators<Dimensions, Dimensions> {
+export class Dimensions implements DivisionRingOperators<Dimensions, Dimensions> {
 
     /**
      * @property ONE

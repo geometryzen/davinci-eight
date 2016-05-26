@@ -39,46 +39,6 @@ export default function animation(animate: (time: number) => void, options: Wind
   let animateException: any
   let state = STATE_INITIAL
 
-  const frameRequestCallback: FrameRequestCallback = function(timestamp: number) {
-    if (startTime) {
-      elapsed = elapsed + timestamp - startTime
-    }
-    startTime = timestamp
-
-    if (stopSignal || terminate(elapsed / MILLIS_PER_SECOND)) {
-      // Clear the stopSignal.
-      stopSignal = false
-
-      $window.cancelAnimationFrame(requestID);
-      if (publicAPI.isRunning) {
-        state = STATE_PAUSED
-        startTime = void 0
-      }
-      else {
-        // TODO: Can we recover?
-        console.error("stopSignal received while not running.")
-      }
-      $window.document.removeEventListener('keydown', onDocumentKeyDown, false)
-      try {
-        tearDown(animateException)
-      }
-      catch (e) {
-        console.warn("Exception raised during tearDown function: " + e)
-      }
-    }
-    else {
-      requestID = $window.requestAnimationFrame(frameRequestCallback)
-      // If an exception happens, cache it to be reported later and simulate a stopSignal.
-      try {
-        animate(elapsed / MILLIS_PER_SECOND)
-      }
-      catch (e) {
-        animateException = e
-        stopSignal = true
-      }
-    }
-  };
-
   const onDocumentKeyDown = function(event: KeyboardEvent) {
     // TODO: It would be nice for all key responses to be soft-defined.
     // In other words, a mapping of event (keyCode) to action (start, stop, reset)
@@ -97,6 +57,8 @@ export default function animation(animate: (time: number) => void, options: Wind
     }
     */
   };
+
+  let frameRequestCallback: FrameRequestCallback;
 
   // The public API is a classic stopwatch.
   // The states are INITIAL, RUNNING, PAUSED.
@@ -134,6 +96,46 @@ export default function animation(animate: (time: number) => void, options: Wind
     },
     get isPaused(): boolean {
       return state === STATE_PAUSED;
+    }
+  };
+
+  frameRequestCallback = function(timestamp: number) {
+    if (startTime) {
+      elapsed = elapsed + timestamp - startTime
+    }
+    startTime = timestamp
+
+    if (stopSignal || terminate(elapsed / MILLIS_PER_SECOND)) {
+      // Clear the stopSignal.
+      stopSignal = false
+
+      $window.cancelAnimationFrame(requestID);
+      if (publicAPI.isRunning) {
+        state = STATE_PAUSED
+        startTime = void 0
+      }
+      else {
+        // TODO: Can we recover?
+        console.error("stopSignal received while not running.")
+      }
+      $window.document.removeEventListener('keydown', onDocumentKeyDown, false)
+      try {
+        tearDown(animateException)
+      }
+      catch (e) {
+        console.warn("Exception raised during tearDown function: " + e)
+      }
+    }
+    else {
+      requestID = $window.requestAnimationFrame(frameRequestCallback)
+      // If an exception happens, cache it to be reported later and simulate a stopSignal.
+      try {
+        animate(elapsed / MILLIS_PER_SECOND)
+      }
+      catch (e) {
+        animateException = e
+        stopSignal = true
+      }
     }
   };
 

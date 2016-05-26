@@ -1,4 +1,4 @@
-import G3 from './G3'
+import {G3} from './G3'
 import Spinor3 from './Spinor3'
 import Vector3 from './Vector3'
 

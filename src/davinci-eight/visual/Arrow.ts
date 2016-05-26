@@ -1,10 +1,10 @@
 import ArrowOptions from './ArrowOptions'
 import ArrowGeometry from '../geometries/ArrowGeometry'
 import ArrowGeometryOptions from '../geometries/ArrowGeometryOptions'
-import Geometric3 from '../math/Geometric3'
+import {Geometric3} from '../math/Geometric3'
 import MeshMaterial from '../materials/MeshMaterial'
 import MeshMaterialOptions from '../materials/MeshMaterialOptions'
-import Mesh from '../core/Mesh'
+import {Mesh} from '../core/Mesh'
 import mustBeDefined from '../checks/mustBeDefined'
 import quadVectorE3 from '../math/quadVectorE3'
 import R3 from '../math/R3'
@@ -47,7 +47,7 @@ function direction(options: ArrowOptions, fallback: R3): R3 {
  * @class Arrow
  * @extends Mesh
  */
-export default class Arrow extends Mesh {
+export class Arrow extends Mesh {
 
   /**
    * We know what the initial direction the arrow geometry takes.

@@ -2,7 +2,7 @@ import CartesianG3 from './CartesianG3'
 import Coords from './Coords';
 import arraysEQ from './arraysEQ';
 import dotVector from './dotVectorE3';
-import G3 from './G3';
+import {G3} from './G3';
 import EventEmitter from '../utils/EventEmitter';
 import extG3 from './extG3';
 import gauss from './gauss'
@@ -69,7 +69,7 @@ const sqrt = Math.sqrt
  * @class Geometric3
  * @extends Coords
  */
-export default class Geometric3 extends Coords implements CartesianG3, GeometricE3, MutableGeometricElement<GeometricE3, Geometric3, SpinorE3, VectorE3, number, number, number>, GeometricOperators<Geometric3, number> {
+export class Geometric3 extends Coords implements CartesianG3, GeometricE3, MutableGeometricElement<GeometricE3, Geometric3, SpinorE3, VectorE3, number, number, number>, GeometricOperators<Geometric3, number> {
 
   /**
    * @property eventBus

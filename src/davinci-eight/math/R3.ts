@@ -9,7 +9,7 @@ import NormedLinearElement from './NormedLinearElement'
 import readOnly from '../i18n/readOnly'
 import SpinorE3 from './SpinorE3'
 import stringFromCoordinates from './stringFromCoordinates';
-import Unit from './Unit';
+import {Unit} from './Unit';
 import VectorE3 from './VectorE3'
 
 const BASIS_LABELS = ['e1', 'e2', 'e3']

@@ -1,10 +1,10 @@
-import G3 from '../math/G3';
+import {G3} from '../math/G3';
 import incLevel from '../base/incLevel';
 import IRigidBody from './IRigidBody'
 import mustBeObject from '../checks/mustBeObject';
-import Mesh from '../core/Mesh';
+import {Mesh} from '../core/Mesh';
 import ShareableBase from '../core/ShareableBase';
-import Unit from '../math/Unit';
+import {Unit} from '../math/Unit';
 import VectorE3 from '../math/VectorE3';
 
 const UNIT_P = Unit.KILOGRAM.mul(Unit.METER).div(Unit.SECOND)

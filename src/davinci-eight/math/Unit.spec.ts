@@ -1,6 +1,6 @@
-import Dimensions from './Dimensions'
-import QQ from './QQ'
-import Unit from './Unit'
+import {Dimensions} from './Dimensions'
+import {QQ} from './QQ'
+import {Unit} from './Unit'
 
 const Rat0 = QQ.valueOf(0, 1)
 const Rat1 = QQ.valueOf(1, 1)

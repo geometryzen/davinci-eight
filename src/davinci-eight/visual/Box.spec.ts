@@ -1,4 +1,4 @@
-import Box from './Box'
+import {Box} from './Box'
 
 describe('Box', function() {
     it("should be shareable", function() {

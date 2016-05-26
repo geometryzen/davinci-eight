@@ -6,7 +6,7 @@ import mustBeNumber from '../checks/mustBeNumber';
 import readOnly from '../i18n/readOnly';
 import SpinorE2 from '../math/SpinorE2';
 import TrigMethods from '../math/TrigMethods';
-import Unit from '../math/Unit';
+import {Unit} from '../math/Unit';
 
 /**
  * @module EIGHT

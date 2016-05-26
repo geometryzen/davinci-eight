@@ -1,4 +1,4 @@
-import Sphere from './Sphere'
+import {Sphere} from './Sphere'
 
 describe('Sphere', function() {
     it("should be shareable", function() {

@@ -1,4 +1,4 @@
-import G3 from '../math/G3';
+import {G3} from '../math/G3';
 
 interface PathArgs {
     controlBegin?: G3;

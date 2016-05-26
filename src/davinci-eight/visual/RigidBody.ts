@@ -1,12 +1,12 @@
-import Engine from '../core/Engine'
-import Geometric3 from '../math/Geometric3'
+import {Engine} from '../core/Engine'
+import {Geometric3} from '../math/Geometric3'
 import Geometry from '../core/Geometry'
 import IRigidBody from './IRigidBody'
 import Material from '../core/Material'
-import Mesh from '../core/Mesh'
+import {Mesh} from '../core/Mesh'
 import mustBeObject from '../checks/mustBeObject'
 import R3 from '../math/R3'
-import Unit from '../math/Unit'
+import {Unit} from '../math/Unit'
 import VectorE3 from '../math/VectorE3'
 
 /**

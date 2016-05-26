@@ -1,10 +1,10 @@
 import BrowserDocument from '../base/BrowserDocument'
 import BrowserHTMLElement from '../base/BrowserHTMLElement'
 import BrowserWindow from '../base/BrowserWindow'
-import PerspectiveCamera from '../facets/PerspectiveCamera'
+import {PerspectiveCamera} from '../facets/PerspectiveCamera'
 import refChange from '../core/refChange'
 import R3 from '../math/R3'
-import TrackballControls from './TrackballControls'
+import {TrackballControls} from './TrackballControls'
 
 class MockElement implements BrowserHTMLElement {
   clientLeft: number;

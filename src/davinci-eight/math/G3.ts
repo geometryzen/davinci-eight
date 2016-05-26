@@ -20,7 +20,7 @@ import squaredNormG3 from './squaredNormG3';
 import stringFromCoordinates from './stringFromCoordinates';
 import subE3 from './subE3';
 import TrigMethods from './TrigMethods';
-import Unit from './Unit';
+import {Unit} from './Unit';
 import VectorE3 from './VectorE3';
 import BASIS_LABELS_G3_GEOMETRIC from './BASIS_LABELS_G3_GEOMETRIC';
 import BASIS_LABELS_G3_HAMILTON from './BASIS_LABELS_G3_HAMILTON';
@@ -91,7 +91,7 @@ function compute(
  *
  * @class G3
  */
-export default class G3 implements ImmutableMeasure<G3>, GeometricE3, GeometricNumber<G3, G3, SpinorE3, VectorE3, G3, number, Unit>, GeometricOperators<G3, Unit>, TrigMethods<G3> {
+export class G3 implements ImmutableMeasure<G3>, GeometricE3, GeometricNumber<G3, G3, SpinorE3, VectorE3, G3, number, Unit>, GeometricOperators<G3, Unit>, TrigMethods<G3> {
   static get BASIS_LABELS_GEOMETRIC(): string[][] { return BASIS_LABELS_G3_GEOMETRIC };
   static get BASIS_LABELS_HAMILTON(): string[][] { return BASIS_LABELS_G3_HAMILTON };
   static get BASIS_LABELS_STANDARD(): string[][] { return BASIS_LABELS_G3_STANDARD };

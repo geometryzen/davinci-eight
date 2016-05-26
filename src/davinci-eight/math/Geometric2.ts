@@ -3,7 +3,7 @@ import b2 from '../geometries/b2';
 import b3 from '../geometries/b3';
 import Coords from './Coords';
 import dotVector from './dotVectorE2';
-import G2 from './G2';
+import {G2} from './G2';
 import extE2 from './extE2';
 import gauss from './gauss'
 import GeometricE2 from './GeometricE2';
@@ -115,7 +115,7 @@ function duckCopy(value: any): Geometric2 {
  * @extends Coords
  * @beta
  */
-export default class Geometric2 extends Coords implements GeometricE2, Measure<Geometric2>, MutableGeometricElement<GeometricE2, Geometric2, SpinorE2, VectorE2, number, number, number>, GeometricOperators<Geometric2, number> {
+export class Geometric2 extends Coords implements GeometricE2, Measure<Geometric2>, MutableGeometricElement<GeometricE2, Geometric2, SpinorE2, VectorE2, number, number, number>, GeometricOperators<Geometric2, number> {
 
   /**
    * @property BASIS_LABELS

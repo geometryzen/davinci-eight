@@ -1,4 +1,4 @@
-import Engine from '../core/Engine';
+import {Engine} from '../core/Engine';
 import GraphicsProgramBuilder from '../materials/GraphicsProgramBuilder';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
 import incLevel from '../base/incLevel'

@@ -7,7 +7,7 @@ import isString from '../checks/isString';
 import isNull from '../checks/isNull';
 import makeWebGLProgram from '../core/makeWebGLProgram';
 import Material from '../core/Material'
-import Engine from '../core/Engine';
+import {Engine} from '../core/Engine';
 import ErrorMode from '../core/ErrorMode';
 import Matrix2 from '../math/Matrix2';
 import Matrix3 from '../math/Matrix3';

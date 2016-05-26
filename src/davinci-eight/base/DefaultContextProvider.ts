@@ -4,7 +4,7 @@ import drawModeToGL from '../core/drawModeToGL';
 import mustBeInteger from '../checks/mustBeInteger';
 import readOnly from '../i18n/readOnly';
 import ShareableBase from '../core/ShareableBase';
-import Engine from '../core/Engine';
+import {Engine} from '../core/Engine';
 
 /**
  * Intentionally undocumented.

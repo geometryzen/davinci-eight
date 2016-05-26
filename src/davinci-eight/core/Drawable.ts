@@ -1,5 +1,5 @@
 import ContextProvider from '../core/ContextProvider';
-import Engine from '../core/Engine';
+import {Engine} from '../core/Engine';
 import exchange from '../base/exchange';
 import isObject from '../checks/isDefined';
 import mustBeBoolean from '../checks/mustBeBoolean';

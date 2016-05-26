@@ -1,4 +1,4 @@
-import Engine from '../core/Engine';
+import {Engine} from '../core/Engine';
 import getAttribVarName from '../core/getAttribVarName';
 import glslAttribType from './glslAttribType';
 import mustBeInteger from '../checks/mustBeInteger';

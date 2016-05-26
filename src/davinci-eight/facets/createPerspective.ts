@@ -3,7 +3,7 @@ import Perspective from './Perspective';
 import View from './View';
 import createView from './createView';
 import Matrix4 from '../math/Matrix4';
-import Geometric3 from '../math/Geometric3';
+import {Geometric3} from '../math/Geometric3';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
 import VectorE3 from '../math/VectorE3';
 import Vector1 from '../math/Vector1';

@@ -1,4 +1,4 @@
-import Engine from './Engine'
+import {Engine} from './Engine'
 import mustBeNumber from '../checks/mustBeNumber'
 import mustBeObject from '../checks/mustBeObject'
 import readOnly from '../i18n/readOnly'
@@ -7,25 +7,25 @@ import VertexBuffer from './VertexBuffer'
 
 export default class VertexBufferPackage extends ShareableContextConsumer {
 
-  private _first: number
-  private _vbo: VertexBuffer
+    private _first: number
+    private _vbo: VertexBuffer
 
-  constructor(first: number, vbo: VertexBuffer, engine: Engine) {
-    super('VertexBufferPackage', engine)
-    this._first = mustBeNumber('first', first)
-    mustBeObject('vbo', vbo)
-    vbo.addRef()
-    this._vbo = vbo
-  }
+    constructor(first: number, vbo: VertexBuffer, engine: Engine) {
+        super(engine)
+        this._first = mustBeNumber('first', first)
+        mustBeObject('vbo', vbo)
+        vbo.addRef()
+        this._vbo = vbo
+    }
 
-  protected destructor(): void {
-    super.destructor()
-  }
+    protected destructor(levelUp: number): void {
+        super.destructor(levelUp + 1)
+    }
 
-  get first(): number {
-    return this._first
-  }
-  set first(first: number) {
-    throw new Error(readOnly('first').message)
-  }
+    get first(): number {
+        return this._first
+    }
+    set first(first: number) {
+        throw new Error(readOnly('first').message)
+    }
 }

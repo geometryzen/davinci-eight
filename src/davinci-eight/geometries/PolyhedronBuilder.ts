@@ -1,4 +1,4 @@
-import G3 from '../math/G3';
+import {G3} from '../math/G3';
 import VectorE3 from '../math/VectorE3';
 import SimplexPrimitivesBuilder from '../geometries/SimplexPrimitivesBuilder';
 import Simplex from '../geometries/Simplex';

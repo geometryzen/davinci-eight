@@ -10,13 +10,13 @@ import isNull from '../checks/isNull'
 import isUndefined from '../checks/isUndefined'
 import LineMaterial from '../materials/LineMaterial'
 import LineMaterialOptions from '../materials/LineMaterialOptions'
-import Mesh from '../core/Mesh'
+import {Mesh} from '../core/Mesh'
 import mustBeGE from '../checks/mustBeGE'
 import mustBeNumber from '../checks/mustBeNumber'
 import PointMaterial from '../materials/PointMaterial'
 import PointMaterialOptions from '../materials/PointMaterialOptions'
 import R3 from '../math/R3'
-import Unit from '../math/Unit'
+import {Unit} from '../math/Unit'
 
 /**
  * @module EIGHT
@@ -157,7 +157,7 @@ function configLines(options: CurveOptions, curve: Curve) {
  * @class Curve
  * @extends Mesh
  */
-export default class Curve extends Mesh {
+export class Curve extends Mesh {
 
   /**
    * @class Curve

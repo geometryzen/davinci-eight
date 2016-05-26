@@ -1,5 +1,5 @@
 import DefaultContextProvider from './DefaultContextProvider'
-import Engine from '../core/Engine'
+import {Engine} from '../core/Engine'
 import refChange from '../core/refChange'
 
 describe("DefaultContextProvider", function() {

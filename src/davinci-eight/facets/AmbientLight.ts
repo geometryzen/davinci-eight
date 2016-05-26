@@ -1,4 +1,4 @@
-import Color from '../core/Color';
+import {Color} from '../core/Color';
 import AbstractColor from '../core/AbstractColor';
 import Facet from '../core/Facet';
 import FacetVisitor from '../core/FacetVisitor';
@@ -23,7 +23,7 @@ function contextBuilder() {
  * Constructs a white light in the -e3 direction.
  * @class AmbientLight
  */
-export default class AmbientLight implements Facet {
+export class AmbientLight implements Facet {
     /**
      * @property color
      * @type {Color}

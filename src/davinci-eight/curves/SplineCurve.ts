@@ -1,5 +1,5 @@
 import Curve from '../curves/Curve';
-import G3 from '../math/G3';
+import {G3} from '../math/G3';
 
 function interpolate(p0: G3, p1: G3, p2: G3, p3: G3, t: number): G3 {
     var v20 = p2.sub(p0)

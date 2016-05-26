@@ -5,7 +5,7 @@ import mustBeInteger from '../checks/mustBeInteger';
 import notImplemented from '../i18n/notImplemented';
 import readOnly from '../i18n/readOnly';
 import SpinorE1 from './SpinorE1';
-import Unit from './Unit';
+import {Unit} from './Unit';
 import VectorE1 from './VectorE1';
 
 function assertArgNumber(name: string, x: number): number {

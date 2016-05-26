@@ -18,7 +18,7 @@ import RigidBody from './RigidBody'
  * @class Cylinder
  * @extends RigidBody
  */
-export default class Cylinder extends RigidBody {
+export class Cylinder extends RigidBody {
 
   /**
    * @class Cylinder

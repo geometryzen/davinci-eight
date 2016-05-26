@@ -4,7 +4,7 @@ import R3 from '../math/R3';
 import SliceSimplexPrimitivesBuilder from '../geometries/SliceSimplexPrimitivesBuilder';
 import Spinor3 from '../math/Spinor3';
 import SpinorE3 from '../math/SpinorE3';
-import Unit from '../math/Unit'
+import {Unit} from '../math/Unit'
 import Vector2 from '../math/Vector2';
 import Vector3 from '../math/Vector3';
 

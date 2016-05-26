@@ -1,13 +1,13 @@
-import Color from '../core/Color'
+import {Color} from '../core/Color'
 import DrawList from './DrawList'
 import Facet from '../core/Facet'
-import AmbientLight from '../facets/AmbientLight'
+import {AmbientLight} from '../facets/AmbientLight'
 import AbstractDrawable from '../core/AbstractDrawable'
-import TrackballControls from '../controls/TrackballControls'
+import {TrackballControls} from '../controls/TrackballControls'
 import incLevel from '../base/incLevel';
 import readOnly from '../i18n/readOnly'
 import ShareableBase from '../core/ShareableBase'
-import Engine from '../core/Engine'
+import {Engine} from '../core/Engine'
 
 /**
  * Intentionally undocumented.

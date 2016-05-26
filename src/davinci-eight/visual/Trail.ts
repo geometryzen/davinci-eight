@@ -1,7 +1,7 @@
 import Facet from '../core/Facet';
-import Geometric3 from '../math/Geometric3'
+import {Geometric3} from '../math/Geometric3'
 import incLevel from '../base/incLevel';
-import Mesh from '../core/Mesh';
+import {Mesh} from '../core/Mesh';
 import mustBeObject from '../checks/mustBeObject';
 import ShareableBase from '../core/ShareableBase';
 import TrailConfig from './TrailConfig';
@@ -42,7 +42,7 @@ import TrailConfig from './TrailConfig';
  * @class Trail
  * @extends ShareableBase
  */
-export default class Trail extends ShareableBase {
+export class Trail extends ShareableBase {
 
   /**
    * The underlying Mesh.

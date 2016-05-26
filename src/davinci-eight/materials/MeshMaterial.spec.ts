@@ -1,4 +1,4 @@
-import Engine from '../core/Engine'
+import {Engine} from '../core/Engine'
 import MeshMaterial from './MeshMaterial'
 import MeshMaterialOptions from '../materials/MeshMaterialOptions'
 

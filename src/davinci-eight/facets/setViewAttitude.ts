@@ -1,4 +1,4 @@
-import Geometric3 from '../math/Geometric3'
+import {Geometric3} from '../math/Geometric3'
 import R3 from '../math/R3'
 import SpinorE3 from '../math/SpinorE3'
 

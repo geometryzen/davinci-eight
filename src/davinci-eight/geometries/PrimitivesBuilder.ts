@@ -1,5 +1,5 @@
-import Engine from '../core/Engine'
-import Geometric3 from '../math/Geometric3';
+import {Engine} from '../core/Engine'
+import {Geometric3} from '../math/Geometric3';
 import GeometryBuilder from './GeometryBuilder'
 import Geometry from '../core/Geometry'
 import GeometryElements from '../core/GeometryElements'

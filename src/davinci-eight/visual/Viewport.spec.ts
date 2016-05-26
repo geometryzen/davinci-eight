@@ -1,4 +1,4 @@
-import Engine from '../core/Engine'
+import {Engine} from '../core/Engine'
 import isFunction from '../checks/isFunction'
 import Viewport from './Viewport'
 import refChange from '../core/refChange'

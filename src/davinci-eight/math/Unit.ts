@@ -1,9 +1,9 @@
 import DivisionRingOperators from '../math/DivisionRingOperators';
-import Dimensions from '../math/Dimensions';
+import {Dimensions} from '../math/Dimensions';
 import LinearNumber from '../math/LinearNumber';
 import notImplemented from '../i18n/notImplemented';
 import notSupported from '../i18n/notSupported';
-import QQ from '../math/QQ';
+import {QQ} from '../math/QQ';
 
 // const NAMES_SI = ['kilogram', 'meter', 'second', 'coulomb', 'kelvin', 'mole', 'candela'];
 const SYMBOLS_SI = ['kg', 'm', 's', 'C', 'K', 'mol', 'cd'];
@@ -149,30 +149,19 @@ function div(lhs: Unit, rhs: Unit): Unit {
 }
 
 /**
- * @module EIGHT
- * @submodule math
- */
-
-/**
  * <p>
  * The Unit class represents the units for a measure.
  * </p>
- *
- * @class Unit
  */
-export default class Unit implements DivisionRingOperators<Unit, Unit>, LinearNumber<Unit, Unit, Unit, Unit, number, number> {
+export class Unit implements DivisionRingOperators<Unit, Unit>, LinearNumber<Unit, Unit, Unit, Unit, number, number> {
 
   /**
-   * @property ONE
-   * @type Unit
-   * @static
+   *
    */
   public static ONE = new Unit(1.0, Dimensions.ONE, SYMBOLS_SI);
 
   /**
-   * @property KILOGRAM
-   * @type Unit
-   * @static
+   *
    */
   public static KILOGRAM = new Unit(1.0, Dimensions.MASS, SYMBOLS_SI);
 

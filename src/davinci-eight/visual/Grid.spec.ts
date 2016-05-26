@@ -1,4 +1,4 @@
-import Grid from './Grid'
+import {Grid} from './Grid'
 
 describe("Grid", function() {
   it("new-release", function() {

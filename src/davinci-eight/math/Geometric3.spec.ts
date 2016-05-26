@@ -1,7 +1,7 @@
-import Geometric3 from './Geometric3'
-import G3 from './G3'
+import {Geometric3} from './Geometric3'
+import {G3} from './G3'
 import R3 from './R3'
-import Unit from './Unit'
+import {Unit} from './Unit'
 import Spinor3 from './Spinor3'
 import Vector3 from './Vector3'
 

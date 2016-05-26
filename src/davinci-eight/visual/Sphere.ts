@@ -18,7 +18,7 @@ import SphereGeometryOptions from '../geometries/SphereGeometryOptions'
  * @class Sphere
  * @extends RigidBody
  */
-export default class Sphere extends RigidBody {
+export class Sphere extends RigidBody {
 
   /**
    * @class Sphere

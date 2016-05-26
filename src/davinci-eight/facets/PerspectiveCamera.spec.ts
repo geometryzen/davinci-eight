@@ -1,4 +1,4 @@
-import PerspectiveCamera from './PerspectiveCamera'
+import {PerspectiveCamera} from './PerspectiveCamera'
 import R3 from '../math/R3'
 
 describe("PerspectiveCamera", function() {

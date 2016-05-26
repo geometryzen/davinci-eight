@@ -1,8 +1,8 @@
-import Color from '../core/Color'
+import {Color} from '../core/Color'
 import AbstractColor from '../core/AbstractColor'
 import Facet from '../core/Facet'
 import FacetVisitor from '../core/FacetVisitor'
-import Geometric3 from '../math/Geometric3'
+import {Geometric3} from '../math/Geometric3'
 import mustBeObject from '../checks/mustBeObject'
 import mustBeString from '../checks/mustBeString'
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols'
@@ -23,7 +23,7 @@ function contextBuilder() {
 /**
  * @class DirectionalLight
  */
-export default class DirectionalLight implements Facet {
+export class DirectionalLight implements Facet {
   /**
    * The name of the property that designates the color.
    * @property PROP_COLOR

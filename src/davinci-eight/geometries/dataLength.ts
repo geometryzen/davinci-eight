@@ -1,5 +1,5 @@
-import Geometric2 from '../math/Geometric2';
-import Geometric3 from '../math/Geometric3';
+import {Geometric2} from '../math/Geometric2';
+import {Geometric3} from '../math/Geometric3';
 import Vector2 from '../math/Vector2';
 import Vector3 from '../math/Vector3';
 import VectorN from '../math/VectorN';

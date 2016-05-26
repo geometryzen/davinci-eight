@@ -1,5 +1,5 @@
 import R3 from './R3'
-import Unit from './Unit'
+import {Unit} from './Unit'
 
 describe("R3", function() {
     describe("constructor", function() {

@@ -1,4 +1,4 @@
-import Mesh from '../core/Mesh'
+import {Mesh} from '../core/Mesh'
 import MeshMaterial from '../materials/MeshMaterial'
 import MeshMaterialOptions from '../materials/MeshMaterialOptions'
 import TetrahedronOptions from './TetrahedronOptions'

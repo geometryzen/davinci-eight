@@ -1,6 +1,6 @@
 {
   "name": "davinci-eight",
-  "version": "2.229.0",
+  "version": "2.230.0",
   "description": "WebGL library for mathematical physics using Geometric Algebra",
   "author": {
     "name": "David Holmes",
@@ -45,6 +45,7 @@
     "grunt-template-jasmine-requirejs": "^0.2.3",
     "grunt-ts": "^5.5.1",
     "grunt-tslint": "^3.1.0",
+    "grunt-typedoc": "^0.2.3",
     "grunt-typescript": "latest",
     "jspm": "^0.16.34",
     "karma": "^0.13.22",
@@ -57,6 +58,7 @@
     "servedir": "*",
     "systemjs-builder": "^0.15.5",
     "tslint": "^3.10.2",
+    "typedoc": "^0.3.12",
     "typescript": "^1.8.9"
   },
   "keywords": [],

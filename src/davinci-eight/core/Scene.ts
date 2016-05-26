@@ -7,7 +7,7 @@ import mustBeObject from '../checks/mustBeObject';
 import Geometry from './Geometry';
 import ShareableBase from '../core/ShareableBase';
 import ShareableContextConsumer from '../core/ShareableContextConsumer';
-import Engine from './Engine';
+import {Engine} from './Engine';
 
 /**
  * @module EIGHT
@@ -104,7 +104,7 @@ function partsFromMesh(drawable: AbstractDrawable): ShareableArray<ScenePart> {
  * @class Scene
  * @extends ShareableBase
  */
-export default class Scene extends ShareableContextConsumer {
+export class Scene extends ShareableContextConsumer {
 
   private _drawables: ShareableArray<AbstractDrawable>;
   private _parts: ShareableArray<ScenePart>;

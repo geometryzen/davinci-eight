@@ -38,7 +38,7 @@ import ViewControls from './ViewControls'
  * @class TrackballControls
  * @extends ViewControls
  */
-export default class TrackballControls extends ViewControls {
+export class TrackballControls extends ViewControls {
 
   // Working storage for calculations that update the camera.
   private moveDirection = new Vector3()

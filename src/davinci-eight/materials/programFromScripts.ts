@@ -1,4 +1,4 @@
-import Engine from '../core/Engine'
+import {Engine} from '../core/Engine'
 import mustBeObject from '../checks/mustBeObject';
 import mustBeString from '../checks/mustBeString';
 import MaterialBase from './MaterialBase';

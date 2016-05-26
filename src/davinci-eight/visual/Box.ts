@@ -18,7 +18,7 @@ import RigidBody from './RigidBody'
  * @class Box
  * @extends RigidBody
  */
-export default class Box extends RigidBody {
+export class Box extends RigidBody {
 
   /**
    * @class Box

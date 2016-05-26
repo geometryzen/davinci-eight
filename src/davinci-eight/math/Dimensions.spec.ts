@@ -1,5 +1,5 @@
-import Dimensions from './Dimensions'
-import QQ from './QQ'
+import {Dimensions} from './Dimensions'
+import {QQ} from './QQ'
 
 const R0 = QQ.valueOf(0, 1)
 const R1 = QQ.valueOf(1, 1)

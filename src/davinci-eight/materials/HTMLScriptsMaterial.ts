@@ -1,5 +1,5 @@
 import ContextProvider from '../core/ContextProvider';
-import Engine from '../core/Engine';
+import {Engine} from '../core/Engine';
 import incLevel from '../base/incLevel'
 import isString from '../checks/isString';
 import mustBeArray from '../checks/mustBeArray';
