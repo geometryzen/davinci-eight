@@ -3,12 +3,7 @@ import Spinor3 from '../math/Spinor3'
 import Vector2 from '../math/Vector2'
 import Vector3 from '../math/Vector3'
 import View from '../facets/View'
-import ViewControls from './ViewControls'
-
-/**
- * @module EIGHT
- * @submodule controls
- */
+import {ViewControls} from './ViewControls'
 
 /**
  * <p>
@@ -34,9 +29,6 @@ import ViewControls from './ViewControls'
  *     controls.release()
  *
  * You may decide to update directional lighting to synchronize with the camera.
- *
- * @class TrackballControls
- * @extends ViewControls
  */
 export class TrackballControls extends ViewControls {
 
@@ -55,10 +47,8 @@ export class TrackballControls extends ViewControls {
   private objectUp = new Vector3()
 
   /**
-   * @class TrackballControls
-   * @constructor
-   * @param view {View}
-   * @param window {Window}
+   * @param view
+   * @param window
    */
   constructor(view: View, wnd: BrowserWindow) {
     super(view, wnd)
@@ -66,19 +56,14 @@ export class TrackballControls extends ViewControls {
   }
 
   /**
-   * @method destructor
-   * @param levelUp {number}
-   * @return {void}
-   * @protected
+   * @param levelUp
    */
   protected destructor(levelUp: number): void {
     super.destructor(levelUp + 1)
   }
 
   /**
-   * @method rotateCamera
-   * @return {void}
-   * @protected
+   *
    */
   protected rotateCamera(): void {
     if (this.hasView()) {
@@ -114,9 +99,7 @@ export class TrackballControls extends ViewControls {
   }
 
   /**
-   * @method panCamera
-   * @return {void}
-   * @protected
+   *
    */
   protected panCamera(): void {
     if (this.hasView()) {

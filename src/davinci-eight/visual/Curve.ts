@@ -18,11 +18,6 @@ import PointMaterialOptions from '../materials/PointMaterialOptions'
 import R3 from '../math/R3'
 import {Unit} from '../math/Unit'
 
-/**
- * @module EIGHT
- * @submodule visual
- */
-
 function aPositionDefault(u: number): R3 {
   return R3.vector(u, 0, 0, Unit.ONE)
 }
@@ -153,16 +148,12 @@ function configLines(options: CurveOptions, curve: Curve) {
 }
 
 /**
- * 
- * @class Curve
- * @extends Mesh
+ *
  */
 export class Curve extends Mesh {
 
   /**
-   * @class Curve
-   * @constructor
-   * @param [options] {CurveOptions}
+   * @param options
    */
   constructor(options: CurveOptions = {}) {
     super(void 0, void 0, options.engine)
@@ -186,12 +177,9 @@ export class Curve extends Mesh {
   }
 
   /**
-   * @method destructor
-   * @param level {number}
-   * @return {void}
-   * @protected
+   * @param levelUp
    */
-  protected destructor(level: number): void {
-    super.destructor(incLevel(level))
+  protected destructor(levelUp: number): void {
+    super.destructor(incLevel(levelUp))
   }
 }

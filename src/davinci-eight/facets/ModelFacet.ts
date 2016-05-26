@@ -1,4 +1,4 @@
-import Facet from '../core/Facet'
+import {Facet} from '../core/Facet'
 import FacetVisitor from '../core/FacetVisitor'
 import Matrix3 from '../math/Matrix3'
 import Matrix4 from '../math/Matrix4'
@@ -10,21 +10,13 @@ import readOnly from '../i18n/readOnly'
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols'
 
 /**
- * @module EIGHT
- * @submodule facets
+ *
  */
-
-/**
- * @class ModelFacet
- * @extends ModelE3
- */
-export default class ModelFacet extends ModelE3 implements Facet {
+export class ModelFacet extends ModelE3 implements Facet {
 
   /**
-   * @property matS
-   * @type Matrix4
+   *
    * @default diag(1, 1, 1, 1)
-   * @private
    */
   private matS: Matrix4 = Matrix4.one();
 
@@ -47,8 +39,6 @@ export default class ModelFacet extends ModelE3 implements Facet {
    * <p>
    * Constructs a ModelFacet at the origin and with unity attitude.
    * </p>
-   * @class ModelFacet
-   * @constructor
    */
   constructor() {
     super()
@@ -58,8 +48,7 @@ export default class ModelFacet extends ModelE3 implements Facet {
   }
 
   /**
-   * @property stress
-   * @type Matrix4
+   * Stress (tensor)
    */
   get stress(): Matrix4 {
     return this.matS
@@ -70,8 +59,7 @@ export default class ModelFacet extends ModelE3 implements Facet {
   }
 
   /**
-   * @property matrix
-   * @type Matrix4
+   *
    * @readOnly
    */
   get matrix(): Matrix4 {
@@ -82,9 +70,7 @@ export default class ModelFacet extends ModelE3 implements Facet {
   }
 
   /**
-   * @method setUniforms
-   * @param visitor {FacetVisitor}
-   * @return {void}
+   * @param visitor
    */
   setUniforms(visitor: FacetVisitor): void {
     this.updateMatrices()
@@ -126,11 +112,9 @@ export default class ModelFacet extends ModelE3 implements Facet {
   }
 
   /**
-   * @method setProperty
-   * @param name {string}
-   * @param data {number[]}
-   * @return {ModelFacet}
-   * @chainable
+   * @param name
+   * @param data
+   * @returns
    */
   setProperty(name: string, data: number[]): ModelFacet {
     mustBeString('name', name);

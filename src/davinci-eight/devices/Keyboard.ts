@@ -1,6 +1,6 @@
 import IKeyboardHandler from '../devices/IKeyboardHandler';
 import incLevel from '../base/incLevel'
-import ShareableBase from '../core/ShareableBase';
+import {ShareableBase} from '../core/ShareableBase';
 
 function makeKeyDownHandler(keyboard: Keyboard, handler: IKeyboardHandler) {
   return function(event: KeyboardEvent) {

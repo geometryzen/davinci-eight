@@ -1,7 +1,7 @@
-import Coords from '../../math/Coords'
+import {Coords} from '../../math/Coords'
 import mustBeGE from '../../checks/mustBeGE'
 import mustBeInteger from '../../checks/mustBeInteger'
-import VectorN from '../../math/VectorN'
+import {VectorN} from '../../math/VectorN'
 import VertexAttributeMap from './VertexAttributeMap'
 
 /**

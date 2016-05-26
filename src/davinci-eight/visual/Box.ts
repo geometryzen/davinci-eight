@@ -7,23 +7,16 @@ import isDefined from '../checks/isDefined'
 import MeshMaterial from '../materials/MeshMaterial'
 import MeshMaterialOptions from '../materials/MeshMaterialOptions'
 import mustBeNumber from '../checks/mustBeNumber'
-import RigidBody from './RigidBody'
+import {RigidBody} from './RigidBody'
 
 /**
- * @module EIGHT
- * @submodule visual
- */
-
-/**
- * @class Box
- * @extends RigidBody
+ *
  */
 export class Box extends RigidBody {
 
   /**
-   * @class Box
-   * @constructor
-   * @param [options] {BoxOptions}
+   *
+   * @param options
    */
   constructor(options: BoxOptions = {}) {
     super(void 0, void 0, options.engine, direction(options))
@@ -66,12 +59,8 @@ export class Box extends RigidBody {
     this.depth = isDefined(options.depth) ? mustBeNumber('depth', options.depth) : 1.0
   }
 
-
   /**
-   * @method destructor
-   * @param level {number}
-   * @return {void}
-   * @protected
+   * @param level
    */
   protected destructor(level: number): void {
     if (level === 0) {
@@ -81,8 +70,6 @@ export class Box extends RigidBody {
   }
 
   /**
-   * @property width
-   * @type number
    * @default 1
    */
   get width() {
@@ -93,8 +80,7 @@ export class Box extends RigidBody {
   }
 
   /**
-   * @property height
-   * @type number
+   *
    */
   get height() {
     return this.getPrincipalScale('height')
@@ -104,8 +90,7 @@ export class Box extends RigidBody {
   }
 
   /**
-   * @property depth
-   * @type number
+   *
    */
   get depth() {
     return this.getPrincipalScale('depth')

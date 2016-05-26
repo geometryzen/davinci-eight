@@ -1,15 +1,10 @@
-import Facet from '../core/Facet';
+import {Facet} from '../core/Facet';
 import {Geometric3} from '../math/Geometric3'
 import incLevel from '../base/incLevel';
 import {Mesh} from '../core/Mesh';
 import mustBeObject from '../checks/mustBeObject';
-import ShareableBase from '../core/ShareableBase';
-import TrailConfig from './TrailConfig';
-
-/**
- * @module EIGHT
- * @submodule visual
- */
+import {ShareableBase} from '../core/ShareableBase';
+import {TrailConfig} from './TrailConfig';
 
 /**
  * <p>
@@ -21,7 +16,7 @@ import TrailConfig from './TrailConfig';
  * You should call the <code>release</code> method when the trail is no longer required.
  * </p>
  *
- * @example
+ *
  *     // The trail is constructed, at any time, on an existing mesh.
  *     const trail = new EIGHT.Trail(mesh)
  *
@@ -38,58 +33,36 @@ import TrailConfig from './TrailConfig';
  *
  *     // Release the trail when no longer required, usually in the window.onunload function.
  *     trail.release()
- *
- * @class Trail
- * @extends ShareableBase
  */
 export class Trail extends ShareableBase {
 
   /**
    * The underlying Mesh.
-   *
-   * @property mesh
-   * @type Mesh
-   * @private
    */
   private mesh: Mesh
 
   /**
    * The position history.
-   *
-   * @property Xs
-   * @type {Geometric3[]}
-   * @private
    */
   private Xs: Geometric3[] = []
 
   /**
    * The attitude history.
-   *
-   * @property Rs
-   * @type {Geometric3[]}
-   * @private
    */
   private Rs: Geometric3[] = []
 
   /**
    * The configuration that determines how the history is recorded.
-   *
-   * @property config
-   * @type TrailConfig
    */
   public config: TrailConfig = new TrailConfig();
 
   /**
-   * @property counter
-   * @type number
-   * @private
+   *
    */
   private counter = 0
 
   /**
-   * @class Trail
-   * @constructor
-   * @param mesh {Mesh}
+   * @param mesh
    */
   constructor(mesh: Mesh) {
     super()
@@ -100,10 +73,7 @@ export class Trail extends ShareableBase {
   }
 
   /**
-   * @method destructor
-   * @param level {number}
-   * @return {void}
-   * @protected
+   * @param level
    */
   protected destructor(level: number): void {
     this.mesh.release()
@@ -113,9 +83,6 @@ export class Trail extends ShareableBase {
 
   /**
    * Erases the trail history.
-   *
-   * @method erase
-   * @return {void}
    */
   erase(): void {
     this.Xs = []
@@ -124,9 +91,6 @@ export class Trail extends ShareableBase {
 
   /**
    * Records the Mesh variables according to the interval property.
-   *
-   * @method snapshot()
-   * @return {void}
    */
   snapshot(): void {
     if (this.config.enabled) {
@@ -143,9 +107,7 @@ export class Trail extends ShareableBase {
   }
 
   /**
-   * @method draw
-   * @param ambients {Facet[]}
-   * @return {void}
+   * @param ambients
    */
   draw(ambients: Facet[]): void {
     if (this.config.enabled) {

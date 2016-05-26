@@ -20,11 +20,6 @@ import PointMaterialOptions from '../materials/PointMaterialOptions'
 import R3 from '../math/R3'
 import {Unit} from '../math/Unit'
 
-/**
- * @module EIGHT
- * @submodule visual
- */
-
 function aPositionDefault(u: number, v: number): R3 {
   return R3.vector(u, v, 0, Unit.ONE)
 }
@@ -251,16 +246,13 @@ function configMesh(options: GridOptions, grid: Grid) {
 }
 
 /**
- * 
- * @class Grid
- * @extends Mesh
+ *
  */
 export class Grid extends Mesh {
 
   /**
-   * @class Grid
-   * @constructor
-   * @param [options] {GridOptions}
+   *
+   * @param options
    */
   constructor(options: GridOptions = {}) {
     super(void 0, void 0, null)
@@ -289,12 +281,9 @@ export class Grid extends Mesh {
   }
 
   /**
-   * @method destructor
-   * @param level {number}
-   * @return {void}
-   * @protected
+   * @param levelUp
    */
-  protected destructor(level: number): void {
-    super.destructor(incLevel(level))
+  protected destructor(levelUp: number): void {
+    super.destructor(incLevel(levelUp))
   }
 }

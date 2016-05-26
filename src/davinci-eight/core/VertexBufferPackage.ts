@@ -2,7 +2,7 @@ import {Engine} from './Engine'
 import mustBeNumber from '../checks/mustBeNumber'
 import mustBeObject from '../checks/mustBeObject'
 import readOnly from '../i18n/readOnly'
-import ShareableContextConsumer from './ShareableContextConsumer'
+import {ShareableContextConsumer} from './ShareableContextConsumer'
 import VertexBuffer from './VertexBuffer'
 
 export default class VertexBufferPackage extends ShareableContextConsumer {

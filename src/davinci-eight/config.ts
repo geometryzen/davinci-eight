@@ -12,7 +12,7 @@ class Eight {
     this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
     this.LAST_MODIFIED = '2016-05-26';
     this.NAMESPACE = 'EIGHT';
-    this.VERSION = '2.230.0';
+    this.VERSION = '2.231.0';
   }
   get errorMode() {
     return this._errorMode

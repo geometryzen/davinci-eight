@@ -1,6 +1,6 @@
 import {Color} from '../core/Color'
 import AbstractColor from '../core/AbstractColor'
-import Facet from '../core/Facet'
+import {Facet} from '../core/Facet'
 import FacetVisitor from '../core/FacetVisitor'
 import {Geometric3} from '../math/Geometric3'
 import mustBeObject from '../checks/mustBeObject'
@@ -9,11 +9,6 @@ import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols'
 import R3 from '../math/R3'
 import VectorE3 from '../math/VectorE3'
 
-/**
- * @module EIGHT
- * @submodule facets
- */
-
 const LOGGING_NAME = 'DirectionalLight'
 
 function contextBuilder() {
@@ -21,48 +16,35 @@ function contextBuilder() {
 }
 
 /**
- * @class DirectionalLight
+ *
  */
 export class DirectionalLight implements Facet {
   /**
    * The name of the property that designates the color.
-   * @property PROP_COLOR
-   * @type {string}
    * @default 'color'
-   * @static
-   * @readOnly
    */
   public static PROP_COLOR = 'color';
 
   /**
    * The name of the property that designates the direction.
-   * @property PROP_DIRECTION
-   * @type {string}
    * @default 'direction'
-   * @static
-   * @readOnly
    */
   public static PROP_DIRECTION = 'direction';
 
   /**
-   * @property _direction
-   * @type {Geometric3}
-   * @private
+   *
    */
   private _direction: Geometric3;
 
   /**
-   * @property _color
-   * @type {Color}
-   * @private
+   *
    */
   public _color: Color;
 
   /**
-   * @class DirectionalLight
-   * @constructor
-   * @param [direction = -e3] {VectorE3}
-   * @param [color = white] {AbstractColor}
+   *
+   * @param direction
+   * @param color
    */
   constructor(direction: VectorE3 = R3.e3.neg(), color: AbstractColor = Color.white) {
     mustBeObject('direction', direction)
@@ -72,8 +54,7 @@ export class DirectionalLight implements Facet {
   }
 
   /**
-   * @property color
-   * @type {Color}
+   *
    */
   get color(): Color {
     return this._color
@@ -83,8 +64,7 @@ export class DirectionalLight implements Facet {
   }
 
   /**
-   * @property direction
-   * @type {Geometric}
+   *
    */
   get direction(): Geometric3 {
     return this._direction
@@ -94,9 +74,8 @@ export class DirectionalLight implements Facet {
   }
 
   /**
-   * @method getProperty
-   * @param name {string}
-   * @return {number[]}
+   * @param name
+   * @returns
    */
   getProperty(name: string): number[] {
     mustBeString('name', name, contextBuilder)
@@ -114,11 +93,9 @@ export class DirectionalLight implements Facet {
   }
 
   /**
-   * @method setProperty
-   * @param name {string}
-   * @param value {number[]}
-   * @return {DirectionalLight}
-   * @chainable
+   * @param name
+   * @param value
+   * @returns
    */
   setProperty(name: string, value: number[]): DirectionalLight {
     mustBeString('name', name, contextBuilder);
@@ -140,10 +117,8 @@ export class DirectionalLight implements Facet {
   }
 
   /**
-   * @method setColor
-   * @param color {AbstractColor}
-   * @return {DirectionalLight}
-   * @chainable
+   * @param color
+   * @returns
    */
   setColor(color: AbstractColor): DirectionalLight {
     mustBeObject('color', color)
@@ -152,10 +127,8 @@ export class DirectionalLight implements Facet {
   }
 
   /**
-   * @method setDirection
-   * @param direction {VectorE3}
-   * @return {DirectionalLight}
-   * @chainable
+   * @param direction
+   * @returns
    */
   setDirection(direction: VectorE3): DirectionalLight {
     mustBeObject('direction', direction)
@@ -164,9 +137,7 @@ export class DirectionalLight implements Facet {
   }
 
   /**
-   * @method setUniforms
-   * @param visitor {FacetVisitor}
-   * @return {void}
+   * @param visitor
    */
   setUniforms(visitor: FacetVisitor): void {
     const direction = this._direction

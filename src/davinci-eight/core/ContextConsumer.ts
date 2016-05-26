@@ -1,21 +1,13 @@
 import ContextProvider from './ContextProvider';
-import Shareable from './Shareable';
-
-/**
- * @module EIGHT
- * @submodule core
- */
+import {Shareable} from './Shareable';
 
 /**
  * This interface standardizes the concept of an implementation being dependent upon
  * a WebGL rendering context. The notification methods for context gain, loss, and free
  * allow the implementation to participate in the dynamic and volatile environment
  * whereupon a browser may reset its WebGL rendering contexts.
- *
- * @class ContextConsumer
- * @extends Shareable
  */
-interface ContextConsumer extends Shareable {
+export interface ContextConsumer extends Shareable {
 
     /**
      * Called to request the consumer to free any WebGL resources acquired and owned.
@@ -24,8 +16,7 @@ interface ContextConsumer extends Shareable {
      * method may be called multiple times for what is logically the same context. In such
      * cases the consumer must be idempotent and respond only to the first request.
      *
-     * @method contextFree
-     * @param contextProvider {ContextProvider}
+     * @param contextProvider
      */
     contextFree(contextProvider: ContextProvider): void;
 
@@ -34,8 +25,7 @@ interface ContextConsumer extends Shareable {
      * The implementation should ignore the notification if it has already
      * received the same context.
      *
-     * @method contextGain
-     * @param contextProvider {ContextProvider}
+     * @param contextProvider
      */
     contextGain(contextProvider: ContextProvider): void;
 
@@ -44,11 +34,6 @@ interface ContextConsumer extends Shareable {
      * The dependent must assume that any cached context is invalid.
      * The dependent must not try to use and cached context to free resources.
      * The dependent should reset its state to that for which there is no context.
-     *
-     * @method contextLost
-     * @return {void}
      */
     contextLost(): void;
 }
-
-export default ContextConsumer;

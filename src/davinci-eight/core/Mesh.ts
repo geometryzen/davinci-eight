@@ -1,14 +1,14 @@
 import {Color} from './Color';
-import ColorFacet from '../facets/ColorFacet'
-import Drawable from './Drawable'
+import {ColorFacet} from '../facets/ColorFacet'
+import {Drawable} from './Drawable'
 import {Engine} from './Engine'
 import {Geometric3} from '../math/Geometric3'
 import Geometry from './Geometry'
 import Material from './Material'
 import AbstractMesh from '../core/AbstractMesh'
 import Matrix4 from '../math/Matrix4'
-import ModelFacet from '../facets/ModelFacet'
-import PointSizeFacet from '../facets/PointSizeFacet'
+import {ModelFacet} from '../facets/ModelFacet'
+import {PointSizeFacet} from '../facets/PointSizeFacet'
 import notSupported from '../i18n/notSupported'
 
 const COLOR_FACET_NAME = 'color'
@@ -16,26 +16,14 @@ const MODEL_FACET_NAME = 'model'
 const POINT_FACET_NAME = 'point'
 
 /**
- * @module EIGHT
- * @submodule core
- */
-
-// Mesh is designed to be equivalent to the Three.js Mesh in the sense that it assumes
-// particlular facets that give the Drawable position, attitude, and color.
-// The position and attitude are dimensionless, mutable, and readOnly quantities for performance.
-
-/**
- * @class Mesh
- * @extends Drawable
+ *
  */
 export class Mesh extends Drawable implements AbstractMesh {
 
   /**
-   * @class Mesh
-   * @constructor
-   * @param geometry {Geometry}
-   * @param material {Material}
-   * @param engine {Engine} The <code>Engine</code> to subscribe to or <code>null</code> for deferred subscription.
+   * @param geometry
+   * @param material
+   * @param engine The <code>Engine</code> to subscribe to or <code>null</code> for deferred subscription.
    */
   constructor(geometry: Geometry, material: Material, engine: Engine) {
     super(geometry, material, engine)
@@ -52,10 +40,7 @@ export class Mesh extends Drawable implements AbstractMesh {
   }
 
   /**
-   * @method destructor
-   * @param levelUp {number}
-   * @return {void}
-   * @protected
+   * @param levelUp
    */
   protected destructor(levelUp: number): void {
     super.destructor(levelUp + 1)
@@ -63,9 +48,6 @@ export class Mesh extends Drawable implements AbstractMesh {
 
   /**
    * Attitude (spinor)
-   *
-   * @property R
-   * @type Geometric3
    */
   get R(): Geometric3 {
     const facet = <ModelFacet>this.getFacet(MODEL_FACET_NAME)
@@ -88,9 +70,6 @@ export class Mesh extends Drawable implements AbstractMesh {
 
   /**
    * Color
-   *
-   * @property color
-   * @type Color
    */
   get color(): Color {
     const facet = <ColorFacet>this.getFacet(COLOR_FACET_NAME)
@@ -113,9 +92,6 @@ export class Mesh extends Drawable implements AbstractMesh {
 
   /**
    * Position (vector)
-   *
-   * @property X
-   * @type Geometric3
    */
   get X(): Geometric3 {
     const facet = <ModelFacet>this.getFacet(MODEL_FACET_NAME)
@@ -137,8 +113,7 @@ export class Mesh extends Drawable implements AbstractMesh {
   }
 
   /**
-   * @property stress
-   * @type Matrix4
+   * Stress (tensor)
    */
   get stress(): Matrix4 {
     const facet = <ModelFacet>this.getFacet(MODEL_FACET_NAME)
@@ -160,9 +135,8 @@ export class Mesh extends Drawable implements AbstractMesh {
   }
 
   /**
-   * @method getPrincipalScale
-   * @param name {string}
-   * @return {number}
+   * @param name
+   * @returns
    */
   protected getPrincipalScale(name: string): number {
     const geometry = this.geometry
@@ -177,11 +151,8 @@ export class Mesh extends Drawable implements AbstractMesh {
   }
 
   /**
-   * @method setPrincipalScale
-   * @param name {string}
-   * @param value {number}
-   * @return {void}
-   * @protected
+   * @param name
+   * @param value
    */
   protected setPrincipalScale(name: string, value: number): void {
     const geometry = this.geometry

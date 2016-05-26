@@ -1,13 +1,8 @@
 import {Color} from '../core/Color';
 import mustBeNumber from '../checks/mustBeNumber';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
-import Facet from '../core/Facet';
+import {Facet} from '../core/Facet';
 import FacetVisitor from '../core/FacetVisitor';
-
-/**
- * @module EIGHT
- * @submodule facets
- */
 
 const COORD_R = 0
 const COORD_G = 1
@@ -28,55 +23,42 @@ function checkPropertyName(name: string): void {
 }
 
 /**
- * @class ColorFacet
+ *
  */
-export default class ColorFacet implements Facet {
+export class ColorFacet implements Facet {
 
   /**
-   * property PROP_RGB
-   * @type {string}
-   * @static
+   *
    */
   public static PROP_RGB = 'rgb';
 
   /**
-   * property PROP_RED
-   * @type {string}
-   * @static
+   *
    */
   public static PROP_RED = 'r';
 
   /**
-   * property PROP_GREEN
-   * @type {string}
-   * @static
+   *
    */
   public static PROP_GREEN = 'g';
 
   /**
-   * property PROP_BLUE
-   * @type {string}
-   * @static
+   *
    */
   public static PROP_BLUE = 'b';
 
   /**
-   * @property color
-   * @type {Color}
-   * @public
+   *
    */
   public color = Color.fromRGB(1, 1, 1);
 
   /**
-   * @property uColorName
-   * @type {string}
-   * @optional
+   *
    */
   public uColorName: string;
 
   /**
-   * @class ColorFacet
-   * @constructor
+   *
    */
   constructor() {
     this.uColorName = GraphicsProgramSymbols.UNIFORM_COLOR
@@ -84,8 +66,6 @@ export default class ColorFacet implements Facet {
 
   /**
    * The red component of the color.
-   * @property r
-   * @type {number}
    */
   get r(): number {
     return this.color.r;
@@ -97,8 +77,6 @@ export default class ColorFacet implements Facet {
 
   /**
    * The green component of the color.
-   * @property g
-   * @type {number}
    */
   get g(): number {
     return this.color.g
@@ -110,8 +88,6 @@ export default class ColorFacet implements Facet {
 
   /**
    * The blue component of the color.
-   * @property b
-   * @type {number}
    */
   get b(): number {
     return this.color.b;
@@ -122,10 +98,8 @@ export default class ColorFacet implements Facet {
   }
 
   /**
-   * @method scaleRGB
-   * @param α {number}
-   * @return {ColorFacet}
-   * @chainable
+   * @param α
+   * @returns
    */
   scaleRGB(α: number): ColorFacet {
     this.r *= α
@@ -135,12 +109,10 @@ export default class ColorFacet implements Facet {
   }
 
   /**
-   * @method setRGB
-   * @param red {number}
-   * @param green {number}
-   * @param blue {number}
-   * @return {ColorFacet}
-   * @chainable
+   * @param red
+   * @param green
+   * @param blue
+   * @returns
    */
   setRGB(red: number, green: number, blue: number): ColorFacet {
     this.r = red
@@ -150,9 +122,8 @@ export default class ColorFacet implements Facet {
   }
 
   /**
-   * @method getProperty
-   * @param name {string}
-   * @return {number[]}
+   * @param name
+   * @returns
    */
   getProperty(name: string): number[] {
     checkPropertyName(name);
@@ -173,11 +144,9 @@ export default class ColorFacet implements Facet {
   }
 
   /**
-   * @method setProperty
-   * @param name {string}
-   * @param data {number[]}
-   * @return {ColorFacet}
-   * @chainable
+   * @param name
+   * @param data
+   * @returns
    */
   setProperty(name: string, data: number[]): ColorFacet {
     checkPropertyName(name);
@@ -200,9 +169,7 @@ export default class ColorFacet implements Facet {
   }
 
   /**
-   * @method setUniforms
-   * @param visitor {FacetVisitor}
-   * @return {void}
+   * @param visitor
    */
   setUniforms(visitor: FacetVisitor): void {
     const name = this.uColorName

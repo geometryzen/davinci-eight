@@ -10,7 +10,7 @@ import expectArg from '../checks/expectArg';
 import GeometryMeta from './GeometryMeta';
 import Primitive from '../core/Primitive';
 import Simplex from './Simplex';
-import VectorN from '../math/VectorN';
+import {VectorN} from '../math/VectorN';
 import Vertex from './primitives/Vertex';
 
 function numberList(size: number, value: number): number[] {

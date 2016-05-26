@@ -3,7 +3,7 @@ import incLevel from '../base/incLevel';
 import IRigidBody from './IRigidBody'
 import mustBeObject from '../checks/mustBeObject';
 import {Mesh} from '../core/Mesh';
-import ShareableBase from '../core/ShareableBase';
+import {ShareableBase} from '../core/ShareableBase';
 import {Unit} from '../math/Unit';
 import VectorE3 from '../math/VectorE3';
 

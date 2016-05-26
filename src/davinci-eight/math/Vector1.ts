@@ -1,4 +1,4 @@
-import Coords from '../math/Coords';
+import {Coords} from '../math/Coords';
 import MutableLinearElement from '../math/MutableLinearElement';
 import Matrix from '../math/Matrix';
 import Matrix1 from '../math/Matrix1'

@@ -24,35 +24,29 @@ function verbotenPop(): string {
 }
 
 /**
- * @class VectorN
+ *
  */
-export default class VectorN<T> implements Mutable<T[]> {
+export class VectorN<T> implements Mutable<T[]> {
     /**
-     * @property _size
-     * @type number
-     * @private
+     *
      */
     private _size: number;
 
     /**
-     * @property _coords
-     * @type number[]
-     * @protected
+     *
      */
     protected _coords: T[];
 
     /**
-     * @property modified
-     * @type {boolean}
+     *
      */
     public modified: boolean;
 
     /**
-     * @class VectorN
-     * @constructor
-     * @param data {T[]}
-     * @param modified [boolean = false]
-     * @param [size]
+     *
+     * @param data
+     * @param modified
+     * @param size
      */
     constructor(data: T[], modified = false, size?: number) {
         this.modified = modified;
@@ -68,8 +62,7 @@ export default class VectorN<T> implements Mutable<T[]> {
     }
 
     /**
-     * @property data
-     * @type {T[]}
+     *
      */
     get coords(): T[] {
         return this._coords;
@@ -80,34 +73,28 @@ export default class VectorN<T> implements Mutable<T[]> {
     }
 
     /**
-     * @property length
-     * @type {number}
-     * @readOnly
+     *
      */
     get length(): number {
         return this.coords.length;
     }
 
     /**
-     * @method clone
-     * @return {VectorN}
+     *
      */
     clone(): VectorN<T> {
         return new VectorN<T>(this._coords, this.modified, this._size);
     }
 
     /**
-     * @method getComponent
-     * @param index {number}
-     * @return {T}
+     * @param index
      */
     getComponent(index: number): T {
         return this.coords[index];
     }
 
     /**
-     * @method pop
-     * @return {T}
+     *
      */
     pop(): T {
         if (isUndefined(this._size)) {
@@ -119,9 +106,8 @@ export default class VectorN<T> implements Mutable<T[]> {
     }
 
     /**
-     * @method push
-     * @param value {T}
-     * @return {number}
+     * @param value
+     * @returns
      */
     push(value: T): number {
         if (isUndefined(this._size)) {
@@ -136,10 +122,8 @@ export default class VectorN<T> implements Mutable<T[]> {
     }
 
     /**
-     * @method setComponent
-     * @param index {number}
-     * @param value {T}
-     * @return {void}
+     * @param index
+     * @param value
      */
     setComponent(index: number, value: T): void {
         const coords: T[] = this.coords;
@@ -152,10 +136,9 @@ export default class VectorN<T> implements Mutable<T[]> {
     }
 
     /**
-     * @method toArray
-     * @param [array = []] {T[]}
-     * @param [offset = 0] {number}
-     * @return {T[]}
+     * @param array
+     * @param offset
+     * @returns
      */
     toArray(array: T[] = [], offset = 0): T[] {
         let data = this.coords;
@@ -167,16 +150,14 @@ export default class VectorN<T> implements Mutable<T[]> {
     }
 
     /**
-     * @method toLocaleString
-     * @return {string}
+     * @returns
      */
     toLocaleString(): string {
         return this.coords.toLocaleString();
     }
 
     /**
-     * @method toString
-     * @return {string}
+     * @returns
      */
     toString(): string {
         return this.coords.toString();

@@ -1,7 +1,7 @@
 import BlendFactor from '../commands/BlendFactor';
 import ContextProvider from '../core/ContextProvider';
 import incLevel from '../base/incLevel';
-import ShareableBase from '../core/ShareableBase';
+import {ShareableBase} from '../core/ShareableBase';
 
 const factors = [
   BlendFactor.DST_ALPHA,

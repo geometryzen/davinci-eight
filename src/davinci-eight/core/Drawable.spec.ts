@@ -1,4 +1,4 @@
-import Drawable from './Drawable'
+import {Drawable} from './Drawable'
 import {Engine} from './Engine'
 import refChange from './refChange'
 import BoxGeometry from '../geometries/BoxGeometry'

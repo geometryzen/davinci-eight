@@ -1,4 +1,4 @@
-import ContextConsumer from './ContextConsumer'
+import {ContextConsumer} from './ContextConsumer'
 import Material from './Material'
 import Matrix4 from '../math/Matrix4'
 

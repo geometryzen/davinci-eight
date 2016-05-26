@@ -4,7 +4,7 @@ import isDefined from '../checks/isDefined';
 import GeometryMeta from './GeometryMeta';
 import Simplex from './Simplex';
 import Vertex from './primitives/Vertex';
-import VectorN from '../math/VectorN';
+import {VectorN} from '../math/VectorN';
 
 function stringify(thing: any, space: any): string {
     let cache: any[] = [];

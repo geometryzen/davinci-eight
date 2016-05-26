@@ -3,7 +3,7 @@ import BrowserWindow from '../base/BrowserWindow'
 import incLevel from '../base/incLevel'
 import MouseCoordinates from './MouseCoordinates'
 import mustBeObject from '../checks/mustBeObject'
-import ShareableBase from '../core/ShareableBase'
+import {ShareableBase} from '../core/ShareableBase'
 import Vector2 from '../math/Vector2'
 
 const MODE = { NONE: -1, ROTATE: 0, ZOOM: 1, PAN: 2, TOUCH_ROTATE: 3, TOUCH_ZOOM_PAN: 4 }

@@ -1,7 +1,7 @@
 import ContextProvider from './ContextProvider';
 import {Engine} from './Engine';
 import mustBeUndefined from '../checks/mustBeUndefined';
-import ShareableContextConsumer from './ShareableContextConsumer';
+import {ShareableContextConsumer} from './ShareableContextConsumer';
 
 /**
  * @module EIGHT

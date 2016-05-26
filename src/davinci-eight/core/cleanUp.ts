@@ -1,4 +1,4 @@
-import ContextConsumer from './ContextConsumer';
+import {ContextConsumer} from './ContextConsumer';
 import ContextProvider from './ContextProvider';
 
 /**

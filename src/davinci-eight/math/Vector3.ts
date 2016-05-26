@@ -1,6 +1,6 @@
 import CartesianG3 from './CartesianG3'
 import ColumnVector from './ColumnVector';
-import Coords from './Coords';
+import {Coords} from './Coords';
 import VectorE3 from './VectorE3';
 import dotVectorE3 from './dotVectorE3';
 import MutableLinearElement from './MutableLinearElement';

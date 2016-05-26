@@ -1,4 +1,4 @@
-import RigidBody from './RigidBody'
+import {RigidBody} from './RigidBody'
 import SphereGeometry from '../geometries/SphereGeometry'
 import MeshMaterial from '../materials/MeshMaterial'
 import Vector3 from '../math/Vector3'

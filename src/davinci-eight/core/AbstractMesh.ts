@@ -1,4 +1,4 @@
-import AbstractDrawable from './AbstractDrawable'
+import {AbstractDrawable} from './AbstractDrawable'
 import {Color} from './Color'
 import {Geometric3} from '../math/Geometric3'
 import Matrix4 from '../math/Matrix4'

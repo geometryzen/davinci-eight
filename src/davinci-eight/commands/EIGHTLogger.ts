@@ -1,6 +1,6 @@
 import config from '../config';
 import ContextProvider from '../core/ContextProvider';
-import ShareableBase from '../core/ShareableBase';
+import {ShareableBase} from '../core/ShareableBase';
 
 /**
  * @module EIGHT

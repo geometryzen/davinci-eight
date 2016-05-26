@@ -1,6 +1,6 @@
 import clamp from '../math/clamp'
 import ColumnVector from '../math/ColumnVector'
-import Coords from '../math/Coords'
+import {Coords} from '../math/Coords'
 import config from '../config'
 import ErrorMode from '../core/ErrorMode'
 import AbstractColor from './AbstractColor'
@@ -33,82 +33,58 @@ const COORD_B = 2
  * it is common to use reference types, such as in this design. This mutability can lead to
  * difficult bugs because it is hard to reason about where a color may have changed. 
  * </p>
- *
- * @class Color
- * @extends Coords
- * @implements AbstractColor
  */
 export class Color extends Coords implements AbstractColor, ColumnVector<Matrix3, Color>, MutableLinearElement<AbstractColor, Color, SpinorE3, AbstractColor, number, number> {
 
   /**
-   * @property black
-   * @type {Color}
-   * @static
+   *
    */
   public static black = new Color(0, 0, 0)
 
   /**
-   * @property blue
-   * @type {Color}
-   * @static
+   *
    */
   public static blue = new Color(0, 0, 1)
 
   /**
-   * @property green
-   * @type {Color}
-   * @static
+   *
    */
   public static green = new Color(0, 1, 0)
 
   /**
-   * @property cyan
-   * @type {Color}
-   * @static
+   *
    */
   public static cyan = new Color(0, 1, 1)
 
   /**
-   * @property red
-   * @type {Color}
-   * @static
+   *
    */
   public static red = new Color(1, 0, 0)
 
   /**
-   * @property magenta
-   * @type {Color}
-   * @static
+   *
    */
   public static magenta = new Color(1, 0, 1)
 
   /**
-   * @property yellow
-   * @type {Color}
-   * @static
+   *
    */
   public static yellow = new Color(1, 1, 0)
 
   /**
-   * @property white
-   * @type {Color}
-   * @static
+   *
    */
   public static white = new Color(1, 1, 1)
 
   /**
-   * @property gray
-   * @type {Color}
-   * @static
+   *
    */
   public static gray = new Color(0.5, 0.5, 0.5)
 
   /**
-   * @class Color
-   * @constructor
-   * @param r {number}
-   * @param g {number}
-   * @param b {number}
+   * @param r
+   * @param g
+   * @param b
    */
   constructor(r: number, g: number, b: number) {
     super([r, g, b], false, 3)
@@ -124,8 +100,7 @@ export class Color extends Coords implements AbstractColor, ColumnVector<Matrix3
   }
 
   /**
-   * @property r
-   * @type {number}
+   *
    */
   get r(): number {
     return this.coords[COORD_R]
@@ -135,8 +110,7 @@ export class Color extends Coords implements AbstractColor, ColumnVector<Matrix3
   }
 
   /**
-   * @property g
-   * @type {number}
+   *
    */
   get g(): number {
     return this.coords[COORD_G]
@@ -146,8 +120,7 @@ export class Color extends Coords implements AbstractColor, ColumnVector<Matrix3
   }
 
   /**
-   * @property b
-   * @type {number}
+   *
    */
   get b(): number {
     return this.coords[COORD_B]
@@ -169,10 +142,8 @@ export class Color extends Coords implements AbstractColor, ColumnVector<Matrix3
   }
 
   /**
-   * @method approx
-   * @param n {number}
-   * @return {Color}
-   * @chainable
+   * @param n
+   * @returns
    */
   public approx(n: number): Color {
     super.approx(n)
@@ -180,19 +151,15 @@ export class Color extends Coords implements AbstractColor, ColumnVector<Matrix3
   }
 
   /**
-   * @method clone
-   * @return {Color}
-   * @chainable
+   * @returns
    */
   public clone(): Color {
     return new Color(this.r, this.g, this.b)
   }
 
   /**
-   * @method copy
-   * @param color {AbstractColor}
-   * @return {Color}
-   * @chainable
+   * @param color
+   * @returns
    */
   public copy(color: AbstractColor): Color {
     if (isDefined(color)) {
@@ -214,11 +181,9 @@ export class Color extends Coords implements AbstractColor, ColumnVector<Matrix3
   }
 
   /**
-   * @method lerp
-   * @param target {AbstractColor}
-   * @param α {number}
-   * @return {Color}
-   * @chainable
+   * @param target
+   * @param α
+   * @returns
    */
   public lerp(target: AbstractColor, α: number): Color {
     this.r += (target.r - this.r) * α
@@ -228,8 +193,7 @@ export class Color extends Coords implements AbstractColor, ColumnVector<Matrix3
   }
 
   /**
-   * @property luminance
-   * @type {number}
+   *
    * @readOnly
    */
   get luminance(): number {
@@ -281,8 +245,7 @@ export class Color extends Coords implements AbstractColor, ColumnVector<Matrix3
   }
 
   /**
-   * @method toString
-   * @return {string}
+   * @returns
    */
   public toString(): string {
     // FIXME: Use vector stuff
@@ -294,23 +257,18 @@ export class Color extends Coords implements AbstractColor, ColumnVector<Matrix3
   }
 
   /**
-   * @method copy
-   * @param color {AbstractColor}
-   * @return {Color}
-   * @static
-   * @chainable
+   * @param color
+   * @returns
    */
   public static copy(color: AbstractColor): Color {
     return new Color(color.r, color.g, color.b)
   }
 
   /**
-   * @method luminance
-   * @param r {number}
-   * @param g {number}
-   * @param b {number}
-   * @return {number}
-   * @static
+   * @param r
+   * @param g
+   * @param b
+   * @returns
    */
   public static luminance(r: number, g: number, b: number): number {
     mustBeNumber('r', r)
@@ -322,11 +280,8 @@ export class Color extends Coords implements AbstractColor, ColumnVector<Matrix3
   }
 
   /**
-   * @method fromCoords
-   * @param coords {number[]}
-   * @return {Color}
-   * @static
-   * @chainable
+   * @param coords
+   * @returns
    */
   public static fromCoords(coords: number[]): Color {
     mustBeArray('coords', coords)
@@ -339,13 +294,10 @@ export class Color extends Coords implements AbstractColor, ColumnVector<Matrix3
   /**
    * Converts an angle, radius, height to a color on a color wheel.
    *
-   * @method fromHSL
-   * @param H {number}
-   * @param S {number}
-   * @param L {number}
-   * @return {Color}
-   * @static
-   * @chainable
+   * @param H
+   * @param S
+   * @param L
+   * @returns
    */
   public static fromHSL(H: number, S: number, L: number): Color {
     mustBeNumber('H', H)
@@ -386,13 +338,11 @@ export class Color extends Coords implements AbstractColor, ColumnVector<Matrix3
   }
 
   /**
-   * @method fromRGB
-   * @param r {number}
-   * @param g {number}
-   * @param b {number}
-   * @return {Color}
-   * @static
-   * @chainable
+   *
+   * @param r
+   * @param g
+   * @param b
+   * @returns
    */
   public static fromRGB(r: number, g: number, b: number): Color {
     mustBeNumber('r', r)
@@ -402,35 +352,28 @@ export class Color extends Coords implements AbstractColor, ColumnVector<Matrix3
   }
 
   /**
-   * @method isInstance
-   * @param x {any}
-   * @return {boolean}
-   * @static
+   * @param x
+   * @returns
    */
   public static isInstance(x: any): boolean {
     return x instanceof Color
   }
 
   /**
-   * @method lerp
-   * @param a {AbstractColor}
-   * @param b {AbstractColor}
-   * @param α {number}
-   * @return {Color}
-   * @static
-   * @chainable
+   * @param a
+   * @param b
+   * @param α
+   * @returns
    */
   public static lerp(a: AbstractColor, b: AbstractColor, α: number): Color {
     return Color.copy(a).lerp(b, clamp(α, 0, 1))
   }
 
   /**
-   * @method mustBe
-   * @param name {string}
-   * @param color {Color}
-   * @return {Color}
-   * @static
-   * @chainable
+   *
+   * @param name
+   * @param color
+   * @returns
    */
   public static mustBe(name: string, color: Color): Color {
     if (Color.isInstance(color)) {
@@ -453,10 +396,8 @@ export class Color extends Coords implements AbstractColor, ColumnVector<Matrix3
   }
 
   /**
-   * @method random
-   * @return {Color}
-   * @static
-   * @chainable
+   *
+   * @returns
    */
   public static random(): Color {
     return Color.fromRGB(Math.random(), Math.random(), Math.random())

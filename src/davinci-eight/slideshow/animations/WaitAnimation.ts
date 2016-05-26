@@ -1,7 +1,7 @@
 import IAnimation from '../../slideshow/IAnimation';
 import IAnimationTarget from '../../slideshow/IAnimationTarget';
 import incLevel from '../../base/incLevel';
-import ShareableBase from '../../core/ShareableBase';
+import {ShareableBase} from '../../core/ShareableBase';
 
 export default class WaitAnimation extends ShareableBase implements IAnimation {
   public start: number;

@@ -1,4 +1,4 @@
-import ShareableBase from '../core/ShareableBase'
+import {ShareableBase} from '../core/ShareableBase'
 import exchange from './exchange'
 
 class Foo extends ShareableBase {

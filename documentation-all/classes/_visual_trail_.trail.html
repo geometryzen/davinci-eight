@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Trail | EIGHT 2.230.0</title>
+	<title>Trail | EIGHT 2.231.0</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -23,7 +23,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="../index.html" class="title">EIGHT 2.230.0</a>
+					<a href="../index.html" class="title">EIGHT 2.231.0</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -82,9 +82,7 @@
 									You should call the <code>release</code> method when the trail is no longer required.
 								</p>
 					</div>
-					<dl class="tsd-comment-tags">
-						<dt>example</dt>
-						<dd><pre><code><span class="hljs-comment">// The trail is constructed, at any time, on an existing mesh.</span>
+					<pre><code><span class="hljs-comment">// The trail is constructed, at any time, on an existing mesh.</span>
 const trail = new EIGHT.<span class="hljs-function"><span class="hljs-title">Trail</span><span class="hljs-params">(mesh)</span></span>
 
 <span class="hljs-comment">// Configure the Trail object, or use the defaults.</span>
@@ -100,21 +98,14 @@ trail.<span class="hljs-function"><span class="hljs-title">draw</span><span clas
 
 <span class="hljs-comment">// Release the trail when no longer required, usually in the window.onunload function.</span>
 trail.<span class="hljs-function"><span class="hljs-title">release</span><span class="hljs-params">()</span></span>
-</code></pre></dd>
-						<dt>class</dt>
-						<dd><p>Trail</p>
-						</dd>
-						<dt>extends</dt>
-						<dd><p>ShareableBase</p>
-						</dd>
-					</dl>
+</code></pre>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<a href="_core_shareablebase_.default.html" class="tsd-signature-type">default</a>
+						<a href="_core_shareablebase_.shareablebase.html" class="tsd-signature-type">ShareableBase</a>
 						<ul class="tsd-hierarchy">
 							<li>
 								<span class="target">Trail</span>
@@ -178,19 +169,12 @@ trail.<span class="hljs-function"><span class="hljs-title">release</span><span c
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overwrites <a href="_core_shareablebase_.default.html">default</a>.<a href="_core_shareablebase_.default.html#constructor">constructor</a></p>
+								<p>Overwrites <a href="_core_shareablebase_.shareablebase.html">ShareableBase</a>.<a href="_core_shareablebase_.shareablebase.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/visual/Trail.ts#L87">visual/Trail.ts:87</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/visual/Trail.ts#L62">visual/Trail.ts:62</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>class</dt>
-									<dd><p>Trail</p>
-									</dd>
-									<dt>constructor</dt>
-									<dd></dd>
-								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -215,21 +199,13 @@ trail.<span class="hljs-function"><span class="hljs-title">release</span><span c
 					<div class="tsd-signature tsd-kind-icon">Rs<span class="tsd-signature-symbol">:</span> <a href="_math_geometric3_.geometric3.html" class="tsd-signature-type">Geometric3</a><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/visual/Trail.ts#L72">visual/Trail.ts:72</a></li>
+							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/visual/Trail.ts#L52">visual/Trail.ts:52</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>The attitude history.</p>
 						</div>
-						<dl class="tsd-comment-tags">
-							<dt>property</dt>
-							<dd><p>Rs</p>
-							</dd>
-							<dt>type</dt>
-							<dd><p>{Geometric3[]}</p>
-							</dd>
-						</dl>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
@@ -238,21 +214,13 @@ trail.<span class="hljs-function"><span class="hljs-title">release</span><span c
 					<div class="tsd-signature tsd-kind-icon">Xs<span class="tsd-signature-symbol">:</span> <a href="_math_geometric3_.geometric3.html" class="tsd-signature-type">Geometric3</a><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/visual/Trail.ts#L63">visual/Trail.ts:63</a></li>
+							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/visual/Trail.ts#L47">visual/Trail.ts:47</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>The position history.</p>
 						</div>
-						<dl class="tsd-comment-tags">
-							<dt>property</dt>
-							<dd><p>Xs</p>
-							</dd>
-							<dt>type</dt>
-							<dd><p>{Geometric3[]}</p>
-							</dd>
-						</dl>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
@@ -260,43 +228,25 @@ trail.<span class="hljs-function"><span class="hljs-title">release</span><span c
 					<h3><span class="tsd-flag ts-flagProtected">Protected</span> _type</h3>
 					<div class="tsd-signature tsd-kind-icon">_type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="_core_shareablebase_.default.html">default</a>.<a href="_core_shareablebase_.default.html#_type">_type</a></p>
+						<p>Inherited from <a href="_core_shareablebase_.shareablebase.html">ShareableBase</a>.<a href="_core_shareablebase_.shareablebase.html#_type">_type</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/ShareableBase.ts#L58">core/ShareableBase.ts:58</a></li>
+							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/ShareableBase.ts#L48">core/ShareableBase.ts:48</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<dl class="tsd-comment-tags">
-							<dt>property</dt>
-							<dd><p>_type</p>
-							</dd>
-							<dt>type</dt>
-							<dd><p>string</p>
-							</dd>
-						</dl>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="config" class="tsd-anchor"></a>
 					<h3>config</h3>
-					<div class="tsd-signature tsd-kind-icon">config<span class="tsd-signature-symbol">:</span> <a href="_visual_trailconfig_.default.html" class="tsd-signature-type">default</a></div>
+					<div class="tsd-signature tsd-kind-icon">config<span class="tsd-signature-symbol">:</span> <a href="_visual_trailconfig_.trailconfig.html" class="tsd-signature-type">TrailConfig</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/visual/Trail.ts#L80">visual/Trail.ts:80</a></li>
+							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/visual/Trail.ts#L57">visual/Trail.ts:57</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>The configuration that determines how the history is recorded.</p>
 						</div>
-						<dl class="tsd-comment-tags">
-							<dt>property</dt>
-							<dd><p>config</p>
-							</dd>
-							<dt>type</dt>
-							<dd><p>TrailConfig</p>
-							</dd>
-						</dl>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
@@ -305,19 +255,9 @@ trail.<span class="hljs-function"><span class="hljs-title">release</span><span c
 					<div class="tsd-signature tsd-kind-icon">counter<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/visual/Trail.ts#L87">visual/Trail.ts:87</a></li>
+							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/visual/Trail.ts#L62">visual/Trail.ts:62</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<dl class="tsd-comment-tags">
-							<dt>property</dt>
-							<dd><p>counter</p>
-							</dd>
-							<dt>type</dt>
-							<dd><p>number</p>
-							</dd>
-						</dl>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a name="mesh" class="tsd-anchor"></a>
@@ -325,21 +265,13 @@ trail.<span class="hljs-function"><span class="hljs-title">release</span><span c
 					<div class="tsd-signature tsd-kind-icon">mesh<span class="tsd-signature-symbol">:</span> <a href="_core_mesh_.mesh.html" class="tsd-signature-type">Mesh</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/visual/Trail.ts#L54">visual/Trail.ts:54</a></li>
+							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/visual/Trail.ts#L42">visual/Trail.ts:42</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>The underlying Mesh.</p>
 						</div>
-						<dl class="tsd-comment-tags">
-							<dt>property</dt>
-							<dd><p>mesh</p>
-							</dd>
-							<dt>type</dt>
-							<dd><p>Mesh</p>
-							</dd>
-						</dl>
 					</div>
 				</section>
 			</section>
@@ -355,9 +287,9 @@ trail.<span class="hljs-function"><span class="hljs-title">release</span><span c
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_core_shareable_.shareable.html">Shareable</a>.<a href="../interfaces/_core_shareable_.shareable.html#addref">addRef</a></p>
-								<p>Inherited from <a href="_core_shareablebase_.default.html">default</a>.<a href="_core_shareablebase_.default.html#addref">addRef</a></p>
+								<p>Inherited from <a href="_core_shareablebase_.shareablebase.html">ShareableBase</a>.<a href="_core_shareablebase_.shareablebase.html#addref">addRef</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/ShareableBase.ts#L152">core/ShareableBase.ts:152</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/ShareableBase.ts#L123">core/ShareableBase.ts:123</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -366,11 +298,6 @@ trail.<span class="hljs-function"><span class="hljs-title">release</span><span c
 										Notifies this instance that something is referencing it.
 									</p>
 								</div>
-								<dl class="tsd-comment-tags">
-									<dt>method</dt>
-									<dd><p>addRef</p>
-									</dd>
-								</dl>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
 							<p>The new value of the reference count.</p>
@@ -386,22 +313,19 @@ trail.<span class="hljs-function"><span class="hljs-title">release</span><span c
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overwrites <a href="_core_shareablebase_.default.html">default</a>.<a href="_core_shareablebase_.default.html#destructor">destructor</a></p>
+								<p>Overwrites <a href="_core_shareablebase_.shareablebase.html">ShareableBase</a>.<a href="_core_shareablebase_.shareablebase.html#destructor">destructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/visual/Trail.ts#L108">visual/Trail.ts:108</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/visual/Trail.ts#L78">visual/Trail.ts:78</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>method</dt>
-									<dd><p>destructor</p>
-									</dd>
-								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>level: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -418,20 +342,17 @@ trail.<span class="hljs-function"><span class="hljs-title">release</span><span c
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/visual/Trail.ts#L150">visual/Trail.ts:150</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/visual/Trail.ts#L112">visual/Trail.ts:112</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>method</dt>
-									<dd><p>draw</p>
-									</dd>
-								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>ambients: <a href="../interfaces/_core_facet_.facet.html" class="tsd-signature-type">Facet</a><span class="tsd-signature-symbol">[]</span></h5>
+									<div class="tsd-comment tsd-typography">
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -448,18 +369,13 @@ trail.<span class="hljs-function"><span class="hljs-title">release</span><span c
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/visual/Trail.ts#L120">visual/Trail.ts:120</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/visual/Trail.ts#L87">visual/Trail.ts:87</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Erases the trail history.</p>
 								</div>
-								<dl class="tsd-comment-tags">
-									<dt>method</dt>
-									<dd><p>erase</p>
-									</dd>
-								</dl>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
@@ -474,17 +390,12 @@ trail.<span class="hljs-function"><span class="hljs-title">release</span><span c
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="_core_shareablebase_.default.html">default</a>.<a href="_core_shareablebase_.default.html#getloggingname">getLoggingName</a></p>
+								<p>Inherited from <a href="_core_shareablebase_.shareablebase.html">ShareableBase</a>.<a href="_core_shareablebase_.shareablebase.html#getloggingname">getLoggingName</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/ShareableBase.ts#L162">core/ShareableBase.ts:162</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/ShareableBase.ts#L132">core/ShareableBase.ts:132</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>method</dt>
-									<dd><p>getLoggingName</p>
-									</dd>
-								</dl>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
 						</li>
@@ -499,17 +410,16 @@ trail.<span class="hljs-function"><span class="hljs-title">release</span><span c
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="_core_shareablebase_.default.html">default</a>.<a href="_core_shareablebase_.default.html#iszombie">isZombie</a></p>
+								<p>Inherited from <a href="_core_shareablebase_.shareablebase.html">ShareableBase</a>.<a href="_core_shareablebase_.shareablebase.html#iszombie">isZombie</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/ShareableBase.ts#L140">core/ShareableBase.ts:140</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/ShareableBase.ts#L112">core/ShareableBase.ts:112</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>method</dt>
-									<dd><p>isZombie</p>
-									</dd>
-								</dl>
+								<div class="lead">
+									<p>An object is a zombie if it has been released by all who have held references.
+									In some cases it may be possible to recycle a zombie.</p>
+								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
 						</li>
@@ -525,9 +435,9 @@ trail.<span class="hljs-function"><span class="hljs-title">release</span><span c
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_core_shareable_.shareable.html">Shareable</a>.<a href="../interfaces/_core_shareable_.shareable.html#release">release</a></p>
-								<p>Inherited from <a href="_core_shareablebase_.default.html">default</a>.<a href="_core_shareablebase_.default.html#release">release</a></p>
+								<p>Inherited from <a href="_core_shareablebase_.shareablebase.html">ShareableBase</a>.<a href="_core_shareablebase_.shareablebase.html#release">release</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/ShareableBase.ts#L204">core/ShareableBase.ts:204</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/ShareableBase.ts#L170">core/ShareableBase.ts:170</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -536,11 +446,6 @@ trail.<span class="hljs-function"><span class="hljs-title">release</span><span c
 										Notifies this instance that something is dereferencing it.
 									</p>
 								</div>
-								<dl class="tsd-comment-tags">
-									<dt>method</dt>
-									<dd><p>release</p>
-									</dd>
-								</dl>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
 							<p>The new value of the reference count.</p>
@@ -556,9 +461,9 @@ trail.<span class="hljs-function"><span class="hljs-title">release</span><span c
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="_core_shareablebase_.default.html">default</a>.<a href="_core_shareablebase_.default.html#setloggingname">setLoggingName</a></p>
+								<p>Inherited from <a href="_core_shareablebase_.shareablebase.html">ShareableBase</a>.<a href="_core_shareablebase_.shareablebase.html#setloggingname">setLoggingName</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/ShareableBase.ts#L188">core/ShareableBase.ts:188</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/ShareableBase.ts#L155">core/ShareableBase.ts:155</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -579,16 +484,13 @@ trail.<span class="hljs-function"><span class="hljs-title">release</span><span c
 												Notice that this method is intentionally protected to discourage it from being called outside of the constructor.
 											</p>
 								</div>
-								<dl class="tsd-comment-tags">
-									<dt>method</dt>
-									<dd><p>setLoggingName</p>
-									</dd>
-								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>name: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -605,18 +507,13 @@ trail.<span class="hljs-function"><span class="hljs-title">release</span><span c
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/visual/Trail.ts#L131">visual/Trail.ts:131</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/visual/Trail.ts#L95">visual/Trail.ts:95</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Records the Mesh variables according to the interval property.</p>
 								</div>
-								<dl class="tsd-comment-tags">
-									<dt>method</dt>
-									<dd><p>snapshot()</p>
-									</dd>
-								</dl>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>

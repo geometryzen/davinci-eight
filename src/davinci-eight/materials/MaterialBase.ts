@@ -16,7 +16,7 @@ import mustBeArray from '../checks/mustBeArray';
 import mustBeString from '../checks/mustBeString';
 import mustBeUndefined from '../checks/mustBeUndefined';
 import readOnly from '../i18n/readOnly';
-import ShareableContextConsumer from '../core/ShareableContextConsumer';
+import {ShareableContextConsumer} from '../core/ShareableContextConsumer';
 import UniformLocation from '../core/UniformLocation';
 import VectorE2 from '../math/VectorE2';
 import VectorE3 from '../math/VectorE3';

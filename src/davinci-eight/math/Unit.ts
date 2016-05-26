@@ -166,60 +166,44 @@ export class Unit implements DivisionRingOperators<Unit, Unit>, LinearNumber<Uni
   public static KILOGRAM = new Unit(1.0, Dimensions.MASS, SYMBOLS_SI);
 
   /**
-   * @property METER
-   * @type Unit
-   * @static
+   *
    */
   public static METER = new Unit(1.0, Dimensions.LENGTH, SYMBOLS_SI);
 
   /**
-   * @property SECOND
-   * @type Unit
-   * @static
+   *
    */
   public static SECOND = new Unit(1.0, Dimensions.TIME, SYMBOLS_SI);
 
   /**
-   * @property COULOMB
-   * @type Unit
-   * @static
+   *
    */
   public static COULOMB = new Unit(1.0, Dimensions.CHARGE, SYMBOLS_SI);
 
   /**
-   * @property AMPERE
-   * @type Unit
-   * @static
+   *
    */
   public static AMPERE = new Unit(1.0, Dimensions.CURRENT, SYMBOLS_SI);
 
   /**
-   * @property KELVIN
-   * @type Unit
-   * @static
+   *
    */
   public static KELVIN = new Unit(1.0, Dimensions.TEMPERATURE, SYMBOLS_SI);
 
   /**
-   * @property MOLE
-   * @type Unit
-   * @static
+   *
    */
   public static MOLE = new Unit(1.0, Dimensions.AMOUNT, SYMBOLS_SI);
 
   /**
-   * @property CANDELA
-   * @type Unit
-   * @static
+   *
    */
   public static CANDELA = new Unit(1.0, Dimensions.INTENSITY, SYMBOLS_SI);
 
   /**
-   * @class Unit
-   * @constructor
-   * @param {number} multiplier
-   * @param {Dimensions} dimensions
-   * @param {string[]} labels The label strings to use for each dimension.
+   * @param multiplier
+   * @param dimensions
+   * @param labels The label strings to use for each dimension.
    */
   constructor(public multiplier: number, public dimensions: Dimensions, public labels: string[]) {
     if (labels.length !== 7) {
@@ -231,10 +215,8 @@ export class Unit implements DivisionRingOperators<Unit, Unit>, LinearNumber<Uni
   }
 
   /**
-   * @method compatible
-   * @param rhs {Unit}
-   * @return {Unit}
-   * @chainable
+   * @param rhs
+   * @returns
    */
   compatible(rhs: Unit): Unit {
     if (rhs instanceof Unit) {
@@ -247,21 +229,16 @@ export class Unit implements DivisionRingOperators<Unit, Unit>, LinearNumber<Uni
   }
 
   /**
-   * @method add
-   * @param rhs {Unit}
-   * @return {Unit}
-   * @chainable
+   * @param rhs
+   * @returns
    */
   add(rhs: Unit): Unit {
     return add(this, rhs);
   }
 
   /**
-   * @method __add__
-   * @param rhs {Unit}
-   * @return {Unit}
-   * @chainable
-   * @private
+   * @param rhs
+   * @returns
    */
   __add__(rhs: Unit) {
     if (rhs instanceof Unit) {
@@ -273,11 +250,8 @@ export class Unit implements DivisionRingOperators<Unit, Unit>, LinearNumber<Uni
   }
 
   /**
-   * @method __radd__
-   * @param lhs {Unit}
-   * @return {Unit}
-   * @chainable
-   * @private
+   * @param lhs
+   * @returns
    */
   __radd__(lhs: Unit) {
     if (lhs instanceof Unit) {
@@ -290,20 +264,16 @@ export class Unit implements DivisionRingOperators<Unit, Unit>, LinearNumber<Uni
 
 
   /**
-   * @method sub
-   * @param rhs {Unit}
-   * @chainable
-   * @return {Unit}
+   * @param rhs
+   * @returns
    */
   sub(rhs: Unit): Unit {
     return sub(this, rhs);
   }
 
   /**
-   * @method __sub__
-   * @param rhs {Unit}
-   * @chainable
-   * @return {Unit}
+   * @param rhs
+   * @returns
    */
   __sub__(rhs: Unit) {
     if (rhs instanceof Unit) {
@@ -315,10 +285,8 @@ export class Unit implements DivisionRingOperators<Unit, Unit>, LinearNumber<Uni
   }
 
   /**
-   * @method __rsub__
-   * @param lhs {Unit}
-   * @chainable
-   * @return {Unit}
+   * @param lhs
+   * @returns
    */
   __rsub__(lhs: Unit) {
     if (lhs instanceof Unit) {
@@ -331,20 +299,16 @@ export class Unit implements DivisionRingOperators<Unit, Unit>, LinearNumber<Uni
 
 
   /**
-   * @method mul
-   * @param rhs {Unit}
-   * @return {Unit}
-   * @chainable
+   * @param rhs
+   * @returns
    */
   mul(rhs: Unit): Unit {
     return mul(this, rhs);
   }
 
   /**
-   * @method __mul__
-   * @param rhs {number | Unit}
-   * @return {Unit}
-   * @chainable
+   * @param rhs
+   * @returns
    */
   __mul__(rhs: number | Unit) {
     if (rhs instanceof Unit) {
@@ -359,10 +323,8 @@ export class Unit implements DivisionRingOperators<Unit, Unit>, LinearNumber<Uni
   }
 
   /**
-   * @method __rmul__
-   * @param lhs {number | Unit}
-   * @return {Unit}
-   * @chainable
+   * @param lhs
+   * @returns
    */
   __rmul__(lhs: number | Unit) {
     if (lhs instanceof Unit) {
@@ -377,20 +339,16 @@ export class Unit implements DivisionRingOperators<Unit, Unit>, LinearNumber<Uni
   }
 
   /**
-   * @method div
-   * @param rhs {Unit}
-   * @return {Unit}
-   * @chainable
+   * @param rhs
+   * @returns
    */
   div(rhs: Unit): Unit {
     return div(this, rhs);
   }
 
   /**
-   * @method divByScalar
-   * @param α {number}
-   * @return {Unit}
-   * @chainable
+   * @param α
+   * @returns
    */
   divByScalar(α: number): Unit {
     return new Unit(this.multiplier / α, this.dimensions, this.labels);
@@ -443,44 +401,36 @@ export class Unit implements DivisionRingOperators<Unit, Unit>, LinearNumber<Uni
   }
 
   /**
-   * @method pow
-   * @param exponent {QQ}
-   * @return {Unit}
-   * @chainable
+   * @param exponent
+   * @returns
    */
   pow(exponent: QQ): Unit {
     return new Unit(Math.pow(this.multiplier, exponent.numer / exponent.denom), this.dimensions.pow(exponent), this.labels);
   }
 
   /**
-   * @method inv
-   * @return {Unit}
-   * @chainable
+   * @returns
    */
   inv(): Unit {
     return new Unit(1 / this.multiplier, this.dimensions.inv(), this.labels);
   }
 
   /**
-   * @method neg
-   * @return {Unit}
-   * @chainable
+   * @returns
    */
   neg(): Unit {
     return new Unit(-this.multiplier, this.dimensions, this.labels);
   }
 
   /**
-   * @method isOne
-   * @return {boolean}
+   * @returns
    */
   isOne(): boolean {
     return this.dimensions.isOne() && (this.multiplier === 1)
   }
 
   /**
-   * @method isZero
-   * @return {boolean}
+   * @returns
    */
   isZero(): boolean {
     return this.dimensions.isZero() || (this.multiplier === 0)
@@ -488,151 +438,123 @@ export class Unit implements DivisionRingOperators<Unit, Unit>, LinearNumber<Uni
 
   /**
    * @method lerp
-   * @param target: {Unit}
-   * @param α {number}
-   * @return {Unit}
-   * @chainable
+   * @param target
+   * @param α
+   * @returns
    */
   lerp(target: Unit, α: number): Unit {
     throw new Error(notImplemented('lerp').message)
   }
 
   /**
-   * @method norm
-   * @return {Unit}
-   * @chainable
+   * @returns
    */
   norm(): Unit {
     return new Unit(Math.abs(this.multiplier), this.dimensions, this.labels);
   }
 
   /**
-   * @method quad
-   * @return {Unit}
-   * @chainable
+   * @returns
    */
   quad(): Unit {
     return new Unit(this.multiplier * this.multiplier, this.dimensions.mul(this.dimensions), this.labels);
   }
 
   /**
-   * @method reflect
-   * @param n {Unit}
-   * @return {Unit}
-   * @chainable
+   * @param n
+   * @returns
    */
   reflect(n: Unit): Unit {
     return this;
   }
 
   /**
-   * @method rotate
-   * @param rotor {Unit}
-   * @return {Unit}
-   * @chainable
+   * @param rotor
+   * @returns
    */
   rotate(rotor: Unit): Unit {
     return this;
   }
 
   /**
-   * @property scale
-   * @param α {number}
-   * @return {Unit}
-   * @chainable
+   * @param α
+   * @returns
    */
   scale(α: number): Unit {
     return new Unit(this.multiplier * α, this.dimensions, this.labels);
   }
 
   /**
-   * @method slerp
-   * @param target: {Unit}
-   * @param α {number}
-   * @return {Unit}
-   * @chainable
+   * @param target
+   * @param α
+   * @returns
    */
   slerp(target: Unit, α: number): Unit {
     throw new Error(notImplemented('slerp').message)
   }
 
   /**
-   * @method sqrt
-   * @return {Unit}
-   * @chainable
+   * @returns
    */
   sqrt(): Unit {
     return new Unit(Math.sqrt(this.multiplier), this.dimensions.sqrt(), this.labels)
   }
 
   /**
-   * @method stress
-   * @param σ {Unit}
-   * @return {Unit}
-   * @chainable
+   * @param σ
+   * @returns
    */
   stress(σ: Unit): Unit {
     throw new Error(notSupported('stress').message)
   }
 
   /**
-   * @method toExponential
-   * @return {string}
+   * @returns
    */
   toExponential(fractionDigits?: number): string {
     return unitString(this.multiplier, this.multiplier.toExponential(fractionDigits), this.dimensions, this.labels);
   }
 
   /**
-   * @method toFixed
-   * @param [fractionDigits] {number}
-   * @return {string}
+   * @param fractionDigits
    */
   toFixed(fractionDigits?: number): string {
     return unitString(this.multiplier, this.multiplier.toFixed(fractionDigits), this.dimensions, this.labels);
   }
 
   /**
-   * @method toPrecision
-   * @param [precision] {number}
-   * @return {string}
+   * @param precision
+   * @returns
    */
   toPrecision(precision?: number): string {
     return unitString(this.multiplier, this.multiplier.toPrecision(precision), this.dimensions, this.labels);
   }
 
   /**
-   * @method toString
-   * @param [radix] {number}
-   * @return {string}
+   * @param radix
+   * @returns
    */
   toString(radix?: number): string {
     return unitString(this.multiplier, this.multiplier.toString(radix), this.dimensions, this.labels);
   }
 
   /**
-   * @method __pos__
-   * @return {Unit}
-   * @private
+   * @returns
    */
   __pos__(): Unit {
     return this
   }
 
   /**
-   * @method __neg__
-   * @return {Unit}
-   * @private
+   * @returns
    */
   __neg__(): Unit {
     return this.neg()
   }
 
   /**
-   * @method isOne
-   * @param uom {Unit}
-   * @return {boolean}
-   * @static
+   * @param uom
+   * @returns
    */
   static isOne(uom: Unit): boolean {
     if (uom === void 0) {
@@ -647,10 +569,8 @@ export class Unit implements DivisionRingOperators<Unit, Unit>, LinearNumber<Uni
   }
 
   /**
-   * @method assertDimensionless
-   * @param uom {Unit}
-   * @return {void}
-   * @static
+   * @param uom
+   * @returns
    */
   static assertDimensionless(uom: Unit): void {
     if (!Unit.isOne(uom)) {
@@ -659,11 +579,9 @@ export class Unit implements DivisionRingOperators<Unit, Unit>, LinearNumber<Uni
   }
 
   /**
-   * @method compatible
-   * @param lhs {Unit}
-   * @param rhs {Unit}
-   * @return {Unit}
-   * @chainable
+   * @param lhs
+   * @param rhs
+   * @returns
    */
   static compatible(lhs: Unit, rhs: Unit): Unit {
     if (lhs) {
@@ -695,11 +613,9 @@ export class Unit implements DivisionRingOperators<Unit, Unit>, LinearNumber<Uni
   }
 
   /**
-   * @method mul
-   * @param lhs {Unit}
-   * @param rhs {Unit}
-   * @return {Unit}
-   * @chainable
+   * @param lhs
+   * @param rhs
+   * @returns
    */
   static mul(lhs: Unit, rhs: Unit): Unit {
     if (lhs) {
@@ -722,11 +638,9 @@ export class Unit implements DivisionRingOperators<Unit, Unit>, LinearNumber<Uni
   }
 
   /**
-   * @method div
-   * @param lhs {Unit}
-   * @param rhs {Unit}
-   * @return {Unit}
-   * @chainable
+   * @param lhs
+   * @param rhs
+   * @returns
    */
   static div(lhs: Unit, rhs: Unit): Unit {
     if (lhs) {
@@ -748,10 +662,8 @@ export class Unit implements DivisionRingOperators<Unit, Unit>, LinearNumber<Uni
   }
 
   /**
-   * @method sqrt
-   * @param uom {Unit}
-   * @return {Unit}
-   * @chainable
+   * @param uom
+   * @returns
    */
   static sqrt(uom: Unit): Unit {
     if (typeof uom !== 'undefined') {

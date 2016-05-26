@@ -23,20 +23,25 @@ Used here: [__https://www.stemcstudio.com__](https://stemcstudio.com)
 
 Geometric Algebra is what you get when you define an associative multiplicative product for vectors.
 
-More simply, 3D geometry makes more sense when it is done using Geometric Algebra!
+More simply, geometry makes more sense when it is done using Geometric Algebra!
 
 ## API Documentation
 
-This documentation represents only a small portion of what is available in the EIGHT library.
+The `Globals` or top-level components represent only a small portion of what is available in the EIGHT library.
+Drilling into the top-level componets will reveal a reusable structure for implementing your own components.
 
 The HTML documentation is best experienced with the following settings:
 
-1. Access    - Public
+1. Access    - Public/Protected
 2. Inherited - Unchecked
-3. Externals - Unchecked
-4. Only exported - Checked
+3. Externals - Unchecked normally but Checked in order to see interfaces :(
+4. Only exported - Checked (In order to ignore implementation details :)
 
-The documentation is evolving rapidly due to transitioning to a new system of generation: *TypeDoc*.
+The documentation is evolving rapidly due to transitioning to a new system of TypeScript documentation generation.
+In particular, you may see the word `default` frequently. This is because the EIGHT code uses default exports.
+In many cases we have reluctantly replaced default exports with named exports to improve the documentation.
+Just click through the `default` links to get past them.
+Please bear with us! It will be worth it!
 
 ## License
 Copyright (c) 2014-2016 David Holmes

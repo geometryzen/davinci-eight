@@ -4,26 +4,19 @@ import isDefined from '../checks/isDefined'
 import MeshMaterial from '../materials/MeshMaterial'
 import MeshMaterialOptions from '../materials/MeshMaterialOptions'
 import mustBeNumber from '../checks/mustBeNumber'
-import RigidBody from './RigidBody'
+import {RigidBody} from './RigidBody'
 import SphereOptions from './SphereOptions'
 import SphereGeometry from '../geometries/SphereGeometry'
 import SphereGeometryOptions from '../geometries/SphereGeometryOptions'
 
 /**
- * @module EIGHT
- * @submodule visual
- */
-
-/**
- * @class Sphere
- * @extends RigidBody
+ *
  */
 export class Sphere extends RigidBody {
 
   /**
-   * @class Sphere
-   * @constructor
-   * @param [options] {SphereOptions}
+   *
+   * @param options
    */
   constructor(options: SphereOptions = {}) {
     super(void 0, void 0, options.engine, direction(options))
@@ -50,21 +43,16 @@ export class Sphere extends RigidBody {
   }
 
   /**
-   * @method destructor
-   * @param level {number}
-   * @return {void}
-   * @protected
+   * @param levelUp
    */
-  public destructor(level: number): void {
-    if (level === 0) {
+  protected destructor(levelUp: number): void {
+    if (levelUp === 0) {
       this.cleanUp()
     }
-    super.destructor(incLevel(level))
+    super.destructor(incLevel(levelUp))
   }
 
   /**
-   * @property radius
-   * @type number
    * @default 1
    */
   get radius(): number {

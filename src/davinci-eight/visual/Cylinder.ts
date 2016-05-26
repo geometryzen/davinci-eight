@@ -7,23 +7,16 @@ import isDefined from '../checks/isDefined'
 import MeshMaterial from '../materials/MeshMaterial'
 import MeshMaterialOptions from '../materials/MeshMaterialOptions'
 import mustBeNumber from '../checks/mustBeNumber'
-import RigidBody from './RigidBody'
+import {RigidBody} from './RigidBody'
 
 /**
- * @module EIGHT
- * @submodule visual
- */
-
-/**
- * @class Cylinder
- * @extends RigidBody
+ *
  */
 export class Cylinder extends RigidBody {
 
   /**
-   * @class Cylinder
-   * @constructor
-   * @param [options] {CylinderOptions}
+   *
+   * @param options
    */
   constructor(options: CylinderOptions = {}) {
     super(void 0, void 0, options.engine, direction(options))
@@ -63,18 +56,14 @@ export class Cylinder extends RigidBody {
 
 
   /**
-   * @method destructor
-   * @param level {number}
-   * @return {void}
-   * @protected
+   * @param level
    */
   protected destructor(level: number): void {
     super.destructor(incLevel(level))
   }
 
   /**
-   * @property length
-   * @type number
+   *
    * @default 1
    */
   get length() {
@@ -85,11 +74,7 @@ export class Cylinder extends RigidBody {
   }
 
   /**
-   * <p>
-   * </p>
    *
-   * @property radius
-   * @type number
    */
   get radius(): number {
     return this.getPrincipalScale('radius')

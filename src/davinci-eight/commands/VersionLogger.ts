@@ -1,5 +1,5 @@
 import ContextProvider from '../core/ContextProvider';
-import ShareableBase from '../core/ShareableBase';
+import {ShareableBase} from '../core/ShareableBase';
 
 const QUALIFIED_NAME = 'EIGHT.VersionLogger'
 

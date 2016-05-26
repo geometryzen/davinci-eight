@@ -1,17 +1,12 @@
 import cleanUp from './cleanUp';
-import ContextConsumer from './ContextConsumer';
+import {ContextConsumer} from './ContextConsumer';
 import ContextProvider from './ContextProvider';
 import {Engine} from './Engine';
 import isUndefined from '../checks/isUndefined';
 import isNull from '../checks/isNull';
 import mustBeObject from '../checks/mustBeObject'
 import readOnly from '../i18n/readOnly';
-import ShareableBase from './ShareableBase';
-
-/**
- * @module EIGHT
- * @submodule core
- */
+import {ShareableBase} from './ShareableBase';
 
 /**
  * <p>
@@ -26,7 +21,7 @@ import ShareableBase from './ShareableBase';
  * class should not call derived class methods during construction or destruction.
  * </p>
  *
- * @example
+ *
  *     class MyContextConsumer extends EIGHT.ShareableContextConsumer {
  *       constructor(engine: EIGHT.Engine) {
  *         // Allocate your own resources here or on-demand.
@@ -39,20 +34,13 @@ import ShareableBase from './ShareableBase';
  *       }
  *     }
  *
- * @class ShareableContextConsumer
- * @extends ShareableBase
- * @extends ContextConsumer
  */
-export default class ShareableContextConsumer extends ShareableBase implements ContextConsumer {
+export class ShareableContextConsumer extends ShareableBase implements ContextConsumer {
 
   /**
    * The <code>Engine</code> to which this consumer is subscribed.
    * The existence of this property indicates a subscription.
    * Therefore, before releasing this reference, be sure to unsubscribe.
-   *
-   * @property engine
-   * @type Engine
-   * @private
    */
   private engine: Engine;
 
@@ -62,17 +50,12 @@ export default class ShareableContextConsumer extends ShareableBase implements C
    * (Maybe we should not do this).
    * We only need to release this property in our destructor.
    * We must not try to trigger a contextFree as that would violate Implementation Hierarchy Principle.
-   *
-   * @property contextProvider
-   * @type {ContextProvider}
-   * @protected
    */
   protected contextProvider: ContextProvider;
 
   /**
-   * @class ShareableContextConsumer
-   * @constructor
-   * @param engine {Engine} The <code>Engine</code> to subscribe to or <code>null</code> for deferred subscription.
+   *
+   * @param engine The <code>Engine</code> to subscribe to or <code>null</code> for deferred subscription.
    */
   constructor(engine: Engine) {
     super()
@@ -86,9 +69,7 @@ export default class ShareableContextConsumer extends ShareableBase implements C
   }
 
   /**
-   * @method destructor
-   * @param levelUp {number}
-   * @return {void}
+   * @param levelUp
    */
   protected destructor(levelUp: number): void {
     // The (protected) context provider property was only being maintained
@@ -110,9 +91,7 @@ export default class ShareableContextConsumer extends ShareableBase implements C
    * This method is idempotent; calling it more than once with the same <code>Engine</code> does not change the state.
    * </p>
    *
-   * @method subscribe
-   * @param engine {Engine}
-   * @return {void}
+   * @param engine
    */
   subscribe(engine: Engine): void {
     engine = mustBeObject('engine', engine)
@@ -134,8 +113,7 @@ export default class ShareableContextConsumer extends ShareableBase implements C
   }
 
   /**
-   * @method synchUp
-   * @return {void}
+   *
    */
   public synchUp() {
     const engine = this.engine
@@ -145,8 +123,7 @@ export default class ShareableContextConsumer extends ShareableBase implements C
   }
 
   /**
-   * @method cleanUp
-   * @return {void}
+   *
    */
   public cleanUp(): void {
     cleanUp(this.contextProvider, this)
@@ -159,9 +136,6 @@ export default class ShareableContextConsumer extends ShareableBase implements C
    * <p>
    * This method is idempotent; calling it more than once does not change the state.
    * </p>
-   *
-   * @method unsubscribe
-   * @return {void}
    */
   unsubscribe(): void {
     if (this.engine) {
@@ -172,9 +146,7 @@ export default class ShareableContextConsumer extends ShareableBase implements C
   }
 
   /**
-   * @method contextFree
-   * @param contextProvider {ContextProvider}
-   * @return {void}
+   * @param contextProvider
    */
   contextFree(contextProvider: ContextProvider): void {
     if (this.contextProvider) {
@@ -184,9 +156,7 @@ export default class ShareableContextConsumer extends ShareableBase implements C
   }
 
   /**
-   * @method contextGain
-   * @param contextProvider {ContextProvider}
-   * @return {void}
+   * @param contextProvider
    */
   contextGain(contextProvider: ContextProvider): void {
     if (this.contextProvider !== contextProvider) {
@@ -200,8 +170,7 @@ export default class ShareableContextConsumer extends ShareableBase implements C
   }
 
   /**
-   * @method contextLost
-   * @return {void}
+   *
    */
   contextLost(): void {
     if (this.contextProvider) {
@@ -214,14 +183,6 @@ export default class ShareableContextConsumer extends ShareableBase implements C
    * <p>
    * Provides access to the underlying WebGL context.
    * </p>
-   * <p>
-   * This property is deprecated to encourage access throught the <code>ContextProvider</code>.
-   * </p>
-   * 
-   * @property gl
-   * @type WebGLRenderingContext
-   * @readOnly
-   * @deprecated
    */
   get gl(): WebGLRenderingContext {
     if (this.contextProvider) {

@@ -1,7 +1,7 @@
 import Director from '../slideshow/Director';
 import IKeyboardHandler from '../devices/IKeyboardHandler';
 import incLevel from '../base/incLevel';
-import ShareableBase from '../core/ShareableBase';
+import {ShareableBase} from '../core/ShareableBase';
 
 export default class DirectorKeyboardHandler extends ShareableBase implements IKeyboardHandler {
   private director: Director;

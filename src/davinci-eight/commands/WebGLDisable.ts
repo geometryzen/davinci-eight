@@ -1,9 +1,9 @@
 import Capability from '../commands/Capability';
 import glCapability from '../commands/glCapability';
-import ContextConsumer from '../core/ContextConsumer';
+import {ContextConsumer} from '../core/ContextConsumer';
 import ContextProvider from '../core/ContextProvider';
 import mustBeNumber from '../checks/mustBeNumber';
-import ShareableBase from '../core/ShareableBase';
+import {ShareableBase} from '../core/ShareableBase';
 
 /**
  * <p>

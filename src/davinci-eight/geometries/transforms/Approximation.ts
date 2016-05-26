@@ -1,5 +1,5 @@
 import mustBeNumber from '../../checks/mustBeNumber'
-import Coords from '../../math/Coords'
+import {Coords} from '../../math/Coords'
 import {Geometric2} from '../../math/Geometric2'
 import {Geometric3} from '../../math/Geometric3'
 import Spinor2 from '../../math/Spinor2'

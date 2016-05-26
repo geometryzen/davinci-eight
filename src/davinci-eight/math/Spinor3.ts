@@ -1,5 +1,5 @@
 import CartesianG3 from './CartesianG3'
-import Coords from './Coords';
+import {Coords} from './Coords';
 import dotVectorCartesianE3 from './dotVectorCartesianE3';
 import mulSpinorE3YZ from './mulSpinorE3YZ';
 import mulSpinorE3ZX from './mulSpinorE3ZX';

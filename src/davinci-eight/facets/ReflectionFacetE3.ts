@@ -1,4 +1,4 @@
-import Facet from '../core/Facet';
+import {Facet} from '../core/Facet';
 import FacetVisitor from '../core/FacetVisitor';
 import mustBeArray from '../checks/mustBeArray';
 import mustBeString from '../checks/mustBeString';

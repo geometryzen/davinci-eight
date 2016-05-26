@@ -2,97 +2,69 @@ import BrowserWindow from '../base/BrowserWindow'
 import MouseControls from './MouseControls'
 import Vector3 from '../math/Vector3'
 import View from '../facets/View'
-import ViewController from './ViewController'
+import {ViewController} from './ViewController'
 
 /**
- * @class ViewControls
- * @extends MouseControls
+ *
  */
-export default class ViewControls extends MouseControls implements ViewController {
+export class ViewControls extends MouseControls implements ViewController {
 
   /**
-   * @property rotateSpeed
-   * @type number
+   *
    * @default 1
    */
   public rotateSpeed = 1
 
   /**
-   * @property zoomSpeed
-   * @type number
+   *
    * @default 1
    */
   public zoomSpeed = 1
 
   /**
-   * @property panSpeed
-   * @type number
+   *
    * @default 1
    */
   public panSpeed = 1
 
   /**
    * The view.eye value when the view was acquired by this view controller.
-   *
-   * @property eye0
-   * @type Vector3
-   * @private
    */
   private eye0 = Vector3.vector(0, 0, 1);
 
   /**
    * The view.look value when the view was acquired by this view controller.
-   *
-   * @property look0
-   * @type Vector3
-   * @private
    */
   private look0 = Vector3.zero();
 
   /**
    * The view.up value when the view was acquired by this view controller.
-   *
-   * @property up0
-   * @type Vector3
-   * @private
    */
   private up0 = Vector3.vector(0, 1, 0);
 
   /**
    * The view that is being controlled.
-   *
-   * @property view
-   * @type View
-   * @private
    */
   private view: View;
 
   /**
-   * @property eyeMinusLook
-   * @type Vector3
-   * @protected
+   *
    */
   protected eyeMinusLook = new Vector3()
 
   /**
-   * @property look
-   * @type Vector3
-   * @protected
+   *
    */
   protected look = new Vector3()
 
   /**
-   * @property up
-   * @type Vector3
-   * @protected
+   *
    */
   protected up = new Vector3()
 
   /**
-   * @class ViewControls
-   * @constructor
-   * @param view {View}
-   * @param wnd {Window}
+   * @param view
+   * @param wnd
    */
   constructor(view: View, wnd: BrowserWindow) {
     super(wnd)
@@ -101,19 +73,14 @@ export default class ViewControls extends MouseControls implements ViewControlle
   }
 
   /**
-   * @method destructor
-   * @param levelUp {number}
-   * @return {void}
-   * @protected
+   * @param levelUp
    */
   protected destructor(levelUp: number): void {
     super.destructor(levelUp + 1)
   }
 
   /**
-   * @method hasView
-   * @return {boolean}
-   * @protected
+   * @returns
    */
   protected hasView(): boolean {
     return !!this.view
@@ -123,9 +90,6 @@ export default class ViewControls extends MouseControls implements ViewControlle
    * This should be called inside the animation frame to update the camera location.
    * Notice that the movement of the mouse controls is decoupled from the effect.
    * We also want to avoid temporary object creation in this and called methods by recycling variables.
-   *
-   * @method update
-   * @return {void}
    */
   public update(): void {
     if (this.view) {
@@ -150,18 +114,14 @@ export default class ViewControls extends MouseControls implements ViewControlle
   }
 
   /**
-   * @method rotateCamera
-   * @return {void}
-   * @protected
+   *
    */
   protected rotateCamera(): void {
     // Do nothing.
   }
 
   /**
-   * @method zoomCamera
-   * @return {void}
-   * @protected
+   *
    */
   protected zoomCamera(): void {
     const factor = 1 + (this.zoomEnd.y - this.zoomStart.y) * this.zoomSpeed
@@ -172,17 +132,14 @@ export default class ViewControls extends MouseControls implements ViewControlle
   }
 
   /**
-   * @method panCamera
-   * @return {void}
-   * @protected
+   *
    */
   protected panCamera(): void {
     // Do nothing
   }
 
   /**
-   * @method reset
-   * @return {void}
+   *
    */
   public reset(): void {
     if (this.view) {
@@ -194,9 +151,7 @@ export default class ViewControls extends MouseControls implements ViewControlle
   }
 
   /**
-   * @method setView
-   * @param view {View}
-   * @return {void}
+   * @param view
    */
   public setView(view: View): void {
     if (view) {
@@ -209,8 +164,7 @@ export default class ViewControls extends MouseControls implements ViewControlle
   }
 
   /**
-   * @method synchronize
-   * @return {void}
+   *
    */
   public synchronize(): void {
     const view = this.view

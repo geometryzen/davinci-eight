@@ -4,28 +4,18 @@ import isBoolean from '../checks/isBoolean';
 import mustBeBoolean from '../checks/mustBeBoolean';
 
 /**
- * @module EIGHT
- * @submodule visual
+ *
  */
-
-/**
- * @class TrailConfig
- */
-export default class TrailConfig {
+export class TrailConfig {
 
   /**
-   * @property _enabled
-   * @type boolean
    * @default true
-   * @private
    */
   private _enabled = true;
 
   /**
    * Determines the number of animation frames between the recording of events.
    *
-   * @property interval
-   * @type number
    * @default 10
    */
   public interval = 10;
@@ -33,8 +23,6 @@ export default class TrailConfig {
   /**
    * Determines the maximum number of historical events that form the trail.
    *
-   * @property retain
-   * @type number
    * @default 10
    */
   public retain = 10;
@@ -49,8 +37,6 @@ export default class TrailConfig {
   /**
    * Determines whether the trail will record historical events and draw them.
    *
-   * @property enabled
-   * @type boolean
    * @default true
    */
   public get enabled(): boolean {

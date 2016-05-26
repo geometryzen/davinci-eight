@@ -1,7 +1,7 @@
 import expectArg from '../checks/expectArg';
 import Simplex from '../geometries/Simplex';
 import triangle from '../geometries/triangle';
-import VectorN from '../math/VectorN';
+import {VectorN} from '../math/VectorN';
 
 /**
  * terahedron

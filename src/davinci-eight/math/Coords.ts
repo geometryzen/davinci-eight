@@ -1,24 +1,21 @@
-import VectorN from './VectorN'
+import {VectorN} from './VectorN'
 
 /**
- * @class Coords
+ *
  */
-export default class Coords extends VectorN<number> {
+export class Coords extends VectorN<number> {
 
   /**
-   * @class Coords
-   * @param data {number[]}
-   * @param [modified] {boolean}
-   * @param [size] {number}
+   * @param data
+   * @param modified
+   * @param size
    */
   constructor(data: number[], modified?: boolean, size?: number) {
     super(data, modified, size)
   }
 
   /**
-   * @method approx
-   * @param n {number}
-   * @return {void}
+   * @param n
    */
   approx(n: number): void {
     let max = 0
@@ -35,9 +32,8 @@ export default class Coords extends VectorN<number> {
   }
 
   /**
-   * @method equals
-   * @param coords {any}
-   * @return boolean
+   * @param coords
+   * @returns
    */
   equals(coords: any): boolean {
     if (coords instanceof Coords) {

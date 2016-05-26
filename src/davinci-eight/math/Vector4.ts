@@ -1,5 +1,5 @@
 import ColumnVector from '../math/ColumnVector';
-import Coords from '../math/Coords'
+import {Coords} from '../math/Coords'
 import VectorE4 from '../math/VectorE4'
 import MutableLinearElement from '../math/MutableLinearElement'
 import SpinorE4 from '../math/SpinorE4'

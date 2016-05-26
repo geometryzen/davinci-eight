@@ -5,11 +5,6 @@ import readOnly from '../i18n/readOnly';
 const magicCode = Math.random()
 
 /**
- * @module EIGHT
- * @submodule math
- */
-
-/**
  * The QQ class represents a rational number, ℚ.
  *
  * The QQ implementation is that of an <em>immutable</em> (value) type.
@@ -17,20 +12,14 @@ const magicCode = Math.random()
  * The numerator and denominator are reduced to their lowest form.
  *
  * Construct new instances using the static <code>valueOf</code> method.
- *
- * @class QQ
  */
 export class QQ implements DivisionRingOperators<QQ, number> {
   /**
-   * @property _numer
-   * @type {number}
-   * @private
+   *
    */
   private _numer: number;
   /**
-   * @property _denom
-   * @type {number}
-   * @private
+   *
    */
   private _denom: number;
 
@@ -89,8 +78,7 @@ export class QQ implements DivisionRingOperators<QQ, number> {
   }
 
   /**
-   * @property numer
-   * @type {number}
+   *
    * @readOnly
    */
   get numer(): number {
@@ -101,8 +89,7 @@ export class QQ implements DivisionRingOperators<QQ, number> {
   }
 
   /**
-   * @property denom
-   * @type {number}
+   *
    * @readOnly
    */
   get denom(): number {
@@ -113,40 +100,32 @@ export class QQ implements DivisionRingOperators<QQ, number> {
   }
 
   /**
-   * @method add
-   * @param rhs {QQ}
-   * @return {QQ}
-   * @chainable
+   * @param rhs
+   * @returns
    */
   add(rhs: QQ): QQ {
     return QQ.valueOf(this._numer * rhs._denom + this._denom * rhs._numer, this._denom * rhs._denom);
   }
 
   /**
-   * @method sub
-   * @param rhs {QQ}
-   * @return {QQ}
-   * @chainable
+   * @param rhs
+   * @returns
    */
   sub(rhs: QQ): QQ {
     return QQ.valueOf(this._numer * rhs._denom - this._denom * rhs._numer, this._denom * rhs._denom);
   }
 
   /**
-   * @method mul
-   * @param rhs {QQ}
-   * @return {QQ}
-   * @chainable
+   * @param rhs
+   * @returns
    */
   mul(rhs: QQ): QQ {
     return QQ.valueOf(this._numer * rhs._numer, this._denom * rhs._denom);
   }
 
   /**
-   * @method div
-   * @param rhs {QQ}
-   * @return {QQ}
-   * @chainable
+   * @param rhs
+   * @returns
    */
   div(rhs: QQ): QQ {
     const numer = this._numer * rhs._denom
@@ -172,25 +151,21 @@ export class QQ implements DivisionRingOperators<QQ, number> {
   }
 
   /**
-   * @method isOne
-   * @return {boolean}
+   * @returns
    */
   isOne(): boolean {
     return this._numer === 1 && this._denom === 1
   }
 
   /**
-   * @method isZero
-   * @return {boolean}
+   * @returns
    */
   isZero(): boolean {
     return this._numer === 0 && this._denom === 1
   }
 
   /**
-   * @method hashCode
-   * @return {number}
-   * @beta
+   * @returns
    */
   hashCode(): number {
     return 37 * this.numer + 13 * this.denom
@@ -199,9 +174,7 @@ export class QQ implements DivisionRingOperators<QQ, number> {
   /**
    * Computes the multiplicative inverse of this rational number.
    *
-   * @method inv
-   * @return {QQ}
-   * @chainable
+   * @returns
    */
   inv(): QQ {
     return QQ.valueOf(this._denom, this._numer);
@@ -210,9 +183,7 @@ export class QQ implements DivisionRingOperators<QQ, number> {
   /**
    * Computes the additive inverse of this rational number.
    *
-   * @method neg
-   * @return {QQ}
-   * @chainable
+   * @returns
    */
   neg(): QQ {
     return QQ.valueOf(-this._numer, this._denom);
@@ -221,9 +192,8 @@ export class QQ implements DivisionRingOperators<QQ, number> {
   /**
    * Determines whether two rational numbers are equal.
    *
-   * @method equals
-   * @param other {QQ}
-   * @return {boolean}
+   * @param other
+   * @returns
    */
   equals(other: QQ): boolean {
     if (other instanceof QQ) {
@@ -237,18 +207,15 @@ export class QQ implements DivisionRingOperators<QQ, number> {
   /**
    * Computes a non-normative string representation of this rational.
    *
-   * @method toString
-   * @return {string}
+   * @returns
    */
   toString(): string {
     return "" + this._numer + "/" + this._denom + ""
   }
 
   /**
-   * @method __add__
-   * @param rhs {QQ}
-   * @return {QQ}
-   * @private
+   * @param rhs
+   * @returns
    */
   __add__(rhs: QQ): QQ {
     if (rhs instanceof QQ) {
@@ -260,10 +227,8 @@ export class QQ implements DivisionRingOperators<QQ, number> {
   }
 
   /**
-   * @method __radd__
-   * @param lhs {QQ}
-   * @return {QQ}
-   * @private
+   * @param lhs
+   * @returns
    */
   __radd__(lhs: QQ): QQ {
     if (lhs instanceof QQ) {
@@ -275,10 +240,8 @@ export class QQ implements DivisionRingOperators<QQ, number> {
   }
 
   /**
-   * @method __sub__
-   * @param rhs {QQ}
-   * @return {QQ}
-   * @private
+   * @param rhs
+   * @returns
    */
   __sub__(rhs: QQ): QQ {
     if (rhs instanceof QQ) {
@@ -290,10 +253,8 @@ export class QQ implements DivisionRingOperators<QQ, number> {
   }
 
   /**
-   * @method __rsub__
-   * @param lhs {QQ}
-   * @return {QQ}
-   * @private
+   * @param lhs
+   * @returns
    */
   __rsub__(lhs: QQ): QQ {
     if (lhs instanceof QQ) {
@@ -305,10 +266,8 @@ export class QQ implements DivisionRingOperators<QQ, number> {
   }
 
   /**
-   * @method __mul__
-   * @param rhs {QQ}
-   * @return {QQ}
-   * @private
+   * @param rhs
+   * @returns
    */
   __mul__(rhs: QQ): QQ {
     if (rhs instanceof QQ) {
@@ -320,10 +279,8 @@ export class QQ implements DivisionRingOperators<QQ, number> {
   }
 
   /**
-   * @method __rmul__
-   * @param lhs {QQ}
-   * @return {QQ}
-   * @private
+   * @param lhs
+   * @returns
    */
   __rmul__(lhs: QQ): QQ {
     if (lhs instanceof QQ) {
@@ -335,10 +292,8 @@ export class QQ implements DivisionRingOperators<QQ, number> {
   }
 
   /**
-   * @method __div__
-   * @param div {QQ}
-   * @return {QQ}
-   * @private
+   * @param div
+   * @returns
    */
   __div__(rhs: QQ): QQ {
     if (rhs instanceof QQ) {
@@ -350,10 +305,8 @@ export class QQ implements DivisionRingOperators<QQ, number> {
   }
 
   /**
-   * @method __rdiv__
-   * @param lhs {QQ}
-   * @return {QQ}
-   * @private
+   * @param lhs
+   * @returns
    */
   __rdiv__(lhs: QQ): QQ {
     if (lhs instanceof QQ) {
@@ -365,18 +318,14 @@ export class QQ implements DivisionRingOperators<QQ, number> {
   }
 
   /**
-   * @method __pos__
-   * @return {QQ}
-   * @private
+   * @returns
    */
   __pos__(): QQ {
     return this
   }
 
   /**
-   * @method __neg__
-   * @return {QQ}
-   * @private
+   * @returns
    */
   __neg__(): QQ {
     return this.neg()
@@ -407,12 +356,9 @@ export class QQ implements DivisionRingOperators<QQ, number> {
   private static POS_02_03: QQ = new QQ(2, 3, magicCode)
 
   /**
-   * @method valueOf
-   * @param numer {number}
-   * @param denom {number}
-   * @return {QQ}
-   * @static
-   * @chainable
+   * @param numer
+   * @param denom
+   * @returns
    */
   static valueOf(n: number, d: number): QQ {
     if (n === 0) {

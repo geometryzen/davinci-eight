@@ -1,30 +1,20 @@
 import FacetVisitor from './FacetVisitor';
 
 /**
- * @module EIGHT
- * @submodule core
+ * A `facet` is an adapter between a domain concept and a `uniform` value parameter in a WebGL shader program.
+ * An object implementing the `Facet` interface is capable of setting uniform values on a `FacetVisitor`.
  */
-
-/**
- * @class Facet
- */
-interface Facet {
+export interface Facet {
 
     /**
-     * @method setUniforms
-     * @param visitor {FacetVisitor}
-     * @return {void}
+     * @param visitor
      */
     setUniforms(visitor: FacetVisitor): void
 
     /**
-     * @method setProperty
-     * @param name {string}
-     * @param value {number[]}
-     * @return {Facet}
-     * @chainable
+     * @param name
+     * @param value
+     * @returns
      */
     setProperty(name: string, value: number[]): Facet;
 }
-
-export default Facet;

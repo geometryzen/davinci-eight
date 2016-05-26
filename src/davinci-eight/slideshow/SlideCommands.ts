@@ -5,7 +5,7 @@ import ISlide from '../slideshow/ISlide';
 
 import ISlideCommand from '../slideshow/ISlideCommand';
 import ShareableArray from '../collections/ShareableArray';
-import ShareableBase from '../core/ShareableBase';
+import {ShareableBase} from '../core/ShareableBase';
 
 import AbstractColor from '../core/AbstractColor';
 import ColorAnimation from '../slideshow/animations/ColorAnimation';

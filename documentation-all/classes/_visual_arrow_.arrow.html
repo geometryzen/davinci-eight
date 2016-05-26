@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Arrow | EIGHT 2.230.0</title>
+	<title>Arrow | EIGHT 2.231.0</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -23,7 +23,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="../index.html" class="title">EIGHT 2.230.0</a>
+					<a href="../index.html" class="title">EIGHT 2.231.0</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -73,15 +73,11 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p><p>
-								A <code>Mesh</code> in the form of an arrow that may be used to represent a vector quantity.
-						</p></p>
 						<p>
+							A <code>Mesh</code> in the form of an arrow that may be used to represent a vector quantity.
+						</p>
 					</div>
-					<p></p></p>
-					<dl class="tsd-comment-tags">
-						<dt>example</dt>
-						<dd><pre><code><span class="hljs-comment">// Construct the arrow at any time and add it to the scene.</span>
+					<pre><code><span class="hljs-comment">// Construct the arrow at any time and add it to the scene.</span>
 const arrow = new EIGHT.<span class="hljs-function"><span class="hljs-title">Arrow</span><span class="hljs-params">({color: white})</span></span>
 scene.<span class="hljs-function"><span class="hljs-title">add</span><span class="hljs-params">(arrow)</span></span>
 
@@ -92,14 +88,7 @@ arrow<span class="hljs-class">.vector</span> = vector <span class="hljs-comment"
 
 <span class="hljs-comment">// Release the arrow when no longer required.</span>
 arrow.<span class="hljs-function"><span class="hljs-title">release</span><span class="hljs-params">()</span></span>
-</code></pre></dd>
-						<dt>class</dt>
-						<dd><p>Arrow</p>
-						</dd>
-						<dt>extends</dt>
-						<dd><p>Mesh</p>
-						</dd>
-					</dl>
+</code></pre>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
@@ -203,22 +192,19 @@ arrow.<span class="hljs-function"><span class="hljs-title">release</span><span c
 							<aside class="tsd-sources">
 								<p>Overwrites <a href="_core_mesh_.mesh.html">Mesh</a>.<a href="_core_mesh_.mesh.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/visual/Arrow.ts#L72">visual/Arrow.ts:72</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/visual/Arrow.ts#L57">visual/Arrow.ts:57</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>class</dt>
-									<dd><p>Arrow</p>
-									</dd>
-									<dt>constructor</dt>
-									<dd></dd>
-								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> options: <a href="../interfaces/_visual_arrowoptions_.arrowoptions.html" class="tsd-signature-type">ArrowOptions</a><span class="tsd-signature-symbol"> =&nbsp;{}</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+										</div>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="_visual_arrow_.arrow.html" class="tsd-signature-type">Arrow</a></h4>
@@ -233,21 +219,11 @@ arrow.<span class="hljs-function"><span class="hljs-title">release</span><span c
 					<h3><span class="tsd-flag ts-flagProtected">Protected</span> _type</h3>
 					<div class="tsd-signature tsd-kind-icon">_type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="_core_shareablebase_.default.html">default</a>.<a href="_core_shareablebase_.default.html#_type">_type</a></p>
+						<p>Inherited from <a href="_core_shareablebase_.shareablebase.html">ShareableBase</a>.<a href="_core_shareablebase_.shareablebase.html#_type">_type</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/ShareableBase.ts#L58">core/ShareableBase.ts:58</a></li>
+							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/ShareableBase.ts#L48">core/ShareableBase.ts:48</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<dl class="tsd-comment-tags">
-							<dt>property</dt>
-							<dd><p>_type</p>
-							</dd>
-							<dt>type</dt>
-							<dd><p>string</p>
-							</dd>
-						</dl>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a name="_vector" class="tsd-anchor"></a>
@@ -255,7 +231,7 @@ arrow.<span class="hljs-function"><span class="hljs-title">release</span><span c
 					<div class="tsd-signature tsd-kind-icon">_vector<span class="tsd-signature-symbol">:</span> <a href="_math_geometric3_.geometric3.html" class="tsd-signature-type">Geometric3</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/visual/Arrow.ts#L69">visual/Arrow.ts:69</a></li>
+							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/visual/Arrow.ts#L54">visual/Arrow.ts:54</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -272,7 +248,7 @@ arrow.<span class="hljs-function"><span class="hljs-title">release</span><span c
 					<div class="tsd-signature tsd-kind-icon">attitude<wbr>Change<wbr>Handler<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/visual/Arrow.ts#L72">visual/Arrow.ts:72</a></li>
+							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/visual/Arrow.ts#L57">visual/Arrow.ts:57</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -311,9 +287,9 @@ arrow.<span class="hljs-function"><span class="hljs-title">release</span><span c
 					<h3><span class="tsd-flag ts-flagProtected">Protected</span> context<wbr>Provider</h3>
 					<div class="tsd-signature tsd-kind-icon">context<wbr>Provider<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_core_contextprovider_.contextprovider.html" class="tsd-signature-type">ContextProvider</a></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="_core_shareablecontextconsumer_.default.html">default</a>.<a href="_core_shareablecontextconsumer_.default.html#contextprovider">contextProvider</a></p>
+						<p>Inherited from <a href="_core_shareablecontextconsumer_.shareablecontextconsumer.html">ShareableContextConsumer</a>.<a href="_core_shareablecontextconsumer_.shareablecontextconsumer.html#contextprovider">contextProvider</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/ShareableContextConsumer.ts#L70">core/ShareableContextConsumer.ts:70</a></li>
+							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/ShareableContextConsumer.ts#L54">core/ShareableContextConsumer.ts:54</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -324,14 +300,6 @@ arrow.<span class="hljs-function"><span class="hljs-title">release</span><span c
 								We only need to release this property in our destructor.
 							We must not try to trigger a contextFree as that would violate Implementation Hierarchy Principle.</p>
 						</div>
-						<dl class="tsd-comment-tags">
-							<dt>property</dt>
-							<dd><p>contextProvider</p>
-							</dd>
-							<dt>type</dt>
-							<dd><p>{ContextProvider}</p>
-							</dd>
-						</dl>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
@@ -340,7 +308,7 @@ arrow.<span class="hljs-function"><span class="hljs-title">release</span><span c
 					<div class="tsd-signature tsd-kind-icon">direction0<span class="tsd-signature-symbol">:</span> <a href="_math_r3_.default.html" class="tsd-signature-type">default</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/visual/Arrow.ts#L62">visual/Arrow.ts:62</a></li>
+							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/visual/Arrow.ts#L47">visual/Arrow.ts:47</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -350,14 +318,6 @@ arrow.<span class="hljs-function"><span class="hljs-title">release</span><span c
 								initial direction in order to be able to update the attitude
 							based upon a vector property.</p>
 						</div>
-						<dl class="tsd-comment-tags">
-							<dt>property</dt>
-							<dd><p>direction0</p>
-							</dd>
-							<dt>type</dt>
-							<dd><p>R3</p>
-							</dd>
-						</dl>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
@@ -366,23 +326,11 @@ arrow.<span class="hljs-function"><span class="hljs-title">release</span><span c
 					<div class="tsd-signature tsd-kind-icon">name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/_core_abstractmesh_.abstractmesh.html">AbstractMesh</a>.<a href="../interfaces/_core_abstractmesh_.abstractmesh.html#name">name</a></p>
-						<p>Inherited from <a href="_core_drawable_.default.html">default</a>.<a href="_core_drawable_.default.html#name">name</a></p>
+						<p>Inherited from <a href="_core_drawable_.drawable.html">Drawable</a>.<a href="_core_drawable_.drawable.html#name">name</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Drawable.ts#L46">core/Drawable.ts:46</a></li>
+							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Drawable.ts#L30">core/Drawable.ts:30</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<dl class="tsd-comment-tags">
-							<dt>property</dt>
-							<dd><p>name</p>
-							</dd>
-							<dt>type</dt>
-							<dd><p>{string}</p>
-							</dd>
-							<dt>optional</dt>
-							<dd></dd>
-						</dl>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a name="vectorchangehandler" class="tsd-anchor"></a>
@@ -390,7 +338,7 @@ arrow.<span class="hljs-function"><span class="hljs-title">release</span><span c
 					<div class="tsd-signature tsd-kind-icon">vector<wbr>Change<wbr>Handler<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/visual/Arrow.ts#L71">visual/Arrow.ts:71</a></li>
+							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/visual/Arrow.ts#L56">visual/Arrow.ts:56</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -439,21 +387,13 @@ arrow.<span class="hljs-function"><span class="hljs-title">release</span><span c
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_core_mesh_.mesh.html">Mesh</a>.<a href="_core_mesh_.mesh.html#r">R</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Mesh.ts#L70">core/Mesh.ts:70</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Mesh.ts#L52">core/Mesh.ts:52</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Attitude (spinor)</p>
 								</div>
-								<dl class="tsd-comment-tags">
-									<dt>property</dt>
-									<dd><p>R</p>
-									</dd>
-									<dt>type</dt>
-									<dd><p>Geometric3</p>
-									</dd>
-								</dl>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="_math_geometric3_.geometric3.html" class="tsd-signature-type">Geometric3</a></h4>
 						</li>
@@ -461,7 +401,7 @@ arrow.<span class="hljs-function"><span class="hljs-title">release</span><span c
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_core_mesh_.mesh.html">Mesh</a>.<a href="_core_mesh_.mesh.html#r">R</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Mesh.ts#L79">core/Mesh.ts:79</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Mesh.ts#L61">core/Mesh.ts:61</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -491,21 +431,13 @@ arrow.<span class="hljs-function"><span class="hljs-title">release</span><span c
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_core_mesh_.mesh.html">Mesh</a>.<a href="_core_mesh_.mesh.html#x">X</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Mesh.ts#L120">core/Mesh.ts:120</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Mesh.ts#L96">core/Mesh.ts:96</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Position (vector)</p>
 								</div>
-								<dl class="tsd-comment-tags">
-									<dt>property</dt>
-									<dd><p>X</p>
-									</dd>
-									<dt>type</dt>
-									<dd><p>Geometric3</p>
-									</dd>
-								</dl>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="_math_geometric3_.geometric3.html" class="tsd-signature-type">Geometric3</a></h4>
 						</li>
@@ -513,7 +445,7 @@ arrow.<span class="hljs-function"><span class="hljs-title">release</span><span c
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_core_mesh_.mesh.html">Mesh</a>.<a href="_core_mesh_.mesh.html#x">X</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Mesh.ts#L129">core/Mesh.ts:129</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Mesh.ts#L105">core/Mesh.ts:105</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -543,21 +475,13 @@ arrow.<span class="hljs-function"><span class="hljs-title">release</span><span c
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_core_mesh_.mesh.html">Mesh</a>.<a href="_core_mesh_.mesh.html#color">color</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Mesh.ts#L95">core/Mesh.ts:95</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Mesh.ts#L74">core/Mesh.ts:74</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Color</p>
 								</div>
-								<dl class="tsd-comment-tags">
-									<dt>property</dt>
-									<dd><p>color</p>
-									</dd>
-									<dt>type</dt>
-									<dd><p>Color</p>
-									</dd>
-								</dl>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="_core_color_.color.html" class="tsd-signature-type">Color</a></h4>
 						</li>
@@ -565,7 +489,7 @@ arrow.<span class="hljs-function"><span class="hljs-title">release</span><span c
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_core_mesh_.mesh.html">Mesh</a>.<a href="_core_mesh_.mesh.html#color">color</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Mesh.ts#L104">core/Mesh.ts:104</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Mesh.ts#L83">core/Mesh.ts:83</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -593,28 +517,18 @@ arrow.<span class="hljs-function"><span class="hljs-title">release</span><span c
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="_core_drawable_.default.html">default</a>.<a href="_core_drawable_.default.html#fragmentshadersrc">fragmentShaderSrc</a></p>
+								<p>Inherited from <a href="_core_drawable_.drawable.html">Drawable</a>.<a href="_core_drawable_.drawable.html#fragmentshadersrc">fragmentShaderSrc</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Drawable.ts#L98">core/Drawable.ts:98</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Drawable.ts#L73">core/Drawable.ts:73</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>property</dt>
-									<dd><p>fragmentShaderSrc</p>
-									</dd>
-									<dt>type</dt>
-									<dd><p>string</p>
-									</dd>
-								</dl>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="_core_drawable_.default.html">default</a>.<a href="_core_drawable_.default.html#fragmentshadersrc">fragmentShaderSrc</a></p>
+								<p>Inherited from <a href="_core_drawable_.drawable.html">Drawable</a>.<a href="_core_drawable_.drawable.html#fragmentshadersrc">fragmentShaderSrc</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Drawable.ts#L107">core/Drawable.ts:107</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Drawable.ts#L82">core/Drawable.ts:82</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -637,31 +551,23 @@ arrow.<span class="hljs-function"><span class="hljs-title">release</span><span c
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="_core_drawable_.default.html">default</a>.<a href="_core_drawable_.default.html#geometry">geometry</a></p>
+								<p>Inherited from <a href="_core_drawable_.drawable.html">Drawable</a>.<a href="_core_drawable_.drawable.html#geometry">geometry</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Drawable.ts#L236">core/Drawable.ts:236</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Drawable.ts#L194">core/Drawable.ts:194</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Provides a reference counted reference to the graphics buffers property.</p>
 								</div>
-								<dl class="tsd-comment-tags">
-									<dt>property</dt>
-									<dd><p>geometry</p>
-									</dd>
-									<dt>type</dt>
-									<dd><p>{Geometry}</p>
-									</dd>
-								</dl>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="../interfaces/_core_geometry_.geometry.html" class="tsd-signature-type">Geometry</a></h4>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="_core_drawable_.default.html">default</a>.<a href="_core_drawable_.default.html#geometry">geometry</a></p>
+								<p>Inherited from <a href="_core_drawable_.drawable.html">Drawable</a>.<a href="_core_drawable_.drawable.html#geometry">geometry</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Drawable.ts#L245">core/Drawable.ts:245</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Drawable.ts#L203">core/Drawable.ts:203</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -689,9 +595,9 @@ arrow.<span class="hljs-function"><span class="hljs-title">release</span><span c
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="_core_shareablecontextconsumer_.default.html">default</a>.<a href="_core_shareablecontextconsumer_.default.html#gl">gl</a></p>
+								<p>Inherited from <a href="_core_shareablecontextconsumer_.shareablecontextconsumer.html">ShareableContextConsumer</a>.<a href="_core_shareablecontextconsumer_.shareablecontextconsumer.html#gl">gl</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/ShareableContextConsumer.ts#L226">core/ShareableContextConsumer.ts:226</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/ShareableContextConsumer.ts#L187">core/ShareableContextConsumer.ts:187</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -699,39 +605,21 @@ arrow.<span class="hljs-function"><span class="hljs-title">release</span><span c
 									<p>
 										Provides access to the underlying WebGL context.
 									</p>
-									<p>
-										This property is deprecated to encourage access throught the <code>ContextProvider</code>.
-									</p>
 								</div>
-								<dl class="tsd-comment-tags">
-									<dt>property</dt>
-									<dd><p>gl</p>
-									</dd>
-									<dt>type</dt>
-									<dd><p>WebGLRenderingContext</p>
-									</dd>
-									<dt>readonly</dt>
-									<dd></dd>
-									<dt>deprecated</dt>
-									<dd></dd>
-								</dl>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">WebGLRenderingContext</span></h4>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="_core_shareablecontextconsumer_.default.html">default</a>.<a href="_core_shareablecontextconsumer_.default.html#gl">gl</a></p>
+								<p>Inherited from <a href="_core_shareablecontextconsumer_.shareablecontextconsumer.html">ShareableContextConsumer</a>.<a href="_core_shareablecontextconsumer_.shareablecontextconsumer.html#gl">gl</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/ShareableContextConsumer.ts#L234">core/ShareableContextConsumer.ts:234</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/ShareableContextConsumer.ts#L195">core/ShareableContextConsumer.ts:195</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>
 										Provides access to the underlying WebGL context.
-									</p>
-									<p>
-										This property is deprecated to encourage access throught the <code>ContextProvider</code>.
 									</p>
 								</div>
 							</div>
@@ -756,36 +644,28 @@ arrow.<span class="hljs-function"><span class="hljs-title">release</span><span c
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/visual/Arrow.ts#L167">visual/Arrow.ts:167</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/visual/Arrow.ts#L143">visual/Arrow.ts:143</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>
-										The <em>vector</em> from the tail of the <p>Arrow</p> to the head of the <p>Arrow</p>.
+										The vector from the tail of the Arrow to the head of the Arrow.
 									</p>
 								</div>
-								<dl class="tsd-comment-tags">
-									<dt>property</dt>
-									<dd><p>h</p>
-									</dd>
-									<dt>type</dt>
-									<dd><p>Geometric3</p>
-									</dd>
-								</dl>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="_math_geometric3_.geometric3.html" class="tsd-signature-type">Geometric3</a></h4>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/visual/Arrow.ts#L170">visual/Arrow.ts:170</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/visual/Arrow.ts#L146">visual/Arrow.ts:146</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>
-										The <em>vector</em> from the tail of the <p>Arrow</p> to the head of the <p>Arrow</p>.
+										The vector from the tail of the Arrow to the head of the Arrow.
 									</p>
 								</div>
 							</div>
@@ -810,17 +690,11 @@ arrow.<span class="hljs-function"><span class="hljs-title">release</span><span c
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/visual/Arrow.ts#L150">visual/Arrow.ts:150</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/visual/Arrow.ts#L129">visual/Arrow.ts:129</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<dl class="tsd-comment-tags">
-									<dt>property</dt>
-									<dd><p>length</p>
-									</dd>
-									<dt>type</dt>
-									<dd><p>number</p>
-									</dd>
 									<dt>default</dt>
 									<dd><p>1</p>
 									</dd>
@@ -831,7 +705,7 @@ arrow.<span class="hljs-function"><span class="hljs-title">release</span><span c
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/visual/Arrow.ts#L153">visual/Arrow.ts:153</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/visual/Arrow.ts#L132">visual/Arrow.ts:132</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -854,31 +728,23 @@ arrow.<span class="hljs-function"><span class="hljs-title">release</span><span c
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="_core_drawable_.default.html">default</a>.<a href="_core_drawable_.default.html#material">material</a></p>
+								<p>Inherited from <a href="_core_drawable_.drawable.html">Drawable</a>.<a href="_core_drawable_.drawable.html#material">material</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Drawable.ts#L258">core/Drawable.ts:258</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Drawable.ts#L213">core/Drawable.ts:213</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Provides a reference counted reference to the graphics program property.</p>
 								</div>
-								<dl class="tsd-comment-tags">
-									<dt>property</dt>
-									<dd><p>material</p>
-									</dd>
-									<dt>type</dt>
-									<dd><p>{Material}</p>
-									</dd>
-								</dl>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="../interfaces/_core_material_.material.html" class="tsd-signature-type">Material</a></h4>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="_core_drawable_.default.html">default</a>.<a href="_core_drawable_.default.html#material">material</a></p>
+								<p>Inherited from <a href="_core_drawable_.drawable.html">Drawable</a>.<a href="_core_drawable_.drawable.html#material">material</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Drawable.ts#L267">core/Drawable.ts:267</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Drawable.ts#L222">core/Drawable.ts:222</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -908,18 +774,13 @@ arrow.<span class="hljs-function"><span class="hljs-title">release</span><span c
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_core_mesh_.mesh.html">Mesh</a>.<a href="_core_mesh_.mesh.html#stress">stress</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Mesh.ts#L143">core/Mesh.ts:143</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Mesh.ts#L118">core/Mesh.ts:118</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>property</dt>
-									<dd><p>stress</p>
-									</dd>
-									<dt>type</dt>
-									<dd><p>Matrix4</p>
-									</dd>
-								</dl>
+								<div class="lead">
+									<p>Stress (tensor)</p>
+								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="_math_matrix4_.default.html" class="tsd-signature-type">default</a></h4>
 						</li>
@@ -927,9 +788,14 @@ arrow.<span class="hljs-function"><span class="hljs-title">release</span><span c
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_core_mesh_.mesh.html">Mesh</a>.<a href="_core_mesh_.mesh.html#stress">stress</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Mesh.ts#L152">core/Mesh.ts:152</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Mesh.ts#L127">core/Mesh.ts:127</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Stress (tensor)</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -950,28 +816,18 @@ arrow.<span class="hljs-function"><span class="hljs-title">release</span><span c
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="_core_drawable_.default.html">default</a>.<a href="_core_drawable_.default.html#vertexshadersrc">vertexShaderSrc</a></p>
+								<p>Inherited from <a href="_core_drawable_.drawable.html">Drawable</a>.<a href="_core_drawable_.drawable.html#vertexshadersrc">vertexShaderSrc</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Drawable.ts#L120">core/Drawable.ts:120</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Drawable.ts#L94">core/Drawable.ts:94</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>property</dt>
-									<dd><p>vertexShaderSrc</p>
-									</dd>
-									<dt>type</dt>
-									<dd><p>string</p>
-									</dd>
-								</dl>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="_core_drawable_.default.html">default</a>.<a href="_core_drawable_.default.html#vertexshadersrc">vertexShaderSrc</a></p>
+								<p>Inherited from <a href="_core_drawable_.drawable.html">Drawable</a>.<a href="_core_drawable_.drawable.html#vertexshadersrc">vertexShaderSrc</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Drawable.ts#L129">core/Drawable.ts:129</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Drawable.ts#L103">core/Drawable.ts:103</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -994,19 +850,13 @@ arrow.<span class="hljs-function"><span class="hljs-title">release</span><span c
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="_core_drawable_.default.html">default</a>.<a href="_core_drawable_.default.html#visible">visible</a></p>
+								<p>Inherited from <a href="_core_drawable_.drawable.html">Drawable</a>.<a href="_core_drawable_.drawable.html#visible">visible</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Drawable.ts#L279">core/Drawable.ts:279</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Drawable.ts#L232">core/Drawable.ts:232</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<dl class="tsd-comment-tags">
-									<dt>property</dt>
-									<dd><p>visible</p>
-									</dd>
-									<dt>type</dt>
-									<dd><p>boolean</p>
-									</dd>
 									<dt>default</dt>
 									<dd><p>true</p>
 									</dd>
@@ -1016,9 +866,9 @@ arrow.<span class="hljs-function"><span class="hljs-title">release</span><span c
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="_core_drawable_.default.html">default</a>.<a href="_core_drawable_.default.html#visible">visible</a></p>
+								<p>Inherited from <a href="_core_drawable_.drawable.html">Drawable</a>.<a href="_core_drawable_.drawable.html#visible">visible</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Drawable.ts#L282">core/Drawable.ts:282</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Drawable.ts#L235">core/Drawable.ts:235</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1044,9 +894,9 @@ arrow.<span class="hljs-function"><span class="hljs-title">release</span><span c
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_core_abstractmesh_.abstractmesh.html">AbstractMesh</a>.<a href="../interfaces/_core_abstractmesh_.abstractmesh.html#addref">addRef</a></p>
-								<p>Inherited from <a href="_core_shareablebase_.default.html">default</a>.<a href="_core_shareablebase_.default.html#addref">addRef</a></p>
+								<p>Inherited from <a href="_core_shareablebase_.shareablebase.html">ShareableBase</a>.<a href="_core_shareablebase_.shareablebase.html#addref">addRef</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/ShareableBase.ts#L152">core/ShareableBase.ts:152</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/ShareableBase.ts#L123">core/ShareableBase.ts:123</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1055,11 +905,6 @@ arrow.<span class="hljs-function"><span class="hljs-title">release</span><span c
 										Notifies this instance that something is referencing it.
 									</p>
 								</div>
-								<dl class="tsd-comment-tags">
-									<dt>method</dt>
-									<dd><p>addRef</p>
-									</dd>
-								</dl>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
 							<p>The new value of the reference count.</p>
@@ -1075,18 +920,11 @@ arrow.<span class="hljs-function"><span class="hljs-title">release</span><span c
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="_core_shareablecontextconsumer_.default.html">default</a>.<a href="_core_shareablecontextconsumer_.default.html#cleanup">cleanUp</a></p>
+								<p>Inherited from <a href="_core_shareablecontextconsumer_.shareablecontextconsumer.html">ShareableContextConsumer</a>.<a href="_core_shareablecontextconsumer_.shareablecontextconsumer.html#cleanup">cleanUp</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/ShareableContextConsumer.ts#L151">core/ShareableContextConsumer.ts:151</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/ShareableContextConsumer.ts#L128">core/ShareableContextConsumer.ts:128</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>method</dt>
-									<dd><p>cleanUp</p>
-									</dd>
-								</dl>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -1101,23 +939,20 @@ arrow.<span class="hljs-function"><span class="hljs-title">release</span><span c
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_core_abstractmesh_.abstractmesh.html">AbstractMesh</a>.<a href="../interfaces/_core_abstractmesh_.abstractmesh.html#contextfree">contextFree</a></p>
-								<p>Inherited from <a href="_core_drawable_.default.html">default</a>.<a href="_core_drawable_.default.html#contextfree">contextFree</a></p>
-								<p>Overwrites <a href="_core_shareablecontextconsumer_.default.html">default</a>.<a href="_core_shareablecontextconsumer_.default.html#contextfree">contextFree</a></p>
+								<p>Inherited from <a href="_core_drawable_.drawable.html">Drawable</a>.<a href="_core_drawable_.drawable.html#contextfree">contextFree</a></p>
+								<p>Overwrites <a href="_core_shareablecontextconsumer_.shareablecontextconsumer.html">ShareableContextConsumer</a>.<a href="_core_shareablecontextconsumer_.shareablecontextconsumer.html#contextfree">contextFree</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Drawable.ts#L184">core/Drawable.ts:184</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Drawable.ts#L153">core/Drawable.ts:153</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>method</dt>
-									<dd><p>contextFree</p>
-									</dd>
-								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>context: <a href="../interfaces/_core_contextprovider_.contextprovider.html" class="tsd-signature-type">ContextProvider</a></h5>
+									<div class="tsd-comment tsd-typography">
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -1134,23 +969,20 @@ arrow.<span class="hljs-function"><span class="hljs-title">release</span><span c
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_core_abstractmesh_.abstractmesh.html">AbstractMesh</a>.<a href="../interfaces/_core_abstractmesh_.abstractmesh.html#contextgain">contextGain</a></p>
-								<p>Inherited from <a href="_core_drawable_.default.html">default</a>.<a href="_core_drawable_.default.html#contextgain">contextGain</a></p>
-								<p>Overwrites <a href="_core_shareablecontextconsumer_.default.html">default</a>.<a href="_core_shareablecontextconsumer_.default.html#contextgain">contextGain</a></p>
+								<p>Inherited from <a href="_core_drawable_.drawable.html">Drawable</a>.<a href="_core_drawable_.drawable.html#contextgain">contextGain</a></p>
+								<p>Overwrites <a href="_core_shareablecontextconsumer_.shareablecontextconsumer.html">ShareableContextConsumer</a>.<a href="_core_shareablecontextconsumer_.shareablecontextconsumer.html#contextgain">contextGain</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Drawable.ts#L195">core/Drawable.ts:195</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Drawable.ts#L162">core/Drawable.ts:162</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>method</dt>
-									<dd><p>contextGain</p>
-									</dd>
-								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>context: <a href="../interfaces/_core_contextprovider_.contextprovider.html" class="tsd-signature-type">ContextProvider</a></h5>
+									<div class="tsd-comment tsd-typography">
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -1167,19 +999,12 @@ arrow.<span class="hljs-function"><span class="hljs-title">release</span><span c
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_core_abstractmesh_.abstractmesh.html">AbstractMesh</a>.<a href="../interfaces/_core_abstractmesh_.abstractmesh.html#contextlost">contextLost</a></p>
-								<p>Inherited from <a href="_core_drawable_.default.html">default</a>.<a href="_core_drawable_.default.html#contextlost">contextLost</a></p>
-								<p>Overwrites <a href="_core_shareablecontextconsumer_.default.html">default</a>.<a href="_core_shareablecontextconsumer_.default.html#contextlost">contextLost</a></p>
+								<p>Inherited from <a href="_core_drawable_.drawable.html">Drawable</a>.<a href="_core_drawable_.drawable.html#contextlost">contextLost</a></p>
+								<p>Overwrites <a href="_core_shareablecontextconsumer_.shareablecontextconsumer.html">ShareableContextConsumer</a>.<a href="_core_shareablecontextconsumer_.shareablecontextconsumer.html#contextlost">contextLost</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Drawable.ts#L205">core/Drawable.ts:205</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Drawable.ts#L171">core/Drawable.ts:171</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>method</dt>
-									<dd><p>contextLost</p>
-									</dd>
-								</dl>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -1195,20 +1020,17 @@ arrow.<span class="hljs-function"><span class="hljs-title">release</span><span c
 							<aside class="tsd-sources">
 								<p>Overwrites <a href="_core_mesh_.mesh.html">Mesh</a>.<a href="_core_mesh_.mesh.html#destructor">destructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/visual/Arrow.ts#L138">visual/Arrow.ts:138</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/visual/Arrow.ts#L119">visual/Arrow.ts:119</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>method</dt>
-									<dd><p>destructor</p>
-									</dd>
-								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>levelUp: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -1225,22 +1047,19 @@ arrow.<span class="hljs-function"><span class="hljs-title">release</span><span c
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_core_abstractmesh_.abstractmesh.html">AbstractMesh</a>.<a href="../interfaces/_core_abstractmesh_.abstractmesh.html#draw">draw</a></p>
-								<p>Inherited from <a href="_core_drawable_.default.html">default</a>.<a href="_core_drawable_.default.html#draw">draw</a></p>
+								<p>Inherited from <a href="_core_drawable_.drawable.html">Drawable</a>.<a href="_core_drawable_.drawable.html#draw">draw</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Drawable.ts#L161">core/Drawable.ts:161</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Drawable.ts#L132">core/Drawable.ts:132</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>method</dt>
-									<dd><p>draw</p>
-									</dd>
-								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>ambients: <a href="../interfaces/_core_facet_.facet.html" class="tsd-signature-type">Facet</a><span class="tsd-signature-symbol">[]</span></h5>
+									<div class="tsd-comment tsd-typography">
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -1256,22 +1075,19 @@ arrow.<span class="hljs-function"><span class="hljs-title">release</span><span c
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="_core_drawable_.default.html">default</a>.<a href="_core_drawable_.default.html#getfacet">getFacet</a></p>
+								<p>Inherited from <a href="_core_drawable_.drawable.html">Drawable</a>.<a href="_core_drawable_.drawable.html#getfacet">getFacet</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Drawable.ts#L216">core/Drawable.ts:216</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Drawable.ts#L180">core/Drawable.ts:180</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>method</dt>
-									<dd><p>getFacet</p>
-									</dd>
-								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>name: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="../interfaces/_core_facet_.facet.html" class="tsd-signature-type">Facet</a></h4>
@@ -1287,17 +1103,12 @@ arrow.<span class="hljs-function"><span class="hljs-title">release</span><span c
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="_core_shareablebase_.default.html">default</a>.<a href="_core_shareablebase_.default.html#getloggingname">getLoggingName</a></p>
+								<p>Inherited from <a href="_core_shareablebase_.shareablebase.html">ShareableBase</a>.<a href="_core_shareablebase_.shareablebase.html#getloggingname">getLoggingName</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/ShareableBase.ts#L162">core/ShareableBase.ts:162</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/ShareableBase.ts#L132">core/ShareableBase.ts:132</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>method</dt>
-									<dd><p>getLoggingName</p>
-									</dd>
-								</dl>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
 						</li>
@@ -1314,15 +1125,10 @@ arrow.<span class="hljs-function"><span class="hljs-title">release</span><span c
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_core_mesh_.mesh.html">Mesh</a>.<a href="_core_mesh_.mesh.html#getprincipalscale">getPrincipalScale</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Mesh.ts#L167">core/Mesh.ts:167</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Mesh.ts#L141">core/Mesh.ts:141</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>method</dt>
-									<dd><p>getPrincipalScale</p>
-									</dd>
-								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -1343,17 +1149,16 @@ arrow.<span class="hljs-function"><span class="hljs-title">release</span><span c
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="_core_shareablebase_.default.html">default</a>.<a href="_core_shareablebase_.default.html#iszombie">isZombie</a></p>
+								<p>Inherited from <a href="_core_shareablebase_.shareablebase.html">ShareableBase</a>.<a href="_core_shareablebase_.shareablebase.html#iszombie">isZombie</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/ShareableBase.ts#L140">core/ShareableBase.ts:140</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/ShareableBase.ts#L112">core/ShareableBase.ts:112</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>method</dt>
-									<dd><p>isZombie</p>
-									</dd>
-								</dl>
+								<div class="lead">
+									<p>An object is a zombie if it has been released by all who have held references.
+									In some cases it may be possible to recycle a zombie.</p>
+								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
 						</li>
@@ -1369,9 +1174,9 @@ arrow.<span class="hljs-function"><span class="hljs-title">release</span><span c
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_core_abstractmesh_.abstractmesh.html">AbstractMesh</a>.<a href="../interfaces/_core_abstractmesh_.abstractmesh.html#release">release</a></p>
-								<p>Inherited from <a href="_core_shareablebase_.default.html">default</a>.<a href="_core_shareablebase_.default.html#release">release</a></p>
+								<p>Inherited from <a href="_core_shareablebase_.shareablebase.html">ShareableBase</a>.<a href="_core_shareablebase_.shareablebase.html#release">release</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/ShareableBase.ts#L204">core/ShareableBase.ts:204</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/ShareableBase.ts#L170">core/ShareableBase.ts:170</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1380,11 +1185,6 @@ arrow.<span class="hljs-function"><span class="hljs-title">release</span><span c
 										Notifies this instance that something is dereferencing it.
 									</p>
 								</div>
-								<dl class="tsd-comment-tags">
-									<dt>method</dt>
-									<dd><p>release</p>
-									</dd>
-								</dl>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
 							<p>The new value of the reference count.</p>
@@ -1400,17 +1200,12 @@ arrow.<span class="hljs-function"><span class="hljs-title">release</span><span c
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="_core_drawable_.default.html">default</a>.<a href="_core_drawable_.default.html#setfacet">setFacet</a></p>
+								<p>Inherited from <a href="_core_drawable_.drawable.html">Drawable</a>.<a href="_core_drawable_.drawable.html#setfacet">setFacet</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Drawable.ts#L226">core/Drawable.ts:226</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Drawable.ts#L187">core/Drawable.ts:187</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>method</dt>
-									<dd><p>setFacet</p>
-									</dd>
-								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -1419,6 +1214,8 @@ arrow.<span class="hljs-function"><span class="hljs-title">release</span><span c
 								</li>
 								<li>
 									<h5>facet: <a href="../interfaces/_core_facet_.facet.html" class="tsd-signature-type">Facet</a></h5>
+									<div class="tsd-comment tsd-typography">
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -1434,9 +1231,9 @@ arrow.<span class="hljs-function"><span class="hljs-title">release</span><span c
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="_core_shareablebase_.default.html">default</a>.<a href="_core_shareablebase_.default.html#setloggingname">setLoggingName</a></p>
+								<p>Inherited from <a href="_core_shareablebase_.shareablebase.html">ShareableBase</a>.<a href="_core_shareablebase_.shareablebase.html#setloggingname">setLoggingName</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/ShareableBase.ts#L188">core/ShareableBase.ts:188</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/ShareableBase.ts#L155">core/ShareableBase.ts:155</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1457,16 +1254,13 @@ arrow.<span class="hljs-function"><span class="hljs-title">release</span><span c
 												Notice that this method is intentionally protected to discourage it from being called outside of the constructor.
 											</p>
 								</div>
-								<dl class="tsd-comment-tags">
-									<dt>method</dt>
-									<dd><p>setLoggingName</p>
-									</dd>
-								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>name: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -1484,15 +1278,10 @@ arrow.<span class="hljs-function"><span class="hljs-title">release</span><span c
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_core_mesh_.mesh.html">Mesh</a>.<a href="_core_mesh_.mesh.html#setprincipalscale">setPrincipalScale</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Mesh.ts#L186">core/Mesh.ts:186</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Mesh.ts#L157">core/Mesh.ts:157</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>method</dt>
-									<dd><p>setPrincipalScale</p>
-									</dd>
-								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -1501,6 +1290,8 @@ arrow.<span class="hljs-function"><span class="hljs-title">release</span><span c
 								</li>
 								<li>
 									<h5>value: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -1517,18 +1308,11 @@ arrow.<span class="hljs-function"><span class="hljs-title">release</span><span c
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_core_abstractmesh_.abstractmesh.html">AbstractMesh</a>.<a href="../interfaces/_core_abstractmesh_.abstractmesh.html#setuniforms">setUniforms</a></p>
-								<p>Inherited from <a href="_core_drawable_.default.html">default</a>.<a href="_core_drawable_.default.html#setuniforms">setUniforms</a></p>
+								<p>Inherited from <a href="_core_drawable_.drawable.html">Drawable</a>.<a href="_core_drawable_.drawable.html#setuniforms">setUniforms</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Drawable.ts#L143">core/Drawable.ts:143</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/Drawable.ts#L116">core/Drawable.ts:116</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>method</dt>
-									<dd><p>setUniforms</p>
-									</dd>
-								</dl>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -1542,9 +1326,9 @@ arrow.<span class="hljs-function"><span class="hljs-title">release</span><span c
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="_core_shareablecontextconsumer_.default.html">default</a>.<a href="_core_shareablecontextconsumer_.default.html#subscribe">subscribe</a></p>
+								<p>Inherited from <a href="_core_shareablecontextconsumer_.shareablecontextconsumer.html">ShareableContextConsumer</a>.<a href="_core_shareablecontextconsumer_.shareablecontextconsumer.html#subscribe">subscribe</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/ShareableContextConsumer.ts#L117">core/ShareableContextConsumer.ts:117</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/ShareableContextConsumer.ts#L96">core/ShareableContextConsumer.ts:96</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1556,16 +1340,13 @@ arrow.<span class="hljs-function"><span class="hljs-title">release</span><span c
 										This method is idempotent; calling it more than once with the same <code>Engine</code> does not change the state.
 									</p>
 								</div>
-								<dl class="tsd-comment-tags">
-									<dt>method</dt>
-									<dd><p>subscribe</p>
-									</dd>
-								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>engine: <a href="_core_engine_.engine.html" class="tsd-signature-type">Engine</a></h5>
+									<div class="tsd-comment tsd-typography">
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -1581,18 +1362,11 @@ arrow.<span class="hljs-function"><span class="hljs-title">release</span><span c
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="_core_shareablecontextconsumer_.default.html">default</a>.<a href="_core_shareablecontextconsumer_.default.html#synchup">synchUp</a></p>
+								<p>Inherited from <a href="_core_shareablecontextconsumer_.shareablecontextconsumer.html">ShareableContextConsumer</a>.<a href="_core_shareablecontextconsumer_.shareablecontextconsumer.html#synchup">synchUp</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/ShareableContextConsumer.ts#L140">core/ShareableContextConsumer.ts:140</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/ShareableContextConsumer.ts#L118">core/ShareableContextConsumer.ts:118</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>method</dt>
-									<dd><p>synchUp</p>
-									</dd>
-								</dl>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -1606,9 +1380,9 @@ arrow.<span class="hljs-function"><span class="hljs-title">release</span><span c
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="_core_shareablecontextconsumer_.default.html">default</a>.<a href="_core_shareablecontextconsumer_.default.html#unsubscribe">unsubscribe</a></p>
+								<p>Inherited from <a href="_core_shareablecontextconsumer_.shareablecontextconsumer.html">ShareableContextConsumer</a>.<a href="_core_shareablecontextconsumer_.shareablecontextconsumer.html#unsubscribe">unsubscribe</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/ShareableContextConsumer.ts#L166">core/ShareableContextConsumer.ts:166</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/core/ShareableContextConsumer.ts#L140">core/ShareableContextConsumer.ts:140</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1620,11 +1394,6 @@ arrow.<span class="hljs-function"><span class="hljs-title">release</span><span c
 										This method is idempotent; calling it more than once does not change the state.
 									</p>
 								</div>
-								<dl class="tsd-comment-tags">
-									<dt>method</dt>
-									<dd><p>unsubscribe</p>
-									</dd>
-								</dl>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>

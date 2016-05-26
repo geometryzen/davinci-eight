@@ -91,7 +91,7 @@ System.register("davinci-eight/commands/WebGLBlendFunc.js", ["../commands/BlendF
           gl.blendFunc(factor(this.sfactor, gl), factor(this.dfactor, gl));
         };
         return WebGLBlendFunc;
-      }(ShareableBase_1.default));
+      }(ShareableBase_1.ShareableBase));
       exports_1("default", WebGLBlendFunc);
     }
   };
@@ -209,7 +209,7 @@ System.register("davinci-eight/controls/OrbitControls.js", ["../math/Geometric3"
           this.movePrev.copy(this.moveCurr);
         };
         return OrbitControls;
-      }(ViewControls_1.default));
+      }(ViewControls_1.ViewControls));
       exports_1("OrbitControls", OrbitControls);
     }
   };
@@ -1444,7 +1444,7 @@ System.register("davinci-eight/math/Vector4.js", ["../math/Coords"], function(ex
           return this;
         };
         return Vector4;
-      }(Coords_1.default));
+      }(Coords_1.Coords));
       exports_1("default", Vector4);
     }
   };
@@ -1484,7 +1484,7 @@ System.register("davinci-eight/overlay/base/Board.js", ["../../base/incLevel", "
           _super.prototype.destructor.call(this, incLevel_1.default(level));
         };
         return Board;
-      }(ShareableBase_1.default));
+      }(ShareableBase_1.ShareableBase));
       exports_1("default", Board);
     }
   };
@@ -1615,7 +1615,7 @@ System.register("davinci-eight/overlay/base/GeometryElement.js", ["../../base/in
           _super.prototype.destructor.call(this, incLevel_1.default(level));
         };
         return GeometryElement;
-      }(ShareableBase_1.default));
+      }(ShareableBase_1.ShareableBase));
       exports_1("default", GeometryElement);
     }
   };
@@ -1795,7 +1795,7 @@ System.register("davinci-eight/overlay/Overlay.js", ["./base/Board", "./renderer
           return text;
         };
         return Overlay;
-      }(ShareableBase_1.default));
+      }(ShareableBase_1.ShareableBase));
       exports_1("default", Overlay);
     }
   };
@@ -1887,7 +1887,7 @@ System.register("davinci-eight/collections/NumberShareableMap.js", ["../core/Sha
           delete this._elements[key];
         };
         return NumberShareableMap;
-      }(ShareableBase_1.default));
+      }(ShareableBase_1.ShareableBase));
       exports_1("default", NumberShareableMap);
     }
   };
@@ -1994,7 +1994,7 @@ System.register("davinci-eight/collections/StringShareableMap.js", ["../base/inc
           return value;
         };
         return StringShareableMap;
-      }(ShareableBase_1.default));
+      }(ShareableBase_1.ShareableBase));
       exports_1("default", StringShareableMap);
     }
   };
@@ -2384,7 +2384,7 @@ System.register("davinci-eight/geometries/transforms/Approximation.js", ["../../
           for (var k = 0; k < nLength; k++) {
             var aName = this.names[k];
             var v = vertex.attributes[aName];
-            if (v instanceof Coords_1.default) {
+            if (v instanceof Coords_1.Coords) {
               v.approx(this.n);
             } else if (v instanceof Vector3_1.default) {
               v.approx(this.n);
@@ -2972,7 +2972,7 @@ System.register("davinci-eight/math/Spinor2.js", ["../math/Coords", "../math/dot
           return new Spinor2([0, 0], false);
         };
         return Spinor2;
-      }(Coords_1.default));
+      }(Coords_1.Coords));
       exports_1("default", Spinor2);
     }
   };
@@ -4095,11 +4095,11 @@ System.register("davinci-eight/visual/Sphere.js", ["./direction", "../base/incLe
           }
           this.radius = isDefined_1.default(options.radius) ? mustBeNumber_1.default('radius', options.radius) : 1.0;
         }
-        Sphere.prototype.destructor = function(level) {
-          if (level === 0) {
+        Sphere.prototype.destructor = function(levelUp) {
+          if (levelUp === 0) {
             this.cleanUp();
           }
-          _super.prototype.destructor.call(this, incLevel_1.default(level));
+          _super.prototype.destructor.call(this, incLevel_1.default(levelUp));
         };
         Object.defineProperty(Sphere.prototype, "radius", {
           get: function() {
@@ -4112,7 +4112,7 @@ System.register("davinci-eight/visual/Sphere.js", ["./direction", "../base/incLe
           configurable: true
         });
         return Sphere;
-      }(RigidBody_1.default));
+      }(RigidBody_1.RigidBody));
       exports_1("Sphere", Sphere);
     }
   };
@@ -4528,7 +4528,7 @@ System.register("davinci-eight/visual/Box.js", ["../geometries/BoxGeometry", "./
           configurable: true
         });
         return Box;
-      }(RigidBody_1.default));
+      }(RigidBody_1.RigidBody));
       exports_1("Box", Box);
     }
   };
@@ -4689,7 +4689,7 @@ System.register("davinci-eight/visual/RigidBodyWithUnits.js", ["../math/G3", "..
           configurable: true
         });
         return RigidBodyWithUnits;
-      }(ShareableBase_1.default));
+      }(ShareableBase_1.ShareableBase));
       exports_1("default", RigidBodyWithUnits);
     }
   };
@@ -5142,7 +5142,7 @@ System.register("davinci-eight/visual/RigidBody.js", ["../math/Geometric3", "../
         });
         return RigidBody;
       }(Mesh_1.Mesh));
-      exports_1("default", RigidBody);
+      exports_1("RigidBody", RigidBody);
     }
   };
 });
@@ -5242,7 +5242,7 @@ System.register("davinci-eight/visual/Cylinder.js", ["./direction", "../geometri
           configurable: true
         });
         return Cylinder;
-      }(RigidBody_1.default));
+      }(RigidBody_1.RigidBody));
       exports_1("Cylinder", Cylinder);
     }
   };
@@ -5846,8 +5846,8 @@ System.register("davinci-eight/visual/Curve.js", ["../core/DrawMode", "../core/G
               }
           }
         }
-        Curve.prototype.destructor = function(level) {
-          _super.prototype.destructor.call(this, incLevel_1.default(level));
+        Curve.prototype.destructor = function(levelUp) {
+          _super.prototype.destructor.call(this, incLevel_1.default(levelUp));
         };
         return Curve;
       }(Mesh_1.Mesh));
@@ -6928,8 +6928,8 @@ System.register("davinci-eight/visual/Grid.js", ["../core/DrawMode", "../core/Gr
               }
           }
         }
-        Grid.prototype.destructor = function(level) {
-          _super.prototype.destructor.call(this, incLevel_1.default(level));
+        Grid.prototype.destructor = function(levelUp) {
+          _super.prototype.destructor.call(this, incLevel_1.default(levelUp));
         };
         return Grid;
       }(Mesh_1.Mesh));
@@ -7079,7 +7079,7 @@ System.register("davinci-eight/facets/ColorFacet.js", ["../core/Color", "../chec
         ColorFacet.PROP_BLUE = 'b';
         return ColorFacet;
       }());
-      exports_1("default", ColorFacet);
+      exports_1("ColorFacet", ColorFacet);
     }
   };
 });
@@ -7264,8 +7264,8 @@ System.register("davinci-eight/core/Drawable.js", ["../base/exchange", "../check
           configurable: true
         });
         return Drawable;
-      }(ShareableContextConsumer_1.default));
-      exports_1("default", Drawable);
+      }(ShareableContextConsumer_1.ShareableContextConsumer));
+      exports_1("Drawable", Drawable);
     }
   };
 });
@@ -7473,7 +7473,7 @@ System.register("davinci-eight/facets/ModelFacet.js", ["../math/Matrix3", "../ma
         };
         return ModelFacet;
       }(ModelE3_1.default));
-      exports_1("default", ModelFacet);
+      exports_1("ModelFacet", ModelFacet);
     }
   };
 });
@@ -7522,7 +7522,7 @@ System.register("davinci-eight/facets/PointSizeFacet.js", ["../checks/mustBeArra
         };
         return PointSizeFacet;
       }());
-      exports_1("default", PointSizeFacet);
+      exports_1("PointSizeFacet", PointSizeFacet);
     }
   };
 });
@@ -7569,11 +7569,11 @@ System.register("davinci-eight/core/Mesh.js", ["../facets/ColorFacet", "./Drawab
         function Mesh(geometry, material, engine) {
           _super.call(this, geometry, material, engine);
           this.setLoggingName('Mesh');
-          var modelFacet = new ModelFacet_1.default();
+          var modelFacet = new ModelFacet_1.ModelFacet();
           this.setFacet(MODEL_FACET_NAME, modelFacet);
-          var colorFacet = new ColorFacet_1.default();
+          var colorFacet = new ColorFacet_1.ColorFacet();
           this.setFacet(COLOR_FACET_NAME, colorFacet);
-          var pointFacet = new PointSizeFacet_1.default();
+          var pointFacet = new PointSizeFacet_1.PointSizeFacet();
           this.setFacet(POINT_FACET_NAME, pointFacet);
         }
         Mesh.prototype.destructor = function(levelUp) {
@@ -7677,7 +7677,7 @@ System.register("davinci-eight/core/Mesh.js", ["../facets/ColorFacet", "./Drawab
           geometry.release();
         };
         return Mesh;
-      }(Drawable_1.default));
+      }(Drawable_1.Drawable));
       exports_1("Mesh", Mesh);
     }
   };
@@ -8854,7 +8854,7 @@ System.register("davinci-eight/materials/MaterialBase.js", ["../core/AttribLocat
           }
         };
         return MaterialBase;
-      }(ShareableContextConsumer_1.default));
+      }(ShareableContextConsumer_1.ShareableContextConsumer));
       exports_1("default", MaterialBase);
     }
   };
@@ -9093,7 +9093,7 @@ System.register("davinci-eight/core/GeometryLeaf.js", ["../config", "./ErrorMode
           throw new Error(notImplemented_1.default('setPrincipalScale').message);
         };
         return GeometryLeaf;
-      }(ShareableContextConsumer_1.default));
+      }(ShareableContextConsumer_1.ShareableContextConsumer));
       exports_1("default", GeometryLeaf);
     }
   };
@@ -9207,7 +9207,7 @@ System.register("davinci-eight/core/IndexBuffer.js", ["../base/incLevel", "../ch
           }
         };
         return IndexBuffer;
-      }(ShareableContextConsumer_1.default));
+      }(ShareableContextConsumer_1.ShareableContextConsumer));
       exports_1("default", IndexBuffer);
     }
   };
@@ -9318,7 +9318,7 @@ System.register("davinci-eight/core/VertexBuffer.js", ["../checks/mustBeObject",
           }
         };
         return VertexBuffer;
-      }(ShareableContextConsumer_1.default));
+      }(ShareableContextConsumer_1.ShareableContextConsumer));
       exports_1("default", VertexBuffer);
     }
   };
@@ -9709,7 +9709,7 @@ System.register("davinci-eight/core/GeometryContainer.js", ["../collections/Shar
           }
         };
         return GeometryContainer;
-      }(ShareableBase_1.default));
+      }(ShareableBase_1.ShareableBase));
       exports_1("default", GeometryContainer);
     }
   };
@@ -10037,7 +10037,7 @@ System.register("davinci-eight/geometries/simplicesToPrimitive.js", ["../collect
         var size = output.dimensions;
         var value = vertexAttribs[keys[k]];
         if (!value) {
-          value = new VectorN_1.default(numberList(size, 0), false, size);
+          value = new VectorN_1.VectorN(numberList(size, 0), false, size);
         }
         var data = dataFromVectorN_1.default(value);
         copyToArray_1.default(data, output.data, i * output.dimensions);
@@ -12221,7 +12221,7 @@ System.register("davinci-eight/math/Geometric2.js", ["./arraysEQ", "../geometrie
         Geometric2.BASIS_LABELS_GEOMETRIC = ARROW_LABELS;
         Geometric2.BASIS_LABELS_STANDARD = STANDARD_LABELS;
         return Geometric2;
-      }(Coords_1.default));
+      }(Coords_1.Coords));
       exports_1("Geometric2", Geometric2);
     }
   };
@@ -12550,7 +12550,7 @@ System.register("davinci-eight/geometries/primitives/Vertex.js", ["../../math/Co
           for (var i = 0; i < numCoordinates; i++) {
             data.push(0);
           }
-          this.coords = new Coords_1.default(data, false, numCoordinates);
+          this.coords = new Coords_1.Coords(data, false, numCoordinates);
         }
         Vertex.prototype.toString = function() {
           return stringifyVertex(this);
@@ -12606,7 +12606,7 @@ System.register("davinci-eight/geometries/Simplex.js", ["../checks/expectArg", "
     return attribMap;
   }
   function lerpVectorN(a, b, alpha) {
-    return new VectorN_1.default(lerp(a.coords, b.coords, alpha));
+    return new VectorN_1.VectorN(lerp(a.coords, b.coords, alpha));
   }
   return {
     setters: [function(expectArg_1_1) {
@@ -13245,7 +13245,7 @@ System.register("davinci-eight/visual/TrailConfig.js", ["../config", "../core/Er
         });
         return TrailConfig;
       }());
-      exports_1("default", TrailConfig);
+      exports_1("TrailConfig", TrailConfig);
     }
   };
 });
@@ -13284,7 +13284,7 @@ System.register("davinci-eight/visual/Trail.js", ["../base/incLevel", "../checks
           _super.call(this);
           this.Xs = [];
           this.Rs = [];
-          this.config = new TrailConfig_1.default();
+          this.config = new TrailConfig_1.TrailConfig();
           this.counter = 0;
           this.setLoggingName('Trail');
           mustBeObject_1.default('mesh', mesh);
@@ -13328,7 +13328,7 @@ System.register("davinci-eight/visual/Trail.js", ["../base/incLevel", "../checks
           }
         };
         return Trail;
-      }(ShareableBase_1.default));
+      }(ShareableBase_1.ShareableBase));
       exports_1("Trail", Trail);
     }
   };
@@ -13405,7 +13405,7 @@ System.register("davinci-eight/visual/DrawList.js", ["../base/incLevel", "../col
           _super.prototype.contextLost.call(this);
         };
         return DrawList;
-      }(ShareableContextConsumer_1.default));
+      }(ShareableContextConsumer_1.ShareableContextConsumer));
       exports_1("default", DrawList);
     }
   };
@@ -14109,7 +14109,7 @@ System.register("davinci-eight/math/Spinor3.js", ["./Coords", "./dotVectorCartes
           return Spinor3.spinor(0, 0, 0, 0);
         };
         return Spinor3;
-      }(Coords_1.default));
+      }(Coords_1.Coords));
       exports_1("default", Spinor3);
     }
   };
@@ -14416,7 +14416,7 @@ System.register("davinci-eight/math/Vector2.js", ["../math/Coords", "../geometri
           return Vector2.vector(0, 0);
         };
         return Vector2;
-      }(Coords_1.default));
+      }(Coords_1.Coords));
       exports_1("default", Vector2);
     }
   };
@@ -14643,7 +14643,7 @@ System.register("davinci-eight/controls/MouseControls.js", ["../base/incLevel", 
           }
         };
         return MouseControls;
-      }(ShareableBase_1.default));
+      }(ShareableBase_1.ShareableBase));
       exports_1("default", MouseControls);
     }
   };
@@ -14751,7 +14751,7 @@ System.register("davinci-eight/controls/ViewControls.js", ["./MouseControls", ".
         };
         return ViewControls;
       }(MouseControls_1.default));
-      exports_1("default", ViewControls);
+      exports_1("ViewControls", ViewControls);
     }
   };
 });
@@ -14836,7 +14836,7 @@ System.register("davinci-eight/controls/TrackballControls.js", ["../math/Spinor3
           }
         };
         return TrackballControls;
-      }(ViewControls_1.default));
+      }(ViewControls_1.ViewControls));
       exports_1("TrackballControls", TrackballControls);
     }
   };
@@ -14940,7 +14940,7 @@ System.register("davinci-eight/visual/World.js", ["../core/Color", "../facets/Am
           this.drawList.add(drawable);
         };
         return World;
-      }(ShareableBase_1.default));
+      }(ShareableBase_1.ShareableBase));
       exports_1("default", World);
     }
   };
@@ -15830,8 +15830,8 @@ System.register("davinci-eight/core/ShareableContextConsumer.js", ["./cleanUp", 
           configurable: true
         });
         return ShareableContextConsumer;
-      }(ShareableBase_1.default));
-      exports_1("default", ShareableContextConsumer);
+      }(ShareableBase_1.ShareableBase));
+      exports_1("ShareableContextConsumer", ShareableContextConsumer);
     }
   };
 });
@@ -15921,7 +15921,7 @@ System.register("davinci-eight/core/Scene.js", ["../collections/ShareableArray",
           }
         };
         return ScenePart;
-      }(ShareableBase_1.default));
+      }(ShareableBase_1.ShareableBase));
       Scene = (function(_super) {
         __extends(Scene, _super);
         function Scene(engine) {
@@ -16007,7 +16007,7 @@ System.register("davinci-eight/core/Scene.js", ["../collections/ShareableArray",
           _super.prototype.contextLost.call(this);
         };
         return Scene;
-      }(ShareableContextConsumer_1.default));
+      }(ShareableContextConsumer_1.ShareableContextConsumer));
       exports_1("Scene", Scene);
     }
   };
@@ -16375,7 +16375,7 @@ System.register("davinci-eight/core/Color.js", ["../math/clamp", "../math/Coords
         Color.white = new Color(1, 1, 1);
         Color.gray = new Color(0.5, 0.5, 0.5);
         return Color;
-      }(Coords_1.default));
+      }(Coords_1.Coords));
       exports_1("Color", Color);
     }
   };
@@ -16551,7 +16551,7 @@ System.register("davinci-eight/commands/EIGHTLogger.js", ["../config", "../core/
           configurable: true
         });
         return EIGHTLogger;
-      }(ShareableBase_1.default));
+      }(ShareableBase_1.ShareableBase));
       exports_1("default", EIGHTLogger);
     }
   };
@@ -16734,7 +16734,7 @@ System.register("davinci-eight/base/DefaultContextProvider.js", ["../core/drawMo
           gl.vertexAttribPointer(index, size, gl.FLOAT, normalized, stride, offset);
         };
         return DefaultContextProvider;
-      }(ShareableBase_1.default));
+      }(ShareableBase_1.ShareableBase));
       exports_1("default", DefaultContextProvider);
     }
   };
@@ -16966,7 +16966,7 @@ System.register("davinci-eight/collections/ShareableArray.js", ["../base/incLeve
           return this._elements.unshift(element);
         };
         return ShareableArray;
-      }(ShareableBase_1.default));
+      }(ShareableBase_1.ShareableBase));
       exports_1("default", ShareableArray);
     }
   };
@@ -17016,7 +17016,7 @@ System.register("davinci-eight/commands/VersionLogger.js", ["../core/ShareableBa
           configurable: true
         });
         return VersionLogger;
-      }(ShareableBase_1.default));
+      }(ShareableBase_1.ShareableBase));
       exports_1("default", VersionLogger);
     }
   };
@@ -17083,8 +17083,8 @@ System.register("davinci-eight/commands/WebGLClearColor.js", ["../checks/mustBeN
         };
         WebGLClearColor.prototype.contextLost = function() {};
         return WebGLClearColor;
-      }(ShareableBase_1.default));
-      exports_1("default", WebGLClearColor);
+      }(ShareableBase_1.ShareableBase));
+      exports_1("WebGLClearColor", WebGLClearColor);
     }
   };
 });
@@ -17131,7 +17131,7 @@ System.register("davinci-eight/commands/WebGLEnable.js", ["../commands/glCapabil
         };
         WebGLEnable.prototype.contextLost = function() {};
         return WebGLEnable;
-      }(ShareableBase_1.default));
+      }(ShareableBase_1.ShareableBase));
       exports_1("default", WebGLEnable);
     }
   };
@@ -17244,7 +17244,7 @@ System.register("davinci-eight/commands/WebGLDisable.js", ["../commands/glCapabi
         };
         WebGLDisable.prototype.contextLost = function() {};
         return WebGLDisable;
-      }(ShareableBase_1.default));
+      }(ShareableBase_1.ShareableBase));
       exports_1("default", WebGLDisable);
     }
   };
@@ -17420,7 +17420,7 @@ System.register("davinci-eight/core/Engine.js", ["../commands/Capability", "../c
           configurable: true
         });
         Engine.prototype.clearColor = function(red, green, blue, alpha) {
-          this._commands.pushWeakRef(new WebGLClearColor_1.default(red, green, blue, alpha));
+          this._commands.pushWeakRef(new WebGLClearColor_1.WebGLClearColor(red, green, blue, alpha));
           var gl = this._gl;
           if (gl) {
             gl.clearColor(red, green, blue, alpha);
@@ -17572,7 +17572,7 @@ System.register("davinci-eight/core/Engine.js", ["../commands/Capability", "../c
           } else {}
         };
         return Engine;
-      }(ShareableBase_1.default));
+      }(ShareableBase_1.ShareableBase));
       exports_1("Engine", Engine);
     }
   };
@@ -17875,7 +17875,7 @@ System.register("davinci-eight/math/rotorFromDirectionsE3.js", ["./dotVectorE3",
   };
 });
 
-System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "./dotVectorE3", "./G3", "../utils/EventEmitter", "./extG3", "./gauss", "../checks/isDefined", "./isScalarG3", "./lcoG3", "./maskG3", "./mulE3", "./mulG3", "../i18n/notImplemented", "./randomRange", "../i18n/readOnly", "./rcoG3", "./rotorFromDirectionsE3", "./scpG3", "./squaredNormG3", "./stringFromCoordinates", "./wedgeXY", "./wedgeYZ", "./wedgeZX"], function(exports_1, context_1) {
+System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "./dotVectorE3", "./G3", "../utils/EventEmitter", "./extG3", "./gauss", "../checks/isDefined", "./isScalarG3", "./lcoG3", "./maskG3", "./mulE3", "./mulG3", "./randomRange", "../i18n/readOnly", "./rcoG3", "./rotorFromDirectionsE3", "./scpG3", "./squaredNormG3", "./stringFromCoordinates", "./wedgeXY", "./wedgeYZ", "./wedgeZX"], function(exports_1, context_1) {
   "use strict";
   var __moduleName = context_1 && context_1.id;
   var __extends = (this && this.__extends) || function(d, b) {
@@ -17900,7 +17900,6 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
       maskG3_1,
       mulE3_1,
       mulG3_1,
-      notImplemented_1,
       randomRange_1,
       readOnly_1,
       rcoG3_1,
@@ -17958,8 +17957,6 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
       mulE3_1 = mulE3_1_1;
     }, function(mulG3_1_1) {
       mulG3_1 = mulG3_1_1;
-    }, function(notImplemented_1_1) {
-      notImplemented_1 = notImplemented_1_1;
     }, function(randomRange_1_1) {
       randomRange_1 = randomRange_1_1;
     }, function(readOnly_1_1) {
@@ -18194,7 +18191,7 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
           return this;
         };
         Geometric3.prototype.adj = function() {
-          throw new Error('TODO: Geometric3.adj');
+          return this;
         };
         Geometric3.prototype.angle = function() {
           return this.log().grade(2);
@@ -18606,7 +18603,7 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
           return this;
         };
         Geometric3.prototype.slerp = function(target, α) {
-          throw new Error(notImplemented_1.default('slerp').message);
+          return this;
         };
         Geometric3.prototype.stress = function(σ) {
           this.x *= σ.x;
@@ -19008,7 +19005,7 @@ System.register("davinci-eight/math/Geometric3.js", ["./Coords", "./arraysEQ", "
           return Geometric3.spinor(yz, zx, xy, 0);
         };
         return Geometric3;
-      }(Coords_1.default));
+      }(Coords_1.Coords));
       exports_1("Geometric3", Geometric3);
     }
   };
@@ -21966,7 +21963,7 @@ System.register("davinci-eight/math/Vector3.js", ["./Coords", "./dotVectorE3", "
           return new Vector3([0, 0, 0]);
         };
         return Vector3;
-      }(Coords_1.default));
+      }(Coords_1.Coords));
       exports_1("default", Vector3);
     }
   };
@@ -22299,7 +22296,7 @@ System.register("davinci-eight/math/VectorN.js", ["../checks/isDefined", "../che
         };
         return VectorN;
       }());
-      exports_1("default", VectorN);
+      exports_1("VectorN", VectorN);
     }
   };
 });
@@ -22355,8 +22352,8 @@ System.register("davinci-eight/math/Coords.js", ["./VectorN"], function(exports_
           }
         };
         return Coords;
-      }(VectorN_1.default));
-      exports_1("default", Coords);
+      }(VectorN_1.VectorN));
+      exports_1("Coords", Coords);
     }
   };
 });
@@ -22653,7 +22650,7 @@ System.register("davinci-eight/math/Vector1.js", ["../math/Coords"], function(ex
           return new Vector1[0];
         };
         return Vector1;
-      }(Coords_1.default));
+      }(Coords_1.Coords));
       exports_1("default", Vector1);
     }
   };
@@ -25415,7 +25412,7 @@ System.register("davinci-eight/config.js", ["./core/ErrorMode"], function(export
           this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
           this.LAST_MODIFIED = '2016-05-26';
           this.NAMESPACE = 'EIGHT';
-          this.VERSION = '2.230.0';
+          this.VERSION = '2.231.0';
         }
         Object.defineProperty(Eight.prototype, "errorMode", {
           get: function() {
@@ -25819,15 +25816,12 @@ System.register("davinci-eight/core/ShareableBase.js", ["../checks/isDefined", "
           get: function() {
             return this._uuid;
           },
-          set: function(unused) {
-            throw new Error(readOnly_1.default('uuid').message);
-          },
           enumerable: true,
           configurable: true
         });
         return ShareableBase;
       }());
-      exports_1("default", ShareableBase);
+      exports_1("ShareableBase", ShareableBase);
     }
   };
 });
@@ -25939,7 +25933,7 @@ System.register("davinci-eight/visual/Viewport.js", ["../facets/AmbientLight", "
           _super.prototype.destructor.call(this, levelUp + 1);
         };
         return Viewport;
-      }(ShareableBase_1.default));
+      }(ShareableBase_1.ShareableBase));
       exports_1("default", Viewport);
     }
   };
@@ -26410,7 +26404,7 @@ System.register("davinci-eight.js", ["./davinci-eight/base/AnimationApp", "./dav
           return WebGLBlendFunc_1.default;
         },
         get WebGLClearColor() {
-          return WebGLClearColor_1.default;
+          return WebGLClearColor_1.WebGLClearColor;
         },
         get WebGLDisable() {
           return WebGLDisable_1.default;
@@ -26425,7 +26419,7 @@ System.register("davinci-eight.js", ["./davinci-eight/base/AnimationApp", "./dav
           return ModelE3_1.default;
         },
         get ModelFacet() {
-          return ModelFacet_1.default;
+          return ModelFacet_1.ModelFacet;
         },
         get Simplex() {
           return Simplex_1.default;
@@ -26446,7 +26440,7 @@ System.register("davinci-eight.js", ["./davinci-eight/base/AnimationApp", "./dav
           return Scene_1.Scene;
         },
         get Drawable() {
-          return Drawable_1.default;
+          return Drawable_1.Drawable;
         },
         get PerspectiveCamera() {
           return PerspectiveCamera_1.PerspectiveCamera;
@@ -26491,13 +26485,13 @@ System.register("davinci-eight.js", ["./davinci-eight/base/AnimationApp", "./dav
           return AmbientLight_1.AmbientLight;
         },
         get ColorFacet() {
-          return ColorFacet_1.default;
+          return ColorFacet_1.ColorFacet;
         },
         get DirectionalLight() {
           return DirectionalLight_1.DirectionalLight;
         },
         get PointSizeFacet() {
-          return PointSizeFacet_1.default;
+          return PointSizeFacet_1.PointSizeFacet;
         },
         get ReflectionFacetE2() {
           return ReflectionFacetE2_1.default;
@@ -26593,7 +26587,7 @@ System.register("davinci-eight.js", ["./davinci-eight/base/AnimationApp", "./dav
           return Vector4_1.default;
         },
         get VectorN() {
-          return VectorN_1.default;
+          return VectorN_1.VectorN;
         },
         get GraphicsProgramSymbols() {
           return GraphicsProgramSymbols_1.default;
@@ -26629,7 +26623,7 @@ System.register("davinci-eight.js", ["./davinci-eight/base/AnimationApp", "./dav
           return refChange_1.default;
         },
         get ShareableBase() {
-          return ShareableBase_1.default;
+          return ShareableBase_1.ShareableBase;
         },
         get StringShareableMap() {
           return StringShareableMap_1.default;
@@ -26674,7 +26668,7 @@ System.register("davinci-eight.js", ["./davinci-eight/base/AnimationApp", "./dav
           return Mesh_1.Mesh;
         },
         get RigidBody() {
-          return RigidBody_1.default;
+          return RigidBody_1.RigidBody;
         },
         get RigidBodyWithUnits() {
           return RigidBodyWithUnits_1.default;

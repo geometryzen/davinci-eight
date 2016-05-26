@@ -7,16 +7,9 @@ import mustBeLE from '../checks/mustBeLE';
 import mustBeNumber from '../checks/mustBeNumber';
 import mustBeString from '../checks/mustBeString';
 import Perspective from './Perspective';
-import Facet from '../core/Facet';
+import {Facet} from '../core/Facet';
 import FacetVisitor from '../core/FacetVisitor';
 import VectorE3 from '../math/VectorE3';
-
-/**
- * Common abstractions for computing shader uniform variables.
- *
- * @module EIGHT
- * @submodule facets
- */
 
 /**
  * <p>
@@ -29,7 +22,6 @@ import VectorE3 from '../math/VectorE3';
  * method is called <code>setUniforms</code>.
  * <p>
  *
- * @example
  *     const ambients: Facet[] = []
  *
  *     const camera = new EIGHT.PerspectiveCamera()
@@ -39,48 +31,31 @@ import VectorE3 from '../math/VectorE3';
  *
  *     scene.draw(ambients)
  *
- * The camera is initially positioned at e3
- *
- * @class PerspectiveCamera
+ * <p>The camera is initially positioned at <b>e</b><sub>3</sub>.</p>
  */
 export class PerspectiveCamera implements Perspective, Facet {
 
     /**
      * The name of the property that designates the position.
-     *
-     * @property PROP_POSITION
-     * @type string
-     * @default 'X'
-     * @static
-     * @readOnly
-     * @private
      */
     private static PROP_POSITION = 'X';
 
     /**
-     * @property PROP_EYE
-     * @type string
-     * @default 'eye'
-     * @static
-     * @readOnly
-     * @private
+     *
      */
     private static PROP_EYE = 'eye';
 
     /**
-     * @property inner
-     * @type {Perspective}
-     * @private
+     *
      */
     private inner: Perspective;
 
     /**
-     * @class PerspectiveCamera
-     * @constructor
-     * @param [fov = 45 * Math.PI / 180] {number} The field of view.
-     * @param [aspect=1] {number} The aspect is the ratio width / height.
-     * @param [near=0.1] {number} The distance of the near plane from the camera.
-     * @param [far=1000] {number} The distance of the far plane from the camera. 
+     *
+     * @param fov The field of view.
+     * @param aspect The aspect is the ratio width / height.
+     * @param near The distance of the near plane from the camera.
+     * @param far The distance of the far plane from the camera. 
      */
     constructor(fov = 45 * Math.PI / 180, aspect = 1, near = 0.1, far = 1000) {
 
@@ -101,9 +76,7 @@ export class PerspectiveCamera implements Perspective, Facet {
     }
 
     /**
-     * @method setUniforms
-     * @param visitor {FacetVisitor}
-     * @return {void}
+     * @param visitor
      */
     setUniforms(visitor: FacetVisitor): void {
         // Synchronize the near and far properties before delegating.
@@ -113,9 +86,8 @@ export class PerspectiveCamera implements Perspective, Facet {
     }
 
     /**
-     * @method getProperty
-     * @param name {string}
-     * @return {number[]}
+     * @param name
+     * @returns
      */
     getProperty(name: string): number[] {
         mustBeString('name', name)
@@ -131,11 +103,9 @@ export class PerspectiveCamera implements Perspective, Facet {
     }
 
     /**
-     * @method setProperty
-     * @param name {string}
-     * @param value {number[]}
-     * @return {PerspectiveCamera}
-     * @chainable
+     * @param name
+     * @param value
+     * @returns
      */
     setProperty(name: string, value: number[]): PerspectiveCamera {
         mustBeString('name', name)
@@ -155,10 +125,6 @@ export class PerspectiveCamera implements Perspective, Facet {
 
     /**
      * The aspect ratio (width / height) of the camera viewport.
-     *
-     * @property aspect
-     * @type number
-     * @readOnly
      */
     get aspect(): number {
         return this.inner.aspect
@@ -168,10 +134,8 @@ export class PerspectiveCamera implements Perspective, Facet {
     }
 
     /**
-     * @method setAspect
-     * @param aspect {number}
-     * @return {PerspectiveCamera}
-     * @chainable
+     * @param aspect
+     * @returns
      */
     setAspect(aspect: number): PerspectiveCamera {
         this.inner.aspect = aspect
@@ -180,9 +144,6 @@ export class PerspectiveCamera implements Perspective, Facet {
 
     /**
      * The position of the camera, a vector.
-     *
-     * @property eye
-     * @type {Geometric3}
      */
     get eye(): Geometric3 {
         return this.inner.eye
@@ -192,10 +153,8 @@ export class PerspectiveCamera implements Perspective, Facet {
     }
 
     /**
-     * @method setEye
-     * @param eye {VectorE3}
-     * @return {PerspectiveCamera}
-     * @chainable
+     * @param eye
+     * @returns
      */
     setEye(eye: VectorE3): PerspectiveCamera {
         this.inner.setEye(eye)
@@ -205,10 +164,6 @@ export class PerspectiveCamera implements Perspective, Facet {
     /**
      * The field of view is the (planar) angle (magnitude) in the camera horizontal plane that encloses object that can be seen.
      * Measured in radians.
-     *
-     * @property fov
-     * @type {number}
-     * @readOnly
      */
     get fov(): number {
         return this.inner.fov
@@ -216,11 +171,10 @@ export class PerspectiveCamera implements Perspective, Facet {
     set fov(unused: number) {
         throw new Error(readOnly('fov').message)
     }
+
     /**
-     * @method setFov
-     * @param fov {number}
-     * @return {PerspectiveCamera}
-     * @chainable
+     * @param fov
+     * @returns
      */
     setFov(fov: number): PerspectiveCamera {
         mustBeNumber('fov', fov)
@@ -229,8 +183,7 @@ export class PerspectiveCamera implements Perspective, Facet {
     }
 
     /**
-     * @property look
-     * @type Geometric3
+     *
      */
     get look(): Geometric3 {
         return this.inner.look
@@ -240,10 +193,8 @@ export class PerspectiveCamera implements Perspective, Facet {
     }
 
     /**
-     * @method setLook
-     * @param look {VectorE3}
-     * @return {PerspectiveCamera}
-     * @chainable
+     * @param look
+     * @returns
      */
     setLook(look: VectorE3): PerspectiveCamera {
         this.inner.setLook(look)
@@ -252,9 +203,6 @@ export class PerspectiveCamera implements Perspective, Facet {
 
     /**
      * The distance to the near plane.
-     *
-     * @property near
-     * @type {number}
      */
     get near(): number {
         return this.inner.near
@@ -264,10 +212,8 @@ export class PerspectiveCamera implements Perspective, Facet {
     }
 
     /**
-     * @method setNear
-     * @param near {number}
-     * @return {PerspectiveCamera}
-     * @chainable
+     * @param near
+     * @returns
      */
     setNear(near: number): PerspectiveCamera {
         this.inner.setNear(near)
@@ -275,8 +221,7 @@ export class PerspectiveCamera implements Perspective, Facet {
     }
 
     /**
-     * @property far
-     * @type number
+     *
      */
     get far(): number {
         return this.inner.far
@@ -286,10 +231,8 @@ export class PerspectiveCamera implements Perspective, Facet {
     }
 
     /**
-     * @method setFar
-     * @param far {number}
-     * @return {PerspectiveCamera}
-     * @chainable
+     * @param far
+     * @returns
      */
     setFar(far: number): PerspectiveCamera {
         this.inner.setFar(far)
@@ -297,8 +240,7 @@ export class PerspectiveCamera implements Perspective, Facet {
     }
 
     /**
-     * @property up
-     * @type Geometric3
+     *
      */
     get up(): Geometric3 {
         return this.inner.up
@@ -308,10 +250,8 @@ export class PerspectiveCamera implements Perspective, Facet {
     }
 
     /**
-     * @method setUp
-     * @param up {VectorE3}
-     * @return {PerspectiveCamera}
-     * @chainable
+     * @param up
+     * @returns
      */
     setUp(up: VectorE3): PerspectiveCamera {
         this.inner.setUp(up)

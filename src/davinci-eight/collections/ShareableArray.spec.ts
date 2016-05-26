@@ -1,5 +1,5 @@
 import ShareableArray from './ShareableArray'
-import ShareableBase from '../core/ShareableBase'
+import {ShareableBase} from '../core/ShareableBase'
 
 class Foo extends ShareableBase {
   constructor() {

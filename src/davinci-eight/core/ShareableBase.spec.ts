@@ -1,4 +1,4 @@
-import ShareableBase from './ShareableBase'
+import {ShareableBase} from './ShareableBase'
 
 // Example of using ShareableBase as a base class in order to implement reference counting.
 // When all references have been released, the destructor function is called. 

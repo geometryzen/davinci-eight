@@ -1,7 +1,7 @@
 import incLevel from '../base/incLevel';
 import ContextProvider from '../core/ContextProvider';
 import readOnly from '../i18n/readOnly';
-import ShareableBase from '../core/ShareableBase';
+import {ShareableBase} from '../core/ShareableBase';
 
 /**
  * <p>

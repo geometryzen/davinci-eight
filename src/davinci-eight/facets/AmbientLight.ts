@@ -1,17 +1,12 @@
 import {Color} from '../core/Color';
 import AbstractColor from '../core/AbstractColor';
-import Facet from '../core/Facet';
+import {Facet} from '../core/Facet';
 import FacetVisitor from '../core/FacetVisitor';
 import mustBeArray from '../checks/mustBeArray';
 import mustBeNumber from '../checks/mustBeNumber';
 import mustBeObject from '../checks/mustBeObject';
 import mustBeString from '../checks/mustBeString';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
-
-/**
- * @module EIGHT
- * @submodule facets
- */
 
 const LOGGING_NAME = 'AmbientLight'
 
@@ -20,19 +15,16 @@ function contextBuilder() {
 }
 
 /**
- * Constructs a white light in the -e3 direction.
- * @class AmbientLight
+ *
  */
 export class AmbientLight implements Facet {
     /**
-     * @property color
-     * @type {Color}
+     *
      */
     public color: Color;
 
     /**
-     * @class AmbientLight
-     * @constructor
+     *
      */
     constructor(color: AbstractColor) {
         mustBeObject('color', color)
@@ -48,11 +40,9 @@ export class AmbientLight implements Facet {
     }
 
     /**
-     * @method setProperty
-     * @param name {string}
-     * @param value {number[]}
-     * @return {AmbientLight}
-     * @chainable
+     * @param name
+     * @param value
+     * @returns
      */
     setProperty(name: string, value: number[]): AmbientLight {
         mustBeString('name', name, contextBuilder)
@@ -61,9 +51,8 @@ export class AmbientLight implements Facet {
     }
 
     /**
-     * @method setUniforms
-     * @param visitor {FacetVisitor}
-     * @return {void}
+     * @param visitor
+     * @returns
      */
     setUniforms(visitor: FacetVisitor): void {
         const color = this.color

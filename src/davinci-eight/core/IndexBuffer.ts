@@ -3,7 +3,7 @@ import {Engine} from './Engine';
 import incLevel from '../base/incLevel';
 import mustBeObject from '../checks/mustBeObject';
 import mustBeUndefined from '../checks/mustBeUndefined';
-import ShareableContextConsumer from './ShareableContextConsumer';
+import {ShareableContextConsumer} from './ShareableContextConsumer';
 
 /**
  * @module EIGHT

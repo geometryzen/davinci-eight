@@ -7,7 +7,7 @@ import ShareableArray from '../collections/ShareableArray';
 import mustBeDefined from '../checks/mustBeDefined';
 import mustBeString from '../checks/mustBeString';
 import NumberShareableMap from '../collections/NumberShareableMap';
-import ShareableBase from '../core/ShareableBase';
+import {ShareableBase} from '../core/ShareableBase';
 import StringShareableMap from '../collections/StringShareableMap';
 
 export default class Director extends ShareableBase implements IDirector {

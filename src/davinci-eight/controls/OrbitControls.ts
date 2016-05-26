@@ -4,7 +4,7 @@ import getViewAttitude from '../facets/getViewAttitude'
 import Spinor3 from '../math/Spinor3'
 import Vector3 from '../math/Vector3'
 import View from '../facets/View'
-import ViewControls from './ViewControls'
+import {ViewControls} from './ViewControls'
 
 // Scratch variables to aboid creating temporary objects.
 const a: Geometric3 = Geometric3.zero()
@@ -24,17 +24,12 @@ const X: Vector3 = Vector3.zero()
  * A rotor may be calculated that rotates the camera from its old reference frame to the
  * new reference frame. This rotor may also be interpolated for animations.
  * </p>
- *
- * @class OrbitControls
- * @extends ViewControls
  */
 export class OrbitControls extends ViewControls {
 
   /**
-   * @class OrbitControls
-   * @constructor
-   * @param view {View}
-   * @param wnd {Window}
+   * @param view
+   * @param wnd
    */
   constructor(view: View, wnd: BrowserWindow) {
     super(view, wnd)
@@ -42,19 +37,14 @@ export class OrbitControls extends ViewControls {
   }
 
   /**
-   * @method destructor
-   * @param levelUp {number}
-   * @return {void}
-   * @protected
+   * @param levelUp
    */
   protected destructor(levelUp: number): void {
     super.destructor(levelUp + 1)
   }
 
   /**
-   * @method rotateCamera
-   * @return {void}
-   * @protected
+   *
    */
   protected rotateCamera(): void {
     if (this.hasView()) {

@@ -1,27 +1,23 @@
 import ContextProvider from '../core/ContextProvider';
 import mustBeNumber from '../checks/mustBeNumber';
-import ShareableBase from '../core/ShareableBase';
+import {ShareableBase} from '../core/ShareableBase';
 
 /**
  * <p>
  * clearColor(red: number, green: number, blue: number, alpha: number): void
- * <p> 
- * @class WebGLClearColor
- * @extends ShareableBase
+ * <p>
  */
-export default class WebGLClearColor extends ShareableBase {
+export class WebGLClearColor extends ShareableBase {
   public red: number;
   public green: number;
   public blue: number;
   public alpha: number;
 
   /**
-   * @class WebGLClearColor
-   * @constructor
-   * @param [red = 0] {number}
-   * @param [green = 0] {number}
-   * @param [blue = 0] {number}
-   * @param [alpha = 1] {number}
+   * @param red
+   * @param green
+   * @param blue
+   * @param alpha
    */
   constructor(red = 0, green = 0, blue = 0, alpha = 1) {
     super()
@@ -33,9 +29,7 @@ export default class WebGLClearColor extends ShareableBase {
   }
 
   /**
-   * @method destructor
-   * @param levelUp {number}
-   * @return {void}
+   *
    */
   destructor(levelUp: number): void {
     this.red = void 0

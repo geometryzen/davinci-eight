@@ -1,4 +1,4 @@
-import Coords from '../math/Coords';
+import {Coords} from '../math/Coords';
 import dotVectorCartesian from '../math/dotVectorCartesianE2';
 import Measure from '../math/Measure';
 import mustBeInteger from '../checks/mustBeInteger';

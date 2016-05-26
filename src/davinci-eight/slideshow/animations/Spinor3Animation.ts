@@ -1,6 +1,6 @@
 import IAnimation from '../../slideshow/IAnimation';
 import IAnimationTarget from '../../slideshow/IAnimationTarget';
-import ShareableBase from '../../core/ShareableBase';
+import {ShareableBase} from '../../core/ShareableBase';
 import Spinor3 from '../../math/Spinor3';
 import SpinorE3 from '../../math/SpinorE3';
 

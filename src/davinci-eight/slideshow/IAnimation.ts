@@ -1,5 +1,5 @@
 import IAnimationTarget from '../slideshow/IAnimationTarget';
-import Shareable from '../core/Shareable';
+import {Shareable} from '../core/Shareable';
 
 interface IAnimation extends Shareable {
     apply(target: IAnimationTarget, propName: string, now: number, offset: number): void;

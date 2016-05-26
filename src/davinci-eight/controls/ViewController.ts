@@ -1,16 +1,13 @@
 import View from '../facets/View'
 
 /**
- * @class ViewController
+ *
  */
-interface ViewController {
+export interface ViewController {
   /**
    * <p>
    * Called during the animation loop to update the target based upon mouse events.
    * </p>
-   *
-   * @method update
-   * @return {void}
    */
   update(): void;
 
@@ -18,9 +15,6 @@ interface ViewController {
    * <p>
    * Called at any time to reset the target to the last synchonization point.
    * </p>
-   *
-   * @method reset
-   * @return {void}
    */
   reset(): void;
 
@@ -30,9 +24,7 @@ interface ViewController {
    * </p>
    * This method also synchronizes the controller with the view.
    *
-   * @method setView
-   * @param view {View}
-   * @return {void}
+   * @param view
    */
   setView(view: View): void;
 
@@ -43,5 +35,3 @@ interface ViewController {
    */
   synchronize(): void;
 }
-
-export default ViewController;

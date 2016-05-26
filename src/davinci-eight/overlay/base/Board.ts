@@ -1,6 +1,6 @@
 import AbstractRenderer from '../renderers/AbstractRenderer'
 import incLevel from '../../base/incLevel'
-import ShareableBase from '../../core/ShareableBase'
+import {ShareableBase} from '../../core/ShareableBase'
 
 export default class Board extends ShareableBase {
   private container: string

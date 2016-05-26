@@ -1,5 +1,5 @@
 import Material from './Material';
-import Shareable from './Shareable';
+import {Shareable} from './Shareable';
 
 /**
  * @module EIGHT

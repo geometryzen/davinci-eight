@@ -1,7 +1,7 @@
 import expectArg from '../checks/expectArg';
 import Simplex from '../geometries/Simplex';
 import triangle from '../geometries/triangle';
-import VectorN from '../math/VectorN';
+import {VectorN} from '../math/VectorN';
 
 function setAttributes(which: number[], source: { [name: string]: VectorN<number>[] }, target: { [name: string]: VectorN<number>[] }) {
     let names: string[] = Object.keys(source);

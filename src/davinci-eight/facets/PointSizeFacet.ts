@@ -1,14 +1,9 @@
-import Facet from '../core/Facet';
+import {Facet} from '../core/Facet';
 import FacetVisitor from '../core/FacetVisitor';
 import mustBeArray from '../checks/mustBeArray';
 import mustBeInteger from '../checks/mustBeInteger';
 import mustBeString from '../checks/mustBeString';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
-
-/**
- * @module EIGHT
- * @submodule facets
- */
 
 const LOGGING_NAME = 'PointSizeFacet'
 
@@ -17,20 +12,18 @@ function contextBuilder() {
 }
 
 /**
- * @class PointSizeFacet
+ *
  */
-export default class PointSizeFacet implements Facet {
+export class PointSizeFacet implements Facet {
 
     /**
-     * @property pointSize
-     * @type {number}
+     *
      */
     public pointSize: number;
 
     /**
-     * @class PointSizeFacet
-     * @constructor
-     * @param [pointSize = 2] {number}
+     *
+     * @param pointSize
      */
     constructor(pointSize = 2) {
         this.pointSize = mustBeInteger('pointSize', pointSize)

@@ -1,5 +1,5 @@
 import FacetVisitor from './FacetVisitor';
-import ContextConsumer from './ContextConsumer';
+import {ContextConsumer} from './ContextConsumer';
 import UniformLocation from './UniformLocation';
 
 /**

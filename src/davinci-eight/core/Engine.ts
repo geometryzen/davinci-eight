@@ -3,7 +3,7 @@ import config from '../config'
 import EIGHTLogger from '../commands/EIGHTLogger';
 import ErrorMode from './ErrorMode'
 import clearMask from './clearMask';
-import ContextConsumer from './ContextConsumer';
+import {ContextConsumer} from './ContextConsumer';
 import DefaultContextProvider from '../base/DefaultContextProvider';
 import incLevel from '../base/incLevel';
 import initWebGL from './initWebGL';
@@ -13,10 +13,10 @@ import mustBeDefined from '../checks/mustBeDefined';
 import mustBeObject from '../checks/mustBeObject';
 import readOnly from '../i18n/readOnly';
 import ShareableArray from '../collections/ShareableArray';
-import ShareableBase from './ShareableBase';
+import {ShareableBase} from './ShareableBase';
 import VersionLogger from '../commands/VersionLogger';
 import VertexBufferManager from './VertexBufferManager';
-import WebGLClearColor from '../commands/WebGLClearColor';
+import {WebGLClearColor} from '../commands/WebGLClearColor';
 import WebGLEnable from '../commands/WebGLEnable';
 import WebGLDisable from '../commands/WebGLDisable';
 

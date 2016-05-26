@@ -2,7 +2,7 @@ import VectorE3 from '../../math/VectorE3';
 import IAnimation from '../../slideshow/IAnimation';
 import IAnimationTarget from '../../slideshow/IAnimationTarget';
 import incLevel from '../../base/incLevel';
-import ShareableBase from '../../core/ShareableBase';
+import {ShareableBase} from '../../core/ShareableBase';
 import Vector3 from '../../math/Vector3';
 
 function loop(n: number, callback: (i: number) => void) {

@@ -19,19 +19,11 @@ function direction(options: ArrowOptions, fallback: R3): R3 {
 }
 
 /**
- * @module EIGHT
- * @submodule visual
- */
-
-/**
  * <p>
  * A <code>Mesh</code> in the form of an arrow that may be used to represent a vector quantity.
  * </p>
- * <p>
- * 
- * </p>
  *
- * @example
+ *
  *     // Construct the arrow at any time and add it to the scene.
  *     const arrow = new EIGHT.Arrow({color: white})
  *     scene.add(arrow)
@@ -43,9 +35,6 @@ function direction(options: ArrowOptions, fallback: R3): R3 {
  *
  *     // Release the arrow when no longer required.
  *     arrow.release()
- *
- * @class Arrow
- * @extends Mesh
  */
 export class Arrow extends Mesh {
 
@@ -54,10 +43,6 @@ export class Arrow extends Mesh {
    * Since our state variable is the attitude, we must remember the
    * initial direction in order to be able to update the attitude
    * based upon a vector property.
-   *
-   * @property direction0
-   * @type R3
-   * @private
    */
   private direction0: R3;
 
@@ -72,9 +57,8 @@ export class Arrow extends Mesh {
   private attitudeChangeHandler: (eventName: string, key: string, value: number, source: Geometric3) => void;
 
   /**
-   * @class Arrow
-   * @constructor
-   * @param [options] {ArrowOptions}
+   *
+   * @param options
    */
   constructor(options: ArrowOptions = {}) {
     super(void 0, void 0, options.engine)
@@ -130,10 +114,7 @@ export class Arrow extends Mesh {
   }
 
   /**
-   * @method destructor
-   * @param levelUp {number}
-   * @return {void}
-   * @protected
+   * @param levelUp
    */
   protected destructor(levelUp: number): void {
     this._vector.off('change', this.vectorChangeHandler)
@@ -142,10 +123,8 @@ export class Arrow extends Mesh {
   }
 
   /**
-   * @property length
-   * @type number
+   *
    * @default 1
-   * @private
    */
   private get length(): number {
     return this.getPrincipalScale('length')
@@ -158,13 +137,10 @@ export class Arrow extends Mesh {
 
   /**
    * <p>
-   * The <em>vector</em> from the tail of the <p>Arrow</p> to the head of the <p>Arrow</p>.
+   * The vector from the tail of the Arrow to the head of the Arrow.
    * </p>
-   *
-   * @property h
-   * @type Geometric3
    */
-  get h(): Geometric3 {
+  get h() {
     return this._vector
   }
   set h(h: Geometric3) {

@@ -1,7 +1,7 @@
 /**
  *
  */
-interface Shareable {
+export interface Shareable {
 
     /**
      *
@@ -19,5 +19,3 @@ interface Shareable {
      */
     release(): number;
 }
-
-export default Shareable;

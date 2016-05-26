@@ -1,5 +1,5 @@
 import StringShareableMap from './StringShareableMap'
-import ShareableBase from '../core/ShareableBase'
+import {ShareableBase} from '../core/ShareableBase'
 
 class Foo extends ShareableBase {
   constructor() {

@@ -2,7 +2,7 @@ import expectArg from '../checks/expectArg';
 import isInteger from '../checks/isInteger';
 import Vertex from './primitives/Vertex';
 import VertexAttributeMap from './primitives/VertexAttributeMap';
-import VectorN from '../math/VectorN';
+import {VectorN} from '../math/VectorN';
 
 function checkIntegerArg(name: string, n: number, min: number, max: number): number {
   if (isInteger(n) && n >= min && n <= max) {

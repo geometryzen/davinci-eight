@@ -11,7 +11,7 @@ import Matrix4 from '../math/Matrix4'
 import notImplemented from '../i18n/notImplemented'
 import notSupported from '../i18n/notSupported'
 import readOnly from '../i18n/readOnly'
-import ShareableContextConsumer from './ShareableContextConsumer'
+import {ShareableContextConsumer} from './ShareableContextConsumer'
 import VertexAttribPointer from './VertexAttribPointer'
 
 /**

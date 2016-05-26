@@ -1,5 +1,5 @@
 import ColumnVector from '../math/ColumnVector';
-import Coords from '../math/Coords';
+import {Coords} from '../math/Coords';
 import b2 from '../geometries/b2';
 import b3 from '../geometries/b3';
 import Matrix2 from '../math/Matrix2';

@@ -3,12 +3,12 @@ import {Color} from '../core/Color'
 import {DirectionalLight} from '../facets/DirectionalLight'
 import {Engine} from '../core/Engine'
 import exchange from '../base/exchange'
-import Facet from '../core/Facet'
+import {Facet} from '../core/Facet'
 import mustBeInteger from '../checks/mustBeInteger'
 import {PerspectiveCamera} from '../facets/PerspectiveCamera'
 import R3 from '../math/R3'
 import {Scene} from '../core/Scene'
-import ShareableBase from '../core/ShareableBase'
+import {ShareableBase} from '../core/ShareableBase'
 
 /**
  * <p>

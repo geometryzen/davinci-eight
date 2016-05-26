@@ -2,7 +2,7 @@ import computeFaceNormals from '../geometries/computeFaceNormals';
 import expectArg from '../checks/expectArg';
 import Simplex from '../geometries/Simplex';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
-import VectorN from '../math/VectorN';
+import {VectorN} from '../math/VectorN';
 
 export default function triangle(a: VectorN<number>, b: VectorN<number>, c: VectorN<number>, attributes: { [name: string]: VectorN<number>[] } = {}, triangles: Simplex[] = []): Simplex[] {
 
