@@ -19,15 +19,7 @@ require([
     'test/amd/math/cube_test.js',
     'test/amd/math/gauss_test.js',
 
-    'test/amd/math/TriangleStrip_test.js',
-
-    'test/amd/glsl_NodeWalker_test.js'
-    'test/amd/glsl_Scope_test.js'
-    'test/amd/glsl_builtins_test.js'
-    'test/amd/glsl_literals_test.js'
-    'test/amd/glsl_parse_test.js'
-    'test/amd/glsl_tokenize_test.js'
-    'test/amd/triangles_test.js'
+    'test/amd/math/TriangleStrip_test.js'
 ], function() {
     window.initializeJasmine();
 });});

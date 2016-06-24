@@ -50,7 +50,7 @@ Make your changes to the TypeScript files in the _src_ directory. Do not edit th
 ## Versioning
 
 ```
-config.ts
+src/davinci-eight/config.ts
 package.json
 bower.json
 ```

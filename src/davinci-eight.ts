@@ -45,6 +45,7 @@ import {Facet} from './davinci-eight/core/Facet';
 import {FacetVisitor} from './davinci-eight/core/FacetVisitor';
 import {Mesh} from './davinci-eight/core/Mesh';
 import {Scene} from './davinci-eight/core/Scene';
+import Shader from './davinci-eight/core/Shader';
 import UniformLocation from './davinci-eight/core/UniformLocation';
 import UniformMetaInfo from './davinci-eight/core/UniformMetaInfo';
 import {Engine} from './davinci-eight/core/Engine';
@@ -207,15 +208,6 @@ import bootstrap from './davinci-eight/visual/bootstrap';
 import SingleViewApp from './davinci-eight/visual/SingleViewApp';
 import MultiViewApp from './davinci-eight/visual/MultiViewApp';
 
-// glsl
-import tokenizeString from './davinci-eight/glsl/tokenizeString';
-import parse from './davinci-eight/glsl/parse';
-import DebugNodeEventHandler from './davinci-eight/glsl/DebugNodeEventHandler';
-import Declaration from './davinci-eight/glsl/Declaration';
-import DefaultNodeEventHandler from './davinci-eight/glsl/DefaultNodeEventHandler';
-import NodeWalker from './davinci-eight/glsl/NodeWalker';
-import ProgramArgs from './davinci-eight/glsl/ProgramArgs';
-
 /**
  * @module EIGHT
  */
@@ -277,6 +269,7 @@ const eight = {
     get perspectiveMatrix() { return perspectiveMatrix },
     get viewMatrix() { return viewMatrix },
     get Scene() { return Scene },
+    get Shader() { return Shader },
     get Drawable() { return Drawable },
     get PerspectiveCamera() { return PerspectiveCamera },
     get getCanvasElementById() { return getCanvasElementById },
