@@ -1,47 +1,47 @@
 {
-  "name": "davinci-eight",
-  "version": "2.232.0",
-  "description": "WebGL library for mathematical physics using Geometric Algebra",
-  "author": {
-    "name": "David Holmes",
-    "email": "david.geo.holmes@gmail.com"
-  },
-  "main": "./dist/davinci-eight.min.js",
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/geometryzen/davinci-eight.git"
-  },
-  "bugs": {
-    "url": "https://github.com/geometryzen/davinci-eight/issues"
-  },
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "https://github.com/geometryzen/davinci-eight/blob/master/LICENSE"
-    }
-  ],
-  "devDependencies": {
-    "jasmine": "~2.4.1",
-    "almond": "~0.3.2",
-    "r.js": "~2.2.0",
-    "requirejs": "~2.2.0",
-    "jscover": "http://github.com/tntim96/JSCover.git"
-  },
-  "ignore": [
-    ".settings",
-    "node_modules",
-    "test",
-    "typings",
-    "bower_components",
-    ".gitignore",
-    ".npmignore",
-    ".travis.yml",
-    "Jakefile.js",
-    "README.md",
-    "bower.json",
-    "build.js",
-    "grunt.js",
-    "package.json",
-    "tsd.json"
-  ]
+    "name": "davinci-eight",
+    "version": "2.233.0",
+    "description": "WebGL library for mathematical physics using Geometric Algebra",
+    "author": {
+        "name": "David Holmes",
+        "email": "david.geo.holmes@gmail.com"
+    },
+    "main": "./dist/davinci-eight.min.js",
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/geometryzen/davinci-eight.git"
+    },
+    "bugs": {
+        "url": "https://github.com/geometryzen/davinci-eight/issues"
+    },
+    "licenses": [
+        {
+            "type": "MIT",
+            "url": "https://github.com/geometryzen/davinci-eight/blob/master/LICENSE"
+        }
+    ],
+    "devDependencies": {
+        "jasmine": "~2.4.1",
+        "almond": "~0.3.2",
+        "r.js": "~2.2.0",
+        "requirejs": "~2.2.0",
+        "jscover": "http://github.com/tntim96/JSCover.git"
+    },
+    "ignore": [
+        ".settings",
+        "node_modules",
+        "test",
+        "typings",
+        "bower_components",
+        ".gitignore",
+        ".npmignore",
+        ".travis.yml",
+        "Jakefile.js",
+        "README.md",
+        "bower.json",
+        "build.js",
+        "grunt.js",
+        "package.json",
+        "tsd.json"
+    ]
 }
