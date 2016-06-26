@@ -4,14 +4,14 @@ import mulE3 from '../math/mulE3';
 
 export default function(a: GeometricE3, b: GeometricE3, out: number[]): void {
 
-    const a0 = a.α
+    const a0 = a.a
     const a1 = a.x
     const a2 = a.y
     const a3 = a.z
     const a4 = a.xy
     const a5 = a.yz
     const a6 = a.zx
-    const a7 = a.β
+    const a7 = a.b
 
     const b0 = get(b, 0)
     const b1 = get(b, 1)

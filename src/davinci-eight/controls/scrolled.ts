@@ -23,8 +23,8 @@ function domElement(): HTMLElement {
  * See https://developer.mozilla.org/en-US/docs/Web/API/Window/scrollX
  */
 export default function(out: Geometric2): void {
-    out.α = 0
-    out.β = 0
+    out.a = 0
+    out.b = 0
     if (window.pageXOffset !== void 0 && window.pageYOffset !== void 0) {
         out.x = window.pageXOffset
         out.y = window.pageYOffset

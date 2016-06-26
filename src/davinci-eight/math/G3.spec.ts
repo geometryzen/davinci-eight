@@ -3,11 +3,11 @@ import {G3} from './G3';
 describe("G3", function() {
 
     var random = function() {
-        var α = Math.random();
+        var a = Math.random();
         var x = Math.random();
         var y = Math.random();
         var z = Math.random();
-        return new G3(α, x, y, z, Math.random(), Math.random(), Math.random(), Math.random());
+        return new G3(a, x, y, z, Math.random(), Math.random(), Math.random(), Math.random());
     }
 
     var zero = new G3(0, 0, 0, 0, 0, 0, 0, 0);
@@ -139,23 +139,23 @@ describe("G3", function() {
         // var ki = new G3(0, 0, 0, 0, 0, 0, 1, 0)
         // var I = new G3(0, 0, 0, 0, 0, 0, 0, 1)
 
-        expect(u.div(u).α).toBe(1);
+        expect(u.div(u).a).toBe(1);
         expect(u.div(u).x).toBe(0);
         expect(u.div(u).y).toBe(0);
         expect(u.div(u).z).toBe(0);
         expect(u.div(u).xy).toBe(0);
         expect(u.div(u).yz).toBe(0);
         expect(u.div(u).zx).toBe(0);
-        expect(u.div(u).β).toBe(0);
+        expect(u.div(u).b).toBe(0);
 
-        //    expect(u.div(i).α).toBe(0);
+        //    expect(u.div(i).a).toBe(0);
         //    expect(u.div(i).x).toBe(1);
         //    expect(u.div(i).y).toBe(0);
         //    expect(u.div(i).z).toBe(0);
         //    expect(u.div(i).xy).toBe(0);
         //    expect(u.div(i).yz).toBe(0);
         //    expect(u.div(i).zx).toBe(0);
-        //    expect(u.div(i).β).toBe(0);
+        //    expect(u.div(i).b).toBe(0);
     });
 
     it('grade(index) function', function() {
@@ -595,174 +595,174 @@ describe("G3", function() {
             var e = x.add(y);
             var a = x.__add__(y);
             var b = y.__radd__(x);
-            expect(e.α).toBe(a.α);
+            expect(e.a).toBe(a.a);
             expect(e.x).toBe(a.x);
             expect(e.y).toBe(a.y);
             expect(e.z).toBe(a.z);
             expect(e.xy).toBe(a.xy);
             expect(e.yz).toBe(a.yz);
             expect(e.zx).toBe(a.zx);
-            expect(e.β).toBe(a.β);
-            expect(e.α).toBe(b.α);
+            expect(e.b).toBe(a.b);
+            expect(e.a).toBe(b.a);
             expect(e.x).toBe(b.x);
             expect(e.y).toBe(b.y);
             expect(e.z).toBe(b.z);
             expect(e.xy).toBe(b.xy);
             expect(e.yz).toBe(b.yz);
             expect(e.zx).toBe(b.zx);
-            expect(e.β).toBe(b.β);
+            expect(e.b).toBe(b.b);
         });
         it("-", function() {
             var e = x.sub(y);
             var a = x.__sub__(y);
             var b = y.__rsub__(x);
-            expect(e.α).toBe(a.α);
+            expect(e.a).toBe(a.a);
             expect(e.x).toBe(a.x);
             expect(e.y).toBe(a.y);
             expect(e.z).toBe(a.z);
             expect(e.xy).toBe(a.xy);
             expect(e.yz).toBe(a.yz);
             expect(e.zx).toBe(a.zx);
-            expect(e.β).toBe(a.β);
-            expect(e.α).toBe(b.α);
+            expect(e.b).toBe(a.b);
+            expect(e.a).toBe(b.a);
             expect(e.x).toBe(b.x);
             expect(e.y).toBe(b.y);
             expect(e.z).toBe(b.z);
             expect(e.xy).toBe(b.xy);
             expect(e.yz).toBe(b.yz);
             expect(e.zx).toBe(b.zx);
-            expect(e.β).toBe(b.β);
+            expect(e.b).toBe(b.b);
         });
         describe("*", function() {
             it("G3 * G3", function() {
                 var e = x.mul(y);
                 var a = x.__mul__(y);
                 var b = y.__rmul__(x);
-                expect(e.α).toBe(a.α);
+                expect(e.a).toBe(a.a);
                 expect(e.x).toBe(a.x);
                 expect(e.y).toBe(a.y);
                 expect(e.z).toBe(a.z);
                 expect(e.xy).toBe(a.xy);
                 expect(e.yz).toBe(a.yz);
                 expect(e.zx).toBe(a.zx);
-                expect(e.β).toBe(a.β);
-                expect(e.α).toBe(b.α);
+                expect(e.b).toBe(a.b);
+                expect(e.a).toBe(b.a);
                 expect(e.x).toBe(b.x);
                 expect(e.y).toBe(b.y);
                 expect(e.z).toBe(b.z);
                 expect(e.xy).toBe(b.xy);
                 expect(e.yz).toBe(b.yz);
                 expect(e.zx).toBe(b.zx);
-                expect(e.β).toBe(b.β);
+                expect(e.b).toBe(b.b);
             });
         });
         it("/", function() {
             var e = x.div(y);
             var a = x.__div__(y);
             var b = y.__rdiv__(x);
-            expect(e.α).toBe(a.α);
+            expect(e.a).toBe(a.a);
             expect(e.x).toBe(a.x);
             expect(e.y).toBe(a.y);
             expect(e.z).toBe(a.z);
             expect(e.xy).toBe(a.xy);
             expect(e.yz).toBe(a.yz);
             expect(e.zx).toBe(a.zx);
-            expect(e.β).toBe(a.β);
-            expect(e.α).toBe(b.α);
+            expect(e.b).toBe(a.b);
+            expect(e.a).toBe(b.a);
             expect(e.x).toBe(b.x);
             expect(e.y).toBe(b.y);
             expect(e.z).toBe(b.z);
             expect(e.xy).toBe(b.xy);
             expect(e.yz).toBe(b.yz);
             expect(e.zx).toBe(b.zx);
-            expect(e.β).toBe(b.β);
+            expect(e.b).toBe(b.b);
         });
         it("^", function() {
             var e = x.ext(y);
             var a = x.__wedge__(y);
             var b = y.__rwedge__(x);
-            expect(e.α).toBe(a.α);
+            expect(e.a).toBe(a.a);
             expect(e.x).toBe(a.x);
             expect(e.y).toBe(a.y);
             expect(e.z).toBe(a.z);
             expect(e.xy).toBe(a.xy);
             expect(e.yz).toBe(a.yz);
             expect(e.zx).toBe(a.zx);
-            expect(e.β).toBe(a.β);
-            expect(e.α).toBe(b.α);
+            expect(e.b).toBe(a.b);
+            expect(e.a).toBe(b.a);
             expect(e.x).toBe(b.x);
             expect(e.y).toBe(b.y);
             expect(e.z).toBe(b.z);
             expect(e.xy).toBe(b.xy);
             expect(e.yz).toBe(b.yz);
             expect(e.zx).toBe(b.zx);
-            expect(e.β).toBe(b.β);
+            expect(e.b).toBe(b.b);
         });
         it("<<", function() {
             var e = x.lco(y);
             var a = x.__lshift__(y);
             var b = y.__rlshift__(x);
-            expect(e.α).toBe(a.α);
+            expect(e.a).toBe(a.a);
             expect(e.x).toBe(a.x);
             expect(e.y).toBe(a.y);
             expect(e.z).toBe(a.z);
             expect(e.xy).toBe(a.xy);
             expect(e.yz).toBe(a.yz);
             expect(e.zx).toBe(a.zx);
-            expect(e.β).toBe(a.β);
-            expect(e.α).toBe(b.α);
+            expect(e.b).toBe(a.b);
+            expect(e.a).toBe(b.a);
             expect(e.x).toBe(b.x);
             expect(e.y).toBe(b.y);
             expect(e.z).toBe(b.z);
             expect(e.xy).toBe(b.xy);
             expect(e.yz).toBe(b.yz);
             expect(e.zx).toBe(b.zx);
-            expect(e.β).toBe(b.β);
+            expect(e.b).toBe(b.b);
         });
         it(">>", function() {
             var e = x.rco(y);
             var a = x.__rshift__(y);
             var b = y.__rrshift__(x);
-            expect(e.α).toBe(a.α);
+            expect(e.a).toBe(a.a);
             expect(e.x).toBe(a.x);
             expect(e.y).toBe(a.y);
             expect(e.z).toBe(a.z);
             expect(e.xy).toBe(a.xy);
             expect(e.yz).toBe(a.yz);
             expect(e.zx).toBe(a.zx);
-            expect(e.β).toBe(a.β);
-            expect(e.α).toBe(b.α);
+            expect(e.b).toBe(a.b);
+            expect(e.a).toBe(b.a);
             expect(e.x).toBe(b.x);
             expect(e.y).toBe(b.y);
             expect(e.z).toBe(b.z);
             expect(e.xy).toBe(b.xy);
             expect(e.yz).toBe(b.yz);
             expect(e.zx).toBe(b.zx);
-            expect(e.β).toBe(b.β);
+            expect(e.b).toBe(b.b);
         });
         it("Unary +", function() {
             var e = zero.add(x);
             var a = x.__pos__();
-            expect(e.α).toBe(a.α);
+            expect(e.a).toBe(a.a);
             expect(e.x).toBe(a.x);
             expect(e.y).toBe(a.y);
             expect(e.z).toBe(a.z);
             expect(e.xy).toBe(a.xy);
             expect(e.yz).toBe(a.yz);
             expect(e.zx).toBe(a.zx);
-            expect(e.β).toBe(a.β);
+            expect(e.b).toBe(a.b);
         });
         it("Unary -", function() {
             var e = zero.sub(x);
             var a = x.__neg__();
-            expect(e.α).toBe(a.α);
+            expect(e.a).toBe(a.a);
             expect(e.x).toBe(a.x);
             expect(e.y).toBe(a.y);
             expect(e.z).toBe(a.z);
             expect(e.xy).toBe(a.xy);
             expect(e.yz).toBe(a.yz);
             expect(e.zx).toBe(a.zx);
-            expect(e.β).toBe(a.β);
+            expect(e.b).toBe(a.b);
         });
     });
     describe("norm", function() {
@@ -775,31 +775,31 @@ describe("G3", function() {
             expect(typeof zero.quad()).toBe('object');
         });
         it("squaredNorm(0)", function() {
-            expect(zero.scale(2).squaredNorm().α).toBe(0);
+            expect(zero.scale(2).squaredNorm().a).toBe(0);
         });
         it("squaredNorm(2)", function() {
-            expect(one.scale(2).squaredNorm().α).toBe(4);
+            expect(one.scale(2).squaredNorm().a).toBe(4);
         });
         it("squaredNorm(2*e1)", function() {
-            expect(i.scale(2).squaredNorm().α).toBe(4);
+            expect(i.scale(2).squaredNorm().a).toBe(4);
         });
         it("squaredNorm(2*e2)", function() {
-            expect(j.scale(2).squaredNorm().α).toBe(4);
+            expect(j.scale(2).squaredNorm().a).toBe(4);
         });
         it("squaredNorm(2*e3)", function() {
-            expect(k.scale(2).squaredNorm().α).toBe(4);
+            expect(k.scale(2).squaredNorm().a).toBe(4);
         });
         it("squaredNorm(2*e1e2)", function() {
-            expect(ij.scale(2).squaredNorm().α).toBe(4);
+            expect(ij.scale(2).squaredNorm().a).toBe(4);
         });
         it("squaredNorm(2*e2e3)", function() {
-            expect(jk.scale(2).squaredNorm().α).toBe(4);
+            expect(jk.scale(2).squaredNorm().a).toBe(4);
         });
         it("squaredNorm(2*e3e1)", function() {
-            expect(ki.scale(2).squaredNorm().α).toBe(4);
+            expect(ki.scale(2).squaredNorm().a).toBe(4);
         });
         it("squaredNorm(2*I)", function() {
-            expect(I.scale(2).squaredNorm().α).toBe(4);
+            expect(I.scale(2).squaredNorm().a).toBe(4);
         });
     });
 });

@@ -8,7 +8,7 @@ interface Measure<T> {
     /**
      * The scalar part of the measure, as a <code>number</code>.
      */
-    α: number;
+    a: number;
     coords: number[];
     add(rhs: T): T;
     angle(): T;

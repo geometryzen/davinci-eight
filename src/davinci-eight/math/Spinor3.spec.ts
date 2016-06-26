@@ -28,7 +28,7 @@ describe("Spinor3", function() {
       source.yz = 1
       source.zx = 2
       source.xy = 3
-      source.α = 4
+      source.a = 4
       const m = Spinor3.zero().copy(source);
       expect(m.coords[0]).toBe(1);
       expect(m.coords[1]).toBe(2);
@@ -95,7 +95,7 @@ describe("Spinor3", function() {
       expect(t.yz).toBe(129)
       expect(t.zx).toBe(127)
       expect(t.xy).toBe(221)
-      expect(t.α).toBe(-13)
+      expect(t.a).toBe(-13)
       expect(t.coords[0]).toBe(129)
       expect(t.coords[1]).toBe(127)
       expect(t.coords[2]).toBe(221)
@@ -113,11 +113,11 @@ describe("Spinor3", function() {
         expect(T.x).toBe(0)
         expect(T.y).toBe(0)
         expect(T.z).toBe(0)
-        expect(T.β).toBe(0)
+        expect(T.b).toBe(0)
       })
 
       it("in α component", function() {
-        expect(t.α).toBe(T.α)
+        expect(t.a).toBe(T.a)
       })
       it("in yz component", function() {
         expect(t.yz).toBe(T.yz)
@@ -149,7 +149,7 @@ describe("Spinor3", function() {
       expect(m.coords[0]).toBe(0);
       expect(m.coords[1]).toBe(0);
       expect(m.coords[2]).toBe(0);
-      expect(m.α).toBe(Math.exp(clone.α));
+      expect(m.a).toBe(Math.exp(clone.a));
       expect(m.modified).toBe(true);
     });
   });
@@ -174,7 +174,7 @@ describe("Spinor3", function() {
       const M = G3.fromSpinor(m)
       const S = R.mul(M).mul(R.rev())
 
-      expect(s.α).toBe(S.α)
+      expect(s.a).toBe(S.a)
       expect(s.yz).toBe(S.yz)
       expect(s.zx).toBe(S.zx)
       expect(s.xy).toBe(S.xy)
@@ -198,7 +198,7 @@ describe("Spinor3", function() {
     const b = a.clone().stress(σ)
 
     it("should leave the scalar coordinate unchanged", function() {
-      expect(b.α).toBe(a.α)
+      expect(b.a).toBe(a.a)
     })
 
     it("should scale the bivector coordinates by the corresponding scale factors", function() {

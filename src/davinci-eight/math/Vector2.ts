@@ -313,8 +313,8 @@ export class Vector2 extends Coords implements ColumnVector<Matrix2, Vector2>, V
     const x = this.x
     const y = this.y
 
-    const α = spinor.α
-    const β = spinor.β
+    const α = spinor.a
+    const β = spinor.b
 
     const p = α * α - β * β
     const q = 2 * α * β

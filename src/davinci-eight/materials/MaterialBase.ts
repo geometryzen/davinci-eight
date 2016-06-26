@@ -244,7 +244,7 @@ export class MaterialBase extends ShareableContextConsumer implements Material {
   }
 
   /**
-   *
+   * Convenience method for dereferencing the name to an attribute location, followed by enabling the attribute.
    */
   enableAttrib(name: string): void {
     const attribLoc = this._attributes[name]

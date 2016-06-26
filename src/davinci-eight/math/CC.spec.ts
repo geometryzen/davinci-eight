@@ -16,8 +16,8 @@ describe("CC", function() {
         var α = Math.random();
         var β = Math.random();
         var z = new CC(α, β);
-        expect(z.α).toBe(α);
-        expect(z.β).toBe(β);
+        expect(z.a).toBe(α);
+        expect(z.b).toBe(β);
     });
 
     it("toString", function() {
@@ -27,17 +27,17 @@ describe("CC", function() {
         expect(z.toString()).toBe("CC(" + x + ", " + y + ")");
     });
 
-    it("angle().α", function() {
+    it("angle().a", function() {
         var x = Math.random();
         var y = Math.random();
         var z = new CC(x, y);
-        expect(z.angle().α).toBe(0);
+        expect(z.angle().a).toBe(0);
     });
-    it("angle().β", function() {
+    it("angle().b", function() {
         var x = Math.random();
         var y = Math.random();
         var z = new CC(x, y);
-        expect(z.angle().β).toBe(Math.atan2(y, x));
+        expect(z.angle().b).toBe(Math.atan2(y, x));
     });
     it("angle().magnitude()", function() {
         var x = Math.random();

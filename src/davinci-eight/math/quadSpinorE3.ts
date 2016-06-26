@@ -4,7 +4,7 @@ import isNumber from '../checks/isNumber';
 
 export default function quadSpinorE3(s: SpinorE3): number {
     if (isDefined(s)) {
-        var α = s.α
+        var α = s.a
         var x = s.yz
         var y = s.zx
         var z = s.xy

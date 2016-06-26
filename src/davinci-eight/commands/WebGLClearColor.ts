@@ -2,56 +2,45 @@ import ContextProvider from '../core/ContextProvider';
 import mustBeNumber from '../checks/mustBeNumber';
 import {ShareableBase} from '../core/ShareableBase';
 
-/**
- * <p>
- * clearColor(red: number, green: number, blue: number, alpha: number): void
- * <p>
- */
 export class WebGLClearColor extends ShareableBase {
-  public red: number;
-  public green: number;
-  public blue: number;
-  public alpha: number;
+    public r: number;
+    public g: number;
+    public b: number;
+    public a: number;
 
-  /**
-   * @param red
-   * @param green
-   * @param blue
-   * @param alpha
-   */
-  constructor(red = 0, green = 0, blue = 0, alpha = 1) {
-    super()
-    this.setLoggingName('WebGLClearColor')
-    this.red = mustBeNumber('red', red)
-    this.green = mustBeNumber('green', green)
-    this.blue = mustBeNumber('blue', blue)
-    this.alpha = mustBeNumber('alpha', alpha)
-  }
+    constructor(r = 0, g = 0, b = 0, a = 1) {
+        super()
+        this.setLoggingName('WebGLClearColor')
+        this.r = mustBeNumber('r', r)
+        this.g = mustBeNumber('g', g)
+        this.b = mustBeNumber('b', b)
+        this.a = mustBeNumber('a', a)
+    }
 
-  /**
-   *
-   */
-  destructor(levelUp: number): void {
-    this.red = void 0
-    this.green = void 0
-    this.blue = void 0
-    this.alpha = void 0
-    super.destructor(levelUp + 1)
-  }
+    /**
+     *
+     */
+    destructor(levelUp: number): void {
+        this.r = void 0
+        this.g = void 0
+        this.b = void 0
+        this.a = void 0
+        super.destructor(levelUp + 1)
+    }
 
-  contextFree(manager: ContextProvider): void {
-    // Do nothing;
-  }
+    contextFree(manager: ContextProvider): void {
+        // Do nothing;
+    }
 
-  contextGain(manager: ContextProvider): void {
-    mustBeNumber('red', this.red)
-    mustBeNumber('green', this.green)
-    mustBeNumber('blue', this.blue)
-    mustBeNumber('alpha', this.alpha)
-    manager.gl.clearColor(this.red, this.green, this.blue, this.alpha)
-  }
+    contextGain(manager: ContextProvider): void {
+        mustBeNumber('r', this.r)
+        mustBeNumber('g', this.g)
+        mustBeNumber('b', this.b)
+        mustBeNumber('a', this.a)
+        manager.gl.clearColor(this.r, this.g, this.b, this.a)
+    }
 
-  contextLost(): void {
-    // Do nothing;
-  }
+    contextLost(): void {
+        // Do nothing;
+    }
 }

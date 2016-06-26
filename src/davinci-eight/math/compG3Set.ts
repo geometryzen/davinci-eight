@@ -12,36 +12,36 @@ const COORD_XYZ = 7
 export default function compG3Set(m: GeometricE3, index: number, value: number): void {
     switch (index) {
         case COORD_W: {
-            m.α = value
-          }
+            m.a = value
+        }
             break
         case COORD_X: {
             m.x = value
-          }
+        }
             break
         case COORD_Y: {
             m.y = value
-          }
+        }
             break
         case COORD_Z: {
             m.z = value
-          }
+        }
             break
         case COORD_XY: {
             m.xy = value
-          }
+        }
             break
         case COORD_YZ: {
-          m.yz = value
-          }
+            m.yz = value
+        }
             break
         case COORD_ZX: {
             m.zx = value
-          }
-          break
+        }
+            break
         case COORD_XYZ: {
-            m.β = value
-          }
+            m.b = value
+        }
             break
         default:
             throw new Error("index => " + index)

@@ -4,8 +4,8 @@ import isNumber from '../checks/isNumber';
 
 export default function quadSpinorE2(s: SpinorE2): number {
     if (isDefined(s)) {
-        const α = s.α
-        const β = s.β
+        const α = s.a
+        const β = s.b
         if (isNumber(α) && isNumber(β)) {
             return α * α + β * β
         }

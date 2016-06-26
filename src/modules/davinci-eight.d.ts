@@ -221,7 +221,7 @@ declare module EIGHT {
          * Specifies color values to use by the <code>clear</code> method to clear the color buffer.
          * <p>
          */
-        clearColor(red: number, green: number, blue: number, alpha: number): Engine;
+        clearColor(r: number, g: number, b: number, a: number): Engine;
 
         /**
          * Turns off specific WebGL capabilities for this context.
@@ -774,12 +774,10 @@ declare module EIGHT {
     }
 
     class G2 {
-        α: number
-        alpha: number
+        a: number
         x: number
         y: number
-        β: number
-        beta: number
+        b: number
         uom: Unit
         constructor(α?: number, x?: number, y?: number, β?: number, uom?: Unit)
         add(rhs: G2): G2
@@ -857,9 +855,7 @@ declare module EIGHT {
         /**
          * The scalar component.
          */
-        α: number
-        alpha: number
-
+        a: number
         x: number
         y: number
         z: number
@@ -878,8 +874,7 @@ declare module EIGHT {
         /**
          * The pseudoscalar component.
          */
-        β: number
-        beta: number
+        b: number
         /**
          * The (optional) unit of measure.
          */
@@ -1167,7 +1162,7 @@ declare module EIGHT {
         rotate(spinor: SpinorE2): Matrix3;
         rotation(spinor: SpinorE2): Matrix3;
         row(i: number): number[];
-        scale(alpha: number): Matrix3;
+        scale(α: number): Matrix3;
         set(m11: number, m12: number, m13: number, m21: number, m22: number, m23: number, m31: number, m32: number, m33: number): Matrix3;
         sub(rhs: Matrix3): Matrix3;
         toString(): string;
@@ -1260,6 +1255,8 @@ declare module EIGHT {
          * Sets this matrix to the identity element for multiplication, <b>1</b>.
          */
         one(): Matrix4;
+
+        perspective(fov: number, aspect: number, near: number, far: number): Matrix4;
 
         /**
          *
@@ -1436,12 +1433,7 @@ declare module EIGHT {
         /**
          * The coordinate corresponding to the unit standard basis scalar.
          */
-        α: number
-
-        /**
-         * The coordinate corresponding to the unit standard basis scalar.
-         */
-        alpha: number
+        a: number
 
         /**
          * The coordinate corresponding to the <b>e</b><sub>1</sub> standard basis vector.
@@ -1456,12 +1448,7 @@ declare module EIGHT {
         /**
          * The coordinate corresponding to the <b>e</b><sub>1</sub><b>e</b><sub>2</sub> standard basis bivector.
          */
-        β: number;
-
-        /**
-         * The coordinate corresponding to the <b>e</b><sub>1</sub><b>e</b><sub>2</sub> standard basis bivector.
-         */
-        beta: number;
+        b: number;
 
         /**
          * <p>
@@ -1968,13 +1955,11 @@ declare module EIGHT {
     }
 
     interface Scalar {
-        α: number
-        alpha: number
+        a: number
     }
 
     interface Pseudo {
-        β: number
-        beta: number
+        b: number
     }
 
     /**
@@ -2011,8 +1996,7 @@ declare module EIGHT {
         /**
          * The coordinate corresponding to the unit standard basis scalar.
          */
-        α: number
-        alpha: number
+        a: number
         /**
          * The coordinate corresponding to the <b>e</b><sub>1</sub> standard basis vector.
          */
@@ -2039,9 +2023,8 @@ declare module EIGHT {
         xy: number
         /**
          * The pseudoscalar coordinate of the multivector.
-           */
-        β: number
-        beta: number
+         */
+        b: number
 
         /**
          *
@@ -2531,12 +2514,7 @@ declare module EIGHT {
         /**
          * The coordinate corresponding to the 1 basis scalar.
          */
-        α: number;
-
-        /**
-         * The coordinate corresponding to the 1 basis scalar.
-         */
-        alpha: number;
+        a: number;
 
         /**
          * this ⟼ this + spinor * α
@@ -3346,6 +3324,9 @@ declare module EIGHT {
         protected destructor(levelUp: number): void;
         disableAttrib(name: string): void;
         disableAttribs(): void;
+        /**
+         * Convenience method for dereferencing the name to an attribute location, followed by enabling the attribute.
+         */
         enableAttrib(name: string): void;
         enableAttribs(): void;
         getAttribLocation(name: string): number;
@@ -3547,8 +3528,8 @@ declare module EIGHT {
         scaleRGB(α: number): ColorFacet;
         scaleRGBA(α: number): ColorFacet;
         setColorRGB(color: AbstractColor): ColorFacet;
-        setRGB(red: number, green: number, blue: number): ColorFacet;
-        setRGBA(red: number, green: number, blue: number, alpha: number): ColorFacet;
+        setRGB(r: number, g: number, b: number): ColorFacet;
+        setRGBA(r: number, g: number, b: number, a: number): ColorFacet;
     }
 
     /**
@@ -3745,14 +3726,14 @@ declare module EIGHT {
     }
 
     /**
-     * `clearColor(red: number, green: number, blue: number, alpha: number): void`
+     *
      */
     class WebGLClearColor extends ShareableBase {
-        red: number;
-        green: number;
-        blue: number;
-        alpha: number;
-        constructor(red?: number, green?: number, blue?: number, alpha?: number);
+        r: number;
+        g: number;
+        b: number;
+        a: number;
+        constructor(r?: number, g?: number, b?: number, a?: number);
         /**
          *
          */

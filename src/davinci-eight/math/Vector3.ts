@@ -230,7 +230,7 @@ export default class Vector3 extends Coords implements CartesianG3, ColumnVector
     const a = R.xy;
     const b = R.yz;
     const c = R.zx;
-    const w = R.α;
+    const w = R.a;
 
     const ix = w * x - c * z + a * y;
     const iy = w * y - a * x + b * z;

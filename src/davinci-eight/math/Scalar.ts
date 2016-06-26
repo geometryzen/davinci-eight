@@ -1,14 +1,8 @@
-/**
- * @class Scalar 
- */
 interface Scalar {
   /**
-   * The <em>scalar</em> coordinate as a <code>number</code>.
-   *
-   * @property α
-   * @type {number}
+   * The scalar coordinate as a number.
    */
-  α: number;
+  a: number;
 }
 
 export default Scalar;

@@ -1,13 +1,8 @@
-/**
- * @class Pseudo
- */
 interface Pseudo {
-
   /**
-   * @property β
-   * @type number
+   * The pseudoscalar coordinate as a number.I
    */
-  β: number;
+  b: number;
 }
 
 export default Pseudo;
