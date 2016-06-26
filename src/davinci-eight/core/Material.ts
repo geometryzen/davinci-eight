@@ -33,7 +33,7 @@ export interface Material extends FacetVisitor, ContextConsumer {
     /**
      * 
      */
-    vertexAttribPointer(indexOrName: number | string, size: number, normalized: boolean, stride: number, offset: number): void;
+    vertexPointer(indexOrName: number | string, size: number, normalized: boolean, stride: number, offset: number): void;
 
     /**
      * @param name

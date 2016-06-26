@@ -376,7 +376,7 @@ export class MaterialBase extends ShareableContextConsumer implements Material {
      * @param stride
      * @param offset
      */
-    vertexAttribPointer(indexOrName: number | string, size: number, normalized: boolean, stride: number, offset: number): void {
+    vertexPointer(indexOrName: number | string, size: number, normalized: boolean, stride: number, offset: number): void {
         if (typeof indexOrName === 'number') {
             if (this.gl) {
                 this.gl.vertexAttribPointer(indexOrName, size, this.gl.FLOAT, normalized, stride, offset);

@@ -8829,7 +8829,7 @@ System.register("davinci-eight/materials/MaterialBase.js", ["../core/AttribLocat
         MaterialBase.prototype.hasUniformLocation = function(name) {
           return isDefined_1.default(this._uniforms[name]);
         };
-        MaterialBase.prototype.vertexAttribPointer = function(indexOrName, size, normalized, stride, offset) {
+        MaterialBase.prototype.vertexPointer = function(indexOrName, size, normalized, stride, offset) {
           if (typeof indexOrName === 'number') {
             if (this.gl) {
               this.gl.vertexAttribPointer(indexOrName, size, this.gl.FLOAT, normalized, stride, offset);
@@ -25391,7 +25391,7 @@ System.register("davinci-eight/config.js", ["./core/ErrorMode"], function(export
           this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
           this.LAST_MODIFIED = '2016-06-26';
           this.NAMESPACE = 'EIGHT';
-          this.VERSION = '2.236.0';
+          this.VERSION = '2.237.0';
         }
         Object.defineProperty(Eight.prototype, "errorMode", {
           get: function() {

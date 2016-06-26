@@ -3346,7 +3346,7 @@ declare module EIGHT {
         vector2fv(name: string, data: Float32Array): void;
         vector3fv(name: string, data: Float32Array): void;
         vector4fv(name: string, data: Float32Array): void;
-        vertexAttribPointer(indexOrName: number | string, size: number, normalized: boolean, stride: number, offset: number): void;
+        vertexPointer(indexOrName: number | string, size: number, normalized: boolean, stride: number, offset: number): void;
     }
 
     interface AbstractDrawable extends ContextConsumer {
