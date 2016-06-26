@@ -3322,12 +3322,12 @@ declare module EIGHT {
         contextGain(contextProvider: ContextProvider): void;
         contextLost(): void;
         protected destructor(levelUp: number): void;
-        disableAttrib(name: string): void;
+        disableAttrib(indexOrName: number | string): void;
         disableAttribs(): void;
         /**
          * Convenience method for dereferencing the name to an attribute location, followed by enabling the attribute.
          */
-        enableAttrib(name: string): void;
+        enableAttrib(indexOrName: number | string): void;
         enableAttribs(): void;
         getAttribLocation(name: string): number;
         getUniformLocation(name: string): UniformLocation;
@@ -3346,7 +3346,7 @@ declare module EIGHT {
         vector2fv(name: string, data: Float32Array): void;
         vector3fv(name: string, data: Float32Array): void;
         vector4fv(name: string, data: Float32Array): void;
-        vertexPointer(name: string, size: number, normalized: boolean, stride: number, offset: number): void;
+        vertexAttribPointer(indexOrName: number | string, size: number, normalized: boolean, stride: number, offset: number): void;
     }
 
     interface AbstractDrawable extends ContextConsumer {

@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>MaterialBase | EIGHT 2.235.0</title>
+	<title>MaterialBase | EIGHT 2.236.0</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -23,7 +23,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="../index.html" class="title">EIGHT 2.235.0</a>
+					<a href="../index.html" class="title">EIGHT 2.236.0</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -180,7 +180,7 @@
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_materials_materialbase_.materialbase.html#vector2fv" class="tsd-kind-icon">vector2fv</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_materials_materialbase_.materialbase.html#vector3fv" class="tsd-kind-icon">vector3fv</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_materials_materialbase_.materialbase.html#vector4fv" class="tsd-kind-icon">vector4fv</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_materials_materialbase_.materialbase.html#vertexpointer" class="tsd-kind-icon">vertex<wbr>Pointer</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_materials_materialbase_.materialbase.html#vertexattribpointer" class="tsd-kind-icon">vertex<wbr>Attrib<wbr>Pointer</a></li>
 							</ul>
 						</section>
 					</div>
@@ -657,19 +657,19 @@
 					<a name="disableattrib" class="tsd-anchor"></a>
 					<h3>disable<wbr>Attrib</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">disable<wbr>Attrib<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">disable<wbr>Attrib<span class="tsd-signature-symbol">(</span>indexOrName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/materials/MaterialBase.ts#L273">materials/MaterialBase.ts:273</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/materials/MaterialBase.ts#L283">materials/MaterialBase.ts:283</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>name: <span class="tsd-signature-type">string</span></h5>
+									<h5>indexOrName: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -686,7 +686,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/materials/MaterialBase.ts#L283">materials/MaterialBase.ts:283</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/materials/MaterialBase.ts#L303">materials/MaterialBase.ts:303</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -697,11 +697,12 @@
 					<a name="enableattrib" class="tsd-anchor"></a>
 					<h3>enable<wbr>Attrib</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">enable<wbr>Attrib<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">enable<wbr>Attrib<span class="tsd-signature-symbol">(</span>indexOrName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/_core_material_.material.html">Material</a>.<a href="../interfaces/_core_material_.material.html#enableattrib">enableAttrib</a></p>
 								<ul>
 									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/materials/MaterialBase.ts#L249">materials/MaterialBase.ts:249</a></li>
 								</ul>
@@ -714,7 +715,7 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>name: <span class="tsd-signature-type">string</span></h5>
+									<h5>indexOrName: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -731,7 +732,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/materials/MaterialBase.ts#L259">materials/MaterialBase.ts:259</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/materials/MaterialBase.ts#L269">materials/MaterialBase.ts:269</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -749,7 +750,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_core_material_.material.html">Material</a>.<a href="../interfaces/_core_material_.material.html#getattriblocation">getAttribLocation</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/materials/MaterialBase.ts#L298">materials/MaterialBase.ts:298</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/materials/MaterialBase.ts#L318">materials/MaterialBase.ts:318</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -799,7 +800,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_core_material_.material.html">Material</a>.<a href="../interfaces/_core_material_.material.html#getuniformlocation">getUniformLocation</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/materials/MaterialBase.ts#L318">materials/MaterialBase.ts:318</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/materials/MaterialBase.ts#L338">materials/MaterialBase.ts:338</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -832,7 +833,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/materials/MaterialBase.ts#L348">materials/MaterialBase.ts:348</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/materials/MaterialBase.ts#L368">materials/MaterialBase.ts:368</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -887,7 +888,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_core_material_.material.html">Material</a>.<a href="../interfaces/_core_material_.material.html#mat2">mat2</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/materials/MaterialBase.ts#L407">materials/MaterialBase.ts:407</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/materials/MaterialBase.ts#L437">materials/MaterialBase.ts:437</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -917,7 +918,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_core_material_.material.html">Material</a>.<a href="../interfaces/_core_material_.material.html#mat3">mat3</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/materials/MaterialBase.ts#L417">materials/MaterialBase.ts:417</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/materials/MaterialBase.ts#L447">materials/MaterialBase.ts:447</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -947,7 +948,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_core_material_.material.html">Material</a>.<a href="../interfaces/_core_material_.material.html#mat4">mat4</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/materials/MaterialBase.ts#L427">materials/MaterialBase.ts:427</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/materials/MaterialBase.ts#L457">materials/MaterialBase.ts:457</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1103,7 +1104,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_core_material_.material.html">Material</a>.<a href="../interfaces/_core_material_.material.html#uniform1f">uniform1f</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/materials/MaterialBase.ts#L367">materials/MaterialBase.ts:367</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/materials/MaterialBase.ts#L397">materials/MaterialBase.ts:397</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1130,7 +1131,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_core_material_.material.html">Material</a>.<a href="../interfaces/_core_material_.material.html#uniform2f">uniform2f</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/materials/MaterialBase.ts#L377">materials/MaterialBase.ts:377</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/materials/MaterialBase.ts#L407">materials/MaterialBase.ts:407</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1160,7 +1161,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_core_material_.material.html">Material</a>.<a href="../interfaces/_core_material_.material.html#uniform3f">uniform3f</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/materials/MaterialBase.ts#L387">materials/MaterialBase.ts:387</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/materials/MaterialBase.ts#L417">materials/MaterialBase.ts:417</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1193,7 +1194,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_core_material_.material.html">Material</a>.<a href="../interfaces/_core_material_.material.html#uniform4f">uniform4f</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/materials/MaterialBase.ts#L397">materials/MaterialBase.ts:397</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/materials/MaterialBase.ts#L427">materials/MaterialBase.ts:427</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1275,7 +1276,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_core_material_.material.html">Material</a>.<a href="../interfaces/_core_material_.material.html#vec2">vec2</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/materials/MaterialBase.ts#L437">materials/MaterialBase.ts:437</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/materials/MaterialBase.ts#L467">materials/MaterialBase.ts:467</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1302,7 +1303,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_core_material_.material.html">Material</a>.<a href="../interfaces/_core_material_.material.html#vec3">vec3</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/materials/MaterialBase.ts#L447">materials/MaterialBase.ts:447</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/materials/MaterialBase.ts#L477">materials/MaterialBase.ts:477</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1329,7 +1330,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_core_material_.material.html">Material</a>.<a href="../interfaces/_core_material_.material.html#vec4">vec4</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/materials/MaterialBase.ts#L457">materials/MaterialBase.ts:457</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/materials/MaterialBase.ts#L487">materials/MaterialBase.ts:487</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1356,7 +1357,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_core_material_.material.html">Material</a>.<a href="../interfaces/_core_material_.material.html#vector2fv">vector2fv</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/materials/MaterialBase.ts#L467">materials/MaterialBase.ts:467</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/materials/MaterialBase.ts#L497">materials/MaterialBase.ts:497</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1383,7 +1384,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_core_material_.material.html">Material</a>.<a href="../interfaces/_core_material_.material.html#vector3fv">vector3fv</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/materials/MaterialBase.ts#L477">materials/MaterialBase.ts:477</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/materials/MaterialBase.ts#L507">materials/MaterialBase.ts:507</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1410,7 +1411,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_core_material_.material.html">Material</a>.<a href="../interfaces/_core_material_.material.html#vector4fv">vector4fv</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/materials/MaterialBase.ts#L487">materials/MaterialBase.ts:487</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/materials/MaterialBase.ts#L517">materials/MaterialBase.ts:517</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1427,16 +1428,17 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="vertexpointer" class="tsd-anchor"></a>
-					<h3>vertex<wbr>Pointer</h3>
+					<a name="vertexattribpointer" class="tsd-anchor"></a>
+					<h3>vertex<wbr>Attrib<wbr>Pointer</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">vertex<wbr>Pointer<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, size<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, normalized<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span>, stride<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, offset<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">vertex<wbr>Attrib<wbr>Pointer<span class="tsd-signature-symbol">(</span>indexOrName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span>, size<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, normalized<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span>, stride<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, offset<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/_core_material_.material.html">Material</a>.<a href="../interfaces/_core_material_.material.html#vertexattribpointer">vertexAttribPointer</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/materials/MaterialBase.ts#L359">materials/MaterialBase.ts:359</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/materials/MaterialBase.ts#L379">materials/MaterialBase.ts:379</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1444,7 +1446,7 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>name: <span class="tsd-signature-type">string</span></h5>
+									<h5>indexOrName: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
 								</li>
 								<li>
 									<h5>size: <span class="tsd-signature-type">number</span></h5>
@@ -1627,7 +1629,7 @@
 								<a href="_materials_materialbase_.materialbase.html#vector4fv" class="tsd-kind-icon">vector4fv</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="_materials_materialbase_.materialbase.html#vertexpointer" class="tsd-kind-icon">vertex<wbr>Pointer</a>
+								<a href="_materials_materialbase_.materialbase.html#vertexattribpointer" class="tsd-kind-icon">vertex<wbr>Attrib<wbr>Pointer</a>
 							</li>
 						</ul>
 					</li>

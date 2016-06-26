@@ -821,7 +821,7 @@ define('davinci-eight/config',["require", "exports", './core/ErrorMode'], functi
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
             this.LAST_MODIFIED = '2016-06-26';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '2.235.0';
+            this.VERSION = '2.236.0';
         }
         Object.defineProperty(Eight.prototype, "errorMode", {
             get: function () {
@@ -18087,10 +18087,20 @@ define('davinci-eight/materials/MaterialBase',["require", "exports", '../core/At
             enumerable: true,
             configurable: true
         });
-        MaterialBase.prototype.enableAttrib = function (name) {
-            var attribLoc = this._attributes[name];
-            if (attribLoc) {
-                attribLoc.enable();
+        MaterialBase.prototype.enableAttrib = function (indexOrName) {
+            if (typeof indexOrName === 'number') {
+                if (this.gl) {
+                    this.gl.enableVertexAttribArray(indexOrName);
+                }
+            }
+            else if (typeof indexOrName === 'string') {
+                var attribLoc = this._attributes[indexOrName];
+                if (attribLoc) {
+                    attribLoc.enable();
+                }
+            }
+            else {
+                throw new TypeError("indexOrName must have type number or string.");
             }
         };
         MaterialBase.prototype.enableAttribs = function () {
@@ -18102,10 +18112,20 @@ define('davinci-eight/materials/MaterialBase',["require", "exports", '../core/At
                 }
             }
         };
-        MaterialBase.prototype.disableAttrib = function (name) {
-            var attribLoc = this._attributes[name];
-            if (attribLoc) {
-                attribLoc.disable();
+        MaterialBase.prototype.disableAttrib = function (indexOrName) {
+            if (typeof indexOrName === 'number') {
+                if (this.gl) {
+                    this.gl.disableVertexAttribArray(indexOrName);
+                }
+            }
+            else if (typeof indexOrName === 'string') {
+                var attribLoc = this._attributes[indexOrName];
+                if (attribLoc) {
+                    attribLoc.disable();
+                }
+            }
+            else {
+                throw new TypeError("indexOrName must have type number or string.");
             }
         };
         MaterialBase.prototype.disableAttribs = function () {
@@ -18150,9 +18170,19 @@ define('davinci-eight/materials/MaterialBase',["require", "exports", '../core/At
         MaterialBase.prototype.hasUniformLocation = function (name) {
             return isDefined_1.default(this._uniforms[name]);
         };
-        MaterialBase.prototype.vertexPointer = function (name, size, normalized, stride, offset) {
-            var attributeLocation = this._attributes[name];
-            attributeLocation.vertexPointer(size, normalized, stride, offset);
+        MaterialBase.prototype.vertexAttribPointer = function (indexOrName, size, normalized, stride, offset) {
+            if (typeof indexOrName === 'number') {
+                if (this.gl) {
+                    this.gl.vertexAttribPointer(indexOrName, size, this.gl.FLOAT, normalized, stride, offset);
+                }
+            }
+            else if (typeof indexOrName === 'string') {
+                var attributeLocation = this._attributes[indexOrName];
+                attributeLocation.vertexPointer(size, normalized, stride, offset);
+            }
+            else {
+                throw new TypeError("indexOrName must have type number or string.");
+            }
         };
         MaterialBase.prototype.uniform1f = function (name, x) {
             var uniformLoc = this._uniforms[name];
