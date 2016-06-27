@@ -1,18 +1,10 @@
 import ContextProgramConsumer from  '../core/ContextProgramConsumer';
 import readOnly from  '../i18n/readOnly';
 
-/**
- * @module EIGHT
- * @submodule core
- * @class AttribLocation
- */
 export default class AttribLocation implements ContextProgramConsumer {
 
     /**
      * The name of the attribute in the GLSL program.
-     * @property _name
-     * @type {string}
-     * @private
      */
     private _name: string;
 
@@ -21,26 +13,15 @@ export default class AttribLocation implements ContextProgramConsumer {
      * This is obtained by calling the <code>getAttribLocation</code> method on
      * the <code>WebGLRenderingContext</code> when it becomes available through
      * a <code>contextGain</code> notification.
-     * @property _index
-     * @type {number}
-     * @private
      */
     private _index: number;
 
     /**
      * The cached <code>WebGLRenderingContext</code> obtained through
      * a <code>contextGain</code> notification.
-     * @property _gl
-     * @type {WebGLRenderingContext}
-     * @private
      */
     private _gl: WebGLRenderingContext;
 
-    /**
-     * @class AttribLocation
-     * @constructor
-     * @param info {WebGLActiveInfo}
-     */
     constructor(info: WebGLActiveInfo) {
         this._name = info.name
     }
@@ -48,9 +29,6 @@ export default class AttribLocation implements ContextProgramConsumer {
     /**
      * Returns the cached index obtained by calling <code>getAttribLocation</code> on the
      * <code>WebGLRenderingContext</code>.
-     * @property index
-     * @type {number}
-     * @readOnly
      */
     get index(): number {
         return this._index
@@ -124,7 +102,6 @@ export default class AttribLocation implements ContextProgramConsumer {
      * @return {void}
      */
     enable(): void {
-        // FIXME: This 
         this._gl.enableVertexAttribArray(this._index);
     }
 

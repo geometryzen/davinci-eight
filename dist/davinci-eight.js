@@ -821,7 +821,7 @@ define('davinci-eight/config',["require", "exports", './core/ErrorMode'], functi
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
             this.LAST_MODIFIED = '2016-06-26';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '2.242.0';
+            this.VERSION = '2.244.0';
         }
         Object.defineProperty(Eight.prototype, "errorMode", {
             get: function () {
@@ -9393,14 +9393,14 @@ define('davinci-eight/core/ShareableContextConsumer',["require", "exports", './c
             }
         };
         ShareableContextConsumer.prototype.contextGain = function (contextProvider) {
-            if (this.contextProvider !== contextProvider) {
-                if (this.contextProvider) {
-                    this.contextProvider.release();
-                    this.contextProvider = void 0;
-                }
-                contextProvider.addRef();
-                this.contextProvider = contextProvider;
+            if (this.contextProvider) {
+                this.contextProvider.release();
+                this.contextProvider = void 0;
             }
+            if (contextProvider) {
+                contextProvider.addRef();
+            }
+            this.contextProvider = contextProvider;
         };
         ShareableContextConsumer.prototype.contextLost = function () {
             if (this.contextProvider) {
@@ -9850,29 +9850,28 @@ define('davinci-eight/core/VertexBuffer',["require", "exports", '../checks/mustB
             set: function (usage) {
                 Usage_1.checkUsage('usage', usage);
                 this._usage = usage;
+                this.usageGL = usageToGL_1.default(this._usage, this.gl);
                 this.bufferData();
             },
             enumerable: true,
             configurable: true
         });
         VertexBuffer.prototype.bufferData = function () {
-            if (this.contextProvider) {
-                var gl = this.contextProvider.gl;
-                if (gl) {
-                    if (this.webGLBuffer) {
-                        gl.bindBuffer(gl.ARRAY_BUFFER, this.webGLBuffer);
-                        if (this._data) {
-                            gl.bufferData(gl.ARRAY_BUFFER, this._data, usageToGL_1.default(this.usage, gl));
-                        }
-                        gl.bindBuffer(gl.ARRAY_BUFFER, null);
+            var gl = this.gl;
+            if (gl) {
+                if (this.webGLBuffer) {
+                    gl.bindBuffer(gl.ARRAY_BUFFER, this.webGLBuffer);
+                    if (this._data) {
+                        gl.bufferData(gl.ARRAY_BUFFER, this._data, this.usageGL);
                     }
+                    gl.bindBuffer(gl.ARRAY_BUFFER, null);
                 }
             }
         };
         VertexBuffer.prototype.contextFree = function (contextProvider) {
             mustBeObject_1.default('contextProvider', contextProvider);
             if (this.webGLBuffer) {
-                var gl = contextProvider.gl;
+                var gl = this.gl;
                 if (gl) {
                     gl.deleteBuffer(this.webGLBuffer);
                 }
@@ -9887,10 +9886,10 @@ define('davinci-eight/core/VertexBuffer',["require", "exports", '../checks/mustB
         };
         VertexBuffer.prototype.contextGain = function (contextProvider) {
             _super.prototype.contextGain.call(this, contextProvider);
-            mustBeObject_1.default('contextProvider', contextProvider);
-            var gl = contextProvider.gl;
+            var gl = this.gl;
             if (!this.webGLBuffer) {
                 this.webGLBuffer = gl.createBuffer();
+                this.usageGL = usageToGL_1.default(this._usage, gl);
                 this.bufferData();
             }
             else {
@@ -10595,7 +10594,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/core/IndexBuffer',["require", "exports", '../base/incLevel', '../checks/mustBeObject', '../checks/mustBeUndefined', './ShareableContextConsumer', './Usage', './Usage', './usageToGL'], function (require, exports, incLevel_1, mustBeObject_1, mustBeUndefined_1, ShareableContextConsumer_1, Usage_1, Usage_2, usageToGL_1) {
+define('davinci-eight/core/IndexBuffer',["require", "exports", '../checks/mustBeObject', '../checks/mustBeUndefined', './ShareableContextConsumer', './Usage', './Usage', './usageToGL'], function (require, exports, mustBeObject_1, mustBeUndefined_1, ShareableContextConsumer_1, Usage_1, Usage_2, usageToGL_1) {
     "use strict";
     var IndexBuffer = (function (_super) {
         __extends(IndexBuffer, _super);
@@ -10605,10 +10604,10 @@ define('davinci-eight/core/IndexBuffer',["require", "exports", '../base/incLevel
             this.setLoggingName('IndexBuffer');
             this.synchUp();
         }
-        IndexBuffer.prototype.destructor = function (level) {
+        IndexBuffer.prototype.destructor = function (levelUp) {
             this.cleanUp();
             mustBeUndefined_1.default(this._type, this.webGLBuffer);
-            _super.prototype.destructor.call(this, incLevel_1.default(level));
+            _super.prototype.destructor.call(this, levelUp + 1);
         };
         Object.defineProperty(IndexBuffer.prototype, "data", {
             get: function () {
@@ -10628,29 +10627,28 @@ define('davinci-eight/core/IndexBuffer',["require", "exports", '../base/incLevel
             set: function (usage) {
                 Usage_1.checkUsage('usage', usage);
                 this._usage = usage;
+                this.usageGL = usageToGL_1.default(this._usage, this.gl);
                 this.bufferData();
             },
             enumerable: true,
             configurable: true
         });
         IndexBuffer.prototype.bufferData = function () {
-            if (this.contextProvider) {
-                var gl = this.contextProvider.gl;
-                if (gl) {
-                    if (this.webGLBuffer) {
-                        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.webGLBuffer);
-                        if (this._data) {
-                            gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, this._data, usageToGL_1.default(this.usage, gl));
-                        }
-                        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, null);
+            var gl = this.gl;
+            if (gl) {
+                if (this.webGLBuffer) {
+                    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.webGLBuffer);
+                    if (this.data) {
+                        gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, this.data, this.usageGL);
                     }
+                    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, null);
                 }
             }
         };
         IndexBuffer.prototype.contextFree = function (contextProvider) {
             mustBeObject_1.default('contextProvider', contextProvider);
             if (this.webGLBuffer) {
-                var gl = contextProvider.gl;
+                var gl = this.gl;
                 if (gl) {
                     gl.deleteBuffer(this.webGLBuffer);
                 }
@@ -10664,15 +10662,15 @@ define('davinci-eight/core/IndexBuffer',["require", "exports", '../base/incLevel
             _super.prototype.contextFree.call(this, contextProvider);
         };
         IndexBuffer.prototype.contextGain = function (contextProvider) {
-            mustBeObject_1.default('contextProvider', contextProvider);
-            var gl = contextProvider.gl;
+            _super.prototype.contextGain.call(this, contextProvider);
+            var gl = this.gl;
             if (!this.webGLBuffer) {
                 this.webGLBuffer = gl.createBuffer();
+                this.usageGL = usageToGL_1.default(this._usage, gl);
                 this.bufferData();
             }
             else {
             }
-            _super.prototype.contextGain.call(this, contextProvider);
         };
         IndexBuffer.prototype.contextLost = function () {
             this.webGLBuffer = void 0;
@@ -18327,7 +18325,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/materials/HTMLScriptsMaterial',["require", "exports", '../base/incLevel', '../checks/isString', '../checks/mustBeArray', '../checks/mustBeObject', '../checks/mustBeString', '../checks/mustSatisfy', './MaterialBase'], function (require, exports, incLevel_1, isString_1, mustBeArray_1, mustBeObject_1, mustBeString_1, mustSatisfy_1, MaterialBase_1) {
+define('davinci-eight/materials/HTMLScriptsMaterial',["require", "exports", '../checks/isString', '../checks/mustBeArray', '../checks/mustBeObject', '../checks/mustBeString', '../checks/mustSatisfy', './MaterialBase'], function (require, exports, isString_1, mustBeArray_1, mustBeObject_1, mustBeString_1, mustSatisfy_1, MaterialBase_1) {
     "use strict";
     function getHTMLElementById(elementId, dom) {
         var element = dom.getElementById(mustBeString_1.default('elementId', elementId));
@@ -18390,12 +18388,13 @@ define('davinci-eight/materials/HTMLScriptsMaterial',["require", "exports", '../
             mustSatisfy_1.default('scriptIds', scriptIds.length === 2, function () { return 'have two script element identifiers.'; });
             this.scriptIds = [scriptIds[0], scriptIds[1]];
             this.dom = dom;
+            this.synchUp();
         }
         HTMLScriptsMaterial.prototype.destructor = function (levelUp) {
             if (levelUp === 0) {
                 this.cleanUp();
             }
-            _super.prototype.destructor.call(this, incLevel_1.default(levelUp));
+            _super.prototype.destructor.call(this, levelUp + 1);
         };
         HTMLScriptsMaterial.prototype.contextGain = function (contextProvider) {
             if (!this.loaded) {

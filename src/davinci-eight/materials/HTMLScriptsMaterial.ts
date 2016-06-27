@@ -1,17 +1,11 @@
 import ContextProvider from '../core/ContextProvider';
 import {Engine} from '../core/Engine';
-import incLevel from '../base/incLevel'
 import isString from '../checks/isString';
 import mustBeArray from '../checks/mustBeArray';
 import mustBeObject from '../checks/mustBeObject';
 import mustBeString from '../checks/mustBeString';
 import mustSatisfy from '../checks/mustSatisfy';
 import {MaterialBase} from './MaterialBase';
-
-/**
- * @module EIGHT
- * @submodule materials
- */
 
 function getHTMLElementById(elementId: string, dom: Document): HTMLElement {
     const element = dom.getElementById(mustBeString('elementId', elementId))
@@ -86,9 +80,6 @@ function detectShaderType(scriptIds: string[], dom: Document): string[] {
  *     const material = new EIGHT.HTMLScriptsMaterial(['vs', 'fs'], document, [], engine)
  *     drawable.material = material
  *     material.release()
- *
- * @class HTMLScriptsMaterial
- * @extends MaterialBase
  */
 export default class HTMLScriptsMaterial extends MaterialBase {
     private scriptIds: string[];
@@ -110,33 +101,20 @@ export default class HTMLScriptsMaterial extends MaterialBase {
         mustSatisfy('scriptIds', scriptIds.length === 2, () => { return 'have two script element identifiers.' })
         this.scriptIds = [scriptIds[0], scriptIds[1]]
         this.dom = dom;
-        // Is this causing an ERROR?
-        // this.synchUp();
+        this.synchUp();
     }
 
-    /**
-     * @method destructor
-     * @param levelUp {number}
-     * @return {void}
-     * @protected
-     */
     protected destructor(levelUp: number): void {
         if (levelUp === 0) {
             this.cleanUp()
         }
-        super.destructor(incLevel(levelUp))
+        super.destructor(levelUp + 1)
     }
 
     /**
-     * <p>
      * Overridden to provide lazy loading of the script contents.
      * This allows the <code>HTMLScriptsMaterial</code> to be constructed
      * before the DOM has completed loading.
-     * </p>
-     *
-     * @method contextGain
-     * @param contextProvider {ContextProvider}
-     * @return {void}
      */
     contextGain(contextProvider: ContextProvider): void {
         if (!this.loaded) {

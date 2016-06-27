@@ -638,7 +638,7 @@ System.register("davinci-eight/facets/ModelE2.js", ["../math/Geometric2", "../ma
   };
 });
 
-System.register("davinci-eight/materials/HTMLScriptsMaterial.js", ["../base/incLevel", "../checks/isString", "../checks/mustBeArray", "../checks/mustBeObject", "../checks/mustBeString", "../checks/mustSatisfy", "./MaterialBase"], function(exports_1, context_1) {
+System.register("davinci-eight/materials/HTMLScriptsMaterial.js", ["../checks/isString", "../checks/mustBeArray", "../checks/mustBeObject", "../checks/mustBeString", "../checks/mustSatisfy", "./MaterialBase"], function(exports_1, context_1) {
   "use strict";
   var __moduleName = context_1 && context_1.id;
   var __extends = (this && this.__extends) || function(d, b) {
@@ -650,8 +650,7 @@ System.register("davinci-eight/materials/HTMLScriptsMaterial.js", ["../base/incL
     }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
   };
-  var incLevel_1,
-      isString_1,
+  var isString_1,
       mustBeArray_1,
       mustBeObject_1,
       mustBeString_1,
@@ -703,9 +702,7 @@ System.register("davinci-eight/materials/HTMLScriptsMaterial.js", ["../base/incL
     return result;
   }
   return {
-    setters: [function(incLevel_1_1) {
-      incLevel_1 = incLevel_1_1;
-    }, function(isString_1_1) {
+    setters: [function(isString_1_1) {
       isString_1 = isString_1_1;
     }, function(mustBeArray_1_1) {
       mustBeArray_1 = mustBeArray_1_1;
@@ -731,12 +728,13 @@ System.register("davinci-eight/materials/HTMLScriptsMaterial.js", ["../base/incL
           });
           this.scriptIds = [scriptIds[0], scriptIds[1]];
           this.dom = dom;
+          this.synchUp();
         }
         HTMLScriptsMaterial.prototype.destructor = function(levelUp) {
           if (levelUp === 0) {
             this.cleanUp();
           }
-          _super.prototype.destructor.call(this, incLevel_1.default(levelUp));
+          _super.prototype.destructor.call(this, levelUp + 1);
         };
         HTMLScriptsMaterial.prototype.contextGain = function(contextProvider) {
           if (!this.loaded) {
@@ -9164,7 +9162,7 @@ System.register("davinci-eight/core/GeometryLeaf.js", ["../config", "./ErrorMode
   };
 });
 
-System.register("davinci-eight/core/IndexBuffer.js", ["../base/incLevel", "../checks/mustBeObject", "../checks/mustBeUndefined", "./ShareableContextConsumer", "./Usage", "./usageToGL"], function(exports_1, context_1) {
+System.register("davinci-eight/core/IndexBuffer.js", ["../checks/mustBeObject", "../checks/mustBeUndefined", "./ShareableContextConsumer", "./Usage", "./usageToGL"], function(exports_1, context_1) {
   "use strict";
   var __moduleName = context_1 && context_1.id;
   var __extends = (this && this.__extends) || function(d, b) {
@@ -9176,8 +9174,7 @@ System.register("davinci-eight/core/IndexBuffer.js", ["../base/incLevel", "../ch
     }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
   };
-  var incLevel_1,
-      mustBeObject_1,
+  var mustBeObject_1,
       mustBeUndefined_1,
       ShareableContextConsumer_1,
       Usage_1,
@@ -9185,9 +9182,7 @@ System.register("davinci-eight/core/IndexBuffer.js", ["../base/incLevel", "../ch
       usageToGL_1;
   var IndexBuffer;
   return {
-    setters: [function(incLevel_1_1) {
-      incLevel_1 = incLevel_1_1;
-    }, function(mustBeObject_1_1) {
+    setters: [function(mustBeObject_1_1) {
       mustBeObject_1 = mustBeObject_1_1;
     }, function(mustBeUndefined_1_1) {
       mustBeUndefined_1 = mustBeUndefined_1_1;
@@ -9208,10 +9203,10 @@ System.register("davinci-eight/core/IndexBuffer.js", ["../base/incLevel", "../ch
           this.setLoggingName('IndexBuffer');
           this.synchUp();
         }
-        IndexBuffer.prototype.destructor = function(level) {
+        IndexBuffer.prototype.destructor = function(levelUp) {
           this.cleanUp();
           mustBeUndefined_1.default(this._type, this.webGLBuffer);
-          _super.prototype.destructor.call(this, incLevel_1.default(level));
+          _super.prototype.destructor.call(this, levelUp + 1);
         };
         Object.defineProperty(IndexBuffer.prototype, "data", {
           get: function() {
@@ -9231,29 +9226,28 @@ System.register("davinci-eight/core/IndexBuffer.js", ["../base/incLevel", "../ch
           set: function(usage) {
             Usage_1.checkUsage('usage', usage);
             this._usage = usage;
+            this.usageGL = usageToGL_1.default(this._usage, this.gl);
             this.bufferData();
           },
           enumerable: true,
           configurable: true
         });
         IndexBuffer.prototype.bufferData = function() {
-          if (this.contextProvider) {
-            var gl = this.contextProvider.gl;
-            if (gl) {
-              if (this.webGLBuffer) {
-                gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.webGLBuffer);
-                if (this._data) {
-                  gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, this._data, usageToGL_1.default(this.usage, gl));
-                }
-                gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, null);
+          var gl = this.gl;
+          if (gl) {
+            if (this.webGLBuffer) {
+              gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.webGLBuffer);
+              if (this.data) {
+                gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, this.data, this.usageGL);
               }
+              gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, null);
             }
           }
         };
         IndexBuffer.prototype.contextFree = function(contextProvider) {
           mustBeObject_1.default('contextProvider', contextProvider);
           if (this.webGLBuffer) {
-            var gl = contextProvider.gl;
+            var gl = this.gl;
             if (gl) {
               gl.deleteBuffer(this.webGLBuffer);
             } else {
@@ -9264,13 +9258,13 @@ System.register("davinci-eight/core/IndexBuffer.js", ["../base/incLevel", "../ch
           _super.prototype.contextFree.call(this, contextProvider);
         };
         IndexBuffer.prototype.contextGain = function(contextProvider) {
-          mustBeObject_1.default('contextProvider', contextProvider);
-          var gl = contextProvider.gl;
+          _super.prototype.contextGain.call(this, contextProvider);
+          var gl = this.gl;
           if (!this.webGLBuffer) {
             this.webGLBuffer = gl.createBuffer();
+            this.usageGL = usageToGL_1.default(this._usage, gl);
             this.bufferData();
           } else {}
-          _super.prototype.contextGain.call(this, contextProvider);
         };
         IndexBuffer.prototype.contextLost = function() {
           this.webGLBuffer = void 0;
@@ -9414,29 +9408,28 @@ System.register("davinci-eight/core/VertexBuffer.js", ["../checks/mustBeObject",
           set: function(usage) {
             Usage_1.checkUsage('usage', usage);
             this._usage = usage;
+            this.usageGL = usageToGL_1.default(this._usage, this.gl);
             this.bufferData();
           },
           enumerable: true,
           configurable: true
         });
         VertexBuffer.prototype.bufferData = function() {
-          if (this.contextProvider) {
-            var gl = this.contextProvider.gl;
-            if (gl) {
-              if (this.webGLBuffer) {
-                gl.bindBuffer(gl.ARRAY_BUFFER, this.webGLBuffer);
-                if (this._data) {
-                  gl.bufferData(gl.ARRAY_BUFFER, this._data, usageToGL_1.default(this.usage, gl));
-                }
-                gl.bindBuffer(gl.ARRAY_BUFFER, null);
+          var gl = this.gl;
+          if (gl) {
+            if (this.webGLBuffer) {
+              gl.bindBuffer(gl.ARRAY_BUFFER, this.webGLBuffer);
+              if (this._data) {
+                gl.bufferData(gl.ARRAY_BUFFER, this._data, this.usageGL);
               }
+              gl.bindBuffer(gl.ARRAY_BUFFER, null);
             }
           }
         };
         VertexBuffer.prototype.contextFree = function(contextProvider) {
           mustBeObject_1.default('contextProvider', contextProvider);
           if (this.webGLBuffer) {
-            var gl = contextProvider.gl;
+            var gl = this.gl;
             if (gl) {
               gl.deleteBuffer(this.webGLBuffer);
             } else {
@@ -9448,10 +9441,10 @@ System.register("davinci-eight/core/VertexBuffer.js", ["../checks/mustBeObject",
         };
         VertexBuffer.prototype.contextGain = function(contextProvider) {
           _super.prototype.contextGain.call(this, contextProvider);
-          mustBeObject_1.default('contextProvider', contextProvider);
-          var gl = contextProvider.gl;
+          var gl = this.gl;
           if (!this.webGLBuffer) {
             this.webGLBuffer = gl.createBuffer();
+            this.usageGL = usageToGL_1.default(this._usage, gl);
             this.bufferData();
           } else {}
         };
@@ -15900,14 +15893,14 @@ System.register("davinci-eight/core/ShareableContextConsumer.js", ["./cleanUp", 
           }
         };
         ShareableContextConsumer.prototype.contextGain = function(contextProvider) {
-          if (this.contextProvider !== contextProvider) {
-            if (this.contextProvider) {
-              this.contextProvider.release();
-              this.contextProvider = void 0;
-            }
-            contextProvider.addRef();
-            this.contextProvider = contextProvider;
+          if (this.contextProvider) {
+            this.contextProvider.release();
+            this.contextProvider = void 0;
           }
+          if (contextProvider) {
+            contextProvider.addRef();
+          }
+          this.contextProvider = contextProvider;
         };
         ShareableContextConsumer.prototype.contextLost = function() {
           if (this.contextProvider) {
@@ -25479,7 +25472,7 @@ System.register("davinci-eight/config.js", ["./core/ErrorMode"], function(export
           this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
           this.LAST_MODIFIED = '2016-06-26';
           this.NAMESPACE = 'EIGHT';
-          this.VERSION = '2.242.0';
+          this.VERSION = '2.244.0';
         }
         Object.defineProperty(Eight.prototype, "errorMode", {
           get: function() {

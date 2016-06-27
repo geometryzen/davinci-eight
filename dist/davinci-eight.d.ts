@@ -444,14 +444,14 @@ declare module EIGHT {
     }
 
     interface Material extends FacetVisitor, ContextConsumer {
-        vertexShaderSrc: string
-        fragmentShaderSrc: string
-        getAttribLocation(name: string): number
+        vertexShaderSrc: string;
+        fragmentShaderSrc: string;
+        getAttribLocation(name: string): number;
         enableAttrib(indexOrName: number | string): void;
         disableAttrib(indexOrName: number | string): void;
         vertexPointer(indexOrName: number | string, size: number, normalized: boolean, stride: number, offset: number): void;
-        getUniformLocation(name: string): UniformLocation
-        use(): void
+        getUniformLocation(name: string): UniformLocation;
+        use(): void;
     }
 
     /**

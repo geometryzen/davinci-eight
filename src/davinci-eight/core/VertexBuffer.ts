@@ -9,65 +9,31 @@ import Usage from './Usage';
 import usageToGL from './usageToGL';
 
 /**
- * <p>
  * A wrapper around a WebGLBuffer with binding to ARRAY_BUFFER.
- * </p>
- *
- * @class VertexBuffer
- * @extends ShareableContextConsumer
  */
 export default class VertexBuffer extends ShareableContextConsumer implements DataBuffer<Float32Array> {
 
-    /**
-     * @property webGLBuffer
-     * @type WebGLBuffer
-     * @private
-     */
     private webGLBuffer: WebGLBuffer;
-
-    /**
-     * @property _data
-     * @type Float32Array
-     * @private
-     */
     private _data: Float32Array;
-
     public _usage = Usage.STATIC_DRAW;
+    private usageGL: number;
 
-    /**
-     * @class VertexBuffer
-     * @constructor
-     * @param engine {Engine}
-     */
     constructor(engine: Engine) {
-        super(engine)
-        this.setLoggingName('VertexBuffer')
-        this.synchUp()
+        super(engine);
+        this.setLoggingName('VertexBuffer');
+        this.synchUp();
     }
 
-    /**
-     * @method destructor
-     * @param levelUp {number}
-     * @return {void}
-     * @protected
-     */
     protected destructor(levelUp: number): void {
-        this.cleanUp()
-        mustBeUndefined(this._type, this.webGLBuffer)
-        super.destructor(levelUp + 1)
+        this.cleanUp();
+        mustBeUndefined(this._type, this.webGLBuffer);
+        super.destructor(levelUp + 1);
     }
 
-    /**
-     * @property data
-     * @type Float32Array
-     */
     get data(): Float32Array {
         return this._data
     }
     set data(data: Float32Array) {
-        // TODO: If the buffer is bound and data is set, should we re-bind?
-        // But how do we know that we haven't been unbound?
-        // Centralizing in the contextProvider might help?
         this._data = data;
         this.bufferData();
     }
@@ -78,33 +44,27 @@ export default class VertexBuffer extends ShareableContextConsumer implements Da
     set usage(usage: Usage) {
         checkUsage('usage', usage);
         this._usage = usage;
+        this.usageGL = usageToGL(this._usage, this.gl);
         this.bufferData();
     }
 
     bufferData(): void {
-        if (this.contextProvider) {
-            const gl = this.contextProvider.gl
-            if (gl) {
-                if (this.webGLBuffer) {
-                    gl.bindBuffer(gl.ARRAY_BUFFER, this.webGLBuffer)
-                    if (this._data) {
-                        gl.bufferData(gl.ARRAY_BUFFER, this._data, usageToGL(this.usage, gl));
-                    }
-                    gl.bindBuffer(gl.ARRAY_BUFFER, null)
+        const gl = this.gl
+        if (gl) {
+            if (this.webGLBuffer) {
+                gl.bindBuffer(gl.ARRAY_BUFFER, this.webGLBuffer)
+                if (this._data) {
+                    gl.bufferData(gl.ARRAY_BUFFER, this._data, this.usageGL);
                 }
+                gl.bindBuffer(gl.ARRAY_BUFFER, null)
             }
         }
     }
 
-    /**
-     * @method contextFree
-     * @param contextProvider {ContextProvider}
-     * @return {void}
-     */
     contextFree(contextProvider: ContextProvider): void {
         mustBeObject('contextProvider', contextProvider)
         if (this.webGLBuffer) {
-            const gl = contextProvider.gl
+            const gl = this.gl
             if (gl) {
                 gl.deleteBuffer(this.webGLBuffer)
             }
@@ -119,17 +79,12 @@ export default class VertexBuffer extends ShareableContextConsumer implements Da
         super.contextFree(contextProvider)
     }
 
-    /**
-     * @method contextGain
-     * @param contextProvider {ContextProvider}
-     * @return {void}
-     */
     contextGain(contextProvider: ContextProvider): void {
         super.contextGain(contextProvider)
-        mustBeObject('contextProvider', contextProvider)
-        const gl = contextProvider.gl
+        const gl = this.gl
         if (!this.webGLBuffer) {
             this.webGLBuffer = gl.createBuffer();
+            this.usageGL = usageToGL(this._usage, gl);
             this.bufferData();
         }
         else {
@@ -137,10 +92,6 @@ export default class VertexBuffer extends ShareableContextConsumer implements Da
         }
     }
 
-    /**
-     * @method contextLost
-     * @return {void}
-     */
     contextLost(): void {
         this.webGLBuffer = void 0
         super.contextLost()
