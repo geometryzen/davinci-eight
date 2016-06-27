@@ -131,31 +131,17 @@ export default class VertexBuffer extends ShareableContextConsumer {
         super.contextLost()
     }
 
-    /**
-     * @method bind
-     * @return {void}
-     */
     bind(): void {
-        const gl = this.gl
+        const gl = this.gl;
         if (gl) {
-            gl.bindBuffer(gl.ARRAY_BUFFER, this.webGLBuffer)
-        }
-        else {
-            console.warn(`${this._type}.bind() ignored because no context.`)
+            gl.bindBuffer(gl.ARRAY_BUFFER, this.webGLBuffer);
         }
     }
 
-    /**
-     * @method unbind
-     * @return {void}
-     */
     unbind() {
-        const gl = this.gl
+        const gl = this.gl;
         if (gl) {
-            gl.bindBuffer(gl.ARRAY_BUFFER, null)
-        }
-        else {
-            console.warn(`${this._type}.unbind() ignored because no context.`)
+            gl.bindBuffer(gl.ARRAY_BUFFER, null);
         }
     }
 }

@@ -12,8 +12,9 @@ class Eight {
         this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
         this.LAST_MODIFIED = '2016-06-26';
         this.NAMESPACE = 'EIGHT';
-        this.VERSION = '2.238.0';
+        this.VERSION = '2.239.0';
     }
+
     get errorMode() {
         return this._errorMode
     }
@@ -30,18 +31,22 @@ class Eight {
             }
         }
     }
+
     log(message?: any, ...optionalParams: any[]): void {
         // This should allow us to unit test and run in environments without a console.
         console.log(message)
     }
+
     info(message?: any, ...optionalParams: any[]): void {
         // This should allow us to unit test and run in environments without a console.
         console.info(message)
     }
+
     warn(message?: any, ...optionalParams: any[]): void {
         // This should allow us to unit test and run in environments without a console.
         console.warn(message)
     }
+
     error(message?: any, ...optionalParams: any[]): void {
         // This should allow us to unit test and run in environments without a console.
         console.error(message)

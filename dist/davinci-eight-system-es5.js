@@ -9182,20 +9182,6 @@ System.register("davinci-eight/core/IndexBuffer.js", ["../base/incLevel", "../ch
       mustBeUndefined_1,
       ShareableContextConsumer_1;
   var IndexBuffer;
-  function bufferIndexData(contextProvider, buffer, data) {
-    if (contextProvider) {
-      var gl = contextProvider.gl;
-      if (gl) {
-        if (buffer) {
-          gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, buffer);
-          if (data) {
-            gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, data, gl.STATIC_DRAW);
-          }
-          gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, null);
-        }
-      }
-    }
-  }
   return {
     setters: [function(incLevel_1_1) {
       incLevel_1 = incLevel_1_1;
@@ -9225,11 +9211,25 @@ System.register("davinci-eight/core/IndexBuffer.js", ["../base/incLevel", "../ch
           },
           set: function(data) {
             this._data = data;
-            bufferIndexData(this.contextProvider, this.webGLBuffer, this._data);
+            this.bufferData();
           },
           enumerable: true,
           configurable: true
         });
+        IndexBuffer.prototype.bufferData = function() {
+          if (this.contextProvider) {
+            var gl = this.contextProvider.gl;
+            if (gl) {
+              if (this.webGLBuffer) {
+                gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.webGLBuffer);
+                if (this._data) {
+                  gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, this._data, this.usage);
+                }
+                gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, null);
+              }
+            }
+          }
+        };
         IndexBuffer.prototype.contextFree = function(contextProvider) {
           mustBeObject_1.default('contextProvider', contextProvider);
           if (this.webGLBuffer) {
@@ -9248,7 +9248,8 @@ System.register("davinci-eight/core/IndexBuffer.js", ["../base/incLevel", "../ch
           var gl = contextProvider.gl;
           if (!this.webGLBuffer) {
             this.webGLBuffer = gl.createBuffer();
-            bufferIndexData(contextProvider, this.webGLBuffer, this._data);
+            this.usage = gl.STATIC_DRAW;
+            this.bufferData();
           } else {}
           _super.prototype.contextGain.call(this, contextProvider);
         };
@@ -9260,16 +9261,12 @@ System.register("davinci-eight/core/IndexBuffer.js", ["../base/incLevel", "../ch
           var gl = this.gl;
           if (gl) {
             gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.webGLBuffer);
-          } else {
-            console.warn(this._type + ".bind() ignored because no context.");
           }
         };
         IndexBuffer.prototype.unbind = function() {
           var gl = this.gl;
           if (gl) {
             gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, null);
-          } else {
-            console.warn(this._type + ".unbind() ignored because no context.");
           }
         };
         return IndexBuffer;
@@ -9371,16 +9368,12 @@ System.register("davinci-eight/core/VertexBuffer.js", ["../checks/mustBeObject",
           var gl = this.gl;
           if (gl) {
             gl.bindBuffer(gl.ARRAY_BUFFER, this.webGLBuffer);
-          } else {
-            console.warn(this._type + ".bind() ignored because no context.");
           }
         };
         VertexBuffer.prototype.unbind = function() {
           var gl = this.gl;
           if (gl) {
             gl.bindBuffer(gl.ARRAY_BUFFER, null);
-          } else {
-            console.warn(this._type + ".unbind() ignored because no context.");
           }
         };
         return VertexBuffer;
@@ -25391,7 +25384,7 @@ System.register("davinci-eight/config.js", ["./core/ErrorMode"], function(export
           this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
           this.LAST_MODIFIED = '2016-06-26';
           this.NAMESPACE = 'EIGHT';
-          this.VERSION = '2.238.0';
+          this.VERSION = '2.239.0';
         }
         Object.defineProperty(Eight.prototype, "errorMode", {
           get: function() {

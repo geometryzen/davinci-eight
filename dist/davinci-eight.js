@@ -821,7 +821,7 @@ define('davinci-eight/config',["require", "exports", './core/ErrorMode'], functi
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
             this.LAST_MODIFIED = '2016-06-26';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '2.238.0';
+            this.VERSION = '2.239.0';
         }
         Object.defineProperty(Eight.prototype, "errorMode", {
             get: function () {
@@ -9851,17 +9851,11 @@ define('davinci-eight/core/VertexBuffer',["require", "exports", '../checks/mustB
             if (gl) {
                 gl.bindBuffer(gl.ARRAY_BUFFER, this.webGLBuffer);
             }
-            else {
-                console.warn(this._type + ".bind() ignored because no context.");
-            }
         };
         VertexBuffer.prototype.unbind = function () {
             var gl = this.gl;
             if (gl) {
                 gl.bindBuffer(gl.ARRAY_BUFFER, null);
-            }
-            else {
-                console.warn(this._type + ".unbind() ignored because no context.");
             }
         };
         return VertexBuffer;
@@ -10549,20 +10543,6 @@ var __extends = (this && this.__extends) || function (d, b) {
 };
 define('davinci-eight/core/IndexBuffer',["require", "exports", '../base/incLevel', '../checks/mustBeObject', '../checks/mustBeUndefined', './ShareableContextConsumer'], function (require, exports, incLevel_1, mustBeObject_1, mustBeUndefined_1, ShareableContextConsumer_1) {
     "use strict";
-    function bufferIndexData(contextProvider, buffer, data) {
-        if (contextProvider) {
-            var gl = contextProvider.gl;
-            if (gl) {
-                if (buffer) {
-                    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, buffer);
-                    if (data) {
-                        gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, data, gl.STATIC_DRAW);
-                    }
-                    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, null);
-                }
-            }
-        }
-    }
     var IndexBuffer = (function (_super) {
         __extends(IndexBuffer, _super);
         function IndexBuffer(engine) {
@@ -10581,11 +10561,25 @@ define('davinci-eight/core/IndexBuffer',["require", "exports", '../base/incLevel
             },
             set: function (data) {
                 this._data = data;
-                bufferIndexData(this.contextProvider, this.webGLBuffer, this._data);
+                this.bufferData();
             },
             enumerable: true,
             configurable: true
         });
+        IndexBuffer.prototype.bufferData = function () {
+            if (this.contextProvider) {
+                var gl = this.contextProvider.gl;
+                if (gl) {
+                    if (this.webGLBuffer) {
+                        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.webGLBuffer);
+                        if (this._data) {
+                            gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, this._data, this.usage);
+                        }
+                        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, null);
+                    }
+                }
+            }
+        };
         IndexBuffer.prototype.contextFree = function (contextProvider) {
             mustBeObject_1.default('contextProvider', contextProvider);
             if (this.webGLBuffer) {
@@ -10607,7 +10601,8 @@ define('davinci-eight/core/IndexBuffer',["require", "exports", '../base/incLevel
             var gl = contextProvider.gl;
             if (!this.webGLBuffer) {
                 this.webGLBuffer = gl.createBuffer();
-                bufferIndexData(contextProvider, this.webGLBuffer, this._data);
+                this.usage = gl.STATIC_DRAW;
+                this.bufferData();
             }
             else {
             }
@@ -10622,17 +10617,11 @@ define('davinci-eight/core/IndexBuffer',["require", "exports", '../base/incLevel
             if (gl) {
                 gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.webGLBuffer);
             }
-            else {
-                console.warn(this._type + ".bind() ignored because no context.");
-            }
         };
         IndexBuffer.prototype.unbind = function () {
             var gl = this.gl;
             if (gl) {
                 gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, null);
-            }
-            else {
-                console.warn(this._type + ".unbind() ignored because no context.");
             }
         };
         return IndexBuffer;
