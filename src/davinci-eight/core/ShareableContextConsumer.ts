@@ -2,6 +2,7 @@ import cleanUp from './cleanUp';
 import {ContextConsumer} from './ContextConsumer';
 import ContextProvider from './ContextProvider';
 import {Engine} from './Engine';
+import EngineSubscriber from './EngineSubscriber';
 import isUndefined from '../checks/isUndefined';
 import isNull from '../checks/isNull';
 import mustBeObject from '../checks/mustBeObject'
@@ -35,7 +36,7 @@ import {ShareableBase} from './ShareableBase';
  *     }
  *
  */
-export class ShareableContextConsumer extends ShareableBase implements ContextConsumer {
+export class ShareableContextConsumer extends ShareableBase implements ContextConsumer, EngineSubscriber {
 
     /**
      * The <code>Engine</code> to which this consumer is subscribed.

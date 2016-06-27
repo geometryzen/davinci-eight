@@ -171,6 +171,10 @@ declare module EIGHT {
         isPaused: boolean;
     }
 
+    /**
+     * A wrapper around an HTMLCanvasElement that provides WebGLRenderingContext initialization
+     * and context lost management.
+     */
     class Engine extends ShareableBase {
 
         /**
@@ -3328,6 +3332,22 @@ declare module EIGHT {
         useTextureCoord: boolean
         constructor(e: VectorE3, cutLine: VectorE3, clockwise: boolean)
         toGeometry(): Geometry
+    }
+
+    interface BoxGeometryOptions {
+        depth?: number;
+        height?: number;
+        openBack?: boolean;
+        openBase?: boolean;
+        openFront?: boolean;
+        openLeft?: boolean;
+        openRight?: boolean;
+        openCap?: boolean;
+        width?: number;
+    }
+
+    class BoxGeometry extends GeometryContainer {
+        constructor(options?: BoxGeometryOptions);
     }
 
     /**

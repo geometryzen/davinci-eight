@@ -9814,9 +9814,11 @@ System.register("davinci-eight/core/GeometryContainer.js", ["../collections/Shar
           return this._parts.get(index);
         };
         GeometryContainer.prototype.draw = function(material) {
-          this._parts.forEach(function(buffer) {
-            buffer.draw(material);
-          });
+          var iLen = this.partsLength;
+          for (var i = 0; i < iLen; i++) {
+            var part = this.getPart(i);
+            part.draw(material);
+          }
         };
         GeometryContainer.prototype.contextFree = function(contextProvider) {
           this._parts.forEach(function(buffer) {
@@ -16797,7 +16799,9 @@ System.register("davinci-eight/base/DefaultContextProvider.js", ["../core/drawMo
         });
         DefaultContextProvider.prototype.disableVertexAttribArray = function(index) {
           var gl = this.gl;
-          gl.disableVertexAttribArray(index);
+          if (gl) {
+            gl.disableVertexAttribArray(index);
+          }
         };
         DefaultContextProvider.prototype.drawArrays = function(mode, first, count) {
           var gl = this.gl;
@@ -25470,9 +25474,9 @@ System.register("davinci-eight/config.js", ["./core/ErrorMode"], function(export
         function Eight() {
           this._errorMode = ErrorMode_1.default.STRICT;
           this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-          this.LAST_MODIFIED = '2016-06-26';
+          this.LAST_MODIFIED = '2016-06-27';
           this.NAMESPACE = 'EIGHT';
-          this.VERSION = '2.244.0';
+          this.VERSION = '2.245.0';
         }
         Object.defineProperty(Eight.prototype, "errorMode", {
           get: function() {
