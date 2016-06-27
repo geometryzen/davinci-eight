@@ -48,6 +48,7 @@ import {Scene} from './davinci-eight/core/Scene';
 import Shader from './davinci-eight/core/Shader';
 import UniformLocation from './davinci-eight/core/UniformLocation';
 import UniformMetaInfo from './davinci-eight/core/UniformMetaInfo';
+import Usage from './davinci-eight/core/Usage';
 import {Engine} from './davinci-eight/core/Engine';
 import initWebGL from './davinci-eight/core/initWebGL';
 import VertexBuffer from './davinci-eight/core/VertexBuffer';
@@ -278,6 +279,7 @@ const eight = {
     get animation() { return animation },
     get DrawMode() { return DrawMode },
     get ErrorMode() { return ErrorMode },
+    get Usage() { return Usage },
     get AttribLocation() { return AttribLocation },
     get UniformLocation() { return UniformLocation },
     get VertexBuffer() { return VertexBuffer },

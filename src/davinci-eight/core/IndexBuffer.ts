@@ -1,19 +1,22 @@
 import ContextProvider from './ContextProvider';
+import DataBuffer from './DataBuffer';
 import {Engine} from './Engine';
 import incLevel from '../base/incLevel';
 import mustBeObject from '../checks/mustBeObject';
 import mustBeUndefined from '../checks/mustBeUndefined';
 import {ShareableContextConsumer} from './ShareableContextConsumer';
+import Usage from './Usage';
+import usageToGL from './usageToGL';
 
 /**
  * <p>
- * A wrapper around a WebGLBuffer with bunding to ELEMENT_ARRAY_BUFFER.
+ * A wrapper around a WebGLBuffer with binding to ELEMENT_ARRAY_BUFFER.
  * </p>
  *
  * @class IndexBuffer
  * @extends ShareableContextConsumer
  */
-export default class IndexBuffer extends ShareableContextConsumer {
+export default class IndexBuffer extends ShareableContextConsumer implements DataBuffer<Uint16Array> {
 
     /**
      * @property webGLBuffer
@@ -32,7 +35,7 @@ export default class IndexBuffer extends ShareableContextConsumer {
     /**
      * A hint as to how the buffer will be used.
      */
-    private usage: number;
+    public usage = Usage.STATIC_DRAW;
 
     /**
      * @class IndexBuffer
@@ -77,7 +80,7 @@ export default class IndexBuffer extends ShareableContextConsumer {
                 if (this.webGLBuffer) {
                     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.webGLBuffer)
                     if (this._data) {
-                        gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, this._data, this.usage);
+                        gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, this._data, usageToGL(this.usage, gl));
                     }
                     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, null);
                 }

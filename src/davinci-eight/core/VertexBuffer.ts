@@ -1,23 +1,11 @@
 import ContextProvider from './ContextProvider';
+import DataBuffer from './DataBuffer';
 import {Engine} from './Engine';
 import mustBeObject from '../checks/mustBeObject';
 import mustBeUndefined from '../checks/mustBeUndefined';
 import {ShareableContextConsumer} from './ShareableContextConsumer';
-
-function bufferVertexData(contextProvider: ContextProvider, buffer: WebGLBuffer, data: Float32Array) {
-    if (contextProvider) {
-        const gl = contextProvider.gl
-        if (gl) {
-            if (buffer) {
-                gl.bindBuffer(gl.ARRAY_BUFFER, buffer)
-                if (data) {
-                    gl.bufferData(gl.ARRAY_BUFFER, data, gl.STATIC_DRAW)
-                }
-                gl.bindBuffer(gl.ARRAY_BUFFER, null)
-            }
-        }
-    }
-}
+import Usage from './Usage';
+import usageToGL from './usageToGL';
 
 /**
  * <p>
@@ -27,7 +15,7 @@ function bufferVertexData(contextProvider: ContextProvider, buffer: WebGLBuffer,
  * @class VertexBuffer
  * @extends ShareableContextConsumer
  */
-export default class VertexBuffer extends ShareableContextConsumer {
+export default class VertexBuffer extends ShareableContextConsumer implements DataBuffer<Float32Array> {
 
     /**
      * @property webGLBuffer
@@ -42,6 +30,8 @@ export default class VertexBuffer extends ShareableContextConsumer {
      * @private
      */
     private _data: Float32Array;
+
+    public usage = Usage.STATIC_DRAW;
 
     /**
      * @class VertexBuffer
@@ -77,8 +67,23 @@ export default class VertexBuffer extends ShareableContextConsumer {
         // TODO: If the buffer is bound and data is set, should we re-bind?
         // But how do we know that we haven't been unbound?
         // Centralizing in the contextProvider might help?
-        this._data = data
-        bufferVertexData(this.contextProvider, this.webGLBuffer, this._data)
+        this._data = data;
+        this.bufferData();
+    }
+
+    bufferData(): void {
+        if (this.contextProvider) {
+            const gl = this.contextProvider.gl
+            if (gl) {
+                if (this.webGLBuffer) {
+                    gl.bindBuffer(gl.ARRAY_BUFFER, this.webGLBuffer)
+                    if (this._data) {
+                        gl.bufferData(gl.ARRAY_BUFFER, this._data, usageToGL(this.usage, gl));
+                    }
+                    gl.bindBuffer(gl.ARRAY_BUFFER, null)
+                }
+            }
+        }
     }
 
     /**
@@ -114,8 +119,8 @@ export default class VertexBuffer extends ShareableContextConsumer {
         mustBeObject('contextProvider', contextProvider)
         const gl = contextProvider.gl
         if (!this.webGLBuffer) {
-            this.webGLBuffer = gl.createBuffer()
-            bufferVertexData(contextProvider, this.webGLBuffer, this._data)
+            this.webGLBuffer = gl.createBuffer();
+            this.bufferData();
         }
         else {
             // It's a duplicate, ignore the call.

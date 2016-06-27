@@ -350,24 +350,41 @@ declare module EIGHT {
         unsubscribe(): void;
     }
 
+    enum Usage {
+        STATIC_DRAW,
+        DYNAMIC_DRAW
+    }
+
+    interface DataBuffer<T extends ArrayBufferView> {
+        data: T;
+        usage: Usage;
+        bufferData(): void;
+        bind(): void;
+        unbind(): void;
+    }
+
     /**
      * A wrapper around a WebGLBuffer with binding to ARRAY_BUFFER.
      */
-    class VertexBuffer extends ShareableContextConsumer {
-        data: Float32Array
-        constructor(engine: Engine)
-        bind(): void
+    class VertexBuffer extends ShareableContextConsumer implements DataBuffer<Float32Array> {
+        data: Float32Array;
+        usage: Usage;
+        constructor(engine: Engine);
+        bind(): void;
+        bufferData(): void;
         unbind(): void
     }
 
     /**
      * A wrapper around a WebGLBuffer with binding to ELEMENT_ARRAY_BUFFER.
      */
-    class IndexBuffer extends ShareableContextConsumer {
-        data: Uint16Array
-        constructor(engine: Engine)
-        bind(): void
-        unbind(): void
+    class IndexBuffer extends ShareableContextConsumer implements DataBuffer<Uint16Array> {
+        data: Uint16Array;
+        usage: Usage;
+        constructor(engine: Engine);
+        bind(): void;
+        bufferData(): void;
+        unbind(): void;
     }
 
     /**
