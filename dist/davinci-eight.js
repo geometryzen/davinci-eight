@@ -821,7 +821,7 @@ define('davinci-eight/config',["require", "exports", './core/ErrorMode'], functi
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
             this.LAST_MODIFIED = '2016-06-26';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '2.237.0';
+            this.VERSION = '2.238.0';
         }
         Object.defineProperty(Eight.prototype, "errorMode", {
             get: function () {
