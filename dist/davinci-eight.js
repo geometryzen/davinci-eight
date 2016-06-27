@@ -821,7 +821,7 @@ define('davinci-eight/config',["require", "exports", './core/ErrorMode'], functi
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
             this.LAST_MODIFIED = '2016-06-26';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '2.241.0';
+            this.VERSION = '2.242.0';
         }
         Object.defineProperty(Eight.prototype, "errorMode", {
             get: function () {
@@ -18390,7 +18390,6 @@ define('davinci-eight/materials/HTMLScriptsMaterial',["require", "exports", '../
             mustSatisfy_1.default('scriptIds', scriptIds.length === 2, function () { return 'have two script element identifiers.'; });
             this.scriptIds = [scriptIds[0], scriptIds[1]];
             this.dom = dom;
-            this.synchUp();
         }
         HTMLScriptsMaterial.prototype.destructor = function (levelUp) {
             if (levelUp === 0) {

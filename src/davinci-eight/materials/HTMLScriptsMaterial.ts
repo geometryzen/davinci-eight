@@ -110,7 +110,8 @@ export default class HTMLScriptsMaterial extends MaterialBase {
         mustSatisfy('scriptIds', scriptIds.length === 2, () => { return 'have two script element identifiers.' })
         this.scriptIds = [scriptIds[0], scriptIds[1]]
         this.dom = dom;
-        this.synchUp();
+        // Is this causing an ERROR?
+        // this.synchUp();
     }
 
     /**
