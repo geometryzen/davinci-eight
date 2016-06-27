@@ -9182,6 +9182,7 @@ System.register("davinci-eight/core/IndexBuffer.js", ["../base/incLevel", "../ch
       mustBeUndefined_1,
       ShareableContextConsumer_1,
       Usage_1,
+      Usage_2,
       usageToGL_1;
   var IndexBuffer;
   return {
@@ -9195,6 +9196,7 @@ System.register("davinci-eight/core/IndexBuffer.js", ["../base/incLevel", "../ch
       ShareableContextConsumer_1 = ShareableContextConsumer_1_1;
     }, function(Usage_1_1) {
       Usage_1 = Usage_1_1;
+      Usage_2 = Usage_1_1;
     }, function(usageToGL_1_1) {
       usageToGL_1 = usageToGL_1_1;
     }],
@@ -9203,7 +9205,7 @@ System.register("davinci-eight/core/IndexBuffer.js", ["../base/incLevel", "../ch
         __extends(IndexBuffer, _super);
         function IndexBuffer(engine) {
           _super.call(this, engine);
-          this.usage = Usage_1.default.STATIC_DRAW;
+          this._usage = Usage_2.default.STATIC_DRAW;
           this.setLoggingName('IndexBuffer');
           this.synchUp();
         }
@@ -9218,6 +9220,18 @@ System.register("davinci-eight/core/IndexBuffer.js", ["../base/incLevel", "../ch
           },
           set: function(data) {
             this._data = data;
+            this.bufferData();
+          },
+          enumerable: true,
+          configurable: true
+        });
+        Object.defineProperty(IndexBuffer.prototype, "usage", {
+          get: function() {
+            return this._usage;
+          },
+          set: function(usage) {
+            Usage_1.checkUsage('usage', usage);
+            this._usage = usage;
             this.bufferData();
           },
           enumerable: true,
@@ -9255,7 +9269,6 @@ System.register("davinci-eight/core/IndexBuffer.js", ["../base/incLevel", "../ch
           var gl = contextProvider.gl;
           if (!this.webGLBuffer) {
             this.webGLBuffer = gl.createBuffer();
-            this.usage = gl.STATIC_DRAW;
             this.bufferData();
           } else {}
           _super.prototype.contextGain.call(this, contextProvider);
@@ -9287,6 +9300,20 @@ System.register("davinci-eight/core/Usage.js", [], function(exports_1, context_1
   "use strict";
   var __moduleName = context_1 && context_1.id;
   var Usage;
+  function checkUsage(name, usage) {
+    switch (usage) {
+      case Usage.STATIC_DRAW:
+      case Usage.DYNAMIC_DRAW:
+        {
+          return;
+        }
+      default:
+        {
+          throw new Error(name + ": Usage must be one of the enumerated values.");
+        }
+    }
+  }
+  exports_1("checkUsage", checkUsage);
   return {
     setters: [],
     execute: function() {
@@ -9340,6 +9367,7 @@ System.register("davinci-eight/core/VertexBuffer.js", ["../checks/mustBeObject",
       mustBeUndefined_1,
       ShareableContextConsumer_1,
       Usage_1,
+      Usage_2,
       usageToGL_1;
   var VertexBuffer;
   return {
@@ -9351,6 +9379,7 @@ System.register("davinci-eight/core/VertexBuffer.js", ["../checks/mustBeObject",
       ShareableContextConsumer_1 = ShareableContextConsumer_1_1;
     }, function(Usage_1_1) {
       Usage_1 = Usage_1_1;
+      Usage_2 = Usage_1_1;
     }, function(usageToGL_1_1) {
       usageToGL_1 = usageToGL_1_1;
     }],
@@ -9359,7 +9388,7 @@ System.register("davinci-eight/core/VertexBuffer.js", ["../checks/mustBeObject",
         __extends(VertexBuffer, _super);
         function VertexBuffer(engine) {
           _super.call(this, engine);
-          this.usage = Usage_1.default.STATIC_DRAW;
+          this._usage = Usage_2.default.STATIC_DRAW;
           this.setLoggingName('VertexBuffer');
           this.synchUp();
         }
@@ -9374,6 +9403,18 @@ System.register("davinci-eight/core/VertexBuffer.js", ["../checks/mustBeObject",
           },
           set: function(data) {
             this._data = data;
+            this.bufferData();
+          },
+          enumerable: true,
+          configurable: true
+        });
+        Object.defineProperty(VertexBuffer.prototype, "usage", {
+          get: function() {
+            return this._usage;
+          },
+          set: function(usage) {
+            Usage_1.checkUsage('usage', usage);
+            this._usage = usage;
             this.bufferData();
           },
           enumerable: true,
@@ -25439,7 +25480,7 @@ System.register("davinci-eight/config.js", ["./core/ErrorMode"], function(export
           this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
           this.LAST_MODIFIED = '2016-06-26';
           this.NAMESPACE = 'EIGHT';
-          this.VERSION = '2.240.0';
+          this.VERSION = '2.241.0';
         }
         Object.defineProperty(Eight.prototype, "errorMode", {
           get: function() {

@@ -5,6 +5,7 @@ import incLevel from '../base/incLevel';
 import mustBeObject from '../checks/mustBeObject';
 import mustBeUndefined from '../checks/mustBeUndefined';
 import {ShareableContextConsumer} from './ShareableContextConsumer';
+import {checkUsage} from './Usage';
 import Usage from './Usage';
 import usageToGL from './usageToGL';
 
@@ -35,7 +36,7 @@ export default class IndexBuffer extends ShareableContextConsumer implements Dat
     /**
      * A hint as to how the buffer will be used.
      */
-    public usage = Usage.STATIC_DRAW;
+    public _usage = Usage.STATIC_DRAW;
 
     /**
      * @class IndexBuffer
@@ -70,6 +71,15 @@ export default class IndexBuffer extends ShareableContextConsumer implements Dat
     }
     set data(data: Uint16Array) {
         this._data = data;
+        this.bufferData();
+    }
+
+    get usage(): Usage {
+        return this._usage;
+    }
+    set usage(usage: Usage) {
+        checkUsage('usage', usage);
+        this._usage = usage;
         this.bufferData();
     }
 
@@ -111,7 +121,6 @@ export default class IndexBuffer extends ShareableContextConsumer implements Dat
         const gl = contextProvider.gl
         if (!this.webGLBuffer) {
             this.webGLBuffer = gl.createBuffer();
-            this.usage = gl.STATIC_DRAW;
             this.bufferData();
         }
         else {

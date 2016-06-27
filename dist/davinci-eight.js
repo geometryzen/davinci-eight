@@ -821,7 +821,7 @@ define('davinci-eight/config',["require", "exports", './core/ErrorMode'], functi
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
             this.LAST_MODIFIED = '2016-06-26';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '2.240.0';
+            this.VERSION = '2.241.0';
         }
         Object.defineProperty(Eight.prototype, "errorMode", {
             get: function () {
@@ -9778,6 +9778,18 @@ define('davinci-eight/core/Usage',["require", "exports"], function (require, exp
         Usage[Usage["STATIC_DRAW"] = 0] = "STATIC_DRAW";
         Usage[Usage["DYNAMIC_DRAW"] = 1] = "DYNAMIC_DRAW";
     })(Usage || (Usage = {}));
+    function checkUsage(name, usage) {
+        switch (usage) {
+            case Usage.STATIC_DRAW:
+            case Usage.DYNAMIC_DRAW: {
+                return;
+            }
+            default: {
+                throw new Error(name + ": Usage must be one of the enumerated values.");
+            }
+        }
+    }
+    exports.checkUsage = checkUsage;
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = Usage;
 });
@@ -9805,13 +9817,13 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/core/VertexBuffer',["require", "exports", '../checks/mustBeObject', '../checks/mustBeUndefined', './ShareableContextConsumer', './Usage', './usageToGL'], function (require, exports, mustBeObject_1, mustBeUndefined_1, ShareableContextConsumer_1, Usage_1, usageToGL_1) {
+define('davinci-eight/core/VertexBuffer',["require", "exports", '../checks/mustBeObject', '../checks/mustBeUndefined', './ShareableContextConsumer', './Usage', './Usage', './usageToGL'], function (require, exports, mustBeObject_1, mustBeUndefined_1, ShareableContextConsumer_1, Usage_1, Usage_2, usageToGL_1) {
     "use strict";
     var VertexBuffer = (function (_super) {
         __extends(VertexBuffer, _super);
         function VertexBuffer(engine) {
             _super.call(this, engine);
-            this.usage = Usage_1.default.STATIC_DRAW;
+            this._usage = Usage_2.default.STATIC_DRAW;
             this.setLoggingName('VertexBuffer');
             this.synchUp();
         }
@@ -9826,6 +9838,18 @@ define('davinci-eight/core/VertexBuffer',["require", "exports", '../checks/mustB
             },
             set: function (data) {
                 this._data = data;
+                this.bufferData();
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(VertexBuffer.prototype, "usage", {
+            get: function () {
+                return this._usage;
+            },
+            set: function (usage) {
+                Usage_1.checkUsage('usage', usage);
+                this._usage = usage;
                 this.bufferData();
             },
             enumerable: true,
@@ -10571,13 +10595,13 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/core/IndexBuffer',["require", "exports", '../base/incLevel', '../checks/mustBeObject', '../checks/mustBeUndefined', './ShareableContextConsumer', './Usage', './usageToGL'], function (require, exports, incLevel_1, mustBeObject_1, mustBeUndefined_1, ShareableContextConsumer_1, Usage_1, usageToGL_1) {
+define('davinci-eight/core/IndexBuffer',["require", "exports", '../base/incLevel', '../checks/mustBeObject', '../checks/mustBeUndefined', './ShareableContextConsumer', './Usage', './Usage', './usageToGL'], function (require, exports, incLevel_1, mustBeObject_1, mustBeUndefined_1, ShareableContextConsumer_1, Usage_1, Usage_2, usageToGL_1) {
     "use strict";
     var IndexBuffer = (function (_super) {
         __extends(IndexBuffer, _super);
         function IndexBuffer(engine) {
             _super.call(this, engine);
-            this.usage = Usage_1.default.STATIC_DRAW;
+            this._usage = Usage_2.default.STATIC_DRAW;
             this.setLoggingName('IndexBuffer');
             this.synchUp();
         }
@@ -10592,6 +10616,18 @@ define('davinci-eight/core/IndexBuffer',["require", "exports", '../base/incLevel
             },
             set: function (data) {
                 this._data = data;
+                this.bufferData();
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(IndexBuffer.prototype, "usage", {
+            get: function () {
+                return this._usage;
+            },
+            set: function (usage) {
+                Usage_1.checkUsage('usage', usage);
+                this._usage = usage;
                 this.bufferData();
             },
             enumerable: true,
@@ -10632,7 +10668,6 @@ define('davinci-eight/core/IndexBuffer',["require", "exports", '../base/incLevel
             var gl = contextProvider.gl;
             if (!this.webGLBuffer) {
                 this.webGLBuffer = gl.createBuffer();
-                this.usage = gl.STATIC_DRAW;
                 this.bufferData();
             }
             else {

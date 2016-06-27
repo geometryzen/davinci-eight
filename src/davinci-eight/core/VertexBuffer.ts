@@ -4,6 +4,7 @@ import {Engine} from './Engine';
 import mustBeObject from '../checks/mustBeObject';
 import mustBeUndefined from '../checks/mustBeUndefined';
 import {ShareableContextConsumer} from './ShareableContextConsumer';
+import {checkUsage} from './Usage';
 import Usage from './Usage';
 import usageToGL from './usageToGL';
 
@@ -31,7 +32,7 @@ export default class VertexBuffer extends ShareableContextConsumer implements Da
      */
     private _data: Float32Array;
 
-    public usage = Usage.STATIC_DRAW;
+    public _usage = Usage.STATIC_DRAW;
 
     /**
      * @class VertexBuffer
@@ -68,6 +69,15 @@ export default class VertexBuffer extends ShareableContextConsumer implements Da
         // But how do we know that we haven't been unbound?
         // Centralizing in the contextProvider might help?
         this._data = data;
+        this.bufferData();
+    }
+
+    get usage(): Usage {
+        return this._usage;
+    }
+    set usage(usage: Usage) {
+        checkUsage('usage', usage);
+        this._usage = usage;
         this.bufferData();
     }
 
