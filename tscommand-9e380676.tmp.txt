@@ -1,0 +1,1 @@
+"/home/david/dev/geometryzen/davinci-eight/src/davinci-eight.ts" "/home/david/dev/geometryzen/davinci-eight/src/.baseDir.ts" --removeComments --noImplicitAny --suppressImplicitAnyIndexErrors --target ES5 --module system --outDir system

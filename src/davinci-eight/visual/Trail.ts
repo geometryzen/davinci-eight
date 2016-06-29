@@ -114,7 +114,7 @@ export class Trail extends ShareableBase {
         if (this.config.enabled) {
             if (this.modulo.size !== this.config.retain) {
                 this.modulo.size = this.config.retain;
-                this.modulo.value = 0
+                this.modulo.value = 0;
             }
 
             if (this.counter % this.config.interval === 0) {
@@ -148,10 +148,14 @@ export class Trail extends ShareableBase {
             savedR.copy(R);
             const Xs = this.Xs;
             const Rs = this.Rs;
-            const iLength: number = Xs.length;
+            const iLength: number = this.modulo.size;
             for (let i = 0; i < iLength; i++) {
-                X.copyVector(Xs[i]);
-                R.copySpinor(Rs[i]);
+                if (Xs[i]) {
+                    X.copyVector(Xs[i]);
+                }
+                if (Rs[i]) {
+                    R.copySpinor(Rs[i]);
+                }
                 mesh.draw(ambients);
             }
             // Restore the mesh position and attitude.

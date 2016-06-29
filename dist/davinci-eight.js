@@ -587,7 +587,7 @@ define('davinci-eight/config',["require", "exports", './core/ErrorMode'], functi
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
             this.LAST_MODIFIED = '2016-06-29';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '2.249.0';
+            this.VERSION = '2.250.0';
         }
         Object.defineProperty(Eight.prototype, "errorMode", {
             get: function () {
@@ -20734,10 +20734,14 @@ define('davinci-eight/visual/Trail',["require", "exports", '../math/Modulo', '..
                 savedR.copy(R);
                 var Xs = this.Xs;
                 var Rs = this.Rs;
-                var iLength = Xs.length;
+                var iLength = this.modulo.size;
                 for (var i = 0; i < iLength; i++) {
-                    X.copyVector(Xs[i]);
-                    R.copySpinor(Rs[i]);
+                    if (Xs[i]) {
+                        X.copyVector(Xs[i]);
+                    }
+                    if (Rs[i]) {
+                        R.copySpinor(Rs[i]);
+                    }
                     mesh.draw(ambients);
                 }
                 X.copyVector(savedX);
