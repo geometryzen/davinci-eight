@@ -1,7 +1,6 @@
 import AttribLocation from '../core/AttribLocation';
 import config from '../config';
 import ContextProvider from '../core/ContextProvider';
-import incLevel from '../base/incLevel';
 import isDefined from '../checks/isDefined';
 import isString from '../checks/isString';
 import isNull from '../checks/isNull';
@@ -9,23 +8,17 @@ import makeWebGLProgram from '../core/makeWebGLProgram';
 import {Material} from '../core/Material'
 import {Engine} from '../core/Engine';
 import ErrorMode from '../core/ErrorMode';
-import Matrix2 from '../math/Matrix2';
-import Matrix3 from '../math/Matrix3';
-import Matrix4 from '../math/Matrix4';
 import mustBeArray from '../checks/mustBeArray';
 import mustBeString from '../checks/mustBeString';
 import mustBeUndefined from '../checks/mustBeUndefined';
 import readOnly from '../i18n/readOnly';
 import {ShareableContextConsumer} from '../core/ShareableContextConsumer';
 import UniformLocation from '../core/UniformLocation';
-import VectorE2 from '../math/VectorE2';
-import VectorE3 from '../math/VectorE3';
-import VectorE4 from '../math/VectorE4';
 
 /**
  *
  */
-export class MaterialBase extends ShareableContextConsumer implements Material {
+export class ShaderMaterial extends ShareableContextConsumer implements Material {
 
     /**
      *
@@ -63,9 +56,9 @@ export class MaterialBase extends ShareableContextConsumer implements Material {
      * @param attribs The attribute ordering.
      * @param engine The <code>Engine</code> to subscribe to or <code>null</code> for deferred subscription.
      */
-    constructor(vertexShaderSrc: string, fragmentShaderSrc: string, attribs: string[], engine: Engine) {
+    constructor(vertexShaderSrc: string, fragmentShaderSrc: string, attribs: string[], engine: Engine, levelUp: number) {
         super(engine)
-        this.setLoggingName('MaterialBase')
+        this.setLoggingName('ShaderMaterial')
         if (isDefined(vertexShaderSrc) && !isNull(vertexShaderSrc)) {
             this._vertexShaderSrc = mustBeString('vertexShaderSrc', vertexShaderSrc)
         }
@@ -73,17 +66,17 @@ export class MaterialBase extends ShareableContextConsumer implements Material {
             this._fragmentShaderSrc = mustBeString('fragmentShaderSrc', fragmentShaderSrc)
         }
         this._attribs = mustBeArray('attribs', attribs)
+        if (levelUp === 0) {
+            this.synchUp();
+        }
     }
 
-    /**
-     * @param levelUp
-     */
     protected destructor(levelUp: number): void {
         if (levelUp === 0) {
             this.cleanUp()
         }
         mustBeUndefined(this._type, this._program)
-        super.destructor(incLevel(levelUp))
+        super.destructor(levelUp + 1)
     }
 
     /**
@@ -391,9 +384,6 @@ export class MaterialBase extends ShareableContextConsumer implements Material {
         }
     }
 
-    /**
-     *
-     */
     uniform1f(name: string, x: number): void {
         const uniformLoc = this._uniforms[name]
         if (uniformLoc) {
@@ -401,9 +391,6 @@ export class MaterialBase extends ShareableContextConsumer implements Material {
         }
     }
 
-    /**
-     *
-     */
     uniform2f(name: string, x: number, y: number): void {
         const uniformLoc = this._uniforms[name]
         if (uniformLoc) {
@@ -411,9 +398,6 @@ export class MaterialBase extends ShareableContextConsumer implements Material {
         }
     }
 
-    /**
-     *
-     */
     uniform3f(name: string, x: number, y: number, z: number): void {
         const uniformLoc = this._uniforms[name]
         if (uniformLoc) {
@@ -421,9 +405,6 @@ export class MaterialBase extends ShareableContextConsumer implements Material {
         }
     }
 
-    /**
-     *
-     */
     uniform4f(name: string, x: number, y: number, z: number, w: number): void {
         const uniformLoc = this._uniforms[name]
         if (uniformLoc) {
@@ -431,69 +412,27 @@ export class MaterialBase extends ShareableContextConsumer implements Material {
         }
     }
 
-    /**
-     *
-     */
-    mat2(name: string, matrix: Matrix2, transpose: boolean): void {
+    matrix2fv(name: string, matrix: Float32Array, transpose: boolean): void {
         const uniformLoc = this._uniforms[name]
         if (uniformLoc) {
-            uniformLoc.matrix2fv(transpose, matrix.elements)
+            uniformLoc.matrix2fv(transpose, matrix)
         }
     }
 
-    /**
-     *
-     */
-    mat3(name: string, matrix: Matrix3, transpose: boolean) {
+    matrix3fv(name: string, matrix: Float32Array, transpose: boolean) {
         const uniformLoc = this._uniforms[name]
         if (uniformLoc) {
-            uniformLoc.matrix3fv(transpose, matrix.elements)
+            uniformLoc.matrix3fv(transpose, matrix)
         }
     }
 
-    /**
-     *
-     */
-    mat4(name: string, matrix: Matrix4, transpose: boolean) {
+    matrix4fv(name: string, matrix: Float32Array, transpose: boolean) {
         const uniformLoc = this._uniforms[name]
         if (uniformLoc) {
-            uniformLoc.matrix4fv(transpose, matrix.elements)
+            uniformLoc.matrix4fv(transpose, matrix)
         }
     }
 
-    /**
-     *
-     */
-    vec2(name: string, vector: VectorE2) {
-        const uniformLoc = this._uniforms[name]
-        if (uniformLoc) {
-            uniformLoc.uniform2f(vector.x, vector.y)
-        }
-    }
-
-    /**
-     *
-     */
-    vec3(name: string, vector: VectorE3) {
-        const uniformLoc = this._uniforms[name]
-        if (uniformLoc) {
-            uniformLoc.uniform3f(vector.x, vector.y, vector.z)
-        }
-    }
-
-    /**
-     *
-     */
-    vec4(name: string, vector: VectorE4) {
-        const uniformLoc = this._uniforms[name]
-        if (uniformLoc) {
-            uniformLoc.uniform4f(vector.x, vector.y, vector.z, vector.w)
-        }
-    }
-
-    /**
-     *
-     */
     vector2fv(name: string, data: Float32Array): void {
         const uniformLoc = this._uniforms[name]
         if (uniformLoc) {
@@ -501,9 +440,6 @@ export class MaterialBase extends ShareableContextConsumer implements Material {
         }
     }
 
-    /**
-     *
-     */
     vector3fv(name: string, data: Float32Array): void {
         const uniformLoc = this._uniforms[name]
         if (uniformLoc) {
@@ -511,9 +447,6 @@ export class MaterialBase extends ShareableContextConsumer implements Material {
         }
     }
 
-    /**
-     *
-     */
     vector4fv(name: string, data: Float32Array): void {
         const uniformLoc = this._uniforms[name]
         if (uniformLoc) {

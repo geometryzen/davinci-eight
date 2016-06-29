@@ -1,8 +1,3 @@
-// base
-import AnimationApp from './davinci-eight/base/AnimationApp';
-import BrowserApp from './davinci-eight/base/BrowserApp';
-import EngineApp from './davinci-eight/base/EngineApp';
-
 // slideshow
 import Slide from './davinci-eight/slideshow/Slide';
 import Director from './davinci-eight/slideshow/Director';
@@ -130,13 +125,10 @@ import arc3 from './davinci-eight/geometries/arc3';
 // materials
 import HTMLScriptsMaterial from './davinci-eight/materials/HTMLScriptsMaterial';
 import {LineMaterial} from './davinci-eight/materials/LineMaterial';
-import {MaterialBase} from './davinci-eight/materials/MaterialBase';
+import {ShaderMaterial} from './davinci-eight/materials/ShaderMaterial';
 import {MeshMaterial} from './davinci-eight/materials/MeshMaterial';
-import MeshNormalMaterial from './davinci-eight/materials/MeshNormalMaterial';
 import {PointMaterial} from './davinci-eight/materials/PointMaterial';
 import GraphicsProgramBuilder from './davinci-eight/materials/GraphicsProgramBuilder';
-import smartProgram from './davinci-eight/materials/smartProgram';
-import programFromScripts from './davinci-eight/materials/programFromScripts';
 
 // math
 import AbstractMatrix from './davinci-eight/math/AbstractMatrix';
@@ -204,21 +196,13 @@ import {Grid} from './davinci-eight/visual/Grid';
 import Tetrahedron from './davinci-eight/visual/Tetrahedron';
 import {Trail} from './davinci-eight/visual/Trail';
 import vector from './davinci-eight/visual/vector';
-import Viewport from './davinci-eight/visual/Viewport';
-import World from './davinci-eight/visual/World';
-import bootstrap from './davinci-eight/visual/bootstrap';
-import SingleViewApp from './davinci-eight/visual/SingleViewApp';
-import MultiViewApp from './davinci-eight/visual/MultiViewApp';
 
 /**
- * @module EIGHT
+ *
  */
 const eight = {
     /**
      * The publish date of the latest version of the library.
-     * @property LAST_MODIFIED
-     * @type string
-     * @readOnly
      */
     get LAST_MODIFIED() { return config.LAST_MODIFIED },
 
@@ -233,26 +217,20 @@ const eight = {
             throw new TypeError('errorMode must be a ErrorMode');
         }
     },
+
     /**
      * The semantic version of the library.
-     * @property VERSION
-     * @type string
-     * @readOnly
      */
     get VERSION() { return config.VERSION },
 
-    // base
-    get AnimationApp() { return AnimationApp },
-    get BrowserApp() { return BrowserApp },
-    get EngineApp() { return EngineApp },
-
     // materials
+    get ShaderMaterial() { return ShaderMaterial },
     get HTMLScriptsMaterial() { return HTMLScriptsMaterial },
     get LineMaterial() { return LineMaterial },
     get MeshMaterial() { return MeshMaterial },
-    get MeshNormalMaterial() { return MeshNormalMaterial },
     get PointMaterial() { return PointMaterial },
     get GraphicsProgramBuilder() { return GraphicsProgramBuilder },
+
     //commands
     get BlendFactor() { return BlendFactor },
     get Capability() { return Capability },
@@ -284,9 +262,6 @@ const eight = {
     get UniformLocation() { return UniformLocation },
     get VertexBuffer() { return VertexBuffer },
     get IndexBuffer() { return IndexBuffer },
-    get smartProgram() {
-        return smartProgram
-    },
     get Color() { return Color },
 
     get OrbitControls() { return OrbitControls },
@@ -342,7 +317,6 @@ const eight = {
     get Overlay() { return Overlay },
 
     // programs
-    get programFromScripts() { return programFromScripts },
     get DrawAttribute() { return DrawAttribute },
     get DrawPrimitive() { return DrawPrimitive },
 
@@ -375,10 +349,6 @@ const eight = {
     get Curve() { return Curve },
     get Grid() { return Grid },
     get Tetrahedron() { return Tetrahedron },
-    get Trail() { return Trail },
-    get Viewport() { return Viewport },
-    get SingleViewApp() { return SingleViewApp },
-    get MultiViewApp() { return MultiViewApp },
-    get bootstrap() { return bootstrap }
+    get Trail() { return Trail }
 }
 export default eight;

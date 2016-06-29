@@ -115,26 +115,7 @@ declare module EIGHT {
         remove(key: string): void
     }
     ///////////////////////////////////////////////////////////////////////////////
-    interface BrowserAppOptions {
-        memcheck?: boolean;
-        window?: Window;
-    }
-    /**
-     *
-     */
-    class BrowserApp {
-        protected window: Window;
-        constructor(optins?: BrowserAppOptions);
-        protected destructor(): void;
-        protected initialize(): void;
-        public isRunning(): boolean;
-        public isWaiting(): boolean;
-        public isZombie(): boolean;
-        public manage(managed: Shareable): void;
-    }
-
     interface WindowAnimationRunner {
-
         /**
          *
          */
@@ -278,44 +259,6 @@ declare module EIGHT {
          */
         viewport(x: number, y: number, width: number, height: number): Engine;
     }
-    ///////////////////////////////////////////////////////////////////////////////
-    interface EngineAppOptions extends BrowserAppOptions {
-    }
-    /**
-     *
-     */
-    class EngineApp extends BrowserApp {
-        protected canvas: HTMLCanvasElement;
-        protected engine: Engine;
-        constructor(options: EngineAppOptions);
-        /**
-         * Sets the graphics buffers to values preselected by clearColor, clearDepth or clearStencil.
-         * This method is a shortcut for this.engine.clear()
-         */
-        protected clear(): void;
-        protected destructor(): void;
-        protected initialize(): void;
-    }
-    ///////////////////////////////////////////////////////////////////////////////
-    /**
-     *
-     */
-    interface AnimationAppOptions extends EngineAppOptions {
-    }
-    ///////////////////////////////////////////////////////////////////////////////
-    /**
-     *
-     */
-    class AnimationApp extends EngineApp {
-        protected animation: WindowAnimationRunner;
-        constructor(options: AnimationAppOptions);
-        protected animate(time: number): void;
-        protected destructor(): void;
-        protected initialize(): void;
-        protected reset(): void;
-        protected start(): void;
-        protected stop(): void;
-    }
 
     /**
      *
@@ -432,19 +375,16 @@ declare module EIGHT {
      *
      */
     interface FacetVisitor {
-        mat2(name: string, matrix: Matrix2, transpose: boolean): void;
-        mat3(name: string, matrix: Matrix3, transpose: boolean): void;
-        mat4(name: string, matrix: Matrix4, transpose: boolean): void;
+        matrix2fv(name: string, mat2: Float32Array, transpose: boolean): void;
+        matrix3fv(name: string, mat3: Float32Array, transpose: boolean): void;
+        matrix4fv(name: string, mat4: Float32Array, transpose: boolean): void;
         uniform1f(name: string, x: number): void;
         uniform2f(name: string, x: number, y: number): void;
         uniform3f(name: string, x: number, y: number, z: number): void;
         uniform4f(name: string, x: number, y: number, z: number, w: number): void;
-        vec2(name: string, vector: VectorE2): void;
-        vec3(name: string, vector: VectorE3): void;
-        vec4(name: string, vector: VectorE4): void;
-        vector2fv(name: string, data: Float32Array): void;
-        vector3fv(name: string, data: Float32Array): void;
-        vector4fv(name: string, data: Float32Array): void;
+        vector2fv(name: string, vec2: Float32Array): void;
+        vector3fv(name: string, vec3: Float32Array): void;
+        vector4fv(name: string, vec4: Float32Array): void;
     }
 
     interface Material extends FacetVisitor, ContextConsumer {
@@ -3353,7 +3293,7 @@ declare module EIGHT {
     /**
      *
      */
-    class MaterialBase extends ShareableContextConsumer implements Material {
+    class ShaderMaterial extends ShareableContextConsumer implements Material {
         attributeNames: string[];
         fragmentShaderSrc: string;
         vertexShaderSrc: string;
@@ -3364,28 +3304,22 @@ declare module EIGHT {
         protected destructor(levelUp: number): void;
         disableAttrib(indexOrName: number | string): void;
         disableAttribs(): void;
-        /**
-         * Convenience method for dereferencing the name to an attribute location, followed by enabling the attribute.
-         */
         enableAttrib(indexOrName: number | string): void;
         enableAttribs(): void;
         getAttribLocation(name: string): number;
         getUniformLocation(name: string): UniformLocation;
         hasUniformLocation(name: string): boolean;
-        mat2(name: string, matrix: Matrix2, transpose: boolean): void;
-        mat3(name: string, matrix: Matrix3, transpose: boolean): void;
-        mat4(name: string, matrix: Matrix4, transpose: boolean): void;
+        matrix2fv(name: string, mat2: Float32Array, transpose: boolean): void;
+        matrix3fv(name: string, mat3: Float32Array, transpose: boolean): void;
+        matrix4fv(name: string, mat4: Float32Array, transpose: boolean): void;
         uniform1f(name: string, x: number): void;
         uniform2f(name: string, x: number, y: number): void;
         uniform3f(name: string, x: number, y: number, z: number): void;
         uniform4f(name: string, x: number, y: number, z: number, w: number): void;
         use(): void;
-        vec2(name: string, vector: VectorE2): void;
-        vec3(name: string, vector: VectorE3): void;
-        vec4(name: string, vector: VectorE4): void;
-        vector2fv(name: string, data: Float32Array): void;
-        vector3fv(name: string, data: Float32Array): void;
-        vector4fv(name: string, data: Float32Array): void;
+        vector2fv(name: string, vec2: Float32Array): void;
+        vector3fv(name: string, vec3: Float32Array): void;
+        vector4fv(name: string, vec4: Float32Array): void;
         vertexPointer(indexOrName: number | string, size: number, normalized: boolean, stride: number, offset: number): void;
     }
 
@@ -3467,11 +3401,11 @@ declare module EIGHT {
     /**
      * A material based upon scripts in a DOM.
      */
-    class HTMLScriptsMaterial extends MaterialBase {
+    class HTMLScriptsMaterial extends ShaderMaterial {
         /**
          *
          */
-        constructor(scriptIds: string[], dom: Document, attribs: string[], engine: Engine);
+        constructor(scriptIds: string[], dom: Document, attribs: string[], engine: Engine, levelUp?: number);
         protected destructor(levelUp: number): void;
     }
 
@@ -3491,8 +3425,8 @@ declare module EIGHT {
     /**
      *
      */
-    class PointMaterial extends MaterialBase {
-        constructor(options: PointMaterialOptions, engine: Engine);
+    class PointMaterial extends ShaderMaterial {
+        constructor(options: PointMaterialOptions, engine: Engine, levelUp?: number);
         protected destructor(levelUp: number): void;
     }
 
@@ -3512,8 +3446,8 @@ declare module EIGHT {
     /**
      *
      */
-    class LineMaterial extends MaterialBase {
-        constructor(options: LineMaterialOptions, engine: Engine)
+    class LineMaterial extends ShaderMaterial {
+        constructor(options: LineMaterialOptions, engine: Engine, levelUp?: number)
         protected destructor(levelUp: number): void;
     }
 
@@ -3533,16 +3467,9 @@ declare module EIGHT {
     /**
      *
      */
-    class MeshMaterial extends MaterialBase {
-        constructor(options: MeshMaterialOptions, engine: Engine);
+    class MeshMaterial extends ShaderMaterial {
+        constructor(options: MeshMaterialOptions, engine: Engine, levelUp?: number);
         protected destructor(levelUp: number): void;
-    }
-
-    /**
-     *
-     */
-    class MeshNormalMaterial extends MaterialBase {
-        constructor();
     }
 
     class AbstractFacet implements Facet {
@@ -4173,131 +4100,6 @@ declare module EIGHT {
          */
         snapshot(): void;
     }
-    ///////////////////////////////////////////////////////////////////////////////
-    /**
-     *
-     */
-    class Viewport extends ShareableBase {
-        /**
-         * The ambient Facets used to render each Drawable in the scene.
-         */
-        ambients: Facet[];
-        /**
-         * The default AmbientLight for this Viewport.
-         */
-        ambLight: AmbientLight;
-        /**
-         * The default View for this Viewport.
-         */
-        camera: PerspectiveCamera;
-        /**
-         * The default DirectionalLight for this Viewport.
-         */
-        dirLight: DirectionalLight;
-        /**
-         * The height of the viewport in pixels.
-         */
-        height: number;
-        /**
-         * The Scene associated with this Viewport.
-         * This property is a strong reference to the Scene; access increments the Scene reference count.
-         */
-        scene: Scene;
-        /**
-         * The width of the viewport in pixels.
-         */
-        width: number;
-        /**
-         * The x-coordinate of the origin of the viewport.
-         */
-        x: number;
-        /**
-         * The y-coordinate of the origin of the viewport.
-         */
-        y: number;
-        constructor(engine: Engine);
-        protected destructor(levelUp?: number): void;
-        public draw(): void;
-        /**
-         * Sets the Viewport dimensions and origin.
-         */
-        public setPortal(x: number, y: number, width: number, height: number): void;
-    }
-    ///////////////////////////////////////////////////////////////////////////////
-    /**
-     *
-     */
-    interface SingleViewAppOptions extends AnimationAppOptions {
-    }
-    ///////////////////////////////////////////////////////////////////////////////
-    /**
-     * A WebGL animation application with a single Viewport.
-     */
-    class SingleViewApp extends AnimationApp {
-        /**
-         * The singleton Viewport of this animation application.
-         * This property is protected; access does not increment the reference count.
-         */
-        protected view: Viewport;
-        /**
-         * Constructs a SingleViewApp with the specified options.
-         */
-        constructor(options?: SingleViewAppOptions);
-        /**
-         * Frees resources allocated by the SingleViewApp.
-         */
-        protected destructor(): void;
-        /**
-         * Renders the Drawable objects contained in the Scene referenced by the Viewport.
-         */
-        protected draw(): void;
-        /**
-         *
-         */
-        protected initialize(): void;
-    }
-    ///////////////////////////////////////////////////////////////////////////////
-    /**
-     *
-     */
-    interface MultiViewAppOptions extends AnimationAppOptions {
-        numViews?: number;
-    }
-    ///////////////////////////////////////////////////////////////////////////////
-    /**
-     * A WebGL animation application with multiple Viewports.
-     */
-    class MultiViewApp extends AnimationApp {
-        protected views: ShareableArray<Viewport>;
-        constructor(options?: MultiViewAppOptions);
-        protected destructor(): void;
-        protected draw(): void;
-        protected initialize(): void;
-    }
-    ///////////////////////////////////////////////////////////////////////////////
-    /**
-     *
-     */
-    interface World extends Shareable {
-        ambientLight: AmbientLight;
-        ambients: Facet[];
-        canvas: HTMLCanvasElement;
-        add(mesh: Drawable): void;
-    }
-    ///////////////////////////////////////////////////////////////////////////////
-    /**
-     *
-     */
-    function bootstrap(
-        canvasId: string,
-        animate: (timestamp: number) => any,
-        options?: {
-            height?: number;
-            memcheck?: boolean;
-            onload?: () => any;
-            onunload?: () => any;
-            width?: number;
-        }): World;
     ///////////////////////////////////////////////////////////////////////////////
     /**
      *

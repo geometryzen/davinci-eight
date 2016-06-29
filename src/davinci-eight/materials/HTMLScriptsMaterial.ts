@@ -5,7 +5,7 @@ import mustBeArray from '../checks/mustBeArray';
 import mustBeObject from '../checks/mustBeObject';
 import mustBeString from '../checks/mustBeString';
 import mustSatisfy from '../checks/mustSatisfy';
-import {MaterialBase} from './MaterialBase';
+import {ShaderMaterial} from './ShaderMaterial';
 
 function getHTMLElementById(elementId: string, dom: Document): HTMLElement {
     const element = dom.getElementById(mustBeString('elementId', elementId))
@@ -81,27 +81,28 @@ function detectShaderType(scriptIds: string[], dom: Document): string[] {
  *     drawable.material = material
  *     material.release()
  */
-export default class HTMLScriptsMaterial extends MaterialBase {
+export default class HTMLScriptsMaterial extends ShaderMaterial {
     private scriptIds: string[];
     private dom: Document;
     private loaded: boolean = false;
 
     /**
-     * @class HTMLScriptsMaterial
-     * @constructor
-     * @param scriptIds {string[]} The element identifiers for the vertex and fragment shader respectively.
-     * @param dom {Document} The document object model that owns the script elements.
-     * @param attribs {string[]} An array of strings containing the order of attributes.
-     * @param engine {Engine}
+     * @param scriptIds The element identifiers for the vertex and fragment shader respectively.
+     * @param dom The document object model that owns the script elements.
+     * @param attribs An array of strings containing the order of attributes.
+     * @param engine
+     * @param levelUp
      */
-    constructor(scriptIds: string[], dom: Document, attribs: string[], engine: Engine) {
-        super(void 0, void 0, attribs, engine)
-        this.setLoggingName('HTMLScriptsMaterial')
-        mustBeArray('scriptIds', scriptIds)
-        mustSatisfy('scriptIds', scriptIds.length === 2, () => { return 'have two script element identifiers.' })
-        this.scriptIds = [scriptIds[0], scriptIds[1]]
+    constructor(scriptIds: string[], dom: Document, attribs: string[], engine: Engine, levelUp = 0) {
+        super(void 0, void 0, attribs, engine, levelUp + 1);
+        this.setLoggingName('HTMLScriptsMaterial');
+        mustBeArray('scriptIds', scriptIds);
+        mustSatisfy('scriptIds', scriptIds.length === 2, () => { return 'have two script element identifiers.' });
+        this.scriptIds = [scriptIds[0], scriptIds[1]];
         this.dom = dom;
-        this.synchUp();
+        if (levelUp === 0) {
+            this.synchUp();
+        }
     }
 
     protected destructor(levelUp: number): void {

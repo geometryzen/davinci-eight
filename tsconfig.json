@@ -13,10 +13,8 @@
         "inlineSources": false
     },
     "files": [
-        "src/davinci-eight/base/BrowserApp.spec.ts",
         "src/davinci-eight/base/DefaultContextProvider.spec.ts",
         "src/davinci-eight/base/exchange.spec.ts",
-        "src/davinci-eight/base/EngineApp.spec.ts",
         "src/davinci-eight/checks/isNull.spec.ts",
         "src/davinci-eight/collections/NumberShareableMap.spec.ts",
         "src/davinci-eight/collections/ShareableArray.spec.ts",
@@ -84,7 +82,6 @@
         "src/davinci-eight/visual/RigidBodyWithUnits.spec.ts",
         "src/davinci-eight/visual/Sphere.spec.ts",
         "src/davinci-eight/visual/Tetrahedron.spec.ts",
-        "src/davinci-eight/visual/Viewport.spec.ts",
         "typings/jasmine/jasmine.d.ts"
     ]
 }

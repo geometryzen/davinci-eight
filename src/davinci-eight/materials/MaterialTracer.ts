@@ -1,11 +1,5 @@
 import ContextProvider from '../core/ContextProvider';
 import {Material} from '../core/Material';
-import Matrix2 from '../math/Matrix2';
-import Matrix3 from '../math/Matrix3';
-import Matrix4 from '../math/Matrix4';
-import VectorE2 from '../math/VectorE2';
-import VectorE3 from '../math/VectorE3';
-import VectorE4 from '../math/VectorE4';
 
 export default class MaterialTracer implements Material {
     constructor(private inner: Material) {
@@ -39,14 +33,14 @@ export default class MaterialTracer implements Material {
     use() {
         return this.inner.use();
     }
-    mat2(name: string, matrix: Matrix2, transpose: boolean) {
-        return this.inner.mat2(name, matrix, transpose);
+    matrix2fv(name: string, matrix: Float32Array, transpose: boolean) {
+        return this.inner.matrix2fv(name, matrix, transpose);
     }
-    mat3(name: string, matrix: Matrix3, transpose: boolean) {
-        return this.inner.mat3(name, matrix, transpose);
+    matrix3fv(name: string, matrix: Float32Array, transpose: boolean) {
+        return this.inner.matrix3fv(name, matrix, transpose);
     }
-    mat4(name: string, matrix: Matrix4, transpose: boolean) {
-        return this.inner.mat4(name, matrix, transpose);
+    matrix4fv(name: string, matrix: Float32Array, transpose: boolean) {
+        return this.inner.matrix4fv(name, matrix, transpose);
     }
     uniform1f(name: string, x: number) {
         return this.inner.uniform1f(name, x)
@@ -59,15 +53,6 @@ export default class MaterialTracer implements Material {
     }
     uniform4f(name: string, x: number, y: number, z: number, w: number) {
         return this.inner.uniform4f(name, x, y, z, w)
-    }
-    vec2(name: string, vector: VectorE2) {
-        return this.inner.vec2(name, vector)
-    }
-    vec3(name: string, vector: VectorE3) {
-        return this.inner.vec3(name, vector)
-    }
-    vec4(name: string, vector: VectorE4) {
-        return this.inner.vec4(name, vector)
     }
     vector2fv(name: string, data: Float32Array) {
         return this.inner.vector2fv(name, data)

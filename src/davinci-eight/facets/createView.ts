@@ -26,79 +26,79 @@ import viewMatrixFromEyeLookUp from './viewMatrixFromEyeLookUp';
 //
 export default function createView(options: { viewMatrixName?: string } = {}): View {
 
-  /**
-   * eye is the position vector of the viewing point.
-   * Default is e3.
-   */
-  const eye: Geometric3 = Geometric3.copy(G3.e3)
+    /**
+     * eye is the position vector of the viewing point.
+     * Default is e3.
+     */
+    const eye: Geometric3 = Geometric3.copy(G3.e3)
 
-  /**
-   * look is the point that we are looking at.
-   * Default is 0, the origin.
-   */
-  const look: Geometric3 = Geometric3.copy(G3.zero)
+    /**
+     * look is the point that we are looking at.
+     * Default is 0, the origin.
+     */
+    const look: Geometric3 = Geometric3.copy(G3.zero)
 
-  /**
-   * up is the "guess" at where up should be.
-   * Default is e2.
-   */
-  const up: Geometric3 = Geometric3.copy(G3.e2)
+    /**
+     * up is the "guess" at where up should be.
+     * Default is e2.
+     */
+    const up: Geometric3 = Geometric3.copy(G3.e2)
 
-  /**
-   *
-   */
-  const viewMatrix: Matrix4 = Matrix4.one()
-  const viewMatrixName = isUndefined(options.viewMatrixName) ? GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX : options.viewMatrixName
+    /**
+     *
+     */
+    const viewMatrix: Matrix4 = Matrix4.one()
+    const viewMatrixName = isUndefined(options.viewMatrixName) ? GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX : options.viewMatrixName
 
-  // Force an update of the view matrix.
-  eye.modified = true
-  look.modified = true
-  up.modified = true
+    // Force an update of the view matrix.
+    eye.modified = true
+    look.modified = true
+    up.modified = true
 
-  const self: View = {
-    setProperty(name: string, value: number[]): View {
-      return self
-    },
-    get eye(): Geometric3 {
-      return eye
-    },
-    set eye(newEye: Geometric3) {
-      self.setEye(newEye)
-    },
-    setEye(newEye: Vector3): View {
-      eye.copyVector(newEye)
-      return self
-    },
-    get look(): Geometric3 {
-      return look
-    },
-    set look(newLook: Geometric3) {
-      self.setLook(newLook)
-    },
-    setLook(newLook: VectorE3): View {
-      look.copyVector(newLook)
-      return self
-    },
-    get up(): Geometric3 {
-      return up
-    },
-    set up(newUp: Geometric3) {
-      self.setUp(newUp)
-    },
-    setUp(newUp: VectorE3): View {
-      up.copyVector(newUp)
-      up.normalize()
-      return self
-    },
-    setUniforms(visitor: FacetVisitor): void {
-      if (eye.modified || look.modified || up.modified) {
-        viewMatrixFromEyeLookUp(eye, look, up, viewMatrix)
-        eye.modified = false
-        look.modified = false
-        up.modified = false
-      }
-      visitor.mat4(viewMatrixName, viewMatrix, false)
+    const self: View = {
+        setProperty(name: string, value: number[]): View {
+            return self
+        },
+        get eye(): Geometric3 {
+            return eye
+        },
+        set eye(newEye: Geometric3) {
+            self.setEye(newEye)
+        },
+        setEye(newEye: Vector3): View {
+            eye.copyVector(newEye)
+            return self
+        },
+        get look(): Geometric3 {
+            return look
+        },
+        set look(newLook: Geometric3) {
+            self.setLook(newLook)
+        },
+        setLook(newLook: VectorE3): View {
+            look.copyVector(newLook)
+            return self
+        },
+        get up(): Geometric3 {
+            return up
+        },
+        set up(newUp: Geometric3) {
+            self.setUp(newUp)
+        },
+        setUp(newUp: VectorE3): View {
+            up.copyVector(newUp)
+            up.normalize()
+            return self
+        },
+        setUniforms(visitor: FacetVisitor): void {
+            if (eye.modified || look.modified || up.modified) {
+                viewMatrixFromEyeLookUp(eye, look, up, viewMatrix)
+                eye.modified = false
+                look.modified = false
+                up.modified = false
+            }
+            visitor.matrix4fv(viewMatrixName, viewMatrix.elements, false)
+        }
     }
-  }
-  return self
+    return self
 }

@@ -86,6 +86,6 @@ export default class ReflectionFacetE2 implements Facet {
             this.matrix.reflection(this._normal)
             this._normal.modified = false
         }
-        visitor.mat2(this.name, this.matrix, false)
+        visitor.matrix2fv(this.name, this.matrix.elements, false)
     }
 }
