@@ -1,9 +1,26 @@
 import {Facet} from '../core/Facet';
-import {Geometric3} from '../math/Geometric3'
+import Modulo from '../math/Modulo';
+import Spinor3 from '../math/Spinor3';
+import Vector3 from '../math/Vector3';
 import {Mesh} from '../core/Mesh';
 import mustBeObject from '../checks/mustBeObject';
 import {ShareableBase} from '../core/ShareableBase';
 import {TrailConfig} from './TrailConfig';
+
+//
+// Scratch variables used to save and restore mesh properties during the draw method.
+// This technique avoids allocating temporary objects which give the garbage collector extra work.
+//
+
+/**
+ * The saved mesh position.
+ */
+const savedX: Vector3 = Vector3.zero();
+
+/**
+ * The saved mesh attitute.
+ */
+const savedR: Spinor3 = Spinor3.zero();
 
 /**
  * <p>
@@ -43,12 +60,12 @@ export class Trail extends ShareableBase {
     /**
      * The position history.
      */
-    private Xs: Geometric3[] = []
+    private Xs: Vector3[] = []
 
     /**
      * The attitude history.
      */
-    private Rs: Geometric3[] = []
+    private Rs: Spinor3[] = []
 
     /**
      * The configuration that determines how the history is recorded.
@@ -58,21 +75,23 @@ export class Trail extends ShareableBase {
     /**
      *
      */
-    private counter = 0
+    private counter = 0;
+
+    private modulo = new Modulo();
 
     /**
      * @param mesh
      */
     constructor(mesh: Mesh) {
-        super()
-        this.setLoggingName('Trail')
-        mustBeObject('mesh', mesh)
-        mesh.addRef()
-        this.mesh = mesh
+        super();
+        this.setLoggingName('Trail');
+        mustBeObject('mesh', mesh);
+        mesh.addRef();
+        this.mesh = mesh;
     }
 
     /**
-     * @param level
+     * @param levelUp
      */
     protected destructor(levelUp: number): void {
         this.mesh.release();
@@ -84,8 +103,8 @@ export class Trail extends ShareableBase {
      * Erases the trail history.
      */
     erase(): void {
-        this.Xs = []
-        this.Rs = []
+        this.Xs = [];
+        this.Rs = [];
     }
 
     /**
@@ -93,13 +112,24 @@ export class Trail extends ShareableBase {
      */
     snapshot(): void {
         if (this.config.enabled) {
-            if (this.counter % this.config.interval === 0) {
-                this.Xs.unshift(this.mesh.X.clone())
-                this.Rs.unshift(this.mesh.R.clone())
+            if (this.modulo.size !== this.config.retain) {
+                this.modulo.size = this.config.retain;
+                this.modulo.value = 0
             }
-            while (this.Xs.length > this.config.retain) {
-                this.Xs.pop()
-                this.Rs.pop()
+
+            if (this.counter % this.config.interval === 0) {
+                const index = this.modulo.value;
+                if (this.Xs[index]) {
+                    // When populating an occupied slot, don't create new objects.
+                    this.Xs[index].copy(this.mesh.X);
+                    this.Rs[index].copy(this.mesh.R);
+                }
+                else {
+                    // When populating an empty slot, allocate a new object and make a copy.
+                    this.Xs[index] = Vector3.copy(this.mesh.X);
+                    this.Rs[index] = Spinor3.copy(this.mesh.R);
+                }
+                this.modulo.inc();
             }
             this.counter++
         }
@@ -111,17 +141,22 @@ export class Trail extends ShareableBase {
     draw(ambients: Facet[]): void {
         if (this.config.enabled) {
             // Save the mesh position and attitude so that we can restore them later.
-            const X = this.mesh.X.clone()
-            const R = this.mesh.R.clone()
-            const iLength: number = this.Xs.length
+            const mesh = this.mesh;
+            const X = mesh.X;
+            const R = mesh.R;
+            savedX.copy(X);
+            savedR.copy(R);
+            const Xs = this.Xs;
+            const Rs = this.Rs;
+            const iLength: number = Xs.length;
             for (let i = 0; i < iLength; i++) {
-                this.mesh.X.copyVector(this.Xs[i])
-                this.mesh.R.copySpinor(this.Rs[i])
-                this.mesh.draw(ambients)
+                X.copyVector(Xs[i]);
+                R.copySpinor(Rs[i]);
+                mesh.draw(ambients);
             }
             // Restore the mesh position and attitude.
-            this.mesh.X.copy(X)
-            this.mesh.R.copy(R)
+            X.copyVector(savedX);
+            R.copySpinor(savedR);
         }
     }
 }

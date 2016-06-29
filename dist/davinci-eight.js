@@ -587,7 +587,7 @@ define('davinci-eight/config',["require", "exports", './core/ErrorMode'], functi
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
             this.LAST_MODIFIED = '2016-06-29';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '2.248.0';
+            this.VERSION = '2.249.0';
         }
         Object.defineProperty(Eight.prototype, "errorMode", {
             get: function () {
@@ -20590,6 +20590,49 @@ define('davinci-eight/visual/Tetrahedron',["require", "exports", '../core/Mesh',
     exports.default = Tetrahedron;
 });
 
+define('davinci-eight/math/Modulo',["require", "exports", '../checks/mustBeGE', '../checks/mustBeInteger'], function (require, exports, mustBeGE_1, mustBeInteger_1) {
+    "use strict";
+    var Modulo = (function () {
+        function Modulo() {
+            this._value = 0;
+            this._size = 0;
+        }
+        Object.defineProperty(Modulo.prototype, "size", {
+            get: function () {
+                return this._size;
+            },
+            set: function (size) {
+                mustBeInteger_1.default('size', size);
+                mustBeGE_1.default('size', size, 0);
+                this._size = size;
+                this.value = this._value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Modulo.prototype, "value", {
+            get: function () {
+                return this._value;
+            },
+            set: function (value) {
+                this._value = value % this._size;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Modulo.prototype.inc = function () {
+            this._value++;
+            if (this._value === this._size) {
+                this._value = 0;
+            }
+            return this._value;
+        };
+        return Modulo;
+    }());
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = Modulo;
+});
+
 define('davinci-eight/visual/TrailConfig',["require", "exports", '../config', '../core/ErrorMode', '../checks/isBoolean', '../checks/mustBeBoolean'], function (require, exports, config_1, ErrorMode_1, isBoolean_1, mustBeBoolean_1) {
     "use strict";
     var TrailConfig = (function () {
@@ -20634,8 +20677,10 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/visual/Trail',["require", "exports", '../checks/mustBeObject', '../core/ShareableBase', './TrailConfig'], function (require, exports, mustBeObject_1, ShareableBase_1, TrailConfig_1) {
+define('davinci-eight/visual/Trail',["require", "exports", '../math/Modulo', '../math/Spinor3', '../math/Vector3', '../checks/mustBeObject', '../core/ShareableBase', './TrailConfig'], function (require, exports, Modulo_1, Spinor3_1, Vector3_1, mustBeObject_1, ShareableBase_1, TrailConfig_1) {
     "use strict";
+    var savedX = Vector3_1.default.zero();
+    var savedR = Spinor3_1.default.zero();
     var Trail = (function (_super) {
         __extends(Trail, _super);
         function Trail(mesh) {
@@ -20644,6 +20689,7 @@ define('davinci-eight/visual/Trail',["require", "exports", '../checks/mustBeObje
             this.Rs = [];
             this.config = new TrailConfig_1.TrailConfig();
             this.counter = 0;
+            this.modulo = new Modulo_1.default();
             this.setLoggingName('Trail');
             mustBeObject_1.default('mesh', mesh);
             mesh.addRef();
@@ -20660,29 +20706,42 @@ define('davinci-eight/visual/Trail',["require", "exports", '../checks/mustBeObje
         };
         Trail.prototype.snapshot = function () {
             if (this.config.enabled) {
-                if (this.counter % this.config.interval === 0) {
-                    this.Xs.unshift(this.mesh.X.clone());
-                    this.Rs.unshift(this.mesh.R.clone());
+                if (this.modulo.size !== this.config.retain) {
+                    this.modulo.size = this.config.retain;
+                    this.modulo.value = 0;
                 }
-                while (this.Xs.length > this.config.retain) {
-                    this.Xs.pop();
-                    this.Rs.pop();
+                if (this.counter % this.config.interval === 0) {
+                    var index = this.modulo.value;
+                    if (this.Xs[index]) {
+                        this.Xs[index].copy(this.mesh.X);
+                        this.Rs[index].copy(this.mesh.R);
+                    }
+                    else {
+                        this.Xs[index] = Vector3_1.default.copy(this.mesh.X);
+                        this.Rs[index] = Spinor3_1.default.copy(this.mesh.R);
+                    }
+                    this.modulo.inc();
                 }
                 this.counter++;
             }
         };
         Trail.prototype.draw = function (ambients) {
             if (this.config.enabled) {
-                var X = this.mesh.X.clone();
-                var R = this.mesh.R.clone();
-                var iLength = this.Xs.length;
+                var mesh = this.mesh;
+                var X = mesh.X;
+                var R = mesh.R;
+                savedX.copy(X);
+                savedR.copy(R);
+                var Xs = this.Xs;
+                var Rs = this.Rs;
+                var iLength = Xs.length;
                 for (var i = 0; i < iLength; i++) {
-                    this.mesh.X.copyVector(this.Xs[i]);
-                    this.mesh.R.copySpinor(this.Rs[i]);
-                    this.mesh.draw(ambients);
+                    X.copyVector(Xs[i]);
+                    R.copySpinor(Rs[i]);
+                    mesh.draw(ambients);
                 }
-                this.mesh.X.copy(X);
-                this.mesh.R.copy(R);
+                X.copyVector(savedX);
+                R.copySpinor(savedR);
             }
         };
         return Trail;
