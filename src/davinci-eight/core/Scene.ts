@@ -106,23 +106,27 @@ export class Scene extends ShareableContextConsumer {
     /**
      * @param engine
      */
-    constructor(engine: Engine) {
-        super(engine)
-        this.setLoggingName('Scene')
-        mustBeObject('engine', engine)
-        this._drawables = new ShareableArray<AbstractDrawable>([])
-        this._parts = new ShareableArray<ScenePart>([])
-        this.synchUp()
+    constructor(engine: Engine, levelUp = 0) {
+        super(engine);
+        this.setLoggingName('Scene');
+        mustBeObject('engine', engine);
+        this._drawables = new ShareableArray<AbstractDrawable>([]);
+        this._parts = new ShareableArray<ScenePart>([]);
+        if (levelUp === 0) {
+            this.synchUp()
+        }
     }
 
     /**
      * @param levelUp
      */
     protected destructor(levelUp: number): void {
-        this.cleanUp()
-        this._drawables.release()
-        this._parts.release()
-        super.destructor(levelUp + 1)
+        if (levelUp === 0) {
+            this.cleanUp();
+        }
+        this._drawables.release();
+        this._parts.release();
+        super.destructor(levelUp + 1);
     }
 
     /**

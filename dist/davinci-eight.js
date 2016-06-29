@@ -587,7 +587,7 @@ define('davinci-eight/config',["require", "exports", './core/ErrorMode'], functi
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
             this.LAST_MODIFIED = '2016-06-29';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '2.247.0';
+            this.VERSION = '2.248.0';
         }
         Object.defineProperty(Eight.prototype, "errorMode", {
             get: function () {
@@ -10135,7 +10135,7 @@ define('davinci-eight/core/GeometryContainer',["require", "exports", '../collect
         GeometryContainer.prototype.draw = function (material) {
             var iLen = this.partsLength;
             for (var i = 0; i < iLen; i++) {
-                var part = this.getPart(i);
+                var part = this._parts.getWeakRef(i);
                 part.draw(material);
             }
         };
@@ -11009,16 +11009,21 @@ define('davinci-eight/core/Scene',["require", "exports", '../collections/Shareab
     }
     var Scene = (function (_super) {
         __extends(Scene, _super);
-        function Scene(engine) {
+        function Scene(engine, levelUp) {
+            if (levelUp === void 0) { levelUp = 0; }
             _super.call(this, engine);
             this.setLoggingName('Scene');
             mustBeObject_1.default('engine', engine);
             this._drawables = new ShareableArray_1.default([]);
             this._parts = new ShareableArray_1.default([]);
-            this.synchUp();
+            if (levelUp === 0) {
+                this.synchUp();
+            }
         }
         Scene.prototype.destructor = function (levelUp) {
-            this.cleanUp();
+            if (levelUp === 0) {
+                this.cleanUp();
+            }
             this._drawables.release();
             this._parts.release();
             _super.prototype.destructor.call(this, levelUp + 1);
@@ -20629,7 +20634,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/visual/Trail',["require", "exports", '../base/incLevel', '../checks/mustBeObject', '../core/ShareableBase', './TrailConfig'], function (require, exports, incLevel_1, mustBeObject_1, ShareableBase_1, TrailConfig_1) {
+define('davinci-eight/visual/Trail',["require", "exports", '../checks/mustBeObject', '../core/ShareableBase', './TrailConfig'], function (require, exports, mustBeObject_1, ShareableBase_1, TrailConfig_1) {
     "use strict";
     var Trail = (function (_super) {
         __extends(Trail, _super);
@@ -20644,10 +20649,10 @@ define('davinci-eight/visual/Trail',["require", "exports", '../base/incLevel', '
             mesh.addRef();
             this.mesh = mesh;
         }
-        Trail.prototype.destructor = function (level) {
+        Trail.prototype.destructor = function (levelUp) {
             this.mesh.release();
             this.mesh = void 0;
-            _super.prototype.destructor.call(this, incLevel_1.default(level));
+            _super.prototype.destructor.call(this, levelUp + 1);
         };
         Trail.prototype.erase = function () {
             this.Xs = [];

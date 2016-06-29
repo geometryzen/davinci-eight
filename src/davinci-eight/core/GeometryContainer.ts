@@ -124,9 +124,7 @@ export default class GeometryContainer extends ShareableBase implements Geometry
     }
 
     /**
-     * @method getPart
-     * @param index {number}
-     * @return {Geometry}
+     *
      */
     getPart(index: number): Geometry {
         return this._parts.get(index)
@@ -140,7 +138,7 @@ export default class GeometryContainer extends ShareableBase implements Geometry
     draw(material: Material): void {
         const iLen = this.partsLength;
         for (let i = 0; i < iLen; i++) {
-            const part = this.getPart(i);
+            const part = this._parts.getWeakRef(i);
             part.draw(material);
         }
     }

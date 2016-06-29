@@ -1,6 +1,5 @@
 import {Facet} from '../core/Facet';
 import {Geometric3} from '../math/Geometric3'
-import incLevel from '../base/incLevel';
 import {Mesh} from '../core/Mesh';
 import mustBeObject from '../checks/mustBeObject';
 import {ShareableBase} from '../core/ShareableBase';
@@ -36,93 +35,93 @@ import {TrailConfig} from './TrailConfig';
  */
 export class Trail extends ShareableBase {
 
-  /**
-   * The underlying Mesh.
-   */
-  private mesh: Mesh
+    /**
+     * The underlying Mesh.
+     */
+    private mesh: Mesh
 
-  /**
-   * The position history.
-   */
-  private Xs: Geometric3[] = []
+    /**
+     * The position history.
+     */
+    private Xs: Geometric3[] = []
 
-  /**
-   * The attitude history.
-   */
-  private Rs: Geometric3[] = []
+    /**
+     * The attitude history.
+     */
+    private Rs: Geometric3[] = []
 
-  /**
-   * The configuration that determines how the history is recorded.
-   */
-  public config: TrailConfig = new TrailConfig();
+    /**
+     * The configuration that determines how the history is recorded.
+     */
+    public config: TrailConfig = new TrailConfig();
 
-  /**
-   *
-   */
-  private counter = 0
+    /**
+     *
+     */
+    private counter = 0
 
-  /**
-   * @param mesh
-   */
-  constructor(mesh: Mesh) {
-    super()
-    this.setLoggingName('Trail')
-    mustBeObject('mesh', mesh)
-    mesh.addRef()
-    this.mesh = mesh
-  }
-
-  /**
-   * @param level
-   */
-  protected destructor(level: number): void {
-    this.mesh.release()
-    this.mesh = void 0
-    super.destructor(incLevel(level))
-  }
-
-  /**
-   * Erases the trail history.
-   */
-  erase(): void {
-    this.Xs = []
-    this.Rs = []
-  }
-
-  /**
-   * Records the Mesh variables according to the interval property.
-   */
-  snapshot(): void {
-    if (this.config.enabled) {
-      if (this.counter % this.config.interval === 0) {
-        this.Xs.unshift(this.mesh.X.clone())
-        this.Rs.unshift(this.mesh.R.clone())
-      }
-      while (this.Xs.length > this.config.retain) {
-        this.Xs.pop()
-        this.Rs.pop()
-      }
-      this.counter++
+    /**
+     * @param mesh
+     */
+    constructor(mesh: Mesh) {
+        super()
+        this.setLoggingName('Trail')
+        mustBeObject('mesh', mesh)
+        mesh.addRef()
+        this.mesh = mesh
     }
-  }
 
-  /**
-   * @param ambients
-   */
-  draw(ambients: Facet[]): void {
-    if (this.config.enabled) {
-      // Save the mesh position and attitude so that we can restore them later.
-      const X = this.mesh.X.clone()
-      const R = this.mesh.R.clone()
-      const iLength: number = this.Xs.length
-      for (let i = 0; i < iLength; i++) {
-        this.mesh.X.copyVector(this.Xs[i])
-        this.mesh.R.copySpinor(this.Rs[i])
-        this.mesh.draw(ambients)
-      }
-      // Restore the mesh position and attitude.
-      this.mesh.X.copy(X)
-      this.mesh.R.copy(R)
+    /**
+     * @param level
+     */
+    protected destructor(levelUp: number): void {
+        this.mesh.release();
+        this.mesh = void 0;
+        super.destructor(levelUp + 1);
     }
-  }
+
+    /**
+     * Erases the trail history.
+     */
+    erase(): void {
+        this.Xs = []
+        this.Rs = []
+    }
+
+    /**
+     * Records the Mesh variables according to the interval property.
+     */
+    snapshot(): void {
+        if (this.config.enabled) {
+            if (this.counter % this.config.interval === 0) {
+                this.Xs.unshift(this.mesh.X.clone())
+                this.Rs.unshift(this.mesh.R.clone())
+            }
+            while (this.Xs.length > this.config.retain) {
+                this.Xs.pop()
+                this.Rs.pop()
+            }
+            this.counter++
+        }
+    }
+
+    /**
+     * @param ambients
+     */
+    draw(ambients: Facet[]): void {
+        if (this.config.enabled) {
+            // Save the mesh position and attitude so that we can restore them later.
+            const X = this.mesh.X.clone()
+            const R = this.mesh.R.clone()
+            const iLength: number = this.Xs.length
+            for (let i = 0; i < iLength; i++) {
+                this.mesh.X.copyVector(this.Xs[i])
+                this.mesh.R.copySpinor(this.Rs[i])
+                this.mesh.draw(ambients)
+            }
+            // Restore the mesh position and attitude.
+            this.mesh.X.copy(X)
+            this.mesh.R.copy(R)
+        }
+    }
 }

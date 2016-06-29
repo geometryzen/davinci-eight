@@ -825,16 +825,23 @@ System.register("davinci-eight/core/Scene.js", ["../collections/ShareableArray",
       }(ShareableBase_1.ShareableBase));
       Scene = (function(_super) {
         __extends(Scene, _super);
-        function Scene(engine) {
+        function Scene(engine, levelUp) {
+          if (levelUp === void 0) {
+            levelUp = 0;
+          }
           _super.call(this, engine);
           this.setLoggingName('Scene');
           mustBeObject_1.default('engine', engine);
           this._drawables = new ShareableArray_1.default([]);
           this._parts = new ShareableArray_1.default([]);
-          this.synchUp();
+          if (levelUp === 0) {
+            this.synchUp();
+          }
         }
         Scene.prototype.destructor = function(levelUp) {
-          this.cleanUp();
+          if (levelUp === 0) {
+            this.cleanUp();
+          }
           this._drawables.release();
           this._parts.release();
           _super.prototype.destructor.call(this, levelUp + 1);
@@ -12904,6 +12911,22 @@ System.register("davinci-eight/collections/ShareableArray.js", ["../base/incLeve
   };
 });
 
+System.register("davinci-eight/base/incLevel.js", ["../checks/mustBeInteger"], function(exports_1, context_1) {
+  "use strict";
+  var __moduleName = context_1 && context_1.id;
+  var mustBeInteger_1;
+  function default_1(levelUp) {
+    return mustBeInteger_1.default('levelUp', levelUp) + 1;
+  }
+  exports_1("default", default_1);
+  return {
+    setters: [function(mustBeInteger_1_1) {
+      mustBeInteger_1 = mustBeInteger_1_1;
+    }],
+    execute: function() {}
+  };
+});
+
 System.register("davinci-eight/math/add4x4.js", [], function(exports_1, context_1) {
   "use strict";
   var __moduleName = context_1 && context_1.id;
@@ -14332,7 +14355,7 @@ System.register("davinci-eight/core/GeometryContainer.js", ["../collections/Shar
         GeometryContainer.prototype.draw = function(material) {
           var iLen = this.partsLength;
           for (var i = 0; i < iLen; i++) {
-            var part = this.getPart(i);
+            var part = this._parts.getWeakRef(i);
             part.draw(material);
           }
         };
@@ -24279,22 +24302,6 @@ System.register("davinci-eight/visual/Tetrahedron.js", ["../core/Mesh", "../mate
   };
 });
 
-System.register("davinci-eight/base/incLevel.js", ["../checks/mustBeInteger"], function(exports_1, context_1) {
-  "use strict";
-  var __moduleName = context_1 && context_1.id;
-  var mustBeInteger_1;
-  function default_1(levelUp) {
-    return mustBeInteger_1.default('levelUp', levelUp) + 1;
-  }
-  exports_1("default", default_1);
-  return {
-    setters: [function(mustBeInteger_1_1) {
-      mustBeInteger_1 = mustBeInteger_1_1;
-    }],
-    execute: function() {}
-  };
-});
-
 System.register("davinci-eight/checks/isObject.js", [], function(exports_1, context_1) {
   "use strict";
   var __moduleName = context_1 && context_1.id;
@@ -24845,7 +24852,7 @@ System.register("davinci-eight/config.js", ["./core/ErrorMode"], function(export
           this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
           this.LAST_MODIFIED = '2016-06-29';
           this.NAMESPACE = 'EIGHT';
-          this.VERSION = '2.247.0';
+          this.VERSION = '2.248.0';
         }
         Object.defineProperty(Eight.prototype, "errorMode", {
           get: function() {
@@ -25035,7 +25042,7 @@ System.register("davinci-eight/visual/TrailConfig.js", ["../config", "../core/Er
   };
 });
 
-System.register("davinci-eight/visual/Trail.js", ["../base/incLevel", "../checks/mustBeObject", "../core/ShareableBase", "./TrailConfig"], function(exports_1, context_1) {
+System.register("davinci-eight/visual/Trail.js", ["../checks/mustBeObject", "../core/ShareableBase", "./TrailConfig"], function(exports_1, context_1) {
   "use strict";
   var __moduleName = context_1 && context_1.id;
   var __extends = (this && this.__extends) || function(d, b) {
@@ -25047,15 +25054,12 @@ System.register("davinci-eight/visual/Trail.js", ["../base/incLevel", "../checks
     }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
   };
-  var incLevel_1,
-      mustBeObject_1,
+  var mustBeObject_1,
       ShareableBase_1,
       TrailConfig_1;
   var Trail;
   return {
-    setters: [function(incLevel_1_1) {
-      incLevel_1 = incLevel_1_1;
-    }, function(mustBeObject_1_1) {
+    setters: [function(mustBeObject_1_1) {
       mustBeObject_1 = mustBeObject_1_1;
     }, function(ShareableBase_1_1) {
       ShareableBase_1 = ShareableBase_1_1;
@@ -25076,10 +25080,10 @@ System.register("davinci-eight/visual/Trail.js", ["../base/incLevel", "../checks
           mesh.addRef();
           this.mesh = mesh;
         }
-        Trail.prototype.destructor = function(level) {
+        Trail.prototype.destructor = function(levelUp) {
           this.mesh.release();
           this.mesh = void 0;
-          _super.prototype.destructor.call(this, incLevel_1.default(level));
+          _super.prototype.destructor.call(this, levelUp + 1);
         };
         Trail.prototype.erase = function() {
           this.Xs = [];
