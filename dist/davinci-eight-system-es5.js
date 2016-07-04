@@ -5016,7 +5016,7 @@ System.register("davinci-eight/geometries/ArrowGeometry.js", ["./ArrowBuilder", 
   };
 });
 
-System.register("davinci-eight/visual/Arrow.js", ["../geometries/ArrowGeometry", "../math/Geometric3", "../materials/MeshMaterial", "../core/Mesh", "../checks/mustBeDefined", "../math/quadVectorE3", "../math/R3"], function(exports_1, context_1) {
+System.register("davinci-eight/visual/Arrow.js", ["../geometries/ArrowGeometry", "../math/Geometric3", "../materials/MeshMaterial", "../core/Mesh", "../checks/isGE", "../checks/mustBeDefined", "../math/quadVectorE3", "../math/R3"], function(exports_1, context_1) {
   "use strict";
   var __moduleName = context_1 && context_1.id;
   var __extends = (this && this.__extends) || function(d, b) {
@@ -5032,6 +5032,7 @@ System.register("davinci-eight/visual/Arrow.js", ["../geometries/ArrowGeometry",
       Geometric3_1,
       MeshMaterial_1,
       Mesh_1,
+      isGE_1,
       mustBeDefined_1,
       quadVectorE3_1,
       R3_1;
@@ -5052,6 +5053,8 @@ System.register("davinci-eight/visual/Arrow.js", ["../geometries/ArrowGeometry",
       MeshMaterial_1 = MeshMaterial_1_1;
     }, function(Mesh_1_1) {
       Mesh_1 = Mesh_1_1;
+    }, function(isGE_1_1) {
+      isGE_1 = isGE_1_1;
     }, function(mustBeDefined_1_1) {
       mustBeDefined_1 = mustBeDefined_1_1;
     }, function(quadVectorE3_1_1) {
@@ -5115,9 +5118,11 @@ System.register("davinci-eight/visual/Arrow.js", ["../geometries/ArrowGeometry",
             return this.getPrincipalScale('length');
           },
           set: function(length) {
-            this.setPrincipalScale('length', length);
-            var magnitude = Math.sqrt(quadVectorE3_1.default(this._vector));
-            this._vector.scale(length / magnitude);
+            if (isGE_1.default(length, 0)) {
+              this.setPrincipalScale('length', length);
+              var magnitude = Math.sqrt(quadVectorE3_1.default(this._vector));
+              this._vector.scale(length / magnitude);
+            } else {}
           },
           enumerable: true,
           configurable: true
@@ -11894,7 +11899,7 @@ System.register("davinci-eight/commands/WebGLDisable.js", ["../commands/glCapabi
   };
 });
 
-System.register("davinci-eight/core/Engine.js", ["../commands/Capability", "../config", "../commands/EIGHTLogger", "./ErrorMode", "./clearMask", "../base/DefaultContextProvider", "../base/incLevel", "./initWebGL", "../checks/isDefined", "../checks/mustBeBoolean", "../checks/mustBeDefined", "../checks/mustBeObject", "../i18n/readOnly", "../collections/ShareableArray", "./ShareableBase", "../commands/VersionLogger", "../commands/WebGLClearColor", "../commands/WebGLEnable", "../commands/WebGLDisable"], function(exports_1, context_1) {
+System.register("davinci-eight/core/Engine.js", ["../commands/Capability", "../config", "../commands/EIGHTLogger", "./ErrorMode", "./clearMask", "../base/DefaultContextProvider", "../base/incLevel", "./initWebGL", "../checks/isDefined", "../checks/mustBeBoolean", "../checks/mustBeObject", "../i18n/readOnly", "../collections/ShareableArray", "./ShareableBase", "../commands/VersionLogger", "../commands/WebGLClearColor", "../commands/WebGLEnable", "../commands/WebGLDisable"], function(exports_1, context_1) {
   "use strict";
   var __moduleName = context_1 && context_1.id;
   var __extends = (this && this.__extends) || function(d, b) {
@@ -11916,7 +11921,6 @@ System.register("davinci-eight/core/Engine.js", ["../commands/Capability", "../c
       initWebGL_1,
       isDefined_1,
       mustBeBoolean_1,
-      mustBeDefined_1,
       mustBeObject_1,
       readOnly_1,
       ShareableArray_1,
@@ -11947,8 +11951,6 @@ System.register("davinci-eight/core/Engine.js", ["../commands/Capability", "../c
       isDefined_1 = isDefined_1_1;
     }, function(mustBeBoolean_1_1) {
       mustBeBoolean_1 = mustBeBoolean_1_1;
-    }, function(mustBeDefined_1_1) {
-      mustBeDefined_1 = mustBeDefined_1_1;
     }, function(mustBeObject_1_1) {
       mustBeObject_1 = mustBeObject_1_1;
     }, function(readOnly_1_1) {
@@ -12144,27 +12146,37 @@ System.register("davinci-eight/core/Engine.js", ["../commands/Capability", "../c
           }
           return this;
         };
-        Engine.prototype.start = function(canvas) {
-          if (!(canvas instanceof HTMLCanvasElement)) {
+        Engine.prototype.start = function(canvas, doc) {
+          if (doc === void 0) {
+            doc = window.document;
+          }
+          if (typeof canvas === 'string') {
+            var canvasElement = doc.getElementById(canvas);
+            if (canvasElement) {
+              return this.start(canvasElement, doc);
+            } else {
+              throw new Error("canvas argument must be a canvas element id or an HTMLCanvasElement.");
+            }
+          } else if (canvas instanceof HTMLCanvasElement) {
+            var alreadyStarted = isDefined_1.default(this._canvas);
+            if (!alreadyStarted) {
+              this._canvas = canvas;
+            } else {
+              console.warn(this._type + " Ignoring start() because already started.");
+              return;
+            }
+            if (isDefined_1.default(this._canvas)) {
+              this._gl = initWebGL_1.default(this._canvas, this._attributes);
+              this.clearMask = clearMask_1.default(this.colorFlag, this.depthFlag, this.stencilFlag, this._gl);
+              this.emitStartEvent();
+              this._canvas.addEventListener('webglcontextlost', this._webGLContextLost, false);
+              this._canvas.addEventListener('webglcontextrestored', this._webGLContextRestored, false);
+            }
+            return this;
+          } else {
             console.warn("canvas must be an HTMLCanvasElement to start the context.");
             return this;
           }
-          mustBeDefined_1.default('canvas', canvas);
-          var alreadyStarted = isDefined_1.default(this._canvas);
-          if (!alreadyStarted) {
-            this._canvas = canvas;
-          } else {
-            console.warn(this._type + " Ignoring start() because already started.");
-            return;
-          }
-          if (isDefined_1.default(this._canvas)) {
-            this._gl = initWebGL_1.default(this._canvas, this._attributes);
-            this.clearMask = clearMask_1.default(this.colorFlag, this.depthFlag, this.stencilFlag, this._gl);
-            this.emitStartEvent();
-            this._canvas.addEventListener('webglcontextlost', this._webGLContextLost, false);
-            this._canvas.addEventListener('webglcontextrestored', this._webGLContextRestored, false);
-          }
-          return this;
         };
         Engine.prototype.stop = function() {
           if (isDefined_1.default(this._canvas)) {
@@ -24905,9 +24917,9 @@ System.register("davinci-eight/config.js", ["./core/ErrorMode"], function(export
         function Eight() {
           this._errorMode = ErrorMode_1.default.STRICT;
           this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-          this.LAST_MODIFIED = '2016-06-29';
+          this.LAST_MODIFIED = '2016-07-03';
           this.NAMESPACE = 'EIGHT';
-          this.VERSION = '2.250.0';
+          this.VERSION = '2.251.0';
         }
         Object.defineProperty(Eight.prototype, "errorMode", {
           get: function() {

@@ -9,7 +9,6 @@ import incLevel from '../base/incLevel';
 import initWebGL from './initWebGL';
 import isDefined from '../checks/isDefined';
 import mustBeBoolean from '../checks/mustBeBoolean';
-import mustBeDefined from '../checks/mustBeDefined';
 import mustBeObject from '../checks/mustBeObject';
 import readOnly from '../i18n/readOnly';
 import ShareableArray from '../collections/ShareableArray';
@@ -353,34 +352,45 @@ export class Engine extends ShareableBase implements VertexBufferManager {
      * Initializes the <code>WebGLRenderingContext</code> for the specified <code>HTMLCanvasElement</code>.
      *
      * @param canvas The HTML canvas element.
+     * @param doc The document object model that contains the canvas identifier.
      */
-    start(canvas: HTMLCanvasElement): Engine {
-        if (!(canvas instanceof HTMLCanvasElement)) {
+    start(canvas: string | HTMLCanvasElement, doc = window.document): Engine {
+        if (typeof canvas === 'string') {
+            const canvasElement = <HTMLCanvasElement>doc.getElementById(canvas);
+            if (canvasElement) {
+                return this.start(canvasElement, doc);
+            }
+            else {
+                throw new Error("canvas argument must be a canvas element id or an HTMLCanvasElement.");
+            }
+        }
+        else if (canvas instanceof HTMLCanvasElement) {
+            const alreadyStarted = isDefined(this._canvas)
+            if (!alreadyStarted) {
+                // cache the arguments
+                this._canvas = canvas
+            }
+            else {
+                // We'll just be idempotent and ignore the call because we've already been started.
+                // To use the canvas might conflict with one we have dynamically created.
+                console.warn(`${this._type} Ignoring start() because already started.`)
+                return
+            }
+            // What if we were given a "no-op" canvasBuilder that returns undefined for the canvas.
+            // To not complain is the way of the hyper-functional warrior.
+            if (isDefined(this._canvas)) {
+                this._gl = initWebGL(this._canvas, this._attributes)
+                this.clearMask = clearMask(this.colorFlag, this.depthFlag, this.stencilFlag, this._gl)
+                this.emitStartEvent()
+                this._canvas.addEventListener('webglcontextlost', this._webGLContextLost, false)
+                this._canvas.addEventListener('webglcontextrestored', this._webGLContextRestored, false)
+            }
+            return this
+        }
+        else {
             console.warn("canvas must be an HTMLCanvasElement to start the context.")
             return this
         }
-        mustBeDefined('canvas', canvas)
-        const alreadyStarted = isDefined(this._canvas)
-        if (!alreadyStarted) {
-            // cache the arguments
-            this._canvas = canvas
-        }
-        else {
-            // We'll just be idempotent and ignore the call because we've already been started.
-            // To use the canvas might conflict with one we have dynamically created.
-            console.warn(`${this._type} Ignoring start() because already started.`)
-            return
-        }
-        // What if we were given a "no-op" canvasBuilder that returns undefined for the canvas.
-        // To not complain is the way of the hyper-functional warrior.
-        if (isDefined(this._canvas)) {
-            this._gl = initWebGL(this._canvas, this._attributes)
-            this.clearMask = clearMask(this.colorFlag, this.depthFlag, this.stencilFlag, this._gl)
-            this.emitStartEvent()
-            this._canvas.addEventListener('webglcontextlost', this._webGLContextLost, false)
-            this._canvas.addEventListener('webglcontextrestored', this._webGLContextRestored, false)
-        }
-        return this
     }
 
     /**

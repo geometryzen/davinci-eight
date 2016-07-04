@@ -236,9 +236,9 @@ declare module EIGHT {
         removeContextListener(user: ContextConsumer): void;
 
         /**
-         * Initializes the WebGL context for the specified <code>canvas</code>.
+         * Initializes the WebGL context for the specified canvas or canvas element identifier.
          */
-        start(canvas: HTMLCanvasElement): Engine;
+        start(canvas: HTMLCanvasElement | string, doc?: Document): Engine;
 
         /**
          * Terminates the <code>WebGLRenderingContext</code> for the underlying canvas.

@@ -5,17 +5,18 @@ import {Geometric3} from '../math/Geometric3'
 import {MeshMaterial} from '../materials/MeshMaterial'
 import MeshMaterialOptions from '../materials/MeshMaterialOptions'
 import {Mesh} from '../core/Mesh'
+import isGE from '../checks/isGE';
 import mustBeDefined from '../checks/mustBeDefined'
 import quadVectorE3 from '../math/quadVectorE3'
 import R3 from '../math/R3'
 
 function direction(options: ArrowOptions, fallback: R3): R3 {
-  if (options.vector) {
-    return R3.direction(options.vector)
-  }
-  else {
-    return fallback
-  }
+    if (options.vector) {
+        return R3.direction(options.vector)
+    }
+    else {
+        return fallback
+    }
 }
 
 /**
@@ -31,120 +32,119 @@ function direction(options: ArrowOptions, fallback: R3): R3 {
  *     // Update the arrow configuration, usually inside the animation function.
  *     arrow.position = position // position is a Geometric3
  *     arrow.attitude = attitude // attitude is a Geometric3
- *     arrow.vector = vector // vector is a Geometric3
+ *     arrow.h = vector // vector is a Geometric3
  *
  *     // Release the arrow when no longer required.
  *     arrow.release()
  */
 export class Arrow extends Mesh {
 
-  /**
-   * We know what the initial direction the arrow geometry takes.
-   * Since our state variable is the attitude, we must remember the
-   * initial direction in order to be able to update the attitude
-   * based upon a vector property.
-   */
-  private direction0: R3;
+    /**
+     * We know what the initial direction the arrow geometry takes.
+     * Since our state variable is the attitude, we must remember the
+     * initial direction in order to be able to update the attitude
+     * based upon a vector property.
+     */
+    private direction0: R3;
 
-  /**
-   * The vector that this arrow represents.
-   * We'll hook up a listener to this property so that mutation of the vector
-   * becomes mutation of the attitude and length.
-   */
-  private _vector: Geometric3;
+    /**
+     * The vector that this arrow represents.
+     * We'll hook up a listener to this property so that mutation of the vector
+     * becomes mutation of the attitude and length.
+     */
+    private _vector: Geometric3;
 
-  private vectorChangeHandler: (eventName: string, key: string, value: number, source: Geometric3) => void;
-  private attitudeChangeHandler: (eventName: string, key: string, value: number, source: Geometric3) => void;
+    private vectorChangeHandler: (eventName: string, key: string, value: number, source: Geometric3) => void;
+    private attitudeChangeHandler: (eventName: string, key: string, value: number, source: Geometric3) => void;
 
-  /**
-   *
-   * @param options
-   */
-  constructor(options: ArrowOptions = {}) {
-    super(void 0, void 0, options.engine)
-    this.setLoggingName('Arrow')
+    /**
+     * @param options
+     */
+    constructor(options: ArrowOptions = {}) {
+        super(void 0, void 0, options.engine)
+        this.setLoggingName('Arrow')
 
-    // TODO: This shold be going into the geometry options.
-    this.direction0 = direction(options, R3.e2)
-    this._vector = Geometric3.fromVector(this.direction0)
+        // TODO: This shold be going into the geometry options.
+        this.direction0 = direction(options, R3.e2)
+        this._vector = Geometric3.fromVector(this.direction0)
 
-    const geoOptions: ArrowGeometryOptions = {}
-    geoOptions.engine = options.engine
-    const geometry = new ArrowGeometry(geoOptions)
+        const geoOptions: ArrowGeometryOptions = {}
+        geoOptions.engine = options.engine
+        const geometry = new ArrowGeometry(geoOptions)
 
-    const matOptions: MeshMaterialOptions = void 0
-    const material = new MeshMaterial(matOptions, options.engine)
+        const matOptions: MeshMaterialOptions = void 0
+        const material = new MeshMaterial(matOptions, options.engine)
 
-    this.geometry = geometry
-    this.material = material
+        this.geometry = geometry
+        this.material = material
 
-    geometry.release()
-    material.release()
+        geometry.release()
+        material.release()
 
-    if (options.color) {
-      this.color.copy(options.color)
-    }
-    if (options.position) {
-      this.X.copyVector(options.position)
+        if (options.color) {
+            this.color.copy(options.color)
+        }
+        if (options.position) {
+            this.X.copyVector(options.position)
+        }
+
+        /**
+         * cascade flag prevents infinite recursion.
+         */
+        let cascade = true
+        this.vectorChangeHandler = (eventName: string, key: string, value: number, vector: Geometric3) => {
+            if (cascade) {
+                cascade = false
+                this.R.rotorFromDirections(this.direction0, vector)
+                this.setPrincipalScale('length', Math.sqrt(quadVectorE3(vector)))
+                // this.length = Math.sqrt(quadVectorE3(vector))
+                cascade = true
+            }
+        }
+        this.attitudeChangeHandler = (eventName: string, key: string, value: number, attitude: Geometric3) => {
+            if (cascade) {
+                cascade = false
+                this._vector.copyVector(this.direction0).rotate(this.R).scale(this.length)
+                cascade = true;
+            }
+        }
+
+        this._vector.on('change', this.vectorChangeHandler)
+        this.R.on('change', this.attitudeChangeHandler)
     }
 
     /**
-     * cascade flag prevents infinite recursion.
+     * @param levelUp
      */
-    let cascade = true
-    this.vectorChangeHandler = (eventName: string, key: string, value: number, vector: Geometric3) => {
-      if (cascade) {
-        cascade = false
-        this.R.rotorFromDirections(this.direction0, vector)
-        this.setPrincipalScale('length', Math.sqrt(quadVectorE3(vector)))
-        // this.length = Math.sqrt(quadVectorE3(vector))
-        cascade = true
-      }
-    }
-    this.attitudeChangeHandler = (eventName: string, key: string, value: number, attitude: Geometric3) => {
-      if (cascade) {
-        cascade = false
-        this._vector.copyVector(this.direction0).rotate(this.R).scale(this.length)
-        cascade = true;
-      }
+    protected destructor(levelUp: number): void {
+        this._vector.off('change', this.vectorChangeHandler)
+        this.R.off('change', this.attitudeChangeHandler)
+        super.destructor(levelUp + 1)
     }
 
-    this._vector.on('change', this.vectorChangeHandler)
-    this.R.on('change', this.attitudeChangeHandler)
-  }
+    // The length property is not currently exposed in the d.ts.
+    private get length(): number {
+        return this.getPrincipalScale('length')
+    }
+    private set length(length: number) {
+        if (isGE(length, 0)) {
+            this.setPrincipalScale('length', length)
+            const magnitude = Math.sqrt(quadVectorE3(this._vector))
+            this._vector.scale(length / magnitude)
+        }
+        else {
+            // Ignore
+        }
+    }
 
-  /**
-   * @param levelUp
-   */
-  protected destructor(levelUp: number): void {
-    this._vector.off('change', this.vectorChangeHandler)
-    this.R.off('change', this.attitudeChangeHandler)
-    super.destructor(levelUp + 1)
-  }
-
-  /**
-   *
-   * @default 1
-   */
-  private get length(): number {
-    return this.getPrincipalScale('length')
-  }
-  private set length(length: number) {
-    this.setPrincipalScale('length', length)
-    const magnitude = Math.sqrt(quadVectorE3(this._vector))
-    this._vector.scale(length / magnitude)
-  }
-
-  /**
-   * <p>
-   * The vector from the tail of the Arrow to the head of the Arrow.
-   * </p>
-   */
-  get h() {
-    return this._vector
-  }
-  set h(h: Geometric3) {
-    mustBeDefined('h', h)
-    this._vector.copyVector(h)
-  }
+    /**
+     * The vector from the tail of the Arrow to the head of the Arrow.
+     */
+    get h() {
+        return this._vector
+    }
+    set h(h: Geometric3) {
+        mustBeDefined('h', h)
+        this._vector.copyVector(h)
+    }
 }
