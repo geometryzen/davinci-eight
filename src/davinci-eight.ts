@@ -22,7 +22,7 @@ import {OrbitControls} from './davinci-eight/controls/OrbitControls'
 import {TrackballControls} from './davinci-eight/controls/TrackballControls'
 
 // core
-import AttribLocation from './davinci-eight/core/AttribLocation';
+import Attrib from './davinci-eight/core/Attrib';
 import AttribMetaInfo from './davinci-eight/core/AttribMetaInfo';
 import {Color} from './davinci-eight/core/Color';
 import config from './davinci-eight/config';
@@ -41,7 +41,7 @@ import {FacetVisitor} from './davinci-eight/core/FacetVisitor';
 import {Mesh} from './davinci-eight/core/Mesh';
 import {Scene} from './davinci-eight/core/Scene';
 import Shader from './davinci-eight/core/Shader';
-import UniformLocation from './davinci-eight/core/UniformLocation';
+import Uniform from './davinci-eight/core/Uniform';
 import UniformMetaInfo from './davinci-eight/core/UniformMetaInfo';
 import Usage from './davinci-eight/core/Usage';
 import {Engine} from './davinci-eight/core/Engine';
@@ -258,8 +258,8 @@ const eight = {
     get DrawMode() { return DrawMode },
     get ErrorMode() { return ErrorMode },
     get Usage() { return Usage },
-    get AttribLocation() { return AttribLocation },
-    get UniformLocation() { return UniformLocation },
+    get Attrib() { return Attrib },
+    get Uniform() { return Uniform },
     get VertexBuffer() { return VertexBuffer },
     get IndexBuffer() { return IndexBuffer },
     get Color() { return Color },

@@ -1,7 +1,7 @@
 import ContextProgramConsumer from  '../core/ContextProgramConsumer';
 import readOnly from  '../i18n/readOnly';
 
-export default class AttribLocation implements ContextProgramConsumer {
+export default class Attrib implements ContextProgramConsumer {
 
     /**
      * The name of the attribute in the GLSL program.
@@ -38,8 +38,8 @@ export default class AttribLocation implements ContextProgramConsumer {
     }
 
     /**
-     * Notifies this <code>AttribLocation</code> of a browser free WebGL context event.
-     * This <code>AttribLocation</code> responds by setting its cached index and context to undefined.
+     * Notifies this <code>Attrib</code> of a browser free WebGL context event.
+     * This <code>Attrib</code> responds by setting its cached index and context to undefined.
      *
      * @method contextFree
      * @return {void}
@@ -52,8 +52,8 @@ export default class AttribLocation implements ContextProgramConsumer {
     }
 
     /**
-     * Notifies this <code>AttribLocation</code> of a browser gain WebGL context event.
-     * This <code>AttribLocation</code> responds by obtaining and caching attribute index.
+     * Notifies this <code>Attrib</code> of a browser gain WebGL context event.
+     * This <code>Attrib</code> responds by obtaining and caching attribute index.
      * @method contextGain
      * @param context {WebGLRenderingContext}
      * @param program {WebGLProgram}
@@ -65,8 +65,8 @@ export default class AttribLocation implements ContextProgramConsumer {
     }
 
     /**
-     * Notifies this <code>AttribLocation</code> of a browser lost WebGL context event.
-     * This <code>AttribLocation</code> responds by setting its cached index and context to undefined.
+     * Notifies this <code>Attrib</code> of a browser lost WebGL context event.
+     * This <code>Attrib</code> responds by setting its cached index and context to undefined.
      * @method contextLost
      * @return {void}
      */

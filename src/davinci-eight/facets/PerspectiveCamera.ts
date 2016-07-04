@@ -10,6 +10,7 @@ import Perspective from './Perspective';
 import {Facet} from '../core/Facet';
 import {FacetVisitor} from '../core/FacetVisitor';
 import VectorE3 from '../math/VectorE3';
+import Matrix4 from '../math/Matrix4';
 
 /**
  * <p>
@@ -256,5 +257,29 @@ export class PerspectiveCamera implements Perspective, Facet {
     setUp(up: VectorE3): PerspectiveCamera {
         this.inner.setUp(up)
         return this
+    }
+
+    get projectionMatrix(): Matrix4 {
+        return this.inner.projectionMatrix;
+    }
+
+    set projectionMatrix(projectionMatrix: Matrix4) {
+        this.inner.projectionMatrix = projectionMatrix;
+    }
+
+    updateProjectionMatrix(): void {
+        this.inner.updateProjectionMatrix();
+    }
+
+    updateViewMatrix(): void {
+        this.inner.updateViewMatrix();
+    }
+
+    get viewMatrix(): Matrix4 {
+        return this.inner.viewMatrix;
+    }
+
+    set viewMatrix(viewMatrix: Matrix4) {
+        this.inner.viewMatrix = viewMatrix;
     }
 }

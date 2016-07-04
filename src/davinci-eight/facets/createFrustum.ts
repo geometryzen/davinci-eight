@@ -104,6 +104,15 @@ export default function createFrustum(viewMatrixName: string, projectionMatrixNa
         setUniforms(visitor: FacetVisitor): void {
             visitor.matrix4fv(projectionMatrixName, projectionMatrix.elements, false)
             base.setUniforms(visitor)
+        },
+        updateViewMatrix(): void {
+            base.updateViewMatrix();
+        },
+        get viewMatrix(): Matrix4 {
+            return base.viewMatrix;
+        },
+        set viewMatrix(viewMatrix: Matrix4) {
+            base.viewMatrix = viewMatrix;
         }
     }
     return self

@@ -1,14 +1,14 @@
-import UniformLocation from './UniformLocation'
+import Uniform from './Uniform'
 import config from '../config'
 import ErrorMode from './ErrorMode'
 
-describe("UniformLocation", function() {
+describe("Uniform", function() {
   describe("(null)", function() {
     it("should be allowed in WARNME mode.", function() {
       const originalMode = config.errorMode
       config.errorMode = ErrorMode.WARNME
       try {
-        const uLoc = new UniformLocation(null)
+        const uLoc = new Uniform(null)
         expect(uLoc).toBeDefined()
       }
       finally {

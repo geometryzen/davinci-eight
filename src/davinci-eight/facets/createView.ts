@@ -91,13 +91,26 @@ export default function createView(options: { viewMatrixName?: string } = {}): V
             return self
         },
         setUniforms(visitor: FacetVisitor): void {
+            self.updateViewMatrix();
+            visitor.matrix4fv(viewMatrixName, viewMatrix.elements, false)
+        },
+
+        updateViewMatrix(): void {
             if (eye.modified || look.modified || up.modified) {
                 viewMatrixFromEyeLookUp(eye, look, up, viewMatrix)
                 eye.modified = false
                 look.modified = false
                 up.modified = false
             }
-            visitor.matrix4fv(viewMatrixName, viewMatrix.elements, false)
+        },
+
+        get viewMatrix(): Matrix4 {
+            self.updateViewMatrix();
+            return viewMatrix;
+        },
+
+        set viewMatrix(viewMatrix: Matrix4) {
+            throw new Error("viewMatrix property is readonly");
         }
     }
     return self

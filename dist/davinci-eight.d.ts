@@ -337,7 +337,7 @@ declare module EIGHT {
     /**
      * Utility class for managing a shader uniform variable.
      */
-    class UniformLocation implements ContextProgramConsumer {
+    class Uniform implements ContextProgramConsumer {
         constructor(info: WebGLActiveInfo);
 
         contextFree(): void;
@@ -390,11 +390,13 @@ declare module EIGHT {
     interface Material extends FacetVisitor, ContextConsumer {
         vertexShaderSrc: string;
         fragmentShaderSrc: string;
+        getAttrib(indexOrName: number | string): Attrib;
         getAttribLocation(name: string): number;
         enableAttrib(indexOrName: number | string): void;
         disableAttrib(indexOrName: number | string): void;
         vertexPointer(indexOrName: number | string, size: number, normalized: boolean, stride: number, offset: number): void;
-        getUniformLocation(name: string): UniformLocation;
+        getUniform(name: string): Uniform;
+        getUniformLocation(name: string): Uniform;
         use(): void;
     }
 
@@ -507,7 +509,7 @@ declare module EIGHT {
     /**
      * Manages the lifecycle of an attribute used in a vertex shader.
      */
-    class AttribLocation implements ContextProgramConsumer {
+    class Attrib implements ContextProgramConsumer {
         index: number;
         contextFree(): void;
         contextGain(gl: WebGLRenderingContext, program: WebGLProgram): void;
@@ -3024,6 +3026,8 @@ declare module EIGHT {
         eye: Geometric3;
         look: Geometric3;
         up: Geometric3;
+        updateViewMatrix(): void;
+        viewMatrix: Matrix4;
         setEye(eye: VectorE3): View;
         setLook(look: VectorE3): View;
         setUp(up: VectorE3): View;
@@ -3069,6 +3073,26 @@ declare module EIGHT {
          * The direction that is used to orient the camera. 
          */
         up: Geometric3;
+
+        /**
+         * Updates the projectionMatrix property based upon the fov, aspect, near, and far properties.
+         */
+        updateProjectionMatrix(): void;
+
+        /**
+         * Updates the viewMatrix property based upon the eye, look, and up properties.
+         */
+        updateViewMatrix(): void;
+
+        /**
+         * The projection matrix matrix transformation.
+         */
+        projectionMatrix: Matrix4;
+
+        /**
+         * The view matrix transformation.
+         */
+        viewMatrix: Matrix4;
 
         constructor(fov?: number, aspect?: number, near?: number, far?: number)
         getProperty(name: string): number[]
@@ -3306,8 +3330,10 @@ declare module EIGHT {
         disableAttribs(): void;
         enableAttrib(indexOrName: number | string): void;
         enableAttribs(): void;
+        getAttrib(indexOrName: number | string): Attrib;
         getAttribLocation(name: string): number;
-        getUniformLocation(name: string): UniformLocation;
+        getUniform(name: string): Uniform;
+        getUniformLocation(name: string): Uniform;
         hasUniformLocation(name: string): boolean;
         matrix2fv(name: string, mat2: Float32Array, transpose: boolean): void;
         matrix3fv(name: string, mat3: Float32Array, transpose: boolean): void;

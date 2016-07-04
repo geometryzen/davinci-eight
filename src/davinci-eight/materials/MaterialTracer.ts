@@ -1,3 +1,4 @@
+import Attrib from '../core/Attrib';
 import ContextProvider from '../core/ContextProvider';
 import {Material} from '../core/Material';
 
@@ -10,6 +11,9 @@ export default class MaterialTracer implements Material {
     }
     get fragmentShaderSrc() {
         return this.inner.fragmentShaderSrc;
+    }
+    getAttrib(indexOrName: number | string): Attrib {
+        return this.inner.getAttrib(indexOrName);
     }
     getAttribLocation(name: string) {
         console.log(`getAttribLocation(${name})`)
@@ -27,8 +31,11 @@ export default class MaterialTracer implements Material {
         console.log(`vertexPointer(${indexOrName})`)
         return this.inner.vertexPointer(indexOrName, size, normalized, stride, offset)
     }
+    getUniform(name: string) {
+        return this.inner.getUniform(name)
+    }
     getUniformLocation(name: string) {
-        return this.inner.getUniformLocation(name)
+        return this.inner.getUniform(name)
     }
     use() {
         return this.inner.use();

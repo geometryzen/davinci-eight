@@ -14,9 +14,9 @@ import mustBeObject from '../checks/mustBeObject';
  * A wrapper around a <code>WebGLUniformLocation</code>.
  * </p>
  *
- * @class UniformLocation
+ * @class Uniform
  */
-export default class UniformLocation implements ContextProgramConsumer {
+export default class Uniform implements ContextProgramConsumer {
 
     /**
      * @property gl
@@ -40,7 +40,7 @@ export default class UniformLocation implements ContextProgramConsumer {
     private name: string;
 
     /**
-     * @class UniformLocation
+     * @class Uniform
      * @constructor
      * @param info {WebGLActiveInfo}
      */
@@ -50,7 +50,7 @@ export default class UniformLocation implements ContextProgramConsumer {
             this.name = info.name
         }
         else {
-            const msg = "UniformLocation constructor called with null info: WebGLActiveInfo."
+            const msg = "Uniform constructor called with null info: WebGLActiveInfo."
             switch (config.errorMode) {
                 case ErrorMode.IGNORE: {
                     this.name = null

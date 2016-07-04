@@ -1,4 +1,4 @@
-import AttribLocation from '../core/AttribLocation';
+import Attrib from '../core/Attrib';
 import config from '../config';
 import ContextProvider from '../core/ContextProvider';
 import isDefined from '../checks/isDefined';
@@ -13,7 +13,7 @@ import mustBeString from '../checks/mustBeString';
 import mustBeUndefined from '../checks/mustBeUndefined';
 import readOnly from '../i18n/readOnly';
 import {ShareableContextConsumer} from '../core/ShareableContextConsumer';
-import UniformLocation from '../core/UniformLocation';
+import Uniform from '../core/Uniform';
 
 /**
  *
@@ -43,12 +43,13 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
     /**
      *
      */
-    private _attributes: { [name: string]: AttribLocation } = {}
+    private _attributesByName: { [name: string]: Attrib } = {}
+    private _attributesByIndex: Attrib[] = [];
 
     /**
      *
      */
-    private _uniforms: { [name: string]: UniformLocation } = {}
+    private _uniforms: { [name: string]: Uniform } = {}
 
     /**
      * @param vertexShaderSrc The vertex shader source code.
@@ -86,24 +87,28 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
         const gl = context.gl
         if (!this._program && isString(this._vertexShaderSrc) && isString(this._fragmentShaderSrc)) {
             this._program = makeWebGLProgram(gl, this._vertexShaderSrc, this._fragmentShaderSrc, this._attribs)
-            this._attributes = {}
+            this._attributesByName = {};
+            this._attributesByIndex = [];
             this._uniforms = {}
 
             const aLen: number = gl.getProgramParameter(this._program, gl.ACTIVE_ATTRIBUTES)
             for (let a = 0; a < aLen; a++) {
-                const attribInfo: WebGLActiveInfo = gl.getActiveAttrib(this._program, a)
-                this._attributes[attribInfo.name] = new AttribLocation(attribInfo)
+                const attribInfo: WebGLActiveInfo = gl.getActiveAttrib(this._program, a);
+                const attrib = new Attrib(attribInfo);
+                this._attributesByName[attribInfo.name] = attrib;
+                this._attributesByIndex.push(attrib);
             }
 
             const uLen: number = gl.getProgramParameter(this._program, gl.ACTIVE_UNIFORMS)
             for (let u = 0; u < uLen; u++) {
                 const uniformInfo: WebGLActiveInfo = gl.getActiveUniform(this._program, u)
-                this._uniforms[uniformInfo.name] = new UniformLocation(uniformInfo)
+                this._uniforms[uniformInfo.name] = new Uniform(uniformInfo)
             }
 
-            for (let aName in this._attributes) {
-                if (this._attributes.hasOwnProperty(aName)) {
-                    this._attributes[aName].contextGain(gl, this._program);
+            // TODO: This would be more efficient over the array.
+            for (let aName in this._attributesByName) {
+                if (this._attributesByName.hasOwnProperty(aName)) {
+                    this._attributesByName[aName].contextGain(gl, this._program);
                 }
             }
             for (let uName in this._uniforms) {
@@ -120,9 +125,10 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
      */
     contextLost(): void {
         this._program = void 0
-        for (var aName in this._attributes) {
-            if (this._attributes.hasOwnProperty(aName)) {
-                this._attributes[aName].contextLost()
+        for (var aName in this._attributesByName) {
+            // TODO: This would be better over the array.
+            if (this._attributesByName.hasOwnProperty(aName)) {
+                this._attributesByName[aName].contextLost()
             }
         }
         for (var uName in this._uniforms) {
@@ -152,9 +158,10 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
             }
             this._program = void 0
         }
-        for (let aName in this._attributes) {
-            if (this._attributes.hasOwnProperty(aName)) {
-                this._attributes[aName].contextFree()
+        // TODO
+        for (let aName in this._attributesByName) {
+            if (this._attributesByName.hasOwnProperty(aName)) {
+                this._attributesByName[aName].contextFree()
             }
         }
         for (let uName in this._uniforms) {
@@ -224,12 +231,13 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
      *
      */
     get attributeNames(): string[] {
-        const attributes = this._attributes
+        // I wonder if it might be better to use the array and preserve order. 
+        const attributes = this._attributesByName;
         if (attributes) {
-            return Object.keys(attributes)
+            return Object.keys(attributes);
         }
         else {
-            return void 0
+            return void 0;
         }
     }
     set attributeNames(unused) {
@@ -246,7 +254,7 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
             }
         }
         else if (typeof indexOrName === 'string') {
-            const attribLoc = this._attributes[indexOrName]
+            const attribLoc = this._attributesByName[indexOrName]
             if (attribLoc) {
                 attribLoc.enable()
             }
@@ -260,7 +268,7 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
      *
      */
     enableAttribs(): void {
-        const attribLocations = this._attributes
+        const attribLocations = this._attributesByName
         if (attribLocations) {
             // TODO: Store loactions as a plain array in order to avoid temporaries (aNames)
             const aNames = Object.keys(attribLocations)
@@ -280,7 +288,7 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
             }
         }
         else if (typeof indexOrName === 'string') {
-            const attribLoc = this._attributes[indexOrName]
+            const attribLoc = this._attributesByName[indexOrName]
             if (attribLoc) {
                 attribLoc.disable()
             }
@@ -294,7 +302,7 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
      *
      */
     disableAttribs(): void {
-        const attribLocations = this._attributes
+        const attribLocations = this._attributesByName
         if (attribLocations) {
             // TODO: Store loactions as a plain array in order to avoid temporaries (aNames)
             const aNames = Object.keys(attribLocations)
@@ -304,12 +312,26 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
         }
     }
 
+    getAttrib(indexOrName: number | string): Attrib {
+        if (typeof indexOrName === 'number') {
+            // FIXME
+            return this._attributesByIndex[indexOrName]
+        }
+        else if (typeof indexOrName === 'string') {
+            return this._attributesByName[indexOrName]
+        }
+        else {
+            throw new TypeError("indexOrName must be a number or a string");
+        }
+    }
+
     /**
      * Returns the location (index) of the attribute with the specified name.
      * Returns <code>-1</code> if the name does not correspond to an attribute.
      */
     getAttribLocation(name: string): number {
-        const attribLoc = this._attributes[name]
+        console.warn("getAttribLocation is deprecated. Use getAttrib instead.")
+        const attribLoc = this._attributesByName[name]
         if (attribLoc) {
             return attribLoc.index
         }
@@ -320,7 +342,7 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
 
     /**
      * <p>
-     * Returns a <code>UniformLocation</code> object corresponding to the <code>uniform</code>
+     * Returns a <code>Uniform</code> object corresponding to the <code>uniform</code>
      * parameter of the same name in the shader code. If a uniform parameter of the specified name
      * does not exist, this method throws a descriptive <code>Error</code>.
      * </p>
@@ -328,29 +350,37 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
      * @param name
      * @returns The location object bound to the specified name.
      */
-    getUniformLocation(name: string): UniformLocation {
+    getUniform(name: string): Uniform {
         const uniforms = this._uniforms
         if (uniforms[name]) {
-            return this._uniforms[name]
+            return uniforms[name]
         }
         else {
             const msg = `uniform ${name} not found.`
             switch (config.errorMode) {
                 case ErrorMode.WARNME: {
                     console.warn(msg)
-                    return new UniformLocation(null)
+                    return new Uniform(null)
                 }
                 case ErrorMode.IGNORE: {
-                    return new UniformLocation(null)
+                    return new Uniform(null)
                 }
                 default: {
                     // In STRICT mode, throwing an Error is consistent with the the other modes
-                    // returning a null-like UniformLocation. Returning void 0 would be inconsistent
+                    // returning a null-like Uniform. Returning void 0 would be inconsistent
                     // even though it allows testing for the existence of a uniform. 
                     throw new Error(msg)
                 }
             }
         }
+    }
+
+    /**
+     * @deprecated
+     */
+    getUniformLocation(name: string): Uniform {
+        console.warn("getUniformLocation is deprecated. Please use getUniform instead.")
+        return this.getUniform(name);
     }
 
     /**
@@ -376,7 +406,7 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
             }
         }
         else if (typeof indexOrName === 'string') {
-            const attributeLocation = this._attributes[indexOrName];
+            const attributeLocation = this._attributesByName[indexOrName];
             attributeLocation.vertexPointer(size, normalized, stride, offset);
         }
         else {

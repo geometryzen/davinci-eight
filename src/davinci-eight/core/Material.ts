@@ -1,6 +1,7 @@
 import {FacetVisitor} from './FacetVisitor';
 import {ContextConsumer} from './ContextConsumer';
-import UniformLocation from './UniformLocation';
+import Attrib from './Attrib';
+import Uniform from './Uniform';
 
 /**
  * <p>
@@ -18,6 +19,11 @@ export interface Material extends FacetVisitor, ContextConsumer {
      *
      */
     fragmentShaderSrc: string
+
+    /**
+     *
+     */
+    getAttrib(indexOrName: number | string): Attrib;
 
     /**
      * @param name The name of the attribute.
@@ -44,7 +50,12 @@ export interface Material extends FacetVisitor, ContextConsumer {
      * @param name
      * @returns
      */
-    getUniformLocation(name: string): UniformLocation;
+    getUniform(name: string): Uniform;
+
+    /**
+     * @deprecated
+     */
+    getUniformLocation(name: string): Uniform;
 
     /**
      *

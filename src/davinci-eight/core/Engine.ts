@@ -41,7 +41,7 @@ export class Engine extends ShareableBase implements VertexBufferManager {
     private _gl: WebGLRenderingContext
 
     /**
-     *
+     * FIXME: The WebGLRenderingContext has a canvas property.
      */
     private _canvas: HTMLCanvasElement
 

@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>PerspectiveCamera | EIGHT 2.251.0</title>
+	<title>PerspectiveCamera | EIGHT 2.253.0</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -23,7 +23,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="../index.html" class="title">EIGHT 2.251.0</a>
+					<a href="../index.html" class="title">EIGHT 2.253.0</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -136,7 +136,9 @@ scene.<span class="hljs-function"><span class="hljs-title">draw</span><span clas
 								<li class="tsd-kind-accessor tsd-parent-kind-class"><a href="_facets_perspectivecamera_.perspectivecamera.html#fov" class="tsd-kind-icon">fov</a></li>
 								<li class="tsd-kind-accessor tsd-parent-kind-class"><a href="_facets_perspectivecamera_.perspectivecamera.html#look" class="tsd-kind-icon">look</a></li>
 								<li class="tsd-kind-accessor tsd-parent-kind-class"><a href="_facets_perspectivecamera_.perspectivecamera.html#near" class="tsd-kind-icon">near</a></li>
+								<li class="tsd-kind-accessor tsd-parent-kind-class"><a href="_facets_perspectivecamera_.perspectivecamera.html#projectionmatrix" class="tsd-kind-icon">projection<wbr>Matrix</a></li>
 								<li class="tsd-kind-accessor tsd-parent-kind-class"><a href="_facets_perspectivecamera_.perspectivecamera.html#up" class="tsd-kind-icon">up</a></li>
+								<li class="tsd-kind-accessor tsd-parent-kind-class"><a href="_facets_perspectivecamera_.perspectivecamera.html#viewmatrix" class="tsd-kind-icon">view<wbr>Matrix</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
@@ -152,6 +154,8 @@ scene.<span class="hljs-function"><span class="hljs-title">draw</span><span clas
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_facets_perspectivecamera_.perspectivecamera.html#setproperty" class="tsd-kind-icon">set<wbr>Property</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_facets_perspectivecamera_.perspectivecamera.html#setuniforms" class="tsd-kind-icon">set<wbr>Uniforms</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_facets_perspectivecamera_.perspectivecamera.html#setup" class="tsd-kind-icon">set<wbr>Up</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_facets_perspectivecamera_.perspectivecamera.html#updateprojectionmatrix" class="tsd-kind-icon">update<wbr>Projection<wbr>Matrix</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_facets_perspectivecamera_.perspectivecamera.html#updateviewmatrix" class="tsd-kind-icon">update<wbr>View<wbr>Matrix</a></li>
 							</ul>
 						</section>
 					</div>
@@ -169,7 +173,7 @@ scene.<span class="hljs-function"><span class="hljs-title">draw</span><span clas
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/facets/PerspectiveCamera.ts#L51">facets/PerspectiveCamera.ts:51</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/facets/PerspectiveCamera.ts#L52">facets/PerspectiveCamera.ts:52</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -222,7 +226,7 @@ scene.<span class="hljs-function"><span class="hljs-title">draw</span><span clas
 					<div class="tsd-signature tsd-kind-icon">inner<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_facets_perspective_.perspective.html" class="tsd-signature-type">Perspective</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/facets/PerspectiveCamera.ts#L51">facets/PerspectiveCamera.ts:51</a></li>
+							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/facets/PerspectiveCamera.ts#L52">facets/PerspectiveCamera.ts:52</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -232,7 +236,7 @@ scene.<span class="hljs-function"><span class="hljs-title">draw</span><span clas
 					<div class="tsd-signature tsd-kind-icon">PROP_<wbr>EYE<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/facets/PerspectiveCamera.ts#L46">facets/PerspectiveCamera.ts:46</a></li>
+							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/facets/PerspectiveCamera.ts#L47">facets/PerspectiveCamera.ts:47</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -242,7 +246,7 @@ scene.<span class="hljs-function"><span class="hljs-title">draw</span><span clas
 					<div class="tsd-signature tsd-kind-icon">PROP_<wbr>POSITION<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/facets/PerspectiveCamera.ts#L41">facets/PerspectiveCamera.ts:41</a></li>
+							<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/facets/PerspectiveCamera.ts#L42">facets/PerspectiveCamera.ts:42</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -265,7 +269,7 @@ scene.<span class="hljs-function"><span class="hljs-title">draw</span><span clas
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/facets/PerspectiveCamera.ts#L129">facets/PerspectiveCamera.ts:129</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/facets/PerspectiveCamera.ts#L130">facets/PerspectiveCamera.ts:130</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -278,7 +282,7 @@ scene.<span class="hljs-function"><span class="hljs-title">draw</span><span clas
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/facets/PerspectiveCamera.ts#L132">facets/PerspectiveCamera.ts:132</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/facets/PerspectiveCamera.ts#L133">facets/PerspectiveCamera.ts:133</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -307,7 +311,7 @@ scene.<span class="hljs-function"><span class="hljs-title">draw</span><span clas
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/facets/PerspectiveCamera.ts#L148">facets/PerspectiveCamera.ts:148</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/facets/PerspectiveCamera.ts#L149">facets/PerspectiveCamera.ts:149</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -320,7 +324,7 @@ scene.<span class="hljs-function"><span class="hljs-title">draw</span><span clas
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/facets/PerspectiveCamera.ts#L151">facets/PerspectiveCamera.ts:151</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/facets/PerspectiveCamera.ts#L152">facets/PerspectiveCamera.ts:152</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -349,7 +353,7 @@ scene.<span class="hljs-function"><span class="hljs-title">draw</span><span clas
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/facets/PerspectiveCamera.ts#L226">facets/PerspectiveCamera.ts:226</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/facets/PerspectiveCamera.ts#L227">facets/PerspectiveCamera.ts:227</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
@@ -357,7 +361,7 @@ scene.<span class="hljs-function"><span class="hljs-title">draw</span><span clas
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/facets/PerspectiveCamera.ts#L229">facets/PerspectiveCamera.ts:229</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/facets/PerspectiveCamera.ts#L230">facets/PerspectiveCamera.ts:230</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -381,7 +385,7 @@ scene.<span class="hljs-function"><span class="hljs-title">draw</span><span clas
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/facets/PerspectiveCamera.ts#L168">facets/PerspectiveCamera.ts:168</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/facets/PerspectiveCamera.ts#L169">facets/PerspectiveCamera.ts:169</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -395,7 +399,7 @@ scene.<span class="hljs-function"><span class="hljs-title">draw</span><span clas
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/facets/PerspectiveCamera.ts#L171">facets/PerspectiveCamera.ts:171</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/facets/PerspectiveCamera.ts#L172">facets/PerspectiveCamera.ts:172</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -425,7 +429,7 @@ scene.<span class="hljs-function"><span class="hljs-title">draw</span><span clas
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/facets/PerspectiveCamera.ts#L188">facets/PerspectiveCamera.ts:188</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/facets/PerspectiveCamera.ts#L189">facets/PerspectiveCamera.ts:189</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="_math_geometric3_.geometric3.html" class="tsd-signature-type">Geometric3</a></h4>
@@ -433,7 +437,7 @@ scene.<span class="hljs-function"><span class="hljs-title">draw</span><span clas
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/facets/PerspectiveCamera.ts#L191">facets/PerspectiveCamera.ts:191</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/facets/PerspectiveCamera.ts#L192">facets/PerspectiveCamera.ts:192</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -457,7 +461,7 @@ scene.<span class="hljs-function"><span class="hljs-title">draw</span><span clas
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/facets/PerspectiveCamera.ts#L207">facets/PerspectiveCamera.ts:207</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/facets/PerspectiveCamera.ts#L208">facets/PerspectiveCamera.ts:208</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -470,7 +474,7 @@ scene.<span class="hljs-function"><span class="hljs-title">draw</span><span clas
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/facets/PerspectiveCamera.ts#L210">facets/PerspectiveCamera.ts:210</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/facets/PerspectiveCamera.ts#L211">facets/PerspectiveCamera.ts:211</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -489,6 +493,38 @@ scene.<span class="hljs-function"><span class="hljs-title">draw</span><span clas
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class">
+					<a name="projectionmatrix" class="tsd-anchor"></a>
+					<h3>projection<wbr>Matrix</h3>
+					<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> projectionMatrix<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_math_matrix4_.default.html" class="tsd-signature-type">default</a></li>
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">set</span> projectionMatrix<span class="tsd-signature-symbol">(</span>projectionMatrix<span class="tsd-signature-symbol">: </span><a href="_math_matrix4_.default.html" class="tsd-signature-type">default</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/facets/PerspectiveCamera.ts#L262">facets/PerspectiveCamera.ts:262</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <a href="_math_matrix4_.default.html" class="tsd-signature-type">default</a></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/facets/PerspectiveCamera.ts#L266">facets/PerspectiveCamera.ts:266</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>projectionMatrix: <a href="_math_matrix4_.default.html" class="tsd-signature-type">default</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class">
 					<a name="up" class="tsd-anchor"></a>
 					<h3>up</h3>
 					<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class">
@@ -499,7 +535,7 @@ scene.<span class="hljs-function"><span class="hljs-title">draw</span><span clas
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/facets/PerspectiveCamera.ts#L245">facets/PerspectiveCamera.ts:245</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/facets/PerspectiveCamera.ts#L246">facets/PerspectiveCamera.ts:246</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="_math_geometric3_.geometric3.html" class="tsd-signature-type">Geometric3</a></h4>
@@ -507,13 +543,45 @@ scene.<span class="hljs-function"><span class="hljs-title">draw</span><span clas
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/facets/PerspectiveCamera.ts#L248">facets/PerspectiveCamera.ts:248</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/facets/PerspectiveCamera.ts#L249">facets/PerspectiveCamera.ts:249</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>up: <a href="_math_geometric3_.geometric3.html" class="tsd-signature-type">Geometric3</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class">
+					<a name="viewmatrix" class="tsd-anchor"></a>
+					<h3>view<wbr>Matrix</h3>
+					<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> viewMatrix<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_math_matrix4_.default.html" class="tsd-signature-type">default</a></li>
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">set</span> viewMatrix<span class="tsd-signature-symbol">(</span>viewMatrix<span class="tsd-signature-symbol">: </span><a href="_math_matrix4_.default.html" class="tsd-signature-type">default</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/facets/PerspectiveCamera.ts#L278">facets/PerspectiveCamera.ts:278</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <a href="_math_matrix4_.default.html" class="tsd-signature-type">default</a></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/facets/PerspectiveCamera.ts#L282">facets/PerspectiveCamera.ts:282</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>viewMatrix: <a href="_math_matrix4_.default.html" class="tsd-signature-type">default</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -533,7 +601,7 @@ scene.<span class="hljs-function"><span class="hljs-title">draw</span><span clas
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/facets/PerspectiveCamera.ts#L92">facets/PerspectiveCamera.ts:92</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/facets/PerspectiveCamera.ts#L93">facets/PerspectiveCamera.ts:93</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -559,7 +627,7 @@ scene.<span class="hljs-function"><span class="hljs-title">draw</span><span clas
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_facets_perspective_.perspective.html">Perspective</a>.<a href="../interfaces/_facets_perspective_.perspective.html#setaspect">setAspect</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/facets/PerspectiveCamera.ts#L140">facets/PerspectiveCamera.ts:140</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/facets/PerspectiveCamera.ts#L141">facets/PerspectiveCamera.ts:141</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -585,7 +653,7 @@ scene.<span class="hljs-function"><span class="hljs-title">draw</span><span clas
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_facets_perspective_.perspective.html">Perspective</a>.<a href="../interfaces/_facets_perspective_.perspective.html#seteye">setEye</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/facets/PerspectiveCamera.ts#L159">facets/PerspectiveCamera.ts:159</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/facets/PerspectiveCamera.ts#L160">facets/PerspectiveCamera.ts:160</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -611,7 +679,7 @@ scene.<span class="hljs-function"><span class="hljs-title">draw</span><span clas
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_facets_perspective_.perspective.html">Perspective</a>.<a href="../interfaces/_facets_perspective_.perspective.html#setfar">setFar</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/facets/PerspectiveCamera.ts#L237">facets/PerspectiveCamera.ts:237</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/facets/PerspectiveCamera.ts#L238">facets/PerspectiveCamera.ts:238</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -637,7 +705,7 @@ scene.<span class="hljs-function"><span class="hljs-title">draw</span><span clas
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_facets_perspective_.perspective.html">Perspective</a>.<a href="../interfaces/_facets_perspective_.perspective.html#setfov">setFov</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/facets/PerspectiveCamera.ts#L179">facets/PerspectiveCamera.ts:179</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/facets/PerspectiveCamera.ts#L180">facets/PerspectiveCamera.ts:180</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -663,7 +731,7 @@ scene.<span class="hljs-function"><span class="hljs-title">draw</span><span clas
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_facets_perspective_.perspective.html">Perspective</a>.<a href="../interfaces/_facets_perspective_.perspective.html#setlook">setLook</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/facets/PerspectiveCamera.ts#L199">facets/PerspectiveCamera.ts:199</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/facets/PerspectiveCamera.ts#L200">facets/PerspectiveCamera.ts:200</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -689,7 +757,7 @@ scene.<span class="hljs-function"><span class="hljs-title">draw</span><span clas
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_facets_perspective_.perspective.html">Perspective</a>.<a href="../interfaces/_facets_perspective_.perspective.html#setnear">setNear</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/facets/PerspectiveCamera.ts#L218">facets/PerspectiveCamera.ts:218</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/facets/PerspectiveCamera.ts#L219">facets/PerspectiveCamera.ts:219</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -715,7 +783,7 @@ scene.<span class="hljs-function"><span class="hljs-title">draw</span><span clas
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_core_facet_.facet.html">Facet</a>.<a href="../interfaces/_core_facet_.facet.html#setproperty">setProperty</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/facets/PerspectiveCamera.ts#L110">facets/PerspectiveCamera.ts:110</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/facets/PerspectiveCamera.ts#L111">facets/PerspectiveCamera.ts:111</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -744,7 +812,7 @@ scene.<span class="hljs-function"><span class="hljs-title">draw</span><span clas
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_core_facet_.facet.html">Facet</a>.<a href="../interfaces/_core_facet_.facet.html#setuniforms">setUniforms</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/facets/PerspectiveCamera.ts#L81">facets/PerspectiveCamera.ts:81</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/facets/PerspectiveCamera.ts#L82">facets/PerspectiveCamera.ts:82</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -772,7 +840,7 @@ scene.<span class="hljs-function"><span class="hljs-title">draw</span><span clas
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_facets_perspective_.perspective.html">Perspective</a>.<a href="../interfaces/_facets_perspective_.perspective.html#setup">setUp</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/facets/PerspectiveCamera.ts#L256">facets/PerspectiveCamera.ts:256</a></li>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/facets/PerspectiveCamera.ts#L257">facets/PerspectiveCamera.ts:257</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -784,6 +852,42 @@ scene.<span class="hljs-function"><span class="hljs-title">draw</span><span clas
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="_facets_perspectivecamera_.perspectivecamera.html" class="tsd-signature-type">PerspectiveCamera</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="updateprojectionmatrix" class="tsd-anchor"></a>
+					<h3>update<wbr>Projection<wbr>Matrix</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">update<wbr>Projection<wbr>Matrix<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/_facets_perspective_.perspective.html">Perspective</a>.<a href="../interfaces/_facets_perspective_.perspective.html#updateprojectionmatrix">updateProjectionMatrix</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/facets/PerspectiveCamera.ts#L270">facets/PerspectiveCamera.ts:270</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="updateviewmatrix" class="tsd-anchor"></a>
+					<h3>update<wbr>View<wbr>Matrix</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">update<wbr>View<wbr>Matrix<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/_facets_perspective_.perspective.html">Perspective</a>.<a href="../interfaces/_facets_perspective_.perspective.html#updateviewmatrix">updateViewMatrix</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/geometryzen/davinci-eight/blob/master/src/davinci-eight/facets/PerspectiveCamera.ts#L274">facets/PerspectiveCamera.ts:274</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -838,7 +942,13 @@ scene.<span class="hljs-function"><span class="hljs-title">draw</span><span clas
 								<a href="_facets_perspectivecamera_.perspectivecamera.html#near" class="tsd-kind-icon">near</a>
 							</li>
 							<li class=" tsd-kind-accessor tsd-parent-kind-class">
+								<a href="_facets_perspectivecamera_.perspectivecamera.html#projectionmatrix" class="tsd-kind-icon">projection<wbr>Matrix</a>
+							</li>
+							<li class=" tsd-kind-accessor tsd-parent-kind-class">
 								<a href="_facets_perspectivecamera_.perspectivecamera.html#up" class="tsd-kind-icon">up</a>
+							</li>
+							<li class=" tsd-kind-accessor tsd-parent-kind-class">
+								<a href="_facets_perspectivecamera_.perspectivecamera.html#viewmatrix" class="tsd-kind-icon">view<wbr>Matrix</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_facets_perspectivecamera_.perspectivecamera.html#getproperty" class="tsd-kind-icon">get<wbr>Property</a>
@@ -869,6 +979,12 @@ scene.<span class="hljs-function"><span class="hljs-title">draw</span><span clas
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_facets_perspectivecamera_.perspectivecamera.html#setup" class="tsd-kind-icon">set<wbr>Up</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_facets_perspectivecamera_.perspectivecamera.html#updateprojectionmatrix" class="tsd-kind-icon">update<wbr>Projection<wbr>Matrix</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_facets_perspectivecamera_.perspectivecamera.html#updateviewmatrix" class="tsd-kind-icon">update<wbr>View<wbr>Matrix</a>
 							</li>
 						</ul>
 					</li>

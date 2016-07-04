@@ -107,14 +107,40 @@ export default function createPerspective(options: { fov?: number; aspect?: numb
             }
             return self
         },
+
         setUniforms(visitor: FacetVisitor) {
+            self.updateProjectionMatrix();
+            visitor.matrix4fv(projectionMatrixName, projectionMatrix.elements, false)
+            base.setUniforms(visitor)
+        },
+
+        get projectionMatrix(): Matrix4 {
+            self.updateProjectionMatrix();
+            return projectionMatrix;
+        },
+
+        set projectionMatrix(projectionMatrix) {
+            throw new Error("projectionMatrix property is readonly");
+        },
+
+        updateProjectionMatrix(): void {
             if (matrixNeedsUpdate) {
                 computePerspectiveMatrix(fov.x, aspect.x, near.x, far.x, projectionMatrix)
                 matrixNeedsUpdate = false
             }
-            visitor.matrix4fv(projectionMatrixName, projectionMatrix.elements, false)
-            base.setUniforms(visitor)
+        },
+
+        updateViewMatrix(): void {
+            base.updateViewMatrix();
+        },
+
+        get viewMatrix(): Matrix4 {
+            return base.viewMatrix;
+        },
+
+        set viewMatrix(viewMatrix: Matrix4) {
+            base.viewMatrix = viewMatrix;
         }
     }
-    return self
+    return self;
 }
