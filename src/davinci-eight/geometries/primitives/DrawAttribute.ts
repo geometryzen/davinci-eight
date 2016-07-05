@@ -1,4 +1,5 @@
 import Attribute from '../../core/Attribute';
+import DataType from '../../core/DataType';
 
 function isVectorN(values: number[]): boolean {
     return true
@@ -33,10 +34,12 @@ function checkSize(size: number, values: number[]): number {
 export default class DrawAttribute implements Attribute {
     public values: number[];
     public size: number;
-    constructor(values: number[], size: number) {
+    public dataType: DataType;
+    constructor(values: number[], size: number, dataType: DataType) {
         // mustBeArray('values', values)
         // mustBeInteger('size', size)
         this.values = checkValues(values)
         this.size = checkSize(size, values)
+        this.dataType = dataType;
     }
 }

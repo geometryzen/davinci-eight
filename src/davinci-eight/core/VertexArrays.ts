@@ -1,4 +1,4 @@
-import DrawMode from './DrawMode'
+import BeginMode from './BeginMode'
 import VertexAttribPointer from './VertexAttribPointer'
 
 /**
@@ -7,10 +7,9 @@ import VertexAttribPointer from './VertexAttribPointer'
 interface VertexArrays {
 
     /**
-     * @attribute drawMode
-     * @type DrawMode
+     *
      */
-    drawMode: DrawMode
+    drawMode: BeginMode
 
     /**
      * @attribute indices

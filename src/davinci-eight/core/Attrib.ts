@@ -1,6 +1,11 @@
 import ContextProgramConsumer from  '../core/ContextProgramConsumer';
+import DataType from '../core/DataType';
+import dataTypeToGL from '../core/dataTypeToGL';
 import readOnly from  '../i18n/readOnly';
 
+/**
+ * An object-oriented representation of an attribute in a GLSL shader program.
+ */
 export default class Attrib implements ContextProgramConsumer {
 
     /**
@@ -23,7 +28,7 @@ export default class Attrib implements ContextProgramConsumer {
     private _gl: WebGLRenderingContext;
 
     constructor(info: WebGLActiveInfo) {
-        this._name = info.name
+        this._name = info.name;
     }
 
     /**
@@ -87,11 +92,18 @@ export default class Attrib implements ContextProgramConsumer {
      * @param [offset = 0] {number} Used for WebGL rendering context vertexAttribPointer method.
      * @return {void}
      */
-    vertexPointer(size: number, normalized = false, stride = 0, offset = 0): void {
+    vertexPointerDEPRECATED(size: number, normalized = false, stride = 0, offset = 0): void {
         // TODO: Notice that when this function is called, the cached index is used.
         // This suggests that we should used the cached indices to to look up attributes
         // when we are in the animation loop.
         this._gl.vertexAttribPointer(this._index, size, this._gl.FLOAT, normalized, stride, offset);
+    }
+
+    config(size: number, dataType: DataType, normalized = false, stride = 0, offset = 0): void {
+        // TODO: Notice that when this function is called, the cached index is used.
+        // This suggests that we should used the cached indices to to look up attributes
+        // when we are in the animation loop.
+        this._gl.vertexAttribPointer(this._index, size, dataTypeToGL(dataType, this._gl), normalized, stride, offset);
     }
 
     /**

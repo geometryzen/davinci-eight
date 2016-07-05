@@ -10,6 +10,12 @@
  */
 declare module EIGHT {
 
+    enum ClearBufferMask {
+        DEPTH_BUFFER_BIT,
+        STENCIL_BUFFER_BIT,
+        COLOR_BUFFER_BIT
+    }
+
     /**
      * Enables clients of Shareable instances to declare their references.
      */
@@ -297,6 +303,10 @@ declare module EIGHT {
         unsubscribe(): void;
     }
 
+    enum DataType {
+        FLOAT
+    }
+
     enum Usage {
         STATIC_DRAW,
         DYNAMIC_DRAW
@@ -413,7 +423,7 @@ declare module EIGHT {
     /**
      * The draw mode determines how the WebGL pipeline consumes and processes the vertices.
      */
-    enum DrawMode {
+    enum BeginMode {
         /**
          * Each vertex is drawn as an isolated pixel or group of pixes based upon gl_PointSize.
          */
@@ -467,24 +477,31 @@ declare module EIGHT {
      * {values: number[]; size: number;}
      */
     interface Attribute {
+
         /**
          * The attribute values.
          */
         values: number[];
+
         /**
          * The number of values that are associated with a given vertex.
          */
         size: number;
+
+        /**
+         * 
+         */
+        dataType: DataType;
     }
 
     /**
-     * {mode: DrawMode; indices: number[]; attributes: {[name: string]: Attribute};}
+     *
      */
     interface Primitive {
         /**
          *
          */
-        mode: DrawMode;
+        mode: BeginMode;
 
         /**
          *
@@ -517,6 +534,7 @@ declare module EIGHT {
         enable(): void;
         disable(): void;
         vertexPointer(size: number, normalized?: boolean, stride?: number, offset?: number): void;
+        config(size: number, dataType: DataType, normalized?: boolean, stride?: number, offset?: number): void;
     }
 
     /**
@@ -3127,7 +3145,7 @@ declare module EIGHT {
     }
 
     interface VertexArrays {
-        drawMode: DrawMode
+        drawMode: BeginMode
         indices: number[]
         attributes: number[]
         stride: number
@@ -3169,7 +3187,7 @@ declare module EIGHT {
      * A Geometry for supporting drawArrays.
      */
     class GeometryArrays extends ShareableContextConsumer implements Geometry {
-        drawMode: DrawMode
+        drawMode: BeginMode
         partsLength: number;
         scaling: Matrix4;
         /**
@@ -3191,7 +3209,7 @@ declare module EIGHT {
 
     class GeometryElements extends ShareableContextConsumer implements Geometry {
         attributes: number[]
-        drawMode: DrawMode;
+        drawMode: BeginMode;
         indices: number[];
         partsLength: number;
         pointers: VertexAttribPointer[];
@@ -4018,7 +4036,7 @@ declare module EIGHT {
                 aPosition?: (u: number) => VectorE3;
                 attitude?: SpinorE3;
                 color?: AbstractColor;
-                drawMode?: DrawMode;
+                drawMode?: BeginMode;
                 engine?: Engine;
                 offset?: VectorE3;
                 position?: VectorE3;
@@ -4037,7 +4055,7 @@ declare module EIGHT {
                 aPosition?: (u: number, v: number) => VectorE3;
                 attitude?: SpinorE3;
                 color?: AbstractColor;
-                drawMode?: DrawMode;
+                drawMode?: BeginMode;
                 engine?: Engine;
                 offset?: VectorE3;
                 position?: VectorE3;

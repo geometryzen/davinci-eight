@@ -1,3 +1,4 @@
+import DataType from './DataType';
 /**
  * @module EIGHT
  * @submodule core
@@ -19,6 +20,11 @@ interface VertexAttribPointer {
      * @type number
      */
     size: number;
+
+    /**
+     * 
+     */
+    dataType: DataType;
 
     /**
      * @attribute normalized

@@ -1,4 +1,4 @@
-import DrawMode from '../../core/DrawMode'
+import BeginMode from '../../core/BeginMode'
 import GraphicsProgramSymbols from '../../core/GraphicsProgramSymbols'
 import GridTriangleStrip from './GridTriangleStrip'
 import {Vector2} from '../../math/Vector2'
@@ -55,7 +55,7 @@ describe("GridTriangleStrip", function() {
             describe("Primitive", function() {
                 const primitive = strip.toPrimitive()
                 it("should be a TRIANGLE_STRIP", function() {
-                    expect(primitive.mode).toBe(DrawMode.TRIANGLE_STRIP)
+                    expect(primitive.mode).toBe(BeginMode.TRIANGLE_STRIP)
                 })
                 describe("indices", function() {
                     const indices = primitive.indices

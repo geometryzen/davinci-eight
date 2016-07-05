@@ -1,5 +1,5 @@
 import Attribute from './Attribute';
-import DrawMode from './DrawMode';
+import BeginMode from './BeginMode';
 
 /**
  * @module EIGHT
@@ -8,10 +8,9 @@ import DrawMode from './DrawMode';
  */
 interface Primitive {
     /**
-     * @property mode
-     * @type {DrawMode}
+     *
      */
-    mode: DrawMode;
+    mode: BeginMode;
 
     /**
      * @property indices

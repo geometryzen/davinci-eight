@@ -24,10 +24,12 @@ import {TrackballControls} from './davinci-eight/controls/TrackballControls'
 // core
 import Attrib from './davinci-eight/core/Attrib';
 import AttribMetaInfo from './davinci-eight/core/AttribMetaInfo';
+import BeginMode from './davinci-eight/core/BeginMode';
+import ClearBufferMask from './davinci-eight/core/ClearBufferMask';
 import {Color} from './davinci-eight/core/Color';
 import config from './davinci-eight/config';
+import DataType from './davinci-eight/core/DataType';
 import {Drawable} from './davinci-eight/core/Drawable';
-import DrawMode from './davinci-eight/core/DrawMode';
 import ErrorMode from './davinci-eight/core/ErrorMode';
 import {ContextConsumer} from './davinci-eight/core/ContextConsumer';
 import ContextProgramConsumer from './davinci-eight/core/ContextProgramConsumer';
@@ -255,7 +257,10 @@ const eight = {
     get getCanvasElementById() { return getCanvasElementById },
     get Engine() { return Engine },
     get animation() { return animation },
-    get DrawMode() { return DrawMode },
+    get BeginMode() { return BeginMode },
+    get ClearBufferMask() { return ClearBufferMask },
+    get DataType() { return DataType },
+    get DrawMode() { return BeginMode },
     get ErrorMode() { return ErrorMode },
     get Usage() { return Usage },
     get Attrib() { return Attrib },

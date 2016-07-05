@@ -1,6 +1,7 @@
 import ContextProvider from '../core/ContextProvider';
-import DrawMode from '../core/DrawMode';
-import drawModeToGL from '../core/drawModeToGL';
+import DataType from '../core/DataType';
+import dataTypeToGL from '../core/dataTypeToGL';
+import BeginMode from '../core/BeginMode';
 import mustBeInteger from '../checks/mustBeInteger';
 import readOnly from '../i18n/readOnly';
 import {ShareableBase} from '../core/ShareableBase';
@@ -45,18 +46,14 @@ export default class DefaultContextProvider extends ShareableBase implements Con
         }
     }
 
-    drawArrays(mode: number, first: number, count: number): void {
-        const gl = this.gl
-        gl.drawArrays(mode, first, count)
+    drawArrays(mode: BeginMode, first: number, count: number): void {
+        const gl = this.gl;
+        gl.drawArrays(mode, first, count);
     }
 
-    drawElements(mode: number, count: number, offset: number): void {
-        const gl = this.gl
-        gl.drawElements(mode, count, gl.UNSIGNED_SHORT, offset)
-    }
-
-    drawModeToGL(drawMode: DrawMode): number {
-        return drawModeToGL(drawMode, this.gl)
+    drawElements(mode: BeginMode, count: number, offset: number): void {
+        const gl = this.gl;
+        gl.drawElements(mode, count, DataType.UNSIGNED_SHORT, offset);
     }
 
     enableVertexAttribArray(index: number): void {
@@ -74,8 +71,8 @@ export default class DefaultContextProvider extends ShareableBase implements Con
         }
     }
 
-    vertexAttribPointer(index: number, size: number, normalized: boolean, stride: number, offset: number): void {
-        const gl = this.gl
-        gl.vertexAttribPointer(index, size, gl.FLOAT, normalized, stride, offset)
+    vertexAttribPointer(index: number, size: number, dataType: DataType, normalized: boolean, stride: number, offset: number): void {
+        const gl = this.gl;
+        gl.vertexAttribPointer(index, size, dataTypeToGL(dataType, gl), normalized, stride, offset);
     }
 }

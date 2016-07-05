@@ -1,6 +1,7 @@
 import Attrib from '../core/Attrib';
 import ContextProvider from '../core/ContextProvider';
 import {Material} from '../core/Material';
+import Uniform from '../core/Uniform';
 
 export default class MaterialTracer implements Material {
     constructor(private inner: Material) {
@@ -27,11 +28,11 @@ export default class MaterialTracer implements Material {
         console.log(`disableAttrib(${indexOrName})`)
         return this.inner.disableAttrib(indexOrName);
     }
-    vertexPointer(indexOrName: number | string, size: number, normalized: boolean, stride: number, offset: number) {
+    vertexPointerDEPRECATED(indexOrName: number | string, size: number, normalized: boolean, stride: number, offset: number) {
         console.log(`vertexPointer(${indexOrName})`)
-        return this.inner.vertexPointer(indexOrName, size, normalized, stride, offset)
+        return this.inner.vertexPointerDEPRECATED(indexOrName, size, normalized, stride, offset)
     }
-    getUniform(name: string) {
+    getUniform(name: string): Uniform {
         return this.inner.getUniform(name)
     }
     getUniformLocation(name: string) {

@@ -1,3 +1,4 @@
+import ClearBufferMask from './ClearBufferMask';
 import mustSatisfy from '../checks/mustSatisfy';
 
 /**
@@ -9,10 +10,10 @@ export default function clearMask(colorFlag: boolean, depthFlag: boolean, stenci
         if (gl) {
             // Experimental code to determine if documented values are correct.
             mustSatisfy('COLOR_BUFFER_BIT', gl.COLOR_BUFFER_BIT === 0x4000, () => { return 'clearMask' })
-            mask |= gl.COLOR_BUFFER_BIT
+            mask |= gl.COLOR_BUFFER_BIT;
         }
         else {
-            mask |= 0x4000
+            mask |= ClearBufferMask.COLOR_BUFFER_BIT;
         }
     }
     if (depthFlag) {
@@ -22,17 +23,17 @@ export default function clearMask(colorFlag: boolean, depthFlag: boolean, stenci
             mask |= gl.DEPTH_BUFFER_BIT
         }
         else {
-            mask |= 0x0100
+            mask |= ClearBufferMask.DEPTH_BUFFER_BIT
         }
     }
     if (stencilFlag) {
         if (gl) {
             // Experimental code to determine if documented values are correct.
             mustSatisfy('STENCIL_BUFFER_BIT', gl.STENCIL_BUFFER_BIT === 0x0400, () => { return 'clearMask' })
-            mask |= gl.STENCIL_BUFFER_BIT
+            mask |= gl.STENCIL_BUFFER_BIT;
         }
         else {
-            mask |= 0x0400
+            mask |= ClearBufferMask.STENCIL_BUFFER_BIT;
         }
     }
     return mask

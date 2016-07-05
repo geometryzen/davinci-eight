@@ -16,7 +16,7 @@ import VertexBuffer from './VertexBuffer'
  *     const engine = new EIGHT.Engine()
  *
  *     const geometry = new EIGHT.GeometryArrays(engine)
- *     geometry.drawMode = EIGHT.DrawMode.LINES
+ *     geometry.drawMode = EIGHT.BeginMode.LINES
  *     geometry.setAttribute('aPosition', {values: [0, 0, 1, 0, 0, 0, 0, 1], size: 2})
  *     geometry.setAttribute('aColor', {values: [0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0], size: 3})
  *
@@ -96,10 +96,10 @@ export default class GeometryArrays extends GeometryLeaf {
                 const iLength = pointers.length
                 for (let i = 0; i < iLength; i++) {
                     const pointer = pointers[i]
-                    const attribLoc = material.getAttribLocation(pointer.name)
-                    if (attribLoc >= 0) {
-                        contextProvider.vertexAttribPointer(attribLoc, pointer.size, pointer.normalized, this._stride, pointer.offset)
-                        contextProvider.enableVertexAttribArray(attribLoc)
+                    const attrib = material.getAttrib(pointer.name)
+                    if (attrib) {
+                        attrib.config(pointer.size, pointer.dataType, pointer.normalized, this._stride, pointer.offset);
+                        attrib.enable();
                     }
                 }
             }
@@ -113,7 +113,7 @@ export default class GeometryArrays extends GeometryLeaf {
                     }
                 }
             }
-            this.contextProvider.drawArrays(this.mode, this.first, this.count)
+            this.contextProvider.drawArrays(this.drawMode, this.first, this.count)
             this.vbo.unbind()
         }
     }

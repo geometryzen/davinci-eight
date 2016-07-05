@@ -1,7 +1,7 @@
 import {Material} from './Material'
+import BeginMode from './BeginMode'
 import ContextProvider from './ContextProvider'
 import config from '../config'
-import DrawMode from './DrawMode'
 import {Engine} from './Engine'
 import ErrorMode from './ErrorMode'
 import {Geometry} from './Geometry'
@@ -20,200 +20,164 @@ import VertexAttribPointer from './VertexAttribPointer'
  */
 export default class GeometryLeaf extends ShareableContextConsumer implements Geometry {
 
-  /**
-   * @property _drawMode
-   * @type DrawMode
-   * @private
-   */
-  private _drawMode: DrawMode;
+    /**
+     *
+     */
+    public drawMode: BeginMode;
 
-  /**
-   * @property mode
-   * @type number
-   * @protected
-   */
-  protected mode: number;
+    /**
+     * <p>
+     * The number of <em>bytes</em> for each element.
+     * </p>
+     * <p>
+     * This is used in the vertexAttribPointer method.
+     * Normally, we will use gl.FLOAT for each number which takes 4 bytes.
+     * </p>
+     *
+     * @property _stride
+     * @type number
+     * @protected
+     */
+    protected _stride: number;
 
-  /**
-   * <p>
-   * The number of <em>bytes</em> for each element.
-   * </p>
-   * <p>
-   * This is used in the vertexAttribPointer method.
-   * Normally, we will use gl.FLOAT for each number which takes 4 bytes.
-   * </p>
-   *
-   * @property _stride
-   * @type number
-   * @protected
-   */
-  protected _stride: number;
+    /**
+     * @property _pointers
+     * @type VertexAttribPointer[]
+     * @protected
+     */
+    protected _pointers: VertexAttribPointer[];
 
-  /**
-   * @property _pointers
-   * @type VertexAttribPointer[]
-   * @protected
-   */
-  protected _pointers: VertexAttribPointer[];
-
-  /**
-   * @class GeometryLeaf
-   * @constructor
-   * @param engine {Engine}
-   */
-  constructor(engine: Engine) {
-    super(engine)
-    this.setLoggingName('GeometryLeaf')
-  }
-
-  /**
-   * @method destructor
-   * @param levelUp {number}
-   * @return {void}
-   * @protected
-   */
-  protected destructor(levelUp: number): void {
-    super.destructor(incLevel(levelUp))
-  }
-
-  /**
-   * @property drawMode
-   * @type {DrawMode}
-   */
-  get drawMode(): DrawMode {
-    return this._drawMode
-  }
-  set drawMode(drawMode: DrawMode) {
-    this._drawMode = drawMode
-    if (this.contextProvider) {
-      this.drawMode = this.contextProvider.drawModeToGL(drawMode)
+    /**
+     * @class GeometryLeaf
+     * @constructor
+     * @param engine {Engine}
+     */
+    constructor(engine: Engine) {
+        super(engine)
+        this.setLoggingName('GeometryLeaf')
     }
-  }
 
-  /**
-   * @method isLeaf
-   * @return {boolean}
-   */
-  public isLeaf(): boolean {
-    return true
-  }
-
-  /**
-   * @property partsLength
-   * @type number
-   * @readOnly
-   */
-  get partsLength(): number {
-    return 0
-  }
-  set partsLength(unused) {
-    throw new Error(readOnly('partsLength').message)
-  }
-
-  /**
-   * @property scaling
-   * @type Matrix4
-   */
-  get scaling(): Matrix4 {
-    throw new Error(notImplemented('get scaling').message)
-  }
-  set scaling(scaling: Matrix4) {
-    throw new Error(notImplemented('set scaling').message)
-  }
-
-  /**
-   * @method addPart
-   * @param geometry {Geometry}
-   * @return {void}
-   */
-  addPart(geometry: Geometry): void {
-    throw new Error(notSupported('addPart').message)
-  }
-
-  /**
-   * @method contextGain
-   * @param contextProvider {ContextProvider}
-   * @return {void}
-   */
-  public contextGain(contextProvider: ContextProvider): void {
-    super.contextGain(contextProvider)
-    if (isNumber(this._drawMode)) {
-      this.mode = contextProvider.drawModeToGL(this._drawMode)
+    /**
+     * @method destructor
+     * @param levelUp {number}
+     * @return {void}
+     * @protected
+     */
+    protected destructor(levelUp: number): void {
+        super.destructor(incLevel(levelUp))
     }
-    else {
-      switch (config.errorMode) {
-        case ErrorMode.WARNME: {
-          console.warn(`${this._type}.drawMode must be a number.`)
-        }
-        default: {
-          // Do nothing.
-        }
-      }
+
+    /**
+     * @method isLeaf
+     * @return {boolean}
+     */
+    public isLeaf(): boolean {
+        return true
     }
-    if (!isNumber(this._stride)) {
-      switch (config.errorMode) {
-        case ErrorMode.WARNME: {
-          console.warn(`${this._type}.stride must be a number.`)
-        }
-        default: {
-          // Do nothing.
-        }
-      }
+
+    /**
+     * @property partsLength
+     * @type number
+     * @readOnly
+     */
+    get partsLength(): number {
+        return 0
     }
-  }
+    set partsLength(unused) {
+        throw new Error(readOnly('partsLength').message)
+    }
 
-  /**
-   * @method removePart
-   * @param index {number}
-   * @return {void}
-   */
-  removePart(index: number): void {
-    throw new Error(notSupported('removePart').message)
-  }
+    /**
+     * @property scaling
+     * @type Matrix4
+     */
+    get scaling(): Matrix4 {
+        throw new Error(notImplemented('get scaling').message)
+    }
+    set scaling(scaling: Matrix4) {
+        throw new Error(notImplemented('set scaling').message)
+    }
 
-  /**
-   * @method getPart
-   * @param index {number}
-   * @return {Geometry}
-   */
-  getPart(index: number): Geometry {
-    throw new Error(notSupported('getPart').message)
-  }
+    /**
+     * @method addPart
+     * @param geometry {Geometry}
+     * @return {void}
+     */
+    addPart(geometry: Geometry): void {
+        throw new Error(notSupported('addPart').message)
+    }
 
-  /**
-   * @method draw
-   * @param material {Material}
-   * @return {void}
-   */
-  draw(material: Material): void {
-    throw new Error(notSupported('draw').message)
-  }
+    /**
+     * @method contextGain
+     * @param contextProvider {ContextProvider}
+     * @return {void}
+     */
+    public contextGain(contextProvider: ContextProvider): void {
+        super.contextGain(contextProvider)
+        if (!isNumber(this._stride)) {
+            switch (config.errorMode) {
+                case ErrorMode.WARNME: {
+                    console.warn(`${this._type}.stride must be a number.`)
+                }
+                default: {
+                    // Do nothing.
+                }
+            }
+        }
+    }
 
-  /**
-   * @method hasPrincipalScale
-   * @param name {string}
-   * @return {boolean}
-   */
-  hasPrincipalScale(name: string): boolean {
-    throw new Error(notImplemented(`hasPrincipalScale(${name})`).message)
-  }
+    /**
+     * @method removePart
+     * @param index {number}
+     * @return {void}
+     */
+    removePart(index: number): void {
+        throw new Error(notSupported('removePart').message)
+    }
 
-  /**
-   * @method getPrincipalScale
-   * @param name {string}
-   * @return {number}
-   */
-  public getPrincipalScale(name: string): number {
-    throw new Error(notImplemented('getPrincipalScale').message)
-  }
+    /**
+     * @method getPart
+     * @param index {number}
+     * @return {Geometry}
+     */
+    getPart(index: number): Geometry {
+        throw new Error(notSupported('getPart').message)
+    }
 
-  /**
-   * @method setPrincipalScale
-   * @param name {string}
-   * @param value {number}
-   * @return {void}
-   */
-  public setPrincipalScale(name: string, value: number): void {
-    throw new Error(notImplemented('setPrincipalScale').message)
-  }
+    /**
+     * @method draw
+     * @param material {Material}
+     * @return {void}
+     */
+    draw(material: Material): void {
+        throw new Error(notSupported('draw').message)
+    }
+
+    /**
+     * @method hasPrincipalScale
+     * @param name {string}
+     * @return {boolean}
+     */
+    hasPrincipalScale(name: string): boolean {
+        throw new Error(notImplemented(`hasPrincipalScale(${name})`).message)
+    }
+
+    /**
+     * @method getPrincipalScale
+     * @param name {string}
+     * @return {number}
+     */
+    public getPrincipalScale(name: string): number {
+        throw new Error(notImplemented('getPrincipalScale').message)
+    }
+
+    /**
+     * @method setPrincipalScale
+     * @param name {string}
+     * @param value {number}
+     * @return {void}
+     */
+    public setPrincipalScale(name: string, value: number): void {
+        throw new Error(notImplemented('setPrincipalScale').message)
+    }
 }

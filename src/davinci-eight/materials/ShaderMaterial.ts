@@ -398,7 +398,7 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
      * @param stride
      * @param offset
      */
-    vertexPointer(indexOrName: number | string, size: number, normalized: boolean, stride: number, offset: number): void {
+    vertexPointerDEPRECATED(indexOrName: number | string, size: number, normalized: boolean, stride: number, offset: number): void {
         if (typeof indexOrName === 'number') {
             if (this.gl) {
                 this.gl.vertexAttribPointer(indexOrName, size, this.gl.FLOAT, normalized, stride, offset);
@@ -406,7 +406,7 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
         }
         else if (typeof indexOrName === 'string') {
             const attributeLocation = this._attributesByName[indexOrName];
-            attributeLocation.vertexPointer(size, normalized, stride, offset);
+            attributeLocation.vertexPointerDEPRECATED(size, normalized, stride, offset);
         }
         else {
             throw new TypeError("indexOrName must have type number or string.");

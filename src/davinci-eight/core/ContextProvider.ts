@@ -1,4 +1,5 @@
-import DrawMode from './DrawMode';
+import BeginMode from './BeginMode';
+import DataType from './DataType';
 import {Shareable} from './Shareable';
 
 /**
@@ -25,29 +26,19 @@ interface ContextProvider extends Shareable {
     /**
      * Render geometric primitives from bound and enabled vertex data.
      *
-     * @method drawArrays
-     * @param mode {number} Specifies the kind of geometric primitives to render from a given set of vertex attributes.
-     * @param first {number} The first element to render in the array of vector points.
-     * @param count {number} The number of vector points to render. For example, a triangle would be 3.
+     * @param mode Specifies the kind of geometric primitives to render from a given set of vertex attributes.
+     * @param first The first element to render in the array of vector points.
+     * @param count The number of vector points to render. For example, a triangle would be 3.
      * @return {void}
      */
-    drawArrays(mode: number, first: number, count: number): void
+    drawArrays(mode: BeginMode, first: number, count: number): void
 
     /**
-     * @method drawElements
-     * @param mode {number}
-     * @param count {number}
-     * @param offset {number}
-     * @return {void}
+     * @param mode
+     * @param count
+     * @param offset
      */
-    drawElements(mode: number, count: number, offset: number): void
-
-    /**
-     * @method drawModeToGL
-     * @param drawMode {DrawMode}
-     * @return {number}
-     */
-    drawModeToGL(drawMode: DrawMode): number
+    drawElements(mode: BeginMode, count: number, offset: number): void
 
     /**
      * @method enableVertexAttribArray
@@ -64,14 +55,14 @@ interface ContextProvider extends Shareable {
 
     /**
      * @method vertexAttribPointer
-     * @param index {number}
-     * @param size {number}
-     * @param normalized {boolean}
-     * @param stride {number}
-     * @param offset {number}
-     * @return {void}
+     * @param index
+     * @param size
+     * @param dataType
+     * @param normalized
+     * @param stride
+     * @param offset
      */
-    vertexAttribPointer(index: number, size: number, normalized: boolean, stride: number, offset: number): void;
+    vertexAttribPointer(index: number, size: number, dataType: DataType, normalized: boolean, stride: number, offset: number): void;
 }
 
 export default ContextProvider;
