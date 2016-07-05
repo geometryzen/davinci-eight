@@ -24,7 +24,7 @@ interface VertexAttribPointer {
     /**
      * 
      */
-    dataType: DataType;
+    type: DataType;
 
     /**
      * @attribute normalized

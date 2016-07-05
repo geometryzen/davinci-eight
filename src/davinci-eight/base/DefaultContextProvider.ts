@@ -1,7 +1,6 @@
+import BeginMode from '../core/BeginMode';
 import ContextProvider from '../core/ContextProvider';
 import DataType from '../core/DataType';
-import dataTypeToGL from '../core/dataTypeToGL';
-import BeginMode from '../core/BeginMode';
 import mustBeInteger from '../checks/mustBeInteger';
 import readOnly from '../i18n/readOnly';
 import {ShareableBase} from '../core/ShareableBase';
@@ -71,8 +70,8 @@ export default class DefaultContextProvider extends ShareableBase implements Con
         }
     }
 
-    vertexAttribPointer(index: number, size: number, dataType: DataType, normalized: boolean, stride: number, offset: number): void {
+    vertexAttribPointer(index: number, size: number, type: DataType, normalized: boolean, stride: number, offset: number): void {
         const gl = this.gl;
-        gl.vertexAttribPointer(index, size, dataTypeToGL(dataType, gl), normalized, stride, offset);
+        gl.vertexAttribPointer(index, size, type, normalized, stride, offset);
     }
 }

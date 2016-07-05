@@ -28,7 +28,7 @@ describe("computeAttributes", function() {
                     0
                 ],
                 size: 3,
-                dataType: DataType.FLOAT
+                type: DataType.FLOAT
             },
             "aNormal": {
                 values: [
@@ -46,7 +46,7 @@ describe("computeAttributes", function() {
                     1
                 ],
                 size: 3,
-                dataType: DataType.FLOAT
+                type: DataType.FLOAT
             }
         },
         mode: BeginMode.LINES,

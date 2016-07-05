@@ -42,11 +42,6 @@ export interface Material extends FacetVisitor, ContextConsumer {
     disableAttrib(indexOrName: number | string): void;
 
     /**
-     * 
-     */
-    vertexPointerDEPRECATED(indexOrName: number | string, size: number, normalized: boolean, stride: number, offset: number): void;
-
-    /**
      * @param name
      * @returns
      */

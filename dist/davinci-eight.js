@@ -587,7 +587,7 @@ define('davinci-eight/config',["require", "exports", './core/ErrorMode'], functi
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
             this.LAST_MODIFIED = '2016-07-05';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '2.255.0';
+            this.VERSION = '2.256.0';
         }
         Object.defineProperty(Eight.prototype, "errorMode", {
             get: function () {
@@ -7851,48 +7851,7 @@ define('davinci-eight/controls/TrackballControls',["require", "exports", '../mat
     exports.TrackballControls = TrackballControls;
 });
 
-define('davinci-eight/core/DataType',["require", "exports"], function (require, exports) {
-    "use strict";
-    var DataType;
-    (function (DataType) {
-        DataType[DataType["BYTE"] = 5120] = "BYTE";
-        DataType[DataType["UNSIGNED_BYTE"] = 5121] = "UNSIGNED_BYTE";
-        DataType[DataType["SHORT"] = 5122] = "SHORT";
-        DataType[DataType["UNSIGNED_SHORT"] = 5123] = "UNSIGNED_SHORT";
-        DataType[DataType["INT"] = 5124] = "INT";
-        DataType[DataType["UNSIGNED_INT"] = 5125] = "UNSIGNED_INT";
-        DataType[DataType["FLOAT"] = 5126] = "FLOAT";
-    })(DataType || (DataType = {}));
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = DataType;
-});
-
-define('davinci-eight/core/dataTypeToGL',["require", "exports", './DataType', '../checks/isUndefined'], function (require, exports, DataType_1, isUndefined_1) {
-    "use strict";
-    function default_1(dataType, gl) {
-        switch (dataType) {
-            case DataType_1.default.BYTE: return gl.BYTE;
-            case DataType_1.default.UNSIGNED_BYTE: return gl.UNSIGNED_BYTE;
-            case DataType_1.default.SHORT: return gl.SHORT;
-            case DataType_1.default.UNSIGNED_SHORT: return gl.UNSIGNED_SHORT;
-            case DataType_1.default.INT: return gl.INT;
-            case DataType_1.default.UNSIGNED_INT: return gl.UNSIGNED_INT;
-            case DataType_1.default.FLOAT: return gl.FLOAT;
-            default:
-                if (isUndefined_1.default(dataType)) {
-                    console.warn("dataType argument is undefined. Assuming FLOAT.");
-                    return gl.FLOAT;
-                }
-                else {
-                    throw new Error("Unexpected dataType: " + dataType);
-                }
-        }
-    }
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = default_1;
-});
-
-define('davinci-eight/core/Attrib',["require", "exports", '../core/dataTypeToGL', '../i18n/readOnly'], function (require, exports, dataTypeToGL_1, readOnly_1) {
+define('davinci-eight/core/Attrib',["require", "exports", '../i18n/readOnly'], function (require, exports, readOnly_1) {
     "use strict";
     var Attrib = (function () {
         function Attrib(info) {
@@ -7920,17 +7879,11 @@ define('davinci-eight/core/Attrib',["require", "exports", '../core/dataTypeToGL'
             this._index = void 0;
             this._gl = void 0;
         };
-        Attrib.prototype.vertexPointerDEPRECATED = function (size, normalized, stride, offset) {
+        Attrib.prototype.config = function (size, type, normalized, stride, offset) {
             if (normalized === void 0) { normalized = false; }
             if (stride === void 0) { stride = 0; }
             if (offset === void 0) { offset = 0; }
-            this._gl.vertexAttribPointer(this._index, size, this._gl.FLOAT, normalized, stride, offset);
-        };
-        Attrib.prototype.config = function (size, dataType, normalized, stride, offset) {
-            if (normalized === void 0) { normalized = false; }
-            if (stride === void 0) { stride = 0; }
-            if (offset === void 0) { offset = 0; }
-            this._gl.vertexAttribPointer(this._index, size, dataTypeToGL_1.default(dataType, this._gl), normalized, stride, offset);
+            this._gl.vertexAttribPointer(this._index, size, type, normalized, stride, offset);
         };
         Attrib.prototype.enable = function () {
             this._gl.enableVertexAttribArray(this._index);
@@ -8276,6 +8229,22 @@ define('davinci-eight/core/Color',["require", "exports", '../math/clamp', '../ma
     exports.Color = Color;
 });
 
+define('davinci-eight/core/DataType',["require", "exports"], function (require, exports) {
+    "use strict";
+    var DataType;
+    (function (DataType) {
+        DataType[DataType["BYTE"] = 5120] = "BYTE";
+        DataType[DataType["UNSIGNED_BYTE"] = 5121] = "UNSIGNED_BYTE";
+        DataType[DataType["SHORT"] = 5122] = "SHORT";
+        DataType[DataType["UNSIGNED_SHORT"] = 5123] = "UNSIGNED_SHORT";
+        DataType[DataType["INT"] = 5124] = "INT";
+        DataType[DataType["UNSIGNED_INT"] = 5125] = "UNSIGNED_INT";
+        DataType[DataType["FLOAT"] = 5126] = "FLOAT";
+    })(DataType || (DataType = {}));
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = DataType;
+});
+
 define('davinci-eight/base/exchange',["require", "exports"], function (require, exports) {
     "use strict";
     function default_1(mine, yours) {
@@ -8414,7 +8383,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/base/DefaultContextProvider',["require", "exports", '../core/DataType', '../core/dataTypeToGL', '../i18n/readOnly', '../core/ShareableBase'], function (require, exports, DataType_1, dataTypeToGL_1, readOnly_1, ShareableBase_1) {
+define('davinci-eight/base/DefaultContextProvider',["require", "exports", '../core/DataType', '../i18n/readOnly', '../core/ShareableBase'], function (require, exports, DataType_1, readOnly_1, ShareableBase_1) {
     "use strict";
     var DefaultContextProvider = (function (_super) {
         __extends(DefaultContextProvider, _super);
@@ -8469,9 +8438,9 @@ define('davinci-eight/base/DefaultContextProvider',["require", "exports", '../co
                 throw new Error("WebGLRenderingContext is undefined.");
             }
         };
-        DefaultContextProvider.prototype.vertexAttribPointer = function (index, size, dataType, normalized, stride, offset) {
+        DefaultContextProvider.prototype.vertexAttribPointer = function (index, size, type, normalized, stride, offset) {
             var gl = this.gl;
-            gl.vertexAttribPointer(index, size, dataTypeToGL_1.default(dataType, gl), normalized, stride, offset);
+            gl.vertexAttribPointer(index, size, type, normalized, stride, offset);
         };
         return DefaultContextProvider;
     }(ShareableBase_1.ShareableBase));
@@ -9269,7 +9238,7 @@ define('davinci-eight/core/computePointers',["require", "exports"], function (re
         for (var a = 0; a < aNamesLen; a++) {
             var aName = aNames[a];
             var attrib = attributes[aName];
-            pointers.push({ name: aName, size: attrib.size, dataType: attrib.dataType, normalized: true, offset: offset });
+            pointers.push({ name: aName, size: attrib.size, type: attrib.type, normalized: true, offset: offset });
             offset += attrib.size * 4;
         }
         return pointers;
@@ -9563,7 +9532,7 @@ define('davinci-eight/core/GeometryArrays',["require", "exports", './computeAttr
                         var pointer = pointers[i];
                         var attrib = material.getAttrib(pointer.name);
                         if (attrib) {
-                            attrib.config(pointer.size, pointer.dataType, pointer.normalized, this._stride, pointer.offset);
+                            attrib.config(pointer.size, pointer.type, pointer.normalized, this._stride, pointer.offset);
                             attrib.enable();
                         }
                     }
@@ -10458,7 +10427,7 @@ define('davinci-eight/core/GeometryElements',["require", "exports", '../config',
                         var pointer = pointers[i];
                         var attribLoc = material.getAttribLocation(pointer.name);
                         if (attribLoc >= 0) {
-                            contextProvider.vertexAttribPointer(attribLoc, pointer.size, pointer.dataType, pointer.normalized, this._stride, pointer.offset);
+                            contextProvider.vertexAttribPointer(attribLoc, pointer.size, pointer.type, pointer.normalized, this._stride, pointer.offset);
                             contextProvider.enableVertexAttribArray(attribLoc);
                         }
                     }
@@ -14971,10 +14940,10 @@ define('davinci-eight/geometries/primitives/DrawAttribute',["require", "exports"
         return size;
     }
     var DrawAttribute = (function () {
-        function DrawAttribute(values, size, dataType) {
+        function DrawAttribute(values, size, type) {
             this.values = checkValues(values);
             this.size = checkSize(size, values);
-            this.dataType = dataType;
+            this.type = type;
         }
         return DrawAttribute;
     }());
@@ -17963,20 +17932,6 @@ define('davinci-eight/materials/ShaderMaterial',["require", "exports", '../core/
         };
         ShaderMaterial.prototype.hasUniformLocation = function (name) {
             return isDefined_1.default(this._uniforms[name]);
-        };
-        ShaderMaterial.prototype.vertexPointerDEPRECATED = function (indexOrName, size, normalized, stride, offset) {
-            if (typeof indexOrName === 'number') {
-                if (this.gl) {
-                    this.gl.vertexAttribPointer(indexOrName, size, this.gl.FLOAT, normalized, stride, offset);
-                }
-            }
-            else if (typeof indexOrName === 'string') {
-                var attributeLocation = this._attributesByName[indexOrName];
-                attributeLocation.vertexPointerDEPRECATED(size, normalized, stride, offset);
-            }
-            else {
-                throw new TypeError("indexOrName must have type number or string.");
-            }
         };
         ShaderMaterial.prototype.uniform1f = function (name, x) {
             var uniformLoc = this._uniforms[name];

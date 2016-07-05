@@ -700,7 +700,7 @@ System.register("davinci-eight/core/GeometryArrays.js", ["./computeAttributes", 
                 var pointer = pointers[i];
                 var attrib = material.getAttrib(pointer.name);
                 if (attrib) {
-                  attrib.config(pointer.size, pointer.dataType, pointer.normalized, this._stride, pointer.offset);
+                  attrib.config(pointer.size, pointer.type, pointer.normalized, this._stride, pointer.offset);
                   attrib.enable();
                 }
               }
@@ -10368,16 +10368,13 @@ System.register("davinci-eight/materials/GraphicsProgramBuilder.js", ["../core/g
   };
 });
 
-System.register("davinci-eight/core/Attrib.js", ["../core/dataTypeToGL", "../i18n/readOnly"], function(exports_1, context_1) {
+System.register("davinci-eight/core/Attrib.js", ["../i18n/readOnly"], function(exports_1, context_1) {
   "use strict";
   var __moduleName = context_1 && context_1.id;
-  var dataTypeToGL_1,
-      readOnly_1;
+  var readOnly_1;
   var Attrib;
   return {
-    setters: [function(dataTypeToGL_1_1) {
-      dataTypeToGL_1 = dataTypeToGL_1_1;
-    }, function(readOnly_1_1) {
+    setters: [function(readOnly_1_1) {
       readOnly_1 = readOnly_1_1;
     }],
     execute: function() {
@@ -10407,7 +10404,7 @@ System.register("davinci-eight/core/Attrib.js", ["../core/dataTypeToGL", "../i18
           this._index = void 0;
           this._gl = void 0;
         };
-        Attrib.prototype.vertexPointerDEPRECATED = function(size, normalized, stride, offset) {
+        Attrib.prototype.config = function(size, type, normalized, stride, offset) {
           if (normalized === void 0) {
             normalized = false;
           }
@@ -10417,19 +10414,7 @@ System.register("davinci-eight/core/Attrib.js", ["../core/dataTypeToGL", "../i18
           if (offset === void 0) {
             offset = 0;
           }
-          this._gl.vertexAttribPointer(this._index, size, this._gl.FLOAT, normalized, stride, offset);
-        };
-        Attrib.prototype.config = function(size, dataType, normalized, stride, offset) {
-          if (normalized === void 0) {
-            normalized = false;
-          }
-          if (stride === void 0) {
-            stride = 0;
-          }
-          if (offset === void 0) {
-            offset = 0;
-          }
-          this._gl.vertexAttribPointer(this._index, size, dataTypeToGL_1.default(dataType, this._gl), normalized, stride, offset);
+          this._gl.vertexAttribPointer(this._index, size, type, normalized, stride, offset);
         };
         Attrib.prototype.enable = function() {
           this._gl.enableVertexAttribArray(this._index);
@@ -10976,18 +10961,6 @@ System.register("davinci-eight/materials/ShaderMaterial.js", ["../core/Attrib", 
         };
         ShaderMaterial.prototype.hasUniformLocation = function(name) {
           return isDefined_1.default(this._uniforms[name]);
-        };
-        ShaderMaterial.prototype.vertexPointerDEPRECATED = function(indexOrName, size, normalized, stride, offset) {
-          if (typeof indexOrName === 'number') {
-            if (this.gl) {
-              this.gl.vertexAttribPointer(indexOrName, size, this.gl.FLOAT, normalized, stride, offset);
-            }
-          } else if (typeof indexOrName === 'string') {
-            var attributeLocation = this._attributesByName[indexOrName];
-            attributeLocation.vertexPointerDEPRECATED(size, normalized, stride, offset);
-          } else {
-            throw new TypeError("indexOrName must have type number or string.");
-          }
         };
         ShaderMaterial.prototype.uniform1f = function(name, x) {
           var uniformLoc = this._uniforms[name];
@@ -11559,48 +11532,7 @@ System.register("davinci-eight/core/clearMask.js", ["./ClearBufferMask", "../che
   };
 });
 
-System.register("davinci-eight/core/dataTypeToGL.js", ["./DataType", "../checks/isUndefined"], function(exports_1, context_1) {
-  "use strict";
-  var __moduleName = context_1 && context_1.id;
-  var DataType_1,
-      isUndefined_1;
-  function default_1(dataType, gl) {
-    switch (dataType) {
-      case DataType_1.default.BYTE:
-        return gl.BYTE;
-      case DataType_1.default.UNSIGNED_BYTE:
-        return gl.UNSIGNED_BYTE;
-      case DataType_1.default.SHORT:
-        return gl.SHORT;
-      case DataType_1.default.UNSIGNED_SHORT:
-        return gl.UNSIGNED_SHORT;
-      case DataType_1.default.INT:
-        return gl.INT;
-      case DataType_1.default.UNSIGNED_INT:
-        return gl.UNSIGNED_INT;
-      case DataType_1.default.FLOAT:
-        return gl.FLOAT;
-      default:
-        if (isUndefined_1.default(dataType)) {
-          console.warn("dataType argument is undefined. Assuming FLOAT.");
-          return gl.FLOAT;
-        } else {
-          throw new Error("Unexpected dataType: " + dataType);
-        }
-    }
-  }
-  exports_1("default", default_1);
-  return {
-    setters: [function(DataType_1_1) {
-      DataType_1 = DataType_1_1;
-    }, function(isUndefined_1_1) {
-      isUndefined_1 = isUndefined_1_1;
-    }],
-    execute: function() {}
-  };
-});
-
-System.register("davinci-eight/base/DefaultContextProvider.js", ["../core/DataType", "../core/dataTypeToGL", "../i18n/readOnly", "../core/ShareableBase"], function(exports_1, context_1) {
+System.register("davinci-eight/base/DefaultContextProvider.js", ["../core/DataType", "../i18n/readOnly", "../core/ShareableBase"], function(exports_1, context_1) {
   "use strict";
   var __moduleName = context_1 && context_1.id;
   var __extends = (this && this.__extends) || function(d, b) {
@@ -11613,15 +11545,12 @@ System.register("davinci-eight/base/DefaultContextProvider.js", ["../core/DataTy
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
   };
   var DataType_1,
-      dataTypeToGL_1,
       readOnly_1,
       ShareableBase_1;
   var DefaultContextProvider;
   return {
     setters: [function(DataType_1_1) {
       DataType_1 = DataType_1_1;
-    }, function(dataTypeToGL_1_1) {
-      dataTypeToGL_1 = dataTypeToGL_1_1;
     }, function(readOnly_1_1) {
       readOnly_1 = readOnly_1_1;
     }, function(ShareableBase_1_1) {
@@ -11679,9 +11608,9 @@ System.register("davinci-eight/base/DefaultContextProvider.js", ["../core/DataTy
             throw new Error("WebGLRenderingContext is undefined.");
           }
         };
-        DefaultContextProvider.prototype.vertexAttribPointer = function(index, size, dataType, normalized, stride, offset) {
+        DefaultContextProvider.prototype.vertexAttribPointer = function(index, size, type, normalized, stride, offset) {
           var gl = this.gl;
-          gl.vertexAttribPointer(index, size, dataTypeToGL_1.default(dataType, gl), normalized, stride, offset);
+          gl.vertexAttribPointer(index, size, type, normalized, stride, offset);
         };
         return DefaultContextProvider;
       }(ShareableBase_1.ShareableBase));
@@ -12830,7 +12759,7 @@ System.register("davinci-eight/core/GeometryElements.js", ["../config", "./Error
                 var pointer = pointers[i];
                 var attribLoc = material.getAttribLocation(pointer.name);
                 if (attribLoc >= 0) {
-                  contextProvider.vertexAttribPointer(attribLoc, pointer.size, pointer.dataType, pointer.normalized, this._stride, pointer.offset);
+                  contextProvider.vertexAttribPointer(attribLoc, pointer.size, pointer.type, pointer.normalized, this._stride, pointer.offset);
                   contextProvider.enableVertexAttribArray(attribLoc);
                 }
               }
@@ -14000,10 +13929,10 @@ System.register("davinci-eight/geometries/primitives/DrawAttribute.js", [], func
     setters: [],
     execute: function() {
       DrawAttribute = (function() {
-        function DrawAttribute(values, size, dataType) {
+        function DrawAttribute(values, size, type) {
           this.values = checkValues(values);
           this.size = checkSize(size, values);
-          this.dataType = dataType;
+          this.type = type;
         }
         return DrawAttribute;
       }());
@@ -21801,7 +21730,7 @@ System.register("davinci-eight/core/computePointers.js", [], function(exports_1,
       pointers.push({
         name: aName,
         size: attrib.size,
-        dataType: attrib.dataType,
+        type: attrib.type,
         normalized: true,
         offset: offset
       });
@@ -25041,7 +24970,7 @@ System.register("davinci-eight/config.js", ["./core/ErrorMode"], function(export
           this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
           this.LAST_MODIFIED = '2016-07-05';
           this.NAMESPACE = 'EIGHT';
-          this.VERSION = '2.255.0';
+          this.VERSION = '2.256.0';
         }
         Object.defineProperty(Eight.prototype, "errorMode", {
           get: function() {

@@ -1,6 +1,5 @@
 import ContextProgramConsumer from  '../core/ContextProgramConsumer';
 import DataType from '../core/DataType';
-import dataTypeToGL from '../core/dataTypeToGL';
 import readOnly from  '../i18n/readOnly';
 
 /**
@@ -85,25 +84,19 @@ export default class Attrib implements ContextProgramConsumer {
      * on the underlying <code>WebGLRenderingContext</code>
      * using the cached attribute index and the supplied parameters.
      * Note that the <code>type</code> parameter is hard-code to <code>FLOAT</code>.
-     * @method vertexPointer
-     * @param size {number} The number of components per attribute. Must be 1, 2, 3, or 4.
-     * @param [normalized = false] {boolean} Used for WebGL rendering context vertexAttribPointer method.
-     * @param [stride = 0] {number} Used for WebGL rendering context vertexAttribPointer method.
-     * @param [offset = 0] {number} Used for WebGL rendering context vertexAttribPointer method.
+     *
+     * @param sizeThe number of components per attribute. Must be 1, 2, 3, or 4.
+     * @param type
+     * @param [normalized = false] Used for non-FLOAT types.
+     * @param [stride = 0]
+     * @param [offset = 0]
      * @return {void}
      */
-    vertexPointerDEPRECATED(size: number, normalized = false, stride = 0, offset = 0): void {
+    config(size: number, type: DataType, normalized = false, stride = 0, offset = 0): void {
         // TODO: Notice that when this function is called, the cached index is used.
         // This suggests that we should used the cached indices to to look up attributes
         // when we are in the animation loop.
-        this._gl.vertexAttribPointer(this._index, size, this._gl.FLOAT, normalized, stride, offset);
-    }
-
-    config(size: number, dataType: DataType, normalized = false, stride = 0, offset = 0): void {
-        // TODO: Notice that when this function is called, the cached index is used.
-        // This suggests that we should used the cached indices to to look up attributes
-        // when we are in the animation loop.
-        this._gl.vertexAttribPointer(this._index, size, dataTypeToGL(dataType, this._gl), normalized, stride, offset);
+        this._gl.vertexAttribPointer(this._index, size, type, normalized, stride, offset);
     }
 
     /**

@@ -34,12 +34,12 @@ function checkSize(size: number, values: number[]): number {
 export default class DrawAttribute implements Attribute {
     public values: number[];
     public size: number;
-    public dataType: DataType;
-    constructor(values: number[], size: number, dataType: DataType) {
+    public type: DataType;
+    constructor(values: number[], size: number, type: DataType) {
         // mustBeArray('values', values)
         // mustBeInteger('size', size)
         this.values = checkValues(values)
         this.size = checkSize(size, values)
-        this.dataType = dataType;
+        this.type = type;
     }
 }

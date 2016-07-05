@@ -391,28 +391,6 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
         return isDefined(this._uniforms[name])
     }
 
-    /**
-     * @param indexOrName
-     * @param size
-     * @param normalized
-     * @param stride
-     * @param offset
-     */
-    vertexPointerDEPRECATED(indexOrName: number | string, size: number, normalized: boolean, stride: number, offset: number): void {
-        if (typeof indexOrName === 'number') {
-            if (this.gl) {
-                this.gl.vertexAttribPointer(indexOrName, size, this.gl.FLOAT, normalized, stride, offset);
-            }
-        }
-        else if (typeof indexOrName === 'string') {
-            const attributeLocation = this._attributesByName[indexOrName];
-            attributeLocation.vertexPointerDEPRECATED(size, normalized, stride, offset);
-        }
-        else {
-            throw new TypeError("indexOrName must have type number or string.");
-        }
-    }
-
     uniform1f(name: string, x: number): void {
         const uniformLoc = this._uniforms[name]
         if (uniformLoc) {

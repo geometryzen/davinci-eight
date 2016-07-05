@@ -18,7 +18,7 @@ interface Attribute {
     /**
      * The type of the attribute. This must be converted to the WebGL native type.
      */
-    dataType: DataType;
+    type: DataType;
 }
 
 export default Attribute;

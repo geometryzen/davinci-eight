@@ -269,7 +269,7 @@ export default class GeometryElements extends GeometryLeaf {
                     const pointer = pointers[i]
                     const attribLoc = material.getAttribLocation(pointer.name)
                     if (attribLoc >= 0) {
-                        contextProvider.vertexAttribPointer(attribLoc, pointer.size, pointer.dataType, pointer.normalized, this._stride, pointer.offset)
+                        contextProvider.vertexAttribPointer(attribLoc, pointer.size, pointer.type, pointer.normalized, this._stride, pointer.offset)
                         contextProvider.enableVertexAttribArray(attribLoc)
                     }
                 }

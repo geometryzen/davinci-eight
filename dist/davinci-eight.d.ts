@@ -10,10 +10,147 @@
  */
 declare module EIGHT {
 
+    /**
+     * The draw mode determines how the WebGL pipeline consumes and processes the vertices.
+     */
+    enum BeginMode {
+        /**
+         * Each vertex is drawn as an isolated pixel or group of pixes based upon gl_PointSize.
+         */
+        POINTS,
+        /**
+         * Vertices are consumed in pairs creating connected line segments.
+         */
+        LINES,
+        /**
+         * Connects each vertex to the next by a line segment.
+         */
+        LINE_STRIP,
+        /**
+         * Vertices are consumed in groups of three to form triangles.
+         */
+        TRIANGLES,
+        /**
+         * After the first triangle, each subsequent point make a new triangle
+         * using the previous two points.
+         */
+        TRIANGLE_STRIP
+    }
+
+    /**
+     * The blending factors for use with <code>WebGLBlendFunc</code>.
+     * Assuming destination with RGBA values of (R<sub>d</sub>, G<sub>d</sub>, B<sub>d</sub>, A<sub>d</sub>),
+     * and source fragment with values (R<sub>s</sub>, G<sub>s</sub>, B<sub>s</sub>, A<sub>s</sub>),
+     * <ul>
+     * <li>R<sub>result</sub> = R<sub>s</sub> * S<sub>r</sub> + R<sub>d</sub> * D<sub>r</sub></li>
+     * </ul>
+     */
+    enum BlendFactor {
+        /**
+         *
+         */
+        DST_ALPHA,
+
+        /**
+         *
+         */
+        DST_COLOR,
+
+        /**
+         *
+         */
+        ONE,
+
+        /**
+         *
+         */
+        ONE_MINUS_DST_ALPHA,
+
+        /**
+         *
+         */
+        ONE_MINUS_DST_COLOR,
+
+        /**
+         *
+         */
+        ONE_MINUS_SRC_ALPHA,
+
+        /**
+         *
+         */
+        ONE_MINUS_SRC_COLOR,
+
+        /**
+         *
+         */
+        SRC_ALPHA,
+
+        /**
+         *
+         */
+        SRC_ALPHA_SATURATE,
+
+        /**
+         *
+         */
+        SRC_COLOR,
+
+        /**
+         *
+         */
+        ZERO
+    }
+
+    /**
+     * A capability that may be enabled or disabled for a <code>WebGLRenderingContext</code>.
+     */
+    enum Capability {
+        /**
+         * Blend computed fragment color values with color buffer values.
+         */
+        BLEND,
+
+        /**
+         * Let polygons be culled.
+         */
+        CULL_FACE,
+
+        /**
+         * Enable updates of the depth buffer.
+         */
+        DEPTH_TEST,
+
+        /**
+         * Add an offset to the depth values of a polygon's fragments.
+         */
+        POLYGON_OFFSET_FILL,
+
+        /**
+         * Abandon fragments outside a scissor rectangle.
+         */
+        SCISSOR_TEST
+    }
+
     enum ClearBufferMask {
         DEPTH_BUFFER_BIT,
         STENCIL_BUFFER_BIT,
         COLOR_BUFFER_BIT
+    }
+
+    enum DataType {
+        BYTE,
+        UNSIGNED_BYTE,
+        SHORT,
+        UNSIGNED_SHORT,
+        INT,
+        UNSIGNED_INT,
+        FLOAT
+    }
+
+    enum Usage {
+        STATIC_DRAW,
+        DYNAMIC_DRAW
     }
 
     /**
@@ -303,15 +440,6 @@ declare module EIGHT {
         unsubscribe(): void;
     }
 
-    enum DataType {
-        FLOAT
-    }
-
-    enum Usage {
-        STATIC_DRAW,
-        DYNAMIC_DRAW
-    }
-
     interface DataBuffer<T extends ArrayBufferView> {
         data: T;
         usage: Usage;
@@ -404,7 +532,6 @@ declare module EIGHT {
         getAttribLocation(name: string): number;
         enableAttrib(indexOrName: number | string): void;
         disableAttrib(indexOrName: number | string): void;
-        vertexPointer(indexOrName: number | string, size: number, normalized: boolean, stride: number, offset: number): void;
         getUniform(name: string): Uniform;
         getUniformLocation(name: string): Uniform;
         use(): void;
@@ -419,58 +546,6 @@ declare module EIGHT {
         draw(): void;
         unbind(): void;
     }
-
-    /**
-     * The draw mode determines how the WebGL pipeline consumes and processes the vertices.
-     */
-    enum BeginMode {
-        /**
-         * Each vertex is drawn as an isolated pixel or group of pixes based upon gl_PointSize.
-         */
-        POINTS,
-        /**
-         * Vertices are consumed in pairs creating connected line segments.
-         */
-        LINES,
-        /**
-         * Connects each vertex to the next by a line segment.
-         */
-        LINE_STRIP,
-        /**
-         * Vertices are consumed in groups of three to form triangles.
-         */
-        TRIANGLES,
-        /**
-         * After the first triangle, each subsequent point make a new triangle
-         * using the previous two points.
-         */
-        TRIANGLE_STRIP
-    }
-
-    /**
-     * The ErrorMode provides some control over how the system responds to illegal inputs.
-     */
-    enum ErrorMode {
-        /**
-         * The implementation will respond to illegal inputs by throwing exceptions.
-         */
-        STRICT,
-
-        /**
-         * The implementation will quietly ignore illegal inputs by ignoring the request.
-         */
-        IGNORE,
-
-        /**
-         * The implementation will provide warning at the console and may improvise responses.
-         */
-        WARNME
-    }
-
-    /**
-     * The current mode that determines how errors are handled.
-     */
-    var errorMode: ErrorMode
 
     /**
      * An array of attribute values associated with meta data describing how to interpret the values.
@@ -491,7 +566,7 @@ declare module EIGHT {
         /**
          * 
          */
-        dataType: DataType;
+        type: DataType;
     }
 
     /**
@@ -531,10 +606,9 @@ declare module EIGHT {
         contextFree(): void;
         contextGain(gl: WebGLRenderingContext, program: WebGLProgram): void;
         contextLost(): void;
+        config(size: number, type: DataType, normalized?: boolean, stride?: number, offset?: number): void;
         enable(): void;
         disable(): void;
-        vertexPointer(size: number, normalized?: boolean, stride?: number, offset?: number): void;
-        config(size: number, dataType: DataType, normalized?: boolean, stride?: number, offset?: number): void;
     }
 
     /**
@@ -3364,7 +3438,6 @@ declare module EIGHT {
         vector2fv(name: string, vec2: Float32Array): void;
         vector3fv(name: string, vec3: Float32Array): void;
         vector4fv(name: string, vec4: Float32Array): void;
-        vertexPointer(indexOrName: number | string, size: number, normalized: boolean, stride: number, offset: number): void;
     }
 
     interface AbstractDrawable extends ContextConsumer {
@@ -3648,71 +3721,6 @@ declare module EIGHT {
     }
 
     /**
-     * The enumerated blending factors for use with <code>WebGLBlendFunc</code>.
-     * Assuming destination with RGBA values of (R<sub>d</sub>, G<sub>d</sub>, B<sub>d</sub>, A<sub>d</sub>),
-     * and source fragment with values (R<sub>s</sub>, G<sub>s</sub>, B<sub>s</sub>, A<sub>s</sub>),
-     * <ul>
-     * <li>R<sub>result</sub> = R<sub>s</sub> * S<sub>r</sub> + R<sub>d</sub> * D<sub>r</sub></li>
-     * </ul>
-     */
-    enum BlendFactor {
-        /**
-         *
-         */
-        DST_ALPHA,
-
-        /**
-         *
-         */
-        DST_COLOR,
-
-        /**
-         *
-         */
-        ONE,
-
-        /**
-         *
-         */
-        ONE_MINUS_DST_ALPHA,
-
-        /**
-         *
-         */
-        ONE_MINUS_DST_COLOR,
-
-        /**
-         *
-         */
-        ONE_MINUS_SRC_ALPHA,
-
-        /**
-         *
-         */
-        ONE_MINUS_SRC_COLOR,
-
-        /**
-         *
-         */
-        SRC_ALPHA,
-
-        /**
-         *
-         */
-        SRC_ALPHA_SATURATE,
-
-        /**
-         *
-         */
-        SRC_COLOR,
-
-        /**
-         *
-         */
-        ZERO
-    }
-
-    /**
      * `blendFunc(sfactor: number, dfactor: number): void`
      */
     class WebGLBlendFunc extends ShareableBase {
@@ -3757,36 +3765,6 @@ declare module EIGHT {
          *
          */
         contextLost(): void;
-    }
-
-    /**
-     * A capability that may be enabled or disabled for a <code>WebGLRenderingContext</code>.
-     */
-    enum Capability {
-        /**
-         * Blend computed fragment color values with color buffer values.
-         */
-        BLEND,
-
-        /**
-         * Let polygons be culled.
-         */
-        CULL_FACE,
-
-        /**
-         * Enable updates of the depth buffer.
-         */
-        DEPTH_TEST,
-
-        /**
-         * Add an offset to the depth values of a polygon's fragments.
-         */
-        POLYGON_OFFSET_FILL,
-
-        /**
-         * Abandon fragments outside a scissor rectangle.
-         */
-        SCISSOR_TEST
     }
 
     /**

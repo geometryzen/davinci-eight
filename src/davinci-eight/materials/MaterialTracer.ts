@@ -28,10 +28,6 @@ export default class MaterialTracer implements Material {
         console.log(`disableAttrib(${indexOrName})`)
         return this.inner.disableAttrib(indexOrName);
     }
-    vertexPointerDEPRECATED(indexOrName: number | string, size: number, normalized: boolean, stride: number, offset: number) {
-        console.log(`vertexPointer(${indexOrName})`)
-        return this.inner.vertexPointerDEPRECATED(indexOrName, size, normalized, stride, offset)
-    }
     getUniform(name: string): Uniform {
         return this.inner.getUniform(name)
     }

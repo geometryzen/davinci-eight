@@ -57,12 +57,12 @@ interface ContextProvider extends Shareable {
      * @method vertexAttribPointer
      * @param index
      * @param size
-     * @param dataType
+     * @param type
      * @param normalized
      * @param stride
      * @param offset
      */
-    vertexAttribPointer(index: number, size: number, dataType: DataType, normalized: boolean, stride: number, offset: number): void;
+    vertexAttribPointer(index: number, size: number, type: DataType, normalized: boolean, stride: number, offset: number): void;
 }
 
 export default ContextProvider;

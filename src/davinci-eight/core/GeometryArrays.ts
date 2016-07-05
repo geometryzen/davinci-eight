@@ -98,7 +98,7 @@ export default class GeometryArrays extends GeometryLeaf {
                     const pointer = pointers[i]
                     const attrib = material.getAttrib(pointer.name)
                     if (attrib) {
-                        attrib.config(pointer.size, pointer.dataType, pointer.normalized, this._stride, pointer.offset);
+                        attrib.config(pointer.size, pointer.type, pointer.normalized, this._stride, pointer.offset);
                         attrib.enable();
                     }
                 }
