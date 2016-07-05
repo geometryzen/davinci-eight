@@ -10922,7 +10922,6 @@ System.register("davinci-eight/materials/ShaderMaterial.js", ["../core/Attrib", 
           }
         };
         ShaderMaterial.prototype.getAttribLocation = function(name) {
-          console.warn("getAttribLocation is deprecated. Use getAttrib instead.");
           var attribLoc = this._attributesByName[name];
           if (attribLoc) {
             return attribLoc.index;
@@ -12844,7 +12843,7 @@ System.register("davinci-eight/core/GeometryElements.js", ["../config", "./Error
   };
 });
 
-System.register("davinci-eight/collections/ShareableArray.js", ["../base/incLevel", "../i18n/readOnly", "../core/ShareableBase"], function(exports_1, context_1) {
+System.register("davinci-eight/collections/ShareableArray.js", ["../i18n/readOnly", "../core/ShareableBase"], function(exports_1, context_1) {
   "use strict";
   var __moduleName = context_1 && context_1.id;
   var __extends = (this && this.__extends) || function(d, b) {
@@ -12856,8 +12855,7 @@ System.register("davinci-eight/collections/ShareableArray.js", ["../base/incLeve
     }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
   };
-  var incLevel_1,
-      readOnly_1,
+  var readOnly_1,
       ShareableBase_1;
   var ShareableArray;
   function transferOwnership(data) {
@@ -12876,9 +12874,7 @@ System.register("davinci-eight/collections/ShareableArray.js", ["../base/incLeve
     }
   }
   return {
-    setters: [function(incLevel_1_1) {
-      incLevel_1 = incLevel_1_1;
-    }, function(readOnly_1_1) {
+    setters: [function(readOnly_1_1) {
       readOnly_1 = readOnly_1_1;
     }, function(ShareableBase_1_1) {
       ShareableBase_1 = ShareableBase_1_1;
@@ -12898,13 +12894,13 @@ System.register("davinci-eight/collections/ShareableArray.js", ["../base/incLeve
             this._elements[i].addRef();
           }
         }
-        ShareableArray.prototype.destructor = function(level) {
+        ShareableArray.prototype.destructor = function(levelUp) {
           for (var i = 0,
               l = this._elements.length; i < l; i++) {
             this._elements[i].release();
           }
           this._elements = void 0;
-          _super.prototype.destructor.call(this, incLevel_1.default(level));
+          _super.prototype.destructor.call(this, levelUp + 1);
         };
         ShareableArray.prototype.find = function(match) {
           var result = new ShareableArray([]);
@@ -13000,10 +12996,10 @@ System.register("davinci-eight/base/incLevel.js", ["../checks/mustBeInteger"], f
   "use strict";
   var __moduleName = context_1 && context_1.id;
   var mustBeInteger_1;
-  function default_1(levelUp) {
+  function incLevel(levelUp) {
     return mustBeInteger_1.default('levelUp', levelUp) + 1;
   }
-  exports_1("default", default_1);
+  exports_1("default", incLevel);
   return {
     setters: [function(mustBeInteger_1_1) {
       mustBeInteger_1 = mustBeInteger_1_1;
@@ -24992,7 +24988,7 @@ System.register("davinci-eight/config.js", ["./core/ErrorMode"], function(export
           this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
           this.LAST_MODIFIED = '2016-07-04';
           this.NAMESPACE = 'EIGHT';
-          this.VERSION = '2.253.0';
+          this.VERSION = '2.254.0';
         }
         Object.defineProperty(Eight.prototype, "errorMode", {
           get: function() {

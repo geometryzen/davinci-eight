@@ -1,69 +1,69 @@
 {
-  "name": "davinci-eight",
-  "version": "2.253.0",
-  "description": "WebGL library for mathematical physics using Geometric Algebra",
-  "author": {
-    "name": "David Holmes",
-    "email": "david.geo.holmes@gmail.com"
-  },
-  "main": "./dist/davinci-eight.min.js",
-  "typings": "./dist/davinci-eight.d.ts",
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/geometryzen/davinci-eight.git"
-  },
-  "bugs": {
-    "url": "https://github.com/geometryzen/davinci-eight/issues"
-  },
-  "license": "MIT",
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "https://github.com/geometryzen/davinci-eight/blob/master/LICENSE"
-    }
-  ],
-  "scripts": {
-    "test": "grunt; grunt test"
-  },
-  "dependencies": {},
-  "devDependencies": {
-    "grunt": "^0.4.5",
-    "grunt-cli": "^0.1.13",
-    "grunt-complexity": "^0.3.0",
-    "grunt-contrib-clean": "^0.7.0",
-    "grunt-contrib-connect": "^0.9.0",
-    "grunt-contrib-copy": "^0.8.2",
-    "grunt-contrib-jasmine": "^1.0.3",
-    "grunt-contrib-jshint": "^0.11.3",
-    "grunt-contrib-requirejs": "^0.4.4",
-    "grunt-contrib-uglify": "^0.8.0",
-    "grunt-contrib-watch": "^0.6.1",
-    "grunt-contrib-yuidoc": "^0.10.0",
-    "grunt-exec": "^0.4.7",
-    "grunt-jasmine-task": "*",
-    "grunt-karma": "^0.12.2",
-    "grunt-template-jasmine-requirejs": "^0.2.3",
-    "grunt-ts": "^5.5.1",
-    "grunt-tslint": "^3.1.1",
-    "grunt-typedoc": "^0.2.3",
-    "grunt-typescript": "latest",
-    "jspm": "^0.16.34",
-    "karma": "^0.13.22",
-    "karma-chrome-launcher": "^0.2.3",
-    "karma-jasmine": "^0.3.8",
-    "karma-jspm": "^2.1.1",
-    "karma-phantomjs-launcher": "^1.0.0",
-    "q": "1.2.0",
-    "requirejs": "~2.1.0",
-    "servedir": "*",
-    "systemjs-builder": "^0.15.5",
-    "tslint": "^3.13.0",
-    "typedoc": "^0.3.12",
-    "typescript": "^1.8.9"
-  },
-  "keywords": [],
-  "jspm": {
+    "name": "davinci-eight",
+    "version": "2.254.0",
+    "description": "WebGL library for mathematical physics using Geometric Algebra",
+    "author": {
+        "name": "David Holmes",
+        "email": "david.geo.holmes@gmail.com"
+    },
+    "main": "./dist/davinci-eight.min.js",
+    "typings": "./dist/davinci-eight.d.ts",
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/geometryzen/davinci-eight.git"
+    },
+    "bugs": {
+        "url": "https://github.com/geometryzen/davinci-eight/issues"
+    },
+    "license": "MIT",
+    "licenses": [
+        {
+            "type": "MIT",
+            "url": "https://github.com/geometryzen/davinci-eight/blob/master/LICENSE"
+        }
+    ],
+    "scripts": {
+        "test": "grunt; grunt test"
+    },
     "dependencies": {},
-    "devDependencies": {}
-  }
+    "devDependencies": {
+        "grunt": "^0.4.5",
+        "grunt-cli": "^0.1.13",
+        "grunt-complexity": "^0.3.0",
+        "grunt-contrib-clean": "^0.7.0",
+        "grunt-contrib-connect": "^0.9.0",
+        "grunt-contrib-copy": "^0.8.2",
+        "grunt-contrib-jasmine": "^1.0.3",
+        "grunt-contrib-jshint": "^0.11.3",
+        "grunt-contrib-requirejs": "^0.4.4",
+        "grunt-contrib-uglify": "^0.8.0",
+        "grunt-contrib-watch": "^0.6.1",
+        "grunt-contrib-yuidoc": "^0.10.0",
+        "grunt-exec": "^0.4.7",
+        "grunt-jasmine-task": "*",
+        "grunt-karma": "^0.12.2",
+        "grunt-template-jasmine-requirejs": "^0.2.3",
+        "grunt-ts": "^5.5.1",
+        "grunt-tslint": "^3.1.1",
+        "grunt-typedoc": "^0.2.3",
+        "grunt-typescript": "latest",
+        "jspm": "^0.16.34",
+        "karma": "^0.13.22",
+        "karma-chrome-launcher": "^0.2.3",
+        "karma-jasmine": "^0.3.8",
+        "karma-jspm": "^2.1.1",
+        "karma-phantomjs-launcher": "^1.0.0",
+        "q": "1.2.0",
+        "requirejs": "~2.1.0",
+        "servedir": "*",
+        "systemjs-builder": "^0.15.5",
+        "tslint": "^3.13.0",
+        "typedoc": "^0.3.12",
+        "typescript": "^1.8.9"
+    },
+    "keywords": [],
+    "jspm": {
+        "dependencies": {},
+        "devDependencies": {}
+    }
 }

@@ -53,7 +53,7 @@ export interface Material extends FacetVisitor, ContextConsumer {
     getUniform(name: string): Uniform;
 
     /**
-     * @deprecated
+     *
      */
     getUniformLocation(name: string): Uniform;
 

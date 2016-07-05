@@ -495,11 +495,11 @@ define('davinci-eight/checks/mustBeInteger',["require", "exports", '../checks/mu
 
 define('davinci-eight/base/incLevel',["require", "exports", '../checks/mustBeInteger'], function (require, exports, mustBeInteger_1) {
     "use strict";
-    function default_1(levelUp) {
+    function incLevel(levelUp) {
         return mustBeInteger_1.default('levelUp', levelUp) + 1;
     }
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = default_1;
+    exports.default = incLevel;
 });
 
 define('davinci-eight/checks/isDefined',["require", "exports"], function (require, exports) {
@@ -587,7 +587,7 @@ define('davinci-eight/config',["require", "exports", './core/ErrorMode'], functi
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
             this.LAST_MODIFIED = '2016-07-04';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '2.253.0';
+            this.VERSION = '2.254.0';
         }
         Object.defineProperty(Eight.prototype, "errorMode", {
             get: function () {
@@ -8473,7 +8473,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/collections/ShareableArray',["require", "exports", '../base/incLevel', '../i18n/readOnly', '../core/ShareableBase'], function (require, exports, incLevel_1, readOnly_1, ShareableBase_1) {
+define('davinci-eight/collections/ShareableArray',["require", "exports", '../i18n/readOnly', '../core/ShareableBase'], function (require, exports, readOnly_1, ShareableBase_1) {
     "use strict";
     function transferOwnership(data) {
         if (data) {
@@ -8501,12 +8501,12 @@ define('davinci-eight/collections/ShareableArray',["require", "exports", '../bas
                 this._elements[i].addRef();
             }
         }
-        ShareableArray.prototype.destructor = function (level) {
+        ShareableArray.prototype.destructor = function (levelUp) {
             for (var i = 0, l = this._elements.length; i < l; i++) {
                 this._elements[i].release();
             }
             this._elements = void 0;
-            _super.prototype.destructor.call(this, incLevel_1.default(level));
+            _super.prototype.destructor.call(this, levelUp + 1);
         };
         ShareableArray.prototype.find = function (match) {
             var result = new ShareableArray([]);
@@ -17916,7 +17916,6 @@ define('davinci-eight/materials/ShaderMaterial',["require", "exports", '../core/
             }
         };
         ShaderMaterial.prototype.getAttribLocation = function (name) {
-            console.warn("getAttribLocation is deprecated. Use getAttrib instead.");
             var attribLoc = this._attributesByName[name];
             if (attribLoc) {
                 return attribLoc.index;

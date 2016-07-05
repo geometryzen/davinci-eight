@@ -1,4 +1,3 @@
-import incLevel from '../base/incLevel';
 import readOnly from '../i18n/readOnly';
 import {Shareable} from '../core/Shareable';
 import {ShareableBase} from '../core/ShareableBase';
@@ -57,16 +56,16 @@ export default class ShareableArray<T extends Shareable> extends ShareableBase {
 
     /**
      * @method destructor
-     * @param level {number}
+     * @param levelUp {number}
      * @return {void}
      * @protected
      */
-    protected destructor(level: number): void {
+    protected destructor(levelUp: number): void {
         for (var i = 0, l = this._elements.length; i < l; i++) {
             this._elements[i].release()
         }
         this._elements = void 0
-        super.destructor(incLevel(level))
+        super.destructor(levelUp + 1)
     }
 
     /**

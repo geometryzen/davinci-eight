@@ -330,7 +330,6 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
      * Returns <code>-1</code> if the name does not correspond to an attribute.
      */
     getAttribLocation(name: string): number {
-        console.warn("getAttribLocation is deprecated. Use getAttrib instead.")
         const attribLoc = this._attributesByName[name]
         if (attribLoc) {
             return attribLoc.index
@@ -376,7 +375,7 @@ export class ShaderMaterial extends ShareableContextConsumer implements Material
     }
 
     /**
-     * @deprecated
+     * @deprecated Use getUniform instead.
      */
     getUniformLocation(name: string): Uniform {
         console.warn("getUniformLocation is deprecated. Please use getUniform instead.")
