@@ -37,79 +37,33 @@ declare module EIGHT {
         TRIANGLE_STRIP
     }
 
-    /**
-     * The blending factors for use with <code>WebGLBlendFunc</code>.
-     * Assuming destination with RGBA values of (R<sub>d</sub>, G<sub>d</sub>, B<sub>d</sub>, A<sub>d</sub>),
-     * and source fragment with values (R<sub>s</sub>, G<sub>s</sub>, B<sub>s</sub>, A<sub>s</sub>),
-     * <ul>
-     * <li>R<sub>result</sub> = R<sub>s</sub> * S<sub>r</sub> + R<sub>d</sub> * D<sub>r</sub></li>
-     * </ul>
-     */
-    enum BlendFactor {
-        /**
-         *
-         */
-        DST_ALPHA,
+    enum BlendingFactorDest {
+        ZERO = 0,
+        ONE = 1,
+        SRC_COLOR = 0x0300,
+        ONE_MINUS_SRC_COLOR = 0x0301,
+        SRC_ALPHA = 0x0302,
+        ONE_MINUS_SRC_ALPHA = 0x0303,
+        DST_ALPHA = 0x0304,
+        ONE_MINUS_DST_ALPHA = 0x0305
+    }
 
-        /**
-         *
-         */
-        DST_COLOR,
-
-        /**
-         *
-         */
-        ONE,
-
-        /**
-         *
-         */
-        ONE_MINUS_DST_ALPHA,
-
-        /**
-         *
-         */
-        ONE_MINUS_DST_COLOR,
-
-        /**
-         *
-         */
-        ONE_MINUS_SRC_ALPHA,
-
-        /**
-         *
-         */
-        ONE_MINUS_SRC_COLOR,
-
-        /**
-         *
-         */
-        SRC_ALPHA,
-
-        /**
-         *
-         */
-        SRC_ALPHA_SATURATE,
-
-        /**
-         *
-         */
-        SRC_COLOR,
-
-        /**
-         *
-         */
-        ZERO
+    enum BlendingFactorSrc {
+        ZERO = 0,
+        ONE = 1,
+        DST_COLOR = 0x0306,
+        ONE_MINUS_DST_COLOR = 0x0307,
+        SRC_ALPHA_SATURATE = 0x0308,
+        SRC_ALPHA = 0x0302,
+        ONE_MINUS_SRC_ALPHA = 0x0303,
+        DST_ALPHA = 0x0304,
+        ONE_MINUS_DST_ALPHA = 0x0305
     }
 
     /**
      * A capability that may be enabled or disabled for a <code>WebGLRenderingContext</code>.
      */
     enum Capability {
-        /**
-         * Blend computed fragment color values with color buffer values.
-         */
-        BLEND,
 
         /**
          * Let polygons be culled.
@@ -117,19 +71,27 @@ declare module EIGHT {
         CULL_FACE,
 
         /**
+         * Blend computed fragment color values with color buffer values.
+         */
+        BLEND,
+        DITHER,
+        STENCIL_TEST,
+        /**
          * Enable updates of the depth buffer.
          */
         DEPTH_TEST,
 
         /**
+         * Abandon fragments outside a scissor rectangle.
+         */
+        SCISSOR_TEST,
+
+        /**
          * Add an offset to the depth values of a polygon's fragments.
          */
         POLYGON_OFFSET_FILL,
-
-        /**
-         * Abandon fragments outside a scissor rectangle.
-         */
-        SCISSOR_TEST
+        SAMPLE_ALPHA_TO_COVERAGE,
+        SAMPLE_COVERAGE
     }
 
     enum ClearBufferMask {
@@ -146,6 +108,53 @@ declare module EIGHT {
         INT,
         UNSIGNED_INT,
         FLOAT
+    }
+
+    /**
+     * An enumeration specifying the depth comparison function, which sets the conditions
+     * under which the pixel will be drawn. The default value is LESS.
+     */
+    enum DepthFunction {
+
+        /**
+         * never pass
+         */
+        NEVER = 0x0200,
+
+        /**
+         * pass if the incoming value is less than the depth buffer value
+         */
+        LESS = 0x0201,
+
+        /**
+         * pass if the incoming value equals the the depth buffer value
+         */
+        EQUAL = 0x0202,
+
+        /**
+         * pass if the incoming value is less than or equal to the depth buffer value
+         */
+        LEQUAL = 0x0203,
+
+        /**
+         * pass if the incoming value is greater than the depth buffer value
+         */
+        GREATER = 0x0204,
+
+        /**
+         * pass if the incoming value is not equal to the depth buffer value
+         */
+        NOTEQUAL = 0x0205,
+
+        /**
+         * pass if the incoming value is greater than or equal to the depth buffer value
+         */
+        GEQUAL = 0x0206,
+
+        /**
+         * always pass
+         */
+        ALWAYS = 0x0207
     }
 
     enum Usage {
@@ -342,7 +351,12 @@ declare module EIGHT {
         /**
          *
          */
-        clear(): void;
+        clear(mask?: ClearBufferMask): void;
+
+        /**
+         * Specifies a function that compares the incoming pixel depth to the current depth buffer value.
+         */
+        depthFunc(func: DepthFunction): void;
 
         /**
          * <p>
@@ -3724,9 +3738,9 @@ declare module EIGHT {
      * `blendFunc(sfactor: number, dfactor: number): void`
      */
     class WebGLBlendFunc extends ShareableBase {
-        sfactor: BlendFactor;
-        dfactor: BlendFactor;
-        constructor(sfactor: BlendFactor, dfactor: BlendFactor);
+        sfactor: BlendingFactorSrc;
+        dfactor: BlendingFactorDest;
+        constructor(sfactor: BlendingFactorSrc, dfactor: BlendingFactorDest);
 
         /**
          *

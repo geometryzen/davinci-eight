@@ -1,14 +1,18 @@
-import Capability from '../commands/Capability';
+import BeginMode from './BeginMode';
+import BlendingFactorDest from './BlendingFactorDest';
+import BlendingFactorSrc from './BlendingFactorSrc';
+import Capability from './Capability';
+import ClearBufferMask from './ClearBufferMask';
+import DepthFunction from './DepthFunction';
 import config from '../config'
 import EIGHTLogger from '../commands/EIGHTLogger';
-import ErrorMode from './ErrorMode'
-import clearMask from './clearMask';
+import ErrorMode from './ErrorMode';
 import {ContextConsumer} from './ContextConsumer';
 import DefaultContextProvider from '../base/DefaultContextProvider';
-import incLevel from '../base/incLevel';
 import initWebGL from './initWebGL';
 import isDefined from '../checks/isDefined';
 import mustBeBoolean from '../checks/mustBeBoolean';
+import mustBeEQ from '../checks/mustBeEQ';
 import mustBeObject from '../checks/mustBeObject';
 import readOnly from '../i18n/readOnly';
 import ShareableArray from '../collections/ShareableArray';
@@ -41,7 +45,7 @@ export class Engine extends ShareableBase implements VertexBufferManager {
     private _gl: WebGLRenderingContext
 
     /**
-     * FIXME: The WebGLRenderingContext has a canvas property.
+     * FIXME: The WebGLRenderingContext has a canvas property already.
      */
     private _canvas: HTMLCanvasElement
 
@@ -60,11 +64,6 @@ export class Engine extends ShareableBase implements VertexBufferManager {
     private _contextProvider: DefaultContextProvider
 
     private _mayUseCache = true
-
-    private colorFlag: boolean = true
-    private depthFlag: boolean = true
-    private stencilFlag: boolean = false
-    private clearMask: number = clearMask(this.colorFlag, this.depthFlag, this.stencilFlag, null)
 
     /**
      * A cache of the parameters used in the last gl.viewport method call.
@@ -90,10 +89,6 @@ export class Engine extends ShareableBase implements VertexBufferManager {
         this._commands.pushWeakRef(new VersionLogger())
 
         this._contextProvider = new DefaultContextProvider(this)
-
-        // For convenience.
-        this.enable(Capability.DEPTH_TEST)
-        this.clearColor(0.1, 0.1, 0.1, 1.0)
 
         this._webGLContextLost = (event: Event) => {
             if (isDefined(this._canvas)) {
@@ -126,7 +121,7 @@ export class Engine extends ShareableBase implements VertexBufferManager {
             this._users.pop();
         }
         this._commands.release();
-        super.destructor(incLevel(levelUp))
+        super.destructor(levelUp + 1)
     }
 
     /**
@@ -207,39 +202,20 @@ export class Engine extends ShareableBase implements VertexBufferManager {
         return this
     }
 
-    /*
-    createVertexBuffer(attributes: {[name:string]: Attribute}, aNames: string[]): VertexBufferPackage {
-      const first = 0 // This could be different.
-      const count = computeCount(attributes, aNames)
-      const stride = computeStride(attributes, aNames)
-      const pointers = computePointers(attributes, aNames)
-      const array = computeAttributes(attributes, aNames)
-      const vbo = new VertexBuffer(this)
-      vbo.data = new Float32Array(array)
-      const vbp = new VertexBufferPackage(first, vbo, this)
-      vbo.release()
-      return vbp
-    }
-    */
-
-    /**
-     * Turns off a specific WebGL capability for this context.
-     *
-     * @param capability
-     */
     disable(capability: Capability): Engine {
-        this._commands.pushWeakRef(new WebGLDisable(capability))
-        return this
+        this._commands.pushWeakRef(new WebGLDisable(capability));
+        if (this._gl) {
+            this._gl.disable(capability);
+        }
+        return this;
     }
 
-    /**
-     * Turns on a specific WebGL capability for this context.
-     *
-     * @param capability
-     */
     enable(capability: Capability): Engine {
-        this._commands.pushWeakRef(new WebGLEnable(capability))
-        return this
+        this._commands.pushWeakRef(new WebGLEnable(capability));
+        if (this._gl) {
+            this._gl.enable(capability);
+        }
+        return this;
     }
 
     /**
@@ -268,21 +244,35 @@ export class Engine extends ShareableBase implements VertexBufferManager {
         }
     }
 
-    /**
-     * <p>
-     * Sets the graphics buffers to values preselected by clearColor, clearDepth or clearStencil.
-     * </p>
-     */
-    clear(): void {
+    blendFunc(sfactor: BlendingFactorSrc, dfactor: BlendingFactorDest): void {
         const gl = this._gl
         if (gl) {
-            gl.clear(this.clearMask)
+            gl.blendFunc(sfactor, dfactor)
         }
     }
 
     /**
      * <p>
-     * The viewport wifth and height are clamped to a range that is
+     * Sets the graphics buffers to values preselected by clearColor, clearDepth or clearStencil.
+     * </p>
+     */
+    clear(mask = ClearBufferMask.COLOR_BUFFER_BIT | ClearBufferMask.DEPTH_BUFFER_BIT): void {
+        const gl = this._gl
+        if (gl) {
+            gl.clear(mask)
+        }
+    }
+
+    depthFunc(func: DepthFunction): void {
+        const gl = this._gl
+        if (gl) {
+            gl.depthFunc(func)
+        }
+    }
+
+    /**
+     * <p>
+     * The viewport width and height are clamped to a range that is
      * implementation dependent.
      * </p>
      *
@@ -379,17 +369,17 @@ export class Engine extends ShareableBase implements VertexBufferManager {
             // What if we were given a "no-op" canvasBuilder that returns undefined for the canvas.
             // To not complain is the way of the hyper-functional warrior.
             if (isDefined(this._canvas)) {
-                this._gl = initWebGL(this._canvas, this._attributes)
-                this.clearMask = clearMask(this.colorFlag, this.depthFlag, this.stencilFlag, this._gl)
-                this.emitStartEvent()
-                this._canvas.addEventListener('webglcontextlost', this._webGLContextLost, false)
-                this._canvas.addEventListener('webglcontextrestored', this._webGLContextRestored, false)
+                this._gl = initWebGL(this._canvas, this._attributes);
+                checkEnums(this._gl);
+                this.emitStartEvent();
+                this._canvas.addEventListener('webglcontextlost', this._webGLContextLost, false);
+                this._canvas.addEventListener('webglcontextrestored', this._webGLContextRestored, false);
             }
-            return this
+            return this;
         }
         else {
-            console.warn("canvas must be an HTMLCanvasElement to start the context.")
-            return this
+            console.warn("canvas must be an HTMLCanvasElement to start the context.");
+            return this;
         }
     }
 
@@ -456,4 +446,66 @@ export class Engine extends ShareableBase implements VertexBufferManager {
             // FIXME: Broken symmetry.
         }
     }
+}
+
+/**
+ * Verify that the enums match the values in the WebGL rendering context.
+ */
+function checkEnums(gl: WebGLRenderingContext): void {
+
+    // BeginMode
+    mustBeEQ('LINE_LOOP', BeginMode.LINE_LOOP, gl.LINE_LOOP);
+    mustBeEQ('LINE_STRIP', BeginMode.LINE_STRIP, gl.LINE_STRIP);
+    mustBeEQ('LINES', BeginMode.LINES, gl.LINES);
+    mustBeEQ('POINTS', BeginMode.POINTS, gl.POINTS);
+    mustBeEQ('TRIANGLE_FAN', BeginMode.TRIANGLE_FAN, gl.TRIANGLE_FAN);
+    mustBeEQ('TRIANGLE_STRIP', BeginMode.TRIANGLE_STRIP, gl.TRIANGLE_STRIP);
+    mustBeEQ('TRIANGLES', BeginMode.TRIANGLES, gl.TRIANGLES);
+
+    // BlendingFactorDest
+    mustBeEQ('ZERO', BlendingFactorDest.ZERO, gl.ZERO);
+    mustBeEQ('ONE', BlendingFactorDest.ONE, gl.ONE);
+    mustBeEQ('SRC_COLOR', BlendingFactorDest.SRC_COLOR, gl.SRC_COLOR);
+    mustBeEQ('ONE_MINUS_SRC_COLOR', BlendingFactorDest.ONE_MINUS_SRC_COLOR, gl.ONE_MINUS_SRC_COLOR);
+    mustBeEQ('SRC_ALPHA', BlendingFactorDest.SRC_ALPHA, gl.SRC_ALPHA);
+    mustBeEQ('ONE_MINUS_SRC_ALPHA', BlendingFactorDest.ONE_MINUS_SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+    mustBeEQ('DST_ALPHA', BlendingFactorDest.DST_ALPHA, gl.DST_ALPHA);
+    mustBeEQ('ONE_MINUS_DST_ALPHA', BlendingFactorDest.ONE_MINUS_DST_ALPHA, gl.ONE_MINUS_DST_ALPHA);
+
+    // BlendingFactorSrc
+    mustBeEQ('ZERO', BlendingFactorSrc.ZERO, gl.ZERO);
+    mustBeEQ('ONE', BlendingFactorSrc.ONE, gl.ONE);
+    mustBeEQ('DST_COLOR', BlendingFactorSrc.DST_COLOR, gl.DST_COLOR);
+    mustBeEQ('ONE_MINUS_DST_COLOR', BlendingFactorSrc.ONE_MINUS_DST_COLOR, gl.ONE_MINUS_DST_COLOR);
+    mustBeEQ('SRC_ALPHA_SATURATE', BlendingFactorSrc.SRC_ALPHA_SATURATE, gl.SRC_ALPHA_SATURATE);
+    mustBeEQ('SRC_ALPHA', BlendingFactorSrc.SRC_ALPHA, gl.SRC_ALPHA);
+    mustBeEQ('ONE_MINUS_SRC_ALPHA', BlendingFactorSrc.ONE_MINUS_SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+    mustBeEQ('DST_ALPHA', BlendingFactorSrc.DST_ALPHA, gl.DST_ALPHA);
+    mustBeEQ('ONE_MINUS_DST_ALPHA', BlendingFactorSrc.ONE_MINUS_DST_ALPHA, gl.ONE_MINUS_DST_ALPHA);
+
+    // Capability
+    mustBeEQ('CULL_FACE', Capability.CULL_FACE, gl.CULL_FACE);
+    mustBeEQ('BLEND', Capability.BLEND, gl.BLEND);
+    mustBeEQ('DITHER', Capability.DITHER, gl.DITHER);
+    mustBeEQ('STENCIL_TEST', Capability.STENCIL_TEST, gl.STENCIL_TEST);
+    mustBeEQ('DEPTH_TEST', Capability.DEPTH_TEST, gl.DEPTH_TEST);
+    mustBeEQ('SCISSOR_TEST', Capability.SCISSOR_TEST, gl.SCISSOR_TEST);
+    mustBeEQ('POLYGON_OFFSET_FILL', Capability.POLYGON_OFFSET_FILL, gl.POLYGON_OFFSET_FILL);
+    mustBeEQ('SAMPLE_ALPHA_TO_COVERAGE', Capability.SAMPLE_ALPHA_TO_COVERAGE, gl.SAMPLE_ALPHA_TO_COVERAGE);
+    mustBeEQ('SAMPLE_COVERAGE', Capability.SAMPLE_COVERAGE, gl.SAMPLE_COVERAGE);
+
+    // ClearBufferMask
+    mustBeEQ('COLOR_BUFFER_BIT', ClearBufferMask.COLOR_BUFFER_BIT, gl.COLOR_BUFFER_BIT);
+    mustBeEQ('DEPTH_BUFFER_BIT', ClearBufferMask.DEPTH_BUFFER_BIT, gl.DEPTH_BUFFER_BIT);
+    mustBeEQ('STENCIL_BUFFER_BIT', ClearBufferMask.STENCIL_BUFFER_BIT, gl.STENCIL_BUFFER_BIT);
+
+    // DepthFunction
+    mustBeEQ('ALWAYS', DepthFunction.ALWAYS, gl.ALWAYS);
+    mustBeEQ('EQUAL', DepthFunction.EQUAL, gl.EQUAL);
+    mustBeEQ('GEQUAL', DepthFunction.GEQUAL, gl.GEQUAL);
+    mustBeEQ('GREATER', DepthFunction.GREATER, gl.GREATER);
+    mustBeEQ('LEQUAL', DepthFunction.LEQUAL, gl.LEQUAL);
+    mustBeEQ('LESS', DepthFunction.LESS, gl.LESS);
+    mustBeEQ('NEVER', DepthFunction.NEVER, gl.NEVER);
+    mustBeEQ('NOTEQUAL', DepthFunction.NOTEQUAL, gl.NOTEQUAL);
 }

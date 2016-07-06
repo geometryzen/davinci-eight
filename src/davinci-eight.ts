@@ -10,10 +10,8 @@ import Spinor2Animation from './davinci-eight/slideshow/animations/Spinor2Animat
 import Spinor3Animation from './davinci-eight/slideshow/animations/Spinor3Animation';
 
 // commands
-import BlendFactor from './davinci-eight/commands/BlendFactor';
 import WebGLBlendFunc from './davinci-eight/commands/WebGLBlendFunc';
 import {WebGLClearColor} from './davinci-eight/commands/WebGLClearColor';
-import Capability from './davinci-eight/commands/Capability';
 import {WebGLDisable} from './davinci-eight/commands/WebGLDisable';
 import {WebGLEnable} from './davinci-eight/commands/WebGLEnable';
 
@@ -25,11 +23,15 @@ import {TrackballControls} from './davinci-eight/controls/TrackballControls'
 import Attrib from './davinci-eight/core/Attrib';
 import AttribMetaInfo from './davinci-eight/core/AttribMetaInfo';
 import BeginMode from './davinci-eight/core/BeginMode';
+import BlendingFactorDest from './davinci-eight/core/BlendingFactorDest';
+import BlendingFactorSrc from './davinci-eight/core/BlendingFactorSrc';
+import Capability from './davinci-eight/core/Capability';
 import ClearBufferMask from './davinci-eight/core/ClearBufferMask';
 import {Color} from './davinci-eight/core/Color';
 import config from './davinci-eight/config';
 import DataType from './davinci-eight/core/DataType';
 import {Drawable} from './davinci-eight/core/Drawable';
+import DepthFunction from './davinci-eight/core/DepthFunction';
 import ErrorMode from './davinci-eight/core/ErrorMode';
 import {ContextConsumer} from './davinci-eight/core/ContextConsumer';
 import ContextProgramConsumer from './davinci-eight/core/ContextProgramConsumer';
@@ -234,8 +236,10 @@ const eight = {
     get GraphicsProgramBuilder() { return GraphicsProgramBuilder },
 
     //commands
-    get BlendFactor() { return BlendFactor },
+    get BlendingFactorDest() { return BlendingFactorDest },
+    get BlendingFactorSrc() { return BlendingFactorSrc },
     get Capability() { return Capability },
+    get DepthFunction() { return DepthFunction },
     get WebGLBlendFunc() { return WebGLBlendFunc },
     get WebGLClearColor() { return WebGLClearColor },
     get WebGLDisable() { return WebGLDisable },

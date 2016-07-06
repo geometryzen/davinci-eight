@@ -213,18 +213,6 @@ module.exports = function(grunt) {
                     'src/davinci-eight/visual/Sphere.ts',
                     'src/davinci-eight/visual/Trail.ts'
                 ]
-            },
-            everything: {
-                options: {
-                    module: 'system',
-                    target: 'es5',
-                    out: 'documentation-all/',
-                    name: 'EIGHT <%= pkg.version %>'
-                },
-                src: [
-                    'src/davinci-eight/**/*.ts',
-                    'typings/jasmine/jasmine.d.ts'
-                ]
             }
         },
         // Build TypeScript documentation.
