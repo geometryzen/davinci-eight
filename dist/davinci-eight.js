@@ -556,9 +556,9 @@ define('davinci-eight/config',["require", "exports", './core/ErrorMode'], functi
         function Eight() {
             this._errorMode = ErrorMode_1.default.STRICT;
             this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
-            this.LAST_MODIFIED = '2016-07-05';
+            this.LAST_MODIFIED = '2016-07-06';
             this.NAMESPACE = 'EIGHT';
-            this.VERSION = '2.257.0';
+            this.VERSION = '2.258.0';
         }
         Object.defineProperty(Eight.prototype, "errorMode", {
             get: function () {
@@ -10475,6 +10475,7 @@ define('davinci-eight/core/GraphicsProgramSymbols',["require", "exports"], funct
         GraphicsProgramSymbols.ATTRIBUTE_COLOR = 'aColor';
         GraphicsProgramSymbols.ATTRIBUTE_GEOMETRY_INDEX = 'aGeometryIndex';
         GraphicsProgramSymbols.ATTRIBUTE_NORMAL = 'aNormal';
+        GraphicsProgramSymbols.ATTRIBUTE_OPACITY = 'aOpacity';
         GraphicsProgramSymbols.ATTRIBUTE_POSITION = 'aPosition';
         GraphicsProgramSymbols.ATTRIBUTE_TANGENT = 'aTangent';
         GraphicsProgramSymbols.ATTRIBUTE_COORDS = 'aCoords';
@@ -10483,6 +10484,7 @@ define('davinci-eight/core/GraphicsProgramSymbols',["require", "exports"], funct
         GraphicsProgramSymbols.UNIFORM_COLOR = 'uColor';
         GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_COLOR = 'uDirectionalLightColor';
         GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION = 'uDirectionalLightDirection';
+        GraphicsProgramSymbols.UNIFORM_OPACITY = 'uOpacity';
         GraphicsProgramSymbols.UNIFORM_POINT_LIGHT_COLOR = 'uPointLightColor';
         GraphicsProgramSymbols.UNIFORM_POINT_LIGHT_POSITION = 'uPointLightPosition';
         GraphicsProgramSymbols.UNIFORM_POINT_SIZE = 'uPointSize';
@@ -10619,6 +10621,33 @@ define('davinci-eight/facets/ColorFacet',["require", "exports", '../core/Color',
         return ColorFacet;
     }());
     exports.ColorFacet = ColorFacet;
+});
+
+define('davinci-eight/facets/OpacityFacet',["require", "exports", '../checks/mustBeArray', '../checks/mustBeInteger', '../checks/mustBeString', '../core/GraphicsProgramSymbols'], function (require, exports, mustBeArray_1, mustBeInteger_1, mustBeString_1, GraphicsProgramSymbols_1) {
+    "use strict";
+    var LOGGING_NAME = 'OpacityFacet';
+    function contextBuilder() {
+        return LOGGING_NAME;
+    }
+    var OpacityFacet = (function () {
+        function OpacityFacet(opacity) {
+            if (opacity === void 0) { opacity = 1; }
+            this.opacity = mustBeInteger_1.default('opacity', opacity);
+        }
+        OpacityFacet.prototype.getProperty = function (name) {
+            return void 0;
+        };
+        OpacityFacet.prototype.setProperty = function (name, value) {
+            mustBeString_1.default('name', name, contextBuilder);
+            mustBeArray_1.default('value', value, contextBuilder);
+            return this;
+        };
+        OpacityFacet.prototype.setUniforms = function (visitor) {
+            visitor.uniform1f(GraphicsProgramSymbols_1.default.UNIFORM_OPACITY, this.opacity);
+        };
+        return OpacityFacet;
+    }());
+    exports.OpacityFacet = OpacityFacet;
 });
 
 define('davinci-eight/facets/ModelE3',["require", "exports", '../math/Geometric3', '../math/Vector3', '../math/Spinor3'], function (require, exports, Geometric3_1, Vector3_1, Spinor3_1) {
@@ -10808,22 +10837,21 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/core/Mesh',["require", "exports", '../facets/ColorFacet', './Drawable', '../facets/ModelFacet', '../facets/PointSizeFacet', '../i18n/notSupported'], function (require, exports, ColorFacet_1, Drawable_1, ModelFacet_1, PointSizeFacet_1, notSupported_1) {
+define('davinci-eight/core/Mesh',["require", "exports", '../facets/ColorFacet', './Drawable', '../facets/OpacityFacet', '../facets/ModelFacet', '../facets/PointSizeFacet', '../i18n/notSupported'], function (require, exports, ColorFacet_1, Drawable_1, OpacityFacet_1, ModelFacet_1, PointSizeFacet_1, notSupported_1) {
     "use strict";
     var COLOR_FACET_NAME = 'color';
     var MODEL_FACET_NAME = 'model';
+    var OPACITY_FACET_NAME = 'opacity';
     var POINT_FACET_NAME = 'point';
     var Mesh = (function (_super) {
         __extends(Mesh, _super);
         function Mesh(geometry, material, engine) {
             _super.call(this, geometry, material, engine);
             this.setLoggingName('Mesh');
-            var modelFacet = new ModelFacet_1.ModelFacet();
-            this.setFacet(MODEL_FACET_NAME, modelFacet);
-            var colorFacet = new ColorFacet_1.ColorFacet();
-            this.setFacet(COLOR_FACET_NAME, colorFacet);
-            var pointFacet = new PointSizeFacet_1.PointSizeFacet();
-            this.setFacet(POINT_FACET_NAME, pointFacet);
+            this.setFacet(MODEL_FACET_NAME, new ModelFacet_1.ModelFacet());
+            this.setFacet(COLOR_FACET_NAME, new ColorFacet_1.ColorFacet());
+            this.setFacet(OPACITY_FACET_NAME, new OpacityFacet_1.OpacityFacet());
+            this.setFacet(POINT_FACET_NAME, new PointSizeFacet_1.PointSizeFacet());
         }
         Mesh.prototype.destructor = function (levelUp) {
             _super.prototype.destructor.call(this, levelUp + 1);
@@ -10857,7 +10885,7 @@ define('davinci-eight/core/Mesh',["require", "exports", '../facets/ColorFacet', 
                     return facet.color;
                 }
                 else {
-                    throw new Error(notSupported_1.default('color').message);
+                    throw new Error(notSupported_1.default(COLOR_FACET_NAME).message);
                 }
             },
             set: function (color) {
@@ -10866,7 +10894,29 @@ define('davinci-eight/core/Mesh',["require", "exports", '../facets/ColorFacet', 
                     facet.color.copy(color);
                 }
                 else {
-                    throw new Error(notSupported_1.default('color').message);
+                    throw new Error(notSupported_1.default(COLOR_FACET_NAME).message);
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Mesh.prototype, "opacity", {
+            get: function () {
+                var facet = this.getFacet(OPACITY_FACET_NAME);
+                if (facet) {
+                    return facet.opacity;
+                }
+                else {
+                    throw new Error(notSupported_1.default(OPACITY_FACET_NAME).message);
+                }
+            },
+            set: function (opacity) {
+                var facet = this.getFacet(OPACITY_FACET_NAME);
+                if (facet) {
+                    facet.opacity = opacity;
+                }
+                else {
+                    throw new Error(notSupported_1.default(OPACITY_FACET_NAME).message);
                 }
             },
             enumerable: true,
@@ -18333,7 +18383,12 @@ define('davinci-eight/materials/vertexShaderSrc',["require", "exports", '../conf
                         break;
                     case 'vec3':
                         {
-                            lines.push("  vColor = vec4(" + colorAttribVarName + ", 1.0);");
+                            if (uniforms[GraphicsProgramSymbols_1.default.UNIFORM_OPACITY]) {
+                                lines.push("  vColor = vec4(" + colorAttribVarName + ", " + getUniformCodeName(uniforms, GraphicsProgramSymbols_1.default.UNIFORM_OPACITY) + ");");
+                            }
+                            else {
+                                lines.push("  vColor = vec4(" + colorAttribVarName + ", 1.0);");
+                            }
                         }
                         break;
                     default: {
@@ -18351,7 +18406,12 @@ define('davinci-eight/materials/vertexShaderSrc',["require", "exports", '../conf
                         break;
                     case 'vec3':
                         {
-                            lines.push("  vColor = vec4(" + colorUniformVarName + ", 1.0);");
+                            if (uniforms[GraphicsProgramSymbols_1.default.UNIFORM_OPACITY]) {
+                                lines.push("  vColor = vec4(" + colorUniformVarName + ", " + getUniformCodeName(uniforms, GraphicsProgramSymbols_1.default.UNIFORM_OPACITY) + ");");
+                            }
+                            else {
+                                lines.push("  vColor = vec4(" + colorUniformVarName + ", 1.0);");
+                            }
                         }
                         break;
                     default: {
@@ -18519,6 +18579,7 @@ define('davinci-eight/materials/LineMaterial',["require", "exports", '../materia
             options = { attributes: {}, uniforms: {} };
             options.attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_POSITION] = 3;
             options.uniforms[GraphicsProgramSymbols_1.default.UNIFORM_COLOR] = 'vec3';
+            options.uniforms[GraphicsProgramSymbols_1.default.UNIFORM_OPACITY] = 'float';
             options.uniforms[GraphicsProgramSymbols_1.default.UNIFORM_MODEL_MATRIX] = 'mat4';
             options.uniforms[GraphicsProgramSymbols_1.default.UNIFORM_PROJECTION_MATRIX] = 'mat4';
             options.uniforms[GraphicsProgramSymbols_1.default.UNIFORM_VIEW_MATRIX] = 'mat4';
@@ -18583,6 +18644,7 @@ define('davinci-eight/materials/MeshMaterial',["require", "exports", '../materia
             options.attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_POSITION] = 3;
             options.attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_NORMAL] = 3;
             options.uniforms[GraphicsProgramSymbols_1.default.UNIFORM_COLOR] = 'vec3';
+            options.uniforms[GraphicsProgramSymbols_1.default.UNIFORM_OPACITY] = 'float';
             options.uniforms[GraphicsProgramSymbols_1.default.UNIFORM_MODEL_MATRIX] = 'mat4';
             options.uniforms[GraphicsProgramSymbols_1.default.UNIFORM_NORMAL_MATRIX] = 'mat3';
             options.uniforms[GraphicsProgramSymbols_1.default.UNIFORM_PROJECTION_MATRIX] = 'mat4';
@@ -18650,6 +18712,7 @@ define('davinci-eight/materials/PointMaterial',["require", "exports", '../materi
             options = { attributes: {}, uniforms: {} };
             options.attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_POSITION] = 3;
             options.uniforms[GraphicsProgramSymbols_1.default.UNIFORM_COLOR] = 'vec3';
+            options.uniforms[GraphicsProgramSymbols_1.default.UNIFORM_OPACITY] = 'float';
             options.uniforms[GraphicsProgramSymbols_1.default.UNIFORM_MODEL_MATRIX] = 'mat4';
             options.uniforms[GraphicsProgramSymbols_1.default.UNIFORM_PROJECTION_MATRIX] = 'mat4';
             options.uniforms[GraphicsProgramSymbols_1.default.UNIFORM_VIEW_MATRIX] = 'mat4';
@@ -20307,6 +20370,12 @@ define('davinci-eight/visual/Curve',["require", "exports", '../core/BeginMode', 
         }
         else {
             matOptions.uniforms[GraphicsProgramSymbols_1.default.UNIFORM_COLOR] = 'vec3';
+        }
+        if (isFunction_1.default(options.aOpacity)) {
+            matOptions.attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_OPACITY] = 1;
+        }
+        else {
+            matOptions.uniforms[GraphicsProgramSymbols_1.default.UNIFORM_OPACITY] = 'float';
         }
         matOptions.uniforms[GraphicsProgramSymbols_1.default.UNIFORM_MODEL_MATRIX] = 'mat4';
         matOptions.uniforms[GraphicsProgramSymbols_1.default.UNIFORM_PROJECTION_MATRIX] = 'mat4';

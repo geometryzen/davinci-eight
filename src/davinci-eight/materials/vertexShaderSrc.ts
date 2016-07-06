@@ -150,7 +150,12 @@ export default function(attributes: { [name: string]: AttribMetaInfo }, uniforms
                 }
                     break
                 case 'vec3': {
-                    lines.push("  vColor = vec4(" + colorAttribVarName + ", 1.0);")
+                    if (uniforms[GraphicsProgramSymbols.UNIFORM_OPACITY]) {
+                        lines.push(`  vColor = vec4(${colorAttribVarName}, ${getUniformCodeName(uniforms, GraphicsProgramSymbols.UNIFORM_OPACITY)});`);
+                    }
+                    else {
+                        lines.push(`  vColor = vec4(${colorAttribVarName}, 1.0);`);
+                    }
                 }
                     break
                 default: {
@@ -166,7 +171,12 @@ export default function(attributes: { [name: string]: AttribMetaInfo }, uniforms
                 }
                     break
                 case 'vec3': {
-                    lines.push("  vColor = vec4(" + colorUniformVarName + ", 1.0);")
+                    if (uniforms[GraphicsProgramSymbols.UNIFORM_OPACITY]) {
+                        lines.push(`  vColor = vec4(${colorUniformVarName}, ${getUniformCodeName(uniforms, GraphicsProgramSymbols.UNIFORM_OPACITY)});`);
+                    }
+                    else {
+                        lines.push(`  vColor = vec4(${colorUniformVarName}, 1.0);`);
+                    }
                 }
                     break
                 default: {

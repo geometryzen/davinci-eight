@@ -101,6 +101,13 @@ function configPoints(options: CurveOptions, curve: Curve) {
         matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_COLOR] = 'vec3'
     }
 
+    if (isFunction(options.aOpacity)) {
+        matOptions.attributes[GraphicsProgramSymbols.ATTRIBUTE_OPACITY] = 1
+    }
+    else {
+        matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_OPACITY] = 'float'
+    }
+
     matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_MODEL_MATRIX] = 'mat4'
     matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX] = 'mat4'
     matOptions.uniforms[GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX] = 'mat4'

@@ -38,6 +38,14 @@ export default class GraphicsProgramSymbols {
     public static ATTRIBUTE_NORMAL: string = 'aNormal';
 
     /**
+     * 'aOpacity'
+     * @property ATTRIBUTE_OPACITY
+     * @type {string}
+     * @static
+     */
+    public static ATTRIBUTE_OPACITY: string = 'aOpacity';
+
+    /**
      * 'aPosition'
      * @property ATTRIBUTE_POSITION
      * @type {string}
@@ -101,6 +109,14 @@ export default class GraphicsProgramSymbols {
      * @static
      */
     public static UNIFORM_DIRECTIONAL_LIGHT_DIRECTION: string = 'uDirectionalLightDirection';
+
+    /**
+     * 'uOpacity'
+     * @property UNIFORM_OPACITY
+     * @type {string}
+     * @static
+     */
+    public static UNIFORM_OPACITY: string = 'uOpacity';
 
     /**
      * 'uPointLightColor'

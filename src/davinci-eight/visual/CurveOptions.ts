@@ -26,6 +26,11 @@ interface CurveOptions extends VisualOptions {
     aColor?: (u: number) => AbstractColor
 
     /**
+     *
+     */
+    aOpacity?: (u: number) => number
+
+    /**
      * Specifies the required Geometric Primitive Type.
      * Implementations may choose the nearest type.
      *

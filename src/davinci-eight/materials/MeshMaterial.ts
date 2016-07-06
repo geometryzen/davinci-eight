@@ -17,6 +17,7 @@ function builder(options?: MeshMaterialOptions) {
         options.attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = 3;
 
         options.uniforms[GraphicsProgramSymbols.UNIFORM_COLOR] = 'vec3';
+        options.uniforms[GraphicsProgramSymbols.UNIFORM_OPACITY] = 'float';
         options.uniforms[GraphicsProgramSymbols.UNIFORM_MODEL_MATRIX] = 'mat4';
         options.uniforms[GraphicsProgramSymbols.UNIFORM_NORMAL_MATRIX] = 'mat3';
         options.uniforms[GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX] = 'mat4';

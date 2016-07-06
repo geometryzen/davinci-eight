@@ -3094,6 +3094,7 @@ declare module EIGHT {
         static UNIFORM_COLOR: string;
         static UNIFORM_DIRECTIONAL_LIGHT_COLOR: string;
         static UNIFORM_DIRECTIONAL_LIGHT_DIRECTION: string;
+        static UNIFORM_OPACITY: string;
         static UNIFORM_POINT_LIGHT_COLOR: string;
         static UNIFORM_POINT_LIGHT_POSITION: string;
         static UNIFORM_PROJECTION_MATRIX: string;
@@ -3825,15 +3826,15 @@ declare module EIGHT {
         contextLost(): void;
     }
 
-    ///////////////////////////////////////////////////////////////////////////////
-    /**
-     *
-     */
     interface AbstractMesh extends AbstractDrawable {
         /**
          * Color
          */
         color: Color;
+        /**
+         * Opacity
+         */
+        opacity: number;
         /**
          * Attitude (spinor)
          */
@@ -3847,17 +3848,16 @@ declare module EIGHT {
          */
         stress: Matrix4;
     }
-    ///////////////////////////////////////////////////////////////////////////////
-    /**
-     * A Mesh is a Decorator for a Drawable.
-     * A Mesh adds attitude, color, position, and scale properties to a Drawable
-     * which are implemented as Facet(s).
-     */
+
     class Mesh extends Drawable implements AbstractMesh {
         /**
          * Color
          */
         color: Color;
+        /**
+         * Opacity
+         */
+        opacity: number;
         /**
          * Attitude (spinor)
          */
